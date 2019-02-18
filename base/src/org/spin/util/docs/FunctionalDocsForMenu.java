@@ -19,6 +19,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.adempiere.model.MBrowse;
+import org.compiere.model.MForm;
 import org.compiere.model.MMenu;
 import org.compiere.model.MProcess;
 import org.compiere.model.MRefList;
@@ -99,12 +101,22 @@ public class FunctionalDocsForMenu extends AbstractDocumentationSource {
 			MProcess process = MProcess.get(menu.getCtx(), menu.getAD_Process_ID());
 			validName = getValidValue(process.getValue());
 			showName = process.getName();
-			internalReference = FunctionalDocsForProcess.FOLDER_NAME + File.separator + FunctionalDocsForProcess.SUB_FOLDER_NAME + "-" + validName;
+			internalReference = ".." + File.separator + ".." + File.separator + FunctionalDocsForProcess.FOLDER_NAME + File.separator + FunctionalDocsForProcess.SUB_FOLDER_NAME + "-" + validName;
 		} else if(menu.getAction().equals(MMenu.ACTION_Window)) {
 			MWindow window = (MWindow) menu.getAD_Window();
 			validName = getValidValue(window.getName());
 			showName = window.getName();
-			internalReference = FunctionalDocsForWindow.FOLDER_NAME + File.separator + FunctionalDocsForWindow.SUB_FOLDER_NAME + "-" + validName;
+			internalReference = ".." + File.separator + ".." + File.separator + FunctionalDocsForWindow.FOLDER_NAME + File.separator + FunctionalDocsForWindow.SUB_FOLDER_NAME + "-" + validName;
+		} else if(menu.getAction().equals(MMenu.ACTION_SmartBrowse)) {
+			MBrowse browse = (MBrowse) menu.getAD_Browse();
+			validName = getValidValue(browse.getName());
+			showName = browse.getName();
+			internalReference = ".." + File.separator + ".." + File.separator + FunctionalDocsForSmartBrowse.FOLDER_NAME + File.separator + FunctionalDocsForSmartBrowse.SUB_FOLDER_NAME + "-" + validName;
+		} else if(menu.getAction().equals(MMenu.ACTION_Form)) {
+			MForm form = (MForm) menu.getAD_Form();
+			validName = getValidValue(form.getName());
+			showName = form.getName();
+			internalReference = ".." + File.separator + ".." + File.separator + FunctionalDocsForForm.FOLDER_NAME + File.separator + FunctionalDocsForForm.SUB_FOLDER_NAME + "-" + validName;
 		}
 		//	Validate null
 		if(!Util.isEmpty(internalReference)) {

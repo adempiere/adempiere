@@ -70,14 +70,16 @@ public class FunctionalDocsForSmartBrowse extends AbstractDocumentationSource {
 		}
 		//	window
 		if(smartBrowse.getAD_Window_ID() != 0) {
-			String internalReference = FunctionalDocsForWindow.FOLDER_NAME + File.separator + FunctionalDocsForWindow.SUB_FOLDER_NAME + "-" + getValidValue(smartBrowse.getAD_Window().getName());
-			textConverter.addSeeAlso(getValidValue(internalReference).toLowerCase());
+			String name = smartBrowse.getAD_Window().getName();
+			String internalReference = ".." + File.separator + ".." + File.separator + FunctionalDocsForWindow.FOLDER_NAME + File.separator + FunctionalDocsForWindow.SUB_FOLDER_NAME + "-" + getValidValue(name);
+			textConverter.addSeeAlso(name, internalReference.toLowerCase());
 			textConverter.newLine();
 		}
 		//	Process
 		if(smartBrowse.getAD_Process_ID() != 0) {
-			String internalReference = FunctionalDocsForProcess.FOLDER_NAME + File.separator + FunctionalDocsForProcess.SUB_FOLDER_NAME + "-" + getValidValue(smartBrowse.getAD_Process().getValue());
-			textConverter.addSeeAlso(internalReference.toLowerCase());
+			MProcess process = (MProcess) smartBrowse.getAD_Process();
+			String internalReference = ".." + File.separator + ".." + File.separator + FunctionalDocsForProcess.FOLDER_NAME + File.separator + FunctionalDocsForProcess.SUB_FOLDER_NAME + "-" + getValidValue(process.getValue());
+			textConverter.addSeeAlso(process.getName(), internalReference.toLowerCase());
 			textConverter.newLine();
 		}
 		StringBuffer note = new StringBuffer();
