@@ -888,7 +888,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	public void focus() {
 		if (renderer != null && renderer.isEditing()) {
 			renderer.setFocusToEditor();
-		} 
+		}
 		addKeyListener();
 	}
 
@@ -986,7 +986,7 @@ public class GridPanel extends Borderlayout implements EventListener
 			if (windowPanel != null)
 				windowPanel.getStatusBar().appendChild(keyListener);
 		}
-		if(renderer.isEditing()) 
+		if(renderer.isEditing() || !((ADTabPanel)tabPanel).isGridView() ) 
 			keyListener.setCtrlKeys(CNTRL_KEYS);
 		else 
 			keyListener.setCtrlKeys(CNTRL_KEYS+KEYS_MOVE);
