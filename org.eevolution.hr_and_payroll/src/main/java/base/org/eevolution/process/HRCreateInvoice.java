@@ -101,7 +101,7 @@ public class HRCreateInvoice extends HRCreateInvoiceAbstract {
     }
 
     /**
-     * Get Payroll movement with concept is paid and is invoiced
+     * Get Payroll movement with concept is invoiced
      * @param processId
      * @param partnerId
      * @param trxName
@@ -111,14 +111,13 @@ public class HRCreateInvoice extends HRCreateInvoiceAbstract {
         StringBuilder whereClause = new StringBuilder();
         whereClause.append("HR_Movement.HR_Process_ID = ? AND HR_Movement.C_BPartner_ID=? AND ")
                 .append("EXISTS (SELECT 1 FROM HR_Concept c INNER JOIN HR_Attribute a ON (c.HR_Concept_ID = a.HR_Concept_ID) ")
-                .append("WHERE HR_Movement.C_InvoiceLine_ID IS NULL AND c.HR_Concept_ID=HR_Movement.HR_Concept_ID AND  a.IsActive = ? AND c.IsPaid=? AND c.IsInvoiced=? AND a.C_DocType_ID > 0 AND a.C_Charge_ID > 0)");
+                .append("WHERE HR_Movement.C_InvoiceLine_ID IS NULL AND c.HR_Concept_ID=HR_Movement.HR_Concept_ID AND  a.IsActive = ? AND c.IsInvoiced=? AND a.C_DocType_ID > 0 AND a.C_Charge_ID > 0)");
 
         return new Query(getCtx(), MHRMovement.Table_Name, whereClause.toString(), trxName)
                 .setClient_ID()
                 .setParameters(
                         processId,
                         partnerId,
-                        true,
                         true,
                         true)
                 .list();
