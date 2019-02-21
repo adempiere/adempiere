@@ -174,7 +174,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	 */
 	public void init(GridTab gridTab)
 	{
-		if (init) return;
+		if (init && !gridTab.isQuickEntry()) return; //init && !gridTab.isQuickEntry()
 
 		this.gridTab = gridTab;
 		tableModel = gridTab.getTableModel();
@@ -299,7 +299,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	private void setupColumns()
 	{
 		
-		if (init) return;
+		if (init && !gridTab.isQuickEntry()) return; //init && !gridTab.isQuickEntry()
 
 		if(listbox.getColumns() != null)
 			listbox.getChildren().clear();
