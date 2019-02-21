@@ -121,6 +121,10 @@ import org.zkoss.zul.Hbox;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/589">
  * 		@see FR [ 589 ] The ZK search window don't have standard position buttons</a>
+ *
+ *  @author Raul Capecce, raul.capecce@openupsolutions.com, Openup Solutions http://openupsolutions.com/
+ *      <a href="https://github.com/adempiere/adempiere/issues/2372">
+ *      @see FR [ 2372 ] The field "value_TO" is not seted in storage when the operator isn't BETWEEN
  */
 public class FindWindow extends Window implements EventListener,ValueChangeListener
 {
@@ -1537,9 +1541,13 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 				.append(Operator)
 				.append(FIELD_SEPARATOR)
 				.append(value.toString())
-				.append(FIELD_SEPARATOR)
-				.append(value2 != null ? value2.toString() : "")
-				.append(FIELD_SEPARATOR)
+				.append(FIELD_SEPARATOR);
+
+			if (value2 != null && MQuery.OPERATORS[MQuery.BETWEEN_INDEX].getValue().equals(Operator)) {
+			    code.append(value2);
+            }
+
+            code.append(FIELD_SEPARATOR)
 				.append(andOr)
 				.append(FIELD_SEPARATOR)
 				.append(lBrackets != null ? lBrackets : "")
