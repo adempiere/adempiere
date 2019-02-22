@@ -37,7 +37,6 @@ import java.io.Reader;
 import java.io.Serializable;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,10 +47,11 @@ import javax.print.Doc;
 import javax.print.DocFlavor;
 import javax.print.attribute.DocAttributeSet;
 
+
 import org.compiere.Adempiere;
 import org.compiere.model.MClientInfo;
 import org.compiere.model.MQuery;
-import org.compiere.model.MSysConfig;
+
 import org.compiere.model.MTable;
 import org.compiere.model.PrintInfo;
 import org.compiere.print.ArchiveEngine;
@@ -72,12 +72,10 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-import org.compiere.util.Evaluatee;
-import org.compiere.util.Evaluator;
+
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
-import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -101,6 +99,8 @@ import org.compiere.util.ValueNamePair;
  * @author victor.perez@e-evolution.com, e-Evolution
  * 				<li>BF [ 2011567 ] Implement Background Image for Document printed 
  * 				<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2011567&group_id=176962&atid=879335
+ * 				<li>#2337 Adding support to print QR barcode Adempiere Report Engine
+ * 				<li>https://github.com/adempiere/adempiere/issues/2337
  * @author Michael Judd (Akuna Ltd)
  * 				<li>BF [ 2695078 ] Country is not translated on invoice
  */
@@ -1537,10 +1537,16 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		String stringContent = data.getValueDisplay (m_format.getLanguage());
 		if ((stringContent == null || stringContent.length() == 0) && item.isSuppressNull())
 			return null;
-
-		BarcodeElement element = new BarcodeElement (stringContent, item);
-		if (element.isValid())
-			return element;
+		// Add Support for QR Code
+		if (item.getBarcodeType() != null && MPrintFormatItem.BARCODETYPE_QRQuickResponseCode.equals(item.getBarcodeType())) {
+				QRCodeElement element = new QRCodeElement(stringContent, item);
+				return element;
+		}
+		else {
+			BarcodeElement element = new BarcodeElement(stringContent, item);
+			if (element.isValid())
+				return element;
+		}
 		return null;
 	}	//	createBarcodeElement
 	
