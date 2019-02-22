@@ -30,7 +30,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190213L;
 
     /** Standard Constructor */
     public X_AD_PrintFormatItem (Properties ctx, int AD_PrintFormatItem_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
         {
 			setAD_Column_ID (0);
 			setAD_PrintFormatChild_ID (0);
-			setAD_PrintFormatItem_ID (0);
 			setAD_PrintFormat_ID (0);
+			setAD_PrintFormatItem_ID (0);
 			setFieldAlignmentType (null);
 // D
 			setImageIsAttached (false);
@@ -239,29 +239,6 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return ii.intValue();
 	}
 
-	/** Set Print Format Item.
-		@param AD_PrintFormatItem_ID 
-		Item/Column in the Print format
-	  */
-	public void setAD_PrintFormatItem_ID (int AD_PrintFormatItem_ID)
-	{
-		if (AD_PrintFormatItem_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_PrintFormatItem_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_PrintFormatItem_ID, Integer.valueOf(AD_PrintFormatItem_ID));
-	}
-
-	/** Get Print Format Item.
-		@return Item/Column in the Print format
-	  */
-	public int getAD_PrintFormatItem_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFormatItem_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_PrintFormat)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFormat.Table_Name)
@@ -285,6 +262,29 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public int getAD_PrintFormat_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFormat_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Print Format Item.
+		@param AD_PrintFormatItem_ID 
+		Item/Column in the Print format
+	  */
+	public void setAD_PrintFormatItem_ID (int AD_PrintFormatItem_ID)
+	{
+		if (AD_PrintFormatItem_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintFormatItem_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintFormatItem_ID, Integer.valueOf(AD_PrintFormatItem_ID));
+	}
+
+	/** Get Print Format Item.
+		@return Item/Column in the Print format
+	  */
+	public int getAD_PrintFormatItem_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFormatItem_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -388,6 +388,8 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public static final String BARCODETYPE_Code39LinearWOChecksum = "c39";
 	/** EAN 13 = E13 */
 	public static final String BARCODETYPE_EAN13 = "E13";
+	/** QR Quick Response Code = QRC */
+	public static final String BARCODETYPE_QRQuickResponseCode = "QRC";
 	/** Set Barcode Type.
 		@param BarcodeType 
 		Type of barcode

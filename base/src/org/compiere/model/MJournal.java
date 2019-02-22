@@ -461,6 +461,12 @@ public class MJournal extends X_GL_Journal implements DocAction , DocumentRevers
 				continue;
 			
 			// bcahya, BF [2789319] No check of Actual, Budget, Statistical attribute
+			if (line.getAccountElementValue() == null)
+			{
+				m_processMsg = "@C_ValidCombination_ID@ @NotFound@";
+				return DocAction.STATUS_Invalid;
+			}
+
 			if (!line.getAccountElementValue().isActive())
 			{
 				m_processMsg = "@InActiveAccount@ - @Line@=" + line.getLine()
