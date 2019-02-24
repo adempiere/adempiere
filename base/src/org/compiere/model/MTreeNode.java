@@ -295,6 +295,8 @@ public final class MTreeNode extends DefaultMutableTreeNode
 			imageIndex = TYPE_DOCACTION;
 		else if (imageIndicator.equals(MWFNode.ACTION_WaitSleep))		//	Sleep
 			;
+		else if (imageIndicator.equals(MWFNode.ACTION_SmartBrowse))		//	Smart Browser
+			imageIndex = TYPE_DOCACTION;
 		return imageIndex;
 	}   //  getImageIndex
 
