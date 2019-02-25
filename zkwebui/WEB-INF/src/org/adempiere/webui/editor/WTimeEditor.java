@@ -33,6 +33,8 @@ import org.zkoss.zul.Timebox;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
  *		@see https://github.com/adempiere/adempiere/issues/146
+ * @author Michael McKay, mckayERP@gmail.com
+ * 		<li><a href="https://github.com/adempiere/adempiere/issues/2383">#2383</a> Override the getPopupMenu method.
  */
 public class WTimeEditor extends WEditor implements ContextMenuListener
 {
@@ -204,4 +206,14 @@ public class WTimeEditor extends WEditor implements ContextMenuListener
 			WRecordInfo.start(gridField);
 		}
 	}
+	
+	// #2383
+	/**
+	 *  Get the pop up menu for this editor
+	 */
+    public WEditorPopupMenu getPopupMenu()
+	{
+	   	return popupMenu;
+	}
+
 }
