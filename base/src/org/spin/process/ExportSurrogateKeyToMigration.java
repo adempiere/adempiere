@@ -32,6 +32,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
+import org.compiere.util.Util;
 
 /** Generated Process for (Export Surrogate Key)
  *  @author ADempiere (generated) 
@@ -49,6 +50,8 @@ public class ExportSurrogateKeyToMigration extends ExportSurrogateKeyToMigration
 	private int sequence = 10;
 	/**	Generated	*/
 	private long generated = 0;
+	/**	Entity Type Where clause	*/
+	private String entityTypeWhereClause = "";
 	
 	@Override
 	protected String doIt() throws Exception {
@@ -148,7 +151,8 @@ public class ExportSurrogateKeyToMigration extends ExportSurrogateKeyToMigration
 	private void addTableToUpdate(String tableName) {
 		String keyId = tableName + "_ID";
 		String uuidKey = I_AD_Table.COLUMNNAME_UUID;
-		KeyNamePair[] uuidValues = DB.getKeyNamePairs(get_TrxName(), "SELECT " + keyId + ", " + uuidKey + " FROM " + tableName + " WHERE AD_Client_ID = ? AND " + uuidKey + " IS NOT NULL" , false, getAD_Client_ID());
+		
+		KeyNamePair[] uuidValues = DB.getKeyNamePairs(get_TrxName(), "SELECT " + keyId + ", " + uuidKey + " FROM " + tableName + " WHERE AD_Client_ID = ? AND " + uuidKey + " IS NOT NULL" + entityTypeWhereClause, false, getAD_Client_ID());
 		//	Get all UUID
 		for(KeyNamePair value : uuidValues) {
 			updateList.add("UPDATE " + tableName + " SET " + uuidKey + "= '" + value.getName() + "' WHERE " + keyId + " = " + value.getKey() + ";");
@@ -170,6 +174,12 @@ public class ExportSurrogateKeyToMigration extends ExportSurrogateKeyToMigration
 		if (getTableId() > 0) {
 			whereClause.append(" AND ").append(MTable.COLUMNNAME_AD_Table_ID).append(" = ? ");
 			parameters.add(getTableId());
+		}
+		//	Support to Entity Type
+		if(!Util.isEmpty(getEntityType())) {
+			whereClause.append(" AND EXISTS(SELECT 1 FROM AD_Column c WHERE c.AD_Table_ID = AD_Table.AD_Table_ID AND c.ColumnName = ?)");
+			parameters.add(ENTITYTYPE);
+			entityTypeWhereClause = " AND EntityType = '" + getEntityType() + "'";
 		}
 
 		return new Query(Env.getCtx(), MTable.Table_Name, whereClause.toString(), trxName)

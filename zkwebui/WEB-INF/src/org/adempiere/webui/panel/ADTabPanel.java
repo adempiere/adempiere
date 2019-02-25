@@ -1418,8 +1418,10 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 
 	@Override
 	public void focus() {
-		if (formComponent.isVisible())
+		if (formComponent.isVisible()) {
 			this.setFocusToField();
+			listPanel.addKeyListener();
+		}
 		else
 			listPanel.focus();
 	}

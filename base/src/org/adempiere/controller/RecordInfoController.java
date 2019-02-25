@@ -43,11 +43,14 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
+import org.compiere.util.Util;
 
 /**
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 146 ] Added like controller for RecordInfo
  *		@see https://github.com/adempiere/adempiere/issues/146
+ * @author Michael McKay, mckayERP@gmail.com
+ * 		<li><A hfre="https://github.com/adempiere/adempiere/issues/2387">#2387</a>Remove Ampersand from translation 
  */
 public class RecordInfoController {
 	
@@ -125,7 +128,7 @@ public class RecordInfoController {
 				m_info.append("\n").append(infoTable).append("UUID='").append(UUID).append("';");
 			}
 
-			m_info.append("\n").append(Msg.translate(Env.getCtx(), "Name"))
+			m_info.append("\n").append(Util.cleanAmp(Msg.translate(Env.getCtx(), "Name")))
 				.append(": ").append(m_Field.getHeader()).append("\n")
 				.append(Msg.translate(Env.getCtx(), "Description"))
 				.append(": ").append(m_Field.getDescription()).append("\n")
@@ -264,7 +267,7 @@ public class RecordInfoController {
 		Vector<String> columnNames = new Vector<String>();
 		//	No add for specific column
 		if(m_Field == null) {
-			columnNames.add(Msg.translate(Env.getCtx(), "Name"));
+			columnNames.add(Util.cleanAmp(Msg.translate(Env.getCtx(), "Name")));
 		}
 		columnNames.add(Msg.translate(Env.getCtx(), "NewValue"));
 		columnNames.add(Msg.translate(Env.getCtx(), "OldValue"));
@@ -294,7 +297,7 @@ public class RecordInfoController {
 		MColumn column = MColumn.get (Env.getCtx(), AD_Column_ID);
 		//	No for specific column
 		if(m_Field == null) {
-			line.add(Msg.translate(Env.getCtx(), column.getColumnName()));
+			line.add(Util.cleanAmp(Msg.translate(Env.getCtx(), column.getColumnName())));
 		}
 		//
 		if (OldValue != null && OldValue.equals(MChangeLog.NULL))

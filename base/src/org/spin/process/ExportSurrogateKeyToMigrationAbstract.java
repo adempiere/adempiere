@@ -21,7 +21,7 @@ import org.compiere.process.SvrProcess;
 
 /** Generated Process for (Export Surrogate Key To Migration)
  *  @author ADempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public abstract class ExportSurrogateKeyToMigrationAbstract extends SvrProcess {
 	/** Process Value 	*/
@@ -32,12 +32,17 @@ public abstract class ExportSurrogateKeyToMigrationAbstract extends SvrProcess {
 	private static final int ID_FOR_PROCESS = 54170;
 	/**	Parameter Name for Table	*/
 	public static final String AD_TABLE_ID = "AD_Table_ID";
+	/**	Parameter Name for Entity Type	*/
+	public static final String ENTITYTYPE = "EntityType";
 	/**	Parameter Value for Table	*/
 	private int tableId;
+	/**	Parameter Value for Entity Type	*/
+	private String entityType;
 
 	@Override
 	protected void prepare() {
 		tableId = getParameterAsInt(AD_TABLE_ID);
+		entityType = getParameterAsString(ENTITYTYPE);
 	}
 
 	/**	 Getter Parameter Value for Table	*/
@@ -48,6 +53,16 @@ public abstract class ExportSurrogateKeyToMigrationAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Table	*/
 	protected void setTableId(int tableId) {
 		this.tableId = tableId;
+	}
+
+	/**	 Getter Parameter Value for Entity Type	*/
+	protected String getEntityType() {
+		return entityType;
+	}
+
+	/**	 Setter Parameter Value for Entity Type	*/
+	protected void setEntityType(String entityType) {
+		this.entityType = entityType;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
