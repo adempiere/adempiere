@@ -1488,7 +1488,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 				if ( MQuery.OPERATORS[MQuery.EQUAL_INDEX].equals(op) 
 						||  MQuery.OPERATORS[MQuery.NOT_EQUAL_INDEX].equals(op) )
 				{
-                    value2 = ""; // The value2 needs to be null too
+                    value2 = null; // The value2 needs to be null too
 					m_query.addRestriction(ColumnSQL, Operator, null,
 							infoName, null, and, openBrackets);
 	            } else {
@@ -1525,7 +1525,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 	                			infoName, infoDisplay, infoDisplay_to, and, openBrackets);
 	            }
 	            else if (isProductCategoryField && MQuery.OPERATORS[MQuery.EQUAL_INDEX].equals(op)) {
-	                value2 = "";
+	                value2 = null;
 	                if (!(parsedValue instanceof Integer)) {
 	                    continue;
 	                }
@@ -1533,7 +1533,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 	                		and, openBrackets);
 	            }
 	            else {
-	                value2 = "";
+	                value2 = null;
                     m_query.addRestriction(ColumnSQL, Operator, parsedValue,
                             infoName, infoDisplay, and, openBrackets);
                 }
@@ -1546,7 +1546,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 				.append(FIELD_SEPARATOR)
 				.append(value.toString())
 				.append(FIELD_SEPARATOR)
-			    .append(value2)
+			    .append(value2 != null ? value2.toString() : "")
                 .append(FIELD_SEPARATOR)
 				.append(andOr)
 				.append(FIELD_SEPARATOR)
