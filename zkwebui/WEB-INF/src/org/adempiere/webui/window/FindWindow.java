@@ -1488,6 +1488,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 				if ( MQuery.OPERATORS[MQuery.EQUAL_INDEX].equals(op) 
 						||  MQuery.OPERATORS[MQuery.NOT_EQUAL_INDEX].equals(op) )
 				{
+                    value2 = ""; // The value2 needs to be null too
 					m_query.addRestriction(ColumnSQL, Operator, null,
 							infoName, null, and, openBrackets);
 	            } else {
@@ -1524,15 +1525,18 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 	                			infoName, infoDisplay, infoDisplay_to, and, openBrackets);
 	            }
 	            else if (isProductCategoryField && MQuery.OPERATORS[MQuery.EQUAL_INDEX].equals(op)) {
+	                value2 = "";
 	                if (!(parsedValue instanceof Integer)) {
 	                    continue;
 	                }
 	                m_query.addRestriction(getSubCategoryWhereClause(((Integer) parsedValue).intValue()), 
 	                		and, openBrackets);
 	            }
-	            else
-	                m_query.addRestriction(ColumnSQL, Operator, parsedValue,
-	                    infoName, infoDisplay, and, openBrackets);
+	            else {
+	                value2 = "";
+                    m_query.addRestriction(ColumnSQL, Operator, parsedValue,
+                            infoName, infoDisplay, and, openBrackets);
+                }
 	        }
         	if (code.length() > 0)
 				code.append(SEGMENT_SEPARATOR);
@@ -1541,13 +1545,9 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 				.append(Operator)
 				.append(FIELD_SEPARATOR)
 				.append(value.toString())
-				.append(FIELD_SEPARATOR);
-
-			if (value2 != null && MQuery.OPERATORS[MQuery.BETWEEN_INDEX].getValue().equals(Operator)) {
-			    code.append(value2);
-            }
-
-            code.append(FIELD_SEPARATOR)
+				.append(FIELD_SEPARATOR)
+			    .append(value2)
+                .append(FIELD_SEPARATOR)
 				.append(andOr)
 				.append(FIELD_SEPARATOR)
 				.append(lBrackets != null ? lBrackets : "")
