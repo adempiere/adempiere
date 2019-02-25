@@ -1740,7 +1740,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 
 					//	MatchPO is created also from MInOut when Invoice exists before Shipment
 					BigDecimal matchQty = invoiceLine.getQtyInvoiced();
-					MMatchPO matchPO = new MMatchPO(invoiceLine , getDateInvoiced(), matchQty);
+					MMatchPO matchPO = new MMatchPO(invoiceLine , getDateInvoiced(), matchQty.multiply(multiplier));
 					matchPO.saveEx();
 					matchOrders.getAndUpdate(record -> record + 1);
 					if (!matchPO.isPosted() && matchPO.getM_InOutLine_ID() > 0) // match po don't post if receipt is not assigned, and it doesn't create avg po record
