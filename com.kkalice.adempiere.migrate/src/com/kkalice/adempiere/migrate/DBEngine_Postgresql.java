@@ -1789,10 +1789,10 @@ public class DBEngine_Postgresql implements DBEngineInterface {
 				+ "min_value AS MIN_VALUE, "
 				+ "max_value AS MAX_VALUE, "
 				+ "increment_by AS INCREMENT_BY, "
-				+ "is_cycled AS IS_CYCLED, "
-				+ "cache_value AS CACHE_SIZE, "
+				+ "cycle AS IS_CYCLED ,"
+				+ "cache_size AS CACHE_SIZE, "
 				+ "last_value AS LAST_VALUE "
-				+ "FROM ").append(schemaName).append(".").append(sequenceName).append(" ");
+				+ "FROM ").append("pg_sequences WHERE sequencename='").append(sequenceName).append("' ");
 
 		return sql.toString();
 	}
