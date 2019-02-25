@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Next Project Status not Filtered by Project Status Category" ReleaseNo="3.9.2" SeqNo="4430">
+    <Comments>Project Status: Next Status not Filtered by Project Status Category #2382
+https://github.com/adempiere/adempiere/issues/2382</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="108" Action="I" Record_ID="52666" Table="AD_Val_Rule">
+        <Data AD_Column_ID="583" Column="IsActive">true</Data>
+        <Data AD_Column_ID="192" Column="Type">S</Data>
+        <Data AD_Column_ID="193" Column="Code">C_ProjectStatus.C_ProjectStatusCategory_ID=@C_ProjectStatusCategory_ID@
+AND C_ProjectStatus.C_ProjectStatus_ID!=@C_ProjectStatus_ID@</Data>
+        <Data AD_Column_ID="586" Column="Updated">2019-02-24 22:55:12.095</Data>
+        <Data AD_Column_ID="584" Column="Created">2019-02-24 22:55:12.095</Data>
+        <Data AD_Column_ID="188" Column="Name">C_ProjectStatus of Project Status Category</Data>
+        <Data AD_Column_ID="189" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="387" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="388" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="187" Column="AD_Val_Rule_ID">52666</Data>
+        <Data AD_Column_ID="7715" Column="EntityType">D</Data>
+        <Data AD_Column_ID="587" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="585" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84460" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="85480" Table="AD_Column">
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isOldNull="true">52666</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
