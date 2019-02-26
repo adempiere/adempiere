@@ -21,6 +21,7 @@ import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
+import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.component.ZkCssHelper;
 import org.adempiere.webui.panel.ADForm;
@@ -83,20 +84,20 @@ public class WDocumentStatusIndicator extends Panel implements EventListener
 	 */
 	private void init()
 	{
-		Label nameLabel = new Label();
-		nameLabel.setText(m_documentStatus.getName());
+		// Appears as a link
+		ToolBarButton nameLabel = new ToolBarButton(m_documentStatus.getName());
+		nameLabel.setLabel(m_documentStatus.getName());
 		
-		nameLabel.setStyle("text-decoration: underline;");
 		statusLabel = new Label();
 		statusLabel.setWidth("60px");
 		
 		Hbox box = new Hbox();
-		box.setZclass("docStatus");
+		box.setSclass("docStatus");
 		box.appendChild(statusLabel);
 		box.appendChild(nameLabel);
 		appendChild(box);
 
-		this.addEventListener(Events.ON_CLICK, this);
+		nameLabel.addEventListener(Events.ON_CLICK, this);
 	}
 
 
