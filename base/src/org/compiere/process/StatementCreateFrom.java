@@ -62,7 +62,7 @@ public class StatementCreateFrom extends StatementCreateFromAbstract {
 			Timestamp dateTransaction 	= getSelectionAsTimestamp(key, "P_DateTrx");  			//  1-DateTrx
 			int paymentId 	= getSelectionAsInt(key, "P_C_Payment_ID");				//	2-Payment
 			int currencyId 	= getSelectionAsInt(key, "P_C_Currency_ID");			//  3-Currency
-			BigDecimal transactionAmount 	= getSelectionAsBigDecimal(key, "P_ConvertedAmount");	//  5- Converted Amount
+			BigDecimal transactionAmount = getSelectionAsBigDecimal(key, "P_ConvertedAmount");	//  5- Converted Amount
 			//	Log
 			log.fine("Line Date=" + dateTransaction + ", Payment=" + paymentId + ", Currency=" + currencyId + ", Amt=" + transactionAmount);
 			MBankStatementLine bankStatementLine = new MBankStatementLine (bankStatement);

@@ -177,22 +177,43 @@ import org.compiere.util.Msg;
 	 * 	Set Payment
 	 *	@param payment payment
 	 */
-	public void setPayment (MPayment payment)
-	{
-		setC_Payment_ID (payment.getC_Payment_ID());
-		setC_Currency_ID (payment.getC_Currency_ID());
-		//
-		BigDecimal amt = payment.getPayAmt(true); 
-		BigDecimal chargeAmt = getChargeAmt();
-		if (chargeAmt == null)
-			chargeAmt = Env.ZERO;
-		BigDecimal interestAmt = getInterestAmt();
-		if (interestAmt == null)
-			interestAmt = Env.ZERO;
-		setTrxAmt(amt);
-		setStmtAmt(amt.add(chargeAmt).add(interestAmt));
-		//
-		setDescription(payment.getDescription());
+	public void setPayment (MPayment payment) {
+        BigDecimal paymentAmount = payment.getPayAmt(true);
+        int currencyId = payment.getC_Currency_ID();
+        
+        MBankAccount account = MBankAccount.get(getCtx(), getParent().getC_BankAccount_ID());
+        if(account.getC_Currency_ID() != payment.getC_Currency_ID()) {
+            currencyId = account.getC_Currency_ID();
+            // Get Currency Info
+            MCurrency currency = MCurrency.get (getCtx(),account.getC_Currency_ID());
+            Timestamp conversionDate = getParent().getStatementDate();
+    
+            // Get Currency Rate
+            BigDecimal currencyRate = Env.ONE;
+            // Rate
+            currencyRate = MConversionRate.getRate (payment.getC_Currency_ID(),
+                    account.getC_Currency_ID(), conversionDate, payment.getC_ConversionType_ID(), payment.getAD_Client_ID(),
+                    payment.getAD_Org_ID());
+            
+            if(currencyRate != null) {
+               // Set Open Amount
+                paymentAmount = paymentAmount.multiply(currencyRate).setScale(currency.getStdPrecision(), BigDecimal.ROUND_HALF_UP);
+            }
+        }
+        setC_Payment_ID (payment.getC_Payment_ID());
+        setC_Currency_ID (currencyId);
+        //
+          
+        BigDecimal chargeAmt = getChargeAmt();
+        if (chargeAmt == null)
+            chargeAmt = Env.ZERO;
+        BigDecimal interestAmt = getInterestAmt();
+        if (interestAmt == null)
+            interestAmt = Env.ZERO;
+        setTrxAmt(paymentAmount);
+        setStmtAmt(paymentAmount.add(chargeAmt).add(interestAmt));
+        //
+        setDescription(payment.getDescription());
 	}	//	setPayment
 
 	/**
