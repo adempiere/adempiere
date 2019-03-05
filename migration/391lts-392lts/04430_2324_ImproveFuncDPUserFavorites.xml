@@ -45,8 +45,8 @@
     </Step>
     <Step SeqNo="40" StepType="AD">
       <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
-        <Data AD_Column_ID="342" Column="MsgText" oldValue="Drag and drop your favorite menu items here.">Arrastra y suelta tus elementos favoritos del menú aquí.</Data>
-        <Data AD_Column_ID="343" Column="MsgTip" oldValue="The User Favorites list makes it easy to find your favorite menu items.  Click on a favorite item in the main menu and drag it here.  You can organize your favorites in folders to create your own menu. Right click for options and to create new folders. Drag favorite items into the order desired or drop them into folders to organize the menu.  Double click a folder to rename it.  ">La lista de Favoritos del Usuario facilita la búsqueda de sus elementos de menú favoritos. Haga clic en un elemento favorito en el menú principal y arrástrelo aquí. Puede organizar sus favoritos en carpetas para crear su propio menú. Haga clic derecho para las opciones y para crear nuevas carpetas. Arrastre los elementos favoritos en el orden deseado o colóquelos en carpetas para organizar el menú. Haga doble clic en una carpeta para cambiar su nombre. </Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Drag and drop your favorite menu items here.">Arrastra y suelta tus elementos favoritos del men&#0250; aqu&#0237;.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" oldValue="The User Favorites list makes it easy to find your favorite menu items.  Click on a favorite item in the main menu and drag it here.  You can organize your favorites in folders to create your own menu. Right click for options and to create new folders. Drag favorite items into the order desired or drop them into folders to organize the menu.  Double click a folder to rename it.  ">La lista de Favoritos del Usuario facilita la bï¿½squeda de sus elementos de menï¿½ favoritos. Haga clic en un elemento favorito en el menï¿½ principal y arrï¿½strelo aquï¿½. Puede organizar sus favoritos en carpetas para crear su propio menï¿½. Haga clic derecho para las opciones y para crear nuevas carpetas. Arrastre los elementos favoritos en el orden deseado o colï¿½quelos en carpetas para organizar el menï¿½. Haga doble clic en una carpeta para cambiar su nombre. </Data>
         <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53562">53562</Data>
       </PO>
@@ -96,7 +96,7 @@
     <Step SeqNo="80" StepType="AD">
       <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
         <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
-        <Data AD_Column_ID="342" Column="MsgText" oldValue="Drag and drop your favorite menu items here. Right click to add folders.">Arrastra y suelta tus artículos favoritos desde el menú aquí. Haga clic derecho para agregar carpetas.</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Drag and drop your favorite menu items here. Right click to add folders.">Arrastra y suelta tus art&#0237;culos favoritos desde el men&#0250; aqu&#0237;. Haz clic derecho para agregar carpetas.</Data>
         <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53563">53563</Data>
       </PO>
@@ -139,7 +139,7 @@
     <Step SeqNo="110" StepType="AD">
       <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
         <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
-        <Data AD_Column_ID="342" Column="MsgText" oldValue="Drag an item from your user Favorites and drop it here to remove it.">Arrastre un elemento de sus favoritos de usuario y suéltelo aquí para eliminarlo.</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Drag an item from your user Favorites and drop it here to remove it.">Arrastra un elemento de tus favoritos de usuario y su&#0233;ltalo aqu&#0237; para eliminarlo.</Data>
         <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53564">53564</Data>
       </PO>
@@ -181,8 +181,8 @@
     </Step>
     <Step SeqNo="140" StepType="AD">
       <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
-        <Data AD_Column_ID="342" Column="MsgText" oldValue="Expand Tree">Expandir Árbol</Data>
-        <Data AD_Column_ID="343" Column="MsgTip" oldValue="Select to expand all folders of the tree. Descelect to collapse all the folders.">Seleccione para expandir todas las carpetas en el árbol. Anule la selección para contraer todas las carpetas.</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Expand Tree">Expandir &#0225;rbol</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" oldValue="Select to expand all folders of the tree. Descelect to collapse all the folders.">Selecciona para expandir todas las carpetas en el &#0225;rbol. Anula la selecci&#0243;n para contraer todas las carpetas.</Data>
         <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53565">53565</Data>
       </PO>
@@ -238,7 +238,7 @@
     <Step SeqNo="200" StepType="AD">
       <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
         <Data AD_Column_ID="342" Column="MsgText" oldValue="Rename the folder">Edita el texto</Data>
-        <Data AD_Column_ID="343" Column="MsgTip" oldValue="Enter a new name for the folder.  Hit &lt;Enter&gt; to save or close the dialog.  Hit &lt;Esc&gt; to quit.">Edita el texto. Escriba la tecla Intro para cerrar el diálogo. Escriba la tecla Esc para salir.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" oldValue="Enter a new name for the folder.  Hit &lt;Enter&gt; to save or close the dialog.  Hit &lt;Esc&gt; to quit.">Edita el texto. Presiona la tecla Intro para cerrar el di&#0225;logo. Presiona la tecla Esc para salir.</Data>
         <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53566">53566</Data>
       </PO>
@@ -281,7 +281,7 @@
     <Step SeqNo="230" StepType="AD">
       <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
         <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
-        <Data AD_Column_ID="342" Column="MsgText" oldValue="Click to open.  Drag to reorder.  Right click for other options.">Haga clic para abrir. Arrastre para reordenar. Haga clic derecho para otras opciones.</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Click to open.  Drag to reorder.  Right click for other options.">Haz clic para abrir. Arrastra para reordenar. Haz clic derecho para otras opciones.</Data>
         <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53567">53567</Data>
       </PO>
