@@ -21,7 +21,7 @@ name := "org.adempiere.test"
 
 //organization := "e-Evolution"
 //version := "0.1.0-SNAPSHOT"
-scalaVersion := "2.12.6"
+scalaVersion := "2.12.8"
 
 resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"
 
@@ -50,7 +50,7 @@ assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeSca
 lazy val commonSettings = Seq(
   version := "0.1-SNAPSHOT",
   organization := "org.eevolution",
-  scalaVersion := "2.12.6"
+  scalaVersion := "2.12.8"
 )
 
 
