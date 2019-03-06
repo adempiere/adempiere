@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.window.WTextEditorDialog;
 import org.compiere.model.MTreeFavorite;
 import org.compiere.model.MTreeFavoriteNode;
@@ -185,14 +186,17 @@ public class SimpleFavoriteTreeModel extends SimpleTreeModel implements EventLis
 	private String getIconFile(MTreeNode mt)
 	{
 		if (mt.isWindow())
-			return "images/mWindow.png";
+			return ITheme.MENU_WINDOW_IMAGE;
 		if (mt.isReport())
-			return "images/mReport.png";
+			return ITheme.MENU_REPORT_IMAGE;
 		if (mt.isProcess())
-			return "images/mProcess.png";
+			return ITheme.MENU_PROCESS_IMAGE;
 		if (mt.isWorkFlow())
-			return "images/mWorkFlow.png";
-		return "images/mWindow.png";
+			return ITheme.MENU_WORKFLOW_IMAGE;
+		if (mt.isBrowse())
+			return ITheme.MENU_BROWSER_IMAGE;
+		
+		return ITheme.MENU_WINDOW_IMAGE;
 	}
 
 	/**

@@ -63,7 +63,7 @@ public interface ITheme {
 	public static final String MENU_PROCESS_IMAGE= "/images/dark/mProcess.png";
 	public static final String MENU_REPORT_IMAGE= "/images/dark/mReport.png";
 	public static final String MENU_WORKFLOW_IMAGE= "/images/dark/mWorkFlow.png";
-	public static final String MENU_BROWSER_IMAGE= "/images/dark/mWindow.png";
+	public static final String MENU_BROWSER_IMAGE= "/images/dark/mBrowse.png";
 	public static final String MENU_TASK_IMAGE= "/images/dark/mProcess.png";
 	public static final String MENU_WORKBENCH_IMAGE= "/images/dark/mWindow.png";
 	//	General
