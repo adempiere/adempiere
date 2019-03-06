@@ -15,54 +15,24 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 
-package org.spin.process;
+package org.adempiere.pipo;
 
 import org.compiere.process.SvrProcess;
 
-/** Generated Process for (Export Surrogate Key To Migration)
+/** Generated Process for (PackIn)
  *  @author ADempiere (generated) 
  *  @version Release 3.9.1
  */
-public abstract class ExportSurrogateKeyToMigrationAbstract extends SvrProcess {
+public abstract class PackInAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE_FOR_PROCESS = "ExportSurrogateKeyToMigration";
+	private static final String VALUE_FOR_PROCESS = "PackIn";
 	/** Process Name 	*/
-	private static final String NAME_FOR_PROCESS = "Export Surrogate Key To Migration";
+	private static final String NAME_FOR_PROCESS = "PackIn";
 	/** Process Id 	*/
-	private static final int ID_FOR_PROCESS = 54170;
-	/**	Parameter Name for Table	*/
-	public static final String AD_TABLE_ID = "AD_Table_ID";
-	/**	Parameter Name for Entity Type	*/
-	public static final String ENTITYTYPE = "EntityType";
-	/**	Parameter Value for Table	*/
-	private int tableId;
-	/**	Parameter Value for Entity Type	*/
-	private String entityType;
+	private static final int ID_FOR_PROCESS = 50008;
 
 	@Override
 	protected void prepare() {
-		tableId = getParameterAsInt(AD_TABLE_ID);
-		entityType = getParameterAsString(ENTITYTYPE);
-	}
-
-	/**	 Getter Parameter Value for Table	*/
-	protected int getTableId() {
-		return tableId;
-	}
-
-	/**	 Setter Parameter Value for Table	*/
-	protected void setTableId(int tableId) {
-		this.tableId = tableId;
-	}
-
-	/**	 Getter Parameter Value for Entity Type	*/
-	protected String getEntityType() {
-		return entityType;
-	}
-
-	/**	 Setter Parameter Value for Entity Type	*/
-	protected void setEntityType(String entityType) {
-		this.entityType = entityType;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
