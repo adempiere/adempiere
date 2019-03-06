@@ -168,10 +168,10 @@ public class Language implements Serializable
 			AD_Language_fi_FI,  new Locale("fi","FI"),  new Boolean(true), "dd.MM.yyyy",
 			MediaSize.ISO.A4),
 		new Language ("Fran\u00e7ais",
-			AD_Language_fr_FR,  Locale.FRANCE, new Boolean(false), "dd-MM-yyyy",		//  dd.MM.yy
+			AD_Language_fr_FR,  Locale.FRANCE, new Boolean(true), "dd-MM-yyyy",		//  dd.MM.yy
 			MediaSize.ISO.A4),
 		new Language ("Fran\u00e7ais (CA)",
-			AD_Language_fr_CA,  new Locale("fr","CA"),  new Boolean(true), "MM/dd/yyyy",	// MM/dd/yy
+			AD_Language_fr_CA,  new Locale("fr","CA"),  new Boolean(false), "MM/dd/yyyy",	// MM/dd/yy
 			MediaSize.NA.LETTER),
 		new Language ("Hrvatski",
 			AD_Language_hr_HR, new Locale("hr", "HR"), null, "dd.MM.yyyy",
