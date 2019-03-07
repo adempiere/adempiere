@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_ProjectMember
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_ProjectMember 
 {
@@ -87,34 +87,6 @@ public interface I_C_ProjectMember
 	/** Get BP Name	  */
 	public String getBPName();
 
-    /** Column name C_Project_ID */
-    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
-
-	/** Set Project.
-	  * Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID);
-
-	/** Get Project.
-	  * Financial Project
-	  */
-	public int getC_Project_ID();
-
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
-
-    /** Column name C_ProjectMember_ID */
-    public static final String COLUMNNAME_C_ProjectMember_ID = "C_ProjectMember_ID";
-
-	/** Set Project Member.
-	  * Project Members
-	  */
-	public void setC_ProjectMember_ID (int C_ProjectMember_ID);
-
-	/** Get Project Member.
-	  * Project Members
-	  */
-	public int getC_ProjectMember_ID();
-
     /** Column name C_ProjectMemberType_ID */
     public static final String COLUMNNAME_C_ProjectMemberType_ID = "C_ProjectMemberType_ID";
 
@@ -129,6 +101,34 @@ public interface I_C_ProjectMember
 	public int getC_ProjectMemberType_ID();
 
 	public org.eevolution.model.I_C_ProjectMemberType getC_ProjectMemberType() throws RuntimeException;
+
+    /** Column name C_ProjectMember_ID */
+    public static final String COLUMNNAME_C_ProjectMember_ID = "C_ProjectMember_ID";
+
+	/** Set Project Member.
+	  * Project Members
+	  */
+	public void setC_ProjectMember_ID (int C_ProjectMember_ID);
+
+	/** Get Project Member.
+	  * Project Members
+	  */
+	public int getC_ProjectMember_ID();
+
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
+
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -172,6 +172,19 @@ public interface I_C_ProjectMember
 	  */
 	public String getNotificationType();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -187,17 +200,4 @@ public interface I_C_ProjectMember
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

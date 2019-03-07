@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Payroll
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_HR_Payroll 
 {
@@ -171,12 +171,12 @@ public interface I_HR_Payroll
     /** Column name IsPostPerEmployee */
     public static final String COLUMNNAME_IsPostPerEmployee = "IsPostPerEmployee";
 
-	/** Set IsPostPerEmployee.
+	/** Set Post Per Employee.
 	  * A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N
 	  */
 	public void setIsPostPerEmployee (boolean IsPostPerEmployee);
 
-	/** Get IsPostPerEmployee.
+	/** Get Post Per Employee.
 	  * A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N
 	  */
 	public boolean isPostPerEmployee();
@@ -229,6 +229,19 @@ public interface I_HR_Payroll
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -244,19 +257,6 @@ public interface I_HR_Payroll
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

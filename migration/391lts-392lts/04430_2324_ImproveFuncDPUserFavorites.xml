@@ -1,0 +1,863 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="#2324 Improve Functionality of DPUserFavorites" ReleaseNo="3.9.2" SeqNo="4430">
+    <Comments>See https://github.com/adempiere/adempiere/issues/2324</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53562" Table="AD_Message">
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-02-12 09:27:38.394</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Drag and drop your favorite menu items here.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-02-12 09:27:38.394</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">DPUserFavorites.hint.tooltip</Data>
+        <Data AD_Column_ID="199" Column="MsgTip">The User Favorites list makes it easy to find your favorite menu items.  Click on a favorite item in the main menu and drag it here.  You can organize your favorites in folders to create your own menu. Right click for options and to create new folders. Drag favorite items into the order desired or drop them into folders to organize the menu.  Double click a folder to rename it.  </Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53562</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-02-12 09:27:42.173</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-02-12 09:27:42.173</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Drag and drop your favorite menu items here.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip">The User Favorites list makes it easy to find your favorite menu items.  Click on a favorite item in the main menu and drag it here.  You can organize your favorites in folders to create your own menu. Right click for options and to create new folders. Drag favorite items into the order desired or drop them into folders to organize the menu.  Double click a folder to rename it.  </Data>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53562</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53562" Table="AD_Message">
+        <Data AD_Column_ID="6766" Column="Value" oldValue="DPUserFavorites.hint.tooltip">DPUserFavorites.tooltip</Data>
+        <Data AD_Column_ID="7716" Column="EntityType" oldValue="U">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Drag and drop your favorite menu items here.">Arrastra y suelta tus elementos favoritos del men&#0250; aqu&#0237;.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" oldValue="The User Favorites list makes it easy to find your favorite menu items.  Click on a favorite item in the main menu and drag it here.  You can organize your favorites in folders to create your own menu. Right click for options and to create new folders. Drag favorite items into the order desired or drop them into folders to organize the menu.  Double click a folder to rename it.  ">La lista de Favoritos del Usuario facilita la b�squeda de sus elementos de men� favoritos. Haga clic en un elemento favorito en el men� principal y arr�strelo aqu�. Puede organizar sus favoritos en carpetas para crear su propio men�. Haga clic derecho para las opciones y para crear nuevas carpetas. Arrastre los elementos favoritos en el orden deseado o col�quelos en carpetas para organizar el men�. Haga doble clic en una carpeta para cambiar su nombre. </Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53562">53562</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53562">53562</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53563" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-02-12 09:41:39.706</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Drag and drop your favorite menu items here. Right click to add folders.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-02-12 09:41:39.706</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">DPUserFavorites.hint.text</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53563</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-02-12 09:41:41.099</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-02-12 09:41:41.099</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Drag and drop your favorite menu items here. Right click to add folders.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53563</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Drag and drop your favorite menu items here. Right click to add folders.">Arrastra y suelta tus art&#0237;culos favoritos desde el men&#0250; aqu&#0237;. Haz clic derecho para agregar carpetas.</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53563">53563</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53564" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-02-12 09:50:09.17</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Drag an item from your user Favorites and drop it here to remove it.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-02-12 09:50:09.17</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">DPUserFavorites.trashcan.tooltip</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53564</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-02-12 09:50:10.882</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-02-12 09:50:10.882</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Drag an item from your user Favorites and drop it here to remove it.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53564</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Drag an item from your user Favorites and drop it here to remove it.">Arrastra un elemento de tus favoritos de usuario y su&#0233;ltalo aqu&#0237; para eliminarlo.</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53564">53564</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53565" Table="AD_Message">
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53565</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-02-12 09:56:14.29</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Expand Tree</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-02-12 09:56:14.29</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">DPUserFavorites.expandTree.tooltip</Data>
+        <Data AD_Column_ID="199" Column="MsgTip">Select to expand all folders of the tree. Descelect to collapse all the folders.</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-02-12 09:56:15.768</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-02-12 09:56:15.768</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Expand Tree</Data>
+        <Data AD_Column_ID="343" Column="MsgTip">Select to expand all folders of the tree. Descelect to collapse all the folders.</Data>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53565</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Expand Tree">Expandir &#0225;rbol</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" oldValue="Select to expand all folders of the tree. Descelect to collapse all the folders.">Selecciona para expandir todas las carpetas en el &#0225;rbol. Anula la selecci&#0243;n para contraer todas las carpetas.</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53565">53565</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53565">53565</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53566" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-02-12 12:26:16.153</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Rename the folder</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-02-12 12:26:16.153</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">WStringEditorDialog.tooltip</Data>
+        <Data AD_Column_ID="199" Column="MsgTip">Enter a new name for the folder.  Hit &lt;Enter&gt; to save or close the dialog.  Hit &lt;Esc&gt; to quit.</Data>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53566</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-02-12 12:26:19.356</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-02-12 12:26:19.356</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Rename the folder</Data>
+        <Data AD_Column_ID="343" Column="MsgTip">Enter a new name for the folder.  Hit &lt;Enter&gt; to save or close the dialog.  Hit &lt;Esc&gt; to quit.</Data>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53566</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53566" Table="AD_Message">
+        <Data AD_Column_ID="198" Column="MsgText" oldValue="Rename the folder">Edit the string.</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" oldValue="Enter a new name for the folder.  Hit &lt;Enter&gt; to save or close the dialog.  Hit &lt;Esc&gt; to quit.">Edit the string.  Hit &lt;Enter&gt; to save or close the dialog.  Hit &lt;Esc&gt; to quit.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Rename the folder">Edita el texto</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" oldValue="Enter a new name for the folder.  Hit &lt;Enter&gt; to save or close the dialog.  Hit &lt;Esc&gt; to quit.">Edita el texto. Presiona la tecla Intro para cerrar el di&#0225;logo. Presiona la tecla Esc para salir.</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53566">53566</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53567" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-02-12 22:40:44.465</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Click to open.  Drag to reorder.  Right click for other options.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-02-12 22:40:44.465</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">DPUserFavorite.treeitem.tooltip</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53567</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-02-12 22:40:49.337</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-02-12 22:40:49.337</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Click to open.  Drag to reorder.  Right click for other options.</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53567</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Click to open.  Drag to reorder.  Right click for other options.">Haz clic para abrir. Arrastra para reordenar. Haz clic derecho para otras opciones.</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53567">53567</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53568" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-02-12 23:08:27.03</Data>
+        <Data AD_Column_ID="198" Column="MsgText">New Folder</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-02-12 23:08:27.03</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">new.folder</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53568</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-02-12 23:08:28.802</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-02-12 23:08:28.802</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">New Folder</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53568</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="344" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="New Folder">Nueva carpeta</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53568">53568</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="53870" Action="I" Record_ID="1000060" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74147" Column="Updated">2019-02-12 22:52:06.65</Data>
+        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
+        <Data AD_Column_ID="74143" Column="IsSummary">true</Data>
+        <Data AD_Column_ID="74144" Column="NodeName">new.folder</Data>
+        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
+        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000060</Data>
+        <Data AD_Column_ID="74140" Column="Created">2019-02-12 22:52:06.65</Data>
+        <Data AD_Column_ID="74136" Column="AD_Menu_ID" isNewNull="true"/>
+        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
+        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
+        <Data AD_Column_ID="74145" Column="Parent_ID">1000059</Data>
+        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="440" Action="U" Record_ID="105" Table="PA_Goal">
+        <Data AD_Column_ID="5903" Column="DateLastRun" oldValue="2019-02-12 22:03:14.0">2019-02-12 23:04:18.652</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="440" Action="U" Record_ID="101" Table="PA_Goal">
+        <Data AD_Column_ID="5903" Column="DateLastRun" oldValue="2019-02-12 22:03:15.0">2019-02-12 23:04:20.515</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="440" Action="U" Record_ID="102" Table="PA_Goal">
+        <Data AD_Column_ID="5903" Column="DateLastRun" oldValue="2019-02-12 22:03:15.0">2019-02-12 23:04:22.498</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="440" Action="U" Record_ID="104" Table="PA_Goal">
+        <Data AD_Column_ID="5903" Column="DateLastRun" oldValue="2019-02-12 22:03:15.0">2019-02-12 23:04:23.456</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="53870" Action="I" Record_ID="1000061" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74147" Column="Updated">2019-02-12 23:04:55.897</Data>
+        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
+        <Data AD_Column_ID="74143" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="74144" Column="NodeName" isNewNull="true"/>
+        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
+        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000061</Data>
+        <Data AD_Column_ID="74140" Column="Created">2019-02-12 23:04:55.897</Data>
+        <Data AD_Column_ID="74136" Column="AD_Menu_ID">129</Data>
+        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
+        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
+        <Data AD_Column_ID="74145" Column="Parent_ID">1000060</Data>
+        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="53870" Action="U" Record_ID="1000060" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74144" Column="NodeName" oldValue="new.folder">Sales stuff</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="53870" Action="I" Record_ID="1000062" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74147" Column="Updated">2019-02-12 23:05:31.515</Data>
+        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
+        <Data AD_Column_ID="74143" Column="IsSummary">true</Data>
+        <Data AD_Column_ID="74144" Column="NodeName">new.folder</Data>
+        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
+        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000062</Data>
+        <Data AD_Column_ID="74140" Column="Created">2019-02-12 23:05:31.515</Data>
+        <Data AD_Column_ID="74136" Column="AD_Menu_ID" isNewNull="true"/>
+        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
+        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
+        <Data AD_Column_ID="74145" Column="Parent_ID">1000061</Data>
+        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="53870" Action="I" Record_ID="1000063" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74147" Column="Updated">2019-02-12 23:06:31.844</Data>
+        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
+        <Data AD_Column_ID="74143" Column="IsSummary">true</Data>
+        <Data AD_Column_ID="74144" Column="NodeName">new.folder</Data>
+        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
+        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000063</Data>
+        <Data AD_Column_ID="74140" Column="Created">2019-02-12 23:06:31.844</Data>
+        <Data AD_Column_ID="74136" Column="AD_Menu_ID" isNewNull="true"/>
+        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
+        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
+        <Data AD_Column_ID="74145" Column="Parent_ID">1000059</Data>
+        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="53870" Action="I" Record_ID="1000064" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74147" Column="Updated">2019-02-12 23:09:09.786</Data>
+        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
+        <Data AD_Column_ID="74143" Column="IsSummary">true</Data>
+        <Data AD_Column_ID="74144" Column="NodeName">new.folder</Data>
+        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
+        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000064</Data>
+        <Data AD_Column_ID="74140" Column="Created">2019-02-12 23:09:09.786</Data>
+        <Data AD_Column_ID="74136" Column="AD_Menu_ID" isNewNull="true"/>
+        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
+        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
+        <Data AD_Column_ID="74145" Column="Parent_ID">1000063</Data>
+        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="440" Action="U" Record_ID="105" Table="PA_Goal">
+        <Data AD_Column_ID="5903" Column="DateLastRun" oldValue="2019-02-12 23:04:18.0">2019-02-13 07:11:20.434</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="440" Action="U" Record_ID="101" Table="PA_Goal">
+        <Data AD_Column_ID="5903" Column="DateLastRun" oldValue="2019-02-12 23:04:20.0">2019-02-13 07:11:27.266</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="440" Action="U" Record_ID="102" Table="PA_Goal">
+        <Data AD_Column_ID="5903" Column="DateLastRun" oldValue="2019-02-12 23:04:22.0">2019-02-13 07:11:29.074</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="440" Action="U" Record_ID="104" Table="PA_Goal">
+        <Data AD_Column_ID="5903" Column="DateLastRun" oldValue="2019-02-12 23:04:23.0">2019-02-13 07:11:29.865</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="53870" Action="I" Record_ID="1000065" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74147" Column="Updated">2019-02-13 07:58:50.8</Data>
+        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
+        <Data AD_Column_ID="74143" Column="IsSummary">true</Data>
+        <Data AD_Column_ID="74144" Column="NodeName">New Folder</Data>
+        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
+        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000065</Data>
+        <Data AD_Column_ID="74140" Column="Created">2019-02-13 07:58:50.8</Data>
+        <Data AD_Column_ID="74136" Column="AD_Menu_ID" isNewNull="true"/>
+        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
+        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
+        <Data AD_Column_ID="74145" Column="Parent_ID">1000060</Data>
+        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="195" Action="U" Record_ID="1000009" Table="AD_Preference">
+        <Data AD_Column_ID="1274" Column="Value" oldValue="N">Y</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="195" Action="U" Record_ID="1000009" Table="AD_Preference">
+        <Data AD_Column_ID="1274" Column="Value" oldValue="Y">N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="53870" Action="I" Record_ID="1000066" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74147" Column="Updated">2019-02-13 08:13:29.962</Data>
+        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
+        <Data AD_Column_ID="74143" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="74144" Column="NodeName" isNewNull="true"/>
+        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
+        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000066</Data>
+        <Data AD_Column_ID="74140" Column="Created">2019-02-13 08:13:29.962</Data>
+        <Data AD_Column_ID="74136" Column="AD_Menu_ID">129</Data>
+        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
+        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
+        <Data AD_Column_ID="74145" Column="Parent_ID" isNewNull="true"/>
+        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="53870" Action="I" Record_ID="1000067" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74147" Column="Updated">2019-02-13 08:13:40.29</Data>
+        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
+        <Data AD_Column_ID="74143" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="74144" Column="NodeName" isNewNull="true"/>
+        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
+        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000067</Data>
+        <Data AD_Column_ID="74140" Column="Created">2019-02-13 08:13:40.29</Data>
+        <Data AD_Column_ID="74136" Column="AD_Menu_ID">180</Data>
+        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
+        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
+        <Data AD_Column_ID="74145" Column="Parent_ID" isNewNull="true"/>
+        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="53870" Action="I" Record_ID="1000068" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74147" Column="Updated">2019-02-13 08:13:50.902</Data>
+        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
+        <Data AD_Column_ID="74143" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="74144" Column="NodeName" isNewNull="true"/>
+        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
+        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000068</Data>
+        <Data AD_Column_ID="74140" Column="Created">2019-02-13 08:13:50.902</Data>
+        <Data AD_Column_ID="74136" Column="AD_Menu_ID">178</Data>
+        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
+        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
+        <Data AD_Column_ID="74145" Column="Parent_ID" isNewNull="true"/>
+        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="53870" Action="I" Record_ID="1000069" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74147" Column="Updated">2019-02-13 08:14:23.206</Data>
+        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
+        <Data AD_Column_ID="74143" Column="IsSummary">true</Data>
+        <Data AD_Column_ID="74144" Column="NodeName">New Folder</Data>
+        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
+        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000069</Data>
+        <Data AD_Column_ID="74140" Column="Created">2019-02-13 08:14:23.206</Data>
+        <Data AD_Column_ID="74136" Column="AD_Menu_ID" isNewNull="true"/>
+        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
+        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
+        <Data AD_Column_ID="74145" Column="Parent_ID">1000068</Data>
+        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="53870" Action="U" Record_ID="1000069" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74144" Column="NodeName" oldValue="New Folder">Sales (AR)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="53870" Action="I" Record_ID="1000070" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74147" Column="Updated">2019-02-13 08:15:20.502</Data>
+        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
+        <Data AD_Column_ID="74143" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="74144" Column="NodeName" isNewNull="true"/>
+        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
+        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000070</Data>
+        <Data AD_Column_ID="74140" Column="Created">2019-02-13 08:15:20.502</Data>
+        <Data AD_Column_ID="74136" Column="AD_Menu_ID">235</Data>
+        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
+        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
+        <Data AD_Column_ID="74145" Column="Parent_ID">1000069</Data>
+        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="500" StepType="AD">
+      <PO AD_Table_ID="53870" Action="I" Record_ID="1000071" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74147" Column="Updated">2019-02-13 08:15:27.706</Data>
+        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
+        <Data AD_Column_ID="74143" Column="IsSummary">true</Data>
+        <Data AD_Column_ID="74144" Column="NodeName">New Folder</Data>
+        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
+        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000071</Data>
+        <Data AD_Column_ID="74140" Column="Created">2019-02-13 08:15:27.706</Data>
+        <Data AD_Column_ID="74136" Column="AD_Menu_ID" isNewNull="true"/>
+        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
+        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
+        <Data AD_Column_ID="74145" Column="Parent_ID">1000069</Data>
+        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="510" StepType="AD">
+      <PO AD_Table_ID="53870" Action="U" Record_ID="1000071" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74144" Column="NodeName" oldValue="New Folder">Purchasing</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="520" StepType="AD">
+      <PO AD_Table_ID="53870" Action="I" Record_ID="1000072" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74147" Column="Updated">2019-02-13 08:16:18.631</Data>
+        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
+        <Data AD_Column_ID="74143" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="74144" Column="NodeName" isNewNull="true"/>
+        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
+        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000072</Data>
+        <Data AD_Column_ID="74140" Column="Created">2019-02-13 08:16:18.631</Data>
+        <Data AD_Column_ID="74136" Column="AD_Menu_ID">205</Data>
+        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
+        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
+        <Data AD_Column_ID="74145" Column="Parent_ID">1000071</Data>
+        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="530" StepType="AD">
+      <PO AD_Table_ID="53870" Action="I" Record_ID="1000073" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74147" Column="Updated">2019-02-13 08:16:24.732</Data>
+        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
+        <Data AD_Column_ID="74143" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="74144" Column="NodeName" isNewNull="true"/>
+        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
+        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000073</Data>
+        <Data AD_Column_ID="74140" Column="Created">2019-02-13 08:16:24.732</Data>
+        <Data AD_Column_ID="74136" Column="AD_Menu_ID">204</Data>
+        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
+        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
+        <Data AD_Column_ID="74145" Column="Parent_ID">1000071</Data>
+        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="540" StepType="AD">
+      <PO AD_Table_ID="53870" Action="I" Record_ID="1000074" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74147" Column="Updated">2019-02-13 08:16:30.566</Data>
+        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
+        <Data AD_Column_ID="74143" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="74144" Column="NodeName" isNewNull="true"/>
+        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
+        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000074</Data>
+        <Data AD_Column_ID="74140" Column="Created">2019-02-13 08:16:30.566</Data>
+        <Data AD_Column_ID="74136" Column="AD_Menu_ID">206</Data>
+        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
+        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
+        <Data AD_Column_ID="74145" Column="Parent_ID">1000071</Data>
+        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="550" StepType="AD">
+      <PO AD_Table_ID="53870" Action="I" Record_ID="1000075" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74147" Column="Updated">2019-02-13 08:17:04.535</Data>
+        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
+        <Data AD_Column_ID="74143" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="74144" Column="NodeName" isNewNull="true"/>
+        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
+        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000075</Data>
+        <Data AD_Column_ID="74140" Column="Created">2019-02-13 08:17:04.535</Data>
+        <Data AD_Column_ID="74136" Column="AD_Menu_ID">54102</Data>
+        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
+        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
+        <Data AD_Column_ID="74145" Column="Parent_ID">1000071</Data>
+        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="560" StepType="AD">
+      <PO AD_Table_ID="53870" Action="I" Record_ID="1000076" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74147" Column="Updated">2019-02-13 08:18:13.254</Data>
+        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
+        <Data AD_Column_ID="74143" Column="IsSummary">true</Data>
+        <Data AD_Column_ID="74144" Column="NodeName">New Folder</Data>
+        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
+        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000076</Data>
+        <Data AD_Column_ID="74140" Column="Created">2019-02-13 08:18:13.254</Data>
+        <Data AD_Column_ID="74136" Column="AD_Menu_ID" isNewNull="true"/>
+        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
+        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
+        <Data AD_Column_ID="74145" Column="Parent_ID">1000075</Data>
+        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="570" StepType="AD">
+      <PO AD_Table_ID="53870" Action="U" Record_ID="1000076" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74144" Column="NodeName" oldValue="New Folder">House Keeping</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="580" StepType="AD">
+      <PO AD_Table_ID="53870" Action="U" Record_ID="1000076" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="81974" Column="IsCollapsible" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="590" StepType="AD">
+      <PO AD_Table_ID="53870" Action="I" Record_ID="1000077" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74147" Column="Updated">2019-02-13 08:18:43.36</Data>
+        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
+        <Data AD_Column_ID="74143" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="74144" Column="NodeName" isNewNull="true"/>
+        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
+        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000077</Data>
+        <Data AD_Column_ID="74140" Column="Created">2019-02-13 08:18:43.36</Data>
+        <Data AD_Column_ID="74136" Column="AD_Menu_ID">245</Data>
+        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
+        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
+        <Data AD_Column_ID="74145" Column="Parent_ID">1000076</Data>
+        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="600" StepType="AD">
+      <PO AD_Table_ID="440" Action="U" Record_ID="105" Table="PA_Goal">
+        <Data AD_Column_ID="5903" Column="DateLastRun" oldValue="2019-02-13 07:11:20.0">2019-02-13 08:40:52.18</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="610" StepType="AD">
+      <PO AD_Table_ID="440" Action="U" Record_ID="101" Table="PA_Goal">
+        <Data AD_Column_ID="5903" Column="DateLastRun" oldValue="2019-02-13 07:11:27.0">2019-02-13 08:41:10.391</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="620" StepType="AD">
+      <PO AD_Table_ID="440" Action="U" Record_ID="102" Table="PA_Goal">
+        <Data AD_Column_ID="5903" Column="DateLastRun" oldValue="2019-02-13 07:11:29.0">2019-02-13 08:41:13.418</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="630" StepType="AD">
+      <PO AD_Table_ID="440" Action="U" Record_ID="104" Table="PA_Goal">
+        <Data AD_Column_ID="5903" Column="DateLastRun" oldValue="2019-02-13 07:11:29.0">2019-02-13 08:41:14.576</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="640" StepType="AD">
+      <PO AD_Table_ID="53870" Action="I" Record_ID="1000078" Table="AD_Tree_Favorite_Node">
+        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
+        <Data AD_Column_ID="74147" Column="Updated">2019-02-13 08:59:07.902</Data>
+        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
+        <Data AD_Column_ID="74143" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="74144" Column="NodeName" isNewNull="true"/>
+        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
+        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000078</Data>
+        <Data AD_Column_ID="74140" Column="Created">2019-02-13 08:59:07.902</Data>
+        <Data AD_Column_ID="74136" Column="AD_Menu_ID">205</Data>
+        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
+        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
+        <Data AD_Column_ID="74145" Column="Parent_ID">1000071</Data>
+        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="650" StepType="AD">
+      <PO AD_Table_ID="440" Action="U" Record_ID="105" Table="PA_Goal">
+        <Data AD_Column_ID="5903" Column="DateLastRun" oldValue="2019-02-13 08:40:52.0">2019-02-13 09:09:16.199</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="660" StepType="AD">
+      <PO AD_Table_ID="440" Action="U" Record_ID="101" Table="PA_Goal">
+        <Data AD_Column_ID="5903" Column="DateLastRun" oldValue="2019-02-13 08:41:10.0">2019-02-13 09:09:52.758</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="670" StepType="AD">
+      <PO AD_Table_ID="440" Action="U" Record_ID="102" Table="PA_Goal">
+        <Data AD_Column_ID="5903" Column="DateLastRun" oldValue="2019-02-13 08:41:13.0">2019-02-13 09:09:59.868</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="680" StepType="AD">
+      <PO AD_Table_ID="440" Action="U" Record_ID="104" Table="PA_Goal">
+        <Data AD_Column_ID="5903" Column="DateLastRun" oldValue="2019-02-13 08:41:14.0">2019-02-13 09:10:00.605</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="690" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53569" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-02-14 14:47:21.377</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Rename folder</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-02-14 14:47:21.377</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">SimpleFavoriteTreeModel.rename.folder</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53569</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="700" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText">Renombrar carpeta</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="609" Column="Created">2019-02-14 14:47:29.281</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-02-14 14:47:29.281</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53569</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

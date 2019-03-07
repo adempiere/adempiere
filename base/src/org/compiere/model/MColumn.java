@@ -919,17 +919,17 @@ public class MColumn extends X_AD_Column
 			
 			if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1)
 			{
-				DB.executeUpdateEx(sql, trxName);
+				DB.executeUpdateEx(sql, null);
 			}
 			else
 			{
 				String statements[] = sql.split(DB.SQLSTATEMENT_SEPARATOR);
 				for (int i = 0; i < statements.length; i++)
 				{
-					DB.executeUpdateEx(statements[i], trxName);
+					DB.executeUpdateEx(statements[i], null);
 				}
 			}
-						
+			
 			// Remove the old table definition from cache 
 			POInfo.removeFromCache(getAD_Table_ID());
 			return sql;

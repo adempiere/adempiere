@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="QuickEntry" ReleaseNo="3.9.1" SeqNo="3921">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1088</Comments>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="78421" Table="AD_Field">
+        <Data AD_Column_ID="182" Column="SortNo">0</Data>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">78493</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">320</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">107</Data>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="170" Column="Help">The field will be displayed in Quick Entry Form for easy encoding.</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="169" Column="Description">Display in Quick Entry Form</Data>
+        <Data AD_Column_ID="168" Column="Name">Quick Entry</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">320</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="579" Column="Created">2016-02-23 10:16:09.159</Data>
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="581" Column="Updated">2016-02-23 10:16:09.159</Data>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">78421</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="78493" Column="IsQuickEntry" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="45" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="78421" Table="AD_Field_Trl">
+        <Data AD_Column_ID="288" Column="Help">Mostrar campo en el formulario de entrada rápida</Data>
+        <Data AD_Column_ID="674" Column="Updated">2018-08-07 23:07:50.447</Data>
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2018-08-07 23:07:50.447</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="286" Column="Name">Entrada Rápida</Data>
+        <Data AD_Column_ID="287" Column="Description">El campo se mostrará en Formulario de entrada rápida para una fácil codificación.</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">78421</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78421" Table="AD_Field">
+        <Data AD_Column_ID="180" Column="DisplayLength" oldValue="0">1</Data>
+      </PO>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="60" StepType="SQL">
+      <SQLStatement>DROP VIEW IF EXISTS ad_field_v;
+
+CREATE OR REPLACE VIEW ad_field_v AS
+ SELECT t.ad_window_id,
+    f.ad_tab_id,
+    f.ad_field_id,
+    tbl.ad_table_id,
+    f.ad_column_id,
+    f.name,
+    f.description,
+    f.help,
+    f.isdisplayed,
+    f.displaylogic,
+    f.displaylength,
+    f.seqno,
+    f.sortno,
+    f.issameline,
+    f.isheading,
+    f.isfieldonly,
+    f.isreadonly,
+    f.isencrypted AS isencryptedfield,
+    f.obscuretype,
+    c.columnname,
+    c.columnsql,
+    c.fieldlength,
+    c.vformat,
+    COALESCE(f.defaultvalue, c.defaultvalue) AS defaultvalue,
+    c.iskey,
+    c.isparent,
+    COALESCE(f.ismandatory, c.ismandatory) AS ismandatory,
+    c.isidentifier,
+    c.istranslated,
+    COALESCE(f.ad_reference_value_id, c.ad_reference_value_id) AS ad_reference_value_id,
+    c.callout,
+    COALESCE(f.ad_reference_id, c.ad_reference_id) AS ad_reference_id,
+    COALESCE(f.ad_val_rule_id, c.ad_val_rule_id) AS ad_val_rule_id,
+    c.ad_process_id,
+    c.isalwaysupdateable,
+    c.readonlylogic,
+    c.mandatorylogic,
+    c.isupdateable,
+    c.isencrypted AS isencryptedcolumn,
+    c.isselectioncolumn,
+    c.isrange,
+    tbl.tablename,
+    c.valuemin,
+    c.valuemax,
+    fg.name AS fieldgroup,
+    vr.code AS validationcode,
+    f.included_tab_id,
+    fg.fieldgrouptype,
+    fg.iscollapsedbydefault,
+    COALESCE(f.infofactoryclass, c.infofactoryclass) AS infofactoryclass,
+    c.isautocomplete,
+    f.preferredwidth,
+    c.ad_chart_id,
+    f.isdisplayedgrid,
+    f.seqnogrid,
+    f.isembedded,
+    COALESCE(f.isallowcopy, c.isallowcopy) AS isallowcopy,
+    f.isquickentry
+   FROM ad_field f
+     JOIN ad_tab t ON f.ad_tab_id = t.ad_tab_id
+     LEFT JOIN ad_fieldgroup fg ON f.ad_fieldgroup_id = fg.ad_fieldgroup_id
+     LEFT JOIN ad_column c ON f.ad_column_id = c.ad_column_id
+     JOIN ad_table tbl ON c.ad_table_id = tbl.ad_table_id
+     JOIN ad_reference r ON c.ad_reference_id = r.ad_reference_id
+     LEFT JOIN ad_val_rule vr ON vr.ad_val_rule_id = COALESCE(f.ad_val_rule_id, c.ad_val_rule_id)
+  WHERE f.isactive = 'Y'::bpchar AND c.isactive = 'Y'::bpchar;
+  
+CREATE OR REPLACE VIEW ad_field_vt AS
+ SELECT trl.ad_language,
+    t.ad_window_id,
+    f.ad_tab_id,
+    f.ad_field_id,
+    tbl.ad_table_id,
+    f.ad_column_id,
+    trl.name,
+    trl.description,
+    trl.help,
+    f.isdisplayed,
+    f.displaylogic,
+    f.displaylength,
+    f.seqno,
+    f.sortno,
+    f.issameline,
+    f.isheading,
+    f.isfieldonly,
+    f.isreadonly,
+    f.isencrypted AS isencryptedfield,
+    f.obscuretype,
+    c.columnname,
+    c.columnsql,
+    c.fieldlength,
+    c.vformat,
+    COALESCE(f.defaultvalue, c.defaultvalue) AS defaultvalue,
+    c.iskey,
+    c.isparent,
+    COALESCE(f.ismandatory, c.ismandatory) AS ismandatory,
+    c.isidentifier,
+    c.istranslated,
+    COALESCE(f.ad_reference_value_id, c.ad_reference_value_id) AS ad_reference_value_id,
+    c.callout,
+    COALESCE(f.ad_reference_id, c.ad_reference_id) AS ad_reference_id,
+    COALESCE(f.ad_val_rule_id, c.ad_val_rule_id) AS ad_val_rule_id,
+    c.ad_process_id,
+    c.isalwaysupdateable,
+    c.readonlylogic,
+    c.mandatorylogic,
+    c.isupdateable,
+    c.isencrypted AS isencryptedcolumn,
+    c.isselectioncolumn,
+    tbl.tablename,
+    c.valuemin,
+    c.valuemax,
+    fgt.name AS fieldgroup,
+    vr.code AS validationcode,
+    f.included_tab_id,
+    fg.fieldgrouptype,
+    fg.iscollapsedbydefault,
+    COALESCE(f.infofactoryclass, c.infofactoryclass) AS infofactoryclass,
+    c.isautocomplete,
+    f.preferredwidth AS preferredwith,
+    c.ad_chart_id,
+    f.isdisplayedgrid,
+    f.seqnogrid,
+    f.isembedded,
+    COALESCE(f.isallowcopy, c.isallowcopy) AS isallowcopy, 
+    f.isquickentry
+   FROM ad_field f
+     JOIN ad_field_trl trl ON f.ad_field_id = trl.ad_field_id
+     JOIN ad_tab t ON f.ad_tab_id = t.ad_tab_id
+     LEFT JOIN ad_fieldgroup fg ON f.ad_fieldgroup_id = fg.ad_fieldgroup_id
+     LEFT JOIN ad_fieldgroup_trl fgt ON f.ad_fieldgroup_id = fgt.ad_fieldgroup_id AND trl.ad_language::text = fgt.ad_language::text
+     LEFT JOIN ad_column c ON f.ad_column_id = c.ad_column_id
+     JOIN ad_table tbl ON c.ad_table_id = tbl.ad_table_id
+     JOIN ad_reference r ON c.ad_reference_id = r.ad_reference_id
+     LEFT JOIN ad_val_rule vr ON vr.ad_val_rule_id = COALESCE(f.ad_val_rule_id, c.ad_val_rule_id)
+  WHERE f.isactive = 'Y'::bpchar AND c.isactive = 'Y'::bpchar;
+
+
+</SQLStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="70" StepType="SQL">
+      <SQLStatement>DROP VIEW AD_FIELD_V;
+CREATE OR REPLACE VIEW AD_FIELD_V
+  (AD_WINDOW_ID, AD_TAB_ID, AD_FIELD_ID, AD_TABLE_ID, AD_COLUMN_ID, NAME, DESCRIPTION, HELP, ISDISPLAYED, 
+  DISPLAYLOGIC, DISPLAYLENGTH, SEQNO, SORTNO, ISSAMELINE, ISHEADING, ISFIELDONLY, ISREADONLY, ISENCRYPTEDFIELD, 
+  OBSCURETYPE, COLUMNNAME, COLUMNSQL, FIELDLENGTH, VFORMAT, DEFAULTVALUE, ISKEY, ISPARENT, ISMANDATORY, ISIDENTIFIER, 
+  ISTRANSLATED, AD_REFERENCE_VALUE_ID, CALLOUT, AD_REFERENCE_ID, AD_VAL_RULE_ID, AD_PROCESS_ID, ISALWAYSUPDATEABLE, 
+  READONLYLOGIC, MANDATORYLOGIC, ISUPDATEABLE, ISENCRYPTEDCOLUMN, ISSELECTIONCOLUMN, ISRANGE, TABLENAME, VALUEMIN, VALUEMAX, 
+  FIELDGROUP, VALIDATIONCODE, INCLUDED_TAB_ID, FIELDGROUPTYPE, ISCOLLAPSEDBYDEFAULT, INFOFACTORYCLASS, ISAUTOCOMPLETE, 
+  PREFERREDWIDTH, AD_CHART_ID, ISDISPLAYEDGRID, SEQNOGRID , ISEMBEDDED, ISALLOWCOPY) AS
+  SELECT t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_ID, 
+ f.NAME, f.Description, f.Help, f.IsDisplayed, f.DisplayLogic, f.DisplayLength, 
+ f.SeqNo, f.SortNo, f.IsSameLine, f.IsHeading, f.IsFieldOnly, f.IsReadOnly, 
+ f.IsEncrypted AS IsEncryptedField, f.ObscureType,
+ c.ColumnName, c.ColumnSQL, c.FieldLength, c.VFormat,
+ COALESCE(f.DefaultValue, c.DefaultValue) AS DefaultValue,
+ c.IsKey, c.IsParent, 
+ COALESCE(f.IsMandatory, c.IsMandatory) AS IsMandatory, 
+    c.IsIdentifier, c.IsTranslated, COALESCE(f.AD_Reference_Value_ID, c.AD_Reference_Value_ID) AS AD_Reference_Value_ID, 
+ c.Callout, COALESCE(f.AD_Reference_ID, c.AD_Reference_ID) AS AD_Reference_ID, 
+    COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID) AS AD_Val_Rule_ID, c.AD_Process_ID, c.IsAlwaysUpdateable,
+ c.ReadOnlyLogic, c.MandatoryLogic, c.IsUpdateable, c.IsEncrypted AS IsEncryptedColumn, 
+    c.IsSelectionColumn,c.IsRange,
+ tbl.TableName, c.ValueMin, c.ValueMax,
+ fg.NAME AS FieldGroup, vr.Code AS ValidationCode,
+ f.Included_Tab_ID, fg.FieldGroupType, fg.IsCollapsedByDefault,
+ COALESCE(f.InfoFactoryClass, c.InfoFactoryClass) as InfoFactoryClass,
+ c.IsAutocomplete, f.PreferredWidth, c.AD_Chart_ID , f.ISDISPLAYEDGRID, f.SEQNOGRID , f.isEmbedded , 
+ COALESCE(f.IsAllowCopy, c.IsAllowCopy) AS IsAllowCopy
+FROM AD_FIELD f 
+  INNER JOIN AD_TAB t ON (f.AD_Tab_ID = t.AD_Tab_ID)
+  LEFT OUTER JOIN AD_FIELDGROUP fg ON (f.AD_FieldGroup_ID = fg.AD_FieldGroup_ID) 
+  LEFT OUTER JOIN AD_COLUMN c ON (f.AD_Column_ID = c.AD_Column_ID)
+ INNER JOIN AD_TABLE tbl ON (c.AD_Table_ID = tbl.AD_Table_ID)
+ INNER JOIN AD_REFERENCE r ON (c.AD_Reference_ID = r.AD_Reference_ID)
+ LEFT OUTER JOIN AD_VAL_RULE vr ON (vr.AD_Val_Rule_ID = COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID))
+WHERE f.IsActive = 'Y' 
+  AND c.IsActive = 'Y';
+  
+DROP VIEW AD_FIELD_VT ;
+CREATE OR REPLACE VIEW AD_FIELD_VT (AD_LANGUAGE, AD_WINDOW_ID, AD_TAB_ID, AD_FIELD_ID, AD_TABLE_ID, 
+    AD_COLUMN_ID, NAME, DESCRIPTION, HELP, ISDISPLAYED, DISPLAYLOGIC, DISPLAYLENGTH, SEQNO, SORTNO, ISSAMELINE, 
+    ISHEADING, ISFIELDONLY, ISREADONLY, ISENCRYPTEDFIELD, OBSCURETYPE, COLUMNNAME, COLUMNSQL, FIELDLENGTH, VFORMAT, 
+    DEFAULTVALUE, ISKEY, ISPARENT, ISMANDATORY, ISIDENTIFIER, ISTRANSLATED, AD_REFERENCE_VALUE_ID, CALLOUT, 
+    AD_REFERENCE_ID, AD_VAL_RULE_ID, AD_PROCESS_ID, ISALWAYSUPDATEABLE, READONLYLOGIC, MANDATORYLOGIC, ISUPDATEABLE, 
+    ISENCRYPTEDCOLUMN, ISSELECTIONCOLUMN, TABLENAME, VALUEMIN, VALUEMAX, FIELDGROUP, VALIDATIONCODE, INCLUDED_TAB_ID, 
+    FIELDGROUPTYPE, ISCOLLAPSEDBYDEFAULT, INFOFACTORYCLASS, ISAUTOCOMPLETE,
+    PREFERREDWITH, AD_CHART_ID, ISDISPLAYEDGRID, SEQNOGRID ,  ISEMBEDDED , ISALLOWCOPY) AS 
+    SELECT trl.AD_LANGUAGE, t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_ID, 
+   trl.NAME, trl.Description, trl.Help, f.IsDisplayed, f.DisplayLogic, f.DisplayLength, 
+   f.SeqNo, f.SortNo, f.IsSameLine, f.IsHeading, f.IsFieldOnly, f.IsReadOnly, 
+   f.IsEncrypted AS IsEncryptedField, f.ObscureType,
+   c.ColumnName, c.ColumnSQL, c.FieldLength, c.VFormat,
+   COALESCE(f.DefaultValue, c.DefaultValue) AS DefaultValue,
+   c.IsKey, c.IsParent, 
+   COALESCE(f.IsMandatory, c.IsMandatory) AS IsMandatory, 
+      c.IsIdentifier, c.IsTranslated, COALESCE(f.AD_Reference_Value_ID, c.AD_Reference_Value_ID) AS AD_Reference_Value_ID, 
+   c.Callout, COALESCE(f.AD_Reference_ID, c.AD_Reference_ID) AS AD_Reference_ID, 
+      COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID) as AD_Val_Rule_ID, c.AD_Process_ID, c.IsAlwaysUpdateable,
+   c.ReadOnlyLogic, c.MandatoryLogic, c.IsUpdateable, c.IsEncrypted AS IsEncryptedColumn, c.IsSelectionColumn,
+   tbl.TableName, c.ValueMin, c.ValueMax, 
+   fgt.NAME AS FieldGroup, vr.Code AS ValidationCode,
+   f.Included_Tab_ID, fg.FieldGroupType, fg.IsCollapsedByDefault,
+   COALESCE(f.InfoFactoryClass, c.InfoFactoryClass) as InfoFactoryClass,
+   c.IsAutocomplete, f.PreferredWidth, c.AD_Chart_ID , f.ISDISPLAYEDGRID, f.SEQNOGRID , f.isEmbedded ,
+  COALESCE(f.IsAllowCopy, c.IsAllowCopy) AS IsAllowCopy
+  FROM AD_FIELD f 
+   INNER JOIN AD_FIELD_TRL trl ON (f.AD_Field_ID = trl.AD_Field_ID)
+    INNER JOIN AD_TAB t ON (f.AD_Tab_ID = t.AD_Tab_ID)
+    LEFT OUTER JOIN AD_FIELDGROUP fg ON (f.AD_FieldGroup_ID = fg.AD_FieldGroup_ID) 
+    LEFT OUTER JOIN AD_FIELDGROUP_TRL fgt ON 
+   (f.AD_FieldGroup_ID = fgt.AD_FieldGroup_ID AND trl.AD_LANGUAGE=fgt.AD_LANGUAGE)
+    LEFT OUTER JOIN AD_COLUMN c ON (f.AD_Column_ID = c.AD_Column_ID)
+   INNER JOIN AD_TABLE tbl ON (c.AD_Table_ID = tbl.AD_Table_ID)
+   INNER JOIN AD_REFERENCE r ON (c.AD_Reference_ID = r.AD_Reference_ID)
+   LEFT OUTER JOIN AD_VAL_RULE vr ON (vr.AD_Val_Rule_ID=COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID))
+  WHERE f.IsActive = 'Y' 
+  AND c.IsActive = 'Y';</SQLStatement>
+      <RollbackStatement>
+DROP VIEW AD_FIELD_V;
+  CREATE OR REPLACE VIEW AD_FIELD_V
+  (AD_WINDOW_ID, AD_TAB_ID, AD_FIELD_ID, AD_TABLE_ID, AD_COLUMN_ID, NAME, DESCRIPTION, HELP, ISDISPLAYED, 
+  DISPLAYLOGIC, DISPLAYLENGTH, SEQNO, SORTNO, ISSAMELINE, ISHEADING, ISFIELDONLY, ISREADONLY, ISENCRYPTEDFIELD, 
+  OBSCURETYPE, COLUMNNAME, COLUMNSQL, FIELDLENGTH, VFORMAT, DEFAULTVALUE, ISKEY, ISPARENT, ISMANDATORY, ISIDENTIFIER, 
+  ISTRANSLATED, AD_REFERENCE_VALUE_ID, CALLOUT, AD_REFERENCE_ID, AD_VAL_RULE_ID, AD_PROCESS_ID, ISALWAYSUPDATEABLE, 
+  READONLYLOGIC, MANDATORYLOGIC, ISUPDATEABLE, ISENCRYPTEDCOLUMN, ISSELECTIONCOLUMN, ISRANGE, TABLENAME, VALUEMIN, VALUEMAX, 
+  FIELDGROUP, VALIDATIONCODE, INCLUDED_TAB_ID, FIELDGROUPTYPE, ISCOLLAPSEDBYDEFAULT, INFOFACTORYCLASS, ISAUTOCOMPLETE, 
+  PREFERREDWIDTH, AD_CHART_ID, ISDISPLAYEDGRID, SEQNOGRID , ISEMBEDDED, ISALLOWCOPY) AS
+  SELECT t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_ID, 
+ f.NAME, f.Description, f.Help, f.IsDisplayed, f.DisplayLogic, f.DisplayLength, 
+ f.SeqNo, f.SortNo, f.IsSameLine, f.IsHeading, f.IsFieldOnly, f.IsReadOnly, 
+ f.IsEncrypted AS IsEncryptedField, f.ObscureType,
+ c.ColumnName, c.ColumnSQL, c.FieldLength, c.VFormat,
+ COALESCE(f.DefaultValue, c.DefaultValue) AS DefaultValue,
+ c.IsKey, c.IsParent, 
+ COALESCE(f.IsMandatory, c.IsMandatory) AS IsMandatory, 
+    c.IsIdentifier, c.IsTranslated, COALESCE(f.AD_Reference_Value_ID, c.AD_Reference_Value_ID) AS AD_Reference_Value_ID, 
+ c.Callout, COALESCE(f.AD_Reference_ID, c.AD_Reference_ID) AS AD_Reference_ID, 
+    COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID) AS AD_Val_Rule_ID, c.AD_Process_ID, c.IsAlwaysUpdateable,
+ c.ReadOnlyLogic, c.MandatoryLogic, c.IsUpdateable, c.IsEncrypted AS IsEncryptedColumn, 
+    c.IsSelectionColumn,c.IsRange,
+ tbl.TableName, c.ValueMin, c.ValueMax,
+ fg.NAME AS FieldGroup, vr.Code AS ValidationCode,
+ f.Included_Tab_ID, fg.FieldGroupType, fg.IsCollapsedByDefault,
+ COALESCE(f.InfoFactoryClass, c.InfoFactoryClass) as InfoFactoryClass,
+ c.IsAutocomplete, f.PreferredWidth, c.AD_Chart_ID , f.ISDISPLAYEDGRID, f.SEQNOGRID , f.isEmbedded , 
+ COALESCE(f.IsAllowCopy, c.IsAllowCopy) AS IsAllowCopy
+FROM AD_FIELD f 
+  INNER JOIN AD_TAB t ON (f.AD_Tab_ID = t.AD_Tab_ID)
+  LEFT OUTER JOIN AD_FIELDGROUP fg ON (f.AD_FieldGroup_ID = fg.AD_FieldGroup_ID) 
+  LEFT OUTER JOIN AD_COLUMN c ON (f.AD_Column_ID = c.AD_Column_ID)
+ INNER JOIN AD_TABLE tbl ON (c.AD_Table_ID = tbl.AD_Table_ID)
+ INNER JOIN AD_REFERENCE r ON (c.AD_Reference_ID = r.AD_Reference_ID)
+ LEFT OUTER JOIN AD_VAL_RULE vr ON (vr.AD_Val_Rule_ID = COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID))
+WHERE f.IsActive = 'Y' 
+  AND c.IsActive = 'Y';
+  
+  DROP VIEW AD_FIELD_VT ;
+CREATE OR REPLACE VIEW AD_FIELD_VT (AD_LANGUAGE, AD_WINDOW_ID, AD_TAB_ID, AD_FIELD_ID, AD_TABLE_ID, 
+    AD_COLUMN_ID, NAME, DESCRIPTION, HELP, ISDISPLAYED, DISPLAYLOGIC, DISPLAYLENGTH, SEQNO, SORTNO, ISSAMELINE, 
+    ISHEADING, ISFIELDONLY, ISREADONLY, ISENCRYPTEDFIELD, OBSCURETYPE, COLUMNNAME, COLUMNSQL, FIELDLENGTH, VFORMAT, 
+    DEFAULTVALUE, ISKEY, ISPARENT, ISMANDATORY, ISIDENTIFIER, ISTRANSLATED, AD_REFERENCE_VALUE_ID, CALLOUT, 
+    AD_REFERENCE_ID, AD_VAL_RULE_ID, AD_PROCESS_ID, ISALWAYSUPDATEABLE, READONLYLOGIC, MANDATORYLOGIC, ISUPDATEABLE, 
+    ISENCRYPTEDCOLUMN, ISSELECTIONCOLUMN, TABLENAME, VALUEMIN, VALUEMAX, FIELDGROUP, VALIDATIONCODE, INCLUDED_TAB_ID, 
+    FIELDGROUPTYPE, ISCOLLAPSEDBYDEFAULT, INFOFACTORYCLASS, ISAUTOCOMPLETE,
+    PREFERREDWITH, AD_CHART_ID, ISDISPLAYEDGRID, SEQNOGRID ,  ISEMBEDDED , ISALLOWCOPY) AS 
+    SELECT trl.AD_LANGUAGE, t.AD_Window_ID, f.AD_Tab_ID, f.AD_Field_ID, tbl.AD_Table_ID, f.AD_Column_ID, 
+   trl.NAME, trl.Description, trl.Help, f.IsDisplayed, f.DisplayLogic, f.DisplayLength, 
+   f.SeqNo, f.SortNo, f.IsSameLine, f.IsHeading, f.IsFieldOnly, f.IsReadOnly, 
+   f.IsEncrypted AS IsEncryptedField, f.ObscureType,
+   c.ColumnName, c.ColumnSQL, c.FieldLength, c.VFormat,
+   COALESCE(f.DefaultValue, c.DefaultValue) AS DefaultValue,
+   c.IsKey, c.IsParent, 
+   COALESCE(f.IsMandatory, c.IsMandatory) AS IsMandatory, 
+      c.IsIdentifier, c.IsTranslated, COALESCE(f.AD_Reference_Value_ID, c.AD_Reference_Value_ID) AS AD_Reference_Value_ID, 
+   c.Callout, COALESCE(f.AD_Reference_ID, c.AD_Reference_ID) AS AD_Reference_ID, 
+      COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID) as AD_Val_Rule_ID, c.AD_Process_ID, c.IsAlwaysUpdateable,
+   c.ReadOnlyLogic, c.MandatoryLogic, c.IsUpdateable, c.IsEncrypted AS IsEncryptedColumn, c.IsSelectionColumn,
+   tbl.TableName, c.ValueMin, c.ValueMax, 
+   fgt.NAME AS FieldGroup, vr.Code AS ValidationCode,
+   f.Included_Tab_ID, fg.FieldGroupType, fg.IsCollapsedByDefault,
+   COALESCE(f.InfoFactoryClass, c.InfoFactoryClass) as InfoFactoryClass,
+   c.IsAutocomplete, f.PreferredWidth, c.AD_Chart_ID , f.ISDISPLAYEDGRID, f.SEQNOGRID , f.isEmbedded ,
+  COALESCE(f.IsAllowCopy, c.IsAllowCopy) AS IsAllowCopy
+  FROM AD_FIELD f 
+   INNER JOIN AD_FIELD_TRL trl ON (f.AD_Field_ID = trl.AD_Field_ID)
+    INNER JOIN AD_TAB t ON (f.AD_Tab_ID = t.AD_Tab_ID)
+    LEFT OUTER JOIN AD_FIELDGROUP fg ON (f.AD_FieldGroup_ID = fg.AD_FieldGroup_ID) 
+    LEFT OUTER JOIN AD_FIELDGROUP_TRL fgt ON 
+   (f.AD_FieldGroup_ID = fgt.AD_FieldGroup_ID AND trl.AD_LANGUAGE=fgt.AD_LANGUAGE)
+    LEFT OUTER JOIN AD_COLUMN c ON (f.AD_Column_ID = c.AD_Column_ID)
+   INNER JOIN AD_TABLE tbl ON (c.AD_Table_ID = tbl.AD_Table_ID)
+   INNER JOIN AD_REFERENCE r ON (c.AD_Reference_ID = r.AD_Reference_ID)
+   LEFT OUTER JOIN AD_VAL_RULE vr ON (vr.AD_Val_Rule_ID=COALESCE(f.AD_Val_Rule_ID, c.AD_Val_Rule_ID))
+  WHERE f.IsActive = 'Y' 
+  AND c.IsActive = 'Y';
+</RollbackStatement>
+    </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="80" StepType="SQL">
+      <SQLStatement>UPDATE AD_Field SET IsQuickEntry='Y' WHERE IsMandatory='Y';</SQLStatement>
+      <RollbackStatement>UPDATE AD_Field SET IsQuickEntry='N' WHERE IsMandatory='Y';</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

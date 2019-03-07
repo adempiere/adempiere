@@ -1,0 +1,2747 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add new Relation type for Order and BP #1423" ReleaseNo="3.9.1" SeqNo="3180">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1423</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53951" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-27 19:22:04.586</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53951</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-27 19:22:04.586</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Order (Sales) =&gt; Sales Invoice (Open)</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds Sales Invoice Open</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Order (Sales) =&gt; Sales Invoice (Open)</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-27 19:22:05.589</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-27 19:22:05.589</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds Sales Invoice Open</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53951</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53951" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-27 19:25:28.289</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-27 19:25:28.289</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">3492</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">318</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">167</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">3484</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">C_Invoice.C_BPartner_ID = @C_BPartner_ID@
+AND C_Invoice.IsSOTrx = 'Y'
+AND invoiceOpen(C_Invoice.C_Invoice_ID, 0) &lt;&gt; 0</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53951</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53952" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-27 19:26:11.547</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53952</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-27 19:26:11.547</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Order (Vendor) =&gt; Invoice Vendor (Open)</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds Vendor Invoice Open</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Order (Vendor) =&gt; Invoice Vendor (Open)</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-27 19:26:12.371</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-27 19:26:12.371</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds Vendor Invoice Open</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53952</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53952" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-27 19:26:46.765</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-27 19:26:46.765</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">5531</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">423</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="144" Column="AD_Key">5522</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">C_Invoice.C_BPartner_ID = @C_BPartner_ID@
+AND C_Invoice.IsSOTrx = 'N'
+AND invoiceOpen(C_Invoice.C_Invoice_ID, 0) &lt;&gt; 0</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53952</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="102" Action="U" Record_ID="53951" Table="AD_Reference">
+        <Data AD_Column_ID="130" Column="Name" oldValue="RelType C_Order (Sales) =&gt; Sales Invoice (Open)">RelType C_Order (Sales) =&gt; C_Invoice_ID Sales Invoice (Open)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="102" Action="U" Record_ID="53952" Table="AD_Reference">
+        <Data AD_Column_ID="130" Column="Name" oldValue="RelType C_Order (Vendor) =&gt; Invoice Vendor (Open)">RelType C_Order (Vendor) =&gt; C_Invoice_ID Invoice (Open)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="103" Action="U" Record_ID="53952" Table="AD_Ref_Table">
+        <Data AD_Column_ID="57270" Column="AD_Window_ID" isOldNull="true">183</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="103" Action="U" Record_ID="53952" Table="AD_Ref_Table">
+        <Data AD_Column_ID="146" Column="WhereClause" oldValue="C_Invoice.C_BPartner_ID = @C_BPartner_ID@&#10;AND C_Invoice.IsSOTrx = 'N'&#10;AND invoiceOpen(C_Invoice.C_Invoice_ID, 0) &lt;&gt; 0">EXISTS(SELECT 1 FROM C_OrderLine ol
+	INNER JOIN C_InvoiceLine il ON(il.C_OrderLine_ID = ol.C_OrderLine_ID)
+	WHERE il.C_Invoice_ID = C_Invoice.C_Invoice_ID
+	AND ol.C_Order_ID = @C_Order_ID@)
+AND C_Invoice.IsSOTrx = 'Y'
+AND invoiceOpen(C_Invoice.C_Invoice_ID, 0) &lt;&gt; 0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="103" Action="U" Record_ID="53951" Table="AD_Ref_Table">
+        <Data AD_Column_ID="146" Column="WhereClause" oldValue="C_Invoice.C_BPartner_ID = @C_BPartner_ID@&#10;AND C_Invoice.IsSOTrx = 'Y'&#10;AND invoiceOpen(C_Invoice.C_Invoice_ID, 0) &lt;&gt; 0">EXISTS(SELECT 1 FROM C_OrderLine ol
+	INNER JOIN C_InvoiceLine il ON(il.C_OrderLine_ID = ol.C_OrderLine_ID)
+	WHERE il.C_Invoice_ID = C_Invoice.C_Invoice_ID
+	AND ol.C_Order_ID = @C_Order_ID@)
+AND C_Invoice.IsSOTrx = 'Y'
+AND invoiceOpen(C_Invoice.C_Invoice_ID, 0) &lt;&gt; 0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53953" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-27 19:58:12.432</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53953</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-27 19:58:12.432</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Order =&gt; C_Payment_ID Unallocated Payments</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds Unallocated Payments</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Order =&gt; C_Payment_ID Unallocated Payments</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-27 19:58:13.263</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-27 19:58:13.263</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds Unallocated Payments</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53953</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53953" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-27 19:59:03.443</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-27 19:59:03.443</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">5401</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">335</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">195</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">5043</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">C_Payment.C_Order_ID = @C_Order_ID@
+AND C_Payment.IsAllocated = 'N'</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53953</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53954" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-27 19:59:20.521</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53954</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-27 19:59:20.521</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Order &lt;= C_Payment_ID Payments</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds Payments</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Order &lt;= C_Payment_ID Payments</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-27 19:59:21.321</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-27 19:59:21.321</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds Payments</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53954</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53954" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-27 19:59:59.783</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-27 19:59:59.783</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">2169</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">259</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="144" Column="AD_Key">2161</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">C_Order.C_Order_ID = @C_Order_ID@</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53954</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55030" Table="AD_Ref_List">
+        <Data AD_Column_ID="564" Column="Created">2017-10-27 20:03:12.303</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-10-27 20:03:12.303</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55030</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="200" Column="Value">InvoicesOpen</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53331</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Invoices Open</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="84390" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55030" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-10-27 20:03:13.185</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-10-27 20:03:13.185</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Invoices Open</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55030</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55030" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Invoices Open">Facturas Pendientes</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55030">55030</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55031" Table="AD_Ref_List">
+        <Data AD_Column_ID="564" Column="Created">2017-10-27 20:03:52.169</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-10-27 20:03:52.169</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55031</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="200" Column="Value">UnallocatedPayments</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53331</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Unallocated Payments</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="84390" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55031" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-10-27 20:03:53.019</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-10-27 20:03:53.019</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Unallocated Payments</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55031</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55031" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Unallocated Payments">Pagos sin Asignar</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55031">55031</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="53246" Action="I" Record_ID="50036" Table="AD_RelationType">
+        <Data AD_Column_ID="58571" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58572" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58575" Column="Created">2017-10-27 20:04:52.824</Data>
+        <Data AD_Column_ID="58578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58574" Column="AD_RelationType_ID">50036</Data>
+        <Data AD_Column_ID="58580" Column="Updated">2017-10-27 20:04:52.824</Data>
+        <Data AD_Column_ID="58576" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58577" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58579" Column="Name">Order (Sales) &lt;-&gt; Invoice (Open)</Data>
+        <Data AD_Column_ID="58581" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58582" Column="AD_Reference_Source_ID">53951</Data>
+        <Data AD_Column_ID="58583" Column="AD_Reference_Target_ID">53333</Data>
+        <Data AD_Column_ID="58584" Column="IsDirected">false</Data>
+        <Data AD_Column_ID="58585" Column="Role_Source">InvoicesOpen</Data>
+        <Data AD_Column_ID="58586" Column="Role_Target">Order</Data>
+        <Data AD_Column_ID="58587" Column="Type">I</Data>
+        <Data AD_Column_ID="84396" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53955" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-27 20:06:54.864</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53955</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-27 20:06:54.864</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Order (Purchase) &lt;= C_Invoice_ID (Vendor)</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds C_Order_IDs for a given C_Invoice_ID</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Order (Purchase) &lt;= C_Invoice_ID (Vendor)</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-27 20:06:55.715</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-27 20:06:55.715</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds C_Order_IDs for a given C_Invoice_ID</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53955</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53955" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-27 20:07:54.498</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-27 20:07:54.498</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">2169</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">259</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="144" Column="AD_Key">2161</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause" isNewNull="true"/>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53955</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="103" Action="U" Record_ID="53955" Table="AD_Ref_Table">
+        <Data AD_Column_ID="146" Column="WhereClause" isOldNull="true">C_Order_ID IN (
+  select o.c_order_id from c_order o
+    left join c_orderline ol on o.c_order_id = ol.c_order_id
+    left join c_invoiceline il on ol.c_orderline_id = il.c_orderline_id
+  where il.C_Invoice_ID=@C_Invoice_ID@ AND o.isSOTrx='N'
+)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="53246" Action="I" Record_ID="50037" Table="AD_RelationType">
+        <Data AD_Column_ID="58571" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58572" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58575" Column="Created">2017-10-27 20:08:18.081</Data>
+        <Data AD_Column_ID="58578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58574" Column="AD_RelationType_ID">50037</Data>
+        <Data AD_Column_ID="58580" Column="Updated">2017-10-27 20:08:18.081</Data>
+        <Data AD_Column_ID="58576" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58577" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58579" Column="Name">Order (Purchase) &lt;-&gt; Invoice (Vendor)</Data>
+        <Data AD_Column_ID="58581" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58582" Column="AD_Reference_Source_ID">53952</Data>
+        <Data AD_Column_ID="58583" Column="AD_Reference_Target_ID">53955</Data>
+        <Data AD_Column_ID="58584" Column="IsDirected">false</Data>
+        <Data AD_Column_ID="58585" Column="Role_Source">InvoicesOpen</Data>
+        <Data AD_Column_ID="58586" Column="Role_Target">Order</Data>
+        <Data AD_Column_ID="58587" Column="Type">I</Data>
+        <Data AD_Column_ID="84396" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="53246" Action="I" Record_ID="50038" Table="AD_RelationType">
+        <Data AD_Column_ID="58571" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58572" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58575" Column="Created">2017-10-27 20:08:59.774</Data>
+        <Data AD_Column_ID="58578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58574" Column="AD_RelationType_ID">50038</Data>
+        <Data AD_Column_ID="58580" Column="Updated">2017-10-27 20:08:59.774</Data>
+        <Data AD_Column_ID="58576" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58577" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58579" Column="Name">Order &lt;-&gt; Unallocated Payments</Data>
+        <Data AD_Column_ID="58581" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58582" Column="AD_Reference_Source_ID">53953</Data>
+        <Data AD_Column_ID="58583" Column="AD_Reference_Target_ID">53954</Data>
+        <Data AD_Column_ID="58584" Column="IsDirected">false</Data>
+        <Data AD_Column_ID="58585" Column="Role_Source">UnallocatedPayments</Data>
+        <Data AD_Column_ID="58586" Column="Role_Target">Order</Data>
+        <Data AD_Column_ID="58587" Column="Type">I</Data>
+        <Data AD_Column_ID="84396" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53956" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-27 20:10:26.602</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53956</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-27 20:10:26.602</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_BPartner =&gt; C_Payment_ID Unallocated Payments</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds Unallocated Payments</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_BPartner =&gt; C_Payment_ID Unallocated Payments</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-27 20:10:27.401</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-27 20:10:27.401</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds Unallocated Payments</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53956</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53956" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-27 20:11:23.785</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-27 20:11:23.785</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">5401</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">335</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">195</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">5043</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">C_Payment.C_BPartner_ID = @C_BPartner_ID@
+AND C_Payment.IsAllocated = 'N'</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53956</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53957" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-27 20:12:47.99</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53957</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-27 20:12:47.99</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_BPartner &lt;= C_Payment_ID Payments</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds Business Partner</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_BPartner &lt;= C_Payment_ID Payments</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-27 20:12:49.869</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-27 20:12:49.869</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds Business Partner</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53957</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53957" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-27 20:13:51.586</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-27 20:13:51.586</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">2902</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">291</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">123</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">2893</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">C_BPartner.C_BPartner_ID = @C_BPartner_ID@</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53957</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="53246" Action="I" Record_ID="50039" Table="AD_RelationType">
+        <Data AD_Column_ID="58571" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58572" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58575" Column="Created">2017-10-27 20:14:08.568</Data>
+        <Data AD_Column_ID="58578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58574" Column="AD_RelationType_ID">50039</Data>
+        <Data AD_Column_ID="58580" Column="Updated">2017-10-27 20:14:08.568</Data>
+        <Data AD_Column_ID="58576" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58577" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58579" Column="Name">Business Partner &lt;-&gt; Unallocated Payments</Data>
+        <Data AD_Column_ID="58581" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58582" Column="AD_Reference_Source_ID">53956</Data>
+        <Data AD_Column_ID="58583" Column="AD_Reference_Target_ID">53957</Data>
+        <Data AD_Column_ID="58584" Column="IsDirected">false</Data>
+        <Data AD_Column_ID="58585" Column="Role_Source">UnallocatedPayments</Data>
+        <Data AD_Column_ID="58586" Column="Role_Target" isNewNull="true"/>
+        <Data AD_Column_ID="58587" Column="Type">I</Data>
+        <Data AD_Column_ID="84396" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="103" Action="U" Record_ID="53952" Table="AD_Ref_Table">
+        <Data AD_Column_ID="145" Column="AD_Display" oldValue="5531">3492</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID" oldValue="423">318</Data>
+        <Data AD_Column_ID="144" Column="AD_Key" oldValue="5522">3484</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="104" Action="U" Record_ID="55030" Table="AD_Ref_List">
+        <Data AD_Column_ID="200" Column="Value" oldValue="InvoicesOpen">InvoiceOpen</Data>
+        <Data AD_Column_ID="149" Column="Name" oldValue="Invoices Open">Invoice Open</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53958" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-27 20:31:49.973</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53958</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-27 20:31:49.973</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_BPartner =&gt; C_Invoice_ID (Open)</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds Invoice Open from BP</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_BPartner =&gt; C_Invoice_ID (Open)</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-27 20:31:50.776</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-27 20:31:50.776</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds Invoice Open from BP</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53958</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53958" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-27 20:33:12.401</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-27 20:33:12.401</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">3492</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">318</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">167</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">3484</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">C_Invoice.C_BPartner_ID = @C_BPartner_ID@
+AND C_Invoice.IsSOTrx = 'Y'
+AND invoiceOpen(C_Invoice.C_Invoice_ID, 0) &lt;&gt; 0</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53958</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="102" Action="U" Record_ID="53958" Table="AD_Reference">
+        <Data AD_Column_ID="130" Column="Name" oldValue="RelType C_BPartner =&gt; C_Invoice_ID (Open)">RelType C_BPartner =&gt; C_Invoice_ID Sales (Open)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53959" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-27 20:33:38.947</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53959</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-27 20:33:38.947</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_BPartner =&gt; C_Invoice_ID Vendor (Open)</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds Invoice Open from BP</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_BPartner =&gt; C_Invoice_ID Vendor (Open)</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-27 20:33:39.895</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-27 20:33:39.895</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds Invoice Open from BP</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53959</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53959" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-27 20:34:08.118</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-27 20:34:08.118</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">5531</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">423</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">183</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">5522</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">C_Invoice.C_BPartner_ID = @C_BPartner_ID@
+AND C_Invoice.IsSOTrx = 'N'
+AND invoiceOpen(C_Invoice.C_Invoice_ID, 0) &lt;&gt; 0</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53959</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53960" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-27 20:35:22.188</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53960</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-27 20:35:22.188</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_BPartner &lt;= C_Invoice Invoice</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds Business Partner</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_BPartner &lt;= C_Invoice Invoice</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-27 20:35:23.001</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-27 20:35:23.001</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds Business Partner</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53960</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53960" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-27 20:36:07.817</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-27 20:36:07.817</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">2902</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">291</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="144" Column="AD_Key">2893</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">C_BPartner.C_BPartner_ID = @C_BPartner_ID@</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53960</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="500" StepType="AD">
+      <PO AD_Table_ID="53246" Action="I" Record_ID="50040" Table="AD_RelationType">
+        <Data AD_Column_ID="58571" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58572" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58575" Column="Created">2017-10-27 20:36:19.838</Data>
+        <Data AD_Column_ID="58578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58574" Column="AD_RelationType_ID">50040</Data>
+        <Data AD_Column_ID="58580" Column="Updated">2017-10-27 20:36:19.838</Data>
+        <Data AD_Column_ID="58576" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58577" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58579" Column="Name">Business Partner &lt;-&gt; Sales Invoice (Open)</Data>
+        <Data AD_Column_ID="58581" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58582" Column="AD_Reference_Source_ID">53958</Data>
+        <Data AD_Column_ID="58583" Column="AD_Reference_Target_ID">53960</Data>
+        <Data AD_Column_ID="58584" Column="IsDirected">false</Data>
+        <Data AD_Column_ID="58585" Column="Role_Source">InvoicesOpen</Data>
+        <Data AD_Column_ID="58586" Column="Role_Target" isNewNull="true"/>
+        <Data AD_Column_ID="58587" Column="Type">I</Data>
+        <Data AD_Column_ID="84396" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="510" StepType="AD">
+      <PO AD_Table_ID="53246" Action="I" Record_ID="50041" Table="AD_RelationType">
+        <Data AD_Column_ID="58571" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58572" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58575" Column="Created">2017-10-27 20:36:35.757</Data>
+        <Data AD_Column_ID="58578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58574" Column="AD_RelationType_ID">50041</Data>
+        <Data AD_Column_ID="58580" Column="Updated">2017-10-27 20:36:35.757</Data>
+        <Data AD_Column_ID="58576" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58577" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58579" Column="Name">Business Partner &lt;-&gt; Invoice Vendor (Open)</Data>
+        <Data AD_Column_ID="58581" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58582" Column="AD_Reference_Source_ID">53959</Data>
+        <Data AD_Column_ID="58583" Column="AD_Reference_Target_ID">53960</Data>
+        <Data AD_Column_ID="58584" Column="IsDirected">false</Data>
+        <Data AD_Column_ID="58585" Column="Role_Source">InvoicesOpen</Data>
+        <Data AD_Column_ID="58586" Column="Role_Target" isNewNull="true"/>
+        <Data AD_Column_ID="58587" Column="Type">I</Data>
+        <Data AD_Column_ID="84396" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="520" StepType="AD">
+      <PO AD_Table_ID="103" Action="U" Record_ID="53959" Table="AD_Ref_Table">
+        <Data AD_Column_ID="145" Column="AD_Display" oldValue="5531">3492</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID" oldValue="423">318</Data>
+        <Data AD_Column_ID="144" Column="AD_Key" oldValue="5522">3484</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="530" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55032" Table="AD_Ref_List">
+        <Data AD_Column_ID="564" Column="Created">2017-10-27 20:40:50.757</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-10-27 20:40:50.757</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55032</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="200" Column="Value">SalesInvoiceOpen</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53331</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Sales Invoice Open</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="84390" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="540" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55032" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-10-27 20:40:51.677</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-10-27 20:40:51.677</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Sales Invoice Open</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55032</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="550" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55032" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Sales Invoice Open">Documentos por Cobrar (Pendientes)</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55032">55032</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="560" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55033" Table="AD_Ref_List">
+        <Data AD_Column_ID="564" Column="Created">2017-10-27 20:41:36.992</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-10-27 20:41:36.992</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55033</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="200" Column="Value">VendorInvoiceOpen</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53331</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Vendor Invoice Open</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="84390" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="570" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55033" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-10-27 20:41:37.812</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-10-27 20:41:37.812</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Vendor Invoice Open</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55033</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="580" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55033" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Vendor Invoice Open">Documentos por Pagar (Pendientes)</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55033">55033</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="590" StepType="AD">
+      <PO AD_Table_ID="53246" Action="U" Record_ID="50041" Table="AD_RelationType">
+        <Data AD_Column_ID="58585" Column="Role_Source" oldValue="InvoicesOpen">VendorInvoiceOpen</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="600" StepType="AD">
+      <PO AD_Table_ID="53246" Action="U" Record_ID="50040" Table="AD_RelationType">
+        <Data AD_Column_ID="58585" Column="Role_Source" oldValue="InvoicesOpen">SalesInvoiceOpen</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="610" StepType="AD">
+      <PO AD_Table_ID="53246" Action="U" Record_ID="50036" Table="AD_RelationType">
+        <Data AD_Column_ID="58585" Column="Role_Source" isNewNull="true" oldValue="InvoicesOpen"/>
+      </PO>
+    </Step>
+    <Step SeqNo="620" StepType="AD">
+      <PO AD_Table_ID="53246" Action="U" Record_ID="50037" Table="AD_RelationType">
+        <Data AD_Column_ID="58585" Column="Role_Source" isNewNull="true" oldValue="InvoicesOpen"/>
+      </PO>
+    </Step>
+    <Step SeqNo="630" StepType="AD">
+      <PO AD_Table_ID="53246" Action="U" Record_ID="50037" Table="AD_RelationType">
+        <Data AD_Column_ID="58585" Column="Role_Source" isOldNull="true">InvoiceOpen</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="640" StepType="AD">
+      <PO AD_Table_ID="53246" Action="U" Record_ID="50037" Table="AD_RelationType">
+        <Data AD_Column_ID="58585" Column="Role_Source" oldValue="InvoiceOpen">VendorInvoiceOpen</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="650" StepType="AD">
+      <PO AD_Table_ID="53246" Action="U" Record_ID="50036" Table="AD_RelationType">
+        <Data AD_Column_ID="58585" Column="Role_Source" isOldNull="true">SalesInvoiceOpen</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="660" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53961" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-28 22:31:29.321</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53961</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-28 22:31:29.321</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Payment =&gt; C_BankStatement_ID</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds Payment in Bank Statement</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="670" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Payment =&gt; C_BankStatement_ID</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-28 22:31:30.261</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-28 22:31:30.261</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds Payment in Bank Statement</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53961</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="680" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53961" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-28 22:33:55.74</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-28 22:33:55.74</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">5214</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">392</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">194</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">4909</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">EXISTS(SELECT 1 FROM C_BankStatementLine bsl 
+	WHERE bsl.C_BankStatement_ID = C_BankStatement.C_BankStatement_ID
+	AND bsl.C_Payment_ID = @C_Payment_ID@)</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53961</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="690" StepType="AD">
+      <PO AD_Table_ID="102" Action="U" Record_ID="53955" Table="AD_Reference">
+        <Data AD_Column_ID="130" Column="Name" oldValue="RelType C_Order (Purchase) &lt;= C_Invoice_ID (Vendor)">RelType C_Order (Vendor) &lt;= C_Invoice_ID (Vendor)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="700" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53962" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-28 22:37:29.908</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53962</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-28 22:37:29.908</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Payment &lt;= C_BankStatement_ID</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds C_Payment_IDs for a given C_BankStatement_ID</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="710" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Payment &lt;= C_BankStatement_ID</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-28 22:37:30.846</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-28 22:37:30.846</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds C_Payment_IDs for a given C_BankStatement_ID</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53962</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="720" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53962" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-28 22:38:56.791</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-28 22:38:56.791</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">5401</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">335</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">195</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">5043</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">EXISTS(SELECT 1 FROM C_BankStatementLine bsl 
+	WHERE bsl.C_BankStatement_ID = @C_BankStatement_ID@
+	AND bsl.C_Payment_ID = C_Payment.C_Payment_ID)</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53962</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="730" StepType="AD">
+      <PO AD_Table_ID="53246" Action="I" Record_ID="50042" Table="AD_RelationType">
+        <Data AD_Column_ID="58571" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58572" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58575" Column="Created">2017-10-28 22:39:43.661</Data>
+        <Data AD_Column_ID="58578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58574" Column="AD_RelationType_ID">50042</Data>
+        <Data AD_Column_ID="58580" Column="Updated">2017-10-28 22:39:43.661</Data>
+        <Data AD_Column_ID="58576" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58577" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58579" Column="Name">Payment &lt;-&gt; Bank Statement</Data>
+        <Data AD_Column_ID="58581" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58582" Column="AD_Reference_Source_ID">53961</Data>
+        <Data AD_Column_ID="58583" Column="AD_Reference_Target_ID">53962</Data>
+        <Data AD_Column_ID="58584" Column="IsDirected">false</Data>
+        <Data AD_Column_ID="58585" Column="Role_Source" isNewNull="true"/>
+        <Data AD_Column_ID="58586" Column="Role_Target" isNewNull="true"/>
+        <Data AD_Column_ID="58587" Column="Type">I</Data>
+        <Data AD_Column_ID="84396" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="740" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53963" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-28 22:55:19.416</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53963</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-28 22:55:19.416</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Invoice =&gt; C_AllocationHdr_ID Allocations</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds Allocations for Invoice</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="750" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Invoice =&gt; C_AllocationHdr_ID Allocations</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-28 22:55:20.307</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-28 22:55:20.307</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds Allocations for Invoice</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53963</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="760" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53963" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-28 23:00:29.997</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-28 23:00:29.997</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">12323</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">735</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">205</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">12310</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">EXISTS(SELECT 1 FROM C_AllocationLine al
+	al.C_AllocationHdr_ID = C_AllocationHdr.C_AllocationHdr_ID
+	AND al.C_Invoice_ID = @C_Invoice_ID@)</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53963</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="770" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53964" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-28 23:01:25.815</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53964</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-28 23:01:25.815</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Invoice &lt;= C_AllocationHdr_ID</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds C_Invoice_IDs for a given C_AllocationHdr_ID</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="780" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Invoice &lt;= C_AllocationHdr_ID</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-28 23:01:26.787</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-28 23:01:26.787</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds C_Invoice_IDs for a given C_AllocationHdr_ID</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53964</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="790" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53964" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-28 23:02:58.04</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-28 23:02:58.04</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">3492</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">318</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="144" Column="AD_Key">3484</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">EXISTS(SELECT 1 FROM C_AllocationLine al
+	al.C_AllocationHdr_ID = @C_AllocationHdr_ID@
+	AND al.C_Invoice_ID = C_Invoice.C_Invoice_ID)</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53964</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="800" StepType="AD">
+      <PO AD_Table_ID="53246" Action="I" Record_ID="50043" Table="AD_RelationType">
+        <Data AD_Column_ID="58571" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58572" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58575" Column="Created">2017-10-28 23:04:00.221</Data>
+        <Data AD_Column_ID="58578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58574" Column="AD_RelationType_ID">50043</Data>
+        <Data AD_Column_ID="58580" Column="Updated">2017-10-28 23:04:00.221</Data>
+        <Data AD_Column_ID="58576" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58577" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58579" Column="Name">Invoice &lt;-&gt; Allocations</Data>
+        <Data AD_Column_ID="58581" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58582" Column="AD_Reference_Source_ID">53963</Data>
+        <Data AD_Column_ID="58583" Column="AD_Reference_Target_ID">53964</Data>
+        <Data AD_Column_ID="58584" Column="IsDirected">false</Data>
+        <Data AD_Column_ID="58585" Column="Role_Source" isNewNull="true"/>
+        <Data AD_Column_ID="58586" Column="Role_Target" isNewNull="true"/>
+        <Data AD_Column_ID="58587" Column="Type">I</Data>
+        <Data AD_Column_ID="84396" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="810" StepType="AD">
+      <PO AD_Table_ID="103" Action="U" Record_ID="53963" Table="AD_Ref_Table">
+        <Data AD_Column_ID="146" Column="WhereClause" oldValue="EXISTS(SELECT 1 FROM C_AllocationLine al&#10;&#9;al.C_AllocationHdr_ID = C_AllocationHdr.C_AllocationHdr_ID&#10;&#9;AND al.C_Invoice_ID = @C_Invoice_ID@)">EXISTS(SELECT 1 FROM C_AllocationLine al
+	WHERE al.C_AllocationHdr_ID = C_AllocationHdr.C_AllocationHdr_ID
+	AND al.C_Invoice_ID = @C_Invoice_ID@)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="820" StepType="AD">
+      <PO AD_Table_ID="103" Action="U" Record_ID="53964" Table="AD_Ref_Table">
+        <Data AD_Column_ID="146" Column="WhereClause" oldValue="EXISTS(SELECT 1 FROM C_AllocationLine al&#10;&#9;al.C_AllocationHdr_ID = @C_AllocationHdr_ID@&#10;&#9;AND al.C_Invoice_ID = C_Invoice.C_Invoice_ID)">EXISTS(SELECT 1 FROM C_AllocationLine al
+	WHERE al.C_AllocationHdr_ID = @C_AllocationHdr_ID@
+	AND al.C_Invoice_ID = C_Invoice.C_Invoice_ID)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="830" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53965" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-28 23:11:17.117</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53965</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-28 23:11:17.117</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Invoice =&gt; C_Payment_ID Allocations</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds Payment Allocated for Invoice</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="840" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Invoice =&gt; C_Payment_ID Allocations</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-28 23:11:18.1</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-28 23:11:18.1</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds Payment Allocated for Invoice</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53965</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="850" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53965" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-28 23:12:47.294</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-28 23:12:47.294</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">5401</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">335</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">195</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">5043</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">EXISTS(SELECT 1 FROM C_AllocationLine al
+	WHERE al.C_Payment_ID = C_Payment.C_Payment_ID
+	AND al.C_Invoice_ID = @C_Invoice_ID@)</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53965</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="860" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53966" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-28 23:13:17.028</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53966</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-28 23:13:17.028</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Invoice &lt;= C_Payment_ID</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds C_Invoice_IDs for a given C_Payment_ID</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="870" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Invoice &lt;= C_Payment_ID</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-28 23:13:17.994</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-28 23:13:17.994</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds C_Invoice_IDs for a given C_Payment_ID</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53966</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="880" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53966" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-28 23:14:12.657</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-28 23:14:12.657</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">3492</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">318</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="144" Column="AD_Key">3484</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">EXISTS(SELECT 1 FROM C_AllocationLine al
+	WHERE al.C_Payment_ID = @C_Payment_ID@
+	AND al.C_Invoice_ID = C_Invoice.C_Invoice_ID)</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53966</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="890" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55034" Table="AD_Ref_List">
+        <Data AD_Column_ID="564" Column="Created">2017-10-28 23:15:40.001</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-10-28 23:15:40.001</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55034</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="200" Column="Value">SalesInvoiceAllocated</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53331</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Sales Invoice Allocated</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="84390" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="900" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55034" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-10-28 23:15:40.985</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-10-28 23:15:40.985</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Sales Invoice Allocated</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55034</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="910" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55034" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Sales Invoice Allocated">Documentos por Cobrar (Asignados)</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55034">55034</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="920" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55035" Table="AD_Ref_List">
+        <Data AD_Column_ID="564" Column="Created">2017-10-28 23:16:33.383</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-10-28 23:16:33.383</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55035</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="200" Column="Value">VendorInvoiceAllocated</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53331</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Vendor Invoice Allocated</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="84390" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="930" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55035" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-10-28 23:16:34.356</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-10-28 23:16:34.356</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Vendor Invoice Allocated</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55035</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="940" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55035" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Vendor Invoice Allocated">Documentos por Pagar (Asignados)</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55035">55035</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="950" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55036" Table="AD_Ref_List">
+        <Data AD_Column_ID="564" Column="Created">2017-10-28 23:17:11.808</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-10-28 23:17:11.808</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55036</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="200" Column="Value">PaymentAllocated</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53331</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Payment Allocated</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="84390" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="960" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55036" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-10-28 23:17:12.776</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-10-28 23:17:12.776</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Payment Allocated</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55036</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="970" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55036" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Payment Allocated">Pagos Asignados</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55036">55036</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="980" StepType="AD">
+      <PO AD_Table_ID="102" Action="U" Record_ID="53966" Table="AD_Reference">
+        <Data AD_Column_ID="130" Column="Name" oldValue="RelType C_Invoice &lt;= C_Payment_ID">RelType C_Invoice (Vendor) &lt;= C_Payment_ID</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="990" StepType="AD">
+      <PO AD_Table_ID="103" Action="U" Record_ID="53966" Table="AD_Ref_Table">
+        <Data AD_Column_ID="57270" Column="AD_Window_ID" isOldNull="true">183</Data>
+        <Data AD_Column_ID="146" Column="WhereClause" oldValue="EXISTS(SELECT 1 FROM C_AllocationLine al&#10;&#9;WHERE al.C_Payment_ID = @C_Payment_ID@&#10;&#9;AND al.C_Invoice_ID = C_Invoice.C_Invoice_ID)">EXISTS(SELECT 1 FROM C_AllocationLine al
+	WHERE al.C_Payment_ID = @C_Payment_ID@
+	AND al.C_Invoice_ID = C_Invoice.C_Invoice_ID)
+AND C_Invoice.IsSOTrx = 'N'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1000" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53967" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-28 23:18:40.925</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53967</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-28 23:18:40.925</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Invoice (Customer) &lt;= C_Payment_ID</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds C_Invoice_IDs for a given C_Payment_ID</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1010" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Invoice (Customer) &lt;= C_Payment_ID</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-28 23:18:41.853</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-28 23:18:41.853</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds C_Invoice_IDs for a given C_Payment_ID</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53967</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1020" StepType="AD">
+      <PO AD_Table_ID="102" Action="U" Record_ID="53967" Table="AD_Reference">
+        <Data AD_Column_ID="6486" Column="EntityType" oldValue="U">ECA02</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1030" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53967" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-28 23:19:12.752</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-28 23:19:12.752</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">3492</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">318</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">167</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">3484</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">EXISTS(SELECT 1 FROM C_AllocationLine al
+	WHERE al.C_Payment_ID = @C_Payment_ID@
+	AND al.C_Invoice_ID = C_Invoice.C_Invoice_ID)
+AND C_Invoice.IsSOTrx = 'Y'</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53967</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1040" StepType="AD">
+      <PO AD_Table_ID="53246" Action="I" Record_ID="50044" Table="AD_RelationType">
+        <Data AD_Column_ID="58571" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58572" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58575" Column="Created">2017-10-28 23:20:37.319</Data>
+        <Data AD_Column_ID="58578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58574" Column="AD_RelationType_ID">50044</Data>
+        <Data AD_Column_ID="58580" Column="Updated">2017-10-28 23:20:37.319</Data>
+        <Data AD_Column_ID="58576" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58577" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58579" Column="Name">Invoice (Vendor) &lt;-&gt; Payments</Data>
+        <Data AD_Column_ID="58581" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58582" Column="AD_Reference_Source_ID">53965</Data>
+        <Data AD_Column_ID="58583" Column="AD_Reference_Target_ID">53966</Data>
+        <Data AD_Column_ID="58584" Column="IsDirected">false</Data>
+        <Data AD_Column_ID="58585" Column="Role_Source">PaymentAllocated</Data>
+        <Data AD_Column_ID="58586" Column="Role_Target">VendorInvoiceAllocated</Data>
+        <Data AD_Column_ID="58587" Column="Type">I</Data>
+        <Data AD_Column_ID="84396" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1050" StepType="AD">
+      <PO AD_Table_ID="53246" Action="I" Record_ID="50045" Table="AD_RelationType">
+        <Data AD_Column_ID="58571" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58572" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58575" Column="Created">2017-10-28 23:20:59.77</Data>
+        <Data AD_Column_ID="58578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58574" Column="AD_RelationType_ID">50045</Data>
+        <Data AD_Column_ID="58580" Column="Updated">2017-10-28 23:20:59.77</Data>
+        <Data AD_Column_ID="58576" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58577" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58579" Column="Name">Invoice (Customer) &lt;-&gt; Payments</Data>
+        <Data AD_Column_ID="58581" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58582" Column="AD_Reference_Source_ID">53965</Data>
+        <Data AD_Column_ID="58583" Column="AD_Reference_Target_ID">53967</Data>
+        <Data AD_Column_ID="58584" Column="IsDirected">false</Data>
+        <Data AD_Column_ID="58585" Column="Role_Source">PaymentAllocated</Data>
+        <Data AD_Column_ID="58586" Column="Role_Target">SalesInvoiceAllocated</Data>
+        <Data AD_Column_ID="58587" Column="Type">I</Data>
+        <Data AD_Column_ID="84396" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1060" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53968" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-28 23:52:08.81</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53968</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-28 23:52:08.81</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Invoice =&gt; C_Invoice_ID Sales Allocations</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds Sales Invoices Allocated for Invoice</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1070" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Invoice =&gt; C_Invoice_ID Sales Allocations</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-28 23:52:09.796</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-28 23:52:09.796</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds Sales Invoices Allocated for Invoice</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53968</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1080" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53968" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-28 23:53:09.774</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-28 23:53:09.774</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">3492</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">318</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">167</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">3484</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">C_Invoice.IsSOTrx = 'Y'
+AND EXISTS(SELECT 1 FROM C_AllocationLine al
+             WHERE al.C_Invoice_ID = C_Invoice.C_Invoice_ID
+             AND al.C_Payment_ID IS NULL
+             AND EXISTS(SELECT 1 FROM C_AllocationLine alr
+                       WHERE alr.C_AllocationHdr_ID = al.C_AllocationHdr_ID
+                       AND alr.C_Invoice_ID = @C_Invoice_ID@
+                       AND alr.C_Payment_ID IS NULL)
+)</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53968</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1090" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53969" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-28 23:53:28.538</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53969</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-28 23:53:28.538</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Invoice =&gt; C_Invoice_ID Vendor Allocations</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds Vendor Invoices Allocated for Invoice</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1100" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Invoice =&gt; C_Invoice_ID Vendor Allocations</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-28 23:53:29.437</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-28 23:53:29.437</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds Vendor Invoices Allocated for Invoice</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53969</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1110" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53969" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-28 23:54:03.152</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-28 23:54:03.152</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">3492</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">318</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">183</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">3484</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">C_Invoice.IsSOTrx = 'N'
+AND EXISTS(SELECT 1 FROM C_AllocationLine al
+             WHERE al.C_Invoice_ID = C_Invoice.C_Invoice_ID
+             AND al.C_Payment_ID IS NULL
+             AND EXISTS(SELECT 1 FROM C_AllocationLine alr
+                       WHERE alr.C_AllocationHdr_ID = al.C_AllocationHdr_ID
+                       AND alr.C_Invoice_ID = @C_Invoice_ID@
+                       AND alr.C_Payment_ID IS NULL)
+)</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53969</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1120" StepType="AD">
+      <PO AD_Table_ID="53246" Action="I" Record_ID="50046" Table="AD_RelationType">
+        <Data AD_Column_ID="58571" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58572" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58575" Column="Created">2017-10-28 23:55:09.614</Data>
+        <Data AD_Column_ID="58578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58574" Column="AD_RelationType_ID">50046</Data>
+        <Data AD_Column_ID="58580" Column="Updated">2017-10-28 23:55:09.614</Data>
+        <Data AD_Column_ID="58576" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58577" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58579" Column="Name">Invoice (Vendor) &lt;-&gt; Invoice (Vendor) Allocated</Data>
+        <Data AD_Column_ID="58581" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58582" Column="AD_Reference_Source_ID">53969</Data>
+        <Data AD_Column_ID="58583" Column="AD_Reference_Target_ID">53969</Data>
+        <Data AD_Column_ID="58584" Column="IsDirected">false</Data>
+        <Data AD_Column_ID="58585" Column="Role_Source">VendorInvoiceAllocated</Data>
+        <Data AD_Column_ID="58586" Column="Role_Target">VendorInvoiceAllocated</Data>
+        <Data AD_Column_ID="58587" Column="Type">I</Data>
+        <Data AD_Column_ID="84396" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1130" StepType="AD">
+      <PO AD_Table_ID="53246" Action="I" Record_ID="50047" Table="AD_RelationType">
+        <Data AD_Column_ID="58571" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58572" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58575" Column="Created">2017-10-28 23:55:39.004</Data>
+        <Data AD_Column_ID="58578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58574" Column="AD_RelationType_ID">50047</Data>
+        <Data AD_Column_ID="58580" Column="Updated">2017-10-28 23:55:39.004</Data>
+        <Data AD_Column_ID="58576" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58577" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58579" Column="Name">Invoice (Customer) &lt;-&gt; Invoice (Customer) Allocated</Data>
+        <Data AD_Column_ID="58581" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58582" Column="AD_Reference_Source_ID">53968</Data>
+        <Data AD_Column_ID="58583" Column="AD_Reference_Target_ID">53968</Data>
+        <Data AD_Column_ID="58584" Column="IsDirected">false</Data>
+        <Data AD_Column_ID="58585" Column="Role_Source">SalesInvoiceAllocated</Data>
+        <Data AD_Column_ID="58586" Column="Role_Target">SalesInvoiceAllocated</Data>
+        <Data AD_Column_ID="58587" Column="Type">I</Data>
+        <Data AD_Column_ID="84396" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1140" StepType="AD">
+      <PO AD_Table_ID="103" Action="U" Record_ID="53968" Table="AD_Ref_Table">
+        <Data AD_Column_ID="146" Column="WhereClause" oldValue="C_Invoice.IsSOTrx = 'Y'&#10;AND EXISTS(SELECT 1 FROM C_AllocationLine al&#10;             WHERE al.C_Invoice_ID = C_Invoice.C_Invoice_ID&#10;             AND al.C_Payment_ID IS NULL&#10;             AND EXISTS(SELECT 1 FROM C_AllocationLine alr&#10;                       WHERE alr.C_AllocationHdr_ID = al.C_AllocationHdr_ID&#10;                       AND alr.C_Invoice_ID = @C_Invoice_ID@&#10;                       AND alr.C_Payment_ID IS NULL)&#10;)">C_Invoice.IsSOTrx = 'Y'
+AND EXISTS(SELECT 1 FROM C_AllocationLine al
+             WHERE al.C_Invoice_ID = C_Invoice.C_Invoice_ID
+             AND al.C_Invoice_ID &lt;&gt; @C_Invoice_ID@
+             AND al.C_Payment_ID IS NULL
+             AND EXISTS(SELECT 1 FROM C_AllocationLine alr
+                       WHERE alr.C_AllocationHdr_ID = al.C_AllocationHdr_ID
+                       AND alr.C_Invoice_ID = @C_Invoice_ID@
+                       AND alr.C_Payment_ID IS NULL)
+)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1150" StepType="AD">
+      <PO AD_Table_ID="103" Action="U" Record_ID="53969" Table="AD_Ref_Table">
+        <Data AD_Column_ID="146" Column="WhereClause" oldValue="C_Invoice.IsSOTrx = 'N'&#10;AND EXISTS(SELECT 1 FROM C_AllocationLine al&#10;             WHERE al.C_Invoice_ID = C_Invoice.C_Invoice_ID&#10;             AND al.C_Payment_ID IS NULL&#10;             AND EXISTS(SELECT 1 FROM C_AllocationLine alr&#10;                       WHERE alr.C_AllocationHdr_ID = al.C_AllocationHdr_ID&#10;                       AND alr.C_Invoice_ID = @C_Invoice_ID@&#10;                       AND alr.C_Payment_ID IS NULL)&#10;)">C_Invoice.IsSOTrx = 'N'
+AND EXISTS(SELECT 1 FROM C_AllocationLine al
+             WHERE al.C_Invoice_ID = C_Invoice.C_Invoice_ID
+             AND al.C_Invoice_ID &lt;&gt; @C_Invoice_ID@
+             AND al.C_Payment_ID IS NULL
+             AND EXISTS(SELECT 1 FROM C_AllocationLine alr
+                       WHERE alr.C_AllocationHdr_ID = al.C_AllocationHdr_ID
+                       AND alr.C_Invoice_ID = @C_Invoice_ID@
+                       AND alr.C_Payment_ID IS NULL)
+)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1160" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53970" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-29 00:25:54.081</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53970</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-29 00:25:54.081</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Invoice =&gt; M_MatchPO Match PO</Data>
+        <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1170" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Invoice =&gt; M_MatchPO Match PO</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-29 00:25:55.128</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-29 00:25:55.128</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53970</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1180" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53970" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-29 00:27:01.272</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-29 00:27:01.272</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">13087</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">473</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">228</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">6513</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">EXISTS(SELECT 1 FROM C_InvoiceLine il
+      WHERE il.C_InvoiceLine_ID = M_MatchPO.C_InvoiceLine_ID
+      AND il.C_Invoice_ID = @C_Invoice_ID@)</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53970</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1190" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53971" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-29 00:27:32.494</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53971</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-29 00:27:32.494</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Invoice =&gt; M_MatchInv Match Invoice</Data>
+        <Data AD_Column_ID="131" Column="Description">Receipt Matched</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1200" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Invoice =&gt; M_MatchInv Match Invoice</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-29 00:27:33.406</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-29 00:27:33.406</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Receipt Matched</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53971</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1210" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53971" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-29 00:28:08.164</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-29 00:28:08.164</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">13086</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">472</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">107</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">6497</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause" isNewNull="true"/>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53971</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1220" StepType="AD">
+      <PO AD_Table_ID="103" Action="U" Record_ID="53971" Table="AD_Ref_Table">
+        <Data AD_Column_ID="146" Column="WhereClause" isOldNull="true">EXISTS(SELECT 1 FROM C_InvoiceLine il
+      WHERE il.C_InvoiceLine_ID = M_MatchInv.C_InvoiceLine_ID
+      AND il.C_Invoice_ID = @C_Invoice_ID@)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1230" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53972" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-29 00:28:59.938</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53972</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-29 00:28:59.938</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Invoice =&gt; PO Matched</Data>
+        <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1240" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Invoice =&gt; PO Matched</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-29 00:29:00.876</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-29 00:29:00.876</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53972</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1250" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53972" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-29 00:29:37.385</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-29 00:29:37.385</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">2169</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">259</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="144" Column="AD_Key">2161</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">EXISTS(SELECT 1 FROM C_InvoiceLine il
+       INNER JOIN M_MatchPO po ON(po.C_InvoiceLine_ID = il.C_InvoiceLine_ID)
+       INNER JOIN C_OrderLine ol ON(ol.C_OrderLine_ID = po.C_OrderLine_ID)
+      WHERE ol.C_Order_ID = C_Order.C_Order_ID
+      AND il.C_Invoice_ID = @C_Invoice_ID@)</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53972</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1260" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53973" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-29 00:30:35.885</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53973</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-29 00:30:35.885</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Invoice =&gt; Receipts Matched</Data>
+        <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1270" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Invoice =&gt; Receipts Matched</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-29 00:30:36.815</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-29 00:30:36.815</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53973</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1280" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53973" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-29 00:31:29.885</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-29 00:31:29.885</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">3791</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">319</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">184</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">3521</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">EXISTS(SELECT 1 FROM C_InvoiceLine il
+       INNER JOIN M_MatchInv inv ON(inv.C_InvoiceLine_ID = il.C_InvoiceLine_ID)
+       INNER JOIN M_InOutLine iol ON(iol.M_InOutLine_ID = inv.M_InOutLine_ID)
+      WHERE iol.M_InOut_ID = M_InOut.M_InOut_ID
+      AND il.C_Invoice_ID = @C_Invoice_ID@)</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53973</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1290" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53974" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-29 00:33:00.044</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53974</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-29 00:33:00.044</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Invoice &lt;= Match</Data>
+        <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1300" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Invoice &lt;= Match</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-29 00:33:00.98</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-29 00:33:00.98</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53974</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1310" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53974" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-29 00:33:19.574</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-29 00:33:19.574</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">3492</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">318</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="144" Column="AD_Key">3484</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">EXISTS(SELECT 1 FROM C_InvoiceLine il
+      WHERE il.C_InvoiceLine_ID = @C_InvoiceLine_ID@
+      AND il.C_Invoice_ID = C_Invoice.C_Invoice_ID)</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53974</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1320" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53975" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-29 00:33:52.458</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53975</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-29 00:33:52.458</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Invoice &lt;= C_Order_ID Matched</Data>
+        <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1330" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Invoice &lt;= C_Order_ID Matched</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-29 00:33:53.482</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-29 00:33:53.482</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53975</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1340" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53975" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-29 00:34:21.081</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-29 00:34:21.081</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">3492</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">318</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="144" Column="AD_Key">3484</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">EXISTS(SELECT 1 FROM C_InvoiceLine il
+       INNER JOIN M_MatchPO po ON(po.C_InvoiceLine_ID = il.C_InvoiceLine_ID)
+       INNER JOIN C_OrderLine ol ON(ol.C_OrderLine_ID = po.C_OrderLine_ID)
+      WHERE ol.C_Order_ID = @C_Order_ID@
+      AND il.C_Invoice_ID = C_Invoice.C_Invoice_ID)</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53975</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1350" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="53976" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2017-10-29 00:34:33.588</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">53976</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2017-10-29 00:34:33.588</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Invoice &lt;= M_InOut_ID Matched</Data>
+        <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1360" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Invoice &lt;= M_InOut_ID Matched</Data>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2017-10-29 00:34:34.584</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="669" Column="Updated">2017-10-29 00:34:34.584</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">53976</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="84394" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1370" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="53976" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2017-10-29 00:35:13.786</Data>
+        <Data AD_Column_ID="561" Column="Updated">2017-10-29 00:35:13.786</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">3492</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">318</Data>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="144" Column="AD_Key">3484</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="146" Column="WhereClause">EXISTS(SELECT 1 FROM C_InvoiceLine il
+       INNER JOIN M_MatchInv inv ON(inv.C_InvoiceLine_ID = il.C_InvoiceLine_ID)
+       INNER JOIN M_InOutLine iol ON(iol.M_InOutLine_ID = inv.M_InOutLine_ID)
+      WHERE iol.M_InOut_ID = @M_InOut_ID@
+      AND il.C_Invoice_ID = C_Invoice.C_Invoice_ID)</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">53976</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1380" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55037" Table="AD_Ref_List">
+        <Data AD_Column_ID="564" Column="Created">2017-10-29 00:37:15.739</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-10-29 00:37:15.739</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55037</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="200" Column="Value">InvoiceMatched</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53331</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Invoice Matched</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="84390" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1390" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55037" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-10-29 00:37:16.696</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-10-29 00:37:16.696</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Invoice Matched</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55037</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1400" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55037" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Invoice Matched">Facturas Cotejadas</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55037">55037</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1410" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55038" Table="AD_Ref_List">
+        <Data AD_Column_ID="564" Column="Created">2017-10-29 00:38:24.567</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-10-29 00:38:24.567</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55038</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="200" Column="Value">OrderMatched</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53331</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Order Matched</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="84390" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1420" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55038" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-10-29 00:38:25.468</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-10-29 00:38:25.468</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Order Matched</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55038</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1430" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55038" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Order Matched">Órdenes Cotejadas</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55038">55038</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1440" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55039" Table="AD_Ref_List">
+        <Data AD_Column_ID="564" Column="Created">2017-10-29 00:39:17.272</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-10-29 00:39:17.272</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55039</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="200" Column="Value">ReceiptMatched</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53331</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Receipt Matched</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="84390" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1450" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55039" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-10-29 00:39:18.249</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-10-29 00:39:18.249</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">Receipt Matched</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55039</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1460" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55039" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Receipt Matched">Recibos Cotejados</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55039">55039</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1470" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55040" Table="AD_Ref_List">
+        <Data AD_Column_ID="564" Column="Created">2017-10-29 00:40:08.373</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-10-29 00:40:08.373</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55040</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="200" Column="Value">ViewMatchedReceipt</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53331</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">View Matched Receipt</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="84390" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1480" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55040" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-10-29 00:40:09.316</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-10-29 00:40:09.316</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">View Matched Receipt</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55040</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1490" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55040" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="View Matched Receipt">Ver Líneas de Recibo Cotejadas</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55040">55040</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1500" StepType="AD">
+      <PO AD_Table_ID="104" Action="U" Record_ID="55040" Table="AD_Ref_List">
+        <Data AD_Column_ID="200" Column="Value" oldValue="ViewMatchedReceipt">ViewMatchedReceiptLine</Data>
+        <Data AD_Column_ID="149" Column="Name" oldValue="View Matched Receipt">View Matched Receipt Line</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1510" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55041" Table="AD_Ref_List">
+        <Data AD_Column_ID="564" Column="Created">2017-10-29 00:41:17.159</Data>
+        <Data AD_Column_ID="566" Column="Updated">2017-10-29 00:41:17.159</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55041</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="200" Column="Value">ViewMatchedOrdertLine</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53331</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">View Matched Order Line</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="84390" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1520" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55041" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="707" Column="Created">2017-10-29 00:41:18.138</Data>
+        <Data AD_Column_ID="709" Column="Updated">2017-10-29 00:41:18.138</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="338" Column="Name">View Matched Order Line</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55041</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1530" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55041" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="View Matched Order Line">Ver Línea de Órdenes Cotejadas</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55041">55041</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1540" StepType="AD">
+      <PO AD_Table_ID="53246" Action="I" Record_ID="50048" Table="AD_RelationType">
+        <Data AD_Column_ID="58571" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58572" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58575" Column="Created">2017-10-29 00:45:08.155</Data>
+        <Data AD_Column_ID="58578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58574" Column="AD_RelationType_ID">50048</Data>
+        <Data AD_Column_ID="58580" Column="Updated">2017-10-29 00:45:08.155</Data>
+        <Data AD_Column_ID="58576" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58577" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58579" Column="Name">Invoice &lt;-&gt; Match Invoice</Data>
+        <Data AD_Column_ID="58581" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58582" Column="AD_Reference_Source_ID">53971</Data>
+        <Data AD_Column_ID="58583" Column="AD_Reference_Target_ID">53974</Data>
+        <Data AD_Column_ID="58584" Column="IsDirected">false</Data>
+        <Data AD_Column_ID="58585" Column="Role_Source">ViewMatchedReceiptLine</Data>
+        <Data AD_Column_ID="58586" Column="Role_Target">InvoiceMatched</Data>
+        <Data AD_Column_ID="58587" Column="Type">I</Data>
+        <Data AD_Column_ID="84396" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1550" StepType="AD">
+      <PO AD_Table_ID="53246" Action="I" Record_ID="50049" Table="AD_RelationType">
+        <Data AD_Column_ID="58571" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58572" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58575" Column="Created">2017-10-29 00:45:31.433</Data>
+        <Data AD_Column_ID="58578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58574" Column="AD_RelationType_ID">50049</Data>
+        <Data AD_Column_ID="58580" Column="Updated">2017-10-29 00:45:31.433</Data>
+        <Data AD_Column_ID="58576" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58577" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58579" Column="Name">Invoice &lt;-&gt; Match PO</Data>
+        <Data AD_Column_ID="58581" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58582" Column="AD_Reference_Source_ID">53970</Data>
+        <Data AD_Column_ID="58583" Column="AD_Reference_Target_ID">53974</Data>
+        <Data AD_Column_ID="58584" Column="IsDirected">false</Data>
+        <Data AD_Column_ID="58585" Column="Role_Source">ViewMatchedOrdertLine</Data>
+        <Data AD_Column_ID="58586" Column="Role_Target">InvoiceMatched</Data>
+        <Data AD_Column_ID="58587" Column="Type">I</Data>
+        <Data AD_Column_ID="84396" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1560" StepType="AD">
+      <PO AD_Table_ID="53246" Action="I" Record_ID="50050" Table="AD_RelationType">
+        <Data AD_Column_ID="58571" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58572" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58575" Column="Created">2017-10-29 00:47:14.961</Data>
+        <Data AD_Column_ID="58578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58574" Column="AD_RelationType_ID">50050</Data>
+        <Data AD_Column_ID="58580" Column="Updated">2017-10-29 00:47:14.961</Data>
+        <Data AD_Column_ID="58576" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58577" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58579" Column="Name">Invoice &lt;-&gt; PO Matched</Data>
+        <Data AD_Column_ID="58581" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58582" Column="AD_Reference_Source_ID">53972</Data>
+        <Data AD_Column_ID="58583" Column="AD_Reference_Target_ID">53975</Data>
+        <Data AD_Column_ID="58584" Column="IsDirected">false</Data>
+        <Data AD_Column_ID="58585" Column="Role_Source">OrderMatched</Data>
+        <Data AD_Column_ID="58586" Column="Role_Target">InvoiceMatched</Data>
+        <Data AD_Column_ID="58587" Column="Type">I</Data>
+        <Data AD_Column_ID="84396" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1570" StepType="AD">
+      <PO AD_Table_ID="53246" Action="I" Record_ID="50051" Table="AD_RelationType">
+        <Data AD_Column_ID="58571" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58572" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58575" Column="Created">2017-10-29 00:47:47.649</Data>
+        <Data AD_Column_ID="58578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58574" Column="AD_RelationType_ID">50051</Data>
+        <Data AD_Column_ID="58580" Column="Updated">2017-10-29 00:47:47.649</Data>
+        <Data AD_Column_ID="58576" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58577" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58579" Column="Name">Invoice &lt;-&gt; PO Matched</Data>
+        <Data AD_Column_ID="58581" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58582" Column="AD_Reference_Source_ID">53973</Data>
+        <Data AD_Column_ID="58583" Column="AD_Reference_Target_ID">53976</Data>
+        <Data AD_Column_ID="58584" Column="IsDirected">false</Data>
+        <Data AD_Column_ID="58585" Column="Role_Source">ReceiptMatched</Data>
+        <Data AD_Column_ID="58586" Column="Role_Target">InvoiceMatched</Data>
+        <Data AD_Column_ID="58587" Column="Type">I</Data>
+        <Data AD_Column_ID="84396" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1580" StepType="AD">
+      <PO AD_Table_ID="53246" Action="U" Record_ID="50051" Table="AD_RelationType">
+        <Data AD_Column_ID="58579" Column="Name" oldValue="Invoice &lt;-&gt; PO Matched">Invoice &lt;-&gt; Receipt Matched</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1590" StepType="AD">
+      <PO AD_Table_ID="103" Action="U" Record_ID="53976" Table="AD_Ref_Table">
+        <Data AD_Column_ID="57270" Column="AD_Window_ID" isOldNull="true">183</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1600" StepType="AD">
+      <PO AD_Table_ID="103" Action="U" Record_ID="53972" Table="AD_Ref_Table">
+        <Data AD_Column_ID="57270" Column="AD_Window_ID" isOldNull="true">181</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1610" StepType="AD">
+      <PO AD_Table_ID="103" Action="U" Record_ID="53975" Table="AD_Ref_Table">
+        <Data AD_Column_ID="57270" Column="AD_Window_ID" isOldNull="true">183</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

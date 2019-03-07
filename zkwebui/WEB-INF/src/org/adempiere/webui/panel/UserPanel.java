@@ -96,13 +96,17 @@ public class UserPanel extends Vbox  implements EventListener
     	LayoutUtils.addSclass("desktop-header-font", context);
     	context.setParent(hbox);    	
 
+    	Separator sep = new Separator("vertical");
+    	sep.setBar(true);
+    	sep.setParent(hbox);
+
     	preference.setLabel(Msg.getMsg(Env.getCtx(), "Preference"));
     	preference.addEventListener(Events.ON_CLICK, this);
     	preference.setStyle("text-align:right");
     	LayoutUtils.addSclass("desktop-header-font", preference);
     	preference.setParent(hbox);
 
-    	Separator sep = new Separator("vertical");
+    	sep = new Separator("vertical");
     	sep.setBar(true);
     	sep.setParent(hbox);
 

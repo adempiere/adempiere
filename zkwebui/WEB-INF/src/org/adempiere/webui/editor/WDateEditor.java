@@ -37,7 +37,9 @@ import org.zkoss.zk.ui.event.Events;
  * @version $Revision: 0.10 $
  *
  * @author	Michael McKay
- * 				<li>release/380 - add old value comparison to support lookup/info windows
+ * 		<li>release/380 - add old value comparison to support lookup/info windows
+ * 		<li><a href="https://github.com/adempiere/adempiere/issues/2383">#2383</a> Override the getPopupMenu method.
+ * 
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
  *		@see https://github.com/adempiere/adempiere/issues/146
@@ -248,6 +250,15 @@ public class WDateEditor extends WEditor implements ContextMenuListener
 				return true;
 			else
 				return false;
+	}
+
+	// #2383
+	/**
+	 *  Get the pop up menu for this editor
+	 */
+    public WEditorPopupMenu getPopupMenu()
+	{
+	   	return popupMenu;
 	}
 
 }

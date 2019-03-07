@@ -472,7 +472,7 @@ public final class MRole extends X_AD_Role
 			+ ") )";
 		
 		String sqlDashboard = "INSERT INTO AD_Dashboard_Access "
-				+ "(PA_DashboardContent_ID, AD_Role_ID," 
+				+ "(PA_DashboardContent_ID, AD_Role_ID,"
 				+ " AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy) "
 				+ "SELECT b.PA_DashboardContent_ID, " + getAD_Role_ID() + ","
 				+ getAD_Client_ID() + "," + getAD_Org_ID() + ",'Y', SysDate," 

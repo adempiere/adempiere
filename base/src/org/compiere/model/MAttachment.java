@@ -43,9 +43,9 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.MimeType;
+import org.spin.util.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -63,7 +63,9 @@ import org.xml.sax.SAXException;
   * @author Silvano Trinchero
  *      <li>BF [ 2992291] MAttachment.addEntry not closing streams if an exception occur
  *        http://sourceforge.net/tracker/?func=detail&aid=2992291&group_id=176962&atid=879332
- *
+ *	@author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
+ *	<li> FR [ 2167 ] Validate MimeType and file extension
+ * 	@see https://github.com/adempiere/adempiere/issues/2167
  *  @version $Id: MAttachment.java,v 1.4 2006/07/30 00:58:37 jjanke Exp $
  */
 public class MAttachment extends X_AD_Attachment
@@ -89,10 +91,6 @@ public class MAttachment extends X_AD_Attachment
 		.first();
 		return retValue;
 	}	//	get
-	
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MAttachment.class);
-
 	
 	/**************************************************************************
 	 * 	Standard Constructor
@@ -258,6 +256,13 @@ public class MAttachment extends X_AD_Attachment
 		log.fine("addEntry - " + file);
 		//
 		String name = file.getName();
+		//	Validate Mime Type
+		if(!MimeType.isValidMimeType(name)) {
+			log.severe("Invalid Mime Type for " + name + " only is allowed " + MimeType.getAllowedFileTypes());
+			log.severe("Restricted files " + MimeType.getRestrictedFileTypes());
+			return false;
+		}
+		
 		byte[] data = null;
 		
 		// F3P: BF [2992291] modified to be able to close streams in "finally" block 		
@@ -556,8 +561,10 @@ public class MAttachment extends X_AD_Attachment
 			setBinaryData(null);
 			return true;
 		}
-		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		try {
+			//	Add default features
+			XMLUtils.setDefaultFeatures(factory);
 			final DocumentBuilder builder = factory.newDocumentBuilder();
 			final Document document = builder.newDocument();
 			final Element root = document.createElement("attachments");
@@ -623,7 +630,9 @@ public class MAttachment extends X_AD_Attachment
 			final Source source = new DOMSource(document);
 			final ByteArrayOutputStream bos = new ByteArrayOutputStream();
 			final Result result = new StreamResult(bos);
-			final Transformer xformer = TransformerFactory.newInstance().newTransformer();
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			XMLUtils.setDefaultFeatures(transformerFactory);
+			final Transformer xformer = transformerFactory.newTransformer();
 			xformer.transform(source, result);
 			final byte[] xmlData = bos.toByteArray();
 			log.fine(bos.toString());
@@ -730,6 +739,8 @@ public class MAttachment extends X_AD_Attachment
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
 		try {
+			//	Add default features
+			XMLUtils.setDefaultFeatures(factory);
 			final DocumentBuilder builder = factory.newDocumentBuilder();
 			final Document document = builder.parse(new ByteArrayInputStream(data));
 			final NodeList entries = document.getElementsByTagName("entry");

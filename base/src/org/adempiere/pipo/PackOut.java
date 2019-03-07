@@ -28,6 +28,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -45,14 +46,13 @@ import org.adempiere.pipo.handler.DataElementHandler;
 import org.adempiere.pipo.handler.DistFileElementHandler;
 import org.adempiere.pipo.handler.DynValRuleElementHandler;
 import org.adempiere.pipo.handler.EntityTypeElementHandler;
-import org.adempiere.pipo.handler.FieldGroupElementHandler;
 import org.adempiere.pipo.handler.FormElementHandler;
+import org.adempiere.pipo.handler.GenericPOHandler;
 import org.adempiere.pipo.handler.ImpFormatElementHandler;
 import org.adempiere.pipo.handler.MenuElementHandler;
 import org.adempiere.pipo.handler.MessageElementHandler;
 import org.adempiere.pipo.handler.ModelValidatorElementHandler;
 import org.adempiere.pipo.handler.PrintFormatElementHandler;
-import org.adempiere.pipo.handler.PrintPaperElementHandler;
 import org.adempiere.pipo.handler.ProcessElementHandler;
 import org.adempiere.pipo.handler.ReferenceElementHandler;
 import org.adempiere.pipo.handler.ReportViewElementHandler;
@@ -64,11 +64,10 @@ import org.adempiere.pipo.handler.ViewElementHandler;
 import org.adempiere.pipo.handler.WindowElementHandler;
 import org.adempiere.pipo.handler.WorkflowElementHandler;
 import org.compiere.model.MSysConfig;
+import org.compiere.model.PO;
 import org.compiere.model.X_AD_Element;
-import org.compiere.model.X_AD_FieldGroup;
 import org.compiere.model.X_AD_Package_Exp;
 import org.compiere.model.X_AD_Package_Exp_Detail;
-import org.compiere.model.X_AD_PrintPaper;
 import org.compiere.model.X_AD_Reference;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.SvrProcess;
@@ -99,7 +98,7 @@ import org.xml.sax.helpers.AttributesImpl;
 public class PackOut extends SvrProcess
 {
 	/** Record ID				*/
-	private int p_PackOut_ID = 0;
+	private int packOutId = 0;
 	private String PackOutVer = "005";
     private String packagedir = null;
     private String packagename = null;
@@ -129,19 +128,18 @@ public class PackOut extends SvrProcess
     PrintFormatElementHandler printFormatHandler = new PrintFormatElementHandler();
     DistFileElementHandler distFileHandler = new DistFileElementHandler();
     ReferenceElementHandler referenceHandler = new ReferenceElementHandler();
-    FieldGroupElementHandler fieldGroupHandler = new FieldGroupElementHandler();
     AdElementHandler adElementHandler = new AdElementHandler();
     CommonTranslationHandler translationHandler = new CommonTranslationHandler();
     ModelValidatorElementHandler modelValidatorHandler = new ModelValidatorElementHandler();
     EntityTypeElementHandler entitytypeHandler = new EntityTypeElementHandler();
-    PrintPaperElementHandler printPaperHandler = new PrintPaperElementHandler();
+    GenericPOHandler genericPOHandler = new GenericPOHandler();
     
     /**
 	 *  Prepare - e.g., get Parameters.
 	 */
 	protected void prepare()
 	{
-		p_PackOut_ID = getRecord_ID();
+		packOutId = getRecord_ID();
 		ProcessInfoParameter[] para = getParameter();
 		for (int i = 0; i < para.length; i++)
 		{
@@ -160,10 +158,10 @@ public class PackOut extends SvrProcess
 		
 		OutputStream  packageDocStream = null;
 		OutputStream  packOutDocStream = null;
-		log.info("doIt - AD_PACKAGE_EXP_ID=" + p_PackOut_ID);
-		if (p_PackOut_ID == 0)
+		log.info("doIt - AD_PACKAGE_EXP_ID=" + packOutId);
+		if (packOutId == 0)
 			throw new IllegalArgumentException("No Record");
-		String sql1 = "SELECT * FROM AD_Package_Exp WHERE AD_Package_Exp_ID = "+p_PackOut_ID;		
+		String sql1 = "SELECT * FROM AD_Package_Exp WHERE AD_Package_Exp_ID = "+packOutId;		
 		PreparedStatement pstmt1 = null;		
 		pstmt1 = DB.prepareStatement (sql1, get_TrxName());		
 		
@@ -276,7 +274,7 @@ public class PackOut extends SvrProcess
 				packOutDocument.startElement("","","adempiereAD",atts);		
 				atts.clear();
 				
-				final String sql = "SELECT * FROM AD_Package_Exp_Detail WHERE AD_Package_Exp_ID = "+p_PackOut_ID+" AND IsActive='Y' ORDER BY Line ASC";
+				final String sql = "SELECT * FROM AD_Package_Exp_Detail WHERE AD_Package_Exp_ID = "+packOutId+" AND IsActive='Y' ORDER BY Line ASC";
 				PreparedStatement pstmt = null;		
 				ResultSet rs = null;
 				try
@@ -510,13 +508,12 @@ public class PackOut extends SvrProcess
 
 	/**
 	 * 
-	 * @param AD_PrintFormat_ID
+	 * @param printFormatId
 	 * @param packOutDocument
 	 * @throws Exception
 	 */
-	public void createPrintFormat (int AD_PrintFormat_ID, TransformerHandler packOutDocument) throws Exception
-	{
-		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_PrintFormat_ID, AD_PrintFormat_ID);
+	public void createPrintFormat (int printFormatId, TransformerHandler packOutDocument) throws SAXException {
+		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_PrintFormat_ID, printFormatId);
 		printFormatHandler.create(getCtx(), packOutDocument);
 		getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_PrintFormat_ID);
 	}
@@ -536,14 +533,14 @@ public class PackOut extends SvrProcess
 	
 	/**
 	 * 
-	 * @param AD_Val_Rule_ID
+	 * @param valRuleId
 	 * @param packOutDocument
 	 * @throws Exception
 	 */
-	public void createDynamicRuleValidation (int AD_Val_Rule_ID,  
+	public void createDynamicRuleValidation (int valRuleId,  
 			TransformerHandler packOutDocument) throws SAXException
 	{
-		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Val_Rule_ID, AD_Val_Rule_ID);
+		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Val_Rule_ID, valRuleId);
 		dynValRuleHandler.create(getCtx(), packOutDocument);
 		getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Val_Rule_ID);
 	}
@@ -554,8 +551,7 @@ public class PackOut extends SvrProcess
 	 * @param packOutDocument
 	 * @throws SAXException
 	 */
-	public void createWorkflow (int AD_Workflow_ID, TransformerHandler packOutDocument) 
-		throws SAXException
+	public void createWorkflow (int AD_Workflow_ID, TransformerHandler packOutDocument)  throws SAXException
 	{
 		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Workflow_ID, AD_Workflow_ID);
 		workflowHandler.create(getCtx(), packOutDocument);
@@ -613,13 +609,13 @@ public class PackOut extends SvrProcess
 
 	/**
 	 * 
-	 * @param AD_Process_ID
+	 * @param processId
 	 * @param packOutDocument
 	 * @throws SAXException
 	 */
-	public void createProcess (int AD_Process_ID, TransformerHandler packOutDocument) throws SAXException
+	public void createProcess (int processId, TransformerHandler packOutDocument) throws SAXException
 	{
-		Env.setContext(getCtx(), "AD_Process_ID", AD_Process_ID);
+		Env.setContext(getCtx(), "AD_Process_ID", processId);
 		processHandler.create(getCtx(), packOutDocument);
 		getCtx().remove("AD_Process_ID");
 	}
@@ -737,9 +733,9 @@ public class PackOut extends SvrProcess
 	 * 
 	 * @param Role_id
 	 * @param packOutDocument
-	 * @throws SAXException
+	 * @throws Exception 
 	 */
-	public void createRoles (int Role_id, TransformerHandler packOutDocument) throws SAXException
+	public void createRoles (int Role_id, TransformerHandler packOutDocument) throws Exception
 	{
 		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Role_ID, Role_id);
 		roleHandler.create(getCtx(), packOutDocument);
@@ -788,26 +784,12 @@ public class PackOut extends SvrProcess
 	
 	/**
 	 * 
-	 * @param FieldGroup_id
-	 * @param packOutDocument
-	 * @throws SAXException
-	 */
-	public void createFieldGroupElement (int FieldGroup_id, TransformerHandler packOutDocument) throws SAXException
-	{
-		Env.setContext(getCtx(), X_AD_FieldGroup.COLUMNNAME_AD_FieldGroup_ID, FieldGroup_id);
-		fieldGroupHandler.create(getCtx(), packOutDocument);
-		getCtx().remove(X_AD_FieldGroup.COLUMNNAME_AD_FieldGroup_ID);
-	}
-	
-	/**
-	 * 
 	 * @param Reference_id
 	 * @param packOutDocument
 	 * @throws SAXException
 	 */
-	public void createAdElement (int Ad_Element_id, TransformerHandler packOutDocument) throws SAXException
-	{
-		Env.setContext(getCtx(), X_AD_Element.COLUMNNAME_AD_Element_ID, Ad_Element_id);
+	public void createAdElement (int elementId, TransformerHandler packOutDocument) throws SAXException {
+		Env.setContext(getCtx(), X_AD_Element.COLUMNNAME_AD_Element_ID, elementId);
 		adElementHandler.create(getCtx(), packOutDocument);
 		getCtx().remove(X_AD_Element.COLUMNNAME_AD_Element_ID);
 	}
@@ -856,18 +838,57 @@ public class PackOut extends SvrProcess
 	 */
 	public void createEntityType (int AD_EntityType_ID, TransformerHandler packOutDocument) throws Exception
 	{
-		//Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID, AD_EntityType_ID);
+		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID, AD_EntityType_ID);
 		entitytypeHandler.create(getCtx(), packOutDocument);
-		//getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID);
+		getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID);
 	}
 	
-	public void createPrintPaper (int AD_PrintPaper_ID, TransformerHandler packOutDocument) throws SAXException
-	{
-		Env.setContext(getCtx(), X_AD_PrintPaper.COLUMNNAME_AD_PrintPaper_ID, AD_PrintPaper_ID);
-		printPaperHandler.create(getCtx(), packOutDocument);
-		getCtx().remove(X_AD_PrintPaper.COLUMNNAME_AD_PrintPaper_ID);
+	
+	/**
+	 * Create for generic PO
+	 * @param packOutDocument
+	 * @param entity
+	 * @throws SAXException
+	 */
+	public void createGenericPO(TransformerHandler packOutDocument, PO entity, boolean includeParents, List<String> excludedParentList) throws SAXException {
+		genericPOHandler.create(getCtx(), packOutDocument, entity, includeParents, excludedParentList);
 	}
-
+	
+	/**
+	 * Create Generic PO without parents
+	 * @param packOutDocument
+	 * @param entity
+	 * @throws SAXException
+	 */
+	public void createGenericPO(TransformerHandler packOutDocument, PO entity) throws SAXException {
+		createGenericPO(packOutDocument, entity, false, null);
+	}
+	
+	/**
+	 * Create generic PO
+	 * @param packOutDocument
+	 * @param tableId
+	 * @param recordId
+	 * @throws SAXException
+	 */
+	public void createGenericPO(TransformerHandler packOutDocument, int tableId, int recordId, boolean includeParents, List<String> excludedParentList) throws SAXException {
+		Env.setContext(getCtx(), GenericPOHandler.TABLE_ID_TAG, tableId);
+		Env.setContext(getCtx(), GenericPOHandler.RECORD_ID_TAG, recordId);
+		genericPOHandler.create(getCtx(), packOutDocument, null, includeParents, excludedParentList);
+		getCtx().remove(GenericPOHandler.TABLE_ID_TAG);
+		getCtx().remove(GenericPOHandler.RECORD_ID_TAG);
+	}
+	
+	/**
+	 * Create Generic PO without parents
+	 * @param packOutDocument
+	 * @param tableId
+	 * @param recordId
+	 * @throws SAXException
+	 */
+	public void createGenericPO(TransformerHandler packOutDocument, int tableId, int recordId) throws SAXException {
+		createGenericPO(packOutDocument, tableId, recordId, false, null);
+	}
 
 	
 	public void copyFile (String sourceName, String copyName ) {

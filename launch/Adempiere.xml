@@ -25,7 +25,7 @@
   <jre>
     <path></path>
     <bundledJre64Bit>false</bundledJre64Bit>
-    <minVersion>1.7.0</minVersion>
+    <minVersion>1.8.0</minVersion>
     <maxVersion></maxVersion>
     <jdkPreference>preferJre</jdkPreference>
     <runtimeBits>64/32</runtimeBits>
@@ -33,12 +33,12 @@
     <maxHeapSize>512</maxHeapSize>
   </jre>
   <versionInfo>
-    <fileVersion>3.9.0.0</fileVersion>
-    <txtFileVersion>Release 3.9.0LTS</txtFileVersion>
-    <fileDescription>Adempiere ERP &amp; CRM 3.9.0LTS</fileDescription>
+    <fileVersion>3.9.1.0</fileVersion>
+    <txtFileVersion>Release 3.9.1LTS</txtFileVersion>
+    <fileDescription>Adempiere ERP &amp; CRM 3.9.1LTS</fileDescription>
     <copyright>Adempiere</copyright>
-    <productVersion>3.8.0.0</productVersion>
-    <txtProductVersion>Release 3.9.0LTS</txtProductVersion>
+    <productVersion>3.9.1.0</productVersion>
+    <txtProductVersion>Release 3.9.1LTS</txtProductVersion>
     <productName>Adempier ERP &amp; CRM</productName>
     <companyName>Adempiere Community</companyName>
     <internalName>Adempiere</internalName>

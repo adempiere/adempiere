@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_User
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_User extends PO implements I_AD_User, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171215L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_User (Properties ctx, int AD_User_ID, String trxName)
@@ -105,6 +105,11 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getAD_OrgTrx_ID(), get_TrxName());	}
+
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
 		Performing or initiating organization
@@ -151,21 +156,18 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Birthday.
-		@param Birthday 
-		Birthday or Anniversary day
-	  */
-	public void setBirthday (Timestamp Birthday)
+	/** Set BP Name.
+		@param BPName BP Name	  */
+	public void setBPName (String BPName)
 	{
-		set_Value (COLUMNNAME_Birthday, Birthday);
+		set_Value (COLUMNNAME_BPName, BPName);
 	}
 
-	/** Get Birthday.
-		@return Birthday or Anniversary day
-	  */
-	public Timestamp getBirthday () 
+	/** Get BP Name.
+		@return BP Name	  */
+	public String getBPName () 
 	{
-		return (Timestamp)get_Value(COLUMNNAME_Birthday);
+		return (String)get_Value(COLUMNNAME_BPName);
 	}
 
 	public I_C_Location getBP_Location() throws RuntimeException
@@ -196,18 +198,21 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set BP Name.
-		@param BPName BP Name	  */
-	public void setBPName (String BPName)
+	/** Set Birthday.
+		@param Birthday 
+		Birthday or Anniversary day
+	  */
+	public void setBirthday (Timestamp Birthday)
 	{
-		set_Value (COLUMNNAME_BPName, BPName);
+		set_Value (COLUMNNAME_Birthday, Birthday);
 	}
 
-	/** Get BP Name.
-		@return BP Name	  */
-	public String getBPName () 
+	/** Get Birthday.
+		@return Birthday or Anniversary day
+	  */
+	public Timestamp getBirthday () 
 	{
-		return (String)get_Value(COLUMNNAME_BPName);
+		return (Timestamp)get_Value(COLUMNNAME_Birthday);
 	}
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
@@ -747,6 +752,23 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return false;
 	}
 
+	/** Set LDAP User Name.
+		@param LDAPUser 
+		User Name used for authorization via LDAP (directory) services
+	  */
+	public void setLDAPUser (String LDAPUser)
+	{
+		set_Value (COLUMNNAME_LDAPUser, LDAPUser);
+	}
+
+	/** Get LDAP User Name.
+		@return User Name used for authorization via LDAP (directory) services
+	  */
+	public String getLDAPUser () 
+	{
+		return (String)get_Value(COLUMNNAME_LDAPUser);
+	}
+
 	/** Set Last Contact.
 		@param LastContact 
 		Date this individual was last contacted
@@ -779,23 +801,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	public String getLastResult () 
 	{
 		return (String)get_Value(COLUMNNAME_LastResult);
-	}
-
-	/** Set LDAP User Name.
-		@param LDAPUser 
-		User Name used for authorization via LDAP (directory) services
-	  */
-	public void setLDAPUser (String LDAPUser)
-	{
-		set_Value (COLUMNNAME_LDAPUser, LDAPUser);
-	}
-
-	/** Get LDAP User Name.
-		@return User Name used for authorization via LDAP (directory) services
-	  */
-	public String getLDAPUser () 
-	{
-		return (String)get_Value(COLUMNNAME_LDAPUser);
 	}
 
 	/** LeadSource AD_Reference_ID=53415 */
@@ -1149,20 +1154,6 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return (String)get_Value(COLUMNNAME_Title);
 	}
 
-	/** Set User PIN.
-		@param UserPIN User PIN	  */
-	public void setUserPIN (String UserPIN)
-	{
-		set_Value (COLUMNNAME_UserPIN, UserPIN);
-	}
-
-	/** Get User PIN.
-		@return User PIN	  */
-	public String getUserPIN () 
-	{
-		return (String)get_Value(COLUMNNAME_UserPIN);
-	}
-
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 
 		Immutable Universally Unique Identifier
@@ -1178,6 +1169,20 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** Set User PIN.
+		@param UserPIN User PIN	  */
+	public void setUserPIN (String UserPIN)
+	{
+		set_Value (COLUMNNAME_UserPIN, UserPIN);
+	}
+
+	/** Get User PIN.
+		@return User PIN	  */
+	public String getUserPIN () 
+	{
+		return (String)get_Value(COLUMNNAME_UserPIN);
 	}
 
 	/** Set Search Key.

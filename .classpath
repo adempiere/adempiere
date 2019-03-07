@@ -93,11 +93,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ojdbc6.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jpayment.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -155,11 +150,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="tools/lib/xjavadoc-1.1.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/xml-apis.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
@@ -344,5 +334,7 @@
 	<classpathentry kind="lib" path="tools/lib/logkit.jar"/>
 	<classpathentry kind="lib" path="tools/lib/pdfa-7.1.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/wizard.jar"/>
+	<classpathentry kind="lib" path="tools/lib/oracle.jar"/>
+	<classpathentry kind="lib" path="tools/lib/zxing-2.3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

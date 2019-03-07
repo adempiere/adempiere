@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_ProductionBatch
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_M_ProductionBatch extends PO implements I_M_ProductionBatch, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_M_ProductionBatch (Properties ctx, int M_ProductionBatch_ID, String trxName)

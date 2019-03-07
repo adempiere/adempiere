@@ -1141,6 +1141,8 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 			MLandedCostAllocation lca = new MLandedCostAllocation (this, lcs[0].getM_CostElement_ID());
 			lca.setM_Product_ID(iol.getM_Product_ID());
 			lca.setM_AttributeSetInstance_ID(iol.getM_AttributeSetInstance_ID());
+			lca.setC_LandedCostType_ID(lcs[0].getC_LandedCostType_ID());
+			lca.setM_InOutLine_ID(iol.getM_InOutLine_ID());
 			BigDecimal base = iol.getBase(LandedCostDistribution);
 			lca.setBase(base);
 			// MZ Goodwill

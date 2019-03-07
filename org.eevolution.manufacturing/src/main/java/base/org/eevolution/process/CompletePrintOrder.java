@@ -97,6 +97,7 @@ implements ClientProcess
 			}
 			//
 			// Process document
+			order.setDocAction(MPPOrder.DOCACTION_Complete);
 			boolean ok = order.processIt(MPPOrder.DOCACTION_Complete);
 			order.saveEx();
 			if (!ok)

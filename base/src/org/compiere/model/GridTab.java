@@ -2135,12 +2135,21 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		e.UpdatedBy = (Integer)getValue("UpdatedBy");
 		e.Record_ID = getValue(m_keyColumnName);
 		//  Info
-		StringBuffer info = new StringBuffer(getTableName());
+		StringBuffer info = new StringBuffer();
+		StringBuffer tableInfo = new StringBuffer("SELECT * FROM " + getTableName());
+		tableInfo.append(" WHERE ");
 		//  We have a key column
 		if (m_keyColumnName != null && m_keyColumnName.length() > 0)
 		{
-			info.append(" - ")
-				.append(m_keyColumnName).append("=").append(e.Record_ID);
+			info.append(tableInfo);
+			info.append(m_keyColumnName).append("=").append(e.Record_ID);
+			info.append(";\n");
+
+			String UUID = getUUID();
+			if (UUID != null) {
+				info.append(tableInfo);
+				info.append("UUID='").append(UUID).append("';");
+			}
 		}
 		else    //  we have multiple parents
 		{
@@ -2195,6 +2204,9 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		return m_mTable.getKeyID(m_currentRow);
 	}   //  getRecord_ID
 
+	public String getUUID() {
+		return m_mTable.getUUID(m_currentRow);
+	}
 	/**
 	 *  Get Key ID of row
 	 *  @param  row row number
@@ -2269,7 +2281,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		//  Table Open?
 		if (!m_mTable.isOpen())
 		{
-			log.severe ("Table not open");
+			//log.severe ("Table not open");
 			return -1;
 		}
 		//  Row Count

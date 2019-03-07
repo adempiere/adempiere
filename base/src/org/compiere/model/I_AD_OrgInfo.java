@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_OrgInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_AD_OrgInfo 
 {
@@ -241,6 +241,8 @@ public interface I_AD_OrgInfo
 	  * Parent (superior) Organization 
 	  */
 	public int getParent_Org_ID();
+
+	public org.compiere.model.I_AD_Org getParent_Org() throws RuntimeException;
 
     /** Column name Phone */
     public static final String COLUMNNAME_Phone = "Phone";

@@ -57,6 +57,8 @@ import org.zkoss.zul.Space;
  * 		@see FR [ 990 ] Sort Tab is not MVC</a>
  * 		<a href="https://github.com/adempiere/adempiere/issues/999">
  * 		@see FR [ 999 ] Add ZK Support for Process Action</a>
+ * @author Michael McKay, mckayERP@gmail.com
+ * 		<li><a href="https://github.com/adempiere/adempiere/issues/2373">#2373</a> Add copy record shortcut key Shift+F2
  */
 public class CWindowToolbar extends FToolbar implements EventListener
 {
@@ -104,6 +106,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
     private Map<Integer, ToolBarButton> keyMap = new HashMap<Integer, ToolBarButton>();
     private Map<Integer, ToolBarButton> altKeyMap = new HashMap<Integer, ToolBarButton>();
     private Map<Integer, ToolBarButton> ctrlKeyMap = new HashMap<Integer, ToolBarButton>();
+    private Map<Integer, ToolBarButton> shiftKeyMap = new HashMap<Integer, ToolBarButton>();
 
 	private boolean embedded;
 
@@ -330,6 +333,8 @@ public class CWindowToolbar extends FToolbar implements EventListener
 		ctrlKeyMap.put(VK_S, btnSave);
 		ctrlKeyMap.put(VK_D, btnDelete);
 		ctrlKeyMap.put(VK_F, btnFind);
+		
+		shiftKeyMap.put(KeyEvent.F2, btnCopy);
 	}
 
 	protected void addSeparator()
@@ -598,6 +603,7 @@ public class CWindowToolbar extends FToolbar implements EventListener
 
 	private void onCtrlKeyEvent(KeyEvent keyEvent) {
 		ToolBarButton btn = null;
+		// <Alt>
 		if (keyEvent.isAltKey() && !keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
 		{
 			if (keyEvent.getKeyCode() == VK_X)
@@ -614,18 +620,26 @@ public class CWindowToolbar extends FToolbar implements EventListener
 			{
 				btn = altKeyMap.get(keyEvent.getKeyCode());
 			}
-		}else if (!keyEvent.isAltKey() && keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
+		}
+		// <Ctrl>
+		else if (!keyEvent.isAltKey() && keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
 		{
 			btn = ctrlKeyMap.get(keyEvent.getKeyCode());
 		}
-		else if (!keyEvent.isAltKey() && keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
-			btn = ctrlKeyMap.get(keyEvent.getKeyCode());
+		// <Shift>
+		else if (!keyEvent.isAltKey() && !keyEvent.isCtrlKey() && keyEvent.isShiftKey())
+		{
+			btn = shiftKeyMap.get(keyEvent.getKeyCode());
+		}
+		// Normal eg <F2>
 		else if (!keyEvent.isAltKey() && !keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
+		{
 			btn = keyMap.get(keyEvent.getKeyCode());
-		else if (!keyEvent.isAltKey() && keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
-			btn = ctrlKeyMap.get(keyEvent.getKeyCode());
-		else if (!keyEvent.isAltKey() && !keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
-			btn = keyMap.get(keyEvent.getKeyCode());
+		}
+//		else if (!keyEvent.isAltKey() && keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
+//			btn = ctrlKeyMap.get(keyEvent.getKeyCode());
+//		else if (!keyEvent.isAltKey() && !keyEvent.isCtrlKey() && !keyEvent.isShiftKey())
+//			btn = keyMap.get(keyEvent.getKeyCode());
 
 
 		sendButtonClickEvent(keyEvent, btn);

@@ -159,7 +159,8 @@ import org.compiere.util.Util;
  * @contributor fer_luck @ centuryon  FR [ 1757088 ]
  * 
  * @author mckayERP www.mckayERP.com
- * 				<li> #283 GridController in swing will not set value to null in vetoableChange 
+ * 		<li> BF [ <a href="https://github.com/adempiere/adempiere/issues/281">#283</a> ] GridController in swing will not set value to null in vetoableChange
+ * 		<li> BF [ <a href="https://github.com/adempiere/adempiere/issues/421">#421</a> ] Embedded tab is not updated
  */
 public class GridController extends CPanel
 	implements DataStatusListener, ListSelectionListener, Evaluatee,
@@ -756,6 +757,14 @@ public class GridController extends CPanel
 			return;
 		cardLayout.first(cardPanel);
 		m_singleRow = true;
+		
+		// Refresh the data to ensure embedded tabs are updated with
+		// the selected row. Check if the table model is open before 
+		// trying to refresh.  It may not have been opened yet, in 
+		// which case, the refresh will cause an error. See issue #421
+		if (m_mTab.getTableModel().isOpen()) 
+			m_mTab.dataRefresh(m_mTab.getCurrentRow());  // Fix for #421
+		
 		dynamicDisplay(0);
 	//	vPanel.requestFocus();
 	}   //  switchSingleRow

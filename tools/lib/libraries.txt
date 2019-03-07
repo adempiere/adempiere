@@ -30,8 +30,7 @@ log4j.jar
 
 --------
 
-ojdbc14.jar	Oracle JDBC 9.2.0.3 - also lib/oracle.jar
-ojdbc14_g.jar	Oracle JDBC 9.2.0.3 debug
+ojdbc18.jar	Oracle JDBC 9.2.0.3 - also lib/oracle.jar
 ocrs12.jar	Oracle JDBC 9.2.0.3 RowSet	
 
 --------

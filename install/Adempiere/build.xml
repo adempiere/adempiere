@@ -622,12 +622,12 @@
 			userid="guest"
 			password="">
 			<fileset  dir="${env.ADEMPIERE_HOME}">
-				<include name="**/Adempiere_390.zip"/>
+				<include name="**/Adempiere_391.zip"/>
 			</fileset>
 		</ftp>
 
 		<!-- unzip and overwrite them and delete the downloaded directory -->
-		<unzip src="${env.ADEMPIERE_HOME}/Disk 1/Adempiere_390.zip" dest="${env.ADEMPIERE_HOME}\..\"  overwrite="yes" />
+		<unzip src="${env.ADEMPIERE_HOME}/Disk 1/Adempiere_391.zip" dest="${env.ADEMPIERE_HOME}\..\"  overwrite="yes" />
 		<delete dir="${env.ADEMPIERE_HOME}/Disk 1"/>
 
 		<echo message="======================Setup adempiere==============================" />

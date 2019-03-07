@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_LandedCostType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_LandedCostType 
 {
@@ -30,14 +30,14 @@ public interface I_C_LandedCostType
     /** TableName=C_LandedCostType */
     public static final String Table_Name = "C_LandedCostType";
 
-    /** AD_Table_ID=54528 */
+    /** AD_Table_ID=54580 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 7 - System - Client - Org 
+    /** AccessLevel = 3 - Client - Org 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
 
@@ -65,10 +65,10 @@ public interface I_C_LandedCostType
     /** Column name C_LandedCostType_ID */
     public static final String COLUMNNAME_C_LandedCostType_ID = "C_LandedCostType_ID";
 
-	/** Set LandedCostType ID	  */
+	/** Set C_LandedCostType_ID	  */
 	public void setC_LandedCostType_ID (int C_LandedCostType_ID);
 
-	/** Get LandedCostType ID	  */
+	/** Get C_LandedCostType_ID	  */
 	public int getC_LandedCostType_ID();
 
     /** Column name Created */
@@ -126,6 +126,19 @@ public interface I_C_LandedCostType
 	  */
 	public String getName();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -141,19 +154,6 @@ public interface I_C_LandedCostType
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

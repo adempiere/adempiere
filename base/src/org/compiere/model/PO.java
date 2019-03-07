@@ -35,7 +35,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
@@ -2309,13 +2308,6 @@ public abstract class PO
 			try
 			{
 				success = afterSave (newRecord, success);
-				//Generate UUID
-				//TODO : Is necessary Generate UUIDs for all records
-				/*if (get_ColumnIndex("UUID") > 0 && get_ValueAsString("UUID") == null)
-				{
-					UUID uuid = UUID.randomUUID();
-					set_CustomColumn("UUID", uuid.toString());
-				}*/
 				//	Yamel Senih [ 9223372036854775807 ]
 				//	Insert Tree Node
 				if (success && newRecord)
@@ -2487,14 +2479,19 @@ public abstract class PO
 		int size = get_ColumnCount();
 		for (int i = 0; i < size; i++)
 		{
+			String columnName = p_info.getColumnName(i);
 			Object value = m_newValues[i];
+			if (columnName.equals("UUID") && get_Value(columnName) == null)
+			{
+				value = generateUUID();
+			}
+
 			if (value == null
 				|| p_info.isVirtualColumn(i))
 				continue;
 			//  we have a change
 			Class<?> c = p_info.getColumnClass(i);
 			int dt = p_info.getColumnDisplayType(i);
-			String columnName = p_info.getColumnName(i);
 			//
 			//	updated/by
 			if (columnName.equals("UpdatedBy"))
@@ -2526,21 +2523,23 @@ public abstract class PO
 			//	Update Document No
 			if (columnName.equals("DocumentNo"))
 			{
-				String strValue = (String)value;
-				if (strValue.startsWith("<") && strValue.endsWith(">"))
-				{
-					value = null;
-					int AD_Client_ID = getAD_Client_ID();
-					int index = p_info.getColumnIndex("C_DocTypeTarget_ID");
-					if (index == -1)
-						index = p_info.getColumnIndex("C_DocType_ID");
-					if (index != -1)		//	get based on Doc Type (might return null)
-						value = DB.getDocumentNo(get_ValueAsInt(index), m_trxName, false, this);
-					if (value == null)	//	not overwritten by DocType and not manually entered
-						value = DB.getDocumentNo(AD_Client_ID, p_info.getTableName(), m_trxName, this);
+				if(value instanceof String) {
+					String strValue = (String)value;
+					if (strValue.startsWith("<") && strValue.endsWith(">"))
+					{
+						value = null;
+						int AD_Client_ID = getAD_Client_ID();
+						int index = p_info.getColumnIndex("C_DocTypeTarget_ID");
+						if (index == -1)
+							index = p_info.getColumnIndex("C_DocType_ID");
+						if (index != -1)		//	get based on Doc Type (might return null)
+							value = DB.getDocumentNo(get_ValueAsInt(index), m_trxName, false, this);
+						if (value == null)	//	not overwritten by DocType and not manually entered
+							value = DB.getDocumentNo(AD_Client_ID, p_info.getTableName(), m_trxName, this);
+					}
+					else
+						log.warning("DocumentNo updated: " + m_oldValues[i] + " -> " + value);
 				}
-				else
-					log.warning("DocumentNo updated: " + m_oldValues[i] + " -> " + value);
 			}
 
 			if (changes)
@@ -2678,7 +2677,7 @@ public abstract class PO
 		//  Set ID for single key - Multi-Key values need explicitly be set previously
 		if (m_IDs.length == 1 && p_info.hasKeyColumn()
 			&& m_KeyColumns[0].endsWith("_ID")
-			&& !isDirectLoad )	//	AD_Language, EntityType
+			&& (!isDirectLoad || get_ID() <= 0))	//	AD_Language, EntityType
 		{
 			int no = saveNew_getID();
 			if (no <= 0)
@@ -2757,6 +2756,10 @@ public abstract class PO
 		for (int i = 0; i < size; i++)
 		{
 			Object value = get_Value(i);
+			if (p_info.getColumnName(i).equals("UUID") && value == null) {
+				value = generateUUID();
+			}
+
 			//	Don't insert NULL values (allows Database defaults)
 			if (value == null
 				|| p_info.isVirtualColumn(i))
@@ -4225,5 +4228,14 @@ public abstract class PO
 		clone.m_attachment = null;
 		clone.m_isReplication = false;
 		return clone;
+	}
+
+	public String generateUUID() {
+		String uuid;
+		if (DB.isOracle())
+		 	uuid = DB.getSQLValueString(get_TrxName(), "SELECT getUUID() FROM DUAL");
+		else
+			uuid = DB.getSQLValueString(get_TrxName(), "SELECT getUUID()");
+		return uuid;
 	}
 }   //  PO

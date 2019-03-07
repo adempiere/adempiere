@@ -79,12 +79,20 @@ fi
 
 # Don't override the endorsed dir if the user has set it previously
 if [ -z "$JAVA_ENDORSED_DIRS" ]; then
-  # Set the default -Djava.endorsed.dirs argument
-  JAVA_ENDORSED_DIRS="$CATALINA_HOME"/endorsed
+  # Java 9 no longer supports the java.endorsed.dirs
+  # system property. Only try to use it if
+  # CATALINA_HOME/endorsed exists.
+  if [ -d "$CATALINA_HOME"/endorsed ]; then
+    JAVA_ENDORSED_DIRS="$CATALINA_HOME"/endorsed
+  fi
 fi
 
-# Set standard commands for invoking Java.
-_RUNJAVA="$JRE_HOME"/bin/java
+# Set standard commands for invoking Java, if not already set.
+if [ -z "$_RUNJAVA" ]; then
+  _RUNJAVA="$JRE_HOME"/bin/java
+fi
 if [ "$os400" != "true" ]; then
-  _RUNJDB="$JAVA_HOME"/bin/jdb
+  if [ -z "$_RUNJDB" ]; then
+    _RUNJDB="$JAVA_HOME"/bin/jdb
+  fi
 fi

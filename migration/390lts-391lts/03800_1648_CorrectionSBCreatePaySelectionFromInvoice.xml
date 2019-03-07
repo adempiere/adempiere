@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="1648_CorrectionSBCreatePayselectionFromInvoice" ReleaseNo="3.9.1" SeqNo="3800">
+    <Comments>https://github.com/adempiere/adempiere/issues/1648</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53232" Action="U" Record_ID="54229" Table="AD_View_Column">
+        <Data AD_Column_ID="58106" Column="ColumnSQL" oldValue="currencyConvert(invoiceOpen(inv.C_Invoice_ID, inv.C_InvoicePaySchedule_ID), inv.C_Currency_ID, @INV_C_Currency_ID@, TO_DATE('@PayDate@','YYYY-MM-DD'), inv.C_ConversionType_ID, inv.AD_Client_ID, inv.AD_Org_ID)">currencyConvert(invoiceOpen(inv.C_Invoice_ID, inv.C_InvoicePaySchedule_ID), inv.C_Currency_ID, @INV_C_Currency_ID@, TO_DATE('@PayDate@','YYYY-MM-DD'), inv.C_ConversionType_ID, inv.AD_Client_ID, inv.AD_Org_ID)  -  currencyConvert(paymentTermDiscount(inv.GrandTotal, inv.C_Currency_ID, inv.C_PaymentTerm_ID, inv.DateInvoiced, TO_DATE('@PayDate@','YYYY-MM-DD')), inv.C_Currency_ID, @INV_C_Currency_ID@, TO_DATE('@PayDate@','YYYY-MM-DD'), inv.C_ConversionType_ID, inv.AD_Client_ID, inv.AD_Org_ID) </Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

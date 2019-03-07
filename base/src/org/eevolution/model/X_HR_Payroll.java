@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Payroll
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180728L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_HR_Payroll (Properties ctx, int HR_Payroll_ID, String trxName)
@@ -219,7 +219,7 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 		return false;
 	}
 
-	/** Set IsPostPerEmployee.
+	/** Set Post Per Employee.
 		@param IsPostPerEmployee 
 		A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N
 	  */
@@ -228,7 +228,7 @@ public class X_HR_Payroll extends PO implements I_HR_Payroll, I_Persistent
 		set_Value (COLUMNNAME_IsPostPerEmployee, Boolean.valueOf(IsPostPerEmployee));
 	}
 
-	/** Get IsPostPerEmployee.
+	/** Get Post Per Employee.
 		@return A Payroll is posted per employee when the value is Yes, it is posted accumulated when the value is N
 	  */
 	public boolean isPostPerEmployee () 

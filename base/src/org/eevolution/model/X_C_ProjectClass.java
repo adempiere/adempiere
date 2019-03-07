@@ -19,23 +19,19 @@ package org.eevolution.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ProjectClass
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
-public class X_C_ProjectClass extends PO implements I_C_ProjectClass, I_Persistent
+ *  @version Release 3.9.1 - $Id$ */
+public class X_C_ProjectClass extends PO implements I_C_ProjectClass, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171022L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_ProjectClass (Properties ctx, int C_ProjectClass_ID, String trxName)
@@ -187,7 +183,7 @@ public class X_C_ProjectClass extends PO implements I_C_ProjectClass, I_Persiste
 
 	public org.eevolution.model.I_C_ProjectClass getProjectClassParent() throws RuntimeException
     {
-		return (org.eevolution.model.I_C_ProjectClass) MTable.get(getCtx(), org.eevolution.model.I_C_ProjectClass.Table_Name)
+		return (org.eevolution.model.I_C_ProjectClass)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectClass.Table_Name)
 			.getPO(getProjectClassParent_ID(), get_TrxName());	}
 
 	/** Set Project Class Parent.
