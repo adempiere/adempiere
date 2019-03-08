@@ -105,7 +105,41 @@ public class VTabbedPane extends CTabbedPane
 		}
 		if (s_disabledIcon == null)
 			s_disabledIcon = Env.getImageIcon("Cancel10.gif");
-		setDisabledIconAt(index, s_disabledIcon);
+		// TODO EUG fehlersuche
+/*
+-----------------------
+10:53:07.232 MChangeLog.fillChangeLog: #73 [29]
+===========> GridTab.verifyRow: Table not open MTable[C_Bank,WindowNo=2,Tab=0] targetRow:-1 [29]
+10:53:07.254 GridTable.dataRefresh: Row=-1 [29]
+10:53:07.259   MIssue.create: Table not open MTable[C_Bank,WindowNo=2,Tab=0] targetRow:-1 [29]
+10:53:07.260   GridField.loadLookup: (SystemStatus) [29]
+===========> GridTab.verifyRow: Table not open MTable[C_Bank,WindowNo=2,Tab=0] targetRow:-1 [29]
+...
+10:53:08.371 APanel.dataStatusChanged:  1/8000->16642 [30]
+===========> AMenuStartItem.run: ID=171 [29]
+java.lang.IndexOutOfBoundsException: Index: 2, Size: 2
+	at java.util.ArrayList.rangeCheck(ArrayList.java:653)
+	at java.util.ArrayList.get(ArrayList.java:429)
+	at javax.swing.JTabbedPane.setDisabledIconAt(JTabbedPane.java:1401)
+	at org.compiere.grid.VTabbedPane.addTab(VTabbedPane.java:108)
+	at org.compiere.apps.APanel.initPanel(APanel.java:879)
+	at org.compiere.apps.AWindow.initWindow(AWindow.java:129)
+	at org.compiere.apps.AWindow.initWindow(AWindow.java:115)
+	at org.compiere.apps.AMenuStartItem.startWindow(AMenuStartItem.java:237)
+	at org.compiere.apps.AMenuStartItem.startOption(AMenuStartItem.java:178)
+	at org.compiere.apps.AMenuStartItem.run(AMenuStartItem.java:138)
+
+ */
+		try {
+			log.config("### Fehlersuche index:"+index + " aus Oberklasse pages.size():"+getTabCount());
+			// aus Oberklasse JTabbedPane: VTabbedPane extends CTabbedPane extends JTabbedPane
+			setDisabledIconAt(index, s_disabledIcon);
+		} catch (Exception e) {	
+			e.printStackTrace();
+			//throw e; -- gute Lösung
+			log.info("### Fehler gefunden - die exception kann ignoriert werden (nur zu Doku)" );
+		}
+		log.config("### Fehlersuche ende ###");
 	}	//	addTab
 	
 	private void hideTab(String tabName)	{
