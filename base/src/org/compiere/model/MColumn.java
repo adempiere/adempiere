@@ -34,6 +34,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.Util;
 
 /**
@@ -76,6 +77,12 @@ public class MColumn extends X_AD_Column
 	 * other than 'Y' to disable the autosync.
 	 */
 	public static final String SYSCONFIG_DATABASE_AUTO_SYNC="DATABASE_AUTO_SYNC";
+
+	public static final String MSG_CannotSyncVirtualColumn = "@MColumn: Cannot sync a virtual column@";
+	public static final String MSG_CannotSyncView = "@MColumn: Cannot sync a view@";
+	public static final String MSG_SyncErrorColumnAlreadyExists = "@MColumn: Sync Error - a column with that name already exists@";
+	public static final String MSG_NoSQLNOChangesMade = "@MColumn: No SQL. No changes made.@";
+	public static final String MSG_ColumnAlreadyExists = "@MColumn: Column already exists. Probably just added.@";
 	
 	/**
      * Get if id column is Encrypted
@@ -387,6 +394,41 @@ public class MColumn extends X_AD_Column
 			setDescription (element.getDescription());
 			setHelp (element.getHelp());
 		}
+		
+		//  In beforeSave, determine if a sync of the database is required.
+		//  The sync is performed in the after save or via a process.  
+		//  To not duplicate columns on name change when syncing by a process,
+		//  a copy of the old name is required, if it changed.
+		if (!this.isVirtualColumn() && !this.getAD_Table().isView() && !this.isDirectLoad()
+				&& (newRecord  
+				|| is_ValueChanged(MColumn.COLUMNNAME_ColumnName)
+				|| is_ValueChanged(MColumn.COLUMNNAME_AD_Reference_ID)
+				|| is_ValueChanged(MColumn.COLUMNNAME_FieldLength)
+				|| is_ValueChanged(MColumn.COLUMNNAME_IsMandatory)
+				|| is_ValueChanged(MColumn.COLUMNNAME_IsKey)
+				|| is_ValueChanged(MColumn.COLUMNNAME_DefaultValue)
+				|| is_ValueChanged(MColumn.COLUMNNAME_ColumnSQL)
+				|| is_ValueChanged(MColumn.COLUMNNAME_IsParent))) 
+		{
+			if (isRequiresSync())
+			{
+				// We already have a change prepared.
+				if (getColumnName().equals(getNameOldValue()))
+				{
+					//  We had a change ready and the user has changed the name back
+					//  to what it was.  We can cancel the name change but we can't cancel
+					//  the sync as the other columns may have changed.
+					setNameOldValue(null);
+
+				}
+			}
+			else
+			{
+				setRequiresSync(true);
+				setNameOldValue((String) this.get_ValueOld(MColumn.COLUMNNAME_ColumnName));
+			}
+		}
+
 		return true;
 	}	//	beforeSave
 	
@@ -436,18 +478,16 @@ public class MColumn extends X_AD_Column
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
-		// #213 - AutoSync - check if we should auto-sync the column and table.
-		if (isAutoSync()
-				&& (newRecord
-					|| is_ValueChanged(MColumn.COLUMNNAME_ColumnName)
-					|| is_ValueChanged(MColumn.COLUMNNAME_AD_Reference_ID)
-					|| is_ValueChanged(MColumn.COLUMNNAME_FieldLength)
-					|| is_ValueChanged(MColumn.COLUMNNAME_IsMandatory)
-					|| is_ValueChanged(MColumn.COLUMNNAME_IsKey)
-					|| is_ValueChanged(MColumn.COLUMNNAME_DefaultValue)
-					|| is_ValueChanged(MColumn.COLUMNNAME_ColumnSQL)
-					|| is_ValueChanged(MColumn.COLUMNNAME_IsParent))) {
-			syncDatabase((String) this.get_ValueOld(COLUMNNAME_ColumnName));
+		//  #213 - AutoSync - check if we should auto-sync the column and table.
+		//  Autosync is controlled by a System Config entry.  The other sync 
+		//  options are to use the button in the Column tab or the Table and Column
+		//  window or the Sync All Tables and Columns process in the Application
+		//  Dictionary window.
+		if (isRequiresSync() && isAutoSync())
+		{
+
+			syncDatabase();
+					
 		}
 		
 		//	Update Fields
@@ -511,7 +551,7 @@ public class MColumn extends X_AD_Column
 			//  records.  This takes three statements:
 			//   1. Add the column to the table
 			//   2. Set the default value in all records
-			//   3. Make it the column mandatory
+			//   3. Make the column mandatory
 			
 			// SQL to add the column
 			sql = new StringBuffer ("ALTER TABLE ")
@@ -658,8 +698,9 @@ public class MColumn extends X_AD_Column
 					.append(DB.SQLSTATEMENT_SEPARATOR);
 		}
 
-		// TODO handle the constraints.  Modifying the defaults on key columns requires the drop 
-		// of the constraint.  For now, just allow renames on ID columns and ignore other changes.
+		//  TODO handle changes to the constraints and defaults on key columns.  
+		//  Modifying the defaults on key columns requires the drop of the constraint.  
+		//  For now, just rename ID columns and return, ignoring other changes.
 		if (this.isKey() || (getColumnName().endsWith("_ID") 
 				&& getColumnName().replace("_ID", "").equals(table.get_TableName()))) {
 			if (sql.length() == 0)
@@ -667,6 +708,7 @@ public class MColumn extends X_AD_Column
 			return sql.toString();
 		}
 		
+		// For non ID columns, we can manage defaults and other stuff
 		StringBuffer sqlBase = new StringBuffer ("ALTER TABLE ")
 			.append(table.getTableName())
 			.append(" MODIFY ").append(getColumnName());
@@ -676,6 +718,7 @@ public class MColumn extends X_AD_Column
 			.append(" DEFAULT ").append(getDefaultValueSQL());
 		
 		//	Constraint
+		//  TODO - rename inline constraints?
 		
 		//	Null Values
 		String defaultValue = getDefaultValueSQL();
@@ -800,29 +843,38 @@ public class MColumn extends X_AD_Column
 
 	/**
 	 * Sync this column with the database
-	 * @return
+	 * @return Error Message or SQL used to make the change
 	 */
 	public String syncDatabase()
 	{
-		return syncDatabase(null);
-	}
 	
-	/**
-	 * Sync this column with the database. Provide the oldColumnName when the sync action is performed 
-	 * after a save when get_ValueOld(ColumnName) will return null.
-	 * @param oldColumnName : If the column name changed, the old Column Name or null if there was no name change.
-	 * @return
-	 */
-	public String syncDatabase(String oldColumnName)
-	{
+		//  Get the old column name. This could have been set
+		//  some time ago.
+		String oldColumnName = getNameOldValue();
+
+		// Shouldn't happen - see beforeSave
 		if (this.isVirtualColumn())
-			return "Cannot sync a virtual column"; // TODO - Translate. Delete from database if it exists as a column?
+		{
+			setIsDirectLoad(true);
+			setRequiresSync(false);
+			setNameOldValue(null);
+			saveEx();
+			return MSG_CannotSyncVirtualColumn;  
+		}
 		
 		// The table has to be in the cache or a new table will be created
+		// so load it explicitly from the cache and not with new MTable ...
 		MTable table = MTable.get(getCtx(), getAD_Table_ID());
 		
+		// Shouldn't happen - see beforeSave
 		if (table.isView())
-			return "Cannot sync view";  // TODO - Translate
+		{
+			setIsDirectLoad(true);
+			setRequiresSync(false);
+			setNameOldValue(null);
+			saveEx();
+			return MSG_CannotSyncView; 
+		}
 		
 		table.set_TrxName(get_TrxName());  // otherwise table.getSQLCreate may miss current column
 		if (table.get_ID() == 0)
@@ -832,10 +884,11 @@ public class MColumn extends X_AD_Column
 			oldColumnName = null;
 		}
 
+		String returnMessage = "";
+		
 		//	Find Column in Database
 		Connection conn = null;
 		ResultSet rs= null;
-		String trxName = null;
 		try {
 			//  The query of database metadata will not see tables or columns changed/added in 
 			//  the current transaction. For table name changes, the change in primary 
@@ -909,37 +962,49 @@ public class MColumn extends X_AD_Column
 				}
 				// Both exist - which is a problem - so throw an error
 				else if (oldColumnExists && currentColumnExists) {
-					// TODO - Translate
-					throw new AdempiereException("Can't synchronize the change of the column name. A column with that name alread exists in the table.");
+					throw new AdempiereException(Msg.translate(getCtx(), MSG_SyncErrorColumnAlreadyExists) + " " + oldColumnName + "->" + getColumnName());
 				}
 			}
 			
-			if ( sql == null )
-				return "No sql. No changes made.";
+			//  If we are syncing the AD_Column table itself
+			//  we need to perform the changes in this transaction
+			//  otherwise, if we use trxName = null, the DB update
+			//  will block
+			String trxName = null;
+			if (this.getAD_Table_ID() == this.get_Table_ID())  
+				trxName = this.get_TrxName();
 			
-			if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1)
+			if ( sql != null )
 			{
-				DB.executeUpdateEx(sql, null);
+				if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1)
+				{
+					DB.executeUpdateEx(sql, trxName);
+				}
+				else
+				{
+					String statements[] = sql.split(DB.SQLSTATEMENT_SEPARATOR);
+					for (int i = 0; i < statements.length; i++)
+					{
+						DB.executeUpdateEx(statements[i], trxName);
+					}
+				}
+			
+				// Remove the old table definition from cache 
+				POInfo.removeFromCache(getAD_Table_ID());
+				
+				returnMessage = sql;
+				
 			}
 			else
 			{
-				String statements[] = sql.split(DB.SQLSTATEMENT_SEPARATOR);
-				for (int i = 0; i < statements.length; i++)
-				{
-					DB.executeUpdateEx(statements[i], null);
-				}
+				returnMessage = MSG_NoSQLNOChangesMade; 
 			}
-			
-			// Remove the old table definition from cache 
-			POInfo.removeFromCache(getAD_Table_ID());
-			return sql;
-
 		} 
 		catch (SQLException|DBException e ) {
-			if (e.getMessage()!= null && e.getMessage().contains("already exists")) {
+			if (e.getMessage()!= null && e.getMessage().contains("already exists")) {  // TODO will this work in other languages?
 				// ignore the error
 				// TODO translate
-				return "Column already exists. Probably just added.";
+				returnMessage =  MSG_ColumnAlreadyExists; 
 			}
 			else {	
 				throw new AdempiereException(e);
@@ -954,6 +1019,17 @@ public class MColumn extends X_AD_Column
 				conn = null;
 			}
 		}
+		
+		//  Success.  Remove the sync flags from this record
+		//  Set the DirectLoad flag to prevent a second run through 
+		//  the sync process.
+		setIsDirectLoad(true);
+		set_ValueNoCheck(COLUMNNAME_RequiresSync, Boolean.valueOf(false));
+		set_ValueNoCheck(COLUMNNAME_NameOldValue, null);
+		saveEx();
+		
+		return returnMessage;
+
 	}
 
 	/**
@@ -1067,11 +1143,11 @@ public class MColumn extends X_AD_Column
 	 * {@link org.compiere.process.ColumnSync} process. New tables are added along
 	 * with the columns.  Table name changes are always synchronized automatically.
 	 * <p>The auto sync can be configured by setting a system configurator for 
-	 * {@link #SYSCONFIG_DATABASE_AUTO_SYNC} to something other the 'Y', the default.
+	 * {@link #SYSCONFIG_DATABASE_AUTO_SYNC} to something other the 'N', the default.
 	 * @return true if the sync is automatic.
 	 */
 	public static boolean isAutoSync() {
-		return "Y".equals(MSysConfig.getValue(SYSCONFIG_DATABASE_AUTO_SYNC,"N",Env.getAD_Client_ID(Env.getCtx())));
+		return !"N".equals(MSysConfig.getValue(SYSCONFIG_DATABASE_AUTO_SYNC,"N",Env.getAD_Client_ID(Env.getCtx())));
 	}
 	
 }	//	MColumn
