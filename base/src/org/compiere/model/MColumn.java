@@ -399,7 +399,11 @@ public class MColumn extends X_AD_Column
 		//  The sync is performed in the after save or via a process.  
 		//  To not duplicate columns on name change when syncing by a process,
 		//  a copy of the old name is required, if it changed.
-		if (!this.isVirtualColumn() && !this.getAD_Table().isView() && !this.isDirectLoad()
+		//  Important: Can't call getAD_Table() if we just made a change to AD_Table
+		//  so test for the table ID before testing getAD_Table().isView()
+		if (!isVirtualColumn() 
+			&& (get_Table_ID() == I_AD_Table.Table_ID || get_Table_ID() == I_AD_Column.Table_ID || !this.getAD_Table().isView()) 
+			&& !isDirectLoad()
 				&& (newRecord  
 				|| is_ValueChanged(MColumn.COLUMNNAME_ColumnName)
 				|| is_ValueChanged(MColumn.COLUMNNAME_AD_Reference_ID)
@@ -848,6 +852,7 @@ public class MColumn extends X_AD_Column
 	public String syncDatabase()
 	{
 	
+		s_log.config("");
 		//  Get the old column name. This could have been set
 		//  some time ago.
 		String oldColumnName = getNameOldValue();
@@ -988,6 +993,13 @@ public class MColumn extends X_AD_Column
 						DB.executeUpdateEx(statements[i], trxName);
 					}
 				}
+				
+				if (getAD_Table_ID() == I_AD_Column.Table_ID || getAD_Table_ID() == I_AD_Table.Table_ID)
+				{
+					//  #2428 - Need to explicitly identify the columns in AD_Table and AD_Column
+					s_log.config("There has been a change in the AD_Table or AD_Column structure.  Resetting the columns in POInfo");
+					POInfo.resetPOInfoColumnList();
+				}
 			
 				// Remove the old table definition from cache 
 				POInfo.removeFromCache(getAD_Table_ID());
@@ -1023,11 +1035,14 @@ public class MColumn extends X_AD_Column
 		//  Success.  Remove the sync flags from this record
 		//  Set the DirectLoad flag to prevent a second run through 
 		//  the sync process.
-		setIsDirectLoad(true);
-		set_ValueNoCheck(COLUMNNAME_RequiresSync, Boolean.valueOf(false));
-		set_ValueNoCheck(COLUMNNAME_NameOldValue, null);
-		saveEx();
-		
+		if (get_ColumnIndex(COLUMNNAME_RequiresSync) != -1 && 
+				get_ColumnIndex(COLUMNNAME_NameOldValue) != -1)
+		{
+			setIsDirectLoad(true);
+			set_ValueNoCheck(COLUMNNAME_RequiresSync, Boolean.valueOf(false));
+			set_ValueNoCheck(COLUMNNAME_NameOldValue, null);
+			saveEx();
+		}		
 		return returnMessage;
 
 	}

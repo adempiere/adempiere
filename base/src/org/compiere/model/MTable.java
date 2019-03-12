@@ -1421,12 +1421,17 @@ public class MTable extends X_AD_Table
 			// Remove the old table definition from cache 
 			POInfo.removeFromCache(getAD_Table_ID());
 
-			// Turn off the sync flags
-			// Set IsDirectLoad so we don't do the afterSave again.
-			setIsDirectLoad(true);
-			set_ValueNoCheck(COLUMNNAME_RequiresSync, Boolean.valueOf(false));
-			set_ValueNoCheck(COLUMNNAME_NameOldValue, null);
-			saveEx();
+			//  Success.  Remove the sync flags from this record
+			//  Set the DirectLoad flag to prevent a second run through 
+			//  the sync process.
+			if (get_ColumnIndex(COLUMNNAME_RequiresSync) != -1 && 
+					get_ColumnIndex(COLUMNNAME_NameOldValue) != -1)
+			{
+				setIsDirectLoad(true);
+				set_ValueNoCheck(COLUMNNAME_RequiresSync, Boolean.valueOf(false));
+				set_ValueNoCheck(COLUMNNAME_NameOldValue, null);
+				saveEx();
+			}		
 
 			return sql;
 		} 
