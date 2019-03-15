@@ -135,7 +135,7 @@ public class ImportBudget extends ImportBudgetAbstract {
         Arrays.stream(budgetLinesIds).forEach(importBudgetId -> {
                         X_I_Budget importBudget = new X_I_Budget(getCtx(), importBudgetId, null);
                         if (importBudget.getI_ErrorMsg() != null)
-                            throw new AdempiereException("@GL_BudgetID@ @ProcessFailed@");
+                            throw new AdempiereException("@GL_Budget_ID@ @ProcessFailed@");
 
         });
 
@@ -214,10 +214,14 @@ public class ImportBudget extends ImportBudgetAbstract {
         int accountId = 0;
         if (importBudget.getAccount_ID() > 0)
             accountId = importBudget.getAccount_ID();
-        if (accountId <= 0 && importBudget.getAccountValue() != null)
-            accountId = getId(MElementValue.Table_Name, MElementValue.COLUMNNAME_Value + "=?", trxName, importBudget.getAccountValue());
-        if (accountId > 0 && importBudget.getAccount_ID() <= 0 )
-            importBudget.setAccount_ID(accountId);
+        if (accountId <= 0 && importBudget.getAccountValue() != null) {
+            Arrays.stream(acctSchemaElements)
+                    .filter(acctSchemaElement -> MAcctSchemaElement.ELEMENTTYPE_Account.equals(acctSchemaElement.getElementType()))
+                    .forEach(acctSchemaElement -> {
+                        String where = MElementValue.COLUMNNAME_C_Element_ID + "=? AND " + MElementValue.COLUMNNAME_Value + "=?";
+                        importBudget.setAccount_ID(getId(MElementValue.Table_Name, where, trxName, acctSchemaElement.getC_Element_ID(), importBudget.getAccountValue()));
+                    });
+        }
         if (importBudget.getAccount_ID() <= 0 && importBudget.getAccountValue() != null)
             stringError.append("@Account_ID@ @NotFound@ ");
 
