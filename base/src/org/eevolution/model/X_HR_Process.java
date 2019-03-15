@@ -33,7 +33,7 @@ public class X_HR_Process extends PO implements I_HR_Process, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190225L;
 
     /** Standard Constructor */
     public X_HR_Process (Properties ctx, int HR_Process_ID, String trxName)
@@ -139,29 +139,57 @@ public class X_HR_Process extends PO implements I_HR_Process, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_DocType getC_DocTypeTarget() throws RuntimeException
+	public org.compiere.model.I_C_ConversionType getC_ConversionType() throws RuntimeException
     {
-		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
-			.getPO(getC_DocTypeTarget_ID(), get_TrxName());	}
+		return (org.compiere.model.I_C_ConversionType)MTable.get(getCtx(), org.compiere.model.I_C_ConversionType.Table_Name)
+			.getPO(getC_ConversionType_ID(), get_TrxName());	}
 
-	/** Set Target Document Type.
-		@param C_DocTypeTarget_ID 
-		Target document type for conversing documents
+	/** Set Currency Type.
+		@param C_ConversionType_ID 
+		Currency Conversion Rate Type
 	  */
-	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID)
+	public void setC_ConversionType_ID (int C_ConversionType_ID)
 	{
-		if (C_DocTypeTarget_ID < 1) 
-			set_Value (COLUMNNAME_C_DocTypeTarget_ID, null);
+		if (C_ConversionType_ID < 1) 
+			set_Value (COLUMNNAME_C_ConversionType_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_DocTypeTarget_ID, Integer.valueOf(C_DocTypeTarget_ID));
+			set_Value (COLUMNNAME_C_ConversionType_ID, Integer.valueOf(C_ConversionType_ID));
 	}
 
-	/** Get Target Document Type.
-		@return Target document type for conversing documents
+	/** Get Currency Type.
+		@return Currency Conversion Rate Type
 	  */
-	public int getC_DocTypeTarget_ID () 
+	public int getC_ConversionType_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeTarget_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ConversionType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
+			.getPO(getC_Currency_ID(), get_TrxName());	}
+
+	/** Set Currency.
+		@param C_Currency_ID 
+		The Currency for this record
+	  */
+	public void setC_Currency_ID (int C_Currency_ID)
+	{
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+	}
+
+	/** Get Currency.
+		@return The Currency for this record
+	  */
+	public int getC_Currency_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Currency_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -190,6 +218,34 @@ public class X_HR_Process extends PO implements I_HR_Process, I_Persistent
 	public int getC_DocType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_DocType getC_DocTypeTarget() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getC_DocTypeTarget_ID(), get_TrxName());	}
+
+	/** Set Target Document Type.
+		@param C_DocTypeTarget_ID 
+		Target document type for conversing documents
+	  */
+	public void setC_DocTypeTarget_ID (int C_DocTypeTarget_ID)
+	{
+		if (C_DocTypeTarget_ID < 1) 
+			set_Value (COLUMNNAME_C_DocTypeTarget_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_DocTypeTarget_ID, Integer.valueOf(C_DocTypeTarget_ID));
+	}
+
+	/** Get Target Document Type.
+		@return Target document type for conversing documents
+	  */
+	public int getC_DocTypeTarget_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocTypeTarget_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
