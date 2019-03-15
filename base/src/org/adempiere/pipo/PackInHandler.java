@@ -679,17 +679,17 @@ public class PackInHandler extends DefaultHandler {
         	
         	//	Columns
         	if(columns.size() > 0) {
-        		for (Element e : columns) {
-    	    		Attributes atts = e.attributes;
-    	    		String columnUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_Column.Table_Name));
-    	    		int id = IDFinder.getIdFromUUID(m_ctx, I_AD_Column.Table_Name, columnUuid, 0, trxName);
-    				if(id > 0) {
-    					MColumn column = new MColumn(m_ctx, id, trxName);
-    					if(column.getAD_Table_ID() > 0) {
-    						column.syncDatabase();
-    					}
-    				}
-        		}
+//        		for (Element e : columns) {
+//    	    		Attributes atts = e.attributes;
+//    	    		String columnUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_Column.Table_Name));
+//    	    		int id = IDFinder.getIdFromUUID(m_ctx, I_AD_Column.Table_Name, columnUuid, 0, trxName);
+//    				if(id > 0) {
+//    					MColumn column = new MColumn(m_ctx, id, trxName);
+//    					if(column.getAD_Table_ID() > 0) {
+//    						column.syncDatabase();
+//    					}
+//    				}
+//        		}
         	}
     		
     		logDocument.endElement("","","adempiereDocument");

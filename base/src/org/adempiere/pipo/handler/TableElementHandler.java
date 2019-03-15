@@ -49,6 +49,9 @@ public class TableElementHandler extends GenericPOHandler {
 		packOut.createGenericPO(document, I_AD_Table.Table_ID, tableId, true, null);
 		MTable table = MTable.get(ctx, tableId);
 		for(MColumn colunm : table.getColumns(true)) {
+			if(colunm.getAD_Reference_Value_ID() > 0) {
+				packOut.createReference(colunm.getAD_Reference_Value_ID(), document);
+			}
 			packOut.createGenericPO(document, I_AD_Column.Table_ID, colunm.getAD_Column_ID(), true, null);
 		}
 		//	Create Sequence

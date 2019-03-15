@@ -126,7 +126,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 					String parentTableName = getParentTableName(ctx, poInfo.getAD_Column_ID(columnName), poInfo.getColumnDisplayType(index));
 					if(!Util.isEmpty(parentTableName)) {
 						int foreignId = getParentId(ctx, parentTableName, parentUuid);
-						if(foreignId != -1) {
+						if(foreignId > 0) {
 							entity.set_ValueOfColumn(columnName, foreignId);
 							continue;
 						}
@@ -179,7 +179,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 	 * With default include parents
 	 */
 	public void create(Properties ctx, TransformerHandler document) throws SAXException {
-		create(ctx, document, null, false, null);
+		create(ctx, document, null, true, null);
 	}
 	
 	/**
@@ -219,6 +219,9 @@ public class GenericPOHandler extends AbstractElementHandler {
 		//	Instance PO
 		if(entity == null) {
 			entity = getCreatePO(ctx, tableId, recordId, null);
+		}
+		if(entity == null) {
+			return;
 		}
 		//	Create parents
 		if(includeParents) {
@@ -268,7 +271,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 				continue;
 			}
 			//	Verify Exclusion
-			if(excludedParentList!= null) {
+			if(excludedParentList != null) {
 				if(excludedParentList.contains(parentTableName)) {
 					continue;
 				}
