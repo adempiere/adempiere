@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Generate docs from Application Dictionary #1934" ReleaseNo="3.9.1" SeqNo="4420">
+  <Migration EntityType="D" Name="Generate docs from Application Dictionary #1934" ReleaseNo="3.9.2" SeqNo="4420">
     <Comments>See: https://github.com/adempiere/adempiere/issues/1934</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="284" Action="I" Record_ID="54128" Table="AD_Process">
@@ -59,11 +59,11 @@
     </Step>
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
-        <Data AD_Column_ID="2852" Column="Name" oldValue="Generate Documentation from Menu">Generar Documentación desde Menú</Data>
-        <Data AD_Column_ID="2853" Column="Description" oldValue="Generate Documentation from Option Menu">Generar Documentación desde Menú de Opciones</Data>
         <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54128">54128</Data>
         <Data AD_Column_ID="2854" Column="Help" oldValue="It process allows create docs in supported formats for external documentation handler">Permite crear documentación en Formatos soportados para manejadores externos de documentos, reStructuredText or MarkDown</Data>
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Generate Documentation from Menu">Generar Documentación desde Menú</Data>
+        <Data AD_Column_ID="2853" Column="Description" oldValue="Generate Documentation from Option Menu">Generar Documentación desde Menú de Opciones</Data>
       </PO>
     </Step>
     <Step SeqNo="40" StepType="AD">
@@ -435,8 +435,8 @@
     <Step SeqNo="290" StepType="AD">
       <PO AD_Table_ID="452" Action="U" Record_ID="108" Table="AD_TreeNodeMM">
         <Data AD_Column_ID="6157" Column="SeqNo" oldValue="1">2</Data>
-        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="108">108</Data>
         <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="108">108</Data>
       </PO>
     </Step>
     <Step SeqNo="300" StepType="AD">
@@ -520,6 +520,35 @@
         <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55307</Data>
         <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="84391" Column="UUID">900f87fc-316f-11e9-880a-c39a4a451b1b</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="54423" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54423">54423</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="16">17</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="54354" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54354">54354</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="159">155</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="0">18</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53920" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53920">53920</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="17">19</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="383" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="383">383</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="18">20</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
       </PO>
     </Step>
   </Migration>
