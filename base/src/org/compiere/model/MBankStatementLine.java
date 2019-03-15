@@ -20,6 +20,7 @@ package org.compiere.model;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -42,6 +43,9 @@ import org.compiere.util.Msg;
  * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
  *  	<li> FR [ 1699 ] Add support view for Bank Statement
  *  	@see https://github.com/adempiere/adempiere/issues/1699
+ * @author Víctor Pérez Juárez Email: victor.perez@e-evolution.com, http://www.e-evolution.com , http://github.com/e-Evolution+
+ * 		<li> FR [ 1699 ] Add conversion for bank statement helper method #2403
+ *      <a href="https://github.com/adempiere/adempiere/pull/2403">
  */
  public class MBankStatementLine extends X_C_BankStatementLine
  {
@@ -181,29 +185,23 @@ import org.compiere.util.Msg;
         BigDecimal paymentAmount = payment.getPayAmt(true);
         int currencyId = payment.getC_Currency_ID();
         
-        MBankAccount account = MBankAccount.get(getCtx(), getParent().getC_BankAccount_ID());
-        if(account.getC_Currency_ID() != payment.getC_Currency_ID()) {
-            currencyId = account.getC_Currency_ID();
+        MBankAccount bankAccount = MBankAccount.get(getCtx(), getParent().getC_BankAccount_ID());
+        if(bankAccount.getC_Currency_ID() != payment.getC_Currency_ID()) {
+            currencyId = bankAccount.getC_Currency_ID();
             // Get Currency Info
-            MCurrency currency = MCurrency.get (getCtx(),account.getC_Currency_ID());
+            MCurrency currency = MCurrency.get (getCtx(),bankAccount.getC_Currency_ID());
             Timestamp conversionDate = getParent().getStatementDate();
     
             // Get Currency Rate
-            BigDecimal currencyRate = Env.ONE;
-            // Rate
-            currencyRate = MConversionRate.getRate (payment.getC_Currency_ID(),
-                    account.getC_Currency_ID(), conversionDate, payment.getC_ConversionType_ID(), payment.getAD_Client_ID(),
-                    payment.getAD_Org_ID());
-            
-            if(currencyRate != null) {
-               // Set Open Amount
-                paymentAmount = paymentAmount.multiply(currencyRate).setScale(currency.getStdPrecision(), BigDecimal.ROUND_HALF_UP);
-            }
+            Optional<BigDecimal> maybeCurrencyRate = Optional.ofNullable(MConversionRate.getRate (payment.getC_Currency_ID(),
+                    bankAccount.getC_Currency_ID(), conversionDate, payment.getC_ConversionType_ID(), payment.getAD_Client_ID(),
+                    payment.getAD_Org_ID()));
+			maybeCurrencyRate.ifPresent(currentRate -> paymentAmount.multiply(currencyRate)
+					.setScale(currency.getStdPrecision(), BigDecimal.ROUND_HALF_UP));
         }
         setC_Payment_ID (payment.getC_Payment_ID());
         setC_Currency_ID (currencyId);
-        //
-          
+
         BigDecimal chargeAmt = getChargeAmt();
         if (chargeAmt == null)
             chargeAmt = Env.ZERO;
