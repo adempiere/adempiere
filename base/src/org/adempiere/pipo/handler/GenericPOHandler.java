@@ -32,9 +32,11 @@ import org.compiere.model.I_AD_Element;
 import org.compiere.model.I_AD_EntityType;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MLookupInfo;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.model.POInfo;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_Table;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -54,6 +56,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 	public static final String TABLE_ID_TAG = "TableIdTag";
 	public static final String RECORD_ID_TAG = "RecordIdTag";
 	public static final String TAG_Name = "GenericPO";
+	public static final String HANDLE_TRANSLATION_FLAG = "2PACK_HANDLE_TRANSLATIONS";
 	/**	Tag for column	*/
 	public static final String Column_TAG_Name = TAG_Name + "_" + I_AD_Column.Table_Name;
 	
@@ -79,7 +82,13 @@ public class GenericPOHandler extends AbstractElementHandler {
 		if(!Util.isEmpty(keyColumnName)) {
 			recordId = getIdFromUUID(ctx, tableName, uuid);
 		}
-		PO entity = getCreatePO(ctx, tableId, recordId, getTrxName(ctx));
+		PO entity = null;
+		//	Translation
+		if(tableName.endsWith("_Trl")) {
+			entity = getCreatePOTrl(ctx, tableName, atts, getTrxName(ctx));
+		} else {
+			entity = getCreatePO(ctx, tableId, recordId, getTrxName(ctx));
+		}
 		//	
 		int backupId;
 		String objectStatus;
@@ -227,11 +236,13 @@ public class GenericPOHandler extends AbstractElementHandler {
 		if(includeParents) {
 			createParent(ctx, document, entity, excludedParentList);
 		}
-		AttributesImpl atts = createMessageBinding(ctx, entity);
+		AttributesImpl atts = createBinding(ctx, entity);
 		if(atts != null) {
 			document.startElement("", "", getTagName(entity), atts);
 			document.endElement("", "", getTagName(entity));
 		}
+		//	 Create translation
+		createTranslation(ctx, document, entity);
 	}
 	
 	/**
@@ -334,12 +345,32 @@ public class GenericPOHandler extends AbstractElementHandler {
 	}
 	
 	/**
+	 * Create PO for translation
+	 * @param ctx
+	 * @param language
+	 * @param uuId
+	 * @param parentId
+	 * @param trxName
+	 * @return
+	 */
+	private PO getCreatePOTrl(Properties ctx, String tableName, Attributes atts, String trxName) {
+		String parentKey = tableName.replaceAll("_Trl", "") + "_ID";
+		String uuid = getUUIDValue(atts, tableName);
+		String language = atts.getValue("AD_Language");
+		int parentId = Integer.parseInt(atts.getValue(parentKey));
+		//	for translation
+		return new Query(ctx, tableName, "UUID = ? OR (" + parentKey + " = ? AND AD_Language = ?)", trxName)
+				.setParameters(uuid, parentId, language)
+				.first();
+	}
+	
+	/**
 	 * Create export from data
 	 * @param entity
 	 * @param ctx
 	 * @return
 	 */
-	private AttributesImpl createMessageBinding(Properties ctx, PO entity) {
+	private AttributesImpl createBinding(Properties ctx, PO entity) {
 		AttributesImpl atts = new AttributesImpl();
 		atts.clear();
 		//	Fill attributes
@@ -443,5 +474,41 @@ public class GenericPOHandler extends AbstractElementHandler {
 		}
 		//	Get
 		return getIdFromUUID(ctx, parentTableName, uuid);
+	}
+	
+	/**
+	 * Create translation
+	 * @param ctx
+	 * @param entity
+	 * @param document
+	 * @throws SAXException 
+	 */
+	public void createTranslation(Properties ctx, TransformerHandler document, PO entity) throws SAXException {
+		if(!MSysConfig.getBooleanValue(HANDLE_TRANSLATION_FLAG, false)){
+			return;//translation import option is disabled
+		}
+		//	Validate table
+		String tableName = entity.get_TableName() + "_Trl";
+		//	Verify if Table Exist
+		MTable table = MTable.get(ctx, tableName);
+		if(table == null
+				|| Util.isEmpty(table.getTableName())) {
+			return;
+		}
+		//	Where clause
+		String whereClause = entity.get_TableName() + "_ID = ? "
+						+ "AND EXISTS(SELECT 1 FROM AD_Language l "
+						+ "WHERE l.AD_Language = " + tableName + ".AD_Language "
+						+ "AND l.IsSystemLanguage = ? "
+						+ "AND l.IsBaseLanguage = ?)";
+		//	Export
+		List<PO> translationList = new Query(ctx, tableName, whereClause, null)
+			.setParameters(entity.get_ID(), true, false)
+			.setOnlyActiveRecords(true)
+			.list();
+		//	Create
+		for(PO translation : translationList) {
+			create(ctx, document, translation);
+		}
 	}
 }
