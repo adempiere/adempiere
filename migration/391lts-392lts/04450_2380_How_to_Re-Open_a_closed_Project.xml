@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="How to Re-Open a closed Project ?" ReleaseNo="3.9.2" SeqNo="4450">
+    <Comments>Issue: https://github.com/adempiere/adempiere/issues/2380</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="227" Table="AD_Process">
+        <Data AD_Column_ID="2810" Column="Description" isOldNull="true">Closes a project if it is open; opens a project if it is closed</Data>
+        <Data AD_Column_ID="2809" Column="Name" oldValue="Close Project">Close/Open Project</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2855" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="227">227</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83249" Table="AD_Field">
+        <Data AD_Column_ID="168" Column="Name" oldValue="Close Project">Close/Open Project</Data>
+        <Data AD_Column_ID="169" Column="Description" isOldNull="true">Closes a project if it is open; opens a project if it is closed</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="127" Action="U" Record_ID="83249" Table="AD_Field_Trl">
+        <Data AD_Column_ID="289" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID" oldValue="83249">83249</Data>
+        <Data AD_Column_ID="285" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2853" Column="Description" isOldNull="true">Cierra el proyecto si se encuentra abierto; abre el proyecto si se encuentra cerrado</Data>
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Proyecto Cerrado">Cerrar/Abrir Proyecto</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="227">227</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="127" Action="U" Record_ID="83249" Table="AD_Field_Trl">
+        <Data AD_Column_ID="287" Column="Description" isOldNull="true">Cierra el proyecto si se encuentra abierto; abre el proyecto si se encuentra cerrado</Data>
+        <Data AD_Column_ID="286" Column="Name" oldValue="Proyecto Cerrado">Cerrar/Abrir Proyecto</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID" oldValue="83249">83249</Data>
+        <Data AD_Column_ID="285" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="83249" Table="AD_Field">
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained" oldValue="true">false</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

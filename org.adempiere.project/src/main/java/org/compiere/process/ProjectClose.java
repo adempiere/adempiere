@@ -57,6 +57,8 @@ public class ProjectClose extends SvrProcess
 
 	/**
 	 *  Perform process.
+	 *  The process sets "unprocessed" projects to "processed" and vice-versa
+	 *  It works like a flip-flop
 	 *  @return Message (translated text)
 	 *  @throws Exception if not successful
 	 */
@@ -74,11 +76,11 @@ public class ProjectClose extends SvrProcess
 
 		//	Close lines
 		projectLines.stream().forEach( projectLine ->{
-			projectLine.setProcessed(true);
+			projectLine.setProcessed(projectLine.isProcessed()?false:true);
 			projectLine.saveEx();
 		});
 
-		project.setProcessed(true);
+		project.setProcessed(project.isProcessed()?false:true);
 		project.saveEx();
 
 		return "";
