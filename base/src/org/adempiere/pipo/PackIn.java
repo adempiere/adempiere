@@ -94,7 +94,7 @@ public class PackIn extends PackInAbstract {
 	 */
 	protected String doIt() throws Exception {
 
-		X_AD_Package_Imp_Proc adPackageImp = new X_AD_Package_Imp_Proc(getCtx(), getRecord_ID(), null);
+		X_AD_Package_Imp_Proc adPackageImp = new X_AD_Package_Imp_Proc(getCtx(), getRecord_ID(), get_TrxName());
 
 		// clear cache of previous runs
 		IDFinder.clearIDCache();

@@ -21,6 +21,7 @@ import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.adempiere.model.GenericPO;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.AttributeFiller;
 import org.adempiere.pipo.Element;
@@ -75,7 +76,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 			element.skip = true;
 		}
 		//	Fill attributes
-		POInfo poInfo = POInfo.getPOInfo(ctx, tableId);
+		POInfo poInfo = POInfo.getPOInfo(ctx, tableId, getTrxName(ctx));
 		String keyColumnName = poInfo.getKeyColumnName();
 		int recordId = 0;
 		//	Get Record Id
@@ -83,9 +84,14 @@ public class GenericPOHandler extends AbstractElementHandler {
 			recordId = getIdFromUUID(ctx, tableName, uuid);
 		}
 		PO entity = null;
+		boolean isTranslation = false;
 		//	Translation
 		if(tableName.endsWith("_Trl")) {
+			isTranslation = true;
 			entity = getCreatePOTrl(ctx, tableName, atts, getTrxName(ctx));
+			if(entity == null) {
+				entity = new GenericPO(tableName, ctx, -1, getTrxName(ctx));
+			}
 		} else {
 			entity = getCreatePO(ctx, tableId, recordId, getTrxName(ctx));
 		}
@@ -149,7 +155,11 @@ public class GenericPOHandler extends AbstractElementHandler {
 		try {
 			beforeSave(entity);
 			entity.saveEx(getTrxName(ctx));
-			recordLog (ctx, 1, entity.get_ValueAsString(I_AD_Element.COLUMNNAME_UUID), getTagName(entity), entity.get_ID(),
+			int originalId = entity.get_ID();
+			if(isTranslation) {
+				originalId = entity.get_ValueAsInt(tableName.replaceAll("_Trl", "") + "_ID");
+			}
+			recordLog (ctx, 1, entity.get_ValueAsString(I_AD_Element.COLUMNNAME_UUID), getTagName(entity), originalId,
 						backupId, objectStatus,
 						I_AD_EntityType.Table_Name, I_AD_EntityType.Table_ID);
 			//	After Save
@@ -215,14 +225,16 @@ public class GenericPOHandler extends AbstractElementHandler {
 			tableId = Env.getContextAsInt(ctx, TABLE_ID_TAG);
 			recordId = Env.getContextAsInt(ctx, RECORD_ID_TAG);
 		}
-		if(tableId <= 0
-				|| recordId <= 0) {
+		if(tableId <= 0) {
 			return;
 		}
 		//	Validate if was processed
 		String key = tableId + "|" + recordId;
-		if (list.contains(key)) {
-			return;
+		MTable table = MTable.get(ctx, tableId);
+		if(!table.getTableName().endsWith("_Trl")) {
+			if (list.contains(key)) {
+				return;
+			}
 		}
 		list.add(key);
 		//	Instance PO

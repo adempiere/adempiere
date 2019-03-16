@@ -17,6 +17,7 @@
  *****************************************************************************/
 package org.adempiere.pipo.handler;
 
+import java.util.List;
 import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
@@ -25,10 +26,13 @@ import org.adempiere.pipo.PackOut;
 import org.compiere.model.I_AD_Column;
 import org.compiere.model.I_AD_Sequence;
 import org.compiere.model.I_AD_Table;
+import org.compiere.model.I_AD_Table_Process;
 import org.compiere.model.MColumn;
 import org.compiere.model.MSequence;
 import org.compiere.model.MTable;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_Package_Exp_Detail;
+import org.compiere.model.X_AD_Table_Process;
 import org.compiere.util.Env;
 import org.xml.sax.SAXException;
 
@@ -45,7 +49,7 @@ public class TableElementHandler extends GenericPOHandler {
 			packOut = new PackOut();
 			packOut.setLocalContext(ctx);
 		}
-		//	Task
+		//	Table
 		packOut.createGenericPO(document, I_AD_Table.Table_ID, tableId, true, null);
 		MTable table = MTable.get(ctx, tableId);
 		for(MColumn colunm : table.getColumns(true)) {
@@ -58,6 +62,16 @@ public class TableElementHandler extends GenericPOHandler {
 		MSequence sequence = MSequence.get(ctx, table.getTableName());
 		if(sequence != null) {
 			packOut.createGenericPO(document, I_AD_Sequence.Table_ID, sequence.getAD_Sequence_ID(), true, null);
+		}
+		//	Process
+		List<X_AD_Table_Process> assignedProcessList = new Query(ctx, I_AD_Table_Process.Table_Name, I_AD_Table_Process.COLUMNNAME_AD_Table_ID + " = ?", null)
+				.setParameters(table.getAD_Table_ID())
+				.setOnlyActiveRecords(true)
+				.<X_AD_Table_Process>list();
+		//	Create
+		for(X_AD_Table_Process assignedProcess : assignedProcessList) {
+			packOut.createProcess(assignedProcess.getAD_Process_ID(), document);
+			packOut.createGenericPO(document, assignedProcess, true, null);
 		}
 	}
 }
