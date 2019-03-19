@@ -327,7 +327,7 @@ public abstract class PO
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer("PO[")
-			.append(get_WhereClause(true)).append("]");
+			.append(get_WhereClause(true)).append(", UUID=").append(get_UUID()).append("]");
 		return sb.toString();
 	}	//  toString
 
@@ -433,6 +433,14 @@ public abstract class PO
 			return ((Integer)oo).intValue();
 		return 0;
 	}   //  getID
+	
+	/**
+	 * Get UUID
+	 * @return
+	 */
+	public String get_UUID() {
+		return get_ValueAsString(I_AD_Element.COLUMNNAME_UUID);
+	}
 
 	/**
 	 *  Return Deleted Single Key Record ID
@@ -2466,7 +2474,15 @@ public abstract class PO
 		boolean updated = false;
 		boolean updatedBy = false;
 		lobReset();
-
+		//	UUID
+		String columnName = I_AD_Element.COLUMNNAME_UUID;
+		if (p_info.getColumnIndex(columnName) != -1) {
+			String value = get_ValueAsString(columnName);
+			if (value == null || value.length() == 0) {
+				value = DB.getUUID(m_trxName);
+				set_ValueNoCheck(columnName, value);
+			}
+		}
 		//	Change Log
 		MSession session = MSession.get (p_ctx, false);
 		if (session == null)
@@ -2479,13 +2495,8 @@ public abstract class PO
 		int size = get_ColumnCount();
 		for (int i = 0; i < size; i++)
 		{
-			String columnName = p_info.getColumnName(i);
+			columnName = p_info.getColumnName(i);
 			Object value = m_newValues[i];
-			if (columnName.equals("UUID") && get_Value(columnName) == null)
-			{
-				value = DB.getUUID(get_TrxName());
-			}
-
 			if (value == null
 				|| p_info.isVirtualColumn(i))
 				continue;
@@ -2735,6 +2746,15 @@ public abstract class PO
 				set_ValueNoCheck(columnName, value);
 			}
 		}
+		//	UUID
+		columnName = I_AD_Element.COLUMNNAME_UUID;
+		if (p_info.getColumnIndex(columnName) != -1) {
+			String value = get_ValueAsString(columnName);
+			if (value == null || value.length() == 0) {
+				value = DB.getUUID(m_trxName);
+				set_ValueNoCheck(columnName, value);
+			}
+		}
 
 		lobReset();
 
@@ -2756,10 +2776,6 @@ public abstract class PO
 		for (int i = 0; i < size; i++)
 		{
 			Object value = get_Value(i);
-			if (p_info.getColumnName(i).equals("UUID") && value == null) {
-				value = DB.getUUID(get_TrxName());
-			}
-
 			//	Don't insert NULL values (allows Database defaults)
 			if (value == null
 				|| p_info.isVirtualColumn(i))
