@@ -46,16 +46,12 @@ import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
 import org.adempiere.pipo.handler.CodeSnipitElementHandler;
-import org.adempiere.pipo.handler.CommonTranslationHandler;
 import org.adempiere.pipo.handler.DataElementHandler;
 import org.adempiere.pipo.handler.DistFileElementHandler;
 import org.adempiere.pipo.handler.EntityTypeElementHandler;
 import org.adempiere.pipo.handler.GenericPOHandler;
 import org.adempiere.pipo.handler.MenuElementHandler;
 import org.adempiere.pipo.handler.ModelValidatorElementHandler;
-import org.adempiere.pipo.handler.ReferenceElementHandler;
-import org.adempiere.pipo.handler.ReferenceListElementHandler;
-import org.adempiere.pipo.handler.ReferenceTableElementHandler;
 import org.adempiere.pipo.handler.SQLStatementElementHandler;
 import org.adempiere.pipo.handler.TableElementHandler;
 import org.adempiere.pipo.handler.WorkflowElementHandler;
@@ -192,10 +188,6 @@ public class PackInHandler extends DefaultHandler {
     	handlers.put("codesnipit", new CodeSnipitElementHandler());
     	handlers.put("distfile", new DistFileElementHandler());
     	handlers.put("SQLStatement", new SQLStatementElementHandler());
-    	handlers.put("reference", new ReferenceElementHandler());
-    	handlers.put("referencelist", new ReferenceListElementHandler());
-    	handlers.put("referencetable", new ReferenceTableElementHandler());
-    	handlers.put("trl", new CommonTranslationHandler());
     	handlers.put(ModelValidatorElementHandler.TAG_Name, new ModelValidatorElementHandler());
     	handlers.put(EntityTypeElementHandler.TAG_Name, new EntityTypeElementHandler());
 	}

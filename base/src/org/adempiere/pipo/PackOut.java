@@ -20,7 +20,6 @@ package org.adempiere.pipo;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,7 +40,6 @@ import javax.xml.transform.stream.StreamResult;
 import org.adempiere.pipo.handler.AdElementHandler;
 import org.adempiere.pipo.handler.BrowseElementHandler;
 import org.adempiere.pipo.handler.CodeSnipitElementHandler;
-import org.adempiere.pipo.handler.CommonTranslationHandler;
 import org.adempiere.pipo.handler.DataElementHandler;
 import org.adempiere.pipo.handler.DistFileElementHandler;
 import org.adempiere.pipo.handler.DynValRuleElementHandler;
@@ -63,14 +61,12 @@ import org.adempiere.pipo.handler.TaskElementHandler;
 import org.adempiere.pipo.handler.ViewElementHandler;
 import org.adempiere.pipo.handler.WindowElementHandler;
 import org.adempiere.pipo.handler.WorkflowElementHandler;
-import org.compiere.model.MSysConfig;
+import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.model.X_AD_Element;
 import org.compiere.model.X_AD_Package_Exp;
 import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.model.X_AD_Reference;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.xml.sax.SAXException;
@@ -95,10 +91,7 @@ import org.xml.sax.helpers.AttributesImpl;
  *		<li>BR [1019] New Icon to export report definition is show only swing but not ZK https://github.com/adempiere/adempiere/issues/1019
  */
 
-public class PackOut extends SvrProcess
-{
-	/** Record ID				*/
-	private int packOutId = 0;
+public class PackOut extends PackOutAbstract {
 	private String PackOutVer = "005";
     private String packagedir = null;
     private String packagename = null;
@@ -129,23 +122,10 @@ public class PackOut extends SvrProcess
     DistFileElementHandler distFileHandler = new DistFileElementHandler();
     ReferenceElementHandler referenceHandler = new ReferenceElementHandler();
     AdElementHandler adElementHandler = new AdElementHandler();
-    CommonTranslationHandler translationHandler = new CommonTranslationHandler();
     ModelValidatorElementHandler modelValidatorHandler = new ModelValidatorElementHandler();
     EntityTypeElementHandler entitytypeHandler = new EntityTypeElementHandler();
     GenericPOHandler genericPOHandler = new GenericPOHandler();
     
-    /**
-	 *  Prepare - e.g., get Parameters.
-	 */
-	protected void prepare()
-	{
-		packOutId = getRecord_ID();
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-		}		
-	}	//	prepare
-
 	
 	/**
 	 * 	Start the transformation to XML
@@ -158,10 +138,10 @@ public class PackOut extends SvrProcess
 		
 		OutputStream  packageDocStream = null;
 		OutputStream  packOutDocStream = null;
-		log.info("doIt - AD_PACKAGE_EXP_ID=" + packOutId);
-		if (packOutId == 0)
+		log.info("doIt - AD_PACKAGE_EXP_ID=" + getRecord_ID());
+		if (getRecord_ID() == 0)
 			throw new IllegalArgumentException("No Record");
-		String sql1 = "SELECT * FROM AD_Package_Exp WHERE AD_Package_Exp_ID = "+packOutId;		
+		String sql1 = "SELECT * FROM AD_Package_Exp WHERE AD_Package_Exp_ID = "+ getRecord_ID();		
 		PreparedStatement pstmt1 = null;		
 		pstmt1 = DB.prepareStatement (sql1, get_TrxName());		
 		
@@ -174,7 +154,7 @@ public class PackOut extends SvrProcess
 					packagedir += File.separator;
 				packagename = packagedir + rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name);
 				includesdir = rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name) + File.separator +"**";
-				boolean success = (new File(packagename+File.separator+"doc"+File.separator)).mkdirs();
+				(new File(packagename+File.separator+"doc"+File.separator)).mkdirs();
 				String file_document = packagename+File.separator+"doc"+File.separator+rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name)+"Doc.xml";		
 				packageDocStream = new FileOutputStream (file_document, false);		
 				StreamResult streamResult_document = new StreamResult(new OutputStreamWriter(packageDocStream,"ISO-8859-1"));	
@@ -247,7 +227,7 @@ public class PackOut extends SvrProcess
 				packageDocument.startElement("","","filenotes",atts);
 				packageDocument.characters("Notes: Contains all application/object settings for package".toCharArray(),0,"Notes: Contains all application/object settings for package".length());
 				packageDocument.endElement("","","filenotes");			
-				success = (new File(packagename+File.separator+ "dict"+File.separator)).mkdirs();		
+				(new File(packagename+File.separator+ "dict"+File.separator)).mkdirs();		
 				String file_menu = packagename+File.separator+ "dict"+File.separator+"PackOut.xml";		
 				packOutDocStream = new FileOutputStream (file_menu, false);
 				StreamResult streamResult_menu = new StreamResult(new OutputStreamWriter(packOutDocStream,"ISO-8859-1"));	
@@ -274,7 +254,7 @@ public class PackOut extends SvrProcess
 				packOutDocument.startElement("","","adempiereAD",atts);		
 				atts.clear();
 				
-				final String sql = "SELECT * FROM AD_Package_Exp_Detail WHERE AD_Package_Exp_ID = "+packOutId+" AND IsActive='Y' ORDER BY Line ASC";
+				final String sql = "SELECT * FROM AD_Package_Exp_Detail WHERE AD_Package_Exp_ID = "+ getRecord_ID() +" AND IsActive='Y' ORDER BY Line ASC";
 				PreparedStatement pstmt = null;		
 				ResultSet rs = null;
 				try
@@ -351,7 +331,7 @@ public class PackOut extends SvrProcess
 								targetDirectoryModified = fullDirectory.replace(fileseperator1,fileseperator2);
 							
 							String target_File = (targetDirectoryModified);						
-							success = (new File(target_File).mkdirs());						
+							new File(target_File).mkdirs();
 							fullDirectory = rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_File_Directory);
 							targetDirectoryModified=null;						
 							//Correct package for proper file separator
@@ -465,9 +445,9 @@ public class PackOut extends SvrProcess
 		File destGZipFile = new File(packagename+".tar.gz");
 		
 		//delete the old packages if necessary
-		boolean success = destZipFile.delete();
-		success = destTarFile.delete();
-		success = destGZipFile.delete();
+		destZipFile.delete();
+		destTarFile.delete();
+		destGZipFile.delete();
 		
 		//create the compressed packages
 		CreateZipFile.zipFolder(srcFolder, destZipFile, includesdir);		
@@ -475,7 +455,7 @@ public class PackOut extends SvrProcess
 		CreateZipFile.gzipFile(destTarFile, destGZipFile);
 		
 		//Clean .tar file up
-		success = destTarFile.delete();
+		destTarFile.delete();
 		
 		return "Finish Process";
 	}	//	doIt
@@ -797,24 +777,12 @@ public class PackOut extends SvrProcess
 	/**
 	 * 
 	 * @param parentTableName
-	 * @param parentID
+	 * @param parentId
 	 * @param packOutDocument
 	 * @throws SAXException
 	 */
-	public void createTranslations (String parentTableName, int parentID, TransformerHandler packOutDocument) throws SAXException
-	{
-		if (MSysConfig.getBooleanValue("2PACK_HANDLE_TRANSLATIONS", false)) {
-
-			Env.setContext(getCtx(), CommonTranslationHandler.CONTEXT_KEY__PARENT_TABLE,
-					parentTableName);
-			Env.setContext(getCtx(), CommonTranslationHandler.CONTEXT_KEY__PARENT_RECORD_ID,
-					parentID);
-
-			translationHandler.create(getCtx(), packOutDocument);
-
-			getCtx().remove(CommonTranslationHandler.CONTEXT_KEY__PARENT_TABLE);
-			getCtx().remove(CommonTranslationHandler.CONTEXT_KEY__PARENT_RECORD_ID);
-		}
+	public void createTranslations (String parentTableName, int parentId, TransformerHandler packOutDocument) throws SAXException {
+		genericPOHandler.createTranslation(getCtx(), packOutDocument, MTable.get(getCtx(), parentTableName).getPO(parentId, get_TrxName()));
 	}
 	
 	/**
@@ -892,36 +860,22 @@ public class PackOut extends SvrProcess
 
 	
 	public void copyFile (String sourceName, String copyName ) {
-		InputStream source;  // Stream for reading from the source file.
-		OutputStream copy;   // Stream for writing the copy.
+		InputStream source = null;  // Stream for reading from the source file.
+		OutputStream copy = null;   // Stream for writing the copy.
 		boolean force;  // This is set to true if the "-f" option
 		//    is specified on the command line.
 		int byteCount;  // Number of bytes copied from the source file.
-		
-		force = true;           
-		try {
-			source = new FileInputStream(sourceName);
-		}
-		catch (FileNotFoundException e) {
-			System.out.println("Can't find file \"" + sourceName + "\".");
-			return;
-		}
-		File file = new File(copyName);
-		if (file.exists() && force == false) {
-			System.out.println(
-			"Output file exists.  Use the -f option to replace it.");
-			return;  
-		}	
-		try {           
-			copy = new FileOutputStream(copyName, false);
-		}
-		catch (IOException e) {
-			System.out.println("Can't open output file \"" 
-					+ copyName + "\".");
-			return;
-		}
+		force = true;
 		byteCount = 0;
 		try {
+			source = new FileInputStream(sourceName);
+			File file = new File(copyName);
+			if (file.exists() && force == false) {
+				System.out.println(
+				"Output file exists.  Use the -f option to replace it.");
+				return;  
+			}
+			copy = new FileOutputStream(copyName, false);
 			while (true) {
 				int data = source.read();
 				if (data < 0)
@@ -929,13 +883,22 @@ public class PackOut extends SvrProcess
 				copy.write(data);
 				byteCount++;
 			}
-			source.close();
-			copy.close();
 			System.out.println("Successfully copied " + byteCount + " bytes.");
 		}
 		catch (Exception e) {
 			System.out.println("Error occurred while copying.  "+ byteCount + " bytes copied.");
 			System.out.println(e.toString());
+		} finally {
+			try {
+				if(source != null) {
+					source.close();
+				}
+				if(copy != null) {
+					copy.close();
+				}
+			} catch (IOException e) {
+				
+			}
 		}
 	}
 

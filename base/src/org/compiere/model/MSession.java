@@ -327,29 +327,6 @@ public class MSession extends X_AD_Session
 	 * @param event
 	 */
 	public void logMigration(PO po, POInfo pinfo, String event) {
-		
-//		String [] exceptionTables = new String[] {
-//				"AD_ACCESSLOG",			"AD_ALERTPROCESSORLOG",		"AD_CHANGELOG",
-//				"AD_ISSUE",				"AD_LDAPPROCESSORLOG",		"AD_PACKAGE_IMP",
-//				"AD_PACKAGE_IMP_BACKUP","AD_PACKAGE_IMP_DETAIL",	"AD_PACKAGE_IMP_INST",
-//				"AD_PACKAGE_IMP_PROC",	"AD_PINSTANCE",				"AD_PINSTANCE_LOG",
-//				"AD_PINSTANCE_PARA",	"AD_REPLICATION_LOG",		"AD_SCHEDULERLOG",
-//				"AD_SESSION",			"AD_WF_ACTIVITY",			"AD_WF_EVENTAUDIT",
-//				"AD_WF_PROCESS",		"AD_WORKFLOWPROCESSORLOG",	"CM_WEBACCESSLOG",
-//				"C_ACCTPROCESSORLOG",	"K_INDEXLOG",				"R_REQUESTPROCESSORLOG",
-//				"T_AGING",				"T_ALTER_COLUMN",			"T_DISTRIBUTIONRUNDETAIL",
-//				"T_INVENTORYVALUE",		"T_INVOICEGL",				"T_REPLENISH",
-//				"T_REPORT",				"T_REPORTSTATEMENT",		"T_SELECTION",
-//				"T_SELECTION2",			"T_SPOOL",					"T_TRANSACTION",
-//				"T_TRIALBALANCE",		"AD_PROCESS_ACCESS",		"AD_WINDOW_ACCESS",
-//				"AD_WORKFLOW_ACCESS",	"AD_FORM_ACCESS",			
-//				"AD_MIGRATION",			"AD_MIGRATIONSTEP",			"AD_MIGRATIONDATA"
-//				//
-//			};
-//		
-//		List<String> list = Arrays.asList(exceptionTables);
-//		if ( list.contains(pinfo.getTableName().toUpperCase()) )
-//				return;
 		//	Valid from Meta Data
 		//	FR [ 390 ]
 		if(pinfo.isIgnoreMigration())
