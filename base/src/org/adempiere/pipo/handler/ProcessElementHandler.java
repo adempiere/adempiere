@@ -21,8 +21,6 @@ import java.util.Properties;
 import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.PackOut;
-import org.compiere.model.I_AD_Process;
-import org.compiere.model.I_AD_Process_Para;
 import org.compiere.model.MProcess;
 import org.compiere.model.MProcessPara;
 import org.compiere.util.Env;
@@ -36,13 +34,34 @@ public class ProcessElementHandler extends GenericPOHandler {
 			packOut = new PackOut();
 			packOut.setLocalContext(ctx);
 		}
-		//	Task
-		packOut.createGenericPO(document, I_AD_Process.Table_ID, processId, true, null);
+		MProcess process = MProcess.get(ctx, processId);
+		//	Form
+		if(process.getAD_Form_ID() > 0) {
+			packOut.createForm(process.getAD_Form_ID(), document);
+		}
+		//	Workflow
+		if(process.getAD_Workflow_ID() > 0) {
+			packOut.createWorkflow(process.getAD_Workflow_ID(), document);
+		}
+		//	Smart Browse
+		if(process.getAD_Browse_ID() > 0) {
+			packOut.createBrowse(process.getAD_Browse_ID(), document);
+		}
+		//	Report View
+		if(process.getAD_ReportView_ID() > 0) {
+			packOut.createReportview(process.getAD_ReportView_ID(), document);
+		}
+		//	Print format
+		if(process.getAD_PrintFormat_ID() > 0) {
+			packOut.createPrintFormat(process.getAD_PrintFormat_ID(), document);
+		}
+		//	Process
+		packOut.createGenericPO(document, process, true, null);
 		for(MProcessPara parameter : MProcess.get(ctx, processId).getParameters()) {
 			if(parameter.getAD_Element_ID() > 0) {
 				packOut.createAdElement(parameter.getAD_Element_ID(), document);
 			}
-			packOut.createGenericPO(document, I_AD_Process_Para.Table_ID, parameter.getAD_Process_Para_ID(), true, null);
+			packOut.createGenericPO(document, parameter, true, null);
 		}
 	}
 }
