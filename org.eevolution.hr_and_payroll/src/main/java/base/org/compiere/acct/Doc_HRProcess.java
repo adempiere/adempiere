@@ -147,23 +147,23 @@ public class   Doc_HRProcess extends Doc
 					|| MHRConcept.ACCOUNTSIGN_Credit.equals(payrollDocLine.getAccountSign()))) {
 				if (conceptAcct.isBalancing()) {
 					MAccount accountBPD = MAccount.getValidCombination (getCtx(), conceptAcct.getHR_Expense_Acct() , getTrxName());
-					FactLine debitLine = fact.createLine(line, accountBPD, as.getC_Currency_ID(),sumAmount, null);
+					FactLine debitLine = fact.createLine(line, accountBPD, getC_Currency_ID(),sumAmount, null);
 					debitLine.setDescription(process.getName() + " " + concept.getValue() + " " + concept.getName());
 					debitLine.saveEx();
 					MAccount accountBPC = MAccount.getValidCombination (getCtx(), conceptAcct.getHR_Revenue_Acct() , getTrxName());
-					FactLine creditLine = fact.createLine(line,accountBPC, as.getC_Currency_ID(),null,sumAmount);
+					FactLine creditLine = fact.createLine(line,accountBPC, getC_Currency_ID(),null,sumAmount);
 					creditLine.setDescription(process.getName() + " " + concept.getValue() + " " + concept.getName());
 					creditLine.saveEx();
 				} else {
 					if (MHRConcept.ACCOUNTSIGN_Debit.equals(payrollDocLine.getAccountSign())) {
 						MAccount accountBPD = MAccount.getValidCombination (getCtx(), conceptAcct.getHR_Expense_Acct() , getTrxName());
-						FactLine debitLine = fact.createLine(line, accountBPD, as.getC_Currency_ID(),sumAmount, null);
+						FactLine debitLine = fact.createLine(line, accountBPD, getC_Currency_ID(),sumAmount, null);
 						debitLine.setDescription(process.getName() + " " + concept.getValue() + " " + concept.getName());
 						debitLine.saveEx();
 						totalDebit = totalDebit.add(sumAmount);
 					} else if (MHRConcept.ACCOUNTSIGN_Credit.equals(payrollDocLine.getAccountSign())) {
 						MAccount accountBPC = MAccount.getValidCombination (getCtx(), conceptAcct.getHR_Revenue_Acct(), getTrxName());
-						FactLine creditLine = fact.createLine(line,accountBPC, as.getC_Currency_ID(),null,sumAmount);
+						FactLine creditLine = fact.createLine(line,accountBPC, getC_Currency_ID(),null,sumAmount);
 						creditLine.setDescription(process.getName() + " " + concept.getValue() + " " + concept.getName());
 						creditLine.saveEx();
 						totalCredit = totalCredit.add(sumAmount);
@@ -181,9 +181,9 @@ public class   Doc_HRProcess extends Doc
 					MAccount acct = MCharge.getAccount(C_Charge_ID, as, totalDebit.subtract(totalCredit));
 					FactLine regTotal = null;
 					if (totalDebit.abs().compareTo(totalCredit.abs()) > 0) {
-						regTotal = fact.createLine(null, acct, as.getC_Currency_ID(), null, totalDebit.subtract(totalCredit));
+						regTotal = fact.createLine(null, acct, getC_Currency_ID(), null, totalDebit.subtract(totalCredit));
 					} else {
-						regTotal = fact.createLine(null, acct, as.getC_Currency_ID(), totalCredit.abs().subtract(totalDebit.abs()), null);
+						regTotal = fact.createLine(null, acct, getC_Currency_ID(), totalCredit.abs().subtract(totalDebit.abs()), null);
 					}
 					regTotal.setAD_Org_ID(getAD_Org_ID());
 				}
@@ -205,9 +205,9 @@ public class   Doc_HRProcess extends Doc
                 MAccount acct = MCharge.getAccount(C_Charge_ID, as, totalDebit.subtract(totalCredit));
                 FactLine regTotal = null;
                 if(totalDebit.abs().compareTo(totalCredit.abs()) > 0 )
-                    regTotal = fact.createLine(null, acct ,as.getC_Currency_ID(), null, totalDebit.subtract(totalCredit));
+                    regTotal = fact.createLine(null, acct, getC_Currency_ID(), null, totalDebit.subtract(totalCredit));
                 else
-                    regTotal = fact.createLine(null, acct ,as.getC_Currency_ID(), totalCredit.abs().subtract(totalDebit.abs()), null);
+                    regTotal = fact.createLine(null, acct, getC_Currency_ID(), totalCredit.abs().subtract(totalDebit.abs()), null);
                 if (regTotal != null)
                 {
                     regTotal.setAD_Org_ID(getAD_Org_ID());
