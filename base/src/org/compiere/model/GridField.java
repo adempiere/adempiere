@@ -43,6 +43,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
 import org.compiere.util.Evaluator;
+import org.spin.util.ASPUtil;
 
 /**
  *  Grid Field Model.
@@ -1802,50 +1803,19 @@ public class GridField
 	 * 	Create Fields.
 	 * 	Used by APanel.cmd_find  and  Viewer.cmd_find
 	 * 	@param ctx context
-	 * 	@param WindowNo window
-	 * 	@param TabNo tab no
-	 * 	@param AD_Tab_ID tab
+	 * 	@param windowNo window
+	 * 	@param tabNo tab no
+	 * 	@param tabId tab
 	 * 	@return array of all fields in display order
 	 */
-	public static GridField[] createFields (Properties ctx, int WindowNo, int TabNo,
-		 int AD_Tab_ID)
-	{
+	public static GridField[] createFields (Properties ctx, int windowNo, int tabNo, int tabId) {
 		ArrayList<GridFieldVO> listVO = new ArrayList<GridFieldVO>();
-		int AD_Window_ID = 0;
+		int windowId = 0;
 		boolean readOnly = false;
-		
-		String sql = GridFieldVO.getSQL(ctx);
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, AD_Tab_ID);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				GridFieldVO vo = GridFieldVO.create(ctx, WindowNo, TabNo, 
-					AD_Window_ID, AD_Tab_ID, readOnly, rs);
-				listVO.add(vo);
-			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		
+		ASPUtil.getInstance(ctx).getWindowFields(tabId).stream().forEach(field -> {
+			GridFieldVO vo = GridFieldVO.create(ctx, windowNo, tabNo, windowId, tabId, readOnly, field);
+			listVO.add(vo);
+		});
 		//
 		GridField[] retValue = new GridField[listVO.size()];
 		for (int i = 0; i < listVO.size(); i++)
