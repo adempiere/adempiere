@@ -21,7 +21,10 @@ import org.compiere.process.SvrProcess;
 
 /** Generated Process for (Sync All Tables and Columns)
  *  @author ADempiere (generated) 
- *  @version Release 3.9.1
+ *  @author Michael McKay, mckayERP@gmail.com 
+ *  	<li>Added as part of <a href="https://github.com/adempiere/adempiere/issues/213">#213</a>
+ *  		Support for application dictionary changes and configurable automatic synchronization
+ *  @version Release 3.9.2
  */
 public abstract class SyncAllAbstract extends SvrProcess {
 	/** Process Value 	*/
@@ -30,9 +33,77 @@ public abstract class SyncAllAbstract extends SvrProcess {
 	private static final String NAME_FOR_PROCESS = "Sync All Tables and Columns";
 	/** Process Id 	*/
 	private static final int ID_FOR_PROCESS = 54204;
+	/**	Parameter Name for Table	*/
+	public static final String AD_TABLE_ID = "AD_Table_ID";
+	/**	Parameter Name for Column	*/
+	public static final String AD_COLUMN_ID = "AD_Column_ID";
+	/**	Parameter Name for Only known changes	*/
+	public static final String SYNCOBVIOUSCHANGES = "SyncObviousChanges";
+	/**	Parameter Name for Only report	*/
+	public static final String ONLYREPORT = "OnlyReport";
+	
+	/** Message Text for translation */
+	public static final String MSG_OnlyReport = "@SyncAllAbstract_OnlyReport@";
+	public static final String MSG_NoChangesRequired = "@SyncAllAbstract_NoChangesRequired@";
+	public static final String MSG_ChangesMade = "@SyncAllAbstract_ChangeMade@";
+	public static final String MSG_NothingToReport = "@SyncAllAbstract_NothingToReport@";
+	public static final String MSG_ChangesMadeWithErrors = "@SyncAllAbstract_ChangeMadeWithError@";
+
+	/**	Parameter Value for Table	*/
+	private int tableId;
+	/**	Parameter Value for Column	*/
+	private int columnId;
+	/**	Parameter Value for Only known changes	*/
+	private boolean isSyncObviousChanges;
+	/**	Parameter Value for Only report	*/
+	private boolean isOnlyReport;
 
 	@Override
 	protected void prepare() {
+		tableId = getParameterAsInt(AD_TABLE_ID);
+		columnId = getParameterAsInt(AD_COLUMN_ID);
+		isSyncObviousChanges = getParameterAsBoolean(SYNCOBVIOUSCHANGES);
+		isOnlyReport = getParameterAsBoolean(ONLYREPORT);
+	}
+
+	/**	 Getter Parameter Value for Table	*/
+	protected int getTableId() {
+		return tableId;
+	}
+
+	/**	 Setter Parameter Value for Table	*/
+	protected void setTableId(int tableId) {
+		this.tableId = tableId;
+	}
+
+	/**	 Getter Parameter Value for Column	*/
+	protected int getColumnId() {
+		return columnId;
+	}
+
+	/**	 Setter Parameter Value for Column	*/
+	protected void setColumnId(int columnId) {
+		this.columnId = columnId;
+	}
+
+	/**	 Getter Parameter Value for Only known changes	*/
+	protected boolean isSyncObviousChanges() {
+		return isSyncObviousChanges;
+	}
+
+	/**	 Setter Parameter Value for Only known changes	*/
+	protected void setSyncObviousChanges(boolean isSyncObviousChanges) {
+		this.isSyncObviousChanges = isSyncObviousChanges;
+	}
+
+	/**	 Getter Parameter Value for Only report	*/
+	protected boolean isOnlyReport() {
+		return isOnlyReport;
+	}
+
+	/**	 Setter Parameter Value for Only report	*/
+	protected void setOnlyReport(boolean isOnlyReport) {
+		this.isOnlyReport = isOnlyReport;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
