@@ -329,26 +329,6 @@
         <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53568">53568</Data>
       </PO>
     </Step>
-    <Step SeqNo="270" StepType="AD">
-      <PO AD_Table_ID="53870" Action="I" Record_ID="1000060" Table="AD_Tree_Favorite_Node">
-        <Data AD_Column_ID="74142" Column="IsActive">true</Data>
-        <Data AD_Column_ID="74147" Column="Updated">2019-02-12 22:52:06.65</Data>
-        <Data AD_Column_ID="74141" Column="CreatedBy">101</Data>
-        <Data AD_Column_ID="74143" Column="IsSummary">true</Data>
-        <Data AD_Column_ID="74144" Column="NodeName">new.folder</Data>
-        <Data AD_Column_ID="74148" Column="UpdatedBy">101</Data>
-        <Data AD_Column_ID="74135" Column="AD_Client_ID">11</Data>
-        <Data AD_Column_ID="74137" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="74139" Column="AD_Tree_Favorite_Node_ID">1000060</Data>
-        <Data AD_Column_ID="74140" Column="Created">2019-02-12 22:52:06.65</Data>
-        <Data AD_Column_ID="74136" Column="AD_Menu_ID" isNewNull="true"/>
-        <Data AD_Column_ID="74138" Column="AD_Tree_Favorite_ID">1000000</Data>
-        <Data AD_Column_ID="81974" Column="IsCollapsible">false</Data>
-        <Data AD_Column_ID="74145" Column="Parent_ID">1000059</Data>
-        <Data AD_Column_ID="74146" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="84449" Column="UUID" isNewNull="true"/>
-      </PO>
-    </Step>
     <Step SeqNo="690" StepType="AD">
       <PO AD_Table_ID="109" Action="I" Record_ID="53569" Table="AD_Message">
         <Data AD_Column_ID="588" Column="IsActive">true</Data>
