@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_AcctSchema
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_AcctSchema 
 {
@@ -61,6 +61,8 @@ public interface I_C_AcctSchema
 	  * Create posting entries only for this organization
 	  */
 	public int getAD_OrgOnly_ID();
+
+	public org.compiere.model.I_AD_Org getAD_OrgOnly() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";

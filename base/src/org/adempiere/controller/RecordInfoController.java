@@ -43,11 +43,14 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
+import org.compiere.util.Util;
 
 /**
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 146 ] Added like controller for RecordInfo
  *		@see https://github.com/adempiere/adempiere/issues/146
+ * @author Michael McKay, mckayERP@gmail.com
+ * 		<li><A hfre="https://github.com/adempiere/adempiere/issues/2387">#2387</a>Remove Ampersand from translation 
  */
 public class RecordInfoController {
 	
@@ -105,9 +108,11 @@ public class RecordInfoController {
 		int m_Record_ID = 0;
 		int m_AD_Table_ID = 0;
 		int m_AD_Column_ID = 0;
+		String UUID = null;
 		if(m_Field != null) {
 			//	Set Values
 			m_Record_ID = m_Field.getGridTab().getRecord_ID();
+			UUID = m_Field.getGridTab().getUUID();
 			m_AD_Table_ID = m_Field.getGridTab().getAD_Table_ID();
 			m_AD_Column_ID = m_Field.getAD_Column_ID();
 			//	
@@ -115,10 +120,15 @@ public class RecordInfoController {
 			X_AD_Reference reference = new X_AD_Reference(Env.getCtx(), m_Field.getDisplayType(), null);
 			DecimalFormat format = DisplayType.getNumberFormat(reference.getAD_Reference_ID());
 			MTable table = MTable.get(Env.getCtx(), m_AD_Table_ID);
+			StringBuilder infoTable = new StringBuilder();
+			infoTable.append("SELECT * FROM ").append(table.getTableName()).append(" WHERE ");
 			//  Info
-			m_info.append("(").append(table.getTableName()).append(" - ").append(m_Field.getColumnName())
-				.append(" = ").append(m_Field.getValue()).append(")").append("\n")
-				.append(Msg.translate(Env.getCtx(), "Name"))
+			m_info.append(infoTable).append(m_Field.getColumnName()).append("=").append(m_Field.getValue()).append(";");
+			if (UUID != null) {
+				m_info.append("\n").append(infoTable).append("UUID='").append(UUID).append("';");
+			}
+
+			m_info.append("\n").append(Util.cleanAmp(Msg.translate(Env.getCtx(), "Name")))
 				.append(": ").append(m_Field.getHeader()).append("\n")
 				.append(Msg.translate(Env.getCtx(), "Description"))
 				.append(": ").append(m_Field.getDescription()).append("\n")
@@ -171,8 +181,9 @@ public class RecordInfoController {
 					.append(": ").append(user.getName())
 					.append(" - ").append(m_dateTimeFormat.format(dse.Updated)).append("\n");
 			}
-			if (dse.Info != null && dse.Info.length() > 0)
-				m_info.append("\n (").append(dse.Info).append(")");
+			if (dse.Info != null && dse.Info.length() > 0) {
+				m_info.append("\n").append(dse.Info);
+			}
 			
 			//	Title
 			if (dse.AD_Table_ID != 0)
@@ -256,7 +267,7 @@ public class RecordInfoController {
 		Vector<String> columnNames = new Vector<String>();
 		//	No add for specific column
 		if(m_Field == null) {
-			columnNames.add(Msg.translate(Env.getCtx(), "Name"));
+			columnNames.add(Util.cleanAmp(Msg.translate(Env.getCtx(), "Name")));
 		}
 		columnNames.add(Msg.translate(Env.getCtx(), "NewValue"));
 		columnNames.add(Msg.translate(Env.getCtx(), "OldValue"));
@@ -286,7 +297,7 @@ public class RecordInfoController {
 		MColumn column = MColumn.get (Env.getCtx(), AD_Column_ID);
 		//	No for specific column
 		if(m_Field == null) {
-			line.add(Msg.translate(Env.getCtx(), column.getColumnName()));
+			line.add(Util.cleanAmp(Msg.translate(Env.getCtx(), column.getColumnName())));
 		}
 		//
 		if (OldValue != null && OldValue.equals(MChangeLog.NULL))

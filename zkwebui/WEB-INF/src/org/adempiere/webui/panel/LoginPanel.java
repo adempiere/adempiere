@@ -36,6 +36,7 @@ import org.adempiere.webui.component.Combobox;
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Textbox;
+import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.event.TokenEvent;
 import org.adempiere.webui.exception.ApplicationException;
@@ -108,7 +109,7 @@ public class LoginPanel extends Window implements EventListener
     private Combobox lstLanguage;
     private LoginWindow wndLogin;
     private Checkbox chkRememberMe;
-    private Label lblForgotPass;
+    private ToolBarButton btnForgotPass;
 
     public LoginPanel(Properties ctx, LoginWindow loginWindow)
     {
@@ -200,19 +201,21 @@ public class LoginPanel extends Window implements EventListener
         	tr.appendChild(td);
         	td.appendChild(chkRememberMe);
     	}
-        	tr = new Tr();
-            tr.setId("rowPasswordReset");
-            table.appendChild(tr);
-        	td = new Td();
-        	tr.appendChild(td);
-        	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
-        	td.appendChild(new Label(""));
-        	td = new Td();
-        	tr.appendChild(td);
-	    	td.setDynamicProperty("colspan", "2");
-        	td.setSclass(ITheme.LOGIN_FIELD_CLASS);
-        	td.appendChild(lblForgotPass);
-        	lblForgotPass.addEventListener(Events.ON_CLICK,this);
+    	
+    	tr = new Tr();
+    	tr.setId("rowPasswordReset");
+    	table.appendChild(tr);
+    	td = new Td();
+    	tr.appendChild(td);
+    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+    	td.appendChild(new Label(""));
+    	td = new Td();
+    	tr.appendChild(td);
+    	td.setDynamicProperty("colspan", "2");
+    	td.setSclass(ITheme.LOGIN_LABEL_CLASS);
+    	td.setStyle("text-align:left");
+    	td.appendChild(btnForgotPass);
+    	btnForgotPass.addEventListener(Events.ON_CLICK,this);
 
     	div = new Div();
     	div.setSclass(ITheme.LOGIN_BOX_FOOTER_CLASS);
@@ -313,7 +316,7 @@ public class LoginPanel extends Window implements EventListener
 
         chkRememberMe = new Checkbox(Msg.getMsg(Language.getBaseAD_Language(), "RememberMe"));
 
-        lblForgotPass = new Label(Msg.getMsg(Language.getBaseAD_Language(), "ForgotPassword"));
+        btnForgotPass = new ToolBarButton(Msg.getMsg(Language.getBaseAD_Language(), "ForgotPassword"));
     	
         // Make the default language the language of client System
         String defaultLanguage = MClient.get(ctx, 0).getAD_Language();
@@ -333,7 +336,7 @@ public class LoginPanel extends Window implements EventListener
     {
         Component eventComp = event.getTarget();
         
-        if(event.getTarget().equals(lblForgotPass)) {
+        if(event.getTarget().equals(btnForgotPass)) {
         	wndLogin.resetPassword();
         }
         else if (event.getTarget().getId().equals(ConfirmPanel.A_OK))
@@ -396,7 +399,7 @@ public class LoginPanel extends Window implements EventListener
     	lblLanguage.setValue(res.getString("Language"));
     	chkRememberMe.setLabel(Msg.getMsg(language, "RememberMe"));
     	if(Msg.getMsg(language, "ForgotPassword") != null)
-    		lblForgotPass.setValue(Msg.getMsg(language, "ForgotPassword"));
+    		btnForgotPass.setLabel(Msg.getMsg(language, "ForgotPassword"));
     }
 
 	private Language findLanguage(String langName) {
@@ -414,6 +417,18 @@ public class LoginPanel extends Window implements EventListener
     **/
     public void validateLogin()
     {
+		//	Validate UUID supported
+	    DB.validateSupportedUUIDFromDB();
+        /* Check DB version */
+        String version = DB.getSQLValueString(null, "SELECT Version FROM AD_System");
+        //  Identical DB version
+        if (! Adempiere.DB_VERSION.equals(version)) {
+            String AD_Message = "DatabaseVersionError";
+            //  Code assumes Database version {0}, but Database has Version {1}.
+            String msg = Msg.getMsg(ctx, AD_Message);   //  complete message
+            msg = MessageFormat.format(msg, new Object[] {Adempiere.DB_VERSION, version});
+            throw new ApplicationException(msg);
+        }
         Login login = new Login(ctx);
         String userId = txtUserId.getValue();
         String userPassword = txtPassword.getValue();
@@ -436,8 +451,9 @@ public class LoginPanel extends Window implements EventListener
         }
 
         KeyNamePair rolesKNPairs[] = login.getRoles(userId, userPassword);
-        if(rolesKNPairs == null || rolesKNPairs.length == 0)
-            throw new WrongValueException("User Id or Password invalid!!!");
+        if(rolesKNPairs == null || rolesKNPairs.length == 0) {
+        	throw new WrongValueException("User Id or Password invalid!!!");
+        }
 
         else
         {
@@ -468,18 +484,6 @@ public class LoginPanel extends Window implements EventListener
 		// End of temporary code for [ adempiere-ZK Web Client-2832968 ] User context lost?
 
         Env.setContext(ctx, BrowserToken.REMEMBER_ME, chkRememberMe.isChecked());
-
-        /* Check DB version */
-        String version = DB.getSQLValueString(null, "SELECT Version FROM AD_System");
-        //  Identical DB version
-        if (! Adempiere.DB_VERSION.equals(version)) {
-            String AD_Message = "DatabaseVersionError";
-            //  Code assumes Database version {0}, but Database has Version {1}.
-            String msg = Msg.getMsg(ctx, AD_Message);   //  complete message
-            msg = MessageFormat.format(msg, new Object[] {Adempiere.DB_VERSION, version});
-            throw new ApplicationException(msg);
-        }
-
     }
 
 	private String getUpdateTimeoutTextScript() {

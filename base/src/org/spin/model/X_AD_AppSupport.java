@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_AppSupport
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_AppSupport extends PO implements I_AD_AppSupport, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181101L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_AppSupport (Properties ctx, int AD_AppSupport_ID, String trxName)
@@ -76,7 +76,9 @@ public class X_AD_AppSupport extends PO implements I_AD_AppSupport, I_Persistent
     }
 
 	/** Set App Support.
-		@param AD_AppSupport_ID App Support	  */
+		@param AD_AppSupport_ID 
+		App Support for External Connection
+	  */
 	public void setAD_AppSupport_ID (int AD_AppSupport_ID)
 	{
 		if (AD_AppSupport_ID < 1) 
@@ -86,7 +88,8 @@ public class X_AD_AppSupport extends PO implements I_AD_AppSupport, I_Persistent
 	}
 
 	/** Get App Support.
-		@return App Support	  */
+		@return App Support for External Connection
+	  */
 	public int getAD_AppSupport_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AppSupport_ID);
@@ -99,6 +102,8 @@ public class X_AD_AppSupport extends PO implements I_AD_AppSupport, I_Persistent
 	public static final int APPLICATIONTYPE_AD_Reference_ID=54081;
 	/** Message Queue = MQS */
 	public static final String APPLICATIONTYPE_MessageQueue = "MQS";
+	/** WebDav Application = WDV */
+	public static final String APPLICATIONTYPE_WebDavApplication = "WDV";
 	/** Set Application Type.
 		@param ApplicationType 
 		Application Type, used for identify a Application Type like Message Queue

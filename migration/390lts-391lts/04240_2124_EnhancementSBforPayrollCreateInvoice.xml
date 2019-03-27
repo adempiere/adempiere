@@ -1,0 +1,745 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Enhancement SB for Payroll Create Invoice Business Partner" ReleaseNo="3.9.1" SeqNo="4240">
+    <Comments>https://github.com/adempiere/adempiere/issues/2124</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53230" Action="U" Record_ID="50105" Table="AD_View">
+        <Data AD_Column_ID="58074" Column="Value" oldValue="SB_PayrollCreateInvoiceBPartner">Payroll Movement and Process View</Data>
+        <Data AD_Column_ID="58075" Column="Name" oldValue="SB_PayrollCreateInvoiceBPartner">Payroll Movement and Process View</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53229" Action="U" Record_ID="50105" Table="AD_View_Trl">
+        <Data AD_Column_ID="58063" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="58064" Column="Name" oldValue="SB_PayrollCreateInvoiceBPartner">Vista de Movimiento y Procesos De Nómina</Data>
+        <Data AD_Column_ID="58060" Column="AD_View_ID" oldValue="50105">50105</Data>
+        <Data AD_Column_ID="58061" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53230" Action="U" Record_ID="50105" Table="AD_View">
+        <Data AD_Column_ID="58076" Column="Description" isOldNull="true">This View obtains the information for concepts, employee and  processes of a Payroll</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="53229" Action="U" Record_ID="50105" Table="AD_View_Trl">
+        <Data AD_Column_ID="58063" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="58060" Column="AD_View_ID" oldValue="50105">50105</Data>
+        <Data AD_Column_ID="58061" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="53229" Action="U" Record_ID="50105" Table="AD_View_Trl">
+        <Data AD_Column_ID="58062" Column="Description" isOldNull="true">Esta vista obtiene la información de los movimientos de nomina , conceptos , Empleado y procesos de nomina</Data>
+        <Data AD_Column_ID="58063" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="58064" Column="Name" oldValue="Vista de Movimiento y Procesos De Nómina">Vista de Movimiento y Procesos de Nómina</Data>
+        <Data AD_Column_ID="58060" Column="AD_View_ID" oldValue="50105">50105</Data>
+        <Data AD_Column_ID="58061" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="53231" Action="U" Record_ID="50300" Table="AD_View_Definition">
+        <Data AD_Column_ID="58091" Column="JoinClause" oldValue="INNER JOIN HR_Concept hrc on (hrm.HR_Concept_ID = hrc.HR_Concept_ID)">INNER JOIN HR_Concept hrc ON (hrm.HR_Concept_ID = hrc.HR_Concept_ID)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="53231" Action="U" Record_ID="50301" Table="AD_View_Definition">
+        <Data AD_Column_ID="58091" Column="JoinClause" oldValue="INNER JOIN HR_Employee hre on (hrm.C_BPartner_ID = hre.C_BPartner_ID)">INNER JOIN HR_Employee hre ON (hrm.C_BPartner_ID = hre.C_BPartner_ID)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="53231" Action="U" Record_ID="50302" Table="AD_View_Definition">
+        <Data AD_Column_ID="58091" Column="JoinClause" oldValue="INNER JOIN HR_Process hrp on (hrm.HR_Process_ID = hrp.HR_Process_ID)">INNER JOIN HR_Process hrp ON (hrm.HR_Process_ID = hrp.HR_Process_ID)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50114" Table="AD_Browse">
+        <Data AD_Column_ID="57994" Column="Description" isOldNull="true">Browser Payroll Movement to Generate Invoice from Payroll Process</Data>
+        <Data AD_Column_ID="57996" Column="Help" isOldNull="true">This browser allows select payroll movements to generate Invoices</Data>
+        <Data AD_Column_ID="57997" Column="Name" oldValue="SB Payroll CreateInvoice">Browser Payroll Movement to Generate Invoice from Payroll Process</Data>
+        <Data AD_Column_ID="57998" Column="Value" oldValue="SB_PayrollCreateInvoiceBPartner">Generate Invoice from Payroll Process</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50114" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="hrp.DocStatus in ('CO','CL') AND hrm.C_InvoiceLine_ID is null">hrp.DocStatus IN ('CO','CL') AND hrm.C_InvoiceLine_ID IS NULL</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="53226" Action="U" Record_ID="0" Table="AD_Browse_Trl">
+        <Data AD_Column_ID="58023" Column="Description" isOldNull="true">Consulta los Movimiento de nómina para generar Facturas a partir del Proceso de Nómina</Data>
+        <Data AD_Column_ID="58024" Column="Help" isOldNull="true">Esta consulta permite seleccionar movimientos de nómina para generar facturas.</Data>
+        <Data AD_Column_ID="58025" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="58026" Column="Name" oldValue="SB Payroll CreateInvoice">Generar facturas desde los movimientos de Nómina</Data>
+        <Data AD_Column_ID="58022" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="58021" Column="AD_Browse_ID" oldValue="50114">50114</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60446" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID" oldValue="62398">62318</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60446" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60445" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60489" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60462" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60492" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60473" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">60</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60465" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">70</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60447" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">80</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60466" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">90</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60464" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60511" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">110</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60533" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60478" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">130</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60519" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">140</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60469" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">150</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60486" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">160</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60487" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">170</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60482" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">180</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60474" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">190</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60477" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">200</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60495" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">210</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60485" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">220</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60484" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">230</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60498" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">240</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60499" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">250</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60519" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isOldNull="true">319</Data>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID" oldValue="20">17</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60445" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="true">false</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="20">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60489" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="30">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60462" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="40">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60492" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="50">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60473" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="60">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60465" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="70">60</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60447" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="80">70</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60466" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="90">80</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60464" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="100">90</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60511" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="110">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60533" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="120">110</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="500" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60478" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="130">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="510" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60519" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="140">130</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="520" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60469" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="150">140</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="530" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60486" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="160">150</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="540" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60487" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="170">160</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="550" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60482" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="180">170</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="560" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60474" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="190">180</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="570" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60477" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="200">190</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="580" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60495" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="210">200</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="590" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60485" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="220">210</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="600" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60484" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="230">220</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="610" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60498" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="240">230</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="620" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60499" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="250">240</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="630" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60519" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64354" Column="DefaultValue" isOldNull="true">Y</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="640" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50114" Table="AD_Browse">
+        <Data AD_Column_ID="72125" Column="IsCollapsibleByDefault" oldValue="false">true</Data>
+        <Data AD_Column_ID="72126" Column="IsSelectedByDefault" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="650" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60492" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64354" Column="DefaultValue" isOldNull="true">-1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="660" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60487" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isOldNull="true">@$Element_PJ@='Y'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="670" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60482" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isOldNull="true">@$Element_AY@='Y'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="680" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60474" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isOldNull="true">@$Element_MC@='Y'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="690" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60495" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isOldNull="true">@$Element_SR@='Y'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="700" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60485" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isOldNull="true">@$Element_U1@='Y'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="710" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60484" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isOldNull="true">@$Element_U2@='Y'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="720" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60498" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isOldNull="true">@$Element_U3@='Y'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="730" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60499" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isOldNull="true">@$Element_U4@='Y'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="740" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60469" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isOldNull="true">@$Element_PJ@='Y'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="750" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60486" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isOldNull="true">@$Element_PJ@='Y'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="760" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60477" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isOldNull="true">@$Element_OT@=Y</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="770" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60487" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="160">140</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="780" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60469" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="140">150</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="790" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60486" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="150">160</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="800" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54042" Table="AD_Process">
+        <Data AD_Column_ID="2810" Column="Description" isOldNull="true">This process allows to generate Invoice from Payroll Process</Data>
+        <Data AD_Column_ID="2809" Column="Name" oldValue="SB_PayrollCreateInvoiceBPartner">Generate Invoice from Payroll Process</Data>
+        <Data AD_Column_ID="4023" Column="Value" oldValue="SB_PayrollCreateInvoiceBPartner">HR_Movement Generate Invoices</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="810" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2855" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54042">54042</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="820" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54042" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.HR_CreateInvoiceBPartner">org.eevolution.process.PayrollMovementGenerateInvoiceFromProcess</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="830" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="56680" Table="AD_Process_Para">
+        <Data AD_Column_ID="2822" Column="Name">Partner Location</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2018-11-07 17:49:02.237</Data>
+        <Data AD_Column_ID="2818" Column="Created">2018-11-07 17:49:02.237</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">C_BPartner_Location_ID</Data>
+        <Data AD_Column_ID="2823" Column="Description">Identifies the (ship to) address for this Business Partner</Data>
+        <Data AD_Column_ID="2824" Column="Help">The Partner address indicates the location of a Business Partner</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">56680</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">EE02</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54042</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID">200</Data>
+        <Data AD_Column_ID="2826" Column="SeqNo">15</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">189</Data>
+        <Data AD_Column_ID="84385" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="840" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2018-11-07 17:49:03.525</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2018-11-07 17:49:03.525</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2840" Column="Name">Partner Location</Data>
+        <Data AD_Column_ID="2841" Column="Description">Identifies the (ship to) address for this Business Partner</Data>
+        <Data AD_Column_ID="3743" Column="Help">The Partner address indicates the location of a Business Partner</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">56680</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="850" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="56681" Table="AD_Process_Para">
+        <Data AD_Column_ID="2822" Column="Name">Consolidate to one Document</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2018-11-07 17:50:52.359</Data>
+        <Data AD_Column_ID="2818" Column="Created">2018-11-07 17:50:52.359</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">ConsolidateDocument</Data>
+        <Data AD_Column_ID="2823" Column="Description">Consolidate Lines into one Document</Data>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue">Y</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">56681</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">EE02</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">1</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54042</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">17</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">50</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">2182</Data>
+        <Data AD_Column_ID="84385" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="860" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2840" Column="Name">Consolidate to one Document</Data>
+        <Data AD_Column_ID="2841" Column="Description">Consolidate Lines into one Document</Data>
+        <Data AD_Column_ID="3743" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">56681</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="2836" Column="Created">2018-11-07 17:50:53.336</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2018-11-07 17:50:53.336</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="870" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56680" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="15">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="880" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56244" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="20">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="890" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56245" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="30">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="900" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56246" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="40">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="910" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56681" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="50">60</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="920" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54042" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.eevolution.process.PayrollMovementGenerateInvoiceFromProcess">org.eevolution.process.HRGenerateInvoiceFromProcess</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="930" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2853" Column="Description" isOldNull="true">Generar Facturas a partir del Proceso de Nómina</Data>
+        <Data AD_Column_ID="2855" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Crear facturas por Nomina">Generar facturas desde los movimientos de Nómina</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54042">54042</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="940" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="54256" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="248" Column="Description" isOldNull="true">Consulta los Movimiento de nómina para generar Facturas a partir del Proceso de Nómina</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="54256">54256</Data>
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="950" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="56682" Table="AD_Process_Para">
+        <Data AD_Column_ID="2822" Column="Name">Document Status</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2018-11-07 18:11:14.962</Data>
+        <Data AD_Column_ID="2818" Column="Created">2018-11-07 18:11:14.962</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">DocStatus</Data>
+        <Data AD_Column_ID="2823" Column="Description">The current status of the document</Data>
+        <Data AD_Column_ID="2824" Column="Help">The Document Status indicates the status of a document at this time.  If you want to change the document status, use the Document Action field</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">56682</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">EE02</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">2</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54042</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">17</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">35</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">131</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">289</Data>
+        <Data AD_Column_ID="84385" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="960" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">56682</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="2836" Column="Created">2018-11-07 18:11:18.13</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2018-11-07 18:11:18.13</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2840" Column="Name">Document Status</Data>
+        <Data AD_Column_ID="2841" Column="Description">The current status of the document</Data>
+        <Data AD_Column_ID="3743" Column="Help">The Document Status indicates the status of a document at this time.  If you want to change the document status, use the Document Action field</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="970" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56681" Table="AD_Process_Para">
+        <Data AD_Column_ID="2817" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="980" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56682" Table="AD_Process_Para">
+        <Data AD_Column_ID="2817" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="990" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="56683" Table="AD_Process_Para">
+        <Data AD_Column_ID="2822" Column="Name">Document Action</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2018-11-07 18:54:57.137</Data>
+        <Data AD_Column_ID="2818" Column="Created">2018-11-07 18:54:57.137</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">DocAction</Data>
+        <Data AD_Column_ID="2823" Column="Description">The targeted status of the document</Data>
+        <Data AD_Column_ID="2824" Column="Help">You find the current status in the Document Status field. The options are listed in a popup</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">56683</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">EE02</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">2</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54042</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">17</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">36</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">135</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">287</Data>
+        <Data AD_Column_ID="84385" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1000" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="0" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2018-11-07 18:54:58.234</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2018-11-07 18:54:58.234</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2840" Column="Name">Document Action</Data>
+        <Data AD_Column_ID="2841" Column="Description">The targeted status of the document</Data>
+        <Data AD_Column_ID="3743" Column="Help">You find the current status in the Document Status field. The options are listed in a popup</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">56683</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1010" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56244" Table="AD_Process_Para">
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" oldValue="52559">124</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1020" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="60478" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64354" Column="DefaultValue" isOldNull="true">-1</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

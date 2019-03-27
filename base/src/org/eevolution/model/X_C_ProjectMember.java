@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ProjectMember
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_ProjectMember extends PO implements I_C_ProjectMember, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171215L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_ProjectMember (Properties ctx, int C_ProjectMember_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_C_ProjectMember extends PO implements I_C_ProjectMember, I_Persis
       /** if (C_ProjectMember_ID == 0)
         {
 			setAD_User_ID (0);
-			setC_Project_ID (0);
 			setC_ProjectMember_ID (0);
+			setC_Project_ID (0);
 			setNotificationType (null);
 // B
         } */
@@ -124,29 +124,29 @@ public class X_C_ProjectMember extends PO implements I_C_ProjectMember, I_Persis
 		return (String)get_Value(COLUMNNAME_BPName);
 	}
 
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+	public org.eevolution.model.I_C_ProjectMemberType getC_ProjectMemberType() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
-			.getPO(getC_Project_ID(), get_TrxName());	}
+		return (org.eevolution.model.I_C_ProjectMemberType)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectMemberType.Table_Name)
+			.getPO(getC_ProjectMemberType_ID(), get_TrxName());	}
 
-	/** Set Project.
-		@param C_Project_ID 
-		Financial Project
+	/** Set Project Member Type.
+		@param C_ProjectMemberType_ID 
+		Define the Member Type for a Project
 	  */
-	public void setC_Project_ID (int C_Project_ID)
+	public void setC_ProjectMemberType_ID (int C_ProjectMemberType_ID)
 	{
-		if (C_Project_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_Project_ID, null);
+		if (C_ProjectMemberType_ID < 1) 
+			set_Value (COLUMNNAME_C_ProjectMemberType_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+			set_Value (COLUMNNAME_C_ProjectMemberType_ID, Integer.valueOf(C_ProjectMemberType_ID));
 	}
 
-	/** Get Project.
-		@return Financial Project
+	/** Get Project Member Type.
+		@return Define the Member Type for a Project
 	  */
-	public int getC_Project_ID () 
+	public int getC_ProjectMemberType_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectMemberType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -175,29 +175,29 @@ public class X_C_ProjectMember extends PO implements I_C_ProjectMember, I_Persis
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_C_ProjectMemberType getC_ProjectMemberType() throws RuntimeException
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
-		return (org.eevolution.model.I_C_ProjectMemberType)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectMemberType.Table_Name)
-			.getPO(getC_ProjectMemberType_ID(), get_TrxName());	}
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
 
-	/** Set Project Member Type.
-		@param C_ProjectMemberType_ID 
-		Define the Member Type for a Project
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
 	  */
-	public void setC_ProjectMemberType_ID (int C_ProjectMemberType_ID)
+	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_ProjectMemberType_ID < 1) 
-			set_Value (COLUMNNAME_C_ProjectMemberType_ID, null);
+		if (C_Project_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_Project_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_ProjectMemberType_ID, Integer.valueOf(C_ProjectMemberType_ID));
+			set_ValueNoCheck (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
-	/** Get Project Member Type.
-		@return Define the Member Type for a Project
+	/** Get Project.
+		@return Financial Project
 	  */
-	public int getC_ProjectMemberType_ID () 
+	public int getC_Project_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectMemberType_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

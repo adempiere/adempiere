@@ -335,5 +335,6 @@
 	<classpathentry kind="lib" path="tools/lib/pdfa-7.1.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/wizard.jar"/>
 	<classpathentry kind="lib" path="tools/lib/oracle.jar"/>
+	<classpathentry kind="lib" path="tools/lib/zxing-2.3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

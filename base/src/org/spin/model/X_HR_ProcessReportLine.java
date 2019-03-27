@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for HR_ProcessReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_HR_ProcessReportLine extends PO implements I_HR_ProcessReportLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180118L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_HR_ProcessReportLine (Properties ctx, int HR_ProcessReportLine_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_HR_ProcessReportLine extends PO implements I_HR_ProcessReportLine
       super (ctx, HR_ProcessReportLine_ID, trxName);
       /** if (HR_ProcessReportLine_ID == 0)
         {
-			setHR_ProcessReport_ID (0);
 			setHR_ProcessReportLine_ID (0);
+			setHR_ProcessReport_ID (0);
 			setIsAveraged (false);
 // N
 			setIsSummarized (false);
@@ -120,6 +120,26 @@ public class X_HR_ProcessReportLine extends PO implements I_HR_ProcessReportLine
 		return ii.intValue();
 	}
 
+	/** Set Payroll Process Report Line.
+		@param HR_ProcessReportLine_ID Payroll Process Report Line	  */
+	public void setHR_ProcessReportLine_ID (int HR_ProcessReportLine_ID)
+	{
+		if (HR_ProcessReportLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportLine_ID, Integer.valueOf(HR_ProcessReportLine_ID));
+	}
+
+	/** Get Payroll Process Report Line.
+		@return Payroll Process Report Line	  */
+	public int getHR_ProcessReportLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ProcessReportLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.spin.model.I_HR_ProcessReport getHR_ProcessReport() throws RuntimeException
     {
 		return (org.spin.model.I_HR_ProcessReport)MTable.get(getCtx(), org.spin.model.I_HR_ProcessReport.Table_Name)
@@ -140,26 +160,6 @@ public class X_HR_ProcessReportLine extends PO implements I_HR_ProcessReportLine
 	public int getHR_ProcessReport_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ProcessReport_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Payroll Process Report Line.
-		@param HR_ProcessReportLine_ID Payroll Process Report Line	  */
-	public void setHR_ProcessReportLine_ID (int HR_ProcessReportLine_ID)
-	{
-		if (HR_ProcessReportLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportLine_ID, Integer.valueOf(HR_ProcessReportLine_ID));
-	}
-
-	/** Get Payroll Process Report Line.
-		@return Payroll Process Report Line	  */
-	public int getHR_ProcessReportLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ProcessReportLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

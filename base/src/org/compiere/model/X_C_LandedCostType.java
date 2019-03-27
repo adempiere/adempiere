@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for C_LandedCostType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_LandedCostType extends PO implements I_C_LandedCostType, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180928L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_LandedCostType (Properties ctx, int C_LandedCostType_ID, String trxName)
@@ -37,8 +37,6 @@ public class X_C_LandedCostType extends PO implements I_C_LandedCostType, I_Pers
       super (ctx, C_LandedCostType_ID, trxName);
       /** if (C_LandedCostType_ID == 0)
         {
-			setC_LandedCostType_ID (0);
-			setName (null);
         } */
     }
 
@@ -49,7 +47,7 @@ public class X_C_LandedCostType extends PO implements I_C_LandedCostType, I_Pers
     }
 
     /** AccessLevel
-      * @return 7 - System - Client - Org 
+      * @return 3 - Client - Org 
       */
     protected int get_AccessLevel()
     {
@@ -70,8 +68,8 @@ public class X_C_LandedCostType extends PO implements I_C_LandedCostType, I_Pers
       return sb.toString();
     }
 
-	/** Set LandedCostType ID.
-		@param C_LandedCostType_ID LandedCostType ID	  */
+	/** Set C_LandedCostType_ID.
+		@param C_LandedCostType_ID C_LandedCostType_ID	  */
 	public void setC_LandedCostType_ID (int C_LandedCostType_ID)
 	{
 		if (C_LandedCostType_ID < 1) 
@@ -80,8 +78,8 @@ public class X_C_LandedCostType extends PO implements I_C_LandedCostType, I_Pers
 			set_ValueNoCheck (COLUMNNAME_C_LandedCostType_ID, Integer.valueOf(C_LandedCostType_ID));
 	}
 
-	/** Get LandedCostType ID.
-		@return LandedCostType ID	  */
+	/** Get C_LandedCostType_ID.
+		@return C_LandedCostType_ID	  */
 	public int getC_LandedCostType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_LandedCostType_ID);

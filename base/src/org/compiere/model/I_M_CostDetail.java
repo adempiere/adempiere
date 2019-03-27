@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_CostDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_M_CostDetail 
 {
@@ -527,6 +527,36 @@ public interface I_M_CostDetail
 
 	public org.compiere.model.I_M_InventoryLine getM_InventoryLine() throws RuntimeException;
 
+    /** Column name M_MatchInv_ID */
+    public static final String COLUMNNAME_M_MatchInv_ID = "M_MatchInv_ID";
+
+	/** Set Match Invoice.
+	  * Match Shipment/Receipt to Invoice
+	  */
+	public void setM_MatchInv_ID (int M_MatchInv_ID);
+
+	/** Get Match Invoice.
+	  * Match Shipment/Receipt to Invoice
+	  */
+	public int getM_MatchInv_ID();
+
+	public org.compiere.model.I_M_MatchInv getM_MatchInv() throws RuntimeException;
+
+    /** Column name M_MatchPO_ID */
+    public static final String COLUMNNAME_M_MatchPO_ID = "M_MatchPO_ID";
+
+	/** Set Match PO.
+	  * Match Purchase Order to Shipment/Receipt and Invoice
+	  */
+	public void setM_MatchPO_ID (int M_MatchPO_ID);
+
+	/** Get Match PO.
+	  * Match Purchase Order to Shipment/Receipt and Invoice
+	  */
+	public int getM_MatchPO_ID();
+
+	public org.compiere.model.I_M_MatchPO getM_MatchPO() throws RuntimeException;
+
     /** Column name M_MovementLine_ID */
     public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
 
@@ -698,38 +728,4 @@ public interface I_M_CostDetail
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-
-
-	/** Column name M_MatchInv_ID */
-	public static final String COLUMNNAME_M_MatchInv_ID = "M_MatchInv_ID";
-
-	/** Set Match Invoice.
-	 * Match Shipment/Receipt to Invoice
-	 */
-	public void setM_MatchInv_ID (int M_MatchInv_ID);
-
-	/** Get Match Invoice.
-	 * Match Shipment/Receipt to Invoice
-	 */
-	public int getM_MatchInv_ID();
-
-
-
-
-	/** Column name M_MatchPO_ID */
-	public static final String COLUMNNAME_M_MatchPO_ID = "M_MatchPO_ID";
-
-	/** Set Match Invoice.
-	 * Match Shipment/Receipt to Invoice
-	 */
-	public void setM_MatchPO_ID (int M_MatchPO_ID);
-
-	/** Get Match Invoice.
-	 * Match Shipment/Receipt to Invoice
-	 */
-	public int getM_MatchPO_ID();
-
-
-
 }

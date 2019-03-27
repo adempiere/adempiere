@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Workflow
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_I_Workflow (Properties ctx, int I_Workflow_ID, String trxName)
@@ -774,6 +774,10 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 	public static final String EMAILRECIPIENT_DocumentBusinessPartner = "B";
 	/** WF Responsible = R */
 	public static final String EMAILRECIPIENT_WFResponsible = "R";
+	/** Supervisor of Document Owner = S */
+	public static final String EMAILRECIPIENT_SupervisorOfDocumentOwner = "S";
+	/** Supervisor of WF Responsible = Z */
+	public static final String EMAILRECIPIENT_SupervisorOfWFResponsible = "Z";
 	/** Set EMail Recipient.
 		@param EMailRecipient 
 		Recipient of the EMail

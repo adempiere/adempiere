@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for RV_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_RV_BPartner 
 {
@@ -75,6 +75,8 @@ public interface I_RV_BPartner
 	  */
 	public int getAD_OrgBP_ID();
 
+	public org.compiere.model.I_AD_Org getAD_OrgBP() throws RuntimeException;
+
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
@@ -87,6 +89,8 @@ public interface I_RV_BPartner
 	  * Performing or initiating organization
 	  */
 	public int getAD_OrgTrx_ID();
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException;
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";

@@ -80,7 +80,7 @@ public class RequisitionPOCreate extends RequisitionPOCreateAbstract
 	protected String doIt() throws Exception
 	{
 		// Processing Requisition Lines from Smart Browser M_Requisition_Create_PO_From_Requisition
-		if (getSelectionKeys().size() > 0) {
+		if (getSelectionKeys()!=null && getSelectionKeys().size() > 0) {
 			for ( int requisitionLineId : getSelectionKeys()) {
 				MRequisitionLine requisitionLine = new MRequisitionLine(getCtx(), requisitionLineId, get_TrxName());
 					process(requisitionLine);

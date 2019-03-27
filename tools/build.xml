@@ -338,6 +338,24 @@
 			<zipfileset src="lib/OpenForecast-0.5.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
+			<zipfileset src="../tools/lib/batik-all-1.9.jar">
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
+			<zipfileset src="../tools/lib/org.krysalis.barcode4j_2.1.0.jar">
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
+			<zipfileset src="../tools/lib/xml-apis-1.3.04.jar">
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
+			<zipfileset src="../tools/lib/xml-apis-ext-1.3.04.jar">
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
+			<zipfileset src="../tools/lib/xmlgraphics-commons-2.2.jar">
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
+			<zipfileset src="../tools/lib/zxing-2.3.0.jar">
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
 			<manifest>
 				<attribute name="Specification-Title" value="Adempiere Server Tools" />
 				<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}" />
@@ -541,6 +559,24 @@
 			<!-- Open Forecast -->
 			<zipfileset src="lib/OpenForecast-0.5.0.jar">
 				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="../tools/lib/batik-all-1.9.jar">
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
+			<zipfileset src="../tools/lib/org.krysalis.barcode4j_2.1.0.jar">
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
+			<zipfileset src="../tools/lib/xml-apis-1.3.04.jar">
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
+			<zipfileset src="../tools/lib/xml-apis-ext-1.3.04.jar">
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
+			<zipfileset src="../tools/lib/xmlgraphics-commons-2.2.jar">
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
+			<zipfileset src="../tools/lib/zxing-2.3.0.jar">
+				<patternset refid="manifest.exclude"/>
 			</zipfileset>
 			<manifest>
 				<attribute name="Specification-Title" value="Adempiere Client Tools" />

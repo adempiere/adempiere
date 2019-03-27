@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_OrgInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_OrgInfo (Properties ctx, int AD_OrgInfo_ID, String trxName)
@@ -308,6 +308,11 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.compiere.model.I_AD_Org getParent_Org() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getParent_Org_ID(), get_TrxName());	}
 
 	/** Set Parent Organization.
 		@param Parent_Org_ID 

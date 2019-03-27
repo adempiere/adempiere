@@ -315,6 +315,9 @@ public final class VTreePanel extends CPanel
 	 */
 	public boolean initTree (int treeId, String whereClause) {
 		log.config("AD_Tree_ID=" + treeId);
+		//
+		this.treeId = treeId;
+
 		//	Yamel Senih [ 9223372036854775807 ]
 		//	Add Where Clause
 		if(!Util.isEmpty(whereClause)) {

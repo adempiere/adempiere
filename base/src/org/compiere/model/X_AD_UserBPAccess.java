@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_UserBPAccess
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_UserBPAccess (Properties ctx, int AD_UserBPAccess_ID, String trxName)
@@ -216,6 +216,8 @@ public class X_AD_UserBPAccess extends PO implements I_AD_UserBPAccess, I_Persis
 	public static final String DOCBASETYPE_APPaymentSelection = "APS";
 	/** Sales Commission = SOC */
 	public static final String DOCBASETYPE_SalesCommission = "SOC";
+	/** Fixed Assets Split = FAS */
+	public static final String DOCBASETYPE_FixedAssetsSplit = "FAS";
 	/** Fixed Assets Addition = FAA */
 	public static final String DOCBASETYPE_FixedAssetsAddition = "FAA";
 	/** Fixed Assets Disposal = FAD */

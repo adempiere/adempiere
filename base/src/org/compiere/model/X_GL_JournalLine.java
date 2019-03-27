@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_JournalLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171001L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_GL_JournalLine (Properties ctx, int GL_JournalLine_ID, String trxName)
@@ -52,8 +52,8 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 // @CurrencyRate@;1
 			setDateAcct (new Timestamp( System.currentTimeMillis() ));
 // @DateAcct@
-			setGL_Journal_ID (0);
 			setGL_JournalLine_ID (0);
+			setGL_Journal_ID (0);
 			setIsGenerated (false);
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM GL_JournalLine WHERE GL_Journal_ID=@GL_Journal_ID@
@@ -89,6 +89,34 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
       return sb.toString();
     }
 
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getAD_OrgTrx_ID(), get_TrxName());	}
+
+	/** Set Trx Organization.
+		@param AD_OrgTrx_ID 
+		Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
+	{
+		if (AD_OrgTrx_ID < 1) 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+	}
+
+	/** Get Trx Organization.
+		@return Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_A_Asset_Group getA_Asset_Group() throws RuntimeException
     {
 		return (org.compiere.model.I_A_Asset_Group)MTable.get(getCtx(), org.compiere.model.I_A_Asset_Group.Table_Name)
@@ -122,9 +150,9 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
 			.getPO(getA_Asset_ID(), get_TrxName());	}
 
-	/** Set Asset.
+	/** Set Fixed Asset.
 		@param A_Asset_ID 
-		Asset used internally or by customers
+		Fixed Asset used internally or by customers
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
@@ -134,40 +162,12 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 			set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
-	/** Get Asset.
-		@return Asset used internally or by customers
+	/** Get Fixed Asset.
+		@return Fixed Asset used internally or by customers
 	  */
 	public int getA_Asset_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
-			.getPO(getAccount_ID(), get_TrxName());	}
-
-	/** Set Account.
-		@param Account_ID 
-		Account used
-	  */
-	public void setAccount_ID (int Account_ID)
-	{
-		if (Account_ID < 1) 
-			set_Value (COLUMNNAME_Account_ID, null);
-		else 
-			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
-	}
-
-	/** Get Account.
-		@return Account used
-	  */
-	public int getAccount_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -194,24 +194,50 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return false;
 	}
 
-	/** Set Trx Organization.
-		@param AD_OrgTrx_ID 
-		Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
+	/** Set Processed.
+		@param A_Processed Processed	  */
+	public void setA_Processed (boolean A_Processed)
 	{
-		if (AD_OrgTrx_ID < 1) 
-			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+		set_Value (COLUMNNAME_A_Processed, Boolean.valueOf(A_Processed));
 	}
 
-	/** Get Trx Organization.
-		@return Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID () 
+	/** Get Processed.
+		@return Processed	  */
+	public boolean isA_Processed () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
+		Object oo = get_Value(COLUMNNAME_A_Processed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getAccount_ID(), get_TrxName());	}
+
+	/** Set Account.
+		@param Account_ID 
+		Account used
+	  */
+	public void setAccount_ID (int Account_ID)
+	{
+		if (Account_ID < 1) 
+			set_Value (COLUMNNAME_Account_ID, null);
+		else 
+			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
+	}
+
+	/** Get Account.
+		@return Account used
+	  */
+	public int getAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -320,27 +346,6 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	/** Set Processed.
-		@param A_Processed Processed	  */
-	public void setA_Processed (boolean A_Processed)
-	{
-		set_Value (COLUMNNAME_A_Processed, Boolean.valueOf(A_Processed));
-	}
-
-	/** Get Processed.
-		@return Processed	  */
-	public boolean isA_Processed () 
-	{
-		Object oo = get_Value(COLUMNNAME_A_Processed);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
 	}
 
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
@@ -651,26 +656,6 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Rate.
-		@param CurrencyRate 
-		Currency Conversion Rate
-	  */
-	public void setCurrencyRate (BigDecimal CurrencyRate)
-	{
-		set_ValueNoCheck (COLUMNNAME_CurrencyRate, CurrencyRate);
-	}
-
-	/** Get Rate.
-		@return Currency Conversion Rate
-	  */
-	public BigDecimal getCurrencyRate () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CurrencyRate);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public I_C_ValidCombination getC_ValidCombination() throws RuntimeException
     {
 		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
@@ -697,6 +682,26 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Rate.
+		@param CurrencyRate 
+		Currency Conversion Rate
+	  */
+	public void setCurrencyRate (BigDecimal CurrencyRate)
+	{
+		set_ValueNoCheck (COLUMNNAME_CurrencyRate, CurrencyRate);
+	}
+
+	/** Get Rate.
+		@return Currency Conversion Rate
+	  */
+	public BigDecimal getCurrencyRate () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CurrencyRate);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Account Date.
@@ -733,6 +738,29 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Journal Line.
+		@param GL_JournalLine_ID 
+		General Ledger Journal Line
+	  */
+	public void setGL_JournalLine_ID (int GL_JournalLine_ID)
+	{
+		if (GL_JournalLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_JournalLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_JournalLine_ID, Integer.valueOf(GL_JournalLine_ID));
+	}
+
+	/** Get Journal Line.
+		@return General Ledger Journal Line
+	  */
+	public int getGL_JournalLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_GL_JournalLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_GL_Journal getGL_Journal() throws RuntimeException
     {
 		return (org.compiere.model.I_GL_Journal)MTable.get(getCtx(), org.compiere.model.I_GL_Journal.Table_Name)
@@ -756,29 +784,6 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 	public int getGL_Journal_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_GL_Journal_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Journal Line.
-		@param GL_JournalLine_ID 
-		General Ledger Journal Line
-	  */
-	public void setGL_JournalLine_ID (int GL_JournalLine_ID)
-	{
-		if (GL_JournalLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_GL_JournalLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_GL_JournalLine_ID, Integer.valueOf(GL_JournalLine_ID));
-	}
-
-	/** Get Journal Line.
-		@return General Ledger Journal Line
-	  */
-	public int getGL_JournalLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_GL_JournalLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -934,6 +939,23 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
@@ -1092,22 +1114,5 @@ public class X_GL_JournalLine extends PO implements I_GL_JournalLine, I_Persiste
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_StandardRequestType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_R_StandardRequestType extends PO implements I_R_StandardRequestType, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20171113L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_R_StandardRequestType (Properties ctx, int R_StandardRequestType_ID, String trxName)

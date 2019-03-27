@@ -77,7 +77,7 @@ public class WRecordInfo extends RecordInfoController implements EventListener
 		v_Container = new Window();
 		v_Container.setTitle(title);
 		v_Container.setAttribute("modal", Boolean.TRUE);
-		v_Container.setWidth("500px");
+		v_Container.setWidth("800px");
 		v_Container.setHeight("400px");
 		v_Container.setBorder("normal");
 		v_Container.setSizable(true);

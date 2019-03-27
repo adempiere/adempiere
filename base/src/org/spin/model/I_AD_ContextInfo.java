@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_ContextInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_AD_ContextInfo 
 {
@@ -53,10 +53,14 @@ public interface I_AD_ContextInfo
     /** Column name AD_ContextInfo_ID */
     public static final String COLUMNNAME_AD_ContextInfo_ID = "AD_ContextInfo_ID";
 
-	/** Set Context Info Maintaining ID	  */
+	/** Set Context Info.
+	  * Context Info Maintaining
+	  */
 	public void setAD_ContextInfo_ID (int AD_ContextInfo_ID);
 
-	/** Get Context Info Maintaining ID	  */
+	/** Get Context Info.
+	  * Context Info Maintaining
+	  */
 	public int getAD_ContextInfo_ID();
 
     /** Column name AD_Message_ID */
@@ -151,6 +155,19 @@ public interface I_AD_ContextInfo
 	/** Get SQLStatement	  */
 	public String getSQLStatement();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -166,19 +183,6 @@ public interface I_AD_ContextInfo
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

@@ -20,18 +20,30 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.adempiere.model.I_AD_Browse;
 import org.adempiere.pipo.AbstractElementHandler;
+import org.adempiere.pipo.AttributeFiller;
 import org.adempiere.pipo.Element;
 import org.adempiere.pipo.PackOut;
+import org.adempiere.pipo.exception.POSaveFailedException;
+import org.compiere.model.I_AD_Form;
+import org.compiere.model.I_AD_Menu;
+import org.compiere.model.I_AD_Process;
+import org.compiere.model.I_AD_Task;
+import org.compiere.model.I_AD_TreeNodeMM;
+import org.compiere.model.I_AD_Window;
+import org.compiere.model.I_AD_Workbench;
+import org.compiere.model.I_AD_Workflow;
+import org.compiere.model.MMenu;
 import org.compiere.model.MTree;
 import org.compiere.model.MTree_NodeMM;
 import org.compiere.model.X_AD_Menu;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
@@ -41,158 +53,144 @@ public class MenuElementHandler extends AbstractElementHandler {
 	public void startElement(Properties ctx, Element element)
 			throws SAXException {
 		String elementValue = element.getElementValue();
-		int AD_Backup_ID = -1;
+		int backupId = -1;
 		String Object_Status = null;
 		Attributes atts = element.attributes;
-		log.info(elementValue + " " + atts.getValue("ADMenuNameID"));
-		// String entitytype = atts.getValue("EntityType");
-		// if (entitytype.compareTo("U") == 0 || entitytype.compareTo("D") == 0
-		// && m_UpdateMode == true ) {
-
-		String name = null;
-		int idDetail = 0;
-		StringBuffer sqlB = null;
-
-		name = atts.getValue("ADMenuNameID");
-		int menuid = get_IDWithColumn(ctx, "AD_Menu", "Name", name);
-		X_AD_Menu m_Menu = new X_AD_Menu(ctx, menuid, getTrxName(ctx));
-		if (menuid <= 0 && atts.getValue("AD_Menu_ID") != null && Integer.parseInt(atts.getValue("AD_Menu_ID")) <= PackOut.MAX_OFFICIAL_ID) {
-			m_Menu.setAD_Menu_ID(Integer.parseInt(atts.getValue("AD_Menu_ID")));
-			m_Menu.setIsDirectLoad(true);
+		String uuid = getUUIDValue(atts, I_AD_Menu.Table_Name);
+		log.info(elementValue + " " + uuid);
+		int menuId = getIdFromUUID(ctx, I_AD_Menu.Table_Name, uuid);
+		X_AD_Menu menu = new X_AD_Menu(ctx, menuId, getTrxName(ctx));
+		if (menuId <= 0 && getIntValue(atts, I_AD_Menu.COLUMNNAME_AD_Menu_ID) > 0 && getIntValue(atts, I_AD_Menu.COLUMNNAME_AD_Menu_ID) <= PackOut.MAX_OFFICIAL_ID) {
+			menu.setAD_Menu_ID(getIntValue(atts, I_AD_Menu.COLUMNNAME_AD_Menu_ID));
 		}
-		if (menuid > 0) {
-			AD_Backup_ID = copyRecord(ctx, "AD_Menu", m_Menu);
+		if (menuId > 0) {
+			backupId = copyRecord(ctx, I_AD_Menu.Table_Name, menu);
 			Object_Status = "Update";
 		} else {
 			Object_Status = "New";
-			AD_Backup_ID = 0;
+			backupId = 0;
 		}
-
-		m_Menu.setName(name);
-		name = atts.getValue("ADWindowNameID");
-		if (name != null && name.trim().length() > 0) {
-			int id = get_IDWithColumn(ctx, "AD_Window", "Name", name);
+		menu.setIsDirectLoad(true);
+		menu.setUUID(uuid);
+		//	For window
+		menu.setName(atts.getValue(I_AD_Menu.COLUMNNAME_Name));
+		uuid = getUUIDValue(atts, I_AD_Menu.COLUMNNAME_AD_Window_ID);
+		if (!Util.isEmpty(uuid)) {
+			int id = getIdFromUUID(ctx, I_AD_Window.Table_Name, uuid);
 			if (id <= 0) {
 				element.defer = true;
 				return;
 			}
-			m_Menu.setAD_Window_ID(id);
+			menu.setAD_Window_ID(id);
 		}
-		
-		name = atts.getValue("ADProcessNameID");
-		if (name != null && name.trim().length() > 0) {
-			int id = get_IDWithColumn(ctx, "AD_Process", "Name", name);
+		//	for Process
+		uuid = getUUIDValue(atts, I_AD_Menu.COLUMNNAME_AD_Process_ID);
+		if (!Util.isEmpty(uuid)) {
+			int id = getIdFromUUID(ctx, I_AD_Process.Table_Name, uuid);
 			if (id <= 0) {
 				element.defer = true;
 				return;
 			}
-			m_Menu.setAD_Process_ID(id);
+			menu.setAD_Process_ID(id);
 		}
-		
-		name = atts.getValue("ADFormNameID");
-		if (name != null && name.trim().length() > 0) {
-			int id = get_IDWithColumn(ctx, "AD_Form", "Name", name);
+		//	For Form
+		uuid = getUUIDValue(atts, I_AD_Menu.COLUMNNAME_AD_Form_ID);
+		if (!Util.isEmpty(uuid)) {
+			int id = getIdFromUUID(ctx, I_AD_Form.Table_Name, uuid);
 			if (id <= 0) {
 				element.defer = true;
 				return;
 			}
-			m_Menu.setAD_Form_ID(id);
+			menu.setAD_Form_ID(id);
 		}
-		
-		name = atts.getValue("ADBrowseNameID");
-		if (name != null && name.trim().length() > 0) {
-			int id = get_IDWithColumn(ctx, "AD_Browse", "Name", name);
+		//	Browse
+		uuid = getUUIDValue(atts, I_AD_Menu.COLUMNNAME_AD_Browse_ID);
+		if (!Util.isEmpty(uuid)) {
+			int id = getIdFromUUID(ctx, I_AD_Browse.Table_Name, uuid);
 			if (id <= 0) {
 				element.defer = true;
 				return;
 			}
-			m_Menu.setAD_Browse_ID(id);
+			menu.setAD_Browse_ID(id);
 		}
-		
-		name = atts.getValue("ADTaskNameID");
-		if (name != null && name.trim().length() > 0) {
-			int id = get_IDWithColumn(ctx, "AD_Task", "Name", name);
+		//	Task
+		uuid = getUUIDValue(atts, I_AD_Menu.COLUMNNAME_AD_Task_ID);
+		if (!Util.isEmpty(uuid)) {
+			int id = getIdFromUUID(ctx, I_AD_Task.Table_Name, uuid);
 			if (id <= 0) {
 				element.defer = true;
 				return;
 			}
-			m_Menu.setAD_Task_ID(id);
+			menu.setAD_Task_ID(id);
 		}
-		
-		name = atts.getValue("ADWorkbenchNameID");
-		if (name != null && name.trim().length() > 0) {
-			int id = get_IDWithColumn(ctx, "AD_Workbench", "Name", name);
+		//	Workbench
+		uuid = getUUIDValue(atts, I_AD_Menu.COLUMNNAME_AD_Workbench_ID);
+		if (!Util.isEmpty(uuid)) {
+			int id = getIdFromUUID(ctx, I_AD_Workbench.Table_Name, uuid);
 			if (id <= 0) {
 				element.defer = true;
 				return;
 			}
-			m_Menu.setAD_Workbench_ID(id);
+			menu.setAD_Workbench_ID(id);
 		}
-		
-		name = atts.getValue("ADWorkflowNameID");
-		if (name != null && name.trim().length() > 0) {
-			int id = get_IDWithColumn(ctx, "AD_Workflow", "Name", name);
+		//	Workflow
+		uuid = getUUIDValue(atts, I_AD_Menu.COLUMNNAME_AD_Workflow_ID);
+		if (!Util.isEmpty(uuid)) {
+			int id = getIdFromUUID(ctx, I_AD_Workflow.Table_Name, uuid);
 			if (id <= 0) {
 				element.defer = true;
 				return;
 			}
-			m_Menu.setAD_Workflow_ID(id);
+			menu.setAD_Workflow_ID(id);
 		}
 		
-		String action = (atts.getValue("Action") != null ? atts
-				.getValue("Action") : " ");
-		if (action.compareTo(" ") > -1)
-			m_Menu.setAction(action);
-		m_Menu.setDescription(getStringValue(atts, "Description"));
-		m_Menu.setEntityType(atts.getValue("EntityType"));
-		m_Menu.setIsReadOnly(Boolean.valueOf(atts.getValue("isReadOnly"))
-				.booleanValue());
-		m_Menu.setIsSOTrx(Boolean.valueOf(atts.getValue("isSOTrx"))
-				.booleanValue());
-		m_Menu.setIsSummary(Boolean.valueOf(atts.getValue("isSummary"))
-				.booleanValue());
-		m_Menu.setIsActive(Boolean.valueOf(atts.getValue("isActive"))
-				.booleanValue());
-		if (m_Menu.save(getTrxName(ctx)) == true) {
-			try {
-				idDetail = record_log(ctx, 1, m_Menu.getName(), "Menu", m_Menu
-						.get_ID(), AD_Backup_ID, Object_Status, "AD_Menu",
-						get_IDWithColumn(ctx, "AD_Table", "TableName",
-								"AD_Menu"));
-			} catch (SAXException e) {
-				log.info("setmenu:" + e);
-			}
-		} else {
-			try {
-				idDetail = record_log(ctx, 0, m_Menu.getName(), "Menu", m_Menu
-						.get_ID(), AD_Backup_ID, Object_Status, "AD_Menu",
-						get_IDWithColumn(ctx, "AD_Table", "TableName",
-								"AD_Menu"));
-			} catch (SAXException e) {
-				log.info("setmenu:" + e);
-			}
+		String action = (atts.getValue(I_AD_Menu.COLUMNNAME_Action) != null ? atts.getValue(I_AD_Menu.COLUMNNAME_Action) : " ");
+		if (action.compareTo(" ") > -1) {
+			menu.setAction(action);
 		}
-		name = atts.getValue("ADParentMenuNameID");
-		int id = get_ID(ctx, "AD_Menu", name);
-
-		String sql2 = "SELECT count(Parent_ID) FROM AD_TREENODEMM WHERE AD_Tree_ID = 10"
-				+ " AND Node_ID = " + menuid;
-		int countRecords = DB.getSQLValue(getTrxName(ctx), sql2);
+		menu.setDescription(getStringValue(atts, I_AD_Menu.COLUMNNAME_Description));
+		menu.setEntityType(getStringValue(atts, I_AD_Menu.COLUMNNAME_EntityType));
+		
+		menu.setIsReadOnly(getBooleanValue(atts, I_AD_Menu.COLUMNNAME_IsReadOnly));
+		menu.setIsSOTrx(getBooleanValue(atts, I_AD_Menu.COLUMNNAME_IsSOTrx));
+		menu.setIsSummary(getBooleanValue(atts, I_AD_Menu.COLUMNNAME_IsSummary));
+		menu.setIsActive(getBooleanValue(atts, I_AD_Menu.COLUMNNAME_IsActive));
+		int detailId;
+		try {
+			menu.saveEx(getTrxName(ctx));
+			detailId = recordLog(ctx, 1, menu.getUUID(), "Menu", menu
+					.get_ID(), backupId, Object_Status, "AD_Menu",
+					get_IDWithColumn(ctx, "AD_Table", "TableName", "AD_Menu"));
+		} catch (Exception e) {
+			detailId = recordLog(ctx, 0, menu.getUUID(), "Menu", menu
+					.get_ID(), backupId, Object_Status, "AD_Menu",
+					get_IDWithColumn(ctx, "AD_Table", "TableName",
+							"AD_Menu"));
+			throw new POSaveFailedException(e);
+		}
+		//	Parent Menu UUID
+		uuid = getUUIDValue(atts, I_AD_TreeNodeMM.COLUMNNAME_Parent_ID);
+		int parentId = getIdFromUUID(ctx, I_AD_Menu.Table_Name, uuid);
+		//	Default tree ID
+		int defaultTreeId = MTree.getDefaultTreeIdFromTableId(menu.getAD_Client_ID(), I_AD_Menu.Table_ID);
+		String sqlCounter = "SELECT count(Parent_ID) FROM AD_TREENODEMM WHERE AD_Tree_ID = " + defaultTreeId
+				+ " AND Node_ID = " + menuId;
+		int countRecords = DB.getSQLValue(getTrxName(ctx), sqlCounter);
 		if (countRecords > 0) {
-			StringBuffer sqlC = new StringBuffer(
+			StringBuffer sqlColumn = new StringBuffer(
 					"select * from AD_TREENODEMM where AD_Tree_ID = 10 and "
 							+ " Node_ID =?");
 			try {
-				PreparedStatement pstmt1 = DB.prepareStatement(sqlC.toString(),
+				PreparedStatement pstmt1 = DB.prepareStatement(sqlColumn.toString(),
 						getTrxName(ctx));
-				pstmt1.setInt(1, menuid);
+				pstmt1.setInt(1, menuId);
 				ResultSet rs1 = pstmt1.executeQuery();
 				if (rs1.next()) {
 
 					String colValue = null;
 					ResultSetMetaData meta = rs1.getMetaData();
 					int columns = meta.getColumnCount();
-					int tableID = get_IDWithColumn(ctx, "AD_Table",
+					int tableId = get_IDWithColumn(ctx, "AD_Table",
 							"TableName", "AD_TreeNodeMM");
 
 					for (int q = 1; q <= columns; q++) {
@@ -201,17 +199,17 @@ public class MenuElementHandler extends AbstractElementHandler {
 						StringBuffer sql = new StringBuffer(
 								"SELECT AD_Column_ID FROM AD_column WHERE Upper(ColumnName) = '"
 										+ col_Name + "' AND AD_Table_ID = ?");
-						int columnID = DB.getSQLValue(getTrxName(ctx), sql
-								.toString(), tableID);
+						int columnId = DB.getSQLValue(getTrxName(ctx), sql
+								.toString(), tableId);
 						sql = new StringBuffer(
 								"SELECT AD_Reference_ID FROM AD_COLUMN WHERE AD_Column_ID = "
-										+ (columnID == -1 ? "null" : columnID));
-						int referenceID = DB.getSQLValue(getTrxName(ctx), sql
+										+ (columnId == -1 ? "null" : columnId));
+						int referenceId = DB.getSQLValue(getTrxName(ctx), sql
 								.toString());
 						int idBackup = DB.getNextID(Env
 								.getAD_Client_ID(ctx), "AD_Package_Imp_Backup",
 								getTrxName(ctx));
-						if (referenceID == 20 || referenceID == 28)
+						if (referenceId == 20 || referenceId == 28)
 							if (rs1.getObject(q).equals("Y"))
 								colValue = "true";
 							else
@@ -235,15 +233,15 @@ public class MenuElementHandler extends AbstractElementHandler {
 										+ ", "
 										+ idBackup
 										+ ", "
-										+ idDetail
+										+ detailId
 										+ ", "
 										+ getPackageImpId(ctx)
 										+ ", "
-										+ tableID
+										+ tableId
 										+ ", "
-										+ (columnID == -1 ? "null" : columnID)
+										+ (columnId == -1 ? "null" : columnId)
 										+ ", "
-										+ (referenceID == -1 ? "null" : referenceID)
+										+ (referenceId == -1 ? "null" : referenceId)
 										+ ", '" + colValue + "')");
 						int no = DB.executeUpdate(sqlD.toString(),
 								getTrxName(ctx));
@@ -259,271 +257,142 @@ public class MenuElementHandler extends AbstractElementHandler {
 			} catch (Exception e) {
 				log.info("get_IDWithMasterID:" + e);
 			}
-			MTree tree = new MTree(ctx , 10 , getTrxName(ctx));
-			MTree_NodeMM treeNode = MTree_NodeMM.get(tree, m_Menu.getAD_Menu_ID());
-			treeNode.setSeqNo(Integer.valueOf(atts.getValue("ADParentSeqno")));
-			treeNode.set_CustomColumn("Parent_ID", id);
-			treeNode.saveEx();
-			
-		} else {
-			MTree tree = new MTree(ctx , 10 , getTrxName(ctx));
-			MTree_NodeMM treeNode = new MTree_NodeMM(tree,m_Menu.getAD_Menu_ID());
-			treeNode.setSeqNo(Integer.valueOf(atts.getValue("ADParentSeqno")));
-			treeNode.set_CustomColumn("Parent_ID", id);
-			treeNode.setNode_ID(m_Menu.getAD_Menu_ID());
-			treeNode.saveEx();
 		}
+		//	Tree
+		MTree tree = MTree.get(ctx, defaultTreeId, getTrxName(ctx));
+		MTree_NodeMM treeNode = MTree_NodeMM.get(tree, menu.getAD_Menu_ID());
+		if(treeNode == null) {
+			treeNode = new MTree_NodeMM(tree, menu.getAD_Menu_ID());
+		}
+		treeNode.setSeqNo(Integer.valueOf(atts.getValue(I_AD_TreeNodeMM.COLUMNNAME_SeqNo)));
+		treeNode.setParent_ID(parentId);
+		treeNode.saveEx();
 	}
 
 	public void endElement(Properties ctx, Element element) throws SAXException {
+		
 	}
 
 	public void create(Properties ctx, TransformerHandler document)
 			throws SAXException {
-		int AD_Menu_ID = Env.getContextAsInt(ctx, "AD_Menu_ID");
-		X_AD_Menu m_Menu = new X_AD_Menu(ctx, AD_Menu_ID, null);
-		if (m_Menu.isSummary() == false) {
-			createApplication(ctx, document, AD_Menu_ID);
-		} else {
-			AttributesImpl atts = new AttributesImpl();
-			createMenuBinding(atts, m_Menu);
-			document.startElement("", "", "menu", atts);
-			createModule(ctx, document, AD_Menu_ID);
-			document.endElement("", "", "menu");
-		}
+		int menuId = Env.getContextAsInt(ctx, "AD_Menu_ID");
+		createApplication(ctx, document, menuId);
 	}
 
-	private AttributesImpl createMenuBinding(AttributesImpl atts,
-			X_AD_Menu m_Menu) {
-		String sql = null;
-		String name = null;
+	private AttributesImpl createMenuBinding(AttributesImpl atts, X_AD_Menu menu) {
 		atts.clear();
-		if (m_Menu.getAD_Menu_ID() > 0) {
-
-			sql = "SELECT Name FROM AD_Menu WHERE AD_Menu_ID=?";
-			name = DB.getSQLValueString(null, sql, m_Menu.getAD_Menu_ID());
-			atts.addAttribute("", "", "ADMenuNameID", "CDATA", name);
-		} else
-			atts.addAttribute("", "", "ADMenuNameID", "CDATA", "");
-		if (m_Menu.getAD_Window_ID() > 0) {
-			sql = "SELECT Name FROM AD_Window WHERE AD_Window_ID=?";
-			name = DB.getSQLValueString(null, sql, m_Menu.getAD_Window_ID());
-			atts.addAttribute("", "", "ADWindowNameID", "CDATA", name);
-		} else
-			atts.addAttribute("", "", "ADWindowNameID", "CDATA", "");
-		if (m_Menu.getAD_Process_ID() > 0) {
-			sql = "SELECT Name FROM AD_Process WHERE AD_Process_ID=?";
-			name = DB.getSQLValueString(null, sql, m_Menu.getAD_Process_ID());
-			atts.addAttribute("", "", "ADProcessNameID", "CDATA", name);
-		} else
-			atts.addAttribute("", "", "ADProcessNameID", "CDATA", "");
-		if (m_Menu.getAD_Form_ID() > 0) {
-			sql = "SELECT Name FROM AD_Form WHERE AD_Form_ID=?";
-			name = DB.getSQLValueString(null, sql, m_Menu.getAD_Form_ID());
-			atts.addAttribute("", "", "ADFormNameID", "CDATA", name);
-		} else
-			atts.addAttribute("", "", "ADFormNameID", "CDATA", "");
-		if (m_Menu.getAD_Browse_ID() > 0) {
-			sql = "SELECT Name FROM AD_Browse WHERE AD_Browse_ID=?";
-			name = DB.getSQLValueString(null, sql, m_Menu.getAD_Browse_ID());
-			atts.addAttribute("", "", "ADBrowseNameID", "CDATA", name);
-		} else
-			atts.addAttribute("", "", "ADBrowseNameID", "CDATA", "");
-		if (m_Menu.getAD_Task_ID() > 0) {
-			sql = "SELECT Name FROM AD_Task WHERE AD_Task_ID=?";
-			name = DB.getSQLValueString(null, sql, m_Menu.getAD_Task_ID());
-			atts.addAttribute("", "", "ADTaskNameID", "CDATA", name);
-		} else
-			atts.addAttribute("", "", "ADTaskNameID", "CDATA", "");
-		if (m_Menu.getAD_Workbench_ID() > 0) {
-			sql = "SELECT Name FROM AD_Workbench WHERE AD_Workbench_ID=?";
-			name = DB.getSQLValueString(null, sql, m_Menu.getAD_Workbench_ID());
-			atts.addAttribute("", "", "ADWorkbenchNameID", "CDATA", name);
-		} else
-			atts.addAttribute("", "", "ADWorkbenchNameID", "CDATA", "");
-		if (m_Menu.getAD_Workflow_ID() > 0) {
-			sql = "SELECT Name FROM AD_Workflow WHERE AD_Workflow_ID=?";
-			name = DB.getSQLValueString(null, sql, m_Menu.getAD_Workflow_ID());
-			atts.addAttribute("", "", "ADWorkflowNameID", "CDATA", name);
-		} else
-			atts.addAttribute("", "", "ADWorkflowNameID", "CDATA", "");
-		sql = "SELECT Parent_ID FROM AD_TreeNoDemm WHERE AD_Tree_ID = 10 and Node_ID=?";
-		int id = DB.getSQLValue(null, sql, m_Menu.getAD_Menu_ID());
-		if (id > 0) {
-			sql = "SELECT Name FROM AD_Menu WHERE AD_Menu_ID=?";
-			name = DB.getSQLValueString(null, sql, id);
-			atts.addAttribute("", "", "ADParentMenuNameID", "CDATA", name);
+		AttributeFiller filler = new AttributeFiller(atts, menu);
+		filler.add(I_AD_Menu.COLUMNNAME_AD_Menu_ID);
+		filler.addUUID();
+		if (menu.getAD_Window_ID() > 0) {
+			filler.add(I_AD_Menu.COLUMNNAME_AD_Window_ID, true);
+			filler.addUUID(I_AD_Menu.COLUMNNAME_AD_Window_ID, getUUIDFromId(menu.getCtx(), I_AD_Window.Table_Name, menu.getAD_Window_ID()));
 		}
-		sql = "SELECT SeqNo FROM AD_TreeNoDemm WHERE AD_Tree_ID = 10 and Node_ID=?";
-		id = DB.getSQLValue(null, sql, m_Menu.getAD_Menu_ID());
-		if (m_Menu.getAD_Menu_ID() <= PackOut.MAX_OFFICIAL_ID)
-	        atts.addAttribute("","","AD_Menu_ID","CDATA",Integer.toString(m_Menu.getAD_Menu_ID()));
-		atts.addAttribute("", "", "ADParentSeqno", "CDATA", "" + id);
-		atts.addAttribute("", "", "Action", "CDATA",
-				(m_Menu.getAction() != null ? m_Menu.getAction() : ""));
-		atts.addAttribute("", "", "Description", "CDATA", (m_Menu
-				.getDescription() != null ? m_Menu.getDescription() : ""));
-		atts.addAttribute("", "", "EntityType", "CDATA", (m_Menu
-				.getEntityType() != null ? m_Menu.getEntityType() : ""));
-		atts.addAttribute("", "", "isActive", "CDATA",
-				(m_Menu.isActive() == true ? "true" : "false"));
-		atts.addAttribute("", "", "isReadOnly", "CDATA",
-				(m_Menu.isReadOnly() == true ? "true" : "false"));
-		atts.addAttribute("", "", "isSOTrx", "CDATA",
-				(m_Menu.isSOTrx() == true ? "true" : "false"));
-		atts.addAttribute("", "", "isSummary", "CDATA",
-				(m_Menu.isSummary() == true ? "true" : "false"));
+		if (menu.getAD_Process_ID() > 0) {
+			filler.add(I_AD_Menu.COLUMNNAME_AD_Process_ID, true);
+			filler.addUUID(I_AD_Menu.COLUMNNAME_AD_Process_ID, getUUIDFromId(menu.getCtx(), I_AD_Process.Table_Name, menu.getAD_Process_ID()));
+		}
+		if (menu.getAD_Form_ID() > 0) {
+			filler.add(I_AD_Menu.COLUMNNAME_AD_Form_ID, true);
+			filler.addUUID(I_AD_Menu.COLUMNNAME_AD_Form_ID, getUUIDFromId(menu.getCtx(), I_AD_Form.Table_Name, menu.getAD_Form_ID()));
+		}
+		if (menu.getAD_Browse_ID() > 0) {
+			filler.add(I_AD_Menu.COLUMNNAME_AD_Browse_ID, true);
+			filler.addUUID(I_AD_Menu.COLUMNNAME_AD_Browse_ID, getUUIDFromId(menu.getCtx(), I_AD_Browse.Table_Name, menu.getAD_Browse_ID()));
+		}
+		if (menu.getAD_Task_ID() > 0) {
+			filler.add(I_AD_Menu.COLUMNNAME_AD_Task_ID, true);
+			filler.addUUID(I_AD_Menu.COLUMNNAME_AD_Task_ID, getUUIDFromId(menu.getCtx(), I_AD_Task.Table_Name, menu.getAD_Task_ID()));
+		}
+		if (menu.getAD_Workbench_ID() > 0) {
+			filler.add(I_AD_Menu.COLUMNNAME_AD_Workbench_ID, true);
+			filler.addUUID(I_AD_Menu.COLUMNNAME_AD_Workbench_ID, getUUIDFromId(menu.getCtx(), I_AD_Workbench.Table_Name, menu.getAD_Workbench_ID()));
+		}
+		if (menu.getAD_Workflow_ID() > 0) {
+			filler.add(I_AD_Menu.COLUMNNAME_AD_Workflow_ID, true);
+			filler.addUUID(I_AD_Menu.COLUMNNAME_AD_Workflow_ID, getUUIDFromId(menu.getCtx(), I_AD_Workflow.Table_Name, menu.getAD_Workflow_ID()));
+		}
+		//	
+		filler.add(I_AD_Menu.COLUMNNAME_Name);
+		filler.add(I_AD_Menu.COLUMNNAME_Action);
+		filler.add(I_AD_Menu.COLUMNNAME_Description);
+		filler.add(I_AD_Menu.COLUMNNAME_EntityType);
+		filler.add(I_AD_Menu.COLUMNNAME_IsActive);
+		filler.add(I_AD_Menu.COLUMNNAME_IsReadOnly);
+		filler.add(I_AD_Menu.COLUMNNAME_IsSOTrx);
+		filler.add(I_AD_Menu.COLUMNNAME_IsSummary);
+		//	Parent Menu UUID
+		int defaultTreeId = MTree.getDefaultTreeIdFromTableId(menu.getAD_Client_ID(), I_AD_Menu.Table_ID);
+		MTree_NodeMM node = MTree_NodeMM.get(MTree.get(Env.getCtx(), defaultTreeId, null), menu.getAD_Menu_ID());
+		if(node.getParent_ID() > 0) {
+			MMenu parent = MMenu.getFromId(Env.getCtx(), node.getParent_ID());
+			//	Set Parent UUID
+			filler.addUUID(I_AD_TreeNodeMM.COLUMNNAME_Parent_ID, parent.getUUID());
+		}
+		filler.addInt(I_AD_TreeNodeMM.COLUMNNAME_SeqNo, node.getSeqNo());
 		return atts;
 	}
 
-	private void createApplication(Properties ctx, TransformerHandler document,
-			int AD_Menu_ID) throws SAXException {
+	/**
+	 * Create Application
+	 * @param ctx
+	 * @param document
+	 * @param menuId
+	 * @throws SAXException
+	 */
+	private void createApplication(Properties ctx, TransformerHandler document, int menuId) throws SAXException {
 		PackOut packOut = (PackOut)ctx.get("PackOutProcess");
-		String sql = null;
-		// int x = 0;
-		sql = "SELECT A.Node_ID, B.AD_Menu_ID, B.Name, B.AD_WINDOW_ID, B.AD_WORKFLOW_ID, B.AD_TASK_ID, "
-				+ "B.AD_PROCESS_ID, B.AD_FORM_ID , B.AD_BROWSE_ID, B.AD_WORKBENCH_ID "
-				+ "FROM AD_TreeNoDemm A, AD_Menu B "
-				+ "WHERE A.Node_ID = "
-				+ AD_Menu_ID + " AND A.Node_ID = B.AD_Menu_ID";
-
 		AttributesImpl atts = new AttributesImpl();
-		PreparedStatement pstmt = null;
-		pstmt = DB.prepareStatement(sql, getTrxName(ctx));
-
-		try {
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()) {
-
-				X_AD_Menu m_Menu = new X_AD_Menu(ctx, rs.getInt("AD_Menu_ID"),
-						null);
-				atts = createMenuBinding(atts, m_Menu);
-				document.startElement("", "", "menu", atts);
-				if (rs.getInt("AD_WINDOW_ID") > 0
-						|| rs.getInt("AD_WORKFLOW_ID") > 0
-						|| rs.getInt("AD_TASK_ID") > 0
-						|| rs.getInt("AD_PROCESS_ID") > 0
-						|| rs.getInt("AD_FORM_ID") > 0
-						|| rs.getInt("AD_BROWSE_ID") > 0
-						|| rs.getInt("AD_WORKBENCH_ID") > 0) {
-					// Call CreateWindow.
-					if (rs.getInt("AD_WINDOW_ID") > 0) {
-						packOut.createWindow(rs.getInt("AD_WINDOW_ID"), document);
-					}
-					// Call CreateProcess.
-					else if (rs.getInt("AD_PROCESS_ID") > 0) {
-						packOut.createProcess(rs.getInt("AD_PROCESS_ID"), document);
-					}
-					// Call CreateTask.
-					else if (rs.getInt("AD_TASK_ID") > 0) {
-						packOut.createTask(rs.getInt("AD_TASK_ID"), document);
-					}
-					// Call CreateForm.
-					else if (rs.getInt("AD_FORM_ID") > 0) {
-						packOut.createForm(rs.getInt("AD_FORM_ID"), document);
-					}
-					// Call CreateBrowse.
-					else if (rs.getInt("AD_BROWSE_ID") > 0) {
-						packOut.createBrowse(rs.getInt("AD_BROWSE_ID"), document);
-					}
-					// Call CreateWorkflow
-					else if (rs.getInt("AD_Workflow_ID") > 0) {
-						packOut.createWorkflow(rs.getInt("AD_Workflow_ID"), 
-								document);
-					}
-					// Call CreateModule because entry is a summary menu
-				} else {
-					createModule(ctx, document, rs.getInt("Node_ID"));
-				}
-				document.endElement("", "", "menu");
+		X_AD_Menu menu = new X_AD_Menu(ctx, menuId, null);
+		atts = createMenuBinding(atts, menu);
+		document.startElement("", "", "menu", atts);
+		if(menu.isSummary()) {
+			int defaultTreeId = MTree.getDefaultTreeIdFromTableId(menu.getAD_Client_ID(), I_AD_Menu.Table_ID);
+			String childSQL = "SELECT m.AD_Menu_ID "
+					+ "FROM AD_Menu m "
+					+ "WHERE EXISTS(SELECT 1 FROM AD_TreeNodeMM tnm "
+					+ "			WHERE tnm.Node_ID = m.AD_Menu_ID "
+					+ "			AND tnm.AD_Tree_ID = " + defaultTreeId + " "
+					+ "			AND tnm.Parent_ID = ?)";
+			int [] ids = DB.getIDsEx(null, childSQL, menu.getAD_Menu_ID());
+			for(int id : ids) {
+				//	Recursive call
+				createApplication(ctx, document, id);
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		} catch (Exception e) {
-			log.log(Level.SEVERE, "getWindows", e);
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-			} catch (Exception e) {
+		} else if (menu.getAD_Window_ID() > 0
+				|| menu.getAD_Workflow_ID() > 0
+				|| menu.getAD_Task_ID() > 0
+				|| menu.getAD_Process_ID() > 0
+				|| menu.getAD_Form_ID() > 0
+				|| menu.getAD_Browse_ID() > 0
+				|| menu.getAD_Workbench_ID() > 0) {
+			// Call CreateWindow.
+			if (menu.getAD_Window_ID() > 0) {
+				packOut.createWindow(menu.getAD_Window_ID(), document);
 			}
-			pstmt = null;
+			// Call CreateProcess.
+			else if (menu.getAD_Process_ID() > 0) {
+				packOut.createProcess(menu.getAD_Process_ID(), document);
+			}
+			// Call CreateTask.
+			else if (menu.getAD_Task_ID() > 0) {
+				packOut.createTask(menu.getAD_Task_ID(), document);
+			}
+			// Call CreateForm.
+			else if (menu.getAD_Form_ID() > 0) {
+				packOut.createForm(menu.getAD_Form_ID(), document);
+			}
+			// Call CreateBrowse.
+			else if (menu.getAD_Browse_ID() > 0) {
+				packOut.createBrowse(menu.getAD_Browse_ID(), document);
+			}
+			// Call CreateWorkflow
+			else if (menu.getAD_Workflow_ID() > 0) {
+				packOut.createWorkflow(menu.getAD_Workflow_ID(), 
+						document);
+			}
+			// Call CreateModule because entry is a summary menu
 		}
-	}
-
-	public void createModule(Properties ctx, TransformerHandler document,
-			int menu_id) throws SAXException {
-		PackOut packOut = (PackOut)ctx.get("PackOutProcess");
-		String sql = null;
-		sql = "SELECT A.Node_ID, B.AD_Menu_ID, B.Name, B.AD_WINDOW_ID, B.AD_WORKFLOW_ID, B.AD_TASK_ID, "
-				+ "B.AD_PROCESS_ID, B.AD_FORM_ID, B.AD_BROWSE_ID, B.AD_WORKBENCH_ID "
-				+ "FROM AD_TreeNoDemm A, AD_Menu B "
-				+ "WHERE A.Parent_ID = "
-				+ menu_id + " AND A.Node_ID = B.AD_Menu_ID";
-
-		AttributesImpl atts = new AttributesImpl();
-		PreparedStatement pstmt = null;
-		pstmt = DB.prepareStatement(sql, getTrxName(ctx));
-		try {
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next()) {
-				// Menu tag Start.
-				X_AD_Menu m_Menu = new X_AD_Menu(ctx, rs.getInt("AD_Menu_ID"),
-						null);
-				atts = createMenuBinding(atts, m_Menu);
-				document.startElement("", "", "menu", atts);
-				if (rs.getInt("AD_WINDOW_ID") > 0
-						|| rs.getInt("AD_WORKFLOW_ID") > 0
-						|| rs.getInt("AD_TASK_ID") > 0
-						|| rs.getInt("AD_PROCESS_ID") > 0
-						|| rs.getInt("AD_FORM_ID") > 0
-						|| rs.getInt("AD_BROWSE_ID") > 0
-						|| rs.getInt("AD_WORKBENCH_ID") > 0) {
-					// Call CreateWindow.
-					if (rs.getInt("AD_WINDOW_ID") > 0) {
-						packOut.createWindow(rs.getInt("AD_WINDOW_ID"), document);
-					}
-					// Call CreateProcess.
-					else if (rs.getInt("AD_PROCESS_ID") > 0) {
-						packOut.createProcess(rs.getInt("AD_PROCESS_ID"), 
-								document);
-					}
-					// Call CreateTask.
-					else if (rs.getInt("AD_TASK_ID") > 0) {
-						packOut.createTask(rs.getInt("AD_TASK_ID"), document);
-					}
-					// Call CreateForm.
-					else if (rs.getInt("AD_FORM_ID") > 0) {
-						packOut.createForm(rs.getInt("AD_FORM_ID"), document);
-					}
-					// Call Browse.
-					else if (rs.getInt("AD_Browse_ID") > 0) {
-						packOut.createBrowse(rs.getInt("AD_Browse_ID"), document);
-					}
-					// Call CreateWorkflow
-					else if (rs.getInt("AD_Workflow_ID") > 0) {
-						packOut.createWorkflow(rs.getInt("AD_Workflow_ID"), 
-								document);
-					}
-					// Call CreateModule because entry is a summary menu
-				} else {
-					createModule(ctx, document, rs.getInt("Node_ID"));
-				}
-				document.endElement("", "", "menu");
-			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		} catch (Exception e) {
-			log.log(Level.SEVERE, "getWindows", e);
-		} finally {
-			try {
-				if (pstmt != null)
-					pstmt.close();
-			} catch (Exception e) {
-			}
-			pstmt = null;
-		}
+		document.endElement("", "", "menu");
 	}
 }

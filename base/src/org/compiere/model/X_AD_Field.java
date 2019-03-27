@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_Field extends PO implements I_AD_Field, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180928L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_Field (Properties ctx, int AD_Field_ID, String trxName)
@@ -124,7 +124,7 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 
 	/** Set Context Info.
 		@param AD_ContextInfo_ID 
-		Context Info Maintainig
+		Context Info Maintaining
 	  */
 	public void setAD_ContextInfo_ID (int AD_ContextInfo_ID)
 	{
@@ -135,11 +135,36 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	}
 
 	/** Get Context Info.
-		@return Context Info Maintainig
+		@return Context Info Maintaining
 	  */
 	public int getAD_ContextInfo_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ContextInfo_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.spin.model.I_AD_FieldDefinition getAD_FieldDefinition() throws RuntimeException
+    {
+		return (org.spin.model.I_AD_FieldDefinition)MTable.get(getCtx(), org.spin.model.I_AD_FieldDefinition.Table_Name)
+			.getPO(getAD_FieldDefinition_ID(), get_TrxName());	}
+
+	/** Set Field Definition.
+		@param AD_FieldDefinition_ID Field Definition	  */
+	public void setAD_FieldDefinition_ID (int AD_FieldDefinition_ID)
+	{
+		if (AD_FieldDefinition_ID < 1) 
+			set_Value (COLUMNNAME_AD_FieldDefinition_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_FieldDefinition_ID, Integer.valueOf(AD_FieldDefinition_ID));
+	}
+
+	/** Get Field Definition.
+		@return Field Definition	  */
+	public int getAD_FieldDefinition_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_FieldDefinition_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -705,6 +730,30 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 		return (String)get_Value(COLUMNNAME_IsMandatory);
 	}
 
+	/** Set Quick Entry.
+		@param IsQuickEntry 
+		Display in Quick Entry Form
+	  */
+	public void setIsQuickEntry (boolean IsQuickEntry)
+	{
+		set_Value (COLUMNNAME_IsQuickEntry, Boolean.valueOf(IsQuickEntry));
+	}
+
+	/** Get Quick Entry.
+		@return Display in Quick Entry Form
+	  */
+	public boolean isQuickEntry () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsQuickEntry);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Read Only.
 		@param IsReadOnly 
 		Field is read only
@@ -901,29 +950,5 @@ public class X_AD_Field extends PO implements I_AD_Field, I_Persistent
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
-	}
-
-	/** Set Quick Entry.
-		@param isQuickEntry 
-		Display in Quick Entry Form
-	  */
-	public void setisQuickEntry (boolean isQuickEntry)
-	{
-		set_Value (COLUMNNAME_isQuickEntry, Boolean.valueOf(isQuickEntry));
-	}
-
-	/** Get Quick Entry.
-		@return Display in Quick Entry Form
-	  */
-	public boolean isQuickEntry () 
-	{
-		Object oo = get_Value(COLUMNNAME_isQuickEntry);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
 	}
 }

@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Replication
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_Replication extends PO implements I_AD_Replication, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_Replication (Properties ctx, int AD_Replication_ID, String trxName)
@@ -348,6 +348,11 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 		return false;
 	}
 
+	public org.compiere.model.I_AD_Client getRemote_Client() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Client)MTable.get(getCtx(), org.compiere.model.I_AD_Client.Table_Name)
+			.getPO(getRemote_Client_ID(), get_TrxName());	}
+
 	/** Set Remote Client.
 		@param Remote_Client_ID 
 		Remote Client to be used to replicate / synchronize data with.
@@ -370,6 +375,11 @@ public class X_AD_Replication extends PO implements I_AD_Replication, I_Persiste
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.compiere.model.I_AD_Org getRemote_Org() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getRemote_Org_ID(), get_TrxName());	}
 
 	/** Set Remote Organization.
 		@param Remote_Org_ID 
