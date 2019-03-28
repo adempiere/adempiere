@@ -21,6 +21,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.panel.MenuPanel;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ITheme;
@@ -236,18 +237,7 @@ public class SimpleFavoriteTreeModel extends SimpleTreeModel implements EventLis
 	 */
 	private String getIconFile(MTreeNode mt)
 	{
-		if (mt.isWindow())
-			return ITheme.MENU_WINDOW_IMAGE;
-		if (mt.isReport())
-			return ITheme.MENU_REPORT_IMAGE;
-		if (mt.isProcess())
-			return ITheme.MENU_PROCESS_IMAGE;
-		if (mt.isWorkFlow())
-			return ITheme.MENU_WORKFLOW_IMAGE;
-		if (mt.isBrowse())
-			return ITheme.MENU_BROWSER_IMAGE;
-		
-		return ITheme.MENU_WINDOW_IMAGE;
+		return AEnv.getMenuIconFile(mt.getImageIndiactor());
 	}
 
 	/**
