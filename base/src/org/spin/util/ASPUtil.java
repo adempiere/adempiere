@@ -363,7 +363,8 @@ public class ASPUtil {
 	public List<MField> getWindowFields(int tabId) {
 		MTab tab = MTab.get(context, tabId);
 		int windowId = tab.getAD_Window_ID();
-		if(windowCache.get(getDictionaryKey(tab.getAD_Window_ID())) == null) {
+		if(windowCache.get(getDictionaryKey(tab.getAD_Window_ID())) == null
+				|| fieldCache.get(getDictionaryKey(tabId)) == null) {
 			getWindow(windowId);
 		}
 		//	User level
