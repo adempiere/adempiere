@@ -21,6 +21,7 @@ import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.adempiere.model.GenericPO;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.AttributeFiller;
 import org.adempiere.pipo.Element;
@@ -32,9 +33,11 @@ import org.compiere.model.I_AD_Element;
 import org.compiere.model.I_AD_EntityType;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MLookupInfo;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.model.POInfo;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_Table;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -54,6 +57,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 	public static final String TABLE_ID_TAG = "TableIdTag";
 	public static final String RECORD_ID_TAG = "RecordIdTag";
 	public static final String TAG_Name = "GenericPO";
+	public static final String HANDLE_TRANSLATION_FLAG = "2PACK_HANDLE_TRANSLATIONS";
 	/**	Tag for column	*/
 	public static final String Column_TAG_Name = TAG_Name + "_" + I_AD_Column.Table_Name;
 	
@@ -72,14 +76,25 @@ public class GenericPOHandler extends AbstractElementHandler {
 			element.skip = true;
 		}
 		//	Fill attributes
-		POInfo poInfo = POInfo.getPOInfo(ctx, tableId);
+		POInfo poInfo = POInfo.getPOInfo(ctx, tableId, getTrxName(ctx));
 		String keyColumnName = poInfo.getKeyColumnName();
 		int recordId = 0;
 		//	Get Record Id
 		if(!Util.isEmpty(keyColumnName)) {
 			recordId = getIdFromUUID(ctx, tableName, uuid);
 		}
-		PO entity = getCreatePO(ctx, tableId, recordId, getTrxName(ctx));
+		PO entity = null;
+		boolean isTranslation = false;
+		//	Translation
+		if(tableName.endsWith("_Trl")) {
+			isTranslation = true;
+			entity = getCreatePOTrl(ctx, tableName, atts, getTrxName(ctx));
+			if(entity == null) {
+				entity = new GenericPO(tableName, ctx, -1, getTrxName(ctx));
+			}
+		} else {
+			entity = getCreatePO(ctx, tableId, recordId, getTrxName(ctx));
+		}
 		//	
 		int backupId;
 		String objectStatus;
@@ -126,7 +141,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 					String parentTableName = getParentTableName(ctx, poInfo.getAD_Column_ID(columnName), poInfo.getColumnDisplayType(index));
 					if(!Util.isEmpty(parentTableName)) {
 						int foreignId = getParentId(ctx, parentTableName, parentUuid);
-						if(foreignId != -1) {
+						if(foreignId > 0) {
 							entity.set_ValueOfColumn(columnName, foreignId);
 							continue;
 						}
@@ -140,7 +155,11 @@ public class GenericPOHandler extends AbstractElementHandler {
 		try {
 			beforeSave(entity);
 			entity.saveEx(getTrxName(ctx));
-			recordLog (ctx, 1, entity.get_ValueAsString(I_AD_Element.COLUMNNAME_UUID), getTagName(entity), entity.get_ID(),
+			int originalId = entity.get_ID();
+			if(isTranslation) {
+				originalId = entity.get_ValueAsInt(tableName.replaceAll("_Trl", "") + "_ID");
+			}
+			recordLog (ctx, 1, entity.get_ValueAsString(I_AD_Element.COLUMNNAME_UUID), getTagName(entity), originalId,
 						backupId, objectStatus,
 						I_AD_EntityType.Table_Name, I_AD_EntityType.Table_ID);
 			//	After Save
@@ -179,7 +198,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 	 * With default include parents
 	 */
 	public void create(Properties ctx, TransformerHandler document) throws SAXException {
-		create(ctx, document, null, false, null);
+		create(ctx, document, null, true, null);
 	}
 	
 	/**
@@ -206,29 +225,36 @@ public class GenericPOHandler extends AbstractElementHandler {
 			tableId = Env.getContextAsInt(ctx, TABLE_ID_TAG);
 			recordId = Env.getContextAsInt(ctx, RECORD_ID_TAG);
 		}
-		if(tableId <= 0
-				|| recordId <= 0) {
+		if(tableId <= 0) {
 			return;
 		}
 		//	Validate if was processed
 		String key = tableId + "|" + recordId;
-		if (list.contains(key)) {
-			return;
+		MTable table = MTable.get(ctx, tableId);
+		if(!table.getTableName().endsWith("_Trl")) {
+			if (list.contains(key)) {
+				return;
+			}
 		}
 		list.add(key);
 		//	Instance PO
 		if(entity == null) {
 			entity = getCreatePO(ctx, tableId, recordId, null);
 		}
+		if(entity == null) {
+			return;
+		}
 		//	Create parents
 		if(includeParents) {
 			createParent(ctx, document, entity, excludedParentList);
 		}
-		AttributesImpl atts = createMessageBinding(ctx, entity);
+		AttributesImpl atts = createBinding(ctx, entity);
 		if(atts != null) {
 			document.startElement("", "", getTagName(entity), atts);
 			document.endElement("", "", getTagName(entity));
 		}
+		//	 Create translation
+		createTranslation(ctx, document, entity);
 	}
 	
 	/**
@@ -268,7 +294,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 				continue;
 			}
 			//	Verify Exclusion
-			if(excludedParentList!= null) {
+			if(excludedParentList != null) {
 				if(excludedParentList.contains(parentTableName)) {
 					continue;
 				}
@@ -331,12 +357,32 @@ public class GenericPOHandler extends AbstractElementHandler {
 	}
 	
 	/**
+	 * Create PO for translation
+	 * @param ctx
+	 * @param language
+	 * @param uuId
+	 * @param parentId
+	 * @param trxName
+	 * @return
+	 */
+	private PO getCreatePOTrl(Properties ctx, String tableName, Attributes atts, String trxName) {
+		String parentKey = tableName.replaceAll("_Trl", "") + "_ID";
+		String uuid = getUUIDValue(atts, tableName);
+		String language = atts.getValue("AD_Language");
+		int parentId = Integer.parseInt(atts.getValue(parentKey));
+		//	for translation
+		return new Query(ctx, tableName, "UUID = ? OR (" + parentKey + " = ? AND AD_Language = ?)", trxName)
+				.setParameters(uuid, parentId, language)
+				.first();
+	}
+	
+	/**
 	 * Create export from data
 	 * @param entity
 	 * @param ctx
 	 * @return
 	 */
-	private AttributesImpl createMessageBinding(Properties ctx, PO entity) {
+	private AttributesImpl createBinding(Properties ctx, PO entity) {
 		AttributesImpl atts = new AttributesImpl();
 		atts.clear();
 		//	Fill attributes
@@ -440,5 +486,41 @@ public class GenericPOHandler extends AbstractElementHandler {
 		}
 		//	Get
 		return getIdFromUUID(ctx, parentTableName, uuid);
+	}
+	
+	/**
+	 * Create translation
+	 * @param ctx
+	 * @param entity
+	 * @param document
+	 * @throws SAXException 
+	 */
+	public void createTranslation(Properties ctx, TransformerHandler document, PO entity) throws SAXException {
+		if(!MSysConfig.getBooleanValue(HANDLE_TRANSLATION_FLAG, false)){
+			return;//translation import option is disabled
+		}
+		//	Validate table
+		String tableName = entity.get_TableName() + "_Trl";
+		//	Verify if Table Exist
+		MTable table = MTable.get(ctx, tableName);
+		if(table == null
+				|| Util.isEmpty(table.getTableName())) {
+			return;
+		}
+		//	Where clause
+		String whereClause = entity.get_TableName() + "_ID = ? "
+						+ "AND EXISTS(SELECT 1 FROM AD_Language l "
+						+ "WHERE l.AD_Language = " + tableName + ".AD_Language "
+						+ "AND l.IsSystemLanguage = ? "
+						+ "AND l.IsBaseLanguage = ?)";
+		//	Export
+		List<PO> translationList = new Query(ctx, tableName, whereClause, null)
+			.setParameters(entity.get_ID(), true, false)
+			.setOnlyActiveRecords(true)
+			.list();
+		//	Create
+		for(PO translation : translationList) {
+			create(ctx, document, translation);
+		}
 	}
 }

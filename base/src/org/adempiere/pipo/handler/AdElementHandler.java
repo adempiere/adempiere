@@ -22,6 +22,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.PackOut;
 import org.compiere.model.I_AD_Element;
+import org.compiere.model.M_Element;
 import org.compiere.util.Env;
 import org.xml.sax.SAXException;
 
@@ -33,7 +34,11 @@ public class AdElementHandler extends GenericPOHandler {
 			packOut = new PackOut();
 			packOut.setLocalContext(ctx);
 		}
-		//	Task
+		//	Element
+		M_Element element = new M_Element(ctx, elementId, null);
+		if(element.getAD_Reference_Value_ID() > 0) {
+			packOut.createReference(element.getAD_Reference_Value_ID(), document);
+		}
 		packOut.createGenericPO(document, I_AD_Element.Table_ID, elementId, true, null);
 	}
 }

@@ -44,7 +44,7 @@ public class PoFiller{
 	public PoFiller(PO entity, Attributes atts){
 		this.entity = entity;
 		this.atts = atts;
-		poInfo = POInfo.getPOInfo(entity.getCtx(), entity.get_Table_ID());
+		poInfo = POInfo.getPOInfo(entity.getCtx(), entity.get_Table_ID(), entity.get_TrxName());
 	}
 	
 	/**

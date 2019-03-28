@@ -21,14 +21,10 @@ import java.util.Properties;
 import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.PackOut;
-import org.compiere.model.I_AD_Column;
 import org.compiere.model.I_AD_Field;
-import org.compiere.model.I_AD_Tab;
 import org.compiere.model.I_AD_Window;
-import org.compiere.model.MColumn;
 import org.compiere.model.MField;
 import org.compiere.model.MTab;
-import org.compiere.model.MTable;
 import org.compiere.model.MWindow;
 import org.compiere.util.Env;
 import org.xml.sax.SAXException;
@@ -46,9 +42,8 @@ public class WindowElementHandler extends GenericPOHandler {
 		MWindow window = new MWindow(ctx, windowId, null);
 		//	For tabs
 		for(MTab tab : window.getTabs(true, null)) {
-			packOut.createGenericPO(document, I_AD_Tab.Table_ID, tab.getAD_Tab_ID(), true, null);
-			for(MColumn column : MTable.get(ctx, tab.getAD_Table_ID()).getColumnsAsList()) {
-				packOut.createGenericPO(document, I_AD_Column.Table_ID, column.getAD_Column_ID(), true, null);
+			if(tab.getAD_Table_ID() > 0) {
+				packOut.createTable(tab.getAD_Table_ID(), document);
 			}
 			for(MField field : tab.getFields(true, null)) {
 				packOut.createGenericPO(document, I_AD_Field.Table_ID, field.getAD_Field_ID(), true, null);
