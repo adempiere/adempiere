@@ -49,6 +49,7 @@ import org.compiere.model.MTabCustom;
 import org.compiere.model.MTable;
 import org.compiere.model.MWindow;
 import org.compiere.model.MWindowCustom;
+import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
@@ -418,6 +419,7 @@ public class ASPUtil {
 		if(process == null) {
 			return process;
 		}
+		loadTranslation(process);
 		//	Save dictionary
 		processCache.put(getDictionaryKey(processId), process);
 		//	Old compatibility
@@ -612,6 +614,7 @@ public class ASPUtil {
 		processParameterCache.put(getDictionaryKey(process.getAD_Process_ID()), process.getParametersAsList());
 		//	ASP Client
 		parameters = process.getASPParameters();
+		parameters.forEach(parameter -> loadTranslation(parameter));
 		processParameterCache.put(getClientKey(process.getAD_Process_ID()), parameters);
 		processParameterCache.put(getRoleKey(process.getAD_Process_ID()), parameters);
 		processParameterCache.put(getUserKey(process.getAD_Process_ID()), parameters);
@@ -647,6 +650,7 @@ public class ASPUtil {
 		}
 		//	Tab List
 		tabs = window.getASPTabs();
+		tabs.forEach(tab -> loadTranslation(tab));
 		tabCache.put(getDictionaryKey(window.getAD_Window_ID()), tabs);
 		//	ASP Client
 		tabCache.put(getClientKey(window.getAD_Window_ID()), tabs);
@@ -670,6 +674,8 @@ public class ASPUtil {
 		}
 		//	Tab List
 		fields = tab.getASPFields();
+		//	Change translation
+		fields.forEach(field -> loadTranslation(field));
 		fieldCache.put(getDictionaryKey(tab.getAD_Tab_ID()), fields);
 		//	ASP Client
 		fieldCache.put(getClientKey(tab.getAD_Tab_ID()), fields);
@@ -827,6 +833,9 @@ public class ASPUtil {
 			//	Save client
 			windowCache.put(getClientKey(window.getAD_Window_ID()), clientWindow);
 			tabCache.put(getClientKey(window.getAD_Window_ID()), clientTabs);
+		} else {
+			loadTranslation(window);
+			
 		}
 		//	return
 		return clientWindow;
@@ -1275,6 +1284,31 @@ public class ASPUtil {
 		//	Context Info
 		if(customWindow.getAD_ContextInfo_ID() > 0) {
 			window.setAD_ContextInfo_ID(customWindow.getAD_ContextInfo_ID());
+		}
+	}
+	
+	/**
+	 * Load translation for tab
+	 * @param entity
+	 */
+	private void loadTranslation(PO entity) {
+		//	Translation
+		if(!Language.isBaseLanguage(language)) {
+			//	Name
+			String value = entity.get_Translation(I_AD_Tab.COLUMNNAME_Name, language);
+			if(!Util.isEmpty(value)) {
+				entity.set_ValueOfColumn(I_AD_Tab.COLUMNNAME_Name, value);
+			}
+			//	Description
+			value = entity.get_Translation(I_AD_Tab.COLUMNNAME_Description, language);
+			if(!Util.isEmpty(value)) {
+				entity.set_ValueOfColumn(I_AD_Tab.COLUMNNAME_Description, value);
+			}
+			//	Help
+			value = entity.get_Translation(I_AD_Tab.COLUMNNAME_Help, language);
+			if(!Util.isEmpty(value)) {
+				entity.set_ValueOfColumn(I_AD_Tab.COLUMNNAME_Help, value);
+			}
 		}
 	}
 	
