@@ -233,7 +233,7 @@ public class MTab extends X_AD_Tab
 	
 	@Override
 	public String toString() {
-		return getAD_Tab_ID() + " " + getName();
+		return getAD_Tab_ID() + " " + getName() + " - " + isActive();
 	}
 	
 	/** Get Tab from Cache

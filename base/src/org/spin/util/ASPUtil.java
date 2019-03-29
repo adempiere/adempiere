@@ -738,78 +738,84 @@ public class ASPUtil {
 	
 	/**
 	 * Get role window list for ASP
+	 * @param windowId
 	 * @return
 	 */
-	private List<MWindowCustom> getRoleWindowList() {
-		String whereClause = "AD_Role_ID = ?";
+	private List<MWindowCustom> getRoleWindowList(int windowId) {
+		String whereClause = "AD_Role_ID = ? AND AD_Window_ID = ?";
 		//	Get
 		return new Query(context, I_AD_WindowCustom.Table_Name, whereClause, null)
-				.setParameters(roleId)
+				.setParameters(roleId, windowId)
 				.setOnlyActiveRecords(true)
 				.list();
 	}
 	
 	/**
 	 * Get role process list for ASP
+	 * @param processId
 	 * @return
 	 */
-	private List<MProcessCustom> getRoleProcessList() {
-		String whereClause = "AD_Role_ID = ?";
+	private List<MProcessCustom> getRoleProcessList(int processId) {
+		String whereClause = "AD_Role_ID = ? AND AD_Process_ID = ?";
 		//	Get
 		return new Query(context, I_AD_ProcessCustom.Table_Name, whereClause, null)
-				.setParameters(roleId)
+				.setParameters(roleId, processId)
 				.setOnlyActiveRecords(true)
 				.list();
 	}
 	
 	/**
 	 * Get role browse list for ASP
+	 * @param browseId
 	 * @return
 	 */
-	private List<MBrowseCustom> getRoleBrowseList() {
-		String whereClause = "AD_Role_ID = ?";
+	private List<MBrowseCustom> getRoleBrowseList(int browseId) {
+		String whereClause = "AD_Role_ID = ? AND AD_Process_ID = ?";
 		//	Get
 		return new Query(context, I_AD_BrowseCustom.Table_Name, whereClause, null)
-				.setParameters(roleId)
+				.setParameters(roleId, browseId)
 				.setOnlyActiveRecords(true)
 				.list();
 	}
 	
 	/**
 	 * Get user process list for ASP
+	 * @param processId
 	 * @return
 	 */
-	private List<MProcessCustom> getUserProcessList() {
-		String whereClause = "AD_User_ID = ?";
+	private List<MProcessCustom> getUserProcessList(int processId) {
+		String whereClause = "AD_User_ID = ? AND AD_Process_ID = ?";
 		//	Get
 		return new Query(context, I_AD_ProcessCustom.Table_Name, whereClause, null)
-				.setParameters(userId)
+				.setParameters(userId, processId)
 				.setOnlyActiveRecords(true)
 				.list();
 	}
 	
 	/**
 	 * Get user browse list for ASP
+	 * @param browseId
 	 * @return
 	 */
-	private List<MBrowseCustom> getUserBrowseList() {
-		String whereClause = "AD_User_ID = ?";
+	private List<MBrowseCustom> getUserBrowseList(int browseId) {
+		String whereClause = "AD_User_ID = ? AND AD_Browse_ID = ?";
 		//	Get
 		return new Query(context, I_AD_BrowseCustom.Table_Name, whereClause, null)
-				.setParameters(userId)
+				.setParameters(userId, browseId)
 				.setOnlyActiveRecords(true)
 				.list();
 	}
 	
 	/**
 	 * Get user window list for ASP
+	 * @param windowId
 	 * @return
 	 */
-	private List<MWindowCustom> getUserWindowList() {
-		String whereClause = "AD_User_ID = ?";
+	private List<MWindowCustom> getUserWindowList(int windowId) {
+		String whereClause = "AD_User_ID = ? AND AD_Window_ID = ?";
 		//	Get
 		return new Query(context, I_AD_WindowCustom.Table_Name, whereClause, null)
-				.setParameters(userId)
+				.setParameters(userId, windowId)
 				.setOnlyActiveRecords(true)
 				.list();
 	}
@@ -835,7 +841,6 @@ public class ASPUtil {
 			tabCache.put(getClientKey(window.getAD_Window_ID()), clientTabs);
 		} else {
 			loadTranslation(window);
-			
 		}
 		//	return
 		return clientWindow;
@@ -897,7 +902,7 @@ public class ASPUtil {
 	private MBrowse getRoleBrowse(MBrowse browse) {
 		MBrowse roleBrowse = browse.getDuplicated();
 		List<MBrowseField> roleFields = browseFieldCache.get(getRoleKey(browse.getAD_Browse_ID()));
-		List<MBrowseCustom> customBrowseList = getRoleBrowseList();
+		List<MBrowseCustom> customBrowseList = getRoleBrowseList(browse.getAD_Browse_ID());
 		if(customBrowseList != null
 				&& customBrowseList.size() > 0) {
 			for(MBrowseCustom customBrowse : customBrowseList) {
@@ -921,7 +926,7 @@ public class ASPUtil {
 	private MBrowse getUserBrowse(MBrowse browse) {
 		MBrowse userFields = browse.getDuplicated();
 		List<MBrowseField> userBrowseFields = browseFieldCache.get(getUserKey(browse.getAD_Browse_ID()));
-		List<MBrowseCustom> customBrowseList = getUserBrowseList();
+		List<MBrowseCustom> customBrowseList = getUserBrowseList(browse.getAD_Browse_ID());
 		if(customBrowseList != null
 				&& customBrowseList.size() > 0) {
 			for(MBrowseCustom customBrowse : customBrowseList) {
@@ -945,7 +950,7 @@ public class ASPUtil {
 	private MProcess getRoleProcess(MProcess process) {
 		MProcess roleProcess = process.getDuplicated();
 		List<MProcessPara> roleParameters = processParameterCache.get(getRoleKey(process.getAD_Process_ID()));
-		List<MProcessCustom> customProcessList = getRoleProcessList();
+		List<MProcessCustom> customProcessList = getRoleProcessList(process.getAD_Process_ID());
 		if(customProcessList != null
 				&& customProcessList.size() > 0) {
 			for(MProcessCustom customProcess : customProcessList) {
@@ -969,7 +974,7 @@ public class ASPUtil {
 	private MWindow getRoleWindow(MWindow window) {
 		MWindow roleWindow = window.getDuplicated();
 		List<MTab> roleTabs = tabCache.get(getClientKey(window.getAD_Window_ID()));
-		List<MWindowCustom> customWindowList = getRoleWindowList();
+		List<MWindowCustom> customWindowList = getRoleWindowList(window.getAD_Window_ID());
 		if(customWindowList != null
 				&& customWindowList.size() > 0) {
 			for(MWindowCustom customWindow : customWindowList) {
@@ -993,7 +998,7 @@ public class ASPUtil {
 	private MProcess getUserProcess(MProcess process) {
 		MProcess userProcess = process.getDuplicated();
 		List<MProcessPara> userParameters = processParameterCache.get(getUserKey(process.getAD_Process_ID()));
-		List<MProcessCustom> customProcessList = getUserProcessList();
+		List<MProcessCustom> customProcessList = getUserProcessList(process.getAD_Process_ID());
 		if(customProcessList != null
 				&& customProcessList.size() > 0) {
 			for(MProcessCustom customProcess : customProcessList) {
@@ -1011,13 +1016,13 @@ public class ASPUtil {
 	
 	/**
 	 * Get / Merge window for user
-	 * @param process
+	 * @param window
 	 * @return
 	 */
-	private MWindow getUserWindow(MWindow process) {
-		MWindow userWindow = process.getDuplicated();
-		List<MTab> userTabs = tabCache.get(getRoleKey(process.getAD_Window_ID()));
-		List<MWindowCustom> customProcessList = getUserWindowList();
+	private MWindow getUserWindow(MWindow window) {
+		MWindow userWindow = window.getDuplicated();
+		List<MTab> userTabs = tabCache.get(getRoleKey(window.getAD_Window_ID()));
+		List<MWindowCustom> customProcessList = getUserWindowList(window.getAD_Window_ID());
 		if(customProcessList != null
 				&& customProcessList.size() > 0) {
 			for(MWindowCustom customProcess : customProcessList) {
@@ -1026,8 +1031,8 @@ public class ASPUtil {
 				userTabs = mergeTabs(userTabs, customProcess.getTabs(), customProcess.getHierarchyType().equals(MProcessCustom.HIERARCHYTYPE_Overwrite), USER);
 			}
 			//	Save user
-			windowCache.put(getUserKey(process.getAD_Window_ID()), userWindow);
-			tabCache.put(getUserKey(process.getAD_Window_ID()), userTabs);
+			windowCache.put(getUserKey(window.getAD_Window_ID()), userWindow);
+			tabCache.put(getUserKey(window.getAD_Window_ID()), userTabs);
 		}
 		//	return
 		return userWindow;
@@ -1365,10 +1370,14 @@ public class ASPUtil {
 			}
 		}
 		if(overwrite) {
+			tab.setIsActive(customTab.isActive());
 			tab.setSeqNo(customTab.getSeqNo());
 			//	Tab Level
 			tab.setTabLevel(customTab.getTabLevel());
 		} else {
+			if(customTab.isActive()) {
+				tab.setIsActive(customTab.isActive());
+			}
 			if(customTab.getSeqNo() > 0) {
 				tab.setSeqNo(customTab.getSeqNo());
 			}

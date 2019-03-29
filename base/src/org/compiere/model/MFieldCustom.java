@@ -48,13 +48,27 @@ public class MFieldCustom extends X_AD_FieldCustom {
 	
 	@Override
 	public void setAD_Field_ID(int fieldId) {
-		super.setAD_Field_ID(fieldId);
 		if(fieldId > 0) {
 			MField field = new MField(getCtx(), fieldId, get_TrxName());
-			setIsActive(field.isActive());
-			setIsDisplayed(field.isDisplayed());
-			setSeqNo(field.getSeqNo());
-			setSeqNoGrid(field.getSeqNoGrid());
+			setField(field);
 		}
+	}
+	
+	/**
+	 * Set Field
+	 * @param field
+	 */
+	public void setField(MField field) {
+		super.setAD_Field_ID(field.getAD_Field_ID());
+		setIsActive(field.isActive());
+		setIsDisplayed(field.isDisplayed());
+		setSeqNo(field.getSeqNo());
+		setSeqNoGrid(field.getSeqNoGrid());
+	}
+
+	@Override
+	public String toString() {
+		return "MFieldCustom [getAD_Field_ID()=" + getAD_Field().getName() + " - " + getAD_Field_ID() + ", isDisplayed()=" + isDisplayed()
+				+ ", isActive()=" + isActive() + "]";
 	}
 }

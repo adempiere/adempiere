@@ -19,6 +19,9 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.model.MBrowse;
+import org.compiere.util.Util;
+
 /**
  * Customization handler
  * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
@@ -54,6 +57,21 @@ public class MBrowseCustom extends X_AD_BrowseCustom {
 				.setParameters(getAD_BrowseCustom_ID())
 				.setOnlyActiveRecords(true)
 				.list();
+	}
+	
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		if(newRecord
+				&& !Util.isEmpty(getHierarchyType())
+				&& getHierarchyType().equals(HIERARCHYTYPE_Overwrite)
+				&& getAD_Browse_ID() > 0) {
+			MBrowse browse = MBrowse.get(getCtx(), getAD_Browse_ID());
+			browse.getFields().forEach(field -> {
+				MBrowseFieldCustom customBrowseField = new MBrowseFieldCustom(this);
+				customBrowseField.setField(field);
+			});
+		}
+		return true;
 	}
 
 	@Override

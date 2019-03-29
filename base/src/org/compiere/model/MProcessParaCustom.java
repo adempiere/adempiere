@@ -48,12 +48,20 @@ public class MProcessParaCustom extends X_AD_ProcessParaCustom {
 	
 	@Override
 	public void setAD_Process_Para_ID(int processParaId) {
-		super.setAD_Process_Para_ID(processParaId);
 		if(processParaId > 0) {
 			MProcessPara processParameter = MProcessPara.get(getCtx(), processParaId);
-			setIsActive(processParameter.isActive());
-			setSeqNo(processParameter.getSeqNo());
+			setProcessParameter(processParameter);
 		}
+	}
+	
+	/**
+	 * Set Process Parameter
+	 * @param processParameter
+	 */
+	public void setProcessParameter(MProcessPara processParameter) {
+		super.setAD_Process_Para_ID(processParameter.getAD_Process_Para_ID());
+		setIsActive(processParameter.isActive());
+		setSeqNo(processParameter.getSeqNo());
 	}
 
 	@Override

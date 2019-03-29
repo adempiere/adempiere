@@ -19,6 +19,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.compiere.util.Util;
+
 /**
  * Customization handler
  * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
@@ -60,6 +62,22 @@ public class MProcessCustom extends X_AD_ProcessCustom {
 				.list();
 	}
 
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		if(newRecord
+				&& !Util.isEmpty(getHierarchyType())
+				&& getHierarchyType().equals(HIERARCHYTYPE_Overwrite)
+				&& getAD_Process_ID() > 0) {
+			MProcess process = MProcess.get(getCtx(), getAD_Process_ID());
+			process.getParametersAsList().forEach(parameter -> {
+				MProcessParaCustom customProcessParameter = new MProcessParaCustom(this);
+				customProcessParameter.setProcessParameter(parameter);
+				customProcessParameter.saveEx();
+			});
+		}
+		return true;
+	}
+	
 	@Override
 	public String toString() {
 		return "MProcessCustom [getAD_ProcessCustom_ID()=" + getAD_ProcessCustom_ID() + ", getAD_Process_ID()="

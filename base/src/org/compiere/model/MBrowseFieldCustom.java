@@ -50,15 +50,23 @@ public class MBrowseFieldCustom extends X_AD_BrowseFieldCustom {
 	
 	@Override
 	public void setAD_Browse_Field_ID(int browseFieldId) {
-		super.setAD_Browse_Field_ID(browseFieldId);
 		if(browseFieldId > 0) {
 			MBrowseField field = new MBrowseField(getCtx(), browseFieldId, get_TrxName());
-			setIsActive(field.isActive());
-			setIsDisplayed(field.isDisplayed());
-			setIsOrderBy(field.isOrderBy());
-			setIsQueryCriteria(field.isQueryCriteria());
-			setSeqNo(field.getSeqNo());
-			setSeqNoGrid(field.getSeqNoGrid());
+			setField(field);
 		}
+	}
+	
+	/**
+	 * Set Field
+	 * @param field
+	 */
+	public void setField(MBrowseField field) {
+		super.setAD_Browse_Field_ID(field.getAD_Browse_Field_ID());
+		setIsActive(field.isActive());
+		setIsDisplayed(field.isDisplayed());
+		setIsOrderBy(field.isOrderBy());
+		setIsQueryCriteria(field.isQueryCriteria());
+		setSeqNo(field.getSeqNo());
+		setSeqNoGrid(field.getSeqNoGrid());
 	}
 }

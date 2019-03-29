@@ -170,7 +170,7 @@ public class MField extends X_AD_Field
 	
 	@Override
 	public String toString() {
-		return getAD_Field_ID() + " " + getName();
+		return getAD_Field_ID() + " " + getName() + " - isDisplayed: " + isDisplayed() + " - isActive: " + isActive();
 	}
 	
 }	//	MField

@@ -16,8 +16,11 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+
+import org.compiere.util.Util;
 
 /**
  * Customization handler
@@ -51,6 +54,28 @@ public class MWindowCustom extends X_AD_WindowCustom {
 				.setParameters(getAD_WindowCustom_ID())
 				.setOnlyActiveRecords(true)
 				.list();
+	}
+	
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		if(newRecord
+				&& !Util.isEmpty(getHierarchyType())
+				&& getHierarchyType().equals(HIERARCHYTYPE_Overwrite)
+				&& getAD_Window_ID() > 0) {
+			MWindow window = MWindow.get(getCtx(), getAD_Window_ID());
+			Arrays.asList(window.getTabs(true, get_TrxName())).forEach(tab -> {
+				MTabCustom customTab = new MTabCustom(this);
+				customTab.setAD_Tab_ID(tab.getAD_Tab_ID());
+				customTab.saveEx();
+				//	For fields
+				Arrays.asList(tab.getFields(true, get_TrxName())).forEach(field -> {
+					MFieldCustom customField = new MFieldCustom(customTab);
+					customField.setField(field);
+					customField.saveEx();
+				});
+			});
+		}
+		return true;
 	}
 	
 	@Override
