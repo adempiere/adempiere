@@ -72,5 +72,8 @@ Details ISO 13616 and http://www.ecbs.org. The account number has the maximum le
         <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
       </PO>
     </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="30" StepType="SQL">
+      <SQLStatement>ALTER TABLE c_bp_bankaccount ADD COLUMN iban character varying(40);</SQLStatement>
+    </Step>
   </Migration>
 </Migrations>
