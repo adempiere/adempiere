@@ -38,6 +38,7 @@ import org.compiere.model.I_AD_Window;
 import org.compiere.model.I_AD_WindowCustom;
 import org.compiere.model.MBrowseCustom;
 import org.compiere.model.MBrowseFieldCustom;
+import org.compiere.model.MColumn;
 import org.compiere.model.MField;
 import org.compiere.model.MFieldCustom;
 import org.compiere.model.MProcess;
@@ -1448,9 +1449,13 @@ public class ASPUtil {
 		List<MField> mergedFields = null;
 		if(overwrite) {
 			mergedFields = new ArrayList<>();
-			for(MField parameter : fields) {
-				MField fieldToAdd = parameter.getDuplicated();
-				fieldToAdd.setIsActive(false);
+			for(MField field : fields) {
+				MField fieldToAdd = field.getDuplicated();
+				MColumn column = MColumn.get(field.getCtx(), field.getAD_Column_ID());
+				if(!column.isKey()
+						&& !column.isParent()) {
+					fieldToAdd.setIsActive(false);
+				}
 				mergedFields.add(fieldToAdd);
 			}
 		} else {

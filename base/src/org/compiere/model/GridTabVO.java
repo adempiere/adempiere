@@ -230,7 +230,11 @@ public class GridTabVO implements Evaluatee, Serializable {
 		for(MField field : ASPUtil.getInstance(mTabVO.ctx).getWindowFields(mTabVO.AD_Tab_ID)) {
 			if(!field.isActive()
 					|| !field.isDisplayed()) {
-				continue;
+				MColumn column = MColumn.get(mTabVO.ctx, field.getAD_Column_ID());
+				if(!column.isKey()
+						&& !column.isParent()) {
+					continue;
+				}
 			}
 			GridFieldVO voF = GridFieldVO.create (mTabVO.ctx, 
 					mTabVO.WindowNo, mTabVO.TabNo, 
