@@ -3,7 +3,7 @@
   <Migration EntityType="D" Name="Add iban to c_bp_bankaccount" ReleaseNo="3.9.2" SeqNo="4520">
     <Comments>https://github.com/adempiere/adempiere/issues/1983</Comments>
     <Step SeqNo="10" StepType="AD">
-      <PO AD_Table_ID="101" Action="I" Record_ID="1000000" Table="AD_Column">
+      <PO AD_Table_ID="101" Action="I" Record_ID="92263" Table="AD_Column">
         <Data AD_Column_ID="112" Column="Description">International Bank Account Number</Data>
         <Data AD_Column_ID="549" Column="Created">2019-03-31 12:02:20.996</Data>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
@@ -39,7 +39,7 @@ Details ISO 13616 and http://www.ecbs.org. The account number has the maximum le
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="109" Column="AD_Column_ID">1000000</Data>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">92263</Data>
         <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
@@ -68,7 +68,23 @@ Details ISO 13616 and http://www.ecbs.org. The account number has the maximum le
         <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="12953" Column="AD_Language">de_DE</Data>
-        <Data AD_Column_ID="12955" Column="AD_Column_ID">1000000</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">92263</Data>
+        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="21" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="0" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2019-03-31 12:02:22.817</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-03-31 12:02:22.817</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">IBAN</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">92263</Data>
         <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
       </PO>
     </Step>
