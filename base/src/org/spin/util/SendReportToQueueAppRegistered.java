@@ -1,7 +1,8 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * This program is free software; you can redistribute it and/or modify it    *
- * under the terms version 2 of the GNU General Public License as published   *
+ * under the terms version 2 or later of the                                  *
+ * GNU General Public License as published                                    *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -14,48 +15,19 @@
  * All Rights Reserved.                                                       *
  * Contributor(s): Yamel Senih www.erpya.com                                  *
  *****************************************************************************/
-package org.spin.util.support.mq;
+package org.spin.util;
 
-import java.io.InputStream;
+import java.util.Properties;
+
+import org.compiere.print.ReportEngine;
 
 /**
- * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
- *		<a href="https://github.com/adempiere/adempiere/issues/2109">
- * 		@see FR [ 2109 ] Add App Registration ADempiere</a>
+ * 	@author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
  */
-public interface IMessageQueue {
-
-	/**
-	 * Get message Type
-	 */
-	public int getType();
-	
-	/**
-	 * Get Message Object
-	 * @return
-	 */
-	public Object getMessage();
-	
-	/**
-	 * Get Message as text
-	 * @return
-	 */
-	public String getMessageAsText();
-	
-	/**
-	 * Get Message as InputStream
-	 * @return
-	 */
-	public InputStream getMessageAsInputStream();
-	
-	/**
-	 * Get File Name
-	 * @return
-	 */
-	public String getFileName();
-	
-	/**	Text	*/
-	public static final int TEXT = 0;
-	/**	File	*/
-	public static final int FILE = 1;
-}
+public class SendReportToQueueAppRegistered extends ReportExport {
+		
+	public SendReportToQueueAppRegistered(Properties ctx, ReportEngine reportEngine) {
+		super(ctx, reportEngine);
+		addExportFormat(new SendReportToQueue(getCtx(), reportEngine));
+	}	
+}	//	AbstractReportExport

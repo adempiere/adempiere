@@ -1,7 +1,8 @@
 /******************************************************************************
  * Product: Adempiere ERP & CRM Smart Business Solution                       *
  * This program is free software; you can redistribute it and/or modify it    *
- * under the terms version 2 of the GNU General Public License as published   *
+ * under the terms version 2 or later of the                                  *
+ * GNU General Public License as published                                    *
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -16,46 +17,59 @@
  *****************************************************************************/
 package org.spin.util.support.mq;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-/**
- * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
- *		<a href="https://github.com/adempiere/adempiere/issues/2109">
- * 		@see FR [ 2109 ] Add App Registration ADempiere</a>
- */
-public interface IMessageQueue {
+import org.adempiere.exceptions.AdempiereException;
+
+public class PrinterMessage implements IMessageQueue {
 
 	/**
-	 * Get message Type
+	 * Constructor used for communicate file to print: the file should be PDF or XML format
+	 * @param fileToPrint
 	 */
-	public int getType();
+	public PrinterMessage(File fileToPrint) {
+		//	Validate null file
+		if(fileToPrint == null) {
+			throw new AdempiereException("@File@ @NotFound@");
+		}
+		//	Convert File
+		try {
+			stream = new FileInputStream(fileToPrint);
+			fileName = fileToPrint.getName();
+		} catch (FileNotFoundException e) {
+			throw new AdempiereException(e);
+		}
+	}
 	
-	/**
-	 * Get Message Object
-	 * @return
-	 */
-	public Object getMessage();
+	private InputStream stream = null;
+	private String fileName = null;
 	
-	/**
-	 * Get Message as text
-	 * @return
-	 */
-	public String getMessageAsText();
-	
-	/**
-	 * Get Message as InputStream
-	 * @return
-	 */
-	public InputStream getMessageAsInputStream();
-	
-	/**
-	 * Get File Name
-	 * @return
-	 */
-	public String getFileName();
-	
-	/**	Text	*/
-	public static final int TEXT = 0;
-	/**	File	*/
-	public static final int FILE = 1;
+	@Override
+	public int getType() {
+		return IMessageQueue.FILE;
+	}
+
+	@Override
+	public Object getMessage() {
+		return null;
+	}
+
+	@Override
+	public String getMessageAsText() {
+		return null;
+	}
+
+	@Override
+	public InputStream getMessageAsInputStream() {
+		return stream;
+	}
+
+	@Override
+	public String getFileName() {
+		return fileName;
+	}
+
 }
