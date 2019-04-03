@@ -36,6 +36,8 @@ import org.compiere.util.Env;
  *	@author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
  *  <li> FR [ 1699 ] Add support view for Bank Statement
  *  @see https://github.com/adempiere/adempiere/issues/1699
+ *  @author Nicolas Sarlabos, nicolas.sarlabos@openupsolutions.com, Openup Solutions http://openupsolutions.com/
+ *  The process hangs because the statement with the transaction is not saved
  */
 public class ImportBankStatement extends ImportBankStatementAbstract {
 
@@ -401,7 +403,7 @@ public class ImportBankStatement extends ImportBankStatementAbstract {
 					statement.setDescription(imp.getDescription());
 					statement.setEftStatementReference(imp.getEftStatementReference());
 					statement.setEftStatementDate(imp.getEftStatementDate());
-					if (statement.save())
+					if (statement.save(get_TrxName()))
 					{
 						noInsert++;
 					}
