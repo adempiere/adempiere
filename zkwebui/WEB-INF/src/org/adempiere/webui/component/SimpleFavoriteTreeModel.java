@@ -21,8 +21,10 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.panel.MenuPanel;
 import org.adempiere.webui.session.SessionManager;
+import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.window.WStringEditorDialog;
 import org.compiere.model.MTreeFavorite;
 import org.compiere.model.MTreeFavoriteNode;
@@ -235,15 +237,7 @@ public class SimpleFavoriteTreeModel extends SimpleTreeModel implements EventLis
 	 */
 	private String getIconFile(MTreeNode mt)
 	{
-		if (mt.isWindow())
-			return "images/mWindow.png";
-		if (mt.isReport())
-			return "images/mReport.png";
-		if (mt.isProcess())
-			return "images/mProcess.png";
-		if (mt.isWorkFlow())
-			return "images/mWorkFlow.png";
-		return "images/mWindow.png";
+		return AEnv.getMenuIconFile(mt.getImageIndiactor());
 	}
 
 	/**
