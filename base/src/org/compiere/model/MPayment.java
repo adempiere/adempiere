@@ -1864,8 +1864,6 @@ public final class MPayment extends X_C_Payment
 			processMsg += " @CounterDoc@: @C_Payment_ID@=" + counter.getDocumentNo();
 
 		// @Trifon - CashPayments
-		//if ( getTenderType().equals("X") ) {
-//		if ( isCashTrx() && !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true , getAD_Client_ID())) {
 		if ( isCashTrx()) {
 			// Create Cash Book entry - check that the bank is a cash bank
 			// The bank account is mandatory
@@ -1877,44 +1875,7 @@ public final class MPayment extends X_C_Payment
 				return DocAction.STATUS_Invalid;
 			}
 			// Find or create a suitable bank statement which is or will become the Cash Journal of this day
-			//MCash cash = MCash.get (getCtx(), getAD_Org_ID(), getDateAcct(), getC_Currency_ID(), get_TrxName());SHW
-//			MBankStatement cashJournal = MBankStatement.get(getCtx(), getC_BankAccount_ID(), getDateAcct(),get_TrxName());
-//			if (cashJournal == null || cashJournal.get_ID() == 0)
-//			{
-//				processMsg = "@NoCashBook@";
-//				return DocAction.STATUS_Invalid;
-//			}
 			MBankStatement.addPayment(this);
-//			MCashLine cl = new MCashLine( cash );
-//			cl.setCashType( X_C_CashLine.CASHTYPE_GeneralReceipts );
-//			cl.setDescription("Generated From Payment #" + getDocumentNo());
-//			cl.setC_Currency_ID( this.getC_Currency_ID() );
-//			cl.setC_Payment_ID( getC_Payment_ID() ); // Set Reference to payment.
-//			StringBuffer info=new StringBuffer();
-//			info.append("Cash journal ( ")
-//				.append(cash.getDocumentNo()).append(" )");				
-//			processMsg = info.toString();
-//			//	Amount
-//			BigDecimal amt = this.getPayAmt();
-/*
-			MDocType dt = MDocType.get(getCtx(), invoice.getC_DocType_ID());			
-			if (MDocType.DOCBASETYPE_APInvoice.equals( dt.getDocBaseType() )
-				|| MDocType.DOCBASETYPE_ARCreditMemo.equals( dt.getDocBaseType() ) 
-			) {
-				amt = amt.negate();
-			}
-*/
-//			cl.setAmount( amt );
-//			//
-//			cl.setDiscountAmt( Env.ZERO );
-//			cl.setWriteOffAmt( Env.ZERO );
-//			cl.setIsGenerated( true );
-//			
-//			if (!cl.save(get_TrxName()))
-//			{
-//				processMsg = "Could not save Cash Journal Line";
-//				return DocAction.STATUS_Invalid;
-//			}
 		}
 		// End Trifon - CashPayments
 		

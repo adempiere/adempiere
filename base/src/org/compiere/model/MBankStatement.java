@@ -712,37 +712,4 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 			|| DOCSTATUS_Reversed.equals(ds);
 	}	//	isComplete
 	
-	/**
-	 * 	Get BankStatement (CashJournal) for Bank Account and date
-	 *	@param ctx context
-	 *	@param C_BankAccount_ID cashbook
-	 *	@param dateAcct date
-	 *	@param trxName transaction
-	 *	@return The Bank Statement (Cash Journal)
-	 */
-	public static MBankStatement get (Properties ctx, int C_BankAccount_ID, 
-		Timestamp dateAcct, String trxName)
-	{
-		final String whereClause ="C_BankAccount_ID=?"			//	#1
-				+ " AND TRUNC(StatementDate, 'DD')=?"		//	#2
-				+ " AND Processed='N'";
-		
-		MBankStatement retValue = new Query(ctx, MBankStatement.Table_Name, whereClause, trxName)
-			.setParameters(C_BankAccount_ID, TimeUtil.getDay(dateAcct))
-			.first();
-		
-		if (retValue != null)
-			return retValue;
-		
-		//	None found, make a new one
-		MBankAccount bankAccount = new MBankAccount(ctx, C_BankAccount_ID, trxName);
-		if (bankAccount.get_ID() ==0)
-		{
-			return null;
-		}
-		MBankStatement bankStatment = new MBankStatement (bankAccount);
-		bankStatment.saveEx(trxName);
-		return bankStatment;
-	}	//	get
-
 }	//	MBankStatement
