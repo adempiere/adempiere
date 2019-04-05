@@ -39,8 +39,6 @@ import org.compiere.util.DB;
  * 
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>FR [ 2758097 ] Implement TaxNotFoundException
- * @author Michael McKay, mckayERP@gmail.com
- * 			<li><a href="https://github.com/adempiere/adempiere/issues/2434">#2434</a> Wrong test for parent/summary tax.
  */
 public class Tax
 {
@@ -540,7 +538,7 @@ public class Tax
 			//
 			if (tax.getC_TaxCategory_ID() != C_TaxCategory_ID
 				|| !tax.isActive() 
-				|| !tax.isSummary())	//	#2434 - only looking for summary taxes 
+				|| tax.getParent_Tax_ID() != 0)	//	user parent tax
 				continue;
 			if (IsSOTrx && MTax.SOPOTYPE_PurchaseTax.equals(tax.getSOPOType()))
 				continue;
@@ -597,7 +595,7 @@ public class Tax
 		{
 			MTax tax = taxes[i];
 			if (!tax.isDefault() || !tax.isActive()
-				|| !tax.isSummary())	//	#2434 - only looking for summary taxes 
+				|| tax.getParent_Tax_ID() != 0)	//	user parent tax
 				continue;
 			if (IsSOTrx && MTax.SOPOTYPE_PurchaseTax.equals(tax.getSOPOType()))
 				continue;
