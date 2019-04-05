@@ -19,14 +19,18 @@ package org.compiere.process;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
+import org.compiere.model.I_I_BankStatement;
 import org.compiere.model.MBankAccount;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MBankStatementLine;
+import org.compiere.model.Query;
 import org.compiere.model.X_I_BankStatement;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 /**
  *	Import Bank Statement from I_BankStatement
@@ -35,12 +39,19 @@ import org.compiere.util.Env;
  *	@version $Id: ImportBankStatement.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
  *	@author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
  *  <li> FR [ 1699 ] Add support view for Bank Statement
+ *  <li> Minor change for functional programming instead SQL for insert
  *  @see https://github.com/adempiere/adempiere/issues/1699
  *  @author Nicolas Sarlabos, nicolas.sarlabos@openupsolutions.com, Openup Solutions http://openupsolutions.com/
  *  The process hangs because the statement with the transaction is not saved
  */
 public class ImportBankStatement extends ImportBankStatementAbstract {
-
+	
+	/**	Bank Statement to Generate	*/
+	private MBankStatement statement = null;
+	private AtomicInteger lineNo = new AtomicInteger(10);
+	private AtomicInteger noInsert = new AtomicInteger();
+	private AtomicInteger noInsertLine = new AtomicInteger();
+	
 	/**
 	 *  Perform process.
 	 *  @return Message
@@ -322,122 +333,13 @@ public class ImportBankStatement extends ImportBankStatementAbstract {
 			log.info("Duplicates=" + no);
 		
 		commitEx();
-		
-		//Import Bank Statement
-		sql = new StringBuffer("SELECT * FROM I_BankStatement"
-			+ " WHERE I_IsImported='N'"
-			+ clientCheck
-			+ " ORDER BY C_BankAccount_ID, Name, EftStatementDate, EftStatementReference");
-			
-		MBankStatement statement = null;
-		MBankAccount account = null;
-		PreparedStatement pstmt = null;
-		int lineNo = 10;
-		int noInsert = 0;
-		int noInsertLine = 0;
-		try
-		{
-			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
-			ResultSet rs = pstmt.executeQuery();
-				
-			while (rs.next())
-			{ 
-				X_I_BankStatement imp = new X_I_BankStatement(getCtx(), rs, get_TrxName());
-				//	Get the bank account for the first statement
-				if (account == null)
-				{
-					account = MBankAccount.get (getCtx(), imp.getC_BankAccount_ID());
-					statement = null;
-					log.info("New Statement, Account=" + account.getAccountNo());
-				}
-				//	Create a new Bank Statement for every account
-				else if (account.getC_BankAccount_ID() != imp.getC_BankAccount_ID())
-				{
-					account = MBankAccount.get (getCtx(), imp.getC_BankAccount_ID());
-					statement = null;
-					log.info("New Statement, Account=" + account.getAccountNo());
-				}
-				//	Create a new Bank Statement for every statement name
-				else if ((statement.getName() != null) && (imp.getName() != null))
-				{
-					if (!statement.getName().equals(imp.getName()))
-					{
-						statement = null;
-						log.info("New Statement, Statement Name=" + imp.getName());
-					}
-				}
-				//	Create a new Bank Statement for every statement reference
-				else if ((statement.getEftStatementReference() != null) && (imp.getEftStatementReference() != null))
-				{
-					if (!statement.getEftStatementReference().equals(imp.getEftStatementReference()))
-					{
-						statement = null;
-						log.info("New Statement, Statement Reference=" + imp.getEftStatementReference());
-					}
-				}
-				//	Create a new Bank Statement for every statement date
-				else if ((statement.getStatementDate() != null) && (imp.getStatementDate() != null))
-				{
-					if (!statement.getStatementDate().equals(imp.getStatementDate()))
-					{
-						statement = null;
-						log.info("New Statement, Statement Date=" + imp.getStatementDate());
-					}
-				}
-				
-				//	New Statement
-				if (statement == null)
-				{
-					statement = new MBankStatement(account);
-					statement.setEndingBalance(Env.ZERO);
-					
-					//	Copy statement data
-					if (imp.getName() != null)
-					{
-						statement.setName(imp.getName());
-					}
-					if (imp.getStatementDate() != null)
-					{
-						statement.setStatementDate(imp.getStatementDate());
-					}
-					statement.setDescription(imp.getDescription());
-					statement.setEftStatementReference(imp.getEftStatementReference());
-					statement.setEftStatementDate(imp.getEftStatementDate());
-					if (statement.save(get_TrxName()))
-					{
-						noInsert++;
-					}
-					lineNo = 10;
-				}
-				
-				//	New StatementLine
-				MBankStatementLine line = new MBankStatementLine(statement, imp, lineNo);
-				//	Save statement line
-				if (line.save())
-				{
-					imp.setC_BankStatement_ID(statement.getC_BankStatement_ID());
-					imp.setC_BankStatementLine_ID(line.getC_BankStatementLine_ID());
-					imp.setI_IsImported(true);
-					imp.setProcessed(true);
-					imp.saveEx();
-					noInsertLine++;
-					lineNo += 10;	
-				}
-				line = null;
-				
-			}
-			
-			//	Close database connection
-			rs.close();
-			pstmt.close();
-			rs = null;
-			pstmt = null;
-
-		}
-		catch(Exception e)
-		{
-			log.log(Level.SEVERE, sql.toString(), e);
-		}
+		//	Import lines
+		new Query(getCtx(), I_I_BankStatement.Table_Name, "I_IsImported='N'" + clientCheck, get_TrxName())
+			.setOrderBy("C_BankAccount_ID, Name, EftStatementDate, EftStatementReference")
+			.<X_I_BankStatement>list()
+			.forEach(toImport -> {
+				addToStatement(toImport);
+			});
 		
 		//	Set Error to indicator to not imported
 		sql = new StringBuffer ("UPDATE I_BankStatement "
@@ -446,10 +348,95 @@ public class ImportBankStatement extends ImportBankStatementAbstract {
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		addLog (0, null, new BigDecimal (no), "@Errors@");
 		//
-		addLog (0, null, new BigDecimal (noInsert), "@C_BankStatement_ID@: @Inserted@");
-		addLog (0, null, new BigDecimal (noInsertLine), "@C_BankStatementLine_ID@: @Inserted@");
+		addLog (0, null, new BigDecimal (noInsert.get()), "@C_BankStatement_ID@: @Inserted@");
+		addLog (0, null, new BigDecimal (noInsertLine.get()), "@C_BankStatementLine_ID@: @Inserted@");
 		return "";
 
 	}	//	doIt
+	
+	/**
+	 * Need a new bank Statement
+	 * @param toImport
+	 * @return
+	 */
+	private boolean isToCreate(X_I_BankStatement toImport) {
+		boolean isToCreate = false;
+		if(statement == null) {	//	First to create
+			isToCreate = true;
+		} else if(statement.getC_BankAccount_ID() != toImport.getC_BankAccount_ID()) {	//	Create a new Bank Statement for every account
+			isToCreate = true;
+		} else if(!Util.isEmpty(statement.getName()) 
+				&& !Util.isEmpty(toImport.getName()) 
+				&& !statement.getName().equals(toImport.getName())) {	//	Create a new Bank Statement for every statement name
+			isToCreate = true;
+		} else if(!Util.isEmpty(statement.getEftStatementReference()) 
+				&& !Util.isEmpty(toImport.getEftStatementReference()) 
+				&& !statement.getEftStatementReference().equals(toImport.getEftStatementReference())) {	//	Create a new Bank Statement for every statement reference
+			isToCreate = true;
+		} else if (statement.getStatementDate() != null 
+				&& toImport.getStatementDate() != null
+				&& !statement.getStatementDate().equals(toImport.getStatementDate())) {	//	Create a new Bank Statement for every statement date
+			isToCreate = true;
+		}
+		//	
+		return isToCreate;
+	}
+	
+	/**
+	 * Add Import line to Statement
+	 * @param toImport
+	 */
+	private void addToStatement(X_I_BankStatement toImport) {
+		//	Get the bank account for the first statement
+		//	New Statement
+		if(isToCreate(toImport)) {
+			try {
+				createStatement(toImport);
+				noInsert.updateAndGet(count -> count + 1);
+			} catch (Exception e) {
+				statement = null;
+			}
+			lineNo.updateAndGet(count -> count + 10);
+		}
+		//	New StatementLine
+		if(statement != null) {
+			try {
+				MBankStatementLine line = new MBankStatementLine(statement, toImport, lineNo.get());
+				line.saveEx();
+				toImport.setC_BankStatement_ID(statement.getC_BankStatement_ID());
+				toImport.setC_BankStatementLine_ID(line.getC_BankStatementLine_ID());
+				toImport.setI_IsImported(true);
+				toImport.setProcessed(true);
+				toImport.saveEx();
+				noInsertLine.updateAndGet(count -> count + 1);
+				lineNo.updateAndGet(count -> count + 10);
+			} catch (Exception e) {
+				
+			}
+		}
+	}
+	
+	/**
+	 * Create Statement
+	 * @param toImport
+	 */
+	private void createStatement(X_I_BankStatement toImport) {
+		MBankAccount account = MBankAccount.get(getCtx(), toImport.getC_BankAccount_ID());
+		statement = new MBankStatement(account);
+		statement.setEndingBalance(Env.ZERO);
+		
+		//	Copy statement data
+		if (toImport.getName() != null) {
+			statement.setName(toImport.getName());
+		}
+		if (toImport.getStatementDate() != null) {
+			statement.setStatementDate(toImport.getStatementDate());
+		}
+		statement.setDescription(toImport.getDescription());
+		statement.setEftStatementReference(toImport.getEftStatementReference());
+		statement.setEftStatementDate(toImport.getEftStatementDate());
+		statement.saveEx(get_TrxName());
+		log.info("New Statement, Account=" + account.getAccountNo());
+	}
 
 }	//	ImportBankStatement
