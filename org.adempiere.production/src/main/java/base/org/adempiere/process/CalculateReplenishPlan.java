@@ -48,6 +48,7 @@ import org.compiere.model.MProduction;
 import org.compiere.model.MReplenish;
 import org.compiere.model.MReplenishPlan;
 import org.compiere.model.MRequisition;
+import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MStorage;
 import org.compiere.model.Query;
 import org.compiere.model.X_M_Replenish;
