@@ -241,4 +241,9 @@ public class BankStatementHandler implements BankStatementLoaderInterface {
 	public BigDecimal getChargeAmt() {
 		return Env.ZERO;
 	}
+	
+	@Override
+	public String getPayeeDescription() {
+		return bankTransaction.getPayeeDescription();
+	}
 }

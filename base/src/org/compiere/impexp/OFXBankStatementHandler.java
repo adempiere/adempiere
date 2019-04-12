@@ -517,6 +517,14 @@ public abstract class OFXBankStatementHandler extends DefaultHandler
 		return m_line.checkNo;
 	}
 	
+	/**
+	 * Get Payee Description
+	 * @return
+	 */
+	public String getPayeeDescription() {
+		return m_line.memo;
+	}
+	
 	
 	/**
 	 * New XML element detected. The XML nesting
