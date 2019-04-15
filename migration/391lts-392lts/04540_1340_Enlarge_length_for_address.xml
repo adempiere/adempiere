@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Enlarge length for address, email" ReleaseNo="3.9.2" SeqNo="4540">
+    <Comments>https://github.com/adempiere/adempiere/issues/1340</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="156" Table="AD_Element">
+        <Data AD_Column_ID="58589" Column="FieldLength" oldValue="60">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="157" Table="AD_Element">
+        <Data AD_Column_ID="58589" Column="FieldLength" oldValue="60">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="2555" Table="AD_Element">
+        <Data AD_Column_ID="58589" Column="FieldLength" oldValue="60">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="2556" Table="AD_Element">
+        <Data AD_Column_ID="58589" Column="FieldLength" oldValue="60">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="817" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="60">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="818" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="60">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="12530" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="60">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="12531" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="60">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="881" Table="AD_Element">
+        <Data AD_Column_ID="2605" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+        <Data AD_Column_ID="58589" Column="FieldLength" oldValue="60">255</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2649" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="de_DE">de_DE</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="881">881</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="86100" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84741" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8168" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="9023" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="7343" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8350" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="50045" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="50032" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="50021" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="50009" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="70336" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="70924" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="71368" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="70550" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="71128" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="7895" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="5944" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="5396" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="4260" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="7017" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="8434" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="54942" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="57993" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="62097" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="62132" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="62418" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="62805" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="82373" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8095" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="6173" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8833" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="6856" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="8776" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="6962" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="9183" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="7212" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="9777" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="10211" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="14601" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="500" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="12614" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="510" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="56686" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="520" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="50084" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="530" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="50074" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="540" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="59145" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="550" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="58853" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="560" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="63105" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="570" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="64301" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="580" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="678" Table="AD_Process_Para">
+        <Data AD_Column_ID="2824" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="590" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53352" Table="AD_Process_Para">
+        <Data AD_Column_ID="2824" Column="Help" oldValue="The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web.">The Email Address is the Electronic Mail ID for this User and should be fully qualified (e.g. joe.smith@company.com). The Email Address is used to access the self service application functionality from the web. The maximum length is specified in RFC 5321.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="600" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="5396" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="60">255</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="610" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="11105" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.">The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 150 characters in length.</Data>
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="60">150</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="620" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="9273" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.">The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 150 characters in length.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="630" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="2174" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="A description is limited to 255 characters.">A description is limited to 1024 characters.</Data>
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="255">1024</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="640" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="1086" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="A description is limited to 255 characters.">A description is limited to 1024 characters.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="650" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="3429" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="A description is limited to 255 characters.">A description is limited to 1024 characters.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="660" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="7866" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="A description is limited to 255 characters.">A description is limited to 1024 characters.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="670" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="8488" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="A description is limited to 255 characters.">A description is limited to 1024 characters.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="680" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="62263" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="A description is limited to 255 characters.">A description is limited to 1024 characters.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="690" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="86639" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="A description is limited to 255 characters.">A description is limited to 1024 characters.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="700" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="2220" Table="AD_Column">
+        <Data AD_Column_ID="113" Column="Help" oldValue="A description is limited to 255 characters.">A description is limited to 1024 characters.</Data>
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="255">1024</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="710" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="1126" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="A description is limited to 255 characters.">A description is limited to 1024 characters.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="720" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="3398" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="A description is limited to 255 characters.">A description is limited to 1024 characters.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="730" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="8420" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="A description is limited to 255 characters.">A description is limited to 1024 characters.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="740" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="12448" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="A description is limited to 255 characters.">A description is limited to 1024 characters.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="750" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="62348" Table="AD_Field">
+        <Data AD_Column_ID="170" Column="Help" oldValue="A description is limited to 255 characters.">A description is limited to 1024 characters.</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
