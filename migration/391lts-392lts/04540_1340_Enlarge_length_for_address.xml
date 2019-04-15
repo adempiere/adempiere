@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Enlarge length for address in c_location" ReleaseNo="" SeqNo="4540">
+    <Comments>https://github.com/adempiere/adempiere/issues/1340</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="156" Table="AD_Element">
+        <Data AD_Column_ID="58589" Column="FieldLength" oldValue="60">120</Data>
+        <Data AD_Column_ID="84316" Column="UUID" isOldNull="true">89e0090c-5</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="157" Table="AD_Element">
+        <Data AD_Column_ID="58589" Column="FieldLength" oldValue="60">120</Data>
+        <Data AD_Column_ID="84316" Column="UUID" isOldNull="true">9b107176-5</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="2555" Table="AD_Element">
+        <Data AD_Column_ID="58589" Column="FieldLength" oldValue="60">120</Data>
+        <Data AD_Column_ID="84316" Column="UUID" isOldNull="true">a2cd9f7e-5</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="2556" Table="AD_Element">
+        <Data AD_Column_ID="58589" Column="FieldLength" oldValue="60">120</Data>
+        <Data AD_Column_ID="84316" Column="UUID" isOldNull="true">a94012ec-5</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="817" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="60">120</Data>
+        <Data AD_Column_ID="84306" Column="UUID" isOldNull="true">daa6c948-5</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="818" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="60">120</Data>
+        <Data AD_Column_ID="84306" Column="UUID" isOldNull="true">e07a70ea-5</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="12530" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="60">120</Data>
+        <Data AD_Column_ID="84306" Column="UUID" isOldNull="true">e7ceaa78-5</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="12531" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="60">120</Data>
+        <Data AD_Column_ID="84306" Column="UUID" isOldNull="true">f3c7def8-5</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
