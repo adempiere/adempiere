@@ -30,7 +30,7 @@ public class X_R_MailText extends PO implements I_R_MailText, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190328L;
 
     /** Standard Constructor */
     public X_R_MailText (Properties ctx, int R_MailText_ID, String trxName)
@@ -72,6 +72,68 @@ public class X_R_MailText extends PO implements I_R_MailText, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** EventType AD_Reference_ID=54119 */
+	public static final int EVENTTYPE_AD_Reference_ID=54119;
+	/** End User: New Request Auto-Response = EUNAR */
+	public static final String EVENTTYPE_EndUserNewRequestAuto_Response = "EUNAR";
+	/** End User: New Automatic Response Message = EUNRM */
+	public static final String EVENTTYPE_EndUserNewAutomaticResponseMessage = "EUNRM";
+	/** End User: New Activity Notice = EUNAN */
+	public static final String EVENTTYPE_EndUserNewActivityNotice = "EUNAN";
+	/** End User: New Request Notice = EUNRN */
+	public static final String EVENTTYPE_EndUserNewRequestNotice = "EUNRN";
+	/** End User: New Automatic Response Request = EUNRR */
+	public static final String EVENTTYPE_EndUserNewAutomaticResponseRequest = "EUNRR";
+	/** End User: Limit Override Notice = EULON */
+	public static final String EVENTTYPE_EndUserLimitOverrideNotice = "EULON";
+	/** End User: Response Template = EURTR */
+	public static final String EVENTTYPE_EndUserResponseTemplate = "EURTR";
+	/** Sales Rep: Internal Activity Alert = SRIAA */
+	public static final String EVENTTYPE_SalesRepInternalActivityAlert = "SRIAA";
+	/** Sales Rep: New Message Notice = SRNMN */
+	public static final String EVENTTYPE_SalesRepNewMessageNotice = "SRNMN";
+	/** Sales Rep: New Request Notice = SRNRN */
+	public static final String EVENTTYPE_SalesRepNewRequestNotice = "SRNRN";
+	/** Sales Rep: Due Request Alert = SRLRA */
+	public static final String EVENTTYPE_SalesRepDueRequestAlert = "SRLRA";
+	/** Automatic Task: Request Assignment Notice = SRRAN */
+	public static final String EVENTTYPE_AutomaticTaskRequestAssignmentNotice = "SRRAN";
+	/** Sales Rep: Alert when Transferring a Request = SRATR */
+	public static final String EVENTTYPE_SalesRepAlertWhenTransferringARequest = "SRATR";
+	/** Automatic Task: Default Template = ATDNT */
+	public static final String EVENTTYPE_AutomaticTaskDefaultTemplate = "ATDNT";
+	/** Automatic Task: Expired Task Alert = ATETA */
+	public static final String EVENTTYPE_AutomaticTaskExpiredTaskAlert = "ATETA";
+	/** Automatic Task: New Activity Alert = ATNAA */
+	public static final String EVENTTYPE_AutomaticTaskNewActivityAlert = "ATNAA";
+	/** Automatic Task: New Activity Notice = ATNAN */
+	public static final String EVENTTYPE_AutomaticTaskNewActivityNotice = "ATNAN";
+	/** Automatic Task: New Task Notice = ATNTN */
+	public static final String EVENTTYPE_AutomaticTaskNewTaskNotice = "ATNTN";
+	/** Automatic Task: Task Assignment Notice = ATTAN */
+	public static final String EVENTTYPE_AutomaticTaskTaskAssignmentNotice = "ATTAN";
+	/** Automatic Task: Task Transfer Notice = ATTTN */
+	public static final String EVENTTYPE_AutomaticTaskTaskTransferNotice = "ATTTN";
+	/** Automatic Task: Inactivity Alert = ATIAR */
+	public static final String EVENTTYPE_AutomaticTaskInactivityAlert = "ATIAR";
+	/** Set Event Type.
+		@param EventType 
+		Type of Event
+	  */
+	public void setEventType (String EventType)
+	{
+
+		set_ValueNoCheck (COLUMNNAME_EventType, EventType);
+	}
+
+	/** Get Event Type.
+		@return Type of Event
+	  */
+	public String getEventType () 
+	{
+		return (String)get_Value(COLUMNNAME_EventType);
+	}
 
 	/** Set HTML.
 		@param IsHtml 
@@ -189,6 +251,34 @@ public class X_R_MailText extends PO implements I_R_MailText, I_Persistent
     {
         return new KeyNamePair(get_ID(), getName());
     }
+
+	public org.spin.model.I_R_MailTemplate getR_MailTemplate() throws RuntimeException
+    {
+		return (org.spin.model.I_R_MailTemplate)MTable.get(getCtx(), org.spin.model.I_R_MailTemplate.Table_Name)
+			.getPO(getR_MailTemplate_ID(), get_TrxName());	}
+
+	/** Set Mail Template.
+		@param R_MailTemplate_ID 
+		Request Mail Template by Event
+	  */
+	public void setR_MailTemplate_ID (int R_MailTemplate_ID)
+	{
+		if (R_MailTemplate_ID < 1) 
+			set_Value (COLUMNNAME_R_MailTemplate_ID, null);
+		else 
+			set_Value (COLUMNNAME_R_MailTemplate_ID, Integer.valueOf(R_MailTemplate_ID));
+	}
+
+	/** Get Mail Template.
+		@return Request Mail Template by Event
+	  */
+	public int getR_MailTemplate_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_R_MailTemplate_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Mail Template.
 		@param R_MailText_ID 
