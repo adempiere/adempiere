@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Enlarge length for bank name" ReleaseNo="3.9.2" SeqNo="4510">
+    <Comments>https://github.com/adempiere/adempiere/issues/2266</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="3039" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true" oldValue="Alphanumeric identifier of the entity"/>
+        <Data AD_Column_ID="111" Column="Name" oldValue="Name">Bank Name</Data>
+        <Data AD_Column_ID="116" Column="ColumnName" oldValue="Name">BankName</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true" oldValue="The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length."/>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID" oldValue="469">52002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="752" Action="U" Record_ID="0" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12954" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID" oldValue="3039">3039</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="2211" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true" oldValue="Alphanumeric identifier of the entity"/>
+        <Data AD_Column_ID="168" Column="Name" oldValue="Name">Bank Name</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" oldValue="The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length."/>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="127" Action="U" Record_ID="2211" Table="AD_Field_Trl">
+        <Data AD_Column_ID="289" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID" oldValue="2211">2211</Data>
+        <Data AD_Column_ID="285" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="84000" Table="AD_Field">
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true" oldValue="Alphanumeric identifier of the entity"/>
+        <Data AD_Column_ID="168" Column="Name" oldValue="Name">Bank Name</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true" oldValue="The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length."/>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="3039" Table="AD_Column">
+        <Data AD_Column_ID="116" Column="ColumnName" oldValue="BankName">Name</Data>
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="60">120</Data>
+      </PO>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="70" StepType="SQL">
+      <SQLStatement>ALTER TABLE C_Bank ALTER COLUMN Name TYPE character varying(120)</SQLStatement>
+      <RollbackStatement>ALTER TABLE C_Bank ALTER COLUMN Name TYPE character varying(60)</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="80" StepType="SQL">
+      <SQLStatement>ALTER TABLE C_Bank MODIFY Name NVARCHAR2(120)</SQLStatement>
+      <RollbackStatement>ALTER TABLE C_Bank MODIFY Name NVARCHAR2(60)</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

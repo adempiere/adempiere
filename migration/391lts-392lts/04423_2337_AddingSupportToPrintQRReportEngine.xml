@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Adding support to print QR barcode Adempiere Report Engine" ReleaseNo="" SeqNo="4420">
+  <Migration EntityType="D" Name="Adding support to print QR barcode Adempiere Report Engine" ReleaseNo="3.9.2" SeqNo="4423">
     <Comments>https://github.com/adempiere/adempiere/issues/2337</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="104" Action="I" Record_ID="55306" Table="AD_Ref_List">

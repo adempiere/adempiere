@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Role Process Create From Window" ReleaseNo="3.9.2" SeqNo="4450">
+  <Migration EntityType="D" Name="Add Role Process Create From Window" ReleaseNo="3.9.2" SeqNo="4455">
     <Comments>Create Process from Window</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="53230" Action="I" Record_ID="50144" Table="AD_View">
