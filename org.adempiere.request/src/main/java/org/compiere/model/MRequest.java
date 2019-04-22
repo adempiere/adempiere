@@ -806,20 +806,20 @@ public class MRequest extends X_R_Request
 		//	Change Log
 		m_changed = false;
 		ArrayList<String> sendInfo = new ArrayList<String>();
-		MRequestAction ra = new MRequestAction(this, false);
+		MRequestAction requestAction = new MRequestAction(this, false);
 		//
-		if (checkChange(ra, "R_RequestType_ID"))
+		if (checkChange(requestAction, "R_RequestType_ID"))
 			sendInfo.add("R_RequestType_ID");
-		if (checkChange(ra, "R_Group_ID"))
+		if (checkChange(requestAction, "R_Group_ID"))
 			sendInfo.add("R_Group_ID");
-		if (checkChange(ra, "R_Category_ID"))
+		if (checkChange(requestAction, "R_Category_ID"))
 			sendInfo.add("R_Category_ID");
-		if (checkChange(ra, "R_Status_ID"))
+		if (checkChange(requestAction, "R_Status_ID"))
 			sendInfo.add("R_Status_ID");
-		if (checkChange(ra, "R_Resolution_ID"))
+		if (checkChange(requestAction, "R_Resolution_ID"))
 			sendInfo.add("R_Resolution_ID");
 		//
-		if (checkChange(ra, "SalesRep_ID"))
+		if (checkChange(requestAction, "SalesRep_ID"))
 		{
 			//	Sender
 			int AD_User_ID = Env.getContextAsInt(p_ctx, "#AD_User_ID");
@@ -843,53 +843,57 @@ public class MRequest extends X_R_Request
 				sendInfo.add("SalesRep_ID");
 			}
 		}
-		checkChange(ra, "AD_Role_ID");
+		checkChange(requestAction, "AD_Role_ID");
 		//
-		checkChange(ra, "Priority");
-		if (checkChange(ra, "PriorityUser"))
+		checkChange(requestAction, "Priority");
+		if (checkChange(requestAction, "PriorityUser"))
 			sendInfo.add("PriorityUser");
-		if (checkChange(ra, "IsEscalated"))
+		if (checkChange(requestAction, "IsEscalated"))
 			sendInfo.add("IsEscalated");
 		//
-		checkChange(ra, "ConfidentialType");
-		checkChange(ra, "Summary");
-		checkChange(ra, "IsSelfService");
-		checkChange(ra, "C_BPartner_ID");
-		checkChange(ra, "AD_User_ID");
-		checkChange(ra, "C_Project_ID");
-		checkChange(ra, "A_Asset_ID");
-		checkChange(ra, "C_Order_ID");
-		checkChange(ra, "C_Invoice_ID");
-		checkChange(ra, "M_Product_ID");
-		checkChange(ra, "C_Payment_ID");
-		checkChange(ra, "M_InOut_ID");
-		checkChange(ra, "M_RMA_ID");
+		checkChange(requestAction, "ConfidentialType");
+		checkChange(requestAction, "Summary");
+		checkChange(requestAction, "IsSelfService");
+		checkChange(requestAction, "C_BPartner_ID");
+		checkChange(requestAction, "AD_User_ID");
+		checkChange(requestAction, "C_Project_ID");
+		checkChange(requestAction, "A_Asset_ID");
+		checkChange(requestAction, "C_Order_ID");
+		checkChange(requestAction, "C_Invoice_ID");
+		checkChange(requestAction, "M_Product_ID");
+		checkChange(requestAction, "C_Payment_ID");
+		checkChange(requestAction, "M_InOut_ID");
+		checkChange(requestAction, "M_RMA_ID");
 	//	checkChange(ra, "C_Campaign_ID");
 	//	checkChange(ra, "RequestAmt");
-		checkChange(ra, "IsInvoiced");
-		checkChange(ra, "C_Activity_ID");
-		checkChange(ra, "DateNextAction");
-		checkChange(ra, "M_ProductSpent_ID");
-		checkChange(ra, "QtySpent");
-		checkChange(ra, "QtyInvoiced");
-		checkChange(ra, "StartDate");
-		checkChange(ra, "CloseDate");
-		checkChange(ra, "TaskStatus");
-		checkChange(ra, "DateStartPlan");
-		checkChange(ra, "DateCompletePlan");
+		checkChange(requestAction, "IsInvoiced");
+		checkChange(requestAction, "C_Activity_ID");
+		checkChange(requestAction, "DateNextAction");
+		checkChange(requestAction, "M_ProductSpent_ID");
+		checkChange(requestAction, "QtySpent");
+		checkChange(requestAction, "QtyInvoiced");
+		checkChange(requestAction, "StartDate");
+		checkChange(requestAction, "CloseDate");
+		checkChange(requestAction, "TaskStatus");
+		checkChange(requestAction, "DateStartPlan");
+		checkChange(requestAction, "DateCompletePlan");
 		//
 		if (m_changed)
-			ra.saveEx();
+			requestAction.saveEx();
 		
 		//	Current Info
-		MRequestUpdate update = new MRequestUpdate(this);
-		if (update.isNewInfo())
-			update.saveEx();
+		MRequestUpdate requestUpdate = new MRequestUpdate(this);
+		// Link Request Action  with Request Update
+		if (requestAction.getR_RequestAction_ID() > 0)
+			requestUpdate.setR_RequestAction_ID(requestAction.getR_RequestAction_ID());
+
+		if (requestUpdate.isNewInfo())
+			requestUpdate.saveEx();
 		else
-			update = null;
+			requestUpdate = null;
 		//
 		m_emailTo = new StringBuffer();
-		if (update != null || sendInfo.size() > 0)
+		if (requestUpdate != null || sendInfo.size() > 0)
 		{
 			// Note that calling the notifications from beforeSave is causing the
 			// new interested are not notified if the RV_RequestUpdates view changes

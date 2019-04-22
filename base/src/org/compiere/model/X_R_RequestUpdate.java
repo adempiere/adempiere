@@ -17,38 +17,39 @@
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
 
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
-import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_RequestUpdate
  *  @author Adempiere (generated) 
  *  @version Release 3.9.1 - $Id$ */
-public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persistent 
+public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persistent
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190416L;
 
     /** Standard Constructor */
-    public X_R_RequestUpdate (Properties ctx, int R_RequestUpdate_ID, String trxName)
+    public X_R_RequestUpdate(Properties ctx, int R_RequestUpdate_ID, String trxName)
     {
       super (ctx, R_RequestUpdate_ID, trxName);
       /** if (R_RequestUpdate_ID == 0)
         {
 			setConfidentialTypeEntry (null);
-			setR_RequestUpdate_ID (0);
 			setR_Request_ID (0);
+			setR_RequestUpdate_ID (0);
         } */
     }
 
     /** Load Constructor */
-    public X_R_RequestUpdate (Properties ctx, ResultSet rs, String trxName)
+    public X_R_RequestUpdate(Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -75,6 +76,34 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
       return sb.toString();
     }
 
+	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_InvoiceLine) MTable.get(getCtx(), org.compiere.model.I_C_InvoiceLine.Table_Name)
+			.getPO(getC_InvoiceLine_ID(), get_TrxName());	}
+
+	/** Set Invoice Line.
+		@param C_InvoiceLine_ID
+		Invoice Detail Line
+	  */
+	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID)
+	{
+		if (C_InvoiceLine_ID < 1)
+			set_Value (COLUMNNAME_C_InvoiceLine_ID, null);
+		else
+			set_Value (COLUMNNAME_C_InvoiceLine_ID, Integer.valueOf(C_InvoiceLine_ID));
+	}
+
+	/** Get Invoice Line.
+		@return Invoice Detail Line
+	  */
+	public int getC_InvoiceLine_ID ()
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoiceLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** ConfidentialTypeEntry AD_Reference_ID=340 */
 	public static final int CONFIDENTIALTYPEENTRY_AD_Reference_ID=340;
 	/** Public Information = A */
@@ -86,7 +115,7 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 	/** Private Information = P */
 	public static final String CONFIDENTIALTYPEENTRY_PrivateInformation = "P";
 	/** Set Entry Confidentiality.
-		@param ConfidentialTypeEntry 
+		@param ConfidentialTypeEntry
 		Confidentiality of the individual entry
 	  */
 	public void setConfidentialTypeEntry (String ConfidentialTypeEntry)
@@ -98,13 +127,13 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 	/** Get Entry Confidentiality.
 		@return Confidentiality of the individual entry
 	  */
-	public String getConfidentialTypeEntry () 
+	public String getConfidentialTypeEntry ()
 	{
 		return (String)get_Value(COLUMNNAME_ConfidentialTypeEntry);
 	}
 
 	/** Set End Time.
-		@param EndTime 
+		@param EndTime
 		End of the time span
 	  */
 	public void setEndTime (Timestamp EndTime)
@@ -115,32 +144,32 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 	/** Get End Time.
 		@return End of the time span
 	  */
-	public Timestamp getEndTime () 
+	public Timestamp getEndTime ()
 	{
 		return (Timestamp)get_Value(COLUMNNAME_EndTime);
 	}
 
 	public org.compiere.model.I_M_Product getM_ProductSpent() throws RuntimeException
     {
-		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
+		return (org.compiere.model.I_M_Product) MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
 			.getPO(getM_ProductSpent_ID(), get_TrxName());	}
 
 	/** Set Product Used.
-		@param M_ProductSpent_ID 
+		@param M_ProductSpent_ID
 		Product/Resource/Service used in Request
 	  */
 	public void setM_ProductSpent_ID (int M_ProductSpent_ID)
 	{
-		if (M_ProductSpent_ID < 1) 
+		if (M_ProductSpent_ID < 1)
 			set_Value (COLUMNNAME_M_ProductSpent_ID, null);
-		else 
+		else
 			set_Value (COLUMNNAME_M_ProductSpent_ID, Integer.valueOf(M_ProductSpent_ID));
 	}
 
 	/** Get Product Used.
 		@return Product/Resource/Service used in Request
 	  */
-	public int getM_ProductSpent_ID () 
+	public int getM_ProductSpent_ID ()
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductSpent_ID);
 		if (ii == null)
@@ -148,8 +177,32 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 		return ii.intValue();
 	}
 
+	/** Set Processed.
+		@param Processed
+		The document has been processed
+	  */
+	public void setProcessed (boolean Processed)
+	{
+		set_Value (COLUMNNAME_Processed, Boolean.valueOf(Processed));
+	}
+
+	/** Get Processed.
+		@return The document has been processed
+	  */
+	public boolean isProcessed ()
+	{
+		Object oo = get_Value(COLUMNNAME_Processed);
+		if (oo != null)
+		{
+			 if (oo instanceof Boolean)
+				 return ((Boolean)oo).booleanValue();
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Quantity Invoiced.
-		@param QtyInvoiced 
+		@param QtyInvoiced
 		Invoiced Quantity
 	  */
 	public void setQtyInvoiced (BigDecimal QtyInvoiced)
@@ -160,7 +213,7 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 	/** Get Quantity Invoiced.
 		@return Invoiced Quantity
 	  */
-	public BigDecimal getQtyInvoiced () 
+	public BigDecimal getQtyInvoiced ()
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyInvoiced);
 		if (bd == null)
@@ -169,7 +222,7 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 	}
 
 	/** Set Quantity Used.
-		@param QtySpent 
+		@param QtySpent
 		Quantity used for this event
 	  */
 	public void setQtySpent (BigDecimal QtySpent)
@@ -180,12 +233,85 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
 	/** Get Quantity Used.
 		@return Quantity used for this event
 	  */
-	public BigDecimal getQtySpent () 
+	public BigDecimal getQtySpent ()
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtySpent);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Result.
+		@param Result
+		Result of the action taken
+	  */
+	public void setResult (String Result)
+	{
+		set_ValueNoCheck (COLUMNNAME_Result, Result);
+	}
+
+	/** Get Result.
+		@return Result of the action taken
+	  */
+	public String getResult ()
+	{
+		return (String)get_Value(COLUMNNAME_Result);
+	}
+
+	public org.compiere.model.I_R_RequestAction getR_RequestAction() throws RuntimeException
+    {
+		return (org.compiere.model.I_R_RequestAction) MTable.get(getCtx(), org.compiere.model.I_R_RequestAction.Table_Name)
+			.getPO(getR_RequestAction_ID(), get_TrxName());	}
+
+	/** Set Request History.
+		@param R_RequestAction_ID
+		Request has been changed
+	  */
+	public void setR_RequestAction_ID (int R_RequestAction_ID)
+	{
+		if (R_RequestAction_ID < 1)
+			set_Value (COLUMNNAME_R_RequestAction_ID, null);
+		else
+			set_Value (COLUMNNAME_R_RequestAction_ID, Integer.valueOf(R_RequestAction_ID));
+	}
+
+	/** Get Request History.
+		@return Request has been changed
+	  */
+	public int getR_RequestAction_ID ()
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_R_RequestAction_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_R_Request getR_Request() throws RuntimeException
+    {
+		return (org.compiere.model.I_R_Request) MTable.get(getCtx(), org.compiere.model.I_R_Request.Table_Name)
+			.getPO(getR_Request_ID(), get_TrxName());	}
+
+	/** Set Request.
+		@param R_Request_ID 
+		Request from a Business Partner or Prospect
+	  */
+	public void setR_Request_ID (int R_Request_ID)
+	{
+		if (R_Request_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_Request_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_Request_ID, Integer.valueOf(R_Request_ID));
+	}
+
+	/** Get Request.
+		@return Request from a Business Partner or Prospect
+	  */
+	public int getR_Request_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_R_Request_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Request Update.
@@ -214,55 +340,10 @@ public class X_R_RequestUpdate extends PO implements I_R_RequestUpdate, I_Persis
     /** Get Record ID/ColumnName
         @return ID/ColumnName pair
       */
-    public KeyNamePair getKeyNamePair() 
+    public KeyNamePair getKeyNamePair()
     {
         return new KeyNamePair(get_ID(), String.valueOf(getR_RequestUpdate_ID()));
     }
-
-	public org.compiere.model.I_R_Request getR_Request() throws RuntimeException
-    {
-		return (org.compiere.model.I_R_Request)MTable.get(getCtx(), org.compiere.model.I_R_Request.Table_Name)
-			.getPO(getR_Request_ID(), get_TrxName());	}
-
-	/** Set Request.
-		@param R_Request_ID 
-		Request from a Business Partner or Prospect
-	  */
-	public void setR_Request_ID (int R_Request_ID)
-	{
-		if (R_Request_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_R_Request_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_R_Request_ID, Integer.valueOf(R_Request_ID));
-	}
-
-	/** Get Request.
-		@return Request from a Business Partner or Prospect
-	  */
-	public int getR_Request_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_R_Request_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Result.
-		@param Result 
-		Result of the action taken
-	  */
-	public void setResult (String Result)
-	{
-		set_ValueNoCheck (COLUMNNAME_Result, Result);
-	}
-
-	/** Get Result.
-		@return Result of the action taken
-	  */
-	public String getResult () 
-	{
-		return (String)get_Value(COLUMNNAME_Result);
-	}
 
 	/** Set Start Time.
 		@param StartTime 
