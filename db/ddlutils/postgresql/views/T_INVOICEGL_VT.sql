@@ -12,7 +12,7 @@ CREATE OR REPLACE VIEW T_INVOICEGL_VT
  AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
  AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
  C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
- AMTACCTOPENCR, AMTACCTOPENBALANCE)
+ AMTACCTOPENCR, AMTACCTOPENBALANCE, AD_Language)
 AS 
 SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
     i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
@@ -36,10 +36,9 @@ SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated
     gl.C_DocTypeReval_ID,
     gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
     (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
-    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance,
+    l.AD_Language
 FROM T_InvoiceGL gl
   INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
-  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);
-
-
-
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID)
+  LEFT JOIN AD_Language l ON (l.IsSystemLanguage='Y' AND l.IsActive = 'Y');
