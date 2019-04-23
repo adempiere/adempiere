@@ -48,6 +48,7 @@ import org.compiere.model.MProduction;
 import org.compiere.model.MReplenish;
 import org.compiere.model.MReplenishPlan;
 import org.compiere.model.MRequisition;
+import org.compiere.model.MRequisitionLine;
 import org.compiere.model.MStorage;
 import org.compiere.model.Query;
 import org.compiere.model.X_M_Replenish;
@@ -615,12 +616,12 @@ public class CalculateReplenishPlan extends CalculateReplenishPlanAbstract {
 
 	private void createRequisitionLine(MRequisition requisition, MiniMRPProduct mrp, BigDecimal qty) {
 		//requisition.addLinetoQueue(mrp.getM_Product_ID(), mrp.getC_BPartner_ID(), qty, mrp.getPriceActual());
-//		MRequisitionLine rLine = new MRequisitionLine(requisition);
-//		rLine.setM_Product_ID(mrp.getM_Product_ID());
-//		rLine.setC_BPartner_ID(mrp.getC_BPartner_ID());
-//		rLine.setPriceActual(mrp.getPriceActual());
-//		rLine.setQty(qty);
-//		rLine.saveEx();
+		MRequisitionLine rLine = new MRequisitionLine(requisition);
+		rLine.setM_Product_ID(mrp.getM_Product_ID());
+		rLine.setC_BPartner_ID(mrp.getC_BPartner_ID());
+		rLine.setPriceActual(mrp.getPriceActual());
+		rLine.setQty(qty);
+		rLine.saveEx();
 	}
 
 	/**
