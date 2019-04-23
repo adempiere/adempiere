@@ -21,31 +21,31 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
 
-/** Generated Model for R_MailTemplate
+/** Generated Model for R_NoticeTemplate
  *  @author Adempiere (generated) 
  *  @version Release 3.9.1 - $Id$ */
-public class X_R_MailTemplate extends PO implements I_R_MailTemplate, I_Persistent 
+public class X_R_NoticeTemplate extends PO implements I_R_NoticeTemplate, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190328L;
+	private static final long serialVersionUID = 20190422L;
 
     /** Standard Constructor */
-    public X_R_MailTemplate (Properties ctx, int R_MailTemplate_ID, String trxName)
+    public X_R_NoticeTemplate (Properties ctx, int R_NoticeTemplate_ID, String trxName)
     {
-      super (ctx, R_MailTemplate_ID, trxName);
-      /** if (R_MailTemplate_ID == 0)
+      super (ctx, R_NoticeTemplate_ID, trxName);
+      /** if (R_NoticeTemplate_ID == 0)
         {
 			setName (null);
-			setR_MailTemplate_ID (0);
+			setR_NoticeTemplate_ID (0);
 			setTemplateType (null);
         } */
     }
 
     /** Load Constructor */
-    public X_R_MailTemplate (Properties ctx, ResultSet rs, String trxName)
+    public X_R_NoticeTemplate (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -67,7 +67,7 @@ public class X_R_MailTemplate extends PO implements I_R_MailTemplate, I_Persiste
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_R_MailTemplate[")
+      StringBuffer sb = new StringBuffer ("X_R_NoticeTemplate[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -106,24 +106,24 @@ public class X_R_MailTemplate extends PO implements I_R_MailTemplate, I_Persiste
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-	/** Set Mail Template.
-		@param R_MailTemplate_ID 
-		Request Mail Template by Event
+	/** Set Notice Template.
+		@param R_NoticeTemplate_ID 
+		Notice Template by Event
 	  */
-	public void setR_MailTemplate_ID (int R_MailTemplate_ID)
+	public void setR_NoticeTemplate_ID (int R_NoticeTemplate_ID)
 	{
-		if (R_MailTemplate_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_R_MailTemplate_ID, null);
+		if (R_NoticeTemplate_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_NoticeTemplate_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_R_MailTemplate_ID, Integer.valueOf(R_MailTemplate_ID));
+			set_ValueNoCheck (COLUMNNAME_R_NoticeTemplate_ID, Integer.valueOf(R_NoticeTemplate_ID));
 	}
 
-	/** Get Mail Template.
-		@return Request Mail Template by Event
+	/** Get Notice Template.
+		@return Notice Template by Event
 	  */
-	public int getR_MailTemplate_ID () 
+	public int getR_NoticeTemplate_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_R_MailTemplate_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_R_NoticeTemplate_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

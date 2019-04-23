@@ -21,15 +21,15 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for R_MailTemplate
+/** Generated Interface for R_NoticeTemplate
  *  @author Adempiere (generated) 
  *  @version Release 3.9.1
  */
-public interface I_R_MailTemplate 
+public interface I_R_NoticeTemplate 
 {
 
-    /** TableName=R_MailTemplate */
-    public static final String Table_Name = "R_MailTemplate";
+    /** TableName=R_NoticeTemplate */
+    public static final String Table_Name = "R_NoticeTemplate";
 
     /** AD_Table_ID=54618 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
@@ -118,18 +118,18 @@ public interface I_R_MailTemplate
 	  */
 	public String getName();
 
-    /** Column name R_MailTemplate_ID */
-    public static final String COLUMNNAME_R_MailTemplate_ID = "R_MailTemplate_ID";
+    /** Column name R_NoticeTemplate_ID */
+    public static final String COLUMNNAME_R_NoticeTemplate_ID = "R_NoticeTemplate_ID";
 
-	/** Set Mail Template.
-	  * Request Mail Template by Event
+	/** Set Notice Template.
+	  * Notice Template by Event
 	  */
-	public void setR_MailTemplate_ID (int R_MailTemplate_ID);
+	public void setR_NoticeTemplate_ID (int R_NoticeTemplate_ID);
 
-	/** Get Mail Template.
-	  * Request Mail Template by Event
+	/** Get Notice Template.
+	  * Notice Template by Event
 	  */
-	public int getR_MailTemplate_ID();
+	public int getR_NoticeTemplate_ID();
 
     /** Column name TemplateType */
     public static final String COLUMNNAME_TemplateType = "TemplateType";

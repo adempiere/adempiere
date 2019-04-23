@@ -18,12 +18,14 @@
 package org.spin.model;
 
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Properties;
 
 import org.compiere.model.I_AD_Ref_List;
 import org.compiere.model.I_R_MailText;
 import org.compiere.model.MMailText;
 import org.compiere.model.MRefList;
+import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
@@ -34,13 +36,13 @@ import org.compiere.util.Util;
  * 	@author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
  *			<li> FR Mail Template for distint events
  */
-public class MRMailTemplate extends X_R_MailTemplate {
+public class MRNoticeTemplate extends X_R_NoticeTemplate {
 
-	public MRMailTemplate(Properties ctx, int requestTemplateId, String trxName) {
+	public MRNoticeTemplate(Properties ctx, int requestTemplateId, String trxName) {
 		super(ctx, requestTemplateId, trxName);
 	}
 
-	public MRMailTemplate(Properties ctx, ResultSet rs, String trxName) {
+	public MRNoticeTemplate(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
 
@@ -52,11 +54,11 @@ public class MRMailTemplate extends X_R_MailTemplate {
 	   /**
      * Cache
      */
-    private static CCache<Integer, MRMailTemplate> cache = new CCache<Integer, MRMailTemplate>(Table_Name, 100);
+    private static CCache<Integer, MRNoticeTemplate> cache = new CCache<Integer, MRNoticeTemplate>(Table_Name, 100);
     /**
      * Cache by Value
      */
-    private static CCache<String, MRMailTemplate> cacheValue = new CCache<String, MRMailTemplate>(Table_Name + "_Value", 100);
+    private static CCache<String, MRNoticeTemplate> cacheValue = new CCache<String, MRNoticeTemplate>(Table_Name + "_Value", 100);
     /**
      * Cache for Mail Text
      */
@@ -67,15 +69,15 @@ public class MRMailTemplate extends X_R_MailTemplate {
      * @param requestTemplateId
      * @return
      */
-    public static MRMailTemplate getById(Properties ctx, int requestTemplateId) {
+    public static MRNoticeTemplate getById(Properties ctx, int requestTemplateId) {
         if (requestTemplateId <= 0)
             return null;
         //
-        MRMailTemplate requestTemplate = cache.get(requestTemplateId);
+        MRNoticeTemplate requestTemplate = cache.get(requestTemplateId);
         if (requestTemplate != null)
             return requestTemplate;
         //
-        requestTemplate = new MRMailTemplate(ctx, requestTemplateId, null);
+        requestTemplate = new MRNoticeTemplate(ctx, requestTemplateId, null);
         if (requestTemplate.get_ID() == requestTemplateId)
             cache.put(requestTemplateId, requestTemplate);
         else
@@ -91,13 +93,13 @@ public class MRMailTemplate extends X_R_MailTemplate {
      * @param templateType
      * @return
      */
-    public static MRMailTemplate getByType(Properties ctx, String templateType) {
+    public static MRNoticeTemplate getByType(Properties ctx, String templateType) {
         if (Util.isEmpty(templateType, true))
             return null;
 
         int clientId = Env.getAD_Client_ID(ctx);
         final String key = clientId + "#" + templateType;
-        MRMailTemplate requestTemplate = cacheValue.get(key);
+        MRNoticeTemplate requestTemplate = cacheValue.get(key);
         if (requestTemplate != null)
             return requestTemplate;
 
@@ -133,8 +135,10 @@ public class MRMailTemplate extends X_R_MailTemplate {
         	return mailTemplate;
         }
         String whereClause = COLUMNNAME_AD_Client_ID + " IN(?,?) "
-        		+ "AND " + I_R_MailText.COLUMNNAME_EventType + " = ? "
-        		+ "AND EXISTS(SELECT 1 FROM R_MailTemplate rt WHERE rt.R_MailTemplate_ID = R_MailText.R_MailTemplate_ID "
+        		+ "AND EXISTS(SELECT 1 FROM R_NoticeTemplate rt "
+        		+ "INNER JOIN R_NoticeTemplateEvent rte ON(rte.R_NoticeTemplate_ID = rt.R_NoticeTemplate_ID) "
+        		+ "WHERE rte.R_MailText_ID = R_MailText.R_MailText_ID "
+        		+ "AND rte.EventType = ? "
         		+ "AND rt.TemplateType = ? "
         		+ "AND rt.IsActive = 'Y')";
         mailTemplate = new Query(ctx, I_R_MailText.Table_Name, whereClause, null)
@@ -153,14 +157,12 @@ public class MRMailTemplate extends X_R_MailTemplate {
     protected boolean afterSave(boolean newRecord, boolean success) {
     	if(newRecord) {
     		new Query(getCtx(), I_AD_Ref_List.Table_Name, I_AD_Ref_List.COLUMNNAME_AD_Reference_ID + " = ?", get_TrxName())
-    			.setParameters(MMailText.EVENTTYPE_AD_Reference_ID)
+    			.setParameters(MRNoticeTemplateEvent.EVENTTYPE_AD_Reference_ID)
     			.setOnlyActiveRecords(true)
     			.setOrderBy(I_AD_Ref_List.COLUMNNAME_Value)
     			.<MRefList>list()
     			.forEach(reference -> {
     				MMailText mailText = new MMailText(getCtx(), 0, get_TrxName());
-    				mailText.setR_MailTemplate_ID(getR_MailTemplate_ID());
-    				mailText.setEventType(reference.getValue());
     				mailText.setName(reference.getName());
     				int index = reference.getName().indexOf(":");
     				if(index > 0
@@ -168,10 +170,55 @@ public class MRMailTemplate extends X_R_MailTemplate {
     					mailText.setMailHeader("@DocumentNo@ - @Subject@ " + reference.getName().substring(index + 1));
     				}
     				mailText.setMailText(reference.getDescription());
+    				mailText.setIsHtml(true);
     				mailText.saveEx();
+    				//	Update Translation
+    				updateTranslations(mailText.getR_MailText_ID(), reference);
+    				//	Create Template for Event
+    				MRNoticeTemplateEvent noticeEvent = new MRNoticeTemplateEvent(getCtx(), 0, get_TrxName());
+    				noticeEvent.setR_NoticeTemplate_ID(getR_NoticeTemplate_ID());
+    				noticeEvent.setEventType(reference.getValue());
+    				noticeEvent.setR_MailText_ID(mailText.getR_MailText_ID());
+    				noticeEvent.saveEx();
     			});
     	}
     	//	
     	return true;
     }
+    
+	/**
+	 * Update Mail translation
+	 * @param mailTextId
+	 * @param reference
+	 */
+	private void updateTranslations(int mailTextId, MRefList reference) {
+		String tableName = I_R_MailText.Table_Name + "_Trl";
+		//
+		List<PO> translationList = new Query(getCtx(), tableName,
+				I_R_MailText.COLUMNNAME_R_MailText_ID + " = ?", get_TrxName())
+			.setParameters(mailTextId)
+			.<PO>list();
+
+		if(translationList == null
+				|| translationList.size() == 0)
+			return;
+		//	Set Values
+		for(PO translation : translationList) {
+			String language = translation.get_ValueAsString("AD_Language");
+			String name = reference.get_Translation(I_R_MailText.COLUMNNAME_Name, language);
+			String description = reference.get_Translation(I_AD_Ref_List.COLUMNNAME_Description, language);
+			if(Util.isEmpty(name)
+					|| Util.isEmpty(description)) {
+				continue;
+			}
+			translation.set_ValueOfColumn(I_R_MailText.COLUMNNAME_Name, name);
+			int index = name.indexOf(":");
+			if(index > 0
+					&& index < name.length()) {
+				translation.set_ValueOfColumn(I_R_MailText.COLUMNNAME_MailHeader, "@DocumentNo@ - @Subject@ " + name.substring(index + 1));
+			}
+			translation.set_ValueOfColumn(I_R_MailText.COLUMNNAME_MailText, description);
+			translation.saveEx();
+		}
+	}	//	updateTranslations
 }

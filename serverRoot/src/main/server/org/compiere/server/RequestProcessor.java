@@ -36,7 +36,8 @@ import org.compiere.model.Query;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Util;
-import org.spin.model.MRMailTemplate;
+import org.spin.model.MRNoticeTemplate;
+import org.spin.model.MRNoticeTemplateEvent;
 
 /**
  *	Request Processor
@@ -122,7 +123,7 @@ public class RequestProcessor extends AdempiereServer
 				request.setDueType();
 				if (request.isDue()) {
 					if (request.getRequestType().isEMailWhenDue()) {
-						if (sendEmail (request, MMailText.EVENTTYPE_SalesRepDueRequestAlert)) {
+						if (sendEmail (request, MRNoticeTemplateEvent.EVENTTYPE_SalesRepDueRequestAlert)) {
 							request.setDateLastAlert();
 							addMailCount();
 						}
@@ -162,7 +163,7 @@ public class RequestProcessor extends AdempiereServer
 				if (request.isOverdue()) {
 					if (request.getRequestType().isEMailWhenOverdue()
 						&& !TimeUtil.isSameDay(request.getDateLastAlert(), null)) {
-						if (sendEmail (request, MMailText.EVENTTYPE_AutomaticTaskExpiredTaskAlert)) {
+						if (sendEmail (request, MRNoticeTemplateEvent.EVENTTYPE_AutomaticTaskExpiredTaskAlert)) {
 							request.setDateLastAlert();
 							addMailCount();
 						}
@@ -204,7 +205,7 @@ public class RequestProcessor extends AdempiereServer
 					if (request.getRequestType().isEMailWhenOverdue()
 							&& (request.getDateLastAlert() == null
 								|| !TimeUtil.isSameDay(request.getDateLastAlert(), null))){
-						if (sendEmail (request, MMailText.EVENTTYPE_AutomaticTaskExpiredTaskAlert)) {
+						if (sendEmail (request, MRNoticeTemplateEvent.EVENTTYPE_AutomaticTaskExpiredTaskAlert)) {
 							request.setDateLastAlert();
 							addMailCount();
 						}
@@ -270,7 +271,7 @@ public class RequestProcessor extends AdempiereServer
 				.forEach(request -> {
 					if (request.getDateLastAlert() == null
 							|| !TimeUtil.isSameDay(request.getDateLastAlert(), null)) {
-						if (sendEmail (request, MMailText.EVENTTYPE_AutomaticTaskExpiredTaskAlert)) {
+						if (sendEmail (request, MRNoticeTemplateEvent.EVENTTYPE_AutomaticTaskExpiredTaskAlert)) {
 							request.setDateLastAlert();
 							addMailCount();
 						}
@@ -296,7 +297,7 @@ public class RequestProcessor extends AdempiereServer
 		String message = null;
 		//	Event Type
 		if(!Util.isEmpty(eventType)) {
-			MMailText mailText = MRMailTemplate.getMailTemplate(getCtx(), MRMailTemplate.TEMPLATETYPE_Request, eventType);
+			MMailText mailText = MRNoticeTemplate.getMailTemplate(getCtx(), MRNoticeTemplate.TEMPLATETYPE_Request, eventType);
 			if(mailText != null) {
 				//	Add Request
 				mailText.setPO(request, true);
@@ -336,7 +337,7 @@ public class RequestProcessor extends AdempiereServer
 		String subject = null;
 		String message = null;
 		//	Event Type
-		MMailText mailText = MRMailTemplate.getMailTemplate(getCtx(), MRMailTemplate.TEMPLATETYPE_Request, MMailText.EVENTTYPE_AutomaticTaskTaskTransferNotice);
+		MMailText mailText = MRNoticeTemplate.getMailTemplate(getCtx(), MRNoticeTemplate.TEMPLATETYPE_Request, MRNoticeTemplateEvent.EVENTTYPE_AutomaticTaskTaskTransferNotice);
 		if(mailText != null) {
 			//	Add Request
 			mailText.setPO(request, true);

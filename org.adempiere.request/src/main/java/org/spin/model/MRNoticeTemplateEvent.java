@@ -17,42 +17,26 @@
  *****************************************************************************/
 package org.spin.model;
 
+import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.CalloutEngine;
-import org.compiere.model.GridField;
-import org.compiere.model.GridTab;
-import org.compiere.model.I_R_MailText;
-import org.compiere.model.MRefList;
-import org.compiere.model.X_R_MailText;
-import org.compiere.util.Util;
-
 /**
- * 	Callout Mail Template
+ * 	Notice by Event
  * 	@author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
  *			<li> FR Mail Template for distint events
  */
-public class CalloutMailTemplate extends CalloutEngine {
-	
+public class MRNoticeTemplateEvent extends X_R_NoticeTemplateEvent {
+
 	/**
-	 * Set Name from List
-	 * @param ctx
-	 * @param windowNo
-	 * @param tab
-	 * @param field
-	 * @param value
-	 * @return
+	 * 
 	 */
-	public String eventType(Properties ctx, int windowNo, GridTab tab, GridField field, Object value) {
-		//	Valid Value
-		if(value == null)
-			return "";
-		//	Set Default
-		String eventType = (String) tab.getValue(I_R_MailText.COLUMNNAME_EventType);
-		String name = MRefList.getListName(ctx, X_R_MailText.EVENTTYPE_AD_Reference_ID, eventType);
-		if(!Util.isEmpty(name)) {
-			tab.setValue(I_R_MailText.COLUMNNAME_Name, name);
-		}
-		return "";
+	private static final long serialVersionUID = -529762729430874769L;
+
+	public MRNoticeTemplateEvent(Properties ctx, int noticeTemplateEventId, String trxName) {
+		super(ctx, noticeTemplateEventId, trxName);
+	}
+
+	public MRNoticeTemplateEvent(Properties ctx, ResultSet rs, String trxName) {
+		super(ctx, rs, trxName);
 	}
 }

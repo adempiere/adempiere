@@ -14,30 +14,31 @@
  * For the text or an alternative of this public license, you may reach us    *
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
-package org.compiere.model;
+package org.spin.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for R_MailText
+/** Generated Interface for R_NoticeTemplateEvent
  *  @author Adempiere (generated) 
  *  @version Release 3.9.1
  */
-public interface I_R_MailText 
+public interface I_R_NoticeTemplateEvent 
 {
 
-    /** TableName=R_MailText */
-    public static final String Table_Name = "R_MailText";
+    /** TableName=R_NoticeTemplateEvent */
+    public static final String Table_Name = "R_NoticeTemplateEvent";
 
-    /** AD_Table_ID=416 */
+    /** AD_Table_ID=1000000 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 7 - System - Client - Org 
+    /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -78,6 +79,19 @@ public interface I_R_MailText
 	  */
 	public int getCreatedBy();
 
+    /** Column name EventType */
+    public static final String COLUMNNAME_EventType = "EventType";
+
+	/** Set Event Type.
+	  * Type of Event
+	  */
+	public void setEventType (String EventType);
+
+	/** Get Event Type.
+	  * Type of Event
+	  */
+	public String getEventType();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -91,84 +105,6 @@ public interface I_R_MailText
 	  */
 	public boolean isActive();
 
-    /** Column name IsHtml */
-    public static final String COLUMNNAME_IsHtml = "IsHtml";
-
-	/** Set HTML.
-	  * Text has HTML tags
-	  */
-	public void setIsHtml (boolean IsHtml);
-
-	/** Get HTML.
-	  * Text has HTML tags
-	  */
-	public boolean isHtml();
-
-    /** Column name MailHeader */
-    public static final String COLUMNNAME_MailHeader = "MailHeader";
-
-	/** Set Subject.
-	  * Mail Header (Subject)
-	  */
-	public void setMailHeader (String MailHeader);
-
-	/** Get Subject.
-	  * Mail Header (Subject)
-	  */
-	public String getMailHeader();
-
-    /** Column name MailText */
-    public static final String COLUMNNAME_MailText = "MailText";
-
-	/** Set Mail Text.
-	  * Text used for Mail message
-	  */
-	public void setMailText (String MailText);
-
-	/** Get Mail Text.
-	  * Text used for Mail message
-	  */
-	public String getMailText();
-
-    /** Column name MailText2 */
-    public static final String COLUMNNAME_MailText2 = "MailText2";
-
-	/** Set Mail Text 2.
-	  * Optional second text part used for Mail message
-	  */
-	public void setMailText2 (String MailText2);
-
-	/** Get Mail Text 2.
-	  * Optional second text part used for Mail message
-	  */
-	public String getMailText2();
-
-    /** Column name MailText3 */
-    public static final String COLUMNNAME_MailText3 = "MailText3";
-
-	/** Set Mail Text 3.
-	  * Optional third text part used for Mail message
-	  */
-	public void setMailText3 (String MailText3);
-
-	/** Get Mail Text 3.
-	  * Optional third text part used for Mail message
-	  */
-	public String getMailText3();
-
-    /** Column name Name */
-    public static final String COLUMNNAME_Name = "Name";
-
-	/** Set Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public void setName (String Name);
-
-	/** Get Name.
-	  * Alphanumeric identifier of the entity
-	  */
-	public String getName();
-
     /** Column name R_MailText_ID */
     public static final String COLUMNNAME_R_MailText_ID = "R_MailText_ID";
 
@@ -181,6 +117,32 @@ public interface I_R_MailText
 	  * Text templates for mailings
 	  */
 	public int getR_MailText_ID();
+
+	public org.compiere.model.I_R_MailText getR_MailText() throws RuntimeException;
+
+    /** Column name R_NoticeTemplateEvent_ID */
+    public static final String COLUMNNAME_R_NoticeTemplateEvent_ID = "R_NoticeTemplateEvent_ID";
+
+	/** Set Notice Template for Event ID	  */
+	public void setR_NoticeTemplateEvent_ID (int R_NoticeTemplateEvent_ID);
+
+	/** Get Notice Template for Event ID	  */
+	public int getR_NoticeTemplateEvent_ID();
+
+    /** Column name R_NoticeTemplate_ID */
+    public static final String COLUMNNAME_R_NoticeTemplate_ID = "R_NoticeTemplate_ID";
+
+	/** Set Notice Template.
+	  * Notice Template by Event
+	  */
+	public void setR_NoticeTemplate_ID (int R_NoticeTemplate_ID);
+
+	/** Get Notice Template.
+	  * Notice Template by Event
+	  */
+	public int getR_NoticeTemplate_ID();
+
+	public org.spin.model.I_R_NoticeTemplate getR_NoticeTemplate() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

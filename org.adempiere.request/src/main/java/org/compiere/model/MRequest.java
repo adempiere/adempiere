@@ -23,7 +23,8 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Util;
-import org.spin.model.MRMailTemplate;
+import org.spin.model.MRNoticeTemplate;
+import org.spin.model.MRNoticeTemplateEvent;
 
 import java.io.File;
 import java.sql.PreparedStatement;
@@ -900,11 +901,11 @@ public class MRequest extends X_R_Request
 			// this is, when changed the sales rep (solved in sendNotices)
 			// or when changed the request category or group or contact (unsolved - the old ones are notified)
 			if(checkChange(requestAction, "SalesRep_ID")) {
-				sendNotices(sendInfo, MMailText.EVENTTYPE_SalesRepAlertWhenTransferringARequest);
+				sendNotices(sendInfo, MRNoticeTemplateEvent.EVENTTYPE_SalesRepAlertWhenTransferringARequest);
 			} else if(checkChange(requestAction, "Summary")) {
-				sendNotices(sendInfo, MMailText.EVENTTYPE_EndUserLimitOverrideNotice);
+				sendNotices(sendInfo, MRNoticeTemplateEvent.EVENTTYPE_EndUserLimitOverrideNotice);
 			}
-			sendNotices(sendInfo, MMailText.EVENTTYPE_AutomaticTaskNewActivityNotice);
+			sendNotices(sendInfo, MRNoticeTemplateEvent.EVENTTYPE_AutomaticTaskNewActivityNotice);
 			//	Update
 			setDateLastAction(getUpdated());
 			setLastResult(getResult());
@@ -976,7 +977,7 @@ public class MRequest extends X_R_Request
 		}
 		//	Initial Mail
 		if (newRecord) {
-			sendNotices(new ArrayList<String>(), MMailText.EVENTTYPE_EndUserNewRequestNotice);
+			sendNotices(new ArrayList<String>(), MRNoticeTemplateEvent.EVENTTYPE_EndUserNewRequestNotice);
 		}
 		//	ChangeRequest - created in Request Processor
 		if (getM_ChangeRequest_ID() != 0
@@ -1028,7 +1029,7 @@ public class MRequest extends X_R_Request
 		MUser from = MUser.get(getCtx(), updatedBy);
 		//	Event Type
 		if(!Util.isEmpty(eventType)) {
-			MMailText mailText = MRMailTemplate.getMailTemplate(getCtx(), MRMailTemplate.TEMPLATETYPE_Request, eventType);
+			MMailText mailText = MRNoticeTemplate.getMailTemplate(getCtx(), MRNoticeTemplate.TEMPLATETYPE_Request, eventType);
 			if(mailText != null) {
 				mailText.setUser(from);
 				if(getC_BPartner_ID() != 0) {
