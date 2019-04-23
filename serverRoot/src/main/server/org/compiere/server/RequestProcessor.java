@@ -16,26 +16,28 @@
  *****************************************************************************/
 package org.compiere.server;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Properties;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
 
+import org.compiere.model.I_R_Request;
 import org.compiere.model.MChangeRequest;
 import org.compiere.model.MClient;
 import org.compiere.model.MGroup;
+import org.compiere.model.MMailText;
 import org.compiere.model.MRequest;
 import org.compiere.model.MRequestProcessor;
 import org.compiere.model.MRequestProcessorLog;
 import org.compiere.model.MRequestProcessorRoute;
 import org.compiere.model.MStatus;
 import org.compiere.model.MUser;
-import org.compiere.util.DB;
+import org.compiere.model.Query;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Util;
+import org.spin.model.MRNoticeTemplate;
+import org.spin.model.MRNoticeTemplateEvent;
 
 /**
  *	Request Processor
@@ -62,6 +64,10 @@ public class RequestProcessor extends AdempiereServer
 	private StringBuffer 		m_summary = new StringBuffer();
 	/** Client onfo					*/
 	private MClient 			m_client = null;
+	/**	Count						*/
+	private int					count = 0;
+	/**	Mail Count					*/
+	private int 				mailCount = 0;
 
 	/**************************************************************************
 	 * 	Do the actual Work
@@ -92,209 +98,150 @@ public class RequestProcessor extends AdempiereServer
 	 */
 	private void processRequests ()
 	{
+		resetCounter();
+		StringBuffer whereClause = new StringBuffer();
+		List<Object> parameters = new ArrayList<>();
 		/**
 		 *  Due Requests
 		 */
-		String sql = "SELECT * FROM R_Request "
-			+ "WHERE DueType='" + MRequest.DUETYPE_Scheduled + "' AND Processed='N'"
-			+ " AND DateNextAction < SysDate"
-			+ " AND AD_Client_ID=?"; 
-		if (m_model.getR_RequestType_ID() != 0)
-			sql += " AND R_RequestType_ID=?";
-		PreparedStatement pstmt = null;
-		int count = 0;
-		int countEMails = 0;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, m_model.getAD_Client_ID());
-			if (m_model.getR_RequestType_ID() != 0)
-				pstmt.setInt(2, m_model.getR_RequestType_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				MRequest request = new MRequest (getCtx(), rs, null);
+		resetCounter();
+		whereClause = new StringBuffer("DueType = ? AND Processed = 'N' AND AD_Client_ID = ?");
+		parameters = new ArrayList<>();
+		parameters.add(MRequest.DUETYPE_Scheduled);
+		parameters.add(m_model.getAD_Client_ID());
+		//	
+		if (m_model.getR_RequestType_ID() != 0) {
+			whereClause.append(" AND R_RequestType_ID = ?");
+			parameters.add(m_model.getR_RequestType_ID());
+		}
+		whereClause.append(" AND DateNextAction < SysDate");
+		//	Query for request
+		new Query(getCtx(), I_R_Request.Table_Name, whereClause.toString(), null)
+			.setParameters(parameters)
+			.<MRequest>list()
+			.forEach(request -> {
 				request.setDueType();
-				if (request.isDue())
-				{
-					if (request.getRequestType().isEMailWhenDue())
-					{
-						if (sendEmail (request, "RequestDue"))
-						{
+				if (request.isDue()) {
+					if (request.getRequestType().isEMailWhenDue()) {
+						if (sendEmail (request, MRNoticeTemplateEvent.EVENTTYPE_SalesRepDueRequestAlert)) {
 							request.setDateLastAlert();
-							countEMails++;
+							addMailCount();
 						}
 					}
 					request.saveEx();
-					count++;
+					addRecordCount();
 				}
-			}
-			rs.close ();
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(pstmt);
-		}
+			});
 		m_summary.append("New Due #").append(count);
-		if (countEMails > 0)
-			m_summary.append(" (").append(countEMails).append(" EMail)");
+		if (mailCount > 0)
+			m_summary.append(" (").append(mailCount).append(" EMail)");
 		m_summary.append (" - ");
 		
 		/**
 		 *  Overdue Requests.
 		 *  Due Requests - are they overdue?
 		 */
-		sql = "SELECT * FROM R_Request r "
-			+ "WHERE r.DueType='" + MRequest.DUETYPE_Due + "' AND r.Processed='N'"
-			+ " AND AD_Client_ID=?"
-			+ " AND EXISTS (SELECT * FROM R_RequestType rt "
-				+ "WHERE r.R_RequestType_ID=rt.R_RequestType_ID"
-				+ " AND (r.DateNextAction+rt.DueDateTolerance) < SysDate)";
-		if (m_model.getR_RequestType_ID() != 0)
-			sql += " AND r.R_RequestType_ID=?";
-		count = 0;
-		countEMails = 0;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, m_model.getAD_Client_ID());
-			if (m_model.getR_RequestType_ID() != 0)
-				pstmt.setInt(2, m_model.getR_RequestType_ID());
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				MRequest request = new MRequest (getCtx(), rs, null);
+		resetCounter();
+		whereClause = new StringBuffer("DueType = ? AND Processed = 'N' AND AD_Client_ID = ?");
+		parameters = new ArrayList<>();
+		parameters.add(MRequest.DUETYPE_Due);
+		parameters.add(m_model.getAD_Client_ID());
+		//	
+		if (m_model.getR_RequestType_ID() != 0) {
+			whereClause.append(" AND R_RequestType_ID = ?");
+			parameters.add(m_model.getR_RequestType_ID());
+		}
+		whereClause.append(" AND EXISTS(SELECT 1 FROM R_RequestType rt "
+				+ "WHERE R_Request.R_RequestType_ID = rt.R_RequestType_ID"
+				+ " AND (R_Request.DateNextAction+rt.DueDateTolerance) < SysDate)");
+		//	Query for request
+		new Query(getCtx(), I_R_Request.Table_Name, whereClause.toString(), null)
+			.setParameters(parameters)
+			.<MRequest>list()
+			.forEach(request -> {
 				request.setDueType();
-				if (request.isOverdue())
-				{
+				if (request.isOverdue()) {
 					if (request.getRequestType().isEMailWhenOverdue()
-						&& !TimeUtil.isSameDay(request.getDateLastAlert(), null))
-					{
-						if (sendEmail (request, "RequestDue"))
-						{
+						&& !TimeUtil.isSameDay(request.getDateLastAlert(), null)) {
+						if (sendEmail (request, MRNoticeTemplateEvent.EVENTTYPE_AutomaticTaskExpiredTaskAlert)) {
 							request.setDateLastAlert();
-							countEMails++;
+							addMailCount();
 						}
 					}
 					request.saveEx();
-					count++;
+					addRecordCount();
 				}
-			}
-			rs.close ();
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(pstmt);
-		}
+			});
 		m_summary.append("New Overdue #").append(count);
-		if (countEMails > 0)
-			m_summary.append(" (").append(countEMails).append(" EMail)");
+		if (mailCount > 0)
+			m_summary.append(" (").append(mailCount).append(" EMail)");
 		m_summary.append (" - ");
 		
 		/**
 		 *  Send (over)due alerts
 		 */
-		if (m_model.getOverdueAlertDays() > 0)
-		{
-			sql = "SELECT * FROM R_Request "
-				+ "WHERE Processed='N'"
-				+ " AND AD_Client_ID=?"
-				+ " AND (DateNextAction+" + m_model.getOverdueAlertDays() + ") < SysDate"
-				+ " AND (DateLastAlert IS NULL";
-			if (m_model.getRemindDays() > 0)
-				sql += " OR (DateLastAlert+" + m_model.getRemindDays() 
-					+ ") < SysDate";
-			sql += ")";
-			if (m_model.getR_RequestType_ID() != 0)
-				sql += " AND R_RequestType_ID=?";
-			count = 0;
-			countEMails = 0;
-			try
-			{
-				pstmt = DB.prepareStatement(sql, null);
-				pstmt.setInt(1, m_model.getAD_Client_ID());
-				if (m_model.getR_RequestType_ID() != 0)
-					pstmt.setInt(2, m_model.getR_RequestType_ID());
-				ResultSet rs = pstmt.executeQuery();
-				while (rs.next())
-				{
-					MRequest request = new MRequest (getCtx(), rs, null);
+		if (m_model.getOverdueAlertDays() > 0) {
+			resetCounter();
+			whereClause = new StringBuffer("Processed = 'N' AND AD_Client_ID = ?");
+			parameters = new ArrayList<>();
+			parameters.add(m_model.getAD_Client_ID());
+			whereClause.append(" AND (DateNextAction+" + m_model.getOverdueAlertDays() + ") < SysDate"
+					+ " AND (DateLastAlert IS NULL");
+			if (m_model.getRemindDays() > 0) {
+				whereClause.append(" OR (DateLastAlert+" + m_model.getRemindDays() + ") < SysDate");
+			}
+			whereClause.append(")");
+			//	
+			if (m_model.getR_RequestType_ID() != 0) {
+				whereClause.append(" AND R_RequestType_ID = ?");
+				parameters.add(m_model.getR_RequestType_ID());
+			}
+			//	Query for request
+			new Query(getCtx(), I_R_Request.Table_Name, whereClause.toString(), null)
+				.setParameters(parameters)
+				.<MRequest>list()
+				.forEach(request -> {
 					request.setDueType();
 					if (request.getRequestType().isEMailWhenOverdue()
-						&& (request.getDateLastAlert() == null
-							|| !TimeUtil.isSameDay(request.getDateLastAlert(), null)))
-					{
-						if (sendEmail (request, "RequestAlert"))
-						{
+							&& (request.getDateLastAlert() == null
+								|| !TimeUtil.isSameDay(request.getDateLastAlert(), null))){
+						if (sendEmail (request, MRNoticeTemplateEvent.EVENTTYPE_AutomaticTaskExpiredTaskAlert)) {
 							request.setDateLastAlert();
-							countEMails++;
+							addMailCount();
 						}
+						request.saveEx();
+						addRecordCount();
 					}
-					request.saveEx();
-					count++;
-				}
-				rs.close();
-			}
-			catch (SQLException e)
-			{
-				log.log(Level.SEVERE, sql, e);
-			}
-			finally
-			{
-				DB.close(pstmt);
-			}
+				});
 			m_summary.append("Alerts #").append(count);
-			if (countEMails > 0)
-				m_summary.append(" (").append(countEMails).append(" EMail)");
+			if (mailCount > 0)
+				m_summary.append(" (").append(mailCount).append(" EMail)");
 			m_summary.append (" - ");
 		}	//	Overdue
 		
 		/**
 		 *  Escalate
 		 */
-		if (m_model.getOverdueAssignDays() > 0)
-		{
-			sql = "SELECT * FROM R_Request "
-				+ "WHERE Processed='N'"
-				+ " AND AD_Client_ID=?"
-				+ " AND IsEscalated='N'"
-				+ " AND (DateNextAction+" + m_model.getOverdueAssignDays() 
-					+ ") < SysDate";
-			if (m_model.getR_RequestType_ID() != 0)
-				sql += " AND R_RequestType_ID=?";
-			count = 0;
-			countEMails = 0;
-			try
-			{
-				pstmt = DB.prepareStatement(sql, null);
-				pstmt.setInt(1, m_model.getAD_Client_ID());
-				if (m_model.getR_RequestType_ID() != 0)
-					pstmt.setInt(2, m_model.getR_RequestType_ID());
-				ResultSet rs = pstmt.executeQuery();
-				while (rs.next())
-				{
-					MRequest request = new MRequest (getCtx(), rs, null);
-					if (escalate(request))
-						count++;
-				}
-				rs.close();
+		if (m_model.getOverdueAssignDays() > 0) {
+			resetCounter();
+			whereClause = new StringBuffer("Processed = 'N' AND AD_Client_ID = ? AND IsEscalated='N'");
+			parameters = new ArrayList<>();
+			parameters.add(m_model.getAD_Client_ID());
+			whereClause.append(" AND (DateNextAction+" + m_model.getOverdueAssignDays() + ") < SysDate");
+			//	
+			if (m_model.getR_RequestType_ID() != 0) {
+				whereClause.append(" AND R_RequestType_ID = ?");
+				parameters.add(m_model.getR_RequestType_ID());
 			}
-			catch (SQLException e)
-			{
-				log.log(Level.SEVERE, sql, e);
-			}
-			finally
-			{
-				DB.close(pstmt);
-			}
+			//	Query for request
+			new Query(getCtx(), I_R_Request.Table_Name, whereClause.toString(), null)
+				.setParameters(parameters)
+				.<MRequest>list()
+				.forEach(request -> {
+					if(escalate(request)) {
+						addRecordCount();
+					}
+				});
 			m_summary.append("Escalated #").append(count).append(" - ");
 		}	//	Esacalate
 		
@@ -303,55 +250,38 @@ public class RequestProcessor extends AdempiereServer
 		 */
 		if (m_model.getInactivityAlertDays() > 0)
 		{
-			sql = "SELECT * FROM R_Request "
-				+ "WHERE Processed='N'"
-				+ " AND AD_Client_ID=?"
-				+ " AND (Updated+" + m_model.getInactivityAlertDays() + ") < SysDate"
-				+ " AND (DateLastAlert IS NULL";
-			if (m_model.getRemindDays() > 0)
-				sql += " OR (DateLastAlert+" + m_model.getRemindDays() 
-					+ ") < SysDate";
-			sql += ")";
-			if (m_model.getR_RequestType_ID() != 0)
-				sql += " AND R_RequestType_ID=?";
-			count = 0;
-			countEMails = 0;
-			try
-			{
-				pstmt = DB.prepareStatement(sql, null);
-				pstmt.setInt(1, m_model.getAD_Client_ID());
-				if (m_model.getR_RequestType_ID() != 0)
-					pstmt.setInt(2, m_model.getR_RequestType_ID());
-				ResultSet rs = pstmt.executeQuery();
-				while (rs.next())
-				{
-					MRequest request = new MRequest (getCtx(), rs, null);
-					request.setDueType();
+			resetCounter();
+			whereClause = new StringBuffer("Processed = 'N' AND AD_Client_ID = ?");
+			parameters = new ArrayList<>();
+			parameters.add(m_model.getAD_Client_ID());
+			whereClause.append(" AND (Updated+" + m_model.getInactivityAlertDays() + ") < SysDate AND (DateLastAlert IS NULL");
+			if (m_model.getRemindDays() > 0) {
+				whereClause.append(" OR (DateLastAlert+" + m_model.getRemindDays() + ") < SysDate");
+			}
+			whereClause.append(")");
+			//	
+			if (m_model.getR_RequestType_ID() != 0) {
+				whereClause.append(" AND R_RequestType_ID = ?");
+				parameters.add(m_model.getR_RequestType_ID());
+			}
+			//	Query for request
+			new Query(getCtx(), I_R_Request.Table_Name, whereClause.toString(), null)
+				.setParameters(parameters)
+				.<MRequest>list()
+				.forEach(request -> {
 					if (request.getDateLastAlert() == null
-						|| !TimeUtil.isSameDay(request.getDateLastAlert(), null))
-					{
-						if (sendEmail (request, "RequestInactive"))
-						{
+							|| !TimeUtil.isSameDay(request.getDateLastAlert(), null)) {
+						if (sendEmail (request, MRNoticeTemplateEvent.EVENTTYPE_AutomaticTaskExpiredTaskAlert)) {
 							request.setDateLastAlert();
-							countEMails++;
+							addMailCount();
 						}
 						request.saveEx();
-						count++;
+						addRecordCount();
 					}
-				}
-				rs.close();
-			}
-			catch (SQLException e)
-			{
-				log.log(Level.SEVERE, sql, e);
-			}
-			finally
-			{
-				DB.close(pstmt);
-			}
-			m_summary.append("Inactivity #").append(count);
-			if (countEMails > 0)
-				m_summary.append(" (").append(countEMails).append(" EMail)");
+				});
+			m_summary.append("Inactivity #").append(count).append(" - ");
+			if (mailCount > 0)
+				m_summary.append(" (").append(mailCount).append(" EMail)");
 			m_summary.append (" - ");
 		}	//	Inactivity		
 	}	//  processRequests
@@ -359,16 +289,33 @@ public class RequestProcessor extends AdempiereServer
 	/**
 	 *  Send Alert EMail
 	 *  @param request request
-	 *  @param AD_Message message
+	 *  @param eventType Event Type
 	 *  @return true if sent
 	 */
-	private boolean sendEmail (MRequest request, String AD_Message)
-	{
-		//  Alert: Request {0} overdue
-		String subject = Msg.getMsg(m_client.getAD_Language(), AD_Message, 
-			new String[] {request.getDocumentNo()});
+	private boolean sendEmail (MRequest request, String eventType) {
+		String subject = null;
+		String message = null;
+		//	Event Type
+		if(!Util.isEmpty(eventType)) {
+			MMailText mailText = MRNoticeTemplate.getMailTemplate(getCtx(), MRNoticeTemplate.TEMPLATETYPE_Request, eventType);
+			if(mailText != null) {
+				//	Add Request
+				mailText.setPO(request, true);
+				subject = mailText.getMailHeader();
+				//	Message
+				message = mailText.getMailText(true);
+			}
+		}
+		if(Util.isEmpty(subject)
+				&& Util.isEmpty(message)) {
+			//  Alert: Request {0} overdue
+			subject = Msg.getMsg(m_client.getAD_Language(), "RequestDue", 
+				new String[] {request.getDocumentNo()});
+			message = request.getSummary();
+		}
+		//	
 		return m_client.sendEMail(request.getSalesRep_ID(), 
-			subject, request.getSummary(), request.createPDF());
+				subject, request.getSummary(), request.createPDF());
 	}   //  sendAlert
 
 	/**
@@ -387,14 +334,30 @@ public class RequestProcessor extends AdempiereServer
 			supervisor = MUser.get(getCtx(), supervisor_ID);
 		
 		//  Escalated: Request {0} to {1}
-		String subject = Msg.getMsg(m_client.getAD_Language(), "RequestEscalate", 
-			new String[] {request.getDocumentNo(), supervisor.getName()});
+		String subject = null;
+		String message = null;
+		//	Event Type
+		MMailText mailText = MRNoticeTemplate.getMailTemplate(getCtx(), MRNoticeTemplate.TEMPLATETYPE_Request, MRNoticeTemplateEvent.EVENTTYPE_AutomaticTaskTaskTransferNotice);
+		if(mailText != null) {
+			//	Add Request
+			mailText.setPO(request, true);
+			subject = mailText.getMailHeader();
+			//	Message
+			message = mailText.getMailText(true);
+		}
+		if(Util.isEmpty(subject)
+				&& Util.isEmpty(message)) {
+			//  Alert: Request {0} overdue
+			subject = Msg.getMsg(m_client.getAD_Language(), "RequestEscalate", 
+					new String[] {request.getDocumentNo(), supervisor.getName()});
+			message = request.getSummary();
+		}
 		String to = request.getSalesRep().getEMail();
 		if (to == null || to.length() == 0)
 			log.warning("SalesRep has no EMail - " + request.getSalesRep());
 		else
 			m_client.sendEMail(request.getSalesRep_ID(), 
-				subject, request.getSummary(), request.createPDF());
+				subject, message, request.createPDF());
 
 		//	Not the same - send mail to supervisor
 		if (request.getSalesRep_ID() != supervisor.getAD_User_ID())
@@ -404,7 +367,7 @@ public class RequestProcessor extends AdempiereServer
 				log.warning("Supervisor has no EMail - " + supervisor);
 			else
 				m_client.sendEMail(supervisor.getAD_User_ID(), 
-					subject, request.getSummary(), request.createPDF());
+					subject, message, request.createPDF());
 		}
 		
 		//  ----------------
@@ -414,59 +377,61 @@ public class RequestProcessor extends AdempiereServer
 		return request.save();
 	}   //  escalate
 
+	/**
+	 * Add Record count
+	 */
+	private void addRecordCount() {
+		count++;
+	}
+	
+	/**
+	 * Add mail count
+	 */
+	private void addMailCount() {
+		mailCount++;
+	}
+	
+	/**
+	 * Reset Counter
+	 */
+	private void resetCounter() {
+		count = 0;
+		mailCount = 0;
+	}
 
 	/**************************************************************************
 	 * 	Process Request Status
 	 */
 	private void processStatus()
 	{
-		int count = 0;
-		//	Requests with status with after timeout
-		String sql = "SELECT * FROM R_Request r WHERE EXISTS ("
-			+ "SELECT * FROM R_Status s "
-			+ "WHERE r.R_Status_ID=s.R_Status_ID"
-			+ " AND s.TimeoutDays > 0 AND s.Next_Status_ID > 0"
-			+ " AND r.DateLastAction+s.TimeoutDays < SysDate"
-			+ ") "
-			+ "ORDER BY R_Status_ID";
-		PreparedStatement pstmt = null;
-		MStatus status = null;
-		MStatus next = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				MRequest r = new MRequest(getCtx(), rs, null);
+		resetCounter();
+		StringBuffer whereClause = new StringBuffer("EXISTS("
+				+ "SELECT 1 FROM R_Status s "
+				+ "WHERE R_Request.R_Status_ID=s.R_Status_ID"
+				+ " AND s.TimeoutDays > 0 AND s.Next_Status_ID > 0"
+				+ " AND R_Request.DateLastAction+s.TimeoutDays < SysDate"
+				+ ")");
+		//	Query for request
+		new Query(getCtx(), I_R_Request.Table_Name, whereClause.toString(), null)
+			.setOrderBy(I_R_Request.COLUMNNAME_R_Status_ID)
+			.<MRequest>list()
+			.stream()
+			.filter(request -> MStatus.get(getCtx(), request.getR_Status_ID()).getTimeoutDays() > 0 
+					&& MStatus.get(getCtx(), request.getR_Status_ID()).getNext_Status_ID() > 0)
+			.forEach(request -> {
 				//	Get/Check Status
-				if (status == null || status.getR_Status_ID() != r.getR_Status_ID())
-					status = MStatus.get(getCtx(), r.getR_Status_ID());
-				if (status.getTimeoutDays() <= 0
-					|| status.getNext_Status_ID() == 0)
-					continue;
+				MStatus status = MStatus.get(getCtx(), request.getR_Status_ID());
 				//	Next Status
-				if (next == null || next.getR_Status_ID() != status.getNext_Status_ID())
-					next = MStatus.get(getCtx(), status.getNext_Status_ID());
+				MStatus next = MStatus.get(getCtx(), status.getNext_Status_ID());
 				//
 				String result = Msg.getMsg(getCtx(), "RequestStatusTimeout")
 					+ ": " + status.getName() + " -> " + next.getName();
-				r.setResult(result);
-				r.setR_Status_ID(status.getNext_Status_ID());
-				if (r.save())
-					count++;
-			}
-			rs.close ();
-		}
-		catch (Exception e)
-		{
-			log.log (Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(pstmt);
-		}
-		
+				request.setResult(result);
+				request.setR_Status_ID(status.getNext_Status_ID());
+				if(request.save()) {
+					addRecordCount();
+				}
+			});	
 		m_summary.append("Status Timeout #").append(count)
 			.append(" - ");
 	}	//	processStatus
@@ -477,55 +442,34 @@ public class RequestProcessor extends AdempiereServer
 	private void processECR()
 	{
 		//	Get Requests with Request Type-AutoChangeRequest and Group with info
-		String sql = "SELECT * FROM R_Request r "
-			+ "WHERE M_ChangeRequest_ID IS NULL"
-			+ " AND EXISTS ("
-				+ "SELECT * FROM R_RequestType rt "
-				+ "WHERE rt.R_RequestType_ID=r.R_RequestType_ID"
+		resetCounter();
+		StringBuffer whereClause = new StringBuffer("M_ChangeRequest_ID IS NULL"
+			+ " AND EXISTS("
+				+ "SELECT 1 FROM R_RequestType rt "
+				+ "WHERE rt.R_RequestType_ID = R_Request.R_RequestType_ID"
 				+ " AND rt.IsAutoChangeRequest='Y')"
 			+ "AND EXISTS ("
-				+ "SELECT * FROM R_Group g "
-				+ "WHERE g.R_Group_ID=r.R_Group_ID"
-				+ " AND (g.M_BOM_ID IS NOT NULL OR g.M_ChangeNotice_ID IS NOT NULL)	)";
-		//
-		int count = 0;
-		int failure = 0;
-		//
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				MRequest r = new MRequest (getCtx(), rs, null);
-				MGroup rg = MGroup.get(getCtx(), r.getR_Group_ID());
-				MChangeRequest ecr = new MChangeRequest (r, rg);
-				if (r.save())
-				{
-					r.setM_ChangeRequest_ID(ecr.getM_ChangeRequest_ID());
-					if (r.save())
-						count++;
-					else
-						failure++;
+				+ "SELECT 1 FROM R_Group g "
+				+ "WHERE g.R_Group_ID = R_Request.R_Group_ID"
+				+ " AND (g.M_BOM_ID IS NOT NULL OR g.M_ChangeNotice_ID IS NOT NULL)	)");
+		//	Query for request
+		new Query(getCtx(), I_R_Request.Table_Name, whereClause.toString(), null)
+			.setOrderBy(I_R_Request.COLUMNNAME_R_Status_ID)
+			.<MRequest>list()
+			.forEach(request -> {
+				MGroup requestGroup = MGroup.get(getCtx(), request.getR_Group_ID());
+				MChangeRequest changeRequest = new MChangeRequest(request, requestGroup);
+				if (request.save()) {
+					request.setM_ChangeRequest_ID(changeRequest.getM_ChangeRequest_ID());
+					if (request.save()) {
+						addMailCount();
+					}
 				}
-				else
-					failure++;
-			}
-			rs.close ();
-		}
-		catch (Exception e)
-		{
-			log.log (Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(pstmt);
-		}
-
+				addRecordCount();
+			});
 		m_summary.append("Auto Change Request #").append(count);
-		if (failure > 0)
-			m_summary.append("(fail=").append(failure).append(")");
+		if ((count - mailCount) > 0)
+			m_summary.append("(fail=").append((count - mailCount)).append(")");
 		m_summary.append(" - ");
 	}	//	processECR
 	
@@ -543,58 +487,32 @@ public class RequestProcessor extends AdempiereServer
 	/**************************************************************************
 	 * 	Allocate Sales Rep
 	 */
-	private void findSalesRep ()
-	{
-		int changed = 0;
-		int notFound = 0;
-		Properties ctx = new Properties();
-		//
-		String sql = "SELECT * FROM R_Request "
-			+ "WHERE AD_Client_ID=?"
-			+ " AND SalesRep_ID=0 AND Processed='N'";
-		if (m_model.getR_RequestType_ID() != 0)
-			sql += " AND R_RequestType_ID=?";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, m_model.getAD_Client_ID());
-			if (m_model.getR_RequestType_ID() != 0)
-				pstmt.setInt(2, m_model.getR_RequestType_ID());
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MRequest request = new MRequest (ctx, rs, null);
-				if (request.getSalesRep_ID() != 0)
-					continue;
-				int SalesRep_ID = findSalesRep(request);
-				if (SalesRep_ID != 0)
-				{
-					request.setSalesRep_ID(SalesRep_ID);
-					request.saveEx();
-					changed++;
+	private void findSalesRep () {
+		StringBuffer whereClause = new StringBuffer("Processed = 'N' AND AD_Client_ID = ? AND (SalesRep_ID = 0 OR SalesRep_ID IS NULL)");
+		List<Object> parameters = new ArrayList<>();
+		parameters.add(m_model.getAD_Client_ID());
+		resetCounter();
+		//	Query for request
+		new Query(getCtx(), I_R_Request.Table_Name, whereClause.toString(), null)
+			.setParameters(parameters)
+			.<MRequest>list()
+			.forEach(request -> {
+				int salesRepId = findSalesRep(request);
+				if (salesRepId != 0) {
+					request.setSalesRep_ID(salesRepId);
+					if(request.save()) {
+						addMailCount();
+					}
 				}
-				else
-					notFound++;
-			}
-			rs.close();
-		}
-		catch (SQLException ex)
-		{
-			log.log(Level.SEVERE, sql, ex);
-		}
-		finally
-		{
-			DB.close(pstmt);
-		}
-		pstmt = null;
+				addRecordCount();
+			});
 		//
-		if (changed == 0 && notFound == 0)
+		if (mailCount == 0 && (count - mailCount) == 0)
 			m_summary.append("No unallocated Requests");
 		else
-			m_summary.append("Allocated SalesRep=").append(changed);
-		if (notFound > 0)
-			m_summary.append(",Not=").append(notFound);
+			m_summary.append("Allocated SalesRep=").append(mailCount);
+		if ((count - mailCount) > 0)
+			m_summary.append(",Not=").append((count - mailCount));
 		m_summary.append(" - ");
 	}	//	findSalesRep
 
@@ -612,8 +530,7 @@ public class RequestProcessor extends AdempiereServer
 			QText = QText.toUpperCase();
 		//
 		MRequestProcessorRoute[] routes = m_model.getRoutes(false);
-		for (int i = 0; i < routes.length; i++)
-		{
+		for (int i = 0; i < routes.length; i++) {
 			MRequestProcessorRoute route = routes[i];
 			
 			//	Match first on Request Type
@@ -626,8 +543,7 @@ public class RequestProcessor extends AdempiereServer
 			if (keyword != null)
 			{
 				StringTokenizer st = new StringTokenizer(keyword.toUpperCase(), " ,;\t\n\r\f");
-				while (st.hasMoreElements())
-				{
+				while (st.hasMoreElements()) {
 					if (QText.indexOf(st.nextToken()) != -1)
 						return route.getAD_User_ID();
 				}
