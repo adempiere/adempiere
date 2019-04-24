@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Addition
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_A_Asset_Addition (Properties ctx, int A_Asset_Addition_ID, String trxName)
@@ -190,9 +190,9 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
 			.getPO(getA_Asset_ID(), get_TrxName());	}
 
-	/** Set Asset.
+	/** Set Fixed Asset.
 		@param A_Asset_ID 
-		Asset used internally or by customers
+		Fixed Asset used internally or by customers
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
@@ -202,8 +202,8 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 			set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
-	/** Get Asset.
-		@return Asset used internally or by customers
+	/** Get Fixed Asset.
+		@return Fixed Asset used internally or by customers
 	  */
 	public int getA_Asset_ID () 
 	{
@@ -304,15 +304,18 @@ public class X_A_Asset_Addition extends PO implements I_A_Asset_Addition, I_Pers
 		return ii.intValue();
 	}
 
-	/** Set Current Qty.
-		@param A_QTY_Current Current Qty	  */
+	/** Set Fixed Asset Current Qty.
+		@param A_QTY_Current 
+		Fixed Asset Current Quantity
+	  */
 	public void setA_QTY_Current (BigDecimal A_QTY_Current)
 	{
 		set_Value (COLUMNNAME_A_QTY_Current, A_QTY_Current);
 	}
 
-	/** Get Current Qty.
-		@return Current Qty	  */
+	/** Get Fixed Asset Current Qty.
+		@return Fixed Asset Current Quantity
+	  */
 	public BigDecimal getA_QTY_Current () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_A_QTY_Current);

@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_FAJournal
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_I_FAJournal (Properties ctx, int I_FAJournal_ID, String trxName)
@@ -74,6 +74,11 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
       return sb.toString();
     }
 
+	public org.compiere.model.I_AD_Org getAD_OrgDoc() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getAD_OrgDoc_ID(), get_TrxName());	}
+
 	/** Set Document Org.
 		@param AD_OrgDoc_ID 
 		Document Organization (independent from account organization)
@@ -96,6 +101,11 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 			 return 0;
 		return ii.intValue();
 	}
+
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getAD_OrgTrx_ID(), get_TrxName());	}
 
 	/** Set Trx Organization.
 		@param AD_OrgTrx_ID 
@@ -120,9 +130,9 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Asset.
+	/** Set Fixed Asset.
 		@param A_Asset_ID 
-		Asset used internally or by customers
+		Fixed Asset used internally or by customers
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
@@ -132,8 +142,8 @@ public class X_I_FAJournal extends PO implements I_I_FAJournal, I_Persistent
 			set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
-	/** Get Asset.
-		@return Asset used internally or by customers
+	/** Get Fixed Asset.
+		@return Fixed Asset used internally or by customers
 	  */
 	public int getA_Asset_ID () 
 	{

@@ -38,6 +38,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Language;
+import org.compiere.util.Util;
 
 /**
  * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
@@ -50,9 +51,13 @@ public abstract class AbstractExportFormat {
 	private ReportEngine reportEngine;
 	/**	Context			*/
 	private Properties ctx;
-
+	/**	Message	*/
+	private String message;
 	/**	Static Logger	*/
 	private static CLogger	log	= CLogger.getCLogger (AbstractExportFormat.class);
+	/**	Supported Actions	*/
+	public static final String EXPORT_FILE = "EF";
+	public static final String SEND_FILE = "SE";
 	
 	/**
 	 * Set report engine
@@ -178,7 +183,45 @@ public abstract class AbstractExportFormat {
 	 */
 	public boolean exportToFile(File file) {
 		//	
-		return true;
+		return false;
+	}
+	
+	/**
+	 * Send file to custom service
+	 * @param file
+	 * @return
+	 */
+	public boolean sendTo(File file) {
+		return false;
+	}
+	
+	/**
+	 * Get Supported Action
+	 * @return
+	 */
+	public String getAction() {
+		return EXPORT_FILE;
+	}
+	
+	/**
+	 * Generic Export to
+	 * @param file
+	 * @param action
+	 * @return
+	 */
+	public boolean exportTo(File file) {
+		//	Have it Action?
+		if(Util.isEmpty(getAction())) {
+			return false;
+		}
+		//	Supported Actions
+		if(getAction().equals(EXPORT_FILE)) {
+			return exportToFile(file);
+		} else if(getAction().equals(SEND_FILE)) {
+			return sendTo(file);
+		}
+		//	Default
+		return false;
 	}
 	
 	/**
@@ -365,4 +408,18 @@ public abstract class AbstractExportFormat {
 		return new BufferedWriter(fileWriter);
 	}
 
+	/**
+	 * @return the message
+	 */
+	public String getMessage() {
+		return message;
+	}
+
+	/**
+	 * @param message the message to set
+	 */
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
 }	//	AbstractBatchImport

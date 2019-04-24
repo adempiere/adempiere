@@ -93,8 +93,12 @@ public class VTabbedPane extends CTabbedPane
 		gTabs.add(gTab);
 		components.add(tabElement);
 		
-		super.addTab (tabName, gTab.getIcon(), 
-				tabElement, gTab.getDescription());
+		try {
+			log.fine(tabName + " GridTab.Icon:"+gTab.getIcon() + " tabElement:"+tabElement + " GridTab.Description:"+gTab.getDescription());
+			super.addTab (tabName, gTab.getIcon(), tabElement, gTab.getDescription());
+		} catch (ArrayIndexOutOfBoundsException e) {	
+			log.config(e.toString() + " catched. addTab("+tabName+")! Do not rethrow to the ui." ); // See https://github.com/adempiere/adempiere/issues/2424
+		}
 		
 		ArrayList<String>	dependents = gTab.getDependentOn();
 		for (int i = 0; i < dependents.size(); i++)
@@ -105,7 +109,11 @@ public class VTabbedPane extends CTabbedPane
 		}
 		if (s_disabledIcon == null)
 			s_disabledIcon = Env.getImageIcon("Cancel10.gif");
-		setDisabledIconAt(index, s_disabledIcon);
+		try {
+			setDisabledIconAt(index, s_disabledIcon);
+		} catch (Exception e) {	
+			log.config(e.toString() + " catched. setDisabledIconAt! Do not rethrow to the ui." ); // See https://github.com/adempiere/adempiere/issues/2424
+		}
 	}	//	addTab
 	
 	private void hideTab(String tabName)	{

@@ -17,7 +17,12 @@
 package org.compiere.util;
 
 import org.compiere.model.MBPBankAccount;
+import org.compiere.model.MBank;
+import org.compiere.model.MBankAccount;
+import org.compiere.model.MPaySelection;
 import org.compiere.model.MPaySelectionCheck;
+import org.compiere.model.MPayment;
+import org.compiere.model.MPaymentBatch;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -61,6 +66,8 @@ public abstract class PaymentExportList implements PaymentExport {
 	private int exportedPayments = 0;
 	/**	Error Message	*/
 	private StringBuffer errorMessage = new StringBuffer();
+	/**	File	*/
+	private File file = null;
 	
 	/**
 	 * Open File Writer
@@ -74,6 +81,7 @@ public abstract class PaymentExportList implements PaymentExport {
 		//	Open it
 		try {
 			fileWriter = new FileWriter(file);
+			this.file = file;
 		} catch (IOException e) {
 			addError(e.getLocalizedMessage());
 		}
@@ -96,6 +104,101 @@ public abstract class PaymentExportList implements PaymentExport {
 		} catch (IOException e) {
 			addError(e.getLocalizedMessage());
 		}
+	}
+	
+	/**
+	 * Open File from Payment Selection
+	 * @param file
+	 * @param checks
+	 */
+	public void openFileWriter(File file, List<MPaySelectionCheck> checks) {
+		MPaySelectionCheck check = checks.get(0);
+		MPaySelection paymentSelection = check.getParent();
+		MBankAccount bankAccount = MBankAccount.get(Env.getCtx(), paymentSelection.getC_BankAccount_ID());
+		MBank bank = MBank.get(Env.getCtx(), bankAccount.getC_Bank_ID());
+		String fileName = getFileName(file, bank.getName(), paymentSelection.getDocumentNo());
+		openFileWriter(fileName);
+	}
+	
+	/**
+	 * Open File from Payments
+	 * @param file
+	 * @param bankAccount
+	 * @param payments
+	 * @param suffix
+	 */
+	public void openFileWriter(File file, MBankAccount bankAccount, List<MPayment> payments, String suffix) {
+		if(Util.isEmpty(suffix)) {
+			suffix = "";
+		}
+		MPayment firstPayment = payments.get(0);
+		MPaymentBatch paymentBatch = (MPaymentBatch) firstPayment.getC_PaymentBatch();
+		MBank bank = MBank.get(Env.getCtx(), bankAccount.getC_Bank_ID());
+		String fileName = getFileName(file, bank.getName(), paymentBatch.getDocumentNo() + suffix);
+		openFileWriter(fileName);
+	}
+	
+	/**
+	 * Open file with new name and delete if exist
+	 * @param file
+	 * @param bankName
+	 * @param documentNo
+	 */
+	public void openFileWriter(File file, String bankName, String documentNo) {
+		String fileName = getFileName(file, bankName, documentNo);
+		openFileWriter(fileName);
+	}
+	
+	/**
+	 * Open File with a new name
+	 * @param file
+	 * @param newName
+	 */
+	public void openFileWriter(String newName) {
+		File newFile = new File(newName);
+		deleteIfExist(newFile);
+		openFileWriter(newFile);
+	}
+	
+	/**
+	 * Get Parent File Path
+	 * @param file
+	 * @return
+	 */
+	public String getParentFileName(File file) {
+		StringBuffer pathName = new StringBuffer();
+		if(file.isFile() || !file.exists()) {
+			pathName.append(file.getParent());
+		} else {
+			pathName.append(file.getAbsolutePath());
+		}
+		//	Return
+		return pathName.toString();
+	}
+	
+	/**
+	 * Get File Name for document
+	 * @param file
+	 * @param bankName
+	 * @param documentNo
+	 * @return
+	 */
+	public String getFileName(File file, String bankName, String documentNo) {
+		if(file == null) {
+			return null;
+		}
+		//	Extension
+		String extension = ".txt";
+		//	Set new File Name
+		StringBuffer pathName = new StringBuffer(getParentFileName(file));
+		//	Add Separator
+		pathName.append(File.separator)
+				.append(bankName)
+				.append("_")
+				.append(documentNo)
+				.append(extension);
+		//	Return
+		return pathName.toString().replace(" ", "_");
 	}
 	
 	/**
@@ -286,9 +389,11 @@ public abstract class PaymentExportList implements PaymentExport {
 			if(isMandatory
 					&& !Util.isEmpty(mandatoryMessage)) {
 				addError(mandatoryMessage);
+				//	
+				return null;
 			}
 			//	Return void text
-			return text;
+			text = "";
 		}
 		String processedText = text;
 		//	Process it
@@ -332,6 +437,43 @@ public abstract class PaymentExportList implements PaymentExport {
 		}
 		//	default
 		return null;
+	}
+	
+	/**
+	 * Get business partner account information as PO
+	 * @param payment
+	 * @param defaultWhenNull if payment account is null try get a account of bp
+	 * @return
+	 */
+	public MBPBankAccount getBPAccountInfo(MPayment payment, boolean defaultWhenNull) {
+		if(payment.getC_BP_BankAccount_ID() != 0) {
+			return (MBPBankAccount) payment.getC_BP_BankAccount();
+		}
+		//	Get any bp account
+		if(defaultWhenNull) {
+			List<MBPBankAccount> bpAccountList = MBPBankAccount.getByPartner(Env.getCtx(), payment.getC_BPartner_ID());
+			if(bpAccountList == null
+					|| bpAccountList.size() == 0) {
+				return null;
+			}
+			//	Get 
+			Optional<MBPBankAccount> first = bpAccountList.stream().filter(account -> account.isACH()).findFirst();
+			if(first.isPresent()) {
+				return first.get();
+			} else {
+				bpAccountList.get(0);
+			}
+		}
+		//	default
+		return null;
+	}
+	
+	/**
+	 * Get File Name of generated TXT
+	 * @return
+	 */
+	public File getFile() {
+		return file;
 	}
 	
 }	//	PaymentExport

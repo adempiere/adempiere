@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,32 +12,25 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.spin.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-
-import org.compiere.model.I_AD_Color;
-import org.compiere.model.I_AD_PrintFont;
-import org.compiere.model.I_Persistent;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POInfo;
+import org.compiere.model.*;
 
 /** Generated Model for AD_FieldCondition
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_AD_FieldCondition extends PO implements I_AD_FieldCondition, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180515L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_AD_FieldCondition (Properties ctx, int AD_FieldCondition_ID, String trxName)
@@ -110,9 +104,9 @@ public class X_AD_FieldCondition extends PO implements I_AD_FieldCondition, I_Pe
 	public void setAD_FieldCondition_ID (int AD_FieldCondition_ID)
 	{
 		if (AD_FieldCondition_ID < 1) 
-			set_Value (COLUMNNAME_AD_FieldCondition_ID, null);
+			set_ValueNoCheck (COLUMNNAME_AD_FieldCondition_ID, null);
 		else 
-			set_Value (COLUMNNAME_AD_FieldCondition_ID, Integer.valueOf(AD_FieldCondition_ID));
+			set_ValueNoCheck (COLUMNNAME_AD_FieldCondition_ID, Integer.valueOf(AD_FieldCondition_ID));
 	}
 
 	/** Get Field Condition.
@@ -125,9 +119,9 @@ public class X_AD_FieldCondition extends PO implements I_AD_FieldCondition, I_Pe
 		return ii.intValue();
 	}
 
-	public I_AD_FieldDefinition getAD_FieldDefinition() throws RuntimeException
+	public org.spin.model.I_AD_FieldDefinition getAD_FieldDefinition() throws RuntimeException
     {
-		return (I_AD_FieldDefinition)MTable.get(getCtx(), I_AD_FieldDefinition.Table_Name)
+		return (org.spin.model.I_AD_FieldDefinition)MTable.get(getCtx(), org.spin.model.I_AD_FieldDefinition.Table_Name)
 			.getPO(getAD_FieldDefinition_ID(), get_TrxName());	}
 
 	/** Set Field Definition.

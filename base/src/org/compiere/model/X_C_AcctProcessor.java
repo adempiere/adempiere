@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AcctProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_AcctProcessor extends PO implements I_C_AcctProcessor, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_AcctProcessor (Properties ctx, int C_AcctProcessor_ID, String trxName)

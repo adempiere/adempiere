@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_DashboardContent
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_PA_DashboardContent 
 {
@@ -87,6 +87,19 @@ public interface I_PA_DashboardContent
 	public int getAD_Window_ID();
 
 	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
+
+    /** Column name AccessLevel */
+    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
+
+	/** Set Data Access Level.
+	  * Access Level required
+	  */
+	public void setAccessLevel (String AccessLevel);
+
+	/** Get Data Access Level.
+	  * Access Level required
+	  */
+	public String getAccessLevel();
 
     /** Column name ColumnNo */
     public static final String COLUMNNAME_ColumnNo = "ColumnNo";

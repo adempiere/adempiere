@@ -16,18 +16,21 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
+import org.compiere.model.I_C_Order;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MOrgInfo;
+import org.compiere.model.Query;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
+import org.compiere.util.Util;
 
 /**
  *	Generate PO from Sales Order
@@ -37,54 +40,22 @@ import org.compiere.util.DB;
  *  
  *  Contributor: Carlos Ruiz - globalqss
  *      Fix [1709952] - Process: "Generate PO from Sales order" bug
+ *  @contributor: author https://github.com/homebeaver
  */
-public class OrderPOCreate extends SvrProcess
-{
-	/**	Order Date From		*/
-	private Timestamp	p_DateOrdered_From;
-	/**	Order Date To		*/
-	private Timestamp	p_DateOrdered_To;
-	/**	Customer			*/
-	private int			p_C_BPartner_ID;
-	/**	Vendor				*/
-	private int			p_Vendor_ID;
-	/**	Sales Order			*/
-	private int			p_C_Order_ID;
-	/** Drop Ship			*/
-	private boolean		p_IsDropShip = false;
+public class OrderPOCreate extends OrderPOCreateAbstract {
+	
+	/**	Order Counter	*/
+	private int counter = 0;
 	
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
-	protected void prepare()
-	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("DateOrdered"))
-			{
-				p_DateOrdered_From = (Timestamp)para[i].getParameter();
-				p_DateOrdered_To = (Timestamp)para[i].getParameter_To();
-			}
-			else if (name.equals("C_BPartner_ID"))
-				p_C_BPartner_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			else if (name.equals("Vendor_ID"))
-				p_Vendor_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			else if (name.equals("C_Order_ID"))
-				p_C_Order_ID = ((BigDecimal)para[i].getParameter()).intValue();
-			else if (name.equals("IsDropShip"))
-				p_IsDropShip = ((String) para[i].getParameter()).equals("Y");
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
-		
+	protected void prepare() {
+		super.prepare();
 		// called from order window w/o parameters
-		if ( getTable_ID() == MOrder.Table_ID && getRecord_ID() > 0 )
-			p_C_Order_ID = getRecord_ID();
-		
+		if (getTable_ID() == MOrder.Table_ID && getRecord_ID() > 0 ) {
+			setOrderId(getRecord_ID());
+		}
 	}	//	prepare
 
 	/**
@@ -92,224 +63,227 @@ public class OrderPOCreate extends SvrProcess
 	 *  @return Message 
 	 *  @throws Exception if not successful
 	 */
-	protected String doIt() throws Exception
-	{
-		log.info("DateOrdered=" + p_DateOrdered_From + " - " + p_DateOrdered_To 
-			+ " - C_BPartner_ID=" + p_C_BPartner_ID + " - Vendor_ID=" + p_Vendor_ID
-			+ " - IsDropShip=" + p_IsDropShip + " - C_Order_ID=" + p_C_Order_ID);
-		if (p_C_Order_ID == 0
-			&& p_DateOrdered_From == null && p_DateOrdered_To == null
-			&& p_C_BPartner_ID == 0 && p_Vendor_ID == 0)
-			throw new AdempiereUserError("You need to restrict selection");
-		//
-		String sql = "SELECT * FROM C_Order o "
-			+ "WHERE o.IsSOTrx='Y'"
-			//	No Duplicates
-			//	" AND o.Link_Order_ID IS NULL"
-			+ " AND NOT EXISTS (SELECT * FROM C_OrderLine ol WHERE o.C_Order_ID=ol.C_Order_ID AND ol.Link_OrderLine_ID IS NOT NULL)"
-			; 
-		if (p_C_Order_ID != 0)
-			sql += " AND o.C_Order_ID=?";
-		else
-		{
-			if (p_C_BPartner_ID != 0)
-				sql += " AND o.C_BPartner_ID=?";
-			if (p_Vendor_ID != 0)
-				sql += " AND EXISTS (SELECT * FROM C_OrderLine ol"
-					+ " INNER JOIN M_Product_PO po ON (ol.M_Product_ID=po.M_Product_ID) "
-						+ "WHERE o.C_Order_ID=ol.C_Order_ID AND po.C_BPartner_ID=?)"; 
-			if (p_DateOrdered_From != null && p_DateOrdered_To != null)
-				sql += "AND TRUNC(o.DateOrdered, 'DD') BETWEEN ? AND ?";
-			else if (p_DateOrdered_From != null && p_DateOrdered_To == null)
-				sql += "AND TRUNC(o.DateOrdered, 'DD') >= ?";
-			else if (p_DateOrdered_From == null && p_DateOrdered_To != null)
-				sql += "AND TRUNC(o.DateOrdered, 'DD') <= ?";
-		}
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		int counter = 0;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			if (p_C_Order_ID != 0)
-				pstmt.setInt (1, p_C_Order_ID);
-			else
-			{
-				int index = 1;
-				if (p_C_BPartner_ID != 0)
-					pstmt.setInt (index++, p_C_BPartner_ID);
-				if (p_Vendor_ID != 0)
-					pstmt.setInt (index++, p_Vendor_ID);
-				if (p_DateOrdered_From != null && p_DateOrdered_To != null)
-				{
-					pstmt.setTimestamp(index++, p_DateOrdered_From);
-					pstmt.setTimestamp(index++, p_DateOrdered_To);
-				}
-				else if (p_DateOrdered_From != null && p_DateOrdered_To == null)
-					pstmt.setTimestamp(index++, p_DateOrdered_From);
-				else if (p_DateOrdered_From == null && p_DateOrdered_To != null)
-					pstmt.setTimestamp(index++, p_DateOrdered_To);
+	protected String doIt() throws Exception {
+		log.info("DateOrdered=" + getDateOrdered() + " - " + getDateOrderedTo() 
+			+ " - C_BPartner_ID=" + getBPartnerId() + " - Vendor_ID=" + getVendorId()
+			+ " - IsDropShip=" + getIsDropShip() + " - C_Order_ID=" + getOrderId());
+		if (getOrderId() == 0
+			&& getDateOrdered() == null && getDateOrderedTo() == null
+			&& getBPartnerId() == 0 && getVendorId() == 0)
+			throw new AdempiereUserError("@FillMandatory@ @AD_Process_Para_ID@");
+		//	Parameters
+		List<Object> parameters = new ArrayList<>();
+		// see https://github.com/adempiere/adempiere/issues/1649
+		StringBuffer whereClause = new StringBuffer("IsSOTrx = 'Y' AND DocStatus IN('IP', 'CO')");
+		//	No Duplicates
+		whereClause.append(" AND NOT EXISTS (SELECT 1 FROM C_OrderLine ol WHERE ol.C_Order_ID=C_Order.C_Order_ID AND ol.Link_OrderLine_ID IS NOT NULL)");
+		if (getOrderId() != 0) {
+			whereClause.append(" AND C_Order.C_Order_ID=?");
+			parameters.add(getOrderId());
+		} else {
+			if (getBPartnerId() != 0) {
+				whereClause.append(" AND C_Order.C_BPartner_ID=?");
+				parameters.add(getBPartnerId());
 			}
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				counter += createPOFromSO (new MOrder (getCtx(), rs, get_TrxName()));
+			//	For vendor
+			if (getVendorId() != 0) {
+				whereClause.append(" AND EXISTS (SELECT 1 FROM C_OrderLine ol "
+						+ "INNER JOIN M_Product_PO po ON (ol.M_Product_ID = po.M_Product_ID) "
+						+ "WHERE C_Order.C_Order_ID = ol.C_Order_ID AND po.C_BPartner_ID=?)");
+				parameters.add(getVendorId());
 			}
- 		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
+			//	For Times
+			if (getDateOrdered() != null && getDateOrderedTo() != null) {
+				whereClause.append(" AND TRUNC(C_Order.DateOrdered, 'DD') BETWEEN ? AND ?");
+				parameters.add(getDateOrdered());
+				parameters.add(getDateOrderedTo());
+			} else if (getDateOrdered() != null && getDateOrderedTo() == null) {
+				whereClause.append(" AND TRUNC(C_Order.DateOrdered, 'DD') >= ?");
+				parameters.add(getDateOrdered());
+			} else if (getDateOrdered() == null && getDateOrderedTo() != null) {
+				whereClause.append(" AND TRUNC(C_Order.DateOrdered, 'DD') <= ?");
+				parameters.add(getDateOrderedTo());
+			}
 		}
-		if (counter == 0)
-			log.fine(sql);
+		//	Get from Std Query
+		new Query(getCtx(), I_C_Order.Table_Name, whereClause.toString(), get_TrxName())
+			.setClient_ID()
+			.setParameters(parameters)
+			.<MOrder>list().stream().forEach(order -> {
+				counter += createPOFromSO(order);
+		});
+		//	
 		return "@Created@ " + counter;
 	}	//	doIt
 	
 	/**
 	 * 	Create PO From SO
-	 *	@param so sales order
+	 *	@param salesOrder sales order
 	 *	@return number of POs created
-	 * @throws Exception 
 	 */
-	private int createPOFromSO (MOrder so) throws Exception
-	{
-		log.info(so.toString());
-		MOrderLine[] soLines = so.getLines(true, null);
-		if (soLines == null || soLines.length == 0)
-		{
-			log.warning("No Lines - " + so);
+	private int createPOFromSO (MOrder salesOrder) {
+		log.info(salesOrder.toString());
+		MOrderLine[] salesOrderLines = salesOrder.getLines(true, null);
+		if (salesOrderLines == null 
+				|| salesOrderLines.length == 0) {
+			log.warning("No Lines - " + salesOrder);
 			return 0;
 		}
-		//
-		int counter = 0;
-		//	Order Lines with a Product which has a current vendor 
-		String sql = "SELECT MIN(po.C_BPartner_ID), po.M_Product_ID "
-			+ "FROM M_Product_PO po"
-			+ " INNER JOIN C_OrderLine ol ON (po.M_Product_ID=ol.M_Product_ID) "
-			+ "WHERE ol.C_Order_ID=? AND po.IsCurrentVendor='Y' "
-			+ ((p_Vendor_ID > 0) ? " AND po.C_BPartner_ID=? " : "")
-			+ "GROUP BY po.M_Product_ID "
-			+ "ORDER BY 1";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		MOrder po = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			pstmt.setInt (1, so.getC_Order_ID());
-			if (p_Vendor_ID != 0)
-				pstmt.setInt (2, p_Vendor_ID);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				//	New Order
-				int C_BPartner_ID = rs.getInt(1);
-				if (po == null || po.getBill_BPartner_ID() != C_BPartner_ID)
-				{
-					po = createPOForVendor(rs.getInt(1), so);
-					addLog(0, null, null, po.getDocumentNo());
-					counter++;
-				}
-
-				//	Line
-				int M_Product_ID = rs.getInt(2);
-				for (int i = 0; i < soLines.length; i++)
-				{
-					if (soLines[i].getM_Product_ID() == M_Product_ID)
-					{
-						MOrderLine poLine = new MOrderLine (po);
-						poLine.setLink_OrderLine_ID(soLines[i].getC_OrderLine_ID());
-						poLine.setM_Product_ID(soLines[i].getM_Product_ID());
-						poLine.setC_Charge_ID(soLines[i].getC_Charge_ID());
-						poLine.setM_AttributeSetInstance_ID(soLines[i].getM_AttributeSetInstance_ID());
-						poLine.setC_UOM_ID(soLines[i].getC_UOM_ID());
-						poLine.setQtyEntered(soLines[i].getQtyEntered());
-						poLine.setQtyOrdered(soLines[i].getQtyOrdered());
-						poLine.setDescription(soLines[i].getDescription());
-						poLine.setDatePromised(soLines[i].getDatePromised());
-						poLine.setPrice();
-						poLine.saveEx();
-						
-						soLines[i].setLink_OrderLine_ID(poLine.getC_OrderLine_ID());
-						soLines[i].saveEx();
-					}
-				}
-			}
- 		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-			throw e;
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
+		//	
+		MOrder purchaseOrder;
+		if(salesOrder.getDropShip_BPartner_ID() > 0) {
+			purchaseOrder = createFromSOInfo(salesOrder, salesOrderLines);
+		} else {
+			purchaseOrder = createFromProductPOInfo(salesOrder, salesOrderLines);
 		}
 		//	Set Reference to PO
-		if (counter == 1 && po != null)
-		{
-			so.setLink_Order_ID(po.getC_Order_ID());
-			so.saveEx();
+		if (counter == 1 && purchaseOrder != null) {
+			salesOrder.setLink_Order_ID(purchaseOrder.getC_Order_ID());
+			salesOrder.saveEx();
 		}
 		return counter;
 	}	//	createPOFromSO
 	
 	/**
-	 *	Create PO for Vendor
-	 *	@param C_BPartner_ID vendor
-	 *	@param so sales order
+	 * Create from Sales Order Info
+	 * @param salesOrder
+	 * @param salesOrderLines
+	 * @return Purchase Order Generated
 	 */
-	public MOrder createPOForVendor(int C_BPartner_ID, MOrder so)
-	{
-		MOrder po = new MOrder (getCtx(), 0, get_TrxName());
-		po.setClientOrg(so.getAD_Client_ID(), so.getAD_Org_ID());
-		po.setLink_Order_ID(so.getC_Order_ID());
-		po.setIsSOTrx(false);
-		po.setC_DocTypeTarget_ID();
-		//
-		po.setDescription(so.getDescription());
-		po.setPOReference(so.getDocumentNo());
-		po.setPriorityRule(so.getPriorityRule());
-		po.setSalesRep_ID(so.getSalesRep_ID());
-		po.setM_Warehouse_ID(so.getM_Warehouse_ID());
-		//	Set Vendor
-		MBPartner vendor = new MBPartner (getCtx(), C_BPartner_ID, get_TrxName());
-		po.setBPartner(vendor);
-		//	Drop Ship
-		if ( p_IsDropShip )
-		{
-			po.setIsDropShip(p_IsDropShip);
-			
-			if (so.isDropShip() && so.getDropShip_BPartner_ID() != 0 )	{
-				po.setDropShip_BPartner_ID(so.getDropShip_BPartner_ID());
-				po.setDropShip_Location_ID(so.getDropShip_Location_ID());
-				po.setDropShip_User_ID(so.getDropShip_User_ID());
+	private MOrder createFromSOInfo(MOrder salesOrder, MOrderLine[] salesOrderLines) {
+		MOrder purchaseOrder = createPOForVendor(salesOrder.getDropShip_BPartner_ID(), salesOrder);
+		addLog(0, null, null, purchaseOrder.getDocumentNo());
+		counter++;
+		createLines(purchaseOrder, salesOrderLines, -1);
+		//	Generated
+		return purchaseOrder;
+	}
+	
+	/**
+	 * Create from Product PO Info
+	 * @param salesOrder
+	 * @param salesOrderLines
+	 * @return Purchase Order generated
+	 */
+	private MOrder createFromProductPOInfo(MOrder salesOrder, MOrderLine[] salesOrderLines) {
+		//	Order Lines with a Product which has a current vendor 
+		String sql = "SELECT MIN(po.C_BPartner_ID), po.M_Product_ID "
+			+ "FROM M_Product_PO po"
+			+ " INNER JOIN C_OrderLine ol ON (po.M_Product_ID=ol.M_Product_ID) "
+			+ "WHERE ol.C_Order_ID=? AND po.IsCurrentVendor='Y' "
+			+ ((getVendorId() > 0) ? " AND po.C_BPartner_ID=? " : "")
+			+ "GROUP BY po.M_Product_ID "
+			+ "ORDER BY 1";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		MOrder purchaseOrder = null;
+		try {
+			pstmt = DB.prepareStatement (sql, get_TrxName());
+			pstmt.setInt(1, salesOrder.getC_Order_ID());
+			if (getVendorId() != 0)
+				pstmt.setInt (2, getVendorId());
+			rs = pstmt.executeQuery ();
+			while (rs.next()) {
+				//	New Order
+				int bPartnerId = rs.getInt(1);
+				if (purchaseOrder == null 
+						|| purchaseOrder.getBill_BPartner_ID() != bPartnerId) {
+					purchaseOrder = createPOForVendor(rs.getInt(1), salesOrder);
+					addLog(0, null, null, purchaseOrder.getDocumentNo());
+					counter++;
+				}
+				//	Line
+				int productId = rs.getInt(2);
+				createLines(purchaseOrder, salesOrderLines, productId);
+			}
+ 		} catch (Exception e) {
+			log.log(Level.SEVERE, sql, e);
+		} finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
-			else {
-				po.setDropShip_BPartner_ID(so.getC_BPartner_ID());
-				po.setDropShip_Location_ID(so.getC_BPartner_Location_ID());
-				po.setDropShip_User_ID(so.getAD_User_ID());
+		//	Default
+		return purchaseOrder;
+	}
+	
+	/**
+	 *	Create PO for Vendor
+	 *	@param bPartnerId vendor
+	 *	@param salesOrder sales order
+	 */
+	public MOrder createPOForVendor(int bPartnerId, MOrder salesOrder) {
+		MOrder purchaseOrder = new MOrder (getCtx(), 0, get_TrxName());
+		purchaseOrder.setClientOrg(salesOrder.getAD_Client_ID(), salesOrder.getAD_Org_ID());
+		purchaseOrder.setIsSOTrx(false);
+		purchaseOrder.setC_DocTypeTarget_ID();
+		//
+		purchaseOrder.setDescription(salesOrder.getDescription());
+		purchaseOrder.setPOReference(salesOrder.getDocumentNo());
+		purchaseOrder.setPriorityRule(salesOrder.getPriorityRule());
+		purchaseOrder.setSalesRep_ID(salesOrder.getSalesRep_ID());
+		purchaseOrder.setM_Warehouse_ID(salesOrder.getM_Warehouse_ID());
+		//	Set Vendor
+		MBPartner vendor = new MBPartner (getCtx(), bPartnerId, get_TrxName());
+		purchaseOrder.setBPartner(vendor);
+		//	Drop Ship
+		if (!Util.isEmpty(getIsDropShip())) {
+			purchaseOrder.setIsDropShip(getIsDropShip().equals("Y"));
+			if (salesOrder.isDropShip() && salesOrder.getDropShip_BPartner_ID() != 0 ){
+				purchaseOrder.setDropShip_BPartner_ID(salesOrder.getDropShip_BPartner_ID());
+				purchaseOrder.setDropShip_Location_ID(salesOrder.getDropShip_Location_ID());
+				purchaseOrder.setDropShip_User_ID(salesOrder.getDropShip_User_ID());
+			} else {
+				purchaseOrder.setDropShip_BPartner_ID(salesOrder.getC_BPartner_ID());
+				purchaseOrder.setDropShip_Location_ID(salesOrder.getC_BPartner_Location_ID());
+				purchaseOrder.setDropShip_User_ID(salesOrder.getAD_User_ID());
 			}
 			// get default drop ship warehouse
-			MOrgInfo orginfo = MOrgInfo.get(getCtx(), po.getAD_Org_ID(), get_TrxName());
+			MOrgInfo orginfo = MOrgInfo.get(getCtx(), purchaseOrder.getAD_Org_ID(), get_TrxName());
 			if (orginfo.getDropShip_Warehouse_ID() != 0 )
-				po.setM_Warehouse_ID(orginfo.getDropShip_Warehouse_ID());
+				purchaseOrder.setM_Warehouse_ID(orginfo.getDropShip_Warehouse_ID());
 			else
 				log.log(Level.SEVERE, "Must specify drop ship warehouse in org info.");
 		}
 		//	References
-		po.setC_Activity_ID(so.getC_Activity_ID());
-		po.setC_Campaign_ID(so.getC_Campaign_ID());
-		po.setC_Project_ID(so.getC_Project_ID());
-		po.setUser1_ID(so.getUser1_ID());
-		po.setUser2_ID(so.getUser2_ID());
-		po.setUser3_ID(so.getUser3_ID());
-		po.setUser4_ID(so.getUser4_ID());
+		purchaseOrder.setC_Activity_ID(salesOrder.getC_Activity_ID());
+		purchaseOrder.setC_Campaign_ID(salesOrder.getC_Campaign_ID());
+		purchaseOrder.setC_Project_ID(salesOrder.getC_Project_ID());
+		purchaseOrder.setUser1_ID(salesOrder.getUser1_ID());
+		purchaseOrder.setUser2_ID(salesOrder.getUser2_ID());
+		purchaseOrder.setUser3_ID(salesOrder.getUser3_ID());
+		purchaseOrder.setUser4_ID(salesOrder.getUser4_ID());
 		//
-		po.saveEx();
-		return po;
+		purchaseOrder.saveEx();
+		return purchaseOrder;
 	}	//	createPOForVendor
+	
+	/**
+	 * Create Lines for Purchase Order
+	 * @param purchaseOrder
+	 * @param salesOrderLines
+	 * @param productId
+	 */
+	private void createLines(MOrder purchaseOrder, MOrderLine[] salesOrderLines, int productId) {
+		for (MOrderLine line : salesOrderLines) {
+			if (line.getM_Product_ID() == productId
+					|| productId < 0) {
+				MOrderLine poLine = new MOrderLine (purchaseOrder);
+				poLine.setLink_OrderLine_ID(line.getC_OrderLine_ID());
+				poLine.setM_Product_ID(line.getM_Product_ID());
+				poLine.setC_Charge_ID(line.getC_Charge_ID());
+				poLine.setM_AttributeSetInstance_ID(line.getM_AttributeSetInstance_ID());
+				poLine.setC_UOM_ID(line.getC_UOM_ID());
+				poLine.setQtyEntered(line.getQtyEntered());
+				poLine.setQtyOrdered(line.getQtyOrdered());
+				poLine.setDescription(line.getDescription());
+				poLine.setDatePromised(line.getDatePromised());
+				poLine.setPrice();
+				poLine.saveEx();
+				//	Set link to source
+				line.setLink_OrderLine_ID(poLine.getC_OrderLine_ID());
+				line.saveEx();
+			}
+		}
+	}
 	
 }	//	doIt

@@ -1185,7 +1185,8 @@ public class Viewer extends CFrame
 		log.config( "File=" + outFile.getPath() + "; Type=" + ext);
 
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		exportHandler.exportToFile(exportName, outFile);
+		AbstractExportFormat exporter = exportHandler.getExporter(exportName);
+		exporter.exportTo(outFile);
 		cmd_drill();	//	setCursor
 	}	//	cmd_export
 

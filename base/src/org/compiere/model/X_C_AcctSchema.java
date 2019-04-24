@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_AcctSchema
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_AcctSchema (Properties ctx, int C_AcctSchema_ID, String trxName)
@@ -94,6 +94,11 @@ public class X_C_AcctSchema extends PO implements I_C_AcctSchema, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.compiere.model.I_AD_Org getAD_OrgOnly() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getAD_OrgOnly_ID(), get_TrxName());	}
 
 	/** Set Only Organization.
 		@param AD_OrgOnly_ID 

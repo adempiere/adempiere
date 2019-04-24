@@ -35,7 +35,7 @@ public abstract class BankTransferAbstract extends SvrProcess {
 	/**	Parameter Name for Bank Account From	*/
 	public static final String FROM_C_BANKACCOUNT_ID = "From_C_BankAccount_ID";
 	/**	Parameter Name for Bank Account To	*/
-	public static final String TO_C_BANKACCOUNT_ID = "To_C_BankAccount_ID";
+	public static final String C_BANKACCOUNTTO_ID = "C_BankAccountTo_ID";
 	/**	Parameter Name for Business Partner 	*/
 	public static final String C_BPARTNER_ID = "C_BPartner_ID";
 	/**	Parameter Name for Currency	*/
@@ -61,7 +61,7 @@ public abstract class BankTransferAbstract extends SvrProcess {
 	/**	Parameter Value for Bank Account From	*/
 	private int cBankAccountId;
 	/**	Parameter Value for Bank Account To	*/
-	private int toCBankAccountId;
+	private int bankAccountToId;
 	/**	Parameter Value for Business Partner 	*/
 	private int bPartnerId;
 	/**	Parameter Value for Currency	*/
@@ -88,7 +88,7 @@ public abstract class BankTransferAbstract extends SvrProcess {
 	@Override
 	protected void prepare() {
 		cBankAccountId = getParameterAsInt(FROM_C_BANKACCOUNT_ID);
-		toCBankAccountId = getParameterAsInt(TO_C_BANKACCOUNT_ID);
+		bankAccountToId = getParameterAsInt(C_BANKACCOUNTTO_ID);
 		bPartnerId = getParameterAsInt(C_BPARTNER_ID);
 		currencyId = getParameterAsInt(C_CURRENCY_ID);
 		conversionTypeId = getParameterAsInt(C_CONVERSIONTYPE_ID);
@@ -113,13 +113,13 @@ public abstract class BankTransferAbstract extends SvrProcess {
 	}
 
 	/**	 Getter Parameter Value for Bank Account To	*/
-	protected int getToCBankAccountId() {
-		return toCBankAccountId;
+	protected int getBankAccountToId() {
+		return bankAccountToId;
 	}
 
 	/**	 Setter Parameter Value for Bank Account To	*/
-	protected void setToCBankAccountId(int toCBankAccountId) {
-		this.toCBankAccountId = toCBankAccountId;
+	protected void setBankAccountToId(int bankAccountToId) {
+		this.bankAccountToId = bankAccountToId;
 	}
 
 	/**	 Getter Parameter Value for Business Partner 	*/

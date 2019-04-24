@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_AcctSchema_Element
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_AcctSchema_Element 
 {
@@ -325,6 +325,8 @@ public interface I_C_AcctSchema_Element
 	  * Organizational entity within client
 	  */
 	public int getOrg_ID();
+
+	public org.compiere.model.I_AD_Org getOrg() throws RuntimeException;
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";

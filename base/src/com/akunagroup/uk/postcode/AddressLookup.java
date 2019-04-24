@@ -39,6 +39,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.adempiere.util.GenerateModel;
 import org.compiere.util.CLogger;
+import org.spin.util.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -338,6 +339,8 @@ public class AddressLookup implements AddressLookupInterface {
 			// Get document builder.
 			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory
 					.newInstance();
+			//	Add default features
+			XMLUtils.setDefaultFeatures(docBuilderFactory);
 			DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 			// Get the connection.
 			URLConnection URLconnection = cgiUrl.openConnection();

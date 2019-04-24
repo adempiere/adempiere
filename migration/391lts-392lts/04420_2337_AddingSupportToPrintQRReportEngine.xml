@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Adding support to print QR barcode Adempiere Report Engine" ReleaseNo="" SeqNo="4420">
+    <Comments>https://github.com/adempiere/adempiere/issues/2337</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55306" Table="AD_Ref_List">
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="564" Column="Created">2019-02-13 17:53:02.294</Data>
+        <Data AD_Column_ID="566" Column="Updated">2019-02-13 17:53:02.294</Data>
+        <Data AD_Column_ID="200" Column="Value">QRC</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">D</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">377</Data>
+        <Data AD_Column_ID="150" Column="Description">Is the trademark for a type of matrix barcode (or two-dimensional barcode)</Data>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Quick Response Code</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55306</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84390" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55306" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="707" Column="Created">2019-02-13 17:53:03.82</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55306</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="709" Column="Updated">2019-02-13 17:53:03.82</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="338" Column="Name">Quick Response Code</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="339" Column="Description">Is the trademark for a type of matrix barcode (or two-dimensional barcode)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55306" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="340" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55306">55306</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55306" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Quick Response Code">QR Código de Respuesta Rápida</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="339" Column="Description" isOldNull="true">Es código de barras matricial (o código de barras bidimensional)</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55306">55306</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

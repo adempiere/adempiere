@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for C_InterOrg_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_C_InterOrg_Acct extends PO implements I_C_InterOrg_Acct, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_C_InterOrg_Acct (Properties ctx, int C_InterOrg_Acct_ID, String trxName)
@@ -71,6 +71,11 @@ public class X_C_InterOrg_Acct extends PO implements I_C_InterOrg_Acct, I_Persis
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.compiere.model.I_AD_Org getAD_OrgTo() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getAD_OrgTo_ID(), get_TrxName());	}
 
 	/** Set Inter-Organization.
 		@param AD_OrgTo_ID 

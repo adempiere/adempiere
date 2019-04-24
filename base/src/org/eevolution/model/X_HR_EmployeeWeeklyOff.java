@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for HR_EmployeeWeeklyOff
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_HR_EmployeeWeeklyOff extends PO implements I_HR_EmployeeWeeklyOff, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_HR_EmployeeWeeklyOff (Properties ctx, int HR_EmployeeWeeklyOff_ID, String trxName)

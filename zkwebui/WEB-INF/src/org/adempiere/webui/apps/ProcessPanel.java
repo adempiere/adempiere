@@ -57,13 +57,11 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
-import org.zkforge.keylistener.Keylistener;
 import org.zkoss.zk.au.out.AuEcho;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zk.ui.event.KeyEvent;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
@@ -213,6 +211,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			messagePanel = new North();
 			messagePanel.appendChild(messageDiv);
 			messagePanel.setAutoscroll(true);
+			messagePanel.setSplittable(true);
 			messagePanel.setStyle("border: none;");
 			mainLayout.appendChild(messagePanel);
 		}

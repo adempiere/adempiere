@@ -38,6 +38,7 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Login;
 import org.compiere.util.ValueNamePair;
+import org.spin.util.XMLUtils;
 import org.w3c.dom.Document;
 
 import pl.x3E.adInterface.ADLoginRequest;
@@ -328,6 +329,7 @@ public class ADServiceImpl implements ADService {
 	       StringWriter writer = new StringWriter();
 	       StreamResult result = new StreamResult(writer);
 	       TransformerFactory tf = TransformerFactory.newInstance();
+	       XMLUtils.setDefaultFeatures(tf);
 	       Transformer transformer = tf.newTransformer();
 	       transformer.transform(domSource, result);
 	       return writer.toString();

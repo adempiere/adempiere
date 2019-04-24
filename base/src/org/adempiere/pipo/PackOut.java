@@ -20,7 +20,6 @@ package org.adempiere.pipo;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +27,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -40,19 +40,17 @@ import javax.xml.transform.stream.StreamResult;
 import org.adempiere.pipo.handler.AdElementHandler;
 import org.adempiere.pipo.handler.BrowseElementHandler;
 import org.adempiere.pipo.handler.CodeSnipitElementHandler;
-import org.adempiere.pipo.handler.CommonTranslationHandler;
 import org.adempiere.pipo.handler.DataElementHandler;
 import org.adempiere.pipo.handler.DistFileElementHandler;
 import org.adempiere.pipo.handler.DynValRuleElementHandler;
 import org.adempiere.pipo.handler.EntityTypeElementHandler;
-import org.adempiere.pipo.handler.FieldGroupElementHandler;
 import org.adempiere.pipo.handler.FormElementHandler;
+import org.adempiere.pipo.handler.GenericPOHandler;
 import org.adempiere.pipo.handler.ImpFormatElementHandler;
 import org.adempiere.pipo.handler.MenuElementHandler;
 import org.adempiere.pipo.handler.MessageElementHandler;
 import org.adempiere.pipo.handler.ModelValidatorElementHandler;
 import org.adempiere.pipo.handler.PrintFormatElementHandler;
-import org.adempiere.pipo.handler.PrintPaperElementHandler;
 import org.adempiere.pipo.handler.ProcessElementHandler;
 import org.adempiere.pipo.handler.ReferenceElementHandler;
 import org.adempiere.pipo.handler.ReportViewElementHandler;
@@ -63,15 +61,12 @@ import org.adempiere.pipo.handler.TaskElementHandler;
 import org.adempiere.pipo.handler.ViewElementHandler;
 import org.adempiere.pipo.handler.WindowElementHandler;
 import org.adempiere.pipo.handler.WorkflowElementHandler;
-import org.compiere.model.MSysConfig;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
 import org.compiere.model.X_AD_Element;
-import org.compiere.model.X_AD_FieldGroup;
 import org.compiere.model.X_AD_Package_Exp;
 import org.compiere.model.X_AD_Package_Exp_Detail;
-import org.compiere.model.X_AD_PrintPaper;
 import org.compiere.model.X_AD_Reference;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.xml.sax.SAXException;
@@ -96,10 +91,7 @@ import org.xml.sax.helpers.AttributesImpl;
  *		<li>BR [1019] New Icon to export report definition is show only swing but not ZK https://github.com/adempiere/adempiere/issues/1019
  */
 
-public class PackOut extends SvrProcess
-{
-	/** Record ID				*/
-	private int p_PackOut_ID = 0;
+public class PackOut extends PackOutAbstract {
 	private String PackOutVer = "005";
     private String packagedir = null;
     private String packagename = null;
@@ -129,25 +121,11 @@ public class PackOut extends SvrProcess
     PrintFormatElementHandler printFormatHandler = new PrintFormatElementHandler();
     DistFileElementHandler distFileHandler = new DistFileElementHandler();
     ReferenceElementHandler referenceHandler = new ReferenceElementHandler();
-    FieldGroupElementHandler fieldGroupHandler = new FieldGroupElementHandler();
     AdElementHandler adElementHandler = new AdElementHandler();
-    CommonTranslationHandler translationHandler = new CommonTranslationHandler();
     ModelValidatorElementHandler modelValidatorHandler = new ModelValidatorElementHandler();
     EntityTypeElementHandler entitytypeHandler = new EntityTypeElementHandler();
-    PrintPaperElementHandler printPaperHandler = new PrintPaperElementHandler();
+    GenericPOHandler genericPOHandler = new GenericPOHandler();
     
-    /**
-	 *  Prepare - e.g., get Parameters.
-	 */
-	protected void prepare()
-	{
-		p_PackOut_ID = getRecord_ID();
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-		}		
-	}	//	prepare
-
 	
 	/**
 	 * 	Start the transformation to XML
@@ -160,10 +138,10 @@ public class PackOut extends SvrProcess
 		
 		OutputStream  packageDocStream = null;
 		OutputStream  packOutDocStream = null;
-		log.info("doIt - AD_PACKAGE_EXP_ID=" + p_PackOut_ID);
-		if (p_PackOut_ID == 0)
+		log.info("doIt - AD_PACKAGE_EXP_ID=" + getRecord_ID());
+		if (getRecord_ID() == 0)
 			throw new IllegalArgumentException("No Record");
-		String sql1 = "SELECT * FROM AD_Package_Exp WHERE AD_Package_Exp_ID = "+p_PackOut_ID;		
+		String sql1 = "SELECT * FROM AD_Package_Exp WHERE AD_Package_Exp_ID = "+ getRecord_ID();		
 		PreparedStatement pstmt1 = null;		
 		pstmt1 = DB.prepareStatement (sql1, get_TrxName());		
 		
@@ -176,7 +154,7 @@ public class PackOut extends SvrProcess
 					packagedir += File.separator;
 				packagename = packagedir + rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name);
 				includesdir = rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name) + File.separator +"**";
-				boolean success = (new File(packagename+File.separator+"doc"+File.separator)).mkdirs();
+				(new File(packagename+File.separator+"doc"+File.separator)).mkdirs();
 				String file_document = packagename+File.separator+"doc"+File.separator+rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name)+"Doc.xml";		
 				packageDocStream = new FileOutputStream (file_document, false);		
 				StreamResult streamResult_document = new StreamResult(new OutputStreamWriter(packageDocStream,"ISO-8859-1"));	
@@ -249,7 +227,7 @@ public class PackOut extends SvrProcess
 				packageDocument.startElement("","","filenotes",atts);
 				packageDocument.characters("Notes: Contains all application/object settings for package".toCharArray(),0,"Notes: Contains all application/object settings for package".length());
 				packageDocument.endElement("","","filenotes");			
-				success = (new File(packagename+File.separator+ "dict"+File.separator)).mkdirs();		
+				(new File(packagename+File.separator+ "dict"+File.separator)).mkdirs();		
 				String file_menu = packagename+File.separator+ "dict"+File.separator+"PackOut.xml";		
 				packOutDocStream = new FileOutputStream (file_menu, false);
 				StreamResult streamResult_menu = new StreamResult(new OutputStreamWriter(packOutDocStream,"ISO-8859-1"));	
@@ -276,7 +254,7 @@ public class PackOut extends SvrProcess
 				packOutDocument.startElement("","","adempiereAD",atts);		
 				atts.clear();
 				
-				final String sql = "SELECT * FROM AD_Package_Exp_Detail WHERE AD_Package_Exp_ID = "+p_PackOut_ID+" AND IsActive='Y' ORDER BY Line ASC";
+				final String sql = "SELECT * FROM AD_Package_Exp_Detail WHERE AD_Package_Exp_ID = "+ getRecord_ID() +" AND IsActive='Y' ORDER BY Line ASC";
 				PreparedStatement pstmt = null;		
 				ResultSet rs = null;
 				try
@@ -353,7 +331,7 @@ public class PackOut extends SvrProcess
 								targetDirectoryModified = fullDirectory.replace(fileseperator1,fileseperator2);
 							
 							String target_File = (targetDirectoryModified);						
-							success = (new File(target_File).mkdirs());						
+							new File(target_File).mkdirs();
 							fullDirectory = rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_File_Directory);
 							targetDirectoryModified=null;						
 							//Correct package for proper file separator
@@ -467,9 +445,9 @@ public class PackOut extends SvrProcess
 		File destGZipFile = new File(packagename+".tar.gz");
 		
 		//delete the old packages if necessary
-		boolean success = destZipFile.delete();
-		success = destTarFile.delete();
-		success = destGZipFile.delete();
+		destZipFile.delete();
+		destTarFile.delete();
+		destGZipFile.delete();
 		
 		//create the compressed packages
 		CreateZipFile.zipFolder(srcFolder, destZipFile, includesdir);		
@@ -477,7 +455,7 @@ public class PackOut extends SvrProcess
 		CreateZipFile.gzipFile(destTarFile, destGZipFile);
 		
 		//Clean .tar file up
-		success = destTarFile.delete();
+		destTarFile.delete();
 		
 		return "Finish Process";
 	}	//	doIt
@@ -510,13 +488,12 @@ public class PackOut extends SvrProcess
 
 	/**
 	 * 
-	 * @param AD_PrintFormat_ID
+	 * @param printFormatId
 	 * @param packOutDocument
 	 * @throws Exception
 	 */
-	public void createPrintFormat (int AD_PrintFormat_ID, TransformerHandler packOutDocument) throws Exception
-	{
-		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_PrintFormat_ID, AD_PrintFormat_ID);
+	public void createPrintFormat (int printFormatId, TransformerHandler packOutDocument) throws SAXException {
+		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_PrintFormat_ID, printFormatId);
 		printFormatHandler.create(getCtx(), packOutDocument);
 		getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_PrintFormat_ID);
 	}
@@ -536,14 +513,14 @@ public class PackOut extends SvrProcess
 	
 	/**
 	 * 
-	 * @param AD_Val_Rule_ID
+	 * @param valRuleId
 	 * @param packOutDocument
 	 * @throws Exception
 	 */
-	public void createDynamicRuleValidation (int AD_Val_Rule_ID,  
+	public void createDynamicRuleValidation (int valRuleId,  
 			TransformerHandler packOutDocument) throws SAXException
 	{
-		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Val_Rule_ID, AD_Val_Rule_ID);
+		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Val_Rule_ID, valRuleId);
 		dynValRuleHandler.create(getCtx(), packOutDocument);
 		getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Val_Rule_ID);
 	}
@@ -554,8 +531,7 @@ public class PackOut extends SvrProcess
 	 * @param packOutDocument
 	 * @throws SAXException
 	 */
-	public void createWorkflow (int AD_Workflow_ID, TransformerHandler packOutDocument) 
-		throws SAXException
+	public void createWorkflow (int AD_Workflow_ID, TransformerHandler packOutDocument)  throws SAXException
 	{
 		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Workflow_ID, AD_Workflow_ID);
 		workflowHandler.create(getCtx(), packOutDocument);
@@ -613,13 +589,13 @@ public class PackOut extends SvrProcess
 
 	/**
 	 * 
-	 * @param AD_Process_ID
+	 * @param processId
 	 * @param packOutDocument
 	 * @throws SAXException
 	 */
-	public void createProcess (int AD_Process_ID, TransformerHandler packOutDocument) throws SAXException
+	public void createProcess (int processId, TransformerHandler packOutDocument) throws SAXException
 	{
-		Env.setContext(getCtx(), "AD_Process_ID", AD_Process_ID);
+		Env.setContext(getCtx(), "AD_Process_ID", processId);
 		processHandler.create(getCtx(), packOutDocument);
 		getCtx().remove("AD_Process_ID");
 	}
@@ -737,9 +713,9 @@ public class PackOut extends SvrProcess
 	 * 
 	 * @param Role_id
 	 * @param packOutDocument
-	 * @throws SAXException
+	 * @throws Exception 
 	 */
-	public void createRoles (int Role_id, TransformerHandler packOutDocument) throws SAXException
+	public void createRoles (int Role_id, TransformerHandler packOutDocument) throws Exception
 	{
 		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Role_ID, Role_id);
 		roleHandler.create(getCtx(), packOutDocument);
@@ -788,26 +764,12 @@ public class PackOut extends SvrProcess
 	
 	/**
 	 * 
-	 * @param FieldGroup_id
-	 * @param packOutDocument
-	 * @throws SAXException
-	 */
-	public void createFieldGroupElement (int FieldGroup_id, TransformerHandler packOutDocument) throws SAXException
-	{
-		Env.setContext(getCtx(), X_AD_FieldGroup.COLUMNNAME_AD_FieldGroup_ID, FieldGroup_id);
-		fieldGroupHandler.create(getCtx(), packOutDocument);
-		getCtx().remove(X_AD_FieldGroup.COLUMNNAME_AD_FieldGroup_ID);
-	}
-	
-	/**
-	 * 
 	 * @param Reference_id
 	 * @param packOutDocument
 	 * @throws SAXException
 	 */
-	public void createAdElement (int Ad_Element_id, TransformerHandler packOutDocument) throws SAXException
-	{
-		Env.setContext(getCtx(), X_AD_Element.COLUMNNAME_AD_Element_ID, Ad_Element_id);
+	public void createAdElement (int elementId, TransformerHandler packOutDocument) throws SAXException {
+		Env.setContext(getCtx(), X_AD_Element.COLUMNNAME_AD_Element_ID, elementId);
 		adElementHandler.create(getCtx(), packOutDocument);
 		getCtx().remove(X_AD_Element.COLUMNNAME_AD_Element_ID);
 	}
@@ -815,24 +777,12 @@ public class PackOut extends SvrProcess
 	/**
 	 * 
 	 * @param parentTableName
-	 * @param parentID
+	 * @param parentId
 	 * @param packOutDocument
 	 * @throws SAXException
 	 */
-	public void createTranslations (String parentTableName, int parentID, TransformerHandler packOutDocument) throws SAXException
-	{
-		if (MSysConfig.getBooleanValue("2PACK_HANDLE_TRANSLATIONS", false)) {
-
-			Env.setContext(getCtx(), CommonTranslationHandler.CONTEXT_KEY__PARENT_TABLE,
-					parentTableName);
-			Env.setContext(getCtx(), CommonTranslationHandler.CONTEXT_KEY__PARENT_RECORD_ID,
-					parentID);
-
-			translationHandler.create(getCtx(), packOutDocument);
-
-			getCtx().remove(CommonTranslationHandler.CONTEXT_KEY__PARENT_TABLE);
-			getCtx().remove(CommonTranslationHandler.CONTEXT_KEY__PARENT_RECORD_ID);
-		}
+	public void createTranslations (String parentTableName, int parentId, TransformerHandler packOutDocument) throws SAXException {
+		genericPOHandler.createTranslation(getCtx(), packOutDocument, MTable.get(getCtx(), parentTableName).getPO(parentId, get_TrxName()));
 	}
 	
 	/**
@@ -856,51 +806,76 @@ public class PackOut extends SvrProcess
 	 */
 	public void createEntityType (int AD_EntityType_ID, TransformerHandler packOutDocument) throws Exception
 	{
-		//Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID, AD_EntityType_ID);
+		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID, AD_EntityType_ID);
 		entitytypeHandler.create(getCtx(), packOutDocument);
-		//getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID);
+		getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID);
 	}
 	
-	public void createPrintPaper (int AD_PrintPaper_ID, TransformerHandler packOutDocument) throws SAXException
-	{
-		Env.setContext(getCtx(), X_AD_PrintPaper.COLUMNNAME_AD_PrintPaper_ID, AD_PrintPaper_ID);
-		printPaperHandler.create(getCtx(), packOutDocument);
-		getCtx().remove(X_AD_PrintPaper.COLUMNNAME_AD_PrintPaper_ID);
+	
+	/**
+	 * Create for generic PO
+	 * @param packOutDocument
+	 * @param entity
+	 * @throws SAXException
+	 */
+	public void createGenericPO(TransformerHandler packOutDocument, PO entity, boolean includeParents, List<String> excludedParentList) throws SAXException {
+		genericPOHandler.create(getCtx(), packOutDocument, entity, includeParents, excludedParentList);
 	}
-
+	
+	/**
+	 * Create Generic PO without parents
+	 * @param packOutDocument
+	 * @param entity
+	 * @throws SAXException
+	 */
+	public void createGenericPO(TransformerHandler packOutDocument, PO entity) throws SAXException {
+		createGenericPO(packOutDocument, entity, false, null);
+	}
+	
+	/**
+	 * Create generic PO
+	 * @param packOutDocument
+	 * @param tableId
+	 * @param recordId
+	 * @throws SAXException
+	 */
+	public void createGenericPO(TransformerHandler packOutDocument, int tableId, int recordId, boolean includeParents, List<String> excludedParentList) throws SAXException {
+		Env.setContext(getCtx(), GenericPOHandler.TABLE_ID_TAG, tableId);
+		Env.setContext(getCtx(), GenericPOHandler.RECORD_ID_TAG, recordId);
+		genericPOHandler.create(getCtx(), packOutDocument, null, includeParents, excludedParentList);
+		getCtx().remove(GenericPOHandler.TABLE_ID_TAG);
+		getCtx().remove(GenericPOHandler.RECORD_ID_TAG);
+	}
+	
+	/**
+	 * Create Generic PO without parents
+	 * @param packOutDocument
+	 * @param tableId
+	 * @param recordId
+	 * @throws SAXException
+	 */
+	public void createGenericPO(TransformerHandler packOutDocument, int tableId, int recordId) throws SAXException {
+		createGenericPO(packOutDocument, tableId, recordId, false, null);
+	}
 
 	
 	public void copyFile (String sourceName, String copyName ) {
-		InputStream source;  // Stream for reading from the source file.
-		OutputStream copy;   // Stream for writing the copy.
+		InputStream source = null;  // Stream for reading from the source file.
+		OutputStream copy = null;   // Stream for writing the copy.
 		boolean force;  // This is set to true if the "-f" option
 		//    is specified on the command line.
 		int byteCount;  // Number of bytes copied from the source file.
-		
-		force = true;           
-		try {
-			source = new FileInputStream(sourceName);
-		}
-		catch (FileNotFoundException e) {
-			System.out.println("Can't find file \"" + sourceName + "\".");
-			return;
-		}
-		File file = new File(copyName);
-		if (file.exists() && force == false) {
-			System.out.println(
-			"Output file exists.  Use the -f option to replace it.");
-			return;  
-		}	
-		try {           
-			copy = new FileOutputStream(copyName, false);
-		}
-		catch (IOException e) {
-			System.out.println("Can't open output file \"" 
-					+ copyName + "\".");
-			return;
-		}
+		force = true;
 		byteCount = 0;
 		try {
+			source = new FileInputStream(sourceName);
+			File file = new File(copyName);
+			if (file.exists() && force == false) {
+				System.out.println(
+				"Output file exists.  Use the -f option to replace it.");
+				return;  
+			}
+			copy = new FileOutputStream(copyName, false);
 			while (true) {
 				int data = source.read();
 				if (data < 0)
@@ -908,13 +883,22 @@ public class PackOut extends SvrProcess
 				copy.write(data);
 				byteCount++;
 			}
-			source.close();
-			copy.close();
 			System.out.println("Successfully copied " + byteCount + " bytes.");
 		}
 		catch (Exception e) {
 			System.out.println("Error occurred while copying.  "+ byteCount + " bytes copied.");
 			System.out.println(e.toString());
+		} finally {
+			try {
+				if(source != null) {
+					source.close();
+				}
+				if(copy != null) {
+					copy.close();
+				}
+			} catch (IOException e) {
+				
+			}
 		}
 	}
 

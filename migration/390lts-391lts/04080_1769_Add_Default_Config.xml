@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="I forgot password Add Data #1769" ReleaseNo="3.9.1" SeqNo="4080">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/1769</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54529" Action="I" Record_ID="50001" Table="AD_TokenDefinition">
+        <Data AD_Column_ID="90943" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="90944" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="90945" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90946" Column="Created">2018-10-01 22:25:15.053</Data>
+        <Data AD_Column_ID="90947" Column="Updated">2018-10-01 22:25:15.053</Data>
+        <Data AD_Column_ID="90948" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="90949" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="90950" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="90952" Column="Value">PR</Data>
+        <Data AD_Column_ID="90953" Column="Name">Password Recovery</Data>
+        <Data AD_Column_ID="90954" Column="Description">Used for recovery password from mail token as URL</Data>
+        <Data AD_Column_ID="90956" Column="TokenType">URL</Data>
+        <Data AD_Column_ID="90957" Column="Classname">org.spin.util.TokenGenerator</Data>
+        <Data AD_Column_ID="90951" Column="AD_TokenDefinition_ID">50001</Data>
+      </PO>
+    </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="20" StepType="SQL">
+      <Comments>Update Clients for template</Comments>
+      <SQLStatement>UPDATE AD_ClientInfo SET RestorePassword_MailText_ID = 50001 WHERE RestorePassword_MailText_ID IS NULL;</SQLStatement>
+      <RollbackStatement>UPDATE AD_ClientInfo SET RestorePassword_MailText_ID = NULL;</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Tab
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_AD_Tab 
 {
@@ -93,6 +93,21 @@ public interface I_AD_Tab
 	public int getAD_Column_ID();
 
 	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException;
+
+    /** Column name AD_ContextInfo_ID */
+    public static final String COLUMNNAME_AD_ContextInfo_ID = "AD_ContextInfo_ID";
+
+	/** Set Context Info.
+	  * Context Info Maintaining
+	  */
+	public void setAD_ContextInfo_ID (int AD_ContextInfo_ID);
+
+	/** Get Context Info.
+	  * Context Info Maintaining
+	  */
+	public int getAD_ContextInfo_ID();
+
+	public org.spin.model.I_AD_ContextInfo getAD_ContextInfo() throws RuntimeException;
 
     /** Column name AD_Image_ID */
     public static final String COLUMNNAME_AD_Image_ID = "AD_Image_ID";

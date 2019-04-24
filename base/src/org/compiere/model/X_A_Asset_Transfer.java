@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Transfer
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_A_Asset_Transfer (Properties ctx, int A_Asset_Transfer_ID, String trxName)
@@ -281,9 +281,9 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
 			.getPO(getA_Asset_ID(), get_TrxName());	}
 
-	/** Set Asset.
+	/** Set Fixed Asset.
 		@param A_Asset_ID 
-		Asset used internally or by customers
+		Fixed Asset used internally or by customers
 	  */
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
@@ -293,8 +293,8 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
-	/** Get Asset.
-		@return Asset used internally or by customers
+	/** Get Fixed Asset.
+		@return Fixed Asset used internally or by customers
 	  */
 	public int getA_Asset_ID () 
 	{
@@ -721,15 +721,18 @@ public class X_A_Asset_Transfer extends PO implements I_A_Asset_Transfer, I_Pers
 		return false;
 	}
 
-	/** Set A_Transfer_Balance_IS.
-		@param A_Transfer_Balance_IS A_Transfer_Balance_IS	  */
+	/** Set Is Transferred Balance.
+		@param A_Transfer_Balance_IS 
+		Indicates whether the balance for a Fixed Asset is transferred to the new Fixed Asset or not
+	  */
 	public void setA_Transfer_Balance_IS (boolean A_Transfer_Balance_IS)
 	{
 		set_Value (COLUMNNAME_A_Transfer_Balance_IS, Boolean.valueOf(A_Transfer_Balance_IS));
 	}
 
-	/** Get A_Transfer_Balance_IS.
-		@return A_Transfer_Balance_IS	  */
+	/** Get Is Transferred Balance.
+		@return Indicates whether the balance for a Fixed Asset is transferred to the new Fixed Asset or not
+	  */
 	public boolean isA_Transfer_Balance_IS () 
 	{
 		Object oo = get_Value(COLUMNNAME_A_Transfer_Balance_IS);

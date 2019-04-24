@@ -65,6 +65,8 @@ public class MenuPanel extends Panel implements EventListener
     
     private Checkbox chkExpand; // Elaine 2009/02/27 - expand tree
     
+    public static final String MENU_ITEM_DRAGGABLE_TYPE = "menu_item";
+    
     public MenuPanel()
     {
         ctx = Env.getCtx();
@@ -168,10 +170,12 @@ public class MenuPanel extends Panel implements EventListener
                 	treeitem.setImage(ITheme.MENU_PROCESS_IMAGE);
                 else if (mChildNode.isWorkFlow())
                 	treeitem.setImage(ITheme.MENU_WORKFLOW_IMAGE);
+                else if (mChildNode.isBrowse())
+                	treeitem.setImage(ITheme.MENU_BROWSER_IMAGE);
                 else
                 	treeitem.setImage(ITheme.MENU_WINDOW_IMAGE);
                 
-                treeitem.getTreerow().setDraggable("favourite"); // Elaine 2008/07/24
+                treeitem.getTreerow().setDraggable(MENU_ITEM_DRAGGABLE_TYPE); // Elaine 2008/07/24
                 
                 treeitem.getTreerow().addEventListener(Events.ON_CLICK, this);
             }

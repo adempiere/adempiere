@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_CostDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_M_CostDetail (Properties ctx, int M_CostDetail_ID, String trxName)
@@ -817,6 +817,62 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_M_MatchInv getM_MatchInv() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_MatchInv)MTable.get(getCtx(), org.compiere.model.I_M_MatchInv.Table_Name)
+			.getPO(getM_MatchInv_ID(), get_TrxName());	}
+
+	/** Set Match Invoice.
+		@param M_MatchInv_ID 
+		Match Shipment/Receipt to Invoice
+	  */
+	public void setM_MatchInv_ID (int M_MatchInv_ID)
+	{
+		if (M_MatchInv_ID < 1) 
+			set_Value (COLUMNNAME_M_MatchInv_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_MatchInv_ID, Integer.valueOf(M_MatchInv_ID));
+	}
+
+	/** Get Match Invoice.
+		@return Match Shipment/Receipt to Invoice
+	  */
+	public int getM_MatchInv_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_MatchInv_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_MatchPO getM_MatchPO() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_MatchPO)MTable.get(getCtx(), org.compiere.model.I_M_MatchPO.Table_Name)
+			.getPO(getM_MatchPO_ID(), get_TrxName());	}
+
+	/** Set Match PO.
+		@param M_MatchPO_ID 
+		Match Purchase Order to Shipment/Receipt and Invoice
+	  */
+	public void setM_MatchPO_ID (int M_MatchPO_ID)
+	{
+		if (M_MatchPO_ID < 1) 
+			set_Value (COLUMNNAME_M_MatchPO_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_MatchPO_ID, Integer.valueOf(M_MatchPO_ID));
+	}
+
+	/** Get Match PO.
+		@return Match Purchase Order to Shipment/Receipt and Invoice
+	  */
+	public int getM_MatchPO_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_MatchPO_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_MovementLine getM_MovementLine() throws RuntimeException
     {
 		return (org.compiere.model.I_M_MovementLine)MTable.get(getCtx(), org.compiere.model.I_M_MovementLine.Table_Name)
@@ -1094,64 +1150,4 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
-
-
-	public org.compiere.model.I_M_MatchInv getM_MatchInv() throws RuntimeException
-	{
-		return (org.compiere.model.I_M_MatchInv)MTable.get(getCtx(), org.compiere.model.I_M_MatchInv.Table_Name)
-				.getPO(getM_MatchInv_ID(), get_TrxName());	}
-
-	/** Set MatchInv
-	 @param M_MatchInv_ID
-	 MAtchInv
-	 */
-	public void setM_MatchInv_ID(int M_MatchInv_ID)
-	{
-		if (M_MatchInv_ID < 1)
-			set_Value (COLUMNNAME_M_MatchInv_ID, null);
-		else
-			set_Value (COLUMNNAME_M_MatchInv_ID, Integer.valueOf(M_MatchInv_ID));
-	}
-
-	/** Get MatchInv.
-	 @return Match Invoice
-	 */
-	public int getM_MatchInv_ID()
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_MatchInv_ID);
-		if (ii == null)
-			return 0;
-		return ii.intValue();
-	}
-
-
-	public org.compiere.model.I_M_MatchPO getM_MatchPO() throws RuntimeException
-	{
-		return (org.compiere.model.I_M_MatchPO)MTable.get(getCtx(), org.compiere.model.I_M_MatchPO.Table_Name)
-				.getPO(getM_MatchPO_ID(), get_TrxName());	}
-
-	/** Set MatchPO
-	 @param M_MatchPO_ID
-	 MatchPO
-	 */
-	public void setM_MatchPO_ID(int M_MatchPO_ID)
-	{
-		if (M_MatchPO_ID < 1)
-			set_Value (COLUMNNAME_M_MatchPO_ID, null);
-		else
-			set_Value (COLUMNNAME_M_MatchPO_ID, Integer.valueOf(M_MatchPO_ID));
-	}
-
-	/** Get MatchPO.
-	 @return Match PO
-	 */
-	public int getM_MatchPO_ID()
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_MatchPO_ID);
-		if (ii == null)
-			return 0;
-		return ii.intValue();
-	}
-
-
 }

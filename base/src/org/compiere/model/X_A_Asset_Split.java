@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for A_Asset_Split
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180418L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_A_Asset_Split (Properties ctx, int A_Asset_Split_ID, String trxName)
@@ -42,14 +42,14 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
       /** if (A_Asset_Split_ID == 0)
         {
 			setA_Asset_ID (0);
-// @SQL=SELECT A_Asset_ID FROM A_Asset WHERE A_Asset.A_Asset_ID=@A_Asset_ID@
 			setA_Asset_Split_ID (0);
 			setA_Depreciation_Workfile_ID (0);
 // @SQL=SELECT A_Depreciation_Workfile_ID FROM A_Depreciation_Workfile WHERE A_Depreciation_Workfile.A_Depreciation_Workfile_ID=@A_Depreciation_Workfile_ID@
 			setA_QTY_Current (Env.ZERO);
 // @SQL=SELECT A_QTY_Current FROM A_Depreciation_Workfile WHERE A_Depreciation_Workfile.A_Asset_ID=@A_Asset_ID@ and A_Depreciation_Workfile.PostingType='@PostingType@'
 			setA_Split_Type (null);
-			setA_Transfer_Balance_IS (false);
+			setA_Transfer_Balance_IS (true);
+// Y
 			setC_DocType_ID (0);
 			setC_Period_ID (0);
 // @Date@
@@ -98,6 +98,34 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
       return sb.toString();
     }
 
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getAD_OrgTrx_ID(), get_TrxName());	}
+
+	/** Set Trx Organization.
+		@param AD_OrgTrx_ID 
+		Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
+	{
+		if (AD_OrgTrx_ID < 1) 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+	}
+
+	/** Get Trx Organization.
+		@return Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Amount Split.
 		@param A_Amount_Split 
 		Amount Split for Fixed Asset
@@ -138,6 +166,11 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return bd;
 	}
 
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException
+    {
+		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
+			.getPO(getA_Asset_ID(), get_TrxName());	}
+
 	/** Set Fixed Asset.
 		@param A_Asset_ID 
 		Fixed Asset used internally or by customers
@@ -145,9 +178,9 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 	public void setA_Asset_ID (int A_Asset_ID)
 	{
 		if (A_Asset_ID < 1) 
-			set_Value (COLUMNNAME_A_Asset_ID, null);
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, null);
 		else 
-			set_Value (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
+			set_ValueNoCheck (COLUMNNAME_A_Asset_ID, Integer.valueOf(A_Asset_ID));
 	}
 
 	/** Get Fixed Asset.
@@ -232,29 +265,6 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 	public int getA_Depreciation_Workfile_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Depreciation_Workfile_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Trx Organization.
-		@param AD_OrgTrx_ID 
-		Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
-	{
-		if (AD_OrgTrx_ID < 1) 
-			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
-	}
-
-	/** Get Trx Organization.
-		@return Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -369,7 +379,7 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 	  */
 	public void setA_Transfer_Balance_IS (boolean A_Transfer_Balance_IS)
 	{
-		set_Value (COLUMNNAME_A_Transfer_Balance_IS, Boolean.valueOf(A_Transfer_Balance_IS));
+		set_ValueNoCheck (COLUMNNAME_A_Transfer_Balance_IS, Boolean.valueOf(A_Transfer_Balance_IS));
 	}
 
 	/** Get Is Transferred Balance.
@@ -499,34 +509,6 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
-			.getPO(getC_Project_ID(), get_TrxName());	}
-
-	/** Set Project.
-		@param C_Project_ID 
-		Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID)
-	{
-		if (C_Project_ID < 1) 
-			set_Value (COLUMNNAME_C_Project_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
-	}
-
-	/** Get Project.
-		@return Financial Project
-	  */
-	public int getC_Project_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException
     {
 		return (org.compiere.model.I_C_ProjectPhase)MTable.get(getCtx(), org.compiere.model.I_C_ProjectPhase.Table_Name)
@@ -578,6 +560,34 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 	public int getC_ProjectTask_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectTask_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID)
+	{
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+	}
+
+	/** Get Project.
+		@return Financial Project
+	  */
+	public int getC_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -791,6 +801,30 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return false;
 	}
 
+	/** Set Posted.
+		@param Posted 
+		Posting status
+	  */
+	public void setPosted (boolean Posted)
+	{
+		set_Value (COLUMNNAME_Posted, Boolean.valueOf(Posted));
+	}
+
+	/** Get Posted.
+		@return Posting status
+	  */
+	public boolean isPosted () 
+	{
+		Object oo = get_Value(COLUMNNAME_Posted);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** PostingType AD_Reference_ID=125 */
 	public static final int POSTINGTYPE_AD_Reference_ID=125;
 	/** Actual = A */
@@ -845,6 +879,26 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		return false;
 	}
 
+	/** Set Processed On.
+		@param ProcessedOn 
+		The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public void setProcessedOn (BigDecimal ProcessedOn)
+	{
+		set_Value (COLUMNNAME_ProcessedOn, ProcessedOn);
+	}
+
+	/** Get Processed On.
+		@return The date+time (expressed in decimal format) when the document has been processed
+	  */
+	public BigDecimal getProcessedOn () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ProcessedOn);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Process Now.
 		@param Processing Process Now	  */
 	public void setProcessing (boolean Processing)
@@ -864,6 +918,23 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
@@ -976,22 +1047,5 @@ public class X_A_Asset_Split extends PO implements I_A_Asset_Split, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

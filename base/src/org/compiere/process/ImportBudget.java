@@ -45,7 +45,6 @@ import org.compiere.model.X_A_Asset;
 import org.compiere.model.X_C_SubAcct;
 import org.compiere.model.X_GL_Budget;
 import org.compiere.model.X_I_Budget;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -62,7 +61,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.logging.Logger;
 
 /**
  * Import Budget
@@ -73,7 +71,6 @@ public class ImportBudget extends ImportBudgetAbstract {
 
     List<MPeriod> glPeriods = new ArrayList<>();
     List<Timestamp> glPeriodsDates = new ArrayList<>();
-	private static Logger log = CLogger.getCLogger(ImportBudget.class);
 
     protected void prepare() {
         super.prepare();
@@ -138,7 +135,7 @@ public class ImportBudget extends ImportBudgetAbstract {
         Arrays.stream(budgetLinesIds).forEach(importBudgetId -> {
                         X_I_Budget importBudget = new X_I_Budget(getCtx(), importBudgetId, null);
                         if (importBudget.getI_ErrorMsg() != null)
-                            throw new AdempiereException("@GL_BudgetID@ @ProcessFailed@");
+                            throw new AdempiereException("@GL_Budget_ID@ @ProcessFailed@");
 
         });
 
@@ -217,10 +214,14 @@ public class ImportBudget extends ImportBudgetAbstract {
         int accountId = 0;
         if (importBudget.getAccount_ID() > 0)
             accountId = importBudget.getAccount_ID();
-        if (accountId <= 0 && importBudget.getAccountValue() != null)
-            accountId = getId(MElementValue.Table_Name, MElementValue.COLUMNNAME_Value + "=?", trxName, importBudget.getAccountValue());
-        if (accountId > 0 && importBudget.getAccount_ID() <= 0 )
-            importBudget.setAccount_ID(accountId);
+        if (accountId <= 0 && importBudget.getAccountValue() != null) {
+            Arrays.stream(acctSchemaElements)
+                    .filter(acctSchemaElement -> MAcctSchemaElement.ELEMENTTYPE_Account.equals(acctSchemaElement.getElementType()))
+                    .forEach(acctSchemaElement -> {
+                        String where = MElementValue.COLUMNNAME_C_Element_ID + "=? AND " + MElementValue.COLUMNNAME_Value + "=?";
+                        importBudget.setAccount_ID(getId(MElementValue.Table_Name, where, trxName, acctSchemaElement.getC_Element_ID(), importBudget.getAccountValue()));
+                    });
+        }
         if (importBudget.getAccount_ID() <= 0 && importBudget.getAccountValue() != null)
             stringError.append("@Account_ID@ @NotFound@ ");
 
@@ -667,6 +668,7 @@ public class ImportBudget extends ImportBudgetAbstract {
     private int getId(String tableName, String whereClause, String trxName, Object... parameters) {
         return new Query(getCtx(), tableName, whereClause, trxName)
                 .setParameters(parameters)
+                .setClient_ID()
                 .firstId();
     }
 
@@ -687,6 +689,7 @@ public class ImportBudget extends ImportBudgetAbstract {
         return new Query(getCtx(), X_I_Budget.Table_Name, whereClause.toString(), null)
                 .setOnlyActiveRecords(true)
                 .setParameters(documentNo, isImported, isProcessed)
+                .setClient_ID()
                 .getIDs();
 
     }

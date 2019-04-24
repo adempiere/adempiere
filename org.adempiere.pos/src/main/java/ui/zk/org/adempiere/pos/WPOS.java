@@ -26,7 +26,6 @@ import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.service.CPOS;
 import org.adempiere.pos.service.POSPanelInterface;
 import org.adempiere.pos.service.POSScalesPanelInterface;
-import org.adempiere.pos.test.SideServer;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Button;
@@ -125,8 +124,6 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	public static final String 	FONTSTYLE 		= "font-weight:bold;";
 	/** Status bar info							*/
 	private String 							statusBarInfo = "";
-	/** Side Server for Printer 				*/
-	private static SideServer 				sideServer;
 	/**
 	 * 	Constructor - see init 
 	 */
@@ -170,8 +167,6 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 			logoutTimer = new Timer(1000);
 			logoutTimer.start();
 		}
-		
-		startServerSocket();
 	}	//	init
 
 	/**************************************************************************
@@ -683,23 +678,6 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 	public void setQty(BigDecimal qty) {
 		quantityPanel.setQuantity(qty);
 		super.setQty(qty);
-	}
-	
-	/**
-	 * Start Server Socket
-	 * @return void
-	 */
-	private void startServerSocket(){
-		sideServer = new SideServer();
-		new Thread(sideServer).start();
-	}
-
-	/**
-	 * Print File
-	 * @param data
-	 */
-	public void printFile(byte[] data, int record_ID){
-		sideServer.printFile(data, record_ID);
 	}
 	
 	public void updateProductPlaceholder(String name)

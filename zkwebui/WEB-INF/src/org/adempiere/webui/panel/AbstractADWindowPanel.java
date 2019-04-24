@@ -2525,11 +2525,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		
 		//quickGrid.init(quickGridTab);
 		WQuickEntrySheet form = new WQuickEntrySheet(curTabPanel.getListPanel(), quickGridTab, tabPanel, this, m_onlyCurrentDays, m_onlyCurrentRows);
-		form.setPosition("center");
-		form.setSizable(true);
 		if(isAutoNew)
 			curTabPanel.getListPanel().createNewLine();
-		AEnv.showCenterScreen(form);
 		form.dispose();
 		adTab.getSelectedTabpanel().getListPanel().addKeyListener();
 		if(isChangeView) {

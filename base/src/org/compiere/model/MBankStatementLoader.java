@@ -222,7 +222,6 @@ import org.compiere.util.Util;
 		imp.setEftTrxID(m_loader.getTrxID());
 		log.config( "MBankStatementLoader.importLine Statement Line Date=" + m_loader.getStatementLineDate());
 		imp.setStatementLineDate(m_loader.getStatementLineDate());
-		imp.setStatementLineDate(m_loader.getStatementLineDate());
 		imp.setEftStatementLineDate(m_loader.getStatementLineDate());
 		log.config( "MBankStatementLoader.importLine Valuta Date=" + m_loader.getValutaDate());
 		imp.setValutaDate(m_loader.getValutaDate());
@@ -255,6 +254,7 @@ import org.compiere.util.Util;
 		imp.setChargeName(m_loader.getChargeName());
 		log.config( "MBankStatementLoader.importLine Charge Amount=" + m_loader.getChargeAmt());
 		imp.setChargeAmt(m_loader.getChargeAmt());
+		imp.setLineDescription(m_loader.getPayeeDescription());
 		//	
 		imp.setC_BankAccount_ID(getC_BankAccount_ID());
 		if(Util.isEmpty(imp.getISO_Code())) {

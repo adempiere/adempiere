@@ -17,6 +17,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+import java.util.Base64.Encoder;
 import java.util.logging.Level;
 
 import org.compiere.Adempiere;
@@ -26,8 +28,6 @@ import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
 import org.zkoss.zk.au.out.AuScript;
 import org.zkoss.zk.ui.util.Clients;
-
-import sun.misc.BASE64Encoder;
 
 /**
  * class to manage browser token for auto authentication
@@ -116,15 +116,13 @@ public final class BrowserToken {
 	
 	private static String getHomeToken() throws UnsupportedEncodingException {
 		String home = Adempiere.getAdempiereHome();	
-		BASE64Encoder encoder = new BASE64Encoder();
-		home = encoder.encode(home.getBytes("UTF-8"));
-		home = URLEncoder.encode(home, "UTF-8");
-		return home;
+		Encoder encoder = Base64.getEncoder();
+		return encoder.encodeToString(home.getBytes("UTF-8"));
 	}
 	
 	private static String getPasswordHash(MSession session, MUser user) throws UnsupportedEncodingException, NoSuchAlgorithmException {
 		MessageDigest digest = MessageDigest.getInstance("SHA-512");
-		BASE64Encoder encoder = new BASE64Encoder();
+		Encoder encoder = Base64.getEncoder();
 	    digest.reset();
 	    if (session.getWebSession() != null)
 	    	digest.update(session.getWebSession().getBytes("UTF-8"));
@@ -134,7 +132,7 @@ public final class BrowserToken {
 	    else
 	    	password = new String("");
 	    byte[] input = digest.digest(password.getBytes("UTF-8"));
-	    String hash = encoder.encode(input);
+	    String hash = encoder.encodeToString(input);	    
 	    hash = URLEncoder.encode(hash, "UTF-8");
 	    
 	    return hash;

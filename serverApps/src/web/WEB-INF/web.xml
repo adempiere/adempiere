@@ -8,7 +8,7 @@
 	<description>$Id: web.xml,v 1.1 2009/04/15 11:30:04 vinhpt Exp $</description>
 	<context-param>
 		<param-name>AD_Client_ID</param-name>
-		<param-value>0</param-value>
+		<param-value>11</param-value>
 	</context-param>
 	<context-param>
 		<param-name>ServerApps</param-name>

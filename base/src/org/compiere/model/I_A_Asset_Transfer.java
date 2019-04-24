@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Transfer
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_A_Asset_Transfer 
 {
@@ -156,13 +156,13 @@ public interface I_A_Asset_Transfer
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
 
-	/** Set Asset.
-	  * Asset used internally or by customers
+	/** Set Fixed Asset.
+	  * Fixed Asset used internally or by customers
 	  */
 	public void setA_Asset_ID (int A_Asset_ID);
 
-	/** Get Asset.
-	  * Asset used internally or by customers
+	/** Get Fixed Asset.
+	  * Fixed Asset used internally or by customers
 	  */
 	public int getA_Asset_ID();
 
@@ -380,10 +380,14 @@ public interface I_A_Asset_Transfer
     /** Column name A_Transfer_Balance_IS */
     public static final String COLUMNNAME_A_Transfer_Balance_IS = "A_Transfer_Balance_IS";
 
-	/** Set A_Transfer_Balance_IS	  */
+	/** Set Is Transferred Balance.
+	  * Indicates whether the balance for a Fixed Asset is transferred to the new Fixed Asset or not
+	  */
 	public void setA_Transfer_Balance_IS (boolean A_Transfer_Balance_IS);
 
-	/** Get A_Transfer_Balance_IS	  */
+	/** Get Is Transferred Balance.
+	  * Indicates whether the balance for a Fixed Asset is transferred to the new Fixed Asset or not
+	  */
 	public boolean isA_Transfer_Balance_IS();
 
     /** Column name C_AcctSchema_ID */

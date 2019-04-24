@@ -222,9 +222,9 @@ public class DataElementHandler extends AbstractElementHandler {
 		public void endElement(Properties ctx, Element element) throws SAXException {
 			if (genericPO != null) {
 				if (genericPO.save(getTrxName(ctx))== true)
-					record_log (ctx, 1, genericPO.get_TableName(),"Data", genericPO.get_ID(),AD_Backup_ID, objectStatus,d_tablename,get_IDWithColumn(ctx, "AD_Table", "TableName", d_tablename));
+					recordLog (ctx, 1, genericPO.get_TableName(),"Data", genericPO.get_ID(),AD_Backup_ID, objectStatus,d_tablename,get_IDWithColumn(ctx, "AD_Table", "TableName", d_tablename));
 				else {
-					record_log (ctx, 0, genericPO.get_TableName(),"Data", genericPO.get_ID(),AD_Backup_ID, objectStatus,d_tablename,get_IDWithColumn(ctx, "AD_Table", "TableName", d_tablename));
+					recordLog (ctx, 0, genericPO.get_TableName(),"Data", genericPO.get_ID(),AD_Backup_ID, objectStatus,d_tablename,get_IDWithColumn(ctx, "AD_Table", "TableName", d_tablename));
 					throw new POSaveFailedException("GenericPO");
 				}
 				

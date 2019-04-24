@@ -1,9 +1,9 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
-<jnlp spec = "1.8+" version = "3.9.0LTS"
-    codebase = "*" 
-    href = "*">  
+<jnlp spec = "1.8+" version = "3.9.1LTS"
+      codebase = "*"
+      href = "*">
     <information>
-        <title>Adempiere Client 3.9.0LTS</title>
+        <title>Adempiere Client 3.9.1LTS</title>
         <vendor>ADempiere, Inc.</vendor>
         <homepage href = "http://www.adempiere.org"/>
         <offline-allowed/>
@@ -14,17 +14,17 @@
         <icon href = "*"/>
         <shortcut online="true">
             <desktop/>
-            <menu submenu="Adempiere 3.9.0LTS"/>
+            <menu submenu="Adempiere 3.9.1LTS"/>
         </shortcut>
-    </information>  
+    </information>
     <security>
-        <all-permissions/>  
+        <all-permissions/>
     </security>
     <resources>
-        <j2se version = "1.7+" href = "http://java.sun.com/products/autodl/j2se" initial-heap-size = "32m" max-heap-size = "512m"/>
+        <j2se version = "1.8+" href = "http://java.sun.com/products/autodl/j2se" initial-heap-size = "32m" max-heap-size = "512m"/>
         <jar href = "Adempiere.jar" main = "true" download = "eager"/>
         <jar href = "AdempiereCLib.jar" main = "false" download = "eager"/>
         <jar href = "CompiereJasperReqs.jar" main = "false" download = "eager"/>
-    </resources>  
-    <application-desc main-class = "org.compiere.Adempiere"/>  
+    </resources>
+    <application-desc main-class = "org.compiere.Adempiere"/>
 </jnlp>

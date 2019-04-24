@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_MRP
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_PP_MRP (Properties ctx, int PP_MRP_ID, String trxName)
@@ -313,7 +313,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_DateConfirm);
 	}
 
-	/** Set Date Finish Schedule.
+	/** Set Finish Schedule.
 		@param DateFinishSchedule 
 		Scheduled Finish date for this Order
 	  */
@@ -322,7 +322,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		set_Value (COLUMNNAME_DateFinishSchedule, DateFinishSchedule);
 	}
 
-	/** Get Date Finish Schedule.
+	/** Get Finish Schedule.
 		@return Scheduled Finish date for this Order
 	  */
 	public Timestamp getDateFinishSchedule () 
@@ -398,7 +398,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_DateStart);
 	}
 
-	/** Set Date Start Schedule.
+	/** Set Start Schedule.
 		@param DateStartSchedule 
 		Scheduled start date for this Order
 	  */
@@ -407,7 +407,7 @@ public class X_PP_MRP extends PO implements I_PP_MRP, I_Persistent
 		set_Value (COLUMNNAME_DateStartSchedule, DateStartSchedule);
 	}
 
-	/** Get Date Start Schedule.
+	/** Get Start Schedule.
 		@return Scheduled start date for this Order
 	  */
 	public Timestamp getDateStartSchedule () 

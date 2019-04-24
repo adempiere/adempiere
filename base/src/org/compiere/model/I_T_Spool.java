@@ -21,7 +21,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_Spool
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_T_Spool 
 {

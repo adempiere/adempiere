@@ -1,75 +1,808 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Compiere(r) Release 2.5.3b_2006-01-20 - Smart ERP & CRM - (c) 1999-2006 Compiere (r); Implementation: Custom 20060303-1231 - Unsupported-->
-<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
-<compiereTrl language="it_IT" table="AD_WF_Node">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ADempiere(r) Release 3.9.0_2017-08-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2017 ADempiere(r); Implementation: ${ADEMPIERE_VERSION} 20190319-0953 - ${ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">--><adempiereTrl language="it_IT" table="AD_WF_Node">
  <row id="116" trl="Y">
   <value column="Name" original="Accounting Schema">Schema contabile</value>
   <value column="Description" original="Project as Account Segment">Progetto come Segmento contabile</value>
   <value column="Help" original="To enable accounting reporting of projects, create and enable a project segment in the account elements.">Per permettere di riportare progetti contabili, crea un segmento progetto negli elementi dei conti.</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="118" trl="Y">
   <value column="Name" original="System Elements">Elementi di sistema</value>
   <value column="Description" original="Translate System Elements">Traduci Elementi di Sistema</value>
   <value column="Help" original="System Elements are used to centrally define field labels, description and help. When translating an Element, the appropriate information of Fields in Windows, Parameters and Reports are translated (overwritten)">Gli Elementi di Sistema sono usati per definire a livello centrale le etichette dei campi, descrizione e aiuto. Quando si traduce un Elemento, le appropriate informazioni dei Campi nelle Finestre, i Parametri e i Reports vengono tradotte. (sovrascritte)</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="119" trl="Y">
   <value column="Name" original="Messages">Messaggi</value>
   <value column="Description" original="Translate Messages">Traduci Messaggi</value>
   <value column="Help" original="Translate the messages used in Windows, Forms and Processes">Traduce i messaggi usati in Windows, Forms e Processes.</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="120" trl="Y">
   <value column="Name" original="Reference">Riferimenti</value>
   <value column="Description" original="Translate References">Traduci Riferimenti</value>
   <value column="Help" original="References are used as prefedined selection lists.  You only need to translate the List Elements !!">I Riferimenti sono usati come predefiniti in una lista di selezione. Devi solo tradurre gli Elementi della Lista!!!!</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="121" trl="Y">
-  <value column="Name" original="Window &amp; Tab">Finestra &amp; Tab</value>
-  <value column="Description" original="Translate Windows and Tabs">Traduci Finestre (Windows) &amp; Tabulatori</value>
+  <value column="Name" original="Window &amp; Tab"><![CDATA[Finestra & Tab]]></value>
+  <value column="Description" original="Translate Windows and Tabs"><![CDATA[Traduci Finestre (Windows) & Tabulatori]]></value>
   <value column="Help" original="Translate the Name, Description and Help for Windows and Tabs.  Most of the Fields are already translated, if they are centrally maintained.">Traduci il Nome, Descrizione e Aiuto per Finestre e Tabulatori. La maggior parte dei Campi sono già tradotti, se gestiti centralmente.</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="122" trl="Y">
   <value column="Name" original="Form">Maschera</value>
   <value column="Description" original="Translate Forms">Traduci Maschere</value>
   <value column="Help" original="Forms are special Windows and you need to translate its name, description and Help.">Le Maschere sono Finestre speciali e devo tradurne il nome, la descrizione e l'aiuto.</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="123" trl="Y">
-  <value column="Name" original="Report &amp; Process">Report &amp; Processi</value>
+  <value column="Name" original="Report &amp; Process"><![CDATA[Report & Processi]]></value>
   <value column="Description" original="Translate Reports and Processes">Traduci Report e Processi</value>
   <value column="Help" original="Translate the Name, Description and Help for Processes and Reports. You don't need to translate the Parameters, if they are centrally maintained.">Traduci il Nome, Descrizione e Aiuto per i Processi e i Reports. Non devi tradurre i Parametri, se gestiti centralmente.</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="140" trl="Y">
   <value column="Name" original="User">Utente</value>
   <value column="Description" original="Define Sales Representative as User">Definisci il Rappresentante Vendite come Utente</value>
   <value column="Help" original="Users can log into the system and have access to functionality via one or more roles. Select the Business Partner you just set up. This enables the user to be treated as sales rep in the system.">Gli Utenti possono navigare nel sistema e avere accesso alle funzioni (functionality) attraverso uno o più ruoli. Seleziona il BP che hai appena inserito. Ciò permette all'Utente di navigare nel sistema come un rappresentante di vendita.</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="141" trl="Y">
   <value column="Name" original="Business Partner">Business Partner</value>
   <value column="Description" original="Set up Sales Representative as Business Partner">Inserisci Rappresentante Vendite come Business Partner</value>
   <value column="Help" original="Set up the sales representative as Employee and Sales Representative in the Employee tab.  Also set up the Vendor part, if you want to create payments.">Inserisce il rappresentante come un Impiegato nel tab Impiegati. Puoi inserire anche il fornitore, se vuoi creare dei pagamenti.</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="146" trl="Y">
   <value column="Name" original="Workflow">Workflow</value>
   <value column="Description" original="Translate Workflows">Traduci Workflows</value>
   <value column="Help" original="Translate Name, Description and Help of Workflows and their Nodes.  You only need to translate the List Elements !!">Traduce Nome, Descrizione e Aiuto del Workflows e i suoi nodi.</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="152" trl="Y">
   <value column="Name" original="Check Client Setup">Controllo Setup del Client</value>
   <value column="Description" original="Check Client setup for Requests">Controllare Client setup per Richieste</value>
   <value column="Help" original="You need to have a mail server and an email address from which the requets an notifications are sent.  Optionally, if you define a mail user and password, requests are read from the mail users's folder and imported into the system.">Hai bisogno di una mail server e di un indirizzo email dal quale le richieste e le notifiche vengono inviate.  Altrimente, se definisci una mail Utente e la password, le richieste vengono lette dalla cartella della posta utenti e importate nel sistema.</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="153" trl="Y">
   <value column="Name" original="Check Users">Controllo Utenti</value>
   <value column="Description" original="Check users for Request processing">Controllare utenti per Elaborazione Richieste</value>
   <value column="Help" original="Please ensure that users have a email address and supervisor assigned.">Per favore assicurarsi che gli utenti abbiano un indirizzo email e un supervisore assegnato.</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="155" trl="Y">
   <value column="Name" original="Check Business Partners">Controllo Business Partners</value>
   <value column="Description" original="Check Business Partners for Request processing">Controllare BP per Elaborazione Richieste</value>
   <value column="Help" original="You can send EMails to businbess partners.  Make sure, that the business partners and/or the Contacts have email addresses.">Puoi inviare EMails ai businbess partners. Assicurati che i business partners e/o i Contacts abbiano il proprio indirizzo email.</value>
+  <value column="UUID" original=""/>
  </row>
- <row id="180" trl="N">
-  <value column="Name" original="Verify completed Requisition">Verify completed Requisition</value>
-  <value column="Description" original="Just a test case for a manual interaction.">Just a test case for a manual interaction.</value>
-  <value column="Help" original="Enter and maintain Material Requisitions">Enter and maintain Material Requisitions</value>
+ <row id="166" trl="N">
+  <value column="Name" original="Tax Category">Tax Category</value>
+  <value column="Description" original="Maintain Tax Categories">Maintain Tax Categories</value>
+  <value column="Help" original="The Tax Category Window is used to enter and maintain Tax Categories.  Each product is associated with a tax category which facilitates reacting changing tax rates.">The Tax Category Window is used to enter and maintain Tax Categories.  Each product is associated with a tax category which facilitates reacting changing tax rates.</value>
+  <value column="UUID" original=""/>
  </row>
-</compiereTrl>
+ <row id="167" trl="N">
+  <value column="Name" original="Product">Product</value>
+  <value column="Description" original="Maintain Products">Maintain Products</value>
+  <value column="Help" original="The Product Window defines all products used by an organization.  These products include those sold to customers, used in the manufacture of products sold to customers and products purchased by an organization.">The Product Window defines all products used by an organization.  These products include those sold to customers, used in the manufacture of products sold to customers and products purchased by an organization.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="168" trl="N">
+  <value column="Name" original="Charge">Charge</value>
+  <value column="Description" original="Maintain Charges">Maintain Charges</value>
+  <value column="Help" original="The Charges Window defines the different charges that may be incurred.  These can include Bank Charges, Vendor Charges and Handling Charges.">The Charges Window defines the different charges that may be incurred.  These can include Bank Charges, Vendor Charges and Handling Charges.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="169" trl="N">
+  <value column="Name" original="Tax Rate">Tax Rate</value>
+  <value column="Description" original="Maintain Taxes and their Rates">Maintain Taxes and their Rates</value>
+  <value column="Help" original="The Tax Rate Window defines the different taxes used for each tax category.  For example Sales Tax must be defined for each State in which it applies.">The Tax Rate Window defines the different taxes used for each tax category.  For example Sales Tax must be defined for each State in which it applies.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="170" trl="N">
+  <value column="Name" original="Accounting Schema">Accounting Schema</value>
+  <value column="Description" original="Maintain Accounting Schema - For changes to become effective you must re-login">Maintain Accounting Schema - For changes to become effective you must re-login</value>
+  <value column="Help" original="The Accounting Schema Window defines an accounting method and the elements that will comprise an account structure. Create and activate elements for detailed accounting for Business Partners, Products, Locations, etc.&#10;Review and change the GL and Default accounts. The actual accounts used in transactions depend on the executing organization; Most of the information is derived from the context.">The Accounting Schema Window defines an accounting method and the elements that will comprise an account structure. Create and activate elements for detailed accounting for Business Partners, Products, Locations, etc.
+Review and change the GL and Default accounts. The actual accounts used in transactions depend on the executing organization; Most of the information is derived from the context.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="183" trl="N">
+  <value column="Name" original="(Start)">(Start)</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="184" trl="N">
+  <value column="Name" original="(DocAuto)">(DocAuto)</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="185" trl="N">
+  <value column="Name" original="(DocPrepare)">(DocPrepare)</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="186" trl="N">
+  <value column="Name" original="(DocComplete)">(DocComplete)</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50000" trl="N">
+  <value column="Name" original="Manufacturing Workflow Setup">Manufacturing Workflow Setup</value>
+  <value column="Description" original="Setup Manufacturing Workflow">Setup Manufacturing Workflow</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="Discrete Manufacturing Setup">Discrete Manufacturing Setup</value>
+  <value column="Description" original="Setup Manufacturing Management">Setup Manufacturing Management</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50002" trl="N">
+  <value column="Name" original="Bill of Material &amp; Formula Setup"><![CDATA[Bill of Material & Formula Setup]]></value>
+  <value column="Description" original="Setup Manufacturing Management">Setup Manufacturing Management</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50003" trl="N">
+  <value column="Name" original="Warehouse &amp; Locators"><![CDATA[Warehouse & Locators]]></value>
+  <value column="Description" original="Warehouse &amp; Locators"><![CDATA[Warehouse & Locators]]></value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50004" trl="N">
+  <value column="Name" original="Resource Type">Resource Type</value>
+  <value column="Description" original="Resource Type">Resource Type</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50005" trl="N">
+  <value column="Name" original="Manufacturing Workflows">Manufacturing Workflows</value>
+  <value column="Description" original="Manufacturing Workflows">Manufacturing Workflows</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50006" trl="N">
+  <value column="Name" original="Manufacturing Resource">Manufacturing Resource</value>
+  <value column="Description" original="Manufacturing Resource">Manufacturing Resource</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50007" trl="N">
+  <value column="Name" original="Unit of Measure">Unit of Measure</value>
+  <value column="Description" original="Maintain Unit of Measure ">Maintain Unit of Measure </value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50008" trl="N">
+  <value column="Name" original="Product">Product</value>
+  <value column="Description" original="Maintain Products">Maintain Products</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50009" trl="N">
+  <value column="Name" original="Material Requirement Planning Setup">Material Requirement Planning Setup</value>
+  <value column="Description" original="Setup Material Requirement Planning">Setup Material Requirement Planning</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50010" trl="N">
+  <value column="Name" original="Capacity Requirement Planning Setup">Capacity Requirement Planning Setup</value>
+  <value column="Description" original="Setup Capacity Requirement Planning">Setup Capacity Requirement Planning</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50011" trl="N">
+  <value column="Name" original="Forecast">Forecast</value>
+  <value column="Description" original="Forecast">Forecast</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50012" trl="N">
+  <value column="Name" original="Manufacturing Management Setup">Manufacturing Management Setup</value>
+  <value column="Description" original="MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.">MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50013" trl="N">
+  <value column="Name" original="Notice">Notice</value>
+  <value column="Description" original="MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.">MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50014" trl="N">
+  <value column="Name" original="Discrete Manufacturing Setup">Discrete Manufacturing Setup</value>
+  <value column="Description" original="MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.">MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50015" trl="N">
+  <value column="Name" original="Material Requirement Planning Setup">Material Requirement Planning Setup</value>
+  <value column="Description" original="Setup Material Requirement Planning">Setup Material Requirement Planning</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50016" trl="N">
+  <value column="Name" original="Manufacturing Workflow Setup">Manufacturing Workflow Setup</value>
+  <value column="Description" original="Setup Manufacturing Workflow">Setup Manufacturing Workflow</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50017" trl="N">
+  <value column="Name" original="Calculate Capacity Plan">Calculate Capacity Plan</value>
+  <value column="Description" original="Calculate Capacity Plan">Calculate Capacity Plan</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50018" trl="N">
+  <value column="Name" original="Resource Load View">Resource Load View</value>
+  <value column="Description" original="It shows graphically of the required and available time for each manufacturing resource.">It shows graphically of the required and available time for each manufacturing resource.</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50019" trl="N">
+  <value column="Name" original="Material Requirement Planning Setup">Material Requirement Planning Setup</value>
+  <value column="Description" original="Setup Material Requirement Planning">Setup Material Requirement Planning</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020" trl="N">
+  <value column="Name" original="Manufacturing Management Setup">Manufacturing Management Setup</value>
+  <value column="Description" original="Setup Manufacturing Management">Setup Manufacturing Management</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50021" trl="N">
+  <value column="Name" original="Distribution Management Setup">Distribution Management Setup</value>
+  <value column="Description" original="Setup Distribution Management">Setup Distribution Management</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50022" trl="N">
+  <value column="Name" original="Planned Order Approval">Planned Order Approval</value>
+  <value column="Description" original="Planned Order Approval">Planned Order Approval</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50023" trl="N">
+  <value column="Name" original="MRP Notice">MRP Notice</value>
+  <value column="Description" original="MRP Notice">MRP Notice</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50024" trl="N">
+  <value column="Name" original="MRP Info">MRP Info</value>
+  <value column="Description" original="MRP Info">MRP Info</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50025" trl="N">
+  <value column="Name" original="Calculate Distribution Plan">Calculate Distribution Plan</value>
+  <value column="Description" original="Calculate Distribution Plan">Calculate Distribution Plan</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50027" trl="N">
+  <value column="Name" original="(DocComplete)">(DocComplete)</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50028" trl="N">
+  <value column="Name" original="(DocPrepare)">(DocPrepare)</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50029" trl="N">
+  <value column="Name" original="(Start)">(Start)</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50034" trl="N">
+  <value column="Name" original="Freight Category">Freight Category</value>
+  <value column="Description" original="Maintain Freight Categories">Maintain Freight Categories</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50035" trl="N">
+  <value column="Name" original="Inventory Move">Inventory Move</value>
+  <value column="Description" original="Inventory Move">Inventory Move</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50036" trl="N">
+  <value column="Name" original="Shipper">Shipper</value>
+  <value column="Description" original="Maintain Shippers">Maintain Shippers</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50049" trl="N">
+  <value column="Name" original="Multi Level BOM &amp; Formula Detail"><![CDATA[Multi Level BOM & Formula Detail]]></value>
+  <value column="Description" original="Shows in two different panels the parent-component relationship for the product entered in the Product field.">Shows in two different panels the parent-component relationship for the product entered in the Product field.</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50050" trl="N">
+  <value column="Name" original="BOM &amp; Formula Info"><![CDATA[BOM & Formula Info]]></value>
+  <value column="Description" original="Shows in two different panels the parent-component relationship for the product entered in the Product field.">Shows in two different panels the parent-component relationship for the product entered in the Product field.</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50051" trl="N">
+  <value column="Name" original="Bill of Materials &amp; Formula"><![CDATA[Bill of Materials & Formula]]></value>
+  <value column="Description" original="Maintain Product Bill of Materials &amp; Formula "><![CDATA[Maintain Product Bill of Materials & Formula ]]></value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50052" trl="N">
+  <value column="Name" original="Product Planning">Product Planning</value>
+  <value column="Description" original="Product Planning">Product Planning</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50053" trl="N">
+  <value column="Name" original="Calculate Low Level">Calculate Low Level</value>
+  <value column="Description" original="MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.">MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50054" trl="N">
+  <value column="Name" original="Calculate Material Plan">Calculate Material Plan</value>
+  <value column="Description" original="MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.">MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50055" trl="N">
+  <value column="Name" original="Planned Order Approval">Planned Order Approval</value>
+  <value column="Description" original="MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.">MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50056" trl="N">
+  <value column="Name" original="MRP Info">MRP Info</value>
+  <value column="Description" original="MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.">MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50057" trl="N">
+  <value column="Name" original="Print &amp; Release Order"><![CDATA[Print & Release Order]]></value>
+  <value column="Description" original="Print &amp; Release Order"><![CDATA[Print & Release Order]]></value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50058" trl="N">
+  <value column="Name" original="Order Receipt &amp; Issue"><![CDATA[Order Receipt & Issue]]></value>
+  <value column="Description" original="Order Receipt &amp; Issue"><![CDATA[Order Receipt & Issue]]></value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50059" trl="N">
+  <value column="Name" original="Manufacturing Order">Manufacturing Order</value>
+  <value column="Description" original="Manufacturing Order">Manufacturing Order</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50060" trl="N">
+  <value column="Name" original="Component Check">Component Check</value>
+  <value column="Description" original="Component Check">Component Check</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50061" trl="N">
+  <value column="Name" original="Generate Movement">Generate Movement</value>
+  <value column="Description" original="Generate and print Movement from open Distribution Orders">Generate and print Movement from open Distribution Orders</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50062" trl="N">
+  <value column="Name" original="Generate Movement Manual">Generate Movement Manual</value>
+  <value column="Description" original="Generate Movement to a Order Distribution">Generate Movement to a Order Distribution</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50063" trl="N">
+  <value column="Name" original="Distribution Order">Distribution Order</value>
+  <value column="Description" original="Distribution Order allow create Order inter warehouse to supply a demand ">Distribution Order allow create Order inter warehouse to supply a demand </value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50064" trl="N">
+  <value column="Name" original="Import Proccesor">Import Proccesor</value>
+  <value column="Description" original="Import Proccesor">Import Proccesor</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50065" trl="N">
+  <value column="Name" original="Import Processor Type">Import Processor Type</value>
+  <value column="Description" original="Import Processor Type">Import Processor Type</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50066" trl="N">
+  <value column="Name" original="Export Format">Export Format</value>
+  <value column="Description" original="Export Format">Export Format</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50067" trl="N">
+  <value column="Name" original="Export Processor">Export Processor</value>
+  <value column="Description" original="Export Processor">Export Processor</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50068" trl="N">
+  <value column="Name" original="Export Processor Type">Export Processor Type</value>
+  <value column="Description" original="Export Processor Type">Export Processor Type</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50069" trl="N">
+  <value column="Name" original="Replication Strategy">Replication Strategy</value>
+  <value column="Description" original="Replication Strategy">Replication Strategy</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50074" trl="N">
+  <value column="Name" original="Payroll">Payroll</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50075" trl="N">
+  <value column="Name" original="Payroll Concept Category">Payroll Concept Category</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50076" trl="N">
+  <value column="Name" original="Payroll Contract">Payroll Contract</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50077" trl="N">
+  <value column="Name" original="Payroll Process">Payroll Process</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50078" trl="N">
+  <value column="Name" original="Payroll Table">Payroll Table</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50079" trl="N">
+  <value column="Name" original="Payroll Department">Payroll Department</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50080" trl="N">
+  <value column="Name" original="Payroll Employee">Payroll Employee</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50081" trl="N">
+  <value column="Name" original="Payroll Action Notice">Payroll Action Notice</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50082" trl="N">
+  <value column="Name" original="Payroll Table Type">Payroll Table Type</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50083" trl="N">
+  <value column="Name" original="Payroll Job">Payroll Job</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50084" trl="N">
+  <value column="Name" original="Payroll Concept Catalog">Payroll Concept Catalog</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50094" trl="N">
+  <value column="Name" original="(Start)">(Start)</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50095" trl="N">
+  <value column="Name" original="(DocPrepare)">(DocPrepare)</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50096" trl="N">
+  <value column="Name" original="(DocComplete)">(DocComplete)</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50097" trl="N">
+  <value column="Name" original="(DocAuto)">(DocAuto)</value>
+  <value column="Description" original="(DocAuto)">(DocAuto)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50099" trl="N">
+  <value column="Name" original="(DocAuto)">(DocAuto)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50100" trl="N">
+  <value column="Name" original="(DocComplete)">(DocComplete)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50101" trl="N">
+  <value column="Name" original="(DocPrepare)">(DocPrepare)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50102" trl="N">
+  <value column="Name" original="(Start)">(Start)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50103" trl="N">
+  <value column="Name" original="Activation Approval">Activation Approval</value>
+  <value column="Description" original="Approve asset activation">Approve asset activation</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50104" trl="N">
+  <value column="Name" original="(DocAuto)">(DocAuto)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50105" trl="N">
+  <value column="Name" original="(DocComplete)">(DocComplete)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50106" trl="N">
+  <value column="Name" original="(DocPrepare)">(DocPrepare)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50107" trl="N">
+  <value column="Name" original="(Start)">(Start)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50108" trl="N">
+  <value column="Name" original="(DocAuto)">(DocAuto)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50109" trl="N">
+  <value column="Name" original="(DocComplete)">(DocComplete)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50110" trl="N">
+  <value column="Name" original="(DocPrepare)">(DocPrepare)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50111" trl="N">
+  <value column="Name" original="(Start)">(Start)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50112" trl="N">
+  <value column="Name" original="(DocAuto)">(DocAuto)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50113" trl="N">
+  <value column="Name" original="(DocComplete)">(DocComplete)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50114" trl="N">
+  <value column="Name" original="(DocPrepare)">(DocPrepare)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50115" trl="N">
+  <value column="Name" original="(Start)">(Start)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50116" trl="N">
+  <value column="Name" original="(Start)">(Start)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50117" trl="N">
+  <value column="Name" original="(DocAuto)">(DocAuto)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50118" trl="N">
+  <value column="Name" original="(DocComplete)">(DocComplete)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50119" trl="N">
+  <value column="Name" original="(DocPrepare)">(DocPrepare)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50186" trl="N">
+  <value column="Name" original="Requested">Requested</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50187" trl="N">
+  <value column="Name" original="Prepare">Prepare</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50188" trl="N">
+  <value column="Name" original="Published">Published</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50189" trl="N">
+  <value column="Name" original="Rejected">Rejected</value>
+  <value column="Description" original="Rejected">Rejected</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50190" trl="N">
+  <value column="Name" original="Waiting For HR Manager Approval">Waiting For HR Manager Approval</value>
+  <value column="Description" original="HR Manager Approval">HR Manager Approval</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50191" trl="N">
+  <value column="Name" original="Waiting For Department Manager Approval">Waiting For Department Manager Approval</value>
+  <value column="Description" original="Department Manager Approval">Department Manager Approval</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50192" trl="N">
+  <value column="Name" original="Department Verification">Department Verification</value>
+  <value column="Description" original="Department Verification">Department Verification</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50251" trl="N">
+  <value column="Name" original="(Start)">(Start)</value>
+  <value column="Description" original="Process_Order Freight">Process_Order Freight</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50252" trl="N">
+  <value column="Name" original="(DocAuto)">(DocAuto)</value>
+  <value column="Description" original="Process_Order Freight">Process_Order Freight</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50253" trl="N">
+  <value column="Name" original="(DocPrepare)">(DocPrepare)</value>
+  <value column="Description" original="Process_Order Freight">Process_Order Freight</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50254" trl="N">
+  <value column="Name" original="(DocComplete)">(DocComplete)</value>
+  <value column="Description" original="Process_Order Freight">Process_Order Freight</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000000" trl="N">
+  <value column="Name" original="(Start)">(Start)</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000001" trl="N">
+  <value column="Name" original="(DocAuto)">(DocAuto)</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000002" trl="N">
+  <value column="Name" original="(DocComplete)">(DocComplete)</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000003" trl="N">
+  <value column="Name" original="(DocPrepare)">(DocPrepare)</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000004" trl="N">
+  <value column="Name" original="(DocAuto)">(DocAuto)</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000005" trl="N">
+  <value column="Name" original="(DocComplete)">(DocComplete)</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000006" trl="N">
+  <value column="Name" original="(DocPrepare)">(DocPrepare)</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000007" trl="N">
+  <value column="Name" original="(Start)">(Start)</value>
+  <value column="Description" original="(Standard Node)">(Standard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000008" trl="N">
+  <value column="Name" original="(Start)">(Start)</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000009" trl="N">
+  <value column="Name" original="(DocPrepare)">(DocPrepare)</value>
+  <value column="Description" original="(Stadard Node)">(Stadard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000010" trl="N">
+  <value column="Name" original="(DocAuto)">(DocAuto)</value>
+  <value column="Description" original="(Stadard Node)">(Stadard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000011" trl="N">
+  <value column="Name" original="(DocComplete)">(DocComplete)</value>
+  <value column="Description" original="(Stadard Node)">(Stadard Node)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+</adempiereTrl>

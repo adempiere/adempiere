@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Concept
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20180202L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_HR_Concept (Properties ctx, int HR_Concept_ID, String trxName)
@@ -75,32 +75,6 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
       return sb.toString();
     }
 
-	/** AccountSign AD_Reference_ID=118 */
-	public static final int ACCOUNTSIGN_AD_Reference_ID=118;
-	/** Natural = N */
-	public static final String ACCOUNTSIGN_Natural = "N";
-	/** Debit = D */
-	public static final String ACCOUNTSIGN_Debit = "D";
-	/** Credit = C */
-	public static final String ACCOUNTSIGN_Credit = "C";
-	/** Set Account Sign.
-		@param AccountSign 
-		Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public void setAccountSign (String AccountSign)
-	{
-
-		set_Value (COLUMNNAME_AccountSign, AccountSign);
-	}
-
-	/** Get Account Sign.
-		@return Indicates the Natural Sign of the Account as a Debit or Credit
-	  */
-	public String getAccountSign () 
-	{
-		return (String)get_Value(COLUMNNAME_AccountSign);
-	}
-
 	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Reference)MTable.get(getCtx(), org.compiere.model.I_AD_Reference.Table_Name)
@@ -127,6 +101,32 @@ public class X_HR_Concept extends PO implements I_HR_Concept, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** AccountSign AD_Reference_ID=118 */
+	public static final int ACCOUNTSIGN_AD_Reference_ID=118;
+	/** Natural = N */
+	public static final String ACCOUNTSIGN_Natural = "N";
+	/** Debit = D */
+	public static final String ACCOUNTSIGN_Debit = "D";
+	/** Credit = C */
+	public static final String ACCOUNTSIGN_Credit = "C";
+	/** Set Account Sign.
+		@param AccountSign 
+		Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public void setAccountSign (String AccountSign)
+	{
+
+		set_Value (COLUMNNAME_AccountSign, AccountSign);
+	}
+
+	/** Get Account Sign.
+		@return Indicates the Natural Sign of the Account as a Debit or Credit
+	  */
+	public String getAccountSign () 
+	{
+		return (String)get_Value(COLUMNNAME_AccountSign);
 	}
 
 	/** ColumnType AD_Reference_ID=53243 */

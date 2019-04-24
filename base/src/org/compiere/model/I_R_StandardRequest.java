@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_StandardRequest
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_R_StandardRequest 
 {
@@ -214,7 +214,7 @@ public interface I_R_StandardRequest
 	  */
 	public int getR_RequestRelated_ID();
 
-	public org.compiere.model.I_R_Request getR_RequestRelated() throws RuntimeException;
+	public org.compiere.model.I_R_StandardRequest getR_RequestRelated() throws RuntimeException;
 
     /** Column name R_RequestType_ID */
     public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
@@ -231,19 +231,6 @@ public interface I_R_StandardRequest
 
 	public org.compiere.model.I_R_RequestType getR_RequestType() throws RuntimeException;
 
-    /** Column name R_StandardRequest_ID */
-    public static final String COLUMNNAME_R_StandardRequest_ID = "R_StandardRequest_ID";
-
-	/** Set Standard Request.
-	  * Standard Request
-	  */
-	public void setR_StandardRequest_ID (int R_StandardRequest_ID);
-
-	/** Get Standard Request.
-	  * Standard Request
-	  */
-	public int getR_StandardRequest_ID();
-
     /** Column name R_StandardRequestType_ID */
     public static final String COLUMNNAME_R_StandardRequestType_ID = "R_StandardRequestType_ID";
 
@@ -256,6 +243,19 @@ public interface I_R_StandardRequest
 	  * Standard Request Type
 	  */
 	public int getR_StandardRequestType_ID();
+
+    /** Column name R_StandardRequest_ID */
+    public static final String COLUMNNAME_R_StandardRequest_ID = "R_StandardRequest_ID";
+
+	/** Set Standard Request.
+	  * Standard Request
+	  */
+	public void setR_StandardRequest_ID (int R_StandardRequest_ID);
+
+	/** Get Standard Request.
+	  * Standard Request
+	  */
+	public int getR_StandardRequest_ID();
 
     /** Column name R_Status_ID */
     public static final String COLUMNNAME_R_Status_ID = "R_Status_ID";
@@ -328,6 +328,19 @@ public interface I_R_StandardRequest
 	  */
 	public String getTaskStatus();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -343,17 +356,4 @@ public interface I_R_StandardRequest
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

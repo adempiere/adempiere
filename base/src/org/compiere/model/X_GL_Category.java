@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for GL_Category
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.1 - $Id$ */
 public class X_GL_Category extends PO implements I_GL_Category, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20170731L;
+	private static final long serialVersionUID = 20181220L;
 
     /** Standard Constructor */
     public X_GL_Category (Properties ctx, int GL_Category_ID, String trxName)
@@ -187,6 +187,8 @@ public class X_GL_Category extends PO implements I_GL_Category, I_Persistent
 	public static final String DOCBASETYPE_APPaymentSelection = "APS";
 	/** Sales Commission = SOC */
 	public static final String DOCBASETYPE_SalesCommission = "SOC";
+	/** Fixed Assets Split = FAS */
+	public static final String DOCBASETYPE_FixedAssetsSplit = "FAS";
 	/** Fixed Assets Addition = FAA */
 	public static final String DOCBASETYPE_FixedAssetsAddition = "FAA";
 	/** Fixed Assets Disposal = FAD */

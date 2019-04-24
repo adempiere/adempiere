@@ -25,6 +25,7 @@ import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.eevolution.service.dsl.ProcessBuilder;
+import org.spin.util.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -80,6 +81,7 @@ public class MigrationFromXML extends MigrationFromXMLAbstract {
 		File file = new File(getFilePathOrName());
 
 		try {
+			XMLUtils.setDefaultFeatures(dbf);
 			builder = dbf.newDocumentBuilder();
 			
 			List<File> migrationFiles = new ArrayList<File>();

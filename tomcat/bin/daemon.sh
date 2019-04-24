@@ -94,6 +94,15 @@ test ".$TOMCAT_USER" = . && TOMCAT_USER=tomcat
 #
 if [ -z "$JAVA_HOME" ]; then
     JAVA_BIN="`which java 2>/dev/null || type java 2>&1`"
+    while [ -h "$JAVA_BIN" ]; do
+        ls=`ls -ld "$JAVA_BIN"`
+        link=`expr "$ls" : '.*-> \(.*\)$'`
+        if expr "$link" : '/.*' > /dev/null; then
+            JAVA_BIN="$link"
+        else
+            JAVA_BIN="`dirname $JAVA_BIN`/$link"
+        fi
+    done
     test -x "$JAVA_BIN" && JAVA_HOME="`dirname $JAVA_BIN`"
     test ".$JAVA_HOME" != . && JAVA_HOME=`cd "$JAVA_HOME/.." >/dev/null; pwd`
 else
@@ -105,9 +114,9 @@ test ".$CATALINA_HOME" = . && CATALINA_HOME=`cd "$DIRNAME/.." >/dev/null; pwd`
 test ".$CATALINA_BASE" = . && CATALINA_BASE="$CATALINA_HOME"
 test ".$CATALINA_MAIN" = . && CATALINA_MAIN=org.apache.catalina.startup.Bootstrap
 # If not explicitly set, look for jsvc in CATALINA_BASE first then CATALINA_HOME
-if [ -z $JSVC ]; then
+if [ -z "$JSVC" ]; then
     JSVC="$CATALINA_BASE/bin/jsvc"
-    if [ ! -x $JSVC ]; then
+    if [ ! -x "$JSVC" ]; then
         JSVC="$CATALINA_HOME/bin/jsvc"
     fi
 fi
@@ -172,6 +181,18 @@ if [ "$cygwin" = "false" ]; then
     fi
 fi
 
+# Java 9 no longer supports the java.endorsed.dirs
+# system property. Only try to use it if
+# JAVA_ENDORSED_DIRS was explicitly set
+# or CATALINA_HOME/endorsed exists.
+ENDORSED_PROP=ignore.endorsed.dirs
+if [ -n "$JAVA_ENDORSED_DIRS" ]; then
+    ENDORSED_PROP=java.endorsed.dirs
+fi
+if [ -d "$CATALINA_HOME/endorsed" ]; then
+    ENDORSED_PROP=java.endorsed.dirs
+fi
+
 # ----- Execute The Requested Command -----------------------------------------
 case "$1" in
     run     )
@@ -186,7 +207,7 @@ case "$1" in
       -errfile "&2" \
       -classpath "$CLASSPATH" \
       "$LOGGING_CONFIG" $JAVA_OPTS $CATALINA_OPTS \
-      -Djava.endorsed.dirs="$JAVA_ENDORSED_DIRS" \
+      -D$ENDORSED_PROP="$JAVA_ENDORSED_DIRS" \
       -Dcatalina.base="$CATALINA_BASE" \
       -Dcatalina.home="$CATALINA_HOME" \
       -Djava.io.tmpdir="$CATALINA_TMP" \
@@ -203,7 +224,7 @@ case "$1" in
       -errfile "&1" \
       -classpath "$CLASSPATH" \
       "$LOGGING_CONFIG" $JAVA_OPTS $CATALINA_OPTS \
-      -Djava.endorsed.dirs="$JAVA_ENDORSED_DIRS" \
+      -D$ENDORSED_PROP="$JAVA_ENDORSED_DIRS" \
       -Dcatalina.base="$CATALINA_BASE" \
       -Dcatalina.home="$CATALINA_HOME" \
       -Djava.io.tmpdir="$CATALINA_TMP" \
@@ -215,7 +236,7 @@ case "$1" in
       -stop \
       -pidfile "$CATALINA_PID" \
       -classpath "$CLASSPATH" \
-      -Djava.endorsed.dirs="$JAVA_ENDORSED_DIRS" \
+      -D$ENDORSED_PROP="$JAVA_ENDORSED_DIRS" \
       -Dcatalina.base="$CATALINA_BASE" \
       -Dcatalina.home="$CATALINA_HOME" \
       -Djava.io.tmpdir="$CATALINA_TMP" \
@@ -239,7 +260,7 @@ case "$1" in
       exit $?
     ;;
     *       )
-      echo "Unknown command: \`$1'"
+      echo "Unknown command: '$1'"
       echo "Usage: $PROGRAM ( commands ... )"
       echo "commands:"
       echo "  run               Start Tomcat without detaching from console"

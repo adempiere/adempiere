@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_CommissionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_C_CommissionLine 
 {
@@ -88,21 +88,6 @@ public interface I_C_CommissionLine
 	  */
 	public BigDecimal getAmtSubtract();
 
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
-
-	/** Set Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
-
-	/** Get Business Partner .
-	  * Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID();
-
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
-
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 
@@ -117,6 +102,21 @@ public interface I_C_CommissionLine
 	public int getC_BP_Group_ID();
 
 	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
+
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -148,6 +148,19 @@ public interface I_C_CommissionLine
 
 	public org.compiere.model.I_C_Channel getC_Channel() throws RuntimeException;
 
+    /** Column name C_CommissionLine_ID */
+    public static final String COLUMNNAME_C_CommissionLine_ID = "C_CommissionLine_ID";
+
+	/** Set Commission Line.
+	  * Commission Line
+	  */
+	public void setC_CommissionLine_ID (int C_CommissionLine_ID);
+
+	/** Get Commission Line.
+	  * Commission Line
+	  */
+	public int getC_CommissionLine_ID();
+
     /** Column name C_Commission_ID */
     public static final String COLUMNNAME_C_Commission_ID = "C_Commission_ID";
 
@@ -163,19 +176,6 @@ public interface I_C_CommissionLine
 
 	public org.compiere.model.I_C_Commission getC_Commission() throws RuntimeException;
 
-    /** Column name C_CommissionLine_ID */
-    public static final String COLUMNNAME_C_CommissionLine_ID = "C_CommissionLine_ID";
-
-	/** Set Commission Line.
-	  * Commission Line
-	  */
-	public void setC_CommissionLine_ID (int C_CommissionLine_ID);
-
-	/** Get Commission Line.
-	  * Commission Line
-	  */
-	public int getC_CommissionLine_ID();
-
     /** Column name C_DunningLevel_ID */
     public static final String COLUMNNAME_C_DunningLevel_ID = "C_DunningLevel_ID";
 
@@ -186,19 +186,6 @@ public interface I_C_CommissionLine
 	public int getC_DunningLevel_ID();
 
 	public org.compiere.model.I_C_DunningLevel getC_DunningLevel() throws RuntimeException;
-
-    /** Column name CommissionOrders */
-    public static final String COLUMNNAME_CommissionOrders = "CommissionOrders";
-
-	/** Set Commission only specified Orders.
-	  * Commission only Orders or Invoices, where this Sales Rep is entered
-	  */
-	public void setCommissionOrders (boolean CommissionOrders);
-
-	/** Get Commission only specified Orders.
-	  * Commission only Orders or Invoices, where this Sales Rep is entered
-	  */
-	public boolean isCommissionOrders();
 
     /** Column name C_PaymentTerm_ID */
     public static final String COLUMNNAME_C_PaymentTerm_ID = "C_PaymentTerm_ID";
@@ -230,6 +217,34 @@ public interface I_C_CommissionLine
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
+
+    /** Column name CommissionOrders */
+    public static final String COLUMNNAME_CommissionOrders = "CommissionOrders";
+
+	/** Set Commission only specified Orders.
+	  * Commission only Orders or Invoices, where this Sales Rep is entered
+	  */
+	public void setCommissionOrders (boolean CommissionOrders);
+
+	/** Get Commission only specified Orders.
+	  * Commission only Orders or Invoices, where this Sales Rep is entered
+	  */
+	public boolean isCommissionOrders();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -245,21 +260,6 @@ public interface I_C_CommissionLine
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_SalesRegion_ID */
-    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
-
-	/** Set Sales Region.
-	  * Sales coverage region
-	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
-
-	/** Get Sales Region.
-	  * Sales coverage region
-	  */
-	public int getC_SalesRegion_ID();
-
-	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name DaysFrom */
     public static final String COLUMNNAME_DaysFrom = "DaysFrom";
@@ -370,45 +370,6 @@ public interface I_C_CommissionLine
 	  */
 	public int getLine();
 
-    /** Column name MaxCompliance */
-    public static final String COLUMNNAME_MaxCompliance = "MaxCompliance";
-
-	/** Set Maximum Compliance (%).
-	  * Maximum Compliance of Forecast
-	  */
-	public void setMaxCompliance (BigDecimal MaxCompliance);
-
-	/** Get Maximum Compliance (%).
-	  * Maximum Compliance of Forecast
-	  */
-	public BigDecimal getMaxCompliance();
-
-    /** Column name MaxPercentage */
-    public static final String COLUMNNAME_MaxPercentage = "MaxPercentage";
-
-	/** Set Maximum Percentage.
-	  * Maximum Percentage of the entire amount
-	  */
-	public void setMaxPercentage (BigDecimal MaxPercentage);
-
-	/** Get Maximum Percentage.
-	  * Maximum Percentage of the entire amount
-	  */
-	public BigDecimal getMaxPercentage();
-
-    /** Column name MinCompliance */
-    public static final String COLUMNNAME_MinCompliance = "MinCompliance";
-
-	/** Set Minimum Compliance (%).
-	  * Minimum Compliance of Forecast
-	  */
-	public void setMinCompliance (BigDecimal MinCompliance);
-
-	/** Get Minimum Compliance (%).
-	  * Minimum Compliance of Forecast
-	  */
-	public BigDecimal getMinCompliance();
-
     /** Column name M_Product_Category_ID */
     public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
 
@@ -484,6 +445,45 @@ public interface I_C_CommissionLine
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
+    /** Column name MaxCompliance */
+    public static final String COLUMNNAME_MaxCompliance = "MaxCompliance";
+
+	/** Set Maximum Compliance (%).
+	  * Maximum Compliance of Forecast
+	  */
+	public void setMaxCompliance (BigDecimal MaxCompliance);
+
+	/** Get Maximum Compliance (%).
+	  * Maximum Compliance of Forecast
+	  */
+	public BigDecimal getMaxCompliance();
+
+    /** Column name MaxPercentage */
+    public static final String COLUMNNAME_MaxPercentage = "MaxPercentage";
+
+	/** Set Maximum Percentage.
+	  * Maximum Percentage of the entire amount
+	  */
+	public void setMaxPercentage (BigDecimal MaxPercentage);
+
+	/** Get Maximum Percentage.
+	  * Maximum Percentage of the entire amount
+	  */
+	public BigDecimal getMaxPercentage();
+
+    /** Column name MinCompliance */
+    public static final String COLUMNNAME_MinCompliance = "MinCompliance";
+
+	/** Set Minimum Compliance (%).
+	  * Minimum Compliance of Forecast
+	  */
+	public void setMinCompliance (BigDecimal MinCompliance);
+
+	/** Get Minimum Compliance (%).
+	  * Minimum Compliance of Forecast
+	  */
+	public BigDecimal getMinCompliance();
+
     /** Column name Org_ID */
     public static final String COLUMNNAME_Org_ID = "Org_ID";
 
@@ -496,6 +496,8 @@ public interface I_C_CommissionLine
 	  * Organizational entity within client
 	  */
 	public int getOrg_ID();
+
+	public org.compiere.model.I_AD_Org getOrg() throws RuntimeException;
 
     /** Column name PaymentRule */
     public static final String COLUMNNAME_PaymentRule = "PaymentRule";
@@ -536,6 +538,19 @@ public interface I_C_CommissionLine
 	  */
 	public BigDecimal getQtySubtract();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -551,17 +566,4 @@ public interface I_C_CommissionLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

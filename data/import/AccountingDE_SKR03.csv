@@ -727,7 +727,7 @@ K1BP1a,Steuerrückstellungen oder sonstige Vermögensgegenstände,Steuerrückste
 1767,Umsatzsteuer aus im anderen EG-Land steuerpflichtigen Lieferungen,Umsatzsteuer aus im anderen EG-Land steuerpflichtigen Lieferungen,Liability,,,No,,K1BP16,,,,,,,,,,
 1768,Umsatzsteuer aus im anderen EG-Land steuerpflichtigen sonstigen Leistungen / Werklieferungen,Umsatzsteuer aus im anderen EG-Land steuerpflichtigen sonstigen Leistungen / Werklieferungen,Liability,,,No,,K1BP16,,,,,,,,,,
 1769,Umsatzsteuer aus der Auslagerung von Gegenständen aus einem Umsatzsteuerlager,Umsatzsteuer aus der Auslagerung von Gegenständen aus einem Umsatzsteuerlager,Liability,,,No,,K1BP17,,,,,,,,,,
-1770,Umsatzsteuer,Umsatzsteuer,Liability,,Yes,No,T_Dü_ACCT,K1BP17,,,,,,,,,,
+1770,Umsatzsteuer,Umsatzsteuer,Liability,,Yes,No,T_DUE_ACCT,K1BP17,,,,,,,,,,
 1771,Umsatzsteuer 7%,Umsatzsteuer 7%,Liability,,,No,,K1BP17,,,,,,,,,,
 1772,Umsatzsteuer aus innergemeinschaftlichem Erwerb,Umsatzsteuer aus innergemeinschaftlichem Erwerb,Liability,,,No,,K1BP17,,,,,,,,,,
 1773,Umsatzsteuer aus innergemeinschaftlichem Erwerb 16%,Umsatzsteuer aus innergemeinschaftlichem Erwerb 16%,Liability,,,No,,K1BP17,,,,,,,,,,

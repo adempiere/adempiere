@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Depreciation_Workfile
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.1
  */
 public interface I_A_Depreciation_Workfile 
 {
@@ -83,22 +83,26 @@ public interface I_A_Depreciation_Workfile
     /** Column name A_Asset_Cost */
     public static final String COLUMNNAME_A_Asset_Cost = "A_Asset_Cost";
 
-	/** Set Asset Cost	  */
+	/** Set Fixed Asset Cost.
+	  * Cost of acquisition of the Fixed Asset
+	  */
 	public void setA_Asset_Cost (BigDecimal A_Asset_Cost);
 
-	/** Get Asset Cost	  */
+	/** Get Fixed Asset Cost.
+	  * Cost of acquisition of the Fixed Asset
+	  */
 	public BigDecimal getA_Asset_Cost();
 
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
 
-	/** Set Asset.
-	  * Asset used internally or by customers
+	/** Set Fixed Asset.
+	  * Fixed Asset used internally or by customers
 	  */
 	public void setA_Asset_ID (int A_Asset_ID);
 
-	/** Get Asset.
-	  * Asset used internally or by customers
+	/** Get Fixed Asset.
+	  * Fixed Asset used internally or by customers
 	  */
 	public int getA_Asset_ID();
 
@@ -188,10 +192,14 @@ public interface I_A_Depreciation_Workfile
     /** Column name A_Depreciation_Workfile_ID */
     public static final String COLUMNNAME_A_Depreciation_Workfile_ID = "A_Depreciation_Workfile_ID";
 
-	/** Set A_Depreciation_Workfile_ID	  */
+	/** Set Fixed Asset Balances.
+	  * Fixed Asset Balances
+	  */
 	public void setA_Depreciation_Workfile_ID (int A_Depreciation_Workfile_ID);
 
-	/** Get A_Depreciation_Workfile_ID	  */
+	/** Get Fixed Asset Balances.
+	  * Fixed Asset Balances
+	  */
 	public int getA_Depreciation_Workfile_ID();
 
     /** Column name A_Expense_SL */
@@ -289,10 +297,14 @@ public interface I_A_Depreciation_Workfile
     /** Column name A_QTY_Current */
     public static final String COLUMNNAME_A_QTY_Current = "A_QTY_Current";
 
-	/** Set Current Qty	  */
+	/** Set Fixed Asset Current Qty.
+	  * Fixed Asset Current Quantity
+	  */
 	public void setA_QTY_Current (BigDecimal A_QTY_Current);
 
-	/** Get Current Qty	  */
+	/** Get Fixed Asset Current Qty.
+	  * Fixed Asset Current Quantity
+	  */
 	public BigDecimal getA_QTY_Current();
 
     /** Column name A_Salvage_Value */

@@ -1,4 +1,4 @@
-x#!/bin/bash
+#!/bin/bash
 #
 # Name:			ImportAdempiere.sh
 # Description:	script to import database into postgresql
@@ -146,6 +146,7 @@ fi
 # recreate database
 echo "recreate database \"$dbName\""
 PGPASSWORD=$dbPwd createdb -h $dbHost -p $dbPort -E UNICODE -O $dbUser -U $dbUser $dbName
+result=$?
 if [ $result -ne 0 ]
 then
 	echo "create database failed with exit code $result"

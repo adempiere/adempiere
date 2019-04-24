@@ -824,14 +824,14 @@ public final class Fact
 				// F3P end
 
 				if (distributionLine.isInvertAccountSign()) {
-					if (distributionLine.getAmt().signum() < 0)
+					if (distributionLine.getAmt() != null && distributionLine.getAmt().signum() < 0)
 						factLine.setAmtSource(factLineSource.getC_Currency_ID(), null, distributionLine.getAmt().abs());
 					else
 						factLine.setAmtSource(factLineSource.getC_Currency_ID(), distributionLine.getAmt(), null);
 				}
 				else
 				{
-					if (distributionLine.getAmt().signum() < 0)
+					if (distributionLine.getAmt() != null && distributionLine.getAmt().signum() < 0)
 						factLine.setAmtSource(factLineSource.getC_Currency_ID(), null, distributionLine.getAmt().abs());
 					else
 						factLine.setAmtSource(factLineSource.getC_Currency_ID(), distributionLine.getAmt(), null);
