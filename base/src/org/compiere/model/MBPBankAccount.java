@@ -20,7 +20,10 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.apache.commons.validator.routines.IBANValidator;
 import org.compiere.util.CLogger;
+import org.compiere.util.Util;
 
 /**
  *  BP Bank Account Model
@@ -184,9 +187,17 @@ public class MBPBankAccount extends X_C_BP_BankAccount
 		//	maintain routing on bank level
 		if (isACH() && getBank() != null)
 			setRoutingNo(null);
-		//
+		
+		// validate IBAN
+		if(!Util.isEmpty(getIBAN())) {
+			IBANValidator validator = IBANValidator.getInstance();
+			if(!validator.isValid(getIBAN().trim())) {
+				throw new AdempiereException("@ValidationError@ (@Invalid@ @IBAN@)");
+			}
+		}
+		
 		return true;
-	}	//	beforeSave
+	}
 	
 	/**
 	 *	String Representation
