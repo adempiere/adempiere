@@ -85,7 +85,10 @@ public class PoFiller{
 		if(isMandatory
 				&& Util.isEmpty(value)) {
 			if(!isKeyColumn) {
-				entity.set_ValueOfColumn(columnName, entity.getDefaultValue(index));
+				Object valueObject = entity.getDefaultValue(index);
+				if(valueObject != null) {
+					entity.set_ValueOfColumn(columnName, valueObject);
+				}
 			}
 			return;
 		}
