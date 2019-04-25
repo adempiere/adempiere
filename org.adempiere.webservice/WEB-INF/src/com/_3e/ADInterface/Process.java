@@ -253,9 +253,8 @@ public class Process {
 		//p.addElement(Msg.translate(wsc.ctx, "AD_PInstance_ID") + ": " + pInstance.getAD_PInstance_ID());
 		//center.addElement(p);
 		boolean processOK = false;
-		
-		boolean jasperreport = (process != null && process.getClassname()!=null && process.getClassname().indexOf( "net.sf.compilo.report.ReportStarter" ) >=0 );
-		
+		boolean jasperreport = process.isJasper();
+
 		if (jasperreport)
 		{
 			//this.jasperReport( request, response, wsc.ctx, pi);
