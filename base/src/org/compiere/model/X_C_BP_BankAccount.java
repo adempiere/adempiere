@@ -30,7 +30,7 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190425L;
 
     /** Standard Constructor */
     public X_C_BP_BankAccount (Properties ctx, int C_BP_BankAccount_ID, String trxName)
@@ -38,7 +38,6 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
       super (ctx, C_BP_BankAccount_ID, trxName);
       /** if (C_BP_BankAccount_ID == 0)
         {
-			setA_Name (null);
 			setC_BP_BankAccount_ID (0);
 			setC_BPartner_ID (0);
 			setIsACH (false);
@@ -72,34 +71,6 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
-    {
-		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
-			.getPO(getAD_User_ID(), get_TrxName());	}
-
-	/** Set User/Contact.
-		@param AD_User_ID 
-		User within the system - Internal or Business Partner Contact
-	  */
-	public void setAD_User_ID (int AD_User_ID)
-	{
-		if (AD_User_ID < 1) 
-			set_Value (COLUMNNAME_AD_User_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
-	}
-
-	/** Get User/Contact.
-		@return User within the system - Internal or Business Partner Contact
-	  */
-	public int getAD_User_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	/** Set Account City.
 		@param A_City 
@@ -279,6 +250,58 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 		return (String)get_Value(COLUMNNAME_AccountNo);
 	}
 
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
+
+	/** Set User/Contact.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_Value (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get User/Contact.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** BankAccountType AD_Reference_ID=216 */
+	public static final int BANKACCOUNTTYPE_AD_Reference_ID=216;
+	/** Checking = C */
+	public static final String BANKACCOUNTTYPE_Checking = "C";
+	/** Savings = S */
+	public static final String BANKACCOUNTTYPE_Savings = "S";
+	/** Set Bank Account Type.
+		@param BankAccountType 
+		Bank Account Type
+	  */
+	public void setBankAccountType (String BankAccountType)
+	{
+
+		set_Value (COLUMNNAME_BankAccountType, BankAccountType);
+	}
+
+	/** Get Bank Account Type.
+		@return Bank Account Type
+	  */
+	public String getBankAccountType () 
+	{
+		return (String)get_Value(COLUMNNAME_BankAccountType);
+	}
+
 	/** BPBankAcctUse AD_Reference_ID=393 */
 	public static final int BPBANKACCTUSE_AD_Reference_ID=393;
 	/** None = N */
@@ -307,28 +330,32 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 		return (String)get_Value(COLUMNNAME_BPBankAcctUse);
 	}
 
-	/** BankAccountType AD_Reference_ID=216 */
-	public static final int BANKACCOUNTTYPE_AD_Reference_ID=216;
-	/** Checking = C */
-	public static final String BANKACCOUNTTYPE_Checking = "C";
-	/** Savings = S */
-	public static final String BANKACCOUNTTYPE_Savings = "S";
-	/** Set Bank Account Type.
-		@param BankAccountType 
-		Bank Account Type
-	  */
-	public void setBankAccountType (String BankAccountType)
-	{
+	public org.compiere.model.I_C_Bank getC_Bank() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Bank)MTable.get(getCtx(), org.compiere.model.I_C_Bank.Table_Name)
+			.getPO(getC_Bank_ID(), get_TrxName());	}
 
-		set_Value (COLUMNNAME_BankAccountType, BankAccountType);
+	/** Set Bank.
+		@param C_Bank_ID 
+		Bank
+	  */
+	public void setC_Bank_ID (int C_Bank_ID)
+	{
+		if (C_Bank_ID < 1) 
+			set_Value (COLUMNNAME_C_Bank_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Bank_ID, Integer.valueOf(C_Bank_ID));
 	}
 
-	/** Get Bank Account Type.
-		@return Bank Account Type
+	/** Get Bank.
+		@return Bank
 	  */
-	public String getBankAccountType () 
+	public int getC_Bank_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_BankAccountType);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Bank_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Partner Bank Account.
@@ -377,34 +404,6 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 	public int getC_BPartner_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_Bank getC_Bank() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Bank)MTable.get(getCtx(), org.compiere.model.I_C_Bank.Table_Name)
-			.getPO(getC_Bank_ID(), get_TrxName());	}
-
-	/** Set Bank.
-		@param C_Bank_ID 
-		Bank
-	  */
-	public void setC_Bank_ID (int C_Bank_ID)
-	{
-		if (C_Bank_ID < 1) 
-			set_Value (COLUMNNAME_C_Bank_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Bank_ID, Integer.valueOf(C_Bank_ID));
-	}
-
-	/** Get Bank.
-		@return Bank
-	  */
-	public int getC_Bank_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Bank_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -516,6 +515,23 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 	public String getCreditCardVV () 
 	{
 		return (String)get_Value(COLUMNNAME_CreditCardVV);
+	}
+
+	/** Set IBAN.
+		@param IBAN 
+		International Bank Account Number
+	  */
+	public void setIBAN (String IBAN)
+	{
+		set_Value (COLUMNNAME_IBAN, IBAN);
+	}
+
+	/** Get IBAN.
+		@return International Bank Account Number
+	  */
+	public String getIBAN () 
+	{
+		return (String)get_Value(COLUMNNAME_IBAN);
 	}
 
 	/** Set ACH.
