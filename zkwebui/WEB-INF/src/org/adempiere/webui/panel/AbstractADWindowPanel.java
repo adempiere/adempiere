@@ -1825,8 +1825,8 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
             query = oldQuery;
             e.printStackTrace();
         }
-        
-        
+
+
 		if(currentTab.getWhereClause() !=null && !currentTab.getWhereClause().isEmpty())
 		{
 			query.addRestriction(Env.parseContext(ctx, curWindowNo, currentTab.getWhereClause(), false));
@@ -1850,12 +1850,16 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			if (infoName != null && infoDisplay != null)
 				break;
 		}
-		if (queryColumn.length() != 0 && query.getRestrictionCount() == 0)
-		{
-			if (queryColumn.endsWith("_ID"))
+		if ((queryColumn.length() != 0 && query.getRestrictionCount() == 0)
+		||  (queryColumn.length() != 0 && !toolbar.getCurrentPanel().isGridView())
+		||  (queryColumn.length() != 0 && currentTab.getRowCount() == 1)
+		) {
+			if (queryColumn.endsWith("_ID")) {
+				query = new MQuery(currentTab.getTableName());
 				query.addRestriction(queryColumn, MQuery.EQUAL,
-					new Integer(Env.getContextAsInt(ctx, curWindowNo, queryColumn)),
-					infoName, infoDisplay);
+						new Integer(Env.getContextAsInt(ctx, curWindowNo, queryColumn)),
+						infoName, infoDisplay);
+			}
 			else
 				query.addRestriction(queryColumn, MQuery.EQUAL,
 					Env.getContext(ctx, curWindowNo, queryColumn),
