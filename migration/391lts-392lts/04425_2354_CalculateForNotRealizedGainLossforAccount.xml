@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="#2354 Calculate for Not Realized Gain / Loss for Account" ReleaseNo="3.9.2" SeqNo="4430">
+  <Migration EntityType="D" Name="#2354 Calculate for Not Realized Gain / Loss for Account" ReleaseNo="3.9.2" SeqNo="4425">
     <Comments>https://github.com/adempiere/adempiere/issues/2354</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="284" Action="I" Record_ID="54198" Table="AD_Process">
@@ -42,6 +42,7 @@
     <Step SeqNo="20" StepType="AD">
       <PO AD_Table_ID="287" Action="I" Record_ID="0" Table="AD_Process_Trl">
         <Data AD_Column_ID="2847" Column="IsActive">true</Data>
+        <Data AD_Column_ID="84387" Column="UUID" isNewNull="true"/>
         <Data AD_Column_ID="2850" Column="Updated">2019-02-15 17:46:31.629</Data>
         <Data AD_Column_ID="2848" Column="Created">2019-02-15 17:46:31.629</Data>
         <Data AD_Column_ID="2853" Column="Description">Generate Not Realized Gain / Loss for Multi-Currency Account</Data>
@@ -54,16 +55,15 @@
         <Data AD_Column_ID="2844" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="2843" Column="AD_Process_ID">54198</Data>
         <Data AD_Column_ID="2849" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="84387" Column="UUID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
-        <Data AD_Column_ID="2855" Column="IsTranslated" oldValue="false">true</Data>
-        <Data AD_Column_ID="2852" Column="Name" oldValue="Generate Not Realized Gain / Loss for Multi-Currency Account">Generar ganancia / pérdida no realizada</Data>
         <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54198">54198</Data>
         <Data AD_Column_ID="2853" Column="Description" oldValue="Generate Not Realized Gain / Loss for Multi-Currency Account">Generar ganancias / pérdidas no realizadas para cuentas de múltiples monedas</Data>
+        <Data AD_Column_ID="2855" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Generate Not Realized Gain / Loss for Multi-Currency Account">Generar ganancia / pérdida no realizada</Data>
         <Data AD_Column_ID="2854" Column="Help" oldValue="This process takes the accounting records until a closing date for all multi-currency accounting accounts of the balance in the source currency of the transaction is converted to the currency of the accounting scheme at the exchange rate of the closing date, the difference with the current balance balance in currency records a journal for the difference as loss or gain in exchange">Este proceso toma los registros contables a una fecha de cierre para todas las cuentas contables multi monedas, el saldo en la moneda de origen de la transacción se convierte a la moneda del esquema contable al tipo de cambio de la fecha de cierre, la diferencia con el saldo actual en moneda del esquema se registra como un diario por la diferencia como pérdida o ganancia a cambio</Data>
       </PO>
     </Step>
@@ -165,6 +165,10 @@
     <Step SeqNo="80" StepType="AD">
       <PO AD_Table_ID="286" Action="I" Record_ID="56830" Table="AD_Process_Para_Trl">
         <Data AD_Column_ID="2836" Column="Created">2019-02-15 18:43:51.996</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID" isNewNull="true"/>
         <Data AD_Column_ID="2835" Column="IsActive">true</Data>
         <Data AD_Column_ID="2838" Column="Updated">2019-02-15 18:43:51.996</Data>
         <Data AD_Column_ID="2840" Column="Name">Currency</Data>
@@ -174,10 +178,6 @@
         <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">56830</Data>
         <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="84386" Column="UUID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="90" StepType="AD">
@@ -237,7 +237,6 @@
     <Step SeqNo="110" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="56832" Table="AD_Process_Para">
         <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">56832</Data>
         <Data AD_Column_ID="2820" Column="Updated">2019-02-15 18:51:01.423</Data>
         <Data AD_Column_ID="2822" Column="Name">Revaluation Date</Data>
         <Data AD_Column_ID="2817" Column="IsActive">true</Data>
@@ -268,6 +267,7 @@
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">2805</Data>
         <Data AD_Column_ID="84385" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">56832</Data>
       </PO>
     </Step>
     <Step SeqNo="120" StepType="AD">
@@ -290,6 +290,7 @@
     </Step>
     <Step SeqNo="130" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="56833" Table="AD_Process_Para">
+        <Data AD_Column_ID="4017" Column="ColumnName">C_DocTypeReval_ID</Data>
         <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="2820" Column="Updated">2019-02-15 18:53:31.723</Data>
         <Data AD_Column_ID="2822" Column="Name">Revaluation Document Type</Data>
@@ -298,7 +299,6 @@
         <Data AD_Column_ID="2818" Column="Created">2019-02-15 18:53:31.723</Data>
         <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="4017" Column="ColumnName">C_DocTypeReval_ID</Data>
         <Data AD_Column_ID="2823" Column="Description">Document Type for Revaluation Journal</Data>
         <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
@@ -369,15 +369,6 @@
     </Step>
     <Step SeqNo="200" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="56834" Table="AD_Process_Para">
-        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">319</Data>
-        <Data AD_Column_ID="7729" Column="AD_Element_ID">2852</Data>
-        <Data AD_Column_ID="84385" Column="UUID" isNewNull="true"/>
-        <Data AD_Column_ID="2820" Column="Updated">2019-02-15 19:01:21.407</Data>
-        <Data AD_Column_ID="2822" Column="Name">Create New Journal</Data>
-        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
-        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
-        <Data AD_Column_ID="2818" Column="Created">2019-02-15 19:01:21.407</Data>
         <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="4017" Column="ColumnName">IsCreateNewJournal</Data>
@@ -401,6 +392,15 @@
         <Data AD_Column_ID="2827" Column="AD_Reference_ID">17</Data>
         <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="2826" Column="SeqNo">60</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">319</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">2852</Data>
+        <Data AD_Column_ID="84385" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="2820" Column="Updated">2019-02-15 19:01:21.407</Data>
+        <Data AD_Column_ID="2822" Column="Name">Create New Journal</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-02-15 19:01:21.407</Data>
       </PO>
     </Step>
     <Step SeqNo="210" StepType="AD">
@@ -423,6 +423,7 @@
     </Step>
     <Step SeqNo="220" StepType="AD">
       <PO AD_Table_ID="116" Action="I" Record_ID="54437" Table="AD_Menu">
+        <Data AD_Column_ID="400" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="598" Column="IsActive">true</Data>
         <Data AD_Column_ID="57960" Column="AD_Browse_ID" isNewNull="true"/>
         <Data AD_Column_ID="229" Column="Name">Generate Not Realized Gain / Loss for Multi-Currency Account</Data>
@@ -437,7 +438,6 @@
         <Data AD_Column_ID="232" Column="Action">P</Data>
         <Data AD_Column_ID="399" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="228" Column="AD_Menu_ID">54437</Data>
-        <Data AD_Column_ID="400" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="6297" Column="AD_Workbench_ID" isNewNull="true"/>
         <Data AD_Column_ID="7721" Column="EntityType">D</Data>
         <Data AD_Column_ID="234" Column="AD_Workflow_ID" isNewNull="true"/>
@@ -484,10 +484,10 @@
     </Step>
     <Step SeqNo="250" StepType="AD">
       <PO AD_Table_ID="452" Action="U" Record_ID="54437" Table="AD_TreeNodeMM">
-        <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="0">278</Data>
         <Data AD_Column_ID="6157" Column="SeqNo" oldValue="999">7</Data>
         <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
         <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54437">54437</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="0">278</Data>
       </PO>
     </Step>
     <Step SeqNo="260" StepType="AD">
@@ -520,9 +520,9 @@
     </Step>
     <Step SeqNo="300" StepType="AD">
       <PO AD_Table_ID="452" Action="U" Record_ID="433" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
         <Data AD_Column_ID="6161" Column="Node_ID" oldValue="433">433</Data>
         <Data AD_Column_ID="6157" Column="SeqNo" oldValue="11">12</Data>
-        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
       </PO>
     </Step>
     <Step SeqNo="310" StepType="AD">
@@ -548,11 +548,11 @@
     </Step>
     <Step SeqNo="340" StepType="AD">
       <PO AD_Table_ID="120" Action="U" Record_ID="54437" Table="AD_Menu_Trl">
-        <Data AD_Column_ID="248" Column="Description" oldValue="Generate Not Realized Gain / Loss for Multi-Currency Account">Generar ganancias / pérdidas no realizadas para cuentas de múltiples monedas</Data>
         <Data AD_Column_ID="249" Column="IsTranslated" oldValue="false">true</Data>
         <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="54437">54437</Data>
         <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="247" Column="Name" oldValue="Generate Not Realized Gain / Loss for Multi-Currency Account">Generar ganancia / pérdida no realizada</Data>
+        <Data AD_Column_ID="248" Column="Description" oldValue="Generate Not Realized Gain / Loss for Multi-Currency Account">Generar ganancias / pérdidas no realizadas para cuentas de múltiples monedas</Data>
       </PO>
     </Step>
     <Step SeqNo="350" StepType="AD">
@@ -584,6 +584,11 @@
     </Step>
     <Step SeqNo="400" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="56835" Table="AD_Process_Para">
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">70</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84385" Column="UUID" isNewNull="true"/>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">2092</Data>
         <Data AD_Column_ID="2820" Column="Updated">2019-02-15 19:08:53.382</Data>
         <Data AD_Column_ID="2822" Column="Name">Batch Description</Data>
@@ -611,11 +616,6 @@
         <Data AD_Column_ID="2825" Column="AD_Process_ID">54198</Data>
         <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2827" Column="AD_Reference_ID">10</Data>
-        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="2826" Column="SeqNo">70</Data>
-        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
-        <Data AD_Column_ID="84385" Column="UUID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="410" StepType="AD">
@@ -710,25 +710,6 @@ ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;</SQLStatement>
     <Step SeqNo="540" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="92472" Table="AD_Column">
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="112" Column="Description">Database Table information</Data>
-        <Data AD_Column_ID="548" Column="IsActive">true</Data>
-        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2019-02-15 19:32:50.02</Data>
-        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
-        <Data AD_Column_ID="551" Column="Updated">2019-02-15 19:32:50.02</Data>
-        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="109" Column="AD_Column_ID">92472</Data>
-        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
-        <Data AD_Column_ID="111" Column="Name">Table</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
-        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
-        <Data AD_Column_ID="119" Column="IsKey">false</Data>
-        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">0</Data>
@@ -758,6 +739,25 @@ ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;</SQLStatement>
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
         <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description">Database Table information</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-02-15 19:32:50.02</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-02-15 19:32:50.02</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">92472</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Table</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="550" StepType="AD">
@@ -778,6 +778,7 @@ ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;</SQLStatement>
     </Step>
     <Step SeqNo="560" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="92473" Table="AD_Column">
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="112" Column="Description">Direct internal record ID</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
@@ -790,7 +791,6 @@ ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;</SQLStatement>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="111" Column="Name">Record ID</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
@@ -901,17 +901,17 @@ ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;</SQLStatement>
     <Step SeqNo="590" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="92474" Table="AD_Column_Trl">
         <Data AD_Column_ID="12960" Column="Created">2019-02-15 20:59:54.605</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
         <Data AD_Column_ID="12959" Column="IsActive">true</Data>
         <Data AD_Column_ID="12952" Column="Updated">2019-02-15 20:59:54.605</Data>
         <Data AD_Column_ID="12955" Column="AD_Column_ID">92474</Data>
         <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="12957" Column="Name">Account</Data>
         <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="600" StepType="AD">
@@ -975,11 +975,6 @@ ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;</SQLStatement>
     </Step>
     <Step SeqNo="640" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="92482" Table="AD_Column">
-        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
-        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="548" Column="IsActive">true</Data>
-        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2019-02-20 20:23:51.34</Data>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="551" Column="Updated">2019-02-20 20:23:51.34</Data>
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
@@ -1024,6 +1019,11 @@ ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;</SQLStatement>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">13</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-02-20 20:23:51.34</Data>
       </PO>
     </Step>
     <Step SeqNo="650" StepType="AD">
@@ -1070,6 +1070,11 @@ ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;</SQLStatement>
     </Step>
     <Step SeqNo="710" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="92486" Table="AD_Column">
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
         <Data AD_Column_ID="119" Column="IsKey">false</Data>
@@ -1114,11 +1119,6 @@ ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;</SQLStatement>
         <Data AD_Column_ID="109" Column="AD_Column_ID">92486</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="111" Column="Name">Table</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="120" Column="IsParent">false</Data>
       </PO>
     </Step>
     <Step SeqNo="720" StepType="AD">
@@ -1139,6 +1139,7 @@ ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;</SQLStatement>
     </Step>
     <Step SeqNo="730" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="92487" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Direct internal record ID</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">538</Data>
@@ -1174,7 +1175,6 @@ ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;</SQLStatement>
         <Data AD_Column_ID="116" Column="ColumnName">Record_ID</Data>
         <Data AD_Column_ID="113" Column="Help">The Record ID is the internal unique identifier of a record. Please note that zooming to the record may not be successful for Orders, Invoices and Shipment/Receipts as sometimes the Sales Order type is not known.</Data>
         <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
-        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1303,19 +1303,6 @@ ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;</SQLStatement>
     <Step SeqNo="820" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="92525" Table="AD_Column">
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
-        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
-        <Data AD_Column_ID="112" Column="Description">The Currency for this record</Data>
-        <Data AD_Column_ID="548" Column="IsActive">true</Data>
-        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2019-02-25 21:17:34.72</Data>
-        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
-        <Data AD_Column_ID="551" Column="Updated">2019-02-25 21:17:34.72</Data>
-        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="109" Column="AD_Column_ID">92525</Data>
-        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
-        <Data AD_Column_ID="111" Column="Name">Currency</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
@@ -1351,6 +1338,19 @@ ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;</SQLStatement>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description">The Currency for this record</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-02-25 21:17:34.72</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-02-25 21:17:34.72</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">92525</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Currency</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
       </PO>
     </Step>
     <Step SeqNo="830" StepType="AD">
@@ -1376,12 +1376,12 @@ ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;</SQLStatement>
     </Step>
     <Step SeqNo="850" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="92528" Table="AD_Column">
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="6482" Column="EntityType">D</Data>
@@ -1430,6 +1430,10 @@ ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;</SQLStatement>
     <Step SeqNo="860" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="92528" Table="AD_Column_Trl">
         <Data AD_Column_ID="12960" Column="Created">2019-02-26 17:13:13.358</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
         <Data AD_Column_ID="12959" Column="IsActive">true</Data>
         <Data AD_Column_ID="12952" Column="Updated">2019-02-26 17:13:13.358</Data>
         <Data AD_Column_ID="12955" Column="AD_Column_ID">92528</Data>
@@ -1437,10 +1441,6 @@ ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;</SQLStatement>
         <Data AD_Column_ID="12957" Column="Name">Accounting Schema</Data>
         <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
       </PO>
     </Step>
     <Step DBType="Postgres" Parse="Y" SeqNo="865" StepType="SQL">
@@ -1463,20 +1463,20 @@ DROP VIEW T_INVOICEGL_VT;
 
 CREATE OR REPLACE VIEW T_INVOICEGL_V
 (T_InvoiceGL_ID , AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY,
- UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
- DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
- DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
- AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
- ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO,
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID,
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID,
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL,
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID,
  USER1_ID, USER2_ID, USER3_ID, USER4_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID,
- FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
- GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
- AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
- AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
- AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
- C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
- AMTACCTOPENCR, AMTACCTOPENBALANCE, AD_Table_ID , Record_ID)
-AS 
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID,
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR,
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY,
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR,
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE,
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR,
+ AMTACCTOPENCR, AMTACCTOPENBALANCE, AD_Table_ID , Record_ID , AD_Language)
+AS
 SELECT
     gl.T_InvoiceGL_ID,
     COALESCE(i.AD_Client_ID,fa.AD_Client_ID) AS AD_Client_ID ,
@@ -1517,27 +1517,27 @@ SELECT
     gl.C_DocTypeReval_ID,
     gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
     (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
-    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance , gl.AD_Table_ID , gl.Record_ID
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance , gl.AD_Table_ID , gl.Record_ID , 'en_US' AS AD_Language
 FROM T_InvoiceGL gl
   LEFT JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
   LEFT JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);
 
 CREATE OR REPLACE VIEW T_INVOICEGL_VT
 (T_InvoiceGL_ID , AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY,
- UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
- DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
- DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
- AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
- ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO,
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID,
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID,
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL,
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID,
  USER1_ID, USER2_ID, USER3_ID, USER4_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID,
- FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
- GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
- AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
- AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
- AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
- C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
- AMTACCTOPENCR, AMTACCTOPENBALANCE,AD_Table_ID , Record_ID)
-AS 
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID,
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR,
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY,
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR,
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE,
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR,
+ AMTACCTOPENCR, AMTACCTOPENBALANCE,AD_Table_ID , Record_ID , AD_Language)
+AS
 SELECT
     gl.T_InvoiceGL_ID,
     COALESCE(i.AD_Client_ID,fa.AD_Client_ID) AS AD_Client_ID ,
@@ -1579,11 +1579,12 @@ SELECT
     gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
     (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
     ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance,
-     gl.AD_Table_ID , gl.Record_ID ,  dttrl.AD_Language
+     gl.AD_Table_ID , gl.Record_ID , l.AD_Language
 FROM T_InvoiceGL gl
   LEFT JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
   LEFT JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID)
-  LEFT JOIN C_DocType_Trl dttrl ON (gl.C_DocTypeReval_ID=dttrl.C_DocType_ID);
+  LEFT JOIN AD_Language l ON (l.IsSystemLanguage='Y' AND l.IsActive = 'Y')
+  LEFT JOIN C_DocType_Trl dttrl ON (gl.C_DocTypeReval_ID=dttrl.C_DocType_ID AND l.AD_Language=dttrl.AD_Language);
 </SQLStatement>
       <RollbackStatement>DROP VIEW T_INVOICEGL_V;
 DROP VIEW T_INVOICEGL_VT;
@@ -1602,7 +1603,7 @@ CREATE OR REPLACE VIEW T_INVOICEGL_V
  AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
  AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
  C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
- AMTACCTOPENCR, AMTACCTOPENBALANCE)
+ AMTACCTOPENCR, AMTACCTOPENBALANCE, AD_Language)
 AS 
 SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
     i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
@@ -1626,7 +1627,8 @@ SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated
     gl.C_DocTypeReval_ID,
     gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
     (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
-    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance,
+    'en_US' AS AD_Language
 FROM T_InvoiceGL gl
   INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
   INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);
@@ -1645,7 +1647,7 @@ CREATE OR REPLACE VIEW T_INVOICEGL_VT
  AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
  AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
  C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
- AMTACCTOPENCR, AMTACCTOPENBALANCE)
+ AMTACCTOPENCR, AMTACCTOPENBALANCE, AD_Language)
 AS 
 SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
     i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
@@ -1669,10 +1671,14 @@ SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated
     gl.C_DocTypeReval_ID,
     gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
     (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
-    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance,
+    l.AD_Language
 FROM T_InvoiceGL gl
   INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
-  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);</RollbackStatement>
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID)
+  LEFT JOIN AD_Language l ON (l.IsSystemLanguage='Y' AND l.IsActive = 'Y');
+
+</RollbackStatement>
     </Step>
   </Migration>
 </Migrations>

@@ -135,8 +135,7 @@ public class GenerateNotRealizedGainLoss extends GenerateNotRealizedGainLossAbst
                                             accountBalance.credit = credit;
                                             return accountBalance;
                                         }).collect(toList()).stream()
-                                        .filter(accountBalance -> (accountBalance.debit.signum() != 0 && accountBalance.credit.signum() == 0) ||
-                                                (accountBalance.credit.signum() != 0 && accountBalance.debit.signum() == 0))
+                                        .filter(accountBalance -> (accountBalance.debit.subtract(accountBalance.credit).signum() != 0))
                                         .forEach(accountBalance -> {
                                             MAcctSchema accountingSchema = MAcctSchema.get(getCtx(), accountSchemeEntry.getKey());
                                             MCurrency currency = MCurrency.get(Env.getCtx(), accountBalance.currencyId);
@@ -173,6 +172,8 @@ public class GenerateNotRealizedGainLoss extends GenerateNotRealizedGainLossAbst
         StringBuilder journalBatchDescription = new StringBuilder();
         Optional.ofNullable(getBatchDescription()).ifPresent(batchDescription -> journalBatchDescription.append(batchDescription).append(" "));
         journalBatchDescription.append(getName()).append(" @DateAcct@ ").append(getDateReval());
+        journalBatch.setDateAcct(getDateReval());
+        journalBatch.setDateDoc(getDateReval());
         journalBatch.setDescription(Msg.parseTranslation(getCtx(), journalBatchDescription.toString()));
         journalBatch.setC_DocType_ID(getDocTypeRevalId());
         journalBatch.setDateDoc(today);
@@ -201,6 +202,8 @@ public class GenerateNotRealizedGainLoss extends GenerateNotRealizedGainLossAbst
         Integer glCategoryId = Optional.ofNullable(MGLCategory.getDefaultSystem(getCtx()).get_ID())
                 .orElse(documentType.getGL_Category_ID());
         MJournal journal = new MJournal(journalBatch);
+        journal.setDateAcct(getDateReval());
+        journal.setDateDoc(getDateReval());
         journal.setC_AcctSchema_ID(accountingSchema.get_ID());
         journal.setAD_Org_ID(organizationId);
         journal.setC_Currency_ID(accountingSchema.getC_Currency_ID());
@@ -311,6 +314,9 @@ public class GenerateNotRealizedGainLoss extends GenerateNotRealizedGainLossAbst
      */
     private void createExchangeGainLossReport(MAcctSchema acctSchema, Integer factAcctId, String trxName) {
         MFactAcct factAcct = new MFactAcct(getCtx(), factAcctId, trxName);
+        if (factAcct.getAmtAcctDr().subtract(factAcct.getAmtAcctCr()).signum() == 0)
+            return;
+
         X_T_InvoiceGL exchangeGainLoss = new X_T_InvoiceGL(getCtx(), 0, trxName);
         exchangeGainLoss.setAD_PInstance_ID(getAD_PInstance_ID());
         exchangeGainLoss.setAD_Org_ID(factAcct.getAD_Org_ID());
