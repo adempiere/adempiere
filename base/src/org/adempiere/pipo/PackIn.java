@@ -18,8 +18,6 @@
 package org.adempiere.pipo;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -29,8 +27,6 @@ import javax.xml.parsers.SAXParserFactory;
 import org.compiere.Adempiere;
 import org.compiere.db.CConnection;
 import org.compiere.model.X_AD_Package_Imp_Proc;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -44,71 +40,13 @@ import org.spin.util.XMLUtils;
  * 
  * @author: Robert KLEIN. robeklein@hotmail.com
  */
-public class PackIn extends SvrProcess {
+public class PackIn extends PackInAbstract {
 
 	/** Logger */
 	private CLogger log = CLogger.getCLogger("PackIn");
-	//update system maintain dictionary, default to true
 	public static String m_UpdateMode = "true";
 	public static String m_Database = "Oracle";
 	public static String m_Package_Dir = null;
-	public int p_PackIn_ID = 0;
-	
-	private Map<String,Integer> tableCache = new HashMap<String,Integer>();
-	private Map<String,Integer> columnCache = new HashMap<String,Integer>();
-	
-	/**
-	 * add to table id cache
-	 * @param tableName
-	 * @param tableId
-	 */
-	public void addTable(String tableName, int tableId) {
-		tableCache.put(tableName, tableId);
-	}
-	
-	/**
-	 * Find table id from cache
-	 * @param tableName
-	 * @return tableId
-	 */
-	public int getTableId(String tableName) {
-		if (tableCache.containsKey(tableName))
-			return tableCache.get(tableName).intValue();
-		else
-			return 0;
-	}
-	
-	/**
-	 * add to column id cache
-	 * @param tableName
-	 * @param columnName
-	 * @param columnId
-	 */
-	public void addColumn(String tableName, String columnName, int columnId) {
-		columnCache.put(tableName+"."+columnName, columnId);
-	}
-	
-	/**
-	 * find column id from cache
-	 * @param tableName
-	 * @param columnName
-	 * @return column id
-	 */
-	public int getColumnId(String tableName, String columnName) {
-		String key = tableName+"."+columnName;
-		if (columnCache.containsKey(key)) 
-			return columnCache.get(key).intValue();
-		else
-			return 0;
-	}
-
-	protected void prepare() {
-		p_PackIn_ID = getRecord_ID();
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++) {
-		}
-	} // prepare
-
 	/**
 	 * Uses PackInHandler to update AD.
 	 * 
@@ -156,8 +94,7 @@ public class PackIn extends SvrProcess {
 	 */
 	protected String doIt() throws Exception {
 
-		X_AD_Package_Imp_Proc adPackageImp = new X_AD_Package_Imp_Proc(getCtx(),
-				p_PackIn_ID, null);
+		X_AD_Package_Imp_Proc adPackageImp = new X_AD_Package_Imp_Proc(getCtx(), getRecord_ID(), get_TrxName());
 
 		// clear cache of previous runs
 		IDFinder.clearIDCache();
@@ -204,14 +141,6 @@ public class PackIn extends SvrProcess {
 
 		// call XML Handler
 		String msg = packIn.importXML(dict_file, getCtx(), get_TrxName());
-
-		// Generate Model Classes
-		// globalqss - don't call Generate Model must be done manual
-		// String args[] =
-		// {IntPackIn.getAD_Package_Dir()+"/dbPort/src/org/compiere/model/",
-		// "org.compiere.model","'U'"};
-		// org.compiere.util.GenerateModel.main(args) ;
-
 		return msg;
 	} // doIt
 

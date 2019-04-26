@@ -56,6 +56,7 @@ import org.compiere.model.Query;
 import org.compiere.model.X_AD_Reference;
 import org.compiere.model.X_WS_WebServiceMethod;
 import org.compiere.model.X_WS_WebService_Para;
+
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -63,7 +64,6 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Login;
 import org.compiere.util.Trx;
-
 import pl.x3E.adInterface.ADLoginRequest;
 import pl.x3E.adInterface.DataField;
 import pl.x3E.adInterface.DataRow;
@@ -1046,8 +1046,12 @@ public class ModelADServiceImpl implements ModelADService {
 						+ field.getColumn() + " not allowed", new QName("queryData"));
     		}
 		}
-		if (modelCRUD.getFilter() != null && modelCRUD.getFilter().length() > 0)
-			sqlWhere += " AND " + modelCRUD.getFilter();
+		if (modelCRUD.getFilter() != null && modelCRUD.getFilter().length() > 0) {
+			if (!sqlWhere.isEmpty()) {
+				sqlWhere += " AND ";
+			}
+			sqlWhere += modelCRUD.getFilter();
+		}
 		
     	POInfo poinfo = POInfo.getPOInfo(ctx, table.getAD_Table_ID());
     	int cnt = 0;
@@ -1059,8 +1063,15 @@ public class ModelADServiceImpl implements ModelADService {
 				Object[] parameters = new Object[modelCRUD.getDataRow().getFieldList().size()];
 				int p = 1;
 				int i=0;
-				for (DataField field : modelCRUD.getDataRow().getFieldList()){ 
-					parameters[i] = field.getVal();
+				for (DataField field : modelCRUD.getDataRow().getFieldList()){
+					int index = poinfo.getColumnIndex(field.getColumn());
+					Class<?> c = poinfo.getColumnClass(index);
+					if (c == Integer.class)
+						parameters[i] = Integer.valueOf(field.getVal());
+					else if (c == Timestamp.class)
+						parameters[i] = Timestamp.valueOf(field.getVal());
+					else if (c == Boolean.class || c == String.class)
+						parameters[i] =  field.getVal();
 					i++;
 				}
 

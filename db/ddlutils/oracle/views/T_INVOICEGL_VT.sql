@@ -13,7 +13,7 @@ CREATE OR REPLACE VIEW T_INVOICEGL_VT
  AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR,
  AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE,
  C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR,
- AMTACCTOPENCR, AMTACCTOPENBALANCE,AD_Table_ID , Record_ID)
+ AMTACCTOPENCR, AMTACCTOPENBALANCE,AD_Table_ID , Record_ID , AD_Language)
 AS
 SELECT
     gl.T_InvoiceGL_ID,
@@ -56,8 +56,9 @@ SELECT
     gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
     (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
     ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance,
-     gl.AD_Table_ID , gl.Record_ID ,  dttrl.AD_Language
+     gl.AD_Table_ID , gl.Record_ID , l.AD_Language
 FROM T_InvoiceGL gl
   LEFT JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
   LEFT JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID)
-  LEFT JOIN C_DocType_Trl dttrl ON (gl.C_DocTypeReval_ID=dttrl.C_DocType_ID);
+  LEFT JOIN AD_Language l ON (l.IsSystemLanguage='Y' AND l.IsActive = 'Y')
+  LEFT JOIN C_DocType_Trl dttrl ON (gl.C_DocTypeReval_ID=dttrl.C_DocType_ID AND l.AD_Language=dttrl.AD_Language);

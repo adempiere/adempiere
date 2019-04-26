@@ -78,21 +78,6 @@ public interface I_C_SalesHistory
 
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
 
-    /** Column name C_BP_Group_ID */
-    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
-
-	/** Set Business Partner Group.
-	  * Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID);
-
-	/** Get Business Partner Group.
-	  * Business Partner Group
-	  */
-	public int getC_BP_Group_ID();
-
-	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
-
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -122,6 +107,21 @@ public interface I_C_SalesHistory
 	public int getC_BPartner_Location_ID();
 
 	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
+
+    /** Column name C_BP_Group_ID */
+    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
+
+	/** Set Business Partner Group.
+	  * Business Partner Group
+	  */
+	public void setC_BP_Group_ID (int C_BP_Group_ID);
+
+	/** Get Business Partner Group.
+	  * Business Partner Group
+	  */
+	public int getC_BP_Group_ID();
+
+	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -153,6 +153,34 @@ public interface I_C_SalesHistory
 
 	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
 
+    /** Column name CostAmt */
+    public static final String COLUMNNAME_CostAmt = "CostAmt";
+
+	/** Set Cost Value.
+	  * Value with Cost
+	  */
+	public void setCostAmt (BigDecimal CostAmt);
+
+	/** Get Cost Value.
+	  * Value with Cost
+	  */
+	public BigDecimal getCostAmt();
+
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
+
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+
     /** Column name C_ProjectPhase_ID */
     public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
 
@@ -183,20 +211,21 @@ public interface I_C_SalesHistory
 
 	public org.compiere.model.I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
 
-    /** Column name C_Project_ID */
-    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
 
-	/** Set Project.
-	  * Financial Project
+	/** Get Created.
+	  * Date this record was created
 	  */
-	public void setC_Project_ID (int C_Project_ID);
+	public Timestamp getCreated();
 
-	/** Get Project.
-	  * Financial Project
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
 	  */
-	public int getC_Project_ID();
-
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+	public int getCreatedBy();
 
     /** Column name C_SalesHistory_ID */
     public static final String COLUMNNAME_C_SalesHistory_ID = "C_SalesHistory_ID";
@@ -226,34 +255,35 @@ public interface I_C_SalesHistory
 
 	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
-    /** Column name CostAmt */
-    public static final String COLUMNNAME_CostAmt = "CostAmt";
+    /** Column name C_Tax_ID */
+    public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
 
-	/** Set Cost Value.
-	  * Value with Cost
+	/** Set Tax.
+	  * Tax identifier
 	  */
-	public void setCostAmt (BigDecimal CostAmt);
+	public void setC_Tax_ID (int C_Tax_ID);
 
-	/** Get Cost Value.
-	  * Value with Cost
+	/** Get Tax.
+	  * Tax identifier
 	  */
-	public BigDecimal getCostAmt();
+	public int getC_Tax_ID();
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
+	public org.compiere.model.I_C_Tax getC_Tax() throws RuntimeException;
 
-	/** Get Created.
-	  * Date this record was created
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
 	  */
-	public Timestamp getCreated();
+	public void setC_UOM_ID (int C_UOM_ID);
 
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
+	/** Get UOM.
+	  * Unit of Measure
 	  */
-	public int getCreatedBy();
+	public int getC_UOM_ID();
+
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name DateInvoiced */
     public static final String COLUMNNAME_DateInvoiced = "DateInvoiced";
@@ -267,6 +297,19 @@ public interface I_C_SalesHistory
 	  * Date printed on Invoice
 	  */
 	public Timestamp getDateInvoiced();
+
+    /** Column name Description */
+    public static final String COLUMNNAME_Description = "Description";
+
+	/** Set Description.
+	  * Optional short description of the record
+	  */
+	public void setDescription (String Description);
+
+	/** Get Description.
+	  * Optional short description of the record
+	  */
+	public String getDescription();
 
     /** Column name DocumentNo */
     public static final String COLUMNNAME_DocumentNo = "DocumentNo";
@@ -293,6 +336,47 @@ public interface I_C_SalesHistory
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name LineNetAmt */
+    public static final String COLUMNNAME_LineNetAmt = "LineNetAmt";
+
+	/** Set Line Amount.
+	  * Line Extended Amount (Quantity * Actual Price) without Freight and Charges
+	  */
+	public void setLineNetAmt (BigDecimal LineNetAmt);
+
+	/** Get Line Amount.
+	  * Line Extended Amount (Quantity * Actual Price) without Freight and Charges
+	  */
+	public BigDecimal getLineNetAmt();
+
+    /** Column name LineTotalAmt */
+    public static final String COLUMNNAME_LineTotalAmt = "LineTotalAmt";
+
+	/** Set Line Total.
+	  * Total line amount incl. Tax
+	  */
+	public void setLineTotalAmt (BigDecimal LineTotalAmt);
+
+	/** Get Line Total.
+	  * Total line amount incl. Tax
+	  */
+	public BigDecimal getLineTotalAmt();
+
+    /** Column name M_AttributeSetInstance_ID */
+    public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
+
+	/** Set Attribute Set Instance.
+	  * Product Attribute Set Instance
+	  */
+	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID);
+
+	/** Get Attribute Set Instance.
+	  * Product Attribute Set Instance
+	  */
+	public int getM_AttributeSetInstance_ID();
+
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
 
     /** Column name M_Product_Category_ID */
     public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
@@ -384,6 +468,32 @@ public interface I_C_SalesHistory
 
 	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
+    /** Column name PriceActual */
+    public static final String COLUMNNAME_PriceActual = "PriceActual";
+
+	/** Set Unit Price.
+	  * Actual Price 
+	  */
+	public void setPriceActual (BigDecimal PriceActual);
+
+	/** Get Unit Price.
+	  * Actual Price 
+	  */
+	public BigDecimal getPriceActual();
+
+    /** Column name PriceEntered */
+    public static final String COLUMNNAME_PriceEntered = "PriceEntered";
+
+	/** Set Price.
+	  * Price Entered - the price based on the selected/base UoM
+	  */
+	public void setPriceEntered (BigDecimal PriceEntered);
+
+	/** Get Price.
+	  * Price Entered - the price based on the selected/base UoM
+	  */
+	public BigDecimal getPriceEntered();
+
     /** Column name PriceInvoiced */
     public static final String COLUMNNAME_PriceInvoiced = "PriceInvoiced";
 
@@ -396,6 +506,32 @@ public interface I_C_SalesHistory
 	  * The priced invoiced to the customer (in the currency of the customer's AR price list) - 0 for default price
 	  */
 	public BigDecimal getPriceInvoiced();
+
+    /** Column name PriceLimit */
+    public static final String COLUMNNAME_PriceLimit = "PriceLimit";
+
+	/** Set Limit Price.
+	  * Lowest price for a product
+	  */
+	public void setPriceLimit (BigDecimal PriceLimit);
+
+	/** Get Limit Price.
+	  * Lowest price for a product
+	  */
+	public BigDecimal getPriceLimit();
+
+    /** Column name PriceList */
+    public static final String COLUMNNAME_PriceList = "PriceList";
+
+	/** Set List Price.
+	  * List Price
+	  */
+	public void setPriceList (BigDecimal PriceList);
+
+	/** Get List Price.
+	  * List Price
+	  */
+	public BigDecimal getPriceList();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -423,6 +559,19 @@ public interface I_C_SalesHistory
 	  */
 	public BigDecimal getQty();
 
+    /** Column name QtyEntered */
+    public static final String COLUMNNAME_QtyEntered = "QtyEntered";
+
+	/** Set Quantity.
+	  * The Quantity Entered is based on the selected UoM
+	  */
+	public void setQtyEntered (BigDecimal QtyEntered);
+
+	/** Get Quantity.
+	  * The Quantity Entered is based on the selected UoM
+	  */
+	public BigDecimal getQtyEntered();
+
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 
@@ -437,6 +586,19 @@ public interface I_C_SalesHistory
 	public int getSalesRep_ID();
 
 	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
+
+    /** Column name TaxAmt */
+    public static final String COLUMNNAME_TaxAmt = "TaxAmt";
+
+	/** Set Tax Amount.
+	  * Tax Amount for a document
+	  */
+	public void setTaxAmt (BigDecimal TaxAmt);
+
+	/** Get Tax Amount.
+	  * Tax Amount for a document
+	  */
+	public BigDecimal getTaxAmt();
 
     /** Column name TotalInvAmt */
     public static final String COLUMNNAME_TotalInvAmt = "TotalInvAmt";
@@ -476,19 +638,6 @@ public interface I_C_SalesHistory
 	  * Cumulative total lifetime invoice quantity
 	  */
 	public BigDecimal getTotalInvQty();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -565,4 +714,17 @@ public interface I_C_SalesHistory
 	public int getUser4_ID();
 
 	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException;
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

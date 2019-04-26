@@ -71,6 +71,9 @@ public class ActiveMQ extends AbstractMessageQueue {
 			byte[] array = new byte[inputStream.available()];
 			inputStream.read(array);
 			bytesMessage.writeBytes(array);
+			if(!Util.isEmpty(payload.getFileName())) {
+				bytesMessage.setStringProperty("FileName", payload.getFileName());
+			}
 			message = bytesMessage;
 			log.config("Message Type (File)");
 		}
@@ -198,6 +201,11 @@ public class ActiveMQ extends AbstractMessageQueue {
 				@Override
 				public Object getMessage() {
 					return getMessageAsText();
+				}
+
+				@Override
+				public String getFileName() {
+					return "Test.pdf";
 				}
 			});
 			message = "Ok";

@@ -417,6 +417,18 @@ public class LoginPanel extends Window implements EventListener
     **/
     public void validateLogin()
     {
+		//	Validate UUID supported
+	    DB.validateSupportedUUIDFromDB();
+        /* Check DB version */
+        String version = DB.getSQLValueString(null, "SELECT Version FROM AD_System");
+        //  Identical DB version
+        if (! Adempiere.DB_VERSION.equals(version)) {
+            String AD_Message = "DatabaseVersionError";
+            //  Code assumes Database version {0}, but Database has Version {1}.
+            String msg = Msg.getMsg(ctx, AD_Message);   //  complete message
+            msg = MessageFormat.format(msg, new Object[] {Adempiere.DB_VERSION, version});
+            throw new ApplicationException(msg);
+        }
         Login login = new Login(ctx);
         String userId = txtUserId.getValue();
         String userPassword = txtPassword.getValue();
@@ -439,8 +451,9 @@ public class LoginPanel extends Window implements EventListener
         }
 
         KeyNamePair rolesKNPairs[] = login.getRoles(userId, userPassword);
-        if(rolesKNPairs == null || rolesKNPairs.length == 0)
-            throw new WrongValueException("User Id or Password invalid!!!");
+        if(rolesKNPairs == null || rolesKNPairs.length == 0) {
+        	throw new WrongValueException("User Id or Password invalid!!!");
+        }
 
         else
         {
@@ -471,18 +484,6 @@ public class LoginPanel extends Window implements EventListener
 		// End of temporary code for [ adempiere-ZK Web Client-2832968 ] User context lost?
 
         Env.setContext(ctx, BrowserToken.REMEMBER_ME, chkRememberMe.isChecked());
-
-        /* Check DB version */
-        String version = DB.getSQLValueString(null, "SELECT Version FROM AD_System");
-        //  Identical DB version
-        if (! Adempiere.DB_VERSION.equals(version)) {
-            String AD_Message = "DatabaseVersionError";
-            //  Code assumes Database version {0}, but Database has Version {1}.
-            String msg = Msg.getMsg(ctx, AD_Message);   //  complete message
-            msg = MessageFormat.format(msg, new Object[] {Adempiere.DB_VERSION, version});
-            throw new ApplicationException(msg);
-        }
-
     }
 
 	private String getUpdateTimeoutTextScript() {

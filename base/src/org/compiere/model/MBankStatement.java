@@ -76,14 +76,14 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 				.first();
 		if (bankStatement == null || bankStatement.get_ID() <= 0)
 		{
-			bankStatement =  new MBankStatement(payment.getCtx() , 0 , payment.get_TrxName());
+			bankStatement = new MBankStatement(payment.getCtx() , 0 , payment.get_TrxName());
 			bankStatement.setC_BankAccount_ID(payment.getC_BankAccount_ID());
 			bankStatement.setStatementDate(payment.getDateAcct());
 			if(payment.getDescription() != null) {
 				bankStatement.setName(payment.getDescription());
 			} else {
 				SimpleDateFormat format = DisplayType.getDateFormat(DisplayType.Date);
-				bankStatement.setName(Msg.getMsg(payment.getCtx(), "@Generate@: ") + format.format(payment.getDateAcct()));
+				bankStatement.setName(Msg.parseTranslation(payment.getCtx(), "@Generate@: ") + format.format(payment.getDateAcct()));
 			}
 			bankStatement.saveEx();
 		}

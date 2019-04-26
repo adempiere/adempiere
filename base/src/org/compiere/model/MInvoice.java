@@ -2530,6 +2530,17 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
         }
     }
 
+	public static List<MInvoice> getOfOrder(Properties ctx, int c_order_id, String trxName) {
+		String where =  COLUMNNAME_C_Order_ID+"=?"
+				+ " AND " + COLUMNNAME_DocStatus + " IN ('CO','CL')";
+		List<MInvoice> list = new Query(ctx, Table_Name, where, trxName)
+				.setClient_ID()
+				.setOnlyActiveRecords(true)
+				.setParameters(c_order_id)
+				.list();
+		return list;
+	}
+
 
 
 }	//	MInvoice

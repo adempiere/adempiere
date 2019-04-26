@@ -772,14 +772,14 @@ public class MColumn extends X_AD_Column
 			
 			if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1)
 			{
-				DB.executeUpdateEx(sql, get_TrxName());
+				DB.executeUpdateEx(sql, null);
 			}
 			else
 			{
 				String statements[] = sql.split(DB.SQLSTATEMENT_SEPARATOR);
 				for (int i = 0; i < statements.length; i++)
 				{
-					DB.executeUpdateEx(statements[i], get_TrxName());
+					DB.executeUpdateEx(statements[i], null);
 				}
 			}
 			

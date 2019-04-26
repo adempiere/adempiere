@@ -24,11 +24,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.adempiere.exceptions.DBException;
 import org.adempiere.pipo.exception.NonUniqueIDLookupException;
+import org.compiere.model.I_AD_Element;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.Util;
 
 /**
  * Utility class for the looking up of record id.
@@ -39,7 +42,8 @@ public final class IDFinder
 {
 	private static CLogger log = CLogger.getCLogger(IDFinder.class);
 	
-	private static Map<String, Integer> idCache = new HashMap<String, Integer>(); 
+	private static Map<String, Integer> idCache = new HashMap<String, Integer>();
+	private static Map<String, String> uUIDCache = new HashMap<String, String>();
 	
 	/**
 	 * Get ID from Name for a table.
@@ -80,6 +84,20 @@ public final class IDFinder
 		
 		return getID(sqlB.toString(), params, key.toString(), true, trxName);
 	}
+	
+	/**
+	 * Get ID from UUID for a table
+	 * @param ctx
+	 * @param tableName
+	 * @param uuid
+	 * @param clientId
+	 * @param trxName
+	 * @return
+	 */
+	public static int getIdFromUUID(Properties ctx, String tableName, String uuid, int clientId, String trxName) {
+		return get_IDWithColumn(tableName, I_AD_Element.COLUMNNAME_UUID, uuid, clientId, trxName);
+	}
+	
 	
 	/**
 	 * Get ID from column value for a table.
@@ -143,6 +161,73 @@ public final class IDFinder
 				.append("_ID");
 		
 		return getID(sqlB.toString(), params, key.toString(), strict, trxName);
+	}
+	
+	/**
+	 * Get UUID from ID
+	 * @param tableName
+	 * @param value
+	 * @param clientId
+	 * @param trxName
+	 * @return
+	 */
+	public static String getUUIDFromId(String tableName, int value, int clientId, String trxName) {
+		if (value <= 0)
+			return null;
+		
+		//construct cache key
+		StringBuffer key = new StringBuffer();
+		key.append(tableName)
+			.append(".")
+			.append(tableName)
+		 	.append("_ID")
+			.append("=")
+			.append(value);
+		if (!tableName.startsWith("AD_")) {
+			key.append(" and AD_Client_ID=").append(clientId);
+		}
+		
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer ("select ")
+		 	.append(I_AD_Element.COLUMNNAME_UUID)
+			.append(" from ")
+		 	.append(tableName)
+		 	.append(" where ")
+		 	.append(tableName)
+		 	.append("_ID")
+		 	.append(" = ?");
+		params.add(value);
+		
+		if (!tableName.startsWith("AD_")) {
+			sql = sql.append(" and AD_Client_ID=?");
+			params.add(clientId);
+		}
+		
+		sql = sql.append(" Order By ").append(tableName).append("_ID");
+		
+		return getUUID(sql.toString(), params, key.toString(), trxName);
+	}
+	
+	/**
+	 * Get UUID
+	 * @param sql
+	 * @param params
+	 * @param key
+	 * @param trxName
+	 * @return
+	 */
+	private static String getUUID(String sql, List<Object> params, String key, String trxName) {
+		if (key != null && uUIDCache.containsKey(key)) {
+			return uUIDCache.get(key);
+		}
+		//	
+		String value = DB.getSQLValueString(trxName, sql, params);
+		// update cache
+		if (!Util.isEmpty(value)) {
+			uUIDCache.put(key, value);
+		}
+		
+		return value;
 	}
 	
 	/**
