@@ -678,7 +678,11 @@ public class PackInHandler extends DefaultHandler {
     				if(id > 0) {
     					MColumn column = new MColumn(m_ctx, id, trxName);
     					if(column.getAD_Table_ID() > 0) {
-    						column.syncDatabase();
+    						try {
+    							column.syncDatabase();
+    						} catch(Exception ex) {
+    							log.warning("SyncDatabase Error: " + e.getElementValue() + " - " + ex.getLocalizedMessage());
+    						}
     					}
     				}
         		}
