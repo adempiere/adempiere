@@ -396,5 +396,9 @@ public class MMailText extends X_R_MailText
 		/** Translated Text 3	*/
 		String		MailText3 = null;
 	}	//	MMailTextTrl
-	
+
+	@Override
+	public String toString() {
+		return "MMailText [getMailHeader()=" + getMailHeader() + ", getR_MailText_ID()=" + getR_MailText_ID() + "]";
+	}
 }	//	MMailText
