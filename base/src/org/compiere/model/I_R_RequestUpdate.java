@@ -16,9 +16,10 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.compiere.util.KeyNamePair;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_RequestUpdate
  *  @author Adempiere (generated) 
@@ -55,12 +56,27 @@ public interface I_R_RequestUpdate
 	/** Set Organization.
 	  * Organizational entity within client
 	  */
-	public void setAD_Org_ID (int AD_Org_ID);
+	public void setAD_Org_ID(int AD_Org_ID);
 
 	/** Get Organization.
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name C_InvoiceLine_ID */
+    public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
+
+	/** Set Invoice Line.
+	  * Invoice Detail Line
+	  */
+	public void setC_InvoiceLine_ID(int C_InvoiceLine_ID);
+
+	/** Get Invoice Line.
+	  * Invoice Detail Line
+	  */
+	public int getC_InvoiceLine_ID();
+
+	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
 
     /** Column name ConfidentialTypeEntry */
     public static final String COLUMNNAME_ConfidentialTypeEntry = "ConfidentialTypeEntry";
@@ -68,7 +84,7 @@ public interface I_R_RequestUpdate
 	/** Set Entry Confidentiality.
 	  * Confidentiality of the individual entry
 	  */
-	public void setConfidentialTypeEntry (String ConfidentialTypeEntry);
+	public void setConfidentialTypeEntry(String ConfidentialTypeEntry);
 
 	/** Get Entry Confidentiality.
 	  * Confidentiality of the individual entry
@@ -97,7 +113,7 @@ public interface I_R_RequestUpdate
 	/** Set End Time.
 	  * End of the time span
 	  */
-	public void setEndTime (Timestamp EndTime);
+	public void setEndTime(Timestamp EndTime);
 
 	/** Get End Time.
 	  * End of the time span
@@ -110,7 +126,7 @@ public interface I_R_RequestUpdate
 	/** Set Active.
 	  * The record is active in the system
 	  */
-	public void setIsActive (boolean IsActive);
+	public void setIsActive(boolean IsActive);
 
 	/** Get Active.
 	  * The record is active in the system
@@ -123,7 +139,7 @@ public interface I_R_RequestUpdate
 	/** Set Product Used.
 	  * Product/Resource/Service used in Request
 	  */
-	public void setM_ProductSpent_ID (int M_ProductSpent_ID);
+	public void setM_ProductSpent_ID(int M_ProductSpent_ID);
 
 	/** Get Product Used.
 	  * Product/Resource/Service used in Request
@@ -132,13 +148,26 @@ public interface I_R_RequestUpdate
 
 	public org.compiere.model.I_M_Product getM_ProductSpent() throws RuntimeException;
 
+    /** Column name Processed */
+    public static final String COLUMNNAME_Processed = "Processed";
+
+	/** Set Processed.
+	  * The document has been processed
+	  */
+	public void setProcessed(boolean Processed);
+
+	/** Get Processed.
+	  * The document has been processed
+	  */
+	public boolean isProcessed();
+
     /** Column name QtyInvoiced */
     public static final String COLUMNNAME_QtyInvoiced = "QtyInvoiced";
 
 	/** Set Quantity Invoiced.
 	  * Invoiced Quantity
 	  */
-	public void setQtyInvoiced (BigDecimal QtyInvoiced);
+	public void setQtyInvoiced(BigDecimal QtyInvoiced);
 
 	/** Get Quantity Invoiced.
 	  * Invoiced Quantity
@@ -151,25 +180,40 @@ public interface I_R_RequestUpdate
 	/** Set Quantity Used.
 	  * Quantity used for this event
 	  */
-	public void setQtySpent (BigDecimal QtySpent);
+	public void setQtySpent(BigDecimal QtySpent);
 
 	/** Get Quantity Used.
 	  * Quantity used for this event
 	  */
 	public BigDecimal getQtySpent();
 
-    /** Column name R_RequestUpdate_ID */
-    public static final String COLUMNNAME_R_RequestUpdate_ID = "R_RequestUpdate_ID";
+    /** Column name Result */
+    public static final String COLUMNNAME_Result = "Result";
 
-	/** Set Request Update.
-	  * Request Updates
+	/** Set Result.
+	  * Result of the action taken
 	  */
-	public void setR_RequestUpdate_ID (int R_RequestUpdate_ID);
+	public void setResult(String Result);
 
-	/** Get Request Update.
-	  * Request Updates
+	/** Get Result.
+	  * Result of the action taken
 	  */
-	public int getR_RequestUpdate_ID();
+	public String getResult();
+
+    /** Column name R_RequestAction_ID */
+    public static final String COLUMNNAME_R_RequestAction_ID = "R_RequestAction_ID";
+
+	/** Set Request History.
+	  * Request has been changed
+	  */
+	public void setR_RequestAction_ID(int R_RequestAction_ID);
+
+	/** Get Request History.
+	  * Request has been changed
+	  */
+	public int getR_RequestAction_ID();
+
+	public org.compiere.model.I_R_RequestAction getR_RequestAction() throws RuntimeException;
 
     /** Column name R_Request_ID */
     public static final String COLUMNNAME_R_Request_ID = "R_Request_ID";
@@ -177,7 +221,7 @@ public interface I_R_RequestUpdate
 	/** Set Request.
 	  * Request from a Business Partner or Prospect
 	  */
-	public void setR_Request_ID (int R_Request_ID);
+	public void setR_Request_ID(int R_Request_ID);
 
 	/** Get Request.
 	  * Request from a Business Partner or Prospect
@@ -186,18 +230,18 @@ public interface I_R_RequestUpdate
 
 	public org.compiere.model.I_R_Request getR_Request() throws RuntimeException;
 
-    /** Column name Result */
-    public static final String COLUMNNAME_Result = "Result";
+    /** Column name R_RequestUpdate_ID */
+    public static final String COLUMNNAME_R_RequestUpdate_ID = "R_RequestUpdate_ID";
 
-	/** Set Result.
-	  * Result of the action taken
+	/** Set Request Update.
+	  * Request Updates
 	  */
-	public void setResult (String Result);
+	public void setR_RequestUpdate_ID(int R_RequestUpdate_ID);
 
-	/** Get Result.
-	  * Result of the action taken
+	/** Get Request Update.
+	  * Request Updates
 	  */
-	public String getResult();
+	public int getR_RequestUpdate_ID();
 
     /** Column name StartTime */
     public static final String COLUMNNAME_StartTime = "StartTime";
@@ -205,25 +249,12 @@ public interface I_R_RequestUpdate
 	/** Set Start Time.
 	  * Time started
 	  */
-	public void setStartTime (Timestamp StartTime);
+	public void setStartTime(Timestamp StartTime);
 
 	/** Get Start Time.
 	  * Time started
 	  */
 	public Timestamp getStartTime();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -240,4 +271,17 @@ public interface I_R_RequestUpdate
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID(String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

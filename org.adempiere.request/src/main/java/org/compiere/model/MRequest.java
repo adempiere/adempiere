@@ -871,6 +871,8 @@ public class MRequest extends X_R_Request
 		checkChange(requestAction, "C_Payment_ID");
 		checkChange(requestAction, "M_InOut_ID");
 		checkChange(requestAction, "M_RMA_ID");
+		checkChange(requestAction, "C_Campaign_ID");
+		checkChange(requestAction, "RequestAmt");
 		checkChange(requestAction, "IsInvoiced");
 		checkChange(requestAction, "C_Activity_ID");
 		checkChange(requestAction, "DateNextAction");
@@ -887,14 +889,18 @@ public class MRequest extends X_R_Request
 			requestAction.saveEx();
 		
 		//	Current Info
-		MRequestUpdate update = new MRequestUpdate(this);
-		if (update.isNewInfo())
-			update.saveEx();
+		MRequestUpdate requestUpdate = new MRequestUpdate(this);
+		// Link Request Action  with Request Update
+		if (requestAction.getR_RequestAction_ID() > 0)
+			requestUpdate.setR_RequestAction_ID(requestAction.getR_RequestAction_ID());
+
+		if (requestUpdate.isNewInfo())
+			requestUpdate.saveEx();
 		else
-			update = null;
+			requestUpdate = null;
 		//
 		m_emailTo = new StringBuffer();
-		if (update != null || sendInfo.size() > 0)
+		if (requestUpdate != null || sendInfo.size() > 0)
 		{
 			// Note that calling the notifications from beforeSave is causing the
 			// new interested are not notified if the RV_RequestUpdates view changes

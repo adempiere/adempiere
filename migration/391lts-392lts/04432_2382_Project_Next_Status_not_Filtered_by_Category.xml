@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Next Project Status not Filtered by Project Status Category" ReleaseNo="3.9.2" SeqNo="4430">
+  <Migration EntityType="D" Name="Next Project Status not Filtered by Project Status Category" ReleaseNo="3.9.2" SeqNo="4432">
     <Comments>Project Status: Next Status not Filtered by Project Status Category #2382
 https://github.com/adempiere/adempiere/issues/2382</Comments>
     <Step SeqNo="10" StepType="AD">
