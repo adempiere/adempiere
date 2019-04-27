@@ -19,8 +19,11 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.apache.commons.validator.routines.IBANValidator;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 
 /**
@@ -119,6 +122,25 @@ public class MBankAccount extends X_C_BankAccount
 	{
 		return getBank().getName() + " " + getAccountNo();
 	}	//	getName
+	
+	/**
+	 * 	Before Save
+	 *	@param newRecord new
+	 *	@return true
+	 */
+	protected boolean beforeSave(boolean newRecord) 
+	{
+		// validate IBAN
+		if(newRecord) {
+			if(!Util.isEmpty(getIBAN())) {
+				IBANValidator validator = IBANValidator.getInstance();
+				if(!validator.isValid(getIBAN().trim())) {
+					throw new AdempiereException("@ValidationError@ (@Invalid@ @IBAN@)");
+				}
+			}
+		}
+		return true;
+	}	//	beforeSave
 	
 	/**
 	 * 	After Save

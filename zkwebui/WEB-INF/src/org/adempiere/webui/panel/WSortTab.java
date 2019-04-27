@@ -641,5 +641,7 @@ public class WSortTab extends Panel implements IADTabPanel {
     {
         return isEmbedded;
     }
+    
+    public boolean isGridView() {return false;}
 }	//ADSortTab
 
