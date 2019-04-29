@@ -1,7 +1,6 @@
 package com._3e.ADInterface;
 
 import org.codehaus.xfire.fault.XFireFault;
-import org.compiere.apps.ProcessCtl;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.Lookup;
@@ -23,6 +22,7 @@ import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocumentEngine;
 import org.compiere.process.ProcessInfo;
+import org.compiere.process.ServerProcessCtl;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -291,7 +291,7 @@ public class Process {
 						final String fileType = "pdf";
 						processInfo.setPrintPreview(false);
 						processInfo.setIsBatch(true);
-						ProcessCtl worker = new ProcessCtl(null, 0, processInfo, false, trx);
+						ServerProcessCtl worker = new ServerProcessCtl(null,  processInfo, trx);
 						worker.run();
 						Optional<File> maybePDF = Optional.ofNullable(processInfo.getPDFReport());
 						if (maybePDF.isPresent()) {
