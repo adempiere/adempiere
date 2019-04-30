@@ -51,8 +51,8 @@ import static java.util.stream.Collectors.toList;
  */
 public class GenerateNotRealizedGainLoss extends GenerateNotRealizedGainLossAbstract {
     private List<X_T_InvoiceGL> exchangeGainLossList = new ArrayList<>();
-    private HashMap<Integer, MJournalBatch> journalBatches = new HashMap();
-    private HashMap<String, MJournal> journals = new HashMap();
+    private HashMap<Integer, MJournalBatch> journalBatches = new HashMap<>();
+    private HashMap<String, MJournal> journals = new HashMap<>();
 
     @Override
     protected void prepare() {
@@ -76,7 +76,7 @@ public class GenerateNotRealizedGainLoss extends GenerateNotRealizedGainLossAbst
             if (getDocTypeRevalId() <= 0)
                 throw new AdempiereException("@C_ConversionTypeReval_ID@ @NotFound@");
 
-            Trx.run(trxName -> ExchangeGainLoss(trxName));
+            Trx.run(trxName -> exchangeGainLoss(trxName));
         }
 
         return "@Ok@";
@@ -101,7 +101,7 @@ public class GenerateNotRealizedGainLoss extends GenerateNotRealizedGainLossAbst
      * @param trxName
      * @return
      */
-    private void ExchangeGainLoss(String trxName) {
+    private void exchangeGainLoss(String trxName) {
         //grouping by Account id and grouping by Currency and create a Journal for each Currency with Exchange Gain Loss
         AtomicInteger lineNo = new AtomicInteger(10);
         exchangeGainLossList.stream()
@@ -140,8 +140,8 @@ public class GenerateNotRealizedGainLoss extends GenerateNotRealizedGainLossAbst
                                             MAcctSchema accountingSchema = MAcctSchema.get(getCtx(), accountSchemeEntry.getKey());
                                             MCurrency currency = MCurrency.get(Env.getCtx(), accountBalance.currencyId);
                                             MElementValue account = new MElementValue(getCtx(), accountBalance.accountId, trxName);
-                                            MJournalBatch journalBatch = CreateJournalBatch(accountingSchema, trxName);
-                                            MJournal journal = CreateJournal(journalBatch, accountingSchema, currency, accountBalance.organizationId);
+                                            MJournalBatch journalBatch = createJournalBatch(accountingSchema, trxName);
+                                            MJournal journal = createJournal(journalBatch, accountingSchema, currency, accountBalance.organizationId);
                                             BigDecimal rate = MConversionRate.getRate(
                                                     accountBalance.currencyId,
                                                     accountingSchema.getC_Currency_ID(),
@@ -149,7 +149,7 @@ public class GenerateNotRealizedGainLoss extends GenerateNotRealizedGainLossAbst
                                                     getConversionTypeRevalId(),
                                                     accountBalance.companyId,
                                                     accountBalance.organizationId);
-                                            CreateJournalLine(journal, accountingSchema, account, accountBalance, currency, rate, lineNo);
+                                            createJournalLine(journal, accountingSchema, account, accountBalance, currency, rate, lineNo);
                                         })
                                 )
                         )
@@ -163,7 +163,7 @@ public class GenerateNotRealizedGainLoss extends GenerateNotRealizedGainLossAbst
      * @param trxName
      * @return
      */
-    private MJournalBatch CreateJournalBatch(MAcctSchema accountingSchema, String trxName) {
+    private MJournalBatch createJournalBatch(MAcctSchema accountingSchema, String trxName) {
         if (journalBatches.containsKey(accountingSchema.get_ID()))
             return journalBatches.get(accountingSchema.get_ID());
 
@@ -193,7 +193,7 @@ public class GenerateNotRealizedGainLoss extends GenerateNotRealizedGainLossAbst
      * @param organizationId
      * @return
      */
-    private MJournal CreateJournal(MJournalBatch journalBatch, MAcctSchema accountingSchema, MCurrency currency, Integer organizationId) {
+    private MJournal createJournal(MJournalBatch journalBatch, MAcctSchema accountingSchema, MCurrency currency, Integer organizationId) {
         String key = organizationId + "+" + currency.get_ID();
         if (journals.containsKey(key))
             return journals.get(key);
@@ -230,7 +230,7 @@ public class GenerateNotRealizedGainLoss extends GenerateNotRealizedGainLossAbst
      * @param rate
      * @param lineNo
      */
-    private void CreateJournalLine(
+    private void createJournalLine(
             MJournal journal,
             MAcctSchema accountingSchema,
             MElementValue account,

@@ -21,7 +21,7 @@
         <Data AD_Column_ID="78843" Column="GenerateClass">N</Data>
         <Data AD_Column_ID="5790" Column="AccessLevel">3</Data>
         <Data AD_Column_ID="12458" Column="IsBetaFunctionality">false</Data>
-        <Data AD_Column_ID="3371" Column="IsReport">false</Data>
+        <Data AD_Column_ID="3371" Column="IsReport">true</Data>
         <Data AD_Column_ID="2801" Column="AD_Process_ID">54198</Data>
         <Data AD_Column_ID="2802" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2803" Column="AD_Org_ID">0</Data>
