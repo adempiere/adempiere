@@ -20,17 +20,17 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_UserDef_Win
+/** Generated Interface for AD_BrowseCustom
  *  @author Adempiere (generated) 
  *  @version Release 3.9.1
  */
-public interface I_AD_UserDef_Win 
+public interface I_AD_BrowseCustom 
 {
 
-    /** TableName=AD_UserDef_Win */
-    public static final String Table_Name = "AD_UserDef_Win";
+    /** TableName=AD_BrowseCustom */
+    public static final String Table_Name = "AD_BrowseCustom";
 
-    /** AD_Table_ID=467 */
+    /** AD_Table_ID=54614 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -41,6 +41,26 @@ public interface I_AD_UserDef_Win
 
     /** Load Meta Data */
 
+    /** Column name AD_BrowseCustom_ID */
+    public static final String COLUMNNAME_AD_BrowseCustom_ID = "AD_BrowseCustom_ID";
+
+	/** Set Browse Customization	  */
+	public void setAD_BrowseCustom_ID (int AD_BrowseCustom_ID);
+
+	/** Get Browse Customization	  */
+	public int getAD_BrowseCustom_ID();
+
+    /** Column name AD_Browse_ID */
+    public static final String COLUMNNAME_AD_Browse_ID = "AD_Browse_ID";
+
+	/** Set Smart Browse	  */
+	public void setAD_Browse_ID (int AD_Browse_ID);
+
+	/** Get Smart Browse	  */
+	public int getAD_Browse_ID();
+
+	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException;
+
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -48,19 +68,6 @@ public interface I_AD_UserDef_Win
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
-
-    /** Column name AD_Language */
-    public static final String COLUMNNAME_AD_Language = "AD_Language";
-
-	/** Set Language.
-	  * Language for this entity
-	  */
-	public void setAD_Language (String AD_Language);
-
-	/** Get Language.
-	  * Language for this entity
-	  */
-	public String getAD_Language();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -74,6 +81,21 @@ public interface I_AD_UserDef_Win
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_Process_ID */
+    public static final String COLUMNNAME_AD_Process_ID = "AD_Process_ID";
+
+	/** Set Process.
+	  * Process or Report
+	  */
+	public void setAD_Process_ID (int AD_Process_ID);
+
+	/** Get Process.
+	  * Process or Report
+	  */
+	public int getAD_Process_ID();
+
+	public org.compiere.model.I_AD_Process getAD_Process() throws RuntimeException;
 
     /** Column name AD_Role_ID */
     public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
@@ -90,14 +112,20 @@ public interface I_AD_UserDef_Win
 
 	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException;
 
-    /** Column name AD_UserDef_Win_ID */
-    public static final String COLUMNNAME_AD_UserDef_Win_ID = "AD_UserDef_Win_ID";
+    /** Column name AD_Table_ID */
+    public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 
-	/** Set User defined Window	  */
-	public void setAD_UserDef_Win_ID (int AD_UserDef_Win_ID);
+	/** Set Table.
+	  * Database Table information
+	  */
+	public void setAD_Table_ID (int AD_Table_ID);
 
-	/** Get User defined Window	  */
-	public int getAD_UserDef_Win_ID();
+	/** Get Table.
+	  * Database Table information
+	  */
+	public int getAD_Table_ID();
+
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -128,6 +156,17 @@ public interface I_AD_UserDef_Win
 	public int getAD_Window_ID();
 
 	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
+
+    /** Column name ASP_Level_ID */
+    public static final String COLUMNNAME_ASP_Level_ID = "ASP_Level_ID";
+
+	/** Set ASP Level	  */
+	public void setASP_Level_ID (int ASP_Level_ID);
+
+	/** Get ASP Level	  */
+	public int getASP_Level_ID();
+
+	public org.compiere.model.I_ASP_Level getASP_Level() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -171,6 +210,19 @@ public interface I_AD_UserDef_Win
 	  */
 	public String getHelp();
 
+    /** Column name HierarchyType */
+    public static final String COLUMNNAME_HierarchyType = "HierarchyType";
+
+	/** Set Hierarchy Type.
+	  * Hierarchy Type (Hierarchy: Add, Merge or Overwrite)
+	  */
+	public void setHierarchyType (String HierarchyType);
+
+	/** Get Hierarchy Type.
+	  * Hierarchy Type (Hierarchy: Add, Merge or Overwrite)
+	  */
+	public String getHierarchyType();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -184,44 +236,83 @@ public interface I_AD_UserDef_Win
 	  */
 	public boolean isActive();
 
-    /** Column name IsDefault */
-    public static final String COLUMNNAME_IsDefault = "IsDefault";
+    /** Column name IsCollapsibleByDefault */
+    public static final String COLUMNNAME_IsCollapsibleByDefault = "IsCollapsibleByDefault";
 
-	/** Set Default.
-	  * Default value
+	/** Set Is collapsible by default.
+	  * Flag to indicate if is collapsible by default
 	  */
-	public void setIsDefault (boolean IsDefault);
+	public void setIsCollapsibleByDefault (String IsCollapsibleByDefault);
 
-	/** Get Default.
-	  * Default value
+	/** Get Is collapsible by default.
+	  * Flag to indicate if is collapsible by default
 	  */
-	public boolean isDefault();
+	public String getIsCollapsibleByDefault();
 
-    /** Column name IsReadOnly */
-    public static final String COLUMNNAME_IsReadOnly = "IsReadOnly";
+    /** Column name IsDeleteable */
+    public static final String COLUMNNAME_IsDeleteable = "IsDeleteable";
 
-	/** Set Read Only.
-	  * Field is read only
+	/** Set Records deletable.
+	  * Indicates if records can be deleted from the database
 	  */
-	public void setIsReadOnly (boolean IsReadOnly);
+	public void setIsDeleteable (String IsDeleteable);
 
-	/** Get Read Only.
-	  * Field is read only
+	/** Get Records deletable.
+	  * Indicates if records can be deleted from the database
 	  */
-	public boolean isReadOnly();
+	public String getIsDeleteable();
 
-    /** Column name IsUserUpdateable */
-    public static final String COLUMNNAME_IsUserUpdateable = "IsUserUpdateable";
+    /** Column name IsExecutedQueryByDefault */
+    public static final String COLUMNNAME_IsExecutedQueryByDefault = "IsExecutedQueryByDefault";
 
-	/** Set User updatable.
-	  * The field can be updated by the user
+	/** Set Is executed query by default.
+	  * Is executed query by default
 	  */
-	public void setIsUserUpdateable (boolean IsUserUpdateable);
+	public void setIsExecutedQueryByDefault (String IsExecutedQueryByDefault);
 
-	/** Get User updatable.
-	  * The field can be updated by the user
+	/** Get Is executed query by default.
+	  * Is executed query by default
 	  */
-	public boolean isUserUpdateable();
+	public String getIsExecutedQueryByDefault();
+
+    /** Column name IsSelectedByDefault */
+    public static final String COLUMNNAME_IsSelectedByDefault = "IsSelectedByDefault";
+
+	/** Set Is selected by default.
+	  * Allows auto select rows of a browser
+	  */
+	public void setIsSelectedByDefault (String IsSelectedByDefault);
+
+	/** Get Is selected by default.
+	  * Allows auto select rows of a browser
+	  */
+	public String getIsSelectedByDefault();
+
+    /** Column name IsShowTotal */
+    public static final String COLUMNNAME_IsShowTotal = "IsShowTotal";
+
+	/** Set Show Total.
+	  * Show totals into Smart Browser
+	  */
+	public void setIsShowTotal (String IsShowTotal);
+
+	/** Get Show Total.
+	  * Show totals into Smart Browser
+	  */
+	public String getIsShowTotal();
+
+    /** Column name IsUpdateable */
+    public static final String COLUMNNAME_IsUpdateable = "IsUpdateable";
+
+	/** Set Updatable.
+	  * Determines, if the field can be updated
+	  */
+	public void setIsUpdateable (String IsUpdateable);
+
+	/** Get Updatable.
+	  * Determines, if the field can be updated
+	  */
+	public String getIsUpdateable();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -235,19 +326,6 @@ public interface I_AD_UserDef_Win
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -264,4 +342,30 @@ public interface I_AD_UserDef_Win
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
+    /** Column name WhereClause */
+    public static final String COLUMNNAME_WhereClause = "WhereClause";
+
+	/** Set Sql WHERE.
+	  * Fully qualified SQL WHERE clause
+	  */
+	public void setWhereClause (String WhereClause);
+
+	/** Get Sql WHERE.
+	  * Fully qualified SQL WHERE clause
+	  */
+	public String getWhereClause();
 }

@@ -154,4 +154,23 @@ public class MField extends X_AD_Field
 		return true;
 	}	//	beforeSave
 	
+	/**
+	 * Duplicate Field
+	 * @return
+	 */
+	public MField getDuplicated() {
+		try {
+			return (MField) super.clone();
+		} catch (CloneNotSupportedException e) {
+			log.warning("Error " + e.getLocalizedMessage());
+		}
+		//	Default
+		return null;
+	}
+	
+	@Override
+	public String toString() {
+		return getAD_Field_ID() + " " + getName() + " - isDisplayed: " + isDisplayed() + " - isActive: " + isActive();
+	}
+	
 }	//	MField

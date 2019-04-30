@@ -17,18 +17,15 @@
 package org.compiere.model;
 
 import java.io.Serializable;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
 import org.compiere.util.Evaluator;
+import org.compiere.util.Util;
+import org.spin.util.ASPUtil;
 
 /**
  *  Model Tab Value Object
@@ -39,28 +36,27 @@ import org.compiere.util.Evaluator;
  *  	<li> <a href="https://github.com/adempiere/adempiere/issues/162">BR [162]</a> -
  *  		Readonly Logic for tab does not prevent the data from modifying
  */
-public class GridTabVO implements Evaluatee, Serializable
-{
+public class GridTabVO implements Evaluatee, Serializable {
+
 	/**************************************************************************
 	 *	Create MTab VO
 	 *
 	 *  @param wVO value object
-	 *  @param TabNo tab no
+	 *  @param tabNo tab no
 	 *	@param rs ResultSet from AD_Tab_v
 	 *	@param isRO true if window is r/o
 	 *  @param onlyCurrentRows if true query is limited to not processed records
 	 *  @return TabVO
 	 */
-	public static GridTabVO create (GridWindowVO wVO, int TabNo, ResultSet rs, 
-		boolean isRO, boolean onlyCurrentRows)
-	{
-		CLogger.get().config("#" + TabNo);
+	public static GridTabVO create (GridWindowVO wVO, int tabNo, MTab tab, 
+		boolean isRO, boolean onlyCurrentRows) {
+		CLogger.get().config("#" + tabNo);
 
 		GridTabVO vo = new GridTabVO (wVO.ctx, wVO.WindowNo);
 		vo.AD_Window_ID = wVO.AD_Window_ID;
-		vo.TabNo = TabNo;
+		vo.TabNo = tabNo;
 		//
-		if (!loadTabDetails(vo, rs))
+		if (!loadTabDetails(vo, tab))
 			return null;
 
 		if (isRO)
@@ -75,283 +71,174 @@ public class GridTabVO implements Evaluatee, Serializable
 		{
 			vo.Fields = new ArrayList<GridFieldVO>();	//	dummy
 		}
-		/*
-		else
-		{
-			createFields (vo);
-			if (vo.Fields == null || vo.Fields.size() == 0)
-			{
-				CLogger.get().log(Level.SEVERE, "No Fields");
-				return null;
-			}
-		}*/
 		return vo;
 	}	//	create
-
+	
 	/**
 	 * 	Load Tab Details from rs into vo
 	 * 	@param vo Tab value object
-	 *	@param rs ResultSet from AD_Tab_v/t
+	 *	@param tab tab model object from AD_Tab
 	 * 	@return true if read ok
 	 */
-	private static boolean loadTabDetails (GridTabVO vo, ResultSet rs)
-	{
+	private static boolean loadTabDetails (GridTabVO vo, MTab tab) {
 		MRole role = MRole.getDefault(vo.ctx, false);
 		boolean showTrl = "Y".equals(Env.getContext(vo.ctx, "#ShowTrl"));
 		boolean showAcct = "Y".equals(Env.getContext(vo.ctx, "#ShowAcct"));
 		boolean showAdvanced = "Y".equals(Env.getContext(vo.ctx, "#ShowAdvanced"));
-	//	CLogger.get().warning("ShowTrl=" + showTrl + ", showAcct=" + showAcct);
-		try
-		{
-			vo.AD_Tab_ID = rs.getInt("AD_Tab_ID");
-			Env.setContext(vo.ctx, vo.WindowNo, vo.TabNo, GridTab.CTX_AD_Tab_ID, String.valueOf(vo.AD_Tab_ID));
-			vo.Name = rs.getString("Name");
-			Env.setContext(vo.ctx, vo.WindowNo, vo.TabNo, GridTab.CTX_Name, vo.Name);
-
-			//	Translation Tab	**
-			if (rs.getString("IsTranslationTab").equals("Y"))
+		//	TODO: Translation
+		vo.AD_Tab_ID = tab.getAD_Tab_ID();
+		Env.setContext(vo.ctx, vo.WindowNo, vo.TabNo, GridTab.CTX_AD_Tab_ID, String.valueOf(vo.AD_Tab_ID));
+		vo.Name = tab.getName();
+		Env.setContext(vo.ctx, vo.WindowNo, vo.TabNo, GridTab.CTX_Name, vo.Name);
+		MTable table = MTable.get(vo.ctx, tab.getAD_Table_ID());
+		//	Translation Tab	**
+		if (tab.isTranslationTab()) {
+			//	Document Translation
+			vo.TableName = table.getTableName();
+			if (!Env.isBaseTranslation(vo.TableName)	//	C_UOM, ...
+				&& !Env.isMultiLingualDocument(vo.ctx))
+				showTrl = false;
+			if (!showTrl)
 			{
-				//	Document Translation
-				vo.TableName = rs.getString("TableName");
-				if (!Env.isBaseTranslation(vo.TableName)	//	C_UOM, ...
-					&& !Env.isMultiLingualDocument(vo.ctx))
-					showTrl = false;
-				if (!showTrl)
-				{
-					CLogger.get().config("TrlTab Not displayed - AD_Tab_ID=" 
-						+ vo.AD_Tab_ID + "=" + vo.Name + ", Table=" + vo.TableName
-						+ ", BaseTrl=" + Env.isBaseTranslation(vo.TableName)
-						+ ", MultiLingual=" + Env.isMultiLingualDocument(vo.ctx));
-					return false;
-				}
-			}
-			//	Advanced Tab	**
-			if (!showAdvanced && rs.getString("IsAdvancedTab").equals("Y"))
-			{
-				CLogger.get().config("AdvancedTab Not displayed - AD_Tab_ID=" 
-					+ vo.AD_Tab_ID + " " + vo.Name);
+				CLogger.get().config("TrlTab Not displayed - AD_Tab_ID=" 
+					+ vo.AD_Tab_ID + "=" + vo.Name + ", Table=" + vo.TableName
+					+ ", BaseTrl=" + Env.isBaseTranslation(vo.TableName)
+					+ ", MultiLingual=" + Env.isMultiLingualDocument(vo.ctx));
 				return false;
-			}
-			//	Accounting Info Tab	**
-			if (!showAcct && rs.getString("IsInfoTab").equals("Y"))
-			{
-				CLogger.get().fine("AcctTab Not displayed - AD_Tab_ID=" 
-					+ vo.AD_Tab_ID + " " + vo.Name);
-				return false;
-			}
-			
-			//	DisplayLogic
-			vo.DisplayLogic = rs.getString("DisplayLogic");
-			
-			//	Access Level
-			vo.AccessLevel = rs.getString("AccessLevel");
-			if (!role.canView (vo.ctx, vo.AccessLevel))	//	No Access
-			{
-				CLogger.get().fine("No Role Access - AD_Tab_ID=" + vo.AD_Tab_ID + " " + vo. Name);
-				return false;
-			}	//	Used by MField.getDefault
-			Env.setContext(vo.ctx, vo.WindowNo, vo.TabNo, GridTab.CTX_AccessLevel, vo.AccessLevel);
-
-			//	Table Access
-			vo.AD_Table_ID = rs.getInt("AD_Table_ID");
-			Env.setContext(vo.ctx, vo.WindowNo, vo.TabNo, GridTab.CTX_AD_Table_ID, String.valueOf(vo.AD_Table_ID));
-			if (!role.isTableAccess(vo.AD_Table_ID, true))
-			{
-				CLogger.get().config("No Table Access - AD_Tab_ID=" 
-					+ vo.AD_Tab_ID + " " + vo. Name);
-				return false;
-			}
-			if (rs.getString("IsReadOnly").equals("Y"))
-				vo.IsReadOnly = true;
-			vo.ReadOnlyLogic = rs.getString("ReadOnlyLogic");
-			//	BR [162]
-			if(!vo.IsReadOnly && vo.ReadOnlyLogic != null) {
-				vo.IsReadOnly = Evaluator.evaluateLogic(vo, vo.ReadOnlyLogic);
-			}
-			
-			if (rs.getString("IsInsertRecord").equals("N"))
-				vo.IsInsertRecord = false;
-			
-			//
-			vo.Description = rs.getString("Description");
-			if (vo.Description == null)
-				vo.Description = "";
-			vo.Help = rs.getString("Help");
-			if (vo.Help == null)
-				vo.Help = "";
-
-			if (rs.getString("IsSingleRow").equals("Y"))
-				vo.IsSingleRow = true;
-			if (rs.getString("HasTree").equals("Y"))
-				vo.HasTree = true;
-
-			vo.AD_Table_ID = rs.getInt("AD_Table_ID");
-			vo.TableName = rs.getString("TableName");
-			if (rs.getString("IsView").equals("Y"))
-				vo.IsView = true;
-			vo.AD_Column_ID = rs.getInt("AD_Column_ID");   //  Primary Link Column
-			vo.Parent_Column_ID = rs.getInt("Parent_Column_ID");   // Parent tab link column
-
-			if (rs.getString("IsSecurityEnabled").equals("Y"))
-				vo.IsSecurityEnabled = true;
-			if (rs.getString("IsDeleteable").equals("Y"))
-				vo.IsDeleteable = true;
-			if (rs.getString("IsHighVolume").equals("Y"))
-				vo.IsHighVolume = true;
-
-			vo.CommitWarning = rs.getString("CommitWarning");
-			if (vo.CommitWarning == null)
-				vo.CommitWarning = "";
-			vo.WhereClause = rs.getString("WhereClause");
-			if (vo.WhereClause == null)
-				vo.WhereClause = "";
-			//jz col=null not good for Derby
-			if (vo.WhereClause.indexOf("=null")>0)
-				vo.WhereClause.replaceAll("=null", " IS NULL ");
-			// Where Clauses should be surrounded by parenthesis - teo_sarca, BF [ 1982327 ] 
-			if (vo.WhereClause.trim().length() > 0) {
-				vo.WhereClause = "("+vo.WhereClause+")";
-			}
-
-			vo.OrderByClause = rs.getString("OrderByClause");
-			if (vo.OrderByClause == null)
-				vo.OrderByClause = "";
-
-			vo.AD_Process_ID = rs.getInt("AD_Process_ID");
-			if (rs.wasNull())
-				vo.AD_Process_ID = 0;
-			vo.AD_Image_ID = rs.getInt("AD_Image_ID");
-			if (rs.wasNull())
-				vo.AD_Image_ID = 0;
-			vo.Included_Tab_ID = rs.getInt("Included_Tab_ID");
-			if (rs.wasNull())
-				vo.Included_Tab_ID = 0;
-			//
-			vo.TabLevel = rs.getInt("TabLevel");
-			if (rs.wasNull())
-				vo.TabLevel = 0;
-			//
-			vo.IsSortTab = rs.getString("IsSortTab").equals("Y");
-			if (vo.IsSortTab)
-			{
-				vo.AD_ColumnSortOrder_ID = rs.getInt("AD_ColumnSortOrder_ID");
-				vo.AD_ColumnSortYesNo_ID = rs.getInt("AD_ColumnSortYesNo_ID");
-			}
-			//
-			//	Replication Type - set R/O if Reference
-			try
-			{
-				int index = rs.findColumn ("ReplicationType");
-				vo.ReplicationType = rs.getString (index);
-				if ("R".equals(vo.ReplicationType))
-					vo.IsReadOnly = true;
-			}
-			catch (Exception e)
-			{
 			}
 		}
-		catch (SQLException ex)
-		{
-			CLogger.get().log(Level.SEVERE, "", ex);
+		//	Advanced Tab	**
+		if (!showAdvanced && tab.isAdvancedTab()) {
+			CLogger.get().config("AdvancedTab Not displayed - AD_Tab_ID=" 
+				+ vo.AD_Tab_ID + " " + vo.Name);
+			return false;
+		}
+		//	Accounting Info Tab	**
+		if (!showAcct && tab.isInfoTab()) {
+			CLogger.get().fine("AcctTab Not displayed - AD_Tab_ID=" 
+				+ vo.AD_Tab_ID + " " + vo.Name);
 			return false;
 		}
 		
+		//	DisplayLogic
+		vo.DisplayLogic = tab.getDisplayLogic();
+		
+		//	Access Level
+		vo.AccessLevel = table.getAccessLevel();
+		if (!role.canView (vo.ctx, vo.AccessLevel))	//	No Access
+		{
+			CLogger.get().fine("No Role Access - AD_Tab_ID=" + vo.AD_Tab_ID + " " + vo. Name);
+			return false;
+		}	//	Used by MField.getDefault
+		Env.setContext(vo.ctx, vo.WindowNo, vo.TabNo, GridTab.CTX_AccessLevel, vo.AccessLevel);
+
+		//	Table Access
+		vo.AD_Table_ID = tab.getAD_Table_ID();
+		Env.setContext(vo.ctx, vo.WindowNo, vo.TabNo, GridTab.CTX_AD_Table_ID, String.valueOf(vo.AD_Table_ID));
+		if (!role.isTableAccess(vo.AD_Table_ID, true))
+		{
+			CLogger.get().config("No Table Access - AD_Tab_ID=" 
+				+ vo.AD_Tab_ID + " " + vo. Name);
+			return false;
+		}
+		if (tab.isReadOnly())
+			vo.IsReadOnly = true;
+		vo.ReadOnlyLogic = tab.getReadOnlyLogic();
+		//	BR [162]
+		if(!vo.IsReadOnly && vo.ReadOnlyLogic != null) {
+			vo.IsReadOnly = Evaluator.evaluateLogic(vo, vo.ReadOnlyLogic);
+		}
+		
+		if (!tab.isInsertRecord())
+			vo.IsInsertRecord = false;
+		
+		//
+		vo.Description = tab.getDescription();
+		if (vo.Description == null)
+			vo.Description = "";
+		vo.Help = tab.getHelp();
+		if (vo.Help == null)
+			vo.Help = "";
+
+		if (tab.isSingleRow())
+			vo.IsSingleRow = true;
+		if (tab.isHasTree())
+			vo.HasTree = true;
+
+		vo.AD_Table_ID = tab.getAD_Table_ID();
+		vo.TableName = table.getTableName();
+		if (table.isView())
+			vo.IsView = true;
+		vo.AD_Column_ID = tab.getAD_Column_ID();   //  Primary Link Column
+		vo.Parent_Column_ID = tab.getParent_Column_ID();   // Parent tab link column
+
+		// TODO: see it
+		if (table.isSecurityEnabled())
+			vo.IsSecurityEnabled = true;
+		if (table.isDeleteable())
+			vo.IsDeleteable = true;
+		if (table.isHighVolume())
+			vo.IsHighVolume = true;
+
+		vo.CommitWarning = tab.getCommitWarning();
+		if (vo.CommitWarning == null)
+			vo.CommitWarning = "";
+		vo.WhereClause = tab.getWhereClause();
+		if (vo.WhereClause == null)
+			vo.WhereClause = "";
+		//jz col=null not good for Derby
+		if (vo.WhereClause.indexOf("=null")>0)
+			vo.WhereClause.replaceAll("=null", " IS NULL ");
+		// Where Clauses should be surrounded by parenthesis - teo_sarca, BF [ 1982327 ] 
+		if (vo.WhereClause.trim().length() > 0) {
+			vo.WhereClause = "("+vo.WhereClause+")";
+		}
+
+		vo.OrderByClause = tab.getOrderByClause();
+		if (vo.OrderByClause == null)
+			vo.OrderByClause = "";
+
+		vo.AD_Process_ID = tab.getAD_Process_ID();
+		vo.AD_Image_ID = tab.getAD_Image_ID();
+		vo.Included_Tab_ID = tab.getIncluded_Tab_ID();
+		//
+		vo.TabLevel = tab.getTabLevel();
+		//
+		vo.IsSortTab = tab.isSortTab();
+		if (vo.IsSortTab) {
+			vo.AD_ColumnSortOrder_ID = tab.getAD_ColumnSortOrder_ID();
+			vo.AD_ColumnSortYesNo_ID = tab.getAD_ColumnSortYesNo_ID();
+		}
+		//
+		//	Replication Type - set R/O if Reference
+		vo.ReplicationType = table.getReplicationType();
+		if (!Util.isEmpty(vo.ReplicationType)
+				&& "R".equals(vo.ReplicationType)) {
+			vo.IsReadOnly = true;
+		}
 		return true;
 	}	//	loadTabDetails
-
 
 	/**************************************************************************
 	 *  Create Tab Fields
 	 *  @param mTabVO tab value object
 	 *  @return true if fields were created
 	 */
-	private static boolean createFields (GridTabVO mTabVO)
-	{
+	private static boolean createFields (GridTabVO mTabVO) {
 		//local only or remote fail for vpn profile
 		mTabVO.Fields = new ArrayList<GridFieldVO>();
-
-		String sql = GridFieldVO.getSQL(mTabVO.ctx);
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, mTabVO.AD_Tab_ID);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				GridFieldVO voF = GridFieldVO.create (mTabVO.ctx, 
+		for(MField field : ASPUtil.getInstance(mTabVO.ctx).getWindowFields(mTabVO.AD_Tab_ID)) {
+			GridFieldVO voF = GridFieldVO.create (mTabVO.ctx, 
 					mTabVO.WindowNo, mTabVO.TabNo, 
 					mTabVO.AD_Window_ID, mTabVO.AD_Tab_ID, 
-					mTabVO.IsReadOnly, rs);
-				if (voF != null)
-					mTabVO.Fields.add(voF);
+					mTabVO.IsReadOnly, field);
+			if (voF != null) {
+				mTabVO.Fields.add(voF);
 			}
-			rs.close();
-			pstmt.close();
 		}
-		catch (Exception e)
-		{
-			CLogger.get().log(Level.SEVERE, "", e);
-			return false;
-		}
-		
 		mTabVO.initFields = true;
-		
 		return mTabVO.Fields.size() != 0;
 	}   //  createFields
-	
-	/**
-	 *  Return the SQL statement used for the MTabVO.create
-	 *  @param ctx context
-	 *  @return SQL SELECT String
-	 */
-	protected static String getSQL (Properties ctx)
-	{
-		MClient client = MClient.get(ctx);
-		String ASPFilter = "";
-		if (client.isUseASP())
-			ASPFilter =
-				"     AND (   AD_Tab_ID IN ( "
-				// Just ASP subscribed tabs for client "
-				+ "              SELECT t.AD_Tab_ID "
-				+ "                FROM ASP_Tab t, ASP_Window w, ASP_Level l, ASP_ClientLevel cl "
-				+ "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
-				+ "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
-				+ "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
-				+ "                 AND t.ASP_Window_ID = w.ASP_Window_ID "
-				+ "                 AND t.IsActive = 'Y' "
-				+ "                 AND w.IsActive = 'Y' "
-				+ "                 AND l.IsActive = 'Y' "
-				+ "                 AND cl.IsActive = 'Y' "
-				+ "                 AND t.ASP_Status = 'S') " // Show
-				+ "        OR AD_Tab_ID IN ( "
-				// + show ASP exceptions for client
-				+ "              SELECT AD_Tab_ID "
-				+ "                FROM ASP_ClientException ce "
-				+ "               WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
-				+ "                 AND ce.IsActive = 'Y' "
-				+ "                 AND ce.AD_Tab_ID IS NOT NULL "
-				+ "                 AND ce.AD_Field_ID IS NULL "
-				+ "                 AND ce.ASP_Status = 'S') " // Show
-				+ "       ) "
-				+ "   AND AD_Tab_ID NOT IN ( "
-				// minus hide ASP exceptions for client
-				+ "          SELECT AD_Tab_ID "
-				+ "            FROM ASP_ClientException ce "
-				+ "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
-				+ "             AND ce.IsActive = 'Y' "
-				+ "             AND ce.AD_Tab_ID IS NOT NULL "
-				+ "             AND ce.AD_Field_ID IS NULL "
-				+ "             AND ce.ASP_Status = 'H')"; // Hide
-		//  View only returns IsActive='Y'
-		String sql = "SELECT * FROM AD_Tab_v WHERE AD_Window_ID=?"
-			+ ASPFilter + " ORDER BY SeqNo";
-		if (!Env.isBaseLanguage(ctx, "AD_Window"))
-			sql = "SELECT * FROM AD_Tab_vt WHERE AD_Window_ID=?"
-				+ " AND AD_Language='" + Env.getAD_Language(ctx) + "'"
-				+ ASPFilter + " ORDER BY SeqNo";
-		return sql;
-	}   //  getSQL
-	
 	
 	/**************************************************************************
 	 *  Private constructor - must use Factory
