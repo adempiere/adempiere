@@ -97,6 +97,9 @@ import pl.x3E.adInterface.ModelCRUD.Action.Enum;
  * Contributors: Carlos Ruiz - globalqss
  *     Add model oriented method modelSetDocAction
  *     Some Polish messages translated to english using google translate
+ * @author Víctor Perez, victor.perez@e-evolution.com, www.e-evolution.com , e-Evolution
+ * <li>#2512 Problem with ADempiere web service when execute process for jasper report or ADempiere Report Engine
+ * <li> https://github.com/adempiere/adempiere/issues/2512
  */
 
 
@@ -415,19 +418,19 @@ public class ModelADServiceImpl implements ModelADService {
 		return null;
 	}
 
-	public RunProcessResponseDocument runProcess(ModelRunProcessRequestDocument req) throws XFireFault {
-		RunProcessResponseDocument resbadlogin = RunProcessResponseDocument.Factory.newInstance();
-		RunProcessResponse rbadlogin = resbadlogin.addNewRunProcessResponse();
-    	ModelRunProcess modelRunProcess = req.getModelRunProcessRequest().getModelRunProcess();
+	public RunProcessResponseDocument runProcess(ModelRunProcessRequestDocument modelRunProcessRequestDocument) throws XFireFault {
+		RunProcessResponseDocument runProcessResponseDocument = RunProcessResponseDocument.Factory.newInstance();
+		RunProcessResponse runProcessResponse = runProcessResponseDocument.addNewRunProcessResponse();
+    	ModelRunProcess modelRunProcess = modelRunProcessRequestDocument.getModelRunProcessRequest().getModelRunProcess();
 		String serviceType = modelRunProcess.getServiceType();
 
-		ADLoginRequest reqlogin = req.getModelRunProcessRequest().getADLoginRequest();
+		ADLoginRequest loginRequest = modelRunProcessRequestDocument.getModelRunProcessRequest().getADLoginRequest();
 
-    	String err = modelLogin(reqlogin, webServiceName, "runProcess", serviceType);
-    	if (err != null && err.length() > 0) {
-    		rbadlogin.setError(err);
-    		rbadlogin.setIsError( true );
-        	return resbadlogin;
+    	String error = modelLogin(loginRequest, webServiceName, "runProcess", serviceType);
+    	if (error != null && error.length() > 0) {
+    		runProcessResponse.setError(error);
+    		runProcessResponse.setIsError( true );
+        	return runProcessResponseDocument;
     	}
 
     	// Validate parameters
@@ -436,14 +439,14 @@ public class ModelADServiceImpl implements ModelADService {
     	modelRunProcess.setADRecordID(validateParameter("AD_Record_ID", modelRunProcess.getADRecordID()));
     	modelRunProcess.setDocAction(validateParameter("DocAction", modelRunProcess.getDocAction()));
 
-		RunProcessDocument docprocess = RunProcessDocument.Factory.newInstance();
-    	RunProcess reqprocess = docprocess.addNewRunProcess();
-    	reqprocess.setParamValues(modelRunProcess.getParamValues());
-    	reqprocess.setADProcessID(modelRunProcess.getADProcessID());
-    	reqprocess.setADMenuID(modelRunProcess.getADMenuID());
-    	reqprocess.setADRecordID(modelRunProcess.getADRecordID());
-    	reqprocess.setDocAction(modelRunProcess.getDocAction());
-    	return Process.runProcess(m_cs, docprocess);
+		RunProcessDocument runProcessDocument = RunProcessDocument.Factory.newInstance();
+    	RunProcess runProcess = runProcessDocument.addNewRunProcess();
+    	runProcess.setParamValues(modelRunProcess.getParamValues());
+    	runProcess.setADProcessID(modelRunProcess.getADProcessID());
+    	runProcess.setADMenuID(modelRunProcess.getADMenuID());
+    	runProcess.setADRecordID(modelRunProcess.getADRecordID());
+    	runProcess.setDocAction(modelRunProcess.getDocAction());
+    	return Process.runProcess(m_cs, runProcessDocument);
 	}
 
 	public WindowTabDataDocument getList(ModelGetListRequestDocument req)
