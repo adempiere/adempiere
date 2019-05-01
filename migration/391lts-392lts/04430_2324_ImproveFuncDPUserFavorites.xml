@@ -14,7 +14,7 @@
         <Data AD_Column_ID="199" Column="MsgTip">The User Favorites list makes it easy to find your favorite menu items.  Click on a favorite item in the main menu and drag it here.  You can organize your favorites in folders to create your own menu. Right click for options and to create new folders. Drag favorite items into the order desired or drop them into folders to organize the menu.  Double click a folder to rename it.  </Data>
         <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="7716" Column="EntityType">U</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
         <Data AD_Column_ID="6765" Column="AD_Message_ID">53562</Data>
         <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
