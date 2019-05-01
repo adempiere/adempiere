@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add iban to c_bp_bankaccount" ReleaseNo="3.9.2" SeqNo="4520">
+  <Migration EntityType="D" Name="Add iban to c_bp_bankaccount" ReleaseNo="3.9.2" SeqNo="4525">
     <Comments>https://github.com/adempiere/adempiere/issues/1983</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="92263" Table="AD_Column">
