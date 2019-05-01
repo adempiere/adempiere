@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Mail Template for Events" ReleaseNo="3.9.2" SeqNo="4530">
+  <Migration EntityType="D" Name="Add Mail Template for Events" ReleaseNo="3.9.2" SeqNo="4535">
     <Comments>Add Mail Template by Event</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="105" Action="I" Record_ID="53662" Table="AD_Window">

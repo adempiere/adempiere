@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add relation between Request Update and Request Action #2483" ReleaseNo="3.9.2" SeqNo="4550">
+  <Migration EntityType="D" Name="Add relation between Request Update and Request Action #2483" ReleaseNo="3.9.2" SeqNo="4555">
     <Comments>https://github.com/adempiere/adempiere/issues/2483</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="92955" Table="AD_Column">
