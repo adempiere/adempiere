@@ -19,37 +19,33 @@ package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
-import org.compiere.util.KeyNamePair;
 
-/** Generated Model for AD_UserDef_Win
+/** Generated Model for AD_WindowCustom
  *  @author Adempiere (generated) 
  *  @version Release 3.9.1 - $Id$ */
-public class X_AD_UserDef_Win extends PO implements I_AD_UserDef_Win, I_Persistent 
+public class X_AD_WindowCustom extends PO implements I_AD_WindowCustom, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190321L;
 
     /** Standard Constructor */
-    public X_AD_UserDef_Win (Properties ctx, int AD_UserDef_Win_ID, String trxName)
+    public X_AD_WindowCustom (Properties ctx, int AD_WindowCustom_ID, String trxName)
     {
-      super (ctx, AD_UserDef_Win_ID, trxName);
-      /** if (AD_UserDef_Win_ID == 0)
+      super (ctx, AD_WindowCustom_ID, trxName);
+      /** if (AD_WindowCustom_ID == 0)
         {
-			setAD_Language (null);
-			setAD_UserDef_Win_ID (0);
+			setAD_WindowCustom_ID (0);
 			setAD_Window_ID (0);
-			setIsDefault (false);
-			setIsReadOnly (false);
-			setIsUserUpdateable (false);
-			setName (null);
+			setHierarchyType (null);
+// O
         } */
     }
 
     /** Load Constructor */
-    public X_AD_UserDef_Win (Properties ctx, ResultSet rs, String trxName)
+    public X_AD_WindowCustom (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -71,29 +67,37 @@ public class X_AD_UserDef_Win extends PO implements I_AD_UserDef_Win, I_Persiste
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_AD_UserDef_Win[")
+      StringBuffer sb = new StringBuffer ("X_AD_WindowCustom[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
 
-	/** AD_Language AD_Reference_ID=106 */
-	public static final int AD_LANGUAGE_AD_Reference_ID=106;
-	/** Set Language.
-		@param AD_Language 
-		Language for this entity
-	  */
-	public void setAD_Language (String AD_Language)
-	{
+	public org.spin.model.I_AD_ContextInfo getAD_ContextInfo() throws RuntimeException
+    {
+		return (org.spin.model.I_AD_ContextInfo)MTable.get(getCtx(), org.spin.model.I_AD_ContextInfo.Table_Name)
+			.getPO(getAD_ContextInfo_ID(), get_TrxName());	}
 
-		set_Value (COLUMNNAME_AD_Language, AD_Language);
+	/** Set Context Info.
+		@param AD_ContextInfo_ID 
+		Context Info Maintaining
+	  */
+	public void setAD_ContextInfo_ID (int AD_ContextInfo_ID)
+	{
+		if (AD_ContextInfo_ID < 1) 
+			set_Value (COLUMNNAME_AD_ContextInfo_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_ContextInfo_ID, Integer.valueOf(AD_ContextInfo_ID));
 	}
 
-	/** Get Language.
-		@return Language for this entity
+	/** Get Context Info.
+		@return Context Info Maintaining
 	  */
-	public String getAD_Language () 
+	public int getAD_ContextInfo_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_AD_Language);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ContextInfo_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException
@@ -119,26 +123,6 @@ public class X_AD_UserDef_Win extends PO implements I_AD_UserDef_Win, I_Persiste
 	public int getAD_Role_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Role_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set User defined Window.
-		@param AD_UserDef_Win_ID User defined Window	  */
-	public void setAD_UserDef_Win_ID (int AD_UserDef_Win_ID)
-	{
-		if (AD_UserDef_Win_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_UserDef_Win_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_UserDef_Win_ID, Integer.valueOf(AD_UserDef_Win_ID));
-	}
-
-	/** Get User defined Window.
-		@return User defined Window	  */
-	public int getAD_UserDef_Win_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserDef_Win_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -172,6 +156,26 @@ public class X_AD_UserDef_Win extends PO implements I_AD_UserDef_Win, I_Persiste
 		return ii.intValue();
 	}
 
+	/** Set Window Customization .
+		@param AD_WindowCustom_ID Window Customization 	  */
+	public void setAD_WindowCustom_ID (int AD_WindowCustom_ID)
+	{
+		if (AD_WindowCustom_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_WindowCustom_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_WindowCustom_ID, Integer.valueOf(AD_WindowCustom_ID));
+	}
+
+	/** Get Window Customization .
+		@return Window Customization 	  */
+	public int getAD_WindowCustom_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WindowCustom_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Window)MTable.get(getCtx(), org.compiere.model.I_AD_Window.Table_Name)
@@ -184,9 +188,9 @@ public class X_AD_UserDef_Win extends PO implements I_AD_UserDef_Win, I_Persiste
 	public void setAD_Window_ID (int AD_Window_ID)
 	{
 		if (AD_Window_ID < 1) 
-			set_Value (COLUMNNAME_AD_Window_ID, null);
+			set_ValueNoCheck (COLUMNNAME_AD_Window_ID, null);
 		else 
-			set_Value (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
+			set_ValueNoCheck (COLUMNNAME_AD_Window_ID, Integer.valueOf(AD_Window_ID));
 	}
 
 	/** Get Window.
@@ -195,6 +199,31 @@ public class X_AD_UserDef_Win extends PO implements I_AD_UserDef_Win, I_Persiste
 	public int getAD_Window_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Window_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_ASP_Level getASP_Level() throws RuntimeException
+    {
+		return (org.compiere.model.I_ASP_Level)MTable.get(getCtx(), org.compiere.model.I_ASP_Level.Table_Name)
+			.getPO(getASP_Level_ID(), get_TrxName());	}
+
+	/** Set ASP Level.
+		@param ASP_Level_ID ASP Level	  */
+	public void setASP_Level_ID (int ASP_Level_ID)
+	{
+		if (ASP_Level_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_ASP_Level_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_ASP_Level_ID, Integer.valueOf(ASP_Level_ID));
+	}
+
+	/** Get ASP Level.
+		@return ASP Level	  */
+	public int getASP_Level_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_Level_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -234,76 +263,78 @@ public class X_AD_UserDef_Win extends PO implements I_AD_UserDef_Win, I_Persiste
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	/** Set Default.
-		@param IsDefault 
-		Default value
+	/** HierarchyType AD_Reference_ID=54117 */
+	public static final int HIERARCHYTYPE_AD_Reference_ID=54117;
+	/** Add = A */
+	public static final String HIERARCHYTYPE_Add = "A";
+	/** Merge = M */
+	public static final String HIERARCHYTYPE_Merge = "M";
+	/** Overwrite = O */
+	public static final String HIERARCHYTYPE_Overwrite = "O";
+	/** Set Hierarchy Type.
+		@param HierarchyType 
+		Hierarchy Type (Hierarchy: Add, Merge or Overwrite)
 	  */
-	public void setIsDefault (boolean IsDefault)
+	public void setHierarchyType (String HierarchyType)
 	{
-		set_Value (COLUMNNAME_IsDefault, Boolean.valueOf(IsDefault));
+
+		set_Value (COLUMNNAME_HierarchyType, HierarchyType);
 	}
 
-	/** Get Default.
-		@return Default value
+	/** Get Hierarchy Type.
+		@return Hierarchy Type (Hierarchy: Add, Merge or Overwrite)
 	  */
-	public boolean isDefault () 
+	public String getHierarchyType () 
 	{
-		Object oo = get_Value(COLUMNNAME_IsDefault);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
+		return (String)get_Value(COLUMNNAME_HierarchyType);
 	}
 
+	/** IsReadOnly AD_Reference_ID=319 */
+	public static final int ISREADONLY_AD_Reference_ID=319;
+	/** Yes = Y */
+	public static final String ISREADONLY_Yes = "Y";
+	/** No = N */
+	public static final String ISREADONLY_No = "N";
 	/** Set Read Only.
 		@param IsReadOnly 
 		Field is read only
 	  */
-	public void setIsReadOnly (boolean IsReadOnly)
+	public void setIsReadOnly (String IsReadOnly)
 	{
-		set_Value (COLUMNNAME_IsReadOnly, Boolean.valueOf(IsReadOnly));
+
+		set_Value (COLUMNNAME_IsReadOnly, IsReadOnly);
 	}
 
 	/** Get Read Only.
 		@return Field is read only
 	  */
-	public boolean isReadOnly () 
+	public String getIsReadOnly () 
 	{
-		Object oo = get_Value(COLUMNNAME_IsReadOnly);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
+		return (String)get_Value(COLUMNNAME_IsReadOnly);
 	}
 
+	/** IsUserUpdateable AD_Reference_ID=319 */
+	public static final int ISUSERUPDATEABLE_AD_Reference_ID=319;
+	/** Yes = Y */
+	public static final String ISUSERUPDATEABLE_Yes = "Y";
+	/** No = N */
+	public static final String ISUSERUPDATEABLE_No = "N";
 	/** Set User updatable.
 		@param IsUserUpdateable 
 		The field can be updated by the user
 	  */
-	public void setIsUserUpdateable (boolean IsUserUpdateable)
+	public void setIsUserUpdateable (String IsUserUpdateable)
 	{
-		set_Value (COLUMNNAME_IsUserUpdateable, Boolean.valueOf(IsUserUpdateable));
+
+		set_Value (COLUMNNAME_IsUserUpdateable, IsUserUpdateable);
 	}
 
 	/** Get User updatable.
 		@return The field can be updated by the user
 	  */
-	public boolean isUserUpdateable () 
+	public String getIsUserUpdateable () 
 	{
-		Object oo = get_Value(COLUMNNAME_IsUserUpdateable);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
+		return (String)get_Value(COLUMNNAME_IsUserUpdateable);
 	}
 
 	/** Set Name.
@@ -323,14 +354,6 @@ public class X_AD_UserDef_Win extends PO implements I_AD_UserDef_Win, I_Persiste
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getName());
-    }
-
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 
 		Immutable Universally Unique Identifier
@@ -346,5 +369,33 @@ public class X_AD_UserDef_Win extends PO implements I_AD_UserDef_Win, I_Persiste
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** WindowType AD_Reference_ID=108 */
+	public static final int WINDOWTYPE_AD_Reference_ID=108;
+	/** Single Record = S */
+	public static final String WINDOWTYPE_SingleRecord = "S";
+	/** Maintain = M */
+	public static final String WINDOWTYPE_Maintain = "M";
+	/** Transaction = T */
+	public static final String WINDOWTYPE_Transaction = "T";
+	/** Query Only = Q */
+	public static final String WINDOWTYPE_QueryOnly = "Q";
+	/** Set WindowType.
+		@param WindowType 
+		Type or classification of a Window
+	  */
+	public void setWindowType (String WindowType)
+	{
+
+		set_Value (COLUMNNAME_WindowType, WindowType);
+	}
+
+	/** Get WindowType.
+		@return Type or classification of a Window
+	  */
+	public String getWindowType () 
+	{
+		return (String)get_Value(COLUMNNAME_WindowType);
 	}
 }

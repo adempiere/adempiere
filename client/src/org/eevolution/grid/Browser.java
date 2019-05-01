@@ -61,6 +61,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.ValueNamePair;
+import org.spin.util.ASPUtil;
 
 /**
  * Abstract Smart Browser <li>FR [ 3426137 ] Smart Browser
@@ -138,6 +139,8 @@ public abstract class Browser {
 	
 	/** Smart Browse */
 	private MBrowse browseModel = null;
+	/**	ASP Handler	*/
+	private ASPUtil aspUtil = null;
 	/** Smart View */
 	private MView view = null;
 
@@ -224,6 +227,7 @@ public abstract class Browser {
 	public Browser(boolean modal, int WindowNo, String value, MBrowse browse,
                    String keyColumn, boolean multiSelection, String where) {
 		browseModel = browse;
+		aspUtil = ASPUtil.getInstance(browseModel.getCtx());
 		view = browse.getAD_View();
 		p_keyColumn = keyColumn;
 		isMultiSelection = multiSelection;
@@ -286,7 +290,7 @@ public abstract class Browser {
 	public void initBrowserData() {
 
 		browserFields = new ArrayList<MBrowseField>();
-		MBrowseField fieldKey =  browseModel.getFieldKey();
+		MBrowseField fieldKey =  aspUtil.getBrowseFieldKey(browseModel.getAD_Browse_ID());
 		if(fieldKey != null) {
 			browserFields.add(fieldKey);
 		} else {
@@ -301,7 +305,7 @@ public abstract class Browser {
 			browseField.setIsReadOnly(false);
 		}
 		//	
-		for (MBrowseField field : browseModel.getDisplayFields()) {
+		for (MBrowseField field : aspUtil.getBrowseDisplayFields(browseModel.getAD_Browse_ID())) {
 			//	
 			if (field.isQueryCriteria()) {
 				m_queryColumns.add(field.getName());

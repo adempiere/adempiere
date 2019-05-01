@@ -303,5 +303,19 @@ public class MBrowseField extends X_AD_Browse_Field {
 	public String getHelp() {
 		return get_Translation(COLUMNNAME_Help);
 	}
+	
+	/**
+	 * Duplicate Browse Field
+	 * @return
+	 */
+	public MBrowseField getDuplicated() {
+		try {
+			return (MBrowseField) super.clone();
+		} catch (CloneNotSupportedException e) {
+			log.warning("Error " + e.getLocalizedMessage());
+		}
+		//	Default
+		return null;
+	}
 
 }
