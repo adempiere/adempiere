@@ -545,19 +545,13 @@ public abstract class Browser {
 								//	BR [ 342 ]
 								sql.append(field.ColumnSQL).append(" IN ")
 								.append(outStr);
-							}	
-							else
-							{
-								sql.append(" lower( ").append(field.ColumnSQL).append(") LIKE ? ");
-								parameters.add(field.ColumnSQL);
-								parametersValues.add("%" + editor.getValue().toString().toLowerCase() + "%");
-							}							
+							}						
 						}
 						else
 						{
-							sql.append(" lower( ").append(field.ColumnSQL).append(") LIKE ? ");
+							sql.append(field.ColumnSQL).append(" LIKE ? ");
 							parameters.add(field.ColumnSQL);
-							parametersValues.add("%" + editor.getValue().toString().toLowerCase() + "%");
+							parametersValues.add("%" + editor.getValue() + "%");
 						}		
 					}
 					else
@@ -572,9 +566,9 @@ public abstract class Browser {
 						&& field.IsRange) {
 					sql.append(" AND ");
 					//sql.append(field.Help).append(" BETWEEN ?");
-					sql.append(" lower( ").append(field.ColumnSQL).append(") >= ? ");
+					sql.append(field.ColumnSQL).append(" >= ? ");
 					parameters.add(field.ColumnSQL);
-					parametersValues.add(editor.getValue().toString().toLowerCase());
+					parametersValues.add(editor.getValue());
 					onRange = true;
 				}
 				else if (editor.getValue() == null
@@ -585,9 +579,9 @@ public abstract class Browser {
 			} else if (editor.getValue() != null
 					&& !editor.getValue().toString().isEmpty()) {
 				//sql.append(" AND ? ");
-				sql.append(" AND ").append(" lower( ").append(field.ColumnSQL).append(") <= ? ");
+				sql.append(" AND ").append(field.ColumnSQL).append(" <= ? ");
 				parameters.add(field.ColumnSQL);
-				parametersValues.add(editor.getValue().toString().toLowerCase());
+				parametersValues.add(editor.getValue());
 				onRange = false;
 			}
 			else

@@ -668,7 +668,7 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 			//
 			m_frame.setCursor(Cursor.getDefaultCursor());
 			setStatusLine(
-					Integer.toString(row) + " "
+					Integer.toString(no) + " "
 							+ Msg.getMsg(Env.getCtx(), "SearchRows_EnterQuery"),
 					false);
 			setStatusDB(Integer.toString(no));
