@@ -517,77 +517,71 @@ public abstract class Browser {
 			GridField editor = (GridField) entry.getValue();
 			GridFieldVO field = editor.getVO();
 			if (!onRange) {
-
-				if (editor.getValue() != null
-						&& !editor.getValue().toString().isEmpty()
-						&& !field.IsRange) {
+				if (editor.getValue() != null && !field.IsRange) {
 					sql.append(" AND ");
-					if(DisplayType.String == field.displayType)
-					{
-						if (field.ColumnName.equals("Value")
-								|| field.ColumnName.equals("DocumentNo"))
-						{
-							String value = (String)editor.getValue();
-							if (value.contains(","))
+					if(DisplayType.String == field.displayType) {
+						String value = (String)editor.getValue();
+						if (value.contains(",")) {
+							value = value.replace(" ", "");
+							String inStr = new String(value);
+							StringBuffer outStr = new StringBuffer("(");
+							int i = inStr.indexOf(',');
+							while (i != -1)
 							{
-								value = value.replace(" ", "");
-								String inStr = new String(value);
-								StringBuffer outStr = new StringBuffer("(");
-								int i = inStr.indexOf(',');
-								while (i != -1)
-								{
-									outStr.append("'" + inStr.substring(0, i) + "',");	
-									inStr = inStr.substring(i+1, inStr.length());
-									i = inStr.indexOf(',');
+								outStr.append("'" + inStr.substring(0, i) + "',");
+								inStr = inStr.substring(i+1, inStr.length());
+								i = inStr.indexOf(',');
 
-								}
-								outStr.append("'" + inStr + "')");
-								//	BR [ 342 ]
-								sql.append(field.ColumnSQL).append(" IN ")
-								.append(outStr);
-							}	
-							else
-							{
-								sql.append(" lower( ").append(field.ColumnSQL).append(") LIKE ? ");
-								parameters.add(field.ColumnSQL);
-								parametersValues.add("%" + editor.getValue().toString().toLowerCase() + "%");
-							}							
+							}
+							outStr.append("'" + inStr + "')");
+							//	BR [ 342 ]
+							sql.append(field.ColumnSQL).append(" IN ")
+							.append(outStr);
 						}
-						else
-						{
+						else if (value.contains("%")) {
 							sql.append(" lower( ").append(field.ColumnSQL).append(") LIKE ? ");
 							parameters.add(field.ColumnSQL);
-							parametersValues.add("%" + editor.getValue().toString().toLowerCase() + "%");
-						}		
-					}
-					else
-					{
+							parametersValues.add(editor.getValue().toString().toLowerCase());
+						} else {
+							sql.append(" lower( ").append(field.ColumnSQL).append(") = ? ");
+							parameters.add(field.ColumnSQL);
+							parametersValues.add(editor.getValue().toString().toLowerCase());
+						}
+					} else {
 						sql.append(field.ColumnSQL).append("=? ");
 						parameters.add(field.ColumnSQL);
 						parametersValues.add(editor.getValue());
 					}
-				} 
-				else if (editor.getValue() != null
-						&& !editor.getValue().toString().isEmpty()
-						&& field.IsRange) {
+				} else if (editor.getValue() != null && field.IsRange) {
 					sql.append(" AND ");
-					//sql.append(field.Help).append(" BETWEEN ?");
-					sql.append(" lower( ").append(field.ColumnSQL).append(") >= ? ");
-					parameters.add(field.ColumnSQL);
-					parametersValues.add(editor.getValue().toString().toLowerCase());
+					if(DisplayType.String == field.displayType) {
+						sql.append(" lower( ").append(field.ColumnSQL).append(") >= ? ");
+						parameters.add(field.ColumnSQL);
+						parametersValues.add(editor.getValue().toString().toLowerCase());
+					}
+					else {
+						sql.append(field.ColumnSQL).append(" >= ? ");
+						parameters.add(field.ColumnSQL);
+						parametersValues.add(editor.getValue());
+					}
 					onRange = true;
 				}
-				else if (editor.getValue() == null
-						&& field.IsRange) {
+				else if (editor.getValue() == null && field.IsRange) {
 					onRange = true;
 				} else
 					continue;
-			} else if (editor.getValue() != null
-					&& !editor.getValue().toString().isEmpty()) {
-				//sql.append(" AND ? ");
-				sql.append(" AND ").append(" lower( ").append(field.ColumnSQL).append(") <= ? ");
-				parameters.add(field.ColumnSQL);
-				parametersValues.add(editor.getValue().toString().toLowerCase());
+			} else if (editor.getValue() != null) {
+				sql.append(" AND ");
+				if(DisplayType.String == field.displayType) {
+					sql.append(" lower( ").append(field.ColumnSQL).append(") <= ? ");
+					parameters.add(field.ColumnSQL);
+					parametersValues.add(editor.getValue().toString().toLowerCase());
+				}
+				else {
+					sql.append(field.ColumnSQL).append(" <= ? ");
+					parameters.add(field.ColumnSQL);
+					parametersValues.add(editor.getValue());
+				}
 				onRange = false;
 			}
 			else
