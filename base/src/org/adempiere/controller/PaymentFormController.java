@@ -468,7 +468,8 @@ public class PaymentFormController {
 		for (int i = 0; i < a.length; i++)
 		{			
 			String PaymentRule = (String)a[i];		//	used for Panel selection
-			if (X_C_Order.PAYMENTRULE_DirectDebit.equals(PaymentRule)			//	SO
+			//The Payment Rule is controlled from list reference
+			/*if (X_C_Order.PAYMENTRULE_DirectDebit.equals(PaymentRule)			//	SO
 				&& !isSOTrx)
 				continue;
 			else if (X_C_Order.PAYMENTRULE_DirectDeposit.equals(PaymentRule)	//	PO 
@@ -476,7 +477,7 @@ public class PaymentFormController {
 				continue;
 			
 			else if (X_C_Order.PAYMENTRULE_Mixed.equals(PaymentRule)) // Mixed is not implemented
-				continue;
+				continue;*/
                                                 
 			ValueNamePair pp = new ValueNamePair(PaymentRule, (String)paymentRuleValues.get(a[i]));
 			rules.add(pp);
