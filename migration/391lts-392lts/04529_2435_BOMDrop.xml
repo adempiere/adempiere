@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="#2435 BOM Drop" ReleaseNo="3.9.2" SeqNo="4530">
+  <Migration EntityType="D" Name="#2435 BOM Drop" ReleaseNo="3.9.2" SeqNo="4529">
+    <Comments>https://github.com/adempiere/adempiere/issues/2435</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="284" Action="I" Record_ID="54214" Table="AD_Process">
         <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true"/>
