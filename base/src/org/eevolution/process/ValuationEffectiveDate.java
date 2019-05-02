@@ -80,25 +80,25 @@ public class ValuationEffectiveDate extends ValuationEffectiveDateAbstract {
 		for (MAcctSchema acctSchema: acctSchemas) {
 			int no = 0;
 			String whereSeq = " (SELECT MAX(SeqNo) FROM M_CostDetail " + 
-					" WHERE IsReversal='N' AND M_Product_ID=iv.M_Product_ID AND iv.m_Costtype_ID=cd.m_Costtype_ID AND iv.c_AcctSchema_ID=cd.c_AcctSchema_ID and iv.m_CostElement_ID=cd.m_Costelement_ID AND dateacct <=?))";
+					" WHERE IsReversal='N' AND M_Product_ID=iv.M_Product_ID AND iv.M_CostType_ID=cd.M_CostType_ID AND iv.C_AcctSchema_ID=cd.C_AcctSchema_ID AND iv.M_CostElement_ID=cd.M_Costelement_ID AND DateAcct <=?))";
 			if (acctSchema.getCostingLevel().equals(MAcctSchema.COSTINGLEVEL_Client)) {
 				ArrayList<Object> params = new ArrayList<>();
 				params.add(getDateValue());
 				params.add(getDateValue());
 				params.add(getDateValue());
 				params.add(getAD_PInstance_ID());
-				StringBuffer update1 = new StringBuffer( "update t_Inventoryvalue iv ")
-						.append(" set costamt = (select coalesce(currentcostprice,0) from rv_m_transaction_costing cd where iv.m_Product_ID=cd.m_Product_ID AND cd.seqno= ")
+				StringBuffer update1 = new StringBuffer( "UPDATE T_Inventoryvalue iv ")
+						.append(" set costamt = (SELECT coalesce(CurrentCostPrice,0) FROM RV_M_Transaction_Costing cd WHERE iv.M_Product_ID=cd.M_Product_ID AND cd.SeqNo= ")
 						.append(whereSeq);
-				update1.append(", costamtll = (select coalesce(currentcostpriceLL) from rv_m_transaction_costing cd where iv.m_Product_ID=cd.m_Product_ID AND cd.seqno= ")
+				update1.append(", costamtll = (SELECT coalesce(CurrentCostPriceLL) FROM RV_M_Transaction_Costing cd WHERE iv.M_Product_ID=cd.M_Product_ID AND cd.SeqNo= ")
 				.append(whereSeq);
 				//update1.append(" ,cumulatedamt = (select endingqtybalance from rv_m_transaction_costing cd where iv.m_Product_ID=cd.m_Product_ID and cd.seqno= ")
 				//.append(whereSeq);
-				update1.append(", DateValue = ? WHERE iv.AD_Pinstance_ID=?");
+				update1.append(", DateValue = ? WHERE iv.AD_PInstance_ID=?");
 				no = DB.executeUpdateEx(update1.toString(), params.toArray(), get_TrxName());		
 				int i = no;
 				commitEx();
-				String update2 = "Update T_InventoryValue set cumulatedamt = (costamt +costamtLL)*qtyonhand where ad_Pinstance_ID=?";
+				String update2 = "UPDATE T_InventoryValue set CumulatedAmt = (CostAmt +CostAmtLL)*QtyonHand WHERE AD_PInstance_ID=?";
 				DB.executeUpdate(update2, getAD_PInstance_ID(), get_TrxName());
 			}
 			if (acctSchema.getCostingLevel().equals(MAcctSchema.COSTINGLEVEL_Warehouse)) {
