@@ -25,7 +25,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_ProductionBatch
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_M_ProductionBatch extends PO implements I_M_ProductionBatch, I_Persistent 
 {
 

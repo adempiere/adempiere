@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for C_ChargeType_DocType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_ChargeType_DocType extends PO implements I_C_ChargeType_DocType, I_Persistent 
 {
 

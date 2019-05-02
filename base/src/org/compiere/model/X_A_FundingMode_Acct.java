@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for A_FundingMode_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_A_FundingMode_Acct extends PO implements I_A_FundingMode_Acct, I_Persistent 
 {
 

@@ -23,7 +23,7 @@ import java.util.Properties;
 
 /** Generated Model for M_PromotionPreCondition
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_M_PromotionPreCondition extends PO implements I_M_PromotionPreCondition, I_Persistent 
 {
 

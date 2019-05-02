@@ -25,7 +25,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_CombinedAging
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_T_CombinedAging extends PO implements I_T_CombinedAging, I_Persistent 
 {
 

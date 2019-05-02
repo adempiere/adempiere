@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for C_Tax_Acct
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_Tax_Acct extends PO implements I_C_Tax_Acct, I_Persistent 
 {
 

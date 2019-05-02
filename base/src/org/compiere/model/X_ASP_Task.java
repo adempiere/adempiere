@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for ASP_Task
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_ASP_Task extends PO implements I_ASP_Task, I_Persistent 
 {
 

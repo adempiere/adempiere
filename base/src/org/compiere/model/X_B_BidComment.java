@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for B_BidComment
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_B_BidComment extends PO implements I_B_BidComment, I_Persistent 
 {
 

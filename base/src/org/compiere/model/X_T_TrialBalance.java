@@ -25,7 +25,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_TrialBalance
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_T_TrialBalance extends PO implements I_T_TrialBalance, I_Persistent 
 {
 

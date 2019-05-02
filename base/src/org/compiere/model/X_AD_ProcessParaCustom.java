@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for AD_ProcessParaCustom
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_AD_ProcessParaCustom extends PO implements I_AD_ProcessParaCustom, I_Persistent 
 {
 

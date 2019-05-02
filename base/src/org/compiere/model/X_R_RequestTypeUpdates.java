@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for R_RequestTypeUpdates
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_R_RequestTypeUpdates extends PO implements I_R_RequestTypeUpdates, I_Persistent 
 {
 

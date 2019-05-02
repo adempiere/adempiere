@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for CM_AccessNewsChannel
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_CM_AccessNewsChannel extends PO implements I_CM_AccessNewsChannel, I_Persistent 
 {
 

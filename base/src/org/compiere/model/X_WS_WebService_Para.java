@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for WS_WebService_Para
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_WS_WebService_Para extends PO implements I_WS_WebService_Para, I_Persistent 
 {
 

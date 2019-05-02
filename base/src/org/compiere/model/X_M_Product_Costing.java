@@ -24,7 +24,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_Product_Costing
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Persistent 
 {
 

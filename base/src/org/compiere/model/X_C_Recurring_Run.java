@@ -23,7 +23,7 @@ import java.util.Properties;
 
 /** Generated Model for C_Recurring_Run
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_Recurring_Run extends PO implements I_C_Recurring_Run, I_Persistent 
 {
 
