@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_AppRegistration
+/** Generated Interface for R_NoticeTemplate
  *  @author Adempiere (generated) 
  *  @version Release 3.9.2
  */
-public interface I_AD_AppRegistration 
+public interface I_R_NoticeTemplate 
 {
 
-    /** TableName=AD_AppRegistration */
-    public static final String Table_Name = "AD_AppRegistration";
+    /** TableName=R_NoticeTemplate */
+    public static final String Table_Name = "R_NoticeTemplate";
 
-    /** AD_Table_ID=54540 */
+    /** AD_Table_ID=54618 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -41,34 +41,6 @@ public interface I_AD_AppRegistration
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
-
-    /** Column name AD_AppRegistration_ID */
-    public static final String COLUMNNAME_AD_AppRegistration_ID = "AD_AppRegistration_ID";
-
-	/** Set Application Registration.
-	  * External Application Registration
-	  */
-	public void setAD_AppRegistration_ID (int AD_AppRegistration_ID);
-
-	/** Get Application Registration.
-	  * External Application Registration
-	  */
-	public int getAD_AppRegistration_ID();
-
-    /** Column name AD_AppSupport_ID */
-    public static final String COLUMNNAME_AD_AppSupport_ID = "AD_AppSupport_ID";
-
-	/** Set App Support.
-	  * App Support for External Connection
-	  */
-	public void setAD_AppSupport_ID (int AD_AppSupport_ID);
-
-	/** Get App Support.
-	  * App Support for External Connection
-	  */
-	public int getAD_AppSupport_ID();
-
-	public org.spin.model.I_AD_AppSupport getAD_AppSupport() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -90,19 +62,6 @@ public interface I_AD_AppRegistration
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name ApplicationType */
-    public static final String COLUMNNAME_ApplicationType = "ApplicationType";
-
-	/** Set Application Type.
-	  * Application Type, used for identify a Application Type like Message Queue
-	  */
-	public void setApplicationType (String ApplicationType);
-
-	/** Get Application Type.
-	  * Application Type, used for identify a Application Type like Message Queue
-	  */
-	public String getApplicationType();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -133,15 +92,6 @@ public interface I_AD_AppRegistration
 	  */
 	public String getDescription();
 
-    /** Column name Host */
-    public static final String COLUMNNAME_Host = "Host";
-
-	/** Set Host	  */
-	public void setHost (String Host);
-
-	/** Get Host	  */
-	public String getHost();
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -168,27 +118,31 @@ public interface I_AD_AppRegistration
 	  */
 	public String getName();
 
-    /** Column name Port */
-    public static final String COLUMNNAME_Port = "Port";
+    /** Column name R_NoticeTemplate_ID */
+    public static final String COLUMNNAME_R_NoticeTemplate_ID = "R_NoticeTemplate_ID";
 
-	/** Set Port	  */
-	public void setPort (int Port);
-
-	/** Get Port	  */
-	public int getPort();
-
-    /** Column name Timeout */
-    public static final String COLUMNNAME_Timeout = "Timeout";
-
-	/** Set Timeout.
-	  * Is Timeout (In milliseconds) for sending or receive data
+	/** Set Notice Template.
+	  * Notice Template by Event
 	  */
-	public void setTimeout (int Timeout);
+	public void setR_NoticeTemplate_ID (int R_NoticeTemplate_ID);
 
-	/** Get Timeout.
-	  * Is Timeout (In milliseconds) for sending or receive data
+	/** Get Notice Template.
+	  * Notice Template by Event
 	  */
-	public int getTimeout();
+	public int getR_NoticeTemplate_ID();
+
+    /** Column name TemplateType */
+    public static final String COLUMNNAME_TemplateType = "TemplateType";
+
+	/** Set Template Type.
+	  * Template Type for Main Template
+	  */
+	public void setTemplateType (String TemplateType);
+
+	/** Get Template Type.
+	  * Template Type for Main Template
+	  */
+	public String getTemplateType();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -218,30 +172,4 @@ public interface I_AD_AppRegistration
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
-
-    /** Column name Value */
-    public static final String COLUMNNAME_Value = "Value";
-
-	/** Set Search Key.
-	  * Search key for the record in the format required - must be unique
-	  */
-	public void setValue (String Value);
-
-	/** Get Search Key.
-	  * Search key for the record in the format required - must be unique
-	  */
-	public String getValue();
-
-    /** Column name VersionNo */
-    public static final String COLUMNNAME_VersionNo = "VersionNo";
-
-	/** Set Version No.
-	  * Version Number
-	  */
-	public void setVersionNo (String VersionNo);
-
-	/** Get Version No.
-	  * Version Number
-	  */
-	public String getVersionNo();
 }

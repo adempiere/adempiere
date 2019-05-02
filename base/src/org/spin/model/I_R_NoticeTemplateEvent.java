@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_AppRegistration
+/** Generated Interface for R_NoticeTemplateEvent
  *  @author Adempiere (generated) 
  *  @version Release 3.9.2
  */
-public interface I_AD_AppRegistration 
+public interface I_R_NoticeTemplateEvent 
 {
 
-    /** TableName=AD_AppRegistration */
-    public static final String Table_Name = "AD_AppRegistration";
+    /** TableName=R_NoticeTemplateEvent */
+    public static final String Table_Name = "R_NoticeTemplateEvent";
 
-    /** AD_Table_ID=54540 */
+    /** AD_Table_ID=54621 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -41,34 +41,6 @@ public interface I_AD_AppRegistration
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
-
-    /** Column name AD_AppRegistration_ID */
-    public static final String COLUMNNAME_AD_AppRegistration_ID = "AD_AppRegistration_ID";
-
-	/** Set Application Registration.
-	  * External Application Registration
-	  */
-	public void setAD_AppRegistration_ID (int AD_AppRegistration_ID);
-
-	/** Get Application Registration.
-	  * External Application Registration
-	  */
-	public int getAD_AppRegistration_ID();
-
-    /** Column name AD_AppSupport_ID */
-    public static final String COLUMNNAME_AD_AppSupport_ID = "AD_AppSupport_ID";
-
-	/** Set App Support.
-	  * App Support for External Connection
-	  */
-	public void setAD_AppSupport_ID (int AD_AppSupport_ID);
-
-	/** Get App Support.
-	  * App Support for External Connection
-	  */
-	public int getAD_AppSupport_ID();
-
-	public org.spin.model.I_AD_AppSupport getAD_AppSupport() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -91,19 +63,6 @@ public interface I_AD_AppRegistration
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name ApplicationType */
-    public static final String COLUMNNAME_ApplicationType = "ApplicationType";
-
-	/** Set Application Type.
-	  * Application Type, used for identify a Application Type like Message Queue
-	  */
-	public void setApplicationType (String ApplicationType);
-
-	/** Get Application Type.
-	  * Application Type, used for identify a Application Type like Message Queue
-	  */
-	public String getApplicationType();
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -120,27 +79,18 @@ public interface I_AD_AppRegistration
 	  */
 	public int getCreatedBy();
 
-    /** Column name Description */
-    public static final String COLUMNNAME_Description = "Description";
+    /** Column name EventType */
+    public static final String COLUMNNAME_EventType = "EventType";
 
-	/** Set Description.
-	  * Optional short description of the record
+	/** Set Event Type.
+	  * Type of Event
 	  */
-	public void setDescription (String Description);
+	public void setEventType (String EventType);
 
-	/** Get Description.
-	  * Optional short description of the record
+	/** Get Event Type.
+	  * Type of Event
 	  */
-	public String getDescription();
-
-    /** Column name Host */
-    public static final String COLUMNNAME_Host = "Host";
-
-	/** Set Host	  */
-	public void setHost (String Host);
-
-	/** Get Host	  */
-	public String getHost();
+	public String getEventType();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -155,40 +105,44 @@ public interface I_AD_AppRegistration
 	  */
 	public boolean isActive();
 
-    /** Column name Name */
-    public static final String COLUMNNAME_Name = "Name";
+    /** Column name R_MailText_ID */
+    public static final String COLUMNNAME_R_MailText_ID = "R_MailText_ID";
 
-	/** Set Name.
-	  * Alphanumeric identifier of the entity
+	/** Set Mail Template.
+	  * Text templates for mailings
 	  */
-	public void setName (String Name);
+	public void setR_MailText_ID (int R_MailText_ID);
 
-	/** Get Name.
-	  * Alphanumeric identifier of the entity
+	/** Get Mail Template.
+	  * Text templates for mailings
 	  */
-	public String getName();
+	public int getR_MailText_ID();
 
-    /** Column name Port */
-    public static final String COLUMNNAME_Port = "Port";
+	public org.compiere.model.I_R_MailText getR_MailText() throws RuntimeException;
 
-	/** Set Port	  */
-	public void setPort (int Port);
+    /** Column name R_NoticeTemplateEvent_ID */
+    public static final String COLUMNNAME_R_NoticeTemplateEvent_ID = "R_NoticeTemplateEvent_ID";
 
-	/** Get Port	  */
-	public int getPort();
+	/** Set Notice Template by Event	  */
+	public void setR_NoticeTemplateEvent_ID (int R_NoticeTemplateEvent_ID);
 
-    /** Column name Timeout */
-    public static final String COLUMNNAME_Timeout = "Timeout";
+	/** Get Notice Template by Event	  */
+	public int getR_NoticeTemplateEvent_ID();
 
-	/** Set Timeout.
-	  * Is Timeout (In milliseconds) for sending or receive data
+    /** Column name R_NoticeTemplate_ID */
+    public static final String COLUMNNAME_R_NoticeTemplate_ID = "R_NoticeTemplate_ID";
+
+	/** Set Notice Template.
+	  * Notice Template by Event
 	  */
-	public void setTimeout (int Timeout);
+	public void setR_NoticeTemplate_ID (int R_NoticeTemplate_ID);
 
-	/** Get Timeout.
-	  * Is Timeout (In milliseconds) for sending or receive data
+	/** Get Notice Template.
+	  * Notice Template by Event
 	  */
-	public int getTimeout();
+	public int getR_NoticeTemplate_ID();
+
+	public org.spin.model.I_R_NoticeTemplate getR_NoticeTemplate() throws RuntimeException;
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -218,30 +172,4 @@ public interface I_AD_AppRegistration
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
-
-    /** Column name Value */
-    public static final String COLUMNNAME_Value = "Value";
-
-	/** Set Search Key.
-	  * Search key for the record in the format required - must be unique
-	  */
-	public void setValue (String Value);
-
-	/** Get Search Key.
-	  * Search key for the record in the format required - must be unique
-	  */
-	public String getValue();
-
-    /** Column name VersionNo */
-    public static final String COLUMNNAME_VersionNo = "VersionNo";
-
-	/** Set Version No.
-	  * Version Number
-	  */
-	public void setVersionNo (String VersionNo);
-
-	/** Get Version No.
-	  * Version Number
-	  */
-	public String getVersionNo();
 }

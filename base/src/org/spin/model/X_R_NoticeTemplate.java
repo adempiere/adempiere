@@ -20,12 +20,11 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
-import org.compiere.util.KeyNamePair;
 
-/** Generated Model for AD_FieldDefinition
+/** Generated Model for R_NoticeTemplate
  *  @author Adempiere (generated) 
  *  @version Release 3.9.2 - $Id$ */
-public class X_AD_FieldDefinition extends PO implements I_AD_FieldDefinition, I_Persistent 
+public class X_R_NoticeTemplate extends PO implements I_R_NoticeTemplate, I_Persistent 
 {
 
 	/**
@@ -34,25 +33,25 @@ public class X_AD_FieldDefinition extends PO implements I_AD_FieldDefinition, I_
 	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
-    public X_AD_FieldDefinition (Properties ctx, int AD_FieldDefinition_ID, String trxName)
+    public X_R_NoticeTemplate (Properties ctx, int R_NoticeTemplate_ID, String trxName)
     {
-      super (ctx, AD_FieldDefinition_ID, trxName);
-      /** if (AD_FieldDefinition_ID == 0)
+      super (ctx, R_NoticeTemplate_ID, trxName);
+      /** if (R_NoticeTemplate_ID == 0)
         {
-			setAD_FieldDefinition_ID (0);
 			setName (null);
-			setValue (null);
+			setR_NoticeTemplate_ID (0);
+			setTemplateType (null);
         } */
     }
 
     /** Load Constructor */
-    public X_AD_FieldDefinition (Properties ctx, ResultSet rs, String trxName)
+    public X_R_NoticeTemplate (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
 
     /** AccessLevel
-      * @return 4 - System 
+      * @return 6 - System - Client 
       */
     protected int get_AccessLevel()
     {
@@ -68,29 +67,26 @@ public class X_AD_FieldDefinition extends PO implements I_AD_FieldDefinition, I_
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_AD_FieldDefinition[")
+      StringBuffer sb = new StringBuffer ("X_R_NoticeTemplate[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
 
-	/** Set Field Definition.
-		@param AD_FieldDefinition_ID Field Definition	  */
-	public void setAD_FieldDefinition_ID (int AD_FieldDefinition_ID)
+	/** Set Description.
+		@param Description 
+		Optional short description of the record
+	  */
+	public void setDescription (String Description)
 	{
-		if (AD_FieldDefinition_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_FieldDefinition_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_FieldDefinition_ID, Integer.valueOf(AD_FieldDefinition_ID));
+		set_Value (COLUMNNAME_Description, Description);
 	}
 
-	/** Get Field Definition.
-		@return Field Definition	  */
-	public int getAD_FieldDefinition_ID () 
+	/** Get Description.
+		@return Optional short description of the record
+	  */
+	public String getDescription () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_FieldDefinition_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_Description);
 	}
 
 	/** Set Name.
@@ -110,13 +106,52 @@ public class X_AD_FieldDefinition extends PO implements I_AD_FieldDefinition, I_
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getName());
-    }
+	/** Set Notice Template.
+		@param R_NoticeTemplate_ID 
+		Notice Template by Event
+	  */
+	public void setR_NoticeTemplate_ID (int R_NoticeTemplate_ID)
+	{
+		if (R_NoticeTemplate_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_NoticeTemplate_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_NoticeTemplate_ID, Integer.valueOf(R_NoticeTemplate_ID));
+	}
+
+	/** Get Notice Template.
+		@return Notice Template by Event
+	  */
+	public int getR_NoticeTemplate_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_R_NoticeTemplate_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** TemplateType AD_Reference_ID=54118 */
+	public static final int TEMPLATETYPE_AD_Reference_ID=54118;
+	/** Request = R */
+	public static final String TEMPLATETYPE_Request = "R";
+	/** Project = P */
+	public static final String TEMPLATETYPE_Project = "P";
+	/** Set Template Type.
+		@param TemplateType 
+		Template Type for Main Template
+	  */
+	public void setTemplateType (String TemplateType)
+	{
+
+		set_ValueNoCheck (COLUMNNAME_TemplateType, TemplateType);
+	}
+
+	/** Get Template Type.
+		@return Template Type for Main Template
+	  */
+	public String getTemplateType () 
+	{
+		return (String)get_Value(COLUMNNAME_TemplateType);
+	}
 
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 
@@ -133,22 +168,5 @@ public class X_AD_FieldDefinition extends PO implements I_AD_FieldDefinition, I_
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
-	}
-
-	/** Set Search Key.
-		@param Value 
-		Search key for the record in the format required - must be unique
-	  */
-	public void setValue (String Value)
-	{
-		set_Value (COLUMNNAME_Value, Value);
-	}
-
-	/** Get Search Key.
-		@return Search key for the record in the format required - must be unique
-	  */
-	public String getValue () 
-	{
-		return (String)get_Value(COLUMNNAME_Value);
 	}
 }
