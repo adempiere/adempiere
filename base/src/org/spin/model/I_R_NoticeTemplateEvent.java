@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_NoticeTemplateEvent
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_R_NoticeTemplateEvent 
 {
@@ -31,7 +31,7 @@ public interface I_R_NoticeTemplateEvent
     /** TableName=R_NoticeTemplateEvent */
     public static final String Table_Name = "R_NoticeTemplateEvent";
 
-    /** AD_Table_ID=1000000 */
+    /** AD_Table_ID=54621 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -123,10 +123,10 @@ public interface I_R_NoticeTemplateEvent
     /** Column name R_NoticeTemplateEvent_ID */
     public static final String COLUMNNAME_R_NoticeTemplateEvent_ID = "R_NoticeTemplateEvent_ID";
 
-	/** Set Notice Template for Event ID	  */
+	/** Set Notice Template by Event	  */
 	public void setR_NoticeTemplateEvent_ID (int R_NoticeTemplateEvent_ID);
 
-	/** Get Notice Template for Event ID	  */
+	/** Get Notice Template by Event	  */
 	public int getR_NoticeTemplateEvent_ID();
 
     /** Column name R_NoticeTemplate_ID */

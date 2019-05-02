@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for R_NoticeTemplate
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_R_NoticeTemplate extends PO implements I_R_NoticeTemplate, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190422L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_R_NoticeTemplate (Properties ctx, int R_NoticeTemplate_ID, String trxName)

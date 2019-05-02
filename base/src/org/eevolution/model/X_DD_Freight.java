@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for DD_Freight
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_DD_Freight extends PO implements I_DD_Freight, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_DD_Freight (Properties ctx, int DD_Freight_ID, String trxName)
@@ -43,10 +43,10 @@ public class X_DD_Freight extends PO implements I_DD_Freight, I_Persistent
       /** if (DD_Freight_ID == 0)
         {
 			setC_DocType_ID (0);
-			setDD_Freight_ID (0);
 			setDateDoc (new Timestamp( System.currentTimeMillis() ));
 // @#Date@
 			setDateOrdered (new Timestamp( System.currentTimeMillis() ));
+			setDD_Freight_ID (0);
 			setDocAction (null);
 // CO
 			setIsApproved (false);
@@ -169,6 +169,40 @@ public class X_DD_Freight extends PO implements I_DD_Freight, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Document Date.
+		@param DateDoc 
+		Date of the Document
+	  */
+	public void setDateDoc (Timestamp DateDoc)
+	{
+		set_Value (COLUMNNAME_DateDoc, DateDoc);
+	}
+
+	/** Get Document Date.
+		@return Date of the Document
+	  */
+	public Timestamp getDateDoc () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateDoc);
+	}
+
+	/** Set Date Ordered.
+		@param DateOrdered 
+		Date of Order
+	  */
+	public void setDateOrdered (Timestamp DateOrdered)
+	{
+		set_Value (COLUMNNAME_DateOrdered, DateOrdered);
+	}
+
+	/** Get Date Ordered.
+		@return Date of Order
+	  */
+	public Timestamp getDateOrdered () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateOrdered);
+	}
+
 	public org.eevolution.model.I_DD_Driver getDD_Driver() throws RuntimeException
     {
 		return (org.eevolution.model.I_DD_Driver)MTable.get(getCtx(), org.eevolution.model.I_DD_Driver.Table_Name)
@@ -262,40 +296,6 @@ public class X_DD_Freight extends PO implements I_DD_Freight, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Document Date.
-		@param DateDoc 
-		Date of the Document
-	  */
-	public void setDateDoc (Timestamp DateDoc)
-	{
-		set_Value (COLUMNNAME_DateDoc, DateDoc);
-	}
-
-	/** Get Document Date.
-		@return Date of the Document
-	  */
-	public Timestamp getDateDoc () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_DateDoc);
-	}
-
-	/** Set Date Ordered.
-		@param DateOrdered 
-		Date of Order
-	  */
-	public void setDateOrdered (Timestamp DateOrdered)
-	{
-		set_Value (COLUMNNAME_DateOrdered, DateOrdered);
-	}
-
-	/** Get Date Ordered.
-		@return Date of Order
-	  */
-	public Timestamp getDateOrdered () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_DateOrdered);
 	}
 
 	/** Set Description.

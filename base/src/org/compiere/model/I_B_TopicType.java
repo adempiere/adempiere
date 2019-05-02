@@ -154,21 +154,6 @@ public interface I_B_TopicType
 
 	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException;
 
-    /** Column name M_ProductMember_ID */
-    public static final String COLUMNNAME_M_ProductMember_ID = "M_ProductMember_ID";
-
-	/** Set Membership.
-	  * Product used to determine the price of the membership for the topic type
-	  */
-	public void setM_ProductMember_ID (int M_ProductMember_ID);
-
-	/** Get Membership.
-	  * Product used to determine the price of the membership for the topic type
-	  */
-	public int getM_ProductMember_ID();
-
-	public org.compiere.model.I_M_Product getM_ProductMember() throws RuntimeException;
-
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -184,6 +169,21 @@ public interface I_B_TopicType
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
+    /** Column name M_ProductMember_ID */
+    public static final String COLUMNNAME_M_ProductMember_ID = "M_ProductMember_ID";
+
+	/** Set Membership.
+	  * Product used to determine the price of the membership for the topic type
+	  */
+	public void setM_ProductMember_ID (int M_ProductMember_ID);
+
+	/** Get Membership.
+	  * Product used to determine the price of the membership for the topic type
+	  */
+	public int getM_ProductMember_ID();
+
+	public org.compiere.model.I_M_Product getM_ProductMember() throws RuntimeException;
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -196,19 +196,6 @@ public interface I_B_TopicType
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -225,4 +212,17 @@ public interface I_B_TopicType
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

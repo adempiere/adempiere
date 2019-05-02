@@ -29,7 +29,7 @@ public class X_AD_BrowseFieldCustom extends PO implements I_AD_BrowseFieldCustom
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190321L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_AD_BrowseFieldCustom (Properties ctx, int AD_BrowseFieldCustom_ID, String trxName)
@@ -125,9 +125,9 @@ public class X_AD_BrowseFieldCustom extends PO implements I_AD_BrowseFieldCustom
 	public void setAD_Browse_Field_ID (int AD_Browse_Field_ID)
 	{
 		if (AD_Browse_Field_ID < 1) 
-			set_Value (COLUMNNAME_AD_Browse_Field_ID, null);
+			set_ValueNoCheck (COLUMNNAME_AD_Browse_Field_ID, null);
 		else 
-			set_Value (COLUMNNAME_AD_Browse_Field_ID, Integer.valueOf(AD_Browse_Field_ID));
+			set_ValueNoCheck (COLUMNNAME_AD_Browse_Field_ID, Integer.valueOf(AD_Browse_Field_ID));
 	}
 
 	/** Get Browse Field.

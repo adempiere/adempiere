@@ -77,6 +77,15 @@ public interface I_ASP_Tab
 
 	public org.compiere.model.I_AD_Tab getAD_Tab() throws RuntimeException;
 
+    /** Column name AllFields */
+    public static final String COLUMNNAME_AllFields = "AllFields";
+
+	/** Set AllFields	  */
+	public void setAllFields (boolean AllFields);
+
+	/** Get AllFields	  */
+	public boolean isAllFields();
+
     /** Column name ASP_Status */
     public static final String COLUMNNAME_ASP_Status = "ASP_Status";
 
@@ -105,15 +114,6 @@ public interface I_ASP_Tab
 	public int getASP_Window_ID();
 
 	public org.compiere.model.I_ASP_Window getASP_Window() throws RuntimeException;
-
-    /** Column name AllFields */
-    public static final String COLUMNNAME_AllFields = "AllFields";
-
-	/** Set AllFields	  */
-	public void setAllFields (boolean AllFields);
-
-	/** Get AllFields	  */
-	public boolean isAllFields();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -153,19 +153,6 @@ public interface I_ASP_Tab
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -181,4 +168,17 @@ public interface I_ASP_Tab
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

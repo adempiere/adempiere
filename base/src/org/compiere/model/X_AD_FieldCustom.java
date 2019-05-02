@@ -29,7 +29,7 @@ public class X_AD_FieldCustom extends PO implements I_AD_FieldCustom, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190321L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_AD_FieldCustom (Properties ctx, int AD_FieldCustom_ID, String trxName)

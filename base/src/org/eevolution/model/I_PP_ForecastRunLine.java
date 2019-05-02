@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_ForecastRunLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_PP_ForecastRunLine 
 {
@@ -63,21 +63,6 @@ public interface I_PP_ForecastRunLine
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_SalesHistory_ID */
-    public static final String COLUMNNAME_C_SalesHistory_ID = "C_SalesHistory_ID";
-
-	/** Set Sales History.
-	  * Sales History for statistics and forecast
-	  */
-	public void setC_SalesHistory_ID (int C_SalesHistory_ID);
-
-	/** Get Sales History.
-	  * Sales History for statistics and forecast
-	  */
-	public int getC_SalesHistory_ID();
-
-	public org.eevolution.model.I_C_SalesHistory getC_SalesHistory() throws RuntimeException;
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -93,6 +78,21 @@ public interface I_PP_ForecastRunLine
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_SalesHistory_ID */
+    public static final String COLUMNNAME_C_SalesHistory_ID = "C_SalesHistory_ID";
+
+	/** Set Sales History.
+	  * Sales History for statistics and forecast
+	  */
+	public void setC_SalesHistory_ID (int C_SalesHistory_ID);
+
+	/** Get Sales History.
+	  * Sales History for statistics and forecast
+	  */
+	public int getC_SalesHistory_ID();
+
+	public org.eevolution.model.I_C_SalesHistory getC_SalesHistory() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -122,19 +122,6 @@ public interface I_PP_ForecastRunLine
 
 	public org.eevolution.model.I_PP_ForecastRunDetail getPP_ForecastRunDetail() throws RuntimeException;
 
-    /** Column name PP_ForecastRunLine_ID */
-    public static final String COLUMNNAME_PP_ForecastRunLine_ID = "PP_ForecastRunLine_ID";
-
-	/** Set Forecast Run Line.
-	  * Contains the forecasting calculation results based on forecast definition.
-	  */
-	public void setPP_ForecastRunLine_ID (int PP_ForecastRunLine_ID);
-
-	/** Get Forecast Run Line.
-	  * Contains the forecasting calculation results based on forecast definition.
-	  */
-	public int getPP_ForecastRunLine_ID();
-
     /** Column name PP_ForecastRun_ID */
     public static final String COLUMNNAME_PP_ForecastRun_ID = "PP_ForecastRun_ID";
 
@@ -149,6 +136,19 @@ public interface I_PP_ForecastRunLine
 	public int getPP_ForecastRun_ID();
 
 	public org.eevolution.model.I_PP_ForecastRun getPP_ForecastRun() throws RuntimeException;
+
+    /** Column name PP_ForecastRunLine_ID */
+    public static final String COLUMNNAME_PP_ForecastRunLine_ID = "PP_ForecastRunLine_ID";
+
+	/** Set Forecast Run Line.
+	  * Contains the forecasting calculation results based on forecast definition.
+	  */
+	public void setPP_ForecastRunLine_ID (int PP_ForecastRunLine_ID);
+
+	/** Get Forecast Run Line.
+	  * Contains the forecasting calculation results based on forecast definition.
+	  */
+	public int getPP_ForecastRunLine_ID();
 
     /** Column name PP_Period_ID */
     public static final String COLUMNNAME_PP_Period_ID = "PP_Period_ID";
@@ -178,19 +178,6 @@ public interface I_PP_ForecastRunLine
 	  */
 	public BigDecimal getQtyInvoiced();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -206,4 +193,17 @@ public interface I_PP_ForecastRunLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

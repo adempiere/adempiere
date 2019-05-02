@@ -30,7 +30,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_AD_Package_Exp_Detail (Properties ctx, int AD_Package_Exp_Detail_ID, String trxName)
@@ -650,6 +650,31 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_ASP_Module getASP_Module() throws RuntimeException
+    {
+		return (org.compiere.model.I_ASP_Module)MTable.get(getCtx(), org.compiere.model.I_ASP_Module.Table_Name)
+			.getPO(getASP_Module_ID(), get_TrxName());	}
+
+	/** Set ASP Module.
+		@param ASP_Module_ID ASP Module	  */
+	public void setASP_Module_ID (int ASP_Module_ID)
+	{
+		if (ASP_Module_ID < 1) 
+			set_Value (COLUMNNAME_ASP_Module_ID, null);
+		else 
+			set_Value (COLUMNNAME_ASP_Module_ID, Integer.valueOf(ASP_Module_ID));
+	}
+
+	/** Get ASP Module.
+		@return ASP Module	  */
+	public int getASP_Module_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_Module_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** DBType AD_Reference_ID=50003 */
 	public static final int DBTYPE_AD_Reference_ID=50003;
 	/** All Database Types = ALL */
@@ -728,6 +753,20 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return (String)get_Value(COLUMNNAME_Destination_FileName);
 	}
 
+	/** Set File_Directory.
+		@param File_Directory File_Directory	  */
+	public void setFile_Directory (String File_Directory)
+	{
+		set_Value (COLUMNNAME_File_Directory, File_Directory);
+	}
+
+	/** Get File_Directory.
+		@return File_Directory	  */
+	public String getFile_Directory () 
+	{
+		return (String)get_Value(COLUMNNAME_File_Directory);
+	}
+
 	/** Set File Name.
 		@param FileName 
 		Name of the local file or URL
@@ -743,20 +782,6 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public String getFileName () 
 	{
 		return (String)get_Value(COLUMNNAME_FileName);
-	}
-
-	/** Set File_Directory.
-		@param File_Directory File_Directory	  */
-	public void setFile_Directory (String File_Directory)
-	{
-		set_Value (COLUMNNAME_File_Directory, File_Directory);
-	}
-
-	/** Get File_Directory.
-		@return File_Directory	  */
-	public String getFile_Directory () 
-	{
-		return (String)get_Value(COLUMNNAME_File_Directory);
 	}
 
 	/** Set Line No.
@@ -957,6 +982,8 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public static final String TYPE_SmartBrowse = "SB";
 	/** Smart View = SV */
 	public static final String TYPE_SmartView = "SV";
+	/** ASP Module = ASP */
+	public static final String TYPE_ASPModule = "ASP";
 	/** Set Type.
 		@param Type 
 		Type of Validation (SQL, Java Script, Java Language)

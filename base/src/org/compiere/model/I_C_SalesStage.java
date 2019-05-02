@@ -62,19 +62,6 @@ public interface I_C_SalesStage
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_SalesStage_ID */
-    public static final String COLUMNNAME_C_SalesStage_ID = "C_SalesStage_ID";
-
-	/** Set Sales Stage.
-	  * Stages of the sales process
-	  */
-	public void setC_SalesStage_ID (int C_SalesStage_ID);
-
-	/** Get Sales Stage.
-	  * Stages of the sales process
-	  */
-	public int getC_SalesStage_ID();
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -90,6 +77,19 @@ public interface I_C_SalesStage
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_SalesStage_ID */
+    public static final String COLUMNNAME_C_SalesStage_ID = "C_SalesStage_ID";
+
+	/** Set Sales Stage.
+	  * Stages of the sales process
+	  */
+	public void setC_SalesStage_ID (int C_SalesStage_ID);
+
+	/** Get Sales Stage.
+	  * Stages of the sales process
+	  */
+	public int getC_SalesStage_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -165,19 +165,6 @@ public interface I_C_SalesStage
 	/** Get Probability	  */
 	public BigDecimal getProbability();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -193,6 +180,19 @@ public interface I_C_SalesStage
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PP_ForecastRunMaster
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_PP_ForecastRunMaster extends PO implements I_PP_ForecastRunMaster, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_PP_ForecastRunMaster (Properties ctx, int PP_ForecastRunMaster_ID, String trxName)
@@ -282,26 +282,6 @@ public class X_PP_ForecastRunMaster extends PO implements I_PP_ForecastRunMaster
 		return ii.intValue();
 	}
 
-	/** Set Forecast Run Master.
-		@param PP_ForecastRunMaster_ID Forecast Run Master	  */
-	public void setPP_ForecastRunMaster_ID (int PP_ForecastRunMaster_ID)
-	{
-		if (PP_ForecastRunMaster_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PP_ForecastRunMaster_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PP_ForecastRunMaster_ID, Integer.valueOf(PP_ForecastRunMaster_ID));
-	}
-
-	/** Get Forecast Run Master.
-		@return Forecast Run Master	  */
-	public int getPP_ForecastRunMaster_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_ForecastRunMaster_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_PP_ForecastRun getPP_ForecastRun() throws RuntimeException
     {
 		return (org.eevolution.model.I_PP_ForecastRun)MTable.get(getCtx(), org.eevolution.model.I_PP_ForecastRun.Table_Name)
@@ -325,6 +305,26 @@ public class X_PP_ForecastRunMaster extends PO implements I_PP_ForecastRunMaster
 	public int getPP_ForecastRun_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_ForecastRun_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Forecast Run Master.
+		@param PP_ForecastRunMaster_ID Forecast Run Master	  */
+	public void setPP_ForecastRunMaster_ID (int PP_ForecastRunMaster_ID)
+	{
+		if (PP_ForecastRunMaster_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_ForecastRunMaster_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_ForecastRunMaster_ID, Integer.valueOf(PP_ForecastRunMaster_ID));
+	}
+
+	/** Get Forecast Run Master.
+		@return Forecast Run Master	  */
+	public int getPP_ForecastRunMaster_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_ForecastRunMaster_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

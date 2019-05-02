@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PP_ForecastDefinitionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_PP_ForecastDefinitionLine 
 {
@@ -63,21 +63,6 @@ public interface I_PP_ForecastDefinitionLine
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_BP_Group_ID */
-    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
-
-	/** Set Business Partner Group.
-	  * Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID);
-
-	/** Get Business Partner Group.
-	  * Business Partner Group
-	  */
-	public int getC_BP_Group_ID();
-
-	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
-
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -92,6 +77,21 @@ public interface I_PP_ForecastDefinitionLine
 	public int getC_BPartner_ID();
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
+
+    /** Column name C_BP_Group_ID */
+    public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
+
+	/** Set Business Partner Group.
+	  * Business Partner Group
+	  */
+	public void setC_BP_Group_ID (int C_BP_Group_ID);
+
+	/** Get Business Partner Group.
+	  * Business Partner Group
+	  */
+	public int getC_BP_Group_ID();
+
+	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
 
     /** Column name C_Campaign_ID */
     public static final String COLUMNNAME_C_Campaign_ID = "C_Campaign_ID";
@@ -108,21 +108,6 @@ public interface I_PP_ForecastDefinitionLine
 
 	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
 
-    /** Column name C_SalesRegion_ID */
-    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
-
-	/** Set Sales Region.
-	  * Sales coverage region
-	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
-
-	/** Get Sales Region.
-	  * Sales coverage region
-	  */
-	public int getC_SalesRegion_ID();
-
-	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -138,6 +123,21 @@ public interface I_PP_ForecastDefinitionLine
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
     /** Column name FactorAlpha */
     public static final String COLUMNNAME_FactorAlpha = "FactorAlpha";
@@ -318,15 +318,6 @@ public interface I_PP_ForecastDefinitionLine
 	  */
 	public String getName();
 
-    /** Column name PP_ForecastDefinitionLine_ID */
-    public static final String COLUMNNAME_PP_ForecastDefinitionLine_ID = "PP_ForecastDefinitionLine_ID";
-
-	/** Set Forecast Definition Line	  */
-	public void setPP_ForecastDefinitionLine_ID (int PP_ForecastDefinitionLine_ID);
-
-	/** Get Forecast Definition Line	  */
-	public int getPP_ForecastDefinitionLine_ID();
-
     /** Column name PP_ForecastDefinition_ID */
     public static final String COLUMNNAME_PP_ForecastDefinition_ID = "PP_ForecastDefinition_ID";
 
@@ -337,6 +328,15 @@ public interface I_PP_ForecastDefinitionLine
 	public int getPP_ForecastDefinition_ID();
 
 	public org.eevolution.model.I_PP_ForecastDefinition getPP_ForecastDefinition() throws RuntimeException;
+
+    /** Column name PP_ForecastDefinitionLine_ID */
+    public static final String COLUMNNAME_PP_ForecastDefinitionLine_ID = "PP_ForecastDefinitionLine_ID";
+
+	/** Set Forecast Definition Line	  */
+	public void setPP_ForecastDefinitionLine_ID (int PP_ForecastDefinitionLine_ID);
+
+	/** Get Forecast Definition Line	  */
+	public int getPP_ForecastDefinitionLine_ID();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
@@ -353,19 +353,6 @@ public interface I_PP_ForecastDefinitionLine
 	  */
 	public int getSeqNo();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -381,4 +368,17 @@ public interface I_PP_ForecastDefinitionLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

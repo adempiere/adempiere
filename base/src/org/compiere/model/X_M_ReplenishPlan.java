@@ -31,7 +31,7 @@ public class X_M_ReplenishPlan extends PO implements I_M_ReplenishPlan, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_M_ReplenishPlan (Properties ctx, int M_ReplenishPlan_ID, String trxName)
@@ -97,28 +97,6 @@ public class X_M_ReplenishPlan extends PO implements I_M_ReplenishPlan, I_Persis
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
-			.getPO(getC_DocType_PO(), get_TrxName());	}
-
-	/** Set Purchase Order Doc Type.
-		@param C_DocType_PO Purchase Order Doc Type	  */
-	public void setC_DocType_PO (int C_DocType_PO)
-	{
-		set_Value (COLUMNNAME_C_DocType_PO, Integer.valueOf(C_DocType_PO));
-	}
-
-	/** Get Purchase Order Doc Type.
-		@return Purchase Order Doc Type	  */
-	public int getC_DocType_PO () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_PO);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_DocType getC_DocType_PlannedOr() throws RuntimeException
     {
 		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
@@ -136,6 +114,28 @@ public class X_M_ReplenishPlan extends PO implements I_M_ReplenishPlan, I_Persis
 	public int getC_DocType_PlannedOrder () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_PlannedOrder);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getC_DocType_PO(), get_TrxName());	}
+
+	/** Set Purchase Order Doc Type.
+		@param C_DocType_PO Purchase Order Doc Type	  */
+	public void setC_DocType_PO (int C_DocType_PO)
+	{
+		set_Value (COLUMNNAME_C_DocType_PO, Integer.valueOf(C_DocType_PO));
+	}
+
+	/** Get Purchase Order Doc Type.
+		@return Purchase Order Doc Type	  */
+	public int getC_DocType_PO () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_PO);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

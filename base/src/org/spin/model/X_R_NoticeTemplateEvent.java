@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for R_NoticeTemplateEvent
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_R_NoticeTemplateEvent extends PO implements I_R_NoticeTemplateEvent, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190422L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_R_NoticeTemplateEvent (Properties ctx, int R_NoticeTemplateEvent_ID, String trxName)
@@ -124,7 +124,7 @@ public class X_R_NoticeTemplateEvent extends PO implements I_R_NoticeTemplateEve
 	public void setEventType (String EventType)
 	{
 
-		set_Value (COLUMNNAME_EventType, EventType);
+		set_ValueNoCheck (COLUMNNAME_EventType, EventType);
 	}
 
 	/** Get Event Type.
@@ -163,8 +163,8 @@ public class X_R_NoticeTemplateEvent extends PO implements I_R_NoticeTemplateEve
 		return ii.intValue();
 	}
 
-	/** Set Notice Template for Event ID.
-		@param R_NoticeTemplateEvent_ID Notice Template for Event ID	  */
+	/** Set Notice Template by Event.
+		@param R_NoticeTemplateEvent_ID Notice Template by Event	  */
 	public void setR_NoticeTemplateEvent_ID (int R_NoticeTemplateEvent_ID)
 	{
 		if (R_NoticeTemplateEvent_ID < 1) 
@@ -173,8 +173,8 @@ public class X_R_NoticeTemplateEvent extends PO implements I_R_NoticeTemplateEve
 			set_ValueNoCheck (COLUMNNAME_R_NoticeTemplateEvent_ID, Integer.valueOf(R_NoticeTemplateEvent_ID));
 	}
 
-	/** Get Notice Template for Event ID.
-		@return Notice Template for Event ID	  */
+	/** Get Notice Template by Event.
+		@return Notice Template by Event	  */
 	public int getR_NoticeTemplateEvent_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_R_NoticeTemplateEvent_ID);

@@ -32,7 +32,7 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_T_Report (Properties ctx, int T_Report_ID, String trxName)
@@ -71,34 +71,6 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
       return sb.toString();
     }
 
-	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException
-    {
-		return (org.compiere.model.I_AD_PInstance)MTable.get(getCtx(), org.compiere.model.I_AD_PInstance.Table_Name)
-			.getPO(getAD_PInstance_ID(), get_TrxName());	}
-
-	/** Set Process Instance.
-		@param AD_PInstance_ID 
-		Instance of the process
-	  */
-	public void setAD_PInstance_ID (int AD_PInstance_ID)
-	{
-		if (AD_PInstance_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, Integer.valueOf(AD_PInstance_ID));
-	}
-
-	/** Get Process Instance.
-		@return Instance of the process
-	  */
-	public int getAD_PInstance_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PInstance_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** AccountType AD_Reference_ID=117 */
 	public static final int ACCOUNTTYPE_AD_Reference_ID=117;
 	/** Asset = A */
@@ -131,29 +103,29 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 		return (String)get_Value(COLUMNNAME_AccountType);
 	}
 
-	public org.compiere.model.I_C_ValidCombination getC_ValidCombination() throws RuntimeException
+	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException
     {
-		return (org.compiere.model.I_C_ValidCombination)MTable.get(getCtx(), org.compiere.model.I_C_ValidCombination.Table_Name)
-			.getPO(getC_ValidCombination_ID(), get_TrxName());	}
+		return (org.compiere.model.I_AD_PInstance)MTable.get(getCtx(), org.compiere.model.I_AD_PInstance.Table_Name)
+			.getPO(getAD_PInstance_ID(), get_TrxName());	}
 
-	/** Set Combination.
-		@param C_ValidCombination_ID 
-		Valid Account Combination
+	/** Set Process Instance.
+		@param AD_PInstance_ID 
+		Instance of the process
 	  */
-	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
+	public void setAD_PInstance_ID (int AD_PInstance_ID)
 	{
-		if (C_ValidCombination_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_ValidCombination_ID, null);
+		if (AD_PInstance_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
+			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, Integer.valueOf(AD_PInstance_ID));
 	}
 
-	/** Get Combination.
-		@return Valid Account Combination
+	/** Get Process Instance.
+		@return Instance of the process
 	  */
-	public int getC_ValidCombination_ID () 
+	public int getAD_PInstance_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ValidCombination_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PInstance_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -514,6 +486,34 @@ public class X_T_Report extends PO implements I_T_Report, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	public org.compiere.model.I_C_ValidCombination getC_ValidCombination() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ValidCombination)MTable.get(getCtx(), org.compiere.model.I_C_ValidCombination.Table_Name)
+			.getPO(getC_ValidCombination_ID(), get_TrxName());	}
+
+	/** Set Combination.
+		@param C_ValidCombination_ID 
+		Valid Account Combination
+	  */
+	public void setC_ValidCombination_ID (int C_ValidCombination_ID)
+	{
+		if (C_ValidCombination_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ValidCombination_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ValidCombination_ID, Integer.valueOf(C_ValidCombination_ID));
+	}
+
+	/** Get Combination.
+		@return Valid Account Combination
+	  */
+	public int getC_ValidCombination_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ValidCombination_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Description.
