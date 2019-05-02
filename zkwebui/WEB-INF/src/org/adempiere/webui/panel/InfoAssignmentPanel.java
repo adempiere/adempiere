@@ -198,7 +198,7 @@ public class InfoAssignmentPanel extends InfoPanel implements EventListener, Val
 		fieldResource.getComponent().addEventListener(Events.ON_CHANGE, this);
 		fieldResource.getComponent().setAttribute("zk_component_ID", "Lookup_Criteria_S_Resource_ID");
 
-		bNew.setImage("/images/New16.png");
+		bNew.setImage("/images/dark/New16.png");
 		fieldFrom.setWidth("180px");
 		fieldTo.setWidth("180px");
 		
