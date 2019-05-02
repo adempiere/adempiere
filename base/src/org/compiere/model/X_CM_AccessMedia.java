@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for CM_AccessMedia
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_CM_AccessMedia extends PO implements I_CM_AccessMedia, I_Persistent 
 {
 

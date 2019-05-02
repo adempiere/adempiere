@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for WS_WebServiceTypeAccess
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_WS_WebServiceTypeAccess extends PO implements I_WS_WebServiceTypeAccess, I_Persistent 
 {
 

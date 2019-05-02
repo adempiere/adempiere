@@ -23,7 +23,7 @@ import java.util.Properties;
 
 /** Generated Model for AD_Registration
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_AD_Registration extends PO implements I_AD_Registration, I_Persistent 
 {
 

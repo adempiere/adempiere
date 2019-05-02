@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for WS_WebServiceMethod
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_WS_WebServiceMethod extends PO implements I_WS_WebServiceMethod, I_Persistent 
 {
 

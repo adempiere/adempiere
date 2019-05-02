@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_Aging
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_T_Aging 
 {
@@ -161,7 +161,7 @@ public interface I_T_Aging
 	/** Get C_CashFlow_ID	  */
 	public int getC_CashFlow_ID();
 
-	public org.eevolution.model.I_C_CashFlow getC_CashFlow() throws RuntimeException;
+	public  org.eevolution.model.I_C_CashFlow getC_CashFlow() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";

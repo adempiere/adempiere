@@ -25,7 +25,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_LandedCostAllocation
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_LandedCostAllocation extends PO implements I_C_LandedCostAllocation, I_Persistent 
 {
 

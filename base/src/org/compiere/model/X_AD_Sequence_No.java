@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for AD_Sequence_No
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_AD_Sequence_No extends PO implements I_AD_Sequence_No, I_Persistent 
 {
 

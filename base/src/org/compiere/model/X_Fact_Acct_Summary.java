@@ -25,7 +25,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for Fact_Acct_Summary
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Persistent 
 {
 

@@ -25,7 +25,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for I_PriceList
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_I_PriceList extends PO implements I_I_PriceList, I_Persistent 
 {
 

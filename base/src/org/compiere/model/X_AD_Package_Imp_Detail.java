@@ -22,7 +22,7 @@ import java.util.Properties;
 
 /** Generated Model for AD_Package_Imp_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_AD_Package_Imp_Detail extends PO implements I_AD_Package_Imp_Detail, I_Persistent 
 {
 

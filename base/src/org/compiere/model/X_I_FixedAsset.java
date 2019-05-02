@@ -25,7 +25,7 @@ import org.compiere.util.Env;
 
 /** Generated Model for I_FixedAsset
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_I_FixedAsset extends PO implements I_I_FixedAsset, I_Persistent 
 {
 

@@ -23,9 +23,10 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.util.Env;
 
+
 /** Generated Model for T_Aging
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_T_Aging extends PO implements I_T_Aging, I_Persistent 
 {
 
@@ -275,7 +276,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 
 	public org.eevolution.model.I_C_CashFlow getC_CashFlow() throws RuntimeException
     {
-		return (org.eevolution.model.I_C_CashFlow)MTable.get(getCtx(), org.eevolution.model.I_C_CashFlow.Table_Name)
+		return ( org.eevolution.model.I_C_CashFlow)MTable.get(getCtx(),  org.eevolution.model.I_C_CashFlow.Table_Name)
 			.getPO(getC_CashFlow_ID(), get_TrxName());	}
 
 	/** Set C_CashFlow_ID.
