@@ -34,11 +34,11 @@
   </jre>
   <versionInfo>
     <fileVersion>3.9.1.0</fileVersion>
-    <txtFileVersion>Release 3.9.1LTS</txtFileVersion>
-    <fileDescription>Adempiere ERP &amp; CRM 3.9.1LTS</fileDescription>
+    <txtFileVersion>Release 3.9.2LTS</txtFileVersion>
+    <fileDescription>Adempiere ERP &amp; CRM 3.9.2LTS</fileDescription>
     <copyright>Adempiere</copyright>
     <productVersion>3.9.1.0</productVersion>
-    <txtProductVersion>Release 3.9.1LTS</txtProductVersion>
+    <txtProductVersion>Release 3.9.2LTS</txtProductVersion>
     <productName>Adempier ERP &amp; CRM</productName>
     <companyName>Adempiere Community</companyName>
     <internalName>Adempiere</internalName>

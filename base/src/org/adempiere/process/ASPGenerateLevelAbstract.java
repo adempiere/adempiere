@@ -21,7 +21,7 @@ import org.compiere.process.SvrProcess;
 
 /** Generated Process for (ASP Generate Level From Menu)
  *  @author ADempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public abstract class ASPGenerateLevelAbstract extends SvrProcess {
 	/** Process Value 	*/
