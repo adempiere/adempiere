@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_FreightLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_DD_FreightLine 
 {
@@ -124,15 +124,6 @@ public interface I_DD_FreightLine
 	  */
 	public int getCreatedBy();
 
-    /** Column name DD_FreightLine_ID */
-    public static final String COLUMNNAME_DD_FreightLine_ID = "DD_FreightLine_ID";
-
-	/** Set Order Freight Line ID	  */
-	public void setDD_FreightLine_ID (int DD_FreightLine_ID);
-
-	/** Get Order Freight Line ID	  */
-	public int getDD_FreightLine_ID();
-
     /** Column name DD_Freight_ID */
     public static final String COLUMNNAME_DD_Freight_ID = "DD_Freight_ID";
 
@@ -143,6 +134,15 @@ public interface I_DD_FreightLine
 	public int getDD_Freight_ID();
 
 	public org.eevolution.model.I_DD_Freight getDD_Freight() throws RuntimeException;
+
+    /** Column name DD_FreightLine_ID */
+    public static final String COLUMNNAME_DD_FreightLine_ID = "DD_FreightLine_ID";
+
+	/** Set Order Freight Line ID	  */
+	public void setDD_FreightLine_ID (int DD_FreightLine_ID);
+
+	/** Get Order Freight Line ID	  */
+	public int getDD_FreightLine_ID();
 
     /** Column name FreightAmt */
     public static final String COLUMNNAME_FreightAmt = "FreightAmt";
@@ -254,19 +254,6 @@ public interface I_DD_FreightLine
 	  */
 	public BigDecimal getTotalAmt();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -282,6 +269,19 @@ public interface I_DD_FreightLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Volume */
     public static final String COLUMNNAME_Volume = "Volume";

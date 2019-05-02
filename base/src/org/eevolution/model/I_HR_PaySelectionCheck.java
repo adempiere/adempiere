@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_PaySelectionCheck
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_HR_PaySelectionCheck 
 {
@@ -63,21 +63,6 @@ public interface I_HR_PaySelectionCheck
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_BP_BankAccount_ID */
-    public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
-
-	/** Set Partner Bank Account.
-	  * Bank Account of the Business Partner
-	  */
-	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID);
-
-	/** Get Partner Bank Account.
-	  * Bank Account of the Business Partner
-	  */
-	public int getC_BP_BankAccount_ID();
-
-	public org.compiere.model.I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException;
-
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -92,6 +77,21 @@ public interface I_HR_PaySelectionCheck
 	public int getC_BPartner_ID();
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
+
+    /** Column name C_BP_BankAccount_ID */
+    public static final String COLUMNNAME_C_BP_BankAccount_ID = "C_BP_BankAccount_ID";
+
+	/** Set Partner Bank Account.
+	  * Bank Account of the Business Partner
+	  */
+	public void setC_BP_BankAccount_ID (int C_BP_BankAccount_ID);
+
+	/** Get Partner Bank Account.
+	  * Bank Account of the Business Partner
+	  */
+	public int getC_BP_BankAccount_ID();
+
+	public org.compiere.model.I_C_BP_BankAccount getC_BP_BankAccount() throws RuntimeException;
 
     /** Column name C_Payment_ID */
     public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
@@ -270,19 +270,6 @@ public interface I_HR_PaySelectionCheck
 	  */
 	public int getQty();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -298,4 +285,17 @@ public interface I_HR_PaySelectionCheck
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

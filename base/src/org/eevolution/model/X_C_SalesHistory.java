@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_SalesHistory
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190410L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_C_SalesHistory (Properties ctx, int C_SalesHistory_ID, String trxName)

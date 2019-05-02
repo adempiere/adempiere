@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_Product_ASI
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_I_Product_ASI 
 {
@@ -322,65 +322,18 @@ public interface I_I_Product_ASI
 	  */
 	public boolean isSerNoMandatory();
 
-    /** Column name M_AttributeSearch_ID */
-    public static final String COLUMNNAME_M_AttributeSearch_ID = "M_AttributeSearch_ID";
+    /** Column name MandatoryType */
+    public static final String COLUMNNAME_MandatoryType = "MandatoryType";
 
-	/** Set Attribute Search.
-	  * Common Search Attribute 
+	/** Set Mandatory Type.
+	  * The specification of a Product Attribute Instance is mandatory
 	  */
-	public void setM_AttributeSearch_ID (int M_AttributeSearch_ID);
+	public void setMandatoryType (String MandatoryType);
 
-	/** Get Attribute Search.
-	  * Common Search Attribute 
+	/** Get Mandatory Type.
+	  * The specification of a Product Attribute Instance is mandatory
 	  */
-	public int getM_AttributeSearch_ID();
-
-	public org.compiere.model.I_M_AttributeSearch getM_AttributeSearch() throws RuntimeException;
-
-    /** Column name M_AttributeSetInstance_ID */
-    public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
-
-	/** Set Attribute Set Instance.
-	  * Product Attribute Set Instance
-	  */
-	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID);
-
-	/** Get Attribute Set Instance.
-	  * Product Attribute Set Instance
-	  */
-	public int getM_AttributeSetInstance_ID();
-
-	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
-
-    /** Column name M_AttributeSet_ID */
-    public static final String COLUMNNAME_M_AttributeSet_ID = "M_AttributeSet_ID";
-
-	/** Set Attribute Set.
-	  * Product Attribute Set
-	  */
-	public void setM_AttributeSet_ID (int M_AttributeSet_ID);
-
-	/** Get Attribute Set.
-	  * Product Attribute Set
-	  */
-	public int getM_AttributeSet_ID();
-
-	public org.compiere.model.I_M_AttributeSet getM_AttributeSet() throws RuntimeException;
-
-    /** Column name M_AttributeValue_ID */
-    public static final String COLUMNNAME_M_AttributeValue_ID = "M_AttributeValue_ID";
-
-	/** Set Attribute Value.
-	  * Product Attribute Value
-	  */
-	public void setM_AttributeValue_ID (int M_AttributeValue_ID);
-
-	/** Get Attribute Value.
-	  * Product Attribute Value
-	  */
-	public int getM_AttributeValue_ID();
-
-	public org.compiere.model.I_M_AttributeValue getM_AttributeValue() throws RuntimeException;
+	public String getMandatoryType();
 
     /** Column name M_Attribute_ID */
     public static final String COLUMNNAME_M_Attribute_ID = "M_Attribute_ID";
@@ -397,6 +350,66 @@ public interface I_I_Product_ASI
 
 	public org.compiere.model.I_M_Attribute getM_Attribute() throws RuntimeException;
 
+    /** Column name M_AttributeSearch_ID */
+    public static final String COLUMNNAME_M_AttributeSearch_ID = "M_AttributeSearch_ID";
+
+	/** Set Attribute Search.
+	  * Common Search Attribute 
+	  */
+	public void setM_AttributeSearch_ID (int M_AttributeSearch_ID);
+
+	/** Get Attribute Search.
+	  * Common Search Attribute 
+	  */
+	public int getM_AttributeSearch_ID();
+
+	public org.compiere.model.I_M_AttributeSearch getM_AttributeSearch() throws RuntimeException;
+
+    /** Column name M_AttributeSet_ID */
+    public static final String COLUMNNAME_M_AttributeSet_ID = "M_AttributeSet_ID";
+
+	/** Set Attribute Set.
+	  * Product Attribute Set
+	  */
+	public void setM_AttributeSet_ID (int M_AttributeSet_ID);
+
+	/** Get Attribute Set.
+	  * Product Attribute Set
+	  */
+	public int getM_AttributeSet_ID();
+
+	public org.compiere.model.I_M_AttributeSet getM_AttributeSet() throws RuntimeException;
+
+    /** Column name M_AttributeSetInstance_ID */
+    public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
+
+	/** Set Attribute Set Instance.
+	  * Product Attribute Set Instance
+	  */
+	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID);
+
+	/** Get Attribute Set Instance.
+	  * Product Attribute Set Instance
+	  */
+	public int getM_AttributeSetInstance_ID();
+
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
+
+    /** Column name M_AttributeValue_ID */
+    public static final String COLUMNNAME_M_AttributeValue_ID = "M_AttributeValue_ID";
+
+	/** Set Attribute Value.
+	  * Product Attribute Value
+	  */
+	public void setM_AttributeValue_ID (int M_AttributeValue_ID);
+
+	/** Get Attribute Value.
+	  * Product Attribute Value
+	  */
+	public int getM_AttributeValue_ID();
+
+	public org.compiere.model.I_M_AttributeValue getM_AttributeValue() throws RuntimeException;
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -411,19 +424,6 @@ public interface I_I_Product_ASI
 	public int getM_Product_ID();
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
-
-    /** Column name MandatoryType */
-    public static final String COLUMNNAME_MandatoryType = "MandatoryType";
-
-	/** Set Mandatory Type.
-	  * The specification of a Product Attribute Instance is mandatory
-	  */
-	public void setMandatoryType (String MandatoryType);
-
-	/** Get Mandatory Type.
-	  * The specification of a Product Attribute Instance is mandatory
-	  */
-	public String getMandatoryType();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -460,19 +460,6 @@ public interface I_I_Product_ASI
 	  */
 	public String getProductValue();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -488,4 +475,17 @@ public interface I_I_Product_ASI
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for DD_Requirement
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_DD_Requirement extends PO implements I_DD_Requirement, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_DD_Requirement (Properties ctx, int DD_Requirement_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_DD_Requirement extends PO implements I_DD_Requirement, I_Persiste
       super (ctx, DD_Requirement_ID, trxName);
       /** if (DD_Requirement_ID == 0)
         {
-			setDD_RequirementType_ID (0);
 			setDD_Requirement_ID (0);
+			setDD_RequirementType_ID (0);
 			setName (null);
         } */
     }
@@ -73,6 +73,26 @@ public class X_DD_Requirement extends PO implements I_DD_Requirement, I_Persiste
       return sb.toString();
     }
 
+	/** Set Transport Requirement.
+		@param DD_Requirement_ID Transport Requirement	  */
+	public void setDD_Requirement_ID (int DD_Requirement_ID)
+	{
+		if (DD_Requirement_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_Requirement_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_Requirement_ID, Integer.valueOf(DD_Requirement_ID));
+	}
+
+	/** Get Transport Requirement.
+		@return Transport Requirement	  */
+	public int getDD_Requirement_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Requirement_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_DD_RequirementType getDD_RequirementType() throws RuntimeException
     {
 		return (org.eevolution.model.I_DD_RequirementType)MTable.get(getCtx(), org.eevolution.model.I_DD_RequirementType.Table_Name)
@@ -93,26 +113,6 @@ public class X_DD_Requirement extends PO implements I_DD_Requirement, I_Persiste
 	public int getDD_RequirementType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DD_RequirementType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Transport Requirement.
-		@param DD_Requirement_ID Transport Requirement	  */
-	public void setDD_Requirement_ID (int DD_Requirement_ID)
-	{
-		if (DD_Requirement_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_DD_Requirement_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_DD_Requirement_ID, Integer.valueOf(DD_Requirement_ID));
-	}
-
-	/** Get Transport Requirement.
-		@return Transport Requirement	  */
-	public int getDD_Requirement_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Requirement_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

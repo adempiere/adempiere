@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for WM_InOutBoundLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_WM_InOutBoundLine (Properties ctx, int WM_InOutBoundLine_ID, String trxName)
@@ -51,8 +51,8 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 			setMovementQty (Env.ZERO);
 // 0
 			setProcessed (false);
-			setWM_InOutBoundLine_ID (0);
 			setWM_InOutBound_ID (0);
+			setWM_InOutBoundLine_ID (0);
         } */
     }
 
@@ -196,6 +196,34 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
+			.getPO(getC_Invoice_ID(), get_TrxName());	}
+
+	/** Set Invoice.
+		@param C_Invoice_ID 
+		Invoice Identifier
+	  */
+	public void setC_Invoice_ID (int C_Invoice_ID)
+	{
+		if (C_Invoice_ID < 1) 
+			set_Value (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+	}
+
+	/** Get Invoice.
+		@return Invoice Identifier
+	  */
+	public int getC_Invoice_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Invoice_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
     {
 		return (org.compiere.model.I_C_InvoiceLine)MTable.get(getCtx(), org.compiere.model.I_C_InvoiceLine.Table_Name)
@@ -224,29 +252,29 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
-			.getPO(getC_Invoice_ID(), get_TrxName());	}
+		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
+			.getPO(getC_Order_ID(), get_TrxName());	}
 
-	/** Set Invoice.
-		@param C_Invoice_ID 
-		Invoice Identifier
+	/** Set Order.
+		@param C_Order_ID 
+		Order
 	  */
-	public void setC_Invoice_ID (int C_Invoice_ID)
+	public void setC_Order_ID (int C_Order_ID)
 	{
-		if (C_Invoice_ID < 1) 
-			set_Value (COLUMNNAME_C_Invoice_ID, null);
+		if (C_Order_ID < 1) 
+			set_Value (COLUMNNAME_C_Order_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+			set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
 	}
 
-	/** Get Invoice.
-		@return Invoice Identifier
+	/** Get Order.
+		@return Order
 	  */
-	public int getC_Invoice_ID () 
+	public int getC_Order_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Invoice_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -280,29 +308,29 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
-		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
-			.getPO(getC_Order_ID(), get_TrxName());	}
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
 
-	/** Set Order.
-		@param C_Order_ID 
-		Order
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
 	  */
-	public void setC_Order_ID (int C_Order_ID)
+	public void setC_Project_ID (int C_Project_ID)
 	{
-		if (C_Order_ID < 1) 
-			set_Value (COLUMNNAME_C_Order_ID, null);
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
 		else 
-			set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
-	/** Get Order.
-		@return Order
+	/** Get Project.
+		@return Financial Project
 	  */
-	public int getC_Order_ID () 
+	public int getC_Project_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -364,34 +392,6 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
-			.getPO(getC_Project_ID(), get_TrxName());	}
-
-	/** Set Project.
-		@param C_Project_ID 
-		Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID)
-	{
-		if (C_Project_ID < 1) 
-			set_Value (COLUMNNAME_C_Project_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
-	}
-
-	/** Get Project.
-		@return Financial Project
-	  */
-	public int getC_Project_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
     {
 		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
@@ -420,31 +420,6 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws RuntimeException
-    {
-		return (org.eevolution.model.I_DD_OrderLine)MTable.get(getCtx(), org.eevolution.model.I_DD_OrderLine.Table_Name)
-			.getPO(getDD_OrderLine_ID(), get_TrxName());	}
-
-	/** Set Distribution Order Line.
-		@param DD_OrderLine_ID Distribution Order Line	  */
-	public void setDD_OrderLine_ID (int DD_OrderLine_ID)
-	{
-		if (DD_OrderLine_ID < 1) 
-			set_Value (COLUMNNAME_DD_OrderLine_ID, null);
-		else 
-			set_Value (COLUMNNAME_DD_OrderLine_ID, Integer.valueOf(DD_OrderLine_ID));
-	}
-
-	/** Get Distribution Order Line.
-		@return Distribution Order Line	  */
-	public int getDD_OrderLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_OrderLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException
     {
 		return (org.eevolution.model.I_DD_Order)MTable.get(getCtx(), org.eevolution.model.I_DD_Order.Table_Name)
@@ -465,6 +440,31 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 	public int getDD_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Order_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws RuntimeException
+    {
+		return (org.eevolution.model.I_DD_OrderLine)MTable.get(getCtx(), org.eevolution.model.I_DD_OrderLine.Table_Name)
+			.getPO(getDD_OrderLine_ID(), get_TrxName());	}
+
+	/** Set Distribution Order Line.
+		@param DD_OrderLine_ID Distribution Order Line	  */
+	public void setDD_OrderLine_ID (int DD_OrderLine_ID)
+	{
+		if (DD_OrderLine_ID < 1) 
+			set_Value (COLUMNNAME_DD_OrderLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_DD_OrderLine_ID, Integer.valueOf(DD_OrderLine_ID));
+	}
+
+	/** Get Distribution Order Line.
+		@return Distribution Order Line	  */
+	public int getDD_OrderLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_OrderLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -615,6 +615,34 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
+	public I_M_Locator getM_Locator() throws RuntimeException
+    {
+		return (I_M_Locator)MTable.get(getCtx(), I_M_Locator.Table_Name)
+			.getPO(getM_Locator_ID(), get_TrxName());	}
+
+	/** Set Locator.
+		@param M_Locator_ID 
+		Warehouse Locator
+	  */
+	public void setM_Locator_ID (int M_Locator_ID)
+	{
+		if (M_Locator_ID < 1) 
+			set_Value (COLUMNNAME_M_Locator_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
+	}
+
+	/** Get Locator.
+		@return Warehouse Locator
+	  */
+	public int getM_Locator_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Locator_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public I_M_Locator getM_LocatorTo() throws RuntimeException
     {
 		return (I_M_Locator)MTable.get(getCtx(), I_M_Locator.Table_Name)
@@ -643,32 +671,24 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	public I_M_Locator getM_Locator() throws RuntimeException
-    {
-		return (I_M_Locator)MTable.get(getCtx(), I_M_Locator.Table_Name)
-			.getPO(getM_Locator_ID(), get_TrxName());	}
-
-	/** Set Locator.
-		@param M_Locator_ID 
-		Warehouse Locator
+	/** Set Movement Quantity.
+		@param MovementQty 
+		Quantity of a product moved.
 	  */
-	public void setM_Locator_ID (int M_Locator_ID)
+	public void setMovementQty (BigDecimal MovementQty)
 	{
-		if (M_Locator_ID < 1) 
-			set_Value (COLUMNNAME_M_Locator_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_Locator_ID, Integer.valueOf(M_Locator_ID));
+		set_Value (COLUMNNAME_MovementQty, MovementQty);
 	}
 
-	/** Get Locator.
-		@return Warehouse Locator
+	/** Get Movement Quantity.
+		@return Quantity of a product moved.
 	  */
-	public int getM_Locator_ID () 
+	public BigDecimal getMovementQty () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Locator_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
@@ -727,21 +747,35 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Movement Quantity.
-		@param MovementQty 
-		Quantity of a product moved.
+	/** Set Pick Date.
+		@param PickDate 
+		Date/Time when picked for Shipment
 	  */
-	public void setMovementQty (BigDecimal MovementQty)
+	public void setPickDate (Timestamp PickDate)
 	{
-		set_Value (COLUMNNAME_MovementQty, MovementQty);
+		set_Value (COLUMNNAME_PickDate, PickDate);
 	}
 
-	/** Get Movement Quantity.
-		@return Quantity of a product moved.
+	/** Get Pick Date.
+		@return Date/Time when picked for Shipment
 	  */
-	public BigDecimal getMovementQty () 
+	public Timestamp getPickDate () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MovementQty);
+		return (Timestamp)get_Value(COLUMNNAME_PickDate);
+	}
+
+	/** Set Picked Qty.
+		@param PickedQty Picked Qty	  */
+	public void setPickedQty (BigDecimal PickedQty)
+	{
+		set_Value (COLUMNNAME_PickedQty, PickedQty);
+	}
+
+	/** Get Picked Qty.
+		@return Picked Qty	  */
+	public BigDecimal getPickedQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PickedQty);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -828,40 +862,6 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Pick Date.
-		@param PickDate 
-		Date/Time when picked for Shipment
-	  */
-	public void setPickDate (Timestamp PickDate)
-	{
-		set_Value (COLUMNNAME_PickDate, PickDate);
-	}
-
-	/** Get Pick Date.
-		@return Date/Time when picked for Shipment
-	  */
-	public Timestamp getPickDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_PickDate);
-	}
-
-	/** Set Picked Qty.
-		@param PickedQty Picked Qty	  */
-	public void setPickedQty (BigDecimal PickedQty)
-	{
-		set_Value (COLUMNNAME_PickedQty, PickedQty);
-	}
-
-	/** Get Picked Qty.
-		@return Picked Qty	  */
-	public BigDecimal getPickedQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PickedQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Processed.
 		@param Processed 
 		The document has been processed
@@ -901,23 +901,6 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 	public Timestamp getShipDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_ShipDate);
-	}
-
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
@@ -976,24 +959,21 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Inbound & Outbound Order Line.
-		@param WM_InOutBoundLine_ID Inbound & Outbound Order Line	  */
-	public void setWM_InOutBoundLine_ID (int WM_InOutBoundLine_ID)
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
 	{
-		if (WM_InOutBoundLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_WM_InOutBoundLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_WM_InOutBoundLine_ID, Integer.valueOf(WM_InOutBoundLine_ID));
+		set_Value (COLUMNNAME_UUID, UUID);
 	}
 
-	/** Get Inbound & Outbound Order Line.
-		@return Inbound & Outbound Order Line	  */
-	public int getWM_InOutBoundLine_ID () 
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_WM_InOutBoundLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	public org.eevolution.model.I_WM_InOutBound getWM_InOutBound() throws RuntimeException
@@ -1016,6 +996,26 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 	public int getWM_InOutBound_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_WM_InOutBound_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Inbound & Outbound Order Line.
+		@param WM_InOutBoundLine_ID Inbound & Outbound Order Line	  */
+	public void setWM_InOutBoundLine_ID (int WM_InOutBoundLine_ID)
+	{
+		if (WM_InOutBoundLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_WM_InOutBoundLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_WM_InOutBoundLine_ID, Integer.valueOf(WM_InOutBoundLine_ID));
+	}
+
+	/** Get Inbound & Outbound Order Line.
+		@return Inbound & Outbound Order Line	  */
+	public int getWM_InOutBoundLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_WM_InOutBoundLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
