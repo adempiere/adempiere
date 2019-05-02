@@ -16,10 +16,9 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import org.compiere.util.KeyNamePair;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_RequestUpdate
  *  @author Adempiere (generated) 
@@ -56,7 +55,7 @@ public interface I_R_RequestUpdate
 	/** Set Organization.
 	  * Organizational entity within client
 	  */
-	public void setAD_Org_ID(int AD_Org_ID);
+	public void setAD_Org_ID (int AD_Org_ID);
 
 	/** Get Organization.
 	  * Organizational entity within client
@@ -69,7 +68,7 @@ public interface I_R_RequestUpdate
 	/** Set Invoice Line.
 	  * Invoice Detail Line
 	  */
-	public void setC_InvoiceLine_ID(int C_InvoiceLine_ID);
+	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID);
 
 	/** Get Invoice Line.
 	  * Invoice Detail Line
@@ -84,7 +83,7 @@ public interface I_R_RequestUpdate
 	/** Set Entry Confidentiality.
 	  * Confidentiality of the individual entry
 	  */
-	public void setConfidentialTypeEntry(String ConfidentialTypeEntry);
+	public void setConfidentialTypeEntry (String ConfidentialTypeEntry);
 
 	/** Get Entry Confidentiality.
 	  * Confidentiality of the individual entry
@@ -113,7 +112,7 @@ public interface I_R_RequestUpdate
 	/** Set End Time.
 	  * End of the time span
 	  */
-	public void setEndTime(Timestamp EndTime);
+	public void setEndTime (Timestamp EndTime);
 
 	/** Get End Time.
 	  * End of the time span
@@ -126,7 +125,7 @@ public interface I_R_RequestUpdate
 	/** Set Active.
 	  * The record is active in the system
 	  */
-	public void setIsActive(boolean IsActive);
+	public void setIsActive (boolean IsActive);
 
 	/** Get Active.
 	  * The record is active in the system
@@ -139,7 +138,7 @@ public interface I_R_RequestUpdate
 	/** Set Product Used.
 	  * Product/Resource/Service used in Request
 	  */
-	public void setM_ProductSpent_ID(int M_ProductSpent_ID);
+	public void setM_ProductSpent_ID (int M_ProductSpent_ID);
 
 	/** Get Product Used.
 	  * Product/Resource/Service used in Request
@@ -154,7 +153,7 @@ public interface I_R_RequestUpdate
 	/** Set Processed.
 	  * The document has been processed
 	  */
-	public void setProcessed(boolean Processed);
+	public void setProcessed (boolean Processed);
 
 	/** Get Processed.
 	  * The document has been processed
@@ -167,7 +166,7 @@ public interface I_R_RequestUpdate
 	/** Set Quantity Invoiced.
 	  * Invoiced Quantity
 	  */
-	public void setQtyInvoiced(BigDecimal QtyInvoiced);
+	public void setQtyInvoiced (BigDecimal QtyInvoiced);
 
 	/** Get Quantity Invoiced.
 	  * Invoiced Quantity
@@ -180,7 +179,7 @@ public interface I_R_RequestUpdate
 	/** Set Quantity Used.
 	  * Quantity used for this event
 	  */
-	public void setQtySpent(BigDecimal QtySpent);
+	public void setQtySpent (BigDecimal QtySpent);
 
 	/** Get Quantity Used.
 	  * Quantity used for this event
@@ -193,7 +192,7 @@ public interface I_R_RequestUpdate
 	/** Set Result.
 	  * Result of the action taken
 	  */
-	public void setResult(String Result);
+	public void setResult (String Result);
 
 	/** Get Result.
 	  * Result of the action taken
@@ -206,7 +205,7 @@ public interface I_R_RequestUpdate
 	/** Set Request History.
 	  * Request has been changed
 	  */
-	public void setR_RequestAction_ID(int R_RequestAction_ID);
+	public void setR_RequestAction_ID (int R_RequestAction_ID);
 
 	/** Get Request History.
 	  * Request has been changed
@@ -221,7 +220,7 @@ public interface I_R_RequestUpdate
 	/** Set Request.
 	  * Request from a Business Partner or Prospect
 	  */
-	public void setR_Request_ID(int R_Request_ID);
+	public void setR_Request_ID (int R_Request_ID);
 
 	/** Get Request.
 	  * Request from a Business Partner or Prospect
@@ -236,7 +235,7 @@ public interface I_R_RequestUpdate
 	/** Set Request Update.
 	  * Request Updates
 	  */
-	public void setR_RequestUpdate_ID(int R_RequestUpdate_ID);
+	public void setR_RequestUpdate_ID (int R_RequestUpdate_ID);
 
 	/** Get Request Update.
 	  * Request Updates
@@ -249,7 +248,7 @@ public interface I_R_RequestUpdate
 	/** Set Start Time.
 	  * Time started
 	  */
-	public void setStartTime(Timestamp StartTime);
+	public void setStartTime (Timestamp StartTime);
 
 	/** Get Start Time.
 	  * Time started
@@ -278,7 +277,7 @@ public interface I_R_RequestUpdate
 	/** Set Immutable Universally Unique Identifier.
 	  * Immutable Universally Unique Identifier
 	  */
-	public void setUUID(String UUID);
+	public void setUUID (String UUID);
 
 	/** Get Immutable Universally Unique Identifier.
 	  * Immutable Universally Unique Identifier

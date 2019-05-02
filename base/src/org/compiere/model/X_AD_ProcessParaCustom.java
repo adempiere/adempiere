@@ -29,7 +29,7 @@ public class X_AD_ProcessParaCustom extends PO implements I_AD_ProcessParaCustom
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190321L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_AD_ProcessParaCustom (Properties ctx, int AD_ProcessParaCustom_ID, String trxName)

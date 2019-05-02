@@ -30,7 +30,7 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_C_AcctSchema_GL (Properties ctx, int C_AcctSchema_GL_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
       /** if (C_AcctSchema_GL_ID == 0)
         {
 			setC_AcctSchema_ID (0);
-			setCommitmentOffsetSales_Acct (0);
 			setCommitmentOffset_Acct (0);
+			setCommitmentOffsetSales_Acct (0);
 			setIncomeSummary_Acct (0);
 			setIntercompanyDueFrom_Acct (0);
 			setIntercompanyDueTo_Acct (0);
@@ -116,31 +116,6 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
         return new KeyNamePair(get_ID(), String.valueOf(getC_AcctSchema_ID()));
     }
 
-	public I_C_ValidCombination getCommitmentOffsetSales_A() throws RuntimeException
-    {
-		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
-			.getPO(getCommitmentOffsetSales_Acct(), get_TrxName());	}
-
-	/** Set Commitment Offset Sales.
-		@param CommitmentOffsetSales_Acct 
-		Budgetary Commitment Offset Account for Sales
-	  */
-	public void setCommitmentOffsetSales_Acct (int CommitmentOffsetSales_Acct)
-	{
-		set_Value (COLUMNNAME_CommitmentOffsetSales_Acct, Integer.valueOf(CommitmentOffsetSales_Acct));
-	}
-
-	/** Get Commitment Offset Sales.
-		@return Budgetary Commitment Offset Account for Sales
-	  */
-	public int getCommitmentOffsetSales_Acct () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CommitmentOffsetSales_Acct);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public I_C_ValidCombination getCommitmentOffset_A() throws RuntimeException
     {
 		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
@@ -161,6 +136,31 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 	public int getCommitmentOffset_Acct () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CommitmentOffset_Acct);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_C_ValidCombination getCommitmentOffsetSales_A() throws RuntimeException
+    {
+		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+			.getPO(getCommitmentOffsetSales_Acct(), get_TrxName());	}
+
+	/** Set Commitment Offset Sales.
+		@param CommitmentOffsetSales_Acct 
+		Budgetary Commitment Offset Account for Sales
+	  */
+	public void setCommitmentOffsetSales_Acct (int CommitmentOffsetSales_Acct)
+	{
+		set_Value (COLUMNNAME_CommitmentOffsetSales_Acct, Integer.valueOf(CommitmentOffsetSales_Acct));
+	}
+
+	/** Get Commitment Offset Sales.
+		@return Budgetary Commitment Offset Account for Sales
+	  */
+	public int getCommitmentOffsetSales_Acct () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CommitmentOffsetSales_Acct);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -357,23 +357,6 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
-	}
-
 	/** Set Use Currency Balancing.
 		@param UseCurrencyBalancing Use Currency Balancing	  */
 	public void setUseCurrencyBalancing (boolean UseCurrencyBalancing)
@@ -435,5 +418,22 @@ public class X_C_AcctSchema_GL extends PO implements I_C_AcctSchema_GL, I_Persis
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

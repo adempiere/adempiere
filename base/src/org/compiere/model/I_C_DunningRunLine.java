@@ -103,6 +103,21 @@ public interface I_C_DunningRunLine
 	  */
 	public int getC_DunningRunLine_ID();
 
+    /** Column name C_Invoice_ID */
+    public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
+
+	/** Set Invoice.
+	  * Invoice Identifier
+	  */
+	public void setC_Invoice_ID (int C_Invoice_ID);
+
+	/** Get Invoice.
+	  * Invoice Identifier
+	  */
+	public int getC_Invoice_ID();
+
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
+
     /** Column name C_InvoicePaySchedule_ID */
     public static final String COLUMNNAME_C_InvoicePaySchedule_ID = "C_InvoicePaySchedule_ID";
 
@@ -118,20 +133,18 @@ public interface I_C_DunningRunLine
 
 	public org.compiere.model.I_C_InvoicePaySchedule getC_InvoicePaySchedule() throws RuntimeException;
 
-    /** Column name C_Invoice_ID */
-    public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
+    /** Column name ConvertedAmt */
+    public static final String COLUMNNAME_ConvertedAmt = "ConvertedAmt";
 
-	/** Set Invoice.
-	  * Invoice Identifier
+	/** Set Converted Amount.
+	  * Converted Amount
 	  */
-	public void setC_Invoice_ID (int C_Invoice_ID);
+	public void setConvertedAmt (BigDecimal ConvertedAmt);
 
-	/** Get Invoice.
-	  * Invoice Identifier
+	/** Get Converted Amount.
+	  * Converted Amount
 	  */
-	public int getC_Invoice_ID();
-
-	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
+	public BigDecimal getConvertedAmt();
 
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
@@ -162,19 +175,6 @@ public interface I_C_DunningRunLine
 	public int getC_Payment_ID();
 
 	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException;
-
-    /** Column name ConvertedAmt */
-    public static final String COLUMNNAME_ConvertedAmt = "ConvertedAmt";
-
-	/** Set Converted Amount.
-	  * Converted Amount
-	  */
-	public void setConvertedAmt (BigDecimal ConvertedAmt);
-
-	/** Get Converted Amount.
-	  * Converted Amount
-	  */
-	public BigDecimal getConvertedAmt();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -309,19 +309,6 @@ public interface I_C_DunningRunLine
 	  */
 	public BigDecimal getTotalAmt();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -337,4 +324,17 @@ public interface I_C_DunningRunLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

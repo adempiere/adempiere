@@ -251,19 +251,6 @@ public interface I_AD_Window
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -279,6 +266,32 @@ public interface I_AD_Window
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
+    /** Column name WindowType */
+    public static final String COLUMNNAME_WindowType = "WindowType";
+
+	/** Set WindowType.
+	  * Type or classification of a Window
+	  */
+	public void setWindowType (String WindowType);
+
+	/** Get WindowType.
+	  * Type or classification of a Window
+	  */
+	public String getWindowType();
 
     /** Column name WinHeight */
     public static final String COLUMNNAME_WinHeight = "WinHeight";
@@ -297,17 +310,4 @@ public interface I_AD_Window
 
 	/** Get Window Width	  */
 	public int getWinWidth();
-
-    /** Column name WindowType */
-    public static final String COLUMNNAME_WindowType = "WindowType";
-
-	/** Set WindowType.
-	  * Type or classification of a Window
-	  */
-	public void setWindowType (String WindowType);
-
-	/** Get WindowType.
-	  * Type or classification of a Window
-	  */
-	public String getWindowType();
 }

@@ -30,7 +30,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190213L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_AD_PrintFormatItem (Properties ctx, int AD_PrintFormatItem_ID, String trxName)
@@ -388,8 +388,8 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public static final String BARCODETYPE_Code39LinearWOChecksum = "c39";
 	/** EAN 13 = E13 */
 	public static final String BARCODETYPE_EAN13 = "E13";
-	/** QR Quick Response Code = QRC */
-	public static final String BARCODETYPE_QRQuickResponseCode = "QRC";
+	/** Quick Response Code = QRC */
+	public static final String BARCODETYPE_QuickResponseCode = "QRC";
 	/** Set Barcode Type.
 		@param BarcodeType 
 		Type of barcode
