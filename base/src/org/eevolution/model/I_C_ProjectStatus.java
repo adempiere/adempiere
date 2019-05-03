@@ -241,18 +241,18 @@ public interface I_C_ProjectStatus
 	  */
 	public int getSeqNo();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
+    /** Column name TimeoutDays */
+    public static final String COLUMNNAME_TimeoutDays = "TimeoutDays";
 
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Set Timeout in Days.
+	  * Timeout in Days to change Status automatically
 	  */
-	public void setUUID (String UUID);
+	public void setTimeoutDays (int TimeoutDays);
 
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Get Timeout in Days.
+	  * Timeout in Days to change Status automatically
 	  */
-	public String getUUID();
+	public int getTimeoutDays();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -269,6 +269,19 @@ public interface I_C_ProjectStatus
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";
