@@ -258,7 +258,7 @@ FROM T_InvoiceGL gl
 
 </RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="60" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="60" StepType="SQL">
       <Comments>Recreate view for Oracle</Comments>
       <SQLStatement>CREATE OR REPLACE VIEW T_INVOICEGL_V
 (AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
@@ -346,7 +346,7 @@ FROM T_InvoiceGL gl
   INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
   INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="70" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="70" StepType="SQL">
       <Comments>Recreate view Trl for Oracle</Comments>
       <SQLStatement>CREATE OR REPLACE VIEW T_INVOICEGL_VT
 (AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
