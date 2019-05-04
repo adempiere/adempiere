@@ -241,6 +241,19 @@ public interface I_C_ProjectStatus
 	  */
 	public int getSeqNo();
 
+    /** Column name TimeoutDays */
+    public static final String COLUMNNAME_TimeoutDays = "TimeoutDays";
+
+	/** Set Timeout in Days.
+	  * Timeout in Days to change Status automatically
+	  */
+	public void setTimeoutDays (int TimeoutDays);
+
+	/** Get Timeout in Days.
+	  * Timeout in Days to change Status automatically
+	  */
+	public int getTimeoutDays();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
