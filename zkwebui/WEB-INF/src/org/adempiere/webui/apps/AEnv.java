@@ -811,6 +811,8 @@ public final class AEnv
         	iconPath = ITheme.MENU_TASK_IMAGE;
         else if (action.equals(MMenu.ACTION_Workbench))
         	iconPath = ITheme.MENU_WORKBENCH_IMAGE;
+        else if (action.equals(MMenu.ACTION_SmartBrowse))
+        	iconPath = ITheme.MENU_BROWSER_IMAGE;
         else
         	iconPath = ITheme.MENU_WINDOW_IMAGE;
 		//	Default

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_NetworkDistributionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_DD_NetworkDistributionLine 
 {
@@ -79,15 +79,6 @@ public interface I_DD_NetworkDistributionLine
 	  */
 	public int getCreatedBy();
 
-    /** Column name DD_NetworkDistributionLine_ID */
-    public static final String COLUMNNAME_DD_NetworkDistributionLine_ID = "DD_NetworkDistributionLine_ID";
-
-	/** Set Network Distribution Line	  */
-	public void setDD_NetworkDistributionLine_ID (int DD_NetworkDistributionLine_ID);
-
-	/** Get Network Distribution Line	  */
-	public int getDD_NetworkDistributionLine_ID();
-
     /** Column name DD_NetworkDistribution_ID */
     public static final String COLUMNNAME_DD_NetworkDistribution_ID = "DD_NetworkDistribution_ID";
 
@@ -102,6 +93,15 @@ public interface I_DD_NetworkDistributionLine
 	public int getDD_NetworkDistribution_ID();
 
 	public org.eevolution.model.I_DD_NetworkDistribution getDD_NetworkDistribution() throws RuntimeException;
+
+    /** Column name DD_NetworkDistributionLine_ID */
+    public static final String COLUMNNAME_DD_NetworkDistributionLine_ID = "DD_NetworkDistributionLine_ID";
+
+	/** Set Network Distribution Line	  */
+	public void setDD_NetworkDistributionLine_ID (int DD_NetworkDistributionLine_ID);
+
+	/** Get Network Distribution Line	  */
+	public int getDD_NetworkDistributionLine_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -131,21 +131,6 @@ public interface I_DD_NetworkDistributionLine
 
 	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException;
 
-    /** Column name M_WarehouseSource_ID */
-    public static final String COLUMNNAME_M_WarehouseSource_ID = "M_WarehouseSource_ID";
-
-	/** Set Source Warehouse.
-	  * Optional Warehouse to replenish from
-	  */
-	public void setM_WarehouseSource_ID (int M_WarehouseSource_ID);
-
-	/** Get Source Warehouse.
-	  * Optional Warehouse to replenish from
-	  */
-	public int getM_WarehouseSource_ID();
-
-	public org.compiere.model.I_M_Warehouse getM_WarehouseSource() throws RuntimeException;
-
     /** Column name M_Warehouse_ID */
     public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
 
@@ -160,6 +145,21 @@ public interface I_DD_NetworkDistributionLine
 	public int getM_Warehouse_ID();
 
 	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
+
+    /** Column name M_WarehouseSource_ID */
+    public static final String COLUMNNAME_M_WarehouseSource_ID = "M_WarehouseSource_ID";
+
+	/** Set Source Warehouse.
+	  * Optional Warehouse to replenish from
+	  */
+	public void setM_WarehouseSource_ID (int M_WarehouseSource_ID);
+
+	/** Get Source Warehouse.
+	  * Optional Warehouse to replenish from
+	  */
+	public int getM_WarehouseSource_ID();
+
+	public org.compiere.model.I_M_Warehouse getM_WarehouseSource() throws RuntimeException;
 
     /** Column name Percent */
     public static final String COLUMNNAME_Percent = "Percent";
@@ -200,19 +200,6 @@ public interface I_DD_NetworkDistributionLine
 	  */
 	public BigDecimal getTransferTime();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -228,6 +215,19 @@ public interface I_DD_NetworkDistributionLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";

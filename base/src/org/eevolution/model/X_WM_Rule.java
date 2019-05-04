@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for WM_Rule
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_WM_Rule extends PO implements I_WM_Rule, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_WM_Rule (Properties ctx, int WM_Rule_ID, String trxName)
@@ -116,6 +116,23 @@ public class X_WM_Rule extends PO implements I_WM_Rule, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Inbound & Outbound Class.
+		@param InOutboundClass 
+		Custom class to implemeted new Inbound & Outbound Rule logic
+	  */
+	public void setInOutboundClass (String InOutboundClass)
+	{
+		set_Value (COLUMNNAME_InOutboundClass, InOutboundClass);
+	}
+
+	/** Get Inbound & Outbound Class.
+		@return Custom class to implemeted new Inbound & Outbound Rule logic
+	  */
+	public String getInOutboundClass () 
+	{
+		return (String)get_Value(COLUMNNAME_InOutboundClass);
+	}
+
 	/** InOutBoundRule AD_Reference_ID=53322 */
 	public static final int INOUTBOUNDRULE_AD_Reference_ID=53322;
 	/** Custum Interface = WMI */
@@ -166,23 +183,6 @@ public class X_WM_Rule extends PO implements I_WM_Rule, I_Persistent
 	public String getInOutBoundType () 
 	{
 		return (String)get_Value(COLUMNNAME_InOutBoundType);
-	}
-
-	/** Set Inbound & Outbound Class.
-		@param InOutboundClass 
-		Custom class to implemeted new Inbound & Outbound Rule logic
-	  */
-	public void setInOutboundClass (String InOutboundClass)
-	{
-		set_Value (COLUMNNAME_InOutboundClass, InOutboundClass);
-	}
-
-	/** Get Inbound & Outbound Class.
-		@return Custom class to implemeted new Inbound & Outbound Rule logic
-	  */
-	public String getInOutboundClass () 
-	{
-		return (String)get_Value(COLUMNNAME_InOutboundClass);
 	}
 
 	/** Set Name.

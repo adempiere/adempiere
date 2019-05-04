@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Browse_Field
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_AD_Browse_Field 
 {
@@ -539,19 +539,6 @@ public interface I_AD_Browse_Field
 	  */
 	public int getSortNo();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -568,20 +555,18 @@ public interface I_AD_Browse_Field
 	  */
 	public int getUpdatedBy();
 
-    /** Column name VFormat */
-    public static final String COLUMNNAME_VFormat = "VFormat";
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
 
-	/** Set Value Format.
-	  * Format of the value;
- Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
 	  */
-	public void setVFormat (String VFormat);
+	public void setUUID (String UUID);
 
-	/** Get Value Format.
-	  * Format of the value;
- Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
 	  */
-	public String getVFormat();
+	public String getUUID();
 
     /** Column name ValueMax */
     public static final String COLUMNNAME_ValueMax = "ValueMax";
@@ -608,4 +593,19 @@ public interface I_AD_Browse_Field
 	  * Minimum Value for a field
 	  */
 	public String getValueMin();
+
+    /** Column name VFormat */
+    public static final String COLUMNNAME_VFormat = "VFormat";
+
+	/** Set Value Format.
+	  * Format of the value;
+ Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public void setVFormat (String VFormat);
+
+	/** Get Value Format.
+	  * Format of the value;
+ Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public String getVFormat();
 }

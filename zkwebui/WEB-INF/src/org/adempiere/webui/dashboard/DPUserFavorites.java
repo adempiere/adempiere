@@ -1,50 +1,87 @@
+/******************************************************************************
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ *****************************************************************************/
 package org.adempiere.webui.dashboard;
 
-import java.util.ArrayList;
-
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.webui.component.ADTreeFavoriteOnDropListener;
 import org.adempiere.webui.component.Checkbox;
+import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.SimpleFavoriteTreeModel;
+import org.adempiere.webui.panel.MenuPanel;
+import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.util.TreeItemAction;
 import org.adempiere.webui.util.TreeUtils;
-import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MTreeFavorite;
-import org.compiere.model.MTreeFavoriteNode;
 import org.compiere.model.MTreeNode;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.event.DropEvent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zul.Box;
-import org.zkoss.zul.Button;
+import org.zkoss.zul.Div;
+import org.zkoss.zul.Image;
+import org.zkoss.zul.Menuitem;
+import org.zkoss.zul.Menupopup;
 import org.zkoss.zul.Panel;
 import org.zkoss.zul.Panelchildren;
 import org.zkoss.zul.SimpleTreeNode;
-import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Toolbar;
 import org.zkoss.zul.Tree;
 import org.zkoss.zul.Treeitem;
+import org.zkoss.zul.Treerow;
 import org.zkoss.zul.Vbox;
+import org.zkoss.zul.event.TreeDataEvent;
+import org.zkoss.zul.event.TreeDataListener;
 
-public class DPUserFavorites extends DashboardPanel implements EventListener
+/**
+ * Creates a panel of user favorites.  These are menu items from the menu tree.
+ * The user can create favorites by dragging them to this panel and can create
+ * folders and organize the tree.
+ * 
+ * @author jtrinidad Adaxa - source of the original code
+ * @author marcalwestf Mario Calderone, Westfalia
+ * 	<li><a href="https://github.com/adempiere/adempiere/issues/911">#911 User Favorite Tree Panel</a> - add Adaxa contribution
+ * @author Michael McKay, mckayERP@gmail.com
+ *   <li><a href="https://github.com/adempiere/adempiere/issues/2324">#2324 User Favorites will not accept entry without folder</a> 
+ *
+ */
+public class DPUserFavorites extends DashboardPanel implements EventListener, TreeDataListener
 {
 	private static final long		serialVersionUID	= 1L;
-	public static final String		FAVOURITE_DROPPABLE	= "favourite";
 	private Box						bxFav;
 	private Checkbox				chkExpand;
-	private Checkbox				addAsRoot;
-	private Textbox					textbox;
 	public Tree						tree				= null;
 	public MTreeFavorite			mTreeFav;
-	private int						m_AD_FavTree_ID;
+	private int						m_AD_FavTree_ID	= -1;
 	private int						AD_Role_ID;
 	private int						AD_Client_ID;
 	private int						AD_Org_ID;
 	private int						AD_User_ID;
+	private Div						hint = null;
+	private Image					trashCan = null;
 	private SimpleFavoriteTreeModel	tModel;
 
+	/**
+	 * Standard constructor
+	 */
 	public DPUserFavorites()
 	{
 		super();
@@ -54,61 +91,143 @@ public class DPUserFavorites extends DashboardPanel implements EventListener
 		AD_User_ID = Env.getAD_User_ID(Env.getCtx());
 		AD_Org_ID = Env.getAD_Org_ID(Env.getCtx());
 
+		initTree();  // Initializes the tree. Important to call this before creating components.
+		
+		initCoponents(); // Needs the tree - uses the same mouse event listeners
+		
+	}
+
+	private void initCoponents() {
+		
 		Panel panel = new Panel();
 		this.appendChild(panel);
 
 		Panelchildren favContent = new Panelchildren();
 		panel.appendChild(favContent);
 
+		favContent.appendChild(createHint());
 		favContent.appendChild(createFavouritesPanel());
 
 		Toolbar favToolbar = new Toolbar();
+		
 
 		chkExpand = new Checkbox();
 		chkExpand.setText(Msg.getMsg(Env.getCtx(), "ExpandTree"));
+		chkExpand.setTooltiptext(Msg.getMsg(Env.getCtx(), "DPUserFavorites.expandTree.tooltip"));
 		chkExpand.addEventListener(Events.ON_CHECK, this);
 		chkExpand.setStyle("margin-left:10px");
 		favToolbar.appendChild(chkExpand);
 
-		addAsRoot = new Checkbox();
-		addAsRoot.setText(Msg.getMsg(Env.getCtx(), "add.as.root"));
-		addAsRoot.setStyle("margin-left:10px");
-		favToolbar.appendChild(addAsRoot);
-
-		textbox = new Textbox();
-		textbox.setName("TreeNode");
-		textbox.setStyle("margin-left:10px");
-		textbox.addEventListener(Events.ON_OK, this);
-		favToolbar.appendChild(textbox);
-
-		Button btn_add = new Button(Msg.getMsg(Env.getCtx(), "add.folder"));
-		btn_add.addEventListener(Events.ON_CLICK, this);
-		btn_add.setStyle("margin-left:10px");
-		favToolbar.appendChild(btn_add);
+		trashCan = new Image(ITheme.DASHBOARD_DELETE_IMAGE);
+		favToolbar.appendChild(trashCan);
+		trashCan.setAlign("left");
+		trashCan.setDroppable(SimpleFavoriteTreeModel.USER_FAVORITE_DRAGGABLE_TYPE);
+		trashCan.setStyle("margin: 5px;");
+		trashCan.setTooltiptext(Msg.getMsg(Env.getCtx(), "DPUserFavorites.trashcan.tooltip"));
+		trashCan.addEventListener(Events.ON_DROP, this);
 
 		this.appendChild(favToolbar);
 
-		favContent.setDroppable(FAVOURITE_DROPPABLE);
+		// Limit the droppable items to main menu items 
+		// and items from the SimpleFavoriteTreeModel
+		favContent.setDroppable(MenuPanel.MENU_ITEM_DRAGGABLE_TYPE + "," 
+						+ SimpleFavoriteTreeModel.USER_FAVORITE_DRAGGABLE_TYPE);
 		favContent.addEventListener(Events.ON_DROP, this);
+		
+		this.setTooltiptext(Msg.getMsg(Env.getCtx(), "DPUserFavorites.tooltip"));
+
+		int childCount = ((SimpleFavoriteTreeModel) tree.getModel()).getRoot().getChildCount();
+		if (childCount == 0)  //Root node only. Add a hint to the user.
+		{
+			showHint();
+		}
+		else
+		{
+			hideHint();
+		}
+
+		
 	}
 
+	/**
+	 * Create a hint box to occupy the panel when there are
+	 * no user favorites loaded.  This serves as a drop target
+	 * for menu items when there are no other menu items or 
+	 * folders in the tree. The hint box text gives the user
+	 * a visual indication of what to do.
+	 * @return
+	 */
+	private Component createHint() {
+		
+		hint = new Div();
+		hint.setStyle("overflow: hidden; text-align: center");
+		hint.setTooltiptext(Msg.getMsg(Env.getCtx(), "DPUserFavorites.tooltip"));
+		hint.setDroppable(MenuPanel.MENU_ITEM_DRAGGABLE_TYPE);
+		hint.addEventListener(Events.ON_DROP, this);
+		hint.addEventListener(Events.ON_RIGHT_CLICK, this);
+		
+		Label hintLabel = new Label(Msg.getMsg(Env.getCtx(), "DPUserFavorites.hint.text"));
+		
+		// Ugh! TODO add this to the style sheets
+		hintLabel.setStyle("display: block; margin: 2px; padding: 10px; border:1px solid #B1CBD5; color:#888;");
+		
+		hint.appendChild(hintLabel);
+		
+		return hint;
+		
+	}
+
+	/**
+	 * Create the favorites panel.  Consists of a Vbox.
+	 * @return
+	 */
 	private Box createFavouritesPanel()
 	{
 		bxFav = new Vbox();
 		bxFav.setWidth("100%");
 		bxFav.setHeight("100%");
 
-		tree = new Tree();
-		tree.setMultiple(false);
-		tree.setWidth("100%");
-		tree.setFixedLayout(false);
-		tree.setStyle("border:none");
-		tree.setClass("menu-tree");
+		bxFav.appendChild(tree);
+		return bxFav;
+	}
 
-		mTreeFav = new MTreeFavorite(Env.getCtx(), 0, null);
-		int AD_FavTree_ID = mTreeFav.getTreeID(AD_Role_ID, AD_User_ID, AD_Client_ID);
+	/**
+	 * Hide the hint box and change the alignment of the favorites panel
+	 * to "left" for the tree.
+	 */
+	private void hideHint() {
+		if (hint != null)
+		{
+			bxFav.setAlign("left");
+			hint.setVisible(false);
+		}
+	}
 
-		if (AD_FavTree_ID == -1)
+	/**
+	 * No tree so make the hint visible and center it in the favorites panel
+	 */
+	private void showHint() {
+		if (hint != null)
+		{
+			bxFav.setAlign("center");
+			hint.setVisible(true);
+		}
+	}
+
+	/**
+	 * Creating Tree structure
+	 */
+	public void initTree()
+	{
+		// Not initialized
+		if (m_AD_FavTree_ID == -1)
+		{
+			mTreeFav = new MTreeFavorite(Env.getCtx(), 0, null);
+			m_AD_FavTree_ID = mTreeFav.getTreeID(AD_Role_ID, AD_User_ID, AD_Client_ID);
+		}
+
+		// Not found
+		if (m_AD_FavTree_ID == -1)
 		{
 			mTreeFav.set_ValueOfColumn(MTreeFavorite.COLUMNNAME_AD_Client_ID, AD_Client_ID);
 			mTreeFav.setAD_Org_ID(AD_Org_ID);
@@ -119,23 +238,20 @@ public class DPUserFavorites extends DashboardPanel implements EventListener
 				throw new AdempiereException("Could not create Tree.");
 			m_AD_FavTree_ID = mTreeFav.getAD_Tree_Favorite_ID();
 		}
-		else
+
+		if (tree == null)
 		{
-			m_AD_FavTree_ID = AD_FavTree_ID;
+			tree = new Tree();
+			tree.setMultiple(false);
+			tree.setWidth("100%");
+			tree.setFixedLayout(false);
+			tree.setStyle("border:none");
+			tree.setClass("menu-tree");
 		}
 
-		initTree();
-		bxFav.appendChild(tree);
-		return bxFav;
-	}
-
-	/**
-	 * Creating Tree structure
-	 */
-	public void initTree()
-	{
 		tModel = SimpleFavoriteTreeModel.initADTree(tree, m_AD_FavTree_ID, 0);
-
+		tModel.addTreeDataListener(this);
+				
 		if (tree.getTreechildren() != null)
 		{
 			TreeUtils.traverse(tree.getTreechildren(), new TreeItemAction() {
@@ -155,8 +271,8 @@ public class DPUserFavorites extends DashboardPanel implements EventListener
 	}
 
 	/**
-	 * When Adding a New Node into Tree Then after call this method for ReCreate
-	 * Tree.
+	 * After adding a new node to the Tree model, call this method to recreate
+	 * the Tree.
 	 */
 	public void reInitTree()
 	{
@@ -172,81 +288,60 @@ public class DPUserFavorites extends DashboardPanel implements EventListener
 	 */
 	public void onEvent(Event event)
 	{
-		Component comp = event.getTarget();
+        Component comp = event.getTarget();	
 		String eventName = event.getName();
 
-		if (eventName.equals(Events.ON_CLICK))
-		{
-			if (comp instanceof Button)
-				addNodeBtnPressed();
-		}
-		else if (eventName.equals(Events.ON_OK))
-		{
-			addNodeBtnPressed();
-		}
-		else if (eventName.equals(Events.ON_CHECK) && event.getTarget() == chkExpand)
+		if (eventName.equals(Events.ON_CHECK) && event.getTarget() == chkExpand)
 		{
 			expandOnCheck();
 		}
-	}
 
-	/**
-	 * When Button Or Enter Key Pressed Add Node Into Tree.
-	 */
-	private void addNodeBtnPressed()
-	{
-		String nodeName = textbox.getText().toString();
-		if (nodeName.isEmpty())
-			textbox.setFocus(true);
-		else
-			insertNode(nodeName);
-	}
-
-	/**
-	 * Insert Folder as Node in Tree on Button clicked event then after call
-	 * this method
-	 */
-	private void insertNode(String nodeName)
-	{
-		MTreeFavoriteNode mTreeFavoriteNode = new MTreeFavoriteNode(Env.getCtx(), 0, null);
-		mTreeFavoriteNode.set_ValueOfColumn(MTreeFavoriteNode.COLUMNNAME_AD_Client_ID, AD_Client_ID);
-		mTreeFavoriteNode.setAD_Org_ID(AD_Org_ID);
-		mTreeFavoriteNode.setAD_Tree_Favorite_ID(m_AD_FavTree_ID);
-		mTreeFavoriteNode.setIsSummary(true);
-		mTreeFavoriteNode.setNodeName(nodeName);
-		if (addAsRoot.isChecked())
-			mTreeFavoriteNode.setParent_ID(0);
-		else
-			mTreeFavoriteNode.setParent_ID(SimpleFavoriteTreeModel.getSelectedFolderID());
-		mTreeFavoriteNode.setSeqNo(0);
-
-		if (!mTreeFavoriteNode.save())
-			throw new AdempiereException(Msg.getMsg(Env.getCtx(), "could.not.create.node"));
-		else
+		if (event instanceof MouseEvent && eventName.equals(Events.ON_RIGHT_CLICK))
 		{
-			MTreeNode mtnNew = new MTreeNode(mTreeFavoriteNode.getAD_Tree_Favorite_Node_ID(),
-					mTreeFavoriteNode.getSeqNo(), mTreeFavoriteNode.getNodeName(), "",
-					mTreeFavoriteNode.getParent_ID(), mTreeFavoriteNode.isSummary(), mTreeFavoriteNode.getAD_Menu_ID(),
-					null, false);
-			SimpleTreeNode newNode = new SimpleTreeNode(mtnNew, new ArrayList());
-			SimpleTreeNode parentNode = tModel.find(null, mtnNew.getParent_ID());
+			if (comp.equals(hint))
+			{
+				Menupopup popup = new Menupopup();		
 
-			try
-			{
-				tModel.addNode(parentNode, newNode, 0);
-				int[] path = tModel.getPath(tModel.getRoot(), newNode);
-				Treeitem ti = tree.renderItemByPath(path);
-				tree.setSelectedItem(ti);
-				Events.sendEvent(tree, new Event(Events.ON_SELECT, tree));
-				textbox.setText("");
-			}
-			catch (Exception e)
-			{
-				FDialog.warn(0, Msg.getMsg(Env.getCtx(), "SelectMenuItem"));
+				Menuitem menuItem = new Menuitem(Msg.getMsg(Env.getCtx(), ADTreeFavoriteOnDropListener.MENU_ITEM_ADD_FOLDER), "/images/dark/FolderAdd16.png");
+				menuItem.setValue(ADTreeFavoriteOnDropListener.MENU_ITEM_ADD_FOLDER);
+				menuItem.setParent(popup);
+				menuItem.addEventListener(Events.ON_CLICK, SimpleFavoriteTreeModel.listener.new AddFolderListener(tModel.getRoot()));
+
+				popup.setPage(hint.getPage());
+				popup.open(hint, "after_pointer");				
 			}
 		}
-	}
+				
 
+		if (event instanceof DropEvent)
+		{
+			DropEvent de = (DropEvent) event;
+			Treerow tr = (Treerow) de.getDragged();
+			
+			// From the Main Menu. src.getValue is the ID.
+			// From the UserFavorites, src.getValue is the SimpleTreeNode
+			Treeitem src = (Treeitem) tr.getParent();  			
+			
+			if (comp.equals(hint))
+			{
+				
+				if (de.getDragged() != de.getTarget())
+				{
+					int sourceID = Integer.valueOf((String) src.getValue());
+					ADTreeFavoriteOnDropListener.insertNodeMenu(sourceID, 0, null, 0);
+				}
+
+			}
+        	else if(comp.equals(trashCan))
+        	{
+        		
+    			SimpleTreeNode sourceNode = (SimpleTreeNode) src.getValue();
+				ADTreeFavoriteOnDropListener.deleteNodeMenu(sourceNode);
+        		
+        	}
+		}
+	}
+	
 	/**
 	 * Expand All Node
 	 */
@@ -259,7 +354,7 @@ public class DPUserFavorites extends DashboardPanel implements EventListener
 	}
 
 	/**
-	 * collapse all node
+	 * Collapse all nodes
 	 */
 	public void collapseAll()
 	{
@@ -278,5 +373,27 @@ public class DPUserFavorites extends DashboardPanel implements EventListener
 			expandAll();
 		else
 			collapseAll();
+	}
+
+	@Override
+	public void onChange(TreeDataEvent event) 
+	{
+		if (event.getType() == TreeDataEvent.INTERVAL_ADDED 
+			 || event.getType() == TreeDataEvent.INTERVAL_REMOVED)
+		{
+			int childCount = ((SimpleFavoriteTreeModel) tree.getModel()).getRoot().getChildCount();
+			if (childCount == 0)  
+			{
+				// The tree is empty and won't occupy screen space so it can't serve as a drop target.
+				// Make the hint box visible to provide a drop target and give the user a text
+				// hint as to what they can do.
+				showHint();
+			}
+			else
+			{
+				hideHint();
+			}
+		}
+		
 	}
 }

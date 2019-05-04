@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_Workflow
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_I_Workflow 
 {
@@ -41,6 +41,32 @@ public interface I_I_Workflow
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name AccessLevel */
+    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
+
+	/** Set Data Access Level.
+	  * Access Level required
+	  */
+	public void setAccessLevel (String AccessLevel);
+
+	/** Get Data Access Level.
+	  * Access Level required
+	  */
+	public String getAccessLevel();
+
+    /** Column name Action */
+    public static final String COLUMNNAME_Action = "Action";
+
+	/** Set Action.
+	  * Indicates the Action to be performed
+	  */
+	public void setAction (String Action);
+
+	/** Get Action.
+	  * Indicates the Action to be performed
+	  */
+	public String getAction();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -198,21 +224,6 @@ public interface I_I_Workflow
 
 	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
 
-    /** Column name AD_WorkflowProcessor_ID */
-    public static final String COLUMNNAME_AD_WorkflowProcessor_ID = "AD_WorkflowProcessor_ID";
-
-	/** Set Workflow Processor.
-	  * Workflow Processor Server
-	  */
-	public void setAD_WorkflowProcessor_ID (int AD_WorkflowProcessor_ID);
-
-	/** Get Workflow Processor.
-	  * Workflow Processor Server
-	  */
-	public int getAD_WorkflowProcessor_ID();
-
-	public org.compiere.model.I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException;
-
     /** Column name AD_Workflow_ID */
     public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
 
@@ -228,31 +239,20 @@ public interface I_I_Workflow
 
 	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException;
 
-    /** Column name AccessLevel */
-    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
+    /** Column name AD_WorkflowProcessor_ID */
+    public static final String COLUMNNAME_AD_WorkflowProcessor_ID = "AD_WorkflowProcessor_ID";
 
-	/** Set Data Access Level.
-	  * Access Level required
+	/** Set Workflow Processor.
+	  * Workflow Processor Server
 	  */
-	public void setAccessLevel (String AccessLevel);
+	public void setAD_WorkflowProcessor_ID (int AD_WorkflowProcessor_ID);
 
-	/** Get Data Access Level.
-	  * Access Level required
+	/** Get Workflow Processor.
+	  * Workflow Processor Server
 	  */
-	public String getAccessLevel();
+	public int getAD_WorkflowProcessor_ID();
 
-    /** Column name Action */
-    public static final String COLUMNNAME_Action = "Action";
-
-	/** Set Action.
-	  * Indicates the Action to be performed
-	  */
-	public void setAction (String Action);
-
-	/** Get Action.
-	  * Indicates the Action to be performed
-	  */
-	public String getAction();
+	public org.compiere.model.I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException;
 
     /** Column name AttributeName */
     public static final String COLUMNNAME_AttributeName = "AttributeName";
@@ -361,19 +361,6 @@ public interface I_I_Workflow
 	  */
 	public String getDocAction();
 
-    /** Column name DocValueLogic */
-    public static final String COLUMNNAME_DocValueLogic = "DocValueLogic";
-
-	/** Set Document Value Logic.
-	  * Logic to determine Workflow Start - If true, a workflow process is started for the document
-	  */
-	public void setDocValueLogic (String DocValueLogic);
-
-	/** Get Document Value Logic.
-	  * Logic to determine Workflow Start - If true, a workflow process is started for the document
-	  */
-	public String getDocValueLogic();
-
     /** Column name DocumentNo */
     public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 
@@ -386,6 +373,19 @@ public interface I_I_Workflow
 	  * Document sequence number of the document
 	  */
 	public String getDocumentNo();
+
+    /** Column name DocValueLogic */
+    public static final String COLUMNNAME_DocValueLogic = "DocValueLogic";
+
+	/** Set Document Value Logic.
+	  * Logic to determine Workflow Start - If true, a workflow process is started for the document
+	  */
+	public void setDocValueLogic (String DocValueLogic);
+
+	/** Get Document Value Logic.
+	  * Logic to determine Workflow Start - If true, a workflow process is started for the document
+	  */
+	public String getDocValueLogic();
 
     /** Column name Duration */
     public static final String COLUMNNAME_Duration = "Duration";
@@ -532,15 +532,6 @@ public interface I_I_Workflow
 	  */
 	public boolean isI_IsImported();
 
-    /** Column name I_Workflow_ID */
-    public static final String COLUMNNAME_I_Workflow_ID = "I_Workflow_ID";
-
-	/** Set I_Workflow_ID	  */
-	public void setI_Workflow_ID (int I_Workflow_ID);
-
-	/** Get I_Workflow_ID	  */
-	public int getI_Workflow_ID();
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -610,6 +601,15 @@ public interface I_I_Workflow
 
 	/** Get Is Subcontracting	  */
 	public boolean isSubcontracting();
+
+    /** Column name I_Workflow_ID */
+    public static final String COLUMNNAME_I_Workflow_ID = "I_Workflow_ID";
+
+	/** Set I_Workflow_ID	  */
+	public void setI_Workflow_ID (int I_Workflow_ID);
+
+	/** Get I_Workflow_ID	  */
+	public int getI_Workflow_ID();
 
     /** Column name JoinElement */
     public static final String COLUMNNAME_JoinElement = "JoinElement";
@@ -729,15 +729,6 @@ public interface I_I_Workflow
 	  */
 	public int getPriority();
 
-    /** Column name ProcessType */
-    public static final String COLUMNNAME_ProcessType = "ProcessType";
-
-	/** Set Process Type	  */
-	public void setProcessType (String ProcessType);
-
-	/** Get Process Type	  */
-	public String getProcessType();
-
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 
@@ -759,6 +750,15 @@ public interface I_I_Workflow
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
+
+    /** Column name ProcessType */
+    public static final String COLUMNNAME_ProcessType = "ProcessType";
+
+	/** Set Process Type	  */
+	public void setProcessType (String ProcessType);
+
+	/** Get Process Type	  */
+	public String getProcessType();
 
     /** Column name PublishStatus */
     public static final String COLUMNNAME_PublishStatus = "PublishStatus";
@@ -795,21 +795,6 @@ public interface I_I_Workflow
 	  */
 	public int getQueuingTime();
 
-    /** Column name R_MailText_ID */
-    public static final String COLUMNNAME_R_MailText_ID = "R_MailText_ID";
-
-	/** Set Mail Template.
-	  * Text templates for mailings
-	  */
-	public void setR_MailText_ID (int R_MailText_ID);
-
-	/** Get Mail Template.
-	  * Text templates for mailings
-	  */
-	public int getR_MailText_ID();
-
-	public org.compiere.model.I_R_MailText getR_MailText() throws RuntimeException;
-
     /** Column name ResourceValue */
     public static final String COLUMNNAME_ResourceValue = "ResourceValue";
 
@@ -832,20 +817,20 @@ public interface I_I_Workflow
 	/** Get Responsible Name	  */
 	public String getResponsibleName();
 
-    /** Column name S_Resource_ID */
-    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
+    /** Column name R_MailText_ID */
+    public static final String COLUMNNAME_R_MailText_ID = "R_MailText_ID";
 
-	/** Set Resource.
-	  * Resource
+	/** Set Mail Template.
+	  * Text templates for mailings
 	  */
-	public void setS_Resource_ID (int S_Resource_ID);
+	public void setR_MailText_ID (int R_MailText_ID);
 
-	/** Get Resource.
-	  * Resource
+	/** Get Mail Template.
+	  * Text templates for mailings
 	  */
-	public int getS_Resource_ID();
+	public int getR_MailText_ID();
 
-	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException;
+	public org.compiere.model.I_R_MailText getR_MailText() throws RuntimeException;
 
     /** Column name SetupTime */
     public static final String COLUMNNAME_SetupTime = "SetupTime";
@@ -872,6 +857,21 @@ public interface I_I_Workflow
 	  * Semantics for multiple outgoing Transitions
 	  */
 	public String getSplitElement();
+
+    /** Column name S_Resource_ID */
+    public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
+
+	/** Set Resource.
+	  * Resource
+	  */
+	public void setS_Resource_ID (int S_Resource_ID);
+
+	/** Get Resource.
+	  * Resource
+	  */
+	public int getS_Resource_ID();
+
+	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException;
 
     /** Column name StartMode */
     public static final String COLUMNNAME_StartMode = "StartMode";
@@ -912,19 +912,6 @@ public interface I_I_Workflow
 	  */
 	public String getTableName();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name UnitsCycles */
     public static final String COLUMNNAME_UnitsCycles = "UnitsCycles";
 
@@ -953,6 +940,19 @@ public interface I_I_Workflow
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";
@@ -1006,14 +1006,18 @@ public interface I_I_Workflow
 	  */
 	public int getVersion();
 
-    /** Column name WFProcessorName */
-    public static final String COLUMNNAME_WFProcessorName = "WFProcessorName";
+    /** Column name WaitingTime */
+    public static final String COLUMNNAME_WaitingTime = "WaitingTime";
 
-	/** Set WF Processor Name	  */
-	public void setWFProcessorName (String WFProcessorName);
+	/** Set Waiting Time.
+	  * Workflow Simulation Waiting time
+	  */
+	public void setWaitingTime (int WaitingTime);
 
-	/** Get WF Processor Name	  */
-	public String getWFProcessorName();
+	/** Get Waiting Time.
+	  * Workflow Simulation Waiting time
+	  */
+	public int getWaitingTime();
 
     /** Column name WaitTime */
     public static final String COLUMNNAME_WaitTime = "WaitTime";
@@ -1028,18 +1032,14 @@ public interface I_I_Workflow
 	  */
 	public int getWaitTime();
 
-    /** Column name WaitingTime */
-    public static final String COLUMNNAME_WaitingTime = "WaitingTime";
+    /** Column name WFProcessorName */
+    public static final String COLUMNNAME_WFProcessorName = "WFProcessorName";
 
-	/** Set Waiting Time.
-	  * Workflow Simulation Waiting time
-	  */
-	public void setWaitingTime (int WaitingTime);
+	/** Set WF Processor Name	  */
+	public void setWFProcessorName (String WFProcessorName);
 
-	/** Get Waiting Time.
-	  * Workflow Simulation Waiting time
-	  */
-	public int getWaitingTime();
+	/** Get WF Processor Name	  */
+	public String getWFProcessorName();
 
     /** Column name WorkflowType */
     public static final String COLUMNNAME_WorkflowType = "WorkflowType";

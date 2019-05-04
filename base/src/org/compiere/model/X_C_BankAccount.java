@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BankAccount
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_C_BankAccount (Properties ctx, int C_BankAccount_ID, String trxName)
@@ -96,23 +96,6 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 		return (String)get_Value(COLUMNNAME_AccountNo);
 	}
 
-	/** Set BBAN.
-		@param BBAN 
-		Basic Bank Account Number
-	  */
-	public void setBBAN (String BBAN)
-	{
-		set_Value (COLUMNNAME_BBAN, BBAN);
-	}
-
-	/** Get BBAN.
-		@return Basic Bank Account Number
-	  */
-	public String getBBAN () 
-	{
-		return (String)get_Value(COLUMNNAME_BBAN);
-	}
-
 	/** BankAccountType AD_Reference_ID=216 */
 	public static final int BANKACCOUNTTYPE_AD_Reference_ID=216;
 	/** Checking = C */
@@ -137,32 +120,21 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 		return (String)get_Value(COLUMNNAME_BankAccountType);
 	}
 
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
-			.getPO(getC_BPartner_ID(), get_TrxName());	}
-
-	/** Set Business Partner .
-		@param C_BPartner_ID 
-		Identifies a Business Partner
+	/** Set BBAN.
+		@param BBAN 
+		Basic Bank Account Number
 	  */
-	public void setC_BPartner_ID (int C_BPartner_ID)
+	public void setBBAN (String BBAN)
 	{
-		if (C_BPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+		set_Value (COLUMNNAME_BBAN, BBAN);
 	}
 
-	/** Get Business Partner .
-		@return Identifies a Business Partner
+	/** Get BBAN.
+		@return Basic Bank Account Number
 	  */
-	public int getC_BPartner_ID () 
+	public String getBBAN () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_BBAN);
 	}
 
 	/** Set Bank Account.
@@ -223,6 +195,34 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getC_Bank_ID()));
     }
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
     {

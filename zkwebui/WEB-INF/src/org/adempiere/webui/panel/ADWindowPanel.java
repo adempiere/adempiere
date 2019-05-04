@@ -73,7 +73,9 @@ import org.zkoss.zul.Vbox;
  *		@see https://github.com/adempiere/adempiere/issues/265
  *		<a href="https://github.com/adempiere/adempiere/issues/588">
  * 		@see FR [ 588 ] Webui status bar is located on up</a>
- * @date Feb 25, 2007
+  * @author Michael McKay, mckayERP@gmail.com
+ * 		<li><a href="https://github.com/adempiere/adempiere/issues/2373">#2373</a> Add copy record shortcut key Shift+F2
+* @date Feb 25, 2007
  * @version $Revision: 0.10 $
  */
 public class ADWindowPanel extends AbstractADWindowPanel
@@ -196,7 +198,7 @@ public class ADWindowPanel extends AbstractADWindowPanel
         		keyListener.detach();
         	keyListener = new Keylistener();
         	statusBar.appendChild(keyListener);
-        	keyListener.setCtrlKeys("#f1#f2#f3#f4#f5#f6#f7#f8#f9#f10#f11#f12^f^i^n^s^d@#left@#right@#up@#down@#pgup@#pgdn@p^p@z@x#enter");
+        	keyListener.setCtrlKeys("#f1#f2$#f2#f3#f4#f5#f6#f7#f8#f9#f10#f11#f12^f^i^n^s^d@#left@#right@#up@#down@#pgup@#pgdn@p^p@z@x#enter");
         	keyListener.addEventListener(Events.ON_CTRL_KEY, toolbar);
         	keyListener.addEventListener(Events.ON_CTRL_KEY, this);
         	keyListener.setAutoBlur(false);

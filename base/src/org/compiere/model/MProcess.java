@@ -125,7 +125,7 @@ public class MProcess extends X_AD_Process
 	/**	Cache						*/
 	private static CCache<Integer,MProcess>	s_cache	= new CCache<Integer,MProcess>(Table_Name, 20);
 	/**	Cache for parameters		*/
-	private static CCache<String, MProcessPara[]>	s_cacheASPParameters = new CCache<String, MProcessPara[]>(I_AD_Process_Para.Table_Name, 20);
+	private static CCache<String, List<MProcessPara>>	cacheASPParameters = new CCache<String, List<MProcessPara>>(I_AD_Process_Para.Table_Name, 20);
 	
 	
 	/**************************************************************************
@@ -162,35 +162,46 @@ public class MProcess extends X_AD_Process
 
 
 	/**	Parameters					*/
-	private MProcessPara[]		m_parameters = null;
+	private List<MProcessPara>	parameters = null;
 	
 	/**
 	 * 	Get Parameters
 	 *	@return parameters
 	 */
-	public MProcessPara[] getParameters() {
-		if (m_parameters != null)
-			return m_parameters;
+	public List<MProcessPara> getParametersAsList() {
+		if (parameters != null)
+			return parameters;
 		//
-		m_parameters = getParameters(null);
+		parameters = getParametersAsList(null);
 		//
-		return m_parameters;
+		return parameters;
 	}	//	getParameters
+	
+	/**
+	 * Old Compatibility
+	 * @return
+	 */
+	public MProcessPara[] getParameters() {
+		List<MProcessPara> parametersList = getParametersAsList();
+		MProcessPara[] retValue = new MProcessPara[parametersList.size()];
+		parametersList.toArray(retValue);
+		return retValue;
+	}
 	
 	/**
 	 * Get ASP Parameter (make a query if it is not exists in Cache)
 	 * @return
 	 */
-	public MProcessPara[] getASPParameters() {
+	public List<MProcessPara> getASPParameters() {
 		MClient client = MClient.get(Env.getCtx());
 		String key = getAD_Process_ID() + "|" + client.getAD_Client_ID();
-		MProcessPara[] retValue = s_cacheASPParameters.get (key);
+		List<MProcessPara> retValue = cacheASPParameters.get (key);
 		if (retValue != null)
 			return retValue;
 		//	Get where clause
-		String ASPFilter = null;
+		String aSPFilter = null;
 		if (client.isUseASP()) {
-			ASPFilter = 
+			aSPFilter = 
 				//	Just ASP subscribed process parameters for client "
 				"("
 				+ "	EXISTS(SELECT 1 FROM ASP_Process p "
@@ -214,7 +225,6 @@ public class MProcess extends X_AD_Process
 				+ "				AND ce.AD_Tab_ID IS NULL "
 				+ "				AND ce.AD_Field_ID IS NULL "
 				+ "				AND ce.ASP_Status = 'S')"	//	Show
-				+ ") "
 				//	minus hide ASP exceptions for client
 				+ "AND EXISTS(SELECT 1 FROM ASP_ClientException ce "
 				+ "				WHERE ce.AD_Process_Para_ID = AD_Process_Para.AD_Process_Para_ID "
@@ -223,11 +233,20 @@ public class MProcess extends X_AD_Process
 				+ "				AND ce.AD_Process_Para_ID IS NOT NULL "
 				+ "				AND ce.AD_Tab_ID IS NULL "
 				+ "				AND ce.AD_Field_ID IS NULL "
-				+ "				AND ce.ASP_Status = 'H')";	//	Hide
+				+ "				AND ce.ASP_Status = 'H')"	//	Hide
+				+ " OR EXISTS(SELECT 1 FROM ASP_Level l "
+				+ "					INNER JOIN ASP_ClientLevel cl ON(cl.ASP_Level_ID = l.ASP_Level_ID) "
+				+ "				WHERE cl.AD_Client_ID = " + client.getAD_Client_ID()
+				+ "				AND l.IsActive = 'Y' "
+				+ "				AND cl.IsActive = 'Y' "
+				+ "				AND l.Type = 'C') "	//	Show
+				+ ") ";
 		}
-		retValue = getParameters(ASPFilter);
-		if (retValue.length != 0)
-			s_cacheASPParameters.put(key, retValue);
+		retValue = getParametersAsList(aSPFilter);
+		if (retValue != null
+				&& retValue.size() > 0) {
+			cacheASPParameters.put(key, retValue);
+		}
 		//	Default Return
 		return retValue;
 	}
@@ -237,8 +256,7 @@ public class MProcess extends X_AD_Process
 	 * @param optionalWhereClause
 	 * @return
 	 */
-	public MProcessPara[] getParameters(String optionalWhereClause) {
-		MProcessPara[] retValue = null;
+	public List<MProcessPara> getParametersAsList(String optionalWhereClause) {
 		StringBuffer whereClause = new StringBuffer(MProcessPara.COLUMNNAME_AD_Process_ID + "=?");
 		
 		//	Validate where
@@ -252,9 +270,18 @@ public class MProcess extends X_AD_Process
 			.setOrderBy(MProcessPara.COLUMNNAME_SeqNo)
 			.list();
 		//
-		retValue = new MProcessPara[list.size()];
-		list.toArray(retValue);
-		//	Default Return
+		return list;
+	}
+	
+	/**
+	 * Old Compatibility
+	 * @param optionalWhereClause
+	 * @return
+	 */
+	public MProcessPara[] getParameters(String optionalWhereClause) {
+		List<MProcessPara> parametersList = getParametersAsList(optionalWhereClause);
+		MProcessPara[] retValue = new MProcessPara[parametersList.size()];
+		parametersList.toArray(retValue);
 		return retValue;
 	}
 
@@ -263,13 +290,11 @@ public class MProcess extends X_AD_Process
 	 *	@param name column name
 	 *	@return parameter or null
 	 */
-	public MProcessPara getParameter(String name)
-	{
+	public MProcessPara getParameter(String name) {
 		getParameters();
-		for (int i = 0; i < m_parameters.length; i++)
-		{
-			if (m_parameters[i].getColumnName().equals(name))
-				return m_parameters[i];
+		for (MProcessPara parameter : parameters) {
+			if (parameter.getColumnName().equals(name))
+				return parameter;
 		}
 		return null;
 	}	//	getParameter
@@ -572,9 +597,8 @@ public class MProcess extends X_AD_Process
 		
 		// copy parameters 
 		// TODO? Perhaps should delete existing first?
-		MProcessPara[] parameters = source.getParameters();
-		for ( MProcessPara sourcePara : parameters )
-		{
+		List<MProcessPara> parameters = source.getParametersAsList();
+		for (MProcessPara sourcePara : parameters) {
 			MProcessPara targetPara = new MProcessPara(this);
 			targetPara.copyFrom (sourcePara);  // saves automatically
 		}
@@ -600,6 +624,20 @@ public class MProcess extends X_AD_Process
 			return 0;
 		//	Else
 		return getStatistic_Seconds() / getStatistic_Count();
+	}
+	
+	/**
+	 * Duplicate Process
+	 * @return
+	 */
+	public MProcess getDuplicated() {
+		try {
+			return (MProcess) super.clone();
+		} catch (CloneNotSupportedException e) {
+			log.warning("Error " + e.getLocalizedMessage());
+		}
+		//	Default
+		return null;
 	}
 	
 }	//	MProcess

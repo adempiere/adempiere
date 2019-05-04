@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_AppRegistration
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_AD_AppRegistration (Properties ctx, int AD_AppRegistration_ID, String trxName)

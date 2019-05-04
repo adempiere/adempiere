@@ -96,6 +96,12 @@ public interface IADTabPanel extends Component, Evaluatee {
 	public void switchRowPresentation();
 
 	/**
+	 * Return if is Grid View
+	 * @return
+	 */
+	public boolean isGridView();
+
+	/**
 	 * Dynamic update of field properties ( visibility, filter and mandatory )
 	 * @param i
 	 */

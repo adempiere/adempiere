@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_Status
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_R_Status 
 {
@@ -266,18 +266,21 @@ public interface I_R_Status
 	  */
 	public int getTimeoutDays();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
+    /** Column name Updated */
+    public static final String COLUMNNAME_Updated = "Updated";
 
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Get Updated.
+	  * Date this record was updated
 	  */
-	public void setUUID (String UUID);
+	public Timestamp getUpdated();
 
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+    /** Column name UpdatedBy */
+    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
+
+	/** Get Updated By.
+	  * User who updated this records
 	  */
-	public String getUUID();
+	public int getUpdatedBy();
 
     /** Column name Update_Status_ID */
     public static final String COLUMNNAME_Update_Status_ID = "Update_Status_ID";
@@ -294,21 +297,18 @@ public interface I_R_Status
 
 	public org.compiere.model.I_R_Status getUpdate_Status() throws RuntimeException;
 
-    /** Column name Updated */
-    public static final String COLUMNNAME_Updated = "Updated";
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
 
-	/** Get Updated.
-	  * Date this record was updated
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
 	  */
-	public Timestamp getUpdated();
+	public void setUUID (String UUID);
 
-    /** Column name UpdatedBy */
-    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
-
-	/** Get Updated By.
-	  * User who updated this records
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
 	  */
-	public int getUpdatedBy();
+	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

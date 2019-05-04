@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ADempiere(r) Release 3.9.0_2017-08-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2017 ADempiere(r); Implementation: ${ADEMPIERE_VERSION} 20190319-0953 - ${ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">--><adempiereTrl language="it_IT" table="AD_Browse_Field">
+ <row id="50804" trl="N">
+  <value column="Name" original="QtyToDeliver">QtyToDeliver</value>
+  <value column="Description" original="Qty to Deliver">Qty to Deliver</value>
+  <value column="Help" original="Qty to Deliver">Qty to Deliver</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50880" trl="N">
+  <value column="Name" original="Process Now">Process Now</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50881" trl="N">
+  <value column="Name" original="Created By">Created By</value>
+  <value column="Description" original="User who created this records">User who created this records</value>
+  <value column="Help" original="The Created By field indicates the user who created this record.">The Created By field indicates the user who created this record.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50882" trl="N">
+  <value column="Name" original="Processed">Processed</value>
+  <value column="Description" original="The document has been processed">The document has been processed</value>
+  <value column="Help" original="The Processed checkbox indicates that a document has been processed.">The Processed checkbox indicates that a document has been processed.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50883" trl="N">
+  <value column="Name" original="Updated By">Updated By</value>
+  <value column="Description" original="User who updated this records">User who updated this records</value>
+  <value column="Help" original="The Updated By field indicates the user who updated this record.">The Updated By field indicates the user who updated this record.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50884" trl="N">
+  <value column="Name" original="Period No">Period No</value>
+  <value column="Description" original="Unique Period Number">Unique Period Number</value>
+  <value column="Help" original="The Period No identifies a specific period for this year. Each period is defined by a start and end date.  Date ranges for a calendar and year cannot overlap.">The Period No identifies a specific period for this year. Each period is defined by a start and end date.  Date ranges for a calendar and year cannot overlap.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50885" trl="N">
+  <value column="Name" original="Updated">Updated</value>
+  <value column="Description" original="Date this record was updated">Date this record was updated</value>
+  <value column="Help" original="The Updated field indicates the date that this record was updated.">The Updated field indicates the date that this record was updated.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50886" trl="N">
+  <value column="Name" original="Updated By">Updated By</value>
+  <value column="Description" original="User who updated this records">User who updated this records</value>
+  <value column="Help" original="The Updated By field indicates the user who updated this record.">The Updated By field indicates the user who updated this record.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50887" trl="N">
+  <value column="Name" original="Organization">Organization</value>
+  <value column="Description" original="Organizational entity within client">Organizational entity within client</value>
+  <value column="Help" original="An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.">An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50889" trl="N">
+  <value column="Name" original="Created">Created</value>
+  <value column="Description" original="Date this record was created">Date this record was created</value>
+  <value column="Help" original="The Created field indicates the date that this record was created.">The Created field indicates the date that this record was created.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50890" trl="N">
+  <value column="Name" original="Created By">Created By</value>
+  <value column="Description" original="User who created this records">User who created this records</value>
+  <value column="Help" original="The Created By field indicates the user who created this record.">The Created By field indicates the user who created this record.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50891" trl="N">
+  <value column="Name" original="Created">Created</value>
+  <value column="Description" original="Date this record was created">Date this record was created</value>
+  <value column="Help" original="The Created field indicates the date that this record was created.">The Created field indicates the date that this record was created.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50895" trl="N">
+  <value column="Name" original="Client">Client</value>
+  <value column="Description" original="Client/Tenant for this installation.">Client/Tenant for this installation.</value>
+  <value column="Help" original="A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50896" trl="N">
+  <value column="Name" original="Created">Created</value>
+  <value column="Description" original="Date this record was created">Date this record was created</value>
+  <value column="Help" original="The Created field indicates the date that this record was created.">The Created field indicates the date that this record was created.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50897" trl="N">
+  <value column="Name" original="Organization">Organization</value>
+  <value column="Description" original="Organizational entity within client">Organizational entity within client</value>
+  <value column="Help" original="An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.">An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50898" trl="N">
+  <value column="Name" original="Created By">Created By</value>
+  <value column="Description" original="User who created this records">User who created this records</value>
+  <value column="Help" original="The Created By field indicates the user who created this record.">The Created By field indicates the user who created this record.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50899" trl="N">
+  <value column="Name" original="Forecast Run Detail">Forecast Run Detail</value>
+  <value column="Description" original="Contains the forecasting calculation results based on forecast definition.">Contains the forecasting calculation results based on forecast definition.</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50900" trl="N">
+  <value column="Name" original="Active">Active</value>
+  <value column="Description" original="The record is active in the system">The record is active in the system</value>
+  <value column="Help" original="There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.&#10;There are two reasons for de-activating and not deleting records:&#10;(1) The system requires the record for audit purposes.&#10;(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.">There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+There are two reasons for de-activating and not deleting records:
+(1) The system requires the record for audit purposes.
+(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50901" trl="N">
+  <value column="Name" original="Warehouse">Warehouse</value>
+  <value column="Description" original="Storage Warehouse and Service Point">Storage Warehouse and Service Point</value>
+  <value column="Help" original="The Warehouse identifies a unique Warehouse where products are stored or Services are provided.">The Warehouse identifies a unique Warehouse where products are stored or Services are provided.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50902" trl="N">
+  <value column="Name" original="Forecast Definition Line">Forecast Definition Line</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50903" trl="N">
+  <value column="Name" original="Forecast Run Master">Forecast Run Master</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50904" trl="N">
+  <value column="Name" original="Forecast Run">Forecast Run</value>
+  <value column="Description" original="Create the forecast simulation based on the forecast definition">Create the forecast simulation based on the forecast definition</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50905" trl="N">
+  <value column="Name" original="Updated">Updated</value>
+  <value column="Description" original="Date this record was updated">Date this record was updated</value>
+  <value column="Help" original="The Updated field indicates the date that this record was updated.">The Updated field indicates the date that this record was updated.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50906" trl="N">
+  <value column="Name" original="Updated By">Updated By</value>
+  <value column="Description" original="User who updated this records">User who updated this records</value>
+  <value column="Help" original="The Updated By field indicates the user who updated this record.">The Updated By field indicates the user who updated this record.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50907" trl="N">
+  <value column="Name" original="Client">Client</value>
+  <value column="Description" original="Client/Tenant for this installation.">Client/Tenant for this installation.</value>
+  <value column="Help" original="A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50908" trl="N">
+  <value column="Name" original="Active">Active</value>
+  <value column="Description" original="The record is active in the system">The record is active in the system</value>
+  <value column="Help" original="There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.&#10;There are two reasons for de-activating and not deleting records:&#10;(1) The system requires the record for audit purposes.&#10;(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.">There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+There are two reasons for de-activating and not deleting records:
+(1) The system requires the record for audit purposes.
+(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50909" trl="N">
+  <value column="Name" original="Client">Client</value>
+  <value column="Description" original="Client/Tenant for this installation.">Client/Tenant for this installation.</value>
+  <value column="Help" original="A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50910" trl="N">
+  <value column="Name" original="Forecast Run Result">Forecast Run Result</value>
+  <value column="Description" original="Containts  the forecast calculation results.">Containts  the forecast calculation results.</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50911" trl="N">
+  <value column="Name" original="Forecast Run">Forecast Run</value>
+  <value column="Description" original="Create the forecast simulation based on the forecast definition">Create the forecast simulation based on the forecast definition</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50912" trl="N">
+  <value column="Name" original="Abnormal Quantity">Abnormal Quantity</value>
+  <value column="Description" original="Abnormal Demand Quantity">Abnormal Demand Quantity</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50913" trl="N">
+  <value column="Name" original="Calculated Quantity">Calculated Quantity</value>
+  <value column="Description" original="Calculated Quantity">Calculated Quantity</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50915" trl="N">
+  <value column="Name" original="Past Period">Operational Period</value>
+  <value column="Description" original="Forecast Definition Periods.">Forecast Definition Periods.</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50922" trl="N">
+  <value column="Name" original="Forecast Definition">Forecast Definition</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50923" trl="N">
+  <value column="Name" original="Forecast Run">Forecast Run</value>
+  <value column="Description" original="Create the forecast simulation based on the forecast definition">Create the forecast simulation based on the forecast definition</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50924" trl="N">
+  <value column="Name" original="Calculated Quantity">Calculated Quantity</value>
+  <value column="Description" original="Calculated Quantity">Calculated Quantity</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50925" trl="N">
+  <value column="Name" original="Client">Client</value>
+  <value column="Description" original="Client/Tenant for this installation.">Client/Tenant for this installation.</value>
+  <value column="Help" original="A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50926" trl="N">
+  <value column="Name" original="Organization">Organization</value>
+  <value column="Description" original="Organizational entity within client">Organizational entity within client</value>
+  <value column="Help" original="An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.">An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50927" trl="N">
+  <value column="Name" original="Created">Created</value>
+  <value column="Description" original="Date this record was created">Date this record was created</value>
+  <value column="Help" original="The Created field indicates the date that this record was created.">The Created field indicates the date that this record was created.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50928" trl="N">
+  <value column="Name" original="Created By">Created By</value>
+  <value column="Description" original="User who created this records">User who created this records</value>
+  <value column="Help" original="The Created By field indicates the user who created this record.">The Created By field indicates the user who created this record.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50929" trl="N">
+  <value column="Name" original="Active">Active</value>
+  <value column="Description" original="The record is active in the system">The record is active in the system</value>
+  <value column="Help" original="There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.&#10;There are two reasons for de-activating and not deleting records:&#10;(1) The system requires the record for audit purposes.&#10;(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.">There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+There are two reasons for de-activating and not deleting records:
+(1) The system requires the record for audit purposes.
+(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50936" trl="N">
+  <value column="Name" original="Forecast Run Master">Forecast Run Master</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50937" trl="N">
+  <value column="Name" original="Quantity Plan">Quantity Plan</value>
+  <value column="Description" original="Planned Quantity">Planned Quantity</value>
+  <value column="Help" original="Planned Quantity">Planned Quantity</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50938" trl="N">
+  <value column="Name" original="Updated">Updated</value>
+  <value column="Description" original="Date this record was updated">Date this record was updated</value>
+  <value column="Help" original="The Updated field indicates the date that this record was updated.">The Updated field indicates the date that this record was updated.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50939" trl="N">
+  <value column="Name" original="Updated By">Updated By</value>
+  <value column="Description" original="User who updated this records">User who updated this records</value>
+  <value column="Help" original="The Updated By field indicates the user who updated this record.">The Updated By field indicates the user who updated this record.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50940" trl="N">
+  <value column="Name" original="Active">Active</value>
+  <value column="Description" original="The record is active in the system">The record is active in the system</value>
+  <value column="Help" original="There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.&#10;There are two reasons for de-activating and not deleting records:&#10;(1) The system requires the record for audit purposes.&#10;(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.">There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+There are two reasons for de-activating and not deleting records:
+(1) The system requires the record for audit purposes.
+(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50941" trl="N">
+  <value column="Name" original="Updated">Updated</value>
+  <value column="Description" original="Date this record was updated">Date this record was updated</value>
+  <value column="Help" original="The Updated field indicates the date that this record was updated.">The Updated field indicates the date that this record was updated.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50942" trl="N">
+  <value column="Name" original="Period No">Period No</value>
+  <value column="Description" original="Unique Period Number">Unique Period Number</value>
+  <value column="Help" original="The Period No identifies a specific period for this year. Each period is defined by a start and end date.  Date ranges for a calendar and year cannot overlap.">The Period No identifies a specific period for this year. Each period is defined by a start and end date.  Date ranges for a calendar and year cannot overlap.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50943" trl="N">
+  <value column="Name" original="Forecast Run Master">Forecast Run Master</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="51653" trl="N">
+  <value column="Name" original="Company Agent">Company Agent</value>
+  <value column="Description" original="Company Agent">Company Agent</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="51964" trl="N">
+  <value column="Name" original="Start Schedule">Start Schedule</value>
+  <value column="Description" original="Scheduled start date for this Order">Scheduled start date for this Order</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="51965" trl="N">
+  <value column="Name" original="Finish Schedule">Finish Schedule</value>
+  <value column="Description" original="Scheduled Finish date for this Order">Scheduled Finish date for this Order</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="51988" trl="N">
+  <value column="Name" original="Work Center">Work Center</value>
+  <value column="Description" original="Work Center">Work Center</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="51992" trl="N">
+  <value column="Name" original="Milestone">Milestone</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="51993" trl="N">
+  <value column="Name" original="S. T. Real">S. T. Real</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="51996" trl="N">
+  <value column="Name" original="S. T. Req.">S. T. Req.</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="52159" trl="N">
+  <value column="Name" original="Status">Status</value>
+  <value column="Description" original="The current status of the document">The current status of the document</value>
+  <value column="Help" original="The Document Status indicates the status of a document at this time.  If you want to change the document status, use the Document Action field">The Document Status indicates the status of a document at this time.  If you want to change the document status, use the Document Action field</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="52160" trl="N">
+  <value column="Name" original="Duration Req.">Duration Req.</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="52161" trl="N">
+  <value column="Name" original="Activity Value">Activity Value</value>
+  <value column="Description" original="Search key for the record in the format required - must be unique">Search key for the record in the format required - must be unique</value>
+  <value column="Help" original="A search key allows you a fast method of finding a particular record.&#10;If you leave the search key empty, the system automatically creates a numeric number.  The document sequence used for this fallback number is defined in the &quot;Maintain Sequence&quot; window with the name &quot;DocumentNo_&lt;TableName&gt;&quot;, where TableName is the actual name of the table (e.g. C_Order)."><![CDATA[A search key allows you a fast method of finding a particular record.
+If you leave the search key empty, the system automatically creates a numeric number.  The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_<TableName>", where TableName is the actual name of the table (e.g. C_Order).]]></value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="52367" trl="N">
+  <value column="Name" original="Subcontracting">Subcontracting</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="52892" trl="N">
+  <value column="Name" original="Work Center">Work Center</value>
+  <value column="Description" original="Work Center">Work Center</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53245" trl="N">
+  <value column="Name" original="Work Center Key">Work Center Key</value>
+  <value column="Description" original="Search key for the record in the format required - must be unique">Search key for the record in the format required - must be unique</value>
+  <value column="Help" original="A search key allows you a fast method of finding a particular record.&#10;If you leave the search key empty, the system automatically creates a numeric number.  The document sequence used for this fallback number is defined in the &quot;Maintain Sequence&quot; window with the name &quot;DocumentNo_&lt;TableName&gt;&quot;, where TableName is the actual name of the table (e.g. C_Order)."><![CDATA[A search key allows you a fast method of finding a particular record.
+If you leave the search key empty, the system automatically creates a numeric number.  The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_<TableName>", where TableName is the actual name of the table (e.g. C_Order).]]></value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53477" trl="N">
+  <value column="Name" original="User/Contact">User/Contact</value>
+  <value column="Description" original="User within the system - Internal or Business Partner Contact">User within the system - Internal or Business Partner Contact</value>
+  <value column="Help" original="The User identifies a unique user in the system. This could be an internal user or a business partner contact">The User identifies a unique user in the system. This could be an internal user or a business partner contact</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="53488" trl="N">
+  <value column="Name" original="Supervisor">Supervisor</value>
+  <value column="Description" original="Supervisor for this user/organization - used for escalation and approval">Supervisor for this user/organization - used for escalation and approval</value>
+  <value column="Help" original="The Supervisor indicates who will be used for forwarding and escalating issues for this user - or for approvals.">The Supervisor indicates who will be used for forwarding and escalating issues for this user - or for approvals.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54103" trl="N">
+  <value column="Name" original="Employee Name">Nome</value>
+  <value column="Description" original="Alphanumeric identifier of the entity">Identificativo alfanumerico dell'entità</value>
+  <value column="Help" original="The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.">Il Nome della entità (record) è utilizzato come una opzione di ricerca di default in addizione alla chiave di ricerca.  Il nome è fino a 60 caratteri di lunghezza.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="54198" trl="N">
+  <value column="Name" original="Payroll Name">Nome</value>
+  <value column="Description" original="Alphanumeric identifier of the entity">Identificativo alfanumerico dell'entità</value>
+  <value column="Help" original="The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.">Il Nome della entità (record) è utilizzato come una opzione di ricerca di default in addizione alla chiave di ricerca.  Il nome è fino a 60 caratteri di lunghezza.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="55468" trl="N">
+  <value column="Name" original="Pay Amt">Pay Amt</value>
+  <value column="Description" original="Amount being paid">Amount being paid</value>
+  <value column="Help" original="Indicates the amount this payment is for.  The payment amount can be for single or multiple invoices or a partial payment for an invoice.">Indicates the amount this payment is for.  The payment amount can be for single or multiple invoices or a partial payment for an invoice.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="55579" trl="N">
+  <value column="Name" original="Tender Type">Tender Type</value>
+  <value column="Description" original="Tender Type">Tender Type</value>
+  <value column="Help" original="The Reference List field indicates a list of reference values from a database tables.  Reference lists populate drop down list boxes in data entry screens">The Reference List field indicates a list of reference values from a database tables.  Reference lists populate drop down list boxes in data entry screens</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="55770" trl="N">
+  <value column="Name" original="Company Agent">Company Agent</value>
+  <value column="Description" original="Company Agent">Company Agent</value>
+  <value column="Help" original="The Sales Representative indicates the Sales Rep for this Region.  Any Sales Rep must be a valid internal user.">The Sales Representative indicates the Sales Rep for this Region.  Any Sales Rep must be a valid internal user.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="55923" trl="N">
+  <value column="Name" original="Payment Number">Payment Number</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="55977" trl="N">
+  <value column="Name" original="Payment Number">Payment Number</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="56124" trl="N">
+  <value column="Name" original="Category Name">Category Name</value>
+  <value column="Description" original="Alphanumeric identifier of the entity">Alphanumeric identifier of the entity</value>
+  <value column="Help" original="The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.">The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000043" trl="N">
+  <value column="Name" original="Date Invoiced">Data fatturazione</value>
+  <value column="Description" original="Date printed on Invoice">Data fatturazione</value>
+  <value column="Help" original="The Date Invoice indicates the date printed on the invoice.">Data fatturazione</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000052" trl="N">
+  <value column="Name" original="Due Date">Data dovuto</value>
+  <value column="Description" original="Date when the payment is due">Data dovuto</value>
+  <value column="Help" original="Date when the payment is due without deductions or discount">Data dovuto</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000067" trl="N">
+  <value column="Name" original="Sales Transaction">Mostra clienti</value>
+  <value column="Description" original="This is a Sales Transaction">Mostra clienti</value>
+  <value column="Help" original="The Sales Transaction checkbox indicates if this item is a Sales Transaction.">The Sales Transaction checkbox indicates if this item is a Sales Transaction.</value>
+  <value column="UUID" original=""/>
+ </row>
+</adempiereTrl>

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_HR_Movement
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_I_HR_Movement 
 {
@@ -231,19 +231,6 @@ public interface I_I_HR_Movement
 	  */
 	public boolean isActive();
 
-    /** Column name ProcessName */
-    public static final String COLUMNNAME_ProcessName = "ProcessName";
-
-	/** Set Process Name.
-	  * Name of the Process
-	  */
-	public void setProcessName (String ProcessName);
-
-	/** Get Process Name.
-	  * Name of the Process
-	  */
-	public String getProcessName();
-
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 
@@ -265,6 +252,19 @@ public interface I_I_HR_Movement
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
+
+    /** Column name ProcessName */
+    public static final String COLUMNNAME_ProcessName = "ProcessName";
+
+	/** Set Process Name.
+	  * Name of the Process
+	  */
+	public void setProcessName (String ProcessName);
+
+	/** Get Process Name.
+	  * Name of the Process
+	  */
+	public String getProcessName();
 
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";
@@ -318,19 +318,6 @@ public interface I_I_HR_Movement
 	  */
 	public String getTextMsg();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -346,6 +333,19 @@ public interface I_I_HR_Movement
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";

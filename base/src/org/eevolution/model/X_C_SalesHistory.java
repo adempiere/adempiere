@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_SalesHistory
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_C_SalesHistory (Properties ctx, int C_SalesHistory_ID, String trxName)
@@ -104,34 +104,6 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_BP_Group)MTable.get(getCtx(), org.compiere.model.I_C_BP_Group.Table_Name)
-			.getPO(getC_BP_Group_ID(), get_TrxName());	}
-
-	/** Set Business Partner Group.
-		@param C_BP_Group_ID 
-		Business Partner Group
-	  */
-	public void setC_BP_Group_ID (int C_BP_Group_ID)
-	{
-		if (C_BP_Group_ID < 1) 
-			set_Value (COLUMNNAME_C_BP_Group_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
-	}
-
-	/** Get Business Partner Group.
-		@return Business Partner Group
-	  */
-	public int getC_BP_Group_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
 		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
@@ -196,6 +168,34 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BP_Group)MTable.get(getCtx(), org.compiere.model.I_C_BP_Group.Table_Name)
+			.getPO(getC_BP_Group_ID(), get_TrxName());	}
+
+	/** Set Business Partner Group.
+		@param C_BP_Group_ID 
+		Business Partner Group
+	  */
+	public void setC_BP_Group_ID (int C_BP_Group_ID)
+	{
+		if (C_BP_Group_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_Group_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_Group_ID, Integer.valueOf(C_BP_Group_ID));
+	}
+
+	/** Get Business Partner Group.
+		@return Business Partner Group
+	  */
+	public int getC_BP_Group_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Campaign)MTable.get(getCtx(), org.compiere.model.I_C_Campaign.Table_Name)
@@ -247,6 +247,54 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 	public int getC_InvoiceLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_InvoiceLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Cost Value.
+		@param CostAmt 
+		Value with Cost
+	  */
+	public void setCostAmt (BigDecimal CostAmt)
+	{
+		set_Value (COLUMNNAME_CostAmt, CostAmt);
+	}
+
+	/** Get Cost Value.
+		@return Value with Cost
+	  */
+	public BigDecimal getCostAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID)
+	{
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
+	}
+
+	/** Get Project.
+		@return Financial Project
+	  */
+	public int getC_Project_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -308,34 +356,6 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
-			.getPO(getC_Project_ID(), get_TrxName());	}
-
-	/** Set Project.
-		@param C_Project_ID 
-		Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID)
-	{
-		if (C_Project_ID < 1) 
-			set_Value (COLUMNNAME_C_Project_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
-	}
-
-	/** Get Project.
-		@return Financial Project
-	  */
-	public int getC_Project_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Sales History.
 		@param C_SalesHistory_ID 
 		Sales History for statistics and forecast
@@ -387,24 +407,60 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Cost Value.
-		@param CostAmt 
-		Value with Cost
+	public org.compiere.model.I_C_Tax getC_Tax() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Tax)MTable.get(getCtx(), org.compiere.model.I_C_Tax.Table_Name)
+			.getPO(getC_Tax_ID(), get_TrxName());	}
+
+	/** Set Tax.
+		@param C_Tax_ID 
+		Tax identifier
 	  */
-	public void setCostAmt (BigDecimal CostAmt)
+	public void setC_Tax_ID (int C_Tax_ID)
 	{
-		set_Value (COLUMNNAME_CostAmt, CostAmt);
+		if (C_Tax_ID < 1) 
+			set_Value (COLUMNNAME_C_Tax_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Tax_ID, Integer.valueOf(C_Tax_ID));
 	}
 
-	/** Get Cost Value.
-		@return Value with Cost
+	/** Get Tax.
+		@return Tax identifier
 	  */
-	public BigDecimal getCostAmt () 
+	public int getC_Tax_ID () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CostAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Tax_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_UOM)MTable.get(getCtx(), org.compiere.model.I_C_UOM.Table_Name)
+			.getPO(getC_UOM_ID(), get_TrxName());	}
+
+	/** Set UOM.
+		@param C_UOM_ID 
+		Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID)
+	{
+		if (C_UOM_ID < 1) 
+			set_Value (COLUMNNAME_C_UOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_UOM_ID, Integer.valueOf(C_UOM_ID));
+	}
+
+	/** Get UOM.
+		@return Unit of Measure
+	  */
+	public int getC_UOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Date Invoiced.
@@ -424,6 +480,23 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 		return (Timestamp)get_Value(COLUMNNAME_DateInvoiced);
 	}
 
+	/** Set Description.
+		@param Description 
+		Optional short description of the record
+	  */
+	public void setDescription (String Description)
+	{
+		set_Value (COLUMNNAME_Description, Description);
+	}
+
+	/** Get Description.
+		@return Optional short description of the record
+	  */
+	public String getDescription () 
+	{
+		return (String)get_Value(COLUMNNAME_Description);
+	}
+
 	/** Set Document No.
 		@param DocumentNo 
 		Document sequence number of the document
@@ -439,6 +512,74 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 	public String getDocumentNo () 
 	{
 		return (String)get_Value(COLUMNNAME_DocumentNo);
+	}
+
+	/** Set Line Amount.
+		@param LineNetAmt 
+		Line Extended Amount (Quantity * Actual Price) without Freight and Charges
+	  */
+	public void setLineNetAmt (BigDecimal LineNetAmt)
+	{
+		set_Value (COLUMNNAME_LineNetAmt, LineNetAmt);
+	}
+
+	/** Get Line Amount.
+		@return Line Extended Amount (Quantity * Actual Price) without Freight and Charges
+	  */
+	public BigDecimal getLineNetAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_LineNetAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Line Total.
+		@param LineTotalAmt 
+		Total line amount incl. Tax
+	  */
+	public void setLineTotalAmt (BigDecimal LineTotalAmt)
+	{
+		set_Value (COLUMNNAME_LineTotalAmt, LineTotalAmt);
+	}
+
+	/** Get Line Total.
+		@return Total line amount incl. Tax
+	  */
+	public BigDecimal getLineTotalAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_LineTotalAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException
+    {
+		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
+			.getPO(getM_AttributeSetInstance_ID(), get_TrxName());	}
+
+	/** Set Attribute Set Instance.
+		@param M_AttributeSetInstance_ID 
+		Product Attribute Set Instance
+	  */
+	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
+	{
+		if (M_AttributeSetInstance_ID < 0) 
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
+	}
+
+	/** Get Attribute Set Instance.
+		@return Product Attribute Set Instance
+	  */
+	public int getM_AttributeSetInstance_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetInstance_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException
@@ -609,6 +750,46 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 		return ii.intValue();
 	}
 
+	/** Set Unit Price.
+		@param PriceActual 
+		Actual Price 
+	  */
+	public void setPriceActual (BigDecimal PriceActual)
+	{
+		set_Value (COLUMNNAME_PriceActual, PriceActual);
+	}
+
+	/** Get Unit Price.
+		@return Actual Price 
+	  */
+	public BigDecimal getPriceActual () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PriceActual);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Price.
+		@param PriceEntered 
+		Price Entered - the price based on the selected/base UoM
+	  */
+	public void setPriceEntered (BigDecimal PriceEntered)
+	{
+		set_Value (COLUMNNAME_PriceEntered, PriceEntered);
+	}
+
+	/** Get Price.
+		@return Price Entered - the price based on the selected/base UoM
+	  */
+	public BigDecimal getPriceEntered () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PriceEntered);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Price Invoiced.
 		@param PriceInvoiced 
 		The priced invoiced to the customer (in the currency of the customer's AR price list) - 0 for default price
@@ -624,6 +805,46 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 	public BigDecimal getPriceInvoiced () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PriceInvoiced);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Limit Price.
+		@param PriceLimit 
+		Lowest price for a product
+	  */
+	public void setPriceLimit (BigDecimal PriceLimit)
+	{
+		set_Value (COLUMNNAME_PriceLimit, PriceLimit);
+	}
+
+	/** Get Limit Price.
+		@return Lowest price for a product
+	  */
+	public BigDecimal getPriceLimit () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PriceLimit);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set List Price.
+		@param PriceList 
+		List Price
+	  */
+	public void setPriceList (BigDecimal PriceList)
+	{
+		set_Value (COLUMNNAME_PriceList, PriceList);
+	}
+
+	/** Get List Price.
+		@return List Price
+	  */
+	public BigDecimal getPriceList () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PriceList);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -673,6 +894,26 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 		return bd;
 	}
 
+	/** Set Quantity.
+		@param QtyEntered 
+		The Quantity Entered is based on the selected UoM
+	  */
+	public void setQtyEntered (BigDecimal QtyEntered)
+	{
+		set_Value (COLUMNNAME_QtyEntered, QtyEntered);
+	}
+
+	/** Get Quantity.
+		@return The Quantity Entered is based on the selected UoM
+	  */
+	public BigDecimal getQtyEntered () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_QtyEntered);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
@@ -699,6 +940,26 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Tax Amount.
+		@param TaxAmt 
+		Tax Amount for a document
+	  */
+	public void setTaxAmt (BigDecimal TaxAmt)
+	{
+		set_Value (COLUMNNAME_TaxAmt, TaxAmt);
+	}
+
+	/** Get Tax Amount.
+		@return Tax Amount for a document
+	  */
+	public BigDecimal getTaxAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_TaxAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Total Invoice Amount.
@@ -759,23 +1020,6 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
@@ -888,5 +1132,22 @@ public class X_C_SalesHistory extends PO implements I_C_SalesHistory, I_Persiste
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

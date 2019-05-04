@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Compiere(r) Release 2.5.3b_2006-01-20 - Smart ERP & CRM - (c) 1999-2006 Compiere (r); Implementation: Custom 20060303-1231 - Unsupported-->
-<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
-<compiereTrl language="it_IT" table="AD_Workflow">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ADempiere(r) Release 3.9.0_2017-08-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2017 ADempiere(r); Implementation: ${ADEMPIERE_VERSION} 20190319-0953 - ${ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">--><adempiereTrl language="it_IT" table="AD_Workflow">
  <row id="101" trl="Y">
   <value column="Name" original="Project Setup and Use">Configurazione progetto</value>
   <value column="Description" original="Setup of projects and project reporting">Configurazione dei progetti e rendiconto dei progetti</value>
   <value column="Help" original="Projects allow to monitor the status and progress of sales opportunities, service projects and investment projects. A Project is a process that is undertaken which can involve multiple steps or phases and require resources from more than one area.">I Progetti permettono di controllare lo stato e i progressi delle opportunità di vendita, dei progetti di servizio e di investimento. Un Progetto è un processo intrapreso che può coinvolgere diverse azioni o fasi e richiede risorse da più di un' area.</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="103" trl="Y">
   <value column="Name" original="Language Setup">Configurazione lingua</value>
   <value column="Description" original="Setup a new Language of the system and translate elements">Configura un nuovo lingua e traduce gli elementi.</value>
   <value column="Help" original="Define a new language as a system language.">Definisce un nuovo linguaggio come linguaggio di sistema.</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="104" trl="Y">
   <value column="Name" original="Initial Client Setup Review">Rivisione configurazione iniziale del client</value>
   <value column="Description" original="Review of system level setup of a new  Client">Rivisione configurazione iniziale del client</value>
-  <value column="Help" original="This workflow reviews the system setup of a new client as performed by the automatic Initial Client Setup.&#10;You may want to check also the following Workflows:&#10;- Accounting Setup&#10;- Business Partner Setup&#10;- Product Setup&#10;- Price list Setup&#10;- Warehouse Setup&#10;- Tax Setup&#10;">Questo workflow revisiona il sistema di configurazione di un Nuovo Cliente come effettuato dalla configurazione automatica Iniziale del Cliente.
+  <value column="Help" original="This workflow reviews the system setup of a new client as performed by the automatic Initial Client Setup.&#10;You may want to check also the following Workflows:&#10;- Accounting Setup&#10;- Business Partner Setup&#10;- Product Setup&#10;- Price list Setup&#10;- Warehouse Setup&#10;- Tax Setup">Questo workflow revisiona il sistema di configurazione di un Nuovo Cliente come effettuato dalla configurazione automatica Iniziale del Cliente.
 Potresti voler controllare anche i seguenti Workflows:
 - Configurazione Contabilità
 - Configurazione Business Partner 
@@ -23,41 +23,49 @@ Potresti voler controllare anche i seguenti Workflows:
 - Configurazione Magazzino
 - Configurazione Tasse
 </value>
+  <value column="UUID" original=""/>
  </row>
  <row id="105" trl="Y">
   <value column="Name" original="Accounting Setup">Configurazione Contabilità</value>
   <value column="Description" original="Review and change Accounting Setup">Revisiona e cambia l'inserimento contabilità</value>
   <value column="Help" original="This workflow allows you to review and change your Accounting Rules. ">Questo workflow ti permette di rivedere e cambiare le Regole di Contabilità. </value>
+  <value column="UUID" original=""/>
  </row>
  <row id="106" trl="Y">
   <value column="Name" original="Business Partner Setup">Configurazione business partner</value>
   <value column="Description" original="Setup Business Partner Rules">Inserimento Regole del Business Partner </value>
   <value column="Help" original="This workflow defines the Business Partners and the supporting rules.">Questo workflow definisce il Business Partners e le regole di appoggio.</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="107" trl="Y">
   <value column="Name" original="Product Setup">Configurazione prodotti</value>
   <value column="Description" original="Set up Products">Inserimento Prodotti</value>
   <value column="Help" original="Define your products manually. You should verify the settings especially if you import your products.">Definisce i prodotti manualmente. Dovresti verificare l'inserimento dei prodotti specialmente in caso di importazione.</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="108" trl="Y">
   <value column="Name" original="Price List Setup">Configurazione listini</value>
   <value column="Description" original="Define your Price Lists and Discounts">Definizione dei Listini Prezzi e degli Sconti</value>
   <value column="Help" original="You define your price lists after entering or importing your products. In addition to price lists, you can define discounts for business partners.  Assign specific Price Lists and Discounst to Business Partners.">Definisci il Listino Prezzi dopo aver inserito o importato i prodotti.</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="109" trl="Y">
   <value column="Name" original="Replication Setup">Setup Replicazione</value>
   <value column="Description" original="Setup of data replication">Impostazione Replicazione</value>
-  <value column="Help" original="Data Replication allows you to synchronize data of remote instances with a central office.  All actions are initialized from the central office.&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;&#10;- setup system with all organizations, roles, etc.&lt;br&gt;&#10;- run the migration to make sure that it is up-to-date&lt;br&gt;&#10;- export the central system&#10;&lt;p&gt;&#10;&lt;b&gt;Remote System:&lt;/b&gt;&#10;- install the exact version as Central System&lt;br&gt;&#10;- import data from Central System in the remote locations&#10;&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&#10;- Define Replication per Remote&lt;br&gt;&#10;- Make sure that the ID range is unique per remote - otherwise you will loose transactions!&lt;br&gt;&#10;- Initially Start the Replication Run to setup Remote&#10;&lt;p&gt;&#10;** Enter Transactions **&#10;&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;&#10;- Start the Replication Run when required&#10;"/>
+  <value column="Help" original="Data Replication allows you to synchronize data of remote instances with a central office.  All actions are initialized from the central office.&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;&#10;- setup system with all organizations, roles, etc.&lt;br&gt;&#10;- run the migration to make sure that it is up-to-date&lt;br&gt;&#10;- export the central system&#10;&lt;p&gt;&#10;&lt;b&gt;Remote System:&lt;/b&gt;&#10;- install the exact version as Central System&lt;br&gt;&#10;- import data from Central System in the remote locations&#10;&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&#10;- Define Replication per Remote&lt;br&gt;&#10;- Make sure that the ID range is unique per remote - otherwise you will loose transactions!&lt;br&gt;&#10;- Initially Start the Replication Run to setup Remote&#10;&lt;p&gt;&#10;** Enter Transactions **&#10;&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;&#10;- Start the Replication Run when required"/>
+  <value column="UUID" original=""/>
  </row>
  <row id="110" trl="Y">
   <value column="Name" original="Tax Setup">Configurazione imposte</value>
   <value column="Description" original="Setup tax calculation">Configurazione calcolo delle imposte</value>
   <value column="Help" original="Setup the tax calculation for products, services and charges">Configura delle imposte per i prodotti, i servizi e le spese.</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="111" trl="Y">
   <value column="Name" original="Sales Setup">Configurazione vendite</value>
   <value column="Description" original="Setup Sales">Configurazione vendite</value>
   <value column="Help" original="Setting up Sales Representatives, Commissions as well as Marketing Channels and Campaigns.">Configura i rappresentanti di Vendita, le Provvigioni, i Canali e le Campagne di Marketing.</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="112" trl="Y">
   <value column="Name" original="Performance Measurement Setup">Configurazione indicatori di perfomance</value>
@@ -75,100 +83,344 @@ Hai tre modi per misurare le performance:
 - attraverso risultati (compiti)
 
 Il sistema converte le misure in percentuali (basate sulle misure e gli obiettivi raggiunti - o sul numero dei risultati totali raggiunti)</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="113" trl="Y">
   <value column="Name" original="Request Setup">Cofigurazione richieste</value>
   <value column="Description" original="Set up the client to process requests">Configurazione richieste del cliente</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="114" trl="Y">
   <value column="Name" original="Requisition Setup">Requisition Setup</value>
   <value column="Description" original=""/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="115" trl="Y">
   <value column="Name" original="Process_Requisition">Process Requisition</value>
   <value column="Description" original="(Standard Process_Requisition)"/>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="116" trl="Y">
+ <row id="116" trl="N">
   <value column="Name" original="Process_Order">Process_Order</value>
   <value column="Description" original="(Standard Process Order)">(Standard Process Order)</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="117" trl="Y">
   <value column="Name" original="Process_Shipment">Process_Shipment</value>
   <value column="Description" original="(Standard Process Shipment)">(Standard Process Shipment)</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="118" trl="Y">
   <value column="Name" original="Process_Invoice">Process_Invoice</value>
   <value column="Description" original="(Standard Process Onvoice)">(Standard Process Onvoice)</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="119" trl="Y">
   <value column="Name" original="Process_Cash">Process_Cash</value>
   <value column="Description" original="(Standard Process Cash)">(Standard Process Cash)</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="120" trl="Y">
   <value column="Name" original="Process_Payment">Process_Payment</value>
   <value column="Description" original="(Standard Process Payment)">(Standard Process Payment)</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="121" trl="Y">
   <value column="Name" original="Process_Journal">Process_Jouranl</value>
   <value column="Description" original="(Standard Process Journal)">(Standard Process Journal)</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="122" trl="Y">
   <value column="Name" original="Process_JournalBatch">Process_JournalBatch</value>
   <value column="Description" original="(Standard Process Jornal Batch)">(Standard Process Jornal Batch)</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="123" trl="Y">
   <value column="Name" original="Process_RMA">Process RMA</value>
   <value column="Description" original="(Standard Process_RMA)">(Standard Process_RMA)</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="124" trl="Y">
   <value column="Name" original="Process_InOutConfirm">Process_InOutConfirm</value>
   <value column="Description" original="(Standard Process Confirmation)">(Standard Process Confirmation)</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="125" trl="Y">
   <value column="Name" original="Process_Allocation">Process_Allocation</value>
   <value column="Description" original="(Standard Process Allocation)">(Standard Process Allocation)</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="126" trl="Y">
   <value column="Name" original="Process_TimeExpense">Process_TimeExpense</value>
   <value column="Description" original="(Standard Process Time Expense)">(Standard Process Time Expense)</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="127" trl="Y">
   <value column="Name" original="Process_Inventory">Process_Inventory</value>
   <value column="Description" original="(Standard Process Inventory)">(Standard Process Inventory)</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="128" trl="Y">
   <value column="Name" original="Process_Movement">Process_Movement</value>
   <value column="Description" original="(Standard Process Movement)">(Standard Process Movement)</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="129" trl="Y">
   <value column="Name" original="Process_MovementConfirm">Process_MovementConfirm</value>
   <value column="Description" original="(Standard Process Movement Confirmation)">(Standard Process Movement Confirmation)</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
  <row id="130" trl="Y">
   <value column="Name" original="Process_BankStatement">Process_BankStatement</value>
   <value column="Description" original="(Standard Process Bank Statement)">(Standard Process Bank Statement)</value>
   <value column="Help" original=""/>
+  <value column="UUID" original=""/>
  </row>
- <row id="131" trl="N">
-  <value column="Name" original="Business Partner Approval">Business Partner Approval</value>
-  <value column="Description" original="Example Document based workflow">Example Document based workflow</value>
-  <value column="Help" original="When a new Business Partner is created, it is forwarded for review and credit check.">When a new Business Partner is created, it is forwarded for review and credit check.</value>
+ <row id="50000" trl="N">
+  <value column="Name" original="Manufacturing Management Setup">Manufacturing Management Setup</value>
+  <value column="Description" original="Setup Manufacturing Management">Setup Manufacturing Management</value>
+  <value column="Help" original="This workflow defines the Manufacturing Management and the supporting rules.">This workflow defines the Manufacturing Management and the supporting rules.</value>
+  <value column="UUID" original=""/>
  </row>
-</compiereTrl>
+ <row id="50001" trl="N">
+  <value column="Name" original="Manufacturing Workflow Setup">Manufacturing Workflow Setup</value>
+  <value column="Description" original="Setup Manufacturing Workflow">Setup Manufacturing Workflow</value>
+  <value column="Help" original="This workflow defines the Manufacturing Workflow  Setup">This workflow defines the Manufacturing Workflow  Setup</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50002" trl="N">
+  <value column="Name" original="Bill of Material &amp; Formula Setup"><![CDATA[Bill of Material & Formula Setup]]></value>
+  <value column="Description" original="Setup Bill of Material &amp; Formula"><![CDATA[Setup Bill of Material & Formula]]></value>
+  <value column="Help" original="This workflow defines the Bill of Material &amp; Formula"><![CDATA[This workflow defines the Bill of Material & Formula]]></value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50003" trl="N">
+  <value column="Name" original="Planning Management Setup">Planning Management Setup</value>
+  <value column="Description" original="Setup Planning Management">Setup Planning Management</value>
+  <value column="Help" original="Before the production processes can be done, it is necessary to plan the activities which must be accomplished to assure the products can be gotten at the right time in order not to remain a long time in the warehouse, or at the contrary, to cause delays in shipments because components shortages in the manufacturing order.&#10;&#10;Another subject to take into account are the production cost and the capacity of shipping good quality products.&#10;&#10;Using Planning Management you answer the question: When and How Many products we must get?">Before the production processes can be done, it is necessary to plan the activities which must be accomplished to assure the products can be gotten at the right time in order not to remain a long time in the warehouse, or at the contrary, to cause delays in shipments because components shortages in the manufacturing order.
+
+Another subject to take into account are the production cost and the capacity of shipping good quality products.
+
+Using Planning Management you answer the question: When and How Many products we must get?</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50004" trl="N">
+  <value column="Name" original="Material Requirement Planning Setup">Material Requirement Planning Setup</value>
+  <value column="Description" original="MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.">MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials.</value>
+  <value column="Help" original="MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials. It create planned orders to balance demand ans supply for products and it issues recommendations to receipt material with the right quantities and at the right dates to satisfy the Master Production Schedule in the most efficient way.">MRP is a set of techniques which uses Bills of Material, Inventory Data, and the Master Production Schedule to calculate requirements for materials. It create planned orders to balance demand ans supply for products and it issues recommendations to receipt material with the right quantities and at the right dates to satisfy the Master Production Schedule in the most efficient way.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50005" trl="N">
+  <value column="Name" original="Capacity Requirement Planning Setup">Capacity Requirement Planning Setup</value>
+  <value column="Description" original="The process of Capacity Plan Calculation allows us to know the available time in each manufacturing resource, as well as the required time to satisfy the Master Production Schedule.">The process of Capacity Plan Calculation allows us to know the available time in each manufacturing resource, as well as the required time to satisfy the Master Production Schedule.</value>
+  <value column="Help" original="It is a set of techniques which uses the planned orders by MRP, open manufacturing orders, manufacturing resources and the work-flows to calculate the required time for each resource along with the available time. With this information, we are able to balance the time demand with the available time. Through the knowledge of the required and available capacities it is possible to adjust the Master Production Schedule(MPS) until we arrive at a realistic one.">It is a set of techniques which uses the planned orders by MRP, open manufacturing orders, manufacturing resources and the work-flows to calculate the required time for each resource along with the available time. With this information, we are able to balance the time demand with the available time. Through the knowledge of the required and available capacities it is possible to adjust the Master Production Schedule(MPS) until we arrive at a realistic one.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50006" trl="N">
+  <value column="Name" original="Distribution Resource Planning Setup">Distribution Resource Planning Setup</value>
+  <value column="Description" original="is a method used in business administration for planning orders within a supply chain. DRP enables the user to set certain inventory control parameters (like a safety stock) and calculate the time-phased inventory requirements.">is a method used in business administration for planning orders within a supply chain. DRP enables the user to set certain inventory control parameters (like a safety stock) and calculate the time-phased inventory requirements.</value>
+  <value column="Help" original="is a method used in business administration for planning orders within a supply chain. DRP enables the user to set certain inventory control parameters (like a safety stock) and calculate the time-phased inventory requirements.">is a method used in business administration for planning orders within a supply chain. DRP enables the user to set certain inventory control parameters (like a safety stock) and calculate the time-phased inventory requirements.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50007" trl="N">
+  <value column="Name" original="Discrete Manufacturing Setup">Discrete Manufacturing Setup</value>
+  <value column="Description" original="Once the production planning process is completed, the production control process let us to check the execution activities in order to be sure we can reach the material plan.">Once the production planning process is completed, the production control process let us to check the execution activities in order to be sure we can reach the material plan.</value>
+  <value column="Help" original="Once the production planning process is completed, the production control process let us to check the execution activities in order to be sure we can reach the material plan.&#10;&#10;Each time you need to release an order you need to be sure the components are complete in the warehouse, this is obtained by tracking the release and due dates for every component, this is easy to get using the shortages reports and from this module.&#10;&#10;This module mainly answer the question:&#10;&#10;What do I need to do to accomplish the&#10;MPS?&#10;&#10;If you cannot cover the MPS as you had planned, this module gives you information needed to decrease the effect on the costs and on the customer service.">Once the production planning process is completed, the production control process let us to check the execution activities in order to be sure we can reach the material plan.
+
+Each time you need to release an order you need to be sure the components are complete in the warehouse, this is obtained by tracking the release and due dates for every component, this is easy to get using the shortages reports and from this module.
+
+This module mainly answer the question:
+
+What do I need to do to accomplish the
+MPS?
+
+If you cannot cover the MPS as you had planned, this module gives you information needed to decrease the effect on the costs and on the customer service.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50008" trl="N">
+  <value column="Name" original="Process_Manufacturing_Order">Process_Manufacturing_Order</value>
+  <value column="Description" original="(Standard Process Manufacturing Order)">(Standard Process Manufacturing Order)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50009" trl="N">
+  <value column="Name" original="Process_CostCollector">Process_CostCollector</value>
+  <value column="Description" original="(Standard Process Manufacturing Cost Collector)">(Standard Process Manufacturing Cost Collector)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50010" trl="N">
+  <value column="Name" original="Distribution Management Setup">Distribution Management Setup</value>
+  <value column="Description" original="Setup Distribution Management">Setup Distribution Management</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50011" trl="N">
+  <value column="Name" original="Process_Distribution_Order">Process_Distribution_Order</value>
+  <value column="Description" original="(Standard Process Distribution Order)">(Standard Process Distribution Order)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50012" trl="N">
+  <value column="Name" original="Setup Replication">Setup Replication</value>
+  <value column="Description" original="Setup of data replication">Setup of data replication</value>
+  <value column="Help" original="Data Replication allows you to synchronize data of remote instances with a central office.  All actions are initialized from the central office.&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&lt;br&gt;&#10;- setup system with all organizations, roles, etc.&lt;br&gt;&#10;- run the migration to make sure that it is up-to-date&lt;br&gt;&#10;- export the central system&lt;br&gt;&#10;&lt;p&gt;&#10;&lt;b&gt;Remote System:&lt;/b&gt;&#10;- install the exact version as Central System&lt;br&gt;&#10;- import data from Central System in the remote locations&lt;br&gt;&#10;&lt;p&gt;&#10;&lt;b&gt;Central System:&lt;/b&gt;&#10;- Replication Strategy&lt;br&gt;&#10;- Define Export Format&lt;br&gt;&#10;- Config Export Processor&lt;br&gt;&#10;- Start JMS Server&lt;br&gt;&#10;&lt;p&gt;&#10;** Enter Transactions **&#10;&lt;p&gt;&#10;&lt;b&gt;Remote System:&lt;/b&gt;&lt;br&gt;&#10;- Config Import Processor&lt;br&gt;"><![CDATA[Data Replication allows you to synchronize data of remote instances with a central office.  All actions are initialized from the central office.<p>
+<b>Central System:</b><br>
+- setup system with all organizations, roles, etc.<br>
+- run the migration to make sure that it is up-to-date<br>
+- export the central system<br>
+<p>
+<b>Remote System:</b>
+- install the exact version as Central System<br>
+- import data from Central System in the remote locations<br>
+<p>
+<b>Central System:</b>
+- Replication Strategy<br>
+- Define Export Format<br>
+- Config Export Processor<br>
+- Start JMS Server<br>
+<p>
+** Enter Transactions **
+<p>
+<b>Remote System:</b><br>
+- Config Import Processor<br>]]></value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50013" trl="N">
+  <value column="Name" original="Process_Payroll">Process_Payroll</value>
+  <value column="Description" original="(Standard Process Payroll)">(Standard Process Payroll)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50014" trl="N">
+  <value column="Name" original="Setup Human Resource &amp; Payroll"><![CDATA[Setup Human Resource & Payroll]]></value>
+  <value column="Description" original="Setup Human Resource &amp; Payroll"><![CDATA[Setup Human Resource & Payroll]]></value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50019" trl="N">
+  <value column="Name" original="Process_InOutBound_Order">Process_InOutBound_Order</value>
+  <value column="Description" original="(Standard Process InOutBound Order)">(Standard Process InOutBound Order)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020" trl="N">
+  <value column="Name" original="Process_Asset_Adition">Process_Asset_Adition</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50021" trl="N">
+  <value column="Name" original="Process_Asset_Disposed">Process_Asset_Disposed</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50022" trl="N">
+  <value column="Name" original="Process_Asset_Transfer">Process_Asset_Transfer</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50023" trl="N">
+  <value column="Name" original="Process_Asset_Reval">Process_Asset_Reval</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50024" trl="N">
+  <value column="Name" original="Process Asset Depreciation Entry">Process Asset Depreciation Entry</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50041" trl="N">
+  <value column="Name" original="Job Openings">Job Openings</value>
+  <value column="Description" original="WE Need A Work Flow For Job Openings,  Once the manager completes the posting the request shall go to the HR Manager. ">WE Need A Work Flow For Job Openings,  Once the manager completes the posting the request shall go to the HR Manager. </value>
+  <value column="Help" original="WE Need A Work Flow For Job Openings,  Once the manager completes the posting the request shall go to the HR Manager. ">WE Need A Work Flow For Job Openings,  Once the manager completes the posting the request shall go to the HR Manager. </value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50048" trl="N">
+  <value column="Name" original="Process_Production">Process_Production</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50049" trl="N">
+  <value column="Name" original="Process_ProductionBatch">Process_ProductionBatch</value>
+  <value column="Description" original="(Start Process Production Batch)">(Start Process Production Batch)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50050" trl="N">
+  <value column="Name" original="Process_Payment Selection">Process_Payment Selection</value>
+  <value column="Description" original="(Standard Process_Payment Selection)">(Standard Process_Payment Selection)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50055" trl="N">
+  <value column="Name" original="Process_Commission Run">Process_Commission Run</value>
+  <value column="Description" original="(Standard Process_Commission Run)">(Standard Process_Commission Run)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50057" trl="N">
+  <value column="Name" original="Process_Order Freight">Process_Order Freight</value>
+  <value column="Description" original="(Standard Process_Order Freight)">(Standard Process_Order Freight)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000000" trl="N">
+  <value column="Name" original="OO_Process_Invoice">OO_Process_Invoice</value>
+  <value column="Description" original="(OOContabilita  Process OOInvoice)">(OOContabilita  Process OOInvoice)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000001" trl="N">
+  <value column="Name" original="OO_Process_Payment">OO_Process_Payment</value>
+  <value column="Description" original="(OOContabilita Process Payment)">(OOContabilita Process Payment)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000002" trl="N">
+  <value column="Name" original="OO_Process_BankDraftRemittance">OO_Process_BankDraftRemittance</value>
+  <value column="Description" original="(OOContabilita  Process Bank Draft Remittance)">(OOContabilita  Process Bank Draft Remittance)</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000003" trl="N">
+  <value column="Name" original="COO_Ita_VatPayment">COO_Ita_VatPayment</value>
+  <value column="Description" original="COO_Ita_VatPayment">COO_Ita_VatPayment</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000004" trl="N">
+  <value column="Name" original="COO_Manufacture">COO_Manufacture</value>
+  <value column="Description" original="COO_Manufacture">COO_Manufacture</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000005" trl="N">
+  <value column="Name" original="OO_Process_BankDraft">OO_Process_BankDraft</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+</adempiereTrl>

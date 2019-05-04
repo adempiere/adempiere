@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_ContactActivity
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_ContactActivity 
 {
@@ -90,17 +90,6 @@ public interface I_C_ContactActivity
 	  */
 	public int getC_ContactActivity_ID();
 
-    /** Column name C_Opportunity_ID */
-    public static final String COLUMNNAME_C_Opportunity_ID = "C_Opportunity_ID";
-
-	/** Set Sales Opportunity	  */
-	public void setC_Opportunity_ID (int C_Opportunity_ID);
-
-	/** Get Sales Opportunity	  */
-	public int getC_Opportunity_ID();
-
-	public org.compiere.model.I_C_Opportunity getC_Opportunity() throws RuntimeException;
-
     /** Column name Comments */
     public static final String COLUMNNAME_Comments = "Comments";
 
@@ -126,6 +115,17 @@ public interface I_C_ContactActivity
 	  * Type of activity, e.g. task, email, phone call
 	  */
 	public String getContactActivityType();
+
+    /** Column name C_Opportunity_ID */
+    public static final String COLUMNNAME_C_Opportunity_ID = "C_Opportunity_ID";
+
+	/** Set Sales Opportunity	  */
+	public void setC_Opportunity_ID (int C_Opportunity_ID);
+
+	/** Get Sales Opportunity	  */
+	public int getC_Opportunity_ID();
+
+	public org.compiere.model.I_C_Opportunity getC_Opportunity() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -223,19 +223,6 @@ public interface I_C_ContactActivity
 	  */
 	public Timestamp getStartDate();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -251,4 +238,17 @@ public interface I_C_ContactActivity
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

@@ -121,6 +121,10 @@ import org.zkoss.zul.Hbox;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/589">
  * 		@see FR [ 589 ] The ZK search window don't have standard position buttons</a>
+ *
+ *  @author Raul Capecce, raul.capecce@openupsolutions.com, Openup Solutions http://openupsolutions.com/
+ *      <a href="https://github.com/adempiere/adempiere/issues/2372">
+ *      @see FR [ 2372 ] The field "value_TO" is not seted in storage when the operator isn't BETWEEN
  */
 public class FindWindow extends Window implements EventListener,ValueChangeListener
 {
@@ -1429,7 +1433,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
      * @return a StringBuffer containing the coded query information.
      */
 	private StringBuffer codeUserQuery() {
-		
+
 		m_query = new MQuery(m_tableName);
 		StringBuffer code = new StringBuffer();
 
@@ -1448,7 +1452,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             String infoName = column.toString();
             //
             GridField field = getTargetMField(ColumnName);
-            if(field == null) 
+            if(field == null)
             	continue; // Elaine 2008/07/29
             boolean isProductCategoryField = isProductCategoryField(field.getAD_Column_ID());
             String ColumnSQL = field.getColumnSQL(false);
@@ -1468,7 +1472,7 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 			boolean and = true;
 			if ( rowIndex > 1 ) {
 				and = !"OR".equals(andOr);
-			}            
+			}
             //  Op
             Listbox op = (Listbox)row.getFellow("listOperator"+row.getId());
             if (op == null)
@@ -1480,15 +1484,15 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
             Object value = cellQueryFrom.getAttribute("value");
             ListCell cellQueryTo = (ListCell)row.getFellow("cellQueryTo"+row.getId());
             Object value2 = cellQueryTo.getAttribute("value");
-            if (value == null){  // Capture the case "is null" ?
-				if ( MQuery.OPERATORS[MQuery.EQUAL_INDEX].equals(op) 
-						||  MQuery.OPERATORS[MQuery.NOT_EQUAL_INDEX].equals(op) )
-				{
-					m_query.addRestriction(ColumnSQL, Operator, null,
-							infoName, null, and, openBrackets);
-	            } else {
-	            	continue;
-	            }
+            if (value == null) {  // Capture the case "is null" ?
+                    if (MQuery.OPERATORS[MQuery.EQUAL_INDEX].equals(op)
+                            || MQuery.OPERATORS[MQuery.NOT_EQUAL_INDEX].equals(op)) {
+                        value2 = null; // The value2 needs to be null too
+                        m_query.addRestriction(ColumnSQL, Operator, null,
+                                infoName, null, and, openBrackets);
+                    } else {
+                        continue;
+                    }
             } else {  // Value has a value - check for range too.
 	            Object parsedValue = parseValue(field, value);
 	            if (parsedValue == null)
@@ -1520,15 +1524,18 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 	                			infoName, infoDisplay, infoDisplay_to, and, openBrackets);
 	            }
 	            else if (isProductCategoryField && MQuery.OPERATORS[MQuery.EQUAL_INDEX].equals(op)) {
+	                value2 = null;
 	                if (!(parsedValue instanceof Integer)) {
 	                    continue;
 	                }
-	                m_query.addRestriction(getSubCategoryWhereClause(((Integer) parsedValue).intValue()), 
+	                m_query.addRestriction(getSubCategoryWhereClause(((Integer) parsedValue).intValue()),
 	                		and, openBrackets);
 	            }
-	            else
-	                m_query.addRestriction(ColumnSQL, Operator, parsedValue,
-	                    infoName, infoDisplay, and, openBrackets);
+	            else {
+                        value2 = null;
+                        m_query.addRestriction(ColumnSQL, Operator, parsedValue,
+                                infoName, infoDisplay, and, openBrackets);
+                    }
 	        }
         	if (code.length() > 0)
 				code.append(SEGMENT_SEPARATOR);
@@ -1538,8 +1545,8 @@ public class FindWindow extends Window implements EventListener,ValueChangeListe
 				.append(FIELD_SEPARATOR)
 				.append(value.toString())
 				.append(FIELD_SEPARATOR)
-				.append(value2 != null ? value2.toString() : "")
-				.append(FIELD_SEPARATOR)
+			    .append(value2 != null ? value2.toString() : "")
+                .append(FIELD_SEPARATOR)
 				.append(andOr)
 				.append(FIELD_SEPARATOR)
 				.append(lBrackets != null ? lBrackets : "")

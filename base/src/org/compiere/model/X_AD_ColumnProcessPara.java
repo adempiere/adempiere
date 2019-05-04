@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_ColumnProcessPara
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_AD_ColumnProcessPara extends PO implements I_AD_ColumnProcessPara, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_AD_ColumnProcessPara (Properties ctx, int AD_ColumnProcessPara_ID, String trxName)
@@ -69,26 +69,6 @@ public class X_AD_ColumnProcessPara extends PO implements I_AD_ColumnProcessPara
       return sb.toString();
     }
 
-	/** Set Link Process Parameter.
-		@param AD_ColumnProcessPara_ID Link Process Parameter	  */
-	public void setAD_ColumnProcessPara_ID (int AD_ColumnProcessPara_ID)
-	{
-		if (AD_ColumnProcessPara_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_ColumnProcessPara_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_ColumnProcessPara_ID, Integer.valueOf(AD_ColumnProcessPara_ID));
-	}
-
-	/** Get Link Process Parameter.
-		@return Link Process Parameter	  */
-	public int getAD_ColumnProcessPara_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ColumnProcessPara_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_AD_ColumnProcess getAD_ColumnProcess() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_ColumnProcess)MTable.get(getCtx(), org.compiere.model.I_AD_ColumnProcess.Table_Name)
@@ -109,6 +89,26 @@ public class X_AD_ColumnProcessPara extends PO implements I_AD_ColumnProcessPara
 	public int getAD_ColumnProcess_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ColumnProcess_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Link Process Parameter.
+		@param AD_ColumnProcessPara_ID Link Process Parameter	  */
+	public void setAD_ColumnProcessPara_ID (int AD_ColumnProcessPara_ID)
+	{
+		if (AD_ColumnProcessPara_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_ColumnProcessPara_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_ColumnProcessPara_ID, Integer.valueOf(AD_ColumnProcessPara_ID));
+	}
+
+	/** Get Link Process Parameter.
+		@return Link Process Parameter	  */
+	public int getAD_ColumnProcessPara_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ColumnProcessPara_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -174,7 +174,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	 */
 	public void init(GridTab gridTab)
 	{
-		if (init) return;
+		if (init && !gridTab.isQuickEntry()) return; //init && !gridTab.isQuickEntry()
 
 		this.gridTab = gridTab;
 		tableModel = gridTab.getTableModel();
@@ -299,7 +299,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	private void setupColumns()
 	{
 		
-		if (init) return;
+		if (init && !gridTab.isQuickEntry()) return; //init && !gridTab.isQuickEntry()
 
 		if(listbox.getColumns() != null)
 			listbox.getChildren().clear();
@@ -888,7 +888,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	public void focus() {
 		if (renderer != null && renderer.isEditing()) {
 			renderer.setFocusToEditor();
-		} 
+		}
 		addKeyListener();
 	}
 
@@ -986,7 +986,7 @@ public class GridPanel extends Borderlayout implements EventListener
 			if (windowPanel != null)
 				windowPanel.getStatusBar().appendChild(keyListener);
 		}
-		if(renderer.isEditing()) 
+		if(renderer.isEditing() || !((ADTabPanel)tabPanel).isGridView() ) 
 			keyListener.setCtrlKeys(CNTRL_KEYS);
 		else 
 			keyListener.setCtrlKeys(CNTRL_KEYS+KEYS_MOVE);

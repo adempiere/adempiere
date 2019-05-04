@@ -141,14 +141,14 @@ public class DistFileElementHandler extends AbstractElementHandler {
 			int idBackup = DB.getNextID (getClientId(ctx), "AD_Package_Imp_Backup", getTrxName(ctx));        
 			if (success != -1){
 				try {				
-					idDetail = record_log (ctx, 1, fileName,"file", 0,0, Object_Status,fileName,0);
+					idDetail = recordLog (ctx, 1, fileName,"file", 0,0, Object_Status,fileName,0);
 				} catch (SAXException e) {
 					log.info ("setfile:"+e);
 				}           		        		
 			}
 			else{
 				try {
-					idDetail = record_log (ctx, 0, fileName,"file", 0,0, Object_Status,fileName,0);
+					idDetail = recordLog (ctx, 0, fileName,"file", 0,0, Object_Status,fileName,0);
 				} catch (SAXException e) {
 					log.info ("setfile:"+e);
 				}

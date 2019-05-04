@@ -587,14 +587,6 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		return BigDecimal.ZERO;
 	}	//	getApprovalAmt
 
-	/**
-	 * 
-	 */
-	public int getC_Currency_ID() 
-	{
-		return 0;
-	}
-
 	public String getProcessMsg() 
 	{
 		return processMsg;

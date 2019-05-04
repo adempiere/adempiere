@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_MovementLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_M_MovementLine 
 {
@@ -49,6 +49,19 @@ public interface I_M_MovementLine
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
@@ -63,19 +76,6 @@ public interface I_M_MovementLine
 	public int getAD_OrgTrx_ID();
 
 	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException;
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -107,6 +107,34 @@ public interface I_M_MovementLine
 
 	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
 
+    /** Column name ConfirmedQty */
+    public static final String COLUMNNAME_ConfirmedQty = "ConfirmedQty";
+
+	/** Set Confirmed Quantity.
+	  * Confirmation of a received quantity
+	  */
+	public void setConfirmedQty (BigDecimal ConfirmedQty);
+
+	/** Get Confirmed Quantity.
+	  * Confirmation of a received quantity
+	  */
+	public BigDecimal getConfirmedQty();
+
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
+
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+
     /** Column name C_ProjectPhase_ID */
     public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
 
@@ -136,34 +164,6 @@ public interface I_M_MovementLine
 	public int getC_ProjectTask_ID();
 
 	public org.compiere.model.I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
-
-    /** Column name C_Project_ID */
-    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
-
-	/** Set Project.
-	  * Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID);
-
-	/** Get Project.
-	  * Financial Project
-	  */
-	public int getC_Project_ID();
-
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
-
-    /** Column name ConfirmedQty */
-    public static final String COLUMNNAME_ConfirmedQty = "ConfirmedQty";
-
-	/** Set Confirmed Quantity.
-	  * Confirmation of a received quantity
-	  */
-	public void setConfirmedQty (BigDecimal ConfirmedQty);
-
-	/** Get Confirmed Quantity.
-	  * Confirmation of a received quantity
-	  */
-	public BigDecimal getConfirmedQty();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -231,21 +231,6 @@ public interface I_M_MovementLine
 	  */
 	public int getLine();
 
-    /** Column name M_AttributeSetInstanceTo_ID */
-    public static final String COLUMNNAME_M_AttributeSetInstanceTo_ID = "M_AttributeSetInstanceTo_ID";
-
-	/** Set Attribute Set Instance To.
-	  * Target Product Attribute Set Instance
-	  */
-	public void setM_AttributeSetInstanceTo_ID (int M_AttributeSetInstanceTo_ID);
-
-	/** Get Attribute Set Instance To.
-	  * Target Product Attribute Set Instance
-	  */
-	public int getM_AttributeSetInstanceTo_ID();
-
-	public I_M_AttributeSetInstance getM_AttributeSetInstanceTo() throws RuntimeException;
-
     /** Column name M_AttributeSetInstance_ID */
     public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 
@@ -261,20 +246,20 @@ public interface I_M_MovementLine
 
 	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
 
-    /** Column name M_LocatorTo_ID */
-    public static final String COLUMNNAME_M_LocatorTo_ID = "M_LocatorTo_ID";
+    /** Column name M_AttributeSetInstanceTo_ID */
+    public static final String COLUMNNAME_M_AttributeSetInstanceTo_ID = "M_AttributeSetInstanceTo_ID";
 
-	/** Set Locator To.
-	  * Location inventory is moved to
+	/** Set Attribute Set Instance To.
+	  * Target Product Attribute Set Instance
 	  */
-	public void setM_LocatorTo_ID (int M_LocatorTo_ID);
+	public void setM_AttributeSetInstanceTo_ID (int M_AttributeSetInstanceTo_ID);
 
-	/** Get Locator To.
-	  * Location inventory is moved to
+	/** Get Attribute Set Instance To.
+	  * Target Product Attribute Set Instance
 	  */
-	public int getM_LocatorTo_ID();
+	public int getM_AttributeSetInstanceTo_ID();
 
-	public I_M_Locator getM_LocatorTo() throws RuntimeException;
+	public I_M_AttributeSetInstance getM_AttributeSetInstanceTo() throws RuntimeException;
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
@@ -291,18 +276,20 @@ public interface I_M_MovementLine
 
 	public I_M_Locator getM_Locator() throws RuntimeException;
 
-    /** Column name M_MovementLine_ID */
-    public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
+    /** Column name M_LocatorTo_ID */
+    public static final String COLUMNNAME_M_LocatorTo_ID = "M_LocatorTo_ID";
 
-	/** Set Move Line.
-	  * Inventory Move document Line
+	/** Set Locator To.
+	  * Location inventory is moved to
 	  */
-	public void setM_MovementLine_ID (int M_MovementLine_ID);
+	public void setM_LocatorTo_ID (int M_LocatorTo_ID);
 
-	/** Get Move Line.
-	  * Inventory Move document Line
+	/** Get Locator To.
+	  * Location inventory is moved to
 	  */
-	public int getM_MovementLine_ID();
+	public int getM_LocatorTo_ID();
+
+	public I_M_Locator getM_LocatorTo() throws RuntimeException;
 
     /** Column name M_Movement_ID */
     public static final String COLUMNNAME_M_Movement_ID = "M_Movement_ID";
@@ -319,6 +306,32 @@ public interface I_M_MovementLine
 
 	public org.compiere.model.I_M_Movement getM_Movement() throws RuntimeException;
 
+    /** Column name M_MovementLine_ID */
+    public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
+
+	/** Set Move Line.
+	  * Inventory Move document Line
+	  */
+	public void setM_MovementLine_ID (int M_MovementLine_ID);
+
+	/** Get Move Line.
+	  * Inventory Move document Line
+	  */
+	public int getM_MovementLine_ID();
+
+    /** Column name MovementQty */
+    public static final String COLUMNNAME_MovementQty = "MovementQty";
+
+	/** Set Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public void setMovementQty (BigDecimal MovementQty);
+
+	/** Get Movement Quantity.
+	  * Quantity of a product moved.
+	  */
+	public BigDecimal getMovementQty();
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -333,19 +346,6 @@ public interface I_M_MovementLine
 	public int getM_Product_ID();
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
-
-    /** Column name MovementQty */
-    public static final String COLUMNNAME_MovementQty = "MovementQty";
-
-	/** Set Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public void setMovementQty (BigDecimal MovementQty);
-
-	/** Get Movement Quantity.
-	  * Quantity of a product moved.
-	  */
-	public BigDecimal getMovementQty();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -400,19 +400,6 @@ public interface I_M_MovementLine
 	  * Target Movement Quantity
 	  */
 	public BigDecimal getTargetQty();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -489,6 +476,19 @@ public interface I_M_MovementLine
 	public int getUser4_ID();
 
 	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException;
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

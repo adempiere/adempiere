@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_AttributeUse
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_M_AttributeUse 
 {
@@ -91,21 +91,6 @@ public interface I_M_AttributeUse
 	  */
 	public boolean isActive();
 
-    /** Column name M_AttributeSet_ID */
-    public static final String COLUMNNAME_M_AttributeSet_ID = "M_AttributeSet_ID";
-
-	/** Set Attribute Set.
-	  * Product Attribute Set
-	  */
-	public void setM_AttributeSet_ID (int M_AttributeSet_ID);
-
-	/** Get Attribute Set.
-	  * Product Attribute Set
-	  */
-	public int getM_AttributeSet_ID();
-
-	public org.compiere.model.I_M_AttributeSet getM_AttributeSet() throws RuntimeException;
-
     /** Column name M_Attribute_ID */
     public static final String COLUMNNAME_M_Attribute_ID = "M_Attribute_ID";
 
@@ -120,6 +105,21 @@ public interface I_M_AttributeUse
 	public int getM_Attribute_ID();
 
 	public org.compiere.model.I_M_Attribute getM_Attribute() throws RuntimeException;
+
+    /** Column name M_AttributeSet_ID */
+    public static final String COLUMNNAME_M_AttributeSet_ID = "M_AttributeSet_ID";
+
+	/** Set Attribute Set.
+	  * Product Attribute Set
+	  */
+	public void setM_AttributeSet_ID (int M_AttributeSet_ID);
+
+	/** Get Attribute Set.
+	  * Product Attribute Set
+	  */
+	public int getM_AttributeSet_ID();
+
+	public org.compiere.model.I_M_AttributeSet getM_AttributeSet() throws RuntimeException;
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
@@ -136,19 +136,6 @@ public interface I_M_AttributeUse
 	  */
 	public int getSeqNo();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -164,4 +151,17 @@ public interface I_M_AttributeUse
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

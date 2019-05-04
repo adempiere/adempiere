@@ -1977,8 +1977,8 @@ delete from ad_process_Para where ad_Element_ID=60640;
 delete from ad_column where ad_Element_ID=60640;
 delete from ad_element where ad_Element_ID=60640;
 
-ALTER TABLE adempiere.c_landedcost DROP COLUMN IF EXISTS  landedcosttype;
-ALTER TABLE adempiere.c_landedcostAllocation DROP COLUMN IF EXISTS  landedcosttype;
+ALTER TABLE c_landedcost DROP COLUMN IF EXISTS  landedcosttype;
+ALTER TABLE c_landedcostAllocation DROP COLUMN IF EXISTS  landedcosttype;
 </SQLStatement>
     </Step>
   </Migration>

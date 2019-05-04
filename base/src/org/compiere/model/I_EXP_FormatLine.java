@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.model;
 
@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for EXP_FormatLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0
+ *  @version Release 3.9.2
  */
 public interface I_EXP_FormatLine 
 {
@@ -145,15 +145,6 @@ public interface I_EXP_FormatLine
 
 	public org.compiere.model.I_EXP_Format getEXP_EmbeddedFormat() throws RuntimeException;
 
-    /** Column name EXP_FormatLine_ID */
-    public static final String COLUMNNAME_EXP_FormatLine_ID = "EXP_FormatLine_ID";
-
-	/** Set Format Line	  */
-	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID);
-
-	/** Get Format Line	  */
-	public int getEXP_FormatLine_ID();
-
     /** Column name EXP_Format_ID */
     public static final String COLUMNNAME_EXP_Format_ID = "EXP_Format_ID";
 
@@ -164,6 +155,15 @@ public interface I_EXP_FormatLine
 	public int getEXP_Format_ID();
 
 	public org.compiere.model.I_EXP_Format getEXP_Format() throws RuntimeException;
+
+    /** Column name EXP_FormatLine_ID */
+    public static final String COLUMNNAME_EXP_FormatLine_ID = "EXP_FormatLine_ID";
+
+	/** Set Format Line	  */
+	public void setEXP_FormatLine_ID (int EXP_FormatLine_ID);
+
+	/** Get Format Line	  */
+	public int getEXP_FormatLine_ID();
 
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";
@@ -190,6 +190,19 @@ public interface I_EXP_FormatLine
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsCreateNonExisting */
+    public static final String COLUMNNAME_IsCreateNonExisting = "IsCreateNonExisting";
+
+	/** Set Create if Not Exists.
+	  * Create it if not exists
+	  */
+	public void setIsCreateNonExisting (boolean IsCreateNonExisting);
+
+	/** Get Create if Not Exists.
+	  * Create it if not exists
+	  */
+	public boolean isCreateNonExisting();
 
     /** Column name IsMandatory */
     public static final String COLUMNNAME_IsMandatory = "IsMandatory";
@@ -263,6 +276,19 @@ public interface I_EXP_FormatLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

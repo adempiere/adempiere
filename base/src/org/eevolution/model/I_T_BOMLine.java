@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_BOMLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_T_BOMLine 
 {
@@ -106,19 +106,6 @@ public interface I_T_BOMLine
 	  */
 	public BigDecimal getCost();
 
-    /** Column name CostStandard */
-    public static final String COLUMNNAME_CostStandard = "CostStandard";
-
-	/** Set Standard Cost.
-	  * Standard Costs
-	  */
-	public void setCostStandard (BigDecimal CostStandard);
-
-	/** Get Standard Cost.
-	  * Standard Costs
-	  */
-	public BigDecimal getCostStandard();
-
     /** Column name CostingMethod */
     public static final String COLUMNNAME_CostingMethod = "CostingMethod";
 
@@ -131,6 +118,19 @@ public interface I_T_BOMLine
 	  * Indicates how Costs will be calculated
 	  */
 	public String getCostingMethod();
+
+    /** Column name CostStandard */
+    public static final String COLUMNNAME_CostStandard = "CostStandard";
+
+	/** Set Standard Cost.
+	  * Standard Costs
+	  */
+	public void setCostStandard (BigDecimal CostStandard);
+
+	/** Get Standard Cost.
+	  * Standard Costs
+	  */
+	public BigDecimal getCostStandard();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -322,21 +322,6 @@ public interface I_T_BOMLine
 
 	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
-    /** Column name PP_Product_BOMLine_ID */
-    public static final String COLUMNNAME_PP_Product_BOMLine_ID = "PP_Product_BOMLine_ID";
-
-	/** Set BOM Line.
-	  * BOM Line
-	  */
-	public void setPP_Product_BOMLine_ID (int PP_Product_BOMLine_ID);
-
-	/** Get BOM Line.
-	  * BOM Line
-	  */
-	public int getPP_Product_BOMLine_ID();
-
-	public org.eevolution.model.I_PP_Product_BOMLine getPP_Product_BOMLine() throws RuntimeException;
-
     /** Column name PP_Product_BOM_ID */
     public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";
 
@@ -351,6 +336,21 @@ public interface I_T_BOMLine
 	public int getPP_Product_BOM_ID();
 
 	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
+
+    /** Column name PP_Product_BOMLine_ID */
+    public static final String COLUMNNAME_PP_Product_BOMLine_ID = "PP_Product_BOMLine_ID";
+
+	/** Set BOM Line.
+	  * BOM Line
+	  */
+	public void setPP_Product_BOMLine_ID (int PP_Product_BOMLine_ID);
+
+	/** Get BOM Line.
+	  * BOM Line
+	  */
+	public int getPP_Product_BOMLine_ID();
+
+	public org.eevolution.model.I_PP_Product_BOMLine getPP_Product_BOMLine() throws RuntimeException;
 
     /** Column name QtyBOM */
     public static final String COLUMNNAME_QtyBOM = "QtyBOM";
@@ -407,19 +407,6 @@ public interface I_T_BOMLine
 	/** Get Temporal BOM Line	  */
 	public int getT_BOMLine_ID();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -435,4 +422,17 @@ public interface I_T_BOMLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

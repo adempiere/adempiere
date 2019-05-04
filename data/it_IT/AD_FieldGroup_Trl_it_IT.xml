@@ -1,110 +1,343 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--Compiere(r) Release 2.5.3b_2006-01-20 - Smart ERP & CRM - (c) 1999-2006 Compiere (r); Implementation: Custom 20060303-1231 - Unsupported-->
-<!--<!DOCTYPE compiereTrl PUBLIC "-//ComPiere, Inc.//DTD Compiere Translation 1.0//EN" "http://www.compiere.org/dtd/compiereTrl.dtd">-->
-<compiereTrl language="it_IT" table="AD_FieldGroup">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ADempiere(r) Release 3.9.0_2017-08-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2017 ADempiere(r); Implementation: ${ADEMPIERE_VERSION} 20190319-0953 - ${ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">--><adempiereTrl language="it_IT" table="AD_FieldGroup">
  <row id="101" trl="Y">
   <value column="Name" original="Status">Stato</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="102" trl="Y">
   <value column="Name" original="Quantities">Quantità</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="103" trl="Y">
   <value column="Name" original="Amounts">Importi</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="104" trl="Y">
   <value column="Name" original="Reference">Riferimento</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="105" trl="Y">
   <value column="Name" original="History">Storia</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="106" trl="Y">
   <value column="Name" original="Product">Prodotto</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="107" trl="Y">
   <value column="Name" original="Business Partner">Business partner</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="108" trl="Y">
   <value column="Name" original="Warehouse">Magazzino</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="109" trl="Y">
   <value column="Name" original="Bank">Banca</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="110" trl="Y">
   <value column="Name" original="Cash Book">Libro di cassa</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="111" trl="Y">
   <value column="Name" original="Tax">Imposte</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="112" trl="Y">
   <value column="Name" original="Project">Commessa/progetto</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="113" trl="Y">
   <value column="Name" original="General">Generale</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="114" trl="Y">
   <value column="Name" original="Action">Azione</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="115" trl="Y">
   <value column="Name" original="Standard Cost">Costo standard</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="116" trl="Y">
   <value column="Name" original="Actual Costs">Costo effettivo</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="117" trl="Y">
   <value column="Name" original="Statistics">Statistiche</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="118" trl="Y">
   <value column="Name" original="Defaults">Defaults</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="119" trl="Y">
   <value column="Name" original="Request Management">Gestione richiesta</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="120" trl="Y">
   <value column="Name" original="Web Store">Web Store</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="121" trl="Y">
   <value column="Name" original="Internal">Interno</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="122" trl="Y">
   <value column="Name" original="External">Esterno</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="123" trl="Y">
   <value column="Name" original="Common">Comune</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="124" trl="Y">
   <value column="Name" original="Shipment">Spedizione</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="125" trl="Y">
   <value column="Name" original="Document">Documento</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="126" trl="Y">
   <value column="Name" original="Line">Riga</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="127" trl="Y">
   <value column="Name" original="Simulation">Simulazione</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="128" trl="Y">
   <value column="Name" original="Calculations">Calcoli</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="129" trl="Y">
   <value column="Name" original="Proxy">Proxy</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="130" trl="Y">
   <value column="Name" original="Delivery">Spedizione</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="131" trl="Y">
   <value column="Name" original="Invoicing">Fatturazione</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="132" trl="Y">
   <value column="Name" original="Only ..">Solamente ..</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="133" trl="Y">
   <value column="Name" original="Selection">Selezione</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="134" trl="Y">
   <value column="Name" original="Workflow">Workflow</value>
+  <value column="UUID" original=""/>
  </row>
  <row id="135" trl="Y">
   <value column="Name" original="Access">Accesso</value>
+  <value column="UUID" original=""/>
  </row>
-</compiereTrl>
+ <row id="50000" trl="N">
+  <value column="Name" original="Allow Info In Role">Allow Info In Role</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="Accounts">Accounts</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50002" trl="N">
+  <value column="Name" original="Setup">Setup</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50003" trl="N">
+  <value column="Name" original="Dates">Dates</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50004" trl="N">
+  <value column="Name" original="Revaluation Accounts">Revaluation Accounts</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50005" trl="N">
+  <value column="Name" original="Contract">Contract</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50006" trl="N">
+  <value column="Name" original="Options">Options</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50007" trl="N">
+  <value column="Name" original="General Ledger">General Ledger</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50008" trl="N">
+  <value column="Name" original="Machines">Machines</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50009" trl="N">
+  <value column="Name" original="Database">Database</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50010" trl="N">
+  <value column="Name" original="Manufacturing">Manufacturing</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50012" trl="N">
+  <value column="Name" original="Logo">Logo</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50013" trl="N">
+  <value column="Name" original="Delivery Rules">Delivery Rules</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50016" trl="N">
+  <value column="Name" original="Location">Location</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50017" trl="N">
+  <value column="Name" original="Fixed Asset">Fixed Asset</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50018" trl="N">
+  <value column="Name" original="Maintenance">Maintenance</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50019" trl="N">
+  <value column="Name" original="Funding">Funding</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020" trl="N">
+  <value column="Name" original="Depreciation">Depreciation</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50040" trl="N">
+  <value column="Name" original="Job Summary ">Job Summary </value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50041" trl="N">
+  <value column="Name" original="Job Detail">Job Detail </value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50057" trl="N">
+  <value column="Name" original="Personal Info">Personal Info</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50058" trl="N">
+  <value column="Name" original="Education">Education</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50059" trl="N">
+  <value column="Name" original="Payment Info">Payment Info</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50060" trl="N">
+  <value column="Name" original="Payroll Info">Payroll Info</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50061" trl="N">
+  <value column="Name" original="Contact">Contact</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50062" trl="N">
+  <value column="Name" original="Dimension &amp; Measurements "><![CDATA[Dimension & Measurements ]]></value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50066" trl="N">
+  <value column="Name" original="Sequence">Sequence</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50067" trl="N">
+  <value column="Name" original="Print Format">Print Format</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50068" trl="N">
+  <value column="Name" original="Behavior">Behavior</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50069" trl="N">
+  <value column="Name" original="Column Definition">Column Definition</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020000" trl="N">
+  <value column="Name" original="PorodttiSpeciali_Fatture">PorodttiSpeciali_Fatture</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020001" trl="N">
+  <value column="Name" original="Caratteristiche Personalizzate">Caratteristiche Personalizzate</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020002" trl="N">
+  <value column="Name" original="January">Gennaio</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020003" trl="N">
+  <value column="Name" original="October">Ottobre</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020004" trl="N">
+  <value column="Name" original="November">Novembre</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020005" trl="N">
+  <value column="Name" original="December">Dicembre</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020006" trl="N">
+  <value column="Name" original="February">Febbraio</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020007" trl="N">
+  <value column="Name" original="March">Marzo</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020008" trl="N">
+  <value column="Name" original="April">Aprile</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020009" trl="N">
+  <value column="Name" original="May">Maggio</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020010" trl="N">
+  <value column="Name" original="June">Giugno</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020011" trl="N">
+  <value column="Name" original="July">Luglio</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020012" trl="N">
+  <value column="Name" original="August">Agosto</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020013" trl="N">
+  <value column="Name" original="September">Settembre</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020014" trl="N">
+  <value column="Name" original="Motore">Motore</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020015" trl="N">
+  <value column="Name" original="Girante">Girante</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020016" trl="N">
+  <value column="Name" original="Convogliatore">Convogliatore</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020017" trl="N">
+  <value column="Name" original="Estrazione Xml Fattture - Corrispettivi 2017">Estrazione Xml Fattture - Corrispettivi 2017</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020018" trl="N">
+  <value column="Name" original="copia listini">copia listini</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50020019" trl="N">
+  <value column="Name" original="Ventilatore">Ventilatore</value>
+  <value column="UUID" original=""/>
+ </row>
+</adempiereTrl>

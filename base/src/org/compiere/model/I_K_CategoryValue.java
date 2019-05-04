@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for K_CategoryValue
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_K_CategoryValue 
 {
@@ -104,19 +104,6 @@ public interface I_K_CategoryValue
 	  */
 	public boolean isActive();
 
-    /** Column name K_CategoryValue_ID */
-    public static final String COLUMNNAME_K_CategoryValue_ID = "K_CategoryValue_ID";
-
-	/** Set Category Value.
-	  * The value of the category
-	  */
-	public void setK_CategoryValue_ID (int K_CategoryValue_ID);
-
-	/** Get Category Value.
-	  * The value of the category
-	  */
-	public int getK_CategoryValue_ID();
-
     /** Column name K_Category_ID */
     public static final String COLUMNNAME_K_Category_ID = "K_Category_ID";
 
@@ -132,6 +119,19 @@ public interface I_K_CategoryValue
 
 	public org.compiere.model.I_K_Category getK_Category() throws RuntimeException;
 
+    /** Column name K_CategoryValue_ID */
+    public static final String COLUMNNAME_K_CategoryValue_ID = "K_CategoryValue_ID";
+
+	/** Set Category Value.
+	  * The value of the category
+	  */
+	public void setK_CategoryValue_ID (int K_CategoryValue_ID);
+
+	/** Get Category Value.
+	  * The value of the category
+	  */
+	public int getK_CategoryValue_ID();
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -144,19 +144,6 @@ public interface I_K_CategoryValue
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -173,4 +160,17 @@ public interface I_K_CategoryValue
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

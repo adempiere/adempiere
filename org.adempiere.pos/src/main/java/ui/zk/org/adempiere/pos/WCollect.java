@@ -19,7 +19,6 @@ package org.adempiere.pos;
 
 import java.awt.Event;
 import java.awt.event.KeyEvent;
-import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Properties;
@@ -43,15 +42,12 @@ import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MPOSKey;
 import org.compiere.model.X_C_Payment;
-import org.compiere.print.ReportCtl;
-import org.compiere.print.ReportEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
-import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
@@ -615,31 +611,8 @@ public class WCollect extends Collect implements WPOSKeyListener, EventListener,
 		
 		try {
 			//print standard document
-			/* #587
-			 * Trx.run(new TrxRunnable() {
-				public void run(String trxName) {
-					if (posPanel.getAD_Sequence_ID()!= 0) {
-
-						String docno = posPanel.getSequenceDoc(trxName);
-						String q = "Confirmar el número consecutivo "  + docno;
-						if (FDialog.ask(0, null, "", q)) {
-							posPanel.setPOReference(docno);
-							posPanel.saveNextSeq(trxName);
-						}
-					}
-				}
-			});*/
-
 			if (posPanel.isToPrint() && posPanel.hasOrder()) {
-				ReportCtl.startDocumentPrint(0, posPanel.getC_Order_ID(), false);
-				ReportEngine m_reportEngine = ReportEngine.get(p_ctx, ReportEngine.ORDER, posPanel.getC_Order_ID());
-				StringWriter sw = new StringWriter();							
-				m_reportEngine.createCSV(sw, '\t', m_reportEngine.getPrintFormat().getLanguage());
-				byte[] data = sw.getBuffer().toString().getBytes();	
-				
-				AMedia media = new AMedia(m_reportEngine.getPrintFormat().getName() + ".txt", null, "application/octet-stream", data);
-
-				posPanel.printFile(media.getByteData(), posPanel.getC_Order_ID());
+				posPanel.printTicket();
 			}
 		}
 			catch (Exception e) 

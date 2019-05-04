@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_ProductPriceVendorBreak
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_M_ProductPriceVendorBreak 
 {
@@ -134,15 +134,6 @@ public interface I_M_ProductPriceVendorBreak
 
 	public org.compiere.model.I_M_PriceList_Version getM_PriceList_Version() throws RuntimeException;
 
-    /** Column name M_ProductPriceVendorBreak_ID */
-    public static final String COLUMNNAME_M_ProductPriceVendorBreak_ID = "M_ProductPriceVendorBreak_ID";
-
-	/** Set Product Price Break	  */
-	public void setM_ProductPriceVendorBreak_ID (int M_ProductPriceVendorBreak_ID);
-
-	/** Get Product Price Break	  */
-	public int getM_ProductPriceVendorBreak_ID();
-
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -157,6 +148,15 @@ public interface I_M_ProductPriceVendorBreak
 	public int getM_Product_ID();
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
+
+    /** Column name M_ProductPriceVendorBreak_ID */
+    public static final String COLUMNNAME_M_ProductPriceVendorBreak_ID = "M_ProductPriceVendorBreak_ID";
+
+	/** Set Product Price Break	  */
+	public void setM_ProductPriceVendorBreak_ID (int M_ProductPriceVendorBreak_ID);
+
+	/** Get Product Price Break	  */
+	public int getM_ProductPriceVendorBreak_ID();
 
     /** Column name PriceLimit */
     public static final String COLUMNNAME_PriceLimit = "PriceLimit";
@@ -197,19 +197,6 @@ public interface I_M_ProductPriceVendorBreak
 	  */
 	public BigDecimal getPriceStd();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -225,4 +212,17 @@ public interface I_M_ProductPriceVendorBreak
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

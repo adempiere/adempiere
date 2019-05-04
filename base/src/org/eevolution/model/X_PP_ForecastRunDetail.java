@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for PP_ForecastRunDetail
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_PP_ForecastRunDetail extends PO implements I_PP_ForecastRunDetail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_PP_ForecastRunDetail (Properties ctx, int PP_ForecastRunDetail_ID, String trxName)
@@ -74,6 +74,26 @@ public class X_PP_ForecastRunDetail extends PO implements I_PP_ForecastRunDetail
       return sb.toString();
     }
 
+	/** Set Period No.
+		@param PeriodNo 
+		Unique Period Number
+	  */
+	public void setPeriodNo (int PeriodNo)
+	{
+		set_Value (COLUMNNAME_PeriodNo, Integer.valueOf(PeriodNo));
+	}
+
+	/** Get Period No.
+		@return Unique Period Number
+	  */
+	public int getPeriodNo () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PeriodNo);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Forecast Run Detail.
 		@param PP_ForecastRunDetail_ID 
 		Contains the forecasting calculation results based on forecast definition.
@@ -92,31 +112,6 @@ public class X_PP_ForecastRunDetail extends PO implements I_PP_ForecastRunDetail
 	public int getPP_ForecastRunDetail_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_ForecastRunDetail_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.eevolution.model.I_PP_ForecastRunMaster getPP_ForecastRunMaster() throws RuntimeException
-    {
-		return (org.eevolution.model.I_PP_ForecastRunMaster)MTable.get(getCtx(), org.eevolution.model.I_PP_ForecastRunMaster.Table_Name)
-			.getPO(getPP_ForecastRunMaster_ID(), get_TrxName());	}
-
-	/** Set Forecast Run Master.
-		@param PP_ForecastRunMaster_ID Forecast Run Master	  */
-	public void setPP_ForecastRunMaster_ID (int PP_ForecastRunMaster_ID)
-	{
-		if (PP_ForecastRunMaster_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PP_ForecastRunMaster_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PP_ForecastRunMaster_ID, Integer.valueOf(PP_ForecastRunMaster_ID));
-	}
-
-	/** Get Forecast Run Master.
-		@return Forecast Run Master	  */
-	public int getPP_ForecastRunMaster_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_ForecastRunMaster_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -150,6 +145,31 @@ public class X_PP_ForecastRunDetail extends PO implements I_PP_ForecastRunDetail
 		return ii.intValue();
 	}
 
+	public org.eevolution.model.I_PP_ForecastRunMaster getPP_ForecastRunMaster() throws RuntimeException
+    {
+		return (org.eevolution.model.I_PP_ForecastRunMaster)MTable.get(getCtx(), org.eevolution.model.I_PP_ForecastRunMaster.Table_Name)
+			.getPO(getPP_ForecastRunMaster_ID(), get_TrxName());	}
+
+	/** Set Forecast Run Master.
+		@param PP_ForecastRunMaster_ID Forecast Run Master	  */
+	public void setPP_ForecastRunMaster_ID (int PP_ForecastRunMaster_ID)
+	{
+		if (PP_ForecastRunMaster_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_ForecastRunMaster_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_ForecastRunMaster_ID, Integer.valueOf(PP_ForecastRunMaster_ID));
+	}
+
+	/** Get Forecast Run Master.
+		@return Forecast Run Master	  */
+	public int getPP_ForecastRunMaster_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_ForecastRunMaster_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_PP_Period getPP_Period() throws RuntimeException
     {
 		return (org.eevolution.model.I_PP_Period)MTable.get(getCtx(), org.eevolution.model.I_PP_Period.Table_Name)
@@ -173,26 +193,6 @@ public class X_PP_ForecastRunDetail extends PO implements I_PP_ForecastRunDetail
 	public int getPP_Period_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Period_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Period No.
-		@param PeriodNo 
-		Unique Period Number
-	  */
-	public void setPeriodNo (int PeriodNo)
-	{
-		set_Value (COLUMNNAME_PeriodNo, Integer.valueOf(PeriodNo));
-	}
-
-	/** Get Period No.
-		@return Unique Period Number
-	  */
-	public int getPeriodNo () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PeriodNo);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
