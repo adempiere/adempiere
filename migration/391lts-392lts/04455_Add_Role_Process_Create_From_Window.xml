@@ -3174,25 +3174,6 @@ You can either load the image (in the database) or point to a graphic via a URI 
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
       </PO>
     </Step>
-    <Step SeqNo="1560" StepType="AD">
-      <PO AD_Table_ID="101" Action="U" Record_ID="6653" Table="AD_Column">
-        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true" isOldNull="true"/>
-        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true" isOldNull="true"/>
-      </PO>
-    </Step>
     <Step SeqNo="1570" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="65781" Table="AD_View_Column">
         <Data AD_Column_ID="84462" Column="UUID">a878d6d8-4045-11e9-b658-0242ac140002</Data>

@@ -1450,12 +1450,12 @@ ALTER TABLE T_InvoiceGL  ADD CONSTRAINT t_invoicegl_pkey PRIMARY KEY (ad_pinstan
 ALTER TABLE T_InvoiceGL  ADD CONSTRAINT t_invoicegl_pkey PRIMARY KEY (ad_pinstance_id, c_invoice_id , fact_acct_id);</RollbackStatement>
     </Step>
     <Step DBType="Oracle" Parse="Y" SeqNo="866" StepType="SQL">
-      <SQLStatement>ALTER INDEX T_INVOICEGL_KEY RENAME TO T_INVOICEGL_KEY_OLD;
-ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;
-ALTER TABLE T_InvoiceGL  ADD CONSTRAINT T_INVOICEGL_KEY PRIMARY KEY (ad_pinstance_id, T_InvoiceGL_ID , fact_acct_id);</SQLStatement>
-      <RollbackStatement>ALTER INDEX T_INVOICEGL_KEY RENAME TO T_INVOICEGL_KEY_OLD;
-ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;
-ALTER TABLE T_InvoiceGL  ADD CONSTRAINT T_INVOICEGL_KEY PRIMARY KEY (ad_pinstance_id, c_invoice_id , fact_acct_id);</RollbackStatement>
+      <SQLStatement>
+        ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;
+        ALTER TABLE T_InvoiceGL  ADD CONSTRAINT T_INVOICEGL_KEY PRIMARY KEY (ad_pinstance_id, T_InvoiceGL_ID , fact_acct_id);</SQLStatement>
+      <RollbackStatement>
+        ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;
+        ALTER TABLE T_InvoiceGL  ADD CONSTRAINT T_INVOICEGL_KEY PRIMARY KEY (ad_pinstance_id, c_invoice_id , fact_acct_id);</RollbackStatement>
     </Step>
     <Step DBType="ALL" Parse="Y" SeqNo="870" StepType="SQL">
       <SQLStatement>DROP VIEW T_INVOICEGL_V;

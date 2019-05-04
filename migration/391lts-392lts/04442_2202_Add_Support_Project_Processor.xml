@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Support to Project Processor" ReleaseNo="" SeqNo="4410">
+  <Migration EntityType="D" Name="Add Support to Project Processor" ReleaseNo="3.9.2" SeqNo="4442">
     <Comments>https://github.com/adempiere/adempiere/issues/2202</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="92403" Table="AD_Column">
@@ -1244,7 +1244,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">EE09</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">92414</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
@@ -1289,7 +1289,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">EE09</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">92415</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
@@ -3152,7 +3152,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="226" Column="AD_Reference_ID">10</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">EE09</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">92429</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
@@ -3221,7 +3221,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="226" Column="AD_Reference_ID">28</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">EE09</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">92430</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
@@ -4235,7 +4235,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="226" Column="AD_Reference_ID">15</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">EE09</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">92433</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
@@ -4304,7 +4304,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="226" Column="AD_Reference_ID">17</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">EE09</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">92434</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
@@ -6527,7 +6527,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">U</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">EE09</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">92470</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
