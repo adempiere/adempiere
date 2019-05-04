@@ -17,12 +17,26 @@
 package org.eevolution.model;
 
 import org.compiere.model.AdempiereProcessorLog;
+import org.compiere.model.MProjectProcessorChange;
+import org.compiere.model.MProjectProcessorQueued;
+import org.compiere.model.Query;
 
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.Properties;
 
+/**
+ * @author Carlos Parada, cparada@erpya.com, ERPCyA http://www.erpya.com
+ *  	<a href="https://github.com/adempiere/adempiere/issues/2202">
+ *		@see FR [ 2202 ] Add Support to Project Processor</a>
+ */
 public class MProjectProcessorLog extends X_C_ProjectProcessorLog implements AdempiereProcessorLog {
-    public MProjectProcessorLog(Properties ctx, int C_ProjectProcessorLog_ID, String trxName) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public MProjectProcessorLog(Properties ctx, int C_ProjectProcessorLog_ID, String trxName) {
         super(ctx, C_ProjectProcessorLog_ID, trxName);
     }
 
@@ -41,5 +55,48 @@ public class MProjectProcessorLog extends X_C_ProjectProcessorLog implements Ade
         setClientOrg(parent);
         setC_ProjectProcessor_ID(parent.getC_ProjectProcessor_ID());
         setSummary(summary);
+    }
+    
+    /**
+     * Get Queued
+     * FR [ 2202 ]
+     * @param whereClause
+     * @return
+     */
+    public MProjectProcessorQueued[] getQueued(String whereClause) {
+    	if (whereClause !=null
+    			&& !whereClause.equals(""))
+    		whereClause += " AND ";
+    	else 
+    		whereClause = "";
+    	
+    	whereClause += "C_ProjectProcessorLog_ID = ? ";
+    	List<MProjectProcessorQueued> queued = new Query(getCtx() , MProjectProcessorQueued.Table_Name , whereClause , get_TrxName())
+    			.setParameters(getC_ProjectProcessorLog_ID())
+                .list();
+    	MProjectProcessorQueued[] retValue = new MProjectProcessorQueued[queued.size()];
+    	queued.toArray(retValue);
+    	return retValue;
+    }
+    /**
+     * Get Changes
+     * FR [ 2202 ]
+     * @param whereClause
+     * @return
+     */
+    public MProjectProcessorChange[] getChange(String whereClause) {
+    	if (whereClause !=null
+    			&& !whereClause.equals(""))
+    		whereClause += " AND ";
+    	else 
+    		whereClause = "";
+    	
+    	whereClause += "C_ProjectProcessorLog_ID = ? ";
+    	List<MProjectProcessorChange> changes = new Query(getCtx() , MProjectProcessorChange.Table_Name , whereClause , get_TrxName())
+    			.setParameters(getC_ProjectProcessorLog_ID())
+                .list();
+    	MProjectProcessorChange[] retValue = new MProjectProcessorChange[changes.size()];
+    	changes.toArray(retValue);
+    	return retValue;
     }
 }

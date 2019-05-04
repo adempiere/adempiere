@@ -107,18 +107,18 @@ public interface I_C_Project
 
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
-    /** Column name BOMDrop */
-    public static final String COLUMNNAME_BOMDrop = "BOMDrop";
+    /** Column name AlertMessage */
+    public static final String COLUMNNAME_AlertMessage = "AlertMessage";
 
-	/** Set BOM Drop.
-	  * Drop (expand) Bill of Materials into an Order, Invoice, etc.
+	/** Set Alert Message.
+	  * Message of the Alert
 	  */
-	public void setBOMDrop (String BOMDrop);
+	public void setAlertMessage (String AlertMessage);
 
-	/** Get BOM Drop.
-	  * Drop (expand) Bill of Materials into an Order, Invoice, etc.
+	/** Get Alert Message.
+	  * Message of the Alert
 	  */
-	public String getBOMDrop();
+	public String getAlertMessage();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -461,6 +461,32 @@ public interface I_C_Project
 	  */
 	public Timestamp getDateFinishSchedule();
 
+    /** Column name DateLastAction */
+    public static final String COLUMNNAME_DateLastAction = "DateLastAction";
+
+	/** Set Date last action.
+	  * Date this request was last acted on
+	  */
+	public void setDateLastAction (Timestamp DateLastAction);
+
+	/** Get Date last action.
+	  * Date this request was last acted on
+	  */
+	public Timestamp getDateLastAction();
+
+    /** Column name DateLastAlert */
+    public static final String COLUMNNAME_DateLastAlert = "DateLastAlert";
+
+	/** Set Last Alert.
+	  * Date when last alert were sent
+	  */
+	public void setDateLastAlert (Timestamp DateLastAlert);
+
+	/** Get Last Alert.
+	  * Date when last alert were sent
+	  */
+	public Timestamp getDateLastAlert();
+
     /** Column name DateStart */
     public static final String COLUMNNAME_DateStart = "DateStart";
 
@@ -499,6 +525,19 @@ public interface I_C_Project
 	  * Optional short description of the record
 	  */
 	public String getDescription();
+
+    /** Column name DueType */
+    public static final String COLUMNNAME_DueType = "DueType";
+
+	/** Set Due type.
+	  * Status of the next action for this Request
+	  */
+	public void setDueType (String DueType);
+
+	/** Get Due type.
+	  * Status of the next action for this Request
+	  */
+	public String getDueType();
 
     /** Column name DurationUnit */
     public static final String COLUMNNAME_DurationUnit = "DurationUnit";

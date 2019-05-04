@@ -17,10 +17,8 @@
 package org.eevolution.model;
 
 import org.compiere.model.*;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -29,12 +27,14 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+/**
+ * @author Carlos Parada, cparada@erpya.com, ERPCyA http://www.erpya.com
+ *  	<a href="https://github.com/adempiere/adempiere/issues/2202">
+ *		@see FR [ 2202 ] Add Support to Project Processor</a>
+ */
 public class MProjectProcessor extends X_C_ProjectProcessor  implements AdempiereProcessor {
-
-      /**
-         *
-         */
-        private static final long serialVersionUID = -3149710397208186523L;
+	
+	private static final long serialVersionUID = -3149710397208186523L;
 
     public MProjectProcessor(Properties ctx, int C_ProjectProcessor_ID, String trxName) {
         super(ctx, C_ProjectProcessor_ID, trxName);
@@ -50,15 +50,14 @@ public class MProjectProcessor extends X_C_ProjectProcessor  implements Adempier
      *	@param ctx context
      *	@return array of Project
      */
-    public static List<MProjectProcessor> getActive (Properties ctx)
+    public static MProjectProcessor[] getActive (Properties ctx)
     {
-        return new Query(ctx , Table_Name , "IsActive='Y'", null)
-                .setClient_ID()
+    	List<MProjectProcessor> processors = new Query(ctx , Table_Name , "IsActive='Y'", null)
                 .list();
+    	MProjectProcessor[] retValue = new MProjectProcessor[processors.size()];
+    	processors.toArray(retValue);
+    	return retValue;
     }	//	getActive
-
-    /**	Static Logger	*/
-    private static CLogger logger = CLogger.getCLogger (MProjectProcessor.class);
 
     /**
      * 	Parent Constructor
@@ -82,7 +81,7 @@ public class MProjectProcessor extends X_C_ProjectProcessor  implements Adempier
         ArrayList<MProjectProcessorLog> list = new ArrayList<MProjectProcessorLog>();
         String sql = "SELECT * "
                 + "FROM C_ProjectProcessorLog "
-                + "WHERE C_PrjectProcessor_ID=? "
+                + "WHERE C_ProjectProcessor_ID=? "
                 + "ORDER BY Created DESC";
         PreparedStatement pstmt = null;
         try
@@ -150,4 +149,22 @@ public class MProjectProcessor extends X_C_ProjectProcessor  implements Adempier
     {
         return "ProjectProcessor" + get_ID();
     }	//	getServerID
+    
+    /**
+     * get Logs
+     * FR [ 2202 ] 
+     * @param whereClause
+     * @return
+     */
+	public MProjectProcessorLog[] getProcessorLogs(String whereClause) {
+		whereClause += " AND C_ProjectProcessor_ID = ? ";
+    	List<MProjectProcessorLog> logs = new Query(getCtx() , MProjectProcessorLog.Table_Name , whereClause
+    							, get_TrxName())
+    							.setParameters(getC_ProjectProcessor_ID())
+    							.list();
+    	MProjectProcessorLog[] retValue = new MProjectProcessorLog[logs.size()];
+    	logs.toArray(retValue);
+		return retValue;
+		
+	}
 }
