@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_SchedulerLog
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_AD_SchedulerLog 
 {
@@ -62,19 +62,6 @@ public interface I_AD_SchedulerLog
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_SchedulerLog_ID */
-    public static final String COLUMNNAME_AD_SchedulerLog_ID = "AD_SchedulerLog_ID";
-
-	/** Set Scheduler Log.
-	  * Result of the execution of the Scheduler
-	  */
-	public void setAD_SchedulerLog_ID (int AD_SchedulerLog_ID);
-
-	/** Get Scheduler Log.
-	  * Result of the execution of the Scheduler
-	  */
-	public int getAD_SchedulerLog_ID();
-
     /** Column name AD_Scheduler_ID */
     public static final String COLUMNNAME_AD_Scheduler_ID = "AD_Scheduler_ID";
 
@@ -89,6 +76,19 @@ public interface I_AD_SchedulerLog
 	public int getAD_Scheduler_ID();
 
 	public org.compiere.model.I_AD_Scheduler getAD_Scheduler() throws RuntimeException;
+
+    /** Column name AD_SchedulerLog_ID */
+    public static final String COLUMNNAME_AD_SchedulerLog_ID = "AD_SchedulerLog_ID";
+
+	/** Set Scheduler Log.
+	  * Result of the execution of the Scheduler
+	  */
+	public void setAD_SchedulerLog_ID (int AD_SchedulerLog_ID);
+
+	/** Get Scheduler Log.
+	  * Result of the execution of the Scheduler
+	  */
+	public int getAD_SchedulerLog_ID();
 
     /** Column name BinaryData */
     public static final String COLUMNNAME_BinaryData = "BinaryData";
@@ -197,19 +197,6 @@ public interface I_AD_SchedulerLog
 	  */
 	public String getTextMsg();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -225,4 +212,17 @@ public interface I_AD_SchedulerLog
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

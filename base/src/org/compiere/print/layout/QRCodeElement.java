@@ -87,7 +87,7 @@ public class QRCodeElement extends PrintElement {
         String type = item.getBarcodeType();
         try {
 
-            if (type.equals(MPrintFormatItem.BARCODETYPE_QRQuickResponseCode)) {
+            if (type.equals(MPrintFormatItem.BARCODETYPE_QuickResponseCode)) {
                 if (item.getMaxWidth() <= 0 && item.getMaxHeight() <= 0) {
                     qrImage = null;
                     isValid = false;

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for W_Click
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_W_Click 
 {
@@ -40,6 +40,19 @@ public interface I_W_Click
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name AcceptLanguage */
+    public static final String COLUMNNAME_AcceptLanguage = "AcceptLanguage";
+
+	/** Set Accept Language.
+	  * Language accepted based on browser information
+	  */
+	public void setAcceptLanguage (String AcceptLanguage);
+
+	/** Get Accept Language.
+	  * Language accepted based on browser information
+	  */
+	public String getAcceptLanguage();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -74,19 +87,6 @@ public interface I_W_Click
 	  * User within the system - Internal or Business Partner Contact
 	  */
 	public int getAD_User_ID();
-
-    /** Column name AcceptLanguage */
-    public static final String COLUMNNAME_AcceptLanguage = "AcceptLanguage";
-
-	/** Set Accept Language.
-	  * Language accepted based on browser information
-	  */
-	public void setAcceptLanguage (String AcceptLanguage);
-
-	/** Get Accept Language.
-	  * Language accepted based on browser information
-	  */
-	public String getAcceptLanguage();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -195,19 +195,6 @@ public interface I_W_Click
 	  */
 	public String getTargetURL();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -236,6 +223,19 @@ public interface I_W_Click
 	  * Browser Used
 	  */
 	public String getUserAgent();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name W_ClickCount_ID */
     public static final String COLUMNNAME_W_ClickCount_ID = "W_ClickCount_ID";

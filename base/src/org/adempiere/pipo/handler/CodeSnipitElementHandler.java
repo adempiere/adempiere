@@ -129,14 +129,14 @@ public class CodeSnipitElementHandler extends AbstractElementHandler {
 			int idBackup = DB.getNextID (getClientId(ctx), "AD_Package_Imp_Backup", getTrxName(ctx));        
 			if (success != -1){
 				try {				
-					idDetail = record_log (ctx, 1, sourceName,"codesnipit", 0,0, Object_Status,sourceName,0);
+					idDetail = recordLog (ctx, 1, sourceName,"codesnipit", 0,0, Object_Status,sourceName,0);
 				} catch (SAXException e) {
 					log.info ("setfile:"+e);
 				}           		        		
 			}
 			else{
 				try {
-					idDetail = record_log (ctx, 0, sourceName,"codesnipit", 0,0, Object_Status,sourceName,0);
+					idDetail = recordLog (ctx, 0, sourceName,"codesnipit", 0,0, Object_Status,sourceName,0);
 				} catch (SAXException e) {
 					log.info ("setfile:"+e);
 				}

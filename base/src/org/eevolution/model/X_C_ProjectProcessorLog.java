@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for C_ProjectProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_ProjectProcessorLog extends PO implements I_C_ProjectProcessorLog, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190503L;
 
     /** Standard Constructor */
     public X_C_ProjectProcessorLog (Properties ctx, int C_ProjectProcessorLog_ID, String trxName)
@@ -38,9 +38,10 @@ public class X_C_ProjectProcessorLog extends PO implements I_C_ProjectProcessorL
       super (ctx, C_ProjectProcessorLog_ID, trxName);
       /** if (C_ProjectProcessorLog_ID == 0)
         {
-			setC_ProjectProcessorLog_ID (0);
 			setC_ProjectProcessor_ID (0);
+			setC_ProjectProcessorLog_ID (0);
 			setIsError (false);
+// N
         } */
     }
 
@@ -89,26 +90,6 @@ public class X_C_ProjectProcessorLog extends PO implements I_C_ProjectProcessorL
 		return (byte[])get_Value(COLUMNNAME_BinaryData);
 	}
 
-	/** Set Project Processor Log ID.
-		@param C_ProjectProcessorLog_ID Project Processor Log ID	  */
-	public void setC_ProjectProcessorLog_ID (int C_ProjectProcessorLog_ID)
-	{
-		if (C_ProjectProcessorLog_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_ProjectProcessorLog_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_ProjectProcessorLog_ID, Integer.valueOf(C_ProjectProcessorLog_ID));
-	}
-
-	/** Get Project Processor Log ID.
-		@return Project Processor Log ID	  */
-	public int getC_ProjectProcessorLog_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectProcessorLog_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_C_ProjectProcessor getC_ProjectProcessor() throws RuntimeException
     {
 		return (org.eevolution.model.I_C_ProjectProcessor)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectProcessor.Table_Name)
@@ -137,6 +118,26 @@ public class X_C_ProjectProcessorLog extends PO implements I_C_ProjectProcessorL
 		return ii.intValue();
 	}
 
+	/** Set Project Processor Log.
+		@param C_ProjectProcessorLog_ID Project Processor Log	  */
+	public void setC_ProjectProcessorLog_ID (int C_ProjectProcessorLog_ID)
+	{
+		if (C_ProjectProcessorLog_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectProcessorLog_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectProcessorLog_ID, Integer.valueOf(C_ProjectProcessorLog_ID));
+	}
+
+	/** Get Project Processor Log.
+		@return Project Processor Log	  */
+	public int getC_ProjectProcessorLog_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectProcessorLog_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -152,6 +153,32 @@ public class X_C_ProjectProcessorLog extends PO implements I_C_ProjectProcessorL
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** EventChangeLog AD_Reference_ID=53238 */
+	public static final int EVENTCHANGELOG_AD_Reference_ID=53238;
+	/** Insert = I */
+	public static final String EVENTCHANGELOG_Insert = "I";
+	/** Delete = D */
+	public static final String EVENTCHANGELOG_Delete = "D";
+	/** Update = U */
+	public static final String EVENTCHANGELOG_Update = "U";
+	/** Set Event Change Log.
+		@param EventChangeLog 
+		Type of Event in Change Log
+	  */
+	public void setEventChangeLog (String EventChangeLog)
+	{
+
+		set_Value (COLUMNNAME_EventChangeLog, EventChangeLog);
+	}
+
+	/** Get Event Change Log.
+		@return Type of Event in Change Log
+	  */
+	public String getEventChangeLog () 
+	{
+		return (String)get_Value(COLUMNNAME_EventChangeLog);
 	}
 
 	/** Set Error.

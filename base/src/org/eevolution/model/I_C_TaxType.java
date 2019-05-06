@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_TaxType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_TaxType 
 {
@@ -63,19 +63,6 @@ public interface I_C_TaxType
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_TaxType_ID */
-    public static final String COLUMNNAME_C_TaxType_ID = "C_TaxType_ID";
-
-	/** Set Tax Type.
-	  * Tax Type
-	  */
-	public void setC_TaxType_ID (int C_TaxType_ID);
-
-	/** Get Tax Type.
-	  * Tax Type
-	  */
-	public int getC_TaxType_ID();
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -91,6 +78,19 @@ public interface I_C_TaxType
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_TaxType_ID */
+    public static final String COLUMNNAME_C_TaxType_ID = "C_TaxType_ID";
+
+	/** Set Tax Type.
+	  * Tax Type
+	  */
+	public void setC_TaxType_ID (int C_TaxType_ID);
+
+	/** Get Tax Type.
+	  * Tax Type
+	  */
+	public int getC_TaxType_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -144,19 +144,6 @@ public interface I_C_TaxType
 	  */
 	public String getName();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -172,6 +159,19 @@ public interface I_C_TaxType
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

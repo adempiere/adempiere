@@ -25,11 +25,12 @@ import org.xml.sax.SAXException;
  *	Loader for OFX bank statements (file based)
  *
  *  @author Eldir Tomassen
+ *  @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
+ * 	Remove dead code
  *  @version $Id:
  */
 
-public final class OFXFileBankStatementLoader extends OFXBankStatementHandler implements BankStatementLoaderInterface
-{
+public final class OFXFileBankStatementLoader extends OFXBankStatementHandler implements BankStatementLoaderInterface {
 
 	/**
 	 * Method init
@@ -37,40 +38,29 @@ public final class OFXFileBankStatementLoader extends OFXBankStatementHandler im
 	 * @return boolean
 	 * @see org.compiere.impexp.BankStatementLoaderInterface#init(MBankStatementLoader)
 	 */
-	public boolean init(MBankStatementLoader controller)
-	{
+	public boolean init(MBankStatementLoader controller) {
 		boolean result = false;
 		FileInputStream m_stream = null;
-		try
-		{
+		try {
 			//	Try to open the file specified as a process parameter
-			if (controller.getLocalFileName() != null)
-			{
+			if (controller.getLocalFileName() != null) {
 				m_stream = new FileInputStream(controller.getLocalFileName());
 			}
 			//	Try to open the file specified as part of the loader configuration
-			else if (controller.getFileName() != null)
-			{
+			else if (controller.getFileName() != null) {
 				m_stream = new FileInputStream(controller.getFileName());
 			}
-			else 
-			{
+			if (!super.init(controller)) {
 				return result;
 			}
-			if (!super.init(controller))
-			{
-				return result;
-			}
-			if (m_stream == null)
-			{
+			if (m_stream == null) {
 				return result;
 			}
 			result = attachInput(m_stream);
 			}
-		catch(Exception e)
-		{
+		catch(Exception e) {
 			m_errorMessage = "ErrorReadingData";
-			m_errorDescription = "";
+			m_errorDescription = e.getLocalizedMessage();
 		}
 
 		return result;
@@ -86,8 +76,7 @@ public final class OFXFileBankStatementLoader extends OFXBankStatementHandler im
 	 * @see org.xml.sax.ContentHandler#characters(char[], int, int)
 	 */
 	public void characters (char ch[], int start, int length)
-		throws SAXException
-	{
+		throws SAXException {
 		/*
 		 * There are no additional things to do when importing from file.
 		 * All data is handled by OFXBankStatementHandler

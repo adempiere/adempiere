@@ -1538,7 +1538,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		if ((stringContent == null || stringContent.length() == 0) && item.isSuppressNull())
 			return null;
 		// Add Support for QR Code
-		if (item.getBarcodeType() != null && MPrintFormatItem.BARCODETYPE_QRQuickResponseCode.equals(item.getBarcodeType())) {
+		if (item.getBarcodeType() != null && MPrintFormatItem.BARCODETYPE_QuickResponseCode.equals(item.getBarcodeType())) {
 				QRCodeElement element = new QRCodeElement(stringContent, item);
 				return element;
 		}

@@ -56,6 +56,7 @@ import org.compiere.model.Query;
 import org.compiere.model.X_AD_Reference;
 import org.compiere.model.X_WS_WebServiceMethod;
 import org.compiere.model.X_WS_WebService_Para;
+
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -63,7 +64,6 @@ import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Login;
 import org.compiere.util.Trx;
-
 import pl.x3E.adInterface.ADLoginRequest;
 import pl.x3E.adInterface.DataField;
 import pl.x3E.adInterface.DataRow;
@@ -97,6 +97,9 @@ import pl.x3E.adInterface.ModelCRUD.Action.Enum;
  * Contributors: Carlos Ruiz - globalqss
  *     Add model oriented method modelSetDocAction
  *     Some Polish messages translated to english using google translate
+ * @author Víctor Perez, victor.perez@e-evolution.com, www.e-evolution.com , e-Evolution
+ * <li>#2512 Problem with ADempiere web service when execute process for jasper report or ADempiere Report Engine
+ * <li> https://github.com/adempiere/adempiere/issues/2512
  */
 
 
@@ -415,19 +418,19 @@ public class ModelADServiceImpl implements ModelADService {
 		return null;
 	}
 
-	public RunProcessResponseDocument runProcess(ModelRunProcessRequestDocument req) throws XFireFault {
-		RunProcessResponseDocument resbadlogin = RunProcessResponseDocument.Factory.newInstance();
-		RunProcessResponse rbadlogin = resbadlogin.addNewRunProcessResponse();
-    	ModelRunProcess modelRunProcess = req.getModelRunProcessRequest().getModelRunProcess();
+	public RunProcessResponseDocument runProcess(ModelRunProcessRequestDocument modelRunProcessRequestDocument) throws XFireFault {
+		RunProcessResponseDocument runProcessResponseDocument = RunProcessResponseDocument.Factory.newInstance();
+		RunProcessResponse runProcessResponse = runProcessResponseDocument.addNewRunProcessResponse();
+    	ModelRunProcess modelRunProcess = modelRunProcessRequestDocument.getModelRunProcessRequest().getModelRunProcess();
 		String serviceType = modelRunProcess.getServiceType();
 
-		ADLoginRequest reqlogin = req.getModelRunProcessRequest().getADLoginRequest();
+		ADLoginRequest loginRequest = modelRunProcessRequestDocument.getModelRunProcessRequest().getADLoginRequest();
 
-    	String err = modelLogin(reqlogin, webServiceName, "runProcess", serviceType);
-    	if (err != null && err.length() > 0) {
-    		rbadlogin.setError(err);
-    		rbadlogin.setIsError( true );
-        	return resbadlogin;
+    	String error = modelLogin(loginRequest, webServiceName, "runProcess", serviceType);
+    	if (error != null && error.length() > 0) {
+    		runProcessResponse.setError(error);
+    		runProcessResponse.setIsError( true );
+        	return runProcessResponseDocument;
     	}
 
     	// Validate parameters
@@ -436,14 +439,14 @@ public class ModelADServiceImpl implements ModelADService {
     	modelRunProcess.setADRecordID(validateParameter("AD_Record_ID", modelRunProcess.getADRecordID()));
     	modelRunProcess.setDocAction(validateParameter("DocAction", modelRunProcess.getDocAction()));
 
-		RunProcessDocument docprocess = RunProcessDocument.Factory.newInstance();
-    	RunProcess reqprocess = docprocess.addNewRunProcess();
-    	reqprocess.setParamValues(modelRunProcess.getParamValues());
-    	reqprocess.setADProcessID(modelRunProcess.getADProcessID());
-    	reqprocess.setADMenuID(modelRunProcess.getADMenuID());
-    	reqprocess.setADRecordID(modelRunProcess.getADRecordID());
-    	reqprocess.setDocAction(modelRunProcess.getDocAction());
-    	return Process.runProcess(m_cs, docprocess);
+		RunProcessDocument runProcessDocument = RunProcessDocument.Factory.newInstance();
+    	RunProcess runProcess = runProcessDocument.addNewRunProcess();
+    	runProcess.setParamValues(modelRunProcess.getParamValues());
+    	runProcess.setADProcessID(modelRunProcess.getADProcessID());
+    	runProcess.setADMenuID(modelRunProcess.getADMenuID());
+    	runProcess.setADRecordID(modelRunProcess.getADRecordID());
+    	runProcess.setDocAction(modelRunProcess.getDocAction());
+    	return Process.runProcess(m_cs, runProcessDocument);
 	}
 
 	public WindowTabDataDocument getList(ModelGetListRequestDocument req)
@@ -1046,8 +1049,12 @@ public class ModelADServiceImpl implements ModelADService {
 						+ field.getColumn() + " not allowed", new QName("queryData"));
     		}
 		}
-		if (modelCRUD.getFilter() != null && modelCRUD.getFilter().length() > 0)
-			sqlWhere += " AND " + modelCRUD.getFilter();
+		if (modelCRUD.getFilter() != null && modelCRUD.getFilter().length() > 0) {
+			if (!sqlWhere.isEmpty()) {
+				sqlWhere += " AND ";
+			}
+			sqlWhere += modelCRUD.getFilter();
+		}
 		
     	POInfo poinfo = POInfo.getPOInfo(ctx, table.getAD_Table_ID());
     	int cnt = 0;
@@ -1059,8 +1066,15 @@ public class ModelADServiceImpl implements ModelADService {
 				Object[] parameters = new Object[modelCRUD.getDataRow().getFieldList().size()];
 				int p = 1;
 				int i=0;
-				for (DataField field : modelCRUD.getDataRow().getFieldList()){ 
-					parameters[i] = field.getVal();
+				for (DataField field : modelCRUD.getDataRow().getFieldList()){
+					int index = poinfo.getColumnIndex(field.getColumn());
+					Class<?> c = poinfo.getColumnClass(index);
+					if (c == Integer.class)
+						parameters[i] = Integer.valueOf(field.getVal());
+					else if (c == Timestamp.class)
+						parameters[i] = Timestamp.valueOf(field.getVal());
+					else if (c == Boolean.class || c == String.class)
+						parameters[i] =  field.getVal();
 					i++;
 				}
 

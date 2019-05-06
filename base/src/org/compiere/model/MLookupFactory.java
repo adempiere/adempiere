@@ -149,7 +149,6 @@ public class MLookupFactory
 		return new MLookup(info, TabNo);
 	}   //  get
 
-
 	/**************************************************************************
 	 *  Get Information for Lookups based on Column_ID for Table Columns or Process Parameters.
 	 *
@@ -169,12 +168,37 @@ public class MLookupFactory
 	 *  @return lookup info structure
 	 */
 	static public MLookupInfo getLookupInfo (Properties ctx, int WindowNo,
+			int Column_ID, int AD_Reference_ID,
+			Language language, String ColumnName, int AD_Reference_Value_ID,
+			boolean IsParent, String ValidationCode) {
+		return getLookupInfo(ctx, WindowNo, Column_ID, AD_Reference_ID, language, ColumnName, AD_Reference_Value_ID, IsParent, ValidationCode, true);		
+	}
+
+	/**************************************************************************
+	 *  Get Information for Lookups based on Column_ID for Table Columns or Process Parameters.
+	 *
+	 *	The SQL returns three columns:
+	 *  <pre>
+	 *		Key, Value, Name, IsActive	(where either key or value is null)
+	 *  </pre>
+	 *  @param ctx context for access
+	 *  @param language report language
+	 *  @param WindowNo window no
+	 *  @param Column_ID AD_Column_ID or AD_Process_Para_ID
+	 * 	@param ColumnName key column name
+	 * 	@param AD_Reference_ID display type
+	 * 	@param AD_Reference_Value_ID AD_Reference (List, Table)
+	 * 	@param IsParent parent (prevents query to directly access value)
+	 * 	@param ValidationCode optional SQL validation
+	 * 	@param needToAddSecurity optional for add security
+	 *  @return lookup info structure
+	 */
+	static public MLookupInfo getLookupInfo (Properties ctx, int WindowNo,
 		int Column_ID, int AD_Reference_ID,
 		Language language, String ColumnName, int AD_Reference_Value_ID,
-		boolean IsParent, String ValidationCode)
+		boolean IsParent, String ValidationCode, boolean needToAddSecurity)
 	{
 		MLookupInfo info = null;
-		boolean needToAddSecurity = true;
 		//	List
 		if (AD_Reference_ID == DisplayType.List)	//	17
 		{

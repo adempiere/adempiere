@@ -1,3 +1,19 @@
+/******************************************************************************
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ *****************************************************************************/
 package org.adempiere.webui.component;
 
 import java.util.ArrayList;
@@ -5,18 +21,23 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.adempiere.webui.apps.AEnv;
+import org.adempiere.webui.panel.MenuPanel;
 import org.adempiere.webui.session.SessionManager;
-import org.adempiere.webui.window.WTextEditorDialog;
+import org.adempiere.webui.theme.ITheme;
+import org.adempiere.webui.window.WStringEditorDialog;
 import org.compiere.model.MTreeFavorite;
 import org.compiere.model.MTreeFavoriteNode;
 import org.compiere.model.MTreeNode;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.zkoss.lang.Objects;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.event.MouseEvent;
 import org.zkoss.zul.SimpleTreeModel;
 import org.zkoss.zul.SimpleTreeNode;
 import org.zkoss.zul.Tree;
@@ -26,6 +47,16 @@ import org.zkoss.zul.TreeitemRenderer;
 import org.zkoss.zul.Treerow;
 import org.zkoss.zul.event.TreeDataEvent;
 
+/**
+ * A tree model for a simple list of user favorites. 
+ * 
+ * @author jtrinidad Adaxa - source of the original code
+ * @author marcalwestf Mario Calderone, Westfalia
+ * 	<li><a href="https://github.com/adempiere/adempiere/issues/911">#911 User Favorite Tree Panel</a> - add Adaxa contribution
+ * @author Michael McKay, mckayERP@gmail.com
+ *   <li><a href="https://github.com/adempiere/adempiere/issues/2324">#2324 User Favorites will not accept entry without folder</a> 
+ *
+ */
 public class SimpleFavoriteTreeModel extends SimpleTreeModel implements EventListener, TreeitemRenderer
 {
 
@@ -34,7 +65,16 @@ public class SimpleFavoriteTreeModel extends SimpleTreeModel implements EventLis
 	private boolean					itemDraggable;
 	private static int				currFolderID		= 0;
 	private List<EventListener>		onDropListners		= new ArrayList<EventListener>();
+	
+	/** "Draggable" identifier used for the tree items */
+	public static final String		USER_FAVORITE_DRAGGABLE_TYPE = "favoriteItem";
+	
+	public static ADTreeFavoriteOnDropListener listener;
 
+	/** 
+	 * Constructor
+	 * @param root
+	 */
 	public SimpleFavoriteTreeModel(SimpleTreeNode root)
 	{
 		super(root);
@@ -72,8 +112,9 @@ public class SimpleFavoriteTreeModel extends SimpleTreeModel implements EventLis
 		currFolderID = root.getNode_ID();
 		SimpleFavoriteTreeModel treeModel = SimpleFavoriteTreeModel.createFrom(root);
 
+		listener = ADTreeFavoriteOnDropListener.create(tree, treeModel, mTreeFavorite, windowNo);
 		treeModel.setItemDraggable(true);
-		treeModel.addOnDropEventListener(new ADTreeFavoriteOnDropListener(tree, treeModel, mTreeFavorite, windowNo));
+		treeModel.addOnDropEventListener(listener);
 
 		tree.setPageSize(-1);
 		try
@@ -95,16 +136,19 @@ public class SimpleFavoriteTreeModel extends SimpleTreeModel implements EventLis
 	 * @param root
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	public static SimpleFavoriteTreeModel createFrom(MTreeNode root)
 	{
 		SimpleFavoriteTreeModel model = null;
-		Enumeration nodeEnum = root.children();
 
-		SimpleTreeNode stRoot = new SimpleTreeNode(root, new ArrayList());
+		SimpleTreeNode stRoot = new SimpleTreeNode(root, new ArrayList<SimpleTreeNode>());
+		
+		Enumeration<?> nodeEnum = root.children();
+
 		while (nodeEnum.hasMoreElements())
 		{
 			MTreeNode childNode = (MTreeNode) nodeEnum.nextElement();
-			SimpleTreeNode stNode = new SimpleTreeNode(childNode, new ArrayList());
+			SimpleTreeNode stNode = new SimpleTreeNode(childNode, new ArrayList<SimpleTreeNode>());
 			stRoot.getChildren().add(stNode);
 			if (childNode.getChildCount() > 0)
 			{
@@ -121,13 +165,14 @@ public class SimpleFavoriteTreeModel extends SimpleTreeModel implements EventLis
 	 * @param stNode
 	 * @param root
 	 */
+	@SuppressWarnings("unchecked")
 	private static void populate(SimpleTreeNode stNode, MTreeNode root)
 	{
-		Enumeration nodeEnum = root.children();
+		Enumeration<?> nodeEnum = root.children();
 		while (nodeEnum.hasMoreElements())
 		{
 			MTreeNode childNode = (MTreeNode) nodeEnum.nextElement();
-			SimpleTreeNode stChildNode = new SimpleTreeNode(childNode, new ArrayList());
+			SimpleTreeNode stChildNode = new SimpleTreeNode(childNode, new ArrayList<SimpleTreeNode>());
 			stNode.getChildren().add(stChildNode);
 			if (childNode.getChildCount() > 0)
 			{
@@ -146,9 +191,13 @@ public class SimpleFavoriteTreeModel extends SimpleTreeModel implements EventLis
 		MTreeNode mtn = (MTreeNode) stn.getData();
 		Treecell tc;
 		if (!mtn.isSummary())
+		{
 			tc = new Treecell(Objects.toString(node), getIconFile(mtn));
+		}
 		else
-			tc = new Treecell(Objects.toString(node), "images/Folder16.png");
+		{
+			tc = new Treecell(Objects.toString(node), "images/dark/FolderPlain16.png");
+		}
 		Treerow tr = null;
 		if (ti.getTreerow() == null)
 		{
@@ -156,13 +205,15 @@ public class SimpleFavoriteTreeModel extends SimpleTreeModel implements EventLis
 			tr.setParent(ti);
 			if (isItemDraggable())
 			{
-				tr.setDraggable("true");
+				tr.setDraggable(USER_FAVORITE_DRAGGABLE_TYPE);
 			}
 			if (!onDropListners.isEmpty())
 			{
 				ti.getTreerow().addEventListener(Events.ON_CLICK, this);
 				ti.getTreerow().addEventListener(Events.ON_DOUBLE_CLICK, this);
-				tr.setDroppable("true");
+				// Row items will accept drops from the main menu or 
+				// from within this tree
+				tr.setDroppable(MenuPanel.MENU_ITEM_DRAGGABLE_TYPE + "," + USER_FAVORITE_DRAGGABLE_TYPE);
 				tr.addEventListener(Events.ON_SELECT, this);
 				tr.addEventListener(Events.ON_RIGHT_CLICK, this);
 				tr.addEventListener(Events.ON_DROP, this);
@@ -175,6 +226,8 @@ public class SimpleFavoriteTreeModel extends SimpleTreeModel implements EventLis
 		}
 		tc.setParent(tr);
 		ti.setValue(node);
+		ti.setTooltiptext(Msg.parseTranslation(Env.getCtx(), mtn.getName() + "\n\n@DPUserFavorite.treeitem.tooltip@"));
+
 	}
 
 	/**
@@ -184,15 +237,7 @@ public class SimpleFavoriteTreeModel extends SimpleTreeModel implements EventLis
 	 */
 	private String getIconFile(MTreeNode mt)
 	{
-		if (mt.isWindow())
-			return "images/mWindow.png";
-		if (mt.isReport())
-			return "images/mReport.png";
-		if (mt.isProcess())
-			return "images/mProcess.png";
-		if (mt.isWorkFlow())
-			return "images/mWorkFlow.png";
-		return "images/mWindow.png";
+		return AEnv.getMenuIconFile(mt.getImageIndiactor());
 	}
 
 	/**
@@ -264,33 +309,44 @@ public class SimpleFavoriteTreeModel extends SimpleTreeModel implements EventLis
 				MTreeNode mtn = (MTreeNode) simpleTreeNode.getData();
 				if (mtn.isSummary())
 				{
-					WTextEditorDialog dialog = new WTextEditorDialog("Edit folder text",
-							mtn.getName() == null ? "" : mtn.getName(), true, 100, false);
+					WStringEditorDialog dialog = new WStringEditorDialog(Msg.getMsg(Env.getCtx(), "SimpleFavoriteTreeModel.rename.folder"),
+							mtn.getName() == null ? "" : mtn.getName(), true, 60);
 					
 					dialog.setAttribute(Window.MODE_KEY, Window.MODE_MODAL);
+					dialog.setLeft(((MouseEvent) event).getX() + "px");
+					dialog.setTop(((MouseEvent) event).getX() + "px");
+					
 					SessionManager.getAppDesktop().showWindow(dialog);
 					if (!dialog.isCancelled())
 					{
-						mtn.setName(dialog.getText());
-						MTreeFavoriteNode treeFavNode = new MTreeFavoriteNode(Env.getCtx(), mtn.getNode_ID(), null);
-						treeFavNode.setNodeName(dialog.getText());
-						treeFavNode.saveEx();
-
-						int path[] = this.getPath(getRoot(), simpleTreeNode);
-						if (path != null && path.length > 0)
-						{
-							SimpleTreeNode parentNode = getRoot();
-							int index = path.length - 1;
-							for (int i = 0; i < index; i++)
-							{
-								parentNode = (SimpleTreeNode) getChild(parentNode, path[i]);
-							}
-							fireEvent(parentNode, path[index], path[index], TreeDataEvent.CONTENTS_CHANGED);
-						}
+						renameNode(simpleTreeNode, dialog.getText());
 					}
 				}
 			}
 		}
+	}
+
+	public void renameNode(SimpleTreeNode simpleTreeNode, String newName) {
+
+		MTreeNode mtn = (MTreeNode) simpleTreeNode.getData();
+		mtn.setName(newName);
+		MTreeFavoriteNode treeFavNode = new MTreeFavoriteNode(Env.getCtx(), mtn.getNode_ID(), null);
+		treeFavNode.setNodeName(newName);
+		treeFavNode.saveEx();
+
+		int path[] = this.getPath(getRoot(), simpleTreeNode);
+		if (path != null && path.length > 0)
+		{
+			SimpleTreeNode parentNode = getRoot();
+			int index = path.length - 1;
+			for (int i = 0; i < index; i++)
+			{
+				parentNode = (SimpleTreeNode) getChild(parentNode, path[i]);
+			}
+			fireEvent(parentNode, path[index], path[index], TreeDataEvent.CONTENTS_CHANGED);
+		}
+
+		
 	}
 
 	public void removeNode(SimpleTreeNode treeNode)
@@ -310,6 +366,7 @@ public class SimpleFavoriteTreeModel extends SimpleTreeModel implements EventLis
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public void addNode(SimpleTreeNode newNode)
 	{
 		SimpleTreeNode root = (SimpleTreeNode) getRoot();
@@ -317,6 +374,7 @@ public class SimpleFavoriteTreeModel extends SimpleTreeModel implements EventLis
 		fireEvent(root, root.getChildCount() - 1, root.getChildCount() - 1, TreeDataEvent.INTERVAL_ADDED);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void addNode(SimpleTreeNode newParent, SimpleTreeNode newNode, int index)
 	{
 		newParent.getChildren().add(index, newNode);

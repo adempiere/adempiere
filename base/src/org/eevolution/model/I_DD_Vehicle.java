@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_Vehicle
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_DD_Vehicle 
 {
@@ -41,6 +41,21 @@ public interface I_DD_Vehicle
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
+
+    /** Column name A_Asset_ID */
+    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
+
+	/** Set Fixed Asset.
+	  * Fixed Asset used internally or by customers
+	  */
+	public void setA_Asset_ID (int A_Asset_ID);
+
+	/** Get Fixed Asset.
+	  * Fixed Asset used internally or by customers
+	  */
+	public int getA_Asset_ID();
+
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -76,21 +91,6 @@ public interface I_DD_Vehicle
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name A_Asset_ID */
-    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
-
-	/** Set Fixed Asset.
-	  * Fixed Asset used internally or by customers
-	  */
-	public void setA_Asset_ID (int A_Asset_ID);
-
-	/** Get Fixed Asset.
-	  * Fixed Asset used internally or by customers
-	  */
-	public int getA_Asset_ID();
-
-	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
-
     /** Column name CompartmentsNumber */
     public static final String COLUMNNAME_CompartmentsNumber = "CompartmentsNumber";
 
@@ -113,19 +113,6 @@ public interface I_DD_Vehicle
 	  */
 	public String getCopyFrom();
 
-    /** Column name CreateFrom */
-    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
-
-	/** Set Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public void setCreateFrom (String CreateFrom);
-
-	/** Get Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public String getCreateFrom();
-
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -141,6 +128,19 @@ public interface I_DD_Vehicle
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name CreateFrom */
+    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
+
+	/** Set Create lines from.
+	  * Process which will generate a new document lines based on an existing document
+	  */
+	public void setCreateFrom (String CreateFrom);
+
+	/** Get Create lines from.
+	  * Process which will generate a new document lines based on an existing document
+	  */
+	public String getCreateFrom();
 
     /** Column name DD_CompatibilityGroup_ID */
     public static final String COLUMNNAME_DD_CompatibilityGroup_ID = "DD_CompatibilityGroup_ID";
@@ -186,6 +186,15 @@ public interface I_DD_Vehicle
 
 	public org.eevolution.model.I_DD_RequirementAssignment getDD_RequirementAssignment() throws RuntimeException;
 
+    /** Column name DD_Vehicle_ID */
+    public static final String COLUMNNAME_DD_Vehicle_ID = "DD_Vehicle_ID";
+
+	/** Set Vehicle	  */
+	public void setDD_Vehicle_ID (int DD_Vehicle_ID);
+
+	/** Get Vehicle	  */
+	public int getDD_Vehicle_ID();
+
     /** Column name DD_VehicleType_ID */
     public static final String COLUMNNAME_DD_VehicleType_ID = "DD_VehicleType_ID";
 
@@ -196,15 +205,6 @@ public interface I_DD_Vehicle
 	public int getDD_VehicleType_ID();
 
 	public org.eevolution.model.I_DD_VehicleType getDD_VehicleType() throws RuntimeException;
-
-    /** Column name DD_Vehicle_ID */
-    public static final String COLUMNNAME_DD_Vehicle_ID = "DD_Vehicle_ID";
-
-	/** Set Vehicle	  */
-	public void setDD_Vehicle_ID (int DD_Vehicle_ID);
-
-	/** Get Vehicle	  */
-	public int getDD_Vehicle_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -362,19 +362,6 @@ public interface I_DD_Vehicle
 	/** Get Transport Width	  */
 	public BigDecimal getTransportWidth();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name UnladenWeight */
     public static final String COLUMNNAME_UnladenWeight = "UnladenWeight";
 
@@ -399,6 +386,19 @@ public interface I_DD_Vehicle
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

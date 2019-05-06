@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Spread
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_A_Asset_Spread 
 {
@@ -40,6 +40,24 @@ public interface I_A_Asset_Spread
     BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
+
+    /** Column name A_Asset_Spread_ID */
+    public static final String COLUMNNAME_A_Asset_Spread_ID = "A_Asset_Spread_ID";
+
+	/** Set A_Asset_Spread_ID	  */
+	public void setA_Asset_Spread_ID (int A_Asset_Spread_ID);
+
+	/** Get A_Asset_Spread_ID	  */
+	public int getA_Asset_Spread_ID();
+
+    /** Column name A_Asset_Spread_Type */
+    public static final String COLUMNNAME_A_Asset_Spread_Type = "A_Asset_Spread_Type";
+
+	/** Set Spread Type	  */
+	public void setA_Asset_Spread_Type (String A_Asset_Spread_Type);
+
+	/** Get Spread Type	  */
+	public String getA_Asset_Spread_Type();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -61,24 +79,6 @@ public interface I_A_Asset_Spread
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
-
-    /** Column name A_Asset_Spread_ID */
-    public static final String COLUMNNAME_A_Asset_Spread_ID = "A_Asset_Spread_ID";
-
-	/** Set A_Asset_Spread_ID	  */
-	public void setA_Asset_Spread_ID (int A_Asset_Spread_ID);
-
-	/** Get A_Asset_Spread_ID	  */
-	public int getA_Asset_Spread_ID();
-
-    /** Column name A_Asset_Spread_Type */
-    public static final String COLUMNNAME_A_Asset_Spread_Type = "A_Asset_Spread_Type";
-
-	/** Set Spread Type	  */
-	public void setA_Asset_Spread_Type (String A_Asset_Spread_Type);
-
-	/** Get Spread Type	  */
-	public String getA_Asset_Spread_Type();
 
     /** Column name A_Period_1 */
     public static final String COLUMNNAME_A_Period_1 = "A_Period_1";
@@ -248,19 +248,6 @@ public interface I_A_Asset_Spread
 	  */
 	public boolean isActive();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -276,4 +263,17 @@ public interface I_A_Asset_Spread
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

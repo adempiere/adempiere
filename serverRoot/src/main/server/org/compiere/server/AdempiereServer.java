@@ -36,11 +36,15 @@ import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 import org.compiere.wf.MWorkflowProcessor;
+import org.eevolution.model.MProjectProcessor;
 
 /**
  *	ADempiere Server Base
  *
  *  @author Jorg Janke
+ *  @author Carlos Parada, cparada@erpya.com, ERPCyA http://www.erpya.com
+ *  		<a href="https://github.com/adempiere/adempiere/issues/2202">
+ *			@see FR [ 2202 ] Add Support to Project Processor</a>
  */
 public abstract class AdempiereServer extends Thread
 {
@@ -65,6 +69,9 @@ public abstract class AdempiereServer extends Thread
 			return new LdapProcessor((MLdapProcessor)model);
 		if (model instanceof MIMPProcessor) // @Trifon
 			return new ReplicationProcessor((MIMPProcessor)model);
+		//FR [ 2202 ]
+		if (model instanceof MProjectProcessor)
+			return new ProjectProcessor((MProjectProcessor) model);
 		//
 		throw new IllegalArgumentException("Unknown Processor");
 	}	//	 create
@@ -82,8 +89,12 @@ public abstract class AdempiereServer extends Thread
 		m_ctx = new Properties(model.getCtx());
 		if (p_system == null)
 			p_system = MSystem.get(m_ctx);
-		p_client = MClient.get(m_ctx);
+		
+		//p_client = MClient.get(m_ctx);
+		//FR [ 2202 ]
+		p_client = MClient.get(m_ctx, model.getAD_Client_ID());
 		Env.setContext(m_ctx, "#AD_Client_ID", p_client.getAD_Client_ID());
+		Env.setContext(m_ctx, "#AD_Language", p_client.getAD_Language());
 		m_initialNap = initialNap;
 		Timestamp dateNextRun = getDateNextRun(true);
 		if (dateNextRun != null)

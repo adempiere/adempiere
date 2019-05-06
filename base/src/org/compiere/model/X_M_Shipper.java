@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Shipper
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_M_Shipper extends PO implements I_M_Shipper, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_M_Shipper (Properties ctx, int M_Shipper_ID, String trxName)
@@ -71,6 +71,23 @@ public class X_M_Shipper extends PO implements I_M_Shipper, I_Persistent
       return sb.toString();
     }
 
+	/** Set Calculation Class.
+		@param CalculationClass 
+		Java Class for calculation, implementing Interface Measure
+	  */
+	public void setCalculationClass (String CalculationClass)
+	{
+		set_Value (COLUMNNAME_CalculationClass, CalculationClass);
+	}
+
+	/** Get Calculation Class.
+		@return Java Class for calculation, implementing Interface Measure
+	  */
+	public String getCalculationClass () 
+	{
+		return (String)get_Value(COLUMNNAME_CalculationClass);
+	}
+
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
     {
 		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
@@ -97,23 +114,6 @@ public class X_M_Shipper extends PO implements I_M_Shipper, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Calculation Class.
-		@param CalculationClass 
-		Java Class for calculation, implementing Interface Measure
-	  */
-	public void setCalculationClass (String CalculationClass)
-	{
-		set_Value (COLUMNNAME_CalculationClass, CalculationClass);
-	}
-
-	/** Get Calculation Class.
-		@return Java Class for calculation, implementing Interface Measure
-	  */
-	public String getCalculationClass () 
-	{
-		return (String)get_Value(COLUMNNAME_CalculationClass);
 	}
 
 	/** Set Description.

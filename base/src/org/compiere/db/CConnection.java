@@ -225,6 +225,8 @@ public class CConnection implements Serializable, Cloneable
 
 	/** Database Type       */
 	private String 		m_type = "";
+	/**	Supported DB UUID		*/
+	private boolean 	isSupportedUUIDFromDB = false;
 
 	/** Database Host       */
 	private String 		m_db_host = "MyDBServer";
@@ -1640,6 +1642,22 @@ public class CConnection implements Serializable, Cloneable
 	 */
 	public static boolean isServerEmbedded() {
 		return "true".equalsIgnoreCase(System.getProperty(SERVER_EMBEDDED));
+	}
+	
+	/**
+	 * verify if is supported UUID from DB
+	 * @return
+	 */
+	public boolean isSupportedUUIDFromDB() {
+		return isSupportedUUIDFromDB;
+	}
+	
+	/**
+	 * Set info about UUID from DB supported
+	 * @param isSupportedUUIDFromDB
+	 */
+	public void setIsSupportedUUIDFromDB(boolean isSupportedUUIDFromDB) {
+		this.isSupportedUUIDFromDB = isSupportedUUIDFromDB;
 	}
 
 	public void setAppServerCredential(String principal, String credential)

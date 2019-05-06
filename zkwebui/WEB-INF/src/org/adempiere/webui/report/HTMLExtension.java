@@ -13,7 +13,6 @@
  *****************************************************************************/
 package org.adempiere.webui.report;
 
-import org.adempiere.pipo.handler.PrintFormatItemElementHandler;
 import org.adempiere.webui.apps.AEnv;
 import org.apache.ecs.ConcreteElement;
 import org.apache.ecs.xhtml.a;

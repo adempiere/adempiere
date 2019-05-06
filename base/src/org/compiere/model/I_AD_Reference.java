@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Reference
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_AD_Reference 
 {
@@ -171,19 +171,6 @@ public interface I_AD_Reference
 	  */
 	public String getName();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -200,6 +187,32 @@ public interface I_AD_Reference
 	  */
 	public int getUpdatedBy();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
+    /** Column name ValidationType */
+    public static final String COLUMNNAME_ValidationType = "ValidationType";
+
+	/** Set Validation type.
+	  * Different method of validating data
+	  */
+	public void setValidationType (String ValidationType);
+
+	/** Get Validation type.
+	  * Different method of validating data
+	  */
+	public String getValidationType();
+
     /** Column name VFormat */
     public static final String COLUMNNAME_VFormat = "VFormat";
 
@@ -214,17 +227,4 @@ public interface I_AD_Reference
  Can contain fixed format elements, Variables: "_lLoOaAcCa09"
 	  */
 	public String getVFormat();
-
-    /** Column name ValidationType */
-    public static final String COLUMNNAME_ValidationType = "ValidationType";
-
-	/** Set Validation type.
-	  * Different method of validating data
-	  */
-	public void setValidationType (String ValidationType);
-
-	/** Get Validation type.
-	  * Different method of validating data
-	  */
-	public String getValidationType();
 }

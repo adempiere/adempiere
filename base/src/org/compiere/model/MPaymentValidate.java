@@ -69,6 +69,9 @@ public class MPaymentValidate
 	 */
 	public static int getCreditCardExpMM (String mmyy)
 	{
+		if (mmyy == null || mmyy.isEmpty() || mmyy.length() < 2)
+			return 0;
+		
 		String mmStr = mmyy.substring(0,2);
 		int mm = 0;
 		try
@@ -88,6 +91,9 @@ public class MPaymentValidate
 	 */
 	public static int getCreditCardExpYY (String mmyy)
 	{
+		if (mmyy == null || mmyy.isEmpty() || mmyy.length() < 4)
+			return 0;
+		
 		String yyStr = mmyy.substring(2);
 		int yy = 0;
 		try

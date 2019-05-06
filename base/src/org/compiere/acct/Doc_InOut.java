@@ -1,5 +1,5 @@
 /******************************************************************************
-// * Product: Adempiere ERP & CRM Smart Business Solution                       *
+// * Product: Adempiere ERP & CRM Smart Business Solution                     *
  * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
  * This program is free software; you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
@@ -40,6 +40,9 @@ import org.compiere.util.Env;
  *  @author Armen Rizal, Goodwill Consulting
  * 			<li>BF [ 1745154 ] Cost in Reversing Material Related Docs
  * 			<li>BF [ 2858043 ] Correct Included Tax in Average Costing
+ *  @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/2444">
+ * 		@see BR [2444] Shipment Commitment is wrong for parcial delivery</a>
  */
 public class Doc_InOut extends Doc
 {
@@ -55,7 +58,6 @@ public class Doc_InOut extends Doc
 	}   //  DocInOut
 
 	private int				m_Reversal_ID = 0;
-	private String			m_DocStatus = "";
 	
 	/**
 	 *  Load Document Details
@@ -67,7 +69,6 @@ public class Doc_InOut extends Doc
 		MInOut inout = (MInOut)getPO();
 		setDateDoc (inout.getMovementDate());
 		m_Reversal_ID = inout.getReversal_ID();//store original (voided/reversed) document
-		m_DocStatus = inout.getDocStatus();
 		//	Contained Objects
 		p_lines = loadLines(inout);
 		log.fine("Lines=" + p_lines.length);
@@ -86,9 +87,7 @@ public class Doc_InOut extends Doc
 		for (int i = 0; i < lines.length; i++)
 		{
 			MInOutLine line = lines[i];
-			if (line.isDescription() 
-				|| line.getM_Product_ID() == 0
-				|| line.getMovementQty().signum() == 0)
+			if (line.isDescription())
 			{
 				log.finer("Ignored: " + line);
 				continue;
@@ -97,7 +96,7 @@ public class Doc_InOut extends Doc
 			DocLine docLine = new DocLine (line, this);
 			BigDecimal Qty = line.getMovementQty();
 			docLine.setReversalLine_ID(line.getReversalLine_ID());		
-			docLine.setQty (Qty, getDocumentType().equals(DOCTYPE_MatShipment));    //  sets Trx and Storage Qty
+			docLine.setQty (Qty, !getDocumentType().equals(DOCTYPE_MatShipment));    //  sets Trx and Storage Qty
 			
 			//Define if Outside Processing 
 			String sql = "SELECT PP_Cost_Collector_ID  FROM C_OrderLine WHERE C_OrderLine_ID=? AND PP_Cost_Collector_ID IS NOT NULL";
@@ -124,6 +123,15 @@ public class Doc_InOut extends Doc
 		return retValue;
 	}   //  getBalance
 
+	/**
+	 * Validate Line for product
+	 * @param docLine
+	 * @return
+	 */
+	private boolean isValidLine(DocLine docLine) {
+		return docLine.getM_Product_ID() > 0 && docLine.getQty().signum() != 0;
+	}
+	
 	/**
 	 *  Create Facts (the accounting logic) for
 	 *  MMS, MMR.
@@ -160,9 +168,10 @@ public class Doc_InOut extends Doc
 			for (int i = 0; i < p_lines.length; i++)
 			{
 				DocLine line = p_lines[i];
+				if(!isValidLine(line)) {
+					continue;
+				}
 				BigDecimal costs = null;			
-				MProduct product = line.getProduct();
-				
 				for (MCostDetail cost :  line.getCostDetail(as,false))
 				{	 
 					if (!MCostDetail.existsCost(cost))
@@ -231,18 +240,6 @@ public class Doc_InOut extends Doc
 						costs = cr.getAcctBalance(); //get original cost
 					}
 				} // costing elements
-				if (total == null || total.signum() == 0)	//	zero costs OK
-				{
-					/*if (product.isStocked())
-					{
-						p_Error = "No Costs for " + line.getProduct().getName();
-						log.log(Level.WARNING, p_Error);
-						return null;
-					}
-					else	//	ignore service
-						continue;
-					*/	
-				}
 			}	//	for all linesQty
 
 
@@ -252,7 +249,7 @@ public class Doc_InOut extends Doc
 				for (int i = 0; i < p_lines.length; i++)
 				{
 					DocLine line = p_lines[i];
-					BigDecimal multiplier = Env.ONE.negate();
+					BigDecimal multiplier = Env.ONE;
 					if (m_Reversal_ID != 0 && m_Reversal_ID < get_ID())
 						multiplier = multiplier.negate();
 					Fact factcomm = Doc_Order.getCommitmentSalesRelease(as, this, 
@@ -271,8 +268,10 @@ public class Doc_InOut extends Doc
 			for (int i = 0; i < p_lines.length; i++)
 			{
 				DocLine line = p_lines[i];
-				BigDecimal costs = null;				
-				MProduct product = line.getProduct();
+				if(!isValidLine(line)) {
+					continue;
+				}
+				BigDecimal costs = null;			
 				for (MCostDetail cost : line.getCostDetail(as, false))
 				{	
 					if (!MCostDetail.existsCost(cost))
@@ -364,6 +363,9 @@ public class Doc_InOut extends Doc
 				int C_Currency_ID = as.getC_Currency_ID();
 				//
 				DocLine line = p_lines[i];
+				if(!isValidLine(line)) {
+					continue;
+				}
 				BigDecimal costs = null;
 				MProduct product = line.getProduct();
 				for (MCostDetail cost : line.getCostDetail(as, true))
@@ -463,6 +465,9 @@ public class Doc_InOut extends Doc
 				int C_Currency_ID = as.getC_Currency_ID();
 				//
 				DocLine line = p_lines[i];
+				if(!isValidLine(line)) {
+					continue;
+				}
 				BigDecimal costs = null;
 				
 				MProduct product = line.getProduct();

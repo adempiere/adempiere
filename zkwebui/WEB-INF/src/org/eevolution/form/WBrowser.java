@@ -277,6 +277,7 @@ public class WBrowser extends Browser implements IFormController,
 	 */
 	protected void executeQuery() {
 		//	FR [ 245 ]
+		reloadDependents();
 		String errorMsg = searchGrid.validateParameters();
 		if (errorMsg == null) {
 			if (getAD_Window_ID() > 1)
@@ -294,10 +295,6 @@ public class WBrowser extends Browser implements IFormController,
 			}
 			loadedOK = initBrowser();
 
-			Env.setContext(Env.getCtx(), 0, "currWindowNo", getWindowNo());
-			if (parameterPanel != null)
-				parameterPanel.refreshContext();
-
 			int no = testCount();
 			if (no > 0) {
 				if(!FDialog.ask(getWindowNo(), m_frame, "InfoHighRecordCount",
@@ -314,6 +311,15 @@ public class WBrowser extends Browser implements IFormController,
 			FDialog.error(getWindowNo(), m_frame, 
 					"FillMandatory", Msg.parseTranslation(Env.getCtx(), errorMsg));
 		}
+	}
+	
+	/**
+	 * Reload dependents
+	 */
+	private void reloadDependents() {
+		Env.setContext(Env.getCtx(), 0, "currWindowNo", getWindowNo());
+		if (parameterPanel != null)
+			parameterPanel.refreshContext();
 	}
 
 	/**

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for A_Asset_Info_Ins
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_A_Asset_Info_Ins 
 {
@@ -40,27 +40,6 @@ public interface I_A_Asset_Info_Ins
     BigDecimal accessLevel = BigDecimal.valueOf(3);
 
     /** Load Meta Data */
-
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name A_Asset_ID */
     public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
@@ -84,6 +63,27 @@ public interface I_A_Asset_Info_Ins
 	/** Get A_Asset_Info_Ins_ID	  */
 	public int getA_Asset_Info_Ins_ID();
 
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name A_Ins_Premium */
     public static final String COLUMNNAME_A_Ins_Premium = "A_Ins_Premium";
 
@@ -93,15 +93,6 @@ public interface I_A_Asset_Info_Ins
 	/** Get Asset Insurance Premium	  */
 	public BigDecimal getA_Ins_Premium();
 
-    /** Column name A_Ins_Value */
-    public static final String COLUMNNAME_A_Ins_Value = "A_Ins_Value";
-
-	/** Set Asset Insurance Value	  */
-	public void setA_Ins_Value (BigDecimal A_Ins_Value);
-
-	/** Get Asset Insurance Value	  */
-	public BigDecimal getA_Ins_Value();
-
     /** Column name A_Insurance_Co */
     public static final String COLUMNNAME_A_Insurance_Co = "A_Insurance_Co";
 
@@ -110,6 +101,15 @@ public interface I_A_Asset_Info_Ins
 
 	/** Get Insurance Company	  */
 	public String getA_Insurance_Co();
+
+    /** Column name A_Ins_Value */
+    public static final String COLUMNNAME_A_Ins_Value = "A_Ins_Value";
+
+	/** Set Asset Insurance Value	  */
+	public void setA_Ins_Value (BigDecimal A_Ins_Value);
+
+	/** Get Asset Insurance Value	  */
+	public BigDecimal getA_Ins_Value();
 
     /** Column name A_Policy_No */
     public static final String COLUMNNAME_A_Policy_No = "A_Policy_No";
@@ -176,19 +176,6 @@ public interface I_A_Asset_Info_Ins
 	/** Get Description	  */
 	public String getText();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -204,4 +191,17 @@ public interface I_A_Asset_Info_Ins
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

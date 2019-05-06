@@ -48,6 +48,12 @@ public interface IMessageQueue {
 	 */
 	public InputStream getMessageAsInputStream();
 	
+	/**
+	 * Get File Name
+	 * @return
+	 */
+	public String getFileName();
+	
 	/**	Text	*/
 	public static final int TEXT = 0;
 	/**	File	*/
