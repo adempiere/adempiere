@@ -119,6 +119,8 @@
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="lib/groovy-all-2.4.15.jar" sourcepath="lib/testing/groovy-all-2.4.15-sources.jar"/>
 	<classpathentry kind="lib" path="lib/postgresql.jar"/>
+	<classpathentry kind="lib" path="lib/commons-validator-1.6.jar" sourcepath="lib/testing/commons-validator-1.6-sources.jar"/>
+	<classpathentry kind="lib" path="lib/zxing-2.3.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry exported="true" kind="lib" path="lib/xmlbeans-2.6.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/mysql-connector-java-5.1.13-bin.jar"/>
