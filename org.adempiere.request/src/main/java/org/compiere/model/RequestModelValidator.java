@@ -18,6 +18,7 @@
 package org.compiere.model;
 
 import org.compiere.util.CLogger;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 import java.util.ArrayList;
@@ -43,6 +44,8 @@ public class RequestModelValidator implements ModelValidator {
 
     @Override
     public void initialize(ModelValidationEngine engine, MClient client) {
+
+        engine.addModelChange(MInvoice.Table_Name, this);
 
         List<MStandardRequestType> standardRequestTypes = new ArrayList<>();
 
@@ -90,6 +93,14 @@ public class RequestModelValidator implements ModelValidator {
     @Override
     public String modelChange(PO entity, int type) throws Exception {
         Boolean isSOTrx = "Y".equals(Env.getContext(entity.getCtx(),"IsSOTrx"));
+        //#2541 Allow to delete draft or in process invoices generated from a request update.
+        if (MInvoice.Table_ID == entity.get_Table_ID() && TYPE_BEFORE_DELETE == type) {
+            StringBuilder statement = new StringBuilder();
+            statement.append("UPDATE R_RequestUpdate r SET C_InvoiceLine_ID = NULL WHERE ");
+            statement.append("EXISTS (SELECT 1 FROM C_Invoice i INNER JOIN C_InvoiceLine il ON (i.C_Invoice_ID=il.C_Invoice_ID) ");
+            statement.append("WHERE i.DocStatus IN('DR','IP') AND i.C_Invoice_ID=? AND il.C_InvoiceLine_ID = r.C_InvoiceLine_ID)");
+            DB.executeUpdate(statement.toString(), entity.get_ID() ,entity.get_TrxName());
+        }
         // Create Request for Project Phase
         if (MProjectPhase.Table_ID == entity.get_Table_ID()) {
             MProjectPhase projectPhase = (MProjectPhase) entity;
