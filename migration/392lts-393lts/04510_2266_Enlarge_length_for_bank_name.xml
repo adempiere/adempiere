@@ -5,11 +5,8 @@
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="3039" Table="AD_Column">
         <Data AD_Column_ID="112" Column="Description" isNewNull="true" oldValue="Alphanumeric identifier of the entity"/>
-        <Data AD_Column_ID="111" Column="Name" oldValue="Name">Bank Name</Data>
         <Data AD_Column_ID="113" Column="Help" isNewNull="true" oldValue="The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length."/>
         <Data AD_Column_ID="118" Column="FieldLength" oldValue="60">120</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory" oldValue="true">false</Data>
-        <Data AD_Column_ID="2608" Column="AD_Element_ID" oldValue="469">52002</Data>
       </PO>
     </Step>
     <Step SeqNo="20" StepType="AD">
