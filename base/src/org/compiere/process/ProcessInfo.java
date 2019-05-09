@@ -16,6 +16,15 @@
  *****************************************************************************/
 package org.compiere.process;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
+
 import java.io.File;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -26,15 +35,7 @@ import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
-
-import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.Ini;
-import org.compiere.util.Msg;
-import org.compiere.util.Util;
+import java.util.Optional;
 
 
 /**
@@ -626,9 +627,9 @@ public class ProcessInfo implements Serializable
 	 * Method getAD_Client_ID
 	 * @return Integer
 	 */
-	public Integer getAD_Client_ID()
-	{
-		return clientId;
+	public Integer getAD_Client_ID() {
+		return Optional.ofNullable(clientId)
+				.orElseThrow(() -> new AdempiereException("@AD_Client_ID@ @NotFound@"));
 	}
 
 	/**
@@ -645,6 +646,8 @@ public class ProcessInfo implements Serializable
 	 */
 	public Integer getAD_User_ID()
 	{
+		return Optional.ofNullable(userId)
+				.orElseThrow(() -> new AdempiereException("@AD_User_IDD@ @NotFound@"))
 		return userId;
 	}
 
