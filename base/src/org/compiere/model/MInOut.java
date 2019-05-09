@@ -2071,7 +2071,7 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 		MDocType documentType = MDocType.get(getCtx(), getC_DocType_ID());
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
-		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElse(currentDate) : getDateAcct();
+		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElseGet(() -> currentDate) : getDateAcct();
 		Timestamp reversalMovementDate = isAccrual ? reversalDate : getMovementDate();
 		MPeriod.testPeriodOpen(getCtx(), reversalDate, documentType.getDocBaseType(), getAD_Org_ID());
 		//	Deep Copy
