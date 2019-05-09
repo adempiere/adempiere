@@ -634,21 +634,20 @@ public class ProcessInfo implements Serializable
 
 	/**
 	 * Method setAD_User_ID
+	 *
 	 * @param userId int
 	 */
-	public void setAD_User_ID (int userId)
-	{
-		this.userId = new Integer (userId);
+	public void setAD_User_ID(int userId) {
+		this.userId = new Integer(userId);
 	}
+
 	/**
 	 * Method getAD_User_ID
 	 * @return Integer
 	 */
-	public Integer getAD_User_ID()
-	{
+	public Integer getAD_User_ID() {
 		return Optional.ofNullable(userId)
-				.orElseThrow(() -> new AdempiereException("@AD_User_IDD@ @NotFound@"))
-		return userId;
+				.orElseThrow(() -> new AdempiereException("@AD_User_ID@ @NotFound@"));
 	}
 
 	
