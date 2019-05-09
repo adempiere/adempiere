@@ -358,11 +358,11 @@ public class MProjectLine extends X_C_ProjectLine
 	}
 
 	public Timestamp getDateOrdered() {
-		return getDateStartSchedule().orElse(getCreated());
+		return getDateStartSchedule().orElseGet(() -> getCreated());
 	}
 
 	public Timestamp getDatePromised() {
-		return getDateFinishSchedule().orElse(getDateDeadline().orElse(getCreated()));
+		return getDateFinishSchedule().orElseGet(() -> getDateDeadline().orElseGet(() -> getCreated()));
 	}
 
 	public String getPriorityRule()

@@ -200,7 +200,7 @@ public class GenerateNotRealizedGainLoss extends GenerateNotRealizedGainLossAbst
 
         I_C_DocType documentType = MDocType.get(getCtx(), getDocTypeRevalId());
         Integer glCategoryId = Optional.ofNullable(MGLCategory.getDefaultSystem(getCtx()).get_ID())
-                .orElse(documentType.getGL_Category_ID());
+                .orElseGet(() -> documentType.getGL_Category_ID());
         MJournal journal = new MJournal(journalBatch);
         journal.setDateAcct(getDateReval());
         journal.setDateDoc(getDateReval());
@@ -247,7 +247,7 @@ public class GenerateNotRealizedGainLoss extends GenerateNotRealizedGainLossAbst
                 .append(accountBalance.sourceBalance)
                 .append(" @C_Currency_ID@ ").append(accountingSchema.getC_Currency().getISO_Code())
                 .append(" ").append(accountBalance.accountBalance)
-                .append(" @C_Conversion_Rate_ID@ ").append(Optional.of(rate.toString()).orElse(" @NotFound@ "));
+                .append(" @C_Conversion_Rate_ID@ ").append(Optional.of(rate.toString()).orElseGet(() -> " @NotFound@ "));
         if (accountBalance.debit.compareTo(accountBalance.credit) > 0) {
             BigDecimal exchangeGain = accountBalance.debit.subtract(accountBalance.credit);
             journalLine.setAmtSourceDr(exchangeGain.abs());
@@ -355,7 +355,7 @@ public class GenerateNotRealizedGainLoss extends GenerateNotRealizedGainLossAbst
                     getAD_Client_ID(),
                     factAcct.getAD_Org_ID()));
         }
-        if (debitRevaluation.orElse(BigDecimal.ZERO).signum() == 0 && creditRevaluation.orElse(BigDecimal.ZERO).signum() == 0) {
+        if (debitRevaluation.orElseGet(() -> BigDecimal.ZERO).signum() == 0 && creditRevaluation.orElseGet(() -> BigDecimal.ZERO).signum() == 0) {
             StringBuilder errorMassage = new StringBuilder();
             MConversionType conversionType = new MConversionType(getCtx(), getConversionTypeRevalId(), trxName);
             errorMassage
@@ -369,10 +369,10 @@ public class GenerateNotRealizedGainLoss extends GenerateNotRealizedGainLossAbst
             throw new AdempiereException(errorMassage.toString());
         }
 
-        exchangeGainLoss.setAmtRevalDr(debitRevaluation.orElse(BigDecimal.ZERO));
-        exchangeGainLoss.setAmtRevalCr(creditRevaluation.orElse(BigDecimal.ZERO));
-        exchangeGainLoss.setAmtRevalDrDiff(debitRevaluation.orElse(BigDecimal.ZERO).subtract(factAcct.getAmtAcctDr()));
-        exchangeGainLoss.setAmtRevalCrDiff(creditRevaluation.orElse(BigDecimal.ZERO).subtract(factAcct.getAmtAcctCr()));
+        exchangeGainLoss.setAmtRevalDr(debitRevaluation.orElseGet(() -> BigDecimal.ZERO));
+        exchangeGainLoss.setAmtRevalCr(creditRevaluation.orElseGet(() -> BigDecimal.ZERO));
+        exchangeGainLoss.setAmtRevalDrDiff(debitRevaluation.orElseGet(() -> BigDecimal.ZERO).subtract(factAcct.getAmtAcctDr()));
+        exchangeGainLoss.setAmtRevalCrDiff(creditRevaluation.orElseGet(() -> BigDecimal.ZERO).subtract(factAcct.getAmtAcctCr()));
         exchangeGainLoss.saveEx();
         exchangeGainLossList.add(exchangeGainLoss);
     }

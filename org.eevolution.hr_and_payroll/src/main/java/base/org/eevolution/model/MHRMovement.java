@@ -847,7 +847,7 @@ public class MHRMovement extends X_HR_Movement
 			else if(MHRConcept.COLUMNTYPE_Amount.equals(columnType))
 			{
 				BigDecimal amount = new BigDecimal(value.toString())
-						.setScale(conceptStandardPrecisionOptional.orElse(currencyPrecision),BigDecimal.ROUND_HALF_UP);
+						.setScale(conceptStandardPrecisionOptional.orElseGet(() -> currencyPrecision),BigDecimal.ROUND_HALF_UP);
 				setAmount(amount);
 				setQty(Env.ZERO);
 			} 
