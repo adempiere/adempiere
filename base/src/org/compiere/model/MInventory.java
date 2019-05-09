@@ -771,7 +771,7 @@ public class MInventory extends X_M_Inventory implements DocAction, DocumentReve
 
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
-		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElse(currentDate) : getMovementDate();
+		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElseGet(() -> currentDate) : getMovementDate();
 		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 		MPeriod.testPeriodOpen(getCtx(), reversalDate , dt.getDocBaseType(), getAD_Org_ID());
 

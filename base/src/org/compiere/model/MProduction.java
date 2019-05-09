@@ -598,7 +598,7 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 	{
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
-		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElse(currentDate) : getMovementDate();
+		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElseGet(() -> currentDate) : getMovementDate();
 		MPeriod.testPeriodOpen(getCtx(), reversalDate , getC_DocType_ID(), getAD_Org_ID());
 		MProduction reversal = null;
 		reversal = copyFrom(reversalDate);

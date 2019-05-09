@@ -456,7 +456,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	{
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
-		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElse(currentDate) : getDateAcct();
+		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElseGet(() -> currentDate) : getDateAcct();
 		MPeriod.testPeriodOpen(getCtx(), reversalDate , getC_DocType_ID(), getAD_Org_ID());
 		MHRProcess reversal = copyFrom (this, getDateAcct(), getC_DocType_ID(), false, get_TrxName() , true);
 		if (reversal == null)

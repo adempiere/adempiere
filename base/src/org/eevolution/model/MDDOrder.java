@@ -327,7 +327,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		// search the Ship To Location
 		MBPartnerLocation partnerLocation = partnerLocations.stream() 			// create steam
 				.filter( pl -> pl.isShipTo()).reduce((first , last ) -> last) 	// get of last Ship to location
-				.orElse(partnerLocations.stream() 								// if not exist Ship to location else get first partner location
+				.orElseGet(() -> partnerLocations.stream() 								// if not exist Ship to location else get first partner location
 							.findFirst()										// if not exist partner location then throw an exception
 							.orElseThrow(() -> new AdempiereException("@IsShipTo@ @NotFound@"))
 				);

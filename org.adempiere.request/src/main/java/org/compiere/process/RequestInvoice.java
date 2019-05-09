@@ -64,7 +64,7 @@ public class RequestInvoice extends RequestInvoiceAbstract {
 		validate();
 		getRequestsToInvoice().stream()
 				.forEach(request -> {
-					MInvoice invoice = Optional.ofNullable(invoicesByPartner.get(request.getC_BPartner_ID())).orElse(invoiceNew(request));
+					MInvoice invoice = Optional.ofNullable(invoicesByPartner.get(request.getC_BPartner_ID())).orElseGet(() -> invoiceNew(request));
 					invoiceLine(request, invoice);
 				});
 

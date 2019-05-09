@@ -839,7 +839,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
-		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElse(currentDate) : getDateAcct();
+		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElseGet(() -> currentDate) : getDateAcct();
 
 		MAllocationHdr reversalAllocationHdr;
 
