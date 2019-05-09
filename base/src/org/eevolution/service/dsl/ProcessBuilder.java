@@ -176,11 +176,15 @@ public class ProcessBuilder {
         processInfo.setTransactionName(trxName);
         processInfo.setIsSelection(isSelection);
         processInfo.setPrintPreview(isPrintPreview());
+        processInfo.setReportType(instance.getReportType());
         processInfo.setIsBatch(isBatch());
         if (isExecuteUsingSystemRole) {
             processInfo.setAD_Client_ID(0);
             processInfo.setAD_User_ID(100);
+        } else {
+            processInfo.setAD_Client_ID(instance.getAD_Client_ID());
         }
+
         ProcessInfoUtil.setParameterFromDB(processInfo);
 
         //	FR [ 352 ]
