@@ -165,6 +165,8 @@ public class ProcessInfo implements Serializable
 	private boolean 			reportingProcess = false;
 	//FR 1906632
 	private File 				pdfReportFile = null;
+	/**	Report as file				*/
+	private File 				reportAsFile = null;
 
 	private String 				reportType = null;
 	
@@ -914,7 +916,23 @@ public class ProcessInfo implements Serializable
 	public File getPDFReport()
 	{
 		return pdfReportFile;
-	}	
+	}
+	
+	/**
+	 * Set report as file
+	 * @param reportAsFile
+	 */
+	public void setReportAsFile(File reportAsFile) {
+		this.reportAsFile = reportAsFile;
+	}
+	
+	/**
+	 * Get Report as File
+	 * @return
+	 */
+	public File getReportAsFile() {
+		return reportAsFile;
+	}
 	
 	/**
 	 * Add parameter
