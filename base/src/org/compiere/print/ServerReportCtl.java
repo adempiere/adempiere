@@ -96,7 +96,7 @@ public class ServerReportCtl {
      */
 	public static boolean runJasperProcess(int recordId, ReportEngine reportEngine, boolean isDirectPrint, String printerName, ProcessInfo processInfo) {
 		Trx trx;
-		if (processInfo != null)
+		if (processInfo != null && processInfo.getTransactionName() != null)
 			trx = Trx.get(processInfo.getTransactionName() , false);
 		else
 			trx = null;
