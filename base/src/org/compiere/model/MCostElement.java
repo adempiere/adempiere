@@ -37,9 +37,6 @@ import org.compiere.util.Msg;
  *  		<li>BF [ 2667470 ] MCostElement.getMaterialCostElement should check only material
  *  @author red1
  *  		<li>FR: [ 2214883 ] Remove SQL code and Replace for Query -- JUnit tested
- *  @author Michael McKay, mckayERP@gmail.com
- *  	<li> BF [ <a href="https://github.com/adempiere/adempiere/issues/197">197</a> ] 
- *  		GenerateCostDetails does not delete inactive cost types or methods
  */
 public class MCostElement extends X_M_CostElement
 {
@@ -233,48 +230,47 @@ public class MCostElement extends X_M_CostElement
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
-		//  Check Unique Costing Element Type - only one active record of 
-		//  each type is allowed per client (#197)
-		if ( newRecord || is_ValueChanged(I_M_CostElement.COLUMNNAME_CostElementType)) 
+		//	Check Unique Costing Method
+		if (
+			(  COSTELEMENTTYPE_Material.equals(getCostElementType())
+//			|| COSTELEMENTTYPE_Resource.equals(getCostElementType())
+//			|| COSTELEMENTTYPE_BurdenMOverhead.equals(getCostElementType())
+//			|| COSTELEMENTTYPE_Overhead.equals(getCostElementType())
+			|| COSTELEMENTTYPE_OutsideProcessing.equals(getCostElementType())
+			)
+			&& (newRecord || is_ValueChanged(COLUMNNAME_CostingMethod)))
 		{
-			String where = I_M_CostElement.COLUMNNAME_CostElementType + "=?";
-
-			int count = new Query(getCtx(), I_M_CostElement.Table_Name, where, this.get_TrxName())
-					.setClient_ID()
-					.setOnlyActiveRecords(true)
-					.setParameters(getCostElementType())
-					.count();
-
-			if (count > 0)
+			String sql = "SELECT  COALESCE(MAX(M_CostElement_ID),0) FROM M_CostElement "
+				+ "WHERE AD_Client_ID=? AND CostingMethod=? AND CostElementType=?";
+			int id = DB.getSQLValue(get_TrxName(), sql, getAD_Client_ID(), getCostingMethod() , getCostElementType());
+			if (id > 0 && id != get_ID())
 			{
-				log.saveError("AlreadyExists", Msg.getElement(getCtx(), "CostElementType"));
-				return false;
-			}
-		}
-	
-		//  Check for one active default - only one active default is allowed per client (#197)
-		if ((is_ValueChanged(COLUMNNAME_IsDefault) || is_ValueChanged(COLUMNNAME_IsActive)) 
-				&& isDefault() && isActive())
-		{
-			String where = I_M_CostElement.COLUMNNAME_IsDefault + "=?";
-			
-			int count = new Query(getCtx(), I_M_CostElement.Table_Name, where, this.get_TrxName())
-							.setClient_ID()
-							.setOnlyActiveRecords(true)
-							.setParameters(true)
-							.count();
-			
-			if (count > 0)
-			{
-				log.saveError("Error", Msg.parseTranslation(getCtx(), "@OnlyOneDefaultAllowed@"));
+				log.saveError("AlreadyExists", Msg.getElement(getCtx(), "CostingMethod"));
 				return false;
 			}
 		}
 
-		// All cost elements must have the org set to 0
+		//	Maintain Calculated
+		/*
+		if (COSTELEMENTTYPE_Material.equals(getCostElementType()))
+		{
+			String cm = getCostingMethod();
+			if (cm == null || cm.length() == 0
+				|| COSTINGMETHOD_StandardCosting.equals(cm))
+				setIsCalculated(false);
+			else
+				setIsCalculated(true);
+		}
+		else
+		{
+			if (isCalculated())
+				setIsCalculated(false);
+			if (getCostingMethod() != null)
+				setCostingMethod(null);
+		}*/
+		
 		if (getAD_Org_ID() != 0)
 			setAD_Org_ID(0);
-		
 		return true;
 	}	//	beforeSave
 	
@@ -284,33 +280,49 @@ public class MCostElement extends X_M_CostElement
 	 */
 	protected boolean beforeDelete ()
 	{
+		String cm = getCostingMethod();
+		if (cm == null
+			|| !COSTELEMENTTYPE_Material.equals(getCostElementType()))
+			return true;
 		
-		final Object[] parameter = new Object[] {getM_CostElement_ID()};
+		//	Costing Methods on AS level
+		MAcctSchema[] ass = MAcctSchema.getClientAcctSchema(getCtx(), getAD_Client_ID());
+		for (int i = 0; i < ass.length; i++)
+		{
+			if (ass[i].getCostingMethod().equals(getCostingMethod()))
+			{
+				log.saveError("CannotDeleteUsed", Msg.getElement(getCtx(), "C_AcctSchema_ID") 
+					+ " - " + ass[i].getName());
+				return false;
+			}
+		}
 		
-		// Delete the related details (#197)
-		String where = MCostDetail.COLUMNNAME_M_CostElement_ID + "=?";
-        StringBuffer sqlDelete = new StringBuffer("DELETE FROM " + MCostDetail.Table_Name + " WHERE ");
-        sqlDelete.append(where);
-        DB.executeUpdateEx(sqlDelete.toString(), parameter, get_TrxName());
-		
-		// Delete the related cost dimension (#197)
-		where = MCost.COLUMNNAME_M_CostElement_ID + "=?";
-		sqlDelete = new StringBuffer("DELETE FROM " + MCost.Table_Name + " WHERE ");
-		sqlDelete.append(where);
-        DB.executeUpdateEx(sqlDelete.toString(), parameter, get_TrxName());
-		
+		//	Costing Methods on PC level
+		int M_Product_Category_ID = 0;
+		final String whereClause ="CostingMethod=?";
+		MProductCategoryAcct retValue = new Query(getCtx(), I_M_Product_Category_Acct.Table_Name, whereClause, null)
+		.setParameters(getCostingMethod())
+		.setClient_ID()
+		.first();
+		if (retValue != null)
+			M_Product_Category_ID = retValue.getM_Product_Category_ID();
+		if (M_Product_Category_ID != 0)
+		{
+			log.saveError("CannotDeleteUsed", Msg.getElement(getCtx(), "M_Product_Category_ID") 
+				+ " (ID=" + M_Product_Category_ID + ")");
+			return false;
+		}
 		return true;
 	}	//	beforeDelete
 	
 	/**
-	 *  Deprecated as the cost element does not define the costing method.  Always returns false;
 	 * 	Is this a Costing Method
 	 *	@return true if not Material cost or no costing method.
 	 */
-	@Deprecated // #197
 	public boolean isCostingMethod()
 	{
-		return false;
+		return COSTELEMENTTYPE_Material.equals(getCostElementType())
+			&& getCostingMethod() != null;
 	}	//	isCostingMethod
 	
 	/**

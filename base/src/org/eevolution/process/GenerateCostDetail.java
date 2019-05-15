@@ -27,7 +27,6 @@ import org.adempiere.engine.CostingMethodFactory;
 import org.adempiere.engine.StandardCostingMethod;
 import org.compiere.model.I_M_Cost;
 import org.compiere.model.MAcctSchema;
-import org.compiere.model.MCost;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MCostElement;
 import org.compiere.model.MCostType;
@@ -53,10 +52,6 @@ import org.eevolution.model.MPPCostCollector;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *			<li> FR [ 405 ] Wrong Syntax of Delete query in GenerateCostDetail.java
  *			@see https://github.com/adempiere/adempiere/issues/405
- *  @author Michael McKay, mckayERP@gmail.com
- *  	<li> BF [ <a href="https://github.com/adempiere/adempiere/issues/197">197</a> ] 
- *  		GenerateCostDetails does not delete inactive cost types or methods
-
  */
 public class GenerateCostDetail extends GenerateCostDetailAbstract {
     /**
@@ -64,25 +59,11 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
      */
     private ArrayList<Object> deleteParameters;
     private ArrayList<Object> resetCostParameters;
-	private ArrayList<Object> deleteCostParameters;
-
     private List<MAcctSchema> acctSchemas = new ArrayList<MAcctSchema>();
-    
-    /** A list of active cost types */
     private List<MCostType> costTypes = new ArrayList<MCostType>();
-
-    /** A list of active and inactive cost types (#197) */
-    private List<MCostType> costTypesForDelete = new ArrayList<MCostType>();
-    
-    /** A list of active cost elements */
     private List<MCostElement> costElements = new ArrayList<MCostElement>();
-    
-    /** A list of active and inactive cost elements (#197)*/
-    private List<MCostElement> costElementsForDelete = new ArrayList<MCostElement>();
-    
     private StringBuffer deleteCostDetailWhereClause;
     private StringBuffer resetCostWhereClause;
-	private StringBuffer deleteCostWhereClause;
     //private List<MTransaction> deferredTransactions = new ArrayList<MTransaction>();
     //private List<I_M_Product> deferredProducts = new ArrayList<I_M_Product>();
 
@@ -119,20 +100,6 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
     }
 
     /**
-     *  Delete Cost Dimensions where the cost types or cost elements are inactive
-     */
-    private void deleteCostDimension(String trxName) throws SQLException {
-    	
-    	StringBuffer sqlDelete;
-    	sqlDelete = new StringBuffer("DELETE FROM M_COST WHERE ")
-    						.append(deleteCostWhereClause);
-    	
-        DB.executeUpdateEx(sqlDelete.toString(),
-                deleteCostParameters.toArray(), trxName);
-
-    }
-    
-    /**
      * Reset Cost Dimension
      * @param costingMethod
      * @param trxName
@@ -163,8 +130,7 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
      *
      * @throws SQLException
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-	private void setup() {
+    private void setup() {
 
         if (getAcctSchemaId() > 0)
             acctSchemas.add(MAcctSchema.get(getCtx(), getAcctSchemaId() , get_TrxName()));
@@ -174,40 +140,15 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                             get_TrxName())));
 
         if (getCostTypeId() > 0)
-        {
             costTypes.add(new MCostType(getCtx(), getCostTypeId(),
                     get_TrxName()));
-            costTypesForDelete.add(new MCostType(getCtx(), getCostTypeId(),
-                    get_TrxName()));
-        }
         else
-        {
-        	// Get the list of active cost types
-            costTypes = MCostType.get(getCtx(), get_TrxName());  // Only active ones
-            
-            // Get the list of all types including inactive entries (#197)
-            costTypesForDelete = new Query(getCtx(), MCostType.Table_Name, null, get_TrxName())
-            		.setClient_ID()
-            		.setOrderBy(MCostType.COLUMNNAME_M_CostType_ID)
-            		.list(); 
-        }
-        
+            costTypes = MCostType.get(getCtx(), get_TrxName());
+
         if (getCostElementId() > 0)
-        {
             costElements.add(MCostElement.get(getCtx(), getCostElementId()));
-            costElementsForDelete.add(MCostElement.get(getCtx(), getCostElementId()));
-        }
         else
-        {
-        	// Get the list of active cost elements
             costElements = MCostElement.getCostElement(getCtx(), get_TrxName());
-            
-            // Get the list of all elements including inactive entries (#197)
-            costElementsForDelete = new Query(getCtx(), MCostElement.Table_Name, null, get_TrxName())
-			.setClient_ID()
-			.setOrderBy(MCostElement.COLUMNNAME_M_CostElement_ID)
-			.list();  
-        }
     }
 
     /**
@@ -223,10 +164,8 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                                int costElementId, int productId, Timestamp dateAccount, Timestamp dateAccountTo) {
         deleteParameters = new ArrayList<Object>();
         resetCostParameters = new ArrayList<Object>();
-        deleteCostParameters = new ArrayList<Object>();
-        deleteCostDetailWhereClause = new StringBuffer("1=1");  // Default - delete all
-        resetCostWhereClause = new StringBuffer("1=1");			// Default - delete all
-        deleteCostWhereClause = new StringBuffer("1=0");
+        deleteCostDetailWhereClause = new StringBuffer("1=1");
+        resetCostWhereClause = new StringBuffer("1=1");
 
         if (accountSchemaId > 0) {
             deleteCostDetailWhereClause.append(" AND ").append(MCostDetail.COLUMNNAME_C_AcctSchema_ID).append("=? ");
@@ -239,26 +178,12 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
             deleteParameters.add(costTypeId);
             resetCostWhereClause.append(" AND ").append(MCostDetail.COLUMNNAME_M_CostType_ID).append("=? ");
             resetCostParameters.add(costTypeId);//SHW
-            deleteCostWhereClause.append(" OR (").append(MCost.COLUMNNAME_M_CostType_ID).append("=? ")
-            		.append(" AND EXISTS ("     // only delete costs related to inactive types
-	            				+ "SELECT M_CostType_ID "
-	            				+ "FROM M_CostType "
-	            				+ "WHERE IsActive='N' AND M_CostType_ID = M_Cost.M_CostType_ID)")
-            		.append(") ");
-            deleteCostParameters.add(costTypeId);
         }
         if (costElementId > 0) {
             deleteCostDetailWhereClause.append(" AND ").append(MCostDetail.COLUMNNAME_M_CostElement_ID).append("=? ");
             deleteParameters.add(costElementId);
             resetCostWhereClause.append(" AND ").append(MCostDetail.COLUMNNAME_M_CostElement_ID).append("=? ");
             resetCostParameters.add(costElementId);//SHW
-            deleteCostWhereClause.append(" OR (").append(MCost.COLUMNNAME_M_CostElement_ID).append("=? ")
-    		.append(" AND EXISTS ("    // only delete costs related to inactive elements
-        				+ "SELECT M_CostElement_ID "
-        				+ "FROM M_CostElement "
-        				+ "WHERE IsActive='N' AND M_CostElement_ID = M_Cost.M_CostElement_ID)")
-    		.append(") ");
-            deleteCostParameters.add(costElementId);
         }
         if (productId > 0) {
             deleteCostDetailWhereClause.append(" AND ").append(MCostDetail.COLUMNNAME_M_Product_ID).append("=? ");
@@ -313,15 +238,14 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                     //Delete and reset 
                     for (MAcctSchema accountSchema : acctSchemas) {
                         // for each Cost Type
-                        for (MCostType costType : costTypesForDelete) { // #197 Includes inactive ones
+                        for (MCostType costType : costTypes) {
                             // for each Cost Element
-                            for (MCostElement costElement : costElementsForDelete) {  // #197 Includes inactive ones
+                            for (MCostElement costElement : costElements) {
                                 {
                                     applyCriteria(accountSchema.getC_AcctSchema_ID(),
                                             costType.getM_CostType_ID(), costElement.getM_CostElement_ID(),
                                             productId, getDateAcct(), getDateAcctTo());
                                     deleteCostDetail(dbTransaction.getTrxName());
-                                    deleteCostDimension(dbTransaction.getTrxName()); // Only deletes costs for inactive types and elements
                                     resetCostDimension(costType.getCostingMethod(), dbTransaction.getTrxName());
                                     generateCostCollectorNotTransaction(accountSchema , costType , productId, dbTransaction.getTrxName());
                                 }
@@ -333,9 +257,9 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                 // for each Account Schema
                 for (MAcctSchema accountSchema : acctSchemas) {
                     // for each Cost Type
-                    for (MCostType costType : costTypes) {  // Only active
+                    for (MCostType costType : costTypes) {
                         // for each Cost Element
-                        for (MCostElement costElement : costElements) {  // Only active
+                        for (MCostElement costElement : costElements) {
                             generateCostDetail(accountSchema, costType, costElement, transaction);
                         }
                     }
@@ -369,17 +293,16 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
 
     }
 
-//    // Not used locally
-//    private boolean IsUsedInProduction(int productId, String trxName) {
-//        StringBuilder whereClause = new StringBuilder();
-//        whereClause.append(MTransaction.COLUMNNAME_M_Product_ID).append("=? AND ");
-//        whereClause.append(MTransaction.COLUMNNAME_MovementType).append("=?");
-//
-//        return new Query(getCtx(), MTransaction.Table_Name, whereClause.toString(), trxName)
-//                .setClient_ID()
-//                .setParameters(productId, MTransaction.MOVEMENTTYPE_ProductionPlus)
-//                .match();
-//    }
+    private boolean IsUsedInProduction(int productId, String trxName) {
+        StringBuilder whereClause = new StringBuilder();
+        whereClause.append(MTransaction.COLUMNNAME_M_Product_ID).append("=? AND ");
+        whereClause.append(MTransaction.COLUMNNAME_MovementType).append("=?");
+
+        return new Query(getCtx(), MTransaction.Table_Name, whereClause.toString(), trxName)
+                .setClient_ID()
+                .setParameters(productId, MTransaction.MOVEMENTTYPE_ProductionPlus)
+                .match();
+    }
 
     public void generateCostDetail(MAcctSchema accountSchema, MCostType costType, MCostElement costElement, MTransaction transaction) {
 
