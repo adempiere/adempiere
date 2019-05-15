@@ -48,10 +48,19 @@ import org.compiere.util.*;
  *  @author Teo Sarca
  *  	<li>BF [ 2847648 ] Manufacture & shipment cost errors
  *  		https://sourceforge.net/tracker/?func=detail&aid=2847648&group_id=176962&atid=934929
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li> BF [ <a href="https://github.com/adempiere/adempiere/issues/197">197</a> ] 
+ *  		GenerateCostDetails does not delete inactive cost types or methods
  */
 public class MCost extends X_M_Cost
 {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -202208022079674900L;
+
+
+	/**
      *
      * @param product
      * @param as
@@ -1963,8 +1972,7 @@ public class MCost extends X_M_Cost
 			}
 			else if (MAcctSchema.COSTINGLEVEL_BatchLot.equals(CostingLevel))
 			{
-				if (getM_AttributeSetInstance_ID() == 0
-					&& ce.isCostingMethod())
+				if (getM_AttributeSetInstance_ID() == 0)  //#197 Removed reference to ce.isCostingMethod()
 				{
 					log.saveError("FillMandatory", Msg.getElement(getCtx(), "M_AttributeSetInstance_ID"));
 					return false;
