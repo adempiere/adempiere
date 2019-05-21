@@ -209,7 +209,7 @@ public class GridWindowVO implements Serializable
 				continue;
 			}
 			if (mWindowVO.AD_Table_ID == 0)
-				mWindowVO.AD_Table_ID = tab.getAD_Tab_ID();
+				mWindowVO.AD_Table_ID = tab.getAD_Table_ID();
 			//  Create TabVO
 			GridTabVO mTabVO = GridTabVO.create(mWindowVO, tabNo, tab,
 				mWindowVO.WindowType.equals(WINDOWTYPE_QUERY),  //  isRO
