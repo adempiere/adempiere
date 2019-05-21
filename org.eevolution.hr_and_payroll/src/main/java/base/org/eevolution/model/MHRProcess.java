@@ -1286,6 +1286,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		movement.setC_BP_Relation_ID(attribute.getC_BP_Relation_ID());
 		movement.setHR_Concept_ID(concept.getHR_Concept_ID());
 		movement.setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
+		movement.setHR_Concept_Type_ID(concept.getHR_Concept_Type_ID());
 		movement.setHR_Process_ID(getHR_Process_ID());
 		movement.setAD_Rule_ID(attribute.getAD_Rule_ID());
 		movement.setValidFrom(dateFrom);
@@ -2411,6 +2412,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			//toMovement
 			toMovement.setIsManual(fromMovement.isManual());
 			toMovement.setHR_Concept_Category_ID(fromMovement.getHR_Concept_Category_ID());
+			toMovement.setHR_Concept_Type_ID(fromMovement.getHR_Concept_Type_ID());
 			toMovement.setHR_Process_ID(getHR_Process_ID());
 			toMovement.setC_BPartner_ID(fromMovement.getC_BPartner_ID());
 			toMovement.setHR_Concept_ID(fromMovement.getHR_Concept_ID());

@@ -765,6 +765,7 @@ public class MHRMovement extends X_HR_Movement
 		setC_BPartner_ID(importPayrollMovement.getC_BPartner_ID());
 		setHR_Concept_ID(importPayrollMovement.getHR_Concept_ID());
 		setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
+		setHR_Concept_Type_ID(concept.getHR_Concept_Type_ID());
 		setDescription(importPayrollMovement.getDescription());
 		setHR_Job_ID(employee.getHR_Job_ID());
 		setHR_Department_ID(employee.getHR_Department_ID());
@@ -796,6 +797,8 @@ public class MHRMovement extends X_HR_Movement
 		this.setHR_Payroll_ID(process.getHR_Payroll_ID());
 		// Concept
 		this.setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
+		this.setHR_Concept_Type_ID(concept.getHR_Concept_Type_ID());
+		this.setHR_PayrollConcept_ID(concept.getHR_Concept_Type_ID());
 		this.setHR_Concept_ID(concept.getHR_Concept_ID());
 	}
 	
