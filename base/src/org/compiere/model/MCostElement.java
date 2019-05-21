@@ -233,16 +233,16 @@ public class MCostElement extends X_M_CostElement
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
-		//  Check Unique Costing Element Type - only one active record of 
-		//  each type is allowed per client (#197)
-		if ( newRecord || is_ValueChanged(I_M_CostElement.COLUMNNAME_CostElementType)) 
+		//  Check Unique Costing Element Type for material (#197)
+		if ( COSTELEMENTTYPE_Material.equals(getCostElementType())
+			&& (newRecord || is_ValueChanged(I_M_CostElement.COLUMNNAME_CostElementType))) 
 		{
 			String where = I_M_CostElement.COLUMNNAME_CostElementType + "=?";
 
 			int count = new Query(getCtx(), I_M_CostElement.Table_Name, where, this.get_TrxName())
 					.setClient_ID()
 					.setOnlyActiveRecords(true)
-					.setParameters(getCostElementType())
+					.setParameters(COSTELEMENTTYPE_Material)
 					.count();
 
 			if (count > 0)
