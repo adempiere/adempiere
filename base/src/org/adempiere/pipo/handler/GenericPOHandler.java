@@ -309,11 +309,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 				continue;
 			}
 			//	For others
-			Env.setContext(ctx, GenericPOHandler.TABLE_ID_TAG, parentEntity.get_Table_ID());
-			Env.setContext(ctx, GenericPOHandler.RECORD_ID_TAG, parentEntity.get_ID());
-			create(ctx, document);
-			ctx.remove(GenericPOHandler.TABLE_ID_TAG);
-			ctx.remove(GenericPOHandler.RECORD_ID_TAG);
+			create(ctx, document, parentEntity, true, excludedParentList);
 		}
 	}
 	

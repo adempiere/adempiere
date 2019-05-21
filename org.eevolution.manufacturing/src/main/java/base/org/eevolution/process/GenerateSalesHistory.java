@@ -60,6 +60,7 @@ public class GenerateSalesHistory extends GenerateSalesHistoryAbstract {
 				.append(" (");
 		insert.append(MSalesHistory.COLUMNNAME_C_SalesHistory_ID).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_C_InvoiceLine_ID).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_DocumentNo).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_AD_Client_ID).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_AD_Org_ID).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_C_BPartner_ID).append(",");
@@ -89,6 +90,17 @@ public class GenerateSalesHistory extends GenerateSalesHistoryAbstract {
 		insert.append(MSalesHistory.COLUMNNAME_TotalInvAmt).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_CostAmt).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_TotalInvCost).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_C_Tax_ID).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_TaxAmt).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_C_UOM_ID).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_Description).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_LineNetAmt).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_LineTotalAmt).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_M_AttributeSetInstance_ID).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_PriceActual).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_PriceEntered).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_PriceList).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_QtyEntered).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_Created).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_CreatedBy).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_Updated).append(",");
@@ -99,6 +111,7 @@ public class GenerateSalesHistory extends GenerateSalesHistoryAbstract {
 				.append(MSequence.get(getCtx(), MSalesHistory.Table_Name)
 						.get_ID()).append(",'Y')").append(",");
 		insert.append("il.C_InvoiceLine_ID,");
+		insert.append("i.DocumentNo,");
 		insert.append("il.AD_Client_ID,");
 		insert.append("il.AD_Org_ID,");
 		insert.append("i.C_BPartner_ID,");
@@ -128,6 +141,17 @@ public class GenerateSalesHistory extends GenerateSalesHistoryAbstract {
 		insert.append("il.LineTotalAmt,");
 		insert.append("0.00").append(",");
 		insert.append("0.00").append(",");
+		insert.append("il.C_Tax_ID").append(",");
+		insert.append("il.TaxAmt").append(",");
+		insert.append("il.C_UOM_ID").append(",");
+		insert.append("il.Description").append(",");
+		insert.append("il.LineNetAmt").append(",");
+		insert.append("il.LineTotalAmt").append(",");
+		insert.append("il.M_AttributeSetInstance_ID").append(",");
+		insert.append("il.PriceActual").append(",");
+		insert.append("il.PriceEntered").append(",");
+		insert.append("il.PriceList").append(",");
+		insert.append("il.QtyEntered").append(",");
 		insert.append("SYSDATE").append(",");
 		insert.append(Env.getAD_User_ID(getCtx())).append(",");
 		insert.append("SYSDATE").append(",");

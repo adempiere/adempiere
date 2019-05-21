@@ -325,6 +325,8 @@ public class ProcessCtl implements Runnable
 			if (process.isDirectPrint() && !Ini.isPropertyBool(Ini.P_PRINTPREVIEW)
 					&& !isPrintPreview )
 				isDirectPrint = true;
+		} if (!isPrintPreview && Ini.isPropertyBool(Ini.P_PRINTPREVIEW)) {
+			isPrintPreview =  true;
 		}
 		//
 		int estimate = process.getEstimatedSeconds();
@@ -411,7 +413,7 @@ public class ProcessCtl implements Runnable
 			if(!m_IsOnlyProcess) {
 				//	Start Report	-----------------------------------------------
 				boolean ok = ReportCtl.start(m_parent, windowno, processInstance, isDirectPrint);
-				processInstance.setSummary("Report", !ok);
+				processInstance.setSummary("Report " + processInstance.getTitle(), !ok);
 			}
 			//	
 			unlock ();

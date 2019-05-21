@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fixed error Gain/Loss Report" ReleaseNo="3.9.2" SeqNo="4424">
+    <Comments>Fixed error with Gain and Loss Report for multi-language</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="92858" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description">Language for this entity</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-03-26 11:50:47.873</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-03-26 11:50:47.873</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">92858</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Language</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">AD_Language</Data>
+        <Data AD_Column_ID="113" Column="Help">The Language identifies the language to use for display and formatting</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">804</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">109</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">327</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">2147483647</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID">1db11abc-4fe3-11e9-90b5-b3f126a469b8</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="92858" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2019-03-26 11:50:49.279</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-03-26 11:50:49.279</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">92858</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Language</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID">1e1b8d34-4fe3-11e9-90e9-e758e840a43b</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="92858" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="2147483647">5</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="10">18</Data>
+      </PO>
+    </Step>
+    <Step DBType="Postgres" Parse="N" SeqNo="40" StepType="SQL">
+      <Comments>Recreate view</Comments>
+      <SQLStatement>CREATE OR REPLACE VIEW T_INVOICEGL_V
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ USER1_ID, USER2_ID, USER3_ID, USER4_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID,
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
+ AMTACCTOPENCR, AMTACCTOPENBALANCE, AD_Language)
+AS 
+SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced, i.DateAcct, i.C_PaymentTerm_ID,
+    i.C_BPartner_ID, i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+    i.C_Currency_ID, i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID,
+    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID, i.User3_ID, i.User4_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    fa.Fact_Acct_ID, fa.C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance,
+    'en_US' AS AD_Language
+FROM T_InvoiceGL gl
+  INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);</SQLStatement>
+      <RollbackStatement>CREATE OR REPLACE VIEW T_INVOICEGL_V
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ USER1_ID, USER2_ID, USER3_ID, USER4_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID,
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
+ AMTACCTOPENCR, AMTACCTOPENBALANCE)
+AS 
+SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced, i.DateAcct, i.C_PaymentTerm_ID,
+    i.C_BPartner_ID, i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+    i.C_Currency_ID, i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID,
+    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID, i.User3_ID, i.User4_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    fa.Fact_Acct_ID, fa.C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance
+FROM T_InvoiceGL gl
+  INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="N" SeqNo="50" StepType="SQL">
+      <Comments>Recreate view Trl</Comments>
+      <SQLStatement>CREATE OR REPLACE VIEW T_INVOICEGL_VT
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ USER1_ID, USER2_ID, USER3_ID, USER4_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID,
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
+ AMTACCTOPENCR, AMTACCTOPENBALANCE, AD_Language)
+AS 
+SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced, i.DateAcct, i.C_PaymentTerm_ID,
+    i.C_BPartner_ID, i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+    i.C_Currency_ID, i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID,
+    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID, i.User3_ID, i.User4_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    fa.Fact_Acct_ID, fa.C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance,
+    l.AD_Language
+FROM T_InvoiceGL gl
+  INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID)
+  LEFT JOIN AD_Language l ON (l.IsSystemLanguage='Y' AND l.IsActive = 'Y');</SQLStatement>
+      <RollbackStatement>CREATE OR REPLACE VIEW T_INVOICEGL_VT
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ USER1_ID, USER2_ID, USER3_ID, USER4_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID,
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
+ AMTACCTOPENCR, AMTACCTOPENBALANCE)
+AS 
+SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced, i.DateAcct, i.C_PaymentTerm_ID,
+    i.C_BPartner_ID, i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+    i.C_Currency_ID, i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID,
+    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID, i.User3_ID, i.User4_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    fa.Fact_Acct_ID, fa.C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance
+FROM T_InvoiceGL gl
+  INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);
+
+
+
+</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="60" StepType="SQL">
+      <Comments>Recreate view for Oracle</Comments>
+      <SQLStatement>CREATE OR REPLACE VIEW T_INVOICEGL_V
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ USER1_ID, USER2_ID, USER3_ID, USER4_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID,
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
+ AMTACCTOPENCR, AMTACCTOPENBALANCE, AD_Language)
+AS 
+SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced, i.DateAcct, i.C_PaymentTerm_ID,
+    i.C_BPartner_ID, i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+    i.C_Currency_ID, i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID,
+    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID,i.User2_ID, i.User3_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    fa.Fact_Acct_ID, fa.C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance,
+    'en_US' AS AD_Language
+FROM T_InvoiceGL gl
+  INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);</SQLStatement>
+      <RollbackStatement>CREATE OR REPLACE VIEW T_INVOICEGL_V
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ USER1_ID, USER2_ID, USER3_ID, USER4_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID,
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
+ AMTACCTOPENCR, AMTACCTOPENBALANCE)
+AS 
+SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced, i.DateAcct, i.C_PaymentTerm_ID,
+    i.C_BPartner_ID, i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+    i.C_Currency_ID, i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID,
+    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID,i.User2_ID, i.User3_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    fa.Fact_Acct_ID, fa.C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance
+FROM T_InvoiceGL gl
+  INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="70" StepType="SQL">
+      <Comments>Recreate view Trl for Oracle</Comments>
+      <SQLStatement>CREATE OR REPLACE VIEW T_INVOICEGL_VT
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ USER1_ID, USER2_ID,  USER3_ID, USER4_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID,
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
+ AMTACCTOPENCR, AMTACCTOPENBALANCE, AD_Language)
+AS 
+SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced, i.DateAcct, i.C_PaymentTerm_ID,
+    i.C_BPartner_ID, i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+    i.C_Currency_ID, i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID,
+    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID,i.User3_ID, i.User4_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    fa.Fact_Acct_ID, fa.C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance,
+    l.AD_Language
+FROM T_InvoiceGL gl
+  INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID)
+  LEFT JOIN AD_Language l ON (l.IsSystemLanguage='Y' AND l.IsActive = 'Y');</SQLStatement>
+      <RollbackStatement>CREATE OR REPLACE VIEW T_INVOICEGL_VT
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ USER1_ID, USER2_ID,  USER3_ID, USER4_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID,
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
+ AMTACCTOPENCR, AMTACCTOPENBALANCE)
+AS 
+SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced, i.DateAcct, i.C_PaymentTerm_ID,
+    i.C_BPartner_ID, i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+    i.C_Currency_ID, i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID,
+    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID,i.User3_ID, i.User4_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    fa.Fact_Acct_ID, fa.C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance
+FROM T_InvoiceGL gl
+  INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

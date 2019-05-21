@@ -22,7 +22,7 @@ import org.compiere.process.SvrProcess;
 
 /** Generated Process for (Generate Sales History)
  *  @author ADempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public abstract class GenerateSalesHistoryAbstract extends SvrProcess {
 	/** Process Value 	*/

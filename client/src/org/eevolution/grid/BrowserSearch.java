@@ -22,7 +22,7 @@ import org.adempiere.controller.SmallViewController;
 import org.adempiere.model.MBrowse;
 import org.adempiere.model.MBrowseField;
 import org.compiere.util.CLogger;
-import org.compiere.util.Env;
+import org.spin.util.ASPUtil;
 
 /**
  *	Controller for Browser Search, it allow to developer create different views from it
@@ -101,12 +101,13 @@ public abstract class BrowserSearch extends SmallViewController {
 	public boolean loadData() {
 		log.config("");		
 		//	Create Fields
-		MBrowse browse = MBrowse.get(Env.getCtx(), m_AD_Browse_ID);
+		ASPUtil aspUtil = ASPUtil.getInstance();
+		MBrowse browse = aspUtil.getBrowse(m_AD_Browse_ID);
 		//	Valid null
 		if(browse == null)
 			return false;
 		//	
-		List<MBrowseField> fields = browse.getCriteriaFields();
+		List<MBrowseField> fields = aspUtil.getBrowseCriteriaFields(m_AD_Browse_ID);
 		if(fields == null
 				|| fields.size() == 0)
 			return false;

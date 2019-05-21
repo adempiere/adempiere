@@ -143,7 +143,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
                 String processMessage = receiver.getName()
                         + " @DisplayDocumentInfo@ : " + pos.getDocumentNo()
                         + " @To@ @C_BPartner_ID@ : " + partner.getName()
-                        + " @TaxID@ : " + taxId.orElse("");
+                        + " @TaxID@ : " + taxId.orElseGet(() -> "");
                 if (FDialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
                     waiting.setPage(pos.v_Panel.getPage());
                     waiting.doHighlighted();
@@ -306,7 +306,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
     {
         Optional<String> summary = Optional.ofNullable(processInfo.getSummary());
         Optional<String> logs = Optional.ofNullable(processInfo.getLogInfo());
-        String errorMessage = Msg.parseTranslation(pos.getCtx() , processInfo.getTitle() + " @ProcessRunError@ @Summary@ : " + summary.orElse("") + " @ProcessFailed@ : " + logs.orElse(""));
+        String errorMessage = Msg.parseTranslation(pos.getCtx() , processInfo.getTitle() + " @ProcessRunError@ @Summary@ : " + summary.orElseGet(() -> "") + " @ProcessFailed@ : " + logs.orElseGet(() -> ""));
         throw new AdempierePOSException(errorMessage);
     }
 
@@ -315,7 +315,7 @@ public class WPOSActionMenu implements  POSQueryListener, EventListener{
         pos.refreshHeader();
         Optional<String> summary = Optional.ofNullable(processInfo.getSummary());
         Optional<String> logs = Optional.ofNullable(processInfo.getLogInfo());
-        String okMessage = Msg.parseTranslation(pos.getCtx() , " @AD_Process_ID@ "+ processInfo.getTitle() +" @Summary@ : " + summary.orElse("") + " @ProcessOK@ : " + logs.orElse(""));
+        String okMessage = Msg.parseTranslation(pos.getCtx() , " @AD_Process_ID@ "+ processInfo.getTitle() +" @Summary@ : " + summary.orElseGet(() -> "") + " @ProcessOK@ : " + logs.orElseGet(() -> ""));
         FDialog.info(pos.getWindowNo(), popupMenu ,"ProcessOK", okMessage);
     }
 }

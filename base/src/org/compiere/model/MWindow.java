@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.wf.MWFNode;
@@ -42,6 +43,10 @@ public class MWindow extends X_AD_Window
 	private static final long serialVersionUID = -7604318488890368565L;
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MWindow.class);
+	/**	Cache for parameters		*/
+	private static CCache<String, List<MTab>>	cacheASPTabs = new CCache<String, List<MTab>>(I_AD_Tab.Table_Name, 20);
+	/**	Cache						*/
+	private static CCache<Integer, MWindow>	s_cache	= new CCache<Integer, MWindow>(Table_Name, 20);
 	
 	/**
 	 * 	Standard Constructor
@@ -108,6 +113,75 @@ public class MWindow extends X_AD_Window
 		list.toArray (m_tabs);
 		return m_tabs;
 	}	//	getFields
+	
+	/**
+	 * Get Tabs from ASP
+	 * @return
+	 */
+	public List<MTab> getASPTabs() {
+		MClient client = MClient.get(getCtx());
+		String key = getAD_Window_ID() + "|" + client.getAD_Client_ID();
+		List<MTab> retValue = cacheASPTabs.get (key);
+		if (retValue != null) {
+			return retValue;
+		}
+		StringBuffer whereClause = new StringBuffer(COLUMNNAME_AD_Window_ID + " = ?");
+		if (client.isUseASP()) {
+			String aSPFilter =
+					" AND ((   AD_Tab_ID IN ( "
+					// Just ASP subscribed tabs for client "
+					+ "              SELECT t.AD_Tab_ID "
+					+ "                FROM ASP_Tab t, ASP_Window w, ASP_Level l, ASP_ClientLevel cl "
+					+ "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
+					+ "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
+					+ "                 AND t.ASP_Window_ID = w.ASP_Window_ID "
+					+ "                 AND t.IsActive = 'Y' "
+					+ "                 AND w.IsActive = 'Y' "
+					+ "                 AND l.IsActive = 'Y' "
+					+ "                 AND cl.IsActive = 'Y' "
+					+ "                 AND t.ASP_Status = 'S') " // Show
+					+ "        OR AD_Tab_ID IN ( "
+					// + show ASP exceptions for client
+					+ "              SELECT AD_Tab_ID "
+					+ "                FROM ASP_ClientException ce "
+					+ "               WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "                 AND ce.IsActive = 'Y' "
+					+ "                 AND ce.AD_Tab_ID IS NOT NULL "
+					+ "                 AND ce.AD_Field_ID IS NULL "
+					+ "                 AND ce.ASP_Status = 'S') " // Show
+					+ "       ) "
+					+ "   AND AD_Tab_ID NOT IN ( "
+					// minus hide ASP exceptions for client
+					+ "          SELECT AD_Tab_ID "
+					+ "            FROM ASP_ClientException ce "
+					+ "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "             AND ce.IsActive = 'Y' "
+					+ "             AND ce.AD_Tab_ID IS NOT NULL "
+					+ "             AND ce.AD_Field_ID IS NULL "
+					+ "             AND ce.ASP_Status = 'H')"
+					//	Just Customization
+					+ " OR EXISTS(SELECT 1 FROM ASP_Level l "
+					+ "					INNER JOIN ASP_ClientLevel cl ON(cl.ASP_Level_ID = l.ASP_Level_ID) "
+					+ "				WHERE cl.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "				AND l.IsActive = 'Y' "
+					+ "				AND cl.IsActive = 'Y' "
+					+ "				AND l.Type = 'C') "	//	Show
+					+ ")"; // Hide
+			whereClause.append(aSPFilter);
+		}
+		//	Get from query
+		retValue = new Query(getCtx(),I_AD_Tab.Table_Name, whereClause.toString(), get_TrxName())
+				.setParameters(getAD_Window_ID())
+				.setOrderBy(I_AD_Tab.COLUMNNAME_SeqNo)
+				.list();
+		if (retValue != null
+				&& retValue.size() > 0) {
+			cacheASPTabs.put(key, retValue);
+		}
+		//	Default Return
+		return retValue;
+	}
 
 	
 	/**
@@ -163,6 +237,21 @@ public class MWindow extends X_AD_Window
 		return success;
 	}	//	afterSave
 
+	/** Get Window from Cache
+	 *	@param ctx context
+	 *	@param windowId id
+	 *	@return MProcess
+	 */
+	public static MWindow get (Properties ctx, int windowId) {
+		Integer key = new Integer (windowId);
+		MWindow retValue = (MWindow) s_cache.get (key);
+		if (retValue != null)
+			return retValue;
+		retValue = new MWindow (ctx, windowId, null);
+		if (retValue.get_ID () != 0)
+			s_cache.put (key, retValue);
+		return retValue;
+	}	//	get
 	
 	/**
 	 * Get workflow nodes with where clause.
@@ -212,5 +301,19 @@ public class MWindow extends X_AD_Window
 		return retValue;
 	}
 	//end vpj-cd e-evolution
+	
+	/**
+	 * Duplicate Process
+	 * @return
+	 */
+	public MWindow getDuplicated() {
+		try {
+			return (MWindow) super.clone();
+		} catch (CloneNotSupportedException e) {
+			log.warning("Error " + e.getLocalizedMessage());
+		}
+		//	Default
+		return null;
+	}
 	
 }	//	M_Window

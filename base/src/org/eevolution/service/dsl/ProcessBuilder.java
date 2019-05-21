@@ -29,6 +29,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
+import org.compiere.util.Util;
 
 import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
@@ -68,6 +69,7 @@ public class ProcessBuilder {
     private int tableSelectionId;
     private boolean isBatch = false;
     private boolean isPrintPreview = false;
+    private String reportExportFormat = null;
 
     private Boolean isManagedTransaction = true;
     private Boolean isExecuteUsingSystemRole =  false;
@@ -106,7 +108,7 @@ public class ProcessBuilder {
      * @return
      */
     public ProcessBuilder process(final Class<?> processClass) {
-        this.process= MProcess.getUsingJavaClass(processClass);
+        this.process = MProcess.getUsingJavaClass(processClass);
         if (this.process == null)
             throw new AdempiereException("@AD_Process_ID@ @NotFound@");
 
@@ -176,11 +178,19 @@ public class ProcessBuilder {
         processInfo.setTransactionName(trxName);
         processInfo.setIsSelection(isSelection);
         processInfo.setPrintPreview(isPrintPreview());
+        if(!Util.isEmpty(getReportExportFormat())) {
+        	processInfo.setReportType(getReportExportFormat());
+        } else {
+        	processInfo.setReportType(instance.getReportType());
+        }
         processInfo.setIsBatch(isBatch());
         if (isExecuteUsingSystemRole) {
             processInfo.setAD_Client_ID(0);
             processInfo.setAD_User_ID(100);
+        } else {
+            processInfo.setAD_Client_ID(instance.getAD_Client_ID());
         }
+
         ProcessInfoUtil.setParameterFromDB(processInfo);
 
         //	FR [ 352 ]
@@ -460,6 +470,24 @@ public class ProcessBuilder {
     public boolean isBatch()
     {
         return this.isBatch;
+    }
+    
+    /**
+     * Set report Export format
+     * @param reportExportFormat
+     * @return
+     */
+    public ProcessBuilder withReportExportFormat(String reportExportFormat) {
+    	this.reportExportFormat = reportExportFormat;
+    	return this;
+    }
+    
+    /**
+     * Get report export format
+     * @return
+     */
+    public String getReportExportFormat() {
+    	return this.reportExportFormat;
     }
 
     /**

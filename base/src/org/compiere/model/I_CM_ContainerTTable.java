@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for CM_ContainerTTable
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_CM_ContainerTTable 
 {
@@ -62,19 +62,6 @@ public interface I_CM_ContainerTTable
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name CM_ContainerTTable_ID */
-    public static final String COLUMNNAME_CM_ContainerTTable_ID = "CM_ContainerTTable_ID";
-
-	/** Set Container T.Table.
-	  * Container Template Table
-	  */
-	public void setCM_ContainerTTable_ID (int CM_ContainerTTable_ID);
-
-	/** Get Container T.Table.
-	  * Container Template Table
-	  */
-	public int getCM_ContainerTTable_ID();
-
     /** Column name CM_Container_ID */
     public static final String COLUMNNAME_CM_Container_ID = "CM_Container_ID";
 
@@ -89,6 +76,19 @@ public interface I_CM_ContainerTTable
 	public int getCM_Container_ID();
 
 	public org.compiere.model.I_CM_Container getCM_Container() throws RuntimeException;
+
+    /** Column name CM_ContainerTTable_ID */
+    public static final String COLUMNNAME_CM_ContainerTTable_ID = "CM_ContainerTTable_ID";
+
+	/** Set Container T.Table.
+	  * Container Template Table
+	  */
+	public void setCM_ContainerTTable_ID (int CM_ContainerTTable_ID);
+
+	/** Get Container T.Table.
+	  * Container Template Table
+	  */
+	public int getCM_ContainerTTable_ID();
 
     /** Column name CM_TemplateTable_ID */
     public static final String COLUMNNAME_CM_TemplateTable_ID = "CM_TemplateTable_ID";
@@ -186,19 +186,6 @@ public interface I_CM_ContainerTTable
 	  */
 	public int getRecord_ID();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -214,6 +201,19 @@ public interface I_CM_ContainerTTable
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name WhereClause */
     public static final String COLUMNNAME_WhereClause = "WhereClause";

@@ -42,6 +42,18 @@ public class ReportExportHandler {
 		load();
 	}
 	
+	/**
+	 * Constructor from report view
+	 * @param ctx
+	 * @param reportView
+	 */
+	public ReportExportHandler(Properties ctx, MReportView reportView) {
+		this.ctx = ctx;
+		this.reportView = reportView;
+		//	Load class
+		load();
+	}
+	
 	/**	Report view		*/
 	private MReportView reportView;
 	/**	Report Engine	*/
@@ -172,6 +184,21 @@ public class ReportExportHandler {
 	public AbstractExportFormat getExporter(String exportName) {
 		for(AbstractExportFormat exporter : getExportFormatList()) {
 			if(exporter.getName().equals(exportName)) {
+				return exporter;
+			}
+		}
+		//	Default
+		return null;
+	}
+	
+	/**
+	 * Get exporter from extension
+	 * @param exportExtension
+	 * @return
+	 */
+	public AbstractExportFormat getExporterFromExtension(String exportExtension) {
+		for(AbstractExportFormat exporter : getExportFormatList()) {
+			if(exporter.getExtension().equals(exportExtension)) {
 				return exporter;
 			}
 		}

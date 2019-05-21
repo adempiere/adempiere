@@ -42,7 +42,7 @@ public class CreateProductEntriesInPriceList extends CreateProductEntriesInPrice
 				Optional<MProductPrice> productPriceOptional =
 						Optional.ofNullable(MProductPrice.get(getCtx(), getRecord_ID(), key, get_TrxName()) );
 				MProductPrice productPrice = productPriceOptional
-						.orElse(new MProductPrice(getCtx(), getRecord_ID(), key, get_TrxName()));
+						.orElseGet(() -> new MProductPrice(getCtx(), getRecord_ID(), key, get_TrxName()));
 				productPrice.setAD_Org_ID(productPrice.getM_PriceList_Version().getAD_Org_ID());
 				BigDecimal priceList = getSelectionAsBigDecimal(key, "PP_PriceList");
 				BigDecimal priceStd = getSelectionAsBigDecimal(key, "PP_PriceStd");

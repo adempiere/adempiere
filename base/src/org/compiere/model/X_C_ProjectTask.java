@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ProjectTask
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20190503L;
 
     /** Standard Constructor */
     public X_C_ProjectTask (Properties ctx, int C_ProjectTask_ID, String trxName)
@@ -41,9 +41,9 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
       super (ctx, C_ProjectTask_ID, trxName);
       /** if (C_ProjectTask_ID == 0)
         {
+			setCommittedAmt (Env.ZERO);
 			setC_ProjectPhase_ID (0);
 			setC_ProjectTask_ID (0);
-			setCommittedAmt (Env.ZERO);
 			setName (null);
 			setPlannedAmt (Env.ZERO);
 			setProjInvoiceRule (null);
@@ -132,6 +132,23 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Alert Message.
+		@param AlertMessage 
+		Message of the Alert
+	  */
+	public void setAlertMessage (String AlertMessage)
+	{
+		set_Value (COLUMNNAME_AlertMessage, AlertMessage);
+	}
+
+	/** Get Alert Message.
+		@return Message of the Alert
+	  */
+	public String getAlertMessage () 
+	{
+		return (String)get_Value(COLUMNNAME_AlertMessage);
+	}
+
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Activity)MTable.get(getCtx(), org.compiere.model.I_C_Activity.Table_Name)
@@ -188,32 +205,24 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Order getC_OrderPO() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
-			.getPO(getC_OrderPO_ID(), get_TrxName());	}
-
-	/** Set Purchase Order.
-		@param C_OrderPO_ID 
-		Purchase Order
+	/** Set Committed Amount.
+		@param CommittedAmt 
+		The (legal) commitment amount
 	  */
-	public void setC_OrderPO_ID (int C_OrderPO_ID)
+	public void setCommittedAmt (BigDecimal CommittedAmt)
 	{
-		if (C_OrderPO_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_OrderPO_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_OrderPO_ID, Integer.valueOf(C_OrderPO_ID));
+		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
 	}
 
-	/** Get Purchase Order.
-		@return Purchase Order
+	/** Get Committed Amount.
+		@return The (legal) commitment amount
 	  */
-	public int getC_OrderPO_ID () 
+	public BigDecimal getCommittedAmt () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderPO_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
@@ -239,6 +248,34 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	public int getC_Order_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Order getC_OrderPO() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
+			.getPO(getC_OrderPO_ID(), get_TrxName());	}
+
+	/** Set Purchase Order.
+		@param C_OrderPO_ID 
+		Purchase Order
+	  */
+	public void setC_OrderPO_ID (int C_OrderPO_ID)
+	{
+		if (C_OrderPO_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_OrderPO_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_OrderPO_ID, Integer.valueOf(C_OrderPO_ID));
+	}
+
+	/** Get Purchase Order.
+		@return Purchase Order
+	  */
+	public int getC_OrderPO_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderPO_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -407,26 +444,6 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Committed Amount.
-		@param CommittedAmt 
-		The (legal) commitment amount
-	  */
-	public void setCommittedAmt (BigDecimal CommittedAmt)
-	{
-		set_Value (COLUMNNAME_CommittedAmt, CommittedAmt);
-	}
-
-	/** Get Committed Amount.
-		@return The (legal) commitment amount
-	  */
-	public BigDecimal getCommittedAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_CommittedAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Deadline.
 		@param DateDeadline 
 		Deadline
@@ -476,6 +493,40 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	public Timestamp getDateFinishSchedule () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateFinishSchedule);
+	}
+
+	/** Set Date last action.
+		@param DateLastAction 
+		Date this request was last acted on
+	  */
+	public void setDateLastAction (Timestamp DateLastAction)
+	{
+		set_Value (COLUMNNAME_DateLastAction, DateLastAction);
+	}
+
+	/** Get Date last action.
+		@return Date this request was last acted on
+	  */
+	public Timestamp getDateLastAction () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateLastAction);
+	}
+
+	/** Set Last Alert.
+		@param DateLastAlert 
+		Date when last alert were sent
+	  */
+	public void setDateLastAlert (Timestamp DateLastAlert)
+	{
+		set_Value (COLUMNNAME_DateLastAlert, DateLastAlert);
+	}
+
+	/** Get Last Alert.
+		@return Date when last alert were sent
+	  */
+	public Timestamp getDateLastAlert () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateLastAlert);
 	}
 
 	/** Set Date last run.
@@ -561,6 +612,32 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** DueType AD_Reference_ID=222 */
+	public static final int DUETYPE_AD_Reference_ID=222;
+	/** Overdue = 3 */
+	public static final String DUETYPE_Overdue = "3";
+	/** Due = 5 */
+	public static final String DUETYPE_Due = "5";
+	/** Scheduled = 7 */
+	public static final String DUETYPE_Scheduled = "7";
+	/** Set Due type.
+		@param DueType 
+		Status of the next action for this Request
+	  */
+	public void setDueType (String DueType)
+	{
+
+		set_Value (COLUMNNAME_DueType, DueType);
+	}
+
+	/** Get Due type.
+		@return Status of the next action for this Request
+	  */
+	public String getDueType () 
+	{
+		return (String)get_Value(COLUMNNAME_DueType);
 	}
 
 	/** Set Estimated Duration.
@@ -898,6 +975,46 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
+	/** Set Percentage completed.
+		@param PercentageCompleted 
+		Percentage completed
+	  */
+	public void setPercentageCompleted (BigDecimal PercentageCompleted)
+	{
+		set_Value (COLUMNNAME_PercentageCompleted, PercentageCompleted);
+	}
+
+	/** Get Percentage completed.
+		@return Percentage completed
+	  */
+	public BigDecimal getPercentageCompleted () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PercentageCompleted);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Planned Amount.
+		@param PlannedAmt 
+		Planned amount for this project
+	  */
+	public void setPlannedAmt (BigDecimal PlannedAmt)
+	{
+		set_Value (COLUMNNAME_PlannedAmt, PlannedAmt);
+	}
+
+	/** Get Planned Amount.
+		@return Planned amount for this project
+	  */
+	public BigDecimal getPlannedAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PlannedAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException
     {
 		return (org.eevolution.model.I_PP_Order)MTable.get(getCtx(), org.eevolution.model.I_PP_Order.Table_Name)
@@ -952,46 +1069,6 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Percentage completed.
-		@param PercentageCompleted 
-		Percentage completed
-	  */
-	public void setPercentageCompleted (BigDecimal PercentageCompleted)
-	{
-		set_Value (COLUMNNAME_PercentageCompleted, PercentageCompleted);
-	}
-
-	/** Get Percentage completed.
-		@return Percentage completed
-	  */
-	public BigDecimal getPercentageCompleted () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PercentageCompleted);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Planned Amount.
-		@param PlannedAmt 
-		Planned amount for this project
-	  */
-	public void setPlannedAmt (BigDecimal PlannedAmt)
-	{
-		set_Value (COLUMNNAME_PlannedAmt, PlannedAmt);
-	}
-
-	/** Get Planned Amount.
-		@return Planned amount for this project
-	  */
-	public BigDecimal getPlannedAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PlannedAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	/** PriorityRule AD_Reference_ID=154 */
@@ -1170,23 +1247,6 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
         return new KeyNamePair(get_ID(), String.valueOf(getSeqNo()));
     }
 
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
-	}
-
 	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
     {
 		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
@@ -1297,6 +1357,23 @@ public class X_C_ProjectTask extends PO implements I_C_ProjectTask, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	public org.compiere.model.I_C_BPartner getVendor() throws RuntimeException

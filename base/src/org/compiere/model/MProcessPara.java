@@ -269,5 +269,19 @@ public class MProcessPara extends X_AD_Process_Para
 		log.log(Level.FINE, "AD_Process_Para_Trl inserted: " + count);
 		
 	}
+	
+	/**
+	 * Duplicate Process Parameter
+	 * @return
+	 */
+	public MProcessPara getDuplicated() {
+		try {
+			return (MProcessPara) super.clone();
+		} catch (CloneNotSupportedException e) {
+			log.warning("Error " + e.getLocalizedMessage());
+		}
+		//	Default
+		return null;
+	}
 
 }	//	MProcessPara
