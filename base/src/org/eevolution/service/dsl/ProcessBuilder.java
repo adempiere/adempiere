@@ -189,6 +189,7 @@ public class ProcessBuilder {
             processInfo.setAD_User_ID(100);
         } else {
             processInfo.setAD_Client_ID(instance.getAD_Client_ID());
+            processInfo.setAD_User_ID(instance.getAD_User_ID());
         }
 
         ProcessInfoUtil.setParameterFromDB(processInfo);
