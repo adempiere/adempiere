@@ -25,8 +25,8 @@ import org.compiere.model.MRequestUpdate;
 import org.compiere.model.MStatus;
 import org.compiere.model.Query;
 import org.compiere.util.AdempiereSystemError;
+import org.compiere.util.Msg;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -147,28 +147,37 @@ public class RequestInvoice extends RequestInvoiceAbstract {
 	
 	/**
 	 * 	Invoice Line
-	 *	@param request request
+	 *x	@param request request
 	 */
 	private void invoiceLine(MRequest request, MInvoice invoice) {
 		AtomicInteger lineNo = new AtomicInteger(invoice.getLines().length);
-		Arrays.stream(request.getUpdates(null)).forEach(requestUpdate -> {
-			Optional<BigDecimal> maybeQuantityInvoiced = Optional.ofNullable(requestUpdate.getQtyInvoiced());
-			maybeQuantityInvoiced.ifPresent(quantityInvoiced -> {
-				MInvoiceLine invoiceLine = new MInvoiceLine(invoice);
-				lineNo.updateAndGet(no -> no + 10);
-				invoiceLine.setLine(lineNo.get());
-				invoiceLine.setQty(quantityInvoiced);
-				if (requestUpdate.getM_ProductSpent_ID() > 0)
-					invoiceLine.setM_Product_ID(requestUpdate.getM_ProductSpent_ID());
-				else if (getProductId() > 0) {
-					invoiceLine.setM_Product_ID(getProductId());
-				}
-				invoiceLine.setPrice();
-				invoiceLine.saveEx();
-				requestUpdate.setC_InvoiceLine_ID(invoiceLine.get_ID());
-				requestUpdate.saveEx();
-			});
-		});
-	}	//	invoiceLine
-	
+		Arrays.stream(request.getUpdates(null))
+				.filter(requestUpdate -> requestUpdate.getQtyInvoiced() != null && requestUpdate.getQtyInvoiced().signum() != 0
+						&& (requestUpdate.getM_ProductSpent_ID() > 0 || getProductId() > 0))
+				.forEach(requestUpdate -> {
+					StringBuilder descriptionLine = new StringBuilder();
+					descriptionLine.append("@").append(MRequest.COLUMNNAME_R_Request_ID).append("@").append(" : ")
+							.append(request.getDocumentNo()).append(" ");
+					Optional.ofNullable(request.getSubject()).ifPresent(subject -> descriptionLine.append(" ").append(subject).append(" \n"));
+					Optional.ofNullable(requestUpdate.getStartTime()).ifPresent(startTime -> descriptionLine.append("@")
+							.append(MRequestUpdate.COLUMNNAME_StartTime).append("@").append(" : ").append(startTime));
+					Optional.ofNullable(requestUpdate.getEndTime()).ifPresent(endTime -> descriptionLine.append("@")
+							.append(MRequestUpdate.COLUMNNAME_EndTime).append("@").append(" : ").append(endTime).append(" "));
+					Optional.ofNullable(requestUpdate.getResult()).ifPresent(result -> descriptionLine.append("\n ").append(result));
+					MInvoiceLine invoiceLine = new MInvoiceLine(invoice);
+					lineNo.updateAndGet(no -> no + 10);
+					invoiceLine.setLine(lineNo.get());
+					invoiceLine.setDescription(Msg.parseTranslation(invoice.getCtx(), descriptionLine.toString()));
+					invoiceLine.setQty(requestUpdate.getQtyInvoiced());
+					if (requestUpdate.getM_ProductSpent_ID() > 0)
+						invoiceLine.setM_Product_ID(requestUpdate.getM_ProductSpent_ID());
+					else if (getProductId() > 0) {
+						invoiceLine.setM_Product_ID(getProductId());
+					}
+					invoiceLine.setPrice();
+					invoiceLine.saveEx();
+					requestUpdate.setC_InvoiceLine_ID(invoiceLine.get_ID());
+					requestUpdate.saveEx();
+				});
+	}    //	invoiceLine
 }	//	RequestInvoice
