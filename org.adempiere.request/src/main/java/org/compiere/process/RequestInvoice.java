@@ -26,7 +26,6 @@ import org.compiere.model.MStatus;
 import org.compiere.model.Query;
 import org.compiere.util.AdempiereSystemError;
 import org.compiere.util.Msg;
-import scala.collection.mutable.StringBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
