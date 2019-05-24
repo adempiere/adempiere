@@ -244,14 +244,12 @@ public class MView extends X_AD_View {
 					cols.append(",");
 				if (col.getColumnSQL() != null
 						&& col.getColumnSQL().length() > 0) {
-
-					cols.append(col.getColumnSQL() + " as " + col.getName());
+					cols.append(col.getColumnSQL() + " as " + col.getColumnName());
 					co = true;
 				} else if (col.getColumnName() != null
 						&& col.getColumnName().length() > 0) {
-
 					cols.append(def.getTableAlias() + "." + col.getColumnName()
-							+ " as " + col.getName());
+							+ " as " + col.getColumnName());
 					co = true;
 				}
 			}
@@ -266,7 +264,7 @@ public class MView extends X_AD_View {
 				from = table.getTableName() + " " + def.getTableAlias();
 		}
 
-		sql.append(cols).append(" from ").append(from).append(" ")
+		sql.append(cols).append(" FROM ").append(from).append(" ")
 				.append(joins);
 
 		return sql.toString();
