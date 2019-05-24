@@ -350,7 +350,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		int ii = Tax.get(getCtx(), getM_Product_ID(), getC_Charge_ID(), getDateOrdered(), getDateOrdered(),
 			getAD_Org_ID(), getM_Warehouse_ID(),
 			getC_BPartner_Location_ID(),		//	should be bill to
-			getC_BPartner_Location_ID(), m_IsSOTrx);
+			getC_BPartner_Location_ID(), m_IsSOTrx, get_TrxName());
 		if (ii == 0)
 		{
 			log.log(Level.SEVERE, "No Tax found");
