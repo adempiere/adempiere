@@ -39,6 +39,9 @@ import org.compiere.util.Msg;
  * @author Teo Sarca, www.arhipac.ro
  * 		<li>FR [ 2818478 ] Introduce MPInstance.createParameter helper method
  * 			https://sourceforge.net/tracker/?func=detail&aid=2818478&group_id=176962&atid=879335
+ * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
+ * 		<li>FR [ 2581 ] Add session reference to process instance
+ * 		https://github.com/adempiere/adempiere/issues/2581
  */
 public class MPInstance extends X_AD_PInstance
 {
@@ -63,6 +66,11 @@ public class MPInstance extends X_AD_PInstance
 		//	setAD_Process_ID (0);	//	parent
 		//	setRecord_ID (0);
 			setIsProcessing (false);
+			MSession session = MSession.get(getCtx(), false);
+			if(session != null
+					&& session.getAD_Session_ID() > 0) {
+				setAD_Session_ID(session.getAD_Session_ID());
+			}
 		}
 	}	//	MPInstance
 
