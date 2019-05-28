@@ -151,12 +151,17 @@ public class ExportSurrogateKeyToMigration extends ExportSurrogateKeyToMigration
 	private void addTableToUpdate(String tableName) {
 		String keyId = tableName + "_ID";
 		String uuidKey = I_AD_Table.COLUMNNAME_UUID;
-		
-		KeyNamePair[] uuidValues = DB.getKeyNamePairs(get_TrxName(), "SELECT " + keyId + ", " + uuidKey + " FROM " + tableName + " WHERE AD_Client_ID = ? AND " + uuidKey + " IS NOT NULL" + entityTypeWhereClause, false, getAD_Client_ID());
+		String uuidWhereClause = uuidKey + " IS NOT NULL";
+		if(isOnlyUUIDMissing()) {
+			uuidKey = "getUUID()";
+			uuidWhereClause = I_AD_Table.COLUMNNAME_UUID + " IS NULL";
+		}
+		// Get
+		KeyNamePair[] uuidValues = DB.getKeyNamePairs(get_TrxName(), "SELECT " + keyId + ", " + uuidKey + " FROM " + tableName + " WHERE AD_Client_ID = ? AND " + uuidWhereClause + entityTypeWhereClause, false, getAD_Client_ID());
 		//	Get all UUID
 		for(KeyNamePair value : uuidValues) {
-			updateList.add("UPDATE " + tableName + " SET " + uuidKey + "= '" + value.getName() + "' WHERE " + keyId + " = " + value.getKey() + ";");
-			rollbackList.add("UPDATE " + tableName + " SET " + uuidKey + " = NULL WHERE " + keyId + " = " + value.getKey() + ";");
+			updateList.add("UPDATE " + tableName + " SET " + I_AD_Table.COLUMNNAME_UUID + "= '" + value.getName() + "' WHERE " + keyId + " = " + value.getKey() + ";");
+			rollbackList.add("UPDATE " + tableName + " SET " + I_AD_Table.COLUMNNAME_UUID + " = NULL WHERE " + keyId + " = " + value.getKey() + ";");
 		}
 		//	Add
 		addMigration();
