@@ -75,20 +75,21 @@ public class ASPUtil {
 	private String language;
 	/**	Context	*/
 	private Properties context;
+	private final static String CACHE_KEY = "Client_Customization_";
 	/**	Process	Cache */
-	private static CCache<String, MProcess> processCache = new CCache<String, MProcess>(I_AD_Process.Table_Name, 20);
+	private static CCache<String, MProcess> processCache = new CCache<String, MProcess>(CACHE_KEY + I_AD_Process.Table_Name, 20);
 	/**	Process	Parameter Cache */
-	private static CCache<String, List<MProcessPara>> processParameterCache = new CCache<String, List<MProcessPara>>(I_AD_Process_Para.Table_Name, 20);
+	private static CCache<String, List<MProcessPara>> processParameterCache = new CCache<String, List<MProcessPara>>(CACHE_KEY + I_AD_Process_Para.Table_Name, 20);
 	/**	Browse Cache */
-	private static CCache<String, MBrowse> browseCache = new CCache<String, MBrowse>(I_AD_Browse.Table_Name, 20);
+	private static CCache<String, MBrowse> browseCache = new CCache<String, MBrowse>(CACHE_KEY + I_AD_Browse.Table_Name, 20);
 	/**	Process	Parameter Cache */
-	private static CCache<String, List<MBrowseField>> browseFieldCache = new CCache<String, List<MBrowseField>>(I_AD_Browse_Field.Table_Name, 20);
+	private static CCache<String, List<MBrowseField>> browseFieldCache = new CCache<String, List<MBrowseField>>(CACHE_KEY + I_AD_Browse_Field.Table_Name, 20);
 	/**	Window	Cache */
-	private static CCache<String, MWindow> windowCache = new CCache<String, MWindow>(I_AD_Window.Table_Name, 20);
+	private static CCache<String, MWindow> windowCache = new CCache<String, MWindow>(CACHE_KEY + I_AD_Window.Table_Name, 20);
 	/**	Tab	Cache */
-	private static CCache<String, List<MTab>> tabCache = new CCache<String, List<MTab>>(I_AD_Tab.Table_Name, 20);
+	private static CCache<String, List<MTab>> tabCache = new CCache<String, List<MTab>>(CACHE_KEY + I_AD_Tab.Table_Name, 20);
 	/**	Field	Cache */
-	private static CCache<String, List<MField>> fieldCache = new CCache<String, List<MField>>(I_AD_Field.Table_Name, 20);
+	private static CCache<String, List<MField>> fieldCache = new CCache<String, List<MField>>(CACHE_KEY + I_AD_Field.Table_Name, 20);
 	
 	/**	Level	*/
 	private final int CLIENT = 1;
