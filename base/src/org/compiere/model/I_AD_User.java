@@ -374,6 +374,19 @@ public interface I_AD_User
 	  */
 	public String getHasRole();
 
+    /** Column name ImageURL */
+    public static final String COLUMNNAME_ImageURL = "ImageURL";
+
+	/** Set Image URL.
+	  * URL of  image
+	  */
+	public void setImageURL (String ImageURL);
+
+	/** Get Image URL.
+	  * URL of  image
+	  */
+	public String getImageURL();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -577,6 +590,15 @@ public interface I_AD_User
 	  * Additional information on the status of this lead/opportunity
 	  */
 	public String getLeadStatusDescription();
+
+    /** Column name Logo_ID */
+    public static final String COLUMNNAME_Logo_ID = "Logo_ID";
+
+	/** Set Logo	  */
+	public void setLogo_ID (int Logo_ID);
+
+	/** Get Logo	  */
+	public int getLogo_ID();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
