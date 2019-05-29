@@ -68,14 +68,14 @@ public class FreightEngine {
 
     protected <T extends FreightRuleInterface> Class<T> getClass(String className)
             throws ClassNotFoundException {
-        return (Class<T>) Class.forName(getPackageName() + "." + className);
+        return (Class<T>) Class.forName(className);
     }
 
     public FreightRuleInterface getFreightRuleFactory(I_M_Shipper shipper , String freightRule) {
         String className = "";
         Boolean useFreightRule = (shipper != null && shipper.getCalculationClass() == null) || (shipper == null);
         if (useFreightRule)
-            className = FreightRule.class.getSimpleName();
+            className = getPackageName() + "." + FreightRule.class.getSimpleName();
         else if (shipper.getCalculationClass() != null)
             className = shipper.getCalculationClass();
 
@@ -103,9 +103,9 @@ public class FreightEngine {
             return rule;
         } catch (ClassNotFoundException e) {
             freightRuleNoImplement.add(className);
+            throw new AdempiereException("@CalculationClass@ @NotFound@ " + e);
         } catch (Throwable e) {
             throw new AdempiereException(e);
         }
-        return null;
     }
 }
