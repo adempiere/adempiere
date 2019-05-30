@@ -31,7 +31,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20190529L;
 
     /** Standard Constructor */
     public X_AD_User (Properties ctx, int AD_User_ID, String trxName)
@@ -563,6 +563,23 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 		return (String)get_Value(COLUMNNAME_HasRole);
 	}
 
+	/** Set Image URL.
+		@param ImageURL 
+		URL of  image
+	  */
+	public void setImageURL (String ImageURL)
+	{
+		set_Value (COLUMNNAME_ImageURL, ImageURL);
+	}
+
+	/** Get Image URL.
+		@return URL of  image
+	  */
+	public String getImageURL () 
+	{
+		return (String)get_Value(COLUMNNAME_ImageURL);
+	}
+
 	/** Set Full BP Access.
 		@param IsFullBPAccess 
 		The user/contact has full access to Business Partner information and resources
@@ -903,6 +920,26 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	public String getLeadStatusDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_LeadStatusDescription);
+	}
+
+	/** Set Logo.
+		@param Logo_ID Logo	  */
+	public void setLogo_ID (int Logo_ID)
+	{
+		if (Logo_ID < 1) 
+			set_Value (COLUMNNAME_Logo_ID, null);
+		else 
+			set_Value (COLUMNNAME_Logo_ID, Integer.valueOf(Logo_ID));
+	}
+
+	/** Get Logo.
+		@return Logo	  */
+	public int getLogo_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Logo_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Name.
