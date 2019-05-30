@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add connection with NextCloud / OwnCloud for Attachments" ReleaseNo="3.9.3" SeqNo="4710">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54542" Action="I" Record_ID="50010" Table="AD_AppSupport">
+        <Data AD_Column_ID="91310" Column="UUID">fd2afb88-8295-11e9-b5a2-07f1f22c741c</Data>
+        <Data AD_Column_ID="91312" Column="Value">SardineSupport</Data>
+        <Data AD_Column_ID="91313" Column="Name">WebDav with Sardine API</Data>
+        <Data AD_Column_ID="91314" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91315" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="91316" Column="Classname">org.spin.util.support.webdav.SardineAPI</Data>
+        <Data AD_Column_ID="91303" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91304" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91305" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91306" Column="Created">2019-05-30 00:17:11.506</Data>
+        <Data AD_Column_ID="91307" Column="Updated">2019-05-30 00:17:11.506</Data>
+        <Data AD_Column_ID="91308" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91309" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91317" Column="ApplicationType">WDV</Data>
+        <Data AD_Column_ID="91318" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="91311" Column="AD_AppSupport_ID">50010</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50009" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">112cefce-8296-11e9-b5b5-03039f18cb46</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">F</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2019-05-30 00:17:45.118</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2019-05-30 00:17:45.118</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50009</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault" isNewNull="true"/>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50010</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">UserName</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50010" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">1a8dfb94-8296-11e9-b5c7-3fd344e3cd79</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">F</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2019-05-30 00:18:00.747</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2019-05-30 00:18:00.747</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50010</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault" isNewNull="true"/>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50010</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">Password</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50011" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">25c809c8-8296-11e9-b5d9-47f0440b147b</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2019-05-30 00:18:19.652</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2019-05-30 00:18:19.652</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50011</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault" isNewNull="true"/>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50010</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">BaseURL</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="54540" Action="I" Record_ID="50001" Table="AD_AppRegistration">
+        <Data AD_Column_ID="91283" Column="Name">NextCloud Integration</Data>
+        <Data AD_Column_ID="91281" Column="Timeout">0</Data>
+        <Data AD_Column_ID="91286" Column="Host">http://localhost</Data>
+        <Data AD_Column_ID="91287" Column="VersionNo">1.0</Data>
+        <Data AD_Column_ID="91282" Column="Port">8080</Data>
+        <Data AD_Column_ID="91275" Column="Updated">2019-05-30 00:33:42.64</Data>
+        <Data AD_Column_ID="91271" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91272" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91273" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91274" Column="Created">2019-05-30 00:33:42.64</Data>
+        <Data AD_Column_ID="91276" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91277" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91278" Column="UUID">4bf9918c-8298-11e9-8dbe-3b77c96a7ed8</Data>
+        <Data AD_Column_ID="91285" Column="Description">Integration for nextcloud app from ADempiere</Data>
+        <Data AD_Column_ID="91280" Column="ApplicationType">WDV</Data>
+        <Data AD_Column_ID="91279" Column="AD_AppRegistration_ID">50001</Data>
+        <Data AD_Column_ID="91284" Column="Value">NextCloud</Data>
+        <Data AD_Column_ID="91288" Column="AD_AppSupport_ID">50010</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="54541" Action="I" Record_ID="50004" Table="AD_AppRegistration_Para">
+        <Data AD_Column_ID="91289" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91290" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91299" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91298" Column="ParameterName">BaseURL</Data>
+        <Data AD_Column_ID="91292" Column="Created">2019-05-30 00:35:00.958</Data>
+        <Data AD_Column_ID="91293" Column="Updated">2019-05-30 00:35:00.958</Data>
+        <Data AD_Column_ID="91291" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91294" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91295" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91296" Column="UUID">7aab8076-8298-11e9-8dd2-8f839d9c4420</Data>
+        <Data AD_Column_ID="91300" Column="ParameterValue">http://localhost:8080/</Data>
+        <Data AD_Column_ID="91297" Column="AD_AppRegistration_Para_ID">50004</Data>
+        <Data AD_Column_ID="91301" Column="AD_AppRegistration_ID">50001</Data>
+        <Data AD_Column_ID="91302" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91395" Column="AD_AppSupport_Para_ID">50011</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="54541" Action="I" Record_ID="50005" Table="AD_AppRegistration_Para">
+        <Data AD_Column_ID="91289" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91290" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91299" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91298" Column="ParameterName">UserName</Data>
+        <Data AD_Column_ID="91292" Column="Created">2019-05-30 00:35:17.255</Data>
+        <Data AD_Column_ID="91293" Column="Updated">2019-05-30 00:35:17.255</Data>
+        <Data AD_Column_ID="91291" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91294" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91295" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91296" Column="UUID">848fe316-8298-11e9-8de3-47b39108fa1d</Data>
+        <Data AD_Column_ID="91300" Column="ParameterValue">adempiere</Data>
+        <Data AD_Column_ID="91297" Column="AD_AppRegistration_Para_ID">50005</Data>
+        <Data AD_Column_ID="91301" Column="AD_AppRegistration_ID">50001</Data>
+        <Data AD_Column_ID="91302" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91395" Column="AD_AppSupport_Para_ID">50009</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="54541" Action="I" Record_ID="50006" Table="AD_AppRegistration_Para">
+        <Data AD_Column_ID="91289" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91290" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91299" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91298" Column="ParameterName">Password</Data>
+        <Data AD_Column_ID="91292" Column="Created">2019-05-30 00:35:30.008</Data>
+        <Data AD_Column_ID="91293" Column="Updated">2019-05-30 00:35:30.008</Data>
+        <Data AD_Column_ID="91291" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91294" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91295" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91296" Column="UUID">8bf5f726-8298-11e9-8df4-2bda85bc5109</Data>
+        <Data AD_Column_ID="91300" Column="ParameterValue">adempiere</Data>
+        <Data AD_Column_ID="91297" Column="AD_AppRegistration_Para_ID">50006</Data>
+        <Data AD_Column_ID="91301" Column="AD_AppRegistration_ID">50001</Data>
+        <Data AD_Column_ID="91302" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91395" Column="AD_AppSupport_Para_ID">50010</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="54541" Action="U" Record_ID="50004" Table="AD_AppRegistration_Para">
+        <Data AD_Column_ID="91300" Column="ParameterValue" oldValue="http://localhost:8080/">http://localhost:8080/remote.php/webdav/</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
