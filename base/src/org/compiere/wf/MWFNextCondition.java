@@ -19,9 +19,13 @@ package org.compiere.wf;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import org.compiere.model.PO;
 import org.compiere.model.X_AD_WF_NextCondition;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 /**
  *	Workflow Transition Condition
@@ -31,6 +35,8 @@ import org.compiere.model.X_AD_WF_NextCondition;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 		<li>BF [ 1943720 ] WF Next Condition: handling boolean values is poor
+ * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
+ *		Add Support to SQL value for condition
  */
 public class MWFNextCondition extends X_AD_WF_NextCondition
 {
@@ -125,18 +131,26 @@ public class MWFNextCondition extends X_AD_WF_NextCondition
 	 * 
 	 */
 	
-	protected String getDecodedValue(String sValue, PO po)
-	{		
+	protected String getDecodedValue(String sValue, PO po) {		
 		String sRet = sValue;
 		
-		if(sValue != null && sValue.startsWith("@"))
-		{
-			if(sValue.startsWith("@COL="))
-			{
+		if(sValue != null && sValue.startsWith("@")) {
+			if(sValue.startsWith("@COL=")) {
 				Object o = po.get_Value(sValue.substring(5));  
 				
 				if(o != null)
 					sRet = o.toString();
+			} else if(sValue.startsWith("@SQL=")) {
+				String sql = sValue.substring(5);			//	w/o tag
+				sql = Env.parseVariable(sql, po, get_TrxName(), false);
+				if (Util.isEmpty(sql)) {
+					log.log(Level.CONFIG, "(" + sValue + ") - Default SQL variable parse failed: " + sql);
+				} else {
+					sRet = DB.getSQLValueString(get_TrxName(), sql);
+					if (Util.isEmpty(sRet)) {
+						log.log(Level.CONFIG, "(" + sValue + ") - no Result: " + sql);
+					}
+				}
 			}
 		}
 		
