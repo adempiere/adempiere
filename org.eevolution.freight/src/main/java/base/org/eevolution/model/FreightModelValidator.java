@@ -119,7 +119,7 @@ public class FreightModelValidator implements ModelValidator {
     @Override
     public String modelChange(PO po, int type) throws Exception {
         //Calcualte Freigh for Sales Order Line
-        if (ModelValidator.TYPE_BEFORE_CHANGE == type) {
+        if (ModelValidator.TYPE_BEFORE_CHANGE == type || ModelValidator.TYPE_NEW == type ) {
             if (po instanceof MOrderLine) {
                 MOrderLine orderLine = (MOrderLine) po;
                 if (MOrder.DELIVERYVIARULE_Shipper.equals(orderLine.getParent().getDeliveryViaRule())) {
