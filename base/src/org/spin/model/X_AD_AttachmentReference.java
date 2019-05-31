@@ -20,6 +20,7 @@ package org.spin.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
+import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_AttachmentReference
  *  @author Adempiere (generated) 
@@ -30,7 +31,7 @@ public class X_AD_AttachmentReference extends PO implements I_AD_AttachmentRefer
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190530L;
+	private static final long serialVersionUID = 20190531L;
 
     /** Standard Constructor */
     public X_AD_AttachmentReference (Properties ctx, int AD_AttachmentReference_ID, String trxName)
@@ -156,8 +157,10 @@ public class X_AD_AttachmentReference extends PO implements I_AD_AttachmentRefer
 		return ii.intValue();
 	}
 
-	/** Set Attachment Reference ID.
-		@param AD_AttachmentReference_ID Attachment Reference ID	  */
+	/** Set Attachment Reference.
+		@param AD_AttachmentReference_ID 
+		Used for save reference for all attachment files
+	  */
 	public void setAD_AttachmentReference_ID (int AD_AttachmentReference_ID)
 	{
 		if (AD_AttachmentReference_ID < 1) 
@@ -166,8 +169,9 @@ public class X_AD_AttachmentReference extends PO implements I_AD_AttachmentRefer
 			set_ValueNoCheck (COLUMNNAME_AD_AttachmentReference_ID, Integer.valueOf(AD_AttachmentReference_ID));
 	}
 
-	/** Get Attachment Reference ID.
-		@return Attachment Reference ID	  */
+	/** Get Attachment Reference.
+		@return Used for save reference for all attachment files
+	  */
 	public int getAD_AttachmentReference_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AttachmentReference_ID);
@@ -238,6 +242,14 @@ public class X_AD_AttachmentReference extends PO implements I_AD_AttachmentRefer
 		return (String)get_Value(COLUMNNAME_FileName);
 	}
 
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), getFileName());
+    }
+
 	/** Set Text Message.
 		@param TextMsg 
 		Text Message
@@ -253,6 +265,23 @@ public class X_AD_AttachmentReference extends PO implements I_AD_AttachmentRefer
 	public String getTextMsg () 
 	{
 		return (String)get_Value(COLUMNNAME_TextMsg);
+	}
+
+	/** Set URL.
+		@param URL 
+		Full URL address - e.g. http://www.adempiere.org
+	  */
+	public void setURL (String URL)
+	{
+		set_Value (COLUMNNAME_URL, URL);
+	}
+
+	/** Get URL.
+		@return Full URL address - e.g. http://www.adempiere.org
+	  */
+	public String getURL () 
+	{
+		return (String)get_Value(COLUMNNAME_URL);
 	}
 
 	/** Set Immutable Universally Unique Identifier.

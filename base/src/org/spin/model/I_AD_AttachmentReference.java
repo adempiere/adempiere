@@ -90,10 +90,14 @@ public interface I_AD_AttachmentReference
     /** Column name AD_AttachmentReference_ID */
     public static final String COLUMNNAME_AD_AttachmentReference_ID = "AD_AttachmentReference_ID";
 
-	/** Set Attachment Reference ID	  */
+	/** Set Attachment Reference.
+	  * Used for save reference for all attachment files
+	  */
 	public void setAD_AttachmentReference_ID (int AD_AttachmentReference_ID);
 
-	/** Get Attachment Reference ID	  */
+	/** Get Attachment Reference.
+	  * Used for save reference for all attachment files
+	  */
 	public int getAD_AttachmentReference_ID();
 
     /** Column name AD_Client_ID */
@@ -215,6 +219,19 @@ public interface I_AD_AttachmentReference
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name URL */
+    public static final String COLUMNNAME_URL = "URL";
+
+	/** Set URL.
+	  * Full URL address - e.g. http://www.adempiere.org
+	  */
+	public void setURL (String URL);
+
+	/** Get URL.
+	  * Full URL address - e.g. http://www.adempiere.org
+	  */
+	public String getURL();
 
     /** Column name UUID */
     public static final String COLUMNNAME_UUID = "UUID";

@@ -50,9 +50,9 @@ public class MADAttachmentReference extends X_AD_AttachmentReference {
 		if(Util.isEmpty(uuid)) {
 			throw new AdempiereException("@UUID@ @NotFound@");
 		}
-		return (uuid + "_" + getFileName())
-				.replaceAll("[+^:&áàäéèëíìïóòöúùñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ$()*#]", "")
-				.replaceAll("[- ]", "_");
+		return (uuid + "-" + getFileName())
+				.replaceAll("[+^:&áàäéèëíìïóòöúùñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ$()*#/]", "")
+				.replaceAll(" ", "-");
 	}
 	
 }

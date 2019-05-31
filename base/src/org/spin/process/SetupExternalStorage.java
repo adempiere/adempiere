@@ -18,13 +18,17 @@
 package org.spin.process;
 
 import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.I_AD_Attachment;
+import org.compiere.model.MArchive;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MClient;
+import org.compiere.model.MImage;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
+import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.spin.model.MADAppRegistration;
@@ -39,6 +43,13 @@ import org.spin.util.support.webdav.IWebDav;
  */
 public class SetupExternalStorage extends SetupExternalStorageAbstract {
 
+	/**	Processed Files	*/
+	private AtomicInteger processed = new AtomicInteger();
+	/**	Ignored Files	*/
+	private AtomicInteger ignored = new AtomicInteger();
+	/**	Errors	*/
+	private AtomicInteger errors = new AtomicInteger();
+	
 	@Override
 	protected String doIt() throws Exception {
 		IAppSupport supportedApi = AppSupportHandler.getInstance().getAppSupport(MADAppRegistration.getById(getCtx(), getAppRegistrationId(), get_TrxName()));
@@ -55,6 +66,8 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 		}
 		//	Attachment Directory
 		String attachmentFolder = clientDirectory + "/" + "attachment";
+		String imageFolder = clientDirectory + "/" + "image";
+		String archiveFolder = clientDirectory + "/" + "archive";
 		String tmpFolder = clientDirectory + "/" + "tmp";
 		//	Validate if exist
 		if(!webDavApi.exists(clientDirectory)) {
@@ -65,12 +78,24 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 			webDavApi.createDirectory(attachmentFolder);
 		}
 		//	Validate if exist
+		if(!webDavApi.exists(imageFolder)) {
+			webDavApi.createDirectory(imageFolder);
+		}
+		//	Validate if exist
+		if(!webDavApi.exists(archiveFolder)) {
+			webDavApi.createDirectory(archiveFolder);
+		}
+		//	Validate if exist
 		if(!webDavApi.exists(tmpFolder)) {
 			webDavApi.createDirectory(tmpFolder);
 		}
 		//	Add Attachment
 		migrateAttachment(webDavApi, attachmentFolder);
-		return "Ok";
+		//	Add Image
+		migrateImage(webDavApi, imageFolder);
+		//	Add Archive
+		migrateArchive(webDavApi, archiveFolder);
+		return "@Processed@ (" + processed.get() + ") @Ignored@ (" + ignored.get() + ") @Errors@ (" + errors.get() + ")";
 	}
 	
 	/**
@@ -79,6 +104,7 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 	 * @param attachmentFolder
 	 */
 	private void migrateAttachment(IWebDav webDavApi, String attachmentFolder) {
+		addLog("@AD_Attachment_ID@");
 		new Query(getCtx(), I_AD_Attachment.Table_Name, null, get_TrxName())
 				.setClient_ID()
 				.<MAttachment>list()
@@ -104,18 +130,99 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 									String completeFileName = attachmentFolder + "/" + fileName;
 									webDavApi.putResource(completeFileName, entry.getData());
 									addLog(fileName + ": @Ok@");
+									processed.incrementAndGet();
 								} catch (Exception e) {
-									log.warning("Error: " + e.getLocalizedMessage());
-									addLog("@ErrorProcessingFile@ " + entry.getName() + ": " + e.getLocalizedMessage());
 									if(attachmentReference.getAD_AttachmentReference_ID() > 0) {
 										attachmentReference.deleteEx(true);
 									}
+									log.warning("Error: " + e.getLocalizedMessage());
+									addLog("@ErrorProcessingFile@ " + entry.getName() + ": " + e.getLocalizedMessage());
+									errors.incrementAndGet();
 								}
 							} else {
 								addLog(entry.getName() + ": @Ignored@");
+								ignored.incrementAndGet();
 							}
 						});
 				});
 		
+	}
+	
+	/**
+	 * Add images
+	 * @param webDavApi
+	 * @param attachmentFolder
+	 */
+	private void migrateImage(IWebDav webDavApi, String attachmentFolder) {
+		addLog("@AD_Image_ID@");
+		KeyNamePair [] imageArray = DB.getKeyNamePairs("SELECT AD_Image_ID, Name "
+				+ "FROM AD_Image "
+				+ "WHERE AD_Client_ID = ? "
+				+ "AND NOT EXISTS(SELECT 1 FROM AD_AttachmentReference ar WHERE ar.AD_Image_ID = AD_Image.AD_Image_ID)", false, getAD_Client_ID());
+		Arrays.asList(imageArray)
+			.forEach(imagePair -> {
+				MImage image = MImage.get(getCtx(), imagePair.getKey());
+				MADAttachmentReference attachmentReference = new MADAttachmentReference(getCtx(), 0, get_TrxName());
+				try {
+					attachmentReference.setAD_Image_ID(image.getAD_Image_ID());
+					attachmentReference.setAD_AppRegistration_ID(getAppRegistrationId());
+					attachmentReference.setFileName(image.getName());
+					attachmentReference.setDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"));
+					attachmentReference.saveEx();
+					//	Save
+					String fileName = attachmentReference.getValidFileName();
+					//	Put it
+					String completeFileName = attachmentFolder + "/" + fileName;
+					webDavApi.putResource(completeFileName, image.getData());
+					addLog(fileName + ": @Ok@");
+					processed.incrementAndGet();
+				} catch (Exception e) {
+					if(attachmentReference.getAD_AttachmentReference_ID() > 0) {
+						attachmentReference.deleteEx(true);
+					}
+					log.warning("Error: " + e.getLocalizedMessage());
+					addLog("@ErrorProcessingFile@ " + image.getName() + ": " + e.getLocalizedMessage());
+					errors.incrementAndGet();
+				}
+			});
+	}
+	
+	/**
+	 * Add archive
+	 * @param webDavApi
+	 * @param attachmentFolder
+	 */
+	private void migrateArchive(IWebDav webDavApi, String attachmentFolder) {
+		addLog("@AD_Archive_ID@");
+		KeyNamePair [] archiveArray = DB.getKeyNamePairs("SELECT AD_Archive_ID, Name "
+				+ "FROM AD_Archive "
+				+ "WHERE AD_Client_ID = ? "
+				+ "AND NOT EXISTS(SELECT 1 FROM AD_AttachmentReference ar WHERE ar.AD_Archive_ID = AD_Archive.AD_Archive_ID)", false, getAD_Client_ID());
+		Arrays.asList(archiveArray)
+			.forEach(archivePair -> {
+				MArchive archive = new MArchive(getCtx(), archivePair.getKey(), get_TrxName());
+				MADAttachmentReference attachmentReference = new MADAttachmentReference(getCtx(), 0, get_TrxName());
+				try {
+					attachmentReference.setAD_Archive_ID(archive.getAD_Archive_ID());
+					attachmentReference.setAD_AppRegistration_ID(getAppRegistrationId());
+					attachmentReference.setFileName(archive.getName());
+					attachmentReference.setDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"));
+					attachmentReference.saveEx();
+					//	Save
+					String fileName = attachmentReference.getValidFileName() + ".pdf";
+					//	Put it
+					String completeFileName = attachmentFolder + "/" + fileName;
+					webDavApi.putResource(completeFileName, archive.getBinaryData());
+					addLog(fileName + ": @Ok@");
+					processed.incrementAndGet();
+				} catch (Exception e) {
+					if(attachmentReference.getAD_AttachmentReference_ID() > 0) {
+						attachmentReference.deleteEx(true);
+					}
+					log.warning("Error: " + e.getLocalizedMessage());
+					addLog("@ErrorProcessingFile@ " + archive.getName() + ": " + e.getLocalizedMessage());
+					errors.incrementAndGet();
+				}
+			});
 	}
 }
