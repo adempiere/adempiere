@@ -390,7 +390,6 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 							if (paySelectionLine.getHR_Movement_ID() > 0) {
 								payment.setC_Project_ID(paySelectionLine.getHRMovement().getC_Project_ID());
 							}
-
 						}
 						//	For Conversion Type
 						if(paySelectionLine.getC_ConversionType_ID() != 0) {
@@ -496,23 +495,22 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 		if(paymentRule == null) {
 			paymentRule = paySelectionLine.getPaymentRule();
 		}
+		boolean isPayrollAccount = paySelectionLine.getHR_Movement_ID() > 0;
 		//	Add default account
 		if(paySelectionLine.getC_BP_BankAccount_ID() != 0) {
 			setC_BP_BankAccount_ID(paySelectionLine.getC_BP_BankAccount_ID());
-		} 
-		else if (X_C_Order.PAYMENTRULE_DirectDebit.equals(paymentRule))
-		{
+		} else if (X_C_Order.PAYMENTRULE_DirectDebit.equals(paymentRule)) {
 			List<MBPBankAccount> partnerBankAccounts = MBPBankAccount.getByPartner(paySelectionLine.getCtx(), partnerId);
 			partnerBankAccounts.stream()
 					.filter(partnerBankAccount -> partnerBankAccount != null && partnerBankAccount.isDirectDebit())
+					.filter(employeeAccount -> employeeAccount.isPayrollAccount() || !isPayrollAccount)
 					.findFirst()
 					.ifPresent( partnerBankAccount -> setC_BP_BankAccount_ID(partnerBankAccount.getC_BP_BankAccount_ID()));
-		}
-		else if (X_C_Order.PAYMENTRULE_DirectDeposit.equals(paymentRule))
-		{
+		} else if (X_C_Order.PAYMENTRULE_DirectDeposit.equals(paymentRule)) {
 			List<MBPBankAccount> partnerBankAccounts = MBPBankAccount.getByPartner(paySelectionLine.getCtx(), partnerId);
 			partnerBankAccounts.stream()
 					.filter(partnerBankAccount -> partnerBankAccount != null && partnerBankAccount.isDirectDeposit())
+					.filter(employeeAccount -> employeeAccount.isPayrollAccount() || !isPayrollAccount)
 					.findFirst()
 					.ifPresent( partnerBankAccount -> setC_BP_BankAccount_ID(partnerBankAccount.getC_BP_BankAccount_ID()));
 		}
