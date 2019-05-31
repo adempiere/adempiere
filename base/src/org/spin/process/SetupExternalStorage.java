@@ -25,8 +25,10 @@ import org.compiere.model.MAttachment;
 import org.compiere.model.MClient;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
+import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.spin.model.MADAppRegistration;
+import org.spin.model.MADAttachmentReference;
 import org.spin.util.support.AppSupportHandler;
 import org.spin.util.support.IAppSupport;
 import org.spin.util.support.webdav.IWebDav;
@@ -51,7 +53,6 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 		if(Util.isEmpty(clientDirectory)) {
 			throw new AdempiereException("@AD_Client_ID@ [@UUID@ @NotFound@]");
 		}
-		clientDirectory = getValidName(clientDirectory);
 		//	Attachment Directory
 		String attachmentFolder = clientDirectory + "/" + "attachment";
 		String tmpFolder = clientDirectory + "/" + "tmp";
@@ -84,34 +85,37 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 				.forEach(attachment -> {
 					Arrays.asList(attachment.getEntries())
 						.forEach(entry -> {
-							String fileName = DB.getUUID(get_TrxName());
-							if(!Util.isEmpty(entry.getName())) {
-								fileName = fileName + "-" + getValidName(entry.getName());
-							}
-							//	Put it
-							String completeFileName = attachmentFolder + "/" + fileName;
-							try {
-								webDavApi.putResource(completeFileName, entry.getData());
-								addLog(fileName + ": @Ok@");
-							} catch (Exception e) {
-								log.warning("Error: " + e.getLocalizedMessage());
-								addLog("@ErroProcessingFile@ " + fileName + ": " + e.getLocalizedMessage());
+							//	Find existing reference
+							int attachmentReferenceId = DB.getSQLValue(get_TrxName(), "SELECT AD_AttachmentReference_ID "
+									+ "FROM AD_AttachmentReference "
+									+ "WHERE AD_Attachment_ID = ? "
+									+ "AND FileName = ?", attachment.getAD_Attachment_ID(), entry.getName());
+							if(attachmentReferenceId < 0) {
+								MADAttachmentReference attachmentReference = new MADAttachmentReference(getCtx(), 0, get_TrxName());
+								try {
+									attachmentReference.setAD_Attachment_ID(attachment.getAD_Attachment_ID());
+									attachmentReference.setAD_AppRegistration_ID(getAppRegistrationId());
+									attachmentReference.setFileName(entry.getName());
+									attachmentReference.setDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"));
+									attachmentReference.saveEx();
+									//	Save
+									String fileName = attachmentReference.getValidFileName();
+									//	Put it
+									String completeFileName = attachmentFolder + "/" + fileName;
+									webDavApi.putResource(completeFileName, entry.getData());
+									addLog(fileName + ": @Ok@");
+								} catch (Exception e) {
+									log.warning("Error: " + e.getLocalizedMessage());
+									addLog("@ErrorProcessingFile@ " + entry.getName() + ": " + e.getLocalizedMessage());
+									if(attachmentReference.getAD_AttachmentReference_ID() > 0) {
+										attachmentReference.deleteEx(true);
+									}
+								}
+							} else {
+								addLog(entry.getName() + ": @Ignored@");
 							}
 						});
 				});
 		
-	}
-	
-	/**
-	 * Get Valid Name for file
-	 * @param name
-	 * @return
-	 */
-	private String getValidName(String name) {
-		if(Util.isEmpty(name)) {
-			name = "";
-		}
-		return name.replaceAll("[+^:&áàäéèëíìïóòöúùñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ$()]", "")
-				.replaceAll("[ ]", "-");
 	}
 }
