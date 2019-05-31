@@ -38,8 +38,8 @@ import org.spin.util.support.IAppSupport;
 import org.spin.util.support.webdav.IWebDav;
 
 /** Generated Process for (Setup External Storage for Files)
- *  @author ADempiere (generated) 
- *  @version Release 3.9.2
+ * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
+ *		Add Support to external storage for attachment
  */
 public class SetupExternalStorage extends SetupExternalStorageAbstract {
 
