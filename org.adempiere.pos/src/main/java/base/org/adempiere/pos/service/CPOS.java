@@ -2290,7 +2290,7 @@ public class CPOS {
 		sql.append("SELECT DISTINCT ON ( ProductPricing.M_Product_ID , p.Value, p.Name ) ProductPricing.M_Product_ID , p.Value, p.Name,")
 				.append("   BomQtyAvailable(ProductPricing.M_Product_ID, ? , 0 ) AS QtyAvailable , PriceStd , PriceList")
 					.append(" FROM M_Product p INNER JOIN (")
-					.append("	SELECT pl.M_PriceList_ID , ValidFrom , 0 AS BreakValue , null AS C_BPartner_ID,")
+					.append("	SELECT pl.M_PriceList_ID , plv.ValidFrom , 0 AS BreakValue , null AS C_BPartner_ID,")
 					.append("   p.M_Product_ID,")
 					.append("	bomPriceStd(p.M_Product_ID,plv.M_PriceList_Version_ID) AS PriceStd,")
 					.append("	bomPriceList(p.M_Product_ID,plv.M_PriceList_Version_ID) AS PriceList,")
@@ -2311,11 +2311,11 @@ public class CPOS {
 					.append("	WHERE pl.M_PriceList_ID=? AND plv.IsActive='Y' AND pp.IsActive='Y'AND pp.BreakValue IN (0,1)")
 					.append("  ORDER BY ValidFrom DESC, BreakValue DESC , C_BPartner_ID ASC")
 					.append(") ProductPricing  ON (p.M_Product_ID=ProductPricing.M_Product_ID)")
-				.append(" WHERE M_PriceList_ID=? AND ValidFrom <= getDate() ");
+				.append(" WHERE ProductPricing.M_PriceList_ID=? AND ProductPricing.ValidFrom <= getDate() ");
 				if (partnerId > 0 )
-					sql.append("AND (C_BPartner_ID IS NULL OR C_BPartner_ID =?) ");
+					sql.append("AND (ProductPricing.C_BPartner_ID IS NULL OR ProductPricing.C_BPartner_ID =?) ");
 				else
-					sql.append( "AND C_BPartner_ID IS NULL ");
+					sql.append( "AND ProductPricing.C_BPartner_ID IS NULL ");
 
 				sql.append("AND p.AD_Client_ID=? AND p.IsSold=? AND p.Discontinued=? ")
 				.append("AND ")
