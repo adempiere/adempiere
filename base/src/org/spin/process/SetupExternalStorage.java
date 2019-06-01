@@ -25,11 +25,18 @@ import org.compiere.model.I_AD_Attachment;
 import org.compiere.model.MArchive;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MClient;
+import org.compiere.model.MColumn;
 import org.compiere.model.MImage;
+import org.compiere.model.MTable;
+import org.compiere.model.M_Element;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
 import org.compiere.util.Util;
 import org.spin.model.MADAppRegistration;
 import org.spin.model.MADAttachmentReference;
@@ -111,41 +118,44 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 				.forEach(attachment -> {
 					Arrays.asList(attachment.getEntries())
 						.forEach(entry -> {
-							//	Find existing reference
-							int attachmentReferenceId = DB.getSQLValue(get_TrxName(), "SELECT AD_AttachmentReference_ID "
-									+ "FROM AD_AttachmentReference "
-									+ "WHERE AD_Attachment_ID = ? "
-									+ "AND FileName = ?", attachment.getAD_Attachment_ID(), entry.getName());
-							if(attachmentReferenceId < 0) {
-								MADAttachmentReference attachmentReference = new MADAttachmentReference(getCtx(), 0, get_TrxName());
-								try {
-									attachmentReference.setAD_Attachment_ID(attachment.getAD_Attachment_ID());
-									attachmentReference.setAD_AppRegistration_ID(getAppRegistrationId());
-									attachmentReference.setFileName(entry.getName());
-									attachmentReference.setDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"));
-									attachmentReference.saveEx();
-									//	Save
-									String fileName = attachmentReference.getValidFileName();
-									//	Put it
-									String completeFileName = attachmentFolder + "/" + fileName;
-									webDavApi.putResource(completeFileName, entry.getData());
-									addLog(fileName + ": @Ok@");
-									processed.incrementAndGet();
-								} catch (Exception e) {
-									if(attachmentReference.getAD_AttachmentReference_ID() > 0) {
-										attachmentReference.deleteEx(true);
+							Trx.run(new TrxRunnable() {
+								public void run(String trxName) {
+									//	Find existing reference
+									int attachmentReferenceId = DB.getSQLValue(get_TrxName(), "SELECT AD_AttachmentReference_ID "
+											+ "FROM AD_AttachmentReference "
+											+ "WHERE AD_Attachment_ID = ? "
+											+ "AND FileName = ?", attachment.getAD_Attachment_ID(), entry.getName());
+									if(attachmentReferenceId < 0) {
+										MADAttachmentReference attachmentReference = new MADAttachmentReference(getCtx(), 0, trxName);
+										try {
+											attachmentReference.setAD_Attachment_ID(attachment.getAD_Attachment_ID());
+											attachmentReference.setAD_AppRegistration_ID(getAppRegistrationId());
+											attachmentReference.setFileName(entry.getName());
+											attachmentReference.setDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"));
+											attachmentReference.saveEx();
+											//	Save
+											String fileName = attachmentReference.getValidFileName();
+											//	Put it
+											String completeFileName = attachmentFolder + "/" + fileName;
+											webDavApi.putResource(completeFileName, entry.getData());
+											addLog(fileName + ": @Ok@");
+											processed.incrementAndGet();
+										} catch (Exception e) {
+											if(attachmentReference.getAD_AttachmentReference_ID() > 0) {
+												attachmentReference.deleteEx(true);
+											}
+											log.warning("Error: " + e.getLocalizedMessage());
+											addLog("@ErrorProcessingFile@ " + entry.getName() + ": " + e.getLocalizedMessage());
+											errors.incrementAndGet();
+										}
+									} else {
+										addLog(entry.getName() + ": @Ignored@");
+										ignored.incrementAndGet();
 									}
-									log.warning("Error: " + e.getLocalizedMessage());
-									addLog("@ErrorProcessingFile@ " + entry.getName() + ": " + e.getLocalizedMessage());
-									errors.incrementAndGet();
 								}
-							} else {
-								addLog(entry.getName() + ": @Ignored@");
-								ignored.incrementAndGet();
-							}
+							});
 						});
 				});
-		
 	}
 	
 	/**
@@ -161,29 +171,33 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 				+ "AND NOT EXISTS(SELECT 1 FROM AD_AttachmentReference ar WHERE ar.AD_Image_ID = AD_Image.AD_Image_ID)", false, getAD_Client_ID());
 		Arrays.asList(imageArray)
 			.forEach(imagePair -> {
-				MImage image = MImage.get(getCtx(), imagePair.getKey());
-				MADAttachmentReference attachmentReference = new MADAttachmentReference(getCtx(), 0, get_TrxName());
-				try {
-					attachmentReference.setAD_Image_ID(image.getAD_Image_ID());
-					attachmentReference.setAD_AppRegistration_ID(getAppRegistrationId());
-					attachmentReference.setFileName(image.getName());
-					attachmentReference.setDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"));
-					attachmentReference.saveEx();
-					//	Save
-					String fileName = attachmentReference.getValidFileName();
-					//	Put it
-					String completeFileName = attachmentFolder + "/" + fileName;
-					webDavApi.putResource(completeFileName, image.getData());
-					addLog(fileName + ": @Ok@");
-					processed.incrementAndGet();
-				} catch (Exception e) {
-					if(attachmentReference.getAD_AttachmentReference_ID() > 0) {
-						attachmentReference.deleteEx(true);
+				Trx.run(new TrxRunnable() {
+					public void run(String trxName) {
+						MImage image = MImage.get(getCtx(), imagePair.getKey());
+						MADAttachmentReference attachmentReference = new MADAttachmentReference(getCtx(), 0, trxName);
+						try {
+							attachmentReference.setAD_Image_ID(image.getAD_Image_ID());
+							attachmentReference.setAD_AppRegistration_ID(getAppRegistrationId());
+							attachmentReference.setFileName(image.getName());
+							attachmentReference.setDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"));
+							attachmentReference.saveEx();
+							//	Save
+							String fileName = attachmentReference.getValidFileName();
+							//	Put it
+							String completeFileName = attachmentFolder + "/" + fileName;
+							webDavApi.putResource(completeFileName, image.getData());
+							addLog(fileName + ": @Ok@");
+							processed.incrementAndGet();
+						} catch (Exception e) {
+							if(attachmentReference.getAD_AttachmentReference_ID() > 0) {
+								attachmentReference.deleteEx(true);
+							}
+							log.warning("Error: " + e.getLocalizedMessage());
+							addLog("@ErrorProcessingFile@ " + image.getName() + ": " + e.getLocalizedMessage());
+							errors.incrementAndGet();
+						}
 					}
-					log.warning("Error: " + e.getLocalizedMessage());
-					addLog("@ErrorProcessingFile@ " + image.getName() + ": " + e.getLocalizedMessage());
-					errors.incrementAndGet();
-				}
+				});
 			});
 	}
 	
@@ -200,29 +214,33 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 				+ "AND NOT EXISTS(SELECT 1 FROM AD_AttachmentReference ar WHERE ar.AD_Archive_ID = AD_Archive.AD_Archive_ID)", false, getAD_Client_ID());
 		Arrays.asList(archiveArray)
 			.forEach(archivePair -> {
-				MArchive archive = new MArchive(getCtx(), archivePair.getKey(), get_TrxName());
-				MADAttachmentReference attachmentReference = new MADAttachmentReference(getCtx(), 0, get_TrxName());
-				try {
-					attachmentReference.setAD_Archive_ID(archive.getAD_Archive_ID());
-					attachmentReference.setAD_AppRegistration_ID(getAppRegistrationId());
-					attachmentReference.setFileName(archive.getName());
-					attachmentReference.setDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"));
-					attachmentReference.saveEx();
-					//	Save
-					String fileName = attachmentReference.getValidFileName() + ".pdf";
-					//	Put it
-					String completeFileName = attachmentFolder + "/" + fileName;
-					webDavApi.putResource(completeFileName, archive.getBinaryData());
-					addLog(fileName + ": @Ok@");
-					processed.incrementAndGet();
-				} catch (Exception e) {
-					if(attachmentReference.getAD_AttachmentReference_ID() > 0) {
-						attachmentReference.deleteEx(true);
+				Trx.run(new TrxRunnable() {
+					public void run(String trxName) {
+						MArchive archive = new MArchive(getCtx(), archivePair.getKey(), trxName);
+						MADAttachmentReference attachmentReference = new MADAttachmentReference(getCtx(), 0, trxName);
+						try {
+							attachmentReference.setAD_Archive_ID(archive.getAD_Archive_ID());
+							attachmentReference.setAD_AppRegistration_ID(getAppRegistrationId());
+							attachmentReference.setFileName(archive.getName());
+							attachmentReference.setDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"));
+							attachmentReference.saveEx();
+							//	Save
+							String fileName = attachmentReference.getValidFileName() + ".pdf";
+							//	Put it
+							String completeFileName = attachmentFolder + "/" + fileName;
+							webDavApi.putResource(completeFileName, archive.getBinaryData());
+							addLog(fileName + ": @Ok@");
+							processed.incrementAndGet();
+						} catch (Exception e) {
+							if(attachmentReference.getAD_AttachmentReference_ID() > 0) {
+								attachmentReference.deleteEx(true);
+							}
+							log.warning("Error: " + e.getLocalizedMessage());
+							addLog("@ErrorProcessingFile@ " + archive.getName() + ": " + e.getLocalizedMessage());
+							errors.incrementAndGet();
+						}
 					}
-					log.warning("Error: " + e.getLocalizedMessage());
-					addLog("@ErrorProcessingFile@ " + archive.getName() + ": " + e.getLocalizedMessage());
-					errors.incrementAndGet();
-				}
+				});
 			});
 	}
 }
