@@ -20,29 +20,17 @@ package org.spin.process;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.I_AD_Attachment;
 import org.compiere.model.MArchive;
 import org.compiere.model.MAttachment;
-import org.compiere.model.MClient;
-import org.compiere.model.MColumn;
 import org.compiere.model.MImage;
-import org.compiere.model.MTable;
-import org.compiere.model.M_Element;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
-import org.compiere.util.Util;
-import org.spin.model.MADAppRegistration;
-import org.spin.model.MADAttachmentReference;
-import org.spin.util.support.AppSupportHandler;
-import org.spin.util.support.IAppSupport;
-import org.spin.util.support.webdav.IWebDav;
+import org.spin.util.AttachmentUtil;
 
 /** Generated Process for (Setup External Storage for Files)
  * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
@@ -59,58 +47,20 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 	
 	@Override
 	protected String doIt() throws Exception {
-		IAppSupport supportedApi = AppSupportHandler.getInstance().getAppSupport(MADAppRegistration.getById(getCtx(), getAppRegistrationId(), get_TrxName()));
-		if(supportedApi == null) {
-			throw new AdempiereException("@AD_AppSupport_ID@ @NotFound@");
-		}
-		if(!(supportedApi instanceof IWebDav)) {
-			throw new AdempiereException("@AD_AppSupport_ID@ @Unsupported@");
-		}
-		IWebDav webDavApi = (IWebDav) supportedApi;
-		String clientDirectory = MClient.get(getCtx()).getUUID();
-		if(Util.isEmpty(clientDirectory)) {
-			throw new AdempiereException("@AD_Client_ID@ [@UUID@ @NotFound@]");
-		}
-		//	Attachment Directory
-		String attachmentFolder = clientDirectory + "/" + "attachment";
-		String imageFolder = clientDirectory + "/" + "image";
-		String archiveFolder = clientDirectory + "/" + "archive";
-		String tmpFolder = clientDirectory + "/" + "tmp";
-		//	Validate if exist
-		if(!webDavApi.exists(clientDirectory)) {
-			webDavApi.createDirectory(clientDirectory);
-		}
-		//	Validate if exist
-		if(!webDavApi.exists(attachmentFolder)) {
-			webDavApi.createDirectory(attachmentFolder);
-		}
-		//	Validate if exist
-		if(!webDavApi.exists(imageFolder)) {
-			webDavApi.createDirectory(imageFolder);
-		}
-		//	Validate if exist
-		if(!webDavApi.exists(archiveFolder)) {
-			webDavApi.createDirectory(archiveFolder);
-		}
-		//	Validate if exist
-		if(!webDavApi.exists(tmpFolder)) {
-			webDavApi.createDirectory(tmpFolder);
-		}
 		//	Add Attachment
-		migrateAttachment(webDavApi, attachmentFolder);
+		migrateAttachment("Attachment");
 		//	Add Image
-		migrateImage(webDavApi, imageFolder);
+		migrateImage("Image");
 		//	Add Archive
-		migrateArchive(webDavApi, archiveFolder);
+		migrateArchive("Archive");
 		return "@Processed@ (" + processed.get() + ") @Ignored@ (" + ignored.get() + ") @Errors@ (" + errors.get() + ")";
 	}
 	
 	/**
 	 * Add attachment
-	 * @param webDavApi
 	 * @param attachmentFolder
 	 */
-	private void migrateAttachment(IWebDav webDavApi, String attachmentFolder) {
+	private void migrateAttachment(String attachmentFolder) {
 		addLog("@AD_Attachment_ID@");
 		new Query(getCtx(), I_AD_Attachment.Table_Name, null, get_TrxName())
 				.setClient_ID()
@@ -126,24 +76,18 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 											+ "WHERE AD_Attachment_ID = ? "
 											+ "AND FileName = ?", attachment.getAD_Attachment_ID(), entry.getName());
 									if(attachmentReferenceId < 0) {
-										MADAttachmentReference attachmentReference = new MADAttachmentReference(getCtx(), 0, trxName);
 										try {
-											attachmentReference.setAD_Attachment_ID(attachment.getAD_Attachment_ID());
-											attachmentReference.setAD_AppRegistration_ID(getAppRegistrationId());
-											attachmentReference.setFileName(entry.getName());
-											attachmentReference.setDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"));
-											attachmentReference.saveEx();
-											//	Save
-											String fileName = attachmentReference.getValidFileName();
-											//	Put it
-											String completeFileName = attachmentFolder + "/" + fileName;
-											webDavApi.putResource(completeFileName, entry.getData());
-											addLog(fileName + ": @Ok@");
+											AttachmentUtil.getInstance(getCtx())
+												.withAppRegistrationId(getAppRegistrationId())
+												.withAttachmentId(attachment.getAD_Attachment_ID())
+												.withPath(attachmentFolder)
+												.withFileName(entry.getName())
+												.withDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"))
+												.withData(entry.getData())
+												.saveAttachment();
+											addLog(entry.getName() + ": @Ok@");
 											processed.incrementAndGet();
 										} catch (Exception e) {
-											if(attachmentReference.getAD_AttachmentReference_ID() > 0) {
-												attachmentReference.deleteEx(true);
-											}
 											log.warning("Error: " + e.getLocalizedMessage());
 											addLog("@ErrorProcessingFile@ " + entry.getName() + ": " + e.getLocalizedMessage());
 											errors.incrementAndGet();
@@ -160,10 +104,9 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 	
 	/**
 	 * Add images
-	 * @param webDavApi
 	 * @param attachmentFolder
 	 */
-	private void migrateImage(IWebDav webDavApi, String attachmentFolder) {
+	private void migrateImage(String attachmentFolder) {
 		addLog("@AD_Image_ID@");
 		KeyNamePair [] imageArray = DB.getKeyNamePairs("SELECT AD_Image_ID, Name "
 				+ "FROM AD_Image "
@@ -174,24 +117,18 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 				Trx.run(new TrxRunnable() {
 					public void run(String trxName) {
 						MImage image = MImage.get(getCtx(), imagePair.getKey());
-						MADAttachmentReference attachmentReference = new MADAttachmentReference(getCtx(), 0, trxName);
 						try {
-							attachmentReference.setAD_Image_ID(image.getAD_Image_ID());
-							attachmentReference.setAD_AppRegistration_ID(getAppRegistrationId());
-							attachmentReference.setFileName(image.getName());
-							attachmentReference.setDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"));
-							attachmentReference.saveEx();
-							//	Save
-							String fileName = attachmentReference.getValidFileName();
-							//	Put it
-							String completeFileName = attachmentFolder + "/" + fileName;
-							webDavApi.putResource(completeFileName, image.getData());
-							addLog(fileName + ": @Ok@");
+							AttachmentUtil.getInstance(getCtx())
+								.withAppRegistrationId(getAppRegistrationId())
+								.withImageId(image.getAD_Image_ID())
+								.withPath(attachmentFolder)
+								.withFileName(image.getName())
+								.withDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"))
+								.withData(image.getData())
+								.saveAttachment();
+							addLog(image.getName() + ": @Ok@");
 							processed.incrementAndGet();
 						} catch (Exception e) {
-							if(attachmentReference.getAD_AttachmentReference_ID() > 0) {
-								attachmentReference.deleteEx(true);
-							}
 							log.warning("Error: " + e.getLocalizedMessage());
 							addLog("@ErrorProcessingFile@ " + image.getName() + ": " + e.getLocalizedMessage());
 							errors.incrementAndGet();
@@ -203,10 +140,9 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 	
 	/**
 	 * Add archive
-	 * @param webDavApi
 	 * @param attachmentFolder
 	 */
-	private void migrateArchive(IWebDav webDavApi, String attachmentFolder) {
+	private void migrateArchive(String attachmentFolder) {
 		addLog("@AD_Archive_ID@");
 		KeyNamePair [] archiveArray = DB.getKeyNamePairs("SELECT AD_Archive_ID, Name "
 				+ "FROM AD_Archive "
@@ -217,24 +153,19 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 				Trx.run(new TrxRunnable() {
 					public void run(String trxName) {
 						MArchive archive = new MArchive(getCtx(), archivePair.getKey(), trxName);
-						MADAttachmentReference attachmentReference = new MADAttachmentReference(getCtx(), 0, trxName);
 						try {
-							attachmentReference.setAD_Archive_ID(archive.getAD_Archive_ID());
-							attachmentReference.setAD_AppRegistration_ID(getAppRegistrationId());
-							attachmentReference.setFileName(archive.getName());
-							attachmentReference.setDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"));
-							attachmentReference.saveEx();
-							//	Save
-							String fileName = attachmentReference.getValidFileName() + ".pdf";
-							//	Put it
-							String completeFileName = attachmentFolder + "/" + fileName;
-							webDavApi.putResource(completeFileName, archive.getBinaryData());
+							String fileName = archive.getName() + ".pdf";
+							AttachmentUtil.getInstance(getCtx())
+								.withAppRegistrationId(getAppRegistrationId())
+								.withArchiveId(archive.getAD_Archive_ID())
+								.withPath(attachmentFolder)
+								.withFileName(fileName)
+								.withDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"))
+								.withData(archive.getBinaryData())
+								.saveAttachment();
 							addLog(fileName + ": @Ok@");
 							processed.incrementAndGet();
 						} catch (Exception e) {
-							if(attachmentReference.getAD_AttachmentReference_ID() > 0) {
-								attachmentReference.deleteEx(true);
-							}
 							log.warning("Error: " + e.getLocalizedMessage());
 							addLog("@ErrorProcessingFile@ " + archive.getName() + ": " + e.getLocalizedMessage());
 							errors.incrementAndGet();
