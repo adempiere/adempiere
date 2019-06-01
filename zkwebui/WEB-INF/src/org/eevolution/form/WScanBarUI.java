@@ -42,7 +42,6 @@ import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.panel.CustomForm;
 import org.adempiere.webui.panel.IFormController;
-import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.compiere.model.MAttributeSetInstance;
 import org.compiere.model.MLocatorLookup;
@@ -257,7 +256,7 @@ public class WScanBarUI extends ScanBar implements IFormController, EventListene
 		upcField.getComponent().addEventListener(Events.ON_CHANGE, this);
 		
 		qtyCountLabel.setText(Msg.getElement(Env.getCtx(), "QtyCount", false));
-		qtyCountField.getComponent().addEventListener(Events.ON_CHANGE, this);
+		qtyCountField.getComponent().addEventListener(Events.ON_OK, this);		
 		
 		lotLabel.setText(Msg.getElement(Env.getCtx(), "Lot", false));
         lotField = new WStringEditor ("Lot", false, false, true, 10, 30, null, null);
@@ -421,7 +420,6 @@ public class WScanBarUI extends ScanBar implements IFormController, EventListene
     public void onEvent(Event event)
     {
         log.info(event.getName());
-        
         //
         if (event.getTarget().getId().equals(ConfirmPanel.A_OK))
         {	
@@ -440,9 +438,15 @@ public class WScanBarUI extends ScanBar implements IFormController, EventListene
         {	
 			addScanSetNo();
 			return;
-        }	
+        }
 
-        addScanProduct();
+		if (Events.ON_OK.equals(event.getName()) && qtyCountField.getValue() == null) {
+			BigDecimal qtyCount = (BigDecimal) qtyCountField.getValue();
+			if (qtyCount== null) {
+				qtyCountField.setValue(BigDecimal.ONE);
+			}
+		}
+		addScanProduct();
         return;
     }
 
@@ -464,7 +468,7 @@ public class WScanBarUI extends ScanBar implements IFormController, EventListene
 	private void addScanProduct() {
     	
     	String upc = upcField.getDisplay();
-    	if(upc == null)
+	    if(upc == null || upc.isEmpty())
     		return ;
     	
     	MProduct product = getMProduct(upc);
@@ -555,15 +559,14 @@ public class WScanBarUI extends ScanBar implements IFormController, EventListene
 		
 		if (getProduct() == null)
 			return;
-		
+
 		BigDecimal qtyCount = (BigDecimal) qtyCountField.getValue();
 		BigDecimal qty = null;
 		boolean reset = false;
-		if(( qtyCount == null && !isSerNo()))
-		{	
+		if(( qtyCount == null && !isSerNo())) {
 			qtyCountField.getComponent().setFocus(true);
 			return;
-		}	
+		}
 		
 		if(isLot() && getLotNo() == null)
 		{	
@@ -580,7 +583,7 @@ public class WScanBarUI extends ScanBar implements IFormController, EventListene
 		if(qtyCount != null)
 		{	
 			qty = qtyCount;
-			reset = true;
+			//reset = true;
 		}	
 		else
 			qty = Env.ONE;
@@ -612,10 +615,19 @@ public class WScanBarUI extends ScanBar implements IFormController, EventListene
 		if(dataSource.containsKey(key) && !isSerNo())
 		{
 			Vector<Object> line = dataSource.get(key);
-			if(qtyCount != null && qtyCount.signum() > 0)
-				line.set(4, qtyCount);
-			else
-				line.set(4, BigDecimal.ONE);
+			BigDecimal qtyScan = (BigDecimal) line.get(4);
+			if(qtyCount != null && qtyCount.signum() > 0) {
+				if (qtyScan == null) {
+					line.set(4, qtyCount);
+				} else {
+					BigDecimal totalScan = qtyScan.add(qty);
+					line.set(4, totalScan);
+				}
+			}
+			else {
+				BigDecimal totalScan = qtyScan.add(BigDecimal.ONE);
+				line.set(4, totalScan);
+			}
 			
 			dataSource.put(key, line);
 			setData(dataSource);
