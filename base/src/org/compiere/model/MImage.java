@@ -31,8 +31,11 @@ import java.util.logging.Level;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
 import org.compiere.util.Ini;
+import org.spin.util.AttachmentUtil;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -254,13 +257,31 @@ public class MImage extends X_AD_Image
 		super.setBinaryData (BinaryData);
 	}	//	setBinaryData
 	
+	@Override
+	public byte[] getBinaryData() {
+		byte[] data = null;
+		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
+			try {
+				data = AttachmentUtil.getInstance()
+						.withImageId(getAD_Image_ID())
+						.withClientId(getAD_Client_ID())
+						.getAttachment();
+			} catch (Exception e) {
+				log.warning("Error loading image: " + e.getLocalizedMessage());
+			}
+			return data;
+		}
+		//	Get from DB
+		return super.getBinaryData();
+	}
+	
 	/**
 	 * 	Get Data 
 	 *	@return data
 	 */
 	public byte[] getData()
 	{
-		byte[] data = super.getBinaryData ();
+		byte[] data = getBinaryData ();
 		if (data != null)
 			return data;
 		//	From URL
@@ -320,5 +341,23 @@ public class MImage extends X_AD_Image
 			setAD_Org_ID(0);
 		return true;
 	}	//	beforeSave
+	
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		//	Save from external
+		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
+			try {
+				AttachmentUtil.getInstance()
+					.withImageId(getAD_Image_ID())
+					.withDescription(getDescription())
+					.withData(super.getBinaryData())
+					.withTansactionName(get_TrxName())
+					.saveAttachment();
+			} catch (Exception e) {
+				throw new AdempiereException(e);
+			}
+		}
+		return super.afterSave(newRecord, success);
+	}
 	
 }   //  MImage

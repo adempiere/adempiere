@@ -42,21 +42,6 @@ public interface I_AD_AttachmentReference
 
     /** Load Meta Data */
 
-    /** Column name AD_AppRegistration_ID */
-    public static final String COLUMNNAME_AD_AppRegistration_ID = "AD_AppRegistration_ID";
-
-	/** Set Application Registration.
-	  * External Application Registration
-	  */
-	public void setAD_AppRegistration_ID (int AD_AppRegistration_ID);
-
-	/** Get Application Registration.
-	  * External Application Registration
-	  */
-	public int getAD_AppRegistration_ID();
-
-	public org.spin.model.I_AD_AppRegistration getAD_AppRegistration() throws RuntimeException;
-
     /** Column name AD_Archive_ID */
     public static final String COLUMNNAME_AD_Archive_ID = "AD_Archive_ID";
 
@@ -164,6 +149,21 @@ public interface I_AD_AttachmentReference
 	  * Optional short description of the record
 	  */
 	public String getDescription();
+
+    /** Column name FileHandler_ID */
+    public static final String COLUMNNAME_FileHandler_ID = "FileHandler_ID";
+
+	/** Set File Handler.
+	  * File Handler Registered as App Registration for handle all file system
+	  */
+	public void setFileHandler_ID (int FileHandler_ID);
+
+	/** Get File Handler.
+	  * File Handler Registered as App Registration for handle all file system
+	  */
+	public int getFileHandler_ID();
+
+	public org.spin.model.I_AD_AppRegistration getFileHandler() throws RuntimeException;
 
     /** Column name FileName */
     public static final String COLUMNNAME_FileName = "FileName";

@@ -222,11 +222,11 @@
     </Step>
     <Step SeqNo="120" StepType="AD">
       <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
-        <Data AD_Column_ID="2853" Column="Description" oldValue="Setup External Storage for save files of Attachment">Configura el Almacenamiento Externo para archivos guardados como Adjuntos</Data>
-        <Data AD_Column_ID="2854" Column="Help" oldValue="This process allows setup a external storage for save attachment of system, note that all files will be migrated but original location is keeped">Este proceso permite configurar un almacenamiento externo para guardar adjuntos del sistema, note que todos los archivos serán migrados pero la ubicación original se mantendrá</Data>
         <Data AD_Column_ID="2852" Column="Name" oldValue="Setup External Storage for Files">Configurar Almacenamiento Externo (Para Adjuntos)</Data>
         <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54240">54240</Data>
+        <Data AD_Column_ID="2853" Column="Description" oldValue="Setup External Storage for save files of Attachment">Configura el Almacenamiento Externo para archivos guardados como Adjuntos</Data>
+        <Data AD_Column_ID="2854" Column="Help" oldValue="This process allows setup a external storage for save attachment of system, note that all files will be migrated but original location is keeped">Este proceso permite configurar un almacenamiento externo para guardar adjuntos del sistema, note que todos los archivos serán migrados pero la ubicación original se mantendrá</Data>
       </PO>
     </Step>
     <Step SeqNo="130" StepType="AD">
@@ -418,10 +418,10 @@
     </Step>
     <Step SeqNo="210" StepType="AD">
       <PO AD_Table_ID="452" Action="U" Record_ID="54458" Table="AD_TreeNodeMM">
-        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54458">54458</Data>
         <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="0">155</Data>
         <Data AD_Column_ID="6157" Column="SeqNo" oldValue="999">19</Data>
         <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54458">54458</Data>
       </PO>
     </Step>
     <Step SeqNo="220" StepType="AD">
@@ -477,9 +477,9 @@
     </Step>
     <Step SeqNo="260" StepType="AD">
       <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
-        <Data AD_Column_ID="342" Column="MsgText" oldValue="Folder for Attachment already exist">Directorio Principal de Adjunto ya existe</Data>
         <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53626">53626</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Folder for Attachment already exist">Directorio Principal de Adjunto ya existe</Data>
       </PO>
     </Step>
     <Step SeqNo="270" StepType="AD">
@@ -541,9 +541,9 @@
     </Step>
     <Step SeqNo="300" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="93152" Table="AD_Column">
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">Client/Tenant for this installation.</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
-        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
         <Data AD_Column_ID="549" Column="Created">2019-05-30 22:43:51.829</Data>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="551" Column="Updated">2019-05-30 22:43:51.829</Data>
@@ -1242,29 +1242,29 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="510" StepType="AD">
       <PO AD_Table_ID="746" Action="U" Record_ID="0" Table="AD_Table_Trl">
-        <Data AD_Column_ID="12716" Column="Name" oldValue="Attachment Reference">Referencia de Adjunto</Data>
         <Data AD_Column_ID="12715" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="12714" Column="AD_Table_ID" oldValue="54626">54626</Data>
+        <Data AD_Column_ID="12716" Column="Name" oldValue="Attachment Reference">Referencia de Adjunto</Data>
       </PO>
     </Step>
     <Step SeqNo="520" StepType="AD">
       <PO AD_Table_ID="276" Action="U" Record_ID="61008" Table="AD_Element">
         <Data AD_Column_ID="2603" Column="Name" oldValue="Attachment Reference ID">Attachment Reference</Data>
-        <Data AD_Column_ID="2604" Column="Description" isOldNull="true">Used for save reference for all attachment files</Data>
         <Data AD_Column_ID="2605" Column="Help" isOldNull="true">Make reference with external Storage</Data>
         <Data AD_Column_ID="4299" Column="PrintName" oldValue="Attachment Reference ID">Attachment Reference</Data>
         <Data AD_Column_ID="58589" Column="FieldLength" isOldNull="true">10</Data>
         <Data AD_Column_ID="58588" Column="AD_Reference_ID" isOldNull="true">19</Data>
+        <Data AD_Column_ID="2604" Column="Description" isOldNull="true">Used for save reference for all attachment files</Data>
       </PO>
     </Step>
     <Step SeqNo="530" StepType="AD">
       <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
         <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="2648" Column="Help" isOldNull="true">Hace referencia con un almacenamiento externo</Data>
-        <Data AD_Column_ID="2646" Column="Name" oldValue="Attachment Reference ID">Referencia de Adjunto</Data>
         <Data AD_Column_ID="2647" Column="Description" isOldNull="true">Usado para guardar referencia de todos los adjuntos</Data>
         <Data AD_Column_ID="4300" Column="PrintName" oldValue="Attachment Reference ID">Referencia de Adjunto</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="61008">61008</Data>
+        <Data AD_Column_ID="2648" Column="Help" isOldNull="true">Hace referencia con un almacenamiento externo</Data>
+        <Data AD_Column_ID="2646" Column="Name" oldValue="Attachment Reference ID">Referencia de Adjunto</Data>
       </PO>
     </Step>
     <Step SeqNo="540" StepType="AD">
@@ -1729,11 +1729,11 @@ You can either load the image (in the database) or point to a graphic via a URI 
     </Step>
     <Step SeqNo="680" StepType="AD">
       <PO AD_Table_ID="132" Action="U" Record_ID="0" Table="AD_Window_Trl">
-        <Data AD_Column_ID="308" Column="Description" oldValue="Used for save reference for all attachment files">Usado para guardar referencia de todos los adjuntos</Data>
         <Data AD_Column_ID="307" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="309" Column="Help" oldValue="Make reference with external Storage">Hace referencia con un almacenamiento externo</Data>
         <Data AD_Column_ID="310" Column="Name" oldValue="Attachment Reference">Referencia de Adjunto</Data>
         <Data AD_Column_ID="306" Column="AD_Window_ID" oldValue="53665">53665</Data>
+        <Data AD_Column_ID="308" Column="Description" oldValue="Used for save reference for all attachment files">Usado para guardar referencia de todos los adjuntos</Data>
       </PO>
     </Step>
     <Step SeqNo="690" StepType="AD">
@@ -2535,11 +2535,11 @@ You can either load the image (in the database) or point to a graphic via a URI 
     </Step>
     <Step SeqNo="930" StepType="AD">
       <PO AD_Table_ID="123" Action="U" Record_ID="54786" Table="AD_Tab_Trl">
-        <Data AD_Column_ID="267" Column="Description" oldValue="Attachment Reference">Referencia de Adjunto</Data>
         <Data AD_Column_ID="266" Column="Name" oldValue="Attachment">Adjunto</Data>
-        <Data AD_Column_ID="268" Column="Help" isOldNull="true">En esta pestaña puede ver la referencia de un adjunto, imagen o archivo almacenado en un sistema de almacenamiento de datos externo</Data>
         <Data AD_Column_ID="264" Column="AD_Tab_ID" oldValue="54786">54786</Data>
         <Data AD_Column_ID="265" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="267" Column="Description" oldValue="Attachment Reference">Referencia de Adjunto</Data>
+        <Data AD_Column_ID="268" Column="Help" isOldNull="true">En esta pestaña puede ver la referencia de un adjunto, imagen o archivo almacenado en un sistema de almacenamiento de datos externo</Data>
       </PO>
     </Step>
     <Step SeqNo="940" StepType="AD">
@@ -2855,10 +2855,10 @@ You can either load the image (in the database) or point to a graphic via a URI 
     </Step>
     <Step SeqNo="1240" StepType="AD">
       <PO AD_Table_ID="452" Action="U" Record_ID="54459" Table="AD_TreeNodeMM">
-        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54459">54459</Data>
         <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="0">159</Data>
         <Data AD_Column_ID="6157" Column="SeqNo" oldValue="999">2</Data>
         <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54459">54459</Data>
       </PO>
     </Step>
     <Step SeqNo="1250" StepType="AD">
@@ -2930,9 +2930,9 @@ You can either load the image (in the database) or point to a graphic via a URI 
     </Step>
     <Step SeqNo="1310" StepType="AD">
       <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
-        <Data AD_Column_ID="342" Column="MsgText" oldValue="Created from Setup External Storage">Creado desde Configuración de Almacenamiento Externo</Data>
         <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53627">53627</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Created from Setup External Storage">Creado desde Configuración de Almacenamiento Externo</Data>
       </PO>
     </Step>
     <Step SeqNo="1320" StepType="AD">
@@ -3013,6 +3013,7 @@ You can either load the image (in the database) or point to a graphic via a URI 
     </Step>
     <Step SeqNo="1390" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="93170" Table="AD_Column">
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="112" Column="Description">Full URL address - e.g. http://www.adempiere.org</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
@@ -3049,7 +3050,6 @@ You can either load the image (in the database) or point to a graphic via a URI 
         <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
         <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
-        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54626</Data>
@@ -3160,6 +3160,401 @@ You can either load the image (in the database) or point to a graphic via a URI 
       <PO AD_Table_ID="107" Action="U" Record_ID="94006" Table="AD_Field">
         <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
         <Data AD_Column_ID="180" Column="DisplayLength" oldValue="0">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1460" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="54134" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2019-06-02 21:26:27.727</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2019-06-02 21:26:27.727</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">AD_AppRegistration reference</Data>
+        <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">54134</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID">ce03d9dc-85a2-11e9-8093-d75a86fd4152</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1470" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">AD_AppRegistration reference</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2019-06-02 21:26:41.652</Data>
+        <Data AD_Column_ID="669" Column="Updated">2019-06-02 21:26:41.652</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">54134</Data>
+        <Data AD_Column_ID="84394" Column="UUID">d5044fdc-85a2-11e9-80a6-0f6ff1ebcf46</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1480" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="54134" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2019-06-02 21:27:09.266</Data>
+        <Data AD_Column_ID="561" Column="Updated">2019-06-02 21:27:09.266</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">true</Data>
+        <Data AD_Column_ID="146" Column="WhereClause" isNewNull="true"/>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">91283</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">54540</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="144" Column="AD_Key">91279</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">54134</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID">e57a6da6-85a2-11e9-80b6-f7f6703c19d1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1490" StepType="AD">
+      <PO AD_Table_ID="276" Action="I" Record_ID="61012" Table="AD_Element">
+        <Data AD_Column_ID="2600" Column="Updated">2019-06-02 21:27:35.461</Data>
+        <Data AD_Column_ID="2597" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2603" Column="Name">File Handler</Data>
+        <Data AD_Column_ID="2604" Column="Description">File Handler Registered as App Registration for handle all file system</Data>
+        <Data AD_Column_ID="2598" Column="Created">2019-06-02 21:27:35.461</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">FileHandler_ID</Data>
+        <Data AD_Column_ID="2605" Column="Help">Use it for handle all file system as external connetion or linking to SO files</Data>
+        <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="4299" Column="PrintName">File Handler</Data>
+        <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="58589" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID">18</Data>
+        <Data AD_Column_ID="2594" Column="AD_Element_ID">61012</Data>
+        <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID">54134</Data>
+        <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84316" Column="UUID">f62fa0da-85a2-11e9-80cc-83c40f89f3d6</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1500" StepType="AD">
+      <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2642" Column="Created">2019-06-02 21:27:38.003</Data>
+        <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="2641" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2644" Column="Updated">2019-06-02 21:27:38.003</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="2648" Column="Help">Use it for handle all file system as external connetion or linking to SO files</Data>
+        <Data AD_Column_ID="2646" Column="Name">File Handler</Data>
+        <Data AD_Column_ID="2647" Column="Description">File Handler Registered as App Registration for handle all file system</Data>
+        <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="4300" Column="PrintName">File Handler</Data>
+        <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="2640" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2639" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2645" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2643" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID">61012</Data>
+        <Data AD_Column_ID="84317" Column="UUID">f69ad256-85a2-11e9-80e5-3766f509750e</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1510" StepType="AD">
+      <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2646" Column="Name" oldValue="File Handler">Manejador de Archivos</Data>
+        <Data AD_Column_ID="2647" Column="Description" oldValue="File Handler Registered as App Registration for handle all file system">Manejador de Archivos con una Aplicación Registrada para el manejo de los archivos del sistema</Data>
+        <Data AD_Column_ID="4300" Column="PrintName" oldValue="File Handler">Manejador de Archivos</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="61012">61012</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2648" Column="Help" oldValue="Use it for handle all file system as external connetion or linking to SO files">Use esto para manejar todos los archivos del sistema con una conexión a un manejador de archivos externos o con un enlace a archivos locales del Sistema Operativo</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1520" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="61012" Table="AD_Element">
+        <Data AD_Column_ID="2605" Column="Help" oldValue="Use it for handle all file system as external connetion or linking to SO files">Use it for handle all file system as external connetion or linking to O.S files</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1530" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="93174" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description">File Handler Registered as App Registration for handle all file system</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-06-02 21:29:46.866</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-06-02 21:29:46.866</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">93174</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">File Handler</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">FileHandler_ID</Data>
+        <Data AD_Column_ID="113" Column="Help">Use it for handle all file system as external connetion or linking to O.S files</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">227</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">61012</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">54134</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">18</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID">43e51878-85a3-11e9-8104-ff0942e3ae39</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1540" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="93174" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2019-06-02 21:29:48.183</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-06-02 21:29:48.183</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">93174</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">File Handler</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID">4432ec2e-85a3-11e9-8138-3baa92e62627</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1550" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="94036" Table="AD_Field">
+        <Data AD_Column_ID="168" Column="Name">File Handler</Data>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">true</Data>
+        <Data AD_Column_ID="579" Column="Created">2019-06-02 21:31:03.578</Data>
+        <Data AD_Column_ID="78493" Column="IsQuickEntry">false</Data>
+        <Data AD_Column_ID="88877" Column="AD_FieldDefinition_ID" isNewNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated">2019-06-02 21:31:03.578</Data>
+        <Data AD_Column_ID="88918" Column="AD_ContextInfo_ID" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90940" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="169" Column="Description">File Handler Registered as App Registration for handle all file system</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="182" Column="SortNo">0</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="170" Column="Help">Use it for handle all file system as external connetion or linking to O.S files</Data>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">true</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">94036</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">240</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">93174</Data>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">240</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">169</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84320" Column="UUID">7642868e-85a3-11e9-ab9a-e3a850e06b37</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1560" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="94036" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2019-06-02 21:31:12.594</Data>
+        <Data AD_Column_ID="674" Column="Updated">2019-06-02 21:31:12.594</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="287" Column="Description">File Handler Registered as App Registration for handle all file system</Data>
+        <Data AD_Column_ID="286" Column="Name">File Handler</Data>
+        <Data AD_Column_ID="288" Column="Help">Use it for handle all file system as external connetion or linking to O.S files</Data>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">94036</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">7682d842-85a3-11e9-abc9-eb8da7517fe7</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1570" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="94036" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="240">210</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1580" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="57531" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="210">220</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1590" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="57534" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="220">230</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1600" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="57535" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="230">240</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1610" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54240" Table="AD_Process">
+        <Data AD_Column_ID="2809" Column="Name" oldValue="Configurar Almacenamiento Externo (Para Adjuntos)">Setup Storage for Files System</Data>
+        <Data AD_Column_ID="2810" Column="Description" oldValue="Configura el Almacenamiento Externo para archivos guardados como Adjuntos">Setup Storage for save files of Attachment, Images and Archives</Data>
+        <Data AD_Column_ID="4023" Column="Value" oldValue="SetupExternalStorage">SetupFileStorageSystem</Data>
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.spin.process.SetupExternalStorage">org.spin.process.SetupFileStorageSystem</Data>
+        <Data AD_Column_ID="2811" Column="Help" oldValue="Este proceso permite configurar un almacenamiento externo para guardar adjuntos del sistema, note que todos los archivos serán migrados pero la ubicación original se mantendrá">This process allows setup a storage for save attachment of system, note that all files will be migrated but original location is keeped</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1620" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2855" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54240">54240</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1630" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="54458" Table="AD_Menu">
+        <Data AD_Column_ID="229" Column="Name" oldValue="Configurar Almacenamiento Externo (Para Adjuntos)">Setup Storage for Files System</Data>
+        <Data AD_Column_ID="230" Column="Description" oldValue="Configura el Almacenamiento Externo para archivos guardados como Adjuntos">Setup Storage for save files of Attachment, Images and Archives</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1640" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="54458" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="249" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="54458">54458</Data>
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1650" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2853" Column="Description" oldValue="Configura el Almacenamiento Externo para archivos guardados como Adjuntos">Configura el Almacenamiento para archivos guardados como Adjuntos, Imágenes y Reportes Archivados</Data>
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Configurar Almacenamiento Externo (Para Adjuntos)">Configurar Almacenamiento (Para Adjuntos)</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54240">54240</Data>
+        <Data AD_Column_ID="2854" Column="Help" oldValue="Este proceso permite configurar un almacenamiento externo para guardar adjuntos del sistema, note que todos los archivos serán migrados pero la ubicación original se mantendrá">Este proceso permite configurar un almacenamiento para guardar adjuntos del sistema, note que todos los archivos serán migrados pero la ubicación original se mantendrá</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1660" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56925" Table="AD_Process_Para">
+        <Data AD_Column_ID="4017" Column="ColumnName" oldValue="AD_AppRegistration_ID">FileHandler_ID</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isOldNull="true">54134</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID" oldValue="60723">61012</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1670" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55033" Table="AD_Column">
+        <Data AD_Column_ID="3360" Column="IsUpdateable" oldValue="true">false</Data>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1680" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56925" Table="AD_Process_Para">
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID" oldValue="19">18</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1690" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54240" Table="AD_Process">
+        <Data AD_Column_ID="2811" Column="Help" oldValue="This process allows setup a storage for save attachment of system, note that all files will be migrated but original location is keeped">This process allows setup a storage for save attachment of system, note that all files will be migrated but original location is keeped
+Note: After running ot all files will be saved on new storage system</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1700" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2854" Column="Help" oldValue="Este proceso permite configurar un almacenamiento para guardar adjuntos del sistema, note que todos los archivos serán migrados pero la ubicación original se mantendrá">Este proceso permite configurar un almacenamiento para guardar adjuntos del sistema, note que todos los archivos serán migrados pero la ubicación original se mantendrá
+Nota: Después de ejecutar el proceso todos los archivos del sistema serán almacenados en el nuevo manejador de archivos</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54240">54240</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1710" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="93162" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description" oldValue="External Application Registration">File Handler Registered as App Registration for handle all file system</Data>
+        <Data AD_Column_ID="111" Column="Name" oldValue="Application Registration">File Handler</Data>
+        <Data AD_Column_ID="116" Column="ColumnName" oldValue="AD_AppRegistration_ID">FileHandler_ID</Data>
+        <Data AD_Column_ID="113" Column="Help" oldValue="Connect ADempiere with a External Application">Use it for handle all file system as external connetion or linking to O.S files</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID" oldValue="60723">61012</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isOldNull="true">54134</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1720" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="93993" Table="AD_Field">
+        <Data AD_Column_ID="168" Column="Name" oldValue="Application Registration">File Handler</Data>
+        <Data AD_Column_ID="169" Column="Description" oldValue="External Application Registration">File Handler Registered as App Registration for handle all file system</Data>
+        <Data AD_Column_ID="170" Column="Help" oldValue="Connect ADempiere with a External Application">Use it for handle all file system as external connetion or linking to O.S files</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1730" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56924" Table="AD_Process_Para">
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID" oldValue="19">18</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isOldNull="true">54134</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1740" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="93162" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="19">18</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1750" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56924" Table="AD_Process_Para">
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID" oldValue="18">19</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true" oldValue="54134"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1760" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="94006" Table="AD_Field">
+        <Data AD_Column_ID="2007" Column="IsReadOnly" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1770" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="94036" Table="AD_Field">
+        <Data AD_Column_ID="177" Column="DisplayLogic" isOldNull="true">@FileHandler_ID@!0</Data>
       </PO>
     </Step>
   </Migration>

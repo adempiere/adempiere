@@ -19,30 +19,30 @@ package org.spin.process;
 
 import org.compiere.process.SvrProcess;
 
-/** Generated Process for (Setup External Storage for Files)
+/** Generated Process for (Setup Storage for Files System)
  *  @author ADempiere (generated) 
  *  @version Release 3.9.2
  */
-public abstract class SetupExternalStorageAbstract extends SvrProcess {
+public abstract class SetupFileStorageSystemAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE_FOR_PROCESS = "SetupExternalStorage";
+	private static final String VALUE_FOR_PROCESS = "SetupFileStorageSystem";
 	/** Process Name 	*/
-	private static final String NAME_FOR_PROCESS = "Setup External Storage for Files";
+	private static final String NAME_FOR_PROCESS = "Setup Storage for Files System";
 	/** Process Id 	*/
 	private static final int ID_FOR_PROCESS = 54240;
 	/**	Parameter Name for App Support	*/
 	public static final String AD_APPSUPPORT_ID = "AD_AppSupport_ID";
-	/**	Parameter Name for Application Registration	*/
-	public static final String AD_APPREGISTRATION_ID = "AD_AppRegistration_ID";
+	/**	Parameter Name for File Handler	*/
+	public static final String FILEHANDLER_ID = "FileHandler_ID";
 	/**	Parameter Value for App Support	*/
 	private int appSupportId;
-	/**	Parameter Value for Application Registration	*/
-	private int appRegistrationId;
+	/**	Parameter Value for File Handler	*/
+	private int fileHandlerId;
 
 	@Override
 	protected void prepare() {
 		appSupportId = getParameterAsInt(AD_APPSUPPORT_ID);
-		appRegistrationId = getParameterAsInt(AD_APPREGISTRATION_ID);
+		fileHandlerId = getParameterAsInt(FILEHANDLER_ID);
 	}
 
 	/**	 Getter Parameter Value for App Support	*/
@@ -55,14 +55,14 @@ public abstract class SetupExternalStorageAbstract extends SvrProcess {
 		this.appSupportId = appSupportId;
 	}
 
-	/**	 Getter Parameter Value for Application Registration	*/
-	protected int getAppRegistrationId() {
-		return appRegistrationId;
+	/**	 Getter Parameter Value for File Handler	*/
+	protected int getFileHandlerId() {
+		return fileHandlerId;
 	}
 
-	/**	 Setter Parameter Value for Application Registration	*/
-	protected void setAppRegistrationId(int appRegistrationId) {
-		this.appRegistrationId = appRegistrationId;
+	/**	 Setter Parameter Value for File Handler	*/
+	protected void setFileHandlerId(int fileHandlerId) {
+		this.fileHandlerId = fileHandlerId;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/

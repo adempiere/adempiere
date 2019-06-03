@@ -23,6 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.compiere.model.I_AD_Attachment;
 import org.compiere.model.MArchive;
 import org.compiere.model.MAttachment;
+import org.compiere.model.MClientInfo;
 import org.compiere.model.MImage;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
@@ -36,7 +37,7 @@ import org.spin.util.AttachmentUtil;
  * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
  *		Add Support to external storage for attachment
  */
-public class SetupExternalStorage extends SetupExternalStorageAbstract {
+public class SetupFileStorageSystem extends SetupFileStorageSystemAbstract {
 
 	/**	Processed Files	*/
 	private AtomicInteger processed = new AtomicInteger();
@@ -48,19 +49,24 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 	@Override
 	protected String doIt() throws Exception {
 		//	Add Attachment
-		migrateAttachment("Attachment");
+		migrateAttachment();
 		//	Add Image
-		migrateImage("Image");
+		migrateImage();
 		//	Add Archive
-		migrateArchive("Archive");
+		migrateArchive();
+		//	Set App Registration to Client Info
+		if(errors.get() == 0) {
+			MClientInfo clientInfo = MClientInfo.get(getCtx(), getAD_Client_ID());
+			clientInfo.setFileHandler_ID(getFileHandlerId());
+			clientInfo.saveEx();
+		}
 		return "@Processed@ (" + processed.get() + ") @Ignored@ (" + ignored.get() + ") @Errors@ (" + errors.get() + ")";
 	}
 	
 	/**
 	 * Add attachment
-	 * @param attachmentFolder
 	 */
-	private void migrateAttachment(String attachmentFolder) {
+	private void migrateAttachment() {
 		addLog("@AD_Attachment_ID@");
 		new Query(getCtx(), I_AD_Attachment.Table_Name, null, get_TrxName())
 				.setClient_ID()
@@ -78,9 +84,8 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 									if(attachmentReferenceId < 0) {
 										try {
 											AttachmentUtil.getInstance(getCtx())
-												.withAppRegistrationId(getAppRegistrationId())
+												.withFileHandlerId(getFileHandlerId())
 												.withAttachmentId(attachment.getAD_Attachment_ID())
-												.withPath(attachmentFolder)
 												.withFileName(entry.getName())
 												.withDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"))
 												.withData(entry.getData())
@@ -104,9 +109,8 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 	
 	/**
 	 * Add images
-	 * @param attachmentFolder
 	 */
-	private void migrateImage(String attachmentFolder) {
+	private void migrateImage() {
 		addLog("@AD_Image_ID@");
 		KeyNamePair [] imageArray = DB.getKeyNamePairs("SELECT AD_Image_ID, Name "
 				+ "FROM AD_Image "
@@ -119,9 +123,8 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 						MImage image = MImage.get(getCtx(), imagePair.getKey());
 						try {
 							AttachmentUtil.getInstance(getCtx())
-								.withAppRegistrationId(getAppRegistrationId())
+								.withFileHandlerId(getFileHandlerId())
 								.withImageId(image.getAD_Image_ID())
-								.withPath(attachmentFolder)
 								.withFileName(image.getName())
 								.withDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"))
 								.withData(image.getData())
@@ -140,9 +143,8 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 	
 	/**
 	 * Add archive
-	 * @param attachmentFolder
 	 */
-	private void migrateArchive(String attachmentFolder) {
+	private void migrateArchive() {
 		addLog("@AD_Archive_ID@");
 		KeyNamePair [] archiveArray = DB.getKeyNamePairs("SELECT AD_Archive_ID, Name "
 				+ "FROM AD_Archive "
@@ -156,9 +158,8 @@ public class SetupExternalStorage extends SetupExternalStorageAbstract {
 						try {
 							String fileName = archive.getName() + ".pdf";
 							AttachmentUtil.getInstance(getCtx())
-								.withAppRegistrationId(getAppRegistrationId())
+								.withFileHandlerId(getFileHandlerId())
 								.withArchiveId(archive.getAD_Archive_ID())
-								.withPath(attachmentFolder)
 								.withFileName(fileName)
 								.withDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"))
 								.withData(archive.getBinaryData())

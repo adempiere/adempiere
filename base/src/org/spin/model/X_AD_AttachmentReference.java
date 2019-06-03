@@ -31,7 +31,7 @@ public class X_AD_AttachmentReference extends PO implements I_AD_AttachmentRefer
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190531L;
+	private static final long serialVersionUID = 20190602L;
 
     /** Standard Constructor */
     public X_AD_AttachmentReference (Properties ctx, int AD_AttachmentReference_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_AD_AttachmentReference extends PO implements I_AD_AttachmentRefer
       super (ctx, AD_AttachmentReference_ID, trxName);
       /** if (AD_AttachmentReference_ID == 0)
         {
-			setAD_AppRegistration_ID (0);
 			setAD_AttachmentReference_ID (0);
+			setFileHandler_ID (0);
 			setFileName (null);
         } */
     }
@@ -72,34 +72,6 @@ public class X_AD_AttachmentReference extends PO implements I_AD_AttachmentRefer
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	public org.spin.model.I_AD_AppRegistration getAD_AppRegistration() throws RuntimeException
-    {
-		return (org.spin.model.I_AD_AppRegistration)MTable.get(getCtx(), org.spin.model.I_AD_AppRegistration.Table_Name)
-			.getPO(getAD_AppRegistration_ID(), get_TrxName());	}
-
-	/** Set Application Registration.
-		@param AD_AppRegistration_ID 
-		External Application Registration
-	  */
-	public void setAD_AppRegistration_ID (int AD_AppRegistration_ID)
-	{
-		if (AD_AppRegistration_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_AppRegistration_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_AppRegistration_ID, Integer.valueOf(AD_AppRegistration_ID));
-	}
-
-	/** Get Application Registration.
-		@return External Application Registration
-	  */
-	public int getAD_AppRegistration_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AppRegistration_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public org.compiere.model.I_AD_Archive getAD_Archive() throws RuntimeException
     {
@@ -223,6 +195,34 @@ public class X_AD_AttachmentReference extends PO implements I_AD_AttachmentRefer
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	public org.spin.model.I_AD_AppRegistration getFileHandler() throws RuntimeException
+    {
+		return (org.spin.model.I_AD_AppRegistration)MTable.get(getCtx(), org.spin.model.I_AD_AppRegistration.Table_Name)
+			.getPO(getFileHandler_ID(), get_TrxName());	}
+
+	/** Set File Handler.
+		@param FileHandler_ID 
+		File Handler Registered as App Registration for handle all file system
+	  */
+	public void setFileHandler_ID (int FileHandler_ID)
+	{
+		if (FileHandler_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FileHandler_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_FileHandler_ID, Integer.valueOf(FileHandler_ID));
+	}
+
+	/** Get File Handler.
+		@return File Handler Registered as App Registration for handle all file system
+	  */
+	public int getFileHandler_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FileHandler_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set File Name.
