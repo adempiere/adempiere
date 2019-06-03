@@ -41,7 +41,7 @@ public class AttachmentUtil {
 	/**	Client	*/
 	private int clientId;
 	/**	User	*/
-	private int userId;
+//	private int userId;
 	/**	Context	*/
 	private Properties context;
 	/**	API	*/
@@ -76,7 +76,7 @@ public class AttachmentUtil {
 		}
 		this.context = context;
 		this.clientId = Env.getAD_Client_ID(context);
-		this.userId = Env.getAD_User_ID(context);
+//		this.userId = Env.getAD_User_ID(context);
 	}
 	
 	/**
@@ -163,10 +163,10 @@ public class AttachmentUtil {
 	 * @param userId
 	 * @return
 	 */
-	public AttachmentUtil withUserId(int userId) {
-		this.userId = userId;
-		return this;
-	}
+//	public AttachmentUtil withUserId(int userId) {
+//		this.userId = userId;
+//		return this;
+//	}
 	
 	/**
 	 * Set note
