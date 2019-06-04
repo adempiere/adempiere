@@ -169,7 +169,7 @@ public class ExportSurrogateKeyToMigration extends ExportSurrogateKeyToMigration
 			Arrays.asList(keyColumn)
 				.forEach(columnName -> {
 					if(keyColumnNames.length() > 0) {
-						keyColumnNames.append(" || ");
+						keyColumnNames.append(" || ' AND ' || ");
 					}
 					keyColumnNames.append("'").append(columnName).append(" = ' || ").append(columnName);
 				});
