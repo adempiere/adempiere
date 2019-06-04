@@ -17,6 +17,8 @@ package org.spin.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -282,6 +284,21 @@ public class AttachmentUtil {
 			throw new AdempiereException("@FileName@ @NotFound@");
 		}
 		return readBytesFromAttachment(inputStream);
+	}
+	
+	/**
+	 * Get file name list for Attachments
+	 * @return
+	 */
+	public List<String> getFileNameListFromAttachment() {
+		List<MADAttachmentReference> list = MADAttachmentReference.getListByAttachmentId(context, fileHandlerId, attachmentId, transactionName);
+		List<String> fileNameList = new ArrayList<String>();
+		if(list != null) {
+			list.stream().forEach(attachmentReference -> {
+				fileNameList.add(attachmentReference.getFileName());
+			});
+		}
+		return fileNameList;
 	}
 	
 	/**

@@ -364,6 +364,7 @@ public class MImage extends X_AD_Image
 				throw new AdempiereException(e);
 			}
 		}
+		data = null;
 		return super.afterSave(newRecord, success);
 	}
 	

@@ -45,9 +45,11 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.spin.util.AttachmentUtil;
 import org.spin.util.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -120,6 +122,8 @@ public class MArchive extends X_AD_Archive {
 	private Integer m_inflated = null;
 
 	private Integer m_deflated = null;
+	/**	Binary Data					*/
+	private byte[]			data = null;
 
 	/***************************************************************************
 	 * Standard Constructor
@@ -574,7 +578,31 @@ public class MArchive extends X_AD_Archive {
 			return false;
 		//
 		log.fine(toString());
+		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
+			data = super.getBinaryData();
+			super.setBinaryData(null);
+		}
 		return true;
 	} // beforeSave
+	
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		//	Save from external
+		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
+			try {
+				AttachmentUtil.getInstance()
+					.withImageId(getAD_Archive_ID())
+					.withFileName(getName())
+					.withDescription(getDescription())
+					.withData(data)
+					.withTansactionName(get_TrxName())
+					.saveAttachment();
+			} catch (Exception e) {
+				throw new AdempiereException(e);
+			}
+		}
+		data = null;
+		return super.afterSave(newRecord, success);
+	}
 
 } // MArchive

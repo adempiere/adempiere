@@ -47,7 +47,9 @@ public class MADAttachmentReference extends X_AD_AttachmentReference {
 	private static CCache<String, MADAttachmentReference> attachmentReferenceCacheUuids = new CCache<String, MADAttachmentReference>(Table_Name, 30);
 	/** Static Cache */
 	private static CCache<String, MADAttachmentReference> attachmentReferenceCacheExternCall = new CCache<String, MADAttachmentReference>(Table_Name, 30);
-
+	/** Static Cache */
+	private static CCache<String, List<MADAttachmentReference>> attachmentReferenceCache = new CCache<String, List<MADAttachmentReference>>(Table_Name + "_List", 30);
+	
 	/**
 	 * 
 	 */
@@ -170,7 +172,7 @@ public class MADAttachmentReference extends X_AD_AttachmentReference {
 			return attachmentReference;
 
 		attachmentReference = new Query(ctx , Table_Name , COLUMNNAME_FileHandler_ID + " = ? "
-				+ "AND " + COLUMNNAME_AD_Archive_ID + " = ? "
+				+ "AND " + COLUMNNAME_AD_Attachment_ID + " = ? "
 				+ "AND " + COLUMNNAME_FileName + " = ?", trxName)
 				.setClient_ID()
 				.setParameters(fileHandlerId, attachmentId, fileName)
@@ -181,6 +183,33 @@ public class MADAttachmentReference extends X_AD_AttachmentReference {
 			attachmentReferenceCacheExternCall.put(key, attachmentReference);
 		}
 		return attachmentReference;
+	}
+	
+	/**
+	 * Get/Load Attachment List Reference from Attachment Id[CACHED]
+	 * @param ctx context
+	 * @param fileHandlerId
+	 * @param attachmentId
+	 * @param trxName
+	 * @return activity or null
+	 */
+	public static List<MADAttachmentReference> getListByAttachmentId(Properties ctx, int fileHandlerId, int attachmentId, String trxName) {
+		if (attachmentId <= 0)
+			return null;
+		String key = "AttachmentList#" + fileHandlerId + "|" + attachmentId;
+		List<MADAttachmentReference> attachmentReferenceList = attachmentReferenceCache.get(key);
+		if (attachmentReferenceList != null && attachmentReferenceList.size() > 0)
+			return attachmentReferenceList;
+
+		attachmentReferenceList = new Query(ctx , Table_Name , COLUMNNAME_FileHandler_ID + " = ? "
+				+ "AND " + COLUMNNAME_AD_Attachment_ID + " = ? ", trxName)
+				.setClient_ID()
+				.setParameters(fileHandlerId, attachmentId)
+				.list();
+		if (attachmentReferenceList != null && attachmentReferenceList.size() > 0) {
+			attachmentReferenceCache.put(key, attachmentReferenceList);
+		}
+		return attachmentReferenceList;
 	}
 
 	/**

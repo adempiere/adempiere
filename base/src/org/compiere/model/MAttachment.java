@@ -45,6 +45,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.compiere.util.Env;
 import org.compiere.util.MimeType;
+import org.spin.util.AttachmentUtil;
 import org.spin.util.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -650,12 +651,37 @@ public class MAttachment extends X_AD_Attachment
 	 * 	Load Data into local m_data
 	 *	@return true if success
 	 */
-	private boolean loadLOBData ()
-	{
-		if(isStoreAttachmentsOnFileSystem){
-			return loadLOBDataFromFileSystem();
+	private boolean loadLOBData () {
+		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
+			try {
+				AttachmentUtil.getInstance()
+					.withImageId(getAD_Attachment_ID())
+					.withClientId(getAD_Client_ID())
+					.getFileNameListFromAttachment()
+					.forEach(fileName -> {
+						try {
+							byte[] data = AttachmentUtil.getInstance()
+								.withImageId(getAD_Attachment_ID())
+								.withClientId(getAD_Client_ID())
+								.getAttachment();
+							if(data != null) {
+								MAttachmentEntry entry = new MAttachmentEntry(fileName, data, m_items.size() + 1);
+								m_items.add(entry);
+							}
+						} catch (Exception e) {
+							log.warning("Error Loading attachment: " + e.getLocalizedMessage());
+						}
+					});
+			} catch (Exception e) {
+				log.warning("Error loading image: " + e.getLocalizedMessage());
+			}
+			return true;
+		} else {
+			if(isStoreAttachmentsOnFileSystem){
+				return loadLOBDataFromFileSystem();
+			}
+			return loadLOBDataFromDB();
 		}
-		return loadLOBDataFromDB();
 	}
 	
 	/**
