@@ -24,29 +24,17 @@ import java.util.Properties;
  *		<a href="https://github.com/adempiere/adempiere/issues/2109">
  * 		@see FR [ 2109 ] Add App Registration ADempiere</a>
  */
-public class MADAppRegistrationPara extends X_AD_AppRegistration_Para {
+public class MADAppSupportPara extends X_AD_AppSupport_Para {
 
 
 	private static final long serialVersionUID = -1171525387615789574L;
 
-	public MADAppRegistrationPara(Properties ctx, int AD_AppRegistration_Para_ID, String trxName) {
+	public MADAppSupportPara(Properties ctx, int AD_AppSupport_Para_ID, String trxName) {
 		
-		super(ctx, AD_AppRegistration_Para_ID, trxName);
+		super(ctx, AD_AppSupport_Para_ID, trxName);
 	}
 
-	public MADAppRegistrationPara(Properties ctx, ResultSet rs, String trxName) {
+	public MADAppSupportPara(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
-	}
-	
-	/**
-	 * Set values from default parameter
-	 * @param defaultParameter
-	 */
-	public void setDefaultParameter(MADAppSupportPara defaultParameter) {
-		setAD_AppSupport_Para_ID(defaultParameter.getAD_AppSupport_Para_ID());
-		setDescription(defaultParameter.getDescription());
-		setParameterType(defaultParameter.getParameterType());
-		setParameterName(defaultParameter.getParameterName());
-		setParameterValue(defaultParameter.getParameterDefault());
 	}
 }

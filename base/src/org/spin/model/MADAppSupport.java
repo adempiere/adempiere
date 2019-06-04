@@ -50,6 +50,8 @@ public class MADAppSupport extends X_AD_AppSupport {
 		super(ctx, rs, trxName);
 	}
 	
+	private List<MADAppSupportPara> defaultParametersList;
+	
 	/**
 	 * Get/Load Activity [CACHED]
 	 * @param ctx context
@@ -131,6 +133,21 @@ public class MADAppSupport extends X_AD_AppSupport {
 				.map(activity -> activity.getValue())
 				.collect(Collectors.toList());
 		return  definitionList;
+	}
+	
+	/**
+	 * Get default parameters
+	 * @return
+	 */
+	public List<MADAppSupportPara> getDefaultParametersList() {
+		if(defaultParametersList == null) {
+			defaultParametersList = new Query(getCtx(), I_AD_AppSupport_Para.Table_Name, I_AD_AppSupport_Para.COLUMNNAME_AD_AppSupport_ID + " = ?", get_TrxName())
+					.setParameters(getAD_AppSupport_ID())
+					.setOnlyActiveRecords(true)
+					.list();
+		}
+		//	return
+		return defaultParametersList;
 	}
 
 	@Override
