@@ -65,7 +65,7 @@ public class MADAttachmentReference extends X_AD_AttachmentReference {
 			throw new AdempiereException("@UUID@ @NotFound@");
 		}
 		return (uuid + "-" + getFileName())
-				.replaceAll("[+^:&áàäéèëíìïóòöúùñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ$()*#/]", "")
+				.replaceAll("[+^:&áàäéèëíìïóòöúùñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ$()*#/><]", "")
 				.replaceAll(" ", "-");
 	}
 	
@@ -179,10 +179,38 @@ public class MADAttachmentReference extends X_AD_AttachmentReference {
 				.first();
 		if (attachmentReference != null && attachmentReference.get_ID() > 0) {
 			attachmentReferenceCacheUuids.put(attachmentReference.getUUID(), attachmentReference);
-			attachmentReferenceCacheIds.put(attachmentReference.get_ID(), attachmentReference);
+			attachmentReferenceCacheIds.put(attachmentReference.getAD_AttachmentReference_ID(), attachmentReference);
 			attachmentReferenceCacheExternCall.put(key, attachmentReference);
 		}
 		return attachmentReference;
+	}
+	
+	/**
+	 * Reset cache for attachment Id
+	 * @param fileHandlerId
+	 * @param attachmentId
+	 */
+	public static void resetAttachmentCacheFromId(int fileHandlerId, int attachmentId) {
+		if (attachmentId <= 0)
+			return;
+		String key = "AttachmentList#" + fileHandlerId + "|" + attachmentId;
+		attachmentReferenceCache.remove(key);
+	}
+	
+	/**
+	 * Reset cache for attachment reference Id
+	 * @param fileHandlerId
+	 * @param attachmentReferenceId
+	 */
+	public static void resetAttachmentReferenceCache(int fileHandlerId, MADAttachmentReference attachmentReference) {
+		if (attachmentReference == null)
+			return;
+		String key = "AttachmentList#" + fileHandlerId + "|" + attachmentReference.getAD_Attachment_ID();
+		attachmentReferenceCache.remove(key);
+		key = "Attachment#" + fileHandlerId + "|" + attachmentReference.getAD_Attachment_ID() + "|" + attachmentReference.getFileName();
+		attachmentReferenceCacheExternCall.remove(key);
+		attachmentReferenceCacheUuids.remove(attachmentReference.getUUID());
+		attachmentReferenceCacheIds.remove(attachmentReference.getAD_AttachmentReference_ID());
 	}
 	
 	/**

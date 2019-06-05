@@ -131,7 +131,7 @@ public class SardineAPI implements IWebDav {
 			return;
 		}
 		loadConnection();
-		connection.delete(relativePath);
+		connection.delete(getPath(relativePath));
 	}
 
 	@Override

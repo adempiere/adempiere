@@ -91,6 +91,13 @@ public class AttachmentUtil {
 			instance = new AttachmentUtil(context);
 		}
 		//	
+		instance.withImageId(0);
+		instance.withArchiveId(0);
+		instance.withAttachmentId(0);
+		instance.withFileName(null);
+		instance.withDescription(null);
+		instance.withNote(null);
+		instance.withData(null);
 		return instance;
 	}
 	
@@ -366,6 +373,8 @@ public class AttachmentUtil {
 			}
 			//	Save reference
 			attachmentReference.saveEx();
+			//	Remove from cache
+			MADAttachmentReference.resetAttachmentCacheFromId(fileHandlerId, attachmentId);
 			if(data == null) {
 				return;
 			}
@@ -388,6 +397,29 @@ public class AttachmentUtil {
 			if(attachmentReference.getAD_AttachmentReference_ID() > 0) {
 				attachmentReference.deleteEx(true);
 			}
+			throw new AdempiereException(e);
+		}
+	}
+	
+	/**
+	 * Delete reference
+	 * @throws Exception
+	 */
+	public void deleteAttachment() throws Exception {
+		IWebDav handler = getFileHandler();
+		MADAttachmentReference attachmentReference = getAttachmentReference();
+		if(attachmentReference == null
+				|| attachmentReference.getAD_AttachmentReference_ID() <= 0) {
+			return;
+		}
+		try {
+			//	Save
+			handler.deleteResource(getCompleteFileName(attachmentReference));
+			//	Remove from cache
+			MADAttachmentReference.resetAttachmentReferenceCache(fileHandlerId, attachmentReference);
+			//	Delete reference
+			attachmentReference.deleteEx(true);
+		} catch (Exception e) {
 			throw new AdempiereException(e);
 		}
 	}

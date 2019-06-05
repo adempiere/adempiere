@@ -3557,5 +3557,11 @@ Nota: Después de ejecutar el proceso todos los archivos del sistema serán alma
         <Data AD_Column_ID="177" Column="DisplayLogic" isOldNull="true">@FileHandler_ID@!0</Data>
       </PO>
     </Step>
+    <Step SeqNo="1780" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="13073" Table="AD_Column">
+        <Data AD_Column_ID="124" Column="IsMandatory" oldValue="true">false</Data>
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="4000">0</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>

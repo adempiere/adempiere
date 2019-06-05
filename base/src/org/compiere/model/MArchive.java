@@ -231,10 +231,22 @@ public class MArchive extends X_AD_Archive {
 	} // toString
 
 	public byte[] getBinaryData() {
-		if (isStoreArchiveOnFileSystem) {
-			return getBinaryDataFromFileSystem();
+		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
+			try {
+				data = AttachmentUtil.getInstance()
+						.withArchiveId(getAD_Archive_ID())
+						.withClientId(getAD_Client_ID())
+						.getAttachment();
+			} catch (Exception e) {
+				log.warning("Error loading archive: " + e.getLocalizedMessage());
+			}
+			return data;
+		} else {
+			if (isStoreArchiveOnFileSystem) {
+				return getBinaryDataFromFileSystem();
+			}
+			return getBinaryDataFromDB();
 		}
-		return getBinaryDataFromDB();
 	}
 
 	/**
@@ -388,10 +400,14 @@ public class MArchive extends X_AD_Archive {
 	 *            inflated data
 	 */
 	public void setBinaryData(byte[] inflatedData) {
-		if (isStoreArchiveOnFileSystem) {
-			saveBinaryDataIntoFileSystem(inflatedData);
+		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
+			data  = inflatedData;
 		} else {
-			saveBinaryDataIntoDB(inflatedData);
+			if (isStoreArchiveOnFileSystem) {
+				saveBinaryDataIntoFileSystem(inflatedData);
+			} else {
+				saveBinaryDataIntoDB(inflatedData);
+			}
 		}
 	}
 
@@ -573,15 +589,10 @@ public class MArchive extends X_AD_Archive {
 	 */
 	protected boolean beforeSave(boolean newRecord) {
 		// Binary Data is Mandatory
-		byte[] data = super.getBinaryData();
 		if (data == null || data.length == 0)
 			return false;
 		//
 		log.fine(toString());
-		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
-			data = super.getBinaryData();
-			super.setBinaryData(null);
-		}
 		return true;
 	} // beforeSave
 	
@@ -591,8 +602,8 @@ public class MArchive extends X_AD_Archive {
 		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
 			try {
 				AttachmentUtil.getInstance()
-					.withImageId(getAD_Archive_ID())
-					.withFileName(getName())
+					.withArchiveId(getAD_Archive_ID())
+					.withFileName(getName() + ".pdf")
 					.withDescription(getDescription())
 					.withData(data)
 					.withTansactionName(get_TrxName())
