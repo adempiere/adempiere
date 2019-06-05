@@ -31,7 +31,7 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190529L;
+	private static final long serialVersionUID = 20190604L;
 
     /** Standard Constructor */
     public X_AD_User (Properties ctx, int AD_User_ID, String trxName)
@@ -595,6 +595,30 @@ public class X_AD_User extends PO implements I_AD_User, I_Persistent
 	public boolean isFullBPAccess () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsFullBPAccess);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Notify me my own changes.
+		@param IsIncludeOwnChanges 
+		I want to be notified of changes that I make myself
+	  */
+	public void setIsIncludeOwnChanges (boolean IsIncludeOwnChanges)
+	{
+		set_Value (COLUMNNAME_IsIncludeOwnChanges, Boolean.valueOf(IsIncludeOwnChanges));
+	}
+
+	/** Get Notify me my own changes.
+		@return I want to be notified of changes that I make myself
+	  */
+	public boolean isIncludeOwnChanges () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsIncludeOwnChanges);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
