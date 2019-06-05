@@ -21,7 +21,6 @@ import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
 
-import org.adempiere.model.GenericPO;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.AttributeFiller;
 import org.adempiere.pipo.Element;
@@ -85,15 +84,11 @@ public class GenericPOHandler extends AbstractElementHandler {
 		}
 		PO entity = null;
 		boolean isTranslation = false;
-		//	Translation
-		if(tableName.endsWith("_Trl")) {
-			isTranslation = true;
-			entity = getCreatePOTrl(ctx, tableName, atts, getTrxName(ctx));
-			if(entity == null) {
-				entity = new GenericPO(tableName, ctx, -1, getTrxName(ctx));
-			}
-		} else {
+		//	Multy-Key
+		if(poInfo.hasKeyColumn()) {
 			entity = getCreatePO(ctx, tableId, recordId, getTrxName(ctx));
+		} else { 
+			entity = getCreatePOForMultyKey(ctx, poInfo, atts, getTrxName(ctx));
 		}
 		//	
 		int backupId;
@@ -353,7 +348,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 	}
 	
 	/**
-	 * Create PO for translation
+	 * Create PO multy-key record
 	 * @param ctx
 	 * @param language
 	 * @param uuId
@@ -361,14 +356,22 @@ public class GenericPOHandler extends AbstractElementHandler {
 	 * @param trxName
 	 * @return
 	 */
-	private PO getCreatePOTrl(Properties ctx, String tableName, Attributes atts, String trxName) {
-		String parentKey = tableName.replaceAll("_Trl", "") + "_ID";
-		String uuid = getUUIDValue(atts, tableName);
-		String language = atts.getValue("AD_Language");
-		int parentId = Integer.parseInt(atts.getValue(parentKey));
-		//	for translation
-		return new Query(ctx, tableName, "UUID = ? OR (" + parentKey + " = ? AND AD_Language = ?)", trxName)
-				.setParameters(uuid, parentId, language)
+	private PO getCreatePOForMultyKey(Properties ctx, POInfo poInfo, Attributes atts, String trxName) {
+		MTable table = MTable.get(ctx, poInfo.getTableName());
+		String uuid = getUUIDValue(atts, poInfo.getTableName());
+		List<Object> parameters = new ArrayList<>();
+		parameters.add(uuid);
+		StringBuffer keyColumnNames = new StringBuffer();
+		for(String keyColumn : table.getKeyColumns()) {
+			if(keyColumnNames.length() > 0) {
+				keyColumnNames.append(" AND ");
+			}
+			keyColumnNames.append(keyColumn).append(" = ?");
+			PoFiller filler = new PoFiller(poInfo, atts);
+			parameters.add(filler.getValueFromType(keyColumn));
+		}
+		return new Query(ctx, poInfo.getTableName(), "UUID = ? OR (" + keyColumnNames + ")", trxName)
+				.setParameters(parameters)
 				.first();
 	}
 	

@@ -29,7 +29,7 @@ import org.xml.sax.Attributes;
  * @author Original Gen Sing Low
  *
  */
-public class PoFiller{
+public class PoFiller {
 
 	/**	PO Entity	*/
 	private PO entity = null;
@@ -45,6 +45,16 @@ public class PoFiller{
 		this.entity = entity;
 		this.atts = atts;
 		poInfo = POInfo.getPOInfo(entity.getCtx(), entity.get_Table_ID(), entity.get_TrxName());
+	}
+	
+	/**
+	 * Initialize from PO Info
+	 * @param poInfo
+	 * @param atts
+	 */
+	public PoFiller(POInfo poInfo, Attributes atts){
+		this.atts = atts;
+		this.poInfo = poInfo;
 	}
 	
 	/**
@@ -73,7 +83,6 @@ public class PoFiller{
 	 */
 	public void setAttribute(String columnName) {
 		String value = atts.getValue(columnName);
-		String originalValue = value;
 		if (Util.isEmpty(value, true)) {
 			value = null;
 		} else {
@@ -93,23 +102,44 @@ public class PoFiller{
 			return;
 		}
 		//	
+		entity.set_ValueOfColumn(columnName, getValueFromType(columnName));
+	}
+	
+	/**
+	 * Get Value as Object
+	 * @param columnName
+	 * @return
+	 */
+	public Object getValueFromType(String columnName) {
+		String value = atts.getValue(columnName);
+		String originalValue = value;
+		if (Util.isEmpty(value, true)) {
+			value = null;
+		} else {
+			value = value.trim();
+		}
+		int index = poInfo.getColumnIndex(columnName);
+		Object valueAsObject = null;
+		//	
 		Class<?> clazz = poInfo.getColumnClass(index);
 		if (value == null) {
-			entity.set_ValueOfColumn(columnName, null);
+			valueAsObject = null;
 		} else if (clazz == BigDecimal.class) {
-			entity.set_ValueOfColumn(columnName, new BigDecimal(value));
+			valueAsObject = new BigDecimal(value);
 		} else if (clazz == Integer.class) {
-			entity.set_ValueOfColumn(columnName, new BigDecimal(value).intValueExact());
+			valueAsObject = new BigDecimal(value).intValueExact();
 		} else if (clazz == String.class) {
-			entity.set_ValueOfColumn(columnName, originalValue);
+			valueAsObject = originalValue;
 		} else if (clazz == Boolean.class) {
-			entity.set_ValueOfColumn(columnName, Boolean.valueOf(value));
+			valueAsObject = Boolean.valueOf(value);
 		} else if (clazz == Timestamp.class) {
-			Timestamp ts = Timestamp.valueOf(value);
-			entity.set_ValueOfColumn(columnName, ts);
+			Timestamp dateValue = Timestamp.valueOf(value);
+			valueAsObject = dateValue;
 		} else {
 			throw new AdempiereException("Class not supported - " + clazz);
 		}
+		//	Return object
+		return valueAsObject;
 	}
 	
 	@Override
