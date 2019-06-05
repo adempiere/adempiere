@@ -265,6 +265,7 @@ public class MImage extends X_AD_Image
 		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
 			try {
 				data = AttachmentUtil.getInstance()
+						.clear()
 						.withImageId(getAD_Image_ID())
 						.withClientId(getAD_Client_ID())
 						.getAttachment();
@@ -354,6 +355,7 @@ public class MImage extends X_AD_Image
 		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
 			try {
 				AttachmentUtil.getInstance()
+					.clear()
 					.withImageId(getAD_Image_ID())
 					.withFileName(getName())
 					.withDescription(getDescription())

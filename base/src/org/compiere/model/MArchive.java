@@ -234,6 +234,7 @@ public class MArchive extends X_AD_Archive {
 		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
 			try {
 				data = AttachmentUtil.getInstance()
+						.clear()
 						.withArchiveId(getAD_Archive_ID())
 						.withClientId(getAD_Client_ID())
 						.getAttachment();
@@ -579,22 +580,6 @@ public class MArchive extends X_AD_Archive {
 		// path = path + this.get_ID() + ".pdf";
 		return path;
 	}
-
-	/**
-	 * Before Save
-	 * 
-	 * @param newRecord
-	 *            new
-	 * @return true if can be saved
-	 */
-	protected boolean beforeSave(boolean newRecord) {
-		// Binary Data is Mandatory
-		if (data == null || data.length == 0)
-			return false;
-		//
-		log.fine(toString());
-		return true;
-	} // beforeSave
 	
 	@Override
 	protected boolean afterSave(boolean newRecord, boolean success) {
@@ -602,6 +587,7 @@ public class MArchive extends X_AD_Archive {
 		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
 			try {
 				AttachmentUtil.getInstance()
+					.clear()
 					.withArchiveId(getAD_Archive_ID())
 					.withFileName(getName() + ".pdf")
 					.withDescription(getDescription())

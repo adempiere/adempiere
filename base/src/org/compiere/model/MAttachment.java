@@ -382,6 +382,7 @@ public class MAttachment extends X_AD_Attachment
 				try {
 					MAttachmentEntry item = items.get(index);
 					AttachmentUtil.getInstance()
+						.clear()
 						.withAttachmentId(getAD_Attachment_ID())
 						.withFileName(item.getName())
 						.withClientId(getAD_Client_ID())
@@ -510,6 +511,7 @@ public class MAttachment extends X_AD_Attachment
 			items.stream().forEach(item -> {
 				try {
 					AttachmentUtil.getInstance()
+						.clear()
 						.withAttachmentId(getAD_Attachment_ID())
 						.withFileName(item.getName())
 						.withClientId(getAD_Client_ID())
@@ -685,12 +687,14 @@ public class MAttachment extends X_AD_Attachment
 		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
 			try {
 				AttachmentUtil.getInstance()
+					.clear()
 					.withAttachmentId(getAD_Attachment_ID())
 					.withClientId(getAD_Client_ID())
 					.getFileNameListFromAttachment()
 					.forEach(fileName -> {
 						try {
 							byte[] data = AttachmentUtil.getInstance()
+								.clear()
 								.withAttachmentId(getAD_Attachment_ID())
 								.withFileName(fileName)
 								.withClientId(getAD_Client_ID())
@@ -909,6 +913,7 @@ public class MAttachment extends X_AD_Attachment
 			items.stream().forEach(item -> {
 				try {
 					AttachmentUtil.getInstance()
+						.clear()
 						.withAttachmentId(getAD_Attachment_ID())
 						.withFileName(item.getName())
 						.withClientId(getAD_Client_ID())

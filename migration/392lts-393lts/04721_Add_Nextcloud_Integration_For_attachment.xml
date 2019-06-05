@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add connection with NextCloud / OwnCloud for Attachments" ReleaseNo="3.9.3" SeqNo="4710">
+  <Migration EntityType="D" Name="Add connection with NextCloud / OwnCloud for Attachments" ReleaseNo="3.9.3" SeqNo="4721">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="54542" Action="I" Record_ID="50010" Table="AD_AppSupport">
         <Data AD_Column_ID="91310" Column="UUID">fd2afb88-8295-11e9-b5a2-07f1f22c741c</Data>
@@ -3561,6 +3561,11 @@ Nota: Después de ejecutar el proceso todos los archivos del sistema serán alma
       <PO AD_Table_ID="101" Action="U" Record_ID="13073" Table="AD_Column">
         <Data AD_Column_ID="124" Column="IsMandatory" oldValue="true">false</Data>
         <Data AD_Column_ID="118" Column="FieldLength" oldValue="4000">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1790" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="54541" Table="AD_Table">
+        <Data AD_Column_ID="354" Column="AccessLevel" oldValue="4">6</Data>
       </PO>
     </Step>
   </Migration>

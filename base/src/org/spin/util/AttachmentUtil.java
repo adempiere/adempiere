@@ -90,14 +90,6 @@ public class AttachmentUtil {
 		if(instance == null) {
 			instance = new AttachmentUtil(context);
 		}
-		//	
-		instance.withImageId(0);
-		instance.withArchiveId(0);
-		instance.withAttachmentId(0);
-		instance.withFileName(null);
-		instance.withDescription(null);
-		instance.withNote(null);
-		instance.withData(null);
 		return instance;
 	}
 	
@@ -230,6 +222,8 @@ public class AttachmentUtil {
 	 */
 	public AttachmentUtil withAttachmentId(int attahcmentId ) {
 		this.attachmentId = attahcmentId;
+		this.imageId = 0;
+		this.archiveId = 0;
 		return this;
 	}
 	
@@ -240,6 +234,8 @@ public class AttachmentUtil {
 	 */
 	public AttachmentUtil withImageId(int imageId ) {
 		this.imageId = imageId;
+		this.archiveId = 0;
+		this.attachmentId = 0;
 		return this;
 	}
 	
@@ -250,6 +246,22 @@ public class AttachmentUtil {
 	 */
 	public AttachmentUtil withArchiveId(int archiveId ) {
 		this.archiveId = archiveId;
+		this.imageId = 0;
+		this.attachmentId = 0;
+		return this;
+	}
+	
+	/**
+	 * Clear
+	 * @return
+	 */
+	public AttachmentUtil clear() {
+		this.archiveId = 0;
+		this.imageId = 0;
+		this.attachmentId = 0;
+		this.fileName = null;
+		this.description = null;
+		this.note = null;
 		return this;
 	}
 	
