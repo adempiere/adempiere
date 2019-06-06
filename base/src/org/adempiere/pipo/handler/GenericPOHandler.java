@@ -31,6 +31,7 @@ import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.I_AD_Column;
 import org.compiere.model.I_AD_Element;
 import org.compiere.model.I_AD_EntityType;
+import org.compiere.model.I_AD_Ref_List;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MLookupInfo;
 import org.compiere.model.MSysConfig;
@@ -367,10 +368,36 @@ public class GenericPOHandler extends AbstractElementHandler {
 	 * @return
 	 */
 	private PO getCreatePOForMultyKey(Properties ctx, POInfo poInfo, Attributes atts, String trxName) {
+		MTable table = MTable.get(ctx, poInfo.getTableName());
 		String uuid = getUUIDValue(atts, poInfo.getTableName());
 		PO entity = new Query(ctx, poInfo.getTableName(), "UUID = ?", trxName)
 				.setParameters(uuid)
 				.first();
+		if(entity == null) {
+			List<Object> parameters = new ArrayList<>();
+			StringBuffer keyColumnNamesForWhereClause = new StringBuffer();
+			for(String keyColumn : table.getKeyColumns()) {
+				if(keyColumnNamesForWhereClause.length() > 0) {
+					keyColumnNamesForWhereClause.append(" AND ");
+				}
+				keyColumnNamesForWhereClause.append(keyColumn).append(" = ?");
+				String parentUuid = getUUIDValue(atts, keyColumn);
+				if(!Util.isEmpty(parentUuid)) {
+					String parentTableName = getParentTableName(ctx, poInfo.getAD_Column_ID(keyColumn), poInfo.getColumnDisplayType(poInfo.getColumnIndex(keyColumn)));
+					if(Util.isEmpty(parentTableName)) {
+						continue;
+					}
+					int parentId = getIdFromUUID(ctx, parentTableName, parentUuid);
+					parameters.add(parentId);
+				} else { 
+					PoFiller filler = new PoFiller(poInfo, atts);
+					parameters.add(filler.getValueFromType(keyColumn));
+				}
+			}
+			entity = new Query(ctx, poInfo.getTableName(), keyColumnNamesForWhereClause.toString(), trxName)
+					.setParameters(parameters)
+					.first();
+		}
 		//	Create by default
 		if(entity == null) {
 			entity = new GenericPO(poInfo.getTableName(), ctx, -1, trxName);
@@ -440,7 +467,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 		}
 		//	Validate list
 		if(DisplayType.List == displayType) {
-			return null;
+			return I_AD_Ref_List.Table_Name;
 		}
 		//	Create Parent
 		MLookupInfo info = MLookupFactory.getLookupInfo(ctx, 0, columnId, displayType);
