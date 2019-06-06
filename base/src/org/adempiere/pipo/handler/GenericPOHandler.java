@@ -367,21 +367,9 @@ public class GenericPOHandler extends AbstractElementHandler {
 	 * @return
 	 */
 	private PO getCreatePOForMultyKey(Properties ctx, POInfo poInfo, Attributes atts, String trxName) {
-		MTable table = MTable.get(ctx, poInfo.getTableName());
 		String uuid = getUUIDValue(atts, poInfo.getTableName());
-		List<Object> parameters = new ArrayList<>();
-		parameters.add(uuid);
-		StringBuffer keyColumnNames = new StringBuffer();
-		for(String keyColumn : table.getKeyColumns()) {
-			if(keyColumnNames.length() > 0) {
-				keyColumnNames.append(" AND ");
-			}
-			keyColumnNames.append(keyColumn).append(" = ?");
-			PoFiller filler = new PoFiller(poInfo, atts);
-			parameters.add(filler.getValueFromType(keyColumn));
-		}
-		PO entity = new Query(ctx, poInfo.getTableName(), "UUID = ? OR (" + keyColumnNames + ")", trxName)
-				.setParameters(parameters)
+		PO entity = new Query(ctx, poInfo.getTableName(), "UUID = ?", trxName)
+				.setParameters(uuid)
 				.first();
 		//	Create by default
 		if(entity == null) {
