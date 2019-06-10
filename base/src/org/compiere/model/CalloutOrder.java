@@ -16,6 +16,13 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Msg;
+
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,13 +30,6 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.Ini;
-import org.compiere.util.Msg;
 
 /**
  *	Order Callouts.
@@ -656,8 +656,6 @@ public class CalloutOrder extends CalloutEngine
 			{
 				//	Tax Included
 				mTab.setValue("IsTaxIncluded", new Boolean("Y".equals(rs.getString(1))));
-				//	Price Limit Enforce
-				Env.setContext(ctx, WindowNo, "EnforcePriceLimit", rs.getString(2));
 				//	Currency
 				Integer ii = new Integer(rs.getInt(3));
 				mTab.setValue("C_Currency_ID", ii);
@@ -764,7 +762,6 @@ public class CalloutOrder extends CalloutEngine
 		mTab.setValue("Discount", pp.getDiscount());
 		mTab.setValue("C_UOM_ID", new Integer(pp.getC_UOM_ID()));
 		mTab.setValue("QtyOrdered", mTab.getValue("QtyEntered"));
-		Env.setContext(ctx, WindowNo, "EnforcePriceLimit", pp.isEnforcePriceLimit() ? "Y" : "N");
 		Env.setContext(ctx, WindowNo, "DiscountSchema", pp.isDiscountSchema() ? "Y" : "N");
 		
 		//	Check/Update Warehouse Setting
@@ -1096,13 +1093,8 @@ public class CalloutOrder extends CalloutEngine
 		}
 		log.fine("PriceEntered=" + PriceEntered + ", Actual=" + PriceActual + ", Discount=" + Discount);
 
-		//	Check PriceLimit
-		String epl = Env.getContext(ctx, WindowNo, "EnforcePriceLimit");
-		boolean enforce = Env.isSOTrx(ctx, WindowNo) && epl != null && epl.equals("Y");
-		if (enforce && MRole.getDefault().isOverwritePriceLimit())
-			enforce = false;
 		//	Check Price Limit?
-		if (enforce && PriceLimit.doubleValue() != 0.0
+		if (MPriceList.isCheckPriceLimit(M_PriceList_ID) && PriceLimit.doubleValue() != 0.0
 		  && PriceActual.compareTo(PriceLimit) < 0)
 		{
 			PriceActual = PriceLimit;
@@ -1288,9 +1280,7 @@ public class CalloutOrder extends CalloutEngine
 				}
 			}
 		}
-		//
 		return "";
 	}	//	qty
-	
 }	//	CalloutOrder
 
