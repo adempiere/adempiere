@@ -332,8 +332,12 @@ public class MSession extends X_AD_Session
 		if(pinfo.isIgnoreMigration())
 			return;
 		// ignore statistic updates
-		if ( pinfo.getTableName().equalsIgnoreCase("AD_Process") && !po.is_new() && po.is_ValueChanged("Statistic_Count") )
+		if (pinfo.getTableName().equalsIgnoreCase("AD_Process") && !po.is_new() && po.is_ValueChanged("Statistic_Count"))
 			return;
+		//	Validate change
+		if(!po.is_Changed()) {
+			return;
+		}
 		
 		// Check that m_migration still points to a valid migration.  A merge during the session
 		// may have deleted the current migration.  If needed, create a new one.
