@@ -75,6 +75,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 		if(Util.isEmpty(uuid)
 			|| tableId == -1) {
 			element.skip = true;
+			return;
 		}
 		//	Fill attributes
 		POInfo poInfo = POInfo.getPOInfo(ctx, tableId, getTrxName(ctx));
@@ -90,6 +91,19 @@ public class GenericPOHandler extends AbstractElementHandler {
 			entity = getCreatePO(ctx, tableId, recordId, getTrxName(ctx));
 		} else { 
 			entity = getCreatePOForMultyKey(ctx, poInfo, atts, getTrxName(ctx));
+		}
+		//	Validate update time
+		long importTime = getLastUpdatedTime(atts);
+		long currentPOTime = 0;
+		if(entity.getUpdated() != null) {
+			currentPOTime = entity.getUpdated().getTime();
+		}
+		//	Validate it
+		if(currentPOTime > 0
+				&& importTime > 0
+				&& currentPOTime == importTime) {
+			element.skip = true;
+			return;
 		}
 		//	
 		int backupId;
@@ -420,6 +434,8 @@ public class GenericPOHandler extends AbstractElementHandler {
 		filler.addUUID();
 		filler.addString(TABLE_NAME_TAG,entity.get_TableName());
 		filler.addInt(TABLE_ID_TAG,entity.get_Table_ID());
+		//	Add last updated time
+		filler.addLastUpdatedTime();
 		for(int index = 0; index < poInfo.getColumnCount(); index++) {
 			//	No SQL
 			if(poInfo.isVirtualColumn(index)) {
