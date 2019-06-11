@@ -21,6 +21,7 @@ import java.util.Properties;
 
 import javax.xml.transform.sax.TransformerHandler;
 
+import org.adempiere.model.GenericPO;
 import org.adempiere.pipo.AbstractElementHandler;
 import org.adempiere.pipo.AttributeFiller;
 import org.adempiere.pipo.Element;
@@ -30,6 +31,7 @@ import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.I_AD_Column;
 import org.compiere.model.I_AD_Element;
 import org.compiere.model.I_AD_EntityType;
+import org.compiere.model.I_AD_Ref_List;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MLookupInfo;
 import org.compiere.model.MSysConfig;
@@ -83,7 +85,6 @@ public class GenericPOHandler extends AbstractElementHandler {
 			recordId = getIdFromUUID(ctx, tableName, uuid);
 		}
 		PO entity = null;
-		boolean isTranslation = false;
 		//	Multy-Key
 		if(poInfo.hasKeyColumn()) {
 			entity = getCreatePO(ctx, tableId, recordId, getTrxName(ctx));
@@ -151,8 +152,18 @@ public class GenericPOHandler extends AbstractElementHandler {
 			beforeSave(entity);
 			entity.saveEx(getTrxName(ctx));
 			int originalId = entity.get_ID();
-			if(isTranslation) {
-				originalId = entity.get_ValueAsInt(tableName.replaceAll("_Trl", "") + "_ID");
+			if(!poInfo.hasKeyColumn()) {
+				if(tableName.endsWith("_Trl")) {
+					originalId = entity.get_ValueAsInt(tableName.replaceAll("_Trl", "") + "_ID");
+				} else {
+					MTable table = MTable.get(ctx, tableName);
+					for(String keyColumn : table.getKeyColumns()) {
+						originalId = entity.get_ValueAsInt(keyColumn);
+						if(originalId > 0) {
+							break;
+						}
+					}
+				}
 			}
 			recordLog (ctx, 1, entity.get_ValueAsString(I_AD_Element.COLUMNNAME_UUID), getTagName(entity), originalId,
 						backupId, objectStatus,
@@ -359,20 +370,39 @@ public class GenericPOHandler extends AbstractElementHandler {
 	private PO getCreatePOForMultyKey(Properties ctx, POInfo poInfo, Attributes atts, String trxName) {
 		MTable table = MTable.get(ctx, poInfo.getTableName());
 		String uuid = getUUIDValue(atts, poInfo.getTableName());
-		List<Object> parameters = new ArrayList<>();
-		parameters.add(uuid);
-		StringBuffer keyColumnNames = new StringBuffer();
-		for(String keyColumn : table.getKeyColumns()) {
-			if(keyColumnNames.length() > 0) {
-				keyColumnNames.append(" AND ");
-			}
-			keyColumnNames.append(keyColumn).append(" = ?");
-			PoFiller filler = new PoFiller(poInfo, atts);
-			parameters.add(filler.getValueFromType(keyColumn));
-		}
-		return new Query(ctx, poInfo.getTableName(), "UUID = ? OR (" + keyColumnNames + ")", trxName)
-				.setParameters(parameters)
+		PO entity = new Query(ctx, poInfo.getTableName(), "UUID = ?", trxName)
+				.setParameters(uuid)
 				.first();
+		if(entity == null) {
+			List<Object> parameters = new ArrayList<>();
+			StringBuffer keyColumnNamesForWhereClause = new StringBuffer();
+			for(String keyColumn : table.getKeyColumns()) {
+				if(keyColumnNamesForWhereClause.length() > 0) {
+					keyColumnNamesForWhereClause.append(" AND ");
+				}
+				keyColumnNamesForWhereClause.append(keyColumn).append(" = ?");
+				String parentUuid = getUUIDValue(atts, keyColumn);
+				if(!Util.isEmpty(parentUuid)) {
+					String parentTableName = getParentTableName(ctx, poInfo.getAD_Column_ID(keyColumn), poInfo.getColumnDisplayType(poInfo.getColumnIndex(keyColumn)));
+					if(Util.isEmpty(parentTableName)) {
+						continue;
+					}
+					int parentId = getIdFromUUID(ctx, parentTableName, parentUuid);
+					parameters.add(parentId);
+				} else { 
+					PoFiller filler = new PoFiller(poInfo, atts);
+					parameters.add(filler.getValueFromType(keyColumn));
+				}
+			}
+			entity = new Query(ctx, poInfo.getTableName(), keyColumnNamesForWhereClause.toString(), trxName)
+					.setParameters(parameters)
+					.first();
+		}
+		//	Create by default
+		if(entity == null) {
+			entity = new GenericPO(poInfo.getTableName(), ctx, -1, trxName);
+		}
+		return entity;
 	}
 	
 	/**
@@ -437,7 +467,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 		}
 		//	Validate list
 		if(DisplayType.List == displayType) {
-			return null;
+			return I_AD_Ref_List.Table_Name;
 		}
 		//	Create Parent
 		MLookupInfo info = MLookupFactory.getLookupInfo(ctx, 0, columnId, displayType);
