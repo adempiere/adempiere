@@ -30,10 +30,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -55,11 +57,8 @@ import org.adempiere.pipo.handler.ModelValidatorElementHandler;
 import org.adempiere.pipo.handler.SQLStatementElementHandler;
 import org.adempiere.pipo.handler.TableElementHandler;
 import org.adempiere.pipo.handler.WorkflowElementHandler;
-import org.adempiere.pipo.handler.WorkflowNodeElementHandler;
-import org.adempiere.pipo.handler.WorkflowNodeNextConditionElementHandler;
-import org.adempiere.pipo.handler.WorkflowNodeNextElementHandler;
 import org.compiere.model.I_AD_Column;
-import org.compiere.model.I_AD_WF_Node;
+import org.compiere.model.I_AD_Menu;
 import org.compiere.model.I_AD_Workflow;
 import org.compiere.model.MColumn;
 import org.compiere.model.MSequence;
@@ -116,7 +115,6 @@ public class PackInHandler extends DefaultHandler {
 	private Map<String, ElementHandler>handlers = null;
 	private List<Element> menus = new ArrayList<Element>();
 	private List<Element> workflow = new ArrayList<Element>();
-	private List<Element> nodes = new ArrayList<Element>();
 	private List<DeferEntry> defer = new ArrayList<DeferEntry>();
 	private Stack<Element> stack = new Stack<Element>();
 	private List<Element> columns = new ArrayList<Element>();
@@ -180,9 +178,6 @@ public class PackInHandler extends DefaultHandler {
     	handlers.put("drow", dataHandler);
     	handlers.put("dcolumn", dataHandler);
     	handlers.put("workflow", new WorkflowElementHandler());
-    	handlers.put("workflowNode", new WorkflowNodeElementHandler());
-    	handlers.put("workflowNodeNext", new WorkflowNodeNextElementHandler());
-    	handlers.put("workflowNodeNextCondition", new WorkflowNodeNextConditionElementHandler());
     	handlers.put(GenericPOHandler.Column_TAG_Name, new TableElementHandler());
     	handlers.put(GenericPOHandler.TAG_Name, new GenericPOHandler());
     	handlers.put("codesnipit", new CodeSnipitElementHandler());
@@ -344,7 +339,7 @@ public class PackInHandler extends DefaultHandler {
 			m_ctx.put("LogDocument", logDocument);
 			m_ctx.put("PackInProcess", packIn);
 		}
-		else if (elementValue.equals("menu")) {
+		else if (elementValue.startsWith(GenericPOHandler.TAG_Name + "_" + I_AD_Menu.Table_Name)) {
 			//defer
 			Element e = new Element(uri, localName, qName, new AttributesImpl(atts));
 			if (stack.size() > 0)
@@ -357,16 +352,9 @@ public class PackInHandler extends DefaultHandler {
 			if (stack.size() > 0)
 				e.parent = stack.peek();
 			stack.push(e);
-			if (elementValue.equals("workflow"))
-			{
+			if (elementValue.startsWith(GenericPOHandler.TAG_Name + "_" + I_AD_Workflow.Table_Name)) {
 				workflow.add(e);
 			}
-			
-			if (elementValue.equals("workflowNode"))
-			{
-				nodes.add(e);
-			}
-			
 			if(elementValue.equals(GenericPOHandler.Column_TAG_Name)) {
 				columns.add(e);
 			}
@@ -618,57 +606,20 @@ public class PackInHandler extends DefaultHandler {
     				int workflowId = IDFinder.getIdFromUUID(Env.getCtx(), I_AD_Workflow.Table_Name, workflowUuid, clientId, trxName);
     				if(workflowId > 0) {
     					workflow = new MWorkflow(m_ctx, workflowId , trxName);
-    					int node_id = 0;
-    					
-    					String workFlowNodeName = AttributeFiller.getUUIDAttribute(I_AD_Workflow.COLUMNNAME_AD_WF_Node_ID);
-    					if (workFlowNodeName != null && workFlowNodeName.trim().length() > 0)  {
-    						MWFNode[] nodes = workflow.getNodes(false, clientId);
-    						for (MWFNode node : nodes) {
-    							if (node.getName().trim().equals(workFlowNodeName.trim())) {
-    								node_id = node.getAD_WF_Node_ID();
-    								workflow.setAD_WF_Node_ID(node_id);
-    								if (!workflow.save())
-    									System.out.println("Can not save Start Node "+ workFlowNodeName +"to Workflow " + workflowUuid +  " do not exist ");
-    							    break;
-    							}	
+    					String workFlowNodeUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_Workflow.COLUMNNAME_AD_WF_Node_ID));
+    					if (!Util.isEmpty(workFlowNodeUuid)) {
+    						List<MWFNode> nodesList = Arrays.asList(workflow.getNodes(false, clientId));
+    						Optional<MWFNode> optionalNode = nodesList.stream().filter(node -> node.getUUID().equals(workFlowNodeUuid)).findFirst();
+    						if(optionalNode.isPresent()) {
+    							workflow.setAD_WF_Node_ID(optionalNode.get().getAD_WF_Node_ID());
+								workflow.saveEx();
     						}
-    						
-    						if(node_id == 0) {
-    							System.out.println("Unresolved: Start Node to Workflow " + workflowUuid +  " do not exist ");	
-    						}
-    						else
-    						break;	
     					}
     					
     				}
         		}
         	}
         	//	
-        	if(nodes.size() > 0) {
-        		for (Element e : nodes) {
-    	    		Attributes atts = e.attributes;
-    	    		String nodeUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_WF_Node.Table_Name));
-    	    		MWFNode node = null;
-    	    		int id = IDFinder.getIdFromUUID(Env.getCtx(), I_AD_WF_Node.Table_Name, nodeUuid, clientId, trxName);
-    				if(id > 0) {
-    					node = new MWFNode(m_ctx, id , trxName);
-    					String workflowNodeUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_WF_Node.COLUMNNAME_Workflow_ID));
-    					if (!Util.isEmpty(workflowNodeUuid))  {
-    						int workflowId = IDFinder.getIdFromUUID(Env.getCtx(), I_AD_Workflow.Table_Name, workflowNodeUuid, clientId, trxName);	
-    						if (workflowId > 0) {
-    							node.setWorkflow_ID(workflowId);
-    							if(!node.save()) {
-    								System.out.println("can not save Workflow " + workflowNodeUuid );
-    							}
-    						} else {
-    							System.out.println("Unresolved: Workflow " + workflowNodeUuid +  " do not exist ");
-    						}
-    					}
-    						
-    				}
-        		}
-        	}
-        	
         	//	Columns
         	if(columns.size() > 0) {
         		for (Element e : columns) {

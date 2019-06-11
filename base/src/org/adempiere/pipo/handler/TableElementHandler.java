@@ -52,11 +52,15 @@ public class TableElementHandler extends GenericPOHandler {
 		//	Table
 		packOut.createGenericPO(document, I_AD_Table.Table_ID, tableId, true, null);
 		MTable table = MTable.get(ctx, tableId);
-		for(MColumn colunm : table.getColumns(true)) {
-			if(colunm.getAD_Reference_Value_ID() > 0) {
-				packOut.createReference(colunm.getAD_Reference_Value_ID(), document);
+		for(MColumn column : table.getColumns(true)) {
+			if(column.getAD_Reference_Value_ID() > 0) {
+				packOut.createReference(column.getAD_Reference_Value_ID(), document);
 			}
-			packOut.createGenericPO(document, I_AD_Column.Table_ID, colunm.getAD_Column_ID(), true, null);
+			//	Create Process
+			if(column.getAD_Process_ID() > 0) {
+				packOut.createProcess(column.getAD_Process_ID(), document);
+			}
+			packOut.createGenericPO(document, I_AD_Column.Table_ID, column.getAD_Column_ID(), true, null);
 		}
 		//	Create Sequence
 		MSequence sequence = MSequence.get(ctx, table.getTableName());
