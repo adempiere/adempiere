@@ -511,4 +511,13 @@ public abstract class AbstractElementHandler implements ElementHandler {
 		return new BigDecimal(getDoubleValue(atts, name, 0.0));
 	}
     
+	/**
+	 * Get value for long attribute of PO
+	 * @param atts
+	 * @return
+	 */
+	protected long getLastUpdatedTime(Attributes atts) {
+		return getLongValue(atts, AttributeFiller.getLastUpdatedTimeAttribute(), 0);
+	}
+	
 }
