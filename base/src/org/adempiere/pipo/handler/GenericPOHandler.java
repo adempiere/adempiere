@@ -32,10 +32,13 @@ import org.compiere.model.I_AD_Column;
 import org.compiere.model.I_AD_Element;
 import org.compiere.model.I_AD_EntityType;
 import org.compiere.model.I_AD_Ref_List;
+import org.compiere.model.I_AD_Tree;
+import org.compiere.model.I_AD_TreeNode;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MLookupInfo;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
+import org.compiere.model.MTree;
 import org.compiere.model.PO;
 import org.compiere.model.POInfo;
 import org.compiere.model.Query;
@@ -103,7 +106,8 @@ public class GenericPOHandler extends AbstractElementHandler {
 			//	Validate it
 			if(currentPOTime > 0
 					&& importTime > 0
-					&& currentPOTime >= importTime) {
+					&& currentPOTime >= importTime
+					&& !entity.is_new()) {
 				element.skip = true;
 				return;
 			}
@@ -163,6 +167,21 @@ public class GenericPOHandler extends AbstractElementHandler {
 			}
 			//	Add Standard
 			filler.setAttribute(columnName);
+		}
+		//	For tree node
+		String treeUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_Tree.COLUMNNAME_AD_Tree_ID));
+		String sourceUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_TreeNode.COLUMNNAME_Node_ID));
+		String parentUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_TreeNode.COLUMNNAME_Parent_ID));
+		if(!Util.isEmpty(treeUuid)
+				&& !Util.isEmpty(sourceUuid)) {
+			int treeId = getIdFromUUID(ctx, I_AD_Tree.Table_Name, treeUuid);
+			int parentId = getIdFromNodeUUID(ctx, tableName, parentUuid);
+			MTree tree = MTree.get(ctx, treeId, null);
+			MTable sourceTable = MTable.get(ctx, tree.getAD_Table_ID());
+			int nodeId = getIdFromUUID(ctx, sourceTable.getTableName(), sourceUuid);
+			entity.set_ValueOfColumn(I_AD_Tree.COLUMNNAME_AD_Tree_ID, treeId);
+			entity.set_ValueOfColumn(I_AD_TreeNode.COLUMNNAME_Node_ID, nodeId);
+			entity.set_ValueOfColumn(I_AD_TreeNode.COLUMNNAME_Parent_ID, parentId);
 		}
 		//	Save
 		try {
@@ -278,6 +297,8 @@ public class GenericPOHandler extends AbstractElementHandler {
 		}
 		//	 Create translation
 		createTranslation(ctx, document, entity);
+		//	Create Node
+		createTreeNode(ctx, document, entity);
 	}
 	
 	/**
@@ -402,7 +423,22 @@ public class GenericPOHandler extends AbstractElementHandler {
 				if(!Util.isEmpty(parentUuid)) {
 					String parentTableName = getParentTableName(ctx, poInfo.getAD_Column_ID(keyColumn), poInfo.getColumnDisplayType(poInfo.getColumnIndex(keyColumn)));
 					if(Util.isEmpty(parentTableName)) {
-						continue;
+						//	For tree
+						String treeUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_Tree.COLUMNNAME_AD_Tree_ID));
+						String sourceUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_TreeNode.COLUMNNAME_Node_ID));
+						if(!Util.isEmpty(treeUuid)
+								&& !Util.isEmpty(sourceUuid)) {
+							int treeId = getIdFromUUID(ctx, I_AD_Tree.Table_Name, treeUuid);
+							MTree tree = MTree.get(ctx, treeId, null);
+							MTable sourceTable = MTable.get(ctx, tree.getAD_Table_ID());
+							parentTableName = sourceTable.getTableName();
+							int nodeId = getIdFromUUID(ctx, parentTableName, sourceUuid);
+							if(nodeId <= 0) {
+								continue;
+							}
+						} else {
+							continue;
+						}
 					}
 					int parentId = getIdFromUUID(ctx, parentTableName, parentUuid);
 					parameters.add(parentId);
@@ -416,8 +452,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 					.first();
 		}
 		//	Create by default
-		if(entity == null
-				|| entity.get_ID() == 0) {
+		if(entity == null) {
 			entity = new GenericPO(poInfo.getTableName(), ctx, -1, trxName);
 		}
 		return entity;
@@ -468,6 +503,21 @@ public class GenericPOHandler extends AbstractElementHandler {
 			String foreignUuid = getParentUuid(ctx, poInfo.getAD_Column_ID(columnName), poInfo.getColumnDisplayType(index), columnName, entity);
 			if(!Util.isEmpty(foreignUuid)) {
 				filler.addString(AttributeFiller.getUUIDAttribute(columnName), foreignUuid);
+			}
+			//	For Tree Node Tables
+			if(columnName.equals(I_AD_Tree.COLUMNNAME_AD_Tree_ID)) {
+				int treeId = entity.get_ValueAsInt(columnName);
+				if(treeId > 0) {
+					int nodeId = entity.get_ValueAsInt(I_AD_TreeNode.COLUMNNAME_Node_ID);
+					int parentId = entity.get_ValueAsInt(I_AD_TreeNode.COLUMNNAME_Parent_ID);
+					MTree tree = MTree.get(ctx, treeId, null);
+					MTable sourceTable = MTable.get(ctx, tree.getAD_Table_ID());
+					String sourceUuid = getUUIDFromId(ctx, sourceTable.getTableName(), nodeId);
+					String parentUuid = getUUIDFromNodeId(ctx, entity.get_TableName(), parentId);
+					//	Set
+					filler.addString(AttributeFiller.getUUIDAttribute(I_AD_TreeNode.COLUMNNAME_Node_ID), sourceUuid);
+					filler.addString(AttributeFiller.getUUIDAttribute(I_AD_TreeNode.COLUMNNAME_Parent_ID), parentUuid);
+				}
 			}
 		}
 		//	Return Attributes
@@ -571,5 +621,39 @@ public class GenericPOHandler extends AbstractElementHandler {
 		for(PO translation : translationList) {
 			create(ctx, document, translation);
 		}
+	}
+	
+	/**
+	 * Create Tree Node
+	 * @param ctx
+	 * @param entity
+	 * @param document
+	 * @throws SAXException 
+	 */
+	public void createTreeNode(Properties ctx, TransformerHandler document, PO entity) throws SAXException {
+		int tableId = entity.get_Table_ID();
+		if (!MTree.hasTree(tableId)) {
+			return;
+		}
+		int treeId = MTree.getDefaultTreeIdFromTableId(entity.getAD_Client_ID(), tableId);
+		if(treeId < 0) {
+			return;
+		}
+		//	Get Node Table Name
+		String treeNodeTableName = MTree.getNodeTableName(tableId);
+		if(Util.isEmpty(treeNodeTableName)) {
+			return;
+		}
+		//	Get Node
+		PO nodeEntity = new Query(ctx, treeNodeTableName, "AD_Tree_ID = ? AND Node_ID = ?", null)
+			.setParameters(treeId, entity.get_ID())
+			.first();
+		//	Validate if exists
+		if(nodeEntity == null
+				|| nodeEntity.get_ID() == 0) {
+			return;
+		}
+		//	Create
+		create(ctx, document, nodeEntity);
 	}
 }

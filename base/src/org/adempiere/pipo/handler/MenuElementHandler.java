@@ -24,7 +24,6 @@ import org.adempiere.pipo.PackOut;
 import org.compiere.model.I_AD_Menu;
 import org.compiere.model.MMenu;
 import org.compiere.model.MTree;
-import org.compiere.model.MTree_NodeMM;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.xml.sax.SAXException;
@@ -52,12 +51,9 @@ public class MenuElementHandler extends GenericPOHandler {
 		PackOut packOut = (PackOut)ctx.get("PackOutProcess");
 		MMenu menu = MMenu.getFromId(ctx, menuId);
 		int defaultTreeId = MTree.getDefaultTreeIdFromTableId(menu.getAD_Client_ID(), I_AD_Menu.Table_ID);
-		MTree_NodeMM node = MTree_NodeMM.get(MTree.get(Env.getCtx(), defaultTreeId, null), menu.getAD_Menu_ID());
 		if(menu.isSummary()) {
 			//	Create Menu
 			packOut.createGenericPO(document, menu);
-			//	Create Node
-			packOut.createGenericPO(document, node);
 			String childSQL = "SELECT m.AD_Menu_ID "
 					+ "FROM AD_Menu m "
 					+ "WHERE EXISTS(SELECT 1 FROM AD_TreeNodeMM tnm "
@@ -103,8 +99,6 @@ public class MenuElementHandler extends GenericPOHandler {
 			}
 			//	Create Menu
 			packOut.createGenericPO(document, menu);
-			//	Create Node
-			packOut.createGenericPO(document, node);
 			// Call CreateModule because entry is a summary menu
 		}
 	}

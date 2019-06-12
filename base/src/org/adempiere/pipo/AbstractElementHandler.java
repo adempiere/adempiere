@@ -66,6 +66,17 @@ public abstract class AbstractElementHandler implements ElementHandler {
 	}
 	
 	/**
+	 * get Id from Node UUID
+	 * @param ctx
+	 * @param tableName
+	 * @param uuid
+	 * @return
+	 */
+	public int getIdFromNodeUUID(Properties ctx, String tableName, String uuid) {
+		return IDFinder.getIdFromNodeUUID(tableName, uuid, getTrxName(ctx));
+	}
+	
+	/**
 	 * Get UUID from id
 	 * @param ctx
 	 * @param tableName
@@ -74,6 +85,17 @@ public abstract class AbstractElementHandler implements ElementHandler {
 	 */
 	public String getUUIDFromId(Properties ctx, String tableName, int value) {
 		return IDFinder.getUUIDFromId(tableName, value, getClientId(ctx), getTrxName(ctx));
+	}
+	
+	/**
+	 * Get Node UUID from Node ID
+	 * @param ctx
+	 * @param tableName
+	 * @param value
+	 * @return
+	 */
+	public String getUUIDFromNodeId(Properties ctx, String tableName, int value) {
+		return IDFinder.getUUIDFromNodeId(tableName, value, getTrxName(ctx));
 	}
 	
 	/**

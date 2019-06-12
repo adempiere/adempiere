@@ -52,11 +52,9 @@ import org.adempiere.pipo.handler.DataElementHandler;
 import org.adempiere.pipo.handler.DistFileElementHandler;
 import org.adempiere.pipo.handler.EntityTypeElementHandler;
 import org.adempiere.pipo.handler.GenericPOHandler;
-import org.adempiere.pipo.handler.MenuElementHandler;
 import org.adempiere.pipo.handler.ModelValidatorElementHandler;
 import org.adempiere.pipo.handler.SQLStatementElementHandler;
 import org.adempiere.pipo.handler.TableElementHandler;
-import org.adempiere.pipo.handler.WorkflowElementHandler;
 import org.compiere.model.I_AD_Column;
 import org.compiere.model.I_AD_Menu;
 import org.compiere.model.I_AD_Workflow;
@@ -113,7 +111,7 @@ public class PackInHandler extends DefaultHandler {
 	private Properties  m_ctx = null;
 
 	private Map<String, ElementHandler>handlers = null;
-	private List<Element> menus = new ArrayList<Element>();
+//	private List<Element> menus = new ArrayList<Element>();
 	private List<Element> workflow = new ArrayList<Element>();
 	private List<DeferEntry> defer = new ArrayList<DeferEntry>();
 	private Stack<Element> stack = new Stack<Element>();
@@ -171,13 +169,11 @@ public class PackInHandler extends DefaultHandler {
 	private void setupHandlers() {
 		DataElementHandler dataHandler = new DataElementHandler();
     	handlers = new HashMap<String, ElementHandler>();
-    	handlers.put("menu", new MenuElementHandler());
     	handlers.put("adempieredata", dataHandler);
     	handlers.put("data", dataHandler);
     	handlers.put("dtable", dataHandler);
     	handlers.put("drow", dataHandler);
     	handlers.put("dcolumn", dataHandler);
-    	handlers.put("workflow", new WorkflowElementHandler());
     	handlers.put(GenericPOHandler.Column_TAG_Name, new TableElementHandler());
     	handlers.put(GenericPOHandler.TAG_Name, new GenericPOHandler());
     	handlers.put("codesnipit", new CodeSnipitElementHandler());
@@ -339,15 +335,15 @@ public class PackInHandler extends DefaultHandler {
 			m_ctx.put("LogDocument", logDocument);
 			m_ctx.put("PackInProcess", packIn);
 		}
-		else if (elementValue.startsWith(GenericPOHandler.TAG_Name + "_" + I_AD_Menu.Table_Name)) {
-			//defer
-			Element e = new Element(uri, localName, qName, new AttributesImpl(atts));
-			if (stack.size() > 0)
-				e.parent = stack.peek();
-			stack.push(e);
-			menus.add(e);
-		}
-		else {
+//		else if (elementValue.startsWith(GenericPOHandler.TAG_Name + "_" + I_AD_Menu.Table_Name)) {
+//			//defer
+//			Element e = new Element(uri, localName, qName, new AttributesImpl(atts));
+//			if (stack.size() > 0)
+//				e.parent = stack.peek();
+//			stack.push(e);
+//			menus.add(e);
+//		}
+//		else {
 			Element e = new Element(uri, localName, qName, new AttributesImpl(atts));
 			if (stack.size() > 0)
 				e.parent = stack.peek();
@@ -369,7 +365,7 @@ public class PackInHandler extends DefaultHandler {
 			if (e.defer) {
 				defer.add(new DeferEntry(e, true));
 			}
-		}	
+//		}	
 	}   // startElement
     
 	/**
@@ -576,7 +572,7 @@ public class PackInHandler extends DefaultHandler {
     	
     	if (elementValue.equals("adempiereAD")){
     		processDeferElements();
-    		processMenuElements();
+//    		processMenuElements();
     		if (!PK_Status.equals("Completed with errors"))
     			PK_Status = "Completed successfully";
     		
@@ -670,15 +666,15 @@ public class PackInHandler extends DefaultHandler {
     	
     }   // endElement
     
-    private void processMenuElements() throws SAXException {
-    	ElementHandler handler = handlers.get("menu");
-		if (menus.size() > 0 && handler != null) {
-			for (Element e : menus) {
-				handler.startElement(m_ctx, e);
-				handler.endElement(m_ctx, e);
-			}
-		}
-	}
+//    private void processMenuElements() throws SAXException {
+//    	ElementHandler handler = handlers.get("menu");
+//		if (menus.size() > 0 && handler != null) {
+//			for (Element e : menus) {
+//				handler.startElement(m_ctx, e);
+//				handler.endElement(m_ctx, e);
+//			}
+//		}
+//	}
     
     private void processDeferElements() throws SAXException {
     	if (defer.isEmpty()) return;
