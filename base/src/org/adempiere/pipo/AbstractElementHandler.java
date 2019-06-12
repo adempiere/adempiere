@@ -457,7 +457,7 @@ public abstract class AbstractElementHandler implements ElementHandler {
 		String value = atts.getValue(name);
 		if (Util.isEmpty(value, true))
 			return defaultValue;
-		 long i = Integer.parseInt(value.trim());
+		 long i = Long.parseLong(value.trim());
 		 return i;
 	}
     
