@@ -23,7 +23,6 @@ import java.util.Properties;
 import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.PackOut;
-import org.compiere.model.I_AD_Column;
 import org.compiere.model.I_AD_Sequence;
 import org.compiere.model.I_AD_Table;
 import org.compiere.model.I_AD_Table_Process;
@@ -60,7 +59,7 @@ public class TableElementHandler extends GenericPOHandler {
 			if(column.getAD_Process_ID() > 0) {
 				packOut.createProcess(column.getAD_Process_ID(), document);
 			}
-			packOut.createGenericPO(document, I_AD_Column.Table_ID, column.getAD_Column_ID(), true, null);
+			packOut.createGenericPO(document, column, true, null);
 		}
 		//	Create Sequence
 		MSequence sequence = MSequence.get(ctx, table.getTableName());
