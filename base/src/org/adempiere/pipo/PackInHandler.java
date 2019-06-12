@@ -55,8 +55,8 @@ import org.adempiere.pipo.handler.GenericPOHandler;
 import org.adempiere.pipo.handler.ModelValidatorElementHandler;
 import org.adempiere.pipo.handler.SQLStatementElementHandler;
 import org.adempiere.pipo.handler.TableElementHandler;
+import org.adempiere.pipo.handler.WorkflowElementHandler;
 import org.compiere.model.I_AD_Column;
-import org.compiere.model.I_AD_Menu;
 import org.compiere.model.I_AD_Workflow;
 import org.compiere.model.MColumn;
 import org.compiere.model.MSequence;
@@ -170,6 +170,7 @@ public class PackInHandler extends DefaultHandler {
 		DataElementHandler dataHandler = new DataElementHandler();
     	handlers = new HashMap<String, ElementHandler>();
     	handlers.put("adempieredata", dataHandler);
+    	handlers.put(GenericPOHandler.TAG_Name + "_" + I_AD_Workflow.Table_Name, new WorkflowElementHandler());
     	handlers.put("data", dataHandler);
     	handlers.put("dtable", dataHandler);
     	handlers.put("drow", dataHandler);

@@ -26,6 +26,7 @@ import org.adempiere.pipo.PackOut;
 import org.compiere.model.I_AD_WF_NextCondition;
 import org.compiere.model.I_AD_WF_Node;
 import org.compiere.model.I_AD_WF_NodeNext;
+import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.util.Env;
@@ -40,6 +41,7 @@ import org.xml.sax.SAXException;
  * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
  */
 public class WorkflowElementHandler extends GenericPOHandler {
+	@Override
 	public void create(Properties ctx, TransformerHandler document) throws SAXException {
 		int workflowId = Env.getContextAsInt(ctx, X_AD_Package_Exp_Detail.COLUMNNAME_AD_Workflow_ID);
 		PackOut packOut = (PackOut) ctx.get("PackOutProcess");
@@ -103,5 +105,10 @@ public class WorkflowElementHandler extends GenericPOHandler {
 				}
 			}
 		}
+	}
+	
+	@Override
+	protected void beforeSave(PO entity) {
+		entity.set_ValueOfColumn("AD_WF_Node_ID", null);
 	}
 }
