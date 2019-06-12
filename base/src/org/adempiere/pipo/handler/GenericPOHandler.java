@@ -413,7 +413,8 @@ public class GenericPOHandler extends AbstractElementHandler {
 					.first();
 		}
 		//	Create by default
-		if(entity == null) {
+		if(entity == null
+				|| entity.get_ID() == 0) {
 			entity = new GenericPO(poInfo.getTableName(), ctx, -1, trxName);
 		}
 		return entity;
