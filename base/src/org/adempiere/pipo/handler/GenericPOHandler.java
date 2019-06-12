@@ -98,12 +98,15 @@ public class GenericPOHandler extends AbstractElementHandler {
 		if(entity.getUpdated() != null) {
 			currentPOTime = entity.getUpdated().getTime();
 		}
-		//	Validate it
-		if(currentPOTime > 0
-				&& importTime > 0
-				&& currentPOTime == importTime) {
-			element.skip = true;
-			return;
+		//	Validate update time
+		if(!Env.getContext(ctx, "UpdateMode").equals("true")) {
+			//	Validate it
+			if(currentPOTime > 0
+					&& importTime > 0
+					&& currentPOTime >= importTime) {
+				element.skip = true;
+				return;
+			}
 		}
 		//	
 		int backupId;
