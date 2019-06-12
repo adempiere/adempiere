@@ -165,6 +165,13 @@ public class GenericPOHandler extends AbstractElementHandler {
 					}
 				}
 			}
+			//	Multy-Key UUID
+			if(columnName.equals(I_AD_Element.COLUMNNAME_UUID)
+					&& !poInfo.hasKeyColumn()) {
+				if(!Util.isEmpty(entity.get_UUID())) {
+					continue;
+				}
+			}
 			//	Add Standard
 			filler.setAttribute(columnName);
 		}

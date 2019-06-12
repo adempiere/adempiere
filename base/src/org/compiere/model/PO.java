@@ -635,7 +635,8 @@ public abstract class PO
 			log.log(Level.WARNING, "Index invalid - " + index);
 			return false;
 		}
-		if (m_newValues[index] == null)
+		if (m_newValues[index] == null
+				|| m_newValues[index].equals(Null.NULL))
 			return false;
 		return !m_newValues[index].equals(m_oldValues[index]);
 	}   //  is_ValueChanged
