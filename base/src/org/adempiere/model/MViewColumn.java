@@ -23,7 +23,7 @@ import java.util.Properties;
 import org.compiere.model.I_AD_Column;
 import org.compiere.model.MColumn;
 import org.compiere.model.Query;
-import org.compiere.util.CLogger;
+import org.compiere.util.CCache;
 import org.compiere.util.DB;
 
 /**
@@ -39,11 +39,10 @@ public class MViewColumn extends X_AD_View_Column {
 	 * 
 	 */
 	private static final long serialVersionUID = 1829379740863651306L;
-	/** Logger **/
-	private static CLogger s_log = CLogger.getCLogger(MViewColumn.class);
 	/** MColumn **/
 	private MColumn m_column = null;
-	
+	/** Static Cache */
+	private static CCache<Integer, MViewColumn> viewColumnCacheIds = new CCache<Integer, MViewColumn>(Table_Name, 30);
 	/**
 	 * Get View column based on Column
 	 * @param view
@@ -175,4 +174,29 @@ public class MViewColumn extends X_AD_View_Column {
 		DB.executeUpdate("DELETE FROM AD_View_Column_Trl WHERE AD_View_Column_ID=? ", getAD_View_Column_ID(),get_TrxName());
 		return true;
 	}	//	beforeDelete
+	
+	
+	/**
+	 * Get/Load View Column[CACHED]
+	 * @param ctx context
+	 * @param viewColumnId
+	 * @param trxName
+	 * @return activity or null
+	 */
+	public static MViewColumn getById(Properties ctx, int viewColumnId, String trxName) {
+		if (viewColumnId <= 0)
+			return null;
+
+		MViewColumn viewColumn = viewColumnCacheIds.get(viewColumnId);
+		if (viewColumn != null && viewColumn.get_ID() > 0)
+			return viewColumn;
+
+		viewColumn = new Query(ctx , Table_Name , COLUMNNAME_AD_View_Column_ID + "=?" , trxName)
+				.setParameters(viewColumnId)
+				.first();
+		if (viewColumn != null && viewColumn.get_ID() > 0) {
+			viewColumnCacheIds.put(viewColumn.get_ID(), viewColumn);
+		}
+		return viewColumn;
+	}
 }

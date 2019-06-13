@@ -116,6 +116,21 @@ public interface I_C_Commission
 	  */
 	public int getC_Commission_ID();
 
+    /** Column name C_CommissionType_ID */
+    public static final String COLUMNNAME_C_CommissionType_ID = "C_CommissionType_ID";
+
+	/** Set Commission Type.
+	  * Defined for custom query on commission
+	  */
+	public void setC_CommissionType_ID (int C_CommissionType_ID);
+
+	/** Get Commission Type.
+	  * Defined for custom query on commission
+	  */
+	public int getC_CommissionType_ID();
+
+	public org.compiere.model.I_C_CommissionType getC_CommissionType() throws RuntimeException;
+
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
 
