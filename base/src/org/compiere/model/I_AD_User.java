@@ -413,6 +413,19 @@ public interface I_AD_User
 	  */
 	public boolean isFullBPAccess();
 
+    /** Column name IsIncludeOwnChanges */
+    public static final String COLUMNNAME_IsIncludeOwnChanges = "IsIncludeOwnChanges";
+
+	/** Set Notify me my own changes.
+	  * I want to be notified of changes that I make myself
+	  */
+	public void setIsIncludeOwnChanges (boolean IsIncludeOwnChanges);
+
+	/** Get Notify me my own changes.
+	  * I want to be notified of changes that I make myself
+	  */
+	public boolean isIncludeOwnChanges();
+
     /** Column name IsInPayroll */
     public static final String COLUMNNAME_IsInPayroll = "IsInPayroll";
 

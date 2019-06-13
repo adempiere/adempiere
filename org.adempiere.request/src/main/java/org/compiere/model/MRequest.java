@@ -1127,7 +1127,7 @@ public class MRequest extends X_R_Request
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
-				int AD_User_ID = rs.getInt(1);
+				int userId = rs.getInt(1);
 				String notificationType = rs.getString(2);
 				if (notificationType == null)
 					notificationType = X_AD_User.NOTIFICATIONTYPE_EMail;
@@ -1139,7 +1139,8 @@ public class MRequest extends X_R_Request
 					roleId = -1;
 				
 				//	Don't send mail to oneself
-				if (AD_User_ID == updatedBy)
+				if (userId == updatedBy
+						&& !from.isIncludeOwnChanges())
 					continue;
 				
 				//	No confidential to externals
@@ -1173,12 +1174,12 @@ public class MRequest extends X_R_Request
 				}
 
 				//	Check duplicate receivers
-				Integer ii = new Integer (AD_User_ID);
+				Integer ii = new Integer (userId);
 				if (userList.contains(ii))
 					continue;
 				userList.add(ii);
 				//
-				MUser to = MUser.get (getCtx(), AD_User_ID);
+				MUser to = MUser.get (getCtx(), userId);
 				//	Send Mail
 				if (X_AD_User.NOTIFICATIONTYPE_EMail.equals(notificationType)
 					|| X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(notificationType))
@@ -1202,7 +1203,7 @@ public class MRequest extends X_R_Request
 					|| X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(notificationType))
 				{
 					int AD_Message_ID = 834;
-					MNote note = new MNote(getCtx(), AD_Message_ID, AD_User_ID,
+					MNote note = new MNote(getCtx(), AD_Message_ID, userId,
 						X_R_Request.Table_ID, getR_Request_ID(),
 						subject, message, get_TrxName());
 					if (note.save())
