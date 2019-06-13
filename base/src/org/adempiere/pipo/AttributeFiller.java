@@ -60,8 +60,41 @@ public class AttributeFiller {
 		atts.addAttribute("", "", name, "CDATA",  String.valueOf(value));
 	}
 	
+	/**
+	 * Add int value
+	 * @param name
+	 * @param value
+	 */
+	public void addLong(String name, long value){
+		atts.addAttribute("", "", name, "CDATA",  String.valueOf(value));
+	}
+	
+	/**
+	 * Add Last Updated
+	 */
+	public void addLastUpdatedTime() {
+		long time = 0;
+		if(po.getUpdated() != null) {
+			time = po.getUpdated().getTime();
+		}
+		addLong(getLastUpdatedTimeAttribute(), time);
+	}
+	
+	/**
+	 * Get UUID Attribute from name
+	 * @param name
+	 * @return
+	 */
 	public static String getUUIDAttribute(String name) {
 		return (name + I_AD_Element.COLUMNNAME_UUID);
+	}
+	
+	/**
+	 * get Last Updated Time Attribute
+	 * @return
+	 */
+	public static String getLastUpdatedTimeAttribute() {
+		return "Last_" + I_AD_Element.COLUMNNAME_Updated;
 	}
 
 	/**
