@@ -2190,5 +2190,25 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="330">360</Data>
       </PO>
     </Step>
+    <Step SeqNo="900" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="50005" Table="AD_Table">
+        <Data AD_Column_ID="354" Column="AccessLevel" oldValue="4">6</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="910" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="50006" Table="AD_Table">
+        <Data AD_Column_ID="354" Column="AccessLevel" oldValue="4">6</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="920" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="50003" Table="AD_Table">
+        <Data AD_Column_ID="354" Column="AccessLevel" oldValue="4">6</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="930" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="50008" Table="AD_Table">
+        <Data AD_Column_ID="354" Column="AccessLevel" oldValue="4">6</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>
