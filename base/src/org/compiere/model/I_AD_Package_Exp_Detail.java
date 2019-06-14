@@ -173,6 +173,21 @@ public interface I_AD_Package_Exp_Detail
 	/** Get Old Package Code	  */
 	public String getAD_Package_Code_Old();
 
+    /** Column name AD_Package_Exp_Custom_ID */
+    public static final String COLUMNNAME_AD_Package_Exp_Custom_ID = "AD_Package_Exp_Custom_ID";
+
+	/** Set Package Custom Exporter.
+	  * Custom Exporter for any entity
+	  */
+	public void setAD_Package_Exp_Custom_ID (int AD_Package_Exp_Custom_ID);
+
+	/** Get Package Custom Exporter.
+	  * Custom Exporter for any entity
+	  */
+	public int getAD_Package_Exp_Custom_ID();
+
+	public org.spin.model.I_AD_Package_Exp_Custom getAD_Package_Exp_Custom() throws RuntimeException;
+
     /** Column name AD_Package_Exp_Detail_ID */
     public static final String COLUMNNAME_AD_Package_Exp_Detail_ID = "AD_Package_Exp_Detail_ID";
 

@@ -78,6 +78,7 @@ import org.compiere.model.X_AD_Element;
 import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.model.X_AD_Reference;
 import org.compiere.util.Env;
+import org.spin.model.MADPackageExpCustom;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
@@ -274,34 +275,34 @@ public class PackOut extends PackOutAbstract {
 				Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID, detail.getAD_EntityType_ID());
 				//
 				log.info("Line = " + detail.getLine());
-				if (type.compareTo("M") == 0){
+				if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_ApplicationOrModule) == 0){
 					createMenu(detail.getAD_Menu_ID(), packOutDocument );
 				}
-				else if (type.compareTo("P") == 0)
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_ProcessReport) == 0)
 					createProcess (detail.getAD_Process_ID(), packOutDocument );
-				else if (type.compareTo("R") == 0)
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_ReportView) == 0)
 					createReportview (detail.getAD_ReportView_ID(), packOutDocument );
-				else if (type.compareTo("D") == 0)
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Data) == 0)
 					createData (detail.getAD_Table_ID(), detail.getSQLStatement(), packOutDocument );
-				else if (type.compareTo("T") == 0)
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Table) == 0)
 					createTable (detail.getAD_Table_ID(), packOutDocument);
-				else if (type.compareTo("X") == 0)
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Form) == 0)
 					createForm (detail.getAD_Form_ID(), packOutDocument);
-				else if (type.compareTo("W") == 0)
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Window) == 0)
 					createWindow (detail.getAD_Window_ID(), packOutDocument);	
-				else if (type.compareTo("SV") == 0)
-					createView (detail.getAD_View_ID(), packOutDocument);	
-				else if (type.compareTo("SB") == 0)
-					createBrowse (detail.getAD_Browse_ID(), packOutDocument);						
-				else if (type.compareTo("S") == 0)
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_SmartBrowse) == 0)
+					createBrowse (detail.getAD_Browse_ID(), packOutDocument);
+				else if(type.equals(X_AD_Package_Exp_Detail.TYPE_SmartView))
+					createView(detail.getAD_ReportView_ID(), packOutDocument);
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Role) == 0)
 					createRoles (detail.getAD_Role_ID(), packOutDocument);
-				else if (type.compareTo("SQL") == 0)
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_SQLStatement) == 0)
 					createSQL (detail.getSQLStatement(), detail.getDBType(), packOutDocument);
-				else if (type.compareTo("IMP") == 0)
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_ImportFormat) == 0)
 					createImpFormat (detail.getAD_ImpFormat_ID(), packOutDocument);
-				else if (type.compareTo("REF") == 0)
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Reference) == 0)
 					createReference (detail.getAD_Reference_ID(), packOutDocument);
-				else if (type.compareTo("SNI") == 0)						
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_CodeSnipit) == 0)						
 					createSnipit(
 							detail.getDestination_Directory(),
 							detail.getDestination_FileName(),
@@ -309,21 +310,23 @@ public class PackOut extends PackOutAbstract {
 							detail.getAD_Package_Code_New(),
 							detail.getReleaseNo(),
 							packOutDocument);
-				else if (type.compareTo("F") == 0)
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Workflow) == 0)
 					createWorkflow (detail.getAD_Workflow_ID(), packOutDocument);
-				else if (type.compareTo("V") == 0)
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_DynamicValidationRule) == 0)
 					createDynamicRuleValidation(detail.getAD_Val_Rule_ID(), packOutDocument);
-				else if (type.compareTo("MSG") == 0)
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Message) == 0)
 					createMessage(detail.getAD_Message_ID(), packOutDocument);
-				else if (type.compareTo("PFT") == 0)
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_PrintFormat) == 0)
 					createPrintFormat(detail.getAD_PrintFormat_ID(), packOutDocument);
 				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_ModelValidator) == 0)
 					createModelValidator(detail.getAD_ModelValidator_ID(), packOutDocument);
 				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_EntityType) == 0)
 					createEntityType(detail.getAD_EntityType_ID(), packOutDocument);
-				else if(type.compareTo("ASP") == 0) 
-					createASPModule(detail.get_ValueAsInt("ASP_Module_ID"), packOutDocument);
-				else if (type.compareTo("C") == 0){
+				else if(type.compareTo(X_AD_Package_Exp_Detail.TYPE_ASPModule) == 0) 
+					createASPModule(detail.getASP_Module_ID(), packOutDocument);
+				else if(type.equals(X_AD_Package_Exp_Detail.TYPE_CustomExport))
+					createCustomExport(detail.getAD_Package_Exp_Custom_ID(), packOutDocument);
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_File_CodeOrOther) == 0) {
 					log.log(Level.INFO,"In PackOut.java handling Code or Other 2pack module creation");
 					
 					String fullDirectory = exportPackage.getFile_Directory() + exportPackage.getName() + detail.getTarget_Directory();
@@ -399,9 +402,6 @@ public class PackOut extends PackOutAbstract {
 			//	Remove Entity Type from context
 			getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID);
 			atts.clear();
-			//no longer use
-			//packOutDocument.startElement("","","menuset",atts);
-			//packOutDocument.endElement("","","menuset");
 			packOutDocument.endElement("","","adempiereAD");
 			packOutDocument.endDocument();packageDocument.endElement("","","adempiereDocument");
 			packageDocument.endDocument();
@@ -844,6 +844,21 @@ public class PackOut extends PackOutAbstract {
 		getCtx().remove(I_ASP_Module.COLUMNNAME_ASP_Module_ID);
 	}
 	
+	/**
+	 * Create custom export
+	 * @throws Exception 
+	 */
+	private void createCustomExport(int exporterId, TransformerHandler packOutDocument) throws Exception {
+		MADPackageExpCustom exporter = MADPackageExpCustom.getById(getCtx(), exporterId, null);
+		if(exporter == null) {
+			return;
+		}
+		//	Export it
+		GenericPOHandler handler = exporter.getExporterInstance();
+		if(handler != null) {
+			handler.create(getCtx(), packOutDocument);
+		}
+	}
 	
 	/**
 	 * Create for generic PO
