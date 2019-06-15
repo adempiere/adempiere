@@ -19,6 +19,7 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
@@ -160,10 +161,28 @@ public class MMailText extends X_R_MailText
 		//	Parse BP
 		text = parse (text, getEntity(I_C_BPartner.Table_Name));
 		//	Parse PO
-		text = parse (text, null);
+		text = parse(text, null);
+		//	Parse All
 		//
 		return text;
 	}	//	parse
+	
+	/**
+	 * Parse for all entity
+	 * @param token
+	 * @return
+	 */
+	private String parseVariable(String token) {
+		String value = null;
+		for(Entry<String, PO> entry : entityMap.entrySet()) {
+			value = parseVariable(token, entry.getValue());
+			if(!Util.isEmpty(value)) {
+				return value;
+			}
+		}
+		//	Return
+		return value;
+	}
 	
 	/**
 	 * Get Entity from table name
@@ -212,9 +231,17 @@ public class MMailText extends X_R_MailText
 				if(!Util.isEmpty(tableName)) {
 					value = parseVariable(columnName, entityMap.get(tableName));
 				}
-			} else if(po != null) {
+			}
+			//	for PO
+			if(Util.isEmpty(value)
+					&& po != null) {
 				value = parseVariable(token, po);	//	replace context
 			}
+			//	For all entries
+			if(Util.isEmpty(value)) {
+				value = parseVariable(token);
+			}
+			//	Default
 			if(Util.isEmpty(value)) {
 				value = "@" + token + "@";
 			}
