@@ -43,6 +43,7 @@ import org.compiere.process.ProcessInfo;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.eevolution.form.VBrowser;
+import org.spin.util.ASPUtil;
 
 /**
  * Class that execute business logic from POS
@@ -233,8 +234,8 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                 Dimension size = new Dimension(1024, 768);
                 FormFrame ff = new FormFrame(pos.getWindowNo());
                 ff.setSize(size);
-                MBrowse browse = new MBrowse(Env.getCtx(), 50056 , null);
-                new VBrowser(ff, true , pos.getWindowNo(), "" , browse , "" , true, "", true);
+                //	Danger --- Hardcode
+                new VBrowser(ff, true , pos.getWindowNo(), "" , ASPUtil.getInstance().getBrowse(50056), "" , true, "", true);
                 ff.pack();
                 AEnv.showCenterScreen(ff);
             } else if (command.getCommand() == CommandManager.CLOSE_STATEMENT) {
