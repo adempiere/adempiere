@@ -133,7 +133,7 @@ public class PoFiller {
 		} else if (clazz == Boolean.class) {
 			valueAsObject = Boolean.valueOf(value);
 		} else if (clazz == Timestamp.class) {
-			Timestamp dateValue = Timestamp.valueOf(value);
+			Timestamp dateValue = new Timestamp(Long.parseLong(value));
 			valueAsObject = dateValue;
 		} else {
 			throw new AdempiereException("Class not supported - " + clazz);
