@@ -46,7 +46,7 @@ public class ServerReportCtl {
 	public static boolean startDocumentPrint (int type, MPrintFormat customPrintFormat, int recordId, String printerName , ProcessInfo processInfo)
 	{
 		String trxName;
-		if (processInfo != null)
+		if (processInfo != null && processInfo.getTransactionName() != null)
 			trxName = processInfo.getTransactionName();
 		else
 			trxName = null;
