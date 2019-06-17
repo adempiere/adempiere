@@ -243,6 +243,7 @@ public final class IDFinder
 		 	.append(" where ")
 		 	.append("Node_ID")
 		 	.append(" = ?")
+		 	.append(" and ")
 		 	.append("AD_Tree_ID")
 		 	.append(" = ?");
 		params.add(nodeId);
