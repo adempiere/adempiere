@@ -1,6 +1,6 @@
 language: java
 jdk:
-- oraclejdk8
+- oraclejdk9
 os:
 - linux
 sudo: required
@@ -27,11 +27,3 @@ jobs:
   include:
   - stage: Main Build Test
     script: ant build
-notifications:
-  email:
-    recipients:
-    - ysenih@erpya.com
-    - victor.perez@e-evolution.com
-    - mario.calderon@westfalia-it.com
-    - susanne.de.calderon@westfalia-it.com
-    on_failure: always
