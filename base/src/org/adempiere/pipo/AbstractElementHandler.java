@@ -91,11 +91,11 @@ public abstract class AbstractElementHandler implements ElementHandler {
 	 * Get Node UUID from Node ID
 	 * @param ctx
 	 * @param tableName
-	 * @param value
+	 * @param nodeId
 	 * @return
 	 */
-	public String getUUIDFromNodeId(Properties ctx, String tableName, int value) {
-		return IDFinder.getUUIDFromNodeId(tableName, value, getTrxName(ctx));
+	public String getUUIDFromNodeId(Properties ctx, String tableName, int treeId, int nodeId) {
+		return IDFinder.getUUIDFromNodeId(tableName, treeId, nodeId, getTrxName(ctx));
 	}
 	
 	/**

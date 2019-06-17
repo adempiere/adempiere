@@ -212,13 +212,13 @@ public final class IDFinder
 	/**
 	 * Get UUID from ID
 	 * @param tableName
-	 * @param value
+	 * @param nodeId
 	 * @param clientId
 	 * @param trxName
 	 * @return
 	 */
-	public static String getUUIDFromNodeId(String tableName, int value, String trxName) {
-		if (value <= 0)
+	public static String getUUIDFromNodeId(String tableName, int treeId, int nodeId, String trxName) {
+		if (nodeId <= 0)
 			return null;
 		
 		//construct cache key
@@ -227,7 +227,13 @@ public final class IDFinder
 			.append(".")
 		 	.append("Node_ID")
 			.append("=")
-			.append(value);
+			.append(nodeId)
+			.append(" AND ")
+			.append(tableName)
+			.append(".")
+			.append("AD_Tree_ID")
+			.append("=")
+			.append(treeId);
 		
 		ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer sql = new StringBuffer ("select ")
@@ -236,8 +242,12 @@ public final class IDFinder
 		 	.append(tableName)
 		 	.append(" where ")
 		 	.append("Node_ID")
+		 	.append(" = ?")
+		 	.append(" and ")
+		 	.append("AD_Tree_ID")
 		 	.append(" = ?");
-		params.add(value);
+		params.add(nodeId);
+		params.add(treeId);
 		//	Get
 		return getUUID(sql.toString(), params, key.toString(), trxName);
 	}

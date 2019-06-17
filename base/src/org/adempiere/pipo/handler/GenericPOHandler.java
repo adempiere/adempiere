@@ -372,10 +372,8 @@ public class GenericPOHandler extends AbstractElementHandler {
 	 */
 	private boolean isValidAccess(String accessLevel, String parentAccessLevel) {
 		//	Validate system
-		if((parentAccessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemOnly)
-				|| parentAccessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemPlusClient))
-				&& !accessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemOnly)
-				&& !accessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemPlusClient)) {
+		if((parentAccessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemOnly))
+				&& !accessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemOnly)) {
 			return false;
 		}
 		//	Ok
@@ -520,7 +518,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 					MTree tree = MTree.get(ctx, treeId, null);
 					MTable sourceTable = MTable.get(ctx, tree.getAD_Table_ID());
 					String sourceUuid = getUUIDFromId(ctx, sourceTable.getTableName(), nodeId);
-					String parentUuid = getUUIDFromNodeId(ctx, entity.get_TableName(), parentId);
+					String parentUuid = getUUIDFromNodeId(ctx, entity.get_TableName(), treeId, parentId);
 					//	Set
 					filler.addString(AttributeFiller.getUUIDAttribute(I_AD_TreeNode.COLUMNNAME_Node_ID), sourceUuid);
 					filler.addString(AttributeFiller.getUUIDAttribute(I_AD_TreeNode.COLUMNNAME_Parent_ID), parentUuid);
