@@ -61,6 +61,7 @@ import org.compiere.util.Msg;
 import org.eevolution.grid.Browser;
 import org.eevolution.grid.BrowserSearch;
 import org.eevolution.grid.WBrowserTable;
+import org.spin.util.ASPUtil;
 import org.zkoss.util.media.AMedia;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -137,14 +138,13 @@ public class WBrowser extends Browser implements IFormController,
 	 * @return
 	 */
 	public static CustomForm openBrowse(int windowNo , int browserId , String whereClause, Boolean isSOTrx) {
-		MBrowse browse = new MBrowse(Env.getCtx(), browserId , null);
 		boolean modal = false;
 		if (windowNo > 0)
 			modal = true;
 		String value = "";
 		String keyColumn = "";
 		boolean multiSelection = true;
-		return new WBrowser(modal, windowNo, value, browse, keyColumn, multiSelection, whereClause,isSOTrx).getForm();
+		return new WBrowser(modal, windowNo, value, ASPUtil.getInstance().getBrowse(browserId), keyColumn, multiSelection, whereClause,isSOTrx).getForm();
 	}
 	
 	/**
