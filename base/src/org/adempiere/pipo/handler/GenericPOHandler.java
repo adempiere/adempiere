@@ -372,10 +372,8 @@ public class GenericPOHandler extends AbstractElementHandler {
 	 */
 	private boolean isValidAccess(String accessLevel, String parentAccessLevel) {
 		//	Validate system
-		if((parentAccessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemOnly)
-				|| parentAccessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemPlusClient))
-				&& !accessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemOnly)
-				&& !accessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemPlusClient)) {
+		if((parentAccessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemOnly))
+				&& !accessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemOnly)) {
 			return false;
 		}
 		//	Ok
