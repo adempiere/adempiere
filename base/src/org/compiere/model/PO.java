@@ -636,7 +636,8 @@ public abstract class PO
 			return false;
 		}
 		if (m_newValues[index] == null
-				|| m_newValues[index].equals(Null.NULL))
+				|| (m_newValues[index].equals(Null.NULL)
+						&& m_oldValues[index] == null))
 			return false;
 		return !m_newValues[index].equals(m_oldValues[index]);
 	}   //  is_ValueChanged
