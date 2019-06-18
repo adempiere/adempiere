@@ -19,8 +19,11 @@ package org.compiere.process;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 import java.util.logging.Level;
 
+import org.compiere.model.MColumn;
+import org.compiere.model.MTable;
 import org.compiere.model.MTree;
 import org.compiere.model.MTree_Node;
 import org.compiere.model.MTree_NodeBP;
@@ -31,7 +34,9 @@ import org.compiere.model.MTree_NodeU2;
 import org.compiere.model.MTree_NodeU3;
 import org.compiere.model.MTree_NodeU4;
 import org.compiere.model.PO;
+import org.compiere.model.Query;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 
 /**
  *	Tree Maintenance	
@@ -41,6 +46,9 @@ import org.compiere.util.DB;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com 2015-09-09
  *  	<li>FR [ 9223372036854775807 ] Add Support to Dynamic Tree
  *  @see https://adempiere.atlassian.net/browse/ADEMPIERE-442
+ *  @author Carlos Parada, cparada@erpya.com, ERPCyA http://www.erpya.com
+ *  		<a href="https://github.com/adempiere/adempiere/issues/729">
+ *			@see FR [ 729 ] Add Support to Parent Column And Search Column for Tree </a>
  */
 public class TreeMaintenance extends SvrProcess
 {
@@ -94,6 +102,15 @@ public class TreeMaintenance extends SvrProcess
 		String sourceTableKey = sourceTableName + "_ID";
 		int AD_Client_ID = tree.getAD_Client_ID();
 		int C_Element_ID = 0;
+		MColumn parentColumn = null;
+		MTable sourceTable	 = null;
+		String[] keyColumns = null;
+		if (tree.getParent_Column_ID() > 0) {
+			parentColumn = MColumn.get(Env.getCtx(), tree.getParent_Column_ID());
+			sourceTable = MTable.get(Env.getCtx(),tree.getAD_Table_ID());
+			keyColumns = sourceTable.getKeyColumns();
+		}
+		
 		if (MTree.TREETYPE_ElementValue.equals(tree.getTreeType())
 		||	MTree.TREETYPE_User1.equals(tree.getTreeType())
 		||	MTree.TREETYPE_User2.equals(tree.getTreeType())
@@ -168,6 +185,20 @@ public class TreeMaintenance extends SvrProcess
 					log.log(Level.SEVERE, "No Model for " + nodeTableName);
 				else
 				{
+					//FR [ 729 ]
+					if (keyColumns!=null 
+							&& keyColumns.length>0
+								&& parentColumn!=null) {
+						String whereClause = keyColumns[0] + "=" + node.get_ID();
+						PO table = MTable.get(Env.getCtx(), sourceTableName).getPO(whereClause, node.get_TrxName());
+						if (table.get_ID() > 0) {
+							if (node.get_ID()>0)
+								node.set_ValueOfColumn("Parent_ID", table.get_ValueAsInt(parentColumn.getColumnName()));
+							else 
+								node.set_ValueOfColumn("Parent_ID", null);
+						}
+					}
+					
 					if (node.save())
 						inserts++;
 					else
@@ -175,6 +206,9 @@ public class TreeMaintenance extends SvrProcess
 				}
 			}
 			rs.close();
+			
+			
+			sql = new StringBuffer();
 			pstmt.close();
 			pstmt = null;
 		}
@@ -192,6 +226,36 @@ public class TreeMaintenance extends SvrProcess
 		catch (Exception e)
 		{
 			pstmt = null;
+		}
+		//FR [ 729 ]
+		if (keyColumns!=null 
+				&& keyColumns.length>0
+				 	&& parentColumn!=null) {
+			String whereClause = "NOT EXISTS (SELECT 1 FROM " + sourceTableName + " st "
+												+ "WHERE " +nodeTableName + ".Node_ID = st." + keyColumns[0] + " "
+												+ "AND " + nodeTableName + ".Parent_ID = COALESCE(st." + parentColumn.getColumnName() + ",0)"
+												+ ") " +
+								 "AND EXISTS (SELECT 1 FROM " + sourceTableName + " st "
+												+ "WHERE " +nodeTableName + ".Parent_ID = st." + keyColumns[0] + ") "
+								+ "AND AD_Tree_ID = ? ";
+			List<PO> parentNodes = new Query(getCtx(), nodeTableName, whereClause, get_TrxName()).setParameters(tree.getAD_Tree_ID()).list();
+			int updated = 0;
+			for (PO node : parentNodes) {
+				whereClause = keyColumns[0] + "=" + node.get_ID();
+				PO table = MTable.get(Env.getCtx(), sourceTableName).getPO(whereClause, node.get_TrxName());
+				if (table.get_ID() > 0) {
+					if (node.get_ID()>0) {
+						if (node.get_ValueAsInt("Parent_ID")>0)
+							table.set_ValueOfColumn(parentColumn.getColumnName(), node.get_ValueAsInt("Parent_ID"));
+						else 
+							table.set_ValueOfColumn(parentColumn.getColumnName(), null);
+						
+						table.saveEx();
+					}
+				}
+				updated +=1;
+			}
+			addLog(0,null, new BigDecimal(updated), tree.getName()+ " Updated");
 		}
 		addLog(0,null, new BigDecimal(inserts), tree.getName()+ " Inserted");
 		return tree.getName() + (ok ? " OK" : " Error");

@@ -13,10 +13,14 @@
 package org.adempiere.webui.component;
 
 import org.adempiere.webui.window.FDialog;
+import org.compiere.model.MColumn;
+import org.compiere.model.MTable;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
+import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.Trx;
 import org.zkoss.zk.ui.event.DropEvent;
 import org.zkoss.zk.ui.event.Event;
@@ -33,6 +37,9 @@ import org.zkoss.zul.Treerow;
  * 
  * @author Low Heng Sin
  *
+ *  @author Carlos Parada, cparada@erpya.com, ERPCyA http://www.erpya.com
+ *  		<a href="https://github.com/adempiere/adempiere/issues/729">
+ *			@see FR [ 729 ] Add Support to Parent Column And Search Column for Tree </a>
  */
 public class ADTreeOnDropListener implements EventListener {
 	
@@ -124,7 +131,19 @@ public class ADTreeOnDropListener implements EventListener {
 	private void moveNode(SimpleTreeNode movingNode, SimpleTreeNode toNode, boolean moveInto)
 	{
 		SimpleTreeNode newParent;
-		int index;		
+		int index;	
+		//FR [ 729 ]
+		MColumn parentColumn = null;
+		MTable treeTable = null;
+		String[] keyColumns = null;
+		
+		if (mTree.getParent_Column_ID() != 0)
+			parentColumn = MColumn.get(Env.getCtx(), mTree.getParent_Column_ID());
+		
+		treeTable = MTable.get(Env.getCtx(),mTree.getAD_Table_ID());
+		
+		if (treeTable.get_ID()!=0)
+			keyColumns = treeTable.getKeyColumns();
 		
 		//  remove
 		SimpleTreeNode oldParent = treeModel.getParent(movingNode);
@@ -160,15 +179,30 @@ public class ADTreeOnDropListener implements EventListener {
 			{
 				SimpleTreeNode nd = (SimpleTreeNode)oldParent.getChildAt(i);
 				MTreeNode md = (MTreeNode) nd.getData();
+				if (parentColumn!=null
+							&& keyColumns != null) {
+					if (keyColumns.length>0) {
+						String whereClause = keyColumns[0] + "=" + md.getNode_ID();
+						PO table = MTable.get(Env.getCtx(), MTable.getTableName(Env.getCtx(), mTree.getAD_Table_ID())).getPO(whereClause, trx.getTrxName());
+						if (table.get_ID() > 0) {
+							if (oldMParent.getNode_ID()>0)
+								table.set_ValueOfColumn(parentColumn.getColumnName(), oldMParent.getNode_ID());
+							else 
+								table.set_ValueOfColumn(parentColumn.getColumnName(), null);
+							table.saveEx();
+						}
+					}
+				}else { 
 				StringBuffer sql = new StringBuffer("UPDATE ");
-				sql.append(mTree.getNodeTableName())
-					.append(" SET Parent_ID=").append(oldMParent.getNode_ID())
-					.append(", SeqNo=").append(i)
-					.append(", Updated=SysDate")
-					.append(" WHERE AD_Tree_ID=").append(mTree.getAD_Tree_ID())
-					.append(" AND Node_ID=").append(md.getNode_ID());
-				log.fine(sql.toString());
-				no = DB.executeUpdate(sql.toString(),trx.getTrxName());
+					sql.append(mTree.getNodeTableName())
+						.append(" SET Parent_ID=").append(oldMParent.getNode_ID())
+						.append(", SeqNo=").append(i)
+						.append(", Updated=SysDate")
+						.append(" WHERE AD_Tree_ID=").append(mTree.getAD_Tree_ID())
+						.append(" AND Node_ID=").append(md.getNode_ID());
+					log.fine(sql.toString());
+					no = DB.executeUpdate(sql.toString(),trx.getTrxName());
+				}
 			}
 			if (oldParent != newParent) 
 			{
@@ -177,15 +211,30 @@ public class ADTreeOnDropListener implements EventListener {
 				{
 					SimpleTreeNode nd = (SimpleTreeNode)newParent.getChildAt(i);
 					MTreeNode md = (MTreeNode) nd.getData();
-					StringBuffer sql = new StringBuffer("UPDATE ");
-					sql.append(mTree.getNodeTableName())
-						.append(" SET Parent_ID=").append(newMParent.getNode_ID())
-						.append(", SeqNo=").append(i)
-						.append(", Updated=SysDate")
-						.append(" WHERE AD_Tree_ID=").append(mTree.getAD_Tree_ID())
-						.append(" AND Node_ID=").append(md.getNode_ID());
-					log.fine(sql.toString());
-					no = DB.executeUpdate(sql.toString(),trx.getTrxName());
+					if (parentColumn!=null
+							&& keyColumns != null) {
+						if (keyColumns.length>0) {
+							String whereClause = keyColumns[0] + "=" + md.getNode_ID();
+							PO table = MTable.get(Env.getCtx(), MTable.getTableName(Env.getCtx(), mTree.getAD_Table_ID())).getPO(whereClause, trx.getTrxName());
+							if (table.get_ID() > 0) {
+								if (newMParent.getNode_ID()>0)
+									table.set_ValueOfColumn(parentColumn.getColumnName(), newMParent.getNode_ID());
+								else 
+									table.set_ValueOfColumn(parentColumn.getColumnName(), null);
+								table.saveEx();
+							}
+						}
+					}else {
+						StringBuffer sql = new StringBuffer("UPDATE ");
+						sql.append(mTree.getNodeTableName())
+							.append(" SET Parent_ID=").append(newMParent.getNode_ID())
+							.append(", SeqNo=").append(i)
+							.append(", Updated=SysDate")
+							.append(" WHERE AD_Tree_ID=").append(mTree.getAD_Tree_ID())
+							.append(" AND Node_ID=").append(md.getNode_ID());
+						log.fine(sql.toString());
+						no = DB.executeUpdate(sql.toString(),trx.getTrxName());
+					}
 				}
 			}
 			//	COMMIT          *********************

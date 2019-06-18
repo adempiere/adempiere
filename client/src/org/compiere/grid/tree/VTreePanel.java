@@ -122,6 +122,9 @@ import de.schaeffer.compiere.tools.DocumentSearch;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<a href="https://github.com/adempiere/adempiere/issues/884">
  * 		@see FR [ 884 ] Recent Items in Dashboard (Add new functionality)</a>
+ * @author Carlos Parada, cparada@erpya.com, ERPCyA http://www.erpya.com
+ *  	<a href="https://github.com/adempiere/adempiere/issues/729">
+ *		@see FR [ 729 ] Add Support to Parent Column And Search Column for Tree </a>
  */
 public final class VTreePanel extends CPanel
 	implements ActionListener
@@ -770,6 +773,21 @@ public final class VTreePanel extends CPanel
 	}   //  setSelectedNode
 
 	
+	/**
+	 * FR [ 729 ] 
+	 * Overwrite for ParentID
+	 * @param save
+	 * @param keyID
+	 * @param name
+	 * @param description
+	 * @param isSummary
+	 * @param imageIndicator
+	 */
+	public void nodeChanged (boolean save, int keyID,
+			String name, String description, boolean isSummary, String imageIndicator)
+		{
+		nodeChanged(save, keyID, name, description, isSummary, imageIndicator, 0);
+		}
 	/**************************************************************************
 	 *  Node Changed - synchronize Node
 	 *
@@ -781,7 +799,7 @@ public final class VTreePanel extends CPanel
 	 *  @param  imageIndicator image indicator
 	 */
 	public void nodeChanged (boolean save, int keyID,
-		String name, String description, boolean isSummary, String imageIndicator)
+		String name, String description, boolean isSummary, String imageIndicator, int parentID)
 	{
 		log.config("Save=" + save + ", KeyID=" + keyID
 			+ ", Name=" + name + ", Description=" + description 
@@ -793,13 +811,15 @@ public final class VTreePanel extends CPanel
 			
 		//  try to find the node
 		MTreeNode node = root.findNode(keyID);
+		//FR [ 729 ]
+		MTreeNode parentNode = root.findNode(parentID);
 
 		//  Node not found and saved -> new
 		if (node == null && save)
 		{
 			node = new MTreeNode (keyID, 0, name, description,
-				root.getNode_ID(), isSummary, imageIndicator, false, null);
-			root.add (node);
+					parentNode.getNode_ID(), isSummary, imageIndicator, false, null);
+			parentNode.add (node);
 		}
 
 		//  Node found and saved -> change

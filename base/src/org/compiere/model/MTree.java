@@ -982,13 +982,13 @@ public class MTree extends X_AD_Tree
 			String recordClause = "";
 			if (!translation){
 				sqlNode.append("SELECT t." + fromClause + "_ID, ")
-					.append("t.Name, t.Description, t.IsSummary, " + color + " AS Action ")
+					.append("COALESCE(t.Name, '') AS Name, COALESCE(t.Description, '') AS Description, t.IsSummary, " + color + " AS Action ")
 					.append(recordClause.length() > 0 ? ", " + recordClause : "")
 					.append(" FROM ").append(fromClause).append(" AS t ")
 					;
 			} else {
 				sqlNode.append("SELECT t." + fromClause + "_ID, ")
-					.append("COALESCE(tt.Name, t.Name) AS Name, COALESCE(tt.Description, t.Description) AS Description, t.IsSummary,  ")
+					.append("COALESCE(tt.Name, t.Name, '') AS Name, COALESCE(tt.Description, t.Description, '') AS Description, t.IsSummary,  ")
 					.append( color + " AS Action ")
 					.append(recordClause.length() > 0 ? ", " + recordClause : "")
 					.append(" FROM ").append(fromClause).append(" AS t ")
