@@ -104,8 +104,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 		//	Validate update time
 		if(!Env.getContext(ctx, "UpdateMode").equals("true")) {
 			//	Validate it
-			if(currentPOTime > 0
-					&& importTime > 0
+			if(importTime > 0
 					&& currentPOTime >= importTime
 					&& !entity.is_new()) {
 				element.skip = true;
