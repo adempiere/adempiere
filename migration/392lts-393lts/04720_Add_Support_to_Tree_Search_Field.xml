@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA02" Name="Add Support to Tree Search Field" ReleaseNo="" SeqNo="4720">
+  <Migration EntityType="D" Name="Add Support to Tree Search Field" ReleaseNo="" SeqNo="4720">
     <Comments>https://github.com/adempiere/adempiere/issues/729</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="93149" Table="AD_Column">
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">3</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID">100</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">18</Data>
         <Data AD_Column_ID="84306" Column="UUID">350d2ac6-8331-11e9-805e-0242ac110002</Data>
@@ -45,14 +48,11 @@
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">288</Data>
-        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID">100</Data>
-        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
       </PO>
     </Step>
     <Step SeqNo="20" StepType="AD">
@@ -85,7 +85,7 @@
         <Data AD_Column_ID="129" Column="AD_Reference_ID">54131</Data>
         <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">D</Data>
         <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="84393" Column="UUID">f23e14a2-8331-11e9-805e-0242ac110002</Data>
@@ -112,25 +112,25 @@
     <Step SeqNo="50" StepType="AD">
       <PO AD_Table_ID="103" Action="I" Record_ID="54131" Table="AD_Ref_Table">
         <Data AD_Column_ID="142" Column="AD_Reference_ID">54131</Data>
-        <Data AD_Column_ID="144" Column="AD_Key">109</Data>
-        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="84392" Column="UUID">ff52bcd8-8331-11e9-805e-0242ac110002</Data>
-        <Data AD_Column_ID="561" Column="Updated">2019-05-30 19:23:57.169</Data>
-        <Data AD_Column_ID="558" Column="IsActive">true</Data>
-        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
         <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
         <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
         <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
         <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
         <Data AD_Column_ID="146" Column="WhereClause">AD_Column.AD_Reference_ID=10</Data>
         <Data AD_Column_ID="145" Column="AD_Display">116</Data>
-        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">D</Data>
         <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="559" Column="Created">2019-05-30 19:23:57.169</Data>
         <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="143" Column="AD_Table_ID">101</Data>
         <Data AD_Column_ID="57270" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="144" Column="AD_Key">109</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID">ff52bcd8-8331-11e9-805e-0242ac110002</Data>
+        <Data AD_Column_ID="561" Column="Updated">2019-05-30 19:23:57.169</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="60" StepType="AD">
@@ -150,7 +150,7 @@
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84306" Column="UUID">203c6818-8332-11e9-805e-0242ac110002</Data>
         <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="112" Column="Description">Column determining the order</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
@@ -212,6 +212,23 @@
     <Step SeqNo="90" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="93989" Table="AD_Field">
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">93989</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">110</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">93149</Data>
         <Data AD_Column_ID="62479" Column="SeqNoGrid">110</Data>
         <Data AD_Column_ID="172" Column="AD_Tab_ID">243</Data>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
@@ -238,23 +255,6 @@
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
-        <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
-        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
-        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
-        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
-        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
-        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
-        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
-        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="167" Column="AD_Field_ID">93989</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
-        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">110</Data>
-        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
-        <Data AD_Column_ID="174" Column="AD_Column_ID">93149</Data>
       </PO>
     </Step>
     <Step SeqNo="100" StepType="AD">
@@ -278,27 +278,6 @@
     <Step SeqNo="110" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="93990" Table="AD_Field">
         <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
-        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
-        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
-        <Data AD_Column_ID="78493" Column="IsQuickEntry">false</Data>
-        <Data AD_Column_ID="168" Column="Name">Order Column</Data>
-        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
-        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
-        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="167" Column="AD_Field_ID">93990</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
-        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">120</Data>
-        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
-        <Data AD_Column_ID="174" Column="AD_Column_ID">93150</Data>
-        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">120</Data>
-        <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
-        <Data AD_Column_ID="172" Column="AD_Tab_ID">243</Data>
-        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="84320" Column="UUID">8128bd48-8332-11e9-805e-0242ac110002</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="169" Column="Description">Column determining the order</Data>
@@ -321,6 +300,27 @@
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="78493" Column="IsQuickEntry">false</Data>
+        <Data AD_Column_ID="168" Column="Name">Order Column</Data>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">93990</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">120</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">93150</Data>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">120</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">243</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="120" StepType="AD">
@@ -363,6 +363,7 @@
     </Step>
     <Step SeqNo="200" StepType="AD">
       <PO AD_Table_ID="108" Action="I" Record_ID="52691" Table="AD_Val_Rule">
+        <Data AD_Column_ID="584" Column="Created">2019-05-31 11:38:54.035</Data>
         <Data AD_Column_ID="586" Column="Updated">2019-05-31 11:38:54.035</Data>
         <Data AD_Column_ID="187" Column="AD_Val_Rule_ID">52691</Data>
         <Data AD_Column_ID="587" Column="UpdatedBy">100</Data>
@@ -371,8 +372,7 @@
         <Data AD_Column_ID="583" Column="IsActive">true</Data>
         <Data AD_Column_ID="192" Column="Type">S</Data>
         <Data AD_Column_ID="193" Column="Code">IsSummary = 'Y'</Data>
-        <Data AD_Column_ID="7715" Column="EntityType">ECA02</Data>
-        <Data AD_Column_ID="584" Column="Created">2019-05-31 11:38:54.035</Data>
+        <Data AD_Column_ID="7715" Column="EntityType">D</Data>
         <Data AD_Column_ID="188" Column="Name">C_ElementValue Summary</Data>
         <Data AD_Column_ID="189" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="387" Column="AD_Client_ID">0</Data>
@@ -381,6 +381,7 @@
     </Step>
     <Step SeqNo="220" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="93168" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">182</Data>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">1924</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">18</Data>
@@ -422,14 +423,13 @@
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">188</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID">52691</Data>
-        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
       </PO>
     </Step>
     <Step SeqNo="230" StepType="AD">
@@ -450,12 +450,13 @@
     </Step>
     <Step SeqNo="240" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="94004" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
         <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="167" Column="AD_Field_ID">94004</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
@@ -490,7 +491,6 @@
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
-        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
         <Data AD_Column_ID="184" Column="IsHeading">false</Data>
         <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
@@ -759,6 +759,19 @@
     <Step SeqNo="760" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="93169" Table="AD_Column">
         <Data AD_Column_ID="109" Column="AD_Column_ID">93169</Data>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">155</Data>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="551" Column="Updated">2019-05-31 14:43:31.003</Data>
@@ -794,19 +807,6 @@
         <Data AD_Column_ID="113" Column="Help">Parent Organization - the next level in the organizational hierarchy.</Data>
         <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
-        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
-        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
-        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
-        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
-        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
-        <Data AD_Column_ID="114" Column="AD_Table_ID">155</Data>
       </PO>
     </Step>
     <Step SeqNo="770" StepType="AD">
@@ -864,7 +864,7 @@
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="167" Column="AD_Field_ID">94005</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="181" Column="SeqNo">80</Data>
@@ -938,6 +938,7 @@
     </Step>
     <Step SeqNo="890" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="61009" Table="AD_Element">
+        <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="2600" Column="Updated">2019-05-31 15:21:16.193</Data>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
@@ -948,8 +949,7 @@
         <Data AD_Column_ID="58588" Column="AD_Reference_ID">18</Data>
         <Data AD_Column_ID="2594" Column="AD_Element_ID">61009</Data>
         <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="6484" Column="EntityType">ECA02</Data>
-        <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID">161</Data>
         <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84316" Column="UUID">4356887c-83d9-11e9-a814-0242ac110002</Data>
@@ -1061,11 +1061,12 @@
     </Step>
     <Step SeqNo="950" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="93171" Table="AD_Column">
-        <Data AD_Column_ID="6482" Column="EntityType" oldValue="C">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="C">D</Data>
       </PO>
     </Step>
     <Step SeqNo="960" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="94007" Table="AD_Field">
+        <Data AD_Column_ID="88877" Column="AD_FieldDefinition_ID" isNewNull="true"/>
         <Data AD_Column_ID="581" Column="Updated">2019-05-31 15:24:40.861</Data>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="62479" Column="SeqNoGrid">630</Data>
@@ -1076,7 +1077,6 @@
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="579" Column="Created">2019-05-31 15:24:40.861</Data>
         <Data AD_Column_ID="78493" Column="IsQuickEntry">false</Data>
-        <Data AD_Column_ID="88877" Column="AD_FieldDefinition_ID" isNewNull="true"/>
         <Data AD_Column_ID="88918" Column="AD_ContextInfo_ID" isNewNull="true"/>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="90940" Column="AD_Image_ID" isNewNull="true"/>
@@ -1103,7 +1103,7 @@
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="167" Column="AD_Field_ID">94007</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
@@ -1469,7 +1469,7 @@
         <Data AD_Column_ID="2594" Column="AD_Element_ID">61010</Data>
         <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="6484" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID">169</Data>
         <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
@@ -1511,15 +1511,16 @@
     </Step>
     <Step SeqNo="1660" StepType="AD">
       <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
-        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="61010">61010</Data>
-        <Data AD_Column_ID="4300" Column="PrintName" oldValue="Parent Project">Proyecto Padre</Data>
         <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2647" Column="Description" oldValue="The parent (summary) project">Proyecto padre (resumen)</Data>
         <Data AD_Column_ID="2646" Column="Name" oldValue="Parent Project">Proyecto Padre</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="61010">61010</Data>
+        <Data AD_Column_ID="4300" Column="PrintName" oldValue="Parent Project">Proyecto Padre</Data>
       </PO>
     </Step>
     <Step SeqNo="1680" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="93172" Table="AD_Column">
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
@@ -1530,7 +1531,7 @@
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">203</Data>
@@ -1568,7 +1569,6 @@
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="116" Column="ColumnName">ParentProject_ID</Data>
         <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
       </PO>
     </Step>
     <Step SeqNo="1690" StepType="AD">
@@ -1595,6 +1595,12 @@
     <Step SeqNo="1710" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="94008" Table="AD_Field">
         <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">94008</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">570</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
         <Data AD_Column_ID="174" Column="AD_Column_ID">93172</Data>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="62479" Column="SeqNoGrid">570</Data>
@@ -1632,12 +1638,6 @@
         <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="167" Column="AD_Field_ID">94008</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
-        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="181" Column="SeqNo">570</Data>
-        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="1720" StepType="AD">
@@ -1740,8 +1740,8 @@
     </Step>
     <Step SeqNo="1890" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="93325" Table="AD_Field">
-        <Data AD_Column_ID="181" Column="SeqNo" oldValue="190">200</Data>
         <Data AD_Column_ID="84320" Column="UUID" isOldNull="true">66d3862a-83dd-11e9-83c0-0242ac110002</Data>
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="190">200</Data>
       </PO>
     </Step>
     <Step SeqNo="1900" StepType="AD">
@@ -1963,7 +1963,7 @@
         <Data AD_Column_ID="58588" Column="AD_Reference_ID">18</Data>
         <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="6484" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID">179</Data>
         <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
@@ -1978,8 +1978,6 @@
     </Step>
     <Step SeqNo="2320" StepType="AD">
       <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
-        <Data AD_Column_ID="2642" Column="Created">2019-05-31 15:58:21.822</Data>
-        <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
         <Data AD_Column_ID="2641" Column="IsActive">true</Data>
         <Data AD_Column_ID="2644" Column="Updated">2019-05-31 15:58:21.822</Data>
         <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
@@ -1997,10 +1995,26 @@
         <Data AD_Column_ID="2643" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID">61011</Data>
         <Data AD_Column_ID="84317" Column="UUID">714b19f0-83de-11e9-94e1-0242ac110002</Data>
+        <Data AD_Column_ID="2642" Column="Created">2019-05-31 15:58:21.822</Data>
+        <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="2340" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="93173" Table="AD_Column">
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">230</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">61011</Data>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">179</Data>
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
@@ -2036,20 +2050,6 @@
         <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
-        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
-        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
-        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
-        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
-        <Data AD_Column_ID="114" Column="AD_Table_ID">230</Data>
-        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="2608" Column="AD_Element_ID">61011</Data>
       </PO>
     </Step>
     <Step SeqNo="2350" StepType="AD">
@@ -2070,6 +2070,7 @@
     </Step>
     <Step SeqNo="2360" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="94009" Table="AD_Field">
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
         <Data AD_Column_ID="581" Column="Updated">2019-05-31 16:00:29.566</Data>
         <Data AD_Column_ID="174" Column="AD_Column_ID">93173</Data>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
@@ -2097,7 +2098,6 @@
         <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
-        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
         <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
         <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
@@ -2109,7 +2109,7 @@
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="167" Column="AD_Field_ID">94009</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="181" Column="SeqNo">110</Data>
@@ -2171,8 +2171,9 @@
     </Step>
     <Step SeqNo="2450" StepType="AD">
       <PO AD_Table_ID="102" Action="I" Record_ID="54149" Table="AD_Reference">
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="556" Column="Updated">2019-06-18 10:43:15.194</Data>
-        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">D</Data>
         <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="84393" Column="UUID">67f4b58a-91d7-11e9-b64d-0242ac110002</Data>
@@ -2185,7 +2186,6 @@
         <Data AD_Column_ID="130" Column="Name">C_Activity (summary)</Data>
         <Data AD_Column_ID="131" Column="Description">Activity selection</Data>
         <Data AD_Column_ID="129" Column="AD_Reference_ID">54149</Data>
-        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
       </PO>
     </Step>
@@ -2219,7 +2219,7 @@
         <Data AD_Column_ID="62121" Column="DisplaySQL">IsSummary='Y'</Data>
         <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
         <Data AD_Column_ID="145" Column="AD_Display">3465</Data>
-        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">D</Data>
         <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="143" Column="AD_Table_ID">316</Data>
@@ -2233,7 +2233,13 @@
     </Step>
     <Step SeqNo="2480" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="61084" Table="AD_Element">
-        <Data AD_Column_ID="6484" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID">54149</Data>
+        <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84316" Column="UUID">84b6e6c0-91d7-11e9-8f97-0242ac110002</Data>
+        <Data AD_Column_ID="2597" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2603" Column="Name">Parent Activity</Data>
+        <Data AD_Column_ID="2604" Column="Description">The parent (summary) Activity</Data>
         <Data AD_Column_ID="2600" Column="Updated">2019-06-18 10:44:03.685</Data>
         <Data AD_Column_ID="2598" Column="Created">2019-06-18 10:44:03.685</Data>
         <Data AD_Column_ID="2602" Column="ColumnName">ParentActivity_ID</Data>
@@ -2249,12 +2255,6 @@
         <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID">54149</Data>
-        <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="84316" Column="UUID">84b6e6c0-91d7-11e9-8f97-0242ac110002</Data>
-        <Data AD_Column_ID="2597" Column="IsActive">true</Data>
-        <Data AD_Column_ID="2603" Column="Name">Parent Activity</Data>
-        <Data AD_Column_ID="2604" Column="Description">The parent (summary) Activity</Data>
       </PO>
     </Step>
     <Step SeqNo="2490" StepType="AD">
@@ -2282,15 +2282,16 @@
     </Step>
     <Step SeqNo="2500" StepType="AD">
       <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
-        <Data AD_Column_ID="4300" Column="PrintName" oldValue="Parent Activity">Actividad Padre</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="61084">61084</Data>
         <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2647" Column="Description" oldValue="The parent (summary) Activity">La actividad padre (resumen)</Data>
         <Data AD_Column_ID="2646" Column="Name" oldValue="Parent Activity">Actividad Padre</Data>
+        <Data AD_Column_ID="4300" Column="PrintName" oldValue="Parent Activity">Actividad Padre</Data>
       </PO>
     </Step>
     <Step SeqNo="2510" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="93745" Table="AD_Column">
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
         <Data AD_Column_ID="112" Column="Description">The parent (summary) Activity</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
@@ -2299,7 +2300,7 @@
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
@@ -2312,7 +2313,6 @@
         <Data AD_Column_ID="226" Column="AD_Reference_ID">18</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84306" Column="UUID">ae42afe2-91d7-11e9-8f97-0242ac110002</Data>
-        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
         <Data AD_Column_ID="549" Column="Created">2019-06-18 10:45:13.209</Data>
@@ -2360,6 +2360,7 @@
     </Step>
     <Step SeqNo="2530" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="94883" Table="AD_Field">
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
         <Data AD_Column_ID="168" Column="Name">Parent Activity</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="579" Column="Created">2019-06-18 10:45:37.369</Data>
@@ -2372,7 +2373,6 @@
         <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="169" Column="Description">The parent (summary) Activity</Data>
-        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
         <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
         <Data AD_Column_ID="182" Column="SortNo">0</Data>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
@@ -2392,7 +2392,7 @@
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="167" Column="AD_Field_ID">94883</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="181" Column="SeqNo">100</Data>
@@ -2494,19 +2494,20 @@
     </Step>
     <Step SeqNo="2630" StepType="AD">
       <PO AD_Table_ID="102" Action="U" Record_ID="54150" Table="AD_Reference">
-        <Data AD_Column_ID="6486" Column="EntityType" oldValue="U">ECA02</Data>
+        <Data AD_Column_ID="6486" Column="EntityType" oldValue="U">D</Data>
       </PO>
     </Step>
     <Step SeqNo="2640" StepType="AD">
       <PO AD_Table_ID="126" Action="U" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="281" Column="Description" oldValue="Campaign selection">Campaña Resumen</Data>
         <Data AD_Column_ID="279" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="278" Column="AD_Reference_ID" oldValue="54150">54150</Data>
-        <Data AD_Column_ID="281" Column="Description" oldValue="Campaign selection">Campaña Resumen</Data>
       </PO>
     </Step>
     <Step SeqNo="2650" StepType="AD">
       <PO AD_Table_ID="103" Action="I" Record_ID="54150" Table="AD_Ref_Table">
-        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">2570</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">D</Data>
         <Data AD_Column_ID="145" Column="AD_Display">2578</Data>
         <Data AD_Column_ID="559" Column="Created">2019-06-18 10:48:43.886</Data>
         <Data AD_Column_ID="561" Column="Updated">2019-06-18 10:48:43.886</Data>
@@ -2525,7 +2526,6 @@
         <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="84392" Column="UUID">2b6abde8-91d8-11e9-8f97-0242ac110002</Data>
-        <Data AD_Column_ID="144" Column="AD_Key">2570</Data>
       </PO>
     </Step>
     <Step SeqNo="2660" StepType="AD">
@@ -2547,7 +2547,7 @@
         <Data AD_Column_ID="2594" Column="AD_Element_ID">61085</Data>
         <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="6484" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
         <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID">54150</Data>
         <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
@@ -2579,17 +2579,17 @@
     </Step>
     <Step SeqNo="2680" StepType="AD">
       <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
-        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2646" Column="Name" oldValue="Parent Campaign">Campaña Padre</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="4300" Column="PrintName" oldValue="Parent Campaign">Campaña Padre</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="61085">61085</Data>
       </PO>
     </Step>
     <Step SeqNo="2690" StepType="AD">
       <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
-        <Data AD_Column_ID="2647" Column="Description" oldValue="The parent (summary) Campaign">La campaña padre (resumen)</Data>
         <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="61085">61085</Data>
+        <Data AD_Column_ID="2647" Column="Description" oldValue="The parent (summary) Campaign">La campaña padre (resumen)</Data>
       </PO>
     </Step>
     <Step SeqNo="2700" StepType="AD">
@@ -2645,7 +2645,7 @@
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="127" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
         <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
@@ -2660,8 +2660,8 @@
     </Step>
     <Step SeqNo="2730" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="93746" Table="AD_Column_Trl">
-        <Data AD_Column_ID="12960" Column="Created">2019-06-18 10:51:07.549</Data>
         <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12960" Column="Created">2019-06-18 10:51:07.549</Data>
         <Data AD_Column_ID="12952" Column="Updated">2019-06-18 10:51:07.549</Data>
         <Data AD_Column_ID="12955" Column="AD_Column_ID">93746</Data>
         <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
@@ -2676,6 +2676,8 @@
     </Step>
     <Step SeqNo="2740" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="94884" Table="AD_Field">
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">93746</Data>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="62479" Column="SeqNoGrid">130</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
@@ -2714,12 +2716,10 @@
         <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="167" Column="AD_Field_ID">94884</Data>
-        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">D</Data>
         <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="181" Column="SeqNo">130</Data>
-        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
-        <Data AD_Column_ID="174" Column="AD_Column_ID">93746</Data>
       </PO>
     </Step>
     <Step SeqNo="2750" StepType="AD">
@@ -2788,6 +2788,12 @@
     <Step SeqNo="2850" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="93745" Table="AD_Column">
         <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isOldNull="true">@ParentActivity_ID@!0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="2860" StepType="AD">
+      <PO AD_Table_ID="103" Action="U" Record_ID="113" Table="AD_Ref_Table">
+        <Data AD_Column_ID="146" Column="WhereClause" oldValue="EXISTS (SELECT * FROM AD_OrgInfo WHERE AD_Org.AD_Org_ID=AD_OrgInfo.AD_Org_ID AND AD_OrgInfo.IsSummary='Y')">AD_Org.IsSummary='Y'</Data>
+        <Data AD_Column_ID="84392" Column="UUID" isOldNull="true">b56edc2e-9294-11e9-b952-0242ac110002</Data>
       </PO>
     </Step>
   </Migration>
