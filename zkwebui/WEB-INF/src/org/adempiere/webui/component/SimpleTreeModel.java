@@ -86,7 +86,7 @@ public class SimpleTreeModel extends org.zkoss.zul.SimpleTreeModel implements Tr
 		if(!Util.isEmpty(whereClause)) {
 			whereClause = Env.parseContext(Env.getCtx(), windowNo, whereClause, false, false);
 		}
-		MTree vTree = new MTree (Env.getCtx(), AD_Tree_ID, editable, true, whereClause, trxName);
+		MTree vTree = new MTree (Env.getCtx(), AD_Tree_ID, editable, whereClause, trxName);
 		MTreeNode root = vTree.getRoot();
 		SimpleTreeModel treeModel = SimpleTreeModel.createFrom(root);
 		treeModel.setItemDraggable(editable);

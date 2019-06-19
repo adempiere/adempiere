@@ -104,7 +104,7 @@ public class DPFavourites extends DashboardPanel implements EventListener {
 		
 		m_AD_Tree_ID = AD_Tree_ID;
 		
-		MTree vTree = new MTree(Env.getCtx(), AD_Tree_ID, false, true, null);
+		MTree vTree = new MTree(Env.getCtx(), AD_Tree_ID, false, null);
 		MTreeNode m_root = vTree.getRoot();
 		Enumeration<?> enTop = m_root.children();
 		while(enTop.hasMoreElements())

@@ -145,25 +145,12 @@ public class MTree extends X_AD_Tree
 	 *  @param editable     True, if tree can be modified
 	 *  - includes inactive and empty summary nodes
 	 * 	@param ctx context for security
-	 *	@param clientTree the tree is displayed on the java client (not on web)
 	 *  @param trxName transaction
 	 */
 	public MTree (Properties ctx, int treeId, boolean editable, String trxName) {
-		this (ctx, treeId, editable, false, trxName);
+		this(ctx, treeId, editable, null, trxName);
 	}   //  MTree
 
-	/**
-	 * With optional all nodes
-	 * @param ctx
-	 * @param treeId
-	 * @param editable
-	 * @param allNodes
-	 * @param trxName
-	 */
-	public MTree (Properties ctx, int treeId, boolean editable, boolean allNodes, String trxName) {
-		this(ctx, treeId, editable, allNodes, null, trxName);
-	}   //  MTree
-	
 	/**
 	 * Instance tree with where clause
 	 * @param ctx
@@ -174,22 +161,16 @@ public class MTree extends X_AD_Tree
 	 * @param trxName
 	 */
 	public MTree (Properties ctx, int treeId, 
-			boolean editable, boolean allNodes, String whereClause, String trxName)
+			boolean editable, String whereClause, String trxName)
 	{
 		this (ctx, treeId, trxName);
 		isTreeEditable = editable;
-		int userId;
-		if (allNodes)
-			userId = -1;
-		else
-			userId = Env.getContextAsInt(ctx, "AD_User_ID");
 		log.info("AD_Tree_ID=" + treeId
-				+ ", AD_User_ID=" + userId 
 				+ ", Editable=" + editable);
 		//
 		//	Yamel Senih [ 9223372036854775807 ]
 		//	Add support to where clause
-		loadNodes(userId, whereClause);
+		loadNodes(whereClause);
 	}   //  MTree
 
 	@Override
@@ -320,7 +301,7 @@ public class MTree extends X_AD_Tree
 	 */
 	//	Yamel Senih [ 9223372036854775807 ]
 	//	Change by Table Identifier
-	public static String getNodeTableName(int tableId) {
+	public static String getNodeTableName(int tableId, String elementType) {
 		String	nodeTableName = tableId == 0? null: "AD_TreeNode";
 		if (X_AD_Menu.Table_ID == tableId)
 			nodeTableName += "MM";
@@ -339,6 +320,11 @@ public class MTree extends X_AD_Tree
 			nodeTableName += "CMT";
 		//	Add Support to Tables
 		else {
+			//	For Element as account
+			if(!Util.isEmpty(elementType)
+					&& elementType.equals(X_C_Element.ELEMENTTYPE_Account)) {
+				return nodeTableName;
+			}
 			if (s_TableIDs == null)
 				fillUserTables(null);
 			Integer ii = Integer.valueOf(tableId);
@@ -355,6 +341,15 @@ public class MTree extends X_AD_Tree
 		}
 		return nodeTableName;
 	}	//	getNodeTableName
+	
+	/**
+	 * Old compatibility
+	 * @param tableId
+	 * @return
+	 */
+	public static String getNodeTableName(int tableId) {
+		return getNodeTableName(tableId, null);
+	}
 	
 	/**
 	 * Support to old version
@@ -692,11 +687,11 @@ public class MTree extends X_AD_Tree
 	
 	/*************************************************************************
 	 *  Load Nodes and Bar
-	 * 	@param userId user for tree bar
 	 * 	@param whereClause
 	 */
-	private void loadNodes (int userId, String whereClause) {
+	private void loadNodes (String whereClause) {
 		String fromClause = getSourceTableName();
+		int userId = Env.getContextAsInt(getCtx(), "AD_User_ID");
 		//  SQL for TreeNodes
 		StringBuffer sql = new StringBuffer("SELECT "
 			+ "tn.Node_ID,tn.Parent_ID,tn.SeqNo,tb.IsActive "
@@ -707,7 +702,7 @@ public class MTree extends X_AD_Tree
 			//
 			.append(" LEFT OUTER JOIN AD_TreeBar tb ON (tn.AD_Tree_ID=tb.AD_Tree_ID"
 			+ " AND tn.Node_ID=tb.Node_ID "
-			+ (userId != -1 ? " AND tb.AD_User_ID=? ": "") 	//	#1 (conditional)
+			+ (!isAllNodes() ? " AND tb.AD_User_ID=? ": "") 	//	#1 (conditional)
 			+ ") "
 			+ "WHERE tn.AD_Tree_ID=?");								//	#2
 		if (!isTreeEditable)
@@ -727,7 +722,7 @@ public class MTree extends X_AD_Tree
 			//
 			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
 			int idx = 1;
-			if (userId != -1)
+			if (!isAllNodes())
 				pstmt.setInt(idx++, userId);
 			pstmt.setInt(idx++, getAD_Tree_ID());
 			//	Get Tree & Bar
@@ -977,10 +972,9 @@ public class MTree extends X_AD_Tree
 		//	Load for Custom Tree
 		else if(getTreeType().equals(TREETYPE_CustomTree)) {
 			boolean base = Env.isBaseLanguage(p_ctx, fromClause);
-			boolean translation = !base && MTable.hasTranslation(fromClause);
 			sourceTable = "t";
 			String recordClause = "";
-			if (!translation){
+			if (base){
 				sqlNode.append("SELECT t." + fromClause + "_ID, ")
 					.append("t.Name, t.Description, t.IsSummary, " + color + " AS Action ")
 					.append(recordClause.length() > 0 ? ", " + recordClause : "")
@@ -988,7 +982,7 @@ public class MTree extends X_AD_Tree
 					;
 			} else {
 				sqlNode.append("SELECT t." + fromClause + "_ID, ")
-					.append("COALESCE(tt.Name, t.Name) AS Name, COALESCE(tt.Description, t.Description) AS Description, t.IsSummary,  ")
+					.append("COALESCE(m.Name, t.Name) AS Name, COALESCE(m.Description, t.Description) AS Description, t.IsSummary,  ")
 					.append( color + " AS Action ")
 					.append(recordClause.length() > 0 ? ", " + recordClause : "")
 					.append(" FROM ").append(fromClause).append(" AS t ")
