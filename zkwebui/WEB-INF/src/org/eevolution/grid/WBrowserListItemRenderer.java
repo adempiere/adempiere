@@ -23,7 +23,6 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -404,13 +403,18 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 				}
 			}
 			else if (DisplayType.isDate(browseField.getAD_Reference_ID())) {
-				WEditor editor = WebEditorFactory.getEditor(gridField, false);
-				editor.addValueChangeListener(this);
-				editor.dynamicDisplay();
-				editor.setReadWrite(true);
-				editor.fillHorizontal();
-				gridField.addPropertyChangeListener(editor);
-				listcell.appendChild(editor.getComponent());
+				if (isCellEditable) {
+					WEditor editor = WebEditorFactory.getEditor(gridField, false);
+					editor.addValueChangeListener(this);
+					editor.dynamicDisplay();
+					editor.setReadWrite(true);
+					editor.fillHorizontal();
+					gridField.addPropertyChangeListener(editor);
+					editor.setValue(field);
+					listcell.appendChild(editor.getComponent());
+				} else {
+					listcell.setLabel(getDisplayText(field, gridField));
+				}
 			}
 			//	BR [ 269 ]
 			//	Add support to other String
