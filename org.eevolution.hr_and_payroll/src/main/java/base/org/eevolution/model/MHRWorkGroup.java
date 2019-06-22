@@ -32,7 +32,8 @@ import org.compiere.util.Env;
  * 		@see FR [ 854 ] Add new columns for Concept Attribute</a>
  */
 public class MHRWorkGroup extends X_HR_WorkGroup {
-    /**
+
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -3426527194456182750L;
@@ -135,5 +136,11 @@ public class MHRWorkGroup extends X_HR_WorkGroup {
 				.map(workGroup -> workGroup.getValue())
 				.collect(Collectors.toList());
 		return  workGroupList;
+	}
+	
+    @Override
+	public String toString() {
+		return "MHRWorkGroup [getHR_WorkGroup_ID()=" + getHR_WorkGroup_ID() + ", getName()=" + getName()
+				+ ", getValue()=" + getValue() + "]";
 	}
 }

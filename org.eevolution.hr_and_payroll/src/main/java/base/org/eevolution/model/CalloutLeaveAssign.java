@@ -19,8 +19,6 @@ import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-
-import java.math.BigDecimal;
 import java.util.Properties;
 
 /**
@@ -42,18 +40,16 @@ public class CalloutLeaveAssign extends CalloutEngine {
     public String leaveAssigned(Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value) {
         if (isCalloutActive() || value == null)
             return "";
-        BigDecimal total, balance;
         I_HR_LeaveAssign leaveAssign = GridTabWrapper.create(mTab, I_HR_LeaveAssign.class);
-
-        BigDecimal totalLeaves, balanceLeaves, noOfLeavesAllocated;
-
-        totalLeaves = leaveAssign.getTotalLeaves();
-        noOfLeavesAllocated = leaveAssign.getNoOfLeavesAllocated();
-        balanceLeaves = leaveAssign.getBalance();
-        if (totalLeaves.signum() != 0) {
-            total = totalLeaves.add(noOfLeavesAllocated);
-            balance = balanceLeaves.add(noOfLeavesAllocated);
-
+        
+        int total = 0;
+        int balance = 0;
+        int totalLeaves = leaveAssign.getTotalLeaves();
+        int noOfLeavesAllocated = leaveAssign.getNoOfLeavesAllocated();
+        int balanceLeaves = leaveAssign.getBalance();
+        if (totalLeaves != 0) {
+            total = totalLeaves + noOfLeavesAllocated;
+            balance = balanceLeaves + noOfLeavesAllocated;
             leaveAssign.setTotalLeaves(total);
             leaveAssign.setBalance(balance);
         }
@@ -76,7 +72,7 @@ public class CalloutLeaveAssign extends CalloutEngine {
         I_HR_LeaveAssign leaveAssign = GridTabWrapper.create(mTab, I_HR_LeaveAssign.class);
         I_HR_LeaveType leaveType = leaveAssign.getHR_LeaveType();
 
-        if (leaveAssign.getTotalLeaves().signum() == 0) {
+        if (leaveAssign.getTotalLeaves() == 0) {
             leaveAssign.setTotalLeaves(leaveType.getNoOfLeavesAllocated());
             leaveAssign.setBalance(leaveType.getNoOfLeavesAllocated());
         } else {

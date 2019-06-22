@@ -67,10 +67,10 @@ public interface I_HR_LeaveAssign
     public static final String COLUMNNAME_Balance = "Balance";
 
 	/** Set Balance	  */
-	public void setBalance (BigDecimal Balance);
+	public void setBalance (int Balance);
 
 	/** Get Balance	  */
-	public BigDecimal getBalance();
+	public int getBalance();
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -102,21 +102,6 @@ public interface I_HR_LeaveAssign
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_Year_ID */
-    public static final String COLUMNNAME_C_Year_ID = "C_Year_ID";
-
-	/** Set Year.
-	  * Calendar Year
-	  */
-	public void setC_Year_ID (int C_Year_ID);
-
-	/** Get Year.
-	  * Calendar Year
-	  */
-	public int getC_Year_ID();
-
-	public org.compiere.model.I_C_Year getC_Year() throws RuntimeException;
 
     /** Column name HR_Employee_ID */
     public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
@@ -176,12 +161,12 @@ public interface I_HR_LeaveAssign
 	/** Set Number of Leaves Allocated.
 	  * Number of Leaves Allocated
 	  */
-	public void setNoOfLeavesAllocated (BigDecimal NoOfLeavesAllocated);
+	public void setNoOfLeavesAllocated (int NoOfLeavesAllocated);
 
 	/** Get Number of Leaves Allocated.
 	  * Number of Leaves Allocated
 	  */
-	public BigDecimal getNoOfLeavesAllocated();
+	public int getNoOfLeavesAllocated();
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";
@@ -198,12 +183,12 @@ public interface I_HR_LeaveAssign
 	/** Set Total of Leaves.
 	  * Total of Leaves
 	  */
-	public void setTotalLeaves (BigDecimal TotalLeaves);
+	public void setTotalLeaves (int TotalLeaves);
 
 	/** Get Total of Leaves.
 	  * Total of Leaves
 	  */
-	public BigDecimal getTotalLeaves();
+	public int getTotalLeaves();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -227,12 +212,12 @@ public interface I_HR_LeaveAssign
 	/** Set Used Leaves.
 	  * Used Leaves
 	  */
-	public void setUsedLeaves (BigDecimal UsedLeaves);
+	public void setUsedLeaves (int UsedLeaves);
 
 	/** Get Used Leaves.
 	  * Used Leaves
 	  */
-	public BigDecimal getUsedLeaves();
+	public int getUsedLeaves();
 
     /** Column name UUID */
     public static final String COLUMNNAME_UUID = "UUID";
@@ -246,4 +231,30 @@ public interface I_HR_LeaveAssign
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
+
+    /** Column name ValidFrom */
+    public static final String COLUMNNAME_ValidFrom = "ValidFrom";
+
+	/** Set Valid from.
+	  * Valid from including this date (first day)
+	  */
+	public void setValidFrom (Timestamp ValidFrom);
+
+	/** Get Valid from.
+	  * Valid from including this date (first day)
+	  */
+	public Timestamp getValidFrom();
+
+    /** Column name ValidTo */
+    public static final String COLUMNNAME_ValidTo = "ValidTo";
+
+	/** Set Valid to.
+	  * Valid to including this date (last day)
+	  */
+	public void setValidTo (Timestamp ValidTo);
+
+	/** Get Valid to.
+	  * Valid to including this date (last day)
+	  */
+	public Timestamp getValidTo();
 }
