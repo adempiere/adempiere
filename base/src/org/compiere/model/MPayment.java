@@ -705,7 +705,7 @@ public final class MPayment extends X_C_Payment
 			+ " INNER JOIN C_AllocationHdr ah ON (al.C_AllocationHdr_ID=ah.C_AllocationHdr_ID) "
 			+ " INNER JOIN C_Payment p ON (al.C_Payment_ID=p.C_Payment_ID) "
 			+ "WHERE al.C_Payment_ID=?"
-			+ " AND ah.IsActive='Y' AND al.IsActive='Y'";
+			+ " AND ah.IsActive='Y'  AND ah.DocStatus IN ('CO','CL') AND al.IsActive='Y'";
 		//	+ " AND al.C_Invoice_ID IS NOT NULL";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

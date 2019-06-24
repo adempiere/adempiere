@@ -729,32 +729,25 @@ public class MBPartner extends X_C_BPartner
 			+ "FROM C_BPartner bp "
 			+ "WHERE C_BPartner_ID=?";		
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, getC_BPartner_ID());
-			ResultSet rs = pstmt.executeQuery ();
+			rs = pstmt.executeQuery ();
 			if (rs.next ())
 			{
 				SO_CreditUsed = rs.getBigDecimal(1);
 				TotalOpenBalance = rs.getBigDecimal(2);
 			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, sql, e);
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
+		finally {
+			DB.close(rs, pstmt);
+			rs = null;
 			pstmt = null;
 		}
 		//
@@ -819,22 +812,22 @@ public class MBPartner extends X_C_BPartner
 			setTotalOpenBalance();
 		return super.getTotalOpenBalance ();
 	}	//	getTotalOpenBalance
-	
-	
+
+
 	/**
 	 * 	Set Credit Status
 	 */
 	public void setSOCreditStatus ()
 	{
-		BigDecimal creditLimit = getSO_CreditLimit(); 
+		BigDecimal creditLimit = getSO_CreditLimit();
 		//	Nothing to do
 		if (SOCREDITSTATUS_NoCreditCheck.equals(getSOCreditStatus())
-			|| SOCREDITSTATUS_CreditStop.equals(getSOCreditStatus())
-			|| Env.ZERO.compareTo(creditLimit) == 0)
+				|| SOCREDITSTATUS_CreditStop.equals(getSOCreditStatus())
+				|| Env.ZERO.compareTo(creditLimit) == 0)
 			return;
 
 		//	Above Credit Limit
-		if (creditLimit.compareTo(getTotalOpenBalance(!m_TotalOpenBalanceSet)) < 0)
+		if (creditLimit.compareTo(getTotalOpenBalance()) < 0)
 			setSOCreditStatus(SOCREDITSTATUS_CreditHold);
 		else
 		{
@@ -846,8 +839,7 @@ public class MBPartner extends X_C_BPartner
 				setSOCreditStatus (SOCREDITSTATUS_CreditOK);
 		}
 	}	//	setSOCreditStatus
-	
-	
+
 	/**
 	 * 	Get SO CreditStatus with additional amount
 	 * 	@param additionalAmt additional amount in Accounting Currency
@@ -858,23 +850,23 @@ public class MBPartner extends X_C_BPartner
 		if (additionalAmt == null || additionalAmt.signum() == 0)
 			return getSOCreditStatus();
 		//
-		BigDecimal creditLimit = getSO_CreditLimit(); 
+		BigDecimal creditLimit = getSO_CreditLimit();
 		//	Nothing to do
 		if (SOCREDITSTATUS_NoCreditCheck.equals(getSOCreditStatus())
-			|| SOCREDITSTATUS_CreditStop.equals(getSOCreditStatus())
-			|| Env.ZERO.compareTo(creditLimit) == 0)
+				|| SOCREDITSTATUS_CreditStop.equals(getSOCreditStatus())
+				|| Env.ZERO.compareTo(creditLimit) == 0)
 			return getSOCreditStatus();
 
 		//	Above (reduced) Credit Limit
 		creditLimit = creditLimit.subtract(additionalAmt);
-		if (creditLimit.compareTo(getTotalOpenBalance(!m_TotalOpenBalanceSet)) < 0)
+		if (creditLimit.compareTo(getTotalOpenBalance()) < 0)
 			return SOCREDITSTATUS_CreditHold;
-		
+
 		//	Above Watch Limit
 		BigDecimal watchAmt = creditLimit.multiply(getCreditWatchRatio());
 		if (watchAmt.compareTo(getTotalOpenBalance()) < 0)
 			return SOCREDITSTATUS_CreditWatch;
-		
+
 		//	is OK
 		return SOCREDITSTATUS_CreditOK;
 	}	//	getSOCreditStatus
