@@ -1050,7 +1050,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 			+ " INNER JOIN C_AllocationHdr ah ON (al.C_AllocationHdr_ID=ah.C_AllocationHdr_ID)"
 			+ " INNER JOIN C_Invoice i ON (al.C_Invoice_ID=i.C_Invoice_ID) "
 			+ "WHERE al.C_Invoice_ID=?"
-			+ " AND ah.IsActive='Y' AND al.IsActive='Y'";
+			+ " AND ah.IsActive='Y'  AND ah.DocStatus IN ('CO','CL') AND al.IsActive='Y'";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try

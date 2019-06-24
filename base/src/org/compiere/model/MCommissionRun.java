@@ -462,9 +462,9 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				+ " INNER JOIN C_InvoiceLine il on (i.C_Invoice_ID=il.C_Invoice_ID) "
 				+ " LEFT JOIN (  SELECT al2.C_Invoice_ID, sum(al2.amount) as payedSum "
 				+ "              FROM C_AllocationLine al2 "
-				+ "              INNER JOIN C_AllocationHdr ah on (al2.c_allocationhdr_id=ah.c_allocationhdr_id) "
+				+ "              INNER JOIN C_AllocationHdr ah on (al2.C_AllocationHdr_id=ah.C_AllocationHdr_ID) "
 				+ " 			 INNER JOIN c_Payment p on al2.c_Payment_ID = p.c_Payment_ID  "
-				+ "              WHERE al2.C_Charge_ID IS NULL AND ah.docstatus<>'RE' and p.datetrx <=?"
+				+ "              WHERE al2.C_Charge_ID IS NULL AND ah.DocStatus IN ('CO','CL') AND p.DateTrx <=?"
 				+ "              GROUP BY al2.C_Invoice_ID "
 				+ "            ) al1 on (i.C_Invoice_ID = al1.C_Invoice_ID) "
 				+ " WHERE il.C_InvoiceLine_ID=" + C_IvoiceLine_ID 

@@ -399,7 +399,7 @@ public class Invoice
 			+ " a.C_Currency_ID, a.DateTrx "
 			+ "FROM C_AllocationLine al"
 			+ " INNER JOIN C_AllocationHdr a ON (al.C_AllocationHdr_ID=a.C_AllocationHdr_ID) "
-			+ "WHERE al.C_Invoice_ID=?"
+			+ "WHERE al.C_Invoice_ID=? AND a.DocStatus IN ('CO','CL') "
 			+ " AND a.IsActive='Y'";
 		PreparedStatement pstmt = Adempiere.prepareStatement(sql);
 		pstmt.setInt(1, C_Invoice_ID);
@@ -450,7 +450,7 @@ public class Invoice
 			+ " a.C_Currency_ID, a.DateTrx "
 			+ "FROM C_AllocationLine al"
 			+ " INNER JOIN C_AllocationHdr a ON (al.C_AllocationHdr_ID=a.C_AllocationHdr_ID) "
-			+ "WHERE al.C_Invoice_ID=?"
+			+ "WHERE al.C_Invoice_ID=? AND a.DocStatus IN ('CO','CL')"
 			+ " AND a.IsActive='Y' AND a.DateAcct <= ?";
 		PreparedStatement pstmt = Adempiere.prepareStatement(sql);
 		pstmt.setInt(1, C_Invoice_ID);
