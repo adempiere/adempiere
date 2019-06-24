@@ -314,12 +314,9 @@ public class MPInstance extends X_AD_PInstance
 			int seconds = (int)(ms / 1000);
 			if (seconds < 1)
 				seconds = 1;
-			MProcess process = new MProcess(getCtx(), getAD_Process_ID(), null);
+			MProcess process = new MProcess(getCtx(), getAD_Process_ID(), get_TrxName());
 			process.addStatistics(seconds);
-			if (process.get_ID() != 0 && process.save())
-				log.fine("afterSave - Process Statistics updated Sec=" + seconds);
-			else
-				log.warning("afterSave - Process Statistics not updated");
+			process.saveEx();
 		}
 		return success;
 	}	//	afterSave
