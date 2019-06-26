@@ -406,51 +406,77 @@ public class TimeUtil
 	 *  <li> Calendar.THURSDAY
 	 *  <li> Calendar.FRIDAY
 	 *  <li> Calendar.SATURDAY
-	 * 	@param start start date
-	 * 	@param end end date
+	 * 	@param startingDate start date
+	 * 	@param endingDate end date
 	 * 	@param matchingDay it is used for include a days
 	 * 	@return number of days (0 = same)
 	 */
-	public static int getDaysBetween (Timestamp start, Timestamp end, int... matchingDay) {
-		if(start == null
-				|| end == null) {
+	public static int getDaysBetween(Timestamp startingDate, Timestamp endingDate, int... matchingDay) {
+		return getDaysBetween(startingDate, endingDate, false, matchingDay);
+	}
+	
+	/**
+	 * 	Calculate the number of days between start and end.
+	 *  Use any of follow constants for get a specific day of week
+	 *  <li> Calendar.SUNDAY
+	 *  <li> Calendar.MONDAY
+	 *  <li> Calendar.TUESDAY
+	 *  <li> Calendar.WEDNESDAY
+	 *  <li> Calendar.THURSDAY
+	 *  <li> Calendar.FRIDAY
+	 *  <li> Calendar.SATURDAY
+	 * 	@param startingDate start date
+	 * 	@param endingDate end date
+	 * 	@param includeCurrentDay include current day for count
+	 * 	@param matchingDay it is used for include a days
+	 * 	@return number of days (0 = same)
+	 */
+	public static int getDaysBetween (Timestamp startingDate, Timestamp endingDate, boolean includeCurrentDay, int... matchingDay) {
+		if(startingDate == null
+				|| endingDate == null) {
 			return 0;
 		}
 		boolean negative = false;
-		if (end.before(start))
+		if (endingDate.before(startingDate))
 		{
 			negative = true;
-			Timestamp temp = start;
-			start = end;
-			end = temp;
+			Timestamp temp = startingDate;
+			startingDate = endingDate;
+			endingDate = temp;
 		}
 		//
-		GregorianCalendar cal = new GregorianCalendar();
-		cal.setTime(start);
-		cal.set(Calendar.HOUR_OF_DAY, 0);
-		cal.set(Calendar.MINUTE, 0);
-		cal.set(Calendar.SECOND, 0);
-		cal.set(Calendar.MILLISECOND, 0);
-		GregorianCalendar calEnd = new GregorianCalendar();
-		calEnd.setTime(end);
-		calEnd.set(Calendar.HOUR_OF_DAY, 0);
-		calEnd.set(Calendar.MINUTE, 0);
-		calEnd.set(Calendar.SECOND, 0);
-		calEnd.set(Calendar.MILLISECOND, 0);
+		GregorianCalendar testingDate = new GregorianCalendar();
+		testingDate.setTime(startingDate);
+		testingDate.set(Calendar.HOUR_OF_DAY, 0);
+		testingDate.set(Calendar.MINUTE, 0);
+		testingDate.set(Calendar.SECOND, 0);
+		testingDate.set(Calendar.MILLISECOND, 0);
+		GregorianCalendar endCalendarDate = new GregorianCalendar();
+		endCalendarDate.setTime(endingDate);
+		endCalendarDate.set(Calendar.HOUR_OF_DAY, 0);
+		endCalendarDate.set(Calendar.MINUTE, 0);
+		endCalendarDate.set(Calendar.SECOND, 0);
+		endCalendarDate.set(Calendar.MILLISECOND, 0);
 		//	in same year
-		if (cal.get(Calendar.YEAR) == calEnd.get(Calendar.YEAR)
+		if (testingDate.get(Calendar.YEAR) == endCalendarDate.get(Calendar.YEAR)
 				&& (matchingDay == null || matchingDay.length == 0))
 		{
 			if (negative)
-				return (calEnd.get(Calendar.DAY_OF_YEAR) - cal.get(Calendar.DAY_OF_YEAR)) * -1;
-			return calEnd.get(Calendar.DAY_OF_YEAR) - cal.get(Calendar.DAY_OF_YEAR);
+				return (endCalendarDate.get(Calendar.DAY_OF_YEAR) - testingDate.get(Calendar.DAY_OF_YEAR)) * -1;
+			return endCalendarDate.get(Calendar.DAY_OF_YEAR) - testingDate.get(Calendar.DAY_OF_YEAR);
 		}
 
 		//	not very efficient, but correct
 		int counter = 0;
-		while (calEnd.after(cal)) {
-			cal.add (Calendar.DAY_OF_YEAR, 1);
-			boolean match = isMatchingDay(cal.get(Calendar.DAY_OF_WEEK), matchingDay);
+		if(includeCurrentDay) {
+			boolean match = isMatchingDay(testingDate.get(Calendar.DAY_OF_WEEK), matchingDay);
+	    	if(match) {
+	    		counter++;
+	    	}
+		}
+		while (endCalendarDate.after(testingDate)) {
+			testingDate.add (Calendar.DAY_OF_YEAR, 1);
+			boolean match = isMatchingDay(testingDate.get(Calendar.DAY_OF_WEEK), matchingDay);
 	    	if(match) {
 	    		counter++;
 	    	}
