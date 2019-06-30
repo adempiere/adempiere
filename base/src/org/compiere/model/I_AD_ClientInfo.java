@@ -303,6 +303,21 @@ public interface I_AD_ClientInfo
 
 	public org.compiere.model.I_C_UOM getC_UOM_Weight() throws RuntimeException;
 
+    /** Column name FileHandler_ID */
+    public static final String COLUMNNAME_FileHandler_ID = "FileHandler_ID";
+
+	/** Set File Handler.
+	  * File Handler Registered as App Registration for handle all file system
+	  */
+	public void setFileHandler_ID (int FileHandler_ID);
+
+	/** Get File Handler.
+	  * File Handler Registered as App Registration for handle all file system
+	  */
+	public int getFileHandler_ID();
+
+	public org.spin.model.I_AD_AppRegistration getFileHandler() throws RuntimeException;
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 

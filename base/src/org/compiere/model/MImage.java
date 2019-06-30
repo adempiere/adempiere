@@ -31,8 +31,11 @@ import java.util.logging.Level;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
 import org.compiere.util.Ini;
+import org.spin.util.AttachmentUtil;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -105,6 +108,8 @@ public class MImage extends X_AD_Image
 	private Image			m_image = null;
 	/** The Icon                   */
 	private Icon			m_icon = null;
+	/**	Binary Data					*/
+	private byte[]			data = null;
 
 	/**
 	 * 	Get Image
@@ -254,13 +259,32 @@ public class MImage extends X_AD_Image
 		super.setBinaryData (BinaryData);
 	}	//	setBinaryData
 	
+	@Override
+	public byte[] getBinaryData() {
+		byte[] data = null;
+		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
+			try {
+				data = AttachmentUtil.getInstance()
+						.clear()
+						.withImageId(getAD_Image_ID())
+						.withClientId(getAD_Client_ID())
+						.getAttachment();
+			} catch (Exception e) {
+				log.warning("Error loading image: " + e.getLocalizedMessage());
+			}
+			return data;
+		}
+		//	Get from DB
+		return super.getBinaryData();
+	}
+	
 	/**
 	 * 	Get Data 
 	 *	@return data
 	 */
 	public byte[] getData()
 	{
-		byte[] data = super.getBinaryData ();
+		byte[] data = getBinaryData ();
 		if (data != null)
 			return data;
 		//	From URL
@@ -318,7 +342,32 @@ public class MImage extends X_AD_Image
 	{
 		if (getAD_Org_ID() != 0)
 			setAD_Org_ID(0);
+		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
+			data = super.getBinaryData();
+			super.setBinaryData(null);
+		}
 		return true;
 	}	//	beforeSave
+	
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		//	Save from external
+		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
+			try {
+				AttachmentUtil.getInstance()
+					.clear()
+					.withImageId(getAD_Image_ID())
+					.withFileName(getName())
+					.withDescription(getDescription())
+					.withData(data)
+					.withTansactionName(get_TrxName())
+					.saveAttachment();
+			} catch (Exception e) {
+				throw new AdempiereException(e);
+			}
+		}
+		data = null;
+		return super.afterSave(newRecord, success);
+	}
 	
 }   //  MImage
