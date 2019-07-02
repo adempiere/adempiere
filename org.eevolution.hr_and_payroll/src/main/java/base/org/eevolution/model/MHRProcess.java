@@ -1062,6 +1062,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		scriptCtx.remove("_HR_Employee_ValidFrom");
 		scriptCtx.remove("_HR_Employee_ValidTo");
 		scriptCtx.remove("_HR_Employee_Payroll_Value");
+		scriptCtx.remove("_HR_Employee_Contract");
 
 		scriptCtx.put("_DateStart", employee.getStartDate());
 		scriptCtx.put("_DateEnd", employee.getEndDate() == null ? dateTo == null ? getDateAcct() : dateTo : employee.getEndDate());
@@ -1074,6 +1075,10 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		//	Get Employee valid from and to
 		scriptCtx.put("_HR_Employee_ValidFrom", employeeValidFrom);
 		scriptCtx.put("_HR_Employee_ValidTo", employeeValidTo);
+		if(employee.getHR_Payroll_ID() > 0) {
+			MHRContract contract = MHRContract.getById(getCtx(), employee.getHR_Payroll().getHR_Contract_ID(), get_TrxName());
+			scriptCtx.put("_HR_Employee_Contract", contract);
+		}
 		//	
 		if(getHR_Period_ID() > 0) {
 			createCostCollectorMovements(partner.get_ID(), payrollPeriod);
