@@ -39,6 +39,8 @@ import org.compiere.util.TimeUtil;
  *	@author Cristina Ghita, www.arhipac.ro
  * 			<li> BUG [ 1932959 ]
  * 			@see https://sourceforge.net/tracker/index.php?func=detail&aid=1932959&group_id=176962&atid=934929
+ * 	@author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
+ * 			Add Time and Attendance Record integration
  */
 public class MHRYear extends X_HR_Year
 {
