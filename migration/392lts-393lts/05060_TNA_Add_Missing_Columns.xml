@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA03" Name="TNA Add some columns" ReleaseNo="3.9.3" SeqNo="0">
+  <Migration EntityType="ECA03" Name="TNA Add some columns" ReleaseNo="3.9.3" SeqNo="5060">
     <Step DBType="Oracle" Parse="Y" SeqNo="10" StepType="SQL">
       <SQLStatement>ALTER TABLE HR_Period MODIFY HR_Payroll_ID NUMBER(10) DEFAULT NULL;
 ALTER TABLE HR_Period MODIFY HR_Payroll_ID NULL;
