@@ -15,7 +15,9 @@ ALTER TABLE HR_ShiftGroup ADD OnWednesday CHAR(1) DEFAULT 'N' CHECK (OnWednesday
 ALTER TABLE HR_ShiftGroup MODIFY Description NVARCHAR2(255) DEFAULT NULL;
 ALTER TABLE HR_WorkGroup MODIFY Description NVARCHAR2(255) DEFAULT NULL;
 ALTER TABLE HR_Year MODIFY HR_Payroll_ID NUMBER(10) DEFAULT NULL ;
-ALTER TABLE HR_Year MODIFY HR_Payroll_ID NULL;</SQLStatement>
+ALTER TABLE HR_Year MODIFY HR_Payroll_ID NULL;
+ALTER TABLE HR_AttendanceBatch MODIFY HR_WorkShift_ID NUMBER(10) DEFAULT NULL ;
+ALTER TABLE HR_AttendanceBatch MODIFY HR_WorkShift_ID NULL;</SQLStatement>
     </Step>
     <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
       <SQLStatement>INSERT INTO t_alter_column values('hr_period','HR_Payroll_ID','NUMERIC(10)',null,'NULL');
@@ -31,7 +33,9 @@ ALTER TABLE HR_ShiftGroup ADD COLUMN OnWednesday CHAR(1) DEFAULT 'N' CHECK (OnWe
 INSERT INTO t_alter_column values('hr_shiftgroup','Description','VARCHAR(255)',null,'NULL');
 INSERT INTO t_alter_column values('hr_workgroup','Description','VARCHAR(255)',null,'NULL');
 INSERT INTO t_alter_column values('hr_year','HR_Payroll_ID','NUMERIC(10)',null,'NULL');
-INSERT INTO t_alter_column values('hr_year','HR_Payroll_ID',null,'NULL',null);</SQLStatement>
+INSERT INTO t_alter_column values('hr_year','HR_Payroll_ID',null,'NULL',null);
+INSERT INTO t_alter_column values('hr_attendancebatch','HR_WorkShift_ID','NUMERIC(10)',null,'NULL');
+INSERT INTO t_alter_column values('hr_attendancebatch','HR_WorkShift_ID',null,'NULL',null);</SQLStatement>
     </Step>
     <Step DBType="Oracle" Parse="N" SeqNo="20" StepType="SQL">
       <SQLStatement>/******************************************************************************

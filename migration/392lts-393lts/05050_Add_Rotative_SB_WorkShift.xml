@@ -6173,5 +6173,10 @@ AND NOT EXISTS(SELECT 1 FROM HR_ShiftSchedule ssr
 			AND ssr.HR_WorkShift_ID = ss.HR_WorkShift_ID)</Data>
       </PO>
     </Step>
+    <Step SeqNo="2490" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="90404" Table="AD_Column">
+        <Data AD_Column_ID="124" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>
