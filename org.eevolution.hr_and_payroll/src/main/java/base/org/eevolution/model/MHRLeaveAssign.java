@@ -26,7 +26,12 @@ import java.util.Properties;
  */
 public class MHRLeaveAssign extends X_HR_LeaveAssign {
 
-    public static MHRLeaveAssign getByLeaveType(MHRLeaveType leaveType)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8779396920883632575L;
+
+	public static MHRLeaveAssign getByLeaveType(MHRLeaveType leaveType)
     {
         StringBuilder whereClause = new StringBuilder();
         whereClause.append(COLUMNNAME_HR_LeaveType_ID).append("=?");

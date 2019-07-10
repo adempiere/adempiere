@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.exceptions.AdempiereException;
-import org.compiere.Adempiere;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 

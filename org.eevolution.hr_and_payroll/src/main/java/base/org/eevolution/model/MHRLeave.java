@@ -23,13 +23,15 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.process.DocAction;
+import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
+import org.compiere.util.Msg;
 
 /** Generated Model for HR_Leave
  *  @author Adempiere (generated) 
  *  @version Release 3.9.0 - $Id$ */
-public class MHRLeave extends X_HR_Leave implements DocAction {
+public class MHRLeave extends X_HR_Leave implements DocAction, DocOptions {
 
 	/**
 	 *
@@ -279,20 +281,53 @@ public class MHRLeave extends X_HR_Leave implements DocAction {
 	public boolean voidIt()
 	{
 		log.info("voidIt - " + toString());
-		return closeIt();
+		// Before Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+		if (m_processMsg != null)
+			return false;
+		addDescription(Msg.getMsg(getCtx(), "Voided"));
+		// After Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+		if (m_processMsg != null)
+			return false;
+
+		setProcessed(true);
+        setDocAction(DOCACTION_None);
+		return true;
 	}	//	voidIt
+	
+	/**
+     *  Add to Description
+     *  @param description text
+     */
+    public void addDescription (String description) {
+        String desc = getDescription();
+        if (desc == null)
+            setDescription(description);
+        else
+            setDescription(desc + " | " + description);
+    }   //  addDescription
 	
 	/**
 	 * 	Close Document.
 	 * 	Cancel not delivered Qunatities
 	 * 	@return true if success 
 	 */
-	public boolean closeIt()
-	{
+	public boolean closeIt() {
 		log.info("closeIt - " + toString());
-
-		//	Close Not delivered Qty
+		// Before Close
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
+		if (m_processMsg != null)
+			return false;
+		
+		setProcessed(true);
 		setDocAction(DOCACTION_None);
+		
+		// After Close
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+		if (m_processMsg != null)
+			return false;
+
 		return true;
 	}	//	closeIt
 	
@@ -303,6 +338,17 @@ public class MHRLeave extends X_HR_Leave implements DocAction {
 	public boolean reverseCorrectIt()
 	{
 		log.info("reverseCorrectIt - " + toString());
+		// Before reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
+		//	Void It
+		voidIt();
+		// After reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
+
 		return false;
 	}	//	reverseCorrectionIt
 	
@@ -313,6 +359,17 @@ public class MHRLeave extends X_HR_Leave implements DocAction {
 	public boolean reverseAccrualIt()
 	{
 		log.info("reverseAccrualIt - " + toString());
+		// Before reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+		//	Void It
+		voidIt();
+		// After reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+
 		return false;
 	}	//	reverseAccrualIt
 	
@@ -323,12 +380,47 @@ public class MHRLeave extends X_HR_Leave implements DocAction {
 	public boolean reActivateIt()
 	{
 		log.info("reActivateIt - " + toString());
+		// Before reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (m_processMsg != null)
+			return false;
+		// After reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
+		if (m_processMsg != null)
+			return false;
+		
+		setDocAction(DOCACTION_Complete);
 		setProcessed(false);
-		if (reverseCorrectIt())
-			return true;
-		return false;
+		return true;
 	}	//	reActivateIt
 	
+	
+	@Override
+	public int customizeValidActions(String docStatus, Object processing,
+			String orderType, String isSOTrx, int AD_Table_ID,
+			String[] docAction, String[] options, int index) {
+		//	Valid Document Action
+		if (AD_Table_ID == Table_ID) {
+			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
+					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
+					|| docStatus.equals(DocumentEngine.STATUS_Invalid)) {
+					options[index++] = DocumentEngine.ACTION_Prepare;
+				}
+				//	Complete                    ..  CO
+				else if (docStatus.equals(DocumentEngine.STATUS_Completed)) {
+					
+					options[index++] = DocumentEngine.ACTION_Void;
+					options[index++] = DocumentEngine.ACTION_ReActivate;
+					options[index++] = DocumentEngine.ACTION_Close;
+					
+				} else if (docStatus.equals(DocumentEngine.STATUS_Closed)) {
+					options[index++] = DocumentEngine.ACTION_None;
+				}
+			
+		}
+		
+		return index;
+	}
 	
 	/*************************************************************************
 	 * 	Get Summary

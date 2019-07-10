@@ -24,7 +24,12 @@ import java.util.Properties;
  */
 public class MHRLeaveType extends X_HR_LeaveType {
 
-    public MHRLeaveType(Properties ctx, int HR_LeaveType_ID, String trxName) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7133085721473240202L;
+
+	public MHRLeaveType(Properties ctx, int HR_LeaveType_ID, String trxName) {
         super(ctx, HR_LeaveType_ID, trxName);
     }
 
