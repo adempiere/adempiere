@@ -16,7 +16,12 @@
 package org.spin.model;
 
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Properties;
+
+import org.compiere.model.Query;
+import org.compiere.util.CCache;
 
 /**
  * Model class for shift schedule
@@ -36,5 +41,43 @@ public class MHRShiftSchedule extends X_HR_ShiftSchedule {
 	 * 
 	 */
 	private static final long serialVersionUID = 1396860053067383823L;
+	
+	/**	Hash for schedule	*/
+	private static CCache<String, MHRShiftSchedule> shiftScheduleCache = new CCache<String, MHRShiftSchedule>(Table_Name, 1000);
+	
+	/**
+	 * Get Schedule for work group from date
+	 * @param context
+	 * @param workGroupId
+	 * @param date
+	 * @param transactionName
+	 * @return
+	 */
+	public static MHRShiftSchedule getScheduleFromWorkGroup(Properties context, int workGroupId, Timestamp date, String transactionName) {
+		String key = workGroupId + "|" + new SimpleDateFormat("yyyyMMdd").format(date);
+		MHRShiftSchedule shiftSchedule = shiftScheduleCache.get(key);
+		if(shiftSchedule == null) {
+			shiftSchedule = new Query(context, Table_Name, COLUMNNAME_HR_WorkGroup_ID + " = ? "
+					+ "AND EXISTS(SELECT 1 "
+					+ "					FROM HR_Period p "
+					+ "					WHERE p.HR_Period_ID = HR_ShiftSchedule.HR_Period_ID "
+					+ "					AND ? BETWEEN p.StartDate AND p.EndDate)", transactionName)
+				.setParameters(workGroupId, date)
+				.setClient_ID()
+				.setOnlyActiveRecords(true)
+				.first();
+		}
+		if(shiftSchedule != null) {
+			shiftScheduleCache.put(key, shiftSchedule);
+		}
+		//	Default
+		return shiftSchedule;
+	}
 
+	@Override
+	public String toString() {
+		return "MHRShiftSchedule [getDescription()=" + getDescription() + ", getHR_Period_ID()=" + getHR_Period_ID()
+				+ ", getHR_ShiftSchedule_ID()=" + getHR_ShiftSchedule_ID() + ", getHR_WorkGroup_ID()="
+				+ getHR_WorkGroup_ID() + ", getHR_WorkShift_ID()=" + getHR_WorkShift_ID() + "]";
+	}
 }

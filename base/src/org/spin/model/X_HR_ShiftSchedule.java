@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_ShiftSchedule
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_HR_ShiftSchedule extends PO implements I_HR_ShiftSchedule, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181004L;
+	private static final long serialVersionUID = 20190710L;
 
     /** Standard Constructor */
     public X_HR_ShiftSchedule (Properties ctx, int HR_ShiftSchedule_ID, String trxName)

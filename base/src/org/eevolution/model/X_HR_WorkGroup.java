@@ -31,7 +31,7 @@ public class X_HR_WorkGroup extends PO implements I_HR_WorkGroup, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20190710L;
 
     /** Standard Constructor */
     public X_HR_WorkGroup (Properties ctx, int HR_WorkGroup_ID, String trxName)
@@ -41,6 +41,7 @@ public class X_HR_WorkGroup extends PO implements I_HR_WorkGroup, I_Persistent
         {
 			setHR_WorkGroup_ID (0);
 			setIsShiftAllocation (false);
+// N
 			setName (null);
         } */
     }

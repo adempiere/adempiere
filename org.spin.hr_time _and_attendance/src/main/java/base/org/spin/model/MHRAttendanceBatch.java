@@ -21,6 +21,8 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
+
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.*;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocOptions;
@@ -30,6 +32,8 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Util;
+import org.eevolution.model.MHREmployee;
+import org.eevolution.model.MHRWorkGroup;
 import org.eevolution.model.MHRWorkShift;
 
 /**
@@ -160,7 +164,7 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
 		}
-		//	Validate and prepare atendance
+		//	Validate and prepare attendance
 		m_processMsg = processShiftIncidence();
 		if (m_processMsg != null) {
 			return DocAction.STATUS_Invalid;
@@ -361,6 +365,7 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 	 * @return
 	 */
 	private String processShiftIncidence() {
+		validateWorkShift();
 		StringBuffer errorMessage = new StringBuffer();
 		//	 Validate pair
 		int attendanceQuantity = getLines(false).size();
@@ -388,6 +393,51 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 		}
 		//	default
 		return null;
+	}
+	
+	/**
+	 * Get work shift for employee from:
+	 * - Shift Schedule for a Work Group
+	 * - Work Group add to employee configuration
+	 * - Shift Work add to employee configuration
+	 */
+	private void validateWorkShift() {
+		MHREmployee employee = MHREmployee.getById(getCtx(), getHR_Employee_ID());
+		int workShiftId = 0;
+		int shiftScheduleId = 0;
+		if(employee.getHR_WorkGroup_ID() > 0) {
+			MHRWorkGroup workGroup = MHRWorkGroup.getById(getCtx(), employee.getHR_WorkGroup_ID(), get_TrxName());
+			if(workGroup.isShiftAllocation()) {
+				workShiftId = workGroup.getHR_WorkShift_ID();
+				if(workShiftId == 0
+						&& workGroup.getHR_ShiftGroup_ID() > 0) {
+					MHRWorkShift workShift = MHRWorkShift.getDefaultFromGroup(getCtx(), workGroup.getHR_ShiftGroup_ID(), get_TrxName());
+					if(workShift != null) {
+						workShiftId = workShift.getHR_WorkShift_ID();
+					}
+				}
+			} else {
+				MHRShiftSchedule shiftSchedule = MHRShiftSchedule.getScheduleFromWorkGroup(getCtx(), workGroup.getHR_WorkGroup_ID(), getDateDoc(), get_TableName());
+				if(shiftSchedule != null) {
+					workShiftId = shiftSchedule.getHR_WorkShift_ID();
+					shiftScheduleId = shiftSchedule.getHR_ShiftSchedule_ID();
+				}
+			}
+		} else if(employee.getHR_ShiftGroup_ID() > 0) {
+			MHRWorkShift workShift = MHRWorkShift.getDefaultFromGroup(getCtx(), employee.getHR_ShiftGroup_ID(), get_TrxName());
+			if(workShift != null) {
+				workShiftId = workShift.getHR_WorkShift_ID();
+			}
+		}
+		//	Validate work shift
+		if(workShiftId == 0) {
+			throw new AdempiereException("@HR_WorkShift_ID@ @NotFound@");
+		}
+		//	Set
+		setHR_WorkShift_ID(workShiftId);
+		if(shiftScheduleId > 0) {
+			setHR_ShiftSchedule_ID(shiftScheduleId);
+		}
 	}
 	
 	/**

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
@@ -136,6 +137,17 @@ public class MHRWorkGroup extends X_HR_WorkGroup {
 				.map(workGroup -> workGroup.getValue())
 				.collect(Collectors.toList());
 		return  workGroupList;
+	}
+	
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		if(isShiftAllocation()) {
+			if(getHR_ShiftGroup_ID() == 0
+					&& getHR_WorkShift_ID() == 0) {
+				throw new AdempiereException("@HR_ShiftGroup_ID@ / @HR_WorkShift_ID@ @IsMandatory@");
+			}
+		}
+		return true;
 	}
 	
     @Override

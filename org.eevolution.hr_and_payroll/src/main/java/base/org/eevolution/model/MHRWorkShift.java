@@ -16,7 +16,9 @@
 
 package org.eevolution.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
@@ -135,6 +137,25 @@ public class MHRWorkShift extends X_HR_WorkShift {
     }
     
     /**
+     * Get default shift work from group
+     * @param ctx
+     * @param shiftGroupId
+     * @param trxName
+     * @return
+     */
+    public static MHRWorkShift getDefaultFromGroup(Properties ctx, int shiftGroupId, String trxName) {
+        if(shiftGroupId <= 0) {
+        	return null;
+        }
+        List<MHRWorkShift> listOfGroup = getFromGroup(ctx, shiftGroupId, trxName);
+        if(listOfGroup != null
+        		&& listOfGroup.size() > 0) {
+        	return listOfGroup.stream().findFirst().get();
+        }
+        return null;
+    }
+    
+    /**
      * Get By Value
      * @param ctx
      * @param workShiftValue
@@ -154,20 +175,48 @@ public class MHRWorkShift extends X_HR_WorkShift {
 				&& isOnThursday()
 				&& isOnFriday()
 				&& isOnSaturday()) {
-			throw new AdempiereException("@TNA.AtLeastNonBusinessDay@");
+			throw new AdempiereException("@TNA.AtLeastBusinessDay@");
 		}
+		Timestamp fromTime = getShiftFromTime();
+		Timestamp toTime = getShiftToTime();
+        Timestamp breakStartTime = getBreakStartTime();
+        Timestamp breakEndTime = getBreakEndTime();
+        BigDecimal breakHourNo = getBreakHoursNo();
+        if (fromTime != null 
+        		&& toTime != null) {
+        	if (fromTime.after(toTime)) {
+            	toTime = TimeUtil.getDayTime(TimeUtil.addDays(toTime, 1), toTime);
+            }
+        }
+        //	For break Time
+        if (breakStartTime != null 
+        		&& breakEndTime != null) {
+        	//	
+        	if (fromTime.after(breakStartTime)) {
+        		breakStartTime = TimeUtil.getDayTime(TimeUtil.addDays(breakStartTime, 1), breakStartTime);
+        	}
+        	if (breakStartTime.after(breakEndTime)) {
+        		breakEndTime = TimeUtil.getDayTime(TimeUtil.addDays(breakEndTime, 1), breakEndTime);
+        	}
+        	long breakDifference = breakEndTime.getTime() - breakStartTime.getTime();
+        	breakHourNo = new BigDecimal(breakDifference / (double)(1000 * 60 * 60));
+        }
+        //	Set break hour no
+        if(breakHourNo == null) {
+        	breakHourNo = Env.ZERO;
+        }
 		//	Validate break
-		if(!TimeUtil.isValid(getShiftFromTime(), getShiftToTime(), getBreakStartTime())) {
+		if(!TimeUtil.isValid(fromTime, toTime, breakStartTime)) {
 			throw new AdempiereException("@TNA.InvalidBreakStartTime@");
 		}
 		//	
-		if(!TimeUtil.isValid(getShiftFromTime(), getShiftToTime(), getBreakEndTime())) {
+		if(!TimeUtil.isValid(fromTime, toTime, breakEndTime)) {
 			throw new AdempiereException("@TNA.InvalidBreakEndTime@");
 		}
 		//	
-		if(getBreakStartTime() != null
-				&& getBreakEndTime() != null
-				&& getBreakEndTime().getTime() < getBreakStartTime().getTime()) {
+		if(breakStartTime != null
+				&& breakEndTime != null
+				&& breakEndTime.getTime() < breakStartTime.getTime()) {
 			throw new AdempiereException("@TNA.InvalidBreakTime@");
 		}
 		//	Validate Pair
@@ -175,6 +224,16 @@ public class MHRWorkShift extends X_HR_WorkShift {
 				&& getMinAttendanceRequire() % 2 != 0) {
 			throw new AdempiereException("@TNA.AttendanceNotPair@");
 		}
+        //[20111209:6:00]
+        long workDifference = toTime.getTime() - fromTime.getTime();
+        BigDecimal workHourNo = new BigDecimal(workDifference / (double)(1000 * 60 * 60));
+        //	Set
+        setBreakHoursNo(breakHourNo);
+        setNoOfHours(workHourNo.subtract(breakHourNo));
+        setShiftFromTime(fromTime);
+        setShiftToTime(toTime);
+        setBreakStartTime(breakStartTime);
+        setBreakEndTime(breakEndTime);
 		return true;
 	}
 
