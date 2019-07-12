@@ -362,9 +362,6 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 		scriptCtx.put("_C_BPartner", businessPartner);
 		scriptCtx.put("_HR_Employee", employee);
 		scriptCtx.put("_HR_Employee_Payroll_Value", employeePayrollValue);
-		//	Get Employee valid from and to
-		scriptCtx.put("_HR_Employee_ValidFrom", employee.getStartDate());
-		scriptCtx.put("_HR_Employee_ValidTo", employee.getEndDate());
 		//	Document
 		scriptCtx.put("_DateDoc", getDateDoc());
 		scriptCtx.put("_HR_AttendanceBatch_ID", getHR_AttendanceBatch_ID());
@@ -472,9 +469,10 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 		scriptCtx.put("_HR_Concept", MHRConcept.getById(getCtx(), shiftIncidence.getHR_Concept_ID(), get_TrxName()));
 		scriptCtx.put("_HR_FirstAttendanceRecord", firstAttendance);
 		scriptCtx.put("_HR_LastAttendanceRecord", lastAttendance);
-		scriptCtx.put("_BeginningTime", shiftIncidence.getBeginningTime());
 		scriptCtx.put("_EventType", shiftIncidence.getEventType());
 		scriptCtx.put("_TimeFrom", shiftIncidence.getTimeFrom());
+		scriptCtx.put("_TimeTo", shiftIncidence.getTimeTo());
+		scriptCtx.put("_BeginningTime", shiftIncidence.getBeginningTime());
 		scriptCtx.put("_TimeUnit", shiftIncidence.getTimeUnit());
 		scriptCtx.put("_DefaultAmt", shiftIncidence.getDefaultAmt());
 		scriptCtx.put("_DefaultQty", shiftIncidence.getDefaultQty());
@@ -586,10 +584,10 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 	}
 	
 	/**
-	 * Get Duration in millis for attendance
+	 * Get Duration in milliseconds for attendance
 	 * @return
 	 */
-	public long getAttendanceDurationInMilllis() {
+	public long getAttendanceDurationInMillis() {
 		return shiftIncidence.getDurationInMillis(attendance.getAttendanceTime());
 	}
 	
@@ -598,7 +596,7 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 	 * @return
 	 */
 	public double getAttendanceTimeQty() {
-		return MHRIncidence.getTime(shiftIncidence.getTimeUnit(), getAttendanceDurationInMilllis());
+		return MHRIncidence.getTime(shiftIncidence.getTimeUnit(), getAttendanceDurationInMillis());
 	}
 	
 	/**
