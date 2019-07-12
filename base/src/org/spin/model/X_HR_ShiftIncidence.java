@@ -26,14 +26,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for HR_ShiftIncidence
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_HR_ShiftIncidence extends PO implements I_HR_ShiftIncidence, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181004L;
+	private static final long serialVersionUID = 20190711L;
 
     /** Standard Constructor */
     public X_HR_ShiftIncidence (Properties ctx, int HR_ShiftIncidence_ID, String trxName)
@@ -76,6 +76,31 @@ public class X_HR_ShiftIncidence extends PO implements I_HR_ShiftIncidence, I_Pe
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.compiere.model.I_AD_Rule getAD_Rule() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Rule)MTable.get(getCtx(), org.compiere.model.I_AD_Rule.Table_Name)
+			.getPO(getAD_Rule_ID(), get_TrxName());	}
+
+	/** Set Rule.
+		@param AD_Rule_ID Rule	  */
+	public void setAD_Rule_ID (int AD_Rule_ID)
+	{
+		if (AD_Rule_ID < 1) 
+			set_Value (COLUMNNAME_AD_Rule_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Rule_ID, Integer.valueOf(AD_Rule_ID));
+	}
+
+	/** Get Rule.
+		@return Rule	  */
+	public int getAD_Rule_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Rule_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Beginning Time.
 		@param BeginningTime 
@@ -409,6 +434,30 @@ public class X_HR_ShiftIncidence extends PO implements I_HR_ShiftIncidence, I_Pe
 	public boolean isTimeReport () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsTimeReport);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Variable Calculation.
+		@param IsVariableCalculation 
+		Variable Calculation for Shift Incidence
+	  */
+	public void setIsVariableCalculation (boolean IsVariableCalculation)
+	{
+		set_Value (COLUMNNAME_IsVariableCalculation, Boolean.valueOf(IsVariableCalculation));
+	}
+
+	/** Get Variable Calculation.
+		@return Variable Calculation for Shift Incidence
+	  */
+	public boolean isVariableCalculation () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsVariableCalculation);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

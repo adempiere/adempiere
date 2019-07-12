@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_ShiftIncidence
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.2
  */
 public interface I_HR_ShiftIncidence 
 {
@@ -62,6 +62,17 @@ public interface I_HR_ShiftIncidence
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_Rule_ID */
+    public static final String COLUMNNAME_AD_Rule_ID = "AD_Rule_ID";
+
+	/** Set Rule	  */
+	public void setAD_Rule_ID (int AD_Rule_ID);
+
+	/** Get Rule	  */
+	public int getAD_Rule_ID();
+
+	public org.compiere.model.I_AD_Rule getAD_Rule() throws RuntimeException;
 
     /** Column name BeginningTime */
     public static final String COLUMNNAME_BeginningTime = "BeginningTime";
@@ -290,6 +301,19 @@ public interface I_HR_ShiftIncidence
 	  * Line is a time report only (no expense)
 	  */
 	public boolean isTimeReport();
+
+    /** Column name IsVariableCalculation */
+    public static final String COLUMNNAME_IsVariableCalculation = "IsVariableCalculation";
+
+	/** Set Variable Calculation.
+	  * Variable Calculation for Shift Incidence
+	  */
+	public void setIsVariableCalculation (boolean IsVariableCalculation);
+
+	/** Get Variable Calculation.
+	  * Variable Calculation for Shift Incidence
+	  */
+	public boolean isVariableCalculation();
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";

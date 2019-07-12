@@ -19,8 +19,10 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.*;
@@ -32,9 +34,12 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Util;
+import org.eevolution.model.MHRConcept;
 import org.eevolution.model.MHREmployee;
+import org.eevolution.model.MHRPayroll;
 import org.eevolution.model.MHRWorkGroup;
 import org.eevolution.model.MHRWorkShift;
+import org.spin.util.TNAUtil;
 
 /**
  * 	Class added for handle Attendance batch
@@ -52,6 +57,22 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 	private List<MHRAttendanceRecord> attendanceRecordList = null;
 	/** Standard documents	*/
 	public static final String		DocBaseType_Standard = "TNA";
+	/** the context for rules */
+	HashMap<String, Object> scriptCtx = new HashMap<String, Object>();
+	private MHRShiftIncidence shiftIncidence;
+	private MHRAttendanceRecord attendance;
+	private MHRIncidence incidence;
+	/**	Script to import	*/
+	private static StringBuffer scriptImport = new StringBuffer(
+			" import org.eevolution.model.*;" 
+			+ Env.NL + "import org.compiere.model.*;"
+			+ Env.NL + "import org.adempiere.model.*;"
+			+ Env.NL + "import org.spin.model.*;"
+			+ Env.NL + "import org.compiere.util.*;"
+			+ Env.NL + "import org.spin.util.*;"
+			+ Env.NL + "import java.util.*;" 
+			+ Env.NL + "import java.math.*;"
+			+ Env.NL + "import java.sql.*;");
 
     /** Standard Constructor */
     public MHRAttendanceBatch (Properties ctx, int HR_AttendanceBatch_ID, String trxName)
@@ -351,6 +372,13 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 								if(get_ValueAsInt("S_ContractLine_ID") > 0) {
 									incidence.set_ValueOfColumn("S_ContractLine_ID", get_ValueAsInt("S_ContractLine_ID"));
 								}
+								this.shiftIncidence = shiftIncidence;
+								this.attendance = attendance;
+								this.incidence = incidence;
+								//	Process rule if it applied
+								if(shiftIncidence.getAD_Rule_ID() > 0) {
+									processRule();
+								}
 								incidence.saveEx();
 							}
 				});
@@ -359,6 +387,214 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 			}
 		}
 	}
+	
+	/**
+	 * Process rule
+	 * @param shiftIncidence
+	 * @param incidence
+	 */
+	private void processRule() {
+		MBPartner businessPartner = (MBPartner) incidence.getC_BPartner();
+		MHREmployee employee = null;
+		if(getHR_Employee_ID() > 0) {
+			employee = MHREmployee.getById(getCtx(), getHR_Employee_ID());
+		} else {
+			employee = MHREmployee.getActiveEmployee(getCtx(), businessPartner.getC_BPartner_ID(), get_TrxName());
+		}
+		//	Validate null
+		if(employee == null) {
+			return;
+		}
+		incidence.setHR_Employee_ID(employee.getHR_Employee_ID());
+		String employeePayrollValue = null;
+		if(employee.getHR_Payroll_ID() != 0) {
+			MHRPayroll employeePayroll = MHRPayroll.getById(getCtx(), employee.getHR_Payroll_ID(), get_TrxName());
+			employeePayrollValue = employeePayroll.getValue();
+		}
+		MHRWorkShift workShift = MHRWorkShift.getById(getCtx(), getHR_WorkShift_ID());
+		//	
+		scriptCtx.put("_DateStart", employee.getStartDate());
+		scriptCtx.put("_DateEnd", employee.getEndDate());
+		scriptCtx.put("_C_BPartner_ID", businessPartner.getC_BPartner_ID());
+		scriptCtx.put("_HR_Employee_ID", employee.getHR_Employee_ID());
+		scriptCtx.put("_C_BPartner", businessPartner);
+		scriptCtx.put("_HR_Employee", employee);
+		scriptCtx.put("_HR_Employee_Payroll_Value", employeePayrollValue);
+		//	Get Employee valid from and to
+		scriptCtx.put("_HR_Employee_ValidFrom", employee.getStartDate());
+		scriptCtx.put("_HR_Employee_ValidTo", employee.getEndDate());
+		//	Document
+		scriptCtx.put("_DateDoc", getDateDoc());
+		scriptCtx.put("_HR_AttendanceBatch_ID", getHR_AttendanceBatch_ID());
+		scriptCtx.put("_HR_WorkShift_ID", getHR_WorkShift_ID());
+		scriptCtx.put("_HR_ShiftSchedule_ID", getHR_ShiftSchedule_ID());
+		scriptCtx.put("_HR_ShiftIncidence_ID", shiftIncidence.getHR_ShiftIncidence_ID());
+		scriptCtx.put("_HR_Concept_ID", shiftIncidence.getHR_Concept_ID());
+		scriptCtx.put("_HR_AttendanceRecord_ID", attendance.getHR_AttendanceRecord_ID());
+		//	Objects
+		scriptCtx.put("process", this);
+		scriptCtx.put("_HR_WorkShift", workShift);
+		scriptCtx.put("_HR_ShiftIncidence", shiftIncidence);
+		scriptCtx.put("_HR_Concept", MHRConcept.getById(getCtx(), shiftIncidence.getHR_Concept_ID(), get_TrxName()));
+		scriptCtx.put("_HR_AttendanceRecord", attendance);
+		scriptCtx.put("_AttendanceTime", attendance.getAttendanceTime());
+		scriptCtx.put("_BeginningTime", shiftIncidence.getBeginningTime());
+		scriptCtx.put("_EventType", shiftIncidence.getEventType());
+		scriptCtx.put("_TimeFrom", shiftIncidence.getTimeFrom());
+		scriptCtx.put("_TimeUnit", shiftIncidence.getTimeUnit());
+		scriptCtx.put("_DefaultAmt", shiftIncidence.getDefaultAmt());
+		scriptCtx.put("_DefaultQty", shiftIncidence.getDefaultQty());
+		scriptCtx.put("_FixedAmt", shiftIncidence.getFixedAmt());
+		scriptCtx.put("_FixedQty", shiftIncidence.getFixedQty());
+		scriptCtx.put("_AttendanceTime", attendance.getAttendanceTime());
+		//	Run
+		MRule rule = MRule.get(getCtx(), shiftIncidence.getAD_Rule_ID());
+		try {
+			if (rule == null) {
+				log.log(Level.WARNING, " @AD_Rule_ID@ @NotFound@");
+			}
+			if (!(rule.getEventType().equals(MRule.EVENTTYPE_HumanResourcePayroll)
+					&& rule.getRuleType().equals(MRule.RULETYPE_JSR223ScriptingAPIs))) {
+				log.log(Level.WARNING, " must be of type JSR 223 and event human resource");
+			}
+
+			String text = "";
+			if (rule.getScript() != null) {
+				text = rule.getScript().trim()
+						.replaceAll("\\bget", "process.get")
+						.replaceAll("\\bset", "process.set")
+						.replace(".process.get", ".get")
+						.replace(".process.set", ".set");
+			}
+			String resultType = "double";
+			String defValue = "0";
+			final String script =
+					scriptImport.toString()
+							+ Env.NL + resultType + " result = "+ defValue +";"
+							+ Env.NL + "String description = null;"
+							+ Env.NL + text;
+			Scriptlet engine = new Scriptlet (Scriptlet.VARIABLE, script, scriptCtx);
+			Exception ex = engine.execute();
+			if (ex != null) {
+				throw ex;
+			}
+		} catch (Exception e) {
+			throw new AdempiereException("@HR_Employee_ID@ : " + employee.getC_BPartner().getName() + " " + employee.getC_BPartner().getName2() 
+			+ " \n @HR_Concept_ID@ " + workShift.getValue() + " -> " + workShift.getName()
+			+ " \n @AD_Rule_ID@=" + rule.getValue() + "\n  @Script@: " + rule.getScript() + " \n @Error@" + Env.NL + e.getLocalizedMessage());
+		}
+	}
+	
+	/**
+	 * Get Attendance Time
+	 * @return
+	 */
+	public Timestamp getAttendanceTime() {
+		return attendance.getAttendanceTime();
+	}
+	
+	/**
+	 * Get Incidence Amount
+	 * @return
+	 */
+	public double getIncidenceAmt() {
+		if(incidence.getAmt() == null) {
+			return 0.0;
+		}
+		return incidence.getAmt().doubleValue();
+	}
+	
+	/**
+	 * Get Incidence Quantity
+	 * @return
+	 */
+	public double getIncidenceQty() {
+		if(incidence.getQty() == null) {
+			return 0.0;
+		}
+		return incidence.getQty().doubleValue();
+	}
+	
+	/**
+	 * Getg Shift Incidence Fixed Quantity
+	 * @return
+	 */
+	public double getShiftIncidenceFixedQty() {
+		if(shiftIncidence.getFixedQty() == null) {
+			return 0.0;
+		}
+		return shiftIncidence.getFixedQty().doubleValue();
+	}
+	
+	/**
+	 * Get fixed quantity from shift incidence
+	 * @return
+	 */
+	public double getShiftIncidenceFixedAmt() {
+		if(shiftIncidence.getFixedAmt() == null) {
+			return 0.0;
+		}
+		return shiftIncidence.getFixedAmt().doubleValue();
+	}
+	
+	/**
+	 * Get Duration in millis for attendance
+	 * @return
+	 */
+	public long getAttendanceDurationInMilllis() {
+		return shiftIncidence.getDurationInMillis(attendance.getAttendanceTime());
+	}
+	
+	/**
+	 * Get Attendance Time Quantity
+	 * @return
+	 */
+	public double getAttendanceTimeQty() {
+		return MHRIncidence.getTime(shiftIncidence.getTimeUnit(), getAttendanceDurationInMilllis());
+	}
+	
+	/**
+	 * Set Incidence Quantity
+	 * @param quantity
+	 */
+	public void setIncidenceQty(double quantity) {
+		incidence.setQty(new BigDecimal(quantity));
+	}
+	
+	/**
+	 * Set Amount for incidence
+	 * @param amount
+	 */
+	public void setIncidenceAmt(double amount) {
+		incidence.setAmt(new BigDecimal(amount));
+	}
+	
+	/**********************************************************************************
+	 * Helper Method for Get Amount from time and attendance record                   *
+	 **********************************************************************************/
+	
+	/**
+	 * Helper Method : Concept by range from-to a sum of incidence
+	 * @param conceptValue
+	 * @param workShiftValue
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	public double getIncidenceSum(String conceptValue, String workShiftValue, Timestamp from, Timestamp to) {
+		return TNAUtil.getIncidenceSum(getCtx(), conceptValue, workShiftValue, getC_BPartner_ID(), from, to, get_TrxName());
+	} // getIncidence
+	
+	/**
+	 * Helper Method : Concept by range from-to a sum of incidence
+	 * @param conceptValue
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	public double getIncidenceSum(String conceptValue, Timestamp from, Timestamp to) {
+		return TNAUtil.getIncidenceSum(getCtx(), conceptValue, null, getC_BPartner_ID(), from, to, get_TrxName());
+	} // getIncidence
 	
 	/**
 	 * Process Shift Incidence
