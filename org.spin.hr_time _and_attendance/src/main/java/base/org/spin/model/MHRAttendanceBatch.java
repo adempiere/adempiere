@@ -61,7 +61,11 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 	HashMap<String, Object> scriptCtx = new HashMap<String, Object>();
 	private MHRShiftIncidence shiftIncidence;
 	private MHRAttendanceRecord attendance;
+	private MHRAttendanceRecord firstAttendance;
+	private MHRAttendanceRecord lastAttendance;
 	private MHRIncidence incidence;
+	private MHREmployee employee;
+	private MHRWorkShift workShift;
 	/**	Script to import	*/
 	private static StringBuffer scriptImport = new StringBuffer(
 			" import org.eevolution.model.*;" 
@@ -265,6 +269,13 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 				if(get_ValueAsInt("S_ContractLine_ID") > 0) {
 					incidence.set_ValueOfColumn("S_ContractLine_ID", get_ValueAsInt("S_ContractLine_ID"));
 				}
+				this.shiftIncidence = shiftIncidence;
+				this.attendance = attendance;
+				this.incidence = incidence;
+				//	Process rule if it applied
+				if(shiftIncidence.getAD_Rule_ID() > 0) {
+					processRule(incidence);
+				}
 				incidence.saveEx();
 				//	Set value for worked hours
 				attendanceHours = attendanceHours.add(new BigDecimal(MHRIncidence.getTime(MHRShiftIncidence.TIMEUNIT_Hour, durationInMillis)));
@@ -305,8 +316,63 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 			if(get_ValueAsInt("S_ContractLine_ID") > 0) {
 				incidence.set_ValueOfColumn("S_ContractLine_ID", get_ValueAsInt("S_ContractLine_ID"));
 			}
+			this.shiftIncidence = shiftIncidence;
+			this.incidence = incidence;
+			//	Process rule if it applied
+			if(shiftIncidence.getAD_Rule_ID() > 0) {
+				processRule(incidence);
+			}
 			incidence.saveEx();
 		});
+	}
+	
+	/**
+	 * Load variables
+	 */
+	private void loadBatchVariables() {
+		MBPartner businessPartner = (MBPartner) getC_BPartner();
+		MHREmployee employee = null;
+		if(getHR_Employee_ID() > 0) {
+			employee = MHREmployee.getById(getCtx(), getHR_Employee_ID());
+		} else {
+			employee = MHREmployee.getActiveEmployee(getCtx(), businessPartner.getC_BPartner_ID(), get_TrxName());
+		}
+		//	Validate null
+		if(employee == null) {
+			throw new AdempiereException("@HR_Employee_ID@ @NotFound@: " + businessPartner.getValue() + " - " + businessPartner.getName());
+		}
+		//	
+		setHR_Employee_ID(employee.getHR_Employee_ID());
+		saveEx();
+		List<MHRAttendanceRecord> attendanceList = getLines(false);
+		this.firstAttendance = attendanceList.get(0);
+		this.lastAttendance = attendanceList.get(attendanceList.size() - 1);
+		//	
+		setHR_Employee_ID(employee.getHR_Employee_ID());
+		String employeePayrollValue = null;
+		if(employee.getHR_Payroll_ID() != 0) {
+			MHRPayroll employeePayroll = MHRPayroll.getById(getCtx(), employee.getHR_Payroll_ID(), get_TrxName());
+			employeePayrollValue = employeePayroll.getValue();
+		}
+		MHRWorkShift workShift = MHRWorkShift.getById(getCtx(), getHR_WorkShift_ID());
+		//	
+		scriptCtx.put("_DateStart", employee.getStartDate());
+		scriptCtx.put("_DateEnd", employee.getEndDate());
+		scriptCtx.put("_C_BPartner_ID", businessPartner.getC_BPartner_ID());
+		scriptCtx.put("_HR_Employee_ID", employee.getHR_Employee_ID());
+		scriptCtx.put("_C_BPartner", businessPartner);
+		scriptCtx.put("_HR_Employee", employee);
+		scriptCtx.put("_HR_Employee_Payroll_Value", employeePayrollValue);
+		//	Get Employee valid from and to
+		scriptCtx.put("_HR_Employee_ValidFrom", employee.getStartDate());
+		scriptCtx.put("_HR_Employee_ValidTo", employee.getEndDate());
+		//	Document
+		scriptCtx.put("_DateDoc", getDateDoc());
+		scriptCtx.put("_HR_AttendanceBatch_ID", getHR_AttendanceBatch_ID());
+		scriptCtx.put("_HR_WorkShift_ID", getHR_WorkShift_ID());
+		scriptCtx.put("_HR_ShiftSchedule_ID", getHR_ShiftSchedule_ID());
+		scriptCtx.put("process", this);
+		scriptCtx.put("_HR_WorkShift", workShift);
 	}
 	
 	/**
@@ -320,9 +386,6 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 		if(workShift.isVariableEntrance()) {
 			if(attendanceHours != null
 					&& attendanceHours.doubleValue() >= workShift.getNoOfHours().doubleValue()) {
-				List<MHRAttendanceRecord> attendanceList = getLines(false);
-				MHRAttendanceRecord firstAttendance = attendanceList.get(0);
-				MHRAttendanceRecord lastAttendance = attendanceList.get(attendanceList.size() - 1);
 				//	
 				int firstHours = TimeUtil.getHoursBetween(TimeUtil.getDay(firstAttendance.getAttendanceTime()), firstAttendance.getAttendanceTime());
 				//	
@@ -346,6 +409,12 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 								if(get_ValueAsInt("S_ContractLine_ID") > 0) {
 									incidence.set_ValueOfColumn("S_ContractLine_ID", get_ValueAsInt("S_ContractLine_ID"));
 								}
+								this.shiftIncidence = shiftIncidence;
+								this.incidence = incidence;
+								//	Process rule if it applied
+								if(shiftIncidence.getAD_Rule_ID() > 0) {
+									processRule(incidence);
+								}
 								incidence.saveEx();
 							}
 				});
@@ -364,7 +433,8 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 						.forEach(shiftIncidence -> {
 							long durationInMillis = shiftIncidence.getDurationInMillis(attendance.getAttendanceTime());
 							if(durationInMillis > 0
-									|| (durationInMillis == 0 && shiftIncidence.isFixedValue())) {
+									|| (durationInMillis == 0 && shiftIncidence.isFixedValue())
+									|| shiftIncidence.isVariableCalculation()) {
 								MHRIncidence incidence = new MHRIncidence(this, shiftIncidence, durationInMillis);
 								if(get_ValueAsInt("S_Contract_ID") > 0) {
 									incidence.set_ValueOfColumn("S_Contract_ID", get_ValueAsInt("S_Contract_ID"));
@@ -377,7 +447,7 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 								this.incidence = incidence;
 								//	Process rule if it applied
 								if(shiftIncidence.getAD_Rule_ID() > 0) {
-									processRule();
+									processRule(incidence);
 								}
 								incidence.saveEx();
 							}
@@ -390,54 +460,19 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 	
 	/**
 	 * Process rule
-	 * @param shiftIncidence
 	 * @param incidence
 	 */
-	private void processRule() {
-		MBPartner businessPartner = (MBPartner) incidence.getC_BPartner();
-		MHREmployee employee = null;
-		if(getHR_Employee_ID() > 0) {
-			employee = MHREmployee.getById(getCtx(), getHR_Employee_ID());
-		} else {
-			employee = MHREmployee.getActiveEmployee(getCtx(), businessPartner.getC_BPartner_ID(), get_TrxName());
-		}
-		//	Validate null
-		if(employee == null) {
-			return;
-		}
-		incidence.setHR_Employee_ID(employee.getHR_Employee_ID());
-		String employeePayrollValue = null;
-		if(employee.getHR_Payroll_ID() != 0) {
-			MHRPayroll employeePayroll = MHRPayroll.getById(getCtx(), employee.getHR_Payroll_ID(), get_TrxName());
-			employeePayrollValue = employeePayroll.getValue();
-		}
-		MHRWorkShift workShift = MHRWorkShift.getById(getCtx(), getHR_WorkShift_ID());
-		//	
-		scriptCtx.put("_DateStart", employee.getStartDate());
-		scriptCtx.put("_DateEnd", employee.getEndDate());
-		scriptCtx.put("_C_BPartner_ID", businessPartner.getC_BPartner_ID());
-		scriptCtx.put("_HR_Employee_ID", employee.getHR_Employee_ID());
-		scriptCtx.put("_C_BPartner", businessPartner);
-		scriptCtx.put("_HR_Employee", employee);
-		scriptCtx.put("_HR_Employee_Payroll_Value", employeePayrollValue);
-		//	Get Employee valid from and to
-		scriptCtx.put("_HR_Employee_ValidFrom", employee.getStartDate());
-		scriptCtx.put("_HR_Employee_ValidTo", employee.getEndDate());
-		//	Document
-		scriptCtx.put("_DateDoc", getDateDoc());
-		scriptCtx.put("_HR_AttendanceBatch_ID", getHR_AttendanceBatch_ID());
-		scriptCtx.put("_HR_WorkShift_ID", getHR_WorkShift_ID());
-		scriptCtx.put("_HR_ShiftSchedule_ID", getHR_ShiftSchedule_ID());
-		scriptCtx.put("_HR_ShiftIncidence_ID", shiftIncidence.getHR_ShiftIncidence_ID());
+	private void processRule(MHRIncidence incidence) {
+		scriptCtx.remove("_AttendanceTime");
+		scriptCtx.remove("_HR_AttendanceRecord_ID");
+		scriptCtx.remove("_HR_AttendanceRecord");
 		scriptCtx.put("_HR_Concept_ID", shiftIncidence.getHR_Concept_ID());
-		scriptCtx.put("_HR_AttendanceRecord_ID", attendance.getHR_AttendanceRecord_ID());
+		scriptCtx.put("_HR_ShiftIncidence_ID", shiftIncidence.getHR_ShiftIncidence_ID());
 		//	Objects
-		scriptCtx.put("process", this);
-		scriptCtx.put("_HR_WorkShift", workShift);
 		scriptCtx.put("_HR_ShiftIncidence", shiftIncidence);
 		scriptCtx.put("_HR_Concept", MHRConcept.getById(getCtx(), shiftIncidence.getHR_Concept_ID(), get_TrxName()));
-		scriptCtx.put("_HR_AttendanceRecord", attendance);
-		scriptCtx.put("_AttendanceTime", attendance.getAttendanceTime());
+		scriptCtx.put("_HR_FirstAttendanceRecord", firstAttendance);
+		scriptCtx.put("_HR_LastAttendanceRecord", lastAttendance);
 		scriptCtx.put("_BeginningTime", shiftIncidence.getBeginningTime());
 		scriptCtx.put("_EventType", shiftIncidence.getEventType());
 		scriptCtx.put("_TimeFrom", shiftIncidence.getTimeFrom());
@@ -446,7 +481,11 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 		scriptCtx.put("_DefaultQty", shiftIncidence.getDefaultQty());
 		scriptCtx.put("_FixedAmt", shiftIncidence.getFixedAmt());
 		scriptCtx.put("_FixedQty", shiftIncidence.getFixedQty());
-		scriptCtx.put("_AttendanceTime", attendance.getAttendanceTime());
+		if(attendance != null) {
+			scriptCtx.put("_AttendanceTime", attendance.getAttendanceTime());
+			scriptCtx.put("_HR_AttendanceRecord_ID", attendance.getHR_AttendanceRecord_ID());
+			scriptCtx.put("_HR_AttendanceRecord", attendance);
+		}
 		//	Run
 		MRule rule = MRule.get(getCtx(), shiftIncidence.getAD_Rule_ID());
 		try {
@@ -459,6 +498,8 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 			}
 
 			String text = "";
+			String description = null;
+			double result = 0.0;
 			if (rule.getScript() != null) {
 				text = rule.getScript().trim()
 						.replaceAll("\\bget", "process.get")
@@ -466,17 +507,25 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 						.replace(".process.get", ".get")
 						.replace(".process.set", ".set");
 			}
-			String resultType = "double";
-			String defValue = "0";
 			final String script =
 					scriptImport.toString()
-							+ Env.NL + resultType + " result = "+ defValue +";"
+							+ Env.NL + "double result = 0;"
 							+ Env.NL + "String description = null;"
 							+ Env.NL + text;
 			Scriptlet engine = new Scriptlet (Scriptlet.VARIABLE, script, scriptCtx);
 			Exception ex = engine.execute();
 			if (ex != null) {
 				throw ex;
+			}
+			result = (double) engine.getResult(false);
+			description = (String) engine.getDescription();
+			//	Set result and description
+			if(!Util.isEmpty(description)) {
+				incidence.setDescription(description);
+			}
+			//	
+			if(result != 0) {
+				incidence.setQty(new BigDecimal(result));
 			}
 		} catch (Exception e) {
 			throw new AdempiereException("@HR_Employee_ID@ : " + employee.getC_BPartner().getName() + " " + employee.getC_BPartner().getName2() 
@@ -619,6 +668,8 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 			}
 		}
 		deleteMovements();
+		//	
+		loadBatchVariables();
 		//	
 		BigDecimal attendanceHours = processAttendance();
 		processLeave(attendanceHours);
