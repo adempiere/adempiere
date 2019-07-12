@@ -14,5 +14,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.adempiere.util.ModelClassGenerator"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="${workspace_loc:base}/src/org/compiere/model/&#13;&#10;org.compiere.model&#13;&#10;&quot;'D', 'U', 'A', 'C'&quot;&#13;&#10;&quot;'C_Bank'&quot;"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="base"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-DPropertyFile=${workspace_loc}/AD392.home/Adempiere.properties"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-DPropertyFile=${workspace_loc}/adempiere/Adempiere/Adempiere.properties"/>
 </launchConfiguration>
