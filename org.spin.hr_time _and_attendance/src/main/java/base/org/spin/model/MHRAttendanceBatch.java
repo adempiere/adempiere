@@ -270,7 +270,6 @@ public class MHRAttendanceBatch extends X_HR_AttendanceBatch implements DocActio
 					incidence.set_ValueOfColumn("S_ContractLine_ID", get_ValueAsInt("S_ContractLine_ID"));
 				}
 				this.shiftIncidence = shiftIncidence;
-				this.attendance = attendance;
 				this.incidence = incidence;
 				//	Process rule if it applied
 				if(shiftIncidence.getAD_Rule_ID() > 0) {
