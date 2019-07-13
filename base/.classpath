@@ -111,5 +111,6 @@
 	<classpathentry kind="lib" path="/glassfishfacet/lib/appserv-rt.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/commons-validator-1.6.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/zxing-2.3.0.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/sardine-5.9-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
