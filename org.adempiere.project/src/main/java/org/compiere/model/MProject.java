@@ -18,6 +18,7 @@ package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -360,8 +361,22 @@ public class MProject extends X_C_Project
 	 */
 	public List<MProjectLine> getLines()
 	{
+		return getLines("");
+	}	//	getLines
+	
+	/**************************************************************************
+	 * 	Get Project Lines
+	 *	@return Array of lines
+	 */
+	public List<MProjectLine> getLines(String whereClause)
+	{
 		//FR: [ 2214883 ] Remove SQL code and Replace for Query - red1
-		final String whereClause = "C_Project_ID=?";
+		//final String whereClause = "C_Project_ID=?";
+		if (whereClause==null)
+			whereClause = "C_Project_ID=?";
+		else
+			whereClause += " AND C_Project_ID=?";
+		
 		return new Query(getCtx(), I_C_ProjectLine.Table_Name, whereClause, get_TrxName())
 			.setParameters(getC_Project_ID())
 			.setOrderBy("Line")
@@ -496,10 +511,48 @@ public class MProject extends X_C_Project
 			return;
 		setC_ProjectType_ID(Integer.toString(type.getC_ProjectType_ID()));
 		setProjectCategory(type.getProjectCategory());
-		createRequest(type);
-		copyPhasesFrom(type);
+		if (type.get_ValueAsString("ProjectBased").equals("L")) {
+			createLinesFromType(type,0);
+		}else {
+			createRequest(type);
+			copyPhasesFrom(type);
+		}
 	}	//	setProjectType
 
+
+	/**
+	 * Create Lines from Project Type 
+	 * @param type
+	 * @param Parent_ID
+	 */
+	private void createLinesFromType(MProjectType type, int Parent_ID) {
+		if (type == null)
+			return;
+		List<MStandardProjectLine> standardLines = MStandardProjectLine.getNodes(type, Parent_ID);
+		List<MProjectLine> pLines = new ArrayList<MProjectLine>();
+		
+		standardLines.stream()
+				.forEach(stdPLine ->{
+					MProjectLine pLine = new MProjectLine(this,stdPLine);
+					pLine.save();
+					pLines.add(pLine);
+				});
+		
+		
+		pLines.stream()
+				.forEach(pLine ->{
+					MStandardProjectLine stdPLine = (MStandardProjectLine) pLine.getC_StandardProjectLine().getParent();
+					if (stdPLine.get_ID()!=0) {
+						MProjectLine parentPLine =pLines.stream()
+												.filter(parent ->  
+													parent.getC_StandardProjectLine_ID() ==stdPLine.getC_StandardProjectLine_ID())
+												.findFirst()
+												.get(); 
+						pLine.setParent_ID(parentPLine.get_ID());
+						pLine.save();
+					}
+				});
+	}
 
 	/**
 	 *	Copy Phases from Type

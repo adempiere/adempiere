@@ -25,7 +25,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
-import org.apache.commons.net.ntp.TimeStamp;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -91,6 +90,42 @@ public class MProjectLine extends X_C_ProjectLine
 		setLine();
 	}	//	MProjectLine
 
+	/**
+	 * Constructor for create line from Standard Project Line
+	 * @param project
+	 * @param stdPLine
+	 */
+	public MProjectLine(MProject project, MStandardProjectLine stdPLine) {
+		this(project.getCtx(), 0, project.get_TrxName());
+		setClientOrg(project);
+		setC_Project_ID(project.getC_Project_ID());
+		setLine(stdPLine.getSeqNo());
+		setC_StandardProjectLine_ID(stdPLine.getC_StandardProjectLine_ID());
+		setC_ProjectLineType_ID(stdPLine.getC_ProjectLineType_ID());
+		setName(stdPLine.getName());
+		setDescription(stdPLine.getDescription());
+		setHelp(stdPLine.getHelp());
+		setIsSummary(stdPLine.isSummary());
+		setPriorityRule(stdPLine.getPriorityRule());
+		setDurationUnit(stdPLine.getDurationUnit());
+		setDurationEstimated(stdPLine.getDurationEstimated());
+		setIsIndefinite(stdPLine.isIndefinite());
+		setIsMilestone(stdPLine.isMilestone());
+		setIsRecurrent(stdPLine.isRecurrent());
+		if (isRecurrent()) {
+			setFrequencyType(stdPLine.getFrequencyType());
+			setFrequency(stdPLine.getFrequency());
+			setRunsMax(stdPLine.getRunsMax());
+		}
+		
+		if (getM_Product_ID()!=0) {
+			setProjInvoiceRule(MProjectLine.PROJINVOICERULE_ProductQuantity);
+			setM_Product_ID(stdPLine.getM_Product_ID());
+			setPlannedQty(stdPLine.getStandardQty());
+		}
+		
+		
+	}
 	/** Parent				*/
 	private MProject	m_parent = null;
 	
@@ -168,7 +203,8 @@ public class MProjectLine extends X_C_ProjectLine
 	{
 		StringBuffer sb = new StringBuffer ("MProjectLine[");
 			sb.append (get_ID()).append ("-")
-				.append (getLine())
+				.append (getName())
+				.append (","+ getLine())
 				.append(",C_Project_ID=").append(getC_Project_ID())
 				.append(",C_ProjectPhase_ID=").append(getC_ProjectPhase_ID())
 				.append(",C_ProjectTask_ID=").append(getC_ProjectTask_ID())
@@ -336,33 +372,33 @@ public class MProjectLine extends X_C_ProjectLine
 		return reposibleId.get();
 	}
 
-	public Optional<Timestamp> getDateStartSchedule(){
-		AtomicReference<Timestamp> dateStartSchedule = new AtomicReference<>(getCreated());
+	public Timestamp getDateStartSchedule(){
+		AtomicReference<Timestamp> dateStartSchedule = new AtomicReference<>(super.getDateStartSchedule());
 		getProjectPhase().ifPresent(phase -> dateStartSchedule.set(phase.getDateStartSchedule()));
 		getProjectTask().ifPresent(task -> dateStartSchedule.set(task.getDateStartSchedule()));
-		return Optional.ofNullable(dateStartSchedule.get());
+		return dateStartSchedule.get();
 	}
 
-	public Optional<Timestamp> getDateFinishSchedule(){
-		AtomicReference<Timestamp> dateStartSchedule = new AtomicReference<>();
+	public Timestamp getDateFinishSchedule(){
+		AtomicReference<Timestamp> dateStartSchedule = new AtomicReference<>(super.getDateFinishSchedule());
 		getProjectPhase().ifPresent(phase -> dateStartSchedule.set(phase.getDateFinishSchedule()));
 		getProjectTask().ifPresent(task -> dateStartSchedule.set(task.getDateFinishSchedule()));
-		return Optional.ofNullable(dateStartSchedule.get());
+		return dateStartSchedule.get();
 	}
 
-	public Optional<Timestamp> getDateDeadline(){
+	public Timestamp getDateDeadline(){
 		AtomicReference<Timestamp> dateDeadline = new AtomicReference<>();
 		getProjectPhase().ifPresent(phase -> dateDeadline.set(phase.getDateDeadline()));
 		getProjectTask().ifPresent(task -> dateDeadline.set(task.getDateDeadline()));
-		return Optional.ofNullable(dateDeadline.get());
+		return dateDeadline.get();
 	}
 
 	public Timestamp getDateOrdered() {
-		return getDateStartSchedule().orElseGet(() -> getCreated());
+		return Optional.ofNullable(getDateStartSchedule()).orElse(getCreated());
 	}
 
 	public Timestamp getDatePromised() {
-		return getDateFinishSchedule().orElseGet(() -> getDateDeadline().orElseGet(() -> getCreated()));
+		return Optional.ofNullable(getDateFinishSchedule()).orElse(Optional.ofNullable(getDateDeadline()).orElse(getCreated()));
 	}
 
 	public String getPriorityRule()
