@@ -12,3 +12,14 @@ jobs:
   include:
   - stage: Main Build Test
     script: ant build
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN_KEY
+  file: 
+    - "$TRAVIS_BUILD_DIR/adempiere/install/Adempiere_392LTS.tar.gz"
+    - "$TRAVIS_BUILD_DIR/adempiere/install/Adempiere_392LTS.tar.gz.MD5"
+    - "$TRAVIS_BUILD_DIR/adempiere/install/Adempiere_392LTS.zip"
+    - "$TRAVIS_BUILD_DIR/adempiere/install/Adempiere_392LTS.zip.MD5"
+  skip_cleanup: true
+  on:
+    tags: true
