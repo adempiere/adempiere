@@ -395,12 +395,7 @@ public class GridPanel extends Borderlayout implements EventListener
 			if (windowPanel != null)
 				windowPanel.getStatusBar().appendChild(keyListener);
 		}
-		if(renderer.isEditing()) 
-			keyListener.setCtrlKeys(CNTRL_KEYS);
-		else 
-			keyListener.setCtrlKeys(CNTRL_KEYS+KEYS_MOVE);
-		
-		keyListener.addEventListener(Events.ON_CTRL_KEY, this);
+		addKeyListener();
 
 	}
 
@@ -996,6 +991,12 @@ public class GridPanel extends Borderlayout implements EventListener
 			keyListener.setCtrlKeys(CNTRL_KEYS+KEYS_MOVE);
 		
 		keyListener.addEventListener(Events.ON_CTRL_KEY, this);
+	}
+
+	public void removeKeyListener() {
+		if (keyListener != null) {
+			keyListener.setCtrlKeys(null);
+		}
 	}
 	
 	protected void createListbox()
