@@ -49,6 +49,9 @@ import org.compiere.util.Msg;
 import org.eevolution.model.MPPProductBOM;
 import org.eevolution.model.MPPProductBOMLine;
 
+import com.klst.adempiere.einvoice.AbstractEinvoice;
+import com.klst.adempiere.einvoice.InterfaceEinvoice;
+
 
 /**
  *	Invoice Model.
@@ -1202,6 +1205,29 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		return MRefList.getListName(getCtx(), 131, getDocStatus());
 	}	//	getDocStatusName
 
+	@Override
+	public byte[] externalize() {
+		String xmlSchema = MSysConfig.getValue(InterfaceEinvoice.XML_SCHEMA_NAME, "", getAD_Client_ID());
+		log.config("to "+InterfaceEinvoice.XML_SCHEMA_NAME+"='" + xmlSchema+"'" + " isSOTrx="+isSOTrx());
+		if(xmlSchema.isEmpty() || isSOTrx()==false) { // default
+			return super.externalize();
+		}
+		
+		byte[] xmlData = null;
+		try
+		{
+			InterfaceEinvoice eInvoice = AbstractEinvoice.createEinvoice(xmlSchema);
+			if(eInvoice==null) {
+				return null;
+			}
+			xmlData = eInvoice.tranformToXML(this);
+		}
+		catch (Exception e)
+		{
+			log.log(Level.SEVERE, "", e);
+		}
+		return xmlData;
+	}
 
 	/**************************************************************************
 	 * 	Create PDF

@@ -343,5 +343,6 @@
 	<classpathentry kind="lib" path="tools/lib/jna-4.4.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/jna-platform-4.4.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="tools/lib/de.klst.facturx-0.0.X.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
