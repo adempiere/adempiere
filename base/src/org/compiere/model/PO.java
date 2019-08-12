@@ -3618,9 +3618,9 @@ public abstract class PO
 			}
 			
 		}
-		/*else
+		else
 			treeNode.set_CustomColumn("Parent_ID", 0);
-		*/
+		
 		treeNode.set_CustomColumn("SeqNo", 999);
 		treeNode.saveEx();
 		return true;
