@@ -122,7 +122,7 @@ public class FinReport extends FinReportAbstract {
 			parameterWhere.append(" AND UserElement2_ID=").append(getUserElement1Id());
 
 		//	Load Report Definition
-		finReport = new MReport (getCtx(), getRecord_ID(), null);
+		finReport = new MReport (getCtx(), getRecord_ID(), get_TrxName());
 		sb.append(" - ").append(finReport);
 		//
 		setPeriods();
