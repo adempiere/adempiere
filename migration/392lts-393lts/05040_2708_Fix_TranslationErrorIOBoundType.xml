@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="#2708 Translation Error for Inbound and Outbound Type into I" ReleaseNo="3.9.3" SeqNo="5040">
+    <Comments>https://github.com/adempiere/adempiere/issues/2708</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="53509" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Operación Salidas">Operación de Entrada</Data>
+        <Data AD_Column_ID="339" Column="Description" oldValue="Material Putaway">Entrada de material</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="53509">53509</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID" isOldNull="true">b1e9e7f4-be2e-11e9-b7ae-0242ac120002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="53508" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Operación Entradas">Operación de Salida</Data>
+        <Data AD_Column_ID="339" Column="Description" oldValue="Material Picking">Material para Recolección</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="53508">53508</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID" isOldNull="true">9632a45a-be2f-11e9-b7ae-0242ac120002</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
