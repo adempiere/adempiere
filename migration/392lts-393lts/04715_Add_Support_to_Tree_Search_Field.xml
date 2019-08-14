@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Support to Tree Search Field" ReleaseNo="3.9.3" SeqNo="4720">
+  <Migration EntityType="D" Name="Add Support to Tree Search Field" ReleaseNo="3.9.3" SeqNo="4715">
     <Comments>https://github.com/adempiere/adempiere/issues/729</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="93149" Table="AD_Column">

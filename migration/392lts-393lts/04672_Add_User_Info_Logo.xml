@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add User Info" ReleaseNo="3.9.3" SeqNo="4670">
+  <Migration EntityType="D" Name="Add User Info" ReleaseNo="3.9.3" SeqNo="4672">
     <Comments>Add user info for image and URL Image</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="93132" Table="AD_Column">
