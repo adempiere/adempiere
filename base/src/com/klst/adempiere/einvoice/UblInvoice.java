@@ -60,7 +60,7 @@ public class UblInvoice extends UblImpl {
 		Address address = mapLocationToAddress(location_ID);
 		Contact contact = mapUserToContact(salesRep_ID);
 		((Invoice)ublObject).setSeller(sellerName, address, contact, companyID, companyLegalForm);
-		((Invoice)ublObject).setSellerTaxCompanyId(taxCompanyId);
+		((Invoice)ublObject).getSellerParty().setTaxRegistrationId(taxCompanyId);
 	}
 
 	@Override
