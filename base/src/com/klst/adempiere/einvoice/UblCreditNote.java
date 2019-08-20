@@ -14,7 +14,6 @@ import com.klst.einvoice.ubl.Address;
 import com.klst.einvoice.ubl.Contact;
 import com.klst.einvoice.ubl.CreditNote;
 import com.klst.einvoice.ubl.CreditNoteLine;
-import com.klst.einvoice.ubl.Invoice;
 import com.klst.einvoice.unece.uncefact.Amount;
 import com.klst.einvoice.unece.uncefact.UnitPriceAmount;
 import com.klst.untdid.codelist.DocumentNameCode;
@@ -57,7 +56,7 @@ public class UblCreditNote extends UblImpl {
 		Address address = mapLocationToAddress(location_ID);
 		Contact contact = mapUserToContact(salesRep_ID);
 		((CreditNote)ublObject).setSeller(sellerName, address, contact, companyID, companyLegalForm);
-		((Invoice)ublObject).getSellerParty().setTaxRegistrationId(taxCompanyId);
+		((CreditNote)ublObject).getSellerParty().setTaxRegistrationId(taxCompanyId);
 	}
 
 	@Override
