@@ -22,7 +22,12 @@ import java.util.Properties;
  * Created by victor.perez@e-evolution.com,e-Evolution on 04/12/13.
  */
 public class MHREducation extends X_HR_Education {
-    public MHREducation(Properties ctx, int HR_Education_ID, String trxName) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1520591019447528839L;
+
+	public MHREducation(Properties ctx, int HR_Education_ID, String trxName) {
         super(ctx, HR_Education_ID, trxName);
     }
 

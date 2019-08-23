@@ -55,6 +55,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Util;
 import org.eevolution.service.HRProcessActionMsg;
+import org.spin.util.TNAUtil;
 
 import javax.script.ScriptEngine;
 
@@ -117,6 +118,8 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			+ Env.NL + "import org.compiere.model.*;"
 			+ Env.NL + "import org.adempiere.model.*;"
 			+ Env.NL + "import org.compiere.util.*;"
+			+ Env.NL + "import org.spin.model.*;"
+			+ Env.NL + "import org.spin.util.*;"
 			+ Env.NL + "import java.util.*;" 
 			+ Env.NL + "import java.math.*;"
 			+ Env.NL + "import java.sql.*;");
@@ -2606,6 +2609,33 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	public double getCommissionAmt() {
 		return getCommissionAmt(null);
 	}
+	
+	/**********************************************************************************
+	 * Helper Method for Get Amount from time and attendance record                   *
+	 **********************************************************************************/
+	
+	/**
+	 * Helper Method : Concept by range from-to a sum of incidence
+	 * @param conceptValue
+	 * @param workShiftValue
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	public double getIncidenceSum(String conceptValue, String workShiftValue, Timestamp from, Timestamp to) {
+		return TNAUtil.getIncidenceSum(getCtx(), conceptValue, workShiftValue, partnerId, from, to, get_TrxName());
+	} // getIncidence
+	
+	/**
+	 * Helper Method : Concept by range from-to a sum of incidence
+	 * @param conceptValue
+	 * @param from
+	 * @param to
+	 * @return
+	 */
+	public double getIncidenceSum(String conceptValue, Timestamp from, Timestamp to) {
+		return TNAUtil.getIncidenceSum(getCtx(), conceptValue, null, partnerId, from, to, get_TrxName());
+	} // getIncidence
 
 	/** Reversal Flag		*/
 	private boolean isReversal = false;

@@ -22,7 +22,12 @@ import java.util.Properties;
  * Created by victor.perez@e-evolution.com, e-Evolution on 08/12/13.
  */
 public class MHRAppraisalRating extends X_HR_AppraisalRating{
-    public MHRAppraisalRating(Properties ctx, int HR_AppraisalRating_ID, String trxName) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5510183130949842306L;
+
+	public MHRAppraisalRating(Properties ctx, int HR_AppraisalRating_ID, String trxName) {
         super(ctx, HR_AppraisalRating_ID, trxName);
     }
 

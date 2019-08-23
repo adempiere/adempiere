@@ -16,7 +16,6 @@
  *****************************************************************************/
 package org.eevolution.model;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Properties;
@@ -24,7 +23,7 @@ import java.util.Properties;
 import org.compiere.model.MCalendar;
 import org.compiere.model.MPeriod;
 import org.compiere.util.DB;
-import org.compiere.util.Env;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 
@@ -40,6 +39,8 @@ import org.compiere.util.TimeUtil;
  *	@author Cristina Ghita, www.arhipac.ro
  * 			<li> BUG [ 1932959 ]
  * 			@see https://sourceforge.net/tracker/index.php?func=detail&aid=1932959&group_id=176962&atid=934929
+ * 	@author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
+ * 			Add Time and Attendance Record integration
  */
 public class MHRYear extends X_HR_Year
 {
@@ -91,77 +92,77 @@ public class MHRYear extends X_HR_Year
 	 */
 	public boolean createPeriods()
 	{
-		int sumDays         = 0;
-		int C_Calendar_ID   = DB.getSQLValueEx(get_TrxName(), "SELECT C_Calendar_ID FROM C_Year WHERE C_Year_ID = ?", getC_Year_ID());
-		if (C_Calendar_ID <= 0)
+		int sumDays = 0;
+		int calendarId = DB.getSQLValueEx(get_TrxName(), "SELECT C_Calendar_ID FROM C_Year WHERE C_Year_ID = ?", getC_Year_ID());
+		if (calendarId <= 0)
 			return false;
-		Timestamp StartDate = null;
-		Timestamp EndDate = null ;
-		MHRPayroll payroll = new MHRPayroll(getCtx(), getHR_Payroll_ID(), get_TrxName());
-		for (int period = 1; period <= getQty(); period++)
-		{
+		
+		Timestamp startDate = null;
+		Timestamp endDate = null ;
+		for (int period = 1; period <= getQty(); period ++) {
 			//arhipac: Cristina Ghita It is need this condition for a good generation periods
 			//in case of correspondence between period and month
 			if ((12 == getQty())&& (28 == getNetDays() || 29 == getNetDays() || 30 == getNetDays() || 31 == getNetDays()))
 			{
-				if (period >1)
-				{
-					StartDate = TimeUtil.addDays(EndDate, 1);
+				if (period >1) {
+					startDate = TimeUtil.addDays(endDate, 1);
+				} else {
+					startDate = TimeUtil.addDays(getStartDate(),0);	
 				}
-				else 
-				{
-					StartDate = TimeUtil.addDays(getStartDate(),0);	
-				}
-				EndDate   = TimeUtil.getMonthLastDay(StartDate);
+				endDate   = TimeUtil.getMonthLastDay(startDate);
 				
 			}	
 			// fortnight payment
-			else if ((24 == getQty())&& (15 == getNetDays() || 16 == getNetDays()))
-			{
-				if (period >1)
-				{
-					StartDate = TimeUtil.addDays(EndDate, 1);
+			else if ((24 == getQty())&& (15 == getNetDays() || 16 == getNetDays())) {
+				if (period > 1) {
+					startDate = TimeUtil.addDays(endDate, 1);
+				} else {
+					startDate = TimeUtil.addDays(getStartDate(),0);	
 				}
-				else 
-				{
-					StartDate = TimeUtil.addDays(getStartDate(),0);	
+				boolean par = (period % 2) == 0 ? true : false;
+				if (!par) {
+					endDate = TimeUtil.addDays(startDate, getNetDays()-1);
+				} else {
+					endDate   = TimeUtil.getMonthLastDay(startDate);				
 				}
-				Boolean par = (period % 2) == 0 ? true : false;
-				if (!par)
-					EndDate = TimeUtil.addDays(StartDate, getNetDays()-1);
-				else EndDate   = TimeUtil.getMonthLastDay(StartDate);				
-			}	
-			else
-			{
+			} else {
 				sumDays   =  period == 1 ? 0 : (period-1) * (getNetDays()) ;
-				StartDate = TimeUtil.addDays(getStartDate(),sumDays);
-				EndDate   = TimeUtil.addDays(StartDate,getNetDays()-1);
+				startDate = TimeUtil.addDays(getStartDate(),sumDays);
+				endDate   = TimeUtil.addDays(startDate,getNetDays()-1);
 			}
-			int C_Period_ID     = DB.getSQLValueEx(get_TrxName(),
+			int periodId = DB.getSQLValueEx(get_TrxName(),
 					"SELECT C_Period_ID FROM C_Period p "
 					+ " INNER JOIN C_Year y ON (p.C_Year_ID=y.C_Year_ID) "
 					+ " WHERE "
 					+ " ? BETWEEN p.startdate AND p.endDate"
 					+ " AND y.C_Calendar_ID=?",
-					EndDate, C_Calendar_ID);
-			if(C_Period_ID <= 0)
+					endDate, calendarId);
+			if(periodId <= 0)
 				return false;
 
-			MPeriod m_period = MPeriod.get(getCtx(), C_Period_ID);
-			MHRPeriod HR_Period = new MHRPeriod(getCtx(), 0, get_TrxName());
-			HR_Period.setAD_Org_ID(getAD_Org_ID());
-			HR_Period.setHR_Year_ID(getHR_Year_ID());
-			HR_Period.setHR_Payroll_ID(getHR_Payroll_ID());
-			HR_Period.setName(StartDate.toString().substring(0, 10)+" "+Msg.translate(getCtx(), "To")+" "+EndDate.toString().substring(0, 10) );
-			HR_Period.setDescription(Msg.translate(getCtx(), "HR_Payroll_ID")+" "+payroll.getName().trim()+" "+Msg.translate(getCtx(), "From")+ " "+period+" " +Msg.translate(getCtx(), "To")+" "+ StartDate.toString().substring(0, 10)+" al "+EndDate.toString().substring(0, 10));
-			HR_Period.setPeriodNo(period);
-			HR_Period.setC_Period_ID(C_Period_ID);
-			HR_Period.setC_Year_ID(m_period.getC_Year_ID());
-			HR_Period.setStartDate(StartDate);
-			HR_Period.setEndDate(EndDate);
-			HR_Period.setDateAcct(EndDate);
-			HR_Period.setIsActive(true);
-			HR_Period.saveEx();
+			String fromAndTo = DisplayType.getDateFormat(DisplayType.Date).format(startDate) + " " + Msg.translate(getCtx(), "To") + " " + DisplayType.getDateFormat(DisplayType.Date).format(endDate);
+			StringBuffer message = new StringBuffer();
+			//	Add optional payroll
+			if(getHR_Payroll_ID() > 0) {
+				MHRPayroll payroll = new MHRPayroll(getCtx(), getHR_Payroll_ID(), get_TrxName());
+				message.append(Msg.translate(getCtx(), "HR_Payroll_ID")).append(" ").append(payroll.getName().trim()).append(" ");
+			}
+			message.append(Msg.translate(getCtx(), "HR_Period_ID")).append(" ").append(period).append(": ").append(Msg.translate(getCtx(), "From")).append(" ").append(fromAndTo);
+			MPeriod standardPeriod = MPeriod.get(getCtx(), periodId);
+			MHRPeriod payrollPeriod = new MHRPeriod(getCtx(), 0, get_TrxName());
+			payrollPeriod.setAD_Org_ID(getAD_Org_ID());
+			payrollPeriod.setHR_Year_ID(getHR_Year_ID());
+			payrollPeriod.setHR_Payroll_ID(getHR_Payroll_ID());
+			payrollPeriod.setName(fromAndTo);
+			payrollPeriod.setDescription(message.toString());
+			payrollPeriod.setPeriodNo(period);
+			payrollPeriod.setC_Period_ID(periodId);
+			payrollPeriod.setC_Year_ID(standardPeriod.getC_Year_ID());
+			payrollPeriod.setStartDate(startDate);
+			payrollPeriod.setEndDate(endDate);
+			payrollPeriod.setDateAcct(endDate);
+			payrollPeriod.setIsActive(true);
+			payrollPeriod.saveEx();
 		}
 		return true;
 	}	//	createPeriods
