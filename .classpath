@@ -41,6 +41,7 @@
 	<classpathentry kind="src" path="org.adempiere.production/src/main/java/base"/>
 	<classpathentry kind="src" path="org.eevolution.fleet/src/main/java/base"/>
 	<classpathentry kind="src" path="org.adempiere.crm/src/main/java"/>
+	<classpathentry kind="src" path="org.eevolution.warehouse/src/main/java/ui/zk"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk8"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar">
 		<attributes>
