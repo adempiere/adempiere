@@ -103,6 +103,19 @@ public class ASPUtil {
 		if(context == null) {
 			throw new AdempiereException("@ContextIsMandatory@");
 		}
+		//	Load values
+		loadValues(context, clientId, roleId, userId, language);
+	}
+	
+	/**
+	 * Load default values
+	 * @param context
+	 * @param clientId
+	 * @param roleId
+	 * @param userId
+	 * @param language
+	 */
+	private void loadValues(Properties context, int clientId, int roleId, int userId, String language) {
 		this.context = context;
 		this.clientId = clientId; 
 		this.roleId = roleId;
@@ -127,6 +140,8 @@ public class ASPUtil {
 	public static ASPUtil getInstance(Properties context, int clientId, int roleId, int userId, String language) {
 		if(instance == null) {
 			instance = new ASPUtil(context, clientId, roleId, userId, language);
+		} else {
+			instance.loadValues(context, clientId, roleId, userId, language);
 		}
 		//	
 		return instance;
