@@ -32,7 +32,7 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20190825L;
 
     /** Standard Constructor */
     public X_M_RequisitionLine (Properties ctx, int M_RequisitionLine_ID, String trxName)
@@ -326,6 +326,34 @@ public class X_M_RequisitionLine extends PO implements I_M_RequisitionLine, I_Pe
 	public int getC_ProjectTask_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectTask_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_RfQLine getC_RfQLine() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_RfQLine)MTable.get(getCtx(), org.compiere.model.I_C_RfQLine.Table_Name)
+			.getPO(getC_RfQLine_ID(), get_TrxName());	}
+
+	/** Set RfQ Line.
+		@param C_RfQLine_ID 
+		Request for Quotation Line
+	  */
+	public void setC_RfQLine_ID (int C_RfQLine_ID)
+	{
+		if (C_RfQLine_ID < 1) 
+			set_Value (COLUMNNAME_C_RfQLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_RfQLine_ID, Integer.valueOf(C_RfQLine_ID));
+	}
+
+	/** Get RfQ Line.
+		@return Request for Quotation Line
+	  */
+	public int getC_RfQLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
