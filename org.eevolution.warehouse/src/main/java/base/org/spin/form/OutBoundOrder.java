@@ -745,7 +745,7 @@ public class OutBoundOrder {
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyOnHand"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyInTransit"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Qty"));
-		columnNames.add(Msg.translate(Env.getCtx(), "QtyAvailableForLoad"));
+		columnNames.add(Msg.translate(Env.getCtx(), "PickedQty"));
 		return columnNames;
 	}
 
@@ -1120,7 +1120,7 @@ public class OutBoundOrder {
 				.append("@M_Warehouse_ID@=").append(warehouse)
 				.append(" @QtyAvailable@=").append(m_QtyOnHand.subtract(m_QtyInTransit).doubleValue())
 				.append(" @QtyToDeliver@=").append(m_QtySet.doubleValue())
-				.append(" @QtyAvailableForLoad@=").append(m_QtyAvailable.doubleValue())
+				.append(" @PickedQty@=").append(m_QtyAvailable.doubleValue())
 				.append("]");
 		}
 		//	
