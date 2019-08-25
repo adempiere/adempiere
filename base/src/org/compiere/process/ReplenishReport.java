@@ -146,9 +146,6 @@ public class ReplenishReport extends ReplenishReportAbstract {
 			replenish.setOrder_Pack(getSelectionAsBigDecimal(key, "SBR_Order_Pack"));
 			replenish.setQtyToOrder(qtyToOrdered);
 			replenish.setReplenishmentCreate(getReplenishmentCreate());
-			replenish.set_ValueOfColumn("M_Product_Category_ID", getProductCategoryId());
-			replenish.set_ValueOfColumn("C_UOM_ID", getSelectionAsInt(key, "SBR_C_UOM_ID"));
-			replenish.set_ValueOfColumn("AD_Client_ID", getSelectionAsInt(key, "SBR_AD_Client_ID"));
 			replenish.setM_WarehouseSource_ID(getSelectionAsInt(key, "SBR_M_WarehouseSource_ID"));
 			replenish.setC_DocType_ID(getDocTypeId());
 			replenishList.add(replenish);
