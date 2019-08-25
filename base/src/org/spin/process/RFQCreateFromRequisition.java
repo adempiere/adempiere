@@ -30,7 +30,7 @@ import org.compiere.util.Util;
 /**
  * Class for create lines of Request for Quotation from material requisition
  * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
- * 
+ * See: https://github.com/adempiere/adempiere/issues/2728
  */
 public class RFQCreateFromRequisition extends RFQCreateFromRequisitionAbstract {
 	
