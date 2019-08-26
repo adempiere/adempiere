@@ -34,11 +34,11 @@ import java.util.Properties;
 
 import org.compiere.model.MBPartner;
 import org.compiere.model.MInvoiceLine;
-import org.compiere.model.MLocator;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 
 /**
  * Class Model for Inbound & Outbound Operation Line
@@ -250,10 +250,28 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 	 * get Quantity to Ship
 	 * @return BigDecimal with Quantity to Ship
 	 */
-	public BigDecimal getQtyToDeliver()
-	{
-		MOrderLine oline = getOrderLine();
-		return oline.getQtyOrdered().subtract(oline.getQtyDelivered());
+	public BigDecimal getQtyToDeliver() {
+		if(getC_OrderLine_ID() != 0) {
+			MOrderLine oline = getOrderLine();
+			BigDecimal quantityOrdered = Env.ZERO;
+			BigDecimal quantityDelivered = Env.ZERO;
+			if(oline != null) {
+				quantityOrdered = oline.getQtyOrdered();
+				quantityDelivered = oline.getQtyDelivered();
+			}
+			return quantityOrdered.subtract(quantityDelivered);
+		} else if(getDD_OrderLine_ID() != 0) {
+			MDDOrderLine oline = (MDDOrderLine) getDD_OrderLine();
+			BigDecimal quantityOrdered = Env.ZERO;
+			BigDecimal quantityDelivered = Env.ZERO;
+			if(oline != null) {
+				quantityOrdered = oline.getQtyOrdered();
+				quantityDelivered = oline.getQtyDelivered();
+			}
+			return quantityOrdered.subtract(quantityDelivered);
+		}
+		//	Return
+		return Env.ZERO;
 	}
 
 	/**

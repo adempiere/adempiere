@@ -203,7 +203,7 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
+		//	MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
 
 		//	Std Period open?
 		/*if (!MPeriod.isOpen(getCtx(), getDateAcct(), dt.getDocBaseType(), getAD_Org_ID()))
@@ -233,7 +233,6 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 				}
 			}
 		}
-						
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
