@@ -29,9 +29,11 @@ import org.compiere.model.Query;
 import org.eevolution.model.MWMInOutBound;
 import org.eevolution.model.MWMInOutBoundLine;
 
-/** Generated Process for (Generate Invoice From Outbound Order)
- *  @author ADempiere (generated) 
- *  @version Release 3.9.3
+/** 
+ * Class for generate invoices from outbound orders
+ * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
+ * @version Release 3.9.3
+ * See: https://github.com/adempiere/adempiere/issues/2730
  */
 public class GenerateInvoiceInOutBound extends GenerateInvoiceInOutBoundAbstract {
 	
