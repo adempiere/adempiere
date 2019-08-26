@@ -150,8 +150,8 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 	{
 		this (inOutBound.getCtx(), 0, inOutBound.get_TrxName());
 		setWM_InOutBound_ID(inOutBound.get_ID());
-		setC_Invoice_ID(orderLine.getC_Order_ID());
-		setC_InvoiceLine_ID(orderLine.getC_Order_ID());
+		setC_Order_ID(orderLine.getC_Order_ID());
+		setC_OrderLine_ID(orderLine.getC_OrderLine_ID());
 		setMovementQty(orderLine.getQtyOrdered().subtract(getQtyToDeliver()));
 		setM_Product_ID(orderLine.getM_Product_ID());
 		setC_Charge_ID(orderLine.getC_Charge_ID());
