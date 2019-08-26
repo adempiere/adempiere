@@ -53,10 +53,12 @@ import org.adempiere.pipo.handler.DistFileElementHandler;
 import org.adempiere.pipo.handler.EntityTypeElementHandler;
 import org.adempiere.pipo.handler.GenericPOHandler;
 import org.adempiere.pipo.handler.ModelValidatorElementHandler;
+import org.adempiere.pipo.handler.PrintFormatElementHandler;
 import org.adempiere.pipo.handler.SQLStatementElementHandler;
 import org.adempiere.pipo.handler.TableElementHandler;
 import org.adempiere.pipo.handler.WorkflowElementHandler;
 import org.compiere.model.I_AD_Column;
+import org.compiere.model.I_AD_PrintFormat;
 import org.compiere.model.I_AD_Workflow;
 import org.compiere.model.MColumn;
 import org.compiere.model.MSequence;
@@ -182,6 +184,7 @@ public class PackInHandler extends DefaultHandler {
     	handlers.put("SQLStatement", new SQLStatementElementHandler());
     	handlers.put(ModelValidatorElementHandler.TAG_Name, new ModelValidatorElementHandler());
     	handlers.put(EntityTypeElementHandler.TAG_Name, new EntityTypeElementHandler());
+    	handlers.put(GenericPOHandler.TAG_Name + "_" + I_AD_PrintFormat.Table_Name, new PrintFormatElementHandler());
 	}
 	
     /**

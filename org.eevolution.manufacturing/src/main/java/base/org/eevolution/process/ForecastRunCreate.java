@@ -162,6 +162,8 @@ public class ForecastRunCreate extends SvrProcess {
 			DataSet series = new DataSet();
 			series.setPeriods(m_run.getPeriodHistory());
 			MProduct product = MProduct.get(getCtx(), master.getM_Product_ID());
+			if (product == null)
+				continue;
 
 			List<MPPForecastRunDetail> details = MPPForecastRunMaster
 					.getDetails(getCtx(), master.get_ID(), get_TrxName());
@@ -250,7 +252,8 @@ public class ForecastRunCreate extends SvrProcess {
 		int count = 0;
 		for (MPPForecastDefinitionLine fdl : fd.getLines(true)) {
 			final StringBuffer select = new StringBuffer(
-					"SELECT DISTINCT sh.M_Product_ID , sh.M_Warehouse_ID FROM C_SalesHistory sh LEFT JOIN  PP_ForecastRunMaster m ON (m.M_Product_ID=sh.M_Product_ID AND ");
+					"SELECT DISTINCT sh.M_Product_ID , sh.M_Warehouse_ID FROM C_SalesHistory sh "
+				  + "LEFT JOIN  PP_ForecastRunMaster m ON (m.M_Product_ID=sh.M_Product_ID AND ");
 			select.append(MPPForecastRunMaster.COLUMNNAME_PP_ForecastRun_ID);
 			select.append("=").append(run.get_ID()).append(" ) WHERE  ");
 			select.append(fdl.getSQlWhere(run.getM_WarehouseSource_ID(), "sh"));
@@ -260,6 +263,7 @@ public class ForecastRunCreate extends SvrProcess {
 			select.append(" AND ");
 			select.append(DB.TO_DATE(end.getEndDate()));
 
+			MPPForecastRunMaster master = null;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			try {
@@ -268,12 +272,14 @@ public class ForecastRunCreate extends SvrProcess {
 				while (rs.next()) {
 					count++;
 					int M_Product_ID = rs.getInt("M_Product_ID");
-					MPPForecastRunMaster master = MPPForecastRunMaster
+					master = MPPForecastRunMaster
 							.getByProduct(getCtx(), run.getPP_ForecastRun_ID(),
 									M_Product_ID, get_TrxName());
 					if (master != null)
+					{
 						continue;
-
+					}
+					
 					master = new MPPForecastRunMaster(getCtx(), 0,
 							get_TrxName());
 
@@ -290,6 +296,7 @@ public class ForecastRunCreate extends SvrProcess {
 					master.setFactorScale(fdl.getFactorScale());
 					master.setFactorUser(fdl.getFactorUser());
 					master.saveEx();
+					
 				}
 			} catch (Exception e) {
 				log.log(Level.SEVERE, select.toString(), e);
@@ -299,6 +306,28 @@ public class ForecastRunCreate extends SvrProcess {
 				DB.close(rs, pstmt);
 				rs = null;
 				pstmt = null;
+			}
+			
+			if (master == null)
+			{
+				count++;
+				master = new MPPForecastRunMaster(getCtx(), 0,
+						get_TrxName());
+
+				master.setAD_Org_ID(run.getAD_Org_ID());
+				master.setPP_ForecastRun_ID(run.get_ID());
+				master.setPP_ForecastDefinitionLine_ID(fdl
+						.getPP_ForecastDefinitionLine_ID());
+				master.setM_Product_ID(fdl.getM_Product_ID());  // TODO - may be zero?
+				master.setM_Warehouse_ID(run.getM_Warehouse_ID());
+				master.setFactorAlpha(fdl.getFactorAlpha());
+				master.setFactorGamma(fdl.getFactorGamma());
+				master.setFactorBeta(fdl.getFactorBeta());
+				master.setFactorMultiplier(fdl.getFactorMultiplier());
+				master.setFactorScale(fdl.getFactorScale());
+				master.setFactorUser(fdl.getFactorUser());
+				master.saveEx();
+
 			}
 		}
 		return count;
