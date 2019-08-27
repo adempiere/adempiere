@@ -44,7 +44,7 @@ public class ProcessingInvoiceSelection extends ProcessingInvoiceSelectionAbstra
     @Override
     protected String doIt() throws Exception {
         List<MInvoice> invoices = (List<MInvoice>) getInstancesForSelection(get_TrxName());
-        if (getRecord_ID() > 0 && getSelectionKeys().size() > 0 && getTableSelectionId() == MWMInOutBound.Table_ID) {
+        if (getRecord_ID() > 0 && getSelectionKeys().size() > 0 && getTable_ID() == MWMInOutBound.Table_ID) {
             createInboundLineFrom(invoices);
         } else if (getRecord_ID() == 0 && getSelectionKeys().size() > 0) {
             UpdatingInvoiceProperties(invoices);
