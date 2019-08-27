@@ -1242,30 +1242,40 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			return null;
 		}
 		PrintDataElement dataElement = (PrintDataElement)obj;
-		String recordString = dataElement.getValueKey();
-		if (recordString == null || recordString.length() == 0)
-		{
-			data.dumpHeader();
-			data.dumpCurrentRow();
-			log.log(Level.SEVERE, "No Record Key - " + dataElement
-				+ " - AD_Column_ID=" + AD_Column_ID + " - " + item);
-			return null;
-		}
-		int Record_ID = 0;
-		try
-		{
-			Record_ID = Integer.parseInt(recordString);
-		}
-		catch (Exception e)
-		{
-			data.dumpCurrentRow();
-			log.log(Level.SEVERE, "Invalid Record Key - " + recordString
-				+ " (" + e.getMessage()
-				+ ") - AD_Column_ID=" + AD_Column_ID + " - " + item);
-			return null;
-		}
 		MQuery query = new MQuery (format.getAD_Table_ID());
-		query.addRestriction(item.getColumnName(), MQuery.EQUAL, new Integer(Record_ID));
+		if (DisplayType.isID(dataElement.getDisplayType())) {
+			String recordString = dataElement.getValueKey();
+			try {
+				if (recordString == null || recordString.length() == 0)
+				{
+					data.dumpHeader();
+					data.dumpCurrentRow();
+					log.log(Level.SEVERE, "No Record Key - " + dataElement
+							+ " - AD_Column_ID=" + AD_Column_ID + " - " + item);
+					return null;
+				}
+				int Record_ID = Integer.parseInt(recordString);
+				query.addRestriction(item.getColumnName(), MQuery.EQUAL, new Integer(Record_ID));
+			} catch (Exception e) {
+				data.dumpCurrentRow();
+				log.log(Level.SEVERE, "Invalid Record Key - " + recordString
+						+ " (" + e.getMessage()
+						+ ") - AD_Column_ID=" + AD_Column_ID + " - " + item);
+				return null;
+			}
+		}
+		if (DisplayType.isText(dataElement.getDisplayType())) {
+			String key = null;
+			if (dataElement.isPKey()) {
+				key = dataElement.getValueKey();
+			} else {
+				key = (String) dataElement.getValue();
+			}
+			query.addRestriction(item.getColumnName(), MQuery.EQUAL, key);
+		}
+
+
+
 		format.setTranslationViewQuery(query);
 		query.setWindowNo(windowNo);
 		log.fine(query.toString());
