@@ -122,7 +122,7 @@ public class FinReport extends FinReportAbstract {
 			parameterWhere.append(" AND UserElement2_ID=").append(getUserElement1Id());
 
 		//	Load Report Definition
-		finReport = new MReport (getCtx(), getRecord_ID(), null);
+		finReport = new MReport (getCtx(), getRecord_ID(), get_TrxName());
 		sb.append(" - ").append(finReport);
 		//
 		setPeriods();
@@ -778,19 +778,32 @@ public class FinReport extends FinReportAbstract {
 			//	Line Segment Value (i.e. not calculation)
 			if (reportLine.isLineTypeSegmentValue()) {
 				insertLineSource(reportLine);
+				StringBuilder seqNoSql = new StringBuilder();
+				seqNoSql.append("SELECT SeqNo  FROM  T_Report WHERE  AD_PInstance_ID=");
+				seqNoSql.append(getAD_PInstance_ID()).append(" AND PA_ReportLine_ID=").append(reportLine.getPA_ReportLine_ID());
+				seqNoSql.append(" AND Record_ID=0 AND Fact_Acct_ID=0");
+				int seqNo  = DB.getSQLValue(get_TrxName(), seqNoSql.toString());
+				if (seqNo >= 0) {
+					StringBuilder updateReportLineSeqNo = new StringBuilder("UPDATE T_Report ");
+					updateReportLineSeqNo.append(" SET SeqNo=").append(seqNo).append(" WHERE ");
+					updateReportLineSeqNo.append(" SeqNo IS NULL  AND AD_PInstance_ID=").append(getAD_PInstance_ID());
+					updateReportLineSeqNo.append(" AND PA_ReportLine_ID=").append(reportLine.getPA_ReportLine_ID());
+					no = DB.executeUpdate(updateReportLineSeqNo.toString(), get_TrxName());
+					log.fine("SeqNo #=" + no);
+				}
 			}
 		}
-		
 		//	Set SeqNo
-		StringBuilder updateReportLineSeqNo = new StringBuilder ("UPDATE T_Report r1 "
-			+ "SET SeqNo = (SELECT SeqNo "
-				+ "FROM T_Report r2 "
-				+ "WHERE r1.AD_PInstance_ID=r2.AD_PInstance_ID AND r1.PA_ReportLine_ID=r2.PA_ReportLine_ID"
-				+ " AND r2.Record_ID=0 AND r2.Fact_Acct_ID=0)"
-			+ "WHERE SeqNo IS NULL");
-		no = DB.executeUpdate(updateReportLineSeqNo.toString(), get_TrxName());
-		log.fine("SeqNo #=" + no);
+//		StringBuilder updateReportLineSeqNo = new StringBuilder ("UPDATE T_Report r1 "
+//			+ "SET SeqNo = (SELECT SeqNo "
+//				+ "FROM T_Report r2 "
+//				+ "WHERE r1.AD_PInstance_ID=r2.AD_PInstance_ID AND r1.PA_ReportLine_ID=r2.PA_ReportLine_ID"
+//				+ " AND r2.Record_ID=0 AND r2.Fact_Acct_ID=0)"
+//			+ " WHERE SeqNo IS NULL ";
+//		no = DB.executeUpdate(updateReportLineSeqNo.toString(), get_TrxName());
+//		log.fine("SeqNo #=" + no);
 
+		StringBuilder updateReportLineSeqNo = new StringBuilder ();
 		//	Set Name,Description
 		String selectForNameAndDesc = "SELECT e.Name, fa.Description "
 			+ "FROM Fact_Acct fa"
@@ -1038,7 +1051,7 @@ public class FinReport extends FinReportAbstract {
 	/**
 	 * Build SQL Statement calculate column values
 	 * @param action
-	 * @param line
+	 * @param reportLine
 	 * @param whereClause
 	 * @param isTrx is for transaction
 	 * @return
