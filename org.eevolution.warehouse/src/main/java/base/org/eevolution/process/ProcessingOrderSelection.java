@@ -43,7 +43,7 @@ public class ProcessingOrderSelection extends ProcessingOrderSelectionAbstract
 	protected String doIt() throws Exception
 	{
 		List<MOrder> orders = (List<MOrder>) getInstancesForSelection(get_TrxName());
-		if (getRecord_ID() > 0 && getSelectionKeys().size() > 0 && getTableSelectionId() == MWMInOutBound.Table_ID)
+		if (getRecord_ID() > 0 && getSelectionKeys().size() > 0 && getTable_ID() == MWMInOutBound.Table_ID)
 		{
 			createInboundLineFrom(orders);
 		}

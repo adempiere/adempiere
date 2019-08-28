@@ -56,6 +56,7 @@ import org.xml.sax.helpers.AttributesImpl;
  */
 public class GenericPOHandler extends AbstractElementHandler {
 	private final List<String> list = new ArrayList<String>();
+	private AttributeFiller customValues = new AttributeFiller(new AttributesImpl());
 	/**	Static values	*/
 	public static final String TABLE_NAME_TAG = "TableNameTag";
 	public static final String TABLE_ID_TAG = "TableIdTag";
@@ -64,7 +65,68 @@ public class GenericPOHandler extends AbstractElementHandler {
 	public static final String HANDLE_TRANSLATION_FLAG = "2PACK_HANDLE_TRANSLATIONS";
 	/**	Tag for column	*/
 	public static final String Column_TAG_Name = TAG_Name + "_" + I_AD_Column.Table_Name;
+	/**	attributes	*/
+	public static final String IGNORE_WHEN_SAVE_ERROR = "Ignore_When_Save_Error";
+	public static final String IGNORE_WHEN_MISSING_MANDATORY_REFERENCE = "Ignore_When_Missing_Mandatory_Reference";
 	
+	/**
+	 * Add String value to set for export
+	 * @param key
+	 * @param value
+	 */
+	protected void addStringValue(String key, String value) {
+		customValues.addString(key, value);
+	}
+	
+	/**
+	 * Add a boolean value for export
+	 * @param key
+	 * @param value
+	 */
+	protected void addBooleanValue(String key, boolean value) {
+		customValues.addBoolean(key, value);
+	}
+	
+	/**
+	 * Add integer to export
+	 * @param key
+	 * @param value
+	 */
+	protected void addIntValue(String key, int value) {
+		customValues.addInt(key, value);
+	}
+	
+	/**
+	 * Add long value to export
+	 * @param key
+	 * @param value
+	 */
+	protected void addLongValue(String key, long value) {
+		customValues.addLong(key, value);
+	}
+	
+	/**
+	 * Clean default values
+	 */
+	protected void cleanValues() {
+		customValues.cleanValues();
+	}
+	
+	/**
+	 * Set export row for ignore if exist a error saving import
+	 * @param ignore
+	 */
+	public void setIgnoreWhenSaveError(boolean ignore) {
+		addBooleanValue(IGNORE_WHEN_SAVE_ERROR, ignore);
+	}
+	
+	/**
+	 * Ignore if a parent is missing and mandatory when is imported
+	 * @param ignore
+	 */
+	public void setIgnoreWhenMissingMandatoryReference(boolean ignore) {
+		addBooleanValue(IGNORE_WHEN_MISSING_MANDATORY_REFERENCE, ignore);
+	}
 	
 	@Override
 	public void startElement(Properties ctx, Element element) throws SAXException {
@@ -150,7 +212,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 				continue;
 			}
 			//	Verify reference
-			if(poInfo.isColumnLookup(index)) {
+			if(isLookup(poInfo.getColumnDisplayType(index))) {
 				String parentNameUuid = AttributeFiller.getUUIDAttribute(columnName);
 				String parentUuid = atts.getValue(parentNameUuid);
 				if(!Util.isEmpty(parentUuid)) {
@@ -159,8 +221,12 @@ public class GenericPOHandler extends AbstractElementHandler {
 						int foreignId = getParentId(ctx, parentTableName, parentUuid);
 						if(foreignId > 0) {
 							entity.set_ValueOfColumn(columnName, foreignId);
-							continue;
+						} else if(poInfo.isColumnMandatory(index)
+								&& getBooleanValue(atts, IGNORE_WHEN_MISSING_MANDATORY_REFERENCE)) {
+							element.skip = true;
+							return;
 						}
+						continue;
 					}
 				}
 			}
@@ -192,7 +258,17 @@ public class GenericPOHandler extends AbstractElementHandler {
 		//	Save
 		try {
 			beforeSave(entity);
-			entity.saveEx(getTrxName(ctx));
+			try {
+				entity.saveEx(getTrxName(ctx));
+			} catch (Exception e) {
+				if(getBooleanValue(atts, IGNORE_WHEN_SAVE_ERROR)) {
+					element.skip = true;
+					log.warning("Ignored Entity: " + tableName + " - " + entity + " - Error: " + e.getMessage());
+					return;
+				} else {
+					throw e;
+				}
+			}
 			int originalId = entity.get_ID();
 			if(!poInfo.hasKeyColumn()) {
 				if(tableName.endsWith("_Trl")) {
@@ -264,6 +340,13 @@ public class GenericPOHandler extends AbstractElementHandler {
 	 * Create Attributes
 	 */
 	public void create(Properties ctx, TransformerHandler document, PO entity, boolean includeParents, List<String> excludedParentList) throws SAXException {
+		create(ctx, document, entity, includeParents, excludedParentList, false);
+	}
+	
+	/**
+	 * Create Attributes with parent flag
+	 */
+	private void create(Properties ctx, TransformerHandler document, PO entity, boolean includeParents, List<String> excludedParentList, boolean isFromParent) throws SAXException {
 		int tableId = 0;
 		int recordId = 0;
 		if(entity != null) {
@@ -276,15 +359,6 @@ public class GenericPOHandler extends AbstractElementHandler {
 		if(tableId <= 0) {
 			return;
 		}
-		//	Validate if was processed
-		String key = tableId + "|" + recordId;
-		MTable table = MTable.get(ctx, tableId);
-		if(!table.getTableName().endsWith("_Trl")) {
-			if (list.contains(key)) {
-				return;
-			}
-		}
-		list.add(key);
 		//	Instance PO
 		if(entity == null) {
 			entity = getCreatePO(ctx, tableId, recordId, null);
@@ -292,11 +366,18 @@ public class GenericPOHandler extends AbstractElementHandler {
 		if(entity == null) {
 			return;
 		}
+		//	Validate if was processed
+		String key = entity.get_UUID();
+		if (list.contains(key)) {
+			return;
+		}
+		list.add(key);
 		//	Create parents
 		if(includeParents) {
 			createParent(ctx, document, entity, excludedParentList);
 		}
-		AttributesImpl atts = createBinding(ctx, entity);
+		AttributesImpl defaultAttributes = customValues.getAttributes();
+		AttributesImpl atts = createBinding(ctx, entity, defaultAttributes);
 		if(atts != null) {
 			document.startElement("", "", getTagName(entity), atts);
 			document.endElement("", "", getTagName(entity));
@@ -305,6 +386,9 @@ public class GenericPOHandler extends AbstractElementHandler {
 		createTranslation(ctx, document, entity);
 		//	Create Node
 		createTreeNode(ctx, document, entity);
+		if(!isFromParent) {
+			customValues.cleanValues();
+		}
 	}
 	
 	/**
@@ -359,7 +443,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 				continue;
 			}
 			//	For others
-			create(ctx, document, parentEntity, true, excludedParentList);
+			create(ctx, document, parentEntity, true, excludedParentList, true);
 		}
 	}
 	
@@ -466,11 +550,16 @@ public class GenericPOHandler extends AbstractElementHandler {
 	 * Create export from data
 	 * @param entity
 	 * @param ctx
+	 * @param defaultAttributes
 	 * @return
 	 */
-	private AttributesImpl createBinding(Properties ctx, PO entity) {
+	private AttributesImpl createBinding(Properties ctx, PO entity, AttributesImpl defaultAttributes) {
 		AttributesImpl atts = new AttributesImpl();
-		atts.clear();
+		if(defaultAttributes != null) {
+			atts.setAttributes(defaultAttributes);
+		} else {
+			atts.clear();
+		}
 		//	Fill attributes
 		POInfo poInfo = POInfo.getPOInfo(entity.getCtx(), entity.get_Table_ID());
 		AttributeFiller filler = new AttributeFiller(atts, entity);
@@ -536,7 +625,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 	 * @return
 	 */
 	private String getParentTableName(Properties ctx, int columnId, int displayType) {
-		if(!DisplayType.isLookup(displayType)) {
+		if(!isLookup(displayType)) {
 			return null;
 		}
 		//	Validate list
@@ -550,6 +639,19 @@ public class GenericPOHandler extends AbstractElementHandler {
 		}
 		//	Default
 		return info.TableName;
+	}
+	
+	/**
+	 * Is lookup include location
+	 * @param displayType
+	 * @return
+	 */
+	private boolean isLookup(int displayType) {
+		return DisplayType.isLookup(displayType)
+				|| DisplayType.Account == displayType
+				|| DisplayType.Location == displayType
+				|| DisplayType.Locator == displayType
+				|| DisplayType.PAttribute == displayType;
 	}
 	
 	/**
@@ -623,7 +725,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 			.list();
 		//	Create
 		for(PO translation : translationList) {
-			create(ctx, document, translation);
+			create(ctx, document, translation, false, null, true);
 		}
 	}
 	
@@ -658,6 +760,6 @@ public class GenericPOHandler extends AbstractElementHandler {
 			return;
 		}
 		//	Create
-		create(ctx, document, nodeEntity);
+		create(ctx, document, nodeEntity, false, null);
 	}
 }

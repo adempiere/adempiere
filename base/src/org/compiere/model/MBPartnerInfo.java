@@ -60,8 +60,11 @@ public class MBPartnerInfo extends X_RV_BPartner
 			sb.append("UPPER(Value) LIKE ?");
 
 		taxId = getFindParameter (taxId);
-		if (taxId != null)
+		if (taxId != null) {
+			if (sb.length() > 0)
+				sb.append(" OR ");
 			sb.append("UPPER(TaxID) LIKE ?");
+		}
 
 		name = getFindParameter (name);
 		if (name != null)
