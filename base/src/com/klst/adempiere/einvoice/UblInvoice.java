@@ -10,12 +10,13 @@ import org.compiere.model.MInvoiceLine;
 import com.klst.einvoice.CoreInvoiceVatBreakdown;
 import com.klst.einvoice.CreditTransfer;
 import com.klst.einvoice.DirectDebit;
+import com.klst.einvoice.IContact;
 import com.klst.einvoice.PaymentCard;
-import com.klst.einvoice.ubl.Address;
+import com.klst.einvoice.PostalAddress;
 import com.klst.einvoice.ubl.CommercialInvoice;
-import com.klst.einvoice.ubl.Contact;
 import com.klst.einvoice.ubl.Invoice;
 import com.klst.einvoice.ubl.InvoiceLine;
+import com.klst.einvoice.ubl.Party;
 import com.klst.einvoice.unece.uncefact.Amount;
 import com.klst.einvoice.unece.uncefact.UnitPriceAmount;
 import com.klst.untdid.codelist.PaymentMeansEnum;
@@ -50,17 +51,21 @@ public class UblInvoice extends UblImpl {
 
 	@Override
 	void mapByuer(String buyerName, int location_ID, int user_ID) {
-		Address address = mapLocationToAddress(location_ID);
-		Contact contact = mapUserToContact(user_ID);
+		PostalAddress address = mapLocationToAddress(location_ID, ((Invoice)ublObject));
+		IContact contact = mapUserToContact(user_ID, (Invoice)ublObject);
 		((Invoice)ublObject).setBuyer(buyerName, address, contact);
 	}
 
 	@Override
-	void mapSeller(String sellerName, int location_ID, int salesRep_ID, String companyID, String companyLegalForm, String taxCompanyId) {
-		Address address = mapLocationToAddress(location_ID);
-		Contact contact = mapUserToContact(salesRep_ID);
-		((Invoice)ublObject).setSeller(sellerName, address, contact, companyID, companyLegalForm);
-		((Invoice)ublObject).getSellerParty().setTaxRegistrationId(taxCompanyId);
+	void mapSeller(String sellerName, int location_ID, int salesRep_ID, String companyId, String companyLegalForm, String taxRegistrationId) {
+		PostalAddress address = mapLocationToAddress(location_ID, ((Invoice)ublObject));
+		IContact contact = mapUserToContact(salesRep_ID, (Invoice)ublObject);
+// TODO PartyFactory mit registrationName !!!!
+		Party party = new Party(sellerName, address, contact);
+		party.setCompanyId(companyId);
+		party.setCompanyLegalForm(companyLegalForm);
+		party.setTaxRegistrationId(taxRegistrationId);
+		((Invoice)ublObject).setSellerParty(party);
 	}
 
 	@Override
@@ -90,7 +95,7 @@ public class UblInvoice extends UblImpl {
 
 	Object mapToEModel(MInvoice adInvoice) {
 		mInvoice = adInvoice;
-		Invoice obj = new CommercialInvoice(XRECHNUNG_12);
+		Invoice obj = new CommercialInvoice(DEFAULT_PROFILE);
 		obj.setId(mInvoice.getDocumentNo());
 		obj.setIssueDate(mInvoice.getDateInvoiced());
 		obj.setDocumentCurrency(mInvoice.getC_Currency().getISO_Code());

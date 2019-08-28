@@ -6,16 +6,11 @@ import java.util.logging.Logger;
 
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
-import org.compiere.model.MLocation;
-import org.compiere.model.MUser;
-import org.compiere.util.Env;
 
 import com.klst.einvoice.CoreInvoiceVatBreakdown;
 import com.klst.einvoice.CreditTransfer;
 import com.klst.einvoice.DirectDebit;
 import com.klst.einvoice.PaymentCard;
-import com.klst.einvoice.ubl.Address;
-import com.klst.einvoice.ubl.Contact;
 import com.klst.einvoice.ubl.FinancialAccount;
 import com.klst.einvoice.ubl.PaymentMandate;
 import com.klst.einvoice.ubl.VatBreakdown;
@@ -42,33 +37,6 @@ public class UblImpl extends AbstractEinvoice {
 	@Override
 	public String getDocumentNo() {
 		return delegate.getDocumentNo();
-	}
-
-	protected Address mapLocationToAddress(int location_ID) {
-		MLocation mLocation = new MLocation(Env.getCtx(), location_ID, get_TrxName());
-		String countryCode = mLocation.getCountry().getCountryCode();
-		String postalCode = mLocation.getPostal();
-		String city = mLocation.getCity();
-		String street = null;
-		String a1 = mLocation.getAddress1();
-		String a2 = mLocation.getAddress2();
-		String a3 = mLocation.getAddress3();
-		String a4 = mLocation.getAddress4();
-		Address address = new Address(countryCode, postalCode, city, street);
-		if(a1!=null) address.setAddressLine1(a1);
-		if(a2!=null) address.setAddressLine2(a2);
-		if(a3!=null) address.setAddressLine3(a3);
-		if(a4!=null) address.setAdditionalStreet(a4);
-		return address;
-	}
-	
-	protected Contact mapUserToContact(int user_ID) {
-		MUser mUser = new MUser(Env.getCtx(), user_ID, get_TrxName());
-		String contactName = mUser.getName();
-		String contactTel = mUser.getPhone();
-		String contactMail = mUser.getEMail();
-		Contact contact = new Contact(contactName, contactTel, contactMail);
-		return contact;
 	}
 
 	@Override

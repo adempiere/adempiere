@@ -9,11 +9,12 @@ import org.compiere.model.MInvoiceLine;
 import com.klst.einvoice.CoreInvoiceVatBreakdown;
 import com.klst.einvoice.CreditTransfer;
 import com.klst.einvoice.DirectDebit;
+import com.klst.einvoice.IContact;
 import com.klst.einvoice.PaymentCard;
-import com.klst.einvoice.ubl.Address;
-import com.klst.einvoice.ubl.Contact;
+import com.klst.einvoice.PostalAddress;
 import com.klst.einvoice.ubl.CreditNote;
 import com.klst.einvoice.ubl.CreditNoteLine;
+import com.klst.einvoice.ubl.Party;
 import com.klst.einvoice.unece.uncefact.Amount;
 import com.klst.einvoice.unece.uncefact.UnitPriceAmount;
 import com.klst.untdid.codelist.DocumentNameCode;
@@ -46,17 +47,24 @@ public class UblCreditNote extends UblImpl {
 
 	@Override
 	void mapByuer(String buyerName, int location_ID, int user_ID) {
-		Address address = mapLocationToAddress(location_ID);
-		Contact contact = mapUserToContact(user_ID);
+		PostalAddress address = mapLocationToAddress(location_ID, ((CreditNote)ublObject));
+		IContact contact = mapUserToContact(user_ID, (CreditNote)ublObject);
 		((CreditNote)ublObject).setBuyer(buyerName, address, contact);
+//		((CreditNote)ublObject).getBuyerParty().setRegistrationName(buyerName); // TODO raus Flick wg registrationName im Party ctor
 	}
 
 	@Override
-	void mapSeller(String sellerName, int location_ID, int salesRep_ID, String companyID, String companyLegalForm, String taxCompanyId) {
-		Address address = mapLocationToAddress(location_ID);
-		Contact contact = mapUserToContact(salesRep_ID);
-		((CreditNote)ublObject).setSeller(sellerName, address, contact, companyID, companyLegalForm);
-		((CreditNote)ublObject).getSellerParty().setTaxRegistrationId(taxCompanyId);
+	void mapSeller(String sellerName, int location_ID, int salesRep_ID, String companyId, String companyLegalForm, String taxRegistrationId) {
+		PostalAddress address = mapLocationToAddress(location_ID, ((CreditNote)ublObject)); // TODO
+		IContact contact = mapUserToContact(salesRep_ID, (CreditNote)ublObject);
+//		((CreditNote)ublObject).setSeller(sellerName, address, contact, companyID, companyLegalForm); // TODO PartyFactory mit registrationName !!!!
+		Party party = new Party(sellerName, address, contact);
+//		party.setRegistrationName(sellerName);
+		party.setTaxRegistrationId(taxRegistrationId);
+		party.setCompanyId(companyId);
+		party.setCompanyLegalForm(companyLegalForm);
+//		((CreditNote)ublObject).getSellerParty().setTaxRegistrationId(taxRegistrationId);
+		((CreditNote)ublObject).setSellerParty(party);
 	}
 
 	@Override
@@ -86,7 +94,7 @@ public class UblCreditNote extends UblImpl {
 
 	Object mapToEModel(MInvoice adInvoice) {
 		mInvoice = adInvoice;
-		CreditNote obj = new CreditNote(XRECHNUNG_12, null, DocumentNameCode.CreditNote);
+		CreditNote obj = new CreditNote(DEFAULT_PROFILE, null, DocumentNameCode.CreditNote);
 		obj.setId(mInvoice.getDocumentNo());
 		obj.setIssueDate(mInvoice.getDateInvoiced());
 		obj.setDocumentCurrency(mInvoice.getC_Currency().getISO_Code());

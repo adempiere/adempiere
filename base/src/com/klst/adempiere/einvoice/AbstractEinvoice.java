@@ -18,18 +18,25 @@ import org.compiere.model.MBankAccount;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MInvoiceTax;
+import org.compiere.model.MLocation;
 import org.compiere.model.MOrg;
 import org.compiere.model.MOrgInfo;
 import org.compiere.model.MPaymentTerm;
+import org.compiere.model.MUser;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.w3c.dom.Document;
 
+import com.klst.einvoice.CoreInvoice;
 import com.klst.einvoice.CoreInvoiceVatBreakdown;
 import com.klst.einvoice.CreditTransfer;
 import com.klst.einvoice.DirectDebit;
+import com.klst.einvoice.IContact;
+import com.klst.einvoice.IContactFactory;
 import com.klst.einvoice.PaymentCard;
+import com.klst.einvoice.PostalAddress;
+import com.klst.einvoice.PostalAddressFactory;
 import com.klst.einvoice.unece.uncefact.Amount;
 import com.klst.einvoice.unece.uncefact.BICId;
 import com.klst.einvoice.unece.uncefact.IBANId;
@@ -41,8 +48,8 @@ public abstract class AbstractEinvoice extends SvrProcess implements InterfaceEi
 
 	private static final Logger LOG = Logger.getLogger(AbstractEinvoice.class.getName());
 	
-	static final String XRECHNUNG_12 = "urn:cen.eu:en16931:2017#compliant#urn:xoev-de:kosit:standard:xrechnung_1.2";
-	
+	static final String DEFAULT_PROFILE = CoreInvoice.PROFILE_XRECHNUNG;
+
 	/**
 	 * factory method
 	 * 
@@ -114,6 +121,33 @@ public abstract class AbstractEinvoice extends SvrProcess implements InterfaceEi
 		return new CustomizedMapping();
 	}
 	
+	protected PostalAddress mapLocationToAddress(int location_ID, PostalAddressFactory addressFactory) {
+		MLocation mLocation = new MLocation(Env.getCtx(), location_ID, get_TrxName());
+		String countryCode = mLocation.getCountry().getCountryCode();
+		String postalCode = mLocation.getPostal();
+		String city = mLocation.getCity();
+		String street = null;
+		String a1 = mLocation.getAddress1();
+		String a2 = mLocation.getAddress2();
+		String a3 = mLocation.getAddress3();
+		String a4 = mLocation.getAddress4();
+		
+		PostalAddress address = addressFactory.createAddress(countryCode, postalCode, city);
+		if(a1!=null) address.setAddressLine1(a1);
+		if(a2!=null) address.setAddressLine2(a2);
+		if(a3!=null) address.setAddressLine3(a3);
+//		if(a4!=null) address.setAdditionalStreet(a4); // TODO AD 4 lines -> UBL/CII 3 lines ??????????????????
+		return address;
+	}
+	
+	protected IContact mapUserToContact(int user_ID, IContactFactory contactFactory) {
+		MUser mUser = new MUser(Env.getCtx(), user_ID, get_TrxName());
+		String contactName = mUser.getName();
+		String contactTel = mUser.getPhone();
+		String contactMail = mUser.getEMail();
+		return contactFactory.createContact(contactName, contactTel, contactMail);
+	}
+
 	// mapping POReference -> BuyerReference 
 	void mapBuyerReference() {
 		setBuyerReference(mapping.mapBuyerReference(mInvoice));
