@@ -87,7 +87,7 @@ public class ValuationEffectiveDate extends ValuationEffectiveDateAbstract {
 				params.add(getDateValue());
 				params.add(getDateValue());
 				params.add(getAD_PInstance_ID());
-				StringBuffer update1 = new StringBuffer( "UPDATE T_Inventoryvalue iv ")
+				StringBuffer update1 = new StringBuffer( "UPDATE T_InventoryValue iv ")
 						.append(" set costamt = (SELECT COALESCE(CurrentCostPrice,0) FROM RV_M_Transaction_Costing cd WHERE iv.M_Product_ID=cd.M_Product_ID AND cd.SeqNo= ")
 						.append(whereSeq);
 				update1.append(", costamtll = (SELECT COALESCE(CurrentCostPriceLL) FROM RV_M_Transaction_Costing cd WHERE iv.M_Product_ID=cd.M_Product_ID AND cd.SeqNo= ")
