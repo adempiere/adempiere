@@ -41,7 +41,7 @@
 	<classpathentry kind="src" path="org.adempiere.production/src/main/java/base"/>
 	<classpathentry kind="src" path="org.eevolution.fleet/src/main/java/base"/>
 	<classpathentry kind="src" path="org.adempiere.crm/src/main/java"/>
-	<classpathentry kind="src" path="org.spin.financial_management/src/main/java/base"/>
+	<classpathentry kind="src" path="org.spin.loan_and_invesment_management /src/main/java/base"/>
 	<classpathentry kind="src" path="org.spin.loan_management/src/main/java/base"/>
 	<classpathentry kind="src" path="org.spin.loan_management/src/main/java/ui/zk"/>
 	<classpathentry kind="src" path="org.spin.loan_management/src/main/java/ui/swing"/>
