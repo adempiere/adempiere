@@ -15,7 +15,10 @@
 package org.compiere.dbPort;
 
 import java.util.TreeMap;
-
+/**
+ * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
+ * 		Add support to ROWNUM as LIMIT and OFFSET
+ */
 public final class ConvertMap_PostgreSQL {
 	private static TreeMap<String,String>  s_pg = new TreeMap<String,String>();
 	
