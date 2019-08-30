@@ -332,7 +332,9 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction, DocOpti
 		}
 		
 		//	Generate receipt
-		generateReceipt();
+		if(!isSOTrx()) {
+			generateReceipt();
+		}
 	
 		setDocAction(DOCACTION_Close);
 
