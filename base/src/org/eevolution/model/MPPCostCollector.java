@@ -1083,4 +1083,10 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		return  MConversionType.getDefault(getAD_Client_ID());
 	}
 
+	@Override
+	public boolean isReversalParent() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }	//	MPPCostCollector
