@@ -372,8 +372,9 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction, DocOpti
 				if(locatorId == 0) {
 					locatorId = getM_Locator_ID();
 				}
+				MProduct product = MProduct.get(getCtx(), inboundLine.getM_Product_ID());
 				receiptLine.setM_Locator_ID(locatorId);
-				receiptLine.setM_Product_ID(inboundLine.getM_Product_ID());
+				receiptLine.setProduct(product);
 				receiptLine.setQtyEntered(qtyToReceipt);
 				receiptLine.setMovementQty(qtyToReceipt);
 				receiptLine.setC_OrderLine_ID(orderLine.getC_OrderLine_ID());
