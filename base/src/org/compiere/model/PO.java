@@ -3583,8 +3583,11 @@ public abstract class PO
 		int elementId = 0;
 		if (tableId == X_C_ElementValue.Table_ID) {
 			Integer ii = (Integer)get_Value("C_Element_ID");
-			if (ii != null)
+			if (ii != null) {
 				elementId = ii.intValue();
+				MElement element = new MElement(getCtx(), elementId, get_TrxName());
+				treeTableName = MTree.getNodeTableName(tableId, element.getElementType());
+			}
 		}
 		int m_AD_Tree_ID = MTree.getDefaultTreeIdFromTableId(getAD_Client_ID(), tableId, elementId);
 		//	Valid tree

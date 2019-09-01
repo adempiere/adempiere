@@ -327,7 +327,7 @@ public final class VTreePanel extends CPanel
 			whereClause = Env.parseContext(Env.getCtx(), windowNo, whereClause, false, false);
 		}
 		//  Get Tree
-		MTree vTree = new MTree (Env.getCtx(), treeId, editable, false, whereClause, null);
+		MTree vTree = new MTree (Env.getCtx(), treeId, editable, whereClause, null);
 		//	End Yamel Senih
 		root = vTree.getRoot();
 		root.setName(Msg.getMsg(Env.getCtx(), vTree.getName()).replace("&" , "")); // translate name of menu.
