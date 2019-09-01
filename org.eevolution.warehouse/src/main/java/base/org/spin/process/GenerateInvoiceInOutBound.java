@@ -21,11 +21,13 @@ import java.math.BigDecimal;
 import java.util.Hashtable;
 import java.util.List;
 
+import org.compiere.model.MDocType;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.Query;
+import org.compiere.print.MPrintFormat;
 import org.eevolution.model.MWMInOutBound;
 import org.eevolution.model.MWMInOutBoundLine;
 
@@ -75,11 +77,11 @@ public class GenerateInvoiceInOutBound extends GenerateInvoiceInOutBoundAbstract
 	private void createInvoice(MWMInOutBoundLine outboundLine) {
 		if (outboundLine.getC_OrderLine_ID() > 0) {
 			MOrderLine orderLine = outboundLine.getOrderLine();
-			if (outboundLine.getPickedQty().subtract(orderLine.getQtyInvoiced()).signum() <= 0) {
+			if (outboundLine.getMovementQty().subtract(orderLine.getQtyInvoiced()).signum() <= 0) {
 				return;
 			}
 
-			BigDecimal qtyInvoiced = outboundLine.getPickedQty().subtract(orderLine.getQtyInvoiced());
+			BigDecimal qtyInvoiced = outboundLine.getMovementQty().subtract(orderLine.getQtyInvoiced());
 			MInvoice invoice = getInvoice(orderLine, outboundLine.getParent());
 			MInvoiceLine invoiceLine = new MInvoiceLine(outboundLine.getCtx(), 0 , outboundLine.get_TrxName());
 			invoiceLine.setC_Invoice_ID(invoice.getC_Invoice_ID());
@@ -88,11 +90,8 @@ public class GenerateInvoiceInOutBound extends GenerateInvoiceInOutBoundAbstract
 			invoiceLine.setQtyEntered(qtyInvoiced);
 			invoiceLine.setQtyInvoiced(qtyInvoiced);
 			invoiceLine.setC_OrderLine_ID(orderLine.getC_OrderLine_ID());
+			invoiceLine.setWM_InOutBoundLine_ID(outboundLine.getWM_InOutBoundLine_ID());
 			invoiceLine.saveEx();
-			//	Set reference
-			outboundLine.setC_Invoice_ID(invoice.getC_Invoice_ID());
-			outboundLine.setC_InvoiceLine_ID(invoiceLine.getC_InvoiceLine_ID());
-			outboundLine.saveEx();
 		}
 	}
 	
@@ -148,6 +147,17 @@ public class GenerateInvoiceInOutBound extends GenerateInvoiceInOutBoundAbstract
 			invoice.saveEx();
 			created++;
 			addToMessage(invoice.getDocumentNo());
+		});
+		//	Print invoices
+		invoices.entrySet().stream().filter(entry -> entry != null).forEach(entry -> {
+			MInvoice invoice = entry.getValue();
+			MDocType documentType = MDocType.get(getCtx(), invoice.getC_DocTypeTarget_ID());
+			if(documentType.getAD_PrintFormat_ID() != 0) {
+				MPrintFormat printFormat = MPrintFormat.get(getCtx(), documentType.getAD_PrintFormat_ID(), false);
+				if(printFormat != null) {
+					printDocument(entry.getValue(), printFormat.getName());
+				}
+			}
 		});
 	}
 }

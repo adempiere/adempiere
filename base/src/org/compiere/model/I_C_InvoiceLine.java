@@ -758,4 +758,15 @@ public interface I_C_InvoiceLine
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
+
+    /** Column name WM_InOutBoundLine_ID */
+    public static final String COLUMNNAME_WM_InOutBoundLine_ID = "WM_InOutBoundLine_ID";
+
+	/** Set Inbound & Outbound Order Line	  */
+	public void setWM_InOutBoundLine_ID (int WM_InOutBoundLine_ID);
+
+	/** Get Inbound & Outbound Order Line	  */
+	public int getWM_InOutBoundLine_ID();
+
+	public org.eevolution.model.I_WM_InOutBoundLine getWM_InOutBoundLine() throws RuntimeException;
 }
