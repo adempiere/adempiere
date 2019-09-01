@@ -59,9 +59,9 @@
     </Step>
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
-        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="53912">53912</Data>
         <Data AD_Column_ID="84317" Column="UUID" isOldNull="true">9f01e4de-bdbc-11e8-a983-db9a2b6a4e3b</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
       </PO>
     </Step>
     <Step SeqNo="40" StepType="AD">
@@ -121,9 +121,6 @@
     <Step SeqNo="60" StepType="AD">
       <PO AD_Table_ID="286" Action="I" Record_ID="56725" Table="AD_Process_Para_Trl">
         <Data AD_Column_ID="2838" Column="Updated">2019-08-31 00:35:12.15</Data>
-        <Data AD_Column_ID="2836" Column="Created">2019-08-31 00:35:12.15</Data>
-        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
-        <Data AD_Column_ID="2840" Column="Name">Orden de Salida</Data>
         <Data AD_Column_ID="2842" Column="IsTranslated">true</Data>
         <Data AD_Column_ID="2841" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="3743" Column="Help" isNewNull="true"/>
@@ -134,6 +131,9 @@
         <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84386" Column="UUID">e6358e7e-c6d9-11e9-b32d-0242ac110002</Data>
+        <Data AD_Column_ID="2836" Column="Created">2019-08-31 00:35:12.15</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2840" Column="Name">Orden de Salida</Data>
       </PO>
     </Step>
     <Step SeqNo="70" StepType="AD">
@@ -181,6 +181,7 @@
     </Step>
     <Step SeqNo="90" StepType="AD">
       <PO AD_Table_ID="286" Action="I" Record_ID="56726" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2835" Column="IsActive">true</Data>
         <Data AD_Column_ID="2838" Column="Updated">2019-08-31 00:35:12.815</Data>
         <Data AD_Column_ID="2840" Column="Name">Transportista</Data>
@@ -188,7 +189,6 @@
         <Data AD_Column_ID="2841" Column="Description">Método o manera de entrega del producto</Data>
         <Data AD_Column_ID="3743" Column="Help">El transportista indica el responsable de entregar el producto</Data>
         <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">56726</Data>
-        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
@@ -199,8 +199,8 @@
     </Step>
     <Step SeqNo="100" StepType="AD">
       <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
-        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="59452">59452</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="84317" Column="UUID" isOldNull="true">9f078ef2-bdbc-11e8-abb4-cb119ac95dfc</Data>
       </PO>
     </Step>
@@ -450,9 +450,9 @@
     </Step>
     <Step SeqNo="230" StepType="AD">
       <PO AD_Table_ID="286" Action="I" Record_ID="56730" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2838" Column="Updated">2019-08-31 00:35:15.683</Data>
         <Data AD_Column_ID="2836" Column="Created">2019-08-31 00:35:15.683</Data>
         <Data AD_Column_ID="2835" Column="IsActive">true</Data>
-        <Data AD_Column_ID="2838" Column="Updated">2019-08-31 00:35:15.683</Data>
         <Data AD_Column_ID="2840" Column="Name">Total de Flete</Data>
         <Data AD_Column_ID="2842" Column="IsTranslated">true</Data>
         <Data AD_Column_ID="2841" Column="Description">Total de la entrega</Data>
@@ -468,8 +468,8 @@
     </Step>
     <Step SeqNo="240" StepType="AD">
       <PO AD_Table_ID="126" Action="U" Record_ID="0" Table="AD_Reference_Trl">
-        <Data AD_Column_ID="279" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="278" Column="AD_Reference_ID" oldValue="30">30</Data>
+        <Data AD_Column_ID="279" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="84394" Column="UUID" isOldNull="true">c914e37a-bdbc-11e8-b550-a3f5d236e2db</Data>
       </PO>
     </Step>
@@ -615,9 +615,9 @@
     </Step>
     <Step SeqNo="320" StepType="AD">
       <PO AD_Table_ID="126" Action="U" Record_ID="0" Table="AD_Reference_Trl">
-        <Data AD_Column_ID="279" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="278" Column="AD_Reference_ID" oldValue="135">135</Data>
         <Data AD_Column_ID="84394" Column="UUID" isOldNull="true">c9145752-bdbc-11e8-b428-5bde20c68096</Data>
+        <Data AD_Column_ID="279" Column="AD_Language" oldValue="es_MX">es_MX</Data>
       </PO>
     </Step>
     <Step SeqNo="330" StepType="AD">
@@ -671,8 +671,8 @@
     </Step>
     <Step SeqNo="400" StepType="AD">
       <PO AD_Table_ID="136" Action="U" Record_ID="185" Table="AD_Ref_List_Trl">
-        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="185">185</Data>
         <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="185">185</Data>
         <Data AD_Column_ID="84391" Column="UUID" isOldNull="true">c91bc78a-bdbc-11e8-b6b4-ffd4c84cb4b8</Data>
       </PO>
     </Step>
@@ -727,6 +727,7 @@
     </Step>
     <Step SeqNo="480" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="56733" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo">90</Data>
         <Data AD_Column_ID="2820" Column="Updated">2019-08-31 00:35:21.478</Data>
         <Data AD_Column_ID="2822" Column="Name">Document Action</Data>
         <Data AD_Column_ID="2817" Column="IsActive">true</Data>
@@ -754,7 +755,6 @@
         <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2827" Column="AD_Reference_ID">17</Data>
         <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID">219</Data>
-        <Data AD_Column_ID="2826" Column="SeqNo">90</Data>
         <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">135</Data>
         <Data AD_Column_ID="7729" Column="AD_Element_ID">287</Data>
@@ -938,6 +938,7 @@
     </Step>
     <Step SeqNo="580" StepType="AD">
       <PO AD_Table_ID="120" Action="I" Record_ID="54419" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="1195" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="636" Column="IsActive">true</Data>
         <Data AD_Column_ID="639" Column="Updated">2019-08-31 00:35:24.172</Data>
         <Data AD_Column_ID="637" Column="Created">2019-08-31 00:35:24.172</Data>
@@ -946,7 +947,6 @@
         <Data AD_Column_ID="248" Column="Description">Generar Orden de Flete desde Orden de Salida</Data>
         <Data AD_Column_ID="249" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="1194" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="1195" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="638" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="245" Column="AD_Menu_ID">54419</Data>
         <Data AD_Column_ID="246" Column="AD_Language">es_MX</Data>
@@ -969,7 +969,7 @@
         <Data AD_Column_ID="6160" Column="AD_Tree_ID">10</Data>
       </PO>
     </Step>
-        <Step SeqNo="600" StepType="AD">
+    <Step SeqNo="600" StepType="AD">
       <PO AD_Table_ID="104" Action="I" Record_ID="55401" Table="AD_Ref_List">
         <Data AD_Column_ID="563" Column="IsActive">true</Data>
         <Data AD_Column_ID="564" Column="Created">2019-08-31 00:30:59.552</Data>
@@ -1011,6 +1011,312 @@
         <Data AD_Column_ID="338" Column="Name" oldValue="Freight Order">Orden de Flete</Data>
         <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55401">55401</Data>
         <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="630" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="94274" Table="AD_Column">
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">54259</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">53913</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID">73ac90b4-ccd3-11e9-8c96-0242ac110002</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-09-01 12:13:35.613</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-09-01 12:13:35.613</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">94274</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Inbound &amp; Outbound Order Line</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">true</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">WM_InOutBoundLine_ID</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">EE03</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="640" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="94274" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2019-09-01 12:13:36.729</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-09-01 12:13:36.729</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">94274</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Inbound &amp; Outbound Order Line</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID">73f7e91a-ccd3-11e9-8c96-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="650" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="95681" Table="AD_Field">
+        <Data AD_Column_ID="168" Column="Name">Inbound &amp; Outbound Order Line</Data>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">95681</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">EE03</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">180</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">94274</Data>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">180</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">54313</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84320" Column="UUID">e975770c-ccd3-11e9-99e9-0242ac110002</Data>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">true</Data>
+        <Data AD_Column_ID="579" Column="Created">2019-09-01 12:16:52.873</Data>
+        <Data AD_Column_ID="78493" Column="IsQuickEntry">false</Data>
+        <Data AD_Column_ID="88877" Column="AD_FieldDefinition_ID" isNewNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated">2019-09-01 12:16:52.873</Data>
+        <Data AD_Column_ID="88918" Column="AD_ContextInfo_ID" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90940" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="182" Column="SortNo">0</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="660" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="95681" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2019-09-01 12:16:54.161</Data>
+        <Data AD_Column_ID="674" Column="Updated">2019-09-01 12:16:54.161</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="287" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="286" Column="Name">Inbound &amp; Outbound Order Line</Data>
+        <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">95681</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">e9a5b4a8-ccd3-11e9-99e9-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="670" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53644" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-09-01 13:26:29.818</Data>
+        <Data AD_Column_ID="198" Column="MsgText">See Client Information for setup</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-09-01 13:26:29.818</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">SeeClientInfoConfig</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53644</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID">a2f56012-ccdd-11e9-99e9-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="680" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="53644" Table="AD_Message_Trl">
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="609" Column="Created">2019-09-01 13:26:30.832</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-09-01 13:26:30.832</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">See Client Information for setup</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53644</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID">a32313f4-ccdd-11e9-99e9-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="690" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="53644" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="See Client Information for setup">Vea la información de la Compañía para configurar lo necesario</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53644">53644</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="700" StepType="AD">
+      <PO AD_Table_ID="361" Action="I" Record_ID="53295" Table="AD_ReportView">
+        <Data AD_Column_ID="4388" Column="Created">2019-09-01 13:35:17.259</Data>
+        <Data AD_Column_ID="85531" Column="Classname" isNewNull="true"/>
+        <Data AD_Column_ID="4387" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4390" Column="Updated">2019-09-01 13:35:17.259</Data>
+        <Data AD_Column_ID="4384" Column="AD_ReportView_ID">53295</Data>
+        <Data AD_Column_ID="4395" Column="WhereClause" isNewNull="true"/>
+        <Data AD_Column_ID="4396" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="4393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="4392" Column="Name">DD_Freight</Data>
+        <Data AD_Column_ID="78517" Column="PrintName">Freight Order</Data>
+        <Data AD_Column_ID="78535" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="4385" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="10032" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="4386" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="4389" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4391" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="4394" Column="AD_Table_ID">54258</Data>
+        <Data AD_Column_ID="84405" Column="UUID">dd2f44ea-ccde-11e9-99e9-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="710" StepType="AD">
+      <PO AD_Table_ID="54060" Action="I" Record_ID="0" Table="AD_ReportView_Trl">
+        <Data AD_Column_ID="78520" Column="IsActive">true</Data>
+        <Data AD_Column_ID="78521" Column="Created">2019-09-01 13:35:18.08</Data>
+        <Data AD_Column_ID="78522" Column="Updated">2019-09-01 13:35:18.08</Data>
+        <Data AD_Column_ID="78527" Column="PrintName">Freight Order</Data>
+        <Data AD_Column_ID="78528" Column="Name">DD_Freight</Data>
+        <Data AD_Column_ID="78529" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="78534" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="78518" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="78519" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="78523" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="78524" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="78526" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="78525" Column="AD_ReportView_ID">53295</Data>
+        <Data AD_Column_ID="84407" Column="UUID">dd67326a-ccde-11e9-99e9-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="720" StepType="AD">
+      <PO AD_Table_ID="54060" Action="U" Record_ID="0" Table="AD_ReportView_Trl">
+        <Data AD_Column_ID="78527" Column="PrintName" oldValue="Freight Order">Orden de Flete</Data>
+        <Data AD_Column_ID="78528" Column="Name" oldValue="DD_Freight">Orden de Flete</Data>
+        <Data AD_Column_ID="78526" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="78525" Column="AD_ReportView_ID" oldValue="53295">53295</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="730" StepType="AD">
+      <PO AD_Table_ID="54060" Action="U" Record_ID="0" Table="AD_ReportView_Trl">
+        <Data AD_Column_ID="78528" Column="Name" oldValue="Orden de Flete">DD_Freight</Data>
+        <Data AD_Column_ID="78526" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="78525" Column="AD_ReportView_ID" oldValue="53295">53295</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="740" StepType="AD">
+      <PO AD_Table_ID="284" Action="I" Record_ID="54288" Table="AD_Process">
+        <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
+        <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>
+        <Data AD_Column_ID="2809" Column="Name">Freight Order Print</Data>
+        <Data AD_Column_ID="2808" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2806" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2801" Column="AD_Process_ID">54288</Data>
+        <Data AD_Column_ID="2802" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2803" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true"/>
+        <Data AD_Column_ID="63488" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6485" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="50182" Column="JasperReport" isNewNull="true"/>
+        <Data AD_Column_ID="2805" Column="Created">2019-09-01 13:35:56.56</Data>
+        <Data AD_Column_ID="2807" Column="Updated">2019-09-01 13:35:56.56</Data>
+        <Data AD_Column_ID="2810" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="4214" Column="IsDirectPrint">true</Data>
+        <Data AD_Column_ID="57920" Column="CopyFromProcess" isNewNull="true"/>
+        <Data AD_Column_ID="2804" Column="IsActive">true</Data>
+        <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
+        <Data AD_Column_ID="4023" Column="Value">Rpt DD_Freight</Data>
+        <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
+        <Data AD_Column_ID="56515" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="5790" Column="AccessLevel">3</Data>
+        <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass">N</Data>
+        <Data AD_Column_ID="7752" Column="AD_PrintFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4374" Column="AD_ReportView_ID">53295</Data>
+        <Data AD_Column_ID="84383" Column="UUID">f4bfa4c4-ccde-11e9-92e4-0242ac110002</Data>
+        <Data AD_Column_ID="4656" Column="Classname" isNewNull="true"/>
+        <Data AD_Column_ID="2811" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="12458" Column="IsBetaFunctionality">false</Data>
+        <Data AD_Column_ID="3371" Column="IsReport">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="750" StepType="AD">
+      <PO AD_Table_ID="287" Action="I" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2847" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2850" Column="Updated">2019-09-01 13:35:57.626</Data>
+        <Data AD_Column_ID="2848" Column="Created">2019-09-01 13:35:57.626</Data>
+        <Data AD_Column_ID="2853" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="2854" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2855" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2852" Column="Name">Freight Order Print</Data>
+        <Data AD_Column_ID="2846" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2845" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2851" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID">54288</Data>
+        <Data AD_Column_ID="2849" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84387" Column="UUID">f4f8ff8a-ccde-11e9-92e4-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="760" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Freight Order Print">Impresión de Orden de Transporte</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54288">54288</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="770" StepType="AD">
+      <PO AD_Table_ID="54060" Action="U" Record_ID="0" Table="AD_ReportView_Trl">
+        <Data AD_Column_ID="78527" Column="PrintName" oldValue="Orden de Flete">Orden de Transporte</Data>
+        <Data AD_Column_ID="78526" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="78525" Column="AD_ReportView_ID" oldValue="53295">53295</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="780" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="54312" Table="AD_Tab">
+        <Data AD_Column_ID="3374" Column="AD_Process_ID" isOldNull="true">54288</Data>
       </PO>
     </Step>
   </Migration>
