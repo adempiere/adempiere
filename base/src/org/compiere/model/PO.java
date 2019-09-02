@@ -63,6 +63,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.SecureEngine;
 import org.compiere.util.Trace;
 import org.compiere.util.Trx;
+import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -1268,6 +1269,34 @@ public abstract class PO
 		return retValue;
 	}	//	get_DisplayValue
 
+	/**
+	 * Get Label value from po
+	 * @return
+	 */
+	public String get_LabelValue() {
+		StringBuffer identifier = new StringBuffer();
+		MTable table = MTable.get(getCtx(), get_Table_ID());
+		table.getColumnsAsList().stream()
+		.sorted(Comparator.comparing(MColumn::getSeqNo))
+		.filter(entry -> entry.isIdentifier() 
+				&& get_Value(entry.getColumnName()) != null
+				&& !Util.isEmpty(get_DisplayValue(entry.getColumnName(), true)))
+		.forEach(column -> {
+		//	Validate value
+			String displayColumn = get_DisplayValue(column.getColumnName(), true);
+			//	Add separator
+			if(identifier.length() > 0) {
+				identifier.append("_");
+			}
+			//	Add Value
+			identifier.append(displayColumn);				
+		});
+		//	Add default
+		if(identifier.length() == 0) {
+			identifier.append("<").append(get_ID()).append(">");
+		}
+		return identifier.toString();
+	}
 
 	/**
 	 * 	Copy old values of From to new values of To.
