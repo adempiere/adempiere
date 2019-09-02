@@ -366,15 +366,6 @@ public interface I_WM_InOutBound
 	  */
 	public boolean isApproved();
 
-    /** Column name IsDelivered */
-    public static final String COLUMNNAME_IsDelivered = "IsDelivered";
-
-	/** Set Delivered	  */
-	public void setIsDelivered (boolean IsDelivered);
-
-	/** Get Delivered	  */
-	public boolean isDelivered();
-
     /** Column name IsDropShip */
     public static final String COLUMNNAME_IsDropShip = "IsDropShip";
 
