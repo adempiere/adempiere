@@ -18,22 +18,20 @@
 
 package org.eevolution.form;
 
-import org.compiere.process.IPrintDocument;
+import java.io.FileInputStream;
+import java.util.List;
+
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.SimplePDFViewer;
-import org.compiere.model.I_AD_Table;
 import org.compiere.model.MQuery;
-import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.model.PrintInfo;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportEngine;
+import org.compiere.process.IPrintDocument;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-
-import java.io.FileInputStream;
-import java.util.List;
 
 /**
  * Created by eEvolution author Victor Perez <victor.perez@e-evolution.com> on 25/01/15.
