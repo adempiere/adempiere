@@ -1256,5 +1256,10 @@
 AND NOT EXISTS(SELECT 1 FROM DD_Freight f WHERE f.WM_InOutBound_ID = WM_InOutBound.WM_InOutBound_ID AND f.DocStatus IN('CO', 'CL'))</Data>
       </PO>
     </Step>
+    <Step SeqNo="800" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56729" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>

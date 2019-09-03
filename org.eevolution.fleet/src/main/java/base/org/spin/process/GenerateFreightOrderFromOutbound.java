@@ -73,7 +73,9 @@ public class GenerateFreightOrderFromOutbound extends GenerateFreightOrderFromOu
 		//	Set values
 		line.setWeight_UOM_ID(clientInfo.getC_UOM_Weight_ID());
 		line.setVolume_UOM_ID(clientInfo.getC_UOM_Volume_ID());
-		line.setM_Freight_ID(getFreightId());
+		if(getFreightId() != 0) {
+			line.setM_Freight_ID(getFreightId());
+		}
 		line.setFreightAmt(getFreightAmt());
 		line.saveEx();
 		//	Complete
