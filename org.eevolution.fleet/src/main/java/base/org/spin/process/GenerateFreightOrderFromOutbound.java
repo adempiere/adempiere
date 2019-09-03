@@ -19,9 +19,7 @@ package org.spin.process;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MClientInfo;
-import org.compiere.model.MProduct;
 import org.eevolution.model.I_DD_Freight;
-import org.eevolution.model.I_WM_InOutBoundLine;
 import org.eevolution.model.MDDFreight;
 import org.eevolution.model.MDDFreightLine;
 import org.eevolution.model.MWMInOutBound;
@@ -56,38 +54,28 @@ public class GenerateFreightOrderFromOutbound extends GenerateFreightOrderFromOu
 		freightOrder.saveEx();
 		//	Add lines from Outbound
 		MWMInOutBound outbound = new MWMInOutBound(getCtx(), getInOutBoundId(), get_TrxName());
-		outbound.getLines(true, I_WM_InOutBoundLine.COLUMNNAME_Line)
-			.stream()
-			.forEach(outboundLine -> {
-				MDDFreightLine line = new MDDFreightLine(getCtx(), 0, get_TrxName());
-				line.setDD_Freight_ID(freightOrder.getDD_Freight_ID());
-				line.setLine(outboundLine.getLine());
-				MProduct product = MProduct.get(getCtx(), outboundLine.getM_Product_ID());
-				if(product.getWeight() != null) {
-					line.setWeight(product.getWeight());
-				}
-				if(product.getVolume() != null) {
-					line.setVolume(product.getVolume());
-				}
-				//	Set from client
-				MClientInfo clientInfo = MClientInfo.get(getCtx());
-				//	Weight
-				if(clientInfo.getC_UOM_Weight_ID() <= 0) {
-					throw new AdempiereException("@C_UOM_Weight_ID@ @NotFound@ @SeeClientInfoConfig@");
-				}
-				//	Volume
-				if(clientInfo.getC_UOM_Volume_ID() <= 0) {
-					throw new AdempiereException("@C_UOM_Volume_ID@ @NotFound@ @SeeClientInfoConfig@");
-				}
-				//	Set values
-				line.setWeight_UOM_ID(clientInfo.getC_UOM_Weight_ID());
-				line.setVolume_UOM_ID(clientInfo.getC_UOM_Volume_ID());
-				line.setM_Freight_ID(getFreightId());
-				line.setFreightAmt(getFreightAmt());
-				line.setM_Product_ID(outboundLine.getM_Product_ID());
-				line.setWM_InOutBoundLine_ID(outboundLine.getWM_InOutBoundLine_ID());
-				line.saveEx();
-			});
+		int lineNo = 10;
+		MDDFreightLine line = new MDDFreightLine(getCtx(), 0, get_TrxName());
+		line.setDD_Freight_ID(freightOrder.getDD_Freight_ID());
+		line.setLine(lineNo);
+		line.setWeight(outbound.getWeight());
+		line.setVolume(outbound.getVolume());
+		//	Set from client
+		MClientInfo clientInfo = MClientInfo.get(getCtx());
+		//	Weight
+		if(clientInfo.getC_UOM_Weight_ID() <= 0) {
+			throw new AdempiereException("@C_UOM_Weight_ID@ @NotFound@ @SeeClientInfoConfig@");
+		}
+		//	Volume
+		if(clientInfo.getC_UOM_Volume_ID() <= 0) {
+			throw new AdempiereException("@C_UOM_Volume_ID@ @NotFound@ @SeeClientInfoConfig@");
+		}
+		//	Set values
+		line.setWeight_UOM_ID(clientInfo.getC_UOM_Weight_ID());
+		line.setVolume_UOM_ID(clientInfo.getC_UOM_Volume_ID());
+		line.setM_Freight_ID(getFreightId());
+		line.setFreightAmt(getFreightAmt());
+		line.saveEx();
 		//	Complete
 		freightOrder.processIt(getDocAction());
 		freightOrder.saveEx();

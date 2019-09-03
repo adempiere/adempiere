@@ -33,7 +33,7 @@ public class X_DD_FreightLine extends PO implements I_DD_FreightLine, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190901L;
+	private static final long serialVersionUID = 20190903L;
 
     /** Standard Constructor */
     public X_DD_FreightLine (Properties ctx, int DD_FreightLine_ID, String trxName)
@@ -469,31 +469,6 @@ public class X_DD_FreightLine extends PO implements I_DD_FreightLine, I_Persiste
 	public int getWeight_UOM_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_Weight_UOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.eevolution.model.I_WM_InOutBoundLine getWM_InOutBoundLine() throws RuntimeException
-    {
-		return (org.eevolution.model.I_WM_InOutBoundLine)MTable.get(getCtx(), org.eevolution.model.I_WM_InOutBoundLine.Table_Name)
-			.getPO(getWM_InOutBoundLine_ID(), get_TrxName());	}
-
-	/** Set Inbound & Outbound Order Line.
-		@param WM_InOutBoundLine_ID Inbound & Outbound Order Line	  */
-	public void setWM_InOutBoundLine_ID (int WM_InOutBoundLine_ID)
-	{
-		if (WM_InOutBoundLine_ID < 1) 
-			set_Value (COLUMNNAME_WM_InOutBoundLine_ID, null);
-		else 
-			set_Value (COLUMNNAME_WM_InOutBoundLine_ID, Integer.valueOf(WM_InOutBoundLine_ID));
-	}
-
-	/** Get Inbound & Outbound Order Line.
-		@return Inbound & Outbound Order Line	  */
-	public int getWM_InOutBoundLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_WM_InOutBoundLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
