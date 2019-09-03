@@ -35,6 +35,7 @@ import org.compiere.print.Viewer;
 import org.compiere.process.IPrintDocument;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.eevolution.service.dsl.ProcessBuilder;
 
 /**
  * Created by eEvolution author Victor Perez <victor.perez@e-evolution.com> on 25/01/15.
@@ -50,19 +51,7 @@ public class VPrintDocument implements IPrintDocument {
             int retValue = ADialogDialog.A_CANCEL;    //	see also ProcessDialog.printShipments/Invoices
             do {
                 try {
-                    String keyColumnName = document.get_KeyColumns()[0];
-                    MPrintFormat format = MPrintFormat.get(
-                            Env.getCtx(),
-                            printFormatId,
-                            false);
-                    MQuery query = new MQuery(document.get_TableName());
-                    query.addRestriction(keyColumnName, MQuery.EQUAL, document.get_ValueAsInt(keyColumnName));
-
-                    //	Engine
-                    PrintInfo info = new PrintInfo(document.get_TableName(), document.get_Table_ID(), document.get_ValueAsInt(keyColumnName));
-                    ReportEngine reportEngine = new ReportEngine(Env.getCtx(), format, query, info, document.get_TrxName());
-                    reportEngine.print();
-                    new Viewer(reportEngine);
+                	printDocument(document, printFormatId, windowNo);
                 } catch (Exception e) {
 
                 } finally {
@@ -92,25 +81,39 @@ public class VPrintDocument implements IPrintDocument {
         if (ADialog.ask(windowNo, window, "PrintAllDocuments", documentLabels.toString())) {
             window.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             documentList.stream().forEach(document -> {
-            	try {
-                    String keyColumnName = document.get_KeyColumns()[0];
-                    MPrintFormat format = MPrintFormat.get(
-                            Env.getCtx(),
-                            printFormatId,
-                            false);
-                    MQuery query = new MQuery(document.get_TableName());
-                    query.addRestriction(keyColumnName, MQuery.EQUAL, document.get_ValueAsInt(keyColumnName));
-
-                    //	Engine
-                    PrintInfo info = new PrintInfo(document.get_TableName(), document.get_Table_ID(), document.get_ValueAsInt(keyColumnName));
-                    ReportEngine reportEngine = new ReportEngine(Env.getCtx(), format, query, info, document.get_TrxName());
-                    reportEngine.print();
-                    new Viewer(reportEngine);
-                } catch (Exception e) {
-                	
-                }
+            	printDocument(document, printFormatId, windowNo);
             });
             window.setCursor(Cursor.getDefaultCursor());
+        }
+	}
+	
+	/**
+	 * Print document
+	 * @param document
+	 * @param printFormatId
+	 */
+	private void printDocument(PO document, int printFormatId, int windowNo) {
+		String keyColumnName = document.get_KeyColumns()[0];
+        MPrintFormat format = MPrintFormat.get(Env.getCtx(), printFormatId, false);
+        if(format.getJasperProcess_ID() != 0) {
+        	try {
+        		ProcessBuilder.create(document.getCtx())
+        			.process(format.getJasperProcess_ID())
+        			.withRecordId(document.get_Table_ID(), document.get_ID())
+        			.withoutPrintPreview()
+        			.execute(document.get_TrxName());
+        	} catch (Exception e) {
+        		
+        	}
+        } else {
+        	MQuery query = new MQuery(document.get_TableName());
+            query.addRestriction(keyColumnName, MQuery.EQUAL, document.get_ValueAsInt(keyColumnName));
+
+            //	Engine
+            PrintInfo info = new PrintInfo(document.get_TableName(), document.get_Table_ID(), document.get_ValueAsInt(keyColumnName));
+            ReportEngine reportEngine = new ReportEngine(Env.getCtx(), format, query, info, document.get_TrxName());
+            reportEngine.print();
+            new Viewer(reportEngine);
         }
 	}
 }

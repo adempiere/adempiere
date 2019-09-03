@@ -19,6 +19,7 @@
 package org.eevolution.form;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import org.adempiere.webui.session.SessionManager;
@@ -32,6 +33,7 @@ import org.compiere.print.ReportEngine;
 import org.compiere.process.IPrintDocument;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.eevolution.service.dsl.ProcessBuilder;
 
 /**
  * Created by eEvolution author Victor Perez <victor.perez@e-evolution.com> on 25/01/15.
@@ -45,25 +47,7 @@ public class WPrintDocument implements IPrintDocument {
         if (FDialog.ask(windowNo, SessionManager.getAppDesktop().getComponent(), "PrintDocument", document.get_LabelValue())) {
             do {
                 try {
-                    String keyColumnName = document.get_KeyColumns()[0];
-                    MPrintFormat format = MPrintFormat.get(
-                            Env.getCtx(),
-                            printFormatId,
-                            false);
-                    MQuery query = new MQuery(document.get_TableName());
-                    query.addRestriction(keyColumnName, MQuery.EQUAL, document.get_ValueAsInt(keyColumnName));
-
-                    //	Engine
-                    PrintInfo info = new PrintInfo(
-                            document.get_TableName(),
-                            document.get_Table_ID(),
-                            document.get_ValueAsInt(keyColumnName));
-                    ReportEngine reportEngine = new ReportEngine(Env.getCtx(), format, query, info, document.get_TrxName());
-                    if (reportEngine != null) {
-                        SimplePDFViewer win = new SimplePDFViewer(format.getName(), new FileInputStream(reportEngine.getPDF()));
-                        SessionManager.getAppDesktop().showWindow(win, "center");
-                    }
-
+                	printDocument(document, printFormatId, windowNo);
                 } catch (Exception e) {
                 	
                 } finally {
@@ -87,28 +71,47 @@ public class WPrintDocument implements IPrintDocument {
 		if (FDialog.ask(windowNo, SessionManager.getAppDesktop().getComponent(), "PrintAllDocuments", documentLabels.toString())) {
         	documentList.stream().forEach(document -> {
         		try {
-                    String keyColumnName = document.get_KeyColumns()[0];
-                    MPrintFormat format = MPrintFormat.get(
-                            Env.getCtx(),
-                            printFormatId,
-                            false);
-                    MQuery query = new MQuery(document.get_TableName());
-                    query.addRestriction(keyColumnName, MQuery.EQUAL, document.get_ValueAsInt(keyColumnName));
-
-                    //	Engine
-                    PrintInfo info = new PrintInfo(
-                            document.get_TableName(),
-                            document.get_Table_ID(),
-                            document.get_ValueAsInt(keyColumnName));
-                    ReportEngine reportEngine = new ReportEngine(Env.getCtx(), format, query, info, document.get_TrxName());
-                    if (reportEngine != null) {
-                        SimplePDFViewer win = new SimplePDFViewer(format.getName(), new FileInputStream(reportEngine.getPDF()));
-                        SessionManager.getAppDesktop().showWindow(win, "center");
-                    }
+        			printDocument(document, printFormatId, windowNo);
                 } catch (Exception e) {
                 	
                 }
         	});
+        }
+	}
+	
+	/**
+	 * Print document
+	 * @param document
+	 * @param printFormatId
+	 * @throws FileNotFoundException 
+	 */
+	private void printDocument(PO document, int printFormatId, int windowNo) throws FileNotFoundException {
+		String keyColumnName = document.get_KeyColumns()[0];
+        MPrintFormat format = MPrintFormat.get(Env.getCtx(), printFormatId, false);
+        if(format.getJasperProcess_ID() != 0) {
+        	try {
+        		ProcessBuilder.create(document.getCtx())
+        			.process(format.getJasperProcess_ID())
+        			.withRecordId(document.get_Table_ID(), document.get_ID())
+        			.withoutPrintPreview()
+        			.execute(document.get_TrxName());
+        	} catch (Exception e) {
+        		
+        	}
+        } else {
+            MQuery query = new MQuery(document.get_TableName());
+            query.addRestriction(keyColumnName, MQuery.EQUAL, document.get_ValueAsInt(keyColumnName));
+
+            //	Engine
+            PrintInfo info = new PrintInfo(
+                    document.get_TableName(),
+                    document.get_Table_ID(),
+                    document.get_ValueAsInt(keyColumnName));
+            ReportEngine reportEngine = new ReportEngine(Env.getCtx(), format, query, info, document.get_TrxName());
+            if (reportEngine != null) {
+                SimplePDFViewer win = new SimplePDFViewer(format.getName(), new FileInputStream(reportEngine.getPDF()));
+                SessionManager.getAppDesktop().showWindow(win, "center");
+            }
         }
 	}
 }
