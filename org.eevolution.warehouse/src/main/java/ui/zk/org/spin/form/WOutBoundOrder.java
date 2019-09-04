@@ -516,7 +516,7 @@ public class WOutBoundOrder extends OutBoundOrder
 				false, "AD_Ref_List.Value IN ('CO','PR')");
 		//	Document Action
 		docActionPick = new WTableDirEditor("DocAction", true, false, true,docActionL);
-		docActionPick.setValue(DocAction.ACTION_Prepare);
+		docActionPick.setValue(DocAction.ACTION_Complete);
 		//	
 		documentDateField.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		//	Set Date
@@ -1106,29 +1106,29 @@ public class WOutBoundOrder extends OutBoundOrder
 	 */
 	private void printDocument() {
 		//	Get Document Type
-		MDocType m_DocType = MDocType.get(Env.getCtx(), 
+		MDocType documentType = MDocType.get(Env.getCtx(), 
 				outBoundOrder.getC_DocType_ID());
-		if(m_DocType == null)
+		if(documentType == null)
 			return;
 		//	
-		if(m_DocType.getAD_PrintFormat_ID() == 0) {
+		if(documentType.getAD_PrintFormat_ID() == 0) {
 			String msg = Msg.parseTranslation(Env.getCtx(), 
 					"@NoDocPrintFormat@ @AD_Table_ID@ = @WM_InOutBound_ID@");
 			log.warning(msg);
 			//	
-			FDialog.warn(m_WindowNo, parameterPanel, "Error", msg);
+			return;
 		}
 		//	Get Print Format
-		MPrintFormat f = MPrintFormat.get(Env.getCtx(), 
-				m_DocType.getAD_PrintFormat_ID(), false);
+		MPrintFormat format = MPrintFormat.get(Env.getCtx(), 
+				documentType.getAD_PrintFormat_ID(), false);
 		//	
-		if(f != null) {
+		if(format != null) {
 			MQuery q = new MQuery(MWMInOutBound.Table_Name);
 			q.addRestriction(MWMInOutBound.Table_Name + "_ID", "=", outBoundOrder.getWM_InOutBound_ID());
 			PrintInfo i = new PrintInfo(Msg.translate(Env.getCtx(), 
 					MWMInOutBound.Table_Name + "_ID"), MWMInOutBound.Table_ID, outBoundOrder.getWM_InOutBound_ID());
 			//	
-			ReportEngine re = new ReportEngine(Env.getCtx(), f, q, i, null);
+			ReportEngine re = new ReportEngine(Env.getCtx(), format, q, i, null);
 			//	Print
 			//	Direct Print
 			//re.print();

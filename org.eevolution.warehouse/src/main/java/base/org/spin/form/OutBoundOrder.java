@@ -22,6 +22,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -877,11 +879,15 @@ public class OutBoundOrder {
         if (docTypeTargetId > 0) {
         	outBoundOrder.setC_DocType_ID(docTypeTargetId);
         } else {
-            int docTypeId = MDocType.getDocType(MDocType.DOCBASETYPE_WarehouseManagementOrder);
-            if (docTypeId <= 0) {
+        	Optional<MDocType> defaultDocumentType = Arrays.asList(MDocType.getOfDocBaseType(Env.getCtx(), MDocType.DOCBASETYPE_WarehouseManagementOrder))
+        		.stream()
+        		.filter(documentType -> documentType.isSOTrx())
+        		.findFirst();
+        	
+            if (!defaultDocumentType.isPresent()) {
             	throw new DocTypeNotFoundException(MDocType.DOCBASETYPE_WarehouseManagementOrder, "");
             } else {
-            	outBoundOrder.setC_DocType_ID(docTypeId);
+            	outBoundOrder.setC_DocType_ID(defaultDocumentType.get().getC_DocType_ID());
             }
         }
 		//	Set Warehouse
@@ -921,11 +927,13 @@ public class OutBoundOrder {
 					MDDOrderLine line = new MDDOrderLine(Env.getCtx(), orderLineId, trxName);
 					outBoundOrderLine.setDD_Order_ID(line.getDD_Order_ID());
 					outBoundOrderLine.setDD_Order_ID(line.getDD_Order_ID());
+					outBoundOrderLine.setC_UOM_ID(line.getC_UOM_ID());
 				} else {
 					outBoundOrderLine.setC_OrderLine_ID(orderLineId);
 					MOrderLine line = new MOrderLine(Env.getCtx(), orderLineId, trxName);
 					outBoundOrderLine.setC_Order_ID(line.getC_Order_ID());
 					outBoundOrderLine.setC_Order_ID(line.getC_Order_ID());
+					outBoundOrderLine.setC_UOM_ID(line.getC_UOM_ID());
 				}
 				outBoundOrderLine.setM_Product_ID(productId);
 				outBoundOrderLine.setMovementQty(qty);
