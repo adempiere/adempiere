@@ -21,7 +21,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
 import org.compiere.model.MAccount;
@@ -1251,146 +1254,139 @@ public class FinReport extends FinReportAbstract {
 		}
 		
 	}
-	
+
 	/**************************************************************************
 	 *	Get/Create PrintFormat
-	 * 	@return print format
+	 *    @return print format
 	 */
 	private MPrintFormat getPrintFormat() {
-		int printFormatId = finReport.getAD_PrintFormat_ID();
-		log.info("AD_PrintFormat_ID=" + printFormatId);
-		MPrintFormat printFormat = null;
-		boolean createNew = printFormatId == 0;
-
-		//	Create New
-		if (createNew) {
-			int AD_Table_ID = 544;		//	T_Report
-			printFormat = MPrintFormat.createFromTable(Env.getCtx(), AD_Table_ID);
-			printFormatId = printFormat.getAD_PrintFormat_ID();
-			finReport.setAD_PrintFormat_ID(printFormatId);
+		if (finReport.getAD_PrintFormat_ID() <= 0) {
+			MPrintFormat printFormat = MPrintFormat.createFromTable(Env.getCtx(), 544);
+			finReport.setAD_PrintFormat_ID(printFormat.getAD_PrintFormat_ID());
 			finReport.saveEx();
-		} else {
-			printFormat = MPrintFormat.get (getCtx(), printFormatId, false);	//	use Cache
 		}
+
+		final MPrintFormat printFormat = MPrintFormat.get(getCtx(), finReport.getAD_PrintFormat_ID(), false);
 		//	Print Format Sync
 		if (!finReport.getName().equals(printFormat.getName()))
 			printFormat.setName(finReport.getName());
+
 		if (finReport.getDescription() == null) {
-			if (printFormat.getDescription () != null) {
-				printFormat.setDescription (null);
+			if (printFormat.getDescription() != null) {
+				printFormat.setDescription(null);
 			}
 		} else if (!finReport.getDescription().equals(printFormat.getDescription())) {
 			printFormat.setDescription(finReport.getDescription());
 		}
 		printFormat.saveEx();
 		log.fine(printFormat + " - #" + printFormat.getItemCount());
+		Arrays.asList(printFormat.getItems()).stream().forEach(printFormatItem -> {
+			Optional<String> maybeColumnName = Optional.ofNullable(printFormatItem.getColumnName());
+			if (maybeColumnName.isPresent()) {
+				String columnName = maybeColumnName.get();
+				if (columnName.startsWith("Col")) {
+					int index = Integer.parseInt(columnName.substring(4));
+					if (index < reportColumns.length) {
+						printFormatItem.setIsPrinted(reportColumns[index].isPrinted());
+						String columnTitle = reportColumns[index].getName();
+						//
+						if (reportColumns[index].isColumnTypeRelativePeriod()) {
+							BigDecimal relativeOffset = reportColumns[index].getRelativePeriod();
+							///Is necessary call using get_Value to get the null value
+							BigDecimal relativeOffsetTo = (BigDecimal) reportColumns[index].get_Value("RelativePeriodTo");
+							FinReportPeriod finReportPeriod = getPeriod(relativeOffset);
 
-		//	Print Format Item Sync
-		int count = printFormat.getItemCount();
-		for (int i = 0; i < count; i++) {
-			MPrintFormatItem printFormatItem = printFormat.getItem(i);
-			String ColumnName = printFormatItem.getColumnName();
-			//
-			if (ColumnName == null) {
-				log.log(Level.SEVERE, "No ColumnName for #" + i + " - " + printFormatItem);
-				if(printFormatItem.isPrinted()) {
-					printFormatItem.setIsPrinted(false);
-				}
-				if(printFormatItem.isOrderBy()) {
-					printFormatItem.setIsOrderBy(false);
-				}
-				if(printFormatItem.getSortNo() != 0) {
-					printFormatItem.setSortNo(0);
-				}
-			} else if (ColumnName.startsWith("Col")) {
-				int index = Integer.parseInt(ColumnName.substring(4));
-				if (index < reportColumns.length) {
-					printFormatItem.setIsPrinted(reportColumns[index].isPrinted());
-					String s = reportColumns[index].getName();
-					//	
-					if (reportColumns[index].isColumnTypeRelativePeriod()) {
-						BigDecimal relativeOffset = reportColumns[index].getRelativePeriod();
-						///Is necessary call using get_Value to get the null value
-						BigDecimal relativeOffsetTo = (BigDecimal) reportColumns[index].get_Value("RelativePeriodTo");
-						FinReportPeriod finReportPeriod = getPeriod (relativeOffset);
-					
-						if (s.contains("@Period@")) {
-							if (relativeOffsetTo != null) {
-								FinReportPeriod finReportPeriodTo = getPeriod(relativeOffsetTo);
-								s = s.replace("@Period@", finReportPeriod.getName() + " - " + finReportPeriodTo.getName());
-							} else {
-								s = s.replace("@Period@", finReportPeriod.getName() );
+							if (columnTitle.contains("@Period@")) {
+								if (relativeOffsetTo != null) {
+									FinReportPeriod finReportPeriodTo = getPeriod(relativeOffsetTo);
+									columnTitle = columnTitle.replace("@Period@", finReportPeriod.getName() + " - " + finReportPeriodTo.getName());
+								} else {
+									columnTitle = columnTitle.replace("@Period@", finReportPeriod.getName());
+								}
 							}
 						}
+						//
+						if (!printFormatItem.getName().equals(columnTitle)) {
+							printFormatItem.setName(columnTitle);
+							printFormatItem.setPrintName(columnTitle);
+						}
+						int seq = 30 + index;
+						if (printFormatItem.getSeqNo() != seq)
+							printFormatItem.setSeqNo(seq);
+
+						columnTitle = reportColumns[index].getFormatPattern();
+						printFormatItem.setFormatPattern(columnTitle);
+						printFormatItem.setFieldAlignmentType("T");
+					} else { //	not printed
+						if (printFormatItem.isPrinted())
+							printFormatItem.setIsPrinted(false);
 					}
-					//	
-					if (!printFormatItem.getName().equals(s)) {
-						printFormatItem.setName (s);
-						printFormatItem.setPrintName (s);
+					//	Not Sorted
+					if (printFormatItem.isOrderBy()) {
+						printFormatItem.setIsOrderBy(false);
 					}
-					int seq = 30 + index;
-					if (printFormatItem.getSeqNo() != seq)
-						printFormatItem.setSeqNo(seq);
-					
-					s = reportColumns[index].getFormatPattern();
-					printFormatItem.setFormatPattern(s);
-					printFormatItem.setFieldAlignmentType("T");
-				} else { //	not printed
-					if (printFormatItem.isPrinted())
+					if (printFormatItem.getSortNo() != 0) {
+						printFormatItem.setSortNo(0);
+					}
+				} else if (columnName.equals("SeqNo")) {
+					if (printFormatItem.isPrinted()) {
 						printFormatItem.setIsPrinted(false);
+					}
+					if (!printFormatItem.isOrderBy()) {
+						printFormatItem.setIsOrderBy(true);
+					}
+					if (printFormatItem.getSortNo() != 10) {
+						printFormatItem.setSortNo(10);
+					}
+				} else if (columnName.equals("LevelNo")) {
+					if (printFormatItem.isPrinted()) {
+						printFormatItem.setIsPrinted(false);
+					}
+					if (!printFormatItem.isOrderBy()) {
+						printFormatItem.setIsOrderBy(true);
+					}
+					if (printFormatItem.getSortNo() != 20) {
+						printFormatItem.setSortNo(20);
+					}
+				} else if (columnName.equals("Name")) {
+					if (printFormatItem.getSeqNo() != 10) {
+						printFormatItem.setSeqNo(10);
+					}
+					if (!printFormatItem.isPrinted()) {
+						printFormatItem.setIsPrinted(true);
+					}
+					if (!printFormatItem.isOrderBy()) {
+						printFormatItem.setIsOrderBy(true);
+					}
+					if (printFormatItem.getSortNo() != 30) {
+						printFormatItem.setSortNo(30);
+					}
+				} else if (columnName.equals("Description")) {
+					if (printFormatItem.getSeqNo() != 20) {
+						printFormatItem.setSeqNo(20);
+					}
+					if (!printFormatItem.isPrinted()) {
+						printFormatItem.setIsPrinted(true);
+					}
+					if (printFormatItem.isOrderBy()) {
+						printFormatItem.setIsOrderBy(false);
+					}
+					if (printFormatItem.getSortNo() != 0) {
+						printFormatItem.setSortNo(0);
+					}
+				} else {
+					if (printFormatItem.isPrinted()) {
+						printFormatItem.setIsPrinted(false);
+					}
+					if (printFormatItem.isOrderBy()) {
+						printFormatItem.setIsOrderBy(false);
+					}
+					if (printFormatItem.getSortNo() != 0) {
+						printFormatItem.setSortNo(0);
+					}
 				}
-				//	Not Sorted
-				if (printFormatItem.isOrderBy()) {
-					printFormatItem.setIsOrderBy(false);
-				}
-				if (printFormatItem.getSortNo() != 0) {
-					printFormatItem.setSortNo(0);
-				}
-			} else if (ColumnName.equals("SeqNo")) {
-				if (printFormatItem.isPrinted()) {
-					printFormatItem.setIsPrinted(false);
-				} if (!printFormatItem.isOrderBy()) {
-					printFormatItem.setIsOrderBy(true);
-				} if (printFormatItem.getSortNo() != 10) {
-					printFormatItem.setSortNo(10);
-				}
-			} else if (ColumnName.equals("LevelNo")) {
-				if (printFormatItem.isPrinted()) {
-					printFormatItem.setIsPrinted(false);
-				}
-				if (!printFormatItem.isOrderBy()) {
-					printFormatItem.setIsOrderBy(true);
-				}
-				if (printFormatItem.getSortNo() != 20) {
-					printFormatItem.setSortNo(20);
-				}
-			} else if (ColumnName.equals("Name")) {
-				if (printFormatItem.getSeqNo() != 10) {
-					printFormatItem.setSeqNo(10);
-				}
-				if (!printFormatItem.isPrinted()) {
-					printFormatItem.setIsPrinted(true);
-				}
-				if (!printFormatItem.isOrderBy()) {
-					printFormatItem.setIsOrderBy(true);
-				}
-				if (printFormatItem.getSortNo() != 30) {
-					printFormatItem.setSortNo(30);
-				}
-			} else if (ColumnName.equals("Description")) {
-				if (printFormatItem.getSeqNo() != 20) {
-					printFormatItem.setSeqNo(20);
-				}
-				if (!printFormatItem.isPrinted()) {
-					printFormatItem.setIsPrinted(true);
-				}
-				if (printFormatItem.isOrderBy()) {
-					printFormatItem.setIsOrderBy(false);
-				}
-				if (printFormatItem.getSortNo() != 0) {
-					printFormatItem.setSortNo(0);
-				}
-			} else {	//	Not Printed, No Sort
+			} else {
+				log.log(Level.SEVERE, "No ColumnName for - " + printFormatItem);
 				if (printFormatItem.isPrinted()) {
 					printFormatItem.setIsPrinted(false);
 				}
@@ -1403,166 +1399,147 @@ public class FinReport extends FinReportAbstract {
 			}
 			printFormatItem.saveEx();
 			log.fine(printFormatItem.toString());
-		}
+		});
+
 		//	set translated to original
 		printFormat.setTranslation();
 		if(finReport.getAD_PrintFormatHeader_ID() <=0)
 			return printFormat;
-			
-		
+
+
 		// Reload to pick up changed pfi
-		printFormat = MPrintFormat.get (getCtx(), printFormatId, true);	//	no cache
-		MPrintFormat printFormatHeader = MPrintFormat.get(getCtx(), finReport.getAD_PrintFormatHeader_ID() ,true);
+		printFormat = MPrintFormat.get (getCtx(), finReport.getAD_PrintFormat_ID() , true);	//	no cache
+		MPrintFormat printFormatHeader = MPrintFormat.get(getCtx(), finReport.getAD_PrintFormatHeader_ID(), true);
+		int organizationId = getOrgId() != 0 ? getOrgId() : Env.getAD_Org_ID(Env.getCtx());
+		Optional<MOrgInfo> maybeOrgInfo = Optional.ofNullable(MOrgInfo.get(Env.getCtx(), organizationId, null));
+		Optional<MLocation> maybeLocation = maybeOrgInfo.map(orgInfo ->
+				Optional.ofNullable(new MLocation(getCtx(), orgInfo.getC_Location_ID(), get_TrxName())).map(location -> location).get()
+		);
 
-		int orgID = getOrgId()!=0? getOrgId(): Env.getAD_Org_ID(Env.getCtx());
-		MOrgInfo orgInfo = null;
-		if (orgID != 0) {
-			orgInfo = MOrgInfo.get(Env.getCtx(), orgID, null);
-		}
+		Arrays.stream(printFormatHeader.getItems()).forEach(printFormatItem -> {
+			Optional.ofNullable(printFormatItem.getName()).ifPresent(printFormatItemName -> {
+				AtomicReference<String> printFormatItemToPrint = new AtomicReference<>(printFormatItemName);
+				if (printFormatItemName.equalsIgnoreCase("Report")) {
+					adjustPrintFormatItem(printFormatItem);
+					printFormatItem.setAD_PrintFormatChild_ID(printFormat.get_ID());
+					printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("Report",""));
+				}
+				/*if (printFormatItemName.equalsIgnoreCase("page count")) {
+					adjustPrintFormatItem(printFormatItem);
+					printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("page count",""));
+				}*/
+				if (printFormatItemName.contains("@Name@")) {
+					adjustPrintFormatItem(printFormatItem);
+					printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@Name@", Optional.ofNullable(finReport.getName()).orElse("")));
+				}
+				if (printFormatItemName.contains("@Client@")) {
+					MClient client = new MClient(getCtx(), Env.getAD_Client_ID(getCtx()), get_TrxName());
+					adjustPrintFormatItem(printFormatItem);
+					printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@Client@", Optional.ofNullable(client.getName()).orElse("")));
 
-		MLocation loc = null;
-		if (orgInfo.getC_Location_ID() != 0)
-			loc = new MLocation(getCtx(), orgInfo.getC_Location_ID(), get_TrxName());
-		for(int j=0; j < printFormatHeader.getItemCount();j++)
-		{
-			MPrintFormatItem printFormatItem = printFormatHeader.getItem(j);
-			
-			String name = printFormatItem.getName();
-			if(!name.startsWith("page") || name.startsWith("@"))
-				printFormatItem.setPrintName(null);
-			
-			if(name.contains("@Name@")) {
-				adjustPrintFormatItem(printFormatItem);
-				name = name.replaceFirst("@Name@", finReport.getName());
-				printFormatItem.setPrintName(name);
-			}
-			if(name.contains("@Client@"))
-			{
-				adjustPrintFormatItem(printFormatItem);
-				MClient client=new MClient(getCtx(), Env.getAD_Client_ID(getCtx()), get_TrxName());
-				name = name.replaceFirst("@Client@", client.getName());
-				printFormatItem.setPrintName(name);
-				
-			}
-			if(name.equalsIgnoreCase("Report")){
-				adjustPrintFormatItem(printFormatItem);
-				printFormatItem.setAD_PrintFormatChild_ID(printFormat.get_ID());
-			}
-			if(name.contains("@Organization@")) {
-				if (getOrgId() != 0) {
-					adjustPrintFormatItem(printFormatItem);
-					MOrg org = new MOrg(getCtx(), getOrgId(), get_TrxName());
-					name = name.replaceFirst("@Organization@", org.getName());
-					printFormatItem.setPrintName(name);
 				}
-				else
-					printFormatItem.setIsPrinted(false);
-			}
-			if(name.contains("@Currency@")) {
-				adjustPrintFormatItem(printFormatItem);
-				name = name.replaceFirst("@Currency@", finReport.getC_AcctSchema().getC_Currency().getDescription());
-				printFormatItem.setPrintName(name);
-			}
-			if(name.contains("@Period@")) {
-				if (getPeriodId() != 0)	{
-					adjustPrintFormatItem(printFormatItem);
-					MPeriod period=MPeriod.get(getCtx(), getPeriodId());
-					name = name.replaceFirst("@Period@", period.getName());
-					printFormatItem.setPrintName(name);
-				} else {
-					printFormatItem.setIsPrinted(false);
-				}
-			}
-			if(name.contains("@Business Partner@")) {
-				if ( getOrgId() !=0 ) {
-					adjustPrintFormatItem(printFormatItem);
-					MBPartner bpartner=MBPartner.get(getCtx(), getBPartnerId());
-					name = name.replaceFirst("@Business Partner@", bpartner.getName());
-					printFormatItem.setPrintName(name);
-				} else {
-					printFormatItem.setIsPrinted(false);
-				}
-			}
-			if(name.equalsIgnoreCase("@Logo@")) {
-				adjustPrintFormatItem(printFormatItem);
-				MImage image = null;
-
-				if (orgInfo != null) {
-					if (orgInfo.getLogo_ID() > 0) {
-						image = MImage.get(Env.getCtx(), orgInfo.getLogo_ID());
+				if (printFormatItemName.contains("@Organization@")) {
+					if (organizationId > 0) {
+						MOrg org = new MOrg(getCtx(), organizationId , get_TrxName());
+						adjustPrintFormatItem(printFormatItem);
+						printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@Organization@", Optional.ofNullable(org.getName()).orElse("")));
 					}
 				}
-				if (image == null) {
-					MClientInfo ci=MClientInfo.get(getCtx(), Env.getAD_Client_ID(getCtx()));
-					if (ci.getLogoReport_ID() > 0) {
-						image = MImage.get(Env.getCtx(), ci.getLogoReport_ID());
-					}
+				if (printFormatItemName.contains("@Currency@")) {
+					adjustPrintFormatItem(printFormatItem);
+					printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@Currency@", Optional.ofNullable(finReport.getC_AcctSchema().getC_Currency().getDescription()).orElse("")));
 				}
-				if (image != null) {
-					byte[] imageData = image.getData();
-					MAttachment attachment = printFormatItem.createAttachment();
-					attachment.setBinaryData(imageData);
-					if(attachment.getEntryCount() > 0) {
-						attachment.updateEntry(0, imageData);
+				if (printFormatItemName.contains("@Period@")) {
+					if (getPeriodId() != 0) {
+						MPeriod period = MPeriod.get(getCtx(), getPeriodId());
+						adjustPrintFormatItem(printFormatItem);
+						printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@Period@",  Optional.ofNullable(period.getName()).orElse("")));
+
 					} else {
-						attachment.addEntry(image.getName(), imageData);
+						printFormatItem.setIsPrinted(false);
 					}
-					attachment.saveEx();
-					CacheMgt.get().reset("ImageElement");
 				}
-			}
-			if (orgInfo != null){
-				orgInfo = MOrgInfo.get(Env.getCtx(), orgID, null);
-				if(name.contains("@City@") && orgInfo.getC_Location_ID() !=0) {
-					adjustPrintFormatItem(printFormatItem);
-					name = name.replaceFirst("@City@", loc.getCity());
-					printFormatItem.setPrintName(name);
+				if (printFormatItemName.contains("@Business Partner@")) {
+					if (organizationId > 0 && getBPartnerId() > 0) {
+						MBPartner bpartner = MBPartner.get(getCtx(), getBPartnerId());
+						adjustPrintFormatItem(printFormatItem);
+						printFormatItemToPrint.updateAndGet(toPrint ->  toPrint.replaceFirst("@Business Partner@",  Optional.ofNullable(bpartner.getName()).orElse("")));
+					} else {
+						printFormatItem.setIsPrinted(false);
+						printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@Business Partner@", ""));
+					}
 				}
 
-				if(name.contains("@TaxID@") && orgInfo.getTaxID() != null) {
-					adjustPrintFormatItem(printFormatItem);
-					name = name.replaceFirst("@TaxID@", orgInfo.getTaxID());
-					printFormatItem.setPrintName(name);
-				}
-				if(name.contains("@DUNS@" ) &&orgInfo.getDUNS() != null) {
-					adjustPrintFormatItem(printFormatItem);
-					name = name.replaceFirst("@DUNS@", orgInfo.getDUNS());
-					printFormatItem.setPrintName(name);
-				}
-				if(name.contains("@Address1@") && orgInfo.getC_Location_ID() !=0 && loc.getAddress1() != null) {
-					adjustPrintFormatItem(printFormatItem);
-					name = name.replaceFirst("@Address1@", loc.getAddress1());
-					printFormatItem.setPrintName(name);
-				}
-				if(name.contains("@Address2@") && orgInfo.getC_Location_ID() !=0 && loc.getAddress2() != null) {
-					adjustPrintFormatItem(printFormatItem);
-					name = name.replaceFirst("@Address2@", loc.getAddress2());
-					printFormatItem.setPrintName(name);
-				}
-				if(name.contains("@Address3@") && orgInfo.getC_Location_ID() !=0 && loc.getAddress3() != null) {
-					adjustPrintFormatItem(printFormatItem);
-					name = name.replaceFirst("@Address3@", loc.getAddress3());
-					printFormatItem.setPrintName(name);
-				}
-				if(name.contains("@Address4@") && orgInfo.getC_Location_ID() !=0 && loc.getAddress4() != null) {
-					adjustPrintFormatItem(printFormatItem);
-					name = name.replaceFirst("@Address4@", loc.getAddress4());
-					printFormatItem.setPrintName(name);
-				}
-			}
-			//else{
-			//	printFormatItem.setIsPrinted(false);
-			//	}
-				printFormatItem.saveEx();
-			if (!name.equalsIgnoreCase("Report") && !name.equalsIgnoreCase("Logo")
-					&& printFormatItem.getPrintName()==null)
-				printFormatItem.setIsPrinted(false);
-		}
+				maybeOrgInfo.ifPresent(orgInfo -> {
+					if (printFormatItemName.contains("@TaxID@")) {
+						adjustPrintFormatItem(printFormatItem);
+						printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@TaxID@", Optional.ofNullable(orgInfo.getTaxID()).orElse("")));
+					}
+					if (printFormatItemName.contains("@DUNS@")) {
+						adjustPrintFormatItem(printFormatItem);
+						printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@DUNS@", Optional.ofNullable(orgInfo.getDUNS()).orElse("")));
+					}
+				});
 
-		//
+				if (printFormatItemName.equalsIgnoreCase("@Logo@")) {
+					Optional.ofNullable(Optional.ofNullable(MImage.get(Env.getCtx(), maybeOrgInfo.get().getLogo_ID()))
+							.orElse(MImage.get(Env.getCtx(), MClientInfo.get(getCtx(), Env.getAD_Client_ID(getCtx())).getLogoReport_ID())))
+							.ifPresent(image -> {
+								byte[] imageData = image.getData();
+								MAttachment attachment = printFormatItem.createAttachment();
+								attachment.setBinaryData(imageData);
+								if (attachment.getEntryCount() > 0) {
+									attachment.updateEntry(0, imageData);
+								} else {
+									attachment.addEntry(image.getName(), imageData);
+								}
+								attachment.saveEx();
+								CacheMgt.get().reset("ImageElement");
+							});
+					printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@Logo@",""));
+				}
+
+				maybeLocation.ifPresent(location -> {
+					if (printFormatItemName.contains("@City@")) {
+						adjustPrintFormatItem(printFormatItem);
+						printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@City@", Optional.ofNullable(location.getCity()).orElse("")));
+					}
+					if (printFormatItemName.contains("@Address1@")) {
+						adjustPrintFormatItem(printFormatItem);
+						printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@Address1@",  Optional.ofNullable(location.getAddress1()).orElse("")));
+
+					}
+					if (printFormatItemName.contains("@Address2@")) {
+						adjustPrintFormatItem(printFormatItem);
+						printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@Address2@", Optional.ofNullable(location.getAddress2()).orElse("")));
+
+					}
+					if (printFormatItemName.contains("@Address3@")) {
+						adjustPrintFormatItem(printFormatItem);
+						printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@Address3@",  Optional.ofNullable(location.getAddress3()).orElse("")));
+					}
+					if (printFormatItemName.contains("@Address4@")) {
+						adjustPrintFormatItem(printFormatItem);
+						printFormatItemToPrint.updateAndGet(toPrint -> toPrint.replaceFirst("@Address1@", Optional.ofNullable(location.getAddress4()).orElse("")));
+
+					}
+				});
+
+				if (printFormatItemToPrint.get() != null) {
+					printFormatItem.setPrintName(printFormatItemToPrint.get());
+					printFormatItem.setIsPrinted(true);
+					printFormatItem.saveEx();
+				}
+				else {
+					printFormatItem.setPrintName(null);
+					printFormatItem.setIsPrinted(false);
+					printFormatItem.saveEx();
+				}
+			});
+		});
 		return printFormatHeader;
 
-	}	//	getPrintFormat
+	}
 
 	private void adjustPrintFormatItem(MPrintFormatItem printFormatItem){
 		if (!printFormatItem.isPrinted()) {

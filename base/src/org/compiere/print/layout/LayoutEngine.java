@@ -37,9 +37,11 @@ import java.io.Reader;
 import java.io.Serializable;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -47,11 +49,10 @@ import javax.print.Doc;
 import javax.print.DocFlavor;
 import javax.print.attribute.DocAttributeSet;
 
-
 import org.compiere.Adempiere;
 import org.compiere.model.MClientInfo;
 import org.compiere.model.MQuery;
-
+import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
 import org.compiere.model.PrintInfo;
 import org.compiere.print.ArchiveEngine;
@@ -72,10 +73,13 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-
+import org.compiere.util.Evaluatee;
+import org.compiere.util.Evaluator;
 import org.compiere.util.KeyNamePair;
+import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
+import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -99,8 +103,6 @@ import org.compiere.util.ValueNamePair;
  * @author victor.perez@e-evolution.com, e-Evolution
  * 				<li>BF [ 2011567 ] Implement Background Image for Document printed 
  * 				<li>http://sourceforge.net/tracker/index.php?func=detail&aid=2011567&group_id=176962&atid=879335
- * 				<li>#2337 Adding support to print QR barcode Adempiere Report Engine
- * 				<li>https://github.com/adempiere/adempiere/issues/2337
  * @author Michael Judd (Akuna Ltd)
  * 				<li>BF [ 2695078 ] Country is not translated on invoice
  */
@@ -1224,12 +1226,20 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		newLine();
 		PrintElement element = null;
 		//
-		MPrintFormat format = MPrintFormat.get (getCtx(), item.getAD_PrintFormatChild_ID(), false);
-		format.setLanguage(m_format.getLanguage());
-		if (m_format.isTranslationView())
-			format.setTranslationLanguage(m_format.getLanguage());
+		MPrintFormat formatChild = MPrintFormat.get (getCtx(), item.getAD_PrintFormatChild_ID(), false);
+		Optional.ofNullable(m_format).ifPresent(formatParent -> {
+			Optional<Language> maybeLanguage = Optional.ofNullable(formatParent.getLanguage());
+			maybeLanguage.ifPresent(language -> {
+				if (formatChild != null) {
+					formatChild.setLanguage(language);
+					if (formatParent.isTranslationView())
+						formatChild.setTranslationLanguage(language);
+				}
+			});
+		});
+
 		int AD_Column_ID = item.getAD_Column_ID();
-		if (log.isLoggable(Level.INFO)) log.info(format + " - Item=" + item.getName() + " (" + AD_Column_ID + ")");
+		if (log.isLoggable(Level.INFO)) log.info(formatChild + " - Item=" + item.getName() + " (" + AD_Column_ID + ")");
 		//
 		Object obj = data.getNode(new Integer(AD_Column_ID));
 		//	Object obj = data.getNode(item.getColumnName());	//	slower
@@ -1242,7 +1252,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			return null;
 		}
 		PrintDataElement dataElement = (PrintDataElement)obj;
-		MQuery query = new MQuery (format.getAD_Table_ID());
+		MQuery query = new MQuery (formatChild.getAD_Table_ID());
 		if (DisplayType.isID(dataElement.getDisplayType())) {
 			String recordString = dataElement.getValueKey();
 			try {
@@ -1276,12 +1286,12 @@ public class LayoutEngine implements Pageable, Printable, Doc
 
 
 
-		format.setTranslationViewQuery(query);
+		formatChild.setTranslationViewQuery(query);
 		query.setWindowNo(windowNo);
 		log.fine(query.toString());
 		//
-		DataEngine de = new DataEngine(format.getLanguage(),m_TrxName);
-		PrintData includedData = de.getPrintData(data.getCtx(), format, query);
+		DataEngine de = new DataEngine(formatChild.getLanguage(),m_TrxName);
+		PrintData includedData = de.getPrintData(data.getCtx(), formatChild, query);
 		if (includedData == null)
 			return null;
 
@@ -1290,7 +1300,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		if (log.isLoggable(Level.FINE))
 			log.fine(includedData.toString());
 		//
-		element = layoutTable (format, includedData, item.getXSpace());
+		element = layoutTable (formatChild, includedData, item.getXSpace());
 		//	handle multi page tables
 		if (element.getPageCount() > 1)
 		{
@@ -1547,16 +1557,10 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		String stringContent = data.getValueDisplay (m_format.getLanguage());
 		if ((stringContent == null || stringContent.length() == 0) && item.isSuppressNull())
 			return null;
-		// Add Support for QR Code
-		if (item.getBarcodeType() != null && MPrintFormatItem.BARCODETYPE_QuickResponseCode.equals(item.getBarcodeType())) {
-				QRCodeElement element = new QRCodeElement(stringContent, item);
-				return element;
-		}
-		else {
-			BarcodeElement element = new BarcodeElement(stringContent, item);
-			if (element.isValid())
-				return element;
-		}
+
+		BarcodeElement element = new BarcodeElement (stringContent, item);
+		if (element.isValid())
+			return element;
 		return null;
 	}	//	createBarcodeElement
 	
