@@ -962,6 +962,9 @@ public abstract class SvrProcess implements ProcessCall
 	 * @param askPrint
 	 */
 	public void printDocument(List<PO> documentList, boolean askPrint) {
+		if(documentList.size() == 0) {
+			return;
+		}
 		int printFormatId = getPrintFormatId(documentList.get(0));
 		if(printFormatId != 0) {
 			printDocument(documentList, printFormatId, askPrint);
