@@ -33,7 +33,7 @@ public class X_DD_FreightLine extends PO implements I_DD_FreightLine, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20190903L;
 
     /** Standard Constructor */
     public X_DD_FreightLine (Properties ctx, int DD_FreightLine_ID, String trxName)

@@ -26,8 +26,13 @@ import java.util.Properties;
  * @author victor.perez@e-evolution.com, http://www.e-evolution.com , http://github.com/e-Evolution
  */
 public class MDDFreightLine extends X_DD_FreightLine {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2953035352565001669L;
 
-    /**
+	/**
      * Constructor  Freight Line Order
      * @param ctx
      * @param freightlineId
