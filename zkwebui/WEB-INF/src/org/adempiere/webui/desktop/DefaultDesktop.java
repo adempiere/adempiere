@@ -17,14 +17,6 @@
 
 package org.adempiere.webui.desktop;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Serializable;
-import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.logging.Level;
 import org.adempiere.webui.apps.graph.WGraph;
 import org.adempiere.webui.apps.graph.WPerformanceDetail;
 import org.adempiere.webui.component.Tabpanel;
@@ -43,9 +35,9 @@ import org.compiere.model.I_AD_Menu;
 import org.compiere.model.MDashboardContent;
 import org.compiere.model.MGoal;
 import org.compiere.model.MRole;
+import org.compiere.model.MSysConfig;
 import org.compiere.model.X_PA_DashboardContent;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
@@ -68,6 +60,13 @@ import org.zkoss.zul.Html;
 import org.zkoss.zul.Panel;
 import org.zkoss.zul.Panelchildren;
 import org.zkoss.zul.Toolbarbutton;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Serializable;
+import java.net.URL;
+import java.util.logging.Level;
 
 /**
  *
@@ -165,271 +164,217 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
         return layout;
     }
 
-	private void createHomeTab()
-	{
-        Tabpanel homeTab = new Tabpanel();
-        windowContainer.addWindow(homeTab, Msg.getMsg(Env.getCtx(), "Home").replaceAll("&", ""), false);
+	private void createHomeTab() {
+		Tabpanel homeTab = new Tabpanel();
+		windowContainer.addWindow(homeTab, Msg.getMsg(Env.getCtx(), "Home").replaceAll("&", ""), false);
 
-        Portallayout portalLayout = new Portallayout();
-        portalLayout.setWidth("100%");
-        portalLayout.setHeight("100%");
-        portalLayout.setStyle("position: absolute; overflow: auto");
-        homeTab.appendChild(portalLayout);
+		Portallayout portalLayout = new Portallayout();
+		portalLayout.setWidth("100%");
+		portalLayout.setHeight("100%");
+		portalLayout.setStyle("position: absolute; overflow: auto");
+		homeTab.appendChild(portalLayout);
 
-        // Dashboard content
-        Portalchildren portalchildren = null;
-        int currentColumnNo = 0;
-        
-        String sql = "SELECT COUNT(DISTINCT COLUMNNO) "
-						+ "FROM PA_DASHBOARDCONTENT "
-						+ "WHERE (AD_CLIENT_ID=0 OR AD_CLIENT_ID=?) AND ISACTIVE='Y'";
+		// Dashboard content
+		Portalchildren portalChildren = null;
+		int currentColumnNo = 0;
+		int noOfColumns = 0;
+		int width = 0;
 
-        int noOfCols = DB.getSQLValue(null, sql, Env.getAD_Client_ID(Env.getCtx()));
-        int width = noOfCols <= 0 ? 100 : 100 / noOfCols;
-        
-       /* sql = "SELECT x.* "
-			+ "FROM PA_DASHBOARDCONTENT x "
-			+ "WHERE (x.AD_CLIENT_ID=0 OR x.AD_CLIENT_ID=?) AND x.ISACTIVE='Y' "
-			+ "ORDER BY x.COLUMNNO, x.AD_CLIENT_ID, x.LINE ";*/
-        StringBuffer sqlContent = new StringBuffer();
-        sqlContent.append("SELECT x.PA_DASHBOARDCONTENT_ID, x.AD_CLIENT_ID, x.AD_ORG_ID, x.ISACTIVE ,");
-        sqlContent.append("       COALESCE(XTRL.NAME,x.NAME) AS NAME ,");        
-        sqlContent.append(" x.AD_WINDOW_ID ,");   
-        sqlContent.append(" x.DESCRIPTION ,");   
-        sqlContent.append("  x.HTML ,");   
-        sqlContent.append("  x.LINE ,");   
-        sqlContent.append("  x.PA_GOAL_ID ,");   
-        sqlContent.append(" x.COLUMNNO ,");   
-        sqlContent.append(" x.ZULFILEPATH ,");   
-        sqlContent.append(" x.ISCOLLAPSIBLE ,");   
-        sqlContent.append(" x.GOALDISPLAY ,");   
-        sqlContent.append(" x.ISOPENBYDEFAULT ,");   
-        sqlContent.append("  x.ISEVENTREQUIRED ,");   
-        sqlContent.append("  x.ZOOM_WINDOW_ID ,");   
-        sqlContent.append(" x.ZOOM_TAB_ID ,");   
-        sqlContent.append("  x.PAGESIZE ,");   
-        sqlContent.append(" x.ONEVENT ,");   
-        sqlContent.append(" x.AD_BROWSE_ID ,");   
-        sqlContent.append(" x.ZOOM_FIELD_ID ");  
-        sqlContent.append(" FROM PA_DASHBOARDCONTENT x ");   
-        sqlContent.append(" LEFT JOIN PA_DASHBOARDCONTENT_TRL xtrl on x.PA_DASHBOARDCONTENT_ID = xtrl.PA_DASHBOARDCONTENT_ID "
-        		+ "AND xtrl.AD_LANGUAGE = ?");   
-        sqlContent.append(" WHERE (x.AD_CLIENT_ID=0 OR x.AD_CLIENT_ID=?) AND x.ISACTIVE='Y' ");   
-        sqlContent.append(" ORDER BY x.COLUMNNO, x.AD_CLIENT_ID, x.LINE ");           
-        PreparedStatement pstmt = null;
-		ResultSet rs = null;
-        try
-		{
-        	pstmt = DB.prepareStatement(sqlContent.toString(), null);
-        	pstmt.setString(1, Env.getAD_Language(Env.getCtx()));
-			pstmt.setInt(2, Env.getAD_Client_ID(Env.getCtx()));
-			rs = pstmt.executeQuery();
-			
-			while (rs.next()) {
-			    MRole role = MRole.getDefault(Env.getCtx(), false);
-        		if(role.getDashboardAccess((int)rs.getInt(X_PA_DashboardContent.COLUMNNAME_PA_DashboardContent_ID))) {
+		try {
 
-				int columnNo = rs.getInt(X_PA_DashboardContent.COLUMNNAME_ColumnNo);
-				if (portalchildren == null || currentColumnNo != columnNo) {
-					portalchildren = new Portalchildren();
-					portalLayout.appendChild(portalchildren);
-					portalchildren.setWidth(width + "%");
-					portalchildren.setStyle("padding: 5px");
+			int counter = 0;
+			String[] size = null;
+			String proportion = MSysConfig.getValue("ZK_DASHBOARD_COLUMN_WIDTH_PROPORTION", Env.getAD_Client_ID(Env.getCtx()));
+			if (!Util.isEmpty(proportion, true))
+				size = proportion.split(",");
 
-					currentColumnNo = columnNo;
+			noOfColumns = MDashboardContent.getForSessionColumnCount();
+			width = noOfColumns <= 0 ? 100 : 100 / noOfColumns;
+			for (final MDashboardContent dashboardContent : MDashboardContent.getForSession()) {
+				MRole role = MRole.getDefault(Env.getCtx(), false);
+				if (role.getDashboardAccess(dashboardContent.getPA_DashboardContent_ID())) {
+					int columnNo = dashboardContent.getColumnNo();
+					if (portalChildren == null || currentColumnNo != columnNo) {
+						String columnWidth = "" + width;
+						if (size != null && size.length > 0 && size.length > counter && !Util.isEmpty(size[counter], true))
+							columnWidth = size[counter];
+						portalChildren = new Portalchildren();
+						portalLayout.appendChild(portalChildren);
+						portalChildren.setWidth(columnWidth.trim() + "%");
+						portalChildren.setStyle("padding: 5px");
+
+						currentColumnNo = columnNo;
+						counter++;
+					}
 				}
-				
-	        	Panel panel = new Panel();
-	        	panel.setStyle("margin-bottom:10px");
-	        	panel.setTitle(rs.getString(X_PA_DashboardContent.COLUMNNAME_Name));
 
-	        	String description = rs.getString(X_PA_DashboardContent.COLUMNNAME_Description);
-            	if(description != null)
-            		panel.setTooltiptext(description);
 
-            	String collapsible = rs.getString(X_PA_DashboardContent.COLUMNNAME_IsCollapsible);
-            	panel.setCollapsible(collapsible.equals("Y"));
-            	
-            	String isOpenByDefault = rs.getString(X_PA_DashboardContent.COLUMNNAME_IsOpenByDefault);
-            	panel.setOpen( isOpenByDefault.equals("Y") );
-            	
-	        	panel.setBorder("normal");
-	        	portalchildren.appendChild(panel);
-	            Panelchildren content = new Panelchildren();
-	            panel.appendChild(content);
+				Panel panel = new Panel();
+				panel.setStyle("margin-bottom:10px");
+				panel.setTitle(dashboardContent.get_Translation(MDashboardContent.COLUMNNAME_Name));
 
-	            boolean panelEmpty = true;
-	        
-	            // HTML content
-	            String htmlContent = rs.getString(X_PA_DashboardContent.COLUMNNAME_HTML);
-	            if(htmlContent != null)
-	            {
-		            StringBuffer result = new StringBuffer("<html><head>");
+				String description = dashboardContent.get_Translation(MDashboardContent.COLUMNNAME_Description);
+				if (description != null)
+					panel.setTooltiptext(description);
 
-		    		URL url = getClass().getClassLoader().getResource("org/compiere/images/PAPanel.css");
-					InputStreamReader ins;
+				panel.setCollapsible(dashboardContent.isCollapsible());
+				panel.setOpen(dashboardContent.isOpenByDefault());
+				panel.setBorder("normal");
+				portalChildren.appendChild(panel);
+				Panelchildren content = new Panelchildren();
+				panel.appendChild(content);
+				boolean panelEmpty = true;
+
+				// HTML content
+				String htmlContent = dashboardContent.getHTML();
+				if (htmlContent != null) {
+					StringBuffer result = new StringBuffer("<html><head>");
+
+					URL url = getClass().getClassLoader().getResource("org/compiere/images/PAPanel.css");
+					InputStreamReader inputStreamReader = null;
 					try {
-						ins = new InputStreamReader(url.openStream());
-						BufferedReader bufferedReader = new BufferedReader( ins );
+						inputStreamReader = new InputStreamReader(url.openStream());
+						BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 						String cssLine;
+						result.append("<style type=\"text/css\">");
 						while ((cssLine = bufferedReader.readLine()) != null)
 							result.append(cssLine + "\n");
+						result.append("</style>");
 					} catch (IOException e1) {
 						logger.log(Level.SEVERE, e1.getLocalizedMessage(), e1);
+					} finally {
+						if (inputStreamReader != null) {
+							try {
+								inputStreamReader.close();
+							} catch (Exception e) {
+							}
+							inputStreamReader = null;
+						}
 					}
-
 					result.append("</head><body><div class=\"content\">\n");
+					result.append(stripHtml(htmlContent, false) + "<br>\n");
+					result.append("</div>\n</body>\n</html>\n</html>");
 
-	            	result.append(stripHtml(htmlContent, false) + "<br>\n");
-	            	result.append("</div>\n</body>\n</html>\n</html>");
+					Html html = new Html();
+					html.setContent(result.toString());
+					content.appendChild(html);
+					panelEmpty = false;
+				}
 
-		            Html html = new Html();
-		            html.setContent(result.toString());
-		            content.appendChild(html);
-		            panelEmpty = false;
-	            }
-	            
-	         // Window
-	        	int AD_Window_ID = rs.getInt(X_PA_DashboardContent.COLUMNNAME_AD_Window_ID);
-	        	if(AD_Window_ID > 0)
-	        	{
-	        		MDashboardContent dashboardContent = new MDashboardContent( Env.getCtx(), 
-	        																	rs.getInt(X_PA_DashboardContent.COLUMNNAME_PA_DashboardContent_ID) , 
-	        																	null);
+				// Window
+				int windowId = dashboardContent.getAD_Window_ID();
+				if (windowId > 0) {
+					int menuId = dashboardContent.getAD_Menu_ID();
+					ToolBarButton btn = new ToolBarButton(String.valueOf(menuId));
+					I_AD_Menu menu = dashboardContent.getAD_Menu();
+					btn.setLabel(menu.getName());
+					btn.addEventListener(Events.ON_CLICK, this);
+					content.appendChild(btn);
+					panelEmpty = false;
+				}
 
-			        	int AD_Menu_ID = dashboardContent.getAD_Menu_ID();
-						ToolBarButton btn = new ToolBarButton(String.valueOf(AD_Menu_ID));
-						I_AD_Menu menu = dashboardContent.getAD_Menu();
-						btn.setLabel(menu.getName());
-						btn.addEventListener(Events.ON_CLICK, this);
-						content.appendChild(btn);
-						panelEmpty = false;
-	        		
-	        	}
 
-	            
-	            //SmartBrowse
-	            int AD_Browse_ID = rs.getInt(X_PA_DashboardContent.COLUMNNAME_AD_Browse_ID);
+				//SmartBrowse
+				int browseId = dashboardContent.getAD_Browse_ID();
+				/*To handle DynamicDashboard. Added new if block
+				 * If the configuration is dynamic dash board, It finds by using IsDynamicDashboard value. If it is “Y”, Control
+				 * forwards to the Dynamic Dashboard corresponding zul file path, interns it forwards to DynamicDashboard class.
+				 * For this few result set values are set to context. */
 
-	        	// [11-01-2013]
+				if (browseId > 0) {
+					try {
+						Env.setContext(Env.getCtx(), "#AD_Browse_ID", dashboardContent.getAD_Browse_ID());
+						Env.setContext(Env.getCtx(), "#PageSize", dashboardContent.getPageSize().intValue());
+						Env.setContext(Env.getCtx(), "#Zoom_Tab_ID", dashboardContent.getZoom_Tab_ID());
+						Env.setContext(Env.getCtx(), "#Zoom_Window_ID", dashboardContent.getAD_Window_ID());
+						Env.setContext(Env.getCtx(), "#Zoom_Field_ID", dashboardContent.getZoom_Field_ID());
+						Env.setContext(Env.getCtx(), "#OnEvent", dashboardContent.getonevent());
+						Component component = Executions.createComponents(dynamic_Dashboard_zulFilepath, content, null);
+						if (component != null) {
+							if (component instanceof DashboardPanel) {
+								DashboardPanel dashboardPanel = (DashboardPanel) component;
+								if (!dashboardPanel.getChildren().isEmpty()) {
+									content.appendChild(dashboardPanel);
+									dashboardRunnable.add(dashboardPanel);
+									panelEmpty = false;
+								}
+							} else {
+								content.appendChild(component);
+								panelEmpty = false;
+							}
+						}
+					} catch (Exception e) {
+						logger.log(Level.WARNING, "Failed to create components. zul=" + dynamic_Dashboard_zulFilepath, e);
+					}
+				}
 
-	        	/*To handle DynamicDashboard. Added new if block
-	        	* If the configuration is dynamic dash board, It finds by using IsDynamicDashboard value. If it is “Y”, Control
-	        	* forwards to the Dynamic Dashboard corresponding zul file path, interns it forwards to DynamicDashboard class.
-	        	* For this few result set values are set to context. */
-				
-	        	if ( AD_Browse_ID > 0 ) {
-	        		
-	        		try {
-	        			Env.setContext( Env.getCtx(), "#AD_Browse_ID", rs.getInt(X_PA_DashboardContent.COLUMNNAME_AD_Browse_ID));//setting Tab ID to context
-	        			Env.setContext( Env.getCtx(), "#PageSize", rs.getInt(X_PA_DashboardContent.COLUMNNAME_PageSize));
-	        			Env.setContext( Env.getCtx(), "#Zoom_Tab_ID", rs.getInt(X_PA_DashboardContent.COLUMNNAME_Zoom_Tab_ID));
-	        			Env.setContext( Env.getCtx(), "#Zoom_Window_ID", rs.getInt(X_PA_DashboardContent.COLUMNNAME_Zoom_Window_ID));
-	        			Env.setContext( Env.getCtx(), "#Zoom_Field_ID", rs.getInt(X_PA_DashboardContent.COLUMNNAME_Zoom_Field_ID));
-	        			Env.setContext( Env.getCtx(), "#OnEvent", rs.getString(X_PA_DashboardContent.COLUMNNAME_onevent));
-
-	        			Component component = Executions.createComponents(dynamic_Dashboard_zulFilepath, content, null);
-
-	        			if (component != null) {
-	        				if (component instanceof DashboardPanel) {
-	        					DashboardPanel dashboardPanel = (DashboardPanel) component;
-	        					if (!dashboardPanel.getChildren().isEmpty()) {
-	        						content.appendChild(dashboardPanel);
-	        						dashboardRunnable.add(dashboardPanel);
-
-	        						panelEmpty = false;
-	        					}
-	        				} else {
-	        					content.appendChild(component);
-	        					panelEmpty = false;
-	        				}
-	        			}
-	        		} catch (Exception e) {
-	        			logger.log(Level.WARNING, "Failed to create components. zul=" + dynamic_Dashboard_zulFilepath, e);
-	        		}
-	        	}
-
-	        	// Goal
-	        	int PA_Goal_ID = rs.getInt(X_PA_DashboardContent.COLUMNNAME_PA_Goal_ID);
-	        	if(PA_Goal_ID > 0)
-	        	{
-	        		//link to open performance detail
-	        		Toolbarbutton link = new Toolbarbutton();
-		            link.setImage("/images/Zoom16.png");
-		            link.setAttribute("PA_Goal_ID", PA_Goal_ID);
-		            link.addEventListener(Events.ON_CLICK, new EventListener() {
-
+				// Goal
+				int goalId = dashboardContent.getPA_Goal_ID();
+				if (goalId > 0) {
+					//link to open performance detail
+					Toolbarbutton link = new Toolbarbutton();
+					link.setImage("/images/Zoom16.png");
+					link.setAttribute("PA_Goal_ID", goalId);
+					link.addEventListener(Events.ON_CLICK, new EventListener() {
 						public void onEvent(Event event) throws Exception {
-							int PA_Goal_ID = (Integer)event.getTarget().getAttribute("PA_Goal_ID");
+							int PA_Goal_ID = (Integer) event.getTarget().getAttribute("PA_Goal_ID");
 							MGoal goal = new MGoal(Env.getCtx(), PA_Goal_ID, null);
 							new WPerformanceDetail(goal);
 						}
+					});
+					content.appendChild(link);
 
-		            });
-		            content.appendChild(link);
+					String goalDisplay = dashboardContent.getGoalDisplay();
+					MGoal goal = new MGoal(Env.getCtx(), goalId, null);
+					WGraph graph = new WGraph(goal, 55, false, true,
+							!(X_PA_DashboardContent.GOALDISPLAY_Chart.equals(goalDisplay)),
+							X_PA_DashboardContent.GOALDISPLAY_Chart.equals(goalDisplay));
+					content.appendChild(graph);
+					panelEmpty = false;
+				}
 
-		            String goalDisplay = rs.getString(X_PA_DashboardContent.COLUMNNAME_GoalDisplay);
-		            MGoal goal = new MGoal(Env.getCtx(), PA_Goal_ID, null);
-		            WGraph graph = new WGraph(goal, 55, false, true, 
-		            		!(X_PA_DashboardContent.GOALDISPLAY_Chart.equals(goalDisplay)),
-		            		X_PA_DashboardContent.GOALDISPLAY_Chart.equals(goalDisplay));
-		            content.appendChild(graph);
-		            panelEmpty = false;
-	        	}
-
-	            // ZUL file url
-	        	String url = rs.getString(X_PA_DashboardContent.COLUMNNAME_ZulFilePath);
-	        	if(url != null)
-	        	{
-		        	try {
-		                Component component = Executions.createComponents(url, content, null);
-		                if(component != null)
-		                {
-		                	if (component instanceof DashboardPanel)
-		                	{
-			                	DashboardPanel dashboardPanel = (DashboardPanel) component;
-			                	if (!dashboardPanel.getChildren().isEmpty()) {
-			                		content.appendChild(dashboardPanel);
-			                		dashboardRunnable.add(dashboardPanel);
-			                		panelEmpty = false;
-			                	}
-		                	}
-		                	else
-		                	{
-		                		content.appendChild(component);
-		                		panelEmpty = false;
-		                	}
-		                }
+				// ZUL file url
+				String url = dashboardContent.getZulFilePath();
+				if (url != null) {
+					try {
+						Component component = Executions.createComponents(url, content, null);
+						if (component != null) {
+							if (component instanceof DashboardPanel) {
+								DashboardPanel dashboardPanel = (DashboardPanel) component;
+								if (!dashboardPanel.getChildren().isEmpty()) {
+									content.appendChild(dashboardPanel);
+									dashboardRunnable.add(dashboardPanel);
+									panelEmpty = false;
+								}
+							} else {
+								content.appendChild(component);
+								panelEmpty = false;
+							}
+						}
 					} catch (Exception e) {
-						logger.log(Level.WARNING, "Failed to create components. zul="+url, e);
+						logger.log(Level.WARNING, "Failed to create components. zul=" + url, e);
 					}
-	        	}
+				}
 
-	        	if (panelEmpty)
-	        		panel.detach();
-	        }
-		}
-		}
-        catch (Exception e)
-        {
+				if (panelEmpty)
+					panel.detach();
+			}
+		} catch (Exception e) {
 			logger.log(Level.WARNING, "Failed to create dashboard content", e);
+		} finally {
 		}
-        finally
-        {
-		}
-        //
+		//
 
-        //register as 0
-        registerWindow(homeTab);
+		//register as 0
+		registerWindow(homeTab);
 
-        if (!portalLayout.getDesktop().isServerPushEnabled())
-        	portalLayout.getDesktop().enableServerPush(true);
+		if (!portalLayout.getDesktop().isServerPushEnabled())
+			portalLayout.getDesktop().enableServerPush(true);
 
-        dashboardRunnable.refreshDashboard();
-
-        dashboardThread = new Thread(dashboardRunnable, "UpdateInfo");
-        dashboardThread.setDaemon(true);
-        dashboardThread.start();
+		dashboardRunnable.refreshDashboard();
+		dashboardThread = new Thread(dashboardRunnable, "UpdateInfo");
+		dashboardThread.setDaemon(true);
+		dashboardThread.start();
 	}
 
     public void onEvent(Event event)

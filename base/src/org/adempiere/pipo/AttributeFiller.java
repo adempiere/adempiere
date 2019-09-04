@@ -13,23 +13,30 @@ public class AttributeFiller {
 	private PO po = null;
 	
 	/**
-	 * Will clear attributes !!!
-	 * @param _atts
+	 * @param attributes
 	 */
 	public AttributeFiller(AttributesImpl attributes){
-		attributes.clear();
 		atts = attributes;
 		po = null;
 	}
 	
 	/**
-	 * Will clear attributes !!!
-	 * @param _atts
+	 * @param attributes
+	 * @param poToAutoFill
 	 */
 	public AttributeFiller(AttributesImpl attributes, PO poToAutoFill){
-		attributes.clear();
 		atts = attributes;
 		po = poToAutoFill;
+	}
+	
+	/**
+	 * Clean values
+	 */
+	public void cleanValues() {
+		if(atts != null) {
+			atts.clear();
+		}
+		po = null;
 	}
 	
 	/**

@@ -52,4 +52,5 @@ public interface IDocumentLine
 	public BigDecimal getPriceActual();
 	public BigDecimal getPriceActualCurrency();
 	public IDocumentLine getReversalDocumentLine();
+	public boolean isReversalParent();
 }

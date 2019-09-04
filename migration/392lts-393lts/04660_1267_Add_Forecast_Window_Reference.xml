@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Forecast management - window specification missing in table " ReleaseNo="3.9.1" SeqNo="4660">
+  <Migration EntityType="D" Name="Forecast management - window specification missing in table " ReleaseNo="3.9.3" SeqNo="4660">
     <Comments>See: https://github.com/adempiere/adempiere/issues/1267</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="100" Action="U" Record_ID="53414" Table="AD_Table">

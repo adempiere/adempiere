@@ -867,4 +867,9 @@ implements IDocumentLine , DocumentReversalLineEnable
 		return conversionTypeId;
 	}
 
+	@Override
+	public boolean isReversalParent() {
+		return getM_InOutLine_ID() < getReversalLine_ID();
+	}
+
 }	//	MInOutLine

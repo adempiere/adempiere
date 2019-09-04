@@ -108,7 +108,7 @@ public class GridFieldVO implements Serializable {
 		vo.ValueMax = column.getValueMax();
 		if(field.getAD_FieldGroup_ID() > 0) {
 			X_AD_FieldGroup fieldGroup = new X_AD_FieldGroup(ctx, field.getAD_FieldGroup_ID(), null);
-			vo.FieldGroup = fieldGroup.getName();
+			vo.FieldGroup = fieldGroup.get_Translation(I_AD_FieldGroup.COLUMNNAME_Name);
 			vo.FieldGroupType = fieldGroup.getFieldGroupType();
 			vo.IsCollapsedByDefault = fieldGroup.isCollapsedByDefault();
 		}
