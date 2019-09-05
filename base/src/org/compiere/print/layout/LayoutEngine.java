@@ -16,6 +16,38 @@
  *****************************************************************************/
 package org.compiere.print.layout;
 
+import org.compiere.Adempiere;
+import org.compiere.model.MClientInfo;
+import org.compiere.model.MQuery;
+import org.compiere.model.MTable;
+import org.compiere.model.PrintInfo;
+import org.compiere.print.ArchiveEngine;
+import org.compiere.print.CPaper;
+import org.compiere.print.DataEngine;
+import org.compiere.print.MPrintColor;
+import org.compiere.print.MPrintFont;
+import org.compiere.print.MPrintFormat;
+import org.compiere.print.MPrintFormatItem;
+import org.compiere.print.MPrintPaper;
+import org.compiere.print.MPrintTableFormat;
+import org.compiere.print.PrintData;
+import org.compiere.print.PrintDataElement;
+import org.compiere.print.util.SerializableMatrix;
+import org.compiere.print.util.SerializableMatrixImpl;
+import org.compiere.report.MReportLine;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.KeyNamePair;
+import org.compiere.util.Language;
+import org.compiere.util.Msg;
+import org.compiere.util.NamePair;
+import org.compiere.util.ValueNamePair;
+
+import javax.print.Doc;
+import javax.print.DocFlavor;
+import javax.print.attribute.DocAttributeSet;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -40,43 +72,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import javax.print.Doc;
-import javax.print.DocFlavor;
-import javax.print.attribute.DocAttributeSet;
-
-
-import org.compiere.Adempiere;
-import org.compiere.model.MClientInfo;
-import org.compiere.model.MQuery;
-
-import org.compiere.model.MTable;
-import org.compiere.model.PrintInfo;
-import org.compiere.print.ArchiveEngine;
-import org.compiere.print.CPaper;
-import org.compiere.print.DataEngine;
-import org.compiere.print.MPrintColor;
-import org.compiere.print.MPrintFont;
-import org.compiere.print.MPrintFormat;
-import org.compiere.print.MPrintFormatItem;
-import org.compiere.print.MPrintPaper;
-import org.compiere.print.MPrintTableFormat;
-import org.compiere.print.PrintData;
-import org.compiere.print.PrintDataElement;
-import org.compiere.print.util.SerializableMatrix;
-import org.compiere.print.util.SerializableMatrixImpl;
-import org.compiere.report.MReportLine;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-
-import org.compiere.util.KeyNamePair;
-import org.compiere.util.Msg;
-import org.compiere.util.NamePair;
-import org.compiere.util.ValueNamePair;
 
 /**
  *	Adempiere Print Engine.
@@ -1224,12 +1222,20 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		newLine();
 		PrintElement element = null;
 		//
-		MPrintFormat format = MPrintFormat.get (getCtx(), item.getAD_PrintFormatChild_ID(), false);
-		format.setLanguage(m_format.getLanguage());
-		if (m_format.isTranslationView())
-			format.setTranslationLanguage(m_format.getLanguage());
+		MPrintFormat formatChild = MPrintFormat.get (getCtx(), item.getAD_PrintFormatChild_ID(), false);
+		Optional.ofNullable(m_format).ifPresent(formatParent -> {
+			Optional<Language> maybeLanguage = Optional.ofNullable(formatParent.getLanguage());
+			maybeLanguage.ifPresent(language -> {
+				if (formatChild != null) {
+					formatChild.setLanguage(language);
+					if (formatParent.isTranslationView())
+						formatChild.setTranslationLanguage(language);
+				}
+			});
+		});
+
 		int AD_Column_ID = item.getAD_Column_ID();
-		if (log.isLoggable(Level.INFO)) log.info(format + " - Item=" + item.getName() + " (" + AD_Column_ID + ")");
+		if (log.isLoggable(Level.INFO)) log.info(formatChild + " - Item=" + item.getName() + " (" + AD_Column_ID + ")");
 		//
 		Object obj = data.getNode(new Integer(AD_Column_ID));
 		//	Object obj = data.getNode(item.getColumnName());	//	slower
@@ -1242,7 +1248,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 			return null;
 		}
 		PrintDataElement dataElement = (PrintDataElement)obj;
-		MQuery query = new MQuery (format.getAD_Table_ID());
+		MQuery query = new MQuery (formatChild.getAD_Table_ID());
 		if (DisplayType.isID(dataElement.getDisplayType())) {
 			String recordString = dataElement.getValueKey();
 			try {
@@ -1276,12 +1282,12 @@ public class LayoutEngine implements Pageable, Printable, Doc
 
 
 
-		format.setTranslationViewQuery(query);
+		formatChild.setTranslationViewQuery(query);
 		query.setWindowNo(windowNo);
 		log.fine(query.toString());
 		//
-		DataEngine de = new DataEngine(format.getLanguage(),m_TrxName);
-		PrintData includedData = de.getPrintData(data.getCtx(), format, query);
+		DataEngine de = new DataEngine(formatChild.getLanguage(),m_TrxName);
+		PrintData includedData = de.getPrintData(data.getCtx(), formatChild, query);
 		if (includedData == null)
 			return null;
 
@@ -1290,7 +1296,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		if (log.isLoggable(Level.FINE))
 			log.fine(includedData.toString());
 		//
-		element = layoutTable (format, includedData, item.getXSpace());
+		element = layoutTable (formatChild, includedData, item.getXSpace());
 		//	handle multi page tables
 		if (element.getPageCount() > 1)
 		{
