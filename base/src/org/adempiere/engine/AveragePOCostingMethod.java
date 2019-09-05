@@ -94,7 +94,7 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 		//Validate if model have a reverses and processing of reverse
 		if (model.getReversalLine_ID() > 0 && costDetail == null)
 			return;
-		else if( costDetail != null && costDetail.isReversal() && model.getReversalLine_ID() > 0)
+		else if( costDetail != null && costDetail.isReversal() && model.getReversalLine_ID() > 0  && !model.isReversalParent())
 	    {
             setReversalCostDetail();
             return;
@@ -295,11 +295,11 @@ public class AveragePOCostingMethod extends AbstractCostingMethod
 		// Ignore reversal transaction because is created based on the original
 		// transaction
 		//Validate if model have a reverses and processing of reverse
-		if (model.getReversalLine_ID() > 0 && costDetail == null ) {
+		if (model.getReversalLine_ID() > 0 && costDetail == null  && !model.isReversalParent()) {
 			createReversalCostDetail();
 			return;
 		} 
-		else if (model.getReversalLine_ID() > 0)
+		else if (model.getReversalLine_ID() > 0  && !model.isReversalParent())
 			return;
 		
 

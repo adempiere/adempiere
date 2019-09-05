@@ -408,4 +408,9 @@ public class MMovementLine extends X_M_MovementLine implements IDocumentLine , D
 				.setOrderBy(MMovementLineMA.COLUMNNAME_Created)
 				.list();
 	}
+
+	@Override
+	public boolean isReversalParent() {
+		return getM_MovementLine_ID() < getReversalLine_ID();
+	}
 }	//	MMovementLine

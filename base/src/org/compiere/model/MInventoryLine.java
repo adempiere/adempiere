@@ -467,4 +467,9 @@ public class MInventoryLine extends X_M_InventoryLine implements IDocumentLine ,
 	{
 		return MConversionType.getDefault(getAD_Client_ID());
 	}
+
+	@Override
+	public boolean isReversalParent() {
+		return getM_InventoryLine_ID() < getReversalLine_ID();
+	}
 }	//	MInventoryLine

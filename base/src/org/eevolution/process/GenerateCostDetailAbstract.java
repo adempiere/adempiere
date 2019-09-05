@@ -22,7 +22,7 @@ import org.compiere.process.SvrProcess;
 
 /** Generated Process for (Generate Cost Transaction)
  *  @author ADempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.2
  */
 public abstract class GenerateCostDetailAbstract extends SvrProcess {
 	/** Process Value 	*/
@@ -32,21 +32,25 @@ public abstract class GenerateCostDetailAbstract extends SvrProcess {
 	/** Process Id 	*/
 	private static final int ID_FOR_PROCESS = 53223;
 	/**	Parameter Name for Accounting Schema	*/
-	private static final String C_ACCTSCHEMA_ID = "C_AcctSchema_ID";
+	public static final String C_ACCTSCHEMA_ID = "C_AcctSchema_ID";
 	/**	Parameter Name for Cost Type	*/
-	private static final String M_COSTTYPE_ID = "M_CostType_ID";
+	public static final String M_COSTTYPE_ID = "M_CostType_ID";
 	/**	Parameter Name for Cost Element	*/
-	private static final String M_COSTELEMENT_ID = "M_CostElement_ID";
+	public static final String M_COSTELEMENT_ID = "M_CostElement_ID";
+	/**	Parameter Name for Product Category	*/
+	public static final String M_PRODUCT_CATEGORY_ID = "M_Product_Category_ID";
 	/**	Parameter Name for Product	*/
-	private static final String M_PRODUCT_ID = "M_Product_ID";
+	public static final String M_PRODUCT_ID = "M_Product_ID";
 	/**	Parameter Name for Account Date	*/
-	private static final String DATEACCT = "DateAcct";
+	public static final String DATEACCT = "DateAcct";
 	/**	Parameter Value for Accounting Schema	*/
 	private int acctSchemaId;
 	/**	Parameter Value for Cost Type	*/
 	private int costTypeId;
 	/**	Parameter Value for Cost Element	*/
 	private int costElementId;
+	/**	Parameter Value for Product Category	*/
+	private int productCategoryId;
 	/**	Parameter Value for Product	*/
 	private int productId;
 	/**	Parameter Value for Account Date	*/
@@ -59,6 +63,7 @@ public abstract class GenerateCostDetailAbstract extends SvrProcess {
 		acctSchemaId = getParameterAsInt(C_ACCTSCHEMA_ID);
 		costTypeId = getParameterAsInt(M_COSTTYPE_ID);
 		costElementId = getParameterAsInt(M_COSTELEMENT_ID);
+		productCategoryId = getParameterAsInt(M_PRODUCT_CATEGORY_ID);
 		productId = getParameterAsInt(M_PRODUCT_ID);
 		dateAcct = getParameterAsTimestamp(DATEACCT);
 		dateAcctTo = getParameterToAsTimestamp(DATEACCT);
@@ -92,6 +97,16 @@ public abstract class GenerateCostDetailAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Cost Element	*/
 	protected void setCostElementId(int costElementId) {
 		this.costElementId = costElementId;
+	}
+
+	/**	 Getter Parameter Value for Product Category	*/
+	protected int getProductCategoryId() {
+		return productCategoryId;
+	}
+
+	/**	 Setter Parameter Value for Product Category	*/
+	protected void setProductCategoryId(int productCategoryId) {
+		this.productCategoryId = productCategoryId;
 	}
 
 	/**	 Getter Parameter Value for Product	*/
