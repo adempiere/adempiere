@@ -380,6 +380,12 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
                     .append("=?").append(" AND ");
             parameters.add(getProductId());
         }
+        
+        if (getProductCategoryId() > 0) {
+            whereClause.append("M_Product_Category_ID")
+                    .append("=?").append(" AND ");
+            parameters.add(getProductCategoryId());
+        }
         whereClause.append("TRUNC(").append(MCostDetail.COLUMNNAME_DateAcct).append(")>=?");
         parameters.add(getDateAcct());
 

@@ -267,5 +267,11 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 				"SELECT i.C_ConversionType_ID FROM C_InvoiceLine il INNER JOIN C_Invoice i ON (il.C_Invoice_ID=i.C_Invoice_ID) WHERE il.C_InvoiceLine_ID = ? ",
 				getC_InvoiceLine_ID());
 	}
+
+	@Override
+	public boolean isReversalParent() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 }	//	MLandedCostAllocation

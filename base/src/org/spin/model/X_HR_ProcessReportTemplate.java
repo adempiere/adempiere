@@ -30,7 +30,7 @@ public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReport
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20190717L;
 
     /** Standard Constructor */
     public X_HR_ProcessReportTemplate (Properties ctx, int HR_ProcessReportTemplate_ID, String trxName)
@@ -178,6 +178,57 @@ public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReport
 	public String getName () 
 	{
 		return (String)get_Value(COLUMNNAME_Name);
+	}
+
+	/** Set Print Text.
+		@param PrintName 
+		The label text to be printed on a document or correspondence.
+	  */
+	public void setPrintName (String PrintName)
+	{
+		set_Value (COLUMNNAME_PrintName, PrintName);
+	}
+
+	/** Get Print Text.
+		@return The label text to be printed on a document or correspondence.
+	  */
+	public String getPrintName () 
+	{
+		return (String)get_Value(COLUMNNAME_PrintName);
+	}
+
+	/** Set Receipt Footer Msg.
+		@param ReceiptFooterMsg 
+		This message will be displayed at the bottom of a receipt when doing a sales or purchase
+	  */
+	public void setReceiptFooterMsg (String ReceiptFooterMsg)
+	{
+		set_Value (COLUMNNAME_ReceiptFooterMsg, ReceiptFooterMsg);
+	}
+
+	/** Get Receipt Footer Msg.
+		@return This message will be displayed at the bottom of a receipt when doing a sales or purchase
+	  */
+	public String getReceiptFooterMsg () 
+	{
+		return (String)get_Value(COLUMNNAME_ReceiptFooterMsg);
+	}
+
+	/** Set Text Message.
+		@param TextMsg 
+		Text Message
+	  */
+	public void setTextMsg (String TextMsg)
+	{
+		set_Value (COLUMNNAME_TextMsg, TextMsg);
+	}
+
+	/** Get Text Message.
+		@return Text Message
+	  */
+	public String getTextMsg () 
+	{
+		return (String)get_Value(COLUMNNAME_TextMsg);
 	}
 
 	/** Set Immutable Universally Unique Identifier.

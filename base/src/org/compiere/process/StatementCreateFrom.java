@@ -25,6 +25,7 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBankAccount;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MBankStatementLine;
+import org.compiere.model.MConversionRate;
 import org.compiere.model.MPayment;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -62,9 +63,8 @@ public class StatementCreateFrom extends StatementCreateFromAbstract {
 			Timestamp dateTransaction 	= getSelectionAsTimestamp(key, "P_DateTrx");  			//  1-DateTrx
 			int paymentId 	= getSelectionAsInt(key, "P_C_Payment_ID");				//	2-Payment
 			int currencyId 	= getSelectionAsInt(key, "P_C_Currency_ID");			//  3-Currency
-			BigDecimal transactionAmount = getSelectionAsBigDecimal(key, "P_ConvertedAmount");	//  5- Converted Amount
-			//	Log
-			log.fine("Line Date=" + dateTransaction + ", Payment=" + paymentId + ", Currency=" + currencyId + ", Amt=" + transactionAmount);
+			//BigDecimal transactionAmount = getSelectionAsBigDecimal(key, "P_ConvertedAmount");	//  5- Converted Amount
+			
 			MBankStatementLine bankStatementLine = new MBankStatementLine (bankStatement);
 			// BF3439695 - Create from for Statement Line picks wrong date
 			bankStatementLine.setDateAcct(bankStatement.getStatementDate());
@@ -73,6 +73,10 @@ public class StatementCreateFrom extends StatementCreateFromAbstract {
 			MPayment payment = new MPayment(Env.getCtx(), paymentId, get_TrxName());
 			//	Set Payment
 			bankStatementLine.setPayment(payment);
+			//get Transaction Amount 
+			BigDecimal transactionAmount = MConversionRate.convert(getCtx(), payment.getPayAmt(true), payment.getC_BankAccount().getC_Currency_ID(), payment.getC_Currency_ID(), payment.getAD_Client_ID(), payment.getAD_Org_ID());
+			// Log
+			log.fine("Line Date=" + dateTransaction + ", Payment=" + paymentId + ", Currency=" + currencyId + ", Amt=" + transactionAmount);
 			//	Set Reference
 			bankStatementLine.setTrxAmt(transactionAmount);
 			bankStatementLine.setStmtAmt(transactionAmount);

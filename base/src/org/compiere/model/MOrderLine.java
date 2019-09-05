@@ -1064,4 +1064,10 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	{
 		return getParent().getC_ConversionType_ID();
 	}
+
+	@Override
+	public boolean isReversalParent() {
+		// TODO Auto-generated method stub
+		return getC_OrderLine_ID() < getReversalLine_ID();
+	}
 }	//	MOrderLine
