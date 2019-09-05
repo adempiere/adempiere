@@ -153,6 +153,45 @@ public interface I_HR_ProcessReportTemplate
 	  */
 	public String getName();
 
+    /** Column name PrintName */
+    public static final String COLUMNNAME_PrintName = "PrintName";
+
+	/** Set Print Text.
+	  * The label text to be printed on a document or correspondence.
+	  */
+	public void setPrintName (String PrintName);
+
+	/** Get Print Text.
+	  * The label text to be printed on a document or correspondence.
+	  */
+	public String getPrintName();
+
+    /** Column name ReceiptFooterMsg */
+    public static final String COLUMNNAME_ReceiptFooterMsg = "ReceiptFooterMsg";
+
+	/** Set Receipt Footer Msg.
+	  * This message will be displayed at the bottom of a receipt when doing a sales or purchase
+	  */
+	public void setReceiptFooterMsg (String ReceiptFooterMsg);
+
+	/** Get Receipt Footer Msg.
+	  * This message will be displayed at the bottom of a receipt when doing a sales or purchase
+	  */
+	public String getReceiptFooterMsg();
+
+    /** Column name TextMsg */
+    public static final String COLUMNNAME_TextMsg = "TextMsg";
+
+	/** Set Text Message.
+	  * Text Message
+	  */
+	public void setTextMsg (String TextMsg);
+
+	/** Get Text Message.
+	  * Text Message
+	  */
+	public String getTextMsg();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
