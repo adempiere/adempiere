@@ -42,8 +42,8 @@
         <Data AD_Column_ID="78520" Column="IsActive">true</Data>
         <Data AD_Column_ID="78521" Column="Created">2019-09-09 10:32:15.814</Data>
         <Data AD_Column_ID="78522" Column="Updated">2019-09-09 10:32:15.814</Data>
-        <Data AD_Column_ID="78527" Column="PrintName">Storage Detail Only Stock</Data>
-        <Data AD_Column_ID="78528" Column="Name">RV_Storage only Stock</Data>
+        <Data AD_Column_ID="78527" Column="PrintName">Sólo Existencia</Data>
+        <Data AD_Column_ID="78528" Column="Name">Sólo Existencia</Data>
         <Data AD_Column_ID="78529" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="78534" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="78518" Column="AD_Client_ID">0</Data>
