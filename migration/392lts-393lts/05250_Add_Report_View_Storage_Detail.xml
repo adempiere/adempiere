@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add some views for Storage Detail" ReleaseNo="" SeqNo="5250">
+  <Migration EntityType="D" Name="Add some views for Storage Detail" ReleaseNo="3.9.3" SeqNo="5250">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="361" Action="U" Record_ID="135" Table="AD_ReportView">
         <Data AD_Column_ID="78517" Column="PrintName" isOldNull="true">Storage Detail</Data>
@@ -97,7 +97,7 @@
         <Data AD_Column_ID="78521" Column="Created">2019-09-09 10:33:42.946</Data>
         <Data AD_Column_ID="78522" Column="Updated">2019-09-09 10:33:42.946</Data>
         <Data AD_Column_ID="78527" Column="PrintName">Only Available</Data>
-        <Data AD_Column_ID="78528" Column="Name">RV_Storage Only Available</Data>
+        <Data AD_Column_ID="78528" Column="Name">Sólo Disponible</Data>
         <Data AD_Column_ID="78529" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="78534" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="78518" Column="AD_Client_ID">0</Data>
