@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="ECA02" Name="default for search BOM, reference to issue: #2772" ReleaseNo="3.9.3" SeqNo="5280">
+    <Comments>See: https://github.com/adempiere/adempiere/pull/2772</Comments>
+    <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>UPDATE PP_Product_BOM SET IsDefault = 'N';
+UPDATE PP_Product_BOM SET IsDefault = 'Y' WHERE EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = PP_Product_BOM.M_Product_ID AND p.Value = PP_Product_BOM.Value);</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>
