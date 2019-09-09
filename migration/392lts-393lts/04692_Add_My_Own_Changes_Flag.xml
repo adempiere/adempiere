@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="[Feature Request] Add Flag for My changes #2616" ReleaseNo="3.9.3" SeqNo="4690">
+  <Migration EntityType="D" Name="[Feature Request] Add Flag for My changes #2616" ReleaseNo="3.9.3" SeqNo="4692">
     <Comments>See: https://github.com/adempiere/adempiere/issues/2616</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="414" Action="I" Record_ID="50104" Table="AD_FieldGroup">

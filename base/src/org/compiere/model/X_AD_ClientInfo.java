@@ -29,7 +29,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20190602L;
 
     /** Standard Constructor */
     public X_AD_ClientInfo (Properties ctx, int AD_ClientInfo_ID, String trxName)
@@ -484,6 +484,34 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	public int getC_UOM_Weight_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_UOM_Weight_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.spin.model.I_AD_AppRegistration getFileHandler() throws RuntimeException
+    {
+		return (org.spin.model.I_AD_AppRegistration)MTable.get(getCtx(), org.spin.model.I_AD_AppRegistration.Table_Name)
+			.getPO(getFileHandler_ID(), get_TrxName());	}
+
+	/** Set File Handler.
+		@param FileHandler_ID 
+		File Handler Registered as App Registration for handle all file system
+	  */
+	public void setFileHandler_ID (int FileHandler_ID)
+	{
+		if (FileHandler_ID < 1) 
+			set_Value (COLUMNNAME_FileHandler_ID, null);
+		else 
+			set_Value (COLUMNNAME_FileHandler_ID, Integer.valueOf(FileHandler_ID));
+	}
+
+	/** Get File Handler.
+		@return File Handler Registered as App Registration for handle all file system
+	  */
+	public int getFileHandler_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FileHandler_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

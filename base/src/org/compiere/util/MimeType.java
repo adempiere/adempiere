@@ -100,18 +100,10 @@ public class MimeType
 			sourceExtension = sourcePath.substring(sourcePath.lastIndexOf("."));
 			sourceExtension = sourceExtension.trim();
 		}
-		String sourceMimeType = getMimeType(sourcePath);
 		//	For Restricted
 		for(String restrictedExtension : Arrays.asList(restrictedTypes.split(","))) {
 			restrictedExtension = restrictedExtension.trim();
 			if(sourceExtension.equals(restrictedExtension)) {
-				return false;
-			}
-			//	For Mime
-			String restrictedMimeType = getMimeType(restrictedExtension);
-			
-			
-			if(sourceMimeType.equals(restrictedMimeType)) {
 				return false;
 			}
 		}
@@ -123,11 +115,6 @@ public class MimeType
 		for(String allowedExtension : Arrays.asList(allowedTypes.split(","))) {
 			allowedExtension = allowedExtension.trim();
 			if(sourceExtension.equals(allowedExtension)) {
-				return true;
-			}
-			//	For Mime
-			String allowedMimeType = getMimeType(allowedExtension);
-			if(sourceMimeType.equals(allowedMimeType)) {
 				return true;
 			}
 		}

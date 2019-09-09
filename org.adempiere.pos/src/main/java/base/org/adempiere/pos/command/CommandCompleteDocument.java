@@ -38,6 +38,7 @@ public class CommandCompleteDocument extends CommandAbstract implements Command 
             public void run(String trxName) {
                 //Create partial return
                 MOrder order = new MOrder(commandReceiver.getCtx() , commandReceiver.getOrderId(), trxName);
+                order.setDocAction(DocAction.ACTION_Complete);
                 order.processIt(DocAction.ACTION_Complete);
                 order.saveEx();
             }

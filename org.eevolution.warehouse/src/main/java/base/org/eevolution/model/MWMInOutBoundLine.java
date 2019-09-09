@@ -34,11 +34,11 @@ import java.util.Properties;
 
 import org.compiere.model.MBPartner;
 import org.compiere.model.MInvoiceLine;
-import org.compiere.model.MLocator;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 
 /**
  * Class Model for Inbound & Outbound Operation Line
@@ -150,8 +150,8 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 	{
 		this (inOutBound.getCtx(), 0, inOutBound.get_TrxName());
 		setWM_InOutBound_ID(inOutBound.get_ID());
-		setC_Invoice_ID(orderLine.getC_Order_ID());
-		setC_InvoiceLine_ID(orderLine.getC_Order_ID());
+		setC_Order_ID(orderLine.getC_Order_ID());
+		setC_OrderLine_ID(orderLine.getC_OrderLine_ID());
 		setMovementQty(orderLine.getQtyOrdered().subtract(getQtyToDeliver()));
 		setM_Product_ID(orderLine.getM_Product_ID());
 		setC_Charge_ID(orderLine.getC_Charge_ID());
@@ -250,10 +250,28 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 	 * get Quantity to Ship
 	 * @return BigDecimal with Quantity to Ship
 	 */
-	public BigDecimal getQtyToDeliver()
-	{
-		MOrderLine oline = getOrderLine();
-		return oline.getQtyOrdered().subtract(oline.getQtyDelivered());
+	public BigDecimal getQtyToDeliver() {
+		if(getC_OrderLine_ID() != 0) {
+			MOrderLine oline = getOrderLine();
+			BigDecimal quantityOrdered = Env.ZERO;
+			BigDecimal quantityDelivered = Env.ZERO;
+			if(oline != null) {
+				quantityOrdered = oline.getQtyOrdered();
+				quantityDelivered = oline.getQtyDelivered();
+			}
+			return quantityOrdered.subtract(quantityDelivered);
+		} else if(getDD_OrderLine_ID() != 0) {
+			MDDOrderLine oline = (MDDOrderLine) getDD_OrderLine();
+			BigDecimal quantityOrdered = Env.ZERO;
+			BigDecimal quantityDelivered = Env.ZERO;
+			if(oline != null) {
+				quantityOrdered = oline.getQtyOrdered();
+				quantityDelivered = oline.getQtyDelivered();
+			}
+			return quantityOrdered.subtract(quantityDelivered);
+		}
+		//	Return
+		return Env.ZERO;
 	}
 
 	/**

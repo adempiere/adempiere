@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Line with centralized id does not have uuid in the seed #256" ReleaseNo="3.9.3" SeqNo="4680">
+  <Migration EntityType="D" Name="Line with centralized id does not have uuid in the seed #256" ReleaseNo="3.9.3" SeqNo="4671">
     <Comments>See: https://github.com/adempiere/adempiere/issues/2564</Comments>
     <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
       <SQLStatement>UPDATE AD_Column SET UUID= '2d7967e2-8166-11e9-85a0-13da4d59579a' WHERE AD_Column_ID = 91976;
