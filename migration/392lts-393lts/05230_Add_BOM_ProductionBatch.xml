@@ -138,17 +138,17 @@
     <Step SeqNo="60" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="94528" Table="AD_Column_Trl">
         <Data AD_Column_ID="12960" Column="Created">2019-09-09 00:22:25.661</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID">6d55aca0-d2b9-11e9-bc68-0242ac110002</Data>
         <Data AD_Column_ID="12959" Column="IsActive">true</Data>
         <Data AD_Column_ID="12952" Column="Updated">2019-09-09 00:22:25.661</Data>
         <Data AD_Column_ID="12955" Column="AD_Column_ID">94528</Data>
         <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="12957" Column="Name">BOM &amp; Formula</Data>
         <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="84310" Column="UUID">6d55aca0-d2b9-11e9-bc68-0242ac110002</Data>
       </PO>
     </Step>
     <Step SeqNo="70" StepType="AD">
@@ -206,7 +206,6 @@
     </Step>
     <Step SeqNo="90" StepType="AD">
       <PO AD_Table_ID="127" Action="I" Record_ID="95758" Table="AD_Field_Trl">
-        <Data AD_Column_ID="671" Column="IsActive">true</Data>
         <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="287" Column="Description">BOM &amp; Formula</Data>
         <Data AD_Column_ID="286" Column="Name">BOM &amp; Formula</Data>
@@ -217,6 +216,7 @@
         <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="84323" Column="UUID">a75cd0ae-d2b9-11e9-bc68-0242ac110002</Data>
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
         <Data AD_Column_ID="672" Column="Created">2019-09-09 00:24:03.016</Data>
         <Data AD_Column_ID="674" Column="Updated">2019-09-09 00:24:03.016</Data>
         <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
@@ -419,17 +419,6 @@
     <Step SeqNo="370" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="95759" Table="AD_Field">
         <Data AD_Column_ID="169" Column="Description">BOM &amp; Formula</Data>
-        <Data AD_Column_ID="168" Column="Name">BOM &amp; Formula</Data>
-        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
-        <Data AD_Column_ID="579" Column="Created">2019-09-09 00:26:53.481</Data>
-        <Data AD_Column_ID="78493" Column="IsQuickEntry">false</Data>
-        <Data AD_Column_ID="88877" Column="AD_FieldDefinition_ID" isNewNull="true"/>
-        <Data AD_Column_ID="581" Column="Updated">2019-09-09 00:26:53.481</Data>
-        <Data AD_Column_ID="88918" Column="AD_ContextInfo_ID" isNewNull="true"/>
-        <Data AD_Column_ID="578" Column="IsActive">true</Data>
-        <Data AD_Column_ID="90940" Column="AD_Image_ID" isNewNull="true"/>
-        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
-        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
         <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
         <Data AD_Column_ID="182" Column="SortNo">0</Data>
@@ -462,6 +451,17 @@
         <Data AD_Column_ID="172" Column="AD_Tab_ID">319</Data>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="84320" Column="UUID">0d7017b6-d2ba-11e9-bc68-0242ac110002</Data>
+        <Data AD_Column_ID="168" Column="Name">BOM &amp; Formula</Data>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="579" Column="Created">2019-09-09 00:26:53.481</Data>
+        <Data AD_Column_ID="78493" Column="IsQuickEntry">false</Data>
+        <Data AD_Column_ID="88877" Column="AD_FieldDefinition_ID" isNewNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated">2019-09-09 00:26:53.481</Data>
+        <Data AD_Column_ID="88918" Column="AD_ContextInfo_ID" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90940" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
       </PO>
     </Step>
     <Step SeqNo="380" StepType="AD">
@@ -685,6 +685,147 @@
     <Step SeqNo="790" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="94528" Table="AD_Column">
         <Data AD_Column_ID="3360" Column="IsUpdateable" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="800" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="95762" Table="AD_Field">
+        <Data AD_Column_ID="581" Column="Updated">2019-09-09 11:21:50.47</Data>
+        <Data AD_Column_ID="88918" Column="AD_ContextInfo_ID" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="168" Column="Name">BOM &amp; Formula</Data>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="579" Column="Created">2019-09-09 11:21:50.47</Data>
+        <Data AD_Column_ID="78493" Column="IsQuickEntry">false</Data>
+        <Data AD_Column_ID="88877" Column="AD_FieldDefinition_ID" isNewNull="true"/>
+        <Data AD_Column_ID="90940" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="169" Column="Description">BOM &amp; Formula</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="182" Column="SortNo">0</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">95762</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">190</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">94528</Data>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">190</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">54161</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84320" Column="UUID">8c0d0f24-d315-11e9-b22c-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="810" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="95762" Table="AD_Field_Trl">
+        <Data AD_Column_ID="84323" Column="UUID">8c9ae06a-d315-11e9-b22c-0242ac110002</Data>
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2019-09-09 11:21:51.822</Data>
+        <Data AD_Column_ID="674" Column="Updated">2019-09-09 11:21:51.822</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="287" Column="Description">BOM &amp; Formula</Data>
+        <Data AD_Column_ID="286" Column="Name">BOM &amp; Formula</Data>
+        <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">95762</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="820" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78271" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="70">60</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="830" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78272" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="80">70</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="840" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78270" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="60">80</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="850" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78274" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="100">90</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="860" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78273" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="90">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="870" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="95762" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="190">110</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="880" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78275" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="110">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="890" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78276" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="120">130</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="900" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78279" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="130">140</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="910" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78278" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="140">150</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="920" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="80318" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="150">160</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="930" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="80317" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="160">170</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="940" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="78262" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="170">180</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="950" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="80319" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="180">190</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="960" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="95762" Table="AD_Field">
+        <Data AD_Column_ID="183" Column="IsSameLine" oldValue="false">true</Data>
       </PO>
     </Step>
   </Migration>
