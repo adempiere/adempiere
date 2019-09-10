@@ -892,6 +892,9 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 	 * Set values from parent
 	 */
 	private void setFromBatch(MProductionBatch batch) {
+		if(batch.getPP_Product_BOM_ID() != 0) {
+			setPP_Product_BOM_ID(batch.getPP_Product_BOM_ID());
+		}
 		setM_ProductionBatch_ID(batch.getM_ProductionBatch_ID());
 		setClientOrg(batch);
 		setM_Product_ID(batch.getM_Product_ID());
@@ -1088,8 +1091,13 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 	 * @return
 	 */
 	private String createBOM(boolean mustBeStocked, MProduct finishedProduct, BigDecimal requiredQty)  {
-		int defaultLocator = 0;		
-		MPPProductBOM bom = MPPProductBOM.getDefault(finishedProduct, get_TrxName());
+		int defaultLocator = 0;
+		MPPProductBOM bom = null;
+		if(getPP_Product_BOM_ID() != 0) {
+			bom = MPPProductBOM.get(getCtx(), getPP_Product_BOM_ID());
+		} else {
+			bom = MPPProductBOM.getDefault(finishedProduct, get_TrxName());
+		}
 		for (MPPProductBOMLine bLine : bom.getLines())
 		{			
 			lineno = lineno + 10;
