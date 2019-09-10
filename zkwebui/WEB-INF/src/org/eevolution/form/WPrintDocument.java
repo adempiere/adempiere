@@ -44,7 +44,7 @@ public class WPrintDocument implements IPrintDocument {
 
     public void print(PO document, int printFormatId, int windowNo, boolean askPrint) {
         boolean retValue = true;
-        if (FDialog.ask(windowNo, SessionManager.getAppDesktop().getComponent(), "PrintDocument", document.get_LabelValue())) {
+        if (FDialog.ask(windowNo, SessionManager.getAppDesktop().getComponent(), "PrintDocument", document.getDisplayValue())) {
             do {
                 try {
                 	printDocument(document, printFormatId, windowNo);
@@ -66,7 +66,7 @@ public class WPrintDocument implements IPrintDocument {
 				documentLabels.append(Env.NL);
 			}
 			//	Add to String
-			documentLabels.append(document.get_LabelValue());
+			documentLabels.append(document.getDisplayValue());
 		});
 		if (FDialog.ask(windowNo, SessionManager.getAppDesktop().getComponent(), "PrintAllDocuments", documentLabels.toString())) {
         	documentList.stream().forEach(document -> {

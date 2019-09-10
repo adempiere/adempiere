@@ -46,7 +46,7 @@ public class VPrintDocument implements IPrintDocument {
     @Override
     public void print(PO document, int printFormatId, int windowNo, boolean askPrint) {
         JFrame window = Env.getWindow(windowNo);
-        if (ADialog.ask(windowNo, window, "PrintDocument", document.get_LabelValue())) {
+        if (ADialog.ask(windowNo, window, "PrintDocument", document.getDisplayValue())) {
             window.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             int retValue = ADialogDialog.A_CANCEL;    //	see also ProcessDialog.printShipments/Invoices
             do {
@@ -76,7 +76,7 @@ public class VPrintDocument implements IPrintDocument {
 				documentLabels.append(Env.NL);
 			}
 			//	Add to String
-			documentLabels.append(document.get_LabelValue());
+			documentLabels.append(document.getDisplayValue());
 		});
         if (ADialog.ask(windowNo, window, "PrintAllDocuments", documentLabels.toString())) {
             window.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));

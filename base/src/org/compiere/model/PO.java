@@ -1273,7 +1273,7 @@ public abstract class PO
 	 * Get Label value from po
 	 * @return
 	 */
-	public String get_LabelValue() {
+	public String getDisplayValue() {
 		StringBuffer identifier = new StringBuffer();
 		MTable table = MTable.get(getCtx(), get_Table_ID());
 		table.getColumnsAsList().stream()
