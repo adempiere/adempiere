@@ -79,8 +79,8 @@ public class GridPanel extends Borderlayout implements EventListener
 	private static final int KEYBOARD_KEY_RETURN = 13;
 	private static final int MOVE_SIZE = 7;
 
-	public static final String		CNTRL_KEYS				= "#f5#del^d^s#enter$#enter";
-	private static final String		KEYS_MOVE			= "#pgup#pgdn#end#home#up#down#left#right";
+	public static final String		CNTRL_KEYS				= "#f5#del^d^s";
+	private static final String		KEYS_MOVE			= "#pgup#pgdn#end#home#up#down#left#right#enter";
 	
 	private int lastKeyEvent = 0;	
 
@@ -395,12 +395,7 @@ public class GridPanel extends Borderlayout implements EventListener
 			if (windowPanel != null)
 				windowPanel.getStatusBar().appendChild(keyListener);
 		}
-		if(renderer.isEditing()) 
-			keyListener.setCtrlKeys(CNTRL_KEYS);
-		else 
-			keyListener.setCtrlKeys(CNTRL_KEYS+KEYS_MOVE);
-		
-		keyListener.addEventListener(Events.ON_CTRL_KEY, this);
+		addKeyListener();
 
 	}
 
@@ -557,7 +552,7 @@ public class GridPanel extends Borderlayout implements EventListener
 							}
 						}
 						else {
-							currentCol++;
+							return;
 						}
 						renderer.setCurrentColumn(currentCol);
 					}
@@ -599,7 +594,11 @@ public class GridPanel extends Borderlayout implements EventListener
 				if (code == KeyEvent.DOWN && !isCtrl && !isAlt && !isShift)	{
 					setUpDownRow(1);
 				}
-				else if ((code == KEYBOARD_KEY_RETURN && isShift) || (code == KeyEvent.LEFT && !isCtrl && !isAlt && !isShift))
+				else if (code == KEYBOARD_KEY_RETURN && isShift) {
+					event.stopPropagation();
+					return;
+				}
+				else if (code == KeyEvent.LEFT && !isCtrl && !isAlt && !isShift)
 				{
 					if(currentCol > 0) {
 						if(row < 0 || gridTab.getCurrentRow()< 0) {
@@ -986,12 +985,18 @@ public class GridPanel extends Borderlayout implements EventListener
 			if (windowPanel != null)
 				windowPanel.getStatusBar().appendChild(keyListener);
 		}
-		if(renderer.isEditing() || !((ADTabPanel)tabPanel).isGridView() ) 
+		if(!((ADTabPanel)tabPanel).isGridView() )
 			keyListener.setCtrlKeys(CNTRL_KEYS);
 		else 
 			keyListener.setCtrlKeys(CNTRL_KEYS+KEYS_MOVE);
 		
 		keyListener.addEventListener(Events.ON_CTRL_KEY, this);
+	}
+
+	public void removeKeyListener() {
+		if (keyListener != null) {
+			keyListener.setCtrlKeys(null);
+		}
 	}
 	
 	protected void createListbox()
