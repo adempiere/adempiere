@@ -32,7 +32,7 @@ public class X_M_ProductionBatch extends PO implements I_M_ProductionBatch, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20190909L;
 
     /** Standard Constructor */
     public X_M_ProductionBatch (Properties ctx, int M_ProductionBatch_ID, String trxName)
@@ -513,6 +513,34 @@ public class X_M_ProductionBatch extends PO implements I_M_ProductionBatch, I_Pe
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException
+    {
+		return (org.eevolution.model.I_PP_Product_BOM)MTable.get(getCtx(), org.eevolution.model.I_PP_Product_BOM.Table_Name)
+			.getPO(getPP_Product_BOM_ID(), get_TrxName());	}
+
+	/** Set BOM & Formula.
+		@param PP_Product_BOM_ID 
+		BOM & Formula
+	  */
+	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID)
+	{
+		if (PP_Product_BOM_ID < 1) 
+			set_Value (COLUMNNAME_PP_Product_BOM_ID, null);
+		else 
+			set_Value (COLUMNNAME_PP_Product_BOM_ID, Integer.valueOf(PP_Product_BOM_ID));
+	}
+
+	/** Get BOM & Formula.
+		@return BOM & Formula
+	  */
+	public int getPP_Product_BOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Product_BOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Processed.
