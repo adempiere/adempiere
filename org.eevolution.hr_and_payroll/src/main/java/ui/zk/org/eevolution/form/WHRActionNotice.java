@@ -322,6 +322,7 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 				for (KeyNamePair vp : conceptData) {
 					fieldConcept.appendItem(vp.getName(), vp);
 				}
+				reloadMovement();
 			}
 		}
 
@@ -331,77 +332,7 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 				conceptId = ((KeyNamePair) fieldConcept.getSelectedItem().getValue()).getKey();
 			}
 			//	
-			if (conceptId > 0) {
-				MHRConcept concept = MHRConcept.getById(Env.getCtx(), conceptId , null);
-				//	Load Data Combo Box
-				loadTextMsgLookup(concept.getAD_Reference_ID());
-				//	
-				String columnType = MRefList.getListName(Env.getCtx(), 
-						MHRConcept.COLUMNTYPE_AD_Reference_ID, concept.getColumnType());
-				fieldColumnType.setValue(columnType);
-				fieldColumnType.setVisible(true);
-
-				movementId = seekMovement((Timestamp) fieldValidFrom.getValue());
-				if (movementId > 0) {
-					MHRMovement movementFound = new MHRMovement(Env.getCtx(), movementId, null);
-					fieldDescription.setValue(movementFound.getDescription());
-					fieldText.setValue("");
-					fieldDate.setValue(null);
-					fieldQty.setValue(Env.ZERO);
-					fieldAmount.setValue(Env.ZERO);
-					if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Quantity)) { // Quantity
-						fieldQty.setValue(movementFound.getQty());
-					} else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Amount)) { // Amount
-						fieldAmount.setValue(movementFound.getAmount());
-					} else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Text)) { // Text
-						//	Verify Reference
-						if(isLookupTextMsg) {
-							fieldTextLookup.setValue(movementFound.getTextMsg());
-						} else {
-							fieldText.setValue(movementFound.getTextMsg());
-						}
-					} else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Date)) { // Date
-						fieldDate.setValue(movementFound.getServiceDate());
-					}
-				}
-
-				if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Quantity)) { // Concept Type
-					fieldQty.setVisible(true);
-					fieldQty.setReadWrite(true);
-					fieldAmount.setVisible(false);
-					fieldDate.setVisible(false);
-					fieldText.setVisible(false);
-					fieldTextLookup.setVisible(false);
-				} else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Amount)) {
-					fieldQty.setVisible(false);
-					fieldAmount.setVisible(true);
-					fieldAmount.setReadWrite(true);
-					fieldDate.setVisible(false);
-					fieldText.setVisible(false);
-					fieldTextLookup.setVisible(false);
-				} else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Date)) {
-					fieldQty.setVisible(false);
-					fieldAmount.setVisible(false);
-					fieldDate.setVisible(true);
-					fieldDate.setReadWrite(true);
-					fieldText.setVisible(false);
-					fieldTextLookup.setVisible(false);
-				} else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Text)) {
-					//	Verify Reference
-					if(isLookupTextMsg) {
-						fieldText.setVisible(false);
-						fieldText.setReadWrite(false);
-						fieldTextLookup.setVisible(true);
-					} else {
-						fieldTextLookup.setVisible(false);
-						fieldText.setVisible(true);
-						fieldText.setReadWrite(true);
-					}
-					fieldQty.setVisible(false);
-					fieldAmount.setVisible(false);
-					fieldDate.setVisible(false);
-				}
-			}
+			reloadMovement();
 		}
 		if (e.getTarget() == bOk) {
 			if(fieldConcept.getSelectedItem() != null)
@@ -442,6 +373,83 @@ public class WHRActionNotice extends HRActionNotice implements IFormController,
 		return;
 	} // actionPerformed
 
+	/**
+	 * Reload a movement
+	 */
+	private void reloadMovement() {
+		if (conceptId > 0) {
+			MHRConcept concept = MHRConcept.getById(Env.getCtx(), conceptId , null);
+			//	Load Data Combo Box
+			loadTextMsgLookup(concept.getAD_Reference_ID());
+			//	
+			String columnType = MRefList.getListName(Env.getCtx(), 
+					MHRConcept.COLUMNTYPE_AD_Reference_ID, concept.getColumnType());
+			fieldColumnType.setValue(columnType);
+			fieldColumnType.setVisible(true);
+
+			movementId = seekMovement((Timestamp) fieldValidFrom.getValue());
+			fieldText.setValue("");
+			fieldDate.setValue(null);
+			fieldQty.setValue(Env.ZERO);
+			fieldAmount.setValue(Env.ZERO);
+			if (movementId > 0) {
+				MHRMovement movementFound = new MHRMovement(Env.getCtx(), movementId, null);
+				fieldDescription.setValue(movementFound.getDescription());
+				if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Quantity)) { // Quantity
+					fieldQty.setValue(movementFound.getQty());
+				} else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Amount)) { // Amount
+					fieldAmount.setValue(movementFound.getAmount());
+				} else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Text)) { // Text
+					//	Verify Reference
+					if(isLookupTextMsg) {
+						fieldTextLookup.setValue(movementFound.getTextMsg());
+					} else {
+						fieldText.setValue(movementFound.getTextMsg());
+					}
+				} else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Date)) { // Date
+					fieldDate.setValue(movementFound.getServiceDate());
+				}
+			}
+
+			if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Quantity)) { // Concept Type
+				fieldQty.setVisible(true);
+				fieldQty.setReadWrite(true);
+				fieldAmount.setVisible(false);
+				fieldDate.setVisible(false);
+				fieldText.setVisible(false);
+				fieldTextLookup.setVisible(false);
+			} else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Amount)) {
+				fieldQty.setVisible(false);
+				fieldAmount.setVisible(true);
+				fieldAmount.setReadWrite(true);
+				fieldDate.setVisible(false);
+				fieldText.setVisible(false);
+				fieldTextLookup.setVisible(false);
+			} else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Date)) {
+				fieldQty.setVisible(false);
+				fieldAmount.setVisible(false);
+				fieldDate.setVisible(true);
+				fieldDate.setReadWrite(true);
+				fieldText.setVisible(false);
+				fieldTextLookup.setVisible(false);
+			} else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Text)) {
+				//	Verify Reference
+				if(isLookupTextMsg) {
+					fieldText.setVisible(false);
+					fieldText.setReadWrite(false);
+					fieldTextLookup.setVisible(true);
+				} else {
+					fieldTextLookup.setVisible(false);
+					fieldText.setVisible(true);
+					fieldText.setReadWrite(true);
+				}
+				fieldQty.setVisible(false);
+				fieldAmount.setVisible(false);
+				fieldDate.setVisible(false);
+			}
+		}
+	}
+	
 	private void executeQuery() {
 		executeQuery(Env.getCtx(), miniTable, 0);
 		//	
