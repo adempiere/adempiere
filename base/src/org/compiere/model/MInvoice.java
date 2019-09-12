@@ -1043,7 +1043,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 	/**
 	 * 	Get Allocated Amt in Invoice Currency
 	 * @param allocationProcessed
-	 *	@return pos/neg amount or null
+	 * @return pos/neg amount or null
 	 */
 	public BigDecimal getAllocatedAmt (boolean allocationProcessed)
 	{
@@ -1077,7 +1077,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		}
 		catch (SQLException e)
 		{
-			throw new DBException(e, sql);
+			throw new DBException(e, sql.toString());
 		}
 		finally
 		{
@@ -1098,7 +1098,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		boolean change = false;
 
 		if ( isProcessed() ) {
-			BigDecimal alloc = getAllocatedAmt();	//	absolute
+			BigDecimal alloc = getAllocatedAmt(false);	// Included Allocation not processed
 			if (alloc == null)
 				alloc = Env.ZERO;
 			BigDecimal total = getGrandTotal();
@@ -1186,7 +1186,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 				//	Payment Discount
 				//	Payment Schedule
 			}
-			BigDecimal allocated = getAllocatedAmt();
+			BigDecimal allocated = getAllocatedAmt(true); // Include Allocation processed
 			if (allocated != null)
 			{
 				allocated = allocated.abs();	//	is absolute
