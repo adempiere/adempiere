@@ -1096,7 +1096,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 					if (allocationLine.getC_Invoice_ID() > 0) {
 						if (allocationAmount.compareTo(invoiceAmountAccounted) == 0) {
 							openBalanceDifference = openBalanceDifference.add(invoiceAmountAccounted).subtract(allocationAmountAccounted);
-						} else {
+						} else if(!invoice.getOpenAmt().equals(Env.ZERO)) {
 							//	allocation as a percentage of the invoice
 								BigDecimal multiplier =  allocationAmount.divide(invoice.getOpenAmt(), 8, BigDecimal.ROUND_HALF_UP);
 								//	Reduce Orig Invoice Accounted
