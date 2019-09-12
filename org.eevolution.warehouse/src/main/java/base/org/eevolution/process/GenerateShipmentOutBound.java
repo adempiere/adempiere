@@ -120,12 +120,14 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 			shipmentLine.setM_InOut_ID(shipment.getM_InOut_ID());
 			shipmentLine.setM_Locator_ID(outboundLine.getM_LocatorTo_ID());
 			shipmentLine.setM_Product_ID(outboundLine.getM_Product_ID());
+			shipmentLine.setC_UOM_ID(outboundLine.getC_UOM_ID());
 			shipmentLine.setQtyEntered(qtyDelivered);
 			shipmentLine.setMovementQty(qtyDelivered);
 			shipmentLine.setC_OrderLine_ID(orderLine.getC_OrderLine_ID());
 			shipmentLine.setM_Shipper_ID(outboundLine.getM_Shipper_ID());
 			shipmentLine.setM_FreightCategory_ID(outboundLine.getM_FreightCategory_ID());
 			shipmentLine.setFreightAmt(outboundLine.getFreightAmt());
+			shipmentLine.setWM_InOutBoundLine_ID(outboundLine.getWM_InOutBoundLine_ID());
 			shipmentLine.saveEx();
 		}
 		// Generate Delivery Movement
@@ -249,7 +251,11 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract
 			return shipment;
 
 		MOrder order = orderLine.getParent();
-		int docTypeId = MDocType.getDocType(MDocType.DOCBASETYPE_MaterialDelivery , orderLine.getAD_Org_ID());
+		MDocType orderDocumentType = (MDocType) order.getC_DocType();
+		int docTypeId = orderDocumentType.getC_DocTypeShipment_ID();
+		if(docTypeId == 0) {
+			docTypeId = MDocType.getDocType(MDocType.DOCBASETYPE_MaterialDelivery , orderLine.getAD_Org_ID());
+		}
 		shipment = new MInOut(order,docTypeId, getMovementDate());
 		shipment.setIsSOTrx(true);
 		shipment.setM_Shipper_ID(outbound.getM_Shipper_ID());

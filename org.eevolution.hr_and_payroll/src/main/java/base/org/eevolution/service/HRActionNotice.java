@@ -403,8 +403,11 @@ public class HRActionNotice
 		movement.setC_BPartner_ID(getPartnerId());
 		movement.setHR_Concept_ID(getConceptId());
 		movement.setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
-		Optional.ofNullable(getQuantity()).ifPresent(qty -> movement.setQty((BigDecimal) qty));
-		Optional.ofNullable(getAmount()).ifPresent(amount -> movement.setAmount((BigDecimal) amount));
+		if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Quantity)) { // Quantity
+			Optional.ofNullable(getQuantity()).ifPresent(qty -> movement.setQty((BigDecimal) qty));
+		} else if (concept.getColumnType().equals(X_HR_Concept.COLUMNTYPE_Amount)) { // Amount
+			Optional.ofNullable(getAmount()).ifPresent(amount -> movement.setAmount((BigDecimal) amount));
+		}
 		movement.setTextMsg(getText());
 		movement.setServiceDate(getServiceDate());
 		movement.setValidFrom(getValidFrom());

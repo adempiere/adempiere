@@ -325,11 +325,6 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction, DocOpti
 		}
 		
 		setProcessed(true);
-		for (MWMInOutBoundLine line : getLines(true, MWMInOutBoundLine.COLUMNNAME_Line))
-		{
-			line.setProcessed(true);
-			line.saveEx();
-		}
 		
 		//	Generate receipt
 		if(!isSOTrx()) {
@@ -346,6 +341,15 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction, DocOpti
 		}
 		return DocAction.STATUS_Completed;
 	} //	completeIt
+	
+	@Override
+	public void setProcessed(boolean Processed) {
+		super.setProcessed(Processed);
+		for (MWMInOutBoundLine line : getLines(true, MWMInOutBoundLine.COLUMNNAME_Line)) {
+			line.setProcessed(Processed);
+			line.saveEx();
+		}
+	}
 	
 	/**
 	 * Generate Receipt from Express receipt

@@ -385,6 +385,7 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 				for(KeyNamePair vp : getConcept(payrollProcess, fieldProcess != null)) {
 					fieldConcept.addItem(vp);
 				}
+				reloadMovement();
 				//	
 				fieldConcept.setReadWrite(true);
 			}
@@ -395,89 +396,7 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 				conceptId = conceptPair.getKey();
 			}
 			//	
-			if (conceptId > 0) {
-				MHRConcept concept = MHRConcept.getById(Env.getCtx(), conceptId , null);
-				//	Load Data Combo Box
-				loadTextMsgLookup(concept.getAD_Reference_ID());
-				// Name To Type Column
-				fieldColumnType.setValue(concept.getColumnType());
-				fieldColumnType.setVisible(true);
-				movementId = seekMovement((Timestamp)fieldValidFrom.getValue()); //  exist movement record to date actual
-
-				if (movementId > 0){
-					MHRMovement movementFound = new MHRMovement(Env.getCtx(), movementId,null);
-					fieldDescription.setValue(movementFound.getDescription());
-					fieldText.setValue("");
-					fieldDate.setValue(null);
-					fieldQty.setValue(Env.ZERO);
-					fieldAmount.setValue(Env.ZERO);
-					if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity)) {	// Quantity
-						fieldQty.setValue(movementFound.getQty());
-					} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount)) {	// Amount
-						fieldAmount.setValue(movementFound.getAmount());
-					} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Text)) {	// Text
-						//	Verify Reference
-						if(isLookupTextMsg) {
-							fieldTextLookup.setValue(movementFound.getTextMsg());
-						} else {
-							fieldText.setValue(movementFound.getTextMsg());
-						}
-					} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Date)) {	// Date
-						fieldDate.setValue(movementFound.getServiceDate());
-					}
-				} else {
-					fieldQty.setValue(null);
-					fieldAmount.setValue(null);
-					fieldDescription.setValue(null);
-					fieldText.setValue(null);
-					fieldTextLookup.setValue(null);
-					fieldDate.setValue(null);
-				}
-				//	
-				if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity)){				// Concept Type
-					fieldQty.setVisible(true);
-					fieldQty.setReadWrite(true);
-					fieldAmount.setVisible(false);
-					fieldDate.setVisible(false);
-					fieldText.setVisible(false);
-					fieldTextLookup.setVisible(false);
-					fieldRuleE.setVisible(false);
-				} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount)){
-					fieldQty.setVisible(false);
-					fieldAmount.setVisible(true);
-					fieldAmount.setReadWrite(true);
-					fieldDate.setVisible(false);
-					fieldText.setVisible(false);
-					fieldTextLookup.setVisible(false);
-					fieldRuleE.setVisible(false);
-				} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Date)){
-					fieldQty.setVisible(false);
-					fieldAmount.setVisible(false);
-					fieldDate.setVisible(true);
-					fieldDate.setReadWrite(true);
-					fieldText.setVisible(false);
-					fieldTextLookup.setVisible(false);
-					fieldRuleE.setVisible(false);
-				} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Text)){
-					//	Verify Reference
-					if(isLookupTextMsg) {
-						fieldText.setVisible(false);
-						fieldText.setReadWrite(false);
-						fieldTextLookup.setVisible(true);
-						fieldTextLookup.setReadWrite(true);
-					} else {
-						fieldTextLookup.setVisible(false);
-						fieldTextLookup.setReadWrite(false);
-						fieldText.setVisible(true);
-						fieldText.setReadWrite(true);
-					}
-					fieldQty.setVisible(false);
-					fieldAmount.setVisible(false);
-					fieldDate.setVisible(false);
-					fieldRuleE.setVisible(false);
-				}
-				fieldDescription.setReadWrite(true);
-			}
+			reloadMovement();
 		} // Concept
 		else if (e instanceof ActionEvent && e.getSource().equals(bOk) ){					 // Movement SAVE
 			conceptId = ((KeyNamePair) fieldConcept.getSelectedItem()).getKey();
@@ -518,4 +437,92 @@ public class VHRActionNotice extends HRActionNotice implements FormPanel, Action
 		executeQuery();
 		return;
 	}   //  actionPerformed
+	
+	/**
+	 * Reload a movement
+	 */
+	private void reloadMovement() {
+		if (conceptId > 0) {
+			MHRConcept concept = MHRConcept.getById(Env.getCtx(), conceptId , null);
+			//	Load Data Combo Box
+			loadTextMsgLookup(concept.getAD_Reference_ID());
+			// Name To Type Column
+			fieldColumnType.setValue(concept.getColumnType());
+			fieldColumnType.setVisible(true);
+			movementId = seekMovement((Timestamp)fieldValidFrom.getValue()); //  exist movement record to date actual
+			fieldText.setValue("");
+			fieldDate.setValue(null);
+			fieldQty.setValue(Env.ZERO);
+			fieldAmount.setValue(Env.ZERO);
+			if (movementId > 0){
+				MHRMovement movementFound = new MHRMovement(Env.getCtx(), movementId,null);
+				fieldDescription.setValue(movementFound.getDescription());
+				if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity)) {	// Quantity
+					fieldQty.setValue(movementFound.getQty());
+				} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount)) {	// Amount
+					fieldAmount.setValue(movementFound.getAmount());
+				} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Text)) {	// Text
+					//	Verify Reference
+					if(isLookupTextMsg) {
+						fieldTextLookup.setValue(movementFound.getTextMsg());
+					} else {
+						fieldText.setValue(movementFound.getTextMsg());
+					}
+				} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Date)) {	// Date
+					fieldDate.setValue(movementFound.getServiceDate());
+				}
+			} else {
+				fieldQty.setValue(null);
+				fieldAmount.setValue(null);
+				fieldDescription.setValue(null);
+				fieldText.setValue(null);
+				fieldTextLookup.setValue(null);
+				fieldDate.setValue(null);
+			}
+			//	
+			if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Quantity)){				// Concept Type
+				fieldQty.setVisible(true);
+				fieldQty.setReadWrite(true);
+				fieldAmount.setVisible(false);
+				fieldDate.setVisible(false);
+				fieldText.setVisible(false);
+				fieldTextLookup.setVisible(false);
+				fieldRuleE.setVisible(false);
+			} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount)){
+				fieldQty.setVisible(false);
+				fieldAmount.setVisible(true);
+				fieldAmount.setReadWrite(true);
+				fieldDate.setVisible(false);
+				fieldText.setVisible(false);
+				fieldTextLookup.setVisible(false);
+				fieldRuleE.setVisible(false);
+			} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Date)){
+				fieldQty.setVisible(false);
+				fieldAmount.setVisible(false);
+				fieldDate.setVisible(true);
+				fieldDate.setReadWrite(true);
+				fieldText.setVisible(false);
+				fieldTextLookup.setVisible(false);
+				fieldRuleE.setVisible(false);
+			} else if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Text)){
+				//	Verify Reference
+				if(isLookupTextMsg) {
+					fieldText.setVisible(false);
+					fieldText.setReadWrite(false);
+					fieldTextLookup.setVisible(true);
+					fieldTextLookup.setReadWrite(true);
+				} else {
+					fieldTextLookup.setVisible(false);
+					fieldTextLookup.setReadWrite(false);
+					fieldText.setVisible(true);
+					fieldText.setReadWrite(true);
+				}
+				fieldQty.setVisible(false);
+				fieldAmount.setVisible(false);
+				fieldDate.setVisible(false);
+				fieldRuleE.setVisible(false);
+			}
+			fieldDescription.setReadWrite(true);
+		}
+	}
 }   //  VHRActionNotice
