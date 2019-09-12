@@ -18,6 +18,7 @@
 package org.spin.process;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -26,6 +27,7 @@ import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
+import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.print.MPrintFormat;
 import org.eevolution.model.MWMInOutBound;
@@ -77,15 +79,16 @@ public class GenerateInvoiceInOutBound extends GenerateInvoiceInOutBoundAbstract
 	private void createInvoice(MWMInOutBoundLine outboundLine) {
 		if (outboundLine.getC_OrderLine_ID() > 0) {
 			MOrderLine orderLine = outboundLine.getOrderLine();
-			if (outboundLine.getMovementQty().subtract(orderLine.getQtyInvoiced()).signum() <= 0) {
+			if (orderLine.getQtyOrdered().subtract(orderLine.getQtyInvoiced()).subtract(outboundLine.getMovementQty()).signum() < 0) {
 				return;
 			}
 
-			BigDecimal qtyInvoiced = outboundLine.getMovementQty().subtract(orderLine.getQtyInvoiced());
+			BigDecimal qtyInvoiced = outboundLine.getMovementQty();
 			MInvoice invoice = getInvoice(orderLine, outboundLine.getParent());
 			MInvoiceLine invoiceLine = new MInvoiceLine(outboundLine.getCtx(), 0 , outboundLine.get_TrxName());
 			invoiceLine.setC_Invoice_ID(invoice.getC_Invoice_ID());
 			invoiceLine.setM_Product_ID(outboundLine.getM_Product_ID());
+			invoiceLine.setC_UOM_ID(outboundLine.getC_UOM_ID());
 			//	
 			invoiceLine.setQtyEntered(qtyInvoiced);
 			invoiceLine.setQtyInvoiced(qtyInvoiced);
@@ -148,16 +151,12 @@ public class GenerateInvoiceInOutBound extends GenerateInvoiceInOutBoundAbstract
 			created++;
 			addToMessage(invoice.getDocumentNo());
 		});
+		List<PO> invoicesToPrint = new ArrayList<PO>();
 		//	Print invoices
 		invoices.entrySet().stream().filter(entry -> entry != null).forEach(entry -> {
-			MInvoice invoice = entry.getValue();
-			MDocType documentType = MDocType.get(getCtx(), invoice.getC_DocTypeTarget_ID());
-			if(documentType.getAD_PrintFormat_ID() != 0) {
-				MPrintFormat printFormat = MPrintFormat.get(getCtx(), documentType.getAD_PrintFormat_ID(), false);
-				if(printFormat != null) {
-					printDocument(entry.getValue(), printFormat.getName());
-				}
-			}
+			invoicesToPrint.add(entry.getValue());
 		});
+		//	Print documents
+		printDocument(invoicesToPrint, true);
 	}
 }
