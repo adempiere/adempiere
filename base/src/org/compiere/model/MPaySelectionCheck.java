@@ -303,12 +303,11 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 			//	Existing Payment
 			if (paySelectionCheck.getC_Payment_ID() != 0
 					&& (payment.getDocStatus().equals(DocAction.STATUS_Completed)
-								|| payment.getDocStatus().equals(DocAction.STATUS_Closed)))
-			{
+								|| payment.getDocStatus().equals(DocAction.STATUS_Closed))) {
 				//	Update check number
-				if (paySelectionCheck.getPaymentRule().equals(PAYMENTRULE_Check))
-				{
+				if (paySelectionCheck.getPaymentRule().equals(PAYMENTRULE_Check)) {
 					payment.setCheckNo(paySelectionCheck.getDocumentNo());
+					payment.setDocumentNo(paySelectionCheck.getDocumentNo());
 					payment.saveEx();
 				}
 			} else {	//	New Payment
@@ -339,6 +338,7 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 				payment.setDateTrx(paySelectionCheck.getParent().getPayDate());
 				payment.setDateAcct(payment.getDateTrx()); // globalqss [ 2030685 ]
 				payment.setC_BPartner_ID(paySelectionCheck.getC_BPartner_ID());
+				payment.setDocumentNo(paySelectionCheck.getDocumentNo());
 				//	Link to Batch
 				if (batch != null) {
 					if (batch.getC_PaymentBatch_ID() == 0)
