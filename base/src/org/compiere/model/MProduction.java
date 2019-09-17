@@ -176,7 +176,7 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 				}
 			}
 			// Check if Production only possible when sufficient quantity in stock
-			if (isMustBeStocked() && !line.isEndProduct() && getReversal_ID()==0 
+			if (isMustBeStocked() && !line.isEndProduct() && !isReversal() 
 					 && product.isStocked() && line.isActive()) {
 				String MMPolicy = product.getMMPolicy();
 				MStorage[] storages = MStorage.getWarehouse (getCtx(), 0,
@@ -533,29 +533,22 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		}
 
 		// Not Processed
-		if (DOCSTATUS_Drafted.equals(getDocStatus()) || DOCSTATUS_Invalid.equals(getDocStatus())
-				|| DOCSTATUS_Approved.equals(getDocStatus()) || DOCSTATUS_NotApproved.equals(getDocStatus()))
-		{
+		if (!isProcessed()) {
 			setIsCreated(false);
 			deleteLines();
 			setProductionQty(BigDecimal.ZERO);
-		}
-		else
-		{
+		} else {
 			boolean accrual = false;
-			try
-			{
+			try {
 				MPeriod.testPeriodOpen(getCtx(), getMovementDate(), MDocType.DOCBASETYPE_ManufacturingOrder, getAD_Org_ID());
-			}
-			catch (PeriodClosedException e)
-			{
+			} catch (PeriodClosedException e) {
 				accrual = true;
 			}
-
-			if (accrual)
+			if (accrual) {
 				return reverseAccrualIt();
-			else
+			} else {
 				return reverseCorrectIt();
+			}
 		}
 
 		// After Void
