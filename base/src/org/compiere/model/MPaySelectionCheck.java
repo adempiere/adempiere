@@ -307,9 +307,10 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 				//	Update check number
 				if (paySelectionCheck.getPaymentRule().equals(PAYMENTRULE_Check)) {
 					payment.setCheckNo(paySelectionCheck.getDocumentNo());
+				} else {
 					payment.setDocumentNo(paySelectionCheck.getDocumentNo());
-					payment.saveEx();
 				}
+				payment.saveEx();
 			} else {	//	New Payment
 				I_C_PaySelection paySelection =  paySelectionCheck.getC_PaySelection();
 				MDocType documentType = MDocType.get(paySelectionCheck.getCtx(), paySelection.getC_DocType_ID());
@@ -338,7 +339,9 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 				payment.setDateTrx(paySelectionCheck.getParent().getPayDate());
 				payment.setDateAcct(payment.getDateTrx()); // globalqss [ 2030685 ]
 				payment.setC_BPartner_ID(paySelectionCheck.getC_BPartner_ID());
-				payment.setDocumentNo(paySelectionCheck.getDocumentNo());
+				if (!paySelectionCheck.getPaymentRule().equals(PAYMENTRULE_Check)) {
+					payment.setDocumentNo(paySelectionCheck.getDocumentNo());
+				}
 				//	Link to Batch
 				if (batch != null) {
 					if (batch.getC_PaymentBatch_ID() == 0)
