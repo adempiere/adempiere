@@ -25,6 +25,7 @@ import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.Query;
 import org.compiere.process.DocAction;
+import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
@@ -39,10 +40,17 @@ import java.util.Properties;
 /**
  * Domain Model for Freight Order
  * @author victor.perez@e-evolution.com, http://www.e-evolution.com , http://github.com/e-Evolution
+ * @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ * Add support to document actions
  */
-public class MDDFreight extends X_DD_Freight implements DocAction {
+public class MDDFreight extends X_DD_Freight implements DocAction, DocOptions {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3012349387181755416L;
+
+	/**
      * Constructor Freight Order
      * @param ctx
      * @param freightId
@@ -209,92 +217,152 @@ public class MDDFreight extends X_DD_Freight implements DocAction {
     }
 
     @Override
-    public boolean voidIt() {
+	public int customizeValidActions(String docStatus, Object processing,
+			String orderType, String isSOTrx, int AD_Table_ID,
+			String[] docAction, String[] options, int index) {
+		//	Valid Document Action
+		if (AD_Table_ID == Table_ID) {
+			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
+					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
+					|| docStatus.equals(DocumentEngine.STATUS_Invalid)) {
+					options[index++] = DocumentEngine.ACTION_Prepare;
+				}
+				//	Complete                    ..  CO
+				else if (docStatus.equals(DocumentEngine.STATUS_Completed)) {
+					
+					options[index++] = DocumentEngine.ACTION_Void;
+					options[index++] = DocumentEngine.ACTION_ReActivate;
+					options[index++] = DocumentEngine.ACTION_Close;
+					
+				} else if (docStatus.equals(DocumentEngine.STATUS_Closed)) {
+					options[index++] = DocumentEngine.ACTION_None;
+				}
+			
+		}
+		
+		return index;
+	}
 
-        log.info("voidIt - " + toString());
-        // Before Void
-        processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
-        if (processMsg != null)
-            return false;
+	/**
+	 * 	Void Document.
+	 * 	Same as Close.
+	 * 	@return true if success 
+	 */
+	public boolean voidIt()
+	{
+		log.info("voidIt - " + toString());
+		// Before Void
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+		if (processMsg != null)
+			return false;
+		addDescription(Msg.getMsg(getCtx(), "Voided"));
+		// After Void
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+		if (processMsg != null)
+			return false;
 
-        if (!closeIt())
-            return false;
+		setProcessed(true);
+        setDocAction(DOCACTION_None);
+		return true;
+	}	//	voidIt
+	
+	/**
+     *  Add to Description
+     *  @param description text
+     */
+    public void addDescription (String description) {
+        String desc = getDescription();
+        if (desc == null)
+            setDescription(description);
+        else
+            setDescription(desc + " | " + description);
+    }   //  addDescription
+	
+	/**
+	 * 	Close Document.
+	 * 	Cancel not delivered Qunatities
+	 * 	@return true if success 
+	 */
+	public boolean closeIt() {
+		log.info("closeIt - " + toString());
+		// Before Close
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
+		if (processMsg != null)
+			return false;
+		
+		setProcessed(true);
+		setDocAction(DOCACTION_None);
+		
+		// After Close
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+		if (processMsg != null)
+			return false;
 
-        // After Void
-        processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
-        if (processMsg != null)
-            return false;
+		return true;
+	}	//	closeIt
+	
+	/**
+	 * 	Reverse Correction
+	 * 	@return true if success 
+	 */
+	public boolean reverseCorrectIt()
+	{
+		log.info("reverseCorrectIt - " + toString());
+		// Before reverseCorrect
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
+		if (processMsg != null)
+			return false;
+		//	Void It
+		voidIt();
+		// After reverseCorrect
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (processMsg != null)
+			return false;
 
-        return true;
-    }
+		return false;
+	}	//	reverseCorrectionIt
+	
+	/**
+	 * 	Reverse Accrual - none
+	 * 	@return true if success 
+	 */
+	public boolean reverseAccrualIt()
+	{
+		log.info("reverseAccrualIt - " + toString());
+		// Before reverseAccrual
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (processMsg != null)
+			return false;
+		//	Void It
+		voidIt();
+		// After reverseAccrual
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (processMsg != null)
+			return false;
 
-    @Override
-    public boolean closeIt() {
-        log.info("closeIt - " + toString());
-        // Before Close
-        processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
-        if (processMsg != null)
-            return false;
-        // After Close
-        processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
-        if (processMsg != null)
-            return false;
-
-        return true;
-    }
-
-    @Override
-    public boolean reverseCorrectIt() {
-        log.info("reverseCorrectIt - " + toString());
-        // Before reverseCorrect
-        processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
-        if (processMsg != null)
-            return false;
-
-        // After reverseCorrect
-        processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
-        if (processMsg != null)
-            return false;
-
-        return false;
-    }
-
-    @Override
-    public boolean reverseAccrualIt() {
-        log.info("reverseAccrualIt - " + toString());
-        // Before reverseAccrual
-        processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
-        if (processMsg != null)
-            return false;
-
-        // After reverseAccrual
-        processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
-        if (processMsg != null)
-            return false;
-
-        return false;
-    }
-
-    @Override
-    public boolean reActivateIt() {
-
-        log.info("reActivateIt - " + toString());
-        // Before reActivate
-        processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
-        if (processMsg != null)
-            return false;
-
-        //	setProcessed(false);
-        if (! reverseCorrectIt())
-            return false;
-
-        // After reActivate
-        processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
-        if (processMsg != null)
-            return false;
-
-        return true;
-    }
+		return false;
+	}	//	reverseAccrualIt
+	
+	/** 
+	 * 	Re-activate
+	 * 	@return true if success 
+	 */
+	public boolean reActivateIt()
+	{
+		log.info("reActivateIt - " + toString());
+		// Before reActivate
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (processMsg != null)
+			return false;
+		// After reActivate
+		processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
+		if (processMsg != null)
+			return false;
+		
+		setDocAction(DOCACTION_Complete);
+		setProcessed(false);
+		return true;
+	}	//	reActivateIt
 
     @Override
     public String getSummary() {
