@@ -7,11 +7,16 @@ import java.util.logging.Logger;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 
+import com.klst.einvoice.BusinessParty;
 import com.klst.einvoice.CoreInvoiceVatBreakdown;
 import com.klst.einvoice.CreditTransfer;
 import com.klst.einvoice.DirectDebit;
+import com.klst.einvoice.IContact;
 import com.klst.einvoice.PaymentCard;
+import com.klst.einvoice.PostalAddress;
 import com.klst.einvoice.ubl.FinancialAccount;
+import com.klst.einvoice.ubl.GenericInvoice;
+import com.klst.einvoice.ubl.Party;
 import com.klst.einvoice.ubl.PaymentMandate;
 import com.klst.einvoice.ubl.VatBreakdown;
 import com.klst.einvoice.unece.uncefact.Amount;
@@ -27,6 +32,7 @@ public class UblImpl extends AbstractEinvoice {
 	private static final Logger LOG = Logger.getLogger(UblImpl.class.getName());
 
 	private UblImpl delegate;
+	GenericInvoice<?> ublInvoice;
 	
 	// ctor
 	public UblImpl() {
@@ -64,20 +70,24 @@ public class UblImpl extends AbstractEinvoice {
 
 	@Override
 	Object mapToEModel(MInvoice mInvoice) {
-		// TODO Auto-generated method stub
+		// implemented in subclass
 		return null;
 	}
 
 	@Override
+	void mapLine(MInvoiceLine line) {
+		// implemented in subclass
+	}
+
+	@Override
 	void setBuyerReference(String buyerReference) {
-		// TODO Auto-generated method stub
-		
+		ublInvoice.setBuyerReference(buyerReference);
 	}
 	
 	@Override
 	void setPaymentInstructions(PaymentMeansEnum code, String paymentMeansText, String remittanceInformation
 			, CreditTransfer creditTransfer, PaymentCard paymentCard, DirectDebit directDebit) {
-		// implemented in Subclass
+		ublInvoice.setPaymentInstructions(code, paymentMeansText, remittanceInformation, creditTransfer, paymentCard, directDebit);
 	}
 	
 	/*
@@ -106,27 +116,34 @@ public class UblImpl extends AbstractEinvoice {
 	}
 
 
+	@Override
 	void setPaymentTermsAndDate(String description, Timestamp ts) {
-		// implemented in subclass
+		ublInvoice.setPaymentTermsAndDate(description, ts);
 	}
 	
 	@Override
-	void setTotals(Amount lineExtension, Amount taxExclusive, Amount taxInclusive, Amount payable, Amount taxTotal) {
-		// TODO Auto-generated method stub
-		
+	void setTotals(Amount lineExtension, Amount taxExclusive, Amount taxInclusive, Amount payable, Amount taxTotal ) {
+		ublInvoice.setDocumentTotals(lineExtension, taxExclusive, taxInclusive, payable);
+		ublInvoice.setInvoiceTax(taxTotal);
 	}
 
 	@Override
 	void mapByuer(String buyerName, int location_ID, int user_ID) {
-		// TODO Auto-generated method stub
-		
+		PostalAddress address = mapLocationToAddress(location_ID, ublInvoice);
+		IContact contact = mapUserToContact(user_ID, ublInvoice);
+		ublInvoice.setBuyer(buyerName, address, contact);
 	}
 
 	@Override
-	void mapSeller(String sellerName, int location_ID, int salesRep_ID, String companyID, String companyLegalForm,
-			String taxCompanyId) {
-		// TODO Auto-generated method stub
-		
+	void mapSeller(String sellerName, int location_ID, int salesRep_ID, String companyId, String companyLegalForm, String taxRegistrationId) {
+		PostalAddress address = mapLocationToAddress(location_ID, ublInvoice);
+		IContact contact = mapUserToContact(salesRep_ID, ublInvoice);
+//		ublInvoice.setSeller(sellerName, address, contact, companyId, companyLegalForm);
+		BusinessParty seller = ublInvoice.createParty(sellerName, address, contact);
+		seller.setCompanyId(companyId);
+		seller.setCompanyLegalForm(companyLegalForm);
+		seller.setTaxRegistrationId(taxRegistrationId, Party.DEFAULT_TAX_SCHEME); // null no schemeID
+		ublInvoice.setSeller(seller);
 	}
 
 	@Override
@@ -136,14 +153,7 @@ public class UblImpl extends AbstractEinvoice {
 
 	@Override
 	void addVATBreakDown(CoreInvoiceVatBreakdown vatBreakdown) {
-		// TODO Auto-generated method stub in Subklasse
-		
-	}
-
-	@Override
-	void mapLine(MInvoiceLine line) {
-		// TODO Auto-generated method stub
-		
+		ublInvoice.addVATBreakDown(vatBreakdown);
 	}
 
 }

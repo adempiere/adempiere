@@ -2,10 +2,13 @@ package com.klst.adempiere.einvoice;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.logging.Logger;
 
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 
+import com.klst.einvoice.BusinessParty;
+import com.klst.einvoice.CoreInvoice;
 import com.klst.einvoice.CoreInvoiceLine;
 import com.klst.einvoice.CoreInvoiceVatBreakdown;
 import com.klst.einvoice.CreditTransfer;
@@ -16,6 +19,7 @@ import com.klst.einvoice.PostalAddress;
 import com.klst.einvoice.unece.uncefact.Amount;
 import com.klst.einvoice.unece.uncefact.BICId;
 import com.klst.einvoice.unece.uncefact.CrossIndustryInvoice;
+import com.klst.einvoice.unece.uncefact.FinancialAccount;
 import com.klst.einvoice.unece.uncefact.IBANId;
 import com.klst.einvoice.unece.uncefact.TradeLineItem;
 import com.klst.einvoice.unece.uncefact.UnitPriceAmount;
@@ -27,7 +31,10 @@ import com.klst.untdid.codelist.TaxCategoryCode;
 
 public class CiiImpl extends AbstractEinvoice {
 
+	private static final Logger LOG = Logger.getLogger(CiiImpl.class.getName());
+	
 	protected Object ciiObject;
+	private CoreInvoice invoice;
 
 	@Override
 	public String getDocumentNo() {
@@ -49,59 +56,70 @@ public class CiiImpl extends AbstractEinvoice {
 
 	@Override
 	void setBuyerReference(String buyerReference) {
-		((CrossIndustryInvoice)ciiObject).setBuyerReference(buyerReference);
+		invoice.setBuyerReference(buyerReference);
 	}
 
 	@Override
 	void setPaymentTermsAndDate(String description, Timestamp ts) {
-		((CrossIndustryInvoice)ciiObject).setPaymentTermsAndDate(description, ts);
+		LOG.info("Payment terms (BT-20) & Payment due date (BT-9): description:"+description + " due date:"+ts);
+		invoice.setPaymentTermsAndDate(description, ts);
 	}
 
 	@Override
 	void setPaymentInstructions(PaymentMeansEnum code, String paymentMeansText, String remittanceInformation,
 			CreditTransfer creditTransfer, PaymentCard paymentCard, DirectDebit directDebit) {
-		// TODO Auto-generated method stub	
+		// [BR-DE-13] In der Rechnung müssen Angaben zu genau einer der drei Gruppen 
+		//  "CREDIT TRANSFER" (BG-17), "PAYMENT CARD INFORMATION" (BG-18) oder "DIRECT DEBIT" (BG-19) übermittelt werden
+		LOG.info("CREDIT TRANSFER (BG-17):"+creditTransfer + " PAYMENT CARD INFORMATION (BG-18):"+creditTransfer+ " DIRECT DEBIT (BG-19):"+directDebit);
+		invoice.setPaymentInstructions(code, paymentMeansText, remittanceInformation, creditTransfer, paymentCard, directDebit);
 	}
 
 	@Override
 	void setTotals(Amount lineExtension, Amount taxExclusive, Amount taxInclusive, Amount payable, Amount taxTotal) {
-		// TODO Auto-generated method stub
-		
+		// https://github.com/klst-de/AD-e-invoice/issues/4 : CII : currencyID should not be present
+		invoice.setDocumentTotals( new Amount(null, lineExtension.getValue()) 
+				, new Amount(null, taxExclusive.getValue()) 
+				, new Amount(null, taxInclusive.getValue()) 
+				, new Amount(null, payable.getValue()) );
+		invoice.setInvoiceTax(taxTotal);
 	}
 
 	@Override
 	CoreInvoiceVatBreakdown createVatBreakdown(Amount taxableAmount, Amount taxAmount, TaxCategoryCode codeEnum, BigDecimal percent) {
-		return new VatBreakdown(taxableAmount, taxAmount, codeEnum, percent);
+		// https://github.com/klst-de/AD-e-invoice/issues/4 : CII : currencyID should not be present
+		return new VatBreakdown(new Amount(null, taxableAmount.getValue()), new Amount(null, taxAmount.getValue()), codeEnum, percent);
 	}
 
 	@Override
 	void addVATBreakDown(CoreInvoiceVatBreakdown vatBreakdown) {
-		((CrossIndustryInvoice)ciiObject).addVATBreakDown(vatBreakdown);
+		invoice.addVATBreakDown(vatBreakdown);
 	}
 
 	@Override
 	void mapByuer(String buyerName, int location_ID, int user_ID) {
 		PostalAddress address = mapLocationToAddress(location_ID, ((CrossIndustryInvoice)ciiObject));
 		IContact contact = mapUserToContact(user_ID, (CrossIndustryInvoice)ciiObject);
-		((CrossIndustryInvoice)ciiObject).setBuyer(buyerName, address, contact);
+		invoice.setBuyer(buyerName, address, contact);
 	}
 	
 	@Override
-	void mapSeller(String sellerName, int location_ID, int salesRep_ID, String companyID, String companyLegalForm, String taxCompanyId) {
+	void mapSeller(String sellerName, int location_ID, int salesRep_ID, String companyId, String companyLegalForm, String taxRegistrationId) {
 		PostalAddress address = mapLocationToAddress(location_ID, ((CrossIndustryInvoice)ciiObject));
 		IContact contact = mapUserToContact(salesRep_ID, (CrossIndustryInvoice)ciiObject);
-		((CrossIndustryInvoice)ciiObject).setSeller(sellerName, address, contact, companyID, companyLegalForm);
-		((CrossIndustryInvoice)ciiObject).getSellerParty().setTaxRegistrationId(taxCompanyId, "VA"); // TODO DEFAULT_TAX_SCHEME
+		BusinessParty seller = invoice.createParty(sellerName, address, contact);
+		seller.setCompanyId(companyId);
+		seller.setCompanyLegalForm(companyLegalForm);
+		seller.setTaxRegistrationId(taxRegistrationId, "VA"); // TODO DEFAULT_TAX_SCHEME
+		invoice.setSeller(seller);
 	}
 
 	@Override
 	Object mapToEModel(MInvoice mInvoice) {
 		this.mInvoice = mInvoice;
-		CrossIndustryInvoice obj = new CrossIndustryInvoice(DEFAULT_PROFILE, DocumentNameCode.CommercialInvoice);
-		obj.setId(this.mInvoice.getDocumentNo());
-		obj.setIssueDate(this.mInvoice.getDateInvoiced());
-		obj.setDocumentCurrency(this.mInvoice.getC_Currency().getISO_Code());
-		this.ciiObject = obj;
+		invoice = new CrossIndustryInvoice(DEFAULT_PROFILE, DocumentNameCode.CommercialInvoice);
+		invoice.setId(this.mInvoice.getDocumentNo());
+		invoice.setIssueDate(this.mInvoice.getDateInvoiced());
+		this.ciiObject = invoice;
 		super.mapBuyerReference();
 //
 //		makeOptionals();
@@ -109,7 +127,12 @@ public class CiiImpl extends AbstractEinvoice {
 		super.mapSellerGroup(); 
 		super.mapBuyerGroup(); 
 //		
-//		makePaymentGroup();
+		super.mapPaymentGroup();
+		
+		String documentCurrency = this.mInvoice.getC_Currency().getISO_Code();
+		LOG.info("Document currency code (BT-5):"+documentCurrency);
+		invoice.setDocumentCurrency(documentCurrency);
+		
 		super.mapDocumentTotals();
 		super.mapVatBreakDownGroup();
 		super.mapLineGroup();
@@ -123,32 +146,30 @@ public class CiiImpl extends AbstractEinvoice {
     	CoreInvoiceLine line = new TradeLineItem
     			( Integer.toString(lineId)
     			, this.mapping.mapToQuantity(invoiceLine.getC_UOM().getX12DE355(), invoiceLine.getQtyInvoiced())
-    			, new Amount(mInvoice.getCurrencyISO(), invoiceLine.getLineNetAmt())
+    			, new Amount(null, invoiceLine.getLineNetAmt()) // https://github.com/klst-de/AD-e-invoice/issues/4 : CII : currencyID should not be present
     			, new UnitPriceAmount(mInvoice.getCurrencyISO(), invoiceLine.getPriceActual())
     			, invoiceLine.getProduct().getName()
     			, TaxCategoryCode.StandardRate, taxRate
     			);
 		line.setDescription(invoiceLine.getDescription());
-		((CrossIndustryInvoice)ciiObject).addLine(line);		
+		invoice.addLine(line);		
 	}
 
-	// factory methods ----------------- TODO to be implemented in future
+	// factory methods
 	@Override
 	CreditTransfer createCreditTransfer(IBANId iban, String accountName, BICId bic) {
-		// TODO Auto-generated method stub
-		return null;
+		return new FinancialAccount(iban, accountName, bic);
 	}
 
 	@Override
 	CreditTransfer createCreditTransfer(String accountId, String accountName, BICId bic) {
-		// TODO Auto-generated method stub
-		return null;
+		return new FinancialAccount(accountId, accountName, bic);
 	}
 
 	@Override
 	DirectDebit createDirectDebit(String mandateID, String bankAssignedCreditorID, IBANId iban) {
-		// TODO Auto-generated method stub
-		return null;
+		LOG.info("not supported mandateID (BT-89):"+mandateID + ", bankAssignedCreditorID (BT-90):"+bankAssignedCreditorID + ", Debited iban (BT-91):"+iban);
+		return new FinancialAccount(iban);
 	}
 
 	@Override
