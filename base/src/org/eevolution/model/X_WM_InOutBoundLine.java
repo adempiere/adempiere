@@ -34,7 +34,7 @@ public class X_WM_InOutBoundLine extends PO implements I_WM_InOutBoundLine, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20190901L;
 
     /** Standard Constructor */
     public X_WM_InOutBoundLine (Properties ctx, int WM_InOutBoundLine_ID, String trxName)

@@ -35,6 +35,7 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pipo.handler.ASPModuleElementHandler;
 import org.adempiere.pipo.handler.AdElementHandler;
 import org.adempiere.pipo.handler.BrowseCustomElementHandler;
@@ -772,6 +773,14 @@ public class PackOut extends PackOutAbstract {
 	}
 	
 	/**
+	 * Get generic PO handler
+	 * @return
+	 */
+	public GenericPOHandler getGenericPOHandler() {
+		return genericPOHandler;
+	}
+	
+	/**
 	 * 
 	 * @param AD_ModelValidator_ID
 	 * @param packOutDocument
@@ -857,6 +866,8 @@ public class PackOut extends PackOutAbstract {
 		GenericPOHandler handler = exporter.getExporterInstance();
 		if(handler != null) {
 			handler.create(getCtx(), packOutDocument);
+		} else {
+			throw new AdempiereException("@HandlerClass@ @NotFound@");
 		}
 	}
 	

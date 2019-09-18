@@ -35,6 +35,8 @@ import org.compiere.util.Util;
  * @author Victor Perez, Low Heng Sin, Carlos Ruiz
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>BF [ 1824256 ] Convert sql casts
+ * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
+ * 		Add support to ROWNUM as LIMIT and OFFSET
  */
 public class Convert_PostgreSQL extends Convert_SQL92 {
 	/**
@@ -126,9 +128,10 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			statement = recoverQuotedStrings(statement, retVars);
 			retVars.clear();
 			statement = convertDDL(convertComplexStatement(statement));
-		/*
 		} else if (cmpString.indexOf("ROWNUM") != -1) {
-			result.add(convertRowNum(convertComplexStatement(convertAlias(statement))));*/
+			statement = recoverQuotedStrings(statement, retVars);
+			retVars.clear();
+			statement = convertComplexStatement(convertAlias(convertRowNum(convertRowNum(statement))));
 		} else if (cmpString.indexOf("DELETE ") != -1
 				&& cmpString.indexOf("DELETE FROM") == -1) {
 			statement = convertDelete(statement);
@@ -258,7 +261,6 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	 * @param sqlStatement
 	 * @return converted statement
 	 */
-	/*
 	private String convertRowNum(String sqlStatement) {
 		// log.info("RowNum<== " + sqlStatement);
 
@@ -297,27 +299,42 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 			}
 
 			String subselect = select.substring(s_start, s_end);
-			// System.out.println("subselect:" +subselect);
-			// System.out.println("select:" +select);
-
-			if (subselect.indexOf("AND ROWNUM=1") > 1) {
-				subselect = subselect.substring(0, subselect.length() - 1)
-						+ " LIMIT 1 )";
-				// System.out.println("subselect:" +subselect);
-				convert = convert + Util.replace(subselect, "AND ROWNUM=1", "");
-				// System.out.println("convert:" + convert);
-			} else if (subselect.indexOf(" WHERE ROWNUM=1 AND") > 1) {
-				subselect = subselect.substring(0, subselect.length() - 1)
-						+ " LIMIT 1 )";
-				// System.out.println("subselect:" +subselect);
-				convert = convert
-						+ Util.replace(subselect, " WHERE ROWNUM=1 AND",
-								" WHERE ");
-				// System.out.println("convert:" + convert);
+			//	RowNum <= ? / RowNum = ?
+			Matcher matcherSmallerThanWithAnd = Pattern.compile("(?i)AND ROWNUM\\s?<?=\\s?(\\d+)\\s*",REGEX_FLAGS).matcher(subselect);
+			Matcher matcherSmallerThanWithWhere = Pattern.compile("(?i)WHERE ROWNUM\\s?<?=\\s?(\\d+)\\s*",REGEX_FLAGS).matcher(subselect);
+			Matcher matcherSmallerThanWithWhereAnd = Pattern.compile("(?i)WHERE ROWNUM\\s?<?=\\s?(\\d+)\\sAND",REGEX_FLAGS).matcher(subselect);
+			//	RowNum >= ? / RowNum > ?
+			Matcher matcherGreaterThanWithAnd = Pattern.compile("(?i)AND ROWNUM\\s?>?=\\s?(\\d+)",REGEX_FLAGS).matcher(subselect);
+			Matcher matcherGreaterThanWithWhere = Pattern.compile("(?i)WHERE ROWNUM\\s?>?=\\s?(\\d+)\\s*",REGEX_FLAGS).matcher(subselect);
+			Matcher matcherGreaterThanWithWhereAnd = Pattern.compile("(?i)WHERE ROWNUM\\s?>?=\\s?(\\d+)\\sAND",REGEX_FLAGS).matcher(subselect);
+			if(matcherSmallerThanWithAnd.find()) {
+				String onlyGroup = matcherSmallerThanWithAnd.group();
+				convert = convert + matcherSmallerThanWithAnd.replaceAll("");
+				convert = convert.substring(0, convert.length() - 1) + onlyGroup.replaceAll(matcherSmallerThanWithAnd.pattern().pattern(), " LIMIT $1") + ")";
+			} else if (matcherSmallerThanWithWhereAnd.find()) {
+				String onlyGroup = matcherSmallerThanWithWhereAnd.group();
+				convert = convert + matcherSmallerThanWithWhereAnd.replaceAll("WHERE");
+				convert = convert.substring(0, convert.length() - 1) + onlyGroup.replaceAll(matcherSmallerThanWithWhereAnd.pattern().pattern(), " LIMIT $1") + ")";
+			} else if (matcherSmallerThanWithWhere.find()) {
+				String onlyGroup = matcherSmallerThanWithWhere.group();
+				convert = convert + matcherSmallerThanWithWhere.replaceAll("");
+				convert = convert.substring(0, convert.length() - 1) + onlyGroup.replaceAll(matcherSmallerThanWithWhere.pattern().pattern(), " LIMIT $1") + ")";
+			} else if(matcherGreaterThanWithAnd.find()) {
+				String onlyGroup = matcherGreaterThanWithAnd.group();
+				convert = convert + matcherGreaterThanWithAnd.replaceAll("");
+				convert = convert.substring(0, convert.length() - 1) + onlyGroup.replaceAll(matcherGreaterThanWithAnd.pattern().pattern(), " OFFSET $1") + ")";
+			} else if (matcherGreaterThanWithWhereAnd.find()) {
+				String onlyGroup = matcherGreaterThanWithWhereAnd.group();
+				convert = convert + matcherGreaterThanWithWhereAnd.replaceAll("WHERE");
+				convert = convert.substring(0, convert.length() - 1) + onlyGroup.replaceAll(matcherGreaterThanWithWhereAnd.pattern().pattern(), " OFFSET $1") + ")";
+			} else if (matcherGreaterThanWithWhere.find()) {
+				String onlyGroup = matcherGreaterThanWithWhere.group();
+				convert = convert + matcherGreaterThanWithWhere.replaceAll("");
+				convert = convert.substring(0, convert.length() - 1) + onlyGroup.replaceAll(matcherGreaterThanWithWhere.pattern().pattern(), " OFFSET $1") + ")";
 			} else {
 				convert = convert + subselect;
 			}
-
+			//	
 			select = select.substring(s_end);
 			retValue = select;
 
@@ -326,60 +343,39 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		// System.out.println("select:" + select);
 		if (retValue == null)
 			retValue = sqlStatement;
-
-		if (retValue.indexOf("AND ROWNUM=1") > 1) {
-			int rownum = retValue.indexOf("AND ROWNUM=1");
-			if (retValue.substring(0, rownum).contains("WHERE")) {
-				retValue = Util.replace(retValue, "AND ROWNUM=1", " LIMIT 1");
-				return convert + retValue;
-			} else {
-				retValue = Util.replace(retValue, "AND ROWNUM=1", "");
-				return convert + retValue + " LIMIT 1";
-			}
-
-		} else if (retValue.indexOf("AND ROWNUM= 1") > 1) {
-			int rownum = retValue.indexOf("AND ROWNUM= 1");
-			if (retValue.substring(0, rownum).contains("WHERE")) {
-
-				retValue = Util.replace(retValue, "AND ROWNUM= 1", " LIMIT 1");
-				return convert + retValue;
-			} else {
-				retValue = Util.replace(retValue, "AND ROWNUM= 1", "");
-				return convert + retValue + " LIMIT 1";
-			}
-		} else if (retValue.indexOf("AND ROWNUM = 1") > 1) {
-			int rownum = retValue.indexOf("AND ROWNUM = 1");
-			if (retValue.substring(0, rownum).contains("WHERE")) {
-
-				retValue = Util.replace(sqlStatement, "AND ROWNUM = 1",
-						" LIMIT 1");
-				return convert + retValue;
-			} else {
-				retValue = Util.replace(sqlStatement, "AND ROWNUM = 1", "");
-				return convert + retValue + " LIMIT 1";
-			}
-		} else if (retValue.indexOf("AND ROWNUM =1") > 1) {
-			int rownum = retValue.indexOf("AND ROWNUM =1");
-			if (retValue.substring(0, rownum).contains("WHERE")) {
-
-				retValue = Util.replace(retValue, "AND ROWNUM =1", " LIMIT 1");
-				return convert + retValue;
-			} else {
-				retValue = Util.replace(retValue, "AND ROWNUM =1", "");
-				return convert + retValue + " LIMIT 1";
-			}
-		} else if (retValue.indexOf("ROWNUM=1") > 1) {
-			int rownum = retValue.indexOf("ROWNUM=1");
-			//System.out.println("retValue" + retValue);
-			if (retValue.substring(0, rownum).contains("WHERE")) {
-				retValue = Util.replace(retValue, "ROWNUM=1 ", " LIMIT 1");
-				return convert + retValue;
-			} else {
-				retValue = Util.replace(retValue, "ROWNUM=1", "");
-				return convert + retValue + " LIMIT 1";
-			}
+		//	RowNum <= ? / RowNum = ?
+		Matcher matcherSmallerThanWithAnd = Pattern.compile("(?i)AND ROWNUM\\s?<?=\\s?(\\d+)\\s*",REGEX_FLAGS).matcher(retValue);
+		Matcher matcherSmallerThanWithWhere = Pattern.compile("(?i)WHERE ROWNUM\\s?<?=\\s?(\\d+)\\s*",REGEX_FLAGS).matcher(retValue);
+		Matcher matcherSmallerThanWithWhereAnd = Pattern.compile("(?i)WHERE ROWNUM\\s?<?=\\s?(\\d+)\\sAND",REGEX_FLAGS).matcher(retValue);
+		//	RowNum >= ? / RowNum > ?
+		Matcher matcherGreaterThanWithAnd = Pattern.compile("(?i)AND ROWNUM\\s?>?=\\s?(\\d+)\\s*",REGEX_FLAGS).matcher(retValue);
+		Matcher matcherGreaterThanWithWhere = Pattern.compile("(?i)WHERE ROWNUM\\s?>?=\\s?(\\d+)\\s*",REGEX_FLAGS).matcher(retValue);
+		Matcher matcherGreaterThanWithWhereAnd = Pattern.compile("(?i)WHERE ROWNUM\\s?>?=\\s?(\\d+)\\sAND",REGEX_FLAGS).matcher(retValue);
+		if(matcherSmallerThanWithAnd.find()) {
+			String onlyGroup = matcherSmallerThanWithAnd.group();
+			convert = convert + matcherSmallerThanWithAnd.replaceAll("");
+			return convert + onlyGroup.replaceAll(matcherSmallerThanWithAnd.pattern().pattern(), " LIMIT $1");
+		} else if (matcherSmallerThanWithWhereAnd.find()) {
+			String onlyGroup = matcherSmallerThanWithWhereAnd.group();
+			convert = convert + matcherSmallerThanWithWhereAnd.replaceAll("WHERE");
+			return convert + onlyGroup.replaceAll(matcherSmallerThanWithWhereAnd.pattern().pattern(), " LIMIT $1");
+		} else if (matcherSmallerThanWithWhere.find()) {
+			String onlyGroup = matcherSmallerThanWithWhere.group();
+			convert = convert + matcherSmallerThanWithWhere.replaceAll("");
+			return convert + onlyGroup.replaceAll(matcherSmallerThanWithWhere.pattern().pattern(), " LIMIT $1");
+		} else if(matcherGreaterThanWithAnd.find()) {
+			String onlyGroup = matcherGreaterThanWithAnd.group();
+			convert = convert + matcherGreaterThanWithAnd.replaceAll("");
+			return convert + onlyGroup.replaceAll(matcherGreaterThanWithAnd.pattern().pattern(), " OFFSET $1");
+		} else if (matcherGreaterThanWithWhere.find()) {
+			String onlyGroup = matcherGreaterThanWithWhere.group();
+			convert = convert + matcherGreaterThanWithWhere.replaceAll("");
+			return convert + onlyGroup.replaceAll(matcherGreaterThanWithWhere.pattern().pattern(), " OFFSET $1");
+		} else if (matcherGreaterThanWithWhereAnd.find()) {
+			String onlyGroup = matcherGreaterThanWithWhereAnd.group();
+			convert = convert + matcherGreaterThanWithWhereAnd.replaceAll("WHERE");
+			return convert + onlyGroup.replaceAll(matcherGreaterThanWithWhereAnd.pattern().pattern(), " OFFSET $1");
 		}
-		// log.info("RowNum==> " + retValue);
 		return convert + retValue;
 
 		//
@@ -387,7 +383,6 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 		// return retValue;
 		// end e-evolution PostgreSQL
 	} // convertRowNum
-	*/
 
 	/***************************************************************************
 	 * Converts Update.

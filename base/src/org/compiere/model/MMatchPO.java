@@ -1007,4 +1007,10 @@ public class MMatchPO extends X_M_MatchPO implements IDocumentLine
 		}
 		return null;
 	}
+
+	@Override
+	public boolean isReversalParent() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }	//	MMatchPO

@@ -23,7 +23,12 @@ import java.util.Properties;
  * Created by e-Evolution author Victor Perez <victor.perez@e-evolution.com> on 20/08/16.
  */
 public class MFreight extends X_M_Freight{
-    public MFreight(Properties ctx, int M_Freight_ID, String trxName) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1661865591226382132L;
+
+	public MFreight(Properties ctx, int M_Freight_ID, String trxName) {
         super(ctx, M_Freight_ID, trxName);
     }
 
