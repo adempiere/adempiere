@@ -100,11 +100,12 @@ public class PayPrint {
 				currency = rs.getString("ISO_Code");
 				balance = rs.getBigDecimal("CurrentBalance");
 				String isPayrollPayment = rs.getString("IsPayrollPayment");
+				String payrollExportClass = rs.getString("PayrollPaymentExportClass");
+				paymentExportClass = rs.getString("PaymentExportClass");
 				if(!Util.isEmpty(isPayrollPayment)
-						&& isPayrollPayment.equals("Y")) {
-					paymentExportClass = rs.getString("PayrollPaymentExportClass");
-				} else {
-					paymentExportClass = rs.getString("PaymentExportClass");
+						&& isPayrollPayment.equals("Y")
+						&& !Util.isEmpty(payrollExportClass)) {
+					paymentExportClass = payrollExportClass; 
 				}
 			} else {
 				bankAccountId = -1;
