@@ -29,7 +29,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20190919L;
 
     /** Standard Constructor */
     public X_AD_OrgInfo (Properties ctx, int AD_OrgInfo_ID, String trxName)
@@ -481,6 +481,31 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	public int getTransferCashBook_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_TransferCashBook_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_BPartner getUnidentifiedBPartner() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getUnidentifiedBPartner_ID(), get_TrxName());	}
+
+	/** Set Business Partner (Unidentified Payments).
+		@param UnidentifiedBPartner_ID Business Partner (Unidentified Payments)	  */
+	public void setUnidentifiedBPartner_ID (int UnidentifiedBPartner_ID)
+	{
+		if (UnidentifiedBPartner_ID < 1) 
+			set_Value (COLUMNNAME_UnidentifiedBPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_UnidentifiedBPartner_ID, Integer.valueOf(UnidentifiedBPartner_ID));
+	}
+
+	/** Get Business Partner (Unidentified Payments).
+		@return Business Partner (Unidentified Payments)	  */
+	public int getUnidentifiedBPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_UnidentifiedBPartner_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
