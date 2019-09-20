@@ -35,6 +35,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
+import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -76,30 +77,37 @@ public class PayPrint {
 	{
 		//  load Banks from PaySelectLine
 		bankAccountId = -1;
-		String sql = "SELECT ps.C_BankAccount_ID, b.Name || ' ' || ba.AccountNo,"	//	1..2
-			+ " c.ISO_Code, CurrentBalance, ba.PaymentExportClass "					//	3..5
+		String sql = "SELECT ps.C_BankAccount_ID, (b.Name || ' ' || ba.AccountNo) AS BankName,"	//	1..2
+			+ " c.ISO_Code, CurrentBalance, dt.IsPayrollPayment, ba.PaymentExportClass, ba.PayrollPaymentExportClass "					//	3..5
 			+ "FROM C_PaySelection ps"
 			+ " INNER JOIN C_BankAccount ba ON (ps.C_BankAccount_ID=ba.C_BankAccount_ID)"
 			+ " INNER JOIN C_Bank b ON (ba.C_Bank_ID=b.C_Bank_ID)"
 			+ " INNER JOIN C_Currency c ON (ba.C_Currency_ID=c.C_Currency_ID) "
+			+ " INNER JOIN C_DocType dt ON(dt.C_DocType_ID = ps.C_DocType_ID) "
 			+ "WHERE ps.C_PaySelection_ID=? "
 			+ "AND ps.DocStatus IN('CO', 'CL') "
 			+ "AND ba.IsActive='Y'";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, paySelectionId);
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				bankAccountId = rs.getInt(1);
-				bank = rs.getString(2);
-				currency = rs.getString(3);
-				balance = rs.getBigDecimal(4);
-				paymentExportClass = rs.getString(5);
-			}
-			else
-			{
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				bankAccountId = rs.getInt("C_BankAccount_ID");
+				bank = rs.getString("BankName");
+				currency = rs.getString("ISO_Code");
+				balance = rs.getBigDecimal("CurrentBalance");
+				String isPayrollPayment = rs.getString("IsPayrollPayment");
+				String payrollExportClass = rs.getString("PayrollPaymentExportClass");
+				paymentExportClass = rs.getString("PaymentExportClass");
+				if(!Util.isEmpty(isPayrollPayment)
+						&& isPayrollPayment.equals("Y")
+						&& !Util.isEmpty(payrollExportClass)) {
+					paymentExportClass = payrollExportClass; 
+				}
+			} else {
 				bankAccountId = -1;
 				bank = "";
 				currency = "";
@@ -107,12 +115,10 @@ public class PayPrint {
 				paymentExportClass = null;
 				log.log(Level.SEVERE, "No active BankAccount for C_PaySelection_ID=" + paySelectionId);
 			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
+		} catch (SQLException e) {
 			log.log(Level.SEVERE, sql, e);
+		} finally {
+			DB.close(rs, pstmt);
 		}
 	}   //  loadPaySelectInfo
 
