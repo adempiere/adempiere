@@ -33,7 +33,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20190919L;
 
     /** Standard Constructor */
     public X_C_Payment (Properties ctx, int C_Payment_ID, String trxName)
@@ -1285,6 +1285,30 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public boolean isSelfService () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsSelfService);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Unidentified Payment.
+		@param IsUnidentifiedPayment 
+		This flag determine ig a payment is unidentify
+	  */
+	public void setIsUnidentifiedPayment (boolean IsUnidentifiedPayment)
+	{
+		set_Value (COLUMNNAME_IsUnidentifiedPayment, Boolean.valueOf(IsUnidentifiedPayment));
+	}
+
+	/** Get Unidentified Payment.
+		@return This flag determine ig a payment is unidentify
+	  */
+	public boolean isUnidentifiedPayment () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsUnidentifiedPayment);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
