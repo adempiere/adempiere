@@ -157,6 +157,7 @@ public class CPOS {
 		} else if (poss.size() == 1) {
 			entityPOS = poss.get(0);
 		}
+		
 	}	//	setMPOS
 	
 	/**
