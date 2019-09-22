@@ -16,19 +16,16 @@
 
 package org.eevolution.model;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.util.Properties;
+
 import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.Properties;
-
-//import org.wtc.util.WTCTimeUtil;
-
+import org.compiere.util.Env;
+import org.compiere.util.TimeUtil;
 /**
  *
  * @Bug    @author         @CahngeID               @Description
@@ -42,6 +39,9 @@ import java.util.Properties;
  * 													to deal with minits also
  * @author victor.perez@e-evolution.com, www.e-evolution.com
  * 			<li> Refactory and apply ADempiere Best Practice
+ * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1870>
+ * 		@see FR [ 187 ] Change hours from Work Shift</a>
  */
 public class CalloutWorkShift extends CalloutEngine {
 
@@ -63,22 +63,33 @@ public class CalloutWorkShift extends CalloutEngine {
         I_HR_WorkShift workShift = GridTabWrapper.create(mTab, I_HR_WorkShift.class);
         Timestamp fromTime = workShift.getShiftFromTime();
         Timestamp toTime = workShift.getShiftToTime();
-
-        if (fromTime == null || toTime == null)
-            return "";
-        else if (fromTime.after(toTime)) {
-            GregorianCalendar gre = (GregorianCalendar) Calendar.getInstance();
-            gre.setTimeInMillis(toTime.getTime());
-            gre.add(Calendar.DAY_OF_MONTH, 1);
-            toTime = new Timestamp(gre.getTimeInMillis());
+        Timestamp breakStartTime = workShift.getBreakStartTime();
+        Timestamp breakEndTime = workShift.getBreakEndTime();
+        BigDecimal breakHourNo = workShift.getBreakHoursNo();
+        if (fromTime == null || toTime == null) {
+        	return "";
+        } else if (fromTime.after(toTime)) {
+        	toTime = TimeUtil.getDayTime(TimeUtil.addDays(toTime, 1), toTime);
+        }
+        
+        if (breakStartTime != null 
+        		&& breakEndTime != null) {
+        	if (breakStartTime.after(breakEndTime)) {
+        		breakEndTime = TimeUtil.getDayTime(TimeUtil.addDays(breakEndTime, 1), breakEndTime);
+        	}
+        	long breakDifference = breakEndTime.getTime() - breakStartTime.getTime();
+        	breakHourNo = new BigDecimal(breakDifference / (double)(1000 * 60 * 60));
+        }
+        //	Set break hour no
+        if(breakHourNo == null) {
+        	breakHourNo = Env.ZERO;
         }
         //[20111209:6:00]
-        long difference = toTime.getTime() - fromTime.getTime();
-        if (difference > 3600000) {
-            long hoursBetween = difference / 3600000;
-            workShift.setNoOfHours(new BigDecimal(hoursBetween));
-        }
+        long workDifference = toTime.getTime() - fromTime.getTime();
+        BigDecimal workHourNo = new BigDecimal(workDifference / (double)(1000 * 60 * 60));
+        //	Set
+        workShift.setBreakHoursNo(breakHourNo);
+        workShift.setNoOfHours(workHourNo.subtract(breakHourNo));
         return "";
     }
-
 }

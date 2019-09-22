@@ -34,7 +34,11 @@ import java.util.stream.Collectors;
  */
 public class MHRCareerLevel extends X_HR_CareerLevel {
 
-    /** Caches */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 5882296459857371182L;
+	/** Caches */
     private static CCache<Integer, MHRCareerLevel> careerLevelCacheIds = new CCache<Integer, MHRCareerLevel>(Table_Name, 50, 0);
     private static CCache<String, MHRCareerLevel> careerLavelCacheValues = new CCache<String, MHRCareerLevel>(Table_Name, 50, 0);
 

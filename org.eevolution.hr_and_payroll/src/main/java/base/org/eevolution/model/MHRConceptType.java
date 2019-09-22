@@ -27,7 +27,11 @@ import java.util.Properties;
  */
 public class MHRConceptType extends X_HR_Concept_Type {
 
-    private static CCache<Integer, MHRConceptType> cache = new CCache<Integer, MHRConceptType>(Table_Name, 20);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -9187576045196979306L;
+	private static CCache<Integer, MHRConceptType> cache = new CCache<Integer, MHRConceptType>(Table_Name, 20);
     private static CCache<String, MHRConceptType> cacheValue = new CCache<String, MHRConceptType>(Table_Name+"_Value", 20);
 
     public MHRConceptType(Properties ctx, int HR_Concept_Type_ID, String trxName) {

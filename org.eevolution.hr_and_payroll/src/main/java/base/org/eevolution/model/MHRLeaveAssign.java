@@ -26,7 +26,12 @@ import java.util.Properties;
  */
 public class MHRLeaveAssign extends X_HR_LeaveAssign {
 
-    public static MHRLeaveAssign getByLeaveType(MHRLeaveType leaveType)
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8779396920883632575L;
+
+	public static MHRLeaveAssign getByLeaveType(MHRLeaveType leaveType)
     {
         StringBuilder whereClause = new StringBuilder();
         whereClause.append(COLUMNNAME_HR_LeaveType_ID).append("=?");
@@ -42,4 +47,30 @@ public class MHRLeaveAssign extends X_HR_LeaveAssign {
     public MHRLeaveAssign(Properties ctx, ResultSet rs, String trxName) {
         super(ctx, rs, trxName);
     }
+    
+    /**
+     * Add Used Balance
+     * @param usedLeave
+     */
+    public void addUsedLeave(int usedLeave) {
+    	setUsedLeaves(getUsedLeaves() + usedLeave);
+    }
+    
+    @Override
+    protected boolean beforeSave(boolean newRecord) {
+		if(is_ValueChanged(COLUMNNAME_NoOfLeavesAllocated)) {
+			setTotalLeaves(getNoOfLeavesAllocated());
+		}
+		//	Calculate balance
+		setBalance(getTotalLeaves() - getUsedLeaves());
+    	return true;
+    }
+
+	@Override
+	public String toString() {
+		return "MHRLeaveAssign [getHR_LeaveAssign_ID()=" + getHR_LeaveAssign_ID() + ", getHR_LeaveType()="
+				+ MHRLeaveType.getById(getCtx(), getHR_LeaveType_ID(), get_TrxName()) + "]";
+	}
+    
+    
 }

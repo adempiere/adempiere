@@ -35,7 +35,11 @@ import java.util.stream.Collectors;
  */
 public class MHRJobEducation extends X_HR_JobEducation {
 
-    private static CCache<Integer, MHRJobEducation> jobEducationCacheIds = new CCache<Integer, MHRJobEducation>(Table_Name, 50, 0);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8716812432971004170L;
+	private static CCache<Integer, MHRJobEducation> jobEducationCacheIds = new CCache<Integer, MHRJobEducation>(Table_Name, 50, 0);
     private static CCache<String, MHRJobEducation> jobEducationCacheValues = new CCache<String, MHRJobEducation>(Table_Name, 50, 0);
 
     /**

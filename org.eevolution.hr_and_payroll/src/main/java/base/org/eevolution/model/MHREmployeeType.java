@@ -34,7 +34,11 @@ import java.util.stream.Collectors;
  */
 public class MHREmployeeType extends X_HR_EmployeeType {
 
-    private static CCache<Integer, MHREmployeeType> employeeTypeCacheIds = new CCache<Integer, MHREmployeeType>(Table_Name, 50, 0);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5401875586397002431L;
+	private static CCache<Integer, MHREmployeeType> employeeTypeCacheIds = new CCache<Integer, MHREmployeeType>(Table_Name, 50, 0);
     private static CCache<String, MHREmployeeType> employeeTypeCacheValues = new CCache<String, MHREmployeeType>(Table_Name, 50, 0);
 
 

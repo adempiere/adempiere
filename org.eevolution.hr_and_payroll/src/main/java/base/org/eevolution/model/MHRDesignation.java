@@ -35,7 +35,11 @@ import java.util.stream.Collectors;
  */
 public class MHRDesignation extends  X_HR_Designation{
 
-    /** Caches **/
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8486805848270844798L;
+	/** Caches **/
     private static CCache<Integer, MHRDesignation> designationCacheIds = new CCache<Integer, MHRDesignation>(Table_Name, 50, 0);
     private static CCache<String, MHRDesignation> designationCacheValues = new CCache<String, MHRDesignation>(Table_Name, 50, 0);
 
