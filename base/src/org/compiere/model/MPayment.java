@@ -604,6 +604,7 @@ public final class MPayment extends X_C_Payment
 				setIsOverUnderPayment(false);
 				setOverUnderAmt(Env.ZERO);
 				setIsPrepayment(false);
+				setIsUnidentifiedPayment(false);
 			}
 		}
 		//	We need a BPartner
@@ -637,6 +638,7 @@ public final class MPayment extends X_C_Payment
 				setDiscountAmt(Env.ZERO);
 				setIsOverUnderPayment(false);
 				setOverUnderAmt(Env.ZERO);
+				setIsUnidentifiedPayment(false);
 			}
 		}
 
@@ -1816,7 +1818,8 @@ public final class MPayment extends X_C_Payment
 		log.info(toString());
 
 		//	Charge Handling
-		if (getC_Charge_ID() != 0)
+		if (getC_Charge_ID() != 0
+				|| isUnidentifiedPayment())
 		{
 			setIsAllocated(true);
 		}

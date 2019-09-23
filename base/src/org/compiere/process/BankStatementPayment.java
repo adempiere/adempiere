@@ -70,7 +70,7 @@ public class BankStatementPayment extends BankStatementPaymentAbstract {
 					}
 					bPartnerId = bank.getC_BPartner_ID();
 				} else if(transactionType.equals("U")) {
-					bPartnerId = MOrgInfo.get(getCtx(), bankStatementLine.getAD_Org_ID(), get_TrxName()).get_ValueAsInt("UnidentifiedBPartner_ID");
+					bPartnerId = MOrgInfo.get(getCtx(), bankStatementLine.getAD_Org_ID(), get_TrxName()).getUnidentifiedBPartner_ID();
 					if(bPartnerId == 0) {
 						throw new AdempiereException("@AD_Org_ID@ @UnidentifiedBPartner_ID@ @NotFound@");
 					}
@@ -110,10 +110,15 @@ public class BankStatementPayment extends BankStatementPaymentAbstract {
 		if (importBankStatement.getC_BankAccount_ID() == 0)
 			throw new AdempiereUserError ("@NotFound@ @C_BankAccount_ID@");
 		//
+		String documentNo = importBankStatement.getReferenceNo();
+		if(Util.isEmpty(documentNo)) {
+			documentNo = importBankStatement.getEftReference();
+		}
+		String checkNo = importBankStatement.getEftCheckNo();
 		MPayment payment = createPayment (importBankStatement.getC_Invoice_ID(), importBankStatement.getC_BPartner_ID(),
 			importBankStatement.getC_Currency_ID(), importBankStatement.getStmtAmt(), importBankStatement.getTrxAmt(), 
 			importBankStatement.getC_BankAccount_ID(), importBankStatement.getStatementLineDate() == null ? importBankStatement.getStatementDate() : importBankStatement.getStatementLineDate(), 
-			importBankStatement.getDateAcct(), importBankStatement.getDescription(), importBankStatement.getAD_Org_ID(), importBankStatement.getC_Charge_ID(), false);
+			importBankStatement.getDateAcct(), importBankStatement.getDescription(), importBankStatement.getAD_Org_ID(), importBankStatement.getC_Charge_ID(), false, documentNo, checkNo);
 		
 		importBankStatement.setC_Payment_ID(payment.getC_Payment_ID());
 		importBankStatement.setC_Currency_ID (payment.getC_Currency_ID());
@@ -139,12 +144,17 @@ public class BankStatementPayment extends BankStatementPaymentAbstract {
 		if (bankStatementLine.getC_Invoice_ID() == 0 && bankStatementLine.getC_BPartner_ID() == 0)
 			throw new AdempiereUserError ("@NotFound@ @C_Invoice_ID@ / @C_BPartner_ID@");
 		//
-		MBankStatement bs = new MBankStatement (getCtx(), bankStatementLine.getC_BankStatement_ID(), get_TrxName());
+		MBankStatement bankStatement = new MBankStatement (getCtx(), bankStatementLine.getC_BankStatement_ID(), get_TrxName());
+		String documentNo = bankStatementLine.getReferenceNo();
+		if(Util.isEmpty(documentNo)) {
+			documentNo = bankStatementLine.getEftReference();
+		}
+		String checkNo = bankStatementLine.getEftCheckNo();
 		//
 		MPayment payment = createPayment (bankStatementLine.getC_Invoice_ID(), bankStatementLine.getC_BPartner_ID(),
 			bankStatementLine.getC_Currency_ID(), bankStatementLine.getStmtAmt(), bankStatementLine.getTrxAmt(), 
-			bs.getC_BankAccount_ID(), bankStatementLine.getStatementLineDate(), bankStatementLine.getDateAcct(),
-			bankStatementLine.getDescription(), bankStatementLine.getAD_Org_ID(), bankStatementLine.getC_Charge_ID(), getParameterAsString("TrxType").equals("U"));
+			bankStatement.getC_BankAccount_ID(), bankStatementLine.getStatementLineDate(), bankStatementLine.getDateAcct(),
+			bankStatementLine.getDescription(), bankStatementLine.getAD_Org_ID(), bankStatementLine.getC_Charge_ID(), getParameterAsString("TrxType").equals("U"), documentNo, checkNo);
 		//	update statement
 		bankStatementLine.setPayment(payment);
 		bankStatementLine.saveEx();
@@ -171,12 +181,14 @@ public class BankStatementPayment extends BankStatementPaymentAbstract {
 	 *	@param organizationId org
 	 *	@param chargeId charge
 	 *	@param isUnidentified unidentified payment
+	 *	@param documentNo
+	 *	@param checkNo
 	 *	@return payment
 	 */
 	private MPayment createPayment (int invoiceId, int bPartnerId, 
 		int currencyId, BigDecimal statementAmount, BigDecimal transactionAmount,
 		int bankAccountId, Timestamp transactionDate, Timestamp accountingDate, 
-		String description, int organizationId, int chargeId, boolean isUnidentified) {
+		String description, int organizationId, int chargeId, boolean isUnidentified, String documentNo, String checkNo) {
 		//	Trx Amount = Payment overwrites Statement Amount if defined
 		BigDecimal paymentAmount = transactionAmount;
 		if (paymentAmount == null || Env.ZERO.compareTo(paymentAmount) == 0)
@@ -218,14 +230,15 @@ public class BankStatementPayment extends BankStatementPaymentAbstract {
 					payment.setPayAmt(paymentAmount.negate());
 				payment.setOverUnderAmt(invoice.getGrandTotal(true).subtract(payment.getPayAmt()));
 			}
-			else {	//	set Pay Amout from Invoice
+			else {	//	set Pay Amount from Invoice
 				payment.setC_Currency_ID(invoice.getC_Currency_ID());
 				payment.setPayAmt(invoice.getGrandTotal(true));
 			}
 		} else if (bPartnerId != 0) {
 			payment.setC_BPartner_ID(bPartnerId);
 			payment.setC_Currency_ID(currencyId);
-			if(chargeId != 0) {
+			if(chargeId != 0
+					&& !isUnidentified) {
 				payment.setC_Charge_ID(chargeId);
 			}
 			if (paymentAmount.signum() < 0)	{	//	
@@ -237,6 +250,12 @@ public class BankStatementPayment extends BankStatementPaymentAbstract {
 			}
 		} else {
 			throw new AdempiereException("@C_Invoice_ID@ / @C_BPartner_ID@ @NotFound@");
+		}
+		if(!Util.isEmpty(documentNo)) {
+			payment.setDocumentNo(documentNo);
+		}
+		if(!Util.isEmpty(checkNo)) {
+			payment.setCheckNo(checkNo);
 		}
 		payment.setIsUnidentifiedPayment(isUnidentified);
 		payment.saveEx();
