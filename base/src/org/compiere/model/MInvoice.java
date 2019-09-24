@@ -1654,7 +1654,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 			if (MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true, getAD_Client_ID()))
 			{
 				String error = payCashWithCashAsPayment();
-				if (error != "")
+				if (error != null)
 					return error;
 			}
 			
@@ -2462,8 +2462,12 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 			MPOS pos = MPOS.get(getCtx(), posId);
 			paymentCash.setC_BankAccount_ID(pos.getC_BankAccount_ID());
 		} else {
-			MDocType dt = (MDocType)getC_Order().getC_DocType();
-			paymentCash.setC_BankAccount_ID(dt.get_ValueAsInt("C_BankAccount_ID"));
+			MBankAccount bankAccount = MBankAccount.getDefault(getCtx(), getAD_Org_ID(), X_C_Bank.BANKTYPE_CashJournal);
+			if (bankAccount == null) {
+				processMsg = Msg.getMsg(getCtx(), "No Default Cash defined for Organization");
+				return DOCSTATUS_Invalid;
+			}
+			paymentCash.setC_BankAccount_ID(bankAccount.getC_BankAccount_ID());
 		}
 
 		paymentCash.setC_DocType_ID(true);
