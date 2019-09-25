@@ -160,7 +160,7 @@ implements ImportProcess
 		//	Set Country
 		sql = new StringBuilder ("UPDATE I_BPartner i "
 				+ "SET C_Country_ID=(SELECT C_Country_ID FROM C_Country c"
-				+ " WHERE i.CountryCode=c.CountryCode AND c.AD_Client_ID IN (0, i.AD_Client_ID)) "
+				+ " WHERE UPPER(i.CountryCode)=UPPER(c.CountryCode) AND c.AD_Client_ID IN (0, i.AD_Client_ID)) "
 				+ "WHERE C_Country_ID IS NULL"
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
@@ -185,7 +185,7 @@ implements ImportProcess
 		//
 		sql = new StringBuilder ("UPDATE I_BPartner i "
 				+ "Set C_Region_ID=(SELECT C_Region_ID FROM C_Region r"
-				+ " WHERE r.Name=i.RegionName AND r.C_Country_ID=i.C_Country_ID"
+				+ " WHERE UPPER(r.Name)=UPPER(i.RegionName) AND r.C_Country_ID=i.C_Country_ID"
 				+ " AND r.AD_Client_ID IN (0, i.AD_Client_ID)) "
 				+ "WHERE C_Region_ID IS NULL"
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
@@ -220,7 +220,7 @@ implements ImportProcess
 		//
 		sql = new StringBuilder ("UPDATE I_BPartner i "
 				+ "Set BirthRegion_ID=(SELECT C_Region_ID FROM C_Region r"
-				+ " WHERE r.Name=i.BirthRegionName AND r.C_Country_ID=i.BirthCountry_ID"
+				+ " WHERE UPPER(r.Name)=UPPER(i.BirthRegionName) AND r.C_Country_ID=i.BirthCountry_ID"
 				+ " AND r.AD_Client_ID IN (0, i.AD_Client_ID)) "
 				+ "WHERE BirthRegion_ID IS NULL"
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
@@ -240,7 +240,7 @@ implements ImportProcess
 		//	Set Greeting
 		sql = new StringBuilder ("UPDATE I_BPartner i "
 				+ "SET C_Greeting_ID=(SELECT C_Greeting_ID FROM C_Greeting g"
-				+ " WHERE i.BPContactGreeting=g.Name AND g.AD_Client_ID IN (0, i.AD_Client_ID)) "
+				+ " WHERE UPPER(i.BPContactGreeting)=UPPER(g.Name) AND g.AD_Client_ID IN (0, i.AD_Client_ID)) "
 				+ "WHERE C_Greeting_ID IS NULL AND BPContactGreeting IS NOT NULL"
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
@@ -253,11 +253,29 @@ implements ImportProcess
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.config("Invalid Greeting=" + no);
 
+		// Existing User. Lookup by AD_User.Email + AD_User.Name - BPartner
+		sql = new StringBuilder ("UPDATE I_BPartner i "
+				+ "SET C_BPartner_ID="
+				+ "(SELECT MAX(C_BPartner_ID) FROM AD_User u "
+				+ "WHERE UPPER(i.EMail)=UPPER(u.EMail) AND UPPER(i.ContactName)=UPPER(u.Name) AND u.AD_Client_ID=i.AD_Client_ID "
+				+ "AND EXISTS (SELECT 1 FROM C_BPartner bp WHERE bp.C_BPartner_ID = u.C_BPartner_ID AND bp.Value = i.Value)) "
+				+ "WHERE i.EMail IS NOT NULL AND I_IsImported='N'").append(clientCheck);
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
+		log.fine("Found EMail User=" + no);
 		// Existing User. Lookup by AD_User.Email - BPartner
 		sql = new StringBuilder ("UPDATE I_BPartner i "
 				+ "SET C_BPartner_ID="
-				+ "(SELECT C_BPartner_ID FROM AD_User u "
-				+ "WHERE i.EMail=u.EMail AND u.AD_Client_ID=i.AD_Client_ID "
+				+ "(SELECT MAX(C_BPartner_ID) FROM AD_User u "
+				+ "WHERE UPPER(i.EMail)=UPPER(u.EMail) AND u.AD_Client_ID=i.AD_Client_ID "
+				+ "AND EXISTS (SELECT 1 FROM C_BPartner bp WHERE bp.C_BPartner_ID = u.C_BPartner_ID AND bp.Value = i.Value)) "
+				+ "WHERE i.C_BPartner_ID IS NULL AND i.EMail IS NOT NULL AND I_IsImported='N'").append(clientCheck);
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
+		log.fine("Found EMail User=" + no);
+		// Existing User. Lookup by AD_User.Email - AD_User
+		sql = new StringBuilder ("UPDATE I_BPartner i "
+				+ "SET AD_User_ID="
+				+ "(SELECT MAX(AD_User_ID) FROM AD_User u "
+				+ "WHERE UPPER(i.EMail)=UPPER(u.EMail) AND UPPER(i.ContactName)=UPPER(u.Name) AND u.AD_Client_ID=i.AD_Client_ID "
 				+ "AND EXISTS (SELECT 1 FROM C_BPartner bp WHERE bp.C_BPartner_ID = u.C_BPartner_ID AND bp.Value = i.Value)) "
 				+ "WHERE i.EMail IS NOT NULL AND I_IsImported='N'").append(clientCheck);
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
@@ -265,17 +283,16 @@ implements ImportProcess
 		// Existing User. Lookup by AD_User.Email - AD_User
 		sql = new StringBuilder ("UPDATE I_BPartner i "
 				+ "SET AD_User_ID="
-				+ "(SELECT AD_User_ID FROM AD_User u "
-				+ "WHERE i.EMail=u.EMail AND u.AD_Client_ID=i.AD_Client_ID "
+				+ "(SELECT MAX(AD_User_ID) FROM AD_User u "
+				+ "WHERE UPPER(i.EMail)=UPPER(u.EMail) AND u.AD_Client_ID=i.AD_Client_ID "
 				+ "AND EXISTS (SELECT 1 FROM C_BPartner bp WHERE bp.C_BPartner_ID = u.C_BPartner_ID AND bp.Value = i.Value)) "
-				+ "WHERE i.EMail IS NOT NULL AND I_IsImported='N'").append(clientCheck);
+				+ "WHERE i.AD_User_ID IS NULL AND i.EMail IS NOT NULL AND I_IsImported='N'").append(clientCheck);
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Found EMail User=" + no);
-
 		//	Existing BPartner ? Match Value
 		sql = new StringBuilder ("UPDATE I_BPartner i "
 				+ "SET C_BPartner_ID=(SELECT C_BPartner_ID FROM C_BPartner p"
-				+ " WHERE i.Value=p.Value AND p.AD_Client_ID=i.AD_Client_ID) "
+				+ " WHERE UPPER(i.Value)=UPPER(p.Value) AND p.AD_Client_ID=i.AD_Client_ID) "
 				+ "WHERE C_BPartner_ID IS NULL AND Value IS NOT NULL"
 				+ " AND I_IsImported='N'").append(clientCheck);
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
@@ -284,7 +301,7 @@ implements ImportProcess
 		//	Existing Contact ? Match Name
 		sql = new StringBuilder ("UPDATE I_BPartner i "
 				+ "SET AD_User_ID=(SELECT AD_User_ID FROM AD_User c"
-				+ " WHERE i.ContactName=c.Name AND i.C_BPartner_ID=c.C_BPartner_ID AND c.AD_Client_ID=i.AD_Client_ID) "
+				+ " WHERE UPPER(i.ContactName)=UPPER(c.Name) AND i.C_BPartner_ID=c.C_BPartner_ID AND c.AD_Client_ID=i.AD_Client_ID) "
 				+ "WHERE C_BPartner_ID IS NOT NULL AND AD_User_ID IS NULL AND ContactName IS NOT NULL"
 				+ " AND I_IsImported='N'").append(clientCheck);
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
@@ -292,14 +309,14 @@ implements ImportProcess
 
 		//  Existing Project ? Project Value
 		sql = new StringBuilder("UPDATE  I_BPartner i SET C_Project_ID = (SELECT C_Project_ID FROM C_Project p "
-				+ "WHERE p.Value = i.ProjectValue) WHERE i.ProjectValue IS NOT NULL AND I_IsImported='N'");
+				+ "WHERE UPPER(p.Value) = UPPER(i.ProjectValue)) WHERE i.ProjectValue IS NOT NULL AND I_IsImported='N'");
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Project =" + no);
 
 
 		//  Existing Project Member Type? Project Member Type Value
 		sql = new StringBuilder("UPDATE  I_BPartner i SET C_ProjectMemberType_ID = (SELECT C_ProjectMemberType_ID FROM C_ProjectMemberType pmt "
-				+ "WHERE pmt.Value = i.ProjectMemberTypeValue) WHERE i.IsProjectMember='Y' AND I_IsImported='N'");
+				+ "WHERE UPPER(pmt.Value) = UPPER(i.ProjectMemberTypeValue)) WHERE i.IsProjectMember='Y' AND I_IsImported='N'");
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Project Member Type =" + no);
 
@@ -325,7 +342,7 @@ implements ImportProcess
 		//	Interest Area
 		sql = new StringBuilder ("UPDATE I_BPartner i "
 				+ "SET R_InterestArea_ID=(SELECT R_InterestArea_ID FROM R_InterestArea ia "
-				+ "WHERE i.InterestAreaName=ia.Name AND ia.AD_Client_ID=i.AD_Client_ID) "
+				+ "WHERE UPPER(i.InterestAreaName)=UPPER(ia.Name) AND ia.AD_Client_ID=i.AD_Client_ID) "
 				+ "WHERE R_InterestArea_ID IS NULL AND InterestAreaName IS NOT NULL"
 				+ " AND I_IsImported='N'").append(clientCheck);
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
