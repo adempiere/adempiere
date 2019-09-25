@@ -253,11 +253,29 @@ implements ImportProcess
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.config("Invalid Greeting=" + no);
 
+		// Existing User. Lookup by AD_User.Email + AD_User.Name - BPartner
+		sql = new StringBuilder ("UPDATE I_BPartner i "
+				+ "SET C_BPartner_ID="
+				+ "(SELECT MAX(C_BPartner_ID) FROM AD_User u "
+				+ "WHERE UPPER(i.EMail)=UPPER(u.EMail) AND UPPER(i.ContactName)=UPPER(u.Name) AND u.AD_Client_ID=i.AD_Client_ID "
+				+ "AND EXISTS (SELECT 1 FROM C_BPartner bp WHERE bp.C_BPartner_ID = u.C_BPartner_ID AND bp.Value = i.Value)) "
+				+ "WHERE i.EMail IS NOT NULL AND I_IsImported='N'").append(clientCheck);
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
+		log.fine("Found EMail User=" + no);
 		// Existing User. Lookup by AD_User.Email - BPartner
 		sql = new StringBuilder ("UPDATE I_BPartner i "
 				+ "SET C_BPartner_ID="
 				+ "(SELECT MAX(C_BPartner_ID) FROM AD_User u "
 				+ "WHERE UPPER(i.EMail)=UPPER(u.EMail) AND u.AD_Client_ID=i.AD_Client_ID "
+				+ "AND EXISTS (SELECT 1 FROM C_BPartner bp WHERE bp.C_BPartner_ID = u.C_BPartner_ID AND bp.Value = i.Value)) "
+				+ "WHERE i.C_BPartner_ID IS NULL AND i.EMail IS NOT NULL AND I_IsImported='N'").append(clientCheck);
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
+		log.fine("Found EMail User=" + no);
+		// Existing User. Lookup by AD_User.Email - AD_User
+		sql = new StringBuilder ("UPDATE I_BPartner i "
+				+ "SET AD_User_ID="
+				+ "(SELECT MAX(AD_User_ID) FROM AD_User u "
+				+ "WHERE UPPER(i.EMail)=UPPER(u.EMail) AND UPPER(i.ContactName)=UPPER(u.Name) AND u.AD_Client_ID=i.AD_Client_ID "
 				+ "AND EXISTS (SELECT 1 FROM C_BPartner bp WHERE bp.C_BPartner_ID = u.C_BPartner_ID AND bp.Value = i.Value)) "
 				+ "WHERE i.EMail IS NOT NULL AND I_IsImported='N'").append(clientCheck);
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
@@ -268,10 +286,9 @@ implements ImportProcess
 				+ "(SELECT MAX(AD_User_ID) FROM AD_User u "
 				+ "WHERE UPPER(i.EMail)=UPPER(u.EMail) AND u.AD_Client_ID=i.AD_Client_ID "
 				+ "AND EXISTS (SELECT 1 FROM C_BPartner bp WHERE bp.C_BPartner_ID = u.C_BPartner_ID AND bp.Value = i.Value)) "
-				+ "WHERE i.EMail IS NOT NULL AND I_IsImported='N'").append(clientCheck);
+				+ "WHERE i.AD_User_ID IS NULL AND i.EMail IS NOT NULL AND I_IsImported='N'").append(clientCheck);
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.fine("Found EMail User=" + no);
-
 		//	Existing BPartner ? Match Value
 		sql = new StringBuilder ("UPDATE I_BPartner i "
 				+ "SET C_BPartner_ID=(SELECT C_BPartner_ID FROM C_BPartner p"
