@@ -23,7 +23,12 @@ import java.util.Properties;
  * Created by victor.perez@e-evolution.com, e-Evolution on 04/12/13.
  */
 public class MHRDepartmentProduct extends X_HR_DepartmentProduct {
-    public MHRDepartmentProduct(Properties ctx, int HR_DepartmentProduct_ID, String trxName) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5048132732295387986L;
+
+	public MHRDepartmentProduct(Properties ctx, int HR_DepartmentProduct_ID, String trxName) {
         super(ctx, HR_DepartmentProduct_ID, trxName);
     }
 

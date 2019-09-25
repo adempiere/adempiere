@@ -347,6 +347,22 @@ public class MHREmployeeDependent extends X_HR_EmployeeDependent {
 		return this;
 	}
 	
+	/**
+	 * Make filter for Special Condition
+	 * @param isSpecialCondition
+	 * @return
+	 */
+	public MHREmployeeDependent filterIsSpecialCondition(boolean isSpecialCondition) {
+		if(dependentList != null
+				&& dependentList.size() > 0) {
+			dependentList = dependentList.stream()
+					.filter(entry -> entry.get_ValueAsBoolean("IsSpecialCondition") == isSpecialCondition)
+					.collect(Collectors.toList());
+		}
+		//	Return this
+		return this;
+	}
+	
 	@Override
 	public String toString() {
 		return "MHREmployeeDependent [getHR_Relationship()=" + getHR_Relationship() 

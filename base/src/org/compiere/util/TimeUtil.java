@@ -1099,9 +1099,60 @@ public class TimeUtil
     			|| dateTo == null) {
 			return 0;
 		}
+    	long durationInMillis = getMillisecondsBetween(dateFrom, dateTo);
+		//	Return
+		return getTimeFromDuration(durationInMillis, durationUnit);
+    }
+    
+    /**
+     * Get days from duration
+     * @param durationInMillis
+     * @return
+     */
+    public static int getDaysFromDuration(long durationInMillis) {
+    	return (int) getTimeFromDuration(durationInMillis, DURATIONUNIT_Day);
+    }
+    
+    /**
+     * Get hours from duration
+     * @param durationInMillis
+     * @return
+     */
+    public static double getHoursFromDuration(long durationInMillis) {
+    	return getTimeFromDuration(durationInMillis, DURATIONUNIT_Hour);
+    }
+
+    /**
+     * Get minutes from duration
+     * @param durationInMillis
+     * @return
+     */
+    public static int getMinutesFromDuration(long durationInMillis) {
+    	return (int) getTimeFromDuration(durationInMillis, DURATIONUNIT_Minute);
+    }
+    
+    /**
+     * Get seconds from duration
+     * @param durationInMillis
+     * @return
+     */
+    public static int getSecondsFromDuration(long durationInMillis) {
+    	return (int) getTimeFromDuration(durationInMillis, DURATIONUNIT_Second);
+    }
+    
+    /**
+     * Get Time from duration based on duration unit
+     * @param durationInMillis
+     * @param durationUnit
+     * @return
+     */
+    public static double getTimeFromDuration(long durationInMillis, String durationUnit) {
+    	if(Util.isEmpty(durationUnit)
+    			|| durationInMillis == 0) {
+			return 0;
+		}
     	//	
     	double time = 0;
-    	long durationInMillis = getMillisecondsBetween(dateFrom, dateTo);
     	if (DURATIONUNIT_Day.equals(durationUnit)) {
     		time = (durationInMillis / (double)(1000 * 60 * 60 * 24));
     	} else if (DURATIONUNIT_Hour.equals(durationUnit)) {
@@ -1114,6 +1165,7 @@ public class TimeUtil
 		//	Return
 		return time;
     }
+
     
     /**
      * Get Hours between two dates
@@ -1121,8 +1173,8 @@ public class TimeUtil
      * @param dateTo
      * @return
      */
-    public static int getHoursBetween(Timestamp dateFrom, Timestamp dateTo) {
-    	return (int) getTimeBetween(dateFrom, dateTo, DURATIONUNIT_Hour);
+    public static double getHoursBetween(Timestamp dateFrom, Timestamp dateTo) {
+    	return getTimeBetween(dateFrom, dateTo, DURATIONUNIT_Hour);
     }
     
     /**

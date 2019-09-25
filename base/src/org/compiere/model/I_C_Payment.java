@@ -773,6 +773,19 @@ public interface I_C_Payment
 	  */
 	public boolean isSelfService();
 
+    /** Column name IsUnidentifiedPayment */
+    public static final String COLUMNNAME_IsUnidentifiedPayment = "IsUnidentifiedPayment";
+
+	/** Set Unidentified Payment.
+	  * This flag determine ig a payment is unidentify
+	  */
+	public void setIsUnidentifiedPayment (boolean IsUnidentifiedPayment);
+
+	/** Get Unidentified Payment.
+	  * This flag determine ig a payment is unidentify
+	  */
+	public boolean isUnidentifiedPayment();
+
     /** Column name Micr */
     public static final String COLUMNNAME_Micr = "Micr";
 
