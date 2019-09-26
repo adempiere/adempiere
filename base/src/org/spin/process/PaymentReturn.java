@@ -30,7 +30,6 @@ import org.compiere.model.Query;
 
 /** Generated Process for (Return Payment)
  *  @author Carlos Parada, cparada@erpya.com, ERPCyA http://www.erpya.com
- *  @version Release 3.9.2
  */
 public class PaymentReturn extends PaymentReturnAbstract
 {
