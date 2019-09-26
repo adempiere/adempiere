@@ -33,7 +33,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190919L;
+	private static final long serialVersionUID = 20190926L;
 
     /** Standard Constructor */
     public X_C_Payment (Properties ctx, int C_Payment_ID, String trxName)
@@ -1635,9 +1635,9 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public void setRef_Payment_ID (int Ref_Payment_ID)
 	{
 		if (Ref_Payment_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_Ref_Payment_ID, null);
+			set_Value (COLUMNNAME_Ref_Payment_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_Ref_Payment_ID, Integer.valueOf(Ref_Payment_ID));
+			set_Value (COLUMNNAME_Ref_Payment_ID, Integer.valueOf(Ref_Payment_ID));
 	}
 
 	/** Get Referenced Payment.

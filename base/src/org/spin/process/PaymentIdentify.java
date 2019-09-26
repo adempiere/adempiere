@@ -19,9 +19,16 @@ package org.spin.process;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.I_C_Payment;
+import org.compiere.model.MAllocationHdr;
+import org.compiere.model.MAllocationLine;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MOrgInfo;
 import org.compiere.model.MPayment;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
+import org.compiere.process.DocAction;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
 
 /** Generated Process for (Identify Payment)
  *  @author ADempiere (generated) 
@@ -86,7 +93,6 @@ public class PaymentIdentify extends PaymentIdentifyAbstract {
 			identifiedPayment.setC_Charge_ID(-1);
 			identifiedPayment.setC_Invoice_ID(-1);
 			identifiedPayment.setC_Order_ID(-1);
-			identifiedPayment.setIsAllocated(false);
 			identifiedPayment.setIsReconciled(false);
 			//	Order
 			if(getOrderId() != 0) {
@@ -110,12 +116,66 @@ public class PaymentIdentify extends PaymentIdentifyAbstract {
 		reversePayment.setRef_Payment_ID(unidentifiedPayment.getC_Payment_ID());
 		reversePayment.setIsReconciled(false);
 		reversePayment.setIsUnidentifiedPayment(true);
-		reversePayment.setIsAllocated(true);
-		reversePayment.setPayAmt(reversePayment.getPayAmt().negate());
+		reversePayment.setIsReceipt(!unidentifiedPayment.isReceipt());
+		reversePayment.setPayAmt(reversePayment.getPayAmt());
+		//	Get from organization
+		MOrgInfo organizationInfo = MOrgInfo.get(getCtx(), reversePayment.getAD_Org_ID(), get_TrxName());
+		if(organizationInfo.getUnidentifiedDocumentType(reversePayment.isReceipt()) != 0) {
+			reversePayment.setC_DocType_ID(organizationInfo.getUnidentifiedDocumentType(reversePayment.isReceipt()));
+		} else {
+			reversePayment.setC_DocType_ID(reversePayment.isReceipt());
+		}
 		reversePayment.setDocStatus(MPayment.DOCSTATUS_Drafted);
 		reversePayment.saveEx();
 		reversePayment.processIt(MPayment.DOCACTION_Complete);
 		reversePayment.saveEx();
+		//	Create Allocation
+		createAllocation(unidentifiedPayment, reversePayment);
 		return "@Created@";
+	}
+	
+	/**
+	 * Create allocation
+	 * @param identifiedPayment
+	 * @param unidentifiedPayment
+	 */
+	private void createAllocation(MPayment identifiedPayment, MPayment unidentifiedPayment) {
+		//	Create automatic Allocation
+		MAllocationHdr allocationHdr = new MAllocationHdr (getCtx(), false, getDateTrx(), identifiedPayment.getC_Currency_ID(),
+				Msg.translate(getCtx(), "C_Payment_ID")	+ ": " + unidentifiedPayment.getDocumentNo(), get_TrxName());
+		allocationHdr.setAD_Org_ID(identifiedPayment.getAD_Org_ID());
+		allocationHdr.setDateAcct(identifiedPayment.getDateAcct());
+		allocationHdr.saveEx(get_TrxName());
+
+		//	Original Allocation
+		MAllocationLine allocationLine = new MAllocationLine (allocationHdr, identifiedPayment.getPayAmt(true), Env.ZERO, Env.ZERO, Env.ZERO);
+		allocationLine.setDocInfo(identifiedPayment.getC_BPartner_ID(), 0, 0);
+		allocationLine.setPaymentInfo(identifiedPayment.getC_Payment_ID(), 0);
+		allocationLine.saveEx(get_TrxName());
+
+		//	Reversal Allocation
+		allocationLine = new MAllocationLine (allocationHdr, unidentifiedPayment.getPayAmt(true), Env.ZERO, Env.ZERO, Env.ZERO);
+		allocationLine.setDocInfo(unidentifiedPayment.getC_BPartner_ID(), 0, 0);
+		allocationLine.setPaymentInfo(unidentifiedPayment.getC_Payment_ID(), 0);
+		allocationLine.saveEx(get_TrxName());
+
+		if (!allocationHdr.processIt(DocAction.ACTION_Complete)) {
+			throw new AdempiereException(allocationHdr.getProcessMsg());
+		}
+
+		allocationHdr.saveEx(get_TrxName());
+		StringBuffer info = new StringBuffer (unidentifiedPayment.getDocumentNo());
+		info.append(" - @C_AllocationHdr_ID@: ").append(allocationHdr.getDocumentNo());
+
+		//	Update BPartner
+		if (identifiedPayment.getC_BPartner_ID() != 0) {
+			MBPartner partner = new MBPartner (getCtx(), identifiedPayment.getC_BPartner_ID(), get_TrxName());
+			partner.setTotalOpenBalance();
+			partner.save(get_TrxName());
+		}
+		identifiedPayment.setIsAllocated(true);
+		identifiedPayment.saveEx();
+		unidentifiedPayment.setIsAllocated(true);
+		unidentifiedPayment.saveEx();
 	}
 }

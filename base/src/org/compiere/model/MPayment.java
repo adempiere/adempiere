@@ -1818,8 +1818,7 @@ public final class MPayment extends X_C_Payment
 		log.info(toString());
 
 		//	Charge Handling
-		if (getC_Charge_ID() != 0
-				|| isUnidentifiedPayment())
+		if (getC_Charge_ID() != 0)
 		{
 			setIsAllocated(true);
 		}

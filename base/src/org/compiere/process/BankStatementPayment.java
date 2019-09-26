@@ -200,6 +200,7 @@ public class BankStatementPayment extends BankStatementPaymentAbstract {
 		if (paymentAmount == null) {
 			paymentAmount = Env.ZERO;
 		}
+		MOrgInfo organizationInfo = MOrgInfo.get(getCtx(), organizationId, get_TrxName());
 		//
 		MPayment payment = new MPayment (getCtx(), 0, get_TrxName());
 		payment.setAD_Org_ID(organizationId);
@@ -241,12 +242,13 @@ public class BankStatementPayment extends BankStatementPaymentAbstract {
 					&& !isUnidentified) {
 				payment.setC_Charge_ID(chargeId);
 			}
-			if (paymentAmount.signum() < 0)	{	//	
-				payment.setPayAmt(paymentAmount.abs());
-				payment.setC_DocType_ID(false);
-			} else {	//	Receipt
-				payment.setPayAmt(paymentAmount);
-				payment.setC_DocType_ID(true);
+			boolean isReceipt = paymentAmount.signum() > 0;
+			payment.setPayAmt(paymentAmount.abs());
+			//	Get from organization
+			if(organizationInfo.getUnidentifiedDocumentType(isReceipt) != 0) {
+				payment.setC_DocType_ID(organizationInfo.getUnidentifiedDocumentType(isReceipt));
+			} else {
+				payment.setC_DocType_ID(isReceipt);
 			}
 		} else {
 			throw new AdempiereException("@C_Invoice_ID@ / @C_BPartner_ID@ @NotFound@");
