@@ -16,13 +16,20 @@
  *****************************************************************************/
 package org.spin.util;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import javax.xml.transform.stream.StreamResult;
 
+import org.compiere.model.I_C_Invoice;
+import org.compiere.model.MInvoice;
 import org.compiere.print.ReportEngine;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -63,6 +70,33 @@ public class ExportFormatXML extends AbstractExportFormat {
 		return createXML(convertFile(file));
 	}
 	
+	@Override // with UTF-8 charset , @see https://github.com/adempiere/adempiere/issues/2701
+	public BufferedWriter convertFile(File file) {
+		Writer fileWriter = null;
+		try {
+			fileWriter = new OutputStreamWriter(new FileOutputStream(file, false), "UTF-8");
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			log.log(Level.SEVERE, e.getLocalizedMessage());
+		}
+		//	Validate null
+		if(fileWriter == null) { 
+			return null;
+		}
+		return new BufferedWriter(fileWriter);
+	}
+
+	private byte[] externalize(int Table_ID) {
+		int table_ID = this.getPrintInfo().getAD_Table_ID();
+		if(Table_ID==table_ID) {
+			int record_ID = this.getPrintInfo().getRecord_ID();
+			String trxName = null;
+			MInvoice mInvoice = new MInvoice(this.getCtx(), record_ID, trxName);
+			return mInvoice.externalize();
+		}
+		
+		return null;
+	}
+
 	/**
 	 * 	Write XML to writer
 	 * 	@param writer writer
@@ -73,7 +107,12 @@ public class ExportFormatXML extends AbstractExportFormat {
 			return false;
 		}
 		try {
-			getPrintData().createXML(new StreamResult(writer));
+			byte[] xmldata = externalize(I_C_Invoice.Table_ID);
+			if(xmldata==null) {
+				getPrintData().createXML(new StreamResult(writer));
+			} else {
+				writer.append(new String(xmldata));
+			}
 			writer.flush();
 			writer.close();
 			return true;
