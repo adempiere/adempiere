@@ -37,6 +37,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 import java.util.PropertyResourceBundle;
@@ -44,7 +45,7 @@ import java.util.logging.Level;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-
+import java.awt.print.PrinterJob;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.db.CConnection;
@@ -68,6 +69,22 @@ import org.compiere.util.Ini;
 import org.compiere.util.Language;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.Copies;
+import javax.print.attribute.standard.JobName;
+import org.compiere.print.PrintUtil;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JRParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.export.JRPrintServiceExporter;
+import net.sf.jasperreports.engine.export.JRPrintServiceExporterParameter;
+import net.sf.jasperreports.engine.util.JRLoader;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRParameter;
@@ -592,7 +609,40 @@ public class ReportStarter implements ProcessCall, ClientProcess
                 {
                     log.info( "ReportStarter.startProcess print report -" + jasperPrint.getName());
                     if (!processInfo.isBatch()) {
-                    	JasperPrintManager.printReport(jasperPrint, false);
+                    	if(Util.isEmpty(printerName)) {
+                    		JasperPrintManager.printReport(jasperPrint, false);
+                    	} else {	//	Old compatibility
+                        	// Get printer job
+                        	PrinterJob printerJob = org.compiere.print.CPrinter.getPrinterJob(printerName);
+                        	// Set print request attributes
+                        	
+                    		//	Paper Attributes:
+                    		PrintRequestAttributeSet prats = new HashPrintRequestAttributeSet();
+     
+                    		//	add:				copies, job-name, priority
+                    		if (printInfo == null || printInfo.isDocumentCopy() || printInfo.getCopies() < 1) // @Trifon
+                    			prats.add (new Copies(1));
+                    		else
+                    			prats.add (new Copies(printInfo.getCopies()));
+                    		Locale locale = Language.getLoginLanguage().getLocale();
+                    		// @Trifon
+                    		String printFormat_name = printFormat == null ? "" : printFormat.getName();
+                    		int numCopies = printInfo == null ? 0 : printInfo.getCopies();
+                    		prats.add(new JobName(printFormat_name + "_" + pi.getRecord_ID(), locale));
+                    		prats.add(PrintUtil.getJobPriority(jasperPrint.getPages().size(), numCopies, true));
+
+                    		// Create print service exporter
+                        	JRPrintServiceExporter exporter = new JRPrintServiceExporter();;
+                        	// Set parameters
+                        	exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+                        	exporter.setParameter(JRPrintServiceExporterParameter.PRINT_SERVICE, printerJob.getPrintService());
+                        	exporter.setParameter(JRPrintServiceExporterParameter.PRINT_SERVICE_ATTRIBUTE_SET, printerJob.getPrintService().getAttributes());
+                        	exporter.setParameter(JRPrintServiceExporterParameter.PRINT_REQUEST_ATTRIBUTE_SET, prats);
+                        	exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PAGE_DIALOG, Boolean.FALSE);
+                        	exporter.setParameter(JRPrintServiceExporterParameter.DISPLAY_PRINT_DIALOG, Boolean.FALSE);
+                        	// Print report / document
+                        	exporter.exportReport();
+                    	}
                     }
                 }
 				else {
