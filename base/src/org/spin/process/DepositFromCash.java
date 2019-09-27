@@ -36,7 +36,7 @@ import org.compiere.util.Util;
 public class DepositFromCash extends DepositFromCashAbstract {
 	
 	/**	Tender Type								*/
-	private String 			p_TenderType				=	MPayment.TENDERTYPE_Account;
+	private String 			defaultTenderType			=	MPayment.TENDERTYPE_Account;
 	/**	Payments will to complete				*/
 	private List<MPayment>	paymentList					= new ArrayList<MPayment>();
 	
@@ -139,7 +139,7 @@ public class DepositFromCash extends DepositFromCashAbstract {
 		payment.setC_BPartner_ID(getBPartnerId());
 		payment.setC_BankAccount_ID(bankAccountId);
 		payment.setIsReceipt(isReceipt);
-		payment.setTenderType(tenderType != null? tenderType: p_TenderType);
+		payment.setTenderType(tenderType != null? tenderType: defaultTenderType);
 		payment.setDateTrx(getDateTrx());
 		payment.setDateAcct(getDateTrx());
 		if(!Util.isEmpty(documentNo)) {
@@ -150,6 +150,15 @@ public class DepositFromCash extends DepositFromCashAbstract {
 		payment.setDocStatus(MPayment.DOCSTATUS_Drafted);
 		if(payAmt != null) {
 			payment.setPayAmt(payAmt);
+		}
+		if(isReceipt) {
+			if(getDepositDocumentTypeId() != 0) {
+				payment.setC_DocType_ID(getDepositDocumentTypeId());
+			}
+		} else {
+			if(getWithdrawalDocumentTypeId() != 0) {
+				payment.setC_DocType_ID(getWithdrawalDocumentTypeId());
+			}
 		}
 		payment.saveEx();
   	  	//	payment list
