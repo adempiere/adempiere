@@ -388,32 +388,20 @@ public class ProcessBuilder {
 
     /**
      * Define parameter and sequence
-     * @param name
+     * @param parameterName
      * @param value
      * @param sequence
      * @return
      */
-    public ProcessBuilder withParameter(String name, Object value , Integer sequence) {
-        if (name == null || name.length() == 0)
+    public ProcessBuilder withParameter(String parameterName, Object value , Integer sequence) {
+        if (Util.isEmpty(parameterName))
             return this;
 
         if (instance == null)
             generateProcessInstance();
 
         seqNo = sequence;
-
-        MPInstancePara parameter = new MPInstancePara(instance, sequence);
-        if (value instanceof String)
-            parameter.setParameter(name, (String) value);
-        if (value instanceof Integer)
-            parameter.setParameter(name, (Integer) value);
-        if (value instanceof Timestamp)
-            parameter.setParameter(name, (Timestamp) value);
-        if (value instanceof Boolean)
-            parameter.setParameter(name, (java.lang.Boolean) value);
-        if (value instanceof BigDecimal)
-            parameter.setParameter(name, (BigDecimal) value);
-        parameter.saveEx();
+        instance.createParameter(sequence, parameterName, value);
         return this;
     }
 
