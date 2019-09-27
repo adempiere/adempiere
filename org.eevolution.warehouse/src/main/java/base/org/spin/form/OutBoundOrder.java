@@ -446,8 +446,7 @@ public class OutBoundOrder {
 			//	Order By
 				sql.append("ORDER BY lord.DD_Order_ID ASC");
 			
-		}
-		else{
+		} else {
 
 			int rows = orderTable.getRowCount();
 			rowsSelected = 0;
@@ -469,7 +468,7 @@ public class OutBoundOrder {
 					"SUM(" +
 					"		COALESCE(CASE " +
 					"			WHEN (c.IsDelivered = 'N' AND lc.C_OrderLine_ID IS NOT NULL AND c.DocStatus = 'CO') " +
-					"			THEN lc.MovementQty " +
+					"			THEN lc.MovementQty - COALESCE(iol.MovementQty, 0) " +
 					"			ELSE 0 " +
 					"		END, 0)" +
 					") QtyLoc, " +
@@ -477,7 +476,7 @@ public class OutBoundOrder {
 					"	SUM(" +
 					"		COALESCE(CASE " +
 					"			WHEN (c.IsDelivered = 'N' AND lc.C_OrderLine_ID IS NOT NULL AND c.DocStatus = 'CO') " +
-					"			THEN lc.MovementQty " +
+					"			THEN lc.MovementQty - COALESCE(iol.MovementQty, 0) " +
 					"			ELSE 0 " +
 					"		END, 0)" +
 					"		)" +
@@ -491,6 +490,12 @@ public class OutBoundOrder {
 					"INNER JOIN C_UOM uomp ON(uomp.C_UOM_ID = pro.C_UOM_ID) " +
 					"LEFT JOIN WM_InOutBoundLine lc ON(lc.C_OrderLine_ID = lord.C_OrderLine_ID) " +
 					"LEFT JOIN WM_InOutBound c ON(c.WM_InOutBound_ID = lc.WM_InOutBound_ID) " +
+					"LEFT JOIN (SELECT iol.WM_InOutBoundLine_ID, SUM(iol.MovementQty) MovementQty "
+					+ "						FROM M_InOut io "
+					+ "						INNER JOIN M_InOutLine iol ON(iol.M_InOut_ID = io.M_InOut_ID) "
+					+ "						WHERE io.DocStatus IN('CO', 'CL') "
+					+ "						AND iol.WM_InOutBoundLine_ID IS NOT NULL"
+					+ "				GROUP BY iol.WM_InOutBoundLine_ID) iol ON(iol.WM_InOutBoundLine_ID = lc.WM_InOutBoundLine_ID) " +
 					"LEFT JOIN (" +
 					"				SELECT l.M_Warehouse_ID, st.M_Product_ID, " +
 					"					COALESCE(SUM(st.QtyOnHand), 0) QtyOnHand, " +
@@ -515,7 +520,7 @@ public class OutBoundOrder {
 					"									SUM(" +
 					"										COALESCE(CASE " +
 					"											WHEN (c.IsDelivered = 'N' AND lc.C_OrderLine_ID IS NOT NULL AND c.DocStatus = 'CO') " +
-					"											THEN lc.MovementQty " +
+					"											THEN lc.MovementQty - COALESCE(iol.MovementQty, 0) " +
 					"											ELSE 0 " +
 					"										END, 0)" +
 					"									)" +

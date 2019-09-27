@@ -564,7 +564,7 @@ public class WOutBoundOrder extends OutBoundOrder
 		documentDateField.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		shipmentDateField.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		shipperPick.setValue(null);
-		docActionPick.setValue(DocAction.ACTION_Prepare);
+		docActionPick.setValue(DocAction.ACTION_Complete);
 	}
 
 	/**
@@ -945,20 +945,19 @@ public class WOutBoundOrder extends OutBoundOrder
 		boolean isOrderLine = (event.getModel().equals(orderLineTable.getModel()));
 		if(isOrder) {
 			//	Load Lines
-//			if(m_C_UOM_Weight_ID != 0) {
-				StringBuffer sql = getQueryLine(w_orderTable);
-				Vector<Vector<Object>> data = getOrderLineData(w_orderTable, sql);
-				Vector<String> columnNames = getOrderLineColumnNames();
+			StringBuffer sql = getQueryLine(w_orderTable);
+			Vector<Vector<Object>> data = getOrderLineData(w_orderTable, sql);
+			Vector<String> columnNames = getOrderLineColumnNames();
 				
-				loadBuffer(orderLineTable);
-				//  Remove previous listeners
-				orderLineTable.getModel().removeTableModelListener(this);
-				//  Set Model
-				ListModelTable modelP = new ListModelTable(data);
-				modelP.addTableModelListener(this);
-				orderLineTable.setData(modelP, columnNames);
-				setOrderLineColumnClass(orderLineTable);
-				setValueFromBuffer(orderLineTable);	
+			loadBuffer(orderLineTable);
+			//  Remove previous listeners
+			orderLineTable.getModel().removeTableModelListener(this);
+			//  Set Model
+			ListModelTable modelP = new ListModelTable(data);
+			modelP.addTableModelListener(this);
+			orderLineTable.setData(modelP, columnNames);
+			setOrderLineColumnClass(orderLineTable);
+			setValueFromBuffer(orderLineTable);	
 		} else if(isOrderLine) {
 			if(col == OL_QTY) {	//	Quantity
 				BigDecimal qty = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY);
