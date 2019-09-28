@@ -100,4 +100,16 @@ public class MOrgInfo extends X_AD_OrgInfo
 		setTaxID ("?");
 	}	//	MOrgInfo
 	
+	/**
+	 * get Unidentified document type for payment or receipt
+	 * @param isReceipt
+	 * @return
+	 */
+	public int getUnidentifiedDocumentType(boolean isReceipt) {
+		if(isReceipt) {
+			return getUnidentifiedARDocType_ID();
+		}
+		return getUnidentifiedAPDocType_ID();
+	}
+	
 }

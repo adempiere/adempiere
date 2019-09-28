@@ -109,6 +109,8 @@ import org.compiere.util.Trx;
  *				@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
  *				<li>#1439 Reversed based on the accounting of the original document
  *				@see https://github.com/adempiere/adempiere/issues/1439
+ *	@author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ *		<li> Add support to unidentified payments
  */
 public abstract class Doc
 {
@@ -1269,6 +1271,8 @@ public abstract class Doc
 	public static final int 	ACCTTYPE_C_Prepayment  = 13;
 	/** Account Type - Payment - Prepayment */
 	public static final int     ACCTTYPE_V_Prepayment  = 14;
+	/**	Account Type - payment - Unidentified */
+	public static final int     ACCTTYPE_BankUnidentified = 15;
 
 	/** Account Type - Cash     - Asset */
 	public static final int     ACCTTYPE_CashAsset = 20;
@@ -1376,6 +1380,10 @@ public abstract class Doc
 		else if (acctType == ACCTTYPE_BankInTransit)
 		{
 			sql = "SELECT B_InTransit_Acct FROM C_BankAccount_Acct WHERE C_BankAccount_ID=? AND C_AcctSchema_ID=?";
+			para_1 = getC_BankAccount_ID();
+		}
+		else if(acctType == ACCTTYPE_BankUnidentified) {
+			sql = "SELECT B_Unidentified_Acct FROM C_BankAccount_Acct WHERE C_BankAccount_ID=? AND C_AcctSchema_ID=?";
 			para_1 = getC_BankAccount_ID();
 		}
 		else if (acctType == ACCTTYPE_PaymentSelect)
@@ -2500,7 +2508,7 @@ public abstract class Doc
 	private String generateReverseWithOriginalAccounting() {
 		getReversalFactAcct().stream().forEach(factAcct -> {
 			MFactAcct reverseFactAcct = new MFactAcct(getPO().getCtx() , 0 , getPO().get_TrxName());
-			reverseFactAcct.copyValues(factAcct, reverseFactAcct);
+			PO.copyValues(factAcct, reverseFactAcct);
 			reverseFactAcct.setAD_Org_ID(factAcct.getAD_Org_ID());
 			reverseFactAcct.setAD_Table_ID(getPO().get_Table_ID());
 			reverseFactAcct.setDateAcct(getDateAcct());

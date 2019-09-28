@@ -1,0 +1,2705 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add Unidentified Payment Support" ReleaseNo="3.9.3" SeqNo="5400">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="284" Action="I" Record_ID="54306" Table="AD_Process">
+        <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true"/>
+        <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
+        <Data AD_Column_ID="56515" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="5790" Column="AccessLevel">3</Data>
+        <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass">N</Data>
+        <Data AD_Column_ID="7752" Column="AD_PrintFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84383" Column="UUID">5dc141aa-dd4a-11e9-95ce-0242ac110002</Data>
+        <Data AD_Column_ID="4656" Column="Classname">org.spin.process.PaymentIdentify</Data>
+        <Data AD_Column_ID="2811" Column="Help">It process allows Identify a Payment Selected</Data>
+        <Data AD_Column_ID="12458" Column="IsBetaFunctionality">false</Data>
+        <Data AD_Column_ID="3371" Column="IsReport">false</Data>
+        <Data AD_Column_ID="6653" Column="Statistic_Seconds">294</Data>
+        <Data AD_Column_ID="6652" Column="Statistic_Count">20</Data>
+        <Data AD_Column_ID="2809" Column="Name">Identify Payment</Data>
+        <Data AD_Column_ID="2810" Column="Description">Identify Payment Selected</Data>
+        <Data AD_Column_ID="2808" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2806" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2801" Column="AD_Process_ID">54306</Data>
+        <Data AD_Column_ID="2802" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2803" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true"/>
+        <Data AD_Column_ID="63488" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6485" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="50182" Column="JasperReport" isNewNull="true"/>
+        <Data AD_Column_ID="2805" Column="Created">2019-09-23 13:52:06.246</Data>
+        <Data AD_Column_ID="2807" Column="Updated">2019-09-23 13:52:06.246</Data>
+        <Data AD_Column_ID="4214" Column="IsDirectPrint">false</Data>
+        <Data AD_Column_ID="57920" Column="CopyFromProcess">N</Data>
+        <Data AD_Column_ID="2804" Column="IsActive">true</Data>
+        <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
+        <Data AD_Column_ID="4023" Column="Value">C_Payment Identify</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="287" Action="I" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2850" Column="Updated">2019-09-23 13:52:07.864</Data>
+        <Data AD_Column_ID="2848" Column="Created">2019-09-23 13:52:07.864</Data>
+        <Data AD_Column_ID="2853" Column="Description">Identificar Pago / Cobro Seleccionado</Data>
+        <Data AD_Column_ID="2855" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2852" Column="Name">Identificar Pago / Cobro</Data>
+        <Data AD_Column_ID="2846" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2845" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2851" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID">54306</Data>
+        <Data AD_Column_ID="2849" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84387" Column="UUID">5dc776b0-dd4a-11e9-95ce-0242ac110002</Data>
+        <Data AD_Column_ID="2854" Column="Help">Este proceso permite identificar un pago / cobro seleccionado que ha sido marcado como pago sin identificar en un estado de cuentas</Data>
+        <Data AD_Column_ID="2847" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="54173" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2019-09-23 13:52:08.096</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2019-09-23 13:52:08.096</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">L</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">TrxType (Select or Create Payment)</Data>
+        <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">54173</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID">93ad0f5c-ddb7-11e9-9da7-0242ac110003</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">TrxType (Select or Create Payment)</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2019-09-23 13:52:09.347</Data>
+        <Data AD_Column_ID="669" Column="Updated">2019-09-23 13:52:09.347</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">54173</Data>
+        <Data AD_Column_ID="84394" Column="UUID">93b08f24-ddb7-11e9-9da7-0242ac110003</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="57146" Table="AD_Process_Para">
+        <Data AD_Column_ID="2820" Column="Updated">2019-09-23 13:52:09.498</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57146</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">1</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54306</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">17</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">10</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">54173</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">1295</Data>
+        <Data AD_Column_ID="84385" Column="UUID">29db03da-ddb8-11e9-9da7-0242ac110003</Data>
+        <Data AD_Column_ID="2822" Column="Name">Transaction Type</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-09-23 13:52:09.498</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">TrxType</Data>
+        <Data AD_Column_ID="2823" Column="Description">Type of credit card transaction</Data>
+        <Data AD_Column_ID="2824" Column="Help">The Transaction Type indicates the type of transaction to be submitted to the Credit Card Company.</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue">-1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="57146" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-09-23 13:52:11.185</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-09-23 13:52:11.185</Data>
+        <Data AD_Column_ID="2840" Column="Name">Transaction Type</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">Type of credit card transaction</Data>
+        <Data AD_Column_ID="3743" Column="Help">The Transaction Type indicates the type of transaction to be submitted to the Credit Card Company.</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">57146</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID">29dd3326-ddb8-11e9-9da7-0242ac110003</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="57147" Table="AD_Process_Para">
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">30</Data>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic">@TrxType@='C'</Data>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57147</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54306</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">20</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">187</Data>
+        <Data AD_Column_ID="84385" Column="UUID">ca633d38-ddb6-11e9-96fd-0242ac110003</Data>
+        <Data AD_Column_ID="2822" Column="Name">Business Partner </Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-09-23 13:52:11.378</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">C_BPartner_ID</Data>
+        <Data AD_Column_ID="2823" Column="Description">Identifies a Business Partner</Data>
+        <Data AD_Column_ID="2824" Column="Help">A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="2820" Column="Updated">2019-09-23 13:52:11.378</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="57147" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-09-23 13:52:15.569</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-09-23 13:52:15.569</Data>
+        <Data AD_Column_ID="2840" Column="Name">Business Partner </Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">Identifies a Business Partner</Data>
+        <Data AD_Column_ID="3743" Column="Help">A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">57147</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID">ca78f416-ddb6-11e9-96fd-0242ac110003</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="57148" Table="AD_Process_Para">
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54306</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2019-09-23 13:52:15.756</Data>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic">@TrxType@='C'</Data>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57148</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">30</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">30</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">558</Data>
+        <Data AD_Column_ID="84385" Column="UUID">dc1e3122-ddb6-11e9-96fd-0242ac110003</Data>
+        <Data AD_Column_ID="2822" Column="Name">Order</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-09-23 13:52:15.756</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">C_Order_ID</Data>
+        <Data AD_Column_ID="2823" Column="Description">Order</Data>
+        <Data AD_Column_ID="2824" Column="Help">The Order is a control document.  The  Order is complete when the quantity ordered is the same as the quantity shipped and invoiced.  When you close an order, unshipped (backordered) quantities are cancelled.</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="57148" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-09-23 13:52:17.471</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-09-23 13:52:17.471</Data>
+        <Data AD_Column_ID="2840" Column="Name">Order</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">Order</Data>
+        <Data AD_Column_ID="3743" Column="Help">The Order is a control document.  The  Order is complete when the quantity ordered is the same as the quantity shipped and invoiced.  When you close an order, unshipped (backordered) quantities are cancelled.</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">57148</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID">dc237ed4-ddb6-11e9-96fd-0242ac110003</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="1008">1008</Data>
+        <Data AD_Column_ID="84317" Column="UUID" isOldNull="true">a55e0792-82ef-11e9-bc49-0242ac140004</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="57149" Table="AD_Process_Para">
+        <Data AD_Column_ID="84385" Column="UUID">e5b42cdc-ddb6-11e9-9da7-0242ac110003</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54306</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">30</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">40</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">1008</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2019-09-23 13:52:17.882</Data>
+        <Data AD_Column_ID="2822" Column="Name">Invoice</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-09-23 13:52:17.882</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">C_Invoice_ID</Data>
+        <Data AD_Column_ID="2823" Column="Description">Invoice Identifier</Data>
+        <Data AD_Column_ID="2824" Column="Help">The Invoice Document.</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic">@TrxType@='C'</Data>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57149</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="57149" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-09-23 13:52:19.259</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-09-23 13:52:19.259</Data>
+        <Data AD_Column_ID="2840" Column="Name">Invoice</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">Invoice Identifier</Data>
+        <Data AD_Column_ID="3743" Column="Help">The Invoice Document.</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">57149</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID">e5b9f73e-ddb6-11e9-9da7-0242ac110003</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="290">290</Data>
+        <Data AD_Column_ID="84317" Column="UUID" isOldNull="true">a54d2ddc-82ef-11e9-bc49-0242ac140004</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="108" Action="I" Record_ID="52733" Table="AD_Val_Rule">
+        <Data AD_Column_ID="187" Column="AD_Val_Rule_ID">52733</Data>
+        <Data AD_Column_ID="583" Column="IsActive">true</Data>
+        <Data AD_Column_ID="7715" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="587" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="585" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84460" Column="UUID">b004569a-ddb9-11e9-9da7-0242ac110003</Data>
+        <Data AD_Column_ID="192" Column="Type">S</Data>
+        <Data AD_Column_ID="193" Column="Code">EXISTS(SELECT 1 FROM C_Payment up WHERE up.C_Payment_ID = C_Payment.C_Payment_ID AND up.IsUnidentifiedPayment = 'N' AND up.C_BankAccount_ID = @C_BankAccount_ID@)</Data>
+        <Data AD_Column_ID="586" Column="Updated">2019-09-23 13:52:19.804</Data>
+        <Data AD_Column_ID="584" Column="Created">2019-09-23 13:52:19.804</Data>
+        <Data AD_Column_ID="188" Column="Name">C_Payment No Unidentified ans Bank Account</Data>
+        <Data AD_Column_ID="189" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="387" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="388" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="57150" Table="AD_Process_Para">
+        <Data AD_Column_ID="4017" Column="ColumnName">RelatedPayment_ID</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2019-09-23 13:52:22.9</Data>
+        <Data AD_Column_ID="2822" Column="Name">Payment Related</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-09-23 13:52:22.9</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic">@TrxType@='S'</Data>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57150</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54306</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">30</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID">52733</Data>
+        <Data AD_Column_ID="2826" Column="SeqNo">50</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">343</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">59816</Data>
+        <Data AD_Column_ID="84385" Column="UUID">3040fb16-ddb9-11e9-96fd-0242ac110003</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="57150" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-09-23 13:52:24.345</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-09-23 13:52:24.345</Data>
+        <Data AD_Column_ID="2840" Column="Name">Payment Related</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="3743" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">57150</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID">30461600-ddb9-11e9-96fd-0242ac110003</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="57151" Table="AD_Process_Para">
+        <Data AD_Column_ID="2820" Column="Updated">2019-09-23 13:52:24.539</Data>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic">@TrxType@='C'</Data>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57151</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">7</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54306</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">15</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">60</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">1297</Data>
+        <Data AD_Column_ID="84385" Column="UUID">fc522368-ddb6-11e9-9da7-0242ac110003</Data>
+        <Data AD_Column_ID="2822" Column="Name">Transaction Date</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-09-23 13:52:24.539</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">DateTrx</Data>
+        <Data AD_Column_ID="2823" Column="Description">Transaction Date</Data>
+        <Data AD_Column_ID="2824" Column="Help">The Transaction Date indicates the date of the transaction.</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="57151" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-09-23 13:52:27.095</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-09-23 13:52:27.095</Data>
+        <Data AD_Column_ID="2840" Column="Name">Transaction Date</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">Transaction Date</Data>
+        <Data AD_Column_ID="3743" Column="Help">The Transaction Date indicates the date of the transaction.</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">57151</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID">fc576bb6-ddb6-11e9-9da7-0242ac110003</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="53660" Action="I" Record_ID="335" Table="AD_Table_Process">
+        <Data AD_Column_ID="69640" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="69649" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="69639" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="69645" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="69644" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84427" Column="UUID">3b7bfbf8-de2b-11e9-96b6-0242ac110002</Data>
+        <Data AD_Column_ID="69641" Column="IsActive">true</Data>
+        <Data AD_Column_ID="69642" Column="Created">2019-09-23 13:54:47.44</Data>
+        <Data AD_Column_ID="69643" Column="Updated">2019-09-23 13:54:47.44</Data>
+        <Data AD_Column_ID="69648" Column="AD_Table_ID">335</Data>
+        <Data AD_Column_ID="69647" Column="AD_Process_ID">54306</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="284" Action="I" Record_ID="54307" Table="AD_Process">
+        <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>
+        <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84383" Column="UUID">a442a7ae-de2b-11e9-96b6-0242ac110002</Data>
+        <Data AD_Column_ID="4656" Column="Classname">org.compiere.process.LoadBankStatement</Data>
+        <Data AD_Column_ID="2811" Column="Help">Load the bank statement into the import table. The parameters used depend on the actual loader.</Data>
+        <Data AD_Column_ID="12458" Column="IsBetaFunctionality">false</Data>
+        <Data AD_Column_ID="3371" Column="IsReport">false</Data>
+        <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
+        <Data AD_Column_ID="2809" Column="Name">Load Bank Statement from Bank Statement</Data>
+        <Data AD_Column_ID="2810" Column="Description">Load Bank Statement from Bank Statement</Data>
+        <Data AD_Column_ID="2808" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2806" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2801" Column="AD_Process_ID">54307</Data>
+        <Data AD_Column_ID="2802" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2803" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true"/>
+        <Data AD_Column_ID="63488" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6485" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="50182" Column="JasperReport" isNewNull="true"/>
+        <Data AD_Column_ID="2805" Column="Created">2019-09-23 13:57:42.594</Data>
+        <Data AD_Column_ID="2807" Column="Updated">2019-09-23 13:57:42.594</Data>
+        <Data AD_Column_ID="4214" Column="IsDirectPrint">false</Data>
+        <Data AD_Column_ID="57920" Column="CopyFromProcess" isNewNull="true"/>
+        <Data AD_Column_ID="2804" Column="IsActive">true</Data>
+        <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
+        <Data AD_Column_ID="4023" Column="Value">Load_BankStatementFromStatement</Data>
+        <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
+        <Data AD_Column_ID="56515" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="5790" Column="AccessLevel">1</Data>
+        <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass">N</Data>
+        <Data AD_Column_ID="7752" Column="AD_PrintFormat_ID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="287" Action="I" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2843" Column="AD_Process_ID">54307</Data>
+        <Data AD_Column_ID="2847" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2850" Column="Updated">2019-09-23 13:57:43.485</Data>
+        <Data AD_Column_ID="2848" Column="Created">2019-09-23 13:57:43.485</Data>
+        <Data AD_Column_ID="2853" Column="Description">Load Bank Statement from Bank Statement</Data>
+        <Data AD_Column_ID="2854" Column="Help">Load the bank statement into the import table. The parameters used depend on the actual loader.</Data>
+        <Data AD_Column_ID="2855" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2852" Column="Name">Load Bank Statement from Bank Statement</Data>
+        <Data AD_Column_ID="2846" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2845" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2851" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2849" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84387" Column="UUID">a4699cb0-de2b-11e9-96b6-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2853" Column="Description" oldValue="Load Bank Statement from Bank Statement">Carga de Estado de Cuentas</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Load Bank Statement from Bank Statement">Carga de Estado de Cuentas</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54307">54307</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2854" Column="Help" oldValue="Load the bank statement into the import table. The parameters used depend on the actual loader.">Carge el estado de cuenta en la tabla de la importación. Los parametros usados dependen del cargador real.</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54307">54307</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54307" Table="AD_Process">
+        <Data AD_Column_ID="2810" Column="Description" oldValue="Load Bank Statement from Bank Statement">Load Bank Statement (Bank Statement)</Data>
+        <Data AD_Column_ID="2809" Column="Name" oldValue="Load Bank Statement from Bank Statement">Load Bank Statement (Bank Statement)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="108" Action="I" Record_ID="52734" Table="AD_Val_Rule">
+        <Data AD_Column_ID="583" Column="IsActive">true</Data>
+        <Data AD_Column_ID="192" Column="Type">S</Data>
+        <Data AD_Column_ID="193" Column="Code">C_BankStatementLoader.C_BankAccount_ID = @C_BankAccount_ID@</Data>
+        <Data AD_Column_ID="586" Column="Updated">2019-09-23 13:59:37.057</Data>
+        <Data AD_Column_ID="584" Column="Created">2019-09-23 13:59:37.057</Data>
+        <Data AD_Column_ID="188" Column="Name">C_BankStatementLoader of Account</Data>
+        <Data AD_Column_ID="189" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="387" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="388" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="187" Column="AD_Val_Rule_ID">52734</Data>
+        <Data AD_Column_ID="7715" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="587" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="585" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84460" Column="UUID">ee922852-de2b-11e9-981e-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="57152" Table="AD_Process_Para">
+        <Data AD_Column_ID="2820" Column="Updated">2019-09-23 13:59:59.361</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54307</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID">52734</Data>
+        <Data AD_Column_ID="2826" Column="SeqNo">10</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">2283</Data>
+        <Data AD_Column_ID="84385" Column="UUID">f5c892aa-de2b-11e9-96b6-0242ac110002</Data>
+        <Data AD_Column_ID="2822" Column="Name">Bank Statement Loader</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-09-23 13:59:59.361</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">C_BankStatementLoader_ID</Data>
+        <Data AD_Column_ID="2823" Column="Description">Definition of Bank Statement Loader (SWIFT, OFX)</Data>
+        <Data AD_Column_ID="2824" Column="Help">The loader definition provides the parameters to load bank statements from EFT formats like SWIFT (MT940) or OFX</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue">-1</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57152</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">ECA02</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="57152" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2840" Column="Name">Bank Statement Loader</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">Definition of Bank Statement Loader (SWIFT, OFX)</Data>
+        <Data AD_Column_ID="3743" Column="Help">The loader definition provides the parameters to load bank statements from EFT formats like SWIFT (MT940) or OFX</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">57152</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID">f611a238-de2b-11e9-96b6-0242ac110002</Data>
+        <Data AD_Column_ID="2836" Column="Created">2019-09-23 14:00:00.481</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-09-23 14:00:00.481</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="57153" Table="AD_Process_Para">
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">2295</Data>
+        <Data AD_Column_ID="84385" Column="UUID">01d7edb6-de2c-11e9-96b6-0242ac110002</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2019-09-23 14:00:18.854</Data>
+        <Data AD_Column_ID="2822" Column="Name">File Name</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-09-23 14:00:18.854</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">FileName</Data>
+        <Data AD_Column_ID="2823" Column="Description">Name of the local file or URL</Data>
+        <Data AD_Column_ID="2824" Column="Help">Name of a file in the local directory space - or URL (file://.., http://.., ftp://..)</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57153</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">120</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54307</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="57153" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-09-23 14:00:20.5</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">57153</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID">02004720-de2c-11e9-96b6-0242ac110002</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-09-23 14:00:20.5</Data>
+        <Data AD_Column_ID="2840" Column="Name">File Name</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">Name of the local file or URL</Data>
+        <Data AD_Column_ID="3743" Column="Help">Name of a file in the local directory space - or URL (file://.., http://.., ftp://..)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="417" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="53660" Action="I" Record_ID="392" Table="AD_Table_Process">
+        <Data AD_Column_ID="69641" Column="IsActive">true</Data>
+        <Data AD_Column_ID="69642" Column="Created">2019-09-23 14:03:14.706</Data>
+        <Data AD_Column_ID="69643" Column="Updated">2019-09-23 14:03:14.706</Data>
+        <Data AD_Column_ID="69648" Column="AD_Table_ID">392</Data>
+        <Data AD_Column_ID="69647" Column="AD_Process_ID">54307</Data>
+        <Data AD_Column_ID="69640" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="69649" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="69639" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="69645" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="69644" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84427" Column="UUID">69d65a88-de2c-11e9-96b6-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="13705" Table="AD_Column">
+        <Data AD_Column_ID="3360" Column="IsUpdateable" oldValue="false">true</Data>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50185" Table="AD_Browse">
+        <Data AD_Column_ID="72127" Column="IsExecutedQueryByDefault" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55414" Table="AD_Ref_List">
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="564" Column="Created">2019-09-23 14:14:12.745</Data>
+        <Data AD_Column_ID="566" Column="Updated">2019-09-23 14:14:12.745</Data>
+        <Data AD_Column_ID="200" Column="Value">IdentifiedPayment</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53331</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Identified Payment</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55414</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84390" Column="UUID">f2ab7fc2-de2d-11e9-96b6-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55414" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="707" Column="Created">2019-09-23 14:14:13.973</Data>
+        <Data AD_Column_ID="709" Column="Updated">2019-09-23 14:14:13.973</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="338" Column="Name">Identified Payment</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55414</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID">f2ca3868-de2d-11e9-96b6-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55414" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Identified Payment">Pagos Identificados</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55414">55414</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55415" Table="AD_Ref_List">
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="564" Column="Created">2019-09-23 14:14:50.819</Data>
+        <Data AD_Column_ID="566" Column="Updated">2019-09-23 14:14:50.819</Data>
+        <Data AD_Column_ID="200" Column="Value">UnidentifiedPayment</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">53331</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Unidentified Payment</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55415</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84390" Column="UUID">094374d8-de2e-11e9-96b6-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55415" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="707" Column="Created">2019-09-23 14:14:51.914</Data>
+        <Data AD_Column_ID="709" Column="Updated">2019-09-23 14:14:51.914</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="338" Column="Name">Unidentified Payment</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55415</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID">09679d9a-de2e-11e9-96b6-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55415" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Unidentified Payment">Pagos sin Identificar</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55415">55415</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="54174" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2019-09-23 14:15:46.317</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">54174</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID">2a96ba14-de2e-11e9-981e-0242ac110002</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2019-09-23 14:15:46.317</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">Payment (Unidentified) &lt;-&gt; Payment (Identify)</Data>
+        <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">Payment (Unidentified) &lt;-&gt; Payment (Identify)</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2019-09-23 14:15:47.847</Data>
+        <Data AD_Column_ID="669" Column="Updated">2019-09-23 14:15:47.847</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">54174</Data>
+        <Data AD_Column_ID="84394" Column="UUID">2abe48ae-de2e-11e9-981e-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="102" Action="U" Record_ID="54174" Table="AD_Reference">
+        <Data AD_Column_ID="130" Column="Name" oldValue="Payment (Unidentified) &lt;-&gt; Payment (Identify)">RelType C_Payment (Unidentified) =&gt; C_Payment_ID (Identify)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="54174" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2019-09-23 14:16:32.963</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">54174</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID">45a28126-de2e-11e9-981e-0242ac110002</Data>
+        <Data AD_Column_ID="561" Column="Updated">2019-09-23 14:16:32.963</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="146" Column="WhereClause">C_Payment.Ref_Payment_ID = @C_Payment_ID@</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">5401</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">335</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">195</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">5043</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="54175" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2019-09-23 14:17:05.308</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2019-09-23 14:17:05.308</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Payment (Identify) &lt;= C_Payment_ID (Unidentified)</Data>
+        <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">54175</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID">59b3cf1c-de2e-11e9-981e-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Payment (Identify) &lt;= C_Payment_ID (Unidentified)</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2019-09-23 14:17:06.85</Data>
+        <Data AD_Column_ID="669" Column="Updated">2019-09-23 14:17:06.85</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">54175</Data>
+        <Data AD_Column_ID="84394" Column="UUID">59d501dc-de2e-11e9-981e-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="54175" Table="AD_Ref_Table">
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="559" Column="Created">2019-09-23 14:17:33.688</Data>
+        <Data AD_Column_ID="561" Column="Updated">2019-09-23 14:17:33.688</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="146" Column="WhereClause">EXISTS(
+        SELECT 1
+        FROM C_Payment p
+        WHERE p.C_Payment_ID = @C_Payment_ID@
+        AND C_Payment.C_Payment_ID = p.Ref_Payment_ID
+        AND C_Payment.IsUnidentifiedPayment = 'Y'
+)</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">5401</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">335</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">195</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">5043</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">54175</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID">69d47432-de2e-11e9-981e-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="53246" Action="I" Record_ID="50062" Table="AD_RelationType">
+        <Data AD_Column_ID="58577" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58585" Column="Role_Source">IdentifiedPayment</Data>
+        <Data AD_Column_ID="58586" Column="Role_Target">UnidentifiedPayment</Data>
+        <Data AD_Column_ID="58571" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58572" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58574" Column="AD_RelationType_ID">50062</Data>
+        <Data AD_Column_ID="58576" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58581" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84396" Column="UUID">74111914-de2e-11e9-981e-0242ac110002</Data>
+        <Data AD_Column_ID="58587" Column="Type">I</Data>
+        <Data AD_Column_ID="58575" Column="Created">2019-09-23 14:17:48.047</Data>
+        <Data AD_Column_ID="58578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58580" Column="Updated">2019-09-23 14:17:48.047</Data>
+        <Data AD_Column_ID="58579" Column="Name">Payment (Unidentified) &lt;-&gt; Payment (Identify)</Data>
+        <Data AD_Column_ID="58582" Column="AD_Reference_Source_ID">54174</Data>
+        <Data AD_Column_ID="58583" Column="AD_Reference_Target_ID">54175</Data>
+        <Data AD_Column_ID="58584" Column="IsDirected">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="54177" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2019-09-23 14:22:04.465</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2019-09-23 14:22:04.465</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Payment (Unidentified) &lt;= C_BankStatement_ID</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds C_Payment_IDs for a given C_BankStatement_ID</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">54177</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID">0be4337a-de2f-11e9-8b40-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="500" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="280" Column="Name">RelType C_Payment (Unidentified) &lt;= C_BankStatement_ID</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2019-09-23 14:22:05.77</Data>
+        <Data AD_Column_ID="669" Column="Updated">2019-09-23 14:22:05.77</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds C_Payment_IDs for a given C_BankStatement_ID</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">54177</Data>
+        <Data AD_Column_ID="84394" Column="UUID">0c009952-de2f-11e9-8b40-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="510" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="54177" Table="AD_Ref_Table">
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="559" Column="Created">2019-09-23 14:23:23.781</Data>
+        <Data AD_Column_ID="561" Column="Updated">2019-09-23 14:23:23.781</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="146" Column="WhereClause">EXISTS(SELECT 1 FROM C_BankStatementLine bsl 
+	WHERE bsl.C_BankStatement_ID = @C_BankStatement_ID@
+	AND bsl.C_Payment_ID = C_Payment.C_Payment_ID)
+AND C_Payment.IsUnidentifiedPayment = 'Y'</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">5401</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">335</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">195</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">5043</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">54177</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID">3a80a524-de2f-11e9-8b40-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="520" StepType="AD">
+      <PO AD_Table_ID="53246" Action="I" Record_ID="50063" Table="AD_RelationType">
+        <Data AD_Column_ID="58577" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58587" Column="Type">I</Data>
+        <Data AD_Column_ID="58575" Column="Created">2019-09-23 14:23:38.343</Data>
+        <Data AD_Column_ID="58578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58580" Column="Updated">2019-09-23 14:23:38.343</Data>
+        <Data AD_Column_ID="58579" Column="Name">Bank Statement &lt;-&gt; Unidentified Payments</Data>
+        <Data AD_Column_ID="58582" Column="AD_Reference_Source_ID">53961</Data>
+        <Data AD_Column_ID="58583" Column="AD_Reference_Target_ID">54177</Data>
+        <Data AD_Column_ID="58584" Column="IsDirected">false</Data>
+        <Data AD_Column_ID="58585" Column="Role_Source" isNewNull="true"/>
+        <Data AD_Column_ID="58586" Column="Role_Target">UnidentifiedPayment</Data>
+        <Data AD_Column_ID="58571" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58572" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58574" Column="AD_RelationType_ID">50063</Data>
+        <Data AD_Column_ID="58576" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58581" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84396" Column="UUID">43d4f5f8-de2f-11e9-8b40-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="530" StepType="AD">
+      <PO AD_Table_ID="102" Action="I" Record_ID="54178" Table="AD_Reference">
+        <Data AD_Column_ID="556" Column="Updated">2019-09-23 14:27:31.293</Data>
+        <Data AD_Column_ID="553" Column="IsActive">true</Data>
+        <Data AD_Column_ID="554" Column="Created">2019-09-23 14:27:31.293</Data>
+        <Data AD_Column_ID="139" Column="ValidationType">T</Data>
+        <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
+        <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="130" Column="Name">RelType C_Payment (Identified) &lt;= C_BankStatement_ID</Data>
+        <Data AD_Column_ID="131" Column="Description">Finds C_Payment_IDs for a given C_BankStatement_ID</Data>
+        <Data AD_Column_ID="129" Column="AD_Reference_ID">54178</Data>
+        <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="364" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6486" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="557" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="555" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84393" Column="UUID">ce904396-de2f-11e9-9525-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="540" StepType="AD">
+      <PO AD_Table_ID="126" Action="I" Record_ID="0" Table="AD_Reference_Trl">
+        <Data AD_Column_ID="670" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="279" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="278" Column="AD_Reference_ID">54178</Data>
+        <Data AD_Column_ID="84394" Column="UUID">ceb8b04c-de2f-11e9-9525-0242ac110002</Data>
+        <Data AD_Column_ID="280" Column="Name">RelType C_Payment (Identified) &lt;= C_BankStatement_ID</Data>
+        <Data AD_Column_ID="282" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="666" Column="IsActive">true</Data>
+        <Data AD_Column_ID="667" Column="Created">2019-09-23 14:27:32.454</Data>
+        <Data AD_Column_ID="669" Column="Updated">2019-09-23 14:27:32.454</Data>
+        <Data AD_Column_ID="668" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="283" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="281" Column="Description">Finds C_Payment_IDs for a given C_BankStatement_ID</Data>
+        <Data AD_Column_ID="1203" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1202" Column="AD_Client_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="550" StepType="AD">
+      <PO AD_Table_ID="103" Action="I" Record_ID="54178" Table="AD_Ref_Table">
+        <Data AD_Column_ID="559" Column="Created">2019-09-23 14:28:23.035</Data>
+        <Data AD_Column_ID="561" Column="Updated">2019-09-23 14:28:23.035</Data>
+        <Data AD_Column_ID="558" Column="IsActive">true</Data>
+        <Data AD_Column_ID="147" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="2377" Column="IsValueDisplayed">false</Data>
+        <Data AD_Column_ID="146" Column="WhereClause">EXISTS(SELECT 1 FROM C_BankStatementLine bsl 
+	WHERE bsl.C_BankStatement_ID = @C_BankStatement_ID@
+	AND bsl.C_Payment_ID = C_Payment.C_Payment_ID)
+AND EXISTS(SELECT 1 FROM C_Payment p WHERE p.DocStatus IN('CO', 'CL') 
+                AND p.C_Payment_ID = C_Payment.Ref_Payment_ID
+                AND p.IsUnidentifiedPayment = 'Y')
+AND C_Payment.IsUnidentifiedPayment = 'N'</Data>
+        <Data AD_Column_ID="62120" Column="IsAlert">false</Data>
+        <Data AD_Column_ID="62121" Column="DisplaySQL" isNewNull="true"/>
+        <Data AD_Column_ID="62122" Column="IsDisplayIdentifier">false</Data>
+        <Data AD_Column_ID="145" Column="AD_Display">5401</Data>
+        <Data AD_Column_ID="7711" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="367" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="368" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="143" Column="AD_Table_ID">335</Data>
+        <Data AD_Column_ID="57270" Column="AD_Window_ID">195</Data>
+        <Data AD_Column_ID="144" Column="AD_Key">5043</Data>
+        <Data AD_Column_ID="142" Column="AD_Reference_ID">54178</Data>
+        <Data AD_Column_ID="562" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="560" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84392" Column="UUID">ecdf0e5e-de2f-11e9-9525-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="560" StepType="AD">
+      <PO AD_Table_ID="53246" Action="I" Record_ID="50064" Table="AD_RelationType">
+        <Data AD_Column_ID="58577" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58587" Column="Type">I</Data>
+        <Data AD_Column_ID="58575" Column="Created">2019-09-23 14:28:57.931</Data>
+        <Data AD_Column_ID="58578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58580" Column="Updated">2019-09-23 14:28:57.931</Data>
+        <Data AD_Column_ID="58579" Column="Name">Bank Statement &lt;-&gt; Identified Payments</Data>
+        <Data AD_Column_ID="58582" Column="AD_Reference_Source_ID">53961</Data>
+        <Data AD_Column_ID="58583" Column="AD_Reference_Target_ID">54178</Data>
+        <Data AD_Column_ID="58584" Column="IsDirected">false</Data>
+        <Data AD_Column_ID="58585" Column="Role_Source" isNewNull="true"/>
+        <Data AD_Column_ID="58586" Column="Role_Target">IdentifiedPayment</Data>
+        <Data AD_Column_ID="58571" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58572" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58574" Column="AD_RelationType_ID">50064</Data>
+        <Data AD_Column_ID="58576" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58581" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84396" Column="UUID">02440772-de30-11e9-8aa1-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="570" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53647" Table="AD_Message">
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53647</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-09-23 14:31:45.758</Data>
+        <Data AD_Column_ID="198" Column="MsgText">No Completed</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-09-23 14:31:45.758</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">NoCompleted</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID">66714f84-de30-11e9-a2c0-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="580" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="53647" Table="AD_Message_Trl">
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">No Completed</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53647</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID">66b0a382-de30-11e9-a2c0-0242ac110002</Data>
+        <Data AD_Column_ID="609" Column="Created">2019-09-23 14:31:47.412</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-09-23 14:31:47.412</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="590" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="53647" Table="AD_Message_Trl">
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53647">53647</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="No Completed">No Completo</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="600" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53648" Table="AD_Message">
+        <Data AD_Column_ID="6766" Column="Value">UnidentifiedReverseCreated</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-09-23 14:32:38.321</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Unidentified Payment Already exists a Reverse</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-09-23 14:32:38.321</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53648</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID">856ebce6-de30-11e9-a2c0-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="610" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="53648" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-09-23 14:32:39.174</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-09-23 14:32:39.174</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Unidentified Payment Already exists a Reverse</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53648</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID">858a6fea-de30-11e9-a2c0-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="620" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="53648" Table="AD_Message_Trl">
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53648">53648</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Unidentified Payment Already exists a Reverse">El pago sin identificar ya tiene un reverso creado</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="630" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53649" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-09-23 14:34:28.128</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Mismatched</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-09-23 14:34:28.128</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">Mismatched</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53649</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID">c923feec-de30-11e9-a2c0-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="640" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="53649" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-09-23 14:34:32.801</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID">c944875c-de30-11e9-a2c0-0242ac110002</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-09-23 14:34:32.801</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Mismatched</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53649</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="650" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="53649" Table="AD_Message_Trl">
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53649">53649</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Mismatched">No coinciden</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="660" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="57153" Table="AD_Process_Para">
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID" oldValue="10">39</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="670" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55416" Table="AD_Ref_List">
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="564" Column="Created">2019-09-23 15:32:27.545</Data>
+        <Data AD_Column_ID="566" Column="Updated">2019-09-23 15:32:27.545</Data>
+        <Data AD_Column_ID="200" Column="Value">C</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">54173</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Create Payment</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55416</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84390" Column="UUID">e0e549ca-de38-11e9-b8f2-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="680" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55416" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="707" Column="Created">2019-09-23 15:32:28.798</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="338" Column="Name">Create Payment</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55416</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID">e11fc4ce-de38-11e9-b8f2-0242ac110002</Data>
+        <Data AD_Column_ID="709" Column="Updated">2019-09-23 15:32:28.798</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="690" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55416" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Create Payment">Crear Pago / Cobro</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55416">55416</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="700" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55417" Table="AD_Ref_List">
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">54173</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="564" Column="Created">2019-09-23 15:32:51.258</Data>
+        <Data AD_Column_ID="566" Column="Updated">2019-09-23 15:32:51.258</Data>
+        <Data AD_Column_ID="200" Column="Value">S</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Select Existing</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55417</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84390" Column="UUID">ef53264e-de38-11e9-b8f2-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="710" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55417" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="707" Column="Created">2019-09-23 15:32:52.846</Data>
+        <Data AD_Column_ID="709" Column="Updated">2019-09-23 15:32:52.846</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="338" Column="Name">Select Existing</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55417</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID">ef750cd2-de38-11e9-b8f2-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="720" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55417" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55417">55417</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="338" Column="Name" oldValue="Select Existing">Seleccionar Existente</Data>
+      </PO>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="730" StepType="SQL">
+      <SQLStatement>CREATE OR REPLACE VIEW RV_PAYMENT
+(C_PAYMENT_ID, AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, 
+ CREATEDBY, UPDATED, UPDATEDBY, DOCUMENTNO, DATETRX, 
+ ISRECEIPT, C_DOCTYPE_ID, TRXTYPE, C_BANKACCOUNT_ID, C_BPARTNER_ID, 
+ C_INVOICE_ID, C_BP_BANKACCOUNT_ID, C_PAYMENTBATCH_ID, TENDERTYPE, CREDITCARDTYPE, 
+ CREDITCARDNUMBER, CREDITCARDVV, CREDITCARDEXPMM, CREDITCARDEXPYY, MICR, 
+ ROUTINGNO, ACCOUNTNO, CHECKNO, A_NAME, A_STREET, 
+ A_CITY, A_STATE, A_ZIP, A_IDENT_DL, A_IDENT_SSN, 
+ A_EMAIL, VOICEAUTHCODE, ORIG_TRXID, PONUM, C_CURRENCY_ID, 
+ C_CONVERSIONTYPE_ID, PAYAMT, DISCOUNTAMT, WRITEOFFAMT, TAXAMT, 
+ OVERUNDERAMT, MULTIPLIERAP, ALLOCATEDAMT, AVAILABLEAMT, ISOVERUNDERPAYMENT, 
+ ISAPPROVED, R_PNREF, R_RESULT, R_RESPMSG, R_AUTHCODE, 
+ R_AVSADDR, R_AVSZIP, R_INFO, PROCESSING, OPROCESSING, 
+ DOCSTATUS, DOCACTION, ISPREPAYMENT, C_CHARGE_ID, ISRECONCILED, 
+ ISALLOCATED, ISONLINE, PROCESSED, POSTED, C_CAMPAIGN_ID, 
+ C_PROJECT_ID, C_ACTIVITY_ID, IsUnidentifiedPayment, Ref_Payment_ID, RelatedPayment_ID)
+AS 
+SELECT C_Payment_ID, AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Updated, UpdatedBy,
+    DocumentNo, DateTrx, IsReceipt, C_DocType_ID, TrxType,
+    C_BankAccount_ID, C_BPartner_ID, C_Invoice_ID, C_BP_BankAccount_ID, C_PaymentBatch_ID,
+    TenderType, CreditCardType, CreditCardNumber, CreditCardVV, CreditCardExpMM, CreditCardExpYY,
+    Micr, RoutingNo, AccountNo, CheckNo,
+    A_Name, A_Street, A_City, A_State, A_Zip, A_Ident_DL, A_Ident_SSN, A_EMail,
+    VoiceAuthCode, Orig_TrxID, PONum,
+    C_Currency_ID, C_ConversionType_ID,
+    CASE IsReceipt WHEN 'Y' THEN PayAmt ELSE PayAmt*-1 END AS PayAmt,
+    CASE IsReceipt WHEN 'Y' THEN DiscountAmt ELSE DiscountAmt*-1 END AS DiscountAmt, 
+    CASE IsReceipt WHEN 'Y' THEN WriteOffAmt ELSE WriteOffAmt*-1 END AS WriteOffAmt,
+    CASE IsReceipt WHEN 'Y' THEN TaxAmt ELSE TaxAmt*-1 END AS TaxAmt, 
+    CASE IsReceipt WHEN 'Y' THEN OverUnderAmt ELSE OverUnderAmt*-1 END AS OverUnderAmt,
+    CASE IsReceipt WHEN 'Y' THEN 1 ELSE -1 END AS MultiplierAP,
+    paymentAllocated(C_Payment_ID, C_Currency_ID) AS AllocatedAmt,
+    paymentAvailable(C_Payment_ID) AS AvailableAmt,
+    IsOverUnderPayment, IsApproved,
+    R_PnRef, R_Result, R_RespMsg, R_AuthCode, R_AvsAddr, R_AvsZip, R_Info,
+    Processing, OProcessing, DocStatus, DocAction,
+    IsPrepayment, C_Charge_ID,
+    IsReconciled, IsAllocated, IsOnline, Processed, Posted,
+    C_Campaign_ID, C_Project_ID, C_Activity_ID, IsUnidentifiedPayment, Ref_Payment_ID, RelatedPayment_ID
+FROM C_Payment;
+
+--COMMENT ON TABLE RV_PAYMENT IS 'Payment Information corrected for AP/AR';</SQLStatement>
+      <RollbackStatement>CREATE OR REPLACE VIEW RV_PAYMENT
+(C_PAYMENT_ID, AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, 
+ CREATEDBY, UPDATED, UPDATEDBY, DOCUMENTNO, DATETRX, 
+ ISRECEIPT, C_DOCTYPE_ID, TRXTYPE, C_BANKACCOUNT_ID, C_BPARTNER_ID, 
+ C_INVOICE_ID, C_BP_BANKACCOUNT_ID, C_PAYMENTBATCH_ID, TENDERTYPE, CREDITCARDTYPE, 
+ CREDITCARDNUMBER, CREDITCARDVV, CREDITCARDEXPMM, CREDITCARDEXPYY, MICR, 
+ ROUTINGNO, ACCOUNTNO, CHECKNO, A_NAME, A_STREET, 
+ A_CITY, A_STATE, A_ZIP, A_IDENT_DL, A_IDENT_SSN, 
+ A_EMAIL, VOICEAUTHCODE, ORIG_TRXID, PONUM, C_CURRENCY_ID, 
+ C_CONVERSIONTYPE_ID, PAYAMT, DISCOUNTAMT, WRITEOFFAMT, TAXAMT, 
+ OVERUNDERAMT, MULTIPLIERAP, ALLOCATEDAMT, AVAILABLEAMT, ISOVERUNDERPAYMENT, 
+ ISAPPROVED, R_PNREF, R_RESULT, R_RESPMSG, R_AUTHCODE, 
+ R_AVSADDR, R_AVSZIP, R_INFO, PROCESSING, OPROCESSING, 
+ DOCSTATUS, DOCACTION, ISPREPAYMENT, C_CHARGE_ID, ISRECONCILED, 
+ ISALLOCATED, ISONLINE, PROCESSED, POSTED, C_CAMPAIGN_ID, 
+ C_PROJECT_ID, C_ACTIVITY_ID)
+AS 
+SELECT C_Payment_ID, AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Updated, UpdatedBy,
+    DocumentNo, DateTrx, IsReceipt, C_DocType_ID, TrxType,
+    C_BankAccount_ID, C_BPartner_ID, C_Invoice_ID, C_BP_BankAccount_ID, C_PaymentBatch_ID,
+    TenderType, CreditCardType, CreditCardNumber, CreditCardVV, CreditCardExpMM, CreditCardExpYY,
+    Micr, RoutingNo, AccountNo, CheckNo,
+    A_Name, A_Street, A_City, A_State, A_Zip, A_Ident_DL, A_Ident_SSN, A_EMail,
+    VoiceAuthCode, Orig_TrxID, PONum,
+    C_Currency_ID, C_ConversionType_ID,
+    CASE IsReceipt WHEN 'Y' THEN PayAmt ELSE PayAmt*-1 END AS PayAmt,
+    CASE IsReceipt WHEN 'Y' THEN DiscountAmt ELSE DiscountAmt*-1 END AS DiscountAmt, 
+    CASE IsReceipt WHEN 'Y' THEN WriteOffAmt ELSE WriteOffAmt*-1 END AS WriteOffAmt,
+    CASE IsReceipt WHEN 'Y' THEN TaxAmt ELSE TaxAmt*-1 END AS TaxAmt, 
+    CASE IsReceipt WHEN 'Y' THEN OverUnderAmt ELSE OverUnderAmt*-1 END AS OverUnderAmt,
+    CASE IsReceipt WHEN 'Y' THEN 1 ELSE -1 END AS MultiplierAP,
+    paymentAllocated(C_Payment_ID, C_Currency_ID) AS AllocatedAmt,
+    paymentAvailable(C_Payment_ID) AS AvailableAmt,
+    IsOverUnderPayment, IsApproved,
+    R_PnRef, R_Result, R_RespMsg, R_AuthCode, R_AvsAddr, R_AvsZip, R_Info,
+    Processing, OProcessing, DocStatus, DocAction,
+    IsPrepayment, C_Charge_ID,
+    IsReconciled, IsAllocated, IsOnline, Processed, Posted,
+    C_Campaign_ID, C_Project_ID, C_Activity_ID
+FROM C_Payment;
+
+--COMMENT ON TABLE RV_PAYMENT IS 'Payment Information corrected for AP/AR';
+
+
+
+</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="N" SeqNo="740" StepType="SQL">
+      <SQLStatement>CREATE OR REPLACE VIEW RV_PAYMENT
+(C_PAYMENT_ID, AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, 
+ CREATEDBY, UPDATED, UPDATEDBY, DOCUMENTNO, DATETRX, 
+ ISRECEIPT, C_DOCTYPE_ID, TRXTYPE, C_BANKACCOUNT_ID, C_BPARTNER_ID, 
+ C_INVOICE_ID, C_BP_BANKACCOUNT_ID, C_PAYMENTBATCH_ID, TENDERTYPE, CREDITCARDTYPE, 
+ CREDITCARDNUMBER, CREDITCARDVV, CREDITCARDEXPMM, CREDITCARDEXPYY, MICR, 
+ ROUTINGNO, ACCOUNTNO, CHECKNO, A_NAME, A_STREET, 
+ A_CITY, A_STATE, A_ZIP, A_IDENT_DL, A_IDENT_SSN, 
+ A_EMAIL, VOICEAUTHCODE, ORIG_TRXID, PONUM, C_CURRENCY_ID, 
+ C_CONVERSIONTYPE_ID, PAYAMT, DISCOUNTAMT, WRITEOFFAMT, TAXAMT, 
+ OVERUNDERAMT, MULTIPLIERAP, ALLOCATEDAMT, AVAILABLEAMT, ISOVERUNDERPAYMENT, 
+ ISAPPROVED, R_PNREF, R_RESULT, R_RESPMSG, R_AUTHCODE, 
+ R_AVSADDR, R_AVSZIP, R_INFO, PROCESSING, OPROCESSING, 
+ DOCSTATUS, DOCACTION, ISPREPAYMENT, C_CHARGE_ID, ISRECONCILED, 
+ ISALLOCATED, ISONLINE, PROCESSED, POSTED, C_CAMPAIGN_ID, 
+ C_PROJECT_ID, C_ACTIVITY_ID, IsUnidentifiedPayment, Ref_Payment_ID, RelatedPayment_ID)
+AS 
+SELECT C_Payment_ID, AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Updated, UpdatedBy,
+    DocumentNo, DateTrx, IsReceipt, C_DocType_ID, TrxType,
+    C_BankAccount_ID, C_BPartner_ID, C_Invoice_ID, C_BP_BankAccount_ID, C_PaymentBatch_ID,
+    TenderType, CreditCardType, CreditCardNumber, CreditCardVV, CreditCardExpMM, CreditCardExpYY,
+    Micr, RoutingNo, AccountNo, CheckNo,
+    A_Name, A_Street, A_City, A_State, A_Zip, A_Ident_DL, A_Ident_SSN, A_EMail,
+    VoiceAuthCode, Orig_TrxID, PONum,
+    C_Currency_ID, C_ConversionType_ID,
+    CASE IsReceipt WHEN 'Y' THEN PayAmt ELSE PayAmt*-1 END AS PayAmt,
+    CASE IsReceipt WHEN 'Y' THEN DiscountAmt ELSE DiscountAmt*-1 END AS DiscountAmt, 
+    CASE IsReceipt WHEN 'Y' THEN WriteOffAmt ELSE WriteOffAmt*-1 END AS WriteOffAmt,
+    CASE IsReceipt WHEN 'Y' THEN TaxAmt ELSE TaxAmt*-1 END AS TaxAmt, 
+    CASE IsReceipt WHEN 'Y' THEN OverUnderAmt ELSE OverUnderAmt*-1 END AS OverUnderAmt,
+    CASE IsReceipt WHEN 'Y' THEN 1 ELSE -1 END AS MultiplierAP,
+    paymentAllocated(C_Payment_ID, C_Currency_ID) AS AllocatedAmt,
+    paymentAvailable(C_Payment_ID) AS AvailableAmt,
+    IsOverUnderPayment, IsApproved,
+    R_PnRef, R_Result, R_RespMsg, R_AuthCode, R_AvsAddr, R_AvsZip, R_Info,
+    Processing, OProcessing, DocStatus, DocAction,
+    IsPrepayment, C_Charge_ID,
+    IsReconciled, IsAllocated, IsOnline, Processed, Posted,
+    C_Campaign_ID, C_Project_ID, C_Activity_ID, IsUnidentifiedPayment, Ref_Payment_ID, RelatedPayment_ID
+FROM C_Payment;
+
+--COMMENT ON TABLE RV_PAYMENT IS 'Payment Information corrected for AP/AR';</SQLStatement>
+      <RollbackStatement>CREATE OR REPLACE VIEW RV_PAYMENT
+(C_PAYMENT_ID, AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, 
+ CREATEDBY, UPDATED, UPDATEDBY, DOCUMENTNO, DATETRX, 
+ ISRECEIPT, C_DOCTYPE_ID, TRXTYPE, C_BANKACCOUNT_ID, C_BPARTNER_ID, 
+ C_INVOICE_ID, C_BP_BANKACCOUNT_ID, C_PAYMENTBATCH_ID, TENDERTYPE, CREDITCARDTYPE, 
+ CREDITCARDNUMBER, CREDITCARDVV, CREDITCARDEXPMM, CREDITCARDEXPYY, MICR, 
+ ROUTINGNO, ACCOUNTNO, CHECKNO, A_NAME, A_STREET, 
+ A_CITY, A_STATE, A_ZIP, A_IDENT_DL, A_IDENT_SSN, 
+ A_EMAIL, VOICEAUTHCODE, ORIG_TRXID, PONUM, C_CURRENCY_ID, 
+ C_CONVERSIONTYPE_ID, PAYAMT, DISCOUNTAMT, WRITEOFFAMT, TAXAMT, 
+ OVERUNDERAMT, MULTIPLIERAP, ALLOCATEDAMT, AVAILABLEAMT, ISOVERUNDERPAYMENT, 
+ ISAPPROVED, R_PNREF, R_RESULT, R_RESPMSG, R_AUTHCODE, 
+ R_AVSADDR, R_AVSZIP, R_INFO, PROCESSING, OPROCESSING, 
+ DOCSTATUS, DOCACTION, ISPREPAYMENT, C_CHARGE_ID, ISRECONCILED, 
+ ISALLOCATED, ISONLINE, PROCESSED, POSTED, C_CAMPAIGN_ID, 
+ C_PROJECT_ID, C_ACTIVITY_ID)
+AS 
+SELECT C_Payment_ID, AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Updated, UpdatedBy,
+    DocumentNo, DateTrx, IsReceipt, C_DocType_ID, TrxType,
+    C_BankAccount_ID, C_BPartner_ID, C_Invoice_ID, C_BP_BankAccount_ID, C_PaymentBatch_ID,
+    TenderType, CreditCardType, CreditCardNumber, CreditCardVV, CreditCardExpMM, CreditCardExpYY,
+    Micr, RoutingNo, AccountNo, CheckNo,
+    A_Name, A_Street, A_City, A_State, A_Zip, A_Ident_DL, A_Ident_SSN, A_EMail,
+    VoiceAuthCode, Orig_TrxID, PONum,
+    C_Currency_ID, C_ConversionType_ID,
+    CASE IsReceipt WHEN 'Y' THEN PayAmt ELSE PayAmt*-1 END AS PayAmt,
+    CASE IsReceipt WHEN 'Y' THEN DiscountAmt ELSE DiscountAmt*-1 END AS DiscountAmt, 
+    CASE IsReceipt WHEN 'Y' THEN WriteOffAmt ELSE WriteOffAmt*-1 END AS WriteOffAmt,
+    CASE IsReceipt WHEN 'Y' THEN TaxAmt ELSE TaxAmt*-1 END AS TaxAmt, 
+    CASE IsReceipt WHEN 'Y' THEN OverUnderAmt ELSE OverUnderAmt*-1 END AS OverUnderAmt,
+    CASE IsReceipt WHEN 'Y' THEN 1 ELSE -1 END AS MultiplierAP,
+    paymentAllocated(C_Payment_ID, C_Currency_ID) AS AllocatedAmt,
+    paymentAvailable(C_Payment_ID) AS AvailableAmt,
+    IsOverUnderPayment, IsApproved,
+    R_PnRef, R_Result, R_RespMsg, R_AuthCode, R_AvsAddr, R_AvsZip, R_Info,
+    Processing, OProcessing, DocStatus, DocAction,
+    IsPrepayment, C_Charge_ID,
+    IsReconciled, IsAllocated, IsOnline, Processed, Posted,
+    C_Campaign_ID, C_Project_ID, C_Activity_ID
+FROM C_Payment;
+
+--COMMENT ON TABLE RV_PAYMENT IS 'Payment Information corrected for AP/AR';
+
+
+
+</RollbackStatement>
+    </Step>
+    <Step SeqNo="750" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="94570" Table="AD_Column">
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="551" Column="Updated">2019-09-23 18:04:12.231</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">94570</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Unidentified Payment</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">IsUnidentifiedPayment</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">755</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">61190</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">1</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">20</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID">137bf5c2-de4e-11e9-a51b-0242ac110002</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description">This flag determine ig a payment is unidentify</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-09-23 18:04:12.231</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="760" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="94570" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="12960" Column="Created">2019-09-23 18:04:13.223</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-09-23 18:04:13.223</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">94570</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Unidentified Payment</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84310" Column="UUID">13c8d496-de4e-11e9-a51b-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="770" StepType="AD">
+      <PO AD_Table_ID="361" Action="I" Record_ID="53312" Table="AD_ReportView">
+        <Data AD_Column_ID="4388" Column="Created">2019-09-23 18:10:57.678</Data>
+        <Data AD_Column_ID="85531" Column="Classname" isNewNull="true"/>
+        <Data AD_Column_ID="4387" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4390" Column="Updated">2019-09-23 18:10:57.678</Data>
+        <Data AD_Column_ID="4384" Column="AD_ReportView_ID">53312</Data>
+        <Data AD_Column_ID="4395" Column="WhereClause">EXISTS(SELECT 1 FROM C_Bank b INNER JOIN C_BankAccount ba ON(ba.C_Bank_ID = b.C_Bank_ID) WHERE ba.C_BankAccount_ID = RV_Payment.C_BankAccount_ID AND b.BankType = 'B')  AND RV_Payment.IsUnidentifiedPayment = 'Y'  AND NOT EXISTS(SELECT 1 FROM C_Payment p WHERE p.Ref_Payment_ID = RV_Payment.C_Payment_ID AND p.IsUnidentifiedPayment = 'N' AND p.DocStatus IN('CO', 'CL'))</Data>
+        <Data AD_Column_ID="4396" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="4393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="4392" Column="Name">RV_Payment (Unidentified)</Data>
+        <Data AD_Column_ID="78517" Column="PrintName">Unidentified Payments</Data>
+        <Data AD_Column_ID="78535" Column="IsCentrallyMaintained">false</Data>
+        <Data AD_Column_ID="4385" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="10032" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="4386" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="4389" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4391" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="4394" Column="AD_Table_ID">755</Data>
+        <Data AD_Column_ID="84405" Column="UUID">054932e8-de4f-11e9-a9d4-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="780" StepType="AD">
+      <PO AD_Table_ID="54060" Action="I" Record_ID="0" Table="AD_ReportView_Trl">
+        <Data AD_Column_ID="78523" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="78520" Column="IsActive">true</Data>
+        <Data AD_Column_ID="78521" Column="Created">2019-09-23 18:10:58.654</Data>
+        <Data AD_Column_ID="78522" Column="Updated">2019-09-23 18:10:58.654</Data>
+        <Data AD_Column_ID="78527" Column="PrintName">Unidentified Payments</Data>
+        <Data AD_Column_ID="78528" Column="Name">RV_Payment (Unidentified)</Data>
+        <Data AD_Column_ID="78529" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="78534" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="78518" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="78519" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="78524" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="78526" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="78525" Column="AD_ReportView_ID">53312</Data>
+        <Data AD_Column_ID="84407" Column="UUID">0570ae4a-de4f-11e9-a9d4-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="790" StepType="AD">
+      <PO AD_Table_ID="54060" Action="U" Record_ID="0" Table="AD_ReportView_Trl">
+        <Data AD_Column_ID="78528" Column="Name" oldValue="RV_Payment (Unidentified)">Pagos sin Identificar</Data>
+        <Data AD_Column_ID="78526" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="78525" Column="AD_ReportView_ID" oldValue="53312">53312</Data>
+        <Data AD_Column_ID="78527" Column="PrintName" oldValue="Unidentified Payments">Pagos sin Identificar</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="800" StepType="AD">
+      <PO AD_Table_ID="361" Action="I" Record_ID="53313" Table="AD_ReportView">
+        <Data AD_Column_ID="78517" Column="PrintName">Identified Payments</Data>
+        <Data AD_Column_ID="4388" Column="Created">2019-09-23 18:15:29.3</Data>
+        <Data AD_Column_ID="85531" Column="Classname" isNewNull="true"/>
+        <Data AD_Column_ID="4387" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4390" Column="Updated">2019-09-23 18:15:29.3</Data>
+        <Data AD_Column_ID="4384" Column="AD_ReportView_ID">53313</Data>
+        <Data AD_Column_ID="4395" Column="WhereClause">EXISTS(SELECT 1 FROM C_Bank b INNER JOIN C_BankAccount ba ON(ba.C_Bank_ID = b.C_Bank_ID) WHERE ba.C_BankAccount_ID = RV_Payment.C_BankAccount_ID AND b.BankType = 'B')  AND RV_Payment.IsUnidentifiedPayment = 'N'  AND EXISTS(SELECT 1 FROM C_Payment p WHERE p.C_Payment_ID = RV_Payment.Ref_Payment_ID AND p.IsUnidentifiedPayment = 'Y' AND p.DocStatus IN('CO', 'CL'))</Data>
+        <Data AD_Column_ID="4396" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="4393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="4392" Column="Name">RV_Payment (Identified)</Data>
+        <Data AD_Column_ID="78535" Column="IsCentrallyMaintained">false</Data>
+        <Data AD_Column_ID="4385" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="10032" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="4386" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="4389" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4391" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="4394" Column="AD_Table_ID">755</Data>
+        <Data AD_Column_ID="84405" Column="UUID">a7432a9a-de4f-11e9-a9d4-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="810" StepType="AD">
+      <PO AD_Table_ID="54060" Action="I" Record_ID="0" Table="AD_ReportView_Trl">
+        <Data AD_Column_ID="78520" Column="IsActive">true</Data>
+        <Data AD_Column_ID="78521" Column="Created">2019-09-23 18:15:30.412</Data>
+        <Data AD_Column_ID="78522" Column="Updated">2019-09-23 18:15:30.412</Data>
+        <Data AD_Column_ID="78527" Column="PrintName">Identified Payments</Data>
+        <Data AD_Column_ID="78528" Column="Name">RV_Payment (Identified)</Data>
+        <Data AD_Column_ID="78529" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="78534" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="78518" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="78519" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="78523" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="78524" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="78526" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="78525" Column="AD_ReportView_ID">53313</Data>
+        <Data AD_Column_ID="84407" Column="UUID">a76b7c7a-de4f-11e9-a9d4-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="820" StepType="AD">
+      <PO AD_Table_ID="54060" Action="U" Record_ID="0" Table="AD_ReportView_Trl">
+        <Data AD_Column_ID="78528" Column="Name" oldValue="RV_Payment (Identified)">Pagos Identificados</Data>
+        <Data AD_Column_ID="78526" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="78525" Column="AD_ReportView_ID" oldValue="53313">53313</Data>
+        <Data AD_Column_ID="78527" Column="PrintName" oldValue="Identified Payments">Pagos Identificados</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="830" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="57158" Table="AD_Process_Para">
+        <Data AD_Column_ID="2820" Column="Updated">2019-09-23 18:17:08.75</Data>
+        <Data AD_Column_ID="2826" Column="SeqNo">190</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">193</Data>
+        <Data AD_Column_ID="84385" Column="UUID">e2550a04-de4f-11e9-9664-0242ac110002</Data>
+        <Data AD_Column_ID="2822" Column="Name">Currency</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-09-23 18:17:08.75</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">C_Currency_ID</Data>
+        <Data AD_Column_ID="2823" Column="Description">The Currency for this record</Data>
+        <Data AD_Column_ID="2824" Column="Help">Indicates the Currency to be used when processing or reporting on this record</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57158</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">318</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="840" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="57158" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-09-23 18:17:09.541</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-09-23 18:17:09.541</Data>
+        <Data AD_Column_ID="2840" Column="Name">Currency</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">The Currency for this record</Data>
+        <Data AD_Column_ID="3743" Column="Help">Indicates the Currency to be used when processing or reporting on this record</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">57158</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID">e2817db4-de4f-11e9-9664-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="850" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="57159" Table="AD_Process_Para">
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">1465</Data>
+        <Data AD_Column_ID="84385" Column="UUID">e2e65fae-de4f-11e9-a51b-0242ac110002</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2019-09-23 18:17:09.759</Data>
+        <Data AD_Column_ID="2822" Column="Name">Payment Batch</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-09-23 18:17:09.759</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">C_PaymentBatch_ID</Data>
+        <Data AD_Column_ID="2823" Column="Description">Payment batch for EFT</Data>
+        <Data AD_Column_ID="2824" Column="Help">Electronic Fund Transfer Payment Batch.</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57159</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">318</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">200</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="860" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="57159" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-09-23 18:17:10.687</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-09-23 18:17:10.687</Data>
+        <Data AD_Column_ID="2840" Column="Name">Payment Batch</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">Payment batch for EFT</Data>
+        <Data AD_Column_ID="3743" Column="Help">Electronic Fund Transfer Payment Batch.</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">57159</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID">e3304b3c-de4f-11e9-a51b-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="870" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="57160" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2019-09-23 18:17:10.94</Data>
+        <Data AD_Column_ID="2822" Column="Name">Unidentified Payment</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-09-23 18:17:10.94</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">IsUnidentifiedPayment</Data>
+        <Data AD_Column_ID="2823" Column="Description">This flag determine ig a payment is unidentify</Data>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57160</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">1</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">318</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">20</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">210</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">61190</Data>
+        <Data AD_Column_ID="84385" Column="UUID">e3e5e49c-de4f-11e9-a51b-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="880" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="57160" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-09-23 18:17:12.172</Data>
+        <Data AD_Column_ID="2840" Column="Name">Unidentified Payment</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">This flag determine ig a payment is unidentify</Data>
+        <Data AD_Column_ID="3743" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">57160</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID">e412bb70-de4f-11e9-a51b-0242ac110002</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-09-23 18:17:12.172</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="890" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="57158" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isOldNull="true">-1</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="900" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="57159" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isOldNull="true">-1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="910" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="57160" Table="AD_Process_Para">
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID" oldValue="20">17</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isOldNull="true">319</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="920" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="57161" Table="AD_Process_Para">
+        <Data AD_Column_ID="2820" Column="Updated">2019-09-23 18:21:24.877</Data>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57161</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">53754</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">50</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">193</Data>
+        <Data AD_Column_ID="84385" Column="UUID">7b0bca4e-de50-11e9-a51b-0242ac110002</Data>
+        <Data AD_Column_ID="2822" Column="Name">Currency</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-09-23 18:21:24.877</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">C_Currency_ID</Data>
+        <Data AD_Column_ID="2823" Column="Description">The Currency for this record</Data>
+        <Data AD_Column_ID="2824" Column="Help">Indicates the Currency to be used when processing or reporting on this record</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="930" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="57161" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-09-23 18:21:25.709</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-09-23 18:21:25.709</Data>
+        <Data AD_Column_ID="2840" Column="Name">Currency</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">The Currency for this record</Data>
+        <Data AD_Column_ID="3743" Column="Help">Indicates the Currency to be used when processing or reporting on this record</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">57161</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID">7b317924-de50-11e9-a51b-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="940" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="57162" Table="AD_Process_Para">
+        <Data AD_Column_ID="2820" Column="Updated">2019-09-23 18:21:25.884</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57162</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">53754</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">60</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">208</Data>
+        <Data AD_Column_ID="84385" Column="UUID">7ba3aa76-de50-11e9-a51b-0242ac110002</Data>
+        <Data AD_Column_ID="2822" Column="Name">Project</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-09-23 18:21:25.884</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">C_Project_ID</Data>
+        <Data AD_Column_ID="2823" Column="Description">Financial Project</Data>
+        <Data AD_Column_ID="2824" Column="Help">A Project allows you to track and control internal or external activities.</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="950" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="57162" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-09-23 18:21:26.727</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-09-23 18:21:26.727</Data>
+        <Data AD_Column_ID="2840" Column="Name">Project</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">Financial Project</Data>
+        <Data AD_Column_ID="3743" Column="Help">A Project allows you to track and control internal or external activities.</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">57162</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID">7bccc4d8-de50-11e9-a51b-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="960" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="57163" Table="AD_Process_Para">
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2019-09-23 18:21:27.046</Data>
+        <Data AD_Column_ID="2822" Column="Name">Document Status</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-09-23 18:21:27.046</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">DocStatus</Data>
+        <Data AD_Column_ID="2823" Column="Description">The current status of the document</Data>
+        <Data AD_Column_ID="2824" Column="Help">The Document Status indicates the status of a document at this time.  If you want to change the document status, use the Document Action field</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57163</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">2</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">53754</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">17</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">70</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">131</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">289</Data>
+        <Data AD_Column_ID="84385" Column="UUID">7c78abd6-de50-11e9-a51b-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="970" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="57163" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-09-23 18:21:28.182</Data>
+        <Data AD_Column_ID="84386" Column="UUID">7caad3ae-de50-11e9-a51b-0242ac110002</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-09-23 18:21:28.182</Data>
+        <Data AD_Column_ID="2840" Column="Name">Document Status</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">The current status of the document</Data>
+        <Data AD_Column_ID="3743" Column="Help">The Document Status indicates the status of a document at this time.  If you want to change the document status, use the Document Action field</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">57163</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="980" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="57163" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isOldNull="true">CO</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="990" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="57162" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isOldNull="true">-1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1000" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="57161" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="true">false</Data>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isOldNull="true">-1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1010" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="94571" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">343</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-09-23 18:26:19.519</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-09-23 18:26:19.519</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">94571</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Referenced Payment</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID">2a96f9fc-de51-11e9-a9d4-0242ac110002</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">Ref_Payment_ID</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">755</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">2753</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1020" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="94571" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2019-09-23 18:26:20.377</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-09-23 18:26:20.377</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">94571</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Referenced Payment</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID">2ad4270a-de51-11e9-a9d4-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1030" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="94572" Table="AD_Column">
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">755</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">59816</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">343</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID">2b518966-de51-11e9-a9d4-0242ac110002</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-09-23 18:26:20.571</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-09-23 18:26:20.571</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">94572</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Payment Related</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">RelatedPayment_ID</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1040" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="94572" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2019-09-23 18:26:21.618</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-09-23 18:26:21.618</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">94572</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Payment Related</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID">2b91b004-de51-11e9-a9d4-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1050" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="94571" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="19">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1060" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="94572" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="19">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1070" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="57164" Table="AD_Process_Para">
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">343</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2820" Column="Updated">2019-09-23 18:27:19.452</Data>
+        <Data AD_Column_ID="2822" Column="Name">Referenced Payment</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-09-23 18:27:19.452</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">Ref_Payment_ID</Data>
+        <Data AD_Column_ID="2823" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57164</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">318</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">30</Data>
+        <Data AD_Column_ID="2826" Column="SeqNo">220</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">2753</Data>
+        <Data AD_Column_ID="84385" Column="UUID">4e65fa40-de51-11e9-8877-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1080" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="57164" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-09-23 18:27:20.48</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-09-23 18:27:20.48</Data>
+        <Data AD_Column_ID="2840" Column="Name">Referenced Payment</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="3743" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">57164</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID">4ea75328-de51-11e9-8877-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1090" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="57165" Table="AD_Process_Para">
+        <Data AD_Column_ID="84385" Column="UUID">4f5d95e8-de51-11e9-8877-0242ac110002</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2019-09-23 18:27:20.807</Data>
+        <Data AD_Column_ID="2822" Column="Name">Payment Related</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-09-23 18:27:20.807</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">RelatedPayment_ID</Data>
+        <Data AD_Column_ID="2823" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57165</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">318</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">30</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">230</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">343</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">59816</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1100" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="57165" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-09-23 18:27:21.944</Data>
+        <Data AD_Column_ID="2840" Column="Name">Payment Related</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="3743" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">57165</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID">4f86873c-de51-11e9-8877-0242ac110002</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-09-23 18:27:21.944</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1110" StepType="AD">
+      <PO AD_Table_ID="276" Action="I" Record_ID="61194" Table="AD_Element">
+        <Data AD_Column_ID="2600" Column="Updated">2019-09-26 11:04:31.293</Data>
+        <Data AD_Column_ID="2597" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2603" Column="Name">Unidentified Document Type (AR)</Data>
+        <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="2598" Column="Created">2019-09-26 11:04:31.293</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">UnidentifiedARDocType_ID</Data>
+        <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="4299" Column="PrintName">Unidentified Document Type (AR)</Data>
+        <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="58589" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID">18</Data>
+        <Data AD_Column_ID="2594" Column="AD_Element_ID">61194</Data>
+        <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID">170</Data>
+        <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84316" Column="UUID">f249837e-e06e-11e9-9814-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1120" StepType="AD">
+      <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2642" Column="Created">2019-09-26 11:04:33.128</Data>
+        <Data AD_Column_ID="2646" Column="Name">Unidentified Document Type (AR)</Data>
+        <Data AD_Column_ID="2647" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="4300" Column="PrintName">Unidentified Document Type (AR)</Data>
+        <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="2640" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2639" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2645" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2643" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID">61194</Data>
+        <Data AD_Column_ID="84317" Column="UUID">f2847240-e06e-11e9-9814-0242ac110002</Data>
+        <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="2641" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2644" Column="Updated">2019-09-26 11:04:33.128</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1130" StepType="AD">
+      <PO AD_Table_ID="276" Action="I" Record_ID="61195" Table="AD_Element">
+        <Data AD_Column_ID="2600" Column="Updated">2019-09-26 11:04:53.29</Data>
+        <Data AD_Column_ID="2597" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2603" Column="Name">Unidentified Document Type (AP)</Data>
+        <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="2598" Column="Created">2019-09-26 11:04:53.29</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">UnidentifiedAPDocType_ID</Data>
+        <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="4299" Column="PrintName">Unidentified Document Type (AP)</Data>
+        <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="58589" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID">18</Data>
+        <Data AD_Column_ID="2594" Column="AD_Element_ID">61195</Data>
+        <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID">170</Data>
+        <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84316" Column="UUID">fef0ba3e-e06e-11e9-8d1e-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1140" StepType="AD">
+      <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2642" Column="Created">2019-09-26 11:04:54.198</Data>
+        <Data AD_Column_ID="84317" Column="UUID">ff133ffa-e06e-11e9-8d1e-0242ac110002</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID">61195</Data>
+        <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="2641" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2644" Column="Updated">2019-09-26 11:04:54.198</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2646" Column="Name">Unidentified Document Type (AP)</Data>
+        <Data AD_Column_ID="2647" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="4300" Column="PrintName">Unidentified Document Type (AP)</Data>
+        <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="2640" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2639" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2645" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2643" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1150" StepType="AD">
+      <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2646" Column="Name" oldValue="Unidentified Document Type (AP)">Tipo de Documento Sin Identificar (Pago)</Data>
+        <Data AD_Column_ID="2647" Column="Description" isOldNull="true">Tipo de Documento usado para pagos sin identificar</Data>
+        <Data AD_Column_ID="4300" Column="PrintName" oldValue="Unidentified Document Type (AP)">Tipo de Documento Sin Identificar (Pago)</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="61195">61195</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1160" StepType="AD">
+      <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2646" Column="Name" oldValue="Unidentified Document Type (AR)">Tipo de Documento Sin Identificar (Cobro)</Data>
+        <Data AD_Column_ID="2647" Column="Description" isOldNull="true">Tipo de Documento usado para cobros sin identificar</Data>
+        <Data AD_Column_ID="4300" Column="PrintName" oldValue="Unidentified Document Type (AR)">Tipo de Documento Sin Identificar (Cobro)</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="61194">61194</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1170" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="94632" Table="AD_Column">
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-09-26 11:06:34.587</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-09-26 11:06:34.587</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">94632</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Unidentified Document Type (AR)</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">UnidentifiedARDocType_ID</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">228</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">61194</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">170</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID">52458</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">18</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID">3ba67f0e-e06f-11e9-8d1e-0242ac110002</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1180" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="94632" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2019-09-26 11:06:36.146</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-09-26 11:06:36.146</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">94632</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Unidentified Document Type (AR)</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID">3bd769f2-e06f-11e9-8d1e-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1190" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="94633" Table="AD_Column">
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-09-26 11:07:08.381</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-09-26 11:07:08.381</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">94633</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Unidentified Document Type (AP)</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">UnidentifiedAPDocType_ID</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">228</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">61195</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">170</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID">52457</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">18</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID">4fe14904-e06f-11e9-a906-0242ac110002</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1200" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="94633" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2019-09-26 11:07:10.165</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-09-26 11:07:10.165</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">94633</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Unidentified Document Type (AP)</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID">501e3d0a-e06f-11e9-a906-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1210" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="95808" Table="AD_Field">
+        <Data AD_Column_ID="168" Column="Name">Unidentified Document Type (AR)</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">95808</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">220</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">94632</Data>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">220</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">170</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84320" Column="UUID">61763dc8-e06f-11e9-a906-0242ac110002</Data>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="579" Column="Created">2019-09-26 11:07:38.05</Data>
+        <Data AD_Column_ID="78493" Column="IsQuickEntry">false</Data>
+        <Data AD_Column_ID="88877" Column="AD_FieldDefinition_ID" isNewNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated">2019-09-26 11:07:38.05</Data>
+        <Data AD_Column_ID="88918" Column="AD_ContextInfo_ID" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90940" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="182" Column="SortNo">0</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1220" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="95808" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2019-09-26 11:07:39.727</Data>
+        <Data AD_Column_ID="674" Column="Updated">2019-09-26 11:07:39.727</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="287" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="286" Column="Name">Unidentified Document Type (AR)</Data>
+        <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">95808</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">61bd2b5c-e06f-11e9-a906-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1230" StepType="AD">
+      <PO AD_Table_ID="107" Action="I" Record_ID="95809" Table="AD_Field">
+        <Data AD_Column_ID="168" Column="Name">Unidentified Document Type (AP)</Data>
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
+        <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
+        <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
+        <Data AD_Column_ID="183" Column="IsSameLine">true</Data>
+        <Data AD_Column_ID="184" Column="IsHeading">false</Data>
+        <Data AD_Column_ID="9969" Column="ObscureType" isNewNull="true"/>
+        <Data AD_Column_ID="53265" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="57957" Column="Included_Tab_ID" isNewNull="true"/>
+        <Data AD_Column_ID="186" Column="IsEncrypted">false</Data>
+        <Data AD_Column_ID="384" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="383" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="167" Column="AD_Field_ID">95809</Data>
+        <Data AD_Column_ID="7714" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="582" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="580" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="181" Column="SeqNo">230</Data>
+        <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
+        <Data AD_Column_ID="174" Column="AD_Column_ID">94633</Data>
+        <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">230</Data>
+        <Data AD_Column_ID="180" Column="DisplayLength">0</Data>
+        <Data AD_Column_ID="172" Column="AD_Tab_ID">170</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84320" Column="UUID">67ce161e-e06f-11e9-a906-0242ac110002</Data>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="579" Column="Created">2019-09-26 11:07:48.873</Data>
+        <Data AD_Column_ID="78493" Column="IsQuickEntry">false</Data>
+        <Data AD_Column_ID="88877" Column="AD_FieldDefinition_ID" isNewNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated">2019-09-26 11:07:48.873</Data>
+        <Data AD_Column_ID="88918" Column="AD_ContextInfo_ID" isNewNull="true"/>
+        <Data AD_Column_ID="578" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90940" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
+        <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="169" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
+        <Data AD_Column_ID="182" Column="SortNo">0</Data>
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="170" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="54359" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="1240" StepType="AD">
+      <PO AD_Table_ID="127" Action="I" Record_ID="95809" Table="AD_Field_Trl">
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2019-09-26 11:07:50.199</Data>
+        <Data AD_Column_ID="674" Column="Updated">2019-09-26 11:07:50.199</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="287" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="286" Column="Name">Unidentified Document Type (AP)</Data>
+        <Data AD_Column_ID="288" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID">95809</Data>
+        <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84323" Column="UUID">67fad690-e06f-11e9-a906-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1250" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="95808" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="220">200</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1260" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="95809" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="230">210</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1270" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="56624" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="200">220</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1280" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="57532" Table="AD_Field">
+        <Data AD_Column_ID="181" Column="SeqNo" oldValue="210">230</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
