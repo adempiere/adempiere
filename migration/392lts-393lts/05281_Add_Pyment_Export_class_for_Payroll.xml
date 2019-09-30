@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="[Feature Request] Add Pyment Export class for Payroll #2798" ReleaseNo="3.9.3" SeqNo="5280">
+  <Migration EntityType="D" Name="[Feature Request] Add Pyment Export class for Payroll #2798" ReleaseNo="3.9.3" SeqNo="5281">
     <Comments>See: https://github.com/adempiere/adempiere/issues/2798</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="61186" Table="AD_Element">

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add filter generate cost process by product category" ReleaseNo="3.9.3" SeqNo="5120">
+  <Migration EntityType="D" Name="Add filter generate cost process by product category" ReleaseNo="3.9.3" SeqNo="5121">
     <Comments>Add support to filter generate cost process by product category</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="57042" Table="AD_Process_Para">
