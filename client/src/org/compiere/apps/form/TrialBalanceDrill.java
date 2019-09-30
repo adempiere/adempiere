@@ -330,7 +330,7 @@ public class TrialBalanceDrill
 		pInfo.setAD_PInstance_ID(mpInstance.getAD_PInstance_ID());
 		pInfo.setReportType("H");
 		pInfo.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
-		pInfo.setAD_User_ID(Env.getAD_Client_ID(Env.getCtx()));
+		pInfo.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
 		ProcessCtl worker = new ProcessCtl(null, 0, pInfo, null);
 		worker.run();
 	} // executeTrialBalanceProcess
