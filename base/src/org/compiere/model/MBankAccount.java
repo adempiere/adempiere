@@ -25,7 +25,6 @@ import org.apache.commons.validator.routines.IBANValidator;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
-import org.eevolution.model.I_HR_Concept_Acct;
 
 
 /**
