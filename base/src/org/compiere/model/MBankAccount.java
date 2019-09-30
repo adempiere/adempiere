@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -163,5 +164,18 @@ public class MBankAccount extends X_C_BankAccount
 	{
 		return delete_Accounting("C_BankAccount_Acct");
 	}	//	beforeDelete
+	
+	public static MBankAccount getDefault (Properties ctx, int AD_Org_ID, String BankType)
+	{
+
+        ArrayList<Object> paramenters =  new ArrayList<>();
+        paramenters.add(AD_Org_ID);
+        paramenters.add(BankType);
+		String whereClause = " isDefault = 'Y'  AND AD_Org_ID=? AND Exists (select 1 from C_Bank b where b.banktype =? and b.c_Bank_ID=C_BankAccount.C_Bank_ID)";
+		return new Query(ctx, Table_Name, whereClause.toString(), null)
+                .setParameters(paramenters)
+                .setOrderBy(I_C_BankAccount.COLUMNNAME_AccountNo)
+                .first();
+	} //	getDefault
 
 }	//	MBankAccount
