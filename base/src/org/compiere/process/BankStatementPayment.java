@@ -18,88 +18,112 @@ package org.compiere.process;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MBank;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MBankStatementLine;
 import org.compiere.model.MInvoice;
+import org.compiere.model.MOrgInfo;
 import org.compiere.model.MPayment;
 import org.compiere.model.X_I_BankStatement;
-import org.compiere.util.AdempiereSystemError;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 /**
  *	Create Payment from Bank Statement Info
  *	
  *  @author Jorg Janke
  *  @version $Id: BankStatementPayment.java,v 1.3 2006/07/30 00:51:01 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
+ *  Add support to unidentified payments
+ *  https://github.com/adempiere/adempiere/issues/2785
  */
-public class BankStatementPayment extends SvrProcess
-{
-
-	/**
-	 *  Prepare - e.g., get Parameters.
-	 */
-	protected void prepare()
-	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
-	}	//	prepare
+public class BankStatementPayment extends BankStatementPaymentAbstract {
 
 	/**
 	 *  Perform process.
 	 *  @return Message 
 	 *  @throws Exception if not successful
 	 */
-	protected String doIt() throws Exception
-	{
-		int Table_ID = getTable_ID();
-		int Record_ID = getRecord_ID();
-		log.info ("Table_ID=" + Table_ID + ", Record_ID=" + Record_ID);
-		
-		if (Table_ID == X_I_BankStatement.Table_ID)
-			return createPayment (new X_I_BankStatement(getCtx(), Record_ID, get_TrxName()));
-		else if (Table_ID == MBankStatementLine.Table_ID)
-			return createPayment (new MBankStatementLine(getCtx(), Record_ID, get_TrxName()));
-		
-		throw new AdempiereSystemError("??");
+	protected String doIt() throws Exception {
+		int tableId = getTable_ID();
+		int recordId = getRecord_ID();
+		log.info ("Table_ID=" + tableId + ", Record_ID=" + recordId);
+		if(isSelection()) {
+			String transactionType = getParameterAsString("TrxType");
+			if(Util.isEmpty(transactionType)) {
+				throw new AdempiereException("@TrxType@ @NotFound@");
+			}
+			//	
+			int chargeId = getParameterAsInt("C_Charge_ID");
+			int bPartnerId = getParameterAsInt("C_BPartner_ID");
+			int created = 0;
+			for(int key : getSelectionKeys()) {
+				int bankStatementLineId = getSelectionAsInt(key, "BSL_C_BankStatementLine_ID");
+				MBankStatementLine bankStatementLine = new MBankStatementLine(getCtx(), bankStatementLineId, get_TrxName());
+				if(transactionType.equals("B")) {
+					MBank bank = MBank.get(getCtx(), bankStatementLine.getParent().getBankAccount().getC_Bank_ID());
+					if(bank.getC_BPartner_ID() == 0) {
+						throw new AdempiereException("@C_Bank_ID@ @C_BPartner_ID@ @NotFound@");
+					}
+					bPartnerId = bank.getC_BPartner_ID();
+				} else if(transactionType.equals("U")) {
+					bPartnerId = MOrgInfo.get(getCtx(), bankStatementLine.getAD_Org_ID(), get_TrxName()).getUnidentifiedBPartner_ID();
+					if(bPartnerId == 0) {
+						throw new AdempiereException("@AD_Org_ID@ @UnidentifiedBPartner_ID@ @NotFound@");
+					}
+				}
+				if(bPartnerId != 0) {
+					bankStatementLine.setC_BPartner_ID(bPartnerId);
+				}
+				if(chargeId != 0) {
+					bankStatementLine.setC_Charge_ID(chargeId);
+				}
+				createPayment(bankStatementLine);
+				created++;
+			}
+			return "@Created@: " + created;
+		} else {
+			if (tableId == X_I_BankStatement.Table_ID) {
+				return createPayment (new X_I_BankStatement(getCtx(), recordId, get_TrxName()));
+			} else if (tableId == MBankStatementLine.Table_ID) {
+				return createPayment (new MBankStatementLine(getCtx(), recordId, get_TrxName()));
+			}
+		}
+		return "Ok";
 	}	//	doIt
 
 	/**
 	 * 	Create Payment for Import
-	 *	@param ibs import bank statement
+	 *	@param importBankStatement import bank statement
 	 *	@return Message
 	 *  @throws Exception if not successful
 	 */
-	private String createPayment (X_I_BankStatement ibs) throws Exception
-	{
-		if (ibs == null || ibs.getC_Payment_ID() != 0)
+	private String createPayment (X_I_BankStatement importBankStatement) throws Exception {
+		if (importBankStatement == null || importBankStatement.getC_Payment_ID() != 0)
 			return "--";
-		log.fine(ibs.toString());
-		if (ibs.getC_Invoice_ID() == 0 && ibs.getC_BPartner_ID() == 0)
+		log.fine(importBankStatement.toString());
+		if (importBankStatement.getC_Invoice_ID() == 0 && importBankStatement.getC_BPartner_ID() == 0)
 			throw new AdempiereUserError ("@NotFound@ @C_Invoice_ID@ / @C_BPartner_ID@");
-		if (ibs.getC_BankAccount_ID() == 0)
+		if (importBankStatement.getC_BankAccount_ID() == 0)
 			throw new AdempiereUserError ("@NotFound@ @C_BankAccount_ID@");
 		//
-		MPayment payment = createPayment (ibs.getC_Invoice_ID(), ibs.getC_BPartner_ID(),
-			ibs.getC_Currency_ID(), ibs.getStmtAmt(), ibs.getTrxAmt(), 
-			ibs.getC_BankAccount_ID(), ibs.getStatementLineDate() == null ? ibs.getStatementDate() : ibs.getStatementLineDate(), 
-			ibs.getDateAcct(), ibs.getDescription(), ibs.getAD_Org_ID());
-		if (payment == null)
-			throw new AdempiereSystemError("Could not create Payment");
+		String documentNo = importBankStatement.getReferenceNo();
+		if(Util.isEmpty(documentNo)) {
+			documentNo = importBankStatement.getEftReference();
+		}
+		String checkNo = importBankStatement.getEftCheckNo();
+		MPayment payment = createPayment (importBankStatement.getC_Invoice_ID(), importBankStatement.getC_BPartner_ID(),
+			importBankStatement.getC_Currency_ID(), importBankStatement.getStmtAmt(), importBankStatement.getTrxAmt(), 
+			importBankStatement.getC_BankAccount_ID(), importBankStatement.getStatementLineDate() == null ? importBankStatement.getStatementDate() : importBankStatement.getStatementLineDate(), 
+			importBankStatement.getDateAcct(), importBankStatement.getDescription(), importBankStatement.getAD_Org_ID(), importBankStatement.getC_Charge_ID(), false, documentNo, checkNo);
 		
-		ibs.setC_Payment_ID(payment.getC_Payment_ID());
-		ibs.setC_Currency_ID (payment.getC_Currency_ID());
-		ibs.setTrxAmt(payment.getPayAmt(true));
-		ibs.saveEx();
+		importBankStatement.setC_Payment_ID(payment.getC_Payment_ID());
+		importBankStatement.setC_Currency_ID (payment.getC_Currency_ID());
+		importBankStatement.setTrxAmt(payment.getPayAmt(true));
+		importBankStatement.saveEx();
 		//
 		String retString = "@C_Payment_ID@ = " + payment.getDocumentNo();
 		if (payment.getOverUnderAmt().signum() != 0)
@@ -109,118 +133,133 @@ public class BankStatementPayment extends SvrProcess
 	
 	/**
 	 * 	Create Payment for BankStatement
-	 *	@param bsl bank statement Line
+	 *	@param bankStatementLine bank statement Line
 	 *	@return Message
 	 *  @throws Exception if not successful
 	 */
-	private String createPayment (MBankStatementLine bsl) throws Exception
-	{
-		if (bsl == null || bsl.getC_Payment_ID() != 0)
+	private String createPayment (MBankStatementLine bankStatementLine) throws Exception {
+		if (bankStatementLine == null || bankStatementLine.getC_Payment_ID() != 0)
 			return "--";
-		log.fine(bsl.toString());
-		if (bsl.getC_Invoice_ID() == 0 && bsl.getC_BPartner_ID() == 0)
+		log.fine(bankStatementLine.toString());
+		if (bankStatementLine.getC_Invoice_ID() == 0 && bankStatementLine.getC_BPartner_ID() == 0)
 			throw new AdempiereUserError ("@NotFound@ @C_Invoice_ID@ / @C_BPartner_ID@");
 		//
-		MBankStatement bs = new MBankStatement (getCtx(), bsl.getC_BankStatement_ID(), get_TrxName());
+		MBankStatement bankStatement = new MBankStatement (getCtx(), bankStatementLine.getC_BankStatement_ID(), get_TrxName());
+		String documentNo = bankStatementLine.getReferenceNo();
+		if(Util.isEmpty(documentNo)) {
+			documentNo = bankStatementLine.getEftReference();
+		}
+		String checkNo = bankStatementLine.getEftCheckNo();
 		//
-		MPayment payment = createPayment (bsl.getC_Invoice_ID(), bsl.getC_BPartner_ID(),
-			bsl.getC_Currency_ID(), bsl.getStmtAmt(), bsl.getTrxAmt(), 
-			bs.getC_BankAccount_ID(), bsl.getStatementLineDate(), bsl.getDateAcct(),
-			bsl.getDescription(), bsl.getAD_Org_ID());
-		if (payment == null)
-			throw new AdempiereSystemError("Could not create Payment");
+		MPayment payment = createPayment (bankStatementLine.getC_Invoice_ID(), bankStatementLine.getC_BPartner_ID(),
+			bankStatementLine.getC_Currency_ID(), bankStatementLine.getStmtAmt(), bankStatementLine.getTrxAmt(), 
+			bankStatement.getC_BankAccount_ID(), bankStatementLine.getStatementLineDate(), bankStatementLine.getDateAcct(),
+			bankStatementLine.getDescription(), bankStatementLine.getAD_Org_ID(), bankStatementLine.getC_Charge_ID(), getParameterAsString("TrxType").equals("U"), documentNo, checkNo);
 		//	update statement
-		bsl.setPayment(payment);
-		bsl.saveEx();
+		bankStatementLine.setPayment(payment);
+		bankStatementLine.saveEx();
 		//
 		String retString = "@C_Payment_ID@ = " + payment.getDocumentNo();
-		if (payment.getOverUnderAmt().signum() != 0)
+		if (payment.getOverUnderAmt().signum() != 0) {
 			retString += " - @OverUnderAmt@=" + payment.getOverUnderAmt();
+		}
 		return retString;
 	}	//	createPayment
 
 
 	/**
 	 * 	Create actual Payment
-	 *	@param C_Invoice_ID invoice
-	 *	@param C_BPartner_ID partner ignored when invoice exists
-	 *	@param C_Currency_ID currency
-	 *	@param StmtAmt statement amount
-	 *	@param TrxAmt transaction amt
-	 *	@param C_BankAccount_ID bank account
-	 *	@param DateTrx transaction date
-	 *	@param DateAcct	accounting date
-	 *	@param Description description
-	 *	@param AD_Org_ID org
+	 *	@param invoiceId invoice
+	 *	@param bPartnerId partner ignored when invoice exists
+	 *	@param currencyId currency
+	 *	@param statementAmount statement amount
+	 *	@param transactionAmount transaction amt
+	 *	@param bankAccountId bank account
+	 *	@param transactionDate transaction date
+	 *	@param accountingDate	accounting date
+	 *	@param description description
+	 *	@param organizationId org
+	 *	@param chargeId charge
+	 *	@param isUnidentified unidentified payment
+	 *	@param documentNo
+	 *	@param checkNo
 	 *	@return payment
 	 */
-	private MPayment createPayment (int C_Invoice_ID, int C_BPartner_ID, 
-		int C_Currency_ID, BigDecimal StmtAmt, BigDecimal TrxAmt,
-		int C_BankAccount_ID, Timestamp DateTrx, Timestamp DateAcct, 
-		String Description, int AD_Org_ID)
-	{
+	private MPayment createPayment (int invoiceId, int bPartnerId, 
+		int currencyId, BigDecimal statementAmount, BigDecimal transactionAmount,
+		int bankAccountId, Timestamp transactionDate, Timestamp accountingDate, 
+		String description, int organizationId, int chargeId, boolean isUnidentified, String documentNo, String checkNo) {
 		//	Trx Amount = Payment overwrites Statement Amount if defined
-		BigDecimal PayAmt = TrxAmt;
-		if (PayAmt == null || Env.ZERO.compareTo(PayAmt) == 0)
-			PayAmt = StmtAmt;
-		if (C_Invoice_ID == 0
-			&& (PayAmt == null || Env.ZERO.compareTo(PayAmt) == 0))
+		BigDecimal paymentAmount = transactionAmount;
+		if (paymentAmount == null || Env.ZERO.compareTo(paymentAmount) == 0)
+			paymentAmount = statementAmount;
+		if (invoiceId == 0
+			&& (paymentAmount == null || Env.ZERO.compareTo(paymentAmount) == 0)) {
 			throw new IllegalStateException ("@PayAmt@ = 0");
-		if (PayAmt == null)
-			PayAmt = Env.ZERO;
+		}
+		if (paymentAmount == null) {
+			paymentAmount = Env.ZERO;
+		}
+		MOrgInfo organizationInfo = MOrgInfo.get(getCtx(), organizationId, get_TrxName());
 		//
 		MPayment payment = new MPayment (getCtx(), 0, get_TrxName());
-		payment.setAD_Org_ID(AD_Org_ID);
-		payment.setC_BankAccount_ID(C_BankAccount_ID);
+		payment.setAD_Org_ID(organizationId);
+		payment.setC_BankAccount_ID(bankAccountId);
 		payment.setTenderType(MPayment.TENDERTYPE_Check);
-		if (DateTrx != null)
-			payment.setDateTrx(DateTrx);
-		else if (DateAcct != null)
-			payment.setDateTrx(DateAcct);
-		if (DateAcct != null)
-			payment.setDateAcct(DateAcct);
-		else
+		if (transactionDate != null) {
+			payment.setDateTrx(transactionDate);
+		} else if (accountingDate != null) {
+			payment.setDateTrx(accountingDate);
+		}
+		if (accountingDate != null) {
+			payment.setDateAcct(accountingDate);
+		} else {
 			payment.setDateAcct(payment.getDateTrx());
-		payment.setDescription(Description);
+		}
+		payment.setDescription(description);
 		//
-		if (C_Invoice_ID != 0)
-		{
-			MInvoice invoice = new MInvoice (getCtx(), C_Invoice_ID, null);
+		if (invoiceId != 0) {
+			MInvoice invoice = new MInvoice (getCtx(), invoiceId, null);
 			payment.setC_DocType_ID(invoice.isSOTrx());		//	Receipt
 			payment.setC_Invoice_ID(invoice.getC_Invoice_ID());
 			payment.setC_BPartner_ID (invoice.getC_BPartner_ID());
-			if (PayAmt.signum() != 0)	//	explicit Amount
-			{
-				payment.setC_Currency_ID(C_Currency_ID);
+			if (paymentAmount.signum() != 0) {	//	explicit Amount
+				payment.setC_Currency_ID(currencyId);
 				if (invoice.isSOTrx())
-					payment.setPayAmt(PayAmt);
+					payment.setPayAmt(paymentAmount);
 				else	//	payment is likely to be negative
-					payment.setPayAmt(PayAmt.negate());
+					payment.setPayAmt(paymentAmount.negate());
 				payment.setOverUnderAmt(invoice.getGrandTotal(true).subtract(payment.getPayAmt()));
 			}
-			else	// set Pay Amout from Invoice
-			{
+			else {	//	set Pay Amount from Invoice
 				payment.setC_Currency_ID(invoice.getC_Currency_ID());
 				payment.setPayAmt(invoice.getGrandTotal(true));
 			}
-		}
-		else if (C_BPartner_ID != 0)
-		{
-			payment.setC_BPartner_ID(C_BPartner_ID);
-			payment.setC_Currency_ID(C_Currency_ID);
-			if (PayAmt.signum() < 0)	//	Payment
-			{
-				payment.setPayAmt(PayAmt.abs());
-				payment.setC_DocType_ID(false);
+		} else if (bPartnerId != 0) {
+			payment.setC_BPartner_ID(bPartnerId);
+			payment.setC_Currency_ID(currencyId);
+			if(chargeId != 0
+					&& !isUnidentified) {
+				payment.setC_Charge_ID(chargeId);
 			}
-			else	//	Receipt
-			{
-				payment.setPayAmt(PayAmt);
-				payment.setC_DocType_ID(true);
+			boolean isReceipt = paymentAmount.signum() > 0;
+			payment.setPayAmt(paymentAmount.abs());
+			//	Get from organization
+			if(organizationInfo.getUnidentifiedDocumentType(isReceipt) != 0) {
+				payment.setC_DocType_ID(organizationInfo.getUnidentifiedDocumentType(isReceipt));
+			} else {
+				payment.setC_DocType_ID(isReceipt);
 			}
+		} else {
+			throw new AdempiereException("@C_Invoice_ID@ / @C_BPartner_ID@ @NotFound@");
 		}
-		else
-			return null;
+		if(!Util.isEmpty(documentNo)) {
+			payment.setDocumentNo(documentNo);
+		}
+		if(!Util.isEmpty(checkNo)) {
+			payment.setCheckNo(checkNo);
+		}
+		payment.setIsUnidentifiedPayment(isUnidentified);
 		payment.saveEx();
 		//
 		payment.processIt(MPayment.DOCACTION_Complete);

@@ -13,7 +13,7 @@ CREATE OR REPLACE VIEW RV_PAYMENT
  R_AVSADDR, R_AVSZIP, R_INFO, PROCESSING, OPROCESSING, 
  DOCSTATUS, DOCACTION, ISPREPAYMENT, C_CHARGE_ID, ISRECONCILED, 
  ISALLOCATED, ISONLINE, PROCESSED, POSTED, C_CAMPAIGN_ID, 
- C_PROJECT_ID, C_ACTIVITY_ID)
+ C_PROJECT_ID, C_ACTIVITY_ID, IsUnidentifiedPayment, Ref_Payment_ID, RelatedPayment_ID)
 AS 
 SELECT C_Payment_ID, AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Updated, UpdatedBy,
     DocumentNo, DateTrx, IsReceipt, C_DocType_ID, TrxType,
@@ -36,10 +36,7 @@ SELECT C_Payment_ID, AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Upda
     Processing, OProcessing, DocStatus, DocAction,
     IsPrepayment, C_Charge_ID,
     IsReconciled, IsAllocated, IsOnline, Processed, Posted,
-    C_Campaign_ID, C_Project_ID, C_Activity_ID
+    C_Campaign_ID, C_Project_ID, C_Activity_ID, IsUnidentifiedPayment, Ref_Payment_ID, RelatedPayment_ID
 FROM C_Payment;
 
 --COMMENT ON TABLE RV_PAYMENT IS 'Payment Information corrected for AP/AR';
-
-
-

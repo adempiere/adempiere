@@ -275,6 +275,15 @@ public interface I_C_BankAccount
 	/** Get Payment Export Class	  */
 	public String getPaymentExportClass();
 
+    /** Column name PayrollPaymentExportClass */
+    public static final String COLUMNNAME_PayrollPaymentExportClass = "PayrollPaymentExportClass";
+
+	/** Set Payment Export Class (Payroll)	  */
+	public void setPayrollPaymentExportClass (String PayrollPaymentExportClass);
+
+	/** Get Payment Export Class (Payroll)	  */
+	public String getPayrollPaymentExportClass();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 

@@ -176,10 +176,14 @@ public interface I_C_Bank
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
-	/** Set Name	  */
+	/** Set Name.
+	  * Alphanumeric identifier of the entity
+	  */
 	public void setName (String Name);
 
-	/** Get Name	  */
+	/** Get Name.
+	  * Alphanumeric identifier of the entity
+	  */
 	public String getName();
 
     /** Column name RoutingNo */

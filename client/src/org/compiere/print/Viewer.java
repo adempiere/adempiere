@@ -1146,6 +1146,7 @@ public class Viewer extends CFrame
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		chooser.setDialogTitle(Msg.getMsg(m_ctx, "Export") + ": " + getTitle());
 		//	
+		exportHandler = new ReportExportHandler(m_ctx, m_reportEngine);
 		if(exportHandler.getExportFormatList() != null) {
 			for(AbstractExportFormat exportFormat : exportHandler.getExportFormatList()) {
 				if(exportFormat.getExtension().equals("arxml")

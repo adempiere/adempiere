@@ -30,7 +30,7 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20190913L;
 
     /** Standard Constructor */
     public X_C_DocType (Properties ctx, int C_DocType_ID, String trxName)
@@ -395,6 +395,8 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public static final String DOCBASETYPE_SalesCommission = "SOC";
 	/** Fixed Assets Split = FAS */
 	public static final String DOCBASETYPE_FixedAssetsSplit = "FAS";
+	/** Freight Order = FRO */
+	public static final String DOCBASETYPE_FreightOrder = "FRO";
 	/** Fixed Assets Addition = FAA */
 	public static final String DOCBASETYPE_FixedAssetsAddition = "FAA";
 	/** Fixed Assets Disposal = FAD */
@@ -842,6 +844,30 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public boolean isOverwriteSeqOnComplete () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsOverwriteSeqOnComplete);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Payroll Payment.
+		@param IsPayrollPayment 
+		Used for mark a document type or payment for identify as payment of payroll
+	  */
+	public void setIsPayrollPayment (boolean IsPayrollPayment)
+	{
+		set_Value (COLUMNNAME_IsPayrollPayment, Boolean.valueOf(IsPayrollPayment));
+	}
+
+	/** Get Payroll Payment.
+		@return Used for mark a document type or payment for identify as payment of payroll
+	  */
+	public boolean isPayrollPayment () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsPayrollPayment);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

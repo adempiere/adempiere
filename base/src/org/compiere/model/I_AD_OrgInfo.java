@@ -337,6 +337,39 @@ public interface I_AD_OrgInfo
 
 	public org.compiere.model.I_C_CashBook getTransferCashBook() throws RuntimeException;
 
+    /** Column name UnidentifiedAPDocType_ID */
+    public static final String COLUMNNAME_UnidentifiedAPDocType_ID = "UnidentifiedAPDocType_ID";
+
+	/** Set Unidentified Document Type (AP)	  */
+	public void setUnidentifiedAPDocType_ID (int UnidentifiedAPDocType_ID);
+
+	/** Get Unidentified Document Type (AP)	  */
+	public int getUnidentifiedAPDocType_ID();
+
+	public org.compiere.model.I_C_DocType getUnidentifiedAPDocType() throws RuntimeException;
+
+    /** Column name UnidentifiedARDocType_ID */
+    public static final String COLUMNNAME_UnidentifiedARDocType_ID = "UnidentifiedARDocType_ID";
+
+	/** Set Unidentified Document Type (AR)	  */
+	public void setUnidentifiedARDocType_ID (int UnidentifiedARDocType_ID);
+
+	/** Get Unidentified Document Type (AR)	  */
+	public int getUnidentifiedARDocType_ID();
+
+	public org.compiere.model.I_C_DocType getUnidentifiedARDocType() throws RuntimeException;
+
+    /** Column name UnidentifiedBPartner_ID */
+    public static final String COLUMNNAME_UnidentifiedBPartner_ID = "UnidentifiedBPartner_ID";
+
+	/** Set Business Partner (Unidentified Payments)	  */
+	public void setUnidentifiedBPartner_ID (int UnidentifiedBPartner_ID);
+
+	/** Get Business Partner (Unidentified Payments)	  */
+	public int getUnidentifiedBPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getUnidentifiedBPartner() throws RuntimeException;
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 

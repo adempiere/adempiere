@@ -892,6 +892,7 @@ public class ZkReportViewer extends Window implements EventListener {
 			cboType.getItems().clear();
 			//	
 			int defaultItem = 0;
+			exportHandler = new ReportExportHandler(m_ctx, m_reportEngine);
 			if(exportHandler.getExportFormatList() != null) {
 				for(AbstractExportFormat exportFormat : exportHandler.getExportFormatList()) {
 					if(exportFormat.getExtension().equals("arxml")

@@ -33,7 +33,7 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20190926L;
 
     /** Standard Constructor */
     public X_C_Payment (Properties ctx, int C_Payment_ID, String trxName)
@@ -1294,6 +1294,30 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return false;
 	}
 
+	/** Set Unidentified Payment.
+		@param IsUnidentifiedPayment 
+		This flag determine ig a payment is unidentify
+	  */
+	public void setIsUnidentifiedPayment (boolean IsUnidentifiedPayment)
+	{
+		set_Value (COLUMNNAME_IsUnidentifiedPayment, Boolean.valueOf(IsUnidentifiedPayment));
+	}
+
+	/** Get Unidentified Payment.
+		@return This flag determine ig a payment is unidentify
+	  */
+	public boolean isUnidentifiedPayment () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsUnidentifiedPayment);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Micr.
 		@param Micr 
 		Combination of routing no, account and check no
@@ -1611,9 +1635,9 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public void setRef_Payment_ID (int Ref_Payment_ID)
 	{
 		if (Ref_Payment_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_Ref_Payment_ID, null);
+			set_Value (COLUMNNAME_Ref_Payment_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_Ref_Payment_ID, Integer.valueOf(Ref_Payment_ID));
+			set_Value (COLUMNNAME_Ref_Payment_ID, Integer.valueOf(Ref_Payment_ID));
 	}
 
 	/** Get Referenced Payment.

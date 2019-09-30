@@ -30,7 +30,7 @@ public class X_C_Bank extends PO implements I_C_Bank, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190508L;
+	private static final long serialVersionUID = 20190501L;
 
     /** Standard Constructor */
     public X_C_Bank (Properties ctx, int C_Bank_ID, String trxName)
@@ -219,14 +219,17 @@ public class X_C_Bank extends PO implements I_C_Bank, I_Persistent
 	}
 
 	/** Set Name.
-		@param Name Name	  */
+		@param Name 
+		Alphanumeric identifier of the entity
+	  */
 	public void setName (String Name)
 	{
 		set_Value (COLUMNNAME_Name, Name);
 	}
 
 	/** Get Name.
-		@return Name	  */
+		@return Alphanumeric identifier of the entity
+	  */
 	public String getName () 
 	{
 		return (String)get_Value(COLUMNNAME_Name);
