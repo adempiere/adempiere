@@ -110,5 +110,8 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.request"/>
 	<classpathentry kind="lib" path="/tools/lib/poi-3.17.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/poi-ooxml-3.17.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/zxing-2.3.0.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/commons-validator-1.6.jar" sourcepath="/tools/lib/testing/commons-validator-1.6-sources.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/sardine-5.9-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
