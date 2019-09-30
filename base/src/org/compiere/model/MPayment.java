@@ -2505,6 +2505,19 @@ public final class MPayment extends X_C_Payment
 		//	For Cash Payment
 		MBankAccount bankAccount = MBankAccount.get(getCtx(), getC_BankAccount_ID());
 		MBank bank = MBank.get(getCtx(), bankAccount.getC_Bank_ID());
+		if(getRef_Payment_ID() != 0
+				&& !Util.isEmpty(bank.getBankType())
+				&& bank.getBankType().equals(MBank.BANKTYPE_CashJournal)) {
+			MPayment deposit = new MPayment(getCtx(), getRef_Payment_ID(), get_TrxName());
+			MBankAccount depositBankAccount = MBankAccount.get(getCtx(), deposit.getC_BankAccount_ID());
+			MBank depositBank = MBank.get(getCtx(), depositBankAccount.getC_Bank_ID());
+			if(!Util.isEmpty(depositBank.getBankType())
+					&& depositBank.getBankType().equals(MBank.BANKTYPE_Bank)
+					&& (deposit.getDocStatus().equals(MPayment.DOCSTATUS_Completed)
+							|| deposit.getDocStatus().equals(MPayment.DOCSTATUS_Closed))) {
+				throw new AdempiereException("@DepositAlreadyExistsForCash@");
+			}
+		}
 		if(!Util.isEmpty(bank.getBankType())
 				&& bank.getBankType().equals(MBank.BANKTYPE_CashJournal)
 				&& !isReceipt()) {

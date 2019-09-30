@@ -19,8 +19,6 @@ import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-
-import java.math.BigDecimal;
 import java.util.Properties;
 
 /**
@@ -42,21 +40,9 @@ public class CalloutLeaveAssign extends CalloutEngine {
     public String leaveAssigned(Properties ctx, int WindowNo, GridTab mTab, GridField mField, Object value) {
         if (isCalloutActive() || value == null)
             return "";
-        BigDecimal total, balance;
         I_HR_LeaveAssign leaveAssign = GridTabWrapper.create(mTab, I_HR_LeaveAssign.class);
-
-        BigDecimal totalLeaves, balanceLeaves, noOfLeavesAllocated;
-
-        totalLeaves = leaveAssign.getTotalLeaves();
-        noOfLeavesAllocated = leaveAssign.getNoOfLeavesAllocated();
-        balanceLeaves = leaveAssign.getBalance();
-        if (totalLeaves.signum() != 0) {
-            total = totalLeaves.add(noOfLeavesAllocated);
-            balance = balanceLeaves.add(noOfLeavesAllocated);
-
-            leaveAssign.setTotalLeaves(total);
-            leaveAssign.setBalance(balance);
-        }
+        leaveAssign.setTotalLeaves(leaveAssign.getNoOfLeavesAllocated());
+        leaveAssign.setBalance(leaveAssign.getTotalLeaves() - leaveAssign.getUsedLeaves());
         return "";
     }    //	planned
 
@@ -75,16 +61,9 @@ public class CalloutLeaveAssign extends CalloutEngine {
 
         I_HR_LeaveAssign leaveAssign = GridTabWrapper.create(mTab, I_HR_LeaveAssign.class);
         I_HR_LeaveType leaveType = leaveAssign.getHR_LeaveType();
-
-        if (leaveAssign.getTotalLeaves().signum() == 0) {
-            leaveAssign.setTotalLeaves(leaveType.getNoOfLeavesAllocated());
-            leaveAssign.setBalance(leaveType.getNoOfLeavesAllocated());
-        } else {
-            I_HR_LeaveAssign leaveAssignByType = MHRLeaveAssign.getByLeaveType((MHRLeaveType) leaveType);
-            leaveAssign.setUsedLeaves(leaveAssignByType.getUsedLeaves());
-            leaveAssign.setTotalLeaves(leaveAssignByType.getTotalLeaves());
-            leaveAssign.setBalance(leaveAssignByType.getBalance());
-        }
+        leaveAssign.setTotalLeaves(leaveType.getNoOfLeavesAllocated());
+        leaveAssign.setBalance(leaveType.getNoOfLeavesAllocated());
+        leaveAssign.setNoOfLeavesAllocated(leaveType.getNoOfLeavesAllocated());
         return "";
     }
 

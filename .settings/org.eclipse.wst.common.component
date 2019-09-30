@@ -42,6 +42,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.adempiere.production/src/main/java/base"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.eevolution.fleet/src/main/java/base"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.adempiere.crm/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.eevolution.warehouse/src/main/java/ui/zk"/>
         <dependent-module archiveName="jasperreports-fonts-6.6.0.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/adempiere/JasperReportsTools/lib/jasperreports-fonts-6.6.0.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>

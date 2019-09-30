@@ -6,5 +6,7 @@
 	<classpathentry kind="lib" path="/tools/lib/commons-collections-3.1.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/mail.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/servlet-api.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.project"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.request"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

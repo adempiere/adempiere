@@ -24,7 +24,12 @@ import java.util.Properties;
  */
 public class MHRJobOpenings extends X_HR_JobOpening {
 
-    public MHRJobOpenings(Properties ctx, int HR_JobOpening_ID, String trxName) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7014899657011677177L;
+
+	public MHRJobOpenings(Properties ctx, int HR_JobOpening_ID, String trxName) {
         super(ctx, HR_JobOpening_ID, trxName);
     }
 

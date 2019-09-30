@@ -35,7 +35,11 @@ import java.util.stream.Collectors;
  */
 public class MHRSkillType extends X_HR_SkillType {
 
-    private static CCache<Integer, MHRSkillType> skillTypeCacheIds = new CCache<Integer, MHRSkillType>(Table_Name, 50, 0);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 6516605057703266045L;
+	private static CCache<Integer, MHRSkillType> skillTypeCacheIds = new CCache<Integer, MHRSkillType>(Table_Name, 50, 0);
     private static CCache<String, MHRSkillType> skillTypeCacheValues = new CCache<String, MHRSkillType>(Table_Name, 50, 0);
 
     /**

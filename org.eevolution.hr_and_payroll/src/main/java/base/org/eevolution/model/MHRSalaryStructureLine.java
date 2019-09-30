@@ -23,7 +23,12 @@ import java.util.Properties;
  * Created victor.perez@e-evolution.com, by e-Evolution on 04/12/13.
  */
 public class MHRSalaryStructureLine extends X_HR_SalaryStructureLine {
-    public MHRSalaryStructureLine(Properties ctx, int HR_SalaryStructureLine_ID, String trxName) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -1609612151153881674L;
+
+	public MHRSalaryStructureLine(Properties ctx, int HR_SalaryStructureLine_ID, String trxName) {
         super(ctx, HR_SalaryStructureLine_ID, trxName);
     }
 

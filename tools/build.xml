@@ -376,7 +376,7 @@
 			<zipfileset src="lib/commons-collections4-4.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/commons-codec-1.10.jar">
+			<zipfileset src="lib/commons-codec-1.6.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/commons-validator-1.6.jar">
@@ -635,7 +635,7 @@
 			<zipfileset src="lib/commons-collections4-4.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/commons-codec-1.10.jar">
+			<zipfileset src="lib/commons-codec-1.6.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/commons-validator-1.6.jar">
