@@ -1552,7 +1552,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/commons-codec-1.6.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/commons-codec-1.10.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
