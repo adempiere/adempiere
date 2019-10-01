@@ -2779,6 +2779,18 @@ public final class MPayment extends X_C_Payment
 	{
 		return isReversal;
 	}	//	isReversal
+	
+	/**
+	 * Get Payment Reference
+	 * @return
+	 */
+	public MPayment getPaymentReference() {
+		return new Query(getCtx(), MPayment.Table_Name, "Ref_Payment_ID=? AND DocStatus IN (?,?)", get_TrxName())
+			.setParameters(get_ID(),
+						MPayment.DOCSTATUS_Completed,
+						MPayment.DOCSTATUS_Closed)
+			.first();
+	}
 
 
 	
