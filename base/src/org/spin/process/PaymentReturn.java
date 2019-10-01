@@ -19,6 +19,7 @@ package org.spin.process;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
@@ -93,14 +94,13 @@ public class PaymentReturn extends PaymentReturnAbstract
 			paymentReturn = Optional.ofNullable(getPayment(parentPayment, documentType_ID, documentNo, payDate));
 			
 			//Unallocated Parent Payment
-			MAllocationHdr[] allocations = MAllocationHdr.getOfPayment(getCtx(), parentPayment.getC_Payment_ID(), get_TrxName());
-			for (MAllocationHdr mAllocationHdr : allocations) {
-				if (!(mAllocationHdr.getDocStatus().endsWith(MAllocationHdr.DOCSTATUS_Completed)
-						|| mAllocationHdr.getDocStatus().equals(MAllocationHdr.DOCSTATUS_Closed)))
-					continue;
-				mAllocationHdr.reverseAccrualIt();
-				mAllocationHdr.saveEx();
-			}
+			List<MAllocationHdr> allocations = Arrays.asList(MAllocationHdr.getOfPayment(getCtx(), parentPayment.getC_Payment_ID(), get_TrxName()));
+			allocations.forEach(mAllocationHdr ->{
+				if (mAllocationHdr.getDocStatus().equals(MAllocationHdr.DOCSTATUS_Completed)) {
+					mAllocationHdr.reverseAccrualIt();
+					mAllocationHdr.saveEx();
+				}
+			});
 			
 			payments.add(paymentReturn);
 			payments.add(Optional.ofNullable(parentPayment));
