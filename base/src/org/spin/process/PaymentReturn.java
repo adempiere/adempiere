@@ -20,13 +20,13 @@ package org.spin.process;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MAllocationLine;
 import org.compiere.model.MDocType;
 import org.compiere.model.MPayment;
-import org.compiere.model.Query;
 
 /** Generated Process for (Return Payment)
  *  @author Carlos Parada, cparada@erpya.com, ERPCyA http://www.erpya.com
@@ -60,11 +60,15 @@ public class PaymentReturn extends PaymentReturnAbstract
 	 */
 	private String generateReturn(MPayment parentPayment, int documentType_ID, String documentNo, Timestamp payDate) {
 		
-		MPayment paymentReturn =null;
-		MAllocationHdr newAlloc = null;
-		ArrayList<MPayment> payments = new ArrayList<>();
-		String result = "";
-		String msg = "";
+		Optional<MPayment> paymentReturn = Optional.empty();
+		Optional<MAllocationHdr> paymentAllocation = Optional.empty();
+		ArrayList<Optional<MPayment>> payments = new ArrayList<>();
+		AtomicReference<String> result = new AtomicReference<>();
+		AtomicReference<String> msg = new AtomicReference<>();
+		
+		result.set("");
+		msg.set("");
+		
 		if (!(parentPayment.getDocStatus().equals(MPayment.DOCSTATUS_Completed)
 				|| parentPayment.getDocStatus().equals(MPayment.DOCSTATUS_Closed))) {
 			return "@Invalid@ @DocStatus@ -> @C_Payment_ID@ " + parentPayment.getDocumentNo();
@@ -76,23 +80,17 @@ public class PaymentReturn extends PaymentReturnAbstract
 		if (parentDocType.getDocBaseType().equals(returnDocType.getDocBaseType()))
 			return "@PaymentDocTypeInvoiceInconsistent@";
 		
-		MPayment payRef = new Query(getCtx(), MPayment.Table_Name, "Ref_Payment_ID=? AND DocStatus IN (?,?)", get_TrxName())
-							.setParameters(parentPayment.get_ID(),
-											MPayment.DOCSTATUS_Completed,
-											MPayment.DOCSTATUS_Closed)
-							.first();
-		if (payRef!=null
-				&& payRef.get_ID()>0)
-			return "@Invalid@ @C_Payment_ID@ -> @Ref_Payment_ID@  = " + payRef.getDocumentNo();
+		Optional<MPayment> paymentReference = Optional.ofNullable(parentPayment.getPaymentReference());
+		if (paymentReference.isPresent())
+			return "@Invalid@ @C_Payment_ID@ -> @Ref_Payment_ID@  = " + paymentReference.get().getDocumentNo();
 		
 		
 		// Payment Return
 		if (parentPayment.getC_Charge_ID() != 0) 
-			paymentReturn = getPayment(parentPayment, documentType_ID, documentNo, payDate);
+			paymentReturn = Optional.ofNullable(getPayment(parentPayment, documentType_ID, documentNo, payDate));
 		else {
-			
 			// Payment Return 
-			paymentReturn = getPayment(parentPayment, documentType_ID, documentNo, payDate);
+			paymentReturn = Optional.ofNullable(getPayment(parentPayment, documentType_ID, documentNo, payDate));
 			
 			//Unallocated Parent Payment
 			MAllocationHdr[] allocations = MAllocationHdr.getOfPayment(getCtx(), parentPayment.getC_Payment_ID(), get_TrxName());
@@ -105,24 +103,24 @@ public class PaymentReturn extends PaymentReturnAbstract
 			}
 			
 			payments.add(paymentReturn);
-			payments.add(parentPayment);
-			newAlloc = getAllocation(payments, payDate);
+			payments.add(Optional.ofNullable(parentPayment));
+			paymentAllocation = Optional.ofNullable(getAllocation(payments, payDate));
 			
 		}
+		paymentReturn.ifPresent(payment -> {
+			msg.set("@Created@ @C_Payment_ID@ " + payment.getDocumentNo());
+			addLog(msg.get());
+			result.set(result.get() + msg.get() + "\n");
+		});
 		
-		if (paymentReturn!=null) {
-			msg = "@Created@ @C_Payment_ID@ " + paymentReturn.getDocumentNo();
-			addLog(msg);
-			result += msg + "\n";
-		}
 		
-		if (newAlloc!=null) {
-			msg = "@Created@ @C_AllocationHdr_ID@ " + newAlloc.getDocumentNo();
-			addLog(msg);
-			result += msg + "\n";
-		}
+		paymentAllocation.ifPresent(allocation -> {
+			msg.set("@Created@ @C_AllocationHdr_ID@ " + allocation.getDocumentNo());
+			addLog(msg.get());
+			result.set(result.get() + msg.get() + "\n");
+		});
 		
-		return result;
+		return result.get();
 	}
 	
 	/**
@@ -151,19 +149,20 @@ public class PaymentReturn extends PaymentReturnAbstract
 	 * @param payDate
 	 * @return
 	 */
-	private MAllocationHdr getAllocation(List<MPayment> payments, Timestamp payDate) {
+	private MAllocationHdr getAllocation(List<Optional<MPayment>> payments, Timestamp payDate) {
 		AtomicReference<MAllocationHdr> currentAlloc = new AtomicReference<>();
-		payments.stream().forEach(payment ->{
-			if (currentAlloc.get()==null) {
-				currentAlloc.set(new MAllocationHdr(getCtx(), false, payDate, payment.getC_Currency_ID(), "", get_TrxName()));
-				currentAlloc.get().save();
-			}
-			MAllocationLine parentLine = new MAllocationLine(currentAlloc.get());
-			parentLine.setAmount(payment.getPayAmt(true));
-			parentLine.setC_Payment_ID(payment.getC_Payment_ID());
-			parentLine.setC_BPartner_ID(payment.getC_BPartner_ID());
-			parentLine.saveEx();
-			
+		payments.stream().forEach(optPayment ->{
+			optPayment.ifPresent(payment -> {
+				if (currentAlloc.get()==null) {
+					currentAlloc.set(new MAllocationHdr(getCtx(), false, payDate, payment.getC_Currency_ID(), "", get_TrxName()));
+					currentAlloc.get().save();
+				}
+				MAllocationLine parentLine = new MAllocationLine(currentAlloc.get());
+				parentLine.setAmount(payment.getPayAmt(true));
+				parentLine.setC_Payment_ID(payment.getC_Payment_ID());
+				parentLine.setC_BPartner_ID(payment.getC_BPartner_ID());
+				parentLine.saveEx();	
+			});
 		});
 		
 		if (currentAlloc.get()!=null) {
