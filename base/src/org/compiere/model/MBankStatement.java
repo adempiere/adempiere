@@ -54,7 +54,8 @@ import org.compiere.util.TimeUtil;
 *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 *		<a href="https://github.com/adempiere/adempiere/issues/983">
 * 		@see FR [ 592 ] Default name for bank statement is necessary</a>
-*  
+*  		<a href="https://github.com/adempiere/adempiere/issues/2841">
+* 		@see [Bug Report] Void bank statement broken balance #2841</a>
 *   @version $Id: MBankStatement.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
 */
 public class MBankStatement extends X_C_BankStatement implements DocAction
@@ -511,10 +512,12 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 		
 		//Added Lines by AZ Goodwill
 		//Restore Bank Account Balance
-		MBankAccount ba = getBankAccount();
-		ba.load(get_TrxName());
-		ba.setCurrentBalance(ba.getCurrentBalance().subtract(getStatementDifference()));
-		ba.saveEx();
+		if(isProcessed()) {
+			MBankAccount bankAccount = getBankAccount();
+			bankAccount.load(get_TrxName());
+			bankAccount.setCurrentBalance(bankAccount.getCurrentBalance().subtract(getStatementDifference()));
+			bankAccount.saveEx();
+		}
 		//End of Added Lines
 			
 		//	Set lines to 0
