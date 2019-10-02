@@ -161,12 +161,15 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 			//}
 			
 			if(timing==TIMING_AFTER_COMPLETE){
-				MInvoice mi = (MInvoice)po;
-				if (mi.isSOTrx()) {
-					MInvoiceLine[] mils = mi.getLines();
-					for (MInvoiceLine mil: mils) {
-						if (mil.isA_CreateAsset() && !mil.isA_Processed()) {
-							MAssetDisposed.createAssetDisposed(mil);
+				MInvoice invoice = (MInvoice)po;
+				if (invoice.isSOTrx()) {
+					MInvoiceLine[] invoiceLines = invoice.getLines();
+					for (MInvoiceLine invoiceLine: invoiceLines) {
+						if (invoiceLine.isA_CreateAsset() && !invoiceLine.isA_Processed()) {
+							if (invoiceLine.getA_Asset_ID() <= 0)
+								throw new AdempiereException("@A_Asset_ID@ @NotFound@");
+							
+							MAssetDisposed.createAssetDisposed(invoiceLine);
 						}
 					}
 				}
