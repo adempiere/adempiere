@@ -1151,8 +1151,12 @@ public final class FactLine extends X_Fact_Acct
 
 		String sql = "SELECT * "
 			+ "FROM Fact_Acct "
-			+ "WHERE C_AcctSchema_ID=? AND AD_Table_ID=? AND Record_ID=?"
-			+ " AND Line_ID=? AND Account_ID=? AND Qty=?";
+			+ "WHERE C_AcctSchema_ID=? AND AD_Table_ID=? AND Record_ID=?";
+		
+		if (Line_ID != 0)
+			sql += "AND Line_ID=?";
+		
+		sql += " AND Account_ID=? AND Qty=?";
 		// MZ Goodwill
 		// for Inventory Move
 		if (MMovement.Table_ID == AD_Table_ID)
@@ -1162,13 +1166,15 @@ public final class FactLine extends X_Fact_Acct
 		ResultSet rs = null;
 		try
 		{
+			int index=1;
 			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getC_AcctSchema_ID());
-			pstmt.setInt(2, AD_Table_ID);
-			pstmt.setInt(3, Record_ID);
-			pstmt.setInt(4, Line_ID);
-			pstmt.setInt(5, m_acct.getAccount_ID());
-            pstmt.setBigDecimal(6, quantity.negate()); // Negate quantity to get the credit account fact
+			pstmt.setInt(index++, getC_AcctSchema_ID());
+			pstmt.setInt(index++, AD_Table_ID);
+			pstmt.setInt(index++, Record_ID);
+			if (Line_ID != 0)
+				pstmt.setInt(index++, Line_ID);
+			pstmt.setInt(index++, m_acct.getAccount_ID());
+            pstmt.setBigDecimal(index++, quantity.negate()); // Negate quantity to get the credit account fact
 			// MZ Goodwill
 			// for Inventory Move
 			if (MMovement.Table_ID == AD_Table_ID)

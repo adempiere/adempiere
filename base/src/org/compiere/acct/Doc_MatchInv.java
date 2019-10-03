@@ -19,6 +19,7 @@ package org.compiere.acct;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
@@ -69,6 +70,9 @@ public class Doc_MatchInv extends Doc
 	private MInOutLine		m_receiptLine = null;
 	
 	private ProductCost		m_pc = null;
+	
+	Optional<MMatchInv> matchInv = Optional.empty();
+	Optional<MMatchInv> matchInvOrig = Optional.empty();
 
 	/** Commitments			*/
 //	private DocLine[]		m_commitments = null;
@@ -80,23 +84,28 @@ public class Doc_MatchInv extends Doc
 	protected String loadDocumentDetails ()
 	{
 		setC_Currency_ID (Doc.NO_CURRENCY);
-		MMatchInv matchInv = (MMatchInv)getPO();
-		setDateDoc(matchInv.getDateTrx());
-		setQty (matchInv.getQty());
-		//	Invoice Info
-		int C_InvoiceLine_ID = matchInv.getC_InvoiceLine_ID();
-		m_invoiceLine = new MInvoiceLine (getCtx(), C_InvoiceLine_ID, getTrxName());
-		//		BP for NotInvoicedReceipts
-		int C_BPartner_ID = m_invoiceLine.getParent().getC_BPartner_ID(); 
-		setC_BPartner_ID(C_BPartner_ID);
-		//
-		int M_InOutLine_ID = matchInv.getM_InOutLine_ID();
-		m_receiptLine = new MInOutLine (getCtx(), M_InOutLine_ID, getTrxName());		
-		//
-		m_pc = new ProductCost (Env.getCtx(), 
-			getM_Product_ID(), matchInv.getM_AttributeSetInstance_ID(), getTrxName());
-		m_pc.setQty(getQty());
-		
+		matchInv = Optional.ofNullable((MMatchInv)getPO());
+		matchInv.ifPresent(match ->{
+			setDateDoc(match.getDateTrx());
+			setQty (match.getQty());
+			//	Invoice Info
+			int C_InvoiceLine_ID = match.getC_InvoiceLine_ID();
+			m_invoiceLine = new MInvoiceLine (getCtx(), C_InvoiceLine_ID, getTrxName());
+			//		BP for NotInvoicedReceipts
+			int C_BPartner_ID = m_invoiceLine.getParent().getC_BPartner_ID(); 
+			setC_BPartner_ID(C_BPartner_ID);
+			//
+			int M_InOutLine_ID = match.getM_InOutLine_ID();
+			m_receiptLine = new MInOutLine (getCtx(), M_InOutLine_ID, getTrxName());		
+			//
+			m_pc = new ProductCost (Env.getCtx(), 
+				getM_Product_ID(), match.getM_AttributeSetInstance_ID(), getTrxName());
+			m_pc.setQty(getQty());
+			
+			if (match.getReversal_ID()!=0
+					&& !match.isReversalParent()) 
+				matchInvOrig = Optional.ofNullable(new MMatchInv(match.getCtx(), match.getReversal_ID(), match.get_TrxName()));
+		});
 		return null;
 	}   //  loadDocumentDetails
 
@@ -169,33 +178,41 @@ public class Doc_MatchInv extends Doc
 			p_Error = "No Product Costs";
 			return null;
 		}
-        dr.setM_Product_ID(m_receiptLine.getM_Product_ID());
-		String documentBaseTypeReceipt = DB.getSQLValueString(m_receiptLine.get_TrxName() , "SELECT DocBaseType FROM C_DocType WHERE C_DocType_ID=?", m_receiptLine.getParent().getC_DocType_ID());
-		BigDecimal quantityReceipt = MDocType.DOCBASETYPE_MaterialReceipt.equals(documentBaseTypeReceipt) ? getQty() : getQty().negate();
-		dr.setQty(quantityReceipt);
-		BigDecimal temp = dr.getAcctBalance();
-		//	Set AmtAcctCr/Dr from Receipt (sets also Project)
-		if (!dr.updateReverseLine (MInOut.Table_ID, 		//	Amt updated
-			m_receiptLine.getM_InOut_ID(), m_receiptLine.getM_InOutLine_ID(), quantityReceipt , multiplier))
-		{
-			if (m_receiptLine.getM_InOut().isPosted())
+		
+		BigDecimal temp = Env.ZERO;
+		
+		if (matchInvOrig.isPresent()) {
+			
+				dr.updateReverseLine (MMatchInv.Table_ID, 		//	Amt updated
+						matchInvOrig.get().getM_MatchInv_ID(), 0, getQty() , multiplier);	
+		}else {
+	        dr.setM_Product_ID(m_receiptLine.getM_Product_ID());
+			String documentBaseTypeReceipt = DB.getSQLValueString(m_receiptLine.get_TrxName() , "SELECT DocBaseType FROM C_DocType WHERE C_DocType_ID=?", m_receiptLine.getParent().getC_DocType_ID());
+			BigDecimal quantityReceipt = MDocType.DOCBASETYPE_MaterialReceipt.equals(documentBaseTypeReceipt) ? getQty() : getQty().negate();
+			dr.setQty(getQty());
+			temp = dr.getAcctBalance();
+			//	Set AmtAcctCr/Dr from Receipt (sets also Project)
+			if (!dr.updateReverseLine (MInOut.Table_ID, 		//	Amt updated
+				m_receiptLine.getM_InOut_ID(), m_receiptLine.getM_InOutLine_ID(), quantityReceipt , multiplier))
 			{
-				dr.setAmtAcctCr(Env.ZERO);
-				dr.setAmtAcctDr(Env.ZERO);
-				dr.setAmtSourceCr(Env.ZERO);
-				dr.setAmtSourceDr(Env.ZERO);
-				dr.setQty(quantityReceipt);
+				if (m_receiptLine.getM_InOut().isPosted())
+				{
+					dr.setAmtAcctCr(Env.ZERO);
+					dr.setAmtAcctDr(Env.ZERO);
+					dr.setAmtSourceCr(Env.ZERO);
+					dr.setAmtSourceDr(Env.ZERO);
+					dr.setQty(quantityReceipt);
+				}
+				else
+				{
+					p_Error = "Mat.Receipt not posted yet";
+					return null;
+					
+				}
 			}
-			else
-			{
-				p_Error = "Mat.Receipt not posted yet";
-				return null;
-				
-			}
+			log.fine("CR - Amt(" + temp + "->" + dr.getAcctBalance() 
+				+ ") - " + dr.toString());
 		}
-		log.fine("CR - Amt(" + temp + "->" + dr.getAcctBalance() 
-			+ ") - " + dr.toString());
-
 		//  InventoryClearing               CR
 		//  From Invoice
 		MAccount expense = m_pc.getAccount(ProductCost.ACCTTYPE_P_InventoryClearing, as);
@@ -213,76 +230,83 @@ public class Doc_MatchInv extends Doc
 		if (as.isAccrual())
 		{
 			cr = fact.createLine (null, expense,
-				as.getC_Currency_ID(), null, LineNetAmt);		//	updated below
-			if (cr == null)
-			{
-				log.fine("Line Net Amt=0 - M_Product_ID=" + getM_Product_ID()
-					+ ",Qty=" + getQty() + ",InOutQty=" + m_receiptLine.getMovementQty());
+					as.getC_Currency_ID(), null, LineNetAmt);		//	updated below
+			
+			if (matchInvOrig.isPresent()) {
+				cr.updateReverseLine (MMatchInv.Table_ID, 		//	Amt updated
+						matchInvOrig.get().getM_MatchInv_ID(), 0, getQty() , multiplier);	
+			}else {
 				
-				//  Invoice Price Variance
-				BigDecimal ipv = dr.getSourceBalance().negate();
-				if (ipv.signum() != 0)
+				if (cr == null)
 				{
-					BigDecimal costs = MCostDetail.getByDocLineMatchInv(m_invoiceLine,  
-							m_receiptLine,as.getC_AcctSchema_ID(), as.getM_CostType_ID());
-
-					int ACCTTYPE_P = 0;
-					if(MCostType.COSTINGMETHOD_StandardCosting.equals(ct.getCostingMethod()) 
-					|| MCostType.COSTINGMETHOD_AverageInvoice.equals(ct.getCostingMethod()))
-						ACCTTYPE_P  = ProductCost.ACCTTYPE_P_IPV;
-					else
-						ACCTTYPE_P  = ProductCost.ACCTTYPE_P_Asset;
-					BigDecimal diff = ipv.subtract(costs);
-					MInvoice m_invoice = m_invoiceLine.getParent();
-					int C_Currency_ID = m_invoice.getC_Currency_ID();
-					FactLine pv = fact.createLine(null,
-							m_pc.getAccount(ACCTTYPE_P, as),
-							C_Currency_ID, ipv);
-					pv.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
-					pv.setC_Campaign_ID(m_invoiceLine.getC_Campaign_ID());
-					pv.setC_Project_ID(m_invoiceLine.getC_Project_ID());
-					pv.setC_ProjectPhase_ID(m_invoiceLine.getC_ProjectPhase_ID());
-					pv.setC_ProjectTask_ID(m_invoiceLine.getC_ProjectTask_ID());
-					pv.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
-					pv.setUser1_ID(m_invoiceLine.getUser1_ID());
-					pv.setUser2_ID(m_invoiceLine.getUser2_ID());
-					pv.setUser3_ID(m_invoiceLine.getUser3_ID());
-					pv.setUser4_ID(m_invoiceLine.getUser4_ID());
-					if (diff.compareTo(Env.ZERO)!= 0 && MCostType.COSTINGMETHOD_AverageInvoice.equals(ct.getCostingMethod()))
+					log.fine("Line Net Amt=0 - M_Product_ID=" + getM_Product_ID()
+						+ ",Qty=" + getQty() + ",InOutQty=" + m_receiptLine.getMovementQty());
+					
+					//  Invoice Price Variance
+					BigDecimal ipv = dr.getSourceBalance().negate();
+					if (ipv.signum() != 0)
 					{
-						FactLine diffline = fact.createLine(null,
-								m_pc.getAccount(ProductCost.ACCTTYPE_P_CostAdjustment, as),
-								C_Currency_ID, diff.negate());
-						diffline.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
-						diffline.setC_Project_ID(m_invoiceLine.getC_Project_ID());
-						diffline.setC_ProjectPhase_ID(m_invoiceLine.getC_ProjectPhase_ID());
-						diffline.setC_ProjectTask_ID(m_invoiceLine.getC_ProjectTask_ID());
-						diffline.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
-						diffline.setUser1_ID(m_invoiceLine.getUser1_ID());
-						diffline.setUser2_ID(m_invoiceLine.getUser2_ID());
-						diffline.setUser3_ID(m_invoiceLine.getUser3_ID());
-						diffline.setUser4_ID(m_invoiceLine.getUser4_ID());
-						diffline.setQty(Env.ZERO);
+						BigDecimal costs = MCostDetail.getByDocLineMatchInv(m_invoiceLine,  
+								m_receiptLine,as.getC_AcctSchema_ID(), as.getM_CostType_ID());
+	
+						int ACCTTYPE_P = 0;
+						if(MCostType.COSTINGMETHOD_StandardCosting.equals(ct.getCostingMethod()) 
+						|| MCostType.COSTINGMETHOD_AverageInvoice.equals(ct.getCostingMethod()))
+							ACCTTYPE_P  = ProductCost.ACCTTYPE_P_IPV;
+						else
+							ACCTTYPE_P  = ProductCost.ACCTTYPE_P_Asset;
+						BigDecimal diff = ipv.subtract(costs);
+						MInvoice m_invoice = m_invoiceLine.getParent();
+						int C_Currency_ID = m_invoice.getC_Currency_ID();
+						FactLine pv = fact.createLine(null,
+								m_pc.getAccount(ACCTTYPE_P, as),
+								C_Currency_ID, ipv);
+						pv.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
+						pv.setC_Campaign_ID(m_invoiceLine.getC_Campaign_ID());
+						pv.setC_Project_ID(m_invoiceLine.getC_Project_ID());
+						pv.setC_ProjectPhase_ID(m_invoiceLine.getC_ProjectPhase_ID());
+						pv.setC_ProjectTask_ID(m_invoiceLine.getC_ProjectTask_ID());
+						pv.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
+						pv.setUser1_ID(m_invoiceLine.getUser1_ID());
+						pv.setUser2_ID(m_invoiceLine.getUser2_ID());
+						pv.setUser3_ID(m_invoiceLine.getUser3_ID());
+						pv.setUser4_ID(m_invoiceLine.getUser4_ID());
+						if (diff.compareTo(Env.ZERO)!= 0 && MCostType.COSTINGMETHOD_AverageInvoice.equals(ct.getCostingMethod()))
+						{
+							FactLine diffline = fact.createLine(null,
+									m_pc.getAccount(ProductCost.ACCTTYPE_P_CostAdjustment, as),
+									C_Currency_ID, diff.negate());
+							diffline.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
+							diffline.setC_Project_ID(m_invoiceLine.getC_Project_ID());
+							diffline.setC_ProjectPhase_ID(m_invoiceLine.getC_ProjectPhase_ID());
+							diffline.setC_ProjectTask_ID(m_invoiceLine.getC_ProjectTask_ID());
+							diffline.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
+							diffline.setUser1_ID(m_invoiceLine.getUser1_ID());
+							diffline.setUser2_ID(m_invoiceLine.getUser2_ID());
+							diffline.setUser3_ID(m_invoiceLine.getUser3_ID());
+							diffline.setUser4_ID(m_invoiceLine.getUser4_ID());
+							diffline.setQty(Env.ZERO);
+						}
 					}
+					log.fine("IPV=" + ipv + "; Balance=" + fact.getSourceBalance());
+					facts.add(fact);
+					return facts;
 				}
-				log.fine("IPV=" + ipv + "; Balance=" + fact.getSourceBalance());
-				facts.add(fact);
-				return facts;
+	            cr.setM_Product_ID(m_invoiceLine.getM_Product_ID());
+				temp = cr.getAcctBalance();
+				String documentBaseTypeInvoice = DB.getSQLValueString(m_invoiceLine.get_TrxName() , "SELECT DocBaseType FROM C_DocType WHERE C_DocType_ID=?", m_invoiceLine.getParent().getC_DocType_ID());
+				BigDecimal quantityInvoice = MDocType.DOCBASETYPE_APInvoice.equals(documentBaseTypeInvoice) ?  getQty().negate() : getQty() ;
+				cr.setQty(getQty());
+				//	Set AmtAcctCr/Dr from Invoice (sets also Project)
+				if (as.isAccrual() && !cr.updateReverseLine (MInvoice.Table_ID, 		//	Amt updated
+					m_invoiceLine.getC_Invoice_ID(), m_invoiceLine.getC_InvoiceLine_ID(), quantityInvoice , multiplier))
+				{
+					p_Error = "Invoice not posted yet";
+					return null;
+				}
+				log.fine("DR - Amt(" + temp + "->" + cr.getAcctBalance() 
+					+ ") - " + cr.toString());
 			}
-            cr.setM_Product_ID(m_invoiceLine.getM_Product_ID());
-			temp = cr.getAcctBalance();
-			String documentBaseTypeInvoice = DB.getSQLValueString(m_invoiceLine.get_TrxName() , "SELECT DocBaseType FROM C_DocType WHERE C_DocType_ID=?", m_invoiceLine.getParent().getC_DocType_ID());
-			BigDecimal quantityInvoice = MDocType.DOCBASETYPE_APInvoice.equals(documentBaseTypeInvoice) ?  getQty().negate() : getQty() ;
-			cr.setQty(quantityInvoice);
-			//	Set AmtAcctCr/Dr from Invoice (sets also Project)
-			if (as.isAccrual() && !cr.updateReverseLine (MInvoice.Table_ID, 		//	Amt updated
-				m_invoiceLine.getC_Invoice_ID(), m_invoiceLine.getC_InvoiceLine_ID(), quantityInvoice , multiplier))
-			{
-				p_Error = "Invoice not posted yet";
-				return null;
-			}
-			log.fine("DR - Amt(" + temp + "->" + cr.getAcctBalance() 
-				+ ") - " + cr.toString());
 		}
 		else	//	Cash Acct
 		{
@@ -337,45 +361,47 @@ public class Doc_MatchInv extends Doc
 
 		//  Invoice Price Variance 	difference
 		BigDecimal ipv = cr.getAcctBalance().add(dr.getAcctBalance()).negate();
+		
 		if (ipv.compareTo(Env.ZERO) == 0)
 		{
 			facts.add(fact);
 			return facts;
 		}
-		if (!MCostType.COSTINGMETHOD_AverageInvoice.equals(ct.getCostingMethod()))
-		{
-			int ACCTTYPE_P = 0;
-			if(MCostType.COSTINGMETHOD_StandardCosting.equals(ct.getCostingMethod())
-			|| MCostType.COSTINGMETHOD_AverageInvoice.equals(ct.getCostingMethod()))
-				ACCTTYPE_P  = ProductCost.ACCTTYPE_P_IPV;
-			else
-				ACCTTYPE_P  = ProductCost.ACCTTYPE_P_Asset;
+		if (matchInvOrig.isPresent()) {
 			
 			FactLine pv = fact.createLine(null,
-				m_pc.getAccount(ACCTTYPE_P, as),
-				as.getC_Currency_ID(), ipv);
-			pv.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
-			pv.setC_Campaign_ID(m_invoiceLine.getC_Campaign_ID());
-			pv.setC_Project_ID(m_invoiceLine.getC_Project_ID());
-			pv.setC_ProjectPhase_ID(m_invoiceLine.getC_ProjectPhase_ID());
-			pv.setC_ProjectTask_ID(m_invoiceLine.getC_ProjectTask_ID());
-			pv.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
-			pv.setUser1_ID(m_invoiceLine.getUser1_ID());
-			pv.setUser2_ID(m_invoiceLine.getUser2_ID());
-			pv.setUser3_ID(m_invoiceLine.getUser3_ID());
-			pv.setUser4_ID(m_invoiceLine.getUser4_ID());
+					m_pc.getAccount(ProductCost.ACCTTYPE_P_IPV, as),
+					as.getC_Currency_ID(), Env.ZERO);
+			pv.updateReverseLine(MMatchInv.Table_ID, matchInvOrig.get().get_ID(), 0, Env.ZERO, multiplier);
 			
-			//
-		}
-		else
-		{
-			BigDecimal costs = MCostDetail.getByDocLineMatchInv(m_invoiceLine,  
-					m_receiptLine,as.getC_AcctSchema_ID(), as.getM_CostType_ID());
-
-			FactLine pv = fact.createLine(null,
-				m_pc.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
-				as.getC_Currency_ID(), costs);
-			if (pv != null) {
+			if (pv.getAcctBalance().equals(Env.ZERO)) {
+				pv.setAccount(as,m_pc.getAccount(ProductCost.ACCTTYPE_P_Asset, as));
+				pv.updateReverseLine(MMatchInv.Table_ID, matchInvOrig.get().get_ID(), 0, Env.ZERO, multiplier);
+			}
+			
+			BigDecimal diff = ipv.subtract(pv.getAcctBalance());
+			if (diff.compareTo(Env.ZERO)!= 0 )
+			{
+				FactLine diffline = fact.createLine(null,
+						m_pc.getAccount(ProductCost.ACCTTYPE_P_CostAdjustment, as),
+						as.getC_Currency_ID(), diff);
+				
+				diffline.updateReverseLine(MMatchInv.Table_ID, matchInvOrig.get().get_ID(), 0, Env.ZERO, multiplier);
+			}
+		}else {
+				
+			if (!MCostType.COSTINGMETHOD_AverageInvoice.equals(ct.getCostingMethod()))
+			{
+				int ACCTTYPE_P = 0;
+				if(MCostType.COSTINGMETHOD_StandardCosting.equals(ct.getCostingMethod())
+				|| MCostType.COSTINGMETHOD_AverageInvoice.equals(ct.getCostingMethod()))
+					ACCTTYPE_P  = ProductCost.ACCTTYPE_P_IPV;
+				else
+					ACCTTYPE_P  = ProductCost.ACCTTYPE_P_Asset;
+				
+				FactLine pv = fact.createLine(null,
+					m_pc.getAccount(ACCTTYPE_P, as),
+					as.getC_Currency_ID(), ipv);
 				pv.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
 				pv.setC_Campaign_ID(m_invoiceLine.getC_Campaign_ID());
 				pv.setC_Project_ID(m_invoiceLine.getC_Project_ID());
@@ -386,27 +412,50 @@ public class Doc_MatchInv extends Doc
 				pv.setUser2_ID(m_invoiceLine.getUser2_ID());
 				pv.setUser3_ID(m_invoiceLine.getUser3_ID());
 				pv.setUser4_ID(m_invoiceLine.getUser4_ID());
-				pv.setQty(Env.ZERO);
+				
+				//
 			}
-			
-			BigDecimal diff = ipv.subtract(costs);
-			MInvoice m_invoice = m_invoiceLine.getParent();
-			if (diff.compareTo(Env.ZERO)!= 0 )
+			else
 			{
-				FactLine diffline = fact.createLine(null,
-						m_pc.getAccount(ProductCost.ACCTTYPE_P_CostAdjustment, as),
-						as.getC_Currency_ID(), diff);
-				if (diffline != null) {
-					diffline.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
-					diffline.setC_Project_ID(m_invoiceLine.getC_Project_ID());
-					diffline.setC_ProjectPhase_ID(m_invoiceLine.getC_ProjectPhase_ID());
-					diffline.setC_ProjectTask_ID(m_invoiceLine.getC_ProjectTask_ID());
-					diffline.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
-					diffline.setUser1_ID(m_invoiceLine.getUser1_ID());
-					diffline.setUser2_ID(m_invoiceLine.getUser2_ID());
-					diffline.setUser3_ID(m_invoiceLine.getUser3_ID());
-					diffline.setUser4_ID(m_invoiceLine.getUser4_ID());
-					diffline.setQty(Env.ZERO);
+				BigDecimal costs = MCostDetail.getByDocLineMatchInv(m_invoiceLine,  
+						m_receiptLine,as.getC_AcctSchema_ID(), as.getM_CostType_ID());
+	
+				FactLine pv = fact.createLine(null,
+					m_pc.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
+					as.getC_Currency_ID(), costs);
+				if (pv != null) {
+					pv.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
+					pv.setC_Campaign_ID(m_invoiceLine.getC_Campaign_ID());
+					pv.setC_Project_ID(m_invoiceLine.getC_Project_ID());
+					pv.setC_ProjectPhase_ID(m_invoiceLine.getC_ProjectPhase_ID());
+					pv.setC_ProjectTask_ID(m_invoiceLine.getC_ProjectTask_ID());
+					pv.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
+					pv.setUser1_ID(m_invoiceLine.getUser1_ID());
+					pv.setUser2_ID(m_invoiceLine.getUser2_ID());
+					pv.setUser3_ID(m_invoiceLine.getUser3_ID());
+					pv.setUser4_ID(m_invoiceLine.getUser4_ID());
+					pv.setQty(Env.ZERO);
+				}
+				
+				BigDecimal diff = ipv.subtract(costs);
+				MInvoice m_invoice = m_invoiceLine.getParent();
+				if (diff.compareTo(Env.ZERO)!= 0 )
+				{
+					FactLine diffline = fact.createLine(null,
+							m_pc.getAccount(ProductCost.ACCTTYPE_P_CostAdjustment, as),
+							as.getC_Currency_ID(), diff);
+					if (diffline != null) {
+						diffline.setC_Activity_ID(m_invoiceLine.getC_Activity_ID());
+						diffline.setC_Project_ID(m_invoiceLine.getC_Project_ID());
+						diffline.setC_ProjectPhase_ID(m_invoiceLine.getC_ProjectPhase_ID());
+						diffline.setC_ProjectTask_ID(m_invoiceLine.getC_ProjectTask_ID());
+						diffline.setC_UOM_ID(m_invoiceLine.getC_UOM_ID());
+						diffline.setUser1_ID(m_invoiceLine.getUser1_ID());
+						diffline.setUser2_ID(m_invoiceLine.getUser2_ID());
+						diffline.setUser3_ID(m_invoiceLine.getUser3_ID());
+						diffline.setUser4_ID(m_invoiceLine.getUser4_ID());
+						diffline.setQty(Env.ZERO);
+					}
 				}
 			}
 		}

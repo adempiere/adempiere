@@ -580,8 +580,7 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 
 	@Override
 	public boolean isReversalParent() {
-		// TODO Auto-generated method stub
-		return false;
+		return getM_MatchInv_ID() < getReversal_ID();
 	}
 
 
