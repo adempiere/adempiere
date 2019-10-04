@@ -243,16 +243,13 @@ public class MADContextInfo extends X_AD_ContextInfo {
 			if (rs.next()) {
 				for(int column = 0; column < columnQty; column++)  {
 					Object value = rs.getObject(column + 1);
-					if(value instanceof BigDecimal
-							&& value instanceof Double
-							&& value instanceof Float
-							&& value instanceof Integer
-							&& value instanceof String
-							&& value instanceof Timestamp) {
+					if(!(value instanceof BigDecimal)
+							&& !(value instanceof Double)
+							&& !(value instanceof Float)
+							&& !(value instanceof Integer)
+							&& !(value instanceof String)
+							&& !(value instanceof Timestamp)) {
 						continue;
-					}
-					if(value == null) {
-						value = new String();
 					}
 					//	
 					if(value instanceof BigDecimal) {
