@@ -33,6 +33,7 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.compiere.model.MDocType;
@@ -210,7 +211,7 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction, DocOpti
 		
 		MDocType documentType = MDocType.get(getCtx(), getC_DocType_ID());
 		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getDateTrx(), documentType.getDocBaseType(), getAD_Org_ID())){
+		if (!MPeriod.isOpen(getCtx(), isSOTrx() ? getPickDate() : getDateTrx(), documentType.getDocBaseType(), getAD_Org_ID())){
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
 		}
@@ -458,6 +459,18 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction, DocOpti
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
 		if (m_processMsg != null)
 			return false;
+		getLines(true, null)
+				.forEach(inoutLine -> {
+					if (inoutLine.getMovementQty().signum() != 0) {
+
+						inoutLine.setDescription(Optional.ofNullable(inoutLine.getDescription()).orElse("")
+								+ " " + Msg.getMsg(getCtx(), "Voided") + " @MovementQty@ = (" + inoutLine.getMovementQty() + ")");
+						inoutLine.setMovementQty(BigDecimal.ZERO);
+						inoutLine.setProcessed(true);
+						inoutLine.saveEx();
+					}
+					//AZ Goodwill
+				});
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
 		// After Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
@@ -492,6 +505,17 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction, DocOpti
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
 		if (m_processMsg != null)
 			return false;
+
+		getLines(true, null)
+				.forEach(inoutLine -> {
+					if (inoutLine.getMovementQty().compareTo(inoutLine.getPickedQty()) != 0) {
+						inoutLine.setDescription(Optional.ofNullable(inoutLine.getDescription()).orElse("")
+								+ " " + Msg.getMsg(getCtx(), "@closed@ @MovementQty@ = (" + inoutLine.getMovementQty() + ")"));
+						inoutLine.setMovementQty(inoutLine.getPickedQty());
+						inoutLine.setProcessed(true);
+						inoutLine.saveEx();
+					}
+				});
 		
 		setProcessed(true);
 		setDocAction(DOCACTION_None);
