@@ -31,7 +31,7 @@ public class X_AD_TokenDefinition extends PO implements I_AD_TokenDefinition, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191006L;
 
     /** Standard Constructor */
     public X_AD_TokenDefinition (Properties ctx, int AD_TokenDefinition_ID, String trxName)
@@ -54,7 +54,7 @@ public class X_AD_TokenDefinition extends PO implements I_AD_TokenDefinition, I_
     }
 
     /** AccessLevel
-      * @return 4 - System 
+      * @return 6 - System - Client 
       */
     protected int get_AccessLevel()
     {
