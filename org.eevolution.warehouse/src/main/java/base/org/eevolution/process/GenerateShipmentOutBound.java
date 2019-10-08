@@ -104,7 +104,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
     /**
      * Create Shipment to Out Bound Order
      *
-     * @param outboundLine
+     * @param outboundLine Outbound Order Line
      */
     private void createShipment(MWMInOutBoundLine outboundLine) {
         // Generate Shipment based on Outbound Order
@@ -181,13 +181,15 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
         manufacturingIssues.entrySet().stream().filter(Objects::nonNull)
                 .forEach(entry -> {
                     MPPCostCollector issue = entry.getValue();
-                    issue.setDocAction(getDocAction());
-                    issue.processIt(getDocAction());
-                    if (!issue.processIt(getDocAction())) {
-                        addLog("@ProcessFailed@ : " + issue.getDocumentInfo());
-                        log.warning("@ProcessFailed@ :" + issue.getDocumentInfo());
+                    if (MPPCostCollector.DOCSTATUS_Drafted.equals(issue.getDocStatus()) ||
+                        MPPCostCollector.DOCSTATUS_InProgress.equals(issue.getDocStatus())) {
+                        issue.processIt(MPPCostCollector.DOCACTION_Complete);
+                        if (!issue.processIt(MPPCostCollector.DOCACTION_Complete)) {
+                            addLog("@ProcessFailed@ : " + issue.getDocumentInfo());
+                            log.warning("@ProcessFailed@ :" + issue.getDocumentInfo());
+                        }
+                        issue.saveEx();
                     }
-                    issue.saveEx();
                 });
     }
 
@@ -195,7 +197,6 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
         List<PO> shipmentsToPrint = new ArrayList<PO>();
         shipments.entrySet().stream().filter(Objects::nonNull).forEach(entry -> {
             MInOut shipment = entry.getValue();
-            shipment.setDocAction(getDocAction());
             shipment.processIt(getDocAction());
             if (!shipment.processIt(getDocAction())) {
                 addLog("@ProcessFailed@ : " + shipment.getDocumentInfo());
@@ -203,7 +204,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
             }
             shipment.saveEx();
             documentCreated++;
-            addLog(shipment.getDocumentNo());
+            addLog(shipment.getDocumentInfo());
             shipmentsToPrint.add(shipment);
         });
         //	Print documents
@@ -232,7 +233,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
                 Optional<MMovement> maybeMovement = Optional.ofNullable(new MMovement(getCtx(), recordId, get_TrxName()));
                 maybeMovement.ifPresent(movement -> {
                     documentCreated++;
-                    printDocument(movement, "Inventory Move Hdr (Example)");
+                    printDocument(movement, true);
                 });
             });
         });
@@ -262,6 +263,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
         shipment.setM_FreightCategory_ID(outbound.getM_FreightCategory_ID());
         shipment.setFreightCostRule(outbound.getFreightCostRule());
         shipment.setFreightAmt(outbound.getFreightAmt());
+        shipment.setDocAction(MInOut.DOCACTION_Complete);
         shipment.setDocStatus(MInOut.DOCSTATUS_Drafted);
         shipment.saveEx();
 
