@@ -218,7 +218,7 @@ public class MHRConcept extends X_HR_Concept {
         String sql = " HR_Revenue_Acct FROM HR_Concept c " +
                 " INNER JOIN HR_Concept_Acct ca ON (c.HR_Concept_ID=ca.HR_Concept_ID)" +
                 " WHERE c.HR_Concept_ID " + getHR_Concept_ID();
-        int result = DB.getSQLValue("ConceptCR", sql);
+        int result = DB.getSQLValue("ConceptDR", sql);
         if (result > 0)
             return result;
         return 0;
@@ -248,21 +248,21 @@ public class MHRConcept extends X_HR_Concept {
                                             Optional<Integer> optionalPartnerGroupId) {
         StringBuilder whereClause = new StringBuilder();
         ArrayList<Object> paramenters =  new ArrayList<>();
-        whereClause.append(I_HR_Concept_Acct.COLUMNNAME_HR_Concept_ID).append("=? AND ");
+        whereClause.append(I_HR_Concept_Acct.COLUMNNAME_HR_Concept_ID).append("=?");
         paramenters.add(getHR_Concept_ID());
         optionalAcctSchemaId.ifPresent(accountSchemaId -> {
-            whereClause.append(I_HR_Concept_Acct.COLUMNNAME_C_AcctSchema_ID).append("=? AND ");
+            whereClause.append(" AND ").append(I_HR_Concept_Acct.COLUMNNAME_C_AcctSchema_ID).append("=? ");
             paramenters.add(accountSchemaId);
         });
         optionalPayrollId.ifPresent(payrollId -> {
-            whereClause.append("(")
+            whereClause.append("AND (")
                     .append(I_HR_Concept_Acct.COLUMNNAME_HR_Payroll_ID).append("=? OR  ")
-                    .append(I_HR_Concept_Acct.COLUMNNAME_HR_Payroll_ID).append(" IS NULL) AND ");
+                    .append(I_HR_Concept_Acct.COLUMNNAME_HR_Payroll_ID).append(" IS NULL)");
             paramenters.add(payrollId);
         });
 
         optionalPartnerGroupId.ifPresent(partnerGroupId -> {
-                whereClause.append("(").append(I_HR_Concept_Acct.COLUMNNAME_C_BP_Group_ID).append("=? OR  ")
+                whereClause.append(" AND (").append(I_HR_Concept_Acct.COLUMNNAME_C_BP_Group_ID).append("=? OR  ")
                                        .append(I_HR_Concept_Acct.COLUMNNAME_C_BP_Group_ID).append(" IS NULL)");
                 paramenters.add(partnerGroupId);
         });
