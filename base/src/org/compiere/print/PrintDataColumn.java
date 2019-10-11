@@ -45,7 +45,7 @@ public class PrintDataColumn
 	 */
 	public PrintDataColumn (int columnId, String columnName,
 		int displayType, int columnSize,
-		String alias, boolean isPageBreak, int printFormatItemId, boolean isExcludeOfTotalCalc)
+		String alias, boolean isPageBreak, int printFormatItemId, boolean isHideGrandTotal)
 	{
 		this.columnId = columnId;
 		this.columnName = columnName;
@@ -58,7 +58,7 @@ public class PrintDataColumn
 			alias = columnName;
 		pageBreak = isPageBreak;
 		this.printFormatItemId = printFormatItemId;
-		this.isExcludeOfTotalCalc = isExcludeOfTotalCalc;
+		this.isHideGrandTotal = isHideGrandTotal;
 	}	//	PrintDataColumn
 
 	private int			columnId;
@@ -69,7 +69,7 @@ public class PrintDataColumn
 	private boolean		pageBreak;
 	private String 		formatPattern;
 	private int 		printFormatItemId;
-	private boolean		isExcludeOfTotalCalc;
+	private boolean		isHideGrandTotal;
 	
 	/** The sort order index or -1 if not set.  
 	 *  Lower numbers are sorted first.  If there
@@ -157,8 +157,8 @@ public class PrintDataColumn
 	 * Is exclude of total calculation
 	 * @return
 	 */
-	public boolean isExcludeOfTotalCalc() {
-		return isExcludeOfTotalCalc;
+	public boolean isHideGrandTotal() {
+		return isHideGrandTotal;
 	}
 
 	/**

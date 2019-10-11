@@ -653,30 +653,6 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return false;
 	}
 
-	/** Set Exclude of Total Calculation.
-		@param IsExcludeOfTotalCalc 
-		Exclude of Total Calculation
-	  */
-	public void setIsExcludeOfTotalCalc (boolean IsExcludeOfTotalCalc)
-	{
-		set_Value (COLUMNNAME_IsExcludeOfTotalCalc, Boolean.valueOf(IsExcludeOfTotalCalc));
-	}
-
-	/** Get Exclude of Total Calculation.
-		@return Exclude of Total Calculation
-	  */
-	public boolean isExcludeOfTotalCalc () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsExcludeOfTotalCalc);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Fill Shape.
 		@param IsFilledRectangle 
 		Fill the shape with the color selected
@@ -764,6 +740,30 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public boolean isHeightOneLine () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsHeightOneLine);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Hide Grand Total.
+		@param IsHideGrandTotal 
+		Hide Grand Total of Calculation
+	  */
+	public void setIsHideGrandTotal (boolean IsHideGrandTotal)
+	{
+		set_Value (COLUMNNAME_IsHideGrandTotal, Boolean.valueOf(IsHideGrandTotal));
+	}
+
+	/** Get Hide Grand Total.
+		@return Hide Grand Total of Calculation
+	  */
+	public boolean isHideGrandTotal () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsHideGrandTotal);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

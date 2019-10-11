@@ -363,19 +363,6 @@ public interface I_AD_PrintFormatItem
 	  */
 	public boolean isDeviationCalc();
 
-    /** Column name IsExcludeOfTotalCalc */
-    public static final String COLUMNNAME_IsExcludeOfTotalCalc = "IsExcludeOfTotalCalc";
-
-	/** Set Exclude of Total Calculation.
-	  * Exclude of Total Calculation
-	  */
-	public void setIsExcludeOfTotalCalc (boolean IsExcludeOfTotalCalc);
-
-	/** Get Exclude of Total Calculation.
-	  * Exclude of Total Calculation
-	  */
-	public boolean isExcludeOfTotalCalc();
-
     /** Column name IsFilledRectangle */
     public static final String COLUMNNAME_IsFilledRectangle = "IsFilledRectangle";
 
@@ -427,6 +414,19 @@ public interface I_AD_PrintFormatItem
 	  * If selected, only one line is printed
 	  */
 	public boolean isHeightOneLine();
+
+    /** Column name IsHideGrandTotal */
+    public static final String COLUMNNAME_IsHideGrandTotal = "IsHideGrandTotal";
+
+	/** Set Hide Grand Total.
+	  * Hide Grand Total of Calculation
+	  */
+	public void setIsHideGrandTotal (boolean IsHideGrandTotal);
+
+	/** Get Hide Grand Total.
+	  * Hide Grand Total of Calculation
+	  */
+	public boolean isHideGrandTotal();
 
     /** Column name IsImageField */
     public static final String COLUMNNAME_IsImageField = "IsImageField";

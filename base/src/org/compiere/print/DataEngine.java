@@ -288,7 +288,7 @@ public class DataEngine
 			+ "c.ColumnSQL, COALESCE(pfi.FormatPattern, c.FormatPattern) AS FormatPattern "		//	24, 25
 			+ " , pfi.isDesc " //26
 			+ " , pfi.SeqNo " //27
-			+ ", pfi.AD_PrintFormatItem_ID, pfi.IsExcludeOfTotalCalc " // 28
+			+ ", pfi.AD_PrintFormatItem_ID, pfi.IsHideGrandTotal " // 28
 			+ "FROM AD_PrintFormat pf"
 			+ " INNER JOIN AD_PrintFormatItem pfi ON (pf.AD_PrintFormat_ID=pfi.AD_PrintFormat_ID)"
 			+ " INNER JOIN AD_Column c ON (pfi.AD_Column_ID=c.AD_Column_ID)"
@@ -372,7 +372,7 @@ public class DataEngine
 				String formatPattern = rs.getString("FormatPattern");
 				boolean isDesc = "Y".equals(rs.getString("isDesc"));
 				int printFormatItemId = rs.getInt("AD_PrintFormatItem_ID");
-				boolean isExcludeOfTotalCalc = "Y".equals(rs.getString("IsExcludeOfTotalCalc"));
+				boolean isHideGrandTotal = "Y".equals(rs.getString("IsHideGrandTotal"));
 				//	Fully qualified Table.Column for ordering
 				String orderName = tableName + "." + columnName;
 				String lookupSQL = orderName;
@@ -386,7 +386,7 @@ public class DataEngine
 					//	=>	Table.Column,
 					sqlSELECT.append(tableName).append(".").append(columnName).append(",");
 					groupByColumns.add(tableName+"."+columnName);
-					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, KEY, isPageBreak, printFormatItemId, isExcludeOfTotalCalc);	//	KeyColumn
+					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, KEY, isPageBreak, printFormatItemId, isHideGrandTotal);	//	KeyColumn
 				}
 				// not printed Sort Columns
 				else if (!IsPrinted)
@@ -425,7 +425,7 @@ public class DataEngine
 					groupByColumns.add(lookupSQL);
 					orderName = m_synonym + display;
 					//
-					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isExcludeOfTotalCalc);
+					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isHideGrandTotal);
 					synonymNext();
 				}
 
@@ -464,7 +464,7 @@ public class DataEngine
 						.append(lookupSQL).append("=")
 						.append(m_synonym).append(".").append(tr.KeyColumn).append(")");
 					//
-					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isExcludeOfTotalCalc);
+					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isHideGrandTotal);
 					synonymNext();
 				}
 
@@ -518,7 +518,7 @@ public class DataEngine
 					}
 					// 	TableName.ColumnName,
 					sqlSELECT.append(lookupSQL).append(" AS ").append(columnName).append(",");
-					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isExcludeOfTotalCalc);
+					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isHideGrandTotal);
 					synonymNext();
 				}
 
@@ -586,7 +586,7 @@ public class DataEngine
 						.append(lookupSQL).append("=")
 						.append(m_synonym).append(".").append(key).append(")");
 					//
-					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isExcludeOfTotalCalc);
+					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isHideGrandTotal);
 					synonymNext();
 				}
 
@@ -623,7 +623,7 @@ public class DataEngine
 							groupByColumns.add(sb.toString());
 						orderName = columnName;		//	no prefix for synonym
 					}
-					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, columnName, isPageBreak, printFormatItemId, isExcludeOfTotalCalc);
+					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, columnName, isPageBreak, printFormatItemId, isHideGrandTotal);
 				}
 
 				//	Order Sequence - Overwrite order column name
@@ -1103,7 +1103,7 @@ public class DataEngine
 						pd.addNode(new PrintDataElement(pdc.getColumnName(), name.trim(),
 								DisplayType.String, pdc.getFormatPattern()));
 					} else if (group.isFunctionColumn(pdc.getColumnName(), functions[f])
-							&& !pdc.isExcludeOfTotalCalc()) {
+							&& !pdc.isHideGrandTotal()) {
 						pd.addNode(new PrintDataElement(pdc.getColumnName(),
 							group.getValue(PrintDataGroup.TOTAL, 
 								pdc.getColumnName(), functions[f]),
