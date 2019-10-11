@@ -363,6 +363,19 @@ public interface I_AD_PrintFormatItem
 	  */
 	public boolean isDeviationCalc();
 
+    /** Column name IsExcludeOfTotalCalc */
+    public static final String COLUMNNAME_IsExcludeOfTotalCalc = "IsExcludeOfTotalCalc";
+
+	/** Set Exclude of Total Calculation.
+	  * Exclude of Total Calculation
+	  */
+	public void setIsExcludeOfTotalCalc (boolean IsExcludeOfTotalCalc);
+
+	/** Get Exclude of Total Calculation.
+	  * Exclude of Total Calculation
+	  */
+	public boolean isExcludeOfTotalCalc();
+
     /** Column name IsFilledRectangle */
     public static final String COLUMNNAME_IsFilledRectangle = "IsFilledRectangle";
 

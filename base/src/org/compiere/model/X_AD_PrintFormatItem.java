@@ -30,7 +30,7 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191011L;
 
     /** Standard Constructor */
     public X_AD_PrintFormatItem (Properties ctx, int AD_PrintFormatItem_ID, String trxName)
@@ -644,6 +644,30 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public boolean isDeviationCalc () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsDeviationCalc);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Exclude of Total Calculation.
+		@param IsExcludeOfTotalCalc 
+		Exclude of Total Calculation
+	  */
+	public void setIsExcludeOfTotalCalc (boolean IsExcludeOfTotalCalc)
+	{
+		set_Value (COLUMNNAME_IsExcludeOfTotalCalc, Boolean.valueOf(IsExcludeOfTotalCalc));
+	}
+
+	/** Get Exclude of Total Calculation.
+		@return Exclude of Total Calculation
+	  */
+	public boolean isExcludeOfTotalCalc () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsExcludeOfTotalCalc);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
