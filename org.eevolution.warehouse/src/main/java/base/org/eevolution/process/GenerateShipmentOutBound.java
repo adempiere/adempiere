@@ -110,7 +110,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
         // Generate Shipment based on Outbound Order
         if (outboundLine.getC_OrderLine_ID() > 0) {
             MOrderLine orderLine = outboundLine.getOrderLine();
-            if (outboundLine.getMovementQty().subtract(orderLine.getQtyDelivered()).signum() <= 0 && !isIncludeNotAvailable())
+            if (orderLine.getQtyOrdered().subtract(orderLine.getQtyDelivered()).subtract(outboundLine.getPickedQty()).signum() <= 0 && !isIncludeNotAvailable())
                 return;
 
             BigDecimal qtyDelivered = getQtyDelivered(outboundLine, orderLine.getQtyDelivered());
@@ -183,7 +183,6 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
                     MPPCostCollector issue = entry.getValue();
                     if (MPPCostCollector.DOCSTATUS_Drafted.equals(issue.getDocStatus()) ||
                         MPPCostCollector.DOCSTATUS_InProgress.equals(issue.getDocStatus())) {
-                        issue.processIt(MPPCostCollector.DOCACTION_Complete);
                         if (!issue.processIt(MPPCostCollector.DOCACTION_Complete)) {
                             addLog("@ProcessFailed@ : " + issue.getDocumentInfo());
                             log.warning("@ProcessFailed@ :" + issue.getDocumentInfo());
@@ -197,7 +196,6 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
         List<PO> shipmentsToPrint = new ArrayList<PO>();
         shipments.entrySet().stream().filter(Objects::nonNull).forEach(entry -> {
             MInOut shipment = entry.getValue();
-            shipment.processIt(getDocAction());
             if (!shipment.processIt(getDocAction())) {
                 addLog("@ProcessFailed@ : " + shipment.getDocumentInfo());
                 log.warning("@ProcessFailed@ :" + shipment.getDocumentInfo());
