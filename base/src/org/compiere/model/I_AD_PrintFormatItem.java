@@ -415,6 +415,19 @@ public interface I_AD_PrintFormatItem
 	  */
 	public boolean isHeightOneLine();
 
+    /** Column name IsHideGrandTotal */
+    public static final String COLUMNNAME_IsHideGrandTotal = "IsHideGrandTotal";
+
+	/** Set Hide Grand Total.
+	  * Hide Grand Total of Calculation
+	  */
+	public void setIsHideGrandTotal (boolean IsHideGrandTotal);
+
+	/** Get Hide Grand Total.
+	  * Hide Grand Total of Calculation
+	  */
+	public boolean isHideGrandTotal();
+
     /** Column name IsImageField */
     public static final String COLUMNNAME_IsImageField = "IsImageField";
 
