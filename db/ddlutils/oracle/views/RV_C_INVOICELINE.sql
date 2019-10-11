@@ -8,7 +8,8 @@ CREATE OR REPLACE VIEW RV_C_INVOICELINE
  M_LOT_ID, GUARANTEEDATE, LOT, SERNO, PRICELIST, 
  PRICEACTUAL, PRICELIMIT, PRICEENTERED, DISCOUNT, MARGIN, 
  MARGINAMT, LINENETAMT, LINELISTAMT, LINELIMITAMT, LINEDISCOUNTAMT, 
- LINEOVERLIMITAMT, M_Product_Class_ID, M_Product_Group_ID, M_Product_Classification_ID, Description, LineDescription, C_DocTypeTarget_ID)
+ LINEOVERLIMITAMT, M_Product_Class_ID, M_Product_Group_ID, M_Product_Classification_ID, Description, LineDescription, C_DocTypeTarget_ID,
+ C_BP_AccountType_ID, C_BP_SalesGroup_ID, C_BP_Segment_ID, C_BP_IndustryType_ID)
 AS 
 SELECT 
 	il.AD_Client_ID, il.AD_Org_ID, il.IsActive, il.Created, il.CreatedBy, il.Updated, il.UpdatedBy,
@@ -39,8 +40,9 @@ SELECT
 	ROUND(i.Multiplier*PriceList*QtyInvoiced-LineNetAmt,2) AS LineDiscountAmt,
 	CASE WHEN COALESCE(il.PriceLimit,0)=0 THEN 0 ELSE
 		ROUND(i.Multiplier*LineNetAmt-PriceLimit*QtyInvoiced,2) END AS LineOverLimitAmt,
-    p.M_Product_Class_ID, p.M_Product_Group_ID, p.M_Product_Classification_ID, i.Description, 
-    il.Description AS LineDescription, i.C_DocTypeTarget_ID
+    p.M_Product_Class_ID, p.M_PRoduct_Group_ID, p.M_Product_Classification_ID, i.Description, 
+    il.Description AS LineDescription, i.C_DocTypeTarget_ID,
+    i.C_BP_AccountType_ID, i.C_BP_SalesGroup_ID, i.C_BP_Segment_ID, i.C_BP_IndustryType_ID
 FROM  RV_C_Invoice i
   INNER JOIN C_InvoiceLine il ON (i.C_Invoice_ID=il.C_Invoice_ID)
   LEFT OUTER JOIN M_Product p ON (il.M_Product_ID=p.M_Product_ID)
