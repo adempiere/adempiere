@@ -17,10 +17,15 @@
 package org.eevolution.service.dsl;
 
 
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Properties;
+
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MPInstance;
-import org.compiere.model.MPInstancePara;
 import org.compiere.model.MProcess;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
@@ -30,14 +35,6 @@ import org.compiere.util.Env;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.compiere.util.Util;
-
-import java.lang.reflect.Constructor;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Properties;
 
 
 /**
@@ -54,7 +51,7 @@ import java.util.Properties;
 public class ProcessBuilder {
 
     static private ProcessBuilder processBuilder;
-    static  private Properties context;
+    private Properties context;
     private ProcessInfo processInfo;
     private String title;
     private Integer processId;
@@ -285,6 +282,14 @@ public class ProcessBuilder {
         }
         return processInfo;
     }
+    
+    /**
+     * Get Process Information for result
+     * @return
+     */
+    public ProcessInfo getProcessInfo() {
+    	return processInfo;
+    }
 
     /**
      * Execute the process based on transaction exists
@@ -374,26 +379,45 @@ public class ProcessBuilder {
        return this;
    }
 
-    /**
-     * Define parameter with automatic sequence
-     * @param name
-     * @param value
-     * @return
-     */
-    public ProcessBuilder withParameter(String name, Object value) {
-        if (instance == null)
-            generateProcessInstance();
-        return withParameter(name, value , seqNo + 10);
-    }
+   /**
+    * Define parameter with automatic sequence
+    * @param name
+    * @param value
+    * @return
+    */
+   public ProcessBuilder withParameter(String name, Object value) {
+	   return withParameter(name, value, null);
+   }
+   
+   /**
+    * Define parameter with automatic sequence and value to
+    * @param name
+    * @param value
+    * @return
+    */
+   public ProcessBuilder withParameter(String name, Object value, Object valueTo) {
+	   return withParameter(name, value, valueTo, seqNo + 10);
+   }
+   
+   /**
+    * Define parameter without to parameter
+    * @param parameterName
+    * @param value
+    * @param sequence
+    * @return
+    */
+   public ProcessBuilder withParameter(String parameterName, Object value, Integer sequence) {
+	   return withParameter(parameterName, value, null, sequence);
+   }
 
-    /**
-     * Define parameter and sequence
-     * @param parameterName
-     * @param value
-     * @param sequence
-     * @return
-     */
-    public ProcessBuilder withParameter(String parameterName, Object value , Integer sequence) {
+   /**
+    * Define parameter and sequence
+    * @param parameterName
+    * @param value
+    * @param sequence
+    * @return
+    */
+    public ProcessBuilder withParameter(String parameterName, Object value, Object valueTo, Integer sequence) {
         if (Util.isEmpty(parameterName))
             return this;
 
@@ -402,6 +426,9 @@ public class ProcessBuilder {
 
         seqNo = sequence;
         instance.createParameter(sequence, parameterName, value);
+        if(valueTo != null) {
+        	instance.createParameter(sequence, parameterName + "_To", valueTo);
+        }
         return this;
     }
 
