@@ -220,6 +220,7 @@ public class FactAcctReset extends FactAcctResetAbstract {
         reset(accountingSchemaDefault, accountingDocumentTable);
         countReset = 0;
         //
+        String dateAccountingColumn = getDateAcct(accountingDocumentTable.get_ID());
         String docBaseType = getDocumentBaseType(accountingDocumentTable.get_ID(), accountingDocumentTable.getTableName());
         if (docBaseType == null) {
             String s = accountingDocumentTable.getTableName() + ": Unknown DocBaseType";
@@ -236,19 +237,22 @@ public class FactAcctReset extends FactAcctResetAbstract {
                 .append(accountingDocumentTable.getTableName()).append(".").append("AD_Client_ID=").append(getClientId())
                 .append(" AND (").append(accountingDocumentTable.getTableName()).append(".Posted<>'N' OR ").append(accountingDocumentTable.getTableName()).append(".Posted IS NULL OR ")
                 .append(accountingDocumentTable.getTableName()).append(".Processing<>'N' OR ").append(accountingDocumentTable.getTableName()).append(".Processing IS NULL)")
-                .append(" AND NOT EXISTS (SELECT 1 FROM Fact_Acct fact ");
+                .append(" AND NOT EXISTS (SELECT 1 FROM Fact_Acct fact WHERE fact.AD_Table_ID=").append(accountingDocumentTable.get_ID()).append(" AND fact.Record_ID=")
+                .append(accountingDocumentTable.getTableName()).append(".").append(accountingDocumentTable.getTableName()).append("_ID)");
+
         if (!accountingSchemaDefault.isAutoPeriodControl())
-            updateStatement.append("INNER JOIN C_PeriodControl pc ON (pc.C_Period_ID=fact.C_Period_ID AND pc.PeriodStatus = 'O'").append(docBaseType).append(")");
-
-        updateStatement.append(" WHERE fact.AD_Table_ID=").append(accountingDocumentTable.get_ID()).append(" AND fact.Record_ID=")
-                .append(accountingDocumentTable.getTableName()).append(".").append(accountingDocumentTable.getTableName()).append("_ID");
-
+        	updateStatement.append(" AND EXISTS (SELECT 1 FROM  C_Period p INNER JOIN C_PeriodControl pc ON (p.C_Period_ID=pc.C_Period_ID) WHERE ")
+        					.append("p.AD_Client_ID=").append(getClientId()).append(" AND ")	
+        					.append(dateAccountingColumn).append(" >= p.StartDate AND ").append(dateAccountingColumn).append(" <= p.EndDate ")
+        					.append(" AND pc.PeriodStatus = 'O' ").append(docBaseType)
+        					.append(")");
         if (getDateAcct() != null)
-            updateStatement.append(" AND fact.DateAcct >= ").append(DB.TO_DATE(getDateAcct()));
+        	updateStatement.append(" AND ").append(dateAccountingColumn).append(" >= ").append(DB.TO_DATE(getDateAcct()));
         if (getDateAcctTo() != null)
-            updateStatement.append(" AND fact.DateAcct <= ").append(DB.TO_DATE(getDateAcctTo()));
+        	updateStatement.append(" AND ").append(dateAccountingColumn).append(" <= ").append(DB.TO_DATE(getDateAcctTo()));
+        
 
-        updateStatement.append(")");
+        
 
         // Validate that document is posted
         log.log(Level.FINE, updateStatement.toString());
