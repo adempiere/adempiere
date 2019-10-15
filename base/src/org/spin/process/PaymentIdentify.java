@@ -17,11 +17,14 @@
 
 package org.spin.process;
 
+import java.math.BigDecimal;
+
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.I_C_Payment;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MAllocationLine;
 import org.compiere.model.MBPartner;
+import org.compiere.model.MCurrency;
 import org.compiere.model.MOrgInfo;
 import org.compiere.model.MPayment;
 import org.compiere.model.PO;
@@ -65,23 +68,29 @@ public class PaymentIdentify extends PaymentIdentifyAbstract {
 			identifiedPayment = new MPayment(getCtx(), getRelatedPaymentId(), get_TrxName());
 			//	Receipt
 			if(identifiedPayment.isReceipt() != unidentifiedPayment.isReceipt()) {
-				throw new AdempiereException("@IsReceipt@ @Mismatch@");
+				throw new AdempiereException("@IsReceipt@ @Mismatched@");
 			}
 			//	Bank Account
 			if(identifiedPayment.getC_BankAccount_ID() != unidentifiedPayment.getC_BankAccount_ID()) {
-				throw new AdempiereException("@C_BankAccount_ID@ @Mismatch@");
+				throw new AdempiereException("@C_BankAccount_ID@ @Mismatched@");
 			}
 			//	Currency
 			if(identifiedPayment.getC_Currency_ID() != unidentifiedPayment.getC_Currency_ID()) {
-				throw new AdempiereException("@C_Currency_ID@ @Mismatch@");
+				throw new AdempiereException("@C_Currency_ID@ @Mismatched@");
 			}
+			int currencyId = identifiedPayment.getC_Currency_ID();
+			if(currencyId == 0) {
+				currencyId = identifiedPayment.getC_BankAccount().getC_Currency_ID();
+			}
+			int precision = MCurrency.get(getCtx(), identifiedPayment.getC_Currency_ID()).getStdPrecision();
 			//	Amount
-			if(!identifiedPayment.getPayAmt().equals(unidentifiedPayment.getPayAmt())) {
-				throw new AdempiereException("@PayAmt@ @Mismatch@");
+			if(!identifiedPayment.getPayAmt().setScale(precision, BigDecimal.ROUND_HALF_DOWN)
+					.equals(unidentifiedPayment.getPayAmt().setScale(precision, BigDecimal.ROUND_HALF_DOWN))) {
+				throw new AdempiereException("@PayAmt@ @Mismatched@");
 			}
 			//	Document Status
 			if(!identifiedPayment.getDocStatus().equals(MPayment.STATUS_Completed)) {
-				throw new AdempiereException("@PayAmt@ @Mismatch@");
+				throw new AdempiereException("@DocStatus@ @Mismatched@");
 			}
 		} else {
 			identifiedPayment = new MPayment(getCtx(), 0, get_TrxName());
