@@ -1866,7 +1866,7 @@ public final class MPayment extends X_C_Payment
 			processMsg += " @CounterDoc@: @C_Payment_ID@=" + counter.getDocumentNo();
 
 		// @Trifon - CashPayments
-		if ( isCashTrx()) {
+		if ( isCashTrx() && getC_POS_ID() == 0) {
 			// Create Cash Book entry - check that the bank is a cash bank
 			// The bank account is mandatory
 			MBankAccount bankAccount = (MBankAccount) getC_BankAccount();
