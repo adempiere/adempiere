@@ -33,7 +33,7 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191015L;
 
     /** Standard Constructor */
     public X_C_Order (Properties ctx, int C_Order_ID, String trxName)
@@ -1623,6 +1623,34 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	public int getM_PriceList_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_PriceList_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_RMAType getM_RMAType() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_RMAType)MTable.get(getCtx(), org.compiere.model.I_M_RMAType.Table_Name)
+			.getPO(getM_RMAType_ID(), get_TrxName());	}
+
+	/** Set RMA Type.
+		@param M_RMAType_ID 
+		Return Material Authorization Type
+	  */
+	public void setM_RMAType_ID (int M_RMAType_ID)
+	{
+		if (M_RMAType_ID < 1) 
+			set_Value (COLUMNNAME_M_RMAType_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_RMAType_ID, Integer.valueOf(M_RMAType_ID));
+	}
+
+	/** Get RMA Type.
+		@return Return Material Authorization Type
+	  */
+	public int getM_RMAType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_RMAType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
