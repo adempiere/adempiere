@@ -386,7 +386,7 @@ public class ProcessBuilder {
     * @return
     */
    public ProcessBuilder withParameter(String name, Object value) {
-	   return withParameter(name, value, null);
+	   return withParameter(name, value, (Object)null);
    }
    
    /**
