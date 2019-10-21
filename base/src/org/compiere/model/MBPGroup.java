@@ -41,18 +41,28 @@ public class MBPGroup extends X_C_BP_Group
 	private static final long serialVersionUID = 3037428352124938328L;
 
 	/**
-	 * 	Get MBPGroup from Cache
+	 * Get MBPGroup from Cache
+	 * @param ctx
+	 * @param C_BP_Group_ID
+	 * @return
+	 */
+	public static MBPGroup get (Properties ctx, int C_BP_Group_ID) {
+		return get(ctx, C_BP_Group_ID, null);
+	}
+	
+	/**
+	 * 	Get MBPGroup from Cache and transaction
 	 *	@param ctx context
 	 *	@param C_BP_Group_ID id
 	 *	@return MBPGroup
 	 */
-	public static MBPGroup get (Properties ctx, int C_BP_Group_ID)
+	public static MBPGroup get (Properties ctx, int C_BP_Group_ID, String trxName)
 	{
 		Integer key = new Integer (C_BP_Group_ID);
 		MBPGroup retValue = (MBPGroup) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
-		retValue = new MBPGroup (ctx, C_BP_Group_ID, null);
+		retValue = new MBPGroup (ctx, C_BP_Group_ID, trxName);
 		if (retValue.get_ID () != 0)
 			s_cache.put (key, retValue);
 		return retValue;
