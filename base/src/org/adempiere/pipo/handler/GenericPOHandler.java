@@ -346,7 +346,6 @@ public class GenericPOHandler extends AbstractElementHandler {
 				+ "WHERE tr.AD_Client_ID = ? "
 				+ "AND tr.AD_Table_ID = ? "
 				+ "AND tr.IsActive='Y' "
-				+ "AND tr.IsAllNodes='Y' "
 				+ whereClause
 				+ "ORDER BY tr.IsDefault DESC";
 			//	Get Tree
