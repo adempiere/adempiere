@@ -50,7 +50,6 @@ import org.adempiere.pipo.handler.GenericPOHandler;
 import org.adempiere.pipo.handler.ImpFormatElementHandler;
 import org.adempiere.pipo.handler.MenuElementHandler;
 import org.adempiere.pipo.handler.MessageElementHandler;
-import org.adempiere.pipo.handler.ModelValidatorElementHandler;
 import org.adempiere.pipo.handler.PrintFormatElementHandler;
 import org.adempiere.pipo.handler.ProcessCustomElementHandler;
 import org.adempiere.pipo.handler.ProcessElementHandler;
@@ -65,6 +64,7 @@ import org.adempiere.pipo.handler.WindowCustomElementHandler;
 import org.adempiere.pipo.handler.WindowElementHandler;
 import org.adempiere.pipo.handler.WorkflowElementHandler;
 import org.compiere.model.I_AD_BrowseCustom;
+import org.compiere.model.I_AD_ModelValidator;
 import org.compiere.model.I_AD_Package_Exp;
 import org.compiere.model.I_AD_Package_Exp_Detail;
 import org.compiere.model.I_AD_ProcessCustom;
@@ -133,7 +133,6 @@ public class PackOut extends PackOutAbstract {
     DistFileElementHandler distFileHandler = new DistFileElementHandler();
     ReferenceElementHandler referenceHandler = new ReferenceElementHandler();
     AdElementHandler adElementHandler = new AdElementHandler();
-    ModelValidatorElementHandler modelValidatorHandler = new ModelValidatorElementHandler();
     EntityTypeElementHandler entitytypeHandler = new EntityTypeElementHandler();
     ASPModuleElementHandler aspModuleHandler = new ASPModuleElementHandler();
     WindowCustomElementHandler windowCustomizationHandler = new WindowCustomElementHandler();
@@ -782,15 +781,12 @@ public class PackOut extends PackOutAbstract {
 	
 	/**
 	 * 
-	 * @param AD_ModelValidator_ID
+	 * @param modelValidatorId
 	 * @param packOutDocument
 	 * @throws Exception
 	 */
-	public void createModelValidator (int AD_ModelValidator_ID, TransformerHandler packOutDocument) throws SAXException
-	{
-		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_ModelValidator_ID, AD_ModelValidator_ID);
-		modelValidatorHandler.create(getCtx(), packOutDocument);
-		getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_ModelValidator_ID);
+	public void createModelValidator (int modelValidatorId, TransformerHandler packOutDocument) throws SAXException {
+		createGenericPO(packOutDocument, I_AD_ModelValidator.Table_ID, modelValidatorId);
 	}
 	
 	/**

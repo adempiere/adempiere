@@ -32,9 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Stack;
@@ -47,18 +45,9 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
-import org.adempiere.pipo.handler.CodeSnipitElementHandler;
-import org.adempiere.pipo.handler.DataElementHandler;
-import org.adempiere.pipo.handler.DistFileElementHandler;
-import org.adempiere.pipo.handler.EntityTypeElementHandler;
 import org.adempiere.pipo.handler.GenericPOHandler;
-import org.adempiere.pipo.handler.ModelValidatorElementHandler;
-import org.adempiere.pipo.handler.PrintFormatElementHandler;
-import org.adempiere.pipo.handler.SQLStatementElementHandler;
-import org.adempiere.pipo.handler.TableElementHandler;
-import org.adempiere.pipo.handler.WorkflowElementHandler;
+import org.adempiere.pipo.handler.PackinCustomHandler;
 import org.compiere.model.I_AD_Column;
-import org.compiere.model.I_AD_PrintFormat;
 import org.compiere.model.I_AD_Workflow;
 import org.compiere.model.MColumn;
 import org.compiere.model.MSequence;
@@ -89,7 +78,7 @@ public class PackInHandler extends DefaultHandler {
      * 	PackInHandler Handler
      */
     public PackInHandler () {
-    	setupHandlers();
+    	PackinCustomHandler.getInstance();
     }   // PackInHandler   
     
     /** Set this if you want to update Dictionary  */
@@ -111,9 +100,7 @@ public class PackInHandler extends DefaultHandler {
 	// transaction name 
 	private	String 		trxName = null;
 	private Properties  m_ctx = null;
-
-	private Map<String, ElementHandler>handlers = null;
-//	private List<Element> menus = new ArrayList<Element>();
+	
 	private List<Element> workflow = new ArrayList<Element>();
 	private List<DeferEntry> defer = new ArrayList<DeferEntry>();
 	private Stack<Element> stack = new Stack<Element>();
@@ -168,25 +155,6 @@ public class PackInHandler extends DefaultHandler {
 		Start_Doc=1;
 	}
 	
-	private void setupHandlers() {
-		DataElementHandler dataHandler = new DataElementHandler();
-    	handlers = new HashMap<String, ElementHandler>();
-    	handlers.put("adempieredata", dataHandler);
-    	handlers.put(GenericPOHandler.TAG_Name + "_" + I_AD_Workflow.Table_Name, new WorkflowElementHandler());
-    	handlers.put("data", dataHandler);
-    	handlers.put("dtable", dataHandler);
-    	handlers.put("drow", dataHandler);
-    	handlers.put("dcolumn", dataHandler);
-    	handlers.put(GenericPOHandler.Column_TAG_Name, new TableElementHandler());
-    	handlers.put(GenericPOHandler.TAG_Name, new GenericPOHandler());
-    	handlers.put("codesnipit", new CodeSnipitElementHandler());
-    	handlers.put("distfile", new DistFileElementHandler());
-    	handlers.put("SQLStatement", new SQLStatementElementHandler());
-    	handlers.put(ModelValidatorElementHandler.TAG_Name, new ModelValidatorElementHandler());
-    	handlers.put(EntityTypeElementHandler.TAG_Name, new EntityTypeElementHandler());
-    	handlers.put(GenericPOHandler.TAG_Name + "_" + I_AD_PrintFormat.Table_Name, new PrintFormatElementHandler());
-	}
-	
     /**
      * 	Receive notification of the start of an element.
      *
@@ -196,8 +164,7 @@ public class PackInHandler extends DefaultHandler {
      * 	@param atts attributes
      * 	@throws org.xml.sax.SAXException
      */
-	public void startElement (String uri, String localName, String qName, Attributes atts)
-	throws org.xml.sax.SAXException {
+	public void startElement (String uri, String localName, String qName, Attributes atts) throws org.xml.sax.SAXException {
 		
 		// Create the package log    	
 		if (Start_Doc==0){
@@ -339,37 +306,27 @@ public class PackInHandler extends DefaultHandler {
 			m_ctx.put("LogDocument", logDocument);
 			m_ctx.put("PackInProcess", packIn);
 		}
-//		else if (elementValue.startsWith(GenericPOHandler.TAG_Name + "_" + I_AD_Menu.Table_Name)) {
-//			//defer
-//			Element e = new Element(uri, localName, qName, new AttributesImpl(atts));
-//			if (stack.size() > 0)
-//				e.parent = stack.peek();
-//			stack.push(e);
-//			menus.add(e);
-//		}
-//		else {
-			Element e = new Element(uri, localName, qName, new AttributesImpl(atts));
-			if (stack.size() > 0)
-				e.parent = stack.peek();
-			stack.push(e);
-			if (elementValue.startsWith(GenericPOHandler.TAG_Name + "_" + I_AD_Workflow.Table_Name)) {
-				workflow.add(e);
-			}
-			if(elementValue.equals(GenericPOHandler.Column_TAG_Name)) {
-				columns.add(e);
-			}
-			//	for generic handler
-			ElementHandler handler = handlers.get(elementValue);
-			if(handler == null
-					&& elementValue.startsWith(GenericPOHandler.TAG_Name)) {
-				handler = new GenericPOHandler();
-			}
-			if (handler != null)
-				handler.startElement(m_ctx, e);
-			if (e.defer) {
-				defer.add(new DeferEntry(e, true));
-			}
-//		}	
+		Element e = new Element(uri, localName, qName, new AttributesImpl(atts));
+		if (stack.size() > 0)
+			e.parent = stack.peek();
+		stack.push(e);
+		if (elementValue.startsWith(GenericPOHandler.TAG_Name + "_" + I_AD_Workflow.Table_Name)) {
+			workflow.add(e);
+		}
+		if(elementValue.equals(GenericPOHandler.Column_TAG_Name)) {
+			columns.add(e);
+		}
+		//	for generic handler
+		ElementHandler handler = PackinCustomHandler.getInstance().getHandler(elementValue);
+		if(handler == null
+				&& elementValue.startsWith(GenericPOHandler.TAG_Name)) {
+			handler = new GenericPOHandler();
+		}
+		if (handler != null)
+			handler.startElement(m_ctx, e);
+		if (e.defer) {
+			defer.add(new DeferEntry(e, true));
+		}	
 	}   // startElement
     
 	/**
@@ -576,7 +533,6 @@ public class PackInHandler extends DefaultHandler {
     	
     	if (elementValue.equals("adempiereAD")){
     		processDeferElements();
-//    		processMenuElements();
     		if (!PK_Status.equals("Completed with errors"))
     			PK_Status = "Completed successfully";
     		
@@ -648,13 +604,13 @@ public class PackInHandler extends DefaultHandler {
     		{}
     		
     		//reset
-    		setupHandlers();
+    		PackinCustomHandler.getInstance();
     	} else {
     		Element e = stack.pop();
     		if (e.defer) {
     			defer.add(new DeferEntry(e, false));
     		} else {
-	    		ElementHandler handler = handlers.get(elementValue);
+	    		ElementHandler handler = PackinCustomHandler.getInstance().getHandler(elementValue);
 	    		if (handler != null)
 	    			handler.endElement(m_ctx, e);
 	    		if (e.defer || e.deferEnd)
@@ -669,16 +625,6 @@ public class PackInHandler extends DefaultHandler {
 
     	
     }   // endElement
-    
-//    private void processMenuElements() throws SAXException {
-//    	ElementHandler handler = handlers.get("menu");
-//		if (menus.size() > 0 && handler != null) {
-//			for (Element e : menus) {
-//				handler.startElement(m_ctx, e);
-//				handler.endElement(m_ctx, e);
-//			}
-//		}
-//	}
     
     private void processDeferElements() throws SAXException {
     	if (defer.isEmpty()) return;
@@ -702,7 +648,7 @@ public class PackInHandler extends DefaultHandler {
     				log.info("Processing Defer Element: " + d.element.getElementValue() + " - "
 						+ d.element.attributes.getValue(0));
     			}
-    			ElementHandler handler = handlers.get(d.element.getElementValue());
+    			ElementHandler handler = PackinCustomHandler.getInstance().getHandler(d.element.getElementValue());
     			if (handler != null) {
     				if (d.startElement)
     					handler.startElement(m_ctx, d.element);
