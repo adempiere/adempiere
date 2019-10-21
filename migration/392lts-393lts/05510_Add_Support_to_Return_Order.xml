@@ -36545,5 +36545,15 @@ AND EXISTS(SELECT 1 FROM C_DocType dt WHERE dt.C_DocType_ID = C_Order.C_DocTypeT
         <Data AD_Column_ID="181" Column="SeqNo" oldValue="440">450</Data>
       </PO>
     </Step>
+    <Step SeqNo="13530" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="186" Table="AD_Tab">
+        <Data AD_Column_ID="2741" Column="WhereClause" oldValue="C_Order.IsSOTrx='Y' AND EXISTS(SELECT 1 FROM C_DocType dt WHERE dt.C_DocType_ID = C_Order.C_DocTypeTarget_ID AND dt.DocBaseType = 'SOO' AND (dt.DocSubTypeSO IS NULL OR dt.DocSubTypeSO = 'RM'))">C_Order.IsSOTrx='Y' AND EXISTS(SELECT 1 FROM C_DocType dt WHERE dt.C_DocType_ID = C_Order.C_DocTypeTarget_ID AND dt.DocBaseType = 'SOO' AND (dt.DocSubTypeSO IS NULL OR dt.DocSubTypeSO &lt;&gt; 'RM'))</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="13540" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="294" Table="AD_Tab">
+        <Data AD_Column_ID="2741" Column="WhereClause" oldValue="C_Order.IsSOTrx='N' AND EXISTS(SELECT 1 FROM C_DocType dt WHERE dt.C_DocType_ID = C_Order.C_DocTypeTarget_ID AND dt.DocBaseType = 'POO' AND (dt.DocSubTypeSO IS NULL OR dt.DocSubTypeSO = 'RM'))">C_Order.IsSOTrx='N' AND EXISTS(SELECT 1 FROM C_DocType dt WHERE dt.C_DocType_ID = C_Order.C_DocTypeTarget_ID AND dt.DocBaseType = 'POO' AND (dt.DocSubTypeSO IS NULL OR dt.DocSubTypeSO &lt;&gt; 'RM'))</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>
