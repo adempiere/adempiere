@@ -36555,5 +36555,101 @@ AND EXISTS(SELECT 1 FROM C_DocType dt WHERE dt.C_DocType_ID = C_Order.C_DocTypeT
         <Data AD_Column_ID="2741" Column="WhereClause" oldValue="C_Order.IsSOTrx='N' AND EXISTS(SELECT 1 FROM C_DocType dt WHERE dt.C_DocType_ID = C_Order.C_DocTypeTarget_ID AND dt.DocBaseType = 'POO' AND (dt.DocSubTypeSO IS NULL OR dt.DocSubTypeSO = 'RM'))">C_Order.IsSOTrx='N' AND EXISTS(SELECT 1 FROM C_DocType dt WHERE dt.C_DocType_ID = C_Order.C_DocTypeTarget_ID AND dt.DocBaseType = 'POO' AND (dt.DocSubTypeSO IS NULL OR dt.DocSubTypeSO &lt;&gt; 'RM'))</Data>
       </PO>
     </Step>
+    <Step SeqNo="13550" StepType="AD">
+      <PO AD_Table_ID="361" Action="I" Record_ID="53321" Table="AD_ReportView">
+        <Data AD_Column_ID="4388" Column="Created">2019-11-04 18:34:34.724</Data>
+        <Data AD_Column_ID="85531" Column="Classname" isNewNull="true"/>
+        <Data AD_Column_ID="4387" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4390" Column="Updated">2019-11-04 18:34:34.724</Data>
+        <Data AD_Column_ID="4384" Column="AD_ReportView_ID">53321</Data>
+        <Data AD_Column_ID="4395" Column="WhereClause">EXISTS(SELECT 1 FROM C_DocType dt WHERE dt.C_DocType_ID = RV_OrderDetail.C_DocType_ID AND (dt.DocSubTypeSO IS NULL OR dt.DocSubTypeSO &lt;&gt; 'RM'))</Data>
+        <Data AD_Column_ID="4396" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="4393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="4392" Column="Name">Order Detail (Only Orders)</Data>
+        <Data AD_Column_ID="78517" Column="PrintName">Order Detail (Only Orders)</Data>
+        <Data AD_Column_ID="78535" Column="IsCentrallyMaintained">false</Data>
+        <Data AD_Column_ID="4385" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="10032" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="4386" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="4389" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4391" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="4394" Column="AD_Table_ID">360</Data>
+        <Data AD_Column_ID="84405" Column="UUID">16a79090-b2e2-4912-8def-3002ffad8dc7</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="13560" StepType="AD">
+      <PO AD_Table_ID="54060" Action="I" Record_ID="0" Table="AD_ReportView_Trl">
+        <Data AD_Column_ID="78519" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="78520" Column="IsActive">true</Data>
+        <Data AD_Column_ID="78521" Column="Created">2019-11-04 18:34:42.941</Data>
+        <Data AD_Column_ID="78522" Column="Updated">2019-11-04 18:34:42.941</Data>
+        <Data AD_Column_ID="78527" Column="PrintName">Order Detail (Only Orders)</Data>
+        <Data AD_Column_ID="78528" Column="Name">Order Detail (Only Orders)</Data>
+        <Data AD_Column_ID="78529" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="78534" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="78518" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="78523" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="78524" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="78526" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="78525" Column="AD_ReportView_ID">53321</Data>
+        <Data AD_Column_ID="84407" Column="UUID">a25aefc6-d73e-4162-b8f2-a57591602b83</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="13570" StepType="AD">
+      <PO AD_Table_ID="54060" Action="U" Record_ID="0" Table="AD_ReportView_Trl">
+        <Data AD_Column_ID="78527" Column="PrintName" oldValue="Order Detail (Only Orders)">Detalle de Orden (Sólo Orden)</Data>
+        <Data AD_Column_ID="78528" Column="Name" oldValue="Order Detail (Only Orders)">Detalle de Orden (Sólo Orden)</Data>
+        <Data AD_Column_ID="78526" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="78525" Column="AD_ReportView_ID" oldValue="53321">53321</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="13580" StepType="AD">
+      <PO AD_Table_ID="361" Action="I" Record_ID="53322" Table="AD_ReportView">
+        <Data AD_Column_ID="4388" Column="Created">2019-11-04 18:35:14.968</Data>
+        <Data AD_Column_ID="85531" Column="Classname" isNewNull="true"/>
+        <Data AD_Column_ID="4387" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4390" Column="Updated">2019-11-04 18:35:14.968</Data>
+        <Data AD_Column_ID="4384" Column="AD_ReportView_ID">53322</Data>
+        <Data AD_Column_ID="4395" Column="WhereClause">EXISTS(SELECT 1 FROM C_DocType dt WHERE dt.C_DocType_ID = RV_OrderDetail.C_DocType_ID AND dt.DocSubTypeSO = 'RM')</Data>
+        <Data AD_Column_ID="4396" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="4393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="4392" Column="Name">Order Detail (Only Return)</Data>
+        <Data AD_Column_ID="78517" Column="PrintName">Order Detail (Only Return)</Data>
+        <Data AD_Column_ID="78535" Column="IsCentrallyMaintained">false</Data>
+        <Data AD_Column_ID="4385" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="10032" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="4386" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="4389" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4391" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="4394" Column="AD_Table_ID">360</Data>
+        <Data AD_Column_ID="84405" Column="UUID">9d3b2cc6-6b94-4a8a-84ab-7c3a1dca01d9</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="13590" StepType="AD">
+      <PO AD_Table_ID="54060" Action="I" Record_ID="0" Table="AD_ReportView_Trl">
+        <Data AD_Column_ID="78520" Column="IsActive">true</Data>
+        <Data AD_Column_ID="78521" Column="Created">2019-11-04 18:35:15.875</Data>
+        <Data AD_Column_ID="78522" Column="Updated">2019-11-04 18:35:15.875</Data>
+        <Data AD_Column_ID="78527" Column="PrintName">Order Detail (Only Return)</Data>
+        <Data AD_Column_ID="78528" Column="Name">Order Detail (Only Return)</Data>
+        <Data AD_Column_ID="78529" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="78534" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="78518" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="78519" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="78523" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="78524" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="78526" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="78525" Column="AD_ReportView_ID">53322</Data>
+        <Data AD_Column_ID="84407" Column="UUID">00015caa-9fc6-4a53-897b-d4f7a69440b2</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="13600" StepType="AD">
+      <PO AD_Table_ID="54060" Action="U" Record_ID="0" Table="AD_ReportView_Trl">
+        <Data AD_Column_ID="78527" Column="PrintName" oldValue="Order Detail (Only Return)">Detalle de Orden (Sólo Devolución)</Data>
+        <Data AD_Column_ID="78528" Column="Name" oldValue="Order Detail (Only Return)">Detalle de Orden (Sólo Devolución)</Data>
+        <Data AD_Column_ID="78526" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="78525" Column="AD_ReportView_ID" oldValue="53322">53322</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>
