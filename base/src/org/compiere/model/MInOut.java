@@ -1412,7 +1412,8 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 					
 					BigDecimal reservedDiff = Env.ZERO;
 					BigDecimal orderedDiff = Env.ZERO;
-					if (inOutLine.getC_OrderLine_ID() != 0 && sameWarehouse)
+					if (inOutLine.getC_OrderLine_ID() != 0 && sameWarehouse
+							&& !orderLine.getParent().isReturnOrder())
 					{
 						if (isSOTrx())
 							reservedDiff = QtySO;
