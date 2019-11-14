@@ -37,9 +37,37 @@ public class MenuElementHandler extends GenericPOHandler {
 	public void create(Properties ctx, TransformerHandler document)
 			throws SAXException {
 		int menuId = Env.getContextAsInt(ctx, "AD_Menu_ID");
-		createApplication(ctx, document, menuId);
+		//	All parents
+		createParentApplication(ctx, document, menuId);
+		//	All childs
+		createApplicationAndChild(ctx, document, menuId);
 	}
-
+	
+	/**
+	 * Use this method for create parent application
+	 * @param ctx
+	 * @param document
+	 * @param menuId
+	 * @throws SAXException
+	 */
+	private void createParentApplication(Properties ctx, TransformerHandler document, int menuId) throws SAXException {
+		PackOut packOut = (PackOut)ctx.get("PackOutProcess");
+		MMenu menu = MMenu.getFromId(ctx, menuId);
+		int defaultTreeId = MTree.getDefaultTreeIdFromTableId(menu.getAD_Client_ID(), I_AD_Menu.Table_ID);
+		//	Create Parent
+		packOut.createGenericPO(document, menu);
+		String childSQL = "SELECT m.AD_Menu_ID "
+				+ "FROM AD_Menu m "
+				+ "WHERE EXISTS(SELECT 1 FROM AD_TreeNodeMM tnm "
+				+ "			WHERE tnm.Parent_ID = m.AD_Menu_ID "
+				+ "			AND tnm.AD_Tree_ID = " + defaultTreeId + " "
+				+ "			AND tnm.Node_ID = ?)";
+		int parentId = DB.getSQLValueEx(null, childSQL, menu.getAD_Menu_ID());
+		if(parentId > 0) {
+			createParentApplication(ctx, document, parentId);
+		}
+	}
+	
 	/**
 	 * Create Application
 	 * @param ctx
@@ -47,7 +75,7 @@ public class MenuElementHandler extends GenericPOHandler {
 	 * @param menuId
 	 * @throws SAXException
 	 */
-	private void createApplication(Properties ctx, TransformerHandler document, int menuId) throws SAXException {
+	private void createApplicationAndChild(Properties ctx, TransformerHandler document, int menuId) throws SAXException {
 		PackOut packOut = (PackOut)ctx.get("PackOutProcess");
 		MMenu menu = MMenu.getFromId(ctx, menuId);
 		int defaultTreeId = MTree.getDefaultTreeIdFromTableId(menu.getAD_Client_ID(), I_AD_Menu.Table_ID);
@@ -63,7 +91,7 @@ public class MenuElementHandler extends GenericPOHandler {
 			int [] ids = DB.getIDsEx(null, childSQL, menu.getAD_Menu_ID());
 			for(int id : ids) {
 				//	Recursive call
-				createApplication(ctx, document, id);
+				createApplicationAndChild(ctx, document, id);
 			}
 		} else if (menu.getAD_Window_ID() > 0
 				|| menu.getAD_Workflow_ID() > 0
