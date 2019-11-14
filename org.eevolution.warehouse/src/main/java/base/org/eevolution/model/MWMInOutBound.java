@@ -36,6 +36,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.I_M_InOut;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
@@ -353,6 +355,24 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction, DocOpti
 	}
 	
 	/**
+	 * reverse generated receipt
+	 */
+	private void reverseReceipt() {
+		new Query(getCtx(), I_M_InOut.Table_Name, "DocStatus = 'CO' "
+				+ "AND EXISTS(SELECT 1 FROM M_InOutLine iol "
+				+ "		INNER JOIN WM_InOutBoundLine iobl ON(iobl.WM_InOutBoundLine_ID = iol.WM_InOutBoundLine_ID) "
+				+ "		WHERE iobl.WM_InOutBound_ID = ?)", get_TrxName())
+			.setParameters(getWM_InOutBound_ID())
+			.<MInOut>list()
+			.forEach(receipt -> {
+				if(!receipt.processIt(MInOut.DOCACTION_Reverse_Correct)) {
+					throw new AdempiereException("@Error@ " + receipt.getProcessMsg());
+				}
+				receipt.saveEx();
+			});	
+	}
+	
+	/**
 	 * Generate Receipt from Express receipt
 	 */
 	private void generateReceipt() {
@@ -362,10 +382,11 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction, DocOpti
 			// Generate Shipment based on Outbound Order
 			if (inboundLine.getC_OrderLine_ID() > 0) {
 				MOrderLine orderLine = inboundLine.getOrderLine();
-				if (inboundLine.getMovementQty().subtract(orderLine.getQtyDelivered()).signum() <= 0)
+				BigDecimal orderedAvailable = orderLine.getQtyOrdered().subtract(orderLine.getQtyDelivered());
+				if (orderedAvailable.subtract(inboundLine.getMovementQty()).signum() <= 0)
 					return;
 
-				BigDecimal qtyToReceipt = inboundLine.getMovementQty().subtract(orderLine.getQtyDelivered());
+				BigDecimal qtyToReceipt = inboundLine.getMovementQty();
 				MInOut receipt = receipts.get(orderLine.getC_Order_ID());
 				if(receipt == null) {
 					receipt = createReceipt(orderLine, inboundLine.getParent());
@@ -386,6 +407,7 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction, DocOpti
 				receiptLine.setM_Shipper_ID(inboundLine.getM_Shipper_ID());
 				receiptLine.setM_FreightCategory_ID(inboundLine.getM_FreightCategory_ID());
 				receiptLine.setFreightAmt(inboundLine.getFreightAmt());
+				receiptLine.setWM_InOutBoundLine_ID(inboundLine.getWM_InOutBoundLine_ID());
 				receiptLine.saveEx();
 			}
 		}
@@ -472,6 +494,10 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction, DocOpti
 					//AZ Goodwill
 				});
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
+		//	Reverse receipt
+		if(!isSOTrx()) {
+			reverseReceipt();
+		}
 		// After Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
 		if (m_processMsg != null)
