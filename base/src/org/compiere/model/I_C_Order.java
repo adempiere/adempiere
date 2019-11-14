@@ -888,6 +888,21 @@ public interface I_C_Order
 
 	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException;
 
+    /** Column name M_RMAType_ID */
+    public static final String COLUMNNAME_M_RMAType_ID = "M_RMAType_ID";
+
+	/** Set RMA Type.
+	  * Return Material Authorization Type
+	  */
+	public void setM_RMAType_ID (int M_RMAType_ID);
+
+	/** Get RMA Type.
+	  * Return Material Authorization Type
+	  */
+	public int getM_RMAType_ID();
+
+	public org.compiere.model.I_M_RMAType getM_RMAType() throws RuntimeException;
+
     /** Column name M_Shipper_ID */
     public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";
 

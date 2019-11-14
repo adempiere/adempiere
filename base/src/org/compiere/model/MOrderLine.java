@@ -29,6 +29,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  *  Order Line Model.
@@ -732,6 +733,62 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		super.setQtyOrdered(QtyOrdered);
 	}	//	setQtyOrdered
 
+	/**
+	 * Set reference for RMA
+	 * @param inOutLineReference
+	 */
+	public void setRef_InOutLine(MInOutLine inOutLineReference) {
+		setRef_InOutLine_ID(inOutLineReference.getM_InOutLine_ID());
+		//	Charge
+		if(inOutLineReference.getC_Charge_ID() != 0) {
+			setC_Charge_ID(inOutLineReference.getC_Charge_ID());
+		}
+		//	Product
+		if(inOutLineReference.getM_Product_ID() != 0) {
+			setM_Product_ID(inOutLineReference.getM_Product_ID());
+		}
+		if(inOutLineReference.getC_UOM_ID() != 0) {
+			setC_UOM_ID(inOutLineReference.getC_UOM_ID());
+		}
+		if(inOutLineReference.getAD_OrgTrx_ID() != 0) {
+			setAD_OrgTrx_ID(inOutLineReference.getAD_OrgTrx_ID());
+		}
+		if(inOutLineReference.getC_Project_ID() != 0) {
+			setC_Project_ID(inOutLineReference.getC_Project_ID());
+		}
+		if(inOutLineReference.getC_Campaign_ID() != 0) {
+			setC_Campaign_ID(inOutLineReference.getC_Campaign_ID());
+		}
+		if(inOutLineReference.getC_Activity_ID() != 0) {
+			setC_Activity_ID(inOutLineReference.getC_Activity_ID());
+		}
+		if(inOutLineReference.getUser1_ID() != 0) {
+			setUser1_ID(inOutLineReference.getUser1_ID());
+		}
+		if(inOutLineReference.getUser2_ID() != 0) {
+			setUser2_ID(inOutLineReference.getUser2_ID());
+		}
+		if(inOutLineReference.getUser3_ID() != 0) {
+			setUser3_ID(inOutLineReference.getUser3_ID());
+		}
+		if(inOutLineReference.getUser4_ID() != 0) {
+			setUser4_ID(inOutLineReference.getUser4_ID());
+		}
+		int invoiceLineReferenceId = inOutLineReference.getInvoiceLineId();
+		//	Set Price from Invoice / Order
+		if (invoiceLineReferenceId != 0) {
+            MInvoiceLine invoiceLine = new MInvoiceLine(getCtx(), invoiceLineReferenceId, get_TrxName());
+            setPriceEntered(invoiceLine.getPriceEntered());
+            setPriceActual(invoiceLine.getPriceActual());
+            setC_Tax_ID(invoiceLine.getC_Tax_ID());
+        } else if (inOutLineReference.getC_OrderLine_ID() != 0) {
+            MOrderLine orderLine = new MOrderLine (getCtx(), inOutLineReference.getC_OrderLine_ID(), get_TrxName());
+            setPriceEntered(orderLine.getPriceEntered());
+            setPriceActual(orderLine.getPriceActual());
+            setC_Tax_ID(orderLine.getC_Tax_ID());
+        }
+	}
+	
 	/**************************************************************************
 	 * 	Before Save
 	 *	@param newRecord
@@ -777,9 +834,12 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 			//	Check if on Price list
 			if (m_productPrice == null)
 				getProductPricing(m_M_PriceList_ID);
-			if (!m_productPrice.isCalculated())
-			{
-				throw new ProductNotOnPriceListException(m_productPrice, getLine());
+			if (!m_productPrice.isCalculated()) {
+				MDocType documentType = MDocType.get(getCtx(), getParent().getC_DocTypeTarget_ID());
+				if(Util.isEmpty(documentType.getDocSubTypeSO())
+						|| !documentType.getDocSubTypeSO().equals(MDocType.DOCSUBTYPESO_ReturnMaterial)) {
+					throw new ProductNotOnPriceListException(m_productPrice, getLine());
+				}
 			}
 		}
 

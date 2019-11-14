@@ -1731,10 +1731,13 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 			BigDecimal multiplier = getC_DocTypeTarget().getDocBaseType().contains("C")?Env.ONE.negate():Env.ONE;
 			if (invoiceLine.getC_OrderLine_ID() != 0)
 			{
+				orderLine = (MOrderLine)invoiceLine.getC_OrderLine();
+				if(orderLine.getParent().isReturnOrder()) {
+					multiplier = multiplier.negate();
+				}
 				if (isSOTrx()
 				|| invoiceLine.getM_Product_ID() == 0) {
 					BigDecimal qtyInvoiced = invoiceLine.getQtyInvoiced().multiply(multiplier);
-					orderLine = (MOrderLine)invoiceLine.getC_OrderLine();
 					orderLine.setQtyInvoiced(orderLine.getQtyInvoiced().add(qtyInvoiced));
 					orderLine.saveEx();
 				}
