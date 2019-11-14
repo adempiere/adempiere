@@ -37,18 +37,23 @@ public abstract class GenerateInvoiceInOutBoundAbstract extends SvrProcess {
 	public static final String C_DOCTYPETARGET_ID = "C_DocTypeTarget_ID";
 	/**	Parameter Name for Date Invoiced	*/
 	public static final String DATEINVOICED = "DateInvoiced";
+	/**	Parameter Name for Consolidate to one Document	*/
+	public static final String CONSOLIDATEDOCUMENT = "ConsolidateDocument";
 	/**	Parameter Value for Document Action	*/
 	private String docAction;
 	/**	Parameter Value for Target Document Type	*/
 	private int docTypeTargetId;
 	/**	Parameter Value for Date Invoiced	*/
 	private Timestamp dateInvoiced;
+	/**	Parameter Value for Consolidate to one Document	*/
+	private boolean isConsolidateDocument;
 
 	@Override
 	protected void prepare() {
 		docAction = getParameterAsString(DOCACTION);
 		docTypeTargetId = getParameterAsInt(C_DOCTYPETARGET_ID);
 		dateInvoiced = getParameterAsTimestamp(DATEINVOICED);
+		isConsolidateDocument = getParameterAsBoolean(CONSOLIDATEDOCUMENT);
 	}
 
 	/**	 Getter Parameter Value for Document Action	*/
@@ -79,6 +84,16 @@ public abstract class GenerateInvoiceInOutBoundAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Date Invoiced	*/
 	protected void setDateInvoiced(Timestamp dateInvoiced) {
 		this.dateInvoiced = dateInvoiced;
+	}
+
+	/**	 Getter Parameter Value for Consolidate to one Document	*/
+	protected boolean isConsolidateDocument() {
+		return isConsolidateDocument;
+	}
+
+	/**	 Setter Parameter Value for Consolidate to one Document	*/
+	protected void setConsolidateDocument(boolean isConsolidateDocument) {
+		this.isConsolidateDocument = isConsolidateDocument;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
