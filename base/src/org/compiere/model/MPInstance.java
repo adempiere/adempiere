@@ -21,8 +21,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -323,41 +325,58 @@ public class MPInstance extends X_AD_PInstance
 	
 	/**
 	 * Create Process Instance Parameter and save to database
-	 * @param seqNo parameter sequence#
+	 * @param sequence parameter sequence#
 	 * @param parameterName parameter name
 	 * @param value parameter value
 	 * @return
 	 */
-	public MPInstancePara createParameter(int seqNo, String parameterName, Object value)
-	{
-		MPInstancePara ip = new MPInstancePara(this, seqNo);
-		if (value == null)
-		{
-			ip.setParameter(parameterName, (String)null);
-		}
-		else if (value instanceof BigDecimal)
-		{
-			ip.setParameter(parameterName, (BigDecimal)value);
-		}
-		else if (value instanceof Integer)
-		{
-			ip.setParameter(parameterName, (Integer)value);
-		}
-		else if (value instanceof Timestamp)
-		{
-			ip.setParameter(parameterName, (Timestamp)value);
-		}
-		else if (value instanceof Boolean)
-		{
-			ip.setParameter(parameterName, (Boolean)value);
-		}
-		else
-		{
-			ip.setParameter(parameterName, value.toString());
+	public MPInstancePara createParameter(int sequence, String parameterName, Object value) {
+		MProcess process = MProcess.get(getCtx(), getAD_Process_ID());
+		MProcessPara parameter = process.getParameter(parameterName);
+		MPInstancePara instanceParameter = null;
+		if(parameter == null
+				&& parameterName.endsWith("_To")) {
+			String originalParameterName = parameterName.replaceAll("_To", "");
+			Optional<MPInstancePara> optionalSavedParameter = Arrays.asList(getParameters()).stream()
+					.filter(savedParameter -> savedParameter.getParameterName().equals(originalParameterName))
+					.findFirst();
+			if(optionalSavedParameter.isPresent()) {
+				instanceParameter = optionalSavedParameter.get();
+			} else {	//	Instance It
+				instanceParameter = new MPInstancePara(this, sequence);
+			}
+			if (value == null) {
+				instanceParameter.setParameter(originalParameterName, (String)null, true);
+			} else if (value instanceof BigDecimal) {
+				instanceParameter.setParameter(originalParameterName, (BigDecimal)value, true);
+			} else if (value instanceof Integer) {
+				instanceParameter.setParameter(originalParameterName, (Integer)value, true);
+			} else if (value instanceof Timestamp) {
+				instanceParameter.setParameter(originalParameterName, (Timestamp)value, true);
+			} else if (value instanceof Boolean) {
+				instanceParameter.setParameter(originalParameterName, (Boolean)value, true);
+			} else {
+				instanceParameter.setParameter(originalParameterName, value.toString(), true);
+			}
+		} else {
+			instanceParameter = new MPInstancePara(this, sequence);
+			if (value == null) {
+				instanceParameter.setParameter(parameterName, (String)null);
+			} else if (value instanceof BigDecimal) {
+				instanceParameter.setParameter(parameterName, (BigDecimal)value);
+			} else if (value instanceof Integer) {
+				instanceParameter.setParameter(parameterName, (Integer)value);
+			} else if (value instanceof Timestamp) {
+				instanceParameter.setParameter(parameterName, (Timestamp)value);
+			} else if (value instanceof Boolean) {
+				instanceParameter.setParameter(parameterName, (Boolean)value);
+			} else {
+				instanceParameter.setParameter(parameterName, value.toString());
+			}
 		}
 		//
-		ip.saveEx();
-		return ip;
+		instanceParameter.saveEx();
+		return instanceParameter;
 	}
 	
 	public static List<MPInstance> get(Properties ctx, int AD_Process_ID, int AD_User_ID) {
