@@ -31,7 +31,7 @@ public class X_HR_ShiftSchedule extends PO implements I_HR_ShiftSchedule, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190710L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_ShiftSchedule (Properties ctx, int HR_ShiftSchedule_ID, String trxName)

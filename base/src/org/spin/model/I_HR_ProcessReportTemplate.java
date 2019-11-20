@@ -107,6 +107,15 @@ public interface I_HR_ProcessReportTemplate
 	  */
 	public String getDescription();
 
+    /** Column name HR_ProcessReportTemplate_ID */
+    public static final String COLUMNNAME_HR_ProcessReportTemplate_ID = "HR_ProcessReportTemplate_ID";
+
+	/** Set Payroll Process Report Template	  */
+	public void setHR_ProcessReportTemplate_ID (int HR_ProcessReportTemplate_ID);
+
+	/** Get Payroll Process Report Template	  */
+	public int getHR_ProcessReportTemplate_ID();
+
     /** Column name HR_ProcessReport_ID */
     public static final String COLUMNNAME_HR_ProcessReport_ID = "HR_ProcessReport_ID";
 
@@ -117,15 +126,6 @@ public interface I_HR_ProcessReportTemplate
 	public int getHR_ProcessReport_ID();
 
 	public org.spin.model.I_HR_ProcessReport getHR_ProcessReport() throws RuntimeException;
-
-    /** Column name HR_ProcessReportTemplate_ID */
-    public static final String COLUMNNAME_HR_ProcessReportTemplate_ID = "HR_ProcessReportTemplate_ID";
-
-	/** Set Payroll Process Report Template	  */
-	public void setHR_ProcessReportTemplate_ID (int HR_ProcessReportTemplate_ID);
-
-	/** Get Payroll Process Report Template	  */
-	public int getHR_ProcessReportTemplate_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -192,6 +192,19 @@ public interface I_HR_ProcessReportTemplate
 	  */
 	public String getTextMsg();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -207,17 +220,4 @@ public interface I_HR_ProcessReportTemplate
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

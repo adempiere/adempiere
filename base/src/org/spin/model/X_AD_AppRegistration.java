@@ -31,7 +31,7 @@ public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_AppRegistration (Properties ctx, int AD_AppRegistration_ID, String trxName)
@@ -129,12 +129,42 @@ public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
+			.getPO(getAD_User_ID(), get_TrxName());	}
+
+	/** Set User/Contact.
+		@param AD_User_ID 
+		User within the system - Internal or Business Partner Contact
+	  */
+	public void setAD_User_ID (int AD_User_ID)
+	{
+		if (AD_User_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+	}
+
+	/** Get User/Contact.
+		@return User within the system - Internal or Business Partner Contact
+	  */
+	public int getAD_User_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_User_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** ApplicationType AD_Reference_ID=54081 */
 	public static final int APPLICATIONTYPE_AD_Reference_ID=54081;
 	/** Message Queue = MQS */
 	public static final String APPLICATIONTYPE_MessageQueue = "MQS";
 	/** WebDav Application = WDV */
 	public static final String APPLICATIONTYPE_WebDavApplication = "WDV";
+	/** Social Media = SMN */
+	public static final String APPLICATIONTYPE_SocialMedia = "SMN";
 	/** Set Application Type.
 		@param ApplicationType 
 		Application Type, used for identify a Application Type like Message Queue

@@ -31,7 +31,7 @@ public class X_AD_AppRegistration_Para extends PO implements I_AD_AppRegistratio
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_AppRegistration_Para (Properties ctx, int AD_AppRegistration_Para_ID, String trxName)
@@ -54,7 +54,7 @@ public class X_AD_AppRegistration_Para extends PO implements I_AD_AppRegistratio
     }
 
     /** AccessLevel
-      * @return 4 - System 
+      * @return 6 - System - Client 
       */
     protected int get_AccessLevel()
     {

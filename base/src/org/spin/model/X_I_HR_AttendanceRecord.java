@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_HR_AttendanceRecord
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_I_HR_AttendanceRecord extends PO implements I_I_HR_AttendanceRecord, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181004L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_I_HR_AttendanceRecord (Properties ctx, int I_HR_AttendanceRecord_ID, String trxName)
@@ -226,8 +226,8 @@ public class X_I_HR_AttendanceRecord extends PO implements I_I_HR_AttendanceReco
 		return (String)get_Value(COLUMNNAME_I_ErrorMsg);
 	}
 
-	/** Set Attendance Record Import ID.
-		@param I_HR_AttendanceRecord_ID Attendance Record Import ID	  */
+	/** Set Attendance Record Import.
+		@param I_HR_AttendanceRecord_ID Attendance Record Import	  */
 	public void setI_HR_AttendanceRecord_ID (int I_HR_AttendanceRecord_ID)
 	{
 		if (I_HR_AttendanceRecord_ID < 1) 
@@ -236,8 +236,8 @@ public class X_I_HR_AttendanceRecord extends PO implements I_I_HR_AttendanceReco
 			set_ValueNoCheck (COLUMNNAME_I_HR_AttendanceRecord_ID, Integer.valueOf(I_HR_AttendanceRecord_ID));
 	}
 
-	/** Get Attendance Record Import ID.
-		@return Attendance Record Import ID	  */
+	/** Get Attendance Record Import.
+		@return Attendance Record Import	  */
 	public int getI_HR_AttendanceRecord_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_I_HR_AttendanceRecord_ID);

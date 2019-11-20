@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Incidence
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.2
  */
 public interface I_HR_Incidence 
 {
@@ -240,10 +240,10 @@ public interface I_HR_Incidence
     /** Column name HR_Incidence_ID */
     public static final String COLUMNNAME_HR_Incidence_ID = "HR_Incidence_ID";
 
-	/** Set Employee Incidence ID	  */
+	/** Set Employee Incidence	  */
 	public void setHR_Incidence_ID (int HR_Incidence_ID);
 
-	/** Get Employee Incidence ID	  */
+	/** Get Employee Incidence	  */
 	public int getHR_Incidence_ID();
 
     /** Column name HR_ShiftIncidence_ID */
@@ -335,18 +335,20 @@ public interface I_HR_Incidence
 	  */
 	public BigDecimal getQty();
 
-    /** Column name ServiceDate */
-    public static final String COLUMNNAME_ServiceDate = "ServiceDate";
+    /** Column name S_TimeExpenseLine_ID */
+    public static final String COLUMNNAME_S_TimeExpenseLine_ID = "S_TimeExpenseLine_ID";
 
-	/** Set Service date.
-	  * Date service was provided
+	/** Set Expense Line.
+	  * Time and Expense Report Line
 	  */
-	public void setServiceDate (Timestamp ServiceDate);
+	public void setS_TimeExpenseLine_ID (int S_TimeExpenseLine_ID);
 
-	/** Get Service date.
-	  * Date service was provided
+	/** Get Expense Line.
+	  * Time and Expense Report Line
 	  */
-	public Timestamp getServiceDate();
+	public int getS_TimeExpenseLine_ID();
+
+	public org.compiere.model.I_S_TimeExpenseLine getS_TimeExpenseLine() throws RuntimeException;
 
     /** Column name S_TimeExpense_ID */
     public static final String COLUMNNAME_S_TimeExpense_ID = "S_TimeExpense_ID";
@@ -363,20 +365,31 @@ public interface I_HR_Incidence
 
 	public org.compiere.model.I_S_TimeExpense getS_TimeExpense() throws RuntimeException;
 
-    /** Column name S_TimeExpenseLine_ID */
-    public static final String COLUMNNAME_S_TimeExpenseLine_ID = "S_TimeExpenseLine_ID";
+    /** Column name ServiceDate */
+    public static final String COLUMNNAME_ServiceDate = "ServiceDate";
 
-	/** Set Expense Line.
-	  * Time and Expense Report Line
+	/** Set Service date.
+	  * Date service was provided
 	  */
-	public void setS_TimeExpenseLine_ID (int S_TimeExpenseLine_ID);
+	public void setServiceDate (Timestamp ServiceDate);
 
-	/** Get Expense Line.
-	  * Time and Expense Report Line
+	/** Get Service date.
+	  * Date service was provided
 	  */
-	public int getS_TimeExpenseLine_ID();
+	public Timestamp getServiceDate();
 
-	public org.compiere.model.I_S_TimeExpenseLine getS_TimeExpenseLine() throws RuntimeException;
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -393,17 +406,4 @@ public interface I_HR_Incidence
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

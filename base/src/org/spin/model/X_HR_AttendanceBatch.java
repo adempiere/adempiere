@@ -32,7 +32,7 @@ public class X_HR_AttendanceBatch extends PO implements I_HR_AttendanceBatch, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190801L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_AttendanceBatch (Properties ctx, int HR_AttendanceBatch_ID, String trxName)
@@ -50,7 +50,6 @@ public class X_HR_AttendanceBatch extends PO implements I_HR_AttendanceBatch, I_
 // DR
 			setDocumentNo (null);
 			setHR_AttendanceBatch_ID (0);
-			setHR_Employee_ID (0);
 			setIsApproved (false);
 // N
 			setProcessed (false);

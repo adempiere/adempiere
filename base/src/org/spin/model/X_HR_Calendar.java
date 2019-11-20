@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Calendar
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_HR_Calendar extends PO implements I_HR_Calendar, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181004L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_Calendar (Properties ctx, int HR_Calendar_ID, String trxName)
@@ -90,8 +90,8 @@ public class X_HR_Calendar extends PO implements I_HR_Calendar, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set Human Resource Calendar ID.
-		@param HR_Calendar_ID Human Resource Calendar ID	  */
+	/** Set Human Resource Calendar.
+		@param HR_Calendar_ID Human Resource Calendar	  */
 	public void setHR_Calendar_ID (int HR_Calendar_ID)
 	{
 		if (HR_Calendar_ID < 1) 
@@ -100,8 +100,8 @@ public class X_HR_Calendar extends PO implements I_HR_Calendar, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_HR_Calendar_ID, Integer.valueOf(HR_Calendar_ID));
 	}
 
-	/** Get Human Resource Calendar ID.
-		@return Human Resource Calendar ID	  */
+	/** Get Human Resource Calendar.
+		@return Human Resource Calendar	  */
 	public int getHR_Calendar_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Calendar_ID);

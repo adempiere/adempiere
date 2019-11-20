@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Incidence
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_HR_Incidence extends PO implements I_HR_Incidence, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181004L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_Incidence (Properties ctx, int HR_Incidence_ID, String trxName)
@@ -412,8 +412,8 @@ public class X_HR_Incidence extends PO implements I_HR_Incidence, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Employee Incidence ID.
-		@param HR_Incidence_ID Employee Incidence ID	  */
+	/** Set Employee Incidence.
+		@param HR_Incidence_ID Employee Incidence	  */
 	public void setHR_Incidence_ID (int HR_Incidence_ID)
 	{
 		if (HR_Incidence_ID < 1) 
@@ -422,8 +422,8 @@ public class X_HR_Incidence extends PO implements I_HR_Incidence, I_Persistent
 			set_ValueNoCheck (COLUMNNAME_HR_Incidence_ID, Integer.valueOf(HR_Incidence_ID));
 	}
 
-	/** Get Employee Incidence ID.
-		@return Employee Incidence ID	  */
+	/** Get Employee Incidence.
+		@return Employee Incidence	  */
 	public int getHR_Incidence_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Incidence_ID);
@@ -573,21 +573,32 @@ public class X_HR_Incidence extends PO implements I_HR_Incidence, I_Persistent
 		return bd;
 	}
 
-	/** Set Service date.
-		@param ServiceDate 
-		Date service was provided
+	public org.compiere.model.I_S_TimeExpenseLine getS_TimeExpenseLine() throws RuntimeException
+    {
+		return (org.compiere.model.I_S_TimeExpenseLine)MTable.get(getCtx(), org.compiere.model.I_S_TimeExpenseLine.Table_Name)
+			.getPO(getS_TimeExpenseLine_ID(), get_TrxName());	}
+
+	/** Set Expense Line.
+		@param S_TimeExpenseLine_ID 
+		Time and Expense Report Line
 	  */
-	public void setServiceDate (Timestamp ServiceDate)
+	public void setS_TimeExpenseLine_ID (int S_TimeExpenseLine_ID)
 	{
-		set_Value (COLUMNNAME_ServiceDate, ServiceDate);
+		if (S_TimeExpenseLine_ID < 1) 
+			set_Value (COLUMNNAME_S_TimeExpenseLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_S_TimeExpenseLine_ID, Integer.valueOf(S_TimeExpenseLine_ID));
 	}
 
-	/** Get Service date.
-		@return Date service was provided
+	/** Get Expense Line.
+		@return Time and Expense Report Line
 	  */
-	public Timestamp getServiceDate () 
+	public int getS_TimeExpenseLine_ID () 
 	{
-		return (Timestamp)get_Value(COLUMNNAME_ServiceDate);
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_TimeExpenseLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_S_TimeExpense getS_TimeExpense() throws RuntimeException
@@ -618,32 +629,21 @@ public class X_HR_Incidence extends PO implements I_HR_Incidence, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_S_TimeExpenseLine getS_TimeExpenseLine() throws RuntimeException
-    {
-		return (org.compiere.model.I_S_TimeExpenseLine)MTable.get(getCtx(), org.compiere.model.I_S_TimeExpenseLine.Table_Name)
-			.getPO(getS_TimeExpenseLine_ID(), get_TrxName());	}
-
-	/** Set Expense Line.
-		@param S_TimeExpenseLine_ID 
-		Time and Expense Report Line
+	/** Set Service date.
+		@param ServiceDate 
+		Date service was provided
 	  */
-	public void setS_TimeExpenseLine_ID (int S_TimeExpenseLine_ID)
+	public void setServiceDate (Timestamp ServiceDate)
 	{
-		if (S_TimeExpenseLine_ID < 1) 
-			set_Value (COLUMNNAME_S_TimeExpenseLine_ID, null);
-		else 
-			set_Value (COLUMNNAME_S_TimeExpenseLine_ID, Integer.valueOf(S_TimeExpenseLine_ID));
+		set_Value (COLUMNNAME_ServiceDate, ServiceDate);
 	}
 
-	/** Get Expense Line.
-		@return Time and Expense Report Line
+	/** Get Service date.
+		@return Date service was provided
 	  */
-	public int getS_TimeExpenseLine_ID () 
+	public Timestamp getServiceDate () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_TimeExpenseLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (Timestamp)get_Value(COLUMNNAME_ServiceDate);
 	}
 
 	/** Set Immutable Universally Unique Identifier.
