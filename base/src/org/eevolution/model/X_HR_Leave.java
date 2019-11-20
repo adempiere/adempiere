@@ -32,7 +32,7 @@ public class X_HR_Leave extends PO implements I_HR_Leave, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190622L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_Leave (Properties ctx, int HR_Leave_ID, String trxName)
@@ -50,9 +50,9 @@ public class X_HR_Leave extends PO implements I_HR_Leave, I_Persistent
 // DR
 			setDocumentNo (null);
 			setEndDate (new Timestamp( System.currentTimeMillis() ));
-			setHR_Leave_ID (0);
 			setHR_LeaveReason_ID (0);
 			setHR_LeaveType_ID (0);
+			setHR_Leave_ID (0);
 			setIsApproved (false);
 // N
 			setNoOfLeavesCredited (0);
@@ -369,29 +369,6 @@ public class X_HR_Leave extends PO implements I_HR_Leave, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Leave.
-		@param HR_Leave_ID 
-		The Leave Credit History of an Employee
-	  */
-	public void setHR_Leave_ID (int HR_Leave_ID)
-	{
-		if (HR_Leave_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_Leave_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_Leave_ID, Integer.valueOf(HR_Leave_ID));
-	}
-
-	/** Get Leave.
-		@return The Leave Credit History of an Employee
-	  */
-	public int getHR_Leave_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Leave_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_HR_LeaveReason getHR_LeaveReason() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_LeaveReason)MTable.get(getCtx(), org.eevolution.model.I_HR_LeaveReason.Table_Name)
@@ -443,6 +420,29 @@ public class X_HR_Leave extends PO implements I_HR_Leave, I_Persistent
 	public int getHR_LeaveType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_LeaveType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Leave.
+		@param HR_Leave_ID 
+		The Leave Credit History of an Employee
+	  */
+	public void setHR_Leave_ID (int HR_Leave_ID)
+	{
+		if (HR_Leave_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_Leave_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_Leave_ID, Integer.valueOf(HR_Leave_ID));
+	}
+
+	/** Get Leave.
+		@return The Leave Credit History of an Employee
+	  */
+	public int getHR_Leave_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Leave_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

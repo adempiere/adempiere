@@ -31,7 +31,7 @@ public class X_HR_Grade extends PO implements I_HR_Grade, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_Grade (Properties ctx, int HR_Grade_ID, String trxName)

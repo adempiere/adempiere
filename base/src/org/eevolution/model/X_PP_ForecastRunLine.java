@@ -32,7 +32,7 @@ public class X_PP_ForecastRunLine extends PO implements I_PP_ForecastRunLine, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_PP_ForecastRunLine (Properties ctx, int PP_ForecastRunLine_ID, String trxName)
@@ -129,6 +129,29 @@ public class X_PP_ForecastRunLine extends PO implements I_PP_ForecastRunLine, I_
 		return ii.intValue();
 	}
 
+	/** Set Forecast Run Line.
+		@param PP_ForecastRunLine_ID 
+		Contains the forecasting calculation results based on forecast definition.
+	  */
+	public void setPP_ForecastRunLine_ID (int PP_ForecastRunLine_ID)
+	{
+		if (PP_ForecastRunLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_ForecastRunLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_ForecastRunLine_ID, Integer.valueOf(PP_ForecastRunLine_ID));
+	}
+
+	/** Get Forecast Run Line.
+		@return Contains the forecasting calculation results based on forecast definition.
+	  */
+	public int getPP_ForecastRunLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_ForecastRunLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_PP_ForecastRun getPP_ForecastRun() throws RuntimeException
     {
 		return (org.eevolution.model.I_PP_ForecastRun)MTable.get(getCtx(), org.eevolution.model.I_PP_ForecastRun.Table_Name)
@@ -152,29 +175,6 @@ public class X_PP_ForecastRunLine extends PO implements I_PP_ForecastRunLine, I_
 	public int getPP_ForecastRun_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_ForecastRun_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Forecast Run Line.
-		@param PP_ForecastRunLine_ID 
-		Contains the forecasting calculation results based on forecast definition.
-	  */
-	public void setPP_ForecastRunLine_ID (int PP_ForecastRunLine_ID)
-	{
-		if (PP_ForecastRunLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PP_ForecastRunLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PP_ForecastRunLine_ID, Integer.valueOf(PP_ForecastRunLine_ID));
-	}
-
-	/** Get Forecast Run Line.
-		@return Contains the forecasting calculation results based on forecast definition.
-	  */
-	public int getPP_ForecastRunLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_ForecastRunLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

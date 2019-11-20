@@ -30,7 +30,7 @@ public class X_C_ProjectProcessorLog extends PO implements I_C_ProjectProcessorL
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190503L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_ProjectProcessorLog (Properties ctx, int C_ProjectProcessorLog_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_C_ProjectProcessorLog extends PO implements I_C_ProjectProcessorL
       super (ctx, C_ProjectProcessorLog_ID, trxName);
       /** if (C_ProjectProcessorLog_ID == 0)
         {
-			setC_ProjectProcessor_ID (0);
 			setC_ProjectProcessorLog_ID (0);
+			setC_ProjectProcessor_ID (0);
 			setIsError (false);
 // N
         } */
@@ -90,6 +90,26 @@ public class X_C_ProjectProcessorLog extends PO implements I_C_ProjectProcessorL
 		return (byte[])get_Value(COLUMNNAME_BinaryData);
 	}
 
+	/** Set Project Processor Log.
+		@param C_ProjectProcessorLog_ID Project Processor Log	  */
+	public void setC_ProjectProcessorLog_ID (int C_ProjectProcessorLog_ID)
+	{
+		if (C_ProjectProcessorLog_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectProcessorLog_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_ProjectProcessorLog_ID, Integer.valueOf(C_ProjectProcessorLog_ID));
+	}
+
+	/** Get Project Processor Log.
+		@return Project Processor Log	  */
+	public int getC_ProjectProcessorLog_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectProcessorLog_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_C_ProjectProcessor getC_ProjectProcessor() throws RuntimeException
     {
 		return (org.eevolution.model.I_C_ProjectProcessor)MTable.get(getCtx(), org.eevolution.model.I_C_ProjectProcessor.Table_Name)
@@ -113,26 +133,6 @@ public class X_C_ProjectProcessorLog extends PO implements I_C_ProjectProcessorL
 	public int getC_ProjectProcessor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectProcessor_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Project Processor Log.
-		@param C_ProjectProcessorLog_ID Project Processor Log	  */
-	public void setC_ProjectProcessorLog_ID (int C_ProjectProcessorLog_ID)
-	{
-		if (C_ProjectProcessorLog_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_ProjectProcessorLog_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_ProjectProcessorLog_ID, Integer.valueOf(C_ProjectProcessorLog_ID));
-	}
-
-	/** Get Project Processor Log.
-		@return Project Processor Log	  */
-	public int getC_ProjectProcessorLog_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectProcessorLog_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

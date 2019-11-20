@@ -50,19 +50,6 @@ public interface I_WM_InOutBoundLine
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
@@ -77,6 +64,19 @@ public interface I_WM_InOutBoundLine
 	public int getAD_OrgTrx_ID();
 
 	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException;
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -123,21 +123,6 @@ public interface I_WM_InOutBoundLine
 
 	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
 
-    /** Column name C_Invoice_ID */
-    public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
-
-	/** Set Invoice.
-	  * Invoice Identifier
-	  */
-	public void setC_Invoice_ID (int C_Invoice_ID);
-
-	/** Get Invoice.
-	  * Invoice Identifier
-	  */
-	public int getC_Invoice_ID();
-
-	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
-
     /** Column name C_InvoiceLine_ID */
     public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
 
@@ -153,20 +138,20 @@ public interface I_WM_InOutBoundLine
 
 	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
 
-    /** Column name C_Order_ID */
-    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
+    /** Column name C_Invoice_ID */
+    public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
 
-	/** Set Order.
-	  * Order
+	/** Set Invoice.
+	  * Invoice Identifier
 	  */
-	public void setC_Order_ID (int C_Order_ID);
+	public void setC_Invoice_ID (int C_Invoice_ID);
 
-	/** Get Order.
-	  * Order
+	/** Get Invoice.
+	  * Invoice Identifier
 	  */
-	public int getC_Order_ID();
+	public int getC_Invoice_ID();
 
-	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
 
     /** Column name C_OrderLine_ID */
     public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
@@ -183,20 +168,20 @@ public interface I_WM_InOutBoundLine
 
 	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException;
 
-    /** Column name C_Project_ID */
-    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+    /** Column name C_Order_ID */
+    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
 
-	/** Set Project.
-	  * Financial Project
+	/** Set Order.
+	  * Order
 	  */
-	public void setC_Project_ID (int C_Project_ID);
+	public void setC_Order_ID (int C_Order_ID);
 
-	/** Get Project.
-	  * Financial Project
+	/** Get Order.
+	  * Order
 	  */
-	public int getC_Project_ID();
+	public int getC_Order_ID();
 
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
 
     /** Column name C_ProjectPhase_ID */
     public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
@@ -228,21 +213,20 @@ public interface I_WM_InOutBoundLine
 
 	public org.compiere.model.I_C_ProjectTask getC_ProjectTask() throws RuntimeException;
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
 
-	/** Get Created.
-	  * Date this record was created
+	/** Set Project.
+	  * Financial Project
 	  */
-	public Timestamp getCreated();
+	public void setC_Project_ID (int C_Project_ID);
 
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
+	/** Get Project.
+	  * Financial Project
 	  */
-	public int getCreatedBy();
+	public int getC_Project_ID();
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
@@ -259,16 +243,21 @@ public interface I_WM_InOutBoundLine
 
 	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
 
-    /** Column name DD_Order_ID */
-    public static final String COLUMNNAME_DD_Order_ID = "DD_Order_ID";
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
 
-	/** Set Distribution Order	  */
-	public void setDD_Order_ID (int DD_Order_ID);
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
 
-	/** Get Distribution Order	  */
-	public int getDD_Order_ID();
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
 
-	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException;
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name DD_OrderLine_ID */
     public static final String COLUMNNAME_DD_OrderLine_ID = "DD_OrderLine_ID";
@@ -280,6 +269,17 @@ public interface I_WM_InOutBoundLine
 	public int getDD_OrderLine_ID();
 
 	public org.eevolution.model.I_DD_OrderLine getDD_OrderLine() throws RuntimeException;
+
+    /** Column name DD_Order_ID */
+    public static final String COLUMNNAME_DD_Order_ID = "DD_Order_ID";
+
+	/** Set Distribution Order	  */
+	public void setDD_Order_ID (int DD_Order_ID);
+
+	/** Get Distribution Order	  */
+	public int getDD_Order_ID();
+
+	public org.eevolution.model.I_DD_Order getDD_Order() throws RuntimeException;
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -376,20 +376,35 @@ public interface I_WM_InOutBoundLine
 
 	public org.compiere.model.I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
 
-    /** Column name M_Locator_ID */
-    public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
+    /** Column name M_InOutLine_ID */
+    public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
 
-	/** Set Locator.
-	  * Warehouse Locator
+	/** Set Shipment/Receipt Line.
+	  * Line on Shipment or Receipt document
 	  */
-	public void setM_Locator_ID (int M_Locator_ID);
+	public void setM_InOutLine_ID (int M_InOutLine_ID);
 
-	/** Get Locator.
-	  * Warehouse Locator
+	/** Get Shipment/Receipt Line.
+	  * Line on Shipment or Receipt document
 	  */
-	public int getM_Locator_ID();
+	public int getM_InOutLine_ID();
 
-	public I_M_Locator getM_Locator() throws RuntimeException;
+	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException;
+
+    /** Column name M_InOut_ID */
+    public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
+
+	/** Set Shipment/Receipt.
+	  * Material Shipment Document
+	  */
+	public void setM_InOut_ID (int M_InOut_ID);
+
+	/** Get Shipment/Receipt.
+	  * Material Shipment Document
+	  */
+	public int getM_InOut_ID();
+
+	public org.compiere.model.I_M_InOut getM_InOut() throws RuntimeException;
 
     /** Column name M_LocatorTo_ID */
     public static final String COLUMNNAME_M_LocatorTo_ID = "M_LocatorTo_ID";
@@ -406,18 +421,50 @@ public interface I_WM_InOutBoundLine
 
 	public I_M_Locator getM_LocatorTo() throws RuntimeException;
 
-    /** Column name MovementQty */
-    public static final String COLUMNNAME_MovementQty = "MovementQty";
+    /** Column name M_Locator_ID */
+    public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
 
-	/** Set Movement Quantity.
-	  * Quantity of a product moved.
+	/** Set Locator.
+	  * Warehouse Locator
 	  */
-	public void setMovementQty (BigDecimal MovementQty);
+	public void setM_Locator_ID (int M_Locator_ID);
 
-	/** Get Movement Quantity.
-	  * Quantity of a product moved.
+	/** Get Locator.
+	  * Warehouse Locator
 	  */
-	public BigDecimal getMovementQty();
+	public int getM_Locator_ID();
+
+	public I_M_Locator getM_Locator() throws RuntimeException;
+
+    /** Column name M_MovementLine_ID */
+    public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
+
+	/** Set Move Line.
+	  * Inventory Move document Line
+	  */
+	public void setM_MovementLine_ID (int M_MovementLine_ID);
+
+	/** Get Move Line.
+	  * Inventory Move document Line
+	  */
+	public int getM_MovementLine_ID();
+
+	public org.compiere.model.I_M_MovementLine getM_MovementLine() throws RuntimeException;
+
+    /** Column name M_Movement_ID */
+    public static final String COLUMNNAME_M_Movement_ID = "M_Movement_ID";
+
+	/** Set Inventory Move.
+	  * Movement of Inventory
+	  */
+	public void setM_Movement_ID (int M_Movement_ID);
+
+	/** Get Inventory Move.
+	  * Movement of Inventory
+	  */
+	public int getM_Movement_ID();
+
+	public org.compiere.model.I_M_Movement getM_Movement() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -449,27 +496,18 @@ public interface I_WM_InOutBoundLine
 
 	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException;
 
-    /** Column name PickDate */
-    public static final String COLUMNNAME_PickDate = "PickDate";
+    /** Column name MovementQty */
+    public static final String COLUMNNAME_MovementQty = "MovementQty";
 
-	/** Set Pick Date.
-	  * Date/Time when picked for Shipment
+	/** Set Movement Quantity.
+	  * Quantity of a product moved.
 	  */
-	public void setPickDate (Timestamp PickDate);
+	public void setMovementQty (BigDecimal MovementQty);
 
-	/** Get Pick Date.
-	  * Date/Time when picked for Shipment
+	/** Get Movement Quantity.
+	  * Quantity of a product moved.
 	  */
-	public Timestamp getPickDate();
-
-    /** Column name PickedQty */
-    public static final String COLUMNNAME_PickedQty = "PickedQty";
-
-	/** Set Picked Qty	  */
-	public void setPickedQty (BigDecimal PickedQty);
-
-	/** Get Picked Qty	  */
-	public BigDecimal getPickedQty();
+	public BigDecimal getMovementQty();
 
     /** Column name PP_MRP_ID */
     public static final String COLUMNNAME_PP_MRP_ID = "PP_MRP_ID";
@@ -512,6 +550,28 @@ public interface I_WM_InOutBoundLine
 
 	public org.eevolution.model.I_PP_Order getPP_Order() throws RuntimeException;
 
+    /** Column name PickDate */
+    public static final String COLUMNNAME_PickDate = "PickDate";
+
+	/** Set Pick Date.
+	  * Date/Time when picked for Shipment
+	  */
+	public void setPickDate (Timestamp PickDate);
+
+	/** Get Pick Date.
+	  * Date/Time when picked for Shipment
+	  */
+	public Timestamp getPickDate();
+
+    /** Column name PickedQty */
+    public static final String COLUMNNAME_PickedQty = "PickedQty";
+
+	/** Set Picked Qty	  */
+	public void setPickedQty (BigDecimal PickedQty);
+
+	/** Get Picked Qty	  */
+	public BigDecimal getPickedQty();
+
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
 
@@ -537,6 +597,19 @@ public interface I_WM_InOutBoundLine
 	  * Shipment Date/Time
 	  */
 	public Timestamp getShipDate();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -584,18 +657,14 @@ public interface I_WM_InOutBoundLine
 
 	public org.compiere.model.I_C_ElementValue getUser2() throws RuntimeException;
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
+    /** Column name WM_InOutBoundLine_ID */
+    public static final String COLUMNNAME_WM_InOutBoundLine_ID = "WM_InOutBoundLine_ID";
 
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
+	/** Set Inbound & Outbound Order Line	  */
+	public void setWM_InOutBoundLine_ID (int WM_InOutBoundLine_ID);
 
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
+	/** Get Inbound & Outbound Order Line	  */
+	public int getWM_InOutBoundLine_ID();
 
     /** Column name WM_InOutBound_ID */
     public static final String COLUMNNAME_WM_InOutBound_ID = "WM_InOutBound_ID";
@@ -607,13 +676,4 @@ public interface I_WM_InOutBoundLine
 	public int getWM_InOutBound_ID();
 
 	public org.eevolution.model.I_WM_InOutBound getWM_InOutBound() throws RuntimeException;
-
-    /** Column name WM_InOutBoundLine_ID */
-    public static final String COLUMNNAME_WM_InOutBoundLine_ID = "WM_InOutBoundLine_ID";
-
-	/** Set Inbound & Outbound Order Line	  */
-	public void setWM_InOutBoundLine_ID (int WM_InOutBoundLine_ID);
-
-	/** Get Inbound & Outbound Order Line	  */
-	public int getWM_InOutBoundLine_ID();
 }

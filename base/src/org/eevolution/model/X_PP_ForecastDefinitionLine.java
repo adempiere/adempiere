@@ -33,7 +33,7 @@ public class X_PP_ForecastDefinitionLine extends PO implements I_PP_ForecastDefi
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_PP_ForecastDefinitionLine (Properties ctx, int PP_ForecastDefinitionLine_ID, String trxName)
@@ -42,8 +42,8 @@ public class X_PP_ForecastDefinitionLine extends PO implements I_PP_ForecastDefi
       /** if (PP_ForecastDefinitionLine_ID == 0)
         {
 			setName (null);
-			setPP_ForecastDefinition_ID (0);
 			setPP_ForecastDefinitionLine_ID (0);
+			setPP_ForecastDefinition_ID (0);
         } */
     }
 
@@ -75,34 +75,6 @@ public class X_PP_ForecastDefinitionLine extends PO implements I_PP_ForecastDefi
       return sb.toString();
     }
 
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
-			.getPO(getC_BPartner_ID(), get_TrxName());	}
-
-	/** Set Business Partner .
-		@param C_BPartner_ID 
-		Identifies a Business Partner
-	  */
-	public void setC_BPartner_ID (int C_BPartner_ID)
-	{
-		if (C_BPartner_ID < 1) 
-			set_Value (COLUMNNAME_C_BPartner_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
-	}
-
-	/** Get Business Partner .
-		@return Identifies a Business Partner
-	  */
-	public int getC_BPartner_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException
     {
 		return (org.compiere.model.I_C_BP_Group)MTable.get(getCtx(), org.compiere.model.I_C_BP_Group.Table_Name)
@@ -126,6 +98,34 @@ public class X_PP_ForecastDefinitionLine extends PO implements I_PP_ForecastDefi
 	public int getC_BP_Group_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -472,6 +472,26 @@ public class X_PP_ForecastDefinitionLine extends PO implements I_PP_ForecastDefi
         return new KeyNamePair(get_ID(), getName());
     }
 
+	/** Set Forecast Definition Line.
+		@param PP_ForecastDefinitionLine_ID Forecast Definition Line	  */
+	public void setPP_ForecastDefinitionLine_ID (int PP_ForecastDefinitionLine_ID)
+	{
+		if (PP_ForecastDefinitionLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_ForecastDefinitionLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_ForecastDefinitionLine_ID, Integer.valueOf(PP_ForecastDefinitionLine_ID));
+	}
+
+	/** Get Forecast Definition Line.
+		@return Forecast Definition Line	  */
+	public int getPP_ForecastDefinitionLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_ForecastDefinitionLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_PP_ForecastDefinition getPP_ForecastDefinition() throws RuntimeException
     {
 		return (org.eevolution.model.I_PP_ForecastDefinition)MTable.get(getCtx(), org.eevolution.model.I_PP_ForecastDefinition.Table_Name)
@@ -492,26 +512,6 @@ public class X_PP_ForecastDefinitionLine extends PO implements I_PP_ForecastDefi
 	public int getPP_ForecastDefinition_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_ForecastDefinition_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Forecast Definition Line.
-		@param PP_ForecastDefinitionLine_ID Forecast Definition Line	  */
-	public void setPP_ForecastDefinitionLine_ID (int PP_ForecastDefinitionLine_ID)
-	{
-		if (PP_ForecastDefinitionLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PP_ForecastDefinitionLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PP_ForecastDefinitionLine_ID, Integer.valueOf(PP_ForecastDefinitionLine_ID));
-	}
-
-	/** Get Forecast Definition Line.
-		@return Forecast Definition Line	  */
-	public int getPP_ForecastDefinitionLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_ForecastDefinitionLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -213,19 +213,6 @@ public interface I_HR_Leave
 
 	public org.eevolution.model.I_HR_LeaveAssign getHR_LeaveAssign() throws RuntimeException;
 
-    /** Column name HR_Leave_ID */
-    public static final String COLUMNNAME_HR_Leave_ID = "HR_Leave_ID";
-
-	/** Set Leave.
-	  * The Leave Credit History of an Employee
-	  */
-	public void setHR_Leave_ID (int HR_Leave_ID);
-
-	/** Get Leave.
-	  * The Leave Credit History of an Employee
-	  */
-	public int getHR_Leave_ID();
-
     /** Column name HR_LeaveReason_ID */
     public static final String COLUMNNAME_HR_LeaveReason_ID = "HR_LeaveReason_ID";
 
@@ -255,6 +242,19 @@ public interface I_HR_Leave
 	public int getHR_LeaveType_ID();
 
 	public org.eevolution.model.I_HR_LeaveType getHR_LeaveType() throws RuntimeException;
+
+    /** Column name HR_Leave_ID */
+    public static final String COLUMNNAME_HR_Leave_ID = "HR_Leave_ID";
+
+	/** Set Leave.
+	  * The Leave Credit History of an Employee
+	  */
+	public void setHR_Leave_ID (int HR_Leave_ID);
+
+	/** Get Leave.
+	  * The Leave Credit History of an Employee
+	  */
+	public int getHR_Leave_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -330,6 +330,19 @@ public interface I_HR_Leave
 	  */
 	public Timestamp getStartDate();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -345,17 +358,4 @@ public interface I_HR_Leave
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

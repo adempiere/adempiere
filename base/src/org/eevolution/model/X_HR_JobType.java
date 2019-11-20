@@ -31,7 +31,7 @@ public class X_HR_JobType extends PO implements I_HR_JobType, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_JobType (Properties ctx, int HR_JobType_ID, String trxName)

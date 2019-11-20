@@ -33,7 +33,7 @@ public class X_DD_FreightLine extends PO implements I_DD_FreightLine, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190903L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_DD_FreightLine (Properties ctx, int DD_FreightLine_ID, String trxName)
@@ -161,6 +161,26 @@ public class X_DD_FreightLine extends PO implements I_DD_FreightLine, I_Persiste
 		return ii.intValue();
 	}
 
+	/** Set Order Freight Line ID.
+		@param DD_FreightLine_ID Order Freight Line ID	  */
+	public void setDD_FreightLine_ID (int DD_FreightLine_ID)
+	{
+		if (DD_FreightLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_FreightLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_FreightLine_ID, Integer.valueOf(DD_FreightLine_ID));
+	}
+
+	/** Get Order Freight Line ID.
+		@return Order Freight Line ID	  */
+	public int getDD_FreightLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_FreightLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_DD_Freight getDD_Freight() throws RuntimeException
     {
 		return (org.eevolution.model.I_DD_Freight)MTable.get(getCtx(), org.eevolution.model.I_DD_Freight.Table_Name)
@@ -181,26 +201,6 @@ public class X_DD_FreightLine extends PO implements I_DD_FreightLine, I_Persiste
 	public int getDD_Freight_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Freight_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Order Freight Line ID.
-		@param DD_FreightLine_ID Order Freight Line ID	  */
-	public void setDD_FreightLine_ID (int DD_FreightLine_ID)
-	{
-		if (DD_FreightLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_DD_FreightLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_DD_FreightLine_ID, Integer.valueOf(DD_FreightLine_ID));
-	}
-
-	/** Get Order Freight Line ID.
-		@return Order Freight Line ID	  */
-	public int getDD_FreightLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_FreightLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

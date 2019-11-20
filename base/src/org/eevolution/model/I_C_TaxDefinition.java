@@ -50,19 +50,6 @@ public interface I_C_TaxDefinition
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name AD_OrgType_ID */
     public static final String COLUMNNAME_AD_OrgType_ID = "AD_OrgType_ID";
 
@@ -78,20 +65,18 @@ public interface I_C_TaxDefinition
 
 	public org.compiere.model.I_AD_OrgType getAD_OrgType() throws RuntimeException;
 
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
-	/** Set Business Partner .
-	  * Identifies a Business Partner
+	/** Set Organization.
+	  * Organizational entity within client
 	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
+	public void setAD_Org_ID (int AD_Org_ID);
 
-	/** Get Business Partner .
-	  * Identifies a Business Partner
+	/** Get Organization.
+	  * Organizational entity within client
 	  */
-	public int getC_BPartner_ID();
-
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
+	public int getAD_Org_ID();
 
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
@@ -108,21 +93,20 @@ public interface I_C_TaxDefinition
 
 	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
-	/** Get Created.
-	  * Date this record was created
+	/** Set Business Partner .
+	  * Identifies a Business Partner
 	  */
-	public Timestamp getCreated();
+	public void setC_BPartner_ID (int C_BPartner_ID);
 
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
+	/** Get Business Partner .
+	  * Identifies a Business Partner
 	  */
-	public int getCreatedBy();
+	public int getC_BPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_TaxBase_ID */
     public static final String COLUMNNAME_C_TaxBase_ID = "C_TaxBase_ID";
@@ -170,6 +154,21 @@ public interface I_C_TaxDefinition
 
 	public org.eevolution.model.I_C_TaxGroup getC_TaxGroup() throws RuntimeException;
 
+    /** Column name C_TaxType_ID */
+    public static final String COLUMNNAME_C_TaxType_ID = "C_TaxType_ID";
+
+	/** Set Tax Type.
+	  * Tax Type
+	  */
+	public void setC_TaxType_ID (int C_TaxType_ID);
+
+	/** Get Tax Type.
+	  * Tax Type
+	  */
+	public int getC_TaxType_ID();
+
+	public org.eevolution.model.I_C_TaxType getC_TaxType() throws RuntimeException;
+
     /** Column name C_Tax_ID */
     public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
 
@@ -185,20 +184,21 @@ public interface I_C_TaxDefinition
 
 	public org.compiere.model.I_C_Tax getC_Tax() throws RuntimeException;
 
-    /** Column name C_TaxType_ID */
-    public static final String COLUMNNAME_C_TaxType_ID = "C_TaxType_ID";
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
 
-	/** Set Tax Type.
-	  * Tax Type
+	/** Get Created.
+	  * Date this record was created
 	  */
-	public void setC_TaxType_ID (int C_TaxType_ID);
+	public Timestamp getCreated();
 
-	/** Get Tax Type.
-	  * Tax Type
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
 	  */
-	public int getC_TaxType_ID();
-
-	public org.eevolution.model.I_C_TaxType getC_TaxType() throws RuntimeException;
+	public int getCreatedBy();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -252,24 +252,6 @@ public interface I_C_TaxDefinition
 	  */
 	public boolean isInvoiced();
 
-    /** Column name MaxTaxable */
-    public static final String COLUMNNAME_MaxTaxable = "MaxTaxable";
-
-	/** Set Max Taxable	  */
-	public void setMaxTaxable (int MaxTaxable);
-
-	/** Get Max Taxable	  */
-	public int getMaxTaxable();
-
-    /** Column name MinTaxable */
-    public static final String COLUMNNAME_MinTaxable = "MinTaxable";
-
-	/** Set Min Taxable	  */
-	public void setMinTaxable (int MinTaxable);
-
-	/** Get Min Taxable	  */
-	public int getMinTaxable();
-
     /** Column name M_Product_Category_ID */
     public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
 
@@ -300,6 +282,24 @@ public interface I_C_TaxDefinition
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
+    /** Column name MaxTaxable */
+    public static final String COLUMNNAME_MaxTaxable = "MaxTaxable";
+
+	/** Set Max Taxable	  */
+	public void setMaxTaxable (int MaxTaxable);
+
+	/** Get Max Taxable	  */
+	public int getMaxTaxable();
+
+    /** Column name MinTaxable */
+    public static final String COLUMNNAME_MinTaxable = "MinTaxable";
+
+	/** Set Min Taxable	  */
+	public void setMinTaxable (int MinTaxable);
+
+	/** Get Min Taxable	  */
+	public int getMinTaxable();
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -328,6 +328,19 @@ public interface I_C_TaxDefinition
 	  */
 	public int getSeqNo();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -343,19 +356,6 @@ public interface I_C_TaxDefinition
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";

@@ -31,7 +31,7 @@ public class X_HR_SalaryRange extends PO implements I_HR_SalaryRange, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_SalaryRange (Properties ctx, int HR_SalaryRange_ID, String trxName)

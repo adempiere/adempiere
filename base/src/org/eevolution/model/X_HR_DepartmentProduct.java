@@ -33,7 +33,7 @@ public class X_HR_DepartmentProduct extends PO implements I_HR_DepartmentProduct
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_DepartmentProduct (Properties ctx, int HR_DepartmentProduct_ID, String trxName)
@@ -44,8 +44,8 @@ public class X_HR_DepartmentProduct extends PO implements I_HR_DepartmentProduct
 			setActualQty (Env.ZERO);
 			setDateFrom (new Timestamp( System.currentTimeMillis() ));
 			setDateTo (new Timestamp( System.currentTimeMillis() ));
-			setHR_Department_ID (0);
 			setHR_DepartmentProduct_ID (0);
+			setHR_Department_ID (0);
 			setM_Product_ID (0);
 			setQtyPlan (Env.ZERO);
         } */
@@ -150,6 +150,26 @@ public class X_HR_DepartmentProduct extends PO implements I_HR_DepartmentProduct
 		return (Timestamp)get_Value(COLUMNNAME_DateTo);
 	}
 
+	/** Set Department Consumption Limit.
+		@param HR_DepartmentProduct_ID Department Consumption Limit	  */
+	public void setHR_DepartmentProduct_ID (int HR_DepartmentProduct_ID)
+	{
+		if (HR_DepartmentProduct_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_DepartmentProduct_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_DepartmentProduct_ID, Integer.valueOf(HR_DepartmentProduct_ID));
+	}
+
+	/** Get Department Consumption Limit.
+		@return Department Consumption Limit	  */
+	public int getHR_DepartmentProduct_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_DepartmentProduct_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_Department)MTable.get(getCtx(), org.eevolution.model.I_HR_Department.Table_Name)
@@ -170,26 +190,6 @@ public class X_HR_DepartmentProduct extends PO implements I_HR_DepartmentProduct
 	public int getHR_Department_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Department_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Department Consumption Limit.
-		@param HR_DepartmentProduct_ID Department Consumption Limit	  */
-	public void setHR_DepartmentProduct_ID (int HR_DepartmentProduct_ID)
-	{
-		if (HR_DepartmentProduct_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_DepartmentProduct_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_DepartmentProduct_ID, Integer.valueOf(HR_DepartmentProduct_ID));
-	}
-
-	/** Get Department Consumption Limit.
-		@return Department Consumption Limit	  */
-	public int getHR_DepartmentProduct_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_DepartmentProduct_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

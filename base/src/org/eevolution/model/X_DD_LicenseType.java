@@ -31,7 +31,7 @@ public class X_DD_LicenseType extends PO implements I_DD_LicenseType, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_DD_LicenseType (Properties ctx, int DD_LicenseType_ID, String trxName)
