@@ -783,8 +783,8 @@
         <Data AD_Column_ID="84385" Column="UUID">cb8681d6-c53b-11e9-b2a1-0242ac110002</Data>
       </PO>
     </Step>
-    <Step DBType="Postgres" Parse="N" SeqNo="260" StepType="SQL">
-      <SQLStatement>--DROP VIEW RV_TRANSACTION;
+    <Step DBType="Postgres" Parse="Y" SeqNo="260" StepType="SQL">
+      <SQLStatement>DROP VIEW RV_TRANSACTION;
 CREATE OR REPLACE VIEW RV_TRANSACTION
 AS
 SELECT t.M_Transaction_ID, t.AD_Client_ID,t.AD_Org_ID,
@@ -838,7 +838,7 @@ FROM M_Transaction t
   LEFT OUTER JOIN C_ProjectIssue pjl ON (t.C_ProjectIssue_ID=pjl.C_ProjectIssue_ID)
   LEFT OUTER JOIN C_Project pj ON pjl.C_Project_id = pj.C_Project_id
   LEFT OUTER JOIN PP_Cost_Collector cc ON t.PP_Cost_Collector_ID = cc.PP_Cost_Collector_ID;</SQLStatement>
-      <RollbackStatement>--DROP VIEW RV_TRANSACTION;
+      <RollbackStatement>DROP VIEW RV_TRANSACTION;
 CREATE OR REPLACE VIEW RV_TRANSACTION
 AS
 SELECT t.M_Transaction_ID, t.AD_Client_ID,t.AD_Org_ID,
@@ -893,8 +893,8 @@ FROM M_Transaction t
   LEFT OUTER JOIN C_Project pj ON pjl.C_Project_id = pj.C_Project_id
   LEFT OUTER JOIN PP_Cost_Collector cc ON t.PP_Cost_Collector_ID = cc.PP_Cost_Collector_ID;</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="260" StepType="SQL">
-      <SQLStatement>--DROP VIEW RV_TRANSACTION;
+    <Step DBType="Oracle" Parse="Y" SeqNo="260" StepType="SQL">
+      <SQLStatement>DROP VIEW RV_TRANSACTION;
 CREATE OR REPLACE VIEW RV_TRANSACTION
 AS
 SELECT t.M_Transaction_ID, t.AD_Client_ID,t.AD_Org_ID,
@@ -948,7 +948,7 @@ FROM M_Transaction t
   LEFT OUTER JOIN C_ProjectIssue pjl ON (t.C_ProjectIssue_ID=pjl.C_ProjectIssue_ID)
   LEFT OUTER JOIN C_Project pj ON pjl.C_Project_id = pj.C_Project_id
   LEFT OUTER JOIN PP_Cost_Collector cc ON t.PP_Cost_Collector_ID = cc.PP_Cost_Collector_ID;</SQLStatement>
-      <RollbackStatement>--DROP VIEW RV_TRANSACTION;
+      <RollbackStatement>DROP VIEW RV_TRANSACTION;
 CREATE OR REPLACE VIEW RV_TRANSACTION
 AS
 SELECT t.M_Transaction_ID, t.AD_Client_ID,t.AD_Org_ID,

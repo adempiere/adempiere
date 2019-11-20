@@ -1336,7 +1336,7 @@ AND C_Payment.IsUnidentifiedPayment = 'N'</Data>
         <Data AD_Column_ID="338" Column="Name" oldValue="Select Existing">Seleccionar Existente</Data>
       </PO>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="730" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="730" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW RV_PAYMENT
 (C_PAYMENT_ID, AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, 
  CREATEDBY, UPDATED, UPDATEDBY, DOCUMENTNO, DATETRX, 
@@ -1377,8 +1377,7 @@ SELECT C_Payment_ID, AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Upda
     IsReconciled, IsAllocated, IsOnline, Processed, Posted,
     C_Campaign_ID, C_Project_ID, C_Activity_ID, IsUnidentifiedPayment, Ref_Payment_ID, RelatedPayment_ID
 FROM C_Payment;
-
---COMMENT ON TABLE RV_PAYMENT IS 'Payment Information corrected for AP/AR';</SQLStatement>
+</SQLStatement>
       <RollbackStatement>CREATE OR REPLACE VIEW RV_PAYMENT
 (C_PAYMENT_ID, AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, 
  CREATEDBY, UPDATED, UPDATEDBY, DOCUMENTNO, DATETRX, 
@@ -1420,7 +1419,6 @@ SELECT C_Payment_ID, AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Upda
     C_Campaign_ID, C_Project_ID, C_Activity_ID
 FROM C_Payment;
 
---COMMENT ON TABLE RV_PAYMENT IS 'Payment Information corrected for AP/AR';
 
 
 
@@ -1571,6 +1569,11 @@ FROM C_Payment;
     </Step>
     <Step SeqNo="760" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="94570" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84310" Column="UUID">13c8d496-de4e-11e9-a51b-0242ac110002</Data>
         <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="12960" Column="Created">2019-09-23 18:04:13.223</Data>
         <Data AD_Column_ID="12959" Column="IsActive">true</Data>
@@ -1578,11 +1581,6 @@ FROM C_Payment;
         <Data AD_Column_ID="12955" Column="AD_Column_ID">94570</Data>
         <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="12957" Column="Name">Unidentified Payment</Data>
-        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="84310" Column="UUID">13c8d496-de4e-11e9-a51b-0242ac110002</Data>
       </PO>
     </Step>
     <Step SeqNo="770" StepType="AD">
@@ -1916,8 +1914,6 @@ FROM C_Payment;
     </Step>
     <Step SeqNo="940" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="57162" Table="AD_Process_Para">
-        <Data AD_Column_ID="2820" Column="Updated">2019-09-23 18:21:25.884</Data>
-        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57162</Data>
         <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
@@ -1948,6 +1944,8 @@ FROM C_Payment;
         <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="2820" Column="Updated">2019-09-23 18:21:25.884</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="950" StepType="AD">

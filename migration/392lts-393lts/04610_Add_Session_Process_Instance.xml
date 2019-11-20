@@ -2,8 +2,13 @@
 <Migrations>
   <Migration EntityType="D" Name="Add session reference to process instance" ReleaseNo="3.9.3" SeqNo="4610">
     <Comments>See: https://github.com/adempiere/adempiere/issues/2581</Comments>
-    <Step DBType="ALL" Parse="N" SeqNo="5" StepType="SQL">
+    <Step DBType="Oracle" Parse="N" SeqNo="1" StepType="SQL">
+      <SQLStatement>ALTER TABLE AD_PInstance ADD AD_Session_ID NUMBER(10) DEFAULT NULL</SQLStatement>
+      <RollbackStatement>ALTER TABLE AD_PInstance DROP COLUMN AD_Session_ID</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="N" SeqNo="5" StepType="SQL">
       <SQLStatement>ALTER TABLE AD_PInstance ADD COLUMN AD_Session_ID NUMERIC(10) DEFAULT NULL</SQLStatement>
+      <RollbackStatement>ALTER TABLE AD_PInstance DROP COLUMN AD_Session_ID</RollbackStatement>
     </Step>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="102" Action="I" Record_ID="54130" Table="AD_Reference">
@@ -1359,13 +1364,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="500" StepType="AD">
       <PO AD_Table_ID="127" Action="I" Record_ID="93949" Table="AD_Field_Trl">
-        <Data AD_Column_ID="671" Column="IsActive">true</Data>
-        <Data AD_Column_ID="672" Column="Created">2019-05-27 15:44:30.278</Data>
-        <Data AD_Column_ID="674" Column="Updated">2019-05-27 15:44:30.278</Data>
-        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="287" Column="Description">Client/Tenant for this installation.</Data>
-        <Data AD_Column_ID="286" Column="Name">Client</Data>
         <Data AD_Column_ID="288" Column="Help">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</Data>
         <Data AD_Column_ID="1204" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="284" Column="AD_Field_ID">93949</Data>
@@ -1373,6 +1371,13 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="84323" Column="UUID">08e2a0ba-80bc-11e9-8eb6-ff29882f677a</Data>
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
+        <Data AD_Column_ID="672" Column="Created">2019-05-27 15:44:30.278</Data>
+        <Data AD_Column_ID="674" Column="Updated">2019-05-27 15:44:30.278</Data>
+        <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="287" Column="Description">Client/Tenant for this installation.</Data>
+        <Data AD_Column_ID="286" Column="Name">Client</Data>
       </PO>
     </Step>
     <Step SeqNo="510" StepType="AD">

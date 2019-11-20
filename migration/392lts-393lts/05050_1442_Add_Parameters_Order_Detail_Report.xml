@@ -932,7 +932,7 @@
         <Data AD_Column_ID="84385" Column="UUID">fae44232-c546-11e9-baa3-0242ac110002</Data>
       </PO>
     </Step>
-    <Step DBType="Postgres" Parse="N" SeqNo="280" StepType="SQL">
+    <Step DBType="Postgres" Parse="Y" SeqNo="280" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW RV_ORDERDETAIL
 (AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
  UPDATED, UPDATEDBY, C_ORDER_ID, DOCSTATUS, DOCACTION, 
@@ -1021,7 +1021,7 @@ FROM C_Order o
 
 </RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="280" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="280" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW RV_ORDERDETAIL
 (AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
  UPDATED, UPDATEDBY, C_ORDER_ID, DOCSTATUS, DOCACTION, 
