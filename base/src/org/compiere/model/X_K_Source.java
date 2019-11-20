@@ -30,7 +30,7 @@ public class X_K_Source extends PO implements I_K_Source, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_K_Source (Properties ctx, int K_Source_ID, String trxName)

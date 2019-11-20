@@ -30,7 +30,7 @@ public class X_K_CategoryValue extends PO implements I_K_CategoryValue, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_K_CategoryValue (Properties ctx, int K_CategoryValue_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_K_CategoryValue extends PO implements I_K_CategoryValue, I_Persis
       super (ctx, K_CategoryValue_ID, trxName);
       /** if (K_CategoryValue_ID == 0)
         {
-			setK_Category_ID (0);
 			setK_CategoryValue_ID (0);
+			setK_Category_ID (0);
 			setName (null);
         } */
     }
@@ -89,6 +89,29 @@ public class X_K_CategoryValue extends PO implements I_K_CategoryValue, I_Persis
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Category Value.
+		@param K_CategoryValue_ID 
+		The value of the category
+	  */
+	public void setK_CategoryValue_ID (int K_CategoryValue_ID)
+	{
+		if (K_CategoryValue_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_K_CategoryValue_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_K_CategoryValue_ID, Integer.valueOf(K_CategoryValue_ID));
+	}
+
+	/** Get Category Value.
+		@return The value of the category
+	  */
+	public int getK_CategoryValue_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_K_CategoryValue_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_K_Category getK_Category() throws RuntimeException
     {
 		return (org.compiere.model.I_K_Category)MTable.get(getCtx(), org.compiere.model.I_K_Category.Table_Name)
@@ -112,29 +135,6 @@ public class X_K_CategoryValue extends PO implements I_K_CategoryValue, I_Persis
 	public int getK_Category_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_K_Category_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Category Value.
-		@param K_CategoryValue_ID 
-		The value of the category
-	  */
-	public void setK_CategoryValue_ID (int K_CategoryValue_ID)
-	{
-		if (K_CategoryValue_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_K_CategoryValue_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_K_CategoryValue_ID, Integer.valueOf(K_CategoryValue_ID));
-	}
-
-	/** Get Category Value.
-		@return The value of the category
-	  */
-	public int getK_CategoryValue_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_K_CategoryValue_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

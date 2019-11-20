@@ -186,15 +186,6 @@ public interface I_M_PriceList
 	  */
 	public boolean isNetPrice();
 
-    /** Column name isPresentForProduct */
-    public static final String COLUMNNAME_isPresentForProduct = "isPresentForProduct";
-
-	/** Set isPresentForProduct	  */
-	public void setisPresentForProduct (boolean isPresentForProduct);
-
-	/** Get isPresentForProduct	  */
-	public boolean isPresentForProduct();
-
     /** Column name IsSOPriceList */
     public static final String COLUMNNAME_IsSOPriceList = "IsSOPriceList";
 
@@ -260,6 +251,19 @@ public interface I_M_PriceList
 	  */
 	public int getPricePrecision();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -276,16 +280,12 @@ public interface I_M_PriceList
 	  */
 	public int getUpdatedBy();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
+    /** Column name isPresentForProduct */
+    public static final String COLUMNNAME_isPresentForProduct = "isPresentForProduct";
 
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
+	/** Set isPresentForProduct	  */
+	public void setisPresentForProduct (boolean isPresentForProduct);
 
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
+	/** Get isPresentForProduct	  */
+	public boolean isPresentForProduct();
 }

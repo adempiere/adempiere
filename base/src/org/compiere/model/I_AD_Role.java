@@ -141,15 +141,6 @@ public interface I_AD_Role
 	/** Get Allow Info BPartner	  */
 	public boolean isAllow_Info_BPartner();
 
-    /** Column name Allow_Info_CashJournal */
-    public static final String COLUMNNAME_Allow_Info_CashJournal = "Allow_Info_CashJournal";
-
-	/** Set Allow Info CashJournal	  */
-	public void setAllow_Info_CashJournal (boolean Allow_Info_CashJournal);
-
-	/** Get Allow Info CashJournal	  */
-	public boolean isAllow_Info_CashJournal();
-
     /** Column name Allow_Info_CRP */
     public static final String COLUMNNAME_Allow_Info_CRP = "Allow_Info_CRP";
 
@@ -158,6 +149,15 @@ public interface I_AD_Role
 
 	/** Get Allow Info CRP	  */
 	public boolean isAllow_Info_CRP();
+
+    /** Column name Allow_Info_CashJournal */
+    public static final String COLUMNNAME_Allow_Info_CashJournal = "Allow_Info_CashJournal";
+
+	/** Set Allow Info CashJournal	  */
+	public void setAllow_Info_CashJournal (boolean Allow_Info_CashJournal);
+
+	/** Get Allow Info CashJournal	  */
+	public boolean isAllow_Info_CashJournal();
 
     /** Column name Allow_Info_InOut */
     public static final String COLUMNNAME_Allow_Info_InOut = "Allow_Info_InOut";
@@ -564,6 +564,19 @@ public interface I_AD_Role
 
 	public org.compiere.model.I_AD_User getSupervisor() throws RuntimeException;
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -601,17 +614,4 @@ public interface I_AD_Role
 	  * System Client Organization
 	  */
 	public String getUserLevel();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

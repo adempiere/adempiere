@@ -49,6 +49,15 @@ public interface I_AD_ColumnProcess
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_ColumnProcess_ID */
+    public static final String COLUMNNAME_AD_ColumnProcess_ID = "AD_ColumnProcess_ID";
+
+	/** Set Column Link Process	  */
+	public void setAD_ColumnProcess_ID (int AD_ColumnProcess_ID);
+
+	/** Get Column Link Process	  */
+	public int getAD_ColumnProcess_ID();
+
     /** Column name AD_Column_ID */
     public static final String COLUMNNAME_AD_Column_ID = "AD_Column_ID";
 
@@ -63,15 +72,6 @@ public interface I_AD_ColumnProcess
 	public int getAD_Column_ID();
 
 	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException;
-
-    /** Column name AD_ColumnProcess_ID */
-    public static final String COLUMNNAME_AD_ColumnProcess_ID = "AD_ColumnProcess_ID";
-
-	/** Set Column Link Process	  */
-	public void setAD_ColumnProcess_ID (int AD_ColumnProcess_ID);
-
-	/** Get Column Link Process	  */
-	public int getAD_ColumnProcess_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -143,6 +143,19 @@ public interface I_AD_ColumnProcess
 	  */
 	public String getName();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -158,17 +171,4 @@ public interface I_AD_ColumnProcess
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

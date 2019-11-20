@@ -33,7 +33,7 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_ForecastLine (Properties ctx, int M_ForecastLine_ID, String trxName)
@@ -42,8 +42,8 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
       /** if (M_ForecastLine_ID == 0)
         {
 			setDatePromised (new Timestamp( System.currentTimeMillis() ));
-			setM_Forecast_ID (0);
 			setM_ForecastLine_ID (0);
+			setM_Forecast_ID (0);
 			setM_Product_ID (0);
 			setM_Warehouse_ID (0);
 // @M_Warehouse_ID@
@@ -133,6 +133,29 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 		return (Timestamp)get_Value(COLUMNNAME_DatePromised);
 	}
 
+	/** Set Forecast Line.
+		@param M_ForecastLine_ID 
+		Forecast Line
+	  */
+	public void setM_ForecastLine_ID (int M_ForecastLine_ID)
+	{
+		if (M_ForecastLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ForecastLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ForecastLine_ID, Integer.valueOf(M_ForecastLine_ID));
+	}
+
+	/** Get Forecast Line.
+		@return Forecast Line
+	  */
+	public int getM_ForecastLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ForecastLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_Forecast getM_Forecast() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Forecast)MTable.get(getCtx(), org.compiere.model.I_M_Forecast.Table_Name)
@@ -156,29 +179,6 @@ public class X_M_ForecastLine extends PO implements I_M_ForecastLine, I_Persiste
 	public int getM_Forecast_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Forecast_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Forecast Line.
-		@param M_ForecastLine_ID 
-		Forecast Line
-	  */
-	public void setM_ForecastLine_ID (int M_ForecastLine_ID)
-	{
-		if (M_ForecastLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_ForecastLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_ForecastLine_ID, Integer.valueOf(M_ForecastLine_ID));
-	}
-
-	/** Get Forecast Line.
-		@return Forecast Line
-	  */
-	public int getM_ForecastLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_ForecastLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

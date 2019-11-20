@@ -119,19 +119,6 @@ public interface I_S_Training_Class
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name StartDate */
-    public static final String COLUMNNAME_StartDate = "StartDate";
-
-	/** Set Start Date.
-	  * First effective day (inclusive)
-	  */
-	public void setStartDate (Timestamp StartDate);
-
-	/** Get Start Date.
-	  * First effective day (inclusive)
-	  */
-	public Timestamp getStartDate();
-
     /** Column name S_Training_Class_ID */
     public static final String COLUMNNAME_S_Training_Class_ID = "S_Training_Class_ID";
 
@@ -160,6 +147,32 @@ public interface I_S_Training_Class
 
 	public org.compiere.model.I_S_Training getS_Training() throws RuntimeException;
 
+    /** Column name StartDate */
+    public static final String COLUMNNAME_StartDate = "StartDate";
+
+	/** Set Start Date.
+	  * First effective day (inclusive)
+	  */
+	public void setStartDate (Timestamp StartDate);
+
+	/** Get Start Date.
+	  * First effective day (inclusive)
+	  */
+	public Timestamp getStartDate();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -175,17 +188,4 @@ public interface I_S_Training_Class
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

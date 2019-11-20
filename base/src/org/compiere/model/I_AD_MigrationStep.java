@@ -41,19 +41,6 @@ public interface I_AD_MigrationStep
 
     /** Load Meta Data */
 
-    /** Column name Action */
-    public static final String COLUMNNAME_Action = "Action";
-
-	/** Set Action.
-	  * Indicates the Action to be performed
-	  */
-	public void setAction (String Action);
-
-	/** Get Action.
-	  * Indicates the Action to be performed
-	  */
-	public String getAction();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -61,6 +48,19 @@ public interface I_AD_MigrationStep
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
+
+    /** Column name AD_MigrationStep_ID */
+    public static final String COLUMNNAME_AD_MigrationStep_ID = "AD_MigrationStep_ID";
+
+	/** Set Migration step.
+	  * A single step in the migration process
+	  */
+	public void setAD_MigrationStep_ID (int AD_MigrationStep_ID);
+
+	/** Get Migration step.
+	  * A single step in the migration process
+	  */
+	public int getAD_MigrationStep_ID();
 
     /** Column name AD_Migration_ID */
     public static final String COLUMNNAME_AD_Migration_ID = "AD_Migration_ID";
@@ -76,19 +76,6 @@ public interface I_AD_MigrationStep
 	public int getAD_Migration_ID();
 
 	public org.compiere.model.I_AD_Migration getAD_Migration() throws RuntimeException;
-
-    /** Column name AD_MigrationStep_ID */
-    public static final String COLUMNNAME_AD_MigrationStep_ID = "AD_MigrationStep_ID";
-
-	/** Set Migration step.
-	  * A single step in the migration process
-	  */
-	public void setAD_MigrationStep_ID (int AD_MigrationStep_ID);
-
-	/** Get Migration step.
-	  * A single step in the migration process
-	  */
-	public int getAD_MigrationStep_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -117,6 +104,19 @@ public interface I_AD_MigrationStep
 	public int getAD_Table_ID();
 
 	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
+
+    /** Column name Action */
+    public static final String COLUMNNAME_Action = "Action";
+
+	/** Set Action.
+	  * Indicates the Action to be performed
+	  */
+	public void setAction (String Action);
+
+	/** Get Action.
+	  * Indicates the Action to be performed
+	  */
+	public String getAction();
 
     /** Column name Apply */
     public static final String COLUMNNAME_Apply = "Apply";
@@ -230,6 +230,15 @@ public interface I_AD_MigrationStep
 	  */
 	public String getRollbackStatement();
 
+    /** Column name SQLStatement */
+    public static final String COLUMNNAME_SQLStatement = "SQLStatement";
+
+	/** Set SQLStatement	  */
+	public void setSQLStatement (String SQLStatement);
+
+	/** Get SQLStatement	  */
+	public String getSQLStatement();
+
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
 
@@ -244,15 +253,6 @@ public interface I_AD_MigrationStep
  lowest number comes first
 	  */
 	public int getSeqNo();
-
-    /** Column name SQLStatement */
-    public static final String COLUMNNAME_SQLStatement = "SQLStatement";
-
-	/** Set SQLStatement	  */
-	public void setSQLStatement (String SQLStatement);
-
-	/** Get SQLStatement	  */
-	public String getSQLStatement();
 
     /** Column name StatusCode */
     public static final String COLUMNNAME_StatusCode = "StatusCode";
@@ -276,6 +276,19 @@ public interface I_AD_MigrationStep
 	  */
 	public String getStepType();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -291,17 +304,4 @@ public interface I_AD_MigrationStep
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

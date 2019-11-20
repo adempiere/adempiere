@@ -19,10 +19,10 @@ name := "org.adempiere.jetty"
 lazy val commonSettings = Seq(
   organization := "org.adempiere.net",
   version := "3.9.0-SNAPSHOT",
-  scalaVersion := "2.12.8"
+  scalaVersion := "2.12.10"
 )
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.12.10"
 resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"
 
 fork := true

@@ -31,7 +31,7 @@ public class X_M_Product_Costing extends PO implements I_M_Product_Costing, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_Product_Costing (Properties ctx, int M_Product_Costing_ID, String trxName)

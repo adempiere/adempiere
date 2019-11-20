@@ -30,7 +30,7 @@ public class X_CM_WikiToken extends PO implements I_CM_WikiToken, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_CM_WikiToken (Properties ctx, int CM_WikiToken_ID, String trxName)

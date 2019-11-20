@@ -62,6 +62,19 @@ public interface I_AD_UserMail
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AD_UserMail_ID */
+    public static final String COLUMNNAME_AD_UserMail_ID = "AD_UserMail_ID";
+
+	/** Set User Mail.
+	  * Mail sent to the user
+	  */
+	public void setAD_UserMail_ID (int AD_UserMail_ID);
+
+	/** Get User Mail.
+	  * Mail sent to the user
+	  */
+	public int getAD_UserMail_ID();
+
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
@@ -76,19 +89,6 @@ public interface I_AD_UserMail
 	public int getAD_User_ID();
 
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
-
-    /** Column name AD_UserMail_ID */
-    public static final String COLUMNNAME_AD_UserMail_ID = "AD_UserMail_ID";
-
-	/** Set User Mail.
-	  * Mail sent to the user
-	  */
-	public void setAD_UserMail_ID (int AD_UserMail_ID);
-
-	/** Get User Mail.
-	  * Mail sent to the user
-	  */
-	public int getAD_UserMail_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -195,6 +195,19 @@ public interface I_AD_UserMail
 	  */
 	public String getSubject();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -210,19 +223,6 @@ public interface I_AD_UserMail
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name W_MailMsg_ID */
     public static final String COLUMNNAME_W_MailMsg_ID = "W_MailMsg_ID";

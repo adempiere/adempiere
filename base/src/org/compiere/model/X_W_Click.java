@@ -30,7 +30,7 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_W_Click (Properties ctx, int W_Click_ID, String trxName)
@@ -71,23 +71,6 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
       return sb.toString();
     }
 
-	/** Set Accept Language.
-		@param AcceptLanguage 
-		Language accepted based on browser information
-	  */
-	public void setAcceptLanguage (String AcceptLanguage)
-	{
-		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
-	}
-
-	/** Get Accept Language.
-		@return Language accepted based on browser information
-	  */
-	public String getAcceptLanguage () 
-	{
-		return (String)get_Value(COLUMNNAME_AcceptLanguage);
-	}
-
 	/** Set User/Contact.
 		@param AD_User_ID 
 		User within the system - Internal or Business Partner Contact
@@ -109,6 +92,23 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Accept Language.
+		@param AcceptLanguage 
+		Language accepted based on browser information
+	  */
+	public void setAcceptLanguage (String AcceptLanguage)
+	{
+		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
+	}
+
+	/** Get Accept Language.
+		@return Language accepted based on browser information
+	  */
+	public String getAcceptLanguage () 
+	{
+		return (String)get_Value(COLUMNNAME_AcceptLanguage);
 	}
 
 	/** Set EMail Address.
@@ -228,23 +228,6 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 		return (String)get_Value(COLUMNNAME_TargetURL);
 	}
 
-	/** Set User Agent.
-		@param UserAgent 
-		Browser Used
-	  */
-	public void setUserAgent (String UserAgent)
-	{
-		set_Value (COLUMNNAME_UserAgent, UserAgent);
-	}
-
-	/** Get User Agent.
-		@return Browser Used
-	  */
-	public String getUserAgent () 
-	{
-		return (String)get_Value(COLUMNNAME_UserAgent);
-	}
-
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 
 		Immutable Universally Unique Identifier
@@ -260,6 +243,23 @@ public class X_W_Click extends PO implements I_W_Click, I_Persistent
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** Set User Agent.
+		@param UserAgent 
+		Browser Used
+	  */
+	public void setUserAgent (String UserAgent)
+	{
+		set_Value (COLUMNNAME_UserAgent, UserAgent);
+	}
+
+	/** Get User Agent.
+		@return Browser Used
+	  */
+	public String getUserAgent () 
+	{
+		return (String)get_Value(COLUMNNAME_UserAgent);
 	}
 
 	public org.compiere.model.I_W_ClickCount getW_ClickCount() throws RuntimeException

@@ -62,21 +62,6 @@ public interface I_I_Conversion_Rate
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_Conversion_Rate_ID */
-    public static final String COLUMNNAME_C_Conversion_Rate_ID = "C_Conversion_Rate_ID";
-
-	/** Set Conversion Rate.
-	  * Rate used for converting currencies
-	  */
-	public void setC_Conversion_Rate_ID (int C_Conversion_Rate_ID);
-
-	/** Get Conversion Rate.
-	  * Rate used for converting currencies
-	  */
-	public int getC_Conversion_Rate_ID();
-
-	public org.compiere.model.I_C_Conversion_Rate getC_Conversion_Rate() throws RuntimeException;
-
     /** Column name C_ConversionType_ID */
     public static final String COLUMNNAME_C_ConversionType_ID = "C_ConversionType_ID";
 
@@ -91,6 +76,21 @@ public interface I_I_Conversion_Rate
 	public int getC_ConversionType_ID();
 
 	public org.compiere.model.I_C_ConversionType getC_ConversionType() throws RuntimeException;
+
+    /** Column name C_Conversion_Rate_ID */
+    public static final String COLUMNNAME_C_Conversion_Rate_ID = "C_Conversion_Rate_ID";
+
+	/** Set Conversion Rate.
+	  * Rate used for converting currencies
+	  */
+	public void setC_Conversion_Rate_ID (int C_Conversion_Rate_ID);
+
+	/** Get Conversion Rate.
+	  * Rate used for converting currencies
+	  */
+	public int getC_Conversion_Rate_ID();
+
+	public org.compiere.model.I_C_Conversion_Rate getC_Conversion_Rate() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -135,6 +135,19 @@ public interface I_I_Conversion_Rate
 	  */
 	public String getConversionTypeValue();
 
+    /** Column name CreateReciprocalRate */
+    public static final String COLUMNNAME_CreateReciprocalRate = "CreateReciprocalRate";
+
+	/** Set Create Reciprocal Rate.
+	  * Create Reciprocal Rate from current information
+	  */
+	public void setCreateReciprocalRate (boolean CreateReciprocalRate);
+
+	/** Get Create Reciprocal Rate.
+	  * Create Reciprocal Rate from current information
+	  */
+	public boolean isCreateReciprocalRate();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -151,19 +164,6 @@ public interface I_I_Conversion_Rate
 	  */
 	public int getCreatedBy();
 
-    /** Column name CreateReciprocalRate */
-    public static final String COLUMNNAME_CreateReciprocalRate = "CreateReciprocalRate";
-
-	/** Set Create Reciprocal Rate.
-	  * Create Reciprocal Rate from current information
-	  */
-	public void setCreateReciprocalRate (boolean CreateReciprocalRate);
-
-	/** Get Create Reciprocal Rate.
-	  * Create Reciprocal Rate from current information
-	  */
-	public boolean isCreateReciprocalRate();
-
     /** Column name DivideRate */
     public static final String COLUMNNAME_DivideRate = "DivideRate";
 
@@ -176,6 +176,32 @@ public interface I_I_Conversion_Rate
 	  * To convert Source number to Target number, the Source is divided
 	  */
 	public BigDecimal getDivideRate();
+
+    /** Column name ISO_Code */
+    public static final String COLUMNNAME_ISO_Code = "ISO_Code";
+
+	/** Set ISO Currency Code.
+	  * Three letter ISO 4217 Code of the Currency
+	  */
+	public void setISO_Code (String ISO_Code);
+
+	/** Get ISO Currency Code.
+	  * Three letter ISO 4217 Code of the Currency
+	  */
+	public String getISO_Code();
+
+    /** Column name ISO_Code_To */
+    public static final String COLUMNNAME_ISO_Code_To = "ISO_Code_To";
+
+	/** Set ISO Currency To Code.
+	  * Three letter ISO 4217 Code of the To Currency
+	  */
+	public void setISO_Code_To (String ISO_Code_To);
+
+	/** Get ISO Currency To Code.
+	  * Three letter ISO 4217 Code of the To Currency
+	  */
+	public String getISO_Code_To();
 
     /** Column name I_Conversion_Rate_ID */
     public static final String COLUMNNAME_I_Conversion_Rate_ID = "I_Conversion_Rate_ID";
@@ -229,32 +255,6 @@ public interface I_I_Conversion_Rate
 	  */
 	public boolean isActive();
 
-    /** Column name ISO_Code */
-    public static final String COLUMNNAME_ISO_Code = "ISO_Code";
-
-	/** Set ISO Currency Code.
-	  * Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code);
-
-	/** Get ISO Currency Code.
-	  * Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code();
-
-    /** Column name ISO_Code_To */
-    public static final String COLUMNNAME_ISO_Code_To = "ISO_Code_To";
-
-	/** Set ISO Currency To Code.
-	  * Three letter ISO 4217 Code of the To Currency
-	  */
-	public void setISO_Code_To (String ISO_Code_To);
-
-	/** Get ISO Currency To Code.
-	  * Three letter ISO 4217 Code of the To Currency
-	  */
-	public String getISO_Code_To();
-
     /** Column name MultiplyRate */
     public static final String COLUMNNAME_MultiplyRate = "MultiplyRate";
 
@@ -290,6 +290,19 @@ public interface I_I_Conversion_Rate
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -305,19 +318,6 @@ public interface I_I_Conversion_Rate
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";

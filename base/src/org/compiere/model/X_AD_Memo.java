@@ -29,7 +29,7 @@ public class X_AD_Memo extends PO implements I_AD_Memo, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_Memo (Properties ctx, int AD_Memo_ID, String trxName)
@@ -231,23 +231,6 @@ public class X_AD_Memo extends PO implements I_AD_Memo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Comments.
-		@param Comments 
-		Comments or additional information
-	  */
-	public void setComments (String Comments)
-	{
-		set_Value (COLUMNNAME_Comments, Comments);
-	}
-
-	/** Get Comments.
-		@return Comments or additional information
-	  */
-	public String getComments () 
-	{
-		return (String)get_Value(COLUMNNAME_Comments);
-	}
-
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
@@ -274,6 +257,23 @@ public class X_AD_Memo extends PO implements I_AD_Memo, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Comments.
+		@param Comments 
+		Comments or additional information
+	  */
+	public void setComments (String Comments)
+	{
+		set_Value (COLUMNNAME_Comments, Comments);
+	}
+
+	/** Get Comments.
+		@return Comments or additional information
+	  */
+	public String getComments () 
+	{
+		return (String)get_Value(COLUMNNAME_Comments);
 	}
 
 	/** Set Alert.

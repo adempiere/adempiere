@@ -30,7 +30,7 @@ public class X_M_ChangeNotice extends PO implements I_M_ChangeNotice, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_ChangeNotice (Properties ctx, int M_ChangeNotice_ID, String trxName)

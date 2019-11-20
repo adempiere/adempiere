@@ -33,7 +33,7 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Workfile (Properties ctx, int A_Depreciation_Workfile_ID, String trxName)
@@ -584,23 +584,6 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		return bd;
 	}
 
-	/** Set Asset Depreciation Date.
-		@param AssetDepreciationDate 
-		Date of last depreciation
-	  */
-	public void setAssetDepreciationDate (Timestamp AssetDepreciationDate)
-	{
-		set_Value (COLUMNNAME_AssetDepreciationDate, AssetDepreciationDate);
-	}
-
-	/** Get Asset Depreciation Date.
-		@return Date of last depreciation
-	  */
-	public Timestamp getAssetDepreciationDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_AssetDepreciationDate);
-	}
-
 	/** A_Tip_Finantare AD_Reference_ID=53361 */
 	public static final int A_TIP_FINANTARE_AD_Reference_ID=53361;
 	/** Cofinantare = C */
@@ -659,6 +642,23 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Asset Depreciation Date.
+		@param AssetDepreciationDate 
+		Date of last depreciation
+	  */
+	public void setAssetDepreciationDate (Timestamp AssetDepreciationDate)
+	{
+		set_Value (COLUMNNAME_AssetDepreciationDate, AssetDepreciationDate);
+	}
+
+	/** Get Asset Depreciation Date.
+		@return Date of last depreciation
+	  */
+	public Timestamp getAssetDepreciationDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_AssetDepreciationDate);
 	}
 
 	/** Set Account Date.
@@ -794,6 +794,23 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		return false;
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Usable Life - Months.
 		@param UseLifeMonths 
 		Months of the usable life of the asset
@@ -866,22 +883,5 @@ public class X_A_Depreciation_Workfile extends PO implements I_A_Depreciation_Wo
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

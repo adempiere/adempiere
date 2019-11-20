@@ -30,7 +30,7 @@ public class X_C_CommissionType extends PO implements I_C_CommissionType, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190528L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_CommissionType (Properties ctx, int C_CommissionType_ID, String trxName)

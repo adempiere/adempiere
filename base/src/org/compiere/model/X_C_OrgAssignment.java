@@ -30,7 +30,7 @@ public class X_C_OrgAssignment extends PO implements I_C_OrgAssignment, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_OrgAssignment (Properties ctx, int C_OrgAssignment_ID, String trxName)

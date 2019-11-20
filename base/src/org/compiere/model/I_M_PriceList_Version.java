@@ -62,6 +62,19 @@ public interface I_M_PriceList_Version
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name CreateFrom */
+    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
+
+	/** Set Create lines from.
+	  * Process which will generate a new document lines based on an existing document
+	  */
+	public void setCreateFrom (String CreateFrom);
+
+	/** Get Create lines from.
+	  * Process which will generate a new document lines based on an existing document
+	  */
+	public String getCreateFrom();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -77,19 +90,6 @@ public interface I_M_PriceList_Version
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name CreateFrom */
-    public static final String COLUMNNAME_CreateFrom = "CreateFrom";
-
-	/** Set Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public void setCreateFrom (String CreateFrom);
-
-	/** Get Create lines from.
-	  * Process which will generate a new document lines based on an existing document
-	  */
-	public String getCreateFrom();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -147,6 +147,19 @@ public interface I_M_PriceList_Version
 
 	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException;
 
+    /** Column name M_PriceList_Version_ID */
+    public static final String COLUMNNAME_M_PriceList_Version_ID = "M_PriceList_Version_ID";
+
+	/** Set Price List Version.
+	  * Identifies a unique instance of a Price List
+	  */
+	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID);
+
+	/** Get Price List Version.
+	  * Identifies a unique instance of a Price List
+	  */
+	public int getM_PriceList_Version_ID();
+
     /** Column name M_Pricelist_Version_Base_ID */
     public static final String COLUMNNAME_M_Pricelist_Version_Base_ID = "M_Pricelist_Version_Base_ID";
 
@@ -161,19 +174,6 @@ public interface I_M_PriceList_Version
 	public int getM_Pricelist_Version_Base_ID();
 
 	public org.compiere.model.I_M_PriceList_Version getM_Pricelist_Version_Base() throws RuntimeException;
-
-    /** Column name M_PriceList_Version_ID */
-    public static final String COLUMNNAME_M_PriceList_Version_ID = "M_PriceList_Version_ID";
-
-	/** Set Price List Version.
-	  * Identifies a unique instance of a Price List
-	  */
-	public void setM_PriceList_Version_ID (int M_PriceList_Version_ID);
-
-	/** Get Price List Version.
-	  * Identifies a unique instance of a Price List
-	  */
-	public int getM_PriceList_Version_ID();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -197,6 +197,19 @@ public interface I_M_PriceList_Version
 	/** Get Create	  */
 	public String getProcCreate();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -212,19 +225,6 @@ public interface I_M_PriceList_Version
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";

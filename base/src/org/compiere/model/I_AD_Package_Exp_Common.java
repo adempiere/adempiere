@@ -264,15 +264,6 @@ public interface I_AD_Package_Exp_Common
 	/** Get Destination_Directory	  */
 	public String getDestination_Directory();
 
-    /** Column name File_Directory */
-    public static final String COLUMNNAME_File_Directory = "File_Directory";
-
-	/** Set File_Directory	  */
-	public void setFile_Directory (String File_Directory);
-
-	/** Get File_Directory	  */
-	public String getFile_Directory();
-
     /** Column name FileName */
     public static final String COLUMNNAME_FileName = "FileName";
 
@@ -285,6 +276,15 @@ public interface I_AD_Package_Exp_Common
 	  * Name of the local file or URL
 	  */
 	public String getFileName();
+
+    /** Column name File_Directory */
+    public static final String COLUMNNAME_File_Directory = "File_Directory";
+
+	/** Set File_Directory	  */
+	public void setFile_Directory (String File_Directory);
+
+	/** Get File_Directory	  */
+	public String getFile_Directory();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -391,6 +391,19 @@ public interface I_AD_Package_Exp_Common
 	  */
 	public String getType();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -406,17 +419,4 @@ public interface I_AD_Package_Exp_Common
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

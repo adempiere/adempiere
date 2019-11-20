@@ -41,19 +41,6 @@ public interface I_PA_Benchmark
 
     /** Load Meta Data */
 
-    /** Column name AccumulationType */
-    public static final String COLUMNNAME_AccumulationType = "AccumulationType";
-
-	/** Set Accumulation Type.
-	  * How to accumulate data on time axis
-	  */
-	public void setAccumulationType (String AccumulationType);
-
-	/** Get Accumulation Type.
-	  * How to accumulate data on time axis
-	  */
-	public String getAccumulationType();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -74,6 +61,19 @@ public interface I_PA_Benchmark
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AccumulationType */
+    public static final String COLUMNNAME_AccumulationType = "AccumulationType";
+
+	/** Set Accumulation Type.
+	  * How to accumulate data on time axis
+	  */
+	public void setAccumulationType (String AccumulationType);
+
+	/** Get Accumulation Type.
+	  * How to accumulate data on time axis
+	  */
+	public String getAccumulationType();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -156,6 +156,19 @@ public interface I_PA_Benchmark
 	  */
 	public int getPA_Benchmark_ID();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -171,17 +184,4 @@ public interface I_PA_Benchmark
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

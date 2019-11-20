@@ -30,7 +30,7 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_City (Properties ctx, int C_City_ID, String trxName)
@@ -139,23 +139,6 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Coordinates.
-		@param Coordinates 
-		Location coordinate
-	  */
-	public void setCoordinates (String Coordinates)
-	{
-		set_Value (COLUMNNAME_Coordinates, Coordinates);
-	}
-
-	/** Get Coordinates.
-		@return Location coordinate
-	  */
-	public String getCoordinates () 
-	{
-		return (String)get_Value(COLUMNNAME_Coordinates);
-	}
-
 	public org.compiere.model.I_C_Region getC_Region() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Region)MTable.get(getCtx(), org.compiere.model.I_C_Region.Table_Name)
@@ -182,6 +165,23 @@ public class X_C_City extends PO implements I_C_City, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Coordinates.
+		@param Coordinates 
+		Location coordinate
+	  */
+	public void setCoordinates (String Coordinates)
+	{
+		set_Value (COLUMNNAME_Coordinates, Coordinates);
+	}
+
+	/** Get Coordinates.
+		@return Location coordinate
+	  */
+	public String getCoordinates () 
+	{
+		return (String)get_Value(COLUMNNAME_Coordinates);
 	}
 
 	/** Set Locode.

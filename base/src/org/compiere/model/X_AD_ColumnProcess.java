@@ -29,7 +29,7 @@ public class X_AD_ColumnProcess extends PO implements I_AD_ColumnProcess, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_ColumnProcess (Properties ctx, int AD_ColumnProcess_ID, String trxName)
@@ -69,6 +69,26 @@ public class X_AD_ColumnProcess extends PO implements I_AD_ColumnProcess, I_Pers
       return sb.toString();
     }
 
+	/** Set Column Link Process.
+		@param AD_ColumnProcess_ID Column Link Process	  */
+	public void setAD_ColumnProcess_ID (int AD_ColumnProcess_ID)
+	{
+		if (AD_ColumnProcess_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_ColumnProcess_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_ColumnProcess_ID, Integer.valueOf(AD_ColumnProcess_ID));
+	}
+
+	/** Get Column Link Process.
+		@return Column Link Process	  */
+	public int getAD_ColumnProcess_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ColumnProcess_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Column)MTable.get(getCtx(), org.compiere.model.I_AD_Column.Table_Name)
@@ -92,26 +112,6 @@ public class X_AD_ColumnProcess extends PO implements I_AD_ColumnProcess, I_Pers
 	public int getAD_Column_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Column_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Column Link Process.
-		@param AD_ColumnProcess_ID Column Link Process	  */
-	public void setAD_ColumnProcess_ID (int AD_ColumnProcess_ID)
-	{
-		if (AD_ColumnProcess_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_ColumnProcess_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_ColumnProcess_ID, Integer.valueOf(AD_ColumnProcess_ID));
-	}
-
-	/** Get Column Link Process.
-		@return Column Link Process	  */
-	public int getAD_ColumnProcess_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_ColumnProcess_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

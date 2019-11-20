@@ -30,7 +30,7 @@ public class X_CM_Media extends PO implements I_CM_Media, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_CM_Media (Properties ctx, int CM_Media_ID, String trxName)

@@ -29,7 +29,7 @@ public class X_M_QualityTestResult extends PO implements I_M_QualityTestResult, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_QualityTestResult (Properties ctx, int M_QualityTestResult_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_M_QualityTestResult extends PO implements I_M_QualityTestResult, 
 			setIsQCPass (false);
 // N
 			setM_AttributeSetInstance_ID (0);
-			setM_QualityTest_ID (0);
 			setM_QualityTestResult_ID (0);
+			setM_QualityTest_ID (0);
 			setProcessed (false);
 // N
         } */
@@ -153,6 +153,26 @@ public class X_M_QualityTestResult extends PO implements I_M_QualityTestResult, 
 		return ii.intValue();
 	}
 
+	/** Set Quality Test Result.
+		@param M_QualityTestResult_ID Quality Test Result	  */
+	public void setM_QualityTestResult_ID (int M_QualityTestResult_ID)
+	{
+		if (M_QualityTestResult_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_QualityTestResult_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_QualityTestResult_ID, Integer.valueOf(M_QualityTestResult_ID));
+	}
+
+	/** Get Quality Test Result.
+		@return Quality Test Result	  */
+	public int getM_QualityTestResult_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_QualityTestResult_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_QualityTest getM_QualityTest() throws RuntimeException
     {
 		return (org.compiere.model.I_M_QualityTest)MTable.get(getCtx(), org.compiere.model.I_M_QualityTest.Table_Name)
@@ -173,26 +193,6 @@ public class X_M_QualityTestResult extends PO implements I_M_QualityTestResult, 
 	public int getM_QualityTest_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_QualityTest_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Quality Test Result.
-		@param M_QualityTestResult_ID Quality Test Result	  */
-	public void setM_QualityTestResult_ID (int M_QualityTestResult_ID)
-	{
-		if (M_QualityTestResult_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_QualityTestResult_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_QualityTestResult_ID, Integer.valueOf(M_QualityTestResult_ID));
-	}
-
-	/** Get Quality Test Result.
-		@return Quality Test Result	  */
-	public int getM_QualityTestResult_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_QualityTestResult_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

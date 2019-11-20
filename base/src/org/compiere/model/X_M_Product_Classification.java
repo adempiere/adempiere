@@ -30,7 +30,7 @@ public class X_M_Product_Classification extends PO implements I_M_Product_Classi
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_Product_Classification (Properties ctx, int M_Product_Classification_ID, String trxName)

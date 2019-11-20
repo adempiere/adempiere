@@ -62,21 +62,18 @@ public interface I_C_ServiceLevelLine
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
+    /** Column name C_ServiceLevelLine_ID */
+    public static final String COLUMNNAME_C_ServiceLevelLine_ID = "C_ServiceLevelLine_ID";
 
-	/** Get Created.
-	  * Date this record was created
+	/** Set Service Level Line.
+	  * Product Revenue Recognition Service Level Line
 	  */
-	public Timestamp getCreated();
+	public void setC_ServiceLevelLine_ID (int C_ServiceLevelLine_ID);
 
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
+	/** Get Service Level Line.
+	  * Product Revenue Recognition Service Level Line
 	  */
-	public int getCreatedBy();
+	public int getC_ServiceLevelLine_ID();
 
     /** Column name C_ServiceLevel_ID */
     public static final String COLUMNNAME_C_ServiceLevel_ID = "C_ServiceLevel_ID";
@@ -93,18 +90,21 @@ public interface I_C_ServiceLevelLine
 
 	public org.compiere.model.I_C_ServiceLevel getC_ServiceLevel() throws RuntimeException;
 
-    /** Column name C_ServiceLevelLine_ID */
-    public static final String COLUMNNAME_C_ServiceLevelLine_ID = "C_ServiceLevelLine_ID";
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
 
-	/** Set Service Level Line.
-	  * Product Revenue Recognition Service Level Line
+	/** Get Created.
+	  * Date this record was created
 	  */
-	public void setC_ServiceLevelLine_ID (int C_ServiceLevelLine_ID);
+	public Timestamp getCreated();
 
-	/** Get Service Level Line.
-	  * Product Revenue Recognition Service Level Line
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
 	  */
-	public int getC_ServiceLevelLine_ID();
+	public int getCreatedBy();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -171,6 +171,19 @@ public interface I_C_ServiceLevelLine
 	  */
 	public BigDecimal getServiceLevelProvided();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -186,17 +199,4 @@ public interface I_C_ServiceLevelLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

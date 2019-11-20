@@ -30,7 +30,7 @@ public class X_M_BOMAlternative extends PO implements I_M_BOMAlternative, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_BOMAlternative (Properties ctx, int M_BOMAlternative_ID, String trxName)

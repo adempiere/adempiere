@@ -32,7 +32,7 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_PaymentProcessor (Properties ctx, int C_PaymentProcessor_ID, String trxName)
@@ -51,9 +51,9 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 			setAcceptMC (false);
 			setAcceptVisa (false);
 			setC_BankAccount_ID (0);
+			setC_PaymentProcessor_ID (0);
 			setCommission (Env.ZERO);
 			setCostPerTrx (Env.ZERO);
-			setC_PaymentProcessor_ID (0);
 			setHostAddress (null);
 			setHostPort (0);
 			setName (null);
@@ -90,6 +90,34 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.compiere.model.I_AD_Sequence getAD_Sequence() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Sequence)MTable.get(getCtx(), org.compiere.model.I_AD_Sequence.Table_Name)
+			.getPO(getAD_Sequence_ID(), get_TrxName());	}
+
+	/** Set Sequence.
+		@param AD_Sequence_ID 
+		Document Sequence
+	  */
+	public void setAD_Sequence_ID (int AD_Sequence_ID)
+	{
+		if (AD_Sequence_ID < 1) 
+			set_Value (COLUMNNAME_AD_Sequence_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Sequence_ID, Integer.valueOf(AD_Sequence_ID));
+	}
+
+	/** Get Sequence.
+		@return Document Sequence
+	  */
+	public int getAD_Sequence_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Sequence_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Accept AMEX.
 		@param AcceptAMEX 
@@ -331,34 +359,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 		return false;
 	}
 
-	public org.compiere.model.I_AD_Sequence getAD_Sequence() throws RuntimeException
-    {
-		return (org.compiere.model.I_AD_Sequence)MTable.get(getCtx(), org.compiere.model.I_AD_Sequence.Table_Name)
-			.getPO(getAD_Sequence_ID(), get_TrxName());	}
-
-	/** Set Sequence.
-		@param AD_Sequence_ID 
-		Document Sequence
-	  */
-	public void setAD_Sequence_ID (int AD_Sequence_ID)
-	{
-		if (AD_Sequence_ID < 1) 
-			set_Value (COLUMNNAME_AD_Sequence_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Sequence_ID, Integer.valueOf(AD_Sequence_ID));
-	}
-
-	/** Get Sequence.
-		@return Document Sequence
-	  */
-	public int getAD_Sequence_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Sequence_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException
     {
 		return (org.compiere.model.I_C_BankAccount)MTable.get(getCtx(), org.compiere.model.I_C_BankAccount.Table_Name)
@@ -415,6 +415,29 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 		return ii.intValue();
 	}
 
+	/** Set Payment Processor.
+		@param C_PaymentProcessor_ID 
+		Payment processor for electronic payments
+	  */
+	public void setC_PaymentProcessor_ID (int C_PaymentProcessor_ID)
+	{
+		if (C_PaymentProcessor_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentProcessor_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentProcessor_ID, Integer.valueOf(C_PaymentProcessor_ID));
+	}
+
+	/** Get Payment Processor.
+		@return Payment processor for electronic payments
+	  */
+	public int getC_PaymentProcessor_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentProcessor_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Commission %.
 		@param Commission 
 		Commission stated as a percentage
@@ -453,29 +476,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	/** Set Payment Processor.
-		@param C_PaymentProcessor_ID 
-		Payment processor for electronic payments
-	  */
-	public void setC_PaymentProcessor_ID (int C_PaymentProcessor_ID)
-	{
-		if (C_PaymentProcessor_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_PaymentProcessor_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_PaymentProcessor_ID, Integer.valueOf(C_PaymentProcessor_ID));
-	}
-
-	/** Get Payment Processor.
-		@return Payment processor for electronic payments
-	  */
-	public int getC_PaymentProcessor_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentProcessor_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Description.
@@ -723,23 +723,6 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 		return false;
 	}
 
-	/** Set User ID.
-		@param UserID 
-		User ID or account number
-	  */
-	public void setUserID (String UserID)
-	{
-		set_Value (COLUMNNAME_UserID, UserID);
-	}
-
-	/** Get User ID.
-		@return User ID or account number
-	  */
-	public String getUserID () 
-	{
-		return (String)get_Value(COLUMNNAME_UserID);
-	}
-
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 
 		Immutable Universally Unique Identifier
@@ -755,6 +738,23 @@ public class X_C_PaymentProcessor extends PO implements I_C_PaymentProcessor, I_
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** Set User ID.
+		@param UserID 
+		User ID or account number
+	  */
+	public void setUserID (String UserID)
+	{
+		set_Value (COLUMNNAME_UserID, UserID);
+	}
+
+	/** Get User ID.
+		@return User ID or account number
+	  */
+	public String getUserID () 
+	{
+		return (String)get_Value(COLUMNNAME_UserID);
 	}
 
 	/** Set Vendor ID.

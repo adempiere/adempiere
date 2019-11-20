@@ -30,7 +30,7 @@ public class X_PA_Benchmark extends PO implements I_PA_Benchmark, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_PA_Benchmark (Properties ctx, int PA_Benchmark_ID, String trxName)

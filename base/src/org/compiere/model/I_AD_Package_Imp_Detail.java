@@ -41,19 +41,6 @@ public interface I_AD_Package_Imp_Detail
 
     /** Load Meta Data */
 
-    /** Column name Action */
-    public static final String COLUMNNAME_Action = "Action";
-
-	/** Set Action.
-	  * Indicates the Action to be performed
-	  */
-	public void setAction (String Action);
-
-	/** Get Action.
-	  * Indicates the Action to be performed
-	  */
-	public String getAction();
-
     /** Column name AD_Backup_ID */
     public static final String COLUMNNAME_AD_Backup_ID = "AD_Backup_ID";
 
@@ -123,6 +110,19 @@ public interface I_AD_Package_Imp_Detail
 	  * Database Table information
 	  */
 	public int getAD_Table_ID();
+
+    /** Column name Action */
+    public static final String COLUMNNAME_Action = "Action";
+
+	/** Set Action.
+	  * Indicates the Action to be performed
+	  */
+	public void setAction (String Action);
+
+	/** Get Action.
+	  * Indicates the Action to be performed
+	  */
+	public String getAction();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -201,6 +201,19 @@ public interface I_AD_Package_Imp_Detail
 	  */
 	public String getType();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Uninstall */
     public static final String COLUMNNAME_Uninstall = "Uninstall";
 
@@ -225,17 +238,4 @@ public interface I_AD_Package_Imp_Detail
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

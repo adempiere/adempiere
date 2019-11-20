@@ -77,6 +77,21 @@ public interface I_C_Withholding_Acct
 
 	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
 
+    /** Column name C_Withholding_ID */
+    public static final String COLUMNNAME_C_Withholding_ID = "C_Withholding_ID";
+
+	/** Set Withholding.
+	  * Withholding type defined
+	  */
+	public void setC_Withholding_ID (int C_Withholding_ID);
+
+	/** Get Withholding.
+	  * Withholding type defined
+	  */
+	public int getC_Withholding_ID();
+
+	public org.compiere.model.I_C_Withholding getC_Withholding() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -93,21 +108,6 @@ public interface I_C_Withholding_Acct
 	  */
 	public int getCreatedBy();
 
-    /** Column name C_Withholding_ID */
-    public static final String COLUMNNAME_C_Withholding_ID = "C_Withholding_ID";
-
-	/** Set Withholding.
-	  * Withholding type defined
-	  */
-	public void setC_Withholding_ID (int C_Withholding_ID);
-
-	/** Get Withholding.
-	  * Withholding type defined
-	  */
-	public int getC_Withholding_ID();
-
-	public org.compiere.model.I_C_Withholding getC_Withholding() throws RuntimeException;
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -120,6 +120,19 @@ public interface I_C_Withholding_Acct
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -136,19 +149,6 @@ public interface I_C_Withholding_Acct
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Withholding_Acct */
     public static final String COLUMNNAME_Withholding_Acct = "Withholding_Acct";

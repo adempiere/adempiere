@@ -29,7 +29,7 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_IMP_ProcessorParameter (Properties ctx, int IMP_ProcessorParameter_ID, String trxName)
@@ -37,8 +37,8 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
       super (ctx, IMP_ProcessorParameter_ID, trxName);
       /** if (IMP_ProcessorParameter_ID == 0)
         {
-			setIMP_Processor_ID (0);
 			setIMP_ProcessorParameter_ID (0);
+			setIMP_Processor_ID (0);
 			setName (null);
 			setValue (null);
         } */
@@ -106,6 +106,26 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
+	/** Set Import Processor Parameter.
+		@param IMP_ProcessorParameter_ID Import Processor Parameter	  */
+	public void setIMP_ProcessorParameter_ID (int IMP_ProcessorParameter_ID)
+	{
+		if (IMP_ProcessorParameter_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_IMP_ProcessorParameter_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_IMP_ProcessorParameter_ID, Integer.valueOf(IMP_ProcessorParameter_ID));
+	}
+
+	/** Get Import Processor Parameter.
+		@return Import Processor Parameter	  */
+	public int getIMP_ProcessorParameter_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_ProcessorParameter_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_IMP_Processor getIMP_Processor() throws RuntimeException
     {
 		return (org.compiere.model.I_IMP_Processor)MTable.get(getCtx(), org.compiere.model.I_IMP_Processor.Table_Name)
@@ -126,26 +146,6 @@ public class X_IMP_ProcessorParameter extends PO implements I_IMP_ProcessorParam
 	public int getIMP_Processor_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_Processor_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Import Processor Parameter.
-		@param IMP_ProcessorParameter_ID Import Processor Parameter	  */
-	public void setIMP_ProcessorParameter_ID (int IMP_ProcessorParameter_ID)
-	{
-		if (IMP_ProcessorParameter_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_IMP_ProcessorParameter_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_IMP_ProcessorParameter_ID, Integer.valueOf(IMP_ProcessorParameter_ID));
-	}
-
-	/** Get Import Processor Parameter.
-		@return Import Processor Parameter	  */
-	public int getIMP_ProcessorParameter_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_IMP_ProcessorParameter_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

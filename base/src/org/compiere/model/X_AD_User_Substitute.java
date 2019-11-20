@@ -31,7 +31,7 @@ public class X_AD_User_Substitute extends PO implements I_AD_User_Substitute, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_User_Substitute (Properties ctx, int AD_User_Substitute_ID, String trxName)

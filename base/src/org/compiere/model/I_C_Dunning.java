@@ -75,6 +75,19 @@ public interface I_C_Dunning
 	  */
 	public int getC_Dunning_ID();
 
+    /** Column name CreateLevelsSequentially */
+    public static final String COLUMNNAME_CreateLevelsSequentially = "CreateLevelsSequentially";
+
+	/** Set Create levels sequentially.
+	  * Create Dunning Letter by level sequentially
+	  */
+	public void setCreateLevelsSequentially (boolean CreateLevelsSequentially);
+
+	/** Get Create levels sequentially.
+	  * Create Dunning Letter by level sequentially
+	  */
+	public boolean isCreateLevelsSequentially();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -90,19 +103,6 @@ public interface I_C_Dunning
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name CreateLevelsSequentially */
-    public static final String COLUMNNAME_CreateLevelsSequentially = "CreateLevelsSequentially";
-
-	/** Set Create levels sequentially.
-	  * Create Dunning Letter by level sequentially
-	  */
-	public void setCreateLevelsSequentially (boolean CreateLevelsSequentially);
-
-	/** Get Create levels sequentially.
-	  * Create Dunning Letter by level sequentially
-	  */
-	public boolean isCreateLevelsSequentially();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -169,6 +169,19 @@ public interface I_C_Dunning
 	  */
 	public boolean isSendDunningLetter();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -184,17 +197,4 @@ public interface I_C_Dunning
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

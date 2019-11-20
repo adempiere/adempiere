@@ -30,7 +30,7 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_Package_Exp (Properties ctx, int AD_Package_Exp_ID, String trxName)
@@ -59,7 +59,7 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
     }
 
     /** AccessLevel
-      * @return 4 - System 
+      * @return 6 - System - Client 
       */
     protected int get_AccessLevel()
     {
@@ -311,23 +311,6 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 		return (String)get_Value(COLUMNNAME_ReleaseNo);
 	}
 
-	/** Set Registered EMail.
-		@param UserName 
-		Email of the responsible for the System
-	  */
-	public void setUserName (String UserName)
-	{
-		set_Value (COLUMNNAME_UserName, UserName);
-	}
-
-	/** Get Registered EMail.
-		@return Email of the responsible for the System
-	  */
-	public String getUserName () 
-	{
-		return (String)get_Value(COLUMNNAME_UserName);
-	}
-
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 
 		Immutable Universally Unique Identifier
@@ -343,6 +326,23 @@ public class X_AD_Package_Exp extends PO implements I_AD_Package_Exp, I_Persiste
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** Set Registered EMail.
+		@param UserName 
+		Email of the responsible for the System
+	  */
+	public void setUserName (String UserName)
+	{
+		set_Value (COLUMNNAME_UserName, UserName);
+	}
+
+	/** Get Registered EMail.
+		@return Email of the responsible for the System
+	  */
+	public String getUserName () 
+	{
+		return (String)get_Value(COLUMNNAME_UserName);
 	}
 
 	/** Set Version.

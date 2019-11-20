@@ -30,7 +30,7 @@ public class X_AD_FieldGroup extends PO implements I_AD_FieldGroup, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_FieldGroup (Properties ctx, int AD_FieldGroup_ID, String trxName)

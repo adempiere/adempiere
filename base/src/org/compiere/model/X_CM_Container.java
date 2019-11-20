@@ -30,7 +30,7 @@ public class X_CM_Container extends PO implements I_CM_Container, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_CM_Container (Properties ctx, int CM_Container_ID, String trxName)
@@ -82,29 +82,6 @@ public class X_CM_Container extends PO implements I_CM_Container, I_Persistent
       return sb.toString();
     }
 
-	/** Set Web Container.
-		@param CM_Container_ID 
-		Web Container contains content like images, text etc.
-	  */
-	public void setCM_Container_ID (int CM_Container_ID)
-	{
-		if (CM_Container_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_CM_Container_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_CM_Container_ID, Integer.valueOf(CM_Container_ID));
-	}
-
-	/** Get Web Container.
-		@return Web Container contains content like images, text etc.
-	  */
-	public int getCM_Container_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_Container_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_CM_Container getCM_ContainerLink() throws RuntimeException
     {
 		return (org.compiere.model.I_CM_Container)MTable.get(getCtx(), org.compiere.model.I_CM_Container.Table_Name)
@@ -128,6 +105,29 @@ public class X_CM_Container extends PO implements I_CM_Container, I_Persistent
 	public int getCM_ContainerLink_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CM_ContainerLink_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Web Container.
+		@param CM_Container_ID 
+		Web Container contains content like images, text etc.
+	  */
+	public void setCM_Container_ID (int CM_Container_ID)
+	{
+		if (CM_Container_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_Container_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_Container_ID, Integer.valueOf(CM_Container_ID));
+	}
+
+	/** Get Web Container.
+		@return Web Container contains content like images, text etc.
+	  */
+	public int getCM_Container_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_Container_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

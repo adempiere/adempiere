@@ -29,7 +29,7 @@ public class X_AD_Workflow_Access extends PO implements I_AD_Workflow_Access, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_Workflow_Access (Properties ctx, int AD_Workflow_Access_ID, String trxName)

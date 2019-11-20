@@ -31,7 +31,7 @@ public class X_R_StandardRequestType extends PO implements I_R_StandardRequestTy
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_R_StandardRequestType (Properties ctx, int R_StandardRequestType_ID, String trxName)

@@ -62,35 +62,18 @@ public interface I_C_BP_Relation
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name C_BPartner_ID */
-    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+    /** Column name C_BP_Relation_ID */
+    public static final String COLUMNNAME_C_BP_Relation_ID = "C_BP_Relation_ID";
 
-	/** Set Business Partner .
-	  * Identifies a Business Partner
+	/** Set Partner Relation.
+	  * Business Partner Relation
 	  */
-	public void setC_BPartner_ID (int C_BPartner_ID);
+	public void setC_BP_Relation_ID (int C_BP_Relation_ID);
 
-	/** Get Business Partner .
-	  * Identifies a Business Partner
+	/** Get Partner Relation.
+	  * Business Partner Relation
 	  */
-	public int getC_BPartner_ID();
-
-	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
-
-    /** Column name C_BPartner_Location_ID */
-    public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
-
-	/** Set Partner Location.
-	  * Identifies the (ship to) address for this Business Partner
-	  */
-	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID);
-
-	/** Get Partner Location.
-	  * Identifies the (ship to) address for this Business Partner
-	  */
-	public int getC_BPartner_Location_ID();
-
-	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
+	public int getC_BP_Relation_ID();
 
     /** Column name C_BPartnerRelation_ID */
     public static final String COLUMNNAME_C_BPartnerRelation_ID = "C_BPartnerRelation_ID";
@@ -122,18 +105,35 @@ public interface I_C_BP_Relation
 
 	public org.compiere.model.I_C_BPartner_Location getC_BPartnerRelation_Location() throws RuntimeException;
 
-    /** Column name C_BP_Relation_ID */
-    public static final String COLUMNNAME_C_BP_Relation_ID = "C_BP_Relation_ID";
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
-	/** Set Partner Relation.
-	  * Business Partner Relation
+	/** Set Business Partner .
+	  * Identifies a Business Partner
 	  */
-	public void setC_BP_Relation_ID (int C_BP_Relation_ID);
+	public void setC_BPartner_ID (int C_BPartner_ID);
 
-	/** Get Partner Relation.
-	  * Business Partner Relation
+	/** Get Business Partner .
+	  * Identifies a Business Partner
 	  */
-	public int getC_BP_Relation_ID();
+	public int getC_BPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
+
+    /** Column name C_BPartner_Location_ID */
+    public static final String COLUMNNAME_C_BPartner_Location_ID = "C_BPartner_Location_ID";
+
+	/** Set Partner Location.
+	  * Identifies the (ship to) address for this Business Partner
+	  */
+	public void setC_BPartner_Location_ID (int C_BPartner_Location_ID);
+
+	/** Get Partner Location.
+	  * Identifies the (ship to) address for this Business Partner
+	  */
+	public int getC_BPartner_Location_ID();
+
+	public org.compiere.model.I_C_BPartner_Location getC_BPartner_Location() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -242,6 +242,19 @@ public interface I_C_BP_Relation
 	  */
 	public String getName();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -257,17 +270,4 @@ public interface I_C_BP_Relation
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

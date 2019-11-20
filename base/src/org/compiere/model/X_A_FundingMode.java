@@ -30,7 +30,7 @@ public class X_A_FundingMode extends PO implements I_A_FundingMode, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_A_FundingMode (Properties ctx, int A_FundingMode_ID, String trxName)

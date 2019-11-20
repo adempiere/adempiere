@@ -106,6 +106,15 @@ public interface I_M_PromotionGroupLine
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
+    /** Column name M_PromotionGroupLine_ID */
+    public static final String COLUMNNAME_M_PromotionGroupLine_ID = "M_PromotionGroupLine_ID";
+
+	/** Set Promotion Group Line	  */
+	public void setM_PromotionGroupLine_ID (int M_PromotionGroupLine_ID);
+
+	/** Get Promotion Group Line	  */
+	public int getM_PromotionGroupLine_ID();
+
     /** Column name M_PromotionGroup_ID */
     public static final String COLUMNNAME_M_PromotionGroup_ID = "M_PromotionGroup_ID";
 
@@ -117,14 +126,18 @@ public interface I_M_PromotionGroupLine
 
 	public org.compiere.model.I_M_PromotionGroup getM_PromotionGroup() throws RuntimeException;
 
-    /** Column name M_PromotionGroupLine_ID */
-    public static final String COLUMNNAME_M_PromotionGroupLine_ID = "M_PromotionGroupLine_ID";
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
 
-	/** Set Promotion Group Line	  */
-	public void setM_PromotionGroupLine_ID (int M_PromotionGroupLine_ID);
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
 
-	/** Get Promotion Group Line	  */
-	public int getM_PromotionGroupLine_ID();
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -141,17 +154,4 @@ public interface I_M_PromotionGroupLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

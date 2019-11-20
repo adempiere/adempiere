@@ -29,7 +29,7 @@ public class X_C_Charge_Acct extends PO implements I_C_Charge_Acct, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_Charge_Acct (Properties ctx, int C_Charge_Acct_ID, String trxName)

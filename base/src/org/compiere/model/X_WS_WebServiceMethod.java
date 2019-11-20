@@ -30,7 +30,7 @@ public class X_WS_WebServiceMethod extends PO implements I_WS_WebServiceMethod, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_WS_WebServiceMethod (Properties ctx, int WS_WebServiceMethod_ID, String trxName)
@@ -157,6 +157,26 @@ public class X_WS_WebServiceMethod extends PO implements I_WS_WebServiceMethod, 
 		return (String)get_Value(COLUMNNAME_Value);
 	}
 
+	/** Set Web Service Method.
+		@param WS_WebServiceMethod_ID Web Service Method	  */
+	public void setWS_WebServiceMethod_ID (int WS_WebServiceMethod_ID)
+	{
+		if (WS_WebServiceMethod_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_WS_WebServiceMethod_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_WS_WebServiceMethod_ID, Integer.valueOf(WS_WebServiceMethod_ID));
+	}
+
+	/** Get Web Service Method.
+		@return Web Service Method	  */
+	public int getWS_WebServiceMethod_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_WS_WebServiceMethod_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_WS_WebService getWS_WebService() throws RuntimeException
     {
 		return (org.compiere.model.I_WS_WebService)MTable.get(getCtx(), org.compiere.model.I_WS_WebService.Table_Name)
@@ -189,24 +209,4 @@ public class X_WS_WebServiceMethod extends PO implements I_WS_WebServiceMethod, 
     {
         return new KeyNamePair(get_ID(), String.valueOf(getWS_WebService_ID()));
     }
-
-	/** Set Web Service Method.
-		@param WS_WebServiceMethod_ID Web Service Method	  */
-	public void setWS_WebServiceMethod_ID (int WS_WebServiceMethod_ID)
-	{
-		if (WS_WebServiceMethod_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_WS_WebServiceMethod_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_WS_WebServiceMethod_ID, Integer.valueOf(WS_WebServiceMethod_ID));
-	}
-
-	/** Get Web Service Method.
-		@return Web Service Method	  */
-	public int getWS_WebServiceMethod_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_WS_WebServiceMethod_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 }

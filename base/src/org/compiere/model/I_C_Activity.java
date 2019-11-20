@@ -156,6 +156,34 @@ public interface I_C_Activity
 	  */
 	public String getName();
 
+    /** Column name ParentActivity_ID */
+    public static final String COLUMNNAME_ParentActivity_ID = "ParentActivity_ID";
+
+	/** Set Parent Activity.
+	  * The parent (summary) Activity
+	  */
+	public void setParentActivity_ID (int ParentActivity_ID);
+
+	/** Get Parent Activity.
+	  * The parent (summary) Activity
+	  */
+	public int getParentActivity_ID();
+
+	public org.compiere.model.I_C_Activity getParentActivity() throws RuntimeException;
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -171,19 +199,6 @@ public interface I_C_Activity
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

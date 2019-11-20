@@ -41,19 +41,6 @@ public interface I_AD_Table_Access
 
     /** Load Meta Data */
 
-    /** Column name AccessTypeRule */
-    public static final String COLUMNNAME_AccessTypeRule = "AccessTypeRule";
-
-	/** Set Access Type.
-	  * The type of access for this rule
-	  */
-	public void setAccessTypeRule (String AccessTypeRule);
-
-	/** Get Access Type.
-	  * The type of access for this rule
-	  */
-	public String getAccessTypeRule();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -104,6 +91,19 @@ public interface I_AD_Table_Access
 	public int getAD_Table_ID();
 
 	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
+
+    /** Column name AccessTypeRule */
+    public static final String COLUMNNAME_AccessTypeRule = "AccessTypeRule";
+
+	/** Set Access Type.
+	  * The type of access for this rule
+	  */
+	public void setAccessTypeRule (String AccessTypeRule);
+
+	/** Get Access Type.
+	  * The type of access for this rule
+	  */
+	public String getAccessTypeRule();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -186,6 +186,19 @@ public interface I_AD_Table_Access
 	  */
 	public boolean isReadOnly();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -201,17 +214,4 @@ public interface I_AD_Table_Access
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

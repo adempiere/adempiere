@@ -30,7 +30,7 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_BPartner_Location (Properties ctx, int C_BPartner_Location_ID, String trxName)
@@ -161,6 +161,34 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_SalesRegion)MTable.get(getCtx(), org.compiere.model.I_C_SalesRegion.Table_Name)
+			.getPO(getC_SalesRegion_ID(), get_TrxName());	}
+
+	/** Set Sales Region.
+		@param C_SalesRegion_ID 
+		Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID)
+	{
+		if (C_SalesRegion_ID < 1) 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
+	}
+
+	/** Get Sales Region.
+		@return Sales coverage region
+	  */
+	public int getC_SalesRegion_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_SalesRegion_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Contact Person.
 		@param ContactPerson 
 		Contact Person Defines the contact person for this location
@@ -200,34 +228,6 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 	public String getContactType () 
 	{
 		return (String)get_Value(COLUMNNAME_ContactType);
-	}
-
-	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_SalesRegion)MTable.get(getCtx(), org.compiere.model.I_C_SalesRegion.Table_Name)
-			.getPO(getC_SalesRegion_ID(), get_TrxName());	}
-
-	/** Set Sales Region.
-		@param C_SalesRegion_ID 
-		Sales coverage region
-	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID)
-	{
-		if (C_SalesRegion_ID < 1) 
-			set_Value (COLUMNNAME_C_SalesRegion_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
-	}
-
-	/** Get Sales Region.
-		@return Sales coverage region
-	  */
-	public int getC_SalesRegion_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_SalesRegion_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set EMail Address.
@@ -292,6 +292,23 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 		return ii.intValue();
 	}
 
+	/** Set ISDN.
+		@param ISDN 
+		ISDN or modem line
+	  */
+	public void setISDN (String ISDN)
+	{
+		set_Value (COLUMNNAME_ISDN, ISDN);
+	}
+
+	/** Get ISDN.
+		@return ISDN or modem line
+	  */
+	public String getISDN () 
+	{
+		return (String)get_Value(COLUMNNAME_ISDN);
+	}
+
 	/** Set Invoice Address.
 		@param IsBillTo 
 		Business Partner Invoice/Bill Address
@@ -314,23 +331,6 @@ public class X_C_BPartner_Location extends PO implements I_C_BPartner_Location, 
 			return "Y".equals(oo);
 		}
 		return false;
-	}
-
-	/** Set ISDN.
-		@param ISDN 
-		ISDN or modem line
-	  */
-	public void setISDN (String ISDN)
-	{
-		set_Value (COLUMNNAME_ISDN, ISDN);
-	}
-
-	/** Get ISDN.
-		@return ISDN or modem line
-	  */
-	public String getISDN () 
-	{
-		return (String)get_Value(COLUMNNAME_ISDN);
 	}
 
 	/** Set Pay-From Address.

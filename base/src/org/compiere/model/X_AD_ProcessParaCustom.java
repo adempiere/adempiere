@@ -29,7 +29,7 @@ public class X_AD_ProcessParaCustom extends PO implements I_AD_ProcessParaCustom
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_ProcessParaCustom (Properties ctx, int AD_ProcessParaCustom_ID, String trxName)
@@ -452,6 +452,23 @@ public class X_AD_ProcessParaCustom extends PO implements I_AD_ProcessParaCustom
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
+	/** Set Value Format.
+		@param VFormat 
+		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public void setVFormat (String VFormat)
+	{
+		set_Value (COLUMNNAME_VFormat, VFormat);
+	}
+
+	/** Get Value Format.
+		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public String getVFormat () 
+	{
+		return (String)get_Value(COLUMNNAME_VFormat);
+	}
+
 	/** Set Max. Value.
 		@param ValueMax 
 		Maximum Value for a field
@@ -484,22 +501,5 @@ public class X_AD_ProcessParaCustom extends PO implements I_AD_ProcessParaCustom
 	public String getValueMin () 
 	{
 		return (String)get_Value(COLUMNNAME_ValueMin);
-	}
-
-	/** Set Value Format.
-		@param VFormat 
-		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public void setVFormat (String VFormat)
-	{
-		set_Value (COLUMNNAME_VFormat, VFormat);
-	}
-
-	/** Get Value Format.
-		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public String getVFormat () 
-	{
-		return (String)get_Value(COLUMNNAME_VFormat);
 	}
 }

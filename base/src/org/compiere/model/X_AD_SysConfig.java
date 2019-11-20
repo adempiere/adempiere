@@ -30,7 +30,7 @@ public class X_AD_SysConfig extends PO implements I_AD_SysConfig, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_SysConfig (Properties ctx, int AD_SysConfig_ID, String trxName)
