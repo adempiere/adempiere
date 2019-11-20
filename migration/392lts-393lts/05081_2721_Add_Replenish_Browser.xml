@@ -231,16 +231,6 @@
     </Step>
     <Step SeqNo="110" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="92015" Table="AD_Column">
-        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
-        <Data AD_Column_ID="112" Column="Description">Identifies a Business Partner</Data>
-        <Data AD_Column_ID="548" Column="IsActive">true</Data>
-        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2019-08-23 20:26:13.673</Data>
-        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
-        <Data AD_Column_ID="551" Column="Updated">2019-08-23 20:26:13.673</Data>
-        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="109" Column="AD_Column_ID">92015</Data>
-        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="111" Column="Name">Business Partner </Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
@@ -280,6 +270,16 @@
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84306" Column="UUID">a4ae15fc-9439-11e9-8f2d-0242ac110003</Data>
         <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="112" Column="Description">Identifies a Business Partner</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-08-23 20:26:13.673</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-08-23 20:26:13.673</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">92015</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
       </PO>
     </Step>
     <Step SeqNo="120" StepType="AD">
@@ -2076,6 +2076,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1080" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="65337" Table="AD_View_Column">
+        <Data AD_Column_ID="58097" Column="Updated">2019-08-23 20:26:45.492</Data>
         <Data AD_Column_ID="84462" Column="UUID">ecb32298-9439-11e9-8f2d-0242ac110003</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50386</Data>
         <Data AD_Column_ID="58104" Column="Help" isNewNull="true"/>
@@ -2093,7 +2094,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
         <Data AD_Column_ID="58096" Column="Created">2019-08-23 20:26:45.492</Data>
-        <Data AD_Column_ID="58097" Column="Updated">2019-08-23 20:26:45.492</Data>
       </PO>
     </Step>
     <Step SeqNo="1090" StepType="AD">
@@ -3879,23 +3879,6 @@ Los movimientos solo se crean si se define un almacén de aprovisionamiento para
     </Step>
     <Step SeqNo="1960" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="65193" Table="AD_Browse_Field">
-        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
-        <Data AD_Column_ID="57964" Column="Created">2019-08-23 20:27:15.637</Data>
-        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2019-08-23 20:27:15.637</Data>
-        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
-        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="57972" Column="Description">Ordered Quantity</Data>
-        <Data AD_Column_ID="57974" Column="Help">The Ordered Quantity indicates the quantity of a product that was ordered.</Data>
-        <Data AD_Column_ID="57976" Column="IsDisplayed">true</Data>
-        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
-        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
-        <Data AD_Column_ID="57981" Column="Name">Ordered Quantity</Data>
-        <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
-        <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
         <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
         <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
@@ -3923,6 +3906,23 @@ Los movimientos solo se crean si se define un almacén de aprovisionamiento para
         <Data AD_Column_ID="64357" Column="FieldLength">0</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">ad973e90-c5c2-11e9-803e-0242ac110002</Data>
+        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
+        <Data AD_Column_ID="57964" Column="Created">2019-08-23 20:27:15.637</Data>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2019-08-23 20:27:15.637</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57972" Column="Description">Ordered Quantity</Data>
+        <Data AD_Column_ID="57974" Column="Help">The Ordered Quantity indicates the quantity of a product that was ordered.</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
+        <Data AD_Column_ID="57981" Column="Name">Ordered Quantity</Data>
+        <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
       </PO>
     </Step>
     <Step SeqNo="1970" StepType="AD">
@@ -5460,34 +5460,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="6160" Column="AD_Tree_ID">10</Data>
       </PO>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="2450" StepType="SQL">
-      <SQLStatement>-- View: RV_M_Replenish
--- DROP VIEW RV_M_Replenish;
-/******************************************************************************
- * Product: Adempiere ERP &amp; CRM Smart Business Solution                       *
- * This program is free software; you can redistribute it and/or modify it    *
- * under the terms version 2 of the GNU General Public License as published   *
- * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
- * See the GNU General Public License for more details.                       *
- * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
- * All Rights Reserved.                                                       *
- * Contributor(s): Yamel Senih www.erpya.com                                  *
- ******************************************************************************
- ***
- * Title:	Warehouse Replenish
- * Description:
- *	Show all products for replenish
- *
- * Test:
- * 	SELECT * FROM RV_Replenish WHERE M_Warehouse_ID=103;
- ******************************************************************************/
-CREATE OR REPLACE VIEW RV_M_Replenish AS
+    <Step DBType="Oracle" Parse="Y" SeqNo="2450" StepType="SQL">
+      <SQLStatement>CREATE OR REPLACE VIEW RV_M_Replenish AS
 SELECT r.AD_Client_ID, 
     r.AD_Org_ID, 
     r.M_Product_ID, 
@@ -5572,34 +5546,8 @@ WHERE (r.QtyToOrder &gt; 0
 OR (r.ReplenishType IN('0', '9')));</SQLStatement>
       <RollbackStatement>DROP VIEW RV_M_Replenish;</RollbackStatement>
     </Step>
-    <Step DBType="Postgres" Parse="N" SeqNo="2450" StepType="SQL">
-      <SQLStatement>-- View: RV_M_Replenish
--- DROP VIEW RV_M_Replenish;
-/******************************************************************************
- * Product: Adempiere ERP &amp; CRM Smart Business Solution                       *
- * This program is free software; you can redistribute it and/or modify it    *
- * under the terms version 2 of the GNU General Public License as published   *
- * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
- * See the GNU General Public License for more details.                       *
- * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
- * All Rights Reserved.                                                       *
- * Contributor(s): Yamel Senih www.erpya.com                                  *
- ******************************************************************************
- ***
- * Title:	Warehouse Replenish
- * Description:
- *	Show all products for replenish
- *
- * Test:
- * 	SELECT * FROM RV_Replenish WHERE M_Warehouse_ID=103;
- ******************************************************************************/
-CREATE OR REPLACE VIEW RV_M_Replenish AS
+    <Step DBType="Postgres" Parse="Y" SeqNo="2450" StepType="SQL">
+      <SQLStatement>CREATE OR REPLACE VIEW RV_M_Replenish AS
 SELECT r.AD_Client_ID, 
     r.AD_Org_ID, 
     r.M_Product_ID, 

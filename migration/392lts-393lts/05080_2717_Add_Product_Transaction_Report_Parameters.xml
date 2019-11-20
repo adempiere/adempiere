@@ -322,7 +322,7 @@
         <Data AD_Column_ID="84385" Column="UUID">1c211cbe-c53c-11e9-b2a1-0242ac110002</Data>
       </PO>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="110" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="110" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW RV_M_TRANSACTION
 (AD_CLIENT_ID, AD_ORG_ID, MOVEMENTDATE, MOVEMENTQTY, M_PRODUCT_ID, 
  M_LOCATOR_ID, M_ATTRIBUTESETINSTANCE_ID, M_PRODUCT_CATEGORY_ID, VALUE, C_BPARTNER_ID, 
@@ -355,7 +355,7 @@ WHERE po.IsCurrentVendor='Y';
 
 </RollbackStatement>
     </Step>
-    <Step DBType="Postgres" Parse="N" SeqNo="110" StepType="SQL">
+    <Step DBType="Postgres" Parse="Y" SeqNo="110" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW RV_M_TRANSACTION
 (AD_CLIENT_ID, AD_ORG_ID, MOVEMENTDATE, MOVEMENTQTY, M_PRODUCT_ID, 
  M_LOCATOR_ID, M_ATTRIBUTESETINSTANCE_ID, M_PRODUCT_CATEGORY_ID, VALUE, C_BPARTNER_ID, 
