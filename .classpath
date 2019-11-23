@@ -108,7 +108,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/commons-collections-3.1.jar">
+	<classpathentry exported="true" kind="lib" path="tools/lib/commons-collections-3.2.2.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
