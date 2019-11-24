@@ -31,7 +31,7 @@ public class X_WM_Strategy extends PO implements I_WM_Strategy, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_WM_Strategy (Properties ctx, int WM_Strategy_ID, String trxName)

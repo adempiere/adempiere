@@ -41,19 +41,6 @@ public interface I_C_BankStatementLoader
 
     /** Load Meta Data */
 
-    /** Column name AccountNo */
-    public static final String COLUMNNAME_AccountNo = "AccountNo";
-
-	/** Set Account No.
-	  * Account Number
-	  */
-	public void setAccountNo (String AccountNo);
-
-	/** Get Account No.
-	  * Account Number
-	  */
-	public String getAccountNo();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -74,6 +61,19 @@ public interface I_C_BankStatementLoader
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AccountNo */
+    public static final String COLUMNNAME_AccountNo = "AccountNo";
+
+	/** Set Account No.
+	  * Account Number
+	  */
+	public void setAccountNo (String AccountNo);
+
+	/** Get Account No.
+	  * Account Number
+	  */
+	public String getAccountNo();
 
     /** Column name BranchID */
     public static final String COLUMNNAME_BranchID = "BranchID";
@@ -249,19 +249,6 @@ public interface I_C_BankStatementLoader
 	  */
 	public String getName();
 
-    /** Column name Password */
-    public static final String COLUMNNAME_Password = "Password";
-
-	/** Set Password.
-	  * Password of any length (case sensitive)
-	  */
-	public void setPassword (String Password);
-
-	/** Get Password.
-	  * Password of any length (case sensitive)
-	  */
-	public String getPassword();
-
     /** Column name PIN */
     public static final String COLUMNNAME_PIN = "PIN";
 
@@ -274,6 +261,19 @@ public interface I_C_BankStatementLoader
 	  * Personal Identification Number
 	  */
 	public String getPIN();
+
+    /** Column name Password */
+    public static final String COLUMNNAME_Password = "Password";
+
+	/** Set Password.
+	  * Password of any length (case sensitive)
+	  */
+	public void setPassword (String Password);
+
+	/** Get Password.
+	  * Password of any length (case sensitive)
+	  */
+	public String getPassword();
 
     /** Column name ProxyAddress */
     public static final String COLUMNNAME_ProxyAddress = "ProxyAddress";
@@ -340,6 +340,19 @@ public interface I_C_BankStatementLoader
 	  */
 	public String getStmtLoaderClass();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -368,17 +381,4 @@ public interface I_C_BankStatementLoader
 	  * User ID or account number
 	  */
 	public String getUserID();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

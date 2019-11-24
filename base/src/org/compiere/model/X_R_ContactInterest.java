@@ -31,7 +31,7 @@ public class X_R_ContactInterest extends PO implements I_R_ContactInterest, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_R_ContactInterest (Properties ctx, int R_ContactInterest_ID, String trxName)

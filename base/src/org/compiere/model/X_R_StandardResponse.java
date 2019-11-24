@@ -30,7 +30,7 @@ public class X_R_StandardResponse extends PO implements I_R_StandardResponse, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_R_StandardResponse (Properties ctx, int R_StandardResponse_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_R_StandardResponse extends PO implements I_R_StandardResponse, I_
       /** if (R_StandardResponse_ID == 0)
         {
 			setName (null);
-			setResponseText (null);
 			setR_StandardResponse_ID (0);
+			setResponseText (null);
         } */
     }
 
@@ -97,23 +97,6 @@ public class X_R_StandardResponse extends PO implements I_R_StandardResponse, I_
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Set Response Text.
-		@param ResponseText 
-		Request Response Text
-	  */
-	public void setResponseText (String ResponseText)
-	{
-		set_Value (COLUMNNAME_ResponseText, ResponseText);
-	}
-
-	/** Get Response Text.
-		@return Request Response Text
-	  */
-	public String getResponseText () 
-	{
-		return (String)get_Value(COLUMNNAME_ResponseText);
-	}
-
 	/** Set Standard Response.
 		@param R_StandardResponse_ID 
 		Request Standard Response 
@@ -135,6 +118,23 @@ public class X_R_StandardResponse extends PO implements I_R_StandardResponse, I_
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Response Text.
+		@param ResponseText 
+		Request Response Text
+	  */
+	public void setResponseText (String ResponseText)
+	{
+		set_Value (COLUMNNAME_ResponseText, ResponseText);
+	}
+
+	/** Get Response Text.
+		@return Request Response Text
+	  */
+	public String getResponseText () 
+	{
+		return (String)get_Value(COLUMNNAME_ResponseText);
 	}
 
 	/** Set Immutable Universally Unique Identifier.

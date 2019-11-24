@@ -32,7 +32,7 @@ public class X_M_ProductionBatch extends PO implements I_M_ProductionBatch, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190909L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_ProductionBatch (Properties ctx, int M_ProductionBatch_ID, String trxName)
@@ -47,10 +47,10 @@ public class X_M_ProductionBatch extends PO implements I_M_ProductionBatch, I_Pe
 			setIsCreated (null);
 // N
 			setM_Locator_ID (0);
-			setMovementDate (new Timestamp( System.currentTimeMillis() ));
-// @#Date@
 			setM_Product_ID (0);
 			setM_ProductionBatch_ID (0);
+			setMovementDate (new Timestamp( System.currentTimeMillis() ));
+// @#Date@
 			setPosted (false);
 // N
 			setProcessed (false);
@@ -171,23 +171,6 @@ public class X_M_ProductionBatch extends PO implements I_M_ProductionBatch, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Order Count.
-		@param CountOrder Order Count	  */
-	public void setCountOrder (int CountOrder)
-	{
-		set_Value (COLUMNNAME_CountOrder, Integer.valueOf(CountOrder));
-	}
-
-	/** Get Order Count.
-		@return Order Count	  */
-	public int getCountOrder () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CountOrder);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
@@ -211,6 +194,23 @@ public class X_M_ProductionBatch extends PO implements I_M_ProductionBatch, I_Pe
 	public int getC_Project_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Order Count.
+		@param CountOrder Order Count	  */
+	public void setCountOrder (int CountOrder)
+	{
+		set_Value (COLUMNNAME_CountOrder, Integer.valueOf(CountOrder));
+	}
+
+	/** Get Order Count.
+		@return Order Count	  */
+	public int getCountOrder () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CountOrder);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -363,20 +363,6 @@ public class X_M_ProductionBatch extends PO implements I_M_ProductionBatch, I_Pe
 		return false;
 	}
 
-	/** Set Records created.
-		@param IsCreated Records created	  */
-	public void setIsCreated (String IsCreated)
-	{
-		set_Value (COLUMNNAME_IsCreated, IsCreated);
-	}
-
-	/** Get Records created.
-		@return Records created	  */
-	public String getIsCreated () 
-	{
-		return (String)get_Value(COLUMNNAME_IsCreated);
-	}
-
 	/** Set Create Move.
 		@param IsCreateMove Create Move	  */
 	public void setIsCreateMove (boolean IsCreateMove)
@@ -396,6 +382,20 @@ public class X_M_ProductionBatch extends PO implements I_M_ProductionBatch, I_Pe
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Set Records created.
+		@param IsCreated Records created	  */
+	public void setIsCreated (String IsCreated)
+	{
+		set_Value (COLUMNNAME_IsCreated, IsCreated);
+	}
+
+	/** Get Records created.
+		@return Records created	  */
+	public String getIsCreated () 
+	{
+		return (String)get_Value(COLUMNNAME_IsCreated);
 	}
 
 	public org.compiere.model.I_M_Locator getM_Locator() throws RuntimeException
@@ -424,23 +424,6 @@ public class X_M_ProductionBatch extends PO implements I_M_ProductionBatch, I_Pe
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Movement Date.
-		@param MovementDate 
-		Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate)
-	{
-		set_Value (COLUMNNAME_MovementDate, MovementDate);
-	}
-
-	/** Get Movement Date.
-		@return Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
 	}
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
@@ -491,6 +474,51 @@ public class X_M_ProductionBatch extends PO implements I_M_ProductionBatch, I_Pe
 		return ii.intValue();
 	}
 
+	/** Set Movement Date.
+		@param MovementDate 
+		Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate)
+	{
+		set_Value (COLUMNNAME_MovementDate, MovementDate);
+	}
+
+	/** Get Movement Date.
+		@return Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
+	}
+
+	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException
+    {
+		return (org.eevolution.model.I_PP_Product_BOM)MTable.get(getCtx(), org.eevolution.model.I_PP_Product_BOM.Table_Name)
+			.getPO(getPP_Product_BOM_ID(), get_TrxName());	}
+
+	/** Set BOM & Formula.
+		@param PP_Product_BOM_ID 
+		BOM & Formula
+	  */
+	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID)
+	{
+		if (PP_Product_BOM_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Product_BOM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Product_BOM_ID, Integer.valueOf(PP_Product_BOM_ID));
+	}
+
+	/** Get BOM & Formula.
+		@return BOM & Formula
+	  */
+	public int getPP_Product_BOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Product_BOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Posted.
 		@param Posted 
 		Posting status
@@ -513,34 +541,6 @@ public class X_M_ProductionBatch extends PO implements I_M_ProductionBatch, I_Pe
 			return "Y".equals(oo);
 		}
 		return false;
-	}
-
-	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException
-    {
-		return (org.eevolution.model.I_PP_Product_BOM)MTable.get(getCtx(), org.eevolution.model.I_PP_Product_BOM.Table_Name)
-			.getPO(getPP_Product_BOM_ID(), get_TrxName());	}
-
-	/** Set BOM & Formula.
-		@param PP_Product_BOM_ID 
-		BOM & Formula
-	  */
-	public void setPP_Product_BOM_ID (int PP_Product_BOM_ID)
-	{
-		if (PP_Product_BOM_ID < 1) 
-			set_Value (COLUMNNAME_PP_Product_BOM_ID, null);
-		else 
-			set_Value (COLUMNNAME_PP_Product_BOM_ID, Integer.valueOf(PP_Product_BOM_ID));
-	}
-
-	/** Get BOM & Formula.
-		@return BOM & Formula
-	  */
-	public int getPP_Product_BOM_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Product_BOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Processed.
@@ -685,6 +685,23 @@ public class X_M_ProductionBatch extends PO implements I_M_ProductionBatch, I_Pe
 		return bd;
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
     {
 		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
@@ -739,22 +756,5 @@ public class X_M_ProductionBatch extends PO implements I_M_ProductionBatch, I_Pe
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

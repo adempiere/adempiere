@@ -30,7 +30,7 @@ public class X_ASP_Browse extends PO implements I_ASP_Browse, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_ASP_Browse (Properties ctx, int ASP_Browse_ID, String trxName)

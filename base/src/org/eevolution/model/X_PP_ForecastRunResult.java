@@ -33,7 +33,7 @@ public class X_PP_ForecastRunResult extends PO implements I_PP_ForecastRunResult
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_PP_ForecastRunResult (Properties ctx, int PP_ForecastRunResult_ID, String trxName)
@@ -91,26 +91,6 @@ public class X_PP_ForecastRunResult extends PO implements I_PP_ForecastRunResult
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set Period No.
-		@param PeriodNo 
-		Unique Period Number
-	  */
-	public void setPeriodNo (int PeriodNo)
-	{
-		set_Value (COLUMNNAME_PeriodNo, Integer.valueOf(PeriodNo));
-	}
-
-	/** Get Period No.
-		@return Unique Period Number
-	  */
-	public int getPeriodNo () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PeriodNo);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_PP_ForecastRule getPP_ForecastRule() throws RuntimeException
     {
 		return (org.eevolution.model.I_PP_ForecastRule)MTable.get(getCtx(), org.eevolution.model.I_PP_ForecastRule.Table_Name)
@@ -134,42 +114,6 @@ public class X_PP_ForecastRunResult extends PO implements I_PP_ForecastRunResult
 			 return 0;
 		return ii.intValue();
 	}
-
-	public org.eevolution.model.I_PP_ForecastRun getPP_ForecastRun() throws RuntimeException
-    {
-		return (org.eevolution.model.I_PP_ForecastRun)MTable.get(getCtx(), org.eevolution.model.I_PP_ForecastRun.Table_Name)
-			.getPO(getPP_ForecastRun_ID(), get_TrxName());	}
-
-	/** Set Forecast Run.
-		@param PP_ForecastRun_ID 
-		Create the forecast simulation based on the forecast definition
-	  */
-	public void setPP_ForecastRun_ID (int PP_ForecastRun_ID)
-	{
-		if (PP_ForecastRun_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PP_ForecastRun_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PP_ForecastRun_ID, Integer.valueOf(PP_ForecastRun_ID));
-	}
-
-	/** Get Forecast Run.
-		@return Create the forecast simulation based on the forecast definition
-	  */
-	public int getPP_ForecastRun_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_ForecastRun_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), String.valueOf(getPP_ForecastRun_ID()));
-    }
 
 	public org.eevolution.model.I_PP_ForecastRunMaster getPP_ForecastRunMaster() throws RuntimeException
     {
@@ -219,6 +163,42 @@ public class X_PP_ForecastRunResult extends PO implements I_PP_ForecastRunResult
 		return ii.intValue();
 	}
 
+	public org.eevolution.model.I_PP_ForecastRun getPP_ForecastRun() throws RuntimeException
+    {
+		return (org.eevolution.model.I_PP_ForecastRun)MTable.get(getCtx(), org.eevolution.model.I_PP_ForecastRun.Table_Name)
+			.getPO(getPP_ForecastRun_ID(), get_TrxName());	}
+
+	/** Set Forecast Run.
+		@param PP_ForecastRun_ID 
+		Create the forecast simulation based on the forecast definition
+	  */
+	public void setPP_ForecastRun_ID (int PP_ForecastRun_ID)
+	{
+		if (PP_ForecastRun_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_ForecastRun_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_ForecastRun_ID, Integer.valueOf(PP_ForecastRun_ID));
+	}
+
+	/** Get Forecast Run.
+		@return Create the forecast simulation based on the forecast definition
+	  */
+	public int getPP_ForecastRun_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_ForecastRun_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getPP_ForecastRun_ID()));
+    }
+
 	public org.eevolution.model.I_PP_Period getPP_Period() throws RuntimeException
     {
 		return (org.eevolution.model.I_PP_Period)MTable.get(getCtx(), org.eevolution.model.I_PP_Period.Table_Name)
@@ -242,6 +222,26 @@ public class X_PP_ForecastRunResult extends PO implements I_PP_ForecastRunResult
 	public int getPP_Period_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Period_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Period No.
+		@param PeriodNo 
+		Unique Period Number
+	  */
+	public void setPeriodNo (int PeriodNo)
+	{
+		set_Value (COLUMNNAME_PeriodNo, Integer.valueOf(PeriodNo));
+	}
+
+	/** Get Period No.
+		@return Unique Period Number
+	  */
+	public int getPeriodNo () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PeriodNo);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

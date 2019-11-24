@@ -29,7 +29,7 @@ public class X_A_Depreciation extends PO implements I_A_Depreciation, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_A_Depreciation (Properties ctx, int A_Depreciation_ID, String trxName)

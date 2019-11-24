@@ -31,7 +31,7 @@ public class X_T_BOM_Indented extends PO implements I_T_BOM_Indented, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_T_BOM_Indented (Properties ctx, int T_BOM_Indented_ID, String trxName)

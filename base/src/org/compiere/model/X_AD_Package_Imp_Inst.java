@@ -30,7 +30,7 @@ public class X_AD_Package_Imp_Inst extends PO implements I_AD_Package_Imp_Inst, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_Package_Imp_Inst (Properties ctx, int AD_Package_Imp_Inst_ID, String trxName)
@@ -281,6 +281,23 @@ public class X_AD_Package_Imp_Inst extends PO implements I_AD_Package_Imp_Inst, 
 		return (String)get_Value(COLUMNNAME_ReleaseNo);
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Uninstall.
 		@param Uninstall Uninstall	  */
 	public void setUninstall (boolean Uninstall)
@@ -314,23 +331,6 @@ public class X_AD_Package_Imp_Inst extends PO implements I_AD_Package_Imp_Inst, 
 	public String getUpdatedDate () 
 	{
 		return (String)get_Value(COLUMNNAME_UpdatedDate);
-	}
-
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	/** Set Version.

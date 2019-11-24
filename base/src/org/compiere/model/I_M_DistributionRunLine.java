@@ -132,6 +132,19 @@ public interface I_M_DistributionRunLine
 
 	public org.compiere.model.I_M_DistributionList getM_DistributionList() throws RuntimeException;
 
+    /** Column name M_DistributionRunLine_ID */
+    public static final String COLUMNNAME_M_DistributionRunLine_ID = "M_DistributionRunLine_ID";
+
+	/** Set Distribution Run Line.
+	  * Distribution Run Lines define Distribution List, the Product and Quantities
+	  */
+	public void setM_DistributionRunLine_ID (int M_DistributionRunLine_ID);
+
+	/** Get Distribution Run Line.
+	  * Distribution Run Lines define Distribution List, the Product and Quantities
+	  */
+	public int getM_DistributionRunLine_ID();
+
     /** Column name M_DistributionRun_ID */
     public static final String COLUMNNAME_M_DistributionRun_ID = "M_DistributionRun_ID";
 
@@ -146,32 +159,6 @@ public interface I_M_DistributionRunLine
 	public int getM_DistributionRun_ID();
 
 	public org.compiere.model.I_M_DistributionRun getM_DistributionRun() throws RuntimeException;
-
-    /** Column name M_DistributionRunLine_ID */
-    public static final String COLUMNNAME_M_DistributionRunLine_ID = "M_DistributionRunLine_ID";
-
-	/** Set Distribution Run Line.
-	  * Distribution Run Lines define Distribution List, the Product and Quantities
-	  */
-	public void setM_DistributionRunLine_ID (int M_DistributionRunLine_ID);
-
-	/** Get Distribution Run Line.
-	  * Distribution Run Lines define Distribution List, the Product and Quantities
-	  */
-	public int getM_DistributionRunLine_ID();
-
-    /** Column name MinQty */
-    public static final String COLUMNNAME_MinQty = "MinQty";
-
-	/** Set Minimum Quantity.
-	  * Minimum quantity for the business partner
-	  */
-	public void setMinQty (BigDecimal MinQty);
-
-	/** Get Minimum Quantity.
-	  * Minimum quantity for the business partner
-	  */
-	public BigDecimal getMinQty();
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -188,6 +175,19 @@ public interface I_M_DistributionRunLine
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
+    /** Column name MinQty */
+    public static final String COLUMNNAME_MinQty = "MinQty";
+
+	/** Set Minimum Quantity.
+	  * Minimum quantity for the business partner
+	  */
+	public void setMinQty (BigDecimal MinQty);
+
+	/** Get Minimum Quantity.
+	  * Minimum quantity for the business partner
+	  */
+	public BigDecimal getMinQty();
+
     /** Column name TotalQty */
     public static final String COLUMNNAME_TotalQty = "TotalQty";
 
@@ -200,6 +200,19 @@ public interface I_M_DistributionRunLine
 	  * Total Quantity
 	  */
 	public BigDecimal getTotalQty();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -216,17 +229,4 @@ public interface I_M_DistributionRunLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

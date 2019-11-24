@@ -126,17 +126,6 @@ public interface I_M_PromotionDistribution
 	/** Get Promotion Distribution	  */
 	public int getM_PromotionDistribution_ID();
 
-    /** Column name M_Promotion_ID */
-    public static final String COLUMNNAME_M_Promotion_ID = "M_Promotion_ID";
-
-	/** Set Promotion	  */
-	public void setM_Promotion_ID (int M_Promotion_ID);
-
-	/** Get Promotion	  */
-	public int getM_Promotion_ID();
-
-	public org.compiere.model.I_M_Promotion getM_Promotion() throws RuntimeException;
-
     /** Column name M_PromotionLine_ID */
     public static final String COLUMNNAME_M_PromotionLine_ID = "M_PromotionLine_ID";
 
@@ -147,6 +136,17 @@ public interface I_M_PromotionDistribution
 	public int getM_PromotionLine_ID();
 
 	public org.compiere.model.I_M_PromotionLine getM_PromotionLine() throws RuntimeException;
+
+    /** Column name M_Promotion_ID */
+    public static final String COLUMNNAME_M_Promotion_ID = "M_Promotion_ID";
+
+	/** Set Promotion	  */
+	public void setM_Promotion_ID (int M_Promotion_ID);
+
+	/** Get Promotion	  */
+	public int getM_Promotion_ID();
+
+	public org.compiere.model.I_M_Promotion getM_Promotion() throws RuntimeException;
 
     /** Column name Operation */
     public static final String COLUMNNAME_Operation = "Operation";
@@ -198,6 +198,19 @@ public interface I_M_PromotionDistribution
 	  */
 	public int getSeqNo();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -213,17 +226,4 @@ public interface I_M_PromotionDistribution
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

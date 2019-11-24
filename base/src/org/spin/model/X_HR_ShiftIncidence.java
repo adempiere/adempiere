@@ -33,7 +33,7 @@ public class X_HR_ShiftIncidence extends PO implements I_HR_ShiftIncidence, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190711L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_ShiftIncidence (Properties ctx, int HR_ShiftIncidence_ID, String trxName)

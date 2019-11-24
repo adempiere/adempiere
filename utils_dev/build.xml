@@ -42,6 +42,9 @@
         <ant inheritAll="false" dir="com.kkalice.adempiere.migrate"/>
 		<ant inheritAll="false" dir="org.adempiere.pos"/>
 		<ant inheritAll="false" dir="org.adempiere.production"/>
+		<ant inheritAll="false" dir="org.spin.finance_management"/>
+		<ant inheritAll="false" dir="org.spin.loan_management"/>
+		<ant inheritAll="false" dir="org.spin.hr_time_and_attendance"/>
 	</target>
 	<target name="build" depends="clean, jar">
 		<ant inheritAll="false" dir="install"/>		
@@ -75,6 +78,9 @@
         <ant inheritAll="false" dir="com.kkalice.adempiere.migrate" target="migrate.clean"/>
 		<ant inheritAll="false" dir="org.adempiere.pos" target="clean"/>
 		<ant inheritAll="false" dir="org.adempiere.production" target="clean"/>
+		<ant inheritAll="false" dir="org.spin.finance_management" target="clean"/>
+		<ant inheritAll="false" dir="org.spin.loan_management" target="clean"/>
+		<ant inheritAll="false" dir="org.spin.hr_time_and_attendance" target="clean"/>
 	</target>
 
   <target name="clean-all" depends="clean">

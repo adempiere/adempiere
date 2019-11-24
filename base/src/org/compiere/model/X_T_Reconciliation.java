@@ -29,7 +29,7 @@ public class X_T_Reconciliation extends PO implements I_T_Reconciliation, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_T_Reconciliation (Properties ctx, int T_Reconciliation_ID, String trxName)

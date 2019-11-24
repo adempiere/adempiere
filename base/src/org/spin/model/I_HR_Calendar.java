@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Calendar
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.2
  */
 public interface I_HR_Calendar 
 {
@@ -95,10 +95,10 @@ public interface I_HR_Calendar
     /** Column name HR_Calendar_ID */
     public static final String COLUMNNAME_HR_Calendar_ID = "HR_Calendar_ID";
 
-	/** Set Human Resource Calendar ID	  */
+	/** Set Human Resource Calendar	  */
 	public void setHR_Calendar_ID (int HR_Calendar_ID);
 
-	/** Get Human Resource Calendar ID	  */
+	/** Get Human Resource Calendar	  */
 	public int getHR_Calendar_ID();
 
     /** Column name IsActive */
@@ -127,6 +127,19 @@ public interface I_HR_Calendar
 	  */
 	public String getName();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -142,19 +155,6 @@ public interface I_HR_Calendar
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

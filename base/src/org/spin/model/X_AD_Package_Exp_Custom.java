@@ -30,7 +30,7 @@ public class X_AD_Package_Exp_Custom extends PO implements I_AD_Package_Exp_Cust
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190613L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_Package_Exp_Custom (Properties ctx, int AD_Package_Exp_Custom_ID, String trxName)
@@ -73,8 +73,10 @@ public class X_AD_Package_Exp_Custom extends PO implements I_AD_Package_Exp_Cust
       return sb.toString();
     }
 
-	/** Set Package Custom Exporter ID.
-		@param AD_Package_Exp_Custom_ID Package Custom Exporter ID	  */
+	/** Set Package Custom Exporter.
+		@param AD_Package_Exp_Custom_ID 
+		Custom Exporter for any entity
+	  */
 	public void setAD_Package_Exp_Custom_ID (int AD_Package_Exp_Custom_ID)
 	{
 		if (AD_Package_Exp_Custom_ID < 1) 
@@ -83,8 +85,9 @@ public class X_AD_Package_Exp_Custom extends PO implements I_AD_Package_Exp_Cust
 			set_ValueNoCheck (COLUMNNAME_AD_Package_Exp_Custom_ID, Integer.valueOf(AD_Package_Exp_Custom_ID));
 	}
 
-	/** Get Package Custom Exporter ID.
-		@return Package Custom Exporter ID	  */
+	/** Get Package Custom Exporter.
+		@return Custom Exporter for any entity
+	  */
 	public int getAD_Package_Exp_Custom_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Exp_Custom_ID);

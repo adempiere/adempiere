@@ -34,7 +34,7 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_I_Workflow (Properties ctx, int I_Workflow_ID, String trxName)
@@ -75,86 +75,6 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** AccessLevel AD_Reference_ID=5 */
-	public static final int ACCESSLEVEL_AD_Reference_ID=5;
-	/** Organization = 1 */
-	public static final String ACCESSLEVEL_Organization = "1";
-	/** Client+Organization = 3 */
-	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
-	/** System only = 4 */
-	public static final String ACCESSLEVEL_SystemOnly = "4";
-	/** All = 7 */
-	public static final String ACCESSLEVEL_All = "7";
-	/** System+Client = 6 */
-	public static final String ACCESSLEVEL_SystemPlusClient = "6";
-	/** Client only = 2 */
-	public static final String ACCESSLEVEL_ClientOnly = "2";
-	/** Set Data Access Level.
-		@param AccessLevel 
-		Access Level required
-	  */
-	public void setAccessLevel (String AccessLevel)
-	{
-
-		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
-	}
-
-	/** Get Data Access Level.
-		@return Access Level required
-	  */
-	public String getAccessLevel () 
-	{
-		return (String)get_Value(COLUMNNAME_AccessLevel);
-	}
-
-	/** Action AD_Reference_ID=302 */
-	public static final int ACTION_AD_Reference_ID=302;
-	/** Wait (Sleep) = Z */
-	public static final String ACTION_WaitSleep = "Z";
-	/** User Choice = C */
-	public static final String ACTION_UserChoice = "C";
-	/** Sub Workflow = F */
-	public static final String ACTION_SubWorkflow = "F";
-	/** Set Variable = V */
-	public static final String ACTION_SetVariable = "V";
-	/** User Window = W */
-	public static final String ACTION_UserWindow = "W";
-	/** User Form = X */
-	public static final String ACTION_UserForm = "X";
-	/** Apps Task = T */
-	public static final String ACTION_AppsTask = "T";
-	/** Apps Report = R */
-	public static final String ACTION_AppsReport = "R";
-	/** Apps Process = P */
-	public static final String ACTION_AppsProcess = "P";
-	/** Document Action = D */
-	public static final String ACTION_DocumentAction = "D";
-	/** EMail = M */
-	public static final String ACTION_EMail = "M";
-	/** User Workbench = B */
-	public static final String ACTION_UserWorkbench = "B";
-	/** Smart View = Q */
-	public static final String ACTION_SmartView = "Q";
-	/** Smart Browse = S */
-	public static final String ACTION_SmartBrowse = "S";
-	/** Set Action.
-		@param Action 
-		Indicates the Action to be performed
-	  */
-	public void setAction (String Action)
-	{
-
-		set_Value (COLUMNNAME_Action, Action);
-	}
-
-	/** Get Action.
-		@return Indicates the Action to be performed
-	  */
-	public String getAction () 
-	{
-		return (String)get_Value(COLUMNNAME_Action);
-	}
 
 	public org.compiere.model.I_AD_Column getAD_Column() throws RuntimeException
     {
@@ -408,6 +328,34 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_WorkflowProcessor)MTable.get(getCtx(), org.compiere.model.I_AD_WorkflowProcessor.Table_Name)
+			.getPO(getAD_WorkflowProcessor_ID(), get_TrxName());	}
+
+	/** Set Workflow Processor.
+		@param AD_WorkflowProcessor_ID 
+		Workflow Processor Server
+	  */
+	public void setAD_WorkflowProcessor_ID (int AD_WorkflowProcessor_ID)
+	{
+		if (AD_WorkflowProcessor_ID < 1) 
+			set_Value (COLUMNNAME_AD_WorkflowProcessor_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_WorkflowProcessor_ID, Integer.valueOf(AD_WorkflowProcessor_ID));
+	}
+
+	/** Get Workflow Processor.
+		@return Workflow Processor Server
+	  */
+	public int getAD_WorkflowProcessor_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WorkflowProcessor_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Workflow)MTable.get(getCtx(), org.compiere.model.I_AD_Workflow.Table_Name)
@@ -436,32 +384,84 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException
-    {
-		return (org.compiere.model.I_AD_WorkflowProcessor)MTable.get(getCtx(), org.compiere.model.I_AD_WorkflowProcessor.Table_Name)
-			.getPO(getAD_WorkflowProcessor_ID(), get_TrxName());	}
-
-	/** Set Workflow Processor.
-		@param AD_WorkflowProcessor_ID 
-		Workflow Processor Server
+	/** AccessLevel AD_Reference_ID=5 */
+	public static final int ACCESSLEVEL_AD_Reference_ID=5;
+	/** Organization = 1 */
+	public static final String ACCESSLEVEL_Organization = "1";
+	/** Client+Organization = 3 */
+	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
+	/** System only = 4 */
+	public static final String ACCESSLEVEL_SystemOnly = "4";
+	/** All = 7 */
+	public static final String ACCESSLEVEL_All = "7";
+	/** System+Client = 6 */
+	public static final String ACCESSLEVEL_SystemPlusClient = "6";
+	/** Client only = 2 */
+	public static final String ACCESSLEVEL_ClientOnly = "2";
+	/** Set Data Access Level.
+		@param AccessLevel 
+		Access Level required
 	  */
-	public void setAD_WorkflowProcessor_ID (int AD_WorkflowProcessor_ID)
+	public void setAccessLevel (String AccessLevel)
 	{
-		if (AD_WorkflowProcessor_ID < 1) 
-			set_Value (COLUMNNAME_AD_WorkflowProcessor_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_WorkflowProcessor_ID, Integer.valueOf(AD_WorkflowProcessor_ID));
+
+		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
 	}
 
-	/** Get Workflow Processor.
-		@return Workflow Processor Server
+	/** Get Data Access Level.
+		@return Access Level required
 	  */
-	public int getAD_WorkflowProcessor_ID () 
+	public String getAccessLevel () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_WorkflowProcessor_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_AccessLevel);
+	}
+
+	/** Action AD_Reference_ID=302 */
+	public static final int ACTION_AD_Reference_ID=302;
+	/** Wait (Sleep) = Z */
+	public static final String ACTION_WaitSleep = "Z";
+	/** User Choice = C */
+	public static final String ACTION_UserChoice = "C";
+	/** Sub Workflow = F */
+	public static final String ACTION_SubWorkflow = "F";
+	/** Set Variable = V */
+	public static final String ACTION_SetVariable = "V";
+	/** User Window = W */
+	public static final String ACTION_UserWindow = "W";
+	/** User Form = X */
+	public static final String ACTION_UserForm = "X";
+	/** Apps Task = T */
+	public static final String ACTION_AppsTask = "T";
+	/** Apps Report = R */
+	public static final String ACTION_AppsReport = "R";
+	/** Apps Process = P */
+	public static final String ACTION_AppsProcess = "P";
+	/** Document Action = D */
+	public static final String ACTION_DocumentAction = "D";
+	/** EMail = M */
+	public static final String ACTION_EMail = "M";
+	/** User Workbench = B */
+	public static final String ACTION_UserWorkbench = "B";
+	/** Smart View = Q */
+	public static final String ACTION_SmartView = "Q";
+	/** Smart Browse = S */
+	public static final String ACTION_SmartBrowse = "S";
+	/** Set Action.
+		@param Action 
+		Indicates the Action to be performed
+	  */
+	public void setAction (String Action)
+	{
+
+		set_Value (COLUMNNAME_Action, Action);
+	}
+
+	/** Get Action.
+		@return Indicates the Action to be performed
+	  */
+	public String getAction () 
+	{
+		return (String)get_Value(COLUMNNAME_Action);
 	}
 
 	/** Set Attribute Name.
@@ -617,23 +617,6 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 		return (String)get_Value(COLUMNNAME_DocAction);
 	}
 
-	/** Set Document No.
-		@param DocumentNo 
-		Document sequence number of the document
-	  */
-	public void setDocumentNo (String DocumentNo)
-	{
-		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
-	}
-
-	/** Get Document No.
-		@return Document sequence number of the document
-	  */
-	public String getDocumentNo () 
-	{
-		return (String)get_Value(COLUMNNAME_DocumentNo);
-	}
-
 	/** Set Document Value Logic.
 		@param DocValueLogic 
 		Logic to determine Workflow Start - If true, a workflow process is started for the document
@@ -649,6 +632,23 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 	public String getDocValueLogic () 
 	{
 		return (String)get_Value(COLUMNNAME_DocValueLogic);
+	}
+
+	/** Set Document No.
+		@param DocumentNo 
+		Document sequence number of the document
+	  */
+	public void setDocumentNo (String DocumentNo)
+	{
+		set_Value (COLUMNNAME_DocumentNo, DocumentNo);
+	}
+
+	/** Get Document No.
+		@return Document sequence number of the document
+	  */
+	public String getDocumentNo () 
+	{
+		return (String)get_Value(COLUMNNAME_DocumentNo);
 	}
 
 	/** Set Duration.
@@ -731,6 +731,16 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 	public static final String DYNPRIORITYUNIT_Hour = "H";
 	/** Day = D */
 	public static final String DYNPRIORITYUNIT_Day = "D";
+	/** Biweekly = B */
+	public static final String DYNPRIORITYUNIT_Biweekly = "B";
+	/** Monthly = N */
+	public static final String DYNPRIORITYUNIT_Monthly = "N";
+	/** Quarterly = Q */
+	public static final String DYNPRIORITYUNIT_Quarterly = "Q";
+	/** Weekly = W */
+	public static final String DYNPRIORITYUNIT_Weekly = "W";
+	/** Yearly = Y */
+	public static final String DYNPRIORITYUNIT_Yearly = "Y";
 	/** Set Dynamic Priority Unit.
 		@param DynPriorityUnit 
 		Change of priority when Activity is suspended waiting for user
@@ -898,6 +908,26 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 		return false;
 	}
 
+	/** Set I_Workflow_ID.
+		@param I_Workflow_ID I_Workflow_ID	  */
+	public void setI_Workflow_ID (int I_Workflow_ID)
+	{
+		if (I_Workflow_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_I_Workflow_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_I_Workflow_ID, Integer.valueOf(I_Workflow_ID));
+	}
+
+	/** Get I_Workflow_ID.
+		@return I_Workflow_ID	  */
+	public int getI_Workflow_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_I_Workflow_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Beta Functionality.
 		@param IsBetaFunctionality 
 		This functionality is considered Beta
@@ -1010,26 +1040,6 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
-	}
-
-	/** Set I_Workflow_ID.
-		@param I_Workflow_ID I_Workflow_ID	  */
-	public void setI_Workflow_ID (int I_Workflow_ID)
-	{
-		if (I_Workflow_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_I_Workflow_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_I_Workflow_ID, Integer.valueOf(I_Workflow_ID));
-	}
-
-	/** Get I_Workflow_ID.
-		@return I_Workflow_ID	  */
-	public int getI_Workflow_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_I_Workflow_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** JoinElement AD_Reference_ID=301 */
@@ -1212,6 +1222,35 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 		return ii.intValue();
 	}
 
+	/** ProcessType AD_Reference_ID=53224 */
+	public static final int PROCESSTYPE_AD_Reference_ID=53224;
+	/** Batch Flow  = BF */
+	public static final String PROCESSTYPE_BatchFlow = "BF";
+	/** Continuous Flow = CF */
+	public static final String PROCESSTYPE_ContinuousFlow = "CF";
+	/** Dedicate Repetititive Flow = DR */
+	public static final String PROCESSTYPE_DedicateRepetititiveFlow = "DR";
+	/** Job Shop = JS */
+	public static final String PROCESSTYPE_JobShop = "JS";
+	/** Mixed Repetitive Flow = MR */
+	public static final String PROCESSTYPE_MixedRepetitiveFlow = "MR";
+	/** Plant = PL */
+	public static final String PROCESSTYPE_Plant = "PL";
+	/** Set Process Type.
+		@param ProcessType Process Type	  */
+	public void setProcessType (String ProcessType)
+	{
+
+		set_Value (COLUMNNAME_ProcessType, ProcessType);
+	}
+
+	/** Get Process Type.
+		@return Process Type	  */
+	public String getProcessType () 
+	{
+		return (String)get_Value(COLUMNNAME_ProcessType);
+	}
+
 	/** Set Processed.
 		@param Processed 
 		The document has been processed
@@ -1255,35 +1294,6 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
-	}
-
-	/** ProcessType AD_Reference_ID=53224 */
-	public static final int PROCESSTYPE_AD_Reference_ID=53224;
-	/** Batch Flow  = BF */
-	public static final String PROCESSTYPE_BatchFlow = "BF";
-	/** Continuous Flow = CF */
-	public static final String PROCESSTYPE_ContinuousFlow = "CF";
-	/** Dedicate Repetititive Flow = DR */
-	public static final String PROCESSTYPE_DedicateRepetititiveFlow = "DR";
-	/** Job Shop = JS */
-	public static final String PROCESSTYPE_JobShop = "JS";
-	/** Mixed Repetitive Flow = MR */
-	public static final String PROCESSTYPE_MixedRepetitiveFlow = "MR";
-	/** Plant = PL */
-	public static final String PROCESSTYPE_Plant = "PL";
-	/** Set Process Type.
-		@param ProcessType Process Type	  */
-	public void setProcessType (String ProcessType)
-	{
-
-		set_Value (COLUMNNAME_ProcessType, ProcessType);
-	}
-
-	/** Get Process Type.
-		@return Process Type	  */
-	public String getProcessType () 
-	{
-		return (String)get_Value(COLUMNNAME_ProcessType);
 	}
 
 	/** PublishStatus AD_Reference_ID=310 */
@@ -1351,6 +1361,34 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_R_MailText getR_MailText() throws RuntimeException
+    {
+		return (org.compiere.model.I_R_MailText)MTable.get(getCtx(), org.compiere.model.I_R_MailText.Table_Name)
+			.getPO(getR_MailText_ID(), get_TrxName());	}
+
+	/** Set Mail Template.
+		@param R_MailText_ID 
+		Text templates for mailings
+	  */
+	public void setR_MailText_ID (int R_MailText_ID)
+	{
+		if (R_MailText_ID < 1) 
+			set_Value (COLUMNNAME_R_MailText_ID, null);
+		else 
+			set_Value (COLUMNNAME_R_MailText_ID, Integer.valueOf(R_MailText_ID));
+	}
+
+	/** Get Mail Template.
+		@return Text templates for mailings
+	  */
+	public int getR_MailText_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_R_MailText_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Resource Key.
 		@param ResourceValue 
 		Key of the Resource
@@ -1382,29 +1420,29 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 		return (String)get_Value(COLUMNNAME_ResponsibleName);
 	}
 
-	public org.compiere.model.I_R_MailText getR_MailText() throws RuntimeException
+	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException
     {
-		return (org.compiere.model.I_R_MailText)MTable.get(getCtx(), org.compiere.model.I_R_MailText.Table_Name)
-			.getPO(getR_MailText_ID(), get_TrxName());	}
+		return (org.compiere.model.I_S_Resource)MTable.get(getCtx(), org.compiere.model.I_S_Resource.Table_Name)
+			.getPO(getS_Resource_ID(), get_TrxName());	}
 
-	/** Set Mail Template.
-		@param R_MailText_ID 
-		Text templates for mailings
+	/** Set Resource.
+		@param S_Resource_ID 
+		Resource
 	  */
-	public void setR_MailText_ID (int R_MailText_ID)
+	public void setS_Resource_ID (int S_Resource_ID)
 	{
-		if (R_MailText_ID < 1) 
-			set_Value (COLUMNNAME_R_MailText_ID, null);
+		if (S_Resource_ID < 1) 
+			set_Value (COLUMNNAME_S_Resource_ID, null);
 		else 
-			set_Value (COLUMNNAME_R_MailText_ID, Integer.valueOf(R_MailText_ID));
+			set_Value (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
 	}
 
-	/** Get Mail Template.
-		@return Text templates for mailings
+	/** Get Resource.
+		@return Resource
 	  */
-	public int getR_MailText_ID () 
+	public int getS_Resource_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_R_MailText_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1452,34 +1490,6 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 	public String getSplitElement () 
 	{
 		return (String)get_Value(COLUMNNAME_SplitElement);
-	}
-
-	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException
-    {
-		return (org.compiere.model.I_S_Resource)MTable.get(getCtx(), org.compiere.model.I_S_Resource.Table_Name)
-			.getPO(getS_Resource_ID(), get_TrxName());	}
-
-	/** Set Resource.
-		@param S_Resource_ID 
-		Resource
-	  */
-	public void setS_Resource_ID (int S_Resource_ID)
-	{
-		if (S_Resource_ID < 1) 
-			set_Value (COLUMNNAME_S_Resource_ID, null);
-		else 
-			set_Value (COLUMNNAME_S_Resource_ID, Integer.valueOf(S_Resource_ID));
-	}
-
-	/** Get Resource.
-		@return Resource
-	  */
-	public int getS_Resource_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_S_Resource_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** StartMode AD_Reference_ID=303 */
@@ -1547,6 +1557,23 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 		return (String)get_Value(COLUMNNAME_TableName);
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	/** Set Units by Cycles.
 		@param UnitsCycles 
 		The Units by Cycles are defined for process type  Flow Repetitive Dedicated and  indicated the product to be manufactured on a production line for duration unit.
@@ -1565,23 +1592,6 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	/** Set Valid from.
@@ -1663,24 +1673,18 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Waiting Time.
-		@param WaitingTime 
-		Workflow Simulation Waiting time
-	  */
-	public void setWaitingTime (int WaitingTime)
+	/** Set WF Processor Name.
+		@param WFProcessorName WF Processor Name	  */
+	public void setWFProcessorName (String WFProcessorName)
 	{
-		set_Value (COLUMNNAME_WaitingTime, Integer.valueOf(WaitingTime));
+		set_Value (COLUMNNAME_WFProcessorName, WFProcessorName);
 	}
 
-	/** Get Waiting Time.
-		@return Workflow Simulation Waiting time
-	  */
-	public int getWaitingTime () 
+	/** Get WF Processor Name.
+		@return WF Processor Name	  */
+	public String getWFProcessorName () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_WaitingTime);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_WFProcessorName);
 	}
 
 	/** Set Wait Time.
@@ -1703,18 +1707,24 @@ public class X_I_Workflow extends PO implements I_I_Workflow, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set WF Processor Name.
-		@param WFProcessorName WF Processor Name	  */
-	public void setWFProcessorName (String WFProcessorName)
+	/** Set Waiting Time.
+		@param WaitingTime 
+		Workflow Simulation Waiting time
+	  */
+	public void setWaitingTime (int WaitingTime)
 	{
-		set_Value (COLUMNNAME_WFProcessorName, WFProcessorName);
+		set_Value (COLUMNNAME_WaitingTime, Integer.valueOf(WaitingTime));
 	}
 
-	/** Get WF Processor Name.
-		@return WF Processor Name	  */
-	public String getWFProcessorName () 
+	/** Get Waiting Time.
+		@return Workflow Simulation Waiting time
+	  */
+	public int getWaitingTime () 
 	{
-		return (String)get_Value(COLUMNNAME_WFProcessorName);
+		Integer ii = (Integer)get_Value(COLUMNNAME_WaitingTime);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** WorkflowType AD_Reference_ID=328 */

@@ -122,6 +122,19 @@ public interface I_C_Recurring
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
+    /** Column name C_Recurring_ID */
+    public static final String COLUMNNAME_C_Recurring_ID = "C_Recurring_ID";
+
+	/** Set Recurring.
+	  * Recurring Document
+	  */
+	public void setC_Recurring_ID (int C_Recurring_ID);
+
+	/** Get Recurring.
+	  * Recurring Document
+	  */
+	public int getC_Recurring_ID();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -137,19 +150,6 @@ public interface I_C_Recurring
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_Recurring_ID */
-    public static final String COLUMNNAME_C_Recurring_ID = "C_Recurring_ID";
-
-	/** Set Recurring.
-	  * Recurring Document
-	  */
-	public void setC_Recurring_ID (int C_Recurring_ID);
-
-	/** Get Recurring.
-	  * Recurring Document
-	  */
-	public int getC_Recurring_ID();
 
     /** Column name DateLastRun */
     public static final String COLUMNNAME_DateLastRun = "DateLastRun";
@@ -318,6 +318,19 @@ public interface I_C_Recurring
 	  */
 	public int getRunsRemaining();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -333,17 +346,4 @@ public interface I_C_Recurring
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

@@ -31,7 +31,7 @@ public class X_C_ProjectGroup extends PO implements I_C_ProjectGroup, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_ProjectGroup (Properties ctx, int C_ProjectGroup_ID, String trxName)

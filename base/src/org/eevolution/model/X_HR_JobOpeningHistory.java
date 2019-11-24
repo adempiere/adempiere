@@ -31,7 +31,7 @@ public class X_HR_JobOpeningHistory extends PO implements I_HR_JobOpeningHistory
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_JobOpeningHistory (Properties ctx, int HR_JobOpeningHistory_ID, String trxName)

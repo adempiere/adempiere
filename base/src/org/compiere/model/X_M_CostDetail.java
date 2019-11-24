@@ -32,7 +32,7 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_CostDetail (Properties ctx, int M_CostDetail_ID, String trxName)
@@ -232,6 +232,34 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_ProjectIssue getC_ProjectIssue() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ProjectIssue)MTable.get(getCtx(), org.compiere.model.I_C_ProjectIssue.Table_Name)
+			.getPO(getC_ProjectIssue_ID(), get_TrxName());	}
+
+	/** Set Project Issue.
+		@param C_ProjectIssue_ID 
+		Project Issues (Material, Labor)
+	  */
+	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID)
+	{
+		if (C_ProjectIssue_ID < 1) 
+			set_Value (COLUMNNAME_C_ProjectIssue_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_ProjectIssue_ID, Integer.valueOf(C_ProjectIssue_ID));
+	}
+
+	/** Get Project Issue.
+		@return Project Issues (Material, Labor)
+	  */
+	public int getC_ProjectIssue_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectIssue_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Cost Adjustment.
 		@param CostAdjustment 
 		Product Cost Adjustment
@@ -382,34 +410,6 @@ public class X_M_CostDetail extends PO implements I_M_CostDetail, I_Persistent
 	public String getCostingMethod () 
 	{
 		return (String)get_Value(COLUMNNAME_CostingMethod);
-	}
-
-	public org.compiere.model.I_C_ProjectIssue getC_ProjectIssue() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_ProjectIssue)MTable.get(getCtx(), org.compiere.model.I_C_ProjectIssue.Table_Name)
-			.getPO(getC_ProjectIssue_ID(), get_TrxName());	}
-
-	/** Set Project Issue.
-		@param C_ProjectIssue_ID 
-		Project Issues (Material, Labor)
-	  */
-	public void setC_ProjectIssue_ID (int C_ProjectIssue_ID)
-	{
-		if (C_ProjectIssue_ID < 1) 
-			set_Value (COLUMNNAME_C_ProjectIssue_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_ProjectIssue_ID, Integer.valueOf(C_ProjectIssue_ID));
-	}
-
-	/** Get Project Issue.
-		@return Project Issues (Material, Labor)
-	  */
-	public int getC_ProjectIssue_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_ProjectIssue_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	/** Set Accumulated Amt.

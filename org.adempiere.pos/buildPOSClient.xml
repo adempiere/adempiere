@@ -54,7 +54,7 @@
             <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/log4j.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/oracle.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/jnlp.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/commons-collections-3.1.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/commons-collections-3.2.2.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/postgresql.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/c3p0-0.9.1.2.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${dir.workspace}/adempiere_380/tools/lib/looks-2.0.4.jar"/>

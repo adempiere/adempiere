@@ -57,6 +57,19 @@ public interface I_AD_AttachmentReference
 
 	public org.compiere.model.I_AD_Archive getAD_Archive() throws RuntimeException;
 
+    /** Column name AD_AttachmentReference_ID */
+    public static final String COLUMNNAME_AD_AttachmentReference_ID = "AD_AttachmentReference_ID";
+
+	/** Set Attachment Reference.
+	  * Used for save reference for all attachment files
+	  */
+	public void setAD_AttachmentReference_ID (int AD_AttachmentReference_ID);
+
+	/** Get Attachment Reference.
+	  * Used for save reference for all attachment files
+	  */
+	public int getAD_AttachmentReference_ID();
+
     /** Column name AD_Attachment_ID */
     public static final String COLUMNNAME_AD_Attachment_ID = "AD_Attachment_ID";
 
@@ -71,19 +84,6 @@ public interface I_AD_AttachmentReference
 	public int getAD_Attachment_ID();
 
 	public org.compiere.model.I_AD_Attachment getAD_Attachment() throws RuntimeException;
-
-    /** Column name AD_AttachmentReference_ID */
-    public static final String COLUMNNAME_AD_AttachmentReference_ID = "AD_AttachmentReference_ID";
-
-	/** Set Attachment Reference.
-	  * Used for save reference for all attachment files
-	  */
-	public void setAD_AttachmentReference_ID (int AD_AttachmentReference_ID);
-
-	/** Get Attachment Reference.
-	  * Used for save reference for all attachment files
-	  */
-	public int getAD_AttachmentReference_ID();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -204,22 +204,6 @@ public interface I_AD_AttachmentReference
 	  */
 	public String getTextMsg();
 
-    /** Column name Updated */
-    public static final String COLUMNNAME_Updated = "Updated";
-
-	/** Get Updated.
-	  * Date this record was updated
-	  */
-	public Timestamp getUpdated();
-
-    /** Column name UpdatedBy */
-    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
-
-	/** Get Updated By.
-	  * User who updated this records
-	  */
-	public int getUpdatedBy();
-
     /** Column name URL */
     public static final String COLUMNNAME_URL = "URL";
 
@@ -245,4 +229,20 @@ public interface I_AD_AttachmentReference
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
+
+    /** Column name Updated */
+    public static final String COLUMNNAME_Updated = "Updated";
+
+	/** Get Updated.
+	  * Date this record was updated
+	  */
+	public Timestamp getUpdated();
+
+    /** Column name UpdatedBy */
+    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
+
+	/** Get Updated By.
+	  * User who updated this records
+	  */
+	public int getUpdatedBy();
 }

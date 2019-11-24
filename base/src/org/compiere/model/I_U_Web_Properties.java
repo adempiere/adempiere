@@ -91,31 +91,6 @@ public interface I_U_Web_Properties
 	  */
 	public boolean isActive();
 
-    /** Column name U_Key */
-    public static final String COLUMNNAME_U_Key = "U_Key";
-
-	/** Set Key	  */
-	public void setU_Key (String U_Key);
-
-	/** Get Key	  */
-	public String getU_Key();
-
-    /** Column name Updated */
-    public static final String COLUMNNAME_Updated = "Updated";
-
-	/** Get Updated.
-	  * Date this record was updated
-	  */
-	public Timestamp getUpdated();
-
-    /** Column name UpdatedBy */
-    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
-
-	/** Get Updated By.
-	  * User who updated this records
-	  */
-	public int getUpdatedBy();
-
     /** Column name UUID */
     public static final String COLUMNNAME_UUID = "UUID";
 
@@ -128,6 +103,15 @@ public interface I_U_Web_Properties
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
+
+    /** Column name U_Key */
+    public static final String COLUMNNAME_U_Key = "U_Key";
+
+	/** Set Key	  */
+	public void setU_Key (String U_Key);
+
+	/** Get Key	  */
+	public String getU_Key();
 
     /** Column name U_Value */
     public static final String COLUMNNAME_U_Value = "U_Value";
@@ -146,4 +130,20 @@ public interface I_U_Web_Properties
 
 	/** Get Web Properties	  */
 	public int getU_Web_Properties_ID();
+
+    /** Column name Updated */
+    public static final String COLUMNNAME_Updated = "Updated";
+
+	/** Get Updated.
+	  * Date this record was updated
+	  */
+	public Timestamp getUpdated();
+
+    /** Column name UpdatedBy */
+    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
+
+	/** Get Updated By.
+	  * User who updated this records
+	  */
+	public int getUpdatedBy();
 }

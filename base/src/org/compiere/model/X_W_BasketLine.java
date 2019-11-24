@@ -32,7 +32,7 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_W_BasketLine (Properties ctx, int W_BasketLine_ID, String trxName)
@@ -45,8 +45,8 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 			setPrice (Env.ZERO);
 			setProduct (null);
 			setQty (Env.ZERO);
-			setW_Basket_ID (0);
 			setW_BasketLine_ID (0);
+			setW_Basket_ID (0);
         } */
     }
 
@@ -222,6 +222,29 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
+	/** Set Basket Line.
+		@param W_BasketLine_ID 
+		Web Basket Line
+	  */
+	public void setW_BasketLine_ID (int W_BasketLine_ID)
+	{
+		if (W_BasketLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_W_BasketLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_W_BasketLine_ID, Integer.valueOf(W_BasketLine_ID));
+	}
+
+	/** Get Basket Line.
+		@return Web Basket Line
+	  */
+	public int getW_BasketLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_W_BasketLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_W_Basket getW_Basket() throws RuntimeException
     {
 		return (org.compiere.model.I_W_Basket)MTable.get(getCtx(), org.compiere.model.I_W_Basket.Table_Name)
@@ -245,29 +268,6 @@ public class X_W_BasketLine extends PO implements I_W_BasketLine, I_Persistent
 	public int getW_Basket_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_W_Basket_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Basket Line.
-		@param W_BasketLine_ID 
-		Web Basket Line
-	  */
-	public void setW_BasketLine_ID (int W_BasketLine_ID)
-	{
-		if (W_BasketLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_W_BasketLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_W_BasketLine_ID, Integer.valueOf(W_BasketLine_ID));
-	}
-
-	/** Get Basket Line.
-		@return Web Basket Line
-	  */
-	public int getW_BasketLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_W_BasketLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -30,7 +30,7 @@ public class X_AD_WF_Process extends PO implements I_AD_WF_Process, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_WF_Process (Properties ctx, int AD_WF_Process_ID, String trxName)

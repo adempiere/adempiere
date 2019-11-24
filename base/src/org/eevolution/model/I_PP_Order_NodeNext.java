@@ -189,6 +189,15 @@ public interface I_PP_Order_NodeNext
 
 	public org.eevolution.model.I_PP_Order_Node getPP_Order_Next() throws RuntimeException;
 
+    /** Column name PP_Order_NodeNext_ID */
+    public static final String COLUMNNAME_PP_Order_NodeNext_ID = "PP_Order_NodeNext_ID";
+
+	/** Set Manufacturing Order Activity Next	  */
+	public void setPP_Order_NodeNext_ID (int PP_Order_NodeNext_ID);
+
+	/** Get Manufacturing Order Activity Next	  */
+	public int getPP_Order_NodeNext_ID();
+
     /** Column name PP_Order_Node_ID */
     public static final String COLUMNNAME_PP_Order_Node_ID = "PP_Order_Node_ID";
 
@@ -203,15 +212,6 @@ public interface I_PP_Order_NodeNext
 	public int getPP_Order_Node_ID();
 
 	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws RuntimeException;
-
-    /** Column name PP_Order_NodeNext_ID */
-    public static final String COLUMNNAME_PP_Order_NodeNext_ID = "PP_Order_NodeNext_ID";
-
-	/** Set Manufacturing Order Activity Next	  */
-	public void setPP_Order_NodeNext_ID (int PP_Order_NodeNext_ID);
-
-	/** Get Manufacturing Order Activity Next	  */
-	public int getPP_Order_NodeNext_ID();
 
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
@@ -241,6 +241,19 @@ public interface I_PP_Order_NodeNext
 	  */
 	public String getTransitionCode();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -256,17 +269,4 @@ public interface I_PP_Order_NodeNext
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

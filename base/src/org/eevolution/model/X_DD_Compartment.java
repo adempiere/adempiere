@@ -33,7 +33,7 @@ public class X_DD_Compartment extends PO implements I_DD_Compartment, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_DD_Compartment (Properties ctx, int DD_Compartment_ID, String trxName)
@@ -75,6 +75,29 @@ public class X_DD_Compartment extends PO implements I_DD_Compartment, I_Persiste
       return sb.toString();
     }
 
+	/** Set Image.
+		@param AD_Image_ID 
+		Image or Icon
+	  */
+	public void setAD_Image_ID (int AD_Image_ID)
+	{
+		if (AD_Image_ID < 1) 
+			set_Value (COLUMNNAME_AD_Image_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
+	}
+
+	/** Get Image.
+		@return Image or Icon
+	  */
+	public int getAD_Image_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Image_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException
     {
 		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
@@ -98,29 +121,6 @@ public class X_DD_Compartment extends PO implements I_DD_Compartment, I_Persiste
 	public int getA_Asset_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Image.
-		@param AD_Image_ID 
-		Image or Icon
-	  */
-	public void setAD_Image_ID (int AD_Image_ID)
-	{
-		if (AD_Image_ID < 1) 
-			set_Value (COLUMNNAME_AD_Image_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
-	}
-
-	/** Get Image.
-		@return Image or Icon
-	  */
-	public int getAD_Image_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Image_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

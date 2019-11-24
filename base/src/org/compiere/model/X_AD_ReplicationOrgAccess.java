@@ -29,7 +29,7 @@ public class X_AD_ReplicationOrgAccess extends PO implements I_AD_ReplicationOrg
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_ReplicationOrgAccess (Properties ctx, int AD_ReplicationOrgAccess_ID, String trxName)

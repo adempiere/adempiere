@@ -66,13 +66,13 @@ public interface I_HR_LeaveTypeCombination
     /** Column name AllowedLeaveType_ID */
     public static final String COLUMNNAME_AllowedLeaveType_ID = "AllowedLeaveType_ID";
 
-	/** Set Allow  Leave with.
-	  * Allow  Leave with
+	/** Set Allow Leave with.
+	  * Allow Leave with
 	  */
 	public void setAllowedLeaveType_ID (int AllowedLeaveType_ID);
 
-	/** Get Allow  Leave with.
-	  * Allow  Leave with
+	/** Get Allow Leave with.
+	  * Allow Leave with
 	  */
 	public int getAllowedLeaveType_ID();
 
@@ -135,6 +135,19 @@ public interface I_HR_LeaveTypeCombination
 	  */
 	public boolean isActive();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -150,17 +163,4 @@ public interface I_HR_LeaveTypeCombination
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

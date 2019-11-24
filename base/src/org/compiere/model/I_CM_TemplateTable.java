@@ -77,6 +77,19 @@ public interface I_CM_TemplateTable
 
 	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
+    /** Column name CM_TemplateTable_ID */
+    public static final String COLUMNNAME_CM_TemplateTable_ID = "CM_TemplateTable_ID";
+
+	/** Set Template Table.
+	  * CM Template Table Link
+	  */
+	public void setCM_TemplateTable_ID (int CM_TemplateTable_ID);
+
+	/** Get Template Table.
+	  * CM Template Table Link
+	  */
+	public int getCM_TemplateTable_ID();
+
     /** Column name CM_Template_ID */
     public static final String COLUMNNAME_CM_Template_ID = "CM_Template_ID";
 
@@ -91,19 +104,6 @@ public interface I_CM_TemplateTable
 	public int getCM_Template_ID();
 
 	public org.compiere.model.I_CM_Template getCM_Template() throws RuntimeException;
-
-    /** Column name CM_TemplateTable_ID */
-    public static final String COLUMNNAME_CM_TemplateTable_ID = "CM_TemplateTable_ID";
-
-	/** Set Template Table.
-	  * CM Template Table Link
-	  */
-	public void setCM_TemplateTable_ID (int CM_TemplateTable_ID);
-
-	/** Get Template Table.
-	  * CM Template Table Link
-	  */
-	public int getCM_TemplateTable_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -173,6 +173,19 @@ public interface I_CM_TemplateTable
 	  */
 	public String getOtherClause();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -188,19 +201,6 @@ public interface I_CM_TemplateTable
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name WhereClause */
     public static final String COLUMNNAME_WhereClause = "WhereClause";

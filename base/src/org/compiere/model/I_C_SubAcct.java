@@ -77,6 +77,19 @@ public interface I_C_SubAcct
 
 	public org.compiere.model.I_C_ElementValue getC_ElementValue() throws RuntimeException;
 
+    /** Column name C_SubAcct_ID */
+    public static final String COLUMNNAME_C_SubAcct_ID = "C_SubAcct_ID";
+
+	/** Set Sub Account.
+	  * Sub account for Element Value
+	  */
+	public void setC_SubAcct_ID (int C_SubAcct_ID);
+
+	/** Get Sub Account.
+	  * Sub account for Element Value
+	  */
+	public int getC_SubAcct_ID();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -92,19 +105,6 @@ public interface I_C_SubAcct
 	  * User who created this records
 	  */
 	public int getCreatedBy();
-
-    /** Column name C_SubAcct_ID */
-    public static final String COLUMNNAME_C_SubAcct_ID = "C_SubAcct_ID";
-
-	/** Set Sub Account.
-	  * Sub account for Element Value
-	  */
-	public void setC_SubAcct_ID (int C_SubAcct_ID);
-
-	/** Get Sub Account.
-	  * Sub account for Element Value
-	  */
-	public int getC_SubAcct_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -158,6 +158,19 @@ public interface I_C_SubAcct
 	  */
 	public String getName();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -173,19 +186,6 @@ public interface I_C_SubAcct
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

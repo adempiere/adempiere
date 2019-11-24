@@ -33,7 +33,7 @@ public class X_HR_EmployeeInsurance extends PO implements I_HR_EmployeeInsurance
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190622L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_EmployeeInsurance (Properties ctx, int HR_EmployeeInsurance_ID, String trxName)
@@ -219,6 +219,29 @@ public class X_HR_EmployeeInsurance extends PO implements I_HR_EmployeeInsurance
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set HR_EmployeeInsurance_ID.
+		@param HR_EmployeeInsurance_ID 
+		Employee Insurance
+	  */
+	public void setHR_EmployeeInsurance_ID (int HR_EmployeeInsurance_ID)
+	{
+		if (HR_EmployeeInsurance_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_EmployeeInsurance_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_EmployeeInsurance_ID, Integer.valueOf(HR_EmployeeInsurance_ID));
+	}
+
+	/** Get HR_EmployeeInsurance_ID.
+		@return Employee Insurance
+	  */
+	public int getHR_EmployeeInsurance_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_EmployeeInsurance_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_Employee)MTable.get(getCtx(), org.eevolution.model.I_HR_Employee.Table_Name)
@@ -239,29 +262,6 @@ public class X_HR_EmployeeInsurance extends PO implements I_HR_EmployeeInsurance
 	public int getHR_Employee_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set HR_EmployeeInsurance_ID.
-		@param HR_EmployeeInsurance_ID 
-		Employee Insurance
-	  */
-	public void setHR_EmployeeInsurance_ID (int HR_EmployeeInsurance_ID)
-	{
-		if (HR_EmployeeInsurance_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_EmployeeInsurance_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_EmployeeInsurance_ID, Integer.valueOf(HR_EmployeeInsurance_ID));
-	}
-
-	/** Get HR_EmployeeInsurance_ID.
-		@return Employee Insurance
-	  */
-	public int getHR_EmployeeInsurance_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_EmployeeInsurance_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

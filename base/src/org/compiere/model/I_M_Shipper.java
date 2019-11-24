@@ -62,19 +62,6 @@ public interface I_M_Shipper
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name CalculationClass */
-    public static final String COLUMNNAME_CalculationClass = "CalculationClass";
-
-	/** Set Calculation Class.
-	  * Java Class for calculation, implementing Interface Measure
-	  */
-	public void setCalculationClass (String CalculationClass);
-
-	/** Get Calculation Class.
-	  * Java Class for calculation, implementing Interface Measure
-	  */
-	public String getCalculationClass();
-
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
 
@@ -89,6 +76,19 @@ public interface I_M_Shipper
 	public int getC_BPartner_ID();
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
+
+    /** Column name CalculationClass */
+    public static final String COLUMNNAME_CalculationClass = "CalculationClass";
+
+	/** Set Calculation Class.
+	  * Java Class for calculation, implementing Interface Measure
+	  */
+	public void setCalculationClass (String CalculationClass);
+
+	/** Get Calculation Class.
+	  * Java Class for calculation, implementing Interface Measure
+	  */
+	public String getCalculationClass();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -171,6 +171,19 @@ public interface I_M_Shipper
 	  */
 	public String getTrackingURL();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -186,17 +199,4 @@ public interface I_M_Shipper
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

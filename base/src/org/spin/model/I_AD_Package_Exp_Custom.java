@@ -66,10 +66,14 @@ public interface I_AD_Package_Exp_Custom
     /** Column name AD_Package_Exp_Custom_ID */
     public static final String COLUMNNAME_AD_Package_Exp_Custom_ID = "AD_Package_Exp_Custom_ID";
 
-	/** Set Package Custom Exporter ID	  */
+	/** Set Package Custom Exporter.
+	  * Custom Exporter for any entity
+	  */
 	public void setAD_Package_Exp_Custom_ID (int AD_Package_Exp_Custom_ID);
 
-	/** Get Package Custom Exporter ID	  */
+	/** Get Package Custom Exporter.
+	  * Custom Exporter for any entity
+	  */
 	public int getAD_Package_Exp_Custom_ID();
 
     /** Column name Classname */
@@ -140,6 +144,19 @@ public interface I_AD_Package_Exp_Custom
 	  */
 	public String getName();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -155,19 +172,6 @@ public interface I_AD_Package_Exp_Custom
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

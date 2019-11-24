@@ -30,7 +30,7 @@ public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_Archive (Properties ctx, int AD_Archive_ID, String trxName)
@@ -39,7 +39,6 @@ public class X_AD_Archive extends PO implements I_AD_Archive, I_Persistent
       /** if (AD_Archive_ID == 0)
         {
 			setAD_Archive_ID (0);
-			setBinaryData (null);
 			setIsReport (false);
 			setName (null);
         } */

@@ -31,7 +31,7 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_R_RequestProcessor (Properties ctx, int R_RequestProcessor_ID, String trxName)
@@ -51,9 +51,9 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
 // 0
 			setOverdueAssignDays (0);
 // 0
+			setR_RequestProcessor_ID (0);
 			setRemindDays (0);
 // 0
-			setR_RequestProcessor_ID (0);
 			setSupervisor_ID (0);
         } */
     }
@@ -165,6 +165,16 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
 	public static final String FREQUENCYTYPE_Hour = "H";
 	/** Day = D */
 	public static final String FREQUENCYTYPE_Day = "D";
+	/** Biweekly = B */
+	public static final String FREQUENCYTYPE_Biweekly = "B";
+	/** Monthly = N */
+	public static final String FREQUENCYTYPE_Monthly = "N";
+	/** Quarterly = Q */
+	public static final String FREQUENCYTYPE_Quarterly = "Q";
+	/** Weekly = W */
+	public static final String FREQUENCYTYPE_Weekly = "W";
+	/** Yearly = Y */
+	public static final String FREQUENCYTYPE_Yearly = "Y";
 	/** Set Frequency Type.
 		@param FrequencyType 
 		Frequency of event
@@ -309,26 +319,6 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
 		return false;
 	}
 
-	/** Set Reminder Days.
-		@param RemindDays 
-		Days between sending Reminder Emails for a due or inactive Document
-	  */
-	public void setRemindDays (int RemindDays)
-	{
-		set_Value (COLUMNNAME_RemindDays, Integer.valueOf(RemindDays));
-	}
-
-	/** Get Reminder Days.
-		@return Days between sending Reminder Emails for a due or inactive Document
-	  */
-	public int getRemindDays () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_RemindDays);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Request Processor.
 		@param R_RequestProcessor_ID 
 		Processor for Requests
@@ -375,6 +365,26 @@ public class X_R_RequestProcessor extends PO implements I_R_RequestProcessor, I_
 	public int getR_RequestType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_R_RequestType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Reminder Days.
+		@param RemindDays 
+		Days between sending Reminder Emails for a due or inactive Document
+	  */
+	public void setRemindDays (int RemindDays)
+	{
+		set_Value (COLUMNNAME_RemindDays, Integer.valueOf(RemindDays));
+	}
+
+	/** Get Reminder Days.
+		@return Days between sending Reminder Emails for a due or inactive Document
+	  */
+	public int getRemindDays () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_RemindDays);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

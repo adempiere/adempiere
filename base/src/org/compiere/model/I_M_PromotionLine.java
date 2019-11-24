@@ -104,6 +104,37 @@ public interface I_M_PromotionLine
 	  */
 	public boolean isMandatoryPL();
 
+    /** Column name M_PromotionGroup_ID */
+    public static final String COLUMNNAME_M_PromotionGroup_ID = "M_PromotionGroup_ID";
+
+	/** Set Promotion Group	  */
+	public void setM_PromotionGroup_ID (int M_PromotionGroup_ID);
+
+	/** Get Promotion Group	  */
+	public int getM_PromotionGroup_ID();
+
+	public org.compiere.model.I_M_PromotionGroup getM_PromotionGroup() throws RuntimeException;
+
+    /** Column name M_PromotionLine_ID */
+    public static final String COLUMNNAME_M_PromotionLine_ID = "M_PromotionLine_ID";
+
+	/** Set Promotion Line	  */
+	public void setM_PromotionLine_ID (int M_PromotionLine_ID);
+
+	/** Get Promotion Line	  */
+	public int getM_PromotionLine_ID();
+
+    /** Column name M_Promotion_ID */
+    public static final String COLUMNNAME_M_Promotion_ID = "M_Promotion_ID";
+
+	/** Set Promotion	  */
+	public void setM_Promotion_ID (int M_Promotion_ID);
+
+	/** Get Promotion	  */
+	public int getM_Promotion_ID();
+
+	public org.compiere.model.I_M_Promotion getM_Promotion() throws RuntimeException;
+
     /** Column name MinimumAmt */
     public static final String COLUMNNAME_MinimumAmt = "MinimumAmt";
 
@@ -117,36 +148,18 @@ public interface I_M_PromotionLine
 	  */
 	public BigDecimal getMinimumAmt();
 
-    /** Column name M_PromotionGroup_ID */
-    public static final String COLUMNNAME_M_PromotionGroup_ID = "M_PromotionGroup_ID";
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
 
-	/** Set Promotion Group	  */
-	public void setM_PromotionGroup_ID (int M_PromotionGroup_ID);
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
 
-	/** Get Promotion Group	  */
-	public int getM_PromotionGroup_ID();
-
-	public org.compiere.model.I_M_PromotionGroup getM_PromotionGroup() throws RuntimeException;
-
-    /** Column name M_Promotion_ID */
-    public static final String COLUMNNAME_M_Promotion_ID = "M_Promotion_ID";
-
-	/** Set Promotion	  */
-	public void setM_Promotion_ID (int M_Promotion_ID);
-
-	/** Get Promotion	  */
-	public int getM_Promotion_ID();
-
-	public org.compiere.model.I_M_Promotion getM_Promotion() throws RuntimeException;
-
-    /** Column name M_PromotionLine_ID */
-    public static final String COLUMNNAME_M_PromotionLine_ID = "M_PromotionLine_ID";
-
-	/** Set Promotion Line	  */
-	public void setM_PromotionLine_ID (int M_PromotionLine_ID);
-
-	/** Get Promotion Line	  */
-	public int getM_PromotionLine_ID();
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -163,17 +176,4 @@ public interface I_M_PromotionLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

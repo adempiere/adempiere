@@ -32,7 +32,7 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_I_Budget (Properties ctx, int I_Budget_ID, String trxName)
@@ -72,6 +72,34 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
       return sb.toString();
     }
 
+	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getAD_OrgTrx_ID(), get_TrxName());	}
+
+	/** Set Trx Organization.
+		@param AD_OrgTrx_ID 
+		Performing or initiating organization
+	  */
+	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
+	{
+		if (AD_OrgTrx_ID < 1) 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
+	}
+
+	/** Get Trx Organization.
+		@return Performing or initiating organization
+	  */
+	public int getAD_OrgTrx_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException
     {
 		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
@@ -100,6 +128,23 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Account Key.
+		@param AccountValue 
+		Key of Account Element
+	  */
+	public void setAccountValue (String AccountValue)
+	{
+		set_Value (COLUMNNAME_AccountValue, AccountValue);
+	}
+
+	/** Get Account Key.
+		@return Key of Account Element
+	  */
+	public String getAccountValue () 
+	{
+		return (String)get_Value(COLUMNNAME_AccountValue);
+	}
+
 	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException
     {
 		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
@@ -126,23 +171,6 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Account Key.
-		@param AccountValue 
-		Key of Account Element
-	  */
-	public void setAccountValue (String AccountValue)
-	{
-		set_Value (COLUMNNAME_AccountValue, AccountValue);
-	}
-
-	/** Get Account Key.
-		@return Key of Account Element
-	  */
-	public String getAccountValue () 
-	{
-		return (String)get_Value(COLUMNNAME_AccountValue);
 	}
 
 	/** Set Account Schema Name.
@@ -176,34 +204,6 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 		return (String)get_Value(COLUMNNAME_ActivityValue);
 	}
 
-	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException
-    {
-		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
-			.getPO(getAD_OrgTrx_ID(), get_TrxName());	}
-
-	/** Set Trx Organization.
-		@param AD_OrgTrx_ID 
-		Performing or initiating organization
-	  */
-	public void setAD_OrgTrx_ID (int AD_OrgTrx_ID)
-	{
-		if (AD_OrgTrx_ID < 1) 
-			set_Value (COLUMNNAME_AD_OrgTrx_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_OrgTrx_ID, Integer.valueOf(AD_OrgTrx_ID));
-	}
-
-	/** Get Trx Organization.
-		@return Performing or initiating organization
-	  */
-	public int getAD_OrgTrx_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Asset Value.
 		@param AssetValue Asset Value	  */
 	public void setAssetValue (String AssetValue)
@@ -216,23 +216,6 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 	public String getAssetValue () 
 	{
 		return (String)get_Value(COLUMNNAME_AssetValue);
-	}
-
-	/** Set Batch Document No.
-		@param BatchDocumentNo 
-		Document Number of the Batch
-	  */
-	public void setBatchDocumentNo (String BatchDocumentNo)
-	{
-		set_Value (COLUMNNAME_BatchDocumentNo, BatchDocumentNo);
-	}
-
-	/** Get Batch Document No.
-		@return Document Number of the Batch
-	  */
-	public String getBatchDocumentNo () 
-	{
-		return (String)get_Value(COLUMNNAME_BatchDocumentNo);
 	}
 
 	/** Set Business Partner Key.
@@ -250,6 +233,23 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 	public String getBPartnerValue () 
 	{
 		return (String)get_Value(COLUMNNAME_BPartnerValue);
+	}
+
+	/** Set Batch Document No.
+		@param BatchDocumentNo 
+		Document Number of the Batch
+	  */
+	public void setBatchDocumentNo (String BatchDocumentNo)
+	{
+		set_Value (COLUMNNAME_BatchDocumentNo, BatchDocumentNo);
+	}
+
+	/** Get Batch Document No.
+		@return Document Number of the Batch
+	  */
+	public String getBatchDocumentNo () 
+	{
+		return (String)get_Value(COLUMNNAME_BatchDocumentNo);
 	}
 
 	/** Set Budget Code .
@@ -320,20 +320,6 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Campaign Value.
-		@param CampaignValue Campaign Value	  */
-	public void setCampaignValue (String CampaignValue)
-	{
-		set_Value (COLUMNNAME_CampaignValue, CampaignValue);
-	}
-
-	/** Get Campaign Value.
-		@return Campaign Value	  */
-	public String getCampaignValue () 
-	{
-		return (String)get_Value(COLUMNNAME_CampaignValue);
 	}
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
@@ -560,6 +546,20 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Campaign Value.
+		@param CampaignValue Campaign Value	  */
+	public void setCampaignValue (String CampaignValue)
+	{
+		set_Value (COLUMNNAME_CampaignValue, CampaignValue);
+	}
+
+	/** Get Campaign Value.
+		@return Campaign Value	  */
+	public String getCampaignValue () 
+	{
+		return (String)get_Value(COLUMNNAME_CampaignValue);
+	}
+
 	public org.compiere.model.I_GL_Budget getGL_Budget() throws RuntimeException
     {
 		return (org.compiere.model.I_GL_Budget)MTable.get(getCtx(), org.compiere.model.I_GL_Budget.Table_Name)
@@ -616,34 +616,6 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_GL_Journal getGL_Journal() throws RuntimeException
-    {
-		return (org.compiere.model.I_GL_Journal)MTable.get(getCtx(), org.compiere.model.I_GL_Journal.Table_Name)
-			.getPO(getGL_Journal_ID(), get_TrxName());	}
-
-	/** Set Journal.
-		@param GL_Journal_ID 
-		General Ledger Journal
-	  */
-	public void setGL_Journal_ID (int GL_Journal_ID)
-	{
-		if (GL_Journal_ID < 1) 
-			set_Value (COLUMNNAME_GL_Journal_ID, null);
-		else 
-			set_Value (COLUMNNAME_GL_Journal_ID, Integer.valueOf(GL_Journal_ID));
-	}
-
-	/** Get Journal.
-		@return General Ledger Journal
-	  */
-	public int getGL_Journal_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_GL_Journal_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_GL_JournalLine getGL_JournalLine() throws RuntimeException
     {
 		return (org.compiere.model.I_GL_JournalLine)MTable.get(getCtx(), org.compiere.model.I_GL_JournalLine.Table_Name)
@@ -667,6 +639,34 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 	public int getGL_JournalLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_GL_JournalLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_GL_Journal getGL_Journal() throws RuntimeException
+    {
+		return (org.compiere.model.I_GL_Journal)MTable.get(getCtx(), org.compiere.model.I_GL_Journal.Table_Name)
+			.getPO(getGL_Journal_ID(), get_TrxName());	}
+
+	/** Set Journal.
+		@param GL_Journal_ID 
+		General Ledger Journal
+	  */
+	public void setGL_Journal_ID (int GL_Journal_ID)
+	{
+		if (GL_Journal_ID < 1) 
+			set_Value (COLUMNNAME_GL_Journal_ID, null);
+		else 
+			set_Value (COLUMNNAME_GL_Journal_ID, Integer.valueOf(GL_Journal_ID));
+	}
+
+	/** Get Journal.
+		@return General Ledger Journal
+	  */
+	public int getGL_Journal_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_GL_Journal_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -753,6 +753,34 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 	public String getJnl_Line_Description () 
 	{
 		return (String)get_Value(COLUMNNAME_Jnl_Line_Description);
+	}
+
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
+
+	/** Set Product.
+		@param M_Product_ID 
+		Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID)
+	{
+		if (M_Product_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+	}
+
+	/** Get Product.
+		@return Product, Service, Item
+	  */
+	public int getM_Product_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Month_0_Amt.
@@ -1163,34 +1191,6 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 		return bd;
 	}
 
-	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
-    {
-		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
-			.getPO(getM_Product_ID(), get_TrxName());	}
-
-	/** Set Product.
-		@param M_Product_ID 
-		Product, Service, Item
-	  */
-	public void setM_Product_ID (int M_Product_ID)
-	{
-		if (M_Product_ID < 1) 
-			set_Value (COLUMNNAME_M_Product_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
-	}
-
-	/** Get Product.
-		@return Product, Service, Item
-	  */
-	public int getM_Product_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Trx Org Key.
 		@param OrgTrxValue 
 		Key of the Transaction Organization
@@ -1333,6 +1333,23 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 	public String getSubAcctValue () 
 	{
 		return (String)get_Value(COLUMNNAME_SubAcctValue);
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
@@ -1605,22 +1622,5 @@ public class X_I_Budget extends PO implements I_I_Budget, I_Persistent
 	public String getUserValue4 () 
 	{
 		return (String)get_Value(COLUMNNAME_UserValue4);
-	}
-
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

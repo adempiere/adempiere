@@ -33,7 +33,7 @@ public class X_I_Forecast extends PO implements I_I_Forecast, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_I_Forecast (Properties ctx, int I_Forecast_ID, String trxName)
@@ -151,34 +151,6 @@ public class X_I_Forecast extends PO implements I_I_Forecast, I_Persistent
 		return false;
 	}
 
-	public org.compiere.model.I_M_Forecast getM_Forecast() throws RuntimeException
-    {
-		return (org.compiere.model.I_M_Forecast)MTable.get(getCtx(), org.compiere.model.I_M_Forecast.Table_Name)
-			.getPO(getM_Forecast_ID(), get_TrxName());	}
-
-	/** Set Forecast.
-		@param M_Forecast_ID 
-		Material Forecast
-	  */
-	public void setM_Forecast_ID (int M_Forecast_ID)
-	{
-		if (M_Forecast_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Forecast_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_Forecast_ID, Integer.valueOf(M_Forecast_ID));
-	}
-
-	/** Get Forecast.
-		@return Material Forecast
-	  */
-	public int getM_Forecast_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Forecast_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_M_ForecastLine getM_ForecastLine() throws RuntimeException
     {
 		return (org.compiere.model.I_M_ForecastLine)MTable.get(getCtx(), org.compiere.model.I_M_ForecastLine.Table_Name)
@@ -202,6 +174,34 @@ public class X_I_Forecast extends PO implements I_I_Forecast, I_Persistent
 	public int getM_ForecastLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_ForecastLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Forecast getM_Forecast() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Forecast)MTable.get(getCtx(), org.compiere.model.I_M_Forecast.Table_Name)
+			.getPO(getM_Forecast_ID(), get_TrxName());	}
+
+	/** Set Forecast.
+		@param M_Forecast_ID 
+		Material Forecast
+	  */
+	public void setM_Forecast_ID (int M_Forecast_ID)
+	{
+		if (M_Forecast_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Forecast_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Forecast_ID, Integer.valueOf(M_Forecast_ID));
+	}
+
+	/** Get Forecast.
+		@return Material Forecast
+	  */
+	public int getM_Forecast_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Forecast_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

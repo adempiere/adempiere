@@ -30,7 +30,7 @@ public class X_M_Product_Class extends PO implements I_M_Product_Class, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_Product_Class (Properties ctx, int M_Product_Class_ID, String trxName)

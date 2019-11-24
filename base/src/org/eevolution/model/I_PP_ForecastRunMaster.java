@@ -211,6 +211,15 @@ public interface I_PP_ForecastRunMaster
 
 	public org.eevolution.model.I_PP_ForecastDefinitionLine getPP_ForecastDefinitionLine() throws RuntimeException;
 
+    /** Column name PP_ForecastRunMaster_ID */
+    public static final String COLUMNNAME_PP_ForecastRunMaster_ID = "PP_ForecastRunMaster_ID";
+
+	/** Set Forecast Run Master	  */
+	public void setPP_ForecastRunMaster_ID (int PP_ForecastRunMaster_ID);
+
+	/** Get Forecast Run Master	  */
+	public int getPP_ForecastRunMaster_ID();
+
     /** Column name PP_ForecastRun_ID */
     public static final String COLUMNNAME_PP_ForecastRun_ID = "PP_ForecastRun_ID";
 
@@ -226,14 +235,18 @@ public interface I_PP_ForecastRunMaster
 
 	public org.eevolution.model.I_PP_ForecastRun getPP_ForecastRun() throws RuntimeException;
 
-    /** Column name PP_ForecastRunMaster_ID */
-    public static final String COLUMNNAME_PP_ForecastRunMaster_ID = "PP_ForecastRunMaster_ID";
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
 
-	/** Set Forecast Run Master	  */
-	public void setPP_ForecastRunMaster_ID (int PP_ForecastRunMaster_ID);
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
 
-	/** Get Forecast Run Master	  */
-	public int getPP_ForecastRunMaster_ID();
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -250,17 +263,4 @@ public interface I_PP_ForecastRunMaster
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

@@ -32,7 +32,7 @@ public class X_PP_Period extends PO implements I_PP_Period, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_PP_Period (Properties ctx, int PP_Period_ID, String trxName)
@@ -114,26 +114,6 @@ public class X_PP_Period extends PO implements I_PP_Period, I_Persistent
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Set Period No.
-		@param PeriodNo 
-		Unique Period Number
-	  */
-	public void setPeriodNo (int PeriodNo)
-	{
-		set_Value (COLUMNNAME_PeriodNo, Integer.valueOf(PeriodNo));
-	}
-
-	/** Get Period No.
-		@return Unique Period Number
-	  */
-	public int getPeriodNo () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PeriodNo);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_PP_PeriodDefinition getPP_PeriodDefinition() throws RuntimeException
     {
 		return (org.eevolution.model.I_PP_PeriodDefinition)MTable.get(getCtx(), org.eevolution.model.I_PP_PeriodDefinition.Table_Name)
@@ -180,6 +160,26 @@ public class X_PP_Period extends PO implements I_PP_Period, I_Persistent
 	public int getPP_Period_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Period_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Period No.
+		@param PeriodNo 
+		Unique Period Number
+	  */
+	public void setPeriodNo (int PeriodNo)
+	{
+		set_Value (COLUMNNAME_PeriodNo, Integer.valueOf(PeriodNo));
+	}
+
+	/** Get Period No.
+		@return Unique Period Number
+	  */
+	public int getPeriodNo () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PeriodNo);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

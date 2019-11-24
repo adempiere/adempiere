@@ -29,7 +29,7 @@ public class X_CM_AccessStage extends PO implements I_CM_AccessStage, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_CM_AccessStage (Properties ctx, int CM_AccessStage_ID, String trxName)

@@ -145,6 +145,34 @@ public interface I_AD_Org
 	  */
 	public String getName();
 
+    /** Column name Parent_Org_ID */
+    public static final String COLUMNNAME_Parent_Org_ID = "Parent_Org_ID";
+
+	/** Set Parent Organization.
+	  * Parent (superior) Organization 
+	  */
+	public void setParent_Org_ID (int Parent_Org_ID);
+
+	/** Get Parent Organization.
+	  * Parent (superior) Organization 
+	  */
+	public int getParent_Org_ID();
+
+	public org.compiere.model.I_AD_Org getParent_Org() throws RuntimeException;
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -160,19 +188,6 @@ public interface I_AD_Org
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

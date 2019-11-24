@@ -31,7 +31,7 @@ public class X_HR_EmployeeType extends PO implements I_HR_EmployeeType, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_EmployeeType (Properties ctx, int HR_EmployeeType_ID, String trxName)

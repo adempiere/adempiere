@@ -31,7 +31,7 @@ public class X_M_ProductionBatchLine extends PO implements I_M_ProductionBatchLi
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_ProductionBatchLine (Properties ctx, int M_ProductionBatchLine_ID, String trxName)
@@ -42,8 +42,8 @@ public class X_M_ProductionBatchLine extends PO implements I_M_ProductionBatchLi
 			setIsEndProduct (false);
 // N
 			setM_Product_ID (0);
-			setM_ProductionBatch_ID (0);
 			setM_ProductionBatchLine_ID (0);
+			setM_ProductionBatch_ID (0);
         } */
     }
 
@@ -127,6 +127,26 @@ public class X_M_ProductionBatchLine extends PO implements I_M_ProductionBatchLi
 		return ii.intValue();
 	}
 
+	/** Set Production Batch Line.
+		@param M_ProductionBatchLine_ID Production Batch Line	  */
+	public void setM_ProductionBatchLine_ID (int M_ProductionBatchLine_ID)
+	{
+		if (M_ProductionBatchLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ProductionBatchLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ProductionBatchLine_ID, Integer.valueOf(M_ProductionBatchLine_ID));
+	}
+
+	/** Get Production Batch Line.
+		@return Production Batch Line	  */
+	public int getM_ProductionBatchLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductionBatchLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_ProductionBatch getM_ProductionBatch() throws RuntimeException
     {
 		return (org.compiere.model.I_M_ProductionBatch)MTable.get(getCtx(), org.compiere.model.I_M_ProductionBatch.Table_Name)
@@ -147,26 +167,6 @@ public class X_M_ProductionBatchLine extends PO implements I_M_ProductionBatchLi
 	public int getM_ProductionBatch_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductionBatch_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Production Batch Line.
-		@param M_ProductionBatchLine_ID Production Batch Line	  */
-	public void setM_ProductionBatchLine_ID (int M_ProductionBatchLine_ID)
-	{
-		if (M_ProductionBatchLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_ProductionBatchLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_ProductionBatchLine_ID, Integer.valueOf(M_ProductionBatchLine_ID));
-	}
-
-	/** Get Production Batch Line.
-		@return Production Batch Line	  */
-	public int getM_ProductionBatchLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_ProductionBatchLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

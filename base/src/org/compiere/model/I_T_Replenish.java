@@ -148,21 +148,6 @@ public interface I_T_Replenish
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
-    /** Column name M_Warehouse_ID */
-    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
-
-	/** Set Warehouse.
-	  * Storage Warehouse and Service Point
-	  */
-	public void setM_Warehouse_ID (int M_Warehouse_ID);
-
-	/** Get Warehouse.
-	  * Storage Warehouse and Service Point
-	  */
-	public int getM_Warehouse_ID();
-
-	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
-
     /** Column name M_WarehouseSource_ID */
     public static final String COLUMNNAME_M_WarehouseSource_ID = "M_WarehouseSource_ID";
 
@@ -177,6 +162,21 @@ public interface I_T_Replenish
 	public int getM_WarehouseSource_ID();
 
 	public org.compiere.model.I_M_Warehouse getM_WarehouseSource() throws RuntimeException;
+
+    /** Column name M_Warehouse_ID */
+    public static final String COLUMNNAME_M_Warehouse_ID = "M_Warehouse_ID";
+
+	/** Set Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public void setM_Warehouse_ID (int M_Warehouse_ID);
+
+	/** Get Warehouse.
+	  * Storage Warehouse and Service Point
+	  */
+	public int getM_Warehouse_ID();
+
+	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
     /** Column name Order_Min */
     public static final String COLUMNNAME_Order_Min = "Order_Min";
@@ -252,6 +252,19 @@ public interface I_T_Replenish
 	/** Get Quantity to Order	  */
 	public BigDecimal getQtyToOrder();
 
+    /** Column name ReplenishType */
+    public static final String COLUMNNAME_ReplenishType = "ReplenishType";
+
+	/** Set Replenish Type.
+	  * Method for re-ordering a product
+	  */
+	public void setReplenishType (String ReplenishType);
+
+	/** Get Replenish Type.
+	  * Method for re-ordering a product
+	  */
+	public String getReplenishType();
+
     /** Column name ReplenishmentCreate */
     public static final String COLUMNNAME_ReplenishmentCreate = "ReplenishmentCreate";
 
@@ -265,18 +278,18 @@ public interface I_T_Replenish
 	  */
 	public String getReplenishmentCreate();
 
-    /** Column name ReplenishType */
-    public static final String COLUMNNAME_ReplenishType = "ReplenishType";
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
 
-	/** Set Replenish Type.
-	  * Method for re-ordering a product
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
 	  */
-	public void setReplenishType (String ReplenishType);
+	public void setUUID (String UUID);
 
-	/** Get Replenish Type.
-	  * Method for re-ordering a product
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
 	  */
-	public String getReplenishType();
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -293,17 +306,4 @@ public interface I_T_Replenish
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

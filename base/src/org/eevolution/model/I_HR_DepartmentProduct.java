@@ -42,19 +42,6 @@ public interface I_HR_DepartmentProduct
 
     /** Load Meta Data */
 
-    /** Column name ActualQty */
-    public static final String COLUMNNAME_ActualQty = "ActualQty";
-
-	/** Set Actual Quantity.
-	  * The actual quantity
-	  */
-	public void setActualQty (BigDecimal ActualQty);
-
-	/** Get Actual Quantity.
-	  * The actual quantity
-	  */
-	public BigDecimal getActualQty();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -75,6 +62,19 @@ public interface I_HR_DepartmentProduct
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name ActualQty */
+    public static final String COLUMNNAME_ActualQty = "ActualQty";
+
+	/** Set Actual Quantity.
+	  * The actual quantity
+	  */
+	public void setActualQty (BigDecimal ActualQty);
+
+	/** Get Actual Quantity.
+	  * The actual quantity
+	  */
+	public BigDecimal getActualQty();
 
     /** Column name Comments */
     public static final String COLUMNNAME_Comments = "Comments";
@@ -131,6 +131,15 @@ public interface I_HR_DepartmentProduct
 	  */
 	public Timestamp getDateTo();
 
+    /** Column name HR_DepartmentProduct_ID */
+    public static final String COLUMNNAME_HR_DepartmentProduct_ID = "HR_DepartmentProduct_ID";
+
+	/** Set Department Consumption Limit	  */
+	public void setHR_DepartmentProduct_ID (int HR_DepartmentProduct_ID);
+
+	/** Get Department Consumption Limit	  */
+	public int getHR_DepartmentProduct_ID();
+
     /** Column name HR_Department_ID */
     public static final String COLUMNNAME_HR_Department_ID = "HR_Department_ID";
 
@@ -141,15 +150,6 @@ public interface I_HR_DepartmentProduct
 	public int getHR_Department_ID();
 
 	public org.eevolution.model.I_HR_Department getHR_Department() throws RuntimeException;
-
-    /** Column name HR_DepartmentProduct_ID */
-    public static final String COLUMNNAME_HR_DepartmentProduct_ID = "HR_DepartmentProduct_ID";
-
-	/** Set Department Consumption Limit	  */
-	public void setHR_DepartmentProduct_ID (int HR_DepartmentProduct_ID);
-
-	/** Get Department Consumption Limit	  */
-	public int getHR_DepartmentProduct_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -192,6 +192,19 @@ public interface I_HR_DepartmentProduct
 	  */
 	public BigDecimal getQtyPlan();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -207,17 +220,4 @@ public interface I_HR_DepartmentProduct
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

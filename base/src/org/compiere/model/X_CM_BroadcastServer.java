@@ -31,7 +31,7 @@ public class X_CM_BroadcastServer extends PO implements I_CM_BroadcastServer, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_CM_BroadcastServer (Properties ctx, int CM_BroadcastServer_ID, String trxName)

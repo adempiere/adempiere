@@ -65,11 +65,11 @@ public final class Adempiere
 	/** Main Version String         */
 	// Conventions for naming second number is even for stable, and odd for unstable
 	// the releases will have a suffix (a) for alpha - (b) for beta - (t) for trunk - (s) for stable - and (LTS) for long term support
-	static public String	MAIN_VERSION	= "Release 3.9.2";
+	static public String	MAIN_VERSION	= "Release 3.9.3";
 	/** Detail Version as date      Used for Client/Server		*/
-	static public String	DATE_VERSION	= "2019-05-03";
+	static public String	DATE_VERSION	= "2019-11-24";
 	/** Database Version as date    Compared with AD_System		*/
-	static public String	DB_VERSION		= "2019-05-03";
+	static public String	DB_VERSION		= "2019-11-24";
 
 	/** Product Name            */
 	static public final String	NAME 			= "ADempiere\u00AE";

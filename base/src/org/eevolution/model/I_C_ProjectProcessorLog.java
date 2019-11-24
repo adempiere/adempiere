@@ -76,6 +76,15 @@ public interface I_C_ProjectProcessorLog
 	  */
 	public byte[] getBinaryData();
 
+    /** Column name C_ProjectProcessorLog_ID */
+    public static final String COLUMNNAME_C_ProjectProcessorLog_ID = "C_ProjectProcessorLog_ID";
+
+	/** Set Project Processor Log	  */
+	public void setC_ProjectProcessorLog_ID (int C_ProjectProcessorLog_ID);
+
+	/** Get Project Processor Log	  */
+	public int getC_ProjectProcessorLog_ID();
+
     /** Column name C_ProjectProcessor_ID */
     public static final String COLUMNNAME_C_ProjectProcessor_ID = "C_ProjectProcessor_ID";
 
@@ -90,15 +99,6 @@ public interface I_C_ProjectProcessorLog
 	public int getC_ProjectProcessor_ID();
 
 	public org.eevolution.model.I_C_ProjectProcessor getC_ProjectProcessor() throws RuntimeException;
-
-    /** Column name C_ProjectProcessorLog_ID */
-    public static final String COLUMNNAME_C_ProjectProcessorLog_ID = "C_ProjectProcessorLog_ID";
-
-	/** Set Project Processor Log	  */
-	public void setC_ProjectProcessorLog_ID (int C_ProjectProcessorLog_ID);
-
-	/** Get Project Processor Log	  */
-	public int getC_ProjectProcessorLog_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -207,6 +207,19 @@ public interface I_C_ProjectProcessorLog
 	  */
 	public String getTextMsg();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -222,17 +235,4 @@ public interface I_C_ProjectProcessorLog
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

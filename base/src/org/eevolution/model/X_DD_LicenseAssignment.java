@@ -31,7 +31,7 @@ public class X_DD_LicenseAssignment extends PO implements I_DD_LicenseAssignment
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_DD_LicenseAssignment (Properties ctx, int DD_LicenseAssignment_ID, String trxName)

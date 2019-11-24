@@ -34,7 +34,7 @@ public class X_HR_WorkShift extends PO implements I_HR_WorkShift, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190710L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_WorkShift (Properties ctx, int HR_WorkShift_ID, String trxName)

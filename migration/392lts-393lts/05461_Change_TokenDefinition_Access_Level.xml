@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Change Token Definition Access Level" ReleaseNo="3.9.3" SeqNo="5461">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="54529" Table="AD_Table">
+        <Data AD_Column_ID="354" Column="AccessLevel" oldValue="4">6</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

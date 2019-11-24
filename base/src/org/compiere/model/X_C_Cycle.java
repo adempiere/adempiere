@@ -30,7 +30,7 @@ public class X_C_Cycle extends PO implements I_C_Cycle, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_Cycle (Properties ctx, int C_Cycle_ID, String trxName)

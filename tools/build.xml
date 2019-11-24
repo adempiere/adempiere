@@ -366,7 +366,7 @@
 				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 			<!-- Commons -->
-			<zipfileset src="lib/commons-collections-3.1.jar">
+			<zipfileset src="lib/commons-collections-3.2.2.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/commons-collections4-4.1.jar">
@@ -621,7 +621,7 @@
 				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 			<!-- Commons -->
-			<zipfileset src="lib/commons-collections-3.1.jar">
+			<zipfileset src="lib/commons-collections-3.2.2.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/commons-collections4-4.1.jar">

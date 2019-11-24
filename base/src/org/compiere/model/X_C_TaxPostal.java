@@ -30,7 +30,7 @@ public class X_C_TaxPostal extends PO implements I_C_TaxPostal, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_TaxPostal (Properties ctx, int C_TaxPostal_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_C_TaxPostal extends PO implements I_C_TaxPostal, I_Persistent
       super (ctx, C_TaxPostal_ID, trxName);
       /** if (C_TaxPostal_ID == 0)
         {
-			setC_Tax_ID (0);
 			setC_TaxPostal_ID (0);
+			setC_Tax_ID (0);
 			setPostal (null);
         } */
     }
@@ -72,6 +72,29 @@ public class X_C_TaxPostal extends PO implements I_C_TaxPostal, I_Persistent
       return sb.toString();
     }
 
+	/** Set Tax ZIP.
+		@param C_TaxPostal_ID 
+		Tax Postal/ZIP
+	  */
+	public void setC_TaxPostal_ID (int C_TaxPostal_ID)
+	{
+		if (C_TaxPostal_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_TaxPostal_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_TaxPostal_ID, Integer.valueOf(C_TaxPostal_ID));
+	}
+
+	/** Get Tax ZIP.
+		@return Tax Postal/ZIP
+	  */
+	public int getC_TaxPostal_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxPostal_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_Tax getC_Tax() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Tax)MTable.get(getCtx(), org.compiere.model.I_C_Tax.Table_Name)
@@ -95,29 +118,6 @@ public class X_C_TaxPostal extends PO implements I_C_TaxPostal, I_Persistent
 	public int getC_Tax_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Tax_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Tax ZIP.
-		@param C_TaxPostal_ID 
-		Tax Postal/ZIP
-	  */
-	public void setC_TaxPostal_ID (int C_TaxPostal_ID)
-	{
-		if (C_TaxPostal_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_TaxPostal_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_TaxPostal_ID, Integer.valueOf(C_TaxPostal_ID));
-	}
-
-	/** Get Tax ZIP.
-		@return Tax Postal/ZIP
-	  */
-	public int getC_TaxPostal_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_TaxPostal_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

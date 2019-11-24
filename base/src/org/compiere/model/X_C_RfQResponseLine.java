@@ -30,7 +30,7 @@ public class X_C_RfQResponseLine extends PO implements I_C_RfQResponseLine, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_RfQResponseLine (Properties ctx, int C_RfQResponseLine_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_C_RfQResponseLine extends PO implements I_C_RfQResponseLine, I_Pe
       /** if (C_RfQResponseLine_ID == 0)
         {
 			setC_RfQLine_ID (0);
-			setC_RfQResponse_ID (0);
 			setC_RfQResponseLine_ID (0);
+			setC_RfQResponse_ID (0);
 			setIsSelectedWinner (false);
 			setIsSelfService (false);
         } */
@@ -102,6 +102,29 @@ public class X_C_RfQResponseLine extends PO implements I_C_RfQResponseLine, I_Pe
 		return ii.intValue();
 	}
 
+	/** Set RfQ Response Line.
+		@param C_RfQResponseLine_ID 
+		Request for Quotation Response Line
+	  */
+	public void setC_RfQResponseLine_ID (int C_RfQResponseLine_ID)
+	{
+		if (C_RfQResponseLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_RfQResponseLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_RfQResponseLine_ID, Integer.valueOf(C_RfQResponseLine_ID));
+	}
+
+	/** Get RfQ Response Line.
+		@return Request for Quotation Response Line
+	  */
+	public int getC_RfQResponseLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQResponseLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_RfQResponse getC_RfQResponse() throws RuntimeException
     {
 		return (org.compiere.model.I_C_RfQResponse)MTable.get(getCtx(), org.compiere.model.I_C_RfQResponse.Table_Name)
@@ -125,29 +148,6 @@ public class X_C_RfQResponseLine extends PO implements I_C_RfQResponseLine, I_Pe
 	public int getC_RfQResponse_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQResponse_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set RfQ Response Line.
-		@param C_RfQResponseLine_ID 
-		Request for Quotation Response Line
-	  */
-	public void setC_RfQResponseLine_ID (int C_RfQResponseLine_ID)
-	{
-		if (C_RfQResponseLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_RfQResponseLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_RfQResponseLine_ID, Integer.valueOf(C_RfQResponseLine_ID));
-	}
-
-	/** Get RfQ Response Line.
-		@return Request for Quotation Response Line
-	  */
-	public int getC_RfQResponseLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_RfQResponseLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

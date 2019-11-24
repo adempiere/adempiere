@@ -117,6 +117,19 @@ public interface I_M_ProductOperation
 	  */
 	public boolean isActive();
 
+    /** Column name M_ProductOperation_ID */
+    public static final String COLUMNNAME_M_ProductOperation_ID = "M_ProductOperation_ID";
+
+	/** Set Product Operation.
+	  * Product Manufacturing Operation
+	  */
+	public void setM_ProductOperation_ID (int M_ProductOperation_ID);
+
+	/** Get Product Operation.
+	  * Product Manufacturing Operation
+	  */
+	public int getM_ProductOperation_ID();
+
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
 
@@ -131,19 +144,6 @@ public interface I_M_ProductOperation
 	public int getM_Product_ID();
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
-
-    /** Column name M_ProductOperation_ID */
-    public static final String COLUMNNAME_M_ProductOperation_ID = "M_ProductOperation_ID";
-
-	/** Set Product Operation.
-	  * Product Manufacturing Operation
-	  */
-	public void setM_ProductOperation_ID (int M_ProductOperation_ID);
-
-	/** Get Product Operation.
-	  * Product Manufacturing Operation
-	  */
-	public int getM_ProductOperation_ID();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -184,6 +184,19 @@ public interface I_M_ProductOperation
 	  */
 	public BigDecimal getTeardownTime();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name UnitRuntime */
     public static final String COLUMNNAME_UnitRuntime = "UnitRuntime";
 
@@ -212,17 +225,4 @@ public interface I_M_ProductOperation
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

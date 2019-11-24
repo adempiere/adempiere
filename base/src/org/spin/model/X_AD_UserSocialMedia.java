@@ -31,7 +31,7 @@ public class X_AD_UserSocialMedia extends PO implements I_AD_UserSocialMedia, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190529L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_UserSocialMedia (Properties ctx, int AD_UserSocialMedia_ID, String trxName)
@@ -39,10 +39,10 @@ public class X_AD_UserSocialMedia extends PO implements I_AD_UserSocialMedia, I_
       super (ctx, AD_UserSocialMedia_ID, trxName);
       /** if (AD_UserSocialMedia_ID == 0)
         {
-			setAccountName (null);
 			setAD_AppSupport_ID (0);
-			setAD_User_ID (0);
 			setAD_UserSocialMedia_ID (0);
+			setAD_User_ID (0);
+			setAccountName (null);
 			setApplicationType (null);
 // SMN
         } */
@@ -76,20 +76,6 @@ public class X_AD_UserSocialMedia extends PO implements I_AD_UserSocialMedia, I_
       return sb.toString();
     }
 
-	/** Set Account Name.
-		@param AccountName Account Name	  */
-	public void setAccountName (String AccountName)
-	{
-		set_Value (COLUMNNAME_AccountName, AccountName);
-	}
-
-	/** Get Account Name.
-		@return Account Name	  */
-	public String getAccountName () 
-	{
-		return (String)get_Value(COLUMNNAME_AccountName);
-	}
-
 	public org.spin.model.I_AD_AppSupport getAD_AppSupport() throws RuntimeException
     {
 		return (org.spin.model.I_AD_AppSupport)MTable.get(getCtx(), org.spin.model.I_AD_AppSupport.Table_Name)
@@ -113,6 +99,29 @@ public class X_AD_UserSocialMedia extends PO implements I_AD_UserSocialMedia, I_
 	public int getAD_AppSupport_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AppSupport_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Social Media.
+		@param AD_UserSocialMedia_ID 
+		User External Link for Social Media
+	  */
+	public void setAD_UserSocialMedia_ID (int AD_UserSocialMedia_ID)
+	{
+		if (AD_UserSocialMedia_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_UserSocialMedia_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_UserSocialMedia_ID, Integer.valueOf(AD_UserSocialMedia_ID));
+	}
+
+	/** Get Social Media.
+		@return User External Link for Social Media
+	  */
+	public int getAD_UserSocialMedia_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserSocialMedia_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -146,24 +155,18 @@ public class X_AD_UserSocialMedia extends PO implements I_AD_UserSocialMedia, I_
 		return ii.intValue();
 	}
 
-	/** Set Social Media ID.
-		@param AD_UserSocialMedia_ID Social Media ID	  */
-	public void setAD_UserSocialMedia_ID (int AD_UserSocialMedia_ID)
+	/** Set Account Name.
+		@param AccountName Account Name	  */
+	public void setAccountName (String AccountName)
 	{
-		if (AD_UserSocialMedia_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_UserSocialMedia_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_UserSocialMedia_ID, Integer.valueOf(AD_UserSocialMedia_ID));
+		set_Value (COLUMNNAME_AccountName, AccountName);
 	}
 
-	/** Get Social Media ID.
-		@return Social Media ID	  */
-	public int getAD_UserSocialMedia_ID () 
+	/** Get Account Name.
+		@return Account Name	  */
+	public String getAccountName () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserSocialMedia_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_AccountName);
 	}
 
 	/** ApplicationType AD_Reference_ID=54081 */

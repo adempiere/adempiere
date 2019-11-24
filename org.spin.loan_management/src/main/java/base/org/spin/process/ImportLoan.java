@@ -256,7 +256,7 @@ public class ImportLoan extends ImportLoanAbstract implements ImportProcess {
 				//	Set Reference
 				agreementImport.setFM_Agreement_ID(agreement.getFM_Agreement_ID());
 				agreementImport.set_ValueOfColumn("FM_Amortization_ID", amortization.getFM_Amortization_ID());
-				agreementImport.setI_IsImported(true);
+				agreementImport.setI_IsImported("Y");
 				agreementImport.setProcessed(true);
 				agreementImport.saveEx();
 			} catch (Exception e) {
@@ -290,7 +290,7 @@ public class ImportLoan extends ImportLoanAbstract implements ImportProcess {
 	
 	/**
 	 * Create new Agreement
-	 * @param importAgreement
+	 * @param agreementImport
 	 * @return
 	 */
 	private MFMAgreement createAgreement(X_I_FM_Agreement agreementImport) {

@@ -77,19 +77,6 @@ public interface I_B_Topic
 
 	public org.compiere.model.I_B_TopicCategory getB_TopicCategory() throws RuntimeException;
 
-    /** Column name B_Topic_ID */
-    public static final String COLUMNNAME_B_Topic_ID = "B_Topic_ID";
-
-	/** Set Topic.
-	  * Auction Topic
-	  */
-	public void setB_Topic_ID (int B_Topic_ID);
-
-	/** Get Topic.
-	  * Auction Topic
-	  */
-	public int getB_Topic_ID();
-
     /** Column name B_TopicType_ID */
     public static final String COLUMNNAME_B_TopicType_ID = "B_TopicType_ID";
 
@@ -104,6 +91,19 @@ public interface I_B_Topic
 	public int getB_TopicType_ID();
 
 	public org.compiere.model.I_B_TopicType getB_TopicType() throws RuntimeException;
+
+    /** Column name B_Topic_ID */
+    public static final String COLUMNNAME_B_Topic_ID = "B_Topic_ID";
+
+	/** Set Topic.
+	  * Auction Topic
+	  */
+	public void setB_Topic_ID (int B_Topic_ID);
+
+	/** Get Topic.
+	  * Auction Topic
+	  */
+	public int getB_Topic_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -257,6 +257,19 @@ public interface I_B_Topic
 	/** Get Topic Status	  */
 	public String getTopicStatus();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -272,17 +285,4 @@ public interface I_B_Topic
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

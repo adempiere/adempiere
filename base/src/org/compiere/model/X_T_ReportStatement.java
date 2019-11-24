@@ -33,7 +33,7 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_T_ReportStatement (Properties ctx, int T_ReportStatement_ID, String trxName)
@@ -76,29 +76,29 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
       return sb.toString();
     }
 
-	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException
+	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException
     {
-		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
-			.getPO(getAccount_ID(), get_TrxName());	}
+		return (org.compiere.model.I_AD_PInstance)MTable.get(getCtx(), org.compiere.model.I_AD_PInstance.Table_Name)
+			.getPO(getAD_PInstance_ID(), get_TrxName());	}
 
-	/** Set Account.
-		@param Account_ID 
-		Account used
+	/** Set Process Instance.
+		@param AD_PInstance_ID 
+		Instance of the process
 	  */
-	public void setAccount_ID (int Account_ID)
+	public void setAD_PInstance_ID (int AD_PInstance_ID)
 	{
-		if (Account_ID < 1) 
-			set_Value (COLUMNNAME_Account_ID, null);
+		if (AD_PInstance_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, null);
 		else 
-			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
+			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, Integer.valueOf(AD_PInstance_ID));
 	}
 
-	/** Get Account.
-		@return Account used
+	/** Get Process Instance.
+		@return Instance of the process
 	  */
-	public int getAccount_ID () 
+	public int getAD_PInstance_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PInstance_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -167,29 +167,29 @@ public class X_T_ReportStatement extends PO implements I_T_ReportStatement, I_Pe
 		return (String)get_Value(COLUMNNAME_AccountValue);
 	}
 
-	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException
+	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_PInstance)MTable.get(getCtx(), org.compiere.model.I_AD_PInstance.Table_Name)
-			.getPO(getAD_PInstance_ID(), get_TrxName());	}
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getAccount_ID(), get_TrxName());	}
 
-	/** Set Process Instance.
-		@param AD_PInstance_ID 
-		Instance of the process
+	/** Set Account.
+		@param Account_ID 
+		Account used
 	  */
-	public void setAD_PInstance_ID (int AD_PInstance_ID)
+	public void setAccount_ID (int Account_ID)
 	{
-		if (AD_PInstance_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, null);
+		if (Account_ID < 1) 
+			set_Value (COLUMNNAME_Account_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_AD_PInstance_ID, Integer.valueOf(AD_PInstance_ID));
+			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
 	}
 
-	/** Get Process Instance.
-		@return Instance of the process
+	/** Get Account.
+		@return Account used
 	  */
-	public int getAD_PInstance_ID () 
+	public int getAccount_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PInstance_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

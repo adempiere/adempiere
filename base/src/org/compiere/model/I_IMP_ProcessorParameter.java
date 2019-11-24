@@ -104,6 +104,15 @@ public interface I_IMP_ProcessorParameter
 	  */
 	public String getHelp();
 
+    /** Column name IMP_ProcessorParameter_ID */
+    public static final String COLUMNNAME_IMP_ProcessorParameter_ID = "IMP_ProcessorParameter_ID";
+
+	/** Set Import Processor Parameter	  */
+	public void setIMP_ProcessorParameter_ID (int IMP_ProcessorParameter_ID);
+
+	/** Get Import Processor Parameter	  */
+	public int getIMP_ProcessorParameter_ID();
+
     /** Column name IMP_Processor_ID */
     public static final String COLUMNNAME_IMP_Processor_ID = "IMP_Processor_ID";
 
@@ -114,15 +123,6 @@ public interface I_IMP_ProcessorParameter
 	public int getIMP_Processor_ID();
 
 	public org.compiere.model.I_IMP_Processor getIMP_Processor() throws RuntimeException;
-
-    /** Column name IMP_ProcessorParameter_ID */
-    public static final String COLUMNNAME_IMP_ProcessorParameter_ID = "IMP_ProcessorParameter_ID";
-
-	/** Set Import Processor Parameter	  */
-	public void setIMP_ProcessorParameter_ID (int IMP_ProcessorParameter_ID);
-
-	/** Get Import Processor Parameter	  */
-	public int getIMP_ProcessorParameter_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -159,6 +159,19 @@ public interface I_IMP_ProcessorParameter
 	/** Get Parameter Value	  */
 	public String getParameterValue();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -174,19 +187,6 @@ public interface I_IMP_ProcessorParameter
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

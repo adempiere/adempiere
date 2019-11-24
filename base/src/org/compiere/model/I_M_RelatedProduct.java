@@ -132,6 +132,15 @@ public interface I_M_RelatedProduct
 	  */
 	public String getName();
 
+    /** Column name RelatedProductType */
+    public static final String COLUMNNAME_RelatedProductType = "RelatedProductType";
+
+	/** Set Related Product Type	  */
+	public void setRelatedProductType (String RelatedProductType);
+
+	/** Get Related Product Type	  */
+	public String getRelatedProductType();
+
     /** Column name RelatedProduct_ID */
     public static final String COLUMNNAME_RelatedProduct_ID = "RelatedProduct_ID";
 
@@ -147,14 +156,18 @@ public interface I_M_RelatedProduct
 
 	public org.compiere.model.I_M_Product getRelatedProduct() throws RuntimeException;
 
-    /** Column name RelatedProductType */
-    public static final String COLUMNNAME_RelatedProductType = "RelatedProductType";
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
 
-	/** Set Related Product Type	  */
-	public void setRelatedProductType (String RelatedProductType);
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
 
-	/** Get Related Product Type	  */
-	public String getRelatedProductType();
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -171,17 +184,4 @@ public interface I_M_RelatedProduct
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

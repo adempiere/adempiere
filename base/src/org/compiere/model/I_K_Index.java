@@ -77,21 +77,6 @@ public interface I_K_Index
 
 	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
-    /** Column name C_DocType_ID */
-    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
-
-	/** Set Document Type.
-	  * Document type or rules
-	  */
-	public void setC_DocType_ID (int C_DocType_ID);
-
-	/** Get Document Type.
-	  * Document type or rules
-	  */
-	public int getC_DocType_ID();
-
-	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
-
     /** Column name CM_WebProject_ID */
     public static final String COLUMNNAME_CM_WebProject_ID = "CM_WebProject_ID";
 
@@ -106,6 +91,21 @@ public interface I_K_Index
 	public int getCM_WebProject_ID();
 
 	public org.compiere.model.I_CM_WebProject getCM_WebProject() throws RuntimeException;
+
+    /** Column name C_DocType_ID */
+    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
+
+	/** Set Document Type.
+	  * Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID);
+
+	/** Get Document Type.
+	  * Document type or rules
+	  */
+	public int getC_DocType_ID();
+
+	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -149,19 +149,6 @@ public interface I_K_Index
 	  */
 	public boolean isActive();
 
-    /** Column name Keyword */
-    public static final String COLUMNNAME_Keyword = "Keyword";
-
-	/** Set Keyword.
-	  * Case insensitive keyword
-	  */
-	public void setKeyword (String Keyword);
-
-	/** Get Keyword.
-	  * Case insensitive keyword
-	  */
-	public String getKeyword();
-
     /** Column name K_INDEX_ID */
     public static final String COLUMNNAME_K_INDEX_ID = "K_INDEX_ID";
 
@@ -175,18 +162,18 @@ public interface I_K_Index
 	  */
 	public int getK_INDEX_ID();
 
-    /** Column name Record_ID */
-    public static final String COLUMNNAME_Record_ID = "Record_ID";
+    /** Column name Keyword */
+    public static final String COLUMNNAME_Keyword = "Keyword";
 
-	/** Set Record ID.
-	  * Direct internal record ID
+	/** Set Keyword.
+	  * Case insensitive keyword
 	  */
-	public void setRecord_ID (int Record_ID);
+	public void setKeyword (String Keyword);
 
-	/** Get Record ID.
-	  * Direct internal record ID
+	/** Get Keyword.
+	  * Case insensitive keyword
 	  */
-	public int getRecord_ID();
+	public String getKeyword();
 
     /** Column name R_RequestType_ID */
     public static final String COLUMNNAME_R_RequestType_ID = "R_RequestType_ID";
@@ -203,6 +190,19 @@ public interface I_K_Index
 
 	public org.compiere.model.I_R_RequestType getR_RequestType() throws RuntimeException;
 
+    /** Column name Record_ID */
+    public static final String COLUMNNAME_Record_ID = "Record_ID";
+
+	/** Set Record ID.
+	  * Direct internal record ID
+	  */
+	public void setRecord_ID (int Record_ID);
+
+	/** Get Record ID.
+	  * Direct internal record ID
+	  */
+	public int getRecord_ID();
+
     /** Column name SourceUpdated */
     public static final String COLUMNNAME_SourceUpdated = "SourceUpdated";
 
@@ -215,6 +215,19 @@ public interface I_K_Index
 	  * Date the source document was updated
 	  */
 	public Timestamp getSourceUpdated();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -231,17 +244,4 @@ public interface I_K_Index
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

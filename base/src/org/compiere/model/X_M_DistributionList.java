@@ -32,7 +32,7 @@ public class X_M_DistributionList extends PO implements I_M_DistributionList, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_DistributionList (Properties ctx, int M_DistributionList_ID, String trxName)

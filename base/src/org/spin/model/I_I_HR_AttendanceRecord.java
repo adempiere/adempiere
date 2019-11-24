@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_HR_AttendanceRecord
  *  @author Adempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.2
  */
 public interface I_I_HR_AttendanceRecord 
 {
@@ -171,10 +171,10 @@ public interface I_I_HR_AttendanceRecord
     /** Column name I_HR_AttendanceRecord_ID */
     public static final String COLUMNNAME_I_HR_AttendanceRecord_ID = "I_HR_AttendanceRecord_ID";
 
-	/** Set Attendance Record Import ID	  */
+	/** Set Attendance Record Import	  */
 	public void setI_HR_AttendanceRecord_ID (int I_HR_AttendanceRecord_ID);
 
-	/** Get Attendance Record Import ID	  */
+	/** Get Attendance Record Import	  */
 	public int getI_HR_AttendanceRecord_ID();
 
     /** Column name I_IsImported */
@@ -216,6 +216,19 @@ public interface I_I_HR_AttendanceRecord
 	  */
 	public boolean isProcessed();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -231,17 +244,4 @@ public interface I_I_HR_AttendanceRecord
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

@@ -73,17 +73,6 @@ public interface I_M_ReplenishPlan
 
 	public org.compiere.model.I_C_DocType getC_DocType_ConfirmedOr() throws RuntimeException;
 
-    /** Column name C_DocType_PlannedOrder */
-    public static final String COLUMNNAME_C_DocType_PlannedOrder = "C_DocType_PlannedOrder";
-
-	/** Set Planned Mfg Order Doc Type	  */
-	public void setC_DocType_PlannedOrder (int C_DocType_PlannedOrder);
-
-	/** Get Planned Mfg Order Doc Type	  */
-	public int getC_DocType_PlannedOrder();
-
-	public org.compiere.model.I_C_DocType getC_DocType_PlannedOr() throws RuntimeException;
-
     /** Column name C_DocType_PO */
     public static final String COLUMNNAME_C_DocType_PO = "C_DocType_PO";
 
@@ -94,6 +83,17 @@ public interface I_M_ReplenishPlan
 	public int getC_DocType_PO();
 
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
+
+    /** Column name C_DocType_PlannedOrder */
+    public static final String COLUMNNAME_C_DocType_PlannedOrder = "C_DocType_PlannedOrder";
+
+	/** Set Planned Mfg Order Doc Type	  */
+	public void setC_DocType_PlannedOrder (int C_DocType_PlannedOrder);
+
+	/** Get Planned Mfg Order Doc Type	  */
+	public int getC_DocType_PlannedOrder();
+
+	public org.compiere.model.I_C_DocType getC_DocType_PlannedOr() throws RuntimeException;
 
     /** Column name C_DocType_Requisition */
     public static final String COLUMNNAME_C_DocType_Requisition = "C_DocType_Requisition";
@@ -261,6 +261,19 @@ public interface I_M_ReplenishPlan
 	/** Get Generate Suggested Requisition Report	  */
 	public String getSuggestedRequisitionReport();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -276,17 +289,4 @@ public interface I_M_ReplenishPlan
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

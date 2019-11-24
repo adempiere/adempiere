@@ -33,7 +33,7 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191015L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_OrderLine (Properties ctx, int C_OrderLine_ID, String trxName)
@@ -45,8 +45,8 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 // @C_BPartner_Location_ID@
 			setC_Currency_ID (0);
 // @C_Currency_ID@
-			setC_Order_ID (0);
 			setC_OrderLine_ID (0);
+			setC_Order_ID (0);
 			setC_Tax_ID (0);
 			setC_UOM_ID (0);
 // @#C_UOM_ID@
@@ -301,6 +301,29 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Sales Order Line.
+		@param C_OrderLine_ID 
+		Sales Order Line
+	  */
+	public void setC_OrderLine_ID (int C_OrderLine_ID)
+	{
+		if (C_OrderLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
+	}
+
+	/** Get Sales Order Line.
+		@return Sales Order Line
+	  */
+	public int getC_OrderLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
@@ -336,57 +359,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getC_Order_ID()));
     }
-
-	/** Set Sales Order Line.
-		@param C_OrderLine_ID 
-		Sales Order Line
-	  */
-	public void setC_OrderLine_ID (int C_OrderLine_ID)
-	{
-		if (C_OrderLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
-	}
-
-	/** Get Sales Order Line.
-		@return Sales Order Line
-	  */
-	public int getC_OrderLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
-			.getPO(getC_Project_ID(), get_TrxName());	}
-
-	/** Set Project.
-		@param C_Project_ID 
-		Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID)
-	{
-		if (C_Project_ID < 1) 
-			set_Value (COLUMNNAME_C_Project_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
-	}
-
-	/** Get Project.
-		@return Financial Project
-	  */
-	public int getC_Project_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public org.compiere.model.I_C_ProjectPhase getC_ProjectPhase() throws RuntimeException
     {
@@ -444,38 +416,32 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Create lines from.
-		@param CreateFrom 
-		Process which will generate a new document lines based on an existing document
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getC_Project_ID(), get_TrxName());	}
+
+	/** Set Project.
+		@param C_Project_ID 
+		Financial Project
 	  */
-	public void setCreateFrom (String CreateFrom)
+	public void setC_Project_ID (int C_Project_ID)
 	{
-		set_Value (COLUMNNAME_CreateFrom, CreateFrom);
+		if (C_Project_ID < 1) 
+			set_Value (COLUMNNAME_C_Project_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Project_ID, Integer.valueOf(C_Project_ID));
 	}
 
-	/** Get Create lines from.
-		@return Process which will generate a new document lines based on an existing document
+	/** Get Project.
+		@return Financial Project
 	  */
-	public String getCreateFrom () 
+	public int getC_Project_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_CreateFrom);
-	}
-
-	/** Set Create Shipment.
-		@param CreateShipment 
-		Create Shipment From Order Line
-	  */
-	public void setCreateShipment (String CreateShipment)
-	{
-		set_Value (COLUMNNAME_CreateShipment, CreateShipment);
-	}
-
-	/** Get Create Shipment.
-		@return Create Shipment From Order Line
-	  */
-	public String getCreateShipment () 
-	{
-		return (String)get_Value(COLUMNNAME_CreateShipment);
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Project_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_C_Tax getC_Tax() throws RuntimeException
@@ -532,6 +498,40 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Create lines from.
+		@param CreateFrom 
+		Process which will generate a new document lines based on an existing document
+	  */
+	public void setCreateFrom (String CreateFrom)
+	{
+		set_Value (COLUMNNAME_CreateFrom, CreateFrom);
+	}
+
+	/** Get Create lines from.
+		@return Process which will generate a new document lines based on an existing document
+	  */
+	public String getCreateFrom () 
+	{
+		return (String)get_Value(COLUMNNAME_CreateFrom);
+	}
+
+	/** Set Create Shipment.
+		@param CreateShipment 
+		Create Shipment From Order Line
+	  */
+	public void setCreateShipment (String CreateShipment)
+	{
+		set_Value (COLUMNNAME_CreateShipment, CreateShipment);
+	}
+
+	/** Get Create Shipment.
+		@return Create Shipment From Order Line
+	  */
+	public String getCreateShipment () 
+	{
+		return (String)get_Value(COLUMNNAME_CreateShipment);
 	}
 
 	/** Set Date Delivered.
@@ -884,34 +884,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException
-    {
-		return (org.compiere.model.I_M_RequisitionLine)MTable.get(getCtx(), org.compiere.model.I_M_RequisitionLine.Table_Name)
-			.getPO(getM_RequisitionLine_ID(), get_TrxName());	}
-
-	/** Set Requisition Line.
-		@param M_RequisitionLine_ID 
-		Material Requisition Line
-	  */
-	public void setM_RequisitionLine_ID (int M_RequisitionLine_ID)
-	{
-		if (M_RequisitionLine_ID < 1) 
-			set_Value (COLUMNNAME_M_RequisitionLine_ID, null);
-		else 
-			set_Value (COLUMNNAME_M_RequisitionLine_ID, Integer.valueOf(M_RequisitionLine_ID));
-	}
-
-	/** Get Requisition Line.
-		@return Material Requisition Line
-	  */
-	public int getM_RequisitionLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_RequisitionLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_M_RMAType getM_RMAType() throws RuntimeException
     {
 		return (org.compiere.model.I_M_RMAType)MTable.get(getCtx(), org.compiere.model.I_M_RMAType.Table_Name)
@@ -935,6 +907,34 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	public int getM_RMAType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_RMAType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_RequisitionLine)MTable.get(getCtx(), org.compiere.model.I_M_RequisitionLine.Table_Name)
+			.getPO(getM_RequisitionLine_ID(), get_TrxName());	}
+
+	/** Set Requisition Line.
+		@param M_RequisitionLine_ID 
+		Material Requisition Line
+	  */
+	public void setM_RequisitionLine_ID (int M_RequisitionLine_ID)
+	{
+		if (M_RequisitionLine_ID < 1) 
+			set_Value (COLUMNNAME_M_RequisitionLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_RequisitionLine_ID, Integer.valueOf(M_RequisitionLine_ID));
+	}
+
+	/** Get Requisition Line.
+		@return Material Requisition Line
+	  */
+	public int getM_RequisitionLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_RequisitionLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -996,23 +996,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Picked Qty.
-		@param PickedQty Picked Qty	  */
-	public void setPickedQty (BigDecimal PickedQty)
-	{
-		set_Value (COLUMNNAME_PickedQty, PickedQty);
-	}
-
-	/** Get Picked Qty.
-		@return Picked Qty	  */
-	public BigDecimal getPickedQty () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PickedQty);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	public org.eevolution.model.I_PP_Cost_Collector getPP_Cost_Collector() throws RuntimeException
     {
 		return (org.eevolution.model.I_PP_Cost_Collector)MTable.get(getCtx(), org.eevolution.model.I_PP_Cost_Collector.Table_Name)
@@ -1036,6 +1019,23 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Picked Qty.
+		@param PickedQty Picked Qty	  */
+	public void setPickedQty (BigDecimal PickedQty)
+	{
+		set_Value (COLUMNNAME_PickedQty, PickedQty);
+	}
+
+	/** Get Picked Qty.
+		@return Picked Qty	  */
+	public BigDecimal getPickedQty () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PickedQty);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Unit Price.
@@ -1282,6 +1282,43 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return bd;
 	}
 
+	/** Set Revenue Recognition Amt.
+		@param RRAmt 
+		Revenue Recognition Amount
+	  */
+	public void setRRAmt (BigDecimal RRAmt)
+	{
+		set_Value (COLUMNNAME_RRAmt, RRAmt);
+	}
+
+	/** Get Revenue Recognition Amt.
+		@return Revenue Recognition Amount
+	  */
+	public BigDecimal getRRAmt () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_RRAmt);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Revenue Recognition Start.
+		@param RRStartDate 
+		Revenue Recognition Start Date
+	  */
+	public void setRRStartDate (Timestamp RRStartDate)
+	{
+		set_Value (COLUMNNAME_RRStartDate, RRStartDate);
+	}
+
+	/** Get Revenue Recognition Start.
+		@return Revenue Recognition Start Date
+	  */
+	public Timestamp getRRStartDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_RRStartDate);
+	}
+
 	public org.compiere.model.I_M_InOutLine getRef_InOutLine() throws RuntimeException
     {
 		return (org.compiere.model.I_M_InOutLine)MTable.get(getCtx(), org.compiere.model.I_M_InOutLine.Table_Name)
@@ -1335,43 +1372,6 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Revenue Recognition Amt.
-		@param RRAmt 
-		Revenue Recognition Amount
-	  */
-	public void setRRAmt (BigDecimal RRAmt)
-	{
-		set_Value (COLUMNNAME_RRAmt, RRAmt);
-	}
-
-	/** Get Revenue Recognition Amt.
-		@return Revenue Recognition Amount
-	  */
-	public BigDecimal getRRAmt () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_RRAmt);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
-	/** Set Revenue Recognition Start.
-		@param RRStartDate 
-		Revenue Recognition Start Date
-	  */
-	public void setRRStartDate (Timestamp RRStartDate)
-	{
-		set_Value (COLUMNNAME_RRStartDate, RRStartDate);
-	}
-
-	/** Get Revenue Recognition Start.
-		@return Revenue Recognition Start Date
-	  */
-	public Timestamp getRRStartDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_RRStartDate);
-	}
-
 	/** Set Resource Assignment.
 		@param S_ResourceAssignment_ID 
 		Resource Assignment
@@ -1393,6 +1393,23 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
@@ -1505,22 +1522,5 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

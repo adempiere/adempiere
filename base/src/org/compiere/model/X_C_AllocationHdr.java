@@ -33,7 +33,7 @@ public class X_C_AllocationHdr extends PO implements I_C_AllocationHdr, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_AllocationHdr (Properties ctx, int C_AllocationHdr_ID, String trxName)

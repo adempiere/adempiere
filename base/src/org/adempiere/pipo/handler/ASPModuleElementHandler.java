@@ -55,7 +55,7 @@ import org.compiere.model.X_ASP_Task;
 import org.compiere.model.X_ASP_Window;
 import org.compiere.model.X_ASP_Workflow;
 import org.compiere.util.Env;
-import org.eevolution.model.I_ASP_Browse;
+import org.spin.model.I_ASP_Browse;
 import org.spin.model.X_ASP_Browse;
 import org.xml.sax.SAXException;
 

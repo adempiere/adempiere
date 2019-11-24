@@ -41,6 +41,27 @@ public interface I_CM_Ad
 
     /** Load Meta Data */
 
+    /** Column name AD_Client_ID */
+    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
+
+	/** Get Client.
+	  * Client/Tenant for this installation.
+	  */
+	public int getAD_Client_ID();
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name ActualClick */
     public static final String COLUMNNAME_ActualClick = "ActualClick";
 
@@ -66,27 +87,6 @@ public interface I_CM_Ad
 	  * How many impressions have been counted
 	  */
 	public int getActualImpression();
-
-    /** Column name AD_Client_ID */
-    public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
-
-	/** Get Client.
-	  * Client/Tenant for this installation.
-	  */
-	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name CM_Ad_Cat_ID */
     public static final String COLUMNNAME_CM_Ad_Cat_ID = "CM_Ad_Cat_ID";
@@ -303,6 +303,19 @@ public interface I_CM_Ad
 	  */
 	public int getStartImpression();
 
+    /** Column name TargetURL */
+    public static final String COLUMNNAME_TargetURL = "TargetURL";
+
+	/** Set Target URL.
+	  * URL for the Target
+	  */
+	public void setTargetURL (String TargetURL);
+
+	/** Get Target URL.
+	  * URL for the Target
+	  */
+	public String getTargetURL();
+
     /** Column name Target_Frame */
     public static final String COLUMNNAME_Target_Frame = "Target_Frame";
 
@@ -316,18 +329,18 @@ public interface I_CM_Ad
 	  */
 	public String getTarget_Frame();
 
-    /** Column name TargetURL */
-    public static final String COLUMNNAME_TargetURL = "TargetURL";
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
 
-	/** Set Target URL.
-	  * URL for the Target
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
 	  */
-	public void setTargetURL (String TargetURL);
+	public void setUUID (String UUID);
 
-	/** Get Target URL.
-	  * URL for the Target
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
 	  */
-	public String getTargetURL();
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -344,17 +357,4 @@ public interface I_CM_Ad
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

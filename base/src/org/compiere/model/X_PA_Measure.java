@@ -32,7 +32,7 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_PA_Measure (Properties ctx, int PA_Measure_ID, String trxName)
@@ -77,23 +77,6 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
       return sb.toString();
     }
 
-	/** Set Calculation Class.
-		@param CalculationClass 
-		Java Class for calculation, implementing Interface Measure
-	  */
-	public void setCalculationClass (String CalculationClass)
-	{
-		set_Value (COLUMNNAME_CalculationClass, CalculationClass);
-	}
-
-	/** Get Calculation Class.
-		@return Java Class for calculation, implementing Interface Measure
-	  */
-	public String getCalculationClass () 
-	{
-		return (String)get_Value(COLUMNNAME_CalculationClass);
-	}
-
 	public org.compiere.model.I_C_ProjectType getC_ProjectType() throws RuntimeException
     {
 		return (org.compiere.model.I_C_ProjectType)MTable.get(getCtx(), org.compiere.model.I_C_ProjectType.Table_Name)
@@ -120,6 +103,23 @@ public class X_PA_Measure extends PO implements I_PA_Measure, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Calculation Class.
+		@param CalculationClass 
+		Java Class for calculation, implementing Interface Measure
+	  */
+	public void setCalculationClass (String CalculationClass)
+	{
+		set_Value (COLUMNNAME_CalculationClass, CalculationClass);
+	}
+
+	/** Get Calculation Class.
+		@return Java Class for calculation, implementing Interface Measure
+	  */
+	public String getCalculationClass () 
+	{
+		return (String)get_Value(COLUMNNAME_CalculationClass);
 	}
 
 	/** Set Description.

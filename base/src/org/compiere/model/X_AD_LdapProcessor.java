@@ -31,7 +31,7 @@ public class X_AD_LdapProcessor extends PO implements I_AD_LdapProcessor, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_LdapProcessor (Properties ctx, int AD_LdapProcessor_ID, String trxName)
