@@ -18,7 +18,6 @@
 package org.spin.process;
 
 import java.math.BigDecimal;
-import java.sql.SQLException;
 import java.util.List;
 
 import org.adempiere.model.ImportValidator;
@@ -30,7 +29,6 @@ import org.compiere.util.Util;
 import org.spin.model.I_I_FM_Agreement;
 import org.spin.model.MFMAccount;
 import org.spin.model.MFMAgreement;
-import org.spin.model.MFMAmortization;
 import org.spin.model.X_I_FM_Agreement;
 
 /**
@@ -39,7 +37,8 @@ import org.spin.model.X_I_FM_Agreement;
  *      <li> FR [ 1644 ] Import Loan Movements
  *		@see https://github.com/adempiere/adempiere/issues/1644
  */
-public class ImportLoan extends ImportLoanAbstract implements ImportProcess {
+public class ImportAgreement extends ImportAgreementAbstract implements ImportProcess {
+
 	@Override
 	protected String doIt() throws Exception {
 		StringBuffer sql = null;
@@ -145,6 +144,15 @@ public class ImportLoan extends ImportLoanAbstract implements ImportProcess {
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		if (no != 0)
 			log.info("Set Currency=" + no);
+		//	Error Currency
+		sql = new StringBuffer ("UPDATE I_FM_Agreement "
+				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=No Currency,' "
+				+ "WHERE C_Currency_ID IS NULL "
+				+ "AND I_IsImported<>'E' "
+				+ " AND I_IsImported<>'Y'").append(clientCheck);
+			no = DB.executeUpdate(sql.toString(), get_TrxName());
+			if (no != 0)
+				log.warning("No Currency=" + no);
 		
 		ModelValidationEngine.get().fireImportValidate(this, null, null, ImportValidator.TIMING_AFTER_VALIDATE);
 		
@@ -162,7 +170,7 @@ public class ImportLoan extends ImportLoanAbstract implements ImportProcess {
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		addLog (0, null, new BigDecimal (no), "@Errors@");
 		//
-		addLog (0, null, new BigDecimal (noInsert), "@Loan@: @Inserted@");
+		addLog (0, null, new BigDecimal (noInsert), "@FM_Agreement_ID@: @Inserted@");
 		return "#" + noInsert;
 	}
 	
@@ -175,101 +183,71 @@ public class ImportLoan extends ImportLoanAbstract implements ImportProcess {
 		//	Get List
 		List<X_I_FM_Agreement> listForImport = new Query(getCtx(), getImportTableName(), "I_IsImported='N'", get_TrxName())
 			//	Index
-			.setOrderBy("C_BPartner_ID, C_DocType_ID, FM_AgreementType_ID, DocumentNo, AccountNo, PeriodNo")
+			.setOrderBy("C_BPartner_ID, C_DocType_ID, FM_AgreementType_ID, DocumentNo, AccountNo")
 			.<X_I_FM_Agreement>list();
 		//	Old Temp Values
 		int oldBPartnerId = 0;
 		int oldDocTypeId = 0;
 		int oldAgreementId = 0;
 		String oldDocumentNo = "";
+		String oldAccountNo = "";
 		MFMAgreement agreement = null;
 		//	Import Agreement
 		for(X_I_FM_Agreement agreementImport : listForImport) {
-			try {
-				String cmpDocumentNo = agreementImport.getDocumentNo();
-				String cmpAccountNo = agreementImport.getAccountNo();
-				if (cmpDocumentNo == null)
-					cmpDocumentNo = "";
+			String cmpDocumentNo = agreementImport.getDocumentNo();
+			String cmpAccountNo = agreementImport.getAccountNo();
+			if (cmpDocumentNo == null)
+				cmpDocumentNo = "";
+			//	For Account
+			if (cmpAccountNo == null)
+				cmpAccountNo = "";
+			//	New Agreement
+			if (oldBPartnerId != agreementImport.getC_BPartner_ID() 
+				|| oldDocTypeId != agreementImport.getC_DocType_ID()
+				|| oldAgreementId != agreementImport.getFM_AgreementType_ID() 
+				|| !oldDocumentNo.equals(cmpDocumentNo)
+				|| !oldAccountNo.equals(cmpAccountNo)) {
+				//	Complete Old
+				completeAgreement(agreement);
+				//	
+				agreement = createAgreement(agreementImport);
+				agreement.saveEx();
+				//	Set old values
+				oldBPartnerId = agreementImport.getC_BPartner_ID();
+				oldDocTypeId = agreementImport.getC_DocType_ID();
+				oldAgreementId = agreementImport.getFM_AgreementType_ID();
+				oldDocumentNo = agreementImport.getDocumentNo();
+				oldAccountNo = agreementImport.getAccountNo();
+				//	
+				if (oldDocumentNo == null)
+					oldDocumentNo = "";
 				//	For Account
-				if (cmpAccountNo == null)
-					cmpAccountNo = "";
-				//	New Agreement
-				if (oldBPartnerId != agreementImport.getC_BPartner_ID() 
-					|| oldDocTypeId != agreementImport.getC_DocType_ID()
-					|| oldAgreementId != agreementImport.getFM_AgreementType_ID() 
-					|| !oldDocumentNo.equals(cmpDocumentNo)) {
-					//	Complete Old
-					completeAgreement(agreement);
-					//	
-					agreement = createAgreement(agreementImport);
-					agreement.saveEx();
-					//	Set old values
-					oldBPartnerId = agreementImport.getC_BPartner_ID();
-					oldDocTypeId = agreementImport.getC_DocType_ID();
-					oldAgreementId = agreementImport.getFM_AgreementType_ID();
-					oldDocumentNo = agreementImport.getDocumentNo();
-					//	
-					if (oldDocumentNo == null)
-						oldDocumentNo = "";
-					//	noInsert
-					noInsert++;
-				}
-				//	For Account
-				MFMAccount account = null;
-				List<MFMAccount> accounts = agreement.getAccounts();
-				if(accounts == null
-						|| accounts.size() == 0) {
-					//	Create Account
-					account = new MFMAccount(agreement);
-				} else {
-					account = accounts.get(0);
-				}
+				if (oldAccountNo == null)
+					oldAccountNo = "";
 				//	
 				if(!Util.isEmpty(agreementImport.getAccountNo())) {
-					account.setAccountNo(agreementImport.getAccountNo());
+					List<MFMAccount> accounts = agreement.getAccounts();
+					if(accounts == null
+							|| accounts.size() == 0) {
+						//	Create Account
+						MFMAccount account = new MFMAccount(agreement);
+						account.setAccountNo(agreementImport.getAccountNo());
+						account.saveEx();
+						//	Set Reference
+						agreementImport.setFM_Account_ID(account.getFM_Account_ID());
+					}
 				}
-				if(agreementImport.get_ValueAsInt("FeesQty") > 0) {
-					account.set_ValueOfColumn("FeesQty", agreementImport.get_Value("FeesQty"));
-				}
-				//	
-				if(agreementImport.get_Value("PaymentFrequency") != null) {
-					account.set_ValueOfColumn("PaymentFrequency", agreementImport.get_Value("PaymentFrequency"));
-				}
-				//	
-				if(agreementImport.get_Value("PayDate") != null) {
-					account.set_ValueOfColumn("PayDate", agreementImport.get_Value("PayDate"));
-				}
-				//	
-				if(agreementImport.get_Value("ValidFrom") != null) {
-					account.set_ValueOfColumn("StartDate", agreementImport.get_Value("ValidFrom"));
-				}
-				//	
-				if(agreementImport.get_Value("EndDate") != null) {
-					account.set_ValueOfColumn("EndDate", agreementImport.get_Value("EndDate"));
-				}
-				account.saveEx();
-				//	Set Reference
-				agreementImport.setFM_Account_ID(account.getFM_Account_ID());
-				//	Create Amortization
-				MFMAmortization amortization = new MFMAmortization(agreementImport);
-				amortization.saveEx();
 				//	Set Reference
 				agreementImport.setFM_Agreement_ID(agreement.getFM_Agreement_ID());
-				agreementImport.set_ValueOfColumn("FM_Amortization_ID", amortization.getFM_Amortization_ID());
 				agreementImport.setI_IsImported("Y");
 				agreementImport.setProcessed(true);
 				agreementImport.saveEx();
-			} catch (Exception e) {
-				log.warning("Import Error: " + e.getLocalizedMessage());
+				//	noInsert
+				noInsert++;
 			}
-			
 		}
 		//	Complete Current
-		try {
-			completeAgreement(agreement);
-		} catch (Exception e) {
-			log.warning("Import Error: " + e.getLocalizedMessage());
-		}
+		completeAgreement(agreement);
 		//	Default Return
 		return noInsert;
 	}
@@ -277,14 +255,12 @@ public class ImportLoan extends ImportLoanAbstract implements ImportProcess {
 	/**
 	 * Complete Agreement
 	 * @param agreement
-	 * @throws SQLException 
 	 */
-	private void completeAgreement(MFMAgreement agreement) throws SQLException {
+	private void completeAgreement(MFMAgreement agreement) {
 		if(agreement != null) {
 			agreement.setDocAction(MFMAgreement.DOCACTION_Complete);
 			agreement.processIt(MFMAgreement.DOCACTION_Complete);
 			agreement.saveEx();
-			commitEx();
 		}
 	}
 	

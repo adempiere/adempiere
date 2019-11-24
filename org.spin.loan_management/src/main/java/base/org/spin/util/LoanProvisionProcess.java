@@ -26,7 +26,6 @@ import org.spin.model.MFMBatch;
 import org.spin.model.MFMFunctionalSetting;
 import org.spin.model.MFMTransaction;
 import org.spin.model.MFMTransactionType;
-import org.spin.util.AmortizationValue;
 
 /**
  * Loan Provision Calculation

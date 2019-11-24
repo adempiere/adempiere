@@ -26,7 +26,6 @@ import org.spin.model.MFMAgreement;
 import org.spin.model.MFMAmortization;
 import org.spin.model.MFMFunctionalSetting;
 import org.spin.model.MFMProduct;
-import org.spin.util.AmortizationValue;
 
 /**
  * Financial Management

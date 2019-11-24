@@ -74,7 +74,7 @@ import org.zkoss.zul.Separator;
  *      <li> FR [ 1585 ] Loan Simulator
  *		@see https://github.com/adempiere/adempiere/issues/1585
  */
-public class WLoanSimulator extends LoanSimulator
+public class WLoanSimulator extends org.spin.form.LoanSimulator
 	implements IFormController, EventListener, ValueChangeListener {
 	
 	private CustomForm form = new CustomForm();
