@@ -32,7 +32,7 @@ BEGIN
 		FROM FM_RateVersion rv
 		WHERE rv.FM_Rate_ID = p_FM_Rate_ID
 		AND rv.IsActive = 'Y'
-		AND rv.ValidFrom <= COALESCE(DateTo, now())
+		AND rv.ValidFrom <= COALESCE(DateTo, getdate())
 		ORDER BY rv.ValidFrom DESC
 		LIMIT 1;
 	RETURN v_Rate;

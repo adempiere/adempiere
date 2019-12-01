@@ -29,7 +29,7 @@ $BODY$
  * 	SELECT dailySalary (113); - Get daily salary for GardenAdmin BP now
  ************************************************************************/
 BEGIN
-	RETURN dailySalaryToDate(p_C_BPartner_ID, now());
+	RETURN dailySalaryToDate(p_C_BPartner_ID, getdate());
 END;
 
 $BODY$

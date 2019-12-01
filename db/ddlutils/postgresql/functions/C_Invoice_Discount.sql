@@ -30,7 +30,7 @@ DECLARE
 	v_TotalLines		NUMERIC;
 	v_C_PaymentTerm_ID	NUMERIC(10);
 	v_DocDate		timestamp with time zone;
-	v_PayDate		timestamp with time zone := now();
+	v_PayDate		timestamp with time zone := getdate();
     	v_IsPayScheduleValid    CHAR(1);
 
 BEGIN

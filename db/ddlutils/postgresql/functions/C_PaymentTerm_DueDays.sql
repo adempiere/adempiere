@@ -45,7 +45,7 @@ BEGIN
 
     	v_PayDate := PayDate;
 	IF v_PayDate IS NULL THEN
-	    v_PayDate := TRUNC(now());
+	    v_PayDate := TRUNC(getdate());
 	END IF;
 
 	FOR p IN 
