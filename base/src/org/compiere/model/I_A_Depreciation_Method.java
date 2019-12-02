@@ -49,15 +49,6 @@ public interface I_A_Depreciation_Method
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name A_Depreciation_Method_ID */
-    public static final String COLUMNNAME_A_Depreciation_Method_ID = "A_Depreciation_Method_ID";
-
-	/** Set Depreciation Method	  */
-	public void setA_Depreciation_Method_ID (int A_Depreciation_Method_ID);
-
-	/** Get Depreciation Method	  */
-	public int getA_Depreciation_Method_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -70,6 +61,15 @@ public interface I_A_Depreciation_Method
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name A_Depreciation_Method_ID */
+    public static final String COLUMNNAME_A_Depreciation_Method_ID = "A_Depreciation_Method_ID";
+
+	/** Set Depreciation Method	  */
+	public void setA_Depreciation_Method_ID (int A_Depreciation_Method_ID);
+
+	/** Get Depreciation Method	  */
+	public int getA_Depreciation_Method_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -157,6 +157,19 @@ public interface I_A_Depreciation_Method
 	/** Get Description	  */
 	public String getText();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -172,17 +185,4 @@ public interface I_A_Depreciation_Method
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

@@ -105,19 +105,6 @@ public interface I_C_POSKey
 
 	public org.compiere.model.I_AD_PrintFont getAD_PrintFont() throws RuntimeException;
 
-    /** Column name C_POSKey_ID */
-    public static final String COLUMNNAME_C_POSKey_ID = "C_POSKey_ID";
-
-	/** Set POS Key.
-	  * POS Function Key
-	  */
-	public void setC_POSKey_ID (int C_POSKey_ID);
-
-	/** Get POS Key.
-	  * POS Function Key
-	  */
-	public int getC_POSKey_ID();
-
     /** Column name C_POSKeyLayout_ID */
     public static final String COLUMNNAME_C_POSKeyLayout_ID = "C_POSKeyLayout_ID";
 
@@ -132,6 +119,19 @@ public interface I_C_POSKey
 	public int getC_POSKeyLayout_ID();
 
 	public org.compiere.model.I_C_POSKeyLayout getC_POSKeyLayout() throws RuntimeException;
+
+    /** Column name C_POSKey_ID */
+    public static final String COLUMNNAME_C_POSKey_ID = "C_POSKey_ID";
+
+	/** Set POS Key.
+	  * POS Function Key
+	  */
+	public void setC_POSKey_ID (int C_POSKey_ID);
+
+	/** Get POS Key.
+	  * POS Function Key
+	  */
+	public int getC_POSKey_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -281,6 +281,19 @@ public interface I_C_POSKey
 	/** Get Description	  */
 	public String getText();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -296,17 +309,4 @@ public interface I_C_POSKey
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

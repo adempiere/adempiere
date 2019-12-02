@@ -77,19 +77,6 @@ public interface I_CM_Chat
 
 	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
-    /** Column name CM_Chat_ID */
-    public static final String COLUMNNAME_CM_Chat_ID = "CM_Chat_ID";
-
-	/** Set Chat.
-	  * Chat or discussion thread
-	  */
-	public void setCM_Chat_ID (int CM_Chat_ID);
-
-	/** Get Chat.
-	  * Chat or discussion thread
-	  */
-	public int getCM_Chat_ID();
-
     /** Column name CM_ChatType_ID */
     public static final String COLUMNNAME_CM_ChatType_ID = "CM_ChatType_ID";
 
@@ -104,6 +91,19 @@ public interface I_CM_Chat
 	public int getCM_ChatType_ID();
 
 	public org.compiere.model.I_CM_ChatType getCM_ChatType() throws RuntimeException;
+
+    /** Column name CM_Chat_ID */
+    public static final String COLUMNNAME_CM_Chat_ID = "CM_Chat_ID";
+
+	/** Set Chat.
+	  * Chat or discussion thread
+	  */
+	public void setCM_Chat_ID (int CM_Chat_ID);
+
+	/** Get Chat.
+	  * Chat or discussion thread
+	  */
+	public int getCM_Chat_ID();
 
     /** Column name ConfidentialType */
     public static final String COLUMNNAME_ConfidentialType = "ConfidentialType";
@@ -186,6 +186,19 @@ public interface I_CM_Chat
 	  */
 	public int getRecord_ID();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -201,17 +214,4 @@ public interface I_CM_Chat
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

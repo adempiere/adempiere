@@ -30,7 +30,7 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_ASP_Tab (Properties ctx, int ASP_Tab_ID, String trxName)
@@ -98,27 +98,6 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set AllFields.
-		@param AllFields AllFields	  */
-	public void setAllFields (boolean AllFields)
-	{
-		set_Value (COLUMNNAME_AllFields, Boolean.valueOf(AllFields));
-	}
-
-	/** Get AllFields.
-		@return AllFields	  */
-	public boolean isAllFields () 
-	{
-		Object oo = get_Value(COLUMNNAME_AllFields);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
 	}
 
 	/** ASP_Status AD_Reference_ID=53234 */
@@ -196,6 +175,27 @@ public class X_ASP_Tab extends PO implements I_ASP_Tab, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getASP_Window_ID()));
     }
+
+	/** Set AllFields.
+		@param AllFields AllFields	  */
+	public void setAllFields (boolean AllFields)
+	{
+		set_Value (COLUMNNAME_AllFields, Boolean.valueOf(AllFields));
+	}
+
+	/** Get AllFields.
+		@return AllFields	  */
+	public boolean isAllFields () 
+	{
+		Object oo = get_Value(COLUMNNAME_AllFields);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
 
 	/** Set Process Now.
 		@param Processing Process Now	  */

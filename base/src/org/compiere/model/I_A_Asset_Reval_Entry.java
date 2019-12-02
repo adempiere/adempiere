@@ -41,15 +41,6 @@ public interface I_A_Asset_Reval_Entry
 
     /** Load Meta Data */
 
-    /** Column name A_Asset_Reval_Entry_ID */
-    public static final String COLUMNNAME_A_Asset_Reval_Entry_ID = "A_Asset_Reval_Entry_ID";
-
-	/** Set Asset Reval. Entry	  */
-	public void setA_Asset_Reval_Entry_ID (int A_Asset_Reval_Entry_ID);
-
-	/** Get Asset Reval. Entry	  */
-	public int getA_Asset_Reval_Entry_ID();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -71,6 +62,15 @@ public interface I_A_Asset_Reval_Entry
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name A_Asset_Reval_Entry_ID */
+    public static final String COLUMNNAME_A_Asset_Reval_Entry_ID = "A_Asset_Reval_Entry_ID";
+
+	/** Set Asset Reval. Entry	  */
+	public void setA_Asset_Reval_Entry_ID (int A_Asset_Reval_Entry_ID);
+
+	/** Get Asset Reval. Entry	  */
+	public int getA_Asset_Reval_Entry_ID();
+
     /** Column name A_Effective_Date */
     public static final String COLUMNNAME_A_Effective_Date = "A_Effective_Date";
 
@@ -79,6 +79,15 @@ public interface I_A_Asset_Reval_Entry
 
 	/** Get Effective Date	  */
 	public Timestamp getA_Effective_Date();
+
+    /** Column name A_Rev_Code */
+    public static final String COLUMNNAME_A_Rev_Code = "A_Rev_Code";
+
+	/** Set Rev. Code	  */
+	public void setA_Rev_Code (String A_Rev_Code);
+
+	/** Get Rev. Code	  */
+	public String getA_Rev_Code();
 
     /** Column name A_Reval_Cal_Method */
     public static final String COLUMNNAME_A_Reval_Cal_Method = "A_Reval_Cal_Method";
@@ -106,15 +115,6 @@ public interface I_A_Asset_Reval_Entry
 
 	/** Get Reval. Multiplier	  */
 	public String getA_Reval_Multiplier();
-
-    /** Column name A_Rev_Code */
-    public static final String COLUMNNAME_A_Rev_Code = "A_Rev_Code";
-
-	/** Set Rev. Code	  */
-	public void setA_Rev_Code (String A_Rev_Code);
-
-	/** Get Rev. Code	  */
-	public String getA_Rev_Code();
 
     /** Column name C_AcctSchema_ID */
     public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
@@ -307,6 +307,19 @@ public interface I_A_Asset_Reval_Entry
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -322,17 +335,4 @@ public interface I_A_Asset_Reval_Entry
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

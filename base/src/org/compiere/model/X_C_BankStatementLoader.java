@@ -31,7 +31,7 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_BankStatementLoader (Properties ctx, int C_BankStatementLoader_ID, String trxName)
@@ -305,23 +305,6 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** Set Password.
-		@param Password 
-		Password of any length (case sensitive)
-	  */
-	public void setPassword (String Password)
-	{
-		set_Value (COLUMNNAME_Password, Password);
-	}
-
-	/** Get Password.
-		@return Password of any length (case sensitive)
-	  */
-	public String getPassword () 
-	{
-		return (String)get_Value(COLUMNNAME_Password);
-	}
-
 	/** Set PIN.
 		@param PIN 
 		Personal Identification Number
@@ -337,6 +320,23 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	public String getPIN () 
 	{
 		return (String)get_Value(COLUMNNAME_PIN);
+	}
+
+	/** Set Password.
+		@param Password 
+		Password of any length (case sensitive)
+	  */
+	public void setPassword (String Password)
+	{
+		set_Value (COLUMNNAME_Password, Password);
+	}
+
+	/** Get Password.
+		@return Password of any length (case sensitive)
+	  */
+	public String getPassword () 
+	{
+		return (String)get_Value(COLUMNNAME_Password);
 	}
 
 	/** Set Proxy address.
@@ -427,23 +427,6 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 		return (String)get_Value(COLUMNNAME_StmtLoaderClass);
 	}
 
-	/** Set User ID.
-		@param UserID 
-		User ID or account number
-	  */
-	public void setUserID (String UserID)
-	{
-		set_Value (COLUMNNAME_UserID, UserID);
-	}
-
-	/** Get User ID.
-		@return User ID or account number
-	  */
-	public String getUserID () 
-	{
-		return (String)get_Value(COLUMNNAME_UserID);
-	}
-
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 
 		Immutable Universally Unique Identifier
@@ -459,5 +442,22 @@ public class X_C_BankStatementLoader extends PO implements I_C_BankStatementLoad
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** Set User ID.
+		@param UserID 
+		User ID or account number
+	  */
+	public void setUserID (String UserID)
+	{
+		set_Value (COLUMNNAME_UserID, UserID);
+	}
+
+	/** Get User ID.
+		@return User ID or account number
+	  */
+	public String getUserID () 
+	{
+		return (String)get_Value(COLUMNNAME_UserID);
 	}
 }

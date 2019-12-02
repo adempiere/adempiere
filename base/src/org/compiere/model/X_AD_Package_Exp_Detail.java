@@ -30,7 +30,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_Package_Exp_Detail (Properties ctx, int AD_Package_Exp_Detail_ID, String trxName)
@@ -53,7 +53,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
     }
 
     /** AccessLevel
-      * @return 4 - System 
+      * @return 6 - System - Client 
       */
     protected int get_AccessLevel()
     {
@@ -287,6 +287,34 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public String getAD_Package_Code_Old () 
 	{
 		return (String)get_Value(COLUMNNAME_AD_Package_Code_Old);
+	}
+
+	public org.spin.model.I_AD_Package_Exp_Custom getAD_Package_Exp_Custom() throws RuntimeException
+    {
+		return (org.spin.model.I_AD_Package_Exp_Custom)MTable.get(getCtx(), org.spin.model.I_AD_Package_Exp_Custom.Table_Name)
+			.getPO(getAD_Package_Exp_Custom_ID(), get_TrxName());	}
+
+	/** Set Package Custom Exporter.
+		@param AD_Package_Exp_Custom_ID 
+		Custom Exporter for any entity
+	  */
+	public void setAD_Package_Exp_Custom_ID (int AD_Package_Exp_Custom_ID)
+	{
+		if (AD_Package_Exp_Custom_ID < 1) 
+			set_Value (COLUMNNAME_AD_Package_Exp_Custom_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Package_Exp_Custom_ID, Integer.valueOf(AD_Package_Exp_Custom_ID));
+	}
+
+	/** Get Package Custom Exporter.
+		@return Custom Exporter for any entity
+	  */
+	public int getAD_Package_Exp_Custom_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Exp_Custom_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Package Exp. Detail.
@@ -753,20 +781,6 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return (String)get_Value(COLUMNNAME_Destination_FileName);
 	}
 
-	/** Set File_Directory.
-		@param File_Directory File_Directory	  */
-	public void setFile_Directory (String File_Directory)
-	{
-		set_Value (COLUMNNAME_File_Directory, File_Directory);
-	}
-
-	/** Get File_Directory.
-		@return File_Directory	  */
-	public String getFile_Directory () 
-	{
-		return (String)get_Value(COLUMNNAME_File_Directory);
-	}
-
 	/** Set File Name.
 		@param FileName 
 		Name of the local file or URL
@@ -782,6 +796,20 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public String getFileName () 
 	{
 		return (String)get_Value(COLUMNNAME_FileName);
+	}
+
+	/** Set File_Directory.
+		@param File_Directory File_Directory	  */
+	public void setFile_Directory (String File_Directory)
+	{
+		set_Value (COLUMNNAME_File_Directory, File_Directory);
+	}
+
+	/** Get File_Directory.
+		@return File_Directory	  */
+	public String getFile_Directory () 
+	{
+		return (String)get_Value(COLUMNNAME_File_Directory);
 	}
 
 	/** Set Line No.
@@ -984,6 +1012,8 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public static final String TYPE_SmartView = "SV";
 	/** ASP Module = ASP */
 	public static final String TYPE_ASPModule = "ASP";
+	/** Custom Export = CEP */
+	public static final String TYPE_CustomExport = "CEP";
 	/** Set Type.
 		@param Type 
 		Type of Validation (SQL, Java Script, Java Language)

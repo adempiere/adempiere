@@ -74,6 +74,7 @@ import org.compiere.model.GridTab;
 import org.compiere.model.GridTable;
 import org.compiere.model.GridWindow;
 import org.compiere.model.Lookup;
+import org.compiere.model.MColumn;
 import org.compiere.model.MLookup;
 import org.compiere.model.MMemo;
 import org.compiere.model.MTree;
@@ -161,6 +162,9 @@ import org.compiere.util.Util;
  * @author mckayERP www.mckayERP.com
  * 		<li> BF [ <a href="https://github.com/adempiere/adempiere/issues/281">#283</a> ] GridController in swing will not set value to null in vetoableChange
  * 		<li> BF [ <a href="https://github.com/adempiere/adempiere/issues/421">#421</a> ] Embedded tab is not updated
+ * @author Carlos Parada, cparada@erpya.com, ERPCyA http://www.erpya.com
+ *  		<a href="https://github.com/adempiere/adempiere/issues/729">
+ *			@see FR [ 729 ] Add Support to Parent Column And Search Column for Tree </a>
  */
 public class GridController extends CPanel
 	implements DataStatusListener, ListSelectionListener, Evaluatee,
@@ -1152,11 +1156,25 @@ public class GridController extends CPanel
 		boolean summary = IsSummary != null && IsSummary.booleanValue();
 		String imageIndicator = (String)m_mTab.getValue("Action");  //  Menu - Action
 		//
+		//FR [ 729 ]
 		m_tree.nodeChanged(save, keyID, name, description,
-			summary, imageIndicator);
+			summary, imageIndicator,getParent_ID ());
 	}   //  rowChanged
 
 
+	/**
+	 * FR [ 729 ]
+	 * Get Parent From Parent Column For Tree
+	 * @return
+	 */
+	private int getParent_ID () {
+		
+		MTree tree =  MTree.get(Env.getCtx(), m_tree.getTreeId(), null);
+		MColumn parentColumnIDforTree = MColumn.get(Env.getCtx(), tree.getParent_Column_ID());
+		Integer parent_id = (Integer) m_mTab.getValue(parentColumnIDforTree.getColumnName());
+		parent_id = parent_id == null ? 0 : parent_id;
+		return parent_id;
+	}
 	/**************************************************************************
 	 * Save Multiple records - Clone a record and assign new values to each
 	 * clone for a specific column.

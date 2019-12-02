@@ -31,7 +31,7 @@ public class X_AD_AppSupport_Para extends PO implements I_AD_AppSupport_Para, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_AppSupport_Para (Properties ctx, int AD_AppSupport_Para_ID, String trxName)

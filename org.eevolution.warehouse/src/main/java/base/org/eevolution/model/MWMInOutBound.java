@@ -31,18 +31,28 @@ package org.eevolution.model;
 import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.I_M_InOut;
 import org.compiere.model.MDocType;
+import org.compiere.model.MInOut;
+import org.compiere.model.MInOutLine;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MPeriod;
 import org.compiere.model.MProduct;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.ModelValidator;
 import org.compiere.model.Query;
 import org.compiere.process.DocAction;
+import org.compiere.process.DocOptions;
 import org.compiere.process.DocumentEngine;
-import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.Util;
 
 /**
@@ -50,16 +60,13 @@ import org.compiere.util.Util;
  * @author victor.perez@e-evoluton.com, e-Evolution
  *
  */
-public class MWMInOutBound extends X_WM_InOutBound implements DocAction
-{
+public class MWMInOutBound extends X_WM_InOutBound implements DocAction, DocOptions {
 
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7216075035497599383L;
-	/**	Logger							*/
-	private static CLogger	s_log = CLogger.getCLogger (MWMInOutBound.class);
 	/**	Order Lines					*/
 	private List<MWMInOutBoundLine> inOutBoundLines = null;
 	
@@ -203,14 +210,13 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
-
+		
+		MDocType documentType = MDocType.get(getCtx(), getC_DocType_ID());
 		//	Std Period open?
-		/*if (!MPeriod.isOpen(getCtx(), getDateAcct(), dt.getDocBaseType(), getAD_Org_ID()))
-		{
+		if (!MPeriod.isOpen(getCtx(), isSOTrx() ? getPickDate() : getDateTrx(), documentType.getDocBaseType(), getAD_Org_ID())){
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
-		}*/
+		}
 		
 		//	Lines
 		List<MWMInOutBoundLine> lines = getLines(true, MWMInOutBoundLine.COLUMNNAME_Line);
@@ -233,7 +239,6 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 				}
 			}
 		}
-						
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
@@ -323,10 +328,10 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 		}
 		
 		setProcessed(true);
-		for (MWMInOutBoundLine line : getLines(true, MWMInOutBoundLine.COLUMNNAME_Line))
-		{
-			line.setProcessed(true);
-			line.saveEx();
+		
+		//	Generate receipt
+		if(!isSOTrx()) {
+			generateReceipt();
 		}
 	
 		setDocAction(DOCACTION_Close);
@@ -339,64 +344,278 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction
 		}
 		return DocAction.STATUS_Completed;
 	} //	completeIt
+	
+	@Override
+	public void setProcessed(boolean Processed) {
+		super.setProcessed(Processed);
+		for (MWMInOutBoundLine line : getLines(true, MWMInOutBoundLine.COLUMNNAME_Line)) {
+			line.setProcessed(Processed);
+			line.saveEx();
+		}
+	}
+	
+	/**
+	 * reverse generated receipt
+	 */
+	private void reverseReceipt() {
+		new Query(getCtx(), I_M_InOut.Table_Name, "DocStatus = 'CO' "
+				+ "AND EXISTS(SELECT 1 FROM M_InOutLine iol "
+				+ "		INNER JOIN WM_InOutBoundLine iobl ON(iobl.WM_InOutBoundLine_ID = iol.WM_InOutBoundLine_ID) "
+				+ "		WHERE iobl.WM_InOutBound_ID = ?)", get_TrxName())
+			.setParameters(getWM_InOutBound_ID())
+			.<MInOut>list()
+			.forEach(receipt -> {
+				if(!receipt.processIt(MInOut.DOCACTION_Reverse_Correct)) {
+					throw new AdempiereException("@Error@ " + receipt.getProcessMsg());
+				}
+				receipt.saveEx();
+			});	
+	}
+	
+	/**
+	 * Generate Receipt from Express receipt
+	 */
+	private void generateReceipt() {
+		Hashtable<Integer, MInOut> receipts = new Hashtable<Integer, MInOut>();
+		//	
+		for(MWMInOutBoundLine inboundLine : getLines(true, null)) {
+			// Generate Shipment based on Outbound Order
+			if (inboundLine.getC_OrderLine_ID() > 0) {
+				MOrderLine orderLine = inboundLine.getOrderLine();
+				BigDecimal orderedAvailable = orderLine.getQtyOrdered().subtract(orderLine.getQtyDelivered());
+				if (orderedAvailable.subtract(inboundLine.getMovementQty()).signum() <= 0)
+					return;
 
+				BigDecimal qtyToReceipt = inboundLine.getMovementQty();
+				MInOut receipt = receipts.get(orderLine.getC_Order_ID());
+				if(receipt == null) {
+					receipt = createReceipt(orderLine, inboundLine.getParent());
+					receipts.put(orderLine.getC_Order_ID(), receipt);
+				}
+				MInOutLine receiptLine = new MInOutLine(inboundLine.getCtx(), 0 , inboundLine.get_TrxName());
+				receiptLine.setM_InOut_ID(receipt.getM_InOut_ID());
+				int locatorId = inboundLine.getM_Locator_ID();
+				if(locatorId == 0) {
+					locatorId = getM_Locator_ID();
+				}
+				MProduct product = MProduct.get(getCtx(), inboundLine.getM_Product_ID());
+				receiptLine.setM_Locator_ID(locatorId);
+				receiptLine.setProduct(product);
+				receiptLine.setQtyEntered(qtyToReceipt);
+				receiptLine.setMovementQty(qtyToReceipt);
+				receiptLine.setC_OrderLine_ID(orderLine.getC_OrderLine_ID());
+				receiptLine.setM_Shipper_ID(inboundLine.getM_Shipper_ID());
+				receiptLine.setM_FreightCategory_ID(inboundLine.getM_FreightCategory_ID());
+				receiptLine.setFreightAmt(inboundLine.getFreightAmt());
+				receiptLine.setWM_InOutBoundLine_ID(inboundLine.getWM_InOutBoundLine_ID());
+				receiptLine.saveEx();
+			}
+		}
+		//	Process Receipts
+		receipts.entrySet().stream().filter(entry -> entry != null).forEach(entry -> {
+			MInOut shipment = entry.getValue();
+			shipment.setDocAction(getDocAction());
+			shipment.processIt(getDocAction());
+			if (!shipment.processIt(getDocAction())) {
+				log.warning("@ProcessFailed@ :" + shipment.getDocumentInfo());
+			}
+			shipment.saveEx();
+		});
+	}
+	
+	/**
+	 * Create receipt
+	 * @param orderLine
+	 * @param outbound
+	 * @return
+	 */
+	private MInOut createReceipt(MOrderLine orderLine, MWMInOutBound outbound) {
+		MOrder order = orderLine.getParent();
+		int docTypeId = MDocType.getDocType(MDocType.DOCBASETYPE_MaterialReceipt , orderLine.getAD_Org_ID());
+		MInOut shipment = new MInOut(order,docTypeId, getDateTrx());
+		shipment.setIsSOTrx(false);
+		shipment.setM_Shipper_ID(outbound.getM_Shipper_ID());
+		shipment.setM_FreightCategory_ID(outbound.getM_FreightCategory_ID());
+		shipment.setFreightCostRule(outbound.getFreightCostRule());
+		shipment.setFreightAmt(outbound.getFreightAmt());
+		shipment.saveEx();
+		return shipment;
+	}
+
+	@Override
+	public int customizeValidActions(String docStatus, Object processing,
+			String orderType, String isSOTrx, int AD_Table_ID,
+			String[] docAction, String[] options, int index) {
+		//	Valid Document Action
+		if (AD_Table_ID == Table_ID) {
+			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
+					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
+					|| docStatus.equals(DocumentEngine.STATUS_Invalid)) {
+					options[index++] = DocumentEngine.ACTION_Prepare;
+				}
+				//	Complete                    ..  CO
+				else if (docStatus.equals(DocumentEngine.STATUS_Completed)) {
+					
+					options[index++] = DocumentEngine.ACTION_Void;
+					options[index++] = DocumentEngine.ACTION_ReActivate;
+					options[index++] = DocumentEngine.ACTION_Close;
+					
+				} else if (docStatus.equals(DocumentEngine.STATUS_Closed)) {
+					options[index++] = DocumentEngine.ACTION_None;
+				}
+			
+		}
+		
+		return index;
+	}
+
+	/**
+	 * 	Void Document.
+	 * 	Same as Close.
+	 * 	@return true if success 
+	 */
 	public boolean voidIt()
 	{
-		log.info(toString());
+		log.info("voidIt - " + toString());
 		// Before Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
 		if (m_processMsg != null)
 			return false;
-				
+		getLines(true, null)
+				.forEach(inoutLine -> {
+					if (inoutLine.getMovementQty().signum() != 0) {
+
+						inoutLine.setDescription(Optional.ofNullable(inoutLine.getDescription()).orElse("")
+								+ " " + Msg.getMsg(getCtx(), "Voided") + " @MovementQty@ = (" + inoutLine.getMovementQty() + ")");
+						inoutLine.setMovementQty(BigDecimal.ZERO);
+						inoutLine.setProcessed(true);
+						inoutLine.saveEx();
+					}
+					//AZ Goodwill
+				});
+		addDescription(Msg.getMsg(getCtx(), "Voided"));
+		//	Reverse receipt
+		if(!isSOTrx()) {
+			reverseReceipt();
+		}
+		// After Void
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
 		if (m_processMsg != null)
 			return false;
-		
-		setProcessed(true);
-		setDocAction(DOCACTION_None);
-		return true;
-	} //	voidIt
 
-	public boolean closeIt()
-	{
-		log.info(toString());
+		setProcessed(true);
+        setDocAction(DOCACTION_None);
+		return true;
+	}	//	voidIt
+	
+	/**
+     *  Add to Description
+     *  @param description text
+     */
+    public void addDescription (String description) {
+        String desc = getDescription();
+        if (desc == null)
+            setDescription(description);
+        else
+            setDescription(desc + " | " + description);
+    }   //  addDescription
+	
+	/**
+	 * 	Close Document.
+	 * 	Cancel not delivered Qunatities
+	 * 	@return true if success 
+	 */
+	public boolean closeIt() {
+		log.info("closeIt - " + toString());
 		// Before Close
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
 		if (m_processMsg != null)
 			return false;
-				
-			
+
+		getLines(true, null)
+				.forEach(inoutLine -> {
+					if (inoutLine.getMovementQty().compareTo(inoutLine.getPickedQty()) != 0) {
+						inoutLine.setDescription(Optional.ofNullable(inoutLine.getDescription()).orElse("")
+								+ " " + Msg.getMsg(getCtx(), "@closed@ @MovementQty@ = (" + inoutLine.getMovementQty() + ")"));
+						inoutLine.setMovementQty(inoutLine.getPickedQty());
+						inoutLine.setProcessed(true);
+						inoutLine.saveEx();
+					}
+				});
+		
+		setProcessed(true);
+		setDocAction(DOCACTION_None);
+		
+		// After Close
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
 		if (m_processMsg != null)
 			return false;
-		setDocStatus(DOCSTATUS_Closed);
-		setProcessed(true);
-		setDocAction(DOCACTION_None);
-		return true;
-	} //	closeIt
 
+		return true;
+	}	//	closeIt
+	
+	/**
+	 * 	Reverse Correction
+	 * 	@return true if success 
+	 */
 	public boolean reverseCorrectIt()
 	{
 		log.info("reverseCorrectIt - " + toString());
-		return voidIt();
-	} //	reverseCorrectionIt
+		// Before reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
+		//	Void It
+		voidIt();
+		// After reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
 
+		return false;
+	}	//	reverseCorrectionIt
+	
+	/**
+	 * 	Reverse Accrual - none
+	 * 	@return true if success 
+	 */
 	public boolean reverseAccrualIt()
 	{
 		log.info("reverseAccrualIt - " + toString());
-		return false;
-	} //	reverseAccrualIt
+		// Before reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+		//	Void It
+		voidIt();
+		// After reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
 
+		return false;
+	}	//	reverseAccrualIt
+	
+	/** 
+	 * 	Re-activate
+	 * 	@return true if success 
+	 */
 	public boolean reActivateIt()
 	{
+		log.info("reActivateIt - " + toString());
+		// Before reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (m_processMsg != null)
+			return false;
 		// After reActivate
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
 		if (m_processMsg != null)
-			return false;		
+			return false;
+		
 		setDocAction(DOCACTION_Complete);
 		setProcessed(false);
 		return true;
-	} //	reActivateIt
+	}	//	reActivateIt
 	
 	/**
 	 * get MWMInOutBoundLine lines

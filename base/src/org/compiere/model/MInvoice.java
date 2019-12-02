@@ -1039,23 +1039,29 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 
 	/**
 	 * 	Get Allocated Amt in Invoice Currency
-	 *	@return pos/neg amount or null
+	 * @param allocationProcessed
+	 * @return pos/neg amount or null
 	 */
-	public BigDecimal getAllocatedAmt ()
+	public BigDecimal getAllocatedAmt (boolean allocationProcessed)
 	{
 		BigDecimal retValue = null;
-		String sql = "SELECT SUM(currencyConvert(al.Amount+al.DiscountAmt+al.WriteOffAmt,"
-				+ "ah.C_Currency_ID, i.C_Currency_ID,ah.DateTrx,COALESCE(i.C_ConversionType_ID,0), al.AD_Client_ID,al.AD_Org_ID)) "
-			+ "FROM C_AllocationLine al"
-			+ " INNER JOIN C_AllocationHdr ah ON (al.C_AllocationHdr_ID=ah.C_AllocationHdr_ID)"
-			+ " INNER JOIN C_Invoice i ON (al.C_Invoice_ID=i.C_Invoice_ID) "
-			+ "WHERE al.C_Invoice_ID=?"
-			+ " AND ah.IsActive='Y' AND al.IsActive='Y'";
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT SUM(currencyConvert(al.Amount+al.DiscountAmt+al.WriteOffAmt,")
+				.append("ah.C_Currency_ID, i.C_Currency_ID,ah.DateTrx,COALESCE(i.C_ConversionType_ID,0), al.AD_Client_ID,al.AD_Org_ID)) ")
+				.append("FROM C_AllocationLine al")
+				.append(" INNER JOIN C_AllocationHdr ah ON (al.C_AllocationHdr_ID=ah.C_AllocationHdr_ID)")
+				.append(" INNER JOIN C_Invoice i ON (al.C_Invoice_ID=i.C_Invoice_ID) ")
+				.append("WHERE al.C_Invoice_ID=?");
+		// Only for allocation processed
+		if (allocationProcessed)
+			sql.append(" AND ah.DocStatus IN ('CO','CL') ");
+		//Should be include Allocation with any document status to allow processing direct allocation of payment with invoice
+		sql.append(" AND ah.IsActive='Y' AND al.IsActive='Y'"); //Should be include Allocation with any document status to allow processing direct allocation of payment with invoice
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
 			pstmt.setInt(1, getC_Invoice_ID());
 			rs = pstmt.executeQuery();
 			if (rs.next())
@@ -1068,7 +1074,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		}
 		catch (SQLException e)
 		{
-			throw new DBException(e, sql);
+			throw new DBException(e, sql.toString());
 		}
 		finally
 		{
@@ -1089,7 +1095,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		boolean change = false;
 
 		if ( isProcessed() ) {
-			BigDecimal alloc = getAllocatedAmt();	//	absolute
+			BigDecimal alloc = getAllocatedAmt(false);	// Included Allocation not processed
 			if (alloc == null)
 				alloc = Env.ZERO;
 			BigDecimal total = getGrandTotal();
@@ -1177,7 +1183,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 				//	Payment Discount
 				//	Payment Schedule
 			}
-			BigDecimal allocated = getAllocatedAmt();
+			BigDecimal allocated = getAllocatedAmt(true); // Include Allocation processed
 			if (allocated != null)
 			{
 				allocated = allocated.abs();	//	is absolute
@@ -1648,7 +1654,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 			if (MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true, getAD_Client_ID()))
 			{
 				String error = payCashWithCashAsPayment();
-				if (error != "")
+				if (error != null)
 					return error;
 			}
 			
@@ -1725,10 +1731,13 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 			BigDecimal multiplier = getC_DocTypeTarget().getDocBaseType().contains("C")?Env.ONE.negate():Env.ONE;
 			if (invoiceLine.getC_OrderLine_ID() != 0)
 			{
+				orderLine = (MOrderLine)invoiceLine.getC_OrderLine();
+				if(orderLine.getParent().isReturnOrder()) {
+					multiplier = multiplier.negate();
+				}
 				if (isSOTrx()
 				|| invoiceLine.getM_Product_ID() == 0) {
 					BigDecimal qtyInvoiced = invoiceLine.getQtyInvoiced().multiply(multiplier);
-					orderLine = (MOrderLine)invoiceLine.getC_OrderLine();
 					orderLine.setQtyInvoiced(orderLine.getQtyInvoiced().add(qtyInvoiced));
 					orderLine.saveEx();
 				}
@@ -2139,7 +2148,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 	{
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
-		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElse(currentDate) : getDateAcct();
+		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElseGet(() -> currentDate) : getDateAcct();
 		Timestamp reversalDateInvoice = isAccrual ? reversalDate : getDateInvoiced();
 		MPeriod.testPeriodOpen(getCtx(), reversalDate , getC_DocType_ID(), getAD_Org_ID());
 		// reverse allocations
@@ -2187,7 +2196,6 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 			return null;
 		}
 		reversal.setC_Payment_ID(0);
-		reversal.setIsPaid(true);
 		reversal.closeIt();
 		reversal.setProcessing (false);
 		reversal.setDocStatus(DOCSTATUS_Reversed);
@@ -2213,7 +2221,6 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		setDocStatus(DOCSTATUS_Reversed);	//	may come from void
 		setDocAction(DOCACTION_None);
 		setC_Payment_ID(0);
-		setIsPaid(true);
 
 		//	Create Allocation
 		MAllocationHdr allocationHdr = new MAllocationHdr(getCtx(), false, reversalDate,
@@ -2456,8 +2463,12 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 			MPOS pos = MPOS.get(getCtx(), posId);
 			paymentCash.setC_BankAccount_ID(pos.getC_BankAccount_ID());
 		} else {
-			MDocType dt = (MDocType)getC_Order().getC_DocType();
-			paymentCash.setC_BankAccount_ID(dt.get_ValueAsInt("C_BankAccount_ID"));
+			MBankAccount bankAccount = MBankAccount.getDefault(getCtx(), getAD_Org_ID(), X_C_Bank.BANKTYPE_CashJournal);
+			if (bankAccount == null) {
+				processMsg = Msg.getMsg(getCtx(), "No Default Cash defined for Organization");
+				return DOCSTATUS_Invalid;
+			}
+			paymentCash.setC_BankAccount_ID(bankAccount.getC_BankAccount_ID());
 		}
 
 		paymentCash.setC_DocType_ID(true);

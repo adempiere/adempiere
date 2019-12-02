@@ -49,6 +49,19 @@ public interface I_AD_LdapProcessorLog
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_LdapProcessorLog_ID */
+    public static final String COLUMNNAME_AD_LdapProcessorLog_ID = "AD_LdapProcessorLog_ID";
+
+	/** Set Ldap Processor Log.
+	  * LDAP Server Log
+	  */
+	public void setAD_LdapProcessorLog_ID (int AD_LdapProcessorLog_ID);
+
+	/** Get Ldap Processor Log.
+	  * LDAP Server Log
+	  */
+	public int getAD_LdapProcessorLog_ID();
+
     /** Column name AD_LdapProcessor_ID */
     public static final String COLUMNNAME_AD_LdapProcessor_ID = "AD_LdapProcessor_ID";
 
@@ -63,19 +76,6 @@ public interface I_AD_LdapProcessorLog
 	public int getAD_LdapProcessor_ID();
 
 	public org.compiere.model.I_AD_LdapProcessor getAD_LdapProcessor() throws RuntimeException;
-
-    /** Column name AD_LdapProcessorLog_ID */
-    public static final String COLUMNNAME_AD_LdapProcessorLog_ID = "AD_LdapProcessorLog_ID";
-
-	/** Set Ldap Processor Log.
-	  * LDAP Server Log
-	  */
-	public void setAD_LdapProcessorLog_ID (int AD_LdapProcessorLog_ID);
-
-	/** Get Ldap Processor Log.
-	  * LDAP Server Log
-	  */
-	public int getAD_LdapProcessorLog_ID();
 
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
@@ -197,6 +197,19 @@ public interface I_AD_LdapProcessorLog
 	  */
 	public String getTextMsg();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -212,17 +225,4 @@ public interface I_AD_LdapProcessorLog
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

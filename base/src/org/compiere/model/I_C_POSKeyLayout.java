@@ -92,19 +92,6 @@ public interface I_C_POSKeyLayout
 
 	public org.compiere.model.I_AD_PrintFont getAD_PrintFont() throws RuntimeException;
 
-    /** Column name Columns */
-    public static final String COLUMNNAME_Columns = "Columns";
-
-	/** Set Columns.
-	  * Number of columns
-	  */
-	public void setColumns (int Columns);
-
-	/** Get Columns.
-	  * Number of columns
-	  */
-	public int getColumns();
-
     /** Column name C_POSKeyLayout_ID */
     public static final String COLUMNNAME_C_POSKeyLayout_ID = "C_POSKeyLayout_ID";
 
@@ -117,6 +104,19 @@ public interface I_C_POSKeyLayout
 	  * POS Function Key Layout
 	  */
 	public int getC_POSKeyLayout_ID();
+
+    /** Column name Columns */
+    public static final String COLUMNNAME_Columns = "Columns";
+
+	/** Set Columns.
+	  * Number of columns
+	  */
+	public void setColumns (int Columns);
+
+	/** Get Columns.
+	  * Number of columns
+	  */
+	public int getColumns();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -199,6 +199,19 @@ public interface I_C_POSKeyLayout
 	  */
 	public String getPOSKeyLayoutType();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -214,17 +227,4 @@ public interface I_C_POSKeyLayout
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

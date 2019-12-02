@@ -1,5 +1,7 @@
 package org.compiere.print;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Properties;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -15,6 +17,9 @@ import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
+import org.compiere.util.Util;
+import org.spin.util.AbstractExportFormat;
+import org.spin.util.ReportExportHandler;
 
 
 public class ServerReportCtl {
@@ -41,7 +46,7 @@ public class ServerReportCtl {
 	public static boolean startDocumentPrint (int type, MPrintFormat customPrintFormat, int recordId, String printerName , ProcessInfo processInfo)
 	{
 		String trxName;
-		if (processInfo != null)
+		if (processInfo != null && processInfo.getTransactionName() != null)
 			trxName = processInfo.getTransactionName();
 		else
 			trxName = null;
@@ -77,7 +82,7 @@ public class ServerReportCtl {
 				if (processInfo != null)
 					processInfo.setPDFReport(reportEngine.getPDF());
 
-				createOutput(reportEngine, printerName);
+				createOutput(reportEngine, processInfo, printerName);
 				ReportEngine.printConfirm (type, recordId, trxName);
 			}
 		}
@@ -96,7 +101,7 @@ public class ServerReportCtl {
      */
 	public static boolean runJasperProcess(int recordId, ReportEngine reportEngine, boolean isDirectPrint, String printerName, ProcessInfo processInfo) {
 		Trx trx;
-		if (processInfo != null)
+		if (processInfo != null && processInfo.getTransactionName() != null)
 			trx = Trx.get(processInfo.getTransactionName() , false);
 		else
 			trx = null;
@@ -137,14 +142,30 @@ public class ServerReportCtl {
 	 * Create output (server only)
 	 * 
 	 * @param reportEngine
+	 * @param processInfo
 	 * @param printerName
 	 */
-	private static void createOutput(ReportEngine reportEngine, String printerName)
-	{
-		if (printerName!=null) {
-			reportEngine.getPrintInfo().setPrinterName(printerName);
+	private static void createOutput(ReportEngine reportEngine, ProcessInfo processInfo, String printerName) {
+		if(processInfo == null
+				|| Util.isEmpty(processInfo.getReportType())) {
+			if (printerName!=null) {
+				reportEngine.getPrintInfo().setPrinterName(printerName);
+			}
+			reportEngine.print();
+			return;
 		}
-		reportEngine.print();
+		//	Export		
+		try {
+			ReportExportHandler exportHandler = new ReportExportHandler(Env.getCtx(), reportEngine);
+			AbstractExportFormat exporter = exportHandler.getExporterFromExtension(processInfo.getReportType());
+			//	Get File
+			File tempFile = File.createTempFile(reportEngine.getName() + "_" + System.currentTimeMillis(), "." + exporter.getExtension());
+			exporter.exportTo(tempFile);
+			//	Set to process info
+			processInfo.setReportAsFile(tempFile);
+		} catch (IOException e) {
+			processInfo.setSummary(e.getLocalizedMessage(), true);
+		}
 	}
 	
 	
@@ -226,7 +247,7 @@ public class ServerReportCtl {
 			MQuery query = MQuery.get (ctx, processInfo.getAD_PInstance_ID(), TableName);
 			PrintInfo info = new PrintInfo(processInfo);
 			re = new ReportEngine(ctx, format, query, info);
-			createOutput(re, null);
+			createOutput(re, processInfo, null);
 			return true;
 		}
 		//
@@ -240,7 +261,7 @@ public class ServerReportCtl {
 			}
 		}
 		
-		createOutput(re, null);
+		createOutput(re, processInfo, null);
 		return true;
 	}	//	startStandardReport
 
@@ -251,8 +272,6 @@ public class ServerReportCtl {
 	 */
 	static public boolean startFinReport (ProcessInfo pi)
 	{
-		int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
-
 		//  Create Query from Parameters
 		String TableName = pi.getAD_Process_ID() == 202 ? "T_Report" : "T_ReportStatement";
 		MQuery query = MQuery.get (Env.getCtx(), pi.getAD_PInstance_ID(), TableName);
@@ -269,7 +288,7 @@ public class ServerReportCtl {
 		PrintInfo printInfo = new PrintInfo(pi);
 
 		ReportEngine reportEngine = new ReportEngine(Env.getCtx(), format, query, printInfo);
-		createOutput(reportEngine, null);
+		createOutput(reportEngine, pi, null);
 		return true;
 	}	//	startFinReport
 	

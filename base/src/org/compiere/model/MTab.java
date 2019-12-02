@@ -266,7 +266,7 @@ public class MTab extends X_AD_Tab
 		StringBuffer whereClause = new StringBuffer(COLUMNNAME_AD_Tab_ID + " = ?");
 		if (client.isUseASP()) {
 			String aSPFilter =
-					" AND (AD_Field_ID IN ( "
+					" AND ((AD_Field_ID IN ( "
 					 // ASP subscribed fields for client
 					 + "              SELECT f.AD_Field_ID "
 					 + "                FROM ASP_Field f, ASP_Tab t, ASP_Window w, ASP_Level l, ASP_ClientLevel cl "
@@ -311,7 +311,16 @@ public class MTab extends X_AD_Tab
 					 + "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
 					 + "             AND ce.IsActive = 'Y' "
 					 + "             AND ce.AD_Field_ID IS NOT NULL "
-					 + "             AND ce.ASP_Status = 'H')"; //	Hide
+					 + "             AND ce.ASP_Status = 'H')" //	Hide
+					//	Just Customization
+					 + " OR EXISTS(SELECT 1 FROM ASP_Level l "
+					 + "					INNER JOIN ASP_ClientLevel cl ON(cl.ASP_Level_ID = l.ASP_Level_ID) "
+					 + "				WHERE cl.AD_Client_ID = " + client.getAD_Client_ID()
+					 + "				AND l.IsActive = 'Y' "
+					 + "				AND cl.IsActive = 'Y' "
+					 + "				AND l.Type = 'C') "	//	Show
+					 + ")";
+			
 			whereClause.append(aSPFilter);
 		}
 		//	Get from query

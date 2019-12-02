@@ -29,7 +29,7 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_OrgInfo (Properties ctx, int AD_OrgInfo_ID, String trxName)
@@ -154,6 +154,23 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set D-U-N-S.
+		@param DUNS 
+		Dun & Bradstreet Number
+	  */
+	public void setDUNS (String DUNS)
+	{
+		set_Value (COLUMNNAME_DUNS, DUNS);
+	}
+
+	/** Get D-U-N-S.
+		@return Dun & Bradstreet Number
+	  */
+	public String getDUNS () 
+	{
+		return (String)get_Value(COLUMNNAME_DUNS);
+	}
+
 	public org.compiere.model.I_M_Warehouse getDropShip_Warehouse() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Warehouse)MTable.get(getCtx(), org.compiere.model.I_M_Warehouse.Table_Name)
@@ -180,23 +197,6 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set D-U-N-S.
-		@param DUNS 
-		Dun & Bradstreet Number
-	  */
-	public void setDUNS (String DUNS)
-	{
-		set_Value (COLUMNNAME_DUNS, DUNS);
-	}
-
-	/** Get D-U-N-S.
-		@return Dun & Bradstreet Number
-	  */
-	public String getDUNS () 
-	{
-		return (String)get_Value(COLUMNNAME_DUNS);
 	}
 
 	/** Set EMail Address.
@@ -501,5 +501,80 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	public org.compiere.model.I_C_DocType getUnidentifiedAPDocType() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getUnidentifiedAPDocType_ID(), get_TrxName());	}
+
+	/** Set Unidentified Document Type (AP).
+		@param UnidentifiedAPDocType_ID Unidentified Document Type (AP)	  */
+	public void setUnidentifiedAPDocType_ID (int UnidentifiedAPDocType_ID)
+	{
+		if (UnidentifiedAPDocType_ID < 1) 
+			set_Value (COLUMNNAME_UnidentifiedAPDocType_ID, null);
+		else 
+			set_Value (COLUMNNAME_UnidentifiedAPDocType_ID, Integer.valueOf(UnidentifiedAPDocType_ID));
+	}
+
+	/** Get Unidentified Document Type (AP).
+		@return Unidentified Document Type (AP)	  */
+	public int getUnidentifiedAPDocType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_UnidentifiedAPDocType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_DocType getUnidentifiedARDocType() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getUnidentifiedARDocType_ID(), get_TrxName());	}
+
+	/** Set Unidentified Document Type (AR).
+		@param UnidentifiedARDocType_ID Unidentified Document Type (AR)	  */
+	public void setUnidentifiedARDocType_ID (int UnidentifiedARDocType_ID)
+	{
+		if (UnidentifiedARDocType_ID < 1) 
+			set_Value (COLUMNNAME_UnidentifiedARDocType_ID, null);
+		else 
+			set_Value (COLUMNNAME_UnidentifiedARDocType_ID, Integer.valueOf(UnidentifiedARDocType_ID));
+	}
+
+	/** Get Unidentified Document Type (AR).
+		@return Unidentified Document Type (AR)	  */
+	public int getUnidentifiedARDocType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_UnidentifiedARDocType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_BPartner getUnidentifiedBPartner() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getUnidentifiedBPartner_ID(), get_TrxName());	}
+
+	/** Set Business Partner (Unidentified Payments).
+		@param UnidentifiedBPartner_ID Business Partner (Unidentified Payments)	  */
+	public void setUnidentifiedBPartner_ID (int UnidentifiedBPartner_ID)
+	{
+		if (UnidentifiedBPartner_ID < 1) 
+			set_Value (COLUMNNAME_UnidentifiedBPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_UnidentifiedBPartner_ID, Integer.valueOf(UnidentifiedBPartner_ID));
+	}
+
+	/** Get Business Partner (Unidentified Payments).
+		@return Business Partner (Unidentified Payments)	  */
+	public int getUnidentifiedBPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_UnidentifiedBPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 }

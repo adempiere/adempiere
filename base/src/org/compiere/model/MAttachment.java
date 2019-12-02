@@ -45,6 +45,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.compiere.util.Env;
 import org.compiere.util.MimeType;
+import org.spin.util.AttachmentUtil;
 import org.spin.util.XMLUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -143,7 +144,7 @@ public class MAttachment extends X_AD_Attachment
 	public static final String 	XML = "xml";
 
 	/**	List of Entry Data		*/
-	private ArrayList<MAttachmentEntry> m_items = null;
+	private ArrayList<MAttachmentEntry> items = null;
 	
 	/** is this client using the file system for attachments */
 	private boolean isStoreAttachmentsOnFileSystem = false;
@@ -325,16 +326,16 @@ public class MAttachment extends X_AD_Attachment
 		boolean retValue = false;
 		if (item == null)
 			return false;
-		if (m_items == null)
+		if (items == null)
 			loadLOBData();
-		for (int i = 0; i < m_items.size(); i++) {
-			if (m_items.get(i).getName().equals(item.getName()) ) {
-				m_items.set(i, item);
+		for (int i = 0; i < items.size(); i++) {
+			if (items.get(i).getName().equals(item.getName()) ) {
+				items.set(i, item);
 				replaced = true;
 			}
 		}
 		if (!replaced) {
-			 retValue = m_items.add(item);
+			 retValue = items.add(item);
 		}
 		log.fine(item.toStringX());
 		setBinaryData(new byte[0]); // ATTENTION! HEAVY HACK HERE... Else it will not save :(
@@ -348,11 +349,11 @@ public class MAttachment extends X_AD_Attachment
 	 */
 	public MAttachmentEntry getEntry (int index)
 	{
-		if (m_items == null)
+		if (items == null)
 			loadLOBData();
-		if (index < 0 || index >= m_items.size())
+		if (index < 0 || index >= items.size())
 			return null;
-		return (MAttachmentEntry)m_items.get(index);
+		return (MAttachmentEntry)items.get(index);
 	}	//	getEntry
 	
 	/**
@@ -361,10 +362,10 @@ public class MAttachment extends X_AD_Attachment
 	 */
 	public MAttachmentEntry[] getEntries ()
 	{
-		if (m_items == null)
+		if (items == null)
 			loadLOBData();
-		MAttachmentEntry[] retValue = new MAttachmentEntry[m_items.size()];
-		m_items.toArray (retValue);
+		MAttachmentEntry[] retValue = new MAttachmentEntry[items.size()];
+		items.toArray (retValue);
 		return retValue;
 	}	//	getEntries
 	
@@ -376,23 +377,37 @@ public class MAttachment extends X_AD_Attachment
 	 * @return true if deleted
 	 */
 	public boolean deleteEntry(int index) {
-		if (index >= 0 && index < m_items.size()) {
-			if(isStoreAttachmentsOnFileSystem){
-				//remove files
-				final MAttachmentEntry entry = m_items.get(index);
-				final File file = entry.getFile();
-				log.fine("delete: " + file.getAbsolutePath());
-				if(file !=null && file.exists()){
-					if(!file.delete()){
-						log.warning("unable to delete " + file.getAbsolutePath());
+		if (index >= 0 && index < items.size()) {
+			if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
+				try {
+					MAttachmentEntry item = items.get(index);
+					AttachmentUtil.getInstance()
+						.clear()
+						.withAttachmentId(getAD_Attachment_ID())
+						.withFileName(item.getName())
+						.withClientId(getAD_Client_ID())
+						.deleteAttachment();
+				} catch (Exception e) {
+					log.warning("Error deleting attachment: " + e.getLocalizedMessage());
+				}
+			} else {
+				if(isStoreAttachmentsOnFileSystem){
+					//remove files
+					final MAttachmentEntry entry = items.get(index);
+					final File file = entry.getFile();
+					log.fine("delete: " + file.getAbsolutePath());
+					if(file !=null && file.exists()){
+						if(!file.delete()){
+							log.warning("unable to delete " + file.getAbsolutePath());
+						}
 					}
 				}
 			}
-			m_items.remove(index);
-			log.config("Index=" + index + " - NewSize=" + m_items.size());
+			items.remove(index);
+			log.config("Index=" + index + " - NewSize=" + items.size());
 			return true;
 		}
-		log.warning("Not deleted Index=" + index + " - Size=" + m_items.size());
+		log.warning("Not deleted Index=" + index + " - Size=" + items.size());
 		return false;
 	} // deleteEntry
 	
@@ -402,9 +417,9 @@ public class MAttachment extends X_AD_Attachment
 	 */
 	public int getEntryCount()
 	{
-		if (m_items == null)
+		if (items == null)
 			loadLOBData();
-		return m_items.size();
+		return items.size();
 	}	//	getEntryCount
 	
 	
@@ -433,15 +448,15 @@ public class MAttachment extends X_AD_Attachment
 	 */
 	public void dumpEntryNames()
 	{
-		if (m_items == null)
+		if (items == null)
 			loadLOBData();
-		if (m_items == null || m_items.size() == 0)
+		if (items == null || items.size() == 0)
 		{
 			System.out.println("- no entries -");
 			return;
 		}
-		System.out.println("- entries: " + m_items.size());
-		for (int i = 0; i < m_items.size(); i++)
+		System.out.println("- entries: " + items.size());
+		for (int i = 0; i < items.size(); i++)
 			System.out.println("  - " + getEntryName(i));		  
 	}	//	dumpEntryNames
 
@@ -491,12 +506,28 @@ public class MAttachment extends X_AD_Attachment
 	 * 	Save Entry Data in Zip File format
 	 *	@return true if saved
 	 */
-	private boolean saveLOBData()
-	{
-		if(isStoreAttachmentsOnFileSystem){
-			return saveLOBDataToFileSystem();
+	private boolean saveLOBData() {
+		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
+			items.stream().forEach(item -> {
+				try {
+					AttachmentUtil.getInstance()
+						.clear()
+						.withAttachmentId(getAD_Attachment_ID())
+						.withFileName(item.getName())
+						.withClientId(getAD_Client_ID())
+						.withData(item.getData())
+						.saveAttachment();
+				} catch (Exception e) {
+					log.warning("Error saving attachment: " + e.getLocalizedMessage());
+				}
+			});
+			return true;
+		} else {
+			if(isStoreAttachmentsOnFileSystem){
+				return saveLOBDataToFileSystem();
+			}
+			return saveLOBDataToDB();
 		}
-		return saveLOBDataToDB();
 	}
 	
 	/**
@@ -505,7 +536,7 @@ public class MAttachment extends X_AD_Attachment
 	 */
 	private boolean saveLOBDataToDB()
 	{
-		if (m_items == null || m_items.size() == 0)
+		if (items == null || items.size() == 0)
 		{
 			setBinaryData(null);
 			return true;
@@ -518,7 +549,7 @@ public class MAttachment extends X_AD_Attachment
 		//
 		try
 		{
-			for (int i = 0; i < m_items.size(); i++)
+			for (int i = 0; i < items.size(); i++)
 			{
 				MAttachmentEntry item = getEntry(i);
 				ZipEntry entry = new ZipEntry(item.getName());
@@ -557,7 +588,7 @@ public class MAttachment extends X_AD_Attachment
 			log.severe("no attachmentPath defined");
 			return false;
 		}
-		if (m_items == null || m_items.size() == 0) {
+		if (items == null || items.size() == 0) {
 			setBinaryData(null);
 			return true;
 		}
@@ -571,9 +602,9 @@ public class MAttachment extends X_AD_Attachment
 			document.appendChild(root);
 			document.setXmlStandalone(true);
 			// create xml entries
-			for (int i = 0; i < m_items.size(); i++) {
-				log.fine(m_items.get(i).toString());
-				File entryFile = m_items.get(i).getFile();
+			for (int i = 0; i < items.size(); i++) {
+				log.fine(items.get(i).toString());
+				File entryFile = items.get(i).getFile();
 				final String path = entryFile.getAbsolutePath();
 				// if local file - copy to central attachment folder
 				log.fine(path + " - " + m_attachmentPathRoot);
@@ -650,12 +681,42 @@ public class MAttachment extends X_AD_Attachment
 	 * 	Load Data into local m_data
 	 *	@return true if success
 	 */
-	private boolean loadLOBData ()
-	{
-		if(isStoreAttachmentsOnFileSystem){
-			return loadLOBDataFromFileSystem();
+	private boolean loadLOBData () {
+		//	Reset
+		items = new ArrayList<MAttachmentEntry>();
+		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
+			try {
+				AttachmentUtil.getInstance()
+					.clear()
+					.withAttachmentId(getAD_Attachment_ID())
+					.withClientId(getAD_Client_ID())
+					.getFileNameListFromAttachment()
+					.forEach(fileName -> {
+						try {
+							byte[] data = AttachmentUtil.getInstance()
+								.clear()
+								.withAttachmentId(getAD_Attachment_ID())
+								.withFileName(fileName)
+								.withClientId(getAD_Client_ID())
+								.getAttachment();
+							if(data != null) {
+								MAttachmentEntry entry = new MAttachmentEntry(fileName, data, items.size() + 1);
+								items.add(entry);
+							}
+						} catch (Exception e) {
+							log.warning("Error Loading attachment: " + e.getLocalizedMessage());
+						}
+					});
+			} catch (Exception e) {
+				log.warning("Error loading attachment: " + e.getLocalizedMessage());
+			}
+			return true;
+		} else {
+			if(isStoreAttachmentsOnFileSystem){
+				return loadLOBDataFromFileSystem();
+			}
+			return loadLOBDataFromDB();
 		}
-		return loadLOBDataFromDB();
 	}
 	
 	/**
@@ -665,7 +726,7 @@ public class MAttachment extends X_AD_Attachment
 	private boolean loadLOBDataFromDB ()
 	{
 		//	Reset
-		m_items = new ArrayList<MAttachmentEntry>();
+		items = new ArrayList<MAttachmentEntry>();
 		//
 		byte[] data = getBinaryData();
 		if (data == null)
@@ -677,7 +738,7 @@ public class MAttachment extends X_AD_Attachment
 		//	Old Format - single file
 		if (!ZIP.equals(getTitle()))
 		{
-			m_items.add (new MAttachmentEntry(getTitle(), data, 1));
+			items.add (new MAttachmentEntry(getTitle(), data, 1));
 			return true;
 		}
 
@@ -704,14 +765,14 @@ public class MAttachment extends X_AD_Attachment
 					+ entry.getCompressedSize() + "(" + entry.getSize() + ") "
 					+ (entry.getCompressedSize()*100/entry.getSize())+ "%");
 				//
-				m_items.add (new MAttachmentEntry (name, dataEntry, m_items.size()+1));
+				items.add (new MAttachmentEntry (name, dataEntry, items.size()+1));
 				entry = zip.getNextEntry();
 			}
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "loadLOBData", e);
-			m_items = null;
+			items = null;
 			return false;
 		}
 		return true;
@@ -727,7 +788,7 @@ public class MAttachment extends X_AD_Attachment
 			return false;
 		}
 		// Reset
-		m_items = new ArrayList<MAttachmentEntry>();
+		items = new ArrayList<MAttachmentEntry>();
 		//
 		byte[] data = getBinaryData();
 		if (data == null)
@@ -751,7 +812,7 @@ public class MAttachment extends X_AD_Attachment
 				final Node nameNode = attributes.getNamedItem("name");
 				if(fileNode==null || nameNode==null){
 					log.severe("no filename for entry " + i);
-					m_items = null;
+					items = null;
 					return false;
 				}
 				log.fine("name: " + nameNode.getNodeValue());
@@ -784,8 +845,8 @@ public class MAttachment extends X_AD_Attachment
 						e1.printStackTrace();
 					}
 					final MAttachmentEntry entry = new MAttachmentEntry(filePath,
-							dataEntry, m_items.size() + 1);
-					m_items.add(entry);
+							dataEntry, items.size() + 1);
+					items.add(entry);
 				} else {
 					log.severe("file not found: " + file.getAbsolutePath());
 				}
@@ -847,23 +908,38 @@ public class MAttachment extends X_AD_Attachment
 	 * 	Executed before Delete operation.
 	 *	@return true if record can be deleted
 	 */
-	protected boolean beforeDelete ()
-	{
-		if (isStoreAttachmentsOnFileSystem) {
-			//delete all attachment files and folder
-			for (int i=0; i<m_items.size(); i++) {
-				final MAttachmentEntry entry = m_items.get(i);
-				final File file = entry.getFile();
-				if(file !=null && file.exists()){
-					if(!file.delete()){
-						log.warning("unable to delete " + file.getAbsolutePath());
+	protected boolean beforeDelete () {
+		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
+			items.stream().forEach(item -> {
+				try {
+					AttachmentUtil.getInstance()
+						.clear()
+						.withAttachmentId(getAD_Attachment_ID())
+						.withFileName(item.getName())
+						.withClientId(getAD_Client_ID())
+						.deleteAttachment();
+				} catch (Exception e) {
+					log.warning("Error deleting attachment: " + e.getLocalizedMessage());
+				}
+			});
+			return true;
+		} else {
+			if (isStoreAttachmentsOnFileSystem) {
+				//delete all attachment files and folder
+				for (int i=0; i<items.size(); i++) {
+					final MAttachmentEntry entry = items.get(i);
+					final File file = entry.getFile();
+					if(file !=null && file.exists()){
+						if(!file.delete()){
+							log.warning("unable to delete " + file.getAbsolutePath());
+						}
 					}
 				}
-			}
-			final File folder = new File(m_attachmentPathRoot + getAttachmentPathSnippet());
-			if(folder.exists()){
-				if(!folder.delete()){
-					log.warning("unable to delete " + folder.getAbsolutePath());
+				final File folder = new File(m_attachmentPathRoot + getAttachmentPathSnippet());
+				if(folder.exists()){
+					if(!folder.delete()){
+						log.warning("unable to delete " + folder.getAbsolutePath());
+					}
 				}
 			}
 		}

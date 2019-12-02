@@ -29,7 +29,7 @@ public class X_AD_BrowseCustom extends PO implements I_AD_BrowseCustom, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_BrowseCustom (Properties ctx, int AD_BrowseCustom_ID, String trxName)

@@ -32,7 +32,7 @@ public class X_WM_InOutBoundLineMA extends PO implements I_WM_InOutBoundLineMA, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_WM_InOutBoundLineMA (Properties ctx, int WM_InOutBoundLineMA_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_WM_InOutBoundLineMA extends PO implements I_WM_InOutBoundLineMA, 
       super (ctx, WM_InOutBoundLineMA_ID, trxName);
       /** if (WM_InOutBoundLineMA_ID == 0)
         {
-			setWM_InOutBoundLine_ID (0);
 			setWM_InOutBoundLineMA_ID (0);
+			setWM_InOutBoundLine_ID (0);
         } */
     }
 
@@ -166,6 +166,26 @@ public class X_WM_InOutBoundLineMA extends PO implements I_WM_InOutBoundLineMA, 
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
+	/** Set Inbound & Outbound Order Line MA ID.
+		@param WM_InOutBoundLineMA_ID Inbound & Outbound Order Line MA ID	  */
+	public void setWM_InOutBoundLineMA_ID (int WM_InOutBoundLineMA_ID)
+	{
+		if (WM_InOutBoundLineMA_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_WM_InOutBoundLineMA_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_WM_InOutBoundLineMA_ID, Integer.valueOf(WM_InOutBoundLineMA_ID));
+	}
+
+	/** Get Inbound & Outbound Order Line MA ID.
+		@return Inbound & Outbound Order Line MA ID	  */
+	public int getWM_InOutBoundLineMA_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_WM_InOutBoundLineMA_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_WM_InOutBoundLine getWM_InOutBoundLine() throws RuntimeException
     {
 		return (org.eevolution.model.I_WM_InOutBoundLine)MTable.get(getCtx(), org.eevolution.model.I_WM_InOutBoundLine.Table_Name)
@@ -186,26 +206,6 @@ public class X_WM_InOutBoundLineMA extends PO implements I_WM_InOutBoundLineMA, 
 	public int getWM_InOutBoundLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_WM_InOutBoundLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Inbound & Outbound Order Line MA ID.
-		@param WM_InOutBoundLineMA_ID Inbound & Outbound Order Line MA ID	  */
-	public void setWM_InOutBoundLineMA_ID (int WM_InOutBoundLineMA_ID)
-	{
-		if (WM_InOutBoundLineMA_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_WM_InOutBoundLineMA_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_WM_InOutBoundLineMA_ID, Integer.valueOf(WM_InOutBoundLineMA_ID));
-	}
-
-	/** Get Inbound & Outbound Order Line MA ID.
-		@return Inbound & Outbound Order Line MA ID	  */
-	public int getWM_InOutBoundLineMA_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_WM_InOutBoundLineMA_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

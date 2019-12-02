@@ -19,9 +19,9 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.StringTokenizer;
-
 import org.compiere.util.CCache;
 import org.compiere.util.Util;
 
@@ -160,10 +160,29 @@ public class MMailText extends X_R_MailText
 		//	Parse BP
 		text = parse (text, getEntity(I_C_BPartner.Table_Name));
 		//	Parse PO
-		text = parse (text, null);
+		text = parse(text, null);
+		//	Parse All
 		//
 		return text;
 	}	//	parse
+	
+	/**
+	 * Parse for all entity
+	 * @param token
+	 * @return
+	 */
+	private String parseVariable(String token) {
+		for(Entry<String, PO> entry : entityMap.entrySet()) {
+			String value = parseVariable(token, entry.getValue());
+			if(!Util.isEmpty(value)
+					&& (!value.startsWith("@") 
+							&& !value.endsWith("@"))) {
+				return value;
+			}
+		}
+		//	Return
+		return "";
+	}
 	
 	/**
 	 * Get Entity from table name
@@ -212,12 +231,18 @@ public class MMailText extends X_R_MailText
 				if(!Util.isEmpty(tableName)) {
 					value = parseVariable(columnName, entityMap.get(tableName));
 				}
-			} else if(po != null) {
-				value = parseVariable(token, po);	//	replace context
+			} else {
+				//	for PO
+				if(Util.isEmpty(value)
+						&& po != null) {
+					value = parseVariable(token, po);	//	replace context
+				}
 			}
+			//	For all entries
 			if(Util.isEmpty(value)) {
-				value = "@" + token + "@";
+				value = parseVariable(token);
 			}
+			//	
 			outStr.append(value);
 			inStr = inStr.substring(j+1, inStr.length());	// from second @
 			i = inStr.indexOf('@');
@@ -280,14 +305,55 @@ public class MMailText extends X_R_MailText
 
 	/**
 	 * 	Set PO for parse
-	 *	@param po po
+	 *	@param entity po
 	 */
-	public void setPO (PO po) {
-		if(po == null) {
+	public void setPO (PO entity) {
+		if(entity == null) {
 			return;
 		}
-		entityMap.put(po.get_TableName(), po);
+		entityMap.put(entity.get_TableName(), entity);
+		addReferences(entity);
 	}	//	setPO
+	
+	/**
+	 * Add References for Entity
+	 * @param entity
+	 */
+	private void addReferences(PO entity) {
+		POInfo poInfo = POInfo.getPOInfo(entity.getCtx(), entity.get_Table_ID(), entity.get_TrxName());
+		for(int index = 0; index < poInfo.getColumnCount(); index++) {
+			//	No SQL
+			if(poInfo.isVirtualColumn(index)) {
+				continue;
+			}
+			//	No Encrypted
+			if(poInfo.isEncrypted(index)) {
+				continue;
+			}
+			String columnName = poInfo.getColumnName(index);
+			//	Verify reference
+			if(poInfo.isColumnLookup(index)) {
+				int referenceId = entity.get_ValueAsInt(columnName);
+				if(referenceId <= 0) {
+					continue;
+				}
+				MLookupInfo info = MLookupFactory.getLookupInfo(entity.getCtx(), 0, poInfo.getAD_Column_ID(columnName), poInfo.getColumnDisplayType(index));
+				if(info == null) {
+					continue;
+				}
+				if(Util.isEmpty(info.TableName)) {
+					continue;
+				}
+				PO parentEntity = MTable.get(entity.getCtx(), info.TableName).getPO(referenceId, entity.get_TrxName());
+				if(parentEntity == null
+						|| parentEntity.get_ID() <= 0) {
+					continue;
+				}
+				//	Add to list
+				entityMap.put(info.TableName, parentEntity);
+			}
+		}
+	}
 
 	/**
 	 * 	Set PO for parse

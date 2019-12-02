@@ -32,7 +32,7 @@ public class X_DD_License extends PO implements I_DD_License, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_DD_License (Properties ctx, int DD_License_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_DD_License extends PO implements I_DD_License, I_Persistent
       super (ctx, DD_License_ID, trxName);
       /** if (DD_License_ID == 0)
         {
-			setDD_License_ID (0);
 			setDD_LicenseType_ID (0);
+			setDD_License_ID (0);
 			setName (null);
         } */
     }
@@ -97,26 +97,6 @@ public class X_DD_License extends PO implements I_DD_License, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set License.
-		@param DD_License_ID License	  */
-	public void setDD_License_ID (int DD_License_ID)
-	{
-		if (DD_License_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_DD_License_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_DD_License_ID, Integer.valueOf(DD_License_ID));
-	}
-
-	/** Get License.
-		@return License	  */
-	public int getDD_License_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_License_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_DD_LicenseType getDD_LicenseType() throws RuntimeException
     {
 		return (org.eevolution.model.I_DD_LicenseType)MTable.get(getCtx(), org.eevolution.model.I_DD_LicenseType.Table_Name)
@@ -137,6 +117,26 @@ public class X_DD_License extends PO implements I_DD_License, I_Persistent
 	public int getDD_LicenseType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DD_LicenseType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set License.
+		@param DD_License_ID License	  */
+	public void setDD_License_ID (int DD_License_ID)
+	{
+		if (DD_License_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_License_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_License_ID, Integer.valueOf(DD_License_ID));
+	}
+
+	/** Get License.
+		@return License	  */
+	public int getDD_License_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_License_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

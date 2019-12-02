@@ -29,7 +29,7 @@ public class X_WS_WebService_Para extends PO implements I_WS_WebService_Para, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_WS_WebService_Para (Properties ctx, int WS_WebService_Para_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_WS_WebService_Para extends PO implements I_WS_WebService_Para, I_
       /** if (WS_WebService_Para_ID == 0)
         {
 			setParameterType (null);
-			setWS_WebService_Para_ID (0);
 			setWS_WebServiceType_ID (0);
+			setWS_WebService_Para_ID (0);
         } */
     }
 
@@ -140,26 +140,6 @@ public class X_WS_WebService_Para extends PO implements I_WS_WebService_Para, I_
 		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
-	/** Set Web Service Parameters.
-		@param WS_WebService_Para_ID Web Service Parameters	  */
-	public void setWS_WebService_Para_ID (int WS_WebService_Para_ID)
-	{
-		if (WS_WebService_Para_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_WS_WebService_Para_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_WS_WebService_Para_ID, Integer.valueOf(WS_WebService_Para_ID));
-	}
-
-	/** Get Web Service Parameters.
-		@return Web Service Parameters	  */
-	public int getWS_WebService_Para_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_WS_WebService_Para_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_WS_WebServiceType getWS_WebServiceType() throws RuntimeException
     {
 		return (org.compiere.model.I_WS_WebServiceType)MTable.get(getCtx(), org.compiere.model.I_WS_WebServiceType.Table_Name)
@@ -180,6 +160,26 @@ public class X_WS_WebService_Para extends PO implements I_WS_WebService_Para, I_
 	public int getWS_WebServiceType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_WS_WebServiceType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Web Service Parameters.
+		@param WS_WebService_Para_ID Web Service Parameters	  */
+	public void setWS_WebService_Para_ID (int WS_WebService_Para_ID)
+	{
+		if (WS_WebService_Para_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_WS_WebService_Para_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_WS_WebService_Para_ID, Integer.valueOf(WS_WebService_Para_ID));
+	}
+
+	/** Get Web Service Parameters.
+		@return Web Service Parameters	  */
+	public int getWS_WebService_Para_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_WS_WebService_Para_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

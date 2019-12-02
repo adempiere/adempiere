@@ -55,5 +55,14 @@ public class MPOSKey extends X_C_POSKey
 	{
 		super(ctx, rs, trxName);
 	}	//	MPOSKey
+	
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		if(getSubKeyLayout_ID() > 0
+				&& getM_Product_ID() > 0) {
+			setM_Product_ID(-1);
+		}
+		return super.beforeSave(newRecord);
+	}
 
 }	//	MPOSKey

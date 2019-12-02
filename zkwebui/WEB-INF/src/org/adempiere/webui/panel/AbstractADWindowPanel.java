@@ -25,7 +25,6 @@ import java.util.Properties;
 import java.util.TreeMap;
 import java.util.logging.Level;
 
-import org.adempiere.model.MBrowse;
 import org.adempiere.webui.WArchive;
 import org.adempiere.webui.WRequest;
 import org.adempiere.webui.WSearch;
@@ -76,6 +75,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.WebDoc;
 import org.eevolution.form.WBrowser;
+import org.spin.util.ASPUtil;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.HtmlBasedComponent;
@@ -1099,7 +1099,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		if (oldTabPanel != null) {
 			oldTabPanel.activate(false); 
 			if(oldTabPanel.getListPanel() != null) {
-				oldTabPanel.getListPanel().addKeyListener();
+				oldTabPanel.getListPanel().removeKeyListener();
 			}
 		}
 		newTabPanel.activate(true);
@@ -2254,8 +2254,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 			ProcessInfo pi = new ProcessInfo (title, wButton.getProcess_ID(), table_ID, record_ID);
 			pi.setAD_User_ID (Env.getAD_User_ID(ctx));
 			pi.setAD_Client_ID (Env.getAD_Client_ID(ctx));
-			MBrowse browse = new MBrowse(Env.getCtx(), adBrowseID , null);
-			WBrowser browser = new WBrowser(true, curWindowNo, "" , browse, "", true, "", "Y".equals(Env.isSOTrx(Env.getCtx(), curWindowNo)));
+			WBrowser browser = new WBrowser(true, curWindowNo, "" , ASPUtil.getInstance().getBrowse(adBrowseID), "", true, "", "Y".equals(Env.isSOTrx(Env.getCtx(), curWindowNo)));
 			browser.setProcessInfo(pi);
 			CustomForm ff =  browser.getForm();
 			ff.setAttribute(Window.MODE_KEY, Window.MODE_EMBEDDED);

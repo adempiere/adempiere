@@ -49,15 +49,6 @@ public interface I_A_Depreciation
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name A_Depreciation_ID */
-    public static final String COLUMNNAME_A_Depreciation_ID = "A_Depreciation_ID";
-
-	/** Set Depreciation	  */
-	public void setA_Depreciation_ID (int A_Depreciation_ID);
-
-	/** Get Depreciation	  */
-	public int getA_Depreciation_ID();
-
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -70,6 +61,15 @@ public interface I_A_Depreciation
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name A_Depreciation_ID */
+    public static final String COLUMNNAME_A_Depreciation_ID = "A_Depreciation_ID";
+
+	/** Set Depreciation	  */
+	public void setA_Depreciation_ID (int A_Depreciation_ID);
+
+	/** Get Depreciation	  */
+	public int getA_Depreciation_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -170,6 +170,19 @@ public interface I_A_Depreciation
 	/** Get Description	  */
 	public String getText();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -185,17 +198,4 @@ public interface I_A_Depreciation
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

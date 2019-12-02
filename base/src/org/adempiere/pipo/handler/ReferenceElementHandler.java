@@ -23,6 +23,7 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.PackOut;
 import org.compiere.model.I_AD_Ref_List;
+import org.compiere.model.I_AD_Ref_Table;
 import org.compiere.model.Query;
 import org.compiere.model.X_AD_Ref_List;
 import org.compiere.model.X_AD_Ref_Table;
@@ -50,7 +51,7 @@ public class ReferenceElementHandler extends GenericPOHandler {
 				packOut.createGenericPO(document, referenceList, true, null);
 			}
 		} else if(reference.getValidationType().equals(X_AD_Reference.VALIDATIONTYPE_TableValidation)) {
-			List<X_AD_Ref_Table> referenceTableAsList = new Query(ctx, I_AD_Ref_List.Table_Name, I_AD_Ref_List.COLUMNNAME_AD_Reference_ID + " = ?", null)
+			List<X_AD_Ref_Table> referenceTableAsList = new Query(ctx, I_AD_Ref_Table.Table_Name, I_AD_Ref_Table.COLUMNNAME_AD_Reference_ID + " = ?", null)
 					.setParameters(referenceId)
 					.setOnlyActiveRecords(true)
 					.list();

@@ -30,7 +30,7 @@ public class X_CM_AccessProfile extends PO implements I_CM_AccessProfile, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_CM_AccessProfile (Properties ctx, int CM_AccessProfile_ID, String trxName)

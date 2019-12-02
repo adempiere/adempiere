@@ -23,12 +23,16 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
+import org.adempiere.model.ImportValidator;
+import org.adempiere.process.ImportProcess;
+import org.compiere.model.I_I_Invoice;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MLocation;
 import org.compiere.model.MUser;
+import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.X_I_Invoice;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -42,6 +46,7 @@ import org.compiere.util.Env;
  * 	@version 	$Id: ImportInvoice.java,v 1.1 2007/09/05 09:27:31 cruiz Exp $
  */
 public class ImportInvoice extends SvrProcess
+implements ImportProcess
 {
 	/**	Client to be imported to		*/
 	private int				m_AD_Client_ID = 0;
@@ -201,7 +206,21 @@ public class ImportInvoice extends SvrProcess
 		no = DB.executeUpdate(sql.toString(), get_TrxName());
 		log.fine("Set IsSOTrx=N=" + no);
 
+		//	Sales Representative
+		sql = new StringBuffer ("UPDATE I_Invoice o "
+			  + "SET SalesRep_ID=(SELECT u.AD_User_ID FROM AD_User u WHERE u.Name=o.SalesRep_Name"
+			  + " AND o.AD_Client_ID=u.AD_Client_ID) "
+			  + "WHERE SalesRep_ID IS NULL AND I_IsImported<>'Y'").append (clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.fine("Set Sales Representative=" + no);
+			
 		//	Price List
+		sql = new StringBuffer ("UPDATE I_Invoice o "
+			  + "SET M_PriceList_ID=(SELECT M_PriceList_ID FROM M_PriceList p WHERE p.Name=o.PriceListName"
+			  + " AND o.AD_Client_ID=p.AD_Client_ID) "
+			  + "WHERE M_PriceList_ID IS NULL AND I_IsImported<>'Y'").append (clientCheck);
+		no = DB.executeUpdate(sql.toString(), get_TrxName());
+		log.fine("Set PriceList=" + no);
 		sql = new StringBuffer ("UPDATE I_Invoice o "
 			  + "SET M_PriceList_ID=(SELECT MAX(M_PriceList_ID) FROM M_PriceList p WHERE p.IsDefault='Y'"
 			  + " AND p.C_Currency_ID=o.C_Currency_ID AND p.IsSOPriceList=o.IsSOTrx AND o.AD_Client_ID=p.AD_Client_ID) "
@@ -478,6 +497,7 @@ public class ImportInvoice extends SvrProcess
 		if (no != 0)
 			log.warning ("Invalid Tax=" + no);
 		
+		ModelValidationEngine.get().fireImportValidate(this, null, null, ImportValidator.TIMING_AFTER_VALIDATE);
 		commitEx();
 		
 		//	-- New BPartner ---------------------------------------------------
@@ -699,11 +719,15 @@ public class ImportInvoice extends SvrProcess
 					if(imp.getC_DunningLevel_ID() != 0)
 						invoice.setC_DunningLevel_ID(imp.getC_DunningLevel_ID());
 					//
+					//Import Validation Before Invoice
+					ModelValidationEngine.get().fireImportValidate(this, imp, invoice, ImportValidator.TIMING_BEFORE_IMPORT);
 					invoice.saveEx();
 					noInsert++;
 					lineNo = 10;
 				}
 				imp.setC_Invoice_ID (invoice.getC_Invoice_ID());
+				//Import Validation After Invoice
+				ModelValidationEngine.get().fireImportValidate(this, imp, invoice, ImportValidator.TIMING_AFTER_IMPORT);
 				//	New InvoiceLine
 				MInvoiceLine line = new MInvoiceLine (invoice);
 				if (imp.getLineDescription() != null)
@@ -738,7 +762,12 @@ public class ImportInvoice extends SvrProcess
 				BigDecimal taxAmt = imp.getTaxAmt();
 				if (taxAmt != null && Env.ZERO.compareTo(taxAmt) != 0)
 					line.setTaxAmt(taxAmt);
+				
+				//Import Validation Before Invoice Line
+				ModelValidationEngine.get().fireImportValidate(this, imp, line, ImportValidator.TIMING_BEFORE_IMPORT);
 				line.saveEx();
+				//Import Validation After Invoice Line
+				ModelValidationEngine.get().fireImportValidate(this, imp, line, ImportValidator.TIMING_AFTER_IMPORT);
 				//
 				imp.setC_InvoiceLine_ID(line.getC_InvoiceLine_ID());
 				imp.setI_IsImported(true);
@@ -771,5 +800,17 @@ public class ImportInvoice extends SvrProcess
 		addLog (0, null, new BigDecimal (noInsertLine), "@C_InvoiceLine_ID@: @Inserted@");
 		return "";
 	}	//	doIt
+
+
+	@Override
+	public String getImportTableName() {
+		return I_I_Invoice.Table_Name;
+	}
+
+
+	@Override
+	public String getWhereClause() {
+		return " AND AD_Client_ID=" + m_AD_Client_ID;
+	}
 
 }	//	ImportInvoice

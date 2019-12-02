@@ -30,7 +30,7 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_PriceList (Properties ctx, int M_PriceList_ID, String trxName)
@@ -249,27 +249,6 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
 		return false;
 	}
 
-	/** Set isPresentForProduct.
-		@param isPresentForProduct isPresentForProduct	  */
-	public void setisPresentForProduct (boolean isPresentForProduct)
-	{
-		set_Value (COLUMNNAME_isPresentForProduct, Boolean.valueOf(isPresentForProduct));
-	}
-
-	/** Get isPresentForProduct.
-		@return isPresentForProduct	  */
-	public boolean isPresentForProduct () 
-	{
-		Object oo = get_Value(COLUMNNAME_isPresentForProduct);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Sales Price list.
 		@param IsSOPriceList 
 		This is a Sales Price List
@@ -401,5 +380,26 @@ public class X_M_PriceList extends PO implements I_M_PriceList, I_Persistent
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** Set isPresentForProduct.
+		@param isPresentForProduct isPresentForProduct	  */
+	public void setisPresentForProduct (boolean isPresentForProduct)
+	{
+		set_Value (COLUMNNAME_isPresentForProduct, Boolean.valueOf(isPresentForProduct));
+	}
+
+	/** Get isPresentForProduct.
+		@return isPresentForProduct	  */
+	public boolean isPresentForProduct () 
+	{
+		Object oo = get_Value(COLUMNNAME_isPresentForProduct);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 }

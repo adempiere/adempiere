@@ -32,7 +32,7 @@ public class X_HR_JobApplication extends PO implements I_HR_JobApplication, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_JobApplication (Properties ctx, int HR_JobApplication_ID, String trxName)
@@ -41,9 +41,9 @@ public class X_HR_JobApplication extends PO implements I_HR_JobApplication, I_Pe
       /** if (HR_JobApplication_ID == 0)
         {
 			setFirstName (null);
-			setHighestEducation (null);
 			setHR_JobApplication_ID (0);
 			setHR_JobOpening_ID (0);
+			setHighestEducation (null);
 			setIdentityProof (null);
 			setIdentityProofNo (null);
 			setJobApplicationDate (new Timestamp( System.currentTimeMillis() ));
@@ -127,23 +127,6 @@ public class X_HR_JobApplication extends PO implements I_HR_JobApplication, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set City.
-		@param City 
-		Identifies a City
-	  */
-	public void setCity (String City)
-	{
-		set_Value (COLUMNNAME_City, City);
-	}
-
-	/** Get City.
-		@return Identifies a City
-	  */
-	public String getCity () 
-	{
-		return (String)get_Value(COLUMNNAME_City);
-	}
-
 	public I_C_Location getC_Location() throws RuntimeException
     {
 		return (I_C_Location)MTable.get(getCtx(), I_C_Location.Table_Name)
@@ -170,6 +153,23 @@ public class X_HR_JobApplication extends PO implements I_HR_JobApplication, I_Pe
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set City.
+		@param City 
+		Identifies a City
+	  */
+	public void setCity (String City)
+	{
+		set_Value (COLUMNNAME_City, City);
+	}
+
+	/** Get City.
+		@return Identifies a City
+	  */
+	public String getCity () 
+	{
+		return (String)get_Value(COLUMNNAME_City);
 	}
 
 	/** Set Comments.
@@ -265,23 +265,6 @@ public class X_HR_JobApplication extends PO implements I_HR_JobApplication, I_Pe
         return new KeyNamePair(get_ID(), getFirstName());
     }
 
-	/** Set Highest Education.
-		@param HighestEducation 
-		Highest Education for this position
-	  */
-	public void setHighestEducation (String HighestEducation)
-	{
-		set_Value (COLUMNNAME_HighestEducation, HighestEducation);
-	}
-
-	/** Get Highest Education.
-		@return Highest Education for this position
-	  */
-	public String getHighestEducation () 
-	{
-		return (String)get_Value(COLUMNNAME_HighestEducation);
-	}
-
 	public org.eevolution.model.I_HR_Designation getHR_Designation() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_Designation)MTable.get(getCtx(), org.eevolution.model.I_HR_Designation.Table_Name)
@@ -359,6 +342,23 @@ public class X_HR_JobApplication extends PO implements I_HR_JobApplication, I_Pe
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Highest Education.
+		@param HighestEducation 
+		Highest Education for this position
+	  */
+	public void setHighestEducation (String HighestEducation)
+	{
+		set_Value (COLUMNNAME_HighestEducation, HighestEducation);
+	}
+
+	/** Get Highest Education.
+		@return Highest Education for this position
+	  */
+	public String getHighestEducation () 
+	{
+		return (String)get_Value(COLUMNNAME_HighestEducation);
 	}
 
 	/** IdentityProof AD_Reference_ID=53622 */

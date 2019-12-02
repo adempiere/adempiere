@@ -604,6 +604,7 @@ public final class MPayment extends X_C_Payment
 				setIsOverUnderPayment(false);
 				setOverUnderAmt(Env.ZERO);
 				setIsPrepayment(false);
+				setIsUnidentifiedPayment(false);
 			}
 		}
 		//	We need a BPartner
@@ -637,6 +638,7 @@ public final class MPayment extends X_C_Payment
 				setDiscountAmt(Env.ZERO);
 				setIsOverUnderPayment(false);
 				setOverUnderAmt(Env.ZERO);
+				setIsUnidentifiedPayment(false);
 			}
 		}
 
@@ -705,7 +707,7 @@ public final class MPayment extends X_C_Payment
 			+ " INNER JOIN C_AllocationHdr ah ON (al.C_AllocationHdr_ID=ah.C_AllocationHdr_ID) "
 			+ " INNER JOIN C_Payment p ON (al.C_Payment_ID=p.C_Payment_ID) "
 			+ "WHERE al.C_Payment_ID=?"
-			+ " AND ah.IsActive='Y' AND al.IsActive='Y'";
+			+ " AND ah.IsActive='Y'  AND ah.DocStatus IN ('CO','CL') AND al.IsActive='Y'";
 		//	+ " AND al.C_Invoice_ID IS NOT NULL";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -1864,7 +1866,7 @@ public final class MPayment extends X_C_Payment
 			processMsg += " @CounterDoc@: @C_Payment_ID@=" + counter.getDocumentNo();
 
 		// @Trifon - CashPayments
-		if ( isCashTrx()) {
+		if ( isCashTrx() && getC_POS_ID() == 0) {
 			// Create Cash Book entry - check that the bank is a cash bank
 			// The bank account is mandatory
 			MBankAccount bankAccount = (MBankAccount) getC_BankAccount();
@@ -2362,7 +2364,7 @@ public final class MPayment extends X_C_Payment
 
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
-		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElse(currentDate) : getDateAcct();
+		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElseGet(() -> currentDate) : getDateAcct();
 		MPeriod.testPeriodOpen(getCtx(), reversalDate, getC_DocType_ID(), getAD_Org_ID());
 
 		//	Auto Reconcile if not on Bank Statement
@@ -2505,6 +2507,19 @@ public final class MPayment extends X_C_Payment
 		//	For Cash Payment
 		MBankAccount bankAccount = MBankAccount.get(getCtx(), getC_BankAccount_ID());
 		MBank bank = MBank.get(getCtx(), bankAccount.getC_Bank_ID());
+		if(getRef_Payment_ID() != 0
+				&& !Util.isEmpty(bank.getBankType())
+				&& bank.getBankType().equals(MBank.BANKTYPE_CashJournal)) {
+			MPayment deposit = new MPayment(getCtx(), getRef_Payment_ID(), get_TrxName());
+			MBankAccount depositBankAccount = MBankAccount.get(getCtx(), deposit.getC_BankAccount_ID());
+			MBank depositBank = MBank.get(getCtx(), depositBankAccount.getC_Bank_ID());
+			if(!Util.isEmpty(depositBank.getBankType())
+					&& depositBank.getBankType().equals(MBank.BANKTYPE_Bank)
+					&& (deposit.getDocStatus().equals(MPayment.DOCSTATUS_Completed)
+							|| deposit.getDocStatus().equals(MPayment.DOCSTATUS_Closed))) {
+				throw new AdempiereException("@DepositAlreadyExistsForCash@");
+			}
+		}
 		if(!Util.isEmpty(bank.getBankType())
 				&& bank.getBankType().equals(MBank.BANKTYPE_CashJournal)
 				&& !isReceipt()) {
@@ -2764,6 +2779,18 @@ public final class MPayment extends X_C_Payment
 	{
 		return isReversal;
 	}	//	isReversal
+	
+	/**
+	 * Get Payment Reference
+	 * @return
+	 */
+	public MPayment getPaymentReference() {
+		return new Query(getCtx(), MPayment.Table_Name, "Ref_Payment_ID=? AND DocStatus IN (?,?)", get_TrxName())
+			.setParameters(get_ID(),
+						MPayment.DOCSTATUS_Completed,
+						MPayment.DOCSTATUS_Closed)
+			.first();
+	}
 
 
 	

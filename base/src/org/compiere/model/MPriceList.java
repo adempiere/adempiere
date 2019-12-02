@@ -19,9 +19,11 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.compiere.util.CCache;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 /**
@@ -39,6 +41,26 @@ public class MPriceList extends X_M_PriceList
 	 * 
 	 */
 	private static final long serialVersionUID = -5096935348390226068L;
+
+
+	/**
+	 * Check Price Limit
+	 * @param priceListid
+	 * @return
+	 */
+	public static Boolean isCheckPriceLimit(Integer priceListid) {
+		Boolean isCheckPriceLimit = false;
+		Optional<String> maybeEnforcePriceLimit = Optional.ofNullable(DB.getSQLValueString(null, "SELECT EnforcePriceLimit FROM M_PriceList WHERE M_PriceList_ID=?", priceListid));
+		if (maybeEnforcePriceLimit.isPresent() && maybeEnforcePriceLimit.get().equals("Y")) {
+			isCheckPriceLimit = true;
+		} else if (maybeEnforcePriceLimit.isPresent() && maybeEnforcePriceLimit.get().equals("N")) {
+			isCheckPriceLimit = false;
+		}
+		if (MRole.getDefault().isOverwritePriceLimit()) {
+			isCheckPriceLimit = false;
+		}
+		return isCheckPriceLimit;
+	}
 
 	/**
 	 * 	Get Price List (cached)

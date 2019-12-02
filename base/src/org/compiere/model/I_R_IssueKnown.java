@@ -165,19 +165,6 @@ public interface I_R_IssueKnown
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
-    /** Column name ReleaseNo */
-    public static final String COLUMNNAME_ReleaseNo = "ReleaseNo";
-
-	/** Set Release No.
-	  * Internal Release Number
-	  */
-	public void setReleaseNo (String ReleaseNo);
-
-	/** Get Release No.
-	  * Internal Release Number
-	  */
-	public String getReleaseNo();
-
     /** Column name R_IssueKnown_ID */
     public static final String COLUMNNAME_R_IssueKnown_ID = "R_IssueKnown_ID";
 
@@ -236,6 +223,19 @@ public interface I_R_IssueKnown
 
 	public org.compiere.model.I_R_Request getR_Request() throws RuntimeException;
 
+    /** Column name ReleaseNo */
+    public static final String COLUMNNAME_ReleaseNo = "ReleaseNo";
+
+	/** Set Release No.
+	  * Internal Release Number
+	  */
+	public void setReleaseNo (String ReleaseNo);
+
+	/** Get Release No.
+	  * Internal Release Number
+	  */
+	public String getReleaseNo();
+
     /** Column name SourceClassName */
     public static final String COLUMNNAME_SourceClassName = "SourceClassName";
 
@@ -262,6 +262,19 @@ public interface I_R_IssueKnown
 	  */
 	public String getSourceMethodName();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -277,17 +290,4 @@ public interface I_R_IssueKnown
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

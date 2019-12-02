@@ -31,7 +31,7 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_W_Advertisement (Properties ctx, int W_Advertisement_ID, String trxName)
@@ -79,23 +79,6 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
       return sb.toString();
     }
 
-	/** Set Advertisement Text.
-		@param AdText 
-		Text of the Advertisement
-	  */
-	public void setAdText (String AdText)
-	{
-		set_Value (COLUMNNAME_AdText, AdText);
-	}
-
-	/** Get Advertisement Text.
-		@return Text of the Advertisement
-	  */
-	public String getAdText () 
-	{
-		return (String)get_Value(COLUMNNAME_AdText);
-	}
-
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
@@ -122,6 +105,23 @@ public class X_W_Advertisement extends PO implements I_W_Advertisement, I_Persis
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Advertisement Text.
+		@param AdText 
+		Text of the Advertisement
+	  */
+	public void setAdText (String AdText)
+	{
+		set_Value (COLUMNNAME_AdText, AdText);
+	}
+
+	/** Get Advertisement Text.
+		@return Text of the Advertisement
+	  */
+	public String getAdText () 
+	{
+		return (String)get_Value(COLUMNNAME_AdText);
 	}
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException

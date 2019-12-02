@@ -625,7 +625,7 @@ public class MPaySelection extends X_C_PaySelection implements DocAction, DocOpt
 			//	Instance new
 			if(paySelectionCheck == null
 					|| paySelectionCheck.getC_BPartner_ID() != paySelectionLine.getC_BPartner_ID()
-					|| paySelectionCheck.getC_BP_BankAccount_ID() != paySelectionLine.getC_BP_BankAccount_ID()
+					|| (paySelectionLine.getC_BP_BankAccount_ID() != 0 && paySelectionCheck.getC_BP_BankAccount_ID() != paySelectionLine.getC_BP_BankAccount_ID())
 					|| !paySelectionCheck.getPaymentRule().equals(paySelectionLine.getPaymentRule())
 					|| chargeId != paySelectionLine.getC_Charge_ID()
 					|| isPrepayment != paySelectionLine.isPrepayment()

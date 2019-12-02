@@ -35,9 +35,9 @@ public interface I_AD_Package_Exp_Detail
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 4 - System 
+    /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -172,6 +172,21 @@ public interface I_AD_Package_Exp_Detail
 
 	/** Get Old Package Code	  */
 	public String getAD_Package_Code_Old();
+
+    /** Column name AD_Package_Exp_Custom_ID */
+    public static final String COLUMNNAME_AD_Package_Exp_Custom_ID = "AD_Package_Exp_Custom_ID";
+
+	/** Set Package Custom Exporter.
+	  * Custom Exporter for any entity
+	  */
+	public void setAD_Package_Exp_Custom_ID (int AD_Package_Exp_Custom_ID);
+
+	/** Get Package Custom Exporter.
+	  * Custom Exporter for any entity
+	  */
+	public int getAD_Package_Exp_Custom_ID();
+
+	public org.spin.model.I_AD_Package_Exp_Custom getAD_Package_Exp_Custom() throws RuntimeException;
 
     /** Column name AD_Package_Exp_Detail_ID */
     public static final String COLUMNNAME_AD_Package_Exp_Detail_ID = "AD_Package_Exp_Detail_ID";
@@ -425,15 +440,6 @@ public interface I_AD_Package_Exp_Detail
 	/** Get Destination_FileName	  */
 	public String getDestination_FileName();
 
-    /** Column name File_Directory */
-    public static final String COLUMNNAME_File_Directory = "File_Directory";
-
-	/** Set File_Directory	  */
-	public void setFile_Directory (String File_Directory);
-
-	/** Get File_Directory	  */
-	public String getFile_Directory();
-
     /** Column name FileName */
     public static final String COLUMNNAME_FileName = "FileName";
 
@@ -446,6 +452,15 @@ public interface I_AD_Package_Exp_Detail
 	  * Name of the local file or URL
 	  */
 	public String getFileName();
+
+    /** Column name File_Directory */
+    public static final String COLUMNNAME_File_Directory = "File_Directory";
+
+	/** Set File_Directory	  */
+	public void setFile_Directory (String File_Directory);
+
+	/** Get File_Directory	  */
+	public String getFile_Directory();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -552,6 +567,19 @@ public interface I_AD_Package_Exp_Detail
 	  */
 	public String getType();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -567,17 +595,4 @@ public interface I_AD_Package_Exp_Detail
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

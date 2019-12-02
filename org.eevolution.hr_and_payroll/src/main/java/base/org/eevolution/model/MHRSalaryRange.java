@@ -34,7 +34,11 @@ import java.util.stream.Collectors;
  */
 public class MHRSalaryRange extends X_HR_SalaryRange {
 
-    private static CCache<Integer, MHRSalaryRange> salaryRangeCacheIds = new CCache<Integer, MHRSalaryRange>(Table_Name, 50, 0);
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2936375701598752189L;
+	private static CCache<Integer, MHRSalaryRange> salaryRangeCacheIds = new CCache<Integer, MHRSalaryRange>(Table_Name, 50, 0);
     private static CCache<String, MHRSalaryRange> salaryRangeCacheValues = new CCache<String, MHRSalaryRange>(Table_Name, 50, 0);
 
     /**

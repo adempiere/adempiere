@@ -103,19 +103,6 @@ public interface I_WM_Rule
 	  */
 	public String getDescription();
 
-    /** Column name InOutboundClass */
-    public static final String COLUMNNAME_InOutboundClass = "InOutboundClass";
-
-	/** Set Inbound & Outbound Class.
-	  * Custom class to implemeted new Inbound & Outbound Rule logic
-	  */
-	public void setInOutboundClass (String InOutboundClass);
-
-	/** Get Inbound & Outbound Class.
-	  * Custom class to implemeted new Inbound & Outbound Rule logic
-	  */
-	public String getInOutboundClass();
-
     /** Column name InOutBoundRule */
     public static final String COLUMNNAME_InOutBoundRule = "InOutBoundRule";
 
@@ -141,6 +128,19 @@ public interface I_WM_Rule
 	  * Inbound & Outbound Type
 	  */
 	public String getInOutBoundType();
+
+    /** Column name InOutboundClass */
+    public static final String COLUMNNAME_InOutboundClass = "InOutboundClass";
+
+	/** Set Inbound & Outbound Class.
+	  * Custom class to implemeted new Inbound & Outbound Rule logic
+	  */
+	public void setInOutboundClass (String InOutboundClass);
+
+	/** Get Inbound & Outbound Class.
+	  * Custom class to implemeted new Inbound & Outbound Rule logic
+	  */
+	public String getInOutboundClass();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -168,6 +168,19 @@ public interface I_WM_Rule
 	  */
 	public String getName();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -183,19 +196,6 @@ public interface I_WM_Rule
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name WM_Rule_ID */
     public static final String COLUMNNAME_WM_Rule_ID = "WM_Rule_ID";

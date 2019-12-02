@@ -32,7 +32,7 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_PA_RatioElement (Properties ctx, int PA_RatioElement_ID, String trxName)
@@ -211,34 +211,6 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_PA_Ratio getPA_Ratio() throws RuntimeException
-    {
-		return (org.compiere.model.I_PA_Ratio)MTable.get(getCtx(), org.compiere.model.I_PA_Ratio.Table_Name)
-			.getPO(getPA_Ratio_ID(), get_TrxName());	}
-
-	/** Set Ratio.
-		@param PA_Ratio_ID 
-		Performance Ratio
-	  */
-	public void setPA_Ratio_ID (int PA_Ratio_ID)
-	{
-		if (PA_Ratio_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PA_Ratio_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PA_Ratio_ID, Integer.valueOf(PA_Ratio_ID));
-	}
-
-	/** Get Ratio.
-		@return Performance Ratio
-	  */
-	public int getPA_Ratio_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Ratio_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_PA_Ratio getPA_RatioUsed() throws RuntimeException
     {
 		return (org.compiere.model.I_PA_Ratio)MTable.get(getCtx(), org.compiere.model.I_PA_Ratio.Table_Name)
@@ -262,6 +234,34 @@ public class X_PA_RatioElement extends PO implements I_PA_RatioElement, I_Persis
 	public int getPA_RatioUsed_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PA_RatioUsed_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_PA_Ratio getPA_Ratio() throws RuntimeException
+    {
+		return (org.compiere.model.I_PA_Ratio)MTable.get(getCtx(), org.compiere.model.I_PA_Ratio.Table_Name)
+			.getPO(getPA_Ratio_ID(), get_TrxName());	}
+
+	/** Set Ratio.
+		@param PA_Ratio_ID 
+		Performance Ratio
+	  */
+	public void setPA_Ratio_ID (int PA_Ratio_ID)
+	{
+		if (PA_Ratio_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PA_Ratio_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PA_Ratio_ID, Integer.valueOf(PA_Ratio_ID));
+	}
+
+	/** Get Ratio.
+		@return Performance Ratio
+	  */
+	public int getPA_Ratio_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PA_Ratio_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

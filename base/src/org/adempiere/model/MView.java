@@ -28,6 +28,7 @@ import org.compiere.model.Query;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 /**
  * Class Model for Smart View
@@ -219,16 +220,31 @@ public class MView extends X_AD_View {
 	/**
 	 * get SQL from View
 	 * 
-	 * @param AD_View_ID
+	 * @param viewId
 	 * @param trxName
 	 * @return SQL string
 	 */
-	public static String getSQLFromView(int AD_View_ID, String trxName) {
+	public static String getSQLFromView(int viewId, String trxName) {
+		return getSQLFromView(viewId, null, trxName);
+	}
+	
+	/**
+	 * Get SQL from View with a custom column as alias
+	 * @param viewId
+	 * @param columnNameForAlias
+	 * @param trxName
+	 * @return
+	 */
+	public static String getSQLFromView(int viewId, String columnNameForAlias, String trxName) {
+		if(Util.isEmpty(columnNameForAlias)) {
+			columnNameForAlias = I_AD_View_Column.COLUMNNAME_ColumnName;
+		}
+		boolean isColumnName = columnNameForAlias.equals(I_AD_View_Column.COLUMNNAME_ColumnName);
 		StringBuffer sql = new StringBuffer();
 		StringBuffer joins = new StringBuffer();
 		StringBuffer cols = new StringBuffer();
 		String from = "";
-		MView view = new MView(Env.getCtx(), AD_View_ID, null);
+		MView view = new MView(Env.getCtx(), viewId, null);
 
 		sql.append("SELECT ");
 		boolean co = false;
@@ -244,15 +260,18 @@ public class MView extends X_AD_View {
 					cols.append(",");
 				if (col.getColumnSQL() != null
 						&& col.getColumnSQL().length() > 0) {
-
-					cols.append(col.getColumnSQL() + " as " + col.getName());
+					cols.append(col.getColumnSQL());
 					co = true;
 				} else if (col.getColumnName() != null
 						&& col.getColumnName().length() > 0) {
-
-					cols.append(def.getTableAlias() + "." + col.getColumnName()
-							+ " as " + col.getName());
+					cols.append(def.getTableAlias() + "." + col.getColumnName());
 					co = true;
+				}
+				//	Add Alias
+				if(isColumnName) {
+					cols.append(" AS \"" + col.get_ValueAsString(columnNameForAlias) + "\"");
+				} else { 
+					cols.append(" AS \"" + col.get_Translation(columnNameForAlias) + "\"");
 				}
 			}
 
@@ -266,7 +285,7 @@ public class MView extends X_AD_View {
 				from = table.getTableName() + " " + def.getTableAlias();
 		}
 
-		sql.append(cols).append(" from ").append(from).append(" ")
+		sql.append(cols).append(" FROM ").append(from).append(" ")
 				.append(joins);
 
 		return sql.toString();

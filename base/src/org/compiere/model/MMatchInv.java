@@ -18,12 +18,9 @@ package org.compiere.model;
 
 import org.adempiere.engine.CostEngineFactory;
 import org.adempiere.engine.IDocumentLine;
-import org.adempiere.exceptions.AdempiereException;
-import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.eevolution.process.GenerateCostDetail;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -261,6 +258,9 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
+		if (getC_DocType_ID()==0)
+			setC_DocType_ID(MDocType.getDocType(MDocType.DOCBASETYPE_MatchInvoice, getAD_Org_ID()));
+		
 		//	Set Trx Date
 		if (getDateTrx() == null)
 			setDateTrx (new Timestamp(System.currentTimeMillis()));
@@ -527,11 +527,6 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 		return -1;
 	}
 	
-	@Override
-	public int getC_DocType_ID() {
-		return -1;
-	}
-
 	/**
 	 * Reverse Match Invoice
 	 * @param reversalDate
@@ -575,6 +570,13 @@ public class MMatchInv extends X_M_MatchInv implements IDocumentLine
 			return reversal;
 		}
 		return null;
+	}
+
+
+	@Override
+	public boolean isReversalParent() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 

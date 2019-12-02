@@ -31,7 +31,7 @@ public class X_C_ProjectCategory extends PO implements I_C_ProjectCategory, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_ProjectCategory (Properties ctx, int C_ProjectCategory_ID, String trxName)

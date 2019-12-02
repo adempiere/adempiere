@@ -69,6 +69,7 @@ public class MBrowseCustom extends X_AD_BrowseCustom {
 			browse.getFields().forEach(field -> {
 				MBrowseFieldCustom customBrowseField = new MBrowseFieldCustom(this);
 				customBrowseField.setField(field);
+				customBrowseField.saveEx();
 			});
 		}
 		return true;

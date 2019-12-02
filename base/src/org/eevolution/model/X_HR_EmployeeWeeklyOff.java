@@ -30,7 +30,7 @@ public class X_HR_EmployeeWeeklyOff extends PO implements I_HR_EmployeeWeeklyOff
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_EmployeeWeeklyOff (Properties ctx, int HR_EmployeeWeeklyOff_ID, String trxName)
@@ -116,6 +116,29 @@ public class X_HR_EmployeeWeeklyOff extends PO implements I_HR_EmployeeWeeklyOff
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Employee Weekly Off.
+		@param HR_EmployeeWeeklyOff_ID 
+		Employee Weekly Off of an Employee
+	  */
+	public void setHR_EmployeeWeeklyOff_ID (int HR_EmployeeWeeklyOff_ID)
+	{
+		if (HR_EmployeeWeeklyOff_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_EmployeeWeeklyOff_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_EmployeeWeeklyOff_ID, Integer.valueOf(HR_EmployeeWeeklyOff_ID));
+	}
+
+	/** Get Employee Weekly Off.
+		@return Employee Weekly Off of an Employee
+	  */
+	public int getHR_EmployeeWeeklyOff_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_EmployeeWeeklyOff_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_Employee)MTable.get(getCtx(), org.eevolution.model.I_HR_Employee.Table_Name)
@@ -136,29 +159,6 @@ public class X_HR_EmployeeWeeklyOff extends PO implements I_HR_EmployeeWeeklyOff
 	public int getHR_Employee_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Employee_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Employee Weekly Off.
-		@param HR_EmployeeWeeklyOff_ID 
-		Employee Weekly Off of an Employee
-	  */
-	public void setHR_EmployeeWeeklyOff_ID (int HR_EmployeeWeeklyOff_ID)
-	{
-		if (HR_EmployeeWeeklyOff_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_EmployeeWeeklyOff_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_EmployeeWeeklyOff_ID, Integer.valueOf(HR_EmployeeWeeklyOff_ID));
-	}
-
-	/** Get Employee Weekly Off.
-		@return Employee Weekly Off of an Employee
-	  */
-	public int getHR_EmployeeWeeklyOff_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_EmployeeWeeklyOff_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

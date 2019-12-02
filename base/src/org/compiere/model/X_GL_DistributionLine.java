@@ -32,7 +32,7 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_GL_DistributionLine (Properties ctx, int GL_DistributionLine_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
       super (ctx, GL_DistributionLine_ID, trxName);
       /** if (GL_DistributionLine_ID == 0)
         {
-			setGL_Distribution_ID (0);
 			setGL_DistributionLine_ID (0);
+			setGL_Distribution_ID (0);
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM GL_DistributionLine WHERE GL_Distribution_ID=@GL_Distribution_ID@
 			setOverwriteAcct (false);
@@ -89,29 +89,6 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
       return sb.toString();
     }
 
-	/** Set Account.
-		@param Account_ID 
-		Account used
-	  */
-	public void setAccount_ID (int Account_ID)
-	{
-		if (Account_ID < 1) 
-			set_Value (COLUMNNAME_Account_ID, null);
-		else 
-			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
-	}
-
-	/** Get Account.
-		@return Account used
-	  */
-	public int getAccount_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
@@ -135,6 +112,29 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 	public int getAD_OrgTrx_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_OrgTrx_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Account.
+		@param Account_ID 
+		Account used
+	  */
+	public void setAccount_ID (int Account_ID)
+	{
+		if (Account_ID < 1) 
+			set_Value (COLUMNNAME_Account_ID, null);
+		else 
+			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
+	}
+
+	/** Get Account.
+		@return Account used
+	  */
+	public int getAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -393,6 +393,29 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set GL Distribution Line.
+		@param GL_DistributionLine_ID 
+		General Ledger Distribution Line
+	  */
+	public void setGL_DistributionLine_ID (int GL_DistributionLine_ID)
+	{
+		if (GL_DistributionLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_GL_DistributionLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_GL_DistributionLine_ID, Integer.valueOf(GL_DistributionLine_ID));
+	}
+
+	/** Get GL Distribution Line.
+		@return General Ledger Distribution Line
+	  */
+	public int getGL_DistributionLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_GL_DistributionLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_GL_Distribution getGL_Distribution() throws RuntimeException
     {
 		return (org.compiere.model.I_GL_Distribution)MTable.get(getCtx(), org.compiere.model.I_GL_Distribution.Table_Name)
@@ -416,29 +439,6 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 	public int getGL_Distribution_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_GL_Distribution_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set GL Distribution Line.
-		@param GL_DistributionLine_ID 
-		General Ledger Distribution Line
-	  */
-	public void setGL_DistributionLine_ID (int GL_DistributionLine_ID)
-	{
-		if (GL_DistributionLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_GL_DistributionLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_GL_DistributionLine_ID, Integer.valueOf(GL_DistributionLine_ID));
-	}
-
-	/** Get GL Distribution Line.
-		@return General Ledger Distribution Line
-	  */
-	public int getGL_DistributionLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_GL_DistributionLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -986,6 +986,23 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		return (String)get_Value(COLUMNNAME_PostingType);
 	}
 
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
 	public org.compiere.model.I_C_ElementValue getUser1() throws RuntimeException
     {
 		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
@@ -1096,22 +1113,5 @@ public class X_GL_DistributionLine extends PO implements I_GL_DistributionLine, 
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

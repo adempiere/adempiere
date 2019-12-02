@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import org.compiere.model.MAccount;
-import org.compiere.model.MCharge;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MAllocationHdr;
@@ -54,7 +53,9 @@ import org.compiere.util.Env;
  *  
  *  @author phib
  *  BF [ 2019262 ] Allocation posting currency gain/loss omits line reference
- *  
+ *  @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
+ *  Add support to unidentified payments
+ *  https://github.com/adempiere/adempiere/issues/2785
  */
 public class Doc_AllocationHdr extends Doc
 {
@@ -632,55 +633,49 @@ public class Doc_AllocationHdr extends Doc
 	/**
 	 * 	Get Payment (Unallocated Payment or Payment Selection) Acct of Bank Account
 	 *	@param as accounting schema
-	 *	@param C_Payment_ID payment
+	 *	@param paymentId payment
 	 *	@return acct
 	 */
-	private MAccount getPaymentAcct (MAcctSchema as, int C_Payment_ID)
-	{
+	private MAccount getPaymentAcct (MAcctSchema as, int paymentId) {
 		setC_BankAccount_ID(0);
 		//	Doc.ACCTTYPE_UnallocatedCash (AR) or C_Prepayment 
 		//	or Doc.ACCTTYPE_PaymentSelect (AP) or V_Prepayment
 		int accountType = Doc.ACCTTYPE_UnallocatedCash;
 		//
-		String sql = "SELECT p.C_BankAccount_ID, d.DocBaseType, p.IsReceipt, p.IsPrepayment "
+		String sql = "SELECT p.C_BankAccount_ID, d.DocBaseType, p.IsReceipt, p.IsPrepayment, p.IsUnidentifiedPayment "
 			+ "FROM C_Payment p INNER JOIN C_DocType d ON (p.C_DocType_ID=d.C_DocType_ID) "
 			+ "WHERE C_Payment_ID=?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		try
-		{
+		try {
 			pstmt = DB.prepareStatement (sql, getTrxName());
-			pstmt.setInt (1, C_Payment_ID);
-			rs = pstmt.executeQuery ();
-			if (rs.next ())
-			{
+			pstmt.setInt (1, paymentId);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
 				setC_BankAccount_ID(rs.getInt(1));
-				if (DOCTYPE_APPayment.equals(rs.getString(2)))
-					accountType = Doc.ACCTTYPE_PaymentSelect;
-				//	Prepayment
-				if ("Y".equals(rs.getString(4)))		//	Prepayment
-				{
-					if ("Y".equals(rs.getString(3)))	//	Receipt
-						accountType = Doc.ACCTTYPE_C_Prepayment;
-					else
-						accountType = Doc.ACCTTYPE_V_Prepayment;
+				if("Y".equals(rs.getString(5))) {
+					accountType = Doc.ACCTTYPE_BankUnidentified;
+				} else {
+					if (DOCTYPE_APPayment.equals(rs.getString(2)))
+						accountType = Doc.ACCTTYPE_PaymentSelect;
+					//	Prepayment
+					if ("Y".equals(rs.getString(4))) {	// Prepayment
+						if ("Y".equals(rs.getString(3)))	//	Receipt
+							accountType = Doc.ACCTTYPE_C_Prepayment;
+						else
+							accountType = Doc.ACCTTYPE_V_Prepayment;
+					}
 				}
 			}
- 		} 
-		catch (Exception e)
-		{
+ 		} catch (Exception e) {
 			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
+		} finally {
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
-		
 		//
-		if (getC_BankAccount_ID() <= 0)
-		{
-			log.log(Level.SEVERE, "NONE for C_Payment_ID=" + C_Payment_ID);
+		if (getC_BankAccount_ID() <= 0) {
+			log.log(Level.SEVERE, "NONE for C_Payment_ID=" + paymentId);
 			return null;
 		}
 		return getAccount (accountType, as);
@@ -692,8 +687,7 @@ public class Doc_AllocationHdr extends Doc
 	 *	@param C_CashLine_ID
 	 *	@return acct
 	 */
-	private MAccount getCashAcct (MAcctSchema as, int C_CashLine_ID)
-	{
+	private MAccount getCashAcct (MAcctSchema as, int C_CashLine_ID) {
 		String sql = "SELECT c.C_CashBook_ID "
 			+ "FROM C_Cash c, C_CashLine cl "
 			+ "WHERE c.C_Cash_ID=cl.C_Cash_ID AND cl.C_CashLine_ID=?";

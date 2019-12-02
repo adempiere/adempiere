@@ -14,5 +14,7 @@
     <buildFile url="file://$PROJECT_DIR$/org.adempiere.production/build.xml" />
     <buildFile url="file://$PROJECT_DIR$/zkwebui/build.xml" />
     <buildFile url="file://$PROJECT_DIR$/org.compiere.mobile/build.xml" />
+    <buildFile url="file://$PROJECT_DIR$/org.spin.loan_management/build.xml" />
+    <buildFile url="file://$PROJECT_DIR$/org.spin.finance_management/build.xml" />
   </component>
 </project>

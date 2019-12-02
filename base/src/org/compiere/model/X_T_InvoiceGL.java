@@ -32,7 +32,7 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_T_InvoiceGL (Properties ctx, int T_InvoiceGL_ID, String trxName)
@@ -83,34 +83,6 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
-			.getPO(getAccount_ID(), get_TrxName());	}
-
-	/** Set Account.
-		@param Account_ID 
-		Account used
-	  */
-	public void setAccount_ID (int Account_ID)
-	{
-		if (Account_ID < 1) 
-			set_Value (COLUMNNAME_Account_ID, null);
-		else 
-			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
-	}
-
-	/** Get Account.
-		@return Account used
-	  */
-	public int getAccount_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
 
 	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException
     {
@@ -163,6 +135,60 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 	public int getAD_Table_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Table_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** APAR AD_Reference_ID=332 */
+	public static final int APAR_AD_Reference_ID=332;
+	/** Receivables & Payables = A */
+	public static final String APAR_ReceivablesPayables = "A";
+	/** Receivables only = R */
+	public static final String APAR_ReceivablesOnly = "R";
+	/** Payables only = P */
+	public static final String APAR_PayablesOnly = "P";
+	/** Set AP - AR.
+		@param APAR 
+		Include Receivables and/or Payables transactions
+	  */
+	public void setAPAR (String APAR)
+	{
+
+		set_Value (COLUMNNAME_APAR, APAR);
+	}
+
+	/** Get AP - AR.
+		@return Include Receivables and/or Payables transactions
+	  */
+	public String getAPAR () 
+	{
+		return (String)get_Value(COLUMNNAME_APAR);
+	}
+
+	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getAccount_ID(), get_TrxName());	}
+
+	/** Set Account.
+		@param Account_ID 
+		Account used
+	  */
+	public void setAccount_ID (int Account_ID)
+	{
+		if (Account_ID < 1) 
+			set_Value (COLUMNNAME_Account_ID, null);
+		else 
+			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
+	}
+
+	/** Get Account.
+		@return Account used
+	  */
+	public int getAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -286,32 +312,6 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
-	}
-
-	/** APAR AD_Reference_ID=332 */
-	public static final int APAR_AD_Reference_ID=332;
-	/** Receivables & Payables = A */
-	public static final String APAR_ReceivablesPayables = "A";
-	/** Receivables only = R */
-	public static final String APAR_ReceivablesOnly = "R";
-	/** Payables only = P */
-	public static final String APAR_PayablesOnly = "P";
-	/** Set AP - AR.
-		@param APAR 
-		Include Receivables and/or Payables transactions
-	  */
-	public void setAPAR (String APAR)
-	{
-
-		set_Value (COLUMNNAME_APAR, APAR);
-	}
-
-	/** Get AP - AR.
-		@return Include Receivables and/or Payables transactions
-	  */
-	public String getAPAR () 
-	{
-		return (String)get_Value(COLUMNNAME_APAR);
 	}
 
 	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException

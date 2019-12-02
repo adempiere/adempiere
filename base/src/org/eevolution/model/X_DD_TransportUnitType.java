@@ -31,7 +31,7 @@ public class X_DD_TransportUnitType extends PO implements I_DD_TransportUnitType
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_DD_TransportUnitType (Properties ctx, int DD_TransportUnitType_ID, String trxName)

@@ -867,4 +867,37 @@ implements IDocumentLine , DocumentReversalLineEnable
 		return conversionTypeId;
 	}
 
+	@Override
+	public boolean isReversalParent() {
+		return getM_InOutLine_ID() < getReversalLine_ID();
+	}
+	
+    /**
+     * Retrieves the invoiceLine Id associated with the Shipment/Receipt Line
+     * @return Invoice Line ID
+     */
+    public int getInvoiceLineId() {
+    	int invoiceLineId = new Query(getCtx(), I_C_InvoiceLine.Table_Name, "M_InOutLine_ID=?", get_TrxName())
+    	.setParameters(getM_InOutLine_ID())
+    	.firstId();
+    	//	Validate
+    	if(invoiceLineId <= 0) {
+    		if(getParent().isSOTrx()) {
+    			invoiceLineId = DB.getSQLValue(get_TrxName(), 
+    					"SELECT il.C_InvoiceLine_ID "
+    					+ "FROM C_InvoiceLine il "
+    					+ "WHERE il.C_OrderLine_ID = ? "
+    					+ "AND EXISTS(SELECT 1 FROM "
+    					+ "						C_Invoice i "
+    					+ "						WHERE i.C_Invoice_ID = il.C_Invoice_ID "
+    					+ "						AND i.DocStatus IN('CO', 'CL'))", getC_OrderLine_ID());
+    		}
+    	}
+    	//	
+    	if(invoiceLineId == -1) {
+    		invoiceLineId = 0;
+    	}
+    	return invoiceLineId;
+    }
+
 }	//	MInOutLine

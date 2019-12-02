@@ -30,7 +30,7 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_MigrationScript (Properties ctx, int AD_MigrationScript_ID, String trxName)
@@ -40,11 +40,11 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
         {
 			setAD_MigrationScript_ID (0);
 			setFileName (null);
-			setisApply (false);
 			setName (null);
 			setProjectName (null);
 			setReleaseNo (null);
 			setStatus (null);
+			setisApply (false);
         } */
     }
 
@@ -145,27 +145,6 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 	public String getFileName () 
 	{
 		return (String)get_Value(COLUMNNAME_FileName);
-	}
-
-	/** Set Apply Script.
-		@param isApply Apply Script	  */
-	public void setisApply (boolean isApply)
-	{
-		set_Value (COLUMNNAME_isApply, Boolean.valueOf(isApply));
-	}
-
-	/** Get Apply Script.
-		@return Apply Script	  */
-	public boolean isApply () 
-	{
-		Object oo = get_Value(COLUMNNAME_isApply);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
 	}
 
 	/** Set Name.
@@ -333,5 +312,26 @@ public class X_AD_MigrationScript extends PO implements I_AD_MigrationScript, I_
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** Set Apply Script.
+		@param isApply Apply Script	  */
+	public void setisApply (boolean isApply)
+	{
+		set_Value (COLUMNNAME_isApply, Boolean.valueOf(isApply));
+	}
+
+	/** Get Apply Script.
+		@return Apply Script	  */
+	public boolean isApply () 
+	{
+		Object oo = get_Value(COLUMNNAME_isApply);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 }

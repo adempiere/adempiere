@@ -10,7 +10,8 @@ CREATE OR REPLACE VIEW RV_ORDERDETAIL
  SERNO, C_UOM_ID, QTYENTERED, QTYORDERED, QTYRESERVED, 
  QTYDELIVERED, QTYINVOICED, PRICEACTUAL, PRICEENTERED, QTYTODELIVER, 
  QTYTOINVOICE, NETAMTTOINVOICE, QTYLOSTSALES, AMTLOSTSALES, DISCOUNT, 
- MARGIN, MARGINAMT)
+ MARGIN, MARGINAMT, M_Product_Category_ID, M_Product_Class_ID, M_Product_Classification_ID, M_Product_Group_ID, C_Charge_ID, C_ChargeType_ID,
+ C_BP_AccountType_ID, C_BP_SalesGroup_ID, C_BP_Segment_ID, C_BP_IndustryType_ID)
 AS 
 SELECT l.AD_Client_ID, l.AD_Org_ID, 
 	l.IsActive, l.Created, l.CreatedBy, l.Updated, l.UpdatedBy,
@@ -34,10 +35,12 @@ SELECT l.AD_Client_ID, l.AD_Org_ID,
 	CASE WHEN PriceLimit=0 THEN 0 ELSE
 	  ROUND((PriceActual-PriceLimit)/PriceLimit*100,2) END AS Margin,
 	CASE WHEN PriceLimit=0 THEN 0 ELSE
-	  (PriceActual-PriceLimit)*QtyDelivered END AS MarginAmt
+	  (PriceActual-PriceLimit)*QtyDelivered END AS MarginAmt,
+	  p.M_Product_Category_ID, p.M_Product_Class_ID, p.M_Product_Classification_ID, p.M_Product_Group_ID, l.C_Charge_ID, c.C_ChargeType_ID,
+	  bp.C_BP_AccountType_ID, bp.C_BP_SalesGroup_ID, bp.C_BP_Segment_ID, bp.C_BP_IndustryType_ID
 FROM C_Order o
   INNER JOIN C_OrderLine l ON (o.C_Order_ID=l.C_Order_ID)
+  INNER JOIN C_BPartner bp ON(bp.C_BPartner_ID = l.C_BPartner_ID)
+  LEFT JOIN M_Product p ON(p.M_Product_ID = l.M_Product_ID)
+  LEFT JOIN C_Charge c ON(c.C_Charge_ID = l.C_Charge_ID)
   LEFT OUTER JOIN M_AttributeSetInstance pasi ON (l.M_AttributeSetInstance_ID=pasi.M_AttributeSetInstance_ID);
-
-
-

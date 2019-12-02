@@ -19,6 +19,8 @@ import junit.framework.TestCase;
  * Unit testing for Convert_PostgreSQL. 
  * @author Low Heng Sin
  * @version 20061225
+ * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
+ * 		Add support to ROWNUM as LIMIT and OFFSET
  */
 public final class Convert_PostgreSQLTest extends TestCase{
 	private Convert_PostgreSQL convert = new Convert_PostgreSQL();
@@ -254,11 +256,71 @@ public final class Convert_PostgreSQLTest extends TestCase{
 		assertEquals(sqe, r[0]);
 	}
 	
-	/*
 	public void testRowNum() {
 		//test limit
 		sql = "UPDATE I_Order SET M_Warehouse_ID=(SELECT M_Warehouse_ID FROM M_Warehouse w WHERE ROWNUM=1 AND I_Order.AD_Client_ID=w.AD_Client_ID AND I_Order.AD_Org_ID=w.AD_Org_ID) WHERE M_Warehouse_ID IS NULL AND I_IsImported<>'Y' AND AD_Client_ID=11";
-		sqe = "UPDATE I_Order SET M_Warehouse_ID=(SELECT M_Warehouse_ID FROM M_Warehouse w WHERE  I_Order.AD_Client_ID=w.AD_Client_ID AND I_Order.AD_Org_ID=w.AD_Org_ID LIMIT 1 ) WHERE M_Warehouse_ID IS NULL AND I_IsImported<>'Y' AND AD_Client_ID=11" ;
+		sqe = "UPDATE I_Order SET M_Warehouse_ID=(SELECT M_Warehouse_ID FROM M_Warehouse w WHERE I_Order.AD_Client_ID=w.AD_Client_ID AND I_Order.AD_Org_ID=w.AD_Org_ID LIMIT 1) WHERE M_Warehouse_ID IS NULL AND I_IsImported<>'Y' AND AD_Client_ID=11" ;
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
+		
+		//	Many rows
+		sql = "UPDATE I_Order SET M_Warehouse_ID=(SELECT M_Warehouse_ID FROM M_Warehouse w WHERE ROWNUM= 5896 AND I_Order.AD_Client_ID=w.AD_Client_ID AND I_Order.AD_Org_ID=w.AD_Org_ID) WHERE M_Warehouse_ID IS NULL AND I_IsImported<>'Y' AND AD_Client_ID=11";
+		sqe = "UPDATE I_Order SET M_Warehouse_ID=(SELECT M_Warehouse_ID FROM M_Warehouse w WHERE I_Order.AD_Client_ID=w.AD_Client_ID AND I_Order.AD_Org_ID=w.AD_Org_ID LIMIT 5896) WHERE M_Warehouse_ID IS NULL AND I_IsImported<>'Y' AND AD_Client_ID=11" ;
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
+		
+		//	Main RowNum
+		sql = "SELECT M_Warehouse_ID FROM M_Warehouse w WHERE ROWNUM = 5896 AND AD_Client_ID=11 AND AD_Org_ID <> 0";
+		sqe = "SELECT M_Warehouse_ID FROM M_Warehouse w WHERE AD_Client_ID=11 AND AD_Org_ID <> 0 LIMIT 5896";
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
+		
+		//	Main RowNum
+		sql = "SELECT M_Warehouse_ID FROM M_Warehouse w WHERE AD_Client_ID=11 AND ROWNUM = 5896 AND AD_Org_ID <> 0";
+		sqe = "SELECT M_Warehouse_ID FROM M_Warehouse w WHERE AD_Client_ID=11 AND AD_Org_ID <> 0 LIMIT 5896";
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
+		
+		
+		//	Main RowNum <=
+		sql = "SELECT M_Warehouse_ID FROM M_Warehouse w WHERE AD_Client_ID=11 AND ROWNUM <= 5896 AND AD_Org_ID <> 0";
+		sqe = "SELECT M_Warehouse_ID FROM M_Warehouse w WHERE AD_Client_ID=11 AND AD_Org_ID <> 0 LIMIT 5896";
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
+
+		//	Main  AND RowNum >= 50
+		sql = "SELECT M_Warehouse_ID FROM M_Warehouse w WHERE AD_Client_ID=11 AND ROWNUM >= 5896 AND AD_Org_ID <> 0";
+		sqe = "SELECT M_Warehouse_ID FROM M_Warehouse w WHERE AD_Client_ID=11 AND AD_Org_ID <> 0 OFFSET 5896";
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
+		
+		//	Main  AND RowNum >= 10 AND RowNum <= 30
+		sql = "SELECT M_Warehouse_ID FROM M_Warehouse w WHERE AD_Client_ID=11 AND ROWNUM <= 30 AND ROWNUM >= 10 AND AD_Org_ID <> 0";
+		sqe = "SELECT M_Warehouse_ID FROM M_Warehouse w WHERE AD_Client_ID=11 AND AD_Org_ID <> 0 LIMIT 30 OFFSET 10";
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
+		
+		//	Main  AND RowNum >= 10 AND RowNum <= 30
+		sql = "SELECT AD_Table_ID, Record_ID, Created, TrxName FROM AD_ChangeLog WHERE ROWNUM >= 30 ORDER BY Created";
+		sqe = "SELECT AD_Table_ID, Record_ID, Created, TrxName FROM AD_ChangeLog ORDER BY Created OFFSET 30";
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
+
+		//	Main RowNum <= 5
+		sql = "SELECT COUNT(*) FROM AD_Role WHERE ROWNUM <= 5";
+		sqe = "SELECT COUNT(*) FROM AD_Role  LIMIT 5";
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
+
+		//	Main RowNum <= 5 AND RowNum >= 3
+		sql = "SELECT COUNT(*) FROM AD_Role WHERE ROWNUM <= 5 AND ROWNUM >= 3";
+		sqe = "SELECT COUNT(*) FROM AD_Role LIMIT 5 OFFSET 3";
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
+		
+		//	Main RowNum >= 3
+		sql = "SELECT COUNT(*) FROM AD_Role WHERE ROWNUM >= 3";
+		sqe = "SELECT COUNT(*) FROM AD_Role  OFFSET 3";
 		r = convert.convert(sql);
 		assertEquals(sqe, r[0]);
 		
@@ -275,15 +337,15 @@ public final class Convert_PostgreSQLTest extends TestCase{
 		+ "WHERE i.C_Invoice_ID=il.C_Invoice_ID"
 		+ " AND po.M_Product_ID=il.M_Product_ID AND po.C_BPartner_ID=i.C_BPartner_ID"
 		+ " AND i.C_Invoice_ID=0)";
-		sqe = "UPDATE M_Product_PO SET PriceLastInv = (SELECT currencyConvert(il.PriceActual,i.C_Currency_ID,M_Product_PO.C_Currency_ID,i.DateInvoiced,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID) FROM C_Invoice i, C_InvoiceLine il WHERE i.C_Invoice_ID=il.C_Invoice_ID AND M_Product_PO.M_Product_ID=il.M_Product_ID AND M_Product_PO.C_BPartner_ID=i.C_BPartner_ID  AND i.C_Invoice_ID=0 LIMIT 1 ) WHERE EXISTS (SELECT * FROM C_Invoice i, C_InvoiceLine il WHERE i.C_Invoice_ID=il.C_Invoice_ID AND M_Product_PO.M_Product_ID=il.M_Product_ID AND M_Product_PO.C_BPartner_ID=i.C_BPartner_ID AND i.C_Invoice_ID=0)";
+		sqe = "UPDATE M_Product_PO SET PriceLastInv = (SELECT currencyConvert(il.PriceActual,i.C_Currency_ID,M_Product_PO.C_Currency_ID,i.DateInvoiced,i.C_ConversionType_ID,i.AD_Client_ID,i.AD_Org_ID) FROM C_Invoice i, C_InvoiceLine il WHERE i.C_Invoice_ID=il.C_Invoice_ID AND M_Product_PO.M_Product_ID=il.M_Product_ID AND M_Product_PO.C_BPartner_ID=i.C_BPartner_ID AND i.C_Invoice_ID=0 LIMIT 1) WHERE EXISTS (SELECT * FROM C_Invoice i, C_InvoiceLine il WHERE i.C_Invoice_ID=il.C_Invoice_ID AND M_Product_PO.M_Product_ID=il.M_Product_ID AND M_Product_PO.C_BPartner_ID=i.C_BPartner_ID AND i.C_Invoice_ID=0)";
 		r = convert.convert(sql);
 		assertEquals(sqe, r[0]);
 		
 		sql="UPDATE T_InventoryValue SET PricePO = (SELECT currencyConvert (po.PriceList,po.C_Currency_ID,T_InventoryValue.C_Currency_ID,T_InventoryValue.DateValue,null, po.AD_Client_ID,po.AD_Org_ID) FROM M_Product_PO po WHERE po.M_Product_ID=T_InventoryValue.M_Product_ID AND po.IsCurrentVendor='Y' AND RowNum=1), PriceList = (SELECT currencyConvert(pp.PriceList,pl.C_Currency_ID,T_InventoryValue.C_Currency_ID,T_InventoryValue.DateValue,null, pl.AD_Client_ID,pl.AD_Org_ID) FROM M_PriceList pl, M_PriceList_Version plv, M_ProductPrice pp WHERE pp.M_Product_ID=T_InventoryValue.M_Product_ID AND pp.M_PriceList_Version_ID=T_InventoryValue.M_PriceList_Version_ID AND pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID AND plv.M_PriceList_ID=pl.M_PriceList_ID), PriceStd = (SELECT currencyConvert(pp.PriceStd,pl.C_Currency_ID,T_InventoryValue.C_Currency_ID,T_InventoryValue.DateValue,null, pl.AD_Client_ID,pl.AD_Org_ID) FROM M_PriceList pl, M_PriceList_Version plv, M_ProductPrice pp WHERE pp.M_Product_ID=T_InventoryValue.M_Product_ID AND pp.M_PriceList_Version_ID=T_InventoryValue.M_PriceList_Version_ID AND pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID AND plv.M_PriceList_ID=pl.M_PriceList_ID), PriceLimit = (SELECT currencyConvert(pp.PriceLimit,pl.C_Currency_ID,T_InventoryValue.C_Currency_ID,T_InventoryValue.DateValue,null, pl.AD_Client_ID,pl.AD_Org_ID) FROM M_PriceList pl, M_PriceList_Version plv, M_ProductPrice pp WHERE pp.M_Product_ID=T_InventoryValue.M_Product_ID AND pp.M_PriceList_Version_ID=T_InventoryValue.M_PriceList_Version_ID AND pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID AND plv.M_PriceList_ID=pl.M_PriceList_ID)";
-		sqe = "UPDATE T_InventoryValue SET PricePO = (SELECT currencyConvert (po.PriceList,po.C_Currency_ID,T_InventoryValue.C_Currency_ID,T_InventoryValue.DateValue,null, po.AD_Client_ID,po.AD_Org_ID) FROM M_Product_PO po WHERE po.M_Product_ID=T_InventoryValue.M_Product_ID AND po.IsCurrentVendor='Y'  LIMIT 1 ), PriceList = (SELECT currencyConvert(pp.PriceList,pl.C_Currency_ID,T_InventoryValue.C_Currency_ID,T_InventoryValue.DateValue,null, pl.AD_Client_ID,pl.AD_Org_ID) FROM M_PriceList pl, M_PriceList_Version plv, M_ProductPrice pp WHERE pp.M_Product_ID=T_InventoryValue.M_Product_ID AND pp.M_PriceList_Version_ID=T_InventoryValue.M_PriceList_Version_ID AND pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID AND plv.M_PriceList_ID=pl.M_PriceList_ID), PriceStd = (SELECT currencyConvert(pp.PriceStd,pl.C_Currency_ID,T_InventoryValue.C_Currency_ID,T_InventoryValue.DateValue,null, pl.AD_Client_ID,pl.AD_Org_ID) FROM M_PriceList pl, M_PriceList_Version plv, M_ProductPrice pp WHERE pp.M_Product_ID=T_InventoryValue.M_Product_ID AND pp.M_PriceList_Version_ID=T_InventoryValue.M_PriceList_Version_ID AND pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID AND plv.M_PriceList_ID=pl.M_PriceList_ID), PriceLimit = (SELECT currencyConvert(pp.PriceLimit,pl.C_Currency_ID,T_InventoryValue.C_Currency_ID,T_InventoryValue.DateValue,null, pl.AD_Client_ID,pl.AD_Org_ID) FROM M_PriceList pl, M_PriceList_Version plv, M_ProductPrice pp WHERE pp.M_Product_ID=T_InventoryValue.M_Product_ID AND pp.M_PriceList_Version_ID=T_InventoryValue.M_PriceList_Version_ID AND pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID AND plv.M_PriceList_ID=pl.M_PriceList_ID)";
+		sqe = "UPDATE T_InventoryValue SET PricePO = (SELECT currencyConvert (po.PriceList,po.C_Currency_ID,T_InventoryValue.C_Currency_ID,T_InventoryValue.DateValue,null, po.AD_Client_ID,po.AD_Org_ID) FROM M_Product_PO po WHERE po.M_Product_ID=T_InventoryValue.M_Product_ID AND po.IsCurrentVendor='Y'  LIMIT 1), PriceList = (SELECT currencyConvert(pp.PriceList,pl.C_Currency_ID,T_InventoryValue.C_Currency_ID,T_InventoryValue.DateValue,null, pl.AD_Client_ID,pl.AD_Org_ID) FROM M_PriceList pl, M_PriceList_Version plv, M_ProductPrice pp WHERE pp.M_Product_ID=T_InventoryValue.M_Product_ID AND pp.M_PriceList_Version_ID=T_InventoryValue.M_PriceList_Version_ID AND pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID AND plv.M_PriceList_ID=pl.M_PriceList_ID), PriceStd = (SELECT currencyConvert(pp.PriceStd,pl.C_Currency_ID,T_InventoryValue.C_Currency_ID,T_InventoryValue.DateValue,null, pl.AD_Client_ID,pl.AD_Org_ID) FROM M_PriceList pl, M_PriceList_Version plv, M_ProductPrice pp WHERE pp.M_Product_ID=T_InventoryValue.M_Product_ID AND pp.M_PriceList_Version_ID=T_InventoryValue.M_PriceList_Version_ID AND pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID AND plv.M_PriceList_ID=pl.M_PriceList_ID), PriceLimit = (SELECT currencyConvert(pp.PriceLimit,pl.C_Currency_ID,T_InventoryValue.C_Currency_ID,T_InventoryValue.DateValue,null, pl.AD_Client_ID,pl.AD_Org_ID) FROM M_PriceList pl, M_PriceList_Version plv, M_ProductPrice pp WHERE pp.M_Product_ID=T_InventoryValue.M_Product_ID AND pp.M_PriceList_Version_ID=T_InventoryValue.M_PriceList_Version_ID AND pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID AND plv.M_PriceList_ID=pl.M_PriceList_ID)";
         r = convert.convert(sql);
 		assertEquals(sqe, r[0]);
-	}*/
+	}
 	
 	public void testAliasInUpdate() {
 		//test alias and column list update
@@ -328,7 +390,7 @@ public final class Convert_PostgreSQLTest extends TestCase{
 			+ " GROUP BY AD_Client_ID,AD_Org_ID, C_AcctSchema_ID, TRUNC(DateAcct),"
 			+ " Account_ID, PostingType, M_Product_ID, C_BPartner_ID,"
 			+ " C_Project_ID, AD_OrgTrx_ID, C_SalesRegion_ID, C_Activity_ID,"
-			+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID , User3_ID, User4_ID, GL_Budget_ID";
+			+ " C_Campaign_ID, C_LocTo_ID, C_LocFrom_ID, User1_ID, User2_ID, User3_ID, User4_ID, GL_Budget_ID";
 		r = convert.convert(sql);
 		assertEquals(sqe, r[0]);
 	}

@@ -31,7 +31,7 @@ public class X_WM_Section_Type extends PO implements I_WM_Section_Type, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_WM_Section_Type (Properties ctx, int WM_Section_Type_ID, String trxName)

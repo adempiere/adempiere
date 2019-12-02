@@ -18,7 +18,12 @@
 
 package org.eevolution.form;
 
-import org.compiere.process.IPrintDocument;
+import java.awt.Cursor;
+import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import org.compiere.apps.ADialog;
 import org.compiere.apps.ADialogDialog;
 import org.compiere.model.MQuery;
@@ -27,38 +32,26 @@ import org.compiere.model.PrintInfo;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportEngine;
 import org.compiere.print.Viewer;
+import org.compiere.process.IPrintDocument;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import java.awt.Cursor;
+import org.eevolution.service.dsl.ProcessBuilder;
 
 /**
  * Created by eEvolution author Victor Perez <victor.perez@e-evolution.com> on 25/01/15.
+ * @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ * Improve definition
  */
 public class VPrintDocument implements IPrintDocument {
     @Override
-    public void print(PO document, String printFormantName, int windowNo) {
+    public void print(PO document, int printFormatId, int windowNo, boolean askPrint) {
         JFrame window = Env.getWindow(windowNo);
-        if (ADialog.ask(windowNo, window, "PrintShipments")) {
+        if (ADialog.ask(windowNo, window, "PrintDocument", document.getDisplayValue())) {
             window.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             int retValue = ADialogDialog.A_CANCEL;    //	see also ProcessDialog.printShipments/Invoices
             do {
                 try {
-                    String keyColumnName = document.get_KeyColumns()[0];
-                    MPrintFormat format = MPrintFormat.get(
-                            Env.getCtx(),
-                            MPrintFormat.getPrintFormat_ID(printFormantName, document.get_Table_ID(), 0),
-                            false);
-                    MQuery query = new MQuery(document.get_TableName());
-                    query.addRestriction(keyColumnName, MQuery.EQUAL, document.get_ValueAsInt(keyColumnName));
-
-                    //	Engine
-                    PrintInfo info = new PrintInfo(document.get_TableName(), document.get_Table_ID(), document.get_ValueAsInt(keyColumnName));
-                    ReportEngine re = new ReportEngine(Env.getCtx(), format, query, info);
-                    re.print();
-                    new Viewer(re);
+                	printDocument(document, printFormatId, windowNo);
                 } catch (Exception e) {
 
                 } finally {
@@ -73,4 +66,54 @@ public class VPrintDocument implements IPrintDocument {
             window.setCursor(Cursor.getDefaultCursor());
         }
     }
+
+	@Override
+	public void print(List<PO> documentList, int printFormatId, int windowNo, boolean askPrint) {
+		JFrame window = Env.getWindow(windowNo);
+		StringBuffer documentLabels = new StringBuffer();
+		documentList.stream().forEach(document -> {
+			if(documentLabels.length() > 0) {
+				documentLabels.append(Env.NL);
+			}
+			//	Add to String
+			documentLabels.append(document.getDisplayValue());
+		});
+        if (ADialog.ask(windowNo, window, "PrintAllDocuments", documentLabels.toString())) {
+            window.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            documentList.stream().forEach(document -> {
+            	printDocument(document, printFormatId, windowNo);
+            });
+            window.setCursor(Cursor.getDefaultCursor());
+        }
+	}
+	
+	/**
+	 * Print document
+	 * @param document
+	 * @param printFormatId
+	 */
+	private void printDocument(PO document, int printFormatId, int windowNo) {
+		String keyColumnName = document.get_KeyColumns()[0];
+        MPrintFormat format = MPrintFormat.get(Env.getCtx(), printFormatId, false);
+        if(format.getJasperProcess_ID() != 0) {
+        	try {
+        		ProcessBuilder.create(document.getCtx())
+        			.process(format.getJasperProcess_ID())
+        			.withRecordId(document.get_Table_ID(), document.get_ID())
+        			.withoutPrintPreview()
+        			.execute(document.get_TrxName());
+        	} catch (Exception e) {
+        		
+        	}
+        } else {
+        	MQuery query = new MQuery(document.get_TableName());
+            query.addRestriction(keyColumnName, MQuery.EQUAL, document.get_ValueAsInt(keyColumnName));
+
+            //	Engine
+            PrintInfo info = new PrintInfo(document.get_TableName(), document.get_Table_ID(), document.get_ValueAsInt(keyColumnName));
+            ReportEngine reportEngine = new ReportEngine(Env.getCtx(), format, query, info, document.get_TrxName());
+            reportEngine.print();
+            new Viewer(reportEngine);
+        }
+	}
 }

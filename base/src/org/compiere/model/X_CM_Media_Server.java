@@ -30,7 +30,7 @@ public class X_CM_Media_Server extends PO implements I_CM_Media_Server, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_CM_Media_Server (Properties ctx, int CM_Media_Server_ID, String trxName)
@@ -275,23 +275,6 @@ public class X_CM_Media_Server extends PO implements I_CM_Media_Server, I_Persis
 		return (String)get_Value(COLUMNNAME_URL);
 	}
 
-	/** Set Registered EMail.
-		@param UserName 
-		Email of the responsible for the System
-	  */
-	public void setUserName (String UserName)
-	{
-		set_Value (COLUMNNAME_UserName, UserName);
-	}
-
-	/** Get Registered EMail.
-		@return Email of the responsible for the System
-	  */
-	public String getUserName () 
-	{
-		return (String)get_Value(COLUMNNAME_UserName);
-	}
-
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 
 		Immutable Universally Unique Identifier
@@ -307,5 +290,22 @@ public class X_CM_Media_Server extends PO implements I_CM_Media_Server, I_Persis
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** Set Registered EMail.
+		@param UserName 
+		Email of the responsible for the System
+	  */
+	public void setUserName (String UserName)
+	{
+		set_Value (COLUMNNAME_UserName, UserName);
+	}
+
+	/** Get Registered EMail.
+		@return Email of the responsible for the System
+	  */
+	public String getUserName () 
+	{
+		return (String)get_Value(COLUMNNAME_UserName);
 	}
 }

@@ -43,6 +43,7 @@ import org.compiere.process.ProcessInfo;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.eevolution.form.VBrowser;
+import org.spin.util.ASPUtil;
 
 /**
  * Class that execute business logic from POS
@@ -143,7 +144,7 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                 String processMessage = receiver.getName()
                         + " @DisplayDocumentInfo@ : " + pos.getDocumentNo()
                         + " @To@ @C_BPartner_ID@ : " + partner.getName()
-                        + " @TaxID@ : " + taxId.orElse("");
+                        + " @TaxID@ : " + taxId.orElseGet(() -> "");
                 if (ADialog.ask(pos.getWindowNo(), popupMenu, "StartProcess?", Msg.parseTranslation(pos.getCtx(), processMessage))) {
                     AEnv.showCenterScreen(waiting);
                     command.execute(receiver);
@@ -233,8 +234,8 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
                 Dimension size = new Dimension(1024, 768);
                 FormFrame ff = new FormFrame(pos.getWindowNo());
                 ff.setSize(size);
-                MBrowse browse = new MBrowse(Env.getCtx(), 50056 , null);
-                new VBrowser(ff, true , pos.getWindowNo(), "" , browse , "" , true, "", true);
+                //	Danger --- Hardcode
+                new VBrowser(ff, true , pos.getWindowNo(), "" , ASPUtil.getInstance().getBrowse(50056), "" , true, "", true);
                 ff.pack();
                 AEnv.showCenterScreen(ff);
             } else if (command.getCommand() == CommandManager.CLOSE_STATEMENT) {
@@ -303,7 +304,8 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
     {
         Optional<String> summary = Optional.ofNullable(processInfo.getSummary());
         Optional<String> logs = Optional.ofNullable(processInfo.getLogInfo());
-        String errorMessage = Msg.parseTranslation(pos.getCtx() , processInfo.getTitle() + " @ProcessRunError@ @Summary@ : " + summary.orElse("") + " @ProcessFailed@ : " + logs.orElse(""));
+        String errorMessage = Msg.parseTranslation(pos.getCtx() , "@AD_Process_ID@ "  + processInfo.getTitle()
+                + " @ProcessRunError@ @Summary@ : " + summary.orElseGet(() -> "") + " @ProcessFailed@ : " + logs.orElseGet(() -> ""));
         throw new AdempierePOSException(errorMessage);
     }
 
@@ -312,7 +314,8 @@ public class POSActionMenu implements  ActionListener , POSQueryListener{
         pos.refreshHeader();
         Optional<String> summary = Optional.ofNullable(processInfo.getSummary());
         Optional<String> logs = Optional.ofNullable(processInfo.getLogInfo());
-        String okMessage = Msg.parseTranslation(pos.getCtx() , " @AD_Process_ID@ "+ processInfo.getTitle() +" @Summary@ : " + summary.orElse("") + " @ProcessOK@ : " + logs.orElse(""));
+        String okMessage = Msg.parseTranslation(pos.getCtx() , " @AD_Process_ID@ " + processInfo.getTitle()
+                + " @Summary@ : " + summary.orElseGet(() -> "") + " @ProcessOK@ : " + logs.orElseGet(() -> ("")));
         ADialog.info(pos.getWindowNo(), popupMenu ,"ProcessOK",  okMessage );
     }
 }

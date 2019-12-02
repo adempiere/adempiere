@@ -27,12 +27,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.webui.component.Listbox;
+import org.compiere.model.I_AD_Column;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MFactAcct;
@@ -59,6 +62,9 @@ import org.compiere.util.ValueNamePair;
  * @author Michael McKay, 
  * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
  * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ * @author Victor Pérez , e-Evolution Consulting , www.e-evolution.com
+ * 				<li> #2598 The accounting information screen does not show the accounting entries when a accounting dimension User Element is defined </li>
+ * 				<li>https://github.com/adempiere/adempiere/issues/2598</li>
  */
 
 public class WAcctViewerData 
@@ -543,10 +549,20 @@ public class WAcctViewerData
 				rm.addColumn(new RColumn(ctx, column, DisplayType.Date));
 			else if (column.startsWith("UserElement"))
 			{
-				if (column.indexOf('1') != -1)
-					rm.addColumn(new RColumn(ctx, column, DisplayType.TableDir, null, 0, m_ref1));
-				else
-					rm.addColumn(new RColumn(ctx, column, DisplayType.TableDir, null, 0, m_ref2));
+				Optional<I_AD_Column> columnInfoOptional = Arrays.stream(ASchema.getAcctSchemaElements())
+						.filter(acctSchemaElement -> acctSchemaElement.getColumnName().contains(column)
+								&& acctSchemaElement.getElementType().startsWith("X"))
+						.map(MAcctSchemaElement::getAD_Column)
+						.findFirst();
+
+				columnInfoOptional.ifPresent(columnInfo -> {
+					if (column.indexOf('1') != -1)
+						rm.addColumn(new RColumn(ctx, column, columnInfo.getAD_Reference_ID(), null,
+								columnInfo.getAD_Reference_Value_ID(), m_ref1));
+					else
+						rm.addColumn(new RColumn(ctx, column, columnInfo.getAD_Reference_ID(), null,
+								columnInfo.getAD_Reference_Value_ID(), m_ref2));
+				});
 			}
 			else if (column != null && column.endsWith("_ID"))
 				rm.addColumn(new RColumn(ctx, column, DisplayType.TableDir));

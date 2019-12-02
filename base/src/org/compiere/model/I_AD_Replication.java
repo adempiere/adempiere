@@ -62,19 +62,6 @@ public interface I_AD_Replication
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_Replication_ID */
-    public static final String COLUMNNAME_AD_Replication_ID = "AD_Replication_ID";
-
-	/** Set Replication.
-	  * Data Replication Target
-	  */
-	public void setAD_Replication_ID (int AD_Replication_ID);
-
-	/** Get Replication.
-	  * Data Replication Target
-	  */
-	public int getAD_Replication_ID();
-
     /** Column name AD_ReplicationStrategy_ID */
     public static final String COLUMNNAME_AD_ReplicationStrategy_ID = "AD_ReplicationStrategy_ID";
 
@@ -89,6 +76,19 @@ public interface I_AD_Replication
 	public int getAD_ReplicationStrategy_ID();
 
 	public org.compiere.model.I_AD_ReplicationStrategy getAD_ReplicationStrategy() throws RuntimeException;
+
+    /** Column name AD_Replication_ID */
+    public static final String COLUMNNAME_AD_Replication_ID = "AD_Replication_ID";
+
+	/** Set Replication.
+	  * Data Replication Target
+	  */
+	public void setAD_Replication_ID (int AD_Replication_ID);
+
+	/** Get Replication.
+	  * Data Replication Target
+	  */
+	public int getAD_Replication_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -301,6 +301,19 @@ public interface I_AD_Replication
 	  */
 	public String getSuffix();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -316,17 +329,4 @@ public interface I_AD_Replication
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

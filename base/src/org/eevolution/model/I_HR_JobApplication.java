@@ -91,19 +91,6 @@ public interface I_HR_JobApplication
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
-    /** Column name City */
-    public static final String COLUMNNAME_City = "City";
-
-	/** Set City.
-	  * Identifies a City
-	  */
-	public void setCity (String City);
-
-	/** Get City.
-	  * Identifies a City
-	  */
-	public String getCity();
-
     /** Column name C_Location_ID */
     public static final String COLUMNNAME_C_Location_ID = "C_Location_ID";
 
@@ -118,6 +105,19 @@ public interface I_HR_JobApplication
 	public int getC_Location_ID();
 
 	public I_C_Location getC_Location() throws RuntimeException;
+
+    /** Column name City */
+    public static final String COLUMNNAME_City = "City";
+
+	/** Set City.
+	  * Identifies a City
+	  */
+	public void setCity (String City);
+
+	/** Get City.
+	  * Identifies a City
+	  */
+	public String getCity();
 
     /** Column name Comments */
     public static final String COLUMNNAME_Comments = "Comments";
@@ -200,19 +200,6 @@ public interface I_HR_JobApplication
 	  */
 	public String getFirstName();
 
-    /** Column name HighestEducation */
-    public static final String COLUMNNAME_HighestEducation = "HighestEducation";
-
-	/** Set Highest Education.
-	  * Highest Education for this position
-	  */
-	public void setHighestEducation (String HighestEducation);
-
-	/** Get Highest Education.
-	  * Highest Education for this position
-	  */
-	public String getHighestEducation();
-
     /** Column name HR_Designation_ID */
     public static final String COLUMNNAME_HR_Designation_ID = "HR_Designation_ID";
 
@@ -255,6 +242,19 @@ public interface I_HR_JobApplication
 	public int getHR_JobOpening_ID();
 
 	public org.eevolution.model.I_HR_JobOpening getHR_JobOpening() throws RuntimeException;
+
+    /** Column name HighestEducation */
+    public static final String COLUMNNAME_HighestEducation = "HighestEducation";
+
+	/** Set Highest Education.
+	  * Highest Education for this position
+	  */
+	public void setHighestEducation (String HighestEducation);
+
+	/** Get Highest Education.
+	  * Highest Education for this position
+	  */
+	public String getHighestEducation();
 
     /** Column name IdentityProof */
     public static final String COLUMNNAME_IdentityProof = "IdentityProof";
@@ -516,6 +516,19 @@ public interface I_HR_JobApplication
 	  */
 	public String getTotalRelevantExperience();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -531,19 +544,6 @@ public interface I_HR_JobApplication
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name YearOfPassing */
     public static final String COLUMNNAME_YearOfPassing = "YearOfPassing";

@@ -41,6 +41,19 @@ public interface I_AD_AlertRule
 
     /** Load Meta Data */
 
+    /** Column name AD_AlertRule_ID */
+    public static final String COLUMNNAME_AD_AlertRule_ID = "AD_AlertRule_ID";
+
+	/** Set Alert Rule.
+	  * Definition of the alert element
+	  */
+	public void setAD_AlertRule_ID (int AD_AlertRule_ID);
+
+	/** Get Alert Rule.
+	  * Definition of the alert element
+	  */
+	public int getAD_AlertRule_ID();
+
     /** Column name AD_Alert_ID */
     public static final String COLUMNNAME_AD_Alert_ID = "AD_Alert_ID";
 
@@ -55,19 +68,6 @@ public interface I_AD_AlertRule
 	public int getAD_Alert_ID();
 
 	public org.compiere.model.I_AD_Alert getAD_Alert() throws RuntimeException;
-
-    /** Column name AD_AlertRule_ID */
-    public static final String COLUMNNAME_AD_AlertRule_ID = "AD_AlertRule_ID";
-
-	/** Set Alert Rule.
-	  * Definition of the alert element
-	  */
-	public void setAD_AlertRule_ID (int AD_AlertRule_ID);
-
-	/** Get Alert Rule.
-	  * Definition of the alert element
-	  */
-	public int getAD_AlertRule_ID();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -234,6 +234,19 @@ public interface I_AD_AlertRule
 	  */
 	public String getSelectClause();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -249,19 +262,6 @@ public interface I_AD_AlertRule
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name WhereClause */
     public static final String COLUMNNAME_WhereClause = "WhereClause";

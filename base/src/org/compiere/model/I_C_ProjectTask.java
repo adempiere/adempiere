@@ -49,19 +49,6 @@ public interface I_C_ProjectTask
 	  */
 	public int getAD_Client_ID();
 
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
-
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
@@ -76,6 +63,19 @@ public interface I_C_ProjectTask
 	public int getAD_OrgTrx_ID();
 
 	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException;
+
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
 
     /** Column name AD_Workflow_ID */
     public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
@@ -133,18 +133,20 @@ public interface I_C_ProjectTask
 
 	public org.compiere.model.I_C_Campaign getC_Campaign() throws RuntimeException;
 
-    /** Column name CommittedAmt */
-    public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
+    /** Column name C_OrderPO_ID */
+    public static final String COLUMNNAME_C_OrderPO_ID = "C_OrderPO_ID";
 
-	/** Set Committed Amount.
-	  * The (legal) commitment amount
+	/** Set Purchase Order.
+	  * Purchase Order
 	  */
-	public void setCommittedAmt (BigDecimal CommittedAmt);
+	public void setC_OrderPO_ID (int C_OrderPO_ID);
 
-	/** Get Committed Amount.
-	  * The (legal) commitment amount
+	/** Get Purchase Order.
+	  * Purchase Order
 	  */
-	public BigDecimal getCommittedAmt();
+	public int getC_OrderPO_ID();
+
+	public org.compiere.model.I_C_Order getC_OrderPO() throws RuntimeException;
 
     /** Column name C_Order_ID */
     public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
@@ -160,21 +162,6 @@ public interface I_C_ProjectTask
 	public int getC_Order_ID();
 
 	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
-
-    /** Column name C_OrderPO_ID */
-    public static final String COLUMNNAME_C_OrderPO_ID = "C_OrderPO_ID";
-
-	/** Set Purchase Order.
-	  * Purchase Order
-	  */
-	public void setC_OrderPO_ID (int C_OrderPO_ID);
-
-	/** Get Purchase Order.
-	  * Purchase Order
-	  */
-	public int getC_OrderPO_ID();
-
-	public org.compiere.model.I_C_Order getC_OrderPO() throws RuntimeException;
 
     /** Column name C_ProjectPhase_ID */
     public static final String COLUMNNAME_C_ProjectPhase_ID = "C_ProjectPhase_ID";
@@ -234,22 +221,6 @@ public interface I_C_ProjectTask
 	  */
 	public int getC_ProjectTask_ID();
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
-
     /** Column name C_SalesRegion_ID */
     public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
 
@@ -279,6 +250,35 @@ public interface I_C_ProjectTask
 	public int getC_Task_ID();
 
 	public org.compiere.model.I_C_Task getC_Task() throws RuntimeException;
+
+    /** Column name CommittedAmt */
+    public static final String COLUMNNAME_CommittedAmt = "CommittedAmt";
+
+	/** Set Committed Amount.
+	  * The (legal) commitment amount
+	  */
+	public void setCommittedAmt (BigDecimal CommittedAmt);
+
+	/** Get Committed Amount.
+	  * The (legal) commitment amount
+	  */
+	public BigDecimal getCommittedAmt();
+
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
 
     /** Column name DateDeadline */
     public static final String COLUMNNAME_DateDeadline = "DateDeadline";
@@ -625,32 +625,6 @@ public interface I_C_ProjectTask
 	  */
 	public String getName();
 
-    /** Column name PercentageCompleted */
-    public static final String COLUMNNAME_PercentageCompleted = "PercentageCompleted";
-
-	/** Set Percentage completed.
-	  * Percentage completed
-	  */
-	public void setPercentageCompleted (BigDecimal PercentageCompleted);
-
-	/** Get Percentage completed.
-	  * Percentage completed
-	  */
-	public BigDecimal getPercentageCompleted();
-
-    /** Column name PlannedAmt */
-    public static final String COLUMNNAME_PlannedAmt = "PlannedAmt";
-
-	/** Set Planned Amount.
-	  * Planned amount for this project
-	  */
-	public void setPlannedAmt (BigDecimal PlannedAmt);
-
-	/** Get Planned Amount.
-	  * Planned amount for this project
-	  */
-	public BigDecimal getPlannedAmt();
-
     /** Column name PP_Order_ID */
     public static final String COLUMNNAME_PP_Order_ID = "PP_Order_ID";
 
@@ -680,6 +654,32 @@ public interface I_C_ProjectTask
 	public int getPP_Product_BOM_ID();
 
 	public org.eevolution.model.I_PP_Product_BOM getPP_Product_BOM() throws RuntimeException;
+
+    /** Column name PercentageCompleted */
+    public static final String COLUMNNAME_PercentageCompleted = "PercentageCompleted";
+
+	/** Set Percentage completed.
+	  * Percentage completed
+	  */
+	public void setPercentageCompleted (BigDecimal PercentageCompleted);
+
+	/** Get Percentage completed.
+	  * Percentage completed
+	  */
+	public BigDecimal getPercentageCompleted();
+
+    /** Column name PlannedAmt */
+    public static final String COLUMNNAME_PlannedAmt = "PlannedAmt";
+
+	/** Set Planned Amount.
+	  * Planned amount for this project
+	  */
+	public void setPlannedAmt (BigDecimal PlannedAmt);
+
+	/** Get Planned Amount.
+	  * Planned amount for this project
+	  */
+	public BigDecimal getPlannedAmt();
 
     /** Column name PriorityRule */
     public static final String COLUMNNAME_PriorityRule = "PriorityRule";
@@ -776,6 +776,19 @@ public interface I_C_ProjectTask
 	  */
 	public int getSeqNo();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -851,19 +864,6 @@ public interface I_C_ProjectTask
 	public int getUser4_ID();
 
 	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException;
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Vendor_ID */
     public static final String COLUMNNAME_Vendor_ID = "Vendor_ID";

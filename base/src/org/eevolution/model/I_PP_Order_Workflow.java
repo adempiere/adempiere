@@ -42,19 +42,6 @@ public interface I_PP_Order_Workflow
 
     /** Load Meta Data */
 
-    /** Column name AccessLevel */
-    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
-
-	/** Set Data Access Level.
-	  * Access Level required
-	  */
-	public void setAccessLevel (String AccessLevel);
-
-	/** Get Data Access Level.
-	  * Access Level required
-	  */
-	public String getAccessLevel();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -121,6 +108,21 @@ public interface I_PP_Order_Workflow
 
 	public org.compiere.model.I_AD_WF_Responsible getAD_WF_Responsible() throws RuntimeException;
 
+    /** Column name AD_WorkflowProcessor_ID */
+    public static final String COLUMNNAME_AD_WorkflowProcessor_ID = "AD_WorkflowProcessor_ID";
+
+	/** Set Workflow Processor.
+	  * Workflow Processor Server
+	  */
+	public void setAD_WorkflowProcessor_ID (int AD_WorkflowProcessor_ID);
+
+	/** Get Workflow Processor.
+	  * Workflow Processor Server
+	  */
+	public int getAD_WorkflowProcessor_ID();
+
+	public org.compiere.model.I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException;
+
     /** Column name AD_Workflow_ID */
     public static final String COLUMNNAME_AD_Workflow_ID = "AD_Workflow_ID";
 
@@ -136,20 +138,18 @@ public interface I_PP_Order_Workflow
 
 	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException;
 
-    /** Column name AD_WorkflowProcessor_ID */
-    public static final String COLUMNNAME_AD_WorkflowProcessor_ID = "AD_WorkflowProcessor_ID";
+    /** Column name AccessLevel */
+    public static final String COLUMNNAME_AccessLevel = "AccessLevel";
 
-	/** Set Workflow Processor.
-	  * Workflow Processor Server
+	/** Set Data Access Level.
+	  * Access Level required
 	  */
-	public void setAD_WorkflowProcessor_ID (int AD_WorkflowProcessor_ID);
+	public void setAccessLevel (String AccessLevel);
 
-	/** Get Workflow Processor.
-	  * Workflow Processor Server
+	/** Get Data Access Level.
+	  * Access Level required
 	  */
-	public int getAD_WorkflowProcessor_ID();
-
-	public org.compiere.model.I_AD_WorkflowProcessor getAD_WorkflowProcessor() throws RuntimeException;
+	public String getAccessLevel();
 
     /** Column name Author */
     public static final String COLUMNNAME_Author = "Author";
@@ -443,19 +443,6 @@ public interface I_PP_Order_Workflow
 	  */
 	public int getQueuingTime();
 
-    /** Column name SetupTime */
-    public static final String COLUMNNAME_SetupTime = "SetupTime";
-
-	/** Set Setup Time.
-	  * Setup time before starting Production
-	  */
-	public void setSetupTime (int SetupTime);
-
-	/** Get Setup Time.
-	  * Setup time before starting Production
-	  */
-	public int getSetupTime();
-
     /** Column name S_Resource_ID */
     public static final String COLUMNNAME_S_Resource_ID = "S_Resource_ID";
 
@@ -470,6 +457,32 @@ public interface I_PP_Order_Workflow
 	public int getS_Resource_ID();
 
 	public org.compiere.model.I_S_Resource getS_Resource() throws RuntimeException;
+
+    /** Column name SetupTime */
+    public static final String COLUMNNAME_SetupTime = "SetupTime";
+
+	/** Set Setup Time.
+	  * Setup time before starting Production
+	  */
+	public void setSetupTime (int SetupTime);
+
+	/** Get Setup Time.
+	  * Setup time before starting Production
+	  */
+	public int getSetupTime();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name UnitsCycles */
     public static final String COLUMNNAME_UnitsCycles = "UnitsCycles";
@@ -500,28 +513,6 @@ public interface I_PP_Order_Workflow
 	  */
 	public int getUpdatedBy();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
-    /** Column name ValidateWorkflow */
-    public static final String COLUMNNAME_ValidateWorkflow = "ValidateWorkflow";
-
-	/** Set Validate Workflow	  */
-	public void setValidateWorkflow (String ValidateWorkflow);
-
-	/** Get Validate Workflow	  */
-	public String getValidateWorkflow();
-
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";
 
@@ -547,6 +538,15 @@ public interface I_PP_Order_Workflow
 	  * Valid to including this date (last day)
 	  */
 	public Timestamp getValidTo();
+
+    /** Column name ValidateWorkflow */
+    public static final String COLUMNNAME_ValidateWorkflow = "ValidateWorkflow";
+
+	/** Set Validate Workflow	  */
+	public void setValidateWorkflow (String ValidateWorkflow);
+
+	/** Get Validate Workflow	  */
+	public String getValidateWorkflow();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

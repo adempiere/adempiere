@@ -6,51 +6,10 @@
         http://www.erpya.com
     </description>
   <!-- set global properties for this build -->
-  <property name="env_directory" location="adempiere/Adempiere/utils"/>
-  <property name="AD_directory" location="adempiere/Adempiere"/>
   <property name="adempiere_build" location="utils_dev/build.xml"/>
-  <property name="myEnvironment_CI" location="adempiere/Adempiere/utils/myEnvironment_CI.sh"/>
-  <property name="myEnvironment" location="adempiere/Adempiere/utils/myEnvironment.sh"/>
-  <property name="RUN_DBRestore" location="adempiere/Adempiere/utils/RUN_DBRestore.sh"/>
-  <property name="RUN_ImportAdempiere" location="adempiere/Adempiere/utils/RUN_ImportAdempiere.sh"/>
-  <property name="RUN_MigrateXML" location="adempiere/Adempiere/utils/RUN_MigrateXML.sh"/>
-  <property name="RUN_silentsetup" location="adempiere/Adempiere/RUN_silentsetup.sh"/>
-  <property name="AdempierePropertiesFrom" location="adempiere/Adempiere/utils/adempiereProperties_CI.properties"/>
-  <property name="AdempierePropertiesTo" location="adempiere/Adempiere/Adempiere.properties"/>
-  
-  
   
   <target name="build">
     <echo message="Building ADempiere"/>
 	<ant antfile="${adempiere_build}" target="complete"/>
-	
-	<echo message="Deploy ADempiere"/>
-	<chmod dir="${AD_directory}" perm="ugo+rx" includes="**/*.sh"/>
-	<chmod dir="${AD_directory}/data" perm="ugo+rx" includes="**/*.dmp"/>
-	<chmod dir="${env_directory}" perm="ugo+rx" includes="**/*.sh"/>
-	<chmod dir="${env_directory}/PostgreSQL" perm="ugo+rx" includes="**/*.sh"/>
-	<echo message="Copy myEnvironment_CI to myEnvironment"/>
-  	<copy file="${myEnvironment_CI}"
-			tofile="${myEnvironment}" filtering="yes" overwrite="yes" />
-  	
-  	<echo message="Copy myEnvironment_CI to myEnvironment"/>
-  	<copy file="${AdempierePropertiesFrom}"
-			tofile="${AdempierePropertiesTo}" filtering="yes" overwrite="yes" />
-  	
-  	<echo message="Run Import Adempiere"/>
-  	<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
-    	<arg value="${RUN_ImportAdempiere}"/>
-  	</exec>
-  	
-  	<echo message="Run DB Restore Adempiere"/>
-	<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
-    	<arg value="${RUN_DBRestore}"/>
-  	</exec>
-  	<!--
-  	<echo message="Run Migrate XML"/>
-	<exec dir="${AD_directory}" executable="/bin/bash" failonerror="true">
-    	<arg value="${RUN_MigrateXML}"/>
-  	</exec>
-  	-->
   </target>
 </project>

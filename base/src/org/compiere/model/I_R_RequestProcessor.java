@@ -230,19 +230,6 @@ public interface I_R_RequestProcessor
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
-    /** Column name RemindDays */
-    public static final String COLUMNNAME_RemindDays = "RemindDays";
-
-	/** Set Reminder Days.
-	  * Days between sending Reminder Emails for a due or inactive Document
-	  */
-	public void setRemindDays (int RemindDays);
-
-	/** Get Reminder Days.
-	  * Days between sending Reminder Emails for a due or inactive Document
-	  */
-	public int getRemindDays();
-
     /** Column name R_RequestProcessor_ID */
     public static final String COLUMNNAME_R_RequestProcessor_ID = "R_RequestProcessor_ID";
 
@@ -271,6 +258,19 @@ public interface I_R_RequestProcessor
 
 	public org.compiere.model.I_R_RequestType getR_RequestType() throws RuntimeException;
 
+    /** Column name RemindDays */
+    public static final String COLUMNNAME_RemindDays = "RemindDays";
+
+	/** Set Reminder Days.
+	  * Days between sending Reminder Emails for a due or inactive Document
+	  */
+	public void setRemindDays (int RemindDays);
+
+	/** Get Reminder Days.
+	  * Days between sending Reminder Emails for a due or inactive Document
+	  */
+	public int getRemindDays();
+
     /** Column name Supervisor_ID */
     public static final String COLUMNNAME_Supervisor_ID = "Supervisor_ID";
 
@@ -285,6 +285,19 @@ public interface I_R_RequestProcessor
 	public int getSupervisor_ID();
 
 	public org.compiere.model.I_AD_User getSupervisor() throws RuntimeException;
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -301,17 +314,4 @@ public interface I_R_RequestProcessor
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

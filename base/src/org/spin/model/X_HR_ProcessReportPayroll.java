@@ -30,7 +30,7 @@ public class X_HR_ProcessReportPayroll extends PO implements I_HR_ProcessReportP
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_ProcessReportPayroll (Properties ctx, int HR_ProcessReportPayroll_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_HR_ProcessReportPayroll extends PO implements I_HR_ProcessReportP
       /** if (HR_ProcessReportPayroll_ID == 0)
         {
 			setHR_Payroll_ID (0);
-			setHR_ProcessReport_ID (0);
 			setHR_ProcessReportPayroll_ID (0);
+			setHR_ProcessReport_ID (0);
         } */
     }
 
@@ -97,6 +97,26 @@ public class X_HR_ProcessReportPayroll extends PO implements I_HR_ProcessReportP
 		return ii.intValue();
 	}
 
+	/** Set Process Report of Payroll.
+		@param HR_ProcessReportPayroll_ID Process Report of Payroll	  */
+	public void setHR_ProcessReportPayroll_ID (int HR_ProcessReportPayroll_ID)
+	{
+		if (HR_ProcessReportPayroll_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportPayroll_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportPayroll_ID, Integer.valueOf(HR_ProcessReportPayroll_ID));
+	}
+
+	/** Get Process Report of Payroll.
+		@return Process Report of Payroll	  */
+	public int getHR_ProcessReportPayroll_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ProcessReportPayroll_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.spin.model.I_HR_ProcessReport getHR_ProcessReport() throws RuntimeException
     {
 		return (org.spin.model.I_HR_ProcessReport)MTable.get(getCtx(), org.spin.model.I_HR_ProcessReport.Table_Name)
@@ -117,26 +137,6 @@ public class X_HR_ProcessReportPayroll extends PO implements I_HR_ProcessReportP
 	public int getHR_ProcessReport_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ProcessReport_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Process Report of Payroll.
-		@param HR_ProcessReportPayroll_ID Process Report of Payroll	  */
-	public void setHR_ProcessReportPayroll_ID (int HR_ProcessReportPayroll_ID)
-	{
-		if (HR_ProcessReportPayroll_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportPayroll_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportPayroll_ID, Integer.valueOf(HR_ProcessReportPayroll_ID));
-	}
-
-	/** Get Process Report of Payroll.
-		@return Process Report of Payroll	  */
-	public int getHR_ProcessReportPayroll_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ProcessReportPayroll_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

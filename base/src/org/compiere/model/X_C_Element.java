@@ -30,7 +30,7 @@ public class X_C_Element extends PO implements I_C_Element, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_Element (Properties ctx, int C_Element_ID, String trxName)

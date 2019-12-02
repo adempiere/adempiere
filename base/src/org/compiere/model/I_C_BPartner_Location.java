@@ -105,6 +105,21 @@ public interface I_C_BPartner_Location
 
 	public I_C_Location getC_Location() throws RuntimeException;
 
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
+
     /** Column name ContactPerson */
     public static final String COLUMNNAME_ContactPerson = "ContactPerson";
 
@@ -147,21 +162,6 @@ public interface I_C_BPartner_Location
 	  */
 	public int getCreatedBy();
 
-    /** Column name C_SalesRegion_ID */
-    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
-
-	/** Set Sales Region.
-	  * Sales coverage region
-	  */
-	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
-
-	/** Get Sales Region.
-	  * Sales coverage region
-	  */
-	public int getC_SalesRegion_ID();
-
-	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
-
     /** Column name EMail */
     public static final String COLUMNNAME_EMail = "EMail";
 
@@ -203,6 +203,19 @@ public interface I_C_BPartner_Location
 
 	public org.eevolution.model.I_HR_Relationship getHR_Relationship() throws RuntimeException;
 
+    /** Column name ISDN */
+    public static final String COLUMNNAME_ISDN = "ISDN";
+
+	/** Set ISDN.
+	  * ISDN or modem line
+	  */
+	public void setISDN (String ISDN);
+
+	/** Get ISDN.
+	  * ISDN or modem line
+	  */
+	public String getISDN();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -228,19 +241,6 @@ public interface I_C_BPartner_Location
 	  * Business Partner Invoice/Bill Address
 	  */
 	public boolean isBillTo();
-
-    /** Column name ISDN */
-    public static final String COLUMNNAME_ISDN = "ISDN";
-
-	/** Set ISDN.
-	  * ISDN or modem line
-	  */
-	public void setISDN (String ISDN);
-
-	/** Get ISDN.
-	  * ISDN or modem line
-	  */
-	public String getISDN();
 
     /** Column name IsPayFrom */
     public static final String COLUMNNAME_IsPayFrom = "IsPayFrom";
@@ -333,6 +333,19 @@ public interface I_C_BPartner_Location
 	  */
 	public String getPhone2();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -348,17 +361,4 @@ public interface I_C_BPartner_Location
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

@@ -62,6 +62,15 @@ public interface I_AD_TaskInstance
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name AD_TaskInstance_ID */
+    public static final String COLUMNNAME_AD_TaskInstance_ID = "AD_TaskInstance_ID";
+
+	/** Set Task Instance	  */
+	public void setAD_TaskInstance_ID (int AD_TaskInstance_ID);
+
+	/** Get Task Instance	  */
+	public int getAD_TaskInstance_ID();
+
     /** Column name AD_Task_ID */
     public static final String COLUMNNAME_AD_Task_ID = "AD_Task_ID";
 
@@ -74,15 +83,6 @@ public interface I_AD_TaskInstance
 	  * Operation System Task
 	  */
 	public int getAD_Task_ID();
-
-    /** Column name AD_TaskInstance_ID */
-    public static final String COLUMNNAME_AD_TaskInstance_ID = "AD_TaskInstance_ID";
-
-	/** Set Task Instance	  */
-	public void setAD_TaskInstance_ID (int AD_TaskInstance_ID);
-
-	/** Get Task Instance	  */
-	public int getAD_TaskInstance_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -113,6 +113,19 @@ public interface I_AD_TaskInstance
 	  */
 	public boolean isActive();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -128,17 +141,4 @@ public interface I_AD_TaskInstance
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

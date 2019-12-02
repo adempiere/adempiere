@@ -31,7 +31,7 @@ public class X_PP_PeriodDefinition extends PO implements I_PP_PeriodDefinition, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_PP_PeriodDefinition (Properties ctx, int PP_PeriodDefinition_ID, String trxName)

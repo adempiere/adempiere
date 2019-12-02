@@ -32,7 +32,7 @@ public class X_HR_PaySelectionLine extends PO implements I_HR_PaySelectionLine, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_PaySelectionLine (Properties ctx, int HR_PaySelectionLine_ID, String trxName)
@@ -42,8 +42,8 @@ public class X_HR_PaySelectionLine extends PO implements I_HR_PaySelectionLine, 
         {
 			setDifferenceAmt (Env.ZERO);
 			setDiscountAmt (Env.ZERO);
-			setHR_PaySelection_ID (0);
 			setHR_PaySelectionLine_ID (0);
+			setHR_PaySelection_ID (0);
 			setIsManual (false);
 			setIsSOTrx (false);
 			setLine (0);
@@ -192,6 +192,26 @@ public class X_HR_PaySelectionLine extends PO implements I_HR_PaySelectionLine, 
 		return ii.intValue();
 	}
 
+	/** Set Payroll Payment Selection Line ID.
+		@param HR_PaySelectionLine_ID Payroll Payment Selection Line ID	  */
+	public void setHR_PaySelectionLine_ID (int HR_PaySelectionLine_ID)
+	{
+		if (HR_PaySelectionLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_PaySelectionLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_PaySelectionLine_ID, Integer.valueOf(HR_PaySelectionLine_ID));
+	}
+
+	/** Get Payroll Payment Selection Line ID.
+		@return Payroll Payment Selection Line ID	  */
+	public int getHR_PaySelectionLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PaySelectionLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_PaySelection getHR_PaySelection() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_PaySelection)MTable.get(getCtx(), org.eevolution.model.I_HR_PaySelection.Table_Name)
@@ -212,26 +232,6 @@ public class X_HR_PaySelectionLine extends PO implements I_HR_PaySelectionLine, 
 	public int getHR_PaySelection_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PaySelection_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Payroll Payment Selection Line ID.
-		@param HR_PaySelectionLine_ID Payroll Payment Selection Line ID	  */
-	public void setHR_PaySelectionLine_ID (int HR_PaySelectionLine_ID)
-	{
-		if (HR_PaySelectionLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_PaySelectionLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_PaySelectionLine_ID, Integer.valueOf(HR_PaySelectionLine_ID));
-	}
-
-	/** Get Payroll Payment Selection Line ID.
-		@return Payroll Payment Selection Line ID	  */
-	public int getHR_PaySelectionLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_PaySelectionLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

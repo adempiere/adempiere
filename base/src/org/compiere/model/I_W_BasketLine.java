@@ -167,6 +167,19 @@ public interface I_W_BasketLine
 	  */
 	public BigDecimal getQty();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -183,18 +196,18 @@ public interface I_W_BasketLine
 	  */
 	public int getUpdatedBy();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
+    /** Column name W_BasketLine_ID */
+    public static final String COLUMNNAME_W_BasketLine_ID = "W_BasketLine_ID";
 
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Set Basket Line.
+	  * Web Basket Line
 	  */
-	public void setUUID (String UUID);
+	public void setW_BasketLine_ID (int W_BasketLine_ID);
 
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Get Basket Line.
+	  * Web Basket Line
 	  */
-	public String getUUID();
+	public int getW_BasketLine_ID();
 
     /** Column name W_Basket_ID */
     public static final String COLUMNNAME_W_Basket_ID = "W_Basket_ID";
@@ -210,17 +223,4 @@ public interface I_W_BasketLine
 	public int getW_Basket_ID();
 
 	public org.compiere.model.I_W_Basket getW_Basket() throws RuntimeException;
-
-    /** Column name W_BasketLine_ID */
-    public static final String COLUMNNAME_W_BasketLine_ID = "W_BasketLine_ID";
-
-	/** Set Basket Line.
-	  * Web Basket Line
-	  */
-	public void setW_BasketLine_ID (int W_BasketLine_ID);
-
-	/** Get Basket Line.
-	  * Web Basket Line
-	  */
-	public int getW_BasketLine_ID();
 }

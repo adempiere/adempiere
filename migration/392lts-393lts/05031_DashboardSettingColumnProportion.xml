@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Dashboard Setting Column Proportion" ReleaseNo="3.9.3" SeqNo="5031">
+    <Comments>https://github.com/adempiere/adempiere/issues/2683</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="50009" Action="I" Record_ID="50154" Table="AD_SysConfig">
+        <Data AD_Column_ID="50188" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="50189" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="50190" Column="Created">2019-07-25 11:04:08.077</Data>
+        <Data AD_Column_ID="50191" Column="Updated">2019-07-25 11:04:08.077</Data>
+        <Data AD_Column_ID="50187" Column="AD_SysConfig_ID">50154</Data>
+        <Data AD_Column_ID="50194" Column="IsActive">true</Data>
+        <Data AD_Column_ID="50192" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53271" Column="ConfigurationLevel">C</Data>
+        <Data AD_Column_ID="50195" Column="Name">ZK_DASHBOARD_COLUMN_WIDTH_PROPORTION</Data>
+        <Data AD_Column_ID="50193" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="50196" Column="Value"> 20,60,20</Data>
+        <Data AD_Column_ID="50197" Column="Description">Dashboard panel configures column width as proportional by comma separator. Eg. 20,60,20</Data>
+        <Data AD_Column_ID="53270" Column="EntityType">D</Data>
+        <Data AD_Column_ID="84421" Column="UUID">d59ea696-aef5-11e9-9874-8c8590b9774c</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="50009" Action="I" Record_ID="50155" Table="AD_SysConfig">
+        <Data AD_Column_ID="50188" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="50189" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="50190" Column="Created">2019-07-25 11:07:18.724</Data>
+        <Data AD_Column_ID="50191" Column="Updated">2019-07-25 11:07:18.724</Data>
+        <Data AD_Column_ID="50187" Column="AD_SysConfig_ID">50155</Data>
+        <Data AD_Column_ID="50194" Column="IsActive">true</Data>
+        <Data AD_Column_ID="50192" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="53271" Column="ConfigurationLevel">C</Data>
+        <Data AD_Column_ID="50195" Column="Name">ZK_DASHBOARD_COLUMN_WIDTH_PROPORTION</Data>
+        <Data AD_Column_ID="50193" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="50197" Column="Description">Dashboard panel configures column width as proportional by comma separator. Eg. 20,60,20</Data>
+        <Data AD_Column_ID="53270" Column="EntityType">D</Data>
+        <Data AD_Column_ID="84421" Column="UUID">4762bd3a-aef6-11e9-8de9-8c8590b9774c</Data>
+        <Data AD_Column_ID="50196" Column="Value"> 20,60,20</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

@@ -16,6 +16,7 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -27,12 +28,14 @@ import org.spin.model.MRNoticeTemplate;
 import org.spin.model.MRNoticeTemplateEvent;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 /**
@@ -130,10 +133,9 @@ public class MRequest extends X_R_Request
 		set_Value ("R_RequestType_ID", new Integer(R_RequestType_ID));
 		setSummary (Summary);
 		setIsSelfService(isSelfService);
-		getRequestType();
-		if (m_requestType != null)
+		if (getRequestType() != null)
 		{
-			String ct = m_requestType.getConfidentialType();
+			String ct = getRequestType().getConfidentialType();
 			if (ct != null)
 			{
 				setConfidentialType (ct);
@@ -154,7 +156,7 @@ public class MRequest extends X_R_Request
 	}	//	MRequest
 
 	/** Request Type				*/
-	private MRequestType m_requestType = null;
+	private MRequestType requestType = null;
 	/**	Changed						*/
 	private boolean			m_changed = false;
 	/**	BPartner					*/
@@ -173,11 +175,11 @@ public class MRequest extends X_R_Request
 	 */
 	public void setR_RequestType_ID ()
 	{
-		m_requestType = MRequestType.getDefault(getCtx());
-		if (m_requestType == null)
+		requestType = MRequestType.getDefault(getCtx());
+		if (requestType == null)
 			log.warning("No default found");
 		else
-			super.setR_RequestType_ID(m_requestType.getR_RequestType_ID());
+			super.setR_RequestType_ID(requestType.getR_RequestType_ID());
 	}	//	setR_RequestType_ID
 
 	/**
@@ -318,7 +320,7 @@ public class MRequest extends X_R_Request
 	 */
 	public MRequestType getRequestType()
 	{
-		if (m_requestType == null)
+		if (requestType == null)
 		{
 			int R_RequestType_ID = getR_RequestType_ID();
 			if (R_RequestType_ID == 0)
@@ -326,9 +328,9 @@ public class MRequest extends X_R_Request
 				setR_RequestType_ID();
 				R_RequestType_ID = getR_RequestType_ID();
 			}
-			m_requestType = MRequestType.get (getCtx(), R_RequestType_ID);
+			requestType = MRequestType.get (getCtx(), R_RequestType_ID);
 		}
-		return m_requestType;
+		return requestType;
 	}	//	getRequestType
 
 	
@@ -338,11 +340,11 @@ public class MRequest extends X_R_Request
 	 */
 	public String getRequestTypeName()
 	{
-		if (m_requestType == null)
+		if (requestType == null)
 			getRequestType();
-		if (m_requestType == null)
+		if (requestType == null)
 			return "??";
-		return m_requestType.getName();
+		return requestType.getName();
 	}	//	getRequestTypeText
 
 	/**
@@ -725,17 +727,16 @@ public class MRequest extends X_R_Request
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
-		//	Request Type
-		getRequestType();
 		if (newRecord || is_ValueChanged("R_RequestType_ID"))
 		{
-			if (m_requestType != null)
+			if (getRequestType() != null)
 			{
-				if (isInvoiced() != m_requestType.isInvoiced())
-					setIsInvoiced(m_requestType.isInvoiced());
-				if (getDateNextAction() == null && m_requestType.getAutoDueDateDays() > 0)
+				if (isInvoiced() != getRequestType().isInvoiced()) {
+					setIsInvoiced(getRequestType().isInvoiced());
+				}
+				if (getDateNextAction() == null && getRequestType().getAutoDueDateDays() > 0)
 					setDateNextAction(TimeUtil.addDays(new Timestamp(System.currentTimeMillis()),
-						m_requestType.getAutoDueDateDays()));
+							getRequestType().getAutoDueDateDays()));
 			}
 			//	Is Status Valid
 			if (getR_Status_ID() != 0)
@@ -745,6 +746,13 @@ public class MRequest extends X_R_Request
 				if (sta.getR_StatusCategory_ID() != rt.getR_StatusCategory_ID())
 					setR_Status_ID();	//	set to default
 			}
+		}
+		if (isInvoiced()) {
+			Optional.ofNullable(getResult()).ifPresent(result -> {
+				Optional<BigDecimal> maybeQuantityToInvoice = Optional.ofNullable(getQtyInvoiced());
+				if (maybeQuantityToInvoice.isPresent() && maybeQuantityToInvoice.get().signum() == 0)
+					throw new AdempiereException("@R_Request_ID@ @IsInvoiced@ @And@ @QtyInvoiced@ @NotFound@");
+			});
 		}
 
 		//	Request Status
@@ -773,10 +781,9 @@ public class MRequest extends X_R_Request
 		//	Confidential Info
 		if (getConfidentialType() == null)
 		{
-			getRequestType();
-			if (m_requestType != null)
+			if (getRequestType() != null)
 			{
-				String ct = m_requestType.getConfidentialType();
+				String ct = getRequestType().getConfidentialType();
 				if (ct != null)
 					setConfidentialType (ct);
 			}
@@ -1120,7 +1127,7 @@ public class MRequest extends X_R_Request
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
-				int AD_User_ID = rs.getInt(1);
+				int userId = rs.getInt(1);
 				String notificationType = rs.getString(2);
 				if (notificationType == null)
 					notificationType = X_AD_User.NOTIFICATIONTYPE_EMail;
@@ -1132,7 +1139,8 @@ public class MRequest extends X_R_Request
 					roleId = -1;
 				
 				//	Don't send mail to oneself
-				if (AD_User_ID == updatedBy)
+				if (userId == updatedBy
+						&& !from.isIncludeOwnChanges())
 					continue;
 				
 				//	No confidential to externals
@@ -1166,12 +1174,12 @@ public class MRequest extends X_R_Request
 				}
 
 				//	Check duplicate receivers
-				Integer ii = new Integer (AD_User_ID);
+				Integer ii = new Integer (userId);
 				if (userList.contains(ii))
 					continue;
 				userList.add(ii);
 				//
-				MUser to = MUser.get (getCtx(), AD_User_ID);
+				MUser to = MUser.get (getCtx(), userId);
 				//	Send Mail
 				if (X_AD_User.NOTIFICATIONTYPE_EMail.equals(notificationType)
 					|| X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(notificationType))
@@ -1195,7 +1203,7 @@ public class MRequest extends X_R_Request
 					|| X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(notificationType))
 				{
 					int AD_Message_ID = 834;
-					MNote note = new MNote(getCtx(), AD_Message_ID, AD_User_ID,
+					MNote note = new MNote(getCtx(), AD_Message_ID, userId,
 						X_R_Request.Table_ID, getR_Request_ID(),
 						subject, message, get_TrxName());
 					if (note.save())

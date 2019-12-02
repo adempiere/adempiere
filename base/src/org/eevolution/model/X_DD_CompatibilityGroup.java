@@ -31,7 +31,7 @@ public class X_DD_CompatibilityGroup extends PO implements I_DD_CompatibilityGro
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_DD_CompatibilityGroup (Properties ctx, int DD_CompatibilityGroup_ID, String trxName)

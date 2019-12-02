@@ -30,7 +30,7 @@ public class X_W_Basket extends PO implements I_W_Basket, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_W_Basket (Properties ctx, int W_Basket_ID, String trxName)

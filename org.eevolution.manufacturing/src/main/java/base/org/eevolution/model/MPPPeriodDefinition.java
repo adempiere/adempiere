@@ -27,10 +27,12 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MClient;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
+import org.compiere.util.Util;
 
 /**
  * Period Definition Model
@@ -189,6 +191,9 @@ public class MPPPeriodDefinition extends X_PP_PeriodDefinition {
 	 */
 	public int getYearAsInt() {
 		String year = getCalendarYear();
+		if(Util.isEmpty(year)) {
+			throw new AdempiereException("@CalendarYear@ @NotFound@");
+		}
 		try {
 			return Integer.parseInt(year);
 		} catch (Exception e) {

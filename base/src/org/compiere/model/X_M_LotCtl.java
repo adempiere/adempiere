@@ -30,7 +30,7 @@ public class X_M_LotCtl extends PO implements I_M_LotCtl, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_LotCtl (Properties ctx, int M_LotCtl_ID, String trxName)

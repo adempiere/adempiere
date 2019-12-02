@@ -630,7 +630,7 @@ public class MDDOrderLine extends X_DD_OrderLine
 	public BigDecimal getWeight()
 	{
 		return Optional.ofNullable(getProduct().getWeight())
-				.orElse(BigDecimal.ZERO);
+				.orElseGet(() -> BigDecimal.ZERO);
 	}
 
 	/**
@@ -640,7 +640,7 @@ public class MDDOrderLine extends X_DD_OrderLine
 	public BigDecimal getVolume()
 	{
 		return Optional.ofNullable(getProduct().getVolume())
-				.orElse(BigDecimal.ZERO);
+				.orElseGet(() -> BigDecimal.ZERO);
 	}
 
 

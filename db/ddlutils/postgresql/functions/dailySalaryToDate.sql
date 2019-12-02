@@ -37,7 +37,7 @@ BEGIN
 	FROM HR_Employee e
 	WHERE e.C_BPartner_ID = p_C_BPartner_ID
 	AND e.IsActive = 'Y'
-	AND e.StartDate <= COALESCE(DateTo, now())
+	AND e.StartDate <= COALESCE(DateTo, getdate())
 	ORDER BY e.StartDate DESC
 	LIMIT 1;
 
@@ -47,7 +47,7 @@ BEGIN
 		FROM HR_Attribute ca
 		WHERE ca.C_BPartner_ID = p_C_BPartner_ID
 		AND ca.IsActive = 'Y'
-		AND ca.ValidFrom <= COALESCE(DateTo, now())
+		AND ca.ValidFrom <= COALESCE(DateTo, getdate())
 		AND EXISTS(SELECT 1 
 				FROM HR_Employee e 
 				INNER JOIN HR_Payroll p ON(p.HR_Payroll_ID = e.HR_Payroll_ID)

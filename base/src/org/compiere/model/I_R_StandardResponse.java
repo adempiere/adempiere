@@ -104,6 +104,19 @@ public interface I_R_StandardResponse
 	  */
 	public String getName();
 
+    /** Column name R_StandardResponse_ID */
+    public static final String COLUMNNAME_R_StandardResponse_ID = "R_StandardResponse_ID";
+
+	/** Set Standard Response.
+	  * Request Standard Response 
+	  */
+	public void setR_StandardResponse_ID (int R_StandardResponse_ID);
+
+	/** Get Standard Response.
+	  * Request Standard Response 
+	  */
+	public int getR_StandardResponse_ID();
+
     /** Column name ResponseText */
     public static final String COLUMNNAME_ResponseText = "ResponseText";
 
@@ -117,18 +130,18 @@ public interface I_R_StandardResponse
 	  */
 	public String getResponseText();
 
-    /** Column name R_StandardResponse_ID */
-    public static final String COLUMNNAME_R_StandardResponse_ID = "R_StandardResponse_ID";
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
 
-	/** Set Standard Response.
-	  * Request Standard Response 
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
 	  */
-	public void setR_StandardResponse_ID (int R_StandardResponse_ID);
+	public void setUUID (String UUID);
 
-	/** Get Standard Response.
-	  * Request Standard Response 
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
 	  */
-	public int getR_StandardResponse_ID();
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -145,17 +158,4 @@ public interface I_R_StandardResponse
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

@@ -29,7 +29,7 @@ public class X_U_Web_Properties extends PO implements I_U_Web_Properties, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_U_Web_Properties (Properties ctx, int U_Web_Properties_ID, String trxName)
@@ -71,20 +71,6 @@ public class X_U_Web_Properties extends PO implements I_U_Web_Properties, I_Pers
       return sb.toString();
     }
 
-	/** Set Key.
-		@param U_Key Key	  */
-	public void setU_Key (String U_Key)
-	{
-		set_Value (COLUMNNAME_U_Key, U_Key);
-	}
-
-	/** Get Key.
-		@return Key	  */
-	public String getU_Key () 
-	{
-		return (String)get_Value(COLUMNNAME_U_Key);
-	}
-
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 
 		Immutable Universally Unique Identifier
@@ -100,6 +86,20 @@ public class X_U_Web_Properties extends PO implements I_U_Web_Properties, I_Pers
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** Set Key.
+		@param U_Key Key	  */
+	public void setU_Key (String U_Key)
+	{
+		set_Value (COLUMNNAME_U_Key, U_Key);
+	}
+
+	/** Get Key.
+		@return Key	  */
+	public String getU_Key () 
+	{
+		return (String)get_Value(COLUMNNAME_U_Key);
 	}
 
 	/** Set Value.

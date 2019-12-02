@@ -349,7 +349,6 @@ public class CalloutInvoice extends CalloutEngine
 		mTab.setValue("C_Currency_ID", new Integer(pp.getC_Currency_ID()));
 	//	mTab.setValue("Discount", pp.getDiscount());
 		mTab.setValue("C_UOM_ID", new Integer(pp.getC_UOM_ID()));
-		Env.setContext(ctx, WindowNo, "EnforcePriceLimit", pp.isEnforcePriceLimit() ? "Y" : "N");
 		Env.setContext(ctx, WindowNo, "DiscountSchema", pp.isDiscountSchema() ? "Y" : "N");
 		//
 		return tax (ctx, WindowNo, mTab, mField, value);
@@ -472,7 +471,7 @@ public class CalloutInvoice extends CalloutEngine
 		//
 		int C_Tax_ID = Tax.get(ctx, M_Product_ID, C_Charge_ID, billDate, shipDate,
 			AD_Org_ID, M_Warehouse_ID, billC_BPartner_Location_ID, shipC_BPartner_Location_ID,
-			Env.getContext(ctx, WindowNo, "IsSOTrx").equals("Y"));
+			Env.getContext(ctx, WindowNo, "IsSOTrx").equals("Y"),null);
 		log.info("Tax ID=" + C_Tax_ID);
 		//
 		if (C_Tax_ID == 0)
@@ -622,13 +621,7 @@ public class CalloutInvoice extends CalloutEngine
 		log.fine("amt = PriceEntered=" + PriceEntered + ", Actual" + PriceActual + ", Discount=" + Discount);
 		/* */
 
-		//	Check PriceLimit
-		String epl = Env.getContext(ctx, WindowNo, "EnforcePriceLimit");
-		boolean enforce = Env.isSOTrx(ctx, WindowNo) && epl != null && epl.equals("Y");
-		if (enforce && MRole.getDefault().isOverwritePriceLimit())
-			enforce = false;
-		//	Check Price Limit?
-		if (enforce && PriceLimit.doubleValue() != 0.0
+		if (MPriceList.isCheckPriceLimit(M_PriceList_ID) && PriceLimit.doubleValue() != 0.0
 		  && PriceActual.compareTo(PriceLimit) < 0)
 		{
 			PriceActual = PriceLimit;
@@ -819,6 +812,4 @@ public class CalloutInvoice extends CalloutEngine
 		//
 		return "";
 	}	//	qty
-	
-	
 }	//	CalloutInvoice

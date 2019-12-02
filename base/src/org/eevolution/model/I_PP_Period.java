@@ -118,19 +118,6 @@ public interface I_PP_Period
 	  */
 	public String getName();
 
-    /** Column name PeriodNo */
-    public static final String COLUMNNAME_PeriodNo = "PeriodNo";
-
-	/** Set Period No.
-	  * Unique Period Number
-	  */
-	public void setPeriodNo (int PeriodNo);
-
-	/** Get Period No.
-	  * Unique Period Number
-	  */
-	public int getPeriodNo();
-
     /** Column name PP_PeriodDefinition_ID */
     public static final String COLUMNNAME_PP_PeriodDefinition_ID = "PP_PeriodDefinition_ID";
 
@@ -159,6 +146,19 @@ public interface I_PP_Period
 	  */
 	public int getPP_Period_ID();
 
+    /** Column name PeriodNo */
+    public static final String COLUMNNAME_PeriodNo = "PeriodNo";
+
+	/** Set Period No.
+	  * Unique Period Number
+	  */
+	public void setPeriodNo (int PeriodNo);
+
+	/** Get Period No.
+	  * Unique Period Number
+	  */
+	public int getPeriodNo();
+
     /** Column name StartDate */
     public static final String COLUMNNAME_StartDate = "StartDate";
 
@@ -171,6 +171,19 @@ public interface I_PP_Period
 	  * First effective day (inclusive)
 	  */
 	public Timestamp getStartDate();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -187,17 +200,4 @@ public interface I_PP_Period
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

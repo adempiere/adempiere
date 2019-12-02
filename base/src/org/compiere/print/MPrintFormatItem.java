@@ -22,8 +22,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.logging.Level;
-
 import org.compiere.model.MRole;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_PrintFormatItem;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
@@ -42,6 +42,8 @@ import org.compiere.util.Util;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: MPrintFormatItem.java,v 1.3 2006/08/03 22:17:17 jjanke Exp $
+ * 	@author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ * 	@See: https://github.com/adempiere/adempiere/issues/2873
  */
 public class MPrintFormatItem extends X_AD_PrintFormatItem
 {
@@ -50,7 +52,9 @@ public class MPrintFormatItem extends X_AD_PrintFormatItem
 	 */
 	private static final long serialVersionUID = -679302944951915141L;
 
-
+	/** Static Cache */
+	private static CCache<Integer, MPrintFormatItem> printFormatItemCacheIds = new CCache<Integer, MPrintFormatItem>(Table_Name, 30);
+	
 	/**
 	 *	Constructor
 	 *  @param ctx context
@@ -124,6 +128,32 @@ public class MPrintFormatItem extends X_AD_PrintFormatItem
 
 	private static CLogger		s_log = CLogger.getCLogger (MPrintFormatItem.class);
 
+	
+	
+	/**
+	 * Get/Load Print Format Item [CACHED]
+	 * @param ctx context
+	 * @param printFormatItemId
+	 * @param trxName
+	 * @return activity or null
+	 */
+	public static MPrintFormatItem getById(Properties ctx, int printFormatItemId, String trxName) {
+		if (printFormatItemId <= 0)
+			return null;
+
+		MPrintFormatItem printFormatItem = printFormatItemCacheIds.get(printFormatItemId);
+		if (printFormatItem != null && printFormatItem.get_ID() > 0)
+			return printFormatItem;
+
+		printFormatItem = new Query(ctx , Table_Name , COLUMNNAME_AD_PrintFormatItem_ID + "=?" , trxName)
+				.setClient_ID()
+				.setParameters(printFormatItemId)
+				.first();
+		if (printFormatItem != null && printFormatItem.get_ID() > 0) {
+			printFormatItemCacheIds.put(printFormatItem.get_ID(), printFormatItem);
+		}
+		return printFormatItem;
+	}
 	
 	/**************************************************************************
 	 *	Get print name with language

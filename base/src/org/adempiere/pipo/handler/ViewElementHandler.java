@@ -61,13 +61,16 @@ public class ViewElementHandler extends GenericPOHandler {
 								+ X_AD_View_Definition.COLUMNNAME_AD_View_Definition_ID)
 				.list();
 
-		for (MViewDefinition vd : viewDefinitions) {
-			packOut.createGenericPO(document, I_AD_View_Definition.Table_ID, vd.getAD_View_Definition_ID(), true, null);
+		for (MViewDefinition viewDefinition : viewDefinitions) {
+			if(viewDefinition.getAD_Table_ID() > 0) {
+				packOut.createTable(viewDefinition.getAD_Table_ID(), document);
+			}
+			packOut.createGenericPO(document, I_AD_View_Definition.Table_ID, viewDefinition.getAD_View_Definition_ID(), true, null);
 			// View Columns tags.
 			whereClause = new StringBuilder(I_AD_View_Definition.COLUMNNAME_AD_View_Definition_ID).append("=?");
 			List<MViewColumn> viewColumns = new Query(ctx,
 					I_AD_View_Column.Table_Name, whereClause.toString(),
-					getTrxName(ctx)).setParameters(vd.getAD_View_Definition_ID())
+					getTrxName(ctx)).setParameters(viewDefinition.getAD_View_Definition_ID())
 					.list();
 			for (MViewColumn vc : viewColumns) {
 				packOut.createGenericPO(document, I_AD_View_Column.Table_ID, vc.getAD_View_Column_ID(), true, null);

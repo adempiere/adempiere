@@ -17,10 +17,15 @@
 package org.eevolution.service.dsl;
 
 
+import java.lang.reflect.Constructor;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Properties;
+
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MPInstance;
-import org.compiere.model.MPInstancePara;
 import org.compiere.model.MProcess;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
@@ -29,14 +34,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
-
-import java.lang.reflect.Constructor;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Properties;
+import org.compiere.util.Util;
 
 
 /**
@@ -53,7 +51,7 @@ import java.util.Properties;
 public class ProcessBuilder {
 
     static private ProcessBuilder processBuilder;
-    static  private Properties context;
+    private Properties context;
     private ProcessInfo processInfo;
     private String title;
     private Integer processId;
@@ -68,6 +66,7 @@ public class ProcessBuilder {
     private int tableSelectionId;
     private boolean isBatch = false;
     private boolean isPrintPreview = false;
+    private String reportExportFormat = null;
 
     private Boolean isManagedTransaction = true;
     private Boolean isExecuteUsingSystemRole =  false;
@@ -106,7 +105,7 @@ public class ProcessBuilder {
      * @return
      */
     public ProcessBuilder process(final Class<?> processClass) {
-        this.process= MProcess.getUsingJavaClass(processClass);
+        this.process = MProcess.getUsingJavaClass(processClass);
         if (this.process == null)
             throw new AdempiereException("@AD_Process_ID@ @NotFound@");
 
@@ -176,11 +175,20 @@ public class ProcessBuilder {
         processInfo.setTransactionName(trxName);
         processInfo.setIsSelection(isSelection);
         processInfo.setPrintPreview(isPrintPreview());
+        if(!Util.isEmpty(getReportExportFormat())) {
+        	processInfo.setReportType(getReportExportFormat());
+        } else {
+        	processInfo.setReportType(instance.getReportType());
+        }
         processInfo.setIsBatch(isBatch());
         if (isExecuteUsingSystemRole) {
             processInfo.setAD_Client_ID(0);
             processInfo.setAD_User_ID(100);
+        } else {
+            processInfo.setAD_Client_ID(instance.getAD_Client_ID());
+            processInfo.setAD_User_ID(instance.getAD_User_ID());
         }
+
         ProcessInfoUtil.setParameterFromDB(processInfo);
 
         //	FR [ 352 ]
@@ -274,6 +282,14 @@ public class ProcessBuilder {
         }
         return processInfo;
     }
+    
+    /**
+     * Get Process Information for result
+     * @return
+     */
+    public ProcessInfo getProcessInfo() {
+    	return processInfo;
+    }
 
     /**
      * Execute the process based on transaction exists
@@ -363,46 +379,56 @@ public class ProcessBuilder {
        return this;
    }
 
-    /**
-     * Define parameter with automatic sequence
-     * @param name
-     * @param value
-     * @return
-     */
-    public ProcessBuilder withParameter(String name, Object value) {
-        if (instance == null)
-            generateProcessInstance();
-        return withParameter(name, value , seqNo + 10);
-    }
+   /**
+    * Define parameter with automatic sequence
+    * @param name
+    * @param value
+    * @return
+    */
+   public ProcessBuilder withParameter(String name, Object value) {
+	   return withParameter(name, value, (Object)null);
+   }
+   
+   /**
+    * Define parameter with automatic sequence and value to
+    * @param name
+    * @param value
+    * @return
+    */
+   public ProcessBuilder withParameter(String name, Object value, Object valueTo) {
+	   return withParameter(name, value, valueTo, seqNo + 10);
+   }
+   
+   /**
+    * Define parameter without to parameter
+    * @param parameterName
+    * @param value
+    * @param sequence
+    * @return
+    */
+   public ProcessBuilder withParameter(String parameterName, Object value, Integer sequence) {
+	   return withParameter(parameterName, value, null, sequence);
+   }
 
-    /**
-     * Define parameter and sequence
-     * @param name
-     * @param value
-     * @param sequence
-     * @return
-     */
-    public ProcessBuilder withParameter(String name, Object value , Integer sequence) {
-        if (name == null || name.length() == 0)
+   /**
+    * Define parameter and sequence
+    * @param parameterName
+    * @param value
+    * @param sequence
+    * @return
+    */
+    public ProcessBuilder withParameter(String parameterName, Object value, Object valueTo, Integer sequence) {
+        if (Util.isEmpty(parameterName))
             return this;
 
         if (instance == null)
             generateProcessInstance();
 
         seqNo = sequence;
-
-        MPInstancePara parameter = new MPInstancePara(instance, sequence);
-        if (value instanceof String)
-            parameter.setParameter(name, (String) value);
-        if (value instanceof Integer)
-            parameter.setParameter(name, (Integer) value);
-        if (value instanceof Timestamp)
-            parameter.setParameter(name, (Timestamp) value);
-        if (value instanceof Boolean)
-            parameter.setParameter(name, (java.lang.Boolean) value);
-        if (value instanceof BigDecimal)
-            parameter.setParameter(name, (BigDecimal) value);
-        parameter.saveEx();
+        instance.createParameter(sequence, parameterName, value);
+        if(valueTo != null) {
+        	instance.createParameter(sequence, parameterName + "_To", valueTo);
+        }
         return this;
     }
 
@@ -460,6 +486,24 @@ public class ProcessBuilder {
     public boolean isBatch()
     {
         return this.isBatch;
+    }
+    
+    /**
+     * Set report Export format
+     * @param reportExportFormat
+     * @return
+     */
+    public ProcessBuilder withReportExportFormat(String reportExportFormat) {
+    	this.reportExportFormat = reportExportFormat;
+    	return this;
+    }
+    
+    /**
+     * Get report export format
+     * @return
+     */
+    public String getReportExportFormat() {
+    	return this.reportExportFormat;
     }
 
     /**

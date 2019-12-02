@@ -94,6 +94,7 @@ public class ProcessDialog extends Window implements IZKProcessDialog {
 		log.config("");
 		processInfo.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
 		processInfo.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
+		processInfo.setInterfaceType(WProcessInfo.INTERFACE_TYPE_ZK);
 		processPanel = new ProcessPanel(this, windowNo, processInfo, "70%");
 		//	BR[ 265 ]
 		processPanel.init();

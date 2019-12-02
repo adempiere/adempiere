@@ -49,11 +49,12 @@ public class SignDatabaseBuild
 		
 		PreparedStatement updateStmt = null;
 		try {
+			String implementationVersion = Adempiere.getImplementationVersion();
 			String upd = "UPDATE AD_System SET LastBuildInfo = ?";
 			updateStmt = DB.prepareStatement(upd, null);
-			updateStmt.setString(1, Adempiere.getImplementationVersion());
-			s_log.info(upd);
-			System.out.println(upd);  // Also show the update to the console
+			updateStmt.setString(1, implementationVersion);
+			s_log.info(upd + " (" + implementationVersion+ ")");
+			System.out.println(upd +  " (" + implementationVersion +")");  // Also show the update to the console
 			updateStmt.executeUpdate();
 
 		} catch (Exception ex) {

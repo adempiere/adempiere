@@ -348,7 +348,7 @@ public class ImportEmployeeAttributes extends ImportEmployeeAttributesAbstract {
         	}
         }
         
-        MHRAttribute employeeAttribute = optionalAttribute.orElse(new MHRAttribute(importEmployeeAttribute));
+        MHRAttribute employeeAttribute = optionalAttribute.orElseGet(() -> new MHRAttribute(importEmployeeAttribute));
         if (employeeAttribute.getHR_Attribute_ID() <= 0) {
             employeeAttribute.setColumnType(concept.getColumnType());
             optionalValidFrom.ifPresent(validFrom -> employeeAttribute.setValidFrom(validFrom));

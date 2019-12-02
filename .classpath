@@ -41,6 +41,11 @@
 	<classpathentry kind="src" path="org.adempiere.production/src/main/java/base"/>
 	<classpathentry kind="src" path="org.eevolution.fleet/src/main/java/base"/>
 	<classpathentry kind="src" path="org.adempiere.crm/src/main/java"/>
+	<classpathentry kind="src" path="org.eevolution.warehouse/src/main/java/ui/zk"/>
+	<classpathentry kind="src" path="org.spin.loan_management/src/main/java/base"/>
+	<classpathentry kind="src" path="org.spin.loan_management/src/main/java/ui/zk"/>
+	<classpathentry kind="src" path="org.spin.loan_management/src/main/java/ui/swing"/>
+	<classpathentry kind="src" path="org.spin.finance_management/src/main/java/base"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk8"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar">
 		<attributes>
@@ -103,7 +108,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/commons-collections-3.1.jar">
+	<classpathentry exported="true" kind="lib" path="tools/lib/commons-collections-3.2.2.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
@@ -202,7 +207,6 @@
 	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils.jar"/>
 	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils-bean-collections.jar"/>
 	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-beanutils-core.jar"/>
-	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-codec-1.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-digester-1.7.jar"/>
 	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-fileupload.jar"/>
 	<classpathentry exported="true" kind="lib" path="serverApps/src/web/WEB-INF/lib/commons-lang-2.1.jar"/>
@@ -317,7 +321,6 @@
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jfreechart-1.0.13.jar"/>
 	<classpathentry kind="lib" path="tools/lib/ant-contrib-1.0b1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/cglib.jar"/>
-	<classpathentry kind="lib" path="tools/lib/commons-codec-1.10.jar"/>
 	<classpathentry kind="lib" path="tools/lib/commons-collections4-4.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/groovy-all-2.4.15.jar"/>
 	<classpathentry kind="lib" path="tools/lib/harness-1.0.0.jar"/>
@@ -336,5 +339,16 @@
 	<classpathentry kind="lib" path="tools/lib/wizard.jar"/>
 	<classpathentry kind="lib" path="tools/lib/oracle.jar"/>
 	<classpathentry kind="lib" path="tools/lib/zxing-2.3.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/commons-validator-1.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/sardine-5.9-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="tools/lib/fluent-hc-4.5.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/httpclient-4.5.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/httpclient-cache-4.5.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/httpclient-win-4.5.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/httpcore-4.4.10.jar"/>
+	<classpathentry kind="lib" path="tools/lib/httpmime-4.5.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jna-4.4.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jna-platform-4.4.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/commons-codec-1.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

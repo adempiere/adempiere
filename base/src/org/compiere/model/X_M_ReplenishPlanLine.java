@@ -32,7 +32,7 @@ public class X_M_ReplenishPlanLine extends PO implements I_M_ReplenishPlanLine, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_ReplenishPlanLine (Properties ctx, int M_ReplenishPlanLine_ID, String trxName)
@@ -262,6 +262,26 @@ public class X_M_ReplenishPlanLine extends PO implements I_M_ReplenishPlanLine, 
 		return ii.intValue();
 	}
 
+	/** Set M_ReplenishPlanLine ID.
+		@param M_ReplenishPlanLine_ID M_ReplenishPlanLine ID	  */
+	public void setM_ReplenishPlanLine_ID (int M_ReplenishPlanLine_ID)
+	{
+		if (M_ReplenishPlanLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_ReplenishPlanLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_ReplenishPlanLine_ID, Integer.valueOf(M_ReplenishPlanLine_ID));
+	}
+
+	/** Get M_ReplenishPlanLine ID.
+		@return M_ReplenishPlanLine ID	  */
+	public int getM_ReplenishPlanLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_ReplenishPlanLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_ReplenishPlan getM_ReplenishPlan() throws RuntimeException
     {
 		return (org.compiere.model.I_M_ReplenishPlan)MTable.get(getCtx(), org.compiere.model.I_M_ReplenishPlan.Table_Name)
@@ -282,26 +302,6 @@ public class X_M_ReplenishPlanLine extends PO implements I_M_ReplenishPlanLine, 
 	public int getM_ReplenishPlan_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_ReplenishPlan_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set M_ReplenishPlanLine ID.
-		@param M_ReplenishPlanLine_ID M_ReplenishPlanLine ID	  */
-	public void setM_ReplenishPlanLine_ID (int M_ReplenishPlanLine_ID)
-	{
-		if (M_ReplenishPlanLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_ReplenishPlanLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_ReplenishPlanLine_ID, Integer.valueOf(M_ReplenishPlanLine_ID));
-	}
-
-	/** Get M_ReplenishPlanLine ID.
-		@return M_ReplenishPlanLine ID	  */
-	public int getM_ReplenishPlanLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_ReplenishPlanLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -349,20 +349,6 @@ public class X_M_ReplenishPlanLine extends PO implements I_M_ReplenishPlanLine, 
 		return (String)get_Value(COLUMNNAME_OrderInfo);
 	}
 
-	/** Set Production Info.
-		@param ProductionInfo Production Info	  */
-	public void setProductionInfo (String ProductionInfo)
-	{
-		set_Value (COLUMNNAME_ProductionInfo, ProductionInfo);
-	}
-
-	/** Get Production Info.
-		@return Production Info	  */
-	public String getProductionInfo () 
-	{
-		return (String)get_Value(COLUMNNAME_ProductionInfo);
-	}
-
 	/** Set Product Name.
 		@param ProductName 
 		Name of the Product
@@ -378,6 +364,20 @@ public class X_M_ReplenishPlanLine extends PO implements I_M_ReplenishPlanLine, 
 	public String getProductName () 
 	{
 		return (String)get_Value(COLUMNNAME_ProductName);
+	}
+
+	/** Set Production Info.
+		@param ProductionInfo Production Info	  */
+	public void setProductionInfo (String ProductionInfo)
+	{
+		set_Value (COLUMNNAME_ProductionInfo, ProductionInfo);
+	}
+
+	/** Get Production Info.
+		@return Production Info	  */
+	public String getProductionInfo () 
+	{
+		return (String)get_Value(COLUMNNAME_ProductionInfo);
 	}
 
 	/** RecordType AD_Reference_ID=53930 */

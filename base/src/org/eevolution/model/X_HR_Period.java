@@ -32,7 +32,7 @@ public class X_HR_Period extends PO implements I_HR_Period, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_Period (Properties ctx, int HR_Period_ID, String trxName)
@@ -43,7 +43,6 @@ public class X_HR_Period extends PO implements I_HR_Period, I_Persistent
 			setC_Period_ID (0);
 			setC_Year_ID (0);
 			setDateAcct (new Timestamp( System.currentTimeMillis() ));
-			setHR_Payroll_ID (0);
 			setHR_Period_ID (0);
 			setName (null);
 			setPeriodNo (0);

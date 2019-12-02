@@ -29,7 +29,7 @@ public class X_CM_AccessNewsChannel extends PO implements I_CM_AccessNewsChannel
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_CM_AccessNewsChannel (Properties ctx, int CM_AccessNewsChannel_ID, String trxName)

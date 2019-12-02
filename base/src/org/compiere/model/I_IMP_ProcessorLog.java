@@ -117,6 +117,15 @@ public interface I_IMP_ProcessorLog
 	  */
 	public String getHelp();
 
+    /** Column name IMP_ProcessorLog_ID */
+    public static final String COLUMNNAME_IMP_ProcessorLog_ID = "IMP_ProcessorLog_ID";
+
+	/** Set Import Processor Log	  */
+	public void setIMP_ProcessorLog_ID (int IMP_ProcessorLog_ID);
+
+	/** Get Import Processor Log	  */
+	public int getIMP_ProcessorLog_ID();
+
     /** Column name IMP_Processor_ID */
     public static final String COLUMNNAME_IMP_Processor_ID = "IMP_Processor_ID";
 
@@ -127,15 +136,6 @@ public interface I_IMP_ProcessorLog
 	public int getIMP_Processor_ID();
 
 	public org.compiere.model.I_IMP_Processor getIMP_Processor() throws RuntimeException;
-
-    /** Column name IMP_ProcessorLog_ID */
-    public static final String COLUMNNAME_IMP_ProcessorLog_ID = "IMP_ProcessorLog_ID";
-
-	/** Set Import Processor Log	  */
-	public void setIMP_ProcessorLog_ID (int IMP_ProcessorLog_ID);
-
-	/** Get Import Processor Log	  */
-	public int getIMP_ProcessorLog_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -202,6 +202,19 @@ public interface I_IMP_ProcessorLog
 	  */
 	public String getTextMsg();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -217,17 +230,4 @@ public interface I_IMP_ProcessorLog
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

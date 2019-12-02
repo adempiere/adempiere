@@ -55,10 +55,10 @@ import org.compiere.model.X_ASP_Tab;
 import org.compiere.model.X_ASP_Task;
 import org.compiere.model.X_ASP_Window;
 import org.compiere.model.X_ASP_Workflow;
-import org.eevolution.model.X_ASP_Browse;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.wf.MWorkflow;
+import org.spin.model.X_ASP_Browse;
 
 /**
  * 	Generate ASP entries for a level

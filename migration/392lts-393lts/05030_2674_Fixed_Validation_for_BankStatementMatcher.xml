@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fixed error with matcher for bank" ReleaseNo="3.9.3" SeqNo="5030">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/2674</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="108" Action="I" Record_ID="52719" Table="AD_Val_Rule">
+        <Data AD_Column_ID="583" Column="IsActive">true</Data>
+        <Data AD_Column_ID="192" Column="Type">S</Data>
+        <Data AD_Column_ID="193" Column="Code">NOT EXISTS(SELECT 1 FROM C_BankMatcher WHERE C_Bank_ID = C_Bank.C_Bank_ID AND C_BankStatementMatcher_ID = @C_BankStatementMatcher_ID@)</Data>
+        <Data AD_Column_ID="586" Column="Updated">2019-07-10 12:02:01.538</Data>
+        <Data AD_Column_ID="584" Column="Created">2019-07-10 12:02:01.538</Data>
+        <Data AD_Column_ID="188" Column="Name">C_Bank Only Available for Bank Statement Matcher</Data>
+        <Data AD_Column_ID="189" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="387" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="388" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="187" Column="AD_Val_Rule_ID">52719</Data>
+        <Data AD_Column_ID="7715" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="587" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="585" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84460" Column="UUID">0f7bb28a-a32c-11e9-ae79-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="89800" Table="AD_Column">
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true" oldValue="52607"/>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="89684" Table="AD_Field">
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isOldNull="true">19</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isOldNull="true">52719</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="89697" Table="AD_Field">
+        <Data AD_Column_ID="15011" Column="AD_Reference_ID" isOldNull="true">19</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isOldNull="true">52607</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

@@ -29,7 +29,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_ClientInfo (Properties ctx, int AD_ClientInfo_ID, String trxName)
@@ -489,6 +489,34 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.spin.model.I_AD_AppRegistration getFileHandler() throws RuntimeException
+    {
+		return (org.spin.model.I_AD_AppRegistration)MTable.get(getCtx(), org.spin.model.I_AD_AppRegistration.Table_Name)
+			.getPO(getFileHandler_ID(), get_TrxName());	}
+
+	/** Set File Handler.
+		@param FileHandler_ID 
+		File Handler Registered as App Registration for handle all file system
+	  */
+	public void setFileHandler_ID (int FileHandler_ID)
+	{
+		if (FileHandler_ID < 1) 
+			set_Value (COLUMNNAME_FileHandler_ID, null);
+		else 
+			set_Value (COLUMNNAME_FileHandler_ID, Integer.valueOf(FileHandler_ID));
+	}
+
+	/** Get File Handler.
+		@return File Handler Registered as App Registration for handle all file system
+	  */
+	public int getFileHandler_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FileHandler_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Discount calculated from Line Amounts.
 		@param IsDiscountLineAmt 
 		Payment Discount calculation does not include Taxes and Charges
@@ -533,26 +561,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Logo.
-		@param Logo_ID Logo	  */
-	public void setLogo_ID (int Logo_ID)
-	{
-		if (Logo_ID < 1) 
-			set_Value (COLUMNNAME_Logo_ID, null);
-		else 
-			set_Value (COLUMNNAME_Logo_ID, Integer.valueOf(Logo_ID));
-	}
-
-	/** Get Logo.
-		@return Logo	  */
-	public int getLogo_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Logo_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Logo Report.
 		@param LogoReport_ID Logo Report	  */
 	public void setLogoReport_ID (int LogoReport_ID)
@@ -588,6 +596,26 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	public int getLogoWeb_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_LogoWeb_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Logo.
+		@param Logo_ID Logo	  */
+	public void setLogo_ID (int Logo_ID)
+	{
+		if (Logo_ID < 1) 
+			set_Value (COLUMNNAME_Logo_ID, null);
+		else 
+			set_Value (COLUMNNAME_Logo_ID, Integer.valueOf(Logo_ID));
+	}
+
+	/** Get Logo.
+		@return Logo	  */
+	public int getLogo_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Logo_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

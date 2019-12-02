@@ -329,8 +329,10 @@ public class MLookupFactory
 		else
 			realSQL.append(" ORDER BY 3"); // sort by name/translated name - teo_sarca, [ 1672820 ]
 		//
-		return new MLookupInfo(realSQL.toString(), "AD_Ref_List", "AD_Ref_List.Value",
+		MLookupInfo info = new MLookupInfo(realSQL.toString(), "AD_Ref_List", "AD_Ref_List.Value",
 			101,101, MQuery.getEqualQuery("AD_Reference_ID", AD_Reference_Value_ID), false);	//	Zoom Window+Query
+		info.DisplayColumn = "Name";
+		return info;
 	}	//	getLookup_List
 
 	/**
@@ -544,6 +546,7 @@ public class MLookupFactory
 		}
 		retValue = new MLookupInfo (realSQL.toString(), TableName,
 			TableName + "." + KeyColumn, ZoomWindow, ZoomWindowPO, zoomQuery, isAlert);
+		retValue.DisplayColumn = DisplayColumn;
 		s_cacheRefTable.put(key, retValue.cloneIt());
 		return retValue;
 	}	//	getLookup_Table

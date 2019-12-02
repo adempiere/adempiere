@@ -41,21 +41,6 @@ public interface I_PA_RatioElement
 
     /** Load Meta Data */
 
-    /** Column name Account_ID */
-    public static final String COLUMNNAME_Account_ID = "Account_ID";
-
-	/** Set Account.
-	  * Account used
-	  */
-	public void setAccount_ID (int Account_ID);
-
-	/** Get Account.
-	  * Account used
-	  */
-	public int getAccount_ID();
-
-	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException;
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -76,6 +61,21 @@ public interface I_PA_RatioElement
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name Account_ID */
+    public static final String COLUMNNAME_Account_ID = "Account_ID";
+
+	/** Set Account.
+	  * Account used
+	  */
+	public void setAccount_ID (int Account_ID);
+
+	/** Get Account.
+	  * Account used
+	  */
+	public int getAccount_ID();
+
+	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException;
 
     /** Column name ConstantValue */
     public static final String COLUMNNAME_ConstantValue = "ConstantValue";
@@ -173,21 +173,6 @@ public interface I_PA_RatioElement
 	  */
 	public int getPA_RatioElement_ID();
 
-    /** Column name PA_Ratio_ID */
-    public static final String COLUMNNAME_PA_Ratio_ID = "PA_Ratio_ID";
-
-	/** Set Ratio.
-	  * Performance Ratio
-	  */
-	public void setPA_Ratio_ID (int PA_Ratio_ID);
-
-	/** Get Ratio.
-	  * Performance Ratio
-	  */
-	public int getPA_Ratio_ID();
-
-	public org.compiere.model.I_PA_Ratio getPA_Ratio() throws RuntimeException;
-
     /** Column name PA_RatioUsed_ID */
     public static final String COLUMNNAME_PA_RatioUsed_ID = "PA_RatioUsed_ID";
 
@@ -202,6 +187,21 @@ public interface I_PA_RatioElement
 	public int getPA_RatioUsed_ID();
 
 	public org.compiere.model.I_PA_Ratio getPA_RatioUsed() throws RuntimeException;
+
+    /** Column name PA_Ratio_ID */
+    public static final String COLUMNNAME_PA_Ratio_ID = "PA_Ratio_ID";
+
+	/** Set Ratio.
+	  * Performance Ratio
+	  */
+	public void setPA_Ratio_ID (int PA_Ratio_ID);
+
+	/** Get Ratio.
+	  * Performance Ratio
+	  */
+	public int getPA_Ratio_ID();
+
+	public org.compiere.model.I_PA_Ratio getPA_Ratio() throws RuntimeException;
 
     /** Column name PostingType */
     public static final String COLUMNNAME_PostingType = "PostingType";
@@ -257,6 +257,19 @@ public interface I_PA_RatioElement
 	  */
 	public int getSeqNo();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -272,17 +285,4 @@ public interface I_PA_RatioElement
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

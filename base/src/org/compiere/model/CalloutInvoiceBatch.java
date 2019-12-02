@@ -323,7 +323,7 @@ public class CalloutInvoiceBatch extends CalloutEngine
 		//
 		int C_Tax_ID = Tax.get(ctx, 0, C_Charge_ID, billDate, shipDate,
 			AD_Org_ID, M_Warehouse_ID, C_BPartner_Location_ID, C_BPartner_Location_ID,
-			Env.getContext(ctx, WindowNo, "IsSOTrx").equals("Y"));
+			Env.getContext(ctx, WindowNo, "IsSOTrx").equals("Y") , null);
 		log.info("Tax ID=" + C_Tax_ID);
 		//
 		if (C_Tax_ID == 0)

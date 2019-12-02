@@ -30,7 +30,7 @@ public class X_AD_OrgType extends PO implements I_AD_OrgType, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_OrgType (Properties ctx, int AD_OrgType_ID, String trxName)

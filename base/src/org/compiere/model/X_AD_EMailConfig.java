@@ -29,7 +29,7 @@ public class X_AD_EMailConfig extends PO implements I_AD_EMailConfig, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_EMailConfig (Properties ctx, int AD_EMailConfig_ID, String trxName)

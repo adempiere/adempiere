@@ -106,6 +106,39 @@ public interface I_U_RoleMenu
 	  */
 	public boolean isActive();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
+    /** Column name U_RoleMenu_ID */
+    public static final String COLUMNNAME_U_RoleMenu_ID = "U_RoleMenu_ID";
+
+	/** Set Role Menu	  */
+	public void setU_RoleMenu_ID (int U_RoleMenu_ID);
+
+	/** Get Role Menu	  */
+	public int getU_RoleMenu_ID();
+
+    /** Column name U_WebMenu_ID */
+    public static final String COLUMNNAME_U_WebMenu_ID = "U_WebMenu_ID";
+
+	/** Set Web Menu	  */
+	public void setU_WebMenu_ID (int U_WebMenu_ID);
+
+	/** Get Web Menu	  */
+	public int getU_WebMenu_ID();
+
+	public org.compiere.model.I_U_WebMenu getU_WebMenu() throws RuntimeException;
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -121,37 +154,4 @@ public interface I_U_RoleMenu
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name U_RoleMenu_ID */
-    public static final String COLUMNNAME_U_RoleMenu_ID = "U_RoleMenu_ID";
-
-	/** Set Role Menu	  */
-	public void setU_RoleMenu_ID (int U_RoleMenu_ID);
-
-	/** Get Role Menu	  */
-	public int getU_RoleMenu_ID();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
-    /** Column name U_WebMenu_ID */
-    public static final String COLUMNNAME_U_WebMenu_ID = "U_WebMenu_ID";
-
-	/** Set Web Menu	  */
-	public void setU_WebMenu_ID (int U_WebMenu_ID);
-
-	/** Get Web Menu	  */
-	public int getU_WebMenu_ID();
-
-	public org.compiere.model.I_U_WebMenu getU_WebMenu() throws RuntimeException;
 }

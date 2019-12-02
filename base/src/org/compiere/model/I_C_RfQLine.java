@@ -62,21 +62,18 @@ public interface I_C_RfQLine
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
+    /** Column name C_RfQLine_ID */
+    public static final String COLUMNNAME_C_RfQLine_ID = "C_RfQLine_ID";
 
-	/** Get Created.
-	  * Date this record was created
+	/** Set RfQ Line.
+	  * Request for Quotation Line
 	  */
-	public Timestamp getCreated();
+	public void setC_RfQLine_ID (int C_RfQLine_ID);
 
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
+	/** Get RfQ Line.
+	  * Request for Quotation Line
 	  */
-	public int getCreatedBy();
+	public int getC_RfQLine_ID();
 
     /** Column name C_RfQ_ID */
     public static final String COLUMNNAME_C_RfQ_ID = "C_RfQ_ID";
@@ -93,18 +90,21 @@ public interface I_C_RfQLine
 
 	public org.compiere.model.I_C_RfQ getC_RfQ() throws RuntimeException;
 
-    /** Column name C_RfQLine_ID */
-    public static final String COLUMNNAME_C_RfQLine_ID = "C_RfQLine_ID";
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
 
-	/** Set RfQ Line.
-	  * Request for Quotation Line
+	/** Get Created.
+	  * Date this record was created
 	  */
-	public void setC_RfQLine_ID (int C_RfQLine_ID);
+	public Timestamp getCreated();
 
-	/** Get RfQ Line.
-	  * Request for Quotation Line
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
 	  */
-	public int getC_RfQLine_ID();
+	public int getCreatedBy();
 
     /** Column name DateWorkComplete */
     public static final String COLUMNNAME_DateWorkComplete = "DateWorkComplete";
@@ -227,6 +227,19 @@ public interface I_C_RfQLine
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -242,17 +255,4 @@ public interface I_C_RfQLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

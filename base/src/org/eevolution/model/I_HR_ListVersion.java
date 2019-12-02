@@ -103,6 +103,15 @@ public interface I_HR_ListVersion
 
 	public org.eevolution.model.I_HR_List getHR_ListBase() throws RuntimeException;
 
+    /** Column name HR_ListVersion_ID */
+    public static final String COLUMNNAME_HR_ListVersion_ID = "HR_ListVersion_ID";
+
+	/** Set Payroll List Version	  */
+	public void setHR_ListVersion_ID (int HR_ListVersion_ID);
+
+	/** Get Payroll List Version	  */
+	public int getHR_ListVersion_ID();
+
     /** Column name HR_List_ID */
     public static final String COLUMNNAME_HR_List_ID = "HR_List_ID";
 
@@ -113,15 +122,6 @@ public interface I_HR_ListVersion
 	public int getHR_List_ID();
 
 	public org.eevolution.model.I_HR_List getHR_List() throws RuntimeException;
-
-    /** Column name HR_ListVersion_ID */
-    public static final String COLUMNNAME_HR_ListVersion_ID = "HR_ListVersion_ID";
-
-	/** Set Payroll List Version	  */
-	public void setHR_ListVersion_ID (int HR_ListVersion_ID);
-
-	/** Get Payroll List Version	  */
-	public int getHR_ListVersion_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -149,6 +149,19 @@ public interface I_HR_ListVersion
 	  */
 	public String getName();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -164,19 +177,6 @@ public interface I_HR_ListVersion
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";

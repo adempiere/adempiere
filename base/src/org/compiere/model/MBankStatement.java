@@ -34,6 +34,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Util;
 
 
 /**
@@ -54,7 +55,8 @@ import org.compiere.util.TimeUtil;
 *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
 *		<a href="https://github.com/adempiere/adempiere/issues/983">
 * 		@see FR [ 592 ] Default name for bank statement is necessary</a>
-*  
+*  		<a href="https://github.com/adempiere/adempiere/issues/2841">
+* 		@see [Bug Report] Void bank statement broken balance #2841</a>
 *   @version $Id: MBankStatement.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
 */
 public class MBankStatement extends X_C_BankStatement implements DocAction
@@ -441,7 +443,48 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 		if (!isApproved())
 			approveIt();
 		log.info("completeIt - " + toString());
-		
+		StringBuffer linesWithoutReference = new StringBuffer();
+		Arrays.asList(getLines(true)).stream()
+			.filter(statementLine -> statementLine.getC_Payment_ID() == 0)
+			.forEach(statementLine -> {
+				if(linesWithoutReference.length() > 0) {
+					linesWithoutReference.append(Env.NL);
+				}
+				//	Add
+				StringBuffer displayValue = new StringBuffer();
+				displayValue.append(statementLine.getLine());
+				//	Reference No
+				if(!Util.isEmpty(statementLine.getReferenceNo())) {
+					displayValue.append(" - @ReferenceNo@: ").append(statementLine.getReferenceNo());
+				}
+				//	Memo
+				if(!Util.isEmpty(statementLine.getMemo())) {
+					displayValue.append(" - @Memo@: ").append(statementLine.getMemo());
+				}
+				//	EFT Check No
+				if(!Util.isEmpty(statementLine.getEftCheckNo())) {
+					displayValue.append(" - @EftCheckNo@: ").append(statementLine.getEftCheckNo());
+				}
+				if(!Util.isEmpty(statementLine.getEftMemo())) {
+					displayValue.append(" - @EftMemo@: ").append(statementLine.getEftMemo());
+				}
+				//	Add amount
+				if (statementLine.getTrxAmt().compareTo(Env.ZERO) != 0) {
+					displayValue.append(" - @TrxAmt@: ").append(DisplayType.getNumberFormat(DisplayType.Amount).format(statementLine.getTrxAmt()));
+				}
+				if (statementLine.getChargeAmt().compareTo(Env.ZERO) != 0) {
+					displayValue.append(" - @ChargeAmt@: ").append(DisplayType.getNumberFormat(DisplayType.Amount).format(statementLine.getChargeAmt()));
+				}
+				if (statementLine.getInterestAmt().compareTo(Env.ZERO) != 0) {
+					displayValue.append(" - @InterestAmt@: ").append(DisplayType.getNumberFormat(DisplayType.Amount).format(statementLine.getInterestAmt()));
+				}
+				//	Add info
+				linesWithoutReference.append(displayValue);
+		});
+		//	Validate
+		if(linesWithoutReference.length() > 0) {
+			throw new AdempiereException("@Error@" + Env.NL + " @C_Payment_ID@ @NotFound@ " + Env.NL + linesWithoutReference.toString());
+		}
 		//	Set Payment reconciled
 		MBankStatementLine[] lines = getLines(false);
 		for (int i = 0; i < lines.length; i++)
@@ -511,10 +554,12 @@ public class MBankStatement extends X_C_BankStatement implements DocAction
 		
 		//Added Lines by AZ Goodwill
 		//Restore Bank Account Balance
-		MBankAccount ba = getBankAccount();
-		ba.load(get_TrxName());
-		ba.setCurrentBalance(ba.getCurrentBalance().subtract(getStatementDifference()));
-		ba.saveEx();
+		if(isProcessed()) {
+			MBankAccount bankAccount = getBankAccount();
+			bankAccount.load(get_TrxName());
+			bankAccount.setCurrentBalance(bankAccount.getCurrentBalance().subtract(getStatementDifference()));
+			bankAccount.saveEx();
+		}
 		//End of Added Lines
 			
 		//	Set lines to 0

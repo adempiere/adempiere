@@ -134,6 +134,19 @@ public interface I_M_DistributionListLine
 	  */
 	public boolean isActive();
 
+    /** Column name M_DistributionListLine_ID */
+    public static final String COLUMNNAME_M_DistributionListLine_ID = "M_DistributionListLine_ID";
+
+	/** Set Distribution List Line.
+	  * Distribution List Line with Business Partner and Quantity/Percentage
+	  */
+	public void setM_DistributionListLine_ID (int M_DistributionListLine_ID);
+
+	/** Get Distribution List Line.
+	  * Distribution List Line with Business Partner and Quantity/Percentage
+	  */
+	public int getM_DistributionListLine_ID();
+
     /** Column name M_DistributionList_ID */
     public static final String COLUMNNAME_M_DistributionList_ID = "M_DistributionList_ID";
 
@@ -148,19 +161,6 @@ public interface I_M_DistributionListLine
 	public int getM_DistributionList_ID();
 
 	public org.compiere.model.I_M_DistributionList getM_DistributionList() throws RuntimeException;
-
-    /** Column name M_DistributionListLine_ID */
-    public static final String COLUMNNAME_M_DistributionListLine_ID = "M_DistributionListLine_ID";
-
-	/** Set Distribution List Line.
-	  * Distribution List Line with Business Partner and Quantity/Percentage
-	  */
-	public void setM_DistributionListLine_ID (int M_DistributionListLine_ID);
-
-	/** Get Distribution List Line.
-	  * Distribution List Line with Business Partner and Quantity/Percentage
-	  */
-	public int getM_DistributionListLine_ID();
 
     /** Column name MinQty */
     public static final String COLUMNNAME_MinQty = "MinQty";
@@ -188,6 +188,19 @@ public interface I_M_DistributionListLine
 	  */
 	public BigDecimal getRatio();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -203,17 +216,4 @@ public interface I_M_DistributionListLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

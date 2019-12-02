@@ -30,7 +30,7 @@ public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipie
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_SchedulerRecipient (Properties ctx, int AD_SchedulerRecipient_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipie
       super (ctx, AD_SchedulerRecipient_ID, trxName);
       /** if (AD_SchedulerRecipient_ID == 0)
         {
-			setAD_Scheduler_ID (0);
 			setAD_SchedulerRecipient_ID (0);
+			setAD_Scheduler_ID (0);
         } */
     }
 
@@ -99,6 +99,29 @@ public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipie
 		return ii.intValue();
 	}
 
+	/** Set Scheduler Recipient.
+		@param AD_SchedulerRecipient_ID 
+		Recipient of the Scheduler Notification
+	  */
+	public void setAD_SchedulerRecipient_ID (int AD_SchedulerRecipient_ID)
+	{
+		if (AD_SchedulerRecipient_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_SchedulerRecipient_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_SchedulerRecipient_ID, Integer.valueOf(AD_SchedulerRecipient_ID));
+	}
+
+	/** Get Scheduler Recipient.
+		@return Recipient of the Scheduler Notification
+	  */
+	public int getAD_SchedulerRecipient_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_SchedulerRecipient_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_Scheduler getAD_Scheduler() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Scheduler)MTable.get(getCtx(), org.compiere.model.I_AD_Scheduler.Table_Name)
@@ -122,29 +145,6 @@ public class X_AD_SchedulerRecipient extends PO implements I_AD_SchedulerRecipie
 	public int getAD_Scheduler_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Scheduler_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Scheduler Recipient.
-		@param AD_SchedulerRecipient_ID 
-		Recipient of the Scheduler Notification
-	  */
-	public void setAD_SchedulerRecipient_ID (int AD_SchedulerRecipient_ID)
-	{
-		if (AD_SchedulerRecipient_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_SchedulerRecipient_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_SchedulerRecipient_ID, Integer.valueOf(AD_SchedulerRecipient_ID));
-	}
-
-	/** Get Scheduler Recipient.
-		@return Recipient of the Scheduler Notification
-	  */
-	public int getAD_SchedulerRecipient_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_SchedulerRecipient_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

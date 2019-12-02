@@ -30,7 +30,7 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_PP_Order_NodeNext (Properties ctx, int PP_Order_NodeNext_ID, String trxName)
@@ -246,6 +246,26 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 		return ii.intValue();
 	}
 
+	/** Set Manufacturing Order Activity Next.
+		@param PP_Order_NodeNext_ID Manufacturing Order Activity Next	  */
+	public void setPP_Order_NodeNext_ID (int PP_Order_NodeNext_ID)
+	{
+		if (PP_Order_NodeNext_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_NodeNext_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_PP_Order_NodeNext_ID, Integer.valueOf(PP_Order_NodeNext_ID));
+	}
+
+	/** Get Manufacturing Order Activity Next.
+		@return Manufacturing Order Activity Next	  */
+	public int getPP_Order_NodeNext_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_NodeNext_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_PP_Order_Node getPP_Order_Node() throws RuntimeException
     {
 		return (org.eevolution.model.I_PP_Order_Node)MTable.get(getCtx(), org.eevolution.model.I_PP_Order_Node.Table_Name)
@@ -269,26 +289,6 @@ public class X_PP_Order_NodeNext extends PO implements I_PP_Order_NodeNext, I_Pe
 	public int getPP_Order_Node_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_Node_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Manufacturing Order Activity Next.
-		@param PP_Order_NodeNext_ID Manufacturing Order Activity Next	  */
-	public void setPP_Order_NodeNext_ID (int PP_Order_NodeNext_ID)
-	{
-		if (PP_Order_NodeNext_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_PP_Order_NodeNext_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_PP_Order_NodeNext_ID, Integer.valueOf(PP_Order_NodeNext_ID));
-	}
-
-	/** Get Manufacturing Order Activity Next.
-		@return Manufacturing Order Activity Next	  */
-	public int getPP_Order_NodeNext_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_PP_Order_NodeNext_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
