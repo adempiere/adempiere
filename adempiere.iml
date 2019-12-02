@@ -214,6 +214,12 @@
       <sourceFolder url="file://$MODULE_DIR$/org.spin.hr_tna/src/main/java/base" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.mx.cdhcm/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.eevolution.freight/src/main/java/base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.spin.loan_and_investment_management/src/main/java/base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.spin.loan_management/src/main/java/base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.spin.hr_time _and_attendance/src/main/java/base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.spin.loan_management/src/main/java/ui/swing" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.spin.loan_management/src/main/java/ui/zk" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.spin.finance_management/src/main/java/base" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
@@ -344,9 +350,9 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="commons-collections-3.1.jar">
+      <library name="commons-collections-3.2.2.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/commons-collections-3.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/commons-collections-3.2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1561,8 +1567,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="org.scalatest:scalatest_2.12:3.0.5" level="project" />
-    <orderEntry type="library" name="LMX" level="project" />
-    <orderEntry type="library" name="customization" level="project" />
     <orderEntry type="library" name="scala-sdk-2.12.10" level="project" />
   </component>
 </module>
