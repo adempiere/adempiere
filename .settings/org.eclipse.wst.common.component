@@ -15,6 +15,7 @@
         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.adempiere.request/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/org.spin.finance_management/src/main/java/base"/>
                                 
         
         
