@@ -13,11 +13,15 @@
  *****************************************************************************/
 package org.adempiere.plaf;
 
+import java.awt.Insets;
 import java.awt.event.MouseListener;
 
+import javax.swing.BorderFactory;
+import javax.swing.ComboBoxEditor;
 import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.ComboPopup;
 import javax.swing.plaf.metal.MetalComboBoxButton;
@@ -46,6 +50,7 @@ public class AdempiereComboBoxUI extends PlasticComboBoxUI
 	/*************************************************************************/
 
 	static int s_no = 0;
+	private boolean isTableCellEditor = false;
 	/**
 	 *  Install UI - Set ComboBox opaque.
 	 *  Bug in Metal: arrowButton gets Mouse Events, so add the JComboBox
@@ -64,6 +69,8 @@ public class AdempiereComboBoxUI extends PlasticComboBoxUI
 		//	System.out.println("adding " + c.getClass().getName());
 			arrowButton.addMouseListener(ml[i]);
 		}
+		
+		setBorders();
 
 	}   //  installUI
 
@@ -106,4 +113,100 @@ public class AdempiereComboBoxUI extends PlasticComboBoxUI
 		return newPopup;
 	}   //  createPopup
 
+    /**
+     * {@inheritDoc}
+     * Overridden to allow menu selection in a table editor
+     */
+    protected void selectNextPossibleValue() {
+        int si;
+
+        if ( comboBox.isPopupVisible() ) {
+            si = listBox.getSelectedIndex();
+        }
+        else {
+            si = comboBox.getSelectedIndex();
+        }
+
+        if ( si < comboBox.getModel().getSize() - 1 ) {
+            listBox.setSelectedIndex( si + 1 );
+            listBox.ensureIndexIsVisible( si + 1 );
+//            if ( !isTableCellEditor ) {
+                if (!(UIManager.getBoolean("ComboBox.noActionOnKeyNavigation") && comboBox.isPopupVisible())) {
+                    comboBox.setSelectedIndex(si+1);
+                }
+//            }
+            comboBox.repaint();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     * Overridden to allow menu selection in a table editor
+     */
+    protected void selectPreviousPossibleValue() {
+        int si;
+
+        if ( comboBox.isPopupVisible() ) {
+            si = listBox.getSelectedIndex();
+        }
+        else {
+            si = comboBox.getSelectedIndex();
+        }
+
+        if ( si > 0 ) {
+            listBox.setSelectedIndex( si - 1 );
+            listBox.ensureIndexIsVisible( si - 1 );
+//            if ( !isTableCellEditor ) {
+                if (!(UIManager.getBoolean("ComboBox.noActionOnKeyNavigation") && comboBox.isPopupVisible())) {
+                    comboBox.setSelectedIndex(si-1);
+                }
+//            }
+            comboBox.repaint();
+        }
+    }
+
+	public void setTableCellEditor(boolean isTableCellEditor) {
+		
+		if (this.isTableCellEditor != isTableCellEditor)
+		{
+			this.isTableCellEditor = isTableCellEditor;
+			setBorders();
+			isMinimumSizeDirty = true;
+			// Display size should be OK
+		}
+		
+	}
+
+	public void setBorders() {
+				
+		//  Determine if the comboBox is active or not
+		boolean comboActive = comboBox.isVisible();
+		if (!comboActive || !isTableCellEditor)
+		{
+			return;
+		}
+
+		// Visible and a table cell editor
+		// Remove the comboBoxEditor border entirely
+		ComboBoxEditor comboBoxEditor = comboBox.getEditor();
+		if (comboBoxEditor != null && comboBoxEditor.getEditorComponent() instanceof JComponent)
+		{
+			((JComponent) comboBoxEditor.getEditorComponent()).setBorder(BorderFactory.createEmptyBorder());
+		}
+
+		// For the arrow button, we only want the border on the inside edge.
+		// If the button is not null
+		if (arrowButton != null)
+		{
+			// The outer border removes the edges of the arrowButtonBorder
+			arrowButton.setBorder(BorderFactory.createCompoundBorder(
+					BorderFactory.createEmptyBorder(-2, 0, -2, -2),
+					BorderFactory.createCompoundBorder(
+							UIManager.getBorder("ComboBox.arrowButtonBorder"),
+							BorderFactory.createEmptyBorder(2, 3, 2, 3))));
+			arrowButton.setMargin(new Insets(0, 2, 0, 2));
+		}			
+
+	}
+	
 }   //  AdempiereComboBoxUI

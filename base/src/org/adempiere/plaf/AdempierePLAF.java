@@ -1,19 +1,19 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.adempiere.plaf;
 
 import java.awt.Color;
@@ -57,7 +57,11 @@ import com.jgoodies.looks.plastic.PlasticTheme;
  *  @version    $Id: AdempierePLAF.java,v 1.3 2006/07/30 00:52:23 jjanke Exp $
  *  
  *  @author Low Heng Sin
- *  @version 2006-11-27
+ *  
+ *   *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+
+ *  @version 3.9.4
  */
 public final class AdempierePLAF
 {
@@ -731,5 +735,216 @@ public final class AdempierePLAF
 			System.exit(1);
 		}
 	}   //  main
+
+	public static Color getTableRow_NotSelectedInactiveNormal() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ROW_BG_NOT_SELECTED_INACTIVE_NORMAL);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ROW_BG_NOT_SELECTED_INACTIVE_NORMAL;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRowAlternate_NotSelectedInactiveNormal() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ALT_ROW_BG_NOT_SELECTED_INACTIVE_NORMAL);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ALT_ROW_BG_NOT_SELECTED_INACTIVE_NORMAL;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRow_NotSelectedInactiveMandatory() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ROW_BG_NOT_SELECTED_INACTIVE_MANDATORY);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ROW_BG_NOT_SELECTED_INACTIVE_MANDATORY;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRowAlternate_NotSelectedInactiveMandatory() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ALT_ROW_BG_NOT_SELECTED_INACTIVE_MANDATORY);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ALT_ROW_BG_NOT_SELECTED_INACTIVE_MANDATORY;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRow_NotSelectedInactiveError() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ROW_BG_NOT_SELECTED_INACTIVE_ERROR);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ROW_BG_NOT_SELECTED_INACTIVE_ERROR;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRowAlternate_NotSelectedInactiveError() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ALT_ROW_BG_NOT_SELECTED_INACTIVE_ERROR);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ALT_ROW_BG_NOT_SELECTED_INACTIVE_ERROR;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRow_NotSelectedActiveNormal() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ROW_BG_NOT_SELECTED_ACTIVE_NORMAL);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ROW_BG_NOT_SELECTED_ACTIVE_NORMAL;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRowAlternate_NotSelectedActiveNormal() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ALT_ROW_BG_NOT_SELECTED_ACTIVE_NORMAL);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ALT_ROW_BG_NOT_SELECTED_ACTIVE_NORMAL;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRow_NotSelectedActiveMandatory() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ROW_BG_NOT_SELECTED_ACTIVE_MANDATORY);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ROW_BG_NOT_SELECTED_ACTIVE_MANDATORY;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRowAlternate_NotSelectedActiveMandatory() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ALT_ROW_BG_NOT_SELECTED_ACTIVE_MANDATORY);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ALT_ROW_BG_NOT_SELECTED_ACTIVE_MANDATORY;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRow_NotSelectedActiveError() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ROW_BG_NOT_SELECTED_ACTIVE_ERROR);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ROW_BG_NOT_SELECTED_ACTIVE_ERROR;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRowAlternate_NotSelectedActiveError() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ALT_ROW_BG_NOT_SELECTED_ACTIVE_ERROR);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ALT_ROW_BG_NOT_SELECTED_ACTIVE_ERROR;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRow_SelectedInactiveNormal() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ROW_BG_SELECTED_INACTIVE_NORMAL);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ROW_BG_SELECTED_INACTIVE_NORMAL;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRowAlternate_SelectedInactiveNormal() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ALT_ROW_BG_SELECTED_INACTIVE_NORMAL);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ALT_ROW_BG_SELECTED_INACTIVE_NORMAL;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRow_SelectedInactiveMandatory() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ROW_BG_SELECTED_INACTIVE_MANDATORY);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ROW_BG_SELECTED_INACTIVE_MANDATORY;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRowAlternate_SelectedInactiveMandatory() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ALT_ROW_BG_SELECTED_INACTIVE_MANDATORY);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ALT_ROW_BG_SELECTED_INACTIVE_MANDATORY;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRow_SelectedInactiveError() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ROW_BG_SELECTED_INACTIVE_ERROR);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ROW_BG_SELECTED_INACTIVE_ERROR;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRowAlternate_SelectedInactiveError() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ALT_ROW_BG_SELECTED_INACTIVE_ERROR);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ALT_ROW_BG_SELECTED_INACTIVE_ERROR;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRow_SelectedActiveNormal() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ROW_BG_SELECTED_ACTIVE_NORMAL);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ROW_BG_SELECTED_ACTIVE_NORMAL;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRowAlternate_SelectedActiveNormal() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ALT_ROW_BG_SELECTED_ACTIVE_NORMAL);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ALT_ROW_BG_SELECTED_ACTIVE_NORMAL;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRow_SelectedActiveMandatory() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ROW_BG_SELECTED_ACTIVE_MANDATORY);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ROW_BG_SELECTED_ACTIVE_MANDATORY;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRowAlternate_SelectedActiveMandatory() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ALT_ROW_BG_SELECTED_ACTIVE_MANDATORY);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ALT_ROW_BG_SELECTED_ACTIVE_MANDATORY;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRow_SelectedActiveError() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ROW_BG_SELECTED_ACTIVE_ERROR);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ROW_BG_SELECTED_ACTIVE_ERROR;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableRowAlternate_SelectedActiveError() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_ALT_ROW_BG_SELECTED_ACTIVE_ERROR);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_ALT_ROW_BG_SELECTED_ACTIVE_ERROR;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableCell_FocusedInactiveNormal() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_CELL_BG_FOCUSED_INACTIVE_NORMAL);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_CELL_BG_FOCUSED_INACTIVE_NORMAL;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableCell_FocusedInactiveMandatory() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_CELL_BG_FOCUSED_INACTIVE_MANDATORY);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_CELL_BG_FOCUSED_INACTIVE_MANDATORY;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableCell_FocusedInactiveError() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_CELL_BG_FOCUSED_INACTIVE_ERROR);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_CELL_BG_FOCUSED_INACTIVE_ERROR;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableCell_FocusedActiveNormal() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_CELL_BG_FOCUSED_ACTIVE_NORMAL);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_CELL_BG_FOCUSED_ACTIVE_NORMAL;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableCell_FocusedActiveMandatory() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_CELL_BG_FOCUSED_ACTIVE_MANDATORY);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_CELL_BG_FOCUSED_ACTIVE_MANDATORY;
+		return ColorBlind.getDichromatColor(c);
+	}
+
+	public static Color getTableCell_FocusedActiveError() {
+		Color c = UIManager.getColor(ExtendedTheme.TABLE_CELL_BG_FOCUSED_ACTIVE_ERROR);
+		if (c == null)
+			c = ExtendedTheme.DEFAULT_TABLE_CELL_BG_FOCUSED_ACTIVE_ERROR;
+		return ColorBlind.getDichromatColor(c);
+	}
+
 
 }   //  AdempierePLAF

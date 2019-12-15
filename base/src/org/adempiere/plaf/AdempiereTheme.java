@@ -1,16 +1,19 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.               *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.adempiere.plaf;
 
 
@@ -21,6 +24,7 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.util.logging.Logger;
 
+import javax.swing.BorderFactory;
 import javax.swing.UIDefaults;
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
@@ -37,10 +41,15 @@ import com.jgoodies.looks.plastic.PlasticScrollBarUI;
  * 
  *
  * @author vpj-cd
- * @version $Revision: 1.0 $
  * @author Low Heng Sin
  * - Fixed invisible disactive component issue
  * - Use red instead of green as background for error field
+ * 
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+ * 			To add table row and cell color defaults to the theme.
+ *  
+ *  @version 3.9.4 
  */
 public class AdempiereTheme extends com.jgoodies.looks.plastic.PlasticTheme {
 
@@ -400,8 +409,22 @@ public class AdempiereTheme extends com.jgoodies.looks.plastic.PlasticTheme {
 
     public void addCustomEntriesToTable(UIDefaults table) {
         super.addCustomEntriesToTable(table);
+        
+        // Table alternate row settings
+        final ColorUIResource inactive_alt = new ColorUIResource(org.adempiere.apps.graph.GraphUtil.darker(inactive,0.98));
+        final ColorUIResource mandatory_alt = new ColorUIResource(org.adempiere.apps.graph.GraphUtil.darker(mandatory,0.98));
+        final ColorUIResource error_alt = new ColorUIResource(org.adempiere.apps.graph.GraphUtil.darker(error,0.98));
+        final ColorUIResource normal = new ColorUIResource(org.adempiere.apps.graph.GraphUtil.darker(white,0.99));
+        final ColorUIResource normal_alt = new ColorUIResource(org.adempiere.apps.graph.GraphUtil.darker(primary3,0.98));
+        final ColorUIResource selected = new ColorUIResource(org.adempiere.apps.graph.GraphUtil.darker(primary3,0.9));
+        final ColorUIResource focused = new ColorUIResource(white);
+        
+
+        
         Object[] uiDefaults =
             {
+            	// TODO add color here or a more specific reference to frozen table column border	
+            	"primary0", primary0,
                 "ScrollBar.thumbHighlight",
                 getPrimaryControlHighlight(),
                 PlasticScrollBarUI.MAX_BUMPS_WIDTH_KEY,
@@ -409,6 +432,10 @@ public class AdempiereTheme extends com.jgoodies.looks.plastic.PlasticTheme {
                 PlasticScrollBarUI.MAX_BUMPS_WIDTH_KEY, new Integer(30),
                 //"TabbedPane.selected", getWhite(),
                 "TabbedPane.selectHighlight",  new ColorUIResource(231, 218, 188),
+                
+                "Table.focusSelectedCellHighlightBorder", BorderFactory.createLineBorder(primary0, 1),
+                
+                
                 ExtendedTheme.ERROR_BG_KEY,
     			error,
     			ExtendedTheme.ERROR_FG_KEY,
@@ -418,7 +445,41 @@ public class AdempiereTheme extends com.jgoodies.looks.plastic.PlasticTheme {
     			ExtendedTheme.INFO_BG_KEY,
     			info,
     			ExtendedTheme.MANDATORY_BG_KEY,
-    			mandatory
+    			mandatory,
+    			ExtendedTheme.TABLE_ROW_BG_NOT_SELECTED_INACTIVE_NORMAL, inactive,
+            	ExtendedTheme.TABLE_ROW_BG_NOT_SELECTED_INACTIVE_ERROR, inactive,
+            	ExtendedTheme.TABLE_ROW_BG_NOT_SELECTED_INACTIVE_MANDATORY, inactive,
+            	ExtendedTheme.TABLE_ROW_BG_NOT_SELECTED_ACTIVE_NORMAL, normal,
+            	ExtendedTheme.TABLE_ROW_BG_NOT_SELECTED_ACTIVE_ERROR, error,
+            	ExtendedTheme.TABLE_ROW_BG_NOT_SELECTED_ACTIVE_MANDATORY, normal,
+
+            	ExtendedTheme.TABLE_ROW_BG_SELECTED_INACTIVE_NORMAL, selected,
+            	ExtendedTheme.TABLE_ROW_BG_SELECTED_INACTIVE_ERROR, selected,
+            	ExtendedTheme.TABLE_ROW_BG_SELECTED_INACTIVE_MANDATORY, selected,
+            	ExtendedTheme.TABLE_ROW_BG_SELECTED_ACTIVE_NORMAL, selected,
+            	ExtendedTheme.TABLE_ROW_BG_SELECTED_ACTIVE_ERROR, error,
+            	ExtendedTheme.TABLE_ROW_BG_SELECTED_ACTIVE_MANDATORY, selected,
+
+            	ExtendedTheme.TABLE_CELL_BG_FOCUSED_INACTIVE_NORMAL, inactive,
+            	ExtendedTheme.TABLE_CELL_BG_FOCUSED_INACTIVE_ERROR, inactive,
+            	ExtendedTheme.TABLE_CELL_BG_FOCUSED_INACTIVE_MANDATORY, inactive,
+            	ExtendedTheme.TABLE_CELL_BG_FOCUSED_ACTIVE_NORMAL, focused,
+            	ExtendedTheme.TABLE_CELL_BG_FOCUSED_ACTIVE_ERROR, error,
+            	ExtendedTheme.TABLE_CELL_BG_FOCUSED_ACTIVE_MANDATORY, mandatory,
+
+            	ExtendedTheme.TABLE_ALT_ROW_BG_NOT_SELECTED_INACTIVE_NORMAL, inactive_alt,
+            	ExtendedTheme.TABLE_ALT_ROW_BG_NOT_SELECTED_INACTIVE_ERROR,	inactive_alt,
+            	ExtendedTheme.TABLE_ALT_ROW_BG_NOT_SELECTED_INACTIVE_MANDATORY, inactive_alt,
+            	ExtendedTheme.TABLE_ALT_ROW_BG_NOT_SELECTED_ACTIVE_NORMAL, normal_alt,
+            	ExtendedTheme.TABLE_ALT_ROW_BG_NOT_SELECTED_ACTIVE_ERROR, error_alt,
+            	ExtendedTheme.TABLE_ALT_ROW_BG_NOT_SELECTED_ACTIVE_MANDATORY, normal_alt,
+
+            	ExtendedTheme.TABLE_ALT_ROW_BG_SELECTED_INACTIVE_NORMAL, selected,
+            	ExtendedTheme.TABLE_ALT_ROW_BG_SELECTED_INACTIVE_ERROR, selected,
+            	ExtendedTheme.TABLE_ALT_ROW_BG_SELECTED_INACTIVE_MANDATORY, selected,
+            	ExtendedTheme.TABLE_ALT_ROW_BG_SELECTED_ACTIVE_NORMAL, selected,
+            	ExtendedTheme.TABLE_ALT_ROW_BG_SELECTED_ACTIVE_ERROR, error,
+            	ExtendedTheme.TABLE_ALT_ROW_BG_SELECTED_ACTIVE_MANDATORY, selected
     		};  
         table.putDefaults(uiDefaults);
     }

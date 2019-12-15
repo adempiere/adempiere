@@ -1,16 +1,19 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 Adempiere, Inc. All Rights Reserved.               *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.adempiere.plaf;
 
 import java.awt.Color;
@@ -24,6 +27,11 @@ import com.jgoodies.looks.plastic.PlasticTheme;
 /**
  *  Adempiere Look & Feel, based on JGoodies look and feel
  *  @author vpj-cd, Low Heng Sin
+ *  
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+ *  
+ *  @version 3.9.4
  */
 public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.Plastic3DLookAndFeel
 {
@@ -106,10 +114,30 @@ public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.Plastic3DLo
 		//System.out.println("AdempiereLookAndFeel.initClassDefaults");
 		super.initClassDefaults( table);
 		//  Overwrite
+		putDefault (table, "AccountUI");
+		putDefault (table, "AssignmentUI");
+		putDefault (table, "BinaryUI");
 		putDefault (table, "ComboBoxUI");
+		putDefault (table, "DateUI");
+		putDefault (table, "EditorAbstractUI");
+		putDefault (table, "FileUI");
 		putDefault (table, "LabelUI");
+		putDefault (table, "LocationUI");
+		putDefault (table, "LocatorUI");
+		putDefault (table, "LookupUI");
+		putDefault (table, "MemoUI");
+		putDefault (table, "NumberUI");
+		putDefault (table, "PasswordUI");
+		putDefault (table, "PAttributeUI");
+		putDefault (table, "StringUI");
+		putDefault (table, "TextUI");
+		putDefault (table, "TextLongUI");
 		putDefault (table, "TabbedPaneUI");
-
+		putDefault (table, "TableHeaderUI");
+		putDefault (table, "TableUI");
+		putDefault (table, "ScrollPaneUI");
+		putDefault (table, "URLUI");
+				
 	}   //  initClassDefaults
 
 	/**
@@ -147,6 +175,8 @@ public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.Plastic3DLo
 	{
 		super.initComponentDefaults( table);
 
+		Object abstractEditorButtonBorder     = AdempiereBorders.getAbstractEditorButtonBorder();
+		
 		//  ComboBox defaults
 		Color c = table.getColor("TextField.background");
 		table.put("ComboBox.background", c);
@@ -158,6 +188,13 @@ public class AdempiereLookAndFeel extends com.jgoodies.looks.plastic.Plastic3DLo
 		table.put("Tree.closedIcon", makeIcon(lf, "icons/TreeClosed.gif"));
 		table.put("Tree.leafIcon", makeIcon(lf, "icons/TreeLeaf.gif"));
 		
+		// Add fix to Abstract Editor button borders where the editor is inactive
+		// but the button remains active as in VLookup
+		table.put("AbstractEditor.ButtonBorder", abstractEditorButtonBorder);
+		
+		// Setup default button behaviour across the entire application
+		table.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
+
 	}   //  initComponentDefaults
 
 	
