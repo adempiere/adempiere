@@ -236,6 +236,8 @@ public class CCheckBox extends JCheckBox implements CEditor {
 	/** Retain value */
 	private Object m_value = null;
 
+	private Object oldValue;
+
 	/**
 	 * Set Editor to value. Interpret Y/N and Boolean
 	 * 
@@ -260,6 +262,7 @@ public class CCheckBox extends JCheckBox implements CEditor {
 			}
 		}
 		this.setSelected(sel);
+		
 	} // setValue
 
 	/**
@@ -366,4 +369,21 @@ public class CCheckBox extends JCheckBox implements CEditor {
 		return null;
 	}
 
+	@Override
+	public boolean hasChanged() {
+		
+		if (oldValue == null && getValue() != null
+			|| oldValue != null && !oldValue.equals(getValue()))
+			return false;
+		else
+			return true;
+		
+	}
+
+	@Override
+	public void set_oldValue() {
+		
+		oldValue = getValue();
+		
+	}
 } // CCheckBox

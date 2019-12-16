@@ -197,6 +197,7 @@ public class CToggleButton extends JToggleButton implements CEditor
 
 	/** Mandatory (default false)   */
 	private boolean m_mandatory = false;
+	private Object oldValue;
 
 	/**
 	 *	Set Editor Mandatory
@@ -284,4 +285,21 @@ public class CToggleButton extends JToggleButton implements CEditor
 		return null;
 	}
 
+	@Override
+	public boolean hasChanged() {
+		
+		if (oldValue == null && getValue() != null
+			|| oldValue != null && !oldValue.equals(getValue()))
+			return false;
+		else
+			return true;
+		
+	}
+
+	@Override
+	public void set_oldValue() {
+		
+		oldValue = getValue();
+		
+	}
 }   //  CToggleButton

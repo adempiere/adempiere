@@ -328,4 +328,16 @@ public class CConnectionEditor extends JComponent
 		return null;
 	}
 
+	@Override
+	public boolean hasChanged() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void set_oldValue() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }   //  CConnectionEditor

@@ -21,7 +21,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.beans.PropertyChangeEvent;
 
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.text.Document;
 
 import org.adempiere.exceptions.ValueChangeListener;
@@ -146,6 +151,7 @@ public class CTextField extends JTextField
 	 *	Set Editor Mandatory
 	 *  @param mandatory true, if you have to enter data
 	 */
+	@Override
 	public void setMandatory (boolean mandatory)
 	{
 		m_mandatory = mandatory;
@@ -165,6 +171,7 @@ public class CTextField extends JTextField
 	 *	Enable Editor
 	 *  @param rw true, if you can enter/select data
 	 */
+	@Override
 	public void setReadWrite (boolean rw)
 	{
 		if (super.isEditable() != rw)
@@ -176,6 +183,7 @@ public class CTextField extends JTextField
 	 *	Is it possible to edit
 	 *  @return true, if editable
 	 */
+	@Override
 	public boolean isReadWrite()
 	{
 		return super.isEditable();
@@ -186,6 +194,7 @@ public class CTextField extends JTextField
 	 *  Set Background based on editable / mandatory / error
 	 *  @param error if true, set background to error color, otherwise mandatory/editable
 	 */
+	@Override
 	public void setBackground (boolean error)
 	{
 		if (error)
@@ -202,6 +211,7 @@ public class CTextField extends JTextField
 	 *  Set Background
 	 *  @param bg background
 	 */
+	@Override
 	public void setBackground (Color bg)
 	{
 		if (bg.equals(getBackground()))
@@ -213,6 +223,7 @@ public class CTextField extends JTextField
 	 *	Set Editor to value
 	 *  @param value value of the editor
 	 */
+	@Override
 	public void setValue (Object value)
 	{
 		if (value == null)
@@ -225,6 +236,7 @@ public class CTextField extends JTextField
 	 *	Return Editor value
 	 *  @return current value
 	 */
+	@Override
 	public Object getValue()
 	{
 		return getText();
@@ -234,6 +246,7 @@ public class CTextField extends JTextField
 	 *  Return Display Value
 	 *  @return displayed String value
 	 */
+	@Override
 	public String getDisplay()
 	{
 		return getText();
@@ -272,6 +285,7 @@ public class CTextField extends JTextField
 	 * The old value must be explicitly set though this call.
 	 * @param m_oldValue
 	 */
+	@Override
 	public void set_oldValue() {
 		this.m_oldValue = getValue();
 	}
@@ -283,10 +297,12 @@ public class CTextField extends JTextField
 	public Object get_oldValue() {
 		return m_oldValue;
 	}
+	
 	/**
 	 * Has the field changed over time?
 	 * @return true if the old value is different than the current.
 	 */
+	@Override
 	public boolean hasChanged() {
 		// Both or either could be null
 		if(getValue() != null)
@@ -318,5 +334,18 @@ public class CTextField extends JTextField
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	/**
+	 *  A hack to make the processKeyBinding method of the JComponent visible publicly.
+	 *  
+	 * @param ks
+	 * @param e
+	 * @param pressed
+	 * @return
+	 */
+	// TODO - @Override? Add to CEditor
+    public boolean processKeyBinding(KeyStroke ks, KeyEvent e, boolean pressed) {
+    	return super.processKeyBinding(ks, e, WHEN_FOCUSED, pressed);
+    }
 
 }   //  CTextField

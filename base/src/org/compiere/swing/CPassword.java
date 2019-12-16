@@ -25,6 +25,7 @@ import javax.swing.text.Document;
 import org.adempiere.exceptions.ValueChangeListener;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.model.GridField;
+import org.compiere.util.CLogger;
 
 /**
  *  Password Field
@@ -38,6 +39,8 @@ public class CPassword extends JPasswordField implements CEditor
 	 * 
 	 */
 	private static final long serialVersionUID = 6516269177469866775L;
+	
+	private CLogger log = CLogger.getCLogger(CPassword.class);
 
 	/**
 	 * Constructs a new <code>JPasswordField</code>,
@@ -51,6 +54,7 @@ public class CPassword extends JPasswordField implements CEditor
 	}
 
 	/**
+	 * Warning: don't use this to pass password values as Strings!!
 	 * Constructs a new <code>JPasswordField</code> initialized
 	 * with the specified text.  The document model is set to the
 	 * default, and the number of columns to 0.
@@ -77,6 +81,7 @@ public class CPassword extends JPasswordField implements CEditor
 	}
 
 	/**
+	 * Warning: don't use this to pass password values as Strings!!
 	 * Constructs a new <code>JPasswordField</code> initialized with
 	 * the specified text and columns.  The document model is set to
 	 * the default.
@@ -121,7 +126,7 @@ public class CPassword extends JPasswordField implements CEditor
 
 	/** Mandatory (default false)   */
 	private boolean m_mandatory = false;
-
+	
 	/**
 	 *	Set Editor Mandatory
 	 *  @param mandatory true, if you have to enter data
@@ -197,7 +202,7 @@ public class CPassword extends JPasswordField implements CEditor
 		if (value == null)
 			setText("");
 		else
-			setText(value.toString());
+			setText(value.toString());  // This is not secure
 	}   //  setValue
 
 	/**
@@ -206,7 +211,7 @@ public class CPassword extends JPasswordField implements CEditor
 	 */
 	public Object getValue()
 	{
-		return new String(super.getPassword());
+		return getPassword();  
 	}   //  getValue
 
 	/**
@@ -215,7 +220,9 @@ public class CPassword extends JPasswordField implements CEditor
 	 */
 	public String getDisplay()
 	{
-		return new String(super.getPassword());
+		// This is dangerous - leaves an immutable string in memory
+		// return new String(super.getPassword());
+		return "";
 	}   //  getDisplay
 
 	@Override
@@ -236,5 +243,17 @@ public class CPassword extends JPasswordField implements CEditor
 		return null;
 	}
 
+	@Override
+	public boolean hasChanged() {
+		
+		// Don't store the value, just assume its changed
+		return true;
+		
+	}
 
+	@Override
+	public void set_oldValue() {
+		
+		// Don't store the value
+	}
 }

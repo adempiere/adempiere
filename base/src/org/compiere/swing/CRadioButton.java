@@ -226,6 +226,8 @@ public class CRadioButton extends JRadioButton implements CEditor {
 	/** Retain value */
 	private Object m_value = null;
 
+	private Object oldValue;
+
 	/**
 	 * Set Editor to value. Interpret Y/N and Boolean
 	 * 
@@ -354,6 +356,24 @@ public class CRadioButton extends JRadioButton implements CEditor {
 	public GridField getField() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public boolean hasChanged() {
+		
+		if (oldValue == null && getValue() != null
+			|| oldValue != null && !oldValue.equals(getValue()))
+			return false;
+		else
+			return true;
+		
+	}
+
+	@Override
+	public void set_oldValue() {
+		
+		oldValue = m_value;
+		
 	}
 
 } // CCheckBox

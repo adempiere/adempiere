@@ -174,6 +174,8 @@ public class CButton extends JButton implements CEditor {
 	/** Read-Write */
 	private boolean m_readWrite = true;
 
+	private Object oldValue;
+
 	/**
 	 * Set Editor Mandatory
 	 * 
@@ -226,6 +228,7 @@ public class CButton extends JButton implements CEditor {
 			setText("");
 		else
 			setText(value.toString());
+		set_oldValue();
 	} // setValue
 
 	/**
@@ -358,5 +361,23 @@ public class CButton extends JButton implements CEditor {
 	public GridField getField() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	@Override
+	public boolean hasChanged() {
+		
+		if (oldValue == null && getValue() != null
+			|| oldValue != null && !oldValue.equals(getValue()))
+			return false;
+		else
+			return true;
+		
+	}
+
+	@Override
+	public void set_oldValue() {
+		
+		oldValue = getValue();
+		
 	}
 } // CButton

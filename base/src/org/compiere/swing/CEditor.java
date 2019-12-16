@@ -26,7 +26,10 @@ import org.compiere.model.GridField;
  *  Adempiere Editor interface
  *
  *  @author     Jorg Janke
- *  @version    $Id: CEditor.java,v 1.2 2006/07/30 00:52:24 jjanke Exp $
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+ *
+ *  @version 3.9.4
  */
 public interface CEditor extends PropertyChangeListener
 {
@@ -89,5 +92,18 @@ public interface CEditor extends PropertyChangeListener
 	public void addValueChangeListener(ValueChangeListener listener);
 
 	public GridField getField();
+
+	/**
+	 * Has the field changed over time?
+	 * @return true if the old value is different than the current.
+	 */
+	public boolean hasChanged();
+
+	/**
+	 * Set the old value of the field.  For use in future comparisons.
+	 * The old value must be explicitly set though this call.
+	 * @param m_oldValue
+	 */
+	public void set_oldValue();
 
 }   //  CEditor
