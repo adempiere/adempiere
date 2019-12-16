@@ -1,16 +1,19 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2007 Adempiere, Inc. All Rights Reserved.                    *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.compiere.swing;
 
 import java.awt.BorderLayout;
@@ -25,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
@@ -101,6 +105,8 @@ public class CColumnControlButton extends JButton {
     TableColumnModelListener columnModelListener;
     /** the list of actions for column menuitems.*/
     private List<ColumnVisibilityAction> columnVisibilityActions;
+    /** A flag to indicate that the popup list needs to be updated later */
+	private boolean updatePopupLater;
 
     /**
      * Creates a column control button for the table. The button
@@ -132,6 +138,11 @@ public class CColumnControlButton extends JButton {
      * Here: delegates to getControlPopup().
      */ 
     public void togglePopup() {
+    	
+    	//  If not visible but in need of an update, do the update now.
+    	if (! ((DefaultColumnControlPopup) getColumnControlPopup()).getPopupMenu().isVisible()
+    			&& updatePopupLater)
+    		this.populatePopup(); 	
         getColumnControlPopup().toggleVisibility(this);
     }
 
@@ -166,6 +177,13 @@ public class CColumnControlButton extends JButton {
          *  user interaction. Hack around #212-swingx.
          */
         private boolean fromColumn;
+        
+        /** 
+         *  A counter to keep track of the "preferred" column index.
+         *  This is used when columns are hidden to keep their place in
+         *  the list 
+         */
+        private int preferredColumnIndex = -1;
 
         /**
          * Creates a action synched to the table column.
@@ -219,15 +237,40 @@ public class CColumnControlButton extends JButton {
             	}
             } else {
             	if (!table.isColumnVisible(column)) {
+            		// When adding a hidden column, the preferred column index of the 
+            		// other columns may be affected.  Adjust these appropriately
+            		int currentIndex = adjustPreferred(preferredColumnIndex);
+            		if (currentIndex >= 0)
+            			table.getColumnAttributesMap().get(column).setViewColIndex(currentIndex);
             		table.setColumnVisibility(column, newValue);
             	}
             }
         }
-
+        
         /**
+         * Adjust the preferred ColumnIndex which is the position in the actions
+         * list to account for any columns which are hidden in lower positions. For
+         * example, if the first ten columns are hidden, the tenth column shouldn't
+         * be made visible in the the tenth position but in the zero position.
+         * @param preferredColumnIndex
+         * @return
+         */
+        private int adjustPreferred(int preferredColumnIndex) {
+        	List<ColumnVisibilityAction> actions = getColumnVisibilityActions();
+        	int indexOffset = 0;
+        	for (int i = 0; i < preferredColumnIndex; i++)
+        	{
+        		if (!actions.get(i).isSelected())
+        			indexOffset++;
+        	}
+			return preferredColumnIndex - indexOffset;
+		}
+
+		/**
          * Does nothing. Synch from action state to TableColumn state
          * is done in itemStateChanged.
          */
+        @Override
         public void actionPerformed(ActionEvent e) {
 
         }
@@ -320,6 +363,29 @@ public class CColumnControlButton extends JButton {
                 }
             };
         }
+
+		/**
+		 * @return the preferredColumnIndex
+		 */
+		public int getPreferredColumnIndex() {
+			return preferredColumnIndex;
+		}
+
+		/**
+		 * Set the preferredColumnIndex where a hidden column will be 
+		 * added to the table model. This may be different than the 
+		 * value in CTable ColumnAttributes if the order of hiding columns
+		 * and unhiding columns is the same. For example, if the first few columns
+		 * are hidden in order, the CTable ColumnAttribute column index will be zero
+		 * for each as the column was in the zero index position when it was hidden.
+		 * If the columns are made visible in the same order, they will appear reversed
+		 * in the table columnModel.  The preferredColumnIndex will override the CTable 
+		 * ColumnAttributes to place the column at the correct index.
+		 * @param preferredColumnIndex the preferredColumnIndex to set
+		 */
+		public void setPreferredColumnIndex(int preferredColumnIndex) {
+			this.preferredColumnIndex = preferredColumnIndex;
+		}
     }
 
     // ---------------------- the popup
@@ -584,6 +650,14 @@ public class CColumnControlButton extends JButton {
      * additional actions.
      */
     protected void populatePopup() {
+    	
+    	// If the popup is visible, don't populate it now. Rather wait until it is next opened.
+    	if (((DefaultColumnControlPopup) getColumnControlPopup()).getPopupMenu().isVisible())
+    	{
+    		updatePopupLater = true;  // When it is next opened.
+    		return;
+    	}
+    	updatePopupLater = false;
         clearAll();
         createVisibilityActions();
         addVisibilityActionItems();
@@ -656,15 +730,66 @@ public class CColumnControlButton extends JButton {
      * @see #createColumnVisibilityAction
      */
     protected void createVisibilityActions() {
-        Enumeration<TableColumn> columns = table.getColumnModel().getColumns();
+        Enumeration<TableColumn> columns = table.getColumnModel().getColumns();  // This will only get the visible columns.
+        Enumeration<TableColumn> hiddenColumns = table.getHiddenColumns(false);  // This gets the hidden columns
+    	TableColumn column;
+    	// Add the columns first - they will be in the visible order
         while(columns.hasMoreElements()) {
-        	TableColumn column = columns.nextElement();
-        	if (column.getHeaderValue() != null) {
-	            ColumnVisibilityAction action = createColumnVisibilityAction(column);
-	            if (action != null) {
-	                getColumnVisibilityActions().add(action);
-	            }
-        	}
+        	column = null;
+    		column = columns.nextElement();
+            ColumnVisibilityAction action = createColumnVisibilityAction(column);
+            if (action != null) {
+                getColumnVisibilityActions().add(action);
+            }
+        }
+
+        //  Check if there are any hidden columns. If not, we are done here.
+        if (hiddenColumns.hasMoreElements())
+        {
+	
+	        //  Add any hidden columns in reverse order to keep their locations in the popup
+	        //  roughly the same to what they originally where. The order will not follow any
+	        //  changes made to the visible column model since the columns where hidden so
+	        //  there is the possibility for confusion. For example, if the columns were manually
+        	//  dragged around after a few were hidden.
+        	// 
+        	//  We need to enumerate the hiddenColumns list in reverse. First, 
+        	//  convert the Enumeration to an ArrayList
+	        ArrayList<TableColumn> hidden = Collections.list(hiddenColumns);
+	        
+	        //  The size as a parameter to listIterator sets the starting position at the end.
+	        @SuppressWarnings("rawtypes")
+			ListIterator hiddenColumnIterator = hidden.listIterator(hidden.size());
+	        
+	        while(hiddenColumnIterator.hasPrevious()) 
+	        {
+	        	int index = getColumnVisibilityActions().size();  //  Default, add to the end
+	        	column = (TableColumn) hiddenColumnIterator.previous();
+	        	if (table.isColumnVisible(column, true)) {  //  Add the column if not permanently hidden
+		            ColumnVisibilityAction action = createColumnVisibilityAction(column);
+		            CTable.ColumnAttributes attributes = table.getColumnAttributesMap().get(column);
+		            if (attributes != null)
+		            {
+		            	index = attributes.getOriginalViewColIndex();
+		            	// Check the index against the bounds to prevent an IndexOutOfBounds exceptions
+		            	if (index < 0)
+		            		index = 0;
+		            	if (index > getColumnVisibilityActions().size())
+		            		index = getColumnVisibilityActions().size();
+		            }
+		            if (action != null) 
+		            {
+		                getColumnVisibilityActions().add(index, action);
+		            }
+	        	}
+	        }
+        }
+        
+        // After all the columns are added, we need to update the preferredColumnIndex of each
+        List<ColumnVisibilityAction> actions = getColumnVisibilityActions();
+        for (int i=0; i<actions.size(); i++)
+        {
+        	actions.get(i).setPreferredColumnIndex(i);
         }
 
     }
@@ -703,7 +828,8 @@ public class CColumnControlButton extends JButton {
      * @return a list containing all additional actions to include into the popup.
      */
     protected List<Action> getAdditionalActions() {
-        List actionKeys = getColumnControlActionKeys();
+        @SuppressWarnings("rawtypes")
+		List actionKeys = getColumnControlActionKeys();
         List<Action> actions = new ArrayList<Action>();
         for (Object key : actionKeys) {
           actions.add(table.getActionMap().get(key));
@@ -721,11 +847,12 @@ public class CColumnControlButton extends JButton {
      * @return the action keys of table's actionMap entries whose
      *   action should be included into the popup.
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     protected List getColumnControlActionKeys() {
         Object[] allKeys = table.getActionMap().allKeys();
-        List columnKeys = new ArrayList();
-        for (int i = 0; i < allKeys.length; i++) {
+        
+        List columnKeys = new ArrayList<Object>();
+        for (int i = 0; allKeys != null && i < allKeys.length; i++) {
             if (isColumnControlActionKey(allKeys[i])) {
                 columnKeys.add(allKeys[i]);
             }
@@ -769,7 +896,8 @@ public class CColumnControlButton extends JButton {
         setFocusable(false);
         // this is a trick to get hold of the client prop which
         // prevents closing of the popup
-        JComboBox box = new JComboBox();
+        @SuppressWarnings("rawtypes")
+		JComboBox box = new JComboBox();
         Object preventHide = box.getClientProperty("doNotCancelPopup");
         putClientProperty("doNotCancelPopup", preventHide);
     }
@@ -873,6 +1001,7 @@ public class CColumnControlButton extends JButton {
 
             /** Tells listeners that a column was repositioned. */
             public void columnMoved(TableColumnModelEvent e) {
+            	populatePopup();
             }
 
             /** Tells listeners that a column was moved due to a margin change. */

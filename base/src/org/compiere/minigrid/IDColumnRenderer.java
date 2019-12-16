@@ -22,10 +22,13 @@ import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
+
+import org.compiere.grid.ed.VCellRenderer;
 
 /**
  *  ID Column Renderer
@@ -34,8 +37,9 @@ import javax.swing.table.DefaultTableCellRenderer;
  *  @author Michael McKay, 
  * 		<li><a href="https://adempiere.atlassian.net/browse/ADEMPIERE-241">ADMPIERE-241</a> Adding Select All checkbox to table header.
  *		<li>release/380 - fix row selection event handling to fire single event per row selection
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
  *
- * 	@version 	$Id: IDColumnRenderer.java,v 1.3 2013/11/03 $
+ * 	@version 3.9.4
  */
 public class IDColumnRenderer extends DefaultTableCellRenderer
 {
@@ -58,6 +62,7 @@ public class IDColumnRenderer extends DefaultTableCellRenderer
 			m_check = new JCheckBox();
 			m_check.setMargin(new Insets(0,0,0,0));
 			m_check.setHorizontalAlignment(JLabel.CENTER);
+			m_check.setBorderPainted(true);
 			// Set client properties to prevent sorting based on ID
 			this.putClientProperty("SortColumn", Boolean.FALSE);
 		}
@@ -112,11 +117,19 @@ public class IDColumnRenderer extends DefaultTableCellRenderer
 	 */
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
 	{
+		JComponent c;
 		setValue(value);
 		if (m_multiSelection)
-			return m_check;
+			c = m_check;
 		else
-			return m_button;
+			c = m_button;
+		
+		// Sets borders and colors
+		VCellRenderer.setColorsAndFont(c, table, null, value, row, column, isSelected, hasFocus, m_multiSelection, ui);
+		VCellRenderer.setBorders(c, table, row, column, isSelected, hasFocus, m_multiSelection, ui);
+		
+		return c;
+		
 	}   //  setTableCellRenderereComponent
 
 	public void addChangeListener(ChangeListener listener)

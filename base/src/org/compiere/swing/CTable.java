@@ -1,19 +1,19 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.compiere.swing;
 
 import java.awt.Component;
@@ -26,6 +26,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JViewport;
@@ -46,9 +48,10 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.grid.MultiSelectionTableModel;
 import org.compiere.util.MSort;
 import org.jdesktop.swingx.icon.ColumnControlIcon;
 
@@ -58,9 +61,10 @@ import org.jdesktop.swingx.icon.ColumnControlIcon;
  * 
  * @author	Jorg Janke * 
  * @author	Teo Sarca, SC ARHIPAC SERVICE SRL - BF [ 1585369 ], FR [ 1753943 ]
- * @author Michael McKay, 
+ * @author Michael McKay, mckayERP@gmail.com
  * 				<li><a href="https://adempiere.atlassian.net/browse/ADEMPIERE-72">ADEMPIERE-72</a> VLookup and Info Window improvements
  * 				<li><a href="https://adempiere.atlassian.net/browse/ADEMPIERE-241">ADMPIERE-241</a> Adding Select All checkbox to table header
+ *  			<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
  * 					
  * @version	$Id: CTable.java,v 1.3 2013/11/03 $
  */
@@ -76,7 +80,7 @@ public class CTable extends JTable
 	 */
 	public CTable()
 	{
-		super(new DefaultTableModel());
+		super(new MultiSelectionTableModel());
 		setColumnSelectionAllowed(false);
 		setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION); // teo_sarca - FR [ 1753943 ]
 		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
@@ -87,6 +91,8 @@ public class CTable extends JTable
 		
 		setColumnControlVisible(true);
 		addHierarchyListener(createHierarchyListener());
+		this.setOpaque(false); // Needed for fixed columns
+		
 	}	//	CTable
 
 	private HierarchyListener createHierarchyListener() {
@@ -133,12 +139,23 @@ public class CTable extends JTable
      * an enclosing <code>JScrollPane</code>.
      */
     private JComponent columnControlButton;
-    
+
+    /**
+     * The list of columns hidden by the user
+     */
     private List<TableColumn> hiddenColumns = new ArrayList<TableColumn>();
     
+    /**
+     * The list of columns hidden by the system
+     */
+    private List<TableColumn> permanentlyHiddenColumns = new ArrayList<TableColumn>();
+
     private Map<TableColumn, ColumnAttributes> columnAttributesMap
     	= new HashMap<TableColumn, ColumnAttributes>();
     
+	/**	Popup Menu				*/
+	public JPopupMenu 					popupMenu = new JPopupMenu();
+	
 	/**
 	 * 	Set Model index of Key Column.
 	 *  If not set, column 0 is used.
@@ -147,6 +164,10 @@ public class CTable extends JTable
 	public void setKeyColumnIndex (int keyColumnIndex)
 	{
 		p_keyColumnIndex = keyColumnIndex;
+		if (getModel() instanceof MultiSelectionTableModel)
+		{
+			((MultiSelectionTableModel) getModel()).setKeyColumnIndex(keyColumnIndex);
+		}
 	}	//	setKeyColumnIndex
 
 	/**
@@ -201,7 +222,7 @@ public class CTable extends JTable
 		if (getInputContext() != null)
 			getInputContext().endComposition();
 		//  change focus to next
-		transferFocus();
+//		transferFocus();
 	}   //  stopEditor
 
 	
@@ -213,18 +234,26 @@ public class CTable extends JTable
 	public void autoSize (boolean useColumnIdentifier)
 	{
 		TableModel model = this.getModel();
-		int size = model.getColumnCount();
+		int size = model.getColumnCount();  // This is the model count, not the view
 		//	for all columns
 		for (int c = 0; c < size; c++)
 		{
-			TableColumn column = getColumnModel().getColumn(c);
-			//	Not displayed columns
+			int viewColumnIndex = this.convertColumnIndexToView(c);
+			if (viewColumnIndex == -1)
+				continue; // The column is not displayed so no need to resize it.
+			
+			TableColumn column = getColumnModel().getColumn(viewColumnIndex);
+			
+			//  No need to resize a column based on the column identifier
+			//  if the is identifier is null, implying the header value is
+			//  also null or the identifier/header value is empty or the 
+			//  column width is zero.
 			if (useColumnIdentifier
 				&& (column.getIdentifier() == null
 					|| column.getMaxWidth() == 0
 					|| column.getIdentifier().toString().length() == 0))
 				continue;
-			
+
 			int width = 0;
 			//	Header
 			TableCellRenderer renderer = column.getHeaderRenderer();
@@ -241,15 +270,14 @@ public class CTable extends JTable
 				width = Math.max(width, comp.getWidth());
 
 				//	Cells
-				int col = column.getModelIndex();
 				int maxRow = Math.min(20, getRowCount());
 				try
 				{
-					for (int row = 0; row < maxRow; row++)
+					for (int viewRowIndex = 0; viewRowIndex < maxRow; viewRowIndex++)
 					{
-						renderer = getCellRenderer(row, col);
+						renderer = getCellRenderer(viewRowIndex, viewColumnIndex);
 						comp = renderer.getTableCellRendererComponent
-							(this, getValueAt(row, col), false, false, row, col);
+							(this, getValueAt(viewRowIndex, viewColumnIndex), false, false, viewRowIndex, viewColumnIndex);
 						if (comp != null) 
 						{
 							int rowWidth = comp.getPreferredSize().width;
@@ -345,64 +373,66 @@ public class CTable extends JTable
 			selected = getValueAt(selRow, selCol);
 
 		//  Prepare sorting
-		DefaultTableModel model = (DefaultTableModel)getModel();
-		final MSort sort = new MSort(0, null);
-		sort.setSortAsc(p_asc);
-		/* teo_sarca: commented: [ 1585369 ] CTable sorting is TOO LAZY *
-		//  while something to sort
-		sorting:
-		while (true)
+		if (getModel() instanceof DefaultTableModel)
 		{
-			//  Create sortList
-			ArrayList<MSort> sortList = new ArrayList<MSort>(rows);
-			//	fill with data entity
-			for (int i = 0; i < rows; i++)
+			MultiSelectionTableModel model = (MultiSelectionTableModel)getModel();
+			final MSort sort = new MSort(0, null);
+			sort.setSortAsc(p_asc);
+			/* teo_sarca: commented: [ 1585369 ] CTable sorting is TOO LAZY *
+			//  while something to sort
+			sorting:
+			while (true)
 			{
-				Object value = model.getValueAt(i, modelColumnIndex);
-				sortList.add(new MSort(i, value));
-			}
-			//	sort list it
-			Collections.sort(sortList, sort);
-			//  move out of sequence row
-			for (int i = 0; i < rows; i++)
-			{
-				int index = ((MSort)sortList.get(i)).index;
-				if (i != index)
+				//  Create sortList
+				ArrayList<MSort> sortList = new ArrayList<MSort>(rows);
+				//	fill with data entity
+				for (int i = 0; i < rows; i++)
 				{
-		//			log.config( "move " + i + " to " + index);
-					model.moveRow(i,i, index);
-					continue sorting;
+					Object value = model.getValueAt(i, modelColumnIndex);
+					sortList.add(new MSort(i, value));
 				}
-			}
-			//  we are done
-		//	log.config("done");
-			break;
-		}   //  while something to sort
-		*/
-		// teo_sarca: [ 1585369 ] CTable sorting is TOO LAZY
-		Collections.sort(model.getDataVector(), new Comparator<Object>() {
-			public int compare(Object o1, Object o2) {
-				Object item1 = ((Vector)o1).get(modelColumnIndex);
-				Object item2 = ((Vector)o2).get(modelColumnIndex);
-				return sort.compare(item1, item2);
-			}
-		});
-		
-		//  selection
-		clearSelection();
-		if (selected != null)
-		{
-			for (int r = 0; r < rows; r++)
-			{
-				if (selected.equals(getValueAt(r, selCol)))
+				//	sort list it
+				Collections.sort(sortList, sort);
+				//  move out of sequence row
+				for (int i = 0; i < rows; i++)
 				{
-					setRowSelectionInterval(r,r);
-					scrollRectToVisible(getCellRect(r, modelColumnIndex, true)); // teo_sarca: bug fix [ 1585369 ] 
-					break;
+					int index = ((MSort)sortList.get(i)).index;
+					if (i != index)
+					{
+			//			log.config( "move " + i + " to " + index);
+						model.moveRow(i,i, index);
+						continue sorting;
+					}
 				}
-			}
-		}   //  selected != null
-		
+				//  we are done
+			//	log.config("done");
+				break;
+			}   //  while something to sort
+			*/
+			// teo_sarca: [ 1585369 ] CTable sorting is TOO LAZY
+			Collections.sort(model.getDataVector(), new Comparator<Object>() {
+				public int compare(Object o1, Object o2) {
+					Object item1 = ((Vector<?>)o1).get(modelColumnIndex);
+					Object item2 = ((Vector<?>)o2).get(modelColumnIndex);
+					return sort.compare(item1, item2);
+				}
+			});
+			
+			//  selection
+			clearSelection();
+			if (selected != null)
+			{
+				for (int r = 0; r < rows; r++)
+				{
+					if (selected.equals(getValueAt(r, selCol)))
+					{
+						setRowSelectionInterval(r,r);
+						scrollRectToVisible(getCellRect(r, selCol, true)); // teo_sarca: bug fix [ 1585369 ] 
+						break;
+					}
+				}
+			}   //  selected != null
+		}
 		sorting = false;
 	}   //  sort
 
@@ -448,7 +478,6 @@ public class CTable extends JTable
 	class CTableMouseListener extends MouseAdapter
 	{
 		private TableColumn cachedResizingColumn = null;
-
 		/**
 		 *  Constructor
 		 */
@@ -463,6 +492,9 @@ public class CTable extends JTable
 		 */
 		public void mouseClicked (MouseEvent e)
 		{
+			if (e.getButton() == MouseEvent.BUTTON3)
+				return;
+			
 			if (isInResizeRegion(e))
 			{
 				if (e.getClickCount() == 2)
@@ -471,13 +503,21 @@ public class CTable extends JTable
 			}
 			else
 			{
+				// Get the view model
 				int vc = getColumnModel().getColumnIndexAtX(e.getX());
-			//	log.info( "Sort " + vc + "=" + getColumnModel().getColumn(vc).getHeaderValue());
+				
+				if (vc == -1) // Shouldn't happen but in case
+					return;
+				
+				//	log.info( "Sort " + vc + "=" + getColumnModel().getColumn(vc).getHeaderValue());
+				// Convert the view to the model
 				int mc = convertColumnIndexToModel(vc);
+				
 				TableColumn column = getTableHeader().getResizingColumn();
 				if (column != null) return;
 
-				Object renderer = getColumnModel().getColumn(mc).getCellRenderer();
+				// Get the view renderer
+				Object renderer = getColumnModel().getColumn(vc).getCellRenderer();
 				boolean sort = true;
 				if(renderer instanceof DefaultTableCellRenderer)
 				{
@@ -493,9 +533,20 @@ public class CTable extends JTable
 		public void mouseReleased(MouseEvent e) {
             cacheResizingColumn(e);
         }
-
-        public void mousePressed(MouseEvent e) {
+ 
+		public void mousePressed(MouseEvent e) {
             cacheResizingColumn(e);
+        }
+
+        public void mouseEntered(MouseEvent e) {
+        }
+
+        public void mouseExited(MouseEvent e) {
+            uncacheResizingColumn();
+        }
+
+        public void mouseDragged(MouseEvent e) {
+            uncacheResizingColumn();
         }
 
         private void cacheResizingColumn(MouseEvent e) {
@@ -513,20 +564,9 @@ public class CTable extends JTable
             return cachedResizingColumn != null; // inResize;
         }
 
-        public void mouseEntered(MouseEvent e) {
-        }
-
-        public void mouseExited(MouseEvent e) {
-            uncacheResizingColumn();
-        }
-
-        public void mouseDragged(MouseEvent e) {
-            uncacheResizingColumn();
-        }
-
 	}	//  CTableMouseListener
 
-	
+		
 	@Override
 	public void setFont(Font font) {
 		super.setFont(font);
@@ -668,25 +708,61 @@ public class CTable extends JTable
     }
 
     /**
-     * 
-     * @param column
-     * @return boolean
+     * Is the column visible?  Columns can be hidden either temporarily by the user
+     * or permanently by the system.
+     * @param column The column to check
+     * @return true if the column is visible
      */
 	public boolean isColumnVisible(TableColumn column) 
 	{
-		return !hiddenColumns.contains(column);
+		return isColumnVisible(column, false);
 	}
-	
+
 	/**
-	 * Hide or show column
+     * Determines if the column visible. Columns can be hidden either temporarily by the user
+     * or permanently by the system.
+     * @param column
+     * @param permanent - true if the check is limited to permanent visibility. False 
+     * if the check is limited to temporary visibility that the user can control.
+     * 
+     * @return true if the column is visible
+     */
+	public boolean isColumnVisible(TableColumn column, boolean permanent) 
+	{
+		if (permanent)
+			return !permanentlyHiddenColumns.contains(column);
+		else
+			return !hiddenColumns.contains(column) && !permanentlyHiddenColumns.contains(column);
+	}
+
+	/**
+	 * Hide or show column - this is not permanent, meaning the user
+	 * can control the visibility with the column control feature.
 	 * @param column
 	 * @param visible
 	 */
 	public void setColumnVisibility(TableColumn column, boolean visible) 
 	{
+		setColumnVisibility(column, visible, false);
+	}
+	
+	/**
+	 * Hide or show column.  The column is either visible, permanently invisible or
+	 * temporarily (the user can decide) hidden.  There is no settings for permanently
+	 * visible.  Hiding a column removes it from the table's view model but keeps the
+	 * column in the table data model.
+	 * @param column
+	 * @param visible
+	 * @param permanent true to keep the column invisible and not display it in the 
+	 * column control.
+	 */
+	public void setColumnVisibility(TableColumn column, boolean visible, boolean permanent) 
+	{
 		if (visible)
 		{
-			if (isColumnVisible(column)) return;
+			if (isColumnVisible(column) || (!permanent && permanentlyHiddenColumns.contains(column))) 
+				return;
+			
 			ColumnAttributes attributes = columnAttributesMap.get(column);
 			if (attributes == null) return;
 			
@@ -697,6 +773,20 @@ public class CTable extends JTable
 			column.setPreferredWidth(attributes.preferredWidth);
 			columnAttributesMap.remove(column);
 			hiddenColumns.remove(column);
+			permanentlyHiddenColumns.remove(column);
+
+			//  Adding the column fires events that may need
+			//  to access the arrays above. Do this last.
+			this.addColumn(column);
+			
+			// Move it to its original position
+			int moveIndex = attributes.originalViewColIndex;
+			if (attributes.newViewColIndex >= 0)
+				moveIndex = attributes.newViewColIndex;
+			
+			if (attributes.originalViewColIndex >= 0 && attributes.originalViewColIndex < this.getColumnCount())
+				this.moveColumn(this.getColumnCount()-1, moveIndex);
+
 		}
 		else 
 		{
@@ -708,41 +798,102 @@ public class CTable extends JTable
 			attributes.minWidth = column.getMinWidth();
 			attributes.maxWidth = column.getMaxWidth();
 			attributes.preferredWidth = column.getPreferredWidth();
+			
+			TableColumnModel tcm = this.getColumnModel();
+			Enumeration<TableColumn> columns = tcm.getColumns();
+			int index = -1;
+			while(columns.hasMoreElements())
+			{
+				index++;
+				if (columns.nextElement().equals(column))
+				{
+					break;
+				}
+			}
+			attributes.originalViewColIndex = index;
+			
 			columnAttributesMap.put(column, attributes);
 			
-			if ( !(column.getCellEditor() instanceof TableCellNone) )
-			{
-				TableCellNone h = new TableCellNone(column.getIdentifier() != null ?
-						column.getIdentifier().toString() : column.getHeaderValue().toString());
-				column.setCellEditor(h);
-				column.setCellRenderer(h);
-				column.setMinWidth(0);
-				column.setMaxWidth(0);            	
-				column.setPreferredWidth(0);
-			}
-        	hiddenColumns.add(column);
+			if (permanent)
+				permanentlyHiddenColumns.add(column);
+			else
+				hiddenColumns.add(column);
+			
+			//  Removing the column fires events so do this after 
+			//  adding the column to the arrays above.
+			this.removeColumn(column);
 		}
 	}
 	
-	public Component prepareRenderer(TableCellRenderer renderer, int rowIndex,
-			int vColIndex) {
-		Component c = super.prepareRenderer(renderer, rowIndex, vColIndex);
-		if (c==null) return c;
-		if (!this.isCellEditable(rowIndex, vColIndex) || isCellSelected(rowIndex, vColIndex))
-			return c; 
-		if (rowIndex % 2 == 0) { 
-			c.setBackground(AdempierePLAF.getFieldBackground_Selected());
-		} else {
-			// If not shaded, match the table's background
-			c.setBackground(getBackground());
-		}
-		return c; 
-	}
-	
-	class ColumnAttributes {
+	/** 
+	 * A class to hold column Attributes so that the columns can
+	 * be removed from the view model or added back to the view model
+	 * intelligently
+	 *
+	 */
+	public class ColumnAttributes {
+		
 		protected TableCellEditor cellEditor;
 
-    	protected TableCellRenderer cellRenderer;
+    	/**
+		 * @return the cellEditor
+		 */
+		public TableCellEditor getCellEditor() {
+			return cellEditor;
+		}
+
+		/**
+		 * @return the cellRenderer
+		 */
+		public TableCellRenderer getCellRenderer() {
+			return cellRenderer;
+		}
+
+		/**
+		 * @return the headerValue
+		 */
+		public Object getHeaderValue() {
+			return headerValue;
+		}
+
+		/**
+		 * @return the minWidth
+		 */
+		public int getMinWidth() {
+			return minWidth;
+		}
+
+		/**
+		 * @return the maxWidth
+		 */
+		public int getMaxWidth() {
+			return maxWidth;
+		}
+
+		/**
+		 * @return the preferredWidth
+		 */
+		public int getPreferredWidth() {
+			return preferredWidth;
+		}
+
+		/**
+		 * @return the originalViewColIndex
+		 */
+		public int getOriginalViewColIndex() {
+			return originalViewColIndex;
+		}
+
+		/**
+		 * Change where the column will appear when it is made visible
+		 * again.
+		 * @param viewColIndex the index in the Column Model where the column should be added
+		 */
+		public void setViewColIndex(int viewColIndex) {
+			this.newViewColIndex = viewColIndex;
+		}
+
+		protected TableCellRenderer cellRenderer;
 
 		protected Object headerValue;
 
@@ -751,6 +902,32 @@ public class CTable extends JTable
 		protected int maxWidth;
 
 		protected int preferredWidth;
+		
+		protected int originalViewColIndex;
+		
+		protected int newViewColIndex = -1;
 	}
+
+
+	/**
+	 * Gets the enumerated list of hidden columns.  Columns can be hidden permanently or
+	 * temporarily by the user.
+	 * @param permanent true if the permanent list should be returned. False for the temporary list.
+	 * @return An enumerated list of TableColumn
+	 */
+	public Enumeration<TableColumn> getHiddenColumns(boolean permanent) {
+		if (permanent)
+			return Collections.enumeration(permanentlyHiddenColumns);
+		else
+			return Collections.enumeration(hiddenColumns);
+	}
+
+	/**
+	 * @return the columnAttributesMap
+	 */
+	public Map<TableColumn, ColumnAttributes> getColumnAttributesMap() {
+		return columnAttributesMap;
+	}
+
 
 }	//	CTable

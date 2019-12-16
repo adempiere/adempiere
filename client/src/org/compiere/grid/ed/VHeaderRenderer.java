@@ -1,19 +1,19 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.compiere.grid.ed;
 
 import java.awt.Component;
@@ -38,6 +38,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.grid.VTable;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.MiniTable;
 import org.compiere.model.GridField;
@@ -55,13 +56,15 @@ import org.compiere.util.Env;
  * 		<li><a href="https://adempiere.atlassian.net/browse/ADEMPIERE-241">ADMPIERE-241</a> Adding Select All checkbox to table header.
  * 			Based on work by Michael Dunn as <a hfre="http://www.coderanch.com/t/343795/GUI/java/Check-Box-JTable-header">posted in coderanch.com</a>
  * 		<li>release/380 - fix row selection event handling to fire single event per row selection
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
  * 
- *  @version 	$Id: VHeaderRenderer.java,v 1.3 2013/11/03 00:51:28
+ *  @version 3.9.4
  */
 public final class VHeaderRenderer implements TableCellRenderer, MouseListener, ChangeListener 
 {
+
 	private Integer	prefWidth;
-	
+
 	//  for 3D effect in Windows and single selection or no selection
 	private CButton m_button; 
 	// The Multi-Selection renderer 
@@ -69,7 +72,7 @@ public final class VHeaderRenderer implements TableCellRenderer, MouseListener, 
 
 	private int m_alignment;
 	private JLabel	m_label;
-	private boolean m_multiSelection = false;
+	private boolean allowsMultiSelection = false;
 
 	private JTable m_table;
 	private int m_column;
@@ -77,7 +80,7 @@ public final class VHeaderRenderer implements TableCellRenderer, MouseListener, 
 	private boolean mousePressed;
 
 	private boolean m_headerOnly;
-		
+
 	public VHeaderRenderer() 
 	{
 		// Assumes no multi-selection
@@ -86,7 +89,7 @@ public final class VHeaderRenderer implements TableCellRenderer, MouseListener, 
 		m_button.setMargin(new Insets(0,0,0,0));
 		m_button.putClientProperty("Plastic.is3D", Boolean.FALSE);
 	}
-	
+
 	/**
 	 * Constructor for multi-selection.  To be used as the header
 	 * for the IDColumnRenderer in multi-selection.
@@ -96,15 +99,19 @@ public final class VHeaderRenderer implements TableCellRenderer, MouseListener, 
 	public VHeaderRenderer(boolean multiSelection)
 	{
 		super();
-		m_multiSelection = multiSelection;
-		if (m_multiSelection)
+		allowsMultiSelection = multiSelection;
+		if (allowsMultiSelection)
 		{
 			m_button = null;
 			m_check = new JCheckBox();
 			m_check.setMargin(new Insets(0,0,0,0));
 			m_check.setHorizontalAlignment(JLabel.CENTER);
 			m_check.addItemListener(new MyItemListener());
+			m_check.setFocusable(allowsMultiSelection);
+			m_check.setBorderPainted(true);
+			m_check.setEnabled(true);
 			m_alignment = JLabel.CENTER;
+
 		}
 		else
 			m_alignment = JLabel.RIGHT;
@@ -125,13 +132,13 @@ public final class VHeaderRenderer implements TableCellRenderer, MouseListener, 
 			m_alignment = JLabel.CENTER;
 		else
 			m_alignment = JLabel.LEFT;
-		
+
 		m_label = new JLabel();
 		if (mField.getPreferredWidthInListView()!=0) {
 			prefWidth = mField.getPreferredWidthInListView();
 		}
 	}
-	
+
 	/**
 	 *	Constructor
 	 *  @param displayType
@@ -139,67 +146,105 @@ public final class VHeaderRenderer implements TableCellRenderer, MouseListener, 
 	public VHeaderRenderer(int displayType)
 	{
 		super();
-		//	Alignment
-		if (DisplayType.isNumeric(displayType))
+		//	Alignment - right for both numeric and date types
+		if (DisplayType.isNumeric(displayType) || DisplayType.isDate(displayType))
 			m_alignment = JLabel.RIGHT;
 		else if (displayType == DisplayType.YesNo)
 			m_alignment = JLabel.CENTER;
 		else
 			m_alignment = JLabel.LEFT;
 	}	//	VHeaderRenderer
-	
-	  class MyItemListener implements ItemListener  
-	  {  
-	    public void itemStateChanged(ItemEvent e) {  
-	      Object source = e.getSource();  
-	      //  
-	      if (source instanceof AbstractButton == false) return;
-	      if (m_headerOnly) {
-	    	  m_headerOnly = false;
-	    	  return;
-	      }
-	      //  
-	      boolean checked = e.getStateChange() == ItemEvent.SELECTED;  
-	      for(int x = 0, y = m_table.getRowCount(); x < y; x++)  
-	      { 
-	    	Object data = m_table.getValueAt(x, m_column);
-			if (data instanceof IDColumn)
-			{
-				IDColumn record = (IDColumn)data;
-				record.setSelected(checked);
-				m_table.setValueAt(record,x,m_column);
+
+	/**
+	 * Responds to select all/deselect all events.  Since 3.9.4, the capability
+	 * was added to VTables as well as the MiniTable.
+	 * 
+	 * @author Michael McKay, mckayERP@gmail.com
+	 * 
+	 */
+	class MyItemListener implements ItemListener  
+	{  
+		public void itemStateChanged(ItemEvent e) { 
+
+			Object source = e.getSource();  
+			//  
+			if (source instanceof AbstractButton == false) return;
+			if (m_headerOnly) {
+				m_headerOnly = false;
+				return;
 			}
-			else if (data instanceof Boolean)
+			//  
+			boolean checked = e.getStateChange() == ItemEvent.SELECTED;
+
+			// There are multiple calls per event.  Reject the 2nd one.
+			Object currentValue = m_table.getColumnModel().getColumn(m_column).getHeaderValue();
+			if (currentValue instanceof Boolean && ((Boolean) currentValue).booleanValue() == checked)
+				return;
+			if (currentValue instanceof String && ((String) currentValue).equals(checked ? "Y":"N"))
+				return;
+
+			m_table.getColumnModel().getColumn(m_column).setHeaderValue(checked);
+			m_table.getTableHeader().repaint();
+
+			// Set a flag in the table that a select all event is underway
+			if (m_table instanceof VTable)
 			{
-				boolean record = (Boolean) data;
-				record = checked;
-				m_table.setValueAt(record, x, m_column);
+				((VTable) m_table).setSelectingAll(checked);
+				((VTable) m_table).setDeselectingAll(!checked);
+				((VTable) m_table).fireSelectAllEvent(checked, true);
 			}
-	      }
-	      ((MiniTable) m_table).fireRowSelectionEvent();
-	    }
-	  }
-	
+
+			for(int x = 0, y = m_table.getRowCount(); x < y; x++)  
+			{ 
+				Object data = m_table.getValueAt(x, m_column);
+				if (data instanceof IDColumn)
+				{
+					IDColumn record = (IDColumn)data;
+					record.setSelected(checked);
+					m_table.setValueAt(record,x,m_column);
+				}
+				else if (data instanceof Boolean)
+				{
+					boolean record = (Boolean) data;
+					record = checked;
+					m_table.setValueAt(record, x, m_column);
+				}
+			}
+			if (m_table instanceof MiniTable)
+				((MiniTable) m_table).fireRowSelectionEvent();
+
+			// Reset the flag in the table that a select all event is done
+			if (m_table instanceof VTable)
+			{
+				((VTable) m_table).setSelectingAll(false);
+				((VTable) m_table).setDeselectingAll(false);
+				((VTable) m_table).fireSelectAllEvent(false, false);  // Terminate the event.
+
+			}
+
+		}
+	}
+
 	/**
 	 * Change listener for the checkboxes in IDColumns 
 	 */
-    public void stateChanged(ChangeEvent e) 
-    {  
-      Object source = e.getSource();  
-      //
-      if (source instanceof AbstractButton == false) return;
-      //
-      
-      boolean checked = ((JCheckBox) source).isSelected();
-      if (!checked && m_check.isSelected())
-      {
-    	  m_headerOnly = true;
-    	  m_check.setSelected(false);
-    	  m_table.getTableHeader().repaint();
-      }
-    }
-    
-    
+	public void stateChanged(ChangeEvent e) 
+	{  
+		Object source = e.getSource();  
+		//
+		if (source instanceof AbstractButton == false) return;
+		//
+
+		boolean checked = ((JCheckBox) source).isSelected();
+		if (!checked && m_check.isSelected() && ! source.equals(m_check))
+		{
+			m_headerOnly = true;
+			m_table.getColumnModel().getColumn(m_column).setHeaderValue(false);
+			m_table.getTableHeader().repaint();
+		}
+	}
+
+
 	/**
 	 *	Get TableCell RendererComponent
 	 *  @param table
@@ -211,7 +256,7 @@ public final class VHeaderRenderer implements TableCellRenderer, MouseListener, 
 	 *  @return Button
 	 */
 	public Component getTableCellRendererComponent(JTable table, Object value,
-		boolean isSelected, boolean hasFocus, int row, int column)
+			boolean isSelected, boolean hasFocus, int row, int column)
 	{
 		//  indicator for invisible column
 		Icon icon = null;
@@ -223,8 +268,8 @@ public final class VHeaderRenderer implements TableCellRenderer, MouseListener, 
 			if (cTable.getSortColumn() == table.convertColumnIndexToModel(column))
 			{
 				icon = cTable.isSortAscending() 
-					? Env.getImageIcon2("uparrow")
-					: Env.getImageIcon2("downarrow");
+						? Env.getImageIcon2("uparrow")
+								: Env.getImageIcon2("downarrow");
 			}
 		}
 
@@ -249,7 +294,7 @@ public final class VHeaderRenderer implements TableCellRenderer, MouseListener, 
 		 */
 		if (m_button==null && m_check==null) {
 			m_label.setHorizontalAlignment(m_alignment);
-			
+
 			if (value == null) 
 				m_label.setPreferredSize(new Dimension(0,0));
 			else {
@@ -261,25 +306,35 @@ public final class VHeaderRenderer implements TableCellRenderer, MouseListener, 
 			}
 			m_label.setIcon(icon);
 			m_label.setHorizontalTextPosition(SwingConstants.LEADING);
+			if (value instanceof String)
+				m_label.setText((String) value); 
 			return m_label;
 		}
-		
+
 		/**
 		 * VHeaderRenderer has been created with multi-selection true
 		 */
 		if (m_button==null) {
-		    if (table != null) {
-		        JTableHeader header = table.getTableHeader();  
-		        if (header != null) {  
-			        m_check.setForeground(header.getForeground());  
-			        m_check.setBackground(header.getBackground());  
-			        m_check.setBorder(new MatteBorder(0, 0, 1, 1, AdempierePLAF.getSecondary1()) );
-			        m_check.setFont(header.getFont()); 
-			        m_check.setBorderPainted(true);
-			        m_check.setEnabled(true);
-			        header.addMouseListener(this); 
-		        }
-		    }
+			if (table != null) {
+				JTableHeader header = table.getTableHeader();  
+				if (header != null) {  
+					m_check.setForeground(header.getForeground());  
+					if (hasFocus)
+					{
+						m_check.setBackground(table.getSelectionBackground());
+					}
+					else
+					{
+						m_check.setBackground(header.getBackground());  
+						m_check.setBorder(new MatteBorder(0, 0, 1, 1, AdempierePLAF.getSecondary1()) );
+					}
+					m_check.setFont(header.getFont());
+					if (value instanceof String)
+						m_check.setSelected("YN".contains((String) value));
+					else if (value instanceof Boolean)
+						m_check.setSelected((Boolean) value);
+				}
+			}
 			return m_check;
 		} else {
 			/**
@@ -299,44 +354,43 @@ public final class VHeaderRenderer implements TableCellRenderer, MouseListener, 
 
 	protected void handleClickEvent(MouseEvent e) {  
 		JTableHeader header = (JTableHeader)(e.getSource());  
-	    JTable tableView = header.getTable();  
-	    TableColumnModel columnModel = tableView.getColumnModel();  
-	    int viewColumn = columnModel.getColumnIndexAtX(e.getX());  
-	    int column = tableView.convertColumnIndexToModel(viewColumn);  
-	   
-	    if (viewColumn == m_column && e.getClickCount() == 1 && column != -1) {  
-	    	m_check.doClick();  
-	    }  
+		JTable tableView = header.getTable();  
+		TableColumnModel columnModel = tableView.getColumnModel();  
+		int viewColumn = columnModel.getColumnIndexAtX(e.getX());  
+		int column = tableView.convertColumnIndexToModel(viewColumn);  
+
+		if (viewColumn == m_column && e.getClickCount() == 1 && column != -1) {  
+			m_check.doClick();  
+		}  
 	}
-	  
+
 	@Override
 	public void mouseClicked(MouseEvent e) {
-	    if (mousePressed) {  
-		      mousePressed=false;  
-		      handleClickEvent(e);
-		      e.consume();
-	    }
-    }
+		if (mousePressed) {  
+			mousePressed=false;  
+			handleClickEvent(e);
+			e.consume();
+		}
+	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-    }
+	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-	    mousePressed = true;  
+		mousePressed = true;  
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
+	public JCheckBox getSelectAllCheckBox() {
+		return m_check;
+	}
 }	//	VHeaderRenderer
