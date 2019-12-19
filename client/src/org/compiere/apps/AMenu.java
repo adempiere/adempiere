@@ -1,19 +1,19 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.compiere.apps;
 
 import java.awt.BorderLayout;
@@ -41,12 +41,14 @@ import java.util.logging.Level;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.InputMap;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JProgressBar;
 import javax.swing.KeyStroke;
+import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -55,6 +57,7 @@ import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.Adempiere;
 import org.compiere.apps.wf.WFActivity;
 import org.compiere.apps.wf.WFPanel;
+import org.compiere.grid.ed.DefaultButtonListener;
 import org.compiere.grid.tree.VTreePanel;
 import org.compiere.model.MRole;
 import org.compiere.model.MSession;
@@ -86,6 +89,9 @@ import org.compiere.util.Splash;
  * 	<li> http://sourceforge.net/tracker/index.php?func=detail&aid=1966328&group_id=176962&atid=879335
  * 	<li> BF[2992649] Issue in Workflow Activities when the records are ordered
  * 	<li> https://sourceforge.net/tracker/?func=detail&aid=2992649&group_id=176962&atid=879332
+ * 
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel 
  * 
  */
 public final class AMenu extends CFrame
@@ -220,6 +226,11 @@ public final class AMenu extends CFrame
 	
 	private WindowManager windowManager = new WindowManager();
 	
+	/** A listener for changes in button focus that enables use of
+	 *  both space bar and enter key to activate buttons.
+	 */
+	@SuppressWarnings("unused")
+	private DefaultButtonListener defaultButtonListener;
 	
 	/**************************************************************************
 	 *	Init System.
@@ -237,6 +248,13 @@ public final class AMenu extends CFrame
 		//  Focus Traversal
 		KeyboardFocusManager.setCurrentKeyboardFocusManager(AKeyboardFocusManager.get());
 
+		//  Setup global button response to enter key
+		InputMap im = (InputMap)UIManager.get("Button.focusInputMap");
+		im.put( KeyStroke.getKeyStroke( "ENTER" ), "pressed" );
+		im.put( KeyStroke.getKeyStroke( "released ENTER" ), "released" );
+
+		defaultButtonListener = DefaultButtonListener.install();
+		
 		/**
 		 *	Show Login Screen - if not successful - exit
 		 */
