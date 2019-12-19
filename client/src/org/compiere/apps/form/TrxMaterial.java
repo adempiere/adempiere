@@ -19,8 +19,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.logging.Level;
 
+import org.adempiere.controller.ed.IStatusBar;
 import org.compiere.apps.AEnv;
-import org.compiere.apps.IStatusBar;
 import org.compiere.model.GridTab;
 import org.compiere.model.GridWindow;
 import org.compiere.model.GridWindowVO;
