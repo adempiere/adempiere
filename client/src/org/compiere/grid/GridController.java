@@ -1,21 +1,19 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
- * @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]                  *
- * @contributor fer_luck @ centuryon                                          *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.compiere.grid;
 
 import java.awt.AWTEvent;
@@ -24,6 +22,7 @@ import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.KeyboardFocusManager;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -38,12 +37,14 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -60,7 +61,9 @@ import org.compiere.grid.ed.VCellEditor;
 import org.compiere.grid.ed.VCellRenderer;
 import org.compiere.grid.ed.VChart;
 import org.compiere.grid.ed.VEditor;
+import org.compiere.grid.ed.VEditorAbstract;
 import org.compiere.grid.ed.VEditorFactory;
+import org.compiere.grid.ed.VFrozenColumnRenderer;
 import org.compiere.grid.ed.VHeaderRenderer;
 import org.compiere.grid.ed.VManagedEditor;
 import org.compiere.grid.ed.VRowIDEditor;
@@ -88,6 +91,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
+import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
 
@@ -162,9 +166,11 @@ import org.compiere.util.Util;
  * @author mckayERP www.mckayERP.com
  * 		<li> BF [ <a href="https://github.com/adempiere/adempiere/issues/281">#283</a> ] GridController in swing will not set value to null in vetoableChange
  * 		<li> BF [ <a href="https://github.com/adempiere/adempiere/issues/421">#421</a> ] Embedded tab is not updated
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
  * @author Carlos Parada, cparada@erpya.com, ERPCyA http://www.erpya.com
  *  		<a href="https://github.com/adempiere/adempiere/issues/729">
  *			@see FR [ 729 ] Add Support to Parent Column And Search Column for Tree </a>
+ *
  */
 public class GridController extends CPanel
 	implements DataStatusListener, ListSelectionListener, Evaluatee,
@@ -174,12 +180,102 @@ public class GridController extends CPanel
 	 *
 	 */
 	private static final long serialVersionUID = 7308782933999556880L;
+	
+	/** The name of the Escpae Action */
+	private static final String ESCAPE_ACTION = "EscapeAction";
+	
+	/**
+	 *  An Action that provides an "ignore changes" feature for edits in a field or for the 
+	 *  form/record as a whole.  If multiple edits have been made to the fields in a record,
+	 *  the first time the "Escape" key is clicked, the current field will be reset. The second 
+	 *  time, the record will be reset.  If the field is not dirty, then the record will be 
+	 *  reset with the first click of the "escape" key.
+	 *  
+	 *  In a table, if an editor is active, the first click of the "escape" key will stop
+	 *  editing of the editor, regardless of whether the editor has any changes or not.  If no
+	 *  editor is active, then the entire row is reset.
+	 *  
+	 *  @author Michael McKay, mckayERP@gmail.com
+	 *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+	 *  
+	 *  @since 3.9.4
+	 *
+	 */
+	@SuppressWarnings("serial")
+	public class EscapeAction extends AbstractAction {
+
+		private AppsAction aIgnore = null;
+		
+		EscapeAction(AppsAction ignoreAction) {
+			super (ESCAPE_ACTION);
+			if (ignoreAction == null)
+				super.setEnabled(false);
+			this.aIgnore = ignoreAction;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			// If an editor is active ignore the edits for that field
+			if (!isSingleRow())
+			{
+				if (getTable().isEditing())
+				{
+					VEditor editor = ((VCellEditor) getTable().getCellEditor()).getEditor();
+					if (editor instanceof VEditorAbstract && ((VEditorAbstract) editor).isDirty())
+					{
+						//  Rollback and return
+						stopEditor(false);
+						return;
+					}
+					else
+					{
+						// Nothing to rollback, just stop the editor
+						// The tab will then be reset
+						stopEditor(false);
+					}
+				}
+			}
+			else
+			{
+				Component c = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+				if (c != null && GridController.this.isAncestorOf(c))
+				{
+					Component t = c;
+					while (t != null && t != GridController.this)
+					{
+						if (t instanceof VManagedEditor && t instanceof VEditor && ((VManagedEditor) t).isDirty())
+						{
+							// Rollback
+							((VManagedEditor) t).rollbackChanges();
+							return;
+						}
+						t = t.getParent();
+					}
+				}
+			}
+			
+			// If no editor has been rolled-back, then ignore all changes on the tab.
+			KeyStroke ks = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0);
+			KeyEvent event = new KeyEvent(vTable, 0, (long) 0, (int) e.getWhen(),
+                    ks.getKeyCode(), ks.getKeyChar());
+			SwingUtilities.notifyAction(aIgnore, ks, event, this,
+                    0);
+			return;
+			
+		}
+		
+	}
 
 	/**
 	 *  Constructor - you need to call initGrid for instanciation
 	 */
 	public GridController()
 	{
+		KeyboardFocusManager focusManager =
+			    KeyboardFocusManager.getCurrentKeyboardFocusManager();
+			focusManager.addPropertyChangeListener(this);
+			
 		try
 		{
 			jbInit();
@@ -261,6 +357,8 @@ public class GridController extends CPanel
 		xLayout.setHgap(0);
 		xLayout.setVgap(0);
 		//  multi-row
+		vTable.setName("gc_mrPane_table");
+		mrPane.setFocusable(false);
 		mrPane.setBorder(null);
 		mrPane.getViewport().add(vTable, null);
 		mrPane.setName("gc_mrPane");
@@ -270,6 +368,10 @@ public class GridController extends CPanel
 		//srPane.setDividerLocation(200);
 
 		vPane.setBorder(BorderFactory.createEmptyBorder());
+		
+		vTable.setGridController(this);
+		
+		this.setFocusable(false);
 	}   //  jbInit
 
 	/**
@@ -408,6 +510,9 @@ public class GridController extends CPanel
 
 		//  Update Table Info -------------------------------------------------
 		int size = setupVTable (m_aPanel, m_mTab, vTable);
+		
+		// Create the frozen column renderer
+		new VFrozenColumnRenderer(vTable);
 
 		//  Set Color on Tab Level
 		//  this.setBackgroundColor (mTab.getColor());
@@ -568,25 +673,55 @@ public class GridController extends CPanel
 	{
 		if (!mTab.isDisplayed())
 			return 0;
+		
+		//  Get the number of fields
 		int size = mTab.getFieldCount ();
-		TableColumnModel tcm = table.getColumnModel();
-		if (size != tcm.getColumnCount())
+		
+		//  The number of fields should match the number of
+		//  columns in the table model - not the table columnModel
+		//  which could have fewer columns if some are not displayed
+		if (size != table.getModel().getColumnCount())
 			throw new IllegalStateException("TableColumn Size <> TableModel");
 
-		for (int i = 0; i < size; i++)
+		//  The TableColumnModel is the view. It may have fewer columns than the table model
+		//  from table.getModel().
+		TableColumnModel tcm = table.getColumnModel();
+		for (int modelColumnIndex = 0; modelColumnIndex < size; modelColumnIndex++)
 		{
-			GridField mField = mTab.getField (i);
-			TableColumn tc = tcm.getColumn(i);
+			GridField mField = mTab.getField (modelColumnIndex);
+			// Get the column from the column Model (view)
+			int viewColumnIndex = table.convertColumnIndexToView(modelColumnIndex);
+			if (viewColumnIndex == -1)
+			{
+				//  The table model column is not being displayed.
+				//  At this point in the grid controller, all columns
+				//  should be displayed so this shouldn't occur.
+				//  In case, log the issue and continue. 
+				//  TODO - if the column should be displayed, should we 
+				//  add it to the view?
+				log.severe("Unexpectedly found hidden column in view:" + mField);
+				continue;
+			}
+			
+			//  The model column has been found in the view. 
+			TableColumn tc = tcm.getColumn(viewColumnIndex);
 			tc.setMinWidth(30);
 
 			// FR 3051618 - Hide in list view
-			if (!mField.isDisplayedGrid()) {
-				vTable.setColumnVisibility(tc, false);
+			// Removed duplication below
+			if (!mField.isDisplayed() || !mField.isDisplayedGrid()) {
+				TableCellNone tcn = new TableCellNone(mField.getColumnName());
+				tc.setCellRenderer (tcn);
+				tc.setCellEditor (tcn);
+				tc.setHeaderValue (null);
+				tc.setMinWidth (0);
+				tc.setMaxWidth (0);
+				tc.setPreferredWidth (0);
+				table.setColumnVisibility(tc, false, true);  // Removed from view. Permanently hidden
 			}
-			
-			if (mField.getColumnName().equals(tc.getIdentifier().toString()))
+			else if (mField.getColumnName().equals(tc.getIdentifier().toString()))
 			{
-				//don't show included tab field in grid
+				//  Don't show included tab field in grid
 				if (mField.getIncluded_Tab_ID() > 0)
 				{
 					TableCellNone tcn = new TableCellNone(mField.getColumnName());
@@ -596,7 +731,7 @@ public class GridController extends CPanel
 					tc.setMinWidth (0);
 					tc.setMaxWidth (0);
 					tc.setPreferredWidth (0);
-					table.setColumnVisibility(tc, false);
+					table.setColumnVisibility(tc, false, true); // Removed from view. Permanently hidden
 				}
 				else if (mField.getDisplayType () == DisplayType.RowID)
 				{
@@ -607,35 +742,21 @@ public class GridController extends CPanel
 				}
 				else
 				{
-					//  need to set CellEditor explicitly as default editor based on class causes problem (YesNo-> Boolean)
-					if (mField.isDisplayed() && mField.isDisplayedGrid () )
+					//  Need to set CellEditor explicitly as default editor based on class causes problem (YesNo-> Boolean)
+					//  The display status has already been tested above
+					tc.setCellRenderer (new VCellRenderer (mField));
+					VCellEditor ce = new VCellEditor (mField);
+					tc.setCellEditor (ce);
+					//
+					tc.setHeaderValue (mField.getHeader ());
+					tc.setPreferredWidth (Math.max (mField.getDisplayLength (), 30));
+					tc.setHeaderRenderer (new VHeaderRenderer(mField)); 
+					//  Enable Button actions in grid
+					if (mField.getDisplayType () == DisplayType.Button)
 					{
-						tc.setCellRenderer (new VCellRenderer (mField));
-						VCellEditor ce = new VCellEditor (mField);
-						tc.setCellEditor (ce);
-						//
-						tc.setHeaderValue (mField.getHeader ());
-						tc.setPreferredWidth (Math.max (mField.getDisplayLength (), 30));
-						tc.setHeaderRenderer (new VHeaderRenderer(mField)); 
-						//  Enable Button actions in grid
-						if (mField.getDisplayType () == DisplayType.Button)
-						{
-							ce.setActionListener(aPanel);
-						}
-					}
-					else //  column not displayed
-					{
-						TableCellNone tcn = new TableCellNone(mField.getColumnName());
-						tc.setCellRenderer (tcn);
-						tc.setCellEditor (tcn);
-						tc.setHeaderValue (null);
-						tc.setMinWidth (0);
-						tc.setMaxWidth (0);
-						tc.setPreferredWidth (0);
-						table.setColumnVisibility(tc, false);
+						ce.setActionListener(aPanel);
 					}
 				}
-
 			}	//	found field
 			else
 				log.log(Level.SEVERE, "TableColumn " + tc.getIdentifier ()
@@ -706,11 +827,14 @@ public class GridController extends CPanel
 	 */
 	public void registerESCAction (AppsAction aIgnore)
 	{
-		int c = VTable.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT;
-		vTable.getInputMap(c).put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), aIgnore.getName());
-		vTable.getActionMap().put(aIgnore.getName(), aIgnore);
+		vTable.getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
+				.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), ESCAPE_ACTION);
+		vPanel.getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
+				.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), ESCAPE_ACTION);
+		
+		vPanel.getActionMap().put(ESCAPE_ACTION, new EscapeAction(aIgnore));
+		vTable.getActionMap().put(ESCAPE_ACTION, new EscapeAction(aIgnore));
 
-	//	AEnv.printActionInputMap(vTable);
 	}   //  registerESCAction
 
 	/**
@@ -781,7 +905,8 @@ public class GridController extends CPanel
 		cardLayout.last(cardPanel);
 		m_singleRow = false;
 		vTable.autoSize(true);	//	resizes
-	//	vTable.requestFocus();
+		// Move the selected cell to the first cell of the current row. 
+		vTable.changeSelection(m_mTab.getCurrentRow(), 0, false, false);
 	}   //  switchSingleRow
 
 	/**
@@ -837,6 +962,9 @@ public class GridController extends CPanel
 			if (msg.length() > 0)
 				ADialog.error(m_WindowNo, this, msg);
 		}
+		
+		//  TODO - add model related dependencies here?? For example, the links between
+		//  product, ASI and locator.
 		
 		if ( mField != null && mField.isLookup() )
 		{
@@ -930,11 +1058,32 @@ public class GridController extends CPanel
 	//	System.out.println(e);
 		if (e == null)
 			return;
+		
+		//  There is no point in the gridController having the focus
+		//  pass the focus to the vTable if its showing so the 
+		//  user will see
+        String prop = e.getPropertyName();
+        if (("focusOwner".equals(prop) || "permanentFocusOwner".equals(prop)) ) {
+            Component comp = (Component)e.getNewValue();
+            if (comp != null)
+            {
+	            String name = comp.getName();
+	            if (this.getName().equals(name))
+	            {
+		    		if (!m_singleRow && vTable != null)
+		    		{
+		    			vTable.requestFocusInWindow();
+		    		}
+	            }
+            }
+            return;
+        }
+
 		Object value = e.getNewValue();
 		if (value == null)
 			return;
-		log.config(e.getPropertyName() + "=" + value
-			+ " - " + value.getClass().toString());
+//		log.config(e.getPropertyName() + "=" + value
+//			+ " - " + value.getClass().toString());
 		if (!(value instanceof MTreeNode))
 			return;
 
@@ -1021,7 +1170,7 @@ public class GridController extends CPanel
 						VEditor ve = (VEditor)comp[i];
 						boolean manMissing = false;
 						boolean noValue = changedField.getValue() == null || changedField.getValue().toString().length() == 0;
-						if (noValue && changedField.isEditable(true) && changedField.isMandatory(true))    //  check context
+						if (noValue && changedField.isEditable(true, true) && changedField.isMandatory(true))    //  check context
 							manMissing = true;
 						ve.setBackground(manMissing || changedField.isError());
 						break;
@@ -1054,7 +1203,7 @@ public class GridController extends CPanel
 				GridField mField = m_mTab.getField(columnName);
 				if (mField != null)
 				{
-					if (mField.isDisplayed(true))		//  check context
+					if (mField.isDisplayed(true, isSingleRow()))		//  check context
 					{
 						if (!comp.isVisible())
 							comp.setVisible(true);		//  visibility
@@ -1079,7 +1228,7 @@ public class GridController extends CPanel
 								ve.setReadWrite(false);
 							else
 							{
-								boolean rw = mField.isEditable(true);	//  r/w - check Context
+								boolean rw = mField.isEditable(true, isSingleRow());	//  r/w - check Context
 								ve.setReadWrite(rw);
 							//	log.log(Level.FINEST, "RW=" + rw + " " + mField);
 								boolean manMissing = false;
@@ -1235,23 +1384,32 @@ public class GridController extends CPanel
 	 */
 	public void vetoableChange(PropertyChangeEvent e) throws PropertyVetoException
 	{
-		if (m_mTab.isProcessed() || !m_mTab.isActive())		//	only active records
+		Object source = e.getSource();
+		VEditor editor = null;
+		GridField field = null;
+		
+		if (source instanceof VEditor)
 		{
-			Object source = e.getSource();
-			if (source instanceof VEditor)
-			{
-				if (!((VEditor)source).isReadWrite())
-				{
-					log.config("(" + m_mTab.toString() + ") " + e.getPropertyName());
-					return;
-				}
-			}
-			else
-			{
-				log.config("(" + m_mTab.toString() + ") " + e.getPropertyName());
-				return;
-			}
+			editor = (VEditor) source;
+			field = editor.getField();			
+		}
+		
+		if (m_mTab.isProcessed() && field != null && !field.isAlwaysUpdateable())
+		{
+			throw new PropertyVetoException("Can't change fields on processed records.", e);
 		}	//	processed
+		
+		// Check if the record is inactive and allow changes to IsActive only
+		if (! m_mTab.isActive())
+		{
+			if (field != null 
+					&& field.getColumnName() != null
+					&& !field.getColumnName().equals("IsActive"))
+			{
+				throw new PropertyVetoException("Can't change fields on inactive records.", e);
+			}
+		}
+		
 		log.config("(" + m_mTab.toString() + ") "
 			+ e.getPropertyName() + "=" + e.getNewValue() + " (" + e.getOldValue() + ") "
 			+ (e.getOldValue() == null ? "" : e.getOldValue().getClass().getName()));
@@ -1284,17 +1442,24 @@ public class GridController extends CPanel
 		int row = m_mTab.getCurrentRow();
 		int col = mTable.findColumn(e.getPropertyName());
 		//
+		// Changed to null
 		if ((e.getNewValue() == null || e.getNewValue().toString().isEmpty()) 
 			&& e.getOldValue() != null && e.getOldValue().toString().length() > 0)		//	some editors return "" instead of null
 		{
 			//  #283 Set value to null
 			GridField gridField = m_mTab.getField(col);
 			if (!gridField.getVO().IsMandatory)
+			{
 				mTable.setValueAt (null, row, col);	//	-> dataStatusChanged -> dynamicDisplay
-			mTable.setChanged (true);
+				mTable.setChanged (true);
+			}
+			else
+				throw new PropertyVetoException(Msg.parseTranslation(Env.getCtx(), "@Mandatory@"),e);
 		}	
-		else
+		else  // Changed to a non-null value
 		{
+			//  TODO - add the model intelligence about what is a valid value here rather than in the editors.
+			//  For example, the VLookup value should exist in the GridField lookup etc...
 		//	mTable.setValueAt (e.getNewValue(), row, col, true);
 			/*
          	 * Changes: Added the logic below to handle multiple values for a single field
@@ -1333,7 +1498,11 @@ public class GridController extends CPanel
 			{
 				GridField mField = m_mTab.getField(col);
 				if (mField != null && mField.getCallout().length() > 0)
-					m_mTab.processFieldChange(mField);     //  Dependencies & Callout
+				{
+					String error = m_mTab.processFieldChange(mField);     //  Dependencies & Callout
+					if (!error.isEmpty())
+						throw new PropertyVetoException(error,e);
+				}
 			}
 
 			if (newValues != null && newValues.length > 0)
@@ -1416,14 +1585,15 @@ public class GridController extends CPanel
 	 */
 	public void stopEditor (boolean saveValue)
 	{
-		log.config("(" + m_mTab.toString() + ") TableEditing=" + vTable.isEditing());
+		log.config("(" + m_mTab.toString() + ") TableEditing=" + vTable.isEditing() + " Saving value="+saveValue);
 
 		//  MultiRow - remove editors
 		vTable.stopEditor(saveValue);
 
 		//  SingleRow - stop editors by changing focus
 		if (m_singleRow)
-			vPanel.transferFocus();
+			vPanel.stopEditor(saveValue);
+//			vPanel.transferFocus();
 		//	graphPanel.requestFocus();
 		//
 	//	log.config( "GridController.stopEditor (" + m_mTab.toString() + ") - fini",
@@ -1551,7 +1721,7 @@ public class GridController extends CPanel
 			if (columnName != null && columnName.length() > 0) {
 				GridField mField = m_mTab.getField(columnName);
 				if (mField != null) {
-					if (mField.isDisplayed(true)) {		//  check context
+					if (mField.isDisplayed(true, isSingleRow())) {		//  check context
 						//End Feature Request [1707462]
 						if (comp instanceof VEditor) {
 			                //	Change Context info
