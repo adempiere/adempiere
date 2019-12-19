@@ -30,7 +30,7 @@ import org.compiere.model.MChatEntry;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CTextArea;
-import org.compiere.swing.CTextPane;
+import org.compiere.swing.CScrollingTextPane;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -105,7 +105,7 @@ public class AChat extends CDialog
 	private static CLogger log = CLogger.getCLogger(AChat.class);
 
 	private CPanel 			mainPanel = new CPanel(new BorderLayout(5,5));
-	private CTextPane		historyText = new CTextPane();
+	private CScrollingTextPane		historyText = new CScrollingTextPane();
 	private CTextArea		newText = new CTextArea();
 	private ConfirmPanel	confirmPanel = new ConfirmPanel(true);
 	

@@ -65,7 +65,7 @@ import org.compiere.print.Viewer;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CTabbedPane;
-import org.compiere.swing.CTextPane;
+import org.compiere.swing.CScrollingTextPane;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -140,7 +140,7 @@ public class VOrderDistributionReceipt extends CPanel
 	private StatusBar statusBar = new StatusBar();
 	private CPanel genPanel = new CPanel();
 	private BorderLayout genLayout = new BorderLayout();
-	private CTextPane info = new CTextPane();
+	private CScrollingTextPane info = new CScrollingTextPane();
 	private JScrollPane scrollPane = new JScrollPane();
 	private MiniTable miniTable = new MiniTable();
 

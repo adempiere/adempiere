@@ -70,7 +70,7 @@ import org.compiere.swing.CButton;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CTextField;
-import org.compiere.swing.CTextPane;
+import org.compiere.swing.CScrollingTextPane;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
@@ -167,7 +167,7 @@ public class VOrderReceiptIssue extends OrderReceiptIssue implements FormPanel,
 	private CLabel QtyBatchSizeLabel = new CLabel();
 	private VNumber qtyBatchSizeField = new VNumber("QtyBatchSize", false,
 			false, false, DisplayType.Quantity, "QtyBatchSize");
-	private CTextPane info = new CTextPane();
+	private CScrollingTextPane info = new CScrollingTextPane();
 
 	/**
 	 * Initialize Panel

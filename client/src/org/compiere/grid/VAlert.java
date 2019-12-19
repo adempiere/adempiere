@@ -13,7 +13,7 @@ import javax.swing.JDialog;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CPanel;
-import org.compiere.swing.CTextPane;
+import org.compiere.swing.CScrollingTextPane;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -71,7 +71,7 @@ public class VAlert extends CDialog
 
 		private CPanel panel = new CPanel();
 		private BorderLayout panelLayout = new BorderLayout();
-		private CTextPane textPane = new CTextPane();
+		private CScrollingTextPane textPane = new CScrollingTextPane();
 		private ConfirmPanel confirmPanel = new ConfirmPanel(false);
 
 		/**
