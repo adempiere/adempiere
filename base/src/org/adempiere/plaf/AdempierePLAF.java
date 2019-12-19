@@ -713,8 +713,8 @@ public final class AdempierePLAF
 					for (int ii = 1; ii < args.length; ii++)
 						startArgs[ii-i] = args[ii];
 					methods[i].invoke(null, new Object[] {startArgs});
+					return;
 				}
-				return;
 			}
 		}
 		catch (Exception ee)
