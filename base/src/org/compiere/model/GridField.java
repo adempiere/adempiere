@@ -180,6 +180,8 @@ public class GridField
 	private boolean isLookupRelated = false;
 	private String lookupRelatedDisplay = null;
 	private String lookupRelatedBase = null;
+	private GridTable gridTable = null;
+	private int gridRow = 0;
 	
 	
 	/**************************************************************************
@@ -445,22 +447,44 @@ public class GridField
 		return isDisplayed (checkContext);
 	}
 	
+	/**************************************************************************
+	 *	Is the Column Visible in grid view? Does not check the context for 
+	 *  the current row. Instead, the tests are made using the current row 
+	 *  data which is available in the GridTable. Tab and Window context is
+	 *  tested if required.
+	 *  @param tab
+	 *  @return true, if visible
+	 */
+	public boolean isEditable (GridTable table, int row)
+	{
+		gridTable  = table;
+		gridRow  = row;
+		//  Don't check the context. Use the table info directly.
+		//  Only check the grid
+		return isEditable(true, false); 
+	}
+
 	
 	/**
 	 *	Is it Editable - checks IsActive, IsUpdateable, and isDisplayed
-	 *  @param checkContext if true checks Context for Active, IsProcessed, LinkColumn
+	 *  @param checkContext if true checks Context or grid for Active, IsProcessed, LinkColumn
+	 *  @param isForm if true checks the Context, if false will check the grid
 	 *  @return true, if editable
 	 */
-	public boolean isEditable (boolean checkContext)
+	public boolean isEditable (boolean checkContext, boolean isForm)
 	{
+		if (!isForm && gridTable== null)
+			throw new IllegalArgumentException("Can't call this method with isForm=true when the field gridTable is null.");
+		
 		if (isVirtualColumn())
 			return false;
+		
 		//  Fields always enabled (are usually not updateable)
 		if (m_vo.ColumnName.equals("Posted")
 			|| (m_vo.ColumnName.equals("Record_ID") && m_vo.displayType == DisplayType.Button) || (m_vo.IsKey  && m_vo.displayType == DisplayType.ID))	//  Zoom
 			return true;
 
-		//  Fields always updareable
+		//  Fields always updateable
 		if (m_vo.IsAlwaysUpdateable)      //  Zoom
 			return true;
 		
@@ -472,9 +496,9 @@ public class GridField
 		}
 		
 		//check tab context
-		if (checkContext && getGridTab() != null)
+		if (getGridTab() != null)
 		{
-			if (getGridTab().isReadOnly())
+			if (getGridTab().isReadOnly(checkContext))
 			{
 				return false;
 			}
@@ -504,7 +528,21 @@ public class GridField
 				keyColumn = "AD_EntityType_ID";
 			if (!keyColumn.endsWith("_ID"))
 				keyColumn += "_ID";			//	AD_Language_ID
-			int Record_ID = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, keyColumn);
+			int Record_ID = 0;  // will be ignored if equal to zero
+			if (isForm)
+			{
+				// Use the context
+				Record_ID = Env.getContextAsInt(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, keyColumn);
+			}
+			else 
+			{
+				// Use the gridTable data
+				Object targetValue = gridTable.getValue(gridRow, keyColumn);
+				if (targetValue != null && targetValue instanceof Integer)
+				{
+					Record_ID = ((Integer) targetValue).intValue();
+				} // Else keep the value of zero
+			}
 			int AD_Table_ID = m_vo.AD_Table_ID;
 			if (!MRole.getDefault(m_vo.ctx, false).canUpdate(
 				AD_Client_ID, AD_Org_ID, AD_Table_ID, Record_ID, false))
@@ -514,9 +552,14 @@ public class GridField
 		}
 			
 		//  Do we have a readonly rule
-		if (checkContext && m_vo.ReadOnlyLogic.length() > 0)
+		if (m_vo.ReadOnlyLogic.length() > 0 && checkContext)
 		{
-			boolean retValue = !Evaluator.evaluateLogic(this, m_vo.ReadOnlyLogic);
+			boolean retValue = true;
+			if (isForm)
+				retValue = !Evaluator.evaluateLogic(this, m_vo.ReadOnlyLogic);
+			else
+				retValue = !Evaluator.evaluateLogic(this, m_vo.ReadOnlyLogic, gridTable, gridRow);
+			
 			log.finest(m_vo.ColumnName + " R/O(" + m_vo.ReadOnlyLogic + ") => R/W-" + retValue);
 			if (!retValue)
 				return false;
@@ -524,29 +567,72 @@ public class GridField
 		
 		//BF [ 2910368 ]
 		//  Always editable if Active
-		if (checkContext && "Y".equals(Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "IsActive"))
-				&& (   m_vo.ColumnName.equals("Processing")
+		Boolean isActive = null;  // Use Boolean and null incase there is no IsActive field
+		if (checkContext)
+		{
+			
+			if (isForm)
+				isActive = "Y".equals(Env.getContext(m_vo.ctx, m_vo.WindowNo, m_vo.TabNo, "IsActive"));
+			else
+			{
+				Object targetValue = gridTable.getValue(gridRow, "IsActive");
+				if (targetValue != null && targetValue instanceof Boolean)
+				{
+					isActive = ((Boolean) targetValue).booleanValue();
+				}
+
+			}
+			if (isActive != null && isActive && m_vo != null && m_vo.ColumnName != null 
+					&& (   m_vo.ColumnName.equals("Processing")
 					|| m_vo.ColumnName.equals("PaymentRule")
 					|| m_vo.ColumnName.equals("DocAction") 
 					|| m_vo.ColumnName.equals("GenerateTo")))
 			return true;
-
+		}
+		
 		//  Record is Processed	***	
-		if (checkContext 
-			&& ("Y".equals(get_ValueAsString("Processed")) || "Y".equals(get_ValueAsString("Processing"))) )
-			return false;
-
+		if (checkContext)
+		{
+			if (isForm)
+			{
+				if ("Y".equals(get_ValueAsString("Processed")) || "Y".equals(get_ValueAsString("Processing")))
+					return false;
+			}
+			else
+			{
+				Object processed = gridTable.getValue(gridRow, "Processed");
+				Object processing = gridTable.getValue(gridRow, "Processing");
+				if (processed != null && processing != null 
+						&& processed instanceof Boolean 
+						&& processing instanceof Boolean)
+				{
+					if ((Boolean) processed || (Boolean) processing)
+						return false;
+				}
+			}
+		}
 		//  IsActive field is editable, if record not processed
 		if (m_vo.ColumnName.equals("IsActive"))
 			return true;
 		// BF [ 2910368 ]
 		// Record is not Active
-		if (checkContext && !Env.getContext(m_vo.ctx, m_vo.WindowNo,m_vo.TabNo, "IsActive").equals("Y"))
+		if (isActive != null && !isActive)
 			return false;
 
 		//  ultimately visibility decides
-		return isDisplayed (checkContext);
+		return isDisplayed (checkContext, isForm);
 	}	//	isEditable
+	
+	/**
+	 *	Is it Editable - checks IsActive, IsUpdateable, and isDisplayed
+	 *  @param checkContext if true checks Context for Active, IsProcessed, LinkColumn
+	 *  @return true, if editable
+	 */
+	@Deprecated
+	public boolean isEditable (boolean checkContext)
+	{
+		return isEditable(checkContext, true);
+	}
 
 	/**
 	 *  Set Inserting (allows to enter not updateable fields).
@@ -878,16 +964,66 @@ public class GridField
 
 
 	/**************************************************************************
-	 *	Is the Column Visible ?
+	 *	Is the Column Visible in grid view? Does not check the context for 
+	 *  the current row. Instead, the tests are made using the current row 
+	 *  data which is available in the GridTable. Tab and Window context is
+	 *  tested if required.
+	 *  @param tab
+	 *  @return true, if visible
+	 */
+	public boolean isDisplayed (GridTable table, int row)
+	{
+		if (table == null)
+			throw new IllegalArgumentException("table parameter can not be null.");
+		
+		gridTable  = table;
+		gridRow  = row;
+
+		// Check the context where possible and use the grid data
+		// for row specific info
+		return isDisplayed(true, false); 
+	}
+
+	
+	/**************************************************************************
+	 *	Is the Column Visible in the form view? Does not check the static 
+	 *  display in the grid view.  See {@link isDisplayed(boolean checkContext, boolean form)}
 	 *  @param checkContext - check environment (requires correct row position)
 	 *  @return true, if visible
 	 */
+	@Deprecated
 	public boolean isDisplayed (boolean checkContext)
 	{
+		// Use the form context - not Table data
+		return isDisplayed(checkContext, true);
+	}
+	
+	
+	/**************************************************************************
+	 *	Is the Column Visible ?
+	 *  @param checkContext - check environment or grid (requires correct row position)
+	 *  @param isForm - if true, check the form. If false, check the grid.  The 
+	 *  fields gridTable and gridRow must be set.
+	 *  @return true, if visible
+	 */
+	public boolean isDisplayed(boolean checkContext, boolean isForm)
+	{
+
+		if (!isForm && gridTable== null)
+			throw new IllegalArgumentException("Can't call this method with isForm=false when the field gridTable is null.");
+		
 		//  ** static content **
-		//  not displayed
+		//  not displayed - which means its not selected in
+		//  the Field Selection tab of the Window, Tab and Field 
+		//  window and doesn't appear as a field.
 		if (!m_vo.IsDisplayed)
 			return false;
+		
+		//  The field appears in the form, but doesn't appear 
+		//  in the grid view
+		if (!isForm && !m_vo.IsDisplayedGrid)
+			return false;
+		
 		//  no restrictions
 		if (m_vo.DisplayLogic.equals(""))
 			return true;
@@ -895,10 +1031,20 @@ public class GridField
 		//  ** dynamic content **
 		if (checkContext)
 		{
-			boolean retValue = Evaluator.evaluateLogic(this, m_vo.DisplayLogic);
-			log.finest(m_vo.ColumnName 
-				+ " (" + m_vo.DisplayLogic + ") => " + retValue);
-			return retValue;
+			if (isForm)
+			{
+				boolean retValue = Evaluator.evaluateLogic(this, m_vo.DisplayLogic);
+				log.finest(m_vo.ColumnName 
+					+ " (" + m_vo.DisplayLogic + ") => " + retValue);
+				return retValue;
+			}
+			else
+			{
+				boolean retValue = Evaluator.evaluateLogic(this, m_vo.DisplayLogic, gridTable, gridRow);
+				log.finest(m_vo.ColumnName 
+					+ " (" + m_vo.DisplayLogic + ") => " + retValue);
+				return retValue;
+			}
 		}
 		return true;
 	}	//	isDisplayed
@@ -1481,23 +1627,48 @@ public class GridField
 	public void setValue (Object newValue, boolean inserting)
 	{
 	//	log.fine(ColumnName + "=" + newValue);
-		if (m_valueNoFire)      //  set the old value
+		
+		// To prevent the events when the m_valueNoFire flag is set
+		// the old value is set to the new value.  Otherwise, it is
+		// set to the current value.  Events will fire only if the old
+		//  and new are different.
+//		if (m_valueNoFire)      //  set the old value
+//			m_oldValue = newValue;
+//		else
 			m_oldValue = m_value;
+		
 		m_value = newValue;
 		m_inserting = inserting;
 		m_error = false;        //  reset error
+		
+		// If the value is being inserted, set the oldValue
+		// to a special value which is likely to be different
+		// than the new value. This won't be effective if the
+		// new value matches INSERTING but the chance is small
+		Object oldValue = m_oldValue;		
+		if (m_inserting)
+			oldValue = INSERTING;
 
+		// Catch the case where both values are null or equal.
+		// The property change will be fired if there is a change
+		// or either value is null. To prevent firing when both 
+		// are null, detect the equivalence here and return.
+		// If we are inserting a new record, ignore this. In this
+		// case, we should set the context and let the event
+		// fire if both values are null.
+//		if (!m_inserting 
+//				&& (newValue == null && oldValue == null 
+//				|| oldValue!= null && oldValue.equals(newValue)))
+//			return;
+
+		// New and old are different or we are inserting a new value
 		updateContext();
 
-		//  Does not fire, if same value
-		Object oldValue = m_oldValue;
-		if (inserting)
-			oldValue = INSERTING;
-		
-		if (getGridTab() == null ||
-				(getGridTab() != null)) {
+//		Always true
+//		if (getGridTab() == null ||
+//				(getGridTab() != null)) {
 			m_propertyChangeListeners.firePropertyChange(PROPERTY, oldValue, m_value);
-		}
+//		}
 	}   //  setValue
 
 	/**
