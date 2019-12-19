@@ -1,19 +1,19 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.compiere.grid.ed;
 
 import java.awt.BorderLayout;
@@ -70,6 +70,10 @@ import com.akunagroup.uk.postcode.Postcode;
  * @author victor.perez@e-evolution.com, www.e-evolution.com
  * 			<li>BF [ 3294610] The location should allow open a google map
  * 			<li>https://sourceforge.net/tracker/?func=detail&atid=879335&aid=3294610&group_id=176962
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+ * 
+ *  @version 3.9.4
  */
 public class VLocationDialog extends CDialog 
 	implements ActionListener
@@ -117,7 +121,6 @@ public class VLocationDialog extends CDialog
 		Env.setContext(Env.getCtx(), m_WindowNo, Env.TAB_INFO, "C_Country_ID", null);
 
 		//	Current Country
-		fCountry = new CComboBoxEditable(MCountry.getCountries(Env.getCtx()));
 		fCountry.setSelectedItem(m_location.getCountry());
 		m_origCountry_ID = m_location.getC_Country_ID();
 		//	Current Region
@@ -133,10 +136,18 @@ public class VLocationDialog extends CDialog
 		//
 		fOnline.setText(Msg.getMsg(Env.getCtx(), "Online"));
 		initLocation();
+		//  Add action listeners to the fields to detect changes
+		fAddress1.addActionListener(this);
+		fAddress2.addActionListener(this);
+		fAddress3.addActionListener(this);
+		fAddress4.addActionListener(this);
+		fCity.addActionListener(this);
 		fCountry.addActionListener(this);
+		fPostal.addActionListener(this);
+		fPostalAdd.addActionListener(this);
+		fRegion.addActionListener(this);
 		fOnline.addActionListener(this);
 		bUrl.addActionListener(this);
-		fRegion.addActionListener(this);
 		AEnv.positionCenterWindow(frame, this);
 	}	//	VLocationDialog
 
@@ -172,7 +183,7 @@ public class VLocationDialog extends CDialog
 	private CTextField	fCity  = new CTextField(20);		//	length=60
 	private CityAutoCompleter	fCityAutoCompleter;
 	private CComboBoxEditable	fCountry;
-	private CComboBoxEditable	fRegion;
+	private CComboBoxEditable	fRegion = new CComboBoxEditable();;
 	private CTextField	fPostal = new CTextField(5);		//	length=10
 	private CTextField	fPostalAdd = new CTextField(5);		//	length=10
 	private CButton 	fOnline = new CButton();
@@ -218,11 +229,26 @@ public class VLocationDialog extends CDialog
 		confirmPanel.addActionListener(this);
 		//
 		fCityAutoCompleter = new CityAutoCompleter(fCity, m_WindowNo);
+		fCountry = new CComboBoxEditable(MCountry.getCountries(Env.getCtx()));
+		fRegion = new CComboBoxEditable();
+
+		//  Add action listeners to the fields to detect changes
+		fAddress1.addActionListener(this);
+		fAddress2.addActionListener(this);
+		fAddress3.addActionListener(this);
+		fAddress4.addActionListener(this);
+		fCity.addActionListener(this);
+		fCountry.addActionListener(this);
+		fPostal.addActionListener(this);
+		fPostalAdd.addActionListener(this);
+		fRegion.addActionListener(this);
+	
 	}	//	jbInit
 
 	/**
 	 *	Dynamic Init & fill fields - Called when Country changes!
 	 */
+	@SuppressWarnings("unchecked")
 	private void initLocation()
 	{
 		MCountry country = m_location.getCountry();
@@ -383,16 +409,6 @@ public class VLocationDialog extends CDialog
 		
 	}	//	addLine
 
-	@Override
-	public void dispose()
-	{
-		if (!m_change && m_location != null && !m_location.is_new())
-		{
-			m_location = new MLocation(m_location.getCtx(), m_location.get_ID(), null);
-		}	
-		super.dispose();
-	}
-
 	/**
 	 *	ActionListener
 	 *  @param e ActionEvent
@@ -419,8 +435,8 @@ public class VLocationDialog extends CDialog
 
 			if (action_OK())
 			{
-				m_change = true;
 				dispose();
+				return;
 			}
 			else
 			{
@@ -430,12 +446,22 @@ public class VLocationDialog extends CDialog
 		}
 		else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
 		{
-			m_change = false;
+			//  Cancel/Delete
+			m_location = null;
 			dispose();
+			return;
 		}
 
+		if (e.getSource() == bUrl)
+		{			
+			Env.startBrowser(DefaultContextProvider.GOOGLE_MAPS_URL_PREFIX + getCurrentLocation());
+		}
+
+		// Anything else represents a change and the location data will be saved on "OK"
+		
+		m_change = true;
 		//	Country Changed - display in new Format
-		else if (e.getSource() == fCountry)
+		if (e.getSource() == fCountry)
 		{
 			inCountryAction = true;
 			//	Modifier for Mouse selection is 16  - for any key selection 0
@@ -468,10 +494,6 @@ public class VLocationDialog extends CDialog
 			{
 				lookupPostcode(c, fPostal.getText());
 			}
-		}
-		else if (e.getSource() == bUrl)
-		{			
-			Env.startBrowser(DefaultContextProvider.GOOGLE_MAPS_URL_PREFIX + getCurrentLocation());
 		}
 	}	//	actionPerformed
 
@@ -514,33 +536,38 @@ public class VLocationDialog extends CDialog
 	 */
 	private boolean action_OK()
 	{
-		m_location.setAddress1(fAddress1.getText());
-		m_location.setAddress2(fAddress2.getText());
-		m_location.setAddress3(fAddress3.getText());
-		m_location.setAddress4(fAddress4.getText());
-		m_location.setCity(fCity.getText());
-		m_location.setC_City_ID(fCityAutoCompleter.getC_City_ID());
-		m_location.setPostal(fPostal.getText());
-		m_location.setPostal_Add(fPostalAdd.getText());
-		//  Country/Region
-		MCountry c = (MCountry)fCountry.getSelectedItem();
-		m_location.setCountry(c);
-		if (m_location.getCountry().isHasRegion())
+		if (m_change)
 		{
-			MRegion r = (MRegion)fRegion.getSelectedItem();
-			m_location.setRegion(r);
+			m_location.setAddress1(fAddress1.getText());
+			m_location.setAddress2(fAddress2.getText());
+			m_location.setAddress3(fAddress3.getText());
+			m_location.setAddress4(fAddress4.getText());
+			m_location.setCity(fCity.getText());
+			m_location.setC_City_ID(fCityAutoCompleter.getC_City_ID());
+			m_location.setPostal(fPostal.getText());
+			m_location.setPostal_Add(fPostalAdd.getText());
+			//  Country/Region
+			MCountry c = (MCountry)fCountry.getSelectedItem();
+			m_location.setCountry(c);
+			if (m_location.getCountry().isHasRegion())
+			{
+				MRegion r = (MRegion)fRegion.getSelectedItem();
+				m_location.setRegion(r);
+			}
+			else
+				m_location.setC_Region_ID(0);
+			//	Save changes
+			if(m_location.save())
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
-		else
-			m_location.setC_Region_ID(0);
-		//	Save changes
-		if(m_location.save())
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return true;
+		
 	}	//	actionOK
 
 	/**
@@ -730,7 +757,7 @@ public class VLocationDialog extends CDialog
 		else
 			m_location.setC_Region_ID(0);
 		
-		return m_location.toString().replace(" ", "%");
+		return m_location.toString().replace(" ", "%20");
 	}
 
 }	//	VLocationDialog

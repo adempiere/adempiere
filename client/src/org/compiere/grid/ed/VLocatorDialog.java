@@ -1,19 +1,19 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.compiere.grid.ed;
 
 import java.awt.BorderLayout;
@@ -55,7 +55,9 @@ import org.compiere.util.Msg;
  *	Dialog to enter Warehouse Locator Info
  *
  *  @author 	Jorg Janke
- *  @version 	$Id: VLocatorDialog.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+ *  @version 	3.9.4
  */
 public class VLocatorDialog extends CDialog
 	implements ActionListener, KeyListener
@@ -106,11 +108,11 @@ public class VLocatorDialog extends CDialog
 	private int				m_only_Warehouse_ID = 0;
 	//
 	private int				m_M_Warehouse_ID;
-	private String			m_M_WarehouseName;
+//	private String			m_M_WarehouseName;
 	private String 			m_M_WarehouseValue;
 	private String 			m_Separator;
-	private int				m_AD_Client_ID;
-	private int				m_AD_Org_ID;
+//	private int				m_AD_Client_ID;
+//	private int				m_AD_Org_ID;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VLocatorDialog.class);
 	//
@@ -279,19 +281,20 @@ public class VLocatorDialog extends CDialog
 		}
 		else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
 		{
+			this.m_M_Locator_ID = 0;
 			m_change = false;
 			dispose();
 		}
 		//	Locator Change
-		else if (e.getSource() == fLocator)
+		else if (e.getSource().equals(fLocator))
 			displayLocator();
 
 		//	New Value Change
-		else if (source == fCreateNew)
+		else if (source.equals(fCreateNew))
 			enableNew();
 
 		//	Entered/Changed data for Value
-		else if (fCreateNew.isSelected() && source == fWarehouse)
+		else if (fCreateNew.isSelected() && source.equals(fWarehouse))
 			createValue();
 
 	}	//	actionPerformed
@@ -325,7 +328,15 @@ public class VLocatorDialog extends CDialog
 	{
 		MLocator l = (MLocator) fLocator.getSelectedItem();
 		if (l == null)
+		{
+			m_M_Locator_ID = 0;
+			fWarehouseInfo.setText("");
+			fX.setText("");
+			fY.setText("");
+			fZ.setText("");
+			fValue.setText("");
 			return;
+		}
 		//
 		m_M_Locator_ID = l.getM_Locator_ID();
 		fWarehouseInfo.setText(l.getWarehouseName());
@@ -374,11 +385,8 @@ public class VLocatorDialog extends CDialog
 			return;
 		//	Defaults
 		m_M_Warehouse_ID = 0;
-		m_M_WarehouseName = "";
 		m_M_WarehouseValue = "";
 		m_Separator = ".";
-		m_AD_Client_ID = 0;
-		m_AD_Org_ID = 0;
 		//
 		String SQL = "SELECT M_Warehouse_ID, Value, Name, Separator, AD_Client_ID, AD_Org_ID "
 			+ "FROM M_Warehouse WHERE M_Warehouse_ID=?";
@@ -391,10 +399,7 @@ public class VLocatorDialog extends CDialog
 			{
 				m_M_Warehouse_ID = rs.getInt(1);
 				m_M_WarehouseValue = rs.getString(2);
-				m_M_WarehouseName = rs.getString(3);
 				m_Separator = rs.getString(4);
-				m_AD_Client_ID = rs.getInt(5);
-				m_AD_Org_ID = rs.getInt(6);
 			}
 			rs.close();
 			pstmt.close();
@@ -469,10 +474,7 @@ public class VLocatorDialog extends CDialog
 	 */
 	public Integer getValue()
 	{
-		MLocator l = (MLocator) fLocator.getSelectedItem();
-		if (l != null && l.getM_Locator_ID() != 0)
-			return new Integer (l.getM_Locator_ID());
-		return null;
+		return m_M_Locator_ID;
 	}	//	getValue
 
 	/**

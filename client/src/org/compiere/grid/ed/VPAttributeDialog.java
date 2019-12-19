@@ -1,19 +1,19 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.compiere.grid.ed;
 
 import java.awt.BorderLayout;
@@ -81,9 +81,12 @@ import org.compiere.util.Msg;
  *  @version $Id: VPAttributeDialog.java,v 1.4 2006/07/30 00:51:27 jjanke Exp $
  *  
  *  @author Michael McKay (mjmckay)
- *  		<li>BF3468823 - Attribute Set Instance editor does not display
- * 			<li>ADEMPIERE-72 VLookup and Info Window improvements
+ *  	<li>BF3468823 - Attribute Set Instance editor does not display
+ * 		<li>ADEMPIERE-72 VLookup and Info Window improvements
  * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+ *  
+ *  @version 3.9.4
  */
 public class VPAttributeDialog extends CDialog
 	implements ActionListener
@@ -255,6 +258,12 @@ public class VPAttributeDialog extends CDialog
 		{
 			//	Get Model
 			m_product = MProduct.get(Env.getCtx(), m_M_Product_ID);
+			if (m_product.getM_AttributeSet_ID() == 0)
+			{
+				dispose();
+				return false;
+			}
+			
 			if (m_product.getM_AttributeSetInstance_ID() > 0)
 			{
 				m_productASI = true;
@@ -731,7 +740,7 @@ public class VPAttributeDialog extends CDialog
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		//
 		int AD_Window_ID = MWindow.getWindow_ID("Lot");		//	Lot
-		AWindow frame = new AWindow();
+		AWindow frame = new AWindow(getGraphicsConfiguration());
 		if (frame.initWindow(AD_Window_ID, zoomQuery))
 		{
 			this.setVisible(false);
