@@ -31,5 +31,5 @@ public interface Evaluatee
 	 *	@return value
 	 */
 	public String get_ValueAsString (String variableName);
-	
+
 }	//	Evaluatee
