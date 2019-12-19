@@ -1486,11 +1486,12 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		return m_vo.IsHighVolume;
 	}	//	isHighVolume
 
+
 	/**
-	 *	Is Read Only?
+	 *	Is Read Only?  
 	 *  @return true if read only
 	 */
-	public boolean isReadOnly() {
+	public boolean isReadOnly(boolean checkContext) {
 		if (m_vo.IsReadOnly)
 			return true;
 		
@@ -1498,14 +1499,26 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		if (m_parentNeedSave) return true;
 
 		//  no restrictions
-		if (m_vo.ReadOnlyLogic == null || m_vo.ReadOnlyLogic.equals(""))
-			return m_vo.IsReadOnly;
+		if (m_vo.ReadOnlyLogic == null || m_vo.ReadOnlyLogic.equals("") || !checkContext)
+			return false;
 
 		//  ** dynamic content **  uses get_ValueAsString
 		boolean retValue = Evaluator.evaluateLogic(this, m_vo.ReadOnlyLogic);
 		log.finest(m_vo.Name
 			+ " (" + m_vo.ReadOnlyLogic + ") => " + retValue);
 		return retValue;
+		
+	}	//	isReadOnly
+
+	
+	/**
+	 *	Is Read Only?  Uses the context.
+	 *  @return true if read only
+	 */
+	public boolean isReadOnly() {
+		
+		return isReadOnly(true);
+		
 	}	//	isReadOnly
 	
 	/**
@@ -2229,6 +2242,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		//  nothing to do
 		if (targetRow == m_currentRow)
 			return m_currentRow;
+		
 		log.info ("Row=" + targetRow);
 
 		//  Row range check
@@ -2315,7 +2329,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	{	
 		int oldCurrentRow = m_currentRow;
 		m_currentRow = verifyRow (newCurrentRow);
-		log.fine("Row=" + m_currentRow + " - fire=" + fireEvents);
+		log.fine("Row=" + m_currentRow + " - fire=" + fireEvents); 
 
 		//  Update Field Values
 		int size = m_mTable.getColumnCount();
