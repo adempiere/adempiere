@@ -1,48 +1,28 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.compiere.grid.ed;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyVetoException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.logging.Level;
 
-import javax.swing.JComponent;
-import javax.swing.JPopupMenu;
-import javax.swing.LookAndFeel;
-import javax.swing.SwingUtilities;
-
-import org.adempiere.exceptions.ValueChangeListener;
-import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.RecordInfo;
-import org.compiere.model.GridField;
+import org.compiere.apps.search.Info;
 import org.compiere.model.MAccountLookup;
 import org.compiere.model.MRole;
 import org.compiere.swing.CButton;
@@ -62,43 +42,28 @@ import org.compiere.util.Env;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
  *		@see https://github.com/adempiere/adempiere/issues/146
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+ *  
+ *  @version 3.9.4
  */
-public final class VAccount extends JComponent
-	implements VEditor, ActionListener, FocusListener
+public final class VAccount extends VEditorAbstract
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -4177614835777620089L;
 
-	/******************************************************************************
-	 *	Mouse Listener
+	/**
+	 * Define the ui class ID. It will be added to the 
+	 * look and feel to define the ui class to use.
 	 */
-	final class VAccount_mouseAdapter extends MouseAdapter
-	{
-		/**
-		 *	Constructor
-		 *  @param adaptee adaptee
-		 */
-		VAccount_mouseAdapter(VAccount adaptee)
-		{
-			m_adaptee = adaptee;
-		}	//	VNumber_mouseAdapter
+	private final static String uiClassID = "AccountUI";
 
-		private VAccount m_adaptee;
-
-		/**
-		 *	Mouse Listener
-		 *  @param e event
-		 */
-		public void mouseClicked(MouseEvent e)
-		{
-			//	popup menu
-			if (SwingUtilities.isRightMouseButton(e))
-				m_adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
-		}	//	mouseClicked
-
-	}
+	@Override
+    public String getUIClassID() {
+        return uiClassID ;
+    }
 	
 	/**
 	 *	Constructor
@@ -112,204 +77,78 @@ public final class VAccount extends JComponent
 	public VAccount(String columnName, boolean mandatory, boolean isReadOnly, boolean isUpdateable,
 		MAccountLookup mAccount, String title)
 	{
-		super();
-		super.setName(columnName);
-		m_columnName = columnName;
-		m_mAccount = mAccount;
-		m_title = title;
-		//
-		LookAndFeel.installBorder(this, "TextField.border");
-		this.setLayout(new BorderLayout());
-		//  Size
-		this.setPreferredSize(m_text.getPreferredSize());		//	causes r/o to be the same length
-		int height = m_text.getPreferredSize().height;
+		this(columnName, mandatory, isReadOnly, isUpdateable, mAccount, title, false);
+	}		
+	
+	
+	/**
+	 *	Constructor
+	 *  @param columnName
+	 *  @param mandatory
+	 *  @param isReadOnly
+	 *  @param isUpdateable
+	 *  @param mAccount
+	 *  @param title
+	 *  @param tableCellEditor true if the editor will be used in a table cell
+	 */
+	public VAccount(String columnName, boolean mandatory, boolean isReadOnly, boolean isUpdateable,
+		MAccountLookup mAccount, String title, boolean tableCellEditor)
+	{
 
-		//	***	Button & Text	***
-		m_text.setBorder(null);
-		m_text.addActionListener(this);
-		m_text.addFocusListener(this);
-		m_text.setFont(AdempierePLAF.getFont_Field());
-		m_text.setForeground(AdempierePLAF.getTextColor_Normal());
-		m_text.addMouseListener(new VAccount_mouseAdapter(this));
-		this.add(m_text, BorderLayout.CENTER);
+		super(columnName, mandatory, isReadOnly, isUpdateable, tableCellEditor);
+		setLookup(mAccount);
+		this.title = title;
+		textField = (CTextField) getEditorComponent();
+		button = getButtonComponent();
 
-		m_button.setIcon(Env.getImageIcon("Account10.gif"));
-		m_button.setMargin(new Insets(0, 0, 0, 0));
-		m_button.setPreferredSize(new Dimension(height, height));
-		m_button.addActionListener(this);
-		m_button.setFocusable(false);
-		this.add(m_button, BorderLayout.EAST);
-
-		//	Editable
-		if (isReadOnly || !isUpdateable)
-			setReadWrite (false);
-		else
-			setReadWrite (true);
-		setMandatory (mandatory);
 	}	//	VAccount
 
-	/**
-	 *  Dispose
-	 */
-	public void dispose()
-	{
-		m_text = null;
-		m_button = null;
-		m_mAccount = null;
-	}   //  dispose
 
-	private CTextField			m_text = new CTextField (VLookup.DISPLAY_LENGTH);
-	private CButton				m_button = new CButton();
-	private MAccountLookup		m_mAccount;
-	private Object				m_value;
-	private String				m_title;
-	private int					m_WindowNo;
-
-	private String				m_columnName;
-	//	Popup
-	JPopupMenu 				popupMenu = new JPopupMenu();
+	private CTextField			textField;
+	private CButton				button;
+	private String				title;
+	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VAccount.class);
 
 	/**
-	 *	Enable/disable
-	 *  @param value
-	 */
-	public void setReadWrite(boolean value)
-	{
-		m_button.setReadWrite(value);
-		m_text.setReadWrite(value);
-		if (m_button.isVisible() != value)
-			m_button.setVisible(value);
-		setBackground(false);
-	}	//	setReadWrite
-
-	/**
-	 *	IsReadWrite
-	 *  @return true if read write
-	 */
-	public boolean isReadWrite()
-	{
-		return m_button.isReadWrite();
-	}	//	isReadWrite
-
-	/**
-	 *	Set Mandatory (and back bolor)
-	 *  @param mandatory
-	 */
-	public void setMandatory (boolean mandatory)
-	{
-		m_button.setMandatory(mandatory);
-		setBackground(false);
-	}	//	setMandatory
-
-	/**
-	 *	Is it mandatory
-	 *  @return mandatory
-	 */
-	public boolean isMandatory()
-	{
-		return m_button.isMandatory();
-	}	//	isMandatory
-
-	/**
-	 *	Set Background
-	 *  @param color
-	 */
-	public void setBackground (Color color)
-	{
-	//	if (!color.equals(m_text.getBackground()))
-		m_text.setBackground(color);
-	}	//	setBackground
-
-	/**
-	 *  Set Background based on editable / mandatory / error
-	 *  @param error if true, set background to error color, otherwise mandatory/editable
-	 */
-	public void setBackground (boolean error)
-	{
-		if (error)
-			setBackground(AdempierePLAF.getFieldBackground_Error());
-		else if (!isReadWrite())
-			setBackground(AdempierePLAF.getFieldBackground_Inactive());
-		else if (isMandatory())
-			setBackground(AdempierePLAF.getFieldBackground_Mandatory());
-		else
-			setBackground(AdempierePLAF.getFieldBackground_Normal());
-	}   //  setBackground
-
-	/**
-	 *  Set Foreground
-	 *  @param fg
-	 */
-	public void setForeground(Color fg)
-	{
-		m_text.setForeground(fg);
-	}   //  setForeground
-
-	/**
 	 *	Set Editor to value
 	 *  @param value
+	 * @return 
 	 */
-	public void setValue (Object value)
+	@Override
+	public String setDisplayBasedOnValue(Object value)
 	{
-		m_value = value;
-		m_text.setText(m_mAccount.getDisplay(value));	//	loads value
-		m_text.setToolTipText(m_mAccount.getDescription());
+		log.finest("Value=" + value);
+		String display = ((MAccountLookup) getLookup()).getDisplay(value);
+		textField.setText(display);	//	loads lookup
+		textField.setToolTipText(((MAccountLookup) getLookup()).getDescription());
+		return display;
 	}	//	setValue
 
-	/**
-	 * 	Request Focus
-	 */
-	public void requestFocus ()
-	{
-		m_text.requestFocus ();
-	}	//	requestFocus
-
-	/**
-	 *  Property Change Listener
-	 *  @param evt
-	 */
-	public void propertyChange (PropertyChangeEvent evt)
-	{
-		if (evt.getPropertyName().equals(org.compiere.model.GridField.PROPERTY))
-			setValue(evt.getNewValue());
-	}   //  propertyChange
-
-	/**
-	 *	Return Editor value
-	 *  @return value
-	 */
-	public Object getValue()
-	{
-		return new Integer (m_mAccount.C_ValidCombination_ID);
-	}	//	getValue
-
-	/**
-	 *  Return Display Value
-	 *  @return String representation
-	 */
-	public String getDisplay()
-	{
-		return m_text.getText();
-	}   //  getDisplay
-
+//	/**
+//	 *  Return Display Value
+//	 *  @return String representation
+//	 */
+//	public String getDisplay()
+//	{
+//		return textField.getText();
+//	}   //  getDisplay
+//
 	/**
 	 *	ActionListener - Button - Start Dialog
 	 *  @param e
 	 */
+	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getActionCommand().equals(RecordInfo.CHANGE_LOG_COMMAND))
-		{
-			RecordInfo.start(m_mField);
-			return;
-		}
+		super.actionPerformed(e);
 		
-		if (e.getSource() == m_text)
+		if (e.getSource().equals(textField))
 			cmd_text();
-		else
-			cmd_button();
+		else if (e.getSource().equals(button))
+			cmd_button();		
+		
 	}	//	actionPerformed
 
 	/**
@@ -318,35 +157,26 @@ public final class VAccount extends JComponent
 	public void cmd_button()
 	{
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		int C_AcctSchema_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "C_AcctSchema_ID", false);
+		int C_AcctSchema_ID = Env.getContextAsInt(Env.getCtx(), getWindowNo(), "C_AcctSchema_ID", false);
 		// Try to get C_AcctSchema_ID from global context - teo_sarca BF [ 1830531 ]
 		if (C_AcctSchema_ID <= 0)
 		{
 			C_AcctSchema_ID = Env.getContextAsInt(Env.getCtx(), "$C_AcctSchema_ID");
 		}
-		VAccountDialog ad = new VAccountDialog (Env.getFrame(this), m_title, 
-			m_mAccount, C_AcctSchema_ID);
+		VAccountDialog ad = new VAccountDialog (Env.getFrame(this), title, 
+			(MAccountLookup) getLookup(), C_AcctSchema_ID);
 		setCursor(Cursor.getDefaultCursor());
 		//
 		Integer newValue = ad.getValue();
-//		if (newValue == null)
-//			return;
 
 		//	set & redisplay
-		setValue(newValue);
-
-		//	Data Binding
-		try
-		{
-			fireVetoableChange(m_columnName, null, newValue);
-		}
-		catch (PropertyVetoException pve)
-		{
-		}
+		textField.setText(((MAccountLookup) getLookup()).getDisplay(newValue));
+		textField.setToolTipText(((MAccountLookup) getLookup()).getDescription());
+		
 	}	//	cmd_button
 
 	private boolean m_cmdTextRunning = false;
-	private GridField m_mField; 
+	
 	/**
 	 *	Text - try to find Alias or start Dialog
 	 */
@@ -354,25 +184,36 @@ public final class VAccount extends JComponent
 	{
 		if (m_cmdTextRunning)
 			return;
+	
 		m_cmdTextRunning = true;
+
+		// Try to find the value based on the text
+		Integer newValue = (Integer) getCurrentValue();
 		
-		String text = m_text.getText();
+		// If that doesn't work, open the dialog.
+		if (newValue == null || newValue.compareTo(Integer.valueOf(0)) <= 0)
+			cmd_button();  
+		
+		m_cmdTextRunning = false;
+	}	//	actionPerformed
+
+
+	protected Object getCurrentValue() {
+		
+		String text = textField.getText();
 		log.info("Text=" + text);
 		if (text == null || text.length() == 0 || text.equals("%"))
 		{
-			cmd_button();
-			m_cmdTextRunning = false;
-			return;
+			return null;
 		}
-		if (!text.endsWith("%"))
-			text += "%";
 		//
 		String sql = "SELECT C_ValidCombination_ID FROM C_ValidCombination "
 			+ "WHERE C_AcctSchema_ID=?" 
 			+ " AND (UPPER(Alias) LIKE ? OR UPPER(Combination) LIKE ?)";
 		sql = MRole.getDefault().addAccessSQL(sql, 
 			"C_ValidCombination", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
-		int C_AcctSchema_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "C_AcctSchema_ID");
+		
+		int C_AcctSchema_ID = Env.getContextAsInt(Env.getCtx(), getWindowNo(), "C_AcctSchema_ID");
 		//
 		int C_ValidCombination_ID = 0;
 		PreparedStatement pstmt = null;
@@ -380,8 +221,8 @@ public final class VAccount extends JComponent
 		{
 			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_AcctSchema_ID);
-			pstmt.setString(2, text.toUpperCase());
-			pstmt.setString(3, text.toUpperCase());
+			pstmt.setString(2, Info.getSQLText(text));
+			pstmt.setString(3, Info.getSQLText(text));
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next())
 			{
@@ -407,58 +248,17 @@ public final class VAccount extends JComponent
 		{
 			pstmt = null;
 		}
-		//	We have a Value
-		if (C_ValidCombination_ID > 0)
-		{
-			Integer newValue = new Integer(C_ValidCombination_ID);
-
-			//	set & redisplay
-			setValue(newValue);
-			
-			//	Data Binding
-			try
-			{
-				fireVetoableChange(m_columnName, null, newValue);
-			}
-			catch (PropertyVetoException pve)
-			{
-			}
-		}
-		else
-			cmd_button();
 		
-		m_cmdTextRunning = false;
-	}	//	actionPerformed
-
-
-	/**
-	 *  Action Listener Interface
-	 *  @param listener
-	 */
-	public void addActionListener(ActionListener listener)
-	{
-		m_text.addActionListener(listener);
-	}   //  addActionListener
-
-	/**
-	 *  Set Field/WindowNo for ValuePreference (NOP)
-	 *  @param mField
-	 */
-	public void setField (org.compiere.model.GridField mField)
-	{
-		if (mField != null)
-			m_WindowNo = mField.getWindowNo();
-		m_mField = mField;
-		if (m_mField != null)
-			RecordInfo.addMenu(this, popupMenu);
+		this.setCurrentValueValid(C_ValidCombination_ID != 0);
 		
-	}   //  setField
+		Object retValue = new Integer(C_ValidCombination_ID);
+		
+		setDisplayBasedOnValue(retValue);
+		
+		return retValue;
 
-	@Override
-	public GridField getField() {
-		return m_mField;
 	}
-	
+		
 	/**
 	 * 	String Representation
 	 *	@return info
@@ -466,38 +266,20 @@ public final class VAccount extends JComponent
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer ("VAccount[");
-		sb.append (m_value).append ("]");
+		sb.append (getValue()).append ("]");
 		return sb.toString ();
 	}	//	toString
 
-	public void focusGained(FocusEvent e)
-	{
-	}
-
-	public void focusLost(FocusEvent e)
-	{
-		if (m_text == null) return; // arhipac: teo_sarca: already disposed
-									// Test Case: Open a window, click on account field that is mandatory but not filled, close the window and you will get an NPE
-									// TODO: integrate to trunk
-		// New text
-		String newText = m_text.getText();
-		if (newText == null)
-			newText = "";
-		// Actual text
-		String actualText = m_mAccount.getDisplay(m_value);
-		if (actualText == null)
-			actualText = "";
-		// If text was modified, try to resolve the valid combination
-		if (!newText.equals(actualText))
-		{
-			cmd_text();
-		}
-	}
-
 	@Override
-	public void addValueChangeListener(ValueChangeListener listener) {
-		// TODO Auto-generated method stub
+	public String getDisplay() {
+		
+		return textField.getDisplay();
 		
 	}
 
+	@Override
+	protected void handleInvalidValue() {
+		cmd_button();
+	}
+	
 }	//	VAccount

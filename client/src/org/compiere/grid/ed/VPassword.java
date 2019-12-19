@@ -1,32 +1,27 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.compiere.grid.ed;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyVetoException;
+import java.util.Arrays;
 
-import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.model.GridField;
+import javax.swing.JComponent;
+import javax.swing.UIDefaults;
+
+import org.adempiere.plaf.AdempierePasswordUI;
 import org.compiere.swing.CPassword;
 
 /**
@@ -37,15 +32,42 @@ import org.compiere.swing.CPassword;
  *		then set the value for that column in the current row in the table
  *
  *  @author 	Jorg Janke
- *  @version 	$Id: VPassword.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
+  *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+*  
+ *  @version 3.9.4
  */
-public final class VPassword extends CPassword
-	implements VEditor, KeyListener, ActionListener, FocusListener
+public final class VPassword extends VEditorAbstract
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1659042515884579907L;
+
+	private final static String uiClassID = "PasswordUI";
+	
+    /**
+     * Gets the class ID for a UI. Should point the
+     * default UI to Adempiere + UICLassID = AdempierePasswordUI
+     *
+     * @return the string "PasswordUI"
+     * @see JComponent#getUIClassID
+     * @see UIDefaults#getUI
+     */
+	@Override
+    public String getUIClassID() {
+        return uiClassID ;
+    }
+	private AdempierePasswordUI passwordUI;
+	
+	CPassword passwordEditor;
+
+	/** The value of the password, held as an array of char
+	 *  The array must be zeroed on disposal and should be
+	 *  zeroed after use to prevent the value appearing in 
+	 *  the heap.
+	 */
+	private char[] insecurePassword;
 
 	/**
 	 *	IDE Bean Constructor for 30 character updateable field
@@ -68,151 +90,94 @@ public final class VPassword extends CPassword
 	public VPassword (String columnName, boolean mandatory, boolean isReadOnly, boolean isUpdateable,
 		int displayLength, int fieldLength, String VFormat)
 	{
-		super (displayLength>VString.MAXDISPLAY_LENGTH ? VString.MAXDISPLAY_LENGTH : displayLength);
-		super.setName(columnName);
-		m_columnName = columnName;
-		if (VFormat == null)
-			VFormat = "";
-		m_VFormat = VFormat;
-		m_fieldLength = fieldLength;
-		if (m_VFormat.length() != 0 || m_fieldLength != 0)
-			setDocument(new MDocString(m_VFormat, m_fieldLength, this));
-		if (m_VFormat.length() != 0)
-			setCaret(new VOvrCaret());
-		//
-		setMandatory(mandatory);
+		this(columnName, mandatory, isReadOnly, isUpdateable, displayLength, fieldLength, VFormat, false);
+	}
+	
+	/**
+	 *	Detail Constructor
+	 *  @param columnName column name
+	 *  @param mandatory mandatory
+	 *  @param isReadOnly read only
+	 *  @param isUpdateable updateable
+	 *  @param displayLength display length
+	 *  @param fieldLength field length
+	 *  @param VFormat format
+	 *  @param tableCellEditor true if the editor will be used in a table cell
+	 */
+	public VPassword (String columnName, boolean mandatory, boolean isReadOnly, boolean isUpdateable,
+		int displayLength, int fieldLength, String VFormat, boolean tableCellEditor)
+	{
+		super(columnName, mandatory, isReadOnly, isUpdateable, tableCellEditor);		
 
-		//	Editable
-		if (isReadOnly || !isUpdateable)
-		{
-			setEditable(false);
-			setBackground(AdempierePLAF.getFieldBackground_Inactive());
-		}
+		passwordUI = (AdempierePasswordUI) getUI();
+		passwordUI.setFormat(VFormat, fieldLength);
+		passwordUI.setDisplayLength(displayLength);
+		
+		if (VFormat != null && VFormat.length() != 0)
+			passwordUI.setCaret(new VOvrCaret());
 
-		this.addKeyListener(this);
-		this.addFocusListener(this);
-		this.addActionListener(this);
+		this.setEditorComponent(passwordEditor);
 
-		setForeground(AdempierePLAF.getTextColor_Normal());
-		setBackground(AdempierePLAF.getFieldBackground_Normal());
 	}	//	VPassword
 
-	/**
-	 *  Dispose
+	/** 
+	 *  Gets the current password value, whether committed or not.
+	 *  For increased safety, the characters in the returned string 
+	 *  should be overwritten with 0 after use. Use the helper
+	 *  function clearPassword()
 	 */
-	public void dispose()
+	@Override
+	public Object getCurrentValue()
 	{
-		m_mField = null;
-	}   //  dispose
-
-	private GridField				m_mField = null;
-
-	private String				m_columnName;
-	private String				m_oldText;
-	private String				m_VFormat;
-	private int					m_fieldLength;
-	private volatile boolean	m_setting = false;
-
-	/**
-	 *	Set Editor to value
-	 *  @param value value
-	 */
-	public void setValue (Object value)
-	{
-		if (value == null)
-			m_oldText = "";
-		else
-			m_oldText = value.toString();
-		if (!m_setting)
-			setText (m_oldText);
-	}	//	setValue
-
-	/**
-	 *  Property Change Listener
-	 *  @param evt event
-	 */
-	public void propertyChange (PropertyChangeEvent evt)
-	{
-		if (evt.getPropertyName().equals(org.compiere.model.GridField.PROPERTY))
-			setValue(evt.getNewValue());
-	}   //  propertyChange
-
-	/**
-	 *	Return Editor value
-	 *  @return value
-	 */
-	public Object getValue()
-	{
-		return String.valueOf(getPassword());
+		insecurePassword = passwordEditor.getPassword();
+		return insecurePassword;
 	}	//	getValue
 
 	/**
-	 *  Return Display Value
+	 *  Return Display Value - for the password editor, this will 
+	 *  be the overlaid value
 	 *  @return value
 	 */
+	@Override
 	public String getDisplay()
 	{
-		return String.valueOf(getPassword());
+		return String.valueOf(passwordEditor.getDisplay());
 	}   //  getDisplay
 
-	/**************************************************************************
-	 *	Key Listener Interface
-	 *  @param e event
-	 */
-	public void keyTyped(KeyEvent e)	{}
-	public void keyPressed(KeyEvent e)	{}
-
-	/**
-	 *	Key Listener.
-	 *  @param e event
-	 */
-	public void keyReleased(KeyEvent e)
-	{
-	}	//	keyReleased
-
-	/**
-	 *	Data Binding to MTable (via GridController)	-	Enter pressed
-	 *  @param e event
-	 */
-	public void actionPerformed(ActionEvent e)
-	{
-		String newText = String.valueOf(getPassword());
-		//  Data Binding
-		try
-		{
-			fireVetoableChange(m_columnName, m_oldText, newText);
-		}
-		catch (PropertyVetoException pve)	{}
-	}	//	actionPerformed
-
-	/**
-	 *  Set Field/WindowNo for ValuePreference
-	 *  @param mField field
-	 */
-	public void setField (GridField mField)
-	{
-		m_mField = mField;
-	}   //  setField
 
 	@Override
-	public GridField getField() {
-		return m_mField;
+	public JComponent getComponent() {
+		return passwordEditor;
 	}
 
 	@Override
-	public void focusGained(FocusEvent e) {
+	protected String setDisplayBasedOnValue(Object value) {
+		
+		passwordEditor.setValue(value);
+		return passwordEditor.getDisplay();
 	}
 
 	@Override
-	public void focusLost(FocusEvent e) {
-		String newText = String.valueOf(getPassword());
-		m_setting = true;
-		try
-		{
-			fireVetoableChange(m_columnName, m_oldText, newText);
-		}
-		catch (PropertyVetoException pve)	{}
-		m_setting = false;
+	protected void handleInvalidValue() {
+		// This method shouldn't be called
+		// but in case;
+		cleanPassword();
+		
+	}
+
+	/**
+	 * Clean the password from memory.
+	 */
+	public void cleanPassword()
+	{
+		if (insecurePassword != null)
+			Arrays.fill(insecurePassword, '0');
+	}
+	
+	@Override
+	public void dispose() {
+		cleanPassword();
+		super.dispose();
 	}
 
 }	//	VPassword

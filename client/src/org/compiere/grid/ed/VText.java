@@ -1,44 +1,29 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.compiere.grid.ed;
 
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyVetoException;
 
-import javax.swing.JPopupMenu;
-import javax.swing.LookAndFeel;
-import javax.swing.SwingUtilities;
+import javax.swing.JComponent;
 
-import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.RecordInfo;
+import org.adempiere.plaf.AdempiereTextUI;
 import org.compiere.apps.ScriptEditor;
-import org.compiere.model.GridField;
 import org.compiere.swing.CMenuItem;
-import org.compiere.swing.CTextArea;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -50,9 +35,12 @@ import org.compiere.util.Msg;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
  *		@see https://github.com/adempiere/adempiere/issues/146
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+ *  
+ *  @version 3.9.4
  */
-public class VText extends CTextArea
-	implements VEditor, KeyListener, ActionListener, FocusListener
+public class VText extends VEditorAbstract
 {
 	/**
 	 * 
@@ -60,33 +48,20 @@ public class VText extends CTextArea
 	private static final long serialVersionUID = 437954563775941704L;
 
 	/**
-	 *	Mouse Listener
+	 * Define the ui class ID. It will be added to the 
+	 * look and feel to define the ui class to use.
 	 */
-	final class VText_mouseAdapter extends MouseAdapter
-	{
-		/**
-		 *	Constructor
-		 *  @param adaptee VText
-		 */
-		VText_mouseAdapter(VText adaptee)
-		{
-			this.adaptee = adaptee;
-		}	//	VText_mouseAdapter
+	private final static String uiClassID = "TextUI";
 
-		private VText adaptee;
+	@Override
+    public String getUIClassID() {
+        return uiClassID ;
+    }
+	
+	private AdempiereTextUI textUI;
 
-		/**
-		 *	Mouse Listener
-		 *  @param e event
-		 */
-		public void mouseClicked(MouseEvent e)
-		{
-			//	popup menu
-			if (SwingUtilities.isRightMouseButton(e))
-				adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
-		}	//	mouse Clicked
+	private int fieldLength;
 
-	}	//	VText_mouseAdapter
 	
 	/**
 	 *	Standard Constructor
@@ -100,28 +75,33 @@ public class VText extends CTextArea
 	public VText (String columnName, boolean mandatory, boolean isReadOnly, boolean isUpdateable,
 		int displayLength, int fieldLength)
 	{
-		super (fieldLength < 300 ? 2 : 3, 50);
-		super.setName(columnName);
-		LookAndFeel.installBorder(this, "TextField.border");
+		this(columnName, mandatory, isReadOnly, isUpdateable, displayLength, fieldLength, false);
+	}
+	
+	/**
+	 *	Standard Constructor
+	 *  @param columnName column name
+	 *  @param mandatory mandatory
+	 *  @param isReadOnly read only
+	 *  @param isUpdateable updateable
+	 *  @param displayLength display length
+	 *  @param fieldLength field length
+	 *  @param tableCellEditor true if the editor will be used in a table cell
+	 */
+	public VText (String columnName, boolean mandatory, boolean isReadOnly, boolean isUpdateable,
+		int displayLength, int fieldLength, boolean tableCellEditor)
+	{
+		super (columnName, mandatory, isReadOnly, isUpdateable, tableCellEditor);
+		
+		this.fieldLength = fieldLength;
+		textUI = (AdempiereTextUI) getUI();
 
-		//  Create Editor
-		setColumns(displayLength>VString.MAXDISPLAY_LENGTH ? VString.MAXDISPLAY_LENGTH : displayLength);	//  46
-		setForeground(AdempierePLAF.getTextColor_Normal());
-		setBackground(AdempierePLAF.getFieldBackground_Normal());
+		textUI.setFieldLength(fieldLength);
+		textUI.setDisplayLength(displayLength);
 
-		setLineWrap(true);
-		setWrapStyleWord(true);
-		setMandatory(mandatory);
-		m_columnName = columnName;
-		m_fieldLength = fieldLength;
+		textUI.addFocusListener(this);
+		textUI.addMouseListener(getMouseAdapter());
 
-		if (isReadOnly || !isUpdateable)
-			setReadWrite(false);
-		addKeyListener(this);
-		addFocusListener(this);
-
-		//	Popup
-		addMouseListener(new VText_mouseAdapter(this));
 		if (columnName.equals("Script"))
 			menuEditor = new CMenuItem(Msg.getMsg(Env.getCtx(), "Script"), Env.getImageIcon("Script16.gif"));
 		else
@@ -130,49 +110,22 @@ public class VText extends CTextArea
 		popupMenu.add(menuEditor);
 	}	//	VText
 
-	/**
-	 *  Dispose
-	 */
-	public void dispose()
-	{
-	}   //  dispose
-
-	JPopupMenu          		popupMenu = new JPopupMenu();
 	private CMenuItem 			menuEditor;
-	private int					m_fieldLength;
-	private String				m_columnName;
-	private String				m_oldText;
-	private String				m_initialText;
-	private volatile boolean	m_setting = false;
-	private GridField m_mField;
+
+	private Object currentValue;
 
 	/**
 	 *	Set Editor to value
 	 *  @param value value
 	 */
-	public void setValue(Object value)
+	@Override
+	public String setDisplayBasedOnValue(Object value)
 	{
-		if (value == null)
-			m_oldText = "";
-		else
-			m_oldText = value.toString();
-		if (m_setting)
-			return;
-		super.setValue(m_oldText);
-		m_initialText = m_oldText;
-		//	Always position Top 
-		setCaretPosition(0);
+		currentValue = value;
+		textUI.setText((String) value);
+		
+		return currentValue == null ? "" : currentValue.toString();
 	}	//	setValue
-
-	/**
-	 *  Property Change Listener
-	 *  @param evt event
-	 */
-	public void propertyChange (PropertyChangeEvent evt)
-	{
-		if (evt.getPropertyName().equals(org.compiere.model.GridField.PROPERTY))
-			setValue(evt.getNewValue());
-	}   //  propertyChange
 
 	/**
 	 *	ActionListener
@@ -184,27 +137,21 @@ public class VText extends CTextArea
 		{
 			menuEditor.setEnabled(false);
 			String s = null;
-			if (m_columnName.equals("Script") || m_columnName.endsWith("_Script"))
+			if (super.getColumnName().equals("Script") 
+					|| super.getColumnName().endsWith("_Script"))
 				s = ScriptEditor.start (
 						Env.getFrame(this.getParent()),
-						Msg.translate(Env.getCtx(), m_columnName), getText(), isEditable(), 
+						Msg.translate(Env.getCtx(), super.getColumnName()), (String) currentValue, isEditable(), 
 						findWindowNo());
 			else
-				s = Editor.startEditor (this, Msg.translate(Env.getCtx(), m_columnName), 
-					getText(), isEditable(), m_fieldLength);
+				s = Editor.startEditor (this, Msg.translate(Env.getCtx(), super.getColumnName()), 
+					(String) currentValue, isEditable(), fieldLength);
+			setDisplayBasedOnValue(s);
 			menuEditor.setEnabled(true);
-			//	Data Binding
-			try
-			{
-				fireVetoableChange(m_columnName, m_oldText, s);
-			}
-			catch (PropertyVetoException pve)	{}
 		}
-		else if (e.getActionCommand().equals(RecordInfo.CHANGE_LOG_COMMAND))
-		{
-			RecordInfo.start(m_mField);
-			return;
-		}
+		
+		super.actionPerformed(e);
+		
 	}	//	actionPerformed
 
 	private int findWindowNo() {
@@ -212,62 +159,32 @@ public class VText extends CTextArea
 		return c != null ? Env.getWindowNo(c) : 0;
 	}
 
-	/**
-	 *  Action Listener Interface - NOP
-	 *  @param listener listener
-	 */
-	public void addActionListener(ActionListener listener)
-	{
-	}   //  addActionListener
-
-	/**************************************************************************
-	 *	Key Listener Interface
-	 *  @param e event
-	 */
-	public void keyTyped(KeyEvent e)	{}
-	public void keyPressed(KeyEvent e)	{}
-
-	/**
-	 * 	Key Released
-	 *	if Escape restore old Text.
-	 *  @param e event
-	 */
-	public void keyReleased(KeyEvent e)
-	{
-		//  ESC
-		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
-			setText(m_initialText);
-	}	//	keyReleased
-
-	/**
-	 *  Set Field/WindowNo for ValuePreference (NOP)
-	 *  @param mField field model
-	 */
-	public void setField (org.compiere.model.GridField mField)
-	{
-		m_mField = mField;
-		if (m_mField != null)
-			RecordInfo.addMenu(this, popupMenu);
-	}   //  setField
-
-	@Override
-	public GridField getField() {
-		return m_mField;
+	public String getText() {
+		return textUI.getText();
+	}
+	
+	public void setText(String text) {
+		setValue(text);
 	}
 	
 	@Override
-	public void focusGained(FocusEvent e) {
+	public JComponent getComponent() {
+		return textUI.getComponent();
 	}
 
 	@Override
-	public void focusLost(FocusEvent e) {
-		m_setting = true;
-		try
-		{
-			fireVetoableChange(m_columnName, m_oldText, getText());
-		}
-		catch (PropertyVetoException pve)	{}
-		m_setting = false;
+	public String getDisplay() {
+		return textUI.getText();
+	}
+
+	@Override
+	protected Object getCurrentValue() {
+		return currentValue;
+	}
+
+	@Override
+	protected void handleInvalidValue() {
+		// No action required
 	}
 
 }	//	VText

@@ -1,57 +1,43 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.compiere.grid.ed;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyVetoException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 
-import javax.swing.Action;
-import javax.swing.ActionMap;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.InputMap;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
-import javax.swing.LookAndFeel;
-import javax.swing.SwingUtilities;
+import javax.swing.text.JTextComponent;
 
-import org.adempiere.exceptions.ValueChangeListener;
-import org.compiere.apps.ADialog;
-import org.compiere.apps.AEnv;
-import org.compiere.apps.AWindow;
-import org.compiere.apps.RecordInfo;
+import org.adempiere.plaf.AdempiereComboBoxUI;
+import org.adempiere.plaf.AdempiereLookupUI;
 import org.compiere.apps.search.Info;
 import org.compiere.apps.search.InfoBPartner;
 import org.compiere.apps.search.InfoFactory;
@@ -74,11 +60,9 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
 import org.compiere.util.Trx;
-import org.compiere.util.ValueNamePair;
 import org.eevolution.model.I_PP_Product_BOMLine;
 
 /**
@@ -106,8 +90,9 @@ import org.eevolution.model.I_PP_Product_BOMLine;
  *  @sponsor www.metas.de
  * 
  * @author Michael McKay, 
- * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
- * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ * 		<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 				https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
  * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<li> BR [ 9223372036854775807 ] Lookup for search view not show button
  * 		@see https://adempiere.atlassian.net/browse/ADEMPIERE-447
@@ -116,73 +101,42 @@ import org.eevolution.model.I_PP_Product_BOMLine;
  *		@see https://github.com/adempiere/adempiere/issues/146
  * 		<a href="https://github.com/adempiere/adempiere/issues/611">
  * 		@see BR [ 611 ] Error dialog is showed and lost focus from window</a>
+ * 
+ * @version 3.9.4
+ * 
  */
-public class VLookup extends JComponent
-	implements VEditor, ActionListener, FocusListener
+public class VLookup extends VEditorAbstract
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1307112072890929329L;
-
-	/*****************************************************************************
-	 *	Mouse Listener for Popup Menu
+	
+	/**
+	 * Define the ui class ID. It will be added to the 
+	 * look and feel to define the ui class to use.
 	 */
-	final class VLookup_mouseAdapter extends java.awt.event.MouseAdapter
-	{
-		/**
-		 *	Constructor
-		 *  @param adaptee adaptee
-		 */
-		VLookup_mouseAdapter(VLookup adaptee)
-		{
-			m_adaptee = adaptee;
-		}	//	VLookup_mouseAdapter
+	private final static String uiClassID = "LookupUI";
 
-		private VLookup m_adaptee;
+	@Override
+    public String getUIClassID() {
+        return uiClassID ;
+    }
 
-		/**
-		 *	Mouse Listener
-		 *  @param e MouseEvent
-		 */
-		public void mouseClicked(MouseEvent e)
-		{
-		//	System.out.println("mouseClicked " + e.getID() + " " + e.getSource().getClass().toString());
-			//	popup menu
-			if (SwingUtilities.isRightMouseButton(e))
-				m_adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
-			// Hide the popup if not right click - teo_sarca [ 1734802 ]
-			else
-				m_adaptee.popupMenu.setVisible(false);
-		}	//	mouse Clicked
-
-	}	//	VLookup_mouseAdapter
-	
-	
 	@Override
 	protected boolean processKeyBinding(KeyStroke ks, KeyEvent e,
 			int condition, boolean pressed) {
-		if (e.getSource() == m_combo || e.getSource() == m_text || e.getSource() == this) {
-			return super.processKeyBinding(ks, e, condition, pressed);
-		}
-
-		JComponent editorComp = null;
-		if (m_lookup != null && m_lookup.getDisplayType() != DisplayType.Search)
-			editorComp = m_combo;
-		else
-			editorComp = m_text;
-		InputMap map = editorComp.getInputMap(condition);
-        ActionMap am = editorComp.getActionMap();
-
-        if(map!=null && am!=null && isEnabled()){
-            Object binding = map.get(ks);
-            Action action = (binding==null) ? null : am.get(binding);
-            if(action!=null){
-                return SwingUtilities.notifyAction(action, ks, e, editorComp,
-                        e.getModifiers());
-            }
+		
+		// Pass on the keystroke to the editor component
+		// otherwise the keystroke that activates the editor is
+		// lost
+        if (m_comboActive)
+        {
+        	if (condition==WHEN_FOCUSED)
+        		return getComboBox().processKeyBinding(ks, e, pressed);
         }
-        return false;
+        
+		return super.processKeyBinding(ks, e, condition, pressed);
 	}
 
 	/**
@@ -246,7 +200,7 @@ public class VLookup extends JComponent
 			log.log(Level.SEVERE, "", e);
 		}
 		return null;
-	}   //  createProduct
+	}   //  createUser
 
 
 	/*************************************************************************
@@ -261,15 +215,41 @@ public class VLookup extends JComponent
 	public VLookup (String columnName, boolean mandatory, boolean isReadOnly, boolean isUpdateable,
 		Lookup lookup)
 	{
-		super();
-		super.setName(columnName);
+		this(columnName, mandatory, isReadOnly, isUpdateable, lookup, false);
+	}
+	
+	/*************************************************************************
+	 *	Detail Constructor
+	 *
+	 *  @param columnName column
+	 *  @param mandatory mandatory
+	 *  @param isReadOnly read only
+	 *  @param isUpdateable updateable
+	 *  @param lookup lookup
+	 *  @param tableCellEditor true if the editor is used in a table cell
+	 */
+	public VLookup (String columnName, boolean mandatory, boolean isReadOnly, boolean isUpdateable,
+		Lookup lookup, boolean tableCellEditor)
+	{
+
+		super(columnName, mandatory, isReadOnly, isUpdateable, tableCellEditor);
+		super.setLookup(lookup);
+
+		((AdempiereLookupUI) getUI()).setEditorType(columnName);
 		
 		int windowNo = 0;
+		
+		// These should have been initialized already by now, but in case...
+		getText();
+		getButton();
+		getCombo();
+				
 		m_text.setName("VLookup Text - " + columnName);
 		m_button.setName("VLookup Button - " + columnName);
 		m_combo.setName("VLookup Combo - " + columnName);
-		m_columnName = columnName;
-		setMandatory(mandatory);
+		
+		m_combo.setTableCellEditor(tableCellEditor);
+		
 		m_lookup = lookup;
 		if (m_lookup != null)
 		{
@@ -285,45 +265,44 @@ public class VLookup extends JComponent
 		if (Env.getContext(Env.getCtx(), windowNo, "IsSOTrx").equals("N"))
 			m_isSOTrx = false;				
 		//
-		setLayout(new BorderLayout());
-		mouseAdapter = new VLookup_mouseAdapter(this);    //  popup
 
-		//	***	Text & Button	***
-		m_text.addActionListener(this);
-		m_text.addFocusListener(this);
-		m_text.addMouseListener(mouseAdapter);
-		//  Button
-		m_button.addActionListener(this);
-		m_button.addMouseListener(mouseAdapter);
-		m_button.setFocusable(false);   //  don't focus when tabbing
-		m_button.setMargin(new Insets(0, 0, 0, 0));
-		if (columnName.equals("C_BPartner_ID"))
-			m_button.setIcon(Env.getImageIcon("BPartner10.gif"));
-		else if (columnName.equals("M_Product_ID"))
-			m_button.setIcon(Env.getImageIcon("Product10.gif"));
-		else
-			m_button.setIcon(Env.getImageIcon("PickOpen10.gif"));
-
+		//m_button.setFocusable(false);   //  don't focus when tabbing
+		
 		//	*** VComboBox	***
 		if (m_lookup != null && m_lookup.getDisplayType() != DisplayType.Search)	//	No Search
 		{
-			m_combo.setName("VLookup Combo");
+			getComboBox().setName("VLookup Combo");
+			getComboBox().setModel(m_lookup);
+			
 			//  Don't have to fill up combobox if it is readonly
+			//  The lookup will fire a contents changed event that 
+			//  will signal the combo box to update its list.
 			if (!isReadOnly && isUpdateable)
+			{
 				m_lookup.fillComboBox (isMandatory(), true, true, false);
-			m_combo.setModel(m_lookup);
-			//
-			// AutoCompletion.enable(m_combo);
-			m_combo.addActionListener(this);							//	Selection
-			m_combo.getEditor().getEditorComponent().addMouseListener(mouseAdapter);	                        //	popup
+			}
+			
+			//  Autocompletion functionality has been included in the CComboBox class.
+			getComboBox().setAutoReducible(true);
+			
+			// Listen to the update property change as it will be used by the combo box
+			// to indicate that the value has changed.
+			getComboBox().addPropertyChangeListener(VComboBox.CCOMBO_UPDATE, this);
+			
+			//  Need to listen for UI property changes as these may
+			//  change the underlying text component and we will need
+			//  to update the focus and mouse listeners
+			getComboBox().getEditor().getEditorComponent().addPropertyChangeListener("UI", this);
+			
 			//	FocusListener to refresh selection before opening
-			m_combo.addFocusListener(this);
-			m_combo.getEditor().getEditorComponent().addFocusListener(this);
+			getComboBox().addFocusListener(this);
+			
+			// The combo editor component can change with the UI. The initialization
+			//  is moved to a method so it can be easily re-applied on the property change.
+			initializeComboEditor();
+			
 		}
 
-		//  Setup the user interface display 
-		setUI (true);
-		
 		//	ReadWrite	-	decides what components to show
 		if (isReadOnly || !isUpdateable || m_lookup == null)
 			setReadWrite(false);
@@ -331,8 +310,8 @@ public class VLookup extends JComponent
 			setReadWrite(true);
 		
 		// If mandatory, make sure something is selected.
-		if (isMandatory() && m_combo.getItemCount() > 0)
-			m_combo.setSelectedIndex(0);
+		if (isMandatory() && getComboBox().getItemCount() > 0)
+			getComboBox().setSelectedIndex(0);
 
 		//	Create the Popup Menu
 		if (m_lookup != null)
@@ -377,25 +356,33 @@ public class VLookup extends JComponent
 			mZoom.setEnabled(false);
 		
 		set_oldValue();
+
+		//  Setup the user interface display 
+		updateLookupUI();
+		
 	}	//	VLookup
+
+	/**
+	 * An initialization method for the ComboBox Editor component
+	 * which might change if the UI is changed - this can happen
+	 * when the VLookup is used as a table editor - the combobox is
+	 * created when the VLookup is initialized but then the UI is
+	 * changed by the JTable when the VLookup is configured for use
+	 * in a table.  In this case, we trap the "UI" property change
+	 * and redo the initialization of the text component.
+	 */
+	private void initializeComboEditor() {
+		getComboBox().getEditor().getEditorComponent().addMouseListener(this.getMouseAdapter());
+		getComboBox().getEditor().getEditorComponent().addFocusListener(this);
+	}
 
 	/**
 	 *  Dispose
 	 */
 	public void dispose()
 	{
-		m_text = null;
-		m_button = null;
-		m_lookup = null;
-		m_mField = null;
-		//
-		m_combo.getEditor().getEditorComponent().removeFocusListener(this);
-		m_combo.getEditor().getEditorComponent().removeMouseListener(mouseAdapter);
-		m_combo.removeFocusListener(this);
-		m_combo.removeActionListener(this);
-		m_combo.setModel(new DefaultComboBoxModel());    //  remove reference
-	//	m_combo.removeAllItems();
 		m_combo = null;
+		super.dispose();
 	}   //  dispose
 
 	/** Display Length for Lookups (15)         */
@@ -404,23 +391,19 @@ public class VLookup extends JComponent
 	public static int     		FIELD_HIGHT = 0;
 
 	/** Search: The Editable Text Field         */
-	private CTextField 			m_text = new CTextField (DISPLAY_LENGTH);
+	private CTextField 			m_text;
 	/** Search: The Button to open Editor   */
-	private CButton				m_button = new CButton();
+	private CButton				m_button;
 	/** The Combo Box if not a Search Lookup    */
-	private VComboBox			m_combo = new VComboBox();
+	private VComboBox			m_combo;
 	/** Indicator that value is being set       */
 	private volatile boolean 	m_settingValue = false;
 	/** Indicator that docus is being set       */
 	private volatile boolean 	m_settingFocus = false;
 	/** Indicator that Lookup has focus         */
 	private volatile boolean	m_haveFocus = false;
-	/** Indicator - inserting new value			*/
-	private volatile boolean	m_inserting = false;
 	/** Last Display							*/
 	private String				m_lastDisplay = "";
-	/** Column Name								*/
-	private String				m_columnName;
 	/** Lookup									*/
 	private Lookup				m_lookup;
 	/** Conbo Box Active						*/
@@ -431,7 +414,6 @@ public class VLookup extends JComponent
 	private Object				m_oldValue;
 	/** Enable Info								*/
 	//	BR [ 9223372036854775807 ]
-//	private boolean				m_enableInfo = true;
 	/** Is a button displayed?					*/
 	private boolean				m_hasButton = false;
 	/** Override context for sales transactions */
@@ -442,6 +424,8 @@ public class VLookup extends JComponent
 	private boolean 			m_isSOMatch = true;
 
 	private boolean 			m_stopediting = false;
+	
+//	private boolean				fireChangeEvents = true;
 
 	//	Popup
 	JPopupMenu 					popupMenu = new JPopupMenu();
@@ -451,56 +435,50 @@ public class VLookup extends JComponent
 	private CMenuItem			mBPartnerNew;
 	private CMenuItem			mBPartnerUpd;
 	// Mouse Listener
-	private VLookup_mouseAdapter mouseAdapter;
-
 
 	//	Field for Value Preference
-	private GridField              m_mField = null;
+	private Object 	currentValue;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VLookup.class);
-
+	
 	/**
 	 *  Set Content and Size of Components
 	 *  @param initial if true, size and margins will be set
 	 */
-	private void setUI (boolean initial)
+	public void updateLookupUI()
 	{
-		if (initial)
-		{
-			Dimension size = m_text.getPreferredSize();
-			setPreferredSize(new Dimension(size));  //	causes r/o to be the same length
-			m_combo.setPreferredSize(new Dimension(size));
-			setMinimumSize(new Dimension (30, size.height));
-			FIELD_HIGHT = size.height;
-			//
-			m_text.setBorder(null);
-			Dimension bSize = new Dimension(size.height, size.height);
-			m_button.setPreferredSize (bSize);
-		}
-
-		//	What to show
-		this.remove(m_combo);  //  Need to attach m_combo to a parent for event processing in info panels.
-		this.remove(m_button);
-		this.remove(m_text);
 		
-		//
+		// Get the editor panel from the UI.  This should have a BorderLayout
+		JPanel editorPanel = ((AdempiereLookupUI) getUI()).getEditorPanel();
+		
+		//	What to show. These calls also initialize the fields so we can 
+		//  safely use the fields afterwards.
+		editorPanel.remove(getComboBox()); 
+		editorPanel.remove(getButton());
+		editorPanel.remove(getText());
+		
+		boolean hasDisplay = !m_text.getDisplay().isEmpty();
+		
 		if (!isReadWrite())									
 		{
-			//	r/o - show text & button only
-			LookAndFeel.installBorder(this, "TextField.border");
-			this.add(m_text, BorderLayout.CENTER);
-			this.add(m_combo, BorderLayout.SOUTH);  //  Need to attache m_combo to "this" so it has a parent
-			//	BR [ 9223372036854775807 ]
-//			if (m_enableInfo && (m_lookup == null || m_lookup.getDisplayType() == DisplayType.Search))
-//			{
-//				this.add(m_button, BorderLayout.EAST);
-//				m_hasButton = true;
-//			}
-			if (m_lookup == null || m_lookup.getDisplayType() == DisplayType.Search)
+			editorPanel.add(m_text, BorderLayout.CENTER);
+			editorPanel.add(m_combo, BorderLayout.SOUTH);  //  Need to attach getComboBox() to "this" so it has a parent
+			
+			if (m_lookup == null 
+				|| (m_lookup.getDisplayType() == DisplayType.Search
+						&& hasDisplay))
 			{
-				this.add(m_button, BorderLayout.EAST);
+				// If read only, only show the button if there is a value
+				editorPanel.add(m_button, BorderLayout.EAST);
+				m_button.setVisible(true);
 				m_hasButton = true;
 			}
+			else
+			{
+				m_button.setVisible(false);
+				m_hasButton = false;
+			}
+			
 			m_text.setReadWrite(false);
 			m_combo.setReadWrite(false);
 			m_combo.setVisible(false);
@@ -508,55 +486,64 @@ public class VLookup extends JComponent
 		}
 		else if (m_lookup != null && m_lookup.getDisplayType() != DisplayType.Search)	    //	show combo if not Search
 		{
-			this.setBorder(null);
-			this.add(m_combo, BorderLayout.CENTER);
+			// Show combo only.  No text or button
+			editorPanel.add(m_combo, BorderLayout.CENTER);
 			m_combo.setVisible(true);
+			m_button.setVisible(false);
 			m_comboActive = true;
+			m_hasButton = false;
 		}
 		else 												//	Search or unstable - show text & button
 		{
-			LookAndFeel.installBorder(this, "TextField.border");
-			this.add(m_text, BorderLayout.CENTER);
-			//	BR [ 9223372036854775807 ]
-//			if(m_enableInfo)
-//			{
-//				this.add(m_button, BorderLayout.EAST);
-//				m_hasButton = true;
-//			}
-			this.add(m_button, BorderLayout.EAST);
+			editorPanel.add(m_text, BorderLayout.CENTER);
+			editorPanel.add(m_button, BorderLayout.EAST);
 			m_hasButton = true;
 			//	
 			m_text.setReadWrite (true);
+			m_button.setVisible(true);
 			m_combo.setVisible(false);
 			m_comboActive = false;
-			this.add(m_combo, BorderLayout.SOUTH);
+			
+			// Add the comboBox - it still requires a parent, but isn't visible
+			editorPanel.add(getComboBox(), BorderLayout.SOUTH);
+			
 		}
-	}   //  setUI
+		
+		((AdempiereComboBoxUI) m_combo.getUI()).setBorders();
+		
+		((AdempiereLookupUI) getUI()).setBorders();
+		
+	}   //  updateLookupUI
 
 	/**
 	 *	Set ReadWrite
-	 *  @param value ReadWrite
+	 *  @param readWrite ReadWrite
 	 */
-	public void setReadWrite (boolean value)
+	@Override
+	public void setReadWrite (boolean readWrite)
 	{
-		boolean rw = value;
+		super.setReadWrite(readWrite);
+		boolean rw = readWrite;
 		if (m_lookup == null)
 			rw = false;
-		if (m_combo.isReadWrite() != value)
+		
+		if (getComboBox().isReadWrite() != readWrite)
 		{
-			m_combo.setReadWrite(rw);
-			setUI (false);
-			if (value && m_comboActive) {
+			getComboBox().setReadWrite(rw);
+			if (readWrite && m_comboActive) {
 				m_settingValue = true;		//	disable actions
 				refresh();
 				m_settingValue = false;
 			}
 			if (m_comboActive)
-				setValue (m_value);
+				setValue (getValue());
 		}
 		// If the field is readonly the BPartner new option should be hidden - teo_sarca [ 1721710 ]
 		if (mBPartnerNew != null)
-			mBPartnerNew.setVisible(value);
+			mBPartnerNew.setVisible(readWrite);
+		
+		updateLookupUI();
+
 	}	//	setReadWrite
 
 	/**
@@ -565,27 +552,37 @@ public class VLookup extends JComponent
 	 */
 	public boolean isReadWrite()
 	{
-		return m_combo.isReadWrite();
+		return getComboBox().isReadWrite();
 	}	//	isReadWrite
 
 	/**
 	 *	Set Mandatory (and back color)
 	 *  @param mandatory mandatory
 	 */
+	@Override
 	public void setMandatory (boolean mandatory)
 	{
-		m_combo.setMandatory(mandatory);
-		m_text.setMandatory(mandatory);
-	}	//	setMandatory
+		//  Super sets the text editor as mandatory but not the comboBox
+		super.setMandatory(mandatory);
+		if (getComboBox() != null)
+		{
+			getComboBox().setMandatory(mandatory);
+			
+			//  The mandatory setting affects the combobox in that 
+			//  there is no "null" value added to the selection list
+			if (m_lookup != null && m_lookup.getDisplayType() != DisplayType.Search)	//	No Search
+			{
+				//  Don't have to fill up combobox if it is readonly
+				if (isReadWrite())
+					m_lookup.fillComboBox (isMandatory(), true, true, false);
+			}
+		
+			// If mandatory, make sure something is selected.
+			if (isMandatory() && getComboBox().getItemCount() > 0)
+				getComboBox().setSelectedIndex(0);
+		}
 
-	/**
-	 *	Is it mandatory
-	 *  @return true if mandatory
-	 */
-	public boolean isMandatory()
-	{
-		return m_combo.isMandatory();
-	}	//	isMandatory
+	}	//	setMandatory
 
 	/**
 	 *	Is Value Being Set
@@ -602,8 +599,10 @@ public class VLookup extends JComponent
 	 */
 	public void setBackground(Color color)
 	{
-		m_text.setBackground(color);
-		m_combo.setBackground(color);
+		//  Super handles the text
+		super.setBackground(color);
+		getComboBox().setBackground(color);
+		
 	}	//	setBackground
 
 	/**
@@ -612,8 +611,9 @@ public class VLookup extends JComponent
 	 */
 	public void setBackground (boolean error)
 	{
-		m_text.setBackground(error);
-		m_combo.setBackground(error);
+		//  Super handles the text
+		super.setBackground(error);
+		getComboBox().setBackground(error);
 	}	//	setBackground
 
 	/**
@@ -622,8 +622,9 @@ public class VLookup extends JComponent
 	 */
 	public void setForeground(Color fg)
 	{
-		m_text.setForeground(fg);
-		m_combo.setForeground(fg);
+		super.setForeground(fg);
+		getComboBox().setForeground(fg);
+		
 	}   //  setForeground
 
 	/**
@@ -632,98 +633,73 @@ public class VLookup extends JComponent
 	public void requestFocus ()
 	{
 		if (m_lookup != null && m_lookup.getDisplayType() != DisplayType.Search)
-			m_combo.requestFocus ();
+			getComboBox().requestFocus ();
 		else
 			m_text.requestFocus ();
 	}	//	requestFocus
 
 
-	/**
-	 *  Set Editor to value
-	 *  @param value new Value
-	 */
-	public void setValue (Object value)
-	{
-		log.fine(m_columnName + "=" + value);
-		m_settingValue = true;		//	disable actions
-		m_value = value;
+//	/**
+//	 *  Set Editor to value
+//	 *  @param value new Value
+//	 */
+//	public void setValue (Object value)
+//	{
+//		log.fine(getColumnName() + "=" + value);
+//		m_settingValue = true;		//	disable actions
+//		m_value = value;
+//
+//		m_lastDisplay = updateDisplay(value);  // will lookup the value if there is a lookup
+//		
+//		if (m_lastDisplay.equals("<-1>"))
+//		{
+//			m_value = null;
+//		}
+//				
+//		log.finer("Set value: " + getDisplay() + "(" + value + ")");
+//		m_settingValue = false;
+//	}	//	setValue
 
-		//	Set both for switching
-		if (value == null)
-		{
-			m_combo.setValue (value);
-			m_text.setText (null);
-			m_lastDisplay = "";
-			m_settingValue = false;
-			return;
-		}
-		if (m_lookup == null)
-		{
-			m_combo.setValue (value);
-			m_text.setText (value.toString());
-			m_lastDisplay = value.toString();
-			m_settingValue = false;
-			return;
-		}
+	@Override
+	protected String setDisplayBasedOnValue(Object value) {
 
-		//must call m_combo.setvalue after m_lookup as
-		//loading of combo data might happen in m_lookup.getDisplay
-		m_lastDisplay = m_lookup.getDisplay(value);
-		m_combo.setValue (value);
-
-		if (m_lastDisplay.equals("<-1>"))
+		if (value instanceof Object[])
+			currentValue = ((Object[]) value)[0];
+		else
+			currentValue = value;
+		
+		String display;
+		
+		//  The lookup may not have been defined yet.
+		if (m_lookup != null)
 		{
-			m_lastDisplay = "";
-			m_value = null;
+			display = m_lookup.getDisplay(currentValue);
 		}
-		boolean notFound = m_lastDisplay.startsWith("<") && m_lastDisplay.endsWith(">");
-		m_text.setText (m_lastDisplay);
-		m_text.setCaretPosition (0); //	show beginning
-
-		//	Nothing showing in Combo and should be showing
-		if (m_combo.getSelectedItem() == null
-			&& (m_comboActive || (m_inserting && m_lookup.getDisplayType() != DisplayType.Search)))
+		else
 		{
-			//  lookup found nothing too
-			if (notFound)
-			{
-				log.finest(m_columnName + "=" + value + ": Not found - " + m_lastDisplay);
-				//  we may have a new value
-				m_lookup.refresh();
-				m_combo.setValue (value);
-				m_lastDisplay = m_lookup.getDisplay(value);
-				m_text.setText (m_lastDisplay);
-				m_text.setCaretPosition (0);	//	show beginning
-				notFound = m_lastDisplay.startsWith("<") && m_lastDisplay.endsWith(">");
-			}
-			if (notFound)	//	<key>
-			{
-				m_value = null;
-				actionCombo (null);             //  data binding
-				log.fine(m_columnName + "=" + value + ": Not found");
-			}
-			//  we have lookup
-			else if (m_combo.getSelectedItem() == null)
-			{
-				NamePair pp = m_lookup.get(value);
-				if (pp != null)
-				{
-					log.fine(m_columnName + " added to combo - " + pp);
-					//  Add to Combo
-					m_combo.addItem (pp);
-					m_combo.setValue (value);
-				}
-			}
-			//  Not in Lookup - set to Null
-			if (m_combo.getSelectedItem() == null)
-			{
-				log.info(m_columnName + "=" + value + ": not in Lookup - set to NULL");
-				actionCombo (null);             //  data binding (calls setValue again)
-				m_value = null;
-			}
+			display = currentValue == null ? "" : currentValue.toString();
 		}
-		m_settingValue = false;
-	}	//	setValue
+		
+		//  Must call m_combo.setvalue after m_lookup as
+		//  loading of combo data might happen in m_lookup.getDisplay.
+		//  If the lookup is not defined, the comboBox will have a 
+		//  default model
+		getComboBox().setValue (currentValue);
+		
+		if (display == null || display.equals("<-1>"))
+		{
+			display = "";
+		}
+		
+		m_text.setText(display);	
+		m_lastDisplay = display;
+		
+		m_text.selectAll();
+		
+		updateLookupUI();
+		
+		return display;
+	}
 
 	/**
 	 *  Property Change Listener
@@ -733,26 +709,40 @@ public class VLookup extends JComponent
 	{
 		if (m_stopediting)
 			return;
-
-	//	log.fine( "VLookup.propertyChange", evt);
-		if (evt.getPropertyName().equals(GridField.PROPERTY))
+		
+		if (evt.getPropertyName().equals(VComboBox.CCOMBO_UPDATE))
 		{
-			m_inserting = GridField.INSERTING.equals(evt.getOldValue());	//	MField.setValue
-			setValue(evt.getNewValue());
-			m_inserting = false;
+			Object value = getComboBox().getValue();
+			Object o = getComboBox().getSelectedItem();
+			if (o != null)
+			{
+				String s = o.toString();
+				//  don't allow selection of inactive
+				if (s.startsWith(MLookup.INACTIVE_S) && s.endsWith(MLookup.INACTIVE_E))
+				{
+					log.info(getColumnName() + " - selection inactive set to NULL");
+					value = null;
+				}
+			}
+			
+			setDisplayBasedOnValue(value);
+			
 		}
+		
+		super.propertyChange(evt);
+		
 	}   //  propertyChange
 
-	/**
-	 *	Return Editor value (Integer)
-	 *  @return value
-	 */
-	public Object getValue()
-	{
-		if (m_comboActive)
-			return m_combo.getValue ();
-		return m_value;
-	}	//	getValue
+//	/**
+//	 *	Return Editor value (Integer)
+//	 *  @return value
+//	 */
+//	public Object getValue()
+//	{
+//		if (m_comboActive)
+//			return m_combo.getValue ();
+//		return m_value;
+//	}	//	getValue
 
 	/**
 	 *	Return combobox component 
@@ -761,9 +751,9 @@ public class VLookup extends JComponent
 	public Object getCombo()
 	{
 		if (m_comboActive)
-			return m_combo;
+			return getComboBox();
 		return null;
-	}	//	getValue
+	}	//	getCombo
 
 	/**
 	 *  Return editor display
@@ -773,7 +763,7 @@ public class VLookup extends JComponent
 	{
 		String retValue = null;
 		if (m_comboActive)
-			retValue = m_combo.getDisplay();
+			retValue = getComboBox().getDisplay();
 		//  check lookup
 		else if (m_lookup == null)
 			retValue = m_value == null ? null : m_value.toString();
@@ -789,26 +779,13 @@ public class VLookup extends JComponent
 	 */
 	public void setField (GridField mField)
 	{
-		m_mField = mField;
-		if (m_mField != null
-			&& MRole.getDefault().isShowPreference())
-			ValuePreference.addMenu (this, popupMenu);
+		super.setField(mField);
 		
-		if (m_mField != null)
-			RecordInfo.addMenu(this, popupMenu);
-		
-		if (mField != null && mField.isAutocomplete()
-				&& m_lookup instanceof MLookup
-				&& m_lookup.getDisplayType() == DisplayType.Search)
+		if (mField != null && mField.isAutocomplete())
 		{
 			enableLookupAutocomplete();
 		}
 	}   //  setField
-
-	@Override
-	public GridField getField() {
-		return m_mField;
-	}
 
 	/**************************************************************************
 	 *	Action Listener	- data binding
@@ -818,58 +795,22 @@ public class VLookup extends JComponent
 	{
 		if (m_settingValue || m_settingFocus || m_stopediting)
 			return;
-		log.config(m_columnName + " - " + e.getActionCommand() + ", ComboValue=" + m_combo.getSelectedItem() + ", TextValue=" + m_text.getDisplay());
-	//	log.fine("Hash=" + this.hashCode());
+		
+		log.info(getColumnName() + " - " + e.getActionCommand() + ", ComboValue=" + getComboBox().getSelectedItem() + ", TextValue=" + m_text.getDisplay());
 
-		//  Preference
-		if (e.getActionCommand().equals(ValuePreference.NAME))
-		{
-			if (MRole.getDefault().isShowPreference())
-				ValuePreference.start (m_mField, getValue(), getDisplay());
-			return;
-		}
-		else if (e.getActionCommand().equals(RecordInfo.CHANGE_LOG_COMMAND))
-		{
-			RecordInfo.start(m_mField);
-			return;
-		}
-
-		//  Combo Selection
-		else if (e.getSource() == m_combo)
-		{
-			Object value = getValue();
-			Object o = m_combo.getSelectedItem();
-			if (o != null)
-			{
-				String s = o.toString();
-				//  don't allow selection of inactive
-				if (s.startsWith(MLookup.INACTIVE_S) && s.endsWith(MLookup.INACTIVE_E))
-				{
-					log.info(m_columnName + " - selection inactive set to NULL");
-					value = null;
-				}
-			}
-			
-			actionCombo (value);                //  data binding
-		}
 		//  Button pressed
-		else if (e.getSource() == m_button)
+		if (e.getSource() == m_button)
 			actionButton ("");
 		//  Text entered
 		else if (e.getSource() == m_text)
-			actionText();
-
-		//  Popup Menu
-		else if (e.getSource() == mInfo)
-			actionButton("");
-		else if (e.getSource() == mZoom)
-			actionZoom(m_combo.getSelectedItem());
-		else if (e.getSource() == mRefresh)
-			actionRefresh();
+			checkAndSetCurrentValue();
 		else if (e.getSource() == mBPartnerNew)
 			actionBPartner(true);
 		else if (e.getSource() == mBPartnerUpd)
 			actionBPartner(false);
+		
+		super.actionPerformed(e);
+		
 	}	//	actionPerformed
 
 	/**
@@ -878,7 +819,7 @@ public class VLookup extends JComponent
 	 */
 	public void addActionListener(ActionListener listener)
 	{
-		m_combo.addActionListener(listener);
+		getComboBox().addActionListener(listener);
 		m_text.addActionListener(listener);
 	}   //  addActionListener
 
@@ -888,7 +829,7 @@ public class VLookup extends JComponent
 	 */
 	public void addItemListener(ItemListener listener)
 	{
-		m_combo.addItemListener(listener);
+		getComboBox().addItemListener(listener);
 	}   //  addItemListener
 
 
@@ -906,47 +847,140 @@ public class VLookup extends JComponent
 	 *  </pre>
 	 *  @param value new value
 	 */
-	protected void actionCombo (Object value)
+	private boolean checkLookupAndSetCurrentValue (Object value)
 	{
 		
-		log.fine("Value=" + value);
-		try
+		log.info("Value=" + value);
+		
+		currentValue = value;
+		
+		String display = value == null ? "" : value.toString();
+		
+		if (m_lookup != null)
 		{
-			// -> GridController.vetoableChange
-			fireVetoableChange (m_columnName, m_value, value);
+			display = m_lookup.getDisplay(value);
 		}
-		catch (PropertyVetoException pve)
+ 		boolean notFound = display.startsWith("<") && display.endsWith(">");
+ 		
+		if (notFound)
 		{
-			log.log(Level.SEVERE, m_columnName, pve);
-			return;
+			log.info(getColumnName() + "=" + value + ": Not found - " + m_lastDisplay);
+			//  we may have a new value
+			m_lookup.refresh();				
+			display = m_lookup.getDisplay(value);
+			notFound = display.startsWith("<") && display.endsWith(">");
 		}
-		//  is the value updated ?
-		boolean updated = false;
-
-		Object updatedValue = value;
-
-		if (updatedValue != null && updatedValue instanceof Object[] && ((Object[])updatedValue).length > 0)
+		
+		if (notFound)	//	Still not found, flag the value as bad by returning false.
 		{
-			updatedValue = ((Object[])updatedValue)[0];
+			return false;
 		}
+		
+//		//  Still not in Lookup - set to Null
+//		if (getComboBox().getSelectedItem() == null)
+//		{
+//			display = setDisplayBasedOnValue(null);
+//			log.info(getColumnName() + "=" + value + ": not in Lookup - set to NULL");				
+//		}
 
-		if (updatedValue == null && m_value == null)
-			updated = true;
-		else if (updatedValue != null && updatedValue.equals(m_value))
-			updated = true;
-		if (!updated)
+
+ 		//  Update the combobox with the value being checked. If the comboBox
+ 		//  model wasn't previously updated, it might have been by the lookup
+ 		//  getDisplay call.
+		getComboBox().setValue (value);
+
+		//	If after setting the value, the selected item is null, see if 
+		//  it necessary to refresh the lookup.  A new value may have been
+		//  recently added.  
+		if (getComboBox().getSelectedItem() == null
+			&& (m_comboActive || (isInsertingNewValue && m_lookup.getDisplayType() != DisplayType.Search)))
 		{
-			//  happens if VLookup is used outside of APanel/GridController (no property listener)
-			log.fine(m_columnName + " - Value explicitly set - new=" + updatedValue + ", old=" + m_value);
+			//  lookup found nothing too - refresh the lookup and try again
+			if (notFound)
+			{
+				log.info(getColumnName() + "=" + value + ": Not found - " + m_lastDisplay);
+				//  we may have a new value
+				m_lookup.refresh();				
+				display = m_lookup.getDisplay(value);
+				notFound = display.startsWith("<") && display.endsWith(">");
+			}
 			
-			// phib: the following check causes the update to fail on jre > 1.6.0_13
-			// commenting out as it does not appear to be necessary
-			//if (getListeners(PropertyChangeListener.class).length <= 0)
-				setValue(updatedValue);				
+			if (notFound)	//	Still not found, flag the value as bad by returning false.
+			{
+				return false;
+			}
+			//  we have lookup value, update the comboBox
+			else if (getComboBox().getSelectedItem() == null)
+			{
+				NamePair pp = m_lookup.get(value);
+				if (pp != null)
+				{
+					log.info(getColumnName() + " added to combo - " + pp);
+					//  Add to Combo
+					getComboBox().addItem (pp);
+				}
+			}
+			//  Still not in Lookup - set to Null
+			if (getComboBox().getSelectedItem() == null)
+			{
+				display = setDisplayBasedOnValue(null);
+				log.info(getColumnName() + "=" + value + ": not in Lookup - set to NULL");				
+			}
 		}
-	}	//	actionCombo
 
+		return true;
+//
+//		try
+//		{
+//			if (fireChangeEvents && !m_stopediting)
+//			{
+//				// -> GridController.vetoableChange
+//				fireVetoableChange (getColumnName(), getValue(), value);
+//			}			
+//			//  No veto - value can change.
+//			
+//			//  Is the value updated? If not, set it.  The GridController listener
+//			//  should have set the value but, if there are no listeners or the 
+//			//  listeners don't set the value, we should set it here.  A veto will 
+//			//  cause an exception leaving the value as is.
+//			boolean updated = false;
+//
+//			Object updatedValue = value;
+//
+//			if (updatedValue != null && updatedValue instanceof Object[] && ((Object[])updatedValue).length > 0)
+//			{
+//				updatedValue = ((Object[])updatedValue)[0];
+//			}
+//
+//			if (updatedValue == null && m_value == null)
+//				updated = true;
+//			else if (updatedValue != null && updatedValue.equals(m_value))
+//				updated = true;
+//			if (!updated)
+//			{
+//				
+//				//  No listener set the value, so we'll do it.
+//				log.fine(getColumnName() + " - Value explicitly set - new=" + updatedValue + ", old=" + m_value);
+//				setValue(updatedValue);
+//				
+//			}
+//		}
+//		catch (PropertyVetoException pve)
+//		{
+//			//  Change was vetoed. Don't set the value.
+//			log.info(pve.getLocalizedMessage());
+////			log.log(Level.INFO, getColumnName(), pve);
+//		}
+		
+	}	
 
+	/**
+	 * Handle invalid values - typically, the editor will open a dialog to
+	 * request user input
+	 */
+	protected void handleInvalidValue() {
+		actionButton(getText().getDisplay());
+	}
 	/**
 	 *	Action - Button.
 	 *	- Call Info
@@ -956,10 +990,16 @@ public class VLookup extends JComponent
 	{
 		
 		m_button.setEnabled(false);                 //  disable double click
+		
 		if (m_lookup == null)
 			return;		//	leave button disabled
 		m_text.requestFocus();						//  closes other editors
-		Frame frame = Env.getFrame(this);
+		
+		if (parentFrame == null)
+			parentFrame = Env.getFrame(this);
+		
+		if (parentFrame == null)
+			parentFrame = Env.getWindow(0);
 
 		/**
 		 *  Three return options:
@@ -995,33 +1035,29 @@ public class VLookup extends JComponent
 			}
 		}
 		//
-		boolean resetValue = false;	//	reset value so that is always treated as new entry
 		String infoFactoryClass = m_lookup.getInfoFactoryClass();
 		if (infoFactoryClass != null && infoFactoryClass.trim().length() > 0)
 		{
 			try {
+				@SuppressWarnings("unchecked")
 				Class<InfoFactory> clazz = (Class<InfoFactory>)this.getClass().getClassLoader().loadClass(infoFactoryClass);
 				InfoFactory factory = clazz.newInstance();
 				//	BR [ 9223372036854775807 ]
-//				if (m_tableName == null)	//	sets table name & key column
-//				{
-//					if(!hasSearchableColumns()){
-//						// Search should have been disabled for this field.
-//						log.severe("Search enabled on field " + m_columnName + ". Associated table has no standard/identifier columns.");
-//						return;
-//					}
-//				}
 				if (m_tableName == null)
 				{	//	sets table name & key column
 					String rsql = getDirectAccessSQL("*");
 					if(rsql == null || rsql.length() == 0)
 					{
+						//  Info search is not possible, disable the
+						//  button
 						m_button.setEnabled(false);
 						return;
 					}
 				}
+				
+				
 				// multipleSelection assumed false for custom info windows
-				Info ig = factory.create (frame, true, m_lookup.getWindowNo(),
+				Info ig = factory.create (parentFrame, true, m_lookup.getWindowNo(),
 					m_tableName, m_keyColumnName, record_id, queryValue, multipleSelection, whereClause);
 				ig.setVisible(true);
 				cancelled = ig.isCancelled();
@@ -1038,9 +1074,9 @@ public class VLookup extends JComponent
 			int M_Warehouse_ID = Env.getContextAsInt(Env.getCtx(), m_lookup.getWindowNo(), "M_Warehouse_ID");
 			int M_PriceList_ID = Env.getContextAsInt(Env.getCtx(), m_lookup.getWindowNo(), "M_PriceList_ID");
 			//
-			if(m_mField != null)
+			if(getField() != null)
 			{
-				int AD_Table_ID = MColumn.getTable_ID(Env.getCtx(), m_mField.getAD_Column_ID(), null);
+				int AD_Table_ID = MColumn.getTable_ID(Env.getCtx(), getField().getAD_Column_ID(), null);
 				// TODO hard-coded - add to AD_Column?
 				multipleSelection = (MOrderLine.Table_ID ==  AD_Table_ID) || 
 									(MInvoiceLine.Table_ID == AD_Table_ID) || 
@@ -1048,12 +1084,11 @@ public class VLookup extends JComponent
 									(MProductPrice.Table_ID == AD_Table_ID);
 			}
 			//	Show Info
-			InfoProduct ip = new InfoProduct (frame, true, m_lookup.getWindowNo(),
+			InfoProduct ip = new InfoProduct (parentFrame, true, m_lookup.getWindowNo(),
 				M_Warehouse_ID, M_PriceList_ID, record_id, queryValue, multipleSelection, true, whereClause);
 			ip.setVisible(true);
 			cancelled = ip.isCancelled();
 			result = ip.getSelectedKeys();
-			resetValue = true;
 		}
 		else if (col.equals("C_BPartner_ID"))
 		{
@@ -1069,7 +1104,7 @@ public class VLookup extends JComponent
 				Trx.get(trxName, false).close();
 			}
 			//
-			InfoBPartner ip = new InfoBPartner (frame, true, m_lookup.getWindowNo(), record_id,
+			InfoBPartner ip = new InfoBPartner (parentFrame, true, m_lookup.getWindowNo(), record_id,
 				queryValue, m_isSOTrx, m_isSOMatch, multipleSelection, true, whereClause);
 			ip.setVisible(true);
 			cancelled = ip.isCancelled();
@@ -1082,12 +1117,14 @@ public class VLookup extends JComponent
 				String rsql = getDirectAccessSQL("*");
 				if(rsql == null || rsql.length() == 0)
 				{
-					m_button.setEnabled(false);
+					//  Info search is not possible, disable the 
+					//  button.
+					m_button.setEnabled(false);					
 					return;
 				}
 			}
 			//
-			Info ig = Info.create (frame, true, m_lookup.getWindowNo(), m_tableName, 
+			Info ig = Info.create (parentFrame, true, m_lookup.getWindowNo(), m_tableName, 
 					m_keyColumnName, record_id, queryValue, multipleSelection, true, whereClause);
 			ig.setVisible(true);
 			cancelled = ig.isCancelled();
@@ -1099,33 +1136,37 @@ public class VLookup extends JComponent
 			//  Result
 			if (result != null && result.length > 0)
 			{
-				log.config(m_columnName + " - Result = " + result.toString() + " (" + result.getClass().getName() + ")");
-				//  make sure that value is in cache
-				m_lookup.getDirect(result[0], false, true);
-				if (resetValue)
-					actionCombo (null);
+				log.config(getColumnName() + " - Result = " + result.toString() + " (" + result.getClass().getName() + ")");
+
 				// juddm added logic for multi-select handling
-				if (result.length > 1)
-					actionCombo (result);	//	data binding
-				else
-					actionCombo (result[0]);
-	
+				//  Special case of multiple selection
+				//  Normally, data binding is on focus lost
+				//  but here, we need to deal with multiple selection
+				//  before the focus lost event would occur.
+				//  Make sure that the lead value is in cache
+				m_lookup.getDirect(result[0], false, true);
+				setDisplayBasedOnValue(result[0]);
+				commitChanges();
+				
 			}
 			else if (cancelled)
 			{
-				log.config(m_columnName + " - Result = null (cancelled)");
-				actionCombo(null);
+				// Delete the value
+				log.config(getColumnName() + " - Result = null (cancelled)");
+				setDisplayBasedOnValue(null);
+				commitChanges();				
 			}
 			else
 			{
-				log.config(m_columnName + " - Result = null (not cancelled)");
-				setValue(m_value);      //  to re-display value
+				// Revert to currently set value - no change.
+				log.config(getColumnName() + " - Result = null (not cancelled)");
+				setDisplayBasedOnValue(getValue());      //  to re-display value
 			}
 			//
 			m_text.requestFocus();
 		}
 		else
-			log.config(m_columnName + " - Field not writable.  No change.");
+			log.config(getColumnName() + " - Field not writable.  No change.");
 		
 		m_button.setEnabled(true);
 
@@ -1155,10 +1196,10 @@ public class VLookup extends JComponent
 		{
 			String validated = Env.parseContext(Env.getCtx(), m_lookup.getWindowNo(), whereClause, false);
 			if (validated.length() == 0)
-				log.severe(m_columnName + " - Cannot Parse=" + whereClause);
+				log.severe(getColumnName() + " - Cannot Parse=" + whereClause);
 			else
 			{
-				log.fine(m_columnName + " - Parsed: " + validated);
+				log.fine(getColumnName() + " - Parsed: " + validated);
 				return validated;
 			}
 		}
@@ -1166,34 +1207,45 @@ public class VLookup extends JComponent
 	}	//	getWhereClause
 
 	/**
-	 *	Check, if data returns unique entry, otherwise involve Info via Button
+	 *	Check, if data returns a unique entry return true, otherwise return false
 	 */
-	private void actionText()
+	private boolean checkAndSetCurrentValue()
 	{
 		String text = m_text.getText();
-		// Nothing entered, just pressing enter again => ignore - teo_sarca BF [ 1834399 ]
-		if (text != null && text.length() > 0 && text.equals(m_lastDisplay))
+		// No change, just pressing enter again => ignore - teo_sarca BF [ 1834399 ]
+		if (text != null && text.equals(m_lastDisplay))
 		{
-			log.finest("Nothing entered [SKIP]");
-			return;
+			log.finest("Nothing changed [SKIP]");
+			return true;
 		}
-		//	Nothing entered
-		if (text == null || text.length() == 0 || text.equals("%"))
+		
+		//	Nothing entered but there should be or the text is a wild card
+		//  then flag the value as invalid
+		if ((text == null || text.length() == 0) && this.isMandatory() 
+			|| (text != null && text.equals("%")))
 		{
-			actionButton(text);
-			return;
+			return false;
 		}
+		
+		// Not mandatory, set to null
+		if (text == null || text.length() == 0)
+		{
+			return true;
+		}
+		
 		text = text.toUpperCase();
-		log.config(m_columnName + " - " + text);
+		log.config(getColumnName() + " - " + text);
 
+		//  Search for a value
+		//  TODO - move this to the lookup.  Its too much model info for an editor.
 		//	Exact first
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String rSQL = getDirectAccessSQL(text);
 		if(rSQL == null || rSQL.length() == 0){
 			// Search should have been disabled for this field.
-			log.severe("Search enabled on field " + m_columnName + ". Associated table has no standard/identifier columns.");
-			return;
+			log.severe("Search enabled on field " + getColumnName() + ". Associated table has no standard/identifier columns.");
+			return false;
 		}
 		String finalSQL = Msg.parseTranslation(Env.getCtx(), rSQL);
 		int id = -3;
@@ -1223,8 +1275,8 @@ public class VLookup extends JComponent
 			rSQL = getDirectAccessSQL(Info.getSQLText(text));
 			if(rSQL == null || rSQL.length() == 0){
 				// Search should have been disabled for this field.
-				log.severe("Search enabled on field " + m_columnName + ". Associated table has no standard/identifier columns.");
-				return;
+				log.severe("Search enabled on field " + getColumnName() + ". Associated table has no standard/identifier columns.");
+				return false;
 			}
 			finalSQL = Msg.parseTranslation(Env.getCtx(), rSQL);
 			try
@@ -1254,86 +1306,27 @@ public class VLookup extends JComponent
 		if (id <= 0)
 		{
 			if (id == -3)
-				log.fine(m_columnName + " - Not Found - " + finalSQL);
+				log.fine(getColumnName() + " - Not Found - " + finalSQL);
 			else
-				log.fine(m_columnName + " - Not Unique - " + finalSQL);
+				log.fine(getColumnName() + " - Not Unique - " + finalSQL);
 			m_value = null;	// force re-display
-			actionButton(m_text.getText());
-			return;
+			return false;
 		}
-		log.fine(m_columnName + " - Unique ID=" + id);
+		log.fine(getColumnName() + " - Unique ID=" + id);
 		m_value = null;     //  forces re-display if value is unchanged but text updated and still unique
+		
+		// TODO check if this is the right place to be resetting the tab info
 		resetTabInfo();
-		actionCombo (new Integer(id));          //  data binding
-		//
-		// Don't request focus if value was solved - teo_sarca [ 2552901 ]
-		if (id <= 0)
-		{
-			m_text.requestFocus();
-		}
-	}	//	actionText
+		
+		// See if the new value fits with the combo lookup
+		return checkLookupAndSetCurrentValue (id);
+		
+	}	//	checkText
 
 
 	private String		m_tableName = null;
 	private String		m_keyColumnName = null;
-
-	/**
-	 * 	Determines if the lookup has searchable (text) fields.	
-	 */
-	//	BR [ 9223372036854775807 ]
-//	private boolean hasSearchableColumns()
-//	{
-//		boolean retValue = false;
-//
-//		m_tableName = MQuery.getZoomTableName(m_columnName);
-//		m_keyColumnName = MQuery.getZoomColumnName(m_columnName);
-//
-//		if (   m_columnName.equals("M_Product_ID") 
-//		    || m_columnName.equals("M_ProductBOM_ID")
-//			|| m_columnName.equals("C_BPartner_ID")
-//			|| m_columnName.equals("C_Order_ID")
-//			|| m_columnName.equals("C_Invoice_ID")
-//			|| m_columnName.equals("M_InOut_ID")
-//			|| m_columnName.equals("C_Payment_ID")
-//			|| m_columnName.equals("GL_JournalBatch_ID")
-//			|| m_columnName.equals("SalesRep_ID"))
-//		{
-//			retValue = true;
-//		}
-//		else
-//		{
-//			/** Check Well Known Columns of Table - assumes TableDir	**/
-//			String query = "SELECT t.TableName, c.ColumnName "
-//				+ "FROM AD_Column c "
-//				+ " INNER JOIN AD_Table t ON (c.AD_Table_ID=t.AD_Table_ID AND t.IsView='N')"
-//				+ " WHERE (c.ColumnName IN ('DocumentNo', 'Value', 'Name') OR c.IsIdentifier='Y')"
-//				+ " AND c.AD_Reference_ID IN (10,14)"
-//				+ " AND EXISTS (SELECT * FROM AD_Column cc WHERE cc.AD_Table_ID=t.AD_Table_ID"
-//					+ " AND cc.IsKey='Y' AND cc.ColumnName=?)";
-//			PreparedStatement pstmt = null;
-//			ResultSet rs = null;
-//			try
-//			{
-//				pstmt = DB.prepareStatement(query, null);
-//				pstmt.setString(1, m_keyColumnName);
-//				rs = pstmt.executeQuery();
-//				if (rs.next())
-//				{
-//					retValue = true;
-//				}
-//			}
-//			catch (SQLException ex)
-//			{
-//				log.log(Level.SEVERE, query, ex);
-//			}
-//			finally
-//			{
-//				DB.close(rs, pstmt);
-//				rs = null; pstmt = null;
-//			}
-//		}
-//		return retValue;
-//	}
+	private JFrame 		parentFrame;
 	
 	/**
 	 * 	Generate Access SQL for Search.
@@ -1346,12 +1339,12 @@ public class VLookup extends JComponent
 	private String getDirectAccessSQL (String text)
 	{
 		//	Load Table and key Column
-		m_tableName = MQuery.getZoomTableName(m_columnName);
-		m_keyColumnName = MQuery.getZoomColumnName(m_columnName);
+		m_tableName = MQuery.getZoomTableName(getColumnName());
+		m_keyColumnName = MQuery.getZoomColumnName(getColumnName());
 		
 		StringBuffer sql = new StringBuffer();
 		//
-		if (m_columnName.equals("M_Product_ID"))
+		if (getColumnName().equals("M_Product_ID"))
 		{
 			sql.append("SELECT M_Product_ID FROM M_Product WHERE (");
 			if (text.startsWith("@") && text.endsWith("@"))
@@ -1367,7 +1360,7 @@ public class VLookup extends JComponent
 					.append(" OR UPPER(UPC) LIKE ").append(DB.TO_STRING(text)).append(")");
 			}
 		}
-		else if (m_columnName.equals("C_BPartner_ID"))
+		else if (getColumnName().equals("C_BPartner_ID"))
 		{
 			sql.append("SELECT C_BPartner_ID FROM C_BPartner WHERE (");
 			//	Put query string in Name if not fully numeric
@@ -1379,32 +1372,32 @@ public class VLookup extends JComponent
     			sql.append("UPPER(Name) LIKE ").append(DB.TO_STRING(text)); 
 			sql.append(")");
 		}
-		else if (m_columnName.equals("C_Order_ID"))
+		else if (getColumnName().equals("C_Order_ID"))
 		{
 			sql.append("SELECT C_Order_ID FROM C_Order WHERE UPPER(DocumentNo) LIKE ")
 				.append(DB.TO_STRING(text));
 		}
-		else if (m_columnName.equals("C_Invoice_ID"))
+		else if (getColumnName().equals("C_Invoice_ID"))
 		{
 			sql.append("SELECT C_Invoice_ID FROM C_Invoice WHERE UPPER(DocumentNo) LIKE ")
 				.append(DB.TO_STRING(text));
 		}
-		else if (m_columnName.equals("M_InOut_ID"))
+		else if (getColumnName().equals("M_InOut_ID"))
 		{
 			sql.append("SELECT M_InOut_ID FROM M_InOut WHERE UPPER(DocumentNo) LIKE ")
 				.append(DB.TO_STRING(text));
 		}
-		else if (m_columnName.equals("C_Payment_ID"))
+		else if (getColumnName().equals("C_Payment_ID"))
 		{
 			sql.append("SELECT C_Payment_ID FROM C_Payment WHERE UPPER(DocumentNo) LIKE ")
 				.append(DB.TO_STRING(text));
 		}
-		else if (m_columnName.equals("GL_JournalBatch_ID"))
+		else if (getColumnName().equals("GL_JournalBatch_ID"))
 		{
 			sql.append("SELECT GL_JournalBatch_ID FROM GL_JournalBatch WHERE UPPER(DocumentNo) LIKE ")
 				.append(DB.TO_STRING(text));
 		}
-		else if (m_columnName.equals("SalesRep_ID"))
+		else if (getColumnName().equals("SalesRep_ID"))
 		{
 			sql.append("SELECT AD_User_ID FROM AD_User WHERE UPPER(Name) LIKE ")
 				.append(DB.TO_STRING(text));
@@ -1419,7 +1412,7 @@ public class VLookup extends JComponent
 				sql.append(" AND ").append(wc);
 			sql.append(" AND IsActive='Y'");
 			//	***
-			log.finest(m_columnName + " (predefined) " + sql.toString());
+			log.finest(getColumnName() + " (predefined) " + sql.toString());
 			return MRole.getDefault().addAccessSQL(sql.toString(),
 				m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
 		}
@@ -1472,7 +1465,7 @@ public class VLookup extends JComponent
 					if (wc != null && wc.length() > 0)
 						sql.append(" AND ").append(wc);
 					//	***
-					log.finest(m_columnName + " (Table) " + sql.toString());
+					log.finest(getColumnName() + " (Table) " + sql.toString());
 					return MRole.getDefault().addAccessSQL(sql.toString(),
 								m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
 				}
@@ -1515,19 +1508,19 @@ public class VLookup extends JComponent
 		// Return null if nothing found.
 		if (sql.length() == 0)
 		{
-			log.finest(m_columnName + " (TableDir) - no standard/identifier columns");
+			log.finest(getColumnName() + " (TableDir) - no standard/identifier columns");
 			return "";
 		}
 		//
 		StringBuffer retValue = new StringBuffer ("SELECT ")
-			.append(m_columnName).append(" FROM ").append(m_tableName)
+			.append(getColumnName()).append(" FROM ").append(m_tableName)
 			.append(" WHERE (").append(sql).append(")")
 			.append(" AND IsActive='Y'");
 		String wc = getWhereClause();
 		if (wc != null && wc.length() > 0)
 			retValue.append(" AND ").append(wc);
 		//	***
-		log.finest(m_columnName + " (TableDir) " + sql.toString());
+		log.finest(getColumnName() + " (TableDir) " + sql.toString());
 		return MRole.getDefault().addAccessSQL(retValue.toString(),
 					m_tableName, MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
 	}	//	getDirectAccessSQL
@@ -1560,164 +1553,8 @@ public class VLookup extends JComponent
 		//  Maybe new BPartner - put in cache
 		m_lookup.getDirect(new Integer(result), false, true);
 
-		actionCombo (new Integer(result));      //  data binding
+		setDisplayBasedOnValue (new Integer(result));      //  data binding
 	}	//	actionBPartner
-
-	/**
-	 *	Action - Zoom
-	 *	@param selectedItem item
-	 */
-	private void actionZoom (Object selectedItem)
-	{
-		if (m_lookup == null)
-			return;
-		//
-		MQuery zoomQuery = m_lookup.getZoomQuery();
-		Object value = getValue();
-		if (value == null)
-			value = selectedItem;
-		//	If not already exist or exact value
-		if (zoomQuery == null || value != null)
-		{
-			zoomQuery = new MQuery();	//	ColumnName might be changed in MTab.validateQuery
-			String keyTableName = null;
-			String keyColumnName = null;
-			//	Check if it is a Table Reference
-			if (m_lookup != null && m_lookup instanceof MLookup)
-			{
-				int AD_Reference_ID = ((MLookup)m_lookup).getAD_Reference_Value_ID();
-				if (DisplayType.List == m_lookup.getDisplayType()) {
-					keyColumnName = "AD_Ref_List_ID";
-					keyTableName = "AD_Ref_List";
-					value = DB.getSQLValue(null, "SELECT AD_Ref_List_ID FROM AD_Ref_List WHERE AD_Reference_ID=? AND Value=?", AD_Reference_ID, value);
-				} else {
-					if (AD_Reference_ID != 0)
-					{
-						String query = "SELECT kc.ColumnName, kt.TableName"
-							+ " FROM AD_Ref_Table rt"
-							+ " INNER JOIN AD_Column kc ON (rt.AD_Key=kc.AD_Column_ID)"
-							+ " INNER JOIN AD_Table kt ON (rt.AD_Table_ID=kt.AD_Table_ID)"
-							+ " WHERE rt.AD_Reference_ID=?";
-
-						PreparedStatement pstmt = null;
-						ResultSet rs = null;
-						try
-						{
-							pstmt = DB.prepareStatement(query, null);
-							pstmt.setInt(1, AD_Reference_ID);
-							rs = pstmt.executeQuery();
-							if (rs.next())
-							{
-								keyColumnName = rs.getString(1);
-								keyTableName = rs.getString(2);
-							}
-						}
-						catch (Exception e)
-						{
-							log.log(Level.SEVERE, query, e);
-						}
-						finally
-						{
-							DB.close(rs, pstmt);
-							rs = null; pstmt = null;
-						}
-					}	//	Table Reference
-					
-				}
-			}	//	MLookup
-
-			if(keyColumnName != null && keyColumnName.length() !=0)
-			{
-				zoomQuery.addRestriction(keyColumnName, MQuery.EQUAL, value);
-				zoomQuery.setZoomColumnName(keyColumnName);
-				zoomQuery.setZoomTableName(keyTableName);
-			}
-			else
-			{
-				zoomQuery.addRestriction(m_columnName, MQuery.EQUAL, value);
-				if (m_columnName.indexOf(".") > 0)
-				{
-					zoomQuery.setZoomColumnName(m_columnName.substring(m_columnName.indexOf(".")+1));
-					zoomQuery.setZoomTableName(m_columnName.substring(0, m_columnName.indexOf(".")));
-				}
-				else
-				{
-					zoomQuery.setZoomColumnName(m_columnName);
-					//remove _ID to get table name
-					zoomQuery.setZoomTableName(m_columnName.substring(0, m_columnName.length() - 3));
-				}
-			}
-			zoomQuery.setZoomValue(value);
-
-			zoomQuery.setRecordCount(1);	//	guess
-		}
-
-		int	AD_Window_ID = m_lookup.getZoom(zoomQuery);
-		//
-		log.info(m_columnName + " - AD_Window_ID=" + AD_Window_ID
-			+ " - Query=" + zoomQuery + " - Value=" + value);
-		//
-		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		//
-		AWindow frame = new AWindow(getGraphicsConfiguration());
-		if (!frame.initWindow(AD_Window_ID, zoomQuery, false))
-		{
-			setCursor(Cursor.getDefaultCursor());
-			ValueNamePair pp = CLogger.retrieveError();
-			String msg = pp==null ? "AccessTableNoView" : pp.getValue();
-			ADialog.error(m_lookup.getWindowNo(), this, msg, pp==null ? "" : pp.getName());
-		}
-		else
-		{
-			AEnv.addToWindowManager(frame);
-			if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED))
-			{
-				AEnv.showMaximized(frame);
-			}
-			else
-			{
-				AEnv.showCenterScreen(frame);
-			}
-		}
-			//  async window - not able to get feedback
-		frame = null;
-		//
-		setCursor(Cursor.getDefaultCursor());
-	}	//	actionZoom
-
-	/**
-	 *	Action - Refresh
-	 */
-	private void actionRefresh()
-	{
-		if (m_lookup == null)
-			return;
-		//
-		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		//
-		Object obj = m_combo.getSelectedItem();
-		log.info(m_columnName + " #" + m_lookup.getSize() + ", Selected=" + obj);
-		//no need to refresh readonly lookup, just remove direct cache
-		if (!isReadWrite())
-		{
-			m_settingValue = true;		//	disable actions
-			m_lookup.removeAllElements();
-			m_lastDisplay = m_lookup.getDisplay(m_value);
-			m_text.setText(m_lastDisplay);
-			m_text.setCaretPosition(0);
-			m_settingValue = false;
-		}
-		else
-		{
-			m_lookup.refresh();
-			m_lookup.fillComboBox(isMandatory(), true, true, false);
-			m_combo.setSelectedItem(obj);
-			//m_combo.revalidate();
-		}
-		//
-		setCursor(Cursor.getDefaultCursor());
-		log.info(m_columnName + " #" + m_lookup.getSize() + ", Selected=" + m_combo.getSelectedItem());
-	}	//	actionRefresh
 
 
 	/**************************************************************************
@@ -1727,108 +1564,59 @@ public class VLookup extends JComponent
 	 */
 	public void focusGained (FocusEvent e)
 	{
-		if (m_combo == null || m_combo.getEditor() == null)
+		
+		//  Record the parent frame/window.  This is required as the editor
+		//  is removed from the parent when before it loses focus. The parentFrame
+		//  is required to open the info dialog.  This case can happen when the <Tab>
+		//  key is pressed to move to the next field.
+		parentFrame = Env.getFrame(this);
+		
+		m_stopediting = false;
+						
+		//  No action is required for the following cases 
+		if (getComboBox() == null || getComboBox().getEditor() == null 
+			|| e.isTemporary() || m_haveFocus || m_lookup == null)	
 			return;
-		if ((e.getSource() != m_combo && e.getSource() != m_combo.getEditor().getEditorComponent())
-			|| e.isTemporary() || m_haveFocus || m_lookup == null)
+		
+		//  No action is required except for the combo box where the lookup may need to be
+		//  loaded.
+		if (!e.getSource().equals(getComboBox()) && !e.getSource().equals(getComboBox().getEditor().getEditorComponent()))
 			return;
 
-		//avoid repeated query
+		//  Prevents calling focus gained twice
+		m_haveFocus = true;
+		
+		if (e.getSource().equals(this) && m_comboActive)
+			getComboBox().getEditor().getEditorComponent().requestFocus();
+		
+		//  Avoid repeated query of the lookup
 		if (m_lookup.isValidated() && m_lookup.isLoaded())
 		{
-			m_haveFocus = true;
 			return;
 		}
-		//
-		m_haveFocus = true;     //  prevents calling focus gained twice
-		m_settingFocus = true;  //  prevents actionPerformed
-		//
+		
+		//  prevents actionPerformed
+		m_settingFocus = true;
+		
 		Object obj = m_lookup.getSelectedItem();
-		log.config(m_columnName
-			+ " - Start    Count=" + m_combo.getItemCount() + ", Selected=" + obj);
-	//	log.fine( "VLookupHash=" + this.hashCode());
-		boolean popupVisible = m_combo.isPopupVisible();
+		
+		boolean popupVisible = getComboBox().isPopupVisible();
 		m_lookup.fillComboBox(isMandatory(), true, true, false);     //  only validated & active
 		if (popupVisible)
 		{
 			//refresh
-			m_combo.hidePopup();
-			m_combo.showPopup();
+			getComboBox().hidePopup();
+			getComboBox().showPopup();
 		}
-		log.config(m_columnName
-			+ " - Update   Count=" + m_combo.getItemCount() + ", Selected=" + m_lookup.getSelectedItem());
+		
 		m_lookup.setSelectedItem(obj);
-		log.config(m_columnName
-			+ " - Selected Count=" + m_combo.getItemCount() + ", Selected=" + m_lookup.getSelectedItem());
+		
+		log.fine(getColumnName()
+			+ " - Selected Count=" + getComboBox().getItemCount() + ", Selected=" + m_lookup.getSelectedItem());
 		//
 		m_settingFocus = false;
 	}	//	focusGained
 
-	/**
-	 *	Reset Selection List
-	 *  @param e FocusEvent
-	 */
-	public void focusLost(FocusEvent e)
-	{
-		if (e.isTemporary()
-			|| m_lookup == null
-			|| !m_button.isEnabled() )	//	set by actionButton
-			return;
-		//	Text Lost focus
-		if (e.getSource() == m_text)
-		{
-			String text = m_text.getText();
-			log.config(m_columnName + " (Text) " + m_columnName + " = " + m_value + " - " + text);
-			m_haveFocus = false;
-			//	Skip if empty
-			if ((m_value == null
-				&& m_text.getText().length() == 0))
-				return;
-			if (m_lastDisplay.equals(text))
-				return;
-			//
-			actionText();	//	re-display
-			return;
-		}
-		//	Combo lost focus
-		if (e.getSource() != m_combo && e.getSource() != m_combo.getEditor().getEditorComponent())
-			return;
-
-		//  Advise listeners of the change.
-		ActionEvent evt = new ActionEvent(this, 0, "vlookup-update");
-		processEvent(evt);
-
-		if (m_lookup.isValidated() && !m_lookup.hasInactive())
-		{
-			m_haveFocus = false;
-			return;
-		}
-		//
-		m_settingFocus = true;  //  prevents actionPerformed
-		//
-		log.config(m_columnName + " = " + m_combo.getSelectedItem());
-		Object obj = m_combo.getSelectedItem();
-		/*
-		//	set original model
-		if (!m_lookup.isValidated())
-			m_lookup.fillComboBox(true);    //  previous selection
-		*/
-		//	Set value
-		if (obj != null)
-		{
-			m_combo.setSelectedItem(obj);
-			//	original model may not have item
-			if (!m_combo.getSelectedItem().equals(obj))
-			{
-				log.fine(m_columnName + " - added to combo - " + obj);
-				m_combo.addItem(obj);
-				m_combo.setSelectedItem(obj);
-			}
-		}
-	//	actionCombo(getValue());
-		m_settingFocus = false;
-		m_haveFocus = false;    //  can gain focus again
-	}	//	focusLost
 
 	/**
 	 *  Set ToolTip
@@ -1839,7 +1627,7 @@ public class VLookup extends JComponent
 		super.setToolTipText(text);
 		m_button.setToolTipText(text);
 		m_text.setToolTipText(text);
-		m_combo.setToolTipText(text);
+		getComboBox().setToolTipText(text);
 	}   //  setToolTipText
 
 	/**
@@ -1848,6 +1636,7 @@ public class VLookup extends JComponent
 	 */
 	private void resetTabInfo()
 	{
+		
 		if (this.m_lookup == null)
 			return;
 		//
@@ -1892,13 +1681,7 @@ public class VLookup extends JComponent
 		return m_lookup.refresh();
 	}	//	refresh
 
-	/**
-	 * Use by vcelleditor to indicate editing is off and don't invoke databinding
-	 * @param stopediting
-	 */
-	public void setStopEditing(boolean stopediting) {
-		m_stopediting = stopediting;
-	}
+	
 	/**
 	 * Set the old value of the field.  For use in future comparisons.
 	 * The old value must be explicitly set though this call.
@@ -1959,9 +1742,61 @@ public class VLookup extends JComponent
 	}
 
 	@Override
-	public void addValueChangeListener(ValueChangeListener listener) {
-		// TODO Auto-generated method stub
+	public JComponent getComponent() {
+		JComponent comp = null;
+		if (m_comboActive)
+			comp = getComboBox();
+		else
+			comp = m_text;
 		
+		return comp;
+	}
+
+	@Override
+	public JComponent getEditorComponent() {
+		
+		JTextComponent editorComp = null;
+		if (m_comboActive)
+			editorComp = (JTextComponent) getComboBox().getEditor().getEditorComponent();
+		else
+			editorComp = (JTextComponent) super.getEditorComponent();
+		
+		return editorComp;
+	
+	}
+
+	@Override
+	protected Object getCurrentValue() {
+		
+		if(!checkAndSetCurrentValue())
+			setCurrentValueValid(false);
+		
+		return currentValue;
+	}
+	
+	private VComboBox getComboBox() {
+		if (m_combo == null)
+		{
+			m_combo = (VComboBox) ((AdempiereLookupUI) getUI()).getComboBox();
+		}
+		return m_combo;
+	}
+	
+	private CButton getButton() {
+		if (m_button == null)
+		{
+			m_button = super.getButtonComponent();
+		}
+		return m_button;
+	}
+
+
+	private CTextField getText() {
+		if (m_text == null)
+		{
+			m_text = (CTextField) super.getEditorComponent();
+		}
+		return m_text;
 	}
 
 }	//	VLookup

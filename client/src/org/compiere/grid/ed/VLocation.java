@@ -1,45 +1,28 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.compiere.grid.ed;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyVetoException;
-import java.util.logging.Level;
 
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTextField;
-import javax.swing.LookAndFeel;
-import javax.swing.SwingUtilities;
 
-import org.adempiere.exceptions.ValueChangeListener;
-import org.adempiere.plaf.AdempierePLAF;
-import org.compiere.apps.RecordInfo;
-import org.compiere.model.GridField;
+import org.adempiere.plaf.AdempiereLocationUI;
 import org.compiere.model.GridTab;
 import org.compiere.model.MLocation;
 import org.compiere.model.MLocationLookup;
@@ -51,7 +34,9 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
 /**
- *	Location Control (Address)
+ *	Location Control (Address).  The location editor is a text field with two buttons.
+ *  The text field does not accept input.  The value is defined by the location lookup
+ *  based on the location id.
  *
  *  @author 	Jorg Janke
  *  @author victor.perez@e-evolution.com, www.e-evolution.com
@@ -60,44 +45,54 @@ import org.compiere.util.Msg;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
  *		@see https://github.com/adempiere/adempiere/issues/146
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+ *
  */
-public class VLocation extends JComponent
-	implements VEditor, ActionListener
+public class VLocation extends VEditorAbstract
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -288409058154703379L;
 
+	/**	Logger			*/
+	private static CLogger log = CLogger.getCLogger(VLocation.class);
+
 	/**
-	 *	Mouse Listener for Popup Menu
+	 * Define the ui class ID. It will be added to the 
+	 * look and feel to define the ui class to use.
 	 */
-	final class VLocation_mouseAdapter extends java.awt.event.MouseAdapter
-	{
-		/**
-		 *	Constructor
-		 *  @param adaptee adaptee
-		 */
-		VLocation_mouseAdapter(VLocation adaptee)
-		{
-			this.adaptee = adaptee;
-		}	//	VLookup_mouseAdapter
+	private final static String uiClassID = "LocationUI";
 
-		private VLocation adaptee;
-
-		/**
-		 *	Mouse Listener
-		 *  @param e MouseEvent
-		 */
-		public void mouseClicked(MouseEvent e)
-		{
-			//	popup menu
-			if (SwingUtilities.isRightMouseButton(e))
-				adaptee.popupMenu.show((Component)e.getSource(), e.getX(), e.getY());
-		}	//	mouse Clicked
-
-	}	//	VLocation_mouseAdapter
+	@Override
+    public String getUIClassID() {
+        return uiClassID ;
+    }
 	
+	/** The Text Field                  */
+	private JTextField			textEditor;
+	/** The Button                      */
+	private CButton				openDialogButton;
+	
+	/** The "to map" Button                      */
+	private CButton				openMapButton;
+
+	private MLocationLookup		locationLookup;
+	private MLocation 			currentLocation;
+
+
+	//	Popup
+	JPopupMenu 					popupMenu = new JPopupMenu();
+	private CMenuItem 			mDelete;
+
+	/** The Grid Tab */
+	@SuppressWarnings("unused") // TODO
+	private GridTab m_GridTab; // added for processCallout. 
+	
+	private Object currentValue;
+	
+			
 	/**
 	 *	Constructor
 	 *
@@ -126,238 +121,115 @@ public class VLocation extends JComponent
 	public VLocation(GridTab gridTab, String columnName, boolean mandatory, boolean isReadOnly, boolean isUpdateable,
 		MLocationLookup mLocation)
 	{
-		super();
-		super.setName(columnName);
-		m_GridTab = gridTab;
-		m_columnName = columnName;
-		m_mLocation = mLocation;
-		//
-		LookAndFeel.installBorder(this, "TextField.border");
-		this.setLayout(new BorderLayout());
+		this(gridTab, columnName, mandatory, isReadOnly, isUpdateable, mLocation, false);
+	}
+	
+	/**
+	 *	Constructor
+	 * 
+	 *  @param gridTab
+	 * 	@param columnName column name
+	 * 	@param mandatory mandatory
+	 * 	@param isReadOnly read only
+	 * 	@param isUpdateable updateable
+	 * 	@param mLocation location model
+	 *  @param tableCellEditor true if the editor will be used in at table cell
+	 */
+	public VLocation(GridTab gridTab, String columnName, boolean mandatory, boolean isReadOnly, boolean isUpdateable,
+		MLocationLookup mLocation, boolean tableCellEditor)
+	{
 		
-	    //  Size
-		Dimension size = m_text.getPreferredSize();
-		this.setPreferredSize(size);		//	causes r/o to be the same length
+		super(columnName, mandatory, isReadOnly, isUpdateable, tableCellEditor);
 		
-		// normalize for buttons
-		size.width = size.height;
+		m_GridTab = gridTab; // Not used?
 		
-		//  Edit Button
-		JPanel buttonPanel = new JPanel(new GridLayout(1, 2));
-		this.add(buttonPanel, BorderLayout.EAST);
+		locationLookup = mLocation;
 		
-		//  to Internet Edit Button
-		m_toMapButton.setIcon(Env.getImageIcon("Online10.gif"));
-		m_toMapButton.setMargin(new Insets(0,0,0,0));
-		m_toMapButton.setPreferredSize(size);
-		m_toMapButton.addActionListener(this);
-		buttonPanel.add(m_toMapButton);
-		
-		//  Size
-		int height = m_text.getPreferredSize().height;
-		
-		//  Button
-		m_button.setIcon(Env.getImageIcon("Location10.gif"));
-		m_button.setMargin(new Insets(0,0,0,0));
-		m_button.setPreferredSize(new Dimension(height, height));
-		m_button.addActionListener(this);
-		buttonPanel.add(m_button);
-		
-		//	***	Button & Text	***
-		m_text.setBorder(null);
-		m_text.setEditable(false);
-		m_text.setFocusable(false);
-		m_text.setFont(AdempierePLAF.getFont_Field());
-		m_text.setForeground(AdempierePLAF.getTextColor_Normal());
-		m_text.addMouseListener(new VLocation_mouseAdapter(this));
-		this.add(m_text, BorderLayout.CENTER);
-
-		//	Editable
-		if (isReadOnly || !isUpdateable)
-			setReadWrite (false);
-		else
-			setReadWrite (true);
-		setMandatory (mandatory);
-		//
-		mDelete = new CMenuItem(Msg.getMsg(Env.getCtx(), "Delete"), Env.getImageIcon ("Delete16.gif"));
-		mDelete.addActionListener(this);
-		popupMenu.add(mDelete);
+		getButtons();
+		openMapButton.addActionListener(this);
+		openDialogButton.addActionListener(this);
+				
+		textEditor = (JTextField) getEditorComponent();
+		textEditor.setEditable(false);
 
 	}	//	VLocation
 
 	/**
-	 *  Dispose
-	 */
-	public void dispose()
-	{
-		m_text = null;
-		m_button = null;
-		m_mLocation = null;
-		m_GridField = null;
-		m_GridTab = null;
-	}   //  dispose
-
-	/** The Text Field                  */
-	private JTextField			m_text = new JTextField(VLookup.DISPLAY_LENGTH);
-	/** The Button                      */
-	private CButton				m_button = new CButton();
-	
-	/** The "to map" Button                      */
-	private CButton				m_toMapButton = new CButton();
-
-	private MLocationLookup		m_mLocation;
-	private MLocation			m_value;
-
-	private String				m_columnName;
-	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(VLocation.class);
-
-	//	Popup
-	JPopupMenu 					popupMenu = new JPopupMenu();
-	private CMenuItem 			mDelete;
-
-	/** The Grid Tab * */
-	private GridTab m_GridTab; // added for processCallout
-	/** The Grid Field * */
-	private GridField m_GridField; // added for processCallout
-	
-	/**
 	 *	Enable/disable
 	 *  @param value true if ReadWrite
 	 */
-	public void setReadWrite (boolean value)
+	@Override
+	public void setReadWrite (boolean readWrite)
 	{
-		m_button.setReadWrite (value);
-		if (m_button.isVisible() != value)
-			m_button.setVisible (value);
-		setBackground(false);
+		getButtons();
+		super.setReadWrite(readWrite);
+		openDialogButton.setReadWrite (readWrite);  // Same as enabled
+		if (openDialogButton.isVisible() != readWrite)
+			openDialogButton.setVisible (readWrite);
 	}	//	setReadWrite
 
-	/**
-	 *	IsReadWrite
-	 *  @return value true if ReadWrite
-	 */
-	public boolean isReadWrite()
-	{
-		return m_button.isReadWrite();
-	}	//	isReadWrite
-
-	/**
-	 *	Set Mandatory (and back color)
-	 *  @param mandatory true if mandatory
-	 */
-	public void setMandatory (boolean mandatory)
-	{
-		m_button.setMandatory(mandatory);
-		setBackground(false);
-	}	//	setMandatory
-
-	/**
-	 *	Is it mandatory
-	 *  @return true if mandatory
-	 */
-	public boolean isMandatory()
-	{
-		return m_button.isMandatory();
-	}	//	isMandatory
-
-	/**
-	 *	Set Background
-	 *  @param color color
-	 */
-	public void setBackground (Color color)
-	{
-		if (!color.equals(m_text.getBackground()))
-			m_text.setBackground(color);
-	}	//	setBackground
-
-	/**
-	 *  Set Background based on editable / mandatory / error
-	 *  @param error if true, set background to error color, otherwise mandatory/editable
-	 */
-	public void setBackground (boolean error)
-	{
-		if (error)
-			setBackground(AdempierePLAF.getFieldBackground_Error());
-		else if (!isReadWrite())
-			setBackground(AdempierePLAF.getFieldBackground_Inactive());
-		else if (isMandatory())
-			setBackground(AdempierePLAF.getFieldBackground_Mandatory());
-		else
-			setBackground(AdempierePLAF.getFieldBackground_Normal());
-	}   //  setBackground
-
-	/**
-	 *  Set Foreground
-	 *  @param fg color
-	 */
-	public void setForeground(Color fg)
-	{
-		m_text.setForeground(fg);
-	}   //  setForeground
+	private void getButtons() {
+		
+		if (openDialogButton == null)
+			openDialogButton = ((AdempiereLocationUI) this.getUI()).getOpenDialogButton();
+		
+		if (openMapButton == null)
+			openMapButton = ((AdempiereLocationUI) this.getUI()).getOpenMapButton();
+		
+	}
 
 	/**
 	 *	Set Editor to value
 	 *  @param value value
 	 */
-	public void setValue(Object value)
+	@Override
+	public String setDisplayBasedOnValue(Object value)
 	{
+		currentValue = value;
+		
 		if (value == null)
 		{
-			m_value = null;
-			m_text.setText(null);
+			currentLocation = null;
 		}
 		else
 		{
-			m_value = m_mLocation.getLocation(value, null);
-			if (m_value == null)
-				m_text.setText("<" + value + ">");
-			else
-				m_text.setText(m_value.toString());
+			currentLocation = locationLookup.getLocation(value, null);
+			
+			if (currentLocation == null)
+				super.setCurrentValueValid(false);
+			
 		}
 		
-		m_toMapButton.setEnabled(value != null);
-		m_text.setToolTipText(m_text.getText());
+		if (currentLocation == null)
+		{
+			textEditor.setText(null);
+		}
+		else
+		{
+			if (currentLocation.get_ID() == -1)
+				textEditor.setText("<" + currentValue + ">");
+			else
+				textEditor.setText(currentLocation.toString());
+		}
+		
+		openMapButton.setEnabled(currentValue != null);
+		textEditor.setToolTipText(textEditor.getText());
+		
+		return textEditor.getText();
+
 	}	//	setValue
 
 	/**
-	 * 	Request Focus
-	 */
-	public void requestFocus ()
-	{
-		m_text.requestFocus ();
-	}	//	requestFocus
-
-	/**
-	 *  Property Change Listener
-	 *  @param evt PropertyChangeEvent
-	 */
-	public void propertyChange (PropertyChangeEvent evt)
-	{
-		if (evt.getPropertyName().equals(org.compiere.model.GridField.PROPERTY))
-			setValue(evt.getNewValue());
-	}   //  propertyChange
-
-	/**
 	 *	Return Editor value
+	 *  Deprecated, use getValue() instead.
 	 *  @return value
 	 */
-	public Object getValue()
-	{
-		if (m_value == null)
-			return null;
-		return new Integer(m_value.getC_Location_ID());
-	}	//	getValue
-
-	/**
-	 *	Return Editor value
-	 *  @return value
-	 */
+	@Deprecated
 	public int getC_Location_ID()
 	{
-		if (m_value == null)
+		if (currentLocation == null)
 			return 0;
-		return m_value.getC_Location_ID();
+		return currentLocation.getC_Location_ID();
 	}	//	getC_Location_ID
 
 	/**
@@ -366,7 +238,7 @@ public class VLocation extends JComponent
 	 */
 	public String getDisplay()
 	{
-		return m_text.getText();
+		return textEditor.getText();
 	}   //  getDisplay
 
 	/**
@@ -375,90 +247,65 @@ public class VLocation extends JComponent
 	 */
 	public void actionPerformed(ActionEvent e)
 	{
-		if (e.getActionCommand().equals(RecordInfo.CHANGE_LOG_COMMAND))
-		{
-			RecordInfo.start(m_GridField);
-			return;
-		}
+		super.actionPerformed(e);
 		
 		if (e.getSource() == mDelete)
-			m_value = null;        //  create new
-		
-		if (e.getSource() == m_toMapButton)
 		{
-			Env.startBrowser(DefaultContextProvider.GOOGLE_MAPS_URL_PREFIX + m_value.toString().replace(" ", "%"));
+			currentLocation = null;        //  create new
+			openDialog();
+		}
+		
+		if (e.getSource() == openMapButton)
+		{
+			Env.startBrowser(DefaultContextProvider.GOOGLE_MAPS_URL_PREFIX + currentLocation.toString().replace(" ", "%20"));
 			return;
 		}
+		
+		if (e.getSource() == getEditorComponent()
+				|| e.getSource() == openDialogButton)
+		{
+			openDialog();
+		}
+	}
+	
+	private void openDialog() 
+	{
 		//
-		log.config( "actionPerformed - " + m_value);
+		log.config( "actionPerformed - " + currentLocation);
 		VLocationDialog ld = new VLocationDialog(Env.getFrame(this),
-			Msg.getMsg(Env.getCtx(), "Location"), m_value);
+			Msg.getMsg(Env.getCtx(), "Location"), currentLocation);
 		ld.setVisible(true);
-		Object oldValue = getValue();
-		m_value = ld.getValue();
-		//
-		if (e.getSource() == mDelete)
-			;
-		else if (!ld.isChanged())
-			return;
-
-		//	Data Binding
-		try
-		{
-			int C_Location_ID = 0;
-			if (m_value != null)
-				C_Location_ID = m_value.getC_Location_ID();
-			Integer ii = new Integer(C_Location_ID);
-			
-			if (C_Location_ID != 0)
-				fireVetoableChange(m_columnName, oldValue, ii);
-			setValue(ii);
-			if (ii.equals(oldValue) && m_GridTab != null && m_GridField != null)
-			{
-				//  force Change - user does not realize that embedded object is already saved.
-				m_GridTab.processFieldChange(m_GridField);
-			}
-		}
-		catch (PropertyVetoException pve)
-		{
-			log.log(Level.SEVERE, "VLocation.actionPerformed", pve);
-		}
-
+		
+		// Allow the dialog to return null
+		MLocation newLocation = ld.getValue();
+		Integer id = null;
+		if (newLocation != null)
+			id = newLocation.get_ID();
+		setDisplayBasedOnValue(id);
+		
 	}	//	actionPerformed
 
-	/**
-	 *  Action Listener Interface
-	 *  @param listener listener
-	 */
-	public void addActionListener(ActionListener listener)
-	{
-		m_text.addActionListener(listener);
-	}   //  addActionListener
 
-	//	Field for Value Preference
-	private GridField          m_mField = null;
 	/**
-	 *  Set Field/WindowNo for ValuePreference (NOP)
-	 *  @param mField Model Field
+	 * Send the focus to the openDialogButton
 	 */
-	public void setField (org.compiere.model.GridField mField)
-	{
-		m_GridField = mField;
-		if (m_GridField != null)
-			RecordInfo.addMenu(this, popupMenu);
-	}   //  setField
-
 	@Override
-	public GridField getField() {
-		return m_mField;
+	public JComponent getComponent() {
+		return openDialogButton;
 	}
 
 	@Override
-	public void addValueChangeListener(ValueChangeListener listener) {
-		// TODO Auto-generated method stub
+	protected Object getCurrentValue() {
+		if (currentLocation == null)
+			return null;
+		return currentLocation.getC_Location_ID();
+	}
+
+	@Override
+	protected void handleInvalidValue() {
+		
+		openDialog();
 		
 	}
 
 }	//	VLocation
-
-/*****************************************************************************/
