@@ -1,32 +1,38 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.compiere.grid.ed;
 
-import java.sql.Timestamp;
+import java.awt.Color;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
 
+import javax.swing.JTextPane;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.PlainDocument;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
 
 import org.compiere.apps.ADialog;
 import org.compiere.util.CLogger;
@@ -39,12 +45,15 @@ import org.compiere.util.CLogger;
  *  @author Jorg Janke
  *  @version  $Id: MDocDate.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  */
-public final class MDocDate extends PlainDocument implements CaretListener
+public final class MDocDate extends DefaultStyledDocument implements CaretListener, FocusListener
 {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8453168098223574265L;
+	private String hintText;
+	boolean showingHint = false;
+	private MutableAttributeSet backgroundStyle;
 
 	/**
 	 *	Constructor
@@ -54,17 +63,14 @@ public final class MDocDate extends PlainDocument implements CaretListener
 	 *  @param title title
 	 */
 	public MDocDate (int displayType, SimpleDateFormat format,
-		JTextComponent tc, String title)
+		JTextPane tc, String title)
 	{
 		super();
-		m_displayType = displayType;
 		m_tc = tc;
 		m_tc.addCaretListener(this);
+		m_tc.addFocusListener(this);
 		//
-		m_format = format;
-		if (m_format == null)
-			m_format = new SimpleDateFormat();
-		m_format.setLenient(false);
+		setFormat(format);
 
 		//	Mark delimiters as '^' in Pattern
 		char[] pattern = m_format.toPattern().toCharArray();
@@ -79,16 +85,64 @@ public final class MDocDate extends PlainDocument implements CaretListener
 		m_title = title;
 		if (m_title == null)
 			m_title = "";
+
+		normalStyle = m_tc.getStyle("default");
+		rightAlignedStyle = this.addStyle("rightAligned", (Style) normalStyle);
+		backgroundStyle = this.addStyle("background", (Style) normalStyle);
+		StyleConstants.setAlignment(rightAlignedStyle, StyleConstants.ParagraphConstants.ALIGN_RIGHT);
+		hintStyle = this.addStyle("hintStyle", (Style) normalStyle);
+		Color fg = getForeground(normalStyle);
+		if (fg == null)
+			fg = m_tc.getForeground();
+		Color hintColor = new Color(fg.getRed(), fg.getGreen(), fg.getBlue(), fg.getAlpha()/4);
+		StyleConstants.setForeground(hintStyle, hintColor);
+		StyleConstants.setAlignment(hintStyle, StyleConstants.ParagraphConstants.ALIGN_RIGHT);
+
+		Color bg = getBackground(normalStyle);
+		StyleConstants.setBackground(backgroundStyle, bg);
+		
+		this.setParagraphAttributes(0, getLength(), rightAlignedStyle, false);
+		this.setParagraphAttributes(0, getLength(), backgroundStyle, false);
+		
+        // Add key listener to change the TAB behavior in
+        // JTextPane to transfer focus forward or backward.
+        m_tc.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_TAB) {
+                    if (e.getModifiers() > 0) {
+                    	m_tc.transferFocusBackward();
+                    } else {
+                    	m_tc.transferFocus();
+                    }
+                    e.consume();
+                }
+            }
+        });
+				
 	}	//	MDocDate
 
-	private JTextComponent 		m_tc;
+	public void setFormat(SimpleDateFormat format) {
+		
+		m_format = format;
+		if (m_format == null)
+			m_format = new SimpleDateFormat();
+		m_format.setLenient(false);
+		hintText = m_format.toLocalizedPattern();
+		
+	}
+
+	private JTextPane 		m_tc;
 	private SimpleDateFormat	m_format;
 	private String				m_mask;
 	private static final char	DELIMITER = '^';
 	//	for Calendar
 	private String				m_title;
-	private int					m_displayType;
 	private int					m_lastDot = 0;		//	last dot position
+	private MutableAttributeSet hintStyle;
+	private MutableAttributeSet rightAlignedStyle;
+	private MutableAttributeSet normalStyle;
+	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(MDocDate.class);
 	
@@ -106,6 +160,13 @@ public final class MDocDate extends PlainDocument implements CaretListener
 		log.finest("Offset=" + offset + ",String=" + string + ",Attr=" + attr
 			+ ",OldText=" + getText() + ",OldLength=" + getText().length());
 
+		if (getText().equals(hintText))
+		{
+			remove(0, hintText.length());
+		}
+		showingHint = false;
+		
+		log.info("showingHint: " + showingHint);
 		//	manual entry
 		//	DBTextDataBinder.updateText sends stuff at once - length=8
 		if (string != null && string.length() == 1)
@@ -114,15 +175,15 @@ public final class MDocDate extends PlainDocument implements CaretListener
 			if (offset >= m_mask.length())
 				return;
 
+			
 			//	is it an empty field?
 			int length = getText().length();
-			if (offset == 0 && length == 0)
+			if (length == 0)
 			{
 				Date today = new Date(System.currentTimeMillis());
 				String dateStr = m_format.format(today);
-				super.insertString(0, string + dateStr.substring(1), attr);
-				m_tc.setCaretPosition(1);
-				return;
+				super.insertString(0, dateStr, hintStyle);
+				m_tc.setCaretPosition(0);
 			}
 
 			//	is it a digit ?
@@ -132,32 +193,25 @@ public final class MDocDate extends PlainDocument implements CaretListener
 			}
 			catch (Exception pe)
 			{
-				//hengsin, [ 1660175 ] Date field - anoying popup
+				//hengsin, [ 1660175 ] Date field - annoying popup
 				//startDateDialog();
 				ADialog.beep();
 				return;
 			}
 
-			//	try to get date in field, if invalid, get today's
-			/*try
-			{
-				char[] cc = getText().toCharArray();
-				cc[offset] = string.charAt(0);
-				m_format.parse(new String(cc));
-			}
-			catch (ParseException pe)
-			{
-				startDateDialog();
-				return;
-			}*/
-
 			//	positioned before the delimiter - jump over delimiter
 			if (offset != m_mask.length()-1 && m_mask.charAt(offset+1) == DELIMITER)
+			{
 				m_tc.setCaretPosition(offset+2);
-
+				// Change the style of the delimiter in case it uses the hint style
+				this.setCharacterAttributes(offset+1, 1, normalStyle, true);
+			}
+			
 			//	positioned at the delimiter
 			if (m_mask.charAt(offset) == DELIMITER)
 			{
+				// Change the style of the delimiter in case it uses the hint style
+				this.setCharacterAttributes(offset, 1, normalStyle, true);
 				offset++;
 				m_tc.setCaretPosition(offset+1);
 			}
@@ -165,7 +219,7 @@ public final class MDocDate extends PlainDocument implements CaretListener
 		}
 
 		//	Set new character
-		super.insertString(offset, string, attr);
+		super.insertString(offset, string, normalStyle);
 		//	New value set Cursor
 		if (offset == 0 && string != null && string.length() > 1)
 			m_tc.setCaretPosition(0);
@@ -267,37 +321,57 @@ public final class MDocDate extends PlainDocument implements CaretListener
 		return str;
 	}	//	getString
 
+
+	@Override
+	public void focusGained(FocusEvent e) {
+		
+		// If empty, display a format hint
+		if (getText().isEmpty())
+		{
+			try {
+				super.insertString(0, hintText, hintStyle);
+				showingHint = true;
+				log.info("showingHint: " + showingHint);
+
+			} catch (BadLocationException e1) {}
+		}
+		m_tc.setCaretPosition(0);
+		
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		
+		if (e.isTemporary())
+			return;
+		
+		log.info("showingHint true -> false: " + showingHint);
+		if (showingHint)
+		{
+			try {
+				remove(0,hintText.length());
+				showingHint = false;
+
+			} catch (BadLocationException e1) {}
+		}
+		
+	}
+
+	public void setBackground(Color bg) {
+		
+		StyleConstants.setBackground(backgroundStyle, bg);
+		this.setParagraphAttributes(0, getLength(), backgroundStyle, false);
+
+	}
+
 	/**
-	 *	Call Calendar Dialog
+	 * Return the string used as a hint when the document "value" is 
+	 * empty.
+	 * @return The hint text, typically the date format applied.
 	 */
-	private void startDateDialog()
-	{
-		log.config("");
+	public String getHint() {
+		return hintText;
+	}
 
-		//	Date Dialog
-		String result = getText();
-		Timestamp ts = null;
-		try
-		{
-			ts = new Timestamp(m_format.parse(result).getTime());
-		}
-		catch (Exception pe)
-		{
-			ts = new Timestamp(System.currentTimeMillis());
-		}
-		ts = VDate.startCalendar(m_tc, ts, m_format, m_displayType, m_title);
-		result = m_format.format(ts);
-
-		//	move to field
-		try
-		{
-			super.remove(0, getText().length());
-			super.insertString(0, result, null);
-		}
-		catch (BadLocationException ble)
-		{
-			log.log(Level.SEVERE, "", ble);
-		}
-	}	//	startDateDialog
-
+	
 }	//	MDocDate
