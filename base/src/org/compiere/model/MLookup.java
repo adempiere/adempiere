@@ -368,23 +368,28 @@ public final class MLookup extends Lookup implements Serializable
 			loadComplete();
 		}
 
-		//	Never Loaded (correctly)
-		if (!m_allLoaded || m_lookup.size() == 0)
-			loadData (loadParent);
-
-		//	already validation included
-		//if (m_info.IsValidated)
 		boolean validated = this.isValidated(m_info);
-		if (validated)
-			return new ArrayList<Object>(m_lookup.values());
-		
 
-		//if (!m_info.IsValidated && onlyValidated)
-		if (!validated && onlyValidated)
-		{
+		//	Never Loaded (correctly) or not validated
+		if (!m_allLoaded || m_lookup.size() == 0 || !validated && onlyValidated)
 			loadData (loadParent);
-			log.fine(m_info.KeyColumn + ": Validated - #" + m_lookup.size());
-		}
+
+		log.info(m_info.KeyColumn + ": Validated - #" + validated + " - " + m_lookup.size());
+		log.fine(m_info.KeyColumn + ": Validated - #" + validated + " - " + m_lookup.size());
+
+// Load data can occur twice 
+//		//	already validation included
+//		//if (m_info.IsValidated)
+//		if (validated)
+//			return new ArrayList<Object>(m_lookup.values());
+//		
+//
+//		//if (!m_info.IsValidated && onlyValidated)
+//		if (!validated && onlyValidated)
+//		{
+//			loadData (loadParent);
+//			log.fine(m_info.KeyColumn + ": Validated - #" + m_lookup.size());
+//		}
 
 		return new ArrayList<Object>(m_lookup.values());
 	}	//	getData
@@ -790,7 +795,7 @@ public final class MLookup extends Lookup implements Serializable
 				log.log(Level.SEVERE, m_info.KeyColumn + ", " + m_info.Column_ID + " : Loader - " + sql, e);
 			}
 			int size = m_lookup.size();
-			log.finer(m_info.KeyColumn
+			log.info(m_info.KeyColumn
 					+ " (" + m_info.Column_ID + "):"
 				//	+ " ID=" + m_info.AD_Column_ID + " " +
 					+ " - Loader complete #" + size + " - all=" + m_allLoaded

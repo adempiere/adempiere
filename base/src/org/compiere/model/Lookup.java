@@ -36,8 +36,8 @@ import org.compiere.util.ValueNamePair;
  *  @author 	Jorg Janke
  *  @version 	$Id: Lookup.java,v 1.3 2006/07/30 00:58:18 jjanke Exp $
  */
-public abstract class Lookup extends AbstractListModel
-	implements MutableComboBoxModel, Serializable
+public abstract class Lookup extends AbstractListModel<Object>
+	implements MutableComboBoxModel<Object>, Serializable
 {
 	/**
 	 * 
