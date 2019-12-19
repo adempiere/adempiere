@@ -282,6 +282,7 @@ public final class ALogin extends CDialog
 			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(12, 12, 5, 5), 0, 0));
 		defaultPanel.add(roleCombo,        new GridBagConstraints(1, 0, 1, 1, 1.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(12, 0, 5, 12), 0, 0));
+		
 		clientLabel.setText("Client");
 		clientLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		clientLabel.setLabelFor(clientCombo);
@@ -294,10 +295,19 @@ public final class ALogin extends CDialog
 		orgLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		orgLabel.setLabelFor(orgCombo);
 		defaultPanel.add(orgLabel,         new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 5, 5), 0, 0));
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 5, 5), 0, 0));
 		orgCombo.addActionListener(this);
 		defaultPanel.add(orgCombo,        new GridBagConstraints(1, 2, 1, 1, 1.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 5, 12), 0, 0));
+			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 12), 0, 0));
+
+		warehouseLabel.setText("Warehouse");
+		warehouseLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		warehouseLabel.setLabelFor(warehouseCombo);
+		defaultPanel.add(warehouseLabel,  new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
+				,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 5, 5), 0, 0));
+		defaultPanel.add(warehouseCombo,   new GridBagConstraints(1, 3, 1, 1, 1.0, 0.0
+				,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 12), 0, 0));
+
 		dateLabel.setText("Date");
 		dateLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		dateLabel.setLabelFor(dateField);
@@ -306,22 +316,15 @@ public final class ALogin extends CDialog
 		defaultPanel.add(dateField,        new GridBagConstraints(1, 4, 1, 1, 1.0, 0.0
 			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 12), 0, 0));
 		//
-		warehouseLabel.setText("Warehouse");
-		warehouseLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		warehouseLabel.setLabelFor(warehouseCombo);
 		printerLabel.setText("Printer");
 		printerLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		printerLabel.setLabelFor(printerField);
 		
 		defaultPanel.add(printerLabel,        new GridBagConstraints(0, 5, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(0, 12, 12, 5), 0, 0));
+			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 12, 5), 0, 0));
 		defaultPanel.add(printerField,        new GridBagConstraints(1, 5, 1, 1, 1.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 12, 12), 0, 0));
+			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 12, 12), 0, 0));
 		
-		defaultPanel.add(warehouseLabel,  new GridBagConstraints(0, 3, 1, 1, 0.0, 0.0
-			,GridBagConstraints.EAST, GridBagConstraints.NONE, new Insets(5, 12, 5, 5), 0, 0));
-		defaultPanel.add(warehouseCombo,   new GridBagConstraints(1, 3, 1, 1, 1.0, 0.0
-			,GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL, new Insets(5, 0, 5, 12), 0, 0));
 		//
 		loginTabPane.add(defaultPanel, res.getString("Defaults"));
 		//
@@ -372,6 +375,7 @@ public final class ALogin extends CDialog
 			passwordField.setText("");
 		//
 		languageCombo.setSelectedItem(Ini.getProperty(Ini.P_LANGUAGE));
+		languageComboChanged();
 
 		//	AutoLogin - assumes that connection is OK
 		if (Ini.isPropertyBool(Ini.P_A_LOGIN))
@@ -483,14 +487,14 @@ public final class ALogin extends CDialog
 		//
 		else if (e.getSource() == hostField) 
 			validateConnection();
-		else if (e.getSource() == languageCombo)
+		else if (e.getSource() == languageCombo && e.getActionCommand().equals(VComboBox.CCOMBO_UPDATE))
 			languageComboChanged();
 		//
-		else if (e.getSource() == roleCombo)
+		else if (e.getSource() == roleCombo && e.getActionCommand().equals(VComboBox.CCOMBO_UPDATE))
 			roleComboChanged();
-		else if (e.getSource() == clientCombo)
+		else if (e.getSource() == clientCombo && e.getActionCommand().equals(VComboBox.CCOMBO_UPDATE))
 			clientComboChanged();
-		else if (e.getSource() == orgCombo)
+		else if (e.getSource() == orgCombo && e.getActionCommand().equals(VComboBox.CCOMBO_UPDATE))
 			orgComboChanged();
 		else if ("onlineLoginHelp".equals(e.getActionCommand()))
 			OnlineHelp.openInDefaultBrowser();
@@ -691,12 +695,14 @@ public final class ALogin extends CDialog
 				iniValue = roles[i];
 		}
 		if (iniValue != null)
-			roleCombo.setSelectedItem(iniValue);
-		
+		{
+			roleCombo.setValue(iniValue.getKey());
+//			roleCombo.setSelectedItem(iniValue);
+		}
 		// If we have only one role, we can hide the combobox - metas-2009_0021_AP1_G94
 		if (roleCombo.getItemCount() == 1 && ! MSysConfig.getBooleanValue("ALogin_ShowOneRole", true))
 		{
-			roleCombo.setSelectedIndex(0);
+			roleCombo.setValue(roles[0].getID());
 			roleLabel.setVisible(false);
 			roleCombo.setVisible(false);
 		}
@@ -754,7 +760,7 @@ public final class ALogin extends CDialog
 		}
 		//	fini
 		if (iniValue != null)
-			clientCombo.setSelectedItem(iniValue);
+			clientCombo.setValue(iniValue.getID());
 		//
 		m_comboActive = false;
 		clientComboChanged();
@@ -810,10 +816,18 @@ public final class ALogin extends CDialog
 			orgValue = orgValue2;
 		//	Last Org
 		if (orgValue != null)
+		{
+			// Better to set the value rather than the item so the combo can 
+			// keep track of its own state.
+			orgCombo.setValue(orgValue.getKey());
 			orgCombo.setSelectedItem(orgValue);
+		}
 		//	Get first Org
 		else
-			orgValue = (KeyNamePair)orgCombo.getSelectedItem();
+		{
+			orgCombo.setValue(orgs[0].getID());
+//			orgValue = (KeyNamePair)orgCombo.getSelectedItem();
+		}
 		//
 		m_comboActive = false;
 		orgComboChanged();
