@@ -16,14 +16,14 @@
  *****************************************************************************/
 package org.compiere.minigrid;
 
-import java.awt.AWTEvent;
-import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
@@ -35,45 +35,50 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.EventListener;
 import java.util.logging.Level;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultListSelectionModel;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComponent;
+import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.MatteBorder;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
-import org.adempiere.plaf.AdempierePLAF;
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.AWindow;
 import org.compiere.apps.search.Info_Column;
+import org.compiere.grid.ed.VCellEditor;
 import org.compiere.grid.ed.VCellRenderer;
 import org.compiere.grid.ed.VHeaderRenderer;
+import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.PO;
 import org.compiere.swing.CCheckBox;
+import org.compiere.swing.CMenuItem;
 import org.compiere.swing.CTable;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
+import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.compiere.util.ValueNamePair;
 
 /**
  *  Mini Table.
@@ -109,7 +114,7 @@ import org.compiere.util.Util;
  * 		<li>release/380 - fix row selection event handling to fire single event per row selection. Also code clean-up.
  * 
  */
-public class MiniTable extends CTable implements IMiniTable
+public class MiniTable extends CTable implements IMiniTable, ActionListener, TableModelListener
 {
 	/**
 	 * 
@@ -129,18 +134,6 @@ public class MiniTable extends CTable implements IMiniTable
 		}
 	}
 
-	public interface MiniTableSelectionListener extends EventListener {
-		public  abstract void rowSelected(RowSelectionEvent e);
-	}
-
-	@SuppressWarnings("serial")
-	public class RowSelectionEvent extends AWTEvent {
-	    public static final int ROW_TOGGLED = AWTEvent.RESERVED_ID_MAX + 1;
-	    public RowSelectionEvent(MiniTable source, int id) {
-	        super(source, id);
-	    }
-	}
-	
 	/**
 	 *  Default Constructor
 	 */
@@ -158,6 +151,7 @@ public class MiniTable extends CTable implements IMiniTable
 		
 		//  Set up the keyboard interactions
 		this.setSurrendersFocusOnKeystroke(true);  //  Default behaviour is to surrender the focus.
+				
 		//  Customise row selection confirmation
 		this.getInputMap().put(KeyStroke.getKeyStroke("SPACE"), "doMatchIdToSelection");
 		this.getInputMap().put(KeyStroke.getKeyStroke("ctrl SPACE"), "doToggleID");
@@ -213,16 +207,27 @@ public class MiniTable extends CTable implements IMiniTable
 		this.addFocusListener(new FocusAdapter(){
 			public void focusGained(FocusEvent fe)
 			{
-				((MiniTable) fe.getSource()).getParent().repaint();
+//				((MiniTable) fe.getSource()).getParent().repaint();
 			}
 			
 			public void focusLost(FocusEvent fe)
 			{
+				if (fe.isTemporary())
+					return;
+				
 				if (((MiniTable) fe.getSource()) != null)
-					((MiniTable) fe.getSource()).getParent().repaint();
+				{
+					//  Can't clear the selection on focus lost
+					//  Need the selection to exist when the 
+					//  button is pressed
+//					MiniTable table = (MiniTable) fe.getSource();
+//					table.getSelectionModel().clearSelection();
+//					table.revalidate();
+//					table.getParent().repaint();
+				}
 			}
 		});
-
+		
 	}   //  MiniTable
 
 	private boolean pressedInTable = false;
@@ -239,6 +244,17 @@ public class MiniTable extends CTable implements IMiniTable
     /** A list of event listeners for this component. */
     protected EventListenerList listenerList = new EventListenerList();
 
+	//	Popup
+	JPopupMenu 					popupMenu = new JPopupMenu();
+	private CMenuItem zoomMenuItem;
+	private int popUpRow_id;
+
+	private MQuery zoomQuery;
+	private int zoomWindo_id;
+	private String keyTableName;
+	private String keyColumnName;
+
+	
 	/**
 	 * @return true if a click on a row adds or removes the row from the selection
 	 */
@@ -261,16 +277,28 @@ public class MiniTable extends CTable implements IMiniTable
 		MiniTable table = ((MiniTable) me.getSource());
 		if (me.isPopupTrigger())
 		{
-			try
+			// Only zoom so check if its possible, otherwise ignore
+			if (keyTableName == null || keyColumnName == null || zoomWindo_id <= 0)
+				return;
+			
+			// Show popup
+			if (table.rowAtPoint(me.getPoint()) >= 0)
 			{
-				super.processMouseEvent(me);
+				popUpRow_id = getRowKey(table.rowAtPoint(me.getPoint()));
+				if (zoomMenuItem == null)
+				{
+					zoomMenuItem = new CMenuItem(Msg.getMsg(Env.getCtx(), "Zoom"), Env.getImageIcon("Zoom16.gif"));
+					zoomMenuItem.setActionCommand("Zoom");
+					zoomMenuItem.addActionListener(this);
+					popupMenu.add(zoomMenuItem);
+				}
+				zoomMenuItem.setText(Msg.getMsg(Env.getCtx(), "Zoom") + "->" + popUpRow_id);
 			}
-			catch(Exception e)
-			{
-			}
-			return;			
+			popupMenu.show((Component)me.getSource(), me.getX(), me.getY());
+			return;
 		}
-		else if (me.getID() == MouseEvent.MOUSE_CLICKED && me.getClickCount() % 2 == 0)
+		
+		if (me.getID() == MouseEvent.MOUSE_CLICKED && me.getClickCount() % 2 == 0)
 		{
 			if (isMultiSelection() && isDoubleClickTogglesSelection())
 			{
@@ -316,6 +344,7 @@ public class MiniTable extends CTable implements IMiniTable
 		            	try{super.processMouseEvent(me);}
 		            	catch(Exception e){}
 		            	fireRowSelectionEvent(); // To ensure the selection event is noticed.
+		            	this.repaint();
 		            	return;
 		            }
 				}
@@ -337,6 +366,8 @@ public class MiniTable extends CTable implements IMiniTable
 			pressedRow = -1;
 			pressedColumn = -1;
 			wasDragged = false;
+			
+			this.repaint();
  		}
 		else if (me.getID() == MouseEvent.MOUSE_PRESSED)
 	    {
@@ -421,6 +452,8 @@ public class MiniTable extends CTable implements IMiniTable
 
 	/** List of R/W columns     */
 	private ArrayList<Integer>   m_readWriteColumn = new ArrayList<Integer>();
+	/** List of Mandatory columns     */
+	private ArrayList<Integer>   mandatoryColumns = new ArrayList<Integer>();
 	/** List of Column Width    */
 	private ArrayList<Integer>   m_minWidth = new ArrayList<Integer>();
 
@@ -509,8 +542,9 @@ public class MiniTable extends CTable implements IMiniTable
 			for (int row = 0; row < maxRow; row++)
 			{
 				renderer = getCellRenderer(row, col);
+				boolean isSelected = this.isRowSelected(row);
 				comp = renderer.getTableCellRendererComponent
-					(this, getValueAt(row, col), false, false, row, col);
+					(this, getValueAt(row, col), isSelected, false, row, col);
 				if (comp != null) {
 					int rowWidth = comp.getPreferredSize().width + SLACK;
 					width = Math.max(width, rowWidth);
@@ -561,12 +595,13 @@ public class MiniTable extends CTable implements IMiniTable
 		
 		int modelColumn = convertColumnIndexToModel(column);
 		
-		if ((modelColumn == 0 && this.getValueAt(row,column) instanceof Boolean) || isRowChecked(row))
-		{
+//		Make the readWrite columns look the same always - it is less confusing visually		
+//		if ((modelColumn == 0 && this.getValueAt(row,column) instanceof Boolean) || isRowChecked(row))
+//		{
 			//  is the column RW?
 			if (m_readWriteColumn.contains(new Integer(modelColumn)))
 				return true;
-		}		
+//		}		
 		return false;
 	}   //  isCellEditable
 
@@ -613,9 +648,31 @@ public class MiniTable extends CTable implements IMiniTable
 	public String prepareTable(ColumnInfo[] layout, 
 		String from, String where, boolean multiSelection, String tableName)
 	{
+		// Remove the table model info
+		clear();
+		
 		m_layout = layout;
+		setRowSelectionAllowed(true);
 		setMultiSelection(multiSelection);
-		//
+				
+		//  Set the columns and column class. This is done in two
+		//  steps: first to add the column, which clears the class;
+		//  and second to set the correct class for the column.
+		//  TODO: Combine these into a single op?
+		//  Step 1
+		for (int i = 0; i < layout.length; i++)
+			addColumn(layout[i].getColHeader());
+		//  Step 2
+		for (int i = 0; i < layout.length; i++)
+		{
+			setColumnClass(i, layout[i].getColClass(), layout[i].isReadOnly(), layout[i].getColHeader());
+			if (layout[i].isColorColumn())
+				setColorColumn(i);
+			if (layout[i].getColClass() == IDColumn.class)
+				p_keyColumnIndex = i;
+		}
+		
+		//  Build the sql
 		StringBuffer sql = new StringBuffer ("SELECT ");
 		//  add columns & sql
 		for (int i = 0; i < layout.length; i++)
@@ -623,28 +680,16 @@ public class MiniTable extends CTable implements IMiniTable
 			//  create sql
 			if (i > 0)
 				sql.append(", ");
-			sql.append(layout[i].getColSQL());
 			//  adding ID column
 			if (layout[i].isKeyPairCol())
-				sql.append(",").append(layout[i].getKeyPairColSQL());
+				sql.append(layout[i].getKeyPairColSQL()).append(", ");
+			sql.append(layout[i].getColSQL());
 
-			//  add to model
-			addColumn(layout[i].getColHeader());
-			if (layout[i].isColorColumn())
-				setColorColumn(i);
-			if (layout[i].getColClass() == IDColumn.class)
-				p_keyColumnIndex = i;
 		}
-		//  set editors (two steps)
-		for (int i = 0; i < layout.length; i++)
-			setColumnClass(i, layout[i].getColClass(), layout[i].isReadOnly(), layout[i].getColHeader());
 
 		sql.append( " FROM ").append(from);
 		sql.append(" WHERE ").append(where);
 
-		//  Table Selection
-		setRowSelectionAllowed(true);
-		
 		//	org.compiere.apps.form.VMatch.dynInit calls routine for initial init only
 		if (from.length() == 0)
 			return sql.toString();
@@ -685,7 +730,7 @@ public class MiniTable extends CTable implements IMiniTable
 		TableColumn tc = getColumn(column);
 		TableCellRenderer tcr = tc.getCellRenderer();
 		
-		if (tcr instanceof IDColumnRenderer || tcr instanceof CheckRenderer)
+		if (tcr instanceof IDColumnRenderer)
 		{
 			((IDColumnRenderer) tcr).addChangeListener(listener);
 		}
@@ -756,7 +801,7 @@ public class MiniTable extends CTable implements IMiniTable
 				tc.setCellEditor(new IDColumnEditor());
 				tc.setHeaderRenderer(vhr);
 				idcr.addChangeListener(vhr);  //  Connect the IDColumn with the header
-				setColumnReadOnly(index, false);
+				setColumnReadOnly(index, false); // Change to R/W so the selection is possible
 			}
 			else
 			{
@@ -805,16 +850,19 @@ public class MiniTable extends CTable implements IMiniTable
 			
 			if (readOnly)
 				tc.setCellEditor(new ROCellEditor());
-			else if (DisplayType.Date == displayType || DisplayType.DateTime == displayType)
-				tc.setCellEditor(new MiniCellEditor(c, displayType));
-			else 
-				tc.setCellEditor(new MiniCellEditor(c));
+			else
+				tc.setCellEditor(new VCellEditor(c, displayType));
+//			else if (DisplayType.Date == displayType || DisplayType.DateTime == displayType)
+//				tc.setCellEditor(new MiniCellEditor(c, displayType));
+//			else 
+//				tc.setCellEditor(new MiniCellEditor(c));
 			
+			tc.setHeaderRenderer(new VHeaderRenderer(displayType));
 			m_minWidth.add(new Integer(30));
-			if (DisplayType.DateTime == displayType)
-				tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.DateTime));
-			else 
-				tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Date));
+//			if (DisplayType.DateTime == displayType)
+//				tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.DateTime));
+//			else 
+//				tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Date));
 		}
 		//  Amount
 		else if (DisplayType.Amount == displayType || c == BigDecimal.class )
@@ -827,7 +875,7 @@ public class MiniTable extends CTable implements IMiniTable
 			}
 			else
 			{
-				tc.setCellEditor(new MiniCellEditor(c));
+				tc.setCellEditor(new VCellEditor(c, displayType));
 				m_minWidth.add(new Integer(80));
 			}
 			
@@ -844,7 +892,7 @@ public class MiniTable extends CTable implements IMiniTable
 			}
 			else
 			{
-				tc.setCellEditor(new MiniCellEditor(c));
+				tc.setCellEditor(new VCellEditor(c, displayType));
 				m_minWidth.add(new Integer(80));
 			}
 			
@@ -857,7 +905,7 @@ public class MiniTable extends CTable implements IMiniTable
 			if (readOnly)
 				tc.setCellEditor(new ROCellEditor());
 			else
-				tc.setCellEditor(new MiniCellEditor(c));
+				tc.setCellEditor(new VCellEditor(c, displayType));
 			m_minWidth.add(new Integer(30));
 			
 			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
@@ -869,7 +917,7 @@ public class MiniTable extends CTable implements IMiniTable
 			if (readOnly)
 				tc.setCellEditor(new ROCellEditor());
 			else
-				tc.setCellEditor(new MiniCellEditor(String.class));
+				tc.setCellEditor(new VCellEditor(c, displayType));
 			m_minWidth.add(new Integer(30));
 			
 			tc.setHeaderRenderer(new VHeaderRenderer(DisplayType.String));
@@ -892,6 +940,7 @@ public class MiniTable extends CTable implements IMiniTable
 		else
 			throw new IllegalArgumentException("Model must be instance of DefaultTableModel");
 	}   //  setRowCount
+
 
 	
 	/**************************************************************************
@@ -961,7 +1010,6 @@ public class MiniTable extends CTable implements IMiniTable
 			addTotals(m_layout);
 		autoSize();
 		log.config("Row(rs)=" + getRowCount());
-		
 		
 	}	//	loadTable
 
@@ -1458,34 +1506,34 @@ public class MiniTable extends CTable implements IMiniTable
 
 	public TableCellRenderer getCellRenderer(int row, int column)
 	{
-		Object editorClass = null;
-		try {
-			editorClass = this.getColumnModel().getColumn(column).getCellEditor().getClass();
-		} catch (Exception e) {}  //  Possible NPE if the table was not setup properly.
-        boolean editable = this.isCellEditable(row, column);
-		if (editable && editorClass == MiniCellEditor.class)
-		{
-	        Color borderColor = AdempierePLAF.getFieldBackground_Mandatory();
-	        CompoundBorder cb = null;
-	        
-			//  Set the borders on the editor
-			MiniCellEditor jc = ((MiniCellEditor) this.getColumnModel().getColumn(column).getCellEditor());
-    		if (column == 0)
-    		{
-    			cb = new CompoundBorder(new EmptyBorder(new Insets(0,0,0,1)),new MatteBorder(1, 1, 1, 0, borderColor));
-    			jc.setBorder(cb);
-    		}
-    		else if (column == this.getColumnCount()-1)
-    		{
-    			cb = new CompoundBorder(new EmptyBorder(new Insets(0,1,0,0)),new MatteBorder(1, 0, 1, 1, borderColor));
-    			jc.setBorder(cb);
-    		}
-    		else
-    		{
-    			cb = new CompoundBorder(new EmptyBorder(new Insets(0,1,0,1)),new MatteBorder(1, 0, 1, 0, borderColor));
-    			jc.setBorder(cb);
-    		}
-		}
+//		Object editorClass = null;
+//		try {
+//			editorClass = this.getColumnModel().getColumn(column).getCellEditor().getClass();
+//		} catch (Exception e) {}  //  Possible NPE if the table was not setup properly.
+//        boolean editable = this.isCellEditable(row, column);
+//		if (editable && editorClass == VCellEditor.class)
+//		{
+//	        Color borderColor = AdempierePLAF.getFieldBackground_Mandatory();
+//	        CompoundBorder cb = null;
+//	        
+//			//  Set the borders on the editor
+//			VCellEditor jc = ((VCellEditor) this.getColumnModel().getColumn(column).getCellEditor());
+//    		if (column == 0)
+//    		{
+//    			cb = new CompoundBorder(new EmptyBorder(new Insets(0,0,0,1)),new MatteBorder(1, 1, 1, 0, borderColor));
+//    			jc.setBorder(cb);
+//    		}
+//    		else if (column == this.getColumnCount()-1)
+//    		{
+//    			cb = new CompoundBorder(new EmptyBorder(new Insets(0,1,0,0)),new MatteBorder(1, 0, 1, 1, borderColor));
+//    			jc.setBorder(cb);
+//    		}
+//    		else
+//    		{
+//    			cb = new CompoundBorder(new EmptyBorder(new Insets(0,1,0,1)),new MatteBorder(1, 0, 1, 0, borderColor));
+//    			jc.setBorder(cb);
+//    		}
+//		}
 		return super.getCellRenderer(row, column);
 	}
 	
@@ -1500,84 +1548,84 @@ public class MiniTable extends CTable implements IMiniTable
     {
 
         Component c = super.prepareRenderer(renderer, row, column);
-        JComponent jc = (JComponent)c;
-        if (c==null) return c;
-        
-        //  Row is selected
-        Color selectedColor = AdempierePLAF.getFieldBackground_Selected();
-        //  Even row
-        Color normalColor = AdempierePLAF.getFieldBackground_Normal();
-        //  Odd row
-        Color backColor = AdempierePLAF.getInfoBackground();
-        //  Lead row border
-        Color borderColor = AdempierePLAF.getFieldBackground_Mandatory();
-        
-        CompoundBorder cb = null;
-
-        ListSelectionModel rsm = this.getSelectionModel();
-        boolean readOnly = !this.isCellEditable(row, column);
-        if (!(row == rsm.getLeadSelectionIndex()))
-        {
-        	if (rsm.isSelectedIndex(row)) //  Highlighted but not the lead
-        	{
-        		c.setBackground(selectedColor);
-        		jc.setBorder(new MatteBorder(1, 1, 1, 1, selectedColor) );
-        	}
-        	else if (row % 2 == 0)  //  Not selected but even in number
-    		{ 
-    			c.setBackground(normalColor);
-        		jc.setBorder(new MatteBorder(1, 1, 1, 1, normalColor) );
-    		} 
-    		else  //  Not selected and odd in number
-    		{
-    			// If not shaded, match the table's background
-    			c.setBackground(backColor);
-        		jc.setBorder(new MatteBorder(1, 1, 1, 1, backColor) );
-    		}
-        	
-        	//  Buttons and checkboxes need to have the border turned on
-        	if (c.getClass().equals(JCheckBox.class))
-        	{
-        		((JCheckBox) c).setBorderPainted(false);
-        	}
-        	else if (c.getClass().equals(JButton.class))
-        	{
-        		((JButton) c).setBorderPainted(false);
-        	}
-
-        }
-        else
-        {
-        	if (c.getClass().equals(JCheckBox.class))
-        	{
-        		((JCheckBox) c).setBorderPainted(true);
-        	}
-        	else if (c.getClass().equals(JButton.class))
-        	{
-        		((JButton) c).setBorderPainted(true);
-        	}
-        	
-        	//  Define border - compond border maintains the spacing of 1px around the field
-    		if (column == 0)
-    		{
-    			cb = new CompoundBorder(new EmptyBorder(new Insets(0,0,0,1)),new MatteBorder(1, 1, 1, 0, borderColor));
-    		}
-    		else if (column == this.getColumnCount()-1)
-    		{
-    			cb = new CompoundBorder(new EmptyBorder(new Insets(0,1,0,0)),new MatteBorder(1, 0, 1, 1, borderColor));
-    		}
-    		else
-    		{
-    			cb = new CompoundBorder(new EmptyBorder(new Insets(0,1,0,1)),new MatteBorder(1, 0, 1, 0, borderColor));
-    		}
-			//  Set border
-    		jc.setBorder(cb);
-    		//  Set background color
-    		if (!readOnly &&  this.isRowChecked(row))
-    			c.setBackground(normalColor);
-    		else
-    			c.setBackground(selectedColor);        			
-        }
+//        JComponent jc = (JComponent)c;
+//        if (c==null) return c;
+//        
+//        //  Row is selected
+//        Color selectedColor = AdempierePLAF.getFieldBackground_Selected();
+//        //  Even row
+//        Color normalColor = AdempierePLAF.getFieldBackground_Normal();
+//        //  Odd row
+//        Color backColor = AdempierePLAF.getInfoBackground();
+//        //  Lead row border
+//        Color borderColor = AdempierePLAF.getFieldBackground_Mandatory();
+//        
+//        CompoundBorder cb = null;
+//
+//        ListSelectionModel rsm = this.getSelectionModel();
+//        boolean readOnly = !this.isCellEditable(row, column);
+//        if (!(row == rsm.getLeadSelectionIndex()))
+//        {
+//        	if (rsm.isSelectedIndex(row)) //  Highlighted but not the lead
+//        	{
+//        		c.setBackground(selectedColor);
+//        		jc.setBorder(new MatteBorder(1, 1, 1, 1, selectedColor) );
+//        	}
+//        	else if (row % 2 == 0)  //  Not selected but even in number
+//    		{ 
+//    			c.setBackground(normalColor);
+//        		jc.setBorder(new MatteBorder(1, 1, 1, 1, normalColor) );
+//    		} 
+//    		else  //  Not selected and odd in number
+//    		{
+//    			// If not shaded, match the table's background
+//    			c.setBackground(backColor);
+//        		jc.setBorder(new MatteBorder(1, 1, 1, 1, backColor) );
+//    		}
+//        	
+//        	//  Buttons and checkboxes need to have the border turned on
+//        	if (c.getClass().equals(JCheckBox.class))
+//        	{
+//        		((JCheckBox) c).setBorderPainted(false);
+//        	}
+//        	else if (c.getClass().equals(JButton.class))
+//        	{
+//        		((JButton) c).setBorderPainted(false);
+//        	}
+//
+//        }
+//        else
+//        {
+//        	if (c.getClass().equals(JCheckBox.class))
+//        	{
+//        		((JCheckBox) c).setBorderPainted(true);
+//        	}
+//        	else if (c.getClass().equals(JButton.class))
+//        	{
+//        		((JButton) c).setBorderPainted(true);
+//        	}
+//        	
+//        	//  Define border - compond border maintains the spacing of 1px around the field
+//    		if (column == 0)
+//    		{
+//    			cb = new CompoundBorder(new EmptyBorder(new Insets(0,0,0,1)),new MatteBorder(1, 1, 1, 0, borderColor));
+//    		}
+//    		else if (column == this.getColumnCount()-1)
+//    		{
+//    			cb = new CompoundBorder(new EmptyBorder(new Insets(0,1,0,0)),new MatteBorder(1, 0, 1, 1, borderColor));
+//    		}
+//    		else
+//    		{
+//    			cb = new CompoundBorder(new EmptyBorder(new Insets(0,1,0,1)),new MatteBorder(1, 0, 1, 0, borderColor));
+//    		}
+//			//  Set border
+//    		jc.setBorder(cb);
+//    		//  Set background color
+//    		if (!readOnly &&  this.isRowChecked(row))
+//    			c.setBackground(normalColor);
+//    		else
+//    			c.setBackground(selectedColor);        			
+//        }
 
         return c;
     }	
@@ -1815,6 +1863,8 @@ public class MiniTable extends CTable implements IMiniTable
         }
     };
 	private boolean m_changingMultipleRows;
+	private boolean isSelectingAll;
+	private boolean isDeselectingAll;
 
     /**
      * Match the row check with the row selection (highlight) in the table
@@ -2044,8 +2094,8 @@ public class MiniTable extends CTable implements IMiniTable
         // Process the listeners last to first, notifying
         // those that are interested in this event
         for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==MiniTableSelectionListener.class) {
-                ((MiniTableSelectionListener)listeners[i+1]).rowSelected(rowSelectionEvent);
+            if (listeners[i]==SelectionListener.class) {
+                ((SelectionListener)listeners[i+1]).rowSelected(rowSelectionEvent);
             }          
         }
     }    
@@ -2054,15 +2104,219 @@ public class MiniTable extends CTable implements IMiniTable
      * Adds a <code>ChangeListener</code> to the button.
      * @param l the listener to be added
      */
-    public void addMiniTableSelectionListener(MiniTableSelectionListener l) {
-        listenerList.add(MiniTableSelectionListener.class, l);
+    public void addTableSelectionListener(SelectionListener l) {
+    	listenerList.remove(SelectionListener.class, l);
+        listenerList.add(SelectionListener.class, l);
     }
 
     /**
      * {@inheritDoc}
      */
-    public void removeMiniTableSelectionListener(MiniTableSelectionListener l) {
-        listenerList.remove(MiniTableSelectionListener.class, l);
+    public void removeTableSelectionListener(SelectionListener l) {
+        listenerList.remove(SelectionListener.class, l);
     }
 
+	@Override
+	public void recreateListHead() {
+		// No action required in Swing.		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		// Popup actions
+		if (e.getActionCommand().equals("Zoom"))
+		{
+//			log.info("Its Alive!!");
+			actionZoom();
+			return;
+		}
+
+	}
+
+	private void actionZoom () throws AdempiereException
+	{
+		if (keyTableName == null || keyColumnName == null || zoomWindo_id <= 0)
+			return;
+		//
+		Integer value = this.getSelectedRowKey();
+		if (value.compareTo(0) <= 0)
+			return;
+		
+		zoomQuery = new MQuery();	
+		zoomQuery.addRestriction(keyColumnName, MQuery.EQUAL, value);
+		zoomQuery.setZoomColumnName(keyColumnName);
+		zoomQuery.setZoomTableName(keyTableName);
+		zoomQuery.setZoomValue(value);
+		zoomQuery.setRecordCount(1);
+
+		//
+		log.info(keyColumnName + " - AD_Window_ID=" + zoomWindo_id
+			+ " - Query=" + zoomQuery + " - Value=" + value);
+		//
+		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		//
+		AWindow frame = new AWindow(getGraphicsConfiguration());
+		if (!frame.initWindow(zoomWindo_id, zoomQuery, false))
+		{
+			setCursor(Cursor.getDefaultCursor());
+			ValueNamePair pp = CLogger.retrieveError();
+			String msg = pp==null ? "AccessTableNoView" : pp.getValue();
+			throw new AdempiereException(Env.getAD_Language(Env.getCtx()), msg, new Object[] {pp.getName()} );
+		}
+		else
+		{
+			AEnv.addToWindowManager(frame);
+			if (Ini.isPropertyBool(Ini.P_OPEN_WINDOW_MAXIMIZED))
+			{
+				AEnv.showMaximized(frame);
+			}
+			else
+			{
+				AEnv.showCenterScreen(frame);
+			}
+		}
+		frame = null;
+		//
+		setCursor(Cursor.getDefaultCursor());
+	}	//	actionZoom
+
+	@Override
+	public void clear() {
+		
+		//  First, stop auto-updates
+		boolean flag = getAutoCreateColumnsFromModel();
+		setAutoCreateColumnsFromModel(false);
+		setRowCount(0);
+		//  Wipe the columns
+		DefaultTableColumnModel tc = new DefaultTableColumnModel();
+		setColumnModel(tc);
+		//  Wipe the table data
+		DefaultTableModel tm = new DefaultTableModel();
+		setModel(tm);
+		//  Zero out the indexes
+		setColorColumn(-1);
+		//  Re-establish the auto-updates
+		setAutoCreateColumnsFromModel(flag);
+
+	}
+
+	@Override
+	public void addTableChangeListener(TableChangeListener l) {
+		
+		// This call adds the listener of the class to the list
+		// It checks for null values but doesn't check for duplication
+
+		Object[] list = listenerList.getListeners(TableChangeListener.class);
+		
+		boolean found = false;
+		if (list.length >= 0)
+		{
+			for (int i=0; i < list.length; i++)
+			{
+				if (list[i].equals(l))
+				{
+					found = true;
+					break;
+				}
+			}
+		}
+			
+		if (!found)
+		{
+			listenerList.add(TableChangeListener.class, l);
+		}
+		
+	}
+
+	@Override
+	public void removeTableChangeListener(TableChangeListener l) {
+		
+		listenerList.remove(TableChangeListener.class, l);
+		
+	}
+
+	/**
+	 * Convert the Swing TableModelEvent to a generic TableChangeEvent
+	 * that can be used with controllers.  Changes to the header row or 
+	 * all columns are ignored.  
+	 */
+    public void tableChanged(TableModelEvent e) {
+    	
+    	int firstRow = e.getFirstRow();
+    	int lastRow = e.getLastRow();
+    	int col = e.getColumn();
+    	
+    	if (firstRow != TableModelEvent.HEADER_ROW && lastRow != TableModelEvent.HEADER_ROW && col != TableModelEvent.ALL_COLUMNS)
+    	{
+	    	for (int row = firstRow; row<=lastRow; row++)
+	    	{
+	        	Object value = this.getModel().getValueAt(row, col);
+	    		TableChangeEvent tce = new TableChangeEvent(this, row, col, value);
+	    		fireTableChange(tce);
+	    	}
+    	}
+    	super.tableChanged(e);
+    }
+
+	private void fireTableChange(TableChangeEvent tce) {
+        // Guaranteed to return a non-null array
+        Object[] listeners = listenerList.getListenerList();
+
+        // Process the listeners last to first, notifying
+        // those that are interested in this event
+        for (int i = listeners.length-2; i>=0; i-=2) {
+            if (listeners[i]==TableChangeListener.class) {
+                ((TableChangeListener)listeners[i+1]).tableChanged(tce);
+            }          
+        }
+	}
+
+	@Override
+	public void setSelectingAll(boolean eventUnderway) {
+		
+		isSelectingAll = eventUnderway;
+		
+	}
+
+	@Override
+	public boolean isSelectingAll() {
+		
+		return isSelectingAll;
+		
+	}
+
+	@Override
+	public void setDeselectingAll(boolean eventUnderway) {
+		
+		isDeselectingAll = eventUnderway;
+		
+	}
+
+	@Override
+	public boolean isDeselectingAll() {
+
+		return isDeselectingAll;
+		
+	}
+
+	@Override
+	public void setColumnMandatory(int column, boolean mandatory) {
+		
+		mandatoryColumns.remove(new Integer(column));
+		
+		// If mandatory, add the column.
+		if (mandatory)
+			mandatoryColumns.add(new Integer(column));
+		
+	}
+
+	@Override
+	public boolean isCellMandatory(int row, int column) {
+    	
+		if (mandatoryColumns.contains(convertColumnIndexToModel(column)))
+			return true;
+    	
+    	return false;
+	}
 }   //  MiniTable
