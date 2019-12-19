@@ -1,19 +1,19 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.compiere.grid.ed;
 
 import java.awt.BorderLayout;
@@ -74,7 +74,10 @@ import org.compiere.util.Msg;
  *	Dialog to enter Account Info
  *
  * 	@author 	Jorg Janke
- * 	@version 	$Id: VAccountDialog.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+ *  
+ * 	@version 3.9.4
  */
 public final class VAccountDialog extends CDialog
 	implements ActionListener, DataStatusListener, VetoableChangeListener
@@ -99,9 +102,9 @@ public final class VAccountDialog extends CDialog
 		public void mouseClicked(MouseEvent e)
 		{
 			//	Table => select
-			if (e.getSource() instanceof JTable && e.getClickCount() > 1)
+			if (e.getSource() instanceof JTable && e.getClickCount() > 1 && !e.isConsumed())
 			{
-				adaptee.m_changed = true;
+				adaptee.saveChanges = true;
 				adaptee.dispose();
 			}
 		}
@@ -123,6 +126,13 @@ public final class VAccountDialog extends CDialog
 		m_mAccount = mAccount;
 		m_C_AcctSchema_ID = C_AcctSchema_ID;
 		m_WindowNo = Env.createWindowNo (this);
+		
+		//  Set the initial value of the valid combination to be the
+		//  current value set in the lookup.  This will ensure that
+		//  the value returned by getValue() will be correct if the
+		//  dialog is canceled.
+		initialValue = mAccount.C_ValidCombination_ID;
+		
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		try
 		{
@@ -143,7 +153,7 @@ public final class VAccountDialog extends CDialog
 	/**	Journal Entry				*
 	private boolean				m_onlyNonDocControlled = false;
 	/** Selection changed			*/
-	protected boolean			m_changed = false;
+	protected boolean			saveChanges = false;
 
 	/** Accounting Schema           */
 	private static MAcctSchema	s_AcctSchema = null;
@@ -158,6 +168,8 @@ public final class VAccountDialog extends CDialog
 	private MAccountLookup		m_mAccount = null;
 	/** Result                      */
 	private int 				m_C_ValidCombination_ID;
+	/** Initial value                      */
+	private int 				initialValue;  
 	/** Acct Schema					*/
 	private int					m_C_AcctSchema_ID = 0;
 	/** Client                      */
@@ -195,6 +207,7 @@ public final class VAccountDialog extends CDialog
 	private CButton bRefresh = new CButton();
 	private CButton bSave = new CButton();
 	private CButton bIgnore = new CButton();
+	private boolean cancelClicked = false;
 
 	/**
 	 *	Static component init.
@@ -295,7 +308,7 @@ public final class VAccountDialog extends CDialog
 		for (int i = 0; i < m_mTab.getFieldCount(); i++)
 		{
 			GridField field = m_mTab.getField(i);
-			if (!field.isDisplayed (true))      //  check context
+			if (!field.isDisplayed (true, true))      //  check context
 				field.setDisplayed (false);
 		}
 
@@ -632,12 +645,24 @@ public final class VAccountDialog extends CDialog
 	 */
 	private void saveSelection()
 	{
-		if (m_changed && m_gridController != null)
+		if (saveChanges && m_gridController != null)
 		{
 			int row = m_gridController.getTable().getSelectedRow();
 			if (row >= 0)
-				m_C_ValidCombination_ID = ((Integer)m_mTab.getValue(row, "C_ValidCombination_ID")).intValue();
+				setValue(((Integer)m_mTab.getValue(row, "C_ValidCombination_ID")).intValue());
 			log.config("(" + row + ") - " + m_C_ValidCombination_ID);
+		}
+		else if (!saveChanges && !cancelClicked )
+		{
+			//  Window closed. Ignore the value changes and
+			//  reset to the initial value.
+			setValue(initialValue);
+		}
+		else if (cancelClicked)
+		{
+			//  Cancel button clicked
+			//  Equivalent to delete of the value
+			setValue(0);
 		}
 	}	//	saveSelection
 
@@ -649,12 +674,13 @@ public final class VAccountDialog extends CDialog
 	{
 		if (e.getActionCommand().equals(ConfirmPanel.A_OK))
 		{
-			m_changed = true;
+			saveChanges = true;
 			dispose();
 		}
 		else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
 		{
-			m_changed = false;
+			saveChanges = false;
+			cancelClicked = true;
 			dispose();
 		}
 		//
@@ -1170,12 +1196,26 @@ public final class VAccountDialog extends CDialog
 	 */
 	public Integer getValue()
 	{
-		log.config("C_ValidCombination_ID=" + m_C_ValidCombination_ID + ", Changed=" + m_changed);
-		if (!m_changed || m_C_ValidCombination_ID == 0)
+		log.config("C_ValidCombination_ID=" + m_C_ValidCombination_ID + ", Changed=" + saveChanges);
+		//  The dialog has to return a valid result. This can be:
+		//  null - meaning the value was deleted, nothing was selected or no valid value was found
+		//  > 0 - a valid combination result.
+		//  If the dialog was canceled, the value returned should be the same as the one passed in
+		//  with the lookup.
+		if (m_C_ValidCombination_ID == 0)
 			return null;
 		return new Integer(m_C_ValidCombination_ID);
 	}
 
+	/**
+	 * Set the value to return
+	 * @param value
+	 */
+	private void setValue(int value)
+	{
+		m_C_ValidCombination_ID = value;
+	}
+	
 	/**
 	 * 	VetoableChange - Account Changed
 	 *	@param evt event
