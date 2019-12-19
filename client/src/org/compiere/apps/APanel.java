@@ -24,6 +24,7 @@ import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.KeyboardFocusManager;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -150,6 +151,10 @@ import org.spin.util.ASPUtil;
  * 		@see FR [ 990 ] Sort Tab is not MVC</a>
  * 		<a href="https://github.com/adempiere/adempiere/issues/884">
  * 		@see FR [ 884 ] Recent Items in Dashboard</a>
+ * 
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+ * 
  *  @sponsor www.metas.de
  */
 public final class APanel extends CPanel
@@ -327,6 +332,7 @@ public final class APanel extends CPanel
 							aOnline, aMailSupport, aAbout, aPrintScr, aScrShot, aExit, aBPartner,
 							aDeleteSelection, aShowAllWindow;
 
+	@Deprecated // Moved to VTable
 	private SwitchAction aSwitchLinesDownAction, aSwitchLinesUpAction;
 
 	private WindowMenu m_WindowMenu;
@@ -1224,7 +1230,7 @@ public final class APanel extends CPanel
 		int changedColumn = e.getChangedColumn();
 		boolean inserting = e.isInserting();
 
-		if(e.getAD_Message() != null && e.getAD_Message().equals("Saved"))
+  		if(e.getAD_Message() != null && e.getAD_Message().equals("Saved"))
 			changed = false;
 		boolean readOnly = currentTab.isReadOnly();
 		boolean insertRecord = !readOnly;
@@ -1268,6 +1274,7 @@ public final class APanel extends CPanel
 		if (m_curWinTab.getSelectedComponent() instanceof GridController) {
 			GridController gridController = (GridController)m_curWinTab.getSelectedComponent();
 			gridController.reloadFieldTrxInfo();
+			gridController.requestFocusInWindow();
 		}
 		//	Check Attachment
 		boolean canHaveAttachment = currentTab.canHaveAttachment();		//	not single _ID column
@@ -1772,7 +1779,10 @@ public final class APanel extends CPanel
 			else if (cmd.equals(aHistory.getName()))
 				cmd_history();
 			else if (cmd.equals(aMulti.getName()))
+			{
 				m_curGC.switchRowPresentation();
+				m_curGC.getTable().requestFocus();
+			}
 			//	Go
 			else if (cmd.equals(aHome.getName())) {
 				// show main menu - teo_sarca [ 1706409, 1707221 ]
@@ -1786,13 +1796,14 @@ public final class APanel extends CPanel
 				m_curGC.acceptEditorChanges();
 				currentTab.navigate(0);
 			}
-			else if (cmd.equals(aSwitchLinesUpAction.getName()))
-			{
-				//up-key + shift
-				m_curGC.getTable().removeEditor();
-				currentTab.switchRows(currentTab.getCurrentRow(), currentTab.getCurrentRow() - 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
-				m_curGC.getTable().requestFocus();
-			}
+//  		Switch rows moved to VTable to accommodate frozen columns
+//			else if (cmd.equals(aSwitchLinesUpAction.getName()))
+//			{
+//				//up-key + shift
+//				m_curGC.getTable().removeEditor();
+//				currentTab.switchRows(currentTab.getCurrentRow(), currentTab.getCurrentRow() - 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
+//				m_curGC.getTable().requestFocus();
+//			}
 			else if (cmd.equals(aPrevious.getName()))
 			{ /* cmd_save(false); */
 				//up-image + shift
@@ -1804,13 +1815,14 @@ public final class APanel extends CPanel
 					currentTab.navigateRelative(-1);
 				}
 			}
-			else if (cmd.equals(aSwitchLinesDownAction.getName()))
-			{
-				//down-key + shift
-				m_curGC.getTable().removeEditor();
-				currentTab.switchRows(currentTab.getCurrentRow(), currentTab.getCurrentRow() + 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
-				m_curGC.getTable().requestFocus();
-			}
+//  Switch rows moved to VTable to accommodate frozen columns
+//			else if (cmd.equals(aSwitchLinesDownAction.getName()))
+//			{
+//				//down-key + shift
+//				m_curGC.getTable().removeEditor();
+//				currentTab.switchRows(currentTab.getCurrentRow(), currentTab.getCurrentRow() + 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
+//				m_curGC.getTable().requestFocus();
+//			}
 			else if (cmd.equals(aNext.getName()))
 			{ /* cmd_save(false); */
 				//down-image + shift
@@ -2082,7 +2094,11 @@ public final class APanel extends CPanel
 	 */
 	private void cmd_ignore()
 	{
+
+		// Get the focus owner
+		Component owner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
 		m_curGC.stopEditor(false);
+
 		// Ignore changes in APanelTab (e.g. VSortTab) - teo_sarca [ 1705429 ]
 		if (currentAPanelTab != null)
 		{
@@ -2090,6 +2106,7 @@ public final class APanel extends CPanel
 		}
 		currentTab.dataIgnore();
 		m_curGC.dynamicDisplay(0);
+		owner.requestFocus();
 
 	}   //  cmd_ignore
 
@@ -2847,6 +2864,7 @@ public final class APanel extends CPanel
 	 * @author Karsten Thiemann, kthiemann@adempiere.org
 	 *
 	 */
+	@Deprecated // Moved to VTable
 	class SwitchAction extends AbstractAction {
 		/**
 		 *
@@ -2886,32 +2904,34 @@ public final class APanel extends CPanel
 
 	/**
 	 * Removes the default KeyStroke action for the up/down keys and adds switch
-	 * line actions.
+	 * line actions.  This capability has been moved to VTable.  This method
+	 * does nothing.
 	 */
+	@Deprecated // Moved to VTable
 	private void initSwitchLineAction() {
-		aSwitchLinesDownAction = new SwitchAction("switchLinesDown", KeyStroke.getKeyStroke(
-				KeyEvent.VK_DOWN, Event.SHIFT_MASK), this);
-		aSwitchLinesUpAction = new SwitchAction("switchLinesUp", KeyStroke.getKeyStroke(
-				KeyEvent.VK_UP, Event.SHIFT_MASK), this);
-
-		JTable table = m_curGC.getTable();
-		table.getInputMap(CPanel.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
-				KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Event.SHIFT_MASK), "none");
-		table.getInputMap(CPanel.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
-				KeyStroke.getKeyStroke(KeyEvent.VK_UP, Event.SHIFT_MASK), "none");
-		table.getInputMap(CPanel.WHEN_FOCUSED).put(
-				KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Event.SHIFT_MASK), "none");
-		table.getInputMap(CPanel.WHEN_FOCUSED).put(
-				KeyStroke.getKeyStroke(KeyEvent.VK_UP, Event.SHIFT_MASK), "none");
-
-		getInputMap(CPanel.WHEN_IN_FOCUSED_WINDOW).put(
-				KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Event.SHIFT_MASK),
-				aSwitchLinesDownAction.getName());
-		getActionMap().put(aSwitchLinesDownAction.getName(), aSwitchLinesDownAction);
-		getInputMap(CPanel.WHEN_IN_FOCUSED_WINDOW).put(
-				KeyStroke.getKeyStroke(KeyEvent.VK_UP, Event.SHIFT_MASK),
-				aSwitchLinesUpAction.getName());
-		getActionMap().put(aSwitchLinesUpAction.getName(), aSwitchLinesUpAction);
+//		aSwitchLinesDownAction = new SwitchAction("switchLinesDown", KeyStroke.getKeyStroke(
+//				KeyEvent.VK_DOWN, Event.SHIFT_MASK), this);
+//		aSwitchLinesUpAction = new SwitchAction("switchLinesUp", KeyStroke.getKeyStroke(
+//				KeyEvent.VK_UP, Event.SHIFT_MASK), this);
+//
+//		JTable table = m_curGC.getTable();
+//		table.getInputMap(CPanel.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
+//				KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Event.SHIFT_MASK), "none");
+//		table.getInputMap(CPanel.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
+//				KeyStroke.getKeyStroke(KeyEvent.VK_UP, Event.SHIFT_MASK), "none");
+//		table.getInputMap(CPanel.WHEN_FOCUSED).put(
+//				KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Event.SHIFT_MASK), "none");
+//		table.getInputMap(CPanel.WHEN_FOCUSED).put(
+//				KeyStroke.getKeyStroke(KeyEvent.VK_UP, Event.SHIFT_MASK), "none");
+//
+//		getInputMap(CPanel.WHEN_IN_FOCUSED_WINDOW).put(
+//				KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Event.SHIFT_MASK),
+//				aSwitchLinesDownAction.getName());
+//		getActionMap().put(aSwitchLinesDownAction.getName(), aSwitchLinesDownAction);
+//		getInputMap(CPanel.WHEN_IN_FOCUSED_WINDOW).put(
+//				KeyStroke.getKeyStroke(KeyEvent.VK_UP, Event.SHIFT_MASK),
+//				aSwitchLinesUpAction.getName());
+//		getActionMap().put(aSwitchLinesUpAction.getName(), aSwitchLinesUpAction);
 	}
 
 	public boolean isNested() {
