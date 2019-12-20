@@ -16,11 +16,20 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.beans.PropertyVetoException;
 import java.util.logging.Level;
 
+import javax.faces.event.FacesListener;
 import javax.swing.ComboBoxModel;
+import javax.swing.JComponent;
 
+import org.adempiere.plaf.AdempiereComboBoxUI;
+import org.compiere.model.GridField;
 import org.compiere.model.MLocator;
+import org.compiere.model.MLookup;
 import org.compiere.swing.CComboBox;
 import org.compiere.util.CLogger;
 import org.compiere.util.KeyNamePair;
@@ -30,7 +39,7 @@ import org.compiere.util.ValueNamePair;
 /**
  *  Combobox with KeyNamePair/ValueNamePair or Locator.
  *  <p>
- *  It has the same hight as a TextField
+ *  It has the same height as a TextField
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: VComboBox.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
@@ -39,7 +48,7 @@ import org.compiere.util.ValueNamePair;
  *  				<li>release/380 add changes to record and compare values similar to
  *  					ADEMPIERE-72
  */
-public class VComboBox extends CComboBox
+public class VComboBox extends CComboBox implements VEditor
 {
 	/**
 	 * 
@@ -48,6 +57,10 @@ public class VComboBox extends CComboBox
 
 	/** The old Value - for comparison at future points in time.	*/
 	private Object				m_oldValue;
+
+	private boolean haveFocus;
+
+	private boolean isTableCellEditor;
 
 	/**
 	 *  Constructor
@@ -86,49 +99,6 @@ public class VComboBox extends CComboBox
 	/** Reference Field         *
 	private static  JTextField  s_text = new JTextField(VTextField.DISPLAY_SIZE);
 
-	/**
-	 *	Set Selected Item to key.
-	 *		Find key value in list
-	 *  @param key
-	 */
-	public void setValue(Object key)
-	{
-		if (key == null)
-		{
-			this.setSelectedIndex(-1);
-			return;
-		}
-
-		ComboBoxModel model = getModel();
-		int size = model.getSize();
-		for (int i = 0; i < size; i++)
-		{
-			Object element = model.getElementAt(i);
-			String ID = null;
-			if (element instanceof NamePair)
-				ID = ((NamePair)element).getID();
-			else if (element instanceof MLocator)
-				ID = String.valueOf(((MLocator)element).getM_Locator_ID());
-			else
-				log.log(Level.SEVERE, "Element not NamePair - " + element.getClass().toString());
-
-			if (key == null || ID == null)
-			{
-				if (key == null && ID == null)
-				{
-					setSelectedIndex(i);
-					return;
-				}
-			}
-			else if (ID.equals(key.toString()))
-			{
-				setSelectedIndex(i);
-				return;
-			}
-		}
-		setSelectedIndex(-1);
-		setSelectedItem(null);
-	}	//	setValue
 
 	/**
 	 *  Set Selected item to key if exists
@@ -139,33 +109,6 @@ public class VComboBox extends CComboBox
 		setValue(String.valueOf(key));
 	}   //  setValue
 
-	/**
-	 *	Get Value
-	 *  @return key as Integer or String value
-	 */
-	public Object getValue()
-	{
-		Object p = getSelectedItem();
-		if (p instanceof NamePair)
-		{
-			if (p instanceof KeyNamePair)
-			{
-				if (((KeyNamePair) p).getID() == null)	//	-1 return null
-					return null;
-				return new Integer(((KeyNamePair)p).getID());
-			}
-			else if (p instanceof ValueNamePair)
-			{
-				if (((ValueNamePair) p).getID() == null)	//	-1 return null
-					return null;
-				return new String(((ValueNamePair)p).getID());
-			}
-			else if (((NamePair) p).getID() == null)	//	-1 return null
-				return null;
-			return new Integer(((NamePair)p).getID());
-		}
-		return p;
-	}	//	getValue
 
 	/**
 	 *  Get Display
@@ -225,5 +168,28 @@ public class VComboBox extends CComboBox
 			else
 				return false;
 	}
-
+	
+	@Override
+	public void dispose() {
+		
+	}
+	
+	@Override
+	public JComponent getComponent() {
+		return this;
+	}
+	
+	@Override
+	public void setTableCellEditor(boolean isTableCellEditor) {
+		
+		this.isTableCellEditor = isTableCellEditor;
+		((AdempiereComboBoxUI) this.getUI()).setTableCellEditor(isTableCellEditor);
+		
+	}
+	
+	@Override
+	public boolean isTableCellEditor() {
+		return isTableCellEditor;
+	}
+	
 }	//	VComboBox
