@@ -279,7 +279,7 @@ public class VLookupAutoCompleter extends FieldAutoCompleter
 					+ userObject.getClass());
 			return;
 		}
-		editor.actionCombo(value);
+		editor.setDisplayBasedOnValue(value);
 		if (value == null)
 		{
 			textBox.setText(textOld);
