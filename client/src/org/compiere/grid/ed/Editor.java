@@ -50,7 +50,7 @@ import org.compiere.swing.CDialog;
 import org.compiere.swing.CMenuItem;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CTextArea;
-import org.compiere.swing.CTextPane;
+import org.compiere.swing.CScrollingTextPane;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -146,7 +146,7 @@ public class Editor extends CDialog
 	private BorderLayout panelLayout = new BorderLayout();
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	private CTextArea textArea = new CTextArea();
-	private CTextPane textPane = new CTextPane();
+	private CScrollingTextPane textPane = new CScrollingTextPane();
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu mFile = new JMenu();
 	private CMenuItem mImport = new CMenuItem();
