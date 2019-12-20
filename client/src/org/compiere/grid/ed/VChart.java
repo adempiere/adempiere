@@ -1,3 +1,18 @@
+/******************************************************************************
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ *****************************************************************************/
 package org.compiere.grid.ed;
 
 
@@ -7,6 +22,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.VetoableChangeListener;
+
+import javax.swing.JComponent;
 
 import org.adempiere.exceptions.ValueChangeListener;
 import org.compiere.apps.AEnv;
@@ -30,6 +47,14 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.time.TimeSeriesDataItem;
 import org.jfree.data.xy.XYDataset;
 
+/**
+ * Provides a Chart editor
+ * 
+ * @author (Original author not recorded)
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+ *
+ */
 public class VChart extends CPanel implements ChartMouseListener, VEditor {
 	
 	/**
@@ -38,6 +63,8 @@ public class VChart extends CPanel implements ChartMouseListener, VEditor {
 	private static final long serialVersionUID = 1L;
 	ChartPanel chartPanel;
 	MChart chartModel;
+	private Object oldValue;
+	private boolean isTableCellEditor;
 	/**
 	 * 	Constructor
 	 */
@@ -48,9 +75,14 @@ public class VChart extends CPanel implements ChartMouseListener, VEditor {
 	}	//	Chart
 	
 	public VChart(int AD_Chart_ID, int windowNo) {
+		this(AD_Chart_ID, windowNo, false);
+	}
+	
+	public VChart(int AD_Chart_ID, int windowNo, boolean tableCellEditor) {	
 		this();
 		chartModel = new MChart(Env.getCtx(), AD_Chart_ID, null);
 		chartModel.setWindowNo(windowNo);
+		setTableCellEditor(tableCellEditor);
 		//createChart();
 	}
 
@@ -187,4 +219,36 @@ public class VChart extends CPanel implements ChartMouseListener, VEditor {
 		
 	}
 
+	@Override
+	public JComponent getComponent() {
+		return this;
+	}
+
+	@Override
+	public boolean hasChanged() {
+		
+		if (oldValue == null && getValue() != null
+			|| oldValue != null && !oldValue.equals(getValue()))
+			return false;
+		else
+			return true;
+		
+	}
+
+	@Override
+	public void set_oldValue() {
+		
+		oldValue = getValue();
+		
+	}
+	
+	@Override
+	public void setTableCellEditor(boolean isTableCellEditor) {
+		this.isTableCellEditor = isTableCellEditor;
+	}
+
+	@Override
+	public boolean isTableCellEditor() {
+		return isTableCellEditor;
+	}
 }
