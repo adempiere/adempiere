@@ -21,8 +21,9 @@ package org.compiere.grid.ed;
 public interface VManagedEditor {
 	/**
 	 * Commit pending changes
+	 * @return true if the commit was successful.
 	 */
-	public void commitChanges();
+	public boolean commitChanges();
 	
 	/**
 	 * Rollback pending changes
