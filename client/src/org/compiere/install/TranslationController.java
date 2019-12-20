@@ -19,7 +19,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import org.compiere.apps.IStatusBar;
+import org.adempiere.controller.ed.IStatusBar;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.KeyNamePair;
