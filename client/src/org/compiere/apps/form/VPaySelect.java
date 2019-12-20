@@ -47,8 +47,8 @@ import org.compiere.grid.ed.VComboBox;
 import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VLookup;
 import org.compiere.minigrid.MiniTable;
-import org.compiere.minigrid.MiniTable.MiniTableSelectionListener;
-import org.compiere.minigrid.MiniTable.RowSelectionEvent;
+import org.compiere.minigrid.SelectionListener;
+import org.compiere.minigrid.RowSelectionEvent;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MColumn;
 import org.compiere.model.MLookupFactory;
@@ -85,7 +85,7 @@ import org.compiere.util.ValueNamePair;
  *				@see https://github.com/adempiere/adempiere/issues/265
  */
 @Deprecated
-public class VPaySelect extends PaySelect implements FormPanel, ActionListener, ASyncProcess, PropertyChangeListener, MiniTableSelectionListener
+public class VPaySelect extends PaySelect implements FormPanel, ActionListener, ASyncProcess, PropertyChangeListener, SelectionListener
 {
 	/** @todo withholding */
 	private CPanel panel = new CPanel();
@@ -296,7 +296,7 @@ public class VPaySelect extends PaySelect implements FormPanel, ActionListener, 
 			fieldDtype.addItem(pp);
 		
 		prepareTable(miniTable);
-		miniTable.addMiniTableSelectionListener(this); // To enable buttons
+		miniTable.addTableSelectionListener(this); // To enable buttons
 		
 		//
 		fieldPayDate.setMandatory(true);
