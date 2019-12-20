@@ -25,7 +25,8 @@ import javax.swing.text.PlainDocument;
 import org.compiere.swing.CComboBox;
 
 /**
- * Auto completion behaviour for a combo box
+ * Auto completion behaviour for a combo box. Deprecated since 3.9.4.
+ * Functionality has been incorporated into the CComboBox class.
  * 
  * @author phib: this is from http://www.orbital-computer.de/JComboBox
  * 					with some minor revisions for Adempiere
@@ -37,7 +38,11 @@ import org.compiere.swing.CComboBox;
  * 			<li>FR [ 2552854 ] Combobox AutoCompletion should ignore diacritics
  * @author tobi42, www.metas.de
  *			<li>BF [ 2861223 ] AutoComplete: Ignoring Whitespace in Search String
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+ *
  */
+@Deprecated
 public class AutoCompletion extends PlainDocument {
 	/**
 	 * 
