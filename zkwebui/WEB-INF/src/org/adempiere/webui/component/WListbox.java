@@ -1,18 +1,18 @@
 /******************************************************************************
- * Product: Posterita Ajax UI 												  *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
  * Copyright (C) 2007 Posterita Ltd.  All Rights Reserved.                    *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * Posterita Ltd., 3, Draper Avenue, Quatre Bornes, Mauritius                 *
- * or via info@posterita.org or http://www.posterita.org/                     *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 
 package org.adempiere.webui.component;
@@ -22,7 +22,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Vector;
 import java.util.logging.Level;
 
 import org.adempiere.webui.event.TableValueChangeEvent;
@@ -59,10 +61,11 @@ import org.zkoss.zul.ListModel;
  * @author Andrew Kimball
  * @author Sendy Yagambrum
  * 
- * ADEMPIERE-72 - Info Panel improvements
- * ADEMPIERE-41 - GL Reconciliation integration - added hidden columns
- * @author Michael McKay
-
+ * @author Michael McKay, mckayERP@gmail.com
+ * 		<li>ADEMPIERE-72 - Info Panel improvements
+ * 		<li>ADEMPIERE-41 - GL Reconciliation integration - added hidden columns
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+ * 
  */
 public class WListbox extends Listbox implements IMiniTable, TableValueChangeListener, WTableModelListener
 {	
@@ -121,6 +124,17 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 		setModel(new ListModelTable<ListModel>());
 	}
 
+	/**
+	 * Set the data model and column header names for the Listbox.
+	 *
+	 * @param model        The data model to assign to the table
+	 * @param columnNames  The names of the table columns in Vector format
+	 */
+	public void setData(ListModelTable<ListModel> model, Vector<String> columnNames)
+	{
+		this.setData(model, Collections.list(columnNames.elements()));
+	}
+	
 	/**
 	 * Set the data model and column header names for the Listbox.
 	 *
@@ -1437,15 +1451,55 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 		
 	}
 
-	@Override
 	public void addTableChangeListener(TableChangeListener l) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
 	public void RemoveTableChangeListener(TableChangeListener l) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void removeTableChangeListener(TableChangeListener l) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setSelectingAll(boolean eventUnderway) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isSelectingAll() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setDeselectingAll(boolean eventUnderway) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isDeselectingAll() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void setColumnMandatory(int column, boolean mandatory) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isCellMandatory(int row, int col) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
