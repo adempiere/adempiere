@@ -41,6 +41,7 @@ import java.util.logging.Level;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
@@ -169,6 +170,7 @@ public class Calendar extends CDialog
 	private CButton bOK = new CButton();
 	private GridBagLayout timeLayout = new GridBagLayout();
 	private boolean userTime = true;
+	private KeyEvent keyPressedEvent = null;
 
 	/**
 	 *	Static init
@@ -545,7 +547,7 @@ public class Calendar extends CDialog
 	 */
 	public Timestamp getTimestamp()
 	{
-	//	log.config( "Calendar.getTimeStamp");
+		//	log.config( "Calendar.getTimeStamp");
 		//	Set Calendar
 		m_calendar.set(m_currentYear, m_currentMonth-1, m_currentDay, m_current24Hour, m_currentMinute, 0);
 		m_calendar.set(java.util.Calendar.MILLISECOND, 0);
@@ -743,9 +745,20 @@ public class Calendar extends CDialog
 	 */
 	public void keyReleased(KeyEvent e)
 	{
-	//	System.out.println("Released " + e);
+		
+		//  Detect half consumed events.
+		//  These can occur if the Calendar is opened
+		//  as the result of a key pressed event.  The key
+		//  released event can get dispatched here.
+		if (keyPressedEvent == null)
+			return;
+		
+		keyPressedEvent = null;
+		
+		//	System.out.println("Released " + e);
 		//	Day Buttons
 		if (e.getSource() instanceof JButton)
+			
 		{
 			if (e.getKeyCode() == KeyEvent.VK_PAGE_DOWN)
 			{
@@ -755,6 +768,7 @@ public class Calendar extends CDialog
 					 m_currentYear++;
 				}
 				setCalendar();
+				e.consume();
 				return;
 			}
 			if (e.getKeyCode() == KeyEvent.VK_PAGE_UP)
@@ -765,6 +779,7 @@ public class Calendar extends CDialog
 					 m_currentYear--;
 				}
 				setCalendar();
+				e.consume();
 				return;
 			}
 
@@ -788,6 +803,7 @@ public class Calendar extends CDialog
 				m_currentMonth = m_calendar.get(java.util.Calendar.MONTH) + 1;
 				m_currentYear = m_calendar.get(java.util.Calendar.YEAR);
 				setCalendar();
+				e.consume();
 				return;
 			}
 			//	something else
@@ -800,6 +816,7 @@ public class Calendar extends CDialog
 			m_abort = false;
 			setTime();
 			dispose();
+			e.consume();
 			return;
 		}
 		
@@ -808,6 +825,7 @@ public class Calendar extends CDialog
 		{
 			m_cancel = true;
 			dispose();
+			e.consume();
 			return;
 		}
 
@@ -831,6 +849,7 @@ public class Calendar extends CDialog
 	public void keyPressed(KeyEvent e)
 	{
 	//	System.out.println("Pressed " + e);
+		keyPressedEvent  = e;
 	}
 
 }	//	Calendar
