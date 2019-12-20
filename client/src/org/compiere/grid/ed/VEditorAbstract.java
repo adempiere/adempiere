@@ -773,7 +773,10 @@ public abstract class VEditorAbstract extends JPanel
 		else if (refreshMenuItem != null && e.getSource() == refreshMenuItem)
 		{
 			if (lookup != null)
+			{
 				lookup.refresh();
+				setDisplayBasedOnValue(getValue());
+			}
 		}
 		else if (infoMenuItem != null && e.getSource() == infoMenuItem)
 		{

@@ -1003,7 +1003,7 @@ public class GridField
 	 *	Is the Column Visible ?
 	 *  @param checkContext - check environment or grid (requires correct row position)
 	 *  @param isForm - if true, check the form. If false, check the grid.  The 
-	 *  fields gridTable and gridRow must be set.
+	 *  field's gridTable and gridRow must be set.
 	 *  @return true, if visible
 	 */
 	public boolean isDisplayed(boolean checkContext, boolean isForm)

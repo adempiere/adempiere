@@ -60,7 +60,7 @@ import com.jgoodies.looks.plastic.PlasticTheme;
  *  
  *   *  @author Michael McKay, mckayERP@gmail.com
  *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
-
+ *  
  *  @version 3.9.4
  */
 public final class AdempierePLAF
