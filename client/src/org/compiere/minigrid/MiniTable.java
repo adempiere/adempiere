@@ -2102,7 +2102,18 @@ public class MiniTable extends CTable implements IMiniTable, ActionListener, Tab
 
     /**
      * Adds a <code>ChangeListener</code> to the button.
+     * Deprecated. Use {@link #addTableSelectionListener(SelectionListener)} instead.
      * @param l the listener to be added
+     */
+    @Deprecated
+    public void addMiniTableSelectionListener(SelectionListener l) {
+    	addTableSelectionListener(l);
+    }
+
+    /**
+     * Adds a <code>ChangeListener</code> to the button.
+     * @param l the listener to be added
+     * @since 3.9.4
      */
     public void addTableSelectionListener(SelectionListener l) {
     	listenerList.remove(SelectionListener.class, l);
@@ -2110,7 +2121,20 @@ public class MiniTable extends CTable implements IMiniTable, ActionListener, Tab
     }
 
     /**
-     * {@inheritDoc}
+     * Remove the minitable Selection Listener.  Deprecated. Use
+     * ({@link #removeTableSelectionListener(SelectionListener)} instead.
+     * @param l the listener to remove
+     */
+    @Deprecated
+    public void removeMiniTableSelectionListener(SelectionListener l)
+    {
+    	removeTableSelectionListener(l);
+    }
+    
+    /**
+     * Remove the table selection listener
+     * @param l the listener to remove
+     * @since 3.9.4
      */
     public void removeTableSelectionListener(SelectionListener l) {
         listenerList.remove(SelectionListener.class, l);
