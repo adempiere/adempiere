@@ -245,7 +245,7 @@ public class Calendar extends CDialog
 		bOK.setMargin(new Insets(0,1,0,1));
 		bOK.addActionListener(this);
 		
-		AutoCompletion.enable(fHour);
+		//AutoCompletion.enable(fHour);  // Not required - already part of the CComboBox
 		
 	}	//	jbInit
 
