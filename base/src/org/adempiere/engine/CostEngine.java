@@ -732,7 +732,7 @@ public class CostEngine {
 			}
 			else if (transaction.getC_ProjectIssue_ID() > 0) {
 				MProjectIssue line = (MProjectIssue) transaction.getC_ProjectIssue();
-				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent(),  transaction.getM_Product_ID() , line.getMovementDate()))
+				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line,  transaction.getM_Product_ID() , line.getMovementDate()))
 					return;
 			}
 
