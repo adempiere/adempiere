@@ -34,7 +34,7 @@ public class AdempiereScrollPaneUI extends MetalScrollPaneUI
 	/**
 	 *  Create UI
 	 *  @param c
-	 *  @return new instance of AdempiereDateUI
+	 *  @return new instance of the UI
 	 */
 	public static ComponentUI createUI(JComponent c)
 	{

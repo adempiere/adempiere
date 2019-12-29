@@ -166,7 +166,7 @@ public final class MDocDate extends DefaultStyledDocument implements CaretListen
 		}
 		showingHint = false;
 		
-		log.info("showingHint: " + showingHint);
+		log.finest("showingHint: " + showingHint);
 		//	manual entry
 		//	DBTextDataBinder.updateText sends stuff at once - length=8
 		if (string != null && string.length() == 1)

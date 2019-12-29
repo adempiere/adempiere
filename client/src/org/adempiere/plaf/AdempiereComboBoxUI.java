@@ -56,7 +56,7 @@ public class AdempiereComboBoxUI extends PlasticComboBoxUI
 	 *  Bug in Metal: arrowButton gets Mouse Events, so add the JComboBox
 	 *  MouseListeners to the arrowButton
 	 *  @see org.compiere.swing.CComboBox#addMouseListener(MouseListener)
-	 *  @param c componrnt
+	 *  @param c component
 	 */
 	public void installUI (JComponent c)
 	{

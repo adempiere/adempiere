@@ -16,9 +16,6 @@
 
 package org.adempiere.plaf;
 
-import java.awt.Dimension;
-
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.plaf.ComponentUI;
@@ -26,11 +23,8 @@ import javax.swing.text.Caret;
 import javax.swing.text.JTextComponent;
 
 import org.compiere.grid.ed.MDocString;
-import org.compiere.grid.ed.VOvrCaret;
 import org.compiere.swing.CPassword;
-import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
-import org.compiere.util.Env;
 
 /**
  *  ADempiere Password UI.
@@ -43,13 +37,13 @@ import org.compiere.util.Env;
 public class AdempierePasswordUI extends AdempiereEditorAbstractUI
 {
 	
-	CLogger log = CLogger.getCLogger(AdempierePasswordUI.class);
+	static CLogger log = CLogger.getCLogger(AdempierePasswordUI.class);
 	
 	/** Max Display Length - 60 */
 	public static final int MAXDISPLAY_LENGTH = org.compiere.model.GridField.MAXDISPLAY_LENGTH;
 	
 	private int displayLength = MAXDISPLAY_LENGTH;  // Defaults to max
-
+	
 	/**
 	 *  Create UI
 	 *  @param c
@@ -96,8 +90,9 @@ public class AdempierePasswordUI extends AdempiereEditorAbstractUI
 		if (format == null)
 			format = "";
 		if (format.length() != 0 || fieldLength != 0)
-			getEditorComponent().setDocument(new MDocString(format, fieldLength, getEditorComponent()));
-
+		{
+			getEditorComponent().setDocument( new MDocString(format, fieldLength, getEditorComponent()) );
+		}
 	}
 
 	/**

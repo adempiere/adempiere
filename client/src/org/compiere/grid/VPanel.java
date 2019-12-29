@@ -355,8 +355,8 @@ public final class VPanel extends CTabbedPane
 			else // Label or null
 			{								
 				m_main.add(field, constraints);
-			if (!mField.isLongField())
-				fieldMinWidth = field.getPreferredSize().width > fieldMinWidth ? field.getPreferredSize().width : fieldMinWidth;
+				if (!mField.isLongField())
+					fieldMinWidth = field.getPreferredSize().width > fieldMinWidth ? field.getPreferredSize().width : fieldMinWidth;
 			}	
 			//	Link Label to Field
 			if (label.getText() != null && !label.getText().isEmpty() )
