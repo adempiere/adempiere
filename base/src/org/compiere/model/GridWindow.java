@@ -41,7 +41,7 @@ import org.apache.ecs.xhtml.table;
 import org.apache.ecs.xhtml.td;
 import org.apache.ecs.xhtml.th;
 import org.apache.ecs.xhtml.tr;
-import org.compiere.plaf.CompiereColor;
+//import org.compiere.plaf.CompiereColor;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -264,18 +264,6 @@ public class GridWindow implements Serializable
 		MImage mImage = MImage.get(Env.getCtx(), m_vo.AD_Image_ID);
 		return mImage.getIcon();
 	}   //  getIcon
-
-	/**
-	 *  Get Color
-	 *  @return AdempiereColor or null
-	 */
-	public CompiereColor getColor()
-	{
-		if (m_vo.AD_Color_ID == 0)
-			return null;
-		MColor mc = new MColor(m_vo.ctx,  m_vo.AD_Color_ID, null);
-		return mc.getAdempiereColor();
-	}   //  getColor
 
 	/**
 	 * 	SO Trx Window
@@ -603,6 +591,13 @@ public class GridWindow implements Serializable
 		}
 		return m_modelUpdated;
 	}	//	getModelUpdated
+
+	/**
+	 * @return the GridWindowVO
+	 */
+	public GridWindowVO getVO() {
+		return m_vo;
+	}
 
 	
 }	//	MWindow
