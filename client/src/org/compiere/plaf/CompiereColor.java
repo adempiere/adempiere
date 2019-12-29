@@ -29,8 +29,10 @@ import java.awt.TexturePaint;
 import java.awt.Window;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JComponent;
@@ -42,9 +44,13 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.plaf.ColorUIResource;
 
-import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.model.GridWindow;
+import org.compiere.model.GridWindowVO;
+import org.compiere.model.MColor;
+//import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.swing.ColorBlind;
 import org.compiere.swing.ThemeUtils;
+//import org.compiere.swing.ThemeUtils;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.ValueNamePair;
 
@@ -71,6 +77,11 @@ public class CompiereColor implements Serializable
 
 	/** Names   */
 	private static ResourceBundle   s_res = ResourceBundle.getBundle("org.compiere.plaf.PlafRes");
+
+	/** Key of Client Property to paint in CompiereColor    */
+	public static final String  BACKGROUND = "CompiereBackground";
+	/** Key of Client Property for Rectangle Items - if exists, the standard background is used */
+	public static final String  BACKGROUND_FILL = "CompiereBackgroundFill";
 
 	/** Type Values     */
 	public static final String[]    TYPE_VALUES = new String[] {
@@ -126,7 +137,7 @@ public class CompiereColor implements Serializable
 	 */
 	public static void setBackground (JComponent c)
 	{
-		setBackground (c, new CompiereColor(AdempierePLAF.getFormBackground()));
+		setBackground (c, new CompiereColor(ColorBlind.getDichromatColor(UIManager.getColor("control"))));
 	}   //  setBackground
 
 	/**
@@ -136,7 +147,7 @@ public class CompiereColor implements Serializable
 	 */
 	public static void setBackground (JComponent c, CompiereColor cc)
 	{
-		c.putClientProperty(CompiereLookAndFeel.BACKGROUND, cc);
+		c.putClientProperty(BACKGROUND, cc);
 	}   //  setBackground
 
 	/**
@@ -149,7 +160,7 @@ public class CompiereColor implements Serializable
 		CompiereColor bg = null;
 		try
 		{
-			bg = (CompiereColor)c.getClientProperty(CompiereLookAndFeel.BACKGROUND);
+			bg = (CompiereColor)c.getClientProperty(BACKGROUND);
 		}
 		catch (Exception e)
 		{
@@ -164,7 +175,7 @@ public class CompiereColor implements Serializable
 	 */
 	public static void setBackground (Window win)
 	{
-		setBackground (win, new CompiereColor(AdempierePLAF.getFormBackground()));
+		setBackground (win, new CompiereColor(ColorBlind.getDichromatColor(UIManager.getColor("control"))));
 	}   //  setBackground
 
 	/**
@@ -176,17 +187,17 @@ public class CompiereColor implements Serializable
 	{
 		if (win instanceof JDialog)
 		{
-			((JPanel)((JDialog)win).getContentPane()).putClientProperty(CompiereLookAndFeel.BACKGROUND, cc);
+			((JPanel)((JDialog)win).getContentPane()).putClientProperty(BACKGROUND, cc);
 		//	((JPanel)((JDialog)win).getContentPane()).setName("contentPane");
 		}
 		else if (win instanceof JFrame)
 		{
-			((JPanel)((JFrame)win).getContentPane()).putClientProperty(CompiereLookAndFeel.BACKGROUND, cc);
+			((JPanel)((JFrame)win).getContentPane()).putClientProperty(BACKGROUND, cc);
 		//	((JPanel)((JFrame)win).getContentPane()).setName("contentPane");
 		}
 		else if (win instanceof JWindow)
 		{
-			((JPanel)((JWindow)win).getContentPane()).putClientProperty(CompiereLookAndFeel.BACKGROUND, cc);
+			((JPanel)((JWindow)win).getContentPane()).putClientProperty(BACKGROUND, cc);
 		//	((JPanel)((JWindow)win).getContentPane()).setName("contentPane");
 		}
 	}   //  setBackground
@@ -198,7 +209,7 @@ public class CompiereColor implements Serializable
 	 */
 	public static CompiereColor getDefaultBackground()
 	{
-		return new CompiereColor(AdempierePLAF.getFormBackground());
+		return new CompiereColor(ColorBlind.getDichromatColor(UIManager.getColor("control")));
 	}   //  getDefaultBackground
 
 	/**
@@ -1254,5 +1265,72 @@ public class ColorBackground
 	}   //  check
 
 }   //  ColorBackground
+
+/**
+ *  Get Color
+ *  @return AdempiereColor or null
+ */
+public static CompiereColor getColor(GridWindow window)
+{
+	GridWindowVO windowVO= window.getVO();
+	if (windowVO.AD_Color_ID == 0)
+		return null;
+	MColor mc = new MColor(windowVO.ctx,  windowVO.AD_Color_ID, null);
+	
+	return getColor(mc);
+	
+}
+
+/**
+ *  Get Color
+ *  @return AdempiereColor or null
+ */
+public static CompiereColor getColor(MColor mc)
+{
+	
+	if (mc.get_ID() == 0)
+		return null;
+
+	//  Color Type
+	String ColorType = (String) mc.getColorType();
+	if (ColorType == null)
+	{
+		log.log(Level.SEVERE, "MColor.getAdempiereColor - No ColorType");
+		return null;
+	}
+	CompiereColor cc = null;
+	//
+	if (ColorType.equals(CompiereColor.TYPE_FLAT))
+	{
+		cc = new CompiereColor(mc.getColor(true), true);
+	}
+	else if (ColorType.equals(CompiereColor.TYPE_GRADIENT))
+	{
+		int RepeatDistance = mc.getRepeatDistance();
+		String StartPoint = mc.getStartPoint();
+		int startPoint = StartPoint == null ? 0 : Integer.parseInt(StartPoint);
+		cc = new CompiereColor(mc.getColor(true), mc.getColor(false), startPoint, RepeatDistance);
+	}
+	else if (ColorType.equals(CompiereColor.TYPE_LINES))
+	{
+		int LineWidth = mc.getLineWidth();
+		int LineDistance = mc.getLineDistance();
+		cc = new CompiereColor(mc.getColor(false), mc.getColor(true), LineWidth, LineDistance);
+	}
+	else if (ColorType.equals(CompiereColor.TYPE_TEXTURE))
+	{
+		int AD_Image_ID = mc.getAD_Image_ID();
+		String url = mc.getURL(AD_Image_ID);
+		if (url == null)
+			return null;
+		BigDecimal ImageAlpha = mc.getImageAlpha();
+		float compositeAlpha = ImageAlpha == null ? 0.7f : ImageAlpha.floatValue();
+		cc = new CompiereColor(url, mc.getColor(true), compositeAlpha);
+	}
+	return cc;
+
+}   //  getColor
+
+
 
 }   //  AdempiereColor
