@@ -257,24 +257,15 @@ public class VLookup extends VEditorAbstract
 			m_lookup.setMandatory(mandatory);
 			windowNo = m_lookup.getWindowNo();
 		}
-		//	BR [ 9223372036854775807 ]
-//		if(!hasSearchableColumns()) // No known searchable columns
-//		{
-//			m_enableInfo = false;
-//		}
+		
 		//  Set default m_isSOTrx from context
 		if (Env.getContext(Env.getCtx(), windowNo, "IsSOTrx").equals("N"))
-			m_isSOTrx = false;				
-		//
-
-		//m_button.setFocusable(false);   //  don't focus when tabbing
+			m_isSOTrx = false;
 		
 		//	*** VComboBox	***
 		if (m_lookup != null && m_lookup.getDisplayType() != DisplayType.Search)	//	No Search
 		{
 			getComboBox().setName("VLookup Combo");
-			getComboBox().setModel(m_lookup);
-			
 			//  Don't have to fill up combobox if it is readonly
 			//  The lookup will fire a contents changed event that 
 			//  will signal the combo box to update its list.
@@ -282,7 +273,10 @@ public class VLookup extends VEditorAbstract
 			{
 				m_lookup.fillComboBox (isMandatory(), true, true, false);
 			}
-			
+			//  Add the lookup to the combo box AFTER its filled - otherwise the first 
+			//  click on the popup menu will show as empty.  
+			getComboBox().setModel(m_lookup);
+						
 			//  Autocompletion functionality has been included in the CComboBox class.
 			getComboBox().setAutoReducible(true);
 			
@@ -321,12 +315,6 @@ public class VLookup extends VEditorAbstract
 				|| m_lookup.getDisplayType() != DisplayType.List)     //  only system admins can change lists, so no need to zoom for others
 			{
 				//	BR [ 9223372036854775807 ]
-//				if(m_enableInfo  &&  !m_hasButton)  //  Enable the info window from the pop-up menu if there is no button
-//				{
-//					mInfo = new CMenuItem(Msg.getMsg(Env.getCtx(), "Info"), Env.getImageIcon("Info16.gif"));
-//					mInfo.addActionListener(this);
-//					popupMenu.add(mInfo);
-//				}
 				if(!m_hasButton)  //  Enable the info window from the pop-up menu if there is no button
 				{
 					mInfo = new CMenuItem(Msg.getMsg(Env.getCtx(), "Info"), Env.getImageIcon("Info16.gif"));
@@ -409,8 +397,6 @@ public class VLookup extends VEditorAbstract
 	private Lookup				m_lookup;
 	/** Conbo Box Active						*/
 	private boolean				m_comboActive = true;
-	/** The Value								*/
-	private Object				m_value;
 	/** The old Value - for comparison at future points in time.	*/
 	private Object				m_oldValue;
 	/** Enable Info								*/
@@ -426,8 +412,6 @@ public class VLookup extends VEditorAbstract
 
 	private boolean 			m_stopediting = false;
 	
-//	private boolean				fireChangeEvents = true;
-
 	//	Popup
 	JPopupMenu 					popupMenu = new JPopupMenu();
 	private CMenuItem			mInfo;
@@ -639,35 +623,13 @@ public class VLookup extends VEditorAbstract
 			m_text.requestFocus ();
 	}	//	requestFocus
 
-
-//	/**
-//	 *  Set Editor to value
-//	 *  @param value new Value
-//	 */
-//	public void setValue (Object value)
-//	{
-//		log.fine(getColumnName() + "=" + value);
-//		m_settingValue = true;		//	disable actions
-//		m_value = value;
-//
-//		m_lastDisplay = updateDisplay(value);  // will lookup the value if there is a lookup
-//		
-//		if (m_lastDisplay.equals("<-1>"))
-//		{
-//			m_value = null;
-//		}
-//				
-//		log.finer("Set value: " + getDisplay() + "(" + value + ")");
-//		m_settingValue = false;
-//	}	//	setValue
-
 	@Override
 	protected String setDisplayBasedOnValue(Object value) {
 
 		if (value instanceof Object[])
-			currentValue = ((Object[]) value)[0];
+			setCurrentValue(((Object[]) value)[0]);
 		else
-			currentValue = value;
+			setCurrentValue(value);
 		
 		String display;
 		
@@ -703,6 +665,33 @@ public class VLookup extends VEditorAbstract
 	}
 
 	/**
+	 * Set the currentValue of the editor, forcing the type to Integer
+	 * if the display type is an ID.
+	 * @param value
+	 */
+	private void setCurrentValue(Object value) {
+		
+		// As a default
+		currentValue = value;
+		
+		//  The lookup may not have been defined yet.
+		if (m_lookup != null)
+		{
+			if (DisplayType.isID(m_lookup.getDisplayType()))
+			{
+				// If the value is an ID try to force it to an integer
+				try {
+					if (value != null && !(value instanceof Integer))
+						currentValue = Integer.parseInt(value.toString());
+				}
+				catch (NumberFormatException e) {
+					currentValue = value;
+				}
+			}
+		}
+	}
+
+	/**
 	 *  Property Change Listener
 	 *  @param evt PropertyChangeEvent
 	 */
@@ -734,17 +723,6 @@ public class VLookup extends VEditorAbstract
 		
 	}   //  propertyChange
 
-//	/**
-//	 *	Return Editor value (Integer)
-//	 *  @return value
-//	 */
-//	public Object getValue()
-//	{
-//		if (m_comboActive)
-//			return m_combo.getValue ();
-//		return m_value;
-//	}	//	getValue
-
 	/**
 	 *	Return combobox component 
 	 *  @return combobox or null
@@ -762,16 +740,20 @@ public class VLookup extends VEditorAbstract
 	 */
 	public String getDisplay()
 	{
+		checkAndSetCurrentValue();
+		
 		String retValue = null;
 		if (m_comboActive)
 			retValue = getComboBox().getDisplay();
+		
 		//  check lookup
 		else if (m_lookup == null)
-			retValue = m_value == null ? null : m_value.toString();
+			retValue = currentValue == null ? null : currentValue.toString();
 		else
-			retValue = m_lookup.getDisplay(m_value);
-	//	log.fine( "VLookup.getDisplay - " + retValue, "ComboActive=" + m_comboActive);
+			retValue = m_lookup.getDisplay(currentValue);
+		
 		return retValue;
+		
 	}   //  getDisplay
 
 	/**
@@ -804,7 +786,8 @@ public class VLookup extends VEditorAbstract
 			actionButton ("");
 		//  Text entered
 		else if (e.getSource() == m_text)
-			checkAndSetCurrentValue();
+			if (!checkAndSetCurrentValue())
+				handleInvalidValue();
 		else if (e.getSource() == mBPartnerNew)
 			actionBPartner(true);
 		else if (e.getSource() == mBPartnerUpd)
@@ -853,14 +836,15 @@ public class VLookup extends VEditorAbstract
 		
 		log.info("Value=" + value);
 		
-		currentValue = value;
+		setCurrentValue(value);
 		
-		String display = value == null ? "" : value.toString();
+		String display = currentValue == null ? "" : currentValue.toString();
 		
 		if (m_lookup != null)
 		{
-			display = m_lookup.getDisplay(value);
+			display = m_lookup.getDisplay(currentValue);
 		}
+		
  		boolean notFound = display.startsWith("<") && display.endsWith(">");
  		
 		if (notFound)
@@ -877,14 +861,6 @@ public class VLookup extends VEditorAbstract
 			return false;
 		}
 		
-//		//  Still not in Lookup - set to Null
-//		if (getComboBox().getSelectedItem() == null)
-//		{
-//			display = setDisplayBasedOnValue(null);
-//			log.info(getColumnName() + "=" + value + ": not in Lookup - set to NULL");				
-//		}
-
-
  		//  Update the combobox with the value being checked. If the comboBox
  		//  model wasn't previously updated, it might have been by the lookup
  		//  getDisplay call.
@@ -930,48 +906,6 @@ public class VLookup extends VEditorAbstract
 		}
 
 		return true;
-//
-//		try
-//		{
-//			if (fireChangeEvents && !m_stopediting)
-//			{
-//				// -> GridController.vetoableChange
-//				fireVetoableChange (getColumnName(), getValue(), value);
-//			}			
-//			//  No veto - value can change.
-//			
-//			//  Is the value updated? If not, set it.  The GridController listener
-//			//  should have set the value but, if there are no listeners or the 
-//			//  listeners don't set the value, we should set it here.  A veto will 
-//			//  cause an exception leaving the value as is.
-//			boolean updated = false;
-//
-//			Object updatedValue = value;
-//
-//			if (updatedValue != null && updatedValue instanceof Object[] && ((Object[])updatedValue).length > 0)
-//			{
-//				updatedValue = ((Object[])updatedValue)[0];
-//			}
-//
-//			if (updatedValue == null && m_value == null)
-//				updated = true;
-//			else if (updatedValue != null && updatedValue.equals(m_value))
-//				updated = true;
-//			if (!updated)
-//			{
-//				
-//				//  No listener set the value, so we'll do it.
-//				log.fine(getColumnName() + " - Value explicitly set - new=" + updatedValue + ", old=" + m_value);
-//				setValue(updatedValue);
-//				
-//			}
-//		}
-//		catch (PropertyVetoException pve)
-//		{
-//			//  Change was vetoed. Don't set the value.
-//			log.info(pve.getLocalizedMessage());
-////			log.log(Level.INFO, getColumnName(), pve);
-//		}
 		
 	}	
 
@@ -997,10 +931,10 @@ public class VLookup extends VEditorAbstract
 		m_text.requestFocus();						//  closes other editors
 		
 		if (parentFrame == null)
-			parentFrame = Env.getFrame(this);
+			parentFrame = SwingEnv.getFrame(this);
 		
 		if (parentFrame == null)
-			parentFrame = Env.getWindow(0);
+			parentFrame = SwingEnv.getWindow(0);
 
 		/**
 		 *  Three return options:
@@ -1191,8 +1125,7 @@ public class VLookup extends VEditorAbstract
 			whereClause = validation;
 		else if (validation.length() > 0)
 			whereClause += " AND " + validation;
-	//	log.finest("ZoomQuery=" + (m_lookup.getZoomQuery()==null ? "" : m_lookup.getZoomQuery().getWhereClause())
-	//		+ ", Validation=" + m_lookup.getValidation());
+		
 		if (whereClause.indexOf('@') != -1)
 		{
 			String validated = Env.parseContext(Env.getCtx(), m_lookup.getWindowNo(), whereClause, false);
@@ -1306,17 +1239,20 @@ public class VLookup extends VEditorAbstract
 		//	No (unique) result
 		if (id <= 0)
 		{
+			
 			if (id == -3)
 				log.fine(getColumnName() + " - Not Found - " + finalSQL);
 			else
 				log.fine(getColumnName() + " - Not Unique - " + finalSQL);
-			m_value = null;	// force re-display
 			return false;
+			
 		}
-		log.fine(getColumnName() + " - Unique ID=" + id);
-		m_value = null;     //  forces re-display if value is unchanged but text updated and still unique
 		
-		// TODO check if this is the right place to be resetting the tab info
+		log.fine(getColumnName() + " - Unique ID=" + id);
+		
+		// Reset the tab context info related to this field to null
+		// TODO Why do this here? It seems out of place.  The context
+		// should be set by the field when the value is set.
 		resetTabInfo();
 		
 		// See if the new value fits with the combo lookup
@@ -1533,15 +1469,16 @@ public class VLookup extends VEditorAbstract
 	 */
 	private void actionBPartner (boolean newRecord)
 	{
-		VBPartner vbp = new VBPartner (Env.getFrame(this), m_lookup.getWindowNo());
+		
+		VBPartner vbp = new VBPartner (SwingEnv.getFrame(this), m_lookup.getWindowNo());
 		int BPartner_ID = 0;
 		//  if update, get current value
 		if (!newRecord)
 		{
-			if (m_value instanceof Integer)
-				BPartner_ID = ((Integer)m_value).intValue();
-			else if (m_value != null)
-				BPartner_ID = Integer.parseInt(m_value.toString());
+			if (currentValue instanceof Integer)
+				BPartner_ID = ((Integer) currentValue).intValue();
+			else if (currentValue != null)
+				BPartner_ID = Integer.parseInt(currentValue.toString());
 		}
 
 		vbp.loadBPartner (BPartner_ID);
@@ -1554,7 +1491,8 @@ public class VLookup extends VEditorAbstract
 		//  Maybe new BPartner - put in cache
 		m_lookup.getDirect(new Integer(result), false, true);
 
-		setDisplayBasedOnValue (new Integer(result));      //  data binding
+		setDisplayBasedOnValue (new Integer(result));
+		
 	}	//	actionBPartner
 
 
@@ -1570,7 +1508,7 @@ public class VLookup extends VEditorAbstract
 		//  is removed from the parent when before it loses focus. The parentFrame
 		//  is required to open the info dialog.  This case can happen when the <Tab>
 		//  key is pressed to move to the next field.
-		parentFrame = Env.getFrame(this);
+		parentFrame = SwingEnv.getFrame(this);
 		
 		m_stopediting = false;
 						
@@ -1632,7 +1570,7 @@ public class VLookup extends VEditorAbstract
 	}   //  setToolTipText
 
 	/**
-	 * Reset Env.TAB_INFO context variables
+	 * Reset Env.TAB_INFO context variables to null
 	 * @param columnName
 	 */
 	private void resetTabInfo()
