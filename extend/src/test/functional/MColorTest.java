@@ -13,6 +13,8 @@
  *****************************************************************************/
 package test.functional;
 
+import java.lang.reflect.Method;
+
 import org.compiere.model.MColor;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.util.Env;
@@ -33,9 +35,14 @@ public class MColorTest extends AdempiereTestCase
 	
 	public void testQuery() throws Exception
 	{
+		
 		MColor clr = new MColor(getCtx(),1,getTrxName()); //red1 put in dummy record that has COLORTYPE = 'R' for and ADImageID = 101
-		CompiereColor url = clr.getAdempiereColor();
-		assertTrue("Color must be right", url.toString().length()>0);		
+		
+		// User reflection to access UI specific code in this package
+		Class<?> compiereColor = Class.forName("org.compiere.plaf.CompiereColor");
+		Method getColor = compiereColor.getMethod("getColor", MColor.class);
+		Object url = getColor.invoke(null, clr);
+		assertTrue("Color must be right", compiereColor.cast(url).toString().length()>0);		
 
 	}
 
