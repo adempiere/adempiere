@@ -161,12 +161,18 @@ public class VMemo extends VEditorAbstract
 	
 	@Override
 	protected Object getCurrentValue() {
+		String text = memoUI.getText();
+		if (text == null || text.isEmpty())
+			return null;
 		return memoUI.getText();
 	}
 	
 	@Override
 	protected String setDisplayBasedOnValue(Object value) {
-		memoUI.setText(value.toString());
+		if (value == null)
+			memoUI.setText("");
+		else
+			memoUI.setText(value.toString());
 		return memoUI.getText();
 	}
 	
