@@ -567,6 +567,7 @@ public class VDate extends VEditorAbstract
 	@Override
 	public void setEditable(boolean editable) {
 		
+		super.setEditable(editable);
 		if (textEditor != null)
 		{
 			// Special case - only dates are editable
@@ -575,11 +576,6 @@ public class VDate extends VEditorAbstract
 			{
 				textEditor.setEditable(false);
 				textEditor.setFocusable(false);
-			}
-			else
-			{
-				textEditor.setEditable(editable);
-				textEditor.setFocusable(editable);
 			}
 		}
 	}
