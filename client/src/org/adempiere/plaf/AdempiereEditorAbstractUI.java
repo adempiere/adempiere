@@ -292,6 +292,7 @@ public class AdempiereEditorAbstractUI extends PanelUI
 					
 					//  The button gets a special borderwhich mimics the combobox arrow button border
 					buttonComponent.setBorder(UIManager.getBorder("AbstractEditor.ButtonBorder"));
+					buttonComponent.setMargin(new Insets(0,2,0,2));
 				}
 			}
 		}
