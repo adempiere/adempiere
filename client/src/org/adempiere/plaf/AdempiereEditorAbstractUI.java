@@ -371,9 +371,14 @@ public class AdempiereEditorAbstractUI extends PanelUI
         Dimension result = new Dimension();
 
         PHANTOM.setText(getPhantomString());
+        
+        // The number of columns overrides the width based on the phantom string length
         if (editorComponent instanceof JTextField && ((JTextField) editorComponent).getColumns() > 0)
         	PHANTOM.setColumns(((JTextField) editorComponent).getColumns());
+        else
+        	PHANTOM.setColumns(0);
         
+        PHANTOM.setPreferredSize(null);        
         result = PHANTOM.getPreferredSize();
 
         // Set the cached value
