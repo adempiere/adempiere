@@ -400,13 +400,31 @@ public class GridField
 	 */
 	public boolean isMandatory (boolean checkContext)
 	{
-//	  Do we have a mandatory rule
+		return isMandatory(checkContext, false);
+	}
+	
+	public boolean isMandatory (boolean checkContext, boolean isForm)
+	{
+		if (!isForm && gridTable== null)
+			isForm = true; // Ignore the table is the field's reference to the table hasn't been set.
+
+		//  ** dynamic content **
 		if (checkContext && m_vo.MandatoryLogic.length() > 0)
 		{
-			boolean retValue = Evaluator.evaluateLogic(this, m_vo.MandatoryLogic);
-			log.finest(m_vo.ColumnName + " Mandatory(" + m_vo.MandatoryLogic + ") => Mandatory-" + retValue);
-			if (retValue)
-				return true;
+			if (isForm)
+			{
+				boolean retValue = Evaluator.evaluateLogic(this, m_vo.MandatoryLogic);
+				log.finest(m_vo.ColumnName + " Mandatory(" + m_vo.MandatoryLogic + ") => Mandatory-" + retValue);
+				if (retValue)
+					return true;
+			}
+			else
+			{
+				boolean retValue = Evaluator.evaluateLogic(this, m_vo.MandatoryLogic, gridTable, gridRow);
+				log.finest(m_vo.ColumnName + " Mandatory(" + m_vo.MandatoryLogic + ") => Mandatory-" + retValue);
+				if (retValue)
+					return true;
+			}
 		}
 		
 		//  Not mandatory
@@ -426,7 +444,7 @@ public class GridField
 			return false;
 
 		//  Mandatory if displayed
-		return isDisplayed (checkContext);
+		return isDisplayed (checkContext, isForm);
 	}	//	isMandatory
 
 	/**
@@ -1010,7 +1028,7 @@ public class GridField
 	{
 
 		if (!isForm && gridTable== null)
-			throw new IllegalArgumentException("Can't call this method with isForm=false when the field gridTable is null.");
+			isForm = true; // Ignore the table is the field's reference to the table hasn't been set.
 		
 		//  ** static content **
 		//  not displayed - which means its not selected in

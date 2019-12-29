@@ -186,14 +186,15 @@ public final class VCellRenderer extends DefaultTableCellRenderer
 				
 		setEditable(table, row, column);
 
-        setColorsAndFont(c, table, gridField, value, row, column, isSelected, hasFocus, editable, ui);
-        
-        setBorders(c, table, row, column, isSelected, hasFocus, editable, ui);
-        
         if (displayed)
         	setValue(value);
         else
         	setValue(null);
+
+        setColorsAndFont(c, table, gridField, value, row, column, isSelected, hasFocus, editable, ui);
+        
+        setBorders(c, table, row, column, isSelected, hasFocus, editable, ui);
+        
 		return c;
 				
 	}	//	getTableCellRendererComponent
@@ -510,7 +511,7 @@ public final class VCellRenderer extends DefaultTableCellRenderer
         
 
         boolean error = false;
-        boolean mandatory = gridField != null ? gridField.isMandatory(true) : ((VTable) table).isCellMandatory(row, column);
+        boolean mandatory = gridField != null ? gridField.isMandatory(true, false) : ((VTable) table).isCellMandatory(row, column);
 		if (c instanceof VEditor) // Implies displayed and editable
 			{
 			boolean manMissing = false;
@@ -710,8 +711,8 @@ public final class VCellRenderer extends DefaultTableCellRenderer
 			else
 			{
 				// Use the default label to display the value
-				super.setValue(displayValue);
-				return;
+//				super.setValue(displayValue);
+//				return;
 			}
 		}
 		catch (Exception e)
@@ -720,6 +721,8 @@ public final class VCellRenderer extends DefaultTableCellRenderer
 			log.log(Level.SEVERE, "(" + value + ") " + clazz , e);
 			displayValue = value.toString();
 		}
+		if (gridField != null)
+			gridField.setError(false);
 		super.setValue(displayValue);
 	}	//	setValue
 
