@@ -518,7 +518,7 @@ public abstract class VEditorAbstract extends JPanel
 		//  Otherwise, it will be called three times during
 		//  initialization.
 		if (finishedInit)
-			setEditable(isEditable());
+			setEditable(readWrite && isUpdateable());
 		
 		((AdempiereEditorAbstractUI) this.getUI()).setBorders();
 
