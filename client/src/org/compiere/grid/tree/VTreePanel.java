@@ -577,6 +577,7 @@ public final class VTreePanel extends CPanel
 			if (search.openDocumentsByDocumentNo(treeSearch.getText().substring(1)))
 				treeSearch.setText(null);
 			setBusy(false);
+			e.consume();
 			return;
 		}
 
@@ -592,12 +593,17 @@ public final class VTreePanel extends CPanel
 				MTreeNode tn = (MTreeNode)tp.getLastPathComponent();
 				setSelectedNode(tn);
 			}
+			e.consume();
 		}
 
 		//  *** treeSearch ***
 		else if (e.getSource() == treeSearch)
 		{
 			String search = treeSearch.getText();
+			
+			if (search.isEmpty())
+				return;  // Pass on the event.
+			
 			boolean found = false;
 
 			//  at the end - try from top
@@ -628,6 +634,8 @@ public final class VTreePanel extends CPanel
 			}
 			if (!found)
 				ADialog.beep();
+			
+			e.consume();
 		}   //  treeSearch
 
 	}   //  keyPressed
