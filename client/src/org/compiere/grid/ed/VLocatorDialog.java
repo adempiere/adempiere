@@ -50,6 +50,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 
 /**
  *	Dialog to enter Warehouse Locator Info
@@ -80,7 +81,7 @@ public class VLocatorDialog extends CDialog
 		int M_Locator_ID, boolean mandatory, int only_Warehouse_ID)
 	{
 		super (frame, title, true);
-		m_WindowNo = Env.getWindowNo(frame);
+		m_WindowNo = SwingEnv.getWindowNo(frame);
 		try
 		{
 			jbInit();

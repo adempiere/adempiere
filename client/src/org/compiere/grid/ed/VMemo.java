@@ -26,6 +26,7 @@ import org.compiere.apps.ScriptEditor;
 import org.compiere.swing.CMenuItem;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 
 /**
  *  Text Control (JTextArea embedded in JScrollPane)
@@ -126,16 +127,16 @@ public class VMemo extends VEditorAbstract
 	{
 		if (e.getSource() == menuEditor)
 		{
-			JFrame parentFrame = Env.getFrame(this);
+			JFrame parentFrame = SwingEnv.getFrame(this);
 			if (parentFrame == null)
-				parentFrame = Env.getWindow(0);
+				parentFrame = SwingEnv.getWindow(0);
 
 			menuEditor.setEnabled(false);
 			String s = null;
 			if (columnName.equals("Script") || columnName.endsWith("_Script"))
 				s = ScriptEditor.start (parentFrame,
 						Msg.translate(Env.getCtx(), columnName), memoUI.getText(), isEditable(), 
-						Env.getWindowNo(parentFrame));
+						SwingEnv.getWindowNo(parentFrame));
 			else
 				s = Editor.startEditor (this, Msg.translate(Env.getCtx(), columnName), 
 					memoUI.getText(), isEditable(), fieldLength);

@@ -56,6 +56,7 @@ import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.PaymentExport;
 import org.compiere.util.PaymentExportList;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -442,7 +443,7 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener, Ve
 				.filter(paySelectionCheck -> paySelectionCheck != null)
 				.forEach(paySelectionCheck -> {
 			//	ReportCtrl will check BankAccountDoc for PrintFormat
-			boolean ok = ReportCtl.startDocumentPrint(ReportEngine.CHECK, paySelectionCheck.get_ID(), null, Env.getWindowNo(panel), directPrint);
+			boolean ok = ReportCtl.startDocumentPrint(ReportEngine.CHECK, paySelectionCheck.get_ID(), null, SwingEnv.getWindowNo(panel), directPrint);
 			if (!somethingPrinted.get() && ok)
 				somethingPrinted.set(true);
 		});
@@ -466,7 +467,7 @@ public class VPayPrint extends PayPrint implements FormPanel, ActionListener, Ve
 			paySelectionChecks.stream()
 					.filter(paySelectionCheck -> paySelectionCheck != null)
 					.forEach( paySelectionCheck -> {
-				ReportCtl.startDocumentPrint(ReportEngine.REMITTANCE, paySelectionCheck.get_ID(), null, Env.getWindowNo(panel), directPrint);
+				ReportCtl.startDocumentPrint(ReportEngine.REMITTANCE, paySelectionCheck.get_ID(), null, SwingEnv.getWindowNo(panel), directPrint);
 			});
 		}	//	remittance
 

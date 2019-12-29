@@ -30,6 +30,7 @@ import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.SwingEnv;
 
 /**
  *	Account Control - Displays ValidCombination and launches Dialog
@@ -163,7 +164,7 @@ public final class VAccount extends VEditorAbstract
 		{
 			C_AcctSchema_ID = Env.getContextAsInt(Env.getCtx(), "$C_AcctSchema_ID");
 		}
-		VAccountDialog ad = new VAccountDialog (Env.getFrame(this), title, 
+		VAccountDialog ad = new VAccountDialog (SwingEnv.getFrame(this), title, 
 			(MAccountLookup) getLookup(), C_AcctSchema_ID);
 		setCursor(Cursor.getDefaultCursor());
 		//

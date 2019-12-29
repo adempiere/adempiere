@@ -51,6 +51,7 @@ import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 
 /**
  * Generate custom form panel
@@ -245,7 +246,7 @@ public class VGenPanel extends CPanel implements ActionListener, ChangeListener,
 	public void generate()
 	{
 		info.setText(genForm.generate());
-		ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(this), genForm.getProcessInfo(), genForm.getTrx());
+		ProcessCtl worker = new ProcessCtl(this, SwingEnv.getWindowNo(this), genForm.getProcessInfo(), genForm.getTrx());
 		worker.start();
 		//
 	}
@@ -307,7 +308,7 @@ public class VGenPanel extends CPanel implements ActionListener, ChangeListener,
 						new Viewer(m_frame.getGraphicsConfiguration(), re);
 					}
 					else
-					ReportCtl.startDocumentPrint(genForm.getReportEngineType(), Record_ID, this, Env.getWindowNo(this), true);
+					ReportCtl.startDocumentPrint(genForm.getReportEngineType(), Record_ID, this, SwingEnv.getWindowNo(this), true);
 					
 				}
 				//	Yamel Senih 2015-11-23 FR [ 114 ] Add Supoort to dynamic create from

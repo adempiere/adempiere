@@ -63,6 +63,7 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Language;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.Util;
 
 /**
@@ -89,7 +90,7 @@ public final class ALogin extends CDialog
 		super (parent, "Login", true);	//	Modal
 		log.finer("");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		m_WindowNo = Env.createWindowNo (null);
+		m_WindowNo = SwingEnv.createWindowNo (null);
 		res = ResourceBundle.getBundle(RESOURCE);
 		//
 		try

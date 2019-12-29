@@ -34,7 +34,7 @@ import org.compiere.minigrid.RowSelectionEvent;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CPanel;
-import org.compiere.util.Env;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 
@@ -64,7 +64,7 @@ public class VCreateFromDialog extends CDialog implements ActionListener, Select
 	
 	public VCreateFromDialog(CreateFrom createFrom, int windowNo, boolean modal)
 	{
-		super(Env.getWindow(windowNo), modal);
+		super(SwingEnv.getWindow(windowNo), modal);
 		
 		this.createFrom = createFrom;
 		this.windowNo = windowNo;

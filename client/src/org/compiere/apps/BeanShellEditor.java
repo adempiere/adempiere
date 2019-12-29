@@ -49,6 +49,7 @@ import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 
 import bsh.ParseException;
 
@@ -111,7 +112,7 @@ public class BeanShellEditor extends CDialog implements ActionListener
 		m_owner = owner;
 		m_WindowNo = WindowNo;
 		if (m_WindowNo == 0)
-			m_WindowNo = Env.createWindowNo(this);
+			m_WindowNo = SwingEnv.createWindowNo(this);
 		log.info("Window=" + m_WindowNo);
 		try
 		{

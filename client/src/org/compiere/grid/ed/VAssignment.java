@@ -33,6 +33,7 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 
 /**
  *	Resource Assignment Entry
@@ -170,13 +171,13 @@ public class VAssignment extends VEditorAbstract
 		//	Start VAssignment Dialog
 		if (S_ResourceAssignment_ID != 0)
 		{
-			VAssignmentDialog vad = new VAssignmentDialog (Env.getFrame(this), ma, true, true);
+			VAssignmentDialog vad = new VAssignmentDialog (SwingEnv.getFrame(this), ma, true, true);
 			ma = vad.getMResourceAssignment();
 		}
 		//	Start InfoSchedule directly
 		else
 		{
-			InfoSchedule is = new InfoSchedule(Env.getFrame(this), ma, true);
+			InfoSchedule is = new InfoSchedule(SwingEnv.getFrame(this), ma, true);
 			ma = is.getMResourceAssignment();
 		}
 

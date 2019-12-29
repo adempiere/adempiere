@@ -25,6 +25,7 @@ import org.compiere.swing.CFrame;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.SwingEnv;
 
 /**
  *	Dialog to Start process.
@@ -70,7 +71,7 @@ public class ProcessDialog extends CFrame
 		log.info("Process=" + AD_Process_ID + "; SOTrx=" + isSOTrx);
 		enableEvents(AWTEvent.WINDOW_EVENT_MASK);
 		processId = AD_Process_ID;
-		windowNo = Env.createWindowNo (this);
+		windowNo = SwingEnv.createWindowNo (this);
 		Env.setContext(Env.getCtx(), windowNo, "IsSOTrx", isSOTrx ? "Y" : "N");
 		try {
 			jbInit();

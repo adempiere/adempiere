@@ -104,6 +104,7 @@ import org.compiere.util.Language;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.ValueNamePair;
 import org.spin.util.AbstractExportFormat;
 import org.spin.util.ReportExportHandler;
@@ -169,7 +170,7 @@ public class Viewer extends CFrame
 	{
 		super(gc);
 		log.info("");
-		m_WindowNo = Env.createWindowNo(this);
+		m_WindowNo = SwingEnv.createWindowNo(this);
 		Env.setContext(re.getCtx(), m_WindowNo, "_WinInfo_IsReportViewer", "Y");
 		m_reportEngine = re;
 		m_AD_Table_ID = re.getPrintFormat().getAD_Table_ID();
@@ -185,7 +186,7 @@ public class Viewer extends CFrame
 		m_isAllowXLSView =  MRole.getDefault().isAllow_XLS_View();
 		try
 		{
-			m_viewPanel = re.getView();
+			m_viewPanel = new View(m_reportEngine.getLayout());
 			m_ctx = m_reportEngine.getCtx();
 			String type = m_reportEngine.getReportType();
 			if (type == null) {
@@ -770,7 +771,7 @@ public class Viewer extends CFrame
 		AEnv.addMenuItem("Preference", null, null, mTools, this);
 		
 		//		Window
-		AMenu aMenu = (AMenu)Env.getWindow(0);
+		AMenu aMenu = (AMenu)SwingEnv.getWindow(0);
 		JMenu mWindow = new WindowMenu(aMenu.getWindowManager(), this);
 		menuBar.add(mWindow);
 
@@ -1430,11 +1431,11 @@ public class Viewer extends CFrame
 				m_reportEngine.getProcessInfo().getTable_ID(), 
 				m_reportEngine.getProcessInfo().getRecord_ID());
 		//	Launch dialog
-		ProcessModalDialog para = new ProcessModalDialog(Env.getFrame((Container)this), m_WindowNo, pi);
+		ProcessModalDialog para = new ProcessModalDialog(SwingEnv.getFrame((Container)this), m_WindowNo, pi);
 		if (para.isValidDialog()) {
 			para.validate();
 			para.pack();
-			AEnv.showCenterWindow(Env.getWindow(m_WindowNo), para);
+			AEnv.showCenterWindow(SwingEnv.getWindow(m_WindowNo), para);
 			if (para.isOK()) {
 				//	execute
 				ProcessCtl worker = new ProcessCtl(null, m_WindowNo, pi, true, null);

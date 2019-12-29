@@ -21,8 +21,8 @@ import java.awt.HeadlessException;
 import java.awt.TextArea;
 
 import org.compiere.Adempiere;
-import org.compiere.util.Env;
 import org.compiere.util.Splash;
+import org.compiere.util.SwingEnv;
 
 
 /**
@@ -86,7 +86,7 @@ public class AApplet extends Applet
 	public void destroy ()
 	{
 		super.destroy ();
-		Env.exitEnv(0);
+		SwingEnv.exitEnv(0);
 	}	//	destroy
 	
 }	//	AApplet

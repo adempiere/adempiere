@@ -31,6 +31,7 @@ import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.SwingEnv;
 
 /**
  *	Number Control
@@ -373,7 +374,7 @@ public final class VNumber extends VEditorAbstract
 		}
 		
 		//	Find frame
-		Frame frame = Env.getFrame(jc);
+		Frame frame = SwingEnv.getFrame(jc);
 		//	Actual Call
 		Calculator calc = new Calculator(frame, title,
 			displayType, format, startValue);

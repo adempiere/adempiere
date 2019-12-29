@@ -62,6 +62,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.Trx;
 import org.eevolution.model.I_PP_Product_BOMLine;
 

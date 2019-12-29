@@ -97,6 +97,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.Util;
 import org.eevolution.form.VBrowser;
 import org.spin.util.ASPUtil;
@@ -1119,7 +1120,7 @@ public final class APanel extends CPanel
 		if (require)
 		{
 			GridField[] findFields = mTab.getFields();
-			Find find = new Find (Env.getFrame(this), m_curWindowNo, mTab.getName(),
+			Find find = new Find (SwingEnv.getFrame(this), m_curWindowNo, mTab.getName(),
 				mTab.getAD_Tab_ID(), mTab.getAD_Table_ID(), mTab.getTableName(),
 				where.toString(), findFields, 10);	//	no query below 10
 			query = find.getQuery();
@@ -1347,7 +1348,7 @@ public final class APanel extends CPanel
 	{
 		m_isLocked = busy;
 		//
-		JFrame frame = Env.getFrame(this);
+		JFrame frame = SwingEnv.getFrame(this);
 		if (frame == null)  //  during init
 			return;
 		if (frame instanceof AWindow)
@@ -1787,7 +1788,7 @@ public final class APanel extends CPanel
 			else if (cmd.equals(aHome.getName())) {
 				// show main menu - teo_sarca [ 1706409, 1707221 ]
 				setBusy(false, false);
-				AEnv.showWindow(Env.getWindow(0));
+				AEnv.showWindow(SwingEnv.getWindow(0));
 				return;
 			}
 			else if (cmd.equals(aFirst.getName()))
@@ -1888,7 +1889,7 @@ public final class APanel extends CPanel
 	}	//	actionPerformed
 
 	private void cmd_logout() {
-		JFrame top = Env.getWindow(0);
+		JFrame top = SwingEnv.getWindow(0);
 		if (top instanceof AMenu) {
 			((AMenu)top).logout();
 		}
@@ -2278,7 +2279,7 @@ public final class APanel extends CPanel
 		if (currentTab == null)
 			return;
 		cmd_save(false);
-		new ASearch(aFind,Env.getFrame(this), m_curWindowNo,m_curGC, currentTab, m_onlyCurrentDays);
+		new ASearch(aFind,SwingEnv.getFrame(this), m_curWindowNo,m_curGC, currentTab, m_onlyCurrentDays);
 	}	//	cmd_find
 
 	/**
@@ -2295,7 +2296,7 @@ public final class APanel extends CPanel
 		}
 
 	//	Attachment va =
-		new Attachment (Env.getFrame(this), m_curWindowNo,
+		new Attachment (SwingEnv.getFrame(this), m_curWindowNo,
 			currentTab.getAD_AttachmentID(), currentTab.getAD_Table_ID(), record_ID, null);
 		//
 		currentTab.loadAttachments();				//	reload
@@ -2331,7 +2332,7 @@ public final class APanel extends CPanel
 		String description = infoName + ": " + infoDisplay;
 		//
 	//	AChat va =
-		new AChat (Env.getFrame(this), m_curWindowNo,
+		new AChat (SwingEnv.getFrame(this), m_curWindowNo,
 			currentTab.getCM_ChatID(), currentTab.getAD_Table_ID(), record_ID,
 			description, null);
 		//
@@ -2353,7 +2354,7 @@ public final class APanel extends CPanel
 		//	Control Pressed
 		if ((m_lastModifiers & InputEvent.CTRL_MASK) != 0)
 		{
-			new RecordAccessDialog(Env.getFrame(this), currentTab.getAD_Table_ID(), record_ID);
+			new RecordAccessDialog(SwingEnv.getFrame(this), currentTab.getAD_Table_ID(), record_ID);
 		}
 		else
 		{
@@ -2376,7 +2377,7 @@ public final class APanel extends CPanel
 
 			Point pt = new Point (0, aHistory.getButton().getBounds().height);
 			SwingUtilities.convertPointToScreen(pt, aHistory.getButton());
-			VOnlyCurrentDays ocd = new VOnlyCurrentDays(Env.getFrame(this), pt);
+			VOnlyCurrentDays ocd = new VOnlyCurrentDays(SwingEnv.getFrame(this), pt);
 			if (!ocd.isCancel()) {
 				m_onlyCurrentDays = ocd.getCurrentDays();
 				if (m_onlyCurrentDays == 1)	//	Day
@@ -2410,7 +2411,7 @@ public final class APanel extends CPanel
 	private void cmd_help()
 	{
 		log.info("");
-		Help hlp = new Help (Env.getFrame(this), this.getTitle(), m_mWorkbench.getMWindow(getWindowIndex()));
+		Help hlp = new Help (SwingEnv.getFrame(this), this.getTitle(), m_mWorkbench.getMWindow(getWindowIndex()));
 		hlp.setVisible(true);
 	}	//	cmd_help
 
@@ -2426,7 +2427,7 @@ public final class APanel extends CPanel
 		if (exit && ADialog.ask(m_curWindowNo, this, "ExitApplication?"))
 			exitSystem = true;
 
-		Env.getFrame(this).dispose();		//	calls this dispose
+		SwingEnv.getFrame(this).dispose();		//	calls this dispose
 
 		if (exitSystem)
 			AEnv.exit(0);
@@ -2711,7 +2712,7 @@ public final class APanel extends CPanel
 			return;
 		}
 		else {
-			ProcessModalDialog dialog = new ProcessModalDialog(ctx, Env.getWindow(m_curWindowNo), Env.getHeader(ctx, m_curWindowNo),
+			ProcessModalDialog dialog = new ProcessModalDialog(ctx, SwingEnv.getWindow(m_curWindowNo), Env.getHeader(ctx, m_curWindowNo),
 					this, m_curWindowNo, vButton.getProcess_ID(), table_ID,
 					record_ID, startWOasking);
 			//	FR [ 265 ]
@@ -2720,7 +2721,7 @@ public final class APanel extends CPanel
 					&& !dialog.isAutoStart()) {
 				dialog.validate();
 				dialog.pack();
-				AEnv.showCenterWindow(Env.getWindow(m_curWindowNo), dialog);
+				AEnv.showCenterWindow(SwingEnv.getWindow(m_curWindowNo), dialog);
 			}
 		}
 	}	//	actionButton

@@ -37,6 +37,7 @@ import org.compiere.util.Env;
 import org.compiere.util.ExtensionFileFilter;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.Util;
 import org.eevolution.model.I_HR_Process;
 import org.eevolution.model.MHRPayroll;
@@ -265,7 +266,7 @@ public class PayrollProcessReport extends PayrollProcessReportAbstract {
 			chooser.addChoosableFileFilter(new ExtensionFileFilter(reportExport.getExtension(), payrollReport.getName()));
 		}
 		//
-		if (chooser.showSaveDialog(Env.getWindow(getProcessInfo().getWindowNo())) != JFileChooser.APPROVE_OPTION) {
+		if (chooser.showSaveDialog(SwingEnv.getWindow(getProcessInfo().getWindowNo())) != JFileChooser.APPROVE_OPTION) {
 			return "Ok";
 		}
 		exportFile = ExtensionFileFilter.getFile(chooser.getSelectedFile(), chooser.getFileFilter());

@@ -53,6 +53,7 @@ import org.compiere.swing.CFrame;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.Trace;
 
 
@@ -88,7 +89,7 @@ public class FormFrame
 	 */
 	public FormFrame (int p_ParentWindowNo)
 	{
-		Frame owner = Env.getWindow(p_ParentWindowNo);
+		Frame owner = SwingEnv.getWindow(p_ParentWindowNo);
 		if(p_ParentWindowNo == 0) {
 			CFrame frame = new CFrame(owner.getGraphicsConfiguration());
 			frame.setGlassPane(m_glassPane);
@@ -100,7 +101,7 @@ public class FormFrame
 				}
 			});
 			m_MainContent = frame;
-			m_WindowNo = Env.createWindowNo (m_MainContent);
+			m_WindowNo = SwingEnv.createWindowNo (m_MainContent);
 		} else {
 			CDialog dialog = new CDialog(owner, true);
 			dialog.setModalityType(ModalityType.DOCUMENT_MODAL);
@@ -254,7 +255,7 @@ public class FormFrame
 		}
 		
 		//		Window
-		AMenu aMenu = (AMenu)Env.getWindow(0);
+		AMenu aMenu = (AMenu)SwingEnv.getWindow(0);
 		JMenu mWindow = new WindowMenu(aMenu.getWindowManager(), null);
 		menuBar.add(mWindow);
 
@@ -398,7 +399,7 @@ public class FormFrame
 			sb.append("<h2>").append(m_Description).append("</h2>");
 		if (m_Help != null && m_Help.length() > 0)
 			sb.append("<p>").append(m_Help);
-		Help hlp = new Help (Env.getFrame(m_MainContent), getTitle(), sb.toString());
+		Help hlp = new Help (SwingEnv.getFrame(m_MainContent), getTitle(), sb.toString());
 		hlp.setVisible(true);
 	}	//	actionHelp
 

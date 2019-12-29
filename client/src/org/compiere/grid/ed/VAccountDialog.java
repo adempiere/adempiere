@@ -69,6 +69,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 
 /**
  *	Dialog to enter Account Info
@@ -125,7 +126,7 @@ public final class VAccountDialog extends CDialog
 			+ ", C_ValidCombination_ID=" + mAccount.C_ValidCombination_ID);
 		m_mAccount = mAccount;
 		m_C_AcctSchema_ID = C_AcctSchema_ID;
-		m_WindowNo = Env.createWindowNo (this);
+		m_WindowNo = SwingEnv.createWindowNo (this);
 		
 		//  Set the initial value of the valid combination to be the
 		//  current value set in the lookup.  This will ensure that

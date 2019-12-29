@@ -64,6 +64,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Splash;
+import org.compiere.util.SwingEnv;
 
 /**
  *  Windows Application Environment and utilities
@@ -380,11 +381,11 @@ public final class AEnv
 		//  File Menu   ------------------------
 		if (actionCommand.equals("PrintScreen"))
 		{
-			PrintScreenPainter.printScreen (Env.getFrame(c));
+			PrintScreenPainter.printScreen (SwingEnv.getFrame(c));
 		}
 		else if (actionCommand.equals("ScreenShot"))
 		{
-			ScreenShot.createJPEG(Env.getFrame(c), null);
+			ScreenShot.createJPEG(SwingEnv.getFrame(c), null);
 		}
 	//	else if (actionCommand.equals("Report"))
 	//	{
@@ -394,28 +395,28 @@ public final class AEnv
 		{
 			if (ADialog.ask(WindowNo, c, "ExitApplication?"))
 			{
-				AMenu aMenu = (AMenu)Env.getWindow(0);
+				AMenu aMenu = (AMenu)SwingEnv.getWindow(0);
 				aMenu.dispose() ;
 			}
 		}
 		else if (actionCommand.equals("Logout"))
 		{
-			AMenu aMenu = (AMenu)Env.getWindow(0);
+			AMenu aMenu = (AMenu)SwingEnv.getWindow(0);
 			aMenu.logout();
 		}
 
 		//  View Menu   ------------------------
 		else if (actionCommand.equals("InfoProduct") && AEnv.canAccessInfo("PRODUCT"))
 		{
-			org.compiere.apps.search.Info.showProduct (Env.getFrame(c), WindowNo);
+			org.compiere.apps.search.Info.showProduct (SwingEnv.getFrame(c), WindowNo);
 		}
 		else if (actionCommand.equals("InfoBPartner") && AEnv.canAccessInfo("BPARTNER"))
 		{
-			org.compiere.apps.search.Info.showBPartner (Env.getFrame(c), WindowNo);
+			org.compiere.apps.search.Info.showBPartner (SwingEnv.getFrame(c), WindowNo);
 		}
 		else if (actionCommand.equals("InfoAsset") && AEnv.canAccessInfo("ASSET"))
 		{
-			org.compiere.apps.search.Info.showAsset (Env.getFrame(c), WindowNo);
+			org.compiere.apps.search.Info.showAsset (SwingEnv.getFrame(c), WindowNo);
 		}
 		else if (actionCommand.equals("InfoAccount") && 
 				  MRole.getDefault().isShowAcct() &&
@@ -425,12 +426,12 @@ public final class AEnv
 		}
 		else if (actionCommand.equals("InfoSchedule") && AEnv.canAccessInfo("SCHEDULE"))
 		{
-			new org.compiere.apps.search.InfoSchedule (Env.getFrame(c), null, false);
+			new org.compiere.apps.search.InfoSchedule (SwingEnv.getFrame(c), null, false);
 		}
 		//FR [ 1966328 ] 
 		else if (actionCommand.equals("InfoMRP") && AEnv.canAccessInfo("MRP"))
 		{
-			CFrame frame = (CFrame) Env.getFrame(c);
+			CFrame frame = (CFrame) SwingEnv.getFrame(c);
 			int	m_menu_id = MMenu.getMenu_ID("MRP Info");
 			AMenu menu = AEnv.getAMenu(frame);
 			AMenuStartItem form = new AMenuStartItem (m_menu_id, true, Msg.translate(Env.getCtx(), "MRP Info"), menu);		//	async load
@@ -438,7 +439,7 @@ public final class AEnv
 		}
 		else if (actionCommand.equals("InfoCRP") && AEnv.canAccessInfo("CRP"))
 		{
-			CFrame frame = (CFrame) Env.getFrame(c);
+			CFrame frame = (CFrame) SwingEnv.getFrame(c);
 			int	m_menu_id = MMenu.getMenu_ID("CRP Info");
 			AMenu menu = AEnv.getAMenu(frame);
 			AMenuStartItem form = new AMenuStartItem (m_menu_id, true, Msg.translate(Env.getCtx(), "CRP Info"), menu);		//	async load
@@ -446,27 +447,27 @@ public final class AEnv
 		}
 		else if (actionCommand.equals("InfoOrder") && AEnv.canAccessInfo("ORDER"))
 		{
-			org.compiere.apps.search.Info.showOrder (Env.getFrame(c), WindowNo, "");
+			org.compiere.apps.search.Info.showOrder (SwingEnv.getFrame(c), WindowNo, "");
 		}
 		else if (actionCommand.equals("InfoInvoice") && AEnv.canAccessInfo("INVOICE"))
 		{
-			org.compiere.apps.search.Info.showInvoice (Env.getFrame(c), WindowNo, "");
+			org.compiere.apps.search.Info.showInvoice (SwingEnv.getFrame(c), WindowNo, "");
 		}
 		else if (actionCommand.equals("InfoInOut") && AEnv.canAccessInfo("INOUT"))
 		{
-			org.compiere.apps.search.Info.showInOut (Env.getFrame(c), WindowNo, "");
+			org.compiere.apps.search.Info.showInOut (SwingEnv.getFrame(c), WindowNo, "");
 		}
 		else if (actionCommand.equals("InfoPayment") && AEnv.canAccessInfo("PAYMENT"))
 		{
-			org.compiere.apps.search.Info.showPayment (Env.getFrame(c), WindowNo, "");
+			org.compiere.apps.search.Info.showPayment (SwingEnv.getFrame(c), WindowNo, "");
 		}
 		else if (actionCommand.equals("InfoCashLine") && AEnv.canAccessInfo("CASHJOURNAL"))
 		{
-			org.compiere.apps.search.Info.showCashLine (Env.getFrame(c), WindowNo, "");
+			org.compiere.apps.search.Info.showCashLine (SwingEnv.getFrame(c), WindowNo, "");
 		}
 		else if (actionCommand.equals("InfoAssignment") && AEnv.canAccessInfo("RESOURCE"))
 		{
-			org.compiere.apps.search.Info.showAssignment (Env.getFrame(c), WindowNo, "");
+			org.compiere.apps.search.Info.showAssignment (SwingEnv.getFrame(c), WindowNo, "");
 		}
 		
 
@@ -477,32 +478,32 @@ public final class AEnv
 		}
 		else if (actionCommand.equals("Home"))
 		{
-			showWindow(Env.getWindow(0));
+			showWindow(SwingEnv.getWindow(0));
 		}
 
 		//  Tools Menu  ------------------------
 		else if (actionCommand.equals("Calculator"))
 		{
-			Calculator calc = new org.compiere.grid.ed.Calculator(Env.getFrame(c));
+			Calculator calc = new org.compiere.grid.ed.Calculator(SwingEnv.getFrame(c));
 			calc.setDisposeOnEqual(false);
 			AEnv.showCenterScreen (calc);
 		}
 		else if (actionCommand.equals("Calendar"))
 		{
-			AEnv.showCenterScreen (new org.compiere.grid.ed.Calendar(Env.getFrame(c)));
+			AEnv.showCenterScreen (new org.compiere.grid.ed.Calendar(SwingEnv.getFrame(c)));
 		}
 		else if (actionCommand.equals("Editor"))
 		{
-			AEnv.showCenterScreen (new org.compiere.grid.ed.Editor(Env.getFrame(c)));
+			AEnv.showCenterScreen (new org.compiere.grid.ed.Editor(SwingEnv.getFrame(c)));
 		}
 		else if (actionCommand.equals("Script"))
 		{
-			new BeanShellEditor(Env.getFrame(c));
+			new BeanShellEditor(SwingEnv.getFrame(c));
 		}
 		else if (actionCommand.equals("Preference"))
 		{
 			if (role.isShowPreference()) {
-				AEnv.showCenterScreen(new Preference (Env.getFrame(c), WindowNo));
+				AEnv.showCenterScreen(new Preference (SwingEnv.getFrame(c), WindowNo));
 			}
 		}
 
@@ -513,11 +514,11 @@ public final class AEnv
 		}
 		else if (actionCommand.equals("EMailSupport"))
 		{
-			ADialog.createSupportEMail(Env.getFrame(c), Env.getFrame(c).getTitle(), "\n\n");
+			ADialog.createSupportEMail(SwingEnv.getFrame(c), SwingEnv.getFrame(c).getTitle(), "\n\n");
 		}
 		else if (actionCommand.equals("About"))
 		{
-			AEnv.showCenterScreen(new AboutBox(Env.getFrame(c)));
+			AEnv.showCenterScreen(new AboutBox(SwingEnv.getFrame(c)));
 		}
 		else
 			return false;
@@ -708,7 +709,7 @@ public final class AEnv
 	 */
 	public static void addToWindowManager(CFrame frame)
 	{
-		JFrame top = Env.getWindow(0);
+		JFrame top = SwingEnv.getWindow(0);
 		if (top instanceof AMenu)
 		{
 			((AMenu)top).getWindowManager().add(frame);
@@ -734,7 +735,7 @@ public final class AEnv
 	 */
 	public static AMenu getAMenu(CFrame frame)
 	{
-		JFrame top = Env.getWindow(0);
+		JFrame top = SwingEnv.getWindow(0);
 		if (top instanceof AMenu)
 		{
 			return (AMenu)top;
@@ -747,12 +748,12 @@ public final class AEnv
 	 */
 	public static void exit (int status)
 	{
-		Env.exitEnv(status);
+		SwingEnv.exitEnv(status);
 	}	//	exit
 
 	public static void logout() 
 	{
-		Env.logout();
+		SwingEnv.logout();
 		
 		Splash.getSplash().setVisible(true);
 
@@ -1002,8 +1003,8 @@ public final class AEnv
 	 */
 	public static void updateUI()
 	{
-		Set<Window> updated = Env.updateUI();
-		JFrame top = Env.getWindow(0);
+		Set<Window> updated = SwingEnv.updateUI();
+		JFrame top = SwingEnv.getWindow(0);
 		if (top instanceof AMenu)
 		{
 			CFrame[] frames = ((AMenu)top).getWindowManager().getWindows();

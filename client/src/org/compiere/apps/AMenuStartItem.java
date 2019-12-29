@@ -32,6 +32,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.compiere.wf.MWFNode;
 import org.eevolution.form.VBrowser;
 
@@ -214,7 +215,7 @@ public class AMenuStartItem extends Thread implements ActionListener
 		 */
 		private void startWindow(int AD_Workbench_ID, int AD_Window_ID)
 		{
-			AWindow frame = (AWindow)Env.showWindow(AD_Window_ID); 
+			AWindow frame = (AWindow)SwingEnv.showWindow(AD_Window_ID); 
 			if (frame != null) {
 				menu.getWindowManager().add(frame);
 				return;

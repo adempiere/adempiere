@@ -71,6 +71,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -931,10 +932,10 @@ public abstract class VEditorAbstract extends JPanel
 			return;
 		
 		if (parentFrame == null)
-			parentFrame = Env.getFrame(this);
+			parentFrame = SwingEnv.getFrame(this);
 		
 		if (parentFrame == null)
-			parentFrame = Env.getWindow(0);
+			parentFrame = SwingEnv.getWindow(0);
 		
 		MQuery zoomQuery = lookup.getZoomQuery();
 		String tableName = zoomQuery.getZoomTableName();
@@ -1008,7 +1009,7 @@ public abstract class VEditorAbstract extends JPanel
 		
 		//  Record the parent frame/window.  
 		if (parentFrame == null)
-			parentFrame = Env.getFrame(this);
+			parentFrame = SwingEnv.getFrame(this);
 		
 	}	//	focusGained
 

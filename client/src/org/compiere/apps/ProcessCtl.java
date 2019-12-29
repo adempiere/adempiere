@@ -41,6 +41,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.Trx;
 import org.compiere.wf.MWFProcess;
 
@@ -124,11 +125,11 @@ public class ProcessCtl implements Runnable
 		//	Get Parameters (Dialog)
 		//	FR [ 265 ]
 		//	Change to Standard Process Modal Dialog
-		ProcessModalDialog para = new ProcessModalDialog(Env.getFrame((Container)parent), WindowNo, pi);
+		ProcessModalDialog para = new ProcessModalDialog(SwingEnv.getFrame((Container)parent), WindowNo, pi);
 		if (para.isValidDialog()) {
 			para.validate();
 			para.pack();
-			AEnv.showCenterWindow(Env.getWindow(WindowNo), para);
+			AEnv.showCenterWindow(SwingEnv.getWindow(WindowNo), para);
 			if (!para.isOK()) {
 				return null;
 			}
@@ -446,7 +447,7 @@ public class ProcessCtl implements Runnable
 			if (m_parent instanceof Container)
 			{
 				//swing client
-				JFrame frame = Env.getFrame((Container)m_parent);
+				JFrame frame = SwingEnv.getFrame((Container)m_parent);
 				if (frame instanceof AWindow)
 					((AWindow)frame).setBusyTimer(processInstance.getEstSeconds());
 				else

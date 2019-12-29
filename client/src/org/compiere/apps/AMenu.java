@@ -77,6 +77,7 @@ import org.compiere.util.Ini;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.Splash;
+import org.compiere.util.SwingEnv;
 /**
  *	Application Menu Controller
  *
@@ -115,7 +116,7 @@ public final class AMenu extends CFrame
 		log.info("CodeBase=" + Adempiere.getCodeBase());		
 		Splash splash = Splash.getSplash();
 		//
-		m_WindowNo = Env.createWindowNo(this);
+		m_WindowNo = SwingEnv.createWindowNo(this);
 		//	Login
 		initSystem (splash);        //	login
 		splash.setText(Msg.getMsg(m_ctx, "Loading"));

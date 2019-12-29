@@ -34,6 +34,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 
 /**
  *	Warehouse Locator Control
@@ -224,7 +225,7 @@ public class VLocator extends VEditorAbstract
 		//
 		((MLocatorLookup) lookup).setOnly_Warehouse_ID(only_Warehouse_ID);
 		((MLocatorLookup) lookup).setOnly_Product_ID(getOnly_Product_ID());
-		VLocatorDialog ld = new VLocatorDialog(Env.getFrame(this),
+		VLocatorDialog ld = new VLocatorDialog(SwingEnv.getFrame(this),
 			Msg.translate(Env.getCtx(), m_columnName),
 			(MLocatorLookup) lookup, M_Locator_ID, isMandatory(), only_Warehouse_ID);
 		//	display

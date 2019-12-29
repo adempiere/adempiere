@@ -27,6 +27,7 @@ import org.compiere.apps.AEnv;
 import org.compiere.apps.ProcessModalDialog;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.eevolution.process.ProcessInfoHandler;
 import org.eevolution.tools.swing.SwingTool;
 
@@ -87,11 +88,11 @@ public abstract class ProcessPopupAction extends PopupAction {
 		
 		if(successful()) {
 			
-			ADialog.info(Env.getWindowNo(getWindow()), getWindow(), Msg.translate(Env.getCtx(), "Success"), getSuccessMsg());
+			ADialog.info(SwingEnv.getWindowNo(getWindow()), getWindow(), Msg.translate(Env.getCtx(), "Success"), getSuccessMsg());
 		}
 		else {
 			
-			ADialog.error(Env.getWindowNo(getWindow()), getWindow(), Msg.translate(Env.getCtx(), "Error"), getErrorMsg());
+			ADialog.error(SwingEnv.getWindowNo(getWindow()), getWindow(), Msg.translate(Env.getCtx(), "Error"), getErrorMsg());
 		}
 		
 		SwingTool.setCursorsFromParent(window, false);
@@ -132,13 +133,13 @@ public abstract class ProcessPopupAction extends PopupAction {
 		//	FR [ 265 ]
 		//	Change for Standard dialog
 		ProcessModalDialog para = new ProcessModalDialog(
-				Env.getFrame((Container)window), Env.getWindowNo(window), pib.getProcessInfo());
+				SwingEnv.getFrame((Container)window), SwingEnv.getWindowNo(window), pib.getProcessInfo());
 		
 		if (para.isValidDialog()) {
 			
 			para.validate();
 			para.pack();
-			AEnv.showCenterWindow(Env.getFrame((Container)window), para);
+			AEnv.showCenterWindow(SwingEnv.getFrame((Container)window), para);
 			if (!para.isOK()) {
 				setError(pib.getProcessInfo().getSummary());
 				setIgnoreChange(true);

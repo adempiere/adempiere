@@ -23,7 +23,7 @@ import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.form.FormPanel;
 import org.compiere.swing.CFrame;
 import org.compiere.swing.CPanel;
-import org.compiere.util.Env;
+import org.compiere.util.SwingEnv;
 
 /**
  * @author Gunther Hoppe, tranSIT GmbH Ilmenau/Germany
@@ -72,7 +72,7 @@ public abstract class CAbstractForm extends CPanel implements FormPanel {
 
 	public int getWindowNo() {
 		//	Yamel Senih FR [ 114 ] 2015-11-23
-		return Env.getWindowNo(frame.getContainer());
+		return SwingEnv.getWindowNo(frame.getContainer());
 	}
 	
 	public CFrame getWindow() {

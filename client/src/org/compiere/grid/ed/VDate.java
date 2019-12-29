@@ -36,7 +36,7 @@ import org.compiere.swing.CButton;
 import org.compiere.swing.CTextPane;
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
+import org.compiere.util.SwingEnv;
 
 /**
  *	Date Edit.
@@ -467,7 +467,7 @@ public class VDate extends VEditorAbstract
 		log.config("Date=" + value);
 
 		//	Find frame
-		Frame frame = Env.getFrame(jc);
+		Frame frame = SwingEnv.getFrame(jc);
 		//	Actual Call
 		Calendar cal = new Calendar(frame, title, value, displayType);
 		AEnv.showCenterWindow(frame, cal);

@@ -36,6 +36,7 @@ import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 
 /**
  *  Product Attribute Set Instance Editor
@@ -358,7 +359,7 @@ public class VPAttribute extends VEditorAbstract
 		else
 		{
 			// Product window or some other window with a product
-			VPAttributeDialog vad = new VPAttributeDialog (Env.getFrame (this), 
+			VPAttributeDialog vad = new VPAttributeDialog (SwingEnv.getFrame (this), 
 				M_AttributeSetInstance_ID, M_Product_ID, c_bpartner_id,
 				productWindow, ad_column_id, windowNo, isReadWrite());
 			if (vad.isChanged())

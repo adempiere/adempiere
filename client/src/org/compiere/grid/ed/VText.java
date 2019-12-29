@@ -26,6 +26,7 @@ import org.compiere.apps.ScriptEditor;
 import org.compiere.swing.CMenuItem;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 
 /**
  *  Text Control (JTextArea embedded in JScrollPane)
@@ -140,7 +141,7 @@ public class VText extends VEditorAbstract
 			if (super.getColumnName().equals("Script") 
 					|| super.getColumnName().endsWith("_Script"))
 				s = ScriptEditor.start (
-						Env.getFrame(this.getParent()),
+						SwingEnv.getFrame(this.getParent()),
 						Msg.translate(Env.getCtx(), super.getColumnName()), (String) currentValue, isEditable(), 
 						findWindowNo());
 			else
@@ -156,7 +157,7 @@ public class VText extends VEditorAbstract
 
 	private int findWindowNo() {
 		Container c = this.getParent();		
-		return c != null ? Env.getWindowNo(c) : 0;
+		return c != null ? SwingEnv.getWindowNo(c) : 0;
 	}
 
 	public String getText() {
@@ -167,14 +168,28 @@ public class VText extends VEditorAbstract
 		setValue(text);
 	}
 	
+	/**
+	 * @return the editorComponent
+	 */
+	@Override
+	public JComponent getEditorComponent() {
+		if (textUI != null)
+			return textUI.getComponent();
+		return null;
+	}
+
 	@Override
 	public JComponent getComponent() {
-		return textUI.getComponent();
+		if (textUI != null)
+			return textUI.getComponent();
+		return null;
 	}
 
 	@Override
 	public String getDisplay() {
-		return textUI.getText();
+		if (textUI != null)
+			return textUI.getText();
+		return null;
 	}
 
 	@Override

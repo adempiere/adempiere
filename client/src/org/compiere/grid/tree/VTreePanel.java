@@ -88,6 +88,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.Util;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
@@ -879,7 +880,7 @@ public final class VTreePanel extends CPanel
 				//	Launch
 				if(recentItem.isOptionMenu()) {
 					MMenu menu = MMenu.getFromId(Env.getCtx(), recentItem.getAD_Menu_ID());
-					CFrame frame = (CFrame) Env.getFrame((JButton) e.getSource());
+					CFrame frame = (CFrame) SwingEnv.getFrame((JButton) e.getSource());
 					AMenu aMenu = AEnv.getAMenu(frame);
 					new AMenuStartItem(menu.getAD_Menu_ID(), true, 
 							menu.get_Translation(MMenu.COLUMNNAME_Name), aMenu)
@@ -1206,7 +1207,7 @@ public final class VTreePanel extends CPanel
 	 */
 	private void setBusy (boolean busy)
 	{
-		JFrame frame = Env.getFrame(this);
+		JFrame frame = SwingEnv.getFrame(this);
 		log.info("frame: " + frame);
 		if (frame == null)  //  during init
 			return;

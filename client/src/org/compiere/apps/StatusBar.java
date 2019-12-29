@@ -32,6 +32,7 @@ import org.compiere.model.MRole;
 import org.compiere.swing.CPanel;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 
 /**
  *  Status Bar
@@ -270,7 +271,7 @@ public class StatusBar extends CPanel implements IStatusBar
 			return;
 		//
 		String title = Msg.getMsg(Env.getCtx(), "Who") + m_text;
-		RecordInfo info = new RecordInfo (Env.getFrame(this), title, m_dse);
+		RecordInfo info = new RecordInfo (SwingEnv.getFrame(this), title, m_dse);
 		AEnv.showCenterScreen(info.getDialog());
 	}	//	addStatusComponent
 

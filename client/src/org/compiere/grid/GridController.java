@@ -92,6 +92,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
 
@@ -166,7 +167,7 @@ import org.compiere.util.Util;
  * @author mckayERP www.mckayERP.com
  * 		<li> BF [ <a href="https://github.com/adempiere/adempiere/issues/281">#283</a> ] GridController in swing will not set value to null in vetoableChange
  * 		<li> BF [ <a href="https://github.com/adempiere/adempiere/issues/421">#421</a> ] Embedded tab is not updated
- *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+ *  	<li> <a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
  * @author Carlos Parada, cparada@erpya.com, ERPCyA http://www.erpya.com
  *  		<a href="https://github.com/adempiere/adempiere/issues/729">
  *			@see FR [ 729 ] Add Support to Parent Column And Search Column for Tree </a>
@@ -978,7 +979,7 @@ public class GridController extends CPanel
 					String alert = MMemo.getAlerts(Env.getCtx(), mlookup.getTableName(), (Integer) value);
 					if ( !Util.isEmpty(alert) )
 					{
-						VAlert memo = new VAlert(Env.getWindow(m_WindowNo));
+						VAlert memo = new VAlert(SwingEnv.getWindow(m_WindowNo));
 						memo.setAlwaysOnTop(true);
 						memo.setText(alert);
 						AEnv.showCenterScreen( memo );

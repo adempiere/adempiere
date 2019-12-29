@@ -34,6 +34,7 @@ import org.compiere.model.GridField;
 import org.compiere.model.MImage;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.SwingEnv;
 
 /**
  *  Image Display of AD_Iamge_ID
@@ -205,7 +206,7 @@ public class VImage extends JButton
 	 */
 	public void actionPerformed (ActionEvent e)
 	{
-		VImageDialog vid = new VImageDialog(Env.getWindow(m_WindowNo), m_mImage);
+		VImageDialog vid = new VImageDialog(SwingEnv.getWindow(m_WindowNo), m_mImage);
 		vid.setVisible(true);
 		int AD_Image_ID = vid.getAD_Image_ID();
 		Integer newValue = null;

@@ -54,6 +54,7 @@ import org.compiere.swing.CScrollingTextPane;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 
 /**
  *  Editor for Text (textArea) with HTML (textPane) View
@@ -81,7 +82,7 @@ public class Editor extends CDialog
 	public static String startEditor(Container jc, String header, String text, boolean editable, int maxSize)
 	{
 		//	Find frame
-		JFrame frame = Env.getFrame(jc);
+		JFrame frame = SwingEnv.getFrame(jc);
 		String hdr = header;
 		if (hdr == null || hdr.length() == 0)
 			hdr = Msg.getMsg(Env.getCtx(), "Editor");

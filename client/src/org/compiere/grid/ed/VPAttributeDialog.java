@@ -72,6 +72,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 
 /**
  *  Product Attribute Set Product/Instance Dialog Editor.
@@ -147,7 +148,7 @@ public class VPAttributeDialog extends CDialog
 			+ ", M_Product_ID=" + M_Product_ID
 			+ ", C_BPartner_ID=" + C_BPartner_ID
 			+ ", ProductW=" + productWindow + ", Column=" + AD_Column_ID);
-		m_WindowNo = Env.createWindowNo (this);
+		m_WindowNo = SwingEnv.createWindowNo (this);
 		m_M_AttributeSetInstance_ID = M_AttributeSetInstance_ID;
 		m_M_Product_ID = M_Product_ID;
 		m_C_BPartner_ID = C_BPartner_ID;

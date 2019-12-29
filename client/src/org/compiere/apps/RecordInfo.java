@@ -41,6 +41,7 @@ import org.compiere.swing.CTextArea;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 
 /**
  * Record Info (Who) With Change History
@@ -198,7 +199,7 @@ public class RecordInfo extends RecordInfoController
 	 */
 	public static void start(GridField mField) {
 		int WindowNo = mField.getWindowNo();
-		Frame frame = Env.getWindow(WindowNo);
+		Frame frame = SwingEnv.getWindow(WindowNo);
 		RecordInfo info = new RecordInfo(frame, mField);
 		AEnv.showCenterScreen(info.getDialog());
 	}

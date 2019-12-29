@@ -54,6 +54,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 
 /**
  *  Calculator with currency conversion
@@ -83,7 +84,7 @@ public final class Calculator extends CDialog
 		super(frame, title, true);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		//  Get WindowNo for Currency
-		m_WindowNo = Env.getWindowNo(frame);
+		m_WindowNo = SwingEnv.getWindowNo(frame);
 		//
 		m_DisplayType = displayType;
 		if (!DisplayType.isNumeric(m_DisplayType))

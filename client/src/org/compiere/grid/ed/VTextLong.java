@@ -27,6 +27,7 @@ import org.compiere.swing.CMenuItem;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 
 /**
  *	Long Text (CBLOB) Editor 	
@@ -78,7 +79,7 @@ public class VTextLong extends VEditorAbstract
 	public static String startEditor(Container jc, String header, String text, boolean editable)
 	{
 		//	Find frame
-		JFrame frame = Env.getFrame(jc);
+		JFrame frame = SwingEnv.getFrame(jc);
 		//	Start it
 		HTMLEditor ed = new HTMLEditor (frame, header, text, editable);
 		String s = ed.getHtmlText();

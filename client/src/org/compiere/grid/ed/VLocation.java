@@ -32,6 +32,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DefaultContextProvider;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 
 /**
  *	Location Control (Address).  The location editor is a text field with two buttons.
@@ -272,7 +273,7 @@ public class VLocation extends VEditorAbstract
 	{
 		//
 		log.config( "actionPerformed - " + currentLocation);
-		VLocationDialog ld = new VLocationDialog(Env.getFrame(this),
+		VLocationDialog ld = new VLocationDialog(SwingEnv.getFrame(this),
 			Msg.getMsg(Env.getCtx(), "Location"), currentLocation);
 		ld.setVisible(true);
 		
