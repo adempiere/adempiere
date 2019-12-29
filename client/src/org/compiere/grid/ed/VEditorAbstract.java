@@ -645,13 +645,13 @@ public abstract class VEditorAbstract extends JPanel
 			addRefershMenuItem();
 			if ((lookup.getDisplayType() == DisplayType.List && Env.getContextAsInt(Env.getCtx(), "#AD_Role_ID") == 0)
 					|| lookup.getDisplayType() != DisplayType.List)     //  only system admins can change lists, so no need to zoom for others
+			{
+				if(showInfoInPopupMenu)  //  Enable the info window from the pop-up menu if there is no button
 				{
-					if(showInfoInPopupMenu)  //  Enable the info window from the pop-up menu if there is no button
-					{
-						addInfoMenuItem();
-					}
-					addZoomMenuItem();
-
+					addInfoMenuItem();
+				}
+				addZoomMenuItem();
+			}
 		}
 		else
 		{
@@ -660,7 +660,6 @@ public abstract class VEditorAbstract extends JPanel
 			removeZoomMenuItem();
 		}
 
-		}
 	}
 
 	private void addZoomMenuItem() {
