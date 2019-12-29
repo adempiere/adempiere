@@ -375,25 +375,30 @@ public abstract class VEditorAbstract extends JPanel
 		if (isReadWrite() && isUpdateable())  // readWrite && updateable 
 		{
 			isEditable = true;
-			getEditorComponent().setBackground(AdempierePLAF.getFieldBackground_Normal());
+			if (getEditorComponent() != null)
+				getEditorComponent().setBackground(AdempierePLAF.getFieldBackground_Normal());
 		}
 		else
 		{
 			isEditable = false;
-			getEditorComponent().setBackground(AdempierePLAF.getFieldBackground_Inactive());
+			if (getEditorComponent() != null)
+				getEditorComponent().setBackground(AdempierePLAF.getFieldBackground_Inactive());
 		}
 		
 		if (getEditorComponent() instanceof JTextField)
 			((JTextField) getEditorComponent()).setEditable(isEditable);
-				
-		enterAction = new EnterKeyPressedAction(this);
-		getEditorComponent().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0), ENTER_KEY_PRESSED_ACTION);
-		getEditorComponent().getActionMap().put(ENTER_KEY_PRESSED_ACTION, enterAction);
-
-		escapeAction = new EscapeKeyPressedAction(this);
-		getEditorComponent().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0), ESCAPE_KEY_PRESSED_ACTION);
-		getEditorComponent().getActionMap().put(ESCAPE_KEY_PRESSED_ACTION, escapeAction);
-
+		
+		if (getEditorComponent() != null)
+		{
+			enterAction = new EnterKeyPressedAction(this);
+			getEditorComponent().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER,0), ENTER_KEY_PRESSED_ACTION);
+			getEditorComponent().getActionMap().put(ENTER_KEY_PRESSED_ACTION, enterAction);
+	
+			escapeAction = new EscapeKeyPressedAction(this);
+			getEditorComponent().getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE,0), ESCAPE_KEY_PRESSED_ACTION);
+			getEditorComponent().getActionMap().put(ESCAPE_KEY_PRESSED_ACTION, escapeAction);
+		}
+		
 		finishedInit  = true;
 		
 	}
@@ -424,13 +429,15 @@ public abstract class VEditorAbstract extends JPanel
 	public void setEditorComponent(JComponent editorComponent) {
 
 		this.editorComponent = editorComponent;
-		this.editorComponent.setFocusable(true);
-		this.editorComponent.addFocusListener(this);
-		this.editorComponent.addMouseListener(getMouseAdapter());
-		
-		if (this.editorComponent instanceof JTextField)
-			((JTextField) this.editorComponent).addActionListener(this);
-		
+		if (this.editorComponent != null)
+		{
+			this.editorComponent.setFocusable(true);
+			this.editorComponent.addFocusListener(this);
+			this.editorComponent.addMouseListener(getMouseAdapter());
+			
+			if (this.editorComponent instanceof JTextField)
+				((JTextField) this.editorComponent).addActionListener(this);
+		}		
 	}
 
 	protected MouseListener getMouseAdapter() {
