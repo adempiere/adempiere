@@ -316,8 +316,10 @@ public final class APanel extends CPanel
 		northPanel.add(toolBar, null);
 	}	//	jbInit
 
+	// Added aNewTableRow to handle new records with Ctrl-F2 when in a VTable as
+	// F2 is used to start editing the current cell
 	private AppsAction 		aPrevious, aNext, aParent, aDetail, aFirst, aLast,
-							aNew, aCopy, aDelete, aPrint, aPrintPreview,
+							aNew, aNewTableRow, aCopy, aDelete, aPrint, aPrintPreview,
 							aExport = null,
 							aRefresh, aHistory, aAttachment, aChat, aMulti, aFind,
 							aWorkflow, aZoomAcross, aRequest, aProcess, aWinSize, aArchive;
@@ -367,6 +369,7 @@ public final class APanel extends CPanel
 		JMenu mEdit = AEnv.getMenu("Edit");
 		menuBar.add(mEdit);
 		aNew = 		addAction("New", 			mEdit, 	KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), false);
+		aNewTableRow = addAction("New", 			mEdit, 	KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.CTRL_MASK), false);
 		aSave = 	addAction("Save",			mEdit, 	KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0),	false);
 		mEdit.addSeparator();
 		aCopy =		addAction("Copy", 			mEdit, 	KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.SHIFT_MASK),	false);
@@ -1238,6 +1241,7 @@ public final class APanel extends CPanel
 		if (insertRecord)
 			insertRecord = currentTab.isInsertRecord();
 		aNew.setEnabled(((inserting && changedColumn>0) || !inserting) && insertRecord);
+		aNewTableRow.setEnabled(((inserting && changedColumn>0) || !inserting) && insertRecord);
 		aCopy.setEnabled(!changed && insertRecord);
 		aRefresh.setEnabled(!changed);
 		aDelete.setEnabled(!changed && !readOnly);
@@ -1256,6 +1260,7 @@ public final class APanel extends CPanel
 		//	No Rows
 		if (e.getTotalRows() == 0 && insertRecord) {
 			aNew.setEnabled(true);
+			aNewTableRow.setEnabled(true);
 			aDelete.setEnabled(false);
 			aDeleteSelection.setEnabled(false);
 		}
@@ -1595,6 +1600,7 @@ public final class APanel extends CPanel
 			aMulti.setPressed(false);
 			aMulti.setEnabled(false);
 			aNew.setEnabled(false);
+			aNewTableRow.setEnabled(false);
 			aCopy.setEnabled(false);
 			aReport.setEnabled(false);
 			aPrint.setEnabled(false);
@@ -1755,6 +1761,8 @@ public final class APanel extends CPanel
 				cmd_end(true);
 			//	Edit
 			else if (cmd.equals(aNew.getName()))
+				cmd_new(false);
+			else if (cmd.equals(aNewTableRow.getName()))
 				cmd_new(false);
 			else if (cmd.equals(aSave.getName()))
 				cmd_save(true);
