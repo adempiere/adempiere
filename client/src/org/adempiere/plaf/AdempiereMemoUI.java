@@ -83,18 +83,12 @@ public class AdempiereMemoUI extends AdempiereEditorAbstractUI
 		//  editor has no button
 		this.container = c;
 		
-		if (!(VEditorAbstract.isAssignableFrom(c.getClass())))
+		//  This Look and Feel UI only applies to the VEditorAbstract class or its subclasses
+		if (!(c instanceof VEditorAbstract))
 			return;
 		
-		try {
-			this.isTableCellEditor = (boolean) isTableCellEditorMethod.invoke(c);
-		} catch (SecurityException 
-				| IllegalAccessException 
-				| IllegalArgumentException 
-				| InvocationTargetException e) {
-			log.severe(e.getMessage());
-		}
-		
+		isTableCellEditor = ((VEditorAbstract) c).isTableCellEditor();
+
 		textArea = new CTextArea(displayRows, displayColumns);
 		
 		textArea.setLineWrap(true);

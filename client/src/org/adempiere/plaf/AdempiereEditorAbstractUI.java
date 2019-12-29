@@ -20,8 +20,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Insets;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -37,6 +35,7 @@ import javax.swing.plaf.TextUI;
 import javax.swing.plaf.metal.MetalTextFieldUI;
 import javax.swing.text.JTextComponent;
 
+import org.compiere.grid.ed.VEditorAbstract;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CTextField;
 import org.compiere.util.CLogger;
@@ -66,16 +65,7 @@ public class AdempiereEditorAbstractUI extends PanelUI
 	
 	/** The cached minimum size */
 	protected Dimension cachedMinimumSize = new Dimension( 0, 0 );
-	
-	/** A holder for the class used by the implementing editor */
-	protected static Class<?> VEditorAbstract = null;
-	
-	/** 
-	 *  A method in VEditorAbstract to identify if the editor
-	 *  is being used in a table.
-	 */
-	protected static Method isTableCellEditorMethod = null;
-	
+		
 	/** The containter for the editor */
 	protected JComponent container;
 	
@@ -117,28 +107,7 @@ public class AdempiereEditorAbstractUI extends PanelUI
 	
 	/** A panel used to hold the editor and button */
 	protected JPanel editorPanel;
-	
-	
-	static {
 		
-		//  TODO - Might be a good idea to move the swing stuff to the base
-		//  directory. It is all based in javax.swing anyway so there
-		//  there is not much saving having in the Client jar.  Moving 
-		//  it would reduce the need for the following redirection which is 
-		//  necessary to avoid circular dependencies in the project.
-    	
-    	//  Find the VEditorAbstract class
-		try {
-			VEditorAbstract = Class.forName("org.compiere.grid.ed.VEditorAbstract");
-			isTableCellEditorMethod = VEditorAbstract.getMethod("isTableCellEditor");
-		} catch (ClassNotFoundException
-				| NoSuchMethodException 
-				| SecurityException 
-				| IllegalArgumentException e) {
-			log.severe(e.getMessage());
-		}
-    	
-	}
     /**
      * Ensures that the phantom text field has same text field UI.
      */
@@ -175,17 +144,10 @@ public class AdempiereEditorAbstractUI extends PanelUI
 		this.container = c;
 		
 		//  This Look and Feel UI only applies to the VEditorAbstract class or its subclasses
-		if (!(VEditorAbstract.isAssignableFrom(c.getClass())))
+		if (!(c instanceof VEditorAbstract))
 			return;
 		
-		//  Determine if the editor is being used in a table as either a renderer or editor
-		try {
-			isTableCellEditor = (boolean) isTableCellEditorMethod.invoke(c);
-		} catch (SecurityException 
-				| IllegalAccessException | IllegalArgumentException 
-				| InvocationTargetException e) {
-			log.severe(e.getMessage());
-		}
+		isTableCellEditor = ((VEditorAbstract) c).isTableCellEditor();
 		
 		//  Create the text field editor. This could be a JTextField or 
 		//  a JTextPane. Subclasses of this UI can override the createEditorComponent()

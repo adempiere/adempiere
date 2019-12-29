@@ -42,8 +42,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Enumeration;
 
 import javax.swing.Action;
@@ -78,6 +76,9 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
 import org.adempiere.plaf.DragRecognitionSupport.BeforeDrag;
+import org.compiere.grid.VTable;
+import org.compiere.grid.ed.VEditorAbstract;
+import org.compiere.grid.ed.VFrozenColumnRenderer;
 import org.compiere.util.CLogger;
 import org.jdesktop.swingx.plaf.basic.core.BasicTransferable;
 
@@ -108,22 +109,6 @@ public class AdempiereTableUI extends TableUI
 	private static final StringBuilder BASELINE_COMPONENT_KEY =
 			new StringBuilder("Table.baselineComponent");
 
-	static {
-		
-		try {
-			VFrozenColumnRenderer = Class.forName("org.compiere.grid.ed.VFrozenColumnRenderer");
-			VTable = Class.forName("org.compiere.grid.VTable");
-			VEditorAbstract = Class.forName("org.compiere.grid.ed.VEditorAbstract");
-			getMainTable = Class.forName("org.compiere.grid.ed.VFrozenColumnRenderer").getMethod("getMainTable");
-			hasFrozen = Class.forName("org.compiere.grid.VTable").getMethod("hasFrozenColumns");
-			getRenderer = Class.forName("org.compiere.grid.VTable").getMethod("getFrozenColumnRenderer");
-		} catch (ClassNotFoundException 
-				| NoSuchMethodException 
-				| SecurityException e) {
-			log.severe(e.getMessage());
-		}
-	}
-	
 	//
 	// Instance Variables
 	//
@@ -143,14 +128,6 @@ public class AdempiereTableUI extends TableUI
 	 * Local cache of Table's client property "Table.isFileList"
 	 */
 	private boolean isFileList = false;
-
-
-	private static Class<?> VFrozenColumnRenderer;
-	private static Class<?> VEditorAbstract;
-	private static Class<?> VTable;
-	private static Method getMainTable;
-	private static Method hasFrozen;
-	private static Method getRenderer;
 
 	//
 	//  Helper class for keyboard actions
@@ -823,10 +800,8 @@ public class AdempiereTableUI extends TableUI
 
 			JTable mainTable = null;
 			JTable frozenColumnRenderer = null;
-			boolean isVTable = VTable.isAssignableFrom(table.getClass());
-			boolean isFrozenColumn 
-			= VFrozenColumnRenderer.isAssignableFrom(table.getClass());
-			boolean hasFrozenColumns = false;
+			boolean isVTable = (table instanceof VTable);
+			boolean isFrozenColumn = (table instanceof VFrozenColumnRenderer);
 
 			if (isVTable)
 			{
@@ -835,14 +810,7 @@ public class AdempiereTableUI extends TableUI
 					// Test if we need to transfer focus to the main table
 					if (dx > 0 && leadColumn+dx >= table.getColumnCount())
 					{
-						try {
-							Method getMainTable = VFrozenColumnRenderer.getMethod("getMainTable");
-							mainTable = (JTable) getMainTable.invoke(table);
-						} catch (NoSuchMethodException | SecurityException 
-								| IllegalAccessException | IllegalArgumentException 
-								| InvocationTargetException e) {
-							log.severe(e.getMessage());
-						}
+						mainTable = ((VFrozenColumnRenderer) table).getMainTable();
 						if (mainTable != null)
 						{
 							int targetCol = 0;
@@ -857,19 +825,7 @@ public class AdempiereTableUI extends TableUI
 				}
 				else 
 				{
-					try {
-						Method hasFrozen = VTable.getMethod("hasFrozenColumns");
-						hasFrozenColumns = (Boolean) hasFrozen.invoke(table);
-						if (hasFrozenColumns)
-						{
-							Method getRenderer = VTable.getMethod("getFrozenColumnRenderer");
-							frozenColumnRenderer = (JTable) getRenderer.invoke(table);
-						}
-					} catch (NoSuchMethodException | SecurityException 
-							| IllegalAccessException | IllegalArgumentException 
-							| InvocationTargetException e) {
-						log.severe(e.getMessage());
-					}
+					frozenColumnRenderer = ((VTable) table).getFrozenColumnRenderer();
 					if (frozenColumnRenderer != null && dx < 0 && leadColumn+dx < 0)
 					{
 						int lastColumn = frozenColumnRenderer.getColumnCount()-1;
@@ -908,30 +864,25 @@ public class AdempiereTableUI extends TableUI
 
 			JTable mainTable = null;
 			JTable frozenColumnRenderer = null;
-			boolean isVTable = VTable.isAssignableFrom(table.getClass());
-			boolean isFrozenColumn 
-			= VFrozenColumnRenderer.isAssignableFrom(table.getClass());
+			boolean isVTable = (table instanceof VTable);
+			boolean isFrozenColumn = (table instanceof VFrozenColumnRenderer);
 			boolean hasFrozenColumns = false;
 
+			// The VFrozenColumnRenderer is a subclass of VTable
 			if (!isVTable)
 			{
 				return true;
 			}
 
 			// Check if we need to do anything. We are only interested in 
-			// column changes x that are outside the range
+			// column changes in x that are outside the range
 			if (dx == 0 || (leadColumn+dx >= minX && leadColumn+dx <= maxX))
 				return true;
 
 			if (isFrozenColumn)
 			{
-				try {
-					mainTable = (JTable) getMainTable.invoke(table);
-				} catch (SecurityException 
-						| IllegalAccessException | IllegalArgumentException 
-						| InvocationTargetException e) {
-					log.severe(e.getMessage());
-				}
+				// We are in the Frozen Column Table
+				mainTable = ((VFrozenColumnRenderer) table).getMainTable();
 				// Test if we need to transfer focus to the main table
 				if (leadColumn+dx > maxX)
 				{
@@ -939,8 +890,6 @@ public class AdempiereTableUI extends TableUI
 					if (mainTable != null)
 					{
 						int targetCol = 0;
-//						if (toLimit)
-//							targetCol = mainTable.getColumnCount()-1;
 						mainTable.changeSelection(leadRow, targetCol, false, false);
 						mainTable.scrollRectToVisible(mainTable.getCellRect(leadRow, targetCol, false));
 						mainTable.requestFocus();
@@ -951,8 +900,6 @@ public class AdempiereTableUI extends TableUI
 				{
 					// Move to mainTable, last cell on previous row
 					int targetCol = mainTable.getColumnCount()-1;
-//					if (toLimit)
-//						targetCol = 0;
 					leadRow--;
 					if (leadRow < minY) {
 						leadRow = maxY;
@@ -968,18 +915,10 @@ public class AdempiereTableUI extends TableUI
 			}
 			else 
 			{
-				try {
-					hasFrozenColumns = (Boolean) hasFrozen.invoke(table);
-					if (hasFrozenColumns)
-					{
-						frozenColumnRenderer = (JTable) getRenderer.invoke(table);
-					}
-				} catch ( SecurityException 
-						| IllegalAccessException | IllegalArgumentException 
-						| InvocationTargetException e) {
-					log.severe(e.getMessage());
-				}
-				if (frozenColumnRenderer != null)
+				// We are in the main table
+				hasFrozenColumns = ((VTable) table).hasFrozenColumns();
+				frozenColumnRenderer = ((VTable) table).getFrozenColumnRenderer();
+				if (frozenColumnRenderer != null && hasFrozenColumns)
 				{
 					if (leadColumn+dx > maxX)
 					{
@@ -1217,18 +1156,9 @@ public class AdempiereTableUI extends TableUI
 			Point p2 = SwingUtilities.convertPoint(table, p, editorComponent);
 			
 			Component exclude = null;
-			if (VEditorAbstract.isAssignableFrom(editorComponent.getClass()))
+			if (editorComponent instanceof VEditorAbstract)
 			{
-				try {
-					Method getBorderPanel = VEditorAbstract.getMethod("getBorderPanel", JComponent.class);
-					exclude = (Component) getBorderPanel.invoke(editorComponent);
-				} catch (IllegalAccessException 
-						| IllegalArgumentException 
-						| InvocationTargetException 
-						| NoSuchMethodException 
-						| SecurityException e1) {
-				
-				}
+				exclude = ((AdempiereEditorAbstractUI) ((VEditorAbstract) editorComponent).getUI()).getBorderPanel();
 			}
 			dispatchComponent =
 					getDeepestComponentAt(editorComponent,

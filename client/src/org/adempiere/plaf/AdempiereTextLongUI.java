@@ -28,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.OverlayLayout;
 import javax.swing.plaf.ComponentUI;
 
+import org.compiere.grid.ed.VEditorAbstract;
 import org.compiere.swing.CScrollingTextPane;
 import org.compiere.util.CLogger;
 
@@ -62,15 +63,12 @@ public class AdempiereTextLongUI extends AdempiereEditorAbstractUI
 		//  editor has no button
 		this.container = c;
 		
-		try {
-			this.isTableCellEditor = (boolean) isTableCellEditorMethod.invoke(c);
-		} catch ( SecurityException 
-				| IllegalAccessException | IllegalArgumentException 
-				| InvocationTargetException e) {
-			log.severe(e.getMessage());
-		}
+		//  This Look and Feel UI only applies to the VEditorAbstract class or its subclasses
+		if (!(c instanceof VEditorAbstract))
+			return;
 		
-		
+		isTableCellEditor = ((VEditorAbstract) c).isTableCellEditor();
+				
 		//  Create the text field editor. For the long text
 		//  this is a scrolling text pane
 		editorComponent = new CScrollingTextPane();
