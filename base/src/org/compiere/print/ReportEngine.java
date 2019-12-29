@@ -16,6 +16,10 @@
  *****************************************************************************/
 package org.compiere.print;
 
+import java.awt.AWTEvent;
+import java.awt.Event;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.IOException;
@@ -26,7 +30,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.EventListener;
+import java.util.EventObject;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -37,6 +44,7 @@ import javax.print.attribute.standard.JobName;
 import javax.print.attribute.standard.JobPriority;
 import javax.print.event.PrintServiceAttributeEvent;
 import javax.print.event.PrintServiceAttributeListener;
+import javax.swing.JPanel;
 
 import org.adempiere.pdf.ITextDocument;
 import org.compiere.model.MClient;
@@ -175,8 +183,8 @@ public class ReportEngine implements PrintServiceAttributeListener
 	private LayoutEngine 	m_layout = null;
 	/**	Printer					*/
 	private String			m_printerName = Ini.getProperty(Ini.P_PRINTER);
-	/**	View					*/
-	private View			m_view = null;
+//	/**	View					*/
+//	private View			m_view = null;
 	/** Transaction Name 		*/
 	protected String 			m_trxName = null;
 	/** Where filter */
@@ -189,7 +197,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 	private boolean m_summary = false;
 	//	FR [ 237 ]
 	private int 			m_AD_ReportView_ID = 0;
-	
+		
 	/**
 	 * Set Optional Report View
 	 * @param p_AD_ReportView_ID
@@ -213,6 +221,10 @@ public class ReportEngine implements PrintServiceAttributeListener
 		if ( priority > 0 && priority <= 100 )
 			m_priority = priority;
 	}
+	
+	public int getPriority() {
+		return m_priority;
+	}
 
 	/**
 	 * 	Set PrintFormat.
@@ -228,8 +240,9 @@ public class ReportEngine implements PrintServiceAttributeListener
 			m_layout.setPrintFormat(pf, false);
 			m_layout.setPrintData(m_printData, m_query, true);	//	format changes data
 		}
-		if (m_view != null)
-			m_view.revalidate();
+		// TODO
+//		if (m_view != null)
+//			m_view.revalidate();
 	}	//	setPrintFormat
 	
 	/**
@@ -246,8 +259,9 @@ public class ReportEngine implements PrintServiceAttributeListener
 		setPrintData();
 		if (m_layout != null)
 			m_layout.setPrintData(m_printData, m_query, true);
-		if (m_view != null)
-			m_view.revalidate();
+		// TODO
+//		if (m_view != null)
+//			m_view.revalidate();
 	}	//	setQuery
 
 	/**
@@ -382,15 +396,20 @@ public class ReportEngine implements PrintServiceAttributeListener
 	
 	/**************************************************************************
 	 * 	Get View Panel
-	 * 	@return view panel
+	 *  Deprecated as of 3.9.4.  The panel is Swing specific and shouldn't be used
+	 *  in a base class.
+	 *  Use {@link #getLayout()} instead to ensure the layout in initialized.
+	 * 	@return view panel as an Object
 	 */
-	public View getView()
+	@Deprecated
+	public JPanel getView()
 	{
 		if (m_layout == null)
 			layout();
-		if (m_view == null)
-			m_view = new View (m_layout);
-		return m_view;
+//		// The view is swing specific.		
+//		if (m_view == null)
+//			m_view = new View (m_layout);
+		return null;
 	}	//	getView
 	
 	/**************************************************************************
@@ -420,7 +439,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 		try
 		{
 			//	PrinterJob
-			PrinterJob job = getPrinterJob(m_info.getPrinterName());
+			PrinterJob job = PrintUtil.getPrinterJob(m_info.getPrinterName());
 		//	job.getPrintService().addPrintServiceAttributeListener(this);
 			job.setPageable(m_layout.getPageable(false));	//	no copy
 		//	Dialog
@@ -445,7 +464,7 @@ public class ReportEngine implements PrintServiceAttributeListener
 			{
 				log.info("Copy " + (m_info.getCopies()-1));
 				prats.add(new Copies(m_info.getCopies()-1));
-				job = getPrinterJob(m_info.getPrinterName());
+				job = PrintUtil.getPrinterJob(m_info.getPrinterName());
 			//	job.getPrintService().addPrintServiceAttributeListener(this);
 				job.setPageable (m_layout.getPageable(true));		//	Copy
 				PrintUtil.print(job, prats, false, false);
@@ -481,18 +500,6 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 
 
 	/**
-	 * 	Get PrinterJob based on PrinterName
-	 * 	@param printerName optional Printer Name
-	 * 	@return PrinterJob
-	 */
-	private PrinterJob getPrinterJob (String printerName)
-	{
-		if (printerName != null && printerName.length() > 0)
-			return CPrinter.getPrinterJob(printerName);
-		return CPrinter.getPrinterJob(m_printerName);
-	}	//	getPrinterJob
-
-	/**
 	 * 	Show Dialog and Set Paper
 	 *  Optionally re-calculate layout
 	 */
@@ -500,9 +507,10 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	{
 		if (m_layout == null)
 			layout();
-		m_layout.pageSetupDialog(getPrinterJob(m_printerName));
-		if (m_view != null)
-			m_view.revalidate();
+		m_layout.pageSetupDialog(PrintUtil.getPrinterJob(m_printerName));
+		// TODO
+//		if (m_view != null)
+//			m_view.revalidate();
 	}	//	pageSetupDialog
 
 	/**
@@ -1509,4 +1517,54 @@ queued-job-count = 0  (class javax.print.attribute.standard.QueuedJobCount)
 	public ProcessInfo getProcessInfo() {
 		return processInfo;
 	}
+	
+	
+//	Object lock = new Object();
+	
+	private Boolean viewerActive = new Boolean(false); // 
+	
+	public void setViewerActive(boolean active) {
+		synchronized(this)
+		{	
+			if (viewerActive ^ active )
+			{
+				viewerActive = active;
+			}
+		}
+	}
+	
+	/**
+	 * A blocking call that will block the caller if the viewer is active
+	 * until the Viewer window is closed.
+	 */
+	public void waitForViewer() {
+		
+		synchronized(this) {
+			try {
+				while (viewerActive) {
+					wait();
+				}
+			}
+			catch (InterruptedException e)
+			{
+				// Carry On.
+			}
+		}
+	}
+	
+	/**
+	 * Called by the viewer to indicate the the viewer has closed.
+	 * This call should be made in the UI event thread.
+	 * Any threads waiting on the viewer will be notified.
+	 */
+	public void viewerClosed() {
+		
+		// Notify any waiting threads.
+		synchronized(this) {
+			viewerActive = false;
+			notifyAll();
+		}
+		
+	}
+	
 }	//	ReportEngine
