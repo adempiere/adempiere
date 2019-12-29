@@ -103,8 +103,8 @@ public class ExportFormatPS extends AbstractExportFormat {
 			//	just use first one - sun.print.PSStreamPrinterFactory
 			//	System.out.println("- " + spsfactories[0]);
 			StreamPrintService sps = spsfactories[0].getPrintService(os);
-			//	get format
-			getReportEngine().getView();
+			//	get format 	- Updated to getLayout() as getView() was swing specific.
+			getReportEngine().getLayout();
 			//	print it
 			sps.createPrintJob().print(getLayoutEngine().getPageable(false), 
 				new HashPrintRequestAttributeSet());
