@@ -16,25 +16,12 @@
  *****************************************************************************/
 package org.compiere.grid.ed;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-import java.beans.PropertyVetoException;
-import java.util.logging.Level;
-
-import javax.faces.event.FacesListener;
 import javax.swing.ComboBoxModel;
 import javax.swing.JComponent;
 
 import org.adempiere.plaf.AdempiereComboBoxUI;
-import org.compiere.model.GridField;
-import org.compiere.model.MLocator;
-import org.compiere.model.MLookup;
 import org.compiere.swing.CComboBox;
-import org.compiere.util.CLogger;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.NamePair;
-import org.compiere.util.ValueNamePair;
 
 /**
  *  Combobox with KeyNamePair/ValueNamePair or Locator.
@@ -58,8 +45,6 @@ public class VComboBox extends CComboBox implements VEditor
 	/** The old Value - for comparison at future points in time.	*/
 	private Object				m_oldValue;
 
-	private boolean haveFocus;
-
 	private boolean isTableCellEditor;
 
 	/**
@@ -75,15 +60,12 @@ public class VComboBox extends CComboBox implements VEditor
 		super(items);
 //		common_init();
 	}
-	public VComboBox(ComboBoxModel model)
+	public VComboBox(ComboBoxModel<Object> model)
 	{
 		super(model);
 //		common_init();
 	}	//	VComboBox
 
-	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(VComboBox.class);
-	
 	/**
 	 *  Common Setup
 	 *
