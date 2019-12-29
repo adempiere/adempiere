@@ -47,14 +47,12 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.adempiere.model.MBrowse;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.search.Find;
 import org.compiere.grid.APanelTab;
@@ -484,7 +482,7 @@ public final class APanel extends CPanel
 		}
 
 		//Window
-		AMenu aMenu = (AMenu)Env.getWindow(0);
+		AMenu aMenu = (AMenu)SwingEnv.getWindow(0);
 		m_WindowMenu = new WindowMenu(aMenu.getWindowManager(), m_window);
 		menuBar.add(m_WindowMenu);
 		aShowAllWindow = addAction("ShowAllWindow", null, KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.CTRL_MASK),	false);
@@ -703,7 +701,7 @@ public final class APanel extends CPanel
 		for (int wb = 0; wb < m_mWorkbench.getWindowCount(); wb++)
 		{
 			//  Get/set WindowNo
-			m_curWindowNo = Env.createWindowNo (this);			                //  Timing: ca. 1.5 sec
+			m_curWindowNo = SwingEnv.createWindowNo (this);			                //  Timing: ca. 1.5 sec
 			m_mWorkbench.setWindowNo(wb, m_curWindowNo);
 			//  Set AutoCommit for this Window
 			Env.setAutoCommit(ctx, m_curWindowNo, Env.isAutoCommit(ctx));
