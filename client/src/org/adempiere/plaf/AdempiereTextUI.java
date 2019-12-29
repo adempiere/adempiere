@@ -16,8 +16,13 @@
 
 package org.adempiere.plaf;
 
+import java.awt.Dimension;
+
 import javax.swing.JComponent;
+import javax.swing.JTextField;
 import javax.swing.plaf.ComponentUI;
+
+import org.compiere.swing.CTextArea;
 
 /**
  *  ADempiere Text UI.
@@ -55,6 +60,7 @@ public class AdempiereTextUI extends AdempiereMemoUI
 	 */
 	public void setFieldLength(int fieldLength)
 	{
+		
 		this.fieldLength= fieldLength;
 		int rows = fieldLength < 300 ? 2 : 3;
 		setDisplaySize(rows, displayLength);
@@ -67,10 +73,11 @@ public class AdempiereTextUI extends AdempiereMemoUI
 	 */
 	public void setDisplayLength(int displayLength)
 	{
+		
 		this.displayLength = displayLength > MAXDISPLAY_LENGTH ? MAXDISPLAY_LENGTH : displayLength;
 		int rows = fieldLength < 300 ? 2 : 3;
 		setDisplaySize(rows, this.displayLength);
 		
 	}
-
+	
 }   
