@@ -175,12 +175,10 @@ public class SimulatedPickList extends SvrProcess {
 				getRecord_ID());
 		ReportEngine re = new ReportEngine(getCtx(), pf, query, info);
 
-		ReportCtl.preview(re);
 		// wait for report window to be closed as t_bomline
 		// records are deleted when process ends
-		while (re.getView().isDisplayable()) {
-			Env.sleep(1);
-		}
+		ReportCtl.preview(re, true);  // Block 
+		
 	}
 
 	public String getParamenterInfo(String name) {

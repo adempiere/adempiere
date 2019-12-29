@@ -828,6 +828,11 @@ public class Viewer extends CFrame
 	 */
 	public void dispose()
 	{
+		// Unblock the report engine thread if it was
+		// blocked
+		if (m_reportEngine != null)
+			m_reportEngine.viewerClosed();
+		
 		Env.clearWinContext(m_WindowNo);
 		m_reportEngine = null;
 		m_viewPanel = null;
@@ -1497,6 +1502,8 @@ public class Viewer extends CFrame
 				revalidate();
 				cmd_drill();	//	setCursor
 			}
+			
+//			m_reportEngine.viewerClosed();
 		}
 	}	//	windowStateChanged
 

@@ -447,8 +447,22 @@ public class ReportCtl
 	 */
 	public static void preview(ReportEngine reportEngine)
 	{
+		preview(reportEngine, false);
+	}
+	
+	/**
+	 * Launch viewer for report and wait for the viewer to close
+	 * @param reportEngine
+	 */
+	public static void preview(ReportEngine reportEngine, boolean waitForViewerToClose)
+	{
+
 		ReportViewerProvider provider = getReportViewerProvider();
+		if (waitForViewerToClose)
+			reportEngine.setViewerActive(true);  // The view provider should reset this flag.
 		provider.openViewer(reportEngine);
+		if (waitForViewerToClose)
+			reportEngine.waitForViewer(); // Will block while the viewer is open.
 	}
 	
 	public static void setReportViewerProvider(ReportViewerProvider provider)
@@ -462,4 +476,6 @@ public class ReportCtl
 	{
 		return viewerProvider;
 	}
+	
+	
 }	//	ReportCtl

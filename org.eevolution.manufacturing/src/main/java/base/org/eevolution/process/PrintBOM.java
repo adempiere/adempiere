@@ -142,14 +142,10 @@ public class PrintBOM extends SvrProcess
 		PrintInfo info = new PrintInfo(X_RV_PP_Product_BOMLine_Table_Name, 
 				X_RV_PP_Product_BOMLine_Table_ID, getRecord_ID());
 		ReportEngine re = new ReportEngine(getCtx(), pf, query, info);
-
-		ReportCtl.preview(re);
-		// wait for report window to be closed as t_bomline   
-		// records are deleted when process ends 
-		while (re.getView().isDisplayable()) 
-		{
-			Env.sleep(1);
-		}	
+		
+		// Display and wait as t_bomline   
+		// records are deleted when process ends
+		ReportCtl.preview(re, true);
 	}
 
 	/**
