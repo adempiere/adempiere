@@ -966,7 +966,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			list.add("p.isStocked = ?");
 		
 		//	Optional Price List Version
-		if (fPriceList_ID.getValue() != null)
+		if (isValidVObject(fPriceList_ID))
 			list.add("pr.M_PriceList_Version_ID=?");
 		
 		//  Optional Product Category
@@ -1080,7 +1080,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 		}
 		
 		//  => PriceList
-		if (fPriceList_ID.getValue() != null)
+		if (isValidVObject(fPriceList_ID))
 		{
 			id =  ((Integer) fPriceList_ID.getValue());
 			pstmt.setInt(index++, id.intValue());
