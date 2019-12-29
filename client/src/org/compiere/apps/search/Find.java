@@ -533,6 +533,13 @@ public final class Find extends CDialog
 		{
 			GridField mField = m_findFields[i];
 			
+			if (!mField.isSelectionColumn())
+				continue;
+			
+			// Override the "updatable" setting.  All search fields need to be updateable.
+			// ReadWrite controls the enabled status in the find form.
+			mField.getVO().IsUpdateable = true;
+			
 			// Make Yes-No searchable as list
 			if (mField.getVO().displayType == DisplayType.YesNo)
 			{
