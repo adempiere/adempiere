@@ -18,18 +18,22 @@ package org.adempiere.plaf;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseListener;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.OverlayLayout;
 import javax.swing.UIManager;
 import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.TextUI;
+import javax.swing.plaf.basic.BasicTextAreaUI;
 import javax.swing.text.JTextComponent;
 
+import org.compiere.grid.ed.VEditorAbstract;
 import org.compiere.swing.CTextArea;
 import org.compiere.util.CLogger;
 
@@ -48,6 +52,8 @@ public class AdempiereMemoUI extends AdempiereEditorAbstractUI
 	
 	/** Max Display Length - 60 */
 	public static final int MAXDISPLAY_LENGTH = org.compiere.model.GridField.MAXDISPLAY_LENGTH;
+	/** Max Display rows - 45 */
+	public static final int MAXDISPLAY_ROWS = 20;
 	
 	/** The number of columns to display */
 	private int displayColumns = MAXDISPLAY_LENGTH;  // Defaults to max in columns
@@ -61,9 +67,32 @@ public class AdempiereMemoUI extends AdempiereEditorAbstractUI
 	/** The field length in total number of characters */
 	private int fieldLength;
 
-	/** The displayLength in columns */
-	private int displayLength;
+    /**
+     * Different Plastic L&amp;fs may need different phantom UIs.
+     * Therefore we store the LookAndFeel class and update the
+     * phantom UI whenever the Look&amp;Feel changes.
+     */
+    private static Class<?> phantomLafClass;
 
+    /**
+     * Used to determine the minimum height of a text field,
+     * which in turn is used to answer the editor's minimum height.
+     */
+    private static final JTextArea PHANTOM = new JTextArea("phantom");
+
+    /**
+     * Ensures that the phantom text field has same text field UI.
+     */
+    private static void ensurePhantomHasSameUI() {
+        TextUI ui = PHANTOM.getUI();
+        Class<?> lafClass = UIManager.getLookAndFeel().getClass();
+        if (   (phantomLafClass != lafClass)
+            || !(ui instanceof BasicTextAreaUI)) {
+            phantomLafClass = lafClass;
+            PHANTOM.updateUI();
+        }
+    }
+	
 	/**
 	 *  Create UI
 	 *  @param c
@@ -74,7 +103,10 @@ public class AdempiereMemoUI extends AdempiereEditorAbstractUI
 		return new AdempiereMemoUI();
 	}   //  CreateUI
     
-	
+    public AdempiereMemoUI() {
+    	ensurePhantomHasSameUI();    	
+    }
+
 	@Override
     public void installUI(JComponent c) {
 			
@@ -141,10 +173,10 @@ public class AdempiereMemoUI extends AdempiereEditorAbstractUI
      */
 	public void setFieldLength(int fieldLength)
 	{
-		
-		this.fieldLength= fieldLength;
-		int rows = this.fieldLength/displayLength;
-		setDisplaySize(rows, displayLength);
+		int rows = 1;
+		if (displayColumns > 0)
+			rows = fieldLength/displayColumns;
+		setDisplaySize(rows, displayColumns);
 		
 	}
 	
@@ -160,9 +192,11 @@ public class AdempiereMemoUI extends AdempiereEditorAbstractUI
 		if (displayLength <= 0)
 			throw new IllegalArgumentException("displayLength > 0");
 		
-		this.displayLength = displayLength > MAXDISPLAY_LENGTH ? MAXDISPLAY_LENGTH : displayLength;
-		int rows = fieldLength/this.displayLength;
-		setDisplaySize(rows, this.displayLength);
+		displayLength = displayLength > MAXDISPLAY_LENGTH ? MAXDISPLAY_LENGTH : displayLength;
+		int rows = this.displayRows;
+		if (fieldLength > 0)
+			rows = fieldLength/displayLength;
+		setDisplaySize(rows, displayLength);
 		
 	}
 
@@ -172,13 +206,17 @@ public class AdempiereMemoUI extends AdempiereEditorAbstractUI
 	 */
 	public void setDisplaySize(int rows, int columns)
 	{
-		displayRows = rows;
-		displayColumns = columns;
+		displayRows = rows > MAXDISPLAY_ROWS ? MAXDISPLAY_ROWS : rows;
+		displayColumns = columns > MAXDISPLAY_LENGTH ? MAXDISPLAY_LENGTH : columns;
 		if (textArea != null)
 		{
 			textArea.setRows(displayRows);
 			textArea.setColumns(displayColumns);
 		}
+		
+		this.isDisplaySizeDirty = true;
+		this.isMinimumSizeDirty = true;
+
 	}
 
 	/**
@@ -243,4 +281,34 @@ public class AdempiereMemoUI extends AdempiereEditorAbstractUI
 		//	Always position Top 
 		textArea.setCaretPosition(0);
 	}
+	
+    /**
+     * Returns the calculated size of the display area. The display area is the
+     * text pane displaying the value.
+     *
+     * @return the size of the display area calculated
+     */
+    protected Dimension getDisplaySize() {
+
+    	if (!isDisplaySizeDirty)  {
+            return new Dimension(cachedDisplaySize);
+        }
+        
+        Dimension result = new Dimension();
+
+        PHANTOM.setText(getPhantomString());
+    	PHANTOM.setColumns(((CTextArea) getComponent()).getColumns());
+    	PHANTOM.setRows(((CTextArea) getComponent()).getRows());
+        
+        result = PHANTOM.getPreferredSize();
+        // Add two pixels to ensure there are no scroll bars on an empty field
+        result.height = result.height + ((CTextArea) getComponent()).getRows() + 2;
+        
+        // Set the cached value
+        cachedDisplaySize.setSize(result.width, result.height);
+        isDisplaySizeDirty = false;
+
+        return result;
+    }
+
 }   
