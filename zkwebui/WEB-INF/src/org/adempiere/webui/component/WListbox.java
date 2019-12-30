@@ -130,7 +130,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	 * @param model        The data model to assign to the table
 	 * @param columnNames  The names of the table columns in Vector format
 	 */
-	public void setData(ListModelTable<ListModel> model, Vector<String> columnNames)
+	public void setData(ListModelTable<?> model, Vector<String> columnNames)
 	{
 		this.setData(model, Collections.list(columnNames.elements()));
 	}
@@ -141,7 +141,7 @@ public class WListbox extends Listbox implements IMiniTable, TableValueChangeLis
 	 * @param model        The data model to assign to the table
 	 * @param columnNames  The names of the table columns
 	 */
-	public void setData(ListModelTable<ListModel> model, List< ? extends String> columnNames)
+	public void setData(ListModelTable<?> model, List< ? extends String> columnNames)
 	{
 		WListItemRenderer rowRenderer = null;
 		if (columnNames != null && columnNames.size() > 0)
