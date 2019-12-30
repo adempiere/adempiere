@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="ECA03" Name="HR Attendance: Add some columns" ReleaseNo="3.9.3" SeqNo="5310">
+    <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>INSERT INTO t_alter_column values('hr_period','HR_Payroll_ID','NUMERIC(10)',null,'NULL');
+INSERT INTO t_alter_column values('hr_period','HR_Payroll_ID',null,'NULL',null);
+ALTER TABLE HR_WorkShift ADD COLUMN MinAttendanceRequire NUMERIC(10) DEFAULT '2' NOT NULL;
+ALTER TABLE HR_ShiftGroup ADD COLUMN OnFriday CHAR(1) DEFAULT 'N' CHECK (OnFriday IN ('Y','N'));
+ALTER TABLE HR_ShiftGroup ADD COLUMN OnMonday CHAR(1) DEFAULT 'N' CHECK (OnMonday IN ('Y','N'));
+ALTER TABLE HR_ShiftGroup ADD COLUMN OnSaturday CHAR(1) DEFAULT 'N' CHECK (OnSaturday IN ('Y','N'));
+ALTER TABLE HR_ShiftGroup ADD COLUMN OnSunday CHAR(1) DEFAULT 'N' CHECK (OnSunday IN ('Y','N'));
+ALTER TABLE HR_ShiftGroup ADD COLUMN OnThursday CHAR(1) DEFAULT 'N' CHECK (OnThursday IN ('Y','N'));
+ALTER TABLE HR_ShiftGroup ADD COLUMN OnTuesday CHAR(1) DEFAULT 'N' CHECK (OnTuesday IN ('Y','N'));
+ALTER TABLE HR_ShiftGroup ADD COLUMN OnWednesday CHAR(1) DEFAULT 'N' CHECK (OnWednesday IN ('Y','N'));
+INSERT INTO t_alter_column values('hr_shiftgroup','Description','VARCHAR(255)',null,'NULL');
+INSERT INTO t_alter_column values('hr_workgroup','Description','VARCHAR(255)',null,'NULL');
+INSERT INTO t_alter_column values('hr_year','HR_Payroll_ID','NUMERIC(10)',null,'NULL');
+INSERT INTO t_alter_column values('hr_year','HR_Payroll_ID',null,'NULL',null);
+INSERT INTO t_alter_column values('hr_attendancebatch','HR_WorkShift_ID','NUMERIC(10)',null,'NULL');
+INSERT INTO t_alter_column values('hr_attendancebatch','HR_WorkShift_ID',null,'NULL',null);
+ALTER TABLE HR_ShiftIncidence ADD COLUMN IsAnticipatedRecord CHAR(1) DEFAULT 'N' CHECK (IsAnticipatedRecord IN ('Y','N'));
+INSERT INTO t_alter_column values('hr_leave','HR_LeaveAssign_ID','NUMERIC(10)',null,'NULL');
+INSERT INTO t_alter_column values('hr_leave','HR_LeaveAssign_ID',null,'NULL',null);
+ALTER TABLE HR_Leave DROP COLUMN C_Year_ID;
+ALTER TABLE HR_LeaveAssign DROP COLUMN C_Year_ID;</SQLStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>
+          ALTER TABLE HR_Period MODIFY (HR_Payroll_ID DEFAULT NULL);
+          ALTER TABLE HR_ShiftGroup ADD OnFriday CHAR(1) DEFAULT 'N' CHECK (OnFriday IN ('Y','N'));
+          ALTER TABLE HR_ShiftGroup ADD OnMonday CHAR(1) DEFAULT 'N' CHECK (OnMonday IN ('Y','N'));
+          ALTER TABLE HR_ShiftGroup ADD OnSaturday CHAR(1) DEFAULT 'N' CHECK (OnSaturday IN ('Y','N'));
+          ALTER TABLE HR_ShiftGroup ADD OnSunday CHAR(1) DEFAULT 'N' CHECK (OnSunday IN ('Y','N'));
+          ALTER TABLE HR_ShiftGroup ADD OnThursday CHAR(1) DEFAULT 'N' CHECK (OnThursday IN ('Y','N'));
+          ALTER TABLE HR_ShiftGroup ADD OnTuesday CHAR(1) DEFAULT 'N' CHECK (OnTuesday IN ('Y','N'));
+          ALTER TABLE HR_ShiftGroup ADD OnWednesday CHAR(1) DEFAULT 'N' CHECK (OnWednesday IN ('Y','N'));
+          ALTER TABLE HR_ShiftGroup MODIFY Description NVARCHAR2(255) DEFAULT NULL;
+          ALTER TABLE HR_WorkGroup MODIFY Description NVARCHAR2(255) DEFAULT NULL;
+          ALTER TABLE HR_Year MODIFY (HR_Payroll_ID DEFAULT NULL);
+          ALTER TABLE HR_AttendanceBatch MODIFY (HR_WorkShift_ID DEFAULT NULL);
+          ALTER TABLE HR_Leave MODIFY (HR_LeaveAssign_ID DEFAULT NULL);
+          ALTER TABLE HR_Leave DROP COLUMN C_Year_ID;
+          ALTER TABLE HR_LeaveAssign DROP COLUMN C_Year_ID;
+      </SQLStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="20" StepType="SQL">
+      <SQLStatement>/******************************************************************************
+ * Product: Adempiere ERP &amp; CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Yamel Senih www.erpcya.com                                 *
+ *****************************************************************************
+ ***
+ * Title:	Shift Schedule
+ * Description:
+ *	Show all schedule for a shift work
+ *
+ * Test:
+ * 	SELECT HR_Calendar_ID, HR_Period_ID, HR_Year_ID, PeriodNo FROM RV_HR_ShiftSchedule ORDER BY PeriodNo
+ ************************************************************************/
+-- DROP VIEW RV_HR_ShiftSchedule
+CREATE OR REPLACE VIEW RV_HR_ShiftSchedule AS 
+SELECT c.HR_Calendar_ID, p.HR_Period_ID, p.HR_Year_ID, p.PeriodNo, p.StartDate, p.EndDate, p.DateAcct, p.Name, p.Description, sg.HR_ShiftGroup_ID, ws.HR_WorkShift_ID,
+ws.OnSunday, ws.OnMonday, ws.OnTuesday, ws.OnWednesday, ws.OnThursday, ws.OnFriday, ws.OnSaturday,
+p.AD_Client_ID, p.AD_Org_ID, p.IsActive, p.Created, p.CreatedBy, p.Updated, p.UpdatedBy, p.UUID
+FROM HR_Calendar c
+INNER JOIN HR_Year y ON(y.HR_Calendar_ID = c.HR_Calendar_ID)
+INNER JOIN HR_Period p ON(p.HR_Year_ID = y.HR_Year_ID)
+INNER JOIN HR_ShiftGroup sg ON(sg.AD_Client_ID = p.AD_Client_ID)
+LEFT JOIN HR_WorkShift ws ON(ws.HR_ShiftGroup_ID = sg.HR_ShiftGroup_ID)
+WHERE (ws.HR_WorkShift_ID IS NULL OR ((CASE 
+ 		WHEN ws.OnSunday = 'Y' AND to_char(p.StartDate, 'D') = 1 THEN 'Y'
+		WHEN ws.OnMonday = 'Y' AND to_char(p.StartDate, 'D') = 2 THEN 'Y'
+ 		WHEN ws.OnTuesday = 'Y' AND to_char(p.StartDate, 'D') = 3 THEN 'Y'
+ 		WHEN ws.OnWednesday = 'Y' AND to_char(p.StartDate, 'D') = 4 THEN 'Y'
+ 		WHEN ws.OnThursday = 'Y' AND to_char(p.StartDate, 'D') = 5 THEN 'Y'
+ 		WHEN ws.OnFriday = 'Y' AND to_char(p.StartDate, 'D') = 6 THEN 'Y'
+ 		WHEN ws.OnSaturday = 'Y' AND to_char(p.StartDate, 'D') = 7 THEN 'Y'
+ 		ELSE 'N'
+	END) = 'Y' AND ws.IsActive = 'Y'))</SQLStatement>
+      <RollbackStatement>DROP VIEW RV_HR_ShiftSchedule</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="N" SeqNo="30" StepType="SQL">
+      <SQLStatement>/******************************************************************************
+ * Product: Adempiere ERP &amp; CRM Smart Business Solution                       *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
+ * All Rights Reserved.                                                       *
+ * Contributor(s): Yamel Senih www.erpcya.com                                 *
+ *****************************************************************************
+ ***
+ * Title:	Shift Schedule
+ * Description:
+ *	Show all schedule for a shift work
+ *
+ * Test:
+ * 	SELECT HR_Calendar_ID, HR_Period_ID, HR_Year_ID, PeriodNo FROM RV_HR_ShiftSchedule ORDER BY PeriodNo
+ ************************************************************************/
+-- DROP VIEW RV_HR_ShiftSchedule
+CREATE OR REPLACE VIEW RV_HR_ShiftSchedule AS 
+SELECT c.HR_Calendar_ID, p.HR_Period_ID, p.HR_Year_ID, p.PeriodNo, p.StartDate, p.EndDate, p.DateAcct, p.Name, p.Description, sg.HR_ShiftGroup_ID, ws.HR_WorkShift_ID,
+ws.OnSunday, ws.OnMonday, ws.OnTuesday, ws.OnWednesday, ws.OnThursday, ws.OnFriday, ws.OnSaturday,
+p.AD_Client_ID, p.AD_Org_ID, p.IsActive, p.Created, p.CreatedBy, p.Updated, p.UpdatedBy, p.UUID
+FROM HR_Calendar c
+INNER JOIN HR_Year y ON(y.HR_Calendar_ID = c.HR_Calendar_ID)
+INNER JOIN HR_Period p ON(p.HR_Year_ID = y.HR_Year_ID)
+INNER JOIN HR_ShiftGroup sg ON(sg.AD_Client_ID = p.AD_Client_ID)
+LEFT JOIN HR_WorkShift ws ON(ws.HR_ShiftGroup_ID = sg.HR_ShiftGroup_ID)
+WHERE (ws.HR_WorkShift_ID IS NULL OR ((CASE 
+ 		WHEN ws.OnSunday = 'Y' AND extract(dow from p.StartDate) = 0 THEN 'Y'
+		WHEN ws.OnMonday = 'Y' AND extract(dow from p.StartDate) = 1 THEN 'Y'
+ 		WHEN ws.OnTuesday = 'Y' AND extract(dow from p.StartDate) = 2 THEN 'Y'
+ 		WHEN ws.OnWednesday = 'Y' AND extract(dow from p.StartDate) = 3 THEN 'Y'
+ 		WHEN ws.OnThursday = 'Y' AND extract(dow from p.StartDate) = 4 THEN 'Y'
+ 		WHEN ws.OnFriday = 'Y' AND extract(dow from p.StartDate) = 5 THEN 'Y'
+ 		WHEN ws.OnSaturday = 'Y' AND extract(dow from p.StartDate) = 6 THEN 'Y'
+ 		ELSE 'N'
+	END) = 'Y' AND ws.IsActive = 'Y'))</SQLStatement>
+      <RollbackStatement>DROP VIEW RV_HR_ShiftSchedule</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

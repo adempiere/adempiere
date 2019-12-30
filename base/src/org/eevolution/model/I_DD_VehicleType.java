@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_VehicleType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_DD_VehicleType 
 {
@@ -63,6 +63,15 @@ public interface I_DD_VehicleType
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name CompartmentsNumber */
+    public static final String COLUMNNAME_CompartmentsNumber = "CompartmentsNumber";
+
+	/** Set Number of compartments	  */
+	public void setCompartmentsNumber (int CompartmentsNumber);
+
+	/** Get Number of compartments	  */
+	public int getCompartmentsNumber();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -78,6 +87,28 @@ public interface I_DD_VehicleType
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name DD_CompatibilityGroup_ID */
+    public static final String COLUMNNAME_DD_CompatibilityGroup_ID = "DD_CompatibilityGroup_ID";
+
+	/** Set Transport Compatibility Group	  */
+	public void setDD_CompatibilityGroup_ID (int DD_CompatibilityGroup_ID);
+
+	/** Get Transport Compatibility Group	  */
+	public int getDD_CompatibilityGroup_ID();
+
+	public org.eevolution.model.I_DD_CompatibilityGroup getDD_CompatibilityGroup() throws RuntimeException;
+
+    /** Column name DD_VehicleGroup_ID */
+    public static final String COLUMNNAME_DD_VehicleGroup_ID = "DD_VehicleGroup_ID";
+
+	/** Set Vehicle Group	  */
+	public void setDD_VehicleGroup_ID (int DD_VehicleGroup_ID);
+
+	/** Get Vehicle Group	  */
+	public int getDD_VehicleGroup_ID();
+
+	public org.spin.model.I_DD_VehicleGroup getDD_VehicleGroup() throws RuntimeException;
 
     /** Column name DD_VehicleType_ID */
     public static final String COLUMNNAME_DD_VehicleType_ID = "DD_VehicleType_ID";
@@ -101,6 +132,17 @@ public interface I_DD_VehicleType
 	  */
 	public String getDescription();
 
+    /** Column name Dimension_UOM_ID */
+    public static final String COLUMNNAME_Dimension_UOM_ID = "Dimension_UOM_ID";
+
+	/** Set Dimension Unit of Measure	  */
+	public void setDimension_UOM_ID (int Dimension_UOM_ID);
+
+	/** Get Dimension Unit of Measure	  */
+	public int getDimension_UOM_ID();
+
+	public org.compiere.model.I_C_UOM getDimension_UOM() throws RuntimeException;
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -113,6 +155,46 @@ public interface I_DD_VehicleType
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name MaximumVolume */
+    public static final String COLUMNNAME_MaximumVolume = "MaximumVolume";
+
+	/** Set Maximum Volume	  */
+	public void setMaximumVolume (BigDecimal MaximumVolume);
+
+	/** Get Maximum Volume	  */
+	public BigDecimal getMaximumVolume();
+
+    /** Column name MaximumWeight */
+    public static final String COLUMNNAME_MaximumWeight = "MaximumWeight";
+
+	/** Set Maximum Weight	  */
+	public void setMaximumWeight (BigDecimal MaximumWeight);
+
+	/** Get Maximum Weight	  */
+	public BigDecimal getMaximumWeight();
+
+    /** Column name MinimumVolume */
+    public static final String COLUMNNAME_MinimumVolume = "MinimumVolume";
+
+	/** Set Minimum Volume	  */
+	public void setMinimumVolume (BigDecimal MinimumVolume);
+
+	/** Get Minimum Volume	  */
+	public BigDecimal getMinimumVolume();
+
+    /** Column name MinimumWeight */
+    public static final String COLUMNNAME_MinimumWeight = "MinimumWeight";
+
+	/** Set Minimum Weight.
+	  * Minimum Weight of a product
+	  */
+	public void setMinimumWeight (BigDecimal MinimumWeight);
+
+	/** Get Minimum Weight.
+	  * Minimum Weight of a product
+	  */
+	public BigDecimal getMinimumWeight();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -127,6 +209,33 @@ public interface I_DD_VehicleType
 	  */
 	public String getName();
 
+    /** Column name TransportHeight */
+    public static final String COLUMNNAME_TransportHeight = "TransportHeight";
+
+	/** Set Transport Height	  */
+	public void setTransportHeight (BigDecimal TransportHeight);
+
+	/** Get Transport Height	  */
+	public BigDecimal getTransportHeight();
+
+    /** Column name TransportLength */
+    public static final String COLUMNNAME_TransportLength = "TransportLength";
+
+	/** Set Transport Length	  */
+	public void setTransportLength (BigDecimal TransportLength);
+
+	/** Get Transport Length	  */
+	public BigDecimal getTransportLength();
+
+    /** Column name TransportWidth */
+    public static final String COLUMNNAME_TransportWidth = "TransportWidth";
+
+	/** Set Transport Width	  */
+	public void setTransportWidth (BigDecimal TransportWidth);
+
+	/** Get Transport Width	  */
+	public BigDecimal getTransportWidth();
+
     /** Column name UUID */
     public static final String COLUMNNAME_UUID = "UUID";
 
@@ -139,6 +248,15 @@ public interface I_DD_VehicleType
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
+
+    /** Column name UnladenWeight */
+    public static final String COLUMNNAME_UnladenWeight = "UnladenWeight";
+
+	/** Set Unladen Weight	  */
+	public void setUnladenWeight (BigDecimal UnladenWeight);
+
+	/** Get Unladen Weight	  */
+	public BigDecimal getUnladenWeight();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -181,4 +299,52 @@ public interface I_DD_VehicleType
 	  * Vehicle Type defines the mode of transport
 	  */
 	public String getVehicleType();
+
+    /** Column name Volume */
+    public static final String COLUMNNAME_Volume = "Volume";
+
+	/** Set Volume.
+	  * Volume of a product
+	  */
+	public void setVolume (BigDecimal Volume);
+
+	/** Get Volume.
+	  * Volume of a product
+	  */
+	public BigDecimal getVolume();
+
+    /** Column name Volume_UOM_ID */
+    public static final String COLUMNNAME_Volume_UOM_ID = "Volume_UOM_ID";
+
+	/** Set Volume Unit of Measure	  */
+	public void setVolume_UOM_ID (int Volume_UOM_ID);
+
+	/** Get Volume Unit of Measure	  */
+	public int getVolume_UOM_ID();
+
+	public org.compiere.model.I_C_UOM getVolume_UOM() throws RuntimeException;
+
+    /** Column name Weight */
+    public static final String COLUMNNAME_Weight = "Weight";
+
+	/** Set Weight.
+	  * Weight of a product
+	  */
+	public void setWeight (BigDecimal Weight);
+
+	/** Get Weight.
+	  * Weight of a product
+	  */
+	public BigDecimal getWeight();
+
+    /** Column name Weight_UOM_ID */
+    public static final String COLUMNNAME_Weight_UOM_ID = "Weight_UOM_ID";
+
+	/** Set Weight Unit of Measure	  */
+	public void setWeight_UOM_ID (int Weight_UOM_ID);
+
+	/** Get Weight Unit of Measure	  */
+	public int getWeight_UOM_ID();
+
+	public org.compiere.model.I_C_UOM getWeight_UOM() throws RuntimeException;
 }

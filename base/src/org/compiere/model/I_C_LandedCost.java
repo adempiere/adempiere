@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_LandedCost
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_LandedCost 
 {
@@ -80,10 +80,10 @@ public interface I_C_LandedCost
     /** Column name C_LandedCostType_ID */
     public static final String COLUMNNAME_C_LandedCostType_ID = "C_LandedCostType_ID";
 
-	/** Set C_LandedCostType_ID	  */
+	/** Set Landed Cost Type	  */
 	public void setC_LandedCostType_ID (int C_LandedCostType_ID);
 
-	/** Get C_LandedCostType_ID	  */
+	/** Get Landed Cost Type	  */
 	public int getC_LandedCostType_ID();
 
 	public org.compiere.model.I_C_LandedCostType getC_LandedCostType() throws RuntimeException;

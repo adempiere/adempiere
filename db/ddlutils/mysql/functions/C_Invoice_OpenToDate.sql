@@ -115,7 +115,7 @@ BEGIN
     INNER JOIN C_AllocationHdr a ON (al.C_AllocationHdr_ID=a.C_AllocationHdr_ID)
     WHERE al.C_Invoice_ID = p_C_Invoice_ID
      AND a.DateAcct <= p_DateAcct
-     AND a.IsActive='Y';
+     AND a.IsActive='Y' AND a.DocStatus ('CO','CL');
   
   -- Declare "curPaySchedule" cursor
   DECLARE curPaySchedule CURSOR FOR

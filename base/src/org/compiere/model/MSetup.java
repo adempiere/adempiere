@@ -27,8 +27,6 @@ import java.util.Calendar;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import javax.swing.ImageIcon;
-
 import org.compiere.impexp.ImpFormat;
 import org.compiere.process.DocumentTypeVerify;
 import org.compiere.process.ProcessInfo;
@@ -323,10 +321,10 @@ public class MSetup
 
 		//
 		name = m_clientName + " User";
-		MRole user = new MRole (m_ctx, 0, m_trx.getTrxName());
-		user.setClientOrg(m_client);
-		user.setName(name);
-		if (!user.save())
+		MRole userRole = new MRole (m_ctx, 0, m_trx.getTrxName());
+		userRole.setClientOrg(m_client);
+		userRole.setName(name);
+		if (!userRole.save())
 		{
 			String err = "User Role A NOT inserted";
 			log.log(Level.SEVERE, err);
@@ -336,7 +334,7 @@ public class MSetup
 			return false;
 		}
 		//  OrgAccess x,y
-		MRoleOrgAccess userOrgAccess = new MRoleOrgAccess (user, m_org.getAD_Org_ID());
+		MRoleOrgAccess userOrgAccess = new MRoleOrgAccess (userRole, m_org.getAD_Org_ID());
 		if (!userOrgAccess.save())
 			log.log(Level.SEVERE, "User Role_OrgAccess NOT created");
 		
@@ -355,9 +353,9 @@ public class MSetup
 		AD_User_Name = name;
 		name = DB.TO_STRING(name);
 		sql = "INSERT INTO AD_User(" + m_stdColumns + ",AD_User_ID,"
-			+ "Name,Description,Password)"
+				+ "Name, Value, Description, IsLoginUser, Password)"
 			+ " VALUES (" + m_stdValues + "," + AD_User_ID + ","
-			+ name + "," + name + "," + name + ")";
+			+ name + "," + name + "," + name + ", 'Y', " + name + ")";
 		no = DB.executeUpdate(sql, m_trx.getTrxName());
 		if (no != 1)
 		{
@@ -378,9 +376,9 @@ public class MSetup
 		AD_User_U_Name = name;
 		name = DB.TO_STRING(name);
 		sql = "INSERT INTO AD_User(" + m_stdColumns + ",AD_User_ID,"
-			+ "Name,Description,Password)"
+			+ "Name, Value, Description, IsLoginUser, Password)"
 			+ " VALUES (" + m_stdValues + "," + AD_User_U_ID + ","
-			+ name + "," + name + "," + name + ")";
+			+ name + "," + name + "," + name + ", 'Y', " + name + ")";
 		no = DB.executeUpdate(sql, m_trx.getTrxName());
 		if (no != 1)
 		{
@@ -404,13 +402,13 @@ public class MSetup
 		if (no != 1)
 			log.log(Level.SEVERE, "UserRole ClientUser+Admin NOT inserted");
 		sql = "INSERT INTO AD_User_Roles(" + m_stdColumns + ",AD_User_ID,AD_Role_ID)"
-			+ " VALUES (" + m_stdValues + "," + AD_User_ID + "," + user.getAD_Role_ID() + ")";
+			+ " VALUES (" + m_stdValues + "," + AD_User_ID + "," + userRole.getAD_Role_ID() + ")";
 		no = DB.executeUpdate(sql, m_trx.getTrxName());
 		if (no != 1)
 			log.log(Level.SEVERE, "UserRole ClientUser+User NOT inserted");
 		//  OrgUser             - User
 		sql = "INSERT INTO AD_User_Roles(" + m_stdColumns + ",AD_User_ID,AD_Role_ID)"
-			+ " VALUES (" + m_stdValues + "," + AD_User_U_ID + "," + user.getAD_Role_ID() + ")";
+			+ " VALUES (" + m_stdValues + "," + AD_User_U_ID + "," + userRole.getAD_Role_ID() + ")";
 		no = DB.executeUpdate(sql, m_trx.getTrxName());
 		if (no != 1)
 			log.log(Level.SEVERE, "UserRole OrgUser+Org NOT inserted");

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Commission
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_Commission 
 {
@@ -102,6 +102,21 @@ public interface I_C_Commission
 	public int getC_CommissionGroup_ID();
 
 	public org.compiere.model.I_C_CommissionGroup getC_CommissionGroup() throws RuntimeException;
+
+    /** Column name C_CommissionType_ID */
+    public static final String COLUMNNAME_C_CommissionType_ID = "C_CommissionType_ID";
+
+	/** Set Commission Type.
+	  * Defined for custom query on commission
+	  */
+	public void setC_CommissionType_ID (int C_CommissionType_ID);
+
+	/** Get Commission Type.
+	  * Defined for custom query on commission
+	  */
+	public int getC_CommissionType_ID();
+
+	public org.compiere.model.I_C_CommissionType getC_CommissionType() throws RuntimeException;
 
     /** Column name C_Commission_ID */
     public static final String COLUMNNAME_C_Commission_ID = "C_Commission_ID";

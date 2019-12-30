@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Movement
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_HR_Movement 
 {
@@ -351,6 +351,21 @@ public interface I_HR_Movement
 	public int getHR_Concept_ID();
 
 	public org.eevolution.model.I_HR_Concept getHR_Concept() throws RuntimeException;
+
+    /** Column name HR_Concept_Type_ID */
+    public static final String COLUMNNAME_HR_Concept_Type_ID = "HR_Concept_Type_ID";
+
+	/** Set Global Payroll Concept Type.
+	  * Allows define types for concepts
+	  */
+	public void setHR_Concept_Type_ID (int HR_Concept_Type_ID);
+
+	/** Get Global Payroll Concept Type.
+	  * Allows define types for concepts
+	  */
+	public int getHR_Concept_Type_ID();
+
+	public org.eevolution.model.I_HR_Concept_Type getHR_Concept_Type() throws RuntimeException;
 
     /** Column name HR_Contract_ID */
     public static final String COLUMNNAME_HR_Contract_ID = "HR_Contract_ID";

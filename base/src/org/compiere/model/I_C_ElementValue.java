@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_ElementValue
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_ElementValue 
 {
@@ -252,6 +252,21 @@ public interface I_C_ElementValue
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name ParentElementValue_ID */
+    public static final String COLUMNNAME_ParentElementValue_ID = "ParentElementValue_ID";
+
+	/** Set Parent Account.
+	  * The parent (summary) account
+	  */
+	public void setParentElementValue_ID (int ParentElementValue_ID);
+
+	/** Get Parent Account.
+	  * The parent (summary) account
+	  */
+	public int getParentElementValue_ID();
+
+	public org.compiere.model.I_C_ElementValue getParentElementValue() throws RuntimeException;
 
     /** Column name PostActual */
     public static final String COLUMNNAME_PostActual = "PostActual";

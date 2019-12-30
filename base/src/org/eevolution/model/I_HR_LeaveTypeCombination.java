@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_LeaveTypeCombination
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_HR_LeaveTypeCombination 
 {
@@ -66,13 +66,13 @@ public interface I_HR_LeaveTypeCombination
     /** Column name AllowedLeaveType_ID */
     public static final String COLUMNNAME_AllowedLeaveType_ID = "AllowedLeaveType_ID";
 
-	/** Set Allow  Leave with.
-	  * Allow  Leave with
+	/** Set Allow Leave with.
+	  * Allow Leave with
 	  */
 	public void setAllowedLeaveType_ID (int AllowedLeaveType_ID);
 
-	/** Get Allow  Leave with.
-	  * Allow  Leave with
+	/** Get Allow Leave with.
+	  * Allow Leave with
 	  */
 	public int getAllowedLeaveType_ID();
 

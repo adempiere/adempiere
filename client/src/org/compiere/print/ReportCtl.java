@@ -135,30 +135,30 @@ public class ReportCtl
 		 *	Order Print
 		 */
 		if (processInfo.getAD_Process_ID() == 110)			//	C_Order
-			return startDocumentPrint(ReportEngine.ORDER, processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview());
+			return startDocumentPrint(ReportEngine.ORDER, null ,processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview() , null ,  processInfo);
 		if (processInfo.getAD_Process_ID() ==  MProcess.getProcess_ID("Rpt PP_Order", null))			//	C_Order
-			return startDocumentPrint(ReportEngine.MANUFACTURING_ORDER, processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview());
+			return startDocumentPrint(ReportEngine.MANUFACTURING_ORDER, null ,  processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview(), null , processInfo);
 		if (processInfo.getAD_Process_ID() ==  MProcess.getProcess_ID("Rpt DD_Order", null))			//	C_Order
-			return startDocumentPrint(ReportEngine.DISTRIBUTION_ORDER, processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview());
+			return startDocumentPrint(ReportEngine.DISTRIBUTION_ORDER, null, processInfo.getRecord_ID() , parent, windowNo, !processInfo.isPrintPreview(),null , processInfo);
 		else if (processInfo.getAD_Process_ID() == 116)		//	C_Invoice
-			return startDocumentPrint(ReportEngine.INVOICE, processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview());
+			return startDocumentPrint(ReportEngine.INVOICE, null , processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview(), null , processInfo);
 		else if (processInfo.getAD_Process_ID() == 117)		//	M_InOut
-			return startDocumentPrint(ReportEngine.SHIPMENT, processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview());
+			return startDocumentPrint(ReportEngine.SHIPMENT,null, processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview(), null , processInfo);
 		else if (processInfo.getAD_Process_ID() == 217)		//	C_Project
-			return startDocumentPrint(ReportEngine.PROJECT, processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview());
+			return startDocumentPrint(ReportEngine.PROJECT,null, processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview(), null , processInfo);
 		else if (processInfo.getAD_Process_ID() == 276)		//	C_RfQResponse
-			return startDocumentPrint(ReportEngine.RFQ, processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview());
+			return startDocumentPrint(ReportEngine.RFQ, null ,processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview(), null , processInfo);
 		else if (processInfo.getAD_Process_ID() == 313)		//	C_Payment
 			return startCheckPrint(processInfo.getRecord_ID(), !processInfo.isPrintPreview());
         else if (processInfo.getAD_Process_ID() == 290)     // M_Movement
-            return startDocumentPrint(ReportEngine.MOVEMENT , processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview());
+            return startDocumentPrint(ReportEngine.MOVEMENT , null, processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview(), null , processInfo);
 		/*else if (pi.AD_Process_ID == 9999999)	//	PaySelection
 			return startDocumentPrint(CHECK, pi, IsDirectPrint);
 		else if (pi.AD_Process_ID == 9999999)	//	PaySelection
 			return startDocumentPrint(REMITTANCE, pi, IsDirectPrint);
 		**/
 		else if (processInfo.getAD_Process_ID() == 159)		//	Dunning
-			return startDocumentPrint(ReportEngine.DUNNING, processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview());
+			return startDocumentPrint(ReportEngine.DUNNING,null , processInfo.getRecord_ID(), parent, windowNo, !processInfo.isPrintPreview(), null , processInfo);
 		//	Yamel Senih, 2015-11-13
 		//	Delete Hardcode
 //	   else if (pi.getAD_Process_ID() == 202			//	Financial Report
@@ -374,8 +374,11 @@ public class ReportCtl
 			// ==================================
 			{
 				// set generated PDF
-				if (processInfo != null)
+				if (processInfo != null) {
 					processInfo.setPDFReport(reportEngine.getPDF());
+					if (processInfo.isBatch())
+						return true;
+				}
 
 				createOutput(reportEngine, !isDirectPrint, printerName);
 				if (isDirectPrint)

@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--ADempiere(r) Release 3.9.0_2017-08-01 -Smart Suite ERP,CRM and SCM- (c) 1999-2017 ADempiere(r); Implementation: ${ADEMPIERE_VERSION} 20190319-0953 - ${ADEMPIERE_VENDOR}--><!--<!DOCTYPE adempiereTrl PUBLIC "-//ComPiere, Inc.//DTD Adempiere Translation 1.0//EN" "http://www.adempiere.net/dtd/adempiereTrl.dtd">--><adempiereTrl language="it_IT" table="AD_View">
+ <row id="50000" trl="N">
+  <value column="Name" original="Sales Order to Picking">Sales Order to Picking</value>
+  <value column="Description" original="Allow select the Sales Order lines to create a Outbound Order">Allow select the Sales Order lines to create a Outbound Order</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50001" trl="N">
+  <value column="Name" original="Outbound Order Lines">Outbound Order to Release</value>
+  <value column="Description" original="Allow select the Outbound Order lines to be release to pick or ship.">Allow select the Outbound Order lines to be release to pick.</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50002" trl="N">
+  <value column="Name" original="Forecast Run Result">Forecast Run Result</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50006" trl="N">
+  <value column="Name" original="MRP Action Messages View">MRP Action Messages View</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50007" trl="N">
+  <value column="Name" original="Planned Requisition View">Planned Requisition View</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50008" trl="N">
+  <value column="Name" original="Planned Manufacturing Orders View">Planned Manufacturing Orders View</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50009" trl="N">
+  <value column="Name" original="Planned Distribution Orders View">Planned Distribution Orders View</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50010" trl="N">
+  <value column="Name" original="MRP Demands View">MRP Demands View</value>
+  <value column="Description" original="MRP Demands View">MRP Demands View</value>
+  <value column="Help" original="This view allows to display independent and dependent demand  for products, to be able to track the supply for each  requirement.">This view allows to display independent and dependent demand  for products, to be able to track the supply for each  requirement.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50011" trl="N">
+  <value column="Name" original="MRP Supplies View">MRP Supplies View</value>
+  <value column="Description" original="MRP Supplies View">MRP Supplies View</value>
+  <value column="Help" original="This view allows to display supplies, to be able to track each supply of every demand.">This view allows to display supplies, to be able to track each supply of every demand.</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50012" trl="N">
+  <value column="Name" original="Invoice View">Invoice View</value>
+  <value column="Description" original="Invoice Information">Invoice Information</value>
+  <value column="Help" original="This view allows to display the invoices view">This view allows to display the invoices view</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50014" trl="N">
+  <value column="Name" original="Manufacturing Order Activities View">Manufacturing Order Activities View</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50023" trl="N">
+  <value column="Name" original="Job Openings View">Job Openings View</value>
+  <value column="Description" original="View to show Job Openings ">View to show Job Openings </value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50024" trl="N">
+  <value column="Name" original="My Applicants View">My Applicants View</value>
+  <value column="Description" original="Applicants for Recruitment Management">Applicants for Recruitment Management</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50033" trl="N">
+  <value column="Name" original="InOut View">InOut View</value>
+  <value column="Description" original="InOut  Information">InOut  Information</value>
+  <value column="Help" original="This view allows to display the Receipt and Shipments view">This view allows to display the Receipt and Shipments view</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50037" trl="N">
+  <value column="Name" original="Employee Payroll Movement">Employee Payroll Movement</value>
+  <value column="Description" original="View History Payroll Movement">View History Payroll Movement</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50038" trl="N">
+  <value column="Name" original="Movement Candidate">Distribution Order</value>
+  <value column="Description" original="Allows to select the Distribution Orders to Movement Candidate">Allows to select the Distribution Orders</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50039" trl="N">
+  <value column="Name" original="Distribution Order">Distribution Order</value>
+  <value column="Description" original="Allows to show the Distribution Order with your lines">Allows to show the Distribution Order with your lines</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50040" trl="N">
+  <value column="Name" original="Demand Order to Picking">Demand Order to Picking</value>
+  <value column="Description" original="Allow select the Demand Orders to create a Outbound Order">Allow select the Demand Orders to create a Outbound Order</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50041" trl="N">
+  <value column="Name" original="Demand Outbound Order Lines">Demand Outbound Order Lines</value>
+  <value column="Description" original="Allow select the Outbound Order lines based on Demands to be release to pick or ship.">Allow select the Outbound Order lines based on Demands to be release to pick or ship.</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50042" trl="N">
+  <value column="Name" original="Column for Process Parameter">Column for Process Parameter</value>
+  <value column="Description" original="Show the columns from a Report view or a Process Parameter">Show the columns from a Report view or a Process Parameter</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50043" trl="N">
+  <value column="Name" original="Payment Selection">Payment Selection</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50044" trl="N">
+  <value column="Name" original="Payroll Movement">Payroll Movement</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50045" trl="N">
+  <value column="Name" original="Order Open">Order Open</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50046" trl="N">
+  <value column="Name" original="Invoice Open">Invoice Open</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50049" trl="N">
+  <value column="Name" original="POS Withdrawal">POS Withdrawal</value>
+  <value column="Description" original="View for Withdrawal by tender type">View for Withdrawal by tender type</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50050" trl="N">
+  <value column="Name" original="POS Bank Statement">POS Bank Statement</value>
+  <value column="Description" original="This view allowa show the Bank Statement movement">This view allowa show the Bank Statement movement</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50051" trl="N">
+  <value column="Name" original="Create From In Out View">Create From In Out View</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50053" trl="N">
+  <value column="Name" original="Bank Statement Create From View">Bank Statement Create From View</value>
+  <value column="Description" original="View for Create From in Bank Statement">View for Create From in Bank Statement</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50055" trl="N">
+  <value column="Name" original="Create From Invoice View">Create From Invoice View</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50056" trl="N">
+  <value column="Name" original="Purchase Order View">Purchase Order View</value>
+  <value column="Description" original="Purchase Order Information">Purchase Order Information</value>
+  <value column="Help" original="This view allows to display the Purchase Order view">This view allows to display the Purchase Order view</value>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50058" trl="N">
+  <value column="Name" original="Payroll Concept">Payroll Concept</value>
+  <value column="Description" original="Payroll Concept View">Payroll Concept View</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50062" trl="N">
+  <value column="Name" original="SB_Order_Process">SB_Order_Process</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50063" trl="N">
+  <value column="Name" original="M_InOut_CandidateDetail_v">M_InOut_CandidateDetail_v</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50069" trl="N">
+  <value column="Name" original="Transport Requirement View">Transport Requirement View</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50070" trl="N">
+  <value column="Name" original="Transport License View">Transport License View</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50071" trl="N">
+  <value column="Name" original="Driver View">Driver View</value>
+  <value column="Description" original="Define Driver View">Define Driver View</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50072" trl="N">
+  <value column="Name" original="Vehicle View">Vehicle View</value>
+  <value column="Description" original="Define Vehicle View">Define Vehicle View</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="50095" trl="N">
+  <value column="Name" original="Transport Unit View">Transport Unit View</value>
+  <value column="Description" original="Define Transport Unit View">Define Transport Unit View</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="90002" trl="N">
+  <value column="Name" original="SB_InvoiceGenerateFromOrderLine">SB_InvoiceGenerateFromOrderLine</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000000" trl="N">
+  <value column="Name" original="COO_BOM_Implosion">COO_BOM_Implosion</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000001" trl="N">
+  <value column="Name" original="COO Previsione Fabbisogni">COO Previsione Fabbisogni</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000002" trl="N">
+  <value column="Name" original="Coo_PPOrder_ScaricoAutomatico_V">Coo_PPOrder_ScaricoAutomatico_V</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000003" trl="N">
+  <value column="Name" original="COO_PPOrder_ScaricoAutomatico_V">COO_PPOrder_ScaricoAutomatico_V</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000004" trl="N">
+  <value column="Name" original="COO_PagamentiFornitoriMultipli_V">COO_PagamentiFornitoriMultipli_V</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000005" trl="N">
+  <value column="Name" original="OOSmartBrowseOrdiniCarico">OOSmartBrowseOrdiniCarico</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000006" trl="N">
+  <value column="Name" original="OOCommesseOrdiniProduzione">OOCommesseOrdiniProduzione</value>
+  <value column="Description" original="OOCommesseOrdiniProduzione">OOCommesseOrdiniProduzione</value>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+ <row id="1000007" trl="N">
+  <value column="Name" original="OORigheOrdineProcesso1">OORigheOrdineProcesso1</value>
+  <value column="Description" original=""/>
+  <value column="Help" original=""/>
+  <value column="UUID" original=""/>
+ </row>
+</adempiereTrl>

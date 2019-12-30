@@ -23,8 +23,8 @@ import javax.xml.transform.sax.TransformerHandler;
 
 import org.adempiere.pipo.PackOut;
 import org.compiere.model.I_AD_PrintFormat;
-import org.compiere.model.I_AD_ReportView;
 import org.compiere.model.I_AD_ReportView_Col;
+import org.compiere.model.MReportView;
 import org.compiere.model.Query;
 import org.compiere.model.X_AD_ReportView_Col;
 import org.compiere.print.MPrintFormat;
@@ -39,8 +39,11 @@ public class ReportViewElementHandler extends GenericPOHandler {
 			packOut = new PackOut();
 			packOut.setLocalContext(ctx);
 		}
-		//	Task
-		packOut.createGenericPO(document, I_AD_ReportView.Table_ID, reportViewId, true, null);
+		//	Table
+		MReportView reportView = MReportView.get(ctx, reportViewId);
+		packOut.createTable(reportView.getAD_Table_ID(), document);
+		//	
+		packOut.createGenericPO(document, reportView, true, null);
 		//	Get all columns
 		List<MPrintFormat> printFormatList = new Query(ctx, I_AD_PrintFormat.Table_Name, I_AD_PrintFormat.COLUMNNAME_AD_ReportView_ID + " = ?", null)
 			.setParameters(reportViewId)

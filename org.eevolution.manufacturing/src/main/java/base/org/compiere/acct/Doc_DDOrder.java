@@ -55,7 +55,8 @@ public class Doc_DDOrder extends Doc
 	{	
 		MDDOrder order = (MDDOrder)getPO();
 		setDateDoc(order.getDateOrdered());
-		return STATUS_Posted;
+		setDateAcct(order.getDateOrdered());
+		return null;
 	}   //  loadDocumentDetails
 
 	/**
@@ -74,7 +75,7 @@ public class Doc_DDOrder extends Doc
 	 *  @return Fact
 	 */
 	public ArrayList<Fact> createFacts (MAcctSchema as)
-	{		
-		return null;
+	{
+		return new ArrayList<Fact>();
 	}   //  createFact
 }   //  Doc Cost Collector

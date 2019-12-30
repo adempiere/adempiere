@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for HR_ProcessReportPayroll
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_HR_ProcessReportPayroll extends PO implements I_HR_ProcessReportPayroll, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_ProcessReportPayroll (Properties ctx, int HR_ProcessReportPayroll_ID, String trxName)

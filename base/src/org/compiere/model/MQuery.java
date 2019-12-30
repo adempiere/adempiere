@@ -56,24 +56,30 @@ public class MQuery implements Serializable
 	 *	Get Query from Parameter
 	 *	@param ctx context (to determine language)
 	 *  @param AD_PInstance_ID instance
-	 *  @param TableName table name
+	 *  @param tableName table name
 	 *  @return where clause
 	 */
-	static public MQuery get (Properties ctx, int AD_PInstance_ID, String TableName)
+	static public MQuery get (Properties ctx, int AD_PInstance_ID, String tableName)
 	{
-		s_log.info("AD_PInstance_ID=" + AD_PInstance_ID + ", TableName=" + TableName);
-		MQuery query = new MQuery(TableName);
+		s_log.info("AD_PInstance_ID=" + AD_PInstance_ID + ", TableName=" + tableName);
+		MQuery query = new MQuery(tableName);
 		//	Temporary Tables - add qualifier (not displayed)
 		boolean isTemporaryTable = false;
 		MTable table = null;
-		table = MTable.get(ctx, TableName);
-		if (table.getColumn("AD_PInstance_ID") != null)
-		{
+		table = MTable.get(ctx, tableName);
+		String translationTableName = tableName;
+		if (!Env.isBaseLanguage(ctx, tableName) && tableName.toLowerCase().endsWith("_v")) {
+			boolean hasVT = DB.isTableOrViewExists(tableName+"t");
+			if (hasVT) {
+				translationTableName += "t";
+			}
+		}
+		if (table.getColumn("AD_PInstance_ID") != null) {
 			//	BR [ 236 ]
-			query.addRestriction(TableName + ".AD_PInstance_ID=" + AD_PInstance_ID, true);
+			query.addRestriction(translationTableName + ".AD_PInstance_ID=" + AD_PInstance_ID, true);
 			isTemporaryTable = true;
 		}
-		boolean isFinancialReport = ("T_Report".equals(TableName) || "T_ReportStatement".equals(TableName));
+		boolean isFinancialReport = ("T_Report".equals(tableName) || "T_ReportStatement".equals(tableName));
 		query.m_AD_PInstance_ID = AD_PInstance_ID;
 
 		//	How many rows do we have?
@@ -155,7 +161,7 @@ public class MQuery implements Serializable
 				// This condition applies only to temporary tables - teo_sarca [ 2860022 ]
 				if (isTemporaryTable && !isFinancialReport && table != null && table.getColumn(ParameterName) == null)
 				{
-					s_log.info("Skip parameter "+ParameterName+" because there is no column in table "+TableName);
+					s_log.info("Skip parameter "+ParameterName+" because there is no column in table "+tableName);
 					continue;
 				}
 				

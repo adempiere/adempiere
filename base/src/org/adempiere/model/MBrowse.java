@@ -322,4 +322,18 @@ public class MBrowse extends X_AD_Browse {
 		//	Return
 		return retValue;
 	}	//	get
+	
+	/**
+	 * Duplicate Browse
+	 * @return
+	 */
+	public MBrowse getDuplicated() {
+		try {
+			return (MBrowse) super.clone();
+		} catch (CloneNotSupportedException e) {
+			log.warning("Error " + e.getLocalizedMessage());
+		}
+		//	Default
+		return null;
+	}
 }

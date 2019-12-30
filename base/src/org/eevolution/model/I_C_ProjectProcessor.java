@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_ProjectProcessor
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_ProjectProcessor 
 {
@@ -147,6 +147,19 @@ public interface I_C_ProjectProcessor
 	  * Date the process will run next
 	  */
 	public Timestamp getDateNextRun();
+
+    /** Column name DaysBeforeStart */
+    public static final String COLUMNNAME_DaysBeforeStart = "DaysBeforeStart";
+
+	/** Set Days before due start date.
+	  * Days before start date to start
+	  */
+	public void setDaysBeforeStart (int DaysBeforeStart);
+
+	/** Get Days before due start date.
+	  * Days before start date to start
+	  */
+	public int getDaysBeforeStart();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -273,6 +286,21 @@ public interface I_C_ProjectProcessor
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
+
+    /** Column name R_MailText_ID */
+    public static final String COLUMNNAME_R_MailText_ID = "R_MailText_ID";
+
+	/** Set Mail Template.
+	  * Text templates for mailings
+	  */
+	public void setR_MailText_ID (int R_MailText_ID);
+
+	/** Get Mail Template.
+	  * Text templates for mailings
+	  */
+	public int getR_MailText_ID();
+
+	public org.compiere.model.I_R_MailText getR_MailText() throws RuntimeException;
 
     /** Column name RemindDays */
     public static final String COLUMNNAME_RemindDays = "RemindDays";

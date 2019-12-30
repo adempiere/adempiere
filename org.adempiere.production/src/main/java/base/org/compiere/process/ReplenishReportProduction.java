@@ -568,11 +568,9 @@ public class ReplenishReportProduction extends SvrProcess
 			//	From: Look-up Storage
 			MProduct product = MProduct.get(getCtx(), replenish.getM_Product_ID());
 			String MMPolicy = product.getMMPolicy();
-			MStorage[] storages = MStorage.getWarehouse(getCtx(), 
-				whSource.getM_Warehouse_ID(), replenish.getM_Product_ID(), 0, 0,
-				true, null, 
-				MClient.MMPOLICY_FiFo.equals(MMPolicy), get_TrxName());
-			//
+			MStorage[] storages = MStorage.getWarehouse(getCtx(), whSource.getM_Warehouse_ID(), 
+					replenish.getM_Product_ID(), 0, 
+					null, MClient.MMPOLICY_FiFo.equals(MMPolicy), false, 0,  get_TrxName());
 			BigDecimal target = replenish.getQtyToOrder();
 			for (int j = 0; j < storages.length; j++)
 			{

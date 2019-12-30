@@ -74,7 +74,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/tools/lib/commons-collections-3.1.jar">
+	<classpathentry kind="lib" path="/tools/lib/commons-collections-3.2.2.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="../"/>
 		</attributes>
@@ -106,9 +106,11 @@
 	<classpathentry kind="lib" path="/tools/lib/javax.inject-1.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/mariadb-java-client.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/commons-io.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.project"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.request"/>
 	<classpathentry kind="lib" path="/tools/lib/poi-3.17.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/poi-ooxml-3.17.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="/glassfishfacet/lib/appserv-rt.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/org.adempiere.project-jars"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/org.adempiere.request-jars"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

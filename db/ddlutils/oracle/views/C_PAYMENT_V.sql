@@ -1,4 +1,3 @@
--- DROP VIEW C_Payment_v;
 CREATE OR REPLACE VIEW C_Payment_v AS
  SELECT p.C_Payment_ID,
     p.AD_Client_ID,
@@ -91,6 +90,8 @@ CREATE OR REPLACE VIEW C_Payment_v AS
     p.C_Activity_ID,
     p.C_Order_ID,
     p.User1_ID,
-    p.User2_ID,
-    p.Description
-   FROM C_Payment p;
+    p.User2_ID, 
+    p.Description,
+    bp.C_BP_AccountType_ID, bp.C_BP_SalesGroup_ID, bp.C_BP_Segment_ID, bp.C_BP_IndustryType_ID
+   FROM C_Payment p
+   LEFT JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID);

@@ -31,6 +31,7 @@ package org.eevolution.process;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import org.adempiere.exceptions.DocTypeNotFoundException;
 import org.compiere.model.I_C_OrderLine;
@@ -57,11 +58,12 @@ public class GenerateInOutBound extends GenerateInOutBoundAbstract {
      * Get Parameters
      */
     protected void prepare() {
-       super.prepare();
+        super.prepare();
     }
 
     /**
      * Process - Generate Export Format
+     *
      * @return info
      */
     protected String doIt() throws Exception {
@@ -74,7 +76,7 @@ public class GenerateInOutBound extends GenerateInOutBoundAbstract {
             createBasedOnSalesOrders(outBoundOrder, (List<MOrderLine>) getInstancesForSelection(get_TrxName()));
         }
         // Based on MRP
-        if ( "demand".equals(getAliasForTableSelection())) {
+        if ("demand".equals(getAliasForTableSelection())) {
             getProcessInfo().setTableSelectionId(MPPMRP.Table_ID);
             outBoundOrder = createOutBoundOrder();
             createBasedOnDemand(outBoundOrder, (List<MPPMRP>) getInstancesForSelection(get_TrxName()));
@@ -88,14 +90,16 @@ public class GenerateInOutBound extends GenerateInOutBoundAbstract {
         MWMInOutBound outBoundOrder = new MWMInOutBound(getCtx(), 0, get_TrxName());
         outBoundOrder.setShipDate(getShipDate());
         outBoundOrder.setPickDate(getPickDate());
-        if (getPOReference() != null)
-            outBoundOrder.setPOReference(getPOReference());
-
-        if (getDeliveryRule() != null)
-            outBoundOrder.setDeliveryRule(getDeliveryRule());
-        if (getDeliveryViaRule() != null)
-            outBoundOrder.setDeliveryViaRule(getDeliveryViaRule());
-
+        outBoundOrder.setDocStatus(MWMInOutBound.DOCSTATUS_Drafted);
+        String docAction = Optional.ofNullable(getDocAction()).orElse(MWMInOutBound.ACTION_Prepare);
+        outBoundOrder.setDocAction(docAction);
+        Optional.ofNullable(getPOReference()).ifPresent(outBoundOrder::setPOReference);
+        Optional.ofNullable(getPriorityRule()).ifPresent(outBoundOrder::setPriorityRule);
+        Optional.ofNullable(getDeliveryViaRule()).ifPresent(outBoundOrder::setDeliveryViaRule);
+        Optional.ofNullable(getFreightCostRule()).ifPresent(outBoundOrder::setFreightCostRule);
+        Optional.ofNullable(getDeliveryRule()).ifPresent(outBoundOrder::setDeliveryRule);
+        if (getLocatorId() > 0)
+            outBoundOrder.setM_Locator_ID(getLocatorId());
         if (getDocTypeId() > 0)
             outBoundOrder.setC_DocType_ID(getDocTypeId());
         else {
@@ -105,22 +109,20 @@ public class GenerateInOutBound extends GenerateInOutBoundAbstract {
             else
                 outBoundOrder.setC_DocType_ID(docTypeId);
         }
+        if (getShipperId() > 0)
+            outBoundOrder.setM_Shipper_ID(getShipperId());
+        if (getFreightCategoryId() > 0)
+            outBoundOrder.setM_FreightCategory_ID(getFreightCategoryId());
 
-        if (getDocAction() != null)
-            outBoundOrder.setDocAction(getDocAction());
-        else
-            outBoundOrder.setDocAction(MWMInOutBound.ACTION_Prepare);
-
-        outBoundOrder.setDocStatus(MWMInOutBound.DOCSTATUS_Drafted);
         outBoundOrder.setM_Warehouse_ID(locator.getM_Warehouse_ID());
         outBoundOrder.setIsSOTrx(true);
         outBoundOrder.saveEx();
-        addLog(outBoundOrder.get_ID(), outBoundOrder.getShipDate(), BigDecimal.ZERO , outBoundOrder.getDocumentInfo());
+        addLog(outBoundOrder.get_ID(), outBoundOrder.getShipDate(), BigDecimal.ZERO, outBoundOrder.getDocumentInfo());
         return outBoundOrder;
     }
 
-    private void createBasedOnSalesOrders(MWMInOutBound outBoundOrder , List<MOrderLine> orderLines) {
-        orderLines.stream().forEach(orderLine -> {
+    private void createBasedOnSalesOrders(MWMInOutBound outBoundOrder, List<MOrderLine> orderLines) {
+        orderLines.forEach(orderLine -> {
             MWMInOutBoundLine outBoundOrderLine = new MWMInOutBoundLine(outBoundOrder);
             outBoundOrderLine.setLine(getLineNo(outBoundOrder));
             outBoundOrderLine.setM_Product_ID(orderLine.getM_Product_ID());
@@ -137,7 +139,7 @@ public class GenerateInOutBound extends GenerateInOutBoundAbstract {
     }
 
     private void createBasedOnDemand(MWMInOutBound outBoundOrder, List<MPPMRP> demands) {
-        demands.stream().forEach( demand -> {
+        demands.forEach(demand -> {
             MWMInOutBoundLine outBoundOrderLine = new MWMInOutBoundLine(outBoundOrder);
             outBoundOrderLine.setLine(getLineNo(outBoundOrder));
             outBoundOrderLine.setMovementQty(demand.getQty());

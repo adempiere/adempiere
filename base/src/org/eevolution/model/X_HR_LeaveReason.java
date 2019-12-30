@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_LeaveReason
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_HR_LeaveReason extends PO implements I_HR_LeaveReason, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_LeaveReason (Properties ctx, int HR_LeaveReason_ID, String trxName)
@@ -128,7 +128,7 @@ public class X_HR_LeaveReason extends PO implements I_HR_LeaveReason, I_Persiste
 	public void setLeaveReasonType (String LeaveReasonType)
 	{
 
-		set_Value (COLUMNNAME_LeaveReasonType, LeaveReasonType);
+		set_ValueNoCheck (COLUMNNAME_LeaveReasonType, LeaveReasonType);
 	}
 
 	/** Get Leave Reason Type.

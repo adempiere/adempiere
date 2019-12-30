@@ -30,15 +30,18 @@ package org.eevolution.model;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.util.Optional;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicReference;
 
+import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MInvoiceLine;
-import org.compiere.model.MLocator;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 
 /**
  * Class Model for Inbound & Outbound Operation Line
@@ -150,8 +153,8 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 	{
 		this (inOutBound.getCtx(), 0, inOutBound.get_TrxName());
 		setWM_InOutBound_ID(inOutBound.get_ID());
-		setC_Invoice_ID(orderLine.getC_Order_ID());
-		setC_InvoiceLine_ID(orderLine.getC_Order_ID());
+		setC_Order_ID(orderLine.getC_Order_ID());
+		setC_OrderLine_ID(orderLine.getC_OrderLine_ID());
 		setMovementQty(orderLine.getQtyOrdered().subtract(getQtyToDeliver()));
 		setM_Product_ID(orderLine.getM_Product_ID());
 		setC_Charge_ID(orderLine.getC_Charge_ID());
@@ -177,11 +180,8 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 	 * get MInOutBound Order
 	 * @return  MInOutBound Order
 	 */
-	public MWMInOutBound getParent()
-	{
-		if (parent == null)
-			parent = new MWMInOutBound(getCtx(), getWM_InOutBound_ID(), get_TrxName());
-		return parent;
+	public MWMInOutBound getParent() {
+		return Optional.ofNullable(parent).orElseGet(() -> new MWMInOutBound(getCtx(), getWM_InOutBound_ID(), get_TrxName()));
 	}	//	getParent
 	
 	/**
@@ -190,51 +190,31 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 	 */
 	public MProduct getProduct()
 	{
-		if (product == null && getM_Product_ID() != 0)
-		{	
-			product =  MProduct.get (getCtx(), getM_Product_ID());
-		}
-		
-		return product;
+		return Optional.ofNullable(product).orElseGet(() -> MProduct.get (getCtx(), getM_Product_ID()));
 	}	//	getProduct
 	
 	/**
 	 * Get Sales Order Line
 	 * @return Sales Order line or null
 	 */
-	public MOrderLine getOrderLine()
-	{
-		if(orderLine == null && getC_OrderLine_ID() != 0)
-		{	
-			orderLine = new MOrderLine(getCtx(), getC_OrderLine_ID(), get_TrxName());
-		}	
-		return orderLine;
+	public MOrderLine getOrderLine() {
+		return Optional.ofNullable(orderLine).orElseGet(() -> new MOrderLine(getCtx(), getC_OrderLine_ID(), get_TrxName()));
 	}
 
 	/**
 	 * Get Sales Order Line
 	 * @return Sales Order line or null
 	 */
-	public MInvoiceLine getInvoiceLine()
-	{
-		if(invoiceLine == null && getC_OrderLine_ID() != 0)
-		{
-			invoiceLine = new MInvoiceLine(getCtx(), getC_InvoiceLine_ID(), get_TrxName());
-		}
-		return invoiceLine;
+	public MInvoiceLine getInvoiceLine() {
+		return Optional.ofNullable(invoiceLine).orElseGet(() -> new MInvoiceLine(getCtx(), getC_InvoiceLine_ID(), get_TrxName()));
 	}
 	
 	/**
 	 * get Business Partner 
 	 * @return Business Partner or null
 	 */
-	public MBPartner getBPartner()
-	{
-		if(partner == null && getOrderLine().getC_BPartner_ID() != 0)
-		{	
-			partner = (MBPartner) getOrderLine().getC_BPartner();
-		}	
-		return partner;
+	public MBPartner getBPartner() {
+		return Optional.ofNullable(partner).orElseGet(() -> (MBPartner) getOrderLine().getC_BPartner());
 	}
 
 	/**
@@ -250,10 +230,24 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 	 * get Quantity to Ship
 	 * @return BigDecimal with Quantity to Ship
 	 */
-	public BigDecimal getQtyToDeliver()
-	{
-		MOrderLine oline = getOrderLine();
-		return oline.getQtyOrdered().subtract(oline.getQtyDelivered());
+	public BigDecimal getQtyToDeliver() {
+		if(getC_OrderLine_ID() > 0) {
+			Optional<I_C_OrderLine> maybeOrderLine = Optional.ofNullable(getOrderLine());
+			AtomicReference<BigDecimal> quantityToDeliver = new AtomicReference<>(BigDecimal.ZERO);
+			maybeOrderLine.ifPresent( orderLine -> {
+				quantityToDeliver.set(orderLine.getQtyOrdered().subtract(orderLine.getQtyDelivered()));
+			});
+			return quantityToDeliver.get();
+		} else if(getDD_OrderLine_ID() != 0) {
+			Optional<I_DD_OrderLine> maybeOrderLine = Optional.ofNullable(getDD_OrderLine());
+			AtomicReference<BigDecimal> quantityToDeliver = new AtomicReference<>(BigDecimal.ZERO);
+			maybeOrderLine.ifPresent( orderLine -> {
+				quantityToDeliver.set(orderLine.getQtyOrdered().subtract(orderLine.getQtyDelivered()));
+			});
+			return quantityToDeliver.get();
+		}
+		//	Return
+		return Env.ZERO;
 	}
 
 	/**

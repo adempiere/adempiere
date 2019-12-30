@@ -45,6 +45,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.spin.util.ASPUtil;
 
 /**
  *	Controller for Process Parameter, it allow to developer create different views from it
@@ -335,9 +336,13 @@ public abstract class ProcessController extends SmallViewController {
 		log.config("");	
 		//	Create Fields
 		boolean hasFields = false;
-		process = MProcess.get(Env.getCtx(), processInfo.getAD_Process_ID());
+		ASPUtil aspUtil = ASPUtil.getInstance(Env.getCtx());
+		process = aspUtil.getProcess(processInfo.getAD_Process_ID());
 		//	Load Parameter
-		for(MProcessPara para : process.getASPParameters()) {
+		for(MProcessPara para : aspUtil.getProcessParameters(processInfo.getAD_Process_ID())) {
+			if(!para.isActive()) {
+				continue;
+			}
 			hasFields = true;
 			createField(para, windowNo);
 		}

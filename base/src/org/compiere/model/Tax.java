@@ -16,12 +16,6 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.Properties;
-
 import org.adempiere.exceptions.DBException;
 import org.adempiere.exceptions.TaxCriteriaNotFoundException;
 import org.adempiere.exceptions.TaxForChangeNotFoundException;
@@ -30,6 +24,12 @@ import org.adempiere.exceptions.TaxNotFoundException;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Properties;
 
 /**
  *	Tax Handling
@@ -40,12 +40,13 @@ import org.compiere.util.DB;
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>FR [ 2758097 ] Implement TaxNotFoundException
  */
-public class Tax
-{
-	/**	Logger							*/
-	static private CLogger			log = CLogger.getCLogger (Tax.class);
+public class Tax {
+	/**
+	 * Logger
+	 */
+	static private CLogger log = CLogger.getCLogger(Tax.class);
 
-	
+
 	/**************************************************************************
 	 *	Get Tax ID - converts parameters to call Get Tax.
 	 *  <pre>
@@ -58,31 +59,31 @@ public class Tax
 	 *
 	 *  if IsSOTrx is false, bill and ship are reversed
 	 *  </pre>
-	 * 	@param ctx	context
-	 * 	@param M_Product_ID product
-	 * 	@param C_Charge_ID product
-	 * 	@param billDate invoice date
-	 * 	@param shipDate ship date (ignored)
-	 * 	@param AD_Org_ID org
-	 * 	@param M_Warehouse_ID warehouse (ignored)
-	 * 	@param billC_BPartner_Location_ID invoice location
-	 * 	@param shipC_BPartner_Location_ID ship location (ignored)
-	 * 	@param IsSOTrx is a sales trx
-	 * 	@return C_Tax_ID
+	 *    @param ctx context
+	 *    @param M_Product_ID product
+	 *    @param C_Charge_ID product
+	 *    @param billDate invoice date
+	 *    @param shipDate ship date (ignored)
+	 *    @param AD_Org_ID org
+	 *    @param M_Warehouse_ID warehouse (ignored)
+	 *    @param billC_BPartner_Location_ID invoice location
+	 *    @param shipC_BPartner_Location_ID ship location (ignored)
+	 *    @param IsSOTrx is a sales trx
+	 *    @return C_Tax_ID
 	 *  @throws TaxCriteriaNotFoundException if a criteria was not found
 	 */
-	public static int get (Properties ctx, int M_Product_ID, int C_Charge_ID,
-		Timestamp billDate, Timestamp shipDate,
-		int AD_Org_ID, int M_Warehouse_ID,
-		int billC_BPartner_Location_ID, int shipC_BPartner_Location_ID,
-		boolean IsSOTrx)
-	{
+	@Deprecated
+	public static int get(Properties ctx, int M_Product_ID, int C_Charge_ID,
+						  Timestamp billDate, Timestamp shipDate,
+						  int AD_Org_ID, int M_Warehouse_ID,
+						  int billC_BPartner_Location_ID, int shipC_BPartner_Location_ID,
+						  boolean IsSOTrx) {
 		return get(ctx, M_Product_ID, C_Charge_ID,
 				billDate, shipDate,
 				AD_Org_ID, M_Warehouse_ID,
 				billC_BPartner_Location_ID, shipC_BPartner_Location_ID,
 				IsSOTrx, null);
-	}	//	get
+	}    //	get
 
 	public static int get (Properties ctx, int M_Product_ID, int C_Charge_ID,
 		Timestamp billDate, Timestamp shipDate,
@@ -96,10 +97,46 @@ public class Tax
 				, trxName);
 		else if (C_Charge_ID != 0)
 			return getCharge (ctx, C_Charge_ID, billDate, shipDate, AD_Org_ID, M_Warehouse_ID,
-				billC_BPartner_Location_ID, shipC_BPartner_Location_ID, IsSOTrx);
+				billC_BPartner_Location_ID, shipC_BPartner_Location_ID, IsSOTrx, trxName);
 		else
 			return getExemptTax (ctx, AD_Org_ID);
 	}	//	get
+
+	/**
+	 * Get Tax ID - converts parameters to call Get Tax.
+	 * <pre>
+	 * 		C_Charge_ID					->	C_TaxCategory_ID
+	 * 		billDate					->	billDate
+	 * 		shipDate					->	shipDate (ignored)
+	 * 		AD_Org_ID					->	billFromC_Location_ID
+	 * 		M_Warehouse_ID				->	shipFromC_Location_ID (ignored)
+	 * 		billC_BPartner_Location_ID  ->	billToC_Location_ID
+	 * 		shipPartnerLocationId 	->	shipToC_Location_ID (ignored)
+	 *
+	 *  if IsSOTrx is false, bill and ship are reversed
+	 *  </pre>
+	 *
+	 * @param ctx                        context
+	 * @param chargeId                product
+	 * @param billDate                   invoice date
+	 * @param shipDate                   ship date (ignored)
+	 * @param orgId                  org
+	 * @param warehouseId             warehouse (ignored)
+	 * @param billPartnerLocationId invoice location
+	 * @param shipPartnerLocationId ship location (ignored)
+	 * @param isSOTrx                    is a sales trx
+	 * @return C_Tax_ID
+	 * @throws TaxForChangeNotFoundException if criteria not found for given change
+	 * @throws TaxCriteriaNotFoundException  if a criteria was not found
+	 */
+	@Deprecated
+	public static int getCharge (Properties ctx, int chargeId,
+								 Timestamp billDate, Timestamp shipDate,
+								 int orgId, int warehouseId,
+								 int billPartnerLocationId, int shipPartnerLocationId,
+								 boolean isSOTrx) {
+		return getCharge(ctx,chargeId, billDate, shipDate, orgId, warehouseId, billPartnerLocationId, shipPartnerLocationId,isSOTrx,null);
+	}
 
 	/**
 	 *	Get Tax ID - converts parameters to call Get Tax.
@@ -115,41 +152,32 @@ public class Tax
 	 *  if IsSOTrx is false, bill and ship are reversed
 	 *  </pre>
 	 * 	@param ctx	context
-	 * 	@param C_Charge_ID product
+	 * 	@param chargeId product
 	 * 	@param billDate invoice date
 	 * 	@param shipDate ship date (ignored)
-	 * 	@param AD_Org_ID org
-	 * 	@param M_Warehouse_ID warehouse (ignored)
-	 * 	@param billC_BPartner_Location_ID invoice location
-	 * 	@param shipC_BPartner_Location_ID ship location (ignored)
+	 * 	@param orgId org
+	 * 	@param warehouseId warehouse (ignored)
+	 * 	@param billPartnerLocationId invoice location
+	 * 	@param shipPartnerLocationId ship location (ignored)
 	 * 	@param IsSOTrx is a sales trx
+	 *  @param trxName Transaction name
 	 * 	@return C_Tax_ID
 	 *  @throws TaxForChangeNotFoundException if criteria not found for given change
 	 *  @throws TaxCriteriaNotFoundException if a criteria was not found
 	 */
-	public static int getCharge (Properties ctx, int C_Charge_ID,
+	public static int getCharge (Properties ctx, int chargeId,
 		Timestamp billDate, Timestamp shipDate,
-		int AD_Org_ID, int M_Warehouse_ID,
-		int billC_BPartner_Location_ID, int shipC_BPartner_Location_ID,
-		boolean IsSOTrx)
-	{
-		/* ship location from warehouse is plainly ignored below */
-		// if (M_Warehouse_ID <= 0)
-			// M_Warehouse_ID = Env.getContextAsInt(ctx, "M_Warehouse_ID");
-		// if (M_Warehouse_ID <= 0)
-		// {
-			// throw new TaxForChangeNotFoundException(C_Charge_ID, AD_Org_ID, M_Warehouse_ID,
-						// billC_BPartner_Location_ID, shipC_BPartner_Location_ID,
-						// "@NotFound@ @M_Warehouse_ID@");
-		// }
-		int C_TaxCategory_ID = 0;
-		int shipFromC_Location_ID = 0;
-		int shipToC_Location_ID = 0;
-		int billFromC_Location_ID = 0;
-		int billToC_Location_ID = 0;
-		String IsTaxExempt = null;
-		String IsSOTaxExempt = null;
-		String IsPOTaxExempt = null;
+		int orgId, int warehouseId,
+		int billPartnerLocationId, int shipPartnerLocationId,
+		boolean IsSOTrx, String trxName) {
+		int taxCategoryId = 0;
+		int shipFromLocationId = 0;
+		int shipToLocationId = 0;
+		int billFromLocationId = 0;
+		int billToLocationId = 0;
+		String isTaxExempt = null;
+		String isSOTaxExempt = null;
+		String isPOTaxExempt = null;
 
 		//	Get all at once
 		String sql = "SELECT c.C_TaxCategory_ID, o.C_Location_ID, il.C_Location_ID, b.IsTaxExempt, b.IsPOTaxExempt,"
@@ -165,37 +193,37 @@ public class Tax
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, M_Warehouse_ID);
-			pstmt.setInt (2, C_Charge_ID);
-			pstmt.setInt (3, AD_Org_ID);
-			pstmt.setInt (4, billC_BPartner_Location_ID);
-			pstmt.setInt (5, shipC_BPartner_Location_ID);
+			pstmt = DB.prepareStatement (sql, trxName);
+			pstmt.setInt (1, warehouseId);
+			pstmt.setInt (2, chargeId);
+			pstmt.setInt (3, orgId);
+			pstmt.setInt (4, billPartnerLocationId);
+			pstmt.setInt (5, shipPartnerLocationId);
 			rs = pstmt.executeQuery ();
 			boolean found = false;
 			if (rs.next ())
 			{
-				C_TaxCategory_ID = rs.getInt (1);
-				billFromC_Location_ID = rs.getInt (2);
-				billToC_Location_ID = rs.getInt (3);
-				IsSOTaxExempt = rs.getString (4);
-				IsPOTaxExempt = rs.getString (5);
-				IsTaxExempt = IsSOTrx ? IsSOTaxExempt : IsPOTaxExempt;
-				shipFromC_Location_ID = rs.getInt (6);
-				shipToC_Location_ID = rs.getInt (7);
+				taxCategoryId = rs.getInt (1);
+				billFromLocationId = rs.getInt (2);
+				billToLocationId = rs.getInt (3);
+				isSOTaxExempt = rs.getString (4);
+				isPOTaxExempt = rs.getString (5);
+				isTaxExempt = IsSOTrx ? isSOTaxExempt : isPOTaxExempt;
+				shipFromLocationId = rs.getInt (6);
+				shipToLocationId = rs.getInt (7);
 				found = true;
 			}
 			DB.close(rs, pstmt);
 			//
 			if (!found)
 			{
-				throw new TaxForChangeNotFoundException(C_Charge_ID, AD_Org_ID, M_Warehouse_ID,
-						billC_BPartner_Location_ID, shipC_BPartner_Location_ID,
+				throw new TaxForChangeNotFoundException(chargeId, orgId, warehouseId,
+						billPartnerLocationId, shipPartnerLocationId,
 						null);
 			}
-			else if ("Y".equals (IsTaxExempt))
+			else if ("Y".equals (isTaxExempt))
 			{
-				return getExemptTax (ctx, AD_Org_ID);
+				return getExemptTax (ctx, orgId);
 			}
 		}
 		catch (SQLException e)
@@ -211,24 +239,50 @@ public class Tax
 		//	Reverese for PO
 		if (!IsSOTrx)
 		{
-			int temp = billFromC_Location_ID;
-			billFromC_Location_ID = billToC_Location_ID;
-			billToC_Location_ID = temp;
-			temp = shipFromC_Location_ID;
-			shipFromC_Location_ID = shipToC_Location_ID;
-			shipToC_Location_ID = temp;
+			int temp = billFromLocationId;
+			billFromLocationId = billToLocationId;
+			billToLocationId = temp;
+			temp = shipFromLocationId;
+			shipFromLocationId = shipToLocationId;
+			shipToLocationId = temp;
 		}
 		//
-		log.fine("getCharge - C_TaxCategory_ID=" + C_TaxCategory_ID
-		  + ", billFromC_Location_ID=" + billFromC_Location_ID
-		  + ", billToC_Location_ID=" + billToC_Location_ID
-		  + ", shipFromC_Location_ID=" + shipFromC_Location_ID
-		  + ", shipToC_Location_ID=" + shipToC_Location_ID);
-		return get (ctx, C_TaxCategory_ID, IsSOTrx,
-		  shipDate, shipFromC_Location_ID, shipToC_Location_ID,
-		  billDate, billFromC_Location_ID, billToC_Location_ID);
+		log.fine("getCharge - C_TaxCategory_ID=" + taxCategoryId
+		  + ", billFromC_Location_ID=" + billFromLocationId
+		  + ", billToC_Location_ID=" + billToLocationId
+		  + ", shipFromC_Location_ID=" + shipFromLocationId
+		  + ", shipToC_Location_ID=" + shipToLocationId);
+		return get (ctx, taxCategoryId, IsSOTrx,
+		  shipDate, shipFromLocationId, shipToLocationId,
+		  billDate, billFromLocationId, billToLocationId, trxName);
 	}	//	getCharge
 
+	/**
+	 *	Get Tax ID - converts parameters to call Get Tax.
+	 *  <pre>
+	 *		M_Product_ID				->	C_TaxCategory_ID
+	 *		billDate					->	billDate
+	 *		shipDate					->	shipDate (ignored)
+	 *		AD_Org_ID					->	billFromC_Location_ID
+	 *		M_Warehouse_ID				->	shipFromC_Location_ID (ignored)
+	 *		billC_BPartner_Location_ID  ->	billToC_Location_ID
+	 *		shipC_BPartner_Location_ID 	->	shipToC_Location_ID (ignored)
+	 *
+	 *  if IsSOTrx is false, bill and ship are reversed
+	 *  </pre>
+	 * 	@param ctx	context
+	 * 	@param M_Product_ID product
+	 * 	@param billDate invoice date
+	 * 	@param shipDate ship date (ignored)
+	 * 	@param AD_Org_ID org
+	 * 	@param M_Warehouse_ID warehouse (ignored)
+	 * 	@param billC_BPartner_Location_ID invoice location
+	 * 	@param shipC_BPartner_Location_ID ship location (ignored)
+	 * 	@param IsSOTrx is a sales trx
+	 * 	@return C_Tax_ID
+	 *  If error it returns 0 and sets error log (TaxCriteriaNotFound)
+	 */
+	@Deprecated
 	public static int getProduct (Properties ctx, int M_Product_ID,
 			Timestamp billDate, Timestamp shipDate,
 			int AD_Org_ID, int M_Warehouse_ID,
@@ -264,6 +318,7 @@ public class Tax
 	 * 	@param billC_BPartner_Location_ID invoice location
 	 * 	@param shipC_BPartner_Location_ID ship location (ignored)
 	 * 	@param IsSOTrx is a sales trx
+	 *  @param trxName Transaction Name
 	 * 	@return C_Tax_ID
 	 *  If error it returns 0 and sets error log (TaxCriteriaNotFound)
 	 */
@@ -451,7 +506,7 @@ public class Tax
 
 		return get (ctx, C_TaxCategory_ID, IsSOTrx,
 			shipDate, shipFromC_Location_ID, shipToC_Location_ID,
-			billDate, billFromC_Location_ID, billToC_Location_ID);
+			billDate, billFromC_Location_ID, billToC_Location_ID, trxName);
 	}	//	getProduct
 
 	/**
@@ -495,6 +550,7 @@ public class Tax
 	 *	@return C_Tax_ID
 	 *  @throws TaxNotFoundException if no tax found for given criteria
 	 */
+	@Deprecated
 	protected static int get (Properties ctx,
 		int C_TaxCategory_ID, boolean IsSOTrx,
 		Timestamp shipDate, int shipFromC_Location_ID, int shipToC_Location_ID,
@@ -514,9 +570,7 @@ public class Tax
 		, String trxName)
 	{
 		//	C_TaxCategory contains CommodityCode
-		
 		//	API to Tax Vendor comes here
-
 		if (CLogMgt.isLevelFine())
 		{
 			log.info("get(Detail) - Category=" + C_TaxCategory_ID 

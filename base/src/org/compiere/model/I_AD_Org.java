@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Org
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_AD_Org 
 {
@@ -144,6 +144,21 @@ public interface I_AD_Org
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name Parent_Org_ID */
+    public static final String COLUMNNAME_Parent_Org_ID = "Parent_Org_ID";
+
+	/** Set Parent Organization.
+	  * Parent (superior) Organization 
+	  */
+	public void setParent_Org_ID (int Parent_Org_ID);
+
+	/** Get Parent Organization.
+	  * Parent (superior) Organization 
+	  */
+	public int getParent_Org_ID();
+
+	public org.compiere.model.I_AD_Org getParent_Org() throws RuntimeException;
 
     /** Column name UUID */
     public static final String COLUMNNAME_UUID = "UUID";

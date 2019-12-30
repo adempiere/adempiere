@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_InvoiceLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_InvoiceLine 
 {
@@ -325,6 +325,17 @@ public interface I_C_InvoiceLine
 	  * Optional short description of the record
 	  */
 	public String getDescription();
+
+    /** Column name FM_Amortization_ID */
+    public static final String COLUMNNAME_FM_Amortization_ID = "FM_Amortization_ID";
+
+	/** Set Loan Amortization	  */
+	public void setFM_Amortization_ID (int FM_Amortization_ID);
+
+	/** Get Loan Amortization	  */
+	public int getFM_Amortization_ID();
+
+	public org.spin.model.I_FM_Amortization getFM_Amortization() throws RuntimeException;
 
     /** Column name GenerateTo */
     public static final String COLUMNNAME_GenerateTo = "GenerateTo";
@@ -758,4 +769,15 @@ public interface I_C_InvoiceLine
 	public int getUser4_ID();
 
 	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException;
+
+    /** Column name WM_InOutBoundLine_ID */
+    public static final String COLUMNNAME_WM_InOutBoundLine_ID = "WM_InOutBoundLine_ID";
+
+	/** Set Inbound & Outbound Order Line	  */
+	public void setWM_InOutBoundLine_ID (int WM_InOutBoundLine_ID);
+
+	/** Get Inbound & Outbound Order Line	  */
+	public int getWM_InOutBoundLine_ID();
+
+	public org.eevolution.model.I_WM_InOutBoundLine getWM_InOutBoundLine() throws RuntimeException;
 }

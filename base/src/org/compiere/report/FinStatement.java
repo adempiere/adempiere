@@ -182,7 +182,7 @@ public class FinStatement extends FinStatementAbstract
 				.append(DB.TO_STRING(Msg.getMsg(Env.getCtx(), "BeginningBalance"))).append(",NULL,")
 				.append("COALESCE((SELECT SUM(AcctBalance(Account_ID, AmtAcctDr , 0         )) FROM Fact_Acct ").append(where).append(" ),0), ")
 				.append("COALESCE((SELECT SUM(AcctBalance(Account_ID, 0         , AmtAcctCr )) FROM Fact_Acct ").append(where).append(" ),0), ")
-				.append("COALESCE((SELECT SUM(AcctBalance(Account_ID, AmtAcctDr , AmtAcctCr )) FROM Fact_Acct ").append(where).append(" ),0), ")
+				.append("COALESCE((SELECT SUM(AcctBalance(Account_ID, AmtAcctDr , 0 ) - AcctBalance(Account_ID, 0 , AmtAcctCr )) FROM Fact_Acct ").append(where).append(" ),0), ")
 				.append("COALESCE((SELECT SUM(AcctBalance(Account_ID, Qty       , 0         )) FROM Fact_Acct ").append(where).append(" ),0), ")
 				.append("ev.C_ElementValue_ID , ev.value, ev.name, ev.accounttype ")
 				.append(" FROM C_ElementValue ev INNER JOIN C_Element e ON (ev.C_Element_ID=e.C_Element_ID) WHERE e.ElementType = 'A' ");

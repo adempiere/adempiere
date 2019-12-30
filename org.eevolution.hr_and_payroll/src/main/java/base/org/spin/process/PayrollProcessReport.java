@@ -76,22 +76,38 @@ public class PayrollProcessReport extends PayrollProcessReportAbstract {
 		//	Set direct print of properties
 		boolean directPrint = Ini.isPropertyBool(Ini.P_PRINTPREVIEW);
 		//	Get Print Format
-		MHRProcessReport pReport = MHRProcessReport.get(getCtx(), getProcessReportId());
+		MHRProcessReport processReport = MHRProcessReport.get(getCtx(), getProcessReportId());
 		//	Action Export File
-		if(pReport.isCanExport()) {
+		if(processReport.isCanExport()) {
 			//	Do It
-			return exportToFile(pReport);
+			return exportToFile(processReport);
 		}
+		String name = processReport.getName();
+		String printName = processReport.getPrintName();
+		String textMsg = processReport.getTextMsg();
+		String receiptFooterMsg = processReport.getReceiptFooterMsg();
 		//	For template
 		if(getProcessReportTemplateId() != 0) {
 			MHRProcessReportTemplate template = MHRProcessReportTemplate.get(getCtx(), getProcessReportTemplateId());
 			if(template != null) {
 				printFormatId = template.getAD_PrintFormat_ID();
+				if(!Util.isEmpty(template.getName())) {
+					name = template.getName();
+				}
+				if(!Util.isEmpty(template.getPrintName())) {
+					printName = template.getPrintName();
+				}
+				if(!Util.isEmpty(template.getTextMsg())) {
+					textMsg = template.getTextMsg();
+				}
+				if(!Util.isEmpty(template.getReceiptFooterMsg())) {
+					receiptFooterMsg = template.getReceiptFooterMsg();
+				}
 			}
 		}
 		//	Valid from Parameter
 		if(printFormatId == 0) {
-			printFormatId = pReport.getAD_PrintFormat_ID();
+			printFormatId = processReport.getAD_PrintFormat_ID();
 		}
 		//	Get from Payroll
 		if(printFormatId == 0) {
@@ -152,6 +168,10 @@ public class PayrollProcessReport extends PayrollProcessReportAbstract {
 				}
 				processInfo.addParameter(ReportCtl.PARAM_PRINT_FORMAT, format, null);
 				processInfo.addParameter(ReportCtl.PARAM_PRINT_INFO, reportEngine.getPrintInfo(), null);
+				processInfo.addParameter("ProcessReportName", name, null);
+				processInfo.addParameter("ProcessReportPrintName", printName, null);
+				processInfo.addParameter("ProcessReportTextMsg", textMsg, null);
+				processInfo.addParameter("ProcessReportReceiptFooterMsg", receiptFooterMsg, null);
 				//	Execute Process
 				ProcessCtl.process(null, 0, null, processInfo, null);
 			}

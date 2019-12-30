@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_Chart
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_AD_Chart extends PO implements I_AD_Chart, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_Chart (Properties ctx, int AD_Chart_ID, String trxName)
@@ -313,6 +313,10 @@ public class X_AD_Chart extends PO implements I_AD_Chart, I_Persistent
 	public static final String TIMEUNIT_Quarter = "Q";
 	/** Year = Y */
 	public static final String TIMEUNIT_Year = "Y";
+	/** Hour = H */
+	public static final String TIMEUNIT_Hour = "H";
+	/** Minute = I */
+	public static final String TIMEUNIT_Minute = "I";
 	/** Set Time Unit.
 		@param TimeUnit 
 		The unit of time for grouping chart data.

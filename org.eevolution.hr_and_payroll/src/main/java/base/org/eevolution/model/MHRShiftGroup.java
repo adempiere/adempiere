@@ -50,7 +50,9 @@ public class MHRShiftGroup extends X_HR_ShiftGroup
 	private static CCache<Integer, MHRShiftGroup> shiftGroupCacheIds = new CCache<Integer, MHRShiftGroup>(Table_Name, 30);
 	/** Static Cache */
 	private static CCache<String, MHRShiftGroup> shiftGroupCacheValues = new CCache<String, MHRShiftGroup>(Table_Name, 30);
-
+	/**	Shift Work List	*/
+	private List<MHRWorkShift> workShiftList = null;
+	
 	/**
 	 * Get/Load Shift group [CACHED]
 	 * @param ctx context
@@ -137,5 +139,16 @@ public class MHRShiftGroup extends X_HR_ShiftGroup
 				.map(shiftGroup -> shiftGroup.getValue())
 				.collect(Collectors.toList());
 		return  shiftGroupList;
+	}
+	
+	/**
+	 * Get Work Shift list from Group
+	 */
+	public List<MHRWorkShift> getWorkShiftList(boolean reQuery) {
+		if(reQuery || workShiftList == null) {
+			workShiftList = MHRWorkShift.getFromGroup(getCtx(), getHR_ShiftGroup_ID(), get_TrxName());
+		}
+		//	Default
+		return workShiftList;
 	}
 }

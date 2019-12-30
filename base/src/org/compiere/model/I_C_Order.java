@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Order
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_Order 
 {
@@ -109,6 +109,19 @@ public interface I_C_Order
 
 	/** Get AmountTendered	  */
 	public BigDecimal getAmountTendered();
+
+    /** Column name BOMDrop */
+    public static final String COLUMNNAME_BOMDrop = "BOMDrop";
+
+	/** Set BOM Drop.
+	  * Drop (expand) Bill of Materials into an Order, Invoice, etc.
+	  */
+	public void setBOMDrop (String BOMDrop);
+
+	/** Get BOM Drop.
+	  * Drop (expand) Bill of Materials into an Order, Invoice, etc.
+	  */
+	public String getBOMDrop();
 
     /** Column name Bill_BPartner_ID */
     public static final String COLUMNNAME_Bill_BPartner_ID = "Bill_BPartner_ID";
@@ -874,6 +887,21 @@ public interface I_C_Order
 	public int getM_PriceList_ID();
 
 	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException;
+
+    /** Column name M_RMAType_ID */
+    public static final String COLUMNNAME_M_RMAType_ID = "M_RMAType_ID";
+
+	/** Set RMA Type.
+	  * Return Material Authorization Type
+	  */
+	public void setM_RMAType_ID (int M_RMAType_ID);
+
+	/** Get RMA Type.
+	  * Return Material Authorization Type
+	  */
+	public int getM_RMAType_ID();
+
+	public org.compiere.model.I_M_RMAType getM_RMAType() throws RuntimeException;
 
     /** Column name M_Shipper_ID */
     public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";

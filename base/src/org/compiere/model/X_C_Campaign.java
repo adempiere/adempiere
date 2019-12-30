@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Campaign
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_Campaign extends PO implements I_C_Campaign, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_Campaign (Properties ctx, int C_Campaign_ID, String trxName)
@@ -230,6 +230,34 @@ public class X_C_Campaign extends PO implements I_C_Campaign, I_Persistent
     {
         return new KeyNamePair(get_ID(), getName());
     }
+
+	public org.compiere.model.I_C_Campaign getParentCampaign() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Campaign)MTable.get(getCtx(), org.compiere.model.I_C_Campaign.Table_Name)
+			.getPO(getParentCampaign_ID(), get_TrxName());	}
+
+	/** Set Parent Campaign.
+		@param ParentCampaign_ID 
+		The parent (summary) Campaign
+	  */
+	public void setParentCampaign_ID (int ParentCampaign_ID)
+	{
+		if (ParentCampaign_ID < 1) 
+			set_Value (COLUMNNAME_ParentCampaign_ID, null);
+		else 
+			set_Value (COLUMNNAME_ParentCampaign_ID, Integer.valueOf(ParentCampaign_ID));
+	}
+
+	/** Get Parent Campaign.
+		@return The parent (summary) Campaign
+	  */
+	public int getParentCampaign_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ParentCampaign_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Start Date.
 		@param StartDate 

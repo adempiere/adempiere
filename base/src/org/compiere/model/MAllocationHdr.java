@@ -16,6 +16,16 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.PeriodClosedException;
+import org.compiere.process.DocAction;
+import org.compiere.process.DocumentEngine;
+import org.compiere.process.DocumentReversalEnabled;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+
 import java.io.File;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -31,16 +41,6 @@ import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
-
-import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.exceptions.PeriodClosedException;
-import org.compiere.process.DocAction;
-import org.compiere.process.DocumentReversalEnabled;
-import org.compiere.process.DocumentEngine;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.Msg;
 
 /**
  *  Payment Allocation Model.
@@ -143,7 +143,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 		list.toArray(retValue);
 		return retValue;
 	}	//	getOfInvoice
-	
+
 	//FR [ 1866214 ]
 	/**
 	 * 	Get Allocations of Cash
@@ -157,7 +157,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 		final String whereClause = "IsActive='Y'"
 			+ " AND EXISTS (SELECT 1 FROM C_CashLine cl, C_AllocationLine al "
 				+ "where cl.C_Cash_ID=? and al.C_CashLine_ID=cl.C_CashLine_ID "
-						+ "and C_AllocationHdr.C_AllocationHdr_ID=al.C_AllocationHdr_ID)";
+						+ "AND C_AllocationHdr.C_AllocationHdr_ID=al.C_AllocationHdr_ID)";
 		Query query = MTable.get(ctx, I_C_AllocationHdr.Table_ID)
 							.createQuery(whereClause, trxName);
 		query.setParameters(C_Cash_ID);
@@ -839,7 +839,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
-		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElse(currentDate) : getDateAcct();
+		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElseGet(() -> currentDate) : getDateAcct();
 
 		MAllocationHdr reversalAllocationHdr;
 
@@ -974,15 +974,18 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 	{
 		List<MAllocationLine> allocationLines = Arrays.asList(getLines(false));
 		allocationLines.stream()
-				.filter(allocationLine -> allocationLine.getC_BPartner_ID() != 0
-						|| (allocationLine.getC_Invoice_ID() != 0) && (allocationLine.getC_Payment_ID() != 0))
+				.filter(allocationLine -> (allocationLine.getC_BPartner_ID()  > 0  && (allocationLine.getC_Invoice_ID() != 0))
+						||  (allocationLine.getC_BPartner_ID()  > 0  && allocationLine.getC_Payment_ID() != 0))
 				.forEach(allocationLine -> {
 
 					boolean isSOTrxInvoice = false;
 					MInvoice invoice = null;
+					boolean paymentProcessed = false;
+					boolean paymentIsReceipt = false;
+
 
 					if (allocationLine.getC_Invoice_ID() > 0) {
-						invoice = allocationLine.getC_Invoice_ID() > 0 ? new MInvoice(getCtx(), allocationLine.getC_Invoice_ID(), get_TrxName()) : null;
+						invoice = new MInvoice(getCtx(), allocationLine.getC_Invoice_ID(), get_TrxName());
 						isSOTrxInvoice = invoice.isSOTrx();
 					}
 
@@ -992,9 +995,6 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 					BigDecimal allocationAmount = allocationLine.getAmount().add(allocationLine.getDiscountAmt()).add(allocationLine.getWriteOffAmt());
 					BigDecimal openBalanceDifference = Env.ZERO;
 					MClient client = MClient.get(getCtx(), getAD_Client_ID());
-
-					boolean paymentProcessed = false;
-					boolean paymentIsReceipt = false;
 
 					// get payment information
 					if (allocationLine.getC_Payment_ID() > 0) {
@@ -1053,6 +1053,8 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 						openBalanceDifference = openBalanceDifference.add(amount);
 					}
 
+					BigDecimal invoiceAmountAccounted = BigDecimal.ZERO;
+					BigDecimal allocationAmountAccounted = BigDecimal.ZERO;
 					// Adjust open amount for currency gain/loss
 					if ((invoice != null) &&
 							((getC_Currency_ID() != client.getC_Currency_ID()) ||
@@ -1066,47 +1068,58 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 								throw new AdempiereException(processMsg);
 							}
 						}
-						BigDecimal invoiceAmountAccounted = MConversionRate.convertBase(getCtx(), invoice.getGrandTotal(),
-								invoice.getC_Currency_ID(), invoice.getDateAcct(), invoice.getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
-						if (invoiceAmountAccounted == null) {
-							processMsg = MConversionRate.getErrorMessage(getCtx(), "ErrorConvertingInvoiceCurrencyToBaseCurrency",
-									invoice.getC_Currency_ID(), MClient.get(getCtx()).getC_Currency_ID(), invoice.getC_ConversionType_ID(), invoice.getDateAcct(), get_TrxName());
-							throw new AdempiereException(processMsg);
+						if (invoice.getOpenAmt().signum() != 0) {
+							invoiceAmountAccounted = MConversionRate.convertBase(getCtx(), invoice.getOpenAmt(),
+									invoice.getC_Currency_ID(), invoice.getDateAcct(), invoice.getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
+							if (invoiceAmountAccounted == null) {
+								processMsg = MConversionRate.getErrorMessage(getCtx(), "ErrorConvertingInvoiceCurrencyToBaseCurrency",
+										invoice.getC_Currency_ID(), MClient.get(getCtx()).getC_Currency_ID(), invoice.getC_ConversionType_ID(), invoice.getDateAcct(), get_TrxName());
+								throw new AdempiereException(processMsg);
+							}
 						}
 
-						BigDecimal allocationAmountAccounted = MConversionRate.convertBase(getCtx(), allocationAmount,
+						allocationAmountAccounted = MConversionRate.convertBase(getCtx(), allocationAmount,
 								invoice.getC_Currency_ID(), getDateAcct(), invoice.getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
 						if (allocationAmountAccounted == null) {
 							processMsg = MConversionRate.getErrorMessage(getCtx(), "ErrorConvertingInvoiceCurrencyToBaseCurrency",
 									invoice.getC_Currency_ID(), MClient.get(getCtx()).getC_Currency_ID(), invoice.getC_ConversionType_ID(), getDateAcct(), get_TrxName());
 							throw new AdempiereException(processMsg);
 						}
+						openBalanceDifference = openBalanceDifference.add(invoiceAmountAccounted).subtract(allocationAmountAccounted);
+					} else if (allocationLine.getC_Invoice_ID() > 0) {
+						allocationAmountAccounted = allocationAmount;
+						invoiceAmountAccounted = invoice.getOpenAmt();
+					}
 
-						if (allocationAmount.compareTo(invoice.getGrandTotal()) == 0) {
+					//Calculate new Balance Business Partners
+					BigDecimal newBalance = BigDecimal.ZERO;
+					if (allocationLine.getC_Invoice_ID() > 0) {
+						if (allocationAmount.compareTo(invoiceAmountAccounted) == 0) {
 							openBalanceDifference = openBalanceDifference.add(invoiceAmountAccounted).subtract(allocationAmountAccounted);
 						} else {
-							//	allocation as a percentage of the invoice
-							double multiplier = allocationAmount.doubleValue() / invoice.getGrandTotal().doubleValue();
-							//	Reduce Orig Invoice Accounted
-							invoiceAmountAccounted = invoiceAmountAccounted.multiply(BigDecimal.valueOf(multiplier));
-							//	Difference based on percentage of Orig Invoice
-							openBalanceDifference = openBalanceDifference.add(invoiceAmountAccounted).subtract(allocationAmountAccounted);
-							//	ignore Tolerance
-							if (openBalanceDifference.abs().compareTo(TOLERANCE) < 0)
-								openBalanceDifference = Env.ZERO;
-							//	Round
-							int precision = MCurrency.getStdPrecision(getCtx(), client.getC_Currency_ID());
-							if (openBalanceDifference.scale() > precision)
-								openBalanceDifference = openBalanceDifference.setScale(precision, BigDecimal.ROUND_HALF_UP);
+								//	allocation as a percentage of the invoice
+								BigDecimal multiplier = invoice.getOpenAmt().signum() == 0 ? BigDecimal.ONE :
+									allocationAmount.divide(invoice.getOpenAmt(), 8, BigDecimal.ROUND_HALF_UP);
+								//	Reduce Orig Invoice Accounted
+								invoiceAmountAccounted = invoiceAmountAccounted.multiply(multiplier);
+								//	Difference based on percentage of Orig Invoice
+								openBalanceDifference = openBalanceDifference.add(invoiceAmountAccounted).subtract(allocationAmountAccounted);
+								//	ignore Tolerance
+								if (openBalanceDifference.abs().compareTo(TOLERANCE) < 0)
+									openBalanceDifference = Env.ZERO;
+								//	Round
+								int precision = MCurrency.getStdPrecision(getCtx(), client.getC_Currency_ID());
+								if (openBalanceDifference.scale() > precision)
+									openBalanceDifference = openBalanceDifference.setScale(precision, BigDecimal.ROUND_HALF_UP);
 						}
 					}
 
-					//	Total Balance
-					BigDecimal newBalance = partner.getTotalOpenBalance();
+					//	Update Balance if exists balance difference
+					newBalance = partner.getTotalOpenBalance();
 					if (newBalance == null)
 						newBalance = Env.ZERO;
 
-					BigDecimal originalBalance = new BigDecimal(newBalance.toString());
+					BigDecimal originalBalance = newBalance;
 
 					if (openBalanceDifference.signum() != 0) {
 						if (isReverse)
@@ -1115,46 +1128,42 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 							newBalance = newBalance.subtract(openBalanceDifference);
 					}
 
+					if (newBalance.compareTo(originalBalance) != 0)
+						partner.setTotalOpenBalance(newBalance);
+
+
+
 					// Update BP Credit Used only for Customer Invoices and for payment-to-payment allocations.
 					BigDecimal newCreditAmount = BigDecimal.ZERO;
 					if (isSOTrxInvoice || (invoice == null && paymentIsReceipt && paymentProcessed)) {
-						if (invoice == null)
-							openBalanceDifference = openBalanceDifference.negate();
 
 						newCreditAmount = partner.getSO_CreditUsed();
 
 						if (isReverse) {
 							if (newCreditAmount == null)
-								newCreditAmount = openBalanceDifference;
+								newCreditAmount = invoiceAmountAccounted;
 							else
-								newCreditAmount = newCreditAmount.add(openBalanceDifference);
+								newCreditAmount = newCreditAmount.add(invoiceAmountAccounted);
 						} else {
 							if (newCreditAmount == null)
-								newCreditAmount = openBalanceDifference.negate();
+								newCreditAmount = invoiceAmountAccounted.negate();
 							else
-								newCreditAmount = newCreditAmount.subtract(openBalanceDifference);
+								newCreditAmount = newCreditAmount.subtract(invoiceAmountAccounted);
 						}
+						int precision = MCurrency.getStdPrecision(getCtx(), client.getC_Currency_ID());
+						if (newCreditAmount.scale() > precision)
+							newCreditAmount = newCreditAmount.setScale(precision, BigDecimal.ROUND_HALF_UP);
 
-						if (log.isLoggable(Level.FINE)) {
-							log.fine("TotalOpenBalance=" + partner.getTotalOpenBalance() + "(" + openBalanceDifference
-									+ ", Credit=" + partner.getSO_CreditUsed() + "->" + newCreditAmount
-									+ ", Balance=" + partner.getTotalOpenBalance() + " -> " + newBalance);
-						}
 						partner.setSO_CreditUsed(newCreditAmount);
-					} else {
-						if (log.isLoggable(Level.FINE)) {
-							log.fine("TotalOpenBalance=" + partner.getTotalOpenBalance() + "(" + openBalanceDifference
-									+ ", Balance=" + partner.getTotalOpenBalance() + " -> " + newBalance);
-						}
 					}
 
-					if (newBalance.compareTo(originalBalance) != 0)
-						partner.setTotalOpenBalance(newBalance);
-
 					partner.setSOCreditStatus();
-					if (!partner.save(get_TrxName())) {
-						processMsg = "Could not update Business Partner";
-						throw new AdempiereException(processMsg);
+					partner.saveEx();
+
+					if (log.isLoggable(Level.FINE)) {
+						log.fine("TotalOpenBalance=" + partner.getTotalOpenBalance() + "(" + openBalanceDifference
+								+ ", Credit=" + partner.getSO_CreditUsed() + "->" + newCreditAmount
+								+ ", Balance=" + partner.getTotalOpenBalance() + " -> " + newBalance);
 					}
 				}); // for all lines
 

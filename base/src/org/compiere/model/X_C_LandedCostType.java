@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for C_LandedCostType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_LandedCostType extends PO implements I_C_LandedCostType, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_LandedCostType (Properties ctx, int C_LandedCostType_ID, String trxName)
@@ -68,8 +68,8 @@ public class X_C_LandedCostType extends PO implements I_C_LandedCostType, I_Pers
       return sb.toString();
     }
 
-	/** Set C_LandedCostType_ID.
-		@param C_LandedCostType_ID C_LandedCostType_ID	  */
+	/** Set Landed Cost Type.
+		@param C_LandedCostType_ID Landed Cost Type	  */
 	public void setC_LandedCostType_ID (int C_LandedCostType_ID)
 	{
 		if (C_LandedCostType_ID < 1) 
@@ -78,8 +78,8 @@ public class X_C_LandedCostType extends PO implements I_C_LandedCostType, I_Pers
 			set_ValueNoCheck (COLUMNNAME_C_LandedCostType_ID, Integer.valueOf(C_LandedCostType_ID));
 	}
 
-	/** Get C_LandedCostType_ID.
-		@return C_LandedCostType_ID	  */
+	/** Get Landed Cost Type.
+		@return Landed Cost Type	  */
 	public int getC_LandedCostType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_LandedCostType_ID);

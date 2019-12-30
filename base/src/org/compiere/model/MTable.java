@@ -87,6 +87,7 @@ public class MTable extends X_AD_Table
 	/**	Cache						*/
 	private static CCache<Integer,MTable> s_cache = new CCache<Integer,MTable>("AD_Table", 20);
 	private static CCache<String,Class<?>> s_classCache = new CCache<String,Class<?>>("PO_Class", 20);
+	private static CCache<String,Boolean> s_cachetrl = new CCache<String,Boolean>("Table_Trl", 20);
 
 	/**	Columns				*/
 	private List<MColumn>	columns = null;
@@ -1171,6 +1172,26 @@ public class MTable extends X_AD_Table
 		sb.append (get_ID()).append ("-").append (getTableName()).append ("]");
 		return sb.toString ();
 	}	//	toString
+	
+	/**
+	 * Evaluate if table manage translation
+	 * @param tableName
+	 * @return
+	 */
+	public static boolean hasTranslation(String tableName) {
+		Boolean hasTrl = s_cachetrl.get(tableName);
+		if (hasTrl == null) {
+			hasTrl = new Query(Env.getCtx(), 
+						MColumn.Table_Name, 
+						"IsTranslated = 'Y' AND EXISTS(SELECT 1 FROM AD_Table t WHERE t.AD_Table_ID = AD_Column.AD_Table_ID AND t.TableName = ?)", 
+						null)
+				.setParameters(tableName)
+				.match();
+			s_cachetrl.put(tableName, hasTrl);
+		}
+		
+		return hasTrl;
+	}
 
 
 

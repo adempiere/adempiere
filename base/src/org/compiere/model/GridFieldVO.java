@@ -18,15 +18,13 @@
 package org.compiere.model;
 
 import java.io.Serializable;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 
 /**
@@ -50,195 +48,123 @@ import org.compiere.util.Env;
  *    <li>  FR [ 1710 ] Get Correct Validation Code 
  *  @version  $Id: GridFieldVO.java,v 1.3 2006/07/30 00:58:04 jjanke Exp $
  */
-public class GridFieldVO implements Serializable
-{
-
-	/**
-	 *  Return the SQL statement used for the MFieldVO.create
-	 *  @param ctx context
-	 *  @return SQL with or w/o translation and 1 parameter
-	 */
-	public static String getSQL (Properties ctx)
-	{
-		//	IsActive is part of View
-		String sql = "SELECT * FROM AD_Field_v WHERE AD_Tab_ID=?"
-			+ " ORDER BY IsDisplayed DESC, SeqNo";
-		if (!Env.isBaseLanguage(ctx, "AD_Tab"))
-			sql = "SELECT * FROM AD_Field_vt WHERE AD_Tab_ID=?"
-				+ " AND AD_Language='" + Env.getAD_Language(ctx) + "'"
-				+ " ORDER BY IsDisplayed DESC, SeqNo";
-		return sql;
-	}   //  getSQL
+public class GridFieldVO implements Serializable {
 
 	public String InfoFactoryClass = null;
-
+	
 	/**
 	 *  Create Field Value Object
 	 *  @param ctx context
-	 *  @param WindowNo window
-	 *  @param TabNo tab
-	 *  @param AD_Window_ID window
-	 *  @param AD_Tab_ID tab
+	 *  @param windowNo window
+	 *  @param tabNo tab
+	 *  @param windowId window
+	 *  @param tabId tab
 	 *  @param readOnly r/o
 	 *  @param rs resultset AD_Field_v
 	 *  @return MFieldVO
 	 */
-	public static GridFieldVO create (Properties ctx, int WindowNo, int TabNo, 
-		int AD_Window_ID, int AD_Tab_ID, boolean readOnly, ResultSet rs)
-	{
-		GridFieldVO vo = new GridFieldVO (ctx, WindowNo, TabNo, 
-			AD_Window_ID, AD_Tab_ID, readOnly);
-		String columnName = "ColumnName";
-		int AD_Field_ID = 0;
-		try
-		{
-			vo.ColumnName = rs.getString("ColumnName");
-			if (vo.ColumnName == null)
-				return null;
-
-			CLogger.get().fine(vo.ColumnName);
-
-			ResultSetMetaData rsmd = rs.getMetaData();
-			for (int i = 1; i <= rsmd.getColumnCount(); i++)
-			{
-				columnName = rsmd.getColumnName (i);
-				if (columnName.equalsIgnoreCase("Name"))
-					vo.Header = rs.getString(i);
-				else if (columnName.equalsIgnoreCase("AD_Reference_ID"))
-					vo.displayType = rs.getInt(i);
-				else if (columnName.equalsIgnoreCase("AD_Column_ID"))
-					vo.AD_Column_ID = rs.getInt (i);
-				else if (columnName.equalsIgnoreCase("AD_Table_ID"))
-					vo.AD_Table_ID = rs.getInt (i);
-				else if (columnName.equalsIgnoreCase("DisplayLength"))
-					vo.DisplayLength = rs.getInt (i);
-				else if (columnName.equalsIgnoreCase("IsSameLine"))
-					vo.IsSameLine = "Y".equals(rs.getString (i));
-				else if (columnName.equalsIgnoreCase("IsDisplayed"))
-					vo.IsDisplayed = "Y".equals(rs.getString (i));
-				else if (columnName.equalsIgnoreCase("IsDisplayedGrid"))
-					vo.IsDisplayedGrid = "Y".equals(rs.getString (i));
-				else if (columnName.equalsIgnoreCase("SeqNoGrid"))
-					vo.SeqNoGrid = rs.getInt (i);
-				else if (columnName.equalsIgnoreCase("DisplayLogic"))
-					vo.DisplayLogic = rs.getString (i);
-				else if (columnName.equalsIgnoreCase("DefaultValue"))
-					vo.DefaultValue = rs.getString (i);
-				else if (columnName.equalsIgnoreCase("IsMandatory"))
-					vo.IsMandatory = "Y".equals(rs.getString (i));
-				else if (columnName.equalsIgnoreCase("IsReadOnly"))
-					vo.IsReadOnly = "Y".equals(rs.getString (i));
-				else if (columnName.equalsIgnoreCase("IsUpdateable"))
-					vo.IsUpdateable = "Y".equals(rs.getString (i));
-				else if (columnName.equalsIgnoreCase("IsAlwaysUpdateable"))
-					vo.IsAlwaysUpdateable = "Y".equals(rs.getString (i));
-				else if (columnName.equalsIgnoreCase("IsHeading"))
-					vo.IsHeading = "Y".equals(rs.getString (i));
-				else if (columnName.equalsIgnoreCase("IsFieldOnly"))
-					vo.IsFieldOnly = "Y".equals(rs.getString (i));
-				else if (columnName.equalsIgnoreCase("IsEncryptedField"))
-					vo.IsEncryptedField = "Y".equals(rs.getString (i));
-				else if (columnName.equalsIgnoreCase("IsEncryptedColumn"))
-					vo.IsEncryptedColumn = "Y".equals(rs.getString (i));
-				else if (columnName.equalsIgnoreCase("IsSelectionColumn"))
-					vo.IsSelectionColumn = "Y".equals(rs.getString (i));
-				else if (columnName.equalsIgnoreCase("SortNo"))
-					vo.SortNo = rs.getInt (i);
-				else if (columnName.equalsIgnoreCase("FieldLength"))
-					vo.FieldLength = rs.getInt (i);
-				else if (columnName.equalsIgnoreCase("VFormat"))
-					vo.VFormat = rs.getString (i);
-				else if (columnName.equalsIgnoreCase("ValueMin"))
-					vo.ValueMin = rs.getString (i);
-				else if (columnName.equalsIgnoreCase("ValueMax"))
-					vo.ValueMax = rs.getString (i);
-				else if (columnName.equalsIgnoreCase("FieldGroup"))
-					vo.FieldGroup = rs.getString (i);
-				else if (columnName.equalsIgnoreCase("FieldGroupType"))
-					vo.FieldGroupType = rs.getString (i);
-				else if (columnName.equalsIgnoreCase("IsKey"))
-					vo.IsKey = "Y".equals(rs.getString (i));
-				else if (columnName.equalsIgnoreCase("IsParent"))
-					vo.IsParent = "Y".equals(rs.getString (i));
-				else if (columnName.equalsIgnoreCase("Description"))
-					vo.Description = rs.getString (i);
-				else if (columnName.equalsIgnoreCase("Help"))
-					vo.Help = rs.getString (i);
-				else if (columnName.equalsIgnoreCase("Callout"))
-					vo.Callout = rs.getString (i);
-				else if (columnName.equalsIgnoreCase("AD_Process_ID"))
-					vo.AD_Process_ID = rs.getInt (i);
-				else if (columnName.equalsIgnoreCase("AD_Image_ID"))
-					vo.AD_Image_ID = rs.getInt (i);
-				else if (columnName.equalsIgnoreCase("AD_Chart_ID"))
-					vo.AD_Chart_ID = rs.getInt (i);
-				else if (columnName.equalsIgnoreCase("ReadOnlyLogic"))
-					vo.ReadOnlyLogic = rs.getString (i);
-				else if (columnName.equalsIgnoreCase("MandatoryLogic"))
-					vo.MandatoryLogic = rs.getString (i);	
-				else if (columnName.equalsIgnoreCase("ObscureType"))
-					vo.ObscureType = rs.getString (i);
-				//
-				else if (columnName.equalsIgnoreCase("AD_Reference_Value_ID"))
-					vo.AD_Reference_Value_ID = rs.getInt(i);
-				else if (columnName.equalsIgnoreCase("ValidationCode"))
-					vo.ValidationCode = rs.getString(i);
-				else if (columnName.equalsIgnoreCase("ColumnSQL"))
-					vo.ColumnSQL = rs.getString(i);
-				//Feature Request FR [ 1757088 ]
-				else if (columnName.equalsIgnoreCase("Included_Tab_ID"))
-					vo.Included_Tab_ID = rs.getInt(i);
-				// Collapse Default State
-				else if (columnName.equalsIgnoreCase("IsCollapsedByDefault"))
-					vo.IsCollapsedByDefault = "Y".equals(rs.getString(i));
-				//Info Factory class
-				else if (columnName.equalsIgnoreCase("InfoFactoryClass"))
-					vo.InfoFactoryClass  = rs.getString(i);
-//				Feature Request FR [ 2003044 ]
-				else if (columnName.equalsIgnoreCase("IsAutocomplete"))
-					vo.IsAutocomplete  = "Y".equals(rs.getString(i));
-				// FR 3051618 - Grid View improvements
-				//else if (columnName.equalsIgnoreCase("HideInListView"))
-				//	vo.HideInListView = "Y".equals(rs.getString(i));
-				else if (columnName.equalsIgnoreCase("PreferredWidth"))
-					vo.PreferredWidth = rs.getInt(i);
-				//Allows Copy
-				else if (columnName.equalsIgnoreCase(I_AD_Field.COLUMNNAME_IsAllowCopy))
-					vo.IsAllowsCopy = "Y".equals(rs.getString(i));
-				else if (columnName.equalsIgnoreCase("IsRange"))
-					vo.IsRangeLookup = "Y".equals(rs.getString (i));
-				else if (columnName.equalsIgnoreCase("isEmbedded"))
-					vo.isEmbedded = "Y".equals(rs.getString (i));
-				else if (columnName.equalsIgnoreCase("IsAllowCopy"))
-					vo.IsAllowCopy  = "Y".equals(rs.getString(i));
-				else if (columnName.equalsIgnoreCase("AD_Field_ID"))
-					vo.AD_Field_ID = rs.getInt(i);
-				else if (columnName.equalsIgnoreCase("IsAllowNewAttributeInstance"))
-					vo.IsAllowNewAttributeInstance  = "Y".equals(rs.getString(i));
-				//  FR [ 1710 ] 
-				else if (columnName.equalsIgnoreCase("AD_FieldDefinition_ID"))
-					vo.AD_FieldDefinition_ID  = rs.getInt(i);
-				else if (columnName.equalsIgnoreCase("IsQuickEntry"))
-					vo.IsQuickEntry = "Y".equals(rs.getString (i));
-
-			}
-			if (vo.Header == null)
-				vo.Header = vo.ColumnName;
-			AD_Field_ID  = rs.getInt("AD_Field_ID");
+	public static GridFieldVO create (Properties ctx, int windowNo, int tabNo, 
+		int windowId, int tabId, boolean readOnly, MField field) {
+		GridFieldVO vo = new GridFieldVO (ctx, windowNo, tabNo, windowId, tabId, readOnly);
+		MColumn column = MColumn.get(ctx, field.getAD_Column_ID());
+		vo.ColumnName = column.getColumnName();
+		vo.Header = field.getName();
+		vo.displayType = field.getAD_Reference_ID();
+		if(vo.displayType == 0) {
+			vo.displayType = column.getAD_Reference_ID();
 		}
-		catch (SQLException e)
-		{
-			CLogger.get().log(Level.SEVERE, "ColumnName=" + columnName, e);
-			return null;
+		vo.AD_Field_ID = field.getAD_Field_ID();
+		vo.AD_Column_ID = field.getAD_Column_ID();
+		vo.AD_Table_ID = column.getAD_Table_ID();
+		vo.DisplayLength = field.getDisplayLength();
+		vo.IsSameLine = field.isSameLine();
+		vo.IsDisplayed = field.isDisplayed();
+		vo.IsDisplayedGrid = field.isDisplayedGrid();
+		vo.SeqNoGrid = field.getSeqNoGrid();
+		vo.DisplayLogic = field.getDisplayLogic();
+		vo.DefaultValue = field.getDefaultValue();
+		//	Default Value
+		if(Util.isEmpty(vo.DefaultValue)) {
+			vo.DefaultValue = column.getDefaultValue();
 		}
-		// ASP
-		if (vo.IsDisplayed) {
-			MClient client = MClient.get(ctx);
-			// ASP for fields has a different approach - it must be defined as a field but hidden
-			//   in order to have the proper context variable filled with defaults
-			// Validate field and put IsDisplayed=N if must be hidden
-			if (! client.isDisplayField(AD_Field_ID))
-				vo.IsDisplayed = false;
+		//	Mandatory
+		if(!Util.isEmpty(field.getIsMandatory())) {
+			vo.IsMandatory = field.getIsMandatory().equals("Y");
+		} else {
+			vo.IsMandatory = column.isMandatory();
+		}
+		vo.IsReadOnly = field.isReadOnly();
+		vo.IsUpdateable = column.isUpdateable();
+		vo.IsAlwaysUpdateable = column.isAlwaysUpdateable();
+		vo.IsHeading = field.isHeading();
+		vo.IsFieldOnly = field.isFieldOnly();
+		vo.IsEncryptedField = field.isEncrypted();
+		vo.IsEncryptedColumn = column.isEncrypted();
+		vo.IsSelectionColumn = column.isSelectionColumn();
+		vo.SortNo = (field.getSortNo() != null? field.getSortNo().intValue(): 0);
+		vo.FieldLength = column.getFieldLength();
+		vo.VFormat = column.getVFormat();
+		vo.ValueMin = column.getValueMin();
+		vo.ValueMax = column.getValueMax();
+		if(field.getAD_FieldGroup_ID() > 0) {
+			X_AD_FieldGroup fieldGroup = new X_AD_FieldGroup(ctx, field.getAD_FieldGroup_ID(), null);
+			vo.FieldGroup = fieldGroup.get_Translation(I_AD_FieldGroup.COLUMNNAME_Name);
+			vo.FieldGroupType = fieldGroup.getFieldGroupType();
+			vo.IsCollapsedByDefault = fieldGroup.isCollapsedByDefault();
+		}
+		vo.IsKey = column.isKey();
+		vo.IsParent = column.isParent();
+		vo.Description = field.getDescription();
+		if(Util.isEmpty(vo.Description)) {
+			vo.Description = column.getDescription();
+		}
+		vo.Help = field.getHelp();
+		if(Util.isEmpty(vo.Help)) {
+			vo.Help = column.getHelp();
+		}
+		vo.Callout = column.getCallout();
+		vo.AD_Process_ID = column.getAD_Process_ID();
+		vo.AD_Image_ID = field.getAD_Image_ID();
+		if(vo.AD_Image_ID == 0) {
+			vo.AD_Image_ID = column.getAD_Image_ID();
+		}
+		vo.AD_Chart_ID = column.getAD_Chart_ID();
+		vo.ReadOnlyLogic = column.getReadOnlyLogic();
+		vo.MandatoryLogic = column.getMandatoryLogic();
+		vo.ObscureType = field.getObscureType();
+		//
+		vo.AD_Reference_Value_ID = field.getAD_Reference_Value_ID();
+		if(vo.AD_Reference_Value_ID == 0) {
+			vo.AD_Reference_Value_ID = column.getAD_Reference_Value_ID();
+		}
+		//	Validation Rule
+		int validationRuleId = field.getAD_Val_Rule_ID();
+		if(validationRuleId == 0) {
+			validationRuleId = column.getAD_Val_Rule_ID();
+		}
+		if(validationRuleId > 0) {
+			MValRule validation = MValRule.get(ctx, validationRuleId);
+			vo.ValidationCode = validation.getCode();
+		}
+		vo.ColumnSQL = column.getColumnSQL();
+		vo.Included_Tab_ID = field.getIncluded_Tab_ID();
+		//Info Factory class
+		vo.InfoFactoryClass = field.getInfoFactoryClass();
+		if(Util.isEmpty(vo.InfoFactoryClass)) {
+			vo.InfoFactoryClass= column.getInfoFactoryClass(); 
+		}
+		vo.IsAutocomplete = column.isAutocomplete();
+		vo.PreferredWidth = field.getPreferredWidth();
+		//Allows Copy
+		vo.IsAllowsCopy = field.isAllowCopy();
+		vo.IsRangeLookup = column.isRange();
+		vo.isEmbedded = field.isEmbedded();
+//		else if (columnName.equalsIgnoreCase("IsAllowNewAttributeInstance"))
+//			vo.IsAllowNewAttributeInstance  = "Y".equals(rs.getString(i));
+		vo.AD_FieldDefinition_ID  = field.getAD_FieldDefinition_ID();
+		vo.IsQuickEntry = field.isQuickEntry();
+		if (vo.Header == null) {
+			vo.Header = vo.ColumnName;
 		}
 		//
 		vo.initFinish();
@@ -280,7 +206,7 @@ public class GridFieldVO implements Serializable
     //  FR [ 566 ]
 		if(processParameter.getAD_Val_Rule_ID() != 0) {
 		  MValRule valRule = MValRule.get(ctx, processParameter.getAD_Val_Rule_ID());
-      vo.ValidationCode = valRule.getCode();
+		  vo.ValidationCode = valRule.getCode();
 		}
 		
 		//	
@@ -375,6 +301,26 @@ public class GridFieldVO implements Serializable
 		vo.initFinish();
 		return vo;
 	}   //  initStdField
+	
+	public static GridFieldVO createField (Properties ctx, int WindowNo, int TabNo, 
+			int AD_Window_ID, int AD_Tab_ID, boolean tabReadOnly,
+			boolean isCreated, boolean isTimestamp)
+		{
+			GridFieldVO vo = new GridFieldVO (ctx, WindowNo, TabNo, 
+				AD_Window_ID, AD_Tab_ID, tabReadOnly);
+			vo.ColumnName = isCreated ? "Created" : "Updated";
+			if (!isTimestamp)
+				vo.ColumnName += "By";
+			vo.displayType = isTimestamp ? DisplayType.DateTime : DisplayType.Table;
+			if (!isTimestamp)
+				vo.AD_Reference_Value_ID = 110;		//	AD_User Table Reference
+			vo.IsDisplayed = false;
+			vo.IsMandatory = false;
+			vo.IsReadOnly = false;
+			vo.IsUpdateable = true;
+			vo.initFinish();
+			return vo;
+		}   //  initStdField
 
 	
 	/**************************************************************************

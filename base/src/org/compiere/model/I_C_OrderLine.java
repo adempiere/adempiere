@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_OrderLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_OrderLine 
 {
@@ -539,6 +539,36 @@ public interface I_C_OrderLine
 
 	public org.compiere.model.I_M_Promotion getM_Promotion() throws RuntimeException;
 
+    /** Column name M_RMAType_ID */
+    public static final String COLUMNNAME_M_RMAType_ID = "M_RMAType_ID";
+
+	/** Set RMA Type.
+	  * Return Material Authorization Type
+	  */
+	public void setM_RMAType_ID (int M_RMAType_ID);
+
+	/** Get RMA Type.
+	  * Return Material Authorization Type
+	  */
+	public int getM_RMAType_ID();
+
+	public org.compiere.model.I_M_RMAType getM_RMAType() throws RuntimeException;
+
+    /** Column name M_RequisitionLine_ID */
+    public static final String COLUMNNAME_M_RequisitionLine_ID = "M_RequisitionLine_ID";
+
+	/** Set Requisition Line.
+	  * Material Requisition Line
+	  */
+	public void setM_RequisitionLine_ID (int M_RequisitionLine_ID);
+
+	/** Get Requisition Line.
+	  * Material Requisition Line
+	  */
+	public int getM_RequisitionLine_ID();
+
+	public org.compiere.model.I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException;
+
     /** Column name M_Shipper_ID */
     public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";
 
@@ -770,6 +800,17 @@ public interface I_C_OrderLine
 	  * Revenue Recognition Start Date
 	  */
 	public Timestamp getRRStartDate();
+
+    /** Column name Ref_InOutLine_ID */
+    public static final String COLUMNNAME_Ref_InOutLine_ID = "Ref_InOutLine_ID";
+
+	/** Set Referenced Shipment Line	  */
+	public void setRef_InOutLine_ID (int Ref_InOutLine_ID);
+
+	/** Get Referenced Shipment Line	  */
+	public int getRef_InOutLine_ID();
+
+	public org.compiere.model.I_M_InOutLine getRef_InOutLine() throws RuntimeException;
 
     /** Column name Ref_OrderLine_ID */
     public static final String COLUMNNAME_Ref_OrderLine_ID = "Ref_OrderLine_ID";

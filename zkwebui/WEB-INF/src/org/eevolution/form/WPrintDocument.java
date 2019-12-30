@@ -16,10 +16,12 @@
  * Sponsors: e-Evolution Consultants (http://www.e-evolution.com/)            *
  *****************************************************************************/
 
-
 package org.eevolution.form;
 
-import org.compiere.process.IPrintDocument;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.List;
+
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.window.FDialog;
 import org.adempiere.webui.window.SimplePDFViewer;
@@ -28,42 +30,26 @@ import org.compiere.model.PO;
 import org.compiere.model.PrintInfo;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportEngine;
+import org.compiere.process.IPrintDocument;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-
-import java.io.FileInputStream;
+import org.eevolution.service.dsl.ProcessBuilder;
 
 /**
  * Created by eEvolution author Victor Perez <victor.perez@e-evolution.com> on 25/01/15.
+ * @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ * Improve definition
  */
 public class WPrintDocument implements IPrintDocument {
 
-    public void print(PO document, String printFormantName, int windowNo) {
+    public void print(PO document, int printFormatId, int windowNo, boolean askPrint) {
         boolean retValue = true;
-        if (FDialog.ask(windowNo, SessionManager.getAppDesktop().getComponent(), "PrintShipments")) {
+        if (FDialog.ask(windowNo, SessionManager.getAppDesktop().getComponent(), "PrintDocument", document.getDisplayValue())) {
             do {
                 try {
-                    String keyColumnName = document.get_KeyColumns()[0];
-                    MPrintFormat format = MPrintFormat.get(
-                            Env.getCtx(),
-                            MPrintFormat.getPrintFormat_ID(printFormantName, document.get_Table_ID(), 0),
-                            false);
-                    MQuery query = new MQuery(document.get_TableName());
-                    query.addRestriction(keyColumnName, MQuery.EQUAL, document.get_ValueAsInt(keyColumnName));
-
-                    //	Engine
-                    PrintInfo info = new PrintInfo(
-                            document.get_TableName(),
-                            document.get_Table_ID(),
-                            document.get_ValueAsInt(keyColumnName));
-                    ReportEngine re = new ReportEngine(Env.getCtx(), format, query, info);
-                    if (re != null) {
-                        SimplePDFViewer win = new SimplePDFViewer(printFormantName, new FileInputStream(re.getPDF()));
-                        SessionManager.getAppDesktop().showWindow(win, "center");
-                    }
-
+                	printDocument(document, printFormatId, windowNo);
                 } catch (Exception e) {
-
+                	
                 } finally {
                     retValue = FDialog.ask(windowNo, SessionManager.getAppDesktop().getComponent(), Msg.getMsg(Env.getCtx(), "PrintoutOK?"));
                 }
@@ -71,4 +57,61 @@ public class WPrintDocument implements IPrintDocument {
             } while (!retValue);
         }
     }
+
+	@Override
+	public void print(List<PO> documentList, int printFormatId, int windowNo, boolean askPrint) {
+		StringBuffer documentLabels = new StringBuffer();
+		documentList.stream().forEach(document -> {
+			if(documentLabels.length() > 0) {
+				documentLabels.append(Env.NL);
+			}
+			//	Add to String
+			documentLabels.append(document.getDisplayValue());
+		});
+		if (FDialog.ask(windowNo, SessionManager.getAppDesktop().getComponent(), "PrintAllDocuments", documentLabels.toString())) {
+        	documentList.stream().forEach(document -> {
+        		try {
+        			printDocument(document, printFormatId, windowNo);
+                } catch (Exception e) {
+                	
+                }
+        	});
+        }
+	}
+	
+	/**
+	 * Print document
+	 * @param document
+	 * @param printFormatId
+	 * @throws FileNotFoundException 
+	 */
+	private void printDocument(PO document, int printFormatId, int windowNo) throws FileNotFoundException {
+		String keyColumnName = document.get_KeyColumns()[0];
+        MPrintFormat format = MPrintFormat.get(Env.getCtx(), printFormatId, false);
+        if(format.getJasperProcess_ID() != 0) {
+        	try {
+        		ProcessBuilder.create(document.getCtx())
+        			.process(format.getJasperProcess_ID())
+        			.withRecordId(document.get_Table_ID(), document.get_ID())
+        			.withoutPrintPreview()
+        			.execute(document.get_TrxName());
+        	} catch (Exception e) {
+        		
+        	}
+        } else {
+            MQuery query = new MQuery(document.get_TableName());
+            query.addRestriction(keyColumnName, MQuery.EQUAL, document.get_ValueAsInt(keyColumnName));
+
+            //	Engine
+            PrintInfo info = new PrintInfo(
+                    document.get_TableName(),
+                    document.get_Table_ID(),
+                    document.get_ValueAsInt(keyColumnName));
+            ReportEngine reportEngine = new ReportEngine(Env.getCtx(), format, query, info, document.get_TrxName());
+            if (reportEngine != null) {
+                SimplePDFViewer win = new SimplePDFViewer(format.getName(), new FileInputStream(reportEngine.getPDF()));
+                SessionManager.getAppDesktop().showWindow(win, "center");
+            }
+        }
+	}
 }

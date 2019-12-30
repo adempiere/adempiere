@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for HR_ProcessReportLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_HR_ProcessReportLine extends PO implements I_HR_ProcessReportLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_ProcessReportLine (Properties ctx, int HR_ProcessReportLine_ID, String trxName)

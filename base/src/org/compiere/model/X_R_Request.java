@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_Request
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_R_Request extends PO implements I_R_Request, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_R_Request (Properties ctx, int R_Request_ID, String trxName)
@@ -1799,6 +1799,23 @@ public class X_R_Request extends PO implements I_R_Request, I_Persistent
 	public Timestamp getStartTime () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_StartTime);
+	}
+
+	/** Set Subject.
+		@param Subject 
+		Email Message Subject
+	  */
+	public void setSubject (String Subject)
+	{
+		set_Value (COLUMNNAME_Subject, Subject);
+	}
+
+	/** Get Subject.
+		@return Email Message Subject
+	  */
+	public String getSubject () 
+	{
+		return (String)get_Value(COLUMNNAME_Subject);
 	}
 
 	/** Set Summary.

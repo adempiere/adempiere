@@ -127,6 +127,7 @@ public class ProcessDialog extends CFrame
 		ProcessInfo pi = new ProcessInfo(null, processId);
 		pi.setAD_User_ID (Env.getAD_User_ID(Env.getCtx()));
 		pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
+		pi.setInterfaceType(ProcessInfo.INTERFACE_TYPE_SWING);
 		parameterPanel = new ProcessPanel(this, windowNo, pi, ProcessPanel.COLUMNS_1);
 		//	Set Default
 		parameterPanel.createFieldsAndEditors();

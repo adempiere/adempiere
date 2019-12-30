@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_Request
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_R_Request 
 {
@@ -1042,6 +1042,19 @@ public interface I_R_Request
 	  * Time started
 	  */
 	public Timestamp getStartTime();
+
+    /** Column name Subject */
+    public static final String COLUMNNAME_Subject = "Subject";
+
+	/** Set Subject.
+	  * Email Message Subject
+	  */
+	public void setSubject (String Subject);
+
+	/** Get Subject.
+	  * Email Message Subject
+	  */
+	public String getSubject();
 
     /** Column name Summary */
     public static final String COLUMNNAME_Summary = "Summary";

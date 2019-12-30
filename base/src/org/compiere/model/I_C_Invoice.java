@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Invoice
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_Invoice 
 {
@@ -91,6 +91,19 @@ public interface I_C_Invoice
 	public int getAD_User_ID();
 
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
+
+    /** Column name BOMDrop */
+    public static final String COLUMNNAME_BOMDrop = "BOMDrop";
+
+	/** Set BOM Drop.
+	  * Drop (expand) Bill of Materials into an Order, Invoice, etc.
+	  */
+	public void setBOMDrop (String BOMDrop);
+
+	/** Get BOM Drop.
+	  * Drop (expand) Bill of Materials into an Order, Invoice, etc.
+	  */
+	public String getBOMDrop();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -508,6 +521,17 @@ public interface I_C_Invoice
 
 	/** Get Dunning Grace Date	  */
 	public Timestamp getDunningGrace();
+
+    /** Column name FM_Account_ID */
+    public static final String COLUMNNAME_FM_Account_ID = "FM_Account_ID";
+
+	/** Set Financial Account	  */
+	public void setFM_Account_ID (int FM_Account_ID);
+
+	/** Get Financial Account	  */
+	public int getFM_Account_ID();
+
+	public org.spin.model.I_FM_Account getFM_Account() throws RuntimeException;
 
     /** Column name GenerateTo */
     public static final String COLUMNNAME_GenerateTo = "GenerateTo";

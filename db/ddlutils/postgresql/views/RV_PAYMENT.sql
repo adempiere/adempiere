@@ -13,33 +13,32 @@ CREATE OR REPLACE VIEW RV_PAYMENT
  R_AVSADDR, R_AVSZIP, R_INFO, PROCESSING, OPROCESSING, 
  DOCSTATUS, DOCACTION, ISPREPAYMENT, C_CHARGE_ID, ISRECONCILED, 
  ISALLOCATED, ISONLINE, PROCESSED, POSTED, C_CAMPAIGN_ID, 
- C_PROJECT_ID, C_ACTIVITY_ID)
+ C_PROJECT_ID, C_ACTIVITY_ID, IsUnidentifiedPayment, Ref_Payment_ID, RelatedPayment_ID, Description, 
+ C_BP_AccountType_ID, C_BP_SalesGroup_ID, C_BP_Segment_ID, C_BP_IndustryType_ID)
 AS 
-SELECT C_Payment_ID, AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Updated, UpdatedBy,
-    DocumentNo, DateTrx, IsReceipt, C_DocType_ID, TrxType,
-    C_BankAccount_ID, C_BPartner_ID, C_Invoice_ID, C_BP_BankAccount_ID, C_PaymentBatch_ID,
-    TenderType, CreditCardType, CreditCardNumber, CreditCardVV, CreditCardExpMM, CreditCardExpYY,
-    Micr, RoutingNo, AccountNo, CheckNo,
-    A_Name, A_Street, A_City, A_State, A_Zip, A_Ident_DL, A_Ident_SSN, A_EMail,
-    VoiceAuthCode, Orig_TrxID, PONum,
-    C_Currency_ID, C_ConversionType_ID,
-    CASE IsReceipt WHEN 'Y' THEN PayAmt ELSE PayAmt*-1 END AS PayAmt,
-    CASE IsReceipt WHEN 'Y' THEN DiscountAmt ELSE DiscountAmt*-1 END AS DiscountAmt, 
-    CASE IsReceipt WHEN 'Y' THEN WriteOffAmt ELSE WriteOffAmt*-1 END AS WriteOffAmt,
-    CASE IsReceipt WHEN 'Y' THEN TaxAmt ELSE TaxAmt*-1 END AS TaxAmt, 
-    CASE IsReceipt WHEN 'Y' THEN OverUnderAmt ELSE OverUnderAmt*-1 END AS OverUnderAmt,
-    CASE IsReceipt WHEN 'Y' THEN 1 ELSE -1 END AS MultiplierAP,
-    paymentAllocated(C_Payment_ID, C_Currency_ID) AS AllocatedAmt,
-    paymentAvailable(C_Payment_ID) AS AvailableAmt,
-    IsOverUnderPayment, IsApproved,
-    R_PnRef, R_Result, R_RespMsg, R_AuthCode, R_AvsAddr, R_AvsZip, R_Info,
-    Processing, OProcessing, DocStatus, DocAction,
-    IsPrepayment, C_Charge_ID,
-    IsReconciled, IsAllocated, IsOnline, Processed, Posted,
-    C_Campaign_ID, C_Project_ID, C_Activity_ID
-FROM C_Payment;
-
---COMMENT ON TABLE RV_PAYMENT IS 'Payment Information corrected for AP/AR';
-
-
-
+SELECT p.C_Payment_ID, p.AD_Client_ID, p.AD_Org_ID, p.IsActive, p.Created, p.CreatedBy, p.Updated, p.UpdatedBy,
+    p.DocumentNo, p.DateTrx, p.IsReceipt, p.C_DocType_ID, p.TrxType,
+    p.C_BankAccount_ID, p.C_BPartner_ID, p.C_Invoice_ID, p.C_BP_BankAccount_ID, p.C_PaymentBatch_ID,
+    p.TenderType, p.CreditCardType, p.CreditCardNumber, p.CreditCardVV, p.CreditCardExpMM, p.CreditCardExpYY,
+    p.Micr, p.RoutingNo, p.AccountNo, p.CheckNo,
+    p.A_Name, p.A_Street, p.A_City, p.A_State, p.A_Zip, p.A_Ident_DL, p.A_Ident_SSN, p.A_EMail,
+    p.VoiceAuthCode, p.Orig_TrxID, p.PONum,
+    p.C_Currency_ID, p.C_ConversionType_ID,
+    CASE p.IsReceipt WHEN 'Y' THEN p.PayAmt ELSE p.PayAmt*-1 END AS PayAmt,
+    CASE p.IsReceipt WHEN 'Y' THEN p.DiscountAmt ELSE p.DiscountAmt*-1 END AS DiscountAmt, 
+    CASE p.IsReceipt WHEN 'Y' THEN p.WriteOffAmt ELSE p.WriteOffAmt*-1 END AS WriteOffAmt,
+    CASE p.IsReceipt WHEN 'Y' THEN p.TaxAmt ELSE p.TaxAmt*-1 END AS TaxAmt, 
+    CASE p.IsReceipt WHEN 'Y' THEN p.OverUnderAmt ELSE p.OverUnderAmt*-1 END AS OverUnderAmt,
+    CASE p.IsReceipt WHEN 'Y' THEN 1 ELSE -1 END AS MultiplierAP,
+    paymentAllocated(p.C_Payment_ID, p.C_Currency_ID) AS AllocatedAmt,
+    paymentAvailable(p.C_Payment_ID) AS AvailableAmt,
+    p.IsOverUnderPayment, p.IsApproved,
+    p.R_PnRef, p.R_Result, p.R_RespMsg, p.R_AuthCode, p.R_AvsAddr, p.R_AvsZip, p.R_Info,
+    p.Processing, p.OProcessing, p.DocStatus, p.DocAction,
+    p.IsPrepayment, p.C_Charge_ID,
+    p.IsReconciled, p.IsAllocated, p.IsOnline, p.Processed, p.Posted,
+    p.C_Campaign_ID, p.C_Project_ID, p.C_Activity_ID, p.IsUnidentifiedPayment, p.Ref_Payment_ID, p.RelatedPayment_ID,
+    p.Description, 
+    bp.C_BP_AccountType_ID, bp.C_BP_SalesGroup_ID, bp.C_BP_Segment_ID, bp.C_BP_IndustryType_ID
+FROM C_Payment p
+LEFT JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID);

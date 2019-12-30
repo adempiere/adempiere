@@ -57,7 +57,7 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 	}
 
 	private void calculate() {
-		if (model.getReversalLine_ID() > 0)
+		if (model.getReversalLine_ID() > 0  && !model.isReversalParent())
 			return;
 
 		// try find the last cost detail transaction
@@ -112,7 +112,7 @@ public class StandardCostingMethod extends AbstractCostingMethod implements
 
 	private void createCostDetail() {
 		final String idColumnName = CostEngine.getIDColumnName(model);
-		if (model.getReversalLine_ID() > 0) {
+		if (model.getReversalLine_ID() > 0  && !model.isReversalParent()) {
 			createReversalCostDetail();
 			return;
 		}

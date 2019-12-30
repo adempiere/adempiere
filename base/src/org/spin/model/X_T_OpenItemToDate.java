@@ -26,14 +26,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_OpenItemToDate
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_T_OpenItemToDate extends PO implements I_T_OpenItemToDate, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_T_OpenItemToDate (Properties ctx, int T_OpenItemToDate_ID, String trxName)

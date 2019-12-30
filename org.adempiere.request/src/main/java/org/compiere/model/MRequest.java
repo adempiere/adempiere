@@ -16,16 +16,26 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
-import org.compiere.util.*;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
+import org.compiere.util.Util;
+import org.spin.model.MRNoticeTemplate;
+import org.spin.model.MRNoticeTemplateEvent;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 /**
@@ -123,10 +133,9 @@ public class MRequest extends X_R_Request
 		set_Value ("R_RequestType_ID", new Integer(R_RequestType_ID));
 		setSummary (Summary);
 		setIsSelfService(isSelfService);
-		getRequestType();
-		if (m_requestType != null)
+		if (getRequestType() != null)
 		{
-			String ct = m_requestType.getConfidentialType();
+			String ct = getRequestType().getConfidentialType();
 			if (ct != null)
 			{
 				setConfidentialType (ct);
@@ -147,7 +156,7 @@ public class MRequest extends X_R_Request
 	}	//	MRequest
 
 	/** Request Type				*/
-	private MRequestType m_requestType = null;
+	private MRequestType requestType = null;
 	/**	Changed						*/
 	private boolean			m_changed = false;
 	/**	BPartner					*/
@@ -166,11 +175,11 @@ public class MRequest extends X_R_Request
 	 */
 	public void setR_RequestType_ID ()
 	{
-		m_requestType = MRequestType.getDefault(getCtx());
-		if (m_requestType == null)
+		requestType = MRequestType.getDefault(getCtx());
+		if (requestType == null)
 			log.warning("No default found");
 		else
-			super.setR_RequestType_ID(m_requestType.getR_RequestType_ID());
+			super.setR_RequestType_ID(requestType.getR_RequestType_ID());
 	}	//	setR_RequestType_ID
 
 	/**
@@ -311,7 +320,7 @@ public class MRequest extends X_R_Request
 	 */
 	public MRequestType getRequestType()
 	{
-		if (m_requestType == null)
+		if (requestType == null)
 		{
 			int R_RequestType_ID = getR_RequestType_ID();
 			if (R_RequestType_ID == 0)
@@ -319,9 +328,9 @@ public class MRequest extends X_R_Request
 				setR_RequestType_ID();
 				R_RequestType_ID = getR_RequestType_ID();
 			}
-			m_requestType = MRequestType.get (getCtx(), R_RequestType_ID);
+			requestType = MRequestType.get (getCtx(), R_RequestType_ID);
 		}
-		return m_requestType;
+		return requestType;
 	}	//	getRequestType
 
 	
@@ -331,11 +340,11 @@ public class MRequest extends X_R_Request
 	 */
 	public String getRequestTypeName()
 	{
-		if (m_requestType == null)
+		if (requestType == null)
 			getRequestType();
-		if (m_requestType == null)
+		if (requestType == null)
 			return "??";
-		return m_requestType.getName();
+		return requestType.getName();
 	}	//	getRequestTypeText
 
 	/**
@@ -675,7 +684,7 @@ public class MRequest extends X_R_Request
 	public String toString ()
 	{
 		StringBuffer sb = new StringBuffer ("MRequest[");
-		sb.append (get_ID()).append ("-").append(getDocumentNo()).append ("]");
+		sb.append (get_ID()).append ("-").append(getDocumentNo()).append("-").append(getSummary()).append ("]");
 		return sb.toString ();
 	}	//	toString
 
@@ -718,17 +727,16 @@ public class MRequest extends X_R_Request
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
-		//	Request Type
-		getRequestType();
 		if (newRecord || is_ValueChanged("R_RequestType_ID"))
 		{
-			if (m_requestType != null)
+			if (getRequestType() != null)
 			{
-				if (isInvoiced() != m_requestType.isInvoiced())
-					setIsInvoiced(m_requestType.isInvoiced());
-				if (getDateNextAction() == null && m_requestType.getAutoDueDateDays() > 0)
+				if (isInvoiced() != getRequestType().isInvoiced()) {
+					setIsInvoiced(getRequestType().isInvoiced());
+				}
+				if (getDateNextAction() == null && getRequestType().getAutoDueDateDays() > 0)
 					setDateNextAction(TimeUtil.addDays(new Timestamp(System.currentTimeMillis()),
-						m_requestType.getAutoDueDateDays()));
+							getRequestType().getAutoDueDateDays()));
 			}
 			//	Is Status Valid
 			if (getR_Status_ID() != 0)
@@ -738,6 +746,13 @@ public class MRequest extends X_R_Request
 				if (sta.getR_StatusCategory_ID() != rt.getR_StatusCategory_ID())
 					setR_Status_ID();	//	set to default
 			}
+		}
+		if (isInvoiced()) {
+			Optional.ofNullable(getResult()).ifPresent(result -> {
+				Optional<BigDecimal> maybeQuantityToInvoice = Optional.ofNullable(getQtyInvoiced());
+				if (maybeQuantityToInvoice.isPresent() && maybeQuantityToInvoice.get().signum() == 0)
+					throw new AdempiereException("@R_Request_ID@ @IsInvoiced@ @And@ @QtyInvoiced@ @NotFound@");
+			});
 		}
 
 		//	Request Status
@@ -766,10 +781,9 @@ public class MRequest extends X_R_Request
 		//	Confidential Info
 		if (getConfidentialType() == null)
 		{
-			getRequestType();
-			if (m_requestType != null)
+			if (getRequestType() != null)
 			{
-				String ct = m_requestType.getConfidentialType();
+				String ct = getRequestType().getConfidentialType();
 				if (ct != null)
 					setConfidentialType (ct);
 			}
@@ -806,20 +820,20 @@ public class MRequest extends X_R_Request
 		//	Change Log
 		m_changed = false;
 		ArrayList<String> sendInfo = new ArrayList<String>();
-		MRequestAction ra = new MRequestAction(this, false);
+		MRequestAction requestAction = new MRequestAction(this, false);
 		//
-		if (checkChange(ra, "R_RequestType_ID"))
+		if (checkChange(requestAction, "R_RequestType_ID"))
 			sendInfo.add("R_RequestType_ID");
-		if (checkChange(ra, "R_Group_ID"))
+		if (checkChange(requestAction, "R_Group_ID"))
 			sendInfo.add("R_Group_ID");
-		if (checkChange(ra, "R_Category_ID"))
+		if (checkChange(requestAction, "R_Category_ID"))
 			sendInfo.add("R_Category_ID");
-		if (checkChange(ra, "R_Status_ID"))
+		if (checkChange(requestAction, "R_Status_ID"))
 			sendInfo.add("R_Status_ID");
-		if (checkChange(ra, "R_Resolution_ID"))
+		if (checkChange(requestAction, "R_Resolution_ID"))
 			sendInfo.add("R_Resolution_ID");
 		//
-		if (checkChange(ra, "SalesRep_ID"))
+		if (checkChange(requestAction, "SalesRep_ID"))
 		{
 			//	Sender
 			int AD_User_ID = Env.getContextAsInt(p_ctx, "#AD_User_ID");
@@ -843,60 +857,68 @@ public class MRequest extends X_R_Request
 				sendInfo.add("SalesRep_ID");
 			}
 		}
-		checkChange(ra, "AD_Role_ID");
+		checkChange(requestAction, "AD_Role_ID");
 		//
-		checkChange(ra, "Priority");
-		if (checkChange(ra, "PriorityUser"))
+		checkChange(requestAction, "Priority");
+		if (checkChange(requestAction, "PriorityUser"))
 			sendInfo.add("PriorityUser");
-		if (checkChange(ra, "IsEscalated"))
+		if (checkChange(requestAction, "IsEscalated"))
 			sendInfo.add("IsEscalated");
 		//
-		checkChange(ra, "ConfidentialType");
-		checkChange(ra, "Summary");
-		checkChange(ra, "IsSelfService");
-		checkChange(ra, "C_BPartner_ID");
-		checkChange(ra, "AD_User_ID");
-		checkChange(ra, "C_Project_ID");
-		checkChange(ra, "A_Asset_ID");
-		checkChange(ra, "C_Order_ID");
-		checkChange(ra, "C_Invoice_ID");
-		checkChange(ra, "M_Product_ID");
-		checkChange(ra, "C_Payment_ID");
-		checkChange(ra, "M_InOut_ID");
-		checkChange(ra, "M_RMA_ID");
-	//	checkChange(ra, "C_Campaign_ID");
-	//	checkChange(ra, "RequestAmt");
-		checkChange(ra, "IsInvoiced");
-		checkChange(ra, "C_Activity_ID");
-		checkChange(ra, "DateNextAction");
-		checkChange(ra, "M_ProductSpent_ID");
-		checkChange(ra, "QtySpent");
-		checkChange(ra, "QtyInvoiced");
-		checkChange(ra, "StartDate");
-		checkChange(ra, "CloseDate");
-		checkChange(ra, "TaskStatus");
-		checkChange(ra, "DateStartPlan");
-		checkChange(ra, "DateCompletePlan");
+		checkChange(requestAction, "ConfidentialType");
+		checkChange(requestAction, "Summary");
+		checkChange(requestAction, "IsSelfService");
+		checkChange(requestAction, "C_BPartner_ID");
+		checkChange(requestAction, "AD_User_ID");
+		checkChange(requestAction, "C_Project_ID");
+		checkChange(requestAction, "A_Asset_ID");
+		checkChange(requestAction, "C_Order_ID");
+		checkChange(requestAction, "C_Invoice_ID");
+		checkChange(requestAction, "M_Product_ID");
+		checkChange(requestAction, "C_Payment_ID");
+		checkChange(requestAction, "M_InOut_ID");
+		checkChange(requestAction, "M_RMA_ID");
+		checkChange(requestAction, "C_Campaign_ID");
+		checkChange(requestAction, "RequestAmt");
+		checkChange(requestAction, "IsInvoiced");
+		checkChange(requestAction, "C_Activity_ID");
+		checkChange(requestAction, "DateNextAction");
+		checkChange(requestAction, "M_ProductSpent_ID");
+		checkChange(requestAction, "QtySpent");
+		checkChange(requestAction, "QtyInvoiced");
+		checkChange(requestAction, "StartDate");
+		checkChange(requestAction, "CloseDate");
+		checkChange(requestAction, "TaskStatus");
+		checkChange(requestAction, "DateStartPlan");
+		checkChange(requestAction, "DateCompletePlan");
 		//
 		if (m_changed)
-			ra.saveEx();
+			requestAction.saveEx();
 		
 		//	Current Info
-		MRequestUpdate update = new MRequestUpdate(this);
-		if (update.isNewInfo())
-			update.saveEx();
+		MRequestUpdate requestUpdate = new MRequestUpdate(this);
+		// Link Request Action  with Request Update
+		if (requestAction.getR_RequestAction_ID() > 0)
+			requestUpdate.setR_RequestAction_ID(requestAction.getR_RequestAction_ID());
+
+		if (requestUpdate.isNewInfo())
+			requestUpdate.saveEx();
 		else
-			update = null;
+			requestUpdate = null;
 		//
 		m_emailTo = new StringBuffer();
-		if (update != null || sendInfo.size() > 0)
+		if (requestUpdate != null || sendInfo.size() > 0)
 		{
 			// Note that calling the notifications from beforeSave is causing the
 			// new interested are not notified if the RV_RequestUpdates view changes
 			// this is, when changed the sales rep (solved in sendNotices)
 			// or when changed the request category or group or contact (unsolved - the old ones are notified)
-			sendNotices(sendInfo);
-			
+			if(checkChange(requestAction, "SalesRep_ID")) {
+				sendNotices(sendInfo, MRNoticeTemplateEvent.EVENTTYPE_SalesRepAlertWhenTransferringARequest);
+			} else if(checkChange(requestAction, "Summary")) {
+				sendNotices(sendInfo, MRNoticeTemplateEvent.EVENTTYPE_EndUserLimitOverrideNotice);
+			}
+			sendNotices(sendInfo, MRNoticeTemplateEvent.EVENTTYPE_AutomaticTaskNewActivityNotice);
 			//	Update
 			setDateLastAction(getUpdated());
 			setLastResult(getResult());
@@ -918,68 +940,25 @@ public class MRequest extends X_R_Request
 
 	/**
 	 * 	Check for changes
-	 *	@param ra request action
+	 *	@param requestAction request action
 	 *	@param columnName column
 	 *	@return true if changes
 	 */
-	private boolean checkChange (MRequestAction ra, String columnName)
+	private boolean checkChange (MRequestAction requestAction, String columnName)
 	{
 		if (is_ValueChanged(columnName))
 		{
 			Object value = get_ValueOld(columnName);
 			if (value == null)
-				ra.addNullColumn(columnName);
+				requestAction.addNullColumn(columnName);
 			else
-				ra.set_ValueNoCheck(columnName, value);
+				requestAction.set_ValueNoCheck(columnName, value);
 			m_changed = true;
 			return true;
 		}
 		return false;
 	}	//	checkChange
 	
-	/**
-	 *  Check the ability to send email.
-	 *  @return AD_Message or null if no error
-	 */
-/*
- * TODO red1 - Never Used Locally - to check later
- 	private String checkEMail()
-	{
-		//  Mail Host
-		MClient client = MClient.get(getCtx());
-		if (client == null 
-			|| client.getSMTPHost() == null
-			|| client.getSMTPHost().length() == 0)
-			return "RequestActionEMailNoSMTP";
-
-		//  Mail To
-		MUser to = new MUser (getCtx(), getAD_User_ID(), get_TrxName());
-		if (to == null
-			|| to.getEMail() == null
-			|| to.getEMail().length() == 0)
-			return "RequestActionEMailNoTo";
-
-		//  Mail From real user
-		MUser from = MUser.get(getCtx(), Env.getAD_User_ID(getCtx()));
-		if (from == null 
-			|| from.getEMail() == null
-			|| from.getEMail().length() == 0)
-			return "RequestActionEMailNoFrom";
-		
-		//  Check that UI user is Request User
-//		int realSalesRep_ID = Env.getContextAsInt (getCtx(), "#AD_User_ID");
-//		if (realSalesRep_ID != getSalesRep_ID())
-//			setSalesRep_ID(realSalesRep_ID);
-
-		//  RequestActionEMailInfo - EMail from {0} to {1}
-//		Object[] args = new Object[] {emailFrom, emailTo};
-//		String msg = Msg.getMsg(getCtx(), "RequestActionEMailInfo", args);
-//		setLastResult(msg);
-		//
-		
-		return null;
-	}   //  checkEMail
-*/
 	/**
 	 * 	Set SalesRep_ID
 	 *	@param SalesRep_ID id
@@ -1010,9 +989,9 @@ public class MRequest extends X_R_Request
 			update.saveEx();
 		}
 		//	Initial Mail
-		if (newRecord)
-			sendNotices(new ArrayList<String>());
-
+		if (newRecord) {
+			sendNotices(new ArrayList<String>(), MRNoticeTemplateEvent.EVENTTYPE_EndUserNewRequestNotice);
+		}
 		//	ChangeRequest - created in Request Processor
 		if (getM_ChangeRequest_ID() != 0
 			&& is_ValueChanged(COLUMNNAME_R_Group_ID))	//	different ECN assignment?
@@ -1046,82 +1025,81 @@ public class MRequest extends X_R_Request
 		
 		return success;
 	}	//	afterSave
-
-	/**
-	 * 	Send transfer Message
-	 */
-/*TODO - red1 Never used locally  - check later
- * 	private void sendTransferMessage ()  
-	{
-		//	Sender
-		int AD_User_ID = Env.getContextAsInt(p_ctx, "#AD_User_ID");
-		if (AD_User_ID == 0)
-			AD_User_ID = getUpdatedBy();
-		//	Old
-		Object oo = get_ValueOld("SalesRep_ID");
-		int oldSalesRep_ID = 0;
-		if (oo instanceof Integer)
-			oldSalesRep_ID = ((Integer)oo).intValue();
-
-		//  RequestActionTransfer - Request {0} was transfered by {1} from {2} to {3}
-		Object[] args = new Object[] {getDocumentNo(), 
-			MUser.getNameOfUser(AD_User_ID), 
-			MUser.getNameOfUser(oldSalesRep_ID),
-			MUser.getNameOfUser(getSalesRep_ID())
-			};
-		String subject = Msg.getMsg(getCtx(), "RequestActionTransfer", args);
-		String message = subject + "\n" + getSummary();
-		MClient client = MClient.get(getCtx());
-		MUser from = MUser.get (getCtx(), AD_User_ID);
-		MUser to = MUser.get (getCtx(), getSalesRep_ID());
-		//
-		client.sendEMail(from, to, subject, message, createPDF());
-	}	//	afterSaveTransfer
-*/
 	
 	/**
 	 * 	Send Update EMail/Notices
 	 * 	@param list list of changes
+	 *  @param eventType Event Type
 	 */
-	public void sendNotices(ArrayList<String> list)
-	{
+	public void sendNotices(ArrayList<String> list, String eventType) {
 		//	Subject
-		String subject = Msg.translate(getCtx(), "R_Request_ID")
-			+ " " + Msg.getMsg(getCtx(), "Updated") + ": " + getDocumentNo();
+		String subject = "";
 		//	Message
-		StringBuffer message = new StringBuffer();
+		String message = new String();
+		//	
+		int updatedBy = Env.getAD_User_ID(getCtx());
 		//		UpdatedBy: Joe
-		int UpdatedBy = Env.getAD_User_ID(getCtx());
-		MUser from = MUser.get(getCtx(), UpdatedBy);
-		if (from != null)
-			message.append(Msg.translate(getCtx(), "UpdatedBy")).append(": ")
-				.append(from.getName());
-		//		LastAction/Created: ...	
-		if (getDateLastAction() != null)
-			message.append("\n").append(Msg.translate(getCtx(), "DateLastAction"))
-				.append(": ").append(getDateLastAction());
-		else
-			message.append("\n").append(Msg.translate(getCtx(), "Created"))
-				.append(": ").append(getCreated());
-		//	Changes
-		for (int i = 0; i < list.size(); i++)
-		{
-			String columnName = (String)list.get(i);
-			message.append("\n").append(Msg.getElement(getCtx(), columnName))
-				.append(": ").append(get_DisplayValue(columnName, false))
-				.append(" -> ").append(get_DisplayValue(columnName, true));
+		MUser from = MUser.get(getCtx(), updatedBy);
+		//	Event Type
+		if(!Util.isEmpty(eventType)) {
+			MMailText mailText = MRNoticeTemplate.getMailTemplate(getCtx(), MRNoticeTemplate.TEMPLATETYPE_Request, eventType);
+			if(mailText != null) {
+				mailText.setUser(from);
+				if(getC_BPartner_ID() != 0) {
+					mailText.setBPartner(getC_BPartner_ID());
+				}
+				//	Add Request
+				mailText.setPO(this);
+				subject = mailText.getMailHeader();
+				//	Message
+				message = mailText.getMailText(true);
+				StringBuffer localMessage = new StringBuffer();
+				for (int i = 0; i < list.size(); i++) {
+					String columnName = (String)list.get(i);
+					localMessage.append(Env.NL).append(Msg.getElement(getCtx(), columnName))
+						.append(": ").append(get_DisplayValue(columnName, false))
+						.append(" -> ").append(get_DisplayValue(columnName, true));
+				}
+				//	
+				message += localMessage.toString();
+			}
 		}
-		//	NextAction
-		if (getDateNextAction() != null)
-			message.append("\n").append(Msg.translate(getCtx(), "DateNextAction"))
-				.append(": ").append(getDateNextAction());
-		message.append(SEPARATOR)
-			.append(getSummary());
-		if (getResult() != null)
-			message.append("\n----------\n").append(getResult());
-		message.append(getMailTrailer(null));
+		if(Util.isEmpty(subject)
+				&& Util.isEmpty(message)) {
+			StringBuffer localMessage = new StringBuffer();
+			subject = Msg.translate(getCtx(), "R_Request_ID")
+			+ " " + Msg.getMsg(getCtx(), "Updated") + ": " + getDocumentNo();
+			if (from != null)
+				localMessage.append(Msg.translate(getCtx(), "UpdatedBy")).append(": ")
+					.append(from.getName());
+			//		LastAction/Created: ...	
+			if (getDateLastAction() != null)
+				localMessage.append("\n").append(Msg.translate(getCtx(), "DateLastAction"))
+					.append(": ").append(getDateLastAction());
+			else
+				localMessage.append("\n").append(Msg.translate(getCtx(), "Created"))
+					.append(": ").append(getCreated());
+			//	Changes
+			for (int i = 0; i < list.size(); i++)
+			{
+				String columnName = (String)list.get(i);
+				localMessage.append("\n").append(Msg.getElement(getCtx(), columnName))
+					.append(": ").append(get_DisplayValue(columnName, false))
+					.append(" -> ").append(get_DisplayValue(columnName, true));
+			}
+			//	NextAction
+			if (getDateNextAction() != null)
+				localMessage.append("\n").append(Msg.translate(getCtx(), "DateNextAction"))
+					.append(": ").append(getDateNextAction());
+			localMessage.append(SEPARATOR)
+				.append(getSummary());
+			if (getResult() != null)
+				localMessage.append("\n----------\n").append(getResult());
+			localMessage.append(getMailTrailer(null));
+			message = localMessage.toString();
+		}
 		File pdf = createPDF();
-		log.finer(message.toString());
+		log.finer(message);
 		
 		//	Prepare sending Notice/Mail
 		MClient client = MClient.get(getCtx());
@@ -1149,63 +1127,64 @@ public class MRequest extends X_R_Request
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
-				int AD_User_ID = rs.getInt(1);
-				String NotificationType = rs.getString(2);
-				if (NotificationType == null)
-					NotificationType = X_AD_User.NOTIFICATIONTYPE_EMail;
+				int userId = rs.getInt(1);
+				String notificationType = rs.getString(2);
+				if (notificationType == null)
+					notificationType = X_AD_User.NOTIFICATIONTYPE_EMail;
 				String email = rs.getString(3);
 				String Name = rs.getString(4);
 				//	Role
-				int AD_Role_ID = rs.getInt(5);
+				int roleId = rs.getInt(5);
 				if (rs.wasNull())
-					AD_Role_ID = -1;
+					roleId = -1;
 				
 				//	Don't send mail to oneself
-		//		if (AD_User_ID == UpdatedBy)
-		//			continue;
+				if (userId == updatedBy
+						&& !from.isIncludeOwnChanges())
+					continue;
 				
 				//	No confidential to externals
-				if (AD_Role_ID == -1 
+				if (roleId == -1 
 					&& (getConfidentialTypeEntry().equals(CONFIDENTIALTYPE_Internal)
 						|| getConfidentialTypeEntry().equals(CONFIDENTIALTYPE_PrivateInformation)))
 					continue;
 				
-				if (X_AD_User.NOTIFICATIONTYPE_None.equals(NotificationType))
+				if (X_AD_User.NOTIFICATIONTYPE_None.equals(notificationType))
 				{
 					log.config("Opt out: " + Name);
 					continue;
 				}
-				if ((X_AD_User.NOTIFICATIONTYPE_EMail.equals(NotificationType)
-					|| X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(NotificationType))
+				if ((X_AD_User.NOTIFICATIONTYPE_EMail.equals(notificationType)
+					|| X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(notificationType))
 					&& (email == null || email.length() == 0))
 				{
-					if (AD_Role_ID >= 0)
-						NotificationType = X_AD_User.NOTIFICATIONTYPE_Notice;
+					if (roleId >= 0)
+						notificationType = X_AD_User.NOTIFICATIONTYPE_Notice;
 					else
 					{
 						log.config("No EMail: " + Name);
 						continue;
 					}
 				}
-				if (X_AD_User.NOTIFICATIONTYPE_Notice.equals(NotificationType)
-					&& AD_Role_ID >= 0)
+				if (X_AD_User.NOTIFICATIONTYPE_Notice.equals(notificationType)
+					&& roleId >= 0)
 				{
 					log.config("No internal User: " + Name);
 					continue;
 				}
 
 				//	Check duplicate receivers
-				Integer ii = new Integer (AD_User_ID);
+				Integer ii = new Integer (userId);
 				if (userList.contains(ii))
 					continue;
 				userList.add(ii);
 				//
-				MUser to = MUser.get (getCtx(), AD_User_ID);
+				MUser to = MUser.get (getCtx(), userId);
 				//	Send Mail
-				if (X_AD_User.NOTIFICATIONTYPE_EMail.equals(NotificationType)
-					|| X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(NotificationType))
+				if (X_AD_User.NOTIFICATIONTYPE_EMail.equals(notificationType)
+					|| X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(notificationType))
 				{
-					if (client.sendEMail(from, to, subject, message.toString(), pdf)) 
+					if (client.sendEMail(from, to, subject, message, pdf)) 
 					{
 						success++;
 						if (m_emailTo.length() > 0)
@@ -1216,17 +1195,17 @@ public class MRequest extends X_R_Request
 					{
 						log.warning("Failed: " + Name);
 						failure++;
-						NotificationType = X_AD_User.NOTIFICATIONTYPE_Notice;
+						notificationType = X_AD_User.NOTIFICATIONTYPE_Notice;
 					}
 				}
 				//	Send Note
-				if (X_AD_User.NOTIFICATIONTYPE_Notice.equals(NotificationType)
-					|| X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(NotificationType))
+				if (X_AD_User.NOTIFICATIONTYPE_Notice.equals(notificationType)
+					|| X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(notificationType))
 				{
 					int AD_Message_ID = 834;
-					MNote note = new MNote(getCtx(), AD_Message_ID, AD_User_ID,
+					MNote note = new MNote(getCtx(), AD_Message_ID, userId,
 						X_R_Request.Table_ID, getR_Request_ID(),
-						subject, message.toString(), get_TrxName());
+						subject, message, get_TrxName());
 					if (note.save())
 						notices++;
 				}
@@ -1254,7 +1233,8 @@ public class MRequest extends X_R_Request
 	{
 		StringBuffer sb = new StringBuffer("\n").append(SEPARATOR)
 			.append(Msg.translate(getCtx(), "R_Request_ID"))
-			.append(": ").append(getDocumentNo())
+			.append(": ").append(getDocumentNo())	
+			
 			.append("  ").append(getMailTag())
 			.append("\nSent by AdempiereMail");
 		if (serverAddress != null)

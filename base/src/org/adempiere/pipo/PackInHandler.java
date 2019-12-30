@@ -30,10 +30,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -45,21 +45,9 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
-import org.adempiere.pipo.handler.CodeSnipitElementHandler;
-import org.adempiere.pipo.handler.DataElementHandler;
-import org.adempiere.pipo.handler.DistFileElementHandler;
-import org.adempiere.pipo.handler.EntityTypeElementHandler;
 import org.adempiere.pipo.handler.GenericPOHandler;
-import org.adempiere.pipo.handler.MenuElementHandler;
-import org.adempiere.pipo.handler.ModelValidatorElementHandler;
-import org.adempiere.pipo.handler.SQLStatementElementHandler;
-import org.adempiere.pipo.handler.TableElementHandler;
-import org.adempiere.pipo.handler.WorkflowElementHandler;
-import org.adempiere.pipo.handler.WorkflowNodeElementHandler;
-import org.adempiere.pipo.handler.WorkflowNodeNextConditionElementHandler;
-import org.adempiere.pipo.handler.WorkflowNodeNextElementHandler;
+import org.adempiere.pipo.handler.PackinCustomHandler;
 import org.compiere.model.I_AD_Column;
-import org.compiere.model.I_AD_WF_Node;
 import org.compiere.model.I_AD_Workflow;
 import org.compiere.model.MColumn;
 import org.compiere.model.MSequence;
@@ -90,7 +78,7 @@ public class PackInHandler extends DefaultHandler {
      * 	PackInHandler Handler
      */
     public PackInHandler () {
-    	setupHandlers();
+    	PackinCustomHandler.getInstance();
     }   // PackInHandler   
     
     /** Set this if you want to update Dictionary  */
@@ -112,11 +100,8 @@ public class PackInHandler extends DefaultHandler {
 	// transaction name 
 	private	String 		trxName = null;
 	private Properties  m_ctx = null;
-
-	private Map<String, ElementHandler>handlers = null;
-	private List<Element> menus = new ArrayList<Element>();
+	
 	private List<Element> workflow = new ArrayList<Element>();
-	private List<Element> nodes = new ArrayList<Element>();
 	private List<DeferEntry> defer = new ArrayList<DeferEntry>();
 	private Stack<Element> stack = new Stack<Element>();
 	private List<Element> columns = new ArrayList<Element>();
@@ -170,28 +155,6 @@ public class PackInHandler extends DefaultHandler {
 		Start_Doc=1;
 	}
 	
-	private void setupHandlers() {
-		DataElementHandler dataHandler = new DataElementHandler();
-    	handlers = new HashMap<String, ElementHandler>();
-    	handlers.put("menu", new MenuElementHandler());
-    	handlers.put("adempieredata", dataHandler);
-    	handlers.put("data", dataHandler);
-    	handlers.put("dtable", dataHandler);
-    	handlers.put("drow", dataHandler);
-    	handlers.put("dcolumn", dataHandler);
-    	handlers.put("workflow", new WorkflowElementHandler());
-    	handlers.put("workflowNode", new WorkflowNodeElementHandler());
-    	handlers.put("workflowNodeNext", new WorkflowNodeNextElementHandler());
-    	handlers.put("workflowNodeNextCondition", new WorkflowNodeNextConditionElementHandler());
-    	handlers.put(GenericPOHandler.Column_TAG_Name, new TableElementHandler());
-    	handlers.put(GenericPOHandler.TAG_Name, new GenericPOHandler());
-    	handlers.put("codesnipit", new CodeSnipitElementHandler());
-    	handlers.put("distfile", new DistFileElementHandler());
-    	handlers.put("SQLStatement", new SQLStatementElementHandler());
-    	handlers.put(ModelValidatorElementHandler.TAG_Name, new ModelValidatorElementHandler());
-    	handlers.put(EntityTypeElementHandler.TAG_Name, new EntityTypeElementHandler());
-	}
-	
     /**
      * 	Receive notification of the start of an element.
      *
@@ -201,8 +164,7 @@ public class PackInHandler extends DefaultHandler {
      * 	@param atts attributes
      * 	@throws org.xml.sax.SAXException
      */
-	public void startElement (String uri, String localName, String qName, Attributes atts)
-	throws org.xml.sax.SAXException {
+	public void startElement (String uri, String localName, String qName, Attributes atts) throws org.xml.sax.SAXException {
 		
 		// Create the package log    	
 		if (Start_Doc==0){
@@ -344,43 +306,26 @@ public class PackInHandler extends DefaultHandler {
 			m_ctx.put("LogDocument", logDocument);
 			m_ctx.put("PackInProcess", packIn);
 		}
-		else if (elementValue.equals("menu")) {
-			//defer
-			Element e = new Element(uri, localName, qName, new AttributesImpl(atts));
-			if (stack.size() > 0)
-				e.parent = stack.peek();
-			stack.push(e);
-			menus.add(e);
+		Element e = new Element(uri, localName, qName, new AttributesImpl(atts));
+		if (stack.size() > 0)
+			e.parent = stack.peek();
+		stack.push(e);
+		if (elementValue.startsWith(GenericPOHandler.TAG_Name + "_" + I_AD_Workflow.Table_Name)) {
+			workflow.add(e);
 		}
-		else {
-			Element e = new Element(uri, localName, qName, new AttributesImpl(atts));
-			if (stack.size() > 0)
-				e.parent = stack.peek();
-			stack.push(e);
-			if (elementValue.equals("workflow"))
-			{
-				workflow.add(e);
-			}
-			
-			if (elementValue.equals("workflowNode"))
-			{
-				nodes.add(e);
-			}
-			
-			if(elementValue.equals(GenericPOHandler.Column_TAG_Name)) {
-				columns.add(e);
-			}
-			//	for generic handler
-			ElementHandler handler = handlers.get(elementValue);
-			if(handler == null
-					&& elementValue.startsWith(GenericPOHandler.TAG_Name)) {
-				handler = new GenericPOHandler();
-			}
-			if (handler != null)
-				handler.startElement(m_ctx, e);
-			if (e.defer) {
-				defer.add(new DeferEntry(e, true));
-			}
+		if(elementValue.equals(GenericPOHandler.Column_TAG_Name)) {
+			columns.add(e);
+		}
+		//	for generic handler
+		ElementHandler handler = PackinCustomHandler.getInstance().getHandler(elementValue);
+		if(handler == null
+				&& elementValue.startsWith(GenericPOHandler.TAG_Name)) {
+			handler = new GenericPOHandler();
+		}
+		if (handler != null)
+			handler.startElement(m_ctx, e);
+		if (e.defer) {
+			defer.add(new DeferEntry(e, true));
 		}	
 	}   // startElement
     
@@ -588,7 +533,6 @@ public class PackInHandler extends DefaultHandler {
     	
     	if (elementValue.equals("adempiereAD")){
     		processDeferElements();
-    		processMenuElements();
     		if (!PK_Status.equals("Completed with errors"))
     			PK_Status = "Completed successfully";
     		
@@ -618,57 +562,20 @@ public class PackInHandler extends DefaultHandler {
     				int workflowId = IDFinder.getIdFromUUID(Env.getCtx(), I_AD_Workflow.Table_Name, workflowUuid, clientId, trxName);
     				if(workflowId > 0) {
     					workflow = new MWorkflow(m_ctx, workflowId , trxName);
-    					int node_id = 0;
-    					
-    					String workFlowNodeName = AttributeFiller.getUUIDAttribute(I_AD_Workflow.COLUMNNAME_AD_WF_Node_ID);
-    					if (workFlowNodeName != null && workFlowNodeName.trim().length() > 0)  {
-    						MWFNode[] nodes = workflow.getNodes(false, clientId);
-    						for (MWFNode node : nodes) {
-    							if (node.getName().trim().equals(workFlowNodeName.trim())) {
-    								node_id = node.getAD_WF_Node_ID();
-    								workflow.setAD_WF_Node_ID(node_id);
-    								if (!workflow.save())
-    									System.out.println("Can not save Start Node "+ workFlowNodeName +"to Workflow " + workflowUuid +  " do not exist ");
-    							    break;
-    							}	
+    					String workFlowNodeUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_Workflow.COLUMNNAME_AD_WF_Node_ID));
+    					if (!Util.isEmpty(workFlowNodeUuid)) {
+    						List<MWFNode> nodesList = Arrays.asList(workflow.getNodes(false, clientId));
+    						Optional<MWFNode> optionalNode = nodesList.stream().filter(node -> node.getUUID().equals(workFlowNodeUuid)).findFirst();
+    						if(optionalNode.isPresent()) {
+    							workflow.setAD_WF_Node_ID(optionalNode.get().getAD_WF_Node_ID());
+								workflow.saveEx();
     						}
-    						
-    						if(node_id == 0) {
-    							System.out.println("Unresolved: Start Node to Workflow " + workflowUuid +  " do not exist ");	
-    						}
-    						else
-    						break;	
     					}
     					
     				}
         		}
         	}
         	//	
-        	if(nodes.size() > 0) {
-        		for (Element e : nodes) {
-    	    		Attributes atts = e.attributes;
-    	    		String nodeUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_WF_Node.Table_Name));
-    	    		MWFNode node = null;
-    	    		int id = IDFinder.getIdFromUUID(Env.getCtx(), I_AD_WF_Node.Table_Name, nodeUuid, clientId, trxName);
-    				if(id > 0) {
-    					node = new MWFNode(m_ctx, id , trxName);
-    					String workflowNodeUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_WF_Node.COLUMNNAME_Workflow_ID));
-    					if (!Util.isEmpty(workflowNodeUuid))  {
-    						int workflowId = IDFinder.getIdFromUUID(Env.getCtx(), I_AD_Workflow.Table_Name, workflowNodeUuid, clientId, trxName);	
-    						if (workflowId > 0) {
-    							node.setWorkflow_ID(workflowId);
-    							if(!node.save()) {
-    								System.out.println("can not save Workflow " + workflowNodeUuid );
-    							}
-    						} else {
-    							System.out.println("Unresolved: Workflow " + workflowNodeUuid +  " do not exist ");
-    						}
-    					}
-    						
-    				}
-        		}
-        	}
-        	
         	//	Columns
         	if(columns.size() > 0) {
         		for (Element e : columns) {
@@ -678,7 +585,11 @@ public class PackInHandler extends DefaultHandler {
     				if(id > 0) {
     					MColumn column = new MColumn(m_ctx, id, trxName);
     					if(column.getAD_Table_ID() > 0) {
-    						column.syncDatabase();
+    						try {
+    							column.syncDatabase();
+    						} catch(Exception ex) {
+    							log.warning("SyncDatabase Error: " + e.getElementValue() + " - " + ex.getLocalizedMessage());
+    						}
     					}
     				}
         		}
@@ -693,13 +604,13 @@ public class PackInHandler extends DefaultHandler {
     		{}
     		
     		//reset
-    		setupHandlers();
+    		PackinCustomHandler.getInstance();
     	} else {
     		Element e = stack.pop();
     		if (e.defer) {
     			defer.add(new DeferEntry(e, false));
     		} else {
-	    		ElementHandler handler = handlers.get(elementValue);
+	    		ElementHandler handler = PackinCustomHandler.getInstance().getHandler(elementValue);
 	    		if (handler != null)
 	    			handler.endElement(m_ctx, e);
 	    		if (e.defer || e.deferEnd)
@@ -714,16 +625,6 @@ public class PackInHandler extends DefaultHandler {
 
     	
     }   // endElement
-    
-    private void processMenuElements() throws SAXException {
-    	ElementHandler handler = handlers.get("menu");
-		if (menus.size() > 0 && handler != null) {
-			for (Element e : menus) {
-				handler.startElement(m_ctx, e);
-				handler.endElement(m_ctx, e);
-			}
-		}
-	}
     
     private void processDeferElements() throws SAXException {
     	if (defer.isEmpty()) return;
@@ -747,7 +648,7 @@ public class PackInHandler extends DefaultHandler {
     				log.info("Processing Defer Element: " + d.element.getElementValue() + " - "
 						+ d.element.attributes.getValue(0));
     			}
-    			ElementHandler handler = handlers.get(d.element.getElementValue());
+    			ElementHandler handler = PackinCustomHandler.getInstance().getHandler(d.element.getElementValue());
     			if (handler != null) {
     				if (d.startElement)
     					handler.startElement(m_ctx, d.element);

@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for PA_DocumentStatus
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_PA_DocumentStatus extends PO implements I_PA_DocumentStatus, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_PA_DocumentStatus (Properties ctx, int PA_DocumentStatus_ID, String trxName)
@@ -40,10 +40,6 @@ public class X_PA_DocumentStatus extends PO implements I_PA_DocumentStatus, I_Pe
         {
 			setAD_Table_ID (0);
 			setName (null);
-			setName_PrintColor_ID (0);
-			setName_PrintFont_ID (0);
-			setNumber_PrintColor_ID (0);
-			setNumber_PrintFont_ID (0);
 			setPA_DocumentStatus_ID (0);
 			setSeqNo (0);
         } */

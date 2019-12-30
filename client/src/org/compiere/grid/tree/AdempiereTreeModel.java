@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
+import org.compiere.model.MColumn;
 import org.compiere.model.MTable;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
@@ -34,6 +35,10 @@ import org.compiere.util.Trx;
  *
  *  @author 	phib  2008/07/30
  *  FR [ 2032092 ] Java 6 improvements to tree drag and drop
+ *  @author Carlos Parada, cparada@erpya.com, ERPCyA http://www.erpya.com
+ *  		<a href="https://github.com/adempiere/adempiere/issues/729">
+ *			@see FR [ 729 ] Add Support to Parent Column And Search Column for Tree </a>
+ *  
  */
 public class AdempiereTreeModel extends DefaultTreeModel {
 	
@@ -84,8 +89,8 @@ public class AdempiereTreeModel extends DefaultTreeModel {
 				for (int i = 0; i < to.getChildCount(); i++)
 				{
 					// Skip the entry of the 'from' node to avoid duplication
-					if ( i==Integer.parseInt(from.getSeqNo())) 
-						continue;
+					//if ( i==Integer.parseInt(from.getSeqNo())) 
+					//	continue;
 					
 					MTreeNode nd = (MTreeNode)to.getChildAt(i);
 					String whereClause = "AD_Tree_ID="+AD_Tree_ID+ " AND Node_ID=" + nd.getNode_ID();
@@ -99,6 +104,24 @@ public class AdempiereTreeModel extends DefaultTreeModel {
 					else
 					{
 						nextSeqNo = tree.get_ValueAsInt("SeqNo") + 1;
+					}
+				}
+				//FR [ 729 ]
+				//Update Table if has parent Column
+				if (m_MTree.getParent_Column_ID() > 0) {
+					MColumn parentColumn = MColumn.get(Env.getCtx(), m_MTree.getParent_Column_ID());
+					MTable treeTable = MTable.get(Env.getCtx(),m_MTree.getAD_Table_ID());
+					String[] keyColumns = treeTable.getKeyColumns();
+					if (keyColumns.length>0) {
+						String whereClause = keyColumns[0] + "=" + from.getNode_ID();
+						PO table = MTable.get(Env.getCtx(), MTable.getTableName(Env.getCtx(), m_MTree.getAD_Table_ID())).getPO(whereClause, trx.getTrxName());
+						if (table.get_ID() > 0) {
+							if (to.getNode_ID()>0)
+								table.set_ValueOfColumn(parentColumn.getColumnName(), to.getNode_ID());
+							else 
+								table.set_ValueOfColumn(parentColumn.getColumnName(), null);
+							table.saveEx();
+						}
 					}
 				}
 			}

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_DocType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_DocType 
 {
@@ -456,6 +456,19 @@ public interface I_C_DocType
 
 	/** Get Overwrite Sequence on Complete	  */
 	public boolean isOverwriteSeqOnComplete();
+
+    /** Column name IsPayrollPayment */
+    public static final String COLUMNNAME_IsPayrollPayment = "IsPayrollPayment";
+
+	/** Set Payroll Payment.
+	  * Used for mark a document type or payment for identify as payment of payroll
+	  */
+	public void setIsPayrollPayment (boolean IsPayrollPayment);
+
+	/** Get Payroll Payment.
+	  * Used for mark a document type or payment for identify as payment of payroll
+	  */
+	public boolean isPayrollPayment();
 
     /** Column name IsPickQAConfirm */
     public static final String COLUMNNAME_IsPickQAConfirm = "IsPickQAConfirm";

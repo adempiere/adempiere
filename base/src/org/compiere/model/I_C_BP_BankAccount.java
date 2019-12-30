@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BP_BankAccount
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_BP_BankAccount 
 {
@@ -356,6 +356,19 @@ public interface I_C_BP_BankAccount
 	  * Credit Card Verification code on credit card
 	  */
 	public String getCreditCardVV();
+
+    /** Column name IBAN */
+    public static final String COLUMNNAME_IBAN = "IBAN";
+
+	/** Set IBAN.
+	  * International Bank Account Number
+	  */
+	public void setIBAN (String IBAN);
+
+	/** Get IBAN.
+	  * International Bank Account Number
+	  */
+	public String getIBAN();
 
     /** Column name IsACH */
     public static final String COLUMNNAME_IsACH = "IsACH";

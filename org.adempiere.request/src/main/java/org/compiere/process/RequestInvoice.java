@@ -16,64 +16,40 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import org.compiere.model.*;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MRequest;
+import org.compiere.model.MRequestType;
+import org.compiere.model.MRequestUpdate;
+import org.compiere.model.MStatus;
+import org.compiere.model.Query;
 import org.compiere.util.AdempiereSystemError;
-import org.compiere.util.DB;
+import org.compiere.util.Msg;
 
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.logging.Level;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 	Create Invoices for Requests
- *	
- *	
- *  @author Jorg Janke
- *  @version $Id: RequestInvoice.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ *
+ *
+ * @author Jorg Janke
+ * @author victor.perez@e-evolution.com , Victor Perez , e-Evolution Consultant, S.A. www.e-evolution.com
+ * <li>Add relation between Request Update and Invoice Line #2484</li>
+ * <li>https://github.com/adempiere/adempiere/issues/2484</li>
  */
-public class RequestInvoice extends SvrProcess
-{
-	/** Request Type				*/
-	private int		p_R_RequestType_ID = 0;
-	/**	Request Group (opt)			*/
-	private int		p_R_Group_ID = 0;
-	/** Request Categpry (opt)		*/
-	private int		p_R_Category_ID = 0;
-	/** Business Partner (opt)		*/
-	private int		p_C_BPartner_ID = 0;
-	/** Default product				*/
-	private int		p_M_Product_ID = 0;
-
-	/** The invoice					*/
-	private MInvoice m_invoice = null;
-	/**	Line Count					*/
-	private int		m_linecount = 0;
-	
+public class RequestInvoice extends RequestInvoiceAbstract {
+	private HashMap<Integer, MInvoice> invoicesByPartner = new HashMap<>();
 	/**
 	 * 	Prepare
 	 */
-	protected void prepare ()
-	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("R_RequestType_ID"))
-				p_R_RequestType_ID = para[i].getParameterAsInt();
-			else if (name.equals("R_Group_ID"))
-				p_R_Group_ID = para[i].getParameterAsInt();
-			else if (name.equals("R_Category_ID"))
-				p_R_Category_ID = para[i].getParameterAsInt();
-			else if (name.equals("C_BPartner_ID"))
-				p_C_BPartner_ID = para[i].getParameterAsInt();
-			else if (name.equals("M_Product_ID"))
-				p_M_Product_ID = para[i].getParameterAsInt();
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
+	protected void prepare() {
+		super.prepare();
 	}	//	prepare
 	
 	/**
@@ -81,153 +57,127 @@ public class RequestInvoice extends SvrProcess
 	 *	@return info
 	 *	@throws Exception
 	 */
-	protected String doIt () throws Exception
-	{
-		log.info("R_RequestType_ID=" + p_R_RequestType_ID + ", R_Group_ID=" + p_R_Group_ID
-			+ ", R_Category_ID=" + p_R_Category_ID + ", C_BPartner_ID=" + p_C_BPartner_ID
-			+ ", p_M_Product_ID=" + p_M_Product_ID);
-		
-		MRequestType type = MRequestType.get (getCtx(), p_R_RequestType_ID);
-		if (type.get_ID() == 0)
-			throw new AdempiereSystemError("@R_RequestType_ID@ @NotFound@ " + p_R_RequestType_ID);
-		if (!type.isInvoiced())
-			throw new AdempiereSystemError("@R_RequestType_ID@ <> @IsInvoiced@");
-		
-		String sql = "SELECT * FROM R_Request r"
-			+ " INNER JOIN R_Status s ON (r.R_Status_ID=s.R_Status_ID) "
-			+ "WHERE s.IsClosed='Y'"
-			+ " AND r.R_RequestType_ID=?";
-			// globalqss -- avoid double invoicing
-			// + " AND EXISTS (SELECT 1 FROM R_RequestUpdate ru " +
-			//		"WHERE ru.R_Request_ID=r.R_Request_ID AND NVL(C_InvoiceLine_ID,0)=0";
-		if (p_R_Group_ID != 0)
-			sql += " AND r.R_Group_ID=?";
-		if (p_R_Category_ID != 0)
-			sql += " AND r.R_Category_ID=?";
-		if (p_C_BPartner_ID != 0)
-			sql += " AND r.C_BPartner_ID=?";
-		sql += " AND r.IsInvoiced='Y' "
-			+ "ORDER BY C_BPartner_ID";
-		
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, get_TrxName());
-			int index = 1;
-			pstmt.setInt (index++, p_R_RequestType_ID);
-			if (p_R_Group_ID != 0)
-				pstmt.setInt (index++, p_R_Group_ID);
-			if (p_R_Category_ID != 0)
-				pstmt.setInt (index++, p_R_Category_ID);
-			if (p_C_BPartner_ID != 0)
-				pstmt.setInt (index++, p_C_BPartner_ID);
-			ResultSet rs = pstmt.executeQuery ();
-			int oldC_BPartner_ID = 0;
-			while (rs.next ())
-			{
-				MRequest request = new MRequest(getCtx(), rs, get_TrxName());
-				if (!request.isInvoiced())
-					continue;
-				if (oldC_BPartner_ID != request.getC_BPartner_ID())
-					invoiceDone();
-				if (m_invoice == null)
-				{
-					invoiceNew(request);
-					oldC_BPartner_ID = request.getC_BPartner_ID();
-				}
-				invoiceLine(request);
-			}
-			invoiceDone();
-			//
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		//	R_Category_ID
-		return null;
+	protected String doIt() throws Exception {
+		log.info("R_RequestType_ID=" + getRequestTypeId() + ", R_Group_ID=" + getGroupId()
+				+ ", R_Category_ID=" + getCategoryId() + ", C_BPartner_ID=" + getBPartnerId()
+				+ ", p_M_Product_ID=" + getProductId());
+		validate();
+		getRequestsToInvoice().stream()
+				.forEach(request -> {
+					MInvoice invoice = Optional.ofNullable(invoicesByPartner.get(request.getC_BPartner_ID())).orElseGet(() -> invoiceNew(request));
+					invoiceLine(request, invoice);
+				});
+
+		invoicesByPartner.entrySet().stream().forEach(entry -> {
+			MInvoice invoice = entry.getValue();
+			invoice.processIt(MInvoice.ACTION_Prepare);
+			invoice.saveEx();
+			addLog(invoice.getDocumentInfo());
+		});
+
+		return "@Ok@";
 	}	//	doIt
-	
-	/**
-	 * 	Done with Invoice
-	 */
-	private void invoiceDone()
-	{
-		//	Close Old
-		if (m_invoice != null)
-		{
-			if (m_linecount == 0)
-				m_invoice.delete(false);
-			else
-			{
-				m_invoice.processIt(MInvoice.ACTION_Prepare);
-				m_invoice.saveEx();
-				addLog(0, null, m_invoice.getGrandTotal(), m_invoice.getDocumentNo());
-			}
+
+
+	private boolean validate() throws AdempiereSystemError {
+		MRequestType requestType = MRequestType.get(getCtx(), getRequestTypeId());
+		if (requestType.get_ID() == 0)
+			throw new AdempiereSystemError("@R_RequestType_ID@ @NotFound@ " + getRequestTypeId());
+		if (!requestType.isInvoiced())
+			throw new AdempiereSystemError("@R_RequestType_ID@ <> @IsInvoiced@");
+		return true;
+	}
+
+
+	private List<MRequest> getRequestsToInvoice() {
+		List<Object> parameters = new ArrayList<>();
+		StringBuilder whereClause = new StringBuilder();
+		whereClause.append(MRequest.COLUMNNAME_R_RequestType_ID).append("=? AND ");
+		parameters.add(getRequestTypeId());
+		whereClause.append(MRequest.COLUMNNAME_IsInvoiced).append("=? AND ");
+		parameters.add("Y");
+
+		whereClause.append(" EXISTS (SELECT 1 FROM ").append(MStatus.Table_Name)
+				.append(" WHERE ").append(MRequest.Table_Name).append(".").append(MRequest.COLUMNNAME_R_Status_ID).append("=")
+				.append(MStatus.Table_Name).append(".").append(MStatus.COLUMNNAME_R_Status_ID).append(" AND ")
+				.append(MStatus.Table_Name).append(".").append(MStatus.COLUMNNAME_IsClosed).append("=?)  AND ");
+		parameters.add("Y");
+		if (getGroupId() > 0) {
+			whereClause.append(MRequest.Table_Name).append(".").append(MRequest.COLUMNNAME_R_Group_ID).append("=? AND ");
+			parameters.add(getGroupId());
 		}
-		m_invoice = null;
-	}	//	invoiceDone
-	
+		if (getCategoryId() > 0) {
+			whereClause.append(MRequest.Table_Name).append(".").append(MRequest.COLUMNNAME_R_Category_ID).append("=? AND ");
+			parameters.add(getCategoryId());
+		}
+		if (getBPartnerId() > 0) {
+			whereClause.append(MRequest.Table_Name).append(".").append(MRequest.COLUMNNAME_C_BPartner_ID).append("=? AND ");
+			parameters.add(getBPartnerId());
+		}
+
+		whereClause.append(" EXISTS (SELECT 1 FROM ").append(MRequestUpdate.Table_Name).append(" WHERE ")
+				.append(MRequestUpdate.Table_Name).append(".").append(MRequestUpdate.COLUMNNAME_R_Request_ID).append("=")
+				.append(MRequest.Table_Name).append(".").append(MRequest.COLUMNNAME_R_Request_ID).append(" AND ")
+				.append(MRequestUpdate.Table_Name).append(".").append(MRequestUpdate.COLUMNNAME_C_InvoiceLine_ID).append(" IS NULL )");
+
+		return new Query(getCtx(), MRequest.Table_Name, whereClause.toString(), get_TrxName())
+				.setClient_ID()
+				.setParameters(parameters)
+				.setOrderBy(MRequest.COLUMNNAME_C_BPartner_ID)
+				.list();
+	}
+
 	/**
 	 * 	New Invoice
-	 *	@param request request
+	 * @param request
+	 * @return
 	 */
-	private void invoiceNew (MRequest request)
-	{
-		m_invoice = new MInvoice(getCtx(), 0, get_TrxName());
-		m_invoice.setIsSOTrx(true);
-		
-		MBPartner partner = new MBPartner(getCtx(), request.getC_BPartner_ID(), null);
-		m_invoice.setBPartner(partner);
-		
-		m_invoice.saveEx();
-		m_linecount = 0;
-	}	//	invoiceNew
+	private MInvoice invoiceNew(MRequest request) {
+		MInvoice invoice = new MInvoice(getCtx(), 0, get_TrxName());
+		invoice.setIsSOTrx(true);
+		MBPartner partner = new MBPartner(getCtx(), request.getC_BPartner_ID(), get_TrxName());
+		invoice.setBPartner(partner);
+		if (request.getAD_User_ID() > 0)
+			invoice.setAD_User_ID(request.getAD_User_ID());
+		invoice.saveEx();
+
+		invoicesByPartner.put(partner.get_ID(), invoice);
+		return invoice;
+	}
 	
 	/**
 	 * 	Invoice Line
-	 *	@param request request
+	 *x	@param request request
 	 */
-	private void invoiceLine (MRequest request)
-	{
-		MRequestUpdate[] updates = request.getUpdates(null);
-		for (int i = 0; i < updates.length; i++)
-		{
-			BigDecimal qty = updates[i].getQtyInvoiced();
-			if (qty == null || qty.signum() == 0)
-				continue;
-			// if (updates[i].getC_InvoiceLine_ID() > 0)
-			//	continue;
-			
-			MInvoiceLine il = new MInvoiceLine(m_invoice);
-			m_linecount++;
-			il.setLine(m_linecount*10);
-			//
-			il.setQty(qty);
-			//	Product
-			int M_Product_ID = updates[i].getM_ProductSpent_ID();
-			if (M_Product_ID == 0)
-				M_Product_ID = p_M_Product_ID;
-			il.setM_Product_ID(M_Product_ID);
-			//
-			il.setPrice();
-			il.saveEx();
-			// updates[i].setC_InvoiceLine_ID(il.getC_InvoiceLine_ID());
-			// updates[i].saveEx();
-		}
-	}	//	invoiceLine
-	
+	private void invoiceLine(MRequest request, MInvoice invoice) {
+		AtomicInteger lineNo = new AtomicInteger(invoice.getLines().length);
+		Arrays.stream(request.getUpdates(null))
+				.filter(requestUpdate -> requestUpdate.getQtyInvoiced() != null && requestUpdate.getQtyInvoiced().signum() != 0
+						&& (requestUpdate.getM_ProductSpent_ID() > 0 || getProductId() > 0))
+				.forEach(requestUpdate -> {
+					StringBuilder descriptionLine = new StringBuilder();
+					descriptionLine.append("@").append(MRequest.COLUMNNAME_R_Request_ID).append("@").append(" : ")
+							.append(request.getDocumentNo()).append(" ");
+					Optional.ofNullable(request.getSubject()).ifPresent(subject -> descriptionLine.append(" ").append(subject).append(" \n"));
+					Optional.ofNullable(requestUpdate.getStartTime()).ifPresent(startTime -> descriptionLine.append("@")
+							.append(MRequestUpdate.COLUMNNAME_StartTime).append("@").append(" : ").append(startTime));
+					Optional.ofNullable(requestUpdate.getEndTime()).ifPresent(endTime -> descriptionLine.append("@")
+							.append(MRequestUpdate.COLUMNNAME_EndTime).append("@").append(" : ").append(endTime).append(" "));
+					Optional.ofNullable(requestUpdate.getResult()).ifPresent(result -> descriptionLine.append("\n ").append(result));
+					MInvoiceLine invoiceLine = new MInvoiceLine(invoice);
+					lineNo.updateAndGet(no -> no + 10);
+					invoiceLine.setLine(lineNo.get());
+					invoiceLine.setDescription(Msg.parseTranslation(invoice.getCtx(), descriptionLine.toString()));
+					invoiceLine.setQty(requestUpdate.getQtyInvoiced());
+					if (requestUpdate.getM_ProductSpent_ID() > 0)
+						invoiceLine.setM_Product_ID(requestUpdate.getM_ProductSpent_ID());
+					else if (getProductId() > 0) {
+						invoiceLine.setM_Product_ID(getProductId());
+					}
+					invoiceLine.setPrice();
+					invoiceLine.saveEx();
+					requestUpdate.setC_InvoiceLine_ID(invoiceLine.get_ID());
+					requestUpdate.saveEx();
+				});
+	}    //	invoiceLine
 }	//	RequestInvoice

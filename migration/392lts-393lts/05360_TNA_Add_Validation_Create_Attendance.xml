@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="HR Attendance: Exclude Inactive records" ReleaseNo="3.9.3" SeqNo="5360">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50138" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="ee.EmployeeStatus = '13'">ee.EmployeeStatus = '13'
+AND EXISTS(SELECT 1 FROM HR_WorkShift wsc WHERE wsc.HR_WorkShift_ID = ws.HR_WorkShift_ID AND wsc.IsActive = 'Y')</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50138" Table="AD_Browse">
+        <Data AD_Column_ID="72128" Column="AD_Window_ID" oldValue="53625">53323</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

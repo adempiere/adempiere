@@ -20,10 +20,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.FillMandatoryException;
+import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 
@@ -43,6 +45,10 @@ public class MTab extends X_AD_Tab
 	 * 
 	 */
 	private static final long serialVersionUID = 4946144044358216142L;
+	/**	Cache for parameters		*/
+	private static CCache<String, List<MField>>	cacheASPFields = new CCache<String, List<MField>>(I_AD_Field.Table_Name, 20);
+	/**	Cache						*/
+	private static CCache<Integer, MTab>	s_cache	= new CCache<Integer, MTab>(Table_Name, 20);
 
 	/**
 	 * 	Standard Constructor
@@ -210,5 +216,124 @@ public class MTab extends X_AD_Tab
 		return retValue;
 	}
 	//end vpj-cd e-evolution
+	
+	/**
+	 * Duplicate Tab
+	 * @return
+	 */
+	public MTab getDuplicated() {
+		try {
+			return (MTab) super.clone();
+		} catch (CloneNotSupportedException e) {
+			log.warning("Error " + e.getLocalizedMessage());
+		}
+		//	Default
+		return null;
+	}
+	
+	@Override
+	public String toString() {
+		return getAD_Tab_ID() + " " + getName() + " - " + isActive();
+	}
+	
+	/** Get Tab from Cache
+	 *	@param ctx context
+	 *	@param tabId id
+	 *	@return MProcess
+	 */
+	public static MTab get (Properties ctx, int tabId) {
+		Integer key = new Integer (tabId);
+		MTab retValue = (MTab) s_cache.get (key);
+		if (retValue != null)
+			return retValue;
+		retValue = new MTab (ctx, tabId, null);
+		if (retValue.get_ID () != 0)
+			s_cache.put (key, retValue);
+		return retValue;
+	}	//	get
+	
+	/**
+	 * Get Tabs from ASP
+	 * @return
+	 */
+	public List<MField> getASPFields() {
+		MClient client = MClient.get(getCtx());
+		String key = getAD_Tab_ID() + "|" + client.getAD_Client_ID();
+		List<MField> retValue = cacheASPFields.get (key);
+		if (retValue != null) {
+			return retValue;
+		}
+		StringBuffer whereClause = new StringBuffer(COLUMNNAME_AD_Tab_ID + " = ?");
+		if (client.isUseASP()) {
+			String aSPFilter =
+					" AND ((AD_Field_ID IN ( "
+					 // ASP subscribed fields for client
+					 + "              SELECT f.AD_Field_ID "
+					 + "                FROM ASP_Field f, ASP_Tab t, ASP_Window w, ASP_Level l, ASP_ClientLevel cl "
+					 + "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
+					 + "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
+					 + "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
+					 + "                 AND f.ASP_Tab_ID = t.ASP_Tab_ID "
+					 + "                 AND t.ASP_Window_ID = w.ASP_Window_ID "
+					 + "                 AND f.IsActive = 'Y' "
+					 + "                 AND t.IsActive = 'Y' "
+					 + "                 AND w.IsActive = 'Y' "
+					 + "                 AND l.IsActive = 'Y' "
+					 + "                 AND cl.IsActive = 'Y' "
+					 + "                 AND f.ASP_Status = 'S') "
+					 + "        OR AD_Tab_ID IN ( "
+					 // ASP subscribed fields for client
+					 + "              SELECT t.AD_Tab_ID "
+					 + "                FROM ASP_Tab t, ASP_Window w, ASP_Level l, ASP_ClientLevel cl "
+					 + "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
+					 + "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
+					 + "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
+					 + "                 AND t.ASP_Window_ID = w.ASP_Window_ID "
+					 + "                 AND t.IsActive = 'Y' "
+					 + "                 AND w.IsActive = 'Y' "
+					 + "                 AND l.IsActive = 'Y' "
+					 + "                 AND cl.IsActive = 'Y' "
+					 + "                 AND t.AllFields = 'Y' "
+					 + "                 AND t.ASP_Status = 'S') "
+					 + "        OR AD_Field_ID IN ( "
+					 // ASP show exceptions for client
+					 + "              SELECT AD_Field_ID "
+					 + "                FROM ASP_ClientException ce "
+					 + "               WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+					 + "                 AND ce.IsActive = 'Y' "
+					 + "                 AND ce.AD_Field_ID IS NOT NULL "
+					 + "                 AND ce.ASP_Status = 'S') "
+					 + "       ) "
+					 + "   AND AD_Field_ID NOT IN ( "
+					 // minus ASP hide exceptions for client
+					 + "          SELECT AD_Field_ID "
+					 + "            FROM ASP_ClientException ce "
+					 + "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
+					 + "             AND ce.IsActive = 'Y' "
+					 + "             AND ce.AD_Field_ID IS NOT NULL "
+					 + "             AND ce.ASP_Status = 'H')" //	Hide
+					//	Just Customization
+					 + " OR EXISTS(SELECT 1 FROM ASP_Level l "
+					 + "					INNER JOIN ASP_ClientLevel cl ON(cl.ASP_Level_ID = l.ASP_Level_ID) "
+					 + "				WHERE cl.AD_Client_ID = " + client.getAD_Client_ID()
+					 + "				AND l.IsActive = 'Y' "
+					 + "				AND cl.IsActive = 'Y' "
+					 + "				AND l.Type = 'C') "	//	Show
+					 + ")";
+			
+			whereClause.append(aSPFilter);
+		}
+		//	Get from query
+		retValue = new Query(getCtx(),I_AD_Field.Table_Name, whereClause.toString(), get_TrxName())
+				.setParameters(getAD_Tab_ID())
+				.setOrderBy(I_AD_Field.COLUMNNAME_SeqNo)
+				.list();
+		if (retValue != null
+				&& retValue.size() > 0) {
+			cacheASPFields.put(key, retValue);
+		}
+		//	Default Return
+		return retValue;
+	}
 	
 }	//	M_Tab

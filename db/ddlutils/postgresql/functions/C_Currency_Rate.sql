@@ -45,7 +45,7 @@ DECLARE
 	v_CurrencyTo		NUMERIC;
 	v_CurrencyEuro		NUMERIC;
 	--
-	v_ConvDate		timestamp with time zone := now();
+	v_ConvDate		timestamp with time zone := getdate();
 	v_ConversionType_ID	NUMERIC := 0;
 	v_Rate			NUMERIC;
 	c			RECORD;			

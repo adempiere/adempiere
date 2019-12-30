@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_Movement
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_Movement (Properties ctx, int HR_Movement_ID, String trxName)
@@ -565,6 +565,34 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.eevolution.model.I_HR_Concept_Type getHR_Concept_Type() throws RuntimeException
+    {
+		return (org.eevolution.model.I_HR_Concept_Type)MTable.get(getCtx(), org.eevolution.model.I_HR_Concept_Type.Table_Name)
+			.getPO(getHR_Concept_Type_ID(), get_TrxName());	}
+
+	/** Set Global Payroll Concept Type.
+		@param HR_Concept_Type_ID 
+		Allows define types for concepts
+	  */
+	public void setHR_Concept_Type_ID (int HR_Concept_Type_ID)
+	{
+		if (HR_Concept_Type_ID < 1) 
+			set_Value (COLUMNNAME_HR_Concept_Type_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Concept_Type_ID, Integer.valueOf(HR_Concept_Type_ID));
+	}
+
+	/** Get Global Payroll Concept Type.
+		@return Allows define types for concepts
+	  */
+	public int getHR_Concept_Type_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Concept_Type_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_Contract getHR_Contract() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_Contract)MTable.get(getCtx(), org.eevolution.model.I_HR_Contract.Table_Name)
@@ -832,9 +860,9 @@ public class X_HR_Movement extends PO implements I_HR_Movement, I_Persistent
 	public void setHR_Process_ID (int HR_Process_ID)
 	{
 		if (HR_Process_ID < 1) 
-			set_Value (COLUMNNAME_HR_Process_ID, null);
+			set_ValueNoCheck (COLUMNNAME_HR_Process_ID, null);
 		else 
-			set_Value (COLUMNNAME_HR_Process_ID, Integer.valueOf(HR_Process_ID));
+			set_ValueNoCheck (COLUMNNAME_HR_Process_ID, Integer.valueOf(HR_Process_ID));
 	}
 
 	/** Get Payroll Process.

@@ -1541,7 +1541,7 @@ public final class MRole extends X_AD_Role
 			String ASPFilter = "";
 			if (client.isUseASP())
 				ASPFilter =
-					  "   AND (   AD_Window_ID IN ( "
+					  "   AND ((   AD_Window_ID IN ( "
 					// Just ASP subscribed windows for client "
 					+ "              SELECT w.AD_Window_ID "
 					+ "                FROM ASP_Window w, ASP_Level l, ASP_ClientLevel cl "
@@ -1572,7 +1572,15 @@ public final class MRole extends X_AD_Role
 					+ "             AND ce.AD_Window_ID IS NOT NULL "
 					+ "             AND ce.AD_Tab_ID IS NULL "
 					+ "             AND ce.AD_Field_ID IS NULL "
-					+ "             AND ce.ASP_Status = 'H')"; // Hide
+					+ "             AND ce.ASP_Status = 'H')"
+					//	Just Customization
+					+ " OR EXISTS(SELECT 1 FROM ASP_Level l "
+					+ "					INNER JOIN ASP_ClientLevel cl ON(cl.ASP_Level_ID = l.ASP_Level_ID) "
+					+ "				WHERE cl.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "				AND l.IsActive = 'Y' "
+					+ "				AND cl.IsActive = 'Y' "
+					+ "				AND l.Type = 'C') "	//	Show
+					+ ")"; // Hide
 			String sql = "SELECT AD_Window_ID, IsReadWrite FROM AD_Window_Access WHERE AD_Role_ID=? AND IsActive='Y'" + ASPFilter;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -1633,7 +1641,7 @@ public final class MRole extends X_AD_Role
 			String ASPFilter = "";
 			if (client.isUseASP())
 				ASPFilter =
-					  "   AND (   AD_Process_ID IN ( "
+					  "   AND ((   AD_Process_ID IN ( "
 					// Just ASP subscribed processes for client "
 					+ "              SELECT p.AD_Process_ID "
 					+ "                FROM ASP_Process p, ASP_Level l, ASP_ClientLevel cl "
@@ -1662,7 +1670,15 @@ public final class MRole extends X_AD_Role
 					+ "             AND ce.IsActive = 'Y' "
 					+ "             AND ce.AD_Process_ID IS NOT NULL "
 					+ "             AND ce.AD_Process_Para_ID IS NULL "
-					+ "             AND ce.ASP_Status = 'H')"; // Hide
+					+ "             AND ce.ASP_Status = 'H')"
+					//	Just Customization
+					+ " OR EXISTS(SELECT 1 FROM ASP_Level l "
+					+ "					INNER JOIN ASP_ClientLevel cl ON(cl.ASP_Level_ID = l.ASP_Level_ID) "
+					+ "				WHERE cl.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "				AND l.IsActive = 'Y' "
+					+ "				AND cl.IsActive = 'Y' "
+					+ "				AND l.Type = 'C') "	//	Show
+					+ ")"; // Hide
 			String sql = "SELECT AD_Process_ID, IsReadWrite FROM AD_Process_Access WHERE AD_Role_ID=? AND IsActive='Y'" + ASPFilter;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -1702,7 +1718,7 @@ public final class MRole extends X_AD_Role
 			String ASPFilter = "";
 			if (client.isUseASP())
 				ASPFilter =
-					  "   AND (   AD_Task_ID IN ( "
+					  "   AND ((   AD_Task_ID IN ( "
 					// Just ASP subscribed tasks for client "
 					+ "              SELECT t.AD_Task_ID "
 					+ "                FROM ASP_Task t, ASP_Level l, ASP_ClientLevel cl "
@@ -1729,7 +1745,15 @@ public final class MRole extends X_AD_Role
 					+ "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
 					+ "             AND ce.IsActive = 'Y' "
 					+ "             AND ce.AD_Task_ID IS NOT NULL "
-					+ "             AND ce.ASP_Status = 'H')"; // Hide
+					+ "             AND ce.ASP_Status = 'H')"
+					//	Just Customization
+					+ " OR EXISTS(SELECT 1 FROM ASP_Level l "
+					+ "					INNER JOIN ASP_ClientLevel cl ON(cl.ASP_Level_ID = l.ASP_Level_ID) "
+					+ "				WHERE cl.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "				AND l.IsActive = 'Y' "
+					+ "				AND cl.IsActive = 'Y' "
+					+ "				AND l.Type = 'C') "	//	Show
+					+ ")"; // Hide
 			String sql = "SELECT AD_Task_ID, IsReadWrite FROM AD_Task_Access WHERE AD_Role_ID=? AND IsActive='Y'" + ASPFilter;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -1770,7 +1794,7 @@ public final class MRole extends X_AD_Role
 			String ASPFilter = "";
 			if (client.isUseASP())
 				ASPFilter =
-					  "   AND (   AD_Form_ID IN ( "
+					  "   AND ((   AD_Form_ID IN ( "
 					// Just ASP subscribed forms for client "
 					+ "              SELECT f.AD_Form_ID "
 					+ "                FROM ASP_Form f, ASP_Level l, ASP_ClientLevel cl "
@@ -1797,7 +1821,15 @@ public final class MRole extends X_AD_Role
 					+ "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
 					+ "             AND ce.IsActive = 'Y' "
 					+ "             AND ce.AD_Form_ID IS NOT NULL "
-					+ "             AND ce.ASP_Status = 'H')"; // Hide
+					+ "             AND ce.ASP_Status = 'H')"
+					//	Just Customization
+					+ " OR EXISTS(SELECT 1 FROM ASP_Level l "
+					+ "					INNER JOIN ASP_ClientLevel cl ON(cl.ASP_Level_ID = l.ASP_Level_ID) "
+					+ "				WHERE cl.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "				AND l.IsActive = 'Y' "
+					+ "				AND cl.IsActive = 'Y' "
+					+ "				AND l.Type = 'C') "	//	Show
+					+ ")"; // Hide
 			String sql = "SELECT AD_Form_ID, IsReadWrite FROM AD_Form_Access WHERE AD_Role_ID=? AND IsActive='Y'" + ASPFilter;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -1850,7 +1882,7 @@ public final class MRole extends X_AD_Role
 			String ASPFilter = "";
 			if (client.isUseASP())
 				ASPFilter =
-					  "   AND (   AD_Browse_ID IN ( "
+					  "   AND ((   AD_Browse_ID IN ( "
 					// Just ASP subscribed forms for client "
 					+ "              SELECT b.AD_Browse_ID "
 					+ "                FROM ASP_Browse b, ASP_Level l, ASP_ClientLevel cl "
@@ -1877,7 +1909,15 @@ public final class MRole extends X_AD_Role
 					+ "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
 					+ "             AND ce.IsActive = 'Y' "
 					+ "             AND ce.AD_Browse_ID IS NOT NULL "
-					+ "             AND ce.ASP_Status = 'H')"; // Hide
+					+ "             AND ce.ASP_Status = 'H')"
+					//	Just Customization
+					+ " OR EXISTS(SELECT 1 FROM ASP_Level l "
+					+ "					INNER JOIN ASP_ClientLevel cl ON(cl.ASP_Level_ID = l.ASP_Level_ID) "
+					+ "				WHERE cl.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "				AND l.IsActive = 'Y' "
+					+ "				AND cl.IsActive = 'Y' "
+					+ "				AND l.Type = 'C') "	//	Show
+					+ ")"; // Hide
 			String sql = "SELECT AD_Browse_ID, IsReadWrite FROM AD_Browse_Access WHERE AD_Role_ID=? AND IsActive='Y'" + ASPFilter;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
@@ -1927,7 +1967,7 @@ public final class MRole extends X_AD_Role
 			String ASPFilter = "";
 			if (client.isUseASP())
 				ASPFilter =
-					  "   AND (   AD_Workflow_ID IN ( "
+					  "   AND ((   AD_Workflow_ID IN ( "
 					// Just ASP subscribed workflows for client "
 					+ "              SELECT w.AD_Workflow_ID "
 					+ "                FROM ASP_Workflow w, ASP_Level l, ASP_ClientLevel cl "
@@ -1954,7 +1994,15 @@ public final class MRole extends X_AD_Role
 					+ "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
 					+ "             AND ce.IsActive = 'Y' "
 					+ "             AND ce.AD_Workflow_ID IS NOT NULL "
-					+ "             AND ce.ASP_Status = 'H')"; // Hide
+					+ "             AND ce.ASP_Status = 'H')"
+					//	Just Customization
+					+ " OR EXISTS(SELECT 1 FROM ASP_Level l "
+					+ "					INNER JOIN ASP_ClientLevel cl ON(cl.ASP_Level_ID = l.ASP_Level_ID) "
+					+ "				WHERE cl.AD_Client_ID = " + client.getAD_Client_ID()
+					+ "				AND l.IsActive = 'Y' "
+					+ "				AND cl.IsActive = 'Y' "
+					+ "				AND l.Type = 'C') "	//	Show
+					+ ")"; // Hide
 			String sql = "SELECT AD_Workflow_ID, IsReadWrite FROM AD_Workflow_Access WHERE AD_Role_ID=? AND IsActive='Y'" + ASPFilter;
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;

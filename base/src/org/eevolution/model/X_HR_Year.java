@@ -24,14 +24,14 @@ import org.compiere.model.*;
 
 /** Generated Model for HR_Year
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_HR_Year extends PO implements I_HR_Year, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_Year (Properties ctx, int HR_Year_ID, String trxName)
@@ -40,7 +40,6 @@ public class X_HR_Year extends PO implements I_HR_Year, I_Persistent
       /** if (HR_Year_ID == 0)
         {
 			setC_Year_ID (0);
-			setHR_Payroll_ID (0);
 			setHR_Year_ID (0);
 			setNetDays (0);
 			setQty (0);
@@ -99,6 +98,31 @@ public class X_HR_Year extends PO implements I_HR_Year, I_Persistent
 	public int getC_Year_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Year_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.spin.model.I_HR_Calendar getHR_Calendar() throws RuntimeException
+    {
+		return (org.spin.model.I_HR_Calendar)MTable.get(getCtx(), org.spin.model.I_HR_Calendar.Table_Name)
+			.getPO(getHR_Calendar_ID(), get_TrxName());	}
+
+	/** Set Human Resource Calendar.
+		@param HR_Calendar_ID Human Resource Calendar	  */
+	public void setHR_Calendar_ID (int HR_Calendar_ID)
+	{
+		if (HR_Calendar_ID < 1) 
+			set_Value (COLUMNNAME_HR_Calendar_ID, null);
+		else 
+			set_Value (COLUMNNAME_HR_Calendar_ID, Integer.valueOf(HR_Calendar_ID));
+	}
+
+	/** Get Human Resource Calendar.
+		@return Human Resource Calendar	  */
+	public int getHR_Calendar_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_Calendar_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

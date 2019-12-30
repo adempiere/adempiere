@@ -31,14 +31,24 @@ import org.adempiere.pipo.exception.POSaveFailedException;
 import org.compiere.model.I_AD_Column;
 import org.compiere.model.I_AD_Element;
 import org.compiere.model.I_AD_EntityType;
+import org.compiere.model.I_AD_Ref_List;
+import org.compiere.model.I_AD_Table;
+import org.compiere.model.I_AD_Tree;
+import org.compiere.model.I_AD_TreeNode;
+import org.compiere.model.I_C_ElementValue;
+import org.compiere.model.I_C_Location;
+import org.compiere.model.I_C_ValidCombination;
+import org.compiere.model.I_M_Locator;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MLookupInfo;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
+import org.compiere.model.MTree;
 import org.compiere.model.PO;
 import org.compiere.model.POInfo;
 import org.compiere.model.Query;
 import org.compiere.model.X_AD_Table;
+import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
@@ -52,6 +62,7 @@ import org.xml.sax.helpers.AttributesImpl;
  */
 public class GenericPOHandler extends AbstractElementHandler {
 	private final List<String> list = new ArrayList<String>();
+	private AttributeFiller customValues = new AttributeFiller(new AttributesImpl());
 	/**	Static values	*/
 	public static final String TABLE_NAME_TAG = "TableNameTag";
 	public static final String TABLE_ID_TAG = "TableIdTag";
@@ -60,7 +71,77 @@ public class GenericPOHandler extends AbstractElementHandler {
 	public static final String HANDLE_TRANSLATION_FLAG = "2PACK_HANDLE_TRANSLATIONS";
 	/**	Tag for column	*/
 	public static final String Column_TAG_Name = TAG_Name + "_" + I_AD_Column.Table_Name;
+	/**	attributes	*/
+	public static final String IGNORE_WHEN_SAVE_ERROR = "Ignore_When_Save_Error";
+	public static final String IGNORE_WHEN_MISSING_MANDATORY_REFERENCE = "Ignore_When_Missing_Mandatory_Reference";
+	/**	before save class name	*/
+	public static final String IMPORT_HANDLER_CLASS_NAME = "ImportClassNameHandler";	
+	/**
+	 * Add String value to set for export
+	 * @param key
+	 * @param value
+	 */
+	protected void addStringValue(String key, String value) {
+		customValues.addString(key, value);
+	}
 	
+	/**
+	 * Add a boolean value for export
+	 * @param key
+	 * @param value
+	 */
+	protected void addBooleanValue(String key, boolean value) {
+		customValues.addBoolean(key, value);
+	}
+	
+	/**
+	 * Add integer to export
+	 * @param key
+	 * @param value
+	 */
+	protected void addIntValue(String key, int value) {
+		customValues.addInt(key, value);
+	}
+	
+	/**
+	 * Add long value to export
+	 * @param key
+	 * @param value
+	 */
+	protected void addLongValue(String key, long value) {
+		customValues.addLong(key, value);
+	}
+	
+	/**
+	 * Clean default values
+	 */
+	protected void cleanValues() {
+		customValues.cleanValues();
+	}
+	
+	/**
+	 * Set Import class name handler (this class extends from GenericPOHandler)
+	 * @param className
+	 */
+	public void setImportHandlerClassName(String className) {
+		addStringValue(IMPORT_HANDLER_CLASS_NAME, className);
+	}
+	
+	/**
+	 * Set export row for ignore if exist a error saving import
+	 * @param ignore
+	 */
+	public void setIgnoreWhenSaveError(boolean ignore) {
+		addBooleanValue(IGNORE_WHEN_SAVE_ERROR, ignore);
+	}
+	
+	/**
+	 * Ignore if a parent is missing and mandatory when is imported
+	 * @param ignore
+	 */
+	public void setIgnoreWhenMissingMandatoryReference(boolean ignore) {
+		addBooleanValue(IGNORE_WHEN_MISSING_MANDATORY_REFERENCE, ignore);
+	}
 	
 	@Override
 	public void startElement(Properties ctx, Element element) throws SAXException {
@@ -74,6 +155,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 		if(Util.isEmpty(uuid)
 			|| tableId == -1) {
 			element.skip = true;
+			return;
 		}
 		//	Fill attributes
 		POInfo poInfo = POInfo.getPOInfo(ctx, tableId, getTrxName(ctx));
@@ -84,16 +166,27 @@ public class GenericPOHandler extends AbstractElementHandler {
 			recordId = getIdFromUUID(ctx, tableName, uuid);
 		}
 		PO entity = null;
-		boolean isTranslation = false;
-		//	Translation
-		if(tableName.endsWith("_Trl")) {
-			isTranslation = true;
-			entity = getCreatePOTrl(ctx, tableName, atts, getTrxName(ctx));
-			if(entity == null) {
-				entity = new GenericPO(tableName, ctx, -1, getTrxName(ctx));
-			}
-		} else {
+		//	Multy-Key
+		if(poInfo.hasKeyColumn()) {
 			entity = getCreatePO(ctx, tableId, recordId, getTrxName(ctx));
+		} else { 
+			entity = getCreatePOForMultyKey(ctx, poInfo, atts, getTrxName(ctx));
+		}
+		//	Validate update time
+		long importTime = getLastUpdatedTime(atts);
+		long currentPOTime = 0;
+		if(entity.getUpdated() != null) {
+			currentPOTime = entity.getUpdated().getTime();
+		}
+		//	Validate update time
+		if(!Env.getContext(ctx, "UpdateMode").equals("true")) {
+			//	Validate it
+			if(importTime > 0
+					&& currentPOTime >= importTime
+					&& !entity.is_new()) {
+				element.skip = true;
+				return;
+			}
 		}
 		//	
 		int backupId;
@@ -134,7 +227,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 				continue;
 			}
 			//	Verify reference
-			if(poInfo.isColumnLookup(index)) {
+			if(isLookup(poInfo.getColumnDisplayType(index))) {
 				String parentNameUuid = AttributeFiller.getUUIDAttribute(columnName);
 				String parentUuid = atts.getValue(parentNameUuid);
 				if(!Util.isEmpty(parentUuid)) {
@@ -143,21 +236,76 @@ public class GenericPOHandler extends AbstractElementHandler {
 						int foreignId = getParentId(ctx, parentTableName, parentUuid);
 						if(foreignId > 0) {
 							entity.set_ValueOfColumn(columnName, foreignId);
-							continue;
+						} else if(poInfo.isColumnMandatory(index)
+								&& getBooleanValue(atts, IGNORE_WHEN_MISSING_MANDATORY_REFERENCE)) {
+							element.skip = true;
+							return;
 						}
+						continue;
 					}
+				}
+			}
+			//	Multy-Key UUID
+			if(columnName.equals(I_AD_Element.COLUMNNAME_UUID)
+					&& !poInfo.hasKeyColumn()) {
+				if(!Util.isEmpty(entity.get_UUID())) {
+					continue;
 				}
 			}
 			//	Add Standard
 			filler.setAttribute(columnName);
 		}
+		//	For tree node
+		String treeUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_Tree.COLUMNNAME_AD_Tree_ID));
+		String treeType = atts.getValue(I_AD_Tree.COLUMNNAME_TreeType);
+		String treeTableUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_Tree.COLUMNNAME_AD_Table_ID));
+		String sourceUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_TreeNode.COLUMNNAME_Node_ID));
+		String parentUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_TreeNode.COLUMNNAME_Parent_ID));
+		if(!Util.isEmpty(treeUuid)) {
+			int treeId = getIdFromUUID(ctx, I_AD_Tree.Table_Name, treeUuid);
+			int parentId = getIdFromNodeUUID(ctx, tableName, parentUuid);
+			String parentTableName = null;
+			if(treeId > 0) {
+				MTree tree = MTree.get(ctx, treeId, getTrxName(ctx));
+				MTable sourceTable = MTable.get(ctx, tree.getAD_Table_ID());
+				parentTableName = sourceTable.getTableName();
+			} else {
+				int treeTableId = getIdFromUUID(ctx, I_AD_Table.Table_Name, treeTableUuid);
+				parentTableName = MTable.getTableName(ctx, treeTableId);
+				treeId = getDefaultTreeIdFromTableId(Env.getAD_Client_ID(ctx), treeTableId, treeType, getTrxName(ctx));
+			}
+			int nodeId = getIdFromUUID(ctx, parentTableName, sourceUuid);
+			entity.set_ValueOfColumn(I_AD_Tree.COLUMNNAME_AD_Tree_ID, treeId);
+			entity.set_ValueOfColumn(I_AD_TreeNode.COLUMNNAME_Node_ID, nodeId);
+			entity.set_ValueOfColumn(I_AD_TreeNode.COLUMNNAME_Parent_ID, parentId);
+		}
 		//	Save
 		try {
 			beforeSave(entity);
-			entity.saveEx(getTrxName(ctx));
+			try {
+				entity.saveEx(getTrxName(ctx));
+			} catch (Exception e) {
+				if(getBooleanValue(atts, IGNORE_WHEN_SAVE_ERROR)) {
+					element.skip = true;
+					log.warning("Ignored Entity: " + tableName + " - " + entity + " - Error: " + e.getMessage());
+					return;
+				} else {
+					throw e;
+				}
+			}
 			int originalId = entity.get_ID();
-			if(isTranslation) {
-				originalId = entity.get_ValueAsInt(tableName.replaceAll("_Trl", "") + "_ID");
+			if(!poInfo.hasKeyColumn()) {
+				if(tableName.endsWith("_Trl")) {
+					originalId = entity.get_ValueAsInt(tableName.replaceAll("_Trl", "") + "_ID");
+				} else {
+					MTable table = MTable.get(ctx, tableName);
+					for(String keyColumn : table.getKeyColumns()) {
+						originalId = entity.get_ValueAsInt(keyColumn);
+						if(originalId > 0) {
+							break;
+						}
+					}
+				}
 			}
 			recordLog (ctx, 1, entity.get_ValueAsString(I_AD_Element.COLUMNNAME_UUID), getTagName(entity), originalId,
 						backupId, objectStatus,
@@ -173,6 +321,39 @@ public class GenericPOHandler extends AbstractElementHandler {
 			throw new POSaveFailedException(e);
 		}
 	}
+	
+	/**
+	 * Get from table Id, can find on cache
+	 * @param clientId
+	 * @param tableId
+	 * @param elementId
+	 * @param trxName
+	 * @return
+	 */
+	public static int getDefaultTreeIdFromTableId(int clientId, int tableId, String treeType, String trxName) {
+		if(tableId <= 0) {
+			return -1;
+		}
+		//	
+		String whereClause = new String();
+		int treeId = 0;
+		//	Valid Element
+		if (!Util.isEmpty(treeType)) {
+			whereClause = " AND TreeType = '" + treeType + "'";
+		}
+		String sql = "SELECT tr.AD_Tree_ID "
+				+ "FROM AD_Tree tr "
+				+ "WHERE tr.AD_Client_ID = ? "
+				+ "AND tr.AD_Table_ID = ? "
+				+ "AND tr.IsActive='Y' "
+				+ whereClause
+				+ "ORDER BY tr.IsDefault DESC";
+			//	Get Tree
+		treeId = DB.getSQLValue(trxName, sql, clientId, tableId);
+		
+		//	Default Return
+		return treeId;
+	}   //  getDefaultTreeIdFromTableId
 
 	/**
 	 * Before Save trigger
@@ -216,6 +397,13 @@ public class GenericPOHandler extends AbstractElementHandler {
 	 * Create Attributes
 	 */
 	public void create(Properties ctx, TransformerHandler document, PO entity, boolean includeParents, List<String> excludedParentList) throws SAXException {
+		create(ctx, document, entity, includeParents, excludedParentList, false);
+	}
+	
+	/**
+	 * Create Attributes with parent flag
+	 */
+	private void create(Properties ctx, TransformerHandler document, PO entity, boolean includeParents, List<String> excludedParentList, boolean isFromParent) throws SAXException {
 		int tableId = 0;
 		int recordId = 0;
 		if(entity != null) {
@@ -228,15 +416,6 @@ public class GenericPOHandler extends AbstractElementHandler {
 		if(tableId <= 0) {
 			return;
 		}
-		//	Validate if was processed
-		String key = tableId + "|" + recordId;
-		MTable table = MTable.get(ctx, tableId);
-		if(!table.getTableName().endsWith("_Trl")) {
-			if (list.contains(key)) {
-				return;
-			}
-		}
-		list.add(key);
 		//	Instance PO
 		if(entity == null) {
 			entity = getCreatePO(ctx, tableId, recordId, null);
@@ -244,17 +423,29 @@ public class GenericPOHandler extends AbstractElementHandler {
 		if(entity == null) {
 			return;
 		}
+		//	Validate if was processed
+		String key = entity.get_UUID();
+		if (list.contains(key)) {
+			return;
+		}
+		list.add(key);
 		//	Create parents
 		if(includeParents) {
 			createParent(ctx, document, entity, excludedParentList);
 		}
-		AttributesImpl atts = createBinding(ctx, entity);
+		AttributesImpl defaultAttributes = customValues.getAttributes();
+		AttributesImpl atts = createBinding(ctx, entity, defaultAttributes);
 		if(atts != null) {
 			document.startElement("", "", getTagName(entity), atts);
 			document.endElement("", "", getTagName(entity));
 		}
 		//	 Create translation
 		createTranslation(ctx, document, entity);
+		//	Create Node
+		createTreeNode(ctx, document, entity);
+		if(!isFromParent) {
+			customValues.cleanValues();
+		}
 	}
 	
 	/**
@@ -309,11 +500,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 				continue;
 			}
 			//	For others
-			Env.setContext(ctx, GenericPOHandler.TABLE_ID_TAG, parentEntity.get_Table_ID());
-			Env.setContext(ctx, GenericPOHandler.RECORD_ID_TAG, parentEntity.get_ID());
-			create(ctx, document);
-			ctx.remove(GenericPOHandler.TABLE_ID_TAG);
-			ctx.remove(GenericPOHandler.RECORD_ID_TAG);
+			create(ctx, document, parentEntity, true, excludedParentList, true);
 		}
 	}
 	
@@ -325,10 +512,8 @@ public class GenericPOHandler extends AbstractElementHandler {
 	 */
 	private boolean isValidAccess(String accessLevel, String parentAccessLevel) {
 		//	Validate system
-		if((parentAccessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemOnly)
-				|| parentAccessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemPlusClient))
-				&& !accessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemOnly)
-				&& !accessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemPlusClient)) {
+		if((parentAccessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemOnly))
+				&& !accessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemOnly)) {
 			return false;
 		}
 		//	Ok
@@ -357,7 +542,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 	}
 	
 	/**
-	 * Create PO for translation
+	 * Create PO multy-key record
 	 * @param ctx
 	 * @param language
 	 * @param uuId
@@ -365,32 +550,89 @@ public class GenericPOHandler extends AbstractElementHandler {
 	 * @param trxName
 	 * @return
 	 */
-	private PO getCreatePOTrl(Properties ctx, String tableName, Attributes atts, String trxName) {
-		String parentKey = tableName.replaceAll("_Trl", "") + "_ID";
-		String uuid = getUUIDValue(atts, tableName);
-		String language = atts.getValue("AD_Language");
-		int parentId = Integer.parseInt(atts.getValue(parentKey));
-		//	for translation
-		return new Query(ctx, tableName, "UUID = ? OR (" + parentKey + " = ? AND AD_Language = ?)", trxName)
-				.setParameters(uuid, parentId, language)
+	private PO getCreatePOForMultyKey(Properties ctx, POInfo poInfo, Attributes atts, String trxName) {
+		MTable table = MTable.get(ctx, poInfo.getTableName());
+		String uuid = getUUIDValue(atts, poInfo.getTableName());
+		PO entity = new Query(ctx, poInfo.getTableName(), "UUID = ?", trxName)
+				.setParameters(uuid)
 				.first();
+		if(entity == null) {
+			List<Object> parameters = new ArrayList<>();
+			StringBuffer keyColumnNamesForWhereClause = new StringBuffer();
+			for(String keyColumn : table.getKeyColumns()) {
+				if(keyColumnNamesForWhereClause.length() > 0) {
+					keyColumnNamesForWhereClause.append(" AND ");
+				}
+				keyColumnNamesForWhereClause.append(keyColumn).append(" = ?");
+				String parentUuid = getUUIDValue(atts, keyColumn);
+				if(!Util.isEmpty(parentUuid)) {
+					String parentTableName = getParentTableName(ctx, poInfo.getAD_Column_ID(keyColumn), poInfo.getColumnDisplayType(poInfo.getColumnIndex(keyColumn)));
+					if(Util.isEmpty(parentTableName)) {
+						//	For tree
+						String treeUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_Tree.COLUMNNAME_AD_Tree_ID));
+						String treeType = atts.getValue(I_AD_Tree.COLUMNNAME_TreeType);
+						String treeTableUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_Tree.COLUMNNAME_AD_Table_ID));
+						String sourceUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_TreeNode.COLUMNNAME_Node_ID));
+						if(!Util.isEmpty(treeUuid)
+								&& !Util.isEmpty(sourceUuid)) {
+							int treeId = getIdFromUUID(ctx, I_AD_Tree.Table_Name, treeUuid);
+							if(treeId > 0) {
+								MTree tree = MTree.get(ctx, treeId, getTrxName(ctx));
+								MTable sourceTable = MTable.get(ctx, tree.getAD_Table_ID());
+								parentTableName = sourceTable.getTableName();
+							} else {
+								int treeTableId = getIdFromUUID(ctx, I_AD_Table.Table_Name, treeTableUuid);
+								parentTableName = MTable.getTableName(ctx, treeTableId);
+								treeId = getDefaultTreeIdFromTableId(Env.getAD_Client_ID(ctx), treeTableId, treeType, getTrxName(ctx));
+							}
+							int nodeId = getIdFromUUID(ctx, parentTableName, sourceUuid);
+							if(nodeId <= 0) {
+								continue;
+							}
+						} else {
+							continue;
+						}
+					}
+					int parentId = getIdFromUUID(ctx, parentTableName, parentUuid);
+					parameters.add(parentId);
+				} else { 
+					PoFiller filler = new PoFiller(poInfo, atts);
+					parameters.add(filler.getValueFromType(keyColumn));
+				}
+			}
+			entity = new Query(ctx, poInfo.getTableName(), keyColumnNamesForWhereClause.toString(), trxName)
+					.setParameters(parameters)
+					.first();
+		}
+		//	Create by default
+		if(entity == null) {
+			entity = new GenericPO(poInfo.getTableName(), ctx, -1, trxName);
+		}
+		return entity;
 	}
 	
 	/**
 	 * Create export from data
 	 * @param entity
 	 * @param ctx
+	 * @param defaultAttributes
 	 * @return
 	 */
-	private AttributesImpl createBinding(Properties ctx, PO entity) {
+	private AttributesImpl createBinding(Properties ctx, PO entity, AttributesImpl defaultAttributes) {
 		AttributesImpl atts = new AttributesImpl();
-		atts.clear();
+		if(defaultAttributes != null) {
+			atts.setAttributes(defaultAttributes);
+		} else {
+			atts.clear();
+		}
 		//	Fill attributes
 		POInfo poInfo = POInfo.getPOInfo(entity.getCtx(), entity.get_Table_ID());
 		AttributeFiller filler = new AttributeFiller(atts, entity);
 		filler.addUUID();
 		filler.addString(TABLE_NAME_TAG,entity.get_TableName());
 		filler.addInt(TABLE_ID_TAG,entity.get_Table_ID());
+		//	Add last updated time
+		filler.addLastUpdatedTime();
 		for(int index = 0; index < poInfo.getColumnCount(); index++) {
 			//	No SQL
 			if(poInfo.isVirtualColumn(index)) {
@@ -420,6 +662,23 @@ public class GenericPOHandler extends AbstractElementHandler {
 			if(!Util.isEmpty(foreignUuid)) {
 				filler.addString(AttributeFiller.getUUIDAttribute(columnName), foreignUuid);
 			}
+			//	For Tree Node Tables
+			if(columnName.equals(I_AD_Tree.COLUMNNAME_AD_Tree_ID)) {
+				int treeId = entity.get_ValueAsInt(columnName);
+				if(treeId > 0) {
+					int nodeId = entity.get_ValueAsInt(I_AD_TreeNode.COLUMNNAME_Node_ID);
+					int parentId = entity.get_ValueAsInt(I_AD_TreeNode.COLUMNNAME_Parent_ID);
+					MTree tree = MTree.get(ctx, treeId, null);
+					MTable sourceTable = MTable.get(ctx, tree.getAD_Table_ID());
+					String sourceUuid = getUUIDFromId(ctx, sourceTable.getTableName(), nodeId);
+					String parentUuid = getUUIDFromNodeId(ctx, entity.get_TableName(), treeId, parentId);
+					//	Set
+					filler.addString(AttributeFiller.getUUIDAttribute(I_AD_TreeNode.COLUMNNAME_Node_ID), sourceUuid);
+					filler.addString(AttributeFiller.getUUIDAttribute(I_AD_TreeNode.COLUMNNAME_Parent_ID), parentUuid);
+					filler.addString(AttributeFiller.getUUIDAttribute(I_AD_Tree.COLUMNNAME_AD_Table_ID), sourceTable.getUUID());
+					filler.addString(I_AD_Tree.COLUMNNAME_TreeType, tree.getTreeType());
+				}
+			}
 		}
 		//	Return Attributes
 		return atts;
@@ -433,12 +692,24 @@ public class GenericPOHandler extends AbstractElementHandler {
 	 * @return
 	 */
 	private String getParentTableName(Properties ctx, int columnId, int displayType) {
-		if(!DisplayType.isLookup(displayType)) {
+		if(!isLookup(displayType)) {
 			return null;
 		}
 		//	Validate list
 		if(DisplayType.List == displayType) {
-			return null;
+			return I_AD_Ref_List.Table_Name;
+		}
+		//	Validate account
+		if(DisplayType.Account == displayType) {
+			return I_C_ValidCombination.Table_Name;
+		}
+		//	Validate Location Address
+		if(DisplayType.Location == displayType) {
+			return I_C_Location.Table_Name;
+		}
+		//	Validate Locator Warehouse
+		if(DisplayType.Locator == displayType) {
+			return I_M_Locator.Table_Name;
 		}
 		//	Create Parent
 		MLookupInfo info = MLookupFactory.getLookupInfo(ctx, 0, columnId, displayType);
@@ -447,6 +718,19 @@ public class GenericPOHandler extends AbstractElementHandler {
 		}
 		//	Default
 		return info.TableName;
+	}
+	
+	/**
+	 * Is lookup include location
+	 * @param displayType
+	 * @return
+	 */
+	private boolean isLookup(int displayType) {
+		return DisplayType.isLookup(displayType)
+				|| DisplayType.Account == displayType
+				|| DisplayType.Location == displayType
+				|| DisplayType.Locator == displayType
+				|| DisplayType.PAttribute == displayType;
 	}
 	
 	/**
@@ -520,7 +804,42 @@ public class GenericPOHandler extends AbstractElementHandler {
 			.list();
 		//	Create
 		for(PO translation : translationList) {
-			create(ctx, document, translation);
+			create(ctx, document, translation, false, null, true);
 		}
+	}
+	
+	/**
+	 * Create Tree Node
+	 * @param ctx
+	 * @param entity
+	 * @param document
+	 * @throws SAXException 
+	 */
+	public void createTreeNode(Properties ctx, TransformerHandler document, PO entity) throws SAXException {
+		int tableId = entity.get_Table_ID();
+		if (!MTree.hasTree(tableId)) {
+			return;
+		}
+		int treeId = MTree.getDefaultTreeIdFromTableId(entity.getAD_Client_ID(), tableId, entity.get_ValueAsInt(I_C_ElementValue.COLUMNNAME_C_Element_ID));
+		if(treeId < 0) {
+			return;
+		}
+		MTree tree = MTree.get(ctx, treeId, null);
+		//	Get Node Table Name
+		String treeNodeTableName = tree.getNodeTableName();
+		if(Util.isEmpty(treeNodeTableName)) {
+			return;
+		}
+		//	Get Node
+		PO nodeEntity = new Query(ctx, treeNodeTableName, "AD_Tree_ID = ? AND Node_ID = ?", null)
+			.setParameters(treeId, entity.get_ID())
+			.first();
+		//	Validate if exists
+		if(nodeEntity == null
+				|| nodeEntity.get_ID() == 0) {
+			return;
+		}
+		//	Create
+		create(ctx, document, nodeEntity, false, null);
 	}
 }

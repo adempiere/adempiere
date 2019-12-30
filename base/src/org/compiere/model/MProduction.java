@@ -176,7 +176,7 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 				}
 			}
 			// Check if Production only possible when sufficient quantity in stock
-			if (isMustBeStocked() && !line.isEndProduct() && getReversal_ID()==0 
+			if (isMustBeStocked() && !line.isEndProduct() && !isReversal() 
 					 && product.isStocked() && line.isActive()) {
 				String MMPolicy = product.getMMPolicy();
 				MStorage[] storages = MStorage.getWarehouse (getCtx(), 0,
@@ -533,29 +533,22 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		}
 
 		// Not Processed
-		if (DOCSTATUS_Drafted.equals(getDocStatus()) || DOCSTATUS_Invalid.equals(getDocStatus())
-				|| DOCSTATUS_Approved.equals(getDocStatus()) || DOCSTATUS_NotApproved.equals(getDocStatus()))
-		{
+		if (!isProcessed()) {
 			setIsCreated(false);
 			deleteLines();
 			setProductionQty(BigDecimal.ZERO);
-		}
-		else
-		{
+		} else {
 			boolean accrual = false;
-			try
-			{
+			try {
 				MPeriod.testPeriodOpen(getCtx(), getMovementDate(), MDocType.DOCBASETYPE_ManufacturingOrder, getAD_Org_ID());
-			}
-			catch (PeriodClosedException e)
-			{
+			} catch (PeriodClosedException e) {
 				accrual = true;
 			}
-
-			if (accrual)
+			if (accrual) {
 				return reverseAccrualIt();
-			else
+			} else {
 				return reverseCorrectIt();
+			}
 		}
 
 		// After Void
@@ -598,7 +591,7 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 	{
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
-		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElse(currentDate) : getMovementDate();
+		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElseGet(() -> currentDate) : getMovementDate();
 		MPeriod.testPeriodOpen(getCtx(), reversalDate , getC_DocType_ID(), getAD_Org_ID());
 		MProduction reversal = null;
 		reversal = copyFrom(reversalDate);
@@ -892,6 +885,9 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 	 * Set values from parent
 	 */
 	private void setFromBatch(MProductionBatch batch) {
+		if(batch.getPP_Product_BOM_ID() != 0) {
+			setPP_Product_BOM_ID(batch.getPP_Product_BOM_ID());
+		}
 		setM_ProductionBatch_ID(batch.getM_ProductionBatch_ID());
 		setClientOrg(batch);
 		setM_Product_ID(batch.getM_Product_ID());
@@ -1088,8 +1084,13 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 	 * @return
 	 */
 	private String createBOM(boolean mustBeStocked, MProduct finishedProduct, BigDecimal requiredQty)  {
-		int defaultLocator = 0;		
-		MPPProductBOM bom = MPPProductBOM.getDefault(finishedProduct, get_TrxName());
+		int defaultLocator = 0;
+		MPPProductBOM bom = null;
+		if(getPP_Product_BOM_ID() != 0) {
+			bom = MPPProductBOM.get(getCtx(), getPP_Product_BOM_ID());
+		} else {
+			bom = MPPProductBOM.getDefault(finishedProduct, get_TrxName());
+		}
 		for (MPPProductBOMLine bLine : bom.getLines())
 		{			
 			lineno = lineno + 10;

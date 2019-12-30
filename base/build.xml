@@ -36,6 +36,7 @@
   	<pathelement path="../tools/lib/cron4j-2.2.1.jar" />
     <pathelement path="../tools/lib/commons-io.jar"/>
   	<pathelement path="../tools/lib/poi-ooxml-3.17.jar" />
+  	<pathelement path="../tools/lib/sardine-5.9-SNAPSHOT.jar" />
   </path>
 
 

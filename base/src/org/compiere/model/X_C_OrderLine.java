@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_OrderLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_OrderLine (Properties ctx, int C_OrderLine_ID, String trxName)
@@ -884,6 +884,62 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_M_RMAType getM_RMAType() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_RMAType)MTable.get(getCtx(), org.compiere.model.I_M_RMAType.Table_Name)
+			.getPO(getM_RMAType_ID(), get_TrxName());	}
+
+	/** Set RMA Type.
+		@param M_RMAType_ID 
+		Return Material Authorization Type
+	  */
+	public void setM_RMAType_ID (int M_RMAType_ID)
+	{
+		if (M_RMAType_ID < 1) 
+			set_Value (COLUMNNAME_M_RMAType_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_RMAType_ID, Integer.valueOf(M_RMAType_ID));
+	}
+
+	/** Get RMA Type.
+		@return Return Material Authorization Type
+	  */
+	public int getM_RMAType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_RMAType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_RequisitionLine getM_RequisitionLine() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_RequisitionLine)MTable.get(getCtx(), org.compiere.model.I_M_RequisitionLine.Table_Name)
+			.getPO(getM_RequisitionLine_ID(), get_TrxName());	}
+
+	/** Set Requisition Line.
+		@param M_RequisitionLine_ID 
+		Material Requisition Line
+	  */
+	public void setM_RequisitionLine_ID (int M_RequisitionLine_ID)
+	{
+		if (M_RequisitionLine_ID < 1) 
+			set_Value (COLUMNNAME_M_RequisitionLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_RequisitionLine_ID, Integer.valueOf(M_RequisitionLine_ID));
+	}
+
+	/** Get Requisition Line.
+		@return Material Requisition Line
+	  */
+	public int getM_RequisitionLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_RequisitionLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_Shipper getM_Shipper() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Shipper)MTable.get(getCtx(), org.compiere.model.I_M_Shipper.Table_Name)
@@ -1261,6 +1317,31 @@ public class X_C_OrderLine extends PO implements I_C_OrderLine, I_Persistent
 	public Timestamp getRRStartDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_RRStartDate);
+	}
+
+	public org.compiere.model.I_M_InOutLine getRef_InOutLine() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_InOutLine)MTable.get(getCtx(), org.compiere.model.I_M_InOutLine.Table_Name)
+			.getPO(getRef_InOutLine_ID(), get_TrxName());	}
+
+	/** Set Referenced Shipment Line.
+		@param Ref_InOutLine_ID Referenced Shipment Line	  */
+	public void setRef_InOutLine_ID (int Ref_InOutLine_ID)
+	{
+		if (Ref_InOutLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_Ref_InOutLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_Ref_InOutLine_ID, Integer.valueOf(Ref_InOutLine_ID));
+	}
+
+	/** Get Referenced Shipment Line.
+		@return Referenced Shipment Line	  */
+	public int getRef_InOutLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Ref_InOutLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_C_OrderLine getRef_OrderLine() throws RuntimeException

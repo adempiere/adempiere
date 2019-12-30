@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Org
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_AD_Org extends PO implements I_AD_Org, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_Org (Properties ctx, int AD_Org_ID, String trxName)
@@ -165,6 +165,34 @@ public class X_AD_Org extends PO implements I_AD_Org, I_Persistent
     {
         return new KeyNamePair(get_ID(), getName());
     }
+
+	public org.compiere.model.I_AD_Org getParent_Org() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Org)MTable.get(getCtx(), org.compiere.model.I_AD_Org.Table_Name)
+			.getPO(getParent_Org_ID(), get_TrxName());	}
+
+	/** Set Parent Organization.
+		@param Parent_Org_ID 
+		Parent (superior) Organization 
+	  */
+	public void setParent_Org_ID (int Parent_Org_ID)
+	{
+		if (Parent_Org_ID < 1) 
+			set_Value (COLUMNNAME_Parent_Org_ID, null);
+		else 
+			set_Value (COLUMNNAME_Parent_Org_ID, Integer.valueOf(Parent_Org_ID));
+	}
+
+	/** Get Parent Organization.
+		@return Parent (superior) Organization 
+	  */
+	public int getParent_Org_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Parent_Org_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 

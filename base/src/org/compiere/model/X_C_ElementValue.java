@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_ElementValue
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_ElementValue (Properties ctx, int C_ElementValue_ID, String trxName)
@@ -380,6 +380,34 @@ public class X_C_ElementValue extends PO implements I_C_ElementValue, I_Persiste
 	public String getName () 
 	{
 		return (String)get_Value(COLUMNNAME_Name);
+	}
+
+	public org.compiere.model.I_C_ElementValue getParentElementValue() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getParentElementValue_ID(), get_TrxName());	}
+
+	/** Set Parent Account.
+		@param ParentElementValue_ID 
+		The parent (summary) account
+	  */
+	public void setParentElementValue_ID (int ParentElementValue_ID)
+	{
+		if (ParentElementValue_ID < 1) 
+			set_Value (COLUMNNAME_ParentElementValue_ID, null);
+		else 
+			set_Value (COLUMNNAME_ParentElementValue_ID, Integer.valueOf(ParentElementValue_ID));
+	}
+
+	/** Get Parent Account.
+		@return The parent (summary) account
+	  */
+	public int getParentElementValue_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ParentElementValue_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Post Actual.

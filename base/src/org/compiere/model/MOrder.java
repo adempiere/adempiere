@@ -1004,7 +1004,6 @@ public class MOrder extends X_C_Order implements DocAction
 					setC_PaymentTerm_ID (ii);
 			}
 		}
-		
 		return true;
 	}	//	beforeSave
 	
@@ -1150,6 +1149,22 @@ public class MOrder extends X_C_Order implements DocAction
 		return true;
 	}	//	invalidateIt
 	
+	/**
+	 * Verify if this order is a Return Material Authorization
+	 * @return
+	 */
+	public boolean isReturnOrder() {
+		//	Validate RMA
+		MDocType documentType = MDocType.get(getCtx(), getC_DocTypeTarget_ID());
+		if(getC_DocTypeTarget_ID() != 0) {
+			if(!Util.isEmpty(documentType.getDocSubTypeSO())
+					&& documentType.getDocSubTypeSO().equals(MDocType.DOCSUBTYPESO_ReturnMaterial)) {
+				return true;
+			}
+		}
+		//	Default order
+		return false;
+	}
 	
 	/**************************************************************************
 	 *	Prepare Document
@@ -1161,10 +1176,10 @@ public class MOrder extends X_C_Order implements DocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		MDocType dt = MDocType.get(getCtx(), getC_DocTypeTarget_ID());
+		MDocType documentType = MDocType.get(getCtx(), getC_DocTypeTarget_ID());
 
 		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getDateAcct(), dt.getDocBaseType(), getAD_Org_ID()))
+		if (!MPeriod.isOpen(getCtx(), getDateAcct(), documentType.getDocBaseType(), getAD_Org_ID()))
 		{
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
@@ -1177,7 +1192,11 @@ public class MOrder extends X_C_Order implements DocAction
 			m_processMsg = "@NoLines@";
 			return DocAction.STATUS_Invalid;
 		}
-		
+		//	Validate RMA
+		if(isReturnOrder()) {
+			setDeliveryRule(DELIVERYRULE_Force);
+			setInvoiceRule(INVOICERULE_AfterDelivery);
+		}
 		// Bug 1564431
 		if (getDeliveryRule() != null && getDeliveryRule().equals(MOrder.DELIVERYRULE_CompleteOrder)) 
 		{
@@ -1201,7 +1220,7 @@ public class MOrder extends X_C_Order implements DocAction
 			{
 				MDocType dtOld = MDocType.get(getCtx(), getC_DocType_ID());
 				if (MDocType.DOCSUBTYPESO_StandardOrder.equals(dtOld.getDocSubTypeSO())		//	From SO
-					&& !MDocType.DOCSUBTYPESO_StandardOrder.equals(dt.getDocSubTypeSO()))	//	To !SO
+					&& !MDocType.DOCSUBTYPESO_StandardOrder.equals(documentType.getDocSubTypeSO()))	//	To !SO
 				{
 					for (int i = 0; i < lines.length; i++)
 					{
@@ -1225,7 +1244,7 @@ public class MOrder extends X_C_Order implements DocAction
 			}
 			else	//	convert only if offer
 			{
-				if (dt.isOffer())
+				if (documentType.isOffer())
 					setC_DocType_ID(getC_DocTypeTarget_ID());
 				else
 				{
@@ -1238,7 +1257,7 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Lines
 		if (explodeBOM())
 			lines = getLines(true, MOrderLine.COLUMNNAME_M_Product_ID);
-		if (!reserveStock(dt, lines))
+		if (!reserveStock(documentType, lines))
 		{
 			m_processMsg = "Cannot reserve Stock";
 			return DocAction.STATUS_Invalid;
@@ -1252,14 +1271,14 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Credit Check
 		if (isSOTrx())
 		{
-			if (   MDocType.DOCSUBTYPESO_POSOrder.equals(dt.getDocSubTypeSO())
+			if (   MDocType.DOCSUBTYPESO_POSOrder.equals(documentType.getDocSubTypeSO())
 					&& PAYMENTRULE_Cash.equals(getPaymentRule())
 					&& !MSysConfig.getBooleanValue("CHECK_CREDIT_ON_CASH_POS_ORDER", true, getAD_Client_ID(), getAD_Org_ID())) {
 				// ignore -- don't validate for Cash POS Orders depending on sysconfig parameter
-			} else if (MDocType.DOCSUBTYPESO_PrepayOrder.equals(dt.getDocSubTypeSO())
+			} else if (MDocType.DOCSUBTYPESO_PrepayOrder.equals(documentType.getDocSubTypeSO())
 					&& !MSysConfig.getBooleanValue("CHECK_CREDIT_ON_PREPAY_ORDER", true, getAD_Client_ID(), getAD_Org_ID())) {
 				// ignore -- don't validate Prepay Orders depending on sysconfig parameter
-			} else if (MDocType.DOCSUBTYPESO_Proposal.equals(dt.getDocSubTypeSO())
+			} else if (MDocType.DOCSUBTYPESO_Proposal.equals(documentType.getDocSubTypeSO())
 					&& !MSysConfig.getBooleanValue("CHECK_CREDIT_ON_PROPOSAL", true, getAD_Client_ID(), getAD_Org_ID())) {
 						// ignore -- don't validate Prepay Orders depending on sysconfig parameter
 			} else {
@@ -1421,7 +1440,7 @@ public class MOrder extends X_C_Order implements DocAction
 			dt = MDocType.get(getCtx(), getC_DocType_ID());
 
 		//	Binding
-		boolean binding = !dt.isProposal();
+		boolean binding = !dt.isProposal() && !isReturnOrder();
 		//	Not binding - i.e. Target=0
 		if (DOCACTION_Void.equals(getDocAction())
 			//	Closing Binding Quotation

@@ -45,6 +45,8 @@ public class WindowElementHandler extends GenericPOHandler {
 			if(tab.getAD_Table_ID() > 0) {
 				packOut.createTable(tab.getAD_Table_ID(), document);
 			}
+			//	Create Tab
+			packOut.createGenericPO(document, tab, true, null);
 			for(MField field : tab.getFields(true, null)) {
 				packOut.createGenericPO(document, I_AD_Field.Table_ID, field.getAD_Field_ID(), true, null);
 			}

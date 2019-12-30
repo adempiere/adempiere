@@ -1,76 +1,133 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.compiere.apps.form;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.logging.Level;
 
 import javax.swing.ButtonGroup;
-import javax.swing.JCheckBox;
-import javax.swing.JRadioButton;
-import javax.swing.JToggleButton;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
-import org.compiere.apps.ALayout;
-import org.compiere.apps.ALayoutConstraint;
+import org.adempiere.controller.form.BOMDropController;
+import org.adempiere.controller.form.BOMDropForm;
+import org.compiere.apps.ADialog;
+import org.compiere.apps.AEnv;
 import org.compiere.apps.ConfirmPanel;
+import org.compiere.grid.ed.VCheckBox;
+import org.compiere.grid.ed.VLookup;
 import org.compiere.grid.ed.VNumber;
-import org.compiere.model.MInvoice;
-import org.compiere.model.MInvoiceLine;
-import org.compiere.model.MOrder;
-import org.compiere.model.MOrderLine;
-import org.compiere.model.MProduct;
-import org.compiere.model.MProject;
-import org.compiere.model.MProjectLine;
-import org.compiere.model.MRole;
-import org.compiere.swing.CComboBox;
+import org.compiere.grid.ed.VRadioButton;
+import org.compiere.model.MLookup;
+import org.compiere.swing.CEditor;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CScrollPane;
+import org.compiere.swing.CollapsiblePanel;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
-import org.eevolution.model.MPPProductBOM;
-import org.eevolution.model.MPPProductBOMLine;
 
 /**
  *	Drop BOM
+ *  <p>This custom form can be used standalone or as a button action on a Order, invoice, 
+ *  or project document. It allows the user to select a BOM and drop it into a draft 
+ *  document. The form has two parts, a selection panel where the BOM is selected and a 
+ *  product selection panel where individual lines of the BOM can be selected and 
+ *  quantities adjusted.
+ *  <p>Clicking OK will save the selected lines to the document. 
  *	
  *  @author Jorg Janke
  *  @version $Id: VBOMDrop.java,v 1.3 2006/07/30 00:51:28 jjanke Exp $
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li>Extensive rewrites
  */
 public class VBOMDrop extends CPanel 
-	implements FormPanel, ActionListener
-{
+	implements FormPanel, BOMDropForm, ActionListener
+{	
+
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 3135475369002895149L;
+	private static final long serialVersionUID = -6952031736723743235L;
+
+
+
+	/**
+	 * Standard constructor
+	 */
+	VBOMDrop () {
+
+		super ();
+		controller = new BOMDropController(this);
+
+	}
+
+	/** The controller for this form */
+	private BOMDropController controller;
+	/**	Window No					*/
+	private int         windowNo = 0;
+	/**	FormFrame					*/
+	private FormFrame 	formFrame;
+	/**	Line Counter				*/
+	private int			lineCount = 0;
+	/**	Logger			*/
+	private static CLogger log = CLogger.getCLogger(VBOMDrop.class);
+
+	/** Alternative Group Lists		*/
+	private HashMap<CollapsiblePanel,ButtonGroup>	buttonGroups = new HashMap<CollapsiblePanel,ButtonGroup>();
+
+	/** Preferred window width */
+	private static final int	WINDOW_WIDTH = 600;	//	width of the window
+	/** Preferred width of search editor */
+	private static final int	SEARCH_WIDTH = 120;
+	/** preferred width of qty editor */
+	private static final int	QTY_WIDTH = 60;
+	/** preferred width of uom editor */
+	private static final int	UOM_WIDTH = 60;
+	/** preferred width of name editor */
+	private static final int	NAME_WIDTH = 120;
+	/** preferred width of check editor */
+	private static final int	CHECK_WIDTH = 15;
+	
+	/** The confirmation panel with OK and Cancel buttons */
+	private ConfirmPanel confirmPanel = new ConfirmPanel (true);
+	/** The panel where the selection of the BOM is performed */
+	private CPanel selectionPanel = new CPanel(new GridBagLayout());
+
+	/** Option Group Lists		*/
+	private HashMap<String, Object> groupboxes = new HashMap<String, Object>();
+
+	/** The pane that holds the BOM list */
+	private CScrollPane scroll;
+	private CPanel header = new CPanel();
+
 
 
 	/**
@@ -81,357 +138,86 @@ public class VBOMDrop extends CPanel
 	public void init (int WindowNo, FormFrame frame)
 	{
 		log.info("");
-		m_WindowNo = WindowNo;
-		m_frame = frame;
-		try
-		{
-			//	Top Selection Panel
-			createSelectionPanel(true, true, true);
-			m_frame.getContentPane().add(selectionPanel, BorderLayout.NORTH);
-			//	Center
-			createMainPanel();
-			CScrollPane scroll = new CScrollPane (this);
-			m_frame.getContentPane().add(scroll, BorderLayout.CENTER);
-			confirmPanel.addActionListener(this);
-			//	South
-			m_frame.getContentPane().add(confirmPanel, BorderLayout.SOUTH);
-		}
-		catch(Exception e)
-		{
-			log.log(Level.SEVERE, "", e);
-		}
+		windowNo = WindowNo;
+		formFrame = frame;
+
+		if (!controller.init(frame.getProcessInfo(), windowNo))
+			dispose();
+
+		selectionPanel.setBorder(new TitledBorder(Msg.translate(Env.getCtx(), MSG_SELECTIONPANEL)));
+		confirmPanel.addActionListener(this);
+
+		String title = Msg.getMsg(Env.getCtx(), MSG_SELECTBOMLINES);
+		scroll = new CScrollPane (this);
+		scroll.setColumnHeaderView(header);
+		scroll.setBorder(new TitledBorder(title));
+
+		formFrame.getContentPane().setLayout(new BorderLayout());
+		formFrame.getContentPane().add(selectionPanel, BorderLayout.NORTH);
+		formFrame.getContentPane().add(scroll, BorderLayout.CENTER);
+		formFrame.getContentPane().add(confirmPanel, BorderLayout.SOUTH);
+		
+		
 		sizeIt();
+		
+		this.setLayout (new GridBagLayout());
+		
+		scroll.setVisible(false); // Hide it until ready
+
 	}	//	init
 
 	/**
 	 * 	Size Window
 	 */
-	private void sizeIt()
+	@Override
+	public void sizeIt()
 	{
-		//	Frame
-		m_frame.pack();
-		Dimension size = m_frame.getPreferredSize();
+
+		//  Reset the preferred size to the default behavior
+		formFrame.getWindow().setPreferredSize(null);
+		
+		// Calculates the size based on the content
+		Dimension size = new Dimension(formFrame.getPreferredSize()); 
+		
+		// Limit the width
 		size.width = WINDOW_WIDTH;
-		m_frame.setSize(size);
+		formFrame.getWindow().setPreferredSize(size); 
+
+		formFrame.pack();
+		
+		Rectangle myBounds = formFrame.getWindow().getBounds();
+
+		for(GraphicsDevice gd:GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()){
+			Rectangle screenBounds = gd.getDefaultConfiguration().getBounds();
+			if (screenBounds.intersects(myBounds) && !screenBounds.contains(myBounds))
+			{
+				// The window is partially off the screen.
+				AEnv.positionCenterScreen(formFrame.getWindow());
+				break;
+			}
+		}
+
 	}	//	size
-	
+
 	/**
 	 * 	Dispose
 	 */
+	@Override
 	public void dispose()
 	{
-		if (m_frame != null)
-			m_frame.dispose();
-		m_frame = null;
+		if (formFrame != null)
+			formFrame.dispose();
+		formFrame = null;
+
 		removeAll();
-		if (selectionPanel != null)
-			selectionPanel.removeAll();
-		selectionPanel = null;
-		if (m_selectionList != null)
-			m_selectionList.clear();
-		m_selectionList = null;
-		if (m_productList != null)
-			m_productList.clear();
-		m_productList = null;
-		if (m_qtyList != null)
-			m_qtyList.clear();
-		m_qtyList = null;
-		if (m_buttonGroups != null)
-			m_buttonGroups.clear();
-		m_buttonGroups = null;
+
+		if (buttonGroups != null)
+			buttonGroups.clear();
+		buttonGroups = null;
+
 	}	//	dispose
 
-	/**	Window No					*/
-	private int         m_WindowNo = 0;
-	/**	FormFrame					*/
-	private FormFrame 	m_frame;
-	/**	Product to create BOMs from	*/
-	private MProduct 	m_product;
-	/** BOM Qty						*/
-	private BigDecimal	m_qty = Env.ONE;
-	/**	Line Counter				*/
-	private int			m_bomLine = 0;
-	/**	Logger			*/
-	private static CLogger log = CLogger.getCLogger(VBOMDrop.class);
-	
-	/**	List of all selectors		*/
-	private ArrayList<JToggleButton>	m_selectionList = new ArrayList<JToggleButton>();
-	/**	List of all quantities		*/
-	private ArrayList<VNumber>		m_qtyList = new ArrayList<VNumber>();
-	/**	List of all products		*/
-	private ArrayList<Integer>		m_productList = new ArrayList<Integer>();
-	/** Alternative Group Lists		*/
-	private HashMap<String,ButtonGroup>	m_buttonGroups = new HashMap<String,ButtonGroup>();
 
-	private static final int	WINDOW_WIDTH = 600;	//	width of the window
-	//
-	private ConfirmPanel confirmPanel = new ConfirmPanel (true);
-	private CPanel selectionPanel = new CPanel(new ALayout());
-	private CComboBox productField;
-	private VNumber productQty = new VNumber("Qty", true, false, true, DisplayType.Quantity, Msg.translate(Env.getCtx(), "Qty"));
-	private CComboBox orderField;
-	private CComboBox invoiceField;
-	private CComboBox projectField;
-
-	
-	/**************************************************************************
-	 * 	Create Selection Panel
-	 *	@param order
-	 *	@param invoice
-	 *	@param project
-	 */
-	private void createSelectionPanel (boolean order, boolean invoice, boolean project)
-	{
-		int row = 0;
-		selectionPanel.setBorder(new TitledBorder(Msg.translate(Env.getCtx(), "Selection")));
-		productField = new CComboBox(getProducts());
-		CLabel label = new CLabel(Msg.translate(Env.getCtx(), "M_Product_ID"));
-		label.setLabelFor(productField);
-		selectionPanel.add(label, new ALayoutConstraint(row++, 0));
-		selectionPanel.add(productField);
-		productField.addActionListener(this);
-		//	Qty
-		label = new CLabel (productQty.getTitle());
-		label.setLabelFor(productQty);		
-		selectionPanel.add(label);
-		selectionPanel.add(productQty);
-		productQty.setValue(Env.ONE);
-		productQty.addActionListener(this);
-		
-		if (order)
-		{
-			orderField = new CComboBox(getOrders());
-			label = new CLabel (Msg.translate(Env.getCtx(), "C_Order_ID"));
-			label.setLabelFor(orderField);
-			selectionPanel.add(label, new ALayoutConstraint(row++, 0));
-			selectionPanel.add(orderField);
-			orderField.addActionListener(this);
-		}
-		if (invoice)
-		{
-			invoiceField = new CComboBox(getInvoices());
-			label = new CLabel (Msg.translate(Env.getCtx(), "C_Invoice_ID"));
-			label.setLabelFor(invoiceField);
-			selectionPanel.add(label, new ALayoutConstraint(row++, 0));
-			selectionPanel.add(invoiceField);
-			invoiceField.addActionListener(this);
-		}
-		if (project)
-		{
-			projectField = new CComboBox(getProjects());
-			label = new CLabel (Msg.translate(Env.getCtx(), "C_Project_ID"));
-			label.setLabelFor(projectField);
-			selectionPanel.add(label, new ALayoutConstraint(row++, 0));
-			selectionPanel.add(projectField);
-			projectField.addActionListener(this);
-		}
-		//	Enabled in ActionPerformed
-		confirmPanel.getOKButton().setEnabled(false);
-		//	Size
-		Dimension size = selectionPanel.getPreferredSize();
-		size.width = WINDOW_WIDTH;
-		selectionPanel.setPreferredSize(size);
-	}	//	createSelectionPanel
-
-	/**
-	 * 	Get Array of BOM Products
-	 *	@return products
-	 */
-	private KeyNamePair[] getProducts()
-	{
-		String sql = "SELECT M_Product_ID, Name "
-			+ "FROM M_Product "
-			+ "WHERE IsBOM='Y' AND IsVerified='Y' AND IsActive='Y' "
-			+ "ORDER BY Name";
-		return DB.getKeyNamePairs(MRole.getDefault().addAccessSQL(
-			sql, "M_Product", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO), true);
-	}	//	getProducts
-	
-	/**
-	 * 	Get Array of open Orders
-	 *	@return orders
-	 */
-	private KeyNamePair[] getOrders()
-	{
-		String sql = "SELECT C_Order_ID, DocumentNo || '_' || GrandTotal "
-			+ "FROM C_Order "
-			+ "WHERE Processed='N' AND DocStatus='DR' "
-			+ "ORDER BY DocumentNo";
-		return DB.getKeyNamePairs(MRole.getDefault().addAccessSQL(
-			sql, "C_Order", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO), true);
-	}	//	getOrders
-
-	/**
-	 * 	Get Array of open non service Projects
-	 *	@return orders
-	 */
-	private KeyNamePair[] getProjects()
-	{
-		String sql = "SELECT C_Project_ID, Name "
-			+ "FROM C_Project "
-			+ "WHERE Processed='N' AND IsSummary='N' AND IsActive='Y'"
-			+ " AND ProjectCategory<>'S' "
-			+ "ORDER BY Name";
-		return DB.getKeyNamePairs(MRole.getDefault().addAccessSQL(
-			sql, "C_Project", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO), true);
-	}	//	getProjects
-	
-	/**
-	 * 	Get Array of open Invoices
-	 *	@return invoices
-	 */
-	private KeyNamePair[] getInvoices()
-	{
-		String sql = "SELECT C_Invoice_ID, DocumentNo || '_' || GrandTotal "
-			+ "FROM C_Invoice "
-			+ "WHERE Processed='N' AND DocStatus='DR' "
-			+ "ORDER BY DocumentNo";
-		return DB.getKeyNamePairs(MRole.getDefault().addAccessSQL(
-			sql, "C_Invoice", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO), true);
-	}	//	getInvoices
-
-	
-	/**************************************************************************
-	 * 	Create Main Panel.
-	 * 	Called when changing Product
-	 */
-	private void createMainPanel ()
-	{
-		log.config(": " + m_product);
-		this.removeAll();
-		this.setPreferredSize(null);
-		this.invalidate();
-		this.setBorder(null);
-		//
-		m_selectionList.clear();
-		m_productList.clear();
-		m_qtyList.clear();
-		m_buttonGroups.clear();
-		//
-		this.setLayout (new ALayout());
-		String title = Msg.getMsg(Env.getCtx(), "SelectProduct");
-		if (m_product != null && m_product.get_ID() > 0)
-		{
-			title = m_product.getName();
-			if (m_product.getDescription() != null && m_product.getDescription().length() > 0)
-				this.setToolTipText(m_product.getDescription());
-			m_bomLine = 0;
-			addBOMLines(m_product, m_qty);
-		}
-		this.setBorder (new TitledBorder(title));
-	}	//	createMainPanel
-
-	/**
-	 * 	Add BOM Lines to this.
-	 * 	Called recursively
-	 * 	@param product product
-	 * 	@param qty quantity
-	 */
-	private void addBOMLines (MProduct product, BigDecimal qty)
-	{
-		MPPProductBOM bom = MPPProductBOM.getDefault(product, null);
-		MPPProductBOMLine[] bomLines = bom.getLines(true);
-		for (int i = 0; i < bomLines.length; i++)
-			addBOMLine (bomLines[i], qty);
-		log.fine("#" + bomLines.length);
-	}
-	
-	/**
-	 * 	Add BOM Line to this.
-	 * 	Calls addBOMLines if added product is a BOM
-	 * 	@param line BOM Line
-	 * 	@param qty quantity
-	 */
-	private void addBOMLine (MPPProductBOMLine line, BigDecimal qty)
-	{
-		log.fine(line.toString());
-		String bomType = line.getComponentType();
-		if (bomType == null)
-			bomType = MPPProductBOMLine.COMPONENTTYPE_Component;
-		//
-		BigDecimal lineQty = line.getQty();
-		MProduct product = line.getProduct();
-		if (product == null)
-			return;
-		if (product.isBOM() && product.isVerified())
-			addBOMLines (product, lineQty);		//	recursive
-		else
-			addDisplay (line.getM_Product_ID(),
-				product.getM_Product_ID(), bomType, product.getName(), line.getFeature(), lineQty);
-	}	//	addBOMLine
-
-
-	/**
-	 * 	Add Line to Display
-	 *	@param parentM_Product_ID parent product
-	 *	@param M_Product_ID product
-	 *	@param bomType bom type
-	 *	@param name name
-	 *	@param lineQty qty
-	 */
-	private void addDisplay (int parentM_Product_ID,
-		int M_Product_ID, String bomType, String name, String feature , BigDecimal lineQty)
-	{
-		log.fine("M_Product_ID=" + M_Product_ID + ",Type=" + bomType + ",Name=" + name + ",feature=" + feature + ",Qty=" + lineQty);
-		//
-		boolean selected = true;
-		if (MPPProductBOMLine.COMPONENTTYPE_Component.equals(bomType))
-		{
-			String title = "";
-			JCheckBox cb = new JCheckBox(title);
-			cb.setSelected(true);
-			cb.setEnabled(false);
-		//	cb.addActionListener(this);		//	will not change
-			m_selectionList.add(cb);
-			this.add(cb, new ALayoutConstraint(m_bomLine++, 0));
-		}
-		else if (MPPProductBOMLine.COMPONENTTYPE_Option.equals(bomType))
-		{
-			//String title = Msg.getMsg(Env.getCtx(), "Optional");
-			JCheckBox cb = new JCheckBox(feature);
-			cb.setSelected(false);
-			selected = false;
-			cb.addActionListener(this);
-			m_selectionList.add(cb);
-			this.add(cb, new ALayoutConstraint(m_bomLine++, 0));
-		}
-		else if (MPPProductBOMLine.COMPONENTTYPE_Variant.equals(bomType))
-		{
-			//String title = Msg.getMsg(Env.getCtx(), "Variant") + " " + bomType;
-			JRadioButton b = new JRadioButton(feature);
-			String groupName = feature + "_" + String.valueOf(parentM_Product_ID) + "_" + bomType;
-			ButtonGroup group = (ButtonGroup)m_buttonGroups.get(groupName);
-			if (group == null)
-			{
-				log.fine("ButtonGroup=" + groupName);
-				group = new ButtonGroup();
-				m_buttonGroups.put(groupName, group);
-				group.add(b);
-				b.setSelected(true);		//	select first one
-			}
-			else
-			{
-				group.add(b);
-				b.setSelected(false);
-				selected = false;
-			}
-			b.addActionListener(this);
-			m_selectionList.add(b);
-			this.add(b, new ALayoutConstraint(m_bomLine++, 0));
-		}
-		//	Add to List & display
-		m_productList.add (new Integer(M_Product_ID));
-		VNumber qty = new VNumber ("Qty", true, false, true, DisplayType.Quantity, name);
-		qty.setValue(lineQty);
-		qty.setReadWrite(selected);
-		m_qtyList.add(qty);
-		CLabel label = new CLabel (name);
-		label.setLabelFor(qty);
-		this.add(label);
-		this.add(qty);	
-	}	//	addDisplay
-
-	
 	/**
 	 * 	Get Preferred Size
 	 *	@return size
@@ -444,293 +230,456 @@ public class VBOMDrop extends CPanel
 		return size;
 	}	//	getPreferredSize
 
-	
-	/**************************************************************************
+
+	/**
 	 *	Action Listener
 	 *  @param e event
 	 */
 	public void actionPerformed (ActionEvent e)
 	{
 		log.config(e.getActionCommand());
-		
-		Object source = e.getSource();
 
-		//	Toggle Qty Enabled
-		if (source instanceof JCheckBox || source instanceof JRadioButton)
-		{
-			cmd_selection (source);
-			//	need to de-select the others in group	
-			if (source instanceof JRadioButton)
-			{
-				//	find Button Group
-				Iterator it = m_buttonGroups.values().iterator();
-				while (it.hasNext())
-				{
-					ButtonGroup group = (ButtonGroup)it.next();
-					Enumeration en = group.getElements();
-					while (en.hasMoreElements())
-					{
-						//	We found the group
-						if (source == en.nextElement())
-						{
-							Enumeration info = group.getElements();
-							while (info.hasMoreElements())
-							{
-								Object infoObj = info.nextElement();
-								if (source != infoObj)
-									cmd_selection(infoObj);
-							}
-						}
-					}
-				}
-			}
-		}	//	JCheckBox or JRadioButton
-			
-		//	Product / Qty
-		else if (source == productField || source == productQty)
-		{
-			m_qty = (BigDecimal)productQty.getValue();
-			KeyNamePair pp = (KeyNamePair)productField.getSelectedItem();
-			m_product = MProduct.get (Env.getCtx(), pp.getKey());
-			createMainPanel();
-			sizeIt();
-		}
-		
-		//	Order
-		else if (source == orderField)
-		{
-			KeyNamePair pp = (KeyNamePair)orderField.getSelectedItem();
-			boolean valid = (pp != null && pp.getKey() > 0);
-			//
-			if (invoiceField != null)
-				invoiceField.setReadWrite(!valid);
-			if (projectField != null)
-				projectField.setReadWrite(!valid);
-		}
-		//	Invoice
-		else if (source == invoiceField)
-		{
-			KeyNamePair pp = (KeyNamePair)invoiceField.getSelectedItem();
-			boolean valid = (pp != null && pp.getKey() > 0);
-			//
-			if (orderField != null)
-				orderField.setReadWrite(!valid);
-			if (projectField != null)
-				projectField.setReadWrite(!valid);
-		}
-		//	Project
-		else if (source == projectField)
-		{
-			KeyNamePair pp = (KeyNamePair)projectField.getSelectedItem();
-			boolean valid = (pp != null && pp.getKey() > 0);
-			//
-			if (orderField != null)
-				orderField.setReadWrite(!valid);
-			if (invoiceField != null)
-				invoiceField.setReadWrite(!valid);
-		}
-		
 		//	OK
-		else if (e.getActionCommand().equals(ConfirmPanel.A_OK))
+		if (e.getActionCommand().equals(ConfirmPanel.A_OK))
 		{
-			if (cmd_save())
-				dispose();
+			controller.confirmOK();
 		}
 		else if (e.getActionCommand().equals(ConfirmPanel.A_CANCEL))
-			dispose();
-			
-		//	Enable OK
-		boolean OK = m_product != null;
-		if (OK)
 		{
-			KeyNamePair pp = null;
-			if (orderField != null)
-				pp = (KeyNamePair)orderField.getSelectedItem();
-			if ((pp == null || pp.getKey() <= 0) && invoiceField != null)
-				pp = (KeyNamePair)invoiceField.getSelectedItem();
-			if ((pp == null || pp.getKey() <= 0) && projectField != null)
-				pp = (KeyNamePair)projectField.getSelectedItem();
-			OK = (pp != null && pp.getKey() > 0);
+			controller.confirmCancel();
 		}
-		confirmPanel.getOKButton().setEnabled(OK);
+
 	}	//	actionPerformed
 
-	/**
-	 * 	Enable/disable qty based on selection
-	 *	@param source JCheckBox or JRadioButton
-	 */
-	private void cmd_selection (Object source)
-	{
-		for (int i = 0; i < m_selectionList.size(); i++)
+	
+	@Override
+	public CEditor createSelectionEditor(int displayType, MLookup lookup, String columnName, String name, String description, int row, int col) {
+
+		if (DisplayType.isLookup(displayType) || displayType == DisplayType.ID)
 		{
-			if (source == m_selectionList.get(i))
+			VLookup editor = new VLookup (lookup.getColumnName(), false, false, true, lookup);
+
+			Dimension size = new Dimension(editor.getMinimumSize());
+			size.width = SEARCH_WIDTH;
+			editor.setPreferredSize(size);
+			CLabel label = new CLabel(name);
+			label.setLabelFor(editor);
+			
+			GridBagConstraints c = new GridBagConstraints();
+			c.gridx = col;
+			c.gridy = row;
+			c.gridwidth = 1;
+			c.gridheight = 1;
+			c.weightx = 0.5;
+			c.weighty = 0.0;
+			c.ipadx = 5;
+			c.insets = new Insets(2, 5, 2, 5);
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+
+			
+			selectionPanel.add(label, c);
+			
+			c.gridx = col+1;
+			selectionPanel.add(editor, c);
+
+			return editor;
+
+		}
+		else if (DisplayType.isNumeric(displayType))
+		{
+			VNumber editor = new VNumber(columnName, true, false, true, displayType, columnName);
+
+			Dimension size = new Dimension(editor.getMinimumSize());
+			size.width = QTY_WIDTH;
+			editor.setPreferredSize(new Dimension(size));
+
+			GridBagConstraints c = new GridBagConstraints();
+			c.gridx = col;
+			c.gridy = row;
+			c.gridwidth = 1;
+			c.gridheight = 1;
+			c.weightx = 0.5;
+			c.weighty = 0.0;
+			c.ipadx = 5;
+			c.insets = new Insets(2, 5, 2, 5);
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.anchor = GridBagConstraints.FIRST_LINE_END;
+
+			CLabel label = new CLabel(columnName);
+			label.setLabelFor(editor);
+			selectionPanel.add(label,c);
+			
+			c.gridx = col+1;
+			selectionPanel.add(editor, c);
+
+			return editor;
+
+		}
+		else if (DisplayType.YesNo == displayType)
+		{
+			VCheckBox editor = new VCheckBox( columnName, false, false, true,
+					name, description, false);
+	
+			GridBagConstraints c = new GridBagConstraints();
+			c.gridx = col;
+			c.gridy = row;
+			c.gridwidth = 1;
+			c.gridheight = 1;
+			c.weightx = 0.5;
+			c.weighty = 0.0;
+			c.ipadx = 5;
+			c.insets = new Insets(2, 5, 2, 5);
+			c.fill = GridBagConstraints.HORIZONTAL;
+			c.anchor = GridBagConstraints.FIRST_LINE_START;
+	
+			selectionPanel.add(editor, c);
+			return editor;
+		}
+		
+		throw new IllegalArgumentException("Unhandled display type " + displayType);
+	}
+
+	@Override
+	public void enableConfirmOK(boolean enable) {
+
+		confirmPanel.getOKButton().setEnabled(enable);
+
+	}
+
+
+	@Override
+	public void showDialog(String message, String result) {
+
+		ADialog.info(windowNo, this, message, result);
+
+	}
+
+	@Override
+	public void clearBOMList() {
+
+		this.removeAll();
+		this.revalidate();
+		this.repaint();
+		lineCount = 0;
+		//
+		buttonGroups.clear();
+		groupboxes.clear();
+		scroll.setVisible(false);
+
+	}
+
+	@Override
+	public Object createFeature(String featureKey, String caption) {
+
+		log.fine("Groupbox=" + featureKey);
+
+		// Create a group box to show the items
+		CollapsiblePanel optionGroup = new CollapsiblePanel(caption);
+		groupboxes.put(featureKey, optionGroup);
+		optionGroup.setCollapsed(true);
+		optionGroup.getCollapsiblePane().getContentPane().setLayout(new GridBagLayout());
+		optionGroup.setToolTipText(MSG_ClickToOpen);
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = lineCount++;
+		c.gridwidth = 4;
+		c.gridheight = 1;
+		c.weighty = 0.0;
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		this.add(optionGroup, c);
+
+		return optionGroup;
+
+	}
+
+	@Override
+	public void updateFeatureCaption(Object feature, String caption) {
+
+		if (feature == null || !(feature instanceof CollapsiblePanel))
+			throw new IllegalArgumentException("Feature type not an instance of CollapsiblePanel " + feature);
+
+		CollapsiblePanel optionGroup = (CollapsiblePanel) feature;
+		optionGroup.setTitle(caption);
+
+	}
+
+	@Override
+	public CEditor addCheck(Object feature, String itemType, String name) {
+
+		GridBagConstraints checkConstraint = new GridBagConstraints();
+		checkConstraint.gridx = 0;
+		checkConstraint.gridwidth = 1;
+		checkConstraint.gridheight = 1;
+		checkConstraint.weightx = 0;
+		checkConstraint.weighty = 0.0;
+		checkConstraint.ipadx = 5;
+		checkConstraint.ipady = 5;
+		checkConstraint.fill = GridBagConstraints.NONE;
+		checkConstraint.anchor = GridBagConstraints.CENTER;
+		
+		GridBagConstraints labelConstraint = new GridBagConstraints();
+		labelConstraint.gridx = 1;
+		labelConstraint.gridwidth = 1;
+		labelConstraint.gridheight = 1;
+		labelConstraint.weightx = 0.3;
+		labelConstraint.weighty = 0.0;
+		labelConstraint.fill = GridBagConstraints.HORIZONTAL;
+		labelConstraint.anchor = GridBagConstraints.CENTER;
+
+		CLabel label = new CLabel (name);
+		label.setHorizontalAlignment(CLabel.LEFT);
+		Dimension size = new Dimension(label.getMinimumSize());
+		size.width = NAME_WIDTH;
+		label.setPreferredSize(size);
+		
+		if (ITEMTYPE_CHECK.equals(itemType))
+		{
+			VCheckBox cb;
+			
+			if (feature != null && (feature instanceof CollapsiblePanel))
 			{
-				boolean selected = isSelectionSelected(source);
-				VNumber qty = (VNumber)m_qtyList.get(i);
-				qty.setReadWrite(selected);
-				return;
+				cb = new VCheckBox(name, false, false, true, name, "", true);
+				cb.addVetoableChangeListener(controller);
+				cb.setEnabled(true);
+				cb.setSelected(false);
+				size = new Dimension(cb.getMinimumSize());
+				size.width = CHECK_WIDTH;
+				cb.setPreferredSize(size);
+
+				checkConstraint.gridy = GridBagConstraints.RELATIVE;
+				labelConstraint.gridy = GridBagConstraints.RELATIVE;
+
+				CollapsiblePanel optionGroup = (CollapsiblePanel) feature;
+				optionGroup.getCollapsiblePane().getContentPane().add(cb, checkConstraint);
+				optionGroup.getCollapsiblePane().getContentPane().add(label, labelConstraint);
 			}
-		}
-		log.log(Level.SEVERE, "not found - " + source);
-	}	//	cmd_selection
+			else
+			{
+				cb = new VCheckBox(name, false, true, false, name, "", true);
+				cb.addVetoableChangeListener(controller);
+				cb.setSelected(true);
+				size = new Dimension(cb.getMinimumSize());
+				size.width = CHECK_WIDTH;
+				cb.setPreferredSize(size);
 
-	/**
-	 * 	Is Selection Selected
-	 *	@param source CheckBox or RadioButton
-	 *	@return true if selected
-	 */
-	private boolean isSelectionSelected (Object source)
-	{
-		boolean retValue = false;
-		if (source instanceof JCheckBox)
-			retValue = ((JCheckBox)source).isSelected();
-		else if (source instanceof JRadioButton)
-			retValue = ((JRadioButton)source).isSelected();
+				checkConstraint.gridy = lineCount;
+				labelConstraint.gridy = lineCount;
+				
+				this.add(cb, checkConstraint);
+				this.add(label, labelConstraint);
+			}
+
+			return cb;
+
+		}
+		else if (ITEMTYPE_RADIO.equals(itemType))
+		{
+			if (feature == null || !(feature instanceof CollapsiblePanel))
+				throw new IllegalArgumentException("Can't have radiobutton type without a group!");
+
+			VRadioButton rb = new VRadioButton(name, false, false, true, name, "", true);
+			rb.addVetoableChangeListener(controller);
+			size = new Dimension(rb.getMinimumSize());
+			size.width = CHECK_WIDTH;
+			rb.setPreferredSize(size);
+
+			CollapsiblePanel optionGroup = (CollapsiblePanel) feature;
+			ButtonGroup buttonGroup = (ButtonGroup)buttonGroups.get(optionGroup);
+			if (buttonGroup == null)
+			{
+				buttonGroup = new ButtonGroup();
+				buttonGroups.put(optionGroup, buttonGroup);
+				buttonGroup.add(rb);
+				rb.setValue(true);
+			}
+			buttonGroup.add(rb);
+			
+			checkConstraint.gridy = GridBagConstraints.RELATIVE;
+			labelConstraint.gridy = GridBagConstraints.RELATIVE;
+			
+			optionGroup.getCollapsiblePane().getContentPane().add(rb,checkConstraint);
+			optionGroup.getCollapsiblePane().getContentPane().add(label,labelConstraint);
+
+			return rb;
+			
+		}
 		else
-			log.log(Level.SEVERE, "Not valid - " + source);
-		return retValue;
-	}	//	isSelected
-
-
-	/**************************************************************************
-	 * 	Save Selection
-	 * 	@return true if saved
-	 */
-	private boolean cmd_save()
-	{
-		KeyNamePair pp = (KeyNamePair)orderField.getSelectedItem();
-		if (pp != null && pp.getKey() > 0)
-			return cmd_saveOrder (pp.getKey());
-		//
-		pp = (KeyNamePair)invoiceField.getSelectedItem();
-		if (pp != null && pp.getKey() > 0)
-			return cmd_saveInvoice (pp.getKey());
-		//
-		pp = (KeyNamePair)projectField.getSelectedItem();
-		if (pp != null && pp.getKey() > 0)
-			return cmd_saveProject (pp.getKey());
-		//
-		log.log(Level.SEVERE, "Nothing selected");
-		return false;
-	}	//	cmd_save
-
-	/**
-	 * 	Save to Order
-	 *	@param C_Order_ID id
-	 *	@return true if saved
-	 */
-	private boolean cmd_saveOrder (int C_Order_ID)
-	{
-		log.config("C_Order_ID=" + C_Order_ID);
-		MOrder order = new MOrder (Env.getCtx(), C_Order_ID, null);
-		if (order.get_ID() == 0)
 		{
-			log.log(Level.SEVERE, "Not found - C_Order_ID=" + C_Order_ID);
-			return false;
+			log.severe("Unhandled Item type: " + itemType);
 		}
-		int lineCount = 0;
-		
-		//	for all bom lines
-		for (int i = 0; i < m_selectionList.size(); i++)
-		{
-			if (isSelectionSelected(m_selectionList.get(i)))
-			{
-				BigDecimal qty = (BigDecimal)((VNumber)m_qtyList.get(i)).getValue();
-				int M_Product_ID = ((Integer)m_productList.get(i)).intValue();
-				//	Create Line
-				MOrderLine ol = new MOrderLine (order);
-				ol.setM_Product_ID(M_Product_ID, true);
-				ol.setQty(qty);
-				ol.setPrice();
-				ol.setTax();
-				if (ol.save())
-					lineCount++;
-				else
-					log.log(Level.SEVERE, "Line not saved");
-			}	//	line selected
-		}	//	for all bom lines
-		
-		log.config("#" + lineCount);
-		return true;
-	}	//	cmd_saveOrder
+		return null;
 
-	/**
-	 * 	Save to Invoice
-	 *	@param C_Invoice_ID id
-	 *	@return true if saved
-	 */
-	private boolean cmd_saveInvoice (int C_Invoice_ID)
-	{
-		log.config("C_Invoice_ID=" + C_Invoice_ID);
-		MInvoice invoice = new MInvoice (Env.getCtx(), C_Invoice_ID, null);
-		if (invoice.get_ID() == 0)
+	}
+
+	@Override
+	public CEditor addQty(Object feature, BigDecimal qty) {
+
+		VNumber qtyEditor = new VNumber ("Qty", true, false, true, DisplayType.Quantity, Msg.translate(Env.getCtx(), "Qty"));
+		Dimension size = new Dimension(qtyEditor.getMinimumSize());
+		size.width = QTY_WIDTH;
+		qtyEditor.setPreferredSize(size);
+		qtyEditor.setValue(qty);
+
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 2;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.weightx = 0.25;
+		c.weighty = 0.0;
+		c.ipadx = 5;
+		c.insets = new Insets(2, 5, 2, 5);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+
+		//	Add to List & display
+		if (feature != null && (feature instanceof CollapsiblePanel))
 		{
-			log.log(Level.SEVERE, "Not found - C_Invoice_ID=" + C_Invoice_ID);
-			return false;
+			c.gridy = GridBagConstraints.RELATIVE;
+			CollapsiblePanel optionGroup = (CollapsiblePanel) feature;
+			optionGroup.getCollapsiblePane().getContentPane().add(qtyEditor,c);
 		}
-		int lineCount = 0;
-		
-		//	for all bom lines
-		for (int i = 0; i < m_selectionList.size(); i++)
+		else
 		{
-			if (isSelectionSelected(m_selectionList.get(i)))
-			{
-				BigDecimal qty = (BigDecimal)((VNumber)m_qtyList.get(i)).getValue();
-				int M_Product_ID = ((Integer)m_productList.get(i)).intValue();
-				//	Create Line
-				MInvoiceLine il = new MInvoiceLine (invoice);
-				il.setM_Product_ID(M_Product_ID, true);
-				il.setQty(qty);
-				il.setPrice();
-				il.setTax();
-				if (il.save())
-					lineCount++;
-				else
-					log.log(Level.SEVERE, "Line not saved");
-			}	//	line selected
-		}	//	for all bom lines
-		
-		log.config("#" + lineCount);
-		return true;
-	}	//	cmd_saveInvoice
-
-	/**
-	 * 	Save to Project
-	 *	@param C_Project_ID id
-	 *	@return true if saved
-	 */
-	private boolean cmd_saveProject (int C_Project_ID)
-	{
-		log.config("C_Project_ID=" + C_Project_ID);
-		MProject project = new MProject (Env.getCtx(), C_Project_ID, null);
-		if (project.get_ID() == 0)
-		{
-			log.log(Level.SEVERE, "Not found - C_Project_ID=" + C_Project_ID);
-			return false;
+			c.gridy = lineCount;
+			this.add(qtyEditor,c);
 		}
-		int lineCount = 0;
-		
-		//	for all bom lines
-		for (int i = 0; i < m_selectionList.size(); i++)
-		{
-			if (isSelectionSelected(m_selectionList.get(i)))
-			{
-				BigDecimal qty = (BigDecimal)((VNumber)m_qtyList.get(i)).getValue();
-				int M_Product_ID = ((Integer)m_productList.get(i)).intValue();
-				//	Create Line
-				MProjectLine pl = new MProjectLine (project);
-				pl.setM_Product_ID(M_Product_ID);
-				pl.setPlannedQty(qty);
-			//	pl.setPlannedPrice();
-				if (pl.save())
-					lineCount++;
-				else
-					log.log(Level.SEVERE, "Line not saved");
-			}	//	line selected
-		}	//	for all bom lines
-		
-		log.config("#" + lineCount);
-		return true;
-	}	//	cmd_saveProject
 
+		return qtyEditor;
+
+	}
+
+	@Override
+	public CEditor addUOM(Object feature, MLookup uomLookup, int c_uom_id) {
+
+		VLookup uomEditor = new VLookup (uomLookup.getColumnName(), true, false, true, uomLookup);
+		Dimension size = new Dimension(uomEditor.getMinimumSize());
+		size.width = UOM_WIDTH;
+		uomEditor.setPreferredSize(size);
+		uomEditor.setValue(c_uom_id);
+
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 3;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.weightx = 0.25;
+		c.weighty = 0.0;
+		c.insets = new Insets(2, 5, 2, 10);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+
+		//	Add to List & display
+		if (feature != null && (feature instanceof CollapsiblePanel))
+		{
+			c.gridy = GridBagConstraints.RELATIVE;
+			CollapsiblePanel optionGroup = (CollapsiblePanel) feature;
+			optionGroup.getCollapsiblePane().getContentPane().add(uomEditor,c);
+		}
+		else
+		{
+			c.gridy = lineCount++;
+			this.add(uomEditor, c);
+		}
+
+		return uomEditor;
+
+	}
+
+	@Override
+	public void enableBOMList() {
+
+		JSeparator dummy = new JSeparator(SwingConstants.HORIZONTAL);
+
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = lineCount;
+		c.gridwidth = 4;
+		c.gridheight = 1;
+		c.weightx = 0.5;
+		c.weighty = 1.0; // !Important
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.PAGE_START;
+
+		this.add(dummy, c);
+		scroll.setVisible(true);
+
+	}
+
+	@Override
+	public void setBOMListHeaders(String checkName, String productName, String qtyName, String uomName) {
+		
+		header.removeAll();
+		header.setLayout(new GridBagLayout());
+		CLabel selectLabel = new CLabel(checkName, SwingConstants.LEFT);
+		CLabel nameLabel = new CLabel(productName, SwingConstants.LEFT);
+		CLabel qtyLabel = new CLabel(qtyName, SwingConstants.CENTER);
+		CLabel uomLabel = new CLabel(uomName, SwingConstants.CENTER);
+		Dimension size = new Dimension(CHECK_WIDTH, 22);
+		selectLabel.setPreferredSize(size);
+		size = new Dimension(NAME_WIDTH, 22);
+		nameLabel.setPreferredSize(size);
+		size = new Dimension(QTY_WIDTH, 22);
+		qtyLabel.setPreferredSize(size);
+		size = new Dimension(UOM_WIDTH, 22);
+		uomLabel.setPreferredSize(size);
+		
+		GridBagConstraints c = new GridBagConstraints();
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.weightx = 0.0;
+		c.weighty = 0.0;
+		c.ipadx = 5;
+		c.insets = new Insets(2, 5, 2, 5);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.PAGE_END;
+
+		header.add(selectLabel, c);
+		
+		c.gridx = 1;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.weightx = 0.3;
+		
+		header.add(nameLabel, c);
+		
+		c.gridx = 2;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.weightx = 0.25;
+		c.weighty = 0.0;
+		c.ipadx = 5;
+		c.insets = new Insets(2, 5, 2, 5);
+
+		header.add(qtyLabel, c);
+		
+		c.gridx = 3;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		c.weightx = 0.25;
+		c.weighty = 0.0;
+		c.ipadx = 5;
+		c.insets = new Insets(2, 5, 2, 5);
+		
+		header.add(uomLabel, c);
+		
+		JSeparator dummy = new JSeparator(SwingConstants.HORIZONTAL);
+
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridwidth = 4;
+		c.gridheight = 1;
+		c.weightx = 0.5;
+		c.weighty = 1.0; // !Important
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.anchor = GridBagConstraints.CENTER;
+
+		header.add(dummy, c);
+		
+		scroll.setVisible(true);
+
+
+	}
 }	//	VBOMDrop

@@ -143,7 +143,11 @@ public class MADAppRegistration extends X_AD_AppRegistration {
 		if(parameters == null) {
 			loadParameters();
 		}
-		return parameters.get(parameterName).getParameterValue();
+		MADAppRegistrationPara parameter = parameters.get(parameterName);
+		if(parameter == null) {
+			return null;
+		}
+		return parameter.getParameterValue();
 	}
 	
 	/**
@@ -155,7 +159,11 @@ public class MADAppRegistration extends X_AD_AppRegistration {
 		if(parameters == null) {
 			loadParameters();
 		}
-		return parameters.get(parameterName).getParameterType();
+		MADAppRegistrationPara parameter = parameters.get(parameterName);
+		if(parameter == null) {
+			return null;
+		}
+		return parameter.getParameterType();
 	}
 	
 	/**
@@ -168,6 +176,24 @@ public class MADAppRegistration extends X_AD_AppRegistration {
 			.<MADAppRegistrationPara>list().forEach(parameter -> {
 			parameters.put(parameter.getParameterName(), parameter);
 		});
+	}
+	
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		if(newRecord
+				&& success) {
+			List<MADAppSupportPara> defaultParametersList = MADAppSupport.getById(getCtx(), getAD_AppSupport_ID(), get_TrxName())
+					.getDefaultParametersList();
+			if(defaultParametersList != null) {
+				defaultParametersList.forEach(defaultParameter -> {
+					MADAppRegistrationPara parameter = new MADAppRegistrationPara(getCtx(), 0, get_TrxName());
+					parameter.setAD_AppRegistration_ID(getAD_AppRegistration_ID());
+					parameter.setDefaultParameter(defaultParameter);
+					parameter.saveEx();
+				});
+			}
+		}
+		return super.afterSave(newRecord, success);
 	}
 
 	@Override

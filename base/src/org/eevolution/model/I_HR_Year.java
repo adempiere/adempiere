@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_Year
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_HR_Year 
 {
@@ -93,6 +93,17 @@ public interface I_HR_Year
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name HR_Calendar_ID */
+    public static final String COLUMNNAME_HR_Calendar_ID = "HR_Calendar_ID";
+
+	/** Set Human Resource Calendar	  */
+	public void setHR_Calendar_ID (int HR_Calendar_ID);
+
+	/** Get Human Resource Calendar	  */
+	public int getHR_Calendar_ID();
+
+	public org.spin.model.I_HR_Calendar getHR_Calendar() throws RuntimeException;
 
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";

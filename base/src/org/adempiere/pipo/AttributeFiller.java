@@ -13,23 +13,30 @@ public class AttributeFiller {
 	private PO po = null;
 	
 	/**
-	 * Will clear attributes !!!
-	 * @param _atts
+	 * @param attributes
 	 */
 	public AttributeFiller(AttributesImpl attributes){
-		attributes.clear();
 		atts = attributes;
 		po = null;
 	}
 	
 	/**
-	 * Will clear attributes !!!
-	 * @param _atts
+	 * @param attributes
+	 * @param poToAutoFill
 	 */
 	public AttributeFiller(AttributesImpl attributes, PO poToAutoFill){
-		attributes.clear();
 		atts = attributes;
 		po = poToAutoFill;
+	}
+	
+	/**
+	 * Clean values
+	 */
+	public void cleanValues() {
+		if(atts != null) {
+			atts.clear();
+		}
+		po = null;
 	}
 	
 	/**
@@ -60,8 +67,41 @@ public class AttributeFiller {
 		atts.addAttribute("", "", name, "CDATA",  String.valueOf(value));
 	}
 	
+	/**
+	 * Add int value
+	 * @param name
+	 * @param value
+	 */
+	public void addLong(String name, long value){
+		atts.addAttribute("", "", name, "CDATA",  String.valueOf(value));
+	}
+	
+	/**
+	 * Add Last Updated
+	 */
+	public void addLastUpdatedTime() {
+		long time = 0;
+		if(po.getUpdated() != null) {
+			time = po.getUpdated().getTime();
+		}
+		addLong(getLastUpdatedTimeAttribute(), time);
+	}
+	
+	/**
+	 * Get UUID Attribute from name
+	 * @param name
+	 * @return
+	 */
 	public static String getUUIDAttribute(String name) {
 		return (name + I_AD_Element.COLUMNNAME_UUID);
+	}
+	
+	/**
+	 * get Last Updated Time Attribute
+	 * @return
+	 */
+	public static String getLastUpdatedTimeAttribute() {
+		return "Last_" + I_AD_Element.COLUMNNAME_Updated;
 	}
 
 	/**

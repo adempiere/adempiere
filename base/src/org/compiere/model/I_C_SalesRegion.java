@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_SalesRegion
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_SalesRegion 
 {
@@ -155,6 +155,21 @@ public interface I_C_SalesRegion
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name ParentSalesRegion_ID */
+    public static final String COLUMNNAME_ParentSalesRegion_ID = "ParentSalesRegion_ID";
+
+	/** Set Parent Sales Region.
+	  * The parent (summary) Sales Region
+	  */
+	public void setParentSalesRegion_ID (int ParentSalesRegion_ID);
+
+	/** Get Parent Sales Region.
+	  * The parent (summary) Sales Region
+	  */
+	public int getParentSalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getParentSalesRegion() throws RuntimeException;
 
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";

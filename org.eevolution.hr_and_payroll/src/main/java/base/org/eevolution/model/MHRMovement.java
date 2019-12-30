@@ -23,6 +23,7 @@ import java.util.Optional;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MBPartner;
 import org.compiere.model.MCurrency;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
@@ -755,16 +756,18 @@ public class MHRMovement extends X_HR_Movement
 	{
 		this (importPayrollMovement.getCtx(), 0, importPayrollMovement.get_TrxName());
 		MHRConcept concept = new MHRConcept(getCtx(), importPayrollMovement.getHR_Concept_ID(), get_TrxName());
-		MHREmployee employee = MHREmployee.getActiveEmployee(
+		MHREmployee employee = Optional.ofNullable(MHREmployee.getActiveEmployee(
 				getCtx(),
 				importPayrollMovement.getC_BPartner_ID(),
-				get_TrxName());
+				get_TrxName()))
+				.orElseThrow(() -> new AdempiereException("@HR_Employee_ID@ @NotFound@"));
 		setAD_Org_ID(employee.getAD_Org_ID());
 		setUpdatedBy(importPayrollMovement.getUpdatedBy());
 		setHR_Process_ID(importPayrollMovement.getHR_Process_ID());
 		setC_BPartner_ID(importPayrollMovement.getC_BPartner_ID());
 		setHR_Concept_ID(importPayrollMovement.getHR_Concept_ID());
 		setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
+		setHR_Concept_Type_ID(concept.getHR_Concept_Type_ID());
 		setDescription(importPayrollMovement.getDescription());
 		setHR_Job_ID(employee.getHR_Job_ID());
 		setHR_Department_ID(employee.getHR_Department_ID());
@@ -796,6 +799,7 @@ public class MHRMovement extends X_HR_Movement
 		this.setHR_Payroll_ID(process.getHR_Payroll_ID());
 		// Concept
 		this.setHR_Concept_Category_ID(concept.getHR_Concept_Category_ID());
+		this.setHR_Concept_Type_ID(concept.getHR_Concept_Type_ID());
 		this.setHR_Concept_ID(concept.getHR_Concept_ID());
 	}
 	
@@ -838,42 +842,46 @@ public class MHRMovement extends X_HR_Movement
 			final String columnType = concept.getColumnType();
 			int currencyPrecision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(p_ctx, "#C_Currency_ID"));
 			Optional<Integer> conceptStandardPrecisionOptional = Optional.ofNullable((Integer)concept.get_Value("StdPrecision"));
-			if (MHRConcept.COLUMNTYPE_Quantity.equals(columnType))
-			{
-				BigDecimal qty = new BigDecimal(value.toString());
-				setQty(qty);
-				setAmount(Env.ZERO);
-			} 
-			else if(MHRConcept.COLUMNTYPE_Amount.equals(columnType))
-			{
-				BigDecimal amount = new BigDecimal(value.toString())
-						.setScale(conceptStandardPrecisionOptional.orElse(currencyPrecision),BigDecimal.ROUND_HALF_UP);
-				setAmount(amount);
-				setQty(Env.ZERO);
-			} 
-			else if(MHRConcept.COLUMNTYPE_Text.equals(columnType))
-			{
+			
+			if(MHRConcept.COLUMNTYPE_Text.equals(columnType)) {
 				setTextMsg(value.toString().trim());
-			}
-			else if(MHRConcept.COLUMNTYPE_Date.equals(columnType))
-			{
-				if (value instanceof Timestamp)
-				{
+			} else if(MHRConcept.COLUMNTYPE_Date.equals(columnType)) {
+				if (value instanceof Timestamp) {
 					setServiceDate((Timestamp)value);
-				}
-				else
-				{
+				} else {
 					setServiceDate(Timestamp.valueOf(value.toString().trim().substring(0, 10)+ " 00:00:00.0"));	
 				}
-			}
-			else
-			{
+			} else if (MHRConcept.COLUMNTYPE_Quantity.equals(columnType) || MHRConcept.COLUMNTYPE_Amount.equals(columnType)) {
+				double doubleValue = 0;
+				//	Validate Double
+				try {
+					doubleValue = Double.parseDouble(value.toString());
+				} catch (Exception e) {
+					String businessPartnerName = "";
+					if(getC_BPartner_ID() != 0) {
+						MBPartner businessPartner = (MBPartner) getC_BPartner();
+						businessPartnerName = businessPartner.getValue() + " - " + businessPartner.getName();
+					}
+					throw new AdempiereException(businessPartnerName + " [" + concept.getValue() + " @Error@ " + value + "]");
+				}
+				//	Set from type
+				if(MHRConcept.COLUMNTYPE_Amount.equals(columnType)) {
+					BigDecimal amount = new BigDecimal(doubleValue)
+							.setScale(conceptStandardPrecisionOptional.orElseGet(() -> currencyPrecision),BigDecimal.ROUND_HALF_UP);
+					setAmount(amount);
+					setQty(Env.ZERO);
+				} else {
+					BigDecimal qty = new BigDecimal(doubleValue);
+					setQty(qty);
+					setAmount(Env.ZERO);
+				}
+			} else {
 				throw new AdempiereException("@NotSupported@ @ColumnType@ - "+columnType);
 			}
 		}
 		catch (Exception e) 
 		{
-			throw new AdempiereException("@Script Error@");
+			throw new AdempiereException("@Script Error@ " + e.getLocalizedMessage());
 		}
 	}
 	

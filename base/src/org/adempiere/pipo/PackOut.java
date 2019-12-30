@@ -25,8 +25,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -37,7 +35,10 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.pipo.handler.ASPModuleElementHandler;
 import org.adempiere.pipo.handler.AdElementHandler;
+import org.adempiere.pipo.handler.BrowseCustomElementHandler;
 import org.adempiere.pipo.handler.BrowseElementHandler;
 import org.adempiere.pipo.handler.CodeSnipitElementHandler;
 import org.adempiere.pipo.handler.DataElementHandler;
@@ -49,8 +50,8 @@ import org.adempiere.pipo.handler.GenericPOHandler;
 import org.adempiere.pipo.handler.ImpFormatElementHandler;
 import org.adempiere.pipo.handler.MenuElementHandler;
 import org.adempiere.pipo.handler.MessageElementHandler;
-import org.adempiere.pipo.handler.ModelValidatorElementHandler;
 import org.adempiere.pipo.handler.PrintFormatElementHandler;
+import org.adempiere.pipo.handler.ProcessCustomElementHandler;
 import org.adempiere.pipo.handler.ProcessElementHandler;
 import org.adempiere.pipo.handler.ReferenceElementHandler;
 import org.adempiere.pipo.handler.ReportViewElementHandler;
@@ -59,16 +60,26 @@ import org.adempiere.pipo.handler.SQLStatementElementHandler;
 import org.adempiere.pipo.handler.TableElementHandler;
 import org.adempiere.pipo.handler.TaskElementHandler;
 import org.adempiere.pipo.handler.ViewElementHandler;
+import org.adempiere.pipo.handler.WindowCustomElementHandler;
 import org.adempiere.pipo.handler.WindowElementHandler;
 import org.adempiere.pipo.handler.WorkflowElementHandler;
+import org.compiere.model.I_AD_BrowseCustom;
+import org.compiere.model.I_AD_ModelValidator;
+import org.compiere.model.I_AD_Package_Exp;
+import org.compiere.model.I_AD_Package_Exp_Detail;
+import org.compiere.model.I_AD_ProcessCustom;
+import org.compiere.model.I_AD_WindowCustom;
+import org.compiere.model.I_ASP_Module;
+import org.compiere.model.MPackageExp;
+import org.compiere.model.MPackageExpDetail;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_Element;
-import org.compiere.model.X_AD_Package_Exp;
 import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.model.X_AD_Reference;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.spin.model.MADPackageExpCustom;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
@@ -122,8 +133,11 @@ public class PackOut extends PackOutAbstract {
     DistFileElementHandler distFileHandler = new DistFileElementHandler();
     ReferenceElementHandler referenceHandler = new ReferenceElementHandler();
     AdElementHandler adElementHandler = new AdElementHandler();
-    ModelValidatorElementHandler modelValidatorHandler = new ModelValidatorElementHandler();
     EntityTypeElementHandler entitytypeHandler = new EntityTypeElementHandler();
+    ASPModuleElementHandler aspModuleHandler = new ASPModuleElementHandler();
+    WindowCustomElementHandler windowCustomizationHandler = new WindowCustomElementHandler();
+    ProcessCustomElementHandler processCustomizationHandler = new ProcessCustomElementHandler();
+    BrowseCustomElementHandler browseCustomizationHandler = new BrowseCustomElementHandler();
     GenericPOHandler genericPOHandler = new GenericPOHandler();
     
 	
@@ -140,292 +154,264 @@ public class PackOut extends PackOutAbstract {
 		OutputStream  packOutDocStream = null;
 		log.info("doIt - AD_PACKAGE_EXP_ID=" + getRecord_ID());
 		if (getRecord_ID() == 0)
-			throw new IllegalArgumentException("No Record");
-		String sql1 = "SELECT * FROM AD_Package_Exp WHERE AD_Package_Exp_ID = "+ getRecord_ID();		
-		PreparedStatement pstmt1 = null;		
-		pstmt1 = DB.prepareStatement (sql1, get_TrxName());		
-		
-		try {			
-			ResultSet rs1 = pstmt1.executeQuery();
-			while (rs1.next()){		
-				//Create the package documentation
-				packagedir = rs1.getString(X_AD_Package_Exp.COLUMNNAME_File_Directory).trim();			
-				if (!packagedir.endsWith("/") && !packagedir.endsWith("\\"))
-					packagedir += File.separator;
-				packagename = packagedir + rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name);
-				includesdir = rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name) + File.separator +"**";
-				(new File(packagename+File.separator+"doc"+File.separator)).mkdirs();
-				String file_document = packagename+File.separator+"doc"+File.separator+rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name)+"Doc.xml";		
-				packageDocStream = new FileOutputStream (file_document, false);		
-				StreamResult streamResult_document = new StreamResult(new OutputStreamWriter(packageDocStream,"ISO-8859-1"));	
-				SAXTransformerFactory tf_document = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
-				tf_document.setAttribute("indent-number", new Integer(4));
-				TransformerHandler packageDocument = tf_document.newTransformerHandler();		
-				Transformer serializer_document = packageDocument.getTransformer();		
-				serializer_document.setOutputProperty(OutputKeys.ENCODING,"ISO-8859-1");		
-				serializer_document.setOutputProperty(OutputKeys.INDENT,"yes");		
-				packageDocument.setResult(streamResult_document);
-				packageDocument.startDocument();
-				AttributesImpl atts = new AttributesImpl();
-				atts.clear();			
-				packageDocument.processingInstruction("xml-stylesheet","type=\"text/css\" href=\"adempiereDocument.css\"");
-				packageDocument.startElement("","","adempiereDocument",atts);
-				packageDocument.startElement("","","header",atts);		
-				packageDocument.characters((rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name)+" Package Description").toCharArray(),0,(rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name)+" Package Description").length());
-				packageDocument.endElement("","","header");
-				packageDocument.startElement("","","H1",atts);		
-				packageDocument.characters(("Package Name:" ).toCharArray(),0,("Package Name:" ).length());
-				packageDocument.endElement("","","H1");
-				packageDocument.startElement("","","packagename",atts);		
-				packageDocument.characters(rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name).toCharArray(),0,rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name).length());
-				packageDocument.endElement("","","packagename");					
-				packageDocument.startElement("","","H1",atts);		
-				packageDocument.characters(("Creator:" ).toCharArray(),0,("Creator:").length());
-				packageDocument.endElement("","","H1");
-				packageDocument.startElement("","","creator",atts);
-				packageDocument.characters(rs1.getString(X_AD_Package_Exp.COLUMNNAME_UserName).toCharArray(),0,rs1.getString(X_AD_Package_Exp.COLUMNNAME_UserName).length());
-				packageDocument.endElement("","","creator");					
-				packageDocument.startElement("","","H1",atts);		
-				packageDocument.characters(("Email Address:" ).toCharArray(),0,("Email Address:" ).length());
-				packageDocument.endElement("","","H1");
-				packageDocument.startElement("","","creatorcontact",atts);
-				packageDocument.characters(rs1.getString(X_AD_Package_Exp.COLUMNNAME_EMail).toCharArray(),0,rs1.getString(X_AD_Package_Exp.COLUMNNAME_EMail).length());
-				packageDocument.endElement("","","creatorcontact");					
-				packageDocument.startElement("","","H1",atts);		
-				packageDocument.characters(("Created:" ).toCharArray(),0,("Created:" ).length());
-				packageDocument.endElement("","","H1");
-				packageDocument.startElement("","","createddate",atts);
-				packageDocument.characters(rs1.getString("Created").toString().toCharArray(),0,rs1.getString("Created").toString().length());
-				packageDocument.endElement("","","createddate");					
-				packageDocument.startElement("","","H1",atts);		
-				packageDocument.characters(("Updated:" ).toCharArray(),0,("Updated:" ).length());
-				packageDocument.endElement("","","H1");
-				packageDocument.startElement("","","updateddate",atts);
-				packageDocument.characters(rs1.getString("Updated").toString().toCharArray(),0,rs1.getString("Updated".toString()).length());
-				packageDocument.endElement("","","updateddate");				
-				packageDocument.startElement("","","H1",atts);		
-				packageDocument.characters(("Description:" ).toCharArray(),0,("Description:" ).length());
-				packageDocument.endElement("","","H1");
-				packageDocument.startElement("","","description",atts);
-				packageDocument.characters(rs1.getString(X_AD_Package_Exp.COLUMNNAME_Description).toCharArray(),0,rs1.getString(X_AD_Package_Exp.COLUMNNAME_Description).length());
-				packageDocument.endElement("","","description");					
-				packageDocument.startElement("","","H1",atts);		
-				packageDocument.characters(("Instructions:" ).toCharArray(),0,("Instructions:" ).length());
-				packageDocument.endElement("","","H1");
-				packageDocument.startElement("","","instructions",atts);
-				packageDocument.characters(rs1.getString(X_AD_Package_Exp.COLUMNNAME_Instructions).toCharArray(),0,rs1.getString(X_AD_Package_Exp.COLUMNNAME_Instructions).length());
-				packageDocument.endElement("","","instructions");
-				packageDocument.startElement("","","H1",atts);		
-				packageDocument.characters(("Files in Package:" ).toCharArray(),0,("Files in Package:" ).length());
-				packageDocument.endElement("","","H1");		
-				packageDocument.startElement("","","file",atts);
-				packageDocument.characters(("File: PackOut.xml").toCharArray(),0,("File: PackOut.xml").length());
-				packageDocument.endElement("","","file");		
-				packageDocument.startElement("","","filedirectory",atts);
-				packageDocument.characters("Directory: \\dict\\".toCharArray(),0,("Directory: \\dict\\").length());
-				packageDocument.endElement("","","filedirectory");		
-				packageDocument.startElement("","","filenotes",atts);
-				packageDocument.characters("Notes: Contains all application/object settings for package".toCharArray(),0,"Notes: Contains all application/object settings for package".length());
-				packageDocument.endElement("","","filenotes");			
-				(new File(packagename+File.separator+ "dict"+File.separator)).mkdirs();		
-				String file_menu = packagename+File.separator+ "dict"+File.separator+"PackOut.xml";		
-				packOutDocStream = new FileOutputStream (file_menu, false);
-				StreamResult streamResult_menu = new StreamResult(new OutputStreamWriter(packOutDocStream,"ISO-8859-1"));	
-				SAXTransformerFactory tf_menu = (SAXTransformerFactory) SAXTransformerFactory.newInstance();					 
-				tf_menu.setAttribute("indent-number", new Integer(4));
-				TransformerHandler packOutDocument = tf_menu.newTransformerHandler();		
-				Transformer serializer_menu = packOutDocument.getTransformer();		
-				serializer_menu.setOutputProperty(OutputKeys.ENCODING,"ISO-8859-1");		
-				serializer_menu.setOutputProperty(OutputKeys.INDENT,"yes");		
-				packOutDocument.setResult(streamResult_menu);
-				packOutDocument.startDocument();
-				atts.clear();
-				atts.addAttribute("","","Name","CDATA",rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name));
-				atts.addAttribute("","","Version","CDATA",rs1.getString(X_AD_Package_Exp.COLUMNNAME_PK_Version));
-				atts.addAttribute("","","CompVer","CDATA",rs1.getString(X_AD_Package_Exp.COLUMNNAME_ReleaseNo));
-				atts.addAttribute("","","DataBase","CDATA",rs1.getString(X_AD_Package_Exp.COLUMNNAME_Version));
-				atts.addAttribute("","","Description","CDATA",rs1.getString(X_AD_Package_Exp.COLUMNNAME_Description));
-				atts.addAttribute("","","creator","CDATA",rs1.getString(X_AD_Package_Exp.COLUMNNAME_UserName));
-				atts.addAttribute("","","creatorcontact","CDATA",rs1.getString(X_AD_Package_Exp.COLUMNNAME_EMail));
-				atts.addAttribute("","","createddate","CDATA",rs1.getString("Created"));
-				atts.addAttribute("","","updateddate","CDATA",rs1.getString("Updated"));
-				atts.addAttribute("","","PackOutVer","CDATA",PackOutVer);		
-				
-				packOutDocument.startElement("","","adempiereAD",atts);		
-				atts.clear();
-				
-				final String sql = "SELECT * FROM AD_Package_Exp_Detail WHERE AD_Package_Exp_ID = "+ getRecord_ID() +" AND IsActive='Y' ORDER BY Line ASC";
-				PreparedStatement pstmt = null;		
-				ResultSet rs = null;
-				try
-				{			
-					pstmt = DB.prepareStatement (sql, get_TrxName());
-					rs = pstmt.executeQuery();
-					while (rs.next())
-					{
-						final String Type = rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Type);
-						final int AD_EntityType_ID = rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID);
-						Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID, AD_EntityType_ID);
-						//
-						log.info(rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Line));
-						if (Type.compareTo("M") == 0){
-							createMenu(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Menu_ID), packOutDocument );
-						}
-						else if (Type.compareTo("P") == 0)
-							createProcess ( rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Process_ID), packOutDocument );
-						else if (Type.compareTo("R") == 0)
-							createReportview ( rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_ReportView_ID), packOutDocument );
-						else if (Type.compareTo("D") == 0)
-							createData ( rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Table_ID), rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_SQLStatement), packOutDocument );
-						else if (Type.compareTo("T") == 0)
-							createTable (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Table_ID), packOutDocument);
-						else if (Type.compareTo("X") == 0)
-							createForm (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Form_ID), packOutDocument);
-						else if (Type.compareTo("W") == 0)
-							createWindow (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Window_ID), packOutDocument);	
-						else if (Type.compareTo("SV") == 0)
-							createView (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_View_ID), packOutDocument);	
-						else if (Type.compareTo("SB") == 0)
-							createBrowse (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Browse_ID), packOutDocument);						
-						else if (Type.compareTo("S") == 0)
-							createRoles (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Role_ID), packOutDocument);
-						else if (Type.compareTo("SQL") == 0)
-							createSQL (rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_SQLStatement), rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_DBType), packOutDocument);
-						else if (Type.compareTo("IMP") == 0)
-							createImpFormat (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_ImpFormat_ID), packOutDocument);
-						else if (Type.compareTo("REF") == 0)
-							createReference (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Reference_ID), packOutDocument);
-						else if (Type.compareTo("SNI") == 0)						
-							createSnipit(
-									rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Destination_Directory),
-									rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Destination_FileName),
-									rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Package_Code_Old),
-									rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Package_Code_New),
-									rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_ReleaseNo),
-									packOutDocument);
-						else if (Type.compareTo("F") == 0)
-							createWorkflow (rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Workflow_ID), packOutDocument);
-						else if (Type.compareTo("V") == 0)
-							createDynamicRuleValidation(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Val_Rule_ID), packOutDocument);
-						else if (Type.compareTo("MSG") == 0)
-							createMessage(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Message_ID), packOutDocument);
-						else if (Type.compareTo("PFT") == 0)
-							createPrintFormat(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_PrintFormat_ID), packOutDocument);
-						else if (Type.compareTo(X_AD_Package_Exp_Detail.TYPE_ModelValidator) == 0)
-							createModelValidator(rs.getInt(X_AD_Package_Exp_Detail.COLUMNNAME_AD_ModelValidator_ID), packOutDocument);
-						else if (Type.compareTo(X_AD_Package_Exp_Detail.TYPE_EntityType) == 0)
-							createEntityType(AD_EntityType_ID, packOutDocument);
-						else if (Type.compareTo("C") == 0){
-							log.log(Level.INFO,"In PackOut.java handling Code or Other 2pack module creation");
-							
-							String fullDirectory = rs1.getString(X_AD_Package_Exp.COLUMNNAME_File_Directory) + rs1.getString(X_AD_Package_Exp.COLUMNNAME_Name)+rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Target_Directory);
-							log.log(Level.INFO,"fullDirectory" + fullDirectory);
-							String targetDirectoryModified=null;
-							char fileseperator1 = '/';
-							char fileseperator2 = '\\';
-							//Correct package for proper file separator
-							if (File.separator.equals("/")){			
-								targetDirectoryModified = fullDirectory.replace(fileseperator2,fileseperator1);
-							}
-							else
-								targetDirectoryModified = fullDirectory.replace(fileseperator1,fileseperator2);
-							
-							String target_File = (targetDirectoryModified);						
-							new File(target_File).mkdirs();
-							fullDirectory = rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_File_Directory);
-							targetDirectoryModified=null;						
-							//Correct package for proper file separator
-							if (File.separator.equals("/")){			
-								targetDirectoryModified = fullDirectory.replace(fileseperator2,fileseperator1);
-							}
-							else
-								targetDirectoryModified = fullDirectory.replace(fileseperator2,fileseperator1);
-							
-							copyCode(
-									targetDirectoryModified + rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_FileName),
-									target_File + rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_FileName));
-							
-							atts.clear();
-							
-							if(rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Destination_Directory) != null){
-								
-								fullDirectory = rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Destination_Directory);
-								String destinationDirectoryModified=null;						
-								
-								//Correct package for proper file separator
-								if (File.separator.equals("/")){			
-									destinationDirectoryModified = fullDirectory.replace(fileseperator2,fileseperator1);
-								}
-								else
-									destinationDirectoryModified = fullDirectory.replace(fileseperator2,fileseperator1);							
-								
-								createDistributeFile(
-										rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_FileName),
-										rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Target_Directory),
-										rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_ReleaseNo),
-										destinationDirectoryModified, 
-										packOutDocument);
-								
-							}
-							
-							if(rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_FileName) != null){
-								packageDocument.startElement("","","file",atts);
-								packageDocument.characters(("File: "+rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_FileName)).toCharArray(),0,("File: "+rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_FileName)).length());
-								packageDocument.endElement("","","file");
-							}
-							packageDocument.startElement("","","filedirectory",atts);
-							packageDocument.characters(
-											("Directory: " + rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Target_Directory)).toCharArray(),
-											0,
-											("Directory: " + rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Target_Directory)).length());
-							packageDocument.endElement("","","filedirectory");
-							
-							packageDocument.startElement("","","filenotes",atts);
-							packageDocument.characters(
-											("Notes: " + rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Description)).toCharArray(),
-											0,
-											(("Notes: " + rs.getString(X_AD_Package_Exp_Detail.COLUMNNAME_Description)).length()));
-							packageDocument.endElement("","","filenotes");
-						}
+			throw new IllegalArgumentException("No Record");	//	
+		try {
+			MPackageExp exportPackage = new MPackageExp(getCtx(), getRecord_ID(), get_TrxName());
+			//Create the package documentation
+			packagedir = exportPackage.getFile_Directory().trim();			
+			if (!packagedir.endsWith("/") && !packagedir.endsWith("\\"))
+				packagedir += File.separator;
+			packagename = packagedir + exportPackage.getName();
+			includesdir = exportPackage.getName() + File.separator +"**";
+			(new File(packagename+File.separator+"doc"+File.separator)).mkdirs();
+			String file_document = packagename+File.separator+"doc"+File.separator+exportPackage.getName() + "Doc.xml";		
+			packageDocStream = new FileOutputStream (file_document, false);		
+			StreamResult streamResult_document = new StreamResult(new OutputStreamWriter(packageDocStream,"ISO-8859-1"));	
+			SAXTransformerFactory tf_document = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
+			tf_document.setAttribute("indent-number", new Integer(4));
+			TransformerHandler packageDocument = tf_document.newTransformerHandler();		
+			Transformer serializer_document = packageDocument.getTransformer();		
+			serializer_document.setOutputProperty(OutputKeys.ENCODING,"ISO-8859-1");		
+			serializer_document.setOutputProperty(OutputKeys.INDENT,"yes");		
+			packageDocument.setResult(streamResult_document);
+			packageDocument.startDocument();
+			AttributesImpl atts = new AttributesImpl();
+			atts.clear();			
+			packageDocument.processingInstruction("xml-stylesheet","type=\"text/css\" href=\"adempiereDocument.css\"");
+			packageDocument.startElement("","","adempiereDocument",atts);
+			packageDocument.startElement("","","header",atts);		
+			packageDocument.characters((exportPackage.getName()+" Package Description").toCharArray(),0,(exportPackage.getName()+" Package Description").length());
+			packageDocument.endElement("","","header");
+			packageDocument.startElement("","","H1",atts);		
+			packageDocument.characters(("Package Name:" ).toCharArray(),0,("Package Name:" ).length());
+			packageDocument.endElement("","","H1");
+			packageDocument.startElement("","","packagename",atts);		
+			packageDocument.characters(exportPackage.getName().toCharArray(),0,exportPackage.getName().length());
+			packageDocument.endElement("","","packagename");					
+			packageDocument.startElement("","","H1",atts);		
+			packageDocument.characters(("Creator:" ).toCharArray(),0,("Creator:").length());
+			packageDocument.endElement("","","H1");
+			packageDocument.startElement("","","creator",atts);
+			packageDocument.characters(exportPackage.getUserName().toCharArray(),0,exportPackage.getUserName().length());
+			packageDocument.endElement("","","creator");					
+			packageDocument.startElement("","","H1",atts);		
+			packageDocument.characters(("Email Address:" ).toCharArray(),0,("Email Address:" ).length());
+			packageDocument.endElement("","","H1");
+			packageDocument.startElement("","","creatorcontact",atts);
+			packageDocument.characters(exportPackage.getEMail().toCharArray(),0,exportPackage.getEMail().length());
+			packageDocument.endElement("","","creatorcontact");					
+			packageDocument.startElement("","","H1",atts);		
+			packageDocument.characters(("Created:" ).toCharArray(),0,("Created:" ).length());
+			packageDocument.endElement("","","H1");
+			packageDocument.startElement("","","createddate",atts);
+			packageDocument.characters(exportPackage.getCreated().toString().toCharArray(),0,exportPackage.getCreated().toString().length());
+			packageDocument.endElement("","","createddate");					
+			packageDocument.startElement("","","H1",atts);		
+			packageDocument.characters(("Updated:" ).toCharArray(),0,("Updated:" ).length());
+			packageDocument.endElement("","","H1");
+			packageDocument.startElement("","","updateddate",atts);
+			packageDocument.characters(exportPackage.getUpdated().toString().toCharArray(),0,exportPackage.getUpdated().toString().length());
+			packageDocument.endElement("","","updateddate");				
+			packageDocument.startElement("","","H1",atts);		
+			packageDocument.characters(("Description:" ).toCharArray(),0,("Description:" ).length());
+			packageDocument.endElement("","","H1");
+			packageDocument.startElement("","","description",atts);
+			packageDocument.characters(exportPackage.getDescription().toCharArray(),0,exportPackage.getDescription().length());
+			packageDocument.endElement("","","description");					
+			packageDocument.startElement("","","H1",atts);		
+			packageDocument.characters(("Instructions:" ).toCharArray(),0,("Instructions:" ).length());
+			packageDocument.endElement("","","H1");
+			packageDocument.startElement("","","instructions",atts);
+			packageDocument.characters(exportPackage.getInstructions().toCharArray(),0,exportPackage.getInstructions().length());
+			packageDocument.endElement("","","instructions");
+			packageDocument.startElement("","","H1",atts);		
+			packageDocument.characters(("Files in Package:" ).toCharArray(),0,("Files in Package:" ).length());
+			packageDocument.endElement("","","H1");		
+			packageDocument.startElement("","","file",atts);
+			packageDocument.characters(("File: PackOut.xml").toCharArray(),0,("File: PackOut.xml").length());
+			packageDocument.endElement("","","file");		
+			packageDocument.startElement("","","filedirectory",atts);
+			packageDocument.characters("Directory: \\dict\\".toCharArray(),0,("Directory: \\dict\\").length());
+			packageDocument.endElement("","","filedirectory");		
+			packageDocument.startElement("","","filenotes",atts);
+			packageDocument.characters("Notes: Contains all application/object settings for package".toCharArray(),0,"Notes: Contains all application/object settings for package".length());
+			packageDocument.endElement("","","filenotes");			
+			(new File(packagename+File.separator+ "dict"+File.separator)).mkdirs();		
+			String file_menu = packagename+File.separator+ "dict"+File.separator+"PackOut.xml";		
+			packOutDocStream = new FileOutputStream (file_menu, false);
+			StreamResult streamResult_menu = new StreamResult(new OutputStreamWriter(packOutDocStream,"ISO-8859-1"));	
+			SAXTransformerFactory tf_menu = (SAXTransformerFactory) SAXTransformerFactory.newInstance();					 
+			tf_menu.setAttribute("indent-number", new Integer(4));
+			TransformerHandler packOutDocument = tf_menu.newTransformerHandler();		
+			Transformer serializer_menu = packOutDocument.getTransformer();		
+			serializer_menu.setOutputProperty(OutputKeys.ENCODING,"ISO-8859-1");		
+			serializer_menu.setOutputProperty(OutputKeys.INDENT,"yes");		
+			packOutDocument.setResult(streamResult_menu);
+			packOutDocument.startDocument();
+			atts.clear();
+			atts.addAttribute("","","Name","CDATA",exportPackage.getName());
+			atts.addAttribute("","","Version","CDATA",exportPackage.getPK_Version());
+			atts.addAttribute("","","CompVer","CDATA",exportPackage.getReleaseNo());
+			atts.addAttribute("","","DataBase","CDATA",exportPackage.getVersion());
+			atts.addAttribute("","","Description","CDATA",exportPackage.getDescription());
+			atts.addAttribute("","","creator","CDATA",exportPackage.getUserName());
+			atts.addAttribute("","","creatorcontact","CDATA",exportPackage.getEMail());
+			atts.addAttribute("","","createddate","CDATA",exportPackage.getCreated().toString());
+			atts.addAttribute("","","updateddate","CDATA",exportPackage.getUpdated().toString());
+			atts.addAttribute("","","PackOutVer","CDATA",PackOutVer);		
+			
+			packOutDocument.startElement("","","adempiereAD",atts);		
+			atts.clear();
+			
+			List<MPackageExpDetail> packageDetailList = new Query(getCtx(), I_AD_Package_Exp_Detail.Table_Name, 
+					I_AD_Package_Exp.COLUMNNAME_AD_Package_Exp_ID + " = ?", get_TrxName())
+					.setParameters(getRecord_ID())
+					.setOnlyActiveRecords(true)
+					.setOrderBy(I_AD_Package_Exp_Detail.COLUMNNAME_Line)
+					.<MPackageExpDetail>list();
+			//	Iterate
+			for(MPackageExpDetail detail : packageDetailList) {
+				String type = detail.getType();
+				Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID, detail.getAD_EntityType_ID());
+				//
+				log.info("Line = " + detail.getLine());
+				if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_ApplicationOrModule) == 0){
+					createMenu(detail.getAD_Menu_ID(), packOutDocument );
+				}
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_ProcessReport) == 0)
+					createProcess (detail.getAD_Process_ID(), packOutDocument );
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_ReportView) == 0)
+					createReportview (detail.getAD_ReportView_ID(), packOutDocument );
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Data) == 0)
+					createData (detail.getAD_Table_ID(), detail.getSQLStatement(), packOutDocument );
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Table) == 0)
+					createTable (detail.getAD_Table_ID(), packOutDocument);
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Form) == 0)
+					createForm (detail.getAD_Form_ID(), packOutDocument);
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Window) == 0)
+					createWindow (detail.getAD_Window_ID(), packOutDocument);	
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_SmartBrowse) == 0)
+					createBrowse (detail.getAD_Browse_ID(), packOutDocument);
+				else if(type.equals(X_AD_Package_Exp_Detail.TYPE_SmartView))
+					createView(detail.getAD_ReportView_ID(), packOutDocument);
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Role) == 0)
+					createRoles (detail.getAD_Role_ID(), packOutDocument);
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_SQLStatement) == 0)
+					createSQL (detail.getSQLStatement(), detail.getDBType(), packOutDocument);
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_ImportFormat) == 0)
+					createImpFormat (detail.getAD_ImpFormat_ID(), packOutDocument);
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Reference) == 0)
+					createReference (detail.getAD_Reference_ID(), packOutDocument);
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_CodeSnipit) == 0)						
+					createSnipit(
+							detail.getDestination_Directory(),
+							detail.getDestination_FileName(),
+							detail.getAD_Package_Code_Old(),
+							detail.getAD_Package_Code_New(),
+							detail.getReleaseNo(),
+							packOutDocument);
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Workflow) == 0)
+					createWorkflow (detail.getAD_Workflow_ID(), packOutDocument);
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_DynamicValidationRule) == 0)
+					createDynamicRuleValidation(detail.getAD_Val_Rule_ID(), packOutDocument);
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Message) == 0)
+					createMessage(detail.getAD_Message_ID(), packOutDocument);
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_PrintFormat) == 0)
+					createPrintFormat(detail.getAD_PrintFormat_ID(), packOutDocument);
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_ModelValidator) == 0)
+					createModelValidator(detail.getAD_ModelValidator_ID(), packOutDocument);
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_EntityType) == 0)
+					createEntityType(detail.getAD_EntityType_ID(), packOutDocument);
+				else if(type.compareTo(X_AD_Package_Exp_Detail.TYPE_ASPModule) == 0) 
+					createASPModule(detail.getASP_Module_ID(), packOutDocument);
+				else if(type.equals(X_AD_Package_Exp_Detail.TYPE_CustomExport))
+					createCustomExport(detail.getAD_Package_Exp_Custom_ID(), packOutDocument);
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_File_CodeOrOther) == 0) {
+					log.log(Level.INFO,"In PackOut.java handling Code or Other 2pack module creation");
+					
+					String fullDirectory = exportPackage.getFile_Directory() + exportPackage.getName() + detail.getTarget_Directory();
+					log.log(Level.INFO,"fullDirectory" + fullDirectory);
+					String targetDirectoryModified=null;
+					char fileseperator1 = '/';
+					char fileseperator2 = '\\';
+					//Correct package for proper file separator
+					if (File.separator.equals("/")){			
+						targetDirectoryModified = fullDirectory.replace(fileseperator2,fileseperator1);
 					}
-					//
-					getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID);
+					else
+						targetDirectoryModified = fullDirectory.replace(fileseperator1,fileseperator2);
+					
+					String target_File = (targetDirectoryModified);						
+					new File(target_File).mkdirs();						
+					fullDirectory = detail.getFile_Directory();
+					targetDirectoryModified=null;						
+					//Correct package for proper file separator
+					if (File.separator.equals("/")){			
+						targetDirectoryModified = fullDirectory.replace(fileseperator2,fileseperator1);
+					}
+					else
+						targetDirectoryModified = fullDirectory.replace(fileseperator2,fileseperator1);
+					
+					copyCode(
+							targetDirectoryModified + detail.getFileName(),
+							target_File + detail.getFileName());
+					
+					atts.clear();
+					
+					if(detail.getDestination_Directory() != null){
+						
+						fullDirectory = detail.getDestination_Directory();
+						String destinationDirectoryModified=null;						
+						
+						//Correct package for proper file separator
+						if (File.separator.equals("/")){			
+							destinationDirectoryModified = fullDirectory.replace(fileseperator2,fileseperator1);
+						}
+						else
+							destinationDirectoryModified = fullDirectory.replace(fileseperator2,fileseperator1);							
+						
+						createDistributeFile(
+								detail.getFileName(),
+								detail.getTarget_Directory(),
+								detail.getReleaseNo(),
+								destinationDirectoryModified, 
+								packOutDocument);
+						
+					}
+					
+					if(detail.getFileName() != null){
+						packageDocument.startElement("","","file",atts);
+						packageDocument.characters(("File: " + detail.getFileName()).toCharArray(),0,("File: " + detail.getFileName()).length());
+						packageDocument.endElement("","","file");
+					}
+					packageDocument.startElement("","","filedirectory",atts);
+					packageDocument.characters(
+									("Directory: " + detail.getTarget_Directory()).toCharArray(),
+									0,
+									("Directory: " + detail.getTarget_Directory()).length());
+					packageDocument.endElement("","","filedirectory");
+					
+					packageDocument.startElement("","","filenotes",atts);
+					packageDocument.characters(
+									("Notes: " + detail.getDescription()).toCharArray(),
+									0,
+									(("Notes: " + detail.getDescription()).length()));
+					packageDocument.endElement("","","filenotes");
 				}
-				finally
-				{
-					DB.close(rs, pstmt);
-					rs = null; pstmt = null;
-				}
-				atts.clear();
-				//no longer use
-				//packOutDocument.startElement("","","menuset",atts);
-				//packOutDocument.endElement("","","menuset");
-				packOutDocument.endElement("","","adempiereAD");
-				packOutDocument.endDocument();packageDocument.endElement("","","adempiereDocument");
-				packageDocument.endDocument();
-				//m_Exp.setProcessed(true);
-				//m_Exp.saveEx();
 			}
-			rs1.close();
-			pstmt1.close();
-			pstmt1 = null;
-		}
-		catch (Exception e)
-		{
+			//	Remove Entity Type from context
+			getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID);
+			atts.clear();
+			packOutDocument.endElement("","","adempiereAD");
+			packOutDocument.endDocument();packageDocument.endElement("","","adempiereDocument");
+			packageDocument.endDocument();
+			//m_Exp.setProcessed(true);
+			//m_Exp.saveEx();
+		
+		} catch (Exception e) {
 			log.log(Level.SEVERE,e.getLocalizedMessage(), e);
 			throw e;
-		}
-		finally
-		{
-			try
-			{
-				if (pstmt1 != null)
-					pstmt1.close ();
-			}
-			catch (Exception e)
-			{}
-			pstmt1 = null;
-			
+		} finally {
 			// Close streams - teo_sarca [ 1704762 ]
 			if (packageDocStream != null)
 				try {
@@ -786,16 +772,21 @@ public class PackOut extends PackOutAbstract {
 	}
 	
 	/**
+	 * Get generic PO handler
+	 * @return
+	 */
+	public GenericPOHandler getGenericPOHandler() {
+		return genericPOHandler;
+	}
+	
+	/**
 	 * 
-	 * @param AD_ModelValidator_ID
+	 * @param modelValidatorId
 	 * @param packOutDocument
 	 * @throws Exception
 	 */
-	public void createModelValidator (int AD_ModelValidator_ID, TransformerHandler packOutDocument) throws SAXException
-	{
-		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_ModelValidator_ID, AD_ModelValidator_ID);
-		modelValidatorHandler.create(getCtx(), packOutDocument);
-		getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_ModelValidator_ID);
+	public void createModelValidator (int modelValidatorId, TransformerHandler packOutDocument) throws SAXException {
+		createGenericPO(packOutDocument, I_AD_ModelValidator.Table_ID, modelValidatorId);
 	}
 	
 	/**
@@ -811,6 +802,70 @@ public class PackOut extends PackOutAbstract {
 		getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_EntityType_ID);
 	}
 	
+	/**
+	 * For Window Customization
+	 * @param windowCustomizationId
+	 * @param packOutDocument
+	 * @throws Exception
+	 */
+	public void createWindowCustomization(int windowCustomizationId, TransformerHandler packOutDocument) throws Exception {
+		Env.setContext(getCtx(), I_AD_WindowCustom.COLUMNNAME_AD_WindowCustom_ID, windowCustomizationId);
+		windowCustomizationHandler.create(getCtx(), packOutDocument);
+		getCtx().remove(I_AD_WindowCustom.COLUMNNAME_AD_WindowCustom_ID);
+	}
+	
+	/**
+	 * For Process Customization
+	 * @param processCustomizationId
+	 * @param packOutDocument
+	 * @throws Exception
+	 */
+	public void createProcessCustomization(int processCustomizationId, TransformerHandler packOutDocument) throws Exception {
+		Env.setContext(getCtx(), I_AD_ProcessCustom.COLUMNNAME_AD_ProcessCustom_ID, processCustomizationId);
+		processCustomizationHandler.create(getCtx(), packOutDocument);
+		getCtx().remove(I_AD_ProcessCustom.COLUMNNAME_AD_ProcessCustom_ID);
+	}
+	
+	/**
+	 * For Browse Customization
+	 * @param processCustomizationId
+	 * @param packOutDocument
+	 * @throws Exception
+	 */
+	public void createBrowseCustomization(int processCustomizationId, TransformerHandler packOutDocument) throws Exception {
+		Env.setContext(getCtx(), I_AD_BrowseCustom.COLUMNNAME_AD_BrowseCustom_ID, processCustomizationId);
+		browseCustomizationHandler.create(getCtx(), packOutDocument);
+		getCtx().remove(I_AD_BrowseCustom.COLUMNNAME_AD_BrowseCustom_ID);
+	}
+	
+	/**
+	 * @param aspModuleId
+	 * @param packOutDocument
+	 * @throws Exception
+	 */
+	public void createASPModule(int aspModuleId, TransformerHandler packOutDocument) throws Exception {
+		Env.setContext(getCtx(), I_ASP_Module.COLUMNNAME_ASP_Module_ID, aspModuleId);
+		aspModuleHandler.create(getCtx(), packOutDocument);
+		getCtx().remove(I_ASP_Module.COLUMNNAME_ASP_Module_ID);
+	}
+	
+	/**
+	 * Create custom export
+	 * @throws Exception 
+	 */
+	private void createCustomExport(int exporterId, TransformerHandler packOutDocument) throws Exception {
+		MADPackageExpCustom exporter = MADPackageExpCustom.getById(getCtx(), exporterId, null);
+		if(exporter == null) {
+			return;
+		}
+		//	Export it
+		GenericPOHandler handler = exporter.getExporterInstance();
+		if(handler != null) {
+			handler.create(getCtx(), packOutDocument);
+		} else {
+			throw new AdempiereException("@HandlerClass@ @NotFound@");
+		}
+	}
 	
 	/**
 	 * Create for generic PO

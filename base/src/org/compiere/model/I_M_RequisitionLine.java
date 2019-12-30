@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_RequisitionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_M_RequisitionLine 
 {
@@ -196,6 +196,21 @@ public interface I_M_RequisitionLine
 	public int getC_Project_ID();
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name C_RfQLine_ID */
+    public static final String COLUMNNAME_C_RfQLine_ID = "C_RfQLine_ID";
+
+	/** Set RfQ Line.
+	  * Request for Quotation Line
+	  */
+	public void setC_RfQLine_ID (int C_RfQLine_ID);
+
+	/** Get RfQ Line.
+	  * Request for Quotation Line
+	  */
+	public int getC_RfQLine_ID();
+
+	public org.compiere.model.I_C_RfQLine getC_RfQLine() throws RuntimeException;
 
     /** Column name C_UOM_ID */
     public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";

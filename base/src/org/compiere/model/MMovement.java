@@ -735,7 +735,7 @@ public class MMovement extends X_M_Movement implements DocAction , DocumentRever
 	{
 			Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
-		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElse(currentDate) : getMovementDate();
+		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElseGet(() -> currentDate) : getMovementDate();
 		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
 		MPeriod.testPeriodOpen(getCtx(), reversalDate , docType.getDocBaseType(), getAD_Org_ID());
 		//	Deep Copy

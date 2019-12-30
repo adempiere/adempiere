@@ -83,7 +83,7 @@ public class HRPaySelectionCreateCheck extends HRPaySelectionCreateFromAbstract 
                     paySelectionCheck.saveEx();
                 });
         Optional<String> paymentRuleOptional = Optional.of(paySelectionLine.getPaymentRule());
-        MHRPaySelectionCheck paySelectionCheck = new MHRPaySelectionCheck(paySelectionLine, paymentRuleOptional.orElse(MHRPaySelectionCheck.PAYMENTRULE_DirectDeposit));
+        MHRPaySelectionCheck paySelectionCheck = new MHRPaySelectionCheck(paySelectionLine, paymentRuleOptional.orElseGet(() -> MHRPaySelectionCheck.PAYMENTRULE_DirectDeposit));
         paySelectionCheck.setAD_Org_ID(paySelectionLine.getHR_PaySelection().getAD_Org_ID());
         paySelectionCheck.saveEx();
         paySelectionLine.setHR_PaySelectionCheck_ID(paySelectionCheck.getHR_PaySelectionCheck_ID());

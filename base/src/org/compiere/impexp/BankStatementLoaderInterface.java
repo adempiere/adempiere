@@ -162,6 +162,15 @@ public interface BankStatementLoaderInterface
 	 */
 	public String getPayeeName();
 	
+	
+	/**
+	 * Transaction payee description
+	 * Used for add additional information
+	 * If a specific loader does not provide this, it is allowed to return null.
+	 * @return Description
+	 */
+	public String getPayeeDescription();
+	
 	/**
 	 * Payee account
 	 * Account information of "the other party"

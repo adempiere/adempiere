@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Activity
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_Activity 
 {
@@ -155,6 +155,21 @@ public interface I_C_Activity
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name ParentActivity_ID */
+    public static final String COLUMNNAME_ParentActivity_ID = "ParentActivity_ID";
+
+	/** Set Parent Activity.
+	  * The parent (summary) Activity
+	  */
+	public void setParentActivity_ID (int ParentActivity_ID);
+
+	/** Get Parent Activity.
+	  * The parent (summary) Activity
+	  */
+	public int getParentActivity_ID();
+
+	public org.compiere.model.I_C_Activity getParentActivity() throws RuntimeException;
 
     /** Column name UUID */
     public static final String COLUMNNAME_UUID = "UUID";

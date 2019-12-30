@@ -140,76 +140,111 @@
   <!-- Create Distribution                                     -->
   <!-- ======================================================= -->
   <target name="installDistribution" depends="installUpdate">
-	<mkdir dir="${build.dir}"/>
-	<mkdir dir="${build.dir}/Adempiere"/>
-	<mkdir dir="${build.dir}/Adempiere/images"/>
-  	<mkdir dir="${build.dir}/Adempiere/packages"/>
-  	<mkdir dir="${build.dir}/Adempiere/zkpackages"/>
-  	
-	<mkdir dir="${build.dir}/Adempiere/packages/ManufacturingManagement"/>
-	<mkdir dir="${build.dir}/Adempiere/packages/ManufacturingManagement/lib"/>
-  	<copy file="../packages/ManufacturingManagement.jar" tofile="${build.dir}/Adempiere/packages/ManufacturingManagement/lib/ManufacturingManagement.jar"/>
+	  <mkdir dir="${build.dir}"/>
+	  <mkdir dir="${build.dir}/Adempiere"/>
+	  <mkdir dir="${build.dir}/Adempiere/images"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages"/>
 
-	<mkdir dir="${build.dir}/Adempiere/zkpackages/ManufacturingManagement"/>
-	<mkdir dir="${build.dir}/Adempiere/zkpackages/ManufacturingManagement/lib"/>
-	<copy file="../zkpackages/ManufacturingManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/ManufacturingManagement/lib/ManufacturingManagementZk.jar"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/ManufacturingManagement"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/ManufacturingManagement/lib"/>
+	  <copy file="../packages/ManufacturingManagement.jar" tofile="${build.dir}/Adempiere/packages/ManufacturingManagement/lib/ManufacturingManagement.jar"/>
 
-   	<mkdir dir="${build.dir}/Adempiere/packages/FixedAssetManagement"/>
-   	<mkdir dir="${build.dir}/Adempiere/packages/FixedAssetManagement/lib"/>
-   	<copy file="../packages/FixedAssetManagement.jar" tofile="${build.dir}/Adempiere/packages/FixedAssetManagement/lib/FixedAssetManagement.jar"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/ManufacturingManagement"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/ManufacturingManagement/lib"/>
+	  <copy file="../zkpackages/ManufacturingManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/ManufacturingManagement/lib/ManufacturingManagementZk.jar"/>
 
-	<mkdir dir="${build.dir}/Adempiere/packages/CashflowManagement"/>
-	<mkdir dir="${build.dir}/Adempiere/packages/CashflowManagement/lib"/>
-  	<copy file="../packages/CashflowManagement.jar" tofile="${build.dir}/Adempiere/packages/CashflowManagement/lib/CashflowManagement.jar"/>
-  	
-  	<mkdir dir="${build.dir}/Adempiere/packages/WarehouseManagement"/>
-  	<mkdir dir="${build.dir}/Adempiere/packages/WarehouseManagement/lib"/>
-  	<copy file="../packages/WarehouseManagement.jar" tofile="${build.dir}/Adempiere/packages/WarehouseManagement/lib/WarehouseManagement.jar"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/ProductionLight"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/ProductionLight/lib"/>
+	  <copy file="../packages/ProductionLight.jar" tofile="${build.dir}/Adempiere/packages/ProductionLight/lib/ProductionLight.jar"/>
 
-    <mkdir dir="${build.dir}/Adempiere/zkpackages/WarehouseManagement"/>
-    <mkdir dir="${build.dir}/Adempiere/zkpackages/WarehouseManagement/lib"/>
-    <copy file="../zkpackages/WarehouseManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/WarehouseManagement/lib/WarehouseManagementZk.jar"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/ProductionLight"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/ProductionLight/lib"/>
+	  <!--copy file="../zkpackages/ProductionLight.jar" tofile="${build.dir}/Adempiere/zkpackages/ProductionLight/lib/ProductionLightZk.jar"/-->
 
-  	<mkdir dir="${build.dir}/Adempiere/packages/HumanResourceAndPayroll"/>
-  	<mkdir dir="${build.dir}/Adempiere/packages/HumanResourceAndPayroll/lib"/>
-  	<copy file="../packages/HumanResourceAndPayroll.jar" tofile="${build.dir}/Adempiere/packages/HumanResourceAndPayroll/lib/HumanResourceAndPayroll.jar"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/FixedAssetManagement"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/FixedAssetManagement/lib"/>
+	  <copy file="../packages/FixedAssetManagement.jar" tofile="${build.dir}/Adempiere/packages/FixedAssetManagement/lib/FixedAssetManagement.jar"/>
 
-	<mkdir dir="${build.dir}/Adempiere/zkpackages/HumanResourceAndPayroll"/>
-	<mkdir dir="${build.dir}/Adempiere/zkpackages/HumanResourceAndPayroll/lib"/>
-	<copy file="../zkpackages/HumanResourceAndPayrollZk.jar" tofile="${build.dir}/Adempiere/zkpackages/HumanResourceAndPayroll/lib/HumanResourceAndPayrollZk.jar"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/FixedAssetManagement"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/FixedAssetManagement/lib"/>
+	  <!--copy file="../zkpackages/FixedAssetManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/FixedAssetManagement/lib/FixedAssetManagementZk.jar"/-->
 
-	<mkdir dir="${build.dir}/Adempiere/packages/ADempierePOS"/>
-	<mkdir dir="${build.dir}/Adempiere/packages/ADempierePOS/lib"/>
-	<copy file="../packages/ADempierePOS.jar" tofile="${build.dir}/Adempiere/packages/ADempierePOS/lib/ADempierePOS.jar"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/CashflowManagement"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/CashflowManagement/lib"/>
+	  <copy file="../packages/CashflowManagement.jar" tofile="${build.dir}/Adempiere/packages/CashflowManagement/lib/CashflowManagement.jar"/>
 
-	<mkdir dir="${build.dir}/Adempiere/zkpackages/ADempierePOS"/>
-	<mkdir dir="${build.dir}/Adempiere/zkpackages/ADempierePOS/lib"/>
-	<copy file="../zkpackages/ADempierePOSzk.jar" tofile="${build.dir}/Adempiere/zkpackages/ADempierePOS/lib/ADempierePOSzk.jar"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/WarehouseManagement"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/WarehouseManagement/lib"/>
+	  <copy file="../packages/WarehouseManagement.jar" tofile="${build.dir}/Adempiere/packages/WarehouseManagement/lib/WarehouseManagement.jar"/>
 
-    <mkdir dir="${build.dir}/Adempiere/packages/FreightManagement"/>
-    <mkdir dir="${build.dir}/Adempiere/packages/FreightManagement/lib"/>
-    <copy file="../packages/FreightManagement.jar" tofile="${build.dir}/Adempiere/packages/FreightManagement/lib/FreightManagement.jar"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/WarehouseManagement"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/WarehouseManagement/lib"/>
+	  <copy file="../zkpackages/WarehouseManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/WarehouseManagement/lib/WarehouseManagementZk.jar"/>
 
-    <mkdir dir="${build.dir}/Adempiere/zkpackages/FreightManagement"/>
-    <mkdir dir="${build.dir}/Adempiere/zkpackages/FreightManagement/lib"/>
-    <copy file="../zkpackages/FreightManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/FreightManagement/lib/FreightManagementZk.jar"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/HumanResourceAndPayroll"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/HumanResourceAndPayroll/lib"/>
+	  <copy file="../packages/HumanResourceAndPayroll.jar" tofile="${build.dir}/Adempiere/packages/HumanResourceAndPayroll/lib/HumanResourceAndPayroll.jar"/>
 
-	<mkdir dir="${build.dir}/Adempiere/packages/FleetManagement"/>
-	<mkdir dir="${build.dir}/Adempiere/packages/FleetManagement/lib"/>
-	<copy file="../packages/FleetManagement.jar" tofile="${build.dir}/Adempiere/packages/FleetManagement/lib/FleetManagement.jar"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/HumanResourceAndPayroll"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/HumanResourceAndPayroll/lib"/>
+	  <copy file="../zkpackages/HumanResourceAndPayrollZk.jar" tofile="${build.dir}/Adempiere/zkpackages/HumanResourceAndPayroll/lib/HumanResourceAndPayrollZk.jar"/>
 
-    <mkdir dir="${build.dir}/Adempiere/zkpackages/FleetManagement"/>
-    <mkdir dir="${build.dir}/Adempiere/zkpackages/FleetManagement/lib"/>
-    <copy file="../zkpackages/FleetManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/FreightManagement/lib/FleetManagementZk.jar"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/ADempierePOS"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/ADempierePOS/lib"/>
+	  <copy file="../packages/ADempierePOS.jar" tofile="${build.dir}/Adempiere/packages/ADempierePOS/lib/ADempierePOS.jar"/>
 
-	<mkdir dir="${build.dir}/Adempiere/packages/CashflowManagement"/>
-	<mkdir dir="${build.dir}/Adempiere/packages/CashflowManagement/lib"/>
-	<copy file="../packages/CashflowManagement.jar" tofile="${build.dir}/Adempiere/packages/CashflowManagement/lib/CashflowManagement.jar"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/ADempierePOS"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/ADempierePOS/lib"/>
+	  <copy file="../zkpackages/ADempierePOSzk.jar" tofile="${build.dir}/Adempiere/zkpackages/ADempierePOS/lib/ADempierePOSzk.jar"/>
 
-	<mkdir dir="${build.dir}/Adempiere/zkpackages/CashflowManagement"/>
-	<mkdir dir="${build.dir}/Adempiere/zkpackages/CashflowManagement/lib"/>
-	<!-- copy file="../zkpackages/CashflowManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/CashflowManagement/lib/CashflowManagementZk.jar"/-->
+	  <mkdir dir="${build.dir}/Adempiere/packages/FreightManagement"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/FreightManagement/lib"/>
+	  <copy file="../packages/FreightManagement.jar" tofile="${build.dir}/Adempiere/packages/FreightManagement/lib/FreightManagement.jar"/>
 
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/FreightManagement"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/FreightManagement/lib"/>
+	  <copy file="../zkpackages/FreightManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/FreightManagement/lib/FreightManagementZk.jar"/>
+
+	  <mkdir dir="${build.dir}/Adempiere/packages/FleetManagement"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/FleetManagement/lib"/>
+	  <copy file="../packages/FleetManagement.jar" tofile="${build.dir}/Adempiere/packages/FleetManagement/lib/FleetManagement.jar"/>
+
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/FleetManagement"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/FleetManagement/lib"/>
+	  <copy file="../zkpackages/FleetManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/FleetManagement/lib/FleetManagementZk.jar"/>
+
+	  <mkdir dir="${build.dir}/Adempiere/packages/CashflowManagement"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/CashflowManagement/lib"/>
+	  <copy file="../packages/CashflowManagement.jar" tofile="${build.dir}/Adempiere/packages/CashflowManagement/lib/CashflowManagement.jar"/>
+
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/CashflowManagement"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/CashflowManagement/lib"/>
+		<!-- copy file="../zkpackages/CashflowManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/CashflowManagement/lib/CashflowManagementZk.jar"/-->
+
+	  <mkdir dir="${build.dir}/Adempiere/packages/FinanceManagement"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/FinanceManagement/lib"/>
+	  <copy file="../packages/FinanceManagement.jar" tofile="${build.dir}/Adempiere/packages/FinanceManagement/lib/FinanceManagement.jar"/>
+
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/FinanceManagement"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/FinanceManagement/lib"/>
+	  <copy file="../zkpackages/FinanceManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/FinanceManagement/lib/FinanceManagementZk.jar"/>
+
+	  <mkdir dir="${build.dir}/Adempiere/packages/LoanManagement"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/LoanManagement/lib"/>
+	  <copy file="../packages/LoanManagement.jar" tofile="${build.dir}/Adempiere/packages/FinanceManagement/lib/LoanManagement.jar"/>
+
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/LoanManagement"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/LoanManagement/lib"/>
+	  <copy file="../zkpackages/LoanManagementZk.jar" tofile="${build.dir}/Adempiere/zkpackages/LoanManagement/lib/LoanManagementZk.jar"/>
+
+	  <mkdir dir="${build.dir}/Adempiere/packages/TimeAndAttendance"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/TimeAndAttendance/lib"/>
+	  <copy file="../packages/TimeAndAttendance.jar" tofile="${build.dir}/Adempiere/packages/FinanceManagement/lib/TimeAndAttendance.jar"/>
+
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/TimeAndAttendance"/>
+	  <mkdir dir="${build.dir}/Adempiere/zkpackages/TimeAndAttendance/lib"/>
+	  <!--copy file="../zkpackages/TimeAndAttendanceZk.jar" tofile="${build.dir}/Adempiere/zkpackages/LoanManagement/lib/TimeAndAttendanceZk.jar"/-->
 
 	  <copy file="../lib/CheckConflicts.sh" tofile="${build.dir}/Adempiere/lib/CheckConflicts.sh"/>
 

@@ -857,7 +857,7 @@ public class Doc_Invoice extends Doc
 				BigDecimal assetAmount = Optional.ofNullable(MCostDetail.getByDocLineLandedCost(
 						landedCostAllocation,
 						as.getC_AcctSchema_ID(),
-						costType.get_ID())).orElse(BigDecimal.ZERO);
+						costType.get_ID())).orElseGet(() -> BigDecimal.ZERO);
 				//cost to Cost Adjustment
 				BigDecimal costAdjustment = landedCostAllocation.getAmt().subtract(assetAmount);
 				if (assetAmount.signum() != 0)

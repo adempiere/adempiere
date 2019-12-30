@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for WM_InOutBound
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_WM_InOutBound (Properties ctx, int WM_InOutBound_ID, String trxName)
@@ -615,6 +615,27 @@ public class X_WM_InOutBound extends PO implements I_WM_InOutBound, I_Persistent
 	public boolean isApproved () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsApproved);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Delivered.
+		@param IsDelivered Delivered	  */
+	public void setIsDelivered (boolean IsDelivered)
+	{
+		set_Value (COLUMNNAME_IsDelivered, Boolean.valueOf(IsDelivered));
+	}
+
+	/** Get Delivered.
+		@return Delivered	  */
+	public boolean isDelivered () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsDelivered);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

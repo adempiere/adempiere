@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for ASP_Level
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_ASP_Level extends PO implements I_ASP_Level, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_ASP_Level (Properties ctx, int ASP_Level_ID, String trxName)
@@ -41,6 +41,8 @@ public class X_ASP_Level extends PO implements I_ASP_Level, I_Persistent
 			setASP_Level_ID (0);
 			setASP_Module_ID (0);
 			setName (null);
+			setType (null);
+// C
 			setValue (null);
         } */
     }
@@ -196,6 +198,30 @@ public class X_ASP_Level extends PO implements I_ASP_Level, I_Persistent
 			return "Y".equals(oo);
 		}
 		return false;
+	}
+
+	/** Type AD_Reference_ID=54120 */
+	public static final int TYPE_AD_Reference_ID=54120;
+	/** Restricted = R */
+	public static final String TYPE_Restricted = "R";
+	/** Customized = C */
+	public static final String TYPE_Customized = "C";
+	/** Set Type.
+		@param Type 
+		Type of Validation (SQL, Java Script, Java Language)
+	  */
+	public void setType (String Type)
+	{
+
+		set_Value (COLUMNNAME_Type, Type);
+	}
+
+	/** Get Type.
+		@return Type of Validation (SQL, Java Script, Java Language)
+	  */
+	public String getType () 
+	{
+		return (String)get_Value(COLUMNNAME_Type);
 	}
 
 	/** Set Immutable Universally Unique Identifier.

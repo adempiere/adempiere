@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintFormatItem
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190213L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_PrintFormatItem (Properties ctx, int AD_PrintFormatItem_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
         {
 			setAD_Column_ID (0);
 			setAD_PrintFormatChild_ID (0);
-			setAD_PrintFormat_ID (0);
 			setAD_PrintFormatItem_ID (0);
+			setAD_PrintFormat_ID (0);
 			setFieldAlignmentType (null);
 // D
 			setImageIsAttached (false);
@@ -239,6 +239,29 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return ii.intValue();
 	}
 
+	/** Set Print Format Item.
+		@param AD_PrintFormatItem_ID 
+		Item/Column in the Print format
+	  */
+	public void setAD_PrintFormatItem_ID (int AD_PrintFormatItem_ID)
+	{
+		if (AD_PrintFormatItem_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintFormatItem_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintFormatItem_ID, Integer.valueOf(AD_PrintFormatItem_ID));
+	}
+
+	/** Get Print Format Item.
+		@return Item/Column in the Print format
+	  */
+	public int getAD_PrintFormatItem_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFormatItem_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_PrintFormat)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFormat.Table_Name)
@@ -262,29 +285,6 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public int getAD_PrintFormat_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFormat_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Print Format Item.
-		@param AD_PrintFormatItem_ID 
-		Item/Column in the Print format
-	  */
-	public void setAD_PrintFormatItem_ID (int AD_PrintFormatItem_ID)
-	{
-		if (AD_PrintFormatItem_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_PrintFormatItem_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_PrintFormatItem_ID, Integer.valueOf(AD_PrintFormatItem_ID));
-	}
-
-	/** Get Print Format Item.
-		@return Item/Column in the Print format
-	  */
-	public int getAD_PrintFormatItem_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFormatItem_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -388,8 +388,8 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public static final String BARCODETYPE_Code39LinearWOChecksum = "c39";
 	/** EAN 13 = E13 */
 	public static final String BARCODETYPE_EAN13 = "E13";
-	/** QR Quick Response Code = QRC */
-	public static final String BARCODETYPE_QRQuickResponseCode = "QRC";
+	/** Quick Response Code = QRC */
+	public static final String BARCODETYPE_QuickResponseCode = "QRC";
 	/** Set Barcode Type.
 		@param BarcodeType 
 		Type of barcode
@@ -740,6 +740,30 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public boolean isHeightOneLine () 
 	{
 		Object oo = get_Value(COLUMNNAME_IsHeightOneLine);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Hide Grand Total.
+		@param IsHideGrandTotal 
+		Hide Grand Total of Calculation
+	  */
+	public void setIsHideGrandTotal (boolean IsHideGrandTotal)
+	{
+		set_Value (COLUMNNAME_IsHideGrandTotal, Boolean.valueOf(IsHideGrandTotal));
+	}
+
+	/** Get Hide Grand Total.
+		@return Hide Grand Total of Calculation
+	  */
+	public boolean isHideGrandTotal () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsHideGrandTotal);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

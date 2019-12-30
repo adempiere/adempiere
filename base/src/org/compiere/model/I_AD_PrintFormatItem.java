@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_PrintFormatItem
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_AD_PrintFormatItem 
 {
@@ -122,6 +122,19 @@ public interface I_AD_PrintFormatItem
 
 	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormatChild() throws RuntimeException;
 
+    /** Column name AD_PrintFormatItem_ID */
+    public static final String COLUMNNAME_AD_PrintFormatItem_ID = "AD_PrintFormatItem_ID";
+
+	/** Set Print Format Item.
+	  * Item/Column in the Print format
+	  */
+	public void setAD_PrintFormatItem_ID (int AD_PrintFormatItem_ID);
+
+	/** Get Print Format Item.
+	  * Item/Column in the Print format
+	  */
+	public int getAD_PrintFormatItem_ID();
+
     /** Column name AD_PrintFormat_ID */
     public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
 
@@ -136,19 +149,6 @@ public interface I_AD_PrintFormatItem
 	public int getAD_PrintFormat_ID();
 
 	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
-
-    /** Column name AD_PrintFormatItem_ID */
-    public static final String COLUMNNAME_AD_PrintFormatItem_ID = "AD_PrintFormatItem_ID";
-
-	/** Set Print Format Item.
-	  * Item/Column in the Print format
-	  */
-	public void setAD_PrintFormatItem_ID (int AD_PrintFormatItem_ID);
-
-	/** Get Print Format Item.
-	  * Item/Column in the Print format
-	  */
-	public int getAD_PrintFormatItem_ID();
 
     /** Column name AD_PrintGraph_ID */
     public static final String COLUMNNAME_AD_PrintGraph_ID = "AD_PrintGraph_ID";
@@ -414,6 +414,19 @@ public interface I_AD_PrintFormatItem
 	  * If selected, only one line is printed
 	  */
 	public boolean isHeightOneLine();
+
+    /** Column name IsHideGrandTotal */
+    public static final String COLUMNNAME_IsHideGrandTotal = "IsHideGrandTotal";
+
+	/** Set Hide Grand Total.
+	  * Hide Grand Total of Calculation
+	  */
+	public void setIsHideGrandTotal (boolean IsHideGrandTotal);
+
+	/** Get Hide Grand Total.
+	  * Hide Grand Total of Calculation
+	  */
+	public boolean isHideGrandTotal();
 
     /** Column name IsImageField */
     public static final String COLUMNNAME_IsImageField = "IsImageField";
@@ -794,6 +807,19 @@ public interface I_AD_PrintFormatItem
 	  */
 	public int getSortNo();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -809,19 +835,6 @@ public interface I_AD_PrintFormatItem
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name XPosition */
     public static final String COLUMNNAME_XPosition = "XPosition";

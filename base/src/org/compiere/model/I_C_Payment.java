@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Payment
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_Payment 
 {
@@ -772,6 +772,19 @@ public interface I_C_Payment
 	  * This is a Self-Service entry or this entry can be changed via Self-Service
 	  */
 	public boolean isSelfService();
+
+    /** Column name IsUnidentifiedPayment */
+    public static final String COLUMNNAME_IsUnidentifiedPayment = "IsUnidentifiedPayment";
+
+	/** Set Unidentified Payment.
+	  * This flag determine ig a payment is unidentify
+	  */
+	public void setIsUnidentifiedPayment (boolean IsUnidentifiedPayment);
+
+	/** Get Unidentified Payment.
+	  * This flag determine ig a payment is unidentify
+	  */
+	public boolean isUnidentifiedPayment();
 
     /** Column name Micr */
     public static final String COLUMNNAME_Micr = "Micr";

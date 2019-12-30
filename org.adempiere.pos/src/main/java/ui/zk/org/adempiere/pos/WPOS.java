@@ -259,7 +259,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		Borderlayout mainLayout = new Borderlayout();
 		Grid layout = GridFactory.newGridLayout();
 		selection.appendChild(panel);
-		selection.setWidth("200px");
+		selection.setWidth("400px");
 		selection.setHeight("140px");
 		//	North
 		Panel centerPanel = new Panel();
@@ -280,8 +280,12 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		Row row = null;
 		rows = layout.newRows();
 		row = rows.newRow();
+		int i = 0;
 		for(MPOS pos : poss){
 			listTerminal.addItem(pos.getKeyNamePair());
+			if (pos.getSalesRep_ID()==salesRep_ID)
+				listTerminal.setSelectedIndex(i);
+			i++;
 		}
 		okButton.addActionListener(this);
 		cancelButton.addEventListener("onClick", this);
@@ -303,7 +307,7 @@ public class WPOS extends CPOS implements IFormController, EventListener, POSPan
 		confirm.getButton(ConfirmPanel.A_CANCEL).setHeight("55px");
 		
 		row.appendChild(confirm);
-		row.setHeight("55px");
+		row.setHeight("60px");
 		AEnv.showWindow(selection);
 			
 	}	//	setMPOS

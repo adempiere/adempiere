@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_ProjectProcessorLog
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_ProjectProcessorLog 
 {
@@ -79,10 +79,10 @@ public interface I_C_ProjectProcessorLog
     /** Column name C_ProjectProcessorLog_ID */
     public static final String COLUMNNAME_C_ProjectProcessorLog_ID = "C_ProjectProcessorLog_ID";
 
-	/** Set Project Processor Log ID	  */
+	/** Set Project Processor Log	  */
 	public void setC_ProjectProcessorLog_ID (int C_ProjectProcessorLog_ID);
 
-	/** Get Project Processor Log ID	  */
+	/** Get Project Processor Log	  */
 	public int getC_ProjectProcessorLog_ID();
 
     /** Column name C_ProjectProcessor_ID */
@@ -128,6 +128,19 @@ public interface I_C_ProjectProcessorLog
 	  * Optional short description of the record
 	  */
 	public String getDescription();
+
+    /** Column name EventChangeLog */
+    public static final String COLUMNNAME_EventChangeLog = "EventChangeLog";
+
+	/** Set Event Change Log.
+	  * Type of Event in Change Log
+	  */
+	public void setEventChangeLog (String EventChangeLog);
+
+	/** Get Event Change Log.
+	  * Type of Event in Change Log
+	  */
+	public String getEventChangeLog();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

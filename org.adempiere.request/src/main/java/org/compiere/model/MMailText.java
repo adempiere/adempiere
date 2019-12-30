@@ -16,19 +16,22 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.logging.Level;
-
+import java.util.StringTokenizer;
 import org.compiere.util.CCache;
-import org.compiere.util.DB;
+import org.compiere.util.Util;
 
 /**
  * 	Request Mail Template Model.
  *	Cannot be cached as it holds PO/BPartner/User to parse
  *  @author Jorg Janke
  *  @version $Id: MMailText.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ * 		@see Add support to multiple Entities fos parse values</a>
  */
 public class MMailText extends X_R_MailText
 {
@@ -59,12 +62,9 @@ public class MMailText extends X_R_MailText
 		super (ctx, rs, trxName);
 	}	//	MMailText
 
-	/**	Parse User			*/
-	private MUser		m_user = null;
-	/** Parse BPartner		*/
-	private MBPartner	m_bpartner = null;
 	/** Parse PO			*/
-	private PO			m_po = null;
+	private Map<String, PO>	entityMap = new HashMap<>();
+	
 	/** Translated Header	*/
 	private String		m_MailHeader = null;
 	/** Translated Text		*/
@@ -156,14 +156,42 @@ public class MMailText extends X_R_MailText
 		if (text.indexOf('@') == -1)
 			return text;
 		//	Parse User
-		text = parse (text, m_user);
+		text = parse (text, getEntity(I_AD_User.Table_Name));
 		//	Parse BP
-		text = parse (text, m_bpartner);
+		text = parse (text, getEntity(I_C_BPartner.Table_Name));
 		//	Parse PO
-		text = parse (text, m_po);
+		text = parse(text, null);
+		//	Parse All
 		//
 		return text;
 	}	//	parse
+	
+	/**
+	 * Parse for all entity
+	 * @param token
+	 * @return
+	 */
+	private String parseVariable(String token) {
+		for(Entry<String, PO> entry : entityMap.entrySet()) {
+			String value = parseVariable(token, entry.getValue());
+			if(!Util.isEmpty(value)
+					&& (!value.startsWith("@") 
+							&& !value.endsWith("@"))) {
+				return value;
+			}
+		}
+		//	Return
+		return "";
+	}
+	
+	/**
+	 * Get Entity from table name
+	 * @param tableName
+	 * @return
+	 */
+	private PO getEntity(String tableName) {
+		return entityMap.get(tableName);
+	}
 	
 	/**
 	 * 	Parse text
@@ -171,11 +199,10 @@ public class MMailText extends X_R_MailText
 	 *	@param po object
 	 *	@return parsed text
 	 */
-	private String parse (String text, PO po)
-	{
+	private String parse (String text, PO po) {
 		if (text == null)
 			return "";
-		if (po == null || text.indexOf('@') == -1)
+		if (text.indexOf('@') == -1)
 			return text;
 		
 		String inStr = text;
@@ -196,12 +223,30 @@ public class MMailText extends X_R_MailText
 			}
 
 			token = inStr.substring(0, j);
-			outStr.append(parseVariable(token, po));		// replace context
-
+			String value = "";
+			StringTokenizer completeToken = new StringTokenizer(token, ".");
+			if(completeToken.hasMoreElements()) {
+				String tableName = completeToken.nextToken();
+				String columnName = token.replaceAll(tableName, "").replace(".", "");
+				if(!Util.isEmpty(tableName)) {
+					value = parseVariable(columnName, entityMap.get(tableName));
+				}
+			} else {
+				//	for PO
+				if(Util.isEmpty(value)
+						&& po != null) {
+					value = parseVariable(token, po);	//	replace context
+				}
+			}
+			//	For all entries
+			if(Util.isEmpty(value)) {
+				value = parseVariable(token);
+			}
+			//	
+			outStr.append(value);
 			inStr = inStr.substring(j+1, inStr.length());	// from second @
 			i = inStr.indexOf('@');
 		}
-
 		outStr.append(inStr);           					//	add remainder
 		return outStr.toString();
 	}	//	parse
@@ -230,46 +275,85 @@ public class MMailText extends X_R_MailText
 	 * 	Set User for parse
 	 *	@param AD_User_ID user
 	 */
-	public void setUser (int AD_User_ID)
-	{
-		m_user = MUser.get (getCtx(), AD_User_ID);
+	public void setUser (int AD_User_ID) {
+		setPO(MUser.get (getCtx(), AD_User_ID));
 	}	//	setUser
 	
 	/**
 	 * 	Set User for parse
 	 *	@param user user
 	 */
-	public void setUser (MUser user)
-	{
-		m_user = user;
+	public void setUser (MUser user) {
+		setPO(user);
 	}	//	setUser
 	
 	/**
 	 * 	Set BPartner for parse
 	 *	@param C_BPartner_ID bp
 	 */
-	public void setBPartner (int C_BPartner_ID)
-	{
-		m_bpartner = new MBPartner (getCtx(), C_BPartner_ID, get_TrxName());
+	public void setBPartner (int C_BPartner_ID) {
+		setPO(new MBPartner (getCtx(), C_BPartner_ID, get_TrxName()));
 	}	//	setBPartner
 	
 	/**
 	 * 	Set BPartner for parse
 	 *	@param bpartner bp
 	 */
-	public void setBPartner (MBPartner bpartner)
-	{
-		m_bpartner = bpartner;
+	public void setBPartner (MBPartner bpartner) {
+		setPO(bpartner);
 	}	//	setBPartner
 
 	/**
 	 * 	Set PO for parse
-	 *	@param po po
+	 *	@param entity po
 	 */
-	public void setPO (PO po)
-	{
-		m_po = po;
+	public void setPO (PO entity) {
+		if(entity == null) {
+			return;
+		}
+		entityMap.put(entity.get_TableName(), entity);
+		addReferences(entity);
 	}	//	setPO
+	
+	/**
+	 * Add References for Entity
+	 * @param entity
+	 */
+	private void addReferences(PO entity) {
+		POInfo poInfo = POInfo.getPOInfo(entity.getCtx(), entity.get_Table_ID(), entity.get_TrxName());
+		for(int index = 0; index < poInfo.getColumnCount(); index++) {
+			//	No SQL
+			if(poInfo.isVirtualColumn(index)) {
+				continue;
+			}
+			//	No Encrypted
+			if(poInfo.isEncrypted(index)) {
+				continue;
+			}
+			String columnName = poInfo.getColumnName(index);
+			//	Verify reference
+			if(poInfo.isColumnLookup(index)) {
+				int referenceId = entity.get_ValueAsInt(columnName);
+				if(referenceId <= 0) {
+					continue;
+				}
+				MLookupInfo info = MLookupFactory.getLookupInfo(entity.getCtx(), 0, poInfo.getAD_Column_ID(columnName), poInfo.getColumnDisplayType(index));
+				if(info == null) {
+					continue;
+				}
+				if(Util.isEmpty(info.TableName)) {
+					continue;
+				}
+				PO parentEntity = MTable.get(entity.getCtx(), info.TableName).getPO(referenceId, entity.get_TrxName());
+				if(parentEntity == null
+						|| parentEntity.get_ID() <= 0) {
+					continue;
+				}
+				//	Add to list
+				entityMap.put(info.TableName, parentEntity);
+			}
+		}
+	}
 
 	/**
 	 * 	Set PO for parse
@@ -278,7 +362,7 @@ public class MMailText extends X_R_MailText
 	 */
 	public void setPO (PO po, boolean analyse)
 	{
-		m_po = po;
+		setPO(po);
 		if (analyse)
 		{
 			int index = po.get_ColumnIndex("C_BPartner_ID");
@@ -307,20 +391,17 @@ public class MMailText extends X_R_MailText
 	/**
 	 * 	Translate to BPartner Language
 	 */
-	private void translate()
-	{
-		if (m_bpartner != null && m_bpartner.getAD_Language() != null)
-		{
-			String key = m_bpartner.getAD_Language() + get_ID();
+	private void translate() {
+		MBPartner bpartner = (MBPartner) getEntity(I_C_BPartner.Table_Name);
+		if (bpartner != null && bpartner.getAD_Language() != null) {
+			String key = bpartner.getAD_Language() + get_ID();
 			MMailTextTrl trl = s_cacheTrl.get(key);
-			if (trl == null)
-			{
-				trl = getTranslation(m_bpartner.getAD_Language());
+			if (trl == null) {
+				trl = getTranslation(bpartner.getAD_Language());
 				if (trl != null)
 					s_cacheTrl.put(key, trl);
 			}
-			if (trl != null)
-			{
+			if (trl != null) {
 				m_MailHeader = trl.MailHeader;
 				m_MailText = trl.MailText;
 				m_MailText2 = trl.MailText2;
@@ -336,55 +417,31 @@ public class MMailText extends X_R_MailText
 	
 	/**
 	 * 	Get Translation
-	 *	@param AD_Language language
+	 *	@param language language
 	 *	@return trl
 	 */
-	private MMailTextTrl getTranslation (String AD_Language)
-	{
-		MMailTextTrl trl = null;
-		PreparedStatement pstmt = null;
-		String sql = "SELECT * FROM R_MailText_Trl WHERE R_MailText_ID=? AND AD_Language=?";
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, getR_MailText_ID());
-			pstmt.setString(2, AD_Language);
-			ResultSet rs = pstmt.executeQuery ();
-			if (rs.next())
-			{
-				trl = new MMailTextTrl();
-				trl.AD_Language = rs.getString("AD_Language");
-				trl.MailHeader = rs.getString("MailHeader");
-				trl.MailText = rs.getString("MailText");
-				trl.MailText2 = rs.getString("MailText2");
-				trl.MailText3 = rs.getString("MailText3");
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
+	private MMailTextTrl getTranslation (String language) {
+		PO translationEntity = new Query(getCtx(), Table_Name + "_Trl", "R_MailText_ID=? AND AD_Language=?", get_TrxName())
+				.setParameters(getR_MailText_ID(), language)
+				.first();
+		//	
+		if(translationEntity != null) {
+			MMailTextTrl translation = new MMailTextTrl();
+			translation.AD_Language = translationEntity.get_ValueAsString("AD_Language");
+			translation.MailHeader = translationEntity.get_ValueAsString("MailHeader");
+			translation.MailText = translationEntity.get_ValueAsString("MailText");
+			translation.MailText2 = translationEntity.get_ValueAsString("MailText2");
+			translation.MailText3 = translationEntity.get_ValueAsString("MailText3");
+			return translation;
 		}
-		catch (Exception e)
-		{
-			log.log (Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
-		return trl;
+		//	
+		return null;
 	}	//	getTranslation
 	
 	/**
 	 *	MailText Translation VO
 	 */
-	class MMailTextTrl
-	{
+	class MMailTextTrl {
 		/** Language			*/
 		String		AD_Language = null;
 		/** Translated Header	*/
@@ -396,5 +453,9 @@ public class MMailText extends X_R_MailText
 		/** Translated Text 3	*/
 		String		MailText3 = null;
 	}	//	MMailTextTrl
-	
+
+	@Override
+	public String toString() {
+		return "MMailText [getMailHeader()=" + getMailHeader() + ", getR_MailText_ID()=" + getR_MailText_ID() + "]";
+	}
 }	//	MMailText
