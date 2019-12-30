@@ -16,7 +16,6 @@ package test.functional;
 import java.lang.reflect.Method;
 
 import org.compiere.model.MColor;
-import org.compiere.plaf.CompiereColor;
 import org.compiere.util.Env;
 
 import test.AdempiereTestCase;
