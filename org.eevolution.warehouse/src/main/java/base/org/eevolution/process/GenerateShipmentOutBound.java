@@ -47,6 +47,7 @@ import org.compiere.model.MOrderLine;
 import org.compiere.model.MStorage;
 import org.compiere.model.PO;
 import org.compiere.process.ProcessInfo;
+import org.compiere.util.DB;
 import org.eevolution.model.I_DD_Order;
 import org.eevolution.model.MDDOrder;
 import org.eevolution.model.MDDOrderLine;
@@ -110,7 +111,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
         // Generate Shipment based on Outbound Order
         if (outboundLine.getC_OrderLine_ID() > 0) {
             MOrderLine orderLine = outboundLine.getOrderLine();
-            if (orderLine.getQtyOrdered().subtract(orderLine.getQtyDelivered()).subtract(outboundLine.getPickedQty()).signum() <= 0 && !isIncludeNotAvailable())
+            if (orderLine.getQtyOrdered().subtract(getQtyTotalPicked(outboundLine.getC_OrderLine_ID())).signum() < 0 && !isIncludeNotAvailable())
                 return;
 
             BigDecimal qtyDelivered = getQtyDelivered(outboundLine, orderLine.getQtyDelivered());
@@ -175,6 +176,12 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
             qtyDelivered = outBoundLine.getPickedQty().subtract(qtyDemandDelivered);
 
         return qtyDelivered;
+    }
+
+    private BigDecimal getQtyTotalPicked(Integer orderLineId) {
+       return Optional.ofNullable(DB.getSQLValueBDEx(get_TrxName(),
+                "SELECT SUM (COALESCE(PickedQty,0)) FROM WM_InOutBoundLine WHERE C_OrderLine_ID =?", orderLineId))
+                .orElse(BigDecimal.ZERO);
     }
 
     private void processingIssues() {
