@@ -106,10 +106,12 @@ public class OutBoundOrder {
 	protected int 				salesRepId = 0;
 	/**	Warehouse			*/
 	protected int 				warehouseId = 0;
+	/**	Locator			*/
+	protected int 				locatorId = 0;
 	/**	Operation Type		*/
 	protected String 			movementType = null;
 	/**	Document Action		*/
-	protected String 			documentAction = null;
+	//protected String 			documentAction = null;
 	/**	Document Type 		*/
 	protected int 				docTypeId = 0;
 	/**	Document Type Target*/
@@ -178,7 +180,7 @@ public class OutBoundOrder {
 					"wr.Name Warehouse, ord.DD_Order_ID, ord.DocumentNo, " +	//	1..3
 					"ord.DateOrdered, ord.DatePromised, reg.Name, cit.Name, sr.Name SalesRep, " +	//	4..8
 					"cp.Name Partner, bploc.Name, " +	//	9..10
-					"loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID, ord.Weight, ord.Volume " +	//	11..17
+					"loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.Weight, ord.Volume " +	//	11..17
 					"FROM DD_Order ord " +
 					"INNER JOIN DD_OrderLine lord ON(lord.DD_Order_ID = ord.DD_Order_ID) " +
 					"INNER JOIN M_Product pr ON(pr.M_Product_ID = lord.M_Product_ID) " +
@@ -239,7 +241,7 @@ public class OutBoundOrder {
 					"wr.Name Warehouse, ord.C_Order_ID, ord.DocumentNo, " +	//	1..3
 					"ord.DateOrdered, ord.DatePromised, reg.Name, cit.Name, sr.Name SalesRep, " +	//	4..8
 					"cp.Name Partner, bploc.Name, " +	//	9..10
-					"loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.C_BPartner_Location_ID, ord.Weight, ord.Volume " +	//	11..17
+					"loc.Address1, loc.Address2, loc.Address3, loc.Address4, ord.Weight, ord.Volume " +	//	11..17
 					"FROM C_Order ord " +
 					"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
 					"INNER JOIN M_Product pr ON(pr.M_Product_ID = lord.M_Product_ID) " +
@@ -424,7 +426,12 @@ public class OutBoundOrder {
 					"			GROUP BY l.M_Warehouse_ID, st.M_Product_ID, p.M_AttributeSet_ID, 4) s " +
 					"														ON(s.M_Product_ID = lord.M_Product_ID " +
 					"																AND s.M_Warehouse_ID = l.M_Warehouse_ID " +
-					"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
+					//"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
+					"AND (" +
+					"	CASE " +
+					"		WHEN lord.M_AttributeSetInstance_ID  > 0 THEN lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID " +
+					"		ELSE 1=1 " +
+					"	END))")
 					.append("WHERE ")
 					.append(sqlWhere).append(" ");
 			//	Group By
@@ -506,7 +513,12 @@ public class OutBoundOrder {
 					"			GROUP BY l.M_Warehouse_ID, st.M_Product_ID, p.M_AttributeSet_ID, 4) s " +
 					"														ON(s.M_Product_ID = lord.M_Product_ID " +
 					"																AND s.M_Warehouse_ID = lord.M_Warehouse_ID " +
-					"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
+					//"																AND lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID) ")
+					"AND (" +
+					"	CASE " +
+					"		WHEN  lord.M_AttributeSetInstance_ID  > 0 THEN lord.M_AttributeSetInstance_ID = s.M_AttributeSetInstance_ID " +
+					"		ELSE 1=1 " +
+					"	END )) ")
 					.append("WHERE ")
 					.append(sqlWhere).append(" ");
 			//	Group By
@@ -924,31 +936,34 @@ public class OutBoundOrder {
 				BigDecimal weight = (BigDecimal) orderLineTable.getValueAt(i, OL_WEIGHT);
 				BigDecimal volume = (BigDecimal) orderLineTable.getValueAt(i, OL_VOLUME);
 				//	New Line
-				outBoundOrderLine = new MWMInOutBoundLine(outBoundOrder);
+				/*outBoundOrderLine = new MWMInOutBoundLine(outBoundOrder);
 				//	Set Values
 				outBoundOrderLine.setAD_Org_ID(orgId);
 				if (movementType.equals(I_DD_Order.Table_Name)) {
 					outBoundOrderLine.setDD_OrderLine_ID(orderLineId);
 					MDDOrderLine line = new MDDOrderLine(Env.getCtx(), orderLineId, trxName);
 					outBoundOrderLine.setDD_Order_ID(line.getDD_Order_ID());
-					outBoundOrderLine.setDD_Order_ID(line.getDD_Order_ID());
 					outBoundOrderLine.setC_UOM_ID(line.getC_UOM_ID());
 				} else {
 					outBoundOrderLine.setC_OrderLine_ID(orderLineId);
 					MOrderLine line = new MOrderLine(Env.getCtx(), orderLineId, trxName);
 					outBoundOrderLine.setC_Order_ID(line.getC_Order_ID());
-					outBoundOrderLine.setC_Order_ID(line.getC_Order_ID());
 					outBoundOrderLine.setC_UOM_ID(line.getC_UOM_ID());
 				}
+				outBoundOrderLine.setM_LocatorTo_ID(locatorId);
 				outBoundOrderLine.setM_Product_ID(productId);
 				outBoundOrderLine.setMovementQty(qty);
 				outBoundOrderLine.setPickedQty(qty);
+				//	Save Line
+				outBoundOrderLine.saveEx();*/
+
+				createOutBoundOrderLine(orderLineId,productId, qty, trxName);
+
 				//	Add Weight
 				totalWeight = totalWeight.add(weight);
 				//	Add Volume
 				totalVolume = totalVolume.add(volume);
-				//	Save Line
-				outBoundOrderLine.saveEx();
+
 				//	Add Count
 				quantity ++;
 			}
@@ -959,14 +974,20 @@ public class OutBoundOrder {
 		outBoundOrder.setVolume(totalVolume);
 		//	Save Header
 		outBoundOrder.saveEx();
+		// Generate Distribution Order to Pick
+		createDistributionOrder(outBoundOrder);
 		//	Validate Document Action
-		if(Util.isEmpty(documentAction)) {
+		/*if(Util.isEmpty(documentAction)) {
 			documentAction = MWMInOutBound.DOCACTION_Complete;
 		}
 		//	Complete Order
 		outBoundOrder.setDocAction(documentAction);
-		outBoundOrder.processIt(documentAction);
+		outBoundOrder.processIt(documentAction);*/
+		outBoundOrder.setDocAction(MWMInOutBound.DOCACTION_Complete);
+		outBoundOrder.processIt(MWMInOutBound.DOCACTION_Complete);
 		outBoundOrder.saveEx();
+
+
 		//	Valid Error
 		errorMessage = outBoundOrder.getProcessMsg();
 		if(errorMessage != null
@@ -976,7 +997,162 @@ public class OutBoundOrder {
 		return Msg.parseTranslation(Env.getCtx(), "@Created@ = [" + outBoundOrder.getDocumentNo() 
 				+ "] || @LineNo@" + " = [" + quantity + "]" + (errorMessage != null? "\n@Errors@:" + errorMessage: ""));
 	}
-	
+
+	/**
+	 * Generate Outbound Line based in storage for warehouse selected
+	 * @param orderLineId Order Line Id
+	 * @param productId Product Id
+	 * @param qty Quantity
+	 * @param trxName Transaction name
+	 */
+	protected void createOutBoundOrderLine(Integer orderLineId, Integer productId , BigDecimal qty, String trxName) {
+
+		List<MStorage> storageList = Arrays.asList(MStorage.getWarehouse(
+				Env.getCtx(),
+				warehouseId,
+				productId,
+				0,
+				null,
+				true,
+				true,
+				0,
+				trxName));
+
+		AtomicReference<BigDecimal> totalPickedQty = new AtomicReference<BigDecimal>(qty);
+		AtomicInteger line = new AtomicInteger(10);
+		for (MStorage storage : storageList) {
+			if (storage.getQtyOnHand().signum() > 0 && totalPickedQty.get().signum() != 0) {
+				MWMInOutBoundLine outBoundOrderLine = new MWMInOutBoundLine(outBoundOrder);
+				outBoundOrderLine.setLine(line.get());
+				outBoundOrderLine.setPickDate(outBoundOrder.getPickDate());
+				outBoundOrderLine.setShipDate(outBoundOrder.getShipDate());
+				line.updateAndGet( seq -> seq + 10);
+				//	Set Values
+				outBoundOrderLine.setAD_Org_ID(orgId);
+				if (movementType.equals(I_DD_Order.Table_Name)) {
+					outBoundOrderLine.setDD_OrderLine_ID(orderLineId);
+					MDDOrderLine orderLine = new MDDOrderLine(Env.getCtx(), orderLineId, trxName);
+					outBoundOrderLine.setDD_Order_ID(orderLine.getDD_Order_ID());
+					outBoundOrderLine.setC_UOM_ID(orderLine.getC_UOM_ID());
+				} else {
+					outBoundOrderLine.setC_OrderLine_ID(orderLineId);
+					MOrderLine orderLine = new MOrderLine(Env.getCtx(), orderLineId, trxName);
+					outBoundOrderLine.setC_Order_ID(orderLine.getC_Order_ID());
+					outBoundOrderLine.setC_UOM_ID(orderLine.getC_UOM_ID());
+				}
+				outBoundOrderLine.setM_LocatorTo_ID(locatorId);
+				outBoundOrderLine.setM_Product_ID(productId);
+				if (storage.getQtyOnHand().compareTo(totalPickedQty.get()) <= 0) {
+					outBoundOrderLine.setMovementQty(storage.getQtyOnHand());
+					outBoundOrderLine.setM_AttributeSetInstance_ID(storage.getM_AttributeSetInstance_ID());
+					//outBoundOrderLine.setPickedQty(storage.getQtyOnHand());
+					outBoundOrderLine.setM_Locator_ID(storage.getM_Locator_ID());
+					totalPickedQty.updateAndGet(qtyPicked -> qtyPicked.subtract(storage.getQtyOnHand()));
+				} else {
+					outBoundOrderLine.setMovementQty(totalPickedQty.get());
+					outBoundOrderLine.setM_AttributeSetInstance_ID(storage.getM_AttributeSetInstance_ID());
+					//outBoundOrderLine.setPickedQty(totalPickedQty.get());
+					outBoundOrderLine.setM_Locator_ID(storage.getM_Locator_ID());
+					totalPickedQty.updateAndGet(qtyPicked -> BigDecimal.ZERO);
+				}
+				//	Save Line
+				outBoundOrderLine.saveEx();
+
+				if (totalPickedQty.get().signum() == 0)
+					break;
+			}
+		}
+	}
+
+	protected void createDistributionOrder (MWMInOutBound outboundOrder) {
+		MLocator outboundLocator = MLocator.get(outboundOrder.getCtx(), locatorId);
+		List<MWarehouse> transitWarehouse = Arrays.asList(MWarehouse.getInTransitForOrg(outboundOrder.getCtx(), outboundLocator.getAD_Org_ID()));
+		if (transitWarehouse.isEmpty())
+			throw new AdempiereException("@M_Warehouse_ID@ @IsInTransit@ @NotFound@");
+		//Org Must be linked to BPartner
+		MOrg org = MOrg.get(outboundOrder.getCtx(), outboundOrder.getAD_Org_ID());
+		int partnerId = org.getLinkedC_BPartner_ID(outboundOrder.get_TrxName());
+		if (partnerId <= 0)
+			throw new NoBPartnerLinkedforOrgException(org);
+
+		MBPartner partner = MBPartner.get(outboundOrder.getCtx(), partnerId);
+
+		MDDOrder distributionOrder = new MDDOrder(outboundOrder.getCtx(), 0, outboundOrder.get_TrxName());
+		distributionOrder.setAD_Org_ID(outboundOrder.getAD_Org_ID());
+		distributionOrder.setC_BPartner_ID(partnerId);
+		distributionOrder.setDescription(Msg.parseTranslation(outboundOrder.getCtx(), "@Generate@ @From@ " + outboundOrder.getDocumentInfo()));
+		//if (getDocTypeId() > 0)
+		//	distributionOrder.setC_DocType_ID(getDocTypeId());
+		//else
+		distributionOrder.setC_DocType_ID(MDocType.getDocType(MDocType.DOCBASETYPE_DistributionOrder));
+
+		distributionOrder.setM_Warehouse_ID(transitWarehouse.stream().findFirst().get().get_ID());
+		distributionOrder.setDocAction(MDDOrder.DOCACTION_Prepare);
+		List<MUser> users = Arrays.asList(MUser.getOfBPartner(outboundOrder.getCtx(), partner.getC_BPartner_ID(), outboundOrder.get_TrxName()));
+		if (users.isEmpty())
+			throw new AdempiereException("@AD_User_ID@ @NotFound@ @Value@ - @C_BPartner_ID@ : " + partner.getValue() + " - " + partner.getName());
+
+		distributionOrder.setAD_User_ID(users.stream().findFirst().get().getAD_User_ID());
+		distributionOrder.setDateOrdered(shipmentDate);
+		distributionOrder.setDatePromised(shipmentDate);
+		distributionOrder.setM_Shipper_ID(shipperId);
+		distributionOrder.setM_FreightCategory_ID(outboundOrder.getM_FreightCategory_ID());
+		distributionOrder.setFreightCostRule(outboundOrder.getFreightCostRule());
+		distributionOrder.setFreightAmt(outboundOrder.getFreightAmt());
+		distributionOrder.setIsInDispute(false);
+		distributionOrder.setIsInTransit(false);
+		distributionOrder.setSalesRep_ID(salesRepId);
+		distributionOrder.setDocStatus(MDDOrder.DOCSTATUS_Drafted);
+		distributionOrder.saveEx();
+
+		outboundOrder.getLines(true, "").forEach(outboundLine -> {
+			MDDOrderLine orderLine = new MDDOrderLine(distributionOrder);
+			orderLine.setM_Locator_ID(outboundLine.getM_Locator_ID());
+			orderLine.setM_LocatorTo_ID(outboundLine.getM_LocatorTo_ID());
+			orderLine.setM_AttributeSetInstance_ID(outboundLine.getM_AttributeSetInstance_ID());
+			orderLine.setM_AttributeSetInstanceTo_ID(outboundLine.getM_AttributeSetInstance_ID());
+			orderLine.setC_UOM_ID(outboundLine.getC_UOM_ID());
+			orderLine.setM_Product_ID(outboundLine.getM_Product_ID());
+			orderLine.setDateOrdered(shipmentDate);
+			orderLine.setDatePromised(outboundLine.getPickDate());
+			orderLine.setWM_InOutBoundLine_ID(outboundLine.getWM_InOutBoundLine_ID());
+			orderLine.setIsInvoiced(false);
+			orderLine.setConfirmedQty(outboundLine.getMovementQty());
+			orderLine.setQtyEntered(outboundLine.getMovementQty());
+			orderLine.setQtyOrdered(outboundLine.getMovementQty());
+			orderLine.setTargetQty(outboundLine.getMovementQty());
+			orderLine.setFreightAmt(outboundLine.getFreightAmt());
+			orderLine.setM_FreightCategory_ID(outboundLine.getM_FreightCategory_ID());
+			orderLine.setM_Shipper_ID(outboundLine.getM_Shipper_ID());
+			orderLine.saveEx();
+		});
+		printDistributionOrder(distributionOrder);
+	}
+
+	/**
+	 * Print Distribution Order
+	 * @param distributionOrder Distribution Order
+	 */
+	private void printDistributionOrder(MDDOrder distributionOrder) {
+		String tableName = "DD_Order_Header_v";
+		// Get Format & Data
+		int formatId = MPrintFormat.getPrintFormat_ID("DistributionOrder_Header  ** TEMPLATE **", MTable.getTable_ID(tableName), distributionOrder.getAD_Client_ID());
+		Optional<MPrintFormat> maybeFormat = Optional.ofNullable(MPrintFormat.get(distributionOrder.getCtx(), formatId, true));
+		ReportEngine reportEngine =  maybeFormat.map(format -> {
+			MQuery query = new MQuery(tableName);
+			query.addRestriction(MDDOrder.COLUMNNAME_DD_Order_ID, MQuery.EQUAL, distributionOrder.get_ID());
+			// Engine
+			PrintInfo info = new PrintInfo(tableName, MTable.getTable_ID(tableName), distributionOrder.get_ID());
+			return new ReportEngine(distributionOrder.getCtx(), format, query, info, distributionOrder.get_TrxName());
+		}).orElseThrow(() -> new AdempiereException("@NotFound@ @AD_PrintFormat_ID@"));
+
+		if (reportEngine == null)
+			throw new AdempiereException("@NotFound@ @AD_PrintFormat_ID@");
+
+		ReportCtl.preview(reportEngine);
+		reportEngine.print(); // prints only original
+	}
+
 	/**
 	 * Load the Default Values
 	 * @return void

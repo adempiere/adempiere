@@ -58,7 +58,6 @@ import org.compiere.model.PrintInfo;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportCtl;
 import org.compiere.print.ReportEngine;
-import org.compiere.process.DocAction;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -150,6 +149,10 @@ public class WOutBoundOrder extends OutBoundOrder
 	/**	Shipper					*/
 	private Label 			shipperLabel = new Label();
 	private WTableDirEditor shipperPick = null;
+	/** Locator 				*/
+	protected Label locatorLabel = new Label();
+	protected WLocatorEditor locatorField = new WLocatorEditor();
+
 	private DateFormat 		dateFormat 		 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	
 	/** Panels				*/
@@ -192,8 +195,8 @@ public class WOutBoundOrder extends OutBoundOrder
 	private Label 			invoiceInfo = new Label();
 	private Label			invoiceLabel = new Label();
 	/**	Document Action	*/
-	private Label			docActionLabel = new Label();
-	private WTableDirEditor docActionPick;
+	//private Label			docActionLabel = new Label();
+	//private WTableDirEditor docActionPick;
 	/**	Confirm Panel		*/
 	private ConfirmPanel 	confirmPanel;
 	
@@ -237,7 +240,7 @@ public class WOutBoundOrder extends OutBoundOrder
 		//	Delivery Via Rule
 		deliveryViaRuleLabel.setText(Msg.translate(Env.getCtx(), "DeliveryViaRule"));
 		//	Document Action
-		docActionLabel.setText(Msg.translate(Env.getCtx(), "DocAction"));
+		//docActionLabel.setText(Msg.translate(Env.getCtx(), "DocAction"));
 		//	Date
 		labelDocumentDate.setText(Msg.translate(Env.getCtx(), "DateDoc"));
 		labelShipmentDate.setText(Msg.translate(Env.getCtx(), "ShipDate"));
@@ -308,8 +311,8 @@ public class WOutBoundOrder extends OutBoundOrder
 		row.appendChild(searchButton);
 		searchButton.addActionListener(this);
 		//	Document Action
-		row.appendChild(docActionLabel.rightAlign());
-		row.appendChild(docActionPick.getComponent());
+		//row.appendChild(docActionLabel.rightAlign());
+		//row.appendChild(docActionPick.getComponent());
 		//	
 		northAdded = new North();
 		northAdded.setCollapsible(true);
@@ -333,6 +336,9 @@ public class WOutBoundOrder extends OutBoundOrder
 		row = rows.newRow();
 		row.appendChild(selectAllButton);
 		selectAllButton.setImage("/images/SelectAll24.png");
+
+		row.appendChild(locatorLabel.rightAlign());
+		row.appendChild(locatorField.getComponent());
 		row.appendChild(new Space());
 		row.appendChild(confirmPanel);
 		
@@ -511,12 +517,24 @@ public class WOutBoundOrder extends OutBoundOrder
 		shipperPick = new WTableDirEditor("M_Shipper_ID", false, false, true, lookupSP);
 		shipperPick.addValueChangeListener(this);
 		//	
-		MLookup docActionL = MLookupFactory.get(Env.getCtx(), form.getWindowNo(), 58192 /* WM_InOutBound.DocAction */,
-				DisplayType.List, Env.getLanguage(Env.getCtx()), "DocAction", 135 /* _Document Action */,
-				false, "AD_Ref_List.Value IN ('CO','PR')");
+		//MLookup docActionL = MLookupFactory.get(Env.getCtx(), form.getWindowNo(), 58192 /* WM_InOutBound.DocAction */,
+		//		DisplayType.List, Env.getLanguage(Env.getCtx()), "DocAction", 135 /* _Document Action */,
+		//		false, "AD_Ref_List.Value IN ('CO','PR')");
+
+		if(warehouseId < 0)
+			warehouseId = Env.getContextAsInt(Env.getCtx(), "#M_Warehouse_ID");
+		locatorLabel.setValue(Msg.translate(Env.getCtx(), "M_Locator_ID"));
+		locatorLabel.setMandatory(true);
+		MLocatorLookup locator = new MLocatorLookup(Env.getCtx(), form.getWindowNo());
+		locator.setOnly_Warehouse_ID(warehouseId);
+		locatorField = new WLocatorEditor ("M_Locator_ID", true, false, true, locator, form.getWindowNo());
+		locatorField.setMandatory(true);
+		locatorField.setValue(Env.getContextAsInt(Env.getCtx(), form.getWindowNo() , "M_Locator_ID"));
+		locatorField.addValueChangeListener(this);
+
 		//	Document Action
-		docActionPick = new WTableDirEditor("DocAction", true, false, true,docActionL);
-		docActionPick.setValue(DocAction.ACTION_Complete);
+		//docActionPick = new WTableDirEditor("DocAction", true, false, true,docActionL);
+		//docActionPick.setValue(DocAction.ACTION_Complete);
 		//	
 		documentDateField.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		//	Set Date
@@ -564,7 +582,7 @@ public class WOutBoundOrder extends OutBoundOrder
 		documentDateField.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		shipmentDateField.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		shipperPick.setValue(null);
-		docActionPick.setValue(DocAction.ACTION_Complete);
+		//docActionPick.setValue(DocAction.ACTION_Complete);
 	}
 
 	/**
@@ -616,8 +634,8 @@ public class WOutBoundOrder extends OutBoundOrder
 		//	Operation Type
 		value = operationTypePick.getValue();
 		movementType = (String)value;
-		value = docActionPick.getValue();
-		documentAction = (String) value;
+		//value = docActionPick.getValue();
+		//documentAction = (String) value;
 		//	Document Type Target
 		value = docTypeTargetPick.getValue();
 		docTypeTargetId = Integer.parseInt(String.valueOf(value != null? value: "0"));
@@ -655,8 +673,13 @@ public class WOutBoundOrder extends OutBoundOrder
 	 * @return
 	 */
 	private boolean validateDataForSave() {
-		String error = validateData();
 		StringBuffer errorMessage = new StringBuffer();
+		locatorId = (Integer)locatorField.getValue();
+		if (locatorId <= 0 )
+			errorMessage.append(" @WM_InOutBound_ID@ @M_Locator_ID@ @NotFound@");
+
+		String error = validateData();
+
 		if(!Util.isEmpty(error)) {
 			errorMessage.append(error);
 		}
