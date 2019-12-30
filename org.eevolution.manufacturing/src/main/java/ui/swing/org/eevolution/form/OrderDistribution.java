@@ -23,7 +23,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
-import org.adempiere.controller.ed.IStatusBar;
+import org.compiere.apps.IStatusBar;
 import org.compiere.apps.form.GenForm;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;

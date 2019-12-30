@@ -18,14 +18,13 @@
 package org.adempiere.webui.panel;
 
 import java.net.URI;
-
-import org.adempiere.controller.ed.IStatusBar;
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.component.Borderlayout;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
 import org.adempiere.webui.window.WRecordInfo;
+import org.compiere.apps.IStatusBar;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.MRole;
 import org.compiere.util.Env;
@@ -162,7 +161,6 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
     /**
      * @param text
      */
-    @Override
     public void setStatusDB (String text)
     {
         setStatusDB(text, null);
@@ -172,7 +170,6 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
      * @param text
      * @param dse
      */
-    @Override
     public void setStatusDB (String text, DataStatusEvent dse)
     {
         if (text == null || text.length() == 0)
@@ -193,7 +190,6 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
     /**
      * @param text
      */
-    @Override
     public void setStatusLine (String text)
     {
         setStatusLine(text, false);
@@ -203,7 +199,6 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
      * @param text
      * @param error
      */
-    @Override
     public void setStatusLine (String text, boolean error)
     {
     	setStatusLine(text, error, error);
@@ -323,7 +318,6 @@ public class StatusBarPanel extends Panel implements EventListener, IStatusBar
 	 *	Set Info Line
 	 *  @param text text
 	 */
-    @Override
 	public void setInfo (String text)
 	{
 		if (!embedded)

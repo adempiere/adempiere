@@ -25,7 +25,6 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-import org.adempiere.controller.ed.IStatusBar;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.MRole;
@@ -146,7 +145,6 @@ public class StatusBar extends CPanel implements IStatusBar
 	 *	Set Standard Status Line (non error)
 	 *  @param text text
 	 */
-	@Override
 	public void setStatusLine (String text)
 	{
 		if (text == null)
@@ -160,7 +158,6 @@ public class StatusBar extends CPanel implements IStatusBar
 	 *  @param text text
 	 *  @param error error
 	 */
-	@Override
 	public void setStatusLine (String text, boolean error)
 	{
 		mt_error = error;
@@ -223,7 +220,6 @@ public class StatusBar extends CPanel implements IStatusBar
 	 *	Set Status DB Info
 	 *  @param text text
 	 */
-	@Override
 	public void setStatusDB (String text)
 	{
 		setStatusDB (text, null);
@@ -242,7 +238,6 @@ public class StatusBar extends CPanel implements IStatusBar
 	 *	Set Info Line
 	 *  @param text text
 	 */
-	@Override
 	public void setInfo (String text)
 	{
 		if (!infoLine.isVisible())
