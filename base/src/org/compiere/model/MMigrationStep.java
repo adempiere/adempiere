@@ -687,7 +687,7 @@ public class MMigrationStep extends X_AD_MigrationStep {
 					entityType.setIsDeleteForced(true);
 					entityType.delete(true , get_TrxName());
 				} else {
-					po.deleteEx(false, get_TrxName());
+					po.deleteEx(true, get_TrxName());
 				}
 				//TODO column sync database?
 			}
