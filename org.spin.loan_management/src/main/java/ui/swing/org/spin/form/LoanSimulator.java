@@ -22,8 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-import org.adempiere.controller.ed.IStatusBar;
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.apps.IStatusBar;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.MCurrency;
 import org.compiere.util.CLogger;
