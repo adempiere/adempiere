@@ -30,6 +30,7 @@ import org.compiere.model.MInventoryLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.X_I_Inventory;
 import org.compiere.util.DB;
+import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 
 /**
@@ -37,6 +38,7 @@ import org.compiere.util.TimeUtil;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: ImportInventory.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ * 	@author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
  */
 public class ImportInventory extends SvrProcess
 {
@@ -249,6 +251,16 @@ public class ImportInventory extends SvrProcess
 		no = DB.executeUpdate (sql.toString (), get_TrxName());
 		if (no != 0)
 			log.warning ("No QtyCount=" + no);
+		
+		sql = new StringBuffer ("UPDATE I_Inventory "
+				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=" + Msg.parseTranslation(getCtx(), "@SQLErrorNotUnique@ @M_Inventory_ID@, @M_Locator_ID@, @M_Product_ID@ @Qty@ = ") 
+				+ " ' || (SELECT COUNT(i.I_Inventory_ID) FROM I_Inventory i WHERE i.M_Product_ID = I_Inventory.M_Product_ID AND i.M_Locator_ID = I_Inventory.M_Locator_ID GROUP BY i.M_Locator_ID, i.M_Product_ID) "
+				+ "WHERE EXISTS(SELECT 1 FROM I_Inventory i WHERE i.M_Product_ID = I_Inventory.M_Product_ID AND i.M_Locator_ID = I_Inventory.M_Locator_ID GROUP BY i.M_Locator_ID, i.M_Product_ID HAVING(COUNT(i.I_Inventory_ID) > 1)) "
+				+ "AND EXISTS(SELECT 1 FROM M_Product p LEFT JOIN M_AttributeSet a ON(a.M_AttributeSet_ID = p.M_AttributeSet_ID) WHERE p.M_Product_ID = I_Inventory.M_Product_ID AND (p.M_AttributeSet_ID IS NULL OR a.IsInstanceAttribute = 'Y'))"
+				+ " AND I_IsImported<>'Y'").append (clientCheck);
+		no = DB.executeUpdate (sql.toString (), get_TrxName());
+		if (no != 0)
+			log.warning ("Duplicated lines=" + no);
 
 		commitEx();
 		
@@ -258,7 +270,6 @@ public class ImportInventory extends SvrProcess
 
 		int noInsert = 0;
 		int noInsertLine = 0;
-
 		//	Go through Inventory Records
 		sql = new StringBuffer ("SELECT * FROM I_Inventory "
 			+ "WHERE I_IsImported='N'").append (clientCheck)
@@ -285,11 +296,7 @@ public class ImportInventory extends SvrProcess
 					inventory.setM_Warehouse_ID(importInventory.getM_Warehouse_ID());
 					inventory.setMovementDate(movementDate);
 					//
-					if (!inventory.save())
-					{
-						log.log(Level.SEVERE, "Inventory not saved");
-						break;
-					}
+					inventory.saveEx();
 					warehouseId = importInventory.getM_Warehouse_ID();
 					lastMovementDate = movementDate;
 					noInsert++;
@@ -335,9 +342,8 @@ public class ImportInventory extends SvrProcess
 			}
 			resultSet.close();
 			preparedStatement.close();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
+			addLog(e.getLocalizedMessage());
 			log.log(Level.SEVERE, sql.toString(), e);
 		}
 
