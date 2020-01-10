@@ -2574,7 +2574,7 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	 * @return
 	 */
 	public double getCommissionAmt(int bPartnerId, Timestamp from, Timestamp to, String docBasisType) {
-		BigDecimal value = MCommission.getCommissionAmt(bPartnerId, from, to, docBasisType);
+		BigDecimal value = MCommission.getCommissionAmt(bPartnerId, from, to, docBasisType, get_TrxName());
 		//	Validate value
 		if(value == null)
 			return 0.0;
