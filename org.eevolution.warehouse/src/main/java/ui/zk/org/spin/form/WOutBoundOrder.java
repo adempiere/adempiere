@@ -522,16 +522,13 @@ public class WOutBoundOrder extends OutBoundOrder
 		//MLookup docActionL = MLookupFactory.get(Env.getCtx(), form.getWindowNo(), 58192 /* WM_InOutBound.DocAction */,
 		//		DisplayType.List, Env.getLanguage(Env.getCtx()), "DocAction", 135 /* _Document Action */,
 		//		false, "AD_Ref_List.Value IN ('CO','PR')");
-
-		if(warehouseId < 0)
-			warehouseId = Env.getContextAsInt(Env.getCtx(), "#M_Warehouse_ID");
 		locatorLabel.setValue(Msg.translate(Env.getCtx(), "M_Locator_ID"));
 		locatorLabel.setMandatory(true);
 		MLocatorLookup locator = new MLocatorLookup(Env.getCtx(), form.getWindowNo());
-		locator.setOnly_Warehouse_ID(warehouseId);
+		//locator.setOnly_Warehouse_ID(warehouseId);
 		locatorField = new WLocatorEditor ("M_Locator_ID", true, false, true, locator, form.getWindowNo());
 		locatorField.setMandatory(true);
-		locatorField.setValue(Env.getContextAsInt(Env.getCtx(), form.getWindowNo() , "M_Locator_ID"));
+		//locatorField.setValue(Env.getContextAsInt(Env.getCtx(), form.getWindowNo() , "M_Locator_ID"));
 		locatorField.addValueChangeListener(this);
 
 		//	Document Action
@@ -676,9 +673,11 @@ public class WOutBoundOrder extends OutBoundOrder
 	 */
 	private boolean validateDataForSave() {
 		StringBuffer errorMessage = new StringBuffer();
-		locatorId = (Integer)locatorField.getValue();
-		if (locatorId <= 0 )
+
+		if (locatorField.getValue() == null )
 			errorMessage.append(" @WM_InOutBound_ID@ @M_Locator_ID@ @NotFound@");
+		else
+			locatorId = (Integer)locatorField.getValue();
 
 		String error = validateData();
 
@@ -1003,7 +1002,6 @@ public class WOutBoundOrder extends OutBoundOrder
 				//	Calculate Volume
 				volume = qty.multiply(unitVolume).setScale(volumePrecision, BigDecimal.ROUND_HALF_UP);
 				orderLineTable.setValueAt(volume, row, OL_VOLUME);
-				
 				//  Load Stock Product
 				stockModel = new ListModelTable();
 				stockTable.setData(stockModel, getStockColumnNames());
@@ -1012,6 +1010,26 @@ public class WOutBoundOrder extends OutBoundOrder
 			} else if(col == SELECT) {
 				boolean select = (Boolean) orderLineTable.getValueAt(row, col);
 				if(select) {
+					// Calculate Qty to Delivery
+					BigDecimal qtyToDelivery = (BigDecimal)orderLineTable.getValueAt(row, OL_QTY_ORDERED);
+					BigDecimal qtyOnHand = (BigDecimal)orderLineTable.getValueAt(row, OL_QTY_ON_HAND);
+					BigDecimal qtyPickedTotal = BigDecimal.ZERO;
+					int rows = orderLineTable.getRowCount();
+					for (int r = 0; r < rows; r++) {
+						Boolean selection = (Boolean) orderLineTable.getValueAt(r, SELECT);
+						//Current Order Line
+						int orderLineId = ((KeyNamePair)orderLineTable.getValueAt(row, ORDER_LINE)).getKey();
+						if (row != r && selection && orderLineId == ((KeyNamePair)orderLineTable.getValueAt(r, ORDER_LINE)).getKey()) {
+							BigDecimal qtyPicked = (BigDecimal) orderLineTable.getValueAt(r, OL_QTY);
+							qtyPickedTotal = qtyPickedTotal.add(qtyPicked);
+						}
+					}
+					qtyToDelivery = qtyToDelivery.subtract(qtyPickedTotal);
+					if (qtyOnHand.compareTo(qtyToDelivery) <= 0 )
+						orderLineTable.setValueAt(qtyOnHand, row, OL_QTY);
+					else
+						orderLineTable.setValueAt(qtyToDelivery, row, OL_QTY);
+
 					maxSeqNo += 10;
 					orderLineTable.setValueAt(maxSeqNo, row, OL_SEQNO);
 				}
@@ -1098,7 +1116,7 @@ public class WOutBoundOrder extends OutBoundOrder
 			if(!isSelected)
 				qtySet = qtySet.negate();
 			//	
-			qtySet = qtySet.add(qtySetOld);
+			//qtySet = qtySet.add(qtySetOld);
 			stockModel.setValueAt(qtyOnHand, pos, SW_QTY_ON_HAND);
 			stockModel.setValueAt(qtyInTransitOld, pos, SW_QTY_IN_TRANSIT);
 			stockModel.setValueAt(qtySet, pos, SW_QTY_SET);

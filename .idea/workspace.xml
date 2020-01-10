@@ -2,17 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ea42611-0cd8-47e7-b2d3-d009fb0e3735" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ant.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ant.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/scala_sdk_2_12_8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/scala_sdk_2_12_10.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.sbt" beforeDir="false" afterPath="$PROJECT_DIR$/build.sbt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ADInterface-1.0.war" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ADInterface-1.0.war" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/org.adempiere.test/src/main/scala/org/eevolution/dsl/builder/DistributionOrderBuilder.scala" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.test/src/main/scala/org/eevolution/dsl/builder/DistributionOrderBuilder.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/org.adempiere.test/src/main/scala/org/eevolution/dsl/builder/OrderBuilder.scala" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.test/src/main/scala/org/eevolution/dsl/builder/OrderBuilder.scala" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/spin/form/OutBoundOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/spin/form/OutBoundOrder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/ui/zk/org/spin/form/WOutBoundOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/ui/zk/org/spin/form/WOutBoundOrder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/build.properties" beforeDir="false" afterPath="$PROJECT_DIR$/project/build.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/plugins.sbt" beforeDir="false" afterPath="$PROJECT_DIR$/project/plugins.sbt" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -129,31 +128,19 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
   <component name="RunManager" selected="Application.Adempiere PG">
+    <configuration default="true" type="Applet">
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="SbtRunConfiguration" factoryName="SBT Task">
       <setting name="tasks" value="" />
       <setting name="vmparams" value="-Xms512M -Xmx1024M -Xss1M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256M" />
       <setting name="workingDir" value="$PROJECT_DIR$" />
       <envs />
       <method />
-    </configuration>
-    <configuration default="true" type="Applet">
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
     </configuration>
     <configuration name="Adempiere Oracle" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.compiere.Adempiere" />
@@ -420,6 +407,18 @@
       <map>
         <entry key="xml" value="XML" />
       </map>
+    </option>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
     </option>
   </component>
   <component name="SvnConfiguration">
