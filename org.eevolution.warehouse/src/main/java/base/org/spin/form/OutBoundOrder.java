@@ -201,8 +201,8 @@ public class OutBoundOrder {
 					"ord.DateOrdered, ord.DatePromised, reg.Name, cit.Name, sr.Name SalesRep, " +	//	7..8
 					"cp.Name Partner, bploc.Name, " +	//	9..10
 					"loc.Address1, loc.Address2, loc.Address3, loc.Address4, " +
-					"(SELECT (ol.QtyOrdered - ol.QtyDelivered) * p.Weight  AS Weight FROM DD_OrderLine ol INNER JOIN M_Product p ON(p.M_Product_ID = ol.M_Product_ID) WHERE ol.DD_Order_ID = ord.DD_Order_ID) AS Weight, " +
-					"(SELECT (ol.QtyOrdered - ol.QtyDelivered) * p.Volume  AS Volume FROM DD_OrderLine ol INNER JOIN M_Product p ON(p.M_Product_ID = ol.M_Product_ID) WHERE ol.DD_Order_ID = ord.DD_Order_ID) AS Volume " +
+					"(SELECT SUM((ol.QtyOrdered - ol.QtyDelivered) * p.Weight)  AS Weight FROM DD_OrderLine ol INNER JOIN M_Product p ON(p.M_Product_ID = ol.M_Product_ID) WHERE ol.DD_Order_ID = ord.DD_Order_ID) AS Weight, " +
+					"(SELECT SUM((ol.QtyOrdered - ol.QtyDelivered) * p.Volume)  AS Volume FROM DD_OrderLine ol INNER JOIN M_Product p ON(p.M_Product_ID = ol.M_Product_ID) WHERE ol.DD_Order_ID = ord.DD_Order_ID) AS Volume " +
 					"FROM DD_Order ord " +
 					"INNER JOIN DD_OrderLine lord ON(lord.DD_Order_ID = ord.DD_Order_ID) " +
 					"INNER JOIN M_Product pr ON(pr.M_Product_ID = lord.M_Product_ID) " +
@@ -264,8 +264,8 @@ public class OutBoundOrder {
 					"ord.DateOrdered, ord.DatePromised, reg.Name, cit.Name, sr.Name SalesRep, " +	//	7..11
 					"cp.Name Partner, bploc.Name, " +	//	12..13
 					"loc.Address1, loc.Address2, loc.Address3, loc.Address4, " +
-					"(SELECT (ol.QtyOrdered - ol.QtyDelivered) * p.Weight  AS Weight FROM C_OrderLine ol INNER JOIN M_Product p ON(p.M_Product_ID = ol.M_Product_ID) WHERE ol.C_Order_ID = ord.C_Order_ID) AS Weight, " +
-					"(SELECT (ol.QtyOrdered - ol.QtyDelivered) * p.Volume  AS Volume FROM C_OrderLine ol INNER JOIN M_Product p ON(p.M_Product_ID = ol.M_Product_ID) WHERE ol.C_Order_ID = ord.C_Order_ID) AS Volume " +
+					"(SELECT SUM((ol.QtyOrdered - ol.QtyDelivered) * p.Weight)  AS Weight FROM C_OrderLine ol INNER JOIN M_Product p ON(p.M_Product_ID = ol.M_Product_ID) WHERE ol.C_Order_ID = ord.C_Order_ID) AS Weight, " +
+					"(SELECT SUM((ol.QtyOrdered - ol.QtyDelivered) * p.Volume)  AS Volume FROM C_OrderLine ol INNER JOIN M_Product p ON(p.M_Product_ID = ol.M_Product_ID) WHERE ol.C_Order_ID = ord.C_Order_ID) AS Volume " +
 					"FROM C_Order ord " +
 					"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
 					"INNER JOIN M_Product pr ON(pr.M_Product_ID = lord.M_Product_ID) " +
