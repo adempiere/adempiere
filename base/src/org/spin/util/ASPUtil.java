@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
@@ -371,6 +372,25 @@ public class ASPUtil {
 		}
 		//	Dictionary Level Base
 		return tabCache.get(getDictionaryKey(windowId));
+	}
+	
+	/**
+	 * Get window Tab from ID
+	 * @param windowId
+	 * @param tabId
+	 * @return
+	 */
+	public MTab getWindowTab(int windowId, int tabId) {
+		List<MTab> tabs = getWindowTabs(windowId);
+		if(tabs == null
+				|| tabs.isEmpty()) {
+			return null;
+		}
+		Optional<MTab> optionalTab = tabs.stream().filter(tab -> tab.getAD_Tab_ID() == tabId).findFirst();
+		if(optionalTab.isPresent()) {
+			return optionalTab.get();
+		}
+		return null;
 	}
 	
 	/**
@@ -1384,6 +1404,14 @@ public class ASPUtil {
 			}
 			if(!Util.isEmpty(value)) {
 				tab.setHelp(value);
+			}
+			//	Commit Warning
+			value = customTab.get_Translation(I_AD_Tab.COLUMNNAME_CommitWarning, language);
+			if(Util.isEmpty(value)) {
+				value = tab.get_Translation(I_AD_Tab.COLUMNNAME_CommitWarning, language);
+			}
+			if(!Util.isEmpty(value)) {
+				tab.setCommitWarning(value);
 			}
 		}
 		if(overwrite) {
