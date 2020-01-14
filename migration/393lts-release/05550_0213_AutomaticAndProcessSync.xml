@@ -130,8 +130,8 @@ and https://github.com/adempiere/adempiere/pull/2078</Comments>
         <Data AD_Column_ID="2810" Column="Description">Synchronize all tables and columns with the database.</Data>
         <Data AD_Column_ID="2804" Column="IsActive">true</Data>
         <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
-        <Data AD_Column_ID="2809" Column="Name">Sync All Tables and Columns</Data>
-        <Data AD_Column_ID="4656" Column="Classname">org.adempiere.process.SyncAll</Data>
+        <Data AD_Column_ID="2809" Column="Name">Synchronize All Tables and Columns</Data>
+        <Data AD_Column_ID="4656" Column="Classname">org.adempiere.process.SynchronizeAllTablesAndColumns</Data>
         <Data AD_Column_ID="4214" Column="IsDirectPrint">false</Data>
         <Data AD_Column_ID="50182" Column="JasperReport" isNewNull="true"/>
         <Data AD_Column_ID="56515" Column="AD_Form_ID" isNewNull="true"/>
@@ -139,7 +139,7 @@ and https://github.com/adempiere/adempiere/pull/2078</Comments>
         <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
         <Data AD_Column_ID="2811" Column="Help">This process will synchronize all tables and columns that are new or have changes since the last synchronization was performed.  </Data>
         <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true"/>
-        <Data AD_Column_ID="4023" Column="Value">SyncAll</Data>
+        <Data AD_Column_ID="4023" Column="Value">SyncAllTablesAndColumns</Data>
         <Data AD_Column_ID="57920" Column="CopyFromProcess">N</Data>
         <Data AD_Column_ID="78843" Column="GenerateClass">N</Data>
         <Data AD_Column_ID="5790" Column="AccessLevel">4</Data>
@@ -1620,7 +1620,7 @@ and https://github.com/adempiere/adempiere/pull/2078</Comments>
     </Step>
     <Step SeqNo="1580" StepType="AD">
       <PO AD_Table_ID="109" Action="U" Record_ID="53606" Table="AD_Message">
-        <Data AD_Column_ID="6766" Column="Value" oldValue="SyncAllAbstract: OnlyReport">SyncAllAbstract_OnlyReport</Data>
+        <Data AD_Column_ID="6766" Column="Value" oldValue="SyncAllAbstract: OnlyReport">SynchronizeAllTablesAndColumnsAbstract_OnlyReport</Data>
       </PO>
     </Step>
     <Step SeqNo="1590" StepType="AD">
@@ -1835,7 +1835,7 @@ and https://github.com/adempiere/adempiere/pull/2078</Comments>
         <Data AD_Column_ID="198" Column="MsgText">Success! No changes were required.</Data>
         <Data AD_Column_ID="591" Column="Updated">2019-03-25 08:23:10.703</Data>
         <Data AD_Column_ID="197" Column="MsgType">I</Data>
-        <Data AD_Column_ID="6766" Column="Value">SyncAllAbstract_NoChangesRequired</Data>
+        <Data AD_Column_ID="6766" Column="Value">SynchronizeAllTablesAndColumnsAbstract_NoChangesRequired</Data>
         <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
         <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
@@ -1878,7 +1878,7 @@ and https://github.com/adempiere/adempiere/pull/2078</Comments>
         <Data AD_Column_ID="198" Column="MsgText">Success! Changes to the database were made.  Refer to the log for details.</Data>
         <Data AD_Column_ID="591" Column="Updated">2019-03-25 08:25:11.141</Data>
         <Data AD_Column_ID="197" Column="MsgType">I</Data>
-        <Data AD_Column_ID="6766" Column="Value">SyncAllAbstract_ChangeMade</Data>
+        <Data AD_Column_ID="6766" Column="Value">SynchronizeAllTablesAndColumnsAbstract_ChangeMade</Data>
         <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
         <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
@@ -1924,7 +1924,7 @@ Output encoded/decoded text
         <Data AD_Column_ID="198" Column="MsgText">No changes necessary. Nothing to Report.</Data>
         <Data AD_Column_ID="591" Column="Updated">2019-03-25 08:43:12.322</Data>
         <Data AD_Column_ID="197" Column="MsgType">I</Data>
-        <Data AD_Column_ID="6766" Column="Value">SyncAllAbstract_NothingToReport</Data>
+        <Data AD_Column_ID="6766" Column="Value">SynchronizeAllTablesAndColumnsAbstract_NothingToReport</Data>
         <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
         <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
@@ -1970,10 +1970,10 @@ Output encoded/decoded text
       <PO AD_Table_ID="109" Action="I" Record_ID="53613" Table="AD_Message">
         <Data AD_Column_ID="588" Column="IsActive">true</Data>
         <Data AD_Column_ID="589" Column="Created">2019-03-25 20:49:31.017</Data>
-        <Data AD_Column_ID="198" Column="MsgText">Partial success.  Errors occured on one or more items. Please review the log for details.  Manual intervention may be required.</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Partial success.  Errors occurred on one or more items. Please review the log for details.  Manual intervention may be required.</Data>
         <Data AD_Column_ID="591" Column="Updated">2019-03-25 20:49:31.017</Data>
         <Data AD_Column_ID="197" Column="MsgType">E</Data>
-        <Data AD_Column_ID="6766" Column="Value">SyncAllAbstract_ChangeMadeWithError</Data>
+        <Data AD_Column_ID="6766" Column="Value">SynchronizeAllTablesAndColumnsAbstract_ChangeMadeWithError</Data>
         <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
         <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
@@ -1990,7 +1990,7 @@ Output encoded/decoded text
         <Data AD_Column_ID="611" Column="Updated">2019-03-25 20:49:51.699</Data>
         <Data AD_Column_ID="608" Column="IsActive">true</Data>
         <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="342" Column="MsgText">Partial success.  Errors occured on one or more items. Please review the log for details.  Manual intervention may be required.</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Partial success.  Errors occurred on one or more items. Please review the log for details.  Manual intervention may be required.</Data>
         <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
         <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>

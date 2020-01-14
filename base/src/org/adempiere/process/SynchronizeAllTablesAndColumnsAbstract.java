@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2020 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * or (at your option) any later version.										*
@@ -24,13 +24,13 @@ import org.compiere.process.SvrProcess;
  *  @author Michael McKay, mckayERP@gmail.com 
  *  	<li>Added as part of <a href="https://github.com/adempiere/adempiere/issues/213">#213</a>
  *  		Support for application dictionary changes and configurable automatic synchronization
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
-public abstract class SyncAllAbstract extends SvrProcess {
+public abstract class SynchronizeAllTablesAndColumnsAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE_FOR_PROCESS = "SyncAll";
+	private static final String VALUE_FOR_PROCESS = "SyncAllTablesAndColumns";
 	/** Process Name 	*/
-	private static final String NAME_FOR_PROCESS = "Sync All Tables and Columns";
+	private static final String NAME_FOR_PROCESS = "Synchronize All Tables and Columns";
 	/** Process Id 	*/
 	private static final int ID_FOR_PROCESS = 54204;
 	/**	Parameter Name for Table	*/
@@ -43,11 +43,11 @@ public abstract class SyncAllAbstract extends SvrProcess {
 	public static final String ONLYREPORT = "OnlyReport";
 	
 	/** Message Text for translation */
-	public static final String MSG_OnlyReport = "@SyncAllAbstract_OnlyReport@";
-	public static final String MSG_NoChangesRequired = "@SyncAllAbstract_NoChangesRequired@";
-	public static final String MSG_ChangesMade = "@SyncAllAbstract_ChangeMade@";
-	public static final String MSG_NothingToReport = "@SyncAllAbstract_NothingToReport@";
-	public static final String MSG_ChangesMadeWithErrors = "@SyncAllAbstract_ChangeMadeWithError@";
+	public static final String MSG_OnlyReport = "@SynchronizeAllTablesAndColumnsAbstract_OnlyReport@";
+	public static final String MSG_NoChangesRequired = "@SynchronizeAllTablesAndColumnsAbstract_NoChangesRequired@";
+	public static final String MSG_ChangesMade = "@SynchronizeAllTablesAndColumnsAbstract_ChangeMade@";
+	public static final String MSG_NothingToReport = "@SynchronizeAllTablesAndColumnsAbstract_NothingToReport@";
+	public static final String MSG_ChangesMadeWithErrors = "@SynchronizeAllTablesAndColumnsAbstract_ChangeMadeWithError@";
 
 	/**	Parameter Value for Table	*/
 	private int tableId;

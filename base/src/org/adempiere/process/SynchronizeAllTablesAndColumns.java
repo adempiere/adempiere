@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2020 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * or (at your option) any later version.										*
@@ -29,7 +29,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 
-/** Generated Process to Sync All Tables and Columns.
+/** Generated Process to Synchronize All Tables and Columns.
  *  This process will synchronize all tables and columns with the database
  *  where the tables and/or columns are new or have changes that require
  *  updates in the database.  Tables and columns that require sync are
@@ -53,9 +53,9 @@ import org.compiere.util.Trx;
  *  	<li>Added as part of <a href="https://github.com/adempiere/adempiere/issues/213">#213</a>
  *  		Support for application dictionary changes and configurable automatic synchronization
  *  
- *  @version Release 3.9.2
+ *  @version Release 3.9.4
  */
-public class SyncAll extends SyncAllAbstract
+public class SynchronizeAllTablesAndColumns extends SynchronizeAllTablesAndColumnsAbstract
 {
 
 	@Override
