@@ -2,17 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6ea42611-0cd8-47e7-b2d3-d009fb0e3735" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/ant.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ant.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/scala_sdk_2_12_8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/scala_sdk_2_12_10.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/ADInterface-1.0.war" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ADInterface-1.0.war" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/ReleaseInOutBound.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/eevolution/process/ReleaseInOutBound.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/spin/form/OutBoundOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/base/org/spin/form/OutBoundOrder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/ui/zk/org/spin/form/WOutBoundOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/org.eevolution.warehouse/src/main/java/ui/zk/org/spin/form/WOutBoundOrder.java" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -72,6 +66,11 @@
     <option name="version" value="1" />
   </component>
   <component name="ProjectId" id="1U0IaOsLt0ZPhG8z5Y8FjzV1Ke7" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="Downloaded.Files.Path.Enabled" value="false" />
@@ -95,12 +94,13 @@
     <property name="GenerateAntBuildDialog.enableUiFormCompile" value="true" />
     <property name="GenerateAntBuildDialog.forceTargetJdk" value="true" />
     <property name="GenerateAntBuildDialog.outputFileNameProperty" value="adempieredevelop" />
+    <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1546400067265" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/org.adempiere.request/src" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/install/build/Adempiere/migration/392lts-393lts" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.40536398" />
@@ -129,31 +129,19 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
   <component name="RunManager" selected="Application.Adempiere PG">
+    <configuration default="true" type="Applet">
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="SbtRunConfiguration" factoryName="SBT Task">
       <setting name="tasks" value="" />
       <setting name="vmparams" value="-Xms512M -Xmx1024M -Xss1M -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=256M" />
       <setting name="workingDir" value="$PROJECT_DIR$" />
       <envs />
       <method />
-    </configuration>
-    <configuration default="true" type="Applet">
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
     </configuration>
     <configuration name="Adempiere Oracle" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="org.compiere.Adempiere" />
@@ -401,7 +389,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="4723445139372" />
+        <entry key="$PROJECT_DIR$" value="4733199813230" />
         <entry key="$PROJECT_DIR$/build.sbt" value="275225224" />
         <entry key="$PROJECT_DIR$/project/build.properties" value="1396028727" />
         <entry key="$PROJECT_DIR$/project/plugins.sbt" value="3848373546" />
@@ -420,6 +408,18 @@
       <map>
         <entry key="xml" value="XML" />
       </map>
+    </option>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
     </option>
   </component>
   <component name="SvnConfiguration">
@@ -462,17 +462,6 @@
         <entry key="MAIN">
           <value>
             <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="text">
-                    <value>
-                      <list>
-                        <option value="c8c0af2ff3f95e9d7372eef1d963990691ac3eaa" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
               <option name="COLUMN_ORDER" />
             </State>
           </value>
@@ -487,6 +476,12 @@
     <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
       <collection />
     </option>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="100" y="123" width="1720" height="1377" key="DiffContextDialog" timestamp="1577745055161">
+      <screen x="0" y="23" width="3840" height="1577" />
+    </state>
+    <state x="100" y="123" width="1720" height="1377" key="DiffContextDialog/0.23.3840.1577@0.23.3840.1577" timestamp="1577745055161" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
