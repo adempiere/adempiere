@@ -84,14 +84,11 @@ public class GenerateInvoiceInOutBound extends GenerateInvoiceInOutBoundAbstract
 			BigDecimal qtyInvoiced = outboundLine.getMovementQty();
 			MInvoice invoice = getInvoice(orderLine, outboundLine.getParent());
 			MInvoiceLine invoiceLine = new MInvoiceLine(outboundLine.getCtx(), 0 , outboundLine.get_TrxName());
-			invoiceLine.setC_Invoice_ID(invoice.getC_Invoice_ID());
-			invoiceLine.setM_Product_ID(outboundLine.getM_Product_ID());
-			invoiceLine.setC_UOM_ID(outboundLine.getC_UOM_ID());
-			//	
+			invoiceLine.setOrderLine(orderLine);
+			invoiceLine.setC_Invoice_ID(invoice.get_ID());
 			invoiceLine.setQtyEntered(qtyInvoiced);
 			invoiceLine.setQtyInvoiced(qtyInvoiced);
-			invoiceLine.setC_OrderLine_ID(orderLine.getC_OrderLine_ID());
-			invoiceLine.setWM_InOutBoundLine_ID(outboundLine.getWM_InOutBoundLine_ID());
+			invoiceLine.setWM_InOutBoundLine_ID(outboundLine.get_ID());
 			invoiceLine.saveEx();
 		}
 	}
