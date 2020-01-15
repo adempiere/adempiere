@@ -85,6 +85,9 @@ public class GenerateInvoiceInOutBound extends GenerateInvoiceInOutBoundAbstract
 			MInvoice invoice = getInvoice(orderLine, outboundLine.getParent());
 			MInvoiceLine invoiceLine = new MInvoiceLine(outboundLine.getCtx(), 0 , outboundLine.get_TrxName());
 			invoiceLine.setOrderLine(orderLine);
+			// Set Shipment Line
+			if (outboundLine.getM_InOutLine_ID() > 0)
+				invoiceLine.setM_InOutLine_ID(outboundLine.getM_InOutLine_ID());
 			invoiceLine.setC_Invoice_ID(invoice.get_ID());
 			invoiceLine.setQtyEntered(qtyInvoiced);
 			invoiceLine.setQtyInvoiced(qtyInvoiced);
