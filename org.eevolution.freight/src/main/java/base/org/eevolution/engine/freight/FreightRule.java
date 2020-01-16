@@ -104,7 +104,7 @@ public class FreightRule implements FreightRuleInterface {
         }
 
         FreightServiceInterface freightService = new FreightService();
-        Optional<MFreight> freightOptioonal = freightService.getFreightValid(ctx, shipperId, freightCategoryId, currencyId, date, trxName)
+        Optional<MFreight> maybeFreight = freightService.getFreightValid(ctx, shipperId, freightCategoryId, currencyId, date, trxName)
                 .stream()
                 .filter(freight -> {
                     if (freight.getC_Country_ID() == 0 && freight.getTo_Country_ID() == 0)
@@ -127,9 +127,9 @@ public class FreightRule implements FreightRuleInterface {
                     else
                         return false;
                 }).findFirst();
-        if (freightOptioonal.isPresent())
+        if (maybeFreight.isPresent())
         {
-            return freightOptioonal.get().getFreightAmt();
+            return maybeFreight.get().getFreightAmt();
         }
         else
         {
