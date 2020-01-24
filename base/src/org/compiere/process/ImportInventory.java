@@ -189,7 +189,7 @@ public class ImportInventory extends ImportInventoryAbstract {
 		sql = new StringBuffer ("UPDATE I_Inventory "
 				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=" + Msg.parseTranslation(getCtx(), "@SQLErrorNotUnique@ (@M_Inventory_ID@, @M_Locator_ID@, @M_Product_ID@) @Qty@ = ") 
 				+ " ' || (SELECT COUNT(i.I_Inventory_ID) FROM I_Inventory i WHERE i.M_Product_ID = I_Inventory.M_Product_ID AND i.M_Locator_ID = I_Inventory.M_Locator_ID GROUP BY i.M_Locator_ID, i.M_Product_ID) "
-				+ "WHERE EXISTS(SELECT 1 FROM I_Inventory i WHERE i.M_Product_ID = I_Inventory.M_Product_ID AND i.M_Locator_ID = I_Inventory.M_Locator_ID GROUP BY i.M_Locator_ID, i.M_Product_ID HAVING(COUNT(i.I_Inventory_ID) > 1)) "
+				+ "WHERE EXISTS(SELECT 1 FROM I_Inventory i WHERE i.M_Product_ID = I_Inventory.M_Product_ID AND i.M_Locator_ID = I_Inventory.M_Locator_ID AND i.I_IsImported<>'Y' GROUP BY i.M_Locator_ID, i.M_Product_ID HAVING(COUNT(i.I_Inventory_ID) > 1)) "
 				+ "AND EXISTS(SELECT 1 FROM M_Product p LEFT JOIN M_AttributeSet a ON(a.M_AttributeSet_ID = p.M_AttributeSet_ID) WHERE p.M_Product_ID = I_Inventory.M_Product_ID AND (p.M_AttributeSet_ID IS NULL OR a.IsInstanceAttribute = 'Y'))"
 				+ " AND I_IsImported<>'Y'").append (clientCheck);
 		no = DB.executeUpdate (sql.toString (), get_TrxName());
