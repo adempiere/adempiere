@@ -250,7 +250,7 @@ public class CostEngine {
 	 */
 	public void createCostDetail(MTransaction transaction, IDocumentLine model) {
 
-		MClient client = new MClient (transaction.getCtx() , transaction.getAD_Client_ID(), transaction.get_TrxName());
+		MClient client =  MClient.get(transaction.getCtx());
 		StringBuilder description = new StringBuilder();
 		if (model != null && model.getDescription() != null && !Util.isEmpty(model.getDescription(), true))
 			description.append(model.getDescription());
