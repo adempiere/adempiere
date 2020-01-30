@@ -1503,11 +1503,13 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         	return;
         }
 
-        
+		currentTab.setQuery(null);	//	reset previous queries
+		MRole role = MRole.getDefault();
+		int maxRows = role.getMaxQueryRecords();
+		currentTab.query(m_onlyCurrentRows, 0, maxRows);
         newRecord = currentTab.dataNew(false);
         if (newRecord)
         {
-            //curTabPanel.dynamicDisplay(0);
             toolbar.getCurrentPanel().dynamicDisplay(0);
             toolbar.enableChanges(false);
             toolbar.enableDelete(false);
