@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Exp_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Detail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20200127L;
 
     /** Standard Constructor */
     public X_AD_Package_Exp_Detail (Properties ctx, int AD_Package_Exp_Detail_ID, String trxName)
@@ -99,9 +99,37 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_EntityType getAD_EntityType() throws RuntimeException
+	public I_AD_Column getAD_Column() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_EntityType)MTable.get(getCtx(), org.compiere.model.I_AD_EntityType.Table_Name)
+		return (I_AD_Column)MTable.get(getCtx(), I_AD_Column.Table_Name)
+			.getPO(getAD_Column_ID(), get_TrxName());	}
+
+	/** Set Column.
+		@param AD_Column_ID 
+		Column in the table
+	  */
+	public void setAD_Column_ID (int AD_Column_ID)
+	{
+		if (AD_Column_ID < 1) 
+			set_Value (COLUMNNAME_AD_Column_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Column_ID, Integer.valueOf(AD_Column_ID));
+	}
+
+	/** Get Column.
+		@return Column in the table
+	  */
+	public int getAD_Column_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Column_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_AD_EntityType getAD_EntityType() throws RuntimeException
+    {
+		return (I_AD_EntityType)MTable.get(getCtx(), I_AD_EntityType.Table_Name)
 			.getPO(getAD_EntityType_ID(), get_TrxName());	}
 
 	/** Set Entity Type.
@@ -127,9 +155,37 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_Form getAD_Form() throws RuntimeException
+	public I_AD_Field getAD_Field() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_Form)MTable.get(getCtx(), org.compiere.model.I_AD_Form.Table_Name)
+		return (I_AD_Field)MTable.get(getCtx(), I_AD_Field.Table_Name)
+			.getPO(getAD_Field_ID(), get_TrxName());	}
+
+	/** Set Field.
+		@param AD_Field_ID 
+		Field on a database table
+	  */
+	public void setAD_Field_ID (int AD_Field_ID)
+	{
+		if (AD_Field_ID < 1) 
+			set_Value (COLUMNNAME_AD_Field_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Field_ID, Integer.valueOf(AD_Field_ID));
+	}
+
+	/** Get Field.
+		@return Field on a database table
+	  */
+	public int getAD_Field_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Field_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_AD_Form getAD_Form() throws RuntimeException
+    {
+		return (I_AD_Form)MTable.get(getCtx(), I_AD_Form.Table_Name)
 			.getPO(getAD_Form_ID(), get_TrxName());	}
 
 	/** Set Special Form.
@@ -155,9 +211,9 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_ImpFormat getAD_ImpFormat() throws RuntimeException
+	public I_AD_ImpFormat getAD_ImpFormat() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_ImpFormat)MTable.get(getCtx(), org.compiere.model.I_AD_ImpFormat.Table_Name)
+		return (I_AD_ImpFormat)MTable.get(getCtx(), I_AD_ImpFormat.Table_Name)
 			.getPO(getAD_ImpFormat_ID(), get_TrxName());	}
 
 	/** Set Import Format.
@@ -180,9 +236,9 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_Menu getAD_Menu() throws RuntimeException
+	public I_AD_Menu getAD_Menu() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_Menu)MTable.get(getCtx(), org.compiere.model.I_AD_Menu.Table_Name)
+		return (I_AD_Menu)MTable.get(getCtx(), I_AD_Menu.Table_Name)
 			.getPO(getAD_Menu_ID(), get_TrxName());	}
 
 	/** Set Menu.
@@ -208,9 +264,9 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_Message getAD_Message() throws RuntimeException
+	public I_AD_Message getAD_Message() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_Message)MTable.get(getCtx(), org.compiere.model.I_AD_Message.Table_Name)
+		return (I_AD_Message)MTable.get(getCtx(), I_AD_Message.Table_Name)
 			.getPO(getAD_Message_ID(), get_TrxName());	}
 
 	/** Set Message.
@@ -236,9 +292,9 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_ModelValidator getAD_ModelValidator() throws RuntimeException
+	public I_AD_ModelValidator getAD_ModelValidator() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_ModelValidator)MTable.get(getCtx(), org.compiere.model.I_AD_ModelValidator.Table_Name)
+		return (I_AD_ModelValidator)MTable.get(getCtx(), I_AD_ModelValidator.Table_Name)
 			.getPO(getAD_ModelValidator_ID(), get_TrxName());	}
 
 	/** Set Model Validator.
@@ -345,9 +401,9 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
         return new KeyNamePair(get_ID(), String.valueOf(getAD_Package_Exp_Detail_ID()));
     }
 
-	public org.compiere.model.I_AD_Package_Exp getAD_Package_Exp() throws RuntimeException
+	public I_AD_Package_Exp getAD_Package_Exp() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_Package_Exp)MTable.get(getCtx(), org.compiere.model.I_AD_Package_Exp.Table_Name)
+		return (I_AD_Package_Exp)MTable.get(getCtx(), I_AD_Package_Exp.Table_Name)
 			.getPO(getAD_Package_Exp_ID(), get_TrxName());	}
 
 	/** Set Package Exp..
@@ -370,9 +426,9 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
+	public I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_PrintFormat)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFormat.Table_Name)
+		return (I_AD_PrintFormat)MTable.get(getCtx(), I_AD_PrintFormat.Table_Name)
 			.getPO(getAD_PrintFormat_ID(), get_TrxName());	}
 
 	/** Set Print Format.
@@ -398,9 +454,9 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_Process getAD_Process() throws RuntimeException
+	public I_AD_Process getAD_Process() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_Process)MTable.get(getCtx(), org.compiere.model.I_AD_Process.Table_Name)
+		return (I_AD_Process)MTable.get(getCtx(), I_AD_Process.Table_Name)
 			.getPO(getAD_Process_ID(), get_TrxName());	}
 
 	/** Set Process.
@@ -426,9 +482,9 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException
+	public I_AD_Reference getAD_Reference() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_Reference)MTable.get(getCtx(), org.compiere.model.I_AD_Reference.Table_Name)
+		return (I_AD_Reference)MTable.get(getCtx(), I_AD_Reference.Table_Name)
 			.getPO(getAD_Reference_ID(), get_TrxName());	}
 
 	/** Set Reference.
@@ -454,9 +510,9 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_ReportView getAD_ReportView() throws RuntimeException
+	public I_AD_ReportView getAD_ReportView() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_ReportView)MTable.get(getCtx(), org.compiere.model.I_AD_ReportView.Table_Name)
+		return (I_AD_ReportView)MTable.get(getCtx(), I_AD_ReportView.Table_Name)
 			.getPO(getAD_ReportView_ID(), get_TrxName());	}
 
 	/** Set Report View.
@@ -482,9 +538,9 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException
+	public I_AD_Role getAD_Role() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_Role)MTable.get(getCtx(), org.compiere.model.I_AD_Role.Table_Name)
+		return (I_AD_Role)MTable.get(getCtx(), I_AD_Role.Table_Name)
 			.getPO(getAD_Role_ID(), get_TrxName());	}
 
 	/** Set Role.
@@ -510,9 +566,37 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException
+	public I_AD_Tab getAD_Tab() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_Table)MTable.get(getCtx(), org.compiere.model.I_AD_Table.Table_Name)
+		return (I_AD_Tab)MTable.get(getCtx(), I_AD_Tab.Table_Name)
+			.getPO(getAD_Tab_ID(), get_TrxName());	}
+
+	/** Set Tab.
+		@param AD_Tab_ID 
+		Tab within a Window
+	  */
+	public void setAD_Tab_ID (int AD_Tab_ID)
+	{
+		if (AD_Tab_ID < 1) 
+			set_Value (COLUMNNAME_AD_Tab_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Tab_ID, Integer.valueOf(AD_Tab_ID));
+	}
+
+	/** Get Tab.
+		@return Tab within a Window
+	  */
+	public int getAD_Tab_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Tab_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public I_AD_Table getAD_Table() throws RuntimeException
+    {
+		return (I_AD_Table)MTable.get(getCtx(), I_AD_Table.Table_Name)
 			.getPO(getAD_Table_ID(), get_TrxName());	}
 
 	/** Set Table.
@@ -538,9 +622,9 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException
+	public I_AD_Val_Rule getAD_Val_Rule() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_Val_Rule)MTable.get(getCtx(), org.compiere.model.I_AD_Val_Rule.Table_Name)
+		return (I_AD_Val_Rule)MTable.get(getCtx(), I_AD_Val_Rule.Table_Name)
 			.getPO(getAD_Val_Rule_ID(), get_TrxName());	}
 
 	/** Set Dynamic Validation.
@@ -594,9 +678,9 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException
+	public I_AD_Window getAD_Window() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_Window)MTable.get(getCtx(), org.compiere.model.I_AD_Window.Table_Name)
+		return (I_AD_Window)MTable.get(getCtx(), I_AD_Window.Table_Name)
 			.getPO(getAD_Window_ID(), get_TrxName());	}
 
 	/** Set Window.
@@ -622,9 +706,9 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_Workbench getAD_Workbench() throws RuntimeException
+	public I_AD_Workbench getAD_Workbench() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_Workbench)MTable.get(getCtx(), org.compiere.model.I_AD_Workbench.Table_Name)
+		return (I_AD_Workbench)MTable.get(getCtx(), I_AD_Workbench.Table_Name)
 			.getPO(getAD_Workbench_ID(), get_TrxName());	}
 
 	/** Set Workbench.
@@ -650,9 +734,9 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException
+	public I_AD_Workflow getAD_Workflow() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_Workflow)MTable.get(getCtx(), org.compiere.model.I_AD_Workflow.Table_Name)
+		return (I_AD_Workflow)MTable.get(getCtx(), I_AD_Workflow.Table_Name)
 			.getPO(getAD_Workflow_ID(), get_TrxName());	}
 
 	/** Set Workflow.
@@ -678,9 +762,9 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_ASP_Module getASP_Module() throws RuntimeException
+	public I_ASP_Module getASP_Module() throws RuntimeException
     {
-		return (org.compiere.model.I_ASP_Module)MTable.get(getCtx(), org.compiere.model.I_ASP_Module.Table_Name)
+		return (I_ASP_Module)MTable.get(getCtx(), I_ASP_Module.Table_Name)
 			.getPO(getASP_Module_ID(), get_TrxName());	}
 
 	/** Set ASP Module.
@@ -781,6 +865,20 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return (String)get_Value(COLUMNNAME_Destination_FileName);
 	}
 
+	/** Set File_Directory.
+		@param File_Directory File_Directory	  */
+	public void setFile_Directory (String File_Directory)
+	{
+		set_Value (COLUMNNAME_File_Directory, File_Directory);
+	}
+
+	/** Get File_Directory.
+		@return File_Directory	  */
+	public String getFile_Directory ()
+	{
+		return (String)get_Value(COLUMNNAME_File_Directory);
+	}
+
 	/** Set File Name.
 		@param FileName 
 		Name of the local file or URL
@@ -796,20 +894,6 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public String getFileName () 
 	{
 		return (String)get_Value(COLUMNNAME_FileName);
-	}
-
-	/** Set File_Directory.
-		@param File_Directory File_Directory	  */
-	public void setFile_Directory (String File_Directory)
-	{
-		set_Value (COLUMNNAME_File_Directory, File_Directory);
-	}
-
-	/** Get File_Directory.
-		@return File_Directory	  */
-	public String getFile_Directory () 
-	{
-		return (String)get_Value(COLUMNNAME_File_Directory);
 	}
 
 	/** Set Line No.
@@ -1014,6 +1098,12 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public static final String TYPE_ASPModule = "ASP";
 	/** Custom Export = CEP */
 	public static final String TYPE_CustomExport = "CEP";
+	/** Column = TC */
+	public static final String TYPE_Column = "TC";
+	/** Field = TF */
+	public static final String TYPE_Field = "TF";
+	/** Tab = WT */
+	public static final String TYPE_Tab = "WT";
 	/** Set Type.
 		@param Type 
 		Type of Validation (SQL, Java Script, Java Language)

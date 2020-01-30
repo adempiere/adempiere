@@ -36,33 +36,7 @@ import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.adempiere.pipo.handler.ASPModuleElementHandler;
-import org.adempiere.pipo.handler.AdElementHandler;
-import org.adempiere.pipo.handler.BrowseCustomElementHandler;
-import org.adempiere.pipo.handler.BrowseElementHandler;
-import org.adempiere.pipo.handler.CodeSnipitElementHandler;
-import org.adempiere.pipo.handler.DataElementHandler;
-import org.adempiere.pipo.handler.DistFileElementHandler;
-import org.adempiere.pipo.handler.DynValRuleElementHandler;
-import org.adempiere.pipo.handler.EntityTypeElementHandler;
-import org.adempiere.pipo.handler.FormElementHandler;
-import org.adempiere.pipo.handler.GenericPOHandler;
-import org.adempiere.pipo.handler.ImpFormatElementHandler;
-import org.adempiere.pipo.handler.MenuElementHandler;
-import org.adempiere.pipo.handler.MessageElementHandler;
-import org.adempiere.pipo.handler.PrintFormatElementHandler;
-import org.adempiere.pipo.handler.ProcessCustomElementHandler;
-import org.adempiere.pipo.handler.ProcessElementHandler;
-import org.adempiere.pipo.handler.ReferenceElementHandler;
-import org.adempiere.pipo.handler.ReportViewElementHandler;
-import org.adempiere.pipo.handler.RoleElementHandler;
-import org.adempiere.pipo.handler.SQLStatementElementHandler;
-import org.adempiere.pipo.handler.TableElementHandler;
-import org.adempiere.pipo.handler.TaskElementHandler;
-import org.adempiere.pipo.handler.ViewElementHandler;
-import org.adempiere.pipo.handler.WindowCustomElementHandler;
-import org.adempiere.pipo.handler.WindowElementHandler;
-import org.adempiere.pipo.handler.WorkflowElementHandler;
+import org.adempiere.pipo.handler.*;
 import org.compiere.model.I_AD_BrowseCustom;
 import org.compiere.model.I_AD_ModelValidator;
 import org.compiere.model.I_AD_Package_Exp;
@@ -116,12 +90,15 @@ public class PackOut extends PackOutAbstract {
     TaskElementHandler taskHandler = new TaskElementHandler();
     FormElementHandler formHandler = new FormElementHandler();
     WindowElementHandler windowHandler = new WindowElementHandler();
-    ViewElementHandler viewHandler = new ViewElementHandler();
+    TabElementHandler tabHandler = new TabElementHandler();
+	FieldElementHandler fieldHandler = new FieldElementHandler();
+	ViewElementHandler viewHandler = new ViewElementHandler();
     BrowseElementHandler browseHandler = new BrowseElementHandler();
     MenuElementHandler menuHandler = new MenuElementHandler();
     ReportViewElementHandler reportViewHandler = new ReportViewElementHandler();
     DataElementHandler dataHandler = new DataElementHandler();
     TableElementHandler tableHandler = new TableElementHandler();
+    ColumnElementHandler columnHandler = new ColumnElementHandler();
     RoleElementHandler roleHandler = new RoleElementHandler();
     SQLStatementElementHandler sqlHandler = new SQLStatementElementHandler();
     ImpFormatElementHandler impFormtHandler = new ImpFormatElementHandler();
@@ -286,10 +263,16 @@ public class PackOut extends PackOutAbstract {
 					createData (detail.getAD_Table_ID(), detail.getSQLStatement(), packOutDocument );
 				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Table) == 0)
 					createTable (detail.getAD_Table_ID(), packOutDocument);
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Column) == 0)
+					createColumn(detail.getAD_Column_ID(), packOutDocument);
 				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Form) == 0)
 					createForm (detail.getAD_Form_ID(), packOutDocument);
 				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Window) == 0)
-					createWindow (detail.getAD_Window_ID(), packOutDocument);	
+					createWindow (detail.getAD_Window_ID(), packOutDocument);
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Tab) == 0)
+					createTab(detail.getAD_Tab_ID(), packOutDocument);
+				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_Field) == 0)
+					createField(detail.getAD_Field_ID(), packOutDocument);
 				else if (type.compareTo(X_AD_Package_Exp_Detail.TYPE_SmartBrowse) == 0)
 					createBrowse (detail.getAD_Browse_ID(), packOutDocument);
 				else if(type.equals(X_AD_Package_Exp_Detail.TYPE_SmartView))
@@ -598,6 +581,12 @@ public class PackOut extends PackOutAbstract {
 		windowHandler.create(getCtx(), packOutDocument);
 		getCtx().remove("AD_Window_ID");
 	}
+
+	public void createTab (int tabId, TransformerHandler packOutDocument) throws SAXException {
+		Env.setContext(getCtx(), "AD_Tab_ID", tabId);
+		tabHandler.create(getCtx(), packOutDocument);
+		getCtx().remove("AD_Tab_ID");
+	}
 	
 	/**
 	 * 
@@ -747,7 +736,19 @@ public class PackOut extends PackOutAbstract {
 		tableHandler.create(getCtx(), packOutDocument);
 		getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Table_ID);
 	}	
-	
+
+	public void createColumn (int columnId, TransformerHandler packOutDocument) throws SAXException {
+		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Column_ID, columnId);
+		columnHandler.create(getCtx(), packOutDocument);
+		getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Column_ID);
+	}
+
+	public void createField (int fieldId, TransformerHandler packOutDocument) throws SAXException {
+		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_Field_ID, fieldId);
+		fieldHandler.create(getCtx(), packOutDocument);
+		getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_Field_ID);
+	}
+
 	/**
 	 * 
 	 * @param Reference_id
