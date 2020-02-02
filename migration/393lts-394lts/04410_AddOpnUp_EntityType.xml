@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="OpenUp Entity Type" ReleaseNo="3.9.1" SeqNo="4410">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="882" Action="I" Record_ID="50047" Table="AD_EntityType">
+        <Data AD_Column_ID="15607" Column="Processing">false</Data>
+        <Data AD_Column_ID="15599" Column="Updated">2019-02-21 09:00:15.565</Data>
+        <Data AD_Column_ID="15596" Column="IsActive">true</Data>
+        <Data AD_Column_ID="15592" Column="EntityType">LUY</Data>
+        <Data AD_Column_ID="15595" Column="AD_EntityType_ID">50047</Data>
+        <Data AD_Column_ID="15593" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="15594" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15597" Column="Created">2019-02-21 09:00:15.565</Data>
+        <Data AD_Column_ID="15600" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="15602" Column="Description">Localización para Uruguay Soportada por OpenUp Solutions</Data>
+        <Data AD_Column_ID="15604" Column="Version">1.0</Data>
+        <Data AD_Column_ID="15606" Column="Classpath" isNewNull="true"/>
+        <Data AD_Column_ID="15603" Column="Help">License GPL2 or later, Sponsor OpenUp Solutions www.openupsolutions.com</Data>
+        <Data AD_Column_ID="15598" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="15601" Column="Name">Localización Uruguay OpenUp</Data>
+        <Data AD_Column_ID="84318" Column="UUID">d604d5d4-35dc-11e9-be0a-7765407fedd4</Data>
+        <Data AD_Column_ID="15605" Column="ModelPackage">org.openup.luy.model</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="882" Action="I" Record_ID="50048" Table="AD_EntityType">
+        <Data AD_Column_ID="15607" Column="Processing">false</Data>
+        <Data AD_Column_ID="15599" Column="Updated">2019-02-21 09:01:03.875</Data>
+        <Data AD_Column_ID="15596" Column="IsActive">true</Data>
+        <Data AD_Column_ID="15592" Column="EntityType">OPN01</Data>
+        <Data AD_Column_ID="15595" Column="AD_EntityType_ID">50048</Data>
+        <Data AD_Column_ID="15593" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="15594" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="15597" Column="Created">2019-02-21 09:01:03.875</Data>
+        <Data AD_Column_ID="15600" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="15602" Column="Description">OpenUp Contribution</Data>
+        <Data AD_Column_ID="15604" Column="Version">1.0</Data>
+        <Data AD_Column_ID="15605" Column="ModelPackage">org.openup.model</Data>
+        <Data AD_Column_ID="15606" Column="Classpath" isNewNull="true"/>
+        <Data AD_Column_ID="15603" Column="Help">License GPL2 or later, Sponsor OpenUp Solutions www.openupsolutions.com</Data>
+        <Data AD_Column_ID="15598" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="15601" Column="Name">OpenUp Contribution</Data>
+        <Data AD_Column_ID="84318" Column="UUID">f01f2c12-35dc-11e9-be1e-a7e82a6815f7</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
