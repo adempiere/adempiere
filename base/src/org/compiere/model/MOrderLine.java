@@ -365,10 +365,21 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	 * 	Calculate Extended Amt.
 	 * 	May or may not include tax
 	 */
-	public void setLineNetAmt ()
-	{
-		BigDecimal bd = getPriceActual().multiply(getQtyOrdered()); 
-		
+	public void setLineNetAmt () {
+		//	Line Net Amt
+		BigDecimal lineNetAmount = null;
+		if(getM_Product_ID() != 0) {
+			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
+			if(product.getC_UOM_ID() != getC_UOM_ID()
+					&& getPriceEntered() != null && !getPriceEntered().equals(Env.ZERO)
+					&& getQtyEntered() != null && !getQtyEntered().equals(Env.ZERO)) {
+				lineNetAmount = getQtyEntered().multiply(getPriceEntered());
+			}
+		}
+		//	Set default
+		if(lineNetAmount == null) {
+			lineNetAmount = getPriceActual().multiply(getQtyOrdered());
+		}
 		boolean documentLevel = getTax().isDocumentLevel();
 		
 		//	juddm: Tax Exempt & Tax Included in Price List & not Document Level - Adjust Line Amount
@@ -400,20 +411,20 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 				log.fine("stdTax rate is " + stdTax.getRate());
 				log.fine("orderTax rate is " + orderTax.getRate());
 				
-				taxThisAmt = taxThisAmt.add(orderTax.calculateTax(bd, isTaxIncluded(), getPrecision()));
-				taxStdAmt = taxStdAmt.add(stdTax.calculateTax(bd, isTaxIncluded(), getPrecision()));
+				taxThisAmt = taxThisAmt.add(orderTax.calculateTax(lineNetAmount, isTaxIncluded(), getPrecision()));
+				taxStdAmt = taxStdAmt.add(stdTax.calculateTax(lineNetAmount, isTaxIncluded(), getPrecision()));
 				
-				bd = bd.subtract(taxStdAmt).add(taxThisAmt);
+				lineNetAmount = lineNetAmount.subtract(taxStdAmt).add(taxThisAmt);
 				
 				log.fine("Price List includes Tax and Tax Changed on Order Line: New Tax Amt: " 
-						+ taxThisAmt + " Standard Tax Amt: " + taxStdAmt + " Line Net Amt: " + bd);	
+						+ taxThisAmt + " Standard Tax Amt: " + taxStdAmt + " Line Net Amt: " + lineNetAmount);	
 			}
 			
 		}
 		
-		if (bd.scale() > getPrecision())
-			bd = bd.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
-		super.setLineNetAmt (bd);
+		if (lineNetAmount.scale() > getPrecision())
+			lineNetAmount = lineNetAmount.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
+		super.setLineNetAmt (lineNetAmount);
 	}	//	setLineNetAmt
 	
 	/**
