@@ -63,21 +63,7 @@ import org.adempiere.pipo.handler.ViewElementHandler;
 import org.adempiere.pipo.handler.WindowCustomElementHandler;
 import org.adempiere.pipo.handler.WindowElementHandler;
 import org.adempiere.pipo.handler.WorkflowElementHandler;
-import org.compiere.model.I_AD_BrowseCustom;
-import org.compiere.model.I_AD_ModelValidator;
-import org.compiere.model.I_AD_Package_Exp;
-import org.compiere.model.I_AD_Package_Exp_Detail;
-import org.compiere.model.I_AD_ProcessCustom;
-import org.compiere.model.I_AD_WindowCustom;
-import org.compiere.model.I_ASP_Module;
-import org.compiere.model.MPackageExp;
-import org.compiere.model.MPackageExpDetail;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.Query;
-import org.compiere.model.X_AD_Element;
-import org.compiere.model.X_AD_Package_Exp_Detail;
-import org.compiere.model.X_AD_Reference;
+import org.compiere.model.*;
 import org.compiere.util.Env;
 import org.spin.model.MADPackageExpCustom;
 import org.xml.sax.SAXException;
@@ -442,6 +428,10 @@ public class PackOut extends PackOutAbstract {
 		
 		//Clean .tar file up
 		destTarFile.delete();
+
+		MAttachment mAttachment = new MAttachment(getCtx(), I_AD_Package_Exp.Table_ID, getRecord_ID(), get_TrxName());
+		mAttachment.addEntry(destZipFile);
+		mAttachment.saveEx();
 		
 		return "Finish Process";
 	}	//	doIt
