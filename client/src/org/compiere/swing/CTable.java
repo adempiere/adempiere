@@ -375,7 +375,7 @@ public class CTable extends JTable
 		//  Prepare sorting
 		if (getModel() instanceof DefaultTableModel)
 		{
-			MultiSelectionTableModel model = (MultiSelectionTableModel)getModel();
+			DefaultTableModel model = (DefaultTableModel)getModel();
 			final MSort sort = new MSort(0, null);
 			sort.setSortAsc(p_asc);
 			/* teo_sarca: commented: [ 1585369 ] CTable sorting is TOO LAZY *
