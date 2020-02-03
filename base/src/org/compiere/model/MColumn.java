@@ -28,11 +28,14 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.adempiere.exceptions.DBException;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Trx;
 import org.compiere.util.Util;
 
 /**
@@ -56,6 +59,9 @@ import org.compiere.util.Util;
  * 		@see BR [ 1072 ] Synchronize Column is unnecessary when it is not apply for DB</a>
  * 		<a href="https://github.com/adempiere/adempiere/issues/922">
  * 		@see FR [ 922 ] Is Allow Copy in model</a>
+ *  @author mckayERP www.mckayERP.com
+ *  	<li> FR [ <a href="https://github.com/adempiere/adempiere/issues/213">#213</a> ] Support for application dictionary changes 
+ *  		 and configurable automatic syncing with the database
  */
 public class MColumn extends X_AD_Column
 {
@@ -66,6 +72,27 @@ public class MColumn extends X_AD_Column
 	 */
 	private static final long serialVersionUID = 3455817869952578951L;
 
+	/**
+	 * A system configuration entry that can be used to turn off the 
+	 * database auto sync which defaults to on ('Y').  Set the value to something
+	 * other than 'Y' to disable the autosync.
+	 */
+	public static final String SYSCONFIG_DATABASE_AUTO_SYNC="DATABASE_AUTO_SYNC";
+
+	public static final String MSG_CannotSyncVirtualColumn = "@MColumn_CannotSyncVirtualColumn@";
+	public static final String MSG_CannotSyncView = "@MColumn_CannotSyncView@";
+	public static final String MSG_SyncErrorColumnAlreadyExists = "@MColumn_SyncError_ColumnWithThatNameAlreadyExists@";
+	public static final String MSG_NoSQLNOChangesMade = "@MColumn_NoSQLNoChangesMade@";  
+	public static final String MSG_ColumnAlreadyExists = "@MColumn_ColumnAlreadyExists@";
+	public static final String MSG_ErrorSyncingColumn = "@MColumn_SyncError@";
+	public static final String MSG_ColumnPartOfKeyButNotKeyOrParentInAD = "@MColumn_ColumnPartOfKeyConstraintButIsNotAKeyOrParentLink@";
+	public static final String MSG_ColumnDoesNotExistAndWillBeAdded = "@MColumn_ColumnDoesNotExistAndWillBeAdded@";
+	public static final String MSG_ColumnNameChanged = "@MColumn_ColumnNameChanged@";
+	public static final String MSG_DataTypeChanged = "@MColumn_ColumnDataTypeChanged@";
+	public static final String MSG_ManadatoryValueChanged = "@MColumn_ColumnMandatorySettingChanged@";
+	public static final String MSG_DefaultValueChanged = "@MColumn_ColumnDefaultValueChanged@";
+	public static final String MSG_SQLSuccessfullyApplied = "@MColumn_ChangesSuccessfullyApplied@";
+	
 	/**
      * Get if id column is Encrypted
      * @param columnId
@@ -158,6 +185,9 @@ public class MColumn extends X_AD_Column
 	
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MColumn.class);
+
+	/** A flag used to indicate that the column is being added to a new table. */
+	private boolean isNewTable = false;
 	
 	/**************************************************************************
 	 * 	Standard Constructor
@@ -326,6 +356,8 @@ public class MColumn extends X_AD_Column
 		
 		//	BR [ 9223372036854775807 ]
 		//  Skip the validation if this is a Direct Load (from a migration) or the Element is changing.
+		//  TODO This may cause problems with packin - the table may not be visible causing validLookup to
+		//  throw an exception
 		if (!isDirectLoad() 
 		    && (this.get_Value(MColumn.COLUMNNAME_AD_Element_ID).equals(get_ValueOld(MColumn.COLUMNNAME_AD_Element_ID))))
 			validLookup(getColumnName(), getAD_Reference_ID(), getAD_Reference_Value_ID());
@@ -371,6 +403,45 @@ public class MColumn extends X_AD_Column
 			setDescription (element.getDescription());
 			setHelp (element.getHelp());
 		}
+		
+		//  In beforeSave, determine if a sync of the database is required.
+		//  The sync is performed in the after save or via a process.  
+		//  To not duplicate columns on name change when syncing by a process,
+		//  a copy of the old name is required, if it changed.
+		//  Important: Can't call getAD_Table() if we just made a change to AD_Table
+		//  so test for the table ID before testing getAD_Table().isView()
+		if (!isVirtualColumn() 
+			&& (get_Table_ID() == I_AD_Table.Table_ID || get_Table_ID() == I_AD_Column.Table_ID || !this.getAD_Table().isView()) 
+			&& !isDirectLoad()
+				&& (newRecord  
+				|| is_ValueChanged(MColumn.COLUMNNAME_ColumnName)
+				|| is_ValueChanged(MColumn.COLUMNNAME_AD_Reference_ID)
+				|| is_ValueChanged(MColumn.COLUMNNAME_FieldLength)
+				|| is_ValueChanged(MColumn.COLUMNNAME_IsMandatory)
+				|| is_ValueChanged(MColumn.COLUMNNAME_IsKey)
+				|| is_ValueChanged(MColumn.COLUMNNAME_DefaultValue)
+				|| is_ValueChanged(MColumn.COLUMNNAME_ColumnSQL)
+				|| is_ValueChanged(MColumn.COLUMNNAME_IsParent))) 
+		{
+			if (isRequiresSync())
+			{
+				// We already have a change prepared.
+				if (getColumnName().equals(getNameOldValue()))
+				{
+					//  We had a change ready and the user has changed the name back
+					//  to what it was.  We can cancel the name change but we can't cancel
+					//  the sync as the other columns may have changed.
+					setNameOldValue(null);
+
+				}
+			}
+			else
+			{
+				setRequiresSync(true);
+				setNameOldValue((String) this.get_ValueOld(MColumn.COLUMNNAME_ColumnName));
+			}
+		}
+
 		return true;
 	}	//	beforeSave
 	
@@ -420,6 +491,18 @@ public class MColumn extends X_AD_Column
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
+		//  #213 - AutoSync - check if we should auto-sync the column and table.
+		//  Autosync is controlled by a System Config entry.  The other sync 
+		//  options are to use the button in the Column tab or the Table and Column
+		//  window or the Sync All Tables and Columns process in the Application
+		//  Dictionary window.
+		if (isRequiresSync() && isAutoSync())
+		{
+
+			syncDatabase();
+					
+		}
+		
 		//	Update Fields
 		if (!newRecord)
 		{
@@ -452,8 +535,13 @@ public class MColumn extends X_AD_Column
 	}	//	afterSave
 	
 	/**
-	 * 	Get SQL Add command
-	 *	@param table table
+	 *  Get SQL Add command, a series of separated SQL statements that will add 
+	 *  this column to the given table. Adding a new primary key to a table with 
+	 *  existing records through this method may cause errors and should be done
+	 *  in stages to add the column, set the key values and finally apply the 
+	 *  constraint.    
+	 *  
+	 *	@param table the target table
 	 *	@return sql
 	 */
 	public String getSQLAdd (MTable table)
@@ -461,15 +549,73 @@ public class MColumn extends X_AD_Column
 		if ( isVirtualColumn() )
 			return null;
 		
-		StringBuffer sql = new StringBuffer ("ALTER TABLE ")
+		StringBuffer sql = null;
+		
+		//  #213 - enable autosync
+		//  If the table is new or the column can be null, it can be added with a single statement
+		if (!isMandatory() || isNewTable) {
+			sql = new StringBuffer ("ALTER TABLE ")
+				.append(table.getTableName())
+				.append(" ADD ").append(getSQLDDL());
+		}
+		else { // isMandatory() && !isNewTable
+			//  If the table is not new (it has existing records) and the column is mandatory
+			//  then the new column values should be set to the defaults in the existing 
+			//  records.  This takes three statements:
+			//   1. Add the column to the table
+			//   2. Set the default value in all records
+			//   3. Make the column mandatory
+			
+			// SQL to add the column
+			sql = new StringBuffer ("ALTER TABLE ")
+				.append(table.getTableName())
+				.append(" ADD ").append(getColumnName())
+				.append(" ").append(getSQLDataType());
+				//	Inline Constraint
+				if (getAD_Reference_ID() == DisplayType.YesNo)
+					sql.append(" CHECK (").append(getColumnName()).append(" IN ('Y','N'))");
+			sql.append(DB.SQLSTATEMENT_SEPARATOR);
+			
+			//  Set the default value for new records
+			String defaultValue = getDefaultValueSQL();
+			sql.append("ALTER TABLE ")
 			.append(table.getTableName())
-			.append(" ADD ").append(getSQLDDL());
+			.append(" ALTER ").append(getColumnName())
+			.append(" SET DEFAULT ").append(defaultValue)
+				.append(DB.SQLSTATEMENT_SEPARATOR);				
+
+			//  Set the default value in all existing records
+			if (defaultValue != null && defaultValue.length() > 0 && !defaultValue.equals("NULL"))
+			{
+				StringBuffer sqlSet = new StringBuffer("UPDATE ")
+					.append(table.getTableName())
+					.append(" SET ").append(getColumnName())
+					.append("=").append(defaultValue)
+					.append(" WHERE ").append(getColumnName()).append(" IS NULL");
+				sql.append(sqlSet).append(DB.SQLSTATEMENT_SEPARATOR);
+			}
+
+			//  Set the column to Not Null - makes it mandatory
+			sql.append("ALTER TABLE ")
+			.append(table.getTableName())
+			.append(" ALTER ").append(getColumnName())
+			.append(" SET NOT NULL")
+			.append(DB.SQLSTATEMENT_SEPARATOR);
+
+		}
+
+		//  Finally, add the constraint, if any.  The constraints should 
+		//  only apply to primary keys.  Note that adding a new primary 
+		//  key column to a table with existing records will likely require 
+		//  some manual effort to define the key values before the constraint
+		//  can be applied.
 		String constraint = getConstraint(table.getTableName());
 		if (constraint != null && constraint.length() > 0) {
-			sql.append(DB.SQLSTATEMENT_SEPARATOR).append("ALTER TABLE ")
+			sql.append("ALTER TABLE ")
 			.append(table.getTableName())
 			.append(" ADD ").append(constraint);
 		}
+
 		return sql.toString();
 	}	//	getSQLAdd
 
@@ -486,31 +632,7 @@ public class MColumn extends X_AD_Column
 			.append(" ").append(getSQLDataType());
 
 		//	Default
-		String defaultValue = getDefaultValue();
-		if (defaultValue != null 
-				&& defaultValue.length() > 0
-				&& defaultValue.indexOf('@') == -1		//	no variables
-				&& ( ! (DisplayType.isID(getAD_Reference_ID()) && defaultValue.equals("-1") ) ) )  // not for ID's with default -1
-		{
-			if (DisplayType.isText(getAD_Reference_ID()) 
-					|| getAD_Reference_ID() == DisplayType.List
-					|| getAD_Reference_ID() == DisplayType.YesNo
-					// Two special columns: Defined as Table but DB Type is String 
-					|| getColumnName().equals("EntityType") || getColumnName().equals("AD_Language")
-					|| (getAD_Reference_ID() == DisplayType.Button &&
-							!(getColumnName().endsWith("_ID"))))
-			{
-				if (!defaultValue.startsWith("'") && !defaultValue.endsWith("'"))
-					defaultValue = DB.TO_STRING(defaultValue);
-			}
-			sql.append(" DEFAULT ").append(defaultValue);
-		}
-		else
-		{
-			if (! isMandatory())
-				sql.append(" DEFAULT NULL ");
-			defaultValue = null;
-		}
+			sql.append(" DEFAULT ").append(getDefaultValueSQL());
 
 		//	Inline Constraint
 		if (getAD_Reference_ID() == DisplayType.YesNo)
@@ -523,63 +645,97 @@ public class MColumn extends X_AD_Column
 	}	//	getSQLDDL	
 	
 	/**
-	 * Get Default Value for SQL
-	 * @return
+	 * Get a string representing the default value of this column for use in 
+	 * sql statements
+	 * @return a string suitable for use as a default value in an SQL statement
 	 */
 	private String getDefaultValueSQL() {
+		//	Default
 		String defaultValue = getDefaultValue();
-		if (defaultValue != null 
-			&& defaultValue.length() > 0
-			&& defaultValue.indexOf('@') == -1		//	no variables
-			&& ( ! (DisplayType.isID(getAD_Reference_ID()) && defaultValue.equals("-1") ) ) )  // not for ID's with default -1
+		if (defaultValue != null && defaultValue.length() > 0)
 		{
-			if (DisplayType.isText(getAD_Reference_ID()) 
-				|| getAD_Reference_ID() == DisplayType.List
-				|| getAD_Reference_ID() == DisplayType.YesNo
-				// Two special columns: Defined as Table but DB Type is String 
-				|| getColumnName().equals("EntityType") || getColumnName().equals("AD_Language")
-				|| (getAD_Reference_ID() == DisplayType.Button &&
-						!(getColumnName().endsWith("_ID"))))
+			
+			if (defaultValue.indexOf('@') != -1		//	no variables
+				|| defaultValue.startsWith("#")		//	no context - eg. #AD_Client_ID
+				|| ((DisplayType.isID(getAD_Reference_ID()) && defaultValue.equals("-1") ) ) )  // not for ID's with default -1
+			{
+				defaultValue = "NULL";
+			}
+			else if (DisplayType.isText(getAD_Reference_ID()) 
+					|| getAD_Reference_ID() == DisplayType.List
+					|| getAD_Reference_ID() == DisplayType.YesNo
+					// Two special columns: Defined as Table but DB Type is String 
+					|| getColumnName().equals("EntityType") || getColumnName().equals("AD_Language")
+					|| (getAD_Reference_ID() == DisplayType.Button &&
+							!(getColumnName().endsWith("_ID"))))
 			{
 				if (!defaultValue.startsWith("'") && !defaultValue.endsWith("'"))
 					defaultValue = DB.TO_STRING(defaultValue);
 			}
-			//	
-			return defaultValue;
 		}
-		//	default
-		return null;
+		else
+		{
+			// default not defined
+			defaultValue = "NULL";
+		}
+		return defaultValue;
+	}
+
+	/**
+	 *  Get SQL Modify command
+	 *  @param table table
+	 *  @param setNullOption generate null / not null statement
+	 *  @return sql separated by ;
+	 */
+	public String getSQLModify (MTable table, boolean setNullOption)
+	{
+		return getSQLModify(table, null, setNullOption);
 	}
 	
 	/**
-	 * 	Get SQL Modify command
-	 *	@param table table
-	 *	@param setNullOption generate null / not null statement
-	 *	@return sql separated by ;
+	 *  Get SQL Modify command
+	 *  @param table table
+	 *  @param oldColumnName the oldColumnName or null if there is no change.
+	 *  @param setNullOption generate null / not null statement
+	 *  @return sql separated by ;
 	 */
-	public String getSQLModify (MTable table, boolean setNullOption) {
+	public String getSQLModify (MTable table, String oldColumnName, boolean setNullOption)
+	{
 		StringBuffer sql = new StringBuffer();
+		if (oldColumnName != null) {
+			// Rename the column in the database
+			sql = new StringBuffer("ALTER TABLE ")
+					.append(table.getTableName())
+					.append(" RENAME COLUMN ").append(oldColumnName).append(" TO ")
+					.append(getColumnName())
+					.append(DB.SQLSTATEMENT_SEPARATOR);
+		}
+
+		//  TODO handle changes to the constraints and defaults on key columns.  
+		//  Modifying the defaults on key columns requires the drop of the constraint.  
+		//  For now, just rename ID columns and return, ignoring other changes.
+		if (this.isKey() || (getColumnName().endsWith("_ID") 
+				&& getColumnName().replace("_ID", "").equals(table.get_TableName()))) {
+			if (sql.length() == 0)
+				return null;
+			return sql.toString();
+		}
+		
+		// For non ID columns, we can manage defaults and other stuff
 		StringBuffer sqlBase = new StringBuffer ("ALTER TABLE ")
 			.append(table.getTableName())
 			.append(" MODIFY ").append(getColumnName());
 		
 		//	Default
-		StringBuffer sqlDefault = new StringBuffer(sqlBase)
-			.append(" ").append(getSQLDataType());
 		String defaultValue = getDefaultValueSQL();
-		if (defaultValue != null) {
-			sqlDefault.append(" DEFAULT ").append(defaultValue);
-		} else {
-			if (!isMandatory()) {
-				sqlDefault.append(" DEFAULT NULL ");
-			}
-		}
-		sql.append(sqlDefault);
+		sql.append(sqlBase).append(" ").append(getSQLDataType())
+			.append(" DEFAULT ").append(defaultValue);
 		
 		//	Constraint
-
-		//	Null Values
-		if (isMandatory() && defaultValue != null && defaultValue.length() > 0)
+		//  TODO - rename inline constraints?
+		
+		//	Null Values - set to the default everywhere the value is currently null
+		if (isMandatory() && defaultValue != null && defaultValue.length() > 0 && !defaultValue.equals("NULL"))
 		{
 			StringBuffer sqlSet = new StringBuffer("UPDATE ")
 				.append(table.getTableName())
@@ -590,8 +746,11 @@ public class MColumn extends X_AD_Column
 		}
 		
 		//	Null
-		if (setNullOption)
+		if (setNullOption)  // TODO Fails if there is a constraint on this column.
 		{
+			//  This may fail if the column has a calculated default and there are currently null values
+			//  in the column.  Solution is to set the default to a specific value, sync then reset to
+			//  the calculated default or manage the update via the database directly.
 			StringBuffer sqlNull = new StringBuffer(sqlBase);
 			if (isMandatory())
 				sqlNull.append(" NOT NULL");
@@ -653,7 +812,7 @@ public class MColumn extends X_AD_Column
 	}	//	toString
 
 	/**
-	 * 	get Column ID
+	 * Get Column ID
 	 * @param tableName
 	 * @param columnName
      * @return
@@ -698,24 +857,97 @@ public class MColumn extends X_AD_Column
 		return DB.getSQLValue(trxName, sqlStmt, AD_Column_ID);
 	}
 
-/**
+	/**
 	 * Sync this column with the database
-	 * @return
+	 * @return Error Message or SQL used to make the change
 	 */
 	public String syncDatabase()
 	{
+		return syncDatabase(null);
+	}
+	
+	public String syncDatabase(Connection conn) {
+		return syncDatabase(conn, false);
+	}
+	
+	public String syncDatabase(Connection conn, boolean isOnlyReport) {
+	
+		s_log.config("");
+				
+		//  Flag if we should close the connection.
+		boolean closeConn = false;
+		
+		boolean errorOccured = true;
 
-		MTable table = new MTable(getCtx(), getAD_Table_ID(), get_TrxName());
-		if (table.isView())
-			return "Cannot sync view";
-		table.set_TrxName(get_TrxName());  // otherwise table.getSQLCreate may miss current column
+		String returnMessage = "";
+
+		// Shouldn't happen - see beforeSave - but in case
+		if (this.isVirtualColumn())
+		{
+			markSyncComplete();
+			return MSG_CannotSyncVirtualColumn;  
+		} 
+		
+		// The table has to be in the cache or a new table will be created
+		// so load it explicitly from the cache and not with new MTable ...
+		MTable table = MTable.get(getCtx(), getAD_Table_ID());
 		if (table.get_ID() == 0)
 			throw new AdempiereException("@NotFound@ @AD_Table_ID@ " + getAD_Table_ID());
-
+		
+		// Shouldn't happen - see beforeSave
+		if (table.isView())
+		{
+			markSyncComplete();
+			return MSG_CannotSyncView; 
+		}
+				
+		table.set_TrxName(get_TrxName());  // otherwise table.getSQLCreate may miss current column
+		
 		//	Find Column in Database
-		Connection conn = null;
+		ResultSet rs= null;
 		try {
-			conn = DB.getConnectionRO();
+
+			if (this.getAD_Table_ID() == MColumn.Table_ID
+				|| this.getAD_Table_ID() == MTable.Table_ID)
+			{
+				conn = DB.getConnectionRO();
+				closeConn = true;
+			}
+			else if (conn == null)
+			{
+				if (get_TrxName() != null && !get_TrxName().isEmpty())
+				{
+					conn = Trx.get(get_TrxName(), true).getConnection();
+					//  Will be closed when the transaction is closed.
+				}
+				else
+				{
+					conn = DB.getConnectionRO();
+					closeConn = true;
+				}
+			}
+			
+			//  Sync the table
+			returnMessage = table.syncDatabase(conn, isOnlyReport);
+			if (MColumn.MSG_NoSQLNOChangesMade.equals(returnMessage))
+				returnMessage = "";
+			else
+				returnMessage = table.getTableName() + ": " + returnMessage + "<br>";
+			
+			// Reload in case the table sync changed something.
+			this.load(get_TrxName());
+
+			//  Get the old column name. This could have been set
+			//  some time ago.
+			String oldColumnName = getNameOldValue();
+
+			if (oldColumnName != null && oldColumnName.equalsIgnoreCase(getColumnName())){ // There is no name change
+				oldColumnName = null;
+			}
+
+			//  The query of database metadata will not see tables or columns changed/added in 
+			//  the current transaction. For table name changes, the change in primary 
+			//  key column name is done within the MTable model.
 			DatabaseMetaData md = conn.getMetaData();
 			String catalog = DB.getDatabase().getCatalog();
 			String schema = DB.getDatabase().getSchema();
@@ -728,76 +960,204 @@ public class MColumn extends X_AD_Column
 			{
 				tableName = tableName.toLowerCase();
 			}
-			int noColumns = 0;
-			boolean existsColumn = false;
 			String sql = null;
+			Boolean oldColumnExists = false;
+			Boolean currentColumnExists = false;
+			Boolean oldNotNull = false;
+			Boolean currentNotNull = false;
+			int currentDataType = 0;
+			int currentColumnSize = 0;
+			String currentTypeName = null;
+			String currentColumnDefault = null;
+			String columnDefault = getDefaultValueSQL();
 			//
-			ResultSet rs = md.getColumns(catalog, schema, tableName, null);
+			//  Find the table.  Tables can be new with no columns assigned.
+			//  This is a problem if the table name changed in this transaction - 
+			//  the table will not be found and a new table will be created.
+			isNewTable = true;
+			rs = md.getTables(catalog, schema, tableName, null);
 			while (rs.next())
 			{
-				noColumns++;
-				String columnName = rs.getString ("COLUMN_NAME");
-				if (!columnName.equalsIgnoreCase(getColumnName()))
-					continue;
-				//	
-				existsColumn = true;
-				//	update existing column
-				boolean currentNotNull = DatabaseMetaData.columnNoNulls == rs.getInt("NULLABLE");
-				int currentDataType = rs.getInt("DATA_TYPE");
-				int currentColumnSize = rs.getInt("COLUMN_SIZE");
-				String currentColumnDef = rs.getString("COLUMN_DEF");
-				String columnDef = getDefaultValueSQL();
-				if(!DisplayType.isSameType(this, currentDataType, currentColumnSize)
-						|| isMandatory() != currentNotNull
-						|| (currentColumnDef != null 
-							&& columnDef != null 
-							&& !currentColumnDef.startsWith(columnDef))) {
-					sql = getSQLModify(table, isMandatory() != currentNotNull);
-				}
-				break;
+				isNewTable = false;
 			}
 			rs.close();
-			rs = null;
-
-			//	No Table
-			if (noColumns == 0)
+			
+			//  The table should have been sync'd already so isNewTable should
+			//  be false.  In case, test and create it.
+			if (isNewTable) {
 				sql = table.getSQLCreate ();
-			//	No existing column
-			else if (sql == null
-					&& !existsColumn)
-				sql = getSQLAdd(table);
+			}
+			else {
+				rs = md.getColumns(catalog, schema, tableName, null);
+				while (rs.next())
+				{
+					String columnName = rs.getString ("COLUMN_NAME");
+					
+					if (oldColumnName != null && columnName.equalsIgnoreCase(oldColumnName)) {
+						oldColumnExists = true;
+						oldNotNull = DatabaseMetaData.columnNoNulls == rs.getInt("NULLABLE");
+					}
+					
+					if (columnName.equalsIgnoreCase(getColumnName())) {
+						currentColumnExists = true;
+						currentNotNull = DatabaseMetaData.columnNoNulls == rs.getInt("NULLABLE");
+						//	update existing column
+						currentDataType = rs.getInt("DATA_TYPE");
+						currentTypeName = rs.getString("TYPE_NAME");
+						currentColumnSize = rs.getInt("COLUMN_SIZE");
+						currentColumnDefault = rs.getString("COLUMN_DEF");
+					}
+				}
+				rs.close();
+				rs = null;
+
+				// Check if the column is part of the primary key of the table
+				boolean isDatabaseKey = false;
+				rs = md.getPrimaryKeys(catalog, schema, tableName);
+				while (rs.next())
+				{
+					if(this.getColumnName().equalsIgnoreCase(rs.getString(4)))
+					{
+						isDatabaseKey = true;
+						break;
+					}
+				}
+				
+				if (isDatabaseKey && !isKey() && !isParent())
+				{
+					returnMessage += MSG_ColumnPartOfKeyButNotKeyOrParentInAD + "<br>";
+				}
+
+				//	No existing column
+				if (!oldColumnExists && !currentColumnExists) {
+					returnMessage += MSG_ColumnDoesNotExistAndWillBeAdded + "<br>";
+					sql = getSQLAdd(table);
+				}
+				// Name change or no name change
+				else if (oldColumnExists && !currentColumnExists || !oldColumnExists && currentColumnExists) {
+					//  Update the current column
+					//  Check if we really need to do this.
+					//  Note that the mandatory column implies the database column
+					//  should be not null. The default value can be null, if using
+					//  a calculated value for example.  There may be errors if 
+					//  changing a non mandatory column to mandatory if the table
+					//  already has rows with null values in this column.  In this
+					//  case, the null values can be set to a non null value by setting
+					//  the default logic to a static value before syncing the column.
+					//  Then change the default logic to the calculated equation and 
+					//  sync again.
+					boolean withDefault = (columnDefault != null && columnDefault.length() > 0 && !columnDefault.equals("NULL"));
+					if (oldColumnName != null) {
+						returnMessage += this.MSG_ColumnNameChanged + " " + oldColumnName + " -> " + getColumnName() + "<br>";
+					}
+					if (!DisplayType.isSameType(this, currentDataType, currentColumnSize)) {
+						
+						returnMessage += MSG_DataTypeChanged + " " + currentTypeName + "(" + currentColumnSize + ") -> " 
+											+ getSQLDataType() + "<br>";
+					}
+					if ((isMandatory() != currentNotNull)) {
+						returnMessage += MSG_ManadatoryValueChanged + " " + currentNotNull + " -> " + isMandatory() + "<br>";
+					}
+					if (isMandatory() && withDefault 		//  If mandatory with a default, the default should match the database
+									&& currentColumnDefault != null 
+									&& !currentColumnDefault.startsWith(columnDefault)) {
+						returnMessage += MSG_DefaultValueChanged + " " + currentColumnDefault + " -> " + columnDefault + "<br>";
+					}
+					
+ 					if(oldColumnName != null
+ 							|| !DisplayType.isSameType(this, currentDataType, currentColumnSize)
+							|| (isMandatory() != currentNotNull) 	//  If the column is not mandatory the database column should allow null
+							|| (isMandatory() && withDefault 		//  If mandatory with a default, the default should match the database
+									&& currentColumnDefault != null 
+									&& !currentColumnDefault.startsWith(columnDefault))) {  // TODO - what about Y/N fields?
+						
+						log.info(tableName + "." + getColumnName() + ": currentDataType: " + currentDataType + ", currentColumnSize: " + currentColumnSize
+								+ ", isMandatory(): " + isMandatory() + ", currentNotNull: " + currentNotNull
+								+ ", currentColumnDefault: " + currentColumnDefault + ", columnDefault: " + columnDefault);
+						sql = getSQLModify(table, null, isMandatory() != currentNotNull); // Can return a null string
+					}
+				}
+				// Both exist - which is a problem - so throw an error
+				else if (oldColumnExists && currentColumnExists) {
+					throw new AdempiereException(Msg.translate(getCtx(), MSG_SyncErrorColumnAlreadyExists) + " " + oldColumnName + "->" + getColumnName());
+				}
+			}			
 			
-			if ( sql == null )
-				return "OK";
+			String trxName = get_TrxName();
 			
-			if (sql.indexOf(DB.SQLSTATEMENT_SEPARATOR) == -1)
+			if ( sql != null )
 			{
-				DB.executeUpdateEx(sql, null);
+				returnMessage += "SQL: " + sql;
+
+				if (!isOnlyReport)
+				{
+					try {
+						log.info("Syncing column " + this.getColumnName() + ": " + sql);
+						log.info("Transaction: " + trxName + ", get_TrxName(): " + get_TrxName());
+						CLogger.resetLast();
+						DB.executeUpdateMultiple(sql, false, trxName);
+						DB.commit(true, trxName);
+						Exception error = CLogger.retrieveException();
+						if (error == null)
+						{
+							returnMessage += "<br>" + MSG_SQLSuccessfullyApplied;
+							errorOccured = false;
+						}
+						else
+						{
+							returnMessage += "<br>" + "@Error@ " + MSG_ErrorSyncingColumn + " " + error.toString();
+						}
+					}
+					catch (Exception e) 
+					{
+					
+						log.severe("Manual intervention required: Cannot sync column: " + getColumnName());
+						returnMessage +=  "<br>" + "@Error@: " + MSG_ErrorSyncingColumn + " " + tableName + "." + getColumnName(); 
+						returnMessage += "<br>" + e.getLocalizedMessage();
+					}
+					
+					if (getAD_Table_ID() == I_AD_Column.Table_ID || getAD_Table_ID() == I_AD_Table.Table_ID)
+					{
+						//  #2428 - Need to explicitly identify the columns in AD_Table and AD_Column
+						s_log.config("There has been a change in the AD_Table or AD_Column structure.  Resetting the columns in POInfo");
+						POInfo.resetPOInfoColumnList();
+					}
+				
+					// Remove the old table definition from cache 
+					POInfo.removeFromCache(getAD_Table_ID());
+					
+				}
+				
 			}
 			else
 			{
-				String statements[] = sql.split(DB.SQLSTATEMENT_SEPARATOR);
-				for (int i = 0; i < statements.length; i++)
-				{
-					DB.executeUpdateEx(statements[i], null);
-				}
+				returnMessage += MSG_NoSQLNOChangesMade; 
 			}
-			
-			// Remove the old table definition from cache 
-			POInfo.removeFromCache(getAD_Table_ID());
-			return sql;
-
 		} 
-		catch (SQLException e) {
-			throw new AdempiereException(e);
+		catch (SQLException|DBException e ) {
+			if (e.getMessage()!= null && e.getMessage().contains("already exists")) {  // TODO will this work in other languages?
+				returnMessage +=  MSG_ColumnAlreadyExists; 
+			}
+			else {	
+				throw new AdempiereException(e);
+			}
 		}
 		finally {
-			if (conn != null) {
+			DB.close(rs);
+			if (closeConn && conn != null) {
 				try {
 					conn.close();
 				} catch (Exception e) {}
+				conn = null;
 			}
 		}
+
+		//  Success.  Remove the sync flags from this record
+		if (!isOnlyReport && !errorOccured)
+			markSyncComplete();
+
+		return returnMessage;
+
 	}
 
 	/**
@@ -877,5 +1237,60 @@ public class MColumn extends X_AD_Column
 		//	Default
 		return true;
 	}
+
+	/**
+	 * Determine the minimum allowable value for the KeyColumn.  Columns that end
+	 * in "_ID" typically can have values of null or > 0.  In a few tables, the value
+	 * "0" is valid.
+	 * @param columnName
+	 * @return
+	 */
+	public static Integer getKeyColumnFirstValue(String columnName) {
+
+		Integer firstOK = null;
+		
+		if (columnName.endsWith("_ID"))
+		{
+			//	check special column  TODO hard-coded. Add to AD_Column to make this configurable
+			if (columnName.equals("AD_Client_ID") || columnName.equals("AD_Org_ID")
+				|| columnName.equals("Record_ID") || columnName.equals("C_DocType_ID")
+				|| columnName.equals("Node_ID") || columnName.equals("AD_Role_ID")
+				|| columnName.equals("M_AttributeSet_ID") || columnName.equals("M_AttributeSetInstance_ID")
+// Coming soon	|| columnName.equals("M_MPolicyTicket_ID")
+				|| columnName.equals("M_Warehouse_ID")) {
+				firstOK = Integer.valueOf(0);
+			}
+			else
+				firstOK = Integer.valueOf(1);
+		}
+		return firstOK;
+	}
+	
+	/**
+	 * Check if the column changes/additions should be sync'd automatically or by the 
+	 * {@link org.compiere.process.ColumnSync} process. New tables are added along
+	 * with the columns.  Table name changes are always synchronized automatically.
+	 * <p>The auto sync can be configured by setting a system configurator for 
+	 * {@link #SYSCONFIG_DATABASE_AUTO_SYNC} to something other the 'N', the default.
+	 * @return true if the sync is automatic.
+	 */
+	public static boolean isAutoSync() {
+		return !"N".equals(MSysConfig.getValue(SYSCONFIG_DATABASE_AUTO_SYNC,"N",Env.getAD_Client_ID(Env.getCtx())));
+	}
+
+	/**
+	 * Set the flags for isSyncRequired and NameOldValue when the sync is complete 
+	 * or not required. 
+	 */
+	public void markSyncComplete() {
+		if (isRequiresSync() || getNameOldValue() != null)
+		{
+			setIsDirectLoad(true);
+			set_ValueNoCheck(COLUMNNAME_RequiresSync, Boolean.valueOf(false));
+			set_ValueNoCheck(COLUMNNAME_NameOldValue, null);
+			saveEx();
+		}			
+	}
+
 	
 }	//	MColumn
