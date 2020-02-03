@@ -1037,6 +1037,8 @@ public class TimeUtil
 	public static final String DURATIONUNIT_Year = "Y";
 	/** Month = M */
 	public static final String DURATIONUNIT_Month = "M";
+	/** week = W */
+	public static final String DURATIONUNIT_Week = "W";
 	/** Day = D */
 	public static final String DURATIONUNIT_Day = "D";
 	/** hour = h */
@@ -1083,6 +1085,8 @@ public class TimeUtil
 			calendar.add(Calendar.HOUR_OF_DAY, duration);
 		else if (DURATIONUNIT_Month.equals(durationUnit))
 			calendar.add(Calendar.MONTH, duration);
+		else if (DURATIONUNIT_Week.equals(durationUnit))
+			calendar.add(Calendar.WEEK_OF_MONTH, duration);
 		return new Timestamp(calendar.getTimeInMillis());
 	}
 	
