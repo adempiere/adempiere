@@ -680,10 +680,11 @@ public class MiniTable extends CTable implements IMiniTable, ActionListener, Tab
 			//  create sql
 			if (i > 0)
 				sql.append(", ");
+			
+			sql.append(layout[i].getColSQL());
 			//  adding ID column
 			if (layout[i].isKeyPairCol())
-				sql.append(layout[i].getKeyPairColSQL()).append(", ");
-			sql.append(layout[i].getColSQL());
+				sql.append(", ").append(layout[i].getKeyPairColSQL());
 
 		}
 
