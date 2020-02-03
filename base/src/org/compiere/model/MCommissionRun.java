@@ -1581,9 +1581,9 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 	 */
 	private void setStartEndDate(String frequencyType) {
 		//	If Recalculate flag is false and Start and End Date are filled then it is not recalculated
-		if(getStartDate() != null
-				&& getEndDate() != null
-				&& !isReCalculate()) {
+		if((getStartDate() != null
+				&& getEndDate() != null)
+				|| !isReCalculate()) {
 			return;
 		}
 		GregorianCalendar cal = new GregorianCalendar(Language.getLoginLanguage().getLocale());
