@@ -417,6 +417,14 @@ public class VPAttribute extends VEditorAbstract
 	}
 
 	@Override
+	public void set_oldValue() {
+		
+		super.set_oldValue();
+		oldWhere = pAttributeWhere;
+	
+	}
+	
+	@Override
 	public JComponent getComponent() {
 		return textEditor;
 	}
