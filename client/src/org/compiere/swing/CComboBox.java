@@ -61,6 +61,7 @@ import org.compiere.model.MLocator;
 import org.compiere.model.PO;
 import org.compiere.plaf.CompiereComboBoxUI;
 import org.compiere.util.CLogger;
+import org.compiere.util.KeyNamePair;
 import org.compiere.util.NamePair;
 import org.compiere.util.Trace;
 
@@ -1424,6 +1425,8 @@ public class CComboBox extends JComboBox<Object>
 		
 		if (currentSelectedItem instanceof PO) 
 			newValue = ((PO) currentSelectedItem).get_ID();
+		else if (currentSelectedItem instanceof KeyNamePair)
+			newValue = ((KeyNamePair) currentSelectedItem).getKey();
 		else if (currentSelectedItem instanceof NamePair)
 			newValue = ((NamePair) currentSelectedItem).getID();
 		else
