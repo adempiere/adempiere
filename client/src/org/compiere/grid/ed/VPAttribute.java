@@ -144,9 +144,6 @@ public class VPAttribute extends VEditorAbstract
 		c_bpartner_id = Env.getContextAsInt(Env.getCtx(), WindowNo, "C_BPartner_ID");
 		isSearchOnly = searchOnly;
 		
-		//	***	Button	***
-		button.addActionListener(this);
-
 		menuEditor = new CMenuItem(Msg.getMsg(Env.getCtx(), "PAttribute"), Env.getImageIcon("Zoom16.gif"));
 		menuEditor.addActionListener(this);
 		popupMenu.add(menuEditor);
