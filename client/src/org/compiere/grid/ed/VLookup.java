@@ -626,28 +626,31 @@ public class VLookup extends VEditorAbstract
 	@Override
 	protected String setDisplayBasedOnValue(Object value) {
 
+		setCurrentValue(value);
+		
+		Object displayValue = null;
 		if (value instanceof Object[])
-			setCurrentValue(((Object[]) value)[0]);
+			displayValue = ((Object[]) value)[0];
 		else
-			setCurrentValue(value);
+			displayValue = value;
 		
 		String display;
 		
 		//  The lookup may not have been defined yet.
 		if (m_lookup != null)
 		{
-			display = m_lookup.getDisplay(currentValue);
+			display = m_lookup.getDisplay(displayValue);
 		}
 		else
 		{
-			display = currentValue == null ? "" : currentValue.toString();
+			display = displayValue == null ? "" : displayValue.toString();
 		}
 		
 		//  Must call m_combo.setvalue after m_lookup as
 		//  loading of combo data might happen in m_lookup.getDisplay.
 		//  If the lookup is not defined, the comboBox will have a 
 		//  default model
-		getComboBox().setValue (currentValue);
+		getComboBox().setValue (displayValue);
 		
 		if (display == null || display.equals("<-1>"))
 		{
@@ -667,12 +670,23 @@ public class VLookup extends VEditorAbstract
 	/**
 	 * Set the currentValue of the editor, forcing the type to Integer
 	 * if the display type is an ID.
-	 * @param value
+	 * @param value, or an array of values.
 	 */
 	private void setCurrentValue(Object value) {
 		
-		// As a default
+		// As a default, could be an array if we are dealing
+		// with multiple values
 		currentValue = value;
+		
+		Object singleValue = null;
+		if (value != null 
+			&& value instanceof Object[] 
+			&& ((Object[]) value).length == 1)
+		{
+			//  If the value is just a single element array
+			//  extract it from the array
+			singleValue = ((Object[]) value)[0];
+		}
 		
 		//  The lookup may not have been defined yet.
 		if (m_lookup != null)
@@ -681,11 +695,11 @@ public class VLookup extends VEditorAbstract
 			{
 				// If the value is an ID try to force it to an integer
 				try {
-					if (value != null && !(value instanceof Integer))
-						currentValue = Integer.parseInt(value.toString());
+					if (singleValue != null && !(singleValue instanceof Integer))
+						currentValue = Integer.parseInt(singleValue.toString());
 				}
 				catch (NumberFormatException e) {
-					currentValue = value;
+					currentValue = singleValue;
 				}
 			}
 		}
@@ -1080,7 +1094,7 @@ public class VLookup extends VEditorAbstract
 				//  before the focus lost event would occur.
 				//  Make sure that the lead value is in cache
 				m_lookup.getDirect(result[0], false, true);
-				setDisplayBasedOnValue(result[0]);
+				setDisplayBasedOnValue(result);
 				commitChanges();
 				
 			}
