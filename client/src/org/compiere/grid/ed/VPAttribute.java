@@ -189,7 +189,8 @@ public class VPAttribute extends VEditorAbstract
 	{
 		if (value == null || NO_INSTANCE.equals(value))
 		{
-			currentValue = null;
+			currentValue = NO_INSTANCE;  // Set to zero, not null as would normally be expected. This is an artifact of 
+										 // FIFO/LIFO tracking using AttributeSetInstances.  
 			textEditor.setText("");
 			pAttributeWhere = "";
 			return "";
