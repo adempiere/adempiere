@@ -777,6 +777,8 @@ implements ImportProcess
 					bpBankAccount.setR_AvsAddr(importPartner.getR_AvsAddr());
 					bpBankAccount.setR_AvsZip(importPartner.getR_AvsZip());
 					bpBankAccount.save();
+					
+					importPartner.setC_BP_BankAccount_ID(bpBankAccount.getC_BP_BankAccount_ID());
 				}
 				//
 				importPartner.setI_IsImported(true);
