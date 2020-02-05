@@ -200,6 +200,8 @@ public class FinStatement extends FinStatementAbstract
 		if (getAccountType() != null && !getAccountType().isEmpty())
 			sb.append(" AND  ev.AccountType = '").append(getAccountType()).append("'");
 
+		//Client Filter 
+		sb.append(" AND ev.AD_Client_ID = ").append(getAD_Client_ID());
 		
 		int no = DB.executeUpdate(sb.toString(), get_TrxName());
 		log.fine("#" + no + " (Account_ID=" + getAccountId() + ")");
@@ -219,10 +221,14 @@ public class FinStatement extends FinStatementAbstract
 			.append("TRUNC(fact_Acct.DateAcct, 'DD'),NULL,NULL,"
 			+ "AmtAcctDr, AmtAcctCr, AmtAcctDr-AmtAcctCr, Qty, fact_Acct.ACCOUNT_ID, ev.value, ev.name, ev.accounttype "
 			+ "FROM Fact_Acct "
-			+ " INNER JOIN (SELECT ev.c_ElementValue_ID,ev.value, ev.name, ev.accounttype FROM C_Elementvalue ev ) ev on (fact_Acct.account_ID = ev.c_ElementValue_ID) "
+			+ " INNER JOIN (SELECT ev.c_ElementValue_ID,ev.Value, ev.Name, ev.AccountType, ev.AD_Client_ID FROM C_Elementvalue ev ) ev on (fact_Acct.account_ID = ev.c_ElementValue_ID) "
 			+ "WHERE ").append(parameterWhere)
 			.append(" AND TRUNC(DateAcct, 'DD') BETWEEN ").append(DB.TO_DATE(getDateAcct()))
 			.append(" AND ").append(DB.TO_DATE(getDateAcctTo()));
+		
+		//Client Filter 
+		sb.append(" AND ev.AD_Client_ID = ").append(getAD_Client_ID());
+		
 		//
 		int no = DB.executeUpdate(sb.toString(), get_TrxName());
 		log.fine("#" + no);
