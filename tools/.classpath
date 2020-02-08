@@ -47,6 +47,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="lib/c3p0-0.9.1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-validator-1.6.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-codec-1.10.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/commons-logging-1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/ooxml-schemas-1.3.jar"/>
@@ -119,6 +120,8 @@
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="lib/groovy-all-2.4.15.jar" sourcepath="lib/testing/groovy-all-2.4.15-sources.jar"/>
 	<classpathentry kind="lib" path="lib/postgresql.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/sardine-5.9-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/zxing-2.3.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry exported="true" kind="lib" path="lib/xmlbeans-2.6.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/mysql-connector-java-5.1.13-bin.jar"/>

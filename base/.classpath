@@ -110,5 +110,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.request"/>
 	<classpathentry kind="lib" path="/tools/lib/poi-3.17.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/poi-ooxml-3.17.jar"/>
+	<classpathentry kind="lib" path="/tools/lib/commons-validator-1.6.jar"/>
+	<classpathentry kind="lib" path="/lib/glassfish.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
