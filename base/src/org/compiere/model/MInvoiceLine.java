@@ -972,8 +972,17 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 	 */
 	public String allocateLandedCosts()
 	{
-		if (isProcessed())
-			return "Processed";
+		//if (isProcessed())
+		//	return "Processed";
+		if (getParent().isProcessed())
+			MPeriod.testPeriodOpen(getCtx(), getParent().getDateAcct(), getParent().getC_DocTypeTarget_ID(), getAD_Org_ID());
+		if (getParent().isProcessed()) {
+			MFactAcct.deleteEx(MInvoice.Table_ID, getParent().get_ID(), get_TrxName());
+			//
+			// Update Invoice
+			getParent().setPosted(false);
+			getParent().saveEx();
+		}
 		MLandedCost[] lcs = MLandedCost.getLandedCosts(this);
 		if (lcs.length == 0)
 			return "";
