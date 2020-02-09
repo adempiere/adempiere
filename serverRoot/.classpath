@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="/tools/lib/cron4j-2.2.1.jar"/>
 	<classpathentry kind="src" path="/serverApps"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.request"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/org.adempiere.project-jars"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

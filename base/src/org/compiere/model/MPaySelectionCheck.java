@@ -157,11 +157,15 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 			}
 			//	For all
 			paySelectionLine.setIsPrepayment(payment.isPrepayment());
-			//	
+			//	calculate open amount from payment amount
+			BigDecimal openAmount = Env.ZERO;
+			if(payment.isOverUnderPayment()) {
+				openAmount = payment.getPayAmt().add(payment.getDiscountAmt()).add(payment.getOverUnderAmt());
+			}
 			paySelectionLine.setC_BPartner_ID(payment.getC_BPartner_ID());
 			paySelectionLine.setIsSOTrx (payment.isReceipt());
 			paySelectionLine.setAmtSource(payment.getPayAmt());
-			paySelectionLine.setOpenAmt(payment.getPayAmt().add(payment.getDiscountAmt()));
+			paySelectionLine.setOpenAmt(openAmount);
 			paySelectionLine.setPayAmt (payment.getPayAmt());
 			paySelectionLine.setDiscountAmt(payment.getDiscountAmt());
 			paySelectionLine.setDifferenceAmt (Env.ZERO);

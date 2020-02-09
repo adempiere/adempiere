@@ -161,7 +161,7 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract {
     /**
      * create Distribution Order to performance a Pick List
      *
-     * @param outboundLine Out bound Line
+     * @param outboundLine Outbound Line
      * @return Quantity that was not covert for inventory
      */
     private BigDecimal createDistributionOrder(MWMInOutBoundLine outboundLine) {
@@ -185,33 +185,33 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract {
             MBPartner partner = MBPartner.get(getCtx(), partnerId);
             if (orderDistribution == null) {
                 orderDistribution = new MDDOrder(getCtx(), 0, get_TrxName());
-                orderDistribution.setAD_Org_ID(outboundLocator.getAD_Org_ID());
-                orderDistribution.setC_BPartner_ID(partnerId);
-                orderDistribution.setDescription(Msg.parseTranslation(getCtx(), "@Generate@ @From@ " +outboundLine.getParent().getDocumentInfo()));
-                if (getDocTypeId() > 0)
-                    orderDistribution.setC_DocType_ID(getDocTypeId());
-                else
-                    orderDistribution.setC_DocType_ID(MDocType.getDocType(X_C_DocType.DOCBASETYPE_DistributionOrder));
+            orderDistribution.setAD_Org_ID(outboundLocator.getAD_Org_ID());
+            orderDistribution.setC_BPartner_ID(partnerId);
+            orderDistribution.setDescription(Msg.parseTranslation(getCtx(), "@Generate@ @From@ " +outboundLine.getParent().getDocumentInfo()));
+            if (getDocTypeId() > 0)
+                orderDistribution.setC_DocType_ID(getDocTypeId());
+            else
+                orderDistribution.setC_DocType_ID(MDocType.getDocType(X_C_DocType.DOCBASETYPE_DistributionOrder));
 
-                orderDistribution.setM_Warehouse_ID(transitWarehouse.stream().findFirst().get().get_ID());
-                orderDistribution.setDocAction(Optional.ofNullable(getDocAction()).orElseGet(() -> X_DD_Order.DOCACTION_Prepare));
-                List<MUser> users = Arrays.asList(MUser.getOfBPartner(getCtx(), partner.getC_BPartner_ID(), get_TrxName()));
-                if (users.isEmpty())
-                    throw new AdempiereException("@AD_User_ID@ @NotFound@ @Value@ - @C_BPartner_ID@ : " + partner.getValue() + " - " + partner.getName());
+            orderDistribution.setM_Warehouse_ID(transitWarehouse.stream().findFirst().get().get_ID());
+            orderDistribution.setDocAction(Optional.ofNullable(getDocAction()).orElseGet(() -> X_DD_Order.DOCACTION_Prepare));
+            List<MUser> users = Arrays.asList(MUser.getOfBPartner(getCtx(), partner.getC_BPartner_ID(), get_TrxName()));
+            if (users.isEmpty())
+                throw new AdempiereException("@AD_User_ID@ @NotFound@ @Value@ - @C_BPartner_ID@ : " + partner.getValue() + " - " + partner.getName());
 
-                orderDistribution.setAD_User_ID(users.stream().findFirst().get().getAD_User_ID());
-                orderDistribution.setDateOrdered(getToday());
-                orderDistribution.setDatePromised(getToday());
-                orderDistribution.setM_Shipper_ID(shipperId);
-                orderDistribution.setM_FreightCategory_ID(outboundLine.getParent().getM_FreightCategory_ID());
-                orderDistribution.setFreightCostRule(outboundLine.getParent().getFreightCostRule());
-                orderDistribution.setFreightAmt(outboundLine.getParent().getFreightAmt());
-                orderDistribution.setIsInDispute(false);
-                orderDistribution.setIsInTransit(false);
-                orderDistribution.setSalesRep_ID(getAD_User_ID());
-                orderDistribution.setDocStatus(MDDOrder.DOCSTATUS_Drafted);
-                orderDistribution.saveEx();
-            }
+            orderDistribution.setAD_User_ID(users.stream().findFirst().get().getAD_User_ID());
+            orderDistribution.setDateOrdered(getToday());
+            orderDistribution.setDatePromised(getToday());
+            orderDistribution.setM_Shipper_ID(shipperId);
+            orderDistribution.setM_FreightCategory_ID(outboundLine.getParent().getM_FreightCategory_ID());
+            orderDistribution.setFreightCostRule(outboundLine.getParent().getFreightCostRule());
+            orderDistribution.setFreightAmt(outboundLine.getParent().getFreightAmt());
+            orderDistribution.setIsInDispute(false);
+            orderDistribution.setIsInTransit(false);
+            orderDistribution.setSalesRep_ID(getAD_User_ID());
+            orderDistribution.setDocStatus(MDDOrder.DOCSTATUS_Drafted);
+            orderDistribution.saveEx();
+        }
 
             storageList.stream()
                     .filter(storage -> storage.getQtyOnHand().signum() > 0)
@@ -233,12 +233,16 @@ public class ReleaseInOutBound extends ReleaseInOutBoundAbstract {
                                     orderLine.setQtyEntered(outboundLine.getQtyToPick());
                                     orderLine.setQtyOrdered(outboundLine.getQtyToPick());
                                     orderLine.setTargetQty(outboundLine.getQtyToPick());
+                                    orderLine.setM_AttributeSetInstance_ID(storage.getM_AttributeSetInstance_ID());
+                                    orderLine.setM_AttributeSetInstanceTo_ID(storage.getM_AttributeSetInstance_ID());
                                     qtySupply.updateAndGet(supply -> supply.add(balanceQtyToPick));
                                 } else {
                                     orderLine.setConfirmedQty(storage.getQtyOnHand());
                                     orderLine.setQtyEntered(storage.getQtyOnHand());
                                     orderLine.setQtyOrdered(storage.getQtyOnHand());
                                     orderLine.setTargetQty(storage.getQtyOnHand());
+                                    orderLine.setM_AttributeSetInstance_ID(storage.getM_AttributeSetInstance_ID());
+                                    orderLine.setM_AttributeSetInstanceTo_ID(storage.getM_AttributeSetInstance_ID());
                                     qtySupply.updateAndGet(supply -> supply.add(storage.getQtyOnHand()));
                                 }
                                 if (qtySupply.get().signum() > 0) {

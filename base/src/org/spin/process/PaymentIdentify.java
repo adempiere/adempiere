@@ -18,6 +18,7 @@
 package org.spin.process;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.I_C_Payment;
@@ -40,10 +41,19 @@ import org.compiere.util.Msg;
 public class PaymentIdentify extends PaymentIdentifyAbstract {
 
 	@Override
-	protected String doIt() throws Exception {
+	protected void prepare() {
+		super.prepare();
 		if(getRecord_ID() == 0) {
 			throw new AdempiereException("@Record_ID@ @NotFound@");
 		}
+		//	Validate transaction date
+		if(getDateTrx() == null) {
+			setDateTrx(new Timestamp(System.currentTimeMillis()));
+		}
+	}
+	
+	@Override
+	protected String doIt() throws Exception {
 		//	Unidentified payment
 		MPayment unidentifiedPayment = new MPayment(getCtx(), getRecord_ID(), get_TrxName());
 		if(!unidentifiedPayment.isUnidentifiedPayment()
@@ -102,7 +112,6 @@ public class PaymentIdentify extends PaymentIdentifyAbstract {
 			identifiedPayment.setC_Charge_ID(-1);
 			identifiedPayment.setC_Invoice_ID(-1);
 			identifiedPayment.setC_Order_ID(-1);
-			identifiedPayment.setIsReconciled(false);
 			//	Order
 			if(getOrderId() != 0) {
 				identifiedPayment.setC_Order_ID(getOrderId());
@@ -116,6 +125,7 @@ public class PaymentIdentify extends PaymentIdentifyAbstract {
 			identifiedPayment.processIt(MPayment.DOCACTION_Complete);
 			identifiedPayment.saveEx();
 		}
+		identifiedPayment.setIsReconciled(true);
 		identifiedPayment.setRef_Payment_ID(unidentifiedPayment.getC_Payment_ID());
 		identifiedPayment.saveEx();
 		//	Create reversed for Unidentified
@@ -123,10 +133,12 @@ public class PaymentIdentify extends PaymentIdentifyAbstract {
 		PO.copyValues(unidentifiedPayment, reversePayment);
 		//	
 		reversePayment.setRef_Payment_ID(unidentifiedPayment.getC_Payment_ID());
-		reversePayment.setIsReconciled(false);
+		reversePayment.setIsReconciled(unidentifiedPayment.isReconciled());
 		reversePayment.setIsUnidentifiedPayment(true);
 		reversePayment.setIsReceipt(!unidentifiedPayment.isReceipt());
 		reversePayment.setPayAmt(reversePayment.getPayAmt());
+		reversePayment.setDateTrx(getDateTrx());
+		reversePayment.setDateAcct(getDateTrx());
 		//	Get from organization
 		MOrgInfo organizationInfo = MOrgInfo.get(getCtx(), reversePayment.getAD_Org_ID(), get_TrxName());
 		if(organizationInfo.getUnidentifiedDocumentType(reversePayment.isReceipt()) != 0) {
@@ -153,7 +165,7 @@ public class PaymentIdentify extends PaymentIdentifyAbstract {
 		MAllocationHdr allocationHdr = new MAllocationHdr (getCtx(), false, getDateTrx(), identifiedPayment.getC_Currency_ID(),
 				Msg.translate(getCtx(), "C_Payment_ID")	+ ": " + unidentifiedPayment.getDocumentNo(), get_TrxName());
 		allocationHdr.setAD_Org_ID(identifiedPayment.getAD_Org_ID());
-		allocationHdr.setDateAcct(identifiedPayment.getDateAcct());
+		allocationHdr.setDateAcct(getDateTrx());
 		allocationHdr.saveEx(get_TrxName());
 
 		//	Original Allocation

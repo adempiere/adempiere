@@ -30,6 +30,7 @@ import org.eevolution.engine.freight.FreightEngineFactory;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -101,6 +102,8 @@ public class FreightModelValidator implements ModelValidator {
                 MWMInOutBound order = (MWMInOutBound) po;
                 AtomicReference<BigDecimal> totalFreight = new AtomicReference<>(BigDecimal.ZERO);
                 order.getLines(false, null).forEach(orderLine -> {
+                    if (MWMInOutBound.DELIVERYVIARULE_Shipper.equals(orderLine.getParent().getDeliveryViaRule()))
+                        orderLine.setFreightAmt(getFreight(orderLine).multiply(orderLine.getMovementQty()));
                     totalFreight.getAndUpdate(freightAmt -> freightAmt.add(orderLine.getFreightAmt()));
                 });
                 order.setFreightAmt(totalFreight.get());
@@ -118,12 +121,12 @@ public class FreightModelValidator implements ModelValidator {
      */
     @Override
     public String modelChange(PO po, int type) throws Exception {
-        //Calcualte Freigh for Sales Order Line
+        //Calculate Freight for Sales Order Line
         if (ModelValidator.TYPE_BEFORE_CHANGE == type || ModelValidator.TYPE_NEW == type ) {
             if (po instanceof MOrderLine) {
                 MOrderLine orderLine = (MOrderLine) po;
                 if (MOrder.DELIVERYVIARULE_Shipper.equals(orderLine.getParent().getDeliveryViaRule())) {
-                    BigDecimal freightRate = getFreight(orderLine, null);
+                    BigDecimal freightRate = getFreight(orderLine, null, null);
                     orderLine.setFreightAmt(freightRate.multiply(orderLine.getQtyOrdered()));
                     if (!MOrder.FREIGHTCOSTRULE_FreightIncluded.equals(orderLine.getParent().getFreightCostRule()) && freightRate.signum() != 0) {
                         BigDecimal price = orderLine.getPriceActual().add(freightRate);
@@ -133,13 +136,13 @@ public class FreightModelValidator implements ModelValidator {
                     }
                 }
             }
-            //Calcualte Freigh for Disribution Order Line
+            //Calculate Freight for Distribution Order Line
             if (po instanceof MDDOrderLine) {
                 MDDOrderLine orderLine = (MDDOrderLine) po;
                 if (MDDOrder.DELIVERYVIARULE_Shipper.equals(orderLine.getParent().getDeliveryViaRule()))
-                    orderLine.setFreightAmt(getFreight(orderLine, null).multiply(orderLine.getQtyOrdered()));
+                    orderLine.setFreightAmt(getFreight(orderLine, null , null).multiply(orderLine.getQtyOrdered()));
             }
-            //Calcualte Freigh for InOutBound Order Line
+            //Calculate Freight  for Outbound Order Line
             if (po instanceof MWMInOutBoundLine) {
                 MWMInOutBoundLine orderLine = (MWMInOutBoundLine) po;
                 if (MWMInOutBound.DELIVERYVIARULE_Shipper.equals(orderLine.getParent().getDeliveryViaRule()))
@@ -150,55 +153,73 @@ public class FreightModelValidator implements ModelValidator {
     }
 
     /**
-     * get Freight based on Sales Order Line and inOutBound
+     * get Freight based on Sales Order Line and Outbound Order
      *
-     * @param orderLine
-     * @param inOutBound
-     * @return
+     * @param orderLine Sales Order Line
+     * @param outboundOrder Outbound Order
+     * @param outboundOrderLine Outbound Order Line
+     * @return BigDecimal Freight Rate
      */
-    private BigDecimal getFreight(MOrderLine orderLine, MWMInOutBound inOutBound) {
+    private BigDecimal getFreight(MOrderLine orderLine, MWMInOutBound outboundOrder, MWMInOutBoundLine outboundOrderLine) {
         MOrder order = orderLine.getParent();
         MWarehouse warehouse = (MWarehouse) order.getM_Warehouse();
-        I_M_Shipper shipper = MOrder.FREIGHTCOSTRULE_Line.equals(order.getFreightCostRule()) ? orderLine.getM_Shipper() : order.getM_Shipper();
-        int freightCategoryId = inOutBound == null ? MOrder.FREIGHTCOSTRULE_Line.equals(order.getFreightCostRule()) ? orderLine.getM_FreightCategory_ID() : order.getM_FreightCategory_ID()
-                : inOutBound.getM_FreightCategory_ID();
-        if (isCalculatedFreight(order.getFreightCostRule()) && freightCategoryId > 0) {
-            freightEngine = FreightEngineFactory.getFreightEngine(orderLine.getAD_Client_ID());
-            return freightEngine.getFreightRuleFactory(shipper, order.getFreightCostRule())
-                    .calculate(order.getCtx(),
-                            orderLine.getM_Product_ID(),
-                            shipper.getM_Shipper_ID(),
-                            warehouse.getC_Location_ID(),
-                            order.getC_BPartner_Location().getC_Location_ID(),
-                            freightCategoryId,
-                            order.getC_Currency_ID(),
-                            order.getDateOrdered(), order.get_TrxName());
+        Optional<I_M_Shipper> maybeShipper = Optional.ofNullable(Optional.ofNullable(outboundOrder).map(o -> {
+            // Check if Outbound Order exist then use the Shipper of Outbound Order if not use Sales Order Shipper
+           return MWMInOutBound.FREIGHTCOSTRULE_Line.equals(o.getFreightCostRule()) ? outboundOrderLine.getM_Shipper() : o.getM_Shipper();
+            // Use the Shipper of Sales Order
+        }).orElseGet(() -> {
+           return  MOrder.FREIGHTCOSTRULE_Line.equals(order.getFreightCostRule()) ? orderLine.getM_Shipper() : order.getM_Shipper();
+        }));
+        if (maybeShipper.isPresent()) {
+            int freightCategoryId = outboundOrder == null ? MOrder.FREIGHTCOSTRULE_Line.equals(order.getFreightCostRule()) ? orderLine.getM_FreightCategory_ID() : order.getM_FreightCategory_ID()
+                    : outboundOrder.getM_FreightCategory_ID();
+            if (isCalculatedFreight(order.getFreightCostRule()) && freightCategoryId > 0) {
+                freightEngine = FreightEngineFactory.getFreightEngine(orderLine.getAD_Client_ID());
+                return freightEngine.getFreightRuleFactory(maybeShipper.get(), order.getFreightCostRule())
+                        .calculate(order.getCtx(),
+                                orderLine.getM_Product_ID(),
+                                maybeShipper.get().getM_Shipper_ID(),
+                                warehouse.getC_Location_ID(),
+                                order.getC_BPartner_Location().getC_Location_ID(),
+                                freightCategoryId,
+                                order.getC_Currency_ID(),
+                                order.getDateOrdered(), order.get_TrxName());
+            }
         }
         return BigDecimal.ZERO;
     }
 
     /**
-     * get Freight based on Distribution Order and inOutBound
+     * get Freight based on Distribution Order and Outbound Order
      *
-     * @param orderLine
-     * @param inOutBound
-     * @return
+     * @param orderLine Sales Order Line
+     * @param outboundOrder Outbound Order
+     * @param outboundOrderLine Outbound Order Line
+     * @return BigDecimal Freight Rate
      */
-    private BigDecimal getFreight(MDDOrderLine orderLine, MWMInOutBound inOutBound) {
+    private BigDecimal getFreight(MDDOrderLine orderLine, MWMInOutBound outboundOrder, MWMInOutBoundLine outboundOrderLine) {
         MDDOrder order = orderLine.getParent();
-        I_M_Shipper shipper= MOrder.FREIGHTCOSTRULE_Line.equals(order.getFreightCostRule()) ? orderLine.getM_Shipper() : order.getM_Shipper();
-        int freightCategoryId = inOutBound == null ? MOrder.FREIGHTCOSTRULE_Line.equals(order.getFreightCostRule()) ? orderLine.getM_FreightCategory_ID() : order.getM_FreightCategory_ID()
-                : inOutBound.getM_FreightCategory_ID();
-        if (isCalculatedFreight(order.getFreightCostRule()) && freightCategoryId > 0) {
-            return freightEngine.getFreightRuleFactory(shipper, order.getFreightCostRule())
-                    .calculate(order.getCtx(),
-                            orderLine.getM_Product_ID(),
-                            shipper.getM_Shipper_ID(),
-                            orderLine.getM_Locator().getM_Warehouse().getC_Location_ID(),
-                            order.getC_BPartner_Location().getC_Location_ID(),
-                            freightCategoryId,
-                            order.getC_Currency_ID(),
-                            order.getDateOrdered(), order.get_TrxName());
+        Optional<I_M_Shipper> maybeShipper = Optional.ofNullable(Optional.ofNullable(outboundOrder).map(o -> {
+            // Check if Outbound Order exist then use the Shipper of Outbound Order if not use Distribution Order Shipper
+            return MWMInOutBound.FREIGHTCOSTRULE_Line.equals(o.getFreightCostRule()) ? outboundOrderLine.getM_Shipper() : o.getM_Shipper();
+        }).orElseGet(() -> {
+            // Use the Shipper of Distribution Order
+            return  MDDOrder.FREIGHTCOSTRULE_Line.equals(order.getFreightCostRule()) ? orderLine.getM_Shipper() : order.getM_Shipper();
+        }));
+        if (maybeShipper.isPresent()) {
+            int freightCategoryId = outboundOrder == null ? MDDOrder.FREIGHTCOSTRULE_Line.equals(order.getFreightCostRule()) ? orderLine.getM_FreightCategory_ID() : order.getM_FreightCategory_ID()
+                    : outboundOrder.getM_FreightCategory_ID();
+            if (isCalculatedFreight(order.getFreightCostRule()) && freightCategoryId > 0) {
+                return freightEngine.getFreightRuleFactory(maybeShipper.get(), order.getFreightCostRule())
+                        .calculate(order.getCtx(),
+                                orderLine.getM_Product_ID(),
+                                maybeShipper.get().getM_Shipper_ID(),
+                                orderLine.getM_Locator().getM_Warehouse().getC_Location_ID(),
+                                order.getC_BPartner_Location().getC_Location_ID(),
+                                freightCategoryId,
+                                order.getC_Currency_ID(),
+                                order.getDateOrdered(), order.get_TrxName());
+            }
         }
         return BigDecimal.ZERO;
     }
@@ -212,16 +233,16 @@ public class FreightModelValidator implements ModelValidator {
     }
 
     /**
-     * get Freight based on InOutBoundLine
+     * get Freight based on Outbound Order Line
      *
-     * @param orderLine
-     * @return
+     * @param orderLine Outbound Order Line
+     * @return BigDecimal Freight Rate
      */
     private BigDecimal getFreight(MWMInOutBoundLine orderLine) {
         if (orderLine.getC_OrderLine_ID() > 0)
-            return getFreight((MOrderLine) orderLine.getC_OrderLine(), orderLine.getParent());
+            return getFreight((MOrderLine) orderLine.getC_OrderLine(), orderLine.getParent() , orderLine);
         if (orderLine.getDD_OrderLine_ID() > 0)
-            return getFreight((MDDOrderLine) orderLine.getDD_OrderLine(), orderLine.getParent());
+            return getFreight((MDDOrderLine) orderLine.getDD_OrderLine(), orderLine.getParent() , orderLine);
         return BigDecimal.ZERO;
     }
 }

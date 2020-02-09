@@ -172,6 +172,7 @@ public class InOutCreateFrom extends InOutCreateFromAbstract {
 							.divide(invoiceLine.getQtyEntered(), 12, BigDecimal.ROUND_HALF_UP));
 					inOutLine.setC_UOM_ID(invoiceLine.getC_UOM_ID());
 				}
+				inOutLine.setC_OrderLine_ID(invoiceLine.getC_OrderLine_ID());
 				inOutLine.setDescription(invoiceLine.getDescription());
 				inOutLine.setC_Project_ID(invoiceLine.getC_Project_ID());
 				inOutLine.setC_ProjectPhase_ID(invoiceLine.getC_ProjectPhase_ID());

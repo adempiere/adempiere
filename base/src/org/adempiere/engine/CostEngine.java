@@ -250,7 +250,7 @@ public class CostEngine {
 	 */
 	public void createCostDetail(MTransaction transaction, IDocumentLine model) {
 
-		MClient client = new MClient (transaction.getCtx() , transaction.getAD_Client_ID(), transaction.get_TrxName());
+		MClient client =  MClient.get(transaction.getCtx());
 		StringBuilder description = new StringBuilder();
 		if (model != null && model.getDescription() != null && !Util.isEmpty(model.getDescription(), true))
 			description.append(model.getDescription());
@@ -732,7 +732,7 @@ public class CostEngine {
 			}
 			else if (transaction.getC_ProjectIssue_ID() > 0) {
 				MProjectIssue line = (MProjectIssue) transaction.getC_ProjectIssue();
-				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent(),  transaction.getM_Product_ID() , line.getMovementDate()))
+				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line,  transaction.getM_Product_ID() , line.getMovementDate()))
 					return;
 			}
 

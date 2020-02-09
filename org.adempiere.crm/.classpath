@@ -3,6 +3,6 @@
 	<classpathentry kind="src" path="src/main/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/base"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.project"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/org.adempiere.project-jars"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
