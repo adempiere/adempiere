@@ -8,5 +8,7 @@
 	<classpathentry kind="lib" path="/tools/lib/servlet-api.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/org.adempiere.project-jars"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/org.adempiere.request-jars"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.request"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.project"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

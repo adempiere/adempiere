@@ -110,7 +110,11 @@
 	<classpathentry kind="lib" path="/tools/lib/poi-ooxml-3.17.jar"/>
 	<classpathentry kind="lib" path="/tools/lib/commons-codec-1.6.jar"/>
 	<classpathentry kind="lib" path="/glassfishfacet/lib/appserv-rt.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.project"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.request"/>
+<!--  
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/org.adempiere.project-jars"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/org.adempiere.request-jars"/>
+-->	
 	<classpathentry kind="output" path="build"/>
 </classpath>
