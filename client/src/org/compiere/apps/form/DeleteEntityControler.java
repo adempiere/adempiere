@@ -26,8 +26,12 @@ import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.util.DeleteEntitiesModel;
+import org.compiere.model.I_AD_Table;
+import org.compiere.model.MTable;
+import org.compiere.model.Query;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Trx;
 
@@ -46,7 +50,9 @@ public abstract class DeleteEntityControler {
 	private int 	windowNo;
 	private int 	clientId;
 	private int 	tableId;
+	private int 	cleanDefinitionId;
 	private boolean isDryRun;
+	private boolean isCleanDefinition;
 	private Stack<DeleteEntitiesModel> stack = new Stack<DeleteEntitiesModel>();
 	
 	/**
@@ -82,10 +88,20 @@ public abstract class DeleteEntityControler {
 	}
 	
 	/**
+	 * Get Clean Definition for Combo
+	 * @return
+	 */
+	public KeyNamePair[] getCleanDefinition() {
+		return DB.getKeyNamePairs("SELECT AD_CleanDefinition_ID, Name "
+				+ "FROM AD_CleanDefinition "
+				+ "ORDER BY Name", true);
+	}
+	
+	/**
 	 * Load Child from tableName
 	 * @param currentNode
 	 */
-	public void loadChilds(DeleteEntitiesModel currentNode, Object rootNode) {
+	public void loadChilds(DeleteEntitiesModel currentNode, Object rootNode, boolean isParent) {
 		HashSet<String> tablesIgnored = new HashSet<String>(Arrays.asList(new String[] {
 				"T_Report", "T_ReportStatement", "AD_Attribute_Value", "AD_PInstance_Log", "A_Valid_Asset_Combinations"
 		}));
@@ -93,6 +109,32 @@ public abstract class DeleteEntityControler {
 		if (tablesIgnored.contains(currentNode.getTableName()))
 			return;
 		//	
+		if(cleanDefinitionId != 0
+				&& isParent) {
+			try {
+				new Query(Env.getCtx(), I_AD_Table.Table_Name, 
+						"EXISTS(SELECT 1 FROM AD_CleanDefinitionTable cdt WHERE cdt.AD_Table_ID = AD_Table.AD_Table_ID AND cdt.AD_CleanDefinition_ID = ? "
+						+ "AND cdt.AD_Table_ID <> ?)", null)
+						.setParameters(cleanDefinitionId, currentNode.getTableId())
+						.setOrderBy(I_AD_Table.COLUMNNAME_LoadSeq + " DESC")
+						.setOnlyActiveRecords(true)
+						.<MTable>list()
+						.forEach(table -> {
+							DeleteEntitiesModel data = new DeleteEntitiesModel(currentNode.getClientId(), table.getAD_Table_ID());
+							//	Get Count
+							int count = data.getCount();
+							//	
+							if (count > 0) {
+								log.log(Level.FINE, "Adding node: " + data.getTableName() + "." + data.getJoinColumn());
+								addToNode(data, rootNode);
+							} else {
+								log.log(Level.FINE, "No records:" + data.getTableName());
+							}
+						});
+			} catch (Exception e) {
+				throw new AdempiereException("Couldn't load child tables", e);
+			}
+		}
 		String sql = "SELECT t.AD_Table_ID, t.TableName, c.ColumnName, c.IsMandatory "
 				+ "FROM AD_Table t "
 				+ "INNER JOIN AD_Column c ON (t.AD_Table_ID=c.AD_Table_ID) "
@@ -165,7 +207,16 @@ public abstract class DeleteEntityControler {
 	 * @return
 	 */
 	public int getTableId() {
-		return tableId;
+		if(!isCleanDefinition()) {
+			return tableId;
+		} else {
+			return new Query(Env.getCtx(), I_AD_Table.Table_Name, 
+					"EXISTS(SELECT 1 FROM AD_CleanDefinitionTable cdt WHERE cdt.AD_Table_ID = AD_Table.AD_Table_ID AND AD_CleanDefinition_ID = ?)", null)
+					.setParameters(getCleanDefinitionId())
+					.setOrderBy(I_AD_Table.COLUMNNAME_LoadSeq + " DESC")
+					.setOnlyActiveRecords(true)
+					.firstId();
+		}
 	}
 	
 	/**
@@ -200,6 +251,22 @@ public abstract class DeleteEntityControler {
 		this.isDryRun = isDryRun;
 	}
 	
+	public int getCleanDefinitionId() {
+		return cleanDefinitionId;
+	}
+
+	public void setCleanDefinitionId(int cleanDefinitionId) {
+		this.cleanDefinitionId = cleanDefinitionId;
+	}
+
+	public boolean isCleanDefinition() {
+		return isCleanDefinition;
+	}
+
+	public void setCleanDefinition(boolean isCleanDefinition) {
+		this.isCleanDefinition = isCleanDefinition;
+	}
+
 	/**
 	 * Add to Stack for delete
 	 * @param node
