@@ -456,6 +456,7 @@ public class VLookup extends VEditorAbstract
 				// If read only, only show the button if there is a value
 				editorPanel.add(m_button, BorderLayout.EAST);
 				m_button.setVisible(true);
+				m_button.setEnabled(true);
 				m_hasButton = true;
 			}
 			else
@@ -486,6 +487,8 @@ public class VLookup extends VEditorAbstract
 			//	
 			m_text.setReadWrite (true);
 			m_button.setVisible(true);
+			m_button.setEnabled(true);
+			m_hasButton = true;
 			m_combo.setVisible(false);
 			m_comboActive = false;
 			
