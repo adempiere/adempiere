@@ -1870,6 +1870,13 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 	 */
 	public int getM_AttributeSet_ID() {
 		int M_AttributeSet_ID = 0;
+		
+		//  In some cases, the focus lost event may happen after a button push event.  
+		//  When this happens, the value of the fAS_ID field will show as the previous
+		//  value which is not what the user would expect.  To avoid the confusion,
+		//  commit the new value here.
+		if (fAS_ID.isDirty())
+			fAS_ID.commitChanges();
 		if (fAS_ID.getValue() != null)
 			M_AttributeSet_ID = ((Integer) fAS_ID.getValue()).intValue();
 		return M_AttributeSet_ID;
