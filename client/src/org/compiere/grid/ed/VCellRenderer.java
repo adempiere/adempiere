@@ -296,13 +296,7 @@ public final class VCellRenderer extends DefaultTableCellRenderer
 			}
 			// Set border
 			c.setBorder(cb);
-//			// Set background color
-//			if (isSelected)
-//			{
-				c.setBackground(selectedColor);				
-//			}
-//			else
-//				c.setBackground(normalColor);
+			c.setBackground(selectedColor);				
 		}
 	}
 	
@@ -312,39 +306,10 @@ public final class VCellRenderer extends DefaultTableCellRenderer
     		// Borders
     		if (editable)
     		{
-//    			if ( c instanceof VLookup) 
-//    			{
-//    				VLookup lookup = (VLookup) c;
-////    				Border border = BorderFactory.createLineBorder(c.getBackground());
-//    				Border border = BorderFactory.createEmptyBorder();
-//    				lookup.setBorder(border);
-//
-//    				if (lookup.getComponents().length > 0 && lookup.getComponents()[0] instanceof JComboBox)	 
-//    				{
-//    					JComboBox combo = ((JComboBox) lookup.getComponents()[0]);
-//    					//  This is a hack to get rid of the border around the combo box.
-//    					for (int i = 0; i < combo.getComponentCount(); i++) 
-//    					{
-//    					    if (combo.getComponent(i) instanceof JComponent 	
-//    					    		&& !(combo.getComponent(i) instanceof AbstractButton)) 
-//    					    {
-//    					        ((JComponent) combo.getComponent(i)).setBorder(border);
-//    					    }
-//
-////    					    if (combo.getComponent(i) instanceof AbstractButton) {
-////    					        ((AbstractButton) combo.getComponent(i)).setBorderPainted(false);
-////    					    }
-//    					}
-//    				}
-//    			} 
-//    			else {
-    				setBorder(c, BorderFactory.createEmptyBorder(0,0,0,0));
-    	//			editor.setBorder(UIManager.getBorder("Table.focusCellHighlightBorder"));
-//    			}
+				setBorder(c, BorderFactory.createEmptyBorder(0,0,0,0));
     		}
     		else {  // Not editable
     			setBorder(c, noFocusBorder);
-//    			c.setBorder(noFocusBorder);
     		}
         }
     	else {  // Has the focus
@@ -357,9 +322,6 @@ public final class VCellRenderer extends DefaultTableCellRenderer
                 border = DefaultLookup.getBorder(c, ui, "Table.focusCellHighlightBorder");
             }
             setBorder(c, border);
-//			setBorder(c, noFocusBorder);
-//            c.setBorder(BorderFactory.createCompoundBorder(border, 
-//            								BorderFactory.createEmptyBorder(0,0,0,0)));
         } 
 	}
 
@@ -391,19 +353,7 @@ public final class VCellRenderer extends DefaultTableCellRenderer
 			//  and the renderer which is confusing.  Don't attach any 
 			//  listeners so value changes and focus will be ignored
 			
-			// If the editor is a Lookup, turn off its events
-			if (editor instanceof VLookup)
-			{
-//				((VLookup) editor).setField(null);
-//				((VLookup) editor).setFireChangeEvents(false);
-//				((VLookup) editor).stopEditing(true, false);  // Changes the model
-//				((VLookup) editor).setRenderOnly(true);
-//				
-//				ui = ((JPanel) editor).getUI();
-//				
-//				log.info("VLookup Renderer " + editor);
-			}
-			else if (editor instanceof VEditorAbstract)
+			if (editor instanceof VEditorAbstract)
 			{
 				ui = ((VEditorAbstract) editor).getUI();			
 			}
@@ -639,16 +589,6 @@ public final class VCellRenderer extends DefaultTableCellRenderer
 
 		try
 		{
-//			//  Checkbox
-//			if (!editable && m_displayType == DisplayType.YesNo)
-//			{
-//				if (value instanceof Boolean)
-//					checkBox.setValue(((Boolean)value).booleanValue());
-//				else
-//					checkBox.setValue("Y".equals(value));
-//				return;
-//			}
-//			else 
 			if (value == null)
 				if (lookup != null)
 					displayValue = lookup.getDisplay(value);
@@ -709,13 +649,6 @@ public final class VCellRenderer extends DefaultTableCellRenderer
 						editor.setValue("Y".equals(value));
 					return;
 				}
-			}
-			//	other (String ...)
-			else
-			{
-				// Use the default label to display the value
-//				super.setValue(displayValue);
-//				return;
 			}
 		}
 		catch (Exception e)
