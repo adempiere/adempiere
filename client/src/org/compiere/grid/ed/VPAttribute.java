@@ -270,6 +270,7 @@ public class VPAttribute extends VEditorAbstract
 	{
 		
 		actionButton();
+		
 	}	//	actionPerformed
 
 	private void actionButton() {
@@ -375,8 +376,8 @@ public class VPAttribute extends VEditorAbstract
 		if (changed)
 		{
 			log.finest("Changed M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID);
-			lookup.refresh();
-				setDisplayBasedOnValue(M_AttributeSetInstance_ID);
+			
+			setDisplayBasedOnValue(M_AttributeSetInstance_ID);
 				
 			//  TODO - this is the wrong place for this - it is model info
 			//	The locator ID may relate to another ASI on the tab so 
