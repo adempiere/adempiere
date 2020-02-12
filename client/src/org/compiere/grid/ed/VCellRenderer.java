@@ -414,12 +414,15 @@ public final class VCellRenderer extends DefaultTableCellRenderer
 		else
 		{
 			//  If not an editable field, create the renderer as either 
-			//  a simple checkbox or this (a text label).
+			//  a simple checkbox, a normal field, or this (a text label).
 			if ((displayed && (m_displayType == DisplayType.YesNo ||
 					m_displayType == DisplayType.ID)) && editor != null)
 			{
 				c = (JComponent) editor;
-				ui = ((VCheckBox) editor).getUI();
+				if (editor instanceof VEditorAbstract)
+					ui = ((VEditorAbstract) editor).getUI();
+				else if (editor instanceof VCheckBox)
+					ui = ((VCheckBox) editor).getUI();
 			}
 			else
 			{	//	returns JLabel
