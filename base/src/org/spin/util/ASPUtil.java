@@ -1586,6 +1586,8 @@ public class ASPUtil {
 		if(overwrite) {
 			//	Sequence
 			processParameter.setSeqNo(customProcessParameter.getSeqNo());
+			//	Active
+			processParameter.setIsActive(customProcessParameter.isActive());
 		} else {
 			//	Sequence
 			if(customProcessParameter.getSeqNo() > 0) {
@@ -1700,8 +1702,10 @@ public class ASPUtil {
 			browseField.setSeqNo(customBrowseField.getSeqNo());
 			browseField.setSeqNoGrid(customBrowseField.getSeqNoGrid());
 			browseField.setIsActive(customBrowseField.isActive());
+			browseField.setIsDisplayed(customBrowseField.isDisplayed());
 			browseField.setIsQueryCriteria(customBrowseField.isQueryCriteria());
 			browseField.setIsOrderBy(customBrowseField.isOrderBy());
+			browseField.setSortNo(customBrowseField.getSortNo());
 		} else {
 			//	Sequence
 			if(customBrowseField.getSeqNo() > 0) {
