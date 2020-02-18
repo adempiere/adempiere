@@ -273,8 +273,8 @@ public class WPOSActionPanel extends WPOSSubPanel
 	public void onEvent(Event e) throws Exception {
 		try {
             if(e.getName().equals(Events.ON_CHANGE)){
-                if(lookupProduct.getSelectedRecord() >= 0) {
-                  lookupProduct.setText(String.valueOf(lookupProduct.getSelectedRecord()));
+                if(lookupProduct.getSelectedProductId() >= 0) {
+                  lookupProduct.setText(String.valueOf(lookupProduct.getSelectedProductId()));
                     lookupProduct.captureProduct();
                 }
             }
@@ -434,6 +434,7 @@ public class WPOSActionPanel extends WPOSSubPanel
 				fieldProductName.setText(value);
 				try {
 					posPanel.setAddQty(true);
+					//lookupProduct.setText(new MProduct(ctx, productId, null).getName());
 					findProduct(true);
 				} catch (Exception exception) {
 					FDialog.error(0, this, exception.getLocalizedMessage());

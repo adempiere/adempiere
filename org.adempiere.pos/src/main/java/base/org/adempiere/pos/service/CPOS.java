@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Vector;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pos.AdempierePOSException;
@@ -141,7 +142,9 @@ public class CPOS {
 	/**	Date Format				*/
 	private SimpleDateFormat	dateFormat;
 	/**	Window No				*/
-	private int 							windowNo;
+	private int 				windowNo;
+	/**	Payment Amount			*/
+	private BigDecimal			receivedAmount;
 	
 	/**
 	 * 	Set MPOS
@@ -1292,7 +1295,8 @@ public class CPOS {
 				return orderCompleted;
 			}
 		}
-
+		//	Load after process
+		reloadOrder();
 		//	Validate for Invoice and Shipment generation (not for Standard Orders)
 		if(isPaid && !isStandardOrder()) {
 			if(!isDelivered()) // Based on Delivery Rule of POS Terminal or partner
@@ -1597,11 +1601,13 @@ public class CPOS {
      */
 	public BigDecimal getAmountReceived()
 	{
-		BigDecimal totalPayAmt = Env.ZERO;
-		for (MPayment payment : MPayment.getOfOrder(getOrder()))
-			totalPayAmt = totalPayAmt.add(payment.getPayAmt());
-
-		return totalPayAmt;
+		//	Calculate
+		if(receivedAmount == null) {
+			AtomicReference<BigDecimal> amount = new AtomicReference<>(Env.ZERO);
+			MPayment.getOfOrder(getOrder()).forEach(payment -> amount.updateAndGet(amountToUpdate -> amountToUpdate.add(payment.getPayAmt())));
+			receivedAmount = amount.get();
+		}
+		return receivedAmount;
 	}
 
 	/**
@@ -1695,6 +1701,14 @@ public class CPOS {
 		currentOrder.load(currentOrder.get_TrxName());
 		currentOrder.getLines(true, "Line");
 		partner = MBPartner.get(getCtx(), currentOrder.getC_BPartner_ID());
+		clearValues();
+	}
+	
+	/**
+	 * Clear cache values
+	 */
+	private void clearValues() {
+		receivedAmount = null;
 	}
 	
 	/**

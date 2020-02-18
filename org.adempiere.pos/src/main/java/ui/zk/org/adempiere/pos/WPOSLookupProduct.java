@@ -47,9 +47,6 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
 
 	private static final long serialVersionUID = -2303830709901143774L;
     private POSLookupProductInterface lookupProductInterface = null;
-    //private POSTextField fieldProductName = null;
-    private long lastKeyboardEvent = 0;
-    //private boolean searched = false;
     private boolean selectLock = false;
     private AutoComplete productLookupComboBox = null;
     private Integer priceListId = 0;
@@ -69,15 +66,13 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
     private String title = "";
 
     private ArrayList<Integer> recordId;
-    private int index = -1;
+    private int productId = -1;
+    
 
     public WPOSLookupProduct (POSLookupProductInterface lookupProductInterface, WPOSTextField fieldProductName, long lastKeyboardEvent)
     {
         super();
         this.lookupProductInterface = lookupProductInterface;
-        //this.fieldProductName = fieldProductName;
-        this.lastKeyboardEvent = lastKeyboardEvent;
-
         productLookupComboBox = new AutoComplete();
         this.setClass("input-search");
         this.setButtonVisible(false);
@@ -86,11 +81,6 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
         this.addEventListener(Events.ON_SELECT, this);
         setFillingComponent(productLookupComboBox);
         productLookupComboBox.setStyle("Font-size:medium; font-weight:bold");
-    }
-
-    public void setLastKeyboardEvent(long lastKeyboardEvent)
-    {
-        this.lastKeyboardEvent = lastKeyboardEvent;
     }
 
     /**
@@ -146,10 +136,11 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
             lookupProductInterface.quantityRequestFocus();
 		}
 		else if(e.getName().equals(Events.ON_SELECT)){
-			index = this.getSelectedIndex();
-			// Issue  #137
-			// lookupProductInterface.findProduct(true);
-           
+			int index = this.getSelectedIndex();
+			if(recordId.size() > index
+					&& index >= 0) {
+				productId = recordId.get(index);
+			}
 		}
 	}
 	
@@ -157,14 +148,8 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
 	 * Get Selected Record
 	 * @return int ID
 	 */
-	public int getSelectedRecord(){
-		if(recordId.size() > 1 ){
-			return recordId.get(index);
-		}
-		else if(recordId.size() == 1){
-			return recordId.get(0);
-		}
-		return -1;
+	public int getSelectedProductId() {
+		return productId;
 	}
 	
 	/**
@@ -172,20 +157,16 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
 	 * @see TreeDataListener#onChange(TreeDataEvent)
 	 */
 	public void onChanging(InputEvent event) {
-		index = this.getSelectedIndex();
-        if(!event.isChangingBySelectBack()){
+		if(!event.isChangingBySelectBack()){
         	executeQuery(event.getValue());
         }
         super.onChanging(event);
 	}
 
 
-    public void captureProduct()
-    {
-    	int product_ID = getSelectedRecord();
-        if(product_ID > 0 && !selectLock)
-        {
-            String productValue = DB.getSQLValueString(null , "SELECT Value FROM M_Product p WHERE M_Product_ID=?", product_ID);
+    public void captureProduct() {
+    	if(productId > 0 && !selectLock) {
+            String productValue = DB.getSQLValueString(null , "SELECT Value FROM M_Product p WHERE M_Product_ID=?", productId);
             this.setText(productValue);
             try {
                 lookupProductInterface.findProduct(false);
@@ -215,6 +196,7 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
         productLookupComboBox.removeAllItems();
 
         recordId = new ArrayList<Integer>();
+        productId = -1;
         Map<String,Integer> line = new TreeMap<String,Integer>();
 
         for (java.util.Vector<Object> columns : CPOS.getQueryProduct(value, warehouseId, priceListId, partnerId))
@@ -252,6 +234,5 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
         this.setDict(searchValues);
         this.setDescription(searchDescription);
         this.setOpen(true);
-        
     }
 }

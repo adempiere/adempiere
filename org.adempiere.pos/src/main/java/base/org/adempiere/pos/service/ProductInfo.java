@@ -16,9 +16,11 @@
 
 package org.adempiere.pos.service;
 
+import org.compiere.model.I_C_UOM;
 import org.compiere.model.MImage;
 import org.compiere.model.MProduct;
 import org.compiere.model.MProductPricing;
+import org.compiere.model.MUOM;
 import org.compiere.util.Env;
 
 import java.math.BigDecimal;
@@ -49,7 +51,8 @@ public class ProductInfo {
         value = product.getValue();
         name = product.getName();
         description = product.getDescription();
-        uomSymbol = product.getC_UOM().getUOMSymbol();
+        MUOM uom = MUOM.get(Env.getCtx(), product.getC_UOM_ID());
+        uomSymbol = uom.get_Translation(I_C_UOM.COLUMNNAME_UOMSymbol);
         productCategoryName = product.getM_Product_Category().getName();
         productTaxCategory = product.getC_TaxCategory().getName();
         priceStd = productPricing.getPriceStd();

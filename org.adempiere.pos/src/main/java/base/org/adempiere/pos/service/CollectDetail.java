@@ -15,11 +15,14 @@
 package org.adempiere.pos.service;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
+import org.compiere.model.MConversionRate;
+import org.compiere.model.MCurrency;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MLookup;
@@ -166,6 +169,23 @@ public class CollectDetail {
 	}
 	
 	/**
+	 * Cash Constructor
+	 * *** Constructor ***
+	 * @param collect
+	 * @param m_TenderType
+	 * @param m_PayAmt
+	 */
+	protected CollectDetail(Collect collect, String m_TenderType, BigDecimal m_PayAmt) {
+		this.m_TenderType = m_TenderType;
+		this.m_PayAmt = m_PayAmt;
+		setInitPayAmt(m_PayAmt);
+		m_CreditCardType = X_C_Payment.CREDITCARDTYPE_MasterCard;
+		setCurrencyDocumentId(collect.getOrder().getC_Currency_ID());
+		setCurrencyId(getCurrencyDocumentId());
+		setConversionTypeId(collect.getM_POS().get_ValueAsInt("C_ConversionType_ID"));
+	}
+	
+	/**
 	 * Private Constructor for Check
 	 * *** Constructor ***
 	 * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
@@ -230,6 +250,15 @@ public class CollectDetail {
 	private MInvoice	m_CreditMemo;
 	/**	ID Credit Invoice				*/
 	private int			m_C_Invoice_ID;
+	/**	Conversion Type					*/
+	private int conversionTypeId;
+	/**	Currency						*/
+	private int currencyId;
+	/**	Document Currency				*/
+	private int currencyDocumentId;
+	/**	Conversion Rate					*/
+	private BigDecimal currencyRate;
+	
 	
 	/**
 	 * Get Months for Credit Card
@@ -654,11 +683,116 @@ public class CollectDetail {
 		this.m_CreditMemo = m_CreditMemo;
 	}
 
-
+	/**
+	 * Set Currency ID
+	 * @param currencyId
+	 */
+	public void setCurrencyId(int currencyId) {
+		this.currencyId = currencyId;
+	}
+	
+	/**
+	 * Set Currency Document
+	 * @param currencyDocumentId
+	 */
+	public void setCurrencyDocumentId(int currencyDocumentId) {
+		this.currencyDocumentId = currencyDocumentId;
+	}
+	
+	/**
+	 * Set Conversion Type
+	 * @param conversionTypeId
+	 */
+	public void setConversionTypeId(int conversionTypeId) {
+		this.conversionTypeId = conversionTypeId;
+	}
+	
+	/**
+	 * Get Currency from Payment
+	 * @return
+	 */
+	public int getCurrencyId() {
+		return currencyId;
+	}
+	
+	/**
+	 * Get Currency Document ID
+	 * @return
+	 */
+	public int getCurrencyDocumentId() {
+		return currencyDocumentId;
+	}
+	
+	/**
+	 * Get Conversion Type
+	 * @return
+	 */
+	public int getConversionTypeId() {
+		return conversionTypeId;
+	}
+	
+	/**
+	 * Get Conversion Rate
+	 * @return
+	 */
+	public BigDecimal getConversionRate() {
+		return currencyRate;
+	}
+	
+	/**
+	 * Get converted payment amount to currency document
+	 * @return
+	 */
+	public BigDecimal getConvertedPayAmt() {
+		if(getCurrencyId() <= 0
+				|| getCurrencyDocumentId() <= 0
+				|| getConversionRate() == null
+				|| getConversionRate().compareTo(Env.ZERO) == 0) {
+			return getPayAmt();
+		}
+		//	Convert it for origin
+		BigDecimal payAmt = getPayAmt();
+		MCurrency currency = MCurrency.get (Env.getCtx(), getCurrencyDocumentId());
+		//	
+		payAmt = payAmt.divide(currencyRate, MathContext.DECIMAL128)
+				.setScale(currency.getStdPrecision (), BigDecimal.ROUND_HALF_UP);
+		//	Return 
+		return payAmt;
+	}
+	
+	/**
+	 * Set Converted Amount
+	 */
+	public void setConvertedAmt() {
+		if(getCurrencyId() <= 0
+				|| getCurrencyDocumentId() <= 0) {
+			return;
+		}
+		MCurrency currency = MCurrency.get (Env.getCtx(), getCurrencyId());
+		int clientId = Env.getContextAsInt (Env.getCtx(), 0, "AD_Client_ID");
+		int organizationId = Env.getContextAsInt (Env.getCtx(), 0, "AD_Org_ID");
+		// Get Currency Rate
+		currencyRate = Env.ONE;
+		if (getCurrencyId() != getCurrencyDocumentId()) {
+			currencyRate = MConversionRate.getRate(getCurrencyDocumentId(), getCurrencyId(), getDateTrx(), getConversionTypeId(), clientId, organizationId);
+			if (currencyRate == null || currencyRate.compareTo(Env.ZERO) == 0) {
+				currencyRate = Env.ONE;
+			}
+		}
+		//	Set Payment Amount
+		BigDecimal payAmt = getInitPayAmt();
+		payAmt = payAmt.multiply(currencyRate).setScale (
+				currency.getStdPrecision (), BigDecimal.ROUND_HALF_UP);
+		setPayAmt(payAmt);
+	}
+	
 	@Override
 	public String toString() {
-		return "CollectType [m_TenderType=" + m_TenderType + ", m_PayAmt="
-				+ m_PayAmt + ", m_ReferenceNo=" + m_ReferenceNo
+		return "CollectType [m_TenderType=" + m_TenderType 
+				+ ", currencyId=" + currencyId
+				+ ", currencyDocumentId=" + currencyDocumentId
+				+ ", currencyRate=" + currencyRate
+				+ ", m_PayAmt=" + m_PayAmt + ", m_ReferenceNo=" + m_ReferenceNo
 				+ ", m_C_Bank_ID=" + m_C_Bank_ID + ", m_DateTrx=" + m_DateTrx
 				+ ", m_CreditCardExpMM=" + m_CreditCardExpMM
 				+ ", m_CreditCardExpYY=" + m_CreditCardExpYY

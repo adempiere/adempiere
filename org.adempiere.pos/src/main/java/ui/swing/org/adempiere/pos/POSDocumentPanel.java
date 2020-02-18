@@ -344,7 +344,6 @@ public class POSDocumentPanel extends POSSubPanel
 			//  Issue 139
 			posPanel.setAddQty(true);
 			posPanel.addOrUpdateLine(key.getM_Product_ID(), key.getQty());
-			posPanel.refreshPanel();
 			posPanel.changeViewPanel();
 			posPanel.getMainFocus();
 		} catch (Exception exception) {

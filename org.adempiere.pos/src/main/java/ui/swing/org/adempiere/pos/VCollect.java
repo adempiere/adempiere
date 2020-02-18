@@ -335,6 +335,7 @@ public class VCollect extends Collect
 			//	Process printing
 			isProcessed = true;
 			hidePanel();
+			pos.setOrder(0);
 			pos.showKeyboard();
 			pos.refreshPanel();
 			pos.restoreTable();
