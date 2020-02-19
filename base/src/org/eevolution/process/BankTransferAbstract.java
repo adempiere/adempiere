@@ -56,6 +56,8 @@ public abstract class BankTransferAbstract extends SvrProcess {
 	public static final String STATEMENTDATE = "StatementDate";
 	/**	Parameter Name for Account Date	*/
 	public static final String DATEACCT = "DateAcct";
+	/**	Parameter Name for POS	*/
+	public static final String C_POS_ID = "C_POS_ID";
 	/**	Parameter Name for Reconcile Automatically	*/
 	public static final String ISAUTORECONCILED = "IsAutoReconciled";
 	/**	Parameter Value for Bank Account From	*/
@@ -84,6 +86,8 @@ public abstract class BankTransferAbstract extends SvrProcess {
 	private Timestamp dateAcct;
 	/**	Parameter Value for Reconcile Automatically	*/
 	private boolean isAutoReconciled;
+	/**	Parameter Value for POS	*/
+	private int posId;
 
 	@Override
 	protected void prepare() {
@@ -100,11 +104,22 @@ public abstract class BankTransferAbstract extends SvrProcess {
 		statementDate = getParameterAsTimestamp(STATEMENTDATE);
 		dateAcct = getParameterAsTimestamp(DATEACCT);
 		isAutoReconciled = getParameterAsBoolean(ISAUTORECONCILED);
+		posId = getParameterAsInt(C_POS_ID);
 	}
 
 	/**	 Getter Parameter Value for Bank Account From	*/
 	protected int getCBankAccountId() {
 		return cBankAccountId;
+	}
+
+	/**	 Setter Parameter Value for Bank Account From	*/
+	protected void setPosId(int posId) {
+		this.posId = posId;
+	}
+
+	/**	 Getter Parameter Value for Bank Account From	*/
+	protected int getPosId() {
+		return posId;
 	}
 
 	/**	 Setter Parameter Value for Bank Account From	*/
