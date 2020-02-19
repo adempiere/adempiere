@@ -23,6 +23,7 @@
 	<classpathentry kind="src" path="org.eevolution.hr_and_payroll/src/main/java/base"/>
 	<classpathentry kind="src" path="org.eevolution.hr_and_payroll/src/main/java/ui/swing"/>
 	<classpathentry kind="src" path="org.eevolution.hr_and_payroll/src/main/java/ui/zk"/>
+	<classpathentry kind="src" path="org.spin.hr_time_and_attendance/src/main/java/base"/>
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/base"/>
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/test"/>
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/ui/swing"/>
