@@ -411,7 +411,7 @@ public class VPOS extends CPOS implements FormPanel, POSPanelInterface, POSScale
 	 * @param qtyOrdered
 	 * @return void
 	 */
-	public void addOrUpdateLine(int productId, BigDecimal qtyOrdered) throws Exception{
+	public void addOrUpdateLine(int productId, BigDecimal qtyOrdered) throws Exception {
 		//	Create Order if none exists
 		if (!hasOrder()) {
 			newOrder();

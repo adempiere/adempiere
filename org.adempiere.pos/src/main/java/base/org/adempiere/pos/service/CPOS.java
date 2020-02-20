@@ -144,7 +144,7 @@ public class CPOS {
 	/**	Window No				*/
 	private int 				windowNo;
 	/**	Payment Amount			*/
-	private BigDecimal			receivedAmount;
+	private HashMap<Integer, BigDecimal> receivedAmount;
 	
 	/**
 	 * 	Set MPOS
@@ -1601,13 +1601,17 @@ public class CPOS {
      */
 	public BigDecimal getAmountReceived()
 	{
+		int orderId = getOrder().getC_Order_ID();
 		//	Calculate
 		if(receivedAmount == null) {
+			receivedAmount = new HashMap<Integer, BigDecimal>();
+		}
+		if(receivedAmount.get(orderId) == null) {
 			AtomicReference<BigDecimal> amount = new AtomicReference<>(Env.ZERO);
 			MPayment.getOfOrder(getOrder()).forEach(payment -> amount.updateAndGet(amountToUpdate -> amountToUpdate.add(payment.getPayAmt())));
-			receivedAmount = amount.get();
+			receivedAmount.put(orderId, amount.get());
 		}
-		return receivedAmount;
+		return receivedAmount.get(orderId);
 	}
 
 	/**
@@ -2277,7 +2281,7 @@ public class CPOS {
 	 * @return String
 	 */
 	public String getProductValue(int productId) {
-		return DB.getSQLValueString(null, "SELECT Value FROM M_Product WHERE M_Product_ID = ? " , productId);
+		return MProduct.get(getCtx(), productId).getValue();
 	}
 
 	/**
@@ -2287,11 +2291,12 @@ public class CPOS {
 	 * @return String
 	 */
 	public String getProductName(int productId) {
-		return DB.getSQLValueString(null, "SELECT name FROM M_Product WHERE M_Product_ID = ? " , productId);
+		return MProduct.get(getCtx(), productId).getName();
 	}
 
 	/**
 	 * Get Query for Product
+	 * @param referenceProductId specific product ID
 	 * @param productCode
 	 * @param warehouseId
 	 * @param priceListId
@@ -2299,7 +2304,7 @@ public class CPOS {
 	 * @return
 	 * @return List<Vector<Object>>
 	 */
-	public static List<Vector<Object>> getQueryProduct(String productCode, int warehouseId , int priceListId , int partnerId) {
+	public static List<Vector<Object>> getQueryProduct(int referenceProductId, String productCode, int warehouseId , int priceListId , int partnerId) {
 		ArrayList<Vector<Object>> rows = new ArrayList<>();
 		StringBuilder sql = new StringBuilder();
 		sql.append("SELECT DISTINCT ON ( ProductPricing.M_Product_ID , p.Value, p.Name ) ProductPricing.M_Product_ID , p.Value, p.Name,")
@@ -2333,13 +2338,17 @@ public class CPOS {
 					sql.append( "AND ProductPricing.C_BPartner_ID IS NULL ");
 
 				sql.append("AND p.AD_Client_ID=? AND p.IsSold=? AND p.Discontinued=? ")
-				.append("AND ")
-				.append("(")
-				.append("UPPER(p.Name)  LIKE UPPER('").append("%").append(productCode.replace(" ","%")).append("%").append("')")
-				.append(" OR UPPER(p.Value) LIKE UPPER('").append("%").append(productCode.replace(" ","%")).append("%").append("')")
-				.append(" OR UPPER(p.UPC)   LIKE UPPER('").append("%").append(productCode.replace(" ","%")).append("%").append("')")
-				.append(" OR UPPER(p.SKU)   LIKE UPPER('").append("%").append(productCode.replace(" ","%")).append("%").append("')")
-				.append(")");
+				.append("AND ");
+				//	Validate only specific product
+				if(referenceProductId > 0) {
+					sql.append("p.M_Product_ID = ").append(referenceProductId);
+				} else {
+					sql.append("(").append("UPPER(p.Name)  LIKE UPPER('").append("%").append(productCode.replace(" ","%")).append("%").append("')")
+					.append(" OR UPPER(p.Value) LIKE UPPER('").append("%").append(productCode.replace(" ","%")).append("%").append("')")
+					.append(" OR UPPER(p.UPC)   LIKE UPPER('").append("%").append(productCode.replace(" ","%")).append("%").append("')")
+					.append(" OR UPPER(p.SKU)   LIKE UPPER('").append("%").append(productCode.replace(" ","%")).append("%").append("')")
+					.append(")");
+				}
 		PreparedStatement statement = null;
 		try{
 			statement = DB.prepareStatement(sql.toString(), null);

@@ -28,7 +28,7 @@ import org.adempiere.pos.service.POSLookupProductInterface;
 import org.adempiere.util.StringUtils;
 import org.adempiere.webui.component.AutoComplete;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.util.DB;
+import org.compiere.model.MProduct;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
@@ -166,10 +166,10 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
 
     public void captureProduct() {
     	if(productId > 0 && !selectLock) {
-            String productValue = DB.getSQLValueString(null , "SELECT Value FROM M_Product p WHERE M_Product_ID=?", productId);
+            String productValue = MProduct.get(Env.getCtx(), productId).getValue();
             this.setText(productValue);
             try {
-                lookupProductInterface.findProduct(false);
+                lookupProductInterface.findProduct(false, productId);
             } catch (Exception exception) {
                 FDialog.error(0 ,exception.getLocalizedMessage());
             }
@@ -199,7 +199,7 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
         productId = -1;
         Map<String,Integer> line = new TreeMap<String,Integer>();
 
-        for (java.util.Vector<Object> columns : CPOS.getQueryProduct(value, warehouseId, priceListId, partnerId))
+        for (java.util.Vector<Object> columns : CPOS.getQueryProduct(productId, value, warehouseId, priceListId, partnerId))
         {
             
             String productValue = (String)columns.elementAt(1);
@@ -220,10 +220,10 @@ public class WPOSLookupProduct extends AutoComplete implements EventListener {
         String[] searchValues = new String[line.size()];
         String[] searchDescription = new String[line.size()];
         // Issue 137
-        Iterator it = line.keySet().iterator();
+        Iterator<String> it = line.keySet().iterator();
         int i = 0;
         while(it.hasNext()){
-          String key = (String)it.next();
+          String key = it.next();
           recordId.add(line.get(key));
           searchValues[i] = key;
           searchDescription[i] = " ";

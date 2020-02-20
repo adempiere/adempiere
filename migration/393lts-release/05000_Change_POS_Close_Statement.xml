@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="ECA02" Name="Change Validation for Close Statement" ReleaseNo="3.9.1" SeqNo="100049">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50057" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="pay.DocStatus IN ('CO','CL')">pay.DocStatus IN ('CO','CL') AND bs.DocStatus NOT IN('CO', 'CL', 'RE')</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="55462" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" oldValue="@SQL=SELECT  COALESCE(SUM(p.PayAmt),0) AS PaidAmt  FROM C_Payment p WHERE p.C_POS_ID = @C_POS_ID@ AND p.DateTrx  BETWEEN TO_DATE('@PAY_DateTrx@','YYYY-MM-DD') AND TO_DATE('@PAY_DateTrx_To@','YYYY-MM-DD') AND p.DocStatus IN ('CO','CL')">@SQL=SELECT  COALESCE(SUM(p.PayAmt * (CASE WHEN p.IsReceipt = 'Y' THEN 1 ELSE -1 END)),0) AS PaidAmt  FROM C_Payment p WHERE p.C_POS_ID = @C_POS_ID@ AND p.DateTrx  BETWEEN TO_DATE('@PAY_DateTrx@','YYYY-MM-DD') AND TO_DATE('@PAY_DateTrx_To@','YYYY-MM-DD') AND p.DocStatus IN ('CO','CL') AND NOT EXISTS(SELECT 1 FROM C_BankStatement st 	INNER JOIN C_BankStatementLine stl ON(stl.C_BankStatement_ID = st.C_BankStatement_ID) WHERE st.DocStatus IN('CO', 'CL') AND stl.C_Payment_ID = p.C_Payment_ID)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="55462" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" oldValue="@SQL=SELECT  COALESCE(SUM(p.PayAmt * (CASE WHEN p.IsReceipt = 'Y' THEN 1 ELSE -1 END)),0) AS PaidAmt  FROM C_Payment p WHERE p.C_POS_ID = @C_POS_ID@ AND p.DateTrx  BETWEEN TO_DATE('@PAY_DateTrx@','YYYY-MM-DD') AND TO_DATE('@PAY_DateTrx_To@','YYYY-MM-DD') AND p.DocStatus IN ('CO','CL') AND NOT EXISTS(SELECT 1 FROM C_BankStatement st &#9;INNER JOIN C_BankStatementLine stl ON(stl.C_BankStatement_ID = st.C_BankStatement_ID) WHERE st.DocStatus IN('CO', 'CL') AND stl.C_Payment_ID = p.C_Payment_ID)">@SQL=SELECT  COALESCE(SUM(p.PayAmt * (CASE WHEN p.IsReceipt = 'Y' THEN 1 ELSE -1 END)),0) AS PaidAmt  FROM C_Payment p WHERE p.C_POS_ID = @C_POS_ID@ AND p.DateTrx  BETWEEN TO_DATE('@PAY_DateTrx@','YYYY-MM-DD') AND TO_DATE('@PAY_DateTrx_To@','YYYY-MM-DD') AND p.DocStatus IN ('CO','CL') AND NOT EXISTS(SELECT 1 FROM C_BankStatement st INNER JOIN C_BankStatementLine stl ON(stl.C_BankStatement_ID = st.C_BankStatement_ID) WHERE st.DocStatus IN('CO', 'CL') AND stl.C_Payment_ID = p.C_Payment_ID)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50057" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="pay.DocStatus IN ('CO','CL') AND bs.DocStatus NOT IN('CO', 'CL', 'RE')">pay.DocStatus IN ('CO','CL') AND bs.DocStatus NOT IN('CO', 'CL')</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="53232" Action="U" Record_ID="54113" Table="AD_View_Column">
+        <Data AD_Column_ID="58106" Column="ColumnSQL" oldValue="pay.PayAmt">pay.PayAmt * (CASE WHEN pay.IsReceipt = 'Y' THEN 1 ELSE -1 END)</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

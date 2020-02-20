@@ -573,8 +573,9 @@ public class WCollectDetail extends CollectDetail implements EventListener, POSP
 			BigDecimal payAmt = (BigDecimal)fPayAmt.getValue();
 			
 			if(Events.ON_CHANGE.equals(e.getName()) || e.getName().equals(Events.ON_CHANGING)) {
-				if(((InputEvent)e).getValue().length() > 0)
-					payAmt = new BigDecimal(((InputEvent)e).getValue());
+				String value = ((InputEvent)e).getValue();
+				if(value  != null && value.length() > 0)
+					payAmt = new BigDecimal(value);
 				else 
 					payAmt = Env.ZERO;
 

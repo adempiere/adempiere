@@ -20,7 +20,7 @@ import org.adempiere.pos.service.CPOS;
 import org.adempiere.pos.service.POSLookupProductInterface;
 import org.adempiere.util.StringUtils;
 import org.compiere.apps.ADialog;
-import org.compiere.util.DB;
+import org.compiere.model.MProduct;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
@@ -169,7 +169,7 @@ public class POSLookupProduct implements ActionListener, KeyListener {
     			fieldProductName.setPlaceholder(fieldProductName.getText());
                 try {
 
-                    lookupProductInterface.findProduct(KeyEvent.VK_TAB == keyEvent.getKeyCode());
+                    lookupProductInterface.findProduct(KeyEvent.VK_TAB == keyEvent.getKeyCode(), 0);
                 } catch (Exception exception) {
                     ADialog.error(0 , null , exception.getLocalizedMessage());
                 }
@@ -200,10 +200,10 @@ public class POSLookupProduct implements ActionListener, KeyListener {
         KeyNamePair item = (KeyNamePair) productLookupComboBox.getSelectedItem();
         if(item!=null && !selectLock)
         {
-            String productValue = DB.getSQLValueString(null , "SELECT Value FROM M_Product p WHERE M_Product_ID=?", item.getKey());
+        	String productValue = MProduct.get(Env.getCtx(), item.getKey()).getValue();
             fieldProductName.setPlaceholder(productValue);
             try {
-                lookupProductInterface.findProduct(true);
+                lookupProductInterface.findProduct(true, item.getKey());
             } catch (Exception exception) {
                 ADialog.error(0 , null , exception.getLocalizedMessage());
             }
@@ -227,7 +227,7 @@ public class POSLookupProduct implements ActionListener, KeyListener {
             productLookupComboBox.removeAllItems();
             productLookupComboBox.addItem(new KeyNamePair(0, title));
             selectLock = true;
-            for (java.util.Vector<Object> columns : CPOS.getQueryProduct(fieldProductName.getText(), warehouseId, priceListId , partnerId))
+            for (java.util.Vector<Object> columns : CPOS.getQueryProduct(0, fieldProductName.getText(), warehouseId, priceListId , partnerId))
             {
                 Integer productId = (Integer) columns.elementAt(0);
                 String productValue = (String) columns.elementAt(1);

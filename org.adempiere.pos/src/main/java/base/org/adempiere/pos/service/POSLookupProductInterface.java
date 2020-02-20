@@ -32,10 +32,11 @@ public interface POSLookupProductInterface {
     /**
      * Find a Product, if it return a item then add 1 to order or 0
      * @param editQty if is true then add 1 qty to order line else 0
+     * @param productId optional product id for find a specific product
      * @throws Exception
      * @return void
      */
-    public void findProduct(boolean editQty) throws Exception;
+    public void findProduct(boolean editQty, int productId) throws Exception;
     
     /**
      * Move focust to Quantity
