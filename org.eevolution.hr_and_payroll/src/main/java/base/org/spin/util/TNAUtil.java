@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
@@ -164,6 +165,88 @@ public class TNAUtil {
 			return timeBetween.get() - overlapedTime.get();
 		}
 		return timeBetween.get();
+	}
+	
+	/**
+	 * Get first leave between two dates
+	 * @param ctx
+	 * @param businessPartnerId
+	 * @param leaveTypeValue
+	 * @param from
+	 * @param to
+	 * @param trxName
+	 * @return
+	 */
+	public static MHRLeave getFirstLeaveBetween(Properties ctx, int businessPartnerId, String leaveTypeValue, Timestamp from, Timestamp to, String trxName) {
+		Optional<MHRLeave> leave = getLeaveListBetween(ctx, businessPartnerId, leaveTypeValue, from, to, trxName)
+				.stream()
+				.sorted(Comparator.comparing(MHRLeave::getStartDate))
+				.findFirst();
+		//	Get if exist
+		if(leave.isPresent()) {
+			return leave.get();
+		}
+		return null;
+	}
+	
+	/**
+	 * Get last leave between two dates
+	 * @param ctx
+	 * @param businessPartnerId
+	 * @param leaveTypeValue
+	 * @param from
+	 * @param to
+	 * @param trxName
+	 * @return
+	 */
+	public static MHRLeave getLastLeaveBetween(Properties ctx, int businessPartnerId, String leaveTypeValue, Timestamp from, Timestamp to, String trxName) {
+		Optional<MHRLeave> leave = getLeaveListBetween(ctx, businessPartnerId, leaveTypeValue, from, to, trxName)
+				.stream()
+				.sorted(Comparator.comparing(MHRLeave::getEndDate).reversed())
+				.findFirst();
+		//	Get if exist
+		if(leave.isPresent()) {
+			return leave.get();
+		}
+		return null;
+	}
+	
+	/**
+	 * Get Start Date from first leave between
+	 * @param ctx
+	 * @param businessPartnerId
+	 * @param leaveTypeValue
+	 * @param from
+	 * @param to
+	 * @param trxName
+	 * @return
+	 */
+	public static Timestamp getLeaveStartDateBetween(Properties ctx, int businessPartnerId, String leaveTypeValue, Timestamp from, Timestamp to, String trxName) {
+		MHRLeave leave = getFirstLeaveBetween(ctx, businessPartnerId, leaveTypeValue, from, to, trxName);
+		if(leave != null) {
+			return leave.getStartDate();
+		}
+		//	
+		return null;
+	}
+	
+	/**
+	 * Get End Date from last leave between
+	 * @param ctx
+	 * @param businessPartnerId
+	 * @param leaveTypeValue
+	 * @param from
+	 * @param to
+	 * @param trxName
+	 * @return
+	 */
+	public static Timestamp getLeaveEndDateBetween(Properties ctx, int businessPartnerId, String leaveTypeValue, Timestamp from, Timestamp to, String trxName) {
+		MHRLeave leave = getLastLeaveBetween(ctx, businessPartnerId, leaveTypeValue, from, to, trxName);
+		if(leave != null) {
+			return leave.getEndDate();
+		}
+		//	
+		return null;
 	}
 	
 	/**
@@ -319,6 +402,8 @@ public class TNAUtil {
 			return TimeUtil.DURATIONUNIT_Hour;
 		} else if(timeUnit.equals(MHRLeaveType.TIMEUNIT_Day)) {
 			return TimeUtil.DURATIONUNIT_Day;
+		} else if(timeUnit.equals(MHRLeaveType.TIMEUNIT_Week)) {
+			return TimeUtil.DURATIONUNIT_Week;
 		} else if(timeUnit.equals(MHRLeaveType.TIMEUNIT_Month)) {
 			return TimeUtil.DURATIONUNIT_Month;
 		} else if(timeUnit.equals(MHRLeaveType.TIMEUNIT_Year)) {
