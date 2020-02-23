@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Menu_DeleteNotDefinedProcess" ReleaseNo="3.9.3" SeqNo="5510">
+    <Comments>https://github.com/adempiere/adempiere/issues/2880</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="54201" Table="AD_Menu">
+        <Data AD_Column_ID="598" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
