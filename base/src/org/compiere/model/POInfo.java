@@ -18,6 +18,8 @@ package org.compiere.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
@@ -46,6 +48,9 @@ import org.compiere.util.Env;
  *			@see https://github.com/adempiere/adempiere/issues/390
  *			<a href="https://github.com/adempiere/adempiere/issues/922">
  * 			@see FR [ 922 ] Is Allow Copy in model</a>
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  		<li><A href="https://github.com/adempiere/adempiere/issues/2428">#2428 Allow changes to AD_Column and AD_Table</a>
+ *  		Uses explicit references to column names rather than '*'
  */
 public class POInfo implements Serializable
 {
@@ -93,7 +98,11 @@ public class POInfo implements Serializable
 
 	/** Cache of POInfo     */
 	private static CCache<Integer,POInfo>  s_cache = new CCache<Integer,POInfo>("POInfo", 200);
-	
+
+	// #2428
+	/** Cache of POInfo Columns     */
+	private static StringBuffer  columnListCache = null;
+
 	/**************************************************************************
 	 *  Create Persistent Info
 	 *  @param ctx context
@@ -149,55 +158,32 @@ public class POInfo implements Serializable
 	 */
 	private void loadInfo (boolean baseLanguage, String trxName)
 	{
+		
 		ArrayList<POInfoColumn> list = new ArrayList<POInfoColumn>(15);
 		StringBuffer sql = new StringBuffer();
-		//	FR [ 390 ] Get Native Columns
 		
-		sql.append("SELECT "
-				+ "t.TableName, "
-				+ "c.ColumnName, "
-				+ "c.AD_Reference_ID,"
-				+ "c.IsMandatory, "
-				+ "c.IsUpdateable, "
-				+ "c.DefaultValue,"
-				+ "e.Name, "
-				+ "e.Description, "
-				+ "c.AD_Column_ID, "
-				+ "c.IsKey, "
-				+ "c.IsParent, "
-				+ "c.AD_Reference_Value_ID, "
-				+ "vr.Code, "
-				+ "c.FieldLength, "
-				+ "c.ValueMin, "
-				+ "c.ValueMax, "
-				+ "c.IsTranslated, "
-				+ "t.AccessLevel, "
-				+ "c.ColumnSQL, "
-				+ "c.IsEncrypted, "
-				+ "c.IsAllowLogging, "
-				+ "t.IsChangeLog, "
-				+ "t.AD_Table_ID, "
-				//	FR [ 390 ]
-				//	Additional columns
-				+ "t.*, c.* "
-		);
-		sql.append(" FROM AD_Table t"
-			+ " INNER JOIN AD_Column c ON (t.AD_Table_ID=c.AD_Table_ID)"
-			+ " LEFT OUTER JOIN AD_Val_Rule vr ON (c.AD_Val_Rule_ID=vr.AD_Val_Rule_ID)"
-			+ " INNER JOIN AD_Element");
-		if (!baseLanguage)
-			sql.append("_Trl");
-		sql.append(" e "
-			+ " ON (c.AD_Element_ID=e.AD_Element_ID) "
-			+ "WHERE t." + (tableId <= 0 ? "TableName=?" : "AD_Table_ID=?")
-			+ " AND c.IsActive='Y'");
-		if (!baseLanguage)
-			sql.append(" AND e.AD_Language='").append(Env.getAD_Language(m_ctx)).append("'");
-		//
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
 		{
+			
+			//	FR [ 390 ] Get Native Columns
+			//  #2428 - use explicit column names in queries 
+			sql.append("SELECT ")
+				.append(getPOInfoColumnList());
+			sql.append(" FROM AD_Table t"
+				+ " INNER JOIN AD_Column c ON (t.AD_Table_ID=c.AD_Table_ID)"
+				+ " LEFT OUTER JOIN AD_Val_Rule vr ON (c.AD_Val_Rule_ID=vr.AD_Val_Rule_ID)"
+				+ " INNER JOIN AD_Element");
+			if (!baseLanguage)
+				sql.append("_Trl");
+			sql.append(" e "
+				+ " ON (c.AD_Element_ID=e.AD_Element_ID) "
+				+ "WHERE t." + (tableId <= 0 ? "TableName=?" : "AD_Table_ID=?")
+				+ " AND c.IsActive='Y'");
+			if (!baseLanguage)
+				sql.append(" AND e.AD_Language='").append(Env.getAD_Language(m_ctx)).append("'");
+			//
 			pstmt = DB.prepareStatement(sql.toString(), trxName);
 			if (tableId <= 0)
 				pstmt.setString(1, tableName);
@@ -205,6 +191,7 @@ public class POInfo implements Serializable
 				pstmt.setInt(1, tableId);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
+				//  For ResultSet order, see getPOInfoColumnList()
 				//	Get Table
 				if (tableName == null)
 					tableName = rs.getString(1);
@@ -281,6 +268,166 @@ public class POInfo implements Serializable
 		list.toArray(columns);
 	}   //  loadInfo
 	
+	/**
+	 * Get the POInfo column list from cache or generate it.  The list of columns is
+	 * drawn from AD_Table and AD_Column and needs to be explicit (i.e. no '*').  The 
+	 * use of an asterisk can cause a "Cache plan must not change result type" error if
+	 * a column is added to either table. See issue <a href="https://github.com/adempiere/adempiere/issues/2428">#2428</a>.
+	 * <p>The column list is intended to be appended to a select statement as 
+	 * <pre>
+	 *	sql.append("SELECT ")
+	 *		.append(getPOInfoColumnList());
+	 *	sql.append(" FROM AD_Table t"
+	 *		+ " INNER JOIN AD_Column c ON (t.AD_Table_ID=c.AD_Table_ID)"
+	 *		+ " LEFT OUTER JOIN AD_Val_Rule vr ON (c.AD_Val_Rule_ID=vr.AD_Val_Rule_ID)"
+	 *		+ " INNER JOIN AD_Element");
+	 * </pre> 
+	 * <p>The order of the columns in the list is
+	 * <ol>
+	 * 	<li>t.TableName
+	 * 	<li>c.ColumnName
+	 * 	<li>c.AD_Reference_ID
+	 * 	<li>c.IsMandatory
+	 * 	<li>c.IsUpdateable
+	 * 	<li>c.DefaultValue
+	 * 	<li>e.Name
+	 * 	<li>e.Description
+	 * 	<li>c.AD_Column_ID
+	 * 	<li>c.IsKey
+	 * 	<li>c.IsParent
+	 * 	<li>c.AD_Reference_Value_ID
+	 * 	<li>vr.Code
+	 * 	<li>c.FieldLength
+	 * 	<li>c.ValueMin
+	 * 	<li>c.ValueMax
+	 * 	<li>c.IsTranslated
+	 * 	<li>t.AccessLevel
+	 * 	<li>c.ColumnSQL
+	 * 	<li>c.IsEncrypted
+	 * 	<li>c.IsAllowLogging
+	 * 	<li>t.IsChangeLog
+	 * 	<li>t.AD_Table_ID
+	 * </ol>
+	 * <p>Any additional columns will follow this list in undefined order.  See {@link #loadAdditionalAttributes(ResultSet)}
+	 * for examples on how to access these columns.
+	 * @return
+	 */
+	private StringBuffer getPOInfoColumnList() {
+
+		if (columnListCache != null && columnListCache.length() > 0)
+			return columnListCache;
+		
+		String columnList = "t.TableName, "
+				+ "c.ColumnName, "
+				+ "c.AD_Reference_ID,"
+				+ "c.IsMandatory, "
+				+ "c.IsUpdateable, "
+				+ "c.DefaultValue,"
+				+ "e.Name, "
+				+ "e.Description, "
+				+ "c.AD_Column_ID, "
+				+ "c.IsKey, "
+				+ "c.IsParent, "
+				+ "c.AD_Reference_Value_ID, "
+				+ "vr.Code, "
+				+ "c.FieldLength, "
+				+ "c.ValueMin, "
+				+ "c.ValueMax, "
+				+ "c.IsTranslated, "
+				+ "t.AccessLevel, "
+				+ "c.ColumnSQL, "
+				+ "c.IsEncrypted, "
+				+ "c.IsAllowLogging, "
+				+ "t.IsChangeLog, "
+				+ "t.AD_Table_ID";
+
+		String columnListLC = columnList.toLowerCase();
+		StringBuffer extraColumns = new StringBuffer();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		try
+		{
+		
+			// Get the list of columns for AD_Table and AD_Column
+			conn = DB.getConnectionRO();
+			DatabaseMetaData md = conn.getMetaData();
+			String catalog = DB.getDatabase().getCatalog();
+			String schema = DB.getDatabase().getSchema();
+			String tableName = I_AD_Table.Table_Name;
+			if (md.storesUpperCaseIdentifiers())
+			{
+				tableName = tableName.toUpperCase();
+			}
+			else if (md.storesLowerCaseIdentifiers())
+			{
+				tableName = tableName.toLowerCase();
+			}
+			
+			rs = md.getColumns(catalog, schema, tableName, null);
+			
+			while (rs.next())
+			{
+				String columnName = rs.getString ("COLUMN_NAME");
+				if (!columnListLC.contains("t." + columnName.toLowerCase()))
+				{
+					extraColumns.append(", t." + columnName);
+				}
+			}
+			rs.close();
+			rs = null;
+	
+			tableName = I_AD_Column.Table_Name;
+			if (md.storesUpperCaseIdentifiers())
+			{
+				tableName = tableName.toUpperCase();
+			}
+			else if (md.storesLowerCaseIdentifiers())
+			{
+				tableName = tableName.toLowerCase();
+			}
+			
+			rs = md.getColumns(catalog, schema, tableName, null);
+			
+			while (rs.next())
+			{
+				String columnName = rs.getString ("COLUMN_NAME").toLowerCase();
+				if (!columnListLC.contains("c." + columnName.toLowerCase()))
+				{
+					extraColumns.append(", c." + columnName);
+				}
+			}
+	
+		}
+		catch (SQLException e) {
+			CLogger.get().log(Level.SEVERE, "Exception when trying to access metadata", e);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				CLogger.get().log(Level.SEVERE, "Unable to close connection.", e);
+			}
+			rs = null; pstmt = null;
+			conn = null;
+		}
+
+		columnListCache = new StringBuffer().append(columnList).append(extraColumns);
+		
+		return columnListCache;
+	}
+	
+	/**
+	 * Reset the POInfo column list.  Call this method if any changes to the columns in
+	 * AD_Table or AD_Column have been made. See <A href="https://github.com/adempiere/adempiere/issues/2428">issue #2428</a>.
+	 * After making this call, the next call to getPOInfo() will reload the columnListCache.
+	 */
+	public static void resetPOInfoColumnList() {
+		columnListCache = null;
+	}
+
 	/**
 	 * Get Additional attributes
 	 * @param rs
