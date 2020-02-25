@@ -148,17 +148,16 @@ public class GenericPOHandler extends AbstractElementHandler {
 		final String elementValue = element.getElementValue();
 		final Attributes atts = element.attributes;
 		final String tableName = getStringValue(atts, TABLE_NAME_TAG);
-		final int tableId = getIntValue(atts, TABLE_ID_TAG, -1);
 		log.info(elementValue + " " + tableName);
 		//	Get UUID
 		String uuid = getUUIDValue(atts, tableName); 
 		if(Util.isEmpty(uuid)
-			|| tableId == -1) {
+			|| Util.isEmpty(tableName)) {
 			element.skip = true;
 			return;
 		}
 		//	Fill attributes
-		POInfo poInfo = POInfo.getPOInfo(ctx, tableId, getTrxName(ctx));
+		POInfo poInfo = POInfo.getPOInfo(ctx, tableName, getTrxName(ctx));
 		String keyColumnName = poInfo.getKeyColumnName();
 		int recordId = 0;
 		//	Get Record Id
@@ -168,7 +167,7 @@ public class GenericPOHandler extends AbstractElementHandler {
 		PO entity = null;
 		//	Multy-Key
 		if(poInfo.hasKeyColumn()) {
-			entity = getCreatePO(ctx, tableId, recordId, getTrxName(ctx));
+			entity = getCreatePO(ctx, tableName, recordId, getTrxName(ctx));
 		} else { 
 			entity = getCreatePOForMultyKey(ctx, poInfo, atts, getTrxName(ctx));
 		}
@@ -405,9 +404,11 @@ public class GenericPOHandler extends AbstractElementHandler {
 	 */
 	private void create(Properties ctx, TransformerHandler document, PO entity, boolean includeParents, List<String> excludedParentList, boolean isFromParent) throws SAXException {
 		int tableId = 0;
+		String tableName = null;
 		int recordId = 0;
 		if(entity != null) {
 			tableId = entity.get_Table_ID();
+			tableName = entity.get_TableName();
 			recordId = entity.get_ID();
 		} else {
 			tableId = Env.getContextAsInt(ctx, TABLE_ID_TAG);
@@ -419,6 +420,9 @@ public class GenericPOHandler extends AbstractElementHandler {
 		//	Instance PO
 		if(entity == null) {
 			entity = getCreatePO(ctx, tableId, recordId, null);
+		}
+		if(entity == null) {
+			entity = getCreatePO(ctx, tableName, recordId, null);
 		}
 		if(entity == null) {
 			return;
@@ -531,6 +535,18 @@ public class GenericPOHandler extends AbstractElementHandler {
 	
 	/**
 	 * Create PO from Table and Record ID
+	 * @param ctx
+	 * @param tableId
+	 * @param recordId
+	 * @param trxName
+	 * @return
+	 */
+	private PO getCreatePO(Properties ctx, String tableName, int recordId, String trxName) {
+		return MTable.get(ctx, tableName).getPO(recordId, trxName);
+	}
+	
+	/**
+	 * Get From Table ID
 	 * @param ctx
 	 * @param tableId
 	 * @param recordId
