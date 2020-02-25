@@ -42,8 +42,7 @@ import org.compiere.util.Env;
  *  @author Jorg Janke
  *  @version $Id: InOutGenerate.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
  */
-public class InOutGenerate extends SvrProcess
-{
+public class InOutGenerate extends InOutGenerateAbstract {
 	/**	Manual Selection		*/
 	private boolean 	p_Selection = false;
 	/** Warehouse				*/
