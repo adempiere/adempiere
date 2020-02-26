@@ -274,6 +274,9 @@ public class ImportInventory extends ImportInventoryAbstract {
 						if (attributeSet.isSerNo() && importInventory.getSerNo() != null)
 							attributeSetInstance.setSerNo(importInventory.getSerNo());
 						attributeSetInstance.setDescription();
+						if (attributeSet.isGuaranteeDate()) {
+							attributeSetInstance.setGuaranteeDate(importInventory.getGuaranteeDate());
+						}
 						attributeSetInstance.saveEx();
 						attributeSetInstanceId = attributeSetInstance.getM_AttributeSetInstance_ID();
 					}

@@ -130,6 +130,19 @@ public interface I_I_Inventory
 	  */
 	public String getDescription();
 
+    /** Column name GuaranteeDate */
+    public static final String COLUMNNAME_GuaranteeDate = "GuaranteeDate";
+
+	/** Set Guarantee Date.
+	  * Date when guarantee expires
+	  */
+	public void setGuaranteeDate (Timestamp GuaranteeDate);
+
+	/** Get Guarantee Date.
+	  * Date when guarantee expires
+	  */
+	public Timestamp getGuaranteeDate();
+
     /** Column name I_ErrorMsg */
     public static final String COLUMNNAME_I_ErrorMsg = "I_ErrorMsg";
 

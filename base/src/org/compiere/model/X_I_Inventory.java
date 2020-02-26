@@ -33,7 +33,7 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20200115L;
+	private static final long serialVersionUID = 20200226L;
 
     /** Standard Constructor */
     public X_I_Inventory (Properties ctx, int I_Inventory_ID, String trxName)
@@ -146,6 +146,23 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** Set Guarantee Date.
+		@param GuaranteeDate 
+		Date when guarantee expires
+	  */
+	public void setGuaranteeDate (Timestamp GuaranteeDate)
+	{
+		set_Value (COLUMNNAME_GuaranteeDate, GuaranteeDate);
+	}
+
+	/** Get Guarantee Date.
+		@return Date when guarantee expires
+	  */
+	public Timestamp getGuaranteeDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_GuaranteeDate);
 	}
 
 	/** Set Import Error Message.
