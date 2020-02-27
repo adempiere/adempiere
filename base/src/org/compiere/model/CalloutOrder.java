@@ -276,11 +276,14 @@ public class CalloutOrder extends CalloutEngine
 			+ " lship.C_BPartner_Location_ID,c.AD_User_ID,"
 			+ " COALESCE(p.PO_PriceList_ID,g.PO_PriceList_ID) AS PO_PriceList_ID, p.PaymentRulePO,p.PO_PaymentTerm_ID," 
 			+ " lbill.C_BPartner_Location_ID AS Bill_Location_ID, p.SOCreditStatus, "
-			+ " p.SalesRep_ID "
+			+ " p.SalesRep_ID, "
+			+ " COALESCE(sr.C_SalesRegion_ID, bsr.C_SalesRegion_ID) AS C_SalesRegion_ID "
 			+ "FROM C_BPartner p"
 			+ " INNER JOIN C_BP_Group g ON (p.C_BP_Group_ID=g.C_BP_Group_ID)"			
 			+ " LEFT OUTER JOIN C_BPartner_Location lbill ON (p.C_BPartner_ID=lbill.C_BPartner_ID AND lbill.IsBillTo='Y' AND lbill.IsActive='Y')"
+			+ " LEFT JOIN C_SalesRegion bsr ON(bsr.C_SalesRegion_ID = lbill.C_SalesRegion_ID)"
 			+ " LEFT OUTER JOIN C_BPartner_Location lship ON (p.C_BPartner_ID=lship.C_BPartner_ID AND lship.IsShipTo='Y' AND lship.IsActive='Y')"
+			+ " LEFT JOIN C_SalesRegion sr ON(sr.C_SalesRegion_ID = lship.C_SalesRegion_ID)"
 			+ " LEFT OUTER JOIN AD_User c ON (p.C_BPartner_ID=c.C_BPartner_ID) "
 			+ "WHERE p.C_BPartner_ID=? AND p.IsActive='Y'";		//	#1
 
@@ -300,7 +303,11 @@ public class CalloutOrder extends CalloutEngine
 				{
 					mTab.setValue("SalesRep_ID", salesRep);
 				}
-				
+				int salesRegionId = rs.getInt("C_SalesRegion_ID");
+				//	Validate and set
+				if(IsSOTrx && salesRegionId != 0) {
+					mTab.setValue("C_SalesRegion_ID", salesRegionId);
+				}
 				//	PriceList (indirect: IsTaxIncluded & Currency)
 				Integer ii = new Integer(rs.getInt(IsSOTrx ? "M_PriceList_ID" : "PO_PriceList_ID"));
 				if (!rs.wasNull())

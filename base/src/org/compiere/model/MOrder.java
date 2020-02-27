@@ -63,6 +63,9 @@ import org.eevolution.model.MPPProductBOMLine;
  * 				https://sourceforge.net/tracker/?func=detail&aid=2892578&group_id=176962&atid=879335
  * @author Michael Judd, www.akunagroup.com
  *          <li>BF [ 2804888 ] Incorrect reservation of products with attributes
+ * @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1455">
+ * 		@see FR [ 1455 ] Add Sales Region to Order and Invoice</a>
  */
 public class MOrder extends X_C_Order implements DocAction
 {
@@ -978,6 +981,27 @@ public class MOrder extends X_C_Order implements DocAction
 				setC_Currency_ID(Env.getContextAsInt(getCtx(), "#C_Currency_ID"));
 		}
 
+		//	Set sales region
+		if(getC_SalesRegion_ID() == 0) {
+			int salesRegionId = 0;
+			if(getC_BPartner_Location_ID() != 0) {
+				MBPartnerLocation shipLocation = (MBPartnerLocation) getC_BPartner_Location();
+				if(shipLocation.getC_SalesRegion_ID() != 0) {
+					salesRegionId = shipLocation.getC_SalesRegion_ID();
+				}
+			}
+			if(getBill_Location_ID() != 0) {
+				MBPartnerLocation shiLocation = (MBPartnerLocation) getBill_Location();
+				if(shiLocation.getC_SalesRegion_ID() != 0) {
+					salesRegionId = shiLocation.getC_SalesRegion_ID();
+				}
+			}
+			//	Set Sales Region
+			if(salesRegionId != 0) {
+				setC_SalesRegion_ID(salesRegionId);
+			}
+		}
+		
 		//	Default Sales Rep
 		if (getSalesRep_ID() == 0)
 		{
