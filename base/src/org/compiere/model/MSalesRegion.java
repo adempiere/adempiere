@@ -22,6 +22,7 @@ import java.util.Properties;
 import java.util.stream.Collectors;
 
 import org.compiere.util.CCache;
+import org.compiere.util.DB;
 import org.compiere.util.Env;
 
 
@@ -194,31 +195,39 @@ public class MSalesRegion extends X_C_SalesRegion
 	{
 		if (!success)
 			return success;
-		//	Yamel Senih [ 9223372036854775807 ]
-		//	Change to PO
-//		if (newRecord)
-//			insert_Tree(MTree.TREETYPE_SalesRegion);
-		//	End Yamel Senih
 		//	Value/Name change
 		if (!newRecord && (is_ValueChanged("Value") || is_ValueChanged("Name")))
 			MAccount.updateValueDescription(getCtx(), "C_SalesRegion_ID=" + getC_SalesRegion_ID(), get_TrxName());
-
+		//	Set sales representative
+		setSalesRep(this);
 		return true;
 	}	//	afterSave
-
+	
 	/**
-	 * 	After Delete
-	 *	@param success
-	 *	@return deleted
+	 * Set sales representative for all child of sales region
+	 * @param parent
 	 */
-	//	Yamel Senih [ 9223372036854775807 ]
-	//	Change to PO
-//	protected boolean afterDelete (boolean success)
-//	{
-//		if (success)
-//			delete_Tree(MTree.TREETYPE_SalesRegion);
-//		return success;
-//	}	//	afterDelete
-	//	End Yamel Senih
+	private void setSalesRep(MSalesRegion parent) {
+		if(!parent.isSummary()) {
+			return;
+		}
+		int treeId = MTree.getDefaultTreeIdFromTableId(getAD_Client_ID(), get_Table_ID());
+		final String sql = "SELECT tn.Node_ID AS C_SalesRegion_ID " +
+				"FROM AD_Tree t " +
+				"INNER JOIN AD_TreeNode tn ON t.AD_Tree_ID = tn.AD_Tree_ID " +
+				"WHERE t.AD_Tree_ID=? " +
+				"AND tn.Parent_ID =?";
+		int [] ids = DB.getIDsEx(get_TrxName(), sql, treeId, parent.getC_SalesRegion_ID());
+		for(int salesRegionId : ids) {
+			MSalesRegion salesRegion = new MSalesRegion(getCtx(), salesRegionId, get_TrxName());
+			if(salesRegion.getC_SalesRegion_ID() != 0) {
+				salesRegion.setSalesRep_ID(parent.getSalesRep_ID());
+				salesRegion.saveEx();
+				if(salesRegion.isSummary()) {
+					setSalesRep(salesRegion);
+				}
+			}
+		}
+	}
 	
 }	//	MSalesRegion
