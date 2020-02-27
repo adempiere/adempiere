@@ -1143,7 +1143,7 @@ public class MRequest extends X_R_Request
 				if (from !=null)
 					isIncludeOwnChanges = from.isIncludeOwnChanges();
 				if (userId == updatedBy
-						&& !from.isIncludeOwnChanges())
+						&& !isIncludeOwnChanges)
 					continue;
 				
 				//	No confidential to externals
