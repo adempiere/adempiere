@@ -47,6 +47,7 @@ import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
+import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
 import org.zkoss.zkex.zul.North;
@@ -104,7 +105,9 @@ public class WDeleteEntity extends DeleteEntityControler
 	private ConfirmPanel confirmPanel = new ConfirmPanel(true);
 	private Label clientLabel = new Label();
 	private Label tableLabel = new Label();
+	private Label definitionLabel = new Label();
 	private Combobox tablePick = null;
+	private Combobox definitionPick = null;
 	private Combobox clientPick = null;
 	private Button bRefresh = new Button();
 	public Tree tree ;
@@ -112,6 +115,7 @@ public class WDeleteEntity extends DeleteEntityControler
 	public Treecol treeCol;
 	public Treecol treeCol2;
 	public Checkbox dryRun;
+	public Checkbox isTableBased;
 	public Treerow treeRow;
 	public Treecell treeCell;
 	Set<Treeitem> setOfItemSelected = null;
@@ -125,11 +129,16 @@ public class WDeleteEntity extends DeleteEntityControler
 		mainLayout.setHeight("100%");
 		clientLabel.setText(Msg.getElement(Env.getCtx(), "AD_Client_ID"));
 		tableLabel.setText(Msg.getElement(Env.getCtx(), "AD_Table_ID"));
+		definitionLabel.setText(Msg.getElement(Env.getCtx(), "AD_CleanDefinition_ID"));
 		dryRun = new Checkbox(Msg.getMsg(Env.getCtx(), "DryRun"));
 		dryRun.setChecked(true);
+		isTableBased = new Checkbox(Msg.getElement(Env.getCtx(), "IsTableBased"));
+		isTableBased.setChecked(true);
+		//
 		ConfirmPanel panel = new ConfirmPanel(false, false, false, false, false, false, false);
 		bRefresh = panel.createButton(ConfirmPanel.A_REFRESH);
 		bRefresh.addActionListener(this);
+		isTableBased.addEventListener(Events.ON_CHECK, this);
 		//	
 		parameterPanel.appendChild(parameterLayout);
 		North north = new North();
@@ -143,12 +152,17 @@ public class WDeleteEntity extends DeleteEntityControler
 		row = rows.newRow();
 		row.appendChild(clientLabel.rightAlign());
 		row.appendChild(clientPick);
-		row.appendChild(tableLabel.rightAlign());
-		row.appendChild(tablePick);
-		//	For Button
-		row = rows.newRow();
+		row.appendChild(new Hbox());
+		row.appendChild(isTableBased);
 		row.appendChild(new Hbox());
 		row.appendChild(dryRun);
+		
+		//	For Button
+		row = rows.newRow();
+		row.appendChild(tableLabel.rightAlign());
+		row.appendChild(tablePick);
+		row.appendChild(definitionLabel.rightAlign());
+		row.appendChild(definitionPick);
 		row.appendChild(new Hbox());
 		row.appendChild(bRefresh);
 		//	
@@ -189,6 +203,7 @@ public class WDeleteEntity extends DeleteEntityControler
 		// Client Pick
 		clientPick = new Combobox();
 		tablePick = new Combobox();
+		definitionPick = new Combobox();
 		//	Load Clients
 		for(KeyNamePair client : getClients()) {
 			clientPick.appendItem(client.getName(), client);
@@ -201,15 +216,24 @@ public class WDeleteEntity extends DeleteEntityControler
 		}
 		//	
 		tablePick.setSelectedIndex(0);
+		// Load Definitions
+		for(KeyNamePair definition : getCleanDefinition()) {
+			definitionPick.appendItem(definition.getName(), definition);
+		}
+		//	
+		definitionPick.setSelectedIndex(0);
+		//	
+		definitionLabel.setVisible(false);
+		definitionPick.setVisible(false);
 	}   //  dynInit
 	
 	/**
 	 * Create Nodes
 	 * @param root
 	 */
-	private void createNodes(DeleteEntitiesModel currentNode, Treechildren root)  {		
+	private void createNodes(DeleteEntitiesModel currentNode, Treechildren root, boolean isParent)  {		
 		//	Load from parent
-		loadChilds(currentNode, root);
+		loadChilds(currentNode, root, isParent);
 		@SuppressWarnings("unchecked")
 		
 		Collection<Treeitem> collItemChild = (Collection<Treeitem>) root.getItems();
@@ -224,7 +248,7 @@ public class WDeleteEntity extends DeleteEntityControler
 			} else if (((DeleteEntitiesModel) node.getValue()).isMandatoryLink()){	
 				DeleteEntitiesModel itemTableData = (DeleteEntitiesModel) node.getValue();
 				Treechildren nodeChild = new Treechildren();
-				createNodes(itemTableData, nodeChild);
+				createNodes(itemTableData, nodeChild, false);
 				//	
 				if(nodeChild.getItemCount() != 0) {
 					node.appendChild(nodeChild);
@@ -235,7 +259,12 @@ public class WDeleteEntity extends DeleteEntityControler
 
 	@Override
 	public void onEvent(Event e) throws Exception  {
-		if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL)) {
+		if(e.getTarget().equals(isTableBased)) {
+			definitionPick.setVisible(!isTableBased.isChecked());
+			definitionLabel.setVisible(!isTableBased.isChecked());
+			tablePick.setVisible(isTableBased.isChecked());
+			tableLabel.setVisible(isTableBased.isChecked());
+		} else if (e.getTarget().getId().equals(ConfirmPanel.A_CANCEL)) {
 			dispose();
 		} else if(e.getTarget().getId().equals(ConfirmPanel.A_REFRESH)) {
 			//	Load current values
@@ -295,10 +324,21 @@ public class WDeleteEntity extends DeleteEntityControler
 		if (o != null) {
 			setClientId(((KeyNamePair) o.getValue()).getKey());
 		}
-		//	Table
-		o = tablePick.getSelectedItem();
-		if (o != null) {
-			setTableId(((KeyNamePair) o.getValue()).getKey());
+		setCleanDefinition(!isTableBased.isChecked());
+		if(isCleanDefinition()) {
+			//	Table
+			o = definitionPick.getSelectedItem();
+			if (o != null) {
+				setCleanDefinitionId(((KeyNamePair) o.getValue()).getKey());
+			}
+			setTableId(0);
+		} else {
+			//	Table
+			o = tablePick.getSelectedItem();
+			if (o != null) {
+				setTableId(((KeyNamePair) o.getValue()).getKey());
+			}
+			setCleanDefinitionId(0);
 		}
 		//	Dry Run
 		setDryRun(dryRun.isChecked());
@@ -327,7 +367,7 @@ public class WDeleteEntity extends DeleteEntityControler
 		rootTreeItem.setLabel(data.toString());
 	
 		Treechildren rootTreeItemChild = new Treechildren();
-		createNodes(data, rootTreeItemChild);
+		createNodes(data, rootTreeItemChild, true);
 				
 		rootTreeItem.appendChild(rootTreeItemChild);		
 		rootTreeChild.appendChild(rootTreeItem);
