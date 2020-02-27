@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add Clean Definition for client" ReleaseNo="3.9.3" SeqNo="5570">
+  <Migration EntityType="D" Name="Add Clean Definition for client" ReleaseNo="3.9.4" SeqNo="5570">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="116" Action="I" Record_ID="54557" Table="AD_Menu">
         <Data AD_Column_ID="598" Column="IsActive">true</Data>
