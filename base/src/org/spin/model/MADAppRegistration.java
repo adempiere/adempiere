@@ -135,6 +135,14 @@ public class MADAppRegistration extends X_AD_AppRegistration {
 	}
 	
 	/**
+	 * Reset cache for values
+	 */
+	public static void resetCache() {
+		definitionCacheIds.clear();
+		definitionCacheValues.clear();
+	}
+	
+	/**
 	 * Get parameter value from name
 	 * @param parameterName
 	 * @return
