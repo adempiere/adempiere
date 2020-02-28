@@ -71,9 +71,12 @@ public class AppSupportHandler {
     	}
         if(!appSupportGeneratorMap.containsKey(registration.getAD_AppSupport_ID())) {
             loadClass(registration.getAD_AppRegistration_ID(), registration.getAD_AppSupport_ID());
+            return appSupportGeneratorMap.get(registration.getAD_AppSupport_ID());
         }
         //  Default return
-        return appSupportGeneratorMap.get(registration.getAD_AppSupport_ID());
+        IAppSupport supportedApplication = appSupportGeneratorMap.get(registration.getAD_AppSupport_ID());
+        supportedApplication.setAppRegistrationId(registration.getAD_AppRegistration_ID());
+        return supportedApplication;
     }
     
     /**
