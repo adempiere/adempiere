@@ -1003,11 +1003,28 @@ public class MOrder extends X_C_Order implements DocAction
 		}
 		
 		//	Default Sales Rep
-		if (getSalesRep_ID() == 0)
-		{
-			int ii = Env.getContextAsInt(getCtx(), "#SalesRep_ID");
-			if (ii != 0)
-				setSalesRep_ID (ii);
+		if (getSalesRep_ID() == 0) {
+			int salesRepresentativeId = 0;
+			MBPartner businessPartner = (MBPartner) getC_BPartner();
+			if(businessPartner.getSalesRep_ID() != 0) {
+				salesRepresentativeId = businessPartner.getSalesRep_ID();
+			}
+			//	for Sales Region
+			if(salesRepresentativeId == 0) {
+				if(getC_SalesRegion_ID() != 0) {
+					MSalesRegion salesRegion = MSalesRegion.getById(getCtx(), getC_SalesRegion_ID(), get_TrxName());
+					if(salesRegion.getSalesRep_ID() != 0) {
+						salesRepresentativeId = salesRegion.getSalesRep_ID();
+					}
+				}
+			}
+			//	
+			if(salesRepresentativeId == 0) {
+				salesRepresentativeId = Env.getContextAsInt(getCtx(), "#SalesRep_ID");
+			}
+			if(salesRepresentativeId != 0) {
+				setSalesRep_ID(salesRepresentativeId);
+			}
 		}
 
 		//	Default Document Type
