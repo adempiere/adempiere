@@ -79,8 +79,8 @@ public class GridPanel extends Borderlayout implements EventListener
 	private static final int KEYBOARD_KEY_RETURN = 13;
 	private static final int MOVE_SIZE = 7;
 
-	public static final String		CNTRL_KEYS				= "#f5#del^d^s";
-	private static final String		KEYS_MOVE			= "#pgup#pgdn#end#home#up#down#left#right#enter";
+	public static final String		CNTRL_KEYS				= "#f5#del^d^s#enter$#enter";
+	private static final String		KEYS_MOVE			= "#pgup#pgdn#end#home#up#down#left#right";
 	
 	private int lastKeyEvent = 0;	
 
@@ -395,7 +395,12 @@ public class GridPanel extends Borderlayout implements EventListener
 			if (windowPanel != null)
 				windowPanel.getStatusBar().appendChild(keyListener);
 		}
-		addKeyListener();
+		if(renderer.isEditing()) 
+			keyListener.setCtrlKeys(CNTRL_KEYS);
+		else 
+			keyListener.setCtrlKeys(CNTRL_KEYS+KEYS_MOVE);
+		
+		keyListener.addEventListener(Events.ON_CTRL_KEY, this);
 
 	}
 
@@ -538,6 +543,7 @@ public class GridPanel extends Borderlayout implements EventListener
 				if(renderer.getCurrentDiv() != null) {
 					if (renderer.isEditing()) { 
 						renderer.stopColEditing(true);
+					}
 						if(renderer.isLastColumn()) {
 							currentCol=0;
 							row++;
@@ -552,10 +558,9 @@ public class GridPanel extends Borderlayout implements EventListener
 							}
 						}
 						else {
-							return;
+						currentCol++;
 						}
 						renderer.setCurrentColumn(currentCol);
-					}
 					if(renderer != null && renderer.getCurrentDiv() != null && 
 							renderer.getCurrentDiv().getEditor() != null &&
 							renderer.getCurrentDiv().getEditor().getGridField().getDisplayType() == DisplayType.Button)  {
@@ -594,11 +599,7 @@ public class GridPanel extends Borderlayout implements EventListener
 				if (code == KeyEvent.DOWN && !isCtrl && !isAlt && !isShift)	{
 					setUpDownRow(1);
 				}
-				else if (code == KEYBOARD_KEY_RETURN && isShift) {
-					event.stopPropagation();
-					return;
-				}
-				else if (code == KeyEvent.LEFT && !isCtrl && !isAlt && !isShift)
+				else if ((code == KEYBOARD_KEY_RETURN && isShift) || (code == KeyEvent.LEFT && !isCtrl && !isAlt && !isShift))
 				{
 					if(currentCol > 0) {
 						if(row < 0 || gridTab.getCurrentRow()< 0) {
@@ -985,7 +986,7 @@ public class GridPanel extends Borderlayout implements EventListener
 			if (windowPanel != null)
 				windowPanel.getStatusBar().appendChild(keyListener);
 		}
-		if(!((ADTabPanel)tabPanel).isGridView() )
+		if(renderer.isEditing() || !((ADTabPanel)tabPanel).isGridView() ) 
 			keyListener.setCtrlKeys(CNTRL_KEYS);
 		else 
 			keyListener.setCtrlKeys(CNTRL_KEYS+KEYS_MOVE);

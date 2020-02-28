@@ -1099,7 +1099,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
 		if (oldTabPanel != null) {
 			oldTabPanel.activate(false); 
 			if(oldTabPanel.getListPanel() != null) {
-				oldTabPanel.getListPanel().removeKeyListener();
+				oldTabPanel.getListPanel().addKeyListener();
 			}
 		}
 		newTabPanel.activate(true);
