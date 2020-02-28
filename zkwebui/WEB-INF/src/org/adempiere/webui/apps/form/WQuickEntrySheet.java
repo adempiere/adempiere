@@ -57,6 +57,7 @@ public class WQuickEntrySheet extends Window implements EventListener, DataStatu
 	private Borderlayout			selPanel			= new Borderlayout();
 	private Grid					selNorthPanel		= GridFactory.newGridLayout();
 	private ConfirmPanel			selSouthPanel		= new ConfirmPanel(true, true, false, false, false, false);
+	private Button					bNew				= selSouthPanel.createButton(ConfirmPanel.A_NEW);
 	private Button					bDelete				= selSouthPanel.createButton(ConfirmPanel.A_DELETE);
 	private Button					bSave				= selSouthPanel.createButton(ConfirmPanel.A_SAVE);
 	private Button					bIgnore				= selSouthPanel.createButton(ConfirmPanel.A_IGNORE);
@@ -110,7 +111,7 @@ public class WQuickEntrySheet extends Window implements EventListener, DataStatu
 		
 		initForm();
 		setWidth("70%");
-		setHeight("80%");
+		setHeight("90%");
 	}
 
 	protected void initForm()
@@ -175,28 +176,29 @@ public class WQuickEntrySheet extends Window implements EventListener, DataStatu
 		bSave.setEnabled(!gridTab.isReadOnly());
 		bDelete.setEnabled(!gridTab.isReadOnly());
 		bIgnore.setEnabled(!gridTab.isReadOnly());
+		bNew.setEnabled(!gridTab.isReadOnly());
 
 		bSave.addEventListener(Events.ON_CLICK, this);
 		bDelete.addEventListener(Events.ON_CLICK, this);
 		bIgnore.addEventListener(Events.ON_CLICK, this);
+		bNew.addEventListener(Events.ON_CLICK, this);
 		Keylistener keylistener = new Keylistener();
 		selSouthPanel.getButton(ConfirmPanel.A_CANCEL).addEventListener(Events.ON_CANCEL, this);
 		appendChild(keylistener);
+		selSouthPanel.addComponentsLeft(bNew);
 		selSouthPanel.addComponentsLeft(bSave);
 		selSouthPanel.addComponentsLeft(bDelete);
 		selSouthPanel.addComponentsLeft(bIgnore);
-		
+		southPanel.setHeight("70px");
 		southPanel.appendChild(new Separator());
 		statusBar = new StatusBarPanel();
 		southPanel.appendChild(statusBar);
 		
 		setTitle(gridTab.getName());
 		setMaximizable(true);
-		setMaximized(false);
+		setMaximized(true);
 		setClosable(true);
 		this.appendChild(selPanel);
-		setWidth("70%");
-		setHeight("80%");
 		setPosition("center");
 	}
 
@@ -239,6 +241,10 @@ public class WQuickEntrySheet extends Window implements EventListener, DataStatu
 			else if (event.getTarget() == selSouthPanel.getButton(ConfirmPanel.A_IGNORE))
 			{
 				onIgnore();
+			}
+			else if (event.getTarget() == selSouthPanel.getButton(ConfirmPanel.A_NEW))
+			{
+				gridPanel.createNewLine();
 			}
 		
 		
@@ -415,6 +421,7 @@ public class WQuickEntrySheet extends Window implements EventListener, DataStatu
 	}
 	public void updateToolbar(boolean enabled) {
     	bDelete.setEnabled(enabled);
+    	bNew.setEnabled(enabled);
 	}
 	
 }
