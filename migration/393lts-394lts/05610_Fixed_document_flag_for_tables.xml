@@ -5,7 +5,7 @@
     <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
       <Comments>Update all tables</Comments>
       <SQLStatement>UPDATE AD_Table SET IsDocument = 'N' WHERE IsView = 'Y';
-UPDATE AD_Table SET IsDocument = 'Y' WHERE IsView = 'N' AND EXISTS(SELECT 1 FROM AD_Column c WHERE c.AD_Table_ID = AD_Table.AD_Table_ID AND c.ColumnName IN('DocStatus', 'DocAction'));</SQLStatement>
+UPDATE AD_Table SET IsDocument = 'Y' WHERE IsView = 'N' AND TableName NOT LIKE 'I_%' AND EXISTS(SELECT 1 FROM AD_Column c WHERE c.AD_Table_ID = AD_Table.AD_Table_ID AND c.ColumnName IN('DocStatus', 'DocAction'));</SQLStatement>
     </Step>
   </Migration>
 </Migrations>
