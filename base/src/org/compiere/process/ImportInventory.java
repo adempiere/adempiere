@@ -181,7 +181,7 @@ public class ImportInventory extends ImportInventoryAbstract {
 		sql = new StringBuffer ("UPDATE I_Inventory i "
 			+ "SET M_AttributeSetInstance_ID=(SELECT MAX(M_AttributeSetInstance_ID) "
 			+ "FROM M_AttributeSetInstance ai "
-			+ "WHERE TRIM(ai.Description)=TRIM(i.AttributeSetInstanceValue) "
+			+ "WHERE (TRIM(ai.Description)=TRIM(i.AttributeSetInstanceValue) OR TRIM(ai.Lot) LIKE TRIM(i.AttributeSetInstanceValue) OR TRIM(ai.SerNo) LIKE TRIM(i.SerNo))"
 			+ "AND ai.IsActive = 'Y' "
 			+ "AND ai.AD_Client_ID IN(0, i.AD_Client_ID) "
 			+ "AND EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = i.M_Product_ID AND (p.M_AttributeSet_ID = ai.M_AttributeSet_ID OR (p.M_AttributeSet_ID IS NULL AND ai.M_AttributeSet_ID = 0)))) "
@@ -269,14 +269,16 @@ public class ImportInventory extends ImportInventoryAbstract {
 					if (product.isInstanceAttribute()) {
 						MAttributeSet attributeSet = product.getAttributeSet();
 						MAttributeSetInstance attributeSetInstance = new MAttributeSetInstance(getCtx(), 0, attributeSet.getM_AttributeSet_ID(), get_TrxName());
-						if (attributeSet.isLot() && importInventory.getLot() != null)
+						if (attributeSet.isLot() && importInventory.getLot() != null) {
 							attributeSetInstance.setLot(importInventory.getLot(), importInventory.getM_Product_ID());
-						if (attributeSet.isSerNo() && importInventory.getSerNo() != null)
+						}
+						if (attributeSet.isSerNo() && importInventory.getSerNo() != null) {
 							attributeSetInstance.setSerNo(importInventory.getSerNo());
-						attributeSetInstance.setDescription();
+						}
 						if (attributeSet.isGuaranteeDate()) {
 							attributeSetInstance.setGuaranteeDate(importInventory.getGuaranteeDate());
 						}
+						attributeSetInstance.setDescription();
 						attributeSetInstance.saveEx();
 						attributeSetInstanceId = attributeSetInstance.getM_AttributeSetInstance_ID();
 					}
