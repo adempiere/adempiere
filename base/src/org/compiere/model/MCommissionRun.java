@@ -654,7 +654,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				String sqlAppend = "";
 				if (commission.isTotallyPaid()) 
 		        	// Last payment must be within commission period 
-					sqlAppend = " AND (p.DateTrx <? or  p.DateTrx <?) AND maxPayDate(h.c_Invoice_ID) between ? AND ? ";
+					sqlAppend = " AND (p.DateTrx <= ? or  p.DateTrx <= ?) AND maxPayDate(h.c_Invoice_ID) between ? AND ? ";
 				else 
 					sqlAppend = " AND p.DateTrx BETWEEN ? AND ? ";
 				

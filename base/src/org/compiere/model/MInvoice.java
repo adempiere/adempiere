@@ -310,6 +310,9 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		setDateAcct(getDateInvoiced());
 		//
 		setSalesRep_ID(order.getSalesRep_ID());
+		if(order.getC_SalesRegion_ID() != 0) {
+			setC_SalesRegion_ID(order.getC_SalesRegion_ID());
+		}
 		//
 		setC_BPartner_ID(order.getBill_BPartner_ID());
 		setC_BPartner_Location_ID(order.getBill_Location_ID());
@@ -489,6 +492,10 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		setUser2_ID(order.getUser2_ID());
 		setUser3_ID(order.getUser3_ID());
 		setUser4_ID(order.getUser4_ID());
+		//	Set Sales Region
+		if(order.getC_SalesRegion_ID() != 0) {
+			setC_SalesRegion_ID(order.getC_SalesRegion_ID());
+		}
 	}	//	setOrder
 
 	/**
@@ -543,7 +550,10 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 			setC_BPartner_Location_ID(order.getBill_Location_ID());
 			// Overwrite Contact
 			setAD_User_ID(order.getBill_User_ID());
-			//
+			//	Set Sales Region
+			if(order.getC_SalesRegion_ID() != 0) {
+				setC_SalesRegion_ID(order.getC_SalesRegion_ID());
+			}
 		}
         // Check if Shipment/Receipt is based on RMA
         if (ship.getM_RMA_ID() != 0)
@@ -926,12 +936,39 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 				setC_Currency_ID(Env.getContextAsInt(getCtx(), "#C_Currency_ID"));
 		}
 
-		//	Sales Rep
-		if (getSalesRep_ID() == 0)
-		{
-			int ii = Env.getContextAsInt(getCtx(), "#SalesRep_ID");
-			if (ii != 0)
-				setSalesRep_ID (ii);
+		//	Set sales region
+		if(getC_SalesRegion_ID() == 0) {
+			if(getC_BPartner_Location_ID() != 0) {
+				MBPartnerLocation billLocation = (MBPartnerLocation) getC_BPartner_Location();
+				if(billLocation.getC_SalesRegion_ID() != 0) {
+					setC_SalesRegion_ID(billLocation.getC_SalesRegion_ID());
+				}
+			}
+		}
+		
+		//	Default Sales Rep
+		if (getSalesRep_ID() == 0) {
+			int salesRepresentativeId = 0;
+			MBPartner businessPartner = (MBPartner) getC_BPartner();
+			if(businessPartner.getSalesRep_ID() != 0) {
+				salesRepresentativeId = businessPartner.getSalesRep_ID();
+			}
+			//	for Sales Region
+			if(salesRepresentativeId == 0) {
+				if(getC_SalesRegion_ID() != 0) {
+					MSalesRegion salesRegion = MSalesRegion.getById(getCtx(), getC_SalesRegion_ID(), get_TrxName());
+					if(salesRegion.getSalesRep_ID() != 0) {
+						salesRepresentativeId = salesRegion.getSalesRep_ID();
+					}
+				}
+			}
+			//	
+			if(salesRepresentativeId == 0) {
+				salesRepresentativeId = Env.getContextAsInt(getCtx(), "#SalesRep_ID");
+			}
+			if(salesRepresentativeId != 0) {
+				setSalesRep_ID(salesRepresentativeId);
+			}
 		}
 
 		//	Document Type

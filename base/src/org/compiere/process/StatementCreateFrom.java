@@ -74,7 +74,10 @@ public class StatementCreateFrom extends StatementCreateFromAbstract {
 			//	Set Payment
 			bankStatementLine.setPayment(payment);
 			//get Transaction Amount 
-			BigDecimal transactionAmount = MConversionRate.convert(getCtx(), payment.getPayAmt(true), payment.getC_BankAccount().getC_Currency_ID(), payment.getC_Currency_ID(), payment.getAD_Client_ID(), payment.getAD_Org_ID());
+			BigDecimal transactionAmount = MConversionRate.convert(getCtx(), payment.getPayAmt(true), 
+					payment.getC_Currency_ID(),payment.getC_BankAccount().getC_Currency_ID(), 
+					payment.getDateTrx(), payment.getC_ConversionType_ID(), 
+					payment.getAD_Client_ID(), payment.getAD_Org_ID());
 			// Log
 			log.fine("Line Date=" + dateTransaction + ", Payment=" + paymentId + ", Currency=" + currencyId + ", Amt=" + transactionAmount);
 			//	Set Reference

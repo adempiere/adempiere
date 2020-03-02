@@ -129,7 +129,7 @@ public class GenericZoomProvider implements IZoomProvider {
 		MTab tab = new MTab(Env.getCtx(), AD_Tab_ID, null);
 		final MQuery query = new MQuery();
 
-		query.addRestriction(po.get_TableName() + "_ID=" + po.get_ID());
+		query.addRestriction(targetTableName + "." + po.get_TableName() + "_ID=" + po.get_ID());
 		if (tab.getWhereClause() != null && tab.getWhereClause().length() > 0)
 			query.addRestriction("(" + tab.getWhereClause() + ")");
 		query.setZoomTableName(targetTableName);
