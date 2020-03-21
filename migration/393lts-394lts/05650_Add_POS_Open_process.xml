@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Add POS Open process" ReleaseNo="3.9.4" SeqNo="5650">
+  <Migration EntityType="D" Name="Add POS Opening process" ReleaseNo="3.9.4" SeqNo="5650">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="108" Action="I" Record_ID="52762" Table="AD_Val_Rule">
         <Data AD_Column_ID="583" Column="IsActive">true</Data>
@@ -81,9 +81,9 @@
         <Data AD_Column_ID="57920" Column="CopyFromProcess" isNewNull="true"/>
         <Data AD_Column_ID="2804" Column="IsActive">true</Data>
         <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
-        <Data AD_Column_ID="2809" Column="Name">POS Open</Data>
-        <Data AD_Column_ID="2810" Column="Description">Open POS from bank transfer</Data>
-        <Data AD_Column_ID="4023" Column="Value">C_POS_Open</Data>
+        <Data AD_Column_ID="2809" Column="Name">POS Opening</Data>
+        <Data AD_Column_ID="2810" Column="Description">Opening POS from bank transfer</Data>
+        <Data AD_Column_ID="4023" Column="Value">C_POS_Opening</Data>
         <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
         <Data AD_Column_ID="56515" Column="AD_Form_ID" isNewNull="true"/>
         <Data AD_Column_ID="5790" Column="AccessLevel">3</Data>
@@ -995,7 +995,7 @@ If the document type of your document has no automatic document sequence defined
         <Data AD_Column_ID="602" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="3375" Column="AD_Process_ID">54361</Data>
         <Data AD_Column_ID="84344" Column="UUID">db249e62-c6d9-11e9-b32d-0242ac110002</Data>
-        <Data AD_Column_ID="229" Column="Name">POS Open</Data>
+        <Data AD_Column_ID="229" Column="Name">POS Opening</Data>
       </PO>
     </Step>
     <Step SeqNo="490" StepType="AD">
