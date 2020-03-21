@@ -1354,147 +1354,58 @@ public final class MPayment extends X_C_Payment
 	
 	/**
 	 * 	Verify Document Type with Invoice
-	 * @param pAllocs 
+	 * @param allocations 
 	 *	@return true if ok
 	 */
-	private boolean verifyDocType(MPaymentAllocate[] pAllocs)
-	{
+	private boolean verifyDocType(MPaymentAllocate[] allocations) {
 		if (getC_DocType_ID() == 0)
 			return false;
 		//
-		Boolean documentSO = null;
+		boolean isSOTrx = isReceipt();
 		//	Check Invoice First
 		if (getC_Invoice_ID() > 0)
 		{
-			String sql = "SELECT idt.IsSOTrx "
-				+ "FROM C_Invoice i"
-				+ " INNER JOIN C_DocType idt ON (i.C_DocType_ID=idt.C_DocType_ID) "
-				+ "WHERE i.C_Invoice_ID=?";
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			try
-			{
-				pstmt = DB.prepareStatement(sql, get_TrxName());
-				pstmt.setInt(1, getC_Invoice_ID());
-				rs = pstmt.executeQuery();
-				if (rs.next())
-					documentSO = new Boolean ("Y".equals(rs.getString(1)));
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, sql, e);
-			}
-			finally
-			{
-				DB.close(rs, pstmt);
-				rs = null;
-				pstmt = null;
-			}
+			String documentBaseType = DB.getSQLValueString(get_TrxName(), "SELECT dt.DocBaseType "
+					+ "FROM C_Invoice i "
+					+ "INNER JOIN C_DocType dt ON(i.C_DocType_ID = dt.C_DocType_ID) "
+					+ "WHERE i.C_Invoice_ID = ?", getC_Invoice_ID());
+			//	Validate with invoice
+			isSOTrx = documentBaseType.equals(MDocType.DOCBASETYPE_ARInvoice) || documentBaseType.equals(MDocType.DOCBASETYPE_APCreditMemo);
 		}	//	now Order - in Adempiere is allowed to pay PO or receive SO
-		else if (getC_Order_ID() > 0)
-		{
-			String sql = "SELECT odt.IsSOTrx "
-				+ "FROM C_Order o"
-				+ " INNER JOIN C_DocType odt ON (o.C_DocType_ID=odt.C_DocType_ID) "
-				+ "WHERE o.C_Order_ID=?";
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			try
-			{
-				pstmt = DB.prepareStatement(sql, get_TrxName());
-				pstmt.setInt(1, getC_Order_ID());
-				rs = pstmt.executeQuery();
-				if (rs.next())
-					documentSO = new Boolean ("Y".equals(rs.getString(1)));
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, sql, e);
-			}
-			finally
-			{
-				DB.close(rs, pstmt);
-				rs = null;
-				pstmt = null;
-			}
+		else if (getC_Order_ID() > 0) {
+			String isSOTrxAsString = DB.getSQLValueString(get_TrxName(), "SELECT "
+					+ "CASE "
+					+ "	WHEN o.IsSOTrx = 'Y' AND (dt.DocSubTypeSO IS NULL OR dt.DocSubTypeSO <> 'RM') THEN 'Y' "
+					+ "	WHEN o.IsSOTrx = 'N' AND (dt.DocSubTypeSO IS NOT NULL AND dt.DocSubTypeSO = 'RM') THEN 'Y' "
+					+ "	ELSE 'N' "
+					+ "END "
+					+ "FROM C_Order o "
+					+ "INNER JOIN C_DocType dt ON(o.C_DocType_ID = dt.C_DocType_ID) "
+					+ "WHERE o.C_Order_ID = ?", getC_Order_ID());  
+			//	Set
+			isSOTrx = isSOTrxAsString.equals("Y");
 		}	//	now Charge
-		else if (getC_Charge_ID() > 0) 
-		{
-			// do nothing about charge
-		} // now payment allocate
-		else
-		{
-			if (pAllocs.length > 0) {
-				for (MPaymentAllocate pAlloc : pAllocs) {
-					String sql = "SELECT idt.IsSOTrx "
-						+ "FROM C_Invoice i"
-						+ " INNER JOIN C_DocType idt ON (i.C_DocType_ID=idt.C_DocType_ID) "
-						+ "WHERE i.C_Invoice_ID=?";
-					PreparedStatement pstmt = null;
-					ResultSet rs = null;
-					try
-					{
-						pstmt = DB.prepareStatement(sql, get_TrxName());
-						pstmt.setInt(1, pAlloc.getC_Invoice_ID());
-						rs = pstmt.executeQuery();
-						if (rs.next()) {
-							if (documentSO != null) { // already set, compare with current
-								if (documentSO.booleanValue() != ("Y".equals(rs.getString(1)))) {
-									return false;
-								}
-							} else {
-								documentSO = new Boolean ("Y".equals(rs.getString(1)));
-							}
-						}
-					}
-					catch (Exception e)
-					{
-						log.log(Level.SEVERE, sql, e);
-					}
-					finally
-					{
-						DB.close(rs, pstmt);
-						rs = null;
-						pstmt = null;
+		else {
+			if (allocations.length > 0) {
+				for (MPaymentAllocate allocationValue : allocations) {
+					String documentBaseType = DB.getSQLValueString(get_TrxName(), "SELECT dt.DocBaseType "
+							+ "FROM C_Invoice i "
+							+ "INNER JOIN C_DocType dt ON(i.C_DocType_ID = dt.C_DocType_ID) "
+							+ "WHERE i.C_Invoice_ID = ?", allocationValue.getC_Invoice_ID());
+					//	Validate with invoice
+					isSOTrx = documentBaseType.equals(MDocType.DOCBASETYPE_ARInvoice) || documentBaseType.equals(MDocType.DOCBASETYPE_APCreditMemo);
+					if(isSOTrx != isReceipt() 
+							&& !getPayAmt().equals(Env.ZERO)) {
+						return false;
 					}
 				}
 			}
 		}
-		
-		//	DocumentType
-		Boolean paymentSO = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT IsSOTrx "
-			+ "FROM C_DocType "
-			+ "WHERE C_DocType_ID=?";
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getC_DocType_ID());
-			rs = pstmt.executeQuery();
-			if (rs.next())
-				paymentSO = new Boolean ("Y".equals(rs.getString(1)));
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
-		}
-		//	No Payment info
-		if (paymentSO == null)
+		//	Validate
+		if(isSOTrx != isReceipt() 
+				&& !getPayAmt().equals(Env.ZERO)) {
 			return false;
-		setIsReceipt(paymentSO.booleanValue());
-			
-		//	We have an Invoice .. and it does not match
-		if (documentSO != null 
-				&& documentSO.booleanValue() != paymentSO.booleanValue())
-			return false;
+		}
 		//	OK
 		return true;
 	}	//	verifyDocType
