@@ -50,13 +50,6 @@ public class ValuationEffectiveDate extends ValuationEffectiveDateAbstract {
 	private int count = 0;
 
 	/**
-	 * Prepare - e.g., get Parameters.
-	 */
-	protected void prepare() {
-		super.prepare();;
-	} // prepare
-
-	/**
 	 * execute the Valuation Effective Date
 	 */
 	protected String doIt() throws Exception {
@@ -68,7 +61,8 @@ public class ValuationEffectiveDate extends ValuationEffectiveDateAbstract {
 						for (int productId : products)
 							generateInventoryValue(
 									productId ,
-									acctSchema.getC_AcctSchema_ID() ,
+									acctSchema.getC_AcctSchema_ID(),
+									acctSchema.getC_Currency_ID(),
 									costType.getM_CostType_ID(),
 									costElement.getM_CostElement_ID(),
 									warehouse.getM_Warehouse_ID()
@@ -77,13 +71,49 @@ public class ValuationEffectiveDate extends ValuationEffectiveDateAbstract {
 		pstmt.executeBatch();
 		commitEx();
 		DB.close(pstmt);
-		
+		updatePricePO();
 		DB.executeUpdate("UPDATE T_InventoryValue SET Cost = CASE WHEN QtyOnHand <> 0 THEN (CostAmt + CostAmtLL) / QtyOnHand ELSE  0 END  ,  CumulatedAmt = CASE WHEN QtyOnHand <> 0  THEN  CostAmt + CostAmtLL ELSE 0 END ,  DateValue = "
 						+ DB.TO_DATE(getDateValue()) + " WHERE AD_PInstance_ID=?",
 				getAD_PInstance_ID(), get_TrxName());
 
 		return "@Ok@ " + count;
 
+	}
+	
+	/**
+	 * Update Price PO
+	 */
+	private void updatePricePO() {
+		//  Update Prices
+		StringBuffer update = new StringBuffer("UPDATE T_InventoryValue iv "
+			+ "SET PricePO = "
+				+ "(SELECT MAX(currencyConvert (po.PricePO,po.C_Currency_ID,iv.C_Currency_ID,iv.DateValue,null, po.AD_Client_ID,po.AD_Org_ID))"
+				+ " FROM M_Product_PO po WHERE po.M_Product_ID=iv.M_Product_ID"
+				+ " AND po.IsCurrentVendor='Y') ");
+			if(getPriceListVersionId() != 0) {
+				update.append(", PriceList = "
+				+ "(SELECT currencyConvert(pp.PriceList,pl.C_Currency_ID,iv.C_Currency_ID,iv.DateValue,null, pl.AD_Client_ID,pl.AD_Org_ID)"
+				+ " FROM M_PriceList pl, M_PriceList_Version plv, M_ProductPrice pp"
+				+ " WHERE pp.M_Product_ID=iv.M_Product_ID AND pp.M_PriceList_Version_ID=iv.M_PriceList_Version_ID"
+				+ " AND pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID"
+				+ " AND plv.M_PriceList_ID=pl.M_PriceList_ID), "
+			+ "PriceStd = "
+				+ "(SELECT currencyConvert(pp.PriceStd,pl.C_Currency_ID,iv.C_Currency_ID,iv.DateValue,null, pl.AD_Client_ID,pl.AD_Org_ID)"
+				+ " FROM M_PriceList pl, M_PriceList_Version plv, M_ProductPrice pp"
+				+ " WHERE pp.M_Product_ID=iv.M_Product_ID AND pp.M_PriceList_Version_ID=iv.M_PriceList_Version_ID"
+				+ " AND pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID"
+				+ " AND plv.M_PriceList_ID=pl.M_PriceList_ID), "
+			+ "PriceLimit = "
+				+ "(SELECT currencyConvert(pp.PriceLimit,pl.C_Currency_ID,iv.C_Currency_ID,iv.DateValue,null, pl.AD_Client_ID,pl.AD_Org_ID)"
+				+ " FROM M_PriceList pl, M_PriceList_Version plv, M_ProductPrice pp"
+				+ " WHERE pp.M_Product_ID=iv.M_Product_ID AND pp.M_PriceList_Version_ID=iv.M_PriceList_Version_ID"
+				+ " AND pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID"
+				+ " AND plv.M_PriceList_ID=pl.M_PriceList_ID)");
+			}
+			//	Add general where clause
+			update.append(" WHERE iv.AD_PInstance_ID=").append(getAD_PInstance_ID());
+		//	Update
+		DB.executeUpdateEx (update.toString(), get_TrxName());
 	}
 
 	/**
@@ -122,7 +152,7 @@ public class ValuationEffectiveDate extends ValuationEffectiveDateAbstract {
 		StringBuffer insert = new StringBuffer();
 		insert.append("INSERT INTO T_InventoryValue ")
 				.append("(AD_PInstance_ID,DateValue,AD_Client_ID,AD_Org_ID,C_AcctSchema_ID,M_CostElement_ID,M_CostType_ID,M_Warehouse_ID,")
-				.append("M_Product_ID,M_Product_Category_ID,M_AttributeSetInstance_ID,Group1,Group2,QtyOnHand,CostAmt,CostAmtLL) ")
+				.append("M_Product_ID,M_Product_Category_ID,M_AttributeSetInstance_ID,Group1,Group2,QtyOnHand,CostAmt,CostAmtLL, M_PriceList_Version_ID, C_Currency_ID) ")
 				.append("SELECT ")
 				.append(getAD_PInstance_ID())
 				.append(",")
@@ -131,14 +161,14 @@ public class ValuationEffectiveDate extends ValuationEffectiveDateAbstract {
 				.append("p.AD_Client_ID,p.AD_Org_ID, tc.C_AcctSchema_ID ,tc.M_CostElement_ID,tc.M_CostType_ID, tc.M_Warehouse_ID,p.M_Product_ID,")
 				.append("p.M_Product_Category_ID,tc.M_AttributeSetInstance_ID,p.Group1,p.Group2,  tc.qty + tc.cumulatedqty AS QtyOnHand,")
 				.append(" CASE WHEN tc.Qty < 0 OR (tc.qty = 0 AND tc.cumulatedqty < 0) THEN ((tc.costAmt + tc.costadjustment) * -1) + tc.CumulatedAmt ELSE ((tc.costAmt + tc.costadjustment) * 1) + tc.CumulatedAmt END  AS CostAmt,")
-				.append(" CASE WHEN tc.Qty < 0 OR (tc.qty = 0 AND tc.cumulatedqty < 0) THEN ((tc.costAmtLL + tc.costadjustmentLL) * -1)  + tc.CumulatedAmtLL ELSE ((tc.costAmtLL + tc.costadjustmentLL) * 1) + tc.CumulatedAmtLL END AS CostAmtLL")
+				.append(" CASE WHEN tc.Qty < 0 OR (tc.qty = 0 AND tc.cumulatedqty < 0) THEN ((tc.costAmtLL + tc.costadjustmentLL) * -1)  + tc.CumulatedAmtLL ELSE ((tc.costAmtLL + tc.costadjustmentLL) * 1) + tc.CumulatedAmtLL END AS CostAmtLL, ")
+				.append(getPriceListVersionId() != 0? getPriceListVersionId(): "null").append(", ? ")
 				.append(" FROM M_Product p ")
 				.append(" INNER JOIN M_CostDetail tc ON (p.M_Product_ID=tc.M_Product_ID) ");
 		insert.append(whereClause1).append(whereClause2);
 		pstmt = DB.prepareStatement(insert.toString(),
 				ResultSet.TYPE_SCROLL_INSENSITIVE,
 				ResultSet.CONCUR_UPDATABLE, get_TrxName());
-		
 	}
 
 	public void setWhere() {
@@ -179,16 +209,18 @@ public class ValuationEffectiveDate extends ValuationEffectiveDateAbstract {
 	 */
 	private void generateInventoryValue(
 			int productId ,
-			int accountSchemaId ,
+			int accountSchemaId,
+			int currencyId, 
 			int costTypeId,
 			int costElementId,
 			int warehouseId) throws SQLException {
-			
-			pstmt.setInt(1, productId);
-			pstmt.setInt(2, accountSchemaId);
-			pstmt.setInt(3, costTypeId);
-			pstmt.setInt(4, costElementId);
-			pstmt.setInt(5, warehouseId);
+		
+			pstmt.setInt(1, currencyId);
+			pstmt.setInt(2, productId);
+			pstmt.setInt(3, accountSchemaId);
+			pstmt.setInt(4, costTypeId);
+			pstmt.setInt(5, costElementId);
+			pstmt.setInt(6, warehouseId);
 			
 			if(getProductCategoryId() > 0)
 				pstmt.setInt(6, getProductCategoryId());
