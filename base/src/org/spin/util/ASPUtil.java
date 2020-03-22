@@ -247,7 +247,7 @@ public class ASPUtil {
 		}
 		//	Filter
 		return fields.stream()
-			.filter(field -> field.isQueryCriteria())
+			.filter(field -> field.isActive() && field.isQueryCriteria())
 			.sorted(Comparator.comparing(MBrowseField::getSeqNoGrid))
 			.collect(Collectors.toList());
 	}
@@ -264,7 +264,7 @@ public class ASPUtil {
 		}
 		//	Filter
 		return fields.stream()
-			.filter(field -> field.isIdentifier())
+			.filter(field -> field.isActive() && field.isIdentifier())
 			.sorted(Comparator.comparing(MBrowseField::getSeqNo))
 			.collect(Collectors.toList());
 	}
@@ -281,7 +281,7 @@ public class ASPUtil {
 		}
 		//	Filter
 		return fields.stream()
-			.filter(field -> field.isOrderBy() && field.isDisplayed())
+			.filter(field -> field.isActive() && field.isOrderBy() && field.isDisplayed())
 			.sorted(Comparator.comparing(MBrowseField::getSeqNo))
 			.collect(Collectors.toList());
 	}
@@ -298,7 +298,7 @@ public class ASPUtil {
 		}
 		//	Filter
 		return fields.stream()
-			.filter(field -> field.isDisplayed() || field.isIdentifier())
+			.filter(field -> field.isActive() && field.isDisplayed() || field.isIdentifier())
 			.sorted(Comparator.comparing(MBrowseField::getSeqNo))
 			.collect(Collectors.toList());
 	}
@@ -315,7 +315,7 @@ public class ASPUtil {
 		}
 		//	Filter
 		return fields.stream()
-			.filter(field -> field.isKey())
+			.filter(field -> field.isActive() && field.isKey())
 			.sorted(Comparator.comparing(MBrowseField::getSeqNo))
 			.findFirst()
 			.get();
