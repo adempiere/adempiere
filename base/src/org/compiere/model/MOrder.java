@@ -385,6 +385,8 @@ public class MOrder extends X_C_Order implements DocAction
 	public static final String		DocSubTypeSO_OnCredit = "WI";
 	/** Sales Order Sub Type - RM	*/
 	public static final String		DocSubTypeSO_RMA = "RM";
+	/** Pre-Invoiced Sub Type - PI	*/
+	public static final String		DocSubTypeSO_InvoiceOrder = "IO";
 
 	/**
 	 * 	Set Target Sales Document Type
@@ -1776,8 +1778,8 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Create SO Invoice - Always invoice complete Order
 		if ( MDocType.DOCSUBTYPESO_POSOrder.equals(DocSubTypeSO)
 			|| MDocType.DOCSUBTYPESO_OnCreditOrder.equals(DocSubTypeSO) 	
-			|| MDocType.DOCSUBTYPESO_PrepayOrder.equals(DocSubTypeSO)) 
-		{
+			|| MDocType.DOCSUBTYPESO_PrepayOrder.equals(DocSubTypeSO)
+			|| MDocType.DOCSUBTYPESO_InvoiceOrder.equals(DocSubTypeSO)) {
 			MInvoice invoice = createInvoice (dt, shipment, realTimePOS ? null : getDateOrdered());
 			if (invoice == null)
 				return DocAction.STATUS_Invalid;
