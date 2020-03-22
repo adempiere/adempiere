@@ -30,7 +30,7 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20200301L;
+	private static final long serialVersionUID = 20200321L;
 
     /** Standard Constructor */
     public X_C_DocType (Properties ctx, int C_DocType_ID, String trxName)
@@ -477,8 +477,8 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public static final String DOCSUBTYPESO_ReturnMaterial = "RM";
 	/** Prepay Order = PR */
 	public static final String DOCSUBTYPESO_PrepayOrder = "PR";
-	/** Pre-Invoiced Order = PI */
-	public static final String DOCSUBTYPESO_Pre_InvoicedOrder = "PI";
+	/** Invoice Order = IO */
+	public static final String DOCSUBTYPESO_InvoiceOrder = "IO";
 	/** Set SO Sub Type.
 		@param DocSubTypeSO 
 		Sales Order Sub Type
