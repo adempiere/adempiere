@@ -43,24 +43,11 @@ import org.compiere.util.Language;
  *	
  *  @author Jorg Janke
  *  @version $Id: InvoiceGenerate.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ * 	<li> Remove old implementation
+ * 	https://github.com/adempiere/adempiere/pull/3074
  */
-public class InvoiceGenerate extends SvrProcess
-{
-	/**	Manual Selection		*/
-	private boolean 	p_Selection = false;
-	/**	Date Invoiced			*/
-	private Timestamp	p_DateInvoiced = null;
-	/**	Org						*/
-	private int			p_AD_Org_ID = 0;
-	/** BPartner				*/
-	private int			p_C_BPartner_ID = 0;
-	/** Order					*/
-	private int			p_C_Order_ID = 0;
-	/** Consolidate				*/
-	private boolean		p_ConsolidateDocument = true;
-	/** Invoice Document Action	*/
-	private String		p_docAction = DocAction.ACTION_Complete;
-	
+public class InvoiceGenerate extends InvoiceGenerateAbstract {
 	/**	The current Invoice	*/
 	private MInvoice 	invoice = null;
 	/**	The current Shipment	*/
@@ -75,41 +62,18 @@ public class InvoiceGenerate extends SvrProcess
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
-	protected void prepare()
-	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("Selection"))
-				p_Selection = "Y".equals(para[i].getParameter());
-			else if (name.equals("DateInvoiced"))
-				p_DateInvoiced = (Timestamp)para[i].getParameter();
-			else if (name.equals("AD_Org_ID"))
-				p_AD_Org_ID = para[i].getParameterAsInt();
-			else if (name.equals("C_BPartner_ID"))
-				p_C_BPartner_ID = para[i].getParameterAsInt();
-			else if (name.equals("C_Order_ID"))
-				p_C_Order_ID = para[i].getParameterAsInt();
-			else if (name.equals("ConsolidateDocument"))
-				p_ConsolidateDocument = "Y".equals(para[i].getParameter());
-			else if (name.equals("DocAction"))
-				p_docAction = (String)para[i].getParameter();
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
-
+	protected void prepare() {
+		super.prepare();
 		//	Login Date
-		if (p_DateInvoiced == null)
-			p_DateInvoiced = Env.getContextAsDate(getCtx(), "#Date");
-		if (p_DateInvoiced == null)
-			p_DateInvoiced = new Timestamp(System.currentTimeMillis());
+		if (getDateInvoiced() == null)
+			setDateInvoiced(Env.getContextAsDate(getCtx(), "#Date"));
+		if (getDateInvoiced() == null)
+			setDateInvoiced(new Timestamp(System.currentTimeMillis()));
 
 		//	DocAction check
-		if (!DocAction.ACTION_Complete.equals(p_docAction))
-			p_docAction = DocAction.ACTION_Prepare;
+		if (!DocAction.ACTION_Complete.equals(getDocAction())) {
+			setDocAction(DocAction.ACTION_Prepare);
+		}
 	}	//	prepare
 
 	/**
@@ -119,13 +83,13 @@ public class InvoiceGenerate extends SvrProcess
 	 */
 	protected String doIt () throws Exception
 	{
-		log.info("Selection=" + p_Selection + ", DateInvoiced=" + p_DateInvoiced
-			+ ", AD_Org_ID=" + p_AD_Org_ID + ", C_BPartner_ID=" + p_C_BPartner_ID
-			+ ", C_Order_ID=" + p_C_Order_ID + ", DocAction=" + p_docAction 
-			+ ", Consolidate=" + p_ConsolidateDocument);
+		log.info("Selection=" + isSelection() + ", DateInvoiced=" + getDateInvoiced()
+			+ ", AD_Org_ID=" + getOrgId() + ", C_BPartner_ID=" + getBPartnerId()
+			+ ", C_Order_ID=" + getOrderId() + ", DocAction=" + getDocAction() 
+			+ ", Consolidate=" + isConsolidateDocument());
 		//
 		String sql = null;
-		if (p_Selection)	//	VInvoiceGen
+		if (isSelection())	//	VInvoiceGen
 		{
 			sql = "SELECT C_Order.* FROM C_Order, T_Selection "
 				+ "WHERE C_Order.DocStatus='CO' AND C_Order.IsSOTrx='Y' "
@@ -137,11 +101,11 @@ public class InvoiceGenerate extends SvrProcess
 		{
 			sql = "SELECT * FROM C_Order o "
 				+ "WHERE DocStatus IN('CO','CL') AND IsSOTrx='Y'";
-			if (p_AD_Org_ID != 0)
+			if (getOrgId() != 0)
 				sql += " AND AD_Org_ID=?";
-			if (p_C_BPartner_ID != 0)
+			if (getBPartnerId() != 0)
 				sql += " AND C_BPartner_ID=?";
-			if (p_C_Order_ID != 0)
+			if (getOrderId() != 0)
 				sql += " AND C_Order_ID=?";
 			//
 			sql += " AND EXISTS (SELECT * FROM C_OrderLine ol "
@@ -153,22 +117,18 @@ public class InvoiceGenerate extends SvrProcess
 	//	sql += " FOR UPDATE";
 		
 		PreparedStatement pstmt = null;
-		try
-		{
+		try {
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			int index = 1;
-			if (p_Selection) 
-			{
+			if (isSelection()) {
 				pstmt.setInt(index, getAD_PInstance_ID());
-			}
-			else
-			{
-				if (p_AD_Org_ID != 0)
-					pstmt.setInt(index++, p_AD_Org_ID);
-				if (p_C_BPartner_ID != 0)
-					pstmt.setInt(index++, p_C_BPartner_ID);
-				if (p_C_Order_ID != 0)
-					pstmt.setInt(index++, p_C_Order_ID);
+			} else {
+				if (getOrgId() != 0)
+					pstmt.setInt(index++, getOrgId());
+				if (getBPartnerId() != 0)
+					pstmt.setInt(index++, getBPartnerId());
+				if (getOrderId() != 0)
+					pstmt.setInt(index++, getOrderId());
 			}
 		}
 		catch (Exception e)
@@ -197,7 +157,7 @@ public class InvoiceGenerate extends SvrProcess
 				MOrder order = new MOrder (getCtx(), rs, get_TrxName());
 				
 				//	New Invoice Location
-				if (!p_ConsolidateDocument 
+				if (!isConsolidateDocument() 
 					|| (invoice != null 
 					&& invoice.getC_BPartner_Location_ID() != order.getBill_Location_ID()) )
 					completeInvoice();
@@ -351,7 +311,7 @@ public class InvoiceGenerate extends SvrProcess
 	{
 		if (invoice == null)
 		{
-			invoice = new MInvoice (order, 0, p_DateInvoiced);
+			invoice = new MInvoice (order, 0, getDateInvoiced());
 			if (!invoice.save())
 				throw new IllegalStateException("Could not create Invoice (o)");
 		}
@@ -376,7 +336,7 @@ public class InvoiceGenerate extends SvrProcess
 	{
 		if (invoice == null)
 		{
-			invoice = new MInvoice (order, 0, p_DateInvoiced);
+			invoice = new MInvoice (order, 0, getDateInvoiced());
 			if (!invoice.save())
 				throw new IllegalStateException("Could not create Invoice (s)");
 		}
@@ -458,7 +418,7 @@ public class InvoiceGenerate extends SvrProcess
 	{
 		if (invoice != null)
 		{
-			if (!invoice.processIt(p_docAction))
+			if (!invoice.processIt(getDocAction()))
 			{
 				log.warning("completeInvoice - failed: " + invoice);
 				addLog("completeInvoice - failed: " + invoice); // Elaine 2008/11/25

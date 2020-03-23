@@ -17,12 +17,12 @@
 
 package org.adempiere.process;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.I_C_InvoiceLine;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
@@ -31,8 +31,6 @@ import org.compiere.model.MRMA;
 import org.compiere.model.MRMALine;
 import org.compiere.model.Query;
 import org.compiere.process.DocAction;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -43,93 +41,45 @@ import org.compiere.util.Env;
  * @author Teo Sarca
  * 			<li>BF [ 2818523 ] Invoice and Shipment are not matched in case of RMA
  * 				https://sourceforge.net/tracker/?func=detail&aid=2818523&group_id=176962&atid=879332
+ * @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ * 	<li> Remove old implementation
+ * 	https://github.com/adempiere/adempiere/pull/3074
+ * 
  */
-public class InOutGenerateRMA extends SvrProcess
-{
-    /** Manual Selection        */
-    private boolean     p_Selection = false;
-    /** Warehouse               */
-    @SuppressWarnings("unused")
-    private int         p_M_Warehouse_ID = 0;
-    /** DocAction               */
-    private String      p_docAction = DocAction.ACTION_Complete;
-    /** Number of Shipments     */
-    private int         m_created = 0;
-    /** Movement Date           */
-    private Timestamp   m_movementDate = null;
+public class InOutGenerateRMA extends InOutGenerateRMAAbstract {
 
-    protected void prepare()
-    {
-        ProcessInfoParameter[] para = getParameter();
-        for (int i = 0; i < para.length; i++)
-        {
-            String name = para[i].getParameterName();
-            if (para[i].getParameter() == null)
-                ;
-            else if (name.equals("M_Warehouse_ID"))
-                p_M_Warehouse_ID = para[i].getParameterAsInt();
-            else if (name.equals("Selection"))
-                p_Selection = "Y".equals(para[i].getParameter());
-            else if (name.equals("DocAction"))
-                p_docAction = (String)para[i].getParameter();
-            else
-                log.log(Level.SEVERE, "Unknown Parameter: " + name);
-        }
-        
-        m_movementDate = Env.getContextAsDate(getCtx(), "#Date");
-        if (m_movementDate == null)
-        {
-            m_movementDate = new Timestamp(System.currentTimeMillis());
+	/**	Counter	*/
+	private AtomicInteger created = new AtomicInteger();
+	/**	Document Action	*/
+	private String documentAction = DocAction.ACTION_Complete;
+	/**	Movement Date	*/
+	private Timestamp movementDate = null;
+	
+    protected void prepare() {
+        super.prepare();
+        if(getParameterAsString("DocAction") != null) {
+        	documentAction = getParameterAsString("DocAction");
+		}
+		//	DocAction check
+		if (!DocAction.ACTION_Complete.equals(documentAction)) {
+			documentAction = DocAction.ACTION_Prepare;
+		}
+        movementDate = Env.getContextAsDate(getCtx(), "#Date");
+        if (movementDate == null) {
+            movementDate = new Timestamp(System.currentTimeMillis());
         }
     }
     
-    protected String doIt() throws Exception
-    {
-        if (!p_Selection)
-        {
-            throw new IllegalStateException("Shipments can only be generated from selection");
+    protected String doIt() throws Exception {
+        if (!isSelection()) {
+            throw new AdempiereException("@IsSelection@ @M_RMA_ID@ @IsMandatory@");
         }
-        
-        String sql = "SELECT rma.M_RMA_ID FROM M_RMA rma, T_Selection "
-            + "WHERE rma.DocStatus='CO' AND rma.IsSOTrx='N' AND rma.AD_Client_ID=? "
-            + "AND rma.M_RMA_ID = T_Selection.T_Selection_ID " 
-            + "AND T_Selection.AD_PInstance_ID=? ";
-        
-        PreparedStatement pstmt = null;
-        
-        try
-        {
-            pstmt = DB.prepareStatement(sql, get_TrxName());
-            pstmt.setInt(1, Env.getAD_Client_ID(getCtx()));
-            pstmt.setInt(2, getAD_PInstance_ID());
-            ResultSet rs = pstmt.executeQuery();
-            
-            while (rs.next())
-            {
-                generateShipment(rs.getInt(1));
-            }
-        }
-        catch (Exception ex)
-        {
-            log.log(Level.SEVERE, sql, ex);
-        }
-        finally
-        {
-            try
-            {
-                pstmt.close();
-            }
-            catch (Exception ex)
-            {
-                log.log(Level.SEVERE, "Could not close prepared statement");
-            }
-        }
-        
-        return "@Created@ = " + m_created;
+        //	Generate
+        getSelectionKeys().forEach(rmaId -> generateShipment(rmaId));  
+        return "@Created@ = " + created;
     }
     
-    private int getShipmentDocTypeId(int M_RMA_ID)
-    {
+    private int getShipmentDocTypeId(int M_RMA_ID)  {
         String docTypeSQl = "SELECT dt.C_DocTypeShipment_ID FROM C_DocType dt "
             + "INNER JOIN M_RMA rma ON dt.C_DocType_ID=rma.C_DocType_ID "
             + "WHERE rma.M_RMA_ID=?";
@@ -139,13 +89,11 @@ public class InOutGenerateRMA extends SvrProcess
         return docTypeId;
     }
     
-    private MInOut createShipment(MRMA rma)
-    {
+    private MInOut createShipment(MRMA rma) {
         int docTypeId = getShipmentDocTypeId(rma.get_ID());
         
-        if (docTypeId == -1)
-        {
-            throw new IllegalStateException("Could not get invoice document type for Vendor RMA");
+        if (docTypeId == -1) {
+            throw new AdempiereException("@C_DocTypeShipment_ID@ @M_RMA_ID@ @NotFound@");
         }
         
         MInOut originalReceipt = rma.getShipment();
@@ -168,24 +116,23 @@ public class InOutGenerateRMA extends SvrProcess
         shipment.setUser2_ID(originalReceipt.getUser2_ID());
         shipment.setUser3_ID(originalReceipt.getUser3_ID());
         shipment.setUser4_ID(originalReceipt.getUser4_ID());
-        
-        if (!shipment.save())
-        {
-            throw new IllegalStateException("Could not create Shipment");
-        }
-        
+        //	
+        shipment.saveEx();
         return shipment;
     }
     
-    private MInOutLine[] createShipmentLines(MRMA rma, MInOut shipment)
-    {
+    /**
+     * Create lines for shipment
+     * @param rma
+     * @param shipment
+     * @return
+     */
+    private MInOutLine[] createShipmentLines(MRMA rma, MInOut shipment) {
         ArrayList<MInOutLine> shipLineList = new ArrayList<MInOutLine>();
         
         MRMALine rmaLines[] = rma.getLines(true);
-        for (MRMALine rmaLine : rmaLines)
-        {
-            if (rmaLine.getM_InOutLine_ID() != 0)
-            {
+        for (MRMALine rmaLine : rmaLines) {
+            if (rmaLine.getM_InOutLine_ID() != 0) {
                 MInOutLine shipLine = new MInOutLine(shipment);
                 shipLine.setM_RMALine_ID(rmaLine.get_ID());
                 shipLine.setLine(rmaLine.getLine());
@@ -214,8 +161,7 @@ public class InOutGenerateRMA extends SvrProcess
             			shipment.get_TrxName())
             	.setParameters(rmaLine.getM_RMALine_ID())
             	.firstOnly();
-            	if (invoiceLine != null)
-            	{
+            	if (invoiceLine != null) {
             		invoiceLine.setM_InOutLine_ID(shipLine.getM_InOutLine_ID());
             		invoiceLine.saveEx();
             	}
@@ -229,35 +175,33 @@ public class InOutGenerateRMA extends SvrProcess
         return shipLines;
     }
     
-    private void generateShipment(int M_RMA_ID)
-    {
-        MRMA rma = new MRMA(getCtx(), M_RMA_ID, get_TrxName());
+    /**
+     * Generate Shipment from RMA ID
+     * @param rmaId
+     */
+    private void generateShipment(int rmaId){
+        MRMA rma = new MRMA(getCtx(), rmaId, get_TrxName());
         
         MInOut shipment = createShipment(rma);
         MInOutLine shipmentLines[] = createShipmentLines(rma, shipment);
         
-        if (shipmentLines.length == 0)
-        {
+        if (shipmentLines.length == 0) {
             log.log(Level.WARNING, "No shipment lines created: M_RMA_ID="
-                    + M_RMA_ID + ", M_InOut_ID=" + shipment.get_ID());
+                    + rmaId + ", M_InOut_ID=" + shipment.get_ID());
         }
         
         StringBuffer processMsg = new StringBuffer(shipment.getDocumentNo());
         
-        if (!shipment.processIt(p_docAction))
-        {
-            processMsg.append(" (NOT Processed)");
+        if (!shipment.processIt(documentAction)){
+            processMsg.append(" ").append(shipment.getProcessMsg());
             log.warning("Shipment Processing failed: " + shipment + " - " + shipment.getProcessMsg());
         }
-        
-        if (!shipment.save())
-        {
-            throw new IllegalStateException("Could not update shipment");
-        }
+        //	Save
+        shipment.saveEx();
         
         // Add processing information to process log
         addLog(shipment.getM_InOut_ID(), shipment.getMovementDate(), null, processMsg.toString());
-        m_created++;
+        created.getAndIncrement();
     }
     
 }
