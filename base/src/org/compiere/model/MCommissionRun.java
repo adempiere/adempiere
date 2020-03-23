@@ -264,7 +264,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			}
 		} else if(getC_CommissionGroup_ID() != 0) {
 			MCommissionGroup group = new MCommissionGroup(getCtx(), getC_CommissionGroup_ID(), get_TrxName());
-			commissionList = group.getLines(MCommissionGroup.COLUMNNAME_IsActive + "Y");
+			commissionList = group.getLines(null);
 			frequencyType = group.getFrequencyType();
 		}
 		
