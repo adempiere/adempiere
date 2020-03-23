@@ -39,9 +39,6 @@ import org.compiere.util.Msg;
  *  @author https://github.com/homebeaver
  *	@see <a href="https://github.com/adempiere/adempiere/pull/1664">
  *       autoQuery()</a>
- *  @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
- * 	<li> Remove old implementation
- * 	https://github.com/adempiere/adempiere/pull/3074
  */
 public class VInvoiceGen extends InvoiceGen implements FormPanel, ActionListener, VetoableChangeListener {
 	

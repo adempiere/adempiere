@@ -43,15 +43,13 @@ import org.compiere.util.Env;
  *  @author Jorg Janke
  *  @version $Id: InOutGenerate.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
  *  @contributor Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
- *  	<li> Improve class from abstract
- * 		<li> Remove old implementation
- * 		https://github.com/adempiere/adempiere/pull/3074
+ *  	Improve class from abstract
  */
 public class InOutGenerate extends InOutGenerateAbstract {
 	/**	The current Shipment	*/
 	private MInOut 		shipment = null;
 	/** Number of Shipments	being created	*/
-	private int			created = 0;
+	private int			m_created = 0;
 	/**	Line Number				*/
 	private int			m_line = 0;
 	/**	Last BP Location		*/
@@ -128,7 +126,7 @@ public class InOutGenerate extends InOutGenerateAbstract {
 			message = generate(new Query(getCtx(), I_C_Order.Table_Name, 
 					"DocStatus='CO' "
 					+ "AND IsSOTrx='Y' "
-					+ "AND EXISTS(SELECT 1 FROM C_DocType dt WHERE dt.C_DocType_ID = C_Order.C_DocType_ID AND DocBaseType='SOO' AND DocSubTypeSO NOT IN ('ON','OB','WR')) "
+					+ "AND EXISTS(SELECT 1 FROM C_DocType dt WHERE dt.C_DocType_ID = C_Order.C_DocType_IDAND DocBaseType='SOO' AND DocSubTypeSO NOT IN ('ON','OB','WR')) "
 					+ "AND IsDropShip='N' "
 					//	No Manual
 					+ "AND DeliveryRule<>'M' "
@@ -327,7 +325,7 @@ public class InOutGenerate extends InOutGenerateAbstract {
 			m_line += 1000;
 		});
 		completeShipment();
-		return "@Created@ = " + created + " @of@ " + counter;
+		return "@Created@ = " + m_created + " @of@ " + counter;
 	}	//	generate
 	
 	
@@ -495,7 +493,7 @@ public class InOutGenerate extends InOutGenerateAbstract {
 			//
 			addLog(shipment.getM_InOut_ID(), shipment.getMovementDate(), null, shipment.getDocumentNo());
 			getProcessInfo().setRecord_ID(shipment.getM_InOut_ID());
-			created++;
+			m_created++;
 			
 			//reset storage cache as MInOut.completeIt will update m_storage
 			m_map = new HashMap<SParameter,MStorage[]>();
