@@ -696,7 +696,7 @@ public class ReplenishReport extends ReplenishReportAbstract {
 		//	For Standard Process
 		StringBuffer localWhere = new StringBuffer("AD_PInstance_ID=?");
 		if(!isMandatoryBusinessPartner) {
-			localWhere.append(" AND ").append(" AND C_BPartner_ID > 0");
+			localWhere.append(" AND ").append(" C_BPartner_ID > 0");
 		}
 		if (!Util.isEmpty(where)) {
 			localWhere.append(" AND ").append(where);
