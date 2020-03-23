@@ -16,33 +16,26 @@ package org.adempiere.webui.apps.graph;
 import org.adempiere.model.IDocumentStatus;
 import org.adempiere.model.MDocumentStatus;
 import org.adempiere.webui.apps.AEnv;
-import org.adempiere.webui.component.Grid;
 import org.adempiere.webui.component.Label;
 import org.adempiere.webui.component.Panel;
-import org.adempiere.webui.component.Row;
-import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.component.Window;
-import org.adempiere.webui.component.ZkCssHelper;
 import org.adempiere.webui.panel.ADForm;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.MQuery;
-import org.compiere.print.MPrintColor;
-import org.compiere.print.MPrintFont;
-import org.compiere.util.Env;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
-import org.zkoss.zul.Div;
 import org.zkoss.zul.Hbox;
 
 /**
  * 	Performance Indicator
  *
  *  @author hengsin
+ *  @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ *		Fixed error with parse events
  */
-public class WDocumentStatusIndicator extends Panel implements EventListener
-{
+public class WDocumentStatusIndicator extends Panel implements EventListener {
 	/**
 	 *
 	 */
