@@ -126,7 +126,7 @@ public class InOutGenerate extends InOutGenerateAbstract {
 			message = generate(new Query(getCtx(), I_C_Order.Table_Name, 
 					"DocStatus='CO' "
 					+ "AND IsSOTrx='Y' "
-					+ "AND EXISTS(SELECT 1 FROM C_DocType dt WHERE dt.C_DocType_ID = C_Order.C_DocType_IDAND DocBaseType='SOO' AND DocSubTypeSO NOT IN ('ON','OB','WR')) "
+					+ "AND EXISTS(SELECT 1 FROM C_DocType dt WHERE dt.C_DocType_ID = C_Order.C_DocType_ID AND DocBaseType='SOO' AND DocSubTypeSO NOT IN ('ON','OB','WR')) "
 					+ "AND IsDropShip='N' "
 					//	No Manual
 					+ "AND DeliveryRule<>'M' "

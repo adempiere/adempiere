@@ -272,6 +272,7 @@ public class InOutGen extends GenForm
         }
 		
 		MPInstance instance = new MPInstance(Env.getCtx(), AD_Process_ID, 0);
+		
 		if (!instance.save())
 		{
 			info = Msg.getMsg(Env.getCtx(), "ProcessNoInstance");
@@ -323,7 +324,8 @@ public class InOutGen extends GenForm
 		//call process
 		ProcessInfo pi = new ProcessInfo ("VInOutGen", AD_Process_ID);
 		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
-
+		pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
+		pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
 		//	Add Parameter - Selection=Y
 		MPInstancePara ip = new MPInstancePara(instance, 10);
 		ip.setParameter("Selection","Y");
