@@ -186,13 +186,11 @@ import org.compiere.util.Msg;
 	 */
 	public void setPayment (MPayment payment) {
 		AtomicReference<BigDecimal> paymentAmount = new AtomicReference<BigDecimal>(payment.getPayAmt(true));
-        int currencyId = payment.getC_Currency_ID();
-        
-        MBankAccount bankAccount = MBankAccount.get(getCtx(), getParent().getC_BankAccount_ID());
+        //	
+		MBankAccount bankAccount = MBankAccount.get(getCtx(), getParent().getC_BankAccount_ID());
         if(bankAccount.getC_Currency_ID() != payment.getC_Currency_ID()) {
-            currencyId = bankAccount.getC_Currency_ID();
             // Get Currency Info
-            MCurrency currency = MCurrency.get(getCtx(), currencyId);
+            MCurrency currency = MCurrency.get(getCtx(), payment.getC_Currency_ID());
             MCurrency currencyTo = MCurrency.get (getCtx(), bankAccount.getC_Currency_ID());
             Timestamp conversionDate = getParent().getStatementDate();
             StringBuffer errorMassage = new StringBuffer()
@@ -210,7 +208,7 @@ import org.compiere.util.Msg;
 			paymentAmount.updateAndGet(payAmount -> payAmount.multiply(currencyRate).setScale(currencyTo.getStdPrecision(), BigDecimal.ROUND_HALF_UP));
         }
         setC_Payment_ID (payment.getC_Payment_ID());
-        setC_Currency_ID (currencyId);
+        setC_Currency_ID (bankAccount.getC_Currency_ID());
 
         BigDecimal chargeAmt = getChargeAmt();
         if (chargeAmt == null)
