@@ -219,12 +219,7 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 							if (!product.isOneAssetPerUOM())
 								deliveryCount = 0;
 							MAsset asset = new MAsset(inOut, inOutLine, deliveryCount);
-							if (!asset.save(inOut.get_TrxName())) {
-								//m_processMsg = "Could not create Asset";
-								//return DocAction.STATUS_Invalid;
-								throw new IllegalStateException("Could not create Asset");
-							}
-							//info.append(asset.getValue());
+							asset.saveEx(inOut.get_TrxName());
 						}
 					}
 				}	//	Asset
