@@ -16,16 +16,19 @@
 
 package org.adempiere.pos.process;
 
-import org.compiere.model.MBankAccount;
-import org.compiere.model.MPayment;
-import org.compiere.model.MPaymentBatch;
-import org.compiere.model.MRefList;
-import org.compiere.process.DocAction;
-
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
+
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MBankStatement;
+import org.compiere.model.MPOS;
+import org.compiere.model.MPayment;
+import org.compiere.model.MPaymentBatch;
+import org.compiere.model.MRefList;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 
 /**
@@ -38,13 +41,17 @@ public class GenerateWithdrawal extends GenerateWithdrawalAbstract {
 
     @Override
     protected String doIt() throws Exception {
+    	String description = getDescription();
+    	if(Util.isEmpty(description)) {
+    		description = Msg.parseTranslation(getCtx(), "@Generated@ @from@ @C_POS_ID@") + DisplayType.getDateFormat(DisplayType.Date).format(getTransactionDate());
+    	}
         MPaymentBatch paymentBatchFrom = new MPaymentBatch(getCtx() , 0 , get_TrxName());
-        paymentBatchFrom.setName(getDescription());
+        paymentBatchFrom.setName(description);
         paymentBatchFrom.setProcessingDate(getTransactionDate());
         paymentBatchFrom.saveEx();
 
         MPaymentBatch paymentBatchTo = new MPaymentBatch(getCtx() , 0 , get_TrxName());
-        paymentBatchTo.setName(getDescription());
+        paymentBatchTo.setName(description);
         paymentBatchTo.setProcessingDate(getTransactionDate());
         paymentBatchTo.saveEx();
 
@@ -60,8 +67,8 @@ public class GenerateWithdrawal extends GenerateWithdrawalAbstract {
                         getPOSTerminalId(),
                         getBusinessPartnerId() ,
                         getDocumentNo() ,
-                        paymentBatchFrom.getDocumentNo(),
                         referenceNo,
+                        paymentBatchFrom.getName(),
                         getDocumentTypeId(),
                         getChargeId(),
                         refList.getValue(),
@@ -77,7 +84,7 @@ public class GenerateWithdrawal extends GenerateWithdrawalAbstract {
                         getBusinessPartnerId(),
                         getDocumentNo(),
                         referenceNo,
-                        paymentBatchTo.getDocumentNo(),
+                        paymentBatchTo.getName(),
                         getCounterDocumentTypeId(),
                         getChargeId(),
                         refList.getValue(),
@@ -110,6 +117,7 @@ public class GenerateWithdrawal extends GenerateWithdrawalAbstract {
     {
             MPayment payment = new MPayment(getCtx() ,  0 , get_TrxName());
             payment.setC_POS_ID(pOSTerminalId);
+            MPOS terminal = MPOS.get(getCtx(), pOSTerminalId);
             payment.setDateTrx(transactionDate);
             if (documentNo != null && documentNo.length() > 0)
                 payment.setDocumentNo(documentNo);
@@ -124,12 +132,19 @@ public class GenerateWithdrawal extends GenerateWithdrawalAbstract {
             payment.setC_Charge_ID(chargeId);
             payment.setC_DocType_ID(documentTypeId);
             payment.setC_Currency_ID(currencyId);
+            if(terminal.get_ValueAsInt("C_ConversionType_ID") > 0) {
+            	payment.setC_ConversionType_ID(terminal.get_ValueAsInt("C_ConversionType_ID"));
+            }
             payment.setAmount(currencyId , amount);
             payment.setC_PaymentBatch_ID(paymentBatchId);
             payment.saveEx();
-
-            payment.processIt(DocAction.STATUS_Completed);
-            payment.saveEx();
+            //	Process It
+            if(payment.processIt(MPayment.DOCACTION_Complete)) {
+    			payment.saveEx();
+    			MBankStatement.addPayment(payment);
+            } else {
+            	throw new AdempiereException("@Error@ " + payment.getErrorMessage());
+            }
             addLog(payment.getDocumentInfo());
     }
 }
