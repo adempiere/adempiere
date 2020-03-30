@@ -103,7 +103,7 @@ public interface I_A_Asset_Delivery
 	  */
 	public int getAD_User_ID();
 
-	public I_C_ValidCombination getAD_User() throws RuntimeException;
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";

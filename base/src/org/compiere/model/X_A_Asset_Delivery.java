@@ -31,7 +31,7 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20200326L;
+	private static final long serialVersionUID = 20200330L;
 
     /** Standard Constructor */
     public X_A_Asset_Delivery (Properties ctx, int A_Asset_Delivery_ID, String trxName)
@@ -124,9 +124,9 @@ public class X_A_Asset_Delivery extends PO implements I_A_Asset_Delivery, I_Pers
 		return ii.intValue();
 	}
 
-	public I_C_ValidCombination getAD_User() throws RuntimeException
+	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
-		return (I_C_ValidCombination)MTable.get(getCtx(), I_C_ValidCombination.Table_Name)
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
 			.getPO(getAD_User_ID(), get_TrxName());	}
 
 	/** Set User/Contact.
