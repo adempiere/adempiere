@@ -40,8 +40,8 @@
     </Step>
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="53231" Action="I" Record_ID="50480" Table="AD_View_Definition">
-        <Data AD_Column_ID="58088" Column="SeqNo">10</Data>
         <Data AD_Column_ID="84464" Column="UUID">d0e7dd47-1c7a-4c04-8526-10f8fec9f4bb</Data>
+        <Data AD_Column_ID="58088" Column="SeqNo">10</Data>
         <Data AD_Column_ID="58092" Column="Processing">false</Data>
         <Data AD_Column_ID="58083" Column="Updated">2020-03-31 10:18:57.284</Data>
         <Data AD_Column_ID="58081" Column="IsActive">true</Data>
@@ -99,8 +99,8 @@
     </Step>
     <Step SeqNo="60" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="68952" Table="AD_View_Column">
-        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="84462" Column="UUID">f62765d3-5e1a-42c0-b2da-fd0d535a6c2d</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
         <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:19:00.419</Data>
         <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:19:00.419</Data>
@@ -422,7 +422,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="220" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="68960" Table="AD_View_Column">
-        <Data AD_Column_ID="84462" Column="UUID">9d80a961-a507-416a-8d6d-69311f4f4fcc</Data>
         <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:19:12.01</Data>
         <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:19:12.01</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50480</Data>
@@ -439,6 +438,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58108" Column="AD_View_ID">50178</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">354</Data>
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84462" Column="UUID">9d80a961-a507-416a-8d6d-69311f4f4fcc</Data>
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
       </PO>
     </Step>
@@ -484,9 +484,9 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="250" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="68961" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:19:16.925</Data>
         <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:19:16.925</Data>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:19:16.925</Data>
         <Data AD_Column_ID="58049" Column="Description">Comment or Hint</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -545,9 +545,9 @@ Merge means that the data in this system is synchronized with the other system &
     </Step>
     <Step SeqNo="280" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="68963" Table="AD_View_Column">
+        <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:19:19.076</Data>
         <Data AD_Column_ID="84462" Column="UUID">315436f7-8fb4-40cd-96fc-0d247134024b</Data>
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:19:19.076</Data>
         <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:19:19.076</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50480</Data>
         <Data AD_Column_ID="58104" Column="Help">If selected, a log of all changes is maintained.</Data>
@@ -608,6 +608,7 @@ Merge means that the data in this system is synchronized with the other system &
     <Step SeqNo="310" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="68964" Table="AD_View_Column_Trl">
         <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:19:20.458</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:19:20.458</Data>
         <Data AD_Column_ID="58049" Column="Description">Identifier autocomplete trigger length</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
@@ -620,7 +621,6 @@ Merge means that the data in this system is synchronized with the other system &
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84463" Column="UUID">6e0b39ce-0f40-41fe-b03a-a9acd7a278bb</Data>
-        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
       </PO>
     </Step>
     <Step SeqNo="320" StepType="AD">
@@ -728,6 +728,8 @@ Merge means that the data in this system is synchronized with the other system &
     <Step SeqNo="370" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="68967" Table="AD_View_Column_Trl">
         <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:19:26.244</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:19:26.244</Data>
         <Data AD_Column_ID="58049" Column="Description">Import Table Columns from Database</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -739,8 +741,6 @@ Merge means that the data in this system is synchronized with the other system &
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84463" Column="UUID">eb840779-dbb6-4021-bf74-71f1fd6001be</Data>
-        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:19:26.244</Data>
       </PO>
     </Step>
     <Step SeqNo="380" StepType="AD">
@@ -848,9 +848,6 @@ Merge means that the data in this system is synchronized with the other system &
     <Step SeqNo="430" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="68970" Table="AD_View_Column_Trl">
         <Data AD_Column_ID="58049" Column="Description">This is a view</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:19:30.302</Data>
-        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:19:30.302</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">View</Data>
@@ -861,6 +858,9 @@ Merge means that the data in this system is synchronized with the other system &
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84463" Column="UUID">40c41778-a51b-4488-b720-eef74e4aad35</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:19:30.302</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:19:30.302</Data>
       </PO>
     </Step>
     <Step SeqNo="440" StepType="AD">
@@ -905,7 +905,6 @@ Merge means that the data in this system is synchronized with the other system &
     </Step>
     <Step SeqNo="460" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="68972" Table="AD_View_Column">
-        <Data AD_Column_ID="84462" Column="UUID">99882325-8bfb-4605-aa82-dca4997f1ad8</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50480</Data>
         <Data AD_Column_ID="58104" Column="Help">An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">t.AD_Org_ID</Data>
@@ -920,6 +919,7 @@ Merge means that the data in this system is synchronized with the other system &
         <Data AD_Column_ID="58108" Column="AD_View_ID">50178</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">356</Data>
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84462" Column="UUID">99882325-8bfb-4605-aa82-dca4997f1ad8</Data>
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
         <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:19:31.511</Data>
         <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:19:31.511</Data>
@@ -967,10 +967,8 @@ Merge means that the data in this system is synchronized with the other system &
     </Step>
     <Step SeqNo="490" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="68973" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58049" Column="Description">Client/Tenant for this installation.</Data>
         <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:19:38.251</Data>
-        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:19:38.251</Data>
+        <Data AD_Column_ID="58049" Column="Description">Client/Tenant for this installation.</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Client</Data>
@@ -981,6 +979,8 @@ Merge means that the data in this system is synchronized with the other system &
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84463" Column="UUID">c0b1b8d8-e376-49d2-83ed-69bc5c250b22</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:19:38.251</Data>
       </PO>
     </Step>
     <Step SeqNo="500" StepType="AD">
@@ -1028,6 +1028,11 @@ Merge means that the data in this system is synchronized with the other system &
         <Data AD_Column_ID="58104" Column="Help">The Entity Types "Dictionary", "Adempiere" and "Application" might be automatically synchronized and customizations deleted or overwritten.  
 
 For customizations, copy the entity and select "User"!</Data>
+        <Data AD_Column_ID="84462" Column="UUID">9bd8a0b0-c030-4b22-8dce-a0d848f721b4</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:19:39.641</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:19:39.641</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50480</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">t.EntityType</Data>
         <Data AD_Column_ID="58105" Column="Name">Entity Type</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">T_EntityType</Data>
@@ -1040,11 +1045,6 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50178</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">6488</Data>
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="84462" Column="UUID">9bd8a0b0-c030-4b22-8dce-a0d848f721b4</Data>
-        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:19:39.641</Data>
-        <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:19:39.641</Data>
-        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50480</Data>
       </PO>
     </Step>
     <Step SeqNo="530" StepType="AD">
@@ -1089,9 +1089,6 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="550" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="68976" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:19:42.357</Data>
-        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:19:42.357</Data>
         <Data AD_Column_ID="58049" Column="Description">Dynamic Validation Rule</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -1103,6 +1100,9 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84463" Column="UUID">2d89d348-4000-446e-aa80-22ae1cdedeee</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:19:42.357</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:19:42.357</Data>
       </PO>
     </Step>
     <Step SeqNo="560" StepType="AD">
@@ -1147,7 +1147,6 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="580" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="68978" Table="AD_View_Column">
-        <Data AD_Column_ID="84462" Column="UUID">5aa4ca74-8199-4009-af45-7dec05622616</Data>
         <Data AD_Column_ID="58104" Column="Help">The Created By field indicates the user who created this record.</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">t.CreatedBy</Data>
         <Data AD_Column_ID="58105" Column="Name">Created By</Data>
@@ -1161,6 +1160,7 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50178</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">545</Data>
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84462" Column="UUID">5aa4ca74-8199-4009-af45-7dec05622616</Data>
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
         <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:19:44.844</Data>
         <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:19:44.844</Data>
@@ -1209,8 +1209,13 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="610" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="68979" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:19:46.775</Data>
         <Data AD_Column_ID="58052" Column="Name">Sequence</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:19:46.775</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:19:46.775</Data>
+        <Data AD_Column_ID="58049" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">68979</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
@@ -1218,11 +1223,6 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84463" Column="UUID">291f24d3-6055-4fa1-bbf2-d60affef1a80</Data>
-        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:19:46.775</Data>
-        <Data AD_Column_ID="58049" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
       </PO>
     </Step>
     <Step SeqNo="620" StepType="AD">
@@ -1388,6 +1388,12 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="700" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="68983" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">51a072f5-e58e-41e0-ae3b-81d572d9cc53</Data>
         <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:19:54.433</Data>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:19:54.433</Data>
@@ -1396,12 +1402,6 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Description</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">68983</Data>
-        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="84463" Column="UUID">51a072f5-e58e-41e0-ae3b-81d572d9cc53</Data>
       </PO>
     </Step>
     <Step SeqNo="710" StepType="AD">
@@ -1446,16 +1446,8 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="730" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="68985" Table="AD_View_Column">
-        <Data AD_Column_ID="84462" Column="UUID">131470b6-3339-483d-886c-0d722aa93643</Data>
         <Data AD_Column_ID="58102" Column="Description">Virtual Column (r/o)</Data>
-        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">68985</Data>
-        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58103" Column="EntityType">ECA02</Data>
-        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="58108" Column="AD_View_ID">50178</Data>
-        <Data AD_Column_ID="58109" Column="AD_Column_ID">13448</Data>
-        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84462" Column="UUID">131470b6-3339-483d-886c-0d722aa93643</Data>
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
         <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:19:55.541</Data>
         <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:19:55.541</Data>
@@ -1465,6 +1457,14 @@ Example: "Updated-Created" would list the age of the entry in days</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">c.ColumnSQL</Data>
         <Data AD_Column_ID="58105" Column="Name">Column SQL</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">C_ColumnSQL</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">68985</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50178</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">13448</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
       </PO>
     </Step>
     <Step SeqNo="740" StepType="AD">
@@ -1512,13 +1512,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="760" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="68986" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58052" Column="Name">Active</Data>
         <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:19:57.509</Data>
-        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:19:57.509</Data>
-        <Data AD_Column_ID="58049" Column="Description">The record is active in the system</Data>
-        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Active</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">68986</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
@@ -1526,6 +1521,11 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84463" Column="UUID">dd35596a-7517-4c44-bdec-a543e8c1a039</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:19:57.509</Data>
+        <Data AD_Column_ID="58049" Column="Description">The record is active in the system</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
       </PO>
     </Step>
     <Step SeqNo="770" StepType="AD">
@@ -1571,7 +1571,6 @@ You can either load the image (in the database) or point to a graphic via a URI 
     </Step>
     <Step SeqNo="790" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="68988" Table="AD_View_Column">
-        <Data AD_Column_ID="58105" Column="Name">Created</Data>
         <Data AD_Column_ID="84462" Column="UUID">0e297255-a3ba-4753-b961-6e125f001963</Data>
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
         <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:19:58.678</Data>
@@ -1579,6 +1578,7 @@ You can either load the image (in the database) or point to a graphic via a URI 
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50481</Data>
         <Data AD_Column_ID="58104" Column="Help">The Created field indicates the date that this record was created.</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">c.Created</Data>
+        <Data AD_Column_ID="58105" Column="Name">Created</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">C_Created</Data>
         <Data AD_Column_ID="58102" Column="Description">Date this record was created</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">68988</Data>
@@ -1633,7 +1633,6 @@ You can either load the image (in the database) or point to a graphic via a URI 
     </Step>
     <Step SeqNo="820" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="68989" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:20:03.746</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">68989</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
@@ -1641,6 +1640,7 @@ You can either load the image (in the database) or point to a graphic via a URI 
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84463" Column="UUID">280ab8c2-4126-4204-bb7f-ca1066a8a42a</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:20:03.746</Data>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:20:03.746</Data>
         <Data AD_Column_ID="58049" Column="Description">Minimum Value for a field</Data>
@@ -1691,16 +1691,8 @@ You can either load the image (in the database) or point to a graphic via a URI 
     </Step>
     <Step SeqNo="850" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="68991" Table="AD_View_Column">
-        <Data AD_Column_ID="58102" Column="Description">Maximum Value for a field</Data>
         <Data AD_Column_ID="84462" Column="UUID">3ccb9bc0-7578-4158-aa4b-bd288cee0497</Data>
-        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:20:04.969</Data>
-        <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:20:04.969</Data>
-        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50481</Data>
-        <Data AD_Column_ID="58104" Column="Help">The Maximum Value indicates the highest allowable value for a field</Data>
-        <Data AD_Column_ID="58106" Column="ColumnSQL">c.ValueMax</Data>
-        <Data AD_Column_ID="58105" Column="Name">Max. Value</Data>
-        <Data AD_Column_ID="58107" Column="ColumnName">C_ValueMax</Data>
+        <Data AD_Column_ID="58102" Column="Description">Maximum Value for a field</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">68991</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
@@ -1709,6 +1701,14 @@ You can either load the image (in the database) or point to a graphic via a URI 
         <Data AD_Column_ID="58108" Column="AD_View_ID">50178</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">3389</Data>
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:20:04.969</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:20:04.969</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50481</Data>
+        <Data AD_Column_ID="58104" Column="Help">The Maximum Value indicates the highest allowable value for a field</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">c.ValueMax</Data>
+        <Data AD_Column_ID="58105" Column="Name">Max. Value</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">C_ValueMax</Data>
       </PO>
     </Step>
     <Step SeqNo="860" StepType="AD">
@@ -1753,8 +1753,12 @@ You can either load the image (in the database) or point to a graphic via a URI 
     </Step>
     <Step SeqNo="880" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="68992" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:20:08.651</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">1a4399dc-dece-44a4-947b-4e851f4cc76b</Data>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:20:08.651</Data>
         <Data AD_Column_ID="58049" Column="Description">Column in the table</Data>
@@ -1763,10 +1767,6 @@ You can either load the image (in the database) or point to a graphic via a URI 
         <Data AD_Column_ID="58052" Column="Name">Column</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">68992</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="84463" Column="UUID">1a4399dc-dece-44a4-947b-4e851f4cc76b</Data>
       </PO>
     </Step>
     <Step SeqNo="890" StepType="AD">
@@ -1931,15 +1931,8 @@ You can either load the image (in the database) or point to a graphic via a URI 
     </Step>
     <Step SeqNo="970" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="68997" Table="AD_View_Column">
-        <Data AD_Column_ID="58107" Column="ColumnName">C_DefaultValue</Data>
         <Data AD_Column_ID="84462" Column="UUID">a2d81158-7cb7-46a2-9989-04889f867c4c</Data>
-        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:20:16.655</Data>
-        <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:20:16.655</Data>
-        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50481</Data>
-        <Data AD_Column_ID="58104" Column="Help">The defaults are evaluated in the order of definition, the first not null value becomes the default value of the column. The values are separated by comma or semicolon. a) Literals:. 'Text' or 123 b) Variables - in format @Variable@ - Login e.g. #Date, #AD_Org_ID, #AD_Client_ID - Accounting Schema: e.g. $C_AcctSchema_ID, $C_Calendar_ID - Global defaults: e.g. DateFormat - Window values (all Picks, CheckBoxes, RadioButtons, and DateDoc/DateAcct) c) SQL code with the tag: @SQL=SELECT something AS DefaultValue FROM ... The SQL statement can contain variables.  There can be no other value other than the SQL statement. The default is only evaluated, if no user preference is defined.  Default definitions are ignored for record columns as Key, Parent, Client as well as Buttons.</Data>
-        <Data AD_Column_ID="58106" Column="ColumnSQL">c.DefaultValue</Data>
-        <Data AD_Column_ID="58105" Column="Name">Default Logic</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">C_DefaultValue</Data>
         <Data AD_Column_ID="58102" Column="Description">Default value hierarchy, separated by ;</Data>
         <Data AD_Column_ID="58100" Column="AD_View_Column_ID">68997</Data>
         <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
@@ -1949,6 +1942,13 @@ You can either load the image (in the database) or point to a graphic via a URI 
         <Data AD_Column_ID="58108" Column="AD_View_ID">50178</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">117</Data>
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:20:16.655</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:20:16.655</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50481</Data>
+        <Data AD_Column_ID="58104" Column="Help">The defaults are evaluated in the order of definition, the first not null value becomes the default value of the column. The values are separated by comma or semicolon. a) Literals:. 'Text' or 123 b) Variables - in format @Variable@ - Login e.g. #Date, #AD_Org_ID, #AD_Client_ID - Accounting Schema: e.g. $C_AcctSchema_ID, $C_Calendar_ID - Global defaults: e.g. DateFormat - Window values (all Picks, CheckBoxes, RadioButtons, and DateDoc/DateAcct) c) SQL code with the tag: @SQL=SELECT something AS DefaultValue FROM ... The SQL statement can contain variables.  There can be no other value other than the SQL statement. The default is only evaluated, if no user preference is defined.  Default definitions are ignored for record columns as Key, Parent, Client as well as Buttons.</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">c.DefaultValue</Data>
+        <Data AD_Column_ID="58105" Column="Name">Default Logic</Data>
       </PO>
     </Step>
     <Step SeqNo="980" StepType="AD">
@@ -2007,12 +2007,8 @@ Example of format "(000)_000-0000"</Data>
     </Step>
     <Step SeqNo="1000" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="68998" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:20:18.258</Data>
-        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:20:18.258</Data>
-        <Data AD_Column_ID="58049" Column="Description">Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"</Data>
-        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Value Format</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">68998</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
@@ -2021,6 +2017,10 @@ Example of format "(000)_000-0000"</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84463" Column="UUID">3b5997af-c9cd-4647-9996-c219293d13e2</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:20:18.258</Data>
+        <Data AD_Column_ID="58049" Column="Description">Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="1010" StepType="AD">
@@ -2258,6 +2258,7 @@ Strings may be in single quotes (optional)</Data>
     </Step>
     <Step SeqNo="1120" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="69004" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:20:24.909</Data>
         <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:20:24.909</Data>
         <Data AD_Column_ID="58049" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
@@ -2270,7 +2271,6 @@ Strings may be in single quotes (optional)</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84463" Column="UUID">897310d5-79b7-4911-a8ab-c8febd02844e</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:20:24.909</Data>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
       </PO>
     </Step>
@@ -2436,9 +2436,13 @@ Strings may be in single quotes (optional)</Data>
     </Step>
     <Step SeqNo="1210" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="69009" Table="AD_View_Column">
-        <Data AD_Column_ID="84462" Column="UUID">3d82f89f-50b1-44f0-b2cd-d87210177a0b</Data>
         <Data AD_Column_ID="58104" Column="Help">A Callout allow you to create Java extensions to perform certain tasks always after a value changed. Callouts should not be used for validation but consequences of a user selecting a certain value.
 The callout is a Java class implementing org.compiere.model.Callout and a method name to call.  Example: "org.compiere.model.CalloutRequest.copyText" instantiates the class "CalloutRequest" and calls the method "copyText". You can have multiple callouts by separating them via a semicolon</Data>
+        <Data AD_Column_ID="84462" Column="UUID">3d82f89f-50b1-44f0-b2cd-d87210177a0b</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:20:30.218</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:20:30.218</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50481</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">c.Callout</Data>
         <Data AD_Column_ID="58105" Column="Name">Callout</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">C_Callout</Data>
@@ -2451,10 +2455,6 @@ The callout is a Java class implementing org.compiere.model.Callout and a method
         <Data AD_Column_ID="58108" Column="AD_View_ID">50178</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">1692</Data>
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:20:30.218</Data>
-        <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:20:30.218</Data>
-        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50481</Data>
       </PO>
     </Step>
     <Step SeqNo="1220" StepType="AD">
@@ -2499,9 +2499,7 @@ The callout is a Java class implementing org.compiere.model.Callout and a method
     </Step>
     <Step SeqNo="1240" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="69010" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:20:32.0</Data>
         <Data AD_Column_ID="58042" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:20:32.0</Data>
         <Data AD_Column_ID="58049" Column="Description">The column is always updateable, even if the record is not active or processed</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -2513,6 +2511,8 @@ The callout is a Java class implementing org.compiere.model.Callout and a method
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84463" Column="UUID">46f2b6b3-7abf-4ac4-8795-7517d53ea77a</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:20:32.0</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:20:32.0</Data>
       </PO>
     </Step>
     <Step SeqNo="1250" StepType="AD">
@@ -2558,8 +2558,10 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
     </Step>
     <Step SeqNo="1270" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="69012" Table="AD_View_Column">
-        <Data AD_Column_ID="84462" Column="UUID">76f13630-046c-4b16-9478-ad4ee008662e</Data>
         <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:20:33.002</Data>
+        <Data AD_Column_ID="84462" Column="UUID">76f13630-046c-4b16-9478-ad4ee008662e</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:20:33.002</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50481</Data>
         <Data AD_Column_ID="58104" Column="Help">Fully qualified class name that implements the InfoFactory interface. This can be use to provide custom Info class for column.</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">c.InfoFactoryClass</Data>
@@ -2574,8 +2576,6 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
         <Data AD_Column_ID="58108" Column="AD_View_ID">50178</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">54358</Data>
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:20:33.002</Data>
       </PO>
     </Step>
     <Step SeqNo="1280" StepType="AD">
@@ -2620,8 +2620,9 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
     </Step>
     <Step SeqNo="1300" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="69013" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:20:37.78</Data>
         <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:20:37.78</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:20:37.78</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58049" Column="Description">Determine if a column must be recorded into the change log</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
@@ -2633,7 +2634,6 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84463" Column="UUID">79dcc1fb-a66b-4a08-9809-f4710c061ba7</Data>
-        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
       </PO>
     </Step>
     <Step SeqNo="1310" StepType="AD">
@@ -2799,6 +2799,9 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
     <Step SeqNo="1390" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="69018" Table="AD_View_Column">
         <Data AD_Column_ID="84462" Column="UUID">2784230e-a6ce-4017-a140-b7ef59d90ced</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:20:44.308</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:20:44.308</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50481</Data>
         <Data AD_Column_ID="58104" Column="Help">The Entity Types "Dictionary", "Adempiere" and "Application" might be automatically synchronized and customizations deleted or overwritten.  
 
@@ -2815,9 +2818,6 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50178</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">6482</Data>
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:20:44.308</Data>
-        <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:20:44.308</Data>
       </PO>
     </Step>
     <Step SeqNo="1400" StepType="AD">
@@ -2863,13 +2863,13 @@ For customizations, copy the entity and select "User"!</Data>
     <Step SeqNo="1420" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="69019" Table="AD_View_Column_Trl">
         <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:20:48.261</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:20:48.261</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58049" Column="Description">Client/Tenant for this installation.</Data>
         <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Client</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">69019</Data>
-        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:20:48.261</Data>
-        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
@@ -2920,6 +2920,7 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="1450" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="69021" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">c55d95e7-c588-4dbe-a385-bfb8fe5ae3e5</Data>
         <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:20:51.571</Data>
         <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50481</Data>
         <Data AD_Column_ID="58104" Column="Help" isNewNull="true"/>
@@ -2935,7 +2936,6 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50178</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">59702</Data>
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="84462" Column="UUID">c55d95e7-c588-4dbe-a385-bfb8fe5ae3e5</Data>
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
         <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:20:51.571</Data>
       </PO>
@@ -2982,11 +2982,8 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="1480" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="69022" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:20:53.179</Data>
-        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:20:53.179</Data>
-        <Data AD_Column_ID="58049" Column="Description">Database Table information</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58052" Column="Name">Table</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">69022</Data>
@@ -2996,6 +2993,9 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84463" Column="UUID">a778246f-3c78-40a6-9704-ae2f75514af9</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:20:53.179</Data>
+        <Data AD_Column_ID="58049" Column="Description">Database Table information</Data>
       </PO>
     </Step>
     <Step SeqNo="1490" StepType="AD">
@@ -3040,6 +3040,7 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="1510" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="69024" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">ae43b965-6153-4572-b118-f7700f31a9a7</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">c.AD_Element_ID</Data>
         <Data AD_Column_ID="58105" Column="Name">System Element</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">C_AD_Element_ID</Data>
@@ -3052,7 +3053,6 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50178</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">2608</Data>
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="84462" Column="UUID">ae43b965-6153-4572-b118-f7700f31a9a7</Data>
         <Data AD_Column_ID="58095" Column="IsActive">true</Data>
         <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:20:54.793</Data>
         <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:20:54.793</Data>
@@ -3102,8 +3102,12 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="1540" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="69025" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:20:56.722</Data>
         <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:20:56.722</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:20:56.722</Data>
+        <Data AD_Column_ID="58049" Column="Description">Required to specify, if data type is Table or List</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58052" Column="Name">Reference Key</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">69025</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
@@ -3112,10 +3116,6 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84463" Column="UUID">212cda92-c956-4072-9a6b-dbfc8c1a438d</Data>
-        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:20:56.722</Data>
-        <Data AD_Column_ID="58049" Column="Description">Required to specify, if data type is Table or List</Data>
-        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="1550" StepType="AD">
@@ -3161,11 +3161,6 @@ For customizations, copy the entity and select "User"!</Data>
     <Step SeqNo="1570" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="69027" Table="AD_View_Column">
         <Data AD_Column_ID="84462" Column="UUID">fe15354e-72ed-49f1-82d0-a5ef067d220c</Data>
-        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:20:57.893</Data>
-        <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:20:57.893</Data>
-        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50481</Data>
-        <Data AD_Column_ID="58104" Column="Help">The Length indicates the length of a column as defined in the database.</Data>
         <Data AD_Column_ID="58106" Column="ColumnSQL">c.FieldLength</Data>
         <Data AD_Column_ID="58105" Column="Name">Length</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">C_FieldLength</Data>
@@ -3178,6 +3173,11 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50178</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">118</Data>
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:20:57.893</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:20:57.893</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50481</Data>
+        <Data AD_Column_ID="58104" Column="Help">The Length indicates the length of a column as defined in the database.</Data>
       </PO>
     </Step>
     <Step SeqNo="1580" StepType="AD">
@@ -3222,13 +3222,8 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="1600" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="69028" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58052" Column="Name">Reference</Data>
         <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:21:02.251</Data>
-        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:21:02.251</Data>
-        <Data AD_Column_ID="58049" Column="Description">System Reference and Validation</Data>
-        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Reference</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">69028</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
@@ -3236,6 +3231,11 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84463" Column="UUID">91a9a920-b4b7-46ec-b63c-9351887c9ff6</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:21:02.251</Data>
+        <Data AD_Column_ID="58049" Column="Description">System Reference and Validation</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
       </PO>
     </Step>
     <Step SeqNo="1610" StepType="AD">
@@ -3281,6 +3281,12 @@ For customizations, copy the entity and select "User"!</Data>
     <Step SeqNo="1630" StepType="AD">
       <PO AD_Table_ID="53232" Action="I" Record_ID="69030" Table="AD_View_Column">
         <Data AD_Column_ID="58106" Column="ColumnSQL">c.UUID</Data>
+        <Data AD_Column_ID="84462" Column="UUID">112dddec-70bd-4b0a-b846-0f11b8081294</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:21:03.753</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:21:03.753</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50481</Data>
+        <Data AD_Column_ID="58104" Column="Help">"A surrogate key in a database is a unique identifier for either an entity in the modeled world or an object in the database. The surrogate key is not derived from application data, unlike a natural (or business) key which is derived from application data. " , According to Wikipedia http://en.wikipedia.org/wiki/Surrogate_key</Data>
         <Data AD_Column_ID="58105" Column="Name">Immutable Universally Unique Identifier</Data>
         <Data AD_Column_ID="58107" Column="ColumnName">C_UUID</Data>
         <Data AD_Column_ID="58102" Column="Description">Immutable Universally Unique Identifier</Data>
@@ -3292,12 +3298,6 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="58108" Column="AD_View_ID">50178</Data>
         <Data AD_Column_ID="58109" Column="AD_Column_ID">84306</Data>
         <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="84462" Column="UUID">112dddec-70bd-4b0a-b846-0f11b8081294</Data>
-        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58096" Column="Created">2020-03-31 10:21:03.753</Data>
-        <Data AD_Column_ID="58097" Column="Updated">2020-03-31 10:21:03.753</Data>
-        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50481</Data>
-        <Data AD_Column_ID="58104" Column="Help">"A surrogate key in a database is a unique identifier for either an entity in the modeled world or an object in the database. The surrogate key is not derived from application data, unlike a natural (or business) key which is derived from application data. " , According to Wikipedia http://en.wikipedia.org/wiki/Surrogate_key</Data>
       </PO>
     </Step>
     <Step SeqNo="1640" StepType="AD">
@@ -3342,8 +3342,13 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="1660" StepType="AD">
       <PO AD_Table_ID="53228" Action="I" Record_ID="69031" Table="AD_View_Column_Trl">
-        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:21:06.362</Data>
         <Data AD_Column_ID="58052" Column="Name">Process</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2020-03-31 10:21:06.362</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:21:06.362</Data>
+        <Data AD_Column_ID="58049" Column="Description">Process or Report</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58047" Column="AD_View_Column_ID">69031</Data>
         <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
@@ -3351,11 +3356,6 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84463" Column="UUID">e08a3a0b-6b9f-4a96-a5db-2bef9d2ba6dc</Data>
-        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58043" Column="Created">2020-03-31 10:21:06.362</Data>
-        <Data AD_Column_ID="58049" Column="Description">Process or Report</Data>
-        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
       </PO>
     </Step>
     <Step SeqNo="1670" StepType="AD">
@@ -3398,11 +3398,6 @@ For customizations, copy the entity and select "User"!</Data>
     <Step SeqNo="1680" StepType="AD">
       <PO AD_Table_ID="287" Action="I" Record_ID="0" Table="AD_Process_Trl">
         <Data AD_Column_ID="2845" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="2851" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="2844" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="2843" Column="AD_Process_ID">54376</Data>
-        <Data AD_Column_ID="2849" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="84387" Column="UUID">d753853a-6bb0-4d37-a511-0f77488ae383</Data>
         <Data AD_Column_ID="2847" Column="IsActive">true</Data>
         <Data AD_Column_ID="2850" Column="Updated">2020-03-31 10:21:09.365</Data>
         <Data AD_Column_ID="2848" Column="Created">2020-03-31 10:21:09.365</Data>
@@ -3411,6 +3406,11 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="2855" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="2852" Column="Name">Crear desde Tabla</Data>
         <Data AD_Column_ID="2846" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2851" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID">54376</Data>
+        <Data AD_Column_ID="2849" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84387" Column="UUID">d753853a-6bb0-4d37-a511-0f77488ae383</Data>
       </PO>
     </Step>
     <Step SeqNo="1690" StepType="AD">
@@ -3570,6 +3570,9 @@ AND c.AD_Reference_ID NOT IN('35', '23', '21', '26', '27', '25', '31', '33', '53
     <Step SeqNo="1740" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="0" Table="AD_Browse_Field_Trl">
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">67688</Data>
+        <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="84297" Column="UUID">165774c6-0ff4-4b48-a379-904310571fd1</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:21:13.064</Data>
@@ -3580,9 +3583,6 @@ AND c.AD_Reference_ID NOT IN('35', '23', '21', '26', '27', '25', '31', '33', '53
         <Data AD_Column_ID="58039" Column="Name">Auto Complete Min Length</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">67688</Data>
-        <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
       </PO>
     </Step>
     <Step SeqNo="1750" StepType="AD">
@@ -3636,9 +3636,6 @@ AND c.AD_Reference_ID NOT IN('35', '23', '21', '26', '27', '25', '31', '33', '53
     <Step SeqNo="1760" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="0" Table="AD_Browse_Field_Trl">
         <Data AD_Column_ID="84297" Column="UUID">9f4e884f-1829-4335-91d9-212663181c10</Data>
-        <Data AD_Column_ID="58029" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:21:14.29</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2020-03-31 10:21:14.29</Data>
         <Data AD_Column_ID="58036" Column="Description">Mantenimiento de Información de Contexto</Data>
         <Data AD_Column_ID="58037" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
@@ -3649,13 +3646,15 @@ AND c.AD_Reference_ID NOT IN('35', '23', '21', '26', '27', '25', '31', '33', '53
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">67689</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58029" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:21:14.29</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2020-03-31 10:21:14.29</Data>
       </PO>
     </Step>
     <Step SeqNo="1770" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67690" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:14.539</Data>
         <Data AD_Column_ID="84296" Column="UUID">c4640ab2-2c35-4ca7-ac48-2044dda56709</Data>
-        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:14.539</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:21:14.539</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -3697,6 +3696,7 @@ AND c.AD_Reference_ID NOT IN('35', '23', '21', '26', '27', '25', '31', '33', '53
         <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="64357" Column="FieldLength">1</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
       </PO>
     </Step>
     <Step SeqNo="1780" StepType="AD">
@@ -3719,8 +3719,15 @@ AND c.AD_Reference_ID NOT IN('35', '23', '21', '26', '27', '25', '31', '33', '53
     </Step>
     <Step SeqNo="1790" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67691" Table="AD_Browse_Field">
-        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:18.537</Data>
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID">28</Data>
+        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="64357" Column="FieldLength">1</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="84296" Column="UUID">fc220f4a-1e01-42f6-8b77-f099d49b279f</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:21:18.537</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -3756,13 +3763,6 @@ AND c.AD_Reference_ID NOT IN('35', '23', '21', '26', '27', '25', '31', '33', '53
         <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="57969" Column="AD_Element_ID">50040</Data>
         <Data AD_Column_ID="57971" Column="AD_View_Column_ID">68958</Data>
-        <Data AD_Column_ID="57970" Column="AD_Reference_ID">28</Data>
-        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
-        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
-        <Data AD_Column_ID="64357" Column="FieldLength">1</Data>
-        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
-        <Data AD_Column_ID="84296" Column="UUID">fc220f4a-1e01-42f6-8b77-f099d49b279f</Data>
       </PO>
     </Step>
     <Step SeqNo="1800" StepType="AD">
@@ -3785,22 +3785,8 @@ AND c.AD_Reference_ID NOT IN('35', '23', '21', '26', '27', '25', '31', '33', '53
     </Step>
     <Step SeqNo="1810" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67692" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:19.798</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57969" Column="AD_Element_ID">245</Data>
-        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">68952</Data>
-        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57970" Column="AD_Reference_ID">16</Data>
-        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
-        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
-        <Data AD_Column_ID="64357" Column="FieldLength">7</Data>
-        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
-        <Data AD_Column_ID="84296" Column="UUID">8a390494-eda6-48e7-9bd2-a1578a066ca8</Data>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:19.798</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:21:19.798</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -3829,6 +3815,20 @@ AND c.AD_Reference_ID NOT IN('35', '23', '21', '26', '27', '25', '31', '33', '53
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="57973" Column="EntityType">ECA02</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">67692</Data>
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57969" Column="AD_Element_ID">245</Data>
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">68952</Data>
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID">16</Data>
+        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="64357" Column="FieldLength">7</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="84296" Column="UUID">8a390494-eda6-48e7-9bd2-a1578a066ca8</Data>
       </PO>
     </Step>
     <Step SeqNo="1820" StepType="AD">
@@ -3917,9 +3917,22 @@ AND c.AD_Reference_ID NOT IN('35', '23', '21', '26', '27', '25', '31', '33', '53
     </Step>
     <Step SeqNo="1850" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67694" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:22.076</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:21:22.076</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57972" Column="Description">Comment or Hint</Data>
+        <Data AD_Column_ID="57974" Column="Help">The Help field contains a hint, comment or help about the use of this item.</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
+        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
+        <Data AD_Column_ID="57981" Column="Name">Comment/Help</Data>
+        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
         <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
         <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
         <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
@@ -3948,19 +3961,6 @@ AND c.AD_Reference_ID NOT IN('35', '23', '21', '26', '27', '25', '31', '33', '53
         <Data AD_Column_ID="64357" Column="FieldLength">2000</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">e8d66f0d-a8d4-4e05-a9e7-77b6940c42a2</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:21:22.076</Data>
-        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
-        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="57972" Column="Description">Comment or Hint</Data>
-        <Data AD_Column_ID="57974" Column="Help">The Help field contains a hint, comment or help about the use of this item.</Data>
-        <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
-        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
-        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
-        <Data AD_Column_ID="57981" Column="Name">Comment/Help</Data>
-        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
       </PO>
     </Step>
     <Step SeqNo="1860" StepType="AD">
@@ -4323,25 +4323,6 @@ La fusión significa que los datos en este sistema están sincronizados con el o
     <Step SeqNo="1970" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67700" Table="AD_Browse_Field">
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:30.744</Data>
-        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:21:30.744</Data>
-        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
-        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="57972" Column="Description">Client/Tenant for this installation.</Data>
-        <Data AD_Column_ID="57974" Column="Help">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</Data>
-        <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
-        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
-        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
-        <Data AD_Column_ID="57981" Column="Name">Client</Data>
-        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
-        <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
-        <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
-        <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
-        <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
@@ -4366,6 +4347,25 @@ La fusión significa que los datos en este sistema están sincronizados con el o
         <Data AD_Column_ID="64357" Column="FieldLength">10</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">54235f38-dd22-4cf2-bef1-b9eed0689098</Data>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:21:30.744</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57972" Column="Description">Client/Tenant for this installation.</Data>
+        <Data AD_Column_ID="57974" Column="Help">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
+        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
+        <Data AD_Column_ID="57981" Column="Name">Client</Data>
+        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
+        <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="1980" StepType="AD">
@@ -4568,12 +4568,8 @@ La fusión significa que los datos en este sistema están sincronizados con el o
     </Step>
     <Step SeqNo="2040" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="0" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58037" Column="Help">El campo ventana identifica una ventana única en el sistema</Data>
         <Data AD_Column_ID="84297" Column="UUID">54675b8d-2cf8-4e88-96cd-30bd01522025</Data>
-        <Data AD_Column_ID="58029" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:21:37.178</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2020-03-31 10:21:37.178</Data>
-        <Data AD_Column_ID="58036" Column="Description">Ventana de entrada de datos o despliegue</Data>
+        <Data AD_Column_ID="58037" Column="Help">El campo ventana identifica una ventana única en el sistema</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">true</Data>
         <Data AD_Column_ID="58039" Column="Name">Ventana</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
@@ -4582,12 +4578,15 @@ La fusión significa que los datos en este sistema están sincronizados con el o
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">67703</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58029" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:21:37.178</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2020-03-31 10:21:37.178</Data>
+        <Data AD_Column_ID="58036" Column="Description">Ventana de entrada de datos o despliegue</Data>
       </PO>
     </Step>
     <Step SeqNo="2050" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67704" Table="AD_Browse_Field">
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:37.379</Data>
-        <Data AD_Column_ID="84296" Column="UUID">c11d1fd3-5a12-4c39-96e1-c23b2c663581</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:21:37.379</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -4630,6 +4629,7 @@ La fusión significa que los datos en este sistema están sincronizados con el o
         <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="64357" Column="FieldLength">10</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="84296" Column="UUID">c11d1fd3-5a12-4c39-96e1-c23b2c663581</Data>
       </PO>
     </Step>
     <Step SeqNo="2060" StepType="AD">
@@ -4652,7 +4652,6 @@ La fusión significa que los datos en este sistema están sincronizados con el o
     </Step>
     <Step SeqNo="2070" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67705" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:38.477</Data>
         <Data AD_Column_ID="57969" Column="AD_Element_ID">1682</Data>
         <Data AD_Column_ID="57971" Column="AD_View_Column_ID">68975</Data>
         <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
@@ -4663,6 +4662,7 @@ La fusión significa que los datos en este sistema están sincronizados con el o
         <Data AD_Column_ID="64357" Column="FieldLength">10</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">93902ddb-b85c-4499-8126-88d40ada9f49</Data>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:38.477</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:21:38.477</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -4721,6 +4721,23 @@ For customizations, copy the entity and select "User"!</Data>
     <Step SeqNo="2090" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67706" Table="AD_Browse_Field">
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">67706</Data>
+        <Data AD_Column_ID="57982" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57969" Column="AD_Element_ID">1684</Data>
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">68967</Data>
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID">28</Data>
+        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="64357" Column="FieldLength">1</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="84296" Column="UUID">6749ff03-ad2a-48a8-93f3-2868097ddcd7</Data>
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:39.732</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:21:39.732</Data>
@@ -4747,23 +4764,6 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="67114" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">ECA02</Data>
-        <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">67706</Data>
-        <Data AD_Column_ID="57982" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57969" Column="AD_Element_ID">1684</Data>
-        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">68967</Data>
-        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57970" Column="AD_Reference_ID">28</Data>
-        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
-        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
-        <Data AD_Column_ID="64357" Column="FieldLength">1</Data>
-        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
-        <Data AD_Column_ID="84296" Column="UUID">6749ff03-ad2a-48a8-93f3-2868097ddcd7</Data>
       </PO>
     </Step>
     <Step SeqNo="2100" StepType="AD">
@@ -4786,6 +4786,7 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="2110" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67707" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:42.816</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:21:42.816</Data>
@@ -4804,7 +4805,6 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
         <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
-        <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
@@ -4852,16 +4852,8 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="2130" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67708" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57974" Column="Help">The Records Deletable checkbox indicates if a record can be deleted from the database.  If records cannot be deleted, you can only deselect the Active flag</Data>
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:43.867</Data>
-        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:21:43.867</Data>
-        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
-        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="57972" Column="Description">Indicates if records can be deleted from the database</Data>
+        <Data AD_Column_ID="57974" Column="Help">The Records Deletable checkbox indicates if a record can be deleted from the database.  If records cannot be deleted, you can only deselect the Active flag</Data>
         <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
         <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="57978" Column="IsKey">false</Data>
@@ -4896,6 +4888,14 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="64357" Column="FieldLength">1</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">f5cf9f8d-024b-4c32-a6ed-23c8566fd83a</Data>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:21:43.867</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57972" Column="Description">Indicates if records can be deleted from the database</Data>
       </PO>
     </Step>
     <Step SeqNo="2140" StepType="AD">
@@ -4918,8 +4918,8 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="2150" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67709" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:45.804</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:45.804</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:21:45.804</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
         <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
@@ -5050,8 +5050,13 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="2190" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67711" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:50.143</Data>
+        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="64357" Column="FieldLength">1</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="84296" Column="UUID">6232cb58-bd21-45f0-a35e-462b9dbb2649</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:21:50.143</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -5089,11 +5094,6 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="57971" Column="AD_View_Column_ID">68968</Data>
         <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="57970" Column="AD_Reference_ID">20</Data>
-        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
-        <Data AD_Column_ID="64357" Column="FieldLength">1</Data>
-        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
-        <Data AD_Column_ID="84296" Column="UUID">6232cb58-bd21-45f0-a35e-462b9dbb2649</Data>
       </PO>
     </Step>
     <Step SeqNo="2200" StepType="AD">
@@ -5117,6 +5117,20 @@ For customizations, copy the entity and select "User"!</Data>
     <Step SeqNo="2210" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67712" Table="AD_Browse_Field">
         <Data AD_Column_ID="57982" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57969" Column="AD_Element_ID">1629</Data>
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">68970</Data>
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID">20</Data>
+        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="64357" Column="FieldLength">1</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="84296" Column="UUID">23002964-9484-47ea-812f-6765fbff2365</Data>
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:51.107</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:21:51.107</Data>
@@ -5146,20 +5160,6 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="57973" Column="EntityType">ECA02</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">67712</Data>
-        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57969" Column="AD_Element_ID">1629</Data>
-        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">68970</Data>
-        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57970" Column="AD_Reference_ID">20</Data>
-        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
-        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
-        <Data AD_Column_ID="64357" Column="FieldLength">1</Data>
-        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
-        <Data AD_Column_ID="84296" Column="UUID">23002964-9484-47ea-812f-6765fbff2365</Data>
       </PO>
     </Step>
     <Step SeqNo="2220" StepType="AD">
@@ -5314,8 +5314,15 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="2270" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67715" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:54.588</Data>
         <Data AD_Column_ID="57972" Column="Description">Immutable Universally Unique Identifier</Data>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:54.588</Data>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:21:54.588</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="57974" Column="Help">"A surrogate key in a database is a unique identifier for either an entity in the modeled world or an object in the database. The surrogate key is not derived from application data, unlike a natural (or business) key which is derived from application data. " , According to Wikipedia http://en.wikipedia.org/wiki/Surrogate_key</Data>
         <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
         <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
@@ -5351,20 +5358,12 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="64357" Column="FieldLength">36</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">51b733d1-432a-47fd-8429-3b09f762f033</Data>
-        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:21:54.588</Data>
-        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
-        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="2280" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="0" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="84297" Column="UUID">16f1eb12-4096-48ba-b724-41d3173dbcc1</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">67715</Data>
-        <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84297" Column="UUID">16f1eb12-4096-48ba-b724-41d3173dbcc1</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:21:55.429</Data>
         <Data AD_Column_ID="58031" Column="Updated">2020-03-31 10:21:55.429</Data>
@@ -5376,6 +5375,7 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
       </PO>
     </Step>
     <Step SeqNo="2290" StepType="AD">
@@ -5428,7 +5428,6 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="2300" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="0" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="84297" Column="UUID">dcf46e67-b31d-412d-a943-cc70ec91ef40</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Actualizado por</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
@@ -5437,6 +5436,7 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">67716</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84297" Column="UUID">dcf46e67-b31d-412d-a943-cc70ec91ef40</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:21:56.683</Data>
         <Data AD_Column_ID="58031" Column="Updated">2020-03-31 10:21:56.683</Data>
@@ -5512,7 +5512,6 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="2330" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67718" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:58.022</Data>
         <Data AD_Column_ID="57970" Column="AD_Reference_ID">30</Data>
         <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
         <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
@@ -5520,6 +5519,7 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="64357" Column="FieldLength">10</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">10</Data>
         <Data AD_Column_ID="84296" Column="UUID">447cc623-ab00-483c-a882-f2d7ec95a6a6</Data>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:21:58.022</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:21:58.022</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -5646,6 +5646,27 @@ You can either load the image (in the database) or point to a graphic via a URI 
     <Step SeqNo="2370" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67720" Table="AD_Browse_Field">
         <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="67114" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">67720</Data>
+        <Data AD_Column_ID="57982" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57969" Column="AD_Element_ID">245</Data>
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">68988</Data>
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID">16</Data>
+        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="64357" Column="FieldLength">7</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="84296" Column="UUID">b540e595-cfe9-4760-98ea-aa5607c31958</Data>
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:01.73</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:01.73</Data>
@@ -5668,27 +5689,6 @@ You can either load the image (in the database) or point to a graphic via a URI 
         <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="67114" Column="Callout" isNewNull="true"/>
-        <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
-        <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">ECA02</Data>
-        <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">67720</Data>
-        <Data AD_Column_ID="57982" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57969" Column="AD_Element_ID">245</Data>
-        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">68988</Data>
-        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57970" Column="AD_Reference_ID">16</Data>
-        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
-        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
-        <Data AD_Column_ID="64357" Column="FieldLength">7</Data>
-        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
-        <Data AD_Column_ID="84296" Column="UUID">b540e595-cfe9-4760-98ea-aa5607c31958</Data>
       </PO>
     </Step>
     <Step SeqNo="2380" StepType="AD">
@@ -5777,14 +5777,6 @@ You can either load the image (in the database) or point to a graphic via a URI 
     </Step>
     <Step SeqNo="2410" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67722" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:05.827</Data>
-        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:05.827</Data>
-        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
-        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="57972" Column="Description">This column is a link to the parent table (e.g. header from lines) - incl. Association key columns</Data>
         <Data AD_Column_ID="57974" Column="Help">The Parent checkbox indicates if this column is a link to the parent table.</Data>
         <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
@@ -5821,6 +5813,14 @@ You can either load the image (in the database) or point to a graphic via a URI 
         <Data AD_Column_ID="64357" Column="FieldLength">1</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">f3756daa-f902-4e26-b4c6-23299541e90e</Data>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:05.827</Data>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:05.827</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="2420" StepType="AD">
@@ -5891,6 +5891,7 @@ You can either load the image (in the database) or point to a graphic via a URI 
     </Step>
     <Step SeqNo="2440" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="0" Table="AD_Browse_Field_Trl">
+        <Data AD_Column_ID="58039" Column="Name">Identificador</Data>
         <Data AD_Column_ID="84297" Column="UUID">9ef436c3-0f23-4f93-9976-650a85e603a9</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:22:08.307</Data>
@@ -5898,7 +5899,6 @@ You can either load the image (in the database) or point to a graphic via a URI 
         <Data AD_Column_ID="58036" Column="Description">Esta columna es parte del identificador del registro</Data>
         <Data AD_Column_ID="58037" Column="Help">El cuadro de verificación Identificador indica que esta columna es parte del identificador o clave para esta tabla</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">true</Data>
-        <Data AD_Column_ID="58039" Column="Name">Identificador</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
@@ -5975,7 +5975,6 @@ You can either load the image (in the database) or point to a graphic via a URI 
     </Step>
     <Step SeqNo="2470" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67725" Table="AD_Browse_Field">
-        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:09.523</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:09.523</Data>
@@ -6012,6 +6011,7 @@ You can either load the image (in the database) or point to a graphic via a URI 
         <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="57969" Column="AD_Element_ID">420</Data>
         <Data AD_Column_ID="57971" Column="AD_View_Column_ID">68996</Data>
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="57970" Column="AD_Reference_ID">20</Data>
         <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
         <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
@@ -6042,21 +6042,6 @@ You can either load the image (in the database) or point to a graphic via a URI 
     <Step SeqNo="2490" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67726" Table="AD_Browse_Field">
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:11.49</Data>
-        <Data AD_Column_ID="57982" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57969" Column="AD_Element_ID">50074</Data>
-        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">69004</Data>
-        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57970" Column="AD_Reference_ID">14</Data>
-        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
-        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
-        <Data AD_Column_ID="64357" Column="FieldLength">2000</Data>
-        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
-        <Data AD_Column_ID="84296" Column="UUID">60e48b73-2dbb-45d3-9f08-7775011fc503</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:11.49</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -6085,6 +6070,21 @@ You can either load the image (in the database) or point to a graphic via a URI 
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="57973" Column="EntityType">ECA02</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">67726</Data>
+        <Data AD_Column_ID="57982" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57969" Column="AD_Element_ID">50074</Data>
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">69004</Data>
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID">14</Data>
+        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="64357" Column="FieldLength">2000</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="84296" Column="UUID">60e48b73-2dbb-45d3-9f08-7775011fc503</Data>
       </PO>
     </Step>
     <Step SeqNo="2500" StepType="AD">
@@ -6108,6 +6108,30 @@ You can either load the image (in the database) or point to a graphic via a URI 
     <Step SeqNo="2510" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67727" Table="AD_Browse_Field">
         <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="67114" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">67727</Data>
+        <Data AD_Column_ID="57982" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57969" Column="AD_Element_ID">1663</Data>
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">69003</Data>
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID">14</Data>
+        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="64357" Column="FieldLength">2000</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="84296" Column="UUID">c08a6fff-d57f-4f58-809b-a2601eb9f640</Data>
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:12.765</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:12.765</Data>
@@ -6138,30 +6162,6 @@ Strings may be in single quotes (optional)</Data>
         <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
         <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
         <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
-        <Data AD_Column_ID="67114" Column="Callout" isNewNull="true"/>
-        <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
-        <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="57973" Column="EntityType">ECA02</Data>
-        <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">67727</Data>
-        <Data AD_Column_ID="57982" Column="SeqNo">0</Data>
-        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57969" Column="AD_Element_ID">1663</Data>
-        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">69003</Data>
-        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57970" Column="AD_Reference_ID">14</Data>
-        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
-        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
-        <Data AD_Column_ID="64357" Column="FieldLength">2000</Data>
-        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
-        <Data AD_Column_ID="84296" Column="UUID">c08a6fff-d57f-4f58-809b-a2601eb9f640</Data>
       </PO>
     </Step>
     <Step SeqNo="2520" StepType="AD">
@@ -6184,18 +6184,8 @@ Strings may be in single quotes (optional)</Data>
     </Step>
     <Step SeqNo="2530" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67728" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:14.089</Data>
-        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:14.089</Data>
-        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
-        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="57972" Column="Description">Date this record was updated</Data>
-        <Data AD_Column_ID="57974" Column="Help">The Updated field indicates the date that this record was updated.</Data>
-        <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
+        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="57978" Column="IsKey">false</Data>
         <Data AD_Column_ID="57981" Column="Name">Updated</Data>
         <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
@@ -6228,6 +6218,16 @@ Strings may be in single quotes (optional)</Data>
         <Data AD_Column_ID="64357" Column="FieldLength">7</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">ff3cba6b-5086-4443-8a32-d199eb7a8dab</Data>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:14.089</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57972" Column="Description">Date this record was updated</Data>
+        <Data AD_Column_ID="57974" Column="Help">The Updated field indicates the date that this record was updated.</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
       </PO>
     </Step>
     <Step SeqNo="2540" StepType="AD">
@@ -6378,9 +6378,9 @@ Example of format "(000)_000-0000"</Data>
     </Step>
     <Step SeqNo="2580" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="0" Table="AD_Browse_Field_Trl">
+        <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:22:26.473</Data>
         <Data AD_Column_ID="84297" Column="UUID">4b3349ef-08cc-4854-aff7-ef8cdaa241f2</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:22:26.473</Data>
         <Data AD_Column_ID="58031" Column="Updated">2020-03-31 10:22:26.473</Data>
         <Data AD_Column_ID="58036" Column="Description">Valor Máximo de un campo</Data>
         <Data AD_Column_ID="58037" Column="Help">El Valor Máximo indica el valor más alto permisible para un campo</Data>
@@ -6396,8 +6396,12 @@ Example of format "(000)_000-0000"</Data>
     </Step>
     <Step SeqNo="2590" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67731" Table="AD_Browse_Field">
-        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:26.826</Data>
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="64357" Column="FieldLength">20</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="84296" Column="UUID">eeb7709e-5198-4024-a32f-057459e1ba81</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:26.826</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -6436,10 +6440,6 @@ Example of format "(000)_000-0000"</Data>
         <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="57970" Column="AD_Reference_ID">10</Data>
         <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
-        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
-        <Data AD_Column_ID="64357" Column="FieldLength">20</Data>
-        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
-        <Data AD_Column_ID="84296" Column="UUID">eeb7709e-5198-4024-a32f-057459e1ba81</Data>
       </PO>
     </Step>
     <Step SeqNo="2600" StepType="AD">
@@ -6462,7 +6462,6 @@ Example of format "(000)_000-0000"</Data>
     </Step>
     <Step SeqNo="2610" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67732" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:27.976</Data>
         <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
         <Data AD_Column_ID="57969" Column="AD_Element_ID">624</Data>
@@ -6475,6 +6474,7 @@ Example of format "(000)_000-0000"</Data>
         <Data AD_Column_ID="64357" Column="FieldLength">22</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">85ff34a9-9e0d-4297-b77c-ea22a3abec4c</Data>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:27.976</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:27.976</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -6528,6 +6528,7 @@ Example of format "(000)_000-0000"</Data>
     </Step>
     <Step SeqNo="2630" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67733" Table="AD_Browse_Field">
+        <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:30.046</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:30.046</Data>
@@ -6552,7 +6553,6 @@ Example of format "(000)_000-0000"</Data>
         <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="67114" Column="Callout" isNewNull="true"/>
-        <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="57973" Column="EntityType">ECA02</Data>
@@ -6660,8 +6660,16 @@ Example of format "(000)_000-0000"</Data>
     </Step>
     <Step SeqNo="2670" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67735" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:32.581</Data>
         <Data AD_Column_ID="57974" Column="Help">The key column must also be display sequence 0 in the field definition and may be hidden.</Data>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:32.581</Data>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:32.581</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">true</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue">-1</Data>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57972" Column="Description">This column is the key in this table</Data>
         <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
         <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="57978" Column="IsKey">false</Data>
@@ -6696,14 +6704,6 @@ Example of format "(000)_000-0000"</Data>
         <Data AD_Column_ID="64357" Column="FieldLength">1</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">40</Data>
         <Data AD_Column_ID="84296" Column="UUID">0d5a23f2-6d9a-4bd9-841a-8149e41582b8</Data>
-        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:32.581</Data>
-        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria">true</Data>
-        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="64354" Column="DefaultValue">-1</Data>
-        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="57972" Column="Description">This column is the key in this table</Data>
       </PO>
     </Step>
     <Step SeqNo="2680" StepType="AD">
@@ -6726,8 +6726,8 @@ Example of format "(000)_000-0000"</Data>
     </Step>
     <Step SeqNo="2690" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67736" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:33.884</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:33.884</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:33.884</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
         <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
@@ -6775,6 +6775,10 @@ Example of format "(000)_000-0000"</Data>
     <Step SeqNo="2700" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="0" Table="AD_Browse_Field_Trl">
         <Data AD_Column_ID="84297" Column="UUID">39d626bf-7158-45f1-b122-dced7eec1145</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">67736</Data>
+        <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:22:36.009</Data>
         <Data AD_Column_ID="58031" Column="Updated">2020-03-31 10:22:36.009</Data>
@@ -6784,10 +6788,6 @@ Example of format "(000)_000-0000"</Data>
         <Data AD_Column_ID="58039" Column="Name">Chart</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">67736</Data>
-        <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
       </PO>
     </Step>
     <Step SeqNo="2710" StepType="AD">
@@ -6840,11 +6840,8 @@ Example of format "(000)_000-0000"</Data>
     </Step>
     <Step SeqNo="2720" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="0" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58036" Column="Description">Compañía para esta instalación</Data>
         <Data AD_Column_ID="84297" Column="UUID">f05f4032-eaed-4776-bf2c-76b0859172e4</Data>
-        <Data AD_Column_ID="58029" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:22:38.679</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2020-03-31 10:22:38.679</Data>
+        <Data AD_Column_ID="58036" Column="Description">Compañía para esta instalación</Data>
         <Data AD_Column_ID="58037" Column="Help">Compañía o entidad legal. No se pueden compartir datos entre diferentes compañías.</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Compañía</Data>
@@ -6854,15 +6851,18 @@ Example of format "(000)_000-0000"</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">67737</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58029" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:22:38.679</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2020-03-31 10:22:38.679</Data>
       </PO>
     </Step>
     <Step SeqNo="2730" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67738" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:38.909</Data>
         <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="64357" Column="FieldLength">10</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">186ffd95-392f-49d1-b0b6-d31f4f98059e</Data>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:38.909</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:38.909</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -6990,29 +6990,8 @@ Example of format "(000)_000-0000"</Data>
     </Step>
     <Step SeqNo="2770" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67740" Table="AD_Browse_Field">
-        <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:41.358</Data>
-        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:41.358</Data>
-        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
-        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="57972" Column="Description">Required to specify, if data type is Table or List</Data>
-        <Data AD_Column_ID="57974" Column="Help">The Reference Value indicates where the reference values are stored.  It must be specified if the data type is Table or List.  </Data>
-        <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
-        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
-        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
-        <Data AD_Column_ID="57981" Column="Name">Reference Key</Data>
-        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
-        <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
-        <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
-        <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
-        <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
-        <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="67114" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
@@ -7034,6 +7013,27 @@ Example of format "(000)_000-0000"</Data>
         <Data AD_Column_ID="64357" Column="FieldLength">10</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">150ff183-d43e-4400-b887-e2a7f9a8457e</Data>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:41.358</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57972" Column="Description">Required to specify, if data type is Table or List</Data>
+        <Data AD_Column_ID="57974" Column="Help">The Reference Value indicates where the reference values are stored.  It must be specified if the data type is Table or List.  </Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
+        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
+        <Data AD_Column_ID="57981" Column="Name">Reference Key</Data>
+        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
+        <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="2780" StepType="AD">
@@ -7056,8 +7056,21 @@ Example of format "(000)_000-0000"</Data>
     </Step>
     <Step SeqNo="2790" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67741" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:42.56</Data>
         <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:42.56</Data>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:42.56</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57972" Column="Description">Database Table information</Data>
+        <Data AD_Column_ID="57974" Column="Help">The Database Table provides the information of the table definition</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
+        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
+        <Data AD_Column_ID="57981" Column="Name">Table</Data>
         <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
         <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
@@ -7087,19 +7100,6 @@ Example of format "(000)_000-0000"</Data>
         <Data AD_Column_ID="64357" Column="FieldLength">10</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">b44683f5-d3eb-4629-bc01-07a274c5a4e3</Data>
-        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:42.56</Data>
-        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
-        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="57972" Column="Description">Database Table information</Data>
-        <Data AD_Column_ID="57974" Column="Help">The Database Table provides the information of the table definition</Data>
-        <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
-        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
-        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
-        <Data AD_Column_ID="57981" Column="Name">Table</Data>
       </PO>
     </Step>
     <Step SeqNo="2800" StepType="AD">
@@ -7122,8 +7122,14 @@ Example of format "(000)_000-0000"</Data>
     </Step>
     <Step SeqNo="2810" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67742" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:43.685</Data>
         <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:43.685</Data>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:43.685</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="57972" Column="Description">Virtual Column (r/o)</Data>
         <Data AD_Column_ID="57974" Column="Help">You can define virtual columns (not stored in the database). If defined, the Column name is the synonym of the SQL expression defined here. The SQL expression must be valid.&lt;br&gt;
 Example: "Updated-Created" would list the age of the entry in days</Data>
@@ -7161,12 +7167,6 @@ Example: "Updated-Created" would list the age of the entry in days</Data>
         <Data AD_Column_ID="64357" Column="FieldLength">2000</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">33b93e7b-0a24-4201-85f6-8de841e9fa04</Data>
-        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:43.685</Data>
-        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
-        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="2820" StepType="AD">
@@ -7237,13 +7237,8 @@ Example: "Updated-Created" would list the age of the entry in days</Data>
     </Step>
     <Step SeqNo="2840" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="0" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="84297" Column="UUID">817b8d25-4fc7-4d6b-b8c2-bc0b76e58bdf</Data>
-        <Data AD_Column_ID="58029" Column="IsActive">true</Data>
-        <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:22:46.177</Data>
-        <Data AD_Column_ID="58031" Column="Updated">2020-03-31 10:22:46.177</Data>
-        <Data AD_Column_ID="58036" Column="Description">Usuario que creó este registro</Data>
-        <Data AD_Column_ID="58037" Column="Help">El campo creado por indica el usuario que creó este registro</Data>
+        <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="58039" Column="Name">Creado Por</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
@@ -7251,12 +7246,16 @@ Example: "Updated-Created" would list the age of the entry in days</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">67743</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58029" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:22:46.177</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2020-03-31 10:22:46.177</Data>
+        <Data AD_Column_ID="58036" Column="Description">Usuario que creó este registro</Data>
+        <Data AD_Column_ID="58037" Column="Help">El campo creado por indica el usuario que creó este registro</Data>
       </PO>
     </Step>
     <Step SeqNo="2850" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67744" Table="AD_Browse_Field">
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:46.408</Data>
-        <Data AD_Column_ID="84296" Column="UUID">42d3c343-8968-4b34-b24e-e5ee69cf9c38</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:46.408</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -7301,6 +7300,7 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
         <Data AD_Column_ID="64357" Column="FieldLength">10</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="84296" Column="UUID">42d3c343-8968-4b34-b24e-e5ee69cf9c38</Data>
       </PO>
     </Step>
     <Step SeqNo="2860" StepType="AD">
@@ -7323,8 +7323,17 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="2870" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67745" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57969" Column="AD_Element_ID">53349</Data>
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:47.531</Data>
+        <Data AD_Column_ID="57969" Column="AD_Element_ID">53349</Data>
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">69012</Data>
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="64357" Column="FieldLength">255</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="84296" Column="UUID">7e086c78-cd7e-4648-ba54-c258490bc4bc</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:47.531</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -7358,15 +7367,6 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">69012</Data>
-        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57970" Column="AD_Reference_ID">10</Data>
-        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
-        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
-        <Data AD_Column_ID="64357" Column="FieldLength">255</Data>
-        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
-        <Data AD_Column_ID="84296" Column="UUID">7e086c78-cd7e-4648-ba54-c258490bc4bc</Data>
       </PO>
     </Step>
     <Step SeqNo="2880" StepType="AD">
@@ -7389,7 +7389,6 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="2890" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67746" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:48.811</Data>
         <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="57973" Column="EntityType">ECA02</Data>
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">67746</Data>
@@ -7408,6 +7407,7 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="64357" Column="FieldLength">1</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">106e7b13-99ad-4c3f-ad49-6ccbddce6876</Data>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:48.811</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:48.811</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -7455,25 +7455,8 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="2910" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67747" Table="AD_Browse_Field">
-        <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:52.361</Data>
-        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:52.361</Data>
-        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
-        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="57972" Column="Description">The column is always updateable, even if the record is not active or processed</Data>
-        <Data AD_Column_ID="57974" Column="Help">If selected and if the window / tab is not read only, you can always update the column.  This might be useful for comments, etc.</Data>
-        <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
-        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
-        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
-        <Data AD_Column_ID="57981" Column="Name">Always Updateable</Data>
-        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
-        <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
-        <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
-        <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
@@ -7499,6 +7482,23 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="64357" Column="FieldLength">1</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">e9d2be0c-8678-4fd8-ba81-fc76eec993d5</Data>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:52.361</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57972" Column="Description">The column is always updateable, even if the record is not active or processed</Data>
+        <Data AD_Column_ID="57974" Column="Help">If selected and if the window / tab is not read only, you can always update the column.  This might be useful for comments, etc.</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
+        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
+        <Data AD_Column_ID="57981" Column="Name">Always Updateable</Data>
+        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
+        <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="2920" StepType="AD">
@@ -7521,16 +7521,8 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="2930" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67748" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57974" Column="Help">The autocompletion uses all existing values (from the same client and organization) of the field.</Data>
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:22:53.766</Data>
-        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:53.766</Data>
-        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
-        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="57972" Column="Description">Automatic completion for textfields</Data>
+        <Data AD_Column_ID="57974" Column="Help">The autocompletion uses all existing values (from the same client and organization) of the field.</Data>
         <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
         <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="57978" Column="IsKey">false</Data>
@@ -7565,6 +7557,14 @@ For customizations, copy the entity and select "User"!</Data>
         <Data AD_Column_ID="64357" Column="FieldLength">1</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">6c555445-5674-428d-985f-635198a7606b</Data>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:22:53.766</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57972" Column="Description">Automatic completion for textfields</Data>
       </PO>
     </Step>
     <Step SeqNo="2940" StepType="AD">
@@ -7636,8 +7636,12 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
     </Step>
     <Step SeqNo="2960" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="0" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="84297" Column="UUID">098efc89-7999-4b5f-bc56-94aa61ee0c02</Data>
+        <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">67749</Data>
+        <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:22:57.765</Data>
         <Data AD_Column_ID="58031" Column="Updated">2020-03-31 10:22:57.765</Data>
@@ -7646,10 +7650,6 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
         <Data AD_Column_ID="58038" Column="IsTranslated">true</Data>
         <Data AD_Column_ID="58039" Column="Name">Despliegue Encriptado</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">67749</Data>
-        <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
       </PO>
     </Step>
     <Step SeqNo="2970" StepType="AD">
@@ -7702,9 +7702,9 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
     </Step>
     <Step SeqNo="2980" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="0" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:23:00.656</Data>
         <Data AD_Column_ID="84297" Column="UUID">577e01f2-897e-477e-83d6-7646f8b412ed</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:23:00.656</Data>
         <Data AD_Column_ID="58031" Column="Updated">2020-03-31 10:23:00.656</Data>
         <Data AD_Column_ID="58036" Column="Description">El parámetro es un rango de valores</Data>
         <Data AD_Column_ID="58037" Column="Help">El cuadro de verificación rango indica que este parámetro es un rango de valores.</Data>
@@ -7720,12 +7720,8 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
     </Step>
     <Step SeqNo="2990" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67751" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:23:00.89</Data>
         <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
-        <Data AD_Column_ID="64357" Column="FieldLength">1</Data>
-        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
-        <Data AD_Column_ID="84296" Column="UUID">fe40b250-30a8-493e-bf01-f4277a141814</Data>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:23:00.89</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:23:00.89</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -7764,6 +7760,10 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
         <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="57970" Column="AD_Reference_ID">20</Data>
         <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
+        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="64357" Column="FieldLength">1</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="84296" Column="UUID">fe40b250-30a8-493e-bf01-f4277a141814</Data>
       </PO>
     </Step>
     <Step SeqNo="3000" StepType="AD">
@@ -7786,20 +7786,8 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
     </Step>
     <Step SeqNo="3010" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67752" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:23:02.073</Data>
         <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57969" Column="AD_Element_ID">566</Data>
-        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">69017</Data>
-        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57970" Column="AD_Reference_ID">11</Data>
-        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
-        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
-        <Data AD_Column_ID="64357" Column="FieldLength">10</Data>
-        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
-        <Data AD_Column_ID="84296" Column="UUID">e5878452-8ad0-4ad4-b969-20149fa37351</Data>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:23:02.073</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:23:02.073</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -7830,6 +7818,18 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
         <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">67752</Data>
         <Data AD_Column_ID="57982" Column="SeqNo">0</Data>
         <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57969" Column="AD_Element_ID">566</Data>
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">69017</Data>
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID">11</Data>
+        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="64357" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="84296" Column="UUID">e5878452-8ad0-4ad4-b969-20149fa37351</Data>
       </PO>
     </Step>
     <Step SeqNo="3020" StepType="AD">
@@ -7852,7 +7852,6 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
     </Step>
     <Step SeqNo="3030" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67753" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:23:04.216</Data>
         <Data AD_Column_ID="67114" Column="Callout" isNewNull="true"/>
         <Data AD_Column_ID="81229" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
@@ -7874,6 +7873,7 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
         <Data AD_Column_ID="64357" Column="FieldLength">2000</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">c4712a20-89ee-4157-a844-f9235fd0cc76</Data>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:23:04.216</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:23:04.216</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -7919,6 +7919,20 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
     <Step SeqNo="3050" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67754" Table="AD_Browse_Field">
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:23:05.658</Data>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:23:05.658</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">true</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue">-1</Data>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57972" Column="Description">Defines whether the value of this field is considered in the copy of record</Data>
+        <Data AD_Column_ID="57974" Column="Help">The default value is yes, it is recommended that values such as ID, document action, document status  should be defined as no.</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
+        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
+        <Data AD_Column_ID="57981" Column="Name">Allow Copy</Data>
+        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
         <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
         <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
@@ -7948,20 +7962,6 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
         <Data AD_Column_ID="64357" Column="FieldLength">1</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">80</Data>
         <Data AD_Column_ID="84296" Column="UUID">cdc1da60-a759-4dde-adc6-f7fab5f39f6b</Data>
-        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:23:05.658</Data>
-        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria">true</Data>
-        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="64354" Column="DefaultValue">-1</Data>
-        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
-        <Data AD_Column_ID="57972" Column="Description">Defines whether the value of this field is considered in the copy of record</Data>
-        <Data AD_Column_ID="57974" Column="Help">The default value is yes, it is recommended that values such as ID, document action, document status  should be defined as no.</Data>
-        <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
-        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
-        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
-        <Data AD_Column_ID="57981" Column="Name">Allow Copy</Data>
-        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
       </PO>
     </Step>
     <Step SeqNo="3060" StepType="AD">
@@ -7985,14 +7985,6 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
     <Step SeqNo="3070" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67755" Table="AD_Browse_Field">
         <Data AD_Column_ID="57972" Column="Description">Process or Report</Data>
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:23:06.938</Data>
-        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:23:06.938</Data>
-        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
-        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="57974" Column="Help">The Process field identifies a unique Process or Report in the system.</Data>
         <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
         <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
@@ -8028,6 +8020,14 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
         <Data AD_Column_ID="64357" Column="FieldLength">10</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">be790bcc-bc48-4c07-94f0-f4828adf6704</Data>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:23:06.938</Data>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:23:06.938</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="3080" StepType="AD">
@@ -8051,8 +8051,8 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
     <Step SeqNo="3090" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67756" Table="AD_Browse_Field">
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:23:08.08</Data>
         <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:23:08.08</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:23:08.08</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
         <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
         <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
@@ -8098,7 +8098,6 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
     </Step>
     <Step SeqNo="3100" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="0" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="84297" Column="UUID">6d6c6300-4fcb-4519-b17e-5ee73bebac4b</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:23:09.086</Data>
@@ -8108,6 +8107,7 @@ Data storage encryption (in Table/Column) - data is stored encrypted in the data
         <Data AD_Column_ID="58038" Column="IsTranslated">true</Data>
         <Data AD_Column_ID="58039" Column="Name">Validación Dinamica</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">67756</Data>
@@ -8250,6 +8250,7 @@ El callout es una clase Java que implementa org.compiere.model.Callout y un nomb
     </Step>
     <Step SeqNo="3150" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67759" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:23:12.783</Data>
         <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
@@ -8275,7 +8276,6 @@ El callout es una clase Java que implementa org.compiere.model.Callout y un nomb
         <Data AD_Column_ID="64357" Column="FieldLength">10</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">c992a951-de72-4ecb-b462-8a4a119876dd</Data>
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:23:12.783</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:23:12.783</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -8316,7 +8316,6 @@ El callout es una clase Java que implementa org.compiere.model.Callout y un nomb
     </Step>
     <Step SeqNo="3170" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67760" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:23:13.963</Data>
         <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="57978" Column="IsKey">false</Data>
         <Data AD_Column_ID="57981" Column="Name">Format Pattern</Data>
@@ -8350,6 +8349,7 @@ El callout es una clase Java que implementa org.compiere.model.Callout y un nomb
         <Data AD_Column_ID="64357" Column="FieldLength">22</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">56e6a984-8bfd-4276-a442-db0ec560ce98</Data>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:23:13.963</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:23:13.963</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -8433,7 +8433,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="3200" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="0" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="84297" Column="UUID">c485129e-9099-45b8-b662-c5cb745bed4c</Data>
         <Data AD_Column_ID="58039" Column="Name">Activo</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
@@ -8441,6 +8440,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">67761</Data>
         <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84297" Column="UUID">c485129e-9099-45b8-b662-c5cb745bed4c</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:23:16.477</Data>
         <Data AD_Column_ID="58031" Column="Updated">2020-03-31 10:23:16.477</Data>
@@ -8517,17 +8517,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="3230" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67763" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:23:18.199</Data>
         <Data AD_Column_ID="57969" Column="AD_Element_ID">608</Data>
-        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">69029</Data>
-        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="57970" Column="AD_Reference_ID">18</Data>
-        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
-        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
-        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
-        <Data AD_Column_ID="64357" Column="FieldLength">10</Data>
-        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
-        <Data AD_Column_ID="84296" Column="UUID">1424fdc7-1846-4d3c-834b-e2a7014417b4</Data>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:23:18.199</Data>
         <Data AD_Column_ID="57963" Column="IsActive">true</Data>
         <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:23:18.199</Data>
         <Data AD_Column_ID="57980" Column="IsRange">false</Data>
@@ -8561,6 +8552,15 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">69029</Data>
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID">18</Data>
+        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50210</Data>
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="64357" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="84296" Column="UUID">1424fdc7-1846-4d3c-834b-e2a7014417b4</Data>
       </PO>
     </Step>
     <Step SeqNo="3240" StepType="AD">
@@ -8718,8 +8718,14 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="3290" StepType="AD">
       <PO AD_Table_ID="53223" Action="I" Record_ID="67766" Table="AD_Browse_Field">
-        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:23:23.198</Data>
         <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57964" Column="Created">2020-03-31 10:23:23.198</Data>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:23:23.198</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="57972" Column="Description">Alphanumeric identifier of the entity</Data>
         <Data AD_Column_ID="57974" Column="Help">The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.</Data>
         <Data AD_Column_ID="57976" Column="IsDisplayed">true</Data>
@@ -8756,12 +8762,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="64357" Column="FieldLength">60</Data>
         <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="84296" Column="UUID">8f3920c6-0429-4069-a4ea-0bbc36dbe6c7</Data>
-        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
-        <Data AD_Column_ID="57965" Column="Updated">2020-03-31 10:23:23.198</Data>
-        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
-        <Data AD_Column_ID="57979" Column="IsQueryCriteria">false</Data>
-        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="64354" Column="DefaultValue" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="3300" StepType="AD">
@@ -8832,7 +8832,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="3320" StepType="AD">
       <PO AD_Table_ID="53227" Action="I" Record_ID="0" Table="AD_Browse_Field_Trl">
-        <Data AD_Column_ID="58039" Column="Name">Referencia</Data>
         <Data AD_Column_ID="84297" Column="UUID">35dbe436-5bfb-4e76-a770-84333a9f4526</Data>
         <Data AD_Column_ID="58029" Column="IsActive">true</Data>
         <Data AD_Column_ID="58030" Column="Created">2020-03-31 10:23:25.698</Data>
@@ -8840,6 +8839,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="58036" Column="Description">Referencia del Sistema y Validación</Data>
         <Data AD_Column_ID="58037" Column="Help">La Referencia indica el tipo de campo a desplegar, lista o validación de tabla</Data>
         <Data AD_Column_ID="58038" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="58039" Column="Name">Referencia</Data>
         <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
@@ -8953,10 +8953,10 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="3360" StepType="AD">
       <PO AD_Table_ID="287" Action="I" Record_ID="0" Table="AD_Process_Trl">
-        <Data AD_Column_ID="2853" Column="Description">Crea las Lineas del Formato de Exportación desde la Tabla Referenciada</Data>
         <Data AD_Column_ID="2847" Column="IsActive">true</Data>
         <Data AD_Column_ID="2850" Column="Updated">2020-03-31 10:23:28.839</Data>
         <Data AD_Column_ID="2848" Column="Created">2020-03-31 10:23:28.839</Data>
+        <Data AD_Column_ID="2853" Column="Description">Crea las Lineas del Formato de Exportación desde la Tabla Referenciada</Data>
         <Data AD_Column_ID="2854" Column="Help">Este proceso crea las lineas del formato de exportación desde las columnas de la tabla referenciada, note que se pueden eliminar antes de crear si así lo desea</Data>
         <Data AD_Column_ID="2855" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="2852" Column="Name">Crear desde Tabla</Data>
@@ -8982,6 +8982,406 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="69645" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="69644" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="84427" Column="UUID">73906a1c-57c0-4d30-88b1-badc55f8f863</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3380" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50210" Table="AD_Browse">
+        <Data AD_Column_ID="57997" Column="Name" oldValue="Create From Table">Create Export Format From Table</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3390" StepType="AD">
+      <PO AD_Table_ID="53226" Action="U" Record_ID="50210" Table="AD_Browse_Trl">
+        <Data AD_Column_ID="58021" Column="AD_Browse_ID" oldValue="50210">50210</Data>
+        <Data AD_Column_ID="58022" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="58026" Column="Name" oldValue="Crear desde Tabla">Crear Formato de Exportación desde Tabla</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3400" StepType="AD">
+      <PO AD_Table_ID="116" Action="I" Record_ID="54596" Table="AD_Menu">
+        <Data AD_Column_ID="598" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57960" Column="AD_Browse_ID">50210</Data>
+        <Data AD_Column_ID="599" Column="Created">2020-03-31 14:58:43.985</Data>
+        <Data AD_Column_ID="601" Column="Updated">2020-03-31 14:58:43.985</Data>
+        <Data AD_Column_ID="235" Column="AD_Task_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1169" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="4426" Column="IsSOTrx">false</Data>
+        <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="230" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="232" Column="Action">S</Data>
+        <Data AD_Column_ID="399" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="228" Column="AD_Menu_ID">54596</Data>
+        <Data AD_Column_ID="400" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6297" Column="AD_Workbench_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7721" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="234" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="233" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="600" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4621" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="602" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="3375" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84344" Column="UUID">e20b74f3-1322-4c73-b879-c9b1476b0c8b</Data>
+        <Data AD_Column_ID="229" Column="Name">Create Export Format From Table</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3410" StepType="AD">
+      <PO AD_Table_ID="120" Action="I" Record_ID="54596" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="636" Column="IsActive">true</Data>
+        <Data AD_Column_ID="639" Column="Updated">2020-03-31 14:58:45.426</Data>
+        <Data AD_Column_ID="637" Column="Created">2020-03-31 14:58:45.426</Data>
+        <Data AD_Column_ID="640" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="248" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="249" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1194" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1195" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="638" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID">54596</Data>
+        <Data AD_Column_ID="246" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84345" Column="UUID">0ee9c4cf-edc3-458a-bfc7-39d169cfda5f</Data>
+        <Data AD_Column_ID="247" Column="Name">Create Export Format From Table</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3420" StepType="AD">
+      <PO AD_Table_ID="452" Action="I" Record_ID="54596" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="84442" Column="UUID">4b1e4cf5-23fc-487e-b02a-0540d4a46dab</Data>
+        <Data AD_Column_ID="6150" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6153" Column="Updated">2020-03-31 14:58:45.631</Data>
+        <Data AD_Column_ID="6151" Column="Created">2020-03-31 14:58:45.631</Data>
+        <Data AD_Column_ID="6162" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6149" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID">54596</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID">0</Data>
+        <Data AD_Column_ID="6154" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6152" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo">999</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3430" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="54596" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54596">54596</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="0">53098</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="999">7</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3440" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53102" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53102">53102</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="7">8</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3450" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53101" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53101">53101</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="8">9</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3460" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53104" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53104">53104</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="9">10</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3470" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53103" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="10">11</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53103">53103</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3480" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="57648" Table="AD_Process_Para">
+        <Data AD_Column_ID="2820" Column="Updated">2020-03-31 14:59:53.646</Data>
+        <Data AD_Column_ID="2822" Column="Name">Version</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2020-03-31 14:59:53.646</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">Version</Data>
+        <Data AD_Column_ID="2823" Column="Description">Version of the table definition</Data>
+        <Data AD_Column_ID="2824" Column="Help">The Version indicates the version of this table definition.</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57648</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54376</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">20</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">624</Data>
+        <Data AD_Column_ID="84385" Column="UUID">15399dba-01c1-4800-a533-0113191b92a7</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3490" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="57648" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2020-03-31 14:59:55.08</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2020-03-31 14:59:55.08</Data>
+        <Data AD_Column_ID="2840" Column="Name">Version</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">Version of the table definition</Data>
+        <Data AD_Column_ID="3743" Column="Help">The Version indicates the version of this table definition.</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">57648</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID">c540dee0-9b6c-44fe-89b5-8954876165a0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3500" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="57649" Table="AD_Process_Para">
+        <Data AD_Column_ID="2818" Column="Created">2020-03-31 15:00:04.654</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">Suffix</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2020-03-31 15:00:04.654</Data>
+        <Data AD_Column_ID="2822" Column="Name">Suffix</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2823" Column="Description">Suffix after the number</Data>
+        <Data AD_Column_ID="2824" Column="Help">The Suffix indicates the characters to append to the document number.</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57649</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">255</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54376</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">10</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">30</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">579</Data>
+        <Data AD_Column_ID="84385" Column="UUID">7156038e-8219-4ed3-bcc4-52e741ab719a</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3510" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="57649" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2020-03-31 15:00:05.569</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2020-03-31 15:00:05.569</Data>
+        <Data AD_Column_ID="2840" Column="Name">Suffix</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">Suffix after the number</Data>
+        <Data AD_Column_ID="3743" Column="Help">The Suffix indicates the characters to append to the document number.</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">57649</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID">654fda9c-6f16-4c6b-a573-6e66f783b6fb</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3520" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="57649" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="false">true</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isOldNull="true">@EXP_Format_ID@=0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3530" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="57648" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="false">true</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isOldNull="true">@EXP_Format_ID@=0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3540" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67738" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3550" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67767" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="30">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3560" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67735" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="40">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3570" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67721" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="50">60</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3580" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67723" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="60">70</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3590" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67733" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="70">80</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3600" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67754" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="80">90</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3610" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67738" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="30">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3620" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67768" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="20">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3630" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67718" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57985" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3640" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50210" Table="AD_Browse">
+        <Data AD_Column_ID="72127" Column="IsExecutedQueryByDefault" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3650" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="57647" Table="AD_Process_Para">
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isOldNull="true">@EXP_Format_ID@!0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3660" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67698" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57976" Column="IsDisplayed" oldValue="false">true</Data>
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="0">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3670" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67766" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="30">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3680" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67721" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="40">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3690" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67767" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="50">60</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3700" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67717" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="60">70</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3710" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67753" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="70">80</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3720" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67741" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64222" Column="IsOrderBy" oldValue="false">true</Data>
+        <Data AD_Column_ID="64221" Column="SortNo" isOldNull="true">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3730" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67768" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64221" Column="SortNo" oldValue="10">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3740" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67698" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3750" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67768" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="30">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3760" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67767" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="40">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3770" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67735" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="50">60</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3780" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67721" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="60">70</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3790" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67723" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="70">80</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3800" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67733" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="80">90</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3810" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67754" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="90">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3820" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="57648" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="20">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3830" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="57649" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="30">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3840" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="57647" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="10">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3850" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67741" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64222" Column="IsOrderBy" oldValue="true">false</Data>
+        <Data AD_Column_ID="64221" Column="SortNo" oldValue="10">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3860" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="67698" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64222" Column="IsOrderBy" oldValue="false">true</Data>
+        <Data AD_Column_ID="64221" Column="SortNo" isOldNull="true">10</Data>
       </PO>
     </Step>
   </Migration>

@@ -32,12 +32,22 @@ public abstract class ExportFormatCreateFromTableAbstract extends SvrProcess {
 	private static final int ID_FOR_PROCESS = 54376;
 	/**	Parameter Name for Delete old/existing records	*/
 	public static final String DELETEOLD = "DeleteOld";
+	/**	Parameter Name for Version	*/
+	public static final String VERSION = "Version";
+	/**	Parameter Name for Suffix	*/
+	public static final String SUFFIX = "Suffix";
 	/**	Parameter Value for Delete old/existing records	*/
 	private boolean isDeleteOld;
+	/**	Parameter Value for Version	*/
+	private String version;
+	/**	Parameter Value for Suffix	*/
+	private String suffix;
 
 	@Override
 	protected void prepare() {
 		isDeleteOld = getParameterAsBoolean(DELETEOLD);
+		version = getParameterAsString(VERSION);
+		suffix = getParameterAsString(SUFFIX);
 	}
 
 	/**	 Getter Parameter Value for Delete old/existing records	*/
@@ -48,6 +58,26 @@ public abstract class ExportFormatCreateFromTableAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Delete old/existing records	*/
 	protected void setDeleteOld(boolean isDeleteOld) {
 		this.isDeleteOld = isDeleteOld;
+	}
+
+	/**	 Getter Parameter Value for Version	*/
+	protected String getVersion() {
+		return version;
+	}
+
+	/**	 Setter Parameter Value for Version	*/
+	protected void setVersion(String version) {
+		this.version = version;
+	}
+
+	/**	 Getter Parameter Value for Suffix	*/
+	protected String getSuffix() {
+		return suffix;
+	}
+
+	/**	 Setter Parameter Value for Suffix	*/
+	protected void setSuffix(String suffix) {
+		this.suffix = suffix;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
