@@ -75,8 +75,10 @@ public class ExportFormatCreateFromTable extends ExportFormatCreateFromTableAbst
 				formatLine.setAD_Column_ID(selectedColumn.getAD_Column_ID());
 				if(selectedColumn.getColumnName().equals(I_AD_Element.COLUMNNAME_UUID)) {
 					formatLine.setIsPartUniqueIndex(true);
+					formatLine.setIsMandatory(true);
+				} else {
+					formatLine.setIsMandatory(selectedColumn.isMandatory());
 				}
-				formatLine.setIsMandatory(selectedColumn.isMandatory());
 				formatLine.saveEx();
 				//	Increment counter
 				created.getAndIncrement();
