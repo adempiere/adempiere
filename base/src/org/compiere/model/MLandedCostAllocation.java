@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -42,7 +43,9 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 	 * 
 	 */
 	private static final long serialVersionUID = -8645283018475474574L;
-
+	
+	private MInvoiceLine invoiceLine = null;
+	private MInvoice invoice = null;
 
 	/**
 	 * 	Get Cost Allocations for invoice Line
@@ -244,34 +247,91 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 	}
 
 	public BigDecimal getPriceActualCurrency() {
-		MInvoiceLine invoiceLine = (MInvoiceLine) getC_InvoiceLine();
-		MCurrency currency = MCurrency.get(getCtx(), getC_Currency_ID());
-		BigDecimal amount = getAmt().divide(getQty() , currency.getCostingPrecision() ,  RoundingMode.HALF_UP);
-		if (MDocType.DOCBASETYPE_APCreditMemo.equals(invoiceLine.getParent().getC_DocType().getDocBaseType()))
-			amount = amount.negate();
+		BigDecimal amount = getAmt(true, false).divide(getQty() , MathContext.DECIMAL128);
 		return  amount;
 	}
 
 	@Override
 	public int getC_Currency_ID ()
 	{
-		return DB.getSQLValue(get_TrxName() ,
-				"SELECT i.C_Currency_ID FROM C_InvoiceLine il INNER JOIN C_Invoice i ON (il.C_Invoice_ID=i.C_Invoice_ID) WHERE il.C_InvoiceLine_ID = ? ",
-				getC_InvoiceLine_ID());
+		if (getInvoice()!=null)
+			return getInvoice().getC_Currency_ID();
+		else
+			return 0;
 	}
 
 	@Override
 	public int getC_ConversionType_ID()
 	{
-		return DB.getSQLValue(get_TrxName() ,
-				"SELECT i.C_ConversionType_ID FROM C_InvoiceLine il INNER JOIN C_Invoice i ON (il.C_Invoice_ID=i.C_Invoice_ID) WHERE il.C_InvoiceLine_ID = ? ",
-				getC_InvoiceLine_ID());
+		if (getInvoice()!=null)
+			return getInvoice().getC_ConversionType_ID();
+		else
+			return 0;
 	}
 
 	@Override
 	public boolean isReversalParent() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	/**
+	 * getAmt 
+	 * Get Amount without Adjusted Credit Memo
+	 */
+	@Override
+	public BigDecimal getAmt() {
+		return getAmt(false, false);
+	}
+	
+	/**
+	 * Get Amount with Adjusted Credit Memo parameter
+	 * @param creditMemoAdjusted
+	 * @return
+	 */
+	public BigDecimal getAmt(boolean creditMemoAdjusted, boolean converted) {
+		BigDecimal amount = super.getAmt();
+		MInvoiceLine invoiceLine = (MInvoiceLine) getC_InvoiceLine();
+		if (creditMemoAdjusted 
+				&& MDocType.DOCBASETYPE_APCreditMemo.equals(invoiceLine.getParent().getC_DocTypeTarget().getDocBaseType()))
+			amount = amount.negate();
+		if (converted
+				&& getC_Currency_ID() > 0)
+			amount = MConversionRate.convertBase(getCtx(), amount, getC_Currency_ID(), getInvoice().getDateAcct(), getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
+		return  amount;
+	}
+	
+	/**
+	 * Set Invoice Line
+	 * @param invoiceLine
+	 */
+	public void setInvoiceLine(MInvoiceLine invoiceLine) {
+		this.invoiceLine = invoiceLine;
+	}
+	/**
+	 * Set Invoice
+	 * @param invoice
+	 */
+	public void setInvoice(MInvoiceLine invoiceLine) {
+		if (invoiceLine!=null)
+			this.invoice = (MInvoice) invoiceLine.getC_Invoice();
+	}
+	
+	/**
+	 * Get Invoice Line
+	 * @return
+	 */
+	public MInvoiceLine getInvoiceLine() {
+		if (invoiceLine==null)
+			setInvoiceLine((MInvoiceLine)getC_InvoiceLine());
+		return invoiceLine;
+	}
+	
+	public MInvoice getInvoice() {
+		if (invoice==null) {
+			setInvoice(getInvoiceLine());
+		}
+		return invoice;
 	}
 	
 }	//	MLandedCostAllocation
