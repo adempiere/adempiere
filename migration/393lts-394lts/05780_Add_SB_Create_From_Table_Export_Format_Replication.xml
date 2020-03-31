@@ -9384,5 +9384,17 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="64221" Column="SortNo" isOldNull="true">10</Data>
       </PO>
     </Step>
+    <Step SeqNo="3870" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="57649" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="3880" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50210" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="c.ColumnSQL IS NULL&#10;AND c.AD_Reference_ID NOT IN('35', '23', '21', '26', '27', '25', '31', '33', '53370', '19', '30', '13', '28', '18', '32')">c.ColumnSQL IS NULL
+AND c.AD_Reference_ID NOT IN('35', '23', '21', '26', '27', '25', '31', '33', '53370', '19', '30', '13', '28', '18', '32')
+AND t.IsView= 'N'</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>
