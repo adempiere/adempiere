@@ -2270,9 +2270,9 @@ public abstract class PO
 				}
 			}
 		}
-		catch (SQLException e)
+		catch (Exception e)
 		{
-			log.log(Level.WARNING, "afterSave - " + toString(), e);
+			log.saveError("Error", e);
 			if (localTrx != null)
 			{
 				localTrx.rollback();
