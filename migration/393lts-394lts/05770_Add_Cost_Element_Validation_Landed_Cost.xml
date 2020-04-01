@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Validate Cost Element on Landed Cost" ReleaseNo="3.9.3" SeqNo="5770">
+    <Comments>Add Validation Cost Element By Landed Cost Type</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="13451" Table="AD_Column">
+        <Data AD_Column_ID="117" Column="DefaultValue" isOldNull="true">-1</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">M_CostElement_ID</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="54924" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isOldNull="true">-1</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isOldNull="true">222</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

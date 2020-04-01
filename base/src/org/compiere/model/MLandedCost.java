@@ -131,6 +131,13 @@ public class MLandedCost extends X_C_LandedCost
 				"@NotFound@ @M_Product_ID@ | @M_InOut_ID@ | @M_InOutLine_ID@"));
 			return false;
 		}
+		
+		if (getM_CostElement_ID()!=0
+				&& !MCostElement.COSTELEMENTTYPE_LandedCost.equals(getM_CostElement().getCostElementType())) {
+			log.saveError("Error", Msg.parseTranslation(getCtx(), 
+					"@Invalid@ @M_CostElement_ID@"));
+				return false;
+		}
 		//	No Product if Line entered
 		if (getM_InOutLine_ID() != 0 && getM_Product_ID() != 0)
 			setM_Product_ID(0);
