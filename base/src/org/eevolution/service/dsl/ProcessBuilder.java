@@ -172,7 +172,7 @@ public class ProcessBuilder {
         processInfo = new ProcessInfo(title, processId, tableId , recordId, isManagedTransaction);
         processInfo.setAD_PInstance_ID(instance.getAD_PInstance_ID());
         processInfo.setClassName(MProcess.get(context , processId).getClassname());
-        if(isManagedTransaction) {
+        if(isBatch()) {
         	processInfo.setTransactionName(trxName);
         }
         processInfo.setIsSelection(isSelection);
@@ -219,9 +219,9 @@ public class ProcessBuilder {
     {
         Runnable processCtl;
         if (windowNo == 0)
-            processCtl = processCtl("org.compiere.process.ServerProcessCtl", parent, windowNo, processInfo, isManagedTransaction? Trx.get(trxName, false): null);
+            processCtl = processCtl("org.compiere.process.ServerProcessCtl", parent, windowNo, processInfo, isBatch()? Trx.get(trxName, false): null);
         else
-            processCtl = processCtl("org.compiere.apps.ProcessCtl", parent, windowNo, processInfo, isManagedTransaction? Trx.get(trxName, false): null);
+            processCtl = processCtl("org.compiere.apps.ProcessCtl", parent, windowNo, processInfo, isBatch()? Trx.get(trxName, false): null);
 
         processCtl.run();
     }
