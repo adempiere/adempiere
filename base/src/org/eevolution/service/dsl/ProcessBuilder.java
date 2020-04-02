@@ -64,7 +64,7 @@ public class ProcessBuilder {
     private ASyncProcess parent;
     private List<Integer> selectedRecordsIds;
     private int tableSelectionId;
-    private boolean isBatch = false;
+    private boolean isBatch = true;
     private boolean isPrintPreview = false;
     private String reportExportFormat = null;
 
