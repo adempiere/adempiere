@@ -1114,7 +1114,7 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 			MOrder order = (MOrder)getC_Order();
 			Boolean IsApprovedForDelivery = false;
 			if (order !=null)
-				IsApprovedForDelivery = order.get_ValueAsBoolean("IsApprovedFordelivery");
+				IsApprovedForDelivery = order.isApprovedForDelivery();
 			if (order != null && MDocType.DOCSUBTYPESO_PrepayOrder.equals(order.getC_DocType().getDocSubTypeSO())
 					&& !MSysConfig.getBooleanValue("CHECK_CREDIT_ON_PREPAY_ORDER", true, getAD_Client_ID(), getAD_Org_ID())
 					|| IsApprovedForDelivery) {
