@@ -31,6 +31,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -43,10 +44,14 @@ import org.compiere.apps.StatusBar;
 import org.compiere.grid.ed.VDate;
 import org.compiere.grid.ed.VLookup;
 import org.compiere.minigrid.MiniTable;
+import org.compiere.model.I_C_Invoice;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
+import org.compiere.model.MQuery;
+import org.compiere.model.X_C_Payment;
 import org.compiere.plaf.CompiereColor;
 import org.compiere.swing.CPanel;
+import org.compiere.swing.CTable;
 import org.compiere.swing.CTextField;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
@@ -340,8 +345,62 @@ public class VAllocation extends Allocation
 		aparPick = new VLookup("APAR", true, false, true, lookupAPAR);
 		aparPick.setValue(APAR_A);
 		aparPick.addVetoableChangeListener(this);
+		
+		int column_index_ArAp = 2; // Ar/Ap Column in paymentTable/invoiceTable
+		int column_index_DocumentNo = 4;
+		
+		paymentTable.addMiniTableSelectionListener(event -> {
+			Object source = event.getSource();
+			if(source instanceof CTable) {
+				zoom(X_C_Payment.Table_Name, paymentTable, column_index_DocumentNo, column_index_ArAp);
+			}
+		});
+		
+		invoiceTable.addMiniTableSelectionListener(event -> {
+			Object source = event.getSource();
+			if(source instanceof CTable) {
+				zoom(I_C_Invoice.Table_Name, invoiceTable, column_index_DocumentNo, column_index_ArAp);
+			}
+		});
 	}   //  dynInit
 	
+	void zoom(String tableName, MiniTable miniTable, int column_index_DocumentNo, int column_index_DocType) {
+		ListSelectionModel rowSM = miniTable.getSelectionModel();
+		ListSelectionModel columnSM = miniTable.getColumnModel().getSelectionModel();
+		if( columnSM.getSelectionMode()==ListSelectionModel.MULTIPLE_INTERVAL_SELECTION
+		&& rowSM.getSelectionMode()==ListSelectionModel.MULTIPLE_INTERVAL_SELECTION
+		&& rowSM.getAnchorSelectionIndex()==rowSM.getLeadSelectionIndex()
+		&& columnSM.getAnchorSelectionIndex()==columnSM.getLeadSelectionIndex()
+		&& columnSM.getAnchorSelectionIndex()==column_index_DocumentNo) {
+			Object arap = miniTable.getValueAt(rowSM.getAnchorSelectionIndex(), column_index_DocType);
+			zoom(tableName, miniTable
+					, miniTable.getValueAt(rowSM.getAnchorSelectionIndex(), columnSM.getAnchorSelectionIndex())
+					, "AR".equals(arap) // map arap back to isSOTrx
+					);
+		} else { // typically column is not DocumentNo
+			log.fine("SelectionMode (expected 2/2):"+columnSM.getSelectionMode() + "/"+columnSM.getSelectionMode()
+				+ " rowSelection (expected equal) anchor="+rowSM.getAnchorSelectionIndex() + " =?= lead="+rowSM.getLeadSelectionIndex()
+				+ " / columnSelection anchor="+columnSM.getAnchorSelectionIndex() + "\" =?= lead="+columnSM.getLeadSelectionIndex()
+			);
+		}	
+	}
+	/**
+	 * miniTable.zoom
+	 * 
+	 * @param tableName, expl. I_C_Invoice.Table_Name
+	 * @param miniTable
+	 * @param restrictionObject miniTable cell Object for "DocumentNo"
+	 * @param isSOTrx
+	 */
+	void zoom(String tableName, MiniTable miniTable, Object restrictionObject, boolean isSOTrx) {
+		MQuery query = new MQuery(tableName);
+		query.addRestriction(tableName+"_ID", MQuery.EQUAL, restrictionObject);
+		query.setRecordCount(1);
+		int AD_WindowNo = miniTable.getAD_Window_ID(tableName, isSOTrx);
+		log.config("AD_WindowNo:"+AD_WindowNo + " query:"+query);
+		miniTable.zoom(AD_WindowNo, query);
+	}
+
 	/**************************************************************************
 	 *  Action Listener.
 	 *  - MultiCurrency
