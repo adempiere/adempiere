@@ -360,7 +360,8 @@ public class M_Element extends X_AD_Element
 			|| columnName.equals("IsPaid") || columnName.equals("IsAllocated")
 			// Bug [ 1807947 ] 
 			|| columnName.equals("C_DocType_ID")
-			|| (columnName.equals("Line"));
+			|| columnName.equals("Line")
+			|| columnName.equals("UUID");
 	}
 	
 	/**
