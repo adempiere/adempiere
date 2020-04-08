@@ -1345,14 +1345,7 @@ public abstract class PO
 					continue;
 				String colName = from.p_info.getColumnName(i1);
 				//  Ignore Standard Values
-				if (colName.startsWith("Created")
-					|| colName.startsWith("Updated")
-					|| colName.equals("IsActive")
-					|| colName.equals("AD_Client_ID")
-					|| colName.equals("AD_Org_ID")
-					|| colName.equals("Processing")
-					|| colName.equals("UUID")
-					)
+				if (M_Element.isReservedColumnName(colName))
 					;	//	ignore
 				else
 				{
@@ -2786,7 +2779,7 @@ public abstract class PO
 		columnName = I_AD_Element.COLUMNNAME_UUID;
 		if (p_info.getColumnIndex(columnName) != -1) {
 			String value = get_ValueAsString(columnName);
-			if (value == null || value.length() == 0) {
+			if (Util.isEmpty(value) || !isDirectLoad) {
 				value = DB.getUUID(m_trxName);
 				set_ValueNoCheck(columnName, value);
 			}
