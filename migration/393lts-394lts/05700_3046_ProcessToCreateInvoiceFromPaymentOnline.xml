@@ -236,7 +236,7 @@
         <Data AD_Column_ID="2817" Column="IsActive">true</Data>
         <Data AD_Column_ID="2830" Column="IsRange">false</Data>
         <Data AD_Column_ID="2818" Column="Created">2020-03-07 18:30:58.485</Data>
-        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">true</Data>
         <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="4017" Column="ColumnName">Bill_C_Location_ID</Data>
         <Data AD_Column_ID="2823" Column="Description">Address Used for Invoicing</Data>

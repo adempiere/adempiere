@@ -24,9 +24,9 @@ import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MPayment;
 import org.compiere.model.MPriceList;
-import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -47,6 +47,14 @@ public class GenerateInvoiceFromPayment extends GenerateInvoiceFromPaymentAbstra
         if (getRecord_ID() <= 0)
             throw new AdempiereException("@Record_ID@ @NotFound@");
         MPayment payment = new MPayment(getCtx(), getRecord_ID(), get_TrxName());
+        if (MPayment.DOCACTION_Complete.equals(payment.getDocStatus()) || MPayment.DOCACTION_Close.equals(payment.getDocStatus()))
+            ;
+        else
+            throw new AdempiereException("@C_Payment_ID@ @DocStatus@ @Invalid@");
+
+        if (getBPartnerLocationId() <= 0)
+            throw new AdempiereException("@C_BPartner_Location_ID@ @NotFound@");
+
         if (payment.isAllocated())
             throw new AdempiereException("@C_Payment_ID@ @IsAllocated@");
 
@@ -95,20 +103,22 @@ public class GenerateInvoiceFromPayment extends GenerateInvoiceFromPaymentAbstra
 
         //Create Invoice Line
         MInvoiceLine invoiceLine = new MInvoiceLine(invoice);
+        invoiceLine.setQty(BigDecimal.ONE);
         invoiceLine.setC_Charge_ID(getChargeId());
-        invoiceLine.setQty(Env.ONE);
         invoiceLine.setPrice(payment.getPayAmt());
         invoiceLine.setAD_OrgTrx_ID(payment.getAD_OrgTrx_ID());
         invoiceLine.setC_Campaign_ID(payment.getC_Campaign_ID());
         invoiceLine.setC_Activity_ID(payment.getC_Activity_ID());
         invoiceLine.setC_Project_ID(payment.getC_Project_ID());
         Optional.ofNullable(getDescription()).ifPresent(invoiceLine::setDescription);
+        invoiceLine.saveEx();
 
-        invoice.processIt(MInvoice.DOCACTION_Complete);
-        invoice.saveEx();
+        if (invoice.processIt(MInvoice.DOCACTION_Complete))
+            invoice.saveEx();
+        else
+            throw new AdempiereException("@C_Invoice_ID@ @Invalid@ @DocStatus@");
 
-        MAllocationHdr allocationHdr = new MAllocationHdr(getCtx(), 0, get_TrxName());
-        allocationHdr.setDateTrx(payment.getDateTrx());
+        MAllocationHdr allocationHdr = new MAllocationHdr(getCtx(), false, payment.getDateTrx(), payment.getC_Currency_ID(), payment.getDescription(), get_TrxName());
         allocationHdr.setDateAcct(payment.getDateAcct());
         allocationHdr.setDocStatus(MAllocationHdr.DOCSTATUS_Drafted);
         allocationHdr.setDocAction(MAllocationHdr.DOCACTION_Complete);
@@ -116,12 +126,16 @@ public class GenerateInvoiceFromPayment extends GenerateInvoiceFromPaymentAbstra
 
         addLog(Msg.translate(getCtx(), "@C_AllocationHdr@ : " + allocationHdr.getDocumentInfo()));
 
-        MAllocationLine allocationLine = new MAllocationLine(allocationHdr);
+        MAllocationLine allocationLine = new MAllocationLine(allocationHdr, payment.getPayAmt(), BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
         allocationLine.setC_Payment_ID(payment.get_ID());
         allocationLine.setC_Invoice_ID(invoice.getC_Invoice_ID());
+        allocationLine.setC_BPartner_ID(payment.getC_BPartner_ID());
+        allocationLine.setDateTrx(payment.getDateTrx());
         allocationLine.saveEx();
 
-        allocationHdr.processIt(MAllocationHdr.DOCACTION_Complete);
-        allocationHdr.saveEx();
+        if (allocationHdr.processIt(MAllocationHdr.DOCACTION_Complete))
+            allocationHdr.saveEx();
+        else
+            throw new AdempiereException("@C_AllocationHdr_ID@ @Invalid@ @DocStatus@");
     }
 }
