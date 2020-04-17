@@ -383,7 +383,7 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction, DocOpti
 			if (inboundLine.getC_OrderLine_ID() > 0) {
 				MOrderLine orderLine = inboundLine.getOrderLine();
 				BigDecimal orderedAvailable = orderLine.getQtyOrdered().subtract(orderLine.getQtyDelivered());
-				if (orderedAvailable.subtract(inboundLine.getMovementQty()).signum() <= 0)
+				if (orderedAvailable.subtract(inboundLine.getMovementQty()).signum() < 0)
 					return;
 
 				BigDecimal qtyToReceipt = inboundLine.getMovementQty();
@@ -415,7 +415,6 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction, DocOpti
 		receipts.entrySet().stream().filter(entry -> entry != null).forEach(entry -> {
 			MInOut shipment = entry.getValue();
 			shipment.setDocAction(getDocAction());
-			shipment.processIt(getDocAction());
 			if (!shipment.processIt(getDocAction())) {
 				log.warning("@ProcessFailed@ :" + shipment.getDocumentInfo());
 			}
