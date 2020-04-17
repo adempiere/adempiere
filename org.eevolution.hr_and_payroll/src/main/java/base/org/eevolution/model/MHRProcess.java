@@ -174,9 +174,21 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 	}	//	setProcessed
 
 	@Override
-	protected boolean beforeSave(boolean newRecord) {
-		if (getAD_Client_ID() == 0) {
+	protected boolean beforeSave(boolean newRecord)
+	{
+		if (getAD_Client_ID() == 0)
+		{
 			throw new AdempiereException("@AD_Client_ID@ = 0");
+		}
+		if (getAD_Org_ID() == 0)
+		{
+			int context_AD_Org_ID = getAD_Org_ID();
+			if (context_AD_Org_ID == 0)
+			{
+				throw new AdempiereException("@AD_Org_ID@ = *");
+			}
+			setAD_Org_ID(context_AD_Org_ID);
+			logger.warning("Changed Org to Context=" + context_AD_Org_ID);
 		}
 		setC_DocType_ID(getC_DocTypeTarget_ID());
 
