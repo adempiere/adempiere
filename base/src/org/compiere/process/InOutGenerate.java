@@ -126,7 +126,7 @@ public class InOutGenerate extends InOutGenerateAbstract {
 			message = generate(new Query(getCtx(), I_C_Order.Table_Name, 
 					"DocStatus='CO' "
 					+ "AND IsSOTrx='Y' "
-					+ "AND EXISTS(SELECT 1 FROM C_DocType dt WHERE dt.C_DocType_ID = C_Order.C_DocType_ID AND DocBaseType='SOO' AND DocSubTypeSO NOT IN ('ON','OB','WR')) "
+					+ "AND EXISTS(SELECT 1 FROM C_DocType dt WHERE dt.C_DocType_ID = C_Order.C_DocType_IDAND DocBaseType='SOO' AND DocSubTypeSO NOT IN ('ON','OB','WR')) "
 					+ "AND IsDropShip='N' "
 					//	No Manual
 					+ "AND DeliveryRule<>'M' "
@@ -354,7 +354,8 @@ public class InOutGenerate extends InOutGenerateAbstract {
 				shipment.setC_BPartner_ID(orderLine.getC_BPartner_ID());
 			if (order.getC_BPartner_Location_ID() != orderLine.getC_BPartner_Location_ID())
 				shipment.setC_BPartner_Location_ID(orderLine.getC_BPartner_Location_ID());
-			shipment.saveEx();
+			if (!shipment.save())
+				throw new IllegalStateException("Could not create Shipment");
 		}
 		//	Non Inventory Lines
 		if (storages == null)
@@ -367,7 +368,8 @@ public class InOutGenerate extends InOutGenerateAbstract {
 					.multiply(orderLine.getQtyEntered())
 					.divide(orderLine.getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP));
 			line.setLine(m_line + orderLine.getLine());
-			line.saveEx();
+			if (!line.save())
+				throw new IllegalStateException("Could not create Shipment Line");
 			log.fine(line.toString());
 			return;
 		}
@@ -422,7 +424,8 @@ public class InOutGenerate extends InOutGenerateAbstract {
 				line.setQtyEntered(line.getMovementQty().multiply(orderLine.getQtyEntered())
 					.divide(orderLine.getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP));
 			line.setLine(m_line + orderLine.getLine());
-			line.saveEx();
+			if (!line.save())
+				throw new IllegalStateException("Could not create Shipment Line");
 			log.fine("ToDeliver=" + qty + "/" + deliver + " - " + line);
 			toDeliver = toDeliver.subtract(deliver);
 			//      Temp adjustment, actual update happen in MInOut.completeIt
@@ -443,7 +446,10 @@ public class InOutGenerate extends InOutGenerateAbstract {
 				 MInOutLine line = new MInOutLine (shipment);
 				 line.setOrderLine(orderLine, 0, order.isSOTrx() ? toDeliver : Env.ZERO);
 				 line.setQty(toDeliver);
-			     line.saveEx();
+			     if (!line.save())
+					 throw new IllegalStateException("Could not create Shipment Line");
+					 
+
 			}
 		}	
 	}	//	createLine
