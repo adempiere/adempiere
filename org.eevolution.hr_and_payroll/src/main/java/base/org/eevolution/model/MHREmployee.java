@@ -128,9 +128,29 @@ public class MHREmployee extends X_HR_Employee
 			params.add(process.getHR_Payroll_ID());
 		}
 		//	Organization
-		if(process.getAD_Org_ID() != 0) {
-			whereClause.append(" AND e.e.HR_Payroll_ID=? " );
-			params.add(process.getAD_Org_ID());
+		if(process.getAD_OrgTrx_ID() != 0) {
+			whereClause.append(" AND e.AD_OrgTrx_ID=? " );
+			params.add(process.getAD_OrgTrx_ID());
+		}
+		//	Project
+		if(process.getC_Project_ID() != 0) {
+			whereClause.append(" AND e.C_Project_ID=? " );
+			params.add(process.getC_Project_ID());
+		}
+		//	Activity
+		if(process.getC_Activity_ID() != 0) {
+			whereClause.append(" AND e.C_Activity_ID=? " );
+			params.add(process.getC_Activity_ID());
+		}
+		//	Campaign
+		if(process.getC_Campaign_ID() != 0) {
+			whereClause.append(" AND e.C_Campaign_ID=? " );
+			params.add(process.getC_Campaign_ID());
+		}
+		//	Sales Region
+		if(process.getC_SalesRegion_ID() != 0) {
+			whereClause.append(" AND e.C_SalesRegion_ID=? " );
+			params.add(process.getC_SalesRegion_ID());
 		}
 		//	Active Record
 		whereClause.append(" AND e.IsActive = 'Y' " );
