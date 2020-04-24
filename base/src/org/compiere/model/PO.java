@@ -2170,7 +2170,7 @@ public abstract class PO
 				log.warning("beforeSave failed - " + toString());
 				if (localTrx != null)
 				{
-					localTrx.rollback();
+					localTrx.rollback(true);
 					localTrx.close();
 					m_trxName = null;
 				}
@@ -2214,7 +2214,7 @@ public abstract class PO
 				log.saveError("Error", errorMsg);
 				if (localTrx != null)
 				{
-					localTrx.rollback();
+					localTrx.rollback(true);
 					m_trxName = null;
 				}
 				else
@@ -2230,14 +2230,14 @@ public abstract class PO
 				if (b)
 				{
 					if (localTrx != null)
-						return localTrx.commit();
+						return localTrx.commit(true);
 					else
 						return b;
 				}
 				else
 				{
 					if (localTrx != null)
-						localTrx.rollback();
+						localTrx.rollback(true);
 					else
 						trx.rollback(savepoint);
 					return b;
@@ -2249,14 +2249,14 @@ public abstract class PO
 				if (b)
 				{
 					if (localTrx != null)
-						return localTrx.commit();
+						return localTrx.commit(true);
 					else
 						return b;
 				}
 				else
 				{
 					if (localTrx != null)
-						localTrx.rollback();
+						localTrx.rollback(true);
 					else
 						trx.rollback(savepoint);
 					return b;
@@ -2280,25 +2280,20 @@ public abstract class PO
 			}
 			return false;
 		}
-		finally
-		{
-			if (localTrx != null)
-			{
-				localTrx.close();
-				m_trxName = null;
-			}
-			else
-			{
-				if (savepoint != null)
-				{
-					try {
+		finally {
+			try {
+				if (localTrx != null) {
+					localTrx.close();
+					m_trxName = null;
+				} else {
+					if (savepoint != null) {
 						trx.releaseSavepoint(savepoint);
-					} catch (SQLException e) {
-						e.printStackTrace();
 					}
+					savepoint = null;
+					trx = null;
 				}
-				savepoint = null;
-				trx = null;
+			} catch (SQLException e) {
+				log.saveError("Error", e);
 			}
 		}
 	}	//	save
