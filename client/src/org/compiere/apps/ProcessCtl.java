@@ -430,8 +430,7 @@ public class ProcessCtl implements Runnable
 			//	Success - getResult
 			ProcessInfoUtil.setSummaryFromDB(processInstance);
 			unlock();
-		}			//	*** Process submission ***
-	//	log.fine(Log.l3_Util, "ProcessCtl.run - done");
+		}
 	}   //  run
 
 	/**
@@ -693,9 +692,8 @@ public class ProcessCtl implements Runnable
 			if (processInstance.isManagedTransaction())
 				return ProcessUtil.startDatabaseProcedure(processInstance, ProcedureName, m_trx);
 			else
-				return  ProcessUtil.startDatabaseProcedure(processInstance , ProcedureName , m_trx , processInstance.isManagedTransaction());
+				return ProcessUtil.startDatabaseProcedure(processInstance , ProcedureName , m_trx , processInstance.isManagedTransaction());
 		}
-	//	log.fine(Log.l4_Data, "ProcessCtl.startProcess - done");
 		return true;
 	}   //  startDBProcess
 
