@@ -17,6 +17,7 @@
 
 package org.eevolution.process;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import org.compiere.process.SvrProcess;
 
@@ -41,10 +42,14 @@ public abstract class GenerateInvoiceFromPaymentAbstract extends SvrProcess {
 	public static final String C_BPARTNER_LOCATION_ID = "C_BPartner_Location_ID";
 	/**	Parameter Name for Invoice Contact	*/
 	public static final String BILL_USER_ID = "Bill_User_ID";
+	/**	Parameter Name for Product	*/
+	public static final String M_PRODUCT_ID = "M_Product_ID";
 	/**	Parameter Name for Charge	*/
 	public static final String C_CHARGE_ID = "C_Charge_ID";
 	/**	Parameter Name for Description	*/
 	public static final String DESCRIPTION = "Description";
+	/**	Parameter Name for Payment amount	*/
+	public static final String PAYAMT = "PayAmt";
 	/**	Parameter Value for Date Invoiced	*/
 	private Timestamp dateInvoiced;
 	/**	Parameter Value for Account Date	*/
@@ -55,10 +60,14 @@ public abstract class GenerateInvoiceFromPaymentAbstract extends SvrProcess {
 	private int bPartnerLocationId;
 	/**	Parameter Value for Invoice Contact	*/
 	private int userId;
+	/**	Parameter Value for Product	*/
+	private int productId;
 	/**	Parameter Value for Charge	*/
 	private int chargeId;
 	/**	Parameter Value for Description	*/
 	private String description;
+	/**	Parameter Value for Payment amount	*/
+	private BigDecimal payAmt;
 
 	@Override
 	protected void prepare() {
@@ -67,8 +76,10 @@ public abstract class GenerateInvoiceFromPaymentAbstract extends SvrProcess {
 		docTypeTargetId = getParameterAsInt(C_DOCTYPETARGET_ID);
 		bPartnerLocationId = getParameterAsInt(C_BPARTNER_LOCATION_ID);
 		userId = getParameterAsInt(BILL_USER_ID);
+		productId = getParameterAsInt(M_PRODUCT_ID);
 		chargeId = getParameterAsInt(C_CHARGE_ID);
 		description = getParameterAsString(DESCRIPTION);
+		payAmt = getParameterAsBigDecimal(PAYAMT);
 	}
 
 	/**	 Getter Parameter Value for Date Invoiced	*/
@@ -121,6 +132,16 @@ public abstract class GenerateInvoiceFromPaymentAbstract extends SvrProcess {
 		this.userId = userId;
 	}
 
+	/**	 Getter Parameter Value for Product	*/
+	protected int getProductId() {
+		return productId;
+	}
+
+	/**	 Setter Parameter Value for Product	*/
+	protected void setProductId(int productId) {
+		this.productId = productId;
+	}
+
 	/**	 Getter Parameter Value for Charge	*/
 	protected int getChargeId() {
 		return chargeId;
@@ -139,6 +160,16 @@ public abstract class GenerateInvoiceFromPaymentAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Description	*/
 	protected void setDescription(String description) {
 		this.description = description;
+	}
+
+	/**	 Getter Parameter Value for Payment amount	*/
+	protected BigDecimal getPayAmt() {
+		return payAmt;
+	}
+
+	/**	 Setter Parameter Value for Payment amount	*/
+	protected void setPayAmt(BigDecimal payAmt) {
+		this.payAmt = payAmt;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/

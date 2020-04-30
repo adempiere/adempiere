@@ -47,8 +47,10 @@ public class GenerateInvoiceFromPayment extends GenerateInvoiceFromPaymentAbstra
         if (getRecord_ID() <= 0)
             throw new AdempiereException("@Record_ID@ @NotFound@");
         MPayment payment = new MPayment(getCtx(), getRecord_ID(), get_TrxName());
-        if (MPayment.DOCACTION_Complete.equals(payment.getDocStatus()) || MPayment.DOCACTION_Close.equals(payment.getDocStatus()))
-            ;
+        if (MPayment.DOCACTION_Complete.equals(payment.getDocStatus()) || MPayment.DOCACTION_Close.equals(payment.getDocStatus())) {
+            if (getPayAmt() != null && getPayAmt().compareTo(payment.getPayAmt()) > 0)
+                throw new AdempiereException("@C_Payment_ID@ @Amount@ > @PayAmt@");
+        }
         else
             throw new AdempiereException("@C_Payment_ID@ @DocStatus@ @Invalid@");
 
@@ -58,11 +60,8 @@ public class GenerateInvoiceFromPayment extends GenerateInvoiceFromPaymentAbstra
         if (payment.isAllocated())
             throw new AdempiereException("@C_Payment_ID@ @IsAllocated@");
 
-        if (payment.getC_Charge_ID() > 0)
-            throw new AdempiereException("@C_Payment_ID@ @AlreadyExists@ @C_Charge_ID@");
-
-        if (getChargeId() <= 0)
-            throw new AdempiereException("@C_Charge_ID@ @NotFound@");
+        if (payment.getC_Charge_ID() <= 0 && getProductId() <= 0)
+            throw new AdempiereException("@C_Payment_ID@ @C_Charge_ID@ @OR@ @NotFound@");
 
         generateInvoice(payment);
 
@@ -99,13 +98,17 @@ public class GenerateInvoiceFromPayment extends GenerateInvoiceFromPaymentAbstra
         invoice.setC_Payment_ID(payment.get_ID());
         invoice.saveEx();
 
-        addLog(Msg.translate(getCtx(), "@C_Invoice@_ID : " + invoice.getDocumentInfo()));
+        addLog(Msg.translate(getCtx(), "@C_Invoice_ID@ : " + invoice.getDocumentInfo()));
 
         //Create Invoice Line
         MInvoiceLine invoiceLine = new MInvoiceLine(invoice);
+        //Set Charge or Product
+        if (getChargeId() > 0)
+            invoiceLine.setC_Charge_ID(getChargeId());
+        if (getProductId() > 0)
+            invoiceLine.setM_Product_ID(getProductId());
         invoiceLine.setQty(BigDecimal.ONE);
-        invoiceLine.setC_Charge_ID(getChargeId());
-        invoiceLine.setPrice(payment.getPayAmt());
+        invoiceLine.setPrice(getPayAmt());
         invoiceLine.setAD_OrgTrx_ID(payment.getAD_OrgTrx_ID());
         invoiceLine.setC_Campaign_ID(payment.getC_Campaign_ID());
         invoiceLine.setC_Activity_ID(payment.getC_Activity_ID());
@@ -124,7 +127,7 @@ public class GenerateInvoiceFromPayment extends GenerateInvoiceFromPaymentAbstra
         allocationHdr.setDocAction(MAllocationHdr.DOCACTION_Complete);
         allocationHdr.saveEx();
 
-        addLog(Msg.translate(getCtx(), "@C_AllocationHdr@ : " + allocationHdr.getDocumentInfo()));
+        addLog(Msg.translate(getCtx(), "@C_AllocationHdr_ID@ : " + allocationHdr.getDocumentInfo()));
 
         MAllocationLine allocationLine = new MAllocationLine(allocationHdr, payment.getPayAmt(), BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
         allocationLine.setC_Payment_ID(payment.get_ID());
