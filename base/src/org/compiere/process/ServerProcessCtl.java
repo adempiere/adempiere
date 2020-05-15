@@ -42,10 +42,10 @@ public class ServerProcessCtl implements Runnable {
 	private static CLogger	log	= CLogger.getCLogger (ServerProcessCtl.class);
 	
 	/** Parent */
-	private ASyncProcess m_parent;
+	private ASyncProcess parentProcess;
 	/** Process Info */
 	private ProcessInfo processInstance;
-	private Trx trx;
+	private Trx transaction;
 	private boolean isServerProcess = false;
 	
 	/**************************************************************************
@@ -55,9 +55,9 @@ public class ServerProcessCtl implements Runnable {
 	 *  @param trx Transaction
 	 */
 	public ServerProcessCtl (ASyncProcess parent, ProcessInfo pi, Trx trx) {
-		m_parent = parent;
+		parentProcess = parent;
 		processInstance = pi;
-		this.trx = trx;	//	handled correctly
+		this.transaction = trx;	//	handled correctly
 	}   //  ProcessCtl
 
 	/**
@@ -74,49 +74,42 @@ public class ServerProcessCtl implements Runnable {
 	 *  VPaySelect.cmd_generate
 	 *
 	 *  @param parent ASyncProcess & Container
-	 *  @param pi ProcessInfo process info
+	 *  @param processInfo ProcessInfo process info
 	 *  @param trx Transaction
 	 *  @return worker started ProcessCtl instance or null for workflow
 	 */
-	public static ServerProcessCtl process (ASyncProcess parent, ProcessInfo pi, Trx trx) {
-		log.fine("ServerProcess - " + pi);
+	public static ServerProcessCtl process (ASyncProcess parent, ProcessInfo processInfo, Trx trx) {
+		log.fine("ServerProcess - " + processInfo);
 
 		MPInstance instance = null; 
-		try 
-		{ 
-			instance = new MPInstance(Env.getCtx(), pi.getAD_Process_ID(), pi.getRecord_ID()); 
-		} 
-		catch (Exception e) 
-		{ 
-			pi.setSummary (e.getLocalizedMessage()); 
-			pi.setError (true); 
-			log.warning(pi.toString()); 
+		try  { 
+			instance = new MPInstance(Env.getCtx(), processInfo.getAD_Process_ID(), processInfo.getRecord_ID()); 
+		}  catch (Exception e) { 
+			processInfo.setSummary (e.getLocalizedMessage()); 
+			processInfo.setError (true); 
+			log.warning(processInfo.toString()); 
 			return null; 
 		} 
-		catch (Error e) 
-		{ 
-			pi.setSummary (e.getLocalizedMessage()); 
-			pi.setError (true); 
-			log.warning(pi.toString()); 
+		catch (Error e) { 
+			processInfo.setSummary (e.getLocalizedMessage()); 
+			processInfo.setError (true); 
+			log.warning(processInfo.toString()); 
 			return null; 
 		}
-		if (!instance.save())
-		{
-			pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessNoInstance"));
-			pi.setError (true);
+		if (instance != null 
+				&& !instance.save()) {
+			processInfo.setSummary (Msg.getMsg(Env.getCtx(), "ProcessNoInstance"));
+			processInfo.setError (true);
 			return null;
 		}
-		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
+		processInfo.setAD_PInstance_ID (instance.getAD_PInstance_ID());
 
 		//	execute
-		ServerProcessCtl worker = new ServerProcessCtl(parent, pi, trx);
-		if (parent != null)
-		{
+		ServerProcessCtl worker = new ServerProcessCtl(parent, processInfo, trx);
+		if (parent != null) {
 			//asynchrous
 			worker.start();
-		}
-		else
-		{
+		} else {
 			//synchrous
 			worker.run();
 		}
@@ -241,7 +234,7 @@ public class ServerProcessCtl implements Runnable {
 		
 		if (process.isReport()) {
 			processInstance.setReportingProcess(true);
-			boolean ok = ServerReportCtl.start(m_parent, processInstance);
+			boolean ok = ServerReportCtl.start(parentProcess, processInstance);
 			processInstance.setSummary("Report", !ok);
 		}
 		/**********************************************************************
@@ -288,8 +281,8 @@ public class ServerProcessCtl implements Runnable {
 		//	Run locally
 		if (!started && !isServerProcess)
 		{
-			if (trx != null)
-				processInstance.setTransactionName(trx.getTrxName());
+			if (transaction != null)
+				processInstance.setTransactionName(transaction.getTrxName());
 			MWFProcess wfProcess = ProcessUtil.startWorkFlow(Env.getCtx(), processInstance, AD_Workflow_ID);
 			started = wfProcess != null;
 		}
@@ -363,12 +356,12 @@ public class ServerProcessCtl implements Runnable {
 		if (!started && (!isServerProcess || clientOnly ))
 		{
 			if (processInstance.getClassName().toLowerCase().startsWith(MRule.SCRIPT_PREFIX)) {
-				return ProcessUtil.startScriptProcess(Env.getCtx(), processInstance, trx);
+				return ProcessUtil.startScriptProcess(Env.getCtx(), processInstance, transaction);
 			} else {
 				if (processInstance.isManagedTransaction())
-					return ProcessUtil.startJavaProcess(Env.getCtx(), processInstance, trx);
+					return ProcessUtil.startJavaProcess(Env.getCtx(), processInstance, transaction);
 				else
-					return ProcessUtil.startJavaProcess(Env.getCtx(), processInstance, trx, processInstance.isManagedTransaction());
+					return ProcessUtil.startJavaProcess(Env.getCtx(), processInstance, transaction, processInstance.isManagedTransaction());
 			}
 		}
 		return !processInstance.isError();
@@ -385,33 +378,24 @@ public class ServerProcessCtl implements Runnable {
 		//  execute on this thread/connection
 		log.fine(ProcedureName + "(" + processInstance.getAD_PInstance_ID() + ")");
 		boolean started = false;
-		String trxName = trx != null ? trx.getTrxName() : null;
-		if (isServerProcess)
-		{
-			try
-			{
+		if (isServerProcess) {
+			try {
 				Server server = CConnection.get().getServer();
-				if (server != null)
-				{	//	See ServerBean
+				if (server != null) {	//	See ServerBean
 					processInstance = server.dbProcess(processInstance, ProcedureName);
 					log.finest("server => " + processInstance);
 					started = true;		
 				}
-			}
-			catch (UndeclaredThrowableException ex)
-			{
+			} catch (UndeclaredThrowableException ex) {
 				Throwable cause = ex.getCause();
-				if (cause != null)
-				{
+				if (cause != null) {
 					if (cause instanceof InvalidClassException)
 						log.log(Level.SEVERE, "Version Server <> Client: " 
 							+  cause.toString() + " - " + processInstance, ex);
 					else
 						log.log(Level.SEVERE, "AppsServer error(1b): " 
 							+ cause.toString() + " - " + processInstance, ex);
-				}
-				else
-				{
+				} else {
 					log.log(Level.SEVERE, " AppsServer error(1) - " 
 						+ processInstance, ex);
 					cause = ex;
@@ -419,9 +403,7 @@ public class ServerProcessCtl implements Runnable {
 				processInstance.setSummary (Msg.getMsg(Env.getCtx(), "ProcessRunError") + " " + cause.getLocalizedMessage());
 				processInstance.setError (true);
 				return false;
-			}
-			catch (Exception ex)
-			{
+			} catch (Exception ex) {
 				Throwable cause = ex.getCause();
 				if (cause == null)
 					cause = ex;
@@ -433,12 +415,11 @@ public class ServerProcessCtl implements Runnable {
 		}
 		
 		//try locally
-		if (!started)
-		{
+		if (!started) {
 			if (processInstance.isManagedTransaction())
-				return ProcessUtil.startDatabaseProcedure(processInstance, ProcedureName, trx);
+				return ProcessUtil.startDatabaseProcedure(processInstance, ProcedureName, transaction);
 			else
-				return ProcessUtil.startDatabaseProcedure(processInstance, ProcedureName, trx, processInstance.isManagedTransaction());
+				return ProcessUtil.startDatabaseProcedure(processInstance, ProcedureName, transaction, processInstance.isManagedTransaction());
 
 		}
 		return true;
