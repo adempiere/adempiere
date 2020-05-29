@@ -32,7 +32,6 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -71,11 +70,11 @@ import org.compiere.grid.ed.VHeaderRenderer;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
+import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.swing.CCheckBox;
 import org.compiere.swing.CTable;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
@@ -2071,41 +2070,15 @@ public class MiniTable extends CTable implements IMiniTable
         listenerList.remove(MiniTableSelectionListener.class, l);
     }
 
-	private int m_PO_Window_ID = -1;
-	private int m_SO_Window_ID = -1;
-
 	public int getAD_Window_ID(String tableName, boolean isSOTrx) {
-		if (!isSOTrx && m_PO_Window_ID > 0)
-			return m_PO_Window_ID;
-		if (m_SO_Window_ID > 0)
-			return m_SO_Window_ID;
-
-		String sql = "SELECT AD_Window_ID, PO_Window_ID FROM AD_Table WHERE TableName=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setString(1, tableName);
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				m_SO_Window_ID = rs.getInt(1);
-				m_PO_Window_ID = rs.getInt(2);
-			}
-		} catch (Exception e) {
-			log.log(Level.SEVERE, sql, e);
-		} finally {
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
-		}
-
-		if (!isSOTrx && m_PO_Window_ID > 0)
-			return m_PO_Window_ID;
-		return m_SO_Window_ID;
+		MTable mTable = MTable.get(Env.getCtx(), tableName);
+		int window_ID = isSOTrx ? mTable.getAD_Window_ID() : mTable.getPO_Window_ID();
+		log.config("results to window_ID="+window_ID + " for table " + tableName + " and isSOTrx="+isSOTrx);
+		return window_ID;
 	}
 
 	public void zoom(int AD_Window_ID, MQuery zoomQuery) {
-		final AWindow frame = new AWindow(null); // no GraphicsConfiguration, requires initWindow
+		final AWindow frame = new AWindow((GraphicsConfiguration)null); // no GraphicsConfiguration, requires initWindow
 		if (!frame.initWindow(AD_Window_ID, zoomQuery))
 			return;
 		AEnv.addToWindowManager(frame);
