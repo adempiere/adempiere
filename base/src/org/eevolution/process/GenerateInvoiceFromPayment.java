@@ -99,7 +99,7 @@ public class GenerateInvoiceFromPayment extends GenerateInvoiceFromPaymentAbstra
         invoice.setC_Payment_ID(payment.get_ID());
         invoice.saveEx();
 
-        addLog(Msg.translate(getCtx(), "@C_Invoice@_ID : " + invoice.getDocumentInfo()));
+        addLog(Msg.translate(getCtx(), "@C_Invoice_ID@ : " + invoice.getDocumentInfo()));
 
         //Create Invoice Line
         MInvoiceLine invoiceLine = new MInvoiceLine(invoice);
@@ -124,7 +124,7 @@ public class GenerateInvoiceFromPayment extends GenerateInvoiceFromPaymentAbstra
         allocationHdr.setDocAction(MAllocationHdr.DOCACTION_Complete);
         allocationHdr.saveEx();
 
-        addLog(Msg.translate(getCtx(), "@C_AllocationHdr@ : " + allocationHdr.getDocumentInfo()));
+        addLog(Msg.translate(getCtx(), "@C_AllocationHdr_ID@ : " + allocationHdr.getDocumentInfo()));
 
         MAllocationLine allocationLine = new MAllocationLine(allocationHdr, payment.getPayAmt(), BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
         allocationLine.setC_Payment_ID(payment.get_ID());
