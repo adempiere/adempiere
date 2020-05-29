@@ -81,20 +81,20 @@ public class OutBoundOrder {
 	public static CLogger log = CLogger.getCLogger(OutBoundOrder.class);
 	
 	public final int SELECT 					= 0;
-	public final int ORDER 						= 2;
+	public final int ORDER 						= 1;
 	/**	Lines									*/
 	public final int OL_WAREHOUSE 				= 1;
 	public final int ORDER_LINE 				= 2;
 	public final int OL_PRODUCT 				= 3;
 	public final int OL_UOM 					= 4;
 	public final int OL_ASI 					= 5;
-	public final int OL_QTY_ON_HAND 			= 6;
-	public final int OL_QTY 					= 7;
-	public final int OL_WEIGHT 					= 8;
-	public final int OL_VOLUME 					= 9;
-	public final int OL_SEQNO 					= 10;
-	public final int OL_QTY_ORDERED 			= 11;
-	public final int OL_UOM_CONVERSION 			= 12;
+	public final int OL_QTY_ORDERED 			= 6;
+	public final int OL_UOM_CONVERSION 			= 7;
+	public final int OL_QTY_ON_HAND 			= 8;
+	public final int OL_QTY 					= 9;
+	public final int OL_WEIGHT 					= 10;
+	public final int OL_VOLUME 					= 11;
+	public final int OL_SEQNO 					= 12;
 	public final int OL_QTY_RESERVERD 			= 13;
 	public final int OL_QTY_INVOICED 			= 14;
 	public final int OL_QTY_DELIVERED 			= 15;
@@ -171,7 +171,7 @@ public class OutBoundOrder {
 	protected BigDecimal		totalVolume = Env.ZERO;
 	
 	/**	Max Sequence		*/
-	protected int				maxSeqNo = 0;
+	protected BigDecimal				maxSeqNo = Env.ZERO;
 	
 	/**	Validate Quantity	*/
 	protected boolean 			validateQuantity = true;
@@ -197,12 +197,12 @@ public class OutBoundOrder {
 		if (movementType.equals(I_DD_Order.Table_Name)) {
 			//Query for Material Movement
 			sql = new StringBuffer("SELECT " +
-					"wr.Name Warehouse, ord.DD_Order_ID, ord.DocumentNo, ord.Description , ord.DeliveryRule , ord.DeliveryViaRule , " +	//	1..6
-					"ord.DateOrdered, ord.DatePromised, reg.Name, cit.Name, sr.Name SalesRep, " +	//	7..8
-					"cp.Name Partner, bploc.Name, " +	//	9..10
-					"loc.Address1, loc.Address2, loc.Address3, loc.Address4, " +
+					"ord.DD_Order_ID, ord.DocumentNo, ord.Description , cp.Name Partner, bploc.Name, wr.Name Warehouse, " +
 					"(SELECT SUM((ol.QtyOrdered - ol.QtyDelivered) * p.Weight)  AS Weight FROM DD_OrderLine ol INNER JOIN M_Product p ON(p.M_Product_ID = ol.M_Product_ID) WHERE ol.DD_Order_ID = ord.DD_Order_ID) AS Weight, " +
-					"(SELECT SUM((ol.QtyOrdered - ol.QtyDelivered) * p.Volume)  AS Volume FROM DD_OrderLine ol INNER JOIN M_Product p ON(p.M_Product_ID = ol.M_Product_ID) WHERE ol.DD_Order_ID = ord.DD_Order_ID) AS Volume " +
+					"(SELECT SUM((ol.QtyOrdered - ol.QtyDelivered) * p.Volume)  AS Volume FROM DD_OrderLine ol INNER JOIN M_Product p ON(p.M_Product_ID = ol.M_Product_ID) WHERE ol.DD_Order_ID = ord.DD_Order_ID) AS Volume, " +
+					"ord.DeliveryViaRule , ord.DeliveryRule , " +	//	1..6
+					"ord.DatePromised , ord.DateOrdered, reg.Name, cit.Name, sr.Name SalesRep, " +	//	7..8
+					"loc.Address1, loc.Address2, loc.Address3, loc.Address4" +
 					"FROM DD_Order ord " +
 					"INNER JOIN DD_OrderLine lord ON(lord.DD_Order_ID = ord.DD_Order_ID) " +
 					"INNER JOIN M_Product pr ON(pr.M_Product_ID = lord.M_Product_ID) " +
@@ -260,12 +260,12 @@ public class OutBoundOrder {
 			// role security
 		} else {//Query for Sales Order
 			sql = new StringBuffer("SELECT " +
-					"wr.Name Warehouse, ord.C_Order_ID, ord.DocumentNo, ord.Description , ord.DeliveryRule , ord.DeliveryViaRule ,  " +	//	1..6
-					"ord.DateOrdered, ord.DatePromised, reg.Name, cit.Name, sr.Name SalesRep, " +	//	7..11
-					"cp.Name Partner, bploc.Name, " +	//	12..13
-					"loc.Address1, loc.Address2, loc.Address3, loc.Address4, " +
+					"ord.C_Order_ID, ord.DocumentNo, ord.Description , cp.Name Partner, bploc.Name, wr.Name Warehouse , " +
 					"(SELECT SUM((ol.QtyOrdered - ol.QtyDelivered) * p.Weight)  AS Weight FROM C_OrderLine ol INNER JOIN M_Product p ON(p.M_Product_ID = ol.M_Product_ID) WHERE ol.C_Order_ID = ord.C_Order_ID) AS Weight, " +
-					"(SELECT SUM((ol.QtyOrdered - ol.QtyDelivered) * p.Volume)  AS Volume FROM C_OrderLine ol INNER JOIN M_Product p ON(p.M_Product_ID = ol.M_Product_ID) WHERE ol.C_Order_ID = ord.C_Order_ID) AS Volume " +
+					"(SELECT SUM((ol.QtyOrdered - ol.QtyDelivered) * p.Volume)  AS Volume FROM C_OrderLine ol INNER JOIN M_Product p ON(p.M_Product_ID = ol.M_Product_ID) WHERE ol.C_Order_ID = ord.C_Order_ID) AS Volume ," +
+					"ord.DeliveryViaRule, ord.DeliveryRule ,  " +	//	1..6
+					"ord.DatePromised, ord.DateOrdered, reg.Name, cit.Name, sr.Name SalesRep, " +	//	7..11
+					"loc.Address1, loc.Address2, loc.Address3, loc.Address4 " +
 					"FROM C_Order ord " +
 					"INNER JOIN C_OrderLine lord ON(lord.C_Order_ID = ord.C_Order_ID) " +
 					"INNER JOIN M_Product pr ON(pr.M_Product_ID = lord.M_Product_ID) " +
@@ -354,32 +354,33 @@ public class OutBoundOrder {
 			while (rs.next()) {
 				column = 1;
 				Vector<Object> line = new Vector<Object>();
-				line.add(new Boolean(false));      		 	//  0-Selection
-				line.add(rs.getString(column++));       	//  1-Warehouse
-				KeyNamePair warehouse = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
-				line.add(warehouse);				       			//  2-DocumentNo
-				line.add(rs.getString(column++));			// 	3.Description
-				String deliveryRuleValue = rs.getString(column++);
-				String deliveryRuleName  = MRefList.getListName(Env.getCtx(), MOrder.DELIVERYRULE_AD_Reference_ID, deliveryRuleValue);
-				ValueNamePair deliveryRule = new ValueNamePair(deliveryRuleValue, deliveryRuleName);
-				line.add(deliveryRule);						//  4-DeliveryRule
+				line.add(new Boolean(false));      	//  0-Selection
+				KeyNamePair documentNo = new KeyNamePair(rs.getInt(column++), rs.getString(column++));
+				line.add(documentNo);						// 1-DocumentNo
+				line.add(rs.getString(column++));			// 	2.Description
+				line.add(rs.getString(column++));			//	3-Business Partner
+				line.add(rs.getString(column++));			//	4-Location
+				line.add(rs.getString(column++));       	//  5-Warehouse
+				line.add(rs.getBigDecimal(column++));		//	6-Weight
+				line.add(rs.getBigDecimal(column++));		//	7-Volume
 				String deliveryRuleViaValue = rs.getString(column++);
 				String deliveryRuleViaName  = MRefList.getListName(Env.getCtx(), MOrder.DELIVERYVIARULE_AD_Reference_ID, deliveryRuleViaValue);
 				ValueNamePair deliveryRuleVia = new ValueNamePair(deliveryRuleViaValue, deliveryRuleViaName);
-				line.add(deliveryRuleVia);					//  5-DeliveryRuleVia
-				line.add(rs.getTimestamp(column++));      	//  6-DateOrdered
-				line.add(rs.getTimestamp(column++));      	//  7-DatePromised
-				line.add(rs.getString(column++));			//	8-Region
-				line.add(rs.getString(column++));			//	9-City
-				line.add(rs.getString(column++));			//	10-Sales Representative
-				line.add(rs.getString(column++));			//	11-Business Partner
-				line.add(rs.getString(column++));			//	12-Location
-				line.add(rs.getString(column++));			//	13-Address 1
-				line.add(rs.getString(column++));			//	14-Address 2
-				line.add(rs.getString(column++));			//	15-Address 3
-				line.add(rs.getString(column++));			//	16-Address 4
-				line.add(rs.getBigDecimal(column++));		//	17-Weight
-				line.add(rs.getBigDecimal(column++));		//	18-Volume
+				line.add(deliveryRuleVia);					//  9-DeliveryRuleVia
+				String deliveryRuleValue = rs.getString(column++);
+				String deliveryRuleName  = MRefList.getListName(Env.getCtx(), MOrder.DELIVERYRULE_AD_Reference_ID, deliveryRuleValue);
+				ValueNamePair deliveryRule = new ValueNamePair(deliveryRuleValue, deliveryRuleName);
+				line.add(deliveryRule);						//  8-DeliveryRule
+				line.add(rs.getTimestamp(column++));      	//  10-DatePromised
+				line.add(rs.getTimestamp(column++));      	//  11-DateOrdered
+				line.add(rs.getString(column++));			//	12-Region
+				line.add(rs.getString(column++));			//	13-City
+				line.add(rs.getString(column++));			//	14-Sales Representative
+				line.add(rs.getString(column++));			//	15-Address 1
+				line.add(rs.getString(column++));			//	16-Address 2
+				line.add(rs.getString(column++));			//	17-Address 3
+				line.add(rs.getString(column++));			//	18-Address 4
+
 				//
 				data.add(line);
 			}
@@ -589,24 +590,24 @@ public class OutBoundOrder {
 		//  Header Info
 		Vector<String> columnNames = new Vector<String>();
 		columnNames.add(Msg.translate(Env.getCtx(), "Select"));
-		columnNames.add(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "DocumentNo"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Description"));
-		columnNames.add(Msg.translate(Env.getCtx(), "DeliveryRule"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_Location_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Weight"));
+		columnNames.add(Msg.translate(Env.getCtx(), "Volume"));
 		columnNames.add(Msg.translate(Env.getCtx(), "DeliveryViaRule"));
-		columnNames.add(Msg.translate(Env.getCtx(), "DateOrdered"));
+		columnNames.add(Msg.translate(Env.getCtx(), "DeliveryRule"));
 		columnNames.add(Msg.translate(Env.getCtx(), "DatePromised"));
+		columnNames.add(Msg.translate(Env.getCtx(), "DateOrdered"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_Region_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_City_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "SalesRep_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_Location_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Address1"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Address2"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Address3"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Address4"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Weight"));
-		columnNames.add(Msg.translate(Env.getCtx(), "Volume"));
 		//	
 		return columnNames;
 	}
@@ -619,24 +620,24 @@ public class OutBoundOrder {
 	protected void setOrderColumnClass(IMiniTable orderTable) {
 		int i = 0;
 		orderTable.setColumnClass(i++, Boolean.class, false);			//  0-Selection
-		orderTable.setColumnClass(i++, String.class, true);			//  1-Warehouse
-		orderTable.setColumnClass(i++, String.class, true);			//  2-DocumentNo
-		orderTable.setColumnClass(i++, String.class, true);			//  3-Description
-		orderTable.setColumnClass(i++, ValueNamePair.class, true);	//  4-Delivery Rule
-		orderTable.setColumnClass(i++, ValueNamePair.class, true);	//  5-Delivery Rule Via
-		orderTable.setColumnClass(i++, Timestamp.class, true);		//  6-DateOrdered
-		orderTable.setColumnClass(i++, Timestamp.class, true);		//  7-DatePromised
-		orderTable.setColumnClass(i++, String.class, true);			//  8-Region
-		orderTable.setColumnClass(i++, String.class, true);			//  9-City
-		orderTable.setColumnClass(i++, String.class, true);			//  10-Sales Representative
-		orderTable.setColumnClass(i++, String.class, true);			//  11-Business Partner
-		orderTable.setColumnClass(i++, String.class, true);			//  12-Location
-		orderTable.setColumnClass(i++, String.class, true);			//  13-Address 1
-		orderTable.setColumnClass(i++, String.class, true);			//  14-Address 2
-		orderTable.setColumnClass(i++, String.class, true);			//  15-Address 3
-		orderTable.setColumnClass(i++, String.class, true);			//  16-Address 4
-		orderTable.setColumnClass(i++, BigDecimal.class, true);		//  17-Weight
-		orderTable.setColumnClass(i++, BigDecimal.class, true);		//  18-Volume
+		orderTable.setColumnClass(i++, String.class, true);			//  1-DocumentNo
+		orderTable.setColumnClass(i++, String.class, true);			//  2-Description
+		orderTable.setColumnClass(i++, String.class, true);			//  3-Business Partner
+		orderTable.setColumnClass(i++, String.class, true);			//  4-Location
+		orderTable.setColumnClass(i++, String.class, true);			//  5-Warehouse
+		orderTable.setColumnClass(i++, BigDecimal.class, true);		//  6-Weight
+		orderTable.setColumnClass(i++, BigDecimal.class, true);		//  7-Volume
+		orderTable.setColumnClass(i++, ValueNamePair.class, true);	    //  8-Delivery Rule Via
+		orderTable.setColumnClass(i++, ValueNamePair.class, true);	    //  9-Delivery Rule
+		orderTable.setColumnClass(i++, Timestamp.class, true);		    //  10-DatePromised
+		orderTable.setColumnClass(i++, Timestamp.class, true);		    //  11-DateOrdered
+		orderTable.setColumnClass(i++, String.class, true);			//  12-Region
+		orderTable.setColumnClass(i++, String.class, true);			//  13-City
+		orderTable.setColumnClass(i++, String.class, true);			//  14-Sales Representative
+		orderTable.setColumnClass(i++, String.class, true);			//  15-Address 1
+		orderTable.setColumnClass(i++, String.class, true);			//  16-Address 2
+		orderTable.setColumnClass(i++, String.class, true);			//  17-Address 3
+		orderTable.setColumnClass(i++, String.class, true);			//  18-Address 4
 		//	
 		//  Table UI
 		orderTable.autoSize();
@@ -665,13 +666,13 @@ public class OutBoundOrder {
 			KeyNamePair product = null;
 			KeyNamePair productUOM = null;
 			KeyNamePair storageASI = null;
+			BigDecimal qtyOrdered = Env.ZERO;
 			KeyNamePair orderUOM = null;
 			BigDecimal qtyOnHand = Env.ZERO;
 			BigDecimal qtyReserved = Env.ZERO;
 			BigDecimal qtyInvoiced = Env.ZERO;
 			BigDecimal qtyDelivered = Env.ZERO;
 			BigDecimal qtyInTransit = Env.ZERO;
-			BigDecimal qtyOrdered = Env.ZERO;
 			BigDecimal qty = Env.ZERO;
 			BigDecimal weight = Env.ZERO;
 			BigDecimal volume = Env.ZERO;
@@ -686,16 +687,16 @@ public class OutBoundOrder {
 				product 		= new KeyNamePair(rs.getInt("M_Product_ID"), rs.getString("Product"));
 				productUOM 		= new KeyNamePair(rs.getInt("C_UOM_ID"), rs.getString("UOMSymbol"));
 				storageASI 		= new KeyNamePair(rs.getInt("M_AttributeSetInstance_ID"), rs.getString("Lot"));;
-				qtyOnHand 		= rs.getBigDecimal("QtyOnHand");
 				qtyOrdered 		= rs.getBigDecimal("QtyOrdered");
 				orderUOM 		= new KeyNamePair(rs.getInt("Order_UOM_ID"), rs.getString("Order_UOMSymbol"));
+				qtyOnHand 		= rs.getBigDecimal("QtyOnHand");
+				qty 			= rs.getBigDecimal("Qty");
+				weight 			= rs.getBigDecimal("Weight");
+				volume 			= rs.getBigDecimal("Volume");
 				qtyReserved 	= rs.getBigDecimal("QtyReserved");
 				qtyInvoiced 	= rs.getBigDecimal("QtyInvoiced");
 				qtyDelivered 	= rs.getBigDecimal("QtyDelivered");
 				qtyInTransit 	= rs.getBigDecimal("QtyLoc");
-				qty 			= rs.getBigDecimal("Qty");
-				weight 			= rs.getBigDecimal("Weight");
-				volume 			= rs.getBigDecimal("Volume");
 				deliveryRuleKey 	= rs.getString("DeliveryRule");
 				//FR [ 1 ]
 				isStocked = (rs.getString("IsStocked") == null? "N": rs.getString("IsStocked")).equals("Y");
@@ -739,13 +740,13 @@ public class OutBoundOrder {
 				line.add(product);				      		//  3-Product
 				line.add(productUOM);				      	//  4-Unit Product
 				line.add(storageASI);				      	//  5-ASI
-				line.add(qtyOnHand);  						//  6-QtyOnHand
-				line.add(qty);								//  7-Quantity
-				line.add(weight.multiply(qty));				//	8-Weight
-				line.add(volume.multiply(qty));				//	9-Volume
-				line.add(Env.ZERO);							//	10-SeqNo
-				line.add(qtyOrdered);						//	11-QtyOrdered
-				line.add(orderUOM);							//	12-UOM-Conversion
+				line.add(qtyOrdered);						//	6-QtyOrdered
+				line.add(orderUOM);							//	7-UOM-Conversion
+				line.add(qtyOnHand);  						//  8-QtyOnHand
+				line.add(qty);								//  9-Quantity
+				line.add(weight.multiply(qty));				//	10-Weight
+				line.add(volume.multiply(qty));				//	11-Volume
+				line.add(BigDecimal.ZERO);								//	12-SeqNo
 				line.add(qtyReserved);				      	//  13-QtyReserved
 				line.add(qtyInvoiced);				      	//  14-QtyInvoiced
 				line.add(qtyDelivered);				      	//  15-QtyDelivered
@@ -778,13 +779,13 @@ public class OutBoundOrder {
 		columnNames.add(Msg.translate(Env.getCtx(), "M_Product_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "M_AttributeSetInstance_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyOrdered"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyOnHand"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Qty"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Weight") + (Util.isEmpty(uOMWeightSymbol)? "": " (" + uOMWeightSymbol + ")"));
 		columnNames.add(Msg.translate(Env.getCtx(), "Volume") + (Util.isEmpty(uOMWeightSymbol)? "": " (" + uOMVolumeSymbol + ")"));
 		columnNames.add(Msg.translate(Env.getCtx(), "LoadSequence"));
-		columnNames.add(Msg.translate(Env.getCtx(), "QtyOrdered"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_UOM_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyReserved"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyInvoiced"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyDelivered"));
@@ -837,19 +838,19 @@ public class OutBoundOrder {
 	 */
 	protected void setOrderLineColumnClass(IMiniTable orderLineTable) {
 		int i = 0;
-		orderLineTable.setColumnClass(i++, Boolean.class, false);		//  0-Selection
+		orderLineTable.setColumnClass(i++, Boolean.class, false);			//  0-Selection
 		orderLineTable.setColumnClass(i++, String.class, true);			//  1-Warehouse
 		orderLineTable.setColumnClass(i++, String.class, true);			//  2-DocumentNo
 		orderLineTable.setColumnClass(i++, String.class, true);			//  3-Product
 		orderLineTable.setColumnClass(i++, String.class, true);			//  4-Unit Measure Product
 		orderLineTable.setColumnClass(i++, String.class, true);			//  5-ASI
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  6-QtyOnHand
-		orderLineTable.setColumnClass(i++, BigDecimal.class, false);	//  7-Quantity
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  8-Weight
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  9-Volume
-		orderLineTable.setColumnClass(i++, Integer.class, false);		//  10-Sequence No
-		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  11-QtyOrdered
-		orderLineTable.setColumnClass(i++, String.class, true);			//  12-Unit Measure Conversion
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  6-QtyOrdered
+		orderLineTable.setColumnClass(i++, String.class, true);			//  7-Unit Measure Conversion
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  8-QtyOnHand
+		orderLineTable.setColumnClass(i++, BigDecimal.class, false);		//  9-Quantity
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  10-Weight
+		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  11-Volume
+		orderLineTable.setColumnClass(i++, BigDecimal.class, false);			//  12-Sequence No
 		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  13-QtyReserved
 		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  14-QtyInvoiced
 		orderLineTable.setColumnClass(i++, BigDecimal.class, true);		//  15-QtyDelivered
@@ -1309,20 +1310,23 @@ public class OutBoundOrder {
 	 * @param seqNo
 	 * @return
 	 */
-	public boolean existsSeqNo(IMiniTable orderLineTable, int row, int seqNo) {
+	public boolean existsSeqNo(IMiniTable orderLineTable, int row, BigDecimal seqNo) {
 		log.info("existsSeqNo");
 		int rows = orderLineTable.getRowCount();
-		int seqNoTable = 0;
+		BigDecimal seqNoTable = BigDecimal.ZERO;
 		for (int i = 0; i < rows; i++) {
-			if (((Boolean)orderLineTable.getValueAt(i, SELECT)).booleanValue() 
-					&& i != row) {
-				seqNoTable = (Integer) orderLineTable.getValueAt(i, OL_SEQNO);
+			if (isRowSelected(orderLineTable, i) && i != row) {
+				seqNoTable = (BigDecimal) orderLineTable.getValueAt(i, OL_SEQNO);
 				if(seqNo == seqNoTable) {
 					return true;
 				}
 			}
 		}
 		return false;
+	}
+
+	protected boolean isRowSelected(IMiniTable miniTable, int line) {
+		return (Boolean) miniTable.getValueAt(line, SELECT);
 	}
 	
 	/**
@@ -1377,14 +1381,14 @@ public class OutBoundOrder {
 		int rows = orderLineTable.getRowCount();
 		int m_C_OrderLine_ID = 0;
 		BigDecimal qty = Env.ZERO;
-		Integer seqNo = 0;
+		BigDecimal seqNo = BigDecimal.ZERO;
 		m_BufferSelect = new Vector<BufferTableSelect>();
 		
 		for (int i = 0; i < rows; i++) {
-			if (((Boolean)orderLineTable.getValueAt(i, SELECT)).booleanValue()) {
+			if (isRowSelected(orderLineTable, i)) {
 				m_C_OrderLine_ID = ((KeyNamePair)orderLineTable.getValueAt(i, ORDER_LINE)).getKey();
 				qty = (BigDecimal)orderLineTable.getValueAt(i, OL_QTY);
-				seqNo = (Integer)orderLineTable.getValueAt(i, OL_SEQNO);
+				seqNo = (BigDecimal)orderLineTable.getValueAt(i, OL_SEQNO);
 				m_BufferSelect.addElement(
 						new BufferTableSelect(m_C_OrderLine_ID, qty, seqNo));
 			}
@@ -1442,7 +1446,7 @@ public class OutBoundOrder {
 		int rows = table.getRowCount();
 		int cont = 0;
 		for (int i = 0; i < rows; i++) {
-			if (((Boolean)table.getValueAt(i, SELECT)).booleanValue()) {
+			if (isRowSelected(table,i)) {
 				cont++;
 				if(cont > 1) {
 					return true;
@@ -1463,7 +1467,7 @@ public class OutBoundOrder {
 		 * @param qty
 		 * @param seqNo
 		 */
-		public BufferTableSelect(int recordId, BigDecimal qty, Integer seqNo){
+		public BufferTableSelect(int recordId, BigDecimal qty, BigDecimal seqNo){
 			this.recordId = recordId;
 			this.qty = qty;
 			this.seqNo = seqNo;
@@ -1505,7 +1509,7 @@ public class OutBoundOrder {
 		 * Set Sequence
 		 * @param seqNo
 		 */
-		public void setSeqNo(Integer seqNo){
+		public void setSeqNo(BigDecimal seqNo){
 			this.seqNo = seqNo;
 		}
 		
@@ -1513,7 +1517,7 @@ public class OutBoundOrder {
 		 * Get Sequence
 		 * @return
 		 */
-		public Integer getSeqNo(){
+		public BigDecimal getSeqNo(){
 			return this.seqNo;
 		}
 		
@@ -1528,6 +1532,6 @@ public class OutBoundOrder {
 		/**	Quantity	*/
 		private BigDecimal qty = Env.ZERO;
 		/**	Sequence	*/
-		private Integer seqNo = 0;
+		private BigDecimal seqNo = BigDecimal.ZERO;
 	}
 }

@@ -920,7 +920,7 @@ public class WOutBoundOrder extends OutBoundOrder
 	/**
 	 * Load the Combo Box from ArrayList (Web Version)
 	 * @param comboSearch
-	 * @param data[]
+	 * @param data
 	 * @param mandatory
 	 * @return
 	 * @return int
@@ -946,7 +946,7 @@ public class WOutBoundOrder extends OutBoundOrder
 	/**
 	 * Load Combo Box from ArrayList (No Mandatory)
 	 * @param comboSearch
-	 * @param data[]
+	 * @param data
 	 * @return
 	 * @return int
 	 */
@@ -1030,19 +1030,26 @@ public class WOutBoundOrder extends OutBoundOrder
 					else
 						orderLineTable.setValueAt(qtyToDelivery, row, OL_QTY);
 
-					maxSeqNo += 10;
-					orderLineTable.setValueAt(maxSeqNo, row, OL_SEQNO);
-				}
-			} else if(col == OL_SEQNO) {
-				int seqNo = (Integer) orderLineTable.getValueAt(row, OL_SEQNO);
-				if(!existsSeqNo(orderLineTable, row, seqNo)) {
-					if(seqNo > maxSeqNo) {
-						maxSeqNo = seqNo;
+					BigDecimal seqNo = (BigDecimal) orderLineTable.getValueAt(row, OL_SEQNO);
+					if (seqNo.signum() <= 0 && isRowSelected(orderLineTable, row)) {
+						maxSeqNo = maxSeqNo.add(BigDecimal.valueOf(10));
+						orderLineTable.setValueAt(maxSeqNo, row, OL_SEQNO);
 					}
 				} else {
-					FDialog.warn(m_WindowNo, parameterPanel, null, Msg.translate(Env.getCtx(), "SeqNoEx"));
-					maxSeqNo += 10;
-					orderLineTable.setValueAt(maxSeqNo, row, OL_SEQNO);
+					orderLineTable.setValueAt(BigDecimal.ZERO, row, OL_SEQNO);
+				}
+			} else if(col == OL_SEQNO) {
+				if (isRowSelected(orderLineTable, row)) {
+					BigDecimal seqNo = (BigDecimal) orderLineTable.getValueAt(row, OL_SEQNO);
+					if (!existsSeqNo(orderLineTable, row, seqNo)) {
+						if (seqNo.compareTo(maxSeqNo) > 0) {
+							maxSeqNo = seqNo;
+						}
+					} else {
+						FDialog.warn(m_WindowNo, parameterPanel, null, Msg.translate(Env.getCtx(), "SeqNoEx"));
+						maxSeqNo.add(BigDecimal.valueOf(10));
+						orderLineTable.setValueAt(maxSeqNo, row, OL_SEQNO);
+					}
 				}
 			}
 			//	Load Group by Product
