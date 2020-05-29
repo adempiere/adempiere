@@ -252,12 +252,12 @@ public final class AEnv
 
 		log.config("Window=" + WindowNo + ", AD_Window_ID=" + AD_Window_ID);
 		GridWindowVO mWindowVO = null;
-		String locale = Env.getLanguage(Env.getCtx()).getLocale().toString();
+		String windowKey = Env.getLanguage(Env.getCtx()).getLocale() + "|" + Env.getAD_Role_ID(Env.getCtx());
 		if (AD_Window_ID != 0 && Ini.isCacheWindow())	//	try cache
 		{
 			synchronized (windowCache)
 			{
-				CCache<Integer,GridWindowVO> cache = windowCache.get(locale);
+				CCache<Integer,GridWindowVO> cache = windowCache.get(windowKey);
 				if (cache != null)
 				{
 					mWindowVO = cache.get(AD_Window_ID);
@@ -279,11 +279,11 @@ public final class AEnv
 			{
 				synchronized (windowCache)
 				{
-					CCache<Integer,GridWindowVO> cache = windowCache.get(locale);
+					CCache<Integer,GridWindowVO> cache = windowCache.get(windowKey);
 					if (cache == null)
 					{
 						cache = new CCache<Integer, GridWindowVO>("AD_Window", 10);
-						windowCache.put(locale, cache);
+						windowCache.put(windowKey, cache);
 					}
 					cache.put(AD_Window_ID, mWindowVO);
 				}
