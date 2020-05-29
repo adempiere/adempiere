@@ -458,7 +458,7 @@ public class ASPUtil {
 		}
 		loadTranslation(process);
 		//	Save dictionary
-		processCache.put(getDictionaryKey(processId), process);
+		processCache.put(getDictionaryKey(processId), process.getDuplicated());
 		//	Old compatibility
 		MTable newTable = MTable.get(context, I_AD_ProcessCustom.Table_ID);
 		if(newTable == null
@@ -487,7 +487,7 @@ public class ASPUtil {
 			return browse;
 		}
 		//	Save dictionary
-		browseCache.put(getDictionaryKey(processId), browse);
+		browseCache.put(getDictionaryKey(processId), browse.getDuplicated());
 		//	Old compatibility
 		MTable newTable = MTable.get(context, I_AD_BrowseCustom.Table_ID);
 		if(newTable == null
@@ -513,7 +513,7 @@ public class ASPUtil {
 	private MWindow getWindowForASP(int windowId) {
 		MWindow window = MWindow.get(context, windowId);
 		//	Save dictionary
-		windowCache.put(getDictionaryKey(windowId), window);
+		windowCache.put(getDictionaryKey(windowId), window.getDuplicated());
 		//	Old compatibility
 		MTable newTable = MTable.get(context, I_AD_WindowCustom.Table_Name);
 		if(newTable == null
