@@ -356,7 +356,7 @@
         <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue">@PayAmt@</Data>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="81287" Column="IsInfoOnly">true</Data>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
         <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">57630</Data>
         <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
@@ -431,11 +431,6 @@
         <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isOldNull="true">123</Data>
       </PO>
     </Step>
-    <Step SeqNo="210" StepType="AD">
-      <PO AD_Table_ID="285" Action="U" Record_ID="57630" Table="AD_Process_Para">
-        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isOldNull="true">1=1</Data>
-      </PO>
-    </Step>
     <Step SeqNo="220" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="57631" Table="AD_Process_Para">
         <Data AD_Column_ID="2820" Column="Updated">2020-03-07 18:54:54.145</Data>
@@ -462,7 +457,7 @@
         <Data AD_Column_ID="4017" Column="ColumnName">C_BPartner_ID</Data>
         <Data AD_Column_ID="2823" Column="Description">Identifies a Business Partner</Data>
         <Data AD_Column_ID="2824" Column="Help">A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson</Data>
-        <Data AD_Column_ID="56299" Column="ReadOnlyLogic">1=1</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
         <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
