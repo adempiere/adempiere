@@ -32,7 +32,6 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDocType;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
-import org.compiere.model.MProcessPara;
 import org.compiere.model.PO;
 import org.compiere.print.MPrintFormat;
 import org.compiere.util.CLogger;
@@ -44,6 +43,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
 import org.eevolution.process.GenerateMovement;
+import org.spin.util.ASPUtil;
 
 /**
  *  Server Process Template
@@ -204,40 +204,40 @@ public abstract class SvrProcess implements ProcessCall
 	 * Validate Parameters
 	 */
 	private void validateParameter() {
-		MProcess process = MProcess.get(getCtx(), processInfo.getAD_Process_ID());
+		MProcess process = ASPUtil.getInstance(getCtx()).getProcess(processInfo.getAD_Process_ID());
 		//	No have parameter
 		if(process == null)
 			return;
 		//	
-		MProcessPara [] parameters = process.getParameters();
 		StringBuffer errorMsg = new StringBuffer();
 		//	Loop over parameter, find a mandatory parameter
-		for(MProcessPara parameter : parameters) {
-			if(parameter.isMandatory() && parameter.isActive() && Util.isEmpty(parameter.getDisplayLogic())) {
-				ProcessInfoParameter infoParameter = getInfoParameter(parameter.getColumnName());
-				if(infoParameter == null
-						|| infoParameter.getParameter() == null
-						|| (DisplayType.isID(parameter.getAD_Reference_ID()) 
-								&& (
-									(infoParameter.getParameter() instanceof String 
-											&& infoParameter.getParameterAsString() == null)
-									||
-									(infoParameter.getParameter() instanceof Number 
-											&& infoParameter.getParameterAsInt() < 0)
+		ASPUtil.getInstance(getCtx()).getProcessParameters(processInfo.getAD_Process_ID())
+			.forEach(parameter -> {
+				if(parameter.isMandatory() && parameter.isActive() && Util.isEmpty(parameter.getDisplayLogic())) {
+					ProcessInfoParameter infoParameter = getInfoParameter(parameter.getColumnName());
+					if(infoParameter == null
+							|| infoParameter.getParameter() == null
+							|| (DisplayType.isID(parameter.getAD_Reference_ID()) 
+									&& (
+										(infoParameter.getParameter() instanceof String 
+												&& infoParameter.getParameterAsString() == null)
+										||
+										(infoParameter.getParameter() instanceof Number 
+												&& infoParameter.getParameterAsInt() < 0)
+									)
 								)
-							)
-						|| (DisplayType.isText(parameter.getAD_Reference_ID()) 
-								&& (infoParameter.getParameterAsString() == null 
-										|| infoParameter.getParameterAsString().length() == 0))
-				) {
-					if(errorMsg.length() > 0) {
-						errorMsg.append(", ");
+							|| (DisplayType.isText(parameter.getAD_Reference_ID()) 
+									&& (infoParameter.getParameterAsString() == null 
+											|| infoParameter.getParameterAsString().length() == 0))
+					) {
+						if(errorMsg.length() > 0) {
+							errorMsg.append(", ");
+						}
+						//	
+						errorMsg.append("@").append(parameter.getColumnName()).append("@");
 					}
-					//	
-					errorMsg.append("@").append(parameter.getColumnName()).append("@");
 				}
-			}
-		}
+			});
 		//	throw exception
 		if(errorMsg.length() > 0) {
 			throw new AdempiereException(MESSAGE_FillMandatory + errorMsg.toString());

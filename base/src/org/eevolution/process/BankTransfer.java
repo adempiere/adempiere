@@ -103,7 +103,11 @@ public class BankTransfer extends BankTransferAbstract {
 		paymentBankTo.setC_BPartner_ID (getBPartnerId());
 		paymentBankTo.setC_Currency_ID(getCurrencyId());
 		if(getConversionTypeId() > 0) {
-			paymentBankFrom.setC_ConversionType_ID(getConversionTypeId());	
+			paymentBankTo.setC_ConversionType_ID(getConversionTypeId());	
+		}
+		if(getPosId() > 0) {
+			paymentBankFrom.setC_POS_ID(getPosId());
+			paymentBankTo.setC_POS_ID(getPosId());
 		}
 		paymentBankTo.setPayAmt(getAmount());
 		paymentBankTo.setOverUnderAmt(Env.ZERO);

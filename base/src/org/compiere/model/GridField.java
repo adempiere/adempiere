@@ -43,6 +43,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Evaluatee;
 import org.compiere.util.Evaluator;
+import org.compiere.util.TimeUtil;
 import org.spin.util.ASPUtil;
 
 /**
@@ -811,6 +812,10 @@ public class GridField
 				} catch (java.text.ParseException e) {
 					date = DisplayType.getDateFormat_JDBC().parse (value);
 				}
+				if(DisplayType.Date == m_vo.displayType) {
+					return TimeUtil.getDay(date.getTime());
+				}
+				//	Default
 				return new Timestamp (date.getTime());
 			}
 			

@@ -60,6 +60,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
 import org.spin.util.ASPUtil;
 
@@ -1168,9 +1169,14 @@ public abstract class Browser {
 			int cols = 0;
 
 			StringBuilder axisSql = new StringBuilder("(SELECT ");
+			String cummulativeColumnName = ycol.getColumnSQL();
+			if(Util.isEmpty(cummulativeColumnName)) {
+				cummulativeColumnName = ycol.getAD_Column().getColumnName();
+			}
+			//	Replace alias
+			cummulativeColumnName = cummulativeColumnName.replaceAll(ycol.getAD_View_Definition().getTableAlias(), ycol.getAD_View_Definition().getAD_Table().getTableName());
 			axisSql.append("SUM(")
-					.append(ycol.getAD_Column()
-							.getColumnName())
+					.append(cummulativeColumnName)
 					.append(") FROM  ")
 					.append(ycol.getAD_View_Definition().getAD_Table().getTableName())
 					.append(" WHERE ")

@@ -16,11 +16,10 @@
 
 package org.eevolution.services
 
-import java.util.{ArrayList, List}
 
 import org.compiere.model._
 import org.eevolution.dsl._
-import scala.collection.JavaConversions._
+import scala.jdk.CollectionConverters._
 
 /**
  *  Payment Service
@@ -33,7 +32,7 @@ trait PaymentService {
     whereClause.append(I_C_Payment.COLUMNNAME_C_Order_ID).append("=?")
     val payments = new Query(order.getCtx(), I_C_Payment.Table_Name, whereClause.toString(), order.get_TrxName())
       .setClient_ID().setParameters(order.get_ID().asInstanceOf[Object])
-      .list().toList
+      .list().asScala.toList
     payments
   }
 }

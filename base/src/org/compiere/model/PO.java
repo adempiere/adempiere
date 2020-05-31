@@ -1345,14 +1345,7 @@ public abstract class PO
 					continue;
 				String colName = from.p_info.getColumnName(i1);
 				//  Ignore Standard Values
-				if (colName.startsWith("Created")
-					|| colName.startsWith("Updated")
-					|| colName.equals("IsActive")
-					|| colName.equals("AD_Client_ID")
-					|| colName.equals("AD_Org_ID")
-					|| colName.equals("Processing")
-					|| colName.equals("UUID")
-					)
+				if (M_Element.isReservedColumnName(colName))
 					;	//	ignore
 				else
 				{
@@ -2177,7 +2170,7 @@ public abstract class PO
 				log.warning("beforeSave failed - " + toString());
 				if (localTrx != null)
 				{
-					localTrx.rollback();
+					localTrx.rollback(true);
 					localTrx.close();
 					m_trxName = null;
 				}
@@ -2221,7 +2214,7 @@ public abstract class PO
 				log.saveError("Error", errorMsg);
 				if (localTrx != null)
 				{
-					localTrx.rollback();
+					localTrx.rollback(true);
 					m_trxName = null;
 				}
 				else
@@ -2237,14 +2230,14 @@ public abstract class PO
 				if (b)
 				{
 					if (localTrx != null)
-						return localTrx.commit();
+						return localTrx.commit(true);
 					else
 						return b;
 				}
 				else
 				{
 					if (localTrx != null)
-						localTrx.rollback();
+						localTrx.rollback(true);
 					else
 						trx.rollback(savepoint);
 					return b;
@@ -2256,23 +2249,23 @@ public abstract class PO
 				if (b)
 				{
 					if (localTrx != null)
-						return localTrx.commit();
+						return localTrx.commit(true);
 					else
 						return b;
 				}
 				else
 				{
 					if (localTrx != null)
-						localTrx.rollback();
+						localTrx.rollback(true);
 					else
 						trx.rollback(savepoint);
 					return b;
 				}
 			}
 		}
-		catch (SQLException e)
+		catch (Exception e)
 		{
-			log.log(Level.WARNING, "afterSave - " + toString(), e);
+			log.saveError("Error", e);
 			if (localTrx != null)
 			{
 				localTrx.rollback();
@@ -2287,25 +2280,20 @@ public abstract class PO
 			}
 			return false;
 		}
-		finally
-		{
-			if (localTrx != null)
-			{
-				localTrx.close();
-				m_trxName = null;
-			}
-			else
-			{
-				if (savepoint != null)
-				{
-					try {
+		finally {
+			try {
+				if (localTrx != null) {
+					localTrx.close();
+					m_trxName = null;
+				} else {
+					if (savepoint != null) {
 						trx.releaseSavepoint(savepoint);
-					} catch (SQLException e) {
-						e.printStackTrace();
 					}
+					savepoint = null;
+					trx = null;
 				}
-				savepoint = null;
-				trx = null;
+			} catch (SQLException e) {
+				log.saveError("Error", e);
 			}
 		}
 	}	//	save
@@ -2786,7 +2774,7 @@ public abstract class PO
 		columnName = I_AD_Element.COLUMNNAME_UUID;
 		if (p_info.getColumnIndex(columnName) != -1) {
 			String value = get_ValueAsString(columnName);
-			if (value == null || value.length() == 0) {
+			if (Util.isEmpty(value) || !isDirectLoad) {
 				value = DB.getUUID(m_trxName);
 				set_ValueNoCheck(columnName, value);
 			}

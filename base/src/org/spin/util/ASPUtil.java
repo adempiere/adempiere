@@ -247,7 +247,7 @@ public class ASPUtil {
 		}
 		//	Filter
 		return fields.stream()
-			.filter(field -> field.isQueryCriteria())
+			.filter(field -> field.isActive() && field.isQueryCriteria())
 			.sorted(Comparator.comparing(MBrowseField::getSeqNoGrid))
 			.collect(Collectors.toList());
 	}
@@ -264,7 +264,7 @@ public class ASPUtil {
 		}
 		//	Filter
 		return fields.stream()
-			.filter(field -> field.isIdentifier())
+			.filter(field -> field.isActive() && field.isIdentifier())
 			.sorted(Comparator.comparing(MBrowseField::getSeqNo))
 			.collect(Collectors.toList());
 	}
@@ -281,7 +281,7 @@ public class ASPUtil {
 		}
 		//	Filter
 		return fields.stream()
-			.filter(field -> field.isOrderBy() && field.isDisplayed())
+			.filter(field -> field.isActive() && field.isOrderBy() && field.isDisplayed())
 			.sorted(Comparator.comparing(MBrowseField::getSeqNo))
 			.collect(Collectors.toList());
 	}
@@ -298,7 +298,7 @@ public class ASPUtil {
 		}
 		//	Filter
 		return fields.stream()
-			.filter(field -> field.isDisplayed() || field.isIdentifier())
+			.filter(field -> field.isActive() && field.isDisplayed() || field.isIdentifier())
 			.sorted(Comparator.comparing(MBrowseField::getSeqNo))
 			.collect(Collectors.toList());
 	}
@@ -315,7 +315,7 @@ public class ASPUtil {
 		}
 		//	Filter
 		return fields.stream()
-			.filter(field -> field.isKey())
+			.filter(field -> field.isActive() && field.isKey())
 			.sorted(Comparator.comparing(MBrowseField::getSeqNo))
 			.findFirst()
 			.get();
@@ -458,7 +458,7 @@ public class ASPUtil {
 		}
 		loadTranslation(process);
 		//	Save dictionary
-		processCache.put(getDictionaryKey(processId), process);
+		processCache.put(getDictionaryKey(processId), process.getDuplicated());
 		//	Old compatibility
 		MTable newTable = MTable.get(context, I_AD_ProcessCustom.Table_ID);
 		if(newTable == null
@@ -487,7 +487,7 @@ public class ASPUtil {
 			return browse;
 		}
 		//	Save dictionary
-		browseCache.put(getDictionaryKey(processId), browse);
+		browseCache.put(getDictionaryKey(processId), browse.getDuplicated());
 		//	Old compatibility
 		MTable newTable = MTable.get(context, I_AD_BrowseCustom.Table_ID);
 		if(newTable == null
@@ -513,7 +513,7 @@ public class ASPUtil {
 	private MWindow getWindowForASP(int windowId) {
 		MWindow window = MWindow.get(context, windowId);
 		//	Save dictionary
-		windowCache.put(getDictionaryKey(windowId), window);
+		windowCache.put(getDictionaryKey(windowId), window.getDuplicated());
 		//	Old compatibility
 		MTable newTable = MTable.get(context, I_AD_WindowCustom.Table_Name);
 		if(newTable == null

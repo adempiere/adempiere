@@ -320,7 +320,8 @@ public class InvoiceGen extends GenForm
 		
 		ProcessInfo pi = new ProcessInfo ("", AD_Process_ID);
 		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
-
+		pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
+		pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
 		//	Add Parameters
 		MPInstancePara para = new MPInstancePara(instance, 10);
 		para.setParameter("Selection", "Y");

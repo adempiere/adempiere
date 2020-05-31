@@ -95,10 +95,10 @@ object OrderBuilder {
 
 
       val order = new Order(context, 0, trxName)
-      order.setAD_Org_ID(organization.get getAD_Org_ID())
+      order.setAD_Org_ID(organization.get.getAD_Org_ID())
       order.setBPartner(partner.get)
-      order.setM_PriceList_ID(priceList.get getM_PriceList_ID)
-      order.setM_Warehouse_ID(warehouse.get getM_Warehouse_ID)
+      order.setM_PriceList_ID(priceList.get.getM_PriceList_ID)
+      order.setM_Warehouse_ID(warehouse.get.getM_Warehouse_ID)
       if (X_C_DocType.DOCBASETYPE_SalesOrder == baseDocumentType.get)
       {
         val documentTypeId = MDocType.getDocTypeBaseOnSubType(organization.get.getAD_Org_ID, baseDocumentType.get , subTypeDocument.getOrElse(X_C_DocType.DOCSUBTYPESO_StandardOrder))

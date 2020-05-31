@@ -22,7 +22,7 @@ import org.compiere.process.SvrProcess;
 
 /** Generated Process for (Valuation Effective Date)
  *  @author ADempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.3
  */
 public abstract class ValuationEffectiveDateAbstract extends SvrProcess {
 	/** Process Value 	*/
@@ -32,19 +32,21 @@ public abstract class ValuationEffectiveDateAbstract extends SvrProcess {
 	/** Process Id 	*/
 	private static final int ID_FOR_PROCESS = 53222;
 	/**	Parameter Name for Valuation Date	*/
-	private static final String DATEVALUE = "DateValue";
+	public static final String DATEVALUE = "DateValue";
 	/**	Parameter Name for Accounting Schema	*/
-	private static final String C_ACCTSCHEMA_ID = "C_AcctSchema_ID";
+	public static final String C_ACCTSCHEMA_ID = "C_AcctSchema_ID";
 	/**	Parameter Name for Warehouse	*/
-	private static final String M_WAREHOUSE_ID = "M_Warehouse_ID";
+	public static final String M_WAREHOUSE_ID = "M_Warehouse_ID";
 	/**	Parameter Name for Product	*/
-	private static final String M_PRODUCT_ID = "M_Product_ID";
+	public static final String M_PRODUCT_ID = "M_Product_ID";
 	/**	Parameter Name for Product Category	*/
-	private static final String M_PRODUCT_CATEGORY_ID = "M_Product_Category_ID";
+	public static final String M_PRODUCT_CATEGORY_ID = "M_Product_Category_ID";
 	/**	Parameter Name for Cost Type	*/
-	private static final String M_COSTTYPE_ID = "M_CostType_ID";
+	public static final String M_COSTTYPE_ID = "M_CostType_ID";
 	/**	Parameter Name for Cost Element	*/
-	private static final String M_COSTELEMENT_ID = "M_CostElement_ID";
+	public static final String M_COSTELEMENT_ID = "M_CostElement_ID";
+	/**	Parameter Name for Price List Version	*/
+	public static final String M_PRICELIST_VERSION_ID = "M_PriceList_Version_ID";
 	/**	Parameter Value for Valuation Date	*/
 	private Timestamp dateValue;
 	/**	Parameter Value for Accounting Schema	*/
@@ -59,6 +61,8 @@ public abstract class ValuationEffectiveDateAbstract extends SvrProcess {
 	private int costTypeId;
 	/**	Parameter Value for Cost Element	*/
 	private int costElementId;
+	/**	Parameter Value for Price List Version	*/
+	private int priceListVersionId;
 
 	@Override
 	protected void prepare() {
@@ -69,6 +73,7 @@ public abstract class ValuationEffectiveDateAbstract extends SvrProcess {
 		productCategoryId = getParameterAsInt(M_PRODUCT_CATEGORY_ID);
 		costTypeId = getParameterAsInt(M_COSTTYPE_ID);
 		costElementId = getParameterAsInt(M_COSTELEMENT_ID);
+		priceListVersionId = getParameterAsInt(M_PRICELIST_VERSION_ID);
 	}
 
 	/**	 Getter Parameter Value for Valuation Date	*/
@@ -139,6 +144,16 @@ public abstract class ValuationEffectiveDateAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Cost Element	*/
 	protected void setCostElementId(int costElementId) {
 		this.costElementId = costElementId;
+	}
+
+	/**	 Getter Parameter Value for Price List Version	*/
+	protected int getPriceListVersionId() {
+		return priceListVersionId;
+	}
+
+	/**	 Setter Parameter Value for Price List Version	*/
+	protected void setPriceListVersionId(int priceListVersionId) {
+		this.priceListVersionId = priceListVersionId;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/

@@ -19,19 +19,30 @@
 
 package org.compiere.process;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.Iterator;
-import java.util.Vector;
-import java.util.logging.Level;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.compiere.util.AdempiereSystemError;
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.I_M_DiscountSchemaLine;
+import org.compiere.model.I_M_ProductPrice;
+import org.compiere.model.I_M_Product_PO;
+import org.compiere.model.MConversionRate;
+import org.compiere.model.MDiscountSchemaLine;
+import org.compiere.model.MPriceList;
+import org.compiere.model.MPriceListVersion;
+import org.compiere.model.MProductPO;
+import org.compiere.model.MProductPrice;
+import org.compiere.model.Query;
+import org.compiere.model.X_M_DiscountSchemaLine;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.CLogger;
-import org.compiere.util.CPreparedStatement;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -42,38 +53,36 @@ import org.compiere.util.ValueNamePair;
  * @version $Id: M_PriceList_Create,v 1.0 2005/10/09 22:19:00
  *          globalqss Exp $
  * @author Carlos Ruiz (globalqss)
- *         Make T_Selection tables permanent         
+ *         Make T_Selection tables permanent   
+ * @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ *	Improve calculation times
+ *	Add Product Group, Class and Classification for criteria      
  */
-public class M_PriceList_Create extends SvrProcess {
+public class M_PriceList_Create extends M_PriceList_CreateAbstract {
 
-	/** The Record */
-	private int p_PriceList_Version_ID = 0;
-
-	private String p_DeleteOld;
+	/** The Price List Version*/
+	private MPriceListVersion priceListVersion;
+	/**	Price List	*/
+	private MPriceList priceList;
 	
-	private int m_AD_PInstance_ID = 0; 
-
 	/**
 	 * Prepare - e.g., get Parameters.
 	 */
 	protected void prepare() {
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++) {
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("DeleteOld"))
-				p_DeleteOld = (String) para[i].getParameter();
-			else if (name.equals("PriceList_Version_ID"))
-				p_PriceList_Version_ID = para[i].getParameterAsInt();			
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
+		super.prepare();
+		//	Validate record ID
+		if(getParameterAsInt("PriceList_Version_ID") != 0) {
+			priceListVersion = new MPriceListVersion(getCtx(), getParameterAsInt("PriceList_Version_ID"), get_TrxName());
+		} else if(getRecord_ID() != 0) { 
+			priceListVersion = new MPriceListVersion(getCtx(), getRecord_ID(), get_TrxName());
 		}
-		if (p_PriceList_Version_ID==0) {
-			p_PriceList_Version_ID = getRecord_ID();
+		//	
+		if(priceListVersion == null) {
+			throw new AdempiereException("@PriceList_Version_ID@ @NotFound@");
 		}
-		m_AD_PInstance_ID = getAD_PInstance_ID();
-	} //*prepare*/
+		//	Get price list
+		priceList = MPriceList.get(getCtx(), priceListVersion.getM_PriceList_ID(), get_TrxName());
+	}
 
 	/**
 	 * Process
@@ -86,16 +95,12 @@ public class M_PriceList_Create extends SvrProcess {
 		String sql;
 		String sqlupd;
 		String sqldel;
-		String sqlins;
 		int cntu = 0;
 		int cntd = 0;
-		int cnti = 0;
 		int totu = 0;
 		int toti = 0;
 		int totd = 0;
-		int V_temp;
-		int v_NextNo = 0;
-		String Message = " ";
+		String message = " ";
 		//
 		//Checking Prerequisites
 		//PO Prices must exists
@@ -172,7 +177,7 @@ public class M_PriceList_Create extends SvrProcess {
 				                   + " WHERE    x.M_Product_ID=po.M_Product_ID "
 				                   + "   AND    IsCurrentVendor='Y' AND IsActive='Y' "
 				                   + " GROUP BY M_Product_ID " + " HAVING COUNT(*) > 1 ) ";
-
+		
 		PreparedStatement Cur_Duplicates = null;
 		Cur_Duplicates = DB.prepareStatement(sql, get_TrxName());
 		ResultSet dupl = Cur_Duplicates.executeQuery();
@@ -213,503 +218,406 @@ public class M_PriceList_Create extends SvrProcess {
 			Cur_Vendors = null;
 
 		}
+		log.fine("Total Updated " + totu);
+		log.fine("Total Insert " + toti);
+		log.fine("Total Updated " + totu);
 		dupl.close();
 		Cur_Duplicates.close();
 		Cur_Duplicates = null;
 
 		// DB.commit(true, get_TrxName());
-
-		//
 		//	Delete Old Data	
-		//
-		if (p_DeleteOld.equals("Y")) {
+		if (isDeleteOld()) {
 			sqldel = "DELETE M_ProductPrice "
 					+ " WHERE	M_PriceList_Version_ID = "
-					+ p_PriceList_Version_ID;
+					+ priceListVersion.getM_PriceList_Version_ID();
 			cntd = DB.executeUpdate(sqldel, get_TrxName());
 			if (cntd == -1)
 				raiseError(" DELETE	M_ProductPrice ", sqldel);
 			totd += cntd;
-			Message = "@Deleted@=" + cntd + " - ";
+			message = "@Deleted@=" + cntd + " - ";
 			log.fine("Deleted " + cntd);
+			log.fine(message + ": Total Deleted " + totd);
 		}
 		//
 		// Get PriceList Info
-		//
-		sql = "SELECT p.C_Currency_ID " + " , c.StdPrecision "
-				+ " , v.AD_Client_ID " + " , v.AD_Org_ID " + " , v.UpdatedBy "
-				+ " , v.M_DiscountSchema_ID "
-				+ " , M_PriceList_Version_Base_ID " + " FROM	M_PriceList p "
-				+ "     ,M_PriceList_Version v " + "     ,C_Currency c "
-				+ " WHERE	p.M_PriceList_ID = v.M_PriceList_ID "
-				+ " AND	    p.C_Currency_ID  = c.C_Currency_ID"
-				+ " AND	v.M_PriceList_Version_ID = " + p_PriceList_Version_ID;
-		PreparedStatement curgen = null;
-		curgen = DB.prepareStatement(sql, get_TrxName());
-		ResultSet v = curgen.executeQuery();
-		while (v.next()) {
-			//
-			// For All Discount Lines in Sequence
-			//
-			sql = "SELECT m_discountschemaline_id"
-					+ ",ad_client_id,ad_org_id,isactive,created,createdby,updated,updatedby" 
-					+ ",m_discountschema_id,seqno,m_product_category_id,c_bpartner_id,m_product_id"
-					+ ",conversiondate,list_base,list_addamt,list_discount,list_rounding,list_minamt"
-					+ ",list_maxamt,list_fixed,std_base,std_addamt,std_discount,std_rounding"
-					+ ",std_minamt,std_maxamt,std_fixed,limit_base,limit_addamt,limit_discount"
-					+ ",limit_rounding,limit_minamt,limit_maxamt,limit_fixed,group1,group2,c_conversiontype_id"
-					+ " FROM  M_DiscountSchemaLine"
-					+ " WHERE M_DiscountSchema_ID="
-					+ v.getInt("M_DiscountSchema_ID")
-					+ " AND IsActive='Y' ORDER BY SeqNo";
-			PreparedStatement Cur_DiscountLine = null;
-			Cur_DiscountLine = DB.prepareStatement(sql, get_TrxName());
-			ResultSet dl = Cur_DiscountLine.executeQuery();
-			while (dl.next()) {
-				//
-				//Clear Temporary Table
-				//
-				sqldel = "DELETE FROM T_Selection WHERE AD_PInstance_ID="+ m_AD_PInstance_ID;
-				cntd = DB.executeUpdate(sqldel, get_TrxName());
-				if (cntd == -1)
-					raiseError(" DELETE	T_Selection ", sqldel);
-				totd += cntd;
-				log.fine("Deleted " + cntd);
-				//
-				//Create Selection in temporary table
-				//
-				V_temp = v.getInt("M_PriceList_Version_Base_ID");
-				String dl_Group1 = dl.getString("Group1");
-				String dl_Group2 = dl.getString("Group2");
-				if (v.wasNull()) {
-					//
-					//Create Selection from M_Product_PO
-					//
-					sqlins = "INSERT INTO T_Selection (AD_PInstance_ID, T_Selection_ID) "
-							+ " SELECT DISTINCT " + m_AD_PInstance_ID +", po.M_Product_ID "
-							+ " FROM M_Product p, M_Product_PO po"
-							+ " WHERE p.M_Product_ID=po.M_Product_ID "
-							+ " AND	(p.AD_Client_ID=" + v.getInt("AD_Client_ID") + " OR p.AD_Client_ID=0)"
-							+ " AND	p.IsActive='Y' AND po.IsActive='Y' AND po.IsCurrentVendor='Y' "
-							//
-							//Optional Restrictions
-							//
-							// globalqss - detected bug, JDBC returns zero for null values
-							// so we're going to use NULLIF(value, 0)
-							+ " AND (NULLIF(" + dl.getInt("M_Product_Category_ID") + ",0) IS NULL"
-							+ "   OR p.M_Product_Category_ID IN (" + getSubCategoryWhereClause(dl.getInt("M_Product_Category_ID")) + "))";
-							if(dl_Group1 != null)
-								sqlins = sqlins + " AND (p.Group1=?)";
-							if (dl_Group2 != null)
-								sqlins = sqlins + " AND (p.Group2=?)";
-							sqlins = sqlins + " AND (NULLIF(" + dl.getInt("C_BPartner_ID") + ",0) IS NULL "
-							+ "   OR po.C_BPartner_ID=" + dl.getInt("C_BPartner_ID") + ")"
-							+ " AND (NULLIF(" + dl.getInt("M_Product_ID") + ",0) IS NULL "
-							+ "   OR p.M_Product_ID=" + dl.getInt("M_Product_ID") + ")";
-					
-					CPreparedStatement stmt = DB.prepareStatement(sqlins, get_TrxName());
-					
-					int i = 1;
-
-					if (dl_Group1!=null)
-						stmt.setString(i++, dl_Group1);
-					if (dl_Group2!=null)
-						stmt.setString(i++, dl_Group2);		
-					
-					cnti = stmt.executeUpdate();
-					
-					if (cnti == -1)
-						raiseError(" INSERT INTO T_Selection ", sqlins);
-					toti += cnti;
-					log.fine("Inserted " + cnti);
-
-				} else {
-					//
-					// Create Selection from existing PriceList
-					//
-					sqlins = "INSERT INTO T_Selection (AD_PInstance_ID, T_Selection_ID)"
-							+ " SELECT DISTINCT " + m_AD_PInstance_ID +", p.M_Product_ID"
-							+ " FROM M_Product p, M_ProductPrice pp"
-							+ " WHERE p.M_Product_ID=pp.M_Product_ID"
-							+ " AND pp.M_PriceList_Version_ID = " + v.getInt("M_PriceList_Version_Base_ID")
-							+ " AND p.IsActive='Y' AND pp.IsActive='Y'"
-							//
-							//Optional Restrictions
-							//
-							+ " AND (NULLIF(" + dl.getInt("M_Product_Category_ID") + ",0) IS NULL"
-							+ " OR p.M_Product_Category_ID IN (" + getSubCategoryWhereClause(dl.getInt("M_Product_Category_ID")) + "))";
-							if(dl_Group1 != null)
-								sqlins = sqlins + " AND (p.Group1=?)";
-							if (dl_Group2 != null)
-								sqlins = sqlins + " AND (p.Group2=?)";
-							sqlins = sqlins + " AND (NULLIF(" + dl.getInt("C_BPartner_ID") + ",0) IS NULL OR EXISTS "
-							+ "(SELECT m_product_id,c_bpartner_id,ad_client_id,ad_org_id,isactive"
-							+ ",created,createdby,updated,updatedby,iscurrentvendor,c_uom_id"
-							+ ",c_currency_id,pricelist,pricepo,priceeffective,pricelastpo"
-							+ ",pricelastinv,vendorproductno,upc,vendorcategory,discontinued"
-							+ ",discontinuedby,order_min,order_pack,costperorder"
-							+ ",deliverytime_promised,deliverytime_actual,qualityrating"
-							+ ",royaltyamt,group1,group2"
-							+ ",manufacturer FROM M_Product_PO po WHERE po.M_Product_ID=p.M_Product_ID"
-							+ " AND po.C_BPartner_ID=" + dl.getInt("C_BPartner_ID") + "))" 
-							+ " AND	(NULLIF(" + dl.getInt("M_Product_ID") + ",0) IS NULL "
-							+ "   OR p.M_Product_ID=" + dl.getInt("M_Product_ID") + ")";
-					
-					
-					CPreparedStatement stmt = DB.prepareStatement(sqlins, get_TrxName());
-					int i = 1;
-					
-					if (dl_Group1!=null)
-						stmt.setString(i++, dl_Group1);
-					if (dl_Group2!=null)
-						stmt.setString(i++, dl_Group2);		
-					
-					cnti = stmt.executeUpdate();
-					if (cnti == -1)
-						raiseError(
-								" INSERT INTO T_Selection from existing PriceList",
-								sqlins);
-					toti += cnti;
-					log.fine("Inserted " + cnti);
-
+		//	Used for all combination products and price list
+		Map<Integer, ProductCombination> combinationMap = new HashMap<>();
+		Map<String, BigDecimal> conversionRateMap = new HashMap<String, BigDecimal>();
+		//	Get 
+		StringBuffer whereClause = new StringBuffer("M_DiscountSchema_ID = ?");
+		List<MDiscountSchemaLine> discountSchemaLineList = new Query(getCtx(), I_M_DiscountSchemaLine.Table_Name, whereClause.toString(), get_TrxName())
+			.setParameters(priceListVersion.getM_DiscountSchema_ID())
+			.setClient_ID()
+			.setOnlyActiveRecords(true)
+			.setOrderBy(I_M_DiscountSchemaLine.COLUMNNAME_SeqNo)
+			.<MDiscountSchemaLine>list();
+		//	For purchasing product
+		if(priceListVersion.getM_Pricelist_Version_Base_ID() == 0) {
+			discountSchemaLineList.forEach(discountSchemaLine -> {
+				List<Object> parameters = new ArrayList<>();
+				StringBuffer querywhereClause = new StringBuffer("IsCurrentVendor = 'Y'");
+				//	Create where clause
+				//	for BBusiness Partner
+				if(discountSchemaLine.getC_BPartner_ID() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("C_BPartner_ID = ?");
+					parameters.add(discountSchemaLine.getC_BPartner_ID());
 				}
-
-				Message = Message + "@Selected@=" + cnti;
-
-				//
-				//Delete Prices in Selection, so that we can insert
-				//
-				V_temp = v.getInt("M_PriceList_Version_Base_ID");
-				if (v.wasNull() || V_temp != p_PriceList_Version_ID) {
-
-					sqldel = "DELETE M_ProductPrice pp"
-							+ " WHERE pp.M_PriceList_Version_ID = "
-							+ p_PriceList_Version_ID
-							+ " AND EXISTS (SELECT t_selection_id FROM T_Selection s WHERE pp.M_Product_ID=s.T_Selection_ID" 
-								+ " AND s.AD_PInstance_ID=" + m_AD_PInstance_ID + ")";
-
-					cntd = DB.executeUpdate(sqldel, get_TrxName());
-					if (cntd == -1)
-						raiseError(" DELETE	M_ProductPrice ", sqldel);
-					totd += cntd;
-					Message = Message + ", @Deleted@=" + cntd;
-					log.fine("Deleted " + cntd);
+				//	for product
+				if(discountSchemaLine.getM_Product_ID() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("M_Product_ID = ?");
+					parameters.add(discountSchemaLine.getM_Product_ID());
 				}
-
-				//
-				//	Copy (Insert) Prices
-				//
-				V_temp = v.getInt("M_PriceList_Version_Base_ID");
-				if (V_temp == p_PriceList_Version_ID)
-					//
-					// We have Prices already
-					//
-					;
-				else if (v.wasNull())
-				//			
-				//Copy and Convert from Product_PO
-				//	
-				{
-					sqlins = "INSERT INTO M_ProductPrice "
-							+ "(M_PriceList_Version_ID"
-							+ " ,M_Product_ID "
-							+ " ,AD_Client_ID"
-							+ " , AD_Org_ID"
-							+ " , IsActive"
-							+ " , Created"
-							+ " , CreatedBy"
-							+ " , Updated"
-							+ " , UpdatedBy"
-							+ " , PriceList"
-							+ " , PriceStd"
-							+ " , PriceLimit) "
-							+ "SELECT "
-							+ p_PriceList_Version_ID
-							+ "      ,po.M_Product_ID "
-							+ "      ,"
-							+ v.getInt("AD_Client_ID")
-							+ "      ,"
-							+ v.getInt("AD_Org_ID")
-							+ "      ,'Y'"
-							+ "      ,SysDate,"
-							+ v.getInt("UpdatedBy") 
-							+ "      ,SysDate,"
-							+ v.getInt("UpdatedBy")
-							//
-							//Price List
-							//
-							+ " ,COALESCE(currencyConvert(po.PriceList, po.C_Currency_ID, "
-							+ v.getInt("C_Currency_ID")
-							+ ",  ? , "
-							+ dl.getInt("C_ConversionType_ID")
-							+ ", "
-							+ v.getInt("AD_Client_ID")
-							+ ", "
-							+ v.getInt("AD_Org_ID")
-							+ "),0)"
-														
-							//	Price Std
-							+ " ,COALESCE(currencyConvert(po.PriceList, po.C_Currency_ID, "
-							+ v.getInt("C_Currency_ID")
-							+ ", ? , "
-							+ dl.getInt("C_ConversionType_ID")
-							+ ", "
-							+ v.getInt("AD_Client_ID")
-                            + ", "
-							+ v.getInt("AD_Org_ID")
-							+ "),0)"
-							
-							//	Price Limit
-							+ " ,COALESCE(currencyConvert(po.PricePO ,po.C_Currency_ID, "
-							+ v.getInt("C_Currency_ID")
-							+ ",? , "
-							+ dl.getInt("C_ConversionType_ID")
-							+ ", "
-							+ v.getInt("AD_Client_ID")
-							+ ", "
-							+ v.getInt("AD_Org_ID")
-							+ "),0)"
-							+ " FROM	M_Product_PO po "
-							+ " WHERE EXISTS (SELECT * FROM T_Selection s WHERE po.M_Product_ID=s.T_Selection_ID" 
-								+ " AND s.AD_PInstance_ID=" + m_AD_PInstance_ID + ") "
-							+ " AND	po.IsCurrentVendor='Y' AND po.IsActive='Y'";
-
-					PreparedStatement pstmt = DB.prepareStatement(sqlins,
-							ResultSet.TYPE_SCROLL_INSENSITIVE,
-							ResultSet.CONCUR_UPDATABLE, get_TrxName());
-					pstmt.setTimestamp(1, dl.getTimestamp("ConversionDate"));
-					pstmt.setTimestamp(2, dl.getTimestamp("ConversionDate"));
-					pstmt.setTimestamp(3, dl.getTimestamp("ConversionDate"));
-
-					cnti = pstmt.executeUpdate();
-					if (cnti == -1)
-						raiseError(
-								" INSERT INTO T_Selection from existing PriceList",
-								sqlins);
-					toti += cnti;
-					log.fine("Inserted " + cnti);
-				} else {
-					//
-					//Copy and Convert from other PriceList_Version
-					//
-					sqlins = "INSERT INTO M_ProductPrice "
-							+ " (M_PriceList_Version_ID, M_Product_ID,"
-							+ " AD_Client_ID, AD_Org_ID, IsActive, Created, CreatedBy, Updated, UpdatedBy,"
-							+ " PriceList, PriceStd, PriceLimit)"
-							+ " SELECT "
-							+ p_PriceList_Version_ID
-							+ ", pp.M_Product_ID,"
-							+ v.getInt("AD_Client_ID")
-							+ ", "
-							+ v.getInt("AD_Org_ID")
-							+ ", 'Y', SysDate,  "
-							+ v.getInt("UpdatedBy")
-							+ ", SysDate, "
-							+ v.getInt("UpdatedBy")
-							+ " ,"
-							// Price List
-							+ "COALESCE(currencyConvert(pp.PriceList, pl.C_Currency_ID, "
-							+ v.getInt("C_Currency_ID")
-							+ ", ?, "
-							+ dl.getInt("C_ConversionType_ID")
-							+ ", "
-							+ v.getInt("AD_Client_ID")
-							+ ", "
-							+ v.getInt("AD_Org_ID")
-							+ "),0),"
-							// Price Std
-							+ "COALESCE(currencyConvert(pp.PriceStd,pl.C_Currency_ID, "
-							+ v.getInt("C_Currency_ID")
-							+ " , ? ,  "
-							+ dl.getInt("C_ConversionType_ID")
-							+ ", "
-							+ v.getInt("AD_Client_ID")
-							+ ", "
-							+ v.getInt("AD_Org_ID")
-							+ "),0),"
-							//Price Limit						   
-							+ " COALESCE(currencyConvert(pp.PriceLimit,pl.C_Currency_ID, "
-							+ v.getInt("C_Currency_ID")
-							+ " , ? , "
-							+ dl.getInt("C_ConversionType_ID")
-							+ ", "
-							+ v.getInt("AD_Client_ID")
-							+ ", "
-							+ v.getInt("AD_Org_ID")
-							+ "),0)"
-							+ " FROM M_ProductPrice pp"
-							+ " INNER JOIN M_PriceList_Version plv ON (pp.M_PriceList_Version_ID=plv.M_PriceList_Version_ID)"
-							+ " INNER JOIN M_PriceList pl ON (plv.M_PriceList_ID=pl.M_PriceList_ID)"
-							+ " WHERE	pp.M_PriceList_Version_ID="
-							+ v.getInt("M_PriceList_Version_Base_ID")
-							+ " AND EXISTS (SELECT * FROM T_Selection s WHERE pp.M_Product_ID=s.T_Selection_ID" 
-								+ " AND s.AD_PInstance_ID=" + m_AD_PInstance_ID + ")"
-							+ "AND	pp.IsActive='Y'";
-
-					PreparedStatement pstmt = DB.prepareStatement(sqlins,
-							ResultSet.TYPE_SCROLL_INSENSITIVE,
-							ResultSet.CONCUR_UPDATABLE, get_TrxName());
-					pstmt.setTimestamp(1, dl.getTimestamp("ConversionDate"));
-					pstmt.setTimestamp(2, dl.getTimestamp("ConversionDate"));
-					pstmt.setTimestamp(3, dl.getTimestamp("ConversionDate"));
-
-					cnti = pstmt.executeUpdate();
-
-					if (cnti == -1)
-						raiseError(
-								" INSERT INTO T_Selection from existing PriceList",
-								sqlins);
-					toti += cnti;
-					log.fine("Inserted " + cnti);
-
+				//	for product category
+				if(discountSchemaLine.getM_Product_Category_ID() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Category_ID = ?)");
+					parameters.add(discountSchemaLine.getM_Product_Category_ID());
 				}
-				Message = Message + ", @Inserted@=" + cnti;
-				//
-				// Calculation
-				//
-				sqlupd = "UPDATE M_ProductPrice p "
-						+ " SET	PriceList = (DECODE( '"
-						+ dl.getString("List_Base")
-						+ "', 'S', PriceStd, 'X', PriceLimit, PriceList)"
-						+ " + ?) * (1 - ?/100)," + " PriceStd = (DECODE('"
-						+ dl.getString("Std_Base")
-						+ "', 'L', PriceList, 'X', PriceLimit, PriceStd) "
-						+ " + ?) * (1 - ?/100), " + " PriceLimit = (DECODE('"
-						+ dl.getString("Limit_Base")
-						+ "', 'L', PriceList, 'S', PriceStd, PriceLimit) "
-						+ " + ?) * (1 - ? /100) "
-						+ " WHERE	M_PriceList_Version_ID = "
-						+ p_PriceList_Version_ID
-						+ " AND EXISTS	(SELECT * FROM T_Selection s "
-						+ " WHERE s.T_Selection_ID = p.M_Product_ID" 
-						+ " AND s.AD_PInstance_ID=" + m_AD_PInstance_ID + ")";
-				PreparedStatement pstmu = DB.prepareStatement(sqlupd,
-						ResultSet.TYPE_SCROLL_INSENSITIVE,
-						ResultSet.CONCUR_UPDATABLE, get_TrxName());
-
-				pstmu.setDouble(1, dl.getDouble("List_AddAmt"));
-				pstmu.setDouble(2, dl.getDouble("List_Discount"));
-				pstmu.setDouble(3, dl.getDouble("Std_AddAmt"));
-				pstmu.setDouble(4, dl.getDouble("Std_Discount"));
-				pstmu.setDouble(5, dl.getDouble("Limit_AddAmt"));
-				pstmu.setDouble(6, dl.getDouble("Limit_Discount"));
-
-				cntu = pstmu.executeUpdate();
-
-				if (cntu == -1)
-					raiseError("Update  M_ProductPrice ", sqlupd);
-				totu += cntu;
-				log.fine("Updated " + cntu);
-
-				//
-				//Rounding	(AD_Reference_ID=155)
-				//
-				sqlupd = "UPDATE	M_ProductPrice p "
-						+ " SET	PriceList = DECODE('"
-						+ dl.getString("List_Rounding") + "',"
-						+ " 'N', PriceList, " 
-						+ " '0', ROUND(PriceList, 0)," //Even .00
-						+ " 'D', ROUND(PriceList, 1)," //Dime .10
-						+ " 'T', ROUND(PriceList, -1), " //Ten 10.00
-						+ " '5', ROUND(PriceList*20,0)/20," //Nickle .05
-						+ " 'Q', ROUND(PriceList*4,0)/4," //Quarter .25
-						+ " '9', CASE"  //Whole 9 or 5
-							+ " WHEN MOD(ROUND(PriceList),10)<=5 THEN ROUND(PriceList)+(5-MOD(ROUND(PriceList),10))"
-							+ " WHEN MOD(ROUND(PriceList),10)>5 THEN ROUND(PriceList)+(9-MOD(ROUND(PriceList),10)) END,"
-						+ " ROUND(PriceList, " + v.getInt("StdPrecision")
-						+ "))," //Currency
-						+ " PriceStd = DECODE('" + dl.getString("Std_Rounding")
-						+ "'," + " 'N', PriceStd, "
-						+ " '0', ROUND(PriceStd, 0), " //Even .00
-						+ " 'D', ROUND(PriceStd, 1), " //Dime .10
-						+ "'T', ROUND(PriceStd, -1)," //Ten 10.00
-						+ "'5', ROUND(PriceStd*20,0)/20," //Nickle .05
-						+ "'Q', ROUND(PriceStd*4,0)/4," //Quarter .25	
-						+ " '9', CASE"  //Whole 9 or 5
-							+ " WHEN MOD(ROUND(PriceStd),10)<=5 THEN ROUND(PriceStd)+(5-MOD(ROUND(PriceStd),10))"
-							+ " WHEN MOD(ROUND(PriceStd),10)>5 THEN ROUND(PriceStd)+(9-MOD(ROUND(PriceStd),10)) END,"
-						+ "ROUND(PriceStd, " + v.getInt("StdPrecision") + "))," //Currency
-						+ "PriceLimit = DECODE('"
-						+ dl.getString("Limit_Rounding") + "', "
-						+ "			'N', PriceLimit, "
-						+ "		'0', ROUND(PriceLimit, 0),	" //	Even .00					
-						+ "		'D', ROUND(PriceLimit, 1),	" //	Dime .10
-						+ "		'T', ROUND(PriceLimit, -1),	" //	Ten 10.00
-						+ "		'5', ROUND(PriceLimit*20,0)/20,	" //	Nickle .05
-						+ "		'Q', ROUND(PriceLimit*4,0)/4,		" //Quarter .25
-						+ "     '9', CASE"  //Whole 9 or 5
-								+ " WHEN MOD(ROUND(PriceLimit),10)<=5 THEN ROUND(PriceLimit)+(5-MOD(ROUND(PriceLimit),10))"
-								+ " WHEN MOD(ROUND(PriceLimit),10)>5 THEN ROUND(PriceLimit)+(9-MOD(ROUND(PriceLimit),10)) END,"
-						+ "		ROUND(PriceLimit, " + v.getInt("StdPrecision")
-						+ ")) " //	Currency
-						+ " WHERE	M_PriceList_Version_ID="
-						+ p_PriceList_Version_ID
-						+ " AND EXISTS	(SELECT * FROM T_Selection s "
-						+ " WHERE s.T_Selection_ID=p.M_Product_ID" 
-						+ " AND s.AD_PInstance_ID=" + m_AD_PInstance_ID + ")";
-				cntu = DB.executeUpdate(sqlupd, get_TrxName());
-				if (cntu == -1)
-					raiseError("Update  M_ProductPrice ", sqlupd);
-				totu += cntu;
-				log.fine("Updated " + cntu);
-
-				Message = Message + ", @Updated@=" + cntu;
-				//
-				//Fixed Price overwrite
-				//
-				sqlupd = "UPDATE	M_ProductPrice p "
-						+ " SET	PriceList  = DECODE('"
-						+ dl.getString("List_Base") + "', 'F', "
-						+ dl.getDouble("List_Fixed") + ", PriceList), "
-						+ "      PriceStd   = DECODE('"
-						+ dl.getString("Std_Base") + "', 'F', "
-						+ dl.getDouble("Std_Fixed") + ", PriceStd),"
-						+ "      PriceLimit = DECODE('"
-						+ dl.getString("Limit_Base") + "', 'F', "
-						+ dl.getDouble("Limit_Fixed") + ", PriceLimit)"
-						+ " WHERE	M_PriceList_Version_ID="
-						+ p_PriceList_Version_ID
-						+ " AND EXISTS	(SELECT * FROM T_Selection s"
-						+ " WHERE s.T_Selection_ID=p.M_Product_ID" 
-						+ " AND s.AD_PInstance_ID=" + m_AD_PInstance_ID + ")";
-				cntu = DB.executeUpdate(sqlupd, get_TrxName());
-				if (cntu == -1)
-					raiseError("Update  M_ProductPrice ", sqlupd);
-				totu += cntu;
-				log.fine("Updated " + cntu);
-
-				v_NextNo = v_NextNo + 1;
-				addLog(0, null, null, Message);
-				Message = "";
-			}
-			dl.close();
-			Cur_DiscountLine.close();
-			Cur_DiscountLine = null;
-
-			//
-			//	Delete Temporary Selection
-			//
-			sqldel = "DELETE FROM T_Selection ";
-			cntd = DB.executeUpdate(sqldel, get_TrxName());
-			if (cntd == -1)
-				raiseError(" DELETE	T_Selection ", sqldel);
-			totd += cntd;
-			log.fine("Deleted " + cntd);
-			
-			//
-			//commit;
-			//
-			// log.fine("Committing ...");
-			// DB.commit(true, get_TrxName());
-
+				//	for product group
+				if(discountSchemaLine.getM_Product_Group_ID() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Group_ID = ?)");
+					parameters.add(discountSchemaLine.getM_Product_Group_ID());
+				}
+				//	for product class
+				if(discountSchemaLine.getM_Product_Class_ID() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Class_ID = ?)");
+					parameters.add(discountSchemaLine.getM_Product_Class_ID());
+				}
+				//	for product classification
+				if(discountSchemaLine.getM_Product_Classification_ID() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Classification_ID = ?)");
+					parameters.add(discountSchemaLine.getM_Product_Classification_ID());
+				}
+				//	Get from Product Purchasing
+				new Query(getCtx(), I_M_Product_PO.Table_Name, querywhereClause.toString(), get_TrxName())
+					.setParameters(parameters)
+					.<MProductPO>list()
+					.forEach(productPurchasing -> {
+						//	Get conversion for Type
+						String conversionRateKey = discountSchemaLine.getC_ConversionType_ID()  + "|" + productPurchasing.getC_Currency_ID() + "|" + priceList.getC_Currency_ID();
+						BigDecimal conversionRate = null;
+						if(!conversionRateMap.containsKey(conversionRateKey)) {
+							MConversionRate.getRate(productPurchasing.getC_Currency_ID(), 
+									priceList.getC_Currency_ID(), 
+									priceListVersion.getValidFrom(), 
+									discountSchemaLine.getC_ConversionType_ID(), 
+									getAD_Client_ID(), 
+									priceListVersion.getAD_Org_ID());
+							if(conversionRate == null) {
+								conversionRate = Env.ZERO;
+							}
+							//	Set
+							conversionRateMap.put(conversionRateKey, conversionRate);
+						} else {
+							conversionRate = conversionRateMap.get(conversionRateKey);
+						}
+						//	Put combination
+						combinationMap.put(productPurchasing.getM_Product_ID(), 
+								new ProductCombination(productPurchasing.getM_Product_ID(), 
+										conversionRate, 
+										productPurchasing.getPriceList(), 
+										productPurchasing.getPriceList(), 
+										productPurchasing.getPricePO(), 
+										discountSchemaLine));
+					});
+			});
+		} else {
+			MPriceList basePriceList = MPriceList.get(getCtx(), priceListVersion.getM_Pricelist_Version_Base().getM_PriceList_ID(), get_TrxName());
+			discountSchemaLineList.forEach(discountSchemaLine -> {
+				List<Object> parameters = new ArrayList<>();
+				StringBuffer querywhereClause = new StringBuffer();
+				querywhereClause = new StringBuffer("M_PriceList_Version_ID = ?");
+				parameters.add(priceListVersion.getM_Pricelist_Version_Base_ID());
+				//	Create where clause
+				//	for product
+				if(discountSchemaLine.getM_Product_ID() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("M_Product_ID = ?");
+					parameters.add(discountSchemaLine.getM_Product_ID());
+				}
+				//	for product category
+				if(discountSchemaLine.getM_Product_Category_ID() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_ProductPrice.M_Product_ID AND p.M_Product_Category_ID = ?)");
+					parameters.add(discountSchemaLine.getM_Product_Category_ID());
+				}
+				//	for product group
+				if(discountSchemaLine.getM_Product_Group_ID() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_ProductPrice.M_Product_ID AND p.M_Product_Group_ID = ?)");
+					parameters.add(discountSchemaLine.getM_Product_Group_ID());
+				}
+				//	for product class
+				if(discountSchemaLine.getM_Product_Class_ID() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_ProductPrice.M_Product_ID AND p.M_Product_Class_ID = ?)");
+					parameters.add(discountSchemaLine.getM_Product_Class_ID());
+				}
+				//	for product classification
+				if(discountSchemaLine.getM_Product_Classification_ID() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_ProductPrice.M_Product_ID AND p.M_Product_Classification_ID = ?)");
+					parameters.add(discountSchemaLine.getM_Product_Classification_ID());
+				}
+				//	Get from Product Purchasing
+				new Query(getCtx(), I_M_ProductPrice.Table_Name, querywhereClause.toString(), get_TrxName())
+					.setParameters(parameters)
+					.<MProductPrice>list()
+					.forEach(productPrice -> {
+						//	Get conversion for Type
+						String conversionRateKey = discountSchemaLine.getC_ConversionType_ID()  + "|" + basePriceList.getC_Currency_ID() + "|" + priceList.getC_Currency_ID();
+						BigDecimal conversionRate = null;
+						if(!conversionRateMap.containsKey(conversionRateKey)) {
+							conversionRate = MConversionRate.getRate(basePriceList.getC_Currency_ID(), 
+									priceList.getC_Currency_ID(), 
+									priceListVersion.getValidFrom(), 
+									discountSchemaLine.getC_ConversionType_ID(), 
+									getAD_Client_ID(), 
+									priceListVersion.getAD_Org_ID());
+							if(conversionRate == null) {
+								conversionRate = Env.ZERO;
+							}
+							//	Set
+							conversionRateMap.put(conversionRateKey, conversionRate);
+						} else {
+							conversionRate = conversionRateMap.get(conversionRateKey);
+						}
+						//	Put combination
+						combinationMap.put(productPrice.getM_Product_ID(), 
+								new ProductCombination(productPrice.getM_Product_ID(), 
+										conversionRate, 
+										productPrice.getPriceList(),
+										productPrice.getPriceStd(),
+										productPrice.getPriceLimit(),
+										discountSchemaLine));
+					});
+			});
 		}
-		v.close();
-		curgen.close();
-		curgen = null;
-
+		//	Calculate and save map
+		combinationMap.values().forEach(combination -> combination.calculate().save(priceListVersion));
 		return "OK";
 
 	} // del doIt
+	
+	
+	/**
+	 * 
+	 *	@author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+	 *	Product combination
+	 */
+	private class ProductCombination {
+		private int productId;
+		private BigDecimal priceStandard;
+		private BigDecimal priceList;
+		private BigDecimal priceLimit;
+		private MDiscountSchemaLine discountSchemaLine;
+		//	Calculated
+		private BigDecimal conversionRate = Env.ZERO;
+		private BigDecimal calculatedPriceStandard = Env.ZERO;
+		private BigDecimal calculatedPriceList = Env.ZERO;
+		private BigDecimal calculatedPriceLimit = Env.ZERO;
+		
+		/**
+		 * Default constructor
+		 * @param productId
+		 * @param currencyId
+		 * @param priceStandard
+		 * @param priceList
+		 * @param priceLimit
+		 * @param discountSchemaLine
+		 */
+		public ProductCombination(int productId, BigDecimal conversionRate, BigDecimal priceStandard, BigDecimal priceList, BigDecimal priceLimit, MDiscountSchemaLine discountSchemaLine) {
+			this.productId = productId;
+			this.conversionRate = conversionRate;
+			this.priceStandard = (priceStandard == null? Env.ZERO: priceStandard);
+			this.priceList = (priceList == null? Env.ZERO: priceList);
+			this.priceLimit = (priceLimit == null? Env.ZERO: priceLimit);
+			this.discountSchemaLine = discountSchemaLine;
+		}
+		
+		/**
+		 * Calculate priced based on reference
+		 */
+		public ProductCombination calculate() {
+			//	Old code
+			//	PriceList = (DECODE( '', 'S', PriceStd, 'X', PriceLimit, PriceList) + ?) * (1 - ?/100), 
+			//	PriceStd = (DECODE('', 'L', PriceList, 'X', PriceLimit, PriceStd)  + ?) * (1 - ?/100), 
+			//	PriceLimit = (DECODE('', 'L', PriceList, 'S', PriceStd, PriceLimit)  + ?) * (1 - ? /100)
+			//	Get discount schema
+			BigDecimal listAddAmt = getDiscountSchemaLine().getList_AddAmt();
+			BigDecimal listDiscount = getDiscountSchemaLine().getList_Discount();
+			BigDecimal stdAddAmt = getDiscountSchemaLine().getStd_AddAmt();
+			BigDecimal stdDiscount = getDiscountSchemaLine().getStd_Discount();
+			BigDecimal limitAddAmt = getDiscountSchemaLine().getLimit_AddAmt();
+			BigDecimal limitDiscount = getDiscountSchemaLine().getLimit_Discount();
+			//	For price list
+			if(getDiscountSchemaLine().getList_Base().equals(X_M_DiscountSchemaLine.LIST_BASE_StandardPrice)) {
+				calculatedPriceList = getPriceStandard();
+			} else if(getDiscountSchemaLine().getList_Base().equals(X_M_DiscountSchemaLine.LIST_BASE_LimitPOPrice)) {
+				calculatedPriceList = getPriceLimit();
+			} else {
+				calculatedPriceList = getPriceList();
+			}
+			calculatedPriceList = calculatedPriceList.multiply(getConversionRate());
+			calculatedPriceList = calculatedPriceList.add(listAddAmt);
+			calculatedPriceList = calculatedPriceList.multiply(Env.ONE.subtract(listDiscount.divide(Env.ONEHUNDRED)));
+			//	For Price Standard
+			if(getDiscountSchemaLine().getStd_Base().equals(X_M_DiscountSchemaLine.STD_BASE_ListPrice)) {
+				calculatedPriceStandard = getPriceList();
+			} else if(getDiscountSchemaLine().getStd_Base().equals(X_M_DiscountSchemaLine.STD_BASE_LimitPOPrice)) {
+				calculatedPriceStandard = getPriceLimit();
+			} else {
+				calculatedPriceStandard = getPriceStandard();
+			}
+			calculatedPriceStandard = calculatedPriceStandard.multiply(getConversionRate());
+			calculatedPriceStandard = calculatedPriceStandard.add(stdAddAmt);
+			calculatedPriceStandard = calculatedPriceStandard.multiply(Env.ONE.subtract(stdDiscount.divide(Env.ONEHUNDRED)));
+			//	For Price Limit
+			if(getDiscountSchemaLine().getLimit_Base().equals(X_M_DiscountSchemaLine.LIMIT_BASE_ListPrice)) {
+				calculatedPriceLimit = getPriceList();
+			} else if(getDiscountSchemaLine().getLimit_Base().equals(X_M_DiscountSchemaLine.LIMIT_BASE_StandardPrice)) {
+				calculatedPriceLimit = getPriceStandard();
+			} else {
+				calculatedPriceLimit = getPriceLimit();
+			}
+			calculatedPriceLimit = calculatedPriceLimit.multiply(getConversionRate());
+			calculatedPriceLimit = calculatedPriceLimit.add(limitAddAmt);
+			calculatedPriceLimit = calculatedPriceLimit.multiply(Env.ONE.subtract(limitDiscount.divide(Env.ONEHUNDRED)));
+			return this;
+		}
+		
+		/**
+		 * Save price list, use it after calculate
+		 * @param priceListVersion
+		 * @return
+		 */
+		public boolean save(MPriceListVersion priceListVersion) {
+			try {
+				MProductPrice productPrice = null;
+				if(!isDeleteOld()) {
+					productPrice = MProductPrice.get(getCtx(), priceListVersion.getM_PriceList_Version_ID(), getProductId(), get_TrxName());
+				}
+				if(productPrice != null) {
+					productPrice.setPrices(getCalculatedPriceList(), 
+							getCalculatedPriceStandard(), 
+							getCalculatedPriceLimit());
+				} else {
+					productPrice = new MProductPrice(priceListVersion, 
+							getProductId(), 
+							getCalculatedPriceList(), 
+							getCalculatedPriceStandard(), 
+							getCalculatedPriceLimit());
+				}
+				//	Save
+				productPrice.saveEx();
+			} catch (Exception e) {
+				log.severe(e.getLocalizedMessage());
+			}
+			return true;
+		}
+		
+		/**
+		 * @return the productId
+		 */
+		public final int getProductId() {
+			return productId;
+		}
+		
+
+		/**
+		 * @return the discountSchemaLine
+		 */
+		public final MDiscountSchemaLine getDiscountSchemaLine() {
+			return discountSchemaLine;
+		}
+		
+		
+		/**
+		 * @return the priceStandard
+		 */
+		public final BigDecimal getPriceStandard() {
+			return priceStandard;
+		}
+		
+		/**
+		 * @return the priceList
+		 */
+		public final BigDecimal getPriceList() {
+			return priceList;
+		}
+
+		/**
+		 * @return the priceLimit
+		 */
+		public final BigDecimal getPriceLimit() {
+			return priceLimit;
+		}
+
+		/**
+		 * @return the calculatedPriceStandard
+		 */
+		public final BigDecimal getCalculatedPriceStandard() {
+			return calculatedPriceStandard;
+		}
+
+		/**
+		 * @return the calculatedPriceList
+		 */
+		public final BigDecimal getCalculatedPriceList() {
+			return calculatedPriceList;
+		}
+
+		/**
+		 * @return the calculatedPriceLimit
+		 */
+		public final BigDecimal getCalculatedPriceLimit() {
+			return calculatedPriceLimit;
+		}
+		
+		/**
+		 * @return the conversionRate
+		 */
+		public final BigDecimal getConversionRate() {
+			return conversionRate;
+		}
+
+		@Override
+		public String toString() {
+			return "ProductCombination [productId=" + productId + ", priceStandard=" + priceStandard + ", priceList="
+					+ priceList + ", priceLimit=" + priceLimit + ", discountSchemaLine=" + discountSchemaLine
+					+ ", conversionRate=" + conversionRate + ", calculatedPriceStandard=" + calculatedPriceStandard
+					+ ", calculatedPriceList=" + calculatedPriceList + ", calculatedPriceLimit=" + calculatedPriceLimit
+					+ "]";
+		}
+	}
 
 	private void raiseError(String string, String sql) throws Exception {
 		
@@ -721,82 +629,4 @@ public class M_PriceList_Create extends SvrProcess {
 		msg += sql;
 		throw new AdempiereUserError(msg);
 	}
-	
-	/**
-	 * Returns a sql where string with the given category id and all of its subcategory ids.
-	 * It is used as restriction in MQuery.
-	 * @param productCategoryId
-	 * @return
-	 */
-	private String getSubCategoryWhereClause(int productCategoryId) throws SQLException, AdempiereSystemError{
-		//if a node with this id is found later in the search we have a loop in the tree
-		int subTreeRootParentId = 0;
-		String retString = " ";
-		String sql = " SELECT M_Product_Category_ID, M_Product_Category_Parent_ID FROM M_Product_Category";
-		final Vector<SimpleTreeNode> categories = new Vector<SimpleTreeNode>(100);
-		Statement stmt = DB.createStatement();
-		ResultSet rs = stmt.executeQuery(sql);
-		while (rs.next()) {
-			if(rs.getInt(1)==productCategoryId) {
-				subTreeRootParentId = rs.getInt(2);
-			}
-			categories.add(new SimpleTreeNode(rs.getInt(1), rs.getInt(2)));
-		}
-		retString += getSubCategoriesString(productCategoryId, categories, subTreeRootParentId);
-		rs.close();
-		stmt.close();
-		return retString;
-	}
-
-	/**
-	 * Recursive search for sub-categories with loop detection.
-	 * @param productCategoryId
-	 * @param categories
-	 * @param loopIndicatorId
-	 * @return comma separated list of category ids
-	 * @throws AdempiereSystemError if a loop is detected
-	 */
-	private String getSubCategoriesString(int productCategoryId, Vector<SimpleTreeNode> categories, int loopIndicatorId) throws AdempiereSystemError {
-		String ret = "";
-		final Iterator<SimpleTreeNode> iter = categories.iterator();
-		while (iter.hasNext()) {
-			SimpleTreeNode node = (SimpleTreeNode) iter.next();
-			if (node.getParentId() == productCategoryId) {
-				if (node.getNodeId() == loopIndicatorId) {
-					throw new AdempiereSystemError("The product category tree contains a loop on categoryId: " + loopIndicatorId);
-				}
-				ret = ret + getSubCategoriesString(node.getNodeId(), categories, loopIndicatorId) + ",";
-			}
-		}
-		log.fine(ret);
-		return ret + productCategoryId;
-	}
-
-	/**
-	 * Simple tree node class for product category tree search.
-	 * @author Karsten Thiemann, kthiemann@adempiere.org
-	 *
-	 */
-	private class SimpleTreeNode {
-
-		private int nodeId;
-
-		private int parentId;
-
-		public SimpleTreeNode(int nodeId, int parentId) {
-			this.nodeId = nodeId;
-			this.parentId = parentId;
-		}
-
-		public int getNodeId() {
-			return nodeId;
-		}
-
-		public int getParentId() {
-			return parentId;
-		}
-	}
-
-
-
 } // M_PriceList_Create
