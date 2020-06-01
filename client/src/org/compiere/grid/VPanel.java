@@ -556,6 +556,9 @@ public final class VPanel extends CTabbedPane
 	{
 		if (text == null || text.length() == 0)
 			return 0;
+		if(text.trim().length()==0) { // text (aka translation for the field name) contains only whitespaces
+			return 0; // see https://github.com/adempiere/adempiere/issues/3124
+		}
 		String oText = text;
 		text = text.trim().toUpperCase();
 		char mnemonic = text.charAt(0);
