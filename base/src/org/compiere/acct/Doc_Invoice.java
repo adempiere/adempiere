@@ -859,13 +859,14 @@ public class Doc_Invoice extends Doc
 						as.getC_AcctSchema_ID(),
 						costType.get_ID())).orElseGet(() -> BigDecimal.ZERO);
 				//cost to Cost Adjustment
-				BigDecimal costAdjustment = landedCostAllocation.getAmt().subtract(assetAmount);
+				BigDecimal costAdjustment = landedCostAllocation.getAmt(true,true).subtract(assetAmount);
+				setIsMultiCurrency(landedCostAllocation.getC_Currency_ID()!=as.getC_Currency_ID());
 				if (assetAmount.signum() != 0)
 				{
 					if (isDebit)
 						debitAmount = assetAmount;
 					else
-						creditAmount = assetAmount;
+						creditAmount = assetAmount.negate();
 
 					factLine = fact.createLine(line, productCost.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
 							as.getC_Currency_ID(), debitAmount, creditAmount);
