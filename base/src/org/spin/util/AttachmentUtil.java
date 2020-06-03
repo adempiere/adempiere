@@ -42,8 +42,6 @@ public class AttachmentUtil {
 	private static AttachmentUtil instance = null;
 	/**	Client	*/
 	private int clientId;
-	/**	User	*/
-//	private int userId;
 	/**	Context	*/
 	private Properties context;
 	/**	API	*/
@@ -54,6 +52,7 @@ public class AttachmentUtil {
 	private String note;
 	private String description;
 	private int attachmentId;
+	private int attachmentReferenceId;
 	private int imageId;
 	private int archiveId;
 	private String transactionName;
@@ -78,7 +77,6 @@ public class AttachmentUtil {
 		}
 		this.context = context;
 		this.clientId = Env.getAD_Client_ID(context);
-//		this.userId = Env.getAD_User_ID(context);
 	}
 	
 	/**
@@ -160,16 +158,6 @@ public class AttachmentUtil {
 	}
 	
 	/**
-	 * Set User id
-	 * @param userId
-	 * @return
-	 */
-//	public AttachmentUtil withUserId(int userId) {
-//		this.userId = userId;
-//		return this;
-//	}
-	
-	/**
 	 * Set note
 	 * @param note
 	 * @return
@@ -224,6 +212,20 @@ public class AttachmentUtil {
 		this.attachmentId = attahcmentId;
 		this.imageId = 0;
 		this.archiveId = 0;
+		this.attachmentReferenceId = 0;
+		return this;
+	}
+	
+	/**
+	 * Set Attachment reference
+	 * @param attachmentReferenceId
+	 * @return
+	 */
+	public AttachmentUtil withAttachmentReferenceId(int attachmentReferenceId ) {
+		this.attachmentReferenceId = attachmentReferenceId;
+		this.attachmentId = 0;
+		this.imageId = 0;
+		this.archiveId = 0;
 		return this;
 	}
 	
@@ -236,6 +238,7 @@ public class AttachmentUtil {
 		this.imageId = imageId;
 		this.archiveId = 0;
 		this.attachmentId = 0;
+		this.attachmentReferenceId = 0;
 		return this;
 	}
 	
@@ -248,6 +251,7 @@ public class AttachmentUtil {
 		this.archiveId = archiveId;
 		this.imageId = 0;
 		this.attachmentId = 0;
+		this.attachmentReferenceId = 0;
 		return this;
 	}
 	
@@ -259,6 +263,7 @@ public class AttachmentUtil {
 		this.archiveId = 0;
 		this.imageId = 0;
 		this.attachmentId = 0;
+		this.attachmentReferenceId = 0;
 		this.fileName = null;
 		this.description = null;
 		this.note = null;
@@ -271,7 +276,9 @@ public class AttachmentUtil {
 	 */
 	private MADAttachmentReference getAttachmentReference() {
 		MADAttachmentReference attachmentReference = null;
-		if(attachmentId > 0) {
+		if(attachmentReferenceId > 0) {
+			attachmentReference = MADAttachmentReference.getById(context, attachmentReferenceId, transactionName);
+		} else if(attachmentId > 0) {
 			attachmentReference = MADAttachmentReference.getByAttachmentId(context, fileHandlerId, attachmentId, fileName, transactionName);
 		} else if(imageId > 0) {
 			attachmentReference = MADAttachmentReference.getByImageId(context, fileHandlerId, imageId, transactionName);
