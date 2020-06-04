@@ -509,9 +509,11 @@ public class CostEngine {
 				model.getC_Currency_ID(), acctSchema.getC_Currency_ID() ,
 				model.getDateAcct(), model.getC_ConversionType_ID() ,
 				model.getAD_Client_ID(), model.getAD_Org_ID());
-		if (rate != null) 
+		if (rate != null) {
 			costThisLevel = cost.multiply(rate);
-
+			if (costThisLevel.scale() > acctSchema.getCostingPrecision())
+				costThisLevel = costThisLevel.setScale(acctSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
+		}
 		return costThisLevel;
 	}
 
