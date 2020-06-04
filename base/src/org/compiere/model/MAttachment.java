@@ -516,6 +516,7 @@ public class MAttachment extends X_AD_Attachment
 						.withFileName(item.getName())
 						.withClientId(getAD_Client_ID())
 						.withData(item.getData())
+						.withTansactionName(get_TrxName())
 						.saveAttachment();
 				} catch (Exception e) {
 					log.warning("Error saving attachment: " + e.getLocalizedMessage());
@@ -901,8 +902,13 @@ public class MAttachment extends X_AD_Attachment
 				setTitle (ZIP);
 			}
 		}
-		return saveLOBData();		//	save in BinaryData
+		return super.beforeSave(newRecord);
 	}	//	beforeSave
+	
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		return saveLOBData();		//	save in BinaryData
+	}
 
 	/**
 	 * 	Executed before Delete operation.
@@ -917,6 +923,7 @@ public class MAttachment extends X_AD_Attachment
 						.withAttachmentId(getAD_Attachment_ID())
 						.withFileName(item.getName())
 						.withClientId(getAD_Client_ID())
+						.withTansactionName(get_TrxName())
 						.deleteAttachment();
 				} catch (Exception e) {
 					log.warning("Error deleting attachment: " + e.getLocalizedMessage());
