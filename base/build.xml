@@ -37,6 +37,9 @@
     <pathelement path="../tools/lib/commons-io.jar"/>
   	<pathelement path="../tools/lib/poi-ooxml-3.17.jar" />
   	<pathelement path="../tools/lib/sardine-5.9-SNAPSHOT.jar" />
+  	<pathelement path="../tools/lib/aws-java-sdk-core-1.11.795.jar" />
+  	<pathelement path="../tools/lib/aws-java-sdk-kms-1.11.795.jar" />
+  	<pathelement path="../tools/lib/aws-java-sdk-s3-1.11.795.jar" />
   </path>
 
 
