@@ -2070,9 +2070,16 @@ public class MiniTable extends CTable implements IMiniTable
         listenerList.remove(MiniTableSelectionListener.class, l);
     }
 
+	public int getAD_Window_ID(int tableID, boolean isSOTrx) {
+		MTable mTable = MTable.get(Env.getCtx(), tableID);
+		int window_ID = isSOTrx ? mTable.getAD_Window_ID() : mTable.getPO_Window_ID()==0 ? mTable.getAD_Window_ID() : mTable.getPO_Window_ID();
+		log.config("results to window_ID="+window_ID + " for table " + mTable + " and isSOTrx="+isSOTrx);
+		return window_ID;
+	}
+	
 	public int getAD_Window_ID(String tableName, boolean isSOTrx) {
 		MTable mTable = MTable.get(Env.getCtx(), tableName);
-		int window_ID = isSOTrx ? mTable.getAD_Window_ID() : mTable.getPO_Window_ID();
+		int window_ID = isSOTrx ? mTable.getAD_Window_ID() : mTable.getPO_Window_ID()==0 ? mTable.getAD_Window_ID() : mTable.getPO_Window_ID();
 		log.config("results to window_ID="+window_ID + " for table " + tableName + " and isSOTrx="+isSOTrx);
 		return window_ID;
 	}
