@@ -17,6 +17,7 @@ package org.spin.util;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -42,8 +43,6 @@ public class AttachmentUtil {
 	private static AttachmentUtil instance = null;
 	/**	Client	*/
 	private int clientId;
-	/**	User	*/
-//	private int userId;
 	/**	Context	*/
 	private Properties context;
 	/**	API	*/
@@ -54,6 +53,7 @@ public class AttachmentUtil {
 	private String note;
 	private String description;
 	private int attachmentId;
+	private int attachmentReferenceId;
 	private int imageId;
 	private int archiveId;
 	private String transactionName;
@@ -78,7 +78,6 @@ public class AttachmentUtil {
 		}
 		this.context = context;
 		this.clientId = Env.getAD_Client_ID(context);
-//		this.userId = Env.getAD_User_ID(context);
 	}
 	
 	/**
@@ -136,7 +135,28 @@ public class AttachmentUtil {
 	 * @return
 	 */
 	public String getFileName() {
-		return this.fileName;
+		//	Convert
+		return getValidFileName(this.fileName);
+	}
+	
+	/**
+	 * Get valid file Name
+	 * @param fileName
+	 * @return
+	 */
+	private String getValidFileName(String fileName) {
+		if(Util.isEmpty(fileName)) {
+			return fileName;
+		}
+		int index = fileName.lastIndexOf("/");
+		if(index == -1) {
+			index = fileName.lastIndexOf("\\");
+		}
+		if(index != -1) {
+			fileName = fileName.substring(index + 1);
+		}
+		return fileName.replaceAll("[+^:&áàäéèëíìïóòöúùñÁÀÄÉÈËÍÌÏÓÒÖÚÙÜÑçÇ$()*#/><]", "")
+				.replaceAll(" ", "-");
 	}
 	
 	/**
@@ -158,16 +178,6 @@ public class AttachmentUtil {
 		this.clientId = clientId;
 		return this;
 	}
-	
-	/**
-	 * Set User id
-	 * @param userId
-	 * @return
-	 */
-//	public AttachmentUtil withUserId(int userId) {
-//		this.userId = userId;
-//		return this;
-//	}
 	
 	/**
 	 * Set note
@@ -224,6 +234,20 @@ public class AttachmentUtil {
 		this.attachmentId = attahcmentId;
 		this.imageId = 0;
 		this.archiveId = 0;
+		this.attachmentReferenceId = 0;
+		return this;
+	}
+	
+	/**
+	 * Set Attachment reference
+	 * @param attachmentReferenceId
+	 * @return
+	 */
+	public AttachmentUtil withAttachmentReferenceId(int attachmentReferenceId ) {
+		this.attachmentReferenceId = attachmentReferenceId;
+		this.attachmentId = 0;
+		this.imageId = 0;
+		this.archiveId = 0;
 		return this;
 	}
 	
@@ -236,6 +260,7 @@ public class AttachmentUtil {
 		this.imageId = imageId;
 		this.archiveId = 0;
 		this.attachmentId = 0;
+		this.attachmentReferenceId = 0;
 		return this;
 	}
 	
@@ -248,6 +273,7 @@ public class AttachmentUtil {
 		this.archiveId = archiveId;
 		this.imageId = 0;
 		this.attachmentId = 0;
+		this.attachmentReferenceId = 0;
 		return this;
 	}
 	
@@ -259,9 +285,11 @@ public class AttachmentUtil {
 		this.archiveId = 0;
 		this.imageId = 0;
 		this.attachmentId = 0;
+		this.attachmentReferenceId = 0;
 		this.fileName = null;
 		this.description = null;
 		this.note = null;
+		this.transactionName = null; 
 		return this;
 	}
 	
@@ -271,8 +299,10 @@ public class AttachmentUtil {
 	 */
 	private MADAttachmentReference getAttachmentReference() {
 		MADAttachmentReference attachmentReference = null;
-		if(attachmentId > 0) {
-			attachmentReference = MADAttachmentReference.getByAttachmentId(context, fileHandlerId, attachmentId, fileName, transactionName);
+		if(attachmentReferenceId > 0) {
+			attachmentReference = MADAttachmentReference.getById(context, attachmentReferenceId, transactionName);
+		} else if(attachmentId > 0) {
+			attachmentReference = MADAttachmentReference.getByAttachmentId(context, fileHandlerId, attachmentId, getFileName(), transactionName);
 		} else if(imageId > 0) {
 			attachmentReference = MADAttachmentReference.getByImageId(context, fileHandlerId, imageId, transactionName);
 		} else if(archiveId > 0) {
@@ -364,7 +394,7 @@ public class AttachmentUtil {
 		}
 		try {
 			attachmentReference.setFileHandler_ID(fileHandlerId);
-			attachmentReference.setFileName(fileName);
+			attachmentReference.setFileName(getFileName());
 			//	Reference
 			if(attachmentId > 0) {
 				attachmentReference.setAD_Attachment_ID(attachmentId);
@@ -390,6 +420,10 @@ public class AttachmentUtil {
 			if(data == null) {
 				return;
 			}
+			//	Set file size
+			attachmentReference.setFileSize(new BigDecimal(data.length));
+			//	Save
+			attachmentReference.saveEx();
 			//	Save
 			String validForlder = getValidFolder(attachmentReference);
 			if(!Util.isEmpty(baseFolder)) {
