@@ -726,7 +726,10 @@ public class ProcessInfo implements Serializable
 				keySelection.add(records.getKey());
 			}
 			//	Set selections
-			setSelectionKeys(keySelection);
+			if(getSelectionKeys() == null
+					|| getSelectionKeys().size() ==0) {
+				setSelectionKeys(keySelection);
+			}
 		}
 		//	Save it for DB
 		saveSelectionValues();
