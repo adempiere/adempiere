@@ -30,7 +30,6 @@ import org.compiere.model.MRule;
 import org.compiere.print.ServerReportCtl;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
@@ -188,10 +187,6 @@ public class ServerProcessCtl implements Runnable {
 				processInstance.setClassName(null);
 			}
 		}
-		//	Save selection
-		//	FR [ 352 ]
-		//	if is from a selection then save all record in DB
-		saveSelection();
 		/**********************************************************************
 		 *	Start Optional Class
 		 */
@@ -424,20 +419,4 @@ public class ServerProcessCtl implements Runnable {
 		}
 		return true;
 	}   //  startDBProcess
-	
-	/**
-	 * Save selection when process is called with selection
-	 */
-	private void saveSelection() {
-		if(processInstance.isSelection()) {
-			if(processInstance.getSelectionKeys() != null) {
-				//	Create Selection
-				DB.createT_Selection(processInstance.getAD_PInstance_ID(), processInstance.getSelectionKeys(), processInstance.getTransactionName());
-				if(processInstance.getSelectionValues() != null) {
-					//	Create Selection for SB
-					DB.createT_Selection_Browse(processInstance.getAD_PInstance_ID(), processInstance.getSelectionValues(), processInstance.getTransactionName());
-				}
-			} 
-		}
-	}
 }
