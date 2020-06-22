@@ -1335,10 +1335,8 @@ public abstract class PO
 	{
 		s_log.fine("From ID=" + from.get_ID() + " - To ID=" + to.get_ID());
 		//	Different Classes
-		if (from.getClass() != to.getClass())
-		{
-			for (int i1 = 0; i1 < from.m_oldValues.length; i1++)
-			{
+		if (from.getClass() != to.getClass()) {
+			for (int i1 = 0; i1 < from.m_oldValues.length; i1++) {
 				if (from.p_info.isVirtualColumn(i1)
 					|| from.p_info.isKey(i1)	//	KeyColumn
 					|| (!from.p_info.isAllowCopy(i1) && !force))		//	Allow Copy
@@ -1347,26 +1345,23 @@ public abstract class PO
 				//  Ignore Standard Values
 				if (M_Element.isReservedColumnName(colName))
 					;	//	ignore
-				else
-				{
-					for (int i2 = 0; i2 < to.m_oldValues.length; i2++)
-					{
-						if (to.p_info.getColumnName(i2).equals(colName))
-						{
+				else {
+					for (int i2 = 0; i2 < to.m_oldValues.length; i2++) {
+						if(!to.p_info.isColumnUpdateable(i2) && !force) {
+							continue;
+						}
+						if (to.p_info.getColumnName(i2).equals(colName)) {
 							to.m_newValues[i2] = from.m_oldValues[i1];
 							break;
 						}
 					}
 				}
 			}	//	from loop
-		}
-		else	//	same class
-		{
-			for (int i = 0; i < from.m_oldValues.length; i++)
-			{
+		} else {	//	same class
+			for (int i = 0; i < from.m_oldValues.length; i++) {
 				if (from.p_info.isVirtualColumn(i)
 					|| from.p_info.isKey(i)	//	KeyColumn
-					|| (!from.p_info.isAllowCopy(i) && !force))		//	Allow Copy
+					|| ((!from.p_info.isAllowCopy(i) || !to.p_info.isColumnUpdateable(i)) && !force))		//	Allow Copy
 					continue;
 				String colName = from.p_info.getColumnName(i);
 				//  Ignore Standard Values
