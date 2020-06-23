@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fixed error with Role Create from Window" ReleaseNo="3.9.4" SeqNo="5850">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53231" Action="U" Record_ID="50404" Table="AD_View_Definition">
+        <Data AD_Column_ID="58091" Column="JoinClause" oldValue="INNER JOIN AD_Process p ON (p.AD_Process_ID=c.AD_Process_ID)">INNER JOIN AD_Process p ON (p.AD_Process_ID=c.AD_Process_ID OR EXISTS(SELECT 1 FROM AD_Table_Process tp WHERE tp.AD_Table_ID = t.AD_Table_ID AND t.AD_Process_ID = p.AD_Process_ID))</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="64281" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID" oldValue="65772">65777</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53231" Action="U" Record_ID="50404" Table="AD_View_Definition">
+        <Data AD_Column_ID="58091" Column="JoinClause" oldValue="INNER JOIN AD_Process p ON (p.AD_Process_ID=c.AD_Process_ID OR EXISTS(SELECT 1 FROM AD_Table_Process tp WHERE tp.AD_Table_ID = t.AD_Table_ID AND t.AD_Process_ID = p.AD_Process_ID))">INNER JOIN AD_Process p ON (p.AD_Process_ID=c.AD_Process_ID OR EXISTS(SELECT 1 FROM AD_Table_Process tp WHERE tp.AD_Table_ID = t.AD_Table_ID AND tp.AD_Process_ID = p.AD_Process_ID))</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
