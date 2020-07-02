@@ -22,9 +22,11 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
  
@@ -183,25 +185,30 @@ import org.compiere.util.Msg;
 	 *	@param payment payment
 	 */
 	public void setPayment (MPayment payment) {
-        BigDecimal paymentAmount = payment.getPayAmt(true);
-        int currencyId = payment.getC_Currency_ID();
-        
-        MBankAccount bankAccount = MBankAccount.get(getCtx(), getParent().getC_BankAccount_ID());
+		AtomicReference<BigDecimal> paymentAmount = new AtomicReference<BigDecimal>(payment.getPayAmt(true));
+        //	
+		MBankAccount bankAccount = MBankAccount.get(getCtx(), getParent().getC_BankAccount_ID());
         if(bankAccount.getC_Currency_ID() != payment.getC_Currency_ID()) {
-            currencyId = bankAccount.getC_Currency_ID();
             // Get Currency Info
-            MCurrency currency = MCurrency.get (getCtx(),bankAccount.getC_Currency_ID());
+            MCurrency currency = MCurrency.get(getCtx(), payment.getC_Currency_ID());
+            MCurrency currencyTo = MCurrency.get (getCtx(), bankAccount.getC_Currency_ID());
             Timestamp conversionDate = getParent().getStatementDate();
-    
+            StringBuffer errorMassage = new StringBuffer()
+            .append(" @C_Conversion_Rate_ID@ @From@ @C_Currency_ID@ ")
+            .append(currency.getISO_Code())
+            .append(" @to@ @C_Currency_ID@ ")
+            .append(currencyTo.getISO_Code())
+            .append(" @StatementDate@ ").append(DisplayType.getDateFormat(DisplayType.Date).format(conversionDate)).append(" @NotFound@");
             // Get Currency Rate
-            Optional<BigDecimal> maybeCurrencyRate = Optional.ofNullable(MConversionRate.getRate (payment.getC_Currency_ID(),
+            BigDecimal currencyRate = Optional.ofNullable(MConversionRate.getRate (payment.getC_Currency_ID(),
                     bankAccount.getC_Currency_ID(), conversionDate, payment.getC_ConversionType_ID(), payment.getAD_Client_ID(),
-                    payment.getAD_Org_ID()));
-			maybeCurrencyRate.ifPresent(currencyRate -> paymentAmount.multiply(currencyRate)
-					.setScale(currency.getStdPrecision(), BigDecimal.ROUND_HALF_UP));
+                    payment.getAD_Org_ID()))
+            		.orElseThrow(() -> new AdempiereException(errorMassage.toString()));
+            //	Set convert amount
+			paymentAmount.updateAndGet(payAmount -> payAmount.multiply(currencyRate).setScale(currencyTo.getStdPrecision(), BigDecimal.ROUND_HALF_UP));
         }
         setC_Payment_ID (payment.getC_Payment_ID());
-        setC_Currency_ID (currencyId);
+        setC_Currency_ID (bankAccount.getC_Currency_ID());
 
         BigDecimal chargeAmt = getChargeAmt();
         if (chargeAmt == null)
@@ -209,8 +216,8 @@ import org.compiere.util.Msg;
         BigDecimal interestAmt = getInterestAmt();
         if (interestAmt == null)
             interestAmt = Env.ZERO;
-        setTrxAmt(paymentAmount);
-        setStmtAmt(paymentAmount.add(chargeAmt).add(interestAmt));
+        setTrxAmt(paymentAmount.get());
+        setStmtAmt(paymentAmount.get().add(chargeAmt).add(interestAmt));
         //
         setDescription(payment.getDescription());
 	}	//	setPayment
@@ -248,7 +255,6 @@ import org.compiere.util.Msg;
 		// Un-link Payment if TrxAmt is zero - teo_sarca BF [ 1896880 ] 
 		if (getTrxAmt().signum() == 0 && getC_Payment_ID() > 0)
 		{
-			setC_Payment_ID(I_ZERO);
 			setC_Invoice_ID(I_ZERO);
 		}
 		//	Set Line No

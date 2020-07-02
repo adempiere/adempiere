@@ -19,6 +19,7 @@ package org.compiere.process;
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
+import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
@@ -700,6 +701,7 @@ public class ProcessInfo implements Serializable
 	public void setSelectionKeys(List<Integer> selection) {
 		keySelection = selection;
 		setIsSelection(selection != null && selection.size() > 0);
+		saveSelection();
 	}
 	
 	/**
@@ -719,10 +721,46 @@ public class ProcessInfo implements Serializable
 		setIsSelection(selection != null && selection.size() > 0);
 		//	fill key
 		if(selection != null) {
-			keySelection = new ArrayList<Integer>();
+			List<Integer> keySelection = new ArrayList<Integer>();
 			for(Entry<Integer,LinkedHashMap<String, Object>> records : selection.entrySet()) {
 				keySelection.add(records.getKey());
 			}
+			//	Set selections
+			if(getSelectionKeys() == null
+					|| getSelectionKeys().size() ==0) {
+				setSelectionKeys(keySelection);
+			}
+		}
+		//	Save it for DB
+		saveSelectionValues();
+	}
+	
+	/**
+	 * Save selection when process is called with selection
+	 */
+	private void saveSelection() {
+		if(isSelection()
+				&& getAD_PInstance_ID() > 0) {
+			if(getSelectionKeys() != null) {
+				//	Create Selection
+				DB.createT_Selection(getAD_PInstance_ID(), getSelectionKeys(), getTransactionName());
+			} 
+		}
+	}
+	
+	/**
+	 * Save selection values when process is called with selection values or from browser
+	 */
+	private void saveSelectionValues() {
+		if(isSelection()
+				&& getAD_PInstance_ID() > 0) {
+			if(getSelectionKeys() != null) {
+				//	Create Selection
+				if(getSelectionValues() != null) {
+					//	Create Selection for SB
+					DB.createT_Selection_Browse(getAD_PInstance_ID(), getSelectionValues(), getTransactionName());
+				}
+			} 
 		}
 	}
 

@@ -13,6 +13,5 @@
         <option name="sbtVersion" value="0.13.11" />
       </SbtProjectSettings>
     </option>
-    <option name="vmParameters" value="" />
   </component>
 </project>

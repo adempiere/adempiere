@@ -793,7 +793,7 @@ public class MWorkflow extends X_AD_Workflow
 		final int SLEEP = 500;		//	1/2 sec
 		final int MAXLOOPS = 30;	//	15 sec	
 		//
-		MWFProcess process = start(pi, pi.getTransactionName());
+		MWFProcess process = start(pi, pi.isBatch()? pi.getTransactionName(): null);
 		if (process == null)
 			return null;
 		Thread.yield();

@@ -32,6 +32,8 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.Map.Entry;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
@@ -2206,7 +2208,7 @@ public final class MRole extends X_AD_Role
 				 if (column == null || column.isVirtualColumn() || !column.isActive())
 					 continue;
 			} else {
-				int posColumn = mainSql.indexOf(columnName);
+				int posColumn = getIndexOfColumn(mainSql, columnName);
 				if (posColumn == -1)
 					continue;
 				//	we found the column name - make sure it's a column name
@@ -2247,6 +2249,21 @@ public final class MRole extends X_AD_Role
 		log.finest(retSQL.toString());
 		return retSQL.toString();
 	}	//	addAccessSQL
+	
+	/**
+	 * Get Index of column from SQL finding with whole word
+	 * @param sql
+	 * @param columnName
+	 * @return
+	 */
+	private int getIndexOfColumn(String sql, String columnName) {
+		Matcher matcher = Pattern.compile("\\b" + columnName + "\\b").matcher(sql);
+		while (matcher.find()) {
+		    return matcher.start();
+		}
+		//	it not found
+		return -1;
+	}
 
 	/**
 	 * 	Get Dependent Access 
@@ -2311,7 +2328,7 @@ public final class MRole extends X_AD_Role
 	private String getDependentRecordWhereColumn (String mainSql, String columnName)
 	{
 		String retValue = columnName;	//	if nothing else found
-		int index = mainSql.indexOf(columnName);
+		int index = getIndexOfColumn(mainSql, columnName);
 		if (index == -1)
 			return retValue;
 		//	see if there are table synonym

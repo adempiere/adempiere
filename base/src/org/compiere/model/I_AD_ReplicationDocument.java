@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_ReplicationDocument
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_AD_ReplicationDocument 
 {
@@ -143,6 +143,17 @@ public interface I_AD_ReplicationDocument
 	  */
 	public String getDescription();
 
+    /** Column name EXP_Format_ID */
+    public static final String COLUMNNAME_EXP_Format_ID = "EXP_Format_ID";
+
+	/** Set Export Format	  */
+	public void setEXP_Format_ID (int EXP_Format_ID);
+
+	/** Get Export Format	  */
+	public int getEXP_Format_ID();
+
+	public org.compiere.model.I_EXP_Format getEXP_Format() throws RuntimeException;
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -169,19 +180,6 @@ public interface I_AD_ReplicationDocument
 	  */
 	public String getReplicationType();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -197,4 +195,17 @@ public interface I_AD_ReplicationDocument
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }
