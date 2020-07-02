@@ -24,6 +24,7 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -43,7 +44,7 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 	 * 
 	 */
 	private static final long serialVersionUID = -8645283018475474574L;
-	
+
 	private MInvoiceLine invoiceLine = null;
 	private MInvoice invoice = null;
 
@@ -197,10 +198,19 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 	@Override //ancabradau
 	public BigDecimal getPriceActual()
 	{
-		MCurrency currency = MCurrency.get(getCtx(), getC_Currency_ID());
-		BigDecimal amount = MConversionRate.convertBase(getCtx() , getAmt() , getC_Currency_ID() , getDateAcct() , getC_ConversionType_ID() , getAD_Client_ID() , getAD_Org_ID());
-		BigDecimal price = amount.divide(getQty(), currency.getCostingPrecision() ,  RoundingMode.HALF_UP);
-		return price;
+		MInvoiceLine invoiceLine = (MInvoiceLine) getC_InvoiceLine();
+		BigDecimal amount = MConversionRate.convertBase(getCtx()
+				, getAmt()
+				, getC_Currency_ID()
+				, getDateAcct()
+				, getC_ConversionType_ID()
+				, getAD_Client_ID()
+				, getAD_Org_ID())
+				.divide( getQty(),invoiceLine.getParent().getM_PriceList().getPricePrecision() , BigDecimal.ROUND_HALF_UP);
+		if (MDocType.DOCBASETYPE_APCreditMemo.equals(invoiceLine.getParent().getC_DocType().getDocBaseType()))
+			return amount.negate();
+
+		return amount;
 	}
 
 	@Override
@@ -221,7 +231,7 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 	}
 	
 	public Timestamp getDateAcct() {
-		return getM_InOutLine().getM_InOut().getDateAcct();
+		return getInvoice().getDateAcct();
 	}
 	
 
@@ -247,7 +257,10 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 	}
 
 	public BigDecimal getPriceActualCurrency() {
-		BigDecimal amount = getAmt(true, false).divide(getQty() , MathContext.DECIMAL128);
+		MInvoiceLine invoiceLine = getInvoiceLine();
+		BigDecimal amount = getAmt().divide(getQty() ,invoiceLine.getParent().getM_PriceList().getPricePrecision() , BigDecimal.ROUND_HALF_UP);
+		if (MDocType.DOCBASETYPE_APCreditMemo.equals(invoiceLine.getParent().getC_DocType().getDocBaseType()))
+			amount = amount.negate();
 		return  amount;
 	}
 
@@ -274,33 +287,7 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	/**
-	 * getAmt 
-	 * Get Amount without Adjusted Credit Memo
-	 */
-	@Override
-	public BigDecimal getAmt() {
-		return getAmt(false, false);
-	}
-	
-	/**
-	 * Get Amount with Adjusted Credit Memo parameter
-	 * @param creditMemoAdjusted
-	 * @return
-	 */
-	public BigDecimal getAmt(boolean creditMemoAdjusted, boolean converted) {
-		BigDecimal amount = super.getAmt();
-		MInvoiceLine invoiceLine = (MInvoiceLine) getC_InvoiceLine();
-		if (creditMemoAdjusted 
-				&& MDocType.DOCBASETYPE_APCreditMemo.equals(invoiceLine.getParent().getC_DocTypeTarget().getDocBaseType()))
-			amount = amount.negate();
-		if (converted
-				&& getC_Currency_ID() > 0)
-			amount = MConversionRate.convertBase(getCtx(), amount, getC_Currency_ID(), getInvoice().getDateAcct(), getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
-		return  amount;
-	}
-	
+
 	/**
 	 * Set Invoice Line
 	 * @param invoiceLine
@@ -312,26 +299,21 @@ public class MLandedCostAllocation extends X_C_LandedCostAllocation implements I
 	 * Set Invoice
 	 * @param invoice
 	 */
-	public void setInvoice(MInvoiceLine invoiceLine) {
-		if (invoiceLine!=null)
-			this.invoice = (MInvoice) invoiceLine.getC_Invoice();
+	public void setInvoice(MInvoice invoice) {
+			this.invoice = invoice;
 	}
-	
+
 	/**
 	 * Get Invoice Line
 	 * @return
 	 */
 	public MInvoiceLine getInvoiceLine() {
-		if (invoiceLine==null)
-			setInvoiceLine((MInvoiceLine)getC_InvoiceLine());
+			setInvoiceLine(Optional.ofNullable(invoiceLine).orElse((MInvoiceLine)getC_InvoiceLine()));
 		return invoiceLine;
 	}
-	
+
 	public MInvoice getInvoice() {
-		if (invoice==null) {
-			setInvoice(getInvoiceLine());
-		}
+			setInvoice(Optional.ofNullable(invoice).orElse(getInvoiceLine().getParent()));
 		return invoice;
 	}
-	
 }	//	MLandedCostAllocation
