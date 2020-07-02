@@ -168,6 +168,7 @@ public class PayrollProcessReport extends PayrollProcessReportAbstract {
 				//	Add current parameters
 				Arrays.asList(getParameter()).forEach(parameter -> builder.withParameter(parameter.getParameterName(), parameter.getParameter(), parameter.getParameter_To()));
 				//	Run it
+				builder.withPrintPreview();
 				ProcessInfo processInfo = builder.execute(get_TrxName());
 				getProcessInfo().setPDFReport(processInfo.getPDFReport());
 				getProcessInfo().setReportAsFile(processInfo.getPDFReport());
