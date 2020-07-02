@@ -9,7 +9,7 @@ CREATE OR REPLACE VIEW RV_C_INVOICELINE
  PRICEACTUAL, PRICELIMIT, PRICEENTERED, DISCOUNT, MARGIN, 
  MARGINAMT, LINENETAMT, LINELISTAMT, LINELIMITAMT, LINEDISCOUNTAMT, 
  LINEOVERLIMITAMT, M_Product_Class_ID, M_Product_Group_ID, M_Product_Classification_ID, Description, LineDescription, C_DocTypeTarget_ID,
- C_BP_AccountType_ID, C_BP_SalesGroup_ID, C_BP_Segment_ID, C_BP_IndustryType_ID)
+ C_BP_AccountType_ID, C_BP_SalesGroup_ID, C_BP_Segment_ID, C_BP_IndustryType_ID, C_SalesRegion_ID, Weight, Volume, DocBaseType, C_Currency_ID)
 AS 
 SELECT 
 	il.AD_Client_ID, il.AD_Org_ID, il.IsActive, il.Created, il.CreatedBy, il.Updated, il.UpdatedBy,
@@ -42,7 +42,11 @@ SELECT
 		ROUND(i.Multiplier*LineNetAmt-PriceLimit*QtyInvoiced,2) END AS LineOverLimitAmt,
     p.M_Product_Class_ID, p.M_PRoduct_Group_ID, p.M_Product_Classification_ID, i.Description, 
     il.Description AS LineDescription, i.C_DocTypeTarget_ID,
-    i.C_BP_AccountType_ID, i.C_BP_SalesGroup_ID, i.C_BP_Segment_ID, i.C_BP_IndustryType_ID
+    i.C_BP_AccountType_ID, i.C_BP_SalesGroup_ID, i.C_BP_Segment_ID, i.C_BP_IndustryType_ID,
+    i.C_SalesRegion_ID, 
+    (p.Weight * il.QtyInvoiced) AS Weight,
+    (p.Volume * il.QtyInvoiced) AS Volume,
+    i.DocBaseType, i.C_Currency_ID
 FROM  RV_C_Invoice i
   INNER JOIN C_InvoiceLine il ON (i.C_Invoice_ID=il.C_Invoice_ID)
   LEFT OUTER JOIN M_Product p ON (il.M_Product_ID=p.M_Product_ID)
