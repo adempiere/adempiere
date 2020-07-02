@@ -16,9 +16,12 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import org.adempiere.engine.IDocumentLine;
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -27,11 +30,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
-
-import org.adempiere.engine.IDocumentLine;
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
 
 /**
  * 	Landed Cost Allocation Model
