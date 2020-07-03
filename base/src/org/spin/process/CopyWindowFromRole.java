@@ -18,6 +18,7 @@
 package org.spin.process;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -27,6 +28,7 @@ import org.compiere.model.I_AD_Process_Access;
 import org.compiere.model.I_AD_Window_Access;
 import org.compiere.model.MProcess;
 import org.compiere.model.MProcessAccess;
+import org.compiere.model.MTab;
 import org.compiere.model.MWindow;
 import org.compiere.model.MWindowAccess;
 import org.compiere.model.Query;
@@ -61,15 +63,7 @@ public class CopyWindowFromRole extends CopyWindowFromRoleAbstract {
                     	Arrays.asList(window.getTabs(false, get_TrxName()))
                     		.forEach(tab -> {
                     			//	From Process for Table
-                    			new Query(getCtx(), I_AD_Process.Table_Name, "EXISTS(SELECT 1 FROM AD_Table_Process pa "
-                    					+ "				WHERE pa.AD_Process_ID = AD_Process.AD_Process_ID "
-                    					+ "				AND pa.AD_Table_ID = ?) "
-                    					+ "OR EXISTS(SELECT 1 FROM AD_Field f "
-                    					+ "					INNER JOIN AD_Column c ON(c.AD_Column_ID = f.AD_Column_ID) "
-                    					+ "					WHERE c.AD_Process_ID = AD_Process.AD_Process_ID "
-                    					+ "					AND f.AD_Tab_ID = ?)", get_TrxName())
-                    				.setParameters(tab.getAD_Table_ID(), tab.getAD_Tab_ID())
-                    				.<MProcess>list()
+                    			getDependentProcesses(tab)
                     				.stream()
                     				.filter(process -> !isExistsProcess(process.getAD_Process_ID()))
                     				.forEach(process -> addProcessAccess(process, processAdded));
@@ -79,6 +73,23 @@ public class CopyWindowFromRole extends CopyWindowFromRoleAbstract {
                 });
 
         return "@AD_Window_ID@ @Added@ " + windowAdded.get() + ", @AD_Process_ID@ @Added@ " + processAdded.get();
+    }
+    
+    /**
+     * Get a list of process that exists in source role based on process of tables or columns linked to process
+     * @param tab
+     * @return
+     */
+    private List<MProcess> getDependentProcesses(MTab tab) {
+    	return new Query(getCtx(), I_AD_Process.Table_Name, "EXISTS(SELECT 1 FROM AD_Table_Process pa "
+				+ "				WHERE pa.AD_Process_ID = AD_Process.AD_Process_ID "
+				+ "				AND pa.AD_Table_ID = ?) "
+				+ "OR EXISTS(SELECT 1 FROM AD_Field f "
+				+ "					INNER JOIN AD_Column c ON(c.AD_Column_ID = f.AD_Column_ID) "
+				+ "					WHERE c.AD_Process_ID = AD_Process.AD_Process_ID "
+				+ "					AND f.AD_Tab_ID = ?)", get_TrxName())
+			.setParameters(tab.getAD_Table_ID(), tab.getAD_Tab_ID())
+			.<MProcess>list();
     }
 
     /**
