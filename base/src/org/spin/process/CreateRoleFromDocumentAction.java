@@ -51,7 +51,7 @@ public class CreateRoleFromDocumentAction extends CreateRoleFromDocumentActionAb
                 	//	Process Document Action
                 	deletePreviousDocumentActions(documentTypeId);
                 	actionsList.forEach(action -> {
-                		if(getSelectionAsBoolean(documentTypeId, "IsSelected_" + action.getValue())) {
+                		if(getSelectionAsBoolean(documentTypeId, "IsSelected_" + action.getAD_Ref_List_ID())) {
                 			processDocumentActionAccess(documentTypeId, action.getAD_Ref_List_ID(), documentActionsProcessed);
                 		}
                 	});
