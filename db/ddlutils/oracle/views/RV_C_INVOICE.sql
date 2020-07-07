@@ -10,7 +10,7 @@ CREATE OR REPLACE VIEW RV_C_INVOICE
  C_ACTIVITY_ID, ISPAYSCHEDULEVALID, INVOICECOLLECTIONTYPE, C_COUNTRY_ID, C_REGION_ID, 
  POSTAL, CITY, C_CHARGE_ID, CHARGEAMT, TOTALLINES, 
  GRANDTOTAL, MULTIPLIER,
- C_BP_AccountType_ID, C_BP_SalesGroup_ID, C_BP_Segment_ID, C_BP_IndustryType_ID)
+ C_BP_AccountType_ID, C_BP_SalesGroup_ID, C_BP_Segment_ID, C_BP_IndustryType_ID, C_SalesRegion_ID, DocBaseType)
 AS 
 SELECT i.C_Invoice_ID,
 	i.AD_Client_ID,i.AD_Org_ID,i.IsActive,i.Created,i.CreatedBy,i.Updated,i.UpdatedBy,
@@ -29,7 +29,9 @@ SELECT i.C_Invoice_ID,
 	CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.TotalLines*-1 ELSE i.TotalLines END AS TotalLines,
 	CASE WHEN charAt(d.DocBaseType,3)='C' THEN i.GrandTotal*-1 ELSE i.GrandTotal END AS GrandTotal,
 	CASE WHEN charAt(d.DocBaseType,3)='C' THEN -1 ELSE 1 END AS Multiplier,
-	b.C_BP_AccountType_ID, b.C_BP_SalesGroup_ID, b.C_BP_Segment_ID, b.C_BP_IndustryType_ID
+	b.C_BP_AccountType_ID, b.C_BP_SalesGroup_ID, b.C_BP_Segment_ID, b.C_BP_IndustryType_ID,
+	i.C_SalesRegion_ID,
+	d.DocBaseType
 FROM  C_Invoice i
  INNER JOIN C_DocType d ON (i.C_DocType_ID=d.C_DocType_ID)
  INNER JOIN C_BPartner b ON (i.C_BPartner_ID=b.C_BPartner_ID)
