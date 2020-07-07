@@ -30,7 +30,6 @@ import org.compiere.model.MProcess;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.ASyncProcess;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
@@ -59,6 +58,8 @@ public class ProcessBuilder {
     private Integer tableId;
     private Integer windowNo;
     private Integer seqNo;
+    private Integer clientId;
+    private Integer userId;
     private MPInstance instance;
     private MProcess process;
     private ASyncProcess parent;
@@ -175,6 +176,12 @@ public class ProcessBuilder {
         processInfo.setTransactionName(trxName);
         processInfo.setIsSelection(isSelection);
         processInfo.setPrintPreview(isPrintPreview());
+        if(clientId != null) {
+        	processInfo.setAD_Client_ID(clientId);
+        }
+        if(userId != null) {
+        	processInfo.setAD_User_ID(userId);
+        }
         if(!Util.isEmpty(getReportExportFormat())) {
         	processInfo.setReportType(getReportExportFormat());
         } else {
@@ -195,17 +202,7 @@ public class ProcessBuilder {
         if (isSelection) {
             processInfo.setSelectionKeys(selectedRecordsIds);
             processInfo.setTableSelectionId(tableSelectionId);
-            if (selection != null && selection.size() > 0) {
-                processInfo.setSelectionValues(selection);
-                //TODO : Need Remove duplicate functionality ProcessCtl , WProcessCtl , ServerProcessCtl
-                //TODO : The WProcessCtl and ServerProcessCtl not save selection and smart browser selection
-                if (windowNo == 0)
-                        DB.createT_Selection_Browse(processInfo.getAD_PInstance_ID(), processInfo.getSelectionValues(), processInfo.getTransactionName());
-            }
-            //TODO : Need Remove duplicate functionality ProcessCtl , WProcessCtl , ServerProcessCtl
-            //TODO : The WProcessCtl and ServerProcessCtl not save selection and smart browser selection
-            if (windowNo == 0) // force the save selction the issue that not implement save selection
-                DB.createT_Selection(processInfo.getAD_PInstance_ID(), processInfo.getSelectionKeys(), processInfo.getTransactionName());
+            processInfo.setSelectionValues(selection);
         }
     }
 
@@ -343,6 +340,26 @@ public class ProcessBuilder {
     public ProcessBuilder withWindowNo(Integer windowNo)
     {
         this.windowNo = windowNo;
+        return this;
+    }
+    
+    /**
+     * Define specific client id
+     * @param clientId
+     * @return
+     */
+    public ProcessBuilder withClientId(Integer clientId) {
+        this.clientId = clientId;
+        return this;
+    }
+    
+    /**
+     * Define user for process
+     * @param userId
+     * @return
+     */
+    public ProcessBuilder withUserId(Integer userId) {
+        this.userId = userId;
         return this;
     }
 

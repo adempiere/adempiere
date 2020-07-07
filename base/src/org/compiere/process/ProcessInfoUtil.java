@@ -233,6 +233,8 @@ public class ProcessInfoUtil
 				//
 				list.add (new ProcessInfoParameter(ParameterName, Parameter, Parameter_To, Info, Info_To));
 				//
+				if ("Selection".equals(ParameterName) && Parameter!=null && "Y".equals(Parameter))
+					pi.setIsSelection(true);
 				if (pi.getAD_Client_ID() == null)
 					pi.setAD_Client_ID (rs.getInt(10));
 				if (pi.getAD_User_ID() == null)

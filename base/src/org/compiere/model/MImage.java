@@ -262,20 +262,24 @@ public class MImage extends X_AD_Image
 	@Override
 	public byte[] getBinaryData() {
 		byte[] data = null;
-		if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
-			try {
-				data = AttachmentUtil.getInstance()
-						.clear()
-						.withImageId(getAD_Image_ID())
-						.withClientId(getAD_Client_ID())
-						.getAttachment();
-			} catch (Exception e) {
-				log.warning("Error loading image: " + e.getLocalizedMessage());
+		if(getAD_Image_ID() != 0) {
+			if(AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
+				try {
+					data = AttachmentUtil.getInstance()
+							.clear()
+							.withImageId(getAD_Image_ID())
+							.withClientId(getAD_Client_ID())
+							.getAttachment();
+				} catch (Exception e) {
+					log.warning("Error loading image: " + e.getLocalizedMessage());
+				}
+				return data;
+			} else {	//	Get from DB
+				data = super.getBinaryData();
 			}
-			return data;
 		}
-		//	Get from DB
-		return super.getBinaryData();
+		//	
+		return data;
 	}
 	
 	/**

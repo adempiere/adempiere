@@ -500,7 +500,9 @@ public class GenericPOHandler extends AbstractElementHandler {
 				continue;
 			}
 			//	Validate Access Level
-			if(!isValidAccess(MTable.get(ctx, entity.get_Table_ID()).getAccessLevel(), MTable.get(ctx, parentEntity.get_Table_ID()).getAccessLevel())) {
+			if(!isValidAccess(MTable.get(ctx, entity.get_Table_ID()).getAccessLevel(), 
+					MTable.get(ctx, parentEntity.get_Table_ID()).getAccessLevel(),
+					entity.getAD_Client_ID() == parentEntity.getAD_Client_ID())) {
 				continue;
 			}
 			//	For others
@@ -512,9 +514,14 @@ public class GenericPOHandler extends AbstractElementHandler {
 	 * Validate Access Level
 	 * @param accessLevel
 	 * @param parentAccessLevel
+	 * @param isSameClient
 	 * @return
 	 */
-	private boolean isValidAccess(String accessLevel, String parentAccessLevel) {
+	private boolean isValidAccess(String accessLevel, String parentAccessLevel, boolean isSameClient) {
+		//	Is Same client
+		if(isSameClient) {
+			return true;
+		}
 		//	Validate system
 		if((parentAccessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemOnly))
 				&& !accessLevel.equals(X_AD_Table.ACCESSLEVEL_SystemOnly)) {

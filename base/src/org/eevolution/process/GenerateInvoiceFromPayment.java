@@ -61,7 +61,7 @@ public class GenerateInvoiceFromPayment extends GenerateInvoiceFromPaymentAbstra
             throw new AdempiereException("@C_Payment_ID@ @IsAllocated@");
 
         if (getChargeId() <= 0 && getProductId() <= 0)
-            throw new AdempiereException("@C_Payment_ID@ @C_Charge_ID@ @OR@ @M_Payment_ID@ @NotFound@");
+            throw new AdempiereException("@C_Payment_ID@ @C_Charge_ID@ @OR@ @C_Payment_ID@ @NotFound@");
 
         generateInvoice(payment);
 
