@@ -30,7 +30,6 @@ import org.compiere.model.MProcess;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.ASyncProcess;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
@@ -59,6 +58,8 @@ public class ProcessBuilder {
     private Integer tableId;
     private Integer windowNo;
     private Integer seqNo;
+    private Integer clientId;
+    private Integer userId;
     private MPInstance instance;
     private MProcess process;
     private ASyncProcess parent;
@@ -175,6 +176,12 @@ public class ProcessBuilder {
         processInfo.setTransactionName(trxName);
         processInfo.setIsSelection(isSelection);
         processInfo.setPrintPreview(isPrintPreview());
+        if(clientId != null) {
+        	processInfo.setAD_Client_ID(clientId);
+        }
+        if(userId != null) {
+        	processInfo.setAD_User_ID(userId);
+        }
         if(!Util.isEmpty(getReportExportFormat())) {
         	processInfo.setReportType(getReportExportFormat());
         } else {
@@ -333,6 +340,26 @@ public class ProcessBuilder {
     public ProcessBuilder withWindowNo(Integer windowNo)
     {
         this.windowNo = windowNo;
+        return this;
+    }
+    
+    /**
+     * Define specific client id
+     * @param clientId
+     * @return
+     */
+    public ProcessBuilder withClientId(Integer clientId) {
+        this.clientId = clientId;
+        return this;
+    }
+    
+    /**
+     * Define user for process
+     * @param userId
+     * @return
+     */
+    public ProcessBuilder withUserId(Integer userId) {
+        this.userId = userId;
         return this;
     }
 
