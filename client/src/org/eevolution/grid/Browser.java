@@ -1264,7 +1264,7 @@ public abstract class Browser {
 					browseField.setAxis_Parent_Column_ID(field.getAxis_Parent_Column_ID());
 					browseField.setIsReadOnly(field.isReadOnly());
 					browseField.setAD_Element_ID(field.getAD_Element_ID());
-					browseField.setColumnNameForSelection(getColumnNameForSelection(tableName, recordId, yColumnName));
+					browseField.setColumnNameForSelection(yColumnName + "_" + recordId);
 					list.add(browseField);
 					log.finest("Added Column=" + sqlColName +  " SQL = " + select);
 				}
@@ -1274,34 +1274,6 @@ public abstract class Browser {
 			throw new AdempiereException(e);
 		}
 		return list;
-	}
-	
-	/**
-	 * Get Column Name for Selection based on Axis
-	 * @param tableName
-	 * @param recordId
-	 * @param axisColumnName
-	 * @return
-	 */
-	private String getColumnNameForSelection(String tableName, int recordId, String axisColumnName) {
-		String defaultColumn = "Value";
-		String columnName = axisColumnName + "_" + recordId;
-		MTable table = MTable.get(Env.getCtx(), tableName);
-		if(table.getColumn(defaultColumn) != null) {
-			try {
-				PO wrapper = table.getPO(recordId, null);
-				if(wrapper != null
-						&& wrapper.get_ID() > 0) {
-					if(!Util.isEmpty(wrapper.get_ValueAsString(defaultColumn))) {
-						columnName = axisColumnName + "_" + wrapper.get_ValueAsString(defaultColumn).replaceAll(" ", "").trim();
-					}
-				}
-			} catch (Exception e) {
-				log.severe(e.getLocalizedMessage());
-			}
-		}
-		//	Default
-		return columnName;
 	}
 
 	/**
