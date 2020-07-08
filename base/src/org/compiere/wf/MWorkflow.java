@@ -32,6 +32,7 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
 import org.compiere.model.X_AD_Workflow;
+import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.StateEngine;
 import org.compiere.util.CCache;
@@ -714,13 +715,16 @@ public class MWorkflow extends X_AD_Workflow
 		Trx localTrx = null;
 		if (trxName == null)
 			localTrx = Trx.get(Trx.createTrxName("WFP"), true);
-		try
-		{
-			if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType()) && isLock(getAD_Table_ID(), pi.getRecord_ID()))
+		try {
+			DocAction document = (DocAction) MTable.get(getCtx(), getAD_Table_ID())
+					.getPO(pi.getRecord_ID(), trxName != null ? trxName : localTrx.getTrxName());
+			if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType()) 
+					&& isLock(getAD_Table_ID(), pi.getRecord_ID()) 
+					&& !document.getDocAction().equals(DocAction.ACTION_Unlock)) {
 				throw new IllegalStateException(Msg.getMsg(getCtx() , "OtherProcessActive"));
-			else if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType()))
+			} else if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType())) {
 				lock(getAD_Table_ID(),pi.getRecord_ID());
-
+			}
 			workflowProcess = new MWFProcess (this, pi, trxName != null ? trxName : localTrx.getTrxName());
 			workflowProcess.saveEx();
 			pi.setSummary(Msg.getMsg(getCtx(), "Processing"));
@@ -729,17 +733,13 @@ public class MWorkflow extends X_AD_Workflow
 				localTrx.commit(true);
 			if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType()))
 				unlock(getAD_Table_ID(),pi.getRecord_ID());
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			if (localTrx != null)
 				localTrx.rollback();
 			log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 			pi.setSummary(e.getMessage(), true);
 			workflowProcess = null;
-		}
-		finally 
-		{
+		} finally {
 			if (localTrx != null)
 				localTrx.close();
 		}
