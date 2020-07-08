@@ -1823,8 +1823,8 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 			getC_Currency_ID(), getDateAcct(), getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
 		if (invAmt == null)
 		{
-			processMsg = "Could not convert C_Currency_ID=" + getC_Currency_ID()
-				+ " to base C_Currency_ID=" + MClient.get(Env.getCtx()).getC_Currency_ID();
+			processMsg = MConversionRate.getErrorMessage(getCtx(), "ErrorConvertingInvoiceCurrencyToBaseCurrency",
+					getC_Currency_ID(), MClient.get(getCtx()).getC_Currency_ID(), getC_ConversionType_ID(), getDateAcct(), get_TrxName());
 			return DocAction.STATUS_Invalid;
 		}
 		//	Total Balance
