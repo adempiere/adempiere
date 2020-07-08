@@ -8149,12 +8149,7 @@ For customizations, copy the entity and select "User"!</Data>
     </Step>
     <Step SeqNo="4020" StepType="AD">
       <PO AD_Table_ID="53223" Action="U" Record_ID="68585" Table="AD_Browse_Field">
-        <Data AD_Column_ID="67114" Column="Callout" oldValue="org.spin.model.BrowseCreateFromDocumentAction">org.spin.grid.BrowseCreateFromDocumentAction</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="4030" StepType="AD">
-      <PO AD_Table_ID="53223" Action="U" Record_ID="68585" Table="AD_Browse_Field">
-        <Data AD_Column_ID="67114" Column="Callout" oldValue="org.spin.grid.BrowseCreateFromDocumentAction">org.spin.grid.BrowseCreateFromDocumentAction.selectAllDocumentActions</Data>
+        <Data AD_Column_ID="67114" Column="Callout" oldValue="org.spin.grid.BrowseCreateFromDocumentAction">org.spin.grid.BrowseAxisColumnSelection.selectAllRows</Data>
       </PO>
     </Step>
   </Migration>

@@ -19,16 +19,15 @@ package org.spin.grid;
 import java.util.Properties;
 
 import org.compiere.model.GridField;
-import org.compiere.util.CLogger;
 import org.eevolution.grid.BrowserCallOutEngine;
 import org.eevolution.grid.BrowserRow;
 
 
 /** 
- * 	Callout for set and unset all document actions
+ * 	Callout for set and unset all rows of browser
  *  @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
  */
-public class BrowseCreateFromDocumentAction extends BrowserCallOutEngine {
+public class BrowseAxisColumnSelection extends BrowserCallOutEngine {
 
 	/**
 	 * 
@@ -42,7 +41,7 @@ public class BrowseCreateFromDocumentAction extends BrowserCallOutEngine {
 	 * @param currentColumn
 	 * @return
 	 */
-	public String selectAllDocumentActions(Properties ctx,  int WindowNo, BrowserRow row, GridField field, Object value, Object oldValue, int currentRow, int currentColumn) {
+	public String selectAllRows(Properties ctx,  int WindowNo, BrowserRow row, GridField field, Object value, Object oldValue, int currentRow, int currentColumn) {
 		row.getBrowserFields()
 			.entrySet()
 			.stream()
@@ -52,6 +51,4 @@ public class BrowseCreateFromDocumentAction extends BrowserCallOutEngine {
 			});
 		return "";
 	}
-	
-	static CLogger log = CLogger.getCLogger(BrowseCreateFromDocumentAction.class);
-}//BrowserCallOutExample
+}
