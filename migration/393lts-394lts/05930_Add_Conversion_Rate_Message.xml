@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add Conversion Rate Message" ReleaseNo="3.9.4" SeqNo="5910">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53660" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2020-07-08 12:21:44.275</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Error converting allocation currency to base currency
+Currency From: {0} 
+Currency To: {1} 
+Conversion Type: {2} 
+Conversion Date: {3,date, yyyy-MM-dd}</Data>
+        <Data AD_Column_ID="591" Column="Updated">2020-07-08 12:21:44.275</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">ErrorConvertingAllocationCurrencyToBaseCurrency</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53660</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID">22fec3b4-9449-4c89-8cfc-505b9d4b7092</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText">Error converting allocation currency to base currency
+Currency From: {0} 
+Currency To: {1} 
+Conversion Type: {2} 
+Conversion Date: {3,date, yyyy-MM-dd}</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53660</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID">4bb74aae-5088-499e-a96c-a13775e193a4</Data>
+        <Data AD_Column_ID="609" Column="Created">2020-07-08 12:21:45.626</Data>
+        <Data AD_Column_ID="611" Column="Updated">2020-07-08 12:21:45.626</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Error converting allocation currency to base currency&#10;Currency From: {0} &#10;Currency To: {1} &#10;Conversion Type: {2} &#10;Conversion Date: {3,date, yyyy-MM-dd}">Error convirtiendo moneda de asignación a moneda base
+Moneda Desde: {0} 
+Moneda a Convertir: {1} 
+Tipo de Conversión: {2} 
+Fecha de Conversión: {3,date, yyyy-MM-dd}</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53660">53660</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53661" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2020-07-08 12:24:20.36</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Error converting allocation currency to invoice currency
+Allocation Currency: {0} 
+Invoice Currency: {1} 
+Conversion Type: {2} 
+Conversion Date: {3,date, yyyy-MM-dd}</Data>
+        <Data AD_Column_ID="591" Column="Updated">2020-07-08 12:24:20.36</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">ErrorConvertingAllocationCurrencyToInvoiceCurrency</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53661</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID">27032589-7e5f-42b5-813d-321d3a577643</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2020-07-08 12:24:24.096</Data>
+        <Data AD_Column_ID="611" Column="Updated">2020-07-08 12:24:24.096</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Error converting allocation currency to invoice currency
+Allocation Currency: {0} 
+Invoice Currency: {1} 
+Conversion Type: {2} 
+Conversion Date: {3,date, yyyy-MM-dd}</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53661</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID">06531ccc-5457-4a33-99ba-14e00f1b9b88</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53660" Table="AD_Message">
+        <Data AD_Column_ID="198" Column="MsgText" oldValue="Error converting allocation currency to base currency&#10;Currency From: {0} &#10;Currency To: {1} &#10;Conversion Type: {2} &#10;Conversion Date: {3,date, yyyy-MM-dd}">Error converting allocation currency to base currency
+Allocation Currency: {0} 
+Base Currency: {1} 
+Conversion Type: {2} 
+Conversion Date: {3,date, yyyy-MM-dd}</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Error convirtiendo moneda de asignación a moneda base&#10;Moneda Desde: {0} &#10;Moneda a Convertir: {1} &#10;Tipo de Conversión: {2} &#10;Fecha de Conversión: {3,date, yyyy-MM-dd}">Error convirtiendo moneda de asignación a moneda base
+Moneda de Asignación: {0} 
+Moneda Base: {1} 
+Tipo de Conversión: {2} 
+Fecha de Conversión: {3,date, yyyy-MM-dd}</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53660">53660</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Error converting allocation currency to invoice currency&#10;Allocation Currency: {0} &#10;Invoice Currency: {1} &#10;Conversion Type: {2} &#10;Conversion Date: {3,date, yyyy-MM-dd}">Error convirtiendo moneda de asignación a moneda de factura
+Moneda de Asignación: {0} 
+Moneda de Factura: {1} 
+Tipo de Conversión: {2} 
+Fecha de Conversión: {3,date, yyyy-MM-dd}</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53661">53661</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53662" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2020-07-08 12:26:42.525</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Error converting invoice currency to base currency
+Invoice Currency: {0} 
+Base Currency: {1} 
+Conversion Type: {2} 
+Conversion Date: {3,date, yyyy-MM-dd}</Data>
+        <Data AD_Column_ID="591" Column="Updated">2020-07-08 12:26:42.525</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">ErrorConvertingInvoiceCurrencyToBaseCurrency</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53662</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID">f44c53af-2f1d-4c4b-9da7-5003d7c13658</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2020-07-08 12:26:43.511</Data>
+        <Data AD_Column_ID="611" Column="Updated">2020-07-08 12:26:43.511</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Error converting invoice currency to base currency
+Invoice Currency: {0} 
+Base Currency: {1} 
+Conversion Type: {2} 
+Conversion Date: {3,date, yyyy-MM-dd}</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53662</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID">3fd9042c-3094-4cca-a727-8e5ba33f152d</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Error converting invoice currency to base currency&#10;Invoice Currency: {0} &#10;Base Currency: {1} &#10;Conversion Type: {2} &#10;Conversion Date: {3,date, yyyy-MM-dd}">Error convirtiendo moneda de factura a moneda base
+Moneda de Factura: {0} 
+Moneda Base: {1} 
+Tipo de Conversión: {2} 
+Fecha de Conversión: {3,date, yyyy-MM-dd}</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53662">53662</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53663" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53663</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID">1ea6db52-ae17-4ccf-b76d-79660627534d</Data>
+        <Data AD_Column_ID="589" Column="Created">2020-07-08 12:27:53.545</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Error converting document currency to base currency
+Document Currency: {0} 
+Base Currency: {1} 
+Conversion Type: {2} 
+Conversion Date: {3,date, yyyy-MM-dd}</Data>
+        <Data AD_Column_ID="591" Column="Updated">2020-07-08 12:27:53.545</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">ErrorConvertingDocumentCurrencyToBaseCurrency</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2020-07-08 12:27:56.782</Data>
+        <Data AD_Column_ID="611" Column="Updated">2020-07-08 12:27:56.782</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Error converting document currency to base currency
+Document Currency: {0} 
+Base Currency: {1} 
+Conversion Type: {2} 
+Conversion Date: {3,date, yyyy-MM-dd}</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53663</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID">4d92873c-ccb0-4b5b-8c1c-1caf186f7d15</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Error converting document currency to base currency&#10;Document Currency: {0} &#10;Base Currency: {1} &#10;Conversion Type: {2} &#10;Conversion Date: {3,date, yyyy-MM-dd}">Error convirtiendo moneda de documento a moneda base
+Moneda de Documento: {0} 
+Moneda Base: {1} 
+Tipo de Conversión: {2} 
+Fecha de Conversión: {3,date, yyyy-MM-dd}</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53663">53663</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53664" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2020-07-08 12:32:47.772</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Error converting base currency to document currency
+Base Currency: {0} 
+Document Currency: {1} 
+Conversion Type: {2} 
+Conversion Date: {3,date, yyyy-MM-dd}</Data>
+        <Data AD_Column_ID="591" Column="Updated">2020-07-08 12:32:47.772</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">ErrorConvertingBaseCurrencyToDocumentCurrency</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53664</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID">e54badde-e919-4500-aa17-d9364e528b0c</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2020-07-08 12:32:48.566</Data>
+        <Data AD_Column_ID="84347" Column="UUID">dbcd0fd9-0250-4c3b-95fe-18ddedbf2ffb</Data>
+        <Data AD_Column_ID="611" Column="Updated">2020-07-08 12:32:48.566</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Error converting base currency to document currency
+Base Currency: {0} 
+Document Currency: {1} 
+Conversion Type: {2} 
+Conversion Date: {3,date, yyyy-MM-dd}</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53664</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Error converting base currency to document currency&#10;Base Currency: {0} &#10;Document Currency: {1} &#10;Conversion Type: {2} &#10;Conversion Date: {3,date, yyyy-MM-dd}">Error convirtiendo moneda base a moneda de documento
+Moneda Base: {0} 
+Moneda de Documento: {1} 
+Tipo de Conversión: {2} 
+Fecha de Conversión: {3,date, yyyy-MM-dd}</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53664">53664</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
