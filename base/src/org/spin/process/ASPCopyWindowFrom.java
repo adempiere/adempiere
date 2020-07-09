@@ -22,6 +22,9 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.I_AD_Role;
+import org.compiere.model.I_AD_User;
+import org.compiere.model.I_ASP_Level;
 import org.compiere.model.MFieldCustom;
 import org.compiere.model.MTabCustom;
 import org.compiere.model.MWindowCustom;
@@ -49,7 +52,13 @@ public class ASPCopyWindowFrom extends ASPCopyWindowFromAbstract {
 			MWindowCustom toCustomWindow = new MWindowCustom(getCtx(), 0, get_TrxName());
 			//	Copy all
 			PO.copyValues(fromCustomWindow, toCustomWindow);
-			toCustomWindow.setASP_Level_ID(getRecord_ID());
+			if(getTable_ID() == I_ASP_Level.Table_ID) {
+				toCustomWindow.setASP_Level_ID(getRecord_ID());
+			} else if(getTable_ID() == I_AD_Role.Table_ID) {
+				toCustomWindow.setAD_Role_ID(getRecord_ID());
+			} else if(getTable_ID() == I_AD_User.Table_ID) {
+				toCustomWindow.setAD_User_ID(getRecord_ID());
+			}
 			toCustomWindow.saveEx();
 			//	Overwrite tabs
 			List<MTabCustom> fromTabList = fromCustomWindow.getTabs();
