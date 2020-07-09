@@ -22,6 +22,9 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.I_AD_Role;
+import org.compiere.model.I_AD_User;
+import org.compiere.model.I_ASP_Level;
 import org.compiere.model.MProcessCustom;
 import org.compiere.model.MProcessParaCustom;
 import org.compiere.model.PO;
@@ -36,7 +39,7 @@ public class ASPCopyProcessFrom extends ASPCopyProcessFromAbstract {
 	protected void prepare() {
 		super.prepare();
 		if(getRecord_ID() == 0) {
-			throw new AdempiereException("@ASP_Level_ID@ @NotFound@");
+			throw new AdempiereException("@Record_ID@ @NotFound@");
 		}
 	}
 
@@ -48,7 +51,13 @@ public class ASPCopyProcessFrom extends ASPCopyProcessFromAbstract {
 			MProcessCustom toCustomProcess = new MProcessCustom(getCtx(), 0, get_TrxName());
 			//	Copy all
 			PO.copyValues(fromCustomProcess, toCustomProcess);
-			toCustomProcess.setASP_Level_ID(getRecord_ID());
+			if(getTable_ID() == I_ASP_Level.Table_ID) {
+				toCustomProcess.setASP_Level_ID(getRecord_ID());
+			} else if(getTable_ID() == I_AD_Role.Table_ID) {
+				toCustomProcess.setAD_Role_ID(getRecord_ID());
+			} else if(getTable_ID() == I_AD_User.Table_ID) {
+				toCustomProcess.setAD_User_ID(getRecord_ID());
+			}
 			toCustomProcess.saveEx();
 			//	Copy Parameters
 			List<MProcessParaCustom> fromParameterList = fromCustomProcess.getParameters();
