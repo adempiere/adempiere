@@ -724,7 +724,7 @@ public class MWorkflow extends X_AD_Workflow
 			workflowProcess.saveEx();
 			processInfo.setSummary(Msg.getMsg(getCtx(), "Processing"));
 			workflowProcess.startWork(workflowProcessTransaction);
-			if (workflowProcessTransaction != null)
+			if (workflowProcessTransaction != null && !processInfo.isManagedTransaction())
 				workflowProcessTransaction.commit(true);
 			if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType()))
 				unlock(getAD_Table_ID(),processInfo.getRecord_ID());
@@ -735,7 +735,7 @@ public class MWorkflow extends X_AD_Workflow
 			processInfo.setSummary(e.getMessage(), true);
 			workflowProcess = null;
 		} finally {
-			if (workflowProcessTransaction != null)
+			if (workflowProcessTransaction != null && !processInfo.isManagedTransaction())
 				workflowProcessTransaction.close();
 		}
 		return workflowProcess;
