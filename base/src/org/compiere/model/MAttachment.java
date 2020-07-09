@@ -523,12 +523,9 @@ public class MAttachment extends X_AD_Attachment
 				}
 			});
 			return true;
-		} else {
-			if(isStoreAttachmentsOnFileSystem){
-				return saveLOBDataToFileSystem();
-			}
-			return saveLOBDataToDB();
 		}
+		
+		return true;
 	}
 	
 	/**
@@ -901,6 +898,13 @@ public class MAttachment extends X_AD_Attachment
 			if (getTitle() == null || !getTitle().equals(ZIP)) {
 				setTitle (ZIP);
 			}
+		}
+		
+		if(!AttachmentUtil.getInstance().isValidForClient(getAD_Client_ID())) {
+			if(isStoreAttachmentsOnFileSystem){
+				return saveLOBDataToFileSystem();
+			}
+			return saveLOBDataToDB();
 		}
 		return super.beforeSave(newRecord);
 	}	//	beforeSave
