@@ -2508,7 +2508,7 @@ public abstract class PO
 			}
 		}
 		//	Change Log
-		MSession session = MSession.get (p_ctx, false);
+		MSession session = MSession.get (p_ctx, false, !p_info.getTableName().equals(I_AD_Session.Table_Name));
 		if (session == null)
 			log.fine("No Session found");
 		// log migration
