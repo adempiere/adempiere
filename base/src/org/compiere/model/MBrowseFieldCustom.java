@@ -18,6 +18,7 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.MBrowseField;
 
 /**
@@ -54,6 +55,23 @@ public class MBrowseFieldCustom extends X_AD_BrowseFieldCustom {
 			MBrowseField field = new MBrowseField(getCtx(), browseFieldId, get_TrxName());
 			setField(field);
 		}
+	}
+	
+	/**
+	 * Copy all values from custom field
+	 * Note that if current custom field already exist then the field referenced is keep
+	 * <br> Call {@link org.compiere.model.PO#saveEx()} after use this method
+	 * @param customField
+	 */
+	public void overwriteValuesFromCustomField(MBrowseFieldCustom customField) {
+		if(getAD_BrowseFieldCustom_ID() == 0) {
+			throw new AdempiereException("Use default constructor based on other custom field");
+		}
+		int browseFieldId = getAD_Browse_Field_ID();
+		int customBrowseId = getAD_BrowseCustom_ID();
+		PO.copyValues(customField, this);
+		set_ValueNoCheck(COLUMNNAME_AD_BrowseCustom_ID, customBrowseId);
+		set_ValueNoCheck(COLUMNNAME_AD_Browse_Field_ID, browseFieldId);
 	}
 	
 	/**
