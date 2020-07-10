@@ -19,6 +19,7 @@ package org.compiere.wf;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.model.MMenu;
 import org.compiere.model.MProduct;
@@ -704,6 +706,7 @@ public class MWorkflow extends X_AD_Workflow
 	{
 		MWFProcess workflowProcess = null;
 		Trx workflowProcessTransaction = null;
+		Savepoint savepoint = null;
 		try {
 			workflowProcess = new MWFProcess (this, processInfo, null);
 			// Check if exits activities actives if this way then Other Process Active
@@ -717,25 +720,42 @@ public class MWorkflow extends X_AD_Workflow
 			}
 			if (processInfo.getTransactionName() == null)
 				workflowProcessTransaction = Trx.get(Trx.createTrxName("WFP"), true);
-			else
+			else {
 				workflowProcessTransaction = Trx.get(processInfo.getTransactionName(), false);
+				savepoint = workflowProcessTransaction.setSavepoint(null);
+			}
 
 			workflowProcess.setWorkflowProcessTransaction(workflowProcessTransaction);
 			workflowProcess.saveEx();
 			processInfo.setSummary(Msg.getMsg(getCtx(), "Processing"));
 			workflowProcess.startWork(workflowProcessTransaction);
-			if (workflowProcessTransaction != null && !processInfo.isManagedTransaction())
-				workflowProcessTransaction.commit(true);
+			//Check if transaction is management by the process info or workflow engine
+			if (workflowProcessTransaction != null) {
+				if (processInfo.getTransactionName() == null)
+					workflowProcessTransaction.commit(true);
+				else
+					workflowProcessTransaction.releaseSavepoint(savepoint);
+			}
 			if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType()))
 				unlock(getAD_Table_ID(),processInfo.getRecord_ID());
 		} catch (Exception e) {
-			if (workflowProcessTransaction != null)
-				workflowProcessTransaction.rollback();
+			if (workflowProcessTransaction != null) {
+				if (processInfo.getTransactionName() == null)
+					workflowProcessTransaction.rollback();
+				else {
+					try {
+						workflowProcessTransaction.rollback(savepoint);
+					} catch (SQLException sqlException) {
+						throw new AdempiereException(sqlException.getMessage());
+					}
+				}
+			}
 			log.log(Level.SEVERE, e.getLocalizedMessage(), e);
 			processInfo.setSummary(e.getMessage(), true);
 			workflowProcess = null;
 		} finally {
-			if (workflowProcessTransaction != null && !processInfo.isManagedTransaction())
+			//Check if transaction is management by the process info or workflow engine
+			if (workflowProcessTransaction != null && processInfo.getTransactionName() == null)
 				workflowProcessTransaction.close();
 		}
 		return workflowProcess;
