@@ -2615,6 +2615,7 @@ public abstract class PO
 				&& !p_info.isEncrypted(i)		//	not encrypted
 				&& !p_info.isVirtualColumn(i)	//	no virtual column
 				&& !"Password".equals(columnName)
+				&& !p_info.getTableName().equals(I_AD_Session.Table_Name)
 				)
 			{
 				Object oldV = m_oldValues[i];
@@ -2783,7 +2784,7 @@ public abstract class PO
 		lobReset();
 
 		//	Change Log
-		MSession session = MSession.get (p_ctx, false);
+		MSession session = MSession.get (p_ctx, false, !p_info.getTableName().equals(I_AD_Session.Table_Name));
 		if (session == null)
 			log.fine("No Session found");
 		// log migration
@@ -2871,6 +2872,7 @@ public abstract class PO
 				&& !p_info.isEncrypted(i)		//	not encrypted
 				&& !p_info.isVirtualColumn(i)	//	no virtual column
 				&& !"Password".equals(columnName)
+				&& !p_info.getTableName().equals(I_AD_Session.Table_Name)
 				&& (insertLog.equalsIgnoreCase("Y")
 						|| (insertLog.equalsIgnoreCase("K") && p_info.getColumn(i).IsKey))
 				)
@@ -3137,7 +3139,7 @@ public abstract class PO
 			if (success)
 			{
 
-				MSession session = MSession.get (p_ctx, false);
+				MSession session = MSession.get (p_ctx, false, !p_info.getTableName().equals(I_AD_Session.Table_Name));
 				if (session == null)
 					log.fine("No Session found");
 				else if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
@@ -3158,6 +3160,7 @@ public abstract class PO
 								&& !p_info.isEncrypted(i)		//	not encrypted
 								&& !p_info.isVirtualColumn(i)	//	no virtual column
 								&& !"Password".equals(p_info.getColumnName(i))
+								&& !p_info.getTableName().equals(I_AD_Session.Table_Name)
 								)
 							{
 								// change log on delete
