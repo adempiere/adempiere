@@ -32,6 +32,7 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.process.rpl.IExportProcessorDefinition;
 import org.compiere.util.CLogger;
 
 /**
@@ -52,6 +53,21 @@ public class MEXPProcessorType extends X_EXP_Processor_Type {
 	
 	public MEXPProcessorType(Properties ctx, ResultSet rs, String trxName) {
 		super (ctx, rs, trxName);
+	}
+	
+	/**
+	 * Get processor instance from current type
+	 * @return
+	 * @throws Exception
+	 */
+	public IExportProcessorDefinition getProcessorInstance() throws Exception {
+		try {
+			Class<?> clazz = Class.forName(getJavaClass());
+			return (IExportProcessorDefinition) clazz.newInstance();
+		} catch (Exception e) {
+			s_log.severe(e.toString());
+			throw e;
+		}
 	}
 	
 }
