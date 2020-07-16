@@ -204,6 +204,7 @@ public class EntityWrapperFactory {
 		}
 		//	Instance wrapper
 		wrapper = createWrapper(exportFormat, entity);
+		wrapper.setAttributes(exportFormat, client, replicationMode, replicationType, replicationEvent);
 		return getWrapper();
 	}
 	
@@ -215,7 +216,6 @@ public class EntityWrapperFactory {
 	 */
 	private EntityWrapper createWrapper(MEXPFormat exportFormat, PO entity) {
 		EntityWrapper wrapperToCreate = new EntityWrapper();
-		wrapperToCreate.setAttributes(exportFormat, client, replicationMode, replicationType, replicationEvent);
 		wrapperToCreate.setTableName(entity.get_TableName());
 		exportFormat.getFormatLines()
 		.forEach(exportFormatLine -> {
@@ -257,7 +257,6 @@ public class EntityWrapperFactory {
 					MImage image = new MImage(entity.getCtx(), imageId, null);
 					if (image.getAD_Image_ID() > 0) {
 						EntityWrapper childElement = new EntityWrapper();
-						childElement.setAttributes(exportFormat, client, replicationMode, replicationType, replicationEvent);
 						childElement.setTableName(I_AD_Image.Table_Name);
 						childElement.setId(imageId);
 						childElement.setUuid(image.getUUID());

@@ -94,6 +94,7 @@ public class MEXPProcessor extends X_EXP_Processor {
 	    }
 	    //	Get list
 	    parameters = new Query(getCtx(), I_EXP_ProcessorParameter.Table_Name, I_EXP_ProcessorParameter.COLUMNNAME_EXP_Processor_ID + " = ?", get_TrxName())
+	    		.setParameters(getEXP_Processor_ID())
 	    		.setOnlyActiveRecords(true)
 	    		.list();
 	    return parameters;

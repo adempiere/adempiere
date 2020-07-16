@@ -35,7 +35,7 @@ public class EntityWrapper {
 	/** Map for key and values  */
     private Map<String, Object> attributes = new HashMap<String, Object>();
     /** Static constant for ID */
-    public static final String ID_KEY = "ID";
+    public static final String ID_KEY = "Record_ID";
     /** Static constant for Revision */
     public static final String UUID_KEY = "UUID";
     /**	Table Name	*/
