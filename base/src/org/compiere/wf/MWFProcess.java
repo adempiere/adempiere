@@ -18,10 +18,12 @@ package org.compiere.wf;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
@@ -33,6 +35,7 @@ import org.compiere.process.StateEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Trx;
 import org.compiere.util.Util;
 
 
@@ -40,6 +43,9 @@ import org.compiere.util.Util;
  *	Workflow Process
  *	
  *  @author Jorg Janke
+ * 	@author Victor Pérez, E Evolution Consulting,  wwww.e-evolution.com
+ * 				<li>[Bug Report] The workflow engine is not correctly handling transactions when processing documents #3170
+ * 				<a href="https://github.com/adempiere/adempiere/issues/3170">
  *  @version $Id: MWFProcess.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
  */
 public class MWFProcess extends X_AD_WF_Process
@@ -100,7 +106,7 @@ public class MWFProcess extends X_AD_WF_Process
 		if (!TimeUtil.isValid(wf.getValidFrom(), wf.getValidTo()))
 			throw new IllegalStateException("Workflow not valid");
 		m_wf = wf;
-//TODO  m_pi = pi; red1 - never used  -check later	
+		processInfo = pi;
 		setAD_Workflow_ID (wf.getAD_Workflow_ID());
 		setPriority(wf.getPriority());
 		super.setWFState (WFSTATE_NotStarted);
@@ -108,28 +114,14 @@ public class MWFProcess extends X_AD_WF_Process
 		//	Document
 		setAD_Table_ID(wf.getAD_Table_ID());
 		setRecord_ID(pi.getRecord_ID());
-		if (getPO() == null)
-		{
-			setTextMsg("No PO with ID=" + pi.getRecord_ID());
-			addTextMsg(new Exception(""));
-			super.setWFState (WFSTATE_Terminated);
-		}
-		else
-			setTextMsg(getPO());
 		//	Responsible/User
 		if (wf.getAD_WF_Responsible_ID() == 0)
 			setAD_WF_Responsible_ID();
 		else
 			setAD_WF_Responsible_ID(wf.getAD_WF_Responsible_ID());
-		setUser_ID(pi.getAD_User_ID());		//	user starting
-		//
+
 		m_state = new StateEngine (getWFState());
 		setProcessed (false);
-		//	Lock Entity
-		getPO();
-		//hengsin: remove lock/unlock which is causing deadlock
-		//if (m_po != null)
-		//	m_po.lock();
 	}	//	MWFProcess
 
 	/**	State Machine				*/
@@ -139,10 +131,7 @@ public class MWFProcess extends X_AD_WF_Process
 	/**	Workflow					*/
 	private MWorkflow			m_wf = null;
 	/**	Process Info				*/
-/*TODO red1 - never used
- * 
-	private ProcessInfo			m_pi = null;
- */
+	private ProcessInfo 		processInfo = null;
 	/**	Persistent Object			*/
 	private PO					m_po = null;
 	/** Message from Activity		*/
@@ -156,17 +145,6 @@ public class MWFProcess extends X_AD_WF_Process
 	 */
 	public MWFActivity[] getActivities (boolean requery, boolean onlyActive)
 	{
-		return getActivities(requery, onlyActive, get_TrxName());
-	}
-	
-	/**
-	 * 	Get active Activities of Process
-	 *	@param requery if true requery
-	 *	@param onlyActive only active activities
-	 *	@return array of activities
-	 */
-	public MWFActivity[] getActivities (boolean requery, boolean onlyActive, String trxName)
-	{
 		if (!requery && m_activities != null)
 			return m_activities;
 		//
@@ -178,7 +156,7 @@ public class MWFProcess extends X_AD_WF_Process
 			whereClause.append(" AND Processed=?");
 			params.add(false);
 		}
-		List<MWFActivity> list = new Query(getCtx(), MWFActivity.Table_Name, whereClause.toString(), trxName)
+		List<MWFActivity> list = new Query(getCtx(), MWFActivity.Table_Name, whereClause.toString(), get_TrxName())
 								.setParameters(params)
 								.list();
 		m_activities = new MWFActivity[list.size ()];
@@ -228,18 +206,16 @@ public class MWFProcess extends X_AD_WF_Process
 			//	Force close to all Activities
 			if (m_state.isClosed())
 			{
-				MWFActivity[] activities = getActivities(true, true);	//	requery only active
-				for (int i = 0; i < activities.length; i++)
-				{
-					if (!activities[i].isClosed())
+				Arrays.stream(getActivities(true, true)).forEach(activity -> {
+					if (!activity.isClosed())
 					{
-						activities[i].setTextMsg("Process:" + WFState);
-						activities[i].setWFState(WFState);
+						activity.setTextMsg("Process:" + WFState);
+						activity.setWFState(WFState);
 					}
-					if (!activities[i].isProcessed())
-						activities[i].setProcessed(true);
-					activities[i].saveEx();
-				}
+					if (!activity.isProcessed())
+						activity.setProcessed(true);
+					activity.saveEx();
+				});
 			}	//	closed
 		}
 		else	
@@ -252,12 +228,12 @@ public class MWFProcess extends X_AD_WF_Process
 	 * 	Check Status of Activities.
 	 * 	- update Process if required
 	 * 	- start new activity
-	 * 	@param trxName transaction
+	 * @param lastPO
 	 */
-	public void checkActivities(String trxName, PO lastPO)
+	public void checkActivities(PO lastPO)
 	{
 		log.info("(" + getAD_Workflow_ID() + ") - " + getWFState() 
-			+ (trxName == null ? "" : "[" + trxName + "]"));
+			+  "[" + get_TrxName() + "]");
 		if (m_state.isClosed())
 			return;
 		
@@ -265,7 +241,7 @@ public class MWFProcess extends X_AD_WF_Process
 			m_po = lastPO;
 		
 		//
-		MWFActivity[] activities = getActivities (true, true, trxName);	//	requery active
+		MWFActivity[] activities = getActivities (true, true);	//	requery active
 		String closedState = null;
 		boolean suspended = false;
 		boolean running = false;
@@ -277,7 +253,7 @@ public class MWFProcess extends X_AD_WF_Process
 			//	Completed - Start Next
 			if (activityState.isCompleted())
 			{
-				if (startNext (activity, activities, lastPO, trxName))
+				if (startNext (activity, activities, lastPO))
 					continue;		
 			}
 			//
@@ -318,10 +294,6 @@ public class MWFProcess extends X_AD_WF_Process
 		if (closedState != null)
 		{
 			setWFState(closedState);
-			getPO();
-			//hengsin: remmove lock/unlock in workflow which is causing deadlock in many place
-			//if (m_po != null)
-				//m_po.unlock(null);
 		}
 		else if (suspended)
 			setWFState(WFSTATE_Suspended);
@@ -336,7 +308,7 @@ public class MWFProcess extends X_AD_WF_Process
 	 *	@param activities all activities
 	 *	@return true if there is a next activity
 	 */
-	private boolean startNext (MWFActivity last, MWFActivity[] activities, PO lastPO, String trxName)
+	private boolean startNext (MWFActivity last, MWFActivity[] activities, PO lastPO)
 	{
 		log.fine("Last=" + last);
 		//	transitions from the last processed node
@@ -366,7 +338,6 @@ public class MWFProcess extends X_AD_WF_Process
 			
 			//	Start new Activity...
 			MWFActivity activity = new MWFActivity (this, transitions[i].getAD_WF_Next_ID(), lastPO);
-			activity.set_TrxName(trxName);
 			activity.run();
 			
 			//	only the first valid if XOR
@@ -410,7 +381,6 @@ public class MWFProcess extends X_AD_WF_Process
 		//	Invoker - get Sales Rep or last updater of Document
 		if (AD_User_ID == 0 && resp.isInvoker())
 		{
-			getPO();
 			//	(2) Doc Owner
 			if (m_po != null && m_po instanceof DocAction)
 			{
@@ -451,35 +421,34 @@ public class MWFProcess extends X_AD_WF_Process
 			throw new IllegalStateException("Not found - AD_Workflow_ID=" + getAD_Workflow_ID());
 		return m_wf;
 	}	//	getWorkflow
-	
 
 	/**************************************************************************
 	 * 	Perform Action
 	 *	@param action StateEngine.ACTION_*
 	 *	@return true if valid
 	 */
-	public boolean perform (String action)
+	public boolean perform (Trx documentTransaction , String action)
 	{
 		if (!m_state.isValidAction(action))
 		{
-			log.log(Level.SEVERE, "Ignored Invalid Transformation - Action=" + action 
-				+ ", CurrentState=" + getWFState());
+			log.log(Level.SEVERE, "Ignored Invalid Transformation - Action=" + action
+					+ ", CurrentState=" + getWFState());
 			return false;
 		}
-		log.fine(action); 
+		log.fine(action);
 		//	Action is Valid
 		if (StateEngine.ACTION_Start.equals(action))
-			return startWork();
+			return startWork(documentTransaction);
 		//	Set new State
 		setWFState (m_state.getNewStateIfAction(action));
 		return true;
 	}	//	perform
-	
+
 	/**
 	 * 	Start WF Execution
 	 *	@return true if success
 	 */
-	public boolean startWork()
+	public boolean startWork(Trx documentTransaction)
 	{
 		if (!m_state.isValidAction(StateEngine.ACTION_Start))
 		{
@@ -526,7 +495,7 @@ public class MWFProcess extends X_AD_WF_Process
 			return null;
 		
 		MTable table = MTable.get (getCtx(), getAD_Table_ID());
-		m_po = table.getPO(getRecord_ID(), get_TrxName());
+		m_po = table.getPO(getRecord_ID(), getWorkflowProcessTransaction().getTrxName());
 		return m_po;
 	}	//	getPO
 
@@ -622,5 +591,53 @@ public class MWFProcess extends X_AD_WF_Process
 	{
 		return m_processMsg;
 	}	//	getProcessMsg
-	
+
+
+	Trx workflowProcessTransaction;
+
+	public void setWorkflowProcessTransaction(Trx trx) {
+		workflowProcessTransaction = trx;
+		if (getPO() == null)
+		{
+			setTextMsg("No PO with ID=" + getRecord_ID());
+			addTextMsg(new Exception(""));
+			super.setWFState (WFSTATE_Terminated);
+		}
+		else
+			setTextMsg(getPO());
+
+		if (getProcessInfo() != null)
+			setUser_ID(getProcessInfo().getAD_User_ID());
+	}
+
+	public Trx getWorkflowProcessTransaction() {
+		if (workflowProcessTransaction == null)
+			throw new AdempiereException(" @Transaction@ @AD_Workflow_ID@ @NotFound@");
+
+		return workflowProcessTransaction;
+	}
+
+	public ProcessInfo getProcessInfo() {
+		return processInfo;
+	}
+
+	/**
+	 * Lock Document the entity data based on field processing set on for this document
+	 */
+	public void lockDocument()
+	{
+		MTable domain = MTable.get(getCtx() , getAD_Table_ID());
+		String update = "UPDATE "+ domain.getTableName() +" SET Processing='Y' WHERE (Processing='N' OR Processing IS NULL) AND " +  domain.getKeyColumns()[0]+ "=?";
+		DB.executeUpdateEx(update, new Object[] {getRecord_ID()}, null);
+	}
+
+	/**
+	 * Unlock Document the entity data based on field processing set off for this document
+	 */
+	public void unlockDocument()
+	{
+		MTable domain = MTable.get (getCtx(), getAD_Table_ID());
+		String update = "UPDATE "+ domain.getTableName() +" SET Processing='N' WHERE " +  domain.getKeyColumns()[0]+ "=?";
+		DB.executeUpdateEx(update, new Object[] {getRecord_ID()}, null);
+	}
 }	//	MWFProcess
