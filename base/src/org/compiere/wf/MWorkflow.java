@@ -716,7 +716,7 @@ public class MWorkflow extends X_AD_Workflow
 					&& isOtherProcessActive) {
 				throw new IllegalStateException(Msg.getMsg(getCtx() , "OtherProcessActive"));
 			} else if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType())) {
-				lock(getAD_Table_ID(),processInfo.getRecord_ID());
+				workflowProcess.lockDocument();
 			}
 			if (processInfo.getTransactionName() == null)
 				workflowProcessTransaction = Trx.get(Trx.createTrxName("WFP"), true);
@@ -737,7 +737,7 @@ public class MWorkflow extends X_AD_Workflow
 					workflowProcessTransaction.releaseSavepoint(savepoint);
 			}
 			if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType()))
-				unlock(getAD_Table_ID(),processInfo.getRecord_ID());
+				workflowProcess.unlockDocument();
 		} catch (Exception e) {
 			if (workflowProcessTransaction != null) {
 				if (processInfo.getTransactionName() == null)
@@ -772,30 +772,6 @@ public class MWorkflow extends X_AD_Workflow
 		MTable domain = MTable.get(getCtx() , tableId);
 		String sqlProcessing = "SELECT Processing FROM " + domain.getTableName() +  " WHERE " +  domain.getKeyColumns()[0] + "=?";
 		return "Y".equals(DB.getSQLValueStringEx(null , sqlProcessing, recordId));
-	}
-
-	/**
-	 * Lock the entity data based on field processing set on for this document
-	 * @param tableId
-	 * @param recordId
-	 */
-	private void lock(int tableId , int recordId)
-	{
-		MTable domain = MTable.get(getCtx() , tableId);
-		String update = "UPDATE "+ domain.getTableName() +" SET Processing='Y' WHERE (Processing='N' OR Processing IS NULL) AND " +  domain.getKeyColumns()[0]+ "=?";
-		DB.executeUpdateEx(update, new Object[] {recordId}, null);
-	}
-
-	/**
-	 * Unlock the entity data based on field processing set off for this document
-	 * @param tableId
-	 * @param recordId
-	 */
-	private void unlock(int tableId , int recordId)
-	{
-		MTable domain = MTable.get (getCtx(), tableId);
-		String update = "UPDATE "+ domain.getTableName() +" SET Processing='N' WHERE " +  domain.getKeyColumns()[0]+ "=?";
-		DB.executeUpdateEx(update, new Object[] {recordId}, null);
 	}
 
 	/**

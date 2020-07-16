@@ -18,6 +18,7 @@ package org.compiere.wf;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -205,18 +206,16 @@ public class MWFProcess extends X_AD_WF_Process
 			//	Force close to all Activities
 			if (m_state.isClosed())
 			{
-				MWFActivity[] activities = getActivities(true, true);	//	requery only active
-				for (int i = 0; i < activities.length; i++)
-				{
-					if (!activities[i].isClosed())
+				Arrays.stream(getActivities(true, true)).forEach(activity -> {
+					if (!activity.isClosed())
 					{
-						activities[i].setTextMsg("Process:" + WFState);
-						activities[i].setWFState(WFState);
+						activity.setTextMsg("Process:" + WFState);
+						activity.setWFState(WFState);
 					}
-					if (!activities[i].isProcessed())
-						activities[i].setProcessed(true);
-					activities[i].saveEx();
-				}
+					if (!activity.isProcessed())
+						activity.setProcessed(true);
+					activity.saveEx();
+				});
 			}	//	closed
 		}
 		else	
@@ -607,7 +606,8 @@ public class MWFProcess extends X_AD_WF_Process
 		else
 			setTextMsg(getPO());
 
-		setUser_ID(getProcessInfo().getAD_User_ID());
+		if (getProcessInfo() != null)
+			setUser_ID(getProcessInfo().getAD_User_ID());
 	}
 
 	public Trx getWorkflowProcessTransaction() {
@@ -619,5 +619,25 @@ public class MWFProcess extends X_AD_WF_Process
 
 	public ProcessInfo getProcessInfo() {
 		return processInfo;
+	}
+
+	/**
+	 * Lock Document the entity data based on field processing set on for this document
+	 */
+	public void lockDocument()
+	{
+		MTable domain = MTable.get(getCtx() , getAD_Table_ID());
+		String update = "UPDATE "+ domain.getTableName() +" SET Processing='Y' WHERE (Processing='N' OR Processing IS NULL) AND " +  domain.getKeyColumns()[0]+ "=?";
+		DB.executeUpdateEx(update, new Object[] {getRecord_ID()}, null);
+	}
+
+	/**
+	 * Unlock Document the entity data based on field processing set off for this document
+	 */
+	public void unlockDocument()
+	{
+		MTable domain = MTable.get (getCtx(), getAD_Table_ID());
+		String update = "UPDATE "+ domain.getTableName() +" SET Processing='N' WHERE " +  domain.getKeyColumns()[0]+ "=?";
+		DB.executeUpdateEx(update, new Object[] {getRecord_ID()}, null);
 	}
 }	//	MWFProcess
