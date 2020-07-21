@@ -33,7 +33,6 @@ import java.util.Properties;
 
 import org.adempiere.util.rpl.EntityWrapper;
 import org.compiere.model.MEXPProcessor;
-import org.compiere.util.Trx;
 
 /**
  * Export processor contract based on wrapper
@@ -45,8 +44,8 @@ public interface IExportProcessorAsWrapper extends IExportProcessorDefinition {
 	 * @param ctx
 	 * @param exportProcessor
 	 * @param wrapper
-	 * @param trx
+	 * @param trxName
 	 * @throws Exception
 	 */
-	public void process(Properties ctx, MEXPProcessor exportProcessor, EntityWrapper wrapper, Trx trx) throws Exception;
+	public void process(Properties ctx, MEXPProcessor exportProcessor, EntityWrapper wrapper, String trxName) throws Exception;
 }

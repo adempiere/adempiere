@@ -209,7 +209,7 @@ public class ExportHelper {
 		IExportProcessorDefinition processorInstance = expProcessorType.getProcessorInstance();
 		//	Export based on wrapper
 		if(IExportProcessorAsWrapper.class.isAssignableFrom(processorInstance.getClass())) {
-			return ExportWrapperUtil.exportRecord(po, client, replicationMode, replicationType, replicationEvent, replicationStrategy, exportFormat);
+			return WrapperUtil.exportRecord(po, client, replicationMode, replicationType, replicationEvent, replicationStrategy, exportFormat);
 		}
 		//	else
 		outDocument = createNewDocument();

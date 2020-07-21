@@ -15,11 +15,12 @@
 package org.adempiere.util.rpl;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.compiere.model.MClient;
 import org.compiere.model.MEXPFormat;
@@ -40,6 +41,24 @@ public class EntityWrapper {
     public static final String UUID_KEY = "UUID";
     /**	Table Name	*/
     public static final String TABLE_NAME_KEY = "TableName";
+    /**	Client Attributes	*/
+    public static final String CLIENT_VALUE_KEY = "AD_Client_Value";
+    public static final String CLIENT_UUID_KEY = "AD_Client_UUID";
+    /**	Export Format	*/
+    public static final String EXPORT_FORMAT_VALUE_KEY = "EXP_Format_Value";
+    public static final String EXPORT_FORMAT_UUID_KEY = "EXP_Format_UUID";
+    public static final String EXPORT_FORMAT_DESCRIPTION_KEY = "EXP_Format_Description";
+    public static final String EXPORT_FORMAT_VERSION_KEY = "Version";
+    /**	Replication Mode	*/
+    public static final String REPLICATION_MODE_KEY = "ReplicationMode";
+    /**	Replication Event	*/
+    public static final String REPLICATION_EVENT_KEY = "ReplicationEvent";
+    /**	Replication Type	*/
+    public static final String REPLICATION_TYPE_KEY = "ReplicationType";
+    /**	Transaction Name	*/
+    private String transactionName;
+    /**	Context	*/
+    private Properties context;
 	
 	/**
 	 * Set attributes for wrapper
@@ -62,8 +81,8 @@ public class EntityWrapper {
 	 * @param client
 	 */
 	public void setClientAttributes(MClient client) {
-		setValue("AD_Client_Value", client.getValue());
-		setValue("AD_Client_UUID", client.getUUID());
+		setValue(CLIENT_VALUE_KEY, client.getValue());
+		setValue(CLIENT_UUID_KEY, client.getUUID());
 	}
 	
 	/**
@@ -71,12 +90,60 @@ public class EntityWrapper {
 	 * @param exportFormat
 	 */
 	public void setExportFormatAttributes(MEXPFormat exportFormat) {
-		setValue("EXP_Format_Value", exportFormat.getValue());
-		setValue("EXP_Format_UUID", exportFormat.getUUID());
+		setValue(EXPORT_FORMAT_VALUE_KEY, exportFormat.getValue());
+		setValue(EXPORT_FORMAT_UUID_KEY, exportFormat.getUUID());
 		if(!Util.isEmpty(exportFormat.getDescription())) {
-			setValue("EXP_Format_Description", exportFormat.getDescription());
+			setValue(EXPORT_FORMAT_DESCRIPTION_KEY, exportFormat.getDescription());
 		}
-		setValue("Version", exportFormat.getVersion());
+		setValue(EXPORT_FORMAT_VERSION_KEY, exportFormat.getVersion());
+	}
+	
+	/**
+	 * Get export format Value
+	 * @return
+	 */
+	public String getExportFormatValue() {
+		return getValueAsString(EXPORT_FORMAT_VALUE_KEY);
+	}
+	
+	/**
+	 * Get export format UUID
+	 * @return
+	 */
+	public String getExportFormatUuid() {
+		return getValueAsString(EXPORT_FORMAT_UUID_KEY);
+	}
+	
+	/**
+	 * Get export format Description
+	 * @return
+	 */
+	public String getExportFormatDescription() {
+		return getValueAsString(EXPORT_FORMAT_DESCRIPTION_KEY);
+	}
+	
+	/**
+	 * Get export format Version
+	 * @return
+	 */
+	public String getExportFormatVersion() {
+		return getValueAsString(EXPORT_FORMAT_VERSION_KEY);
+	}
+	
+	/**
+	 * Get client Value
+	 * @return
+	 */
+	public String getClientValue() {
+		return getValueAsString(CLIENT_VALUE_KEY);
+	}
+	
+	/**
+	 * Get client UUID
+	 * @return
+	 */
+	public String getClientUuid() {
+		return getValueAsString(CLIENT_UUID_KEY);
 	}
 	
 	/**
@@ -85,8 +152,16 @@ public class EntityWrapper {
 	 */
 	public void setReplicationMode(Integer replicationMode) {
 		if(replicationMode != null) {
-			setValue("ReplicationMode", replicationMode);
+			setValue(REPLICATION_MODE_KEY, replicationMode);
 		}
+	}
+	
+	/**
+	 * Get Replication Mode
+	 * @return
+	 */
+	public int getReplicationMode() {
+		return getValueAsInt(REPLICATION_MODE_KEY);
 	}
 	
 	/**
@@ -95,8 +170,16 @@ public class EntityWrapper {
 	 */
 	public void setReplicationEvent(Integer replicationEvent) {
 		if(replicationEvent != null) {
-			setValue("ReplicationEvent", replicationEvent);
+			setValue(REPLICATION_EVENT_KEY, replicationEvent);
 		}
+	}
+	
+	/**
+	 * Get Replication event
+	 * @return
+	 */
+	public int getReplicationEvent() {
+		return getValueAsInt(REPLICATION_EVENT_KEY);
 	}
 	
 	/**
@@ -105,27 +188,57 @@ public class EntityWrapper {
 	 */
 	public void setReplicationType(String replicationType) {
 		if(replicationType != null) {
-			setValue("ReplicationType", replicationType);
+			setValue(REPLICATION_TYPE_KEY, replicationType);
 		}
+	}
+	
+	/**
+	 * Get Replication Type
+	 * @return
+	 */
+	public String getReplicationType() {
+		return getValueAsString(REPLICATION_TYPE_KEY);
 	}
 	
     /**
      * Add a child for entity
      * @param child
      */
-    public void addChild(EntityWrapper child) {
+    public void addChild(String key, EntityWrapper child) {
     	if(Util.isEmpty(child.getTableName())) {
     		return;
     	}
     	List<EntityWrapper> children = null;
-    	if(attributes.containsKey(child.getTableName())) {
-    		children = getChildren(child.getTableName());
+    	if(attributes.containsKey(key)) {
+    		children = getChildren(key);
     	} else {
     		children = new ArrayList<EntityWrapper>();
     	}
     	//	Add new child
     	children.add(child);
-    	attributes.put(child.getTableName(), children);
+    	attributes.put(key, children);
+    }
+    
+    /**
+     * Set reference
+     * @param key
+     * @param reference
+     */
+    public void setReference(String key, EntityWrapper reference) {
+    	attributes.put(key, reference);
+    }
+    
+    /**
+     * Get reference
+     * @param key
+     * @return
+     */
+    public EntityWrapper getReference(String key) {
+    	Object value = attributes.get(key);
+    	if(value instanceof EntityWrapper) {
+    		return (EntityWrapper) value;
+    	}
+    	return null;
     }
     
     /**
@@ -239,8 +352,8 @@ public class EntityWrapper {
      * @param key
      * @return boolean value
      */
-    public Date getValueAsDate(String key) {
-        return getValueAsDate(attributes.get(key));
+    public Timestamp getValueAsTimestamp(String key) {
+        return getValueAsTimestamp(attributes.get(key));
     }
 
     /**
@@ -342,16 +455,16 @@ public class EntityWrapper {
      * 	Get Created
      * 	@return created
      */
-    final public Date getCreated() {
-        return getValueAsDate("Created");
+    final public Timestamp getCreated() {
+        return getValueAsTimestamp("Created");
     }	//	getCreated
 
     /**
      * 	Get Updated
      *	@return updated
      */
-    final public Date getUpdated() {
-        return getValueAsDate("Updated");
+    final public Timestamp getUpdated() {
+        return getValueAsTimestamp("Updated");
     }	//	getUpdated
 
     /**
@@ -407,7 +520,7 @@ public class EntityWrapper {
             return ((Integer)value).intValue();
         try {
             return Integer.parseInt(value.toString());
-        } catch (NumberFormatException ex) {
+        } catch (Exception ex) {
             return 0;
         }
     }   //  getValueAsInt
@@ -471,12 +584,12 @@ public class EntityWrapper {
      * @param Value for cast
      * @return boolean value
      */
-    public static Date getValueAsDate(Object value) {
+    public static Timestamp getValueAsTimestamp(Object value) {
         if (value != null) {
-            if (value instanceof Date) {
-                return (Date) value;
+            if (value instanceof Timestamp) {
+                return (Timestamp) value;
             } else if(value instanceof Long) {
-                return new Date((Long) value);
+                return new Timestamp((Long) value);
             }
         }
         return null;
@@ -487,13 +600,42 @@ public class EntityWrapper {
      * @param Value for cast
      * @return
      */
-    private <T> List<T> getValueAsList(Object value) {
+    @SuppressWarnings("unchecked")
+	private <T> List<T> getValueAsList(Object value) {
         if (value != null) {
             if (value instanceof List)
-                return (List<T>) value;
+                return ((List<T>) value);
         }
         return null;
     }
+
+	/**
+	 * @return the transactionName
+	 */
+	public final String getTransactionName() {
+		return transactionName;
+	}
+
+	/**
+	 * @param transactionName the transactionName to set
+	 */
+	public final void setTransactionName(String transactionName) {
+		this.transactionName = transactionName;
+	}
+
+	/**
+	 * @return the context
+	 */
+	public final Properties getContext() {
+		return context;
+	}
+
+	/**
+	 * @param context the context to set
+	 */
+	public final void setContext(Properties context) {
+		this.context = context;
+	}
 
 	@Override
 	public String toString() {
