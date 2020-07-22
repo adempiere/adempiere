@@ -59,6 +59,8 @@ public class EntityWrapper {
     private String transactionName;
     /**	Context	*/
     private Properties context;
+    /**	List of tables	*/
+    private Map<String, Boolean> tablesMap = new HashMap<String, Boolean>();
 	
 	/**
 	 * Set attributes for wrapper
@@ -217,6 +219,7 @@ public class EntityWrapper {
     	//	Add new child
     	children.add(child);
     	attributes.put(key, children);
+    	tablesMap.put(child.getTableName(), true);
     }
     
     /**
@@ -225,7 +228,11 @@ public class EntityWrapper {
      * @param reference
      */
     public void setReference(String key, EntityWrapper reference) {
+    	if(Util.isEmpty(reference.getTableName())) {
+    		return;
+    	}
     	attributes.put(key, reference);
+    	tablesMap.put(reference.getTableName(), true);
     }
     
     /**
@@ -303,7 +310,16 @@ public class EntityWrapper {
      */
     public void setTableName(String tableName) {
         attributes.put(TABLE_NAME_KEY, tableName);
-    } 
+        tablesMap.put(tableName, false);
+    }
+    
+    /**
+     * Get List of tables including children
+     * @return
+     */
+    public List<String> getTablesList() {
+    	return new ArrayList<>(tablesMap.keySet());
+    }
 
 
     /**************************************************************

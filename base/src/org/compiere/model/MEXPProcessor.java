@@ -185,4 +185,10 @@ public class MEXPProcessor extends X_EXP_Processor {
     	}
         return null;
     }
+
+	@Override
+	public String toString() {
+		return "MEXPProcessor [getEXP_Processor_ID()=" + getEXP_Processor_ID() + ", getName()=" + getName()
+				+ ", getValue()=" + getValue() + "]";
+	}
 }
