@@ -44,6 +44,8 @@ import org.compiere.util.Util;
 
 /**
  * @author Trifon Trifonov
+ * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
+ * Some methods
  */
 public class MIMPProcessor extends X_IMP_Processor implements AdempiereProcessor 
 {
@@ -51,7 +53,22 @@ public class MIMPProcessor extends X_IMP_Processor implements AdempiereProcessor
 
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MIMPProcessor.class);
+	private static MIMPProcessor processor = null;
 	private List<MIMPProcessorParameter> parameters = null;
+	
+	/**
+	 * Get instance
+	 * @param ctx
+	 * @param impProcessorId
+	 * @param trxName
+	 * @return
+	 */
+	public static MIMPProcessor get(Properties ctx, int impProcessorId, String trxName) {
+	    if(processor == null) {
+	    	processor = new MIMPProcessor(ctx, impProcessorId, trxName);
+	    }
+	    return processor;
+	}
 
 	public MIMPProcessor(Properties ctx, int importProcessorId, String trxName) {
 		super(ctx, importProcessorId, trxName);

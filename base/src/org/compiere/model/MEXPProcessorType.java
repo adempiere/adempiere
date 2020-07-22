@@ -69,5 +69,4 @@ public class MEXPProcessorType extends X_EXP_Processor_Type {
 			throw e;
 		}
 	}
-	
 }
