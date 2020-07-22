@@ -16,6 +16,7 @@ package test.functional;
 import org.compiere.model.MRequisition;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
+import org.compiere.util.Trx;
 import org.compiere.wf.MWFActivity;
 import org.compiere.wf.MWFEventAudit;
 import org.compiere.wf.MWFNode;
@@ -30,6 +31,9 @@ import test.AdempiereTestCase;
 /**
  * Test Workflow related classes
  * @author Teo Sarca, www.arhipac.ro
+ * @author Victor Pérez, E Evolution Consulting,  wwww.e-evolution.com
+ * 				<li>[Bug Report] The workflow engine is not correctly handling transactions when processing documents #3170
+ * 				<a href="https://github.com/adempiere/adempiere/issues/3170">
  */
 public class WorkflowTest extends AdempiereTestCase
 {
@@ -61,10 +65,11 @@ public class WorkflowTest extends AdempiereTestCase
 							.setClient_ID()
 							.setOrderBy(MWFProcess.COLUMNNAME_AD_WF_Process_ID)
 							.first();
+		proc.setWorkflowProcessTransaction(Trx.get(getTrxName(), false));
 		if (proc != null)
 		{
-			proc.getActivities(true, false, getTrxName());
-			proc.getActivities(true, true, getTrxName());
+			proc.getActivities(true, false);
+			proc.getActivities(true, true);
 		}
 		else
 		{

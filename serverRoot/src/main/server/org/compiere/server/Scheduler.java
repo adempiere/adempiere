@@ -16,13 +16,11 @@
  *****************************************************************************/
 package org.compiere.server;
 
-import it.sauronsoftware.cron4j.Predictor;
-import it.sauronsoftware.cron4j.SchedulingPattern;
-
 import java.io.File;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -31,12 +29,10 @@ import org.compiere.model.MClient;
 import org.compiere.model.MNote;
 import org.compiere.model.MOrgInfo;
 import org.compiere.model.MPInstance;
-import org.compiere.model.MPInstancePara;
 import org.compiere.model.MProcess;
 import org.compiere.model.MRole;
 import org.compiere.model.MScheduler;
 import org.compiere.model.MSchedulerLog;
-import org.compiere.model.MSchedulerPara;
 import org.compiere.model.MUser;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfo;
@@ -45,6 +41,10 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 import org.compiere.util.Trx;
+import org.eevolution.service.dsl.ProcessBuilder;
+
+import it.sauronsoftware.cron4j.Predictor;
+import it.sauronsoftware.cron4j.SchedulingPattern;
 
 
 /**
@@ -55,6 +55,7 @@ import org.compiere.util.Trx;
  *  
  *  Contributors:
  *    Carlos Ruiz - globalqss - FR [3135351] - Enable Scheduler for buttons
+ *    Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com - Fixes default parameters
  */
 public class Scheduler extends AdempiereServer
 {
@@ -65,12 +66,12 @@ public class Scheduler extends AdempiereServer
 	public Scheduler (MScheduler model)
 	{
 		super (model, 240);		//	nap
-		m_model = model;
+		schedulerConfiguration = model;
 	//	m_client = MClient.get(model.getCtx(), model.getAD_Client_ID());
 	}	//	Scheduler
 
 	/**	The Concrete Model			*/
-	private MScheduler			m_model = null;
+	private MScheduler			schedulerConfiguration = null;
 	/**	Last Summary				*/
 	private StringBuffer 		m_summary = new StringBuffer();
 	/** Transaction					*/
@@ -87,17 +88,17 @@ public class Scheduler extends AdempiereServer
 	 */
 	protected void doWork ()
 	{
-		m_summary = new StringBuffer(m_model.toString())
+		m_summary = new StringBuffer(schedulerConfiguration.toString())
 			.append(" - ");
 
 		// Prepare a ctx for the report/process - BF [1966880]
 		m_schedulerctx.clear();
-		MClient schedclient = MClient.get(getCtx(), m_model.getAD_Client_ID());
+		MClient schedclient = MClient.get(getCtx(), schedulerConfiguration.getAD_Client_ID());
 		Env.setContext(m_schedulerctx, "#AD_Client_ID", schedclient.getAD_Client_ID());
 		Env.setContext(m_schedulerctx, "#AD_Language", schedclient.getAD_Language());
-		Env.setContext(m_schedulerctx, "#AD_Org_ID", m_model.getAD_Org_ID());
-		if (m_model.getAD_Org_ID() != 0) {
-			MOrgInfo schedorg = MOrgInfo.get(getCtx(), m_model.getAD_Org_ID(), null);
+		Env.setContext(m_schedulerctx, "#AD_Org_ID", schedulerConfiguration.getAD_Org_ID());
+		if (schedulerConfiguration.getAD_Org_ID() != 0) {
+			MOrgInfo schedorg = MOrgInfo.get(getCtx(), schedulerConfiguration.getAD_Org_ID(), null);
 			if (schedorg.getM_Warehouse_ID() > 0)
 				Env.setContext(m_schedulerctx, "#M_Warehouse_ID", schedorg.getM_Warehouse_ID());
 		}
@@ -105,7 +106,7 @@ public class Scheduler extends AdempiereServer
 		Env.setContext(m_schedulerctx, "#SalesRep_ID", getAD_User_ID());
 		// TODO: It can be convenient to add  AD_Scheduler.AD_Role_ID
 		MUser scheduser = MUser.get(getCtx(), getAD_User_ID());
-		MRole[] schedroles = scheduser.getRoles(m_model.getAD_Org_ID());
+		MRole[] schedroles = scheduser.getRoles(schedulerConfiguration.getAD_Org_ID());
 		if (schedroles != null && schedroles.length > 0)
 			Env.setContext(m_schedulerctx, "#AD_Role_ID", schedroles[0].getAD_Role_ID()); // first role, ordered by AD_Role_ID
 		Timestamp ts = new Timestamp(System.currentTimeMillis());
@@ -114,7 +115,7 @@ public class Scheduler extends AdempiereServer
 		Properties currentctx = Env.getCtx();
 		Env.setCtx(m_schedulerctx);
 
-		MProcess process = new MProcess(m_schedulerctx, m_model.getAD_Process_ID(), null);
+		MProcess process = new MProcess(m_schedulerctx, schedulerConfiguration.getAD_Process_ID(), null);
 		try
 		{
 			m_trx = Trx.get(Trx.createTrxName("Scheduler"), true);
@@ -138,10 +139,10 @@ public class Scheduler extends AdempiereServer
 		Env.setCtx(currentctx);
 
 		//
-		int no = m_model.deleteLog();
+		int no = schedulerConfiguration.deleteLog();
 		m_summary.append(" Logs deleted=").append(no);
 		//
-		MSchedulerLog pLog = new MSchedulerLog(m_model, m_summary.toString());
+		MSchedulerLog pLog = new MSchedulerLog(schedulerConfiguration, m_summary.toString());
 		pLog.setReference("#" + String.valueOf(p_runCount)
 			+ " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
 		pLog.saveEx();
@@ -153,61 +154,62 @@ public class Scheduler extends AdempiereServer
 	 *	@return summary
 	 *	@throws Exception
 	 */
-	private String runProcess(MProcess process) throws Exception
-	{
+	private String runProcess(MProcess process) throws Exception {
 		log.info(process.toString());
 		
 		boolean isReport = (process.isReport() || process.getAD_ReportView_ID() > 0);
 		
 		//	Process (see also MWFActivity.performWork
-		int AD_Table_ID = m_model.getAD_Table_ID();
-		int Record_ID = m_model.getRecord_ID();
+		int AD_Table_ID = schedulerConfiguration.get_Table_ID();
+		int Record_ID = schedulerConfiguration.getRecord_ID();
 		//
-		MPInstance pInstance = new MPInstance(process, Record_ID);
-		fillParameter(pInstance);
-		//
-		ProcessInfo pi = new ProcessInfo (process.getName(), process.getAD_Process_ID(), AD_Table_ID, Record_ID);
-		pi.setAD_User_ID(getAD_User_ID());
-		pi.setAD_Client_ID(m_model.getAD_Client_ID());
-		pi.setAD_PInstance_ID(pInstance.getAD_PInstance_ID());
-		MUser from = new MUser(getCtx(), pi.getAD_User_ID(), null);
-		
-		if ( !process.processIt(pi, m_trx) ) // note, this call close the transaction, don't use m_trx below
-		{
+		ProcessBuilder builder = ProcessBuilder.create(getCtx())
+			.process(process.getAD_Process_ID())
+			.withClientId(schedulerConfiguration.getAD_Client_ID())
+			.withUserId(getAD_User_ID())
+			.withTitle(process.getName())
+			.withRecordId(schedulerConfiguration.getAD_Table_ID(), schedulerConfiguration.getRecord_ID());
+		//	Fill It
+		fillParameter(builder);
+		try {
+			builder.execute();
+		} catch (Exception e) {
+			log.severe(e.getLocalizedMessage());
+		}
+		//	Get Process Info
+		ProcessInfo info = builder.getProcessInfo();
+		MUser from = new MUser(getCtx(), getAD_User_ID(), null);
+		if(info.isError()) {
 			// notify supervisor if error
-			int supervisor = m_model.getSupervisor_ID();
-			if (supervisor > 0)
-			{
+			int supervisor = schedulerConfiguration.getSupervisor_ID();
+			if (supervisor > 0) {
 				MUser user = new MUser(getCtx(), supervisor, null);
 				boolean email = user.isNotificationEMail();
 				boolean notice = user.isNotificationNote();
 				
-				if (email || notice)
-					ProcessInfoUtil.setLogFromDB(pi);
-				
-				if (email)
-				{
-					MClient client = MClient.get(m_model.getCtx(), m_model.getAD_Client_ID());
-					client.sendEMail(from, user, process.getName(), pi.getSummary() + " " + pi.getLogInfo(), null);
+				if (email || notice) {
+					ProcessInfoUtil.setLogFromDB(info);
+				}
+				//	
+				if (email) {
+					MClient client = MClient.get(schedulerConfiguration.getCtx(), schedulerConfiguration.getAD_Client_ID());
+					client.sendEMail(from, user, process.getName(), info.getSummary() + " " + info.getLogInfo(), null);
 				}
 				if (notice) {
 					int AD_Message_ID = 442; // HARDCODED ProcessRunError
 					MNote note = new MNote(getCtx(), AD_Message_ID, supervisor, null);
-					note.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
-					note.setTextMsg(pi.getSummary());
-					//note.setDescription();
-					note.setRecord(MPInstance.Table_ID, pi.getAD_PInstance_ID());
+					note.setClientOrg(schedulerConfiguration.getAD_Client_ID(), schedulerConfiguration.getAD_Org_ID());
+					note.setTextMsg(info.getSummary());
+					note.setRecord(MPInstance.Table_ID, info.getAD_PInstance_ID());
 					note.saveEx();
 				}
 			}
-		}
-		else
-		{
+		} else {
 			// notify recipients on success
-			Integer[] userIDs = m_model.getRecipientAD_User_IDs();
+			Integer[] userIDs = schedulerConfiguration.getRecipientAD_User_IDs();
 			if (userIDs.length > 0) 
 			{
-				ProcessInfoUtil.setLogFromDB(pi);
+				ProcessInfoUtil.setLogFromDB(info);
 				for (int i = 0; i < userIDs.length; i++)
 				{
 					MUser user = new MUser(getCtx(), userIDs[i].intValue(), null);
@@ -217,7 +219,7 @@ public class Scheduler extends AdempiereServer
 					File report = null;
 					if (isReport) {
 						//	Report
-						ReportEngine re = ReportEngine.get(m_schedulerctx, pi);
+						ReportEngine re = ReportEngine.get(m_schedulerctx, info);
 						if (re == null)
 							return "Cannot create Report AD_Process_ID=" + process.getAD_Process_ID()
 							+ " - " + process.getName();
@@ -230,52 +232,50 @@ public class Scheduler extends AdempiereServer
 						if (isReport)
 							AD_Message_ID = 884; //	HARDCODED SchedulerResult
 						MNote note = new MNote(getCtx(), AD_Message_ID, userIDs[i].intValue(), null);
-						note.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
+						note.setClientOrg(schedulerConfiguration.getAD_Client_ID(), schedulerConfiguration.getAD_Org_ID());
 						if (isReport) {
-							note.setTextMsg(m_model.getName());
-							note.setDescription(m_model.getDescription());
+							note.setTextMsg(schedulerConfiguration.getName());
+							note.setDescription(schedulerConfiguration.getDescription());
 							note.setRecord(AD_Table_ID, Record_ID);
 						} else {
-							note.setTextMsg(pi.getSummary());
-							// note.setDescription();
-							note.setRecord(MPInstance.Table_ID, pi.getAD_PInstance_ID());
+							note.setTextMsg(info.getSummary());
+							note.setRecord(MPInstance.Table_ID, info.getAD_PInstance_ID());
 						}
 						if (note.save()) {
 							if (isReport) {
 								//	Attachment
 								MAttachment attachment = new MAttachment (getCtx(), MNote.Table_ID, note.getAD_Note_ID(), null);
-								attachment.setClientOrg(m_model.getAD_Client_ID(), m_model.getAD_Org_ID());
+								attachment.setClientOrg(schedulerConfiguration.getAD_Client_ID(), schedulerConfiguration.getAD_Org_ID());
 								attachment.addEntry(report);
-								attachment.setTextMsg(m_model.getName());
+								attachment.setTextMsg(schedulerConfiguration.getName());
 								attachment.saveEx();
 							}
 						}
 					}
-					
-					if (email)
-					{
-						MClient client = MClient.get(m_model.getCtx(), m_model.getAD_Client_ID());
+					//	
+					if (email) {
+						MClient client = MClient.get(schedulerConfiguration.getCtx(), schedulerConfiguration.getAD_Client_ID());
 						if (isReport) {
-							client.sendEMail(from, user, m_model.getName(), m_model.getDescription(), report);
+							client.sendEMail(from, user, schedulerConfiguration.getName(), schedulerConfiguration.getDescription(), report);
 						} else {
-							client.sendEMail(from, user, process.getName(), pi.getSummary() + " " + pi.getLogInfo(), null);
+							client.sendEMail(from, user, process.getName(), info.getSummary() + " " + info.getLogInfo(), null);
 						}
 					}
 					
 				}
 			}
 		}
-		return pi.getSummary();
+		return info.getSummary();
 	}	//	runProcess
 
 	private int getAD_User_ID() {
 		int AD_User_ID;
-		if (m_model.getSupervisor_ID() > 0)
-			AD_User_ID = m_model.getSupervisor_ID();
-		else if (m_model.getCreatedBy() > 0)
-			AD_User_ID = m_model.getCreatedBy();
-		else if (m_model.getUpdatedBy() > 0)
-			AD_User_ID = m_model.getUpdatedBy();
+		if (schedulerConfiguration.getSupervisor_ID() > 0)
+			AD_User_ID = schedulerConfiguration.getSupervisor_ID();
+		else if (schedulerConfiguration.getCreatedBy() > 0)
+			AD_User_ID = schedulerConfiguration.getCreatedBy();
+		else if (schedulerConfiguration.getUpdatedBy() > 0)
+			AD_User_ID = schedulerConfiguration.getUpdatedBy();
 		else
 			AD_User_ID = 100; //fall back to SuperUser
 		return AD_User_ID;
@@ -285,116 +285,95 @@ public class Scheduler extends AdempiereServer
 	 * 	Fill Parameter
 	 *	@param pInstance process instance
 	 */
-	private void fillParameter(MPInstance pInstance)
-	{
-		MSchedulerPara[] sParams = m_model.getParameters (false);
-		MPInstancePara[] iParams = pInstance.getParameters();
-		for (int pi = 0; pi < iParams.length; pi++)
-		{
-			MPInstancePara iPara = iParams[pi];
-			for (int np = 0; np < sParams.length; np++)
-			{
-				MSchedulerPara sPara = sParams[np];
-				if (iPara.getParameterName().equals(sPara.getColumnName()))
-				{
-					String paraDesc = sPara.getDescription();
-					if (paraDesc != null && paraDesc.trim().length() > 0)
-						iPara.setInfo(sPara.getDescription());
-					String variable = sPara.getParameterDefault();
-					log.fine(sPara.getColumnName() + " = " + variable);
-					//	Value - Constant/Variable
-					Object value = variable;
-					if (variable == null
-						|| (variable != null && variable.length() == 0))
-						value = null;
-					else if (  variable.indexOf('@') != -1
-							&& variable.indexOf('@') != variable.lastIndexOf('@'))	//	we have a variable / BF [1926032]
-					{
-						//	Strip
-						int index = variable.indexOf('@');
-						String columnName = variable.substring(index+1);
-						index = columnName.indexOf('@');
-						if (index == -1)
-						{
-							log.warning(sPara.getColumnName()
-								+ " - cannot evaluate=" + variable);
-							break;
-						}
+	private void fillParameter(ProcessBuilder builder) {
+		Arrays.asList(schedulerConfiguration.getParameters(false))
+			.forEach(schedulerParameter -> {
+				String variable = schedulerParameter.getParameterDefault();
+				log.fine(schedulerParameter.getColumnName() + " = " + variable);
+				//	Value - Constant/Variable
+				Object value = variable;
+				if (variable == null
+					|| (variable != null && variable.length() == 0)) {
+					value = null;
+				} else if (  variable.indexOf('@') != -1
+						&& variable.indexOf('@') != variable.lastIndexOf('@')) {
+					//	Strip
+					int index = variable.indexOf('@');
+					String columnName = variable.substring(index+1);
+					index = columnName.indexOf('@');
+					if (index != -1) {
 						columnName = columnName.substring(0, index);
 						//	try Env
 						String env = Env.getContext(m_schedulerctx, columnName);
 						if (env == null || env.length() == 0)
 							env = Env.getContext(getCtx(), columnName);
-						if (env.length() == 0)
-						{
-							log.warning(sPara.getColumnName()
+						if (env.length() == 0) {
+							log.warning(schedulerParameter.getColumnName()
 								+ " - not in environment =" + columnName
 								+ "(" + variable + ")");
-							break;
-						}
-						else
+						} else {
 							value = env;
-					}	//	@variable@
-
-					//	No Value
-					if (value == null)
-					{
-						log.fine(sPara.getColumnName() + " - empty");
-						break;
+						}
 					}
-
+				}	//	@variable@
+				//	Exists a Value
+				if (value != null) {
+					//	Object Parameter
+					Object parameterOfProcess = null;
 					//	Convert to Type
-					try
-					{
-						if (DisplayType.isNumeric(sPara.getDisplayType())
-							|| DisplayType.isID(sPara.getDisplayType()))
-						{
-							BigDecimal bd = null;
+					try {
+						if (DisplayType.isNumeric(schedulerParameter.getDisplayType())
+							|| DisplayType.isID(schedulerParameter.getDisplayType())) {
+							BigDecimal decimalValue = null;
 							if (value instanceof BigDecimal)
-								bd = (BigDecimal)value;
+								decimalValue = (BigDecimal)value;
 							else if (value instanceof Integer)
-								bd = new BigDecimal (((Integer)value).intValue());
+								decimalValue = new BigDecimal (((Integer)value).intValue());
 							else
-								bd = new BigDecimal (value.toString());
-							iPara.setP_Number(bd);
-							log.fine(sPara.getColumnName()
-								+ " = " + variable + " (=" + bd + "=)");
-						}
-						else if (DisplayType.isDate(sPara.getDisplayType()))
-						{
-							Timestamp ts = null;
+								decimalValue = new BigDecimal (value.toString());
+							parameterOfProcess = decimalValue;
+							log.fine(schedulerParameter.getColumnName()
+								+ " = " + variable + " (=" + decimalValue + "=)");
+						} else if (DisplayType.YesNo == schedulerParameter.getDisplayType()) {
+							boolean booleanValue = false;
+							if(value instanceof Boolean) {
+								booleanValue = ((Boolean) value);
+							} else {
+								booleanValue = value.toString().replaceAll("'", "").equals("Y");
+							}
+							parameterOfProcess = booleanValue;
+							log.fine(schedulerParameter.getColumnName()
+									+ " = " + variable + " (=" + booleanValue + "=)");
+						} else if (DisplayType.isDate(schedulerParameter.getDisplayType())) {
+							Timestamp dateValue = null;
 							if (value instanceof Timestamp)
-								ts = (Timestamp)value;
+								dateValue = (Timestamp)value;
 							else
-								ts = Timestamp.valueOf(value.toString());
-							iPara.setP_Date(ts);
-							log.fine(sPara.getColumnName()
-								+ " = " + variable + " (=" + ts + "=)");
-						}
-						else
-						{
-							iPara.setP_String(value.toString());
-							log.fine(sPara.getColumnName()
+								dateValue = Timestamp.valueOf(value.toString());
+							parameterOfProcess = dateValue;
+							log.fine(schedulerParameter.getColumnName()
+								+ " = " + variable + " (=" + dateValue + "=)");
+						} else {
+							parameterOfProcess = value.toString().replaceAll("'", "");
+							log.fine(schedulerParameter.getColumnName()
 								+ " = " + variable
 								+ " (=" + value + "=) " + value.getClass().getName());
 						}
-						if (!iPara.save())
-							log.warning("Not Saved - " + sPara.getColumnName());
+						//	add to builder
+						if (parameterOfProcess != null) {
+							log.fine("ColumnName=" + schedulerParameter.getColumnName() + ", Value=" + parameterOfProcess);
+							builder.withParameter(schedulerParameter.getColumnName(), parameterOfProcess);
+						}
 					}
-					catch (Exception e)
-					{
-						log.warning(sPara.getColumnName()
+					catch (Exception e) {
+						log.warning(schedulerParameter.getColumnName()
 							+ " = " + variable + " (" + value
 							+ ") " + value.getClass().getName()
 							+ " - " + e.getLocalizedMessage());
 					}
-					break;
-				}	//	parameter match
-			}	//	scheduler parameter loop
-		}	//	instance parameter loop
-	}	//	fillParameter
-
-
+				}
+			});
+	}
 	/**
 	 * 	Get Server Info
 	 *	@return info
@@ -406,7 +385,7 @@ public class Scheduler extends AdempiereServer
 
 	@Override
 	public void run() {
-		String cronPattern = (String) m_model.getCronPattern();
+		String cronPattern = (String) schedulerConfiguration.getCronPattern();
 		if (cronPattern != null && cronPattern.trim().length() > 0 && SchedulingPattern.validate(cronPattern)) {
 			cronScheduler = new it.sauronsoftware.cron4j.Scheduler();
 			cronScheduler.schedule(cronPattern, new Runnable() {

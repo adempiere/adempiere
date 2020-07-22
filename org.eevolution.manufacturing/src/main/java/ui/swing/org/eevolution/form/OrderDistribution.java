@@ -46,6 +46,8 @@ import org.eevolution.model.MDDOrder;
  *	Generate Invoice (manual) controller class
  *
  *  @author victor.perez@www.e-evolution.com, e-Evolution
+ *  @contributor Yamel Senih
+ *  Remove old implementation for selection
  */
 public class OrderDistribution extends GenForm
 {
@@ -216,12 +218,10 @@ public class OrderDistribution extends GenForm
 			return info;
 		}		
 		
-		DB.createT_Selection(instance.getAD_PInstance_ID(), getSelection(), null);
-
 		//call process
 		ProcessInfo pi = new ProcessInfo ("VOrderDistribution", AD_Process_ID);
 		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
-
+		pi.setSelectionKeys(getSelection());
 		//	Add Parameter - Selection=Y
 		MPInstancePara ip = new MPInstancePara(instance, 10);
 		ip.setParameter("Selection","Y");

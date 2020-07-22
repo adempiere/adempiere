@@ -19,6 +19,8 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+
 /**
  * Customization handler
  * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
@@ -59,12 +61,30 @@ public class MTabCustom extends X_AD_TabCustom {
 	}
 	
 	/**
+	 * Copy all values from custom tab
+	 * Note that if current custom tab already exist then the field referenced is keep
+	 * <br> Call {@link org.compiere.model.PO#saveEx()} after use this method
+	 * @param customTab
+	 */
+	public void overwriteValuesFromCustomTab(MTabCustom customTab) {
+		if(getAD_TabCustom_ID() == 0) {
+			throw new AdempiereException("Use default constructor based on other custom field");
+		}
+		int tabId = getAD_Tab_ID();
+		int customWindowId = getAD_WindowCustom_ID();
+		PO.copyValues(customTab, this);
+		setIsActive(customTab.isActive());
+		set_ValueNoCheck(COLUMNNAME_AD_WindowCustom_ID, customWindowId);
+		set_ValueNoCheck(COLUMNNAME_AD_Tab_ID, tabId);
+	}
+	
+	/**
 	 * Get tabs for it
 	 * @return
 	 */
 	public List<MFieldCustom> getFields() {
 		//	Get
-		return new Query(getCtx(), I_AD_FieldCustom.Table_Name, COLUMNNAME_AD_TabCustom_ID + " = ?", null)
+		return new Query(getCtx(), I_AD_FieldCustom.Table_Name, COLUMNNAME_AD_TabCustom_ID + " = ?", get_TrxName())
 				.setParameters(getAD_TabCustom_ID())
 				.setOnlyActiveRecords(true)
 				.list();

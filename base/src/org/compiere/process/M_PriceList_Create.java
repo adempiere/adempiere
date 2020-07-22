@@ -315,7 +315,7 @@ public class M_PriceList_Create extends M_PriceList_CreateAbstract {
 						String conversionRateKey = discountSchemaLine.getC_ConversionType_ID()  + "|" + productPurchasing.getC_Currency_ID() + "|" + priceList.getC_Currency_ID();
 						BigDecimal conversionRate = null;
 						if(!conversionRateMap.containsKey(conversionRateKey)) {
-							MConversionRate.getRate(productPurchasing.getC_Currency_ID(), 
+							conversionRate = MConversionRate.getRate(productPurchasing.getC_Currency_ID(), 
 									priceList.getC_Currency_ID(), 
 									priceListVersion.getValidFrom(), 
 									discountSchemaLine.getC_ConversionType_ID(), 
