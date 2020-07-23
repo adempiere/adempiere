@@ -23,7 +23,12 @@ import java.util.Properties;
  * Created by Victor Perez, e-Evolution on 03/07/16.
  */
 public class MReplicationTable extends X_AD_ReplicationTable {
-    public MReplicationTable(Properties ctx, int AD_ReplicationTable_ID, String trxName) {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3234624530329963553L;
+
+	public MReplicationTable(Properties ctx, int AD_ReplicationTable_ID, String trxName) {
         super(ctx, AD_ReplicationTable_ID, trxName);
     }
 
