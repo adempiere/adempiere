@@ -188,4 +188,10 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 				.setParameters(get_ID())
 				.list();
 	}
+
+	@Override
+	public String toString() {
+		return "MReplicationStrategy [getAD_ReplicationStrategy_ID()=" + getAD_ReplicationStrategy_ID() + ", getName()="
+				+ getName() + ", getValue()=" + getValue() + "]";
+	}
 }

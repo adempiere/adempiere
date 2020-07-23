@@ -280,4 +280,10 @@ public class MIMPProcessor extends X_IMP_Processor implements AdempiereProcessor
     	}
         return null;
     }
+
+	@Override
+	public String toString() {
+		return "MIMPProcessor [getIMP_Processor_ID()=" + getIMP_Processor_ID() + ", getName()=" + getName()
+				+ ", getValue()=" + getValue() + "]";
+	}
 }

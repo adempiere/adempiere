@@ -30,4 +30,10 @@ public class MReplicationTable extends X_AD_ReplicationTable {
     public MReplicationTable(Properties ctx, ResultSet rs, String trxName) {
         super(ctx, rs, trxName);
     }
+
+	@Override
+	public String toString() {
+		return "MReplicationTable [getAD_ReplicationTable_ID()=" + getAD_ReplicationTable_ID() + ", getAD_Table_ID()="
+				+ getAD_Table_ID() + ", getEXP_Format_ID()=" + getEXP_Format_ID() + "]";
+	}
 }
