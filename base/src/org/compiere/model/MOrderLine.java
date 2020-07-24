@@ -1003,30 +1003,6 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	}	//	afterDelete
 	
 	/**
-	 * Recalculate order tax
-	 * @param oldTax true if the old C_Tax_ID should be used
-	 * @return true if success, false otherwise
-	 * 
-	 * @author teo_sarca [ 1583825 ]
-	 */
-	/*private boolean updateOrderTax(boolean oldTax) {
-		MOrderTax tax = MOrderTax.get (this, getPrecision(), oldTax, get_TrxName());
-		if (tax != null) {
-			if (!tax.calculateTaxFromLines())
-				return false;
-			if (tax.getTaxAmt().signum() != 0) {
-				if (!tax.save(get_TrxName()))
-					return false;
-			}
-			else {
-				if (!tax.is_new() && !tax.delete(false, get_TrxName()))
-					return false;
-			}
-		}
-		return true;
-	}*/
-	
-	/**
 	 *	Update Tax & Header
 	 *	@return true if header updated
 	 */
