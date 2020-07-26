@@ -1531,87 +1531,82 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		invoiceTaxes = null;
 
 		//	Lines
-		BigDecimal totalLines = Env.ZERO;
-		ArrayList<Integer> taxList = new ArrayList<Integer>();
-		MInvoiceLine[] lines = getLines(false);
-		for (int i = 0; i < lines.length; i++)
-		{
-			MInvoiceLine line = lines[i];
-			if (!taxList.contains(line.getC_Tax_ID()))
-			{
-				MInvoiceTax iTax = MInvoiceTax.get (line, getPrecision(), false, get_TrxName()); //	current Tax
-				if (iTax != null)
-				{
-					iTax.setIsTaxIncluded(isTaxIncluded());
-					if (!iTax.calculateTaxFromLines())
+		AtomicReference<BigDecimal> totalLines = new AtomicReference<>(Env.ZERO);
+		ArrayList<Integer> taxList = new ArrayList<>();
+		for (MInvoiceLine invoiceLine : getLines(true)) {
+			if (!taxList.contains(invoiceLine.getC_Tax_ID())) {
+				Optional<MInvoiceTax> maybeInvoiceTax = Optional.ofNullable(MInvoiceTax.get(invoiceLine, getPrecision(), false, get_TrxName())); //	current Tax
+				if (maybeInvoiceTax.isPresent()) {
+					MInvoiceTax invoiceTax = maybeInvoiceTax.get();
+					invoiceTax.setIsTaxIncluded(isTaxIncluded());
+					if (!invoiceTax.calculateTaxFromLines())
 						return false;
-					iTax.saveEx();
-					taxList.add(line.getC_Tax_ID());
+					invoiceTax.saveEx();
+					taxList.add(invoiceLine.getC_Tax_ID());
 				}
 			}
-			totalLines = totalLines.add(line.getLineNetAmt());
+			totalLines.getAndUpdate(total -> total.add(invoiceLine.getLineNetAmt()));
 		}
 
 		//	Taxes
-		AtomicReference<BigDecimal> grandTotal = new AtomicReference<>(totalLines);
+		AtomicReference<BigDecimal> grandTotal = new AtomicReference<>(totalLines.get());
 		Arrays.stream(getTaxes(true)).forEach(invoiceTax -> {
 			MTax taxParent = invoiceTax.getTax();
 			if (taxParent.isSummary()) {
 				Arrays.stream(taxParent.getChildTaxes(false)).forEach(taxChild -> {
 					boolean documentLevel = taxChild.isDocumentLevel();
-					AtomicReference<BigDecimal> taxBaseAmt = new AtomicReference(Env.ZERO);
-					AtomicReference<BigDecimal> taxAmt = new AtomicReference(Env.ZERO);
+					AtomicReference<BigDecimal> taxBaseAmount = new AtomicReference<>(Env.ZERO);
+					AtomicReference<BigDecimal> taxAmount = new AtomicReference<>(Env.ZERO);
 					Arrays.stream(getLines(false))
 							.filter(invoiceLine -> invoiceLine.getC_Tax_ID() == taxParent.get_ID())
 							.forEach(invoiceLine -> {
 								//	BaseAmt
-								BigDecimal baseAmt = invoiceLine.getLineNetAmt();
-								taxBaseAmt.getAndUpdate(taxBaseAmount -> taxBaseAmount.add(baseAmt));
+								BigDecimal baseAmount = invoiceLine.getLineNetAmt();
+								taxBaseAmount.getAndUpdate(amt -> amt.add(baseAmount));
 								//	TaxAmt
-								BigDecimal amt = taxChild.calculateTax(baseAmt, isTaxIncluded(), getPrecision());
-								if (amt == null)
-									amt = Env.ZERO;
-								if (!documentLevel && amt.signum() != 0)    //	manually entered
+								Optional<BigDecimal> maybeAmount = Optional.ofNullable(taxChild.calculateTax(baseAmount, isTaxIncluded(), getPrecision()));
+								BigDecimal amount = maybeAmount.orElse(BigDecimal.ZERO);
+								if (!documentLevel && amount.signum() != 0)    //	manually entered
 									;
-								else if (documentLevel || baseAmt.signum() == 0)
-									amt = Env.ZERO;
+								else if (documentLevel || baseAmount.signum() == 0)
+									amount = Env.ZERO;
 
-								BigDecimal finalAmt = amt;
-								taxAmt.getAndUpdate(taxAmount -> taxAmount.add(finalAmt));
+								BigDecimal finalAmount = amount;
+								taxAmount.getAndUpdate(amt -> amt.add(finalAmount));
 							});
-
 					//	Calculate Tax
-					if (documentLevel || taxAmt.get().signum() == 0)
-						taxAmt.set(taxChild.calculateTax(taxBaseAmt.get(), isTaxIncluded(), getPrecision()));
+					if (documentLevel || taxAmount.get().signum() == 0)
+						taxAmount.set(taxChild.calculateTax(taxBaseAmount.get(), isTaxIncluded(), getPrecision()));
 
-					MInvoiceTax newITax = new MInvoiceTax(getCtx(), 0, get_TrxName());
-					newITax.setClientOrg(this);
-					newITax.setC_Invoice_ID(getC_Invoice_ID());
-					newITax.setC_Tax_ID(taxChild.getC_Tax_ID());
-					newITax.setPrecision(getPrecision());
-					newITax.setIsTaxIncluded(isTaxIncluded());
+					MInvoiceTax newInvoiceTax = new MInvoiceTax(getCtx(), 0, get_TrxName());
+					newInvoiceTax.setClientOrg(this);
+					newInvoiceTax.setC_Invoice_ID(getC_Invoice_ID());
+					newInvoiceTax.setC_Tax_ID(taxChild.getC_Tax_ID());
+					newInvoiceTax.setPrecision(getPrecision());
+					newInvoiceTax.setIsTaxIncluded(isTaxIncluded());
 
 					//	Set Base
 					if (isTaxIncluded())
-						newITax.setTaxBaseAmt (taxBaseAmt.get().subtract(taxAmt.get()));
+						newInvoiceTax.setTaxBaseAmt (taxBaseAmount.get().subtract(taxAmount.get()));
 					else
-						newITax.setTaxBaseAmt (taxBaseAmt.get());
+						newInvoiceTax.setTaxBaseAmt (taxBaseAmount.get());
 
-					newITax.setTaxAmt(taxAmt.get());
-					newITax.saveEx(get_TrxName());
+					newInvoiceTax.setTaxAmt(taxAmount.get());
+					newInvoiceTax.saveEx();
 					//
 					if (!isTaxIncluded())
-						grandTotal.getAndUpdate(total -> total.add(taxAmt.get()));
+						grandTotal.getAndUpdate(total -> total.add(taxAmount.get()));
 
 				});
-				invoiceTax.deleteEx(true, get_TrxName());
+				invoiceTax.deleteEx(true);
+				invoiceTax.saveEx();
 			} else {
 				if (!isTaxIncluded())
 					grandTotal.getAndUpdate(total -> total.add(invoiceTax.getTaxAmt()));
 			}
 		});
 		//
-		setTotalLines(totalLines);
+		setTotalLines(totalLines.get());
 		setGrandTotal(grandTotal.get());
 		return true;
 	}	//	calculateTaxTotal
