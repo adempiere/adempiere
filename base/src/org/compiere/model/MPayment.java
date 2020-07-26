@@ -1385,22 +1385,6 @@ public final class MPayment extends X_C_Payment
 			//	Set
 			isSOTrx = isSOTrxAsString.equals("Y");
 		}	//	now Charge
-		else {
-			if (allocations.length > 0) {
-				for (MPaymentAllocate allocationValue : allocations) {
-					String documentBaseType = DB.getSQLValueString(get_TrxName(), "SELECT dt.DocBaseType "
-							+ "FROM C_Invoice i "
-							+ "INNER JOIN C_DocType dt ON(i.C_DocType_ID = dt.C_DocType_ID) "
-							+ "WHERE i.C_Invoice_ID = ?", allocationValue.getC_Invoice_ID());
-					//	Validate with invoice
-					isSOTrx = documentBaseType.equals(MDocType.DOCBASETYPE_ARInvoice) || documentBaseType.equals(MDocType.DOCBASETYPE_APCreditMemo);
-					if(isSOTrx != isReceipt() 
-							&& !getPayAmt().equals(Env.ZERO)) {
-						return false;
-					}
-				}
-			}
-		}
 		//	Validate
 		if(isSOTrx != isReceipt() 
 				&& !getPayAmt().equals(Env.ZERO)) {
