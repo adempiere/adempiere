@@ -55,11 +55,16 @@ public class MEXPProcessor extends X_EXP_Processor {
 	private static MEXPProcessor processor = null;
 	private List<MEXPProcessorParameter> parameters = null;
 	
-	public static MEXPProcessor get(Properties ctx, int EXP_Processor_ID, String trxName)
-	{
-	    if(processor == null)
-	    {
-		processor = new MEXPProcessor(ctx, EXP_Processor_ID, trxName);
+	/**
+	 * Clean instance
+	 */
+	public void cleanInstance() {
+		processor = null;
+	}
+	
+	public static MEXPProcessor get(Properties ctx, int EXP_Processor_ID, String trxName) {
+	    if(processor == null) {
+	    	processor = new MEXPProcessor(ctx, EXP_Processor_ID, trxName);
 	    }
 	    return processor;
 	}
@@ -184,6 +189,18 @@ public class MEXPProcessor extends X_EXP_Processor {
         	}
     	}
         return null;
+    }
+    
+    @Override
+    protected boolean afterSave(boolean newRecord, boolean success) {
+    	cleanInstance();
+    	return super.afterSave(newRecord, success);
+    }
+    
+    @Override
+    protected boolean afterDelete(boolean success) {
+    	cleanInstance();
+    	return super.afterDelete(success);
     }
 
 	@Override

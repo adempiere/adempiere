@@ -57,6 +57,13 @@ public class MIMPProcessor extends X_IMP_Processor implements AdempiereProcessor
 	private List<MIMPProcessorParameter> parameters = null;
 	
 	/**
+	 * Clean instance
+	 */
+	public void cleanInstance() {
+		processor = null;
+	}
+	
+	/**
 	 * Get instance
 	 * @param ctx
 	 * @param impProcessorId
@@ -279,6 +286,18 @@ public class MIMPProcessor extends X_IMP_Processor implements AdempiereProcessor
         	}
     	}
         return null;
+    }
+    
+    @Override
+    protected boolean afterSave(boolean newRecord, boolean success) {
+    	cleanInstance();
+    	return super.afterSave(newRecord, success);
+    }
+    
+    @Override
+    protected boolean afterDelete(boolean success) {
+    	cleanInstance();
+    	return super.afterDelete(success);
     }
 
 	@Override
