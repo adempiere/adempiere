@@ -276,52 +276,12 @@ public class InvoiceGen extends GenForm
 			return info;
 		}
 		
-		//insert selection
-		StringBuffer insert = new StringBuffer();
-		insert.append("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) ");
-		int counter = 0;
-		for(Integer selectedId : getSelection())
-		{
-			counter++;
-			if (counter > 1)
-				insert.append(" UNION ");
-			insert.append("SELECT ");
-			insert.append(instance.getAD_PInstance_ID());
-			insert.append(", ");
-			insert.append(selectedId);
-			insert.append(" FROM DUAL ");
-			
-			if (counter == 1000) 
-			{
-				if ( DB.executeUpdate(insert.toString(), trxName) < 0 )
-				{
-					String msg = "No Invoices";     //  not translated!
-					info = msg;
-					log.config(msg);
-					trx.rollback();
-					return info;
-				}
-				insert = new StringBuffer();
-				insert.append("INSERT INTO T_SELECTION(AD_PINSTANCE_ID, T_SELECTION_ID) ");
-				counter = 0;
-			}
-		}
-		if (counter > 0)
-		{
-			if ( DB.executeUpdate(insert.toString(), trxName) < 0 )
-			{
-				String msg = "No Invoices";     //  not translated!
-				info = msg;
-				log.config(msg);
-				trx.rollback();
-				return info;
-			}
-		}
-		
 		ProcessInfo pi = new ProcessInfo ("", AD_Process_ID);
 		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
 		pi.setAD_Client_ID(Env.getAD_Client_ID(Env.getCtx()));
 		pi.setAD_User_ID(Env.getAD_User_ID(Env.getCtx()));
+		pi.setSelectionKeys(getSelection());
+		pi.setTransactionName(trx.getTrxName());
 		//	Add Parameters
 		MPInstancePara para = new MPInstancePara(instance, 10);
 		para.setParameter("Selection", "Y");

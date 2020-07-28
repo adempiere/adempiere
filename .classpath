@@ -351,5 +351,8 @@
 	<classpathentry kind="lib" path="tools/lib/jna-4.4.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/jna-platform-4.4.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-core-1.11.795.jar"/>
+	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-kms-1.11.795.jar"/>
+	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-s3-1.11.795.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

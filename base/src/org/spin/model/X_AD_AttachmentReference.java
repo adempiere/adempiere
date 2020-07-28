@@ -17,21 +17,23 @@
 /** Generated Model - DO NOT CHANGE */
 package org.spin.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
+import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_AttachmentReference
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_AD_AttachmentReference extends PO implements I_AD_AttachmentReference, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20200604L;
 
     /** Standard Constructor */
     public X_AD_AttachmentReference (Properties ctx, int AD_AttachmentReference_ID, String trxName)
@@ -101,29 +103,6 @@ public class X_AD_AttachmentReference extends PO implements I_AD_AttachmentRefer
 		return ii.intValue();
 	}
 
-	/** Set Attachment Reference.
-		@param AD_AttachmentReference_ID 
-		Used for save reference for all attachment files
-	  */
-	public void setAD_AttachmentReference_ID (int AD_AttachmentReference_ID)
-	{
-		if (AD_AttachmentReference_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_AttachmentReference_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_AttachmentReference_ID, Integer.valueOf(AD_AttachmentReference_ID));
-	}
-
-	/** Get Attachment Reference.
-		@return Used for save reference for all attachment files
-	  */
-	public int getAD_AttachmentReference_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AttachmentReference_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_AD_Attachment getAD_Attachment() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_Attachment)MTable.get(getCtx(), org.compiere.model.I_AD_Attachment.Table_Name)
@@ -147,6 +126,29 @@ public class X_AD_AttachmentReference extends PO implements I_AD_AttachmentRefer
 	public int getAD_Attachment_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Attachment_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Attachment Reference.
+		@param AD_AttachmentReference_ID 
+		Used for save reference for all attachment files
+	  */
+	public void setAD_AttachmentReference_ID (int AD_AttachmentReference_ID)
+	{
+		if (AD_AttachmentReference_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_AttachmentReference_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_AttachmentReference_ID, Integer.valueOf(AD_AttachmentReference_ID));
+	}
+
+	/** Get Attachment Reference.
+		@return Used for save reference for all attachment files
+	  */
+	public int getAD_AttachmentReference_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AttachmentReference_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -249,6 +251,26 @@ public class X_AD_AttachmentReference extends PO implements I_AD_AttachmentRefer
     {
         return new KeyNamePair(get_ID(), getFileName());
     }
+
+	/** Set File Size.
+		@param FileSize 
+		Size of the File in bytes
+	  */
+	public void setFileSize (BigDecimal FileSize)
+	{
+		set_Value (COLUMNNAME_FileSize, FileSize);
+	}
+
+	/** Get File Size.
+		@return Size of the File in bytes
+	  */
+	public BigDecimal getFileSize () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FileSize);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
 
 	/** Set Text Message.
 		@param TextMsg 

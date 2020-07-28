@@ -53,7 +53,7 @@ public class MBrowseCustom extends X_AD_BrowseCustom {
 	 */
 	public List<MBrowseFieldCustom> getFields() {
 		//	Get
-		return new Query(getCtx(), I_AD_BrowseFieldCustom.Table_Name, COLUMNNAME_AD_BrowseCustom_ID + " = ?", null)
+		return new Query(getCtx(), I_AD_BrowseFieldCustom.Table_Name, COLUMNNAME_AD_BrowseCustom_ID + " = ?", get_TrxName())
 				.setParameters(getAD_BrowseCustom_ID())
 				.setOnlyActiveRecords(true)
 				.list();

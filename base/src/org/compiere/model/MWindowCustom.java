@@ -50,7 +50,7 @@ public class MWindowCustom extends X_AD_WindowCustom {
 	 */
 	public List<MTabCustom> getTabs() {
 		//	Get
-		return new Query(getCtx(), I_AD_TabCustom.Table_Name, COLUMNNAME_AD_WindowCustom_ID + " = ?", null)
+		return new Query(getCtx(), I_AD_TabCustom.Table_Name, COLUMNNAME_AD_WindowCustom_ID + " = ?", get_TrxName())
 				.setParameters(getAD_WindowCustom_ID())
 				.setOnlyActiveRecords(true)
 				.list();
