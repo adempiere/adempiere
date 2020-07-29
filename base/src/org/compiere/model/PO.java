@@ -2775,7 +2775,7 @@ public abstract class PO
 		columnName = I_AD_Element.COLUMNNAME_UUID;
 		if (p_info.getColumnIndex(columnName) != -1) {
 			String value = get_ValueAsString(columnName);
-			if (Util.isEmpty(value) || !isDirectLoad) {
+			if (Util.isEmpty(value) || (!isDirectLoad && !isReplication())) {
 				value = DB.getUUID(m_trxName);
 				set_ValueNoCheck(columnName, value);
 			}
