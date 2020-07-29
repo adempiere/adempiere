@@ -35,9 +35,9 @@
         <Data AD_Column_ID="2644" Column="Updated">2020-03-31 11:36:29.775</Data>
         <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
-        <Data AD_Column_ID="2648" Column="Help">If exist a error when a replication is started then the current transaction is aborted</Data>
+        <Data AD_Column_ID="2648" Column="Help">If exist a error when a replication is started then the current transaction is aborted, please keep it as yes always. Is very important keep synchronized data with replicator</Data>
         <Data AD_Column_ID="2646" Column="Name">Validate Error</Data>
-        <Data AD_Column_ID="2647" Column="Description">Validate Error for registry</Data>
+        <Data AD_Column_ID="2647" Column="Description">Validate Error for registry, use this as yes by default</Data>
         <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="4300" Column="PrintName">Validate Error</Data>
         <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
@@ -53,9 +53,9 @@
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
         <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="2648" Column="Help" oldValue="If exist a error when a replication is started then the current transaction is aborted">Si existe un error cuando la replicación es iniciada entonces el cambio realizado es reversido</Data>
+        <Data AD_Column_ID="2648" Column="Help" oldValue="If exist a error when a replication is started then the current transaction is aborted">Si existe un error cuando la replicación es iniciada entonces el cambio realizado es revertido, por favor mantenga este valor en verdadero siempre. Es muy importante mantener los datos sincronizados con el replicador</Data>
         <Data AD_Column_ID="2646" Column="Name" oldValue="Validate Error">Validar Error</Data>
-        <Data AD_Column_ID="2647" Column="Description" oldValue="Validate Error for registry">Use esta bandera para que se revierta la operación si existe un error</Data>
+        <Data AD_Column_ID="2647" Column="Description" oldValue="Validate Error for registry">Use esta bandera para que se revierta la operación si existe un error, use esto en verdadero por defecto</Data>
         <Data AD_Column_ID="4300" Column="PrintName" oldValue="Validate Error">Validar Error</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="61334">61334</Data>
       </PO>
@@ -79,7 +79,7 @@
         <Data AD_Column_ID="111" Column="Name">Validate Error</Data>
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="117" Column="DefaultValue">N</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue">Y</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">true</Data>
