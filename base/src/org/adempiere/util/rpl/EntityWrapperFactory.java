@@ -26,12 +26,14 @@ import javax.xml.xpath.XPathExpressionException;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.process.rpl.exp.WrapperUtil;
 import org.compiere.model.I_AD_Image;
+import org.compiere.model.I_C_Order;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
 import org.compiere.model.MEXPFormat;
 import org.compiere.model.MEXPFormatLine;
 import org.compiere.model.MImage;
 import org.compiere.model.MLocation;
+import org.compiere.model.MOrder;
 import org.compiere.model.MReplicationStrategy;
 import org.compiere.model.MTable;
 import org.compiere.model.ModelValidator;
@@ -339,8 +341,9 @@ public class EntityWrapperFactory {
 				}
 			}	 
 			
-			if ( (action.equals(DocAction.ACTION_Complete) && status.equals(DocAction.STATUS_InProgress))
-				||  (action.equals(DocAction.ACTION_Close) && status.equals(DocAction.STATUS_Completed))) {
+			if (((action.equals(DocAction.ACTION_Prepare) || action.equals(DocAction.ACTION_Complete)) 
+					&& (!status.equals(DocAction.STATUS_Completed) && !status.equals(DocAction.STATUS_Closed) && !status.equals(DocAction.STATUS_Voided) && !status.equals(DocAction.STATUS_Reversed)))
+				||  (action.equals(DocAction.ACTION_Close) && status.equals(DocAction.STATUS_Completed) && !status.equals(DocAction.STATUS_Voided) && !status.equals(DocAction.STATUS_Reversed))) {
 				try {
 					if (!document.processIt(action)) {
 						log.info("PO.toString() = can not " + entity.get_Value("DocAction"));
@@ -517,7 +520,7 @@ public class EntityWrapperFactory {
 		MColumn column = MColumn.get(getContext(), formatLine.getAD_Column_ID());
 		log.info("column=[" + column + "]");
 
-		if (value !=null) {
+		if (value != null) {
 			if (!MEXPFormatLine.TYPE_EmbeddedEXPFormat.equals(formatLine.getType())) {
 				// Clazz
 				Class<?> clazz = DisplayType.getClass(column.getAD_Reference_ID(), true);
@@ -656,6 +659,11 @@ public class EntityWrapperFactory {
 			log.info("value=[" + value + "]");
 		} else if (MEXPFormatLine.TYPE_EmbeddedEXPFormat.equals(line.getType())) {
 			if (entity.is_Changed()) {
+				if(entity instanceof DocAction) {
+					entity.set_ValueOfColumn(I_C_Order.COLUMNNAME_DocStatus, MOrder.DOCSTATUS_Drafted);
+					entity.set_ValueOfColumn(I_C_Order.COLUMNNAME_Processing, false);
+					entity.set_ValueOfColumn(I_C_Order.COLUMNNAME_Processed, false);
+				}
 				entity.saveReplica(true);
 			} else {
 				return value;
@@ -793,9 +801,13 @@ public class EntityWrapperFactory {
 			}
 			
 			String columnName = "";
-			if(exportFormatLine.getAD_Reference_ID() == DisplayType.Table | exportFormatLine.getAD_Reference_ID() == DisplayType.Search) {
+			if(exportFormatLine.getAD_Column_ID() != 0) {
 				MColumn column = MColumn.get(entity.getCtx(), exportFormatLine.getAD_Column_ID());
-				columnName = column.getColumnName();
+				if(column.getAD_Reference_ID() == DisplayType.Table || column.getAD_Reference_ID() == DisplayType.Search) {
+					columnName = column.getColumnName();
+				} else {
+					columnName = tableEmbedded.getTableName() + "_ID";
+				}
 			} else {
 				columnName = tableEmbedded.getTableName() + "_ID";
 			}
