@@ -30,7 +30,7 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20200321L;
+	private static final long serialVersionUID = 20200804L;
 
     /** Standard Constructor */
     public X_C_DocType (Properties ctx, int C_DocType_ID, String trxName)
@@ -407,6 +407,8 @@ public class X_C_DocType extends PO implements I_C_DocType, I_Persistent
 	public static final String DOCBASETYPE_LeaveRequest = "TNL";
 	/** Freight Order = FRO */
 	public static final String DOCBASETYPE_FreightOrder = "FRO";
+	/** Package = MMK */
+	public static final String DOCBASETYPE_Package = "MMK";
 	/** Fixed Assets Addition = FAA */
 	public static final String DOCBASETYPE_FixedAssetsAddition = "FAA";
 	/** Fixed Assets Disposal = FAD */

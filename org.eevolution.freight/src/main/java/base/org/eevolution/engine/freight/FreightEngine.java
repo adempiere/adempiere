@@ -63,10 +63,11 @@ public class FreightEngine {
     }
 
     public String getPackageName() {
-        return this.packageName;
+        return packageName;
     }
 
-    protected <T extends FreightRuleInterface> Class<T> getClass(String className)
+    @SuppressWarnings("unchecked")
+	protected <T extends FreightRuleInterface> Class<T> getClass(String className)
             throws ClassNotFoundException {
         return (Class<T>) Class.forName(className);
     }
