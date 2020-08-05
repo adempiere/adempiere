@@ -495,6 +495,7 @@ public class MHRMovement extends X_HR_Movement
 	 * @param payrollId
 	 * @param partnerId
 	 * @param breakDate
+	 * @param trxName
 	 * @return
 	 */
 	public static MHRMovement getLastMovement(
@@ -503,6 +504,64 @@ public class MHRMovement extends X_HR_Movement
 			int payrollId,
 			int partnerId,
 			Timestamp breakDate,
+			String trxName) {
+		return getLastMovement(ctx, conceptValue, payrollId, partnerId, breakDate, false, trxName);
+	}
+	
+	/**
+	 * Get Last movement based on values
+	 * @param ctx
+	 * @param conceptValue
+	 * @param payrollValue
+	 * @param partnerId
+	 * @param breakDate
+	 * @param isWithValidFrom
+	 * @param trxName
+	 * @return
+	 */
+	public static MHRMovement getLastMovement(
+			Properties ctx,
+			String conceptValue,
+			String payrollValue,
+			int partnerId,
+			Timestamp breakDate,
+			boolean isWithValidFrom,
+			String trxName) {
+		if(Util.isEmpty(payrollValue)) {
+			return null;
+		}
+		if(Util.isEmpty(conceptValue)) {
+			return null;
+		}
+		if(partnerId <= 0) {
+			return null;
+		}
+		//	Get payroll
+		MHRPayroll payroll = MHRPayroll.getByValue(ctx, payrollValue, trxName);
+		if(payroll == null) {
+			return null;
+		}
+		return getLastMovement(ctx, conceptValue, payroll.getHR_Payroll_ID(), partnerId, breakDate, isWithValidFrom, trxName);
+	}
+	
+	/**
+	 * Get Last Movement for a concept value and a break date
+	 * @param ctx
+	 * @param conceptValue
+	 * @param payrollId
+	 * @param partnerId
+	 * @param breakDate
+	 * @param isWithValidFrom
+	 * @param trxName
+	 * @return
+	 */
+	public static MHRMovement getLastMovement(
+			Properties ctx,
+			String conceptValue,
+			int payrollId,
+			int partnerId,
+			Timestamp breakDate,
+			boolean isWithValidFrom,
 			String trxName) {
 		MHRConcept concept = MHRConcept.getByValue(ctx, conceptValue, trxName);
 		if (concept == null)
@@ -518,7 +577,7 @@ public class MHRMovement extends X_HR_Movement
 		whereClause.append(" AND " + MHRMovement.COLUMNNAME_C_BPartner_ID  + "=?");
 		params.add(partnerId);
 		//Adding dates 
-		whereClause.append(" AND validTo <= ?");
+		whereClause.append(" AND ").append(isWithValidFrom? "ValidFrom": "ValidTo").append(" <= ?");
 		params.add(breakDate);
 		//
 		//check process and payroll
