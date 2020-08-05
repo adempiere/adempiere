@@ -29,6 +29,7 @@
 
 package org.adempiere.model;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.process.rpl.exp.ExportHelper;
 import org.compiere.model.MClient;
 import org.compiere.model.MReplicationDocument;
@@ -58,11 +59,11 @@ import java.util.Properties;
  * <li> https://sourceforge.net/tracker/?func=detail&aid=2947615&group_id=176962&atid=879332
  * <li> The Replication should can use the Strategy from the org
  * <li> https://sourceforge.net/tracker/?func=detail&aid=3014094&group_id=176962&atid=879335
- *
+ *	@author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
+ *	<li> Add support to validate error fromreplication strategy
  *	@version $Id$
  */
-public class ExportModelValidator implements ModelValidator
-{
+public class ExportModelValidator implements ModelValidator {
     	/** Context variable which says if replication is enabled */
 	public static final String CTX_IsReplicationEnabled = "#IsReplicationEnabled";
 	
@@ -91,8 +92,7 @@ public class ExportModelValidator implements ModelValidator
 	 *	Constructor.
 	 *	The class is instantiated when logging in and client is selected/known
 	 */
-	public ExportModelValidator ()
-	{
+	public ExportModelValidator () {
 		super ();
 	}
 	
@@ -101,8 +101,7 @@ public class ExportModelValidator implements ModelValidator
 	 *	@param modelValidationEngine validation engine
 	 *	@param client client
 	 */
-	public void initialize (ModelValidationEngine modelValidationEngine, MClient client)
-	{
+	public void initialize (ModelValidationEngine modelValidationEngine, MClient client) {
 	    this.modelValidationEngine = modelValidationEngine;
 	    this.client = client;
 	    if (client != null)
@@ -125,8 +124,7 @@ public class ExportModelValidator implements ModelValidator
      *	@return error message or null
      *	@exception Exception if the recipient wishes the change to be not accept.
      */
-	public String modelChange (PO po, int type) throws Exception
-	{
+	public String modelChange (PO po, int type) throws Exception {
 		//String Mode = "Table";
 		log.info("po.get_TableName() = " + po.get_TableName());
 		if (   type == TYPE_AFTER_CHANGE 
@@ -139,8 +137,12 @@ public class ExportModelValidator implements ModelValidator
 							ExportHelper exportHelper = new ExportHelper(client, replicationStrategy);
 							try {
 								exportHelper.exportRecord(po, replicationTable, type);
-							} catch (Exception exeption)
-							{
+							} catch (Exception exeption) {
+								if(replicationStrategy.isValidateError()) {
+									throw new AdempiereException(exeption);
+								} else {
+									log.warning(exeption.getLocalizedMessage());
+								}
 							}
 						}
 					});
@@ -161,15 +163,13 @@ public class ExportModelValidator implements ModelValidator
 	{
 		log.info("Replicate the Document = " + po.get_TableName() + " with Type = " + type);
 		String result = null;
-		try {
 			if (   type == TIMING_AFTER_COMPLETE 
 				|| type == TIMING_AFTER_CLOSE 
 				|| type == TIMING_AFTER_REVERSECORRECT 
 				|| type == TIMING_AFTER_VOID
 				|| type == TIMING_AFTER_REACTIVATE
 				//|| type == TIMING_AFTER_PREPARE
-			)
-			{
+			) {
 				MReplicationStrategy.getByOrgAndRole(po.getCtx() , orgId , roleId, po.get_TrxName()).stream().forEach( replicationStrategy -> {
 					MReplicationDocument replicationDocument = null;
 					int C_DocType_ID = po.get_ValueAsInt("C_DocType_ID");
@@ -185,18 +185,16 @@ public class ExportModelValidator implements ModelValidator
 						ExportHelper exportHelper = new ExportHelper(client, replicationStrategy);
 						try {
 							exportHelper.exportRecord(po, replicationDocument, type);
-						}
-						catch (Exception exeption)
-						{
-
+						} catch (Exception exeption) {
+							if(replicationStrategy.isValidateError()) {
+								throw new AdempiereException(exeption);
+							} else {
+								log.warning(exeption.getLocalizedMessage());
+							}
 						}
 					}
 				});
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			result = e.toString();
-		}
 		return result;
 	}
 
@@ -208,8 +206,7 @@ public class ExportModelValidator implements ModelValidator
 	 *	@param userId user
 	 *	@return error message or null
 	 */
-	public String login (int orgId, int roleId, int userId)
-	{
+	public String login (int orgId, int roleId, int userId) {
 	    Env.setContext(Env.getCtx(), CTX_IsReplicationEnabled, true);
 		this.orgId = orgId;
 		this.roleId = roleId;
@@ -227,8 +224,7 @@ public class ExportModelValidator implements ModelValidator
 	 *	Get Client to be monitored
 	 *	@return AD_Client_ID client
 	 */
-	public int getAD_Client_ID()
-	{
+	public int getAD_Client_ID() {
 		return clientId;
 	}
 	
@@ -262,10 +258,8 @@ public class ExportModelValidator implements ModelValidator
 	 * 	String Representation
 	 *	@return info
 	 */
-	public String toString ()
-	{
+	public String toString () {
 		StringBuffer stringBuffer = new StringBuffer (ExportModelValidator.class.getName());
 		return stringBuffer.toString();
 	}
-	
 }
