@@ -43,17 +43,28 @@ import org.compiere.util.Language;
 public abstract class SortTabController {
 	
 	/**
-	 * Standard constructor
+	 * Overload Constructor
 	 * @param windowNo
 	 * @param tableId
 	 * @param columnSortOrderId
 	 * @param columnSortYesNoId
 	 */
 	public SortTabController(int windowNo, int tableId, int columnSortOrderId, int columnSortYesNoId) {
+		this(windowNo, tableId, columnSortOrderId, columnSortYesNoId, 0);
+	}
+	/**
+	 * Standard constructor
+	 * @param windowNo
+	 * @param tableId
+	 * @param columnSortOrderId
+	 * @param columnSortYesNoId
+	 */
+	public SortTabController(int windowNo, int tableId, int columnSortOrderId, int columnSortYesNoId, int parentColumn_ID) {
 		this.m_WindowNo = windowNo;
 		this.tableId = tableId;
 		this.columnSortOrderId = columnSortOrderId;
 		this.columnSortYesNoId = columnSortYesNoId;
+		this.m_ParentColumn_ID = parentColumn_ID;
 		//	
 		dynInit();
 	}
@@ -72,6 +83,7 @@ public abstract class SortTabController {
 	private int			m_WindowNo;
 	private String		m_ParentColumnName = null;
 	private boolean 	isReadWrite = true;
+	private int			m_ParentColumn_ID = 0;
 	
 	
 	
@@ -184,6 +196,10 @@ public abstract class SortTabController {
 		if (m_IdentifierTranslated)
 			sql.append(", ").append(tableName).append("_Trl tt");
 		//	Where
+		if (m_ParentColumnName ==null 
+				&& m_ParentColumn_ID!=0)
+			m_ParentColumnName = MColumn.getColumnName(Env.getCtx(), m_ParentColumn_ID);
+		
 		//FR [ 2826406 ]
 		if(m_ParentColumnName != null)
 		{
