@@ -718,7 +718,8 @@ public class ProcessInfo implements Serializable
 	 */
 	public void setSelectionValues(LinkedHashMap<Integer, LinkedHashMap<String, Object>> selection) {
 		this.selection = selection;
-		setIsSelection(selection != null && selection.size() > 0);
+		setIsSelection(selection != null && selection.size() > 0 
+				|| getSelectionKeys() != null && getSelectionKeys().size() > 0);
 		//	fill key
 		if(selection != null) {
 			List<Integer> keySelection = new ArrayList<Integer>();
