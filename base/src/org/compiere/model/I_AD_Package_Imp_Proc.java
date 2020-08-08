@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Package_Imp_Proc
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_AD_Package_Imp_Proc 
 {
@@ -157,18 +157,18 @@ public interface I_AD_Package_Imp_Proc
 	/** Get Process Now	  */
 	public boolean isProcessing();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
+    /** Column name RequiresSync */
+    public static final String COLUMNNAME_RequiresSync = "RequiresSync";
 
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Set Requires Sync.
+	  * A flag indicating that the associated column or table definition is not synchronized with the database.
 	  */
-	public void setUUID (String UUID);
+	public void setRequiresSync (boolean RequiresSync);
 
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Get Requires Sync.
+	  * A flag indicating that the associated column or table definition is not synchronized with the database.
 	  */
-	public String getUUID();
+	public boolean isRequiresSync();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -185,4 +185,17 @@ public interface I_AD_Package_Imp_Proc
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

@@ -44,9 +44,10 @@ public class PackIn extends PackInAbstract {
 
 	/** Logger */
 	private CLogger log = CLogger.getCLogger("PackIn");
-	public static String m_UpdateMode = "true";
-	public static String m_Database = "Oracle";
-	public static String m_Package_Dir = null;
+	public static boolean updateMode = true;
+	public static String database = "Oracle";
+	public static String packageDirectory = null;
+	public static boolean isRequiresSync = true;
 	/**
 	 * Uses PackInHandler to update AD.
 	 * 
@@ -94,13 +95,13 @@ public class PackIn extends PackInAbstract {
 	 */
 	protected String doIt() throws Exception {
 
-		X_AD_Package_Imp_Proc adPackageImp = new X_AD_Package_Imp_Proc(getCtx(), getRecord_ID(), get_TrxName());
+		X_AD_Package_Imp_Proc packageToImport = new X_AD_Package_Imp_Proc(getCtx(), getRecord_ID(), get_TrxName());
 
 		// clear cache of previous runs
 		IDFinder.clearIDCache();
 
 		// Create Target directory if required
-		String packageDirectory = adPackageImp.getAD_Package_Dir();
+		String packageDirectory = packageToImport.getAD_Package_Dir();
 		if (packageDirectory == null || packageDirectory.trim().length() == 0) {
 			packageDirectory = Adempiere.getAdempiereHome();
 		}
@@ -116,7 +117,7 @@ public class PackIn extends PackInAbstract {
 		}
 
 		// Unzip package
-		File zipFilepath = new File(adPackageImp.getAD_Package_Source());
+		File zipFilepath = new File(packageToImport.getAD_Package_Source());
 		log.info("zipFilepath->" + zipFilepath);
 		String PackageName = CreateZipFile.getParentDir(zipFilepath);
 		CreateZipFile.unpackFile(zipFilepath, targetDir);
@@ -126,18 +127,16 @@ public class PackIn extends PackInAbstract {
 				+ "dict" + File.separator + "PackOut.xml";
 		log.info("dict file->" + dict_file);
 		PackIn packIn = new PackIn();
-
-		if (adPackageImp.isAD_Override_Dict() == true)
-			PackIn.m_UpdateMode = "true";
-		else
-			PackIn.m_UpdateMode = "false";
-
-		PackIn.m_Package_Dir = packageDirectory + File.separator
+		//	Set from record
+		PackIn.updateMode = packageToImport.isAD_Override_Dict();
+		PackIn.isRequiresSync = packageToImport.isRequiresSync();
+		
+		PackIn.packageDirectory = packageDirectory + File.separator
 				+ "packages" + File.separator + PackageName + File.separator;
 		if (DB.isOracle())
-			PackIn.m_Database = "Oracle";
+			PackIn.database = "Oracle";
 		else if (DB.isPostgreSQL())
-			PackIn.m_Database = "PostgreSQL";
+			PackIn.database = "PostgreSQL";
 
 		// call XML Handler
 		String msg = packIn.importXML(dict_file, getCtx(), get_TrxName());
@@ -175,7 +174,7 @@ public class PackIn extends PackInAbstract {
 			// Integer.valueOf(args[2]).intValue(), args[5], args[3], args[4]);
 			CConnection cc = CConnection.get();
 			// System.out.println("DB Connect String1:"+cc.getDbName());
-			PackIn.m_Database = cc.getType();
+			PackIn.database = cc.getType();
 			DB.setDBTarget(cc);
 		}
 
@@ -217,7 +216,7 @@ public class PackIn extends PackInAbstract {
 		CLogMgt.setLoggerLevel(logLevel, null);
 
 		if (args.length >= 8)
-			PackIn.m_UpdateMode = args[7];
+			PackIn.updateMode = args[7] == "true";
 		
 		String trxName = Trx.createTrxName("PackIn");
 		try {
