@@ -16,24 +16,101 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import java.io.File;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.process.DocAction;
+import org.compiere.process.DocOptions;
+import org.compiere.process.DocumentEngine;
+import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  *	Package Model
  *	
  *  @author Jorg Janke
  *  @version $Id: MPackage.java,v 1.3 2006/07/30 00:51:04 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
+ *  Add support to package like document
  */
-public class MPackage extends X_M_Package
-{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6082002551560148518L;
+public class MPackage extends X_M_Package implements DocAction, DocOptions {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 20200801L;
+
+    /** Standard Constructor */
+    public MPackage (Properties ctx, int M_Package_ID, String trxName) {
+      super (ctx, M_Package_ID, trxName);
+    }
+
+    /** Load Constructor */
+    public MPackage (Properties ctx, ResultSet rs, String trxName) {
+      super (ctx, rs, trxName);
+    }
+    
+	/**
+	 * 	Shipment Constructor
+	 *	@param shipment shipment
+	 *	@param shipper shipper
+	 */
+	public MPackage(MInOut shipment, MShipper shipper) {
+		this (shipment.getCtx(), 0, shipment.get_TrxName());
+		setClientOrg(shipment);
+		setM_InOut_ID(shipment.getM_InOut_ID());
+		setM_Shipper_ID(shipper.getM_Shipper_ID());
+		//	Set default values for references
+		setC_BPartner_ID(shipment.getC_BPartner_ID());
+		setC_BPartner_Location_ID(shipment.getC_BPartner_Location_ID());
+		setM_Warehouse_ID(shipment.getM_Warehouse_ID());
+		//	Set Freight cost rule
+		if(!Util.isEmpty(shipment.getFreightCostRule())) {
+			setFreightCostRule(shipment.getFreightCostRule());
+		}
+		if(shipment.getFreightAmt() != null) {
+			setFreightAmt(shipment.getFreightAmt());
+		}
+		if(shipment.getM_FreightCategory_ID() != 0) {
+			setM_FreightCategory_ID(shipment.getM_FreightCategory_ID());
+		}
+	}	//	MPackage
+	
+	/**
+	 * 	Movement Constructor
+	 *	@param movement shipment
+	 *	@param shipper shipper
+	 */
+	public MPackage(MMovement movement, MShipper shipper) {
+		this (movement.getCtx(), 0, movement.get_TrxName());
+		setClientOrg(movement);
+		setM_Movement_ID(movement.getM_Movement_ID());
+		setM_Shipper_ID(shipper.getM_Shipper_ID());
+		//	Set default values for references
+		setC_BPartner_ID(movement.getC_BPartner_ID());
+		setC_BPartner_Location_ID(movement.getC_BPartner_Location_ID());
+		Optional<MWarehouse> maybeWarehouse = Arrays.asList(MWarehouse.getForOrg(getCtx(), movement.getAD_Org_ID())).stream().findFirst();
+		if(maybeWarehouse.isPresent()) {
+			setM_Warehouse_ID(maybeWarehouse.get().getM_Warehouse_ID());
+		}
+		//	Set Freight cost rule
+		if(!Util.isEmpty(movement.getFreightCostRule())) {
+			setFreightCostRule(movement.getFreightCostRule());
+		}
+		if(movement.getFreightAmt() != null) {
+			setFreightAmt(movement.getFreightAmt());
+		}
+	}	//	MPackage
+	
 	/**
 	 * 	Create one Package for Shipment 
 	 *	@param shipment shipment
@@ -41,66 +118,529 @@ public class MPackage extends X_M_Package
 	 *	@param shipDate null for today
 	 *	@return package
 	 */
-	public static MPackage create (MInOut shipment, MShipper shipper, Timestamp shipDate)
-	{
+	public static MPackage create(MInOut shipment, MShipper shipper, Timestamp shipDate) {
 		MPackage retValue = new MPackage (shipment, shipper);
 		if (shipDate != null)
 			retValue.setShipDate(shipDate);
 		retValue.saveEx();
 		//	Lines
-		MInOutLine[] lines = shipment.getLines(false);
-		for (int i = 0; i < lines.length; i++)
-		{
-			MInOutLine sLine = lines[i];
-			MPackageLine pLine = new MPackageLine (retValue);
-			pLine.setInOutLine(sLine);
-			pLine.saveEx();
-		}	//	lines
+		Arrays.asList(shipment.getLines(false))
+			.forEach(inOutLine -> {
+				MPackageLine packageLine = new MPackageLine (retValue);
+				packageLine.setInOutLine(inOutLine);
+				packageLine.saveEx();
+			});
 		return retValue;
 	}	//	create
 
-	
-	
-	/**************************************************************************
-	 * 	MPackage
-	 *	@param ctx context
-	 *	@param M_Package_ID id
-	 *	@param trxName transaction
+	/**
+	 * 	Create one Package for Movement 
+	 *	@param movement shipment
+	 *	@param shipper shipper
+	 *	@param shipDate null for today
+	 *	@return package
 	 */
-	public MPackage (Properties ctx, int M_Package_ID, String trxName)
+	public static MPackage create(MMovement movement, MShipper shipper, Timestamp shipDate) {
+		MPackage retValue = new MPackage (movement, shipper);
+		if (shipDate != null)
+			retValue.setShipDate(shipDate);
+		retValue.saveEx();
+		//	Lines
+		Arrays.asList(movement.getLines(false))
+			.forEach(inOutLine -> {
+				MPackageLine packageLine = new MPackageLine (retValue);
+				packageLine.setMovementLine(inOutLine);
+				packageLine.saveEx();
+			});
+		return retValue;
+	}	//	create
+	
+	/**
+	 * 	Get Document Info
+	 *	@return document info (untranslated)
+	 */
+	public String getDocumentInfo()
 	{
-		super (ctx, M_Package_ID, trxName);
-		if (M_Package_ID == 0)
-		{
-		//	setM_Shipper_ID (0);
-		//	setDocumentNo (null);
-		//	setM_InOut_ID (0);
-			setShipDate (new Timestamp(System.currentTimeMillis()));
-		}
-	}	//	MPackage
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
+		return dt.getName() + " " + getDocumentNo();
+	}	//	getDocumentInfo
 
 	/**
-	 * 	Load Constructor
-	 *	@param ctx context
-	 *	@param rs result set
-	 *	@param trxName transaction
+	 * 	Create PDF
+	 *	@return File or null
 	 */
-	public MPackage (Properties ctx, ResultSet rs, String trxName)
+	public File createPDF ()
 	{
-		super(ctx, rs, trxName);
-	}	//	MPackage
+		try
+		{
+			File temp = File.createTempFile(get_TableName() + get_ID() +"_", ".pdf");
+			return createPDF (temp);
+		}
+		catch (Exception e)
+		{
+			log.severe("Could not create PDF - " + e.getMessage());
+		}
+		return null;
+	}	//	getPDF
+
+	/**
+	 * 	Create PDF file
+	 *	@param file output file
+	 *	@return file if success
+	 */
+	public File createPDF (File file)
+	{
+	//	ReportEngine re = ReportEngine.get (getCtx(), ReportEngine.INVOICE, getC_Invoice_ID());
+	//	if (re == null)
+			return null;
+	//	return re.getPDF(file);
+	}	//	createPDF
+
+	
+	/**************************************************************************
+	 * 	Process document
+	 *	@param processAction document action
+	 *	@return true if performed
+	 */
+	public boolean processIt (String processAction)
+	{
+		m_processMsg = null;
+		DocumentEngine engine = new DocumentEngine (this, getDocStatus());
+		return engine.processIt (processAction, getDocAction());
+	}	//	processIt
+	
+	/**	Process Message 			*/
+	private String		m_processMsg = null;
+	/**	Just Prepared Flag			*/
+	private boolean		m_justPrepared = false;
+	/**	Lines	*/
+	private List<MPackageLine> linesList = null;
 	
 	/**
-	 * 	Shipment Constructor
-	 *	@param shipment shipment
-	 *	@param shipper shipper
+	 * Get lines from Ticket
+	 * @param requery
+	 * @return
 	 */
-	public MPackage (MInOut shipment, MShipper shipper)
-	{
-		this (shipment.getCtx(), 0, shipment.get_TrxName());
-		setClientOrg(shipment);
-		setM_InOut_ID(shipment.getM_InOut_ID());
-		setM_Shipper_ID(shipper.getM_Shipper_ID());
-	}	//	MPackage
+	public List<MPackageLine> getLines(boolean requery) {
+		if(linesList == null
+				|| requery) {
+			linesList = new Query(getCtx(), I_M_PackageLine.Table_Name, I_M_PackageLine.COLUMNNAME_M_Package_ID + " = ?", get_TrxName())
+					.setParameters(getM_Package_ID())
+					.list();
+		}
+		//	Return list
+		return linesList;
+	}
+
+	/**
+	 * Get Lines no re-query
+	 * @return
+	 */
+	public List<MPackageLine> getLines() {
+		return this.getLines(false);
+	}
 	
-}	//	MPackage
+
+	/**
+	 * 	Unlock Document.
+	 * 	@return true if success 
+	 */
+	public boolean unlockIt()
+	{
+		log.info("unlockIt - " + toString());
+	//	setProcessing(false);
+		return true;
+	}	//	unlockIt
+	
+	/**
+	 * 	Invalidate Document
+	 * 	@return true if success 
+	 */
+	public boolean invalidateIt()
+	{
+		log.info("invalidateIt - " + toString());
+		setDocAction(DOCACTION_Prepare);
+		return true;
+	}	//	invalidateIt
+	
+	/**
+	 *	Prepare Document
+	 * 	@return new status (In Progress or Invalid) 
+	 */
+	public String prepareIt()
+	{
+		log.info(toString());
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+		
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
+
+		//	Std Period open?
+		if (!MPeriod.isOpen(getCtx(), getDateDoc(), dt.getDocBaseType(), getAD_Org_ID()))
+		{
+			m_processMsg = "@PeriodClosed@";
+			return DocAction.STATUS_Invalid;
+		}
+		//	Add up Amounts
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+		m_justPrepared = true;
+		if (!DOCACTION_Complete.equals(getDocAction()))
+			setDocAction(DOCACTION_Complete);
+		return DocAction.STATUS_InProgress;
+	}	//	prepareIt
+	
+	@Override
+	protected boolean beforeSave(boolean newRecord) {
+		if(newRecord
+				|| is_ValueChanged(COLUMNNAME_M_Warehouse_ID)
+				|| is_ValueChanged(COLUMNNAME_C_BPartner_ID)
+				|| is_ValueChanged(COLUMNNAME_C_BPartner_Location_ID)) {
+			//	Validate Business Partner and Warehouse
+			if(getM_InOut_ID() == 0
+					&& getM_Movement_ID() == 0) {
+				//	Warehouse
+				if(getM_Warehouse_ID() == 0) {
+					throw new AdempiereException("@M_Warehouse_ID@ @IsMandatory@");
+				}
+				//	Business Partner
+				if(getC_BPartner_ID() == 0) {
+					throw new AdempiereException("@C_BPartner_ID@ @IsMandatory@");
+				}
+				//	Business Partner Location
+				if(getC_BPartner_Location_ID() == 0) {
+					throw new AdempiereException("@C_BPartner_Location_ID@ @IsMandatory@");
+				}
+			}
+		}
+		//	When Freight category is changed
+		if(newRecord
+				|| is_ValueChanged(COLUMNNAME_M_FreightCategory_ID)) {
+			//	Freight category
+			if(getM_FreightCategory_ID() != 0) {
+				MFreightCategory freightCategory = MFreightCategory.getById(getCtx(), getM_FreightCategory_ID(), get_TrxName());
+				setIsInvoiced(freightCategory.isInvoiced());
+			}
+		}
+		return super.beforeSave(newRecord);
+	}
+	
+	/**
+	 * 	Approve Document
+	 * 	@return true if success 
+	 */
+	public boolean  approveIt()
+	{
+		log.info("approveIt - " + toString());
+		setIsApproved(true);
+		return true;
+	}	//	approveIt
+	
+	/**
+	 * 	Reject Approval
+	 * 	@return true if success 
+	 */
+	public boolean rejectIt()
+	{
+		log.info("rejectIt - " + toString());
+		setIsApproved(false);
+		return true;
+	}	//	rejectIt
+	
+	/**
+	 * 	Complete Document
+	 * 	@return new status (Complete, In Progress, Invalid, Waiting ..)
+	 */
+	public String completeIt()
+	{
+		//	Re-Check
+		if (!m_justPrepared)
+		{
+			String status = prepareIt();
+			if (!DocAction.STATUS_InProgress.equals(status))
+				return status;
+		}
+
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
+		if (m_processMsg != null)
+			return DocAction.STATUS_Invalid;
+		
+		//	Implicit Approval
+		if (!isApproved())
+			approveIt();
+		log.info(toString());
+		//
+		
+		//	User Validation
+		String valid = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_COMPLETE);
+		if (valid != null)
+		{
+			m_processMsg = valid;
+			return DocAction.STATUS_Invalid;
+		}
+		//	Set Definitive Document No
+		setDefiniteDocumentNo();
+
+		setProcessed(true);
+		setDocAction(DOCACTION_Close);
+		return DocAction.STATUS_Completed;
+	}	//	completeIt
+	
+	/**
+	 * 	Set the definite document number after completed
+	 */
+	private void setDefiniteDocumentNo() {
+		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
+		if (dt.isOverwriteDateOnComplete()) {
+			setDateDoc(new Timestamp(System.currentTimeMillis()));
+		}
+		if (dt.isOverwriteSeqOnComplete()) {
+			String value = null;
+			int index = p_info.getColumnIndex("C_DocType_ID");
+			if (index == -1)
+				index = p_info.getColumnIndex("C_DocTypeTarget_ID");
+			if (index != -1)		//	get based on Doc Type (might return null)
+				value = DB.getDocumentNo(get_ValueAsInt(index), get_TrxName(), true);
+			if (value != null) {
+				setDocumentNo(value);
+			}
+		}
+	}
+
+	@Override
+	public int customizeValidActions(String docStatus, Object processing,
+			String orderType, String isSOTrx, int AD_Table_ID,
+			String[] docAction, String[] options, int index) {
+		//	Valid Document Action
+		if (AD_Table_ID == Table_ID) {
+			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
+					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
+					|| docStatus.equals(DocumentEngine.STATUS_Invalid)) {
+					options[index++] = DocumentEngine.ACTION_Prepare;
+				}
+				//	Complete                    ..  CO
+				else if (docStatus.equals(DocumentEngine.STATUS_Completed)) {
+					
+					options[index++] = DocumentEngine.ACTION_Void;
+					options[index++] = DocumentEngine.ACTION_ReActivate;
+					options[index++] = DocumentEngine.ACTION_Close;
+					
+				} else if (docStatus.equals(DocumentEngine.STATUS_Closed)) {
+					options[index++] = DocumentEngine.ACTION_None;
+				}
+			
+		}
+		
+		return index;
+	}
+	
+	/**
+	 * 	Void Document.
+	 * 	Same as Close.
+	 * 	@return true if success 
+	 */
+	public boolean voidIt()
+	{
+		log.info("voidIt - " + toString());
+		// Before Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
+		if (m_processMsg != null)
+			return false;
+		addDescription(Msg.getMsg(getCtx(), "Voided"));
+		// After Void
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
+		if (m_processMsg != null)
+			return false;
+
+		setProcessed(true);
+        setDocAction(DOCACTION_None);
+		return true;
+	}	//	voidIt
+	
+	@Override
+	public void setProcessed(boolean processed) {
+		super.setProcessed(processed);
+		//	For lines
+		getLines(true);
+		if(linesList != null) {
+			linesList.forEach(line -> {
+				line.setProcessed(processed);
+				line.saveEx();
+			});
+		}
+	}
+	
+	/**
+     *  Add to Description
+     *  @param description text
+     */
+    public void addDescription (String description) {
+        String desc = getDescription();
+        if (desc == null)
+            setDescription(description);
+        else
+            setDescription(desc + " | " + description);
+    }   //  addDescription
+	
+	/**
+	 * 	Close Document.
+	 * 	Cancel not delivered Qunatities
+	 * 	@return true if success 
+	 */
+	public boolean closeIt() {
+		log.info("closeIt - " + toString());
+		// Before Close
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
+		if (m_processMsg != null)
+			return false;
+		
+		setProcessed(true);
+		setDocAction(DOCACTION_None);
+		
+		// After Close
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+		if (m_processMsg != null)
+			return false;
+
+		return true;
+	}	//	closeIt
+	
+	/**
+	 * 	Reverse Correction
+	 * 	@return true if success 
+	 */
+	public boolean reverseCorrectIt()
+	{
+		log.info("reverseCorrectIt - " + toString());
+		// Before reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
+		//	Void It
+		voidIt();
+		// After reverseCorrect
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSECORRECT);
+		if (m_processMsg != null)
+			return false;
+
+		return false;
+	}	//	reverseCorrectionIt
+	
+	/**
+	 * 	Reverse Accrual - none
+	 * 	@return true if success 
+	 */
+	public boolean reverseAccrualIt()
+	{
+		log.info("reverseAccrualIt - " + toString());
+		// Before reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+		//	Void It
+		voidIt();
+		// After reverseAccrual
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REVERSEACCRUAL);
+		if (m_processMsg != null)
+			return false;
+
+		return false;
+	}	//	reverseAccrualIt
+	
+	/** 
+	 * 	Re-activate
+	 * 	@return true if success 
+	 */
+	public boolean reActivateIt()
+	{
+		log.info("reActivateIt - " + toString());
+		// Before reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REACTIVATE);
+		if (m_processMsg != null)
+			return false;
+		// After reActivate
+		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_REACTIVATE);
+		if (m_processMsg != null)
+			return false;
+		
+		setDocAction(DOCACTION_Complete);
+		setProcessed(false);
+		return true;
+	}	//	reActivateIt
+	
+	
+	/*************************************************************************
+	 * 	Get Summary
+	 *	@return Summary of Document
+	 */
+	public String getSummary()
+	{
+		StringBuffer sb = new StringBuffer();
+		sb.append(getDocumentNo());
+	//	sb.append(": ")
+	//		.append(Msg.translate(getCtx(),"TotalLines")).append("=").append(getTotalLines())
+	//		.append(" (#").append(getLines(false).length).append(")");
+		//	 - Description
+		if (getDescription() != null && getDescription().length() > 0)
+			sb.append(" - ").append(getDescription());
+		return sb.toString();
+	}	//	getSummary
+
+	/**
+	 * 	Get Process Message
+	 *	@return clear text error message
+	 */
+	public String getProcessMsg()
+	{
+		return m_processMsg;
+	}	//	getProcessMsg
+	
+	/**
+	 * 	Get Document Owner (Responsible)
+	 *	@return AD_User_ID
+	 */
+	public int getDoc_User_ID()
+	{
+	//	return getSalesRep_ID();
+		return 0;
+	}	//	getDoc_User_ID
+
+	/**
+	 * 	Get Document Approval Amount
+	 *	@return amount
+	 */
+	public BigDecimal getApprovalAmt()
+	{
+		return null;	//getTotalLines();
+	}	//	getApprovalAmt
+	
+	/**
+	 * 	Get Document Currency
+	 *	@return C_Currency_ID
+	 */
+	public int getC_Currency_ID() {
+		int currencyId = 0;
+		if(getM_InOut_ID() != 0) {
+			MInOut delivery = (MInOut) getM_InOut();
+			return delivery.getC_Order().getC_Currency_ID();
+		} else if(getM_Movement_ID() != 0) {
+			MMovement movement = (MMovement) getM_Movement();
+			return movement.getC_Currency_ID();
+		}
+		//	Default
+		if(currencyId == 0) {
+			currencyId = Env.getContextAsInt(getCtx(),"$C_Currency_ID");
+		}
+		return currencyId;
+	}	//	getC_Currency_ID
+
+    @Override
+    public String toString()
+    {
+      StringBuffer sb = new StringBuffer ("MMPackage[")
+        .append(getSummary()).append("]");
+      return sb.toString();
+    }
+}
