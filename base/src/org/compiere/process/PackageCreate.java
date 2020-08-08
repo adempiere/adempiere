@@ -37,14 +37,14 @@ public class PackageCreate extends PackageCreateAbstract {
 	 */
 	protected String doIt () throws Exception {
 		log.info("doIt - M_InOut_ID=" + getInOutId() + ", M_Shipper_ID=" + getShipperId());
-		MInOut shipment = new MInOut (getCtx(), getInOutId(), null);
+		MInOut shipment = new MInOut (getCtx(), getInOutId(), get_TrxName());
 		if (shipment.get_ID() != getInOutId())
 			throw new IllegalArgumentException("@M_InOut_ID@ @NotFound@");
 		MShipper shipper = new MShipper (getCtx(), getShipperId(), get_TrxName());
 		if (shipper.get_ID() != getShipperId())
 			throw new IllegalArgumentException("@M_Shipper_ID@ @NotFound@");
 		//
-		MPackage pack = MPackage.create(shipment, shipper, null);
+		MPackage pack = MPackage.create(shipment, shipper, shipment.getMovementDate());
 		if(!pack.processIt(MPackage.ACTION_Complete)) {
 			throw new AdempiereException(pack.getProcessMsg());
 		}

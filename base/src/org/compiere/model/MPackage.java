@@ -73,16 +73,16 @@ public class MPackage extends X_M_Package implements DocAction, DocOptions {
 		setC_BPartner_ID(shipment.getC_BPartner_ID());
 		setC_BPartner_Location_ID(shipment.getC_BPartner_Location_ID());
 		setM_Warehouse_ID(shipment.getM_Warehouse_ID());
+		setDeliveryViaRule(shipment.getDeliveryViaRule());
+		Optional<String> maybeFreightCostRule = Optional.ofNullable(shipment.getFreightCostRule());
+		Optional<BigDecimal> maybeFreightAmt = Optional.ofNullable(shipment.getFreightAmt());
+		Optional<Integer> maybeFreightCategoryId = shipment.getM_FreightCategory_ID() > 0 ? Optional.of(shipment.getM_FreightCategory_ID()) : Optional.empty();
+		Optional<Integer> maybeDocumentType = Optional.of(MDocType.getDocType(MDocType.DOCBASETYPE_Package, getAD_Org_ID()));
+		maybeDocumentType.ifPresent(this::setC_DocType_ID);
 		//	Set Freight cost rule
-		if(!Util.isEmpty(shipment.getFreightCostRule())) {
-			setFreightCostRule(shipment.getFreightCostRule());
-		}
-		if(shipment.getFreightAmt() != null) {
-			setFreightAmt(shipment.getFreightAmt());
-		}
-		if(shipment.getM_FreightCategory_ID() != 0) {
-			setM_FreightCategory_ID(shipment.getM_FreightCategory_ID());
-		}
+		maybeFreightCostRule.ifPresent(this::setFreightCostRule);
+		maybeFreightAmt.ifPresent(this::setFreightAmt);
+		maybeFreightCategoryId.ifPresent(this::setM_FreightCategory_ID);
 	}	//	MPackage
 	
 	/**
@@ -98,17 +98,14 @@ public class MPackage extends X_M_Package implements DocAction, DocOptions {
 		//	Set default values for references
 		setC_BPartner_ID(movement.getC_BPartner_ID());
 		setC_BPartner_Location_ID(movement.getC_BPartner_Location_ID());
-		Optional<MWarehouse> maybeWarehouse = Arrays.asList(MWarehouse.getForOrg(getCtx(), movement.getAD_Org_ID())).stream().findFirst();
-		if(maybeWarehouse.isPresent()) {
-			setM_Warehouse_ID(maybeWarehouse.get().getM_Warehouse_ID());
-		}
-		//	Set Freight cost rule
-		if(!Util.isEmpty(movement.getFreightCostRule())) {
-			setFreightCostRule(movement.getFreightCostRule());
-		}
-		if(movement.getFreightAmt() != null) {
-			setFreightAmt(movement.getFreightAmt());
-		}
+		Optional<MWarehouse> maybeWarehouse = Arrays.stream(MWarehouse.getForOrg(getCtx(), movement.getAD_Org_ID())).findFirst();
+		Optional<String> maybeFreightCostRule = Optional.ofNullable(movement.getFreightCostRule());
+		Optional<BigDecimal> maybeFreightAmt = Optional.ofNullable(movement.getFreightAmt());
+		Optional<Integer> maybeDocumentType = Optional.of(MDocType.getDocType(MDocType.DOCBASETYPE_Package, getAD_Org_ID()));
+		maybeWarehouse.ifPresent(warehouse -> setM_Warehouse_ID(warehouse.getM_Warehouse_ID()));
+		maybeFreightCostRule.ifPresent(this::setFreightCostRule);
+		maybeFreightAmt.ifPresent(this::setFreightAmt);
+		maybeDocumentType.ifPresent(this::setC_DocType_ID);
 	}	//	MPackage
 	
 	/**
@@ -119,18 +116,25 @@ public class MPackage extends X_M_Package implements DocAction, DocOptions {
 	 *	@return package
 	 */
 	public static MPackage create(MInOut shipment, MShipper shipper, Timestamp shipDate) {
-		MPackage retValue = new MPackage (shipment, shipper);
-		if (shipDate != null)
-			retValue.setShipDate(shipDate);
-		retValue.saveEx();
+		MPackage pack = new MPackage (shipment, shipper);
+		Optional<Timestamp> maybeShipDate  = Optional.ofNullable(shipDate);
+		maybeShipDate.ifPresent(pack::setShipDate);
+		pack.saveEx();
 		//	Lines
 		Arrays.asList(shipment.getLines(false))
 			.forEach(inOutLine -> {
-				MPackageLine packageLine = new MPackageLine (retValue);
+				MPackageLine packageLine = new MPackageLine (pack);
 				packageLine.setInOutLine(inOutLine);
+				if (inOutLine.getM_Product_ID() > 0) {
+					MProduct product = MProduct.get(shipment.getCtx() , inOutLine.getM_Product_ID());
+					BigDecimal totalWeight = inOutLine.getMovementQty().multiply(product.getWeight());
+					BigDecimal totalVolume = inOutLine.getMovementQty().multiply(product.getVolume());
+					packageLine.setWeight(totalWeight);
+					packageLine.setVolume(totalVolume);
+				}
 				packageLine.saveEx();
 			});
-		return retValue;
+		return pack;
 	}	//	create
 
 	/**
@@ -141,18 +145,25 @@ public class MPackage extends X_M_Package implements DocAction, DocOptions {
 	 *	@return package
 	 */
 	public static MPackage create(MMovement movement, MShipper shipper, Timestamp shipDate) {
-		MPackage retValue = new MPackage (movement, shipper);
-		if (shipDate != null)
-			retValue.setShipDate(shipDate);
-		retValue.saveEx();
+		MPackage pack = new MPackage (movement, shipper);
+		Optional<Timestamp> maybeShipDate  = Optional.ofNullable(shipDate);
+		maybeShipDate.ifPresent(pack::setShipDate);
+		pack.saveEx();
 		//	Lines
 		Arrays.asList(movement.getLines(false))
-			.forEach(inOutLine -> {
-				MPackageLine packageLine = new MPackageLine (retValue);
-				packageLine.setMovementLine(inOutLine);
-				packageLine.saveEx();
+			.forEach(movementLine -> {
+				MPackageLine packageLine = new MPackageLine (pack);
+				packageLine.setMovementLine(movementLine);
+				if (movementLine.getM_Product_ID() > 0) {
+					MProduct product = MProduct.get(movement.getCtx(), movementLine.getM_Product_ID());
+					BigDecimal totalWeight = movementLine.getMovementQty().multiply(product.getWeight());
+					BigDecimal totalVolume = movementLine.getMovementQty().multiply(product.getVolume());
+					packageLine.setWeight(totalWeight);
+					packageLine.setVolume(totalVolume);
+					packageLine.saveEx();
+				}
 			});
-		return retValue;
+		return pack;
 	}	//	create
 	
 	/**
@@ -161,8 +172,8 @@ public class MPackage extends X_M_Package implements DocAction, DocOptions {
 	 */
 	public String getDocumentInfo()
 	{
-		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
-		return dt.getName() + " " + getDocumentNo();
+		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
+		return docType.getName() + " " + getDocumentNo();
 	}	//	getDocumentInfo
 
 	/**
@@ -274,14 +285,14 @@ public class MPackage extends X_M_Package implements DocAction, DocOptions {
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
 		
-		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
-
+		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
 		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getDateDoc(), dt.getDocBaseType(), getAD_Org_ID()))
+		if (!MPeriod.isOpen(getCtx(), getDateDoc(), docType.getDocBaseType(), getAD_Org_ID()))
 		{
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
 		}
+
 		//	Add up Amounts
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
@@ -392,11 +403,11 @@ public class MPackage extends X_M_Package implements DocAction, DocOptions {
 	 * 	Set the definite document number after completed
 	 */
 	private void setDefiniteDocumentNo() {
-		MDocType dt = MDocType.get(getCtx(), getC_DocType_ID());
-		if (dt.isOverwriteDateOnComplete()) {
+		MDocType docType = MDocType.get(getCtx(), getC_DocType_ID());
+		if (docType.isOverwriteDateOnComplete()) {
 			setDateDoc(new Timestamp(System.currentTimeMillis()));
 		}
-		if (dt.isOverwriteSeqOnComplete()) {
+		if (docType.isOverwriteSeqOnComplete()) {
 			String value = null;
 			int index = p_info.getColumnIndex("C_DocType_ID");
 			if (index == -1)
@@ -411,10 +422,10 @@ public class MPackage extends X_M_Package implements DocAction, DocOptions {
 
 	@Override
 	public int customizeValidActions(String docStatus, Object processing,
-			String orderType, String isSOTrx, int AD_Table_ID,
+			String orderType, String isSOTrx, int tableId,
 			String[] docAction, String[] options, int index) {
 		//	Valid Document Action
-		if (AD_Table_ID == Table_ID) {
+		if (Table_ID == tableId) {
 			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
 					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
 					|| docStatus.equals(DocumentEngine.STATUS_Invalid)) {
@@ -430,9 +441,7 @@ public class MPackage extends X_M_Package implements DocAction, DocOptions {
 				} else if (docStatus.equals(DocumentEngine.STATUS_Closed)) {
 					options[index++] = DocumentEngine.ACTION_None;
 				}
-			
 		}
-		
 		return index;
 	}
 	
@@ -477,11 +486,11 @@ public class MPackage extends X_M_Package implements DocAction, DocOptions {
      *  @param description text
      */
     public void addDescription (String description) {
-        String desc = getDescription();
-        if (desc == null)
+        Optional<String> maybeDescription = Optional.ofNullable(getDescription());
+        if (!maybeDescription.isPresent())
             setDescription(description);
         else
-            setDescription(desc + " | " + description);
+            setDescription(maybeDescription.get() + " | " + description);
     }   //  addDescription
 	
 	/**
