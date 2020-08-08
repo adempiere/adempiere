@@ -63,7 +63,7 @@ public interface FreightRuleInterface {
      * @param volume
      * @param trxName
      * @param parameters
-     * @return a info class with Freight reference, rate applied and amound based on calculation
+     * @return a info class with Freight reference, rate applied and amount based on calculation
      */
     public FreightInfo calculate(
             Properties ctx,

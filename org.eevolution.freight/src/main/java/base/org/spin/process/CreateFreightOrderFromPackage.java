@@ -49,10 +49,10 @@ public class CreateFreightOrderFromPackage extends CreateFreightOrderFromPackage
 	@Override
 	protected String doIt() throws Exception {
 		MDDFreight freightOrder = new MDDFreight(getCtx(), 0, get_TrxName());
-		if(getDriverId() != 0) {
+		if(getDriverId() > 0) {
 			freightOrder.setDD_Driver_ID(getDriverId());
 		}
-		if(getVehicleId() != 0) {
+		if(getVehicleId() > 0) {
 			freightOrder.setDD_Vehicle_ID(getVehicleId());
 		}
 		freightOrder.setDateDoc(getDateDoc());
@@ -81,23 +81,23 @@ public class CreateFreightOrderFromPackage extends CreateFreightOrderFromPackage
 		//	Add lines from Packages
 		getSelectionKeys().forEach(key -> {
 			MPackage selectedPackage = new MPackage(getCtx(), key, get_TrxName());
-			MDDFreightLine line = new MDDFreightLine(getCtx(), 0, get_TrxName());
-			line.setDD_Freight_ID(freightOrder.getDD_Freight_ID());
-			line.setLine(lineNo.addAndGet(10));
-			line.setWeight(selectedPackage.getWeight());
-			line.setVolume(selectedPackage.getVolume());
-			line.setFreightAmt(selectedPackage.getFreightAmt());
-			line.setFreightRate(selectedPackage.getFreightRate());
-			if(selectedPackage.getM_Freight_ID() != 0) {
-				line.setM_Freight_ID(selectedPackage.getM_Freight_ID());
+			MDDFreightLine freightLine = new MDDFreightLine(getCtx(), 0, get_TrxName());
+			freightLine.setDD_Freight_ID(freightOrder.getDD_Freight_ID());
+			freightLine.setLine(lineNo.addAndGet(10));
+			freightLine.setWeight(selectedPackage.getWeight());
+			freightLine.setVolume(selectedPackage.getVolume());
+			freightLine.setFreightAmt(selectedPackage.getFreightAmt());
+			freightLine.setFreightRate(selectedPackage.getFreightRate());
+			if(selectedPackage.getM_Freight_ID() > 0) {
+				freightLine.setM_Freight_ID(selectedPackage.getM_Freight_ID());
 			}
 			//	
 			if(isOverwriteFreightCostRule()) {
-				line.setM_FreightCategory_ID(getFreightCategoryId());
+				freightLine.setM_FreightCategory_ID(getFreightCategoryId());
 				MFreight freight = new MFreight(getCtx(), getFreightCategoryId(), get_TrxName());
-				line.setM_FreightCategory_ID(freight.getM_FreightCategory_ID());
+				freightLine.setM_FreightCategory_ID(freight.getM_FreightCategory_ID());
 			} else {
-				line.setM_FreightCategory_ID(selectedPackage.getM_FreightCategory_ID());
+				freightLine.setM_FreightCategory_ID(selectedPackage.getM_FreightCategory_ID());
 			}
 			//	Set from client
 			MClientInfo clientInfo = MClientInfo.get(getCtx());
@@ -110,30 +110,30 @@ public class CreateFreightOrderFromPackage extends CreateFreightOrderFromPackage
 				throw new AdempiereException("@C_UOM_Volume_ID@ @NotFound@ @SeeClientInfoConfig@");
 			}
 			//	Set values
-			line.setWeight_UOM_ID(clientInfo.getC_UOM_Weight_ID());
-			line.setVolume_UOM_ID(clientInfo.getC_UOM_Volume_ID());
-			line.setM_Package_ID(selectedPackage.getM_Package_ID());
-			if(selectedPackage.getC_BPartner_ID() != 0) {
-				line.setC_BPartner_ID(selectedPackage.getC_BPartner_ID());
+			freightLine.setWeight_UOM_ID(clientInfo.getC_UOM_Weight_ID());
+			freightLine.setVolume_UOM_ID(clientInfo.getC_UOM_Volume_ID());
+			freightLine.setM_Package_ID(selectedPackage.getM_Package_ID());
+			if(selectedPackage.getC_BPartner_ID() > 0) {
+				freightLine.setC_BPartner_ID(selectedPackage.getC_BPartner_ID());
 			}
-			line.setIsInvoiced(selectedPackage.isInvoiced());
-			if(selectedPackage.getM_FreightCategory_ID() == 0) {
+			freightLine.setIsInvoiced(selectedPackage.isInvoiced());
+			if(selectedPackage.getM_FreightCategory_ID() <= 0) {
 				throw new AdempiereException("@M_FreightCategory_ID@ @NotFound@");
 			}
 			MFreightCategory freightCategory = MFreightCategory.getById(getCtx(), selectedPackage.getM_FreightCategory_ID(), get_TrxName());
 			if(selectedPackage.isInvoiced()) {
-				if(freightCategory.getM_Product_ID() == 0
-						&& freightCategory.getC_Charge_ID() == 0) {
+				if(freightCategory.getM_Product_ID() <= 0
+						&& freightCategory.getC_Charge_ID() <= 0) {
 					throw new AdempiereException(freightCategory.getName() + ": @IsInvoiced@ @M_Product_ID@ / @C_Charge_ID@ @NotFound@");
 				}
 			}
 			//	Set Product and Charge
-			if(freightCategory.getM_Product_ID() != 0) {
-				line.setM_Product_ID(freightCategory.getM_Product_ID());
+			if(freightCategory.getM_Product_ID() > 0) {
+				freightLine.setM_Product_ID(freightCategory.getM_Product_ID());
 			} else {
-				line.setC_Charge_ID(freightCategory.getC_Charge_ID());
+				freightLine.setC_Charge_ID(freightCategory.getC_Charge_ID());
 			}
-			line.saveEx();
+			freightLine.saveEx();
 			lines.addAndGet(1);
 			freightAmount.getAndUpdate(amount -> amount.add(selectedPackage.getFreightAmt()));
 			//	Add to log

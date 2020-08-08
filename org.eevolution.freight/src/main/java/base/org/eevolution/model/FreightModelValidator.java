@@ -170,7 +170,7 @@ public class FreightModelValidator implements ModelValidator {
                 }
             } else if (po instanceof MPackage) {	//	Calculate for package
             	MPackage packageToCalculate = (MPackage) po;
-                if (MWMInOutBound.DELIVERYVIARULE_Shipper.equals(packageToCalculate.getDeliveryViaRule())) {
+                if (MPackage.DELIVERYVIARULE_Shipper.equals(packageToCalculate.getDeliveryViaRule())) {
                 	FreightInfo info = getFreightInfo(packageToCalculate);
                 	//	Add references
                 	packageToCalculate.setFreightAmt(info.getFreightAmount());
