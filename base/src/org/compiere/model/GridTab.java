@@ -3083,5 +3083,13 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	}
 	public int getCurrentCol(){
 		return m_currentCol;
-}
+	}
+	
+	/**
+	 * Get Parent Column
+	 * @return
+	 */
+	public int getParent_Column_ID() {
+		return m_vo.Parent_Column_ID;
+	}
 }	//	GridTab

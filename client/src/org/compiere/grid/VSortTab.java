@@ -83,6 +83,16 @@ public class VSortTab extends CPanel implements APanelTab {
 	private static final long serialVersionUID = -2133358506913610514L;
 
 	/**
+	 * Overload Constructor
+	 * @param windowNo
+	 * @param tableId
+	 * @param columnSortOrderId
+	 * @param columnSortYesNoId
+	 */
+	public VSortTab(int windowNo, int tableId, int columnSortOrderId, int columnSortYesNoId) {
+		this(windowNo, tableId, columnSortOrderId, columnSortYesNoId, 0);
+	}
+	/**
 	 *	Tab Order Constructor
 	 *
 	 *  @param WindowNo Window No
@@ -90,11 +100,11 @@ public class VSortTab extends CPanel implements APanelTab {
 	 *  @param AD_ColumnSortOrder_ID Sort Column
 	 *  @param AD_ColumnSortYesNo_ID YesNo Column
 	 */
-	public VSortTab(int windowNo, int tableId, int columnSortOrderId, int columnSortYesNoId) {
+	public VSortTab(int windowNo, int tableId, int columnSortOrderId, int columnSortYesNoId, int parentColumnId) {
 		log.config("SortOrder=" + columnSortOrderId + ", SortYesNo=" + columnSortYesNoId);
 		this.windowNo = windowNo;
 		try {
-			sortTabController = new SortTabController(windowNo, tableId, columnSortOrderId, columnSortYesNoId) {
+			sortTabController = new SortTabController(windowNo, tableId, columnSortOrderId, columnSortYesNoId, parentColumnId) {
 				
 				@Override
 				public void addItem(ListElement item) {
