@@ -76,11 +76,11 @@ FROM (SELECT r.AD_Client_ID,
         COALESCE(CASE
             WHEN r.ReplenishType = '1' THEN 
                 CASE 
-                    WHEN s.QtyOnHand - s.QtyReserved + s.QtyOrdered <= r.Level_Min 
-                    THEN r.Level_Max - s.QtyOnHand + s.QtyReserved - s.QtyOrdered 
+                    WHEN COALESCE(s.QtyOnHand, 0) - COALESCE(s.QtyReserved, 0) + COALESCE(s.QtyOrdered, 0) <= r.Level_Min 
+                    THEN r.Level_Max - COALESCE(s.QtyOnHand, 0) + COALESCE(s.QtyReserved, 0) - COALESCE(s.QtyOrdered, 0) 
                     ELSE 0 
                 END
-            WHEN r.ReplenishType = '2' THEN r.Level_Max - s.QtyOnHand + s.QtyReserved - s.QtyOrdered
+            WHEN r.ReplenishType = '2' THEN r.Level_Max - COALESCE(s.QtyOnHand, 0) + COALESCE(s.QtyReserved, 0) - COALESCE(s.QtyOrdered, 0)
             ELSE 0
         END, 0) AS QtyToOrder,
         p.M_Product_Category_ID,
