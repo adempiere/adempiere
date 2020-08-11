@@ -34,8 +34,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -3596,24 +3598,38 @@ public abstract class PO
 	 */
 	private boolean insertTreeNode() {	
 		int tableId = get_Table_ID();
+		String whereClause = null;
 		if (!MTree.hasTree(tableId))
 			return false;
 		//	Get Node Table Name
-		String treeTableName = MTree.getNodeTableName(tableId);
+		AtomicReference<String> treeTableName = new AtomicReference<>();
 		int elementId = 0;
 		if (tableId == X_C_ElementValue.Table_ID) {
 			Integer ii = (Integer)get_Value("C_Element_ID");
-			if (ii != null)
+			if (ii != null) {
 				elementId = ii.intValue();
+				whereClause = "C_Element_ID = " + elementId;
+				MElement element = MElement.get(getCtx(), elementId, get_TrxName());
+				Optional.ofNullable(element.getTree()).ifPresent(tree ->{
+					treeTableName.set(MTree.getNodeTableName(tree.getTreeType()));
+				});
+			}
 		}
+		
+		if (treeTableName.get()==null)
+			treeTableName.set(MTree.getNodeTableName(tableId));
+		
 		int m_AD_Tree_ID = MTree.getDefaultTreeIdFromTableId(getAD_Client_ID(), tableId, elementId);
 		//	Valid tree
 		if(m_AD_Tree_ID < 0)
 			return false;
 		
+		if (treeTableName.get()==null)
+			return false;
+		
 		MTree tree = new MTree(getCtx(), m_AD_Tree_ID, get_TrxName());
 		
-		PO treeNode = MTable.get(getCtx(), treeTableName).getPO(0, get_TrxName());
+		PO treeNode = MTable.get(getCtx(), treeTableName.get()).getPO(0, get_TrxName());
 		treeNode.setAD_Client_ID(getAD_Client_ID());
 		treeNode.setAD_Org_ID(0);
 		treeNode.setIsActive(true);
@@ -3624,12 +3640,13 @@ public abstract class PO
 		if (tree.getParent_Column_ID()>0) {
 			parentColumnIDforTree = MColumn.get(getCtx(), tree.getParent_Column_ID());
 			treeNode.set_CustomColumn("Parent_ID", get_ValueAsInt(parentColumnIDforTree.getColumnName()));
-		}
+		}else
+			treeNode.set_CustomColumn("Parent_ID", 0);
 		
 		if (treeNode.get_ValueAsInt("Parent_ID") == 0 
 				&& tree.getAD_ColumnSortOrder_ID() > 0) {
 			MColumn columnSortforTree = MColumn.get(getCtx(), tree.getAD_ColumnSortOrder_ID());
-			treeNode.set_CustomColumn("Parent_ID", getParentFromSort(columnSortforTree.getColumnName(), get_ValueAsString(columnSortforTree.getColumnName())));
+			treeNode.set_CustomColumn("Parent_ID", getParentFromSort(columnSortforTree.getColumnName(), get_ValueAsString(columnSortforTree.getColumnName()), whereClause));
 			if (parentColumnIDforTree!= null) {
 				if (treeNode.get_ValueAsInt("Parent_ID")!=get_ValueAsInt(parentColumnIDforTree.getColumnName())) {
 					set_Value(parentColumnIDforTree.getColumnName(), treeNode.get_ValueAsInt("Parent_ID"));
@@ -3638,8 +3655,7 @@ public abstract class PO
 			}
 			
 		}
-		else
-			treeNode.set_CustomColumn("Parent_ID", 0);
+		
 		
 		treeNode.set_CustomColumn("SeqNo", 999);
 		treeNode.saveEx();
@@ -3657,21 +3673,33 @@ public abstract class PO
 		if (!MTree.hasTree(tableId))
 			return false;
 		//	Get Node Table Name
-		String treeTableName = MTree.getNodeTableName(tableId);
+		AtomicReference<String> treeTableName = new AtomicReference<>();
 		int elementId = 0;
 		if (tableId == X_C_ElementValue.Table_ID) {
 			Integer ii = (Integer)get_Value("C_Element_ID");
-			if (ii != null)
+			if (ii != null) {
 				elementId = ii.intValue();
+				MElement element = MElement.get(getCtx(), elementId, get_TrxName());
+				Optional.ofNullable(element.getTree()).ifPresent(tree ->{
+					treeTableName.set(MTree.getNodeTableName(tree.getTreeType()));
+				});
+			}
 		}
+		
+		if (treeTableName.get()==null)
+			treeTableName.set(MTree.getNodeTableName(tableId));
+		
 		int m_AD_Tree_ID = MTree.getDefaultTreeIdFromTableId(getAD_Client_ID(), tableId, elementId);
 		//	Valid tree
 		if(m_AD_Tree_ID < 0)
 			return false;
 		
+		if (treeTableName.get()==null)
+			return false;
+		
 		MTree tree = new MTree(getCtx(), m_AD_Tree_ID, get_TrxName());
 		
-		PO treeNode = MTable.get(getCtx(), treeTableName).getPO("Node_ID = " + get_ID(), get_TrxName());
+		PO treeNode = MTable.get(getCtx(), treeTableName.get()).getPO("Node_ID = " + get_ID(), get_TrxName());
 		if (treeNode!=null) {
 			if (tree.getParent_Column_ID() > 0) {
 				MColumn columnIDforTree = MColumn.get(getCtx(), tree.getParent_Column_ID());
@@ -4342,10 +4370,12 @@ public abstract class PO
 	 * @param sortValue
 	 * @return
 	 */
-	private int getParentFromSort(String sortColumn ,String sortValue) {
+	private int getParentFromSort(String sortColumn ,String sortValue, String whereClause) {
 		Integer parentID = 0 ;
+		whereClause = Optional.ofNullable(whereClause + " AND ").orElse("");
+		
 		if (sortValue!=null) {
-			List<PO> parentPO = new Query(getCtx(), get_TableName(), "IsSummary = 'Y' ", get_TrxName()).setOrderBy(sortColumn).list();
+			List<PO> parentPO = new Query(getCtx(), get_TableName(), whereClause + " IsSummary = 'Y' ", get_TrxName()).setOrderBy(sortColumn).list();
 			HashMap<String,Integer> currentValues = new HashMap<String,Integer>();
 			
 			for (PO po : parentPO) 
