@@ -21,27 +21,29 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import org.compiere.process.SvrProcess;
 
-/** Generated Process for (Bank Transfer)
+/** Generated Process for (POS Opening)
  *  @author ADempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.3
  */
 public abstract class BankTransferAbstract extends SvrProcess {
 	/** Process Value 	*/
-	private static final String VALUE_FOR_PROCESS = "C_BankStatement BankTransfer";
+	private static final String VALUE_FOR_PROCESS = "C_POS_Opening";
 	/** Process Name 	*/
-	private static final String NAME_FOR_PROCESS = "Bank Transfer";
+	private static final String NAME_FOR_PROCESS = "POS Opening";
 	/** Process Id 	*/
-	private static final int ID_FOR_PROCESS = 53153;
-	/**	Parameter Name for Bank Account From	*/
+	private static final int ID_FOR_PROCESS = 54361;
+	/**	Parameter Name for POS Terminal	*/
+	public static final String C_POS_ID = "C_POS_ID";
+	/**	Parameter Name for Bank Account	*/
 	public static final String FROM_C_BANKACCOUNT_ID = "From_C_BankAccount_ID";
 	/**	Parameter Name for Bank Account To	*/
 	public static final String C_BANKACCOUNTTO_ID = "C_BankAccountTo_ID";
 	/**	Parameter Name for Business Partner 	*/
 	public static final String C_BPARTNER_ID = "C_BPartner_ID";
-	/**	Parameter Name for Currency	*/
-	public static final String C_CURRENCY_ID = "C_Currency_ID";
 	/**	Parameter Name for Currency Type	*/
 	public static final String C_CONVERSIONTYPE_ID = "C_ConversionType_ID";
+	/**	Parameter Name for Currency	*/
+	public static final String C_CURRENCY_ID = "C_Currency_ID";
 	/**	Parameter Name for Charge	*/
 	public static final String C_CHARGE_ID = "C_Charge_ID";
 	/**	Parameter Name for Document No	*/
@@ -56,20 +58,24 @@ public abstract class BankTransferAbstract extends SvrProcess {
 	public static final String STATEMENTDATE = "StatementDate";
 	/**	Parameter Name for Account Date	*/
 	public static final String DATEACCT = "DateAcct";
-	/**	Parameter Name for POS	*/
-	public static final String C_POS_ID = "C_POS_ID";
 	/**	Parameter Name for Reconcile Automatically	*/
 	public static final String ISAUTORECONCILED = "IsAutoReconciled";
-	/**	Parameter Value for Bank Account From	*/
+	/**	Parameter Name for Withdrawal Document Type	*/
+	public static final String WITHDRAWALDOCUMENTTYPE_ID = "WithdrawalDocumentType_ID";
+	/**	Parameter Name for Deposit Document Type	*/
+	public static final String DEPOSITDOCUMENTTYPE_ID = "DepositDocumentType_ID";
+	/**	Parameter Value for POS Terminal	*/
+	private int pOSId;
+	/**	Parameter Value for Bank Account	*/
 	private int cBankAccountId;
 	/**	Parameter Value for Bank Account To	*/
 	private int bankAccountToId;
 	/**	Parameter Value for Business Partner 	*/
 	private int bPartnerId;
-	/**	Parameter Value for Currency	*/
-	private int currencyId;
 	/**	Parameter Value for Currency Type	*/
 	private int conversionTypeId;
+	/**	Parameter Value for Currency	*/
+	private int currencyId;
 	/**	Parameter Value for Charge	*/
 	private int chargeId;
 	/**	Parameter Value for Document No	*/
@@ -86,16 +92,19 @@ public abstract class BankTransferAbstract extends SvrProcess {
 	private Timestamp dateAcct;
 	/**	Parameter Value for Reconcile Automatically	*/
 	private boolean isAutoReconciled;
-	/**	Parameter Value for POS	*/
-	private int posId;
+	/**	Parameter Value for Withdrawal Document Type	*/
+	private int withdrawalDocumentTypeId;
+	/**	Parameter Value for Deposit Document Type	*/
+	private int depositDocumentTypeId;
 
 	@Override
 	protected void prepare() {
+		pOSId = getParameterAsInt(C_POS_ID);
 		cBankAccountId = getParameterAsInt(FROM_C_BANKACCOUNT_ID);
 		bankAccountToId = getParameterAsInt(C_BANKACCOUNTTO_ID);
 		bPartnerId = getParameterAsInt(C_BPARTNER_ID);
-		currencyId = getParameterAsInt(C_CURRENCY_ID);
 		conversionTypeId = getParameterAsInt(C_CONVERSIONTYPE_ID);
+		currencyId = getParameterAsInt(C_CURRENCY_ID);
 		chargeId = getParameterAsInt(C_CHARGE_ID);
 		documentNo = getParameterAsString(DOCUMENTNO);
 		documentNoTo = getParameterAsString(DOCUMENTNOTO);
@@ -104,25 +113,26 @@ public abstract class BankTransferAbstract extends SvrProcess {
 		statementDate = getParameterAsTimestamp(STATEMENTDATE);
 		dateAcct = getParameterAsTimestamp(DATEACCT);
 		isAutoReconciled = getParameterAsBoolean(ISAUTORECONCILED);
-		posId = getParameterAsInt(C_POS_ID);
+		withdrawalDocumentTypeId = getParameterAsInt(WITHDRAWALDOCUMENTTYPE_ID);
+		depositDocumentTypeId = getParameterAsInt(DEPOSITDOCUMENTTYPE_ID);
 	}
 
-	/**	 Getter Parameter Value for Bank Account From	*/
+	/**	 Getter Parameter Value for POS Terminal	*/
+	protected int getPOSId() {
+		return pOSId;
+	}
+
+	/**	 Setter Parameter Value for POS Terminal	*/
+	protected void setPOSId(int pOSId) {
+		this.pOSId = pOSId;
+	}
+
+	/**	 Getter Parameter Value for Bank Account	*/
 	protected int getCBankAccountId() {
 		return cBankAccountId;
 	}
 
-	/**	 Setter Parameter Value for Bank Account From	*/
-	protected void setPosId(int posId) {
-		this.posId = posId;
-	}
-
-	/**	 Getter Parameter Value for Bank Account From	*/
-	protected int getPosId() {
-		return posId;
-	}
-
-	/**	 Setter Parameter Value for Bank Account From	*/
+	/**	 Setter Parameter Value for Bank Account	*/
 	protected void setCBankAccountId(int cBankAccountId) {
 		this.cBankAccountId = cBankAccountId;
 	}
@@ -147,16 +157,6 @@ public abstract class BankTransferAbstract extends SvrProcess {
 		this.bPartnerId = bPartnerId;
 	}
 
-	/**	 Getter Parameter Value for Currency	*/
-	protected int getCurrencyId() {
-		return currencyId;
-	}
-
-	/**	 Setter Parameter Value for Currency	*/
-	protected void setCurrencyId(int currencyId) {
-		this.currencyId = currencyId;
-	}
-
 	/**	 Getter Parameter Value for Currency Type	*/
 	protected int getConversionTypeId() {
 		return conversionTypeId;
@@ -165,6 +165,16 @@ public abstract class BankTransferAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Currency Type	*/
 	protected void setConversionTypeId(int conversionTypeId) {
 		this.conversionTypeId = conversionTypeId;
+	}
+
+	/**	 Getter Parameter Value for Currency	*/
+	protected int getCurrencyId() {
+		return currencyId;
+	}
+
+	/**	 Setter Parameter Value for Currency	*/
+	protected void setCurrencyId(int currencyId) {
+		this.currencyId = currencyId;
 	}
 
 	/**	 Getter Parameter Value for Charge	*/
@@ -245,6 +255,26 @@ public abstract class BankTransferAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Reconcile Automatically	*/
 	protected void setIsAutoReconciled(boolean isAutoReconciled) {
 		this.isAutoReconciled = isAutoReconciled;
+	}
+
+	/**	 Getter Parameter Value for Withdrawal Document Type	*/
+	protected int getWithdrawalDocumentTypeId() {
+		return withdrawalDocumentTypeId;
+	}
+
+	/**	 Setter Parameter Value for Withdrawal Document Type	*/
+	protected void setWithdrawalDocumentTypeId(int withdrawalDocumentTypeId) {
+		this.withdrawalDocumentTypeId = withdrawalDocumentTypeId;
+	}
+
+	/**	 Getter Parameter Value for Deposit Document Type	*/
+	protected int getDepositDocumentTypeId() {
+		return depositDocumentTypeId;
+	}
+
+	/**	 Setter Parameter Value for Deposit Document Type	*/
+	protected void setDepositDocumentTypeId(int depositDocumentTypeId) {
+		this.depositDocumentTypeId = depositDocumentTypeId;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/

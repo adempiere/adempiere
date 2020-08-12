@@ -89,7 +89,11 @@ public class BankTransfer extends BankTransferAbstract {
 		}
 		paymentBankFrom.setPayAmt(getAmount());
 		paymentBankFrom.setOverUnderAmt(Env.ZERO);
-		paymentBankFrom.setC_DocType_ID(false);
+		if(getWithdrawalDocumentTypeId() != 0) {
+			paymentBankFrom.setC_DocType_ID(getWithdrawalDocumentTypeId());
+		} else {
+			paymentBankFrom.setC_DocType_ID(false);
+		}
 		paymentBankFrom.setC_Charge_ID(getChargeId());
 		paymentBankFrom.saveEx();
 		//	
@@ -105,13 +109,17 @@ public class BankTransfer extends BankTransferAbstract {
 		if(getConversionTypeId() > 0) {
 			paymentBankTo.setC_ConversionType_ID(getConversionTypeId());	
 		}
-		if(getPosId() > 0) {
-			paymentBankFrom.setC_POS_ID(getPosId());
-			paymentBankTo.setC_POS_ID(getPosId());
+		if(getPOSId() > 0) {
+			paymentBankFrom.setC_POS_ID(getPOSId());
+			paymentBankTo.setC_POS_ID(getPOSId());
 		}
 		paymentBankTo.setPayAmt(getAmount());
 		paymentBankTo.setOverUnderAmt(Env.ZERO);
-		paymentBankTo.setC_DocType_ID(true);
+		if(getDepositDocumentTypeId() != 0) {
+			paymentBankTo.setC_DocType_ID(getDepositDocumentTypeId());
+		} else {
+			paymentBankTo.setC_DocType_ID(true);
+		}
 		paymentBankTo.setC_Charge_ID(getChargeId());
 		paymentBankTo.saveEx();
 
@@ -119,6 +127,7 @@ public class BankTransfer extends BankTransferAbstract {
 		paymentBankFrom.saveEx();
 		paymentBankFrom.processIt(MPayment.DOCACTION_Complete);
 		paymentBankFrom.saveEx();
+		addLog("@C_Payment_ID@ @IsReceipt@: ");
 		//	Add to current bank statement for account
 		if(isAutoReconciled()) {
 			MBankStatementLine bsl = MBankStatement.addPayment(paymentBankFrom);
