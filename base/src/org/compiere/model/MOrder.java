@@ -23,8 +23,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
@@ -1593,80 +1596,61 @@ public class MOrder extends X_C_Order implements DocAction
 	 * 	Calculate Tax and Total
 	 * 	@return true if tax total calculated
 	 */
-	public boolean calculateTaxTotal()
-	{
+	public boolean calculateTaxTotal() {
 		log.fine("");
 		//	Delete Taxes
 		DB.executeUpdateEx("DELETE C_OrderTax WHERE C_Order_ID=" + getC_Order_ID(), get_TrxName());
 		m_taxes = null;
-		
+
 		//	Lines
-		BigDecimal totalLines = Env.ZERO;
-		ArrayList<Integer> taxList = new ArrayList<Integer>();
-		MOrderLine[] lines = getLines();
-		for (int i = 0; i < lines.length; i++)
-		{
-			MOrderLine line = lines[i];
-			Integer taxID = new Integer(line.getC_Tax_ID());
-			if (!taxList.contains(taxID))
-			{
-				MOrderTax oTax = MOrderTax.get (line, getPrecision(), 
-					false, get_TrxName());	//	current Tax
-				oTax.setIsTaxIncluded(isTaxIncluded());
-				if (!oTax.calculateTaxFromLines())
-					return false;
-				if (!oTax.save(get_TrxName()))
-					return false;
-				taxList.add(taxID);
-			}
-			totalLines = totalLines.add(line.getLineNetAmt());
-		}
-		
-		//	Taxes
-		BigDecimal grandTotal = totalLines;
-		MOrderTax[] taxes = getTaxes(true);
-		for (int i = 0; i < taxes.length; i++)
-		{
-			MOrderTax oTax = taxes[i];
-			MTax tax = oTax.getTax();
-			if (tax.isSummary())
-			{
-				MTax[] cTaxes = tax.getChildTaxes(false);
-				for (int j = 0; j < cTaxes.length; j++)
-				{
-					MTax cTax = cTaxes[j];
-					BigDecimal taxAmt = cTax.calculateTax(oTax.getTaxBaseAmt(), isTaxIncluded(), getPrecision());
-					//
-					MOrderTax newOTax = new MOrderTax(getCtx(), 0, get_TrxName());
-					newOTax.setClientOrg(this);
-					newOTax.setC_Order_ID(getC_Order_ID());
-					newOTax.setC_Tax_ID(cTax.getC_Tax_ID());
-					newOTax.setPrecision(getPrecision());
-					newOTax.setIsTaxIncluded(isTaxIncluded());
-					newOTax.setTaxBaseAmt(oTax.getTaxBaseAmt());
-					newOTax.setTaxAmt(taxAmt);
-					if (!newOTax.save(get_TrxName()))
+		AtomicReference<BigDecimal> totalLines = new AtomicReference<>(Env.ZERO);
+		ArrayList<Integer> taxList = new ArrayList<>();
+		MOrderLine[] orderLines = getLines();
+		for (MOrderLine orderLine : orderLines) {
+			if (!taxList.contains(orderLine.getC_Tax_ID())) {
+				Optional<MOrderTax> maybeOrderTax = Optional.ofNullable(MOrderTax.get(orderLine, getPrecision(), false, get_TrxName()));//	current Tax
+				if (maybeOrderTax.isPresent()) {
+					MOrderTax orderTax = maybeOrderTax.get();
+					orderTax.setIsTaxIncluded(isTaxIncluded());
+					if (!orderTax.calculateTaxFromLines())
 						return false;
-					//
-					if (!isTaxIncluded())
-						grandTotal = grandTotal.add(taxAmt);
+					orderTax.saveEx();
+					taxList.add(orderLine.getC_Tax_ID());
 				}
-				if (!oTax.delete(true, get_TrxName()))
-					return false;
-				if (!oTax.save(get_TrxName()))
-					return false;
 			}
-			else
-			{
-				if (!isTaxIncluded())
-					grandTotal = grandTotal.add(oTax.getTaxAmt());
-			}
-		}		
-		//
-		setTotalLines(totalLines);
-		setGrandTotal(grandTotal);
+			totalLines.getAndUpdate(total -> total.add(orderLine.getLineNetAmt()));
+		}
+		//	Taxes
+		AtomicReference<BigDecimal> grandTotal = new AtomicReference<>(totalLines.get());
+		Arrays.stream(getTaxes(true))
+				.forEach(orderTax -> {
+					MTax tax = orderTax.getTax();
+					if (tax.isSummary()) {
+						Arrays.stream(tax.getChildTaxes(false)).forEach(childrenTax -> {
+							BigDecimal taxAmount = childrenTax.calculateTax(orderTax.getTaxBaseAmt(), isTaxIncluded(), getPrecision());
+							MOrderTax newOrderTax = new MOrderTax(getCtx(), 0, get_TrxName());
+							newOrderTax.setClientOrg(this);
+							newOrderTax.setC_Order_ID(getC_Order_ID());
+							newOrderTax.setC_Tax_ID(childrenTax.getC_Tax_ID());
+							newOrderTax.setPrecision(getPrecision());
+							newOrderTax.setIsTaxIncluded(isTaxIncluded());
+							newOrderTax.setTaxBaseAmt(orderTax.getTaxBaseAmt());
+							newOrderTax.setTaxAmt(taxAmount);
+							newOrderTax.saveEx();
+							if (!isTaxIncluded())
+								grandTotal.getAndUpdate(total -> total.add(taxAmount));
+						});
+						orderTax.deleteEx(true);
+						orderTax.saveEx();
+					} else {
+						if (!isTaxIncluded())
+							grandTotal.getAndUpdate(total -> total.add(orderTax.getTaxAmt()));
+					}
+				});
+		setTotalLines(totalLines.get());
+		setGrandTotal(grandTotal.get());
 		return true;
-	}	//	calculateTaxTotal
+	}    //	calculateTaxTotal
 	
 	
 	/**

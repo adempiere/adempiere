@@ -28,20 +28,24 @@
  **********************************************************************/
 package org.compiere.model;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.Util;
 
 /**
  * @author Trifon Trifonov
+ * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
+ * Some methods
  */
 public class MIMPProcessor extends X_IMP_Processor implements AdempiereProcessor 
 {
@@ -49,11 +53,33 @@ public class MIMPProcessor extends X_IMP_Processor implements AdempiereProcessor
 
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MIMPProcessor.class);
+	private static MIMPProcessor processor = null;
+	private List<MIMPProcessorParameter> parameters = null;
+	
+	/**
+	 * Clean instance
+	 */
+	public void cleanInstance() {
+		processor = null;
+	}
+	
+	/**
+	 * Get instance
+	 * @param ctx
+	 * @param impProcessorId
+	 * @param trxName
+	 * @return
+	 */
+	public static MIMPProcessor get(Properties ctx, int impProcessorId, String trxName) {
+	    if(processor == null) {
+	    	processor = new MIMPProcessor(ctx, impProcessorId, trxName);
+	    }
+	    return processor;
+	}
 
-
-	public MIMPProcessor(Properties ctx, int EXP_ReplicationProcessor_ID, String trxName) {
-		super(ctx, EXP_ReplicationProcessor_ID, trxName);
-		if (EXP_ReplicationProcessor_ID == 0)
+	public MIMPProcessor(Properties ctx, int importProcessorId, String trxName) {
+		super(ctx, importProcessorId, trxName);
+		if (importProcessorId == 0)
 		{
 			//setValue (/*client.getName() + " - " +*/ "Default Import Processor");
 			setName (/*client.getName() + " - " +*/ "Default Import Processor");
@@ -125,36 +151,6 @@ public class MIMPProcessor extends X_IMP_Processor implements AdempiereProcessor
 		return "ReplicationProcessor" + get_ID();
 	}
 
-	public X_IMP_ProcessorParameter[] getIMP_ProcessorParameters(String trxName) {
-		List<X_IMP_ProcessorParameter> resultList = new ArrayList<X_IMP_ProcessorParameter>();
-
-		StringBuffer sql = new StringBuffer("SELECT * ")
-			.append(" FROM ").append(X_IMP_ProcessorParameter.Table_Name)
-			.append(" WHERE ").append(X_IMP_ProcessorParameter.COLUMNNAME_IMP_Processor_ID).append("=?") // # 1
-			.append(" AND IsActive = ?")  // # 2
-			//.append(" ORDER BY ").append(X_EXP_ProcessorParameter.COLUMNNAME_)
-		;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		X_IMP_ProcessorParameter processorParameter = null;
-		try {
-			pstmt = DB.prepareStatement (sql.toString(), trxName);
-			pstmt.setInt(1, getIMP_Processor_ID());
-			pstmt.setString(2, "Y");
-			rs = pstmt.executeQuery ();
-			while ( rs.next() ) {
-				processorParameter = new X_IMP_ProcessorParameter (getCtx(), rs, trxName);
-				resultList.add(processorParameter);
-			}
-		} catch (SQLException e) {
-			s_log.log(Level.SEVERE, sql.toString(), e);
-		} finally {
-			DB.close(rs, pstmt);
-		}
-		X_IMP_ProcessorParameter[] result = (X_IMP_ProcessorParameter[])resultList.toArray( new X_IMP_ProcessorParameter[0]);
-		return result;
-	}
-
 	public static MIMPProcessor[] getActive(Properties ctx)
 	{
 		ArrayList<MIMPProcessor> list = new ArrayList<MIMPProcessor>();
@@ -177,5 +173,136 @@ public class MIMPProcessor extends X_IMP_Processor implements AdempiereProcessor
 		list.toArray(retValue);
 		return retValue;
 	}
+	
+	/**
+	 * Please use getProcessorParameters instead
+	 * Old compatibility
+	 * @param trxName
+	 * @return
+	 */
+	public X_IMP_ProcessorParameter[] getIMP_ProcessorParameters(String trxName) {
+	    getProcessorParameters();
+	    //	
+		return parameters.toArray(new X_IMP_ProcessorParameter[0]);
+	}
 
+	/**
+	 * Get Processor parameter using instance
+	 * @return
+	 */
+	public List<MIMPProcessorParameter> getProcessorParameters() {
+		if(parameters != null) {
+	    	return parameters;
+	    }
+	    //	Get list
+	    parameters = new Query(getCtx(), I_IMP_ProcessorParameter.Table_Name, I_IMP_ProcessorParameter.COLUMNNAME_IMP_Processor_ID + " = ?", get_TrxName())
+	    		.setParameters(getIMP_Processor_ID())
+	    		.setOnlyActiveRecords(true)
+	    		.list();
+	    return parameters;
+	}
+	
+	/**
+     *  Get parameter as int
+     *  @param Value for cast
+     *  @return int value or 0
+     */
+    public int getParameterAsInt(String key) {
+        Optional<MIMPProcessorParameter> maybeParameter = getProcessorParameters().stream().filter(parameter -> parameter.getValue().equals(key)).findFirst();
+        if(maybeParameter.isPresent()) {
+        	if(!Util.isEmpty(maybeParameter.get().getParameterValue())) {
+        		try {
+                    return Integer.parseInt(maybeParameter.get().getParameterValue());
+                } catch (NumberFormatException ex) {
+                	s_log.warning(ex.getLocalizedMessage());
+                }
+        	}
+        }
+        return 0;
+    }   //  getParameterAsInt
+
+    /**
+     * 	Get Column Value
+     *	@param key name
+     *	@return value
+     */
+    public String getParameterAsString(String key) {
+    	Optional<MIMPProcessorParameter> maybeParameter = getProcessorParameters().stream().filter(parameter -> parameter.getValue().equals(key)).findFirst();
+        if(maybeParameter.isPresent()) {
+        	return maybeParameter.get().getParameterValue();
+        }
+        return null;
+    }	//	getParameterAsString
+
+    /**
+     * Get value as Boolean
+     * @param Value for cast
+     * @return boolean value
+     */
+    public boolean getValueAsBoolean(String key) {
+    	Optional<MIMPProcessorParameter> maybeParameter = getProcessorParameters().stream().filter(parameter -> parameter.getValue().equals(key)).findFirst();
+        if(maybeParameter.isPresent()) {
+        	return Util.isEmpty(maybeParameter.get().getParameterValue()) 
+        			&& (maybeParameter.get().getParameterValue().equals("Y") || maybeParameter.get().getParameterValue().equals("true"));
+        }
+        return false;
+    }
+
+    /**
+     * Get value as big decimal
+     * @param key
+     * @return
+     */
+    public BigDecimal getValueAsBigDecimal(String key) {
+    	Optional<MIMPProcessorParameter> maybeParameter = getProcessorParameters().stream().filter(parameter -> parameter.getValue().equals(key)).findFirst();
+    	BigDecimal bigDecimalValue = null;
+    	if(maybeParameter.isPresent()) {
+        	if(!Util.isEmpty(maybeParameter.get().getParameterValue())) {
+        		try {
+        			bigDecimalValue = new BigDecimal(maybeParameter.get().getParameterValue());
+        		} catch (Exception e) {
+        			s_log.warning(e.getLocalizedMessage());
+				}
+        	}
+        }
+        //  Default
+        return bigDecimalValue;
+    }
+
+    /**
+     * Get value as Timestamp
+     * @param Value for cast
+     * @return boolean value
+     */
+    public Timestamp getValueAsDate(String key, String pattern) {
+    	Optional<MIMPProcessorParameter> maybeParameter = getProcessorParameters().stream().filter(parameter -> parameter.getValue().equals(key)).findFirst();
+    	if(maybeParameter.isPresent()) {
+        	if(!Util.isEmpty(maybeParameter.get().getParameterValue())) {
+        		try {
+        			return Timestamp.valueOf (maybeParameter.get().getParameterValue());
+        		} catch (Exception e) {
+        			s_log.warning(e.getLocalizedMessage());
+				}
+        	}
+    	}
+        return null;
+    }
+    
+    @Override
+    protected boolean afterSave(boolean newRecord, boolean success) {
+    	cleanInstance();
+    	return super.afterSave(newRecord, success);
+    }
+    
+    @Override
+    protected boolean afterDelete(boolean success) {
+    	cleanInstance();
+    	return super.afterDelete(success);
+    }
+
+	@Override
+	public String toString() {
+		return "MIMPProcessor [getIMP_Processor_ID()=" + getIMP_Processor_ID() + ", getName()=" + getName()
+				+ ", getValue()=" + getValue() + "]";
+	}
 }

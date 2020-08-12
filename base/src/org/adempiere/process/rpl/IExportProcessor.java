@@ -38,9 +38,8 @@ import org.w3c.dom.Document;
 /**
  * @author Trifon N. Trifonov
  */
-public interface IExportProcessor {
+public interface IExportProcessor extends IExportProcessorDefinition {
 	
-	public void process(Properties ctx, MEXPProcessor expProcessor, Document document, Trx trx) 
-			throws Exception;
+	public void process(Properties ctx, MEXPProcessor expProcessor, Document document, Trx trx) throws Exception;
 	
 }

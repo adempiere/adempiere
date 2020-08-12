@@ -801,7 +801,7 @@ public final class APanel extends CPanel
 					if (gTab.isSortTab())
 					{
 						VSortTab st = new VSortTab(m_curWindowNo, gTab.getAD_Table_ID(),
-							gTab.getAD_ColumnSortOrder_ID(), gTab.getAD_ColumnSortYesNo_ID());
+							gTab.getAD_ColumnSortOrder_ID(), gTab.getAD_ColumnSortYesNo_ID(), gTab.getParent_Column_ID());
 						st.setTabLevel(gTab.getTabLevel());
 						tabElement = st;
 					}

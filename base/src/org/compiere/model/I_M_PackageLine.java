@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_PackageLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_M_PackageLine 
 {
@@ -78,6 +78,19 @@ public interface I_M_PackageLine
 	  */
 	public int getCreatedBy();
 
+    /** Column name Depth */
+    public static final String COLUMNNAME_Depth = "Depth";
+
+	/** Set Depth.
+	  * Depth required
+	  */
+	public void setDepth (BigDecimal Depth);
+
+	/** Get Depth.
+	  * Depth required
+	  */
+	public BigDecimal getDepth();
+
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
 
@@ -90,6 +103,19 @@ public interface I_M_PackageLine
 	  * Optional short description of the record
 	  */
 	public String getDescription();
+
+    /** Column name Height */
+    public static final String COLUMNNAME_Height = "Height";
+
+	/** Set Height.
+	  * Height required
+	  */
+	public void setHeight (BigDecimal Height);
+
+	/** Get Height.
+	  * Height required
+	  */
+	public BigDecimal getHeight();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -119,18 +145,20 @@ public interface I_M_PackageLine
 
 	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException;
 
-    /** Column name M_PackageLine_ID */
-    public static final String COLUMNNAME_M_PackageLine_ID = "M_PackageLine_ID";
+    /** Column name M_MovementLine_ID */
+    public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
 
-	/** Set Package Line.
-	  * The detail content of the Package
+	/** Set Move Line.
+	  * Inventory Move document Line
 	  */
-	public void setM_PackageLine_ID (int M_PackageLine_ID);
+	public void setM_MovementLine_ID (int M_MovementLine_ID);
 
-	/** Get Package Line.
-	  * The detail content of the Package
+	/** Get Move Line.
+	  * Inventory Move document Line
 	  */
-	public int getM_PackageLine_ID();
+	public int getM_MovementLine_ID();
+
+	public org.compiere.model.I_M_MovementLine getM_MovementLine() throws RuntimeException;
 
     /** Column name M_Package_ID */
     public static final String COLUMNNAME_M_Package_ID = "M_Package_ID";
@@ -147,6 +175,32 @@ public interface I_M_PackageLine
 
 	public org.compiere.model.I_M_Package getM_Package() throws RuntimeException;
 
+    /** Column name M_PackageLine_ID */
+    public static final String COLUMNNAME_M_PackageLine_ID = "M_PackageLine_ID";
+
+	/** Set Package Line.
+	  * The detail content of the Package
+	  */
+	public void setM_PackageLine_ID (int M_PackageLine_ID);
+
+	/** Get Package Line.
+	  * The detail content of the Package
+	  */
+	public int getM_PackageLine_ID();
+
+    /** Column name Processed */
+    public static final String COLUMNNAME_Processed = "Processed";
+
+	/** Set Processed.
+	  * The document has been processed
+	  */
+	public void setProcessed (boolean Processed);
+
+	/** Get Processed.
+	  * The document has been processed
+	  */
+	public boolean isProcessed();
+
     /** Column name Qty */
     public static final String COLUMNNAME_Qty = "Qty";
 
@@ -159,19 +213,6 @@ public interface I_M_PackageLine
 	  * Quantity
 	  */
 	public BigDecimal getQty();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -188,4 +229,56 @@ public interface I_M_PackageLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
+    /** Column name Volume */
+    public static final String COLUMNNAME_Volume = "Volume";
+
+	/** Set Volume.
+	  * Volume of a product
+	  */
+	public void setVolume (BigDecimal Volume);
+
+	/** Get Volume.
+	  * Volume of a product
+	  */
+	public BigDecimal getVolume();
+
+    /** Column name Weight */
+    public static final String COLUMNNAME_Weight = "Weight";
+
+	/** Set Weight.
+	  * Weight of a product
+	  */
+	public void setWeight (BigDecimal Weight);
+
+	/** Get Weight.
+	  * Weight of a product
+	  */
+	public BigDecimal getWeight();
+
+    /** Column name Width */
+    public static final String COLUMNNAME_Width = "Width";
+
+	/** Set Width.
+	  * Width required
+	  */
+	public void setWidth (BigDecimal Width);
+
+	/** Get Width.
+	  * Width required
+	  */
+	public BigDecimal getWidth();
 }

@@ -42,6 +42,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.adempiere.process.rpl.IExportProcessor;
+import org.adempiere.process.rpl.IExportProcessorAsWrapper;
+import org.adempiere.process.rpl.IExportProcessorDefinition;
 import org.apache.commons.codec.binary.Base64;
 import org.compiere.Adempiere;
 import org.compiere.model.MClient;
@@ -77,7 +79,8 @@ import org.w3c.dom.Text;
  * 				<li>https://sourceforge.net/tracker/?func=detail&atid=879332&aid=2936561&group_id=176962
  *				<li>BF [2947622] The replication ID (Primary Key) is not working
  *				<li>https://sourceforge.net/tracker/?func=detail&aid=2947622&group_id=176962&atid=879332
- *
+ * @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ * 				<li>Add exporter based on wrapper
  */
 public class ExportHelper {
 
@@ -200,7 +203,15 @@ public class ExportHelper {
 				throw new Exception(Msg.getMsg(po.getCtx(), "EXPFormatNotFound"));
 			}
 		}
-
+		MEXPProcessor mExportProcessor = new MEXPProcessor (po.getCtx(), replicationStrategy.getEXP_Processor_ID(), po.get_TrxName() );
+		log.fine("ExportProcessor = " + mExportProcessor);
+		MEXPProcessorType expProcessorType = new MEXPProcessorType(po.getCtx(), mExportProcessor.getEXP_Processor_Type_ID(), po.get_TrxName());
+		IExportProcessorDefinition processorInstance = expProcessorType.getProcessorInstance();
+		//	Export based on wrapper
+		if(IExportProcessorAsWrapper.class.isAssignableFrom(processorInstance.getClass())) {
+			return WrapperUtil.exportRecord(po, client, replicationMode, replicationType, replicationEvent, replicationStrategy, exportFormat);
+		}
+		//	else
 		outDocument = createNewDocument();
 
 		HashMap<String, Integer> variableMap = new HashMap<String, Integer>();
@@ -217,24 +228,11 @@ public class ExportHelper {
 		rootElement.setAttribute("ReplicationEvent", replicationEvent.toString());
 		outDocument.appendChild(rootElement);
 		generateExportFormat(rootElement, exportFormat, po, po.get_ID(), variableMap);
-
-		MEXPProcessor mExportProcessor = null;
-		mExportProcessor = new MEXPProcessor (po.getCtx(), replicationStrategy.getEXP_Processor_ID(), po.get_TrxName() );
-		log.fine("ExportProcessor = " + mExportProcessor);
-		int EXP_ProcessorType_ID = 0;
-		EXP_ProcessorType_ID = mExportProcessor.getEXP_Processor_Type_ID();
-		MEXPProcessorType expProcessor_Type = new MEXPProcessorType(po.getCtx(), EXP_ProcessorType_ID, po.get_TrxName() );
-
-		String javaClass = expProcessor_Type.getJavaClass();
-		try {
-			Class<?> clazz = Class.forName(javaClass);
-			IExportProcessor exportProcessor = (IExportProcessor)clazz.newInstance();
+		//	Export
+		if(IExportProcessor.class.isAssignableFrom(processorInstance.getClass())) {
+			IExportProcessor exportProcessor = (IExportProcessor) processorInstance;
 			exportProcessor.process(po.getCtx(), mExportProcessor, outDocument, Trx.get( po.get_TrxName(), false ));
-		} catch (Exception e) {
-			log.severe(e.toString());
-			throw e;
 		}
-
 		return outDocument.toString();
 	}
 

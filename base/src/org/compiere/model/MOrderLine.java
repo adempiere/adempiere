@@ -974,14 +974,14 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	{
 		if (!success)
 			return success;
-		if (!newRecord && is_ValueChanged("C_Tax_ID"))
-		{
-			//	Recalculate Tax for old Tax
-			if (!getParent().isProcessed())
-				if (!updateOrderTax(true))
-					return false;
-		}
-		return updateHeaderTax();
+		if (newRecord
+				|| (!newRecord && is_ValueChanged(MOrderLine.COLUMNNAME_C_Tax_ID) && !getParent().isProcessed())
+				|| (!newRecord && is_ValueChanged(MOrderLine.COLUMNNAME_QtyEntered) && !getParent().isProcessed())
+				|| (!newRecord && is_ValueChanged(MOrderLine.COLUMNNAME_PriceActual) && !getParent().isProcessed())
+		)
+			return updateHeaderTax();
+
+		return true;
 	}	//	afterSave
 
 	/**
@@ -1003,30 +1003,6 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	}	//	afterDelete
 	
 	/**
-	 * Recalculate order tax
-	 * @param oldTax true if the old C_Tax_ID should be used
-	 * @return true if success, false otherwise
-	 * 
-	 * @author teo_sarca [ 1583825 ]
-	 */
-	private boolean updateOrderTax(boolean oldTax) {
-		MOrderTax tax = MOrderTax.get (this, getPrecision(), oldTax, get_TrxName());
-		if (tax != null) {
-			if (!tax.calculateTaxFromLines())
-				return false;
-			if (tax.getTaxAmt().signum() != 0) {
-				if (!tax.save(get_TrxName()))
-					return false;
-			}
-			else {
-				if (!tax.is_new() && !tax.delete(false, get_TrxName()))
-					return false;
-			}
-		}
-		return true;
-	}
-	
-	/**
 	 *	Update Tax & Header
 	 *	@return true if header updated
 	 */
@@ -1034,8 +1010,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	{
 		//	Recalculate Tax for this Tax
 		if (!getParent().isProcessed())
-			if (!updateOrderTax(false))
-				return false;
+				getParent().calculateTaxTotal();
 		
 		//	Update Order Header
 		String sql = "UPDATE C_Order i"

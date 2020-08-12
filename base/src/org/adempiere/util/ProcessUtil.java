@@ -28,7 +28,9 @@ import org.compiere.wf.MWorkflow;
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>BF [ 1757523 ] Server Processes are using Server's context
  * 				<li>BF [ 2528297 ] Poor error message on jasper fail
- * 				<li>BF [ 2530847 ] Report is displayed even if java process fails 
+ * 				<li>BF [ 2530847 ] Report is displayed even if java process fails
+ * @author Victor Pérez, E Evolution Consulting,  wwww.e-evolution.com
+ * 				<li>[Bug Report] The workflow engine is not correctly handling transactions when processing documents #3170
  */
 public final class ProcessUtil {
 
@@ -297,7 +299,7 @@ public final class ProcessUtil {
 		MWorkflow wf = MWorkflow.get (ctx, AD_Workflow_ID);
 		MWFProcess wfProcess = null;
 		if (pi.isBatch())
-			wfProcess = wf.start(pi, pi.getTransactionName());		//	may return null
+			wfProcess = wf.start(pi);		//	may return null
 		else {
 			wfProcess = wf.startWait(pi);	//	may return null
 		}
