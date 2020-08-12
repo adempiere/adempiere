@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.Properties;
 
 import org.compiere.util.CCache;
-import org.compiere.util.CLogger;
 
 
 /**
@@ -55,9 +54,6 @@ public class MEXPFormat extends X_EXP_Format {
 	 * 
 	 */
 	private static final long serialVersionUID = -5011042965945626099L;
-
-	/**	Static Logger	*/
-	private static CLogger	s_log	= CLogger.getCLogger (MEXPFormat.class);
 	
 	private static CCache<String,MEXPFormat> s_cache = new CCache<String,MEXPFormat>(MEXPFormat.Table_Name, 50 );
 	private static CCache<Integer,MEXPFormat> exp_format_by_id_cache 	= new CCache<Integer,MEXPFormat>(MEXPFormat.Table_Name, 50);
@@ -124,28 +120,55 @@ public class MEXPFormat extends X_EXP_Format {
 	}
 	
 	public static MEXPFormat getFormatByValueAD_Client_IDAndVersion(Properties ctx, String value, int AD_Client_ID, String version, String trxName) 
-			throws SQLException 
-	{
+			throws SQLException  {
 		String key = new String(value+version);
-		MEXPFormat retValue=null;
-		if(retValue!=null)
-			return retValue;
+		MEXPFormat exportFormat = s_cache.get(key);
+		if(exportFormat != null) {
+			return exportFormat;
+		}
 		
 		StringBuffer whereClause = new StringBuffer(X_EXP_Format.COLUMNNAME_Value).append("=?")
 		.append(" AND AD_Client_ID = ?")
 		.append(" AND ").append(X_EXP_Format.COLUMNNAME_Version).append(" = ?");
 
-		retValue = (MEXPFormat) new Query(ctx,X_EXP_Format.Table_Name,whereClause.toString(),trxName)
+		exportFormat = (MEXPFormat) new Query(ctx,X_EXP_Format.Table_Name,whereClause.toString(),trxName)
 					.setParameters(value,AD_Client_ID,version).first();
 		
-		if(retValue != null)
+		if(exportFormat != null)
 		{	
-			retValue.getFormatLines();
-			s_cache.put (key, retValue);
-			exp_format_by_id_cache.put(retValue.getEXP_Format_ID(), retValue);
+			exportFormat.getFormatLines();
+			s_cache.put (key, exportFormat);
+			exp_format_by_id_cache.put(exportFormat.getEXP_Format_ID(), exportFormat);
 		}
 		
-		return retValue;
+		return exportFormat;
+	}
+	
+	/**
+	 * Get Export format by UUID
+	 * @param ctx
+	 * @param uuid
+	 * @param trxName
+	 * @return
+	 */
+	public static MEXPFormat getFormatByUuid(Properties ctx, String uuid, String trxName) {
+		MEXPFormat exportFormat = s_cache.get(uuid);
+		if(exportFormat != null) {
+			return exportFormat;
+		}
+		exportFormat = new Query(ctx, I_EXP_Format.Table_Name, I_EXP_Format.COLUMNNAME_UUID + " = ? ", trxName)
+				.setParameters(uuid)
+				.first();
+		//			
+		if(exportFormat != null) {	
+			exportFormat.getFormatLines();
+			s_cache.put(uuid, exportFormat);
+			//	Set for version also is more friendly
+			s_cache.put(exportFormat.getValue() + exportFormat.getVersion(), exportFormat);
+			exp_format_by_id_cache.put(exportFormat.getEXP_Format_ID(), exportFormat);
+		}
+		
+		return exportFormat;
 	}
 
 	public static MEXPFormat getFormatByAD_Client_IDAD_Table_IDAndVersion(Properties ctx, int AD_Client_ID, int AD_Table_ID, String version, String trxName) throws SQLException 
