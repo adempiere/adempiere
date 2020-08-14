@@ -375,7 +375,7 @@
 			<zipfileset src="lib/commons-codec-1.6.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/commons-validator-1.6.jar">
+			<zipfileset src="lib/commons-validator-1.7.jar">
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
 			<!-- jars for 2pack                         -->

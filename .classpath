@@ -340,7 +340,7 @@
 	<classpathentry kind="lib" path="tools/lib/wizard.jar"/>
 	<classpathentry kind="lib" path="tools/lib/oracle.jar"/>
 	<classpathentry kind="lib" path="tools/lib/zxing-2.3.0.jar"/>
-	<classpathentry kind="lib" path="tools/lib/commons-validator-1.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/commons-validator-1.7.jar"/>
 	<classpathentry kind="lib" path="tools/lib/sardine-5.9-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="tools/lib/fluent-hc-4.5.6.jar"/>
 	<classpathentry kind="lib" path="tools/lib/httpclient-4.5.6.jar"/>
