@@ -18,6 +18,7 @@ package org.eevolution.process;
 
 import java.sql.Timestamp;
 
+import org.compiere.model.I_C_POS;
 import org.compiere.model.MBankAccount;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MBankStatementLine;
@@ -109,9 +110,10 @@ public class BankTransfer extends BankTransferAbstract {
 		if(getConversionTypeId() > 0) {
 			paymentBankTo.setC_ConversionType_ID(getConversionTypeId());	
 		}
-		if(getPOSId() > 0) {
-			paymentBankFrom.setC_POS_ID(getPOSId());
-			paymentBankTo.setC_POS_ID(getPOSId());
+		//	Support to cash opening
+		if(getParameterAsInt(I_C_POS.COLUMNNAME_C_POS_ID) > 0) {
+			paymentBankFrom.setC_POS_ID(getParameterAsInt(I_C_POS.COLUMNNAME_C_POS_ID));
+			paymentBankTo.setC_POS_ID(getParameterAsInt(I_C_POS.COLUMNNAME_C_POS_ID));
 		}
 		paymentBankTo.setPayAmt(getAmount());
 		paymentBankTo.setOverUnderAmt(Env.ZERO);
