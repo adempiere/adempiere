@@ -20,12 +20,10 @@ package org.spin.process;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.compiere.model.I_AD_Attachment;
 import org.compiere.model.MArchive;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MClientInfo;
 import org.compiere.model.MImage;
-import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
@@ -68,11 +66,12 @@ public class SetupFileStorageSystem extends SetupFileStorageSystemAbstract {
 	 */
 	private void migrateAttachment() {
 		addLog("@AD_Attachment_ID@");
-		new Query(getCtx(), I_AD_Attachment.Table_Name, null, get_TrxName())
-				.setClient_ID()
-				.<MAttachment>list()
-				.forEach(attachment -> {
-					Arrays.asList(attachment.getEntries())
+		KeyNamePair [] attachmentArray = DB.getKeyNamePairs("SELECT AD_Attachment_ID, UUID "
+				+ "FROM AD_Attachment "
+				+ "WHERE AD_Client_ID = ?", false, getAD_Client_ID());
+		Arrays.asList(attachmentArray)
+				.forEach(attachmentPair -> {
+					Arrays.asList(new MAttachment(getCtx(), attachmentPair.getKey(), get_TrxName()).getEntries())
 						.forEach(entry -> {
 							Trx.run(new TrxRunnable() {
 								public void run(String trxName) {
@@ -80,12 +79,12 @@ public class SetupFileStorageSystem extends SetupFileStorageSystemAbstract {
 									int attachmentReferenceId = DB.getSQLValue(get_TrxName(), "SELECT AD_AttachmentReference_ID "
 											+ "FROM AD_AttachmentReference "
 											+ "WHERE AD_Attachment_ID = ? "
-											+ "AND FileName = ?", attachment.getAD_Attachment_ID(), entry.getName());
+											+ "AND FileName = ?", attachmentPair.getKey(), entry.getName());
 									if(attachmentReferenceId < 0) {
 										try {
 											AttachmentUtil.getInstance(getCtx())
 												.withFileHandlerId(getFileHandlerId())
-												.withAttachmentId(attachment.getAD_Attachment_ID())
+												.withAttachmentId(attachmentPair.getKey())
 												.withFileName(entry.getName())
 												.withDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"))
 												.withData(entry.getData())
