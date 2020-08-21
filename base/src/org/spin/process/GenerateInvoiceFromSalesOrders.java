@@ -58,6 +58,7 @@ public class GenerateInvoiceFromSalesOrders extends GenerateInvoiceFromSalesOrde
 		        .withParameter(InvoiceGenerate.CONSOLIDATEDOCUMENT, isConsolidateDocument())
 		        .withParameter(C_DOCTYPETARGET_ID, getDocTypeTargetId())
 		        .withSelectedRecordsIds(tableId, getSelectionKeys())
+		        .withoutTransactionClose()
 		        .execute(get_TrxName());
 		List<PO> documents = new ArrayList<PO>();
 		//	Validate Running
@@ -66,13 +67,15 @@ public class GenerateInvoiceFromSalesOrders extends GenerateInvoiceFromSalesOrde
 				throw new AdempiereException(processInfo.getSummary());
 			}
 			//	
-			PO.getInstances(I_C_Invoice.Table_ID, Arrays.stream(processInfo.getIDs()).boxed().collect(Collectors.toList()), get_TrxName())
+			if(processInfo.getIDs() != null) {
+				PO.getInstances(I_C_Invoice.Table_ID, Arrays.stream(processInfo.getIDs()).boxed().collect(Collectors.toList()), get_TrxName())
 				.forEach(invoice -> {
 					documents.add((PO) invoice);
 					addToMessage(((MInvoice) invoice).getDocumentNo());
 				});
-			//	Print all
-			printDocument(documents, true);
+				//	Print all
+				printDocument(documents, true);
+			}
 		}
 		//	
 		return "@Created@ " + documents.size() + (generatedDocuments.length() > 0? " [" + generatedDocuments + "]": "");
