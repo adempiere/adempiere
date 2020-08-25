@@ -687,7 +687,7 @@ public class MOrder extends X_C_Order implements DocAction
 	 */
 	public MOrderLine[] getLines (boolean requery, String orderBy)
 	{
-		if (m_lines != null && !requery) {
+		if (m_lines != null && m_lines.length > 0 && !requery) {
 			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
 		}
