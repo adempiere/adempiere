@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="D" Name="Add some columns for Aging report" ReleaseNo="3.9.3" SeqNo="6490">
-    <Step DBType="ALL" Parse="N" SeqNo="0" StepType="SQL">
-      <SQLStatement>DROP TABLE T_Aging</SQLStatement>
-    </Step>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="61459" Table="AD_Element">
         <Data AD_Column_ID="2603" Column="Name">Due 15-30</Data>
