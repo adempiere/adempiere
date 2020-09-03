@@ -926,7 +926,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			note.setRecord(getAD_Table_ID(), getRecord_ID());
 			note.saveEx();
 			//	Attachment
-			MAttachment attachment = new MAttachment (getCtx(), MNote.Table_ID, note.getAD_Note_ID(), get_TrxName());
+			MAttachment attachment = new MAttachment (getCtx(), MNote.Table_ID, note.getAD_Note_ID(), trx.getTrxName());
 			attachment.addEntry(report);
 			attachment.setTextMsg(m_node.getName(true));
 			attachment.saveEx();
