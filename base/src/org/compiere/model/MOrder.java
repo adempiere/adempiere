@@ -1241,7 +1241,11 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Validate RMA
 		if(isReturnOrder()) {
 			setDeliveryRule(DELIVERYRULE_Force);
-			setInvoiceRule(INVOICERULE_AfterDelivery);
+			if(getC_POS_ID() != 0) {
+				setInvoiceRule(INVOICERULE_Immediate);
+			} else {
+				setInvoiceRule(INVOICERULE_AfterDelivery);
+			}
 		}
 		// Bug 1564431
 		if (getDeliveryRule() != null && getDeliveryRule().equals(MOrder.DELIVERYRULE_CompleteOrder)) 
