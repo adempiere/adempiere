@@ -279,7 +279,7 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 			if (M_AttributeSet_ID != 0)
 			{
 				MAttributeSet mas = MAttributeSet.get(Env.getCtx(), M_AttributeSet_ID);
-				exclude = mas.excludeEntry(m_AD_Column_ID, Env.isSOTrx(Env.getCtx(), m_WindowNo));
+				exclude = mas.excludeEntry(product.get_Table_ID(), Env.isSOTrx(Env.getCtx(), m_WindowNo));
 			}
 		}
 
