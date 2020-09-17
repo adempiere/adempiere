@@ -14,11 +14,7 @@
 package org.compiere.dbPort;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.StringTokenizer;
-import java.util.TreeMap;
-import java.util.Vector;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -80,7 +76,7 @@ public class Convert_PostgreSQL extends Convert_SQL92 {
 	protected ArrayList<String> convertStatement(String sqlStatement) {
 		ArrayList<String> result = new ArrayList<String>();
 		/** Vector to save previous values of quoted strings **/
-		Vector<String> retVars = new Vector<String>();
+		Hashtable<Long, String> retVars = new Hashtable<>();
 		
 		//Validate Next ID Function and use Native Sequence if the functionality is active
 		int found_next_fuction = sqlStatement.toUpperCase().indexOf("NEXTIDFUNC(");
