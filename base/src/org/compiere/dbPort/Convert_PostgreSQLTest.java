@@ -154,8 +154,8 @@ public final class Convert_PostgreSQLTest extends TestCase{
 	}
 
 	public void testissue01() {
-		sql = "SELECT * FROM C_BPartner WHERE Name = 'John#1#' AND Description = ' OR 1=1 #2#' AND AD_Client_ID=11";
-		sqe = "SELECT * FROM C_BPartner WHERE Name = 'John#1#' AND Description = ' OR 1=1 #2#' AND AD_Client_ID=11";
+		sql = "SELECT * FROM C_BPartner WHERE Name ='John<--0-->' AND Description = 'Smith --' AND AD_Client_ID=11";
+		sqe = "SELECT * FROM C_BPartner WHERE Name ='John<--0-->' AND Description = 'Smith --' AND AD_Client_ID=11";
 		r = convert.convert(sql);
 		assertEquals(sqe, r[0]);
 	}
