@@ -28,11 +28,8 @@ import java.sql.SQLWarning;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -294,26 +291,34 @@ public abstract class Convert
 	 * @param retVars
 	 * @return string
 	 */
-	protected String replaceQuotedStrings(String inputValue, Hashtable<Long, String> retVars) {
+	protected String replaceQuotedStrings(String inputValue,  Vector<String>retKeys , Vector<String>retVars) {
 		// save every value  
 		// Carlos Ruiz - globalqss - better matching regexp
 		retVars.clear();
+		retKeys.clear();
 		// First we need to replace double quotes to not be matched by regexp - Teo Sarca BF [3137355 ]
-		final String quoteMarker = "<--QS"+System.currentTimeMillis()+"-->";
+		final String quoteMarker = getQuotedKey();
 		inputValue = inputValue.replace("''", quoteMarker);
 		Pattern p = Pattern.compile("'[[^']*]*'");
 		Matcher m = p.matcher(inputValue);
 		StringBuffer retValue = new StringBuffer(inputValue.length());
 		while (m.find()) {
-			long key = System.currentTimeMillis();
+			String key = getQuotedKey();
 			String var = inputValue.substring(m.start(), m.end()).replace(quoteMarker, "''"); // Put back quotes, if any
-			retVars.put(key, var);
-			m.appendReplacement(retValue, "<--QS" + key + "-->");
+			retKeys.addElement(key);
+			retVars.addElement(var);
+			m.appendReplacement(retValue, key);
 		}
 		m.appendTail(retValue);
 		return retValue.toString()
 			.replace(quoteMarker, "''") // Put back quotes, if any
 		;
+	}
+
+	protected String getQuotedKey () {
+		return "<--" +Long.toString(ThreadLocalRandom.current()
+				.nextLong(100000000000000000L, 999999999999999999L))
+				.intern() + "-->";
 	}
 
 	/**
@@ -322,10 +327,15 @@ public abstract class Convert
 	 * @param retVars
 	 * @return string
 	 */
-	protected String recoverQuotedStrings(String retValue, Hashtable<Long, String> retVars) {
-		AtomicReference<String> retValueReference = new AtomicReference<>(retValue);
-		retVars.forEach((key, value) ->  retValueReference.getAndUpdate(sql -> sql.replace("<--QS" + key + "-->", value)));
-		return retValueReference.get();
+	protected String recoverQuotedStrings(String retValue,  Vector<String>retKeys , Vector<String>retVars) {
+		for (int i = 0; i < retVars.size(); i++) {
+			//hengsin, special character in replacement can cause exception
+			String key = retKeys.get(i);
+			String replacement = (String) retVars.get(i);
+			replacement = escapeQuotedString(replacement);
+			retValue = retValue.replace(key, replacement);
+		}
+		return retValue;
 	}
 	
 	/**
