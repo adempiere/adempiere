@@ -31,8 +31,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Vector;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -290,26 +290,26 @@ public abstract class Convert
 	
 	/**
 	 * Utility method to replace quoted string with a predefined marker
-	 * @param retValue
+	 * @param inputValue
 	 * @param retVars
-	 * @return string
+	 * @return
 	 */
-	protected String replaceQuotedStrings(String inputValue,  Vector<String>retKeys , Vector<String>retVars) {
+	protected String replaceQuotedStrings(String inputValue,  Map<String, String> retVars) {
 		// save every value  
 		// Carlos Ruiz - globalqss - better matching regexp
 		retVars.clear();
-		retKeys.clear();
 		// First we need to replace double quotes to not be matched by regexp - Teo Sarca BF [3137355 ]
-		final String quoteMarker = getQuotedKey();
-		inputValue = inputValue.replace("''", quoteMarker);
+		Long quoteMarkerRandom = getQuotedKey();
+		String quoteMarker = "<--" + quoteMarkerRandom + "-->";
+		inputValue = inputValue.replace("''",quoteMarker);
 		Pattern p = Pattern.compile("'[[^']*]*'");
 		Matcher m = p.matcher(inputValue);
 		StringBuffer retValue = new StringBuffer(inputValue.length());
 		while (m.find()) {
-			String key = getQuotedKey();
+			quoteMarkerRandom--;
+			String key = "<--" + (quoteMarkerRandom) + "-->";
 			String var = inputValue.substring(m.start(), m.end()).replace(quoteMarker, "''"); // Put back quotes, if any
-			retKeys.addElement(key);
-			retVars.addElement(var);
+			retVars.put(key, var);
 			m.appendReplacement(retValue, key);
 		}
 		m.appendTail(retValue);
@@ -318,27 +318,21 @@ public abstract class Convert
 		;
 	}
 
-	protected String getQuotedKey () {
-		return "<--" +Long.toString(ThreadLocalRandom.current()
-				.nextLong(100000000000000000L, 999999999999999999L))
-				.intern() + "-->";
+	protected Long getQuotedKey () {
+		return ThreadLocalRandom.current().nextLong(100000000000000000L, 999999999999999999L);
 	}
 
 	/**
 	 * Utility method to recover quoted string store in retVars
-	 * @param retValue
 	 * @param retVars
 	 * @return string
 	 */
-	protected String recoverQuotedStrings(String retValue,  Vector<String>retKeys , Vector<String>retVars) {
-		for (int i = 0; i < retVars.size(); i++) {
-			//hengsin, special character in replacement can cause exception
-			String key = retKeys.get(i);
-			String replacement = (String) retVars.get(i);
-			replacement = escapeQuotedString(replacement);
-			retValue = retValue.replace(key, replacement);
-		}
-		return retValue;
+	protected String recoverQuotedStrings(String retValue, Map<String, String> retVars) {
+		AtomicReference<String> retValueReference = new AtomicReference<>(retValue);
+		retVars.forEach(
+				(key, value) -> retValueReference.getAndUpdate(sql -> sql.replace(key, escapeQuotedString(value)))
+		);
+		return retValueReference.get();
 	}
 	
 	/**
