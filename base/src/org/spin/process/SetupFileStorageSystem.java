@@ -83,11 +83,11 @@ public class SetupFileStorageSystem extends SetupFileStorageSystemAbstract {
 									if(attachmentReferenceId < 0) {
 										try {
 											AttachmentUtil.getInstance(getCtx())
+												.withData(entry.getData())
 												.withFileHandlerId(getFileHandlerId())
 												.withAttachmentId(attachmentPair.getKey())
 												.withFileName(entry.getName())
 												.withDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"))
-												.withData(entry.getData())
 												.saveAttachment();
 											addLog(entry.getName() + ": @Ok@");
 											processed.incrementAndGet();
@@ -122,11 +122,11 @@ public class SetupFileStorageSystem extends SetupFileStorageSystemAbstract {
 						MImage image = MImage.get(getCtx(), imagePair.getKey());
 						try {
 							AttachmentUtil.getInstance(getCtx())
+								.withData(image.getData())
 								.withFileHandlerId(getFileHandlerId())
 								.withImageId(image.getAD_Image_ID())
 								.withFileName(image.getName())
 								.withDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"))
-								.withData(image.getData())
 								.saveAttachment();
 							addLog(image.getName() + ": @Ok@");
 							processed.incrementAndGet();
@@ -157,11 +157,11 @@ public class SetupFileStorageSystem extends SetupFileStorageSystemAbstract {
 						try {
 							String fileName = archive.getName() + ".pdf";
 							AttachmentUtil.getInstance(getCtx())
+								.withData(archive.getBinaryData())
 								.withFileHandlerId(getFileHandlerId())
 								.withArchiveId(archive.getAD_Archive_ID())
 								.withFileName(fileName)
 								.withDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"))
-								.withData(archive.getBinaryData())
 								.saveAttachment();
 							addLog(fileName + ": @Ok@");
 							processed.incrementAndGet();
