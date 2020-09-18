@@ -152,7 +152,14 @@ public final class Convert_PostgreSQLTest extends TestCase{
 		r = convert.convert(sql);
 		assertEquals(sqe, r[0]);
 	}
-	
+
+	public void testissue01() {
+		sql = "SELECT * FROM C_BPartner WHERE Name ='John<--0-->' AND Description = 'Smith --' AND AD_Client_ID=11";
+		sqe = "SELECT * FROM C_BPartner WHERE Name ='John<--0-->' AND Description = 'Smith --' AND AD_Client_ID=11";
+		r = convert.convert(sql);
+		assertEquals(sqe, r[0]);
+	}
+
 	public void test1704261() {
 		// [ 1704261 ] can not import currency rate
 		sql = "UPDATE I_Conversion_Rate i SET MultiplyRate = 1 / DivideRate WHERE (MultiplyRate IS NULL OR MultiplyRate = 0) AND DivideRate IS NOT NULL AND DivideRate<>0 AND I_IsImported<>'Y' AND AD_Client_ID=1000000";
