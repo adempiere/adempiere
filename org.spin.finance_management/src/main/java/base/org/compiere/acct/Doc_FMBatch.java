@@ -71,7 +71,7 @@ public class   Doc_FMBatch extends Doc {
 
 	@Override
 	public Timestamp getDateAcct() {
-		return batch.getDateDoc();
+		return batch.getDateAcct();
 	}
 
 	/**
@@ -125,17 +125,17 @@ public class   Doc_FMBatch extends Doc {
 			//	
 			if (!agreement.isSOTrx()) {
 				//	DR
-				MAccount accountBPD = MAccount.get (getCtx(), transactionTypeAcct.getFM_Expense_Acct());
+				MAccount accountBPD = MAccount.getValidCombination (getCtx(), transactionTypeAcct.getFM_Expense_Acct(), getTrxName());
 				fact.createLine(line, accountBPD, account.getC_Currency_ID(), sumAmount, null);
 				//	CR
-				MAccount accountBPC = MAccount.get (getCtx(), transactionTypeAcct.getFM_Revenue_Acct());
+				MAccount accountBPC = MAccount.getValidCombination (getCtx(), transactionTypeAcct.getFM_Revenue_Acct(), getTrxName());
 				fact.createLine(line,accountBPC, account.getC_Currency_ID(),null, sumAmount);
 			} else {
 				//	DR
-				MAccount accountBPD = MAccount.get (getCtx(), transactionTypeAcct.getFM_Expense_Acct());
+				MAccount accountBPD = MAccount.getValidCombination (getCtx(), transactionTypeAcct.getFM_Expense_Acct(), getTrxName());
 				fact.createLine(line, accountBPD, account.getC_Currency_ID(), sumAmount, null);
 				//	CR
-				MAccount accountBPC = MAccount.get (getCtx(), transactionTypeAcct.getFM_Revenue_Acct());
+				MAccount accountBPC = MAccount.getValidCombination (getCtx(), transactionTypeAcct.getFM_Revenue_Acct(), getTrxName());
 				fact.createLine(line,accountBPC, account.getC_Currency_ID(),null, sumAmount);
 			}
 		}
