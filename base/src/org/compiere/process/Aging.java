@@ -130,6 +130,10 @@ public class Aging extends AgingAbstract {
 		{
 			sql.append(" AND invoiceOpenToDate(oi.C_Invoice_ID,oi.C_InvoicePaySchedule_ID,"+dateacct+") <> 0 ");
 		}
+		//	Sales Representative
+		if(getSalesRepId() > 0) {
+			sql.append(" AND i.SalesRep_ID=").append(getSalesRepId());
+		}
 		
 		sql.append(" ORDER BY oi.C_BPartner_ID, oi.C_Currency_ID, oi.C_Invoice_ID");
 		

@@ -46,6 +46,8 @@ public abstract class AgingAbstract extends SvrProcess {
 	public static final String C_BPARTNER_ID = "C_BPartner_ID";
 	/**	Parameter Name for List Invoices	*/
 	public static final String ISLISTINVOICES = "IsListInvoices";
+	/**	Parameter Name for Sales Representative	*/
+	public static final String SALESREP_ID = "SalesRep_ID";
 	/**	Parameter Value for Statement date	*/
 	private Timestamp statementDate;
 	/**	Parameter Value for Account Date	*/
@@ -62,6 +64,8 @@ public abstract class AgingAbstract extends SvrProcess {
 	private int bPartnerId;
 	/**	Parameter Value for List Invoices	*/
 	private boolean isListInvoices;
+	/**	Parameter Value for Sales Representative	*/
+	private int salesRepId;
 
 	@Override
 	protected void prepare() {
@@ -73,6 +77,7 @@ public abstract class AgingAbstract extends SvrProcess {
 		orgId = getParameterAsInt(AD_ORG_ID);
 		bPartnerId = getParameterAsInt(C_BPARTNER_ID);
 		isListInvoices = getParameterAsBoolean(ISLISTINVOICES);
+		salesRepId = getParameterAsInt(SALESREP_ID);
 	}
 
 	/**	 Getter Parameter Value for Statement date	*/
@@ -153,6 +158,16 @@ public abstract class AgingAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for List Invoices	*/
 	protected void setIsListInvoices(boolean isListInvoices) {
 		this.isListInvoices = isListInvoices;
+	}
+
+	/**	 Getter Parameter Value for Sales Representative	*/
+	protected int getSalesRepId() {
+		return salesRepId;
+	}
+
+	/**	 Setter Parameter Value for Sales Representative	*/
+	protected void setSalesRepId(int salesRepId) {
+		this.salesRepId = salesRepId;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
