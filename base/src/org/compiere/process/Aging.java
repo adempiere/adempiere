@@ -100,7 +100,7 @@ public class Aging extends AgingAbstract {
 				.append(", currencyConvert(invoiceOpenToDate(oi.C_Invoice_ID,oi.C_InvoicePaySchedule_ID,"+dateacct+")").append(s);  // 13
 			}
 		}
-		sql.append(",oi.C_Activity_ID,oi.C_Campaign_ID,oi.C_Project_ID,oi.AD_Org_ID ");	//	14..17
+		sql.append(",oi.C_Activity_ID,oi.C_Campaign_ID,oi.C_Project_ID,oi.AD_Org_ID, i.SalesRep_ID ");	//	14..17
 		if (!isDateAcct())//FR 1933937
 		{
 			sql.append(" FROM RV_OpenItem oi");
@@ -111,6 +111,7 @@ public class Aging extends AgingAbstract {
 		}
 		
 		sql.append(" INNER JOIN C_BPartner bp ON (oi.C_BPartner_ID=bp.C_BPartner_ID) "
+				+ "INNER JOIN C_Invoice i ON(i.C_Invoice_ID = oi.C_Invoice_ID) "
 			+ "WHERE oi.ISSoTrx=").append(isSOTrx() ? "'Y'" : "'N'");
 		if (getBPartnerId() > 0)
 		{
@@ -145,73 +146,66 @@ public class Aging extends AgingAbstract {
 		int rows = 0;
 		int AD_PInstance_ID = getAD_PInstance_ID();
 		//
-		try
-		{
+		try {
 			pstmt = DB.prepareStatement(finalSql, get_TrxName());
 			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				int C_BP_Group_ID = rs.getInt(1);
-				int C_BPartner_ID = rs.getInt(2);
-				int C_Invoice_ID = isListInvoices() ? rs.getInt(3) : 0;
-				int C_InvoicePaySchedule_ID = isListInvoices() ? rs.getInt(4) : 0;
-				int C_Currency_ID = rs.getInt(5);
-				boolean IsSOTrx = "Y".equals(rs.getString(6));
+			while (rs.next()) {
+				int bussinessPartnerGroupId = rs.getInt(1);
+				int businessPartnerId = rs.getInt(2);
+				int invoiceId = isListInvoices() ? rs.getInt(3) : 0;
+				int invoicePayScheduleId = isListInvoices() ? rs.getInt(4) : 0;
+				int currencyId = rs.getInt(5);
+				boolean isSalesTransaction = "Y".equals(rs.getString(6));
 				//
-				Timestamp DueDate = rs.getTimestamp(9);
+				Timestamp dueDate = rs.getTimestamp(9);
 				//	Days Due
-				int DaysDue = rs.getInt(10)		//	based on today
+				int daysDue = rs.getInt(10)		//	based on today
 					+ statementOffset;
 				//
-				BigDecimal GrandTotal = rs.getBigDecimal(11);
-				BigDecimal OpenAmt = rs.getBigDecimal(13);
+				BigDecimal grandTotal = rs.getBigDecimal(11);
+				BigDecimal openAmt = rs.getBigDecimal(13);
 				//
-				int C_Activity_ID = isListInvoices() ? rs.getInt(14) : 0;
-				int C_Campaign_ID = isListInvoices() ? rs.getInt(15) : 0;
-				int C_Project_ID = isListInvoices() ? rs.getInt(16) : 0;
-				int AD_Org_ID = rs.getInt(17);
+				int activityId = isListInvoices() ? rs.getInt(14) : 0;
+				int campaignId = isListInvoices() ? rs.getInt(15) : 0;
+				int projectId = isListInvoices() ? rs.getInt(16) : 0;
+				int organizationId = rs.getInt(17);
+				int salesRepresentativeId = rs.getInt(18);
 				
 				rows++;
 				//	New Aging Row
 				if (aging == null 		//	Key
 					|| AD_PInstance_ID != aging.getAD_PInstance_ID()
-					|| C_BPartner_ID != aging.getC_BPartner_ID()
-					|| C_Currency_ID != aging.getC_Currency_ID()
-					|| C_Invoice_ID != aging.getC_Invoice_ID()
-					|| C_InvoicePaySchedule_ID != aging.getC_InvoicePaySchedule_ID())
-				{
-					if (aging != null)
-					{
+					|| businessPartnerId != aging.getC_BPartner_ID()
+					|| currencyId != aging.getC_Currency_ID()
+					|| invoiceId != aging.getC_Invoice_ID()
+					|| invoicePayScheduleId != aging.getC_InvoicePaySchedule_ID()) {
+					if (aging != null) {
 						aging.saveEx();
 						log.fine("#" + ++counter + " - " + aging);
 					}
 					aging = new MAging (getCtx(), AD_PInstance_ID, getStatementDate(),
-						C_BPartner_ID, C_Currency_ID, 
-						C_Invoice_ID, C_InvoicePaySchedule_ID, 
-						C_BP_Group_ID, AD_Org_ID, DueDate, IsSOTrx, get_TrxName());
-					aging.setC_Activity_ID(C_Activity_ID);
-					aging.setC_Campaign_ID(C_Campaign_ID);
-					aging.setC_Project_ID(C_Project_ID);
+						businessPartnerId, currencyId, 
+						invoiceId, invoicePayScheduleId, 
+						bussinessPartnerGroupId, organizationId, dueDate, isSalesTransaction, get_TrxName());
+					aging.setC_Activity_ID(activityId);
+					aging.setC_Campaign_ID(campaignId);
+					aging.setC_Project_ID(projectId);
                     aging.set_ValueOfColumn("C_BankAccount_ID", 0);
                     aging.set_ValueOfColumn("C_CashFlow_ID", 0);
+                    aging.setSalesRep_ID(salesRepresentativeId);
 					aging.setDateAcct(isDateAcct());
 				}
 				//	Fill Buckets
-				aging.add (DueDate, DaysDue, GrandTotal, OpenAmt);
+				aging.add (dueDate, daysDue, grandTotal, openAmt);
 			}
-			if (aging != null)
-			{
+			if (aging != null) {
 				aging.saveEx();
 				counter++;
 				log.fine("#" + counter + " - " + aging);
 			}
-		}
-		catch (SQLException e)
-		{
+		} catch (SQLException e) {
 			throw new DBException(e, finalSql);
-		}
-		finally
-		{
+		} finally {
 			DB.close(rs, pstmt);
 			rs = null; pstmt = null;
 		}
