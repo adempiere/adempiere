@@ -234,6 +234,19 @@ public interface I_AD_PrintFormatItem
 	  */
 	public int getBelowColumn();
 
+    /** Column name ColumnSQL */
+    public static final String COLUMNNAME_ColumnSQL = "ColumnSQL";
+
+	/** Set Column SQL.
+	  * Virtual Column (r/o)
+	  */
+	public void setColumnSQL (String ColumnSQL);
+
+	/** Get Column SQL.
+	  * Virtual Column (r/o)
+	  */
+	public String getColumnSQL();
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
