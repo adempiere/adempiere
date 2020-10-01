@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_PrintFormatItem
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_AD_PrintFormatItem 
 {
@@ -122,19 +122,6 @@ public interface I_AD_PrintFormatItem
 
 	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormatChild() throws RuntimeException;
 
-    /** Column name AD_PrintFormatItem_ID */
-    public static final String COLUMNNAME_AD_PrintFormatItem_ID = "AD_PrintFormatItem_ID";
-
-	/** Set Print Format Item.
-	  * Item/Column in the Print format
-	  */
-	public void setAD_PrintFormatItem_ID (int AD_PrintFormatItem_ID);
-
-	/** Get Print Format Item.
-	  * Item/Column in the Print format
-	  */
-	public int getAD_PrintFormatItem_ID();
-
     /** Column name AD_PrintFormat_ID */
     public static final String COLUMNNAME_AD_PrintFormat_ID = "AD_PrintFormat_ID";
 
@@ -150,6 +137,19 @@ public interface I_AD_PrintFormatItem
 
 	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
 
+    /** Column name AD_PrintFormatItem_ID */
+    public static final String COLUMNNAME_AD_PrintFormatItem_ID = "AD_PrintFormatItem_ID";
+
+	/** Set Print Format Item.
+	  * Item/Column in the Print format
+	  */
+	public void setAD_PrintFormatItem_ID (int AD_PrintFormatItem_ID);
+
+	/** Get Print Format Item.
+	  * Item/Column in the Print format
+	  */
+	public int getAD_PrintFormatItem_ID();
+
     /** Column name AD_PrintGraph_ID */
     public static final String COLUMNNAME_AD_PrintGraph_ID = "AD_PrintGraph_ID";
 
@@ -164,6 +164,36 @@ public interface I_AD_PrintFormatItem
 	public int getAD_PrintGraph_ID();
 
 	public org.compiere.model.I_AD_PrintGraph getAD_PrintGraph() throws RuntimeException;
+
+    /** Column name AD_Reference_ID */
+    public static final String COLUMNNAME_AD_Reference_ID = "AD_Reference_ID";
+
+	/** Set Reference.
+	  * System Reference and Validation
+	  */
+	public void setAD_Reference_ID (int AD_Reference_ID);
+
+	/** Get Reference.
+	  * System Reference and Validation
+	  */
+	public int getAD_Reference_ID();
+
+	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException;
+
+    /** Column name AD_Reference_Value_ID */
+    public static final String COLUMNNAME_AD_Reference_Value_ID = "AD_Reference_Value_ID";
+
+	/** Set Reference Key.
+	  * Required to specify, if data type is Table or List
+	  */
+	public void setAD_Reference_Value_ID (int AD_Reference_Value_ID);
+
+	/** Get Reference Key.
+	  * Required to specify, if data type is Table or List
+	  */
+	public int getAD_Reference_Value_ID();
+
+	public org.compiere.model.I_AD_Reference getAD_Reference_Value() throws RuntimeException;
 
     /** Column name ArcDiameter */
     public static final String COLUMNNAME_ArcDiameter = "ArcDiameter";
@@ -701,6 +731,19 @@ public interface I_AD_PrintFormatItem
 	  */
 	public String getName();
 
+    /** Column name OverwriteReference */
+    public static final String COLUMNNAME_OverwriteReference = "OverwriteReference";
+
+	/** Set Overwrite Reference.
+	  * Overwrite the reference with the value specified
+	  */
+	public void setOverwriteReference (boolean OverwriteReference);
+
+	/** Get Overwrite Reference.
+	  * Overwrite the reference with the value specified
+	  */
+	public boolean isOverwriteReference();
+
     /** Column name PrintAreaType */
     public static final String COLUMNNAME_PrintAreaType = "PrintAreaType";
 
@@ -807,19 +850,6 @@ public interface I_AD_PrintFormatItem
 	  */
 	public int getSortNo();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -835,6 +865,19 @@ public interface I_AD_PrintFormatItem
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name XPosition */
     public static final String COLUMNNAME_XPosition = "XPosition";

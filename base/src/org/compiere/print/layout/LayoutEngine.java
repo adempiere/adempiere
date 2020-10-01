@@ -1237,7 +1237,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		int AD_Column_ID = item.getAD_Column_ID();
 		if (log.isLoggable(Level.INFO)) log.info(formatChild + " - Item=" + item.getName() + " (" + AD_Column_ID + ")");
 		//
-		Object obj = data.getNode(new Integer(AD_Column_ID));
+		Object obj = data.getNodeFromPrintFormatItem(item.getAD_PrintFormatItem_ID());
 		//	Object obj = data.getNode(item.getColumnName());	//	slower
 		if (obj == null)
 		{
@@ -1380,7 +1380,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 		String FieldAlignmentType, boolean isForm)
 	{
 		//	Get Data
-		Object obj = m_data.getNode(new Integer(item.getAD_Column_ID()));
+		Object obj = m_data.getNodeFromPrintFormatItem(item.getAD_PrintFormatItem_ID());
 		if (obj == null)
 			return null;
 		else if (obj instanceof PrintDataElement)
@@ -1496,7 +1496,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	 */
 	private PrintElement createImageElement (MPrintFormatItem item, PrintData printData)
 	{
-		Object obj = printData.getNode(new Integer(item.getAD_Column_ID())); 
+		Object obj = printData.getNodeFromPrintFormatItem(item.getAD_PrintFormatItem_ID()); 
 		if (obj == null)
 			return null;
 		else if (obj instanceof PrintDataElement)
@@ -1535,7 +1535,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 	private PrintElement createBarcodeElement (MPrintFormatItem item, PrintData printData)
 	{
 		//	Get Data
-		Object obj = printData.getNode(new Integer(item.getAD_Column_ID()));
+		Object obj = printData.getNodeFromPrintFormatItem(item.getAD_PrintFormatItem_ID());
 		if (obj == null)
 			return null;
 		else if (obj instanceof PrintDataElement)
@@ -1775,7 +1775,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 						{
 							Object obj = null;
 							if (item.getAD_Column_ID() > 0) // teo_sarca, [ 1673542 ]
-								obj = printData.getNode(new Integer(item.getAD_Column_ID()));
+								obj = printData.getNodeFromPrintFormatItem(item.getAD_PrintFormatItem_ID());
 							if (obj == null)
 								;
 							else if (obj instanceof PrintDataElement)
@@ -1805,7 +1805,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 					{
 						Object obj = null;
 						if (item.getAD_Column_ID() > 0) // teo_sarca, [ 1673542 ]
-							obj = printData.getNode(new Integer(item.getAD_Column_ID()));
+							obj = printData.getNodeFromPrintFormatItem(item.getAD_PrintFormatItem_ID());
 						if (obj == null)
 							;
 						else if (obj instanceof PrintDataElement)
@@ -1838,7 +1838,7 @@ public class LayoutEngine implements Pageable, Printable, Doc
 					{
 						Object obj = null;
 						if (item.getAD_Column_ID() > 0) // teo_sarca, [ 1673542 ]
-							obj = printData.getNode(new Integer(item.getAD_Column_ID()));
+							obj = printData.getNodeFromPrintFormatItem(item.getAD_PrintFormatItem_ID());
 						if (obj == null)
 							;
 						else if (obj instanceof PrintDataElement)

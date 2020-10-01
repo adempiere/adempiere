@@ -492,6 +492,14 @@ public class PrintData implements Serializable
 		List<Serializable> nodes = m_matrix.getRowData();
 		return nodes.get(index);
 	}	//	getNode
+	
+	public Object getNodeFromPrintFormatItem(int printFormatItemId) {
+		int index = getIndexFromPrintFormatItem(printFormatItemId);
+		if (index < 0)
+			return null;
+		List<Serializable> nodes = m_matrix.getRowData();
+		return nodes.get(index);
+	}	//	getNode
 
 	/**
 	 * 	Get Primary Key in row
@@ -566,6 +574,26 @@ public class PrintData implements Serializable
 		}
 		log.log(Level.SEVERE, "Column not found - AD_Column_ID=" + AD_Column_ID);
 		if (AD_Column_ID == 0)
+			Trace.printStack();
+		return -1;
+	}	//	getIndex
+	
+	/**
+	 * 	Get Index of Node in Structure (not recursing) row
+	 * 	@param printFormatItemId printFormatItemId
+	 * 	@return index or -1
+	 */
+	public int getIndexFromPrintFormatItem(int printFormatItemId)
+	{
+		if (m_columnInfo == null)
+			return -1;
+		for (int i = 0; i < m_columnInfo.length; i++)
+		{
+			if (m_columnInfo[i].getPrinformatItemId() == printFormatItemId)
+				return getIndex(m_columnInfo[i].getColumnName());
+		}
+		log.log(Level.SEVERE, "Column not found - AD_Column_ID=" + printFormatItemId);
+		if (printFormatItemId == 0)
 			Trace.printStack();
 		return -1;
 	}	//	getIndex

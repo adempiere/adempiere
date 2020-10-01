@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_PrintFormatItem
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20201001L;
 
     /** Standard Constructor */
     public X_AD_PrintFormatItem (Properties ctx, int AD_PrintFormatItem_ID, String trxName)
@@ -40,8 +40,8 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
         {
 			setAD_Column_ID (0);
 			setAD_PrintFormatChild_ID (0);
-			setAD_PrintFormatItem_ID (0);
 			setAD_PrintFormat_ID (0);
+			setAD_PrintFormatItem_ID (0);
 			setFieldAlignmentType (null);
 // D
 			setImageIsAttached (false);
@@ -239,29 +239,6 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return ii.intValue();
 	}
 
-	/** Set Print Format Item.
-		@param AD_PrintFormatItem_ID 
-		Item/Column in the Print format
-	  */
-	public void setAD_PrintFormatItem_ID (int AD_PrintFormatItem_ID)
-	{
-		if (AD_PrintFormatItem_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_PrintFormatItem_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_AD_PrintFormatItem_ID, Integer.valueOf(AD_PrintFormatItem_ID));
-	}
-
-	/** Get Print Format Item.
-		@return Item/Column in the Print format
-	  */
-	public int getAD_PrintFormatItem_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFormatItem_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_PrintFormat)MTable.get(getCtx(), org.compiere.model.I_AD_PrintFormat.Table_Name)
@@ -290,6 +267,29 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 		return ii.intValue();
 	}
 
+	/** Set Print Format Item.
+		@param AD_PrintFormatItem_ID 
+		Item/Column in the Print format
+	  */
+	public void setAD_PrintFormatItem_ID (int AD_PrintFormatItem_ID)
+	{
+		if (AD_PrintFormatItem_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintFormatItem_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_PrintFormatItem_ID, Integer.valueOf(AD_PrintFormatItem_ID));
+	}
+
+	/** Get Print Format Item.
+		@return Item/Column in the Print format
+	  */
+	public int getAD_PrintFormatItem_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintFormatItem_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_AD_PrintGraph getAD_PrintGraph() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_PrintGraph)MTable.get(getCtx(), org.compiere.model.I_AD_PrintGraph.Table_Name)
@@ -313,6 +313,62 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
 	public int getAD_PrintGraph_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_PrintGraph_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_Reference getAD_Reference() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Reference)MTable.get(getCtx(), org.compiere.model.I_AD_Reference.Table_Name)
+			.getPO(getAD_Reference_ID(), get_TrxName());	}
+
+	/** Set Reference.
+		@param AD_Reference_ID 
+		System Reference and Validation
+	  */
+	public void setAD_Reference_ID (int AD_Reference_ID)
+	{
+		if (AD_Reference_ID < 1) 
+			set_Value (COLUMNNAME_AD_Reference_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Reference_ID, Integer.valueOf(AD_Reference_ID));
+	}
+
+	/** Get Reference.
+		@return System Reference and Validation
+	  */
+	public int getAD_Reference_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Reference_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_AD_Reference getAD_Reference_Value() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Reference)MTable.get(getCtx(), org.compiere.model.I_AD_Reference.Table_Name)
+			.getPO(getAD_Reference_Value_ID(), get_TrxName());	}
+
+	/** Set Reference Key.
+		@param AD_Reference_Value_ID 
+		Required to specify, if data type is Table or List
+	  */
+	public void setAD_Reference_Value_ID (int AD_Reference_Value_ID)
+	{
+		if (AD_Reference_Value_ID < 1) 
+			set_Value (COLUMNNAME_AD_Reference_Value_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Reference_Value_ID, Integer.valueOf(AD_Reference_Value_ID));
+	}
+
+	/** Get Reference Key.
+		@return Required to specify, if data type is Table or List
+	  */
+	public int getAD_Reference_Value_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Reference_Value_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1269,6 +1325,30 @@ public class X_AD_PrintFormatItem extends PO implements I_AD_PrintFormatItem, I_
     {
         return new KeyNamePair(get_ID(), getName());
     }
+
+	/** Set Overwrite Reference.
+		@param OverwriteReference 
+		Overwrite the reference with the value specified
+	  */
+	public void setOverwriteReference (boolean OverwriteReference)
+	{
+		set_Value (COLUMNNAME_OverwriteReference, Boolean.valueOf(OverwriteReference));
+	}
+
+	/** Get Overwrite Reference.
+		@return Overwrite the reference with the value specified
+	  */
+	public boolean isOverwriteReference () 
+	{
+		Object oo = get_Value(COLUMNNAME_OverwriteReference);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
 
 	/** PrintAreaType AD_Reference_ID=256 */
 	public static final int PRINTAREATYPE_AD_Reference_ID=256;

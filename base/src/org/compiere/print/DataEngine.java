@@ -28,6 +28,8 @@ import java.util.Properties;
 import java.util.TreeMap;
 import java.util.logging.Level;
 
+import org.compiere.model.I_AD_PrintFormatItem;
+import org.compiere.model.MColumn;
 import org.compiere.model.MFactAcct;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MQuery;
@@ -269,7 +271,18 @@ public class DataEngine
 		StringBuffer sqlSELECT = new StringBuffer("SELECT ");
 		StringBuffer sqlFROM = new StringBuffer(" FROM ").append(tableName);
 		ArrayList<String> groupByColumns = new ArrayList<String>();
-		
+		//	Compatibility
+		MTable tableOfQuery = MTable.get(ctx, MPrintFormatItem.Table_Name);
+		MColumn column = tableOfQuery.getColumn(I_AD_PrintFormatItem.COLUMNNAME_OverwriteReference);
+		String referenceColumn = "c.AD_Reference_ID";
+		String referenceValueColumn = "c.AD_Reference_Value_ID";
+		String columnSQLValueColumn = "c.ColumnSQL";
+		if(column != null
+				&& column.getAD_Column_ID() > 0) {
+			referenceColumn = "COALESCE(pfi.AD_Reference_ID, c.AD_Reference_ID) AS AD_Reference_ID";
+			referenceValueColumn = "COALESCE(pfi.AD_Reference_Value_ID, c.AD_Reference_Value_ID) AS AD_Reference_Value_ID";
+			columnSQLValueColumn = "COALESCE(pfi.ColumnSQL, c.ColumnSQL) AS ColumnSQL";
+		}
 		//Activate when Line_ID or Record_ID is present
 		boolean isTableIDRequired = false;
 		boolean isTableIDPresent = false;
@@ -277,7 +290,7 @@ public class DataEngine
 		boolean IsGroupedBy = false;
 		//
 		String sql = "SELECT c.AD_Column_ID,c.ColumnName,"				//	1..2
-			+ "c.AD_Reference_ID,c.AD_Reference_Value_ID,"				//	3..4
+			+ referenceColumn + "," + referenceValueColumn + ","		//	3..4
 			+ "c.FieldLength,c.IsMandatory,c.IsKey,c.IsParent,"			//	5..8
 			+ "COALESCE(rvc.IsGroupFunction,'N') AS IsGroupFunction, rvc.FunctionColumn,"	//	9..10
 			+ "pfi.IsGroupBy,pfi.IsSummarized,pfi.IsAveraged,pfi.IsCounted, "	//	11..14
@@ -285,7 +298,7 @@ public class DataEngine
 			+ "pfi.IsMinCalc,pfi.IsMaxCalc, "							//	18..19
 			+ "pfi.isRunningTotal,pfi.RunningTotalLines, "				//	20..21
 			+ "pfi.IsVarianceCalc, pfi.IsDeviationCalc, "				//	22..23
-			+ "c.ColumnSQL, COALESCE(pfi.FormatPattern, c.FormatPattern) AS FormatPattern "		//	24, 25
+			+ columnSQLValueColumn + ", COALESCE(pfi.FormatPattern, c.FormatPattern) AS FormatPattern "		//	24, 25
 			+ " , pfi.isDesc " //26
 			+ " , pfi.SeqNo " //27
 			+ ", pfi.AD_PrintFormatItem_ID, pfi.IsHideGrandTotal " // 28
@@ -326,7 +339,6 @@ public class DataEngine
 				int fieldLength = rs.getInt("FieldLength");
 				boolean isMandatory = "Y".equals(rs.getString("IsMandatory"));
 				boolean isKey = "Y".equals(rs.getString("IsKey"));
-				boolean isParent = "Y".equals(rs.getString("IsParent"));
 				//  SQL GroupBy
 				boolean isGroupFunction = "Y".equals(rs.getString("IsGroupFunction"));
 				if (isGroupFunction)
@@ -597,10 +609,17 @@ public class DataEngine
 					if (columnSQL != null && columnSQL.length() > 0)
 					{
 					//	=> ColumnSQL AS ColumnName
-						sqlSELECT.append(columnSQL).append(" AS ").append(columnName).append(",");
-						if (!isGroupFunction)
-							groupByColumns.add(columnSQL);
-						orderName = columnName;		//	no prefix for synonym
+						//	TableName
+						//  DisplayColumn
+						columnName = m_synonym + columnName;
+						//	=> (..) AS AName, Table.ID,
+						sqlSELECT.append("(").append(columnSQL).append(") AS ").append(columnName).append(",");
+						groupByColumns.add(lookupSQL);
+//						sqlSELECT.append(columnSQL).append(" AS ").append(columnName).append(",");
+//						if (!isGroupFunction)
+//							groupByColumns.add(columnSQL);
+//						orderName = columnName;		//	no prefix for synonym
+						synonymNext();
 					}
 					else if (index == -1)
 					{

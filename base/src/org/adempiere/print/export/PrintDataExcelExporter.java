@@ -73,7 +73,7 @@ extends AbstractExcelExporter
 			return null;
 
 		if (AD_Column_ID > 0)
-			obj = m_printData.getNode(Integer.valueOf(AD_Column_ID));
+			obj = m_printData.getNodeFromPrintFormatItem(item.getAD_PrintFormatItem_ID());
 		if (obj != null && obj instanceof PrintDataElement) {
 			return (PrintDataElement)obj;
 		}
