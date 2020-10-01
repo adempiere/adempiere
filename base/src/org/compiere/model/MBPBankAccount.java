@@ -227,6 +227,13 @@ public class MBPBankAccount extends X_C_BP_BankAccount
 				}
 				setCreditCardNumber(getCreditCardNumber().trim());
 			}
+			if(CREDITCARDTYPE_Diners.equals(getCreditCardType()) ) {
+				CreditCardValidator validator = new CreditCardValidator(CreditCardValidator.DINERS);
+				if(!validator.isValid(getCreditCardNumber().trim())) {
+					throw new AdempiereException("@ValidationError@ (@Invalid@ @CreditCardNumber@)");				
+				}
+				setCreditCardNumber(getCreditCardNumber().trim());
+			}
 		}
 
 		return true;
