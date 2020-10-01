@@ -279,9 +279,9 @@ public class DataEngine
 		String columnSQLValueColumn = "c.ColumnSQL";
 		if(column != null
 				&& column.getAD_Column_ID() > 0) {
-			referenceColumn = "COALESCE(pfi.AD_Reference_ID, c.AD_Reference_ID) AS AD_Reference_ID";
-			referenceValueColumn = "COALESCE(pfi.AD_Reference_Value_ID, c.AD_Reference_Value_ID) AS AD_Reference_Value_ID";
-			columnSQLValueColumn = "COALESCE(pfi.ColumnSQL, c.ColumnSQL) AS ColumnSQL";
+			referenceColumn = "CASE WHEN pfi.OverwriteReference = 'Y' THEN COALESCE(pfi.AD_Reference_ID, c.AD_Reference_ID) ELSE c.AD_Reference_ID END AS AD_Reference_ID";
+			referenceValueColumn = "CASE WHEN pfi.OverwriteReference = 'Y' THEN COALESCE(pfi.AD_Reference_Value_ID, c.AD_Reference_Value_ID) ELSE c.AD_Reference_Value_ID END AS AD_Reference_Value_ID";
+			columnSQLValueColumn = "CASE WHEN pfi.OverwriteReference = 'Y' THEN COALESCE(pfi.ColumnSQL, c.ColumnSQL) ELSE c.ColumnSQL END AS ColumnSQL";
 		}
 		//Activate when Line_ID or Record_ID is present
 		boolean isTableIDRequired = false;
