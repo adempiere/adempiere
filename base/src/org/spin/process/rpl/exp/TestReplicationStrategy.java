@@ -22,6 +22,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.process.rpl.exp.ExportHelper;
 import org.compiere.model.MClient;
+import org.compiere.model.MReplicationDocument;
 import org.compiere.model.MReplicationStrategy;
 import org.compiere.model.MReplicationTable;
 import org.compiere.model.MTable;
@@ -69,6 +70,25 @@ public class TestReplicationStrategy extends TestReplicationStrategyAbstract {
 						ExportHelper exportHelper = new ExportHelper(client, replicationStrategy);
 						try {
 							exportHelper.exportRecord(entity, (MReplicationTable)replicationTable, ModelValidator.TYPE_AFTER_CHANGE);
+							replicated.addAndGet(1);
+						} catch (Exception exeption) {
+							log.severe(exeption.getLocalizedMessage());
+						}
+					}
+				});
+		});
+		//	Documents
+		replicationStrategy.getReplicationDocuments().forEach(replicationDocument -> {
+			MTable table = MTable.get(getCtx(), replicationDocument.getAD_Table_ID());
+			new Query(getCtx(), table.getTableName(), "Updated >= ? AND Updated <= ? AND AD_Org_ID IN(" + orgAccess+ ")", get_TrxName())
+				.setParameters(getUpdatedDate(), getUpdatedDateTo())
+				.setClient_ID()
+				.list()
+				.forEach(entity -> {
+					if (replicationDocument != null) {
+						ExportHelper exportHelper = new ExportHelper(client, replicationStrategy);
+						try {
+							exportHelper.exportRecord(entity, (MReplicationDocument)replicationDocument, ModelValidator.TYPE_AFTER_CHANGE);
 							replicated.addAndGet(1);
 						} catch (Exception exeption) {
 							log.severe(exeption.getLocalizedMessage());
