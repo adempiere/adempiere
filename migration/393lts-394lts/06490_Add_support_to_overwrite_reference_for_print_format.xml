@@ -830,7 +830,7 @@ Example: "Updated-Created" would list the age of the entry in days</Data>
         <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
         <Data AD_Column_ID="74868" Column="IsAllowCopy">true</Data>
         <Data AD_Column_ID="169" Column="Description">Virtual Column (r/o)</Data>
-        <Data AD_Column_ID="176" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="176" Column="IsDisplayed">false</Data>
         <Data AD_Column_ID="185" Column="IsFieldOnly">false</Data>
         <Data AD_Column_ID="182" Column="SortNo">0</Data>
         <Data AD_Column_ID="2745" Column="IsCentrallyMaintained">true</Data>
