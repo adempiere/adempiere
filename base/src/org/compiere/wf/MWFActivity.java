@@ -277,8 +277,10 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			updateEventAudit();			
 			
 			//	Inform Process
-			if (m_process == null)
+			if (m_process == null) {
 				m_process = new MWFProcess (getCtx(), getAD_WF_Process_ID(), get_TrxName());
+				m_process.setWorkflowProcessTransaction(Trx.get(get_TrxName(), false));
+			}
 			m_process.checkActivities(m_po);
 		}
 		else
