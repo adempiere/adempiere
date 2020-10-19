@@ -17310,5 +17310,49 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="84323" Column="UUID">d5707d6e-dac7-4f75-b0cb-cc441f144fef</Data>
       </PO>
     </Step>
+        <Step SeqNo="5410" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55529" Table="AD_Ref_List">
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="564" Column="Created">2020-10-19 16:03:01.394</Data>
+        <Data AD_Column_ID="566" Column="Updated">2020-10-19 16:03:01.394</Data>
+        <Data AD_Column_ID="200" Column="Value">CSP</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA12</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">54081</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Cache Server Provider</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55529</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84390" Column="UUID">f026d00e-2d71-4c01-8618-b0a590e39322</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="5420" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55529" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="707" Column="Created">2020-10-19 16:03:02.036</Data>
+        <Data AD_Column_ID="709" Column="Updated">2020-10-19 16:03:02.036</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="338" Column="Name">Cache Server Provider</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55529</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID">8d03ef20-272e-4f02-9f31-cd7a8fddaa57</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="5430" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55529" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Cache Server Provider">Proveedor de Servicio de Caché</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55529">55529</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>
