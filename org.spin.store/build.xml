@@ -64,6 +64,7 @@
 
     <!-- Transfer liberoWM.jar -->
     <copy file="${dist}/lib/StoreIntegration.jar" todir="${env.ADEMPIERE_HOME}/packages/StoreIntegration/lib"/>
+    <copy file="${dist}/lib/StoreIntegration.jar" todir="../packages/"/>
 
   </target>
 
