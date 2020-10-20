@@ -245,7 +245,11 @@
 	  <mkdir dir="${build.dir}/Adempiere/zkpackages/TimeAndAttendance"/>
 	  <mkdir dir="${build.dir}/Adempiere/zkpackages/TimeAndAttendance/lib"/>
 	  <!--copy file="../zkpackages/TimeAndAttendanceZk.jar" tofile="${build.dir}/Adempiere/zkpackages/LoanManagement/lib/TimeAndAttendanceZk.jar"/-->
-
+	  
+	  <!-- Store Front Integration -->
+	  <mkdir dir="${build.dir}/Adempiere/packages/StoreIntegration"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/StoreIntegration/lib"/>
+	  
 	  <copy file="../lib/CheckConflicts.sh" tofile="${build.dir}/Adempiere/lib/CheckConflicts.sh"/>
 
 	<!-- Base Directory			-->
