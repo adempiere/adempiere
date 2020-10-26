@@ -1044,6 +1044,7 @@ public class MRequest extends X_R_Request
 		if(!Util.isEmpty(eventType)) {
 			MMailText mailText = MRNoticeTemplate.getMailTemplate(getCtx(), MRNoticeTemplate.TEMPLATETYPE_Request, eventType);
 			if(mailText != null) {
+				mailText.clear(); // This can be a cached object with a previous context that may be messing up the data
 				mailText.setUser(from);
 				if(getC_BPartner_ID() != 0) {
 					mailText.setBPartner(getC_BPartner_ID());
