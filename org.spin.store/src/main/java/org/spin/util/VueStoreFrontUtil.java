@@ -404,7 +404,6 @@ public class VueStoreFrontUtil {
 		target.setSO_CreditLimit (Env.ZERO);
 		target.setSO_CreditUsed (Env.ZERO);
 		target.setTotalOpenBalance (Env.ZERO);
-		//	s_template.setRating(null);
 		//
 		target.setActualLifeTimeValue(Env.ZERO);
 		target.setPotentialLifeTimeValue(Env.ZERO);
@@ -412,6 +411,6 @@ public class VueStoreFrontUtil {
 		target.setShareOfCustomer(0);
 		target.setSalesVolume(0);
 		//	Return
-		return source;
+		return target;
 	}
 }
