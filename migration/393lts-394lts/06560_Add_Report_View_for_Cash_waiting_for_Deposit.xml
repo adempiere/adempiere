@@ -53,5 +53,10 @@
         <Data AD_Column_ID="78525" Column="AD_ReportView_ID" oldValue="53332">53332</Data>
       </PO>
     </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="361" Action="U" Record_ID="53332" Table="AD_ReportView">
+        <Data AD_Column_ID="4395" Column="WhereClause" oldValue="EXISTS(SELECT 1 FROM C_Bank b INNER JOIN C_BankAccount ba ON(ba.C_Bank_ID = b.C_Bank_ID) WHERE ba.C_BankAccount_ID = RV_Payment.C_BankAccount_ID AND b.BankType = 'C') AND RV_Payment.Ref_Payment_ID IS NULL">EXISTS(SELECT 1 FROM C_Bank b INNER JOIN C_BankAccount ba ON(ba.C_Bank_ID = b.C_Bank_ID) WHERE ba.C_BankAccount_ID = RV_Payment.C_BankAccount_ID AND b.BankType = 'C') AND RV_Payment.Ref_Payment_ID IS NULL AND RV_Payment.IsReceipt = 'Y'</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>
