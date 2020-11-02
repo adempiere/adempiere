@@ -4750,7 +4750,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="543" Column="IsActive">true</Data>
         <Data AD_Column_ID="103" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="50183" Column="CopyColumnsFromTable" isNewNull="true"/>
-        <Data AD_Column_ID="107" Column="TableName">W_ProductGroup</Data>
+        <Data AD_Column_ID="107" Column="TableName">W_Category</Data>
         <Data AD_Column_ID="354" Column="AccessLevel">3</Data>
         <Data AD_Column_ID="104" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="9341" Column="ReplicationType">L</Data>
@@ -5641,7 +5641,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="2603" Column="Name">Product Store Group</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2598" Column="Created">2020-10-19 12:11:29.796</Data>
-        <Data AD_Column_ID="2602" Column="ColumnName">W_ProductGroup_ID</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">W_Category_ID</Data>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
         <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
@@ -5711,7 +5711,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">W_ProductGroup_ID</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">W_Category_ID</Data>
         <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
@@ -5763,7 +5763,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="132" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="54355" Column="IsOrderByValue">false</Data>
         <Data AD_Column_ID="1180" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="130" Column="Name">W_ProductGroup reference</Data>
+        <Data AD_Column_ID="130" Column="Name">W_Category reference</Data>
         <Data AD_Column_ID="131" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="129" Column="AD_Reference_ID">54241</Data>
         <Data AD_Column_ID="363" Column="AD_Client_ID">0</Data>
@@ -5805,7 +5805,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="2603" Column="Name">Product Store Group Parent</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2598" Column="Created">2020-10-19 12:11:32.836</Data>
-        <Data AD_Column_ID="2602" Column="ColumnName">W_ProductGroup_Parent_ID</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">W_Category_Parent_ID</Data>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
         <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
@@ -5872,7 +5872,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">W_ProductGroup_Parent_ID</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">W_Category_Parent_ID</Data>
         <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
@@ -5916,7 +5916,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="224" Column="Suffix" isNewNull="true"/>
         <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
         <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
-        <Data AD_Column_ID="216" Column="Name">W_ProductGroup</Data>
+        <Data AD_Column_ID="216" Column="Name">W_Category</Data>
         <Data AD_Column_ID="427" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="426" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2747" Column="IncrementNo">1</Data>
@@ -5927,7 +5927,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="628" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84417" Column="UUID">2ecdac7c-fdb1-4b06-aea9-2d1ce906ab44</Data>
-        <Data AD_Column_ID="347" Column="Description">Table W_ProductGroup</Data>
+        <Data AD_Column_ID="347" Column="Description">Table W_Category</Data>
       </PO>
     </Step>
     <Step SeqNo="1970" StepType="AD">
@@ -6536,7 +6536,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="543" Column="IsActive">true</Data>
         <Data AD_Column_ID="103" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="50183" Column="CopyColumnsFromTable">N</Data>
-        <Data AD_Column_ID="107" Column="TableName">W_ProductGroupAllocation</Data>
+        <Data AD_Column_ID="107" Column="TableName">W_CategoryAllocation</Data>
         <Data AD_Column_ID="354" Column="AccessLevel">3</Data>
         <Data AD_Column_ID="104" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="9341" Column="ReplicationType">L</Data>
@@ -7141,7 +7141,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2603" Column="Name">Product Group Allocation ID</Data>
         <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2598" Column="Created">2020-10-19 12:11:52.918</Data>
-        <Data AD_Column_ID="2602" Column="ColumnName">W_ProductGroupAllocation_ID</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">W_CategoryAllocation_ID</Data>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
         <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
@@ -7212,7 +7212,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">1</Data>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">W_ProductGroupAllocation_ID</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">W_CategoryAllocation_ID</Data>
       </PO>
     </Step>
     <Step SeqNo="2240" StepType="AD">
@@ -7240,7 +7240,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">W_ProductGroup_ID</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">W_Category_ID</Data>
         <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
@@ -7274,7 +7274,7 @@ There are two reasons for de-activating and not deleting records:
       <PO AD_Table_ID="115" Action="I" Record_ID="55294" Table="AD_Sequence">
         <Data AD_Column_ID="349" Column="IsActive">true</Data>
         <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
-        <Data AD_Column_ID="216" Column="Name">W_ProductGroupAllocation</Data>
+        <Data AD_Column_ID="216" Column="Name">W_CategoryAllocation</Data>
         <Data AD_Column_ID="427" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="426" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="1186" Column="AD_Sequence_ID">55294</Data>
@@ -7286,7 +7286,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="628" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84417" Column="UUID">3b53df84-53ac-4c6f-a123-0411ef14a11c</Data>
-        <Data AD_Column_ID="347" Column="Description">Table W_ProductGroupAllocation</Data>
+        <Data AD_Column_ID="347" Column="Description">Table W_CategoryAllocation</Data>
         <Data AD_Column_ID="629" Column="Updated">2020-10-19 12:11:55.317</Data>
         <Data AD_Column_ID="627" Column="Created">2020-10-19 12:11:55.317</Data>
         <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
@@ -7315,7 +7315,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="573" Column="IsActive">true</Data>
         <Data AD_Column_ID="4207" Column="Processing">false</Data>
         <Data AD_Column_ID="2742" Column="OrderByClause" isNewNull="true"/>
-        <Data AD_Column_ID="162" Column="Description">Allocated Products for this Group</Data>
+        <Data AD_Column_ID="162" Column="Description">Allocated Products for this Category</Data>
         <Data AD_Column_ID="2043" Column="IsTranslationTab">false</Data>
         <Data AD_Column_ID="7027" Column="IsSortTab">false</Data>
         <Data AD_Column_ID="2744" Column="CommitWarning" isNewNull="true"/>
@@ -7412,7 +7412,7 @@ There are two reasons for de-activating and not deleting records:
     <Step SeqNo="2290" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="99639" Table="AD_Field">
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
-        <Data AD_Column_ID="168" Column="Name">Product Group Allocation ID</Data>
+        <Data AD_Column_ID="168" Column="Name">Product Category Allocation ID</Data>
         <Data AD_Column_ID="579" Column="Created">2020-10-19 12:11:57.562</Data>
         <Data AD_Column_ID="78493" Column="IsQuickEntry">false</Data>
         <Data AD_Column_ID="88877" Column="AD_FieldDefinition_ID" isNewNull="true"/>
@@ -7583,7 +7583,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="172" Column="AD_Tab_ID">55016</Data>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="84320" Column="UUID">33795905-150b-4e35-9319-508abab59a24</Data>
-        <Data AD_Column_ID="168" Column="Name">Product Store Group</Data>
+        <Data AD_Column_ID="168" Column="Name">Product Store Category</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="579" Column="Created">2020-10-19 12:11:59.814</Data>
         <Data AD_Column_ID="78493" Column="IsQuickEntry">false</Data>
@@ -7763,7 +7763,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="602" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="3375" Column="AD_Process_ID" isNewNull="true"/>
         <Data AD_Column_ID="84344" Column="UUID">ef3b9f6e-ea5f-4454-be49-1b79b3c968c7</Data>
-        <Data AD_Column_ID="229" Column="Name">Product Store Group</Data>
+        <Data AD_Column_ID="229" Column="Name">Product Store Category</Data>
         <Data AD_Column_ID="598" Column="IsActive">true</Data>
         <Data AD_Column_ID="57960" Column="AD_Browse_ID" isNewNull="true"/>
         <Data AD_Column_ID="599" Column="Created">2020-10-19 12:12:02.95</Data>
@@ -7773,7 +7773,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="4426" Column="IsSOTrx">false</Data>
         <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
-        <Data AD_Column_ID="230" Column="Description">Maintain Product Store Group</Data>
+        <Data AD_Column_ID="230" Column="Description">Maintain Product Store Category</Data>
       </PO>
     </Step>
     <Step SeqNo="2370" StepType="AD">
@@ -17043,8 +17043,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="5330" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="97167" Table="AD_Column">
-        <Data AD_Column_ID="111" Column="Name">Name 2</Data>
-        <Data AD_Column_ID="112" Column="Description">Additional Name</Data>
+        <Data AD_Column_ID="111" Column="Name">Description</Data>
+        <Data AD_Column_ID="112" Column="Description">Description</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
         <Data AD_Column_ID="549" Column="Created">2020-10-19 14:38:47.784</Data>
@@ -17066,7 +17066,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">Name2</Data>
+        <Data AD_Column_ID="116" Column="ColumnName">Description</Data>
         <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
@@ -17084,7 +17084,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="114" Column="AD_Table_ID">293</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="2608" Column="AD_Element_ID">1111</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">275</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="118" Column="FieldLength">255</Data>
@@ -17104,7 +17104,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="12952" Column="Updated">2020-10-19 14:38:48.69</Data>
         <Data AD_Column_ID="12955" Column="AD_Column_ID">97167</Data>
         <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="12957" Column="Name">Name 2</Data>
+        <Data AD_Column_ID="12957" Column="Name">Description</Data>
         <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
