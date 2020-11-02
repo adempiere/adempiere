@@ -21,31 +21,31 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
 
-/** Generated Model for W_PaymentMethodAllocation
+/** Generated Model for C_PaymentMethodAllocation
  *  @author Adempiere (generated) 
  *  @version Release 3.9.3 - $Id$ */
-public class X_W_PaymentMethodAllocation extends PO implements I_W_PaymentMethodAllocation, I_Persistent 
+public class X_C_PaymentMethodAllocation extends PO implements I_C_PaymentMethodAllocation, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20201019L;
+	private static final long serialVersionUID = 20201102L;
 
     /** Standard Constructor */
-    public X_W_PaymentMethodAllocation (Properties ctx, int W_PaymentMethodAllocation_ID, String trxName)
+    public X_C_PaymentMethodAllocation (Properties ctx, int C_PaymentMethodAllocation_ID, String trxName)
     {
-      super (ctx, W_PaymentMethodAllocation_ID, trxName);
-      /** if (W_PaymentMethodAllocation_ID == 0)
+      super (ctx, C_PaymentMethodAllocation_ID, trxName);
+      /** if (C_PaymentMethodAllocation_ID == 0)
         {
-			setW_PaymentMethodAllocation_ID (0);
-			setW_PaymentMethod_ID (0);
+			setC_PaymentMethodAllocation_ID (0);
+			setC_PaymentMethod_ID (0);
 			setW_Store_ID (0);
         } */
     }
 
     /** Load Constructor */
-    public X_W_PaymentMethodAllocation (Properties ctx, ResultSet rs, String trxName)
+    public X_C_PaymentMethodAllocation (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -67,10 +67,58 @@ public class X_W_PaymentMethodAllocation extends PO implements I_W_PaymentMethod
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_W_PaymentMethodAllocation[")
+      StringBuffer sb = new StringBuffer ("X_C_PaymentMethodAllocation[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Store Payment Method.
+		@param C_PaymentMethodAllocation_ID Store Payment Method	  */
+	public void setC_PaymentMethodAllocation_ID (int C_PaymentMethodAllocation_ID)
+	{
+		if (C_PaymentMethodAllocation_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentMethodAllocation_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentMethodAllocation_ID, Integer.valueOf(C_PaymentMethodAllocation_ID));
+	}
+
+	/** Get Store Payment Method.
+		@return Store Payment Method	  */
+	public int getC_PaymentMethodAllocation_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentMethodAllocation_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.spin.model.I_C_PaymentMethod getC_PaymentMethod() throws RuntimeException
+    {
+		return (org.spin.model.I_C_PaymentMethod)MTable.get(getCtx(), org.spin.model.I_C_PaymentMethod.Table_Name)
+			.getPO(getC_PaymentMethod_ID(), get_TrxName());	}
+
+	/** Set Store Payment Method.
+		@param C_PaymentMethod_ID 
+		Payment Methods allowed for Store
+	  */
+	public void setC_PaymentMethod_ID (int C_PaymentMethod_ID)
+	{
+		if (C_PaymentMethod_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentMethod_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentMethod_ID, Integer.valueOf(C_PaymentMethod_ID));
+	}
+
+	/** Get Store Payment Method.
+		@return Payment Methods allowed for Store
+	  */
+	public int getC_PaymentMethod_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentMethod_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Description.
 		@param Description 
@@ -121,54 +169,6 @@ public class X_W_PaymentMethodAllocation extends PO implements I_W_PaymentMethod
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
-	}
-
-	/** Set Store Payment Method.
-		@param W_PaymentMethodAllocation_ID Store Payment Method	  */
-	public void setW_PaymentMethodAllocation_ID (int W_PaymentMethodAllocation_ID)
-	{
-		if (W_PaymentMethodAllocation_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_W_PaymentMethodAllocation_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_W_PaymentMethodAllocation_ID, Integer.valueOf(W_PaymentMethodAllocation_ID));
-	}
-
-	/** Get Store Payment Method.
-		@return Store Payment Method	  */
-	public int getW_PaymentMethodAllocation_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_W_PaymentMethodAllocation_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.spin.model.I_W_PaymentMethod getW_PaymentMethod() throws RuntimeException
-    {
-		return (org.spin.model.I_W_PaymentMethod)MTable.get(getCtx(), org.spin.model.I_W_PaymentMethod.Table_Name)
-			.getPO(getW_PaymentMethod_ID(), get_TrxName());	}
-
-	/** Set Store Payment Method.
-		@param W_PaymentMethod_ID 
-		Payment Methods allowed for Store
-	  */
-	public void setW_PaymentMethod_ID (int W_PaymentMethod_ID)
-	{
-		if (W_PaymentMethod_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_W_PaymentMethod_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_W_PaymentMethod_ID, Integer.valueOf(W_PaymentMethod_ID));
-	}
-
-	/** Get Store Payment Method.
-		@return Payment Methods allowed for Store
-	  */
-	public int getW_PaymentMethod_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_W_PaymentMethod_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
 	}
 
 	public org.compiere.model.I_W_Store getW_Store() throws RuntimeException

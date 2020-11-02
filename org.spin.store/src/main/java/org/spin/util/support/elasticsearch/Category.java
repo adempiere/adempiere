@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.compiere.util.CLogger;
-import org.spin.model.MWProductGroup;
+import org.spin.model.MWCategory;
 
 /**
  * 	Wrapper for product category entity
@@ -33,7 +33,7 @@ public class Category implements IPersistenceWrapper {
 	/**	Map	*/
 	Map<String, Object> map;
 	/**	Product	*/
-	private MWProductGroup category;
+	private MWCategory category;
 	/** Parent List	*/
 	private List<Integer> parents;
 	/** Logger */
@@ -52,7 +52,7 @@ public class Category implements IPersistenceWrapper {
 	 * @param category
 	 * @return
 	 */
-	public Category withCategoy(MWProductGroup category) {
+	public Category withCategoy(MWCategory category) {
 		this.category = category;
 		return this;
 	}
@@ -87,8 +87,8 @@ public class Category implements IPersistenceWrapper {
 				childrenCount = children.size();
 			}
 			map.put("children_count", childrenCount);
-			if(category.getW_ProductGroup_Parent_ID() != 0) {
-				map.put("parent_id", category.getW_ProductGroup_Parent_ID());
+			if(category.getW_Category_Parent_ID() != 0) {
+				map.put("parent_id", category.getW_Category_Parent_ID());
 			}
 			//	Find level
 			map.put("level", getLevel());
@@ -109,7 +109,7 @@ public class Category implements IPersistenceWrapper {
 	private void loadParents() {
 		if(parents == null) {
 			parents = new ArrayList<Integer>();
-			parents.add(category.getW_ProductGroup_ID());
+			parents.add(category.getW_Category_ID());
 			loadParents(category);
 			Collections.reverse(parents);
 		}
@@ -118,13 +118,13 @@ public class Category implements IPersistenceWrapper {
 	/**
 	 * Load Parents
 	 */
-	private void loadParents(MWProductGroup child) {
-		if(child.getW_ProductGroup_Parent_ID() != 0) {
-			MWProductGroup parent = (MWProductGroup) child.getW_ProductGroup_Parent();
+	private void loadParents(MWCategory child) {
+		if(child.getW_Category_Parent_ID() != 0) {
+			MWCategory parent = (MWCategory) child.getW_Category_Parent();
 			if(parent != null) {
 				//	Prevent a StackOverFlow
-				if(!parents.contains(parent.getW_ProductGroup_ID())) {
-					parents.add(parent.getW_ProductGroup_ID());
+				if(!parents.contains(parent.getW_Category_ID())) {
+					parents.add(parent.getW_Category_ID());
 					loadParents(parent);
 				} else {
 					log.warning("Possible recursive call: " + child.getValue() + " - " + child.getName());
@@ -147,10 +147,10 @@ public class Category implements IPersistenceWrapper {
 	 * @param category
 	 * @return
 	 */
-	private String getURLKey(MWProductGroup category, boolean withId) {
+	private String getURLKey(MWCategory category, boolean withId) {
 		String value = getValidValue(category.getName());
 		if(withId) {
-			value = value + "-" + String.valueOf(category.getW_ProductGroup_ID());
+			value = value + "-" + String.valueOf(category.getW_Category_ID());
 		}
 		return value;
 	}
@@ -195,11 +195,11 @@ public class Category implements IPersistenceWrapper {
 		loadParents();
 		StringBuffer  urlPath = new StringBuffer();
 		parents.forEach(categoryId -> {
-			MWProductGroup categoryForUrl = MWProductGroup.getById(category.getCtx(), categoryId, category.get_TrxName());
+			MWCategory categoryForUrl = MWCategory.getById(category.getCtx(), categoryId, category.get_TrxName());
 			if(urlPath.length() > 0) {
 				urlPath.append("/");
 			}
-			urlPath.append(getURLKey(categoryForUrl, categoryId == category.getW_ProductGroup_ID()));
+			urlPath.append(getURLKey(categoryForUrl, categoryId == category.getW_Category_ID()));
 		});
 		//	Return path
 		return urlPath.toString();
@@ -214,11 +214,11 @@ public class Category implements IPersistenceWrapper {
 		loadParents();
 		StringBuffer  path = new StringBuffer();
 		parents.forEach(categoryId -> {
-			MWProductGroup categoryForPath = MWProductGroup.getById(category.getCtx(), categoryId, category.get_TrxName());
+			MWCategory categoryForPath = MWCategory.getById(category.getCtx(), categoryId, category.get_TrxName());
 			if(path.length() > 0) {
 				path.append("/");
 			}
-			path.append(categoryForPath.getW_ProductGroup_ID());
+			path.append(categoryForPath.getW_Category_ID());
 		});
 		//	REturn path
 		return path.toString();
@@ -230,12 +230,12 @@ public class Category implements IPersistenceWrapper {
 	 * @param currentLevel
 	 * @return
 	 */
-	private Map<String, Object> getChild(MWProductGroup category) {
+	private Map<String, Object> getChild(MWCategory category) {
 		Map<String, Object> mapOfChild = new HashMap<String, Object>();
 		List<Map<String, Object>> currentChildList = new ArrayList<Map<String,Object>>();
 		category.getChildList().forEach(child -> {
 			Map<String, Object> childMap = new HashMap<String, Object>();
-			childMap.put("id", child.getW_ProductGroup_ID());
+			childMap.put("id", child.getW_Category_ID());
 			Map<String, Object> childOfChild = getChild(child);
 			if(childOfChild.containsKey("children_data")) {
 				childMap.put("children_data", childOfChild.get("children_data"));

@@ -30,24 +30,24 @@ import org.compiere.util.Env;
  * 	Implementation for Web Store Product Group
  * 	@author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
  */
-public class MWProductGroup extends X_W_ProductGroup {
+public class MWCategory extends X_W_Category {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5448641333159848635L;
 
-	public MWProductGroup(Properties ctx, int terminalId, String trxName) {
+	public MWCategory(Properties ctx, int terminalId, String trxName) {
 		super(ctx, terminalId, trxName);
 	}
 	
-	public MWProductGroup(Properties ctx, ResultSet rs, String trxName) {
+	public MWCategory(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
 	
 	/** Static Cache */
-	private static CCache<Integer, MWProductGroup> productGroupCacheIds = new CCache<Integer, MWProductGroup>(Table_Name, 30);
+	private static CCache<Integer, MWCategory> productGroupCacheIds = new CCache<Integer, MWCategory>(Table_Name, 30);
 	/** Static Cache */
-	private static CCache<String, MWProductGroup> productGroupCodes = new CCache<String, MWProductGroup>(Table_Name, 30);
+	private static CCache<String, MWCategory> productGroupCodes = new CCache<String, MWCategory>(Table_Name, 30);
 	
 	/**
 	 * Get/Load Product Group for Web Store [CACHED]
@@ -56,15 +56,15 @@ public class MWProductGroup extends X_W_ProductGroup {
 	 * @param trxName
 	 * @return activity or null
 	 */
-	public static MWProductGroup getById(Properties ctx, int terminalId, String trxName) {
+	public static MWCategory getById(Properties ctx, int terminalId, String trxName) {
 		if (terminalId <= 0)
 			return null;
 
-		MWProductGroup productGroup = productGroupCacheIds.get(terminalId);
+		MWCategory productGroup = productGroupCacheIds.get(terminalId);
 		if (productGroup != null && productGroup.get_ID() > 0)
 			return productGroup;
 
-		productGroup = new Query(ctx , Table_Name , COLUMNNAME_W_ProductGroup_ID + "=?" , trxName)
+		productGroup = new Query(ctx , Table_Name , COLUMNNAME_W_Category_ID + "=?" , trxName)
 				.setParameters(terminalId)
 				.first();
 		if (productGroup != null && productGroup.get_ID() > 0) {
@@ -83,14 +83,14 @@ public class MWProductGroup extends X_W_ProductGroup {
 	 * @param trxName
 	 * @return
 	 */
-	public static MWProductGroup getByValue(Properties ctx, String value, String trxName) {
+	public static MWCategory getByValue(Properties ctx, String value, String trxName) {
 		if (value == null)
 			return null;
 		if (productGroupCodes.size() == 0 )
 			getAll(ctx, true, trxName);
 
 		String key = value;
-		MWProductGroup productGroup = productGroupCodes.get(key);
+		MWCategory productGroup = productGroupCodes.get(key);
 		if (productGroup != null && productGroup.get_ID() > 0 )
 			return productGroup;
 
@@ -112,8 +112,8 @@ public class MWProductGroup extends X_W_ProductGroup {
 	 * @param trxName
 	 * @return
 	 */
-	public static List<MWProductGroup> getAll(Properties ctx, boolean resetCache, String trxName) {
-		List<MWProductGroup> productGroupList;
+	public static List<MWCategory> getAll(Properties ctx, boolean resetCache, String trxName) {
+		List<MWCategory> productGroupList;
 		if (resetCache || productGroupCacheIds.size() > 0 ) {
 			productGroupList = new Query(Env.getCtx(), Table_Name, null , trxName)
 					.setClient_ID()
@@ -121,7 +121,7 @@ public class MWProductGroup extends X_W_ProductGroup {
 					.list();
 			productGroupList.stream().forEach(airport -> {
 				String key = airport.getValue();
-				productGroupCacheIds.put(airport.getW_ProductGroup_ID(), airport);
+				productGroupCacheIds.put(airport.getW_Category_ID(), airport);
 				productGroupCodes.put(key, airport);
 			});
 			return productGroupList;
@@ -139,9 +139,9 @@ public class MWProductGroup extends X_W_ProductGroup {
 	 * @param trxName
 	 * @return
 	 */
-	public static List<MWProductGroup> getOfProduct(Properties ctx, int productId, String trxName) {
-		return new Query(Env.getCtx(), Table_Name, "EXISTS(SELECT 1 FROM W_ProductGroupAllocation a "
-				+ "WHERE a.W_ProductGroup_ID = W_ProductGroup.W_ProductGroup_ID "
+	public static List<MWCategory> getOfProduct(Properties ctx, int productId, String trxName) {
+		return new Query(Env.getCtx(), Table_Name, "EXISTS(SELECT 1 FROM W_CategoryAllocation a "
+				+ "WHERE a.W_Category_ID = W_Category.W_Category_ID "
 				+ "AND a.M_Product_ID = ?)" , trxName)
 				.setParameters(productId)
 				.setClient_ID()
@@ -152,9 +152,9 @@ public class MWProductGroup extends X_W_ProductGroup {
 	 * Get Child list
 	 * @return
 	 */
-	public List<MWProductGroup> getChildList() {
-		return new Query(Env.getCtx(), Table_Name, COLUMNNAME_W_ProductGroup_Parent_ID + " = ?" , get_TrxName())
-				.setParameters(getW_ProductGroup_ID())
+	public List<MWCategory> getChildList() {
+		return new Query(Env.getCtx(), Table_Name, COLUMNNAME_W_Category_Parent_ID + " = ?" , get_TrxName())
+				.setParameters(getW_Category_ID())
 				.setClient_ID()
 				.list();
 	}
@@ -164,10 +164,10 @@ public class MWProductGroup extends X_W_ProductGroup {
 	 * @return
 	 */
 	public List<MProduct> getProductsList() {
-		return new Query(Env.getCtx(), I_M_Product.Table_Name, "EXISTS(SELECT 1 FROM W_ProductGroupAllocation a "
+		return new Query(Env.getCtx(), I_M_Product.Table_Name, "EXISTS(SELECT 1 FROM W_CategoryAllocation a "
 				+ "WHERE a.M_Product_ID = M_Product.M_Product_ID "
-				+ "AND a.W_ProductGroup_ID = ?)" , get_TrxName())
-				.setParameters(getW_ProductGroup_ID())
+				+ "AND a.W_Category_ID = ?)" , get_TrxName())
+				.setParameters(getW_Category_ID())
 				.setClient_ID()
 				.list();
 	}
@@ -177,10 +177,10 @@ public class MWProductGroup extends X_W_ProductGroup {
 	 * @return
 	 */
 	public int getProductCount() {
-		return new Query(Env.getCtx(), I_M_Product.Table_Name, "EXISTS(SELECT 1 FROM W_ProductGroupAllocation a "
+		return new Query(Env.getCtx(), I_M_Product.Table_Name, "EXISTS(SELECT 1 FROM W_CategoryAllocation a "
 				+ "WHERE a.M_Product_ID = M_Product.M_Product_ID "
-				+ "AND a.W_ProductGroup_ID = ?)" , get_TrxName())
-				.setParameters(getW_ProductGroup_ID())
+				+ "AND a.W_Category_ID = ?)" , get_TrxName())
+				.setParameters(getW_Category_ID())
 				.setClient_ID()
 				.count();
 	}
@@ -188,6 +188,6 @@ public class MWProductGroup extends X_W_ProductGroup {
 	@Override
 	public String toString() {
 		return "MWProductGroup [getName()=" + getName() + ", getUUID()=" + getUUID() + ", getValue()=" + getValue()
-				+ ", getW_ProductGroup_ID()=" + getW_ProductGroup_ID() + "]";
+				+ ", getW_Category_ID()=" + getW_Category_ID() + "]";
 	}
 }

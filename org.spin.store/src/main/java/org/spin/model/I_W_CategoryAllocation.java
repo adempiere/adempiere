@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for W_ProductGroupAllocation
+/** Generated Interface for W_CategoryAllocation
  *  @author Adempiere (generated) 
  *  @version Release 3.9.3
  */
-public interface I_W_ProductGroupAllocation 
+public interface I_W_CategoryAllocation 
 {
 
-    /** TableName=W_ProductGroupAllocation */
-    public static final String Table_Name = "W_ProductGroupAllocation";
+    /** TableName=W_CategoryAllocation */
+    public static final String Table_Name = "W_CategoryAllocation";
 
-    /** AD_Table_ID=1000001 */
+    /** AD_Table_ID=54779 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -149,23 +149,23 @@ public interface I_W_ProductGroupAllocation
 	  */
 	public String getUUID();
 
-    /** Column name W_ProductGroupAllocation_ID */
-    public static final String COLUMNNAME_W_ProductGroupAllocation_ID = "W_ProductGroupAllocation_ID";
+    /** Column name W_CategoryAllocation_ID */
+    public static final String COLUMNNAME_W_CategoryAllocation_ID = "W_CategoryAllocation_ID";
 
 	/** Set Product Group Allocation ID	  */
-	public void setW_ProductGroupAllocation_ID (int W_ProductGroupAllocation_ID);
+	public void setW_CategoryAllocation_ID (int W_CategoryAllocation_ID);
 
 	/** Get Product Group Allocation ID	  */
-	public int getW_ProductGroupAllocation_ID();
+	public int getW_CategoryAllocation_ID();
 
-    /** Column name W_ProductGroup_ID */
-    public static final String COLUMNNAME_W_ProductGroup_ID = "W_ProductGroup_ID";
+    /** Column name W_Category_ID */
+    public static final String COLUMNNAME_W_Category_ID = "W_Category_ID";
 
 	/** Set Product Store Group	  */
-	public void setW_ProductGroup_ID (int W_ProductGroup_ID);
+	public void setW_Category_ID (int W_Category_ID);
 
 	/** Get Product Store Group	  */
-	public int getW_ProductGroup_ID();
+	public int getW_Category_ID();
 
-	public org.spin.model.I_W_ProductGroup getW_ProductGroup() throws RuntimeException;
+	public org.spin.model.I_W_Category getW_Category() throws RuntimeException;
 }

@@ -34,7 +34,7 @@ import org.compiere.model.X_W_Basket;
 import org.compiere.model.X_W_BasketLine;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-import org.spin.model.MWProductGroup;
+import org.spin.model.MWCategory;
 import org.spin.util.ElasticSearchHelper;
 import org.spin.util.VueStoreFrontUtil;
 import org.spin.util.support.elasticsearch.Attribute;
@@ -64,7 +64,7 @@ public class VueStoreFront implements ModelValidator {
 			log.info("Initializing global validator: " + this.toString());
 		}		
 		engine.addModelChange(MProduct.Table_Name, this);
-		engine.addModelChange(MWProductGroup.Table_Name, this);
+		engine.addModelChange(MWCategory.Table_Name, this);
 		engine.addModelChange(MTaxCategory.Table_Name, this);
 		engine.addModelChange(MTax.Table_Name, this);
 		engine.addModelChange(MAttribute.Table_Name, this);
@@ -126,8 +126,8 @@ public class VueStoreFront implements ModelValidator {
 				} else {
 					ElasticSearchHelper.getInstance().connect().index(Product.newInstance().withProduct(product)).close();
 				}
-			} else if(po instanceof MWProductGroup) {
-				MWProductGroup group = (MWProductGroup) po;
+			} else if(po instanceof MWCategory) {
+				MWCategory group = (MWCategory) po;
 				ElasticSearchHelper.getInstance().connect().index(Category.newInstance().withCategoy(group)).close();
 			} else if(po instanceof MTaxCategory) {
 				MTaxCategory taxCategory = (MTaxCategory) po;
@@ -173,8 +173,8 @@ public class VueStoreFront implements ModelValidator {
 			if(po instanceof MProduct) {
 				MProduct product = (MProduct) po;
 				ElasticSearchHelper.getInstance().connect().index(Product.newInstance().withProduct(product)).close();
-			} else if(po instanceof MWProductGroup) {
-				MWProductGroup group = (MWProductGroup) po;
+			} else if(po instanceof MWCategory) {
+				MWCategory group = (MWCategory) po;
 				ElasticSearchHelper.getInstance().connect().index(Category.newInstance().withCategoy(group)).close();
 			} else if(po instanceof MTaxCategory) {
 				MTaxCategory taxCategory = (MTaxCategory) po;
@@ -201,8 +201,8 @@ public class VueStoreFront implements ModelValidator {
 			if(po instanceof MProduct) {
 				MProduct product = (MProduct) po;
 				ElasticSearchHelper.getInstance().connect().index(Product.newInstance().withProduct(product)).close();
-			} else if(po instanceof MWProductGroup) {
-				MWProductGroup group = (MWProductGroup) po;
+			} else if(po instanceof MWCategory) {
+				MWCategory group = (MWCategory) po;
 				ElasticSearchHelper.getInstance().connect().delete(Category.newInstance().withCategoy(group)).close();
 			} else if(po instanceof MTaxCategory) {
 				MTaxCategory taxCategory = (MTaxCategory) po;

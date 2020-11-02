@@ -21,31 +21,31 @@ import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
 
-/** Generated Model for W_ProductGroupAllocation
+/** Generated Model for W_CategoryAllocation
  *  @author Adempiere (generated) 
  *  @version Release 3.9.3 - $Id$ */
-public class X_W_ProductGroupAllocation extends PO implements I_W_ProductGroupAllocation, I_Persistent 
+public class X_W_CategoryAllocation extends PO implements I_W_CategoryAllocation, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20200918L;
+	private static final long serialVersionUID = 20201102L;
 
     /** Standard Constructor */
-    public X_W_ProductGroupAllocation (Properties ctx, int W_ProductGroupAllocation_ID, String trxName)
+    public X_W_CategoryAllocation (Properties ctx, int W_CategoryAllocation_ID, String trxName)
     {
-      super (ctx, W_ProductGroupAllocation_ID, trxName);
-      /** if (W_ProductGroupAllocation_ID == 0)
+      super (ctx, W_CategoryAllocation_ID, trxName);
+      /** if (W_CategoryAllocation_ID == 0)
         {
 			setM_Product_ID (0);
-			setW_ProductGroupAllocation_ID (0);
-			setW_ProductGroup_ID (0);
+			setW_CategoryAllocation_ID (0);
+			setW_Category_ID (0);
         } */
     }
 
     /** Load Constructor */
-    public X_W_ProductGroupAllocation (Properties ctx, ResultSet rs, String trxName)
+    public X_W_CategoryAllocation (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -67,7 +67,7 @@ public class X_W_ProductGroupAllocation extends PO implements I_W_ProductGroupAl
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_W_ProductGroupAllocation[")
+      StringBuffer sb = new StringBuffer ("X_W_CategoryAllocation[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
@@ -135,45 +135,45 @@ public class X_W_ProductGroupAllocation extends PO implements I_W_ProductGroupAl
 	}
 
 	/** Set Product Group Allocation ID.
-		@param W_ProductGroupAllocation_ID Product Group Allocation ID	  */
-	public void setW_ProductGroupAllocation_ID (int W_ProductGroupAllocation_ID)
+		@param W_CategoryAllocation_ID Product Group Allocation ID	  */
+	public void setW_CategoryAllocation_ID (int W_CategoryAllocation_ID)
 	{
-		if (W_ProductGroupAllocation_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_W_ProductGroupAllocation_ID, null);
+		if (W_CategoryAllocation_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_W_CategoryAllocation_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_W_ProductGroupAllocation_ID, Integer.valueOf(W_ProductGroupAllocation_ID));
+			set_ValueNoCheck (COLUMNNAME_W_CategoryAllocation_ID, Integer.valueOf(W_CategoryAllocation_ID));
 	}
 
 	/** Get Product Group Allocation ID.
 		@return Product Group Allocation ID	  */
-	public int getW_ProductGroupAllocation_ID () 
+	public int getW_CategoryAllocation_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_W_ProductGroupAllocation_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_W_CategoryAllocation_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
 	}
 
-	public org.spin.model.I_W_ProductGroup getW_ProductGroup() throws RuntimeException
+	public org.spin.model.I_W_Category getW_Category() throws RuntimeException
     {
-		return (org.spin.model.I_W_ProductGroup)MTable.get(getCtx(), org.spin.model.I_W_ProductGroup.Table_Name)
-			.getPO(getW_ProductGroup_ID(), get_TrxName());	}
+		return (org.spin.model.I_W_Category)MTable.get(getCtx(), org.spin.model.I_W_Category.Table_Name)
+			.getPO(getW_Category_ID(), get_TrxName());	}
 
 	/** Set Product Store Group.
-		@param W_ProductGroup_ID Product Store Group	  */
-	public void setW_ProductGroup_ID (int W_ProductGroup_ID)
+		@param W_Category_ID Product Store Group	  */
+	public void setW_Category_ID (int W_Category_ID)
 	{
-		if (W_ProductGroup_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_W_ProductGroup_ID, null);
+		if (W_Category_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_W_Category_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_W_ProductGroup_ID, Integer.valueOf(W_ProductGroup_ID));
+			set_ValueNoCheck (COLUMNNAME_W_Category_ID, Integer.valueOf(W_Category_ID));
 	}
 
 	/** Get Product Store Group.
 		@return Product Store Group	  */
-	public int getW_ProductGroup_ID () 
+	public int getW_Category_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_W_ProductGroup_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_W_Category_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

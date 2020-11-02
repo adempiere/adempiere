@@ -22,24 +22,24 @@ import java.util.Properties;
  * 	Implementation for Web Store Product Group Allocation
  * 	@author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
  */
-public class MWProductGroupAllocation extends X_W_ProductGroupAllocation {
+public class MWCategoryAllocation extends X_W_CategoryAllocation {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5448641333159848635L;
 
-	public MWProductGroupAllocation(Properties ctx, int allocationId, String trxName) {
+	public MWCategoryAllocation(Properties ctx, int allocationId, String trxName) {
 		super(ctx, allocationId, trxName);
 	}
 	
-	public MWProductGroupAllocation(Properties ctx, ResultSet rs, String trxName) {
+	public MWCategoryAllocation(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
 
 	@Override
 	public String toString() {
 		return "MWProductGroupAllocation [getDescription()=" + getDescription() + ", getM_Product_ID()="
-				+ getM_Product_ID() + ", getUUID()=" + getUUID() + ", getW_ProductGroupAllocation_ID()="
-				+ getW_ProductGroupAllocation_ID() + ", getW_ProductGroup_ID()=" + getW_ProductGroup_ID() + "]";
+				+ getM_Product_ID() + ", getUUID()=" + getUUID() + ", getW_CategoryAllocation_ID()="
+				+ getW_CategoryAllocation_ID() + ", getW_Category_ID()=" + getW_Category_ID() + "]";
 	}
 }

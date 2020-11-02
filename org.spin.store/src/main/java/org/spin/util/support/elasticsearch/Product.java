@@ -39,7 +39,7 @@ import org.compiere.util.TimeUtil;
 import org.compiere.util.Util;
 import org.eevolution.model.MPPProductBOM;
 import org.spin.model.MADAttachmentReference;
-import org.spin.model.MWProductGroup;
+import org.spin.model.MWCategory;
 
 /**
  * 	Wrapper for product entity
@@ -125,13 +125,13 @@ public class Product implements IPersistenceWrapper {
 			List<Map<String, Object>> categories = new ArrayList<>();
 			List<String> categoriesIds = new ArrayList<>();
 			//	Groups
-			List<MWProductGroup> productGroups = MWProductGroup.getOfProduct(product.getCtx(), product.getM_Product_ID(), product.get_TrxName());
+			List<MWCategory> productGroups = MWCategory.getOfProduct(product.getCtx(), product.getM_Product_ID(), product.get_TrxName());
 			if(productGroups != null
 					&& productGroups.size() > 0) {
 				productGroups.forEach(group -> {
 					Category wrapperOfGroup = Category.newInstance().withCategoy(group);
 					Map<String, Object> categoryMap = new HashMap<String, Object>();
-					categoryMap.put("id", group.getW_ProductGroup_ID());
+					categoryMap.put("id", group.getW_Category_ID());
 					categoryMap.put("name", group.getName());
 					categoryMap.put("slug", wrapperOfGroup.getURLKey(true));
 					categoryMap.put("path", wrapperOfGroup.getURLPath());

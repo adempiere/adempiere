@@ -22,32 +22,32 @@ import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for W_ProductGroup
+/** Generated Model for C_PaymentMethod
  *  @author Adempiere (generated) 
  *  @version Release 3.9.3 - $Id$ */
-public class X_W_ProductGroup extends PO implements I_W_ProductGroup, I_Persistent 
+public class X_C_PaymentMethod extends PO implements I_C_PaymentMethod, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20201019L;
+	private static final long serialVersionUID = 20201102L;
 
     /** Standard Constructor */
-    public X_W_ProductGroup (Properties ctx, int W_ProductGroup_ID, String trxName)
+    public X_C_PaymentMethod (Properties ctx, int C_PaymentMethod_ID, String trxName)
     {
-      super (ctx, W_ProductGroup_ID, trxName);
-      /** if (W_ProductGroup_ID == 0)
+      super (ctx, C_PaymentMethod_ID, trxName);
+      /** if (C_PaymentMethod_ID == 0)
         {
-			setIsDefault (false);
+			setC_PaymentMethod_ID (0);
 			setName (null);
+			setTenderType (null);
 			setValue (null);
-			setW_ProductGroup_ID (0);
         } */
     }
 
     /** Load Constructor */
-    public X_W_ProductGroup (Properties ctx, ResultSet rs, String trxName)
+    public X_C_PaymentMethod (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -69,10 +69,33 @@ public class X_W_ProductGroup extends PO implements I_W_ProductGroup, I_Persiste
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_W_ProductGroup[")
+      StringBuffer sb = new StringBuffer ("X_C_PaymentMethod[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Store Payment Method.
+		@param C_PaymentMethod_ID 
+		Payment Methods allowed for Store
+	  */
+	public void setC_PaymentMethod_ID (int C_PaymentMethod_ID)
+	{
+		if (C_PaymentMethod_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentMethod_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_PaymentMethod_ID, Integer.valueOf(C_PaymentMethod_ID));
+	}
+
+	/** Get Store Payment Method.
+		@return Payment Methods allowed for Store
+	  */
+	public int getC_PaymentMethod_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_PaymentMethod_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	/** Set Description.
 		@param Description 
@@ -89,54 +112,6 @@ public class X_W_ProductGroup extends PO implements I_W_ProductGroup, I_Persiste
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
-	}
-
-	/** Set Default.
-		@param IsDefault 
-		Default value
-	  */
-	public void setIsDefault (boolean IsDefault)
-	{
-		set_Value (COLUMNNAME_IsDefault, Boolean.valueOf(IsDefault));
-	}
-
-	/** Get Default.
-		@return Default value
-	  */
-	public boolean isDefault () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsDefault);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
-	/** Set Featured in Web Store.
-		@param IsWebStoreFeatured 
-		If selected, the product is displayed in the initial or any empty search
-	  */
-	public void setIsWebStoreFeatured (boolean IsWebStoreFeatured)
-	{
-		set_Value (COLUMNNAME_IsWebStoreFeatured, Boolean.valueOf(IsWebStoreFeatured));
-	}
-
-	/** Get Featured in Web Store.
-		@return If selected, the product is displayed in the initial or any empty search
-	  */
-	public boolean isWebStoreFeatured () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsWebStoreFeatured);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
 	}
 
 	/** Set Name.
@@ -156,13 +131,43 @@ public class X_W_ProductGroup extends PO implements I_W_ProductGroup, I_Persiste
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getName());
-    }
+	/** TenderType AD_Reference_ID=214 */
+	public static final int TENDERTYPE_AD_Reference_ID=214;
+	/** Credit Card = C */
+	public static final String TENDERTYPE_CreditCard = "C";
+	/** Check = K */
+	public static final String TENDERTYPE_Check = "K";
+	/** Direct Deposit = A */
+	public static final String TENDERTYPE_DirectDeposit = "A";
+	/** Direct Debit = D */
+	public static final String TENDERTYPE_DirectDebit = "D";
+	/** Account = T */
+	public static final String TENDERTYPE_Account = "T";
+	/** Cash = X */
+	public static final String TENDERTYPE_Cash = "X";
+	/** Credit Memo = M */
+	public static final String TENDERTYPE_CreditMemo = "M";
+	/** Zelle = Z */
+	public static final String TENDERTYPE_Zelle = "Z";
+	/** Mobile Payment Interbank = P */
+	public static final String TENDERTYPE_MobilePaymentInterbank = "P";
+	/** Set Tender type.
+		@param TenderType 
+		Method of Payment
+	  */
+	public void setTenderType (String TenderType)
+	{
+
+		set_Value (COLUMNNAME_TenderType, TenderType);
+	}
+
+	/** Get Tender type.
+		@return Method of Payment
+	  */
+	public String getTenderType () 
+	{
+		return (String)get_Value(COLUMNNAME_TenderType);
+	}
 
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 
@@ -198,48 +203,11 @@ public class X_W_ProductGroup extends PO implements I_W_ProductGroup, I_Persiste
 		return (String)get_Value(COLUMNNAME_Value);
 	}
 
-	/** Set Product Store Group.
-		@param W_ProductGroup_ID Product Store Group	  */
-	public void setW_ProductGroup_ID (int W_ProductGroup_ID)
-	{
-		if (W_ProductGroup_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_W_ProductGroup_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_W_ProductGroup_ID, Integer.valueOf(W_ProductGroup_ID));
-	}
-
-	/** Get Product Store Group.
-		@return Product Store Group	  */
-	public int getW_ProductGroup_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_W_ProductGroup_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	public org.spin.model.I_W_ProductGroup getW_ProductGroup_Parent() throws RuntimeException
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
     {
-		return (org.spin.model.I_W_ProductGroup)MTable.get(getCtx(), org.spin.model.I_W_ProductGroup.Table_Name)
-			.getPO(getW_ProductGroup_Parent_ID(), get_TrxName());	}
-
-	/** Set Product Store Group Parent.
-		@param W_ProductGroup_Parent_ID Product Store Group Parent	  */
-	public void setW_ProductGroup_Parent_ID (int W_ProductGroup_Parent_ID)
-	{
-		if (W_ProductGroup_Parent_ID < 1) 
-			set_Value (COLUMNNAME_W_ProductGroup_Parent_ID, null);
-		else 
-			set_Value (COLUMNNAME_W_ProductGroup_Parent_ID, Integer.valueOf(W_ProductGroup_Parent_ID));
-	}
-
-	/** Get Product Store Group Parent.
-		@return Product Store Group Parent	  */
-	public int getW_ProductGroup_Parent_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_W_ProductGroup_Parent_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
+        return new KeyNamePair(get_ID(), getValue());
+    }
 }

@@ -26,7 +26,7 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MTaxCategory;
 import org.compiere.util.DB;
 import org.compiere.util.KeyNamePair;
-import org.spin.model.MWProductGroup;
+import org.spin.model.MWCategory;
 import org.spin.util.ElasticSearchHelper;
 import org.spin.util.support.elasticsearch.Attribute;
 import org.spin.util.support.elasticsearch.Category;
@@ -82,7 +82,7 @@ public class ExportCatalog extends ExportCatalogAbstract {
 				Arrays.asList(categoryArray)
 					.forEach(categoryPair -> {
 						try {
-							MWProductGroup category = MWProductGroup.getById(getCtx(), categoryPair.getKey(), get_TrxName());
+							MWCategory category = MWCategory.getById(getCtx(), categoryPair.getKey(), get_TrxName());
 							ElasticSearchHelper.getInstance().index(Category.newInstance().withCategoy(category));
 							addLog(categoryPair.getName() + ": @Ok@");
 							categoryCounter.incrementAndGet();

@@ -30,24 +30,24 @@ import org.compiere.util.Env;
  * 	Implementation for Web Store Product Group
  * 	@author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
  */
-public class MWPaymentMethod extends X_W_PaymentMethod {
+public class MCPaymentMethod extends X_C_PaymentMethod {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5448641333159848635L;
 
-	public MWPaymentMethod(Properties ctx, int terminalId, String trxName) {
+	public MCPaymentMethod(Properties ctx, int terminalId, String trxName) {
 		super(ctx, terminalId, trxName);
 	}
 	
-	public MWPaymentMethod(Properties ctx, ResultSet rs, String trxName) {
+	public MCPaymentMethod(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
 	
 	/** Static Cache */
-	private static CCache<Integer, MWPaymentMethod> paymentMethodCacheIds = new CCache<Integer, MWPaymentMethod>(Table_Name, 30);
+	private static CCache<Integer, MCPaymentMethod> paymentMethodCacheIds = new CCache<Integer, MCPaymentMethod>(Table_Name, 30);
 	/** Static Cache */
-	private static CCache<String, MWPaymentMethod> paymentMethodGroupCodes = new CCache<String, MWPaymentMethod>(Table_Name, 30);
+	private static CCache<String, MCPaymentMethod> paymentMethodGroupCodes = new CCache<String, MCPaymentMethod>(Table_Name, 30);
 	
 	/**
 	 * Get/Load Payment Method for Web Store [CACHED]
@@ -56,15 +56,15 @@ public class MWPaymentMethod extends X_W_PaymentMethod {
 	 * @param trxName
 	 * @return activity or null
 	 */
-	public static MWPaymentMethod getById(Properties ctx, int terminalId, String trxName) {
+	public static MCPaymentMethod getById(Properties ctx, int terminalId, String trxName) {
 		if (terminalId <= 0)
 			return null;
 
-		MWPaymentMethod paymentMethod = paymentMethodCacheIds.get(terminalId);
+		MCPaymentMethod paymentMethod = paymentMethodCacheIds.get(terminalId);
 		if (paymentMethod != null && paymentMethod.get_ID() > 0)
 			return paymentMethod;
 
-		paymentMethod = new Query(ctx , Table_Name , COLUMNNAME_W_PaymentMethod_ID + "=?" , trxName)
+		paymentMethod = new Query(ctx , Table_Name , COLUMNNAME_C_PaymentMethod_ID + "=?" , trxName)
 				.setParameters(terminalId)
 				.first();
 		if (paymentMethod != null && paymentMethod.get_ID() > 0) {
@@ -83,14 +83,14 @@ public class MWPaymentMethod extends X_W_PaymentMethod {
 	 * @param trxName
 	 * @return
 	 */
-	public static MWPaymentMethod getByValue(Properties ctx, String value, String trxName) {
+	public static MCPaymentMethod getByValue(Properties ctx, String value, String trxName) {
 		if (value == null)
 			return null;
 		if (paymentMethodGroupCodes.size() == 0 )
 			getAll(ctx, true, trxName);
 
 		String key = value;
-		MWPaymentMethod paymentMethod = paymentMethodGroupCodes.get(key);
+		MCPaymentMethod paymentMethod = paymentMethodGroupCodes.get(key);
 		if (paymentMethod != null && paymentMethod.get_ID() > 0 )
 			return paymentMethod;
 
@@ -112,8 +112,8 @@ public class MWPaymentMethod extends X_W_PaymentMethod {
 	 * @param trxName
 	 * @return
 	 */
-	public static List<MWPaymentMethod> getAll(Properties ctx, boolean resetCache, String trxName) {
-		List<MWPaymentMethod> productGroupList;
+	public static List<MCPaymentMethod> getAll(Properties ctx, boolean resetCache, String trxName) {
+		List<MCPaymentMethod> productGroupList;
 		if (resetCache || paymentMethodCacheIds.size() > 0 ) {
 			productGroupList = new Query(Env.getCtx(), Table_Name, null , trxName)
 					.setClient_ID()
@@ -121,7 +121,7 @@ public class MWPaymentMethod extends X_W_PaymentMethod {
 					.list();
 			productGroupList.stream().forEach(paymentMethod -> {
 				String key = paymentMethod.getValue();
-				paymentMethodCacheIds.put(paymentMethod.getW_PaymentMethod_ID(), paymentMethod);
+				paymentMethodCacheIds.put(paymentMethod.getC_PaymentMethod_ID(), paymentMethod);
 				paymentMethodGroupCodes.put(key, paymentMethod);
 			});
 			return productGroupList;
@@ -139,9 +139,9 @@ public class MWPaymentMethod extends X_W_PaymentMethod {
 	 * @param trxName
 	 * @return
 	 */
-	public static List<MWPaymentMethod> getOfStore(Properties ctx, int storeId, String trxName) {
-		return new Query(Env.getCtx(), Table_Name, "EXISTS(SELECT 1 FROM W_PaymentMethodAllocation a "
-				+ "WHERE a.W_PaymentMethod_ID = W_PaymentMethod.W_PaymentMethod_ID "
+	public static List<MCPaymentMethod> getOfStore(Properties ctx, int storeId, String trxName) {
+		return new Query(Env.getCtx(), Table_Name, "EXISTS(SELECT 1 FROM C_PaymentMethodAllocation a "
+				+ "WHERE a.C_PaymentMethod_ID = C_PaymentMethod.C_PaymentMethod_ID "
 				+ "AND a.W_Store_ID = ?)" , trxName)
 				.setParameters(storeId)
 				.setClient_ID()
@@ -153,17 +153,17 @@ public class MWPaymentMethod extends X_W_PaymentMethod {
 	 * @return
 	 */
 	public List<MStore> getStoresList() {
-		return new Query(Env.getCtx(), I_M_Product.Table_Name, "EXISTS(SELECT 1 FROM W_PaymentMethodAllocation a "
+		return new Query(Env.getCtx(), I_M_Product.Table_Name, "EXISTS(SELECT 1 FROM C_PaymentMethodAllocation a "
 				+ "WHERE a.W_Store_ID = W_Store.W_Store_ID "
-				+ "AND a.W_ProductGroup_ID = ?)" , get_TrxName())
-				.setParameters(getW_PaymentMethod_ID())
+				+ "AND a.W_ProductCategory_ID = ?)" , get_TrxName())
+				.setParameters(getC_PaymentMethod_ID())
 				.setClient_ID()
 				.list();
 	}
 
 	@Override
 	public String toString() {
-		return "MWPaymentMethod [getName()=" + getName() + ", getValue()=" + getValue() + ", getW_PaymentMethod_ID()="
-				+ getW_PaymentMethod_ID() + "]";
+		return "MWPaymentMethod [getName()=" + getName() + ", getValue()=" + getValue() + ", getC_PaymentMethod_ID()="
+				+ getC_PaymentMethod_ID() + "]";
 	}
 }

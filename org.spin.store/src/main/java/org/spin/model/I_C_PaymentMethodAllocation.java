@@ -21,17 +21,17 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for W_PaymentMethod
+/** Generated Interface for C_PaymentMethodAllocation
  *  @author Adempiere (generated) 
  *  @version Release 3.9.3
  */
-public interface I_W_PaymentMethod 
+public interface I_C_PaymentMethodAllocation 
 {
 
-    /** TableName=W_PaymentMethod */
-    public static final String Table_Name = "W_PaymentMethod";
+    /** TableName=C_PaymentMethodAllocation */
+    public static final String Table_Name = "C_PaymentMethodAllocation";
 
-    /** AD_Table_ID=54777 */
+    /** AD_Table_ID=54775 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -62,6 +62,30 @@ public interface I_W_PaymentMethod
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name C_PaymentMethodAllocation_ID */
+    public static final String COLUMNNAME_C_PaymentMethodAllocation_ID = "C_PaymentMethodAllocation_ID";
+
+	/** Set Store Payment Method	  */
+	public void setC_PaymentMethodAllocation_ID (int C_PaymentMethodAllocation_ID);
+
+	/** Get Store Payment Method	  */
+	public int getC_PaymentMethodAllocation_ID();
+
+    /** Column name C_PaymentMethod_ID */
+    public static final String COLUMNNAME_C_PaymentMethod_ID = "C_PaymentMethod_ID";
+
+	/** Set Store Payment Method.
+	  * Payment Methods allowed for Store
+	  */
+	public void setC_PaymentMethod_ID (int C_PaymentMethod_ID);
+
+	/** Get Store Payment Method.
+	  * Payment Methods allowed for Store
+	  */
+	public int getC_PaymentMethod_ID();
+
+	public org.spin.model.I_C_PaymentMethod getC_PaymentMethod() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -105,31 +129,18 @@ public interface I_W_PaymentMethod
 	  */
 	public boolean isActive();
 
-    /** Column name Name */
-    public static final String COLUMNNAME_Name = "Name";
+    /** Column name Note */
+    public static final String COLUMNNAME_Note = "Note";
 
-	/** Set Name.
-	  * Alphanumeric identifier of the entity
+	/** Set Note.
+	  * Optional additional user defined information
 	  */
-	public void setName (String Name);
+	public void setNote (String Note);
 
-	/** Get Name.
-	  * Alphanumeric identifier of the entity
+	/** Get Note.
+	  * Optional additional user defined information
 	  */
-	public String getName();
-
-    /** Column name TenderType */
-    public static final String COLUMNNAME_TenderType = "TenderType";
-
-	/** Set Tender type.
-	  * Method of Payment
-	  */
-	public void setTenderType (String TenderType);
-
-	/** Get Tender type.
-	  * Method of Payment
-	  */
-	public String getTenderType();
+	public String getNote();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -160,29 +171,18 @@ public interface I_W_PaymentMethod
 	  */
 	public String getUUID();
 
-    /** Column name Value */
-    public static final String COLUMNNAME_Value = "Value";
+    /** Column name W_Store_ID */
+    public static final String COLUMNNAME_W_Store_ID = "W_Store_ID";
 
-	/** Set Search Key.
-	  * Search key for the record in the format required - must be unique
+	/** Set Web Store.
+	  * A Web Store of the Client
 	  */
-	public void setValue (String Value);
+	public void setW_Store_ID (int W_Store_ID);
 
-	/** Get Search Key.
-	  * Search key for the record in the format required - must be unique
+	/** Get Web Store.
+	  * A Web Store of the Client
 	  */
-	public String getValue();
+	public int getW_Store_ID();
 
-    /** Column name W_PaymentMethod_ID */
-    public static final String COLUMNNAME_W_PaymentMethod_ID = "W_PaymentMethod_ID";
-
-	/** Set Store Payment Method.
-	  * Payment Methods allowed for Store
-	  */
-	public void setW_PaymentMethod_ID (int W_PaymentMethod_ID);
-
-	/** Get Store Payment Method.
-	  * Payment Methods allowed for Store
-	  */
-	public int getW_PaymentMethod_ID();
+	public org.compiere.model.I_W_Store getW_Store() throws RuntimeException;
 }

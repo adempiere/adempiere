@@ -22,7 +22,7 @@ import java.util.Properties;
  * 	Implementation for Web Store Payment Method Allocation
  * 	@author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
  */
-public class MWPaymentMethodAllocation extends X_W_PaymentMethodAllocation {
+public class MWPaymentMethodAllocation extends X_C_PaymentMethodAllocation {
 	/**
 	 * 
 	 */
@@ -38,7 +38,7 @@ public class MWPaymentMethodAllocation extends X_W_PaymentMethodAllocation {
 
 	@Override
 	public String toString() {
-		return "MWPaymentMethodAllocation [getW_PaymentMethodAllocation_ID()=" + getW_PaymentMethodAllocation_ID()
-				+ ", getW_PaymentMethod_ID()=" + getW_PaymentMethod_ID() + ", getW_Store_ID()=" + getW_Store_ID() + "]";
+		return "MWPaymentMethodAllocation [getC_PaymentMethodAllocation_ID()=" + getC_PaymentMethodAllocation_ID()
+				+ ", getC_PaymentMethod_ID()=" + getC_PaymentMethod_ID() + ", getW_Store_ID()=" + getW_Store_ID() + "]";
 	}
 }

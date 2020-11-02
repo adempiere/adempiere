@@ -21,15 +21,15 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for W_ProductGroup
+/** Generated Interface for W_Category
  *  @author Adempiere (generated) 
  *  @version Release 3.9.3
  */
-public interface I_W_ProductGroup 
+public interface I_W_Category 
 {
 
-    /** TableName=W_ProductGroup */
-    public static final String Table_Name = "W_ProductGroup";
+    /** TableName=W_Category */
+    public static final String Table_Name = "W_Category";
 
     /** AD_Table_ID=54778 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
@@ -186,23 +186,23 @@ public interface I_W_ProductGroup
 	  */
 	public String getValue();
 
-    /** Column name W_ProductGroup_ID */
-    public static final String COLUMNNAME_W_ProductGroup_ID = "W_ProductGroup_ID";
+    /** Column name W_Category_ID */
+    public static final String COLUMNNAME_W_Category_ID = "W_Category_ID";
 
 	/** Set Product Store Group	  */
-	public void setW_ProductGroup_ID (int W_ProductGroup_ID);
+	public void setW_Category_ID (int W_Category_ID);
 
 	/** Get Product Store Group	  */
-	public int getW_ProductGroup_ID();
+	public int getW_Category_ID();
 
-    /** Column name W_ProductGroup_Parent_ID */
-    public static final String COLUMNNAME_W_ProductGroup_Parent_ID = "W_ProductGroup_Parent_ID";
+    /** Column name W_Category_Parent_ID */
+    public static final String COLUMNNAME_W_Category_Parent_ID = "W_Category_Parent_ID";
 
 	/** Set Product Store Group Parent	  */
-	public void setW_ProductGroup_Parent_ID (int W_ProductGroup_Parent_ID);
+	public void setW_Category_Parent_ID (int W_Category_Parent_ID);
 
 	/** Get Product Store Group Parent	  */
-	public int getW_ProductGroup_Parent_ID();
+	public int getW_Category_Parent_ID();
 
-	public org.spin.model.I_W_ProductGroup getW_ProductGroup_Parent() throws RuntimeException;
+	public org.spin.model.I_W_Category getW_Category_Parent() throws RuntimeException;
 }

@@ -286,6 +286,9 @@ public class VueStoreFrontUtil {
 	public static List<MPackage> createPackagesFromBasket(Properties context, int basketId, String transactionName) {
 		X_W_Basket basket = new X_W_Basket(context, basketId, transactionName);
 		List<MPackage> packages = getPackagesFromBasket(context, basketId, transactionName);
+		if(basket.getC_BPartner_ID() <= 0) {
+			return packages;
+		}
 		MBPartner customer = MBPartner.get(context, basket.getC_BPartner_ID());
 		List<MBPartnerLocation> locations = Arrays.asList(customer.getLocations(true));
 		Optional<MBPartnerLocation> maybeLocation = Optional.of(locations.stream().filter(location -> location.isShipTo()).findFirst()).orElse(locations.stream().findFirst());
