@@ -1,8 +1,585 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="ECA02" Name="Add Collecting Agent Reference to Payment" ReleaseNo="3.9.4" SeqNo="6550">
-    <Step SeqNo="1" StepType="AD">
+    <Step DBType="Postgres" Parse="N" SeqNo="0" StepType="SQL">
+      <Comments>RV_PAYMENT</Comments>
+      <SQLStatement>CREATE OR REPLACE VIEW RV_PAYMENT
+(C_PAYMENT_ID, AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, 
+ CREATEDBY, UPDATED, UPDATEDBY, DOCUMENTNO, DATETRX, 
+ ISRECEIPT, C_DOCTYPE_ID, TRXTYPE, C_BANKACCOUNT_ID, C_BPARTNER_ID, 
+ C_INVOICE_ID, C_BP_BANKACCOUNT_ID, C_PAYMENTBATCH_ID, TENDERTYPE, CREDITCARDTYPE, 
+ CREDITCARDNUMBER, CREDITCARDVV, CREDITCARDEXPMM, CREDITCARDEXPYY, MICR, 
+ ROUTINGNO, ACCOUNTNO, CHECKNO, A_NAME, A_STREET, 
+ A_CITY, A_STATE, A_ZIP, A_IDENT_DL, A_IDENT_SSN, 
+ A_EMAIL, VOICEAUTHCODE, ORIG_TRXID, PONUM, C_CURRENCY_ID, 
+ C_CONVERSIONTYPE_ID, PAYAMT, DISCOUNTAMT, WRITEOFFAMT, TAXAMT, 
+ OVERUNDERAMT, MULTIPLIERAP, ALLOCATEDAMT, AVAILABLEAMT, ISOVERUNDERPAYMENT, 
+ ISAPPROVED, R_PNREF, R_RESULT, R_RESPMSG, R_AUTHCODE, 
+ R_AVSADDR, R_AVSZIP, R_INFO, PROCESSING, OPROCESSING, 
+ DOCSTATUS, DOCACTION, ISPREPAYMENT, C_CHARGE_ID, ISRECONCILED, 
+ ISALLOCATED, ISONLINE, PROCESSED, POSTED, C_CAMPAIGN_ID, 
+ C_PROJECT_ID, C_ACTIVITY_ID, IsUnidentifiedPayment, Ref_Payment_ID, RelatedPayment_ID, Description, 
+ C_BP_AccountType_ID, C_BP_SalesGroup_ID, C_BP_Segment_ID, C_BP_IndustryType_ID, CollectingAgent_ID)
+AS 
+SELECT p.C_Payment_ID, p.AD_Client_ID, p.AD_Org_ID, p.IsActive, p.Created, p.CreatedBy, p.Updated, p.UpdatedBy,
+    p.DocumentNo, p.DateTrx, p.IsReceipt, p.C_DocType_ID, p.TrxType,
+    p.C_BankAccount_ID, p.C_BPartner_ID, p.C_Invoice_ID, p.C_BP_BankAccount_ID, p.C_PaymentBatch_ID,
+    p.TenderType, p.CreditCardType, p.CreditCardNumber, p.CreditCardVV, p.CreditCardExpMM, p.CreditCardExpYY,
+    p.Micr, p.RoutingNo, p.AccountNo, p.CheckNo,
+    p.A_Name, p.A_Street, p.A_City, p.A_State, p.A_Zip, p.A_Ident_DL, p.A_Ident_SSN, p.A_EMail,
+    p.VoiceAuthCode, p.Orig_TrxID, p.PONum,
+    p.C_Currency_ID, p.C_ConversionType_ID,
+    CASE p.IsReceipt WHEN 'Y' THEN p.PayAmt ELSE p.PayAmt*-1 END AS PayAmt,
+    CASE p.IsReceipt WHEN 'Y' THEN p.DiscountAmt ELSE p.DiscountAmt*-1 END AS DiscountAmt, 
+    CASE p.IsReceipt WHEN 'Y' THEN p.WriteOffAmt ELSE p.WriteOffAmt*-1 END AS WriteOffAmt,
+    CASE p.IsReceipt WHEN 'Y' THEN p.TaxAmt ELSE p.TaxAmt*-1 END AS TaxAmt, 
+    CASE p.IsReceipt WHEN 'Y' THEN p.OverUnderAmt ELSE p.OverUnderAmt*-1 END AS OverUnderAmt,
+    CASE p.IsReceipt WHEN 'Y' THEN 1 ELSE -1 END AS MultiplierAP,
+    paymentAllocated(p.C_Payment_ID, p.C_Currency_ID) AS AllocatedAmt,
+    paymentAvailable(p.C_Payment_ID) AS AvailableAmt,
+    p.IsOverUnderPayment, p.IsApproved,
+    p.R_PnRef, p.R_Result, p.R_RespMsg, p.R_AuthCode, p.R_AvsAddr, p.R_AvsZip, p.R_Info,
+    p.Processing, p.OProcessing, p.DocStatus, p.DocAction,
+    p.IsPrepayment, p.C_Charge_ID,
+    p.IsReconciled, p.IsAllocated, p.IsOnline, p.Processed, p.Posted,
+    p.C_Campaign_ID, p.C_Project_ID, p.C_Activity_ID, p.IsUnidentifiedPayment, p.Ref_Payment_ID, p.RelatedPayment_ID,
+    p.Description, 
+    bp.C_BP_AccountType_ID, bp.C_BP_SalesGroup_ID, bp.C_BP_Segment_ID, bp.C_BP_IndustryType_ID, p.CollectingAgent_ID
+FROM C_Payment p
+LEFT JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID);</SQLStatement>
+      <RollbackStatement>CREATE OR REPLACE VIEW RV_PAYMENT
+(C_PAYMENT_ID, AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, 
+ CREATEDBY, UPDATED, UPDATEDBY, DOCUMENTNO, DATETRX, 
+ ISRECEIPT, C_DOCTYPE_ID, TRXTYPE, C_BANKACCOUNT_ID, C_BPARTNER_ID, 
+ C_INVOICE_ID, C_BP_BANKACCOUNT_ID, C_PAYMENTBATCH_ID, TENDERTYPE, CREDITCARDTYPE, 
+ CREDITCARDNUMBER, CREDITCARDVV, CREDITCARDEXPMM, CREDITCARDEXPYY, MICR, 
+ ROUTINGNO, ACCOUNTNO, CHECKNO, A_NAME, A_STREET, 
+ A_CITY, A_STATE, A_ZIP, A_IDENT_DL, A_IDENT_SSN, 
+ A_EMAIL, VOICEAUTHCODE, ORIG_TRXID, PONUM, C_CURRENCY_ID, 
+ C_CONVERSIONTYPE_ID, PAYAMT, DISCOUNTAMT, WRITEOFFAMT, TAXAMT, 
+ OVERUNDERAMT, MULTIPLIERAP, ALLOCATEDAMT, AVAILABLEAMT, ISOVERUNDERPAYMENT, 
+ ISAPPROVED, R_PNREF, R_RESULT, R_RESPMSG, R_AUTHCODE, 
+ R_AVSADDR, R_AVSZIP, R_INFO, PROCESSING, OPROCESSING, 
+ DOCSTATUS, DOCACTION, ISPREPAYMENT, C_CHARGE_ID, ISRECONCILED, 
+ ISALLOCATED, ISONLINE, PROCESSED, POSTED, C_CAMPAIGN_ID, 
+ C_PROJECT_ID, C_ACTIVITY_ID, IsUnidentifiedPayment, Ref_Payment_ID, RelatedPayment_ID, Description, 
+ C_BP_AccountType_ID, C_BP_SalesGroup_ID, C_BP_Segment_ID, C_BP_IndustryType_ID)
+AS 
+SELECT p.C_Payment_ID, p.AD_Client_ID, p.AD_Org_ID, p.IsActive, p.Created, p.CreatedBy, p.Updated, p.UpdatedBy,
+    p.DocumentNo, p.DateTrx, p.IsReceipt, p.C_DocType_ID, p.TrxType,
+    p.C_BankAccount_ID, p.C_BPartner_ID, p.C_Invoice_ID, p.C_BP_BankAccount_ID, p.C_PaymentBatch_ID,
+    p.TenderType, p.CreditCardType, p.CreditCardNumber, p.CreditCardVV, p.CreditCardExpMM, p.CreditCardExpYY,
+    p.Micr, p.RoutingNo, p.AccountNo, p.CheckNo,
+    p.A_Name, p.A_Street, p.A_City, p.A_State, p.A_Zip, p.A_Ident_DL, p.A_Ident_SSN, p.A_EMail,
+    p.VoiceAuthCode, p.Orig_TrxID, p.PONum,
+    p.C_Currency_ID, p.C_ConversionType_ID,
+    CASE p.IsReceipt WHEN 'Y' THEN p.PayAmt ELSE p.PayAmt*-1 END AS PayAmt,
+    CASE p.IsReceipt WHEN 'Y' THEN p.DiscountAmt ELSE p.DiscountAmt*-1 END AS DiscountAmt, 
+    CASE p.IsReceipt WHEN 'Y' THEN p.WriteOffAmt ELSE p.WriteOffAmt*-1 END AS WriteOffAmt,
+    CASE p.IsReceipt WHEN 'Y' THEN p.TaxAmt ELSE p.TaxAmt*-1 END AS TaxAmt, 
+    CASE p.IsReceipt WHEN 'Y' THEN p.OverUnderAmt ELSE p.OverUnderAmt*-1 END AS OverUnderAmt,
+    CASE p.IsReceipt WHEN 'Y' THEN 1 ELSE -1 END AS MultiplierAP,
+    paymentAllocated(p.C_Payment_ID, p.C_Currency_ID) AS AllocatedAmt,
+    paymentAvailable(p.C_Payment_ID) AS AvailableAmt,
+    p.IsOverUnderPayment, p.IsApproved,
+    p.R_PnRef, p.R_Result, p.R_RespMsg, p.R_AuthCode, p.R_AvsAddr, p.R_AvsZip, p.R_Info,
+    p.Processing, p.OProcessing, p.DocStatus, p.DocAction,
+    p.IsPrepayment, p.C_Charge_ID,
+    p.IsReconciled, p.IsAllocated, p.IsOnline, p.Processed, p.Posted,
+    p.C_Campaign_ID, p.C_Project_ID, p.C_Activity_ID, p.IsUnidentifiedPayment, p.Ref_Payment_ID, p.RelatedPayment_ID,
+    p.Description, 
+    bp.C_BP_AccountType_ID, bp.C_BP_SalesGroup_ID, bp.C_BP_Segment_ID, bp.C_BP_IndustryType_ID
+FROM C_Payment p
+LEFT JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID);</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="0" StepType="SQL">
+      <Comments>C_Payment_V</Comments>
+      <SQLStatement>CREATE OR REPLACE VIEW C_Payment_v AS
+ SELECT p.C_Payment_ID,
+    p.AD_Client_ID,
+    p.AD_Org_ID,
+    p.IsActive,
+    p.Created,
+    p.CreatedBy,
+    p.Updated,
+    p.UpdatedBy,
+    p.DocumentNo,
+    p.DateTrx,
+    p.DateAcct,
+    p.IsReceipt,
+    p.C_Doctype_ID,
+    p.TrxType,
+    p.C_BankAccount_ID,
+    p.C_BPartner_ID,
+    p.C_Invoice_ID,
+    p.C_BP_BankAccount_ID,
+    p.C_PaymentBatch_ID,
+    p.TenderType,
+    p.CreditCardType,
+    p.CreditCardNumber,
+    p.CreditCardVV,
+    p.CreditCardExpMM,
+    p.CreditCardExpYY,
+    p.Micr,
+    p.RoutingNo,
+    p.AccountNo,
+    p.CheckNo,
+    p.A_Name,
+    p.A_Street,
+    p.A_City,
+    p.A_State,
+    p.A_Zip,
+    p.A_Ident_DL,
+    p.A_Ident_SSN,
+    p.A_Email,
+    p.VoiceAuthCode,
+    p.Orig_TrxID,
+    p.PONum,
+    p.C_Currency_ID,
+    p.C_ConversionType_ID,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.PayAmt
+            ELSE p.PayAmt * (-1)
+        END AS PayAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.DiscountAmt
+            ELSE p.DiscountAmt * (-1)
+        END AS DiscountAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.WriteOffAmt
+            ELSE p.WriteOffAmt * (-1)
+        END AS WriteOffAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.TaxAmt
+            ELSE p.TaxAmt * (-1)
+        END AS TaxAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.OverUnderAmt
+            ELSE p.OverUnderAmt * (-1)
+        END AS OverUnderAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN 1
+            ELSE (-1)
+        END AS MultiplierAP,
+    p.IsOverUnderPayment,
+    p.IsApproved,
+    p.R_PNRef,
+    p.R_Result,
+    p.R_RespMsg,
+    p.R_AuthCode,
+    p.R_AvsAddr,
+    p.r_AvsZip,
+    p.r_Info,
+    p.Processing,
+    p.Oprocessing,
+    p.DocStatus,
+    p.DocAction,
+    p.IsPrepayment,
+    p.C_Charge_ID,
+    p.IsReconciled,
+    p.IsAllocated,
+    p.IsOnline,
+    p.Processed,
+    p.Posted,
+    p.C_Campaign_ID,
+    p.C_Project_ID,
+    p.C_Activity_ID,
+    p.C_Order_ID,
+    p.User1_ID,
+    p.User2_ID, 
+    p.Description,
+    bp.C_BP_AccountType_ID, bp.C_BP_SalesGroup_ID, bp.C_BP_Segment_ID, bp.C_BP_IndustryType_ID, CollectingAgent_ID
+   FROM C_Payment p
+   LEFT JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID);</SQLStatement>
+      <RollbackStatement>CREATE OR REPLACE VIEW C_Payment_v AS
+ SELECT p.C_Payment_ID,
+    p.AD_Client_ID,
+    p.AD_Org_ID,
+    p.IsActive,
+    p.Created,
+    p.CreatedBy,
+    p.Updated,
+    p.UpdatedBy,
+    p.DocumentNo,
+    p.DateTrx,
+    p.DateAcct,
+    p.IsReceipt,
+    p.C_Doctype_ID,
+    p.TrxType,
+    p.C_BankAccount_ID,
+    p.C_BPartner_ID,
+    p.C_Invoice_ID,
+    p.C_BP_BankAccount_ID,
+    p.C_PaymentBatch_ID,
+    p.TenderType,
+    p.CreditCardType,
+    p.CreditCardNumber,
+    p.CreditCardVV,
+    p.CreditCardExpMM,
+    p.CreditCardExpYY,
+    p.Micr,
+    p.RoutingNo,
+    p.AccountNo,
+    p.CheckNo,
+    p.A_Name,
+    p.A_Street,
+    p.A_City,
+    p.A_State,
+    p.A_Zip,
+    p.A_Ident_DL,
+    p.A_Ident_SSN,
+    p.A_Email,
+    p.VoiceAuthCode,
+    p.Orig_TrxID,
+    p.PONum,
+    p.C_Currency_ID,
+    p.C_ConversionType_ID,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.PayAmt
+            ELSE p.PayAmt * (-1)
+        END AS PayAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.DiscountAmt
+            ELSE p.DiscountAmt * (-1)
+        END AS DiscountAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.WriteOffAmt
+            ELSE p.WriteOffAmt * (-1)
+        END AS WriteOffAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.TaxAmt
+            ELSE p.TaxAmt * (-1)
+        END AS TaxAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.OverUnderAmt
+            ELSE p.OverUnderAmt * (-1)
+        END AS OverUnderAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN 1
+            ELSE (-1)
+        END AS MultiplierAP,
+    p.IsOverUnderPayment,
+    p.IsApproved,
+    p.R_PNRef,
+    p.R_Result,
+    p.R_RespMsg,
+    p.R_AuthCode,
+    p.R_AvsAddr,
+    p.r_AvsZip,
+    p.r_Info,
+    p.Processing,
+    p.Oprocessing,
+    p.DocStatus,
+    p.DocAction,
+    p.IsPrepayment,
+    p.C_Charge_ID,
+    p.IsReconciled,
+    p.IsAllocated,
+    p.IsOnline,
+    p.Processed,
+    p.Posted,
+    p.C_Campaign_ID,
+    p.C_Project_ID,
+    p.C_Activity_ID,
+    p.C_Order_ID,
+    p.User1_ID,
+    p.User2_ID, 
+    p.Description,
+    bp.C_BP_AccountType_ID, bp.C_BP_SalesGroup_ID, bp.C_BP_Segment_ID, bp.C_BP_IndustryType_ID
+   FROM C_Payment p
+   LEFT JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID);</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="N" SeqNo="0" StepType="SQL">
+      <Comments>C_Payment_V</Comments>
+      <SQLStatement>CREATE OR REPLACE VIEW C_Payment_v AS
+ SELECT p.C_Payment_ID,
+    p.AD_Client_ID,
+    p.AD_Org_ID,
+    p.IsActive,
+    p.Created,
+    p.CreatedBy,
+    p.Updated,
+    p.UpdatedBy,
+    p.DocumentNo,
+    p.DateTrx,
+    p.DateAcct,
+    p.IsReceipt,
+    p.C_Doctype_ID,
+    p.TrxType,
+    p.C_BankAccount_ID,
+    p.C_BPartner_ID,
+    p.C_Invoice_ID,
+    p.C_BP_BankAccount_ID,
+    p.C_PaymentBatch_ID,
+    p.TenderType,
+    p.CreditCardType,
+    p.CreditCardNumber,
+    p.CreditCardVV,
+    p.CreditCardExpMM,
+    p.CreditCardExpYY,
+    p.Micr,
+    p.RoutingNo,
+    p.AccountNo,
+    p.CheckNo,
+    p.A_Name,
+    p.A_Street,
+    p.A_City,
+    p.A_State,
+    p.A_Zip,
+    p.A_Ident_DL,
+    p.A_Ident_SSN,
+    p.A_Email,
+    p.VoiceAuthCode,
+    p.Orig_TrxID,
+    p.PONum,
+    p.C_Currency_ID,
+    p.C_ConversionType_ID,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.PayAmt
+            ELSE p.PayAmt * (-1)
+        END AS PayAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.DiscountAmt
+            ELSE p.DiscountAmt * (-1)
+        END AS DiscountAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.WriteOffAmt
+            ELSE p.WriteOffAmt * (-1)
+        END AS WriteOffAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.TaxAmt
+            ELSE p.TaxAmt * (-1)
+        END AS TaxAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.OverUnderAmt
+            ELSE p.OverUnderAmt * (-1)
+        END AS OverUnderAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN 1
+            ELSE (-1)
+        END AS MultiplierAP,
+    p.IsOverUnderPayment,
+    p.IsApproved,
+    p.R_PNRef,
+    p.R_Result,
+    p.R_RespMsg,
+    p.R_AuthCode,
+    p.R_AvsAddr,
+    p.r_AvsZip,
+    p.r_Info,
+    p.Processing,
+    p.Oprocessing,
+    p.DocStatus,
+    p.DocAction,
+    p.IsPrepayment,
+    p.C_Charge_ID,
+    p.IsReconciled,
+    p.IsAllocated,
+    p.IsOnline,
+    p.Processed,
+    p.Posted,
+    p.C_Campaign_ID,
+    p.C_Project_ID,
+    p.C_Activity_ID,
+    p.C_Order_ID,
+    p.User1_ID,
+    p.User2_ID, 
+    p.Description,
+    bp.C_BP_AccountType_ID, bp.C_BP_SalesGroup_ID, bp.C_BP_Segment_ID, bp.C_BP_IndustryType_ID, CollectingAgent_ID
+   FROM C_Payment p
+   LEFT JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID);</SQLStatement>
+      <RollbackStatement>CREATE OR REPLACE VIEW C_Payment_v AS
+ SELECT p.C_Payment_ID,
+    p.AD_Client_ID,
+    p.AD_Org_ID,
+    p.IsActive,
+    p.Created,
+    p.CreatedBy,
+    p.Updated,
+    p.UpdatedBy,
+    p.DocumentNo,
+    p.DateTrx,
+    p.DateAcct,
+    p.IsReceipt,
+    p.C_Doctype_ID,
+    p.TrxType,
+    p.C_BankAccount_ID,
+    p.C_BPartner_ID,
+    p.C_Invoice_ID,
+    p.C_BP_BankAccount_ID,
+    p.C_PaymentBatch_ID,
+    p.TenderType,
+    p.CreditCardType,
+    p.CreditCardNumber,
+    p.CreditCardVV,
+    p.CreditCardExpMM,
+    p.CreditCardExpYY,
+    p.Micr,
+    p.RoutingNo,
+    p.AccountNo,
+    p.CheckNo,
+    p.A_Name,
+    p.A_Street,
+    p.A_City,
+    p.A_State,
+    p.A_Zip,
+    p.A_Ident_DL,
+    p.A_Ident_SSN,
+    p.A_Email,
+    p.VoiceAuthCode,
+    p.Orig_TrxID,
+    p.PONum,
+    p.C_Currency_ID,
+    p.C_ConversionType_ID,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.PayAmt
+            ELSE p.PayAmt * (-1)
+        END AS PayAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.DiscountAmt
+            ELSE p.DiscountAmt * (-1)
+        END AS DiscountAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.WriteOffAmt
+            ELSE p.WriteOffAmt * (-1)
+        END AS WriteOffAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.TaxAmt
+            ELSE p.TaxAmt * (-1)
+        END AS TaxAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN p.OverUnderAmt
+            ELSE p.OverUnderAmt * (-1)
+        END AS OverUnderAmt,
+        CASE p.IsReceipt
+            WHEN 'Y' THEN 1
+            ELSE (-1)
+        END AS MultiplierAP,
+    p.IsOverUnderPayment,
+    p.IsApproved,
+    p.R_PNRef,
+    p.R_Result,
+    p.R_RespMsg,
+    p.R_AuthCode,
+    p.R_AvsAddr,
+    p.r_AvsZip,
+    p.r_Info,
+    p.Processing,
+    p.Oprocessing,
+    p.DocStatus,
+    p.DocAction,
+    p.IsPrepayment,
+    p.C_Charge_ID,
+    p.IsReconciled,
+    p.IsAllocated,
+    p.IsOnline,
+    p.Processed,
+    p.Posted,
+    p.C_Campaign_ID,
+    p.C_Project_ID,
+    p.C_Activity_ID,
+    p.C_Order_ID,
+    p.User1_ID,
+    p.User2_ID, 
+    p.Description,
+    bp.C_BP_AccountType_ID, bp.C_BP_SalesGroup_ID, bp.C_BP_Segment_ID, bp.C_BP_IndustryType_ID
+   FROM C_Payment p
+   LEFT JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID);</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="0" StepType="SQL">
+      <Comments>RV_PAYMENT</Comments>
+      <SQLStatement>CREATE OR REPLACE VIEW RV_PAYMENT
+(C_PAYMENT_ID, AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, 
+ CREATEDBY, UPDATED, UPDATEDBY, DOCUMENTNO, DATETRX, 
+ ISRECEIPT, C_DOCTYPE_ID, TRXTYPE, C_BANKACCOUNT_ID, C_BPARTNER_ID, 
+ C_INVOICE_ID, C_BP_BANKACCOUNT_ID, C_PAYMENTBATCH_ID, TENDERTYPE, CREDITCARDTYPE, 
+ CREDITCARDNUMBER, CREDITCARDVV, CREDITCARDEXPMM, CREDITCARDEXPYY, MICR, 
+ ROUTINGNO, ACCOUNTNO, CHECKNO, A_NAME, A_STREET, 
+ A_CITY, A_STATE, A_ZIP, A_IDENT_DL, A_IDENT_SSN, 
+ A_EMAIL, VOICEAUTHCODE, ORIG_TRXID, PONUM, C_CURRENCY_ID, 
+ C_CONVERSIONTYPE_ID, PAYAMT, DISCOUNTAMT, WRITEOFFAMT, TAXAMT, 
+ OVERUNDERAMT, MULTIPLIERAP, ALLOCATEDAMT, AVAILABLEAMT, ISOVERUNDERPAYMENT, 
+ ISAPPROVED, R_PNREF, R_RESULT, R_RESPMSG, R_AUTHCODE, 
+ R_AVSADDR, R_AVSZIP, R_INFO, PROCESSING, OPROCESSING, 
+ DOCSTATUS, DOCACTION, ISPREPAYMENT, C_CHARGE_ID, ISRECONCILED, 
+ ISALLOCATED, ISONLINE, PROCESSED, POSTED, C_CAMPAIGN_ID, 
+ C_PROJECT_ID, C_ACTIVITY_ID, IsUnidentifiedPayment, Ref_Payment_ID, RelatedPayment_ID, Description, 
+ C_BP_AccountType_ID, C_BP_SalesGroup_ID, C_BP_Segment_ID, C_BP_IndustryType_ID, CollectingAgent_ID)
+AS 
+SELECT p.C_Payment_ID, p.AD_Client_ID, p.AD_Org_ID, p.IsActive, p.Created, p.CreatedBy, p.Updated, p.UpdatedBy,
+    p.DocumentNo, p.DateTrx, p.IsReceipt, p.C_DocType_ID, p.TrxType,
+    p.C_BankAccount_ID, p.C_BPartner_ID, p.C_Invoice_ID, p.C_BP_BankAccount_ID, p.C_PaymentBatch_ID,
+    p.TenderType, p.CreditCardType, p.CreditCardNumber, p.CreditCardVV, p.CreditCardExpMM, p.CreditCardExpYY,
+    p.Micr, p.RoutingNo, p.AccountNo, p.CheckNo,
+    p.A_Name, p.A_Street, p.A_City, p.A_State, p.A_Zip, p.A_Ident_DL, p.A_Ident_SSN, p.A_EMail,
+    p.VoiceAuthCode, p.Orig_TrxID, p.PONum,
+    p.C_Currency_ID, p.C_ConversionType_ID,
+    CASE p.IsReceipt WHEN 'Y' THEN p.PayAmt ELSE p.PayAmt*-1 END AS PayAmt,
+    CASE p.IsReceipt WHEN 'Y' THEN p.DiscountAmt ELSE p.DiscountAmt*-1 END AS DiscountAmt, 
+    CASE p.IsReceipt WHEN 'Y' THEN p.WriteOffAmt ELSE p.WriteOffAmt*-1 END AS WriteOffAmt,
+    CASE p.IsReceipt WHEN 'Y' THEN p.TaxAmt ELSE p.TaxAmt*-1 END AS TaxAmt, 
+    CASE p.IsReceipt WHEN 'Y' THEN p.OverUnderAmt ELSE p.OverUnderAmt*-1 END AS OverUnderAmt,
+    CASE p.IsReceipt WHEN 'Y' THEN 1 ELSE -1 END AS MultiplierAP,
+    paymentAllocated(p.C_Payment_ID, p.C_Currency_ID) AS AllocatedAmt,
+    paymentAvailable(p.C_Payment_ID) AS AvailableAmt,
+    p.IsOverUnderPayment, p.IsApproved,
+    p.R_PnRef, p.R_Result, p.R_RespMsg, p.R_AuthCode, p.R_AvsAddr, p.R_AvsZip, p.R_Info,
+    p.Processing, p.OProcessing, p.DocStatus, p.DocAction,
+    p.IsPrepayment, p.C_Charge_ID,
+    p.IsReconciled, p.IsAllocated, p.IsOnline, p.Processed, p.Posted,
+    p.C_Campaign_ID, p.C_Project_ID, p.C_Activity_ID, p.IsUnidentifiedPayment, p.Ref_Payment_ID, p.RelatedPayment_ID,
+    p.Description, 
+    bp.C_BP_AccountType_ID, bp.C_BP_SalesGroup_ID, bp.C_BP_Segment_ID, bp.C_BP_IndustryType_ID, p.CollectingAgent_ID
+FROM C_Payment p
+LEFT JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID);</SQLStatement>
+      <RollbackStatement>CREATE OR REPLACE VIEW RV_PAYMENT
+(C_PAYMENT_ID, AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, 
+ CREATEDBY, UPDATED, UPDATEDBY, DOCUMENTNO, DATETRX, 
+ ISRECEIPT, C_DOCTYPE_ID, TRXTYPE, C_BANKACCOUNT_ID, C_BPARTNER_ID, 
+ C_INVOICE_ID, C_BP_BANKACCOUNT_ID, C_PAYMENTBATCH_ID, TENDERTYPE, CREDITCARDTYPE, 
+ CREDITCARDNUMBER, CREDITCARDVV, CREDITCARDEXPMM, CREDITCARDEXPYY, MICR, 
+ ROUTINGNO, ACCOUNTNO, CHECKNO, A_NAME, A_STREET, 
+ A_CITY, A_STATE, A_ZIP, A_IDENT_DL, A_IDENT_SSN, 
+ A_EMAIL, VOICEAUTHCODE, ORIG_TRXID, PONUM, C_CURRENCY_ID, 
+ C_CONVERSIONTYPE_ID, PAYAMT, DISCOUNTAMT, WRITEOFFAMT, TAXAMT, 
+ OVERUNDERAMT, MULTIPLIERAP, ALLOCATEDAMT, AVAILABLEAMT, ISOVERUNDERPAYMENT, 
+ ISAPPROVED, R_PNREF, R_RESULT, R_RESPMSG, R_AUTHCODE, 
+ R_AVSADDR, R_AVSZIP, R_INFO, PROCESSING, OPROCESSING, 
+ DOCSTATUS, DOCACTION, ISPREPAYMENT, C_CHARGE_ID, ISRECONCILED, 
+ ISALLOCATED, ISONLINE, PROCESSED, POSTED, C_CAMPAIGN_ID, 
+ C_PROJECT_ID, C_ACTIVITY_ID, IsUnidentifiedPayment, Ref_Payment_ID, RelatedPayment_ID, Description, 
+ C_BP_AccountType_ID, C_BP_SalesGroup_ID, C_BP_Segment_ID, C_BP_IndustryType_ID)
+AS 
+SELECT p.C_Payment_ID, p.AD_Client_ID, p.AD_Org_ID, p.IsActive, p.Created, p.CreatedBy, p.Updated, p.UpdatedBy,
+    p.DocumentNo, p.DateTrx, p.IsReceipt, p.C_DocType_ID, p.TrxType,
+    p.C_BankAccount_ID, p.C_BPartner_ID, p.C_Invoice_ID, p.C_BP_BankAccount_ID, p.C_PaymentBatch_ID,
+    p.TenderType, p.CreditCardType, p.CreditCardNumber, p.CreditCardVV, p.CreditCardExpMM, p.CreditCardExpYY,
+    p.Micr, p.RoutingNo, p.AccountNo, p.CheckNo,
+    p.A_Name, p.A_Street, p.A_City, p.A_State, p.A_Zip, p.A_Ident_DL, p.A_Ident_SSN, p.A_EMail,
+    p.VoiceAuthCode, p.Orig_TrxID, p.PONum,
+    p.C_Currency_ID, p.C_ConversionType_ID,
+    CASE p.IsReceipt WHEN 'Y' THEN p.PayAmt ELSE p.PayAmt*-1 END AS PayAmt,
+    CASE p.IsReceipt WHEN 'Y' THEN p.DiscountAmt ELSE p.DiscountAmt*-1 END AS DiscountAmt, 
+    CASE p.IsReceipt WHEN 'Y' THEN p.WriteOffAmt ELSE p.WriteOffAmt*-1 END AS WriteOffAmt,
+    CASE p.IsReceipt WHEN 'Y' THEN p.TaxAmt ELSE p.TaxAmt*-1 END AS TaxAmt, 
+    CASE p.IsReceipt WHEN 'Y' THEN p.OverUnderAmt ELSE p.OverUnderAmt*-1 END AS OverUnderAmt,
+    CASE p.IsReceipt WHEN 'Y' THEN 1 ELSE -1 END AS MultiplierAP,
+    paymentAllocated(p.C_Payment_ID, p.C_Currency_ID) AS AllocatedAmt,
+    paymentAvailable(p.C_Payment_ID) AS AvailableAmt,
+    p.IsOverUnderPayment, p.IsApproved,
+    p.R_PnRef, p.R_Result, p.R_RespMsg, p.R_AuthCode, p.R_AvsAddr, p.R_AvsZip, p.R_Info,
+    p.Processing, p.OProcessing, p.DocStatus, p.DocAction,
+    p.IsPrepayment, p.C_Charge_ID,
+    p.IsReconciled, p.IsAllocated, p.IsOnline, p.Processed, p.Posted,
+    p.C_Campaign_ID, p.C_Project_ID, p.C_Activity_ID, p.IsUnidentifiedPayment, p.Ref_Payment_ID, p.RelatedPayment_ID,
+    p.Description, 
+    bp.C_BP_AccountType_ID, bp.C_BP_SalesGroup_ID, bp.C_BP_Segment_ID, bp.C_BP_IndustryType_ID
+FROM C_Payment p
+LEFT JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID);</RollbackStatement>
+    </Step>
+    <Step SeqNo="7" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="61514" Table="AD_Element">
+        <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
         <Data AD_Column_ID="2602" Column="ColumnName">CollectingAgent_ID</Data>
         <Data AD_Column_ID="2600" Column="Updated">2020-11-02 11:29:35.36</Data>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
@@ -11,7 +588,6 @@
         <Data AD_Column_ID="2598" Column="Created">2020-11-02 11:29:35.36</Data>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
-        <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
         <Data AD_Column_ID="4299" Column="PrintName">Collecting Agent</Data>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
@@ -27,7 +603,7 @@
         <Data AD_Column_ID="84316" Column="UUID">b8bedddb-0a3b-449f-ade1-6572f9686382</Data>
       </PO>
     </Step>
-    <Step SeqNo="2" StepType="AD">
+    <Step SeqNo="8" StepType="AD">
       <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
         <Data AD_Column_ID="2642" Column="Created">2020-11-02 11:29:36.638</Data>
         <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
@@ -50,7 +626,7 @@
         <Data AD_Column_ID="84317" Column="UUID">f8a17738-dc6f-4fbf-b2ce-65a244a787dd</Data>
       </PO>
     </Step>
-    <Step SeqNo="3" StepType="AD">
+    <Step SeqNo="9" StepType="AD">
       <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
         <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2646" Column="Name" oldValue="Collecting Agent">Agente Cobrador</Data>
@@ -62,17 +638,6 @@
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="97185" Table="AD_Column">
         <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
-        <Data AD_Column_ID="119" Column="IsKey">false</Data>
-        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
-        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
-        <Data AD_Column_ID="112" Column="Description">In market terms such an economic operator would often be referred to as a "collecting agent"</Data>
-        <Data AD_Column_ID="548" Column="IsActive">true</Data>
-        <Data AD_Column_ID="111" Column="Name">Collecting Agent</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">true</Data>
         <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">0</Data>
@@ -112,6 +677,17 @@
         <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">97185</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description">In market terms such an economic operator would often be referred to as a "collecting agent"</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="111" Column="Name">Collecting Agent</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
       </PO>
     </Step>
     <Step SeqNo="20" StepType="AD">
@@ -180,6 +756,7 @@
     </Step>
     <Step SeqNo="40" StepType="AD">
       <PO AD_Table_ID="127" Action="I" Record_ID="99663" Table="AD_Field_Trl">
+        <Data AD_Column_ID="674" Column="Updated">2020-10-29 10:59:36.871</Data>
         <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="287" Column="Description">Sales Representative or Company Agent</Data>
         <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
@@ -188,7 +765,6 @@
         <Data AD_Column_ID="288" Column="Help">The Sales Representative indicates the Sales Rep for this Region.  Any Sales Rep must be a valid internal user.</Data>
         <Data AD_Column_ID="671" Column="IsActive">true</Data>
         <Data AD_Column_ID="672" Column="Created">2020-10-29 10:59:36.871</Data>
-        <Data AD_Column_ID="674" Column="Updated">2020-10-29 10:59:36.871</Data>
         <Data AD_Column_ID="284" Column="AD_Field_ID">99663</Data>
         <Data AD_Column_ID="673" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
@@ -247,7 +823,6 @@
     <Step SeqNo="60" StepType="AD">
       <PO AD_Table_ID="127" Action="I" Record_ID="99664" Table="AD_Field_Trl">
         <Data AD_Column_ID="671" Column="IsActive">true</Data>
-        <Data AD_Column_ID="672" Column="Created">2020-10-29 10:59:55.217</Data>
         <Data AD_Column_ID="674" Column="Updated">2020-10-29 10:59:55.217</Data>
         <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="287" Column="Description">Sales Representative or Company Agent</Data>
@@ -260,6 +835,7 @@
         <Data AD_Column_ID="675" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="285" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="84323" Column="UUID">87d25451-14fc-4ea0-be53-f0e18752ca1a</Data>
+        <Data AD_Column_ID="672" Column="Created">2020-10-29 10:59:55.217</Data>
       </PO>
     </Step>
     <Step SeqNo="70" StepType="AD">
@@ -732,6 +1308,8 @@
     <Step SeqNo="1000" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="97209" Table="AD_Column">
         <Data AD_Column_ID="112" Column="Description">In market terms such an economic operator would often be referred to as a "collecting agent"</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2020-11-02 11:38:29.305</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="551" Column="Updated">2020-11-02 11:38:29.305</Data>
@@ -780,8 +1358,6 @@
         <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
         <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
         <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true"/>
-        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2020-11-02 11:38:29.305</Data>
       </PO>
     </Step>
     <Step SeqNo="1010" StepType="AD">
@@ -838,13 +1414,13 @@
     </Step>
     <Step SeqNo="1030" StepType="AD">
       <PO AD_Table_ID="286" Action="I" Record_ID="57852" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2840" Column="Name">Collecting Agent</Data>
         <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84386" Column="UUID">73904f38-1886-48f7-8fb8-b4666c90b448</Data>
         <Data AD_Column_ID="2836" Column="Created">2020-11-02 11:39:40.214</Data>
         <Data AD_Column_ID="2835" Column="IsActive">true</Data>
         <Data AD_Column_ID="2838" Column="Updated">2020-11-02 11:39:40.214</Data>
-        <Data AD_Column_ID="2840" Column="Name">Collecting Agent</Data>
         <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="2841" Column="Description">In market terms such an economic operator would often be referred to as a "collecting agent"</Data>
         <Data AD_Column_ID="3743" Column="Help" isNewNull="true"/>
@@ -860,6 +1436,13 @@
         <Data AD_Column_ID="112" Column="Description">In market terms such an economic operator would often be referred to as a "collecting agent"</Data>
         <Data AD_Column_ID="548" Column="IsActive">true</Data>
         <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">18</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID">1c55e8ee-f1d2-4604-8fe8-7b6d960e9625</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
         <Data AD_Column_ID="549" Column="Created">2020-11-02 11:40:16.703</Data>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="551" Column="Updated">2020-11-02 11:40:16.703</Data>
@@ -900,13 +1483,6 @@
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2608" Column="AD_Element_ID">61514</Data>
         <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">190</Data>
-        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
-        <Data AD_Column_ID="226" Column="AD_Reference_ID">18</Data>
-        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="84306" Column="UUID">1c55e8ee-f1d2-4604-8fe8-7b6d960e9625</Data>
-        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
-        <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
       </PO>
     </Step>
     <Step SeqNo="1050" StepType="AD">
@@ -1017,11 +1593,6 @@
     </Step>
     <Step SeqNo="1090" StepType="AD">
       <PO AD_Table_ID="286" Action="I" Record_ID="57854" Table="AD_Process_Para_Trl">
-        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="2836" Column="Created">2020-11-02 11:41:09.009</Data>
-        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
-        <Data AD_Column_ID="2838" Column="Updated">2020-11-02 11:41:09.009</Data>
-        <Data AD_Column_ID="2840" Column="Name">Collecting Agent</Data>
         <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="2841" Column="Description">In market terms such an economic operator would often be referred to as a "collecting agent"</Data>
         <Data AD_Column_ID="3743" Column="Help" isNewNull="true"/>
@@ -1031,6 +1602,11 @@
         <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84386" Column="UUID">107acd0e-450b-490f-9972-123e75b693f3</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2836" Column="Created">2020-11-02 11:41:09.009</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2020-11-02 11:41:09.009</Data>
+        <Data AD_Column_ID="2840" Column="Name">Collecting Agent</Data>
       </PO>
     </Step>
     <Step SeqNo="1100" StepType="AD">
@@ -1073,6 +1649,9 @@
       <PO AD_Table_ID="286" Action="I" Record_ID="57855" Table="AD_Process_Para_Trl">
         <Data AD_Column_ID="2836" Column="Created">2020-11-02 11:41:35.903</Data>
         <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID">893c39f9-5bb0-48da-8089-312e0735e169</Data>
         <Data AD_Column_ID="2838" Column="Updated">2020-11-02 11:41:35.903</Data>
         <Data AD_Column_ID="2840" Column="Name">Collecting Agent</Data>
         <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
@@ -1082,9 +1661,6 @@
         <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
         <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="84386" Column="UUID">893c39f9-5bb0-48da-8089-312e0735e169</Data>
       </PO>
     </Step>
   </Migration>
