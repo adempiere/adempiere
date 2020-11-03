@@ -45,6 +45,7 @@
 		<ant inheritAll="false" dir="org.spin.finance_management"/>
 		<ant inheritAll="false" dir="org.spin.loan_management"/>
 		<ant inheritAll="false" dir="org.spin.hr_time_and_attendance"/>
+		<ant inheritAll="false" dir="org.spin.store"/>
 	</target>
 	<target name="build" depends="clean, jar">
 		<ant inheritAll="false" dir="install"/>		
@@ -81,6 +82,7 @@
 		<ant inheritAll="false" dir="org.spin.finance_management" target="clean"/>
 		<ant inheritAll="false" dir="org.spin.loan_management" target="clean"/>
 		<ant inheritAll="false" dir="org.spin.hr_time_and_attendance" target="clean"/>
+		<ant inheritAll="false" dir="org.spin.store" target="clean"/>
 	</target>
 
   <target name="clean-all" depends="clean">

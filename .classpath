@@ -47,6 +47,7 @@
 	<classpathentry kind="src" path="org.spin.loan_management/src/main/java/ui/zk"/>
 	<classpathentry kind="src" path="org.spin.loan_management/src/main/java/ui/swing"/>
 	<classpathentry kind="src" path="org.spin.finance_management/src/main/java/base"/>
+	<classpathentry kind="src" path="org.spin.store/src/main/java"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar">
 		<attributes>
@@ -354,5 +355,51 @@
 	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-core-1.11.795.jar"/>
 	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-kms-1.11.795.jar"/>
 	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-s3-1.11.795.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/aggs-matrix-stats-client-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/commons-codec-1.11.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/commons-logging-1.1.3.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/compiler-0.9.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/elasticsearch-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/elasticsearch-cli-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/elasticsearch-core-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/elasticsearch-geo-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/elasticsearch-rest-client-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/elasticsearch-rest-high-level-client-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/elasticsearch-secure-sm-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/elasticsearch-x-content-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/HdrHistogram-2.1.9.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/hppc-0.8.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/httpasyncclient-4.1.4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/httpclient-4.5.10.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/httpcore-4.4.12.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/httpcore-nio-4.4.12.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/jackson-core-2.10.4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/jackson-dataformat-cbor-2.10.4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/jackson-dataformat-smile-2.10.4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/jackson-dataformat-yaml-2.10.4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/jna-5.5.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/joda-time-2.10.4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/jopt-simple-5.0.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lang-mustache-client-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/log4j-api-2.11.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-analyzers-common-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-backward-codecs-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-core-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-grouping-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-highlighter-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-join-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-memory-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-misc-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-queries-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-queryparser-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-sandbox-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-spatial-extras-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-spatial3d-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-suggest-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/mapper-extras-client-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/parent-join-client-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/rank-eval-client-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/snakeyaml-1.26.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/t-digest-3.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
