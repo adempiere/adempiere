@@ -75,8 +75,8 @@ public class ExportCatalog extends ExportCatalogAbstract {
 			//	Product Category
 			if(isExportProductCategory()) {
 				AtomicInteger categoryCounter = new AtomicInteger();
-				KeyNamePair [] categoryArray = DB.getKeyNamePairs("SELECT W_ProductGroup_ID, Name "
-						+ "FROM W_ProductGroup "
+				KeyNamePair [] categoryArray = DB.getKeyNamePairs("SELECT W_Category_ID, Name "
+						+ "FROM W_Category "
 						+ "WHERE AD_Client_ID = ? "
 						+ "AND IsActive = 'Y'", false, getAD_Client_ID());
 				Arrays.asList(categoryArray)
@@ -93,7 +93,7 @@ public class ExportCatalog extends ExportCatalogAbstract {
 							errors.incrementAndGet();
 						}
 					});
-				addLog("@W_ProductGroup_ID@: " + categoryCounter);
+				addLog("@W_Category_ID@: " + categoryCounter);
 			}
 			//	Product Attribute
 			if(isExportProductAttribute()) {
