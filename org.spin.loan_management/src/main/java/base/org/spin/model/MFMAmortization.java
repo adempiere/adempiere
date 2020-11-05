@@ -134,7 +134,8 @@ public class MFMAmortization extends X_FM_Amortization {
 		amortization.setPeriodNo(PeriodNo);
 		amortization.setStartDate(StartDate);
 		amortization.setTaxAmt(TaxAmt);
-		return amortization.save(trxName);
+		amortization.saveEx(trxName);
+		return true;
 	}
 	
 	/**
