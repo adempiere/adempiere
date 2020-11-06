@@ -54,12 +54,14 @@ public class FrenchLoanAmortization extends AbstractFunctionalSetting {
 		String transactionName = (String) getParameter(FinancialSetting.PARAMETER_TRX_NAME);
 		List<AmortizationValue> amortizationList = new ArrayList<AmortizationValue>();
 		MFMProduct financialProduct = MFMProduct.getById(getCtx(), loan.getFM_Product_ID());
-		
+		loan.set_TrxName(transactionName);
 		List<MFMAccount> accounts = loan.getAccounts();
 		
 		for (MFMAccount account : accounts) {
-			if (MFMAmortization.checkAccount(account))
+			account.set_TrxName(transactionName);
+			if (MFMAmortization.checkAccount(account)) {
 				continue;
+			}
 			
 			MFMAmortization.deleteForAccount(account);
 			

@@ -452,7 +452,7 @@ public class MFMBatch extends X_FM_Batch implements DocAction, DocOptions {
 		
 		List<MFMTransaction> fromLines = from.getLines(false);
 		for (MFMTransaction fromMovement: fromLines) {
-			MFMTransaction toMovement = new MFMTransaction (getCtx(), 0, null);
+			MFMTransaction toMovement = new MFMTransaction (getCtx(), 0, get_TrxName());
 			PO.copyValues (fromMovement, toMovement, fromMovement.getAD_Client_ID(), fromMovement.getAD_Org_ID());
 			//	
 			toMovement.setFM_Batch_ID(getFM_Batch_ID());

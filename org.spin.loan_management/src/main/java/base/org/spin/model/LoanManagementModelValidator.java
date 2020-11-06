@@ -393,7 +393,7 @@ public class LoanManagementModelValidator implements ModelValidator {
 			}
 		} else if(entity.get_TableName().equals(I_C_Invoice.Table_Name)) {
 			MInvoice invoice = (MInvoice) entity;
-			int financialAccountId = invoice.get_ValueAsInt("FM_Account_ID");
+			int financialAccountId = invoice.getFM_Account_ID();
         	if(financialAccountId <= 0) {
         		return null;
         	}
@@ -432,8 +432,8 @@ public class LoanManagementModelValidator implements ModelValidator {
 				}
 				//	Set All quotes
 				for(MInvoiceLine line : invoice.getLines()) {
-					if(line.get_ValueAsInt("FM_Amortization_ID") != 0) {
-						MFMAmortization amortization = new MFMAmortization(invoice.getCtx(), line.get_ValueAsInt("FM_Amortization_ID"), invoice.get_TrxName());
+					if(line.getFM_Amortization_ID() != 0) {
+						MFMAmortization amortization = new MFMAmortization(invoice.getCtx(), line.getFM_Amortization_ID(), invoice.get_TrxName());
 						amortization.setIsInvoiced(isInvoiced);
 						if(!isInvoiced) {
 							amortization.setIsPaid(false);

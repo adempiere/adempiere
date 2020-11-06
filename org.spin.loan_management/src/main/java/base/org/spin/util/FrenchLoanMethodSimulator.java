@@ -44,7 +44,7 @@ public class FrenchLoanMethodSimulator extends AbstractFunctionalSetting {
 		Timestamp endDate = (Timestamp) getParameter("END_DATE");
 		Timestamp payDate = (Timestamp) getParameter("PAYMENT_DATE");
 		String paymentFrequency = (String) getParameter("PAYMENT_FREQUENCY");
-		boolean isDueFixed = (boolean) getParameter("DUE_FIXED");
+//		boolean isDueFixed = (boolean) getParameter("DUE_FIXED");
 		
 		HashMap<String, Object> returnValues = new HashMap<String, Object>();
 		returnValues = LoanUtil.calculateFrenchAmortization(financialProductId, capitalAmt, 
