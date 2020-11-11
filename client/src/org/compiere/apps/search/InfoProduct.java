@@ -1835,7 +1835,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 					line.add(rs.getTimestamp(5));					//  Date
 					double qtyOnHand = rs.getDouble(6);
 					double qtyDelivered  = rs.getDouble(7);
-					double qtyOrdered = rs.getDouble(8) - qtyDelivered;
+					double qtyOrdered = rs.getDouble(8);
 					double qtyReserved = rs.getDouble(9);
 					qtyAvailable += qtyOnHand - qtyReserved;
 					qtyExpected += qtyOnHand;
