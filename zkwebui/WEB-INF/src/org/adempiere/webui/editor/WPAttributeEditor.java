@@ -52,31 +52,31 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 	private static final CLogger log = CLogger.getCLogger(WPAttributeEditor.class);
 
 	/**	Data Value				*/
-	private Object				m_value = new Object();
+	private Object 				value = new Object();
 	/** Attribute Where Clause  */
-	private String m_pAttributeWhere = null;
+	private String 				attributeWhere = null;
 	/** Column Name - fixed		*/
-	private static String		m_columnName = "M_AttributeSetInstance_ID";
+	private static String 		columnName = "M_AttributeSetInstance_ID";
 
-	private int 				m_WindowNo;
-	private MPAttributeLookup	m_mPAttribute;
-	private int 				m_C_BPartner_ID;
-	private boolean 			m_searchOnly;
-	private boolean				m_readWrite;
+	private int 				windowNo;
+	private MPAttributeLookup 	attributeLookup;
+	private int 				partnerId;
+	private boolean 			isSearchOnly;
+	private boolean 			isReadWrite;
 	private WEditorPopupMenu	popupMenu;
 
 
 	/** The Grid Tab * */
-	private GridTab m_GridTab; // added for processCallout
+	private GridTab 			gridTabAttribute; // added for processCallout
 	/** The Grid Field * */
-	private GridField m_GridField; // added for processCallout
+	private GridField 			gridFieldAttribute; // added for processCallout
 	
 	/**	Calling Window Info				*/
-	private int					m_AD_Column_ID = 0;
+	private int 				columnId = 0;
 	/** record the value for comparison at a point in the future */
-	private Object m_oldValue;
-	private Object m_oldText;
-	private String m_oldWhere;
+	private Object 				oldValue;
+	private Object 				oldText;
+	private String 				oldWhere;
 
 	/**	No Instance Key					*/
 	private static Integer		NO_INSTANCE = new Integer(0);
@@ -84,12 +84,12 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 	public WPAttributeEditor(GridTab gridTab, GridField gridField)
 	{
 		super(new PAttributebox(), gridField);
-		m_GridTab = gridTab;
-		m_WindowNo = gridField.getWindowNo();
-		m_mPAttribute = (MPAttributeLookup) gridField.getLookup();
-		m_AD_Column_ID = gridField.getAD_Column_ID();
-		m_readWrite = false;
-		m_GridField = gridField;
+		this.gridTabAttribute = gridTab;
+		this.windowNo = gridField.getWindowNo();
+		this.attributeLookup = (MPAttributeLookup) gridField.getLookup();
+		this.columnId = gridField.getAD_Column_ID();
+		this.isReadWrite = false;
+		this.gridFieldAttribute = gridField;
 		initComponents();
 	}
 
@@ -98,31 +98,36 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 	 *  @param gridTab
 	 *  @param mandatory mandatory
 	 *  @param isReadOnly read only
-	 *  @param isUpdateable updateable
-	 * 	@param WindowNo WindowNo
-	 * 	@param lookup Model Product Attribute
-	 *  @param searchOnly True if only used to search instances
+	 *  @param isUpdatable updateable
+	 * 	@param windowNo WindowNo
+	 * 	@param attributeLookup Model Product Attribute
+	 *  @param isSearchOnly True if only used to search instances
 	 */
-	public WPAttributeEditor(GridTab gridTab, boolean mandatory, boolean isReadOnly, boolean isUpdateable, 
-			int WindowNo, MPAttributeLookup lookup, boolean searchOnly)
+	public WPAttributeEditor(GridTab gridTab,
+							 boolean mandatory,
+							 boolean isReadOnly,
+							 boolean isUpdatable,
+							 int windowNo,
+							 MPAttributeLookup attributeLookup,
+							 boolean isSearchOnly)
 	{
-    	super(new PAttributebox(), m_columnName, null, null, mandatory, isReadOnly, isUpdateable);
-    	if (lookup == null)
+		super(new PAttributebox(), columnName, null, null, mandatory, isReadOnly, isUpdatable);
+		if (attributeLookup == null)
 		{
 			throw new IllegalArgumentException("Lookup cannot be null");
 		}
-		m_GridTab = gridTab;
+		this.gridTabAttribute = gridTab;
 		//m_text.setName("VPAttribute Text - " + m_columnName);
 		//m_button.setName("VPAttribute Button - " + m_columnName);
-		m_WindowNo = WindowNo;
-		m_mPAttribute = lookup;
-		m_searchOnly = searchOnly;
-		m_readWrite = !isReadOnly && isUpdateable;
-		m_GridField = gridField;
-		if (m_GridTab != null){
-			GridField gridField = m_GridTab.getField(m_columnName);
-			if (gridField != null)
-				m_AD_Column_ID = gridField.getAD_Column_ID();
+		this.windowNo = windowNo;
+		this.attributeLookup = attributeLookup;
+		this.isSearchOnly = isSearchOnly;
+		this.isReadWrite = !isReadOnly && isUpdatable;
+		this.gridFieldAttribute = super.gridField;
+		if (this.gridTabAttribute != null){
+			GridField gridField = this.gridTabAttribute.getField(this.columnName);
+			if (super.gridField != null)
+				this.columnId = gridField.getAD_Column_ID();
 		}
 		initComponents();
 	}
@@ -132,20 +137,19 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 		getComponent().addEventListener(Events.ON_CLICK, this);
 		getComponent().addEventListener(Events.ON_CHANGE, this);
 
-		m_C_BPartner_ID = Env.getContextAsInt(Env.getCtx(), m_WindowNo, "C_BPartner_ID");
+		this.partnerId = Env.getContextAsInt(Env.getCtx(), this.windowNo, "C_BPartner_ID");
 
 		//	Popup
 		popupMenu = new WEditorPopupMenu(true, false, false);
 		getComponent().getTextbox().setContext(popupMenu.getId());
 		//  Don't allow direct entry in the text box
-		getComponent().setEnabled(m_readWrite);  //  Enable the control - sets the text box to read/write
+		getComponent().setEnabled(this.isReadWrite);  //  Enable the control - sets the text box to read/write
 		getComponent().getTextbox().setReadonly(true); // Disable the text box
-		if (gridField != null && gridField.getGridTab() != null)
+		if (super.gridField != null && super.gridField.getGridTab() != null)
 		{
 			WRecordInfo.addMenu(popupMenu);
 		}
-		
-		//getComponent().getTextbox().setReadonly(!m_readWrite);
+
 		setValue(NO_INSTANCE);
 		set_oldValue();
 	}
@@ -167,19 +171,19 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 		if (value == null || NO_INSTANCE.equals(value))
 		{
 			getComponent().setText("");
-			m_value = value;
-			m_pAttributeWhere = "";
+			this.value = value;
+			this.attributeWhere = "";
 			return;
 		}
 
 		//	The same
-		if (value.equals(m_value))
+		if (value.equals(this.value))
 			return;
 		//	new value
 		log.fine("Value=" + value);
-		m_value = value;
-		getComponent().setText(m_mPAttribute.getDisplay(value));	//	loads value
-		m_pAttributeWhere = "EXISTS (SELECT * FROM M_Storage s "
+		this.value = value;
+		getComponent().setText(this.attributeLookup.getDisplay(value));	//	loads value
+		this.attributeWhere = "EXISTS (SELECT * FROM M_Storage s "
 				+ "WHERE s.M_AttributeSetInstance_ID=" + value
 				+ " AND s.M_Product_ID=p.M_Product_ID)";
 
@@ -191,13 +195,13 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 	 */
 	public String getAttributeWhere()
 	{
-		return m_pAttributeWhere;
+		return this.attributeWhere;
 	}	//	getAttributeWhere()
 
 	@Override
 	public Object getValue()
 	{
-		return m_value;
+		return this.value;
 	}
 
 	@Override
@@ -210,24 +214,22 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 	{
 		if (Events.ON_CHANGE.equals(event.getName()) || Events.ON_OK.equals(event.getName()))
 		{
-			String newText = getComponent().getText();
-			String oldText = null;
-			if (m_value != null)
+			String newTextEvent = getComponent().getText();
+			String oldTextEvent = null;
+			if (this.value != null)
 			{
-				oldText = m_mPAttribute.getDisplay(m_value);
+				oldTextEvent = this.attributeLookup.getDisplay(value);
 			}
-			if (oldText != null && newText != null && oldText.equals(newText))
+			if (oldTextEvent != null && newTextEvent != null && oldTextEvent.equals(newTextEvent))
 			{
 	    	    event.stopPropagation();
 				return;
 	    	}
-	        if (oldText == null && newText == null)
+	        if (oldTextEvent == null && newTextEvent == null)
 	        {
 	        	event.stopPropagation();
 	        	return;
 	        }
-			//ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldText, newText);
-			//fireValueChange(changeEvent);
 		}
 		else if (Events.ON_CLICK.equals(event.getName()))
 		{
@@ -241,54 +243,55 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 	private void cmd_dialog()
 	{
 		//
-		Integer oldValue = 0;
+		Integer oldValueDialog = 0;
 		try
 		{
-			oldValue = (Integer)getValue ();			
+			oldValueDialog = (Integer)getValue ();
 		}
 		catch(Exception npe)
 		{
 			// Possible Invalid Cast exception if getValue() return new instance of Object.
 		}
-		int oldValueInt = oldValue == null ? 0 : oldValue.intValue ();
-		int M_AttributeSetInstance_ID = oldValueInt;
-		int M_Product_ID = 0;
-		int M_ProductBOM_ID = 0;
-		if (m_GridTab != null) {
-			M_Product_ID = Env.getContextAsInt (Env.getCtx (), m_WindowNo, m_GridTab.getTabNo(), "M_Product_ID");
-			M_ProductBOM_ID = Env.getContextAsInt (Env.getCtx (), m_WindowNo, m_GridTab.getTabNo(), "M_ProductBOM_ID");
+		int oldValueInt = oldValueDialog == null ? 0 : oldValueDialog.intValue ();
+		int attributeSetInstanceId = oldValueInt;
+		int productId = 0;
+		int productBOMId = 0;
+		if (this.gridTabAttribute != null) {
+			productId = Env.getContextAsInt (Env.getCtx (), this.windowNo, this.gridTabAttribute.getTabNo(), "M_Product_ID");
+			productBOMId = Env.getContextAsInt (Env.getCtx (), this.windowNo, this.gridTabAttribute.getTabNo(), "M_ProductBOM_ID");
 		} else {
-			M_Product_ID = Env.getContextAsInt (Env.getCtx (), m_WindowNo, "M_Product_ID");
-			M_ProductBOM_ID = Env.getContextAsInt (Env.getCtx (), m_WindowNo, "M_ProductBOM_ID");
+			productId = Env.getContextAsInt (Env.getCtx (), this.windowNo, "M_Product_ID");
+			productBOMId = Env.getContextAsInt (Env.getCtx (), this.windowNo, "M_ProductBOM_ID");
 		}
-		int M_Locator_ID = -1;
+		int locatorId = -1;
 
-		log.config("M_Product_ID=" + M_Product_ID + "/" + M_ProductBOM_ID
-			+ ",M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID);
+		log.config("M_Product_ID=" + productId + "/" + productBOMId
+			+ ",M_AttributeSetInstance_ID=" + attributeSetInstanceId);
 
 		//	M_Product.M_AttributeSetInstance_ID = 8418
-		boolean productWindow = m_AD_Column_ID == MColumn.getColumn_ID(MProduct.Table_Name, MProduct.COLUMNNAME_M_AttributeSetInstance_ID);
+		boolean productWindow = this.columnId == MColumn.getColumn_ID(MProduct.Table_Name, MProduct.COLUMNNAME_M_AttributeSetInstance_ID);
 
 		//	Exclude ability to enter ASI
 		boolean exclude = true;
 
-		if (M_Product_ID != 0)
+		if (productId != 0)
 		{
-			MProduct product = MProduct.get(Env.getCtx(), M_Product_ID);
-			int M_AttributeSet_ID = product.getM_AttributeSet_ID();
-			if (M_AttributeSet_ID != 0)
+			MProduct product = MProduct.get(Env.getCtx(), productId);
+			int attributeSetId = product.getM_AttributeSet_ID();
+			if (attributeSetId != 0)
 			{
-				MAttributeSet mas = MAttributeSet.get(Env.getCtx(), M_AttributeSet_ID);
-				exclude = mas.excludeEntry(m_AD_Column_ID, Env.isSOTrx(Env.getCtx(), m_WindowNo));
+				int tableId = MColumn.getTable_ID(Env.getCtx(), this.columnId, null);
+				MAttributeSet mas = MAttributeSet.get(Env.getCtx(), attributeSetId);
+				exclude = mas.excludeEntry(tableId, Env.isSOTrx(Env.getCtx(), this.windowNo));
 			}
 		}
 
 		boolean changed = false;
-		if (M_ProductBOM_ID != 0)	//	Use BOM Component
-			M_Product_ID = M_ProductBOM_ID;
+		if (productBOMId != 0)	//	Use BOM Component
+			productId = productBOMId;
 		//
 		// If the VPAttribute component is in a dialog, use the search
-		if (m_searchOnly)
+		if (this.isSearchOnly)
 		{	
 			// Determine if the component is associated with the InfoProduct window
 			Component me = ((Component) this.component.getParent());
@@ -299,10 +302,10 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 				me = me.getParent();
 			}
 			//
-			InfoPAttributePanel ia = new InfoPAttributePanel((Window) me);
-			m_pAttributeWhere = ia.getWhereClause();
+			InfoPAttributePanel attributePanel = new InfoPAttributePanel((Window) me);
+			this.attributeWhere = attributePanel.getWhereClause();
 			String oldText = getComponent().getText();
-			getComponent().setText(ia.getDisplay());
+			getComponent().setText(attributePanel.getDisplay());
 			String curText = getComponent().getText();
 			//
     		ValueChangeEvent changeEvent = new ValueChangeEvent(this, this.getColumnName(), oldText, curText);
@@ -310,23 +313,23 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 
 		}
 		else {	
-			if (!productWindow && (M_Product_ID == 0 || exclude))
+			if (!productWindow && (productId == 0 || exclude))
 			{
 				changed = true;
 				getComponent().setText(null);
-				M_AttributeSetInstance_ID = 0;
+				attributeSetInstanceId = 0;
 			}
 			else
 			{
 				WPAttributeDialog vad = new WPAttributeDialog (
-					M_AttributeSetInstance_ID, M_Product_ID, m_C_BPartner_ID,
-					productWindow, gridField.getAD_Column_ID(), m_WindowNo);
+					attributeSetInstanceId, productId, this.partnerId,
+					productWindow, gridFieldAttribute.getAD_Column_ID(), this.windowNo);
 				if (vad.isChanged())
 				{
 					getComponent().setText(vad.getM_AttributeSetInstanceName());
-					M_AttributeSetInstance_ID = vad.getM_AttributeSetInstance_ID();
-					if (m_GridTab != null && !productWindow && vad.getM_Locator_ID() > 0)
-						m_GridTab.setValue("M_Locator_ID", vad.getM_Locator_ID());
+					attributeSetInstanceId = vad.getM_AttributeSetInstance_ID();
+					if (this.gridTabAttribute != null && !productWindow && vad.getM_Locator_ID() > 0)
+						this.gridTabAttribute.setValue("M_Locator_ID", vad.getM_Locator_ID());
 					changed = true;
 				}
 			}
@@ -335,31 +338,31 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 		//	Set Value
 		if (changed)
 		{
-			log.finest("Changed M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID);
-			m_value = new Object();				//	force re-query display
-			if (M_AttributeSetInstance_ID == 0)
+			log.finest("Changed M_AttributeSetInstance_ID=" + attributeSetInstanceId);
+			this.value = new Object();				//	force re-query display
+			if (attributeSetInstanceId == 0)
 				setValue(null);
 			else
-				setValue(new Integer(M_AttributeSetInstance_ID));
+				setValue(new Integer(attributeSetInstanceId));
 			// Change Locator
-			if (m_GridTab != null && M_Locator_ID > 0)
+			if (this.gridTabAttribute != null && locatorId > 0)
 			{
-				log.finest("Change M_Locator_ID="+M_Locator_ID);
-				m_GridTab.setValue("M_Locator_ID", M_Locator_ID);
+				log.finest("Change M_Locator_ID="+locatorId);
+				this.gridTabAttribute.setValue("M_Locator_ID", locatorId);
 			}
 			//
 			String columnName = "M_AttributeSetInstance_ID";
-	 	 	if (m_GridField != null)
+	 	 	if (this.gridFieldAttribute != null)
 	 	 	{
-	 	 		columnName = m_GridField.getColumnName();
+	 	 		columnName = this.gridFieldAttribute.getColumnName();
 	 	 	}
 			ValueChangeEvent vce = new ValueChangeEvent(this, columnName, new Object(), getValue());
 			fireValueChange(vce);
 			//
-			if (M_AttributeSetInstance_ID == oldValueInt && m_GridTab != null && gridField != null)
+			if (attributeSetInstanceId == oldValueInt && this.gridTabAttribute != null && this.gridFieldAttribute != null)
 			{
 				//  force Change - user does not realize that embedded object is already saved.
-				m_GridTab.processFieldChange(gridField);
+				this.gridTabAttribute.processFieldChange(super.gridField);
 			}
 		}	//	change
 	}   //  cmd_file
@@ -377,13 +380,13 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 		}
 		else if (WEditorPopupMenu.CHANGE_LOG_EVENT.equals(evt.getContextEvent()))
 		{
-			WRecordInfo.start(gridField);
+			WRecordInfo.start(super.gridField);
 		}
 	}
 
 	public void actionZoom()
 	{
-	   	AEnv.actionZoom(m_mPAttribute, getValue());
+	   	AEnv.actionZoom(this.attributeLookup, getValue());
 	}
 
 	@Override
@@ -401,19 +404,18 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 	/**
 	 * Set the old value of the field.  For use in future comparisons.
 	 * The old value must be explicitly set though this call.
-	 * @param m_oldValue
 	 */
 	public void set_oldValue() {
-		this.m_oldValue = getValue();
-		this.m_oldText = getComponent().getTextbox().getValue();
-		this.m_oldWhere = m_pAttributeWhere;
+		this.oldValue = getValue();
+		this.oldText = getComponent().getTextbox().getValue();
+		this.oldWhere = this.attributeWhere;
 	}
 	/**
 	 * Get the old value of the field explicitly set in the past
 	 * @return
 	 */
 	public Object get_oldValue() {
-		return m_oldValue;
+		return this.oldValue;
 	}
 	/**
 	 * Has the field changed over time?
@@ -422,30 +424,30 @@ public class WPAttributeEditor extends WEditor implements ContextMenuListener
 	public boolean hasChanged() {
 		// Both or either could be null
 		if(getValue() != null)
-			if(m_oldValue != null)
-				return !m_oldValue.equals(getValue());
+			if(this.oldValue != null)
+				return !this.oldValue.equals(getValue());
 			else
 				return true;
 		else  // getValue() is null
-			if(m_oldValue != null)
+			if(this.oldValue != null)
 				return true;
 
 		if(getComponent().getTextbox().getValue() != null)
-			if(m_oldText != null)
-				return !m_oldText.equals(getComponent().getTextbox().getValue());
+			if(this.oldText != null)
+				return !this.oldText.equals(getComponent().getTextbox().getValue());
 			else
 				return true;
 		else  // m_text is null
-			if(m_oldText != null)
+			if(this.oldText != null)
 				return true;
 
-		if(m_pAttributeWhere != null)
-			if(m_oldWhere != null)
-				return !m_oldWhere.equals(m_pAttributeWhere);
+		if(this.attributeWhere != null)
+			if(this.oldWhere != null)
+				return !this.oldWhere.equals(attributeWhere);
 			else
 				return true;
 		else  // m_pAttributeWhere is null
-			if(m_oldWhere != null)
+			if(this.oldWhere != null)
 				return true;
 
 		return false;
