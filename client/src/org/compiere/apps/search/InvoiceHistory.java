@@ -156,7 +156,7 @@ public class InvoiceHistory extends CDialog
 		mainPanel.add(centerTabbedPane, BorderLayout.CENTER);
 		centerTabbedPane.addChangeListener(this);
 		centerTabbedPane.add(pricePane,   Msg.getMsg(Env.getCtx(), "PriceHistory"));
-		centerTabbedPane.add(orderPricePane, Msg.getMsg(Env.getCtx(), "OrderPriceHistory"));
+		centerTabbedPane.add(orderPricePane, Msg.translate(Env.getCtx(), "OrderPriceHistory"));
 		centerTabbedPane.add(reservedPane, Msg.translate(Env.getCtx(), "QtyReserved"));
 		centerTabbedPane.add(orderedPane, Msg.translate(Env.getCtx(), "QtyOrdered"));
 		centerTabbedPane.add(unconfirmedPane, Msg.getMsg(Env.getCtx(), "QtyUnconfirmed"));
@@ -232,7 +232,7 @@ public class InvoiceHistory extends CDialog
 				+ " INNER JOIN C_DocType dt ON (i.C_DocType_ID=dt.C_DocType_ID)"
 				+ " INNER JOIN AD_Org o ON (i.AD_Org_ID=o.AD_Org_ID)"
 				+ " INNER JOIN M_Product p  ON (l.M_Product_ID=p.M_Product_ID) "
-				+ "WHERE i.C_BPartner_ID=? "
+				+ "WHERE i.C_BPartner_ID="+ m_M_Product_ID
 				+ "ORDER BY i.DateInvoiced DESC";
 		}
 		else
@@ -245,7 +245,7 @@ public class InvoiceHistory extends CDialog
 					+ "INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID) "
 					+ "INNER JOIN AD_Org org ON (o.AD_Org_ID=o.AD_Org_ID) "
 					+ "INNER JOIN M_Product p ON (ol.M_Product_ID=p.M_Product_ID) " 
-					+ "WHERE o.C_BPartner_ID=? "
+					+ "WHERE o.C_BPartner_ID="+m_C_BPartner_ID
 					+ "ORDER BY o.DateOrdered DESC";
 		}
 		Vector<Vector<Object>> data = fillTable (sql, m_C_BPartner_ID);
@@ -273,7 +273,7 @@ public class InvoiceHistory extends CDialog
 				+ " INNER JOIN C_DocType dt ON (i.C_DocType_ID=dt.C_DocType_ID)"
 				+ " INNER JOIN AD_Org o ON (i.AD_Org_ID=o.AD_Org_ID)"
 				+ " INNER JOIN C_BPartner bp ON (i.C_BPartner_ID=bp.C_BPartner_ID) "
-				+ "WHERE l.M_Product_ID=? " 
+				+ "WHERE l.M_Product_ID="+m_M_Product_ID
 				+ "ORDER BY i.DateInvoiced DESC";
 		}
 		else
@@ -286,7 +286,7 @@ public class InvoiceHistory extends CDialog
 					+ " INNER JOIN C_DocType dt		ON (o.C_DocType_ID = dt.C_DocType_ID) "
 					+ " INNER JOIN AD_Org org		ON (o.AD_Org_ID = org.AD_Org_ID) "
 					+ " INNER JOIN C_BPartner bp	ON (o.C_BPartner_ID = bp.C_BPartner_ID) "
-					+ " WHERE ol.M_Product_ID=? " 
+					+ " WHERE ol.M_Product_ID=" + m_M_Product_ID
 					+ " ORDER BY o.DateOrdered DESC";
 		}
 		
@@ -309,7 +309,6 @@ public class InvoiceHistory extends CDialog
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, parameter);
 			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
@@ -416,40 +415,98 @@ public class InvoiceHistory extends CDialog
 
 		//	Fill Data
 		Vector<Vector<Object>> data = null;
+		String sql;
 		if (m_C_BPartner_ID == 0)
 		{
-			String sql = "SELECT bp.Name, ol.PriceActual,ol.PriceList,ol.QtyReserved,"
-				+ "o.DateOrdered,dt.PrintName || ' ' || o.DocumentNo As DocumentNo, "
-				+ "w.Name,"
-				+ "ol.Discount, 0 "															// 8,9=M_PriceList_ID
+			sql = "SELECT bp.Name AS BPName, ol.PriceActual AS PriceActual,ol.PriceList AS PriceList ,ol.QtyReserved AS QtyReserved,"
+				+ "o.DateOrdered AS DateOrdered,dt.PrintName || ' ' || o.DocumentNo As DocumentNo, "
+				+ "w.Name AS WarehouseName,"
+				+ "ol.Discount AS Discount "															// 8,9=M_PriceList_ID
 				+ "FROM C_Order o"
 				+ " INNER JOIN C_OrderLine ol ON (o.C_Order_ID=ol.C_Order_ID)"
 				+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
 				+ " INNER JOIN M_Warehouse w ON (ol.M_Warehouse_ID=w.M_Warehouse_ID)"
 				+ " INNER JOIN C_BPartner bp  ON (o.C_BPartner_ID=bp.C_BPartner_ID) "
 				+ "WHERE ol.QtyReserved<>0"
-				+ " AND ol.M_Product_ID=?"
-				+ " AND o.IsSOTrx=" + (reserved ? "'Y'" : "'N'")
-				+ " ORDER BY o.DateOrdered";
-			data = fillTable (sql, m_M_Product_ID);	//	Product By BPartner
+				+ " AND ol.M_Product_ID="+m_M_Product_ID
+				+ " AND o.IsSOTrx=" + (reserved ? "'Y'" : "'N'");
+
 		}
 		else
 		{
-			String sql = "SELECT p.Name, ol.PriceActual,ol.PriceList,ol.QtyReserved,"
-				+ "o.DateOrdered,dt.PrintName || ' ' || o.DocumentNo As DocumentNo, " 
-				+ "w.Name,"
-				+ "ol.Discount, 0 "															// 8,9=M_PriceList_ID
+			sql = "SELECT p.Name AS BPName , ol.PriceActual AS PriceActual ,ol.PriceList AS PriceList ,ol.QtyReserved AS QtyReserved,"
+				+ "o.DateOrdered AS DateOrdered ,dt.PrintName || ' ' || o.DocumentNo As DocumentNo, "
+				+ "w.Name AS WarehouseName,"
+				+ "ol.Discount AS Discount "													// 8,9=M_PriceList_ID
 				+ "FROM C_Order o"
 				+ " INNER JOIN C_OrderLine ol ON (o.C_Order_ID=ol.C_Order_ID)"
 				+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
 				+ " INNER JOIN M_Warehouse w ON (ol.M_Warehouse_ID=w.M_Warehouse_ID)"
 				+ " INNER JOIN M_Product p  ON (ol.M_Product_ID=p.M_Product_ID) "
 				+ "WHERE ol.QtyReserved<>0"
-				+ " AND o.C_BPartner_ID=?"
-				+ " AND o.IsSOTrx=" + (reserved ? "'Y'" : "'N'")
-				+ " ORDER BY o.DateOrdered";
-			data = fillTable (sql, m_C_BPartner_ID);//	Product of BP
+				+ " AND o.C_BPartner_ID="+m_C_BPartner_ID
+				+ " AND o.IsSOTrx=" + (reserved ? "'Y'" : "'N'");
 		}
+		if (reserved) {
+			sql += " UNION ALL ";
+			sql += "SELECT null AS BPName, 0 AS PriceActual,0 AS PriceList,ol.QtyReserved AS QtyReserved,"
+					+ "o.DateOrdered AS DateOrdered,dt.PrintName || ' ' || o.DocumentNo As DocumentNo, "
+					+ "w.Name AS WarehouseName,"
+					+ "0 AS Discount "                                                            // 8,9=M_PriceList_ID
+					+ "FROM PP_Order o"
+					+ " INNER JOIN PP_Order_BOMLine ol ON (o.PP_Order_ID=ol.PP_Order_ID)"
+					+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
+					+ " INNER JOIN M_Warehouse w ON (ol.M_Warehouse_ID=w.M_Warehouse_ID)"
+					+ " INNER JOIN M_Product p  ON (ol.M_Product_ID=p.M_Product_ID) "
+					+ "WHERE ol.QtyReserved<>0"
+					+ " AND ol.M_Product_ID=" + m_M_Product_ID;
+			//Distribution Order Reserved
+			sql += " UNION ALL ";
+			sql += "SELECT null AS BPName , 0 AS PriceActual ,0 AS PriceList , ol.QtyReserved AS QtyReserved,"
+					+ "o.DateOrdered AS DateOrdered ,dt.PrintName || ' ' || o.DocumentNo As DocumentNo, "
+					+ "w.Name AS WarehouseName,"
+					+ "0 AS Discount "													// 8,9=M_PriceList_ID
+					+ "FROM DD_Order o"
+					+ " INNER JOIN DD_OrderLine ol ON (o.DD_Order_ID=ol.DD_Order_ID)"
+					+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
+					+ " INNER JOIN M_Locator l ON (l.M_Locator_ID = ol.M_LocatorTo_ID)"
+					+ " INNER JOIN M_Warehouse w ON (l.M_Warehouse_ID=w.M_Warehouse_ID)"
+					+ " INNER JOIN M_Product p  ON (ol.M_Product_ID=p.M_Product_ID) "
+					+ "WHERE ol.QtyReserved<>0"
+					+ " AND ol.M_Product_ID="+m_M_Product_ID;
+
+
+		} else {
+			// Manufacturing Order Ordered
+			sql += " UNION ALL ";
+			sql += "SELECT null AS BPName, 0 AS PriceActual,0 AS PriceList, o.QtyOrdered AS QtyReserved,"
+					+ "o.DateOrdered AS DateOrdered,dt.PrintName || ' ' || o.DocumentNo As DocumentNo, "
+					+ "w.Name AS WarehouseName,"
+					+ "0 AS Discount "															// 8,9=M_PriceList_ID
+					+ "FROM PP_Order o"
+					+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
+					+ " INNER JOIN M_Warehouse w ON (o.M_Warehouse_ID=w.M_Warehouse_ID)"
+					+ " INNER JOIN M_Product p  ON (o.M_Product_ID=p.M_Product_ID) "
+					+ "WHERE o.QtyOrdered<>0"
+					+ " AND o.M_Product_ID=" + m_M_Product_ID;
+
+			//Distribution Order Ordered
+			sql += " UNION ALL ";
+			sql += "SELECT null AS BPName , 0 AS PriceActual ,0 AS PriceList ,ol.QtyOrdered - ol.QtyDelivered AS QtyReserved,"
+					+ "o.DateOrdered AS DateOrdered ,dt.PrintName || ' ' || o.DocumentNo As DocumentNo, "
+					+ "wf.Name AS WarehouseName,"
+					+ "0 AS Discount "													// 8,9=M_PriceList_ID
+					+ "FROM DD_Order o"
+					+ " INNER JOIN DD_OrderLine ol ON (o.DD_Order_ID=ol.DD_Order_ID)"
+					+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
+					+ " INNER JOIN M_Locator lf on (lf.M_Locator_ID = ol.M_Locator_ID)"
+					+ " INNER JOIN M_Warehouse wf ON (lf.M_Warehouse_ID=wf.M_Warehouse_ID)"
+					+ " INNER JOIN M_Product p  ON (ol.M_Product_ID=p.M_Product_ID) "
+					+ "WHERE (ol.QtyOrdered - ol.QtyDelivered) <>0"
+					+ " AND ol.M_Product_ID="+m_M_Product_ID;
+		}
+		sql += " ORDER BY DateOrdered";
+		data = fillTable (sql, m_C_BPartner_ID);//	Product of BP
 
 		//  Table
 		MiniTable table = null;
@@ -594,22 +651,22 @@ public class InvoiceHistory extends CDialog
 		Vector<String> columnNames = new Vector<String>();
 		columnNames.add(Msg.translate(Env.getCtx(), "Date"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyOnHand"));
-		columnNames.add(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "QtyOrdered"));
 		columnNames.add(Msg.translate(Env.getCtx(), "QtyReserved"));
+		columnNames.add(Msg.translate(Env.getCtx(), "QtyOrdered"));
+		columnNames.add(Msg.translate(Env.getCtx(), "ATP"));
+		columnNames.add(Msg.translate(Env.getCtx(), "DocumentNo"));
+		columnNames.add(Msg.translate(Env.getCtx(), "C_BPartner_ID"));
+		columnNames.add(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "M_Locator_ID"));
 		columnNames.add(Msg.translate(Env.getCtx(), "M_AttributeSetInstance_ID"));
-		columnNames.add(Msg.translate(Env.getCtx(), "DocumentNo"));
-		columnNames.add(Msg.translate(Env.getCtx(), "M_Warehouse_ID"));
-
 		//	Fill Storage Data
 		boolean showDetail = CLogMgt.isLevelFine();
-		String sql = "SELECT s.QtyOnHand, s.QtyReserved, s.QtyOrdered,"
+		String sql = "SELECT s.QtyOnHand, 0 AS QtyReserved, 0 AS QtyOrdered,"
 			+ " productAttribute(s.M_AttributeSetInstance_ID), s.M_AttributeSetInstance_ID,";
 		if (!showDetail)
-			sql = "SELECT SUM(s.QtyOnHand), SUM(s.QtyReserved), SUM(s.QtyOrdered),"
+			sql = "SELECT SUM(s.QtyOnHand), 0 AS QtyReserved, 0 AS QtyOrdered,"
 				+ " productAttribute(s.M_AttributeSetInstance_ID), 0,";
-		sql += " w.Name, l.Value "
+		sql += " w.Name, l.Value , 0 AS QtyDelivered "
 			+ "FROM M_Storage s"
 			+ " INNER JOIN M_Locator l ON (s.M_Locator_ID=l.M_Locator_ID)"
 			+ " INNER JOIN M_Warehouse w ON (l.M_Warehouse_ID=w.M_Warehouse_ID) "
@@ -624,7 +681,8 @@ public class InvoiceHistory extends CDialog
 		sql += " ORDER BY l.Value";
 		
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-		double qty = 0;
+		double qtyExpected = 0;
+		double qtyOnHand = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
@@ -640,19 +698,25 @@ public class InvoiceHistory extends CDialog
 			{
 				Vector<Object> line = new Vector<Object>(9);
 				line.add(null);							//  Date
-				double qtyOnHand = rs.getDouble(1);
-				qty += qtyOnHand;
-				line.add(new Double(qtyOnHand));  		//  Qty
-				line.add(null);							//  BPartner
-				line.add(new Double(rs.getDouble(3)));  //  QtyOrdered
-				line.add(new Double(rs.getDouble(2)));  //  QtyReserved
+				qtyOnHand = rs.getDouble(1);
+				double qtyDelivered  = rs.getDouble(8);
+				double qtyOrdered = rs.getDouble(3);
+				double qtyReserved = rs.getDouble(2);
+				qtyExpected += qtyOnHand;
+				qtyExpected += qtyOrdered;
+				qtyExpected -= qtyReserved;
+				line.add(qtyOnHand);  							//  qty On Hand
+				line.add(qtyReserved);  						//  QtyReserved
+				line.add(qtyOrdered);  						//  Qty To Delivery
+				line.add(qtyExpected);  						//  ATP
+				line.add(null);									//  DocumentNo
+				line.add(null);									//  BPartner
+				line.add(rs.getString(6));  			//	Warehouse
 				line.add(rs.getString(7));      		//  Locator
 				String asi = rs.getString(4);
 				if (showDetail && (asi == null || asi.length() == 0))
 					asi = "{" + rs.getInt(5) + "}";
 				line.add(asi);							//  ASI
-				line.add(null);							//  DocumentNo
-				line.add(rs.getString(6));  			//	Warehouse
 				data.add(line);
 			}
 		}
@@ -666,60 +730,121 @@ public class InvoiceHistory extends CDialog
 		}
 
 		//	Orders
-		sql = "SELECT o.DatePromised, ol.QtyReserved,"
+		sql = "SELECT o.DatePromised,CASE WHEN o.IsSOTrx = 'Y' THEN ol.QtyReserved ELSE 0  END AS QtyReserved,"
 			+ " productAttribute(ol.M_AttributeSetInstance_ID), ol.M_AttributeSetInstance_ID,"
 			+ " dt.DocBaseType, bp.Name,"
-			+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, w.Name "
+			+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, w.Name ,"
+			+ " CASE WHEN o.IsSOTrx = 'N' THEN ol.QtyReserved ELSE 0 END AS QtyOrdered ,"
+			+ " ol.QtyDelivered AS QtyDelivered "
 			+ "FROM C_Order o"
 			+ " INNER JOIN C_OrderLine ol ON (o.C_Order_ID=ol.C_Order_ID)"
 			+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
 			+ " INNER JOIN M_Warehouse w ON (ol.M_Warehouse_ID=w.M_Warehouse_ID)"
 			+ " INNER JOIN C_BPartner bp  ON (o.C_BPartner_ID=bp.C_BPartner_ID) "
 			+ "WHERE ol.QtyReserved<>0"
-			+ " AND ol.M_Product_ID=?";
+			+ " AND ol.M_Product_ID="+ m_M_Product_ID;
 		if (m_M_Warehouse_ID != 0)
-			sql += " AND ol.M_Warehouse_ID=?";
+			sql += " AND ol.M_Warehouse_ID=" + m_M_Warehouse_ID;
 		if (m_M_AttributeSetInstance_ID > 0)
-			sql += " AND ol.M_AttributeSetInstance_ID=?";
-		sql += " ORDER BY o.DatePromised";
+			sql += " AND ol.M_AttributeSetInstance_ID="+ m_M_AttributeSetInstance_ID;
+
+		//	Distribution Orders Reserved
+		sql += " UNION ALL ";
+		sql += "SELECT o.DatePromised, ol.QtyReserved AS QtyReserved,"
+				+ " productAttribute(ol.M_AttributeSetInstance_ID), ol.M_AttributeSetInstance_ID,"
+				+ " dt.DocBaseType, bp.Name,"
+				+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, wf.Name , 0 AS QtyOrdered , ol.QtyInTransit AS QtyDelivered "
+				+ "FROM DD_Order o"
+				+ " INNER JOIN DD_OrderLine ol ON (o.DD_Order_ID=ol.DD_Order_ID)"
+				+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
+				+ " INNER JOIN M_Locator lf on (lf.M_Locator_ID = ol.M_Locator_ID)"
+				+ " INNER JOIN M_Warehouse wf ON (lf.M_Warehouse_ID=wf.M_Warehouse_ID)"
+				+ " INNER JOIN C_BPartner bp  ON (o.C_BPartner_ID=bp.C_BPartner_ID) "
+				+ "WHERE ol.QtyReserved <>0 AND o.DocStatus in ('IP','CO') AND o.IsDelivered = 'N' "
+				+ " AND ol.M_Product_ID="+ m_M_Product_ID;
+		if (m_M_Warehouse_ID != 0)
+			sql += " AND wf.M_Warehouse_ID=" + m_M_Warehouse_ID;
+		if (m_M_AttributeSetInstance_ID > 0)
+			sql += " AND ol.M_AttributeSetInstance_ID="+ m_M_AttributeSetInstance_ID;
+
+
+		//	Distribution Orders Ordered
+		sql += " UNION ALL ";
+		sql += "SELECT o.DatePromised, 0 AS QtyReserved,"
+				+ " productAttribute(ol.M_AttributeSetInstanceTo_ID), ol.M_AttributeSetInstanceTo_ID,"
+				+ " dt.DocBaseType, bp.Name,"
+				+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, w.Name , ol.QtyOrdered, ol.QtyDelivered AS QtyDelivered "
+				+ "FROM DD_Order o"
+				+ " INNER JOIN DD_OrderLine ol ON (o.DD_Order_ID=ol.DD_Order_ID)"
+				+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
+				+ " INNER JOIN M_Locator l ON (l.M_Locator_ID = ol.M_LocatorTo_ID)"
+				+ " INNER JOIN M_Warehouse w ON (l.M_Warehouse_ID=w.M_Warehouse_ID)"
+				+ " INNER JOIN C_BPartner bp  ON (o.C_BPartner_ID=bp.C_BPartner_ID) "
+				+ "WHERE ol.QtyOrdered<>0 AND o.DocStatus in ('IP','CO') AND o.IsDelivered = 'N' "
+				+ " AND ol.M_Product_ID="+ m_M_Product_ID;
+		if (m_M_Warehouse_ID != 0)
+			sql += " AND w.M_Warehouse_ID=" + m_M_Warehouse_ID;
+		if (m_M_AttributeSetInstance_ID > 0)
+			sql += " AND ol.M_AttributeSetInstanceTo_ID="+ m_M_AttributeSetInstance_ID;
+
+		//	Manufacturing Orders Ordered
+		sql += " UNION ALL ";
+		sql += "SELECT o.DatePromised, 0 AS QtyReserved,"
+				+ " productAttribute(o.M_AttributeSetInstance_ID), o.M_AttributeSetInstance_ID,"
+				+ " dt.DocBaseType, null AS Name,"
+				+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, w.Name , o.QtyOrdered AS QtyOrdered , o.QtyDelivered AS QtyDelivered "
+				+ "FROM PP_Order o"
+				+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
+				+ " INNER JOIN M_Warehouse w ON (o.M_Warehouse_ID=w.M_Warehouse_ID)"
+				+ " WHERE o.M_Product_ID="+ m_M_Product_ID;
+		if (m_M_Warehouse_ID != 0)
+			sql += " AND o.M_Warehouse_ID=" + m_M_Warehouse_ID;
+		if (m_M_AttributeSetInstance_ID > 0)
+			sql += " AND o.M_AttributeSetInstance_ID="+ m_M_AttributeSetInstance_ID;
+
+		//	Manufacturing Orders Reserved
+		sql += " UNION ALL ";
+		sql += "SELECT o.DatePromised, ol.QtyReserved,"
+				+ " productAttribute(ol.M_AttributeSetInstance_ID), ol.M_AttributeSetInstance_ID,"
+				+ " dt.DocBaseType, null AS Name,"
+				+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, w.Name , 0 AS QtyOrdered , ol.QtyDelivered AS QtyDelivered "
+				+ "FROM PP_Order o"
+				+ " INNER JOIN PP_Order_BOMLine ol ON (o.PP_Order_ID=ol.PP_Order_ID)"
+				+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
+				+ " INNER JOIN M_Warehouse w ON (ol.M_Warehouse_ID=w.M_Warehouse_ID)"
+				+ " WHERE ol.QtyReserved<>0"
+				+ " AND ol.M_Product_ID="+ m_M_Product_ID;
+		if (m_M_Warehouse_ID != 0)
+			sql += " AND ol.M_Warehouse_ID=" + m_M_Warehouse_ID;
+		if (m_M_AttributeSetInstance_ID > 0)
+			sql += " AND ol.M_AttributeSetInstance_ID="+ m_M_AttributeSetInstance_ID;
+
+		sql += " ORDER BY DatePromised";
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, m_M_Product_ID);
-			if (m_M_Warehouse_ID != 0)
-				pstmt.setInt(2, m_M_Warehouse_ID);
-			if (m_M_AttributeSetInstance_ID > 0)
-				pstmt.setInt(3, m_M_AttributeSetInstance_ID);
 			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				Vector<Object> line = new Vector<Object>(9);
+				double qtyDelivered  = rs.getDouble(10);
+				double qtyOrdered = rs.getDouble(9);
+				double qtyReserved = rs.getDouble(2);
+				qtyExpected += qtyOrdered;
+				qtyExpected -= qtyReserved;
 				line.add(rs.getTimestamp(1));			//  Date
-				double oq = rs.getDouble(2);
-				String DocBaseType = rs.getString(5);
-				Double qtyReserved = null;
-				Double qtyOrdered = null;
-				if (MDocType.DOCBASETYPE_PurchaseOrder.equals(DocBaseType))
-				{
-					qtyOrdered = new Double(oq);
-					qty += oq;
-				}
-				else
-				{
-					qtyReserved = new Double(oq);
-					qty -= oq;
-				}
-				line.add(new Double(qty)); 		 		//  Qty
-				line.add(rs.getString(6));				//  BPartner
-				line.add(qtyOrdered);					//  QtyOrdered
+				line.add(0); 		 					//  Qty On Hand
 				line.add(qtyReserved);					//  QtyReserved
+				line.add(qtyOrdered);					//  QtyOrdered
+				line.add(qtyExpected); 		 			//  ATP
+				line.add(rs.getString(7));				//  DocumentNo
+				line.add(rs.getString(6));				//  BPartner
+				line.add(rs.getString(8));  			//	Warehouse
 				line.add(null);				      		//  Locator
 				String asi = rs.getString(3);
 				if (showDetail && (asi == null || asi.length() == 0))
 					asi = "{" + rs.getInt(4) + "}";
 				line.add(asi);							//  ASI
-				line.add(rs.getString(7));				//  DocumentNo
-				line.add(rs.getString(8));  			//	Warehouse
 				data.add(line);
 			}
 		}
@@ -739,15 +864,15 @@ public class InvoiceHistory extends CDialog
 		table = m_tableAtp;
 		//
 		table.setColumnClass(0, Timestamp.class, true);   //  Date
-		table.setColumnClass(1, Double.class, true);      //  Quantity
-		table.setColumnClass(2, String.class, true);      //  Partner
-		table.setColumnClass(3, Double.class, true);      //  Quantity
-		table.setColumnClass(4, Double.class, true);      //  Quantity
-		table.setColumnClass(5, String.class, true);   	  //  Locator
-		table.setColumnClass(6, String.class, true);   	  //  ASI
-		table.setColumnClass(7, String.class, true);      //  DocNo
-		table.setColumnClass(8, String.class, true);   	  //  Warehouse
-		//
+		table.setColumnClass(1, Double.class, true);      //  On Hand Quantity
+		table.setColumnClass(2, Double.class, true);      //  Reserved Quantity
+		table.setColumnClass(3, Double.class, true);      //  Ordered Quantity
+		table.setColumnClass(4, Double.class, true);      //  ATP
+		table.setColumnClass(5, String.class, true);      //  DocNo
+		table.setColumnClass(6, String.class, true);      //  Partner
+		table.setColumnClass(7, String.class, true);   	 //  Warehouse
+		table.setColumnClass(8, String.class, true);   	 //  Locator
+		table.setColumnClass(9, String.class, true);   	 //  ASI
 		table.autoSize();
 	}	//	initAtpTab
 	
