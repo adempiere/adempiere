@@ -1706,7 +1706,7 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 			sql += "SELECT ol.M_Product_ID, w.Name AS warehouse, null AS locator, ol.M_AttributeSetInstance_ID AS ID, o.DatePromised AS date,"
 				+ " 0 AS AvailQty,"
 				+ " ol.QtyDelivered  AS DeltaQty,"
-				+ " CASE WHEN dt.DocBaseType = 'POO' THEN ol.QtyOrdered ELSE 0 END AS QtyOrdered,"
+				+ " CASE WHEN dt.DocBaseType = 'POO' THEN ol.QtyReserved ELSE 0 END AS QtyOrdered,"
 				+ " CASE WHEN dt.DocBaseType = 'POO' THEN 0 ELSE ol.QtyReserved END AS QtyReserved,"
 				+ " productAttribute(ol.M_AttributeSetInstance_ID) AS sumPASI,"
 				+ " ol.M_AttributeSetInstance_ID AS ASI,"
@@ -1837,15 +1837,14 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 					double qtyDelivered  = rs.getDouble(7);
 					double qtyOrdered = rs.getDouble(8);
 					double qtyReserved = rs.getDouble(9);
-					double qtyToDelivery = qtyOrdered - qtyDelivered;
 					qtyAvailable += qtyOnHand - qtyReserved;
 					qtyExpected += qtyOnHand;
-					qtyExpected += qtyToDelivery;
+					qtyExpected += qtyOrdered;
 					qtyExpected -= qtyReserved;
 					line.add(qtyOnHand);										//  Qty on hand (this line)
 					line.add(qtyReserved);  									//  QtyReserved
 					line.add(qtyAvailable);  									//  Qty Available (running sum)
-					line.add(qtyToDelivery);  									//  Qty To Delivery
+					line.add(qtyOrdered);  									//  Qty To Delivery
 					line.add(qtyExpected);										//  Delta Qty
 					line.add(rs.getString(12));						//  BPartner
 					line.add(rs.getString(10));						//  ASI

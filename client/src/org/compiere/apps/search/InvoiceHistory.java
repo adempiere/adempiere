@@ -702,13 +702,12 @@ public class InvoiceHistory extends CDialog
 				double qtyDelivered  = rs.getDouble(8);
 				double qtyOrdered = rs.getDouble(3);
 				double qtyReserved = rs.getDouble(2);
-				double qtyToDelivery = qtyOrdered - qtyDelivered;
 				qtyExpected += qtyOnHand;
-				qtyExpected += qtyToDelivery;
+				qtyExpected += qtyOrdered;
 				qtyExpected -= qtyReserved;
 				line.add(qtyOnHand);  							//  qty On Hand
 				line.add(qtyReserved);  						//  QtyReserved
-				line.add(qtyToDelivery);  						//  Qty To Delivery
+				line.add(qtyOrdered);  						//  Qty To Delivery
 				line.add(qtyExpected);  						//  ATP
 				line.add(null);									//  DocumentNo
 				line.add(null);									//  BPartner
@@ -734,7 +733,9 @@ public class InvoiceHistory extends CDialog
 		sql = "SELECT o.DatePromised,CASE WHEN o.IsSOTrx = 'Y' THEN ol.QtyReserved ELSE 0  END AS QtyReserved,"
 			+ " productAttribute(ol.M_AttributeSetInstance_ID), ol.M_AttributeSetInstance_ID,"
 			+ " dt.DocBaseType, bp.Name,"
-			+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, w.Name ,CASE WHEN o.IsSOTrx = 'N' THEN ol.QtyOrdered ELSE 0 END AS QtyOrdered , ol.QtyDelivered AS QtyDelivered "
+			+ " dt.PrintName || ' ' || o.DocumentNo As DocumentNo, w.Name ,"
+			+ " CASE WHEN o.IsSOTrx = 'N' THEN ol.QtyReserved ELSE 0 END AS QtyOrdered ,"
+			+ " ol.QtyDelivered AS QtyDelivered "
 			+ "FROM C_Order o"
 			+ " INNER JOIN C_OrderLine ol ON (o.C_Order_ID=ol.C_Order_ID)"
 			+ " INNER JOIN C_DocType dt ON (o.C_DocType_ID=dt.C_DocType_ID)"
@@ -827,9 +828,9 @@ public class InvoiceHistory extends CDialog
 			{
 				Vector<Object> line = new Vector<Object>(9);
 				double qtyDelivered  = rs.getDouble(10);
-				double qtyOrdered = rs.getDouble(9) - qtyDelivered;
+				double qtyOrdered = rs.getDouble(9);
 				double qtyReserved = rs.getDouble(2);
-				qtyExpected += (qtyOrdered - qtyDelivered);
+				qtyExpected += qtyOrdered;
 				qtyExpected -= qtyReserved;
 				line.add(rs.getTimestamp(1));			//  Date
 				line.add(0); 		 					//  Qty On Hand
