@@ -849,7 +849,7 @@ public class InvoiceHistory extends Window implements EventListener
 			{
 				Vector<Object> line = new Vector<Object>(9);
 				double qtyDelivered  = rs.getDouble(10);
-				double qtyOrdered = rs.getDouble(9) - qtyDelivered;
+				double qtyOrdered = rs.getDouble(9);
 				double qtyReserved = rs.getDouble(2);
 				qtyExpected += (qtyOrdered - qtyDelivered);
 				qtyExpected -= qtyReserved;

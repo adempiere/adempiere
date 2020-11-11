@@ -700,7 +700,7 @@ public class InvoiceHistory extends CDialog
 				line.add(null);							//  Date
 				qtyOnHand = rs.getDouble(1);
 				double qtyDelivered  = rs.getDouble(8);
-				double qtyOrdered = rs.getDouble(3) - qtyDelivered;
+				double qtyOrdered = rs.getDouble(3);
 				double qtyReserved = rs.getDouble(2);
 				qtyExpected += qtyOnHand;
 				qtyExpected += (qtyOrdered - qtyDelivered);
