@@ -851,12 +851,13 @@ public class InvoiceHistory extends Window implements EventListener
 				double qtyDelivered  = rs.getDouble(10);
 				double qtyOrdered = rs.getDouble(9);
 				double qtyReserved = rs.getDouble(2);
-				qtyExpected += (qtyOrdered - qtyDelivered);
+				double qtyToDelivery = qtyOrdered - qtyDelivered;
+				qtyExpected += qtyToDelivery;
 				qtyExpected -= qtyReserved;
 				line.add(rs.getTimestamp(1));//  Date
 				line.add(0); 		 					//  Qty On Hand
 				line.add(qtyReserved);					//  Qty Reserved
-				line.add(qtyOrdered);					//  Qty Ordered
+				line.add(qtyToDelivery);				//  Qty to Delivery
 				line.add(qtyExpected); 		 			//  ATP
 				line.add(rs.getString(6));	//  BPartner
 				line.add(rs.getString(7));	//  DocumentNo

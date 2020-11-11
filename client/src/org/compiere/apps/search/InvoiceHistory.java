@@ -702,12 +702,13 @@ public class InvoiceHistory extends CDialog
 				double qtyDelivered  = rs.getDouble(8);
 				double qtyOrdered = rs.getDouble(3);
 				double qtyReserved = rs.getDouble(2);
+				double qtyToDelivery = qtyOrdered - qtyDelivered;
 				qtyExpected += qtyOnHand;
-				qtyExpected += (qtyOrdered - qtyDelivered);
+				qtyExpected += qtyToDelivery;
 				qtyExpected -= qtyReserved;
 				line.add(qtyOnHand);  							//  qty On Hand
 				line.add(qtyReserved);  						//  QtyReserved
-				line.add(qtyOrdered);  							//  QtyOrdered
+				line.add(qtyToDelivery);  						//  Qty To Delivery
 				line.add(qtyExpected);  						//  ATP
 				line.add(null);									//  DocumentNo
 				line.add(null);									//  BPartner

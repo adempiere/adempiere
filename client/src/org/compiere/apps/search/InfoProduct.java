@@ -1837,14 +1837,15 @@ public class InfoProduct extends Info implements ActionListener, ChangeListener
 					double qtyDelivered  = rs.getDouble(7);
 					double qtyOrdered = rs.getDouble(8);
 					double qtyReserved = rs.getDouble(9);
+					double qtyToDelivery = qtyOrdered - qtyDelivered;
 					qtyAvailable += qtyOnHand - qtyReserved;
 					qtyExpected += qtyOnHand;
-					qtyExpected += (qtyOrdered - qtyDelivered);
+					qtyExpected += qtyToDelivery;
 					qtyExpected -= qtyReserved;
 					line.add(qtyOnHand);										//  Qty on hand (this line)
 					line.add(qtyReserved);  									//  QtyReserved
 					line.add(qtyAvailable);  									//  Qty Available (running sum)
-					line.add(qtyOrdered);  										//  QtyOrdered
+					line.add(qtyToDelivery);  									//  Qty To Delivery
 					line.add(qtyExpected);										//  Delta Qty
 					line.add(rs.getString(12));						//  BPartner
 					line.add(rs.getString(10));						//  ASI
