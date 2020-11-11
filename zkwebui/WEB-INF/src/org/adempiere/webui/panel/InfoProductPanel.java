@@ -1835,7 +1835,7 @@ public class InfoProductPanel extends InfoPanel implements EventListener, ValueC
 				+ " 0 AS AvailQty,"
 				+ " ol.QtyDelivered AS DeltaQty,"
 				+ " CASE WHEN o.IsSOTrx = 'N' THEN ol.QtyReserved ELSE 0 END AS QtyOrdered,"
-				+ " CASE WHEN o.IsSOTrx = 'Y' THEN 0 ELSE ol.QtyReserved END AS QtyReserved,"
+				+ " CASE WHEN o.IsSOTrx = 'Y' THEN ol.QtyReserved ELSE 0 END AS QtyReserved,"
 				+ " productAttribute(ol.M_AttributeSetInstance_ID) AS sumPASI,"
 				+ " ol.M_AttributeSetInstance_ID AS ASI,"
 				+ " bp.Name AS BP_Name, dt.PrintName || ' ' || o.DocumentNo As DocumentNo, 20 AS SeqNo "
