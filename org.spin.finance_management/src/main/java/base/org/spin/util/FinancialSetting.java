@@ -91,7 +91,7 @@ public class FinancialSetting {
 			return null;
 		}
 		//	Get Product
-		MFMProduct financialProduct = MFMProduct.getById(po.getCtx(), financialProductId);
+		MFMProduct financialProduct = MFMProduct.getById(po.getCtx(), financialProductId, po.get_TrxName());
 		//	Apply Listener
 		List<MFMFunctionalApplicability> applicabilityList = financialProduct.getApplicability(po.get_TableName(), ModelValidator.documentEventValidators[docTiming]);
 		//	flush return values
@@ -113,7 +113,7 @@ public class FinancialSetting {
 			return null;
 		}
 		//	Get Product
-		MFMProduct financialProduct = MFMProduct.getById(po.getCtx(), financialProductId);
+		MFMProduct financialProduct = MFMProduct.getById(po.getCtx(), financialProductId, po.get_TrxName());
 		if(financialProduct == null) {
 			return null;
 		}
@@ -138,7 +138,7 @@ public class FinancialSetting {
 			return null;
 		}
 		//	
-		MFMProduct financialProduct = MFMProduct.getById(ctx, financialProductId);
+		MFMProduct financialProduct = MFMProduct.getById(ctx, financialProductId, trxName);
 		if(financialProduct == null) {
 			return null;
 		}

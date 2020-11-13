@@ -53,7 +53,7 @@ public class FrenchLoanAmortization extends AbstractFunctionalSetting {
 	private String generateAmortization(MFMAgreement loan){
 		String transactionName = (String) getParameter(FinancialSetting.PARAMETER_TRX_NAME);
 		List<AmortizationValue> amortizationList = new ArrayList<AmortizationValue>();
-		MFMProduct financialProduct = MFMProduct.getById(getCtx(), loan.getFM_Product_ID());
+		MFMProduct financialProduct = MFMProduct.getById(getCtx(), loan.getFM_Product_ID(), transactionName);
 		loan.set_TrxName(transactionName);
 		List<MFMAccount> accounts = loan.getAccounts();
 		
@@ -76,7 +76,7 @@ public class FrenchLoanAmortization extends AbstractFunctionalSetting {
 			amortizationList = (List) LoanUtil.calculateFrenchAmortization(financialProduct.getFM_Product_ID(), capitalAmt, 
 															feesQty, startDate,
 																endDate, payDate,
-																	paymentFrequency, account.getCtx())
+																	paymentFrequency, account.getCtx(), transactionName)
 						.get("AMORTIZATION_LIST");
 		
 			for (AmortizationValue amortization : amortizationList) {

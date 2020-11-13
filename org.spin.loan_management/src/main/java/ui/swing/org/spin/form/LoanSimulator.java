@@ -277,7 +277,7 @@ public abstract class LoanSimulator {
 		}
 		//	Validate Max and Min capital
 		if(financialProductId != 0) {
-			MFMProduct financialProduct = MFMProduct.getById(Env.getCtx(), financialProductId);
+			MFMProduct financialProduct = MFMProduct.getById(Env.getCtx(), financialProductId, null);
 			//	Capital Amount
 			BigDecimal minCapitalAmt = (BigDecimal) financialProduct.get_Value("MinCapitalAmt");
 			if(minCapitalAmt == null) {

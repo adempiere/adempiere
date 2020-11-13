@@ -103,7 +103,7 @@ public class CreateBatchFromInvoice extends AbstractFunctionalSetting {
     	//	Get Agreement
     	MFMAgreement agreement = (MFMAgreement) account.getFM_Agreement();
     	//	Get Financial Product
-    	MFMProduct financialProduct = MFMProduct.getById(getCtx(), agreement.getFM_Product_ID());
+    	MFMProduct financialProduct = MFMProduct.getById(getCtx(), agreement.getFM_Product_ID(), invoice.get_TrxName());
     	//	Create Batch
     	MFMBatch batch = createBatch(invoice.getDateInvoiced());
     	if(batch != null) {
