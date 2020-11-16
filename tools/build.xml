@@ -535,9 +535,6 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- PDF -->
-			<zipfileset src="lib/iText-2.1.7.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
 			<zipfileset src="lib/icepdf-core-6.2.2.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
