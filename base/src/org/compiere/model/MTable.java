@@ -921,12 +921,11 @@ public class MTable extends X_AD_Table
 
 				// Create a primary key
 				M_Element element = M_Element.get(getCtx(), getTableName()+"_ID", get_TrxName());
-				if(element == null)
-				{
+				if(element == null) {
 					element = new M_Element(getCtx(), 0 , get_TrxName());
 					element.setColumnName(getTableName()+"_ID");
-					element.setName(getName() + " ID");
-					element.setPrintName(getName() + " ID");
+					element.setName(getName());
+					element.setPrintName(getName());
 					element.setEntityType(getEntityType());
 					element.saveEx();
 				}
