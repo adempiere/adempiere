@@ -537,6 +537,8 @@ public class ReportStarter implements ProcessCall, ClientProcess
         	//	User
         	params.put("AD_USER_ID", new Integer(Env.getAD_User_ID(Env.getCtx())));
         	params.put("AD_User_ID", new Integer(Env.getAD_User_ID(Env.getCtx())));
+        	//	Organization
+        	params.put("AD_Org_ID", new Integer(Env.getAD_Org_ID(Env.getCtx())));
 
         	Language currLang = Env.getLanguage(Env.getCtx());
         	String printerName = null;
@@ -1056,7 +1058,9 @@ public class ReportStarter implements ProcessCall, ClientProcess
                 String info = rs.getString(8);
                 String infoTo = rs.getString(9);
         		params.put(name+"_Info1", (info != null ? info : ""));
+        		params.put(name+"_Info", (info != null ? info : ""));
         		params.put(name+"_Info2", (infoTo != null ? infoTo : ""));
+        		params.put(name+"_Info_To", (infoTo != null ? infoTo : ""));
             }
         } catch (SQLException e) {
             throw new DBException(e, sql);
