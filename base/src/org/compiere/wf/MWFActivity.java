@@ -277,8 +277,10 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			updateEventAudit();			
 			
 			//	Inform Process
-			if (m_process == null)
+			if (m_process == null) {
 				m_process = new MWFProcess (getCtx(), getAD_WF_Process_ID(), get_TrxName());
+				m_process.setWorkflowProcessTransaction(Trx.get(get_TrxName(), false));
+			}
 			m_process.checkActivities(m_po);
 		}
 		else
@@ -753,11 +755,12 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	{
 		log.info ("Node=" + getNode());
 		m_newValue = null;
+		Trx transaction = m_process.getWorkflowProcessTransaction();
 		// Declare save point
 		Savepoint savepoint = null;
 		try
 		{
-			savepoint = m_process.getWorkflowProcessTransaction().setSavepoint(null);
+			savepoint = transaction.setSavepoint(null);
 			if (!m_state.isValidAction(StateEngine.ACTION_Start))
 			{
 				setTextMsg("@WFA.State@ = " + MRefList.getListName(getCtx(), WFSTATE_AD_Reference_ID, getWFState()) + " - @WFCannotStart@");
@@ -775,8 +778,8 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			}
 			//	Do Work
 			/****	Trx Start	****/
-			boolean done = performWork(m_process.getWorkflowProcessTransaction());
-			m_process.getWorkflowProcessTransaction().releaseSavepoint(savepoint);
+			boolean done = performWork(transaction);
+			transaction.releaseSavepoint(savepoint);
 			/****	Trx End		****/
 			setWFState (done ? StateEngine.STATE_Completed : StateEngine.STATE_Suspended);
 
@@ -786,7 +789,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			log.log(Level.WARNING, "" + getNode(), e);
 			/****	Trx Rollback	****/
 			try {
-				m_process.getWorkflowProcessTransaction().rollback(savepoint);
+				transaction.rollback(savepoint);
 			} catch (SQLException sqlException) {
 				throw new AdempiereException(sqlException.getMessage());
 			}
@@ -802,7 +805,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			//	Set Document Status
 			if (m_po != null && m_po instanceof DocAction && m_docStatus != null)
 			{
-				m_po.load(get_TrxName());
+				m_po.load(transaction.getTrxName());
 				DocAction doc = (DocAction)m_po;
 				doc.setDocStatus(m_docStatus);
 				m_po.saveEx();
@@ -925,7 +928,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 			note.setRecord(getAD_Table_ID(), getRecord_ID());
 			note.saveEx();
 			//	Attachment
-			MAttachment attachment = new MAttachment (getCtx(), MNote.Table_ID, note.getAD_Note_ID(), get_TrxName());
+			MAttachment attachment = new MAttachment (getCtx(), MNote.Table_ID, note.getAD_Note_ID(), trx.getTrxName());
 			attachment.addEntry(report);
 			attachment.setTextMsg(m_node.getName(true));
 			attachment.saveEx();

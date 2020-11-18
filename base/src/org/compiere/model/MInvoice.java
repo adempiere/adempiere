@@ -1367,7 +1367,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		}
 		//	No Cash Book
 		if (PAYMENTRULE_Cash.equals(getPaymentRule())
-			&& MCashBook.get(getCtx(), getAD_Org_ID(), getC_Currency_ID()) == null)
+			&& !isValidCashBook())
 		{
 			processMsg = "@NoCashBook@";
 			return DocAction.STATUS_Invalid;
@@ -1378,7 +1378,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 			setC_DocType_ID(getC_DocTypeTarget_ID());
 		if (getC_DocType_ID() == 0)
 		{
-			processMsg = "No Document Type";
+			processMsg = "@C_DocType_ID@ @NotFound@";
 			return DocAction.STATUS_Invalid;
 		}
 
@@ -1675,59 +1675,27 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		
 		// POS supports multiple payments
 		boolean fromPOS = false;
-		if ( getC_Order_ID() > 0 )
-		{
+		if (getC_Order_ID() > 0) {
 			fromPOS = getC_Order().getC_POS_ID() > 0;
 		}
-
   		//	Create Cash
-		if (PAYMENTRULE_Cash.equals(getPaymentRule()) && !fromPOS )
-		{
-			if (MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true, getAD_Client_ID()))
-			{
-				String error = payCashWithCashAsPayment();
-				if (error != null)
-					return error;
-			}
-			
-			MCash cash;
-
-            int posId = Env.getContextAsInt(getCtx(),Env.POS_ID);
-
-            if (posId != 0)
-            {
-                MPOS pos = new MPOS(getCtx(),posId,get_TrxName());
-                int cashBookId = pos.getC_CashBook_ID();
-                cash = MCash.get(getCtx(),cashBookId,getDateInvoiced(),get_TrxName());
-            }
-            else
-            {
-                cash = MCash.get (getCtx(), getAD_Org_ID(),
-                        getDateInvoiced(), getC_Currency_ID(), get_TrxName());
-            }
-
-            // End Posterita Modifications
-
-			if (cash == null || cash.get_ID() == 0)
-			{
+		if (PAYMENTRULE_Cash.equals(getPaymentRule()) && !fromPOS ) {
+			//	Validate Cash book
+			if(!isValidCashBook()) {
 				processMsg = "@NoCashBook@";
 				return DocAction.STATUS_Invalid;
 			}
-			MCashLine cl = new MCashLine (cash);
-			cl.setInvoice(this);
-			if (!cl.save(get_TrxName()))
-			{
-				processMsg = "Could not save Cash Journal Line";
-				return DocAction.STATUS_Invalid;
+			//	Validate
+			if (MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true, getAD_Client_ID())) {
+				info.append(payWithCashAsPayment());
+			} else {
+				info.append(payWithCash());
 			}
-			info.append("@C_Cash_ID@: " + cash.getName() +  " #" + cl.getLine());
-			setC_CashLine_ID(cl.getC_CashLine_ID());
 		}	//	CashBook
 
 		//	Update Order & Match
 		AtomicInteger matchInvoices = new AtomicInteger(0);
 		AtomicInteger matchOrders = new AtomicInteger(0);
-		String docBaseType = getC_DocType().getDocBaseType();
 		Arrays.stream(getLines(false))
 		.filter(invoiceLine -> invoiceLine != null)
 		.forEach( invoiceLine -> {
@@ -2485,24 +2453,63 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 	}	//	isComplete
 	
 	/**
-	 * Pay it with cash
+	 * Get Bank Account for Cash as Payment
 	 * @return
 	 */
-	private String payCashWithCashAsPayment() {
-		int posId = Env.getContextAsInt(getCtx(),Env.POS_ID);
-		MPayment paymentCash = new MPayment(getCtx(), 0 ,  get_TrxName());
-		if (posId > 0) {
-			MPOS pos = MPOS.get(getCtx(), posId);
-			paymentCash.setC_BankAccount_ID(pos.getC_BankAccount_ID());
-		} else {
-			MBankAccount bankAccount = MBankAccount.getDefault(getCtx(), getAD_Org_ID(), X_C_Bank.BANKTYPE_CashJournal);
-			if (bankAccount == null) {
-				processMsg = Msg.getMsg(getCtx(), "No Default Cash defined for Organization");
-				return DOCSTATUS_Invalid;
-			}
-			paymentCash.setC_BankAccount_ID(bankAccount.getC_BankAccount_ID());
+	private int getCashBankAccount() {
+		if (!MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true, getAD_Client_ID())) { //	Bank As Payment
+			return -1;
 		}
-
+		if(getC_POS_ID() != 0) {
+			return MPOS.get(getCtx(), getC_POS_ID()).getC_BankAccount_ID();
+		}
+		//	Default
+		MBankAccount bankAccount = MBankAccount.getDefault(getCtx(), getAD_Org_ID(), X_C_Bank.BANKTYPE_CashJournal);
+		if (bankAccount != null) {
+			return bankAccount.getC_BankAccount_ID();
+		}
+		return -1;
+	}
+	
+	/**
+	 * Get cash book
+	 * @return
+	 */
+	private int getCashBook() {
+		if (MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true, getAD_Client_ID())) { //	Bank As Payment
+			return -1;
+		}
+		if(getC_POS_ID() != 0) {
+			return MPOS.get(getCtx(), getC_POS_ID()).getC_CashBook_ID();
+		}
+		MCash cash = MCash.get(getCtx(), getAD_Org_ID(), getDateInvoiced(), getC_Currency_ID(), get_TrxName());
+		if(cash != null) {
+			return cash.getC_CashBook_ID();
+		}
+		//	
+		return -1;
+	}
+	
+	/**
+	 * Validate if exist a valid cash book
+	 * @return
+	 */
+	private boolean isValidCashBook() {
+		return getCashBankAccount() > 0 || getCashBook() > 0;
+	}
+	
+	/**
+	 * Pay it with cash
+	 * @return message
+	 */
+	private String payWithCashAsPayment() {
+		int cashAccountId = getCashBankAccount();
+		if(cashAccountId <= 0) {
+			throw new AdempiereException("@NoCashBook@");
+		}
+		//	
+		MPayment paymentCash = new MPayment(getCtx(), 0, get_TrxName());
+		paymentCash.setC_BankAccount_ID(cashAccountId);
 		paymentCash.setC_DocType_ID(true);
         String value = DB.getDocumentNo(paymentCash.getC_DocType_ID(),get_TrxName(), false,  paymentCash);
         paymentCash.setDocumentNo(value);
@@ -2516,12 +2523,33 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
         paymentCash.setOverUnderAmt(Env.ZERO);
         paymentCash.setC_Invoice_ID(getC_Invoice_ID());
 		paymentCash.saveEx();
-		if (!paymentCash.processIt(X_C_Payment.DOCACTION_Complete))
-			return DOCSTATUS_Invalid;
+		if (!paymentCash.processIt(X_C_Payment.DOCACTION_Complete)) {
+			processMsg = paymentCash.getProcessMsg();
+			throw new AdempiereException("@Error@: " + paymentCash.getProcessMsg());
+		}
 		paymentCash.saveEx();
 		MBankStatement.addPayment(paymentCash);
-		return "";
+		return "@C_Payment_ID@: " + paymentCash.getDocumentNo();
 	}
+	
+	/**
+	 * Pay Invoice with cash
+	 * @return message
+	 */
+	private String payWithCash() {
+		int cashBookId = getCashBook();
+		if(cashBookId <= 0) {
+			throw new AdempiereException("@NoCashBook@");
+		}
+		//	Get current cash
+		MCash cash = MCash.get(getCtx(), cashBookId, getDateInvoiced(), get_TrxName());
+        MCashLine cashLine = new MCashLine (cash);
+		cashLine.setInvoice(this);
+		cashLine.saveEx(get_TrxName());
+		setC_CashLine_ID(cashLine.getC_CashLine_ID());
+		return "@C_Cash_ID@: " + cash.getName() +  " #" + cashLine.getLine();
+	}
+	
     /**
      * 	Create Allocation of the invoice to prepayments of the same Order
      *	@return void

@@ -687,7 +687,7 @@ public class MOrder extends X_C_Order implements DocAction
 	 */
 	public MOrderLine[] getLines (boolean requery, String orderBy)
 	{
-		if (m_lines != null && !requery) {
+		if (m_lines != null && m_lines.length > 0 && !requery) {
 			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
 		}
@@ -1241,7 +1241,11 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Validate RMA
 		if(isReturnOrder()) {
 			setDeliveryRule(DELIVERYRULE_Force);
-			setInvoiceRule(INVOICERULE_AfterDelivery);
+			if(getC_POS_ID() != 0) {
+				setInvoiceRule(INVOICERULE_Immediate);
+			} else {
+				setInvoiceRule(INVOICERULE_AfterDelivery);
+			}
 		}
 		// Bug 1564431
 		if (getDeliveryRule() != null && getDeliveryRule().equals(MOrder.DELIVERYRULE_CompleteOrder)) 
