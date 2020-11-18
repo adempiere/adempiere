@@ -255,11 +255,6 @@
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/junit.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/junit.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zweb.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/iText-2.1.7.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="tools/lib/miglayout-3.7.1-swing.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -330,7 +325,6 @@
 	<classpathentry kind="lib" path="tools/lib/icepdf-viewer-6.2.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/io-7.1.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/itext-carriage-0.8.0.jar"/>
-	<classpathentry kind="lib" path="tools/lib/itext-pdfa-5.5.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/itextpdf-5.5.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/javax.inject-1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/kernel-7.1.1.jar"/>
