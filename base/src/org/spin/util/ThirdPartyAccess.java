@@ -124,13 +124,7 @@ public class ThirdPartyAccess implements IThirdPartyAccessGenerator {
 		} catch (UnsupportedEncodingException e) {
 			new AdempiereException(e);
 		}
-		token = new Query(Env.getCtx(), MADToken.Table_Name, "TokenValue = ? "
-				+ "AND EXISTS(SELECT 1 FROM AD_User_Roles ur WHERE ur.AD_User_ID = AD_Token.AD_User_ID AND ur.AD_Role_ID = AD_Token.AD_Role_ID AND ur.IsActive = 'Y') "
-				+ "AND EXISTS(SELECT 1 FROM AD_User u WHERE u.AD_User_ID = AD_Token.AD_User_ID AND u.IsActive = 'Y' AND u.IsLoginUser = 'Y') "
-				+ "AND EXISTS(SELECT 1 FROM AD_Role r WHERE r.AD_Role_ID = AD_Token.AD_Role_ID AND r.IsActive = 'Y')", null)
-				.setParameters(encryptedValue)
-				.setOnlyActiveRecords(true)
-				.first();
+		token = getToken(encryptedValue);
 		if(token == null
 				|| token.getAD_Token_ID() <= 0) {
 			return false;
@@ -146,5 +140,20 @@ public class ThirdPartyAccess implements IThirdPartyAccessGenerator {
 		}
 		//	Is Ok
 		return true;
+	}
+	
+	/**
+	 * Get system token based on encrypted user token
+	 * @param encryptedValue
+	 * @return
+	 */
+	private MADToken getToken(String encryptedValue) {
+		return new Query(Env.getCtx(), MADToken.Table_Name, "TokenValue = ? "
+				+ "AND EXISTS(SELECT 1 FROM AD_User_Roles ur WHERE ur.AD_User_ID = AD_Token.AD_User_ID AND ur.AD_Role_ID = AD_Token.AD_Role_ID AND ur.IsActive = 'Y') "
+				+ "AND EXISTS(SELECT 1 FROM AD_User u WHERE u.AD_User_ID = AD_Token.AD_User_ID AND u.IsActive = 'Y' AND u.IsLoginUser = 'Y') "
+				+ "AND EXISTS(SELECT 1 FROM AD_Role r WHERE r.AD_Role_ID = AD_Token.AD_Role_ID AND r.IsActive = 'Y')", null)
+				.setParameters(encryptedValue)
+				.setOnlyActiveRecords(true)
+				.first();
 	}
 }
