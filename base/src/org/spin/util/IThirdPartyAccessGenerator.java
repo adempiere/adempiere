@@ -12,45 +12,28 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
  * All Rights Reserved.                                                       *
- * Contributor(s): Raul Muñoz www.erpcya.com               					  *
+ * Contributor(s): Yamel Senih www.erpya.com               					  *
  *****************************************************************************/
 package org.spin.util;
 
-import org.spin.model.MADToken;
-
 /**
- * @author Raul Muñoz, rMunoz@erpcya.com, ERPCyA http://www.erpcya.com
- *		<a href="https://github.com/adempiere/adempiere/issues/1769">
- * 		@see FR [ 1769 ] Add option to restore the password from the login</a>
- *
+ * Default contract for Third Party Access
+ * @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpcya.com
  */
-public interface ITokenGenerator {
+public interface IThirdPartyAccessGenerator extends ITokenGenerator {
 
 	/**
 	 * Generate Token
-	 * @param tokenType
 	 * @param userId
+	 * @param roleId
 	 * @return
 	 */
-	public  String generateToken(String tokenType, int userId);
+	public String generateToken(int userId, int roleId);
 	
 	/**
 	 * Validate Token
 	 * @param token
-	 * @param userId
 	 * @return
 	 */
-	public boolean validateToken(String token, int userId);
-
-	/**
-	 * Get Token Value
-	 * @return
-	 */
-	public  String getTokenValue();
-	
-	/**
-	 * Get PO Token
-	 * @return
-	 */
-	public  MADToken getToken();
+	public boolean validateToken(String token);
 }

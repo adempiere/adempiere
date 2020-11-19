@@ -17,21 +17,23 @@
 /** Generated Model - DO NOT CHANGE */
 package org.spin.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
+import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_TokenDefinition
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_AD_TokenDefinition extends PO implements I_AD_TokenDefinition, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20201118L;
 
     /** Standard Constructor */
     public X_AD_TokenDefinition (Properties ctx, int AD_TokenDefinition_ID, String trxName)
@@ -40,7 +42,6 @@ public class X_AD_TokenDefinition extends PO implements I_AD_TokenDefinition, I_
       /** if (AD_TokenDefinition_ID == 0)
         {
 			setAD_TokenDefinition_ID (0);
-			setClassname (null);
 			setName (null);
 			setTokenType (null);
 			setValue (null);
@@ -132,6 +133,50 @@ public class X_AD_TokenDefinition extends PO implements I_AD_TokenDefinition, I_
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Expiration Time.
+		@param ExpirationTime 
+		Expiration Time for Token in milliseconds, default 5 minutes
+	  */
+	public void setExpirationTime (BigDecimal ExpirationTime)
+	{
+		set_Value (COLUMNNAME_ExpirationTime, ExpirationTime);
+	}
+
+	/** Get Expiration Time.
+		@return Expiration Time for Token in milliseconds, default 5 minutes
+	  */
+	public BigDecimal getExpirationTime () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_ExpirationTime);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Has Expire Date.
+		@param IsHasExpireDate 
+		Has Expire Date for generated token
+	  */
+	public void setIsHasExpireDate (boolean IsHasExpireDate)
+	{
+		set_Value (COLUMNNAME_IsHasExpireDate, Boolean.valueOf(IsHasExpireDate));
+	}
+
+	/** Get Has Expire Date.
+		@return Has Expire Date for generated token
+	  */
+	public boolean isHasExpireDate () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsHasExpireDate);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -157,6 +202,10 @@ public class X_AD_TokenDefinition extends PO implements I_AD_TokenDefinition, I_
 	public static final String TOKENTYPE_EMailE_MailForUserWithCode = "EMA";
 	/** URL (Token used as URL) = URL */
 	public static final String TOKENTYPE_URLTokenUsedAsURL = "URL";
+	/** Third Party Access = TPA */
+	public static final String TOKENTYPE_ThirdPartyAccess = "TPA";
+	/** Manual = MNA */
+	public static final String TOKENTYPE_Manual = "MNA";
 	/** Set TokenType.
 		@param TokenType 
 		Wiki Token Type
