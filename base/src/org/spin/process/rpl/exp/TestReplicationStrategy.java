@@ -64,12 +64,12 @@ public class TestReplicationStrategy extends TestReplicationStrategyAbstract {
 			new Query(getCtx(), table.getTableName(), "Updated >= ? AND Updated <= ? AND AD_Org_ID IN(" + orgAccess+ ")", get_TrxName())
 				.setParameters(getUpdatedDate(), getUpdatedDateTo())
 				.setClient_ID()
-				.list()
-				.forEach(entity -> {
+				.getIDsAsList()
+				.forEach(entityId -> {
 					if (replicationTable != null) {
 						ExportHelper exportHelper = new ExportHelper(client, replicationStrategy);
 						try {
-							exportHelper.exportRecord(entity, (MReplicationTable)replicationTable, ModelValidator.TYPE_AFTER_CHANGE);
+							exportHelper.exportRecord(table.getPO(entityId, get_TrxName()), (MReplicationTable)replicationTable, ModelValidator.TYPE_AFTER_CHANGE);
 							replicated.addAndGet(1);
 						} catch (Exception exeption) {
 							log.severe(exeption.getLocalizedMessage());
@@ -83,12 +83,12 @@ public class TestReplicationStrategy extends TestReplicationStrategyAbstract {
 			new Query(getCtx(), table.getTableName(), "Updated >= ? AND Updated <= ? AND AD_Org_ID IN(" + orgAccess+ ")", get_TrxName())
 				.setParameters(getUpdatedDate(), getUpdatedDateTo())
 				.setClient_ID()
-				.list()
-				.forEach(entity -> {
+				.getIDsAsList()
+				.forEach(entityId -> {
 					if (replicationDocument != null) {
 						ExportHelper exportHelper = new ExportHelper(client, replicationStrategy);
 						try {
-							exportHelper.exportRecord(entity, (MReplicationDocument)replicationDocument, ModelValidator.TYPE_AFTER_CHANGE);
+							exportHelper.exportRecord(table.getPO(entityId, get_TrxName()), (MReplicationDocument)replicationDocument, ModelValidator.TYPE_AFTER_CHANGE);
 							replicated.addAndGet(1);
 						} catch (Exception exeption) {
 							log.severe(exeption.getLocalizedMessage());
