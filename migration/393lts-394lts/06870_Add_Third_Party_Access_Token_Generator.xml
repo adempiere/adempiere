@@ -3208,5 +3208,10 @@ Si selecciona "Revocar todos los Tokens" entonces todos los tokens generados ser
         <Data AD_Column_ID="183" Column="IsSameLine" oldValue="true">false</Data>
       </PO>
     </Step>
+    <Step SeqNo="1640" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="100046" Table="AD_Field">
+        <Data AD_Column_ID="186" Column="IsEncrypted" oldValue="false">true</Data>
+      </PO>
+    </Step>
   </Migration>
 </Migrations>
