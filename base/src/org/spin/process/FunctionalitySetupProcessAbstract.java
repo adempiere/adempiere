@@ -29,7 +29,7 @@ public abstract class FunctionalitySetupProcessAbstract extends SvrProcess {
 	/** Process Name 	*/
 	private static final String NAME_FOR_PROCESS = "Functionality Setup Process";
 	/** Process Id 	*/
-	private static final int ID_FOR_PROCESS = 1000000;
+	private static final int ID_FOR_PROCESS = 54465;
 	/**	Parameter Name for Setup Definition	*/
 	public static final String AD_SETUPDEFINITION_ID = "AD_SetupDefinition_ID";
 	/**	Parameter Value for Setup Definition	*/
