@@ -37,10 +37,6 @@ import org.spin.util.ITokenGenerator;
  *  @version Release 3.9.3
  */
 public class GenerateTokenForThirdPartyAccess extends GenerateTokenForThirdPartyAccessAbstract {
-	@Override
-	protected void prepare() {
-		super.prepare();
-	}
 
 	@Override
 	protected String doIt() throws Exception {
