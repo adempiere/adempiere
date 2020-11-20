@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FM_FunctionalApplicability
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_FM_FunctionalApplicability 
 {
@@ -188,6 +188,19 @@ public interface I_FM_FunctionalApplicability
 	  */
 	public boolean isActive();
 
+    /** Column name IsCreateReversal */
+    public static final String COLUMNNAME_IsCreateReversal = "IsCreateReversal";
+
+	/** Set Create Reversal.
+	  * Indicates that reversal movement will be created, if disabled the original movement will be deleted.
+	  */
+	public void setIsCreateReversal (boolean IsCreateReversal);
+
+	/** Get Create Reversal.
+	  * Indicates that reversal movement will be created, if disabled the original movement will be deleted.
+	  */
+	public boolean isCreateReversal();
+
     /** Column name SeqNo */
     public static final String COLUMNNAME_SeqNo = "SeqNo";
 
@@ -202,19 +215,6 @@ public interface I_FM_FunctionalApplicability
  lowest number comes first
 	  */
 	public int getSeqNo();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -231,6 +231,19 @@ public interface I_FM_FunctionalApplicability
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";

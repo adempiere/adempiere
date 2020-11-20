@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MConversionRate;
 import org.compiere.model.MCurrency;
 import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
@@ -120,8 +122,6 @@ public class MFMBatch extends X_FM_Batch implements DocAction, DocOptions {
 	private String		m_processMsg = null;
 	/**	Just Prepared Flag			*/
 	private boolean		m_justPrepared = false;
-	private int currencyPrecision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(p_ctx, "#C_Currency_ID"));
-
 	/**
 	 * 	Unlock Document.
 	 * 	@return true if success 
@@ -452,7 +452,7 @@ public class MFMBatch extends X_FM_Batch implements DocAction, DocOptions {
 		
 		List<MFMTransaction> fromLines = from.getLines(false);
 		for (MFMTransaction fromMovement: fromLines) {
-			MFMTransaction toMovement = new MFMTransaction (getCtx(), 0, null);
+			MFMTransaction toMovement = new MFMTransaction (getCtx(), 0, get_TrxName());
 			PO.copyValues (fromMovement, toMovement, fromMovement.getAD_Client_ID(), fromMovement.getAD_Org_ID());
 			//	
 			toMovement.setFM_Batch_ID(getFM_Batch_ID());
@@ -558,10 +558,23 @@ public class MFMBatch extends X_FM_Batch implements DocAction, DocOptions {
 	
 	/**
 	 * Add Transaction for batch
+	 * This method assume that is the same currency of account, if you need convert to document use addTransaction(int transactionTypeId, int currenyId, int conversionTypeId, BigDecimal amount)
 	 * @param transactionTypeId
 	 * @param amount
 	 */
 	public MFMTransaction addTransaction(int transactionTypeId, BigDecimal amount) {
+		return addTransaction(transactionTypeId, 0, 0, amount);
+	}
+	
+	/**
+	 * Add a transaction to batch with currency and optional conversion type
+	 * @param transactionTypeId
+	 * @param currenyId
+	 * @param conversionTypeId
+	 * @param amount
+	 * @return
+	 */
+	public MFMTransaction addTransaction(int transactionTypeId, int currenyId, int conversionTypeId, BigDecimal amount) {
 		//	Validate Type
 		if(transactionTypeId <= 0) {
 			return null;
@@ -569,7 +582,19 @@ public class MFMBatch extends X_FM_Batch implements DocAction, DocOptions {
 		//	
 		MFMTransaction transaction = new MFMTransaction(this);
 		transaction.setFM_TransactionType_ID(transactionTypeId);
-		transaction.setAmount(amount.setScale(currencyPrecision, BigDecimal.ROUND_HALF_UP));
+		MFMAccount account = MFMAccount.getById(getCtx(), getFM_Account_ID(), get_TrxName());
+		MCurrency currency = MCurrency.get(getCtx(), account.getC_Currency_ID());
+		//	Convert it
+		if(currency.getC_Currency_ID() != currenyId && currenyId > 0) {
+			int conversionRateId = MConversionRate.getConversionRateId(currenyId, currency.getC_Currency_ID(), getDateAcct(), conversionTypeId, getAD_Client_ID(), getAD_Org_ID());
+			if(conversionRateId <= 0) {
+				throw new AdempiereException(MConversionRate.getErrorMessage(getCtx(), "ErrorConvertingDocumentCurrencyToBaseCurrency", currenyId, account.getC_Currency_ID(), conversionTypeId, getDateAcct(), get_TrxName()));
+			}
+			BigDecimal conversionRate = MConversionRate.getRate(getCtx(), conversionRateId);
+			amount = amount.multiply(conversionRate);
+		}
+		//	Set values
+		transaction.setAmount(amount.setScale(currency.getStdPrecision(), BigDecimal.ROUND_HALF_UP));
 		transaction.saveEx();
 		return transaction;
 	}
