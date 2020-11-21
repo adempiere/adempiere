@@ -395,5 +395,6 @@
 	<classpathentry kind="lib" path="tools/lib/storefront/rank-eval-client-7.9.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/snakeyaml-1.26.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/t-digest-3.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/de.klst.facturx-0.1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
