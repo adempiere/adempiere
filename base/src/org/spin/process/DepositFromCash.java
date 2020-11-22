@@ -35,8 +35,6 @@ import org.compiere.util.Util;
  */
 public class DepositFromCash extends DepositFromCashAbstract {
 	
-	/**	Tender Type								*/
-	private String defaultTenderType = MPayment.TENDERTYPE_Account;
 	/**	Source with deposit reference	*/
 	Map<Integer, Integer> referencePayments = new HashMap<Integer, Integer>();
 	/**	Deposits	*/
@@ -164,7 +162,7 @@ public class DepositFromCash extends DepositFromCashAbstract {
 		payment.setC_BPartner_ID(getBPartnerId());
 		payment.setC_BankAccount_ID(bankAccountId);
 		payment.setIsReceipt(isReceipt);
-		payment.setTenderType(tenderType != null? tenderType: defaultTenderType);
+		payment.setTenderType(tenderType != null? tenderType: getTenderType());
 		payment.setDateTrx(getDateTrx());
 		payment.setDateAcct(getDateTrx());
 		if(!Util.isEmpty(documentNo)) {
