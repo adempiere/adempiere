@@ -35,14 +35,20 @@ import org.compiere.util.Util;
  */
 public class DepositFromCash extends DepositFromCashAbstract {
 	
-	/**	Tender Type								*/
-	private String defaultTenderType = MPayment.TENDERTYPE_Account;
 	/**	Source with deposit reference	*/
 	Map<Integer, Integer> referencePayments = new HashMap<Integer, Integer>();
 	/**	Deposits	*/
 	Map<String, MPayment> payments = new HashMap<String, MPayment>();
 	/**	Created	*/
 	AtomicInteger created = new AtomicInteger();
+	
+	@Override
+	protected void prepare() {
+		super.prepare();
+		if(Util.isEmpty(getTenderType())) {
+			setTenderType(MPayment.TENDERTYPE_DirectDeposit);
+		}
+	}
 	
 	@Override
 	protected String doIt() throws Exception {
@@ -68,6 +74,10 @@ public class DepositFromCash extends DepositFromCashAbstract {
 	  		referencePayments.put(sourcePayment.getC_Payment_ID(), bankDeposit.getC_Payment_ID());
 	  		//	Create withdrawal
 	  		MPayment cashWithdrawal = addPayment(getDocumentNo(), sourcePayment.getC_BankAccount_ID(), false, sourcePayment.getPayAmt(), sourcePayment.getTenderType(), sourcePayment.getC_Currency_ID(), sourcePayment.getC_ConversionType_ID());
+	  		if(sourcePayment.getC_POS_ID() > 0) {
+	  			cashWithdrawal.setC_POS_ID(sourcePayment.getC_POS_ID());
+	  			cashWithdrawal.saveEx();
+	  		}
 	  		//	Add references
 	  		referencePayments.put(bankDeposit.getC_Payment_ID(), cashWithdrawal.getC_Payment_ID());
   	  	});
@@ -156,7 +166,7 @@ public class DepositFromCash extends DepositFromCashAbstract {
 		payment.setC_BPartner_ID(getBPartnerId());
 		payment.setC_BankAccount_ID(bankAccountId);
 		payment.setIsReceipt(isReceipt);
-		payment.setTenderType(tenderType != null? tenderType: defaultTenderType);
+		payment.setTenderType(tenderType != null? tenderType: getTenderType());
 		payment.setDateTrx(getDateTrx());
 		payment.setDateAcct(getDateTrx());
 		if(!Util.isEmpty(documentNo)) {

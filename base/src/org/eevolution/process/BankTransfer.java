@@ -25,6 +25,7 @@ import org.compiere.model.MBankStatementLine;
 import org.compiere.model.MPayment;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
  
 /**
  *  Bank Transfer. Generate two Payments entry
@@ -38,6 +39,14 @@ import org.compiere.util.Env;
  *	
  **/
 public class BankTransfer extends BankTransferAbstract {
+	
+	@Override
+	protected void prepare() {
+		super.prepare();
+		if(Util.isEmpty(getTenderType())) {
+			setTenderType(MPayment.TENDERTYPE_DirectDeposit);
+		}
+	}
 	
 	/**
 	 *  Perform process.
@@ -81,7 +90,7 @@ public class BankTransfer extends BankTransferAbstract {
 		paymentBankFrom.setDocumentNo(getDocumentNo());
 		paymentBankFrom.setDateAcct(dateAcct);
 		paymentBankFrom.setDateTrx(statementDate);
-		paymentBankFrom.setTenderType(MPayment.TENDERTYPE_DirectDeposit);
+		paymentBankFrom.setTenderType(getTenderType());
 		paymentBankFrom.setDescription(getDescription());
 		paymentBankFrom.setC_BPartner_ID (getBPartnerId());
 		paymentBankFrom.setC_Currency_ID(getCurrencyId());
@@ -103,7 +112,7 @@ public class BankTransfer extends BankTransferAbstract {
 		paymentBankTo.setDocumentNo(documentNoTo);
 		paymentBankTo.setDateAcct(dateAcct);
 		paymentBankTo.setDateTrx(statementDate);
-		paymentBankTo.setTenderType(MPayment.TENDERTYPE_DirectDeposit);
+		paymentBankTo.setTenderType(getTenderType());
 		paymentBankTo.setDescription(getDescription());
 		paymentBankTo.setC_BPartner_ID (getBPartnerId());
 		paymentBankTo.setC_Currency_ID(getCurrencyId());
