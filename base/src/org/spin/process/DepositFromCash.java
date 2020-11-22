@@ -74,6 +74,10 @@ public class DepositFromCash extends DepositFromCashAbstract {
 	  		referencePayments.put(sourcePayment.getC_Payment_ID(), bankDeposit.getC_Payment_ID());
 	  		//	Create withdrawal
 	  		MPayment cashWithdrawal = addPayment(getDocumentNo(), sourcePayment.getC_BankAccount_ID(), false, sourcePayment.getPayAmt(), sourcePayment.getTenderType(), sourcePayment.getC_Currency_ID(), sourcePayment.getC_ConversionType_ID());
+	  		if(sourcePayment.getC_POS_ID() > 0) {
+	  			cashWithdrawal.setC_POS_ID(sourcePayment.getC_POS_ID());
+	  			cashWithdrawal.saveEx();
+	  		}
 	  		//	Add references
 	  		referencePayments.put(bankDeposit.getC_Payment_ID(), cashWithdrawal.getC_Payment_ID());
   	  	});
