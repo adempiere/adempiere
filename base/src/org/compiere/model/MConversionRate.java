@@ -230,6 +230,7 @@ public class MConversionRate extends X_C_Conversion_Rate
 			+ " AND	? BETWEEN ValidFrom AND ValidTo"	//	#4	TRUNC (?) ORA-00932: inconsistent datatypes: expected NUMBER got TIMESTAMP
 			+ " AND AD_Client_ID IN (0,?)"				//	#5
 			+ " AND AD_Org_ID IN (0,?) "				//	#6
+			+ " AND IsActive = 'Y' "					//	#7
 			+ "ORDER BY AD_Client_ID DESC, AD_Org_ID DESC, ValidFrom DESC";
 		BigDecimal retValue = DB.getSQLValueBD(null, sql, CurFrom_ID, CurTo_ID, C_ConversionType_ID, ConvDate, AD_Client_ID, AD_Org_ID);			
 		if (retValue == null)
@@ -274,6 +275,7 @@ public class MConversionRate extends X_C_Conversion_Rate
 				+ " AND	? BETWEEN ValidFrom AND ValidTo"	//	#4	TRUNC (?) ORA-00932: inconsistent datatypes: expected NUMBER got TIMESTAMP
 				+ " AND AD_Client_ID IN (0,?)"				//	#5
 				+ " AND AD_Org_ID IN (0,?) "				//	#6
+				+ " AND IsActive = 'Y' "					//	#7
 				+ "ORDER BY AD_Client_ID DESC, AD_Org_ID DESC, ValidFrom DESC";
 		//	Get
 		int conversionRateId = DB.getSQLValue(null, sql, currencyFromId, CurencyToId, internalConversionTypeId, conversionDate, clientId, orgId);
