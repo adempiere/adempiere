@@ -45,6 +45,14 @@ public class DepositFromCash extends DepositFromCashAbstract {
 	AtomicInteger created = new AtomicInteger();
 	
 	@Override
+	protected void prepare() {
+		super.prepare();
+		if(Util.isEmpty(getTenderType())) {
+			setTenderType(MPayment.TENDERTYPE_DirectDeposit);
+		}
+	}
+	
+	@Override
 	protected String doIt() throws Exception {
 		if(!isSplitDeposits()) {
 			if(Util.isEmpty(getDocumentNo())) {

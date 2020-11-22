@@ -22,7 +22,7 @@ import org.compiere.process.SvrProcess;
 
 /** Generated Process for (Deposit From Cash Process)
  *  @author ADempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public abstract class DepositFromCashAbstract extends SvrProcess {
 	/** Process Value 	*/
@@ -47,6 +47,8 @@ public abstract class DepositFromCashAbstract extends SvrProcess {
 	public static final String WITHDRAWALDOCUMENTTYPE_ID = "WithdrawalDocumentType_ID";
 	/**	Parameter Name for Deposit Document Type	*/
 	public static final String DEPOSITDOCUMENTTYPE_ID = "DepositDocumentType_ID";
+	/**	Parameter Name for Tender type	*/
+	public static final String TENDERTYPE = "TenderType";
 	/**	Parameter Value for Transaction Date	*/
 	private Timestamp dateTrx;
 	/**	Parameter Value for Bank Account	*/
@@ -63,6 +65,8 @@ public abstract class DepositFromCashAbstract extends SvrProcess {
 	private int withdrawalDocumentTypeId;
 	/**	Parameter Value for Deposit Document Type	*/
 	private int depositDocumentTypeId;
+	/**	Parameter Value for Tender type	*/
+	private String tenderType;
 
 	@Override
 	protected void prepare() {
@@ -74,6 +78,7 @@ public abstract class DepositFromCashAbstract extends SvrProcess {
 		chargeId = getParameterAsInt(C_CHARGE_ID);
 		withdrawalDocumentTypeId = getParameterAsInt(WITHDRAWALDOCUMENTTYPE_ID);
 		depositDocumentTypeId = getParameterAsInt(DEPOSITDOCUMENTTYPE_ID);
+		tenderType = getParameterAsString(TENDERTYPE);
 	}
 
 	/**	 Getter Parameter Value for Transaction Date	*/
@@ -154,6 +159,16 @@ public abstract class DepositFromCashAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Deposit Document Type	*/
 	protected void setDepositDocumentTypeId(int depositDocumentTypeId) {
 		this.depositDocumentTypeId = depositDocumentTypeId;
+	}
+
+	/**	 Getter Parameter Value for Tender type	*/
+	protected String getTenderType() {
+		return tenderType;
+	}
+
+	/**	 Setter Parameter Value for Tender type	*/
+	protected void setTenderType(String tenderType) {
+		this.tenderType = tenderType;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/
