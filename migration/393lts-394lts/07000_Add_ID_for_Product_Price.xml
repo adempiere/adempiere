@@ -118,7 +118,7 @@
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
-        <Data AD_Column_ID="119" Column="IsKey">true</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
         <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
         <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
@@ -360,6 +360,7 @@
     <Step SeqNo="190" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="97440" Table="AD_Column">
         <Data AD_Column_ID="124" Column="IsMandatory" oldValue="false">true</Data>
+        <Data AD_Column_ID="119" Column="IsKey">true</Data>
       </PO>
     </Step>
   </Migration>
