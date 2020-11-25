@@ -21,12 +21,12 @@ import java.math.BigDecimal;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Timestamp;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.compiere.util.SecureEngine;
-import org.compiere.util.TimeUtil;
 import org.compiere.util.Util;
 import org.spin.model.MADToken;
 import org.spin.model.MADTokenDefinition;
@@ -87,7 +87,7 @@ public class ThirdPartyAccess implements IThirdPartyAccessGenerator {
 		String tokenValue = null;
 		userTokenValue = null;
 		try {
-			String value = TimeUtil.getDay(System.currentTimeMillis()).toString();
+			String value = UUID.randomUUID().toString();
 			// 
 			byte[] saltValue = new byte[8];
 			// Digest computation
