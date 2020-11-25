@@ -181,7 +181,7 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 		if( is_ValueChanged(MPPOrderBOMLine.COLUMNNAME_QtyDelivered)
 				|| is_ValueChanged(MPPOrderBOMLine.COLUMNNAME_QtyRequired))
 		{	
-			reserveStock();
+			reservedStock();
 		}
 		
 		return true;
@@ -201,7 +201,7 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 	{
 		// Release Reservation
 		setQtyRequired(Env.ZERO);
-		reserveStock();
+		reservedStock();
 		return true;
 	}
 
@@ -559,7 +559,7 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 	/**
 	 * Reserve Inventory for this BOM Line
 	 */
-	protected void reserveStock()
+	public void reservedStock()
 	{
 		final int header_M_Warehouse_ID = getParent().getM_Warehouse_ID();
 
@@ -588,9 +588,13 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 			return;
 		}
 		BigDecimal reserved = difference;
-		int M_Locator_ID = getM_Locator_ID(reserved);
+		//The Reserved Quantity is create in default location and ASI 0
+		int locatorId = getM_Locator_ID();
+		if (locatorId == 0)
+			locatorId = getReservedLocatorId(reserved);
+
 		//	Update Storage
-		if (!MStorage.add(getCtx(), getM_Warehouse_ID(), M_Locator_ID,
+		if (!MStorage.add(getCtx(), getM_Warehouse_ID(), locatorId,
 				getM_Product_ID(), getM_AttributeSetInstance_ID(),
 				getM_AttributeSetInstance_ID(), Env.ZERO, reserved, Env.ZERO, get_TrxName()))
 		{
@@ -605,30 +609,21 @@ public class MPPOrderBOMLine extends X_PP_Order_BOMLine
 	 * @return Storage locator for current product/asi/warehouse and qty
 	 * @see MStorage#getM_Locator_ID(int, int, int, BigDecimal, String)
 	 */
-	private int getM_Locator_ID(BigDecimal qty)
+	private int getReservedLocatorId(BigDecimal qty)
 	{
-		int M_Locator_ID = 0;
-		int M_ASI_ID = getM_AttributeSetInstance_ID();
-		// Get existing Locator
-		if (M_ASI_ID != 0)
-		{
-			M_Locator_ID = MStorage.getM_Locator_ID(getM_Warehouse_ID(), getM_Product_ID(), M_ASI_ID, qty, get_TrxName());
-		}
-		// Get Default
-		if (M_Locator_ID == 0)
-		{
-			M_Locator_ID = getM_Locator_ID();
-		}
-		// Get Default Locator for Warehouse - teo_sarca [ 2724743 ]
-		if (M_Locator_ID == 0)
-		{
-			MLocator locator = MWarehouse.get(getCtx(), getM_Warehouse_ID()).getDefaultLocator();
-			if (locator != null)
-			{
-				M_Locator_ID = locator.get_ID();
+		MWarehouse warehouse = getM_Warehouse();
+		int locatorId = 0;
+		locatorId = getM_Product().getM_Locator_ID();
+		if (locatorId != 0) {
+			MLocator locator = new MLocator(getCtx(), locatorId, get_TrxName());
+			//product has default locator defined but is not from the order warehouse
+			if(locator.getM_Warehouse_ID() != warehouse.getM_Warehouse_ID()) {
+				locatorId = warehouse.getDefaultLocator().getM_Locator_ID();
 			}
+		} else {
+			locatorId = warehouse.getDefaultLocator().getM_Locator_ID();
 		}
-		return M_Locator_ID;
+		return locatorId;
 	}
 	
 	@Override
