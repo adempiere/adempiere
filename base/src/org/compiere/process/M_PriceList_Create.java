@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.I_M_DiscountSchemaLine;
@@ -309,6 +310,7 @@ public class M_PriceList_Create extends M_PriceList_CreateAbstract {
 				//	Get from Product Purchasing
 				new Query(getCtx(), I_M_Product_PO.Table_Name, querywhereClause.toString(), get_TrxName())
 					.setParameters(parameters)
+					.setClient_ID()
 					.<MProductPO>list()
 					.forEach(productPurchasing -> {
 						//	Get conversion for Type
@@ -390,6 +392,7 @@ public class M_PriceList_Create extends M_PriceList_CreateAbstract {
 				//	Get from Product Purchasing
 				new Query(getCtx(), I_M_ProductPrice.Table_Name, querywhereClause.toString(), get_TrxName())
 					.setParameters(parameters)
+					.setClient_ID()
 					.<MProductPrice>list()
 					.forEach(productPrice -> {
 						//	Get conversion for Type
@@ -454,12 +457,12 @@ public class M_PriceList_Create extends M_PriceList_CreateAbstract {
 		 * @param priceLimit
 		 * @param discountSchemaLine
 		 */
-		public ProductCombination(int productId, BigDecimal conversionRate, BigDecimal priceStandard, BigDecimal priceList, BigDecimal priceLimit, MDiscountSchemaLine discountSchemaLine) {
+		public ProductCombination(int productId, BigDecimal conversionRate, BigDecimal priceList, BigDecimal priceStandard, BigDecimal priceLimit, MDiscountSchemaLine discountSchemaLine) {
 			this.productId = productId;
 			this.conversionRate = conversionRate;
-			this.priceStandard = (priceStandard == null? Env.ZERO: priceStandard);
-			this.priceList = (priceList == null? Env.ZERO: priceList);
-			this.priceLimit = (priceLimit == null? Env.ZERO: priceLimit);
+			this.priceList = Optional.ofNullable(priceList).orElse(Env.ZERO);
+			this.priceStandard = Optional.ofNullable(priceStandard).orElse(Env.ZERO);
+			this.priceLimit = Optional.ofNullable(priceLimit).orElse(Env.ZERO);
 			this.discountSchemaLine = discountSchemaLine;
 		}
 		

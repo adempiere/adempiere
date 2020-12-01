@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_OrgInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20201119L;
 
     /** Standard Constructor */
     public X_AD_OrgInfo (Properties ctx, int AD_OrgInfo_ID, String trxName)
@@ -154,21 +154,27 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set D-U-N-S.
-		@param DUNS 
-		Dun & Bradstreet Number
+	/** Set Corporate Branding Image.
+		@param CorporateBrandingImage_ID 
+		Corporate Branding Image
 	  */
-	public void setDUNS (String DUNS)
+	public void setCorporateBrandingImage_ID (int CorporateBrandingImage_ID)
 	{
-		set_Value (COLUMNNAME_DUNS, DUNS);
+		if (CorporateBrandingImage_ID < 1) 
+			set_Value (COLUMNNAME_CorporateBrandingImage_ID, null);
+		else 
+			set_Value (COLUMNNAME_CorporateBrandingImage_ID, Integer.valueOf(CorporateBrandingImage_ID));
 	}
 
-	/** Get D-U-N-S.
-		@return Dun & Bradstreet Number
+	/** Get Corporate Branding Image.
+		@return Corporate Branding Image
 	  */
-	public String getDUNS () 
+	public int getCorporateBrandingImage_ID () 
 	{
-		return (String)get_Value(COLUMNNAME_DUNS);
+		Integer ii = (Integer)get_Value(COLUMNNAME_CorporateBrandingImage_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_M_Warehouse getDropShip_Warehouse() throws RuntimeException
@@ -197,6 +203,23 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set D-U-N-S.
+		@param DUNS 
+		Dun & Bradstreet Number
+	  */
+	public void setDUNS (String DUNS)
+	{
+		set_Value (COLUMNNAME_DUNS, DUNS);
+	}
+
+	/** Get D-U-N-S.
+		@return Dun & Bradstreet Number
+	  */
+	public String getDUNS () 
+	{
+		return (String)get_Value(COLUMNNAME_DUNS);
 	}
 
 	/** Set EMail Address.
@@ -486,23 +509,6 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Immutable Universally Unique Identifier.
-		@param UUID 
-		Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID)
-	{
-		set_Value (COLUMNNAME_UUID, UUID);
-	}
-
-	/** Get Immutable Universally Unique Identifier.
-		@return Immutable Universally Unique Identifier
-	  */
-	public String getUUID () 
-	{
-		return (String)get_Value(COLUMNNAME_UUID);
-	}
-
 	public org.compiere.model.I_C_DocType getUnidentifiedAPDocType() throws RuntimeException
     {
 		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
@@ -576,5 +582,22 @@ public class X_AD_OrgInfo extends PO implements I_AD_OrgInfo, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 }

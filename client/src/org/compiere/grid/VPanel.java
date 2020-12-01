@@ -20,6 +20,7 @@ package org.compiere.grid;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Event;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -55,8 +56,6 @@ import org.compiere.util.Language;
 import org.compiere.util.Util;
 import org.jdesktop.swingx.JXCollapsiblePane;
 import org.jdesktop.swingx.border.DropShadowBorder;
-
-import com.lowagie.text.Font;
 
 /**
  *  Single Row Panel.
@@ -441,7 +440,7 @@ public final class VPanel extends CTabbedPane
 		else // Label or null
 		{
 			CLabel label = new CLabel(fieldGroup, CLabel.LEADING);
-			label.setFont(AdempierePLAF.getFont_Label().deriveFont(Font.BOLDITALIC, AdempierePLAF.getFont_Label().getSize2D()));
+			label.setFont(AdempierePLAF.getFont_Label().deriveFont(Font.BOLD+Font.ITALIC, AdempierePLAF.getFont_Label().getSize2D()));
 			//	BR [ 359 ]
 			//	Show label completely
 			m_main.add(label, "newline, alignx leading, spanx, growx");

@@ -388,7 +388,7 @@ public class WLoanSimulator extends org.spin.form.LoanSimulator
 	 */
 	private void reloadFinancialProductInfo() {
 		startDate = (Timestamp) (startDateField.getValue() != null? startDateField.getValue(): new Timestamp(System.currentTimeMillis()));
-		MFMProduct financialProduct = MFMProduct.getById(Env.getCtx(), financialProductId);
+		MFMProduct financialProduct = MFMProduct.getById(Env.getCtx(), financialProductId, null);
 		if(financialProduct != null) {
 			isDueFixed = financialProduct.get_ValueAsBoolean("IsDueFixed");
 			//	Currency
