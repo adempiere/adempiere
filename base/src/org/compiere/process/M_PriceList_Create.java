@@ -307,6 +307,46 @@ public class M_PriceList_Create extends M_PriceList_CreateAbstract {
 					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Classification_ID = ?)");
 					parameters.add(discountSchemaLine.getM_Product_Classification_ID());
 				}
+				//	For Product as Parameter
+				if(getProductId() > 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("M_Product_ID = ?");
+					parameters.add(getProductId());
+				}
+				//	for product category
+				if(getProductCategoryId() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Category_ID = ?)");
+					parameters.add(getProductCategoryId());
+				}
+				//	for product group
+				if(getProductGroupId() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Group_ID = ?)");
+					parameters.add(getProductGroupId());
+				}
+				//	for product class
+				if(getProductClassId() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Class_ID = ?)");
+					parameters.add(getProductClassId());
+				}
+				//	for product classification
+				if(getProductClassificationId() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Classification_ID = ?)");
+					parameters.add(getProductClassificationId());
+				}
 				//	Get from Product Purchasing
 				new Query(getCtx(), I_M_Product_PO.Table_Name, querywhereClause.toString(), get_TrxName())
 					.setParameters(parameters)
@@ -388,6 +428,46 @@ public class M_PriceList_Create extends M_PriceList_CreateAbstract {
 					}
 					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_ProductPrice.M_Product_ID AND p.M_Product_Classification_ID = ?)");
 					parameters.add(discountSchemaLine.getM_Product_Classification_ID());
+				}
+				//	For Product as Parameter
+				if(getProductId() > 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("M_Product_ID = ?");
+					parameters.add(getProductId());
+				}
+				//	for product category
+				if(getProductCategoryId() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Category_ID = ?)");
+					parameters.add(getProductCategoryId());
+				}
+				//	for product group
+				if(getProductGroupId() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Group_ID = ?)");
+					parameters.add(getProductGroupId());
+				}
+				//	for product class
+				if(getProductClassId() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Class_ID = ?)");
+					parameters.add(getProductClassId());
+				}
+				//	for product classification
+				if(getProductClassificationId() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Classification_ID = ?)");
+					parameters.add(getProductClassificationId());
 				}
 				//	Get from Product Purchasing
 				new Query(getCtx(), I_M_ProductPrice.Table_Name, querywhereClause.toString(), get_TrxName())
