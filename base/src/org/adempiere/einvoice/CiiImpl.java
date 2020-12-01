@@ -158,6 +158,7 @@ public class CiiImpl extends AbstractEinvoice {
 	// factory methods
 	@Override
 	CreditTransfer createCreditTransfer(IBANId iban, String accountName, BICId bic) {
+		LOG.config("iban:"+iban + ", accountName="+accountName + ", bic:"+bic);
 		return new FinancialAccount(iban, accountName, bic);
 	}
 

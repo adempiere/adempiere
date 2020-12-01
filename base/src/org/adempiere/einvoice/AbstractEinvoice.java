@@ -229,6 +229,7 @@ private static final Logger LOG = Logger.getLogger(AbstractEinvoice.class.getNam
 	void mapPaymentGroup() {
 		MBankAccount orgBankAccount = getOrgBankAccount(mInvoice.getAD_Org_ID());
 		String orgIBAN = getOrgIBAN(orgBankAccount);
+		LOG.config("orgBankAccount:"+orgBankAccount + " Org_ID="+mInvoice.getAD_Org_ID() + " orgIBAN="+orgIBAN);
 		
 		String customerIBAN = getCusomerIBAN(mInvoice.getC_BPartner_ID()); // IBAN of the customer		
 		
@@ -236,12 +237,14 @@ private static final Logger LOG = Logger.getLogger(AbstractEinvoice.class.getNam
 		if(mInvoice.getPaymentRule().equals(MInvoice.PAYMENTRULE_OnCredit) 
 		|| mInvoice.getPaymentRule().equals(MInvoice.PAYMENTRULE_DirectDeposit)) {
 			IBANId payeeIban = new IBANId(orgIBAN);
-			String paymentMeansText = null; // paymentMeansText : Text zur Zahlungsart
-			CreditTransfer sepaCreditTransfer = createCreditTransfer(payeeIban, null, null);
+			MBank mBank = orgBankAccount.getBank();
+			BICId bicId = new BICId(mBank==null ? "" : mBank.getSwiftCode());
+			CreditTransfer sepaCreditTransfer = createCreditTransfer(payeeIban, orgBankAccount.getName(), bicId);
 			setPaymentInstructions(PaymentMeansEnum.CreditTransfer, null, remittanceInformation, sepaCreditTransfer, null, null);
 		} else if(mInvoice.getPaymentRule().equals(MInvoice.PAYMENTRULE_DirectDebit)) {
 			IBANId payerIban = new IBANId(customerIBAN);
-			String mandateID = null; // paymentMeansText : Text zur Zahlungsart
+			String mandateID = null;
+			String paymentMeansText = null; // Text zur Zahlungsart
 			DirectDebit sepaDirectDebit = createDirectDebit(mandateID, null, payerIban);
 			setPaymentInstructions(PaymentMeansEnum.SEPADirectDebit, null, remittanceInformation, null, null, sepaDirectDebit);
 		} else {
