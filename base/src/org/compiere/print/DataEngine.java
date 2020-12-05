@@ -339,6 +339,7 @@ public class DataEngine
 				int fieldLength = rs.getInt("FieldLength");
 				boolean isMandatory = "Y".equals(rs.getString("IsMandatory"));
 				boolean isKey = "Y".equals(rs.getString("IsKey"));
+				int printFormatItemId = rs.getInt("AD_PrintFormatItem_ID");
 				//  SQL GroupBy
 				boolean isGroupFunction = "Y".equals(rs.getString("IsGroupFunction"));
 				if (isGroupFunction)
@@ -348,21 +349,21 @@ public class DataEngine
 					functionColumn = "";
 				//	Breaks/Column Functions
 				if ("Y".equals(rs.getString("IsGroupBy")))
-					group.addGroupColumn(columnName);
+					group.addGroupColumn(String.valueOf(printFormatItemId));
 				if ("Y".equals(rs.getString("IsSummarized")))
-					group.addFunction(columnName, PrintDataFunction.F_SUM);
+					group.addFunction(String.valueOf(printFormatItemId), PrintDataFunction.F_SUM);
 				if ("Y".equals(rs.getString("IsAveraged")))
-					group.addFunction(columnName, PrintDataFunction.F_MEAN);
+					group.addFunction(String.valueOf(printFormatItemId), PrintDataFunction.F_MEAN);
 				if ("Y".equals(rs.getString("IsCounted")))
-					group.addFunction(columnName, PrintDataFunction.F_COUNT);
+					group.addFunction(String.valueOf(printFormatItemId), PrintDataFunction.F_COUNT);
 				if ("Y".equals(rs.getString("IsMinCalc")))	//	IsMinCalc
-					group.addFunction(columnName, PrintDataFunction.F_MIN);
+					group.addFunction(String.valueOf(printFormatItemId), PrintDataFunction.F_MIN);
 				if ("Y".equals(rs.getString("IsMaxCalc")))	//	IsMaxCalc
-					group.addFunction(columnName, PrintDataFunction.F_MAX);
+					group.addFunction(String.valueOf(printFormatItemId), PrintDataFunction.F_MAX);
 				if ("Y".equals(rs.getString("IsVarianceCalc")))	//	IsVarianceCalc
-					group.addFunction(columnName, PrintDataFunction.F_VARIANCE);
+					group.addFunction(String.valueOf(printFormatItemId), PrintDataFunction.F_VARIANCE);
 				if ("Y".equals(rs.getString("IsDeviationCalc")))	//	IsDeviationCalc
-					group.addFunction(columnName, PrintDataFunction.F_DEVIATION);
+					group.addFunction(String.valueOf(printFormatItemId), PrintDataFunction.F_DEVIATION);
 				if ("Y".equals(rs.getString("isRunningTotal")))	//	isRunningTotal
 					//	RunningTotalLines only once - use max
 					runningTotalLines = Math.max(runningTotalLines, rs.getInt("RunningTotalLines"));	
@@ -383,7 +384,6 @@ public class DataEngine
 				
 				String formatPattern = rs.getString("FormatPattern");
 				boolean isDesc = "Y".equals(rs.getString("isDesc"));
-				int printFormatItemId = rs.getInt("AD_PrintFormatItem_ID");
 				boolean isHideGrandTotal = "Y".equals(rs.getString("IsHideGrandTotal"));
 				//	Fully qualified Table.Column for ordering
 				String orderName = tableName + "." + columnName;
@@ -393,7 +393,7 @@ public class DataEngine
 				int seqNo = rs.getInt("SeqNo");
 
 				//  -- Key --
-				if (isKey)
+				if (isKey && columnSQL.isEmpty())
 				{
 					//	=>	Table.Column,
 					sqlSELECT.append(tableName).append(".").append(columnName).append(",");
@@ -1072,7 +1072,7 @@ public class DataEngine
 						/** Report Summary FR [ 2011569 ]**/ 
 						if(!m_summary)
 							pd.addNode(pde);
-						group.addValue(pde.getColumnName(), pde.getFunctionValue());
+						group.addValue(String.valueOf(pdc.getPrinformatItemId()), pde.getFunctionValue());
 					}
 				}	//	for all columns
 				if (pd.isHasDummyTableID()) {
@@ -1121,11 +1121,11 @@ public class DataEngine
 							name = PrintDataFunction.getFunctionSymbol(functions[f]);	//	Symbol
 						pd.addNode(new PrintDataElement(pdc.getColumnName(), name.trim(),
 								DisplayType.String, pdc.getFormatPattern()));
-					} else if (group.isFunctionColumn(pdc.getColumnName(), functions[f])
+					} else if (group.isFunctionColumn(String.valueOf(pdc.getPrinformatItemId()), functions[f])
 							&& !pdc.isHideGrandTotal()) {
 						pd.addNode(new PrintDataElement(pdc.getColumnName(),
 							group.getValue(PrintDataGroup.TOTAL, 
-								pdc.getColumnName(), functions[f]),
+									String.valueOf(pdc.getPrinformatItemId()), functions[f]),
 							PrintDataFunction.getFunctionDisplayType(functions[f], pdc.getDisplayType()), pdc.getFormatPattern()));
 					}
 				}	//	for all columns
@@ -1176,13 +1176,13 @@ public class DataEngine
 				if (c == 0)
 				{
 					String title = "RunningTotal";
-					pd.addNode(new PrintDataElement(pdc.getColumnName(),
+					pd.addNode(new PrintDataElement(String.valueOf(pdc.getPrinformatItemId()),
 						title, DisplayType.String, false, rt==0, pdc.getFormatPattern()));		//	page break
 				}
-				else if (group.isFunctionColumn(pdc.getColumnName(), PrintDataFunction.F_SUM))
+				else if (group.isFunctionColumn(String.valueOf(pdc.getPrinformatItemId()), PrintDataFunction.F_SUM))
 				{
-					pd.addNode(new PrintDataElement(pdc.getColumnName(),
-						group.getValue(PrintDataGroup.TOTAL, pdc.getColumnName(), PrintDataFunction.F_SUM),
+					pd.addNode(new PrintDataElement(String.valueOf(pdc.getPrinformatItemId()),
+						group.getValue(PrintDataGroup.TOTAL, String.valueOf(pdc.getPrinformatItemId()), PrintDataFunction.F_SUM),
 						PrintDataFunction.getFunctionDisplayType(PrintDataFunction.F_SUM,
 								pdc.getDisplayType()), false, false, pdc.getFormatPattern()));
 				}
@@ -1237,7 +1237,7 @@ public class DataEngine
 		// Check if this is not a group column and move on (recursive)
 		PrintDataColumn group_pdc = pd.getColumnInfo()[columnIndex];
 		PrintDataColumn pdc = null;
-		if (!group.isGroupColumn(group_pdc.getColumnName())) {
+		if (!group.isGroupColumn(String.valueOf(group_pdc.getPrinformatItemId()))) {
 			columnIndex = getNextColumnIndexInGroupOrder(columnIndex);
 			return checkGroupChange(columnIndex, pd, rs, forceChange, levelNo, rowNo);
 		}
@@ -1248,7 +1248,7 @@ public class DataEngine
 		{
 			currentValue = rs.getObject(group_pdc.getAlias());
 		}
-		Object value = group.groupChange(group_pdc.getColumnName(), currentValue);
+		Object value = group.groupChange(String.valueOf(group_pdc.getPrinformatItemId()), currentValue);
 		forceChange = forceChange || (value!=null);
 		columnIndex = getNextColumnIndexInGroupOrder(columnIndex);
 		rowNo = checkGroupChange(columnIndex, pd, rs, forceChange, levelNo, rowNo);
@@ -1257,7 +1257,7 @@ public class DataEngine
 		if (forceChange)	//	Group change. ForceChange on value change or if a higher group changed.
 		{
 			// Add rows for all the functions affected
-			char[] functions = group.getFunctions(group_pdc.getColumnName());
+			char[] functions = group.getFunctions(String.valueOf(group_pdc.getPrinformatItemId()));
 			for (int f = 0; f < functions.length; f++)
 			{
 				printRunningTotal(pd, levelNo, rowNo++);
@@ -1267,7 +1267,7 @@ public class DataEngine
 				{
 					pdc = pd.getColumnInfo()[c];
 				//	log.fine("loadPrintData - PageBreak = " + pdc.isPageBreak());
-					if (group_pdc.getColumnName().equals(pdc.getColumnName()))
+					if (group_pdc.getPrinformatItemId() == pdc.getPrinformatItemId())
 					{
 						if (value == null) { // Indicates no change in value
 							if (!rs.isAfterLast())
@@ -1284,11 +1284,11 @@ public class DataEngine
 						pd.addNode(new PrintDataElement(pdc.getColumnName(),
 							valueString, DisplayType.String, false, pdc.isPageBreak(), pdc.getFormatPattern()));
 					}
-					else if (group.isFunctionColumn(pdc.getColumnName(), functions[f]))
+					else if (group.isFunctionColumn(String.valueOf(pdc.getPrinformatItemId()), functions[f]))
 					{
-						pd.addNode(new PrintDataElement(pdc.getColumnName(),
-							group.getValue(group_pdc.getColumnName(), 
-								pdc.getColumnName(), functions[f]), 
+						pd.addNode(new PrintDataElement(String.valueOf(pdc.getPrinformatItemId()),
+							group.getValue(String.valueOf(group_pdc.getPrinformatItemId()), 
+									String.valueOf(pdc.getPrinformatItemId()), functions[f]), 
 							PrintDataFunction.getFunctionDisplayType(functions[f], pdc.getDisplayType()), 
 								false, pdc.isPageBreak(), pdc.getFormatPattern()));
 					}
@@ -1298,7 +1298,7 @@ public class DataEngine
 			for (int c = 0; c < pd.getColumnInfo().length; c++)
 			{
 				pdc = pd.getColumnInfo()[c];
-				group.reset(group_pdc.getColumnName(), pdc.getColumnName());
+				group.reset(String.valueOf(group_pdc.getPrinformatItemId()), String.valueOf(pdc.getPrinformatItemId()));
 			}
 		}
 		return rowNo;
