@@ -8,6 +8,8 @@
 /adempiere/
 /com.kkalice.adempiere.migrate/apidoc/
 /base/Base.jar
+/base/test/**/*.class
+/base/test/test_results/
 /com.kkalice.adempiere.migrate/lib/migrate.jar
 /extend/Extend.jar
 /JasperReports/build
@@ -20,9 +22,12 @@
 /JasperReportsWebApp/webEJB-client.jar
 /migration/dist/
 /org.compiere.mobile/WEB-INF/classes/
+/mobile/dist/
+/mobile/WEB-INF/classes/
 /zkwebui/WEB-INF/classes/
 /org.adempiere.webservice/WEB-INF/classes/
 /org.adempiere.webservice/deploy/lib/ADInterface-1.0.war
+/org.adempiere.webservice/dist
 /sqlj/sqlj.jar
 /webCM/deploy/
 /zkwebui/dist/
@@ -53,3 +58,4 @@ migration/postgresql.properties
 /.metadata/
 /.recommenders/
 /RemoteSystemsTempFiles/
+**/junit*.properties
