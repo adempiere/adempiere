@@ -18,18 +18,21 @@ package org.spin.test;
 import org.compiere.model.I_AD_Role;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
+import org.junit.jupiter.api.Test;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.adempiere.test.CommonGWSetup;
 
 /**
  * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
  */
-public final class QueryTest extends TestCase {
+public class QueryTest extends CommonGWSetup{
 	
-	public QueryTest() {
-		org.compiere.Adempiere.startup(true);
-		Env.setContext(Env.getCtx(), "#AD_Client_ID", 11);
-	}
+//	public QueryTest() {
+//		org.compiere.Adempiere.startup(true);
+//		Env.setContext(Env.getCtx(), "#AD_Client_ID", 11);
+//	}
 	
 	/**
 	 * ADempiereSeed=# SELECT AD_Role_ID, UUID, Name, Description FROM AD_Role ORDER BY Created;
@@ -44,7 +47,8 @@ public final class QueryTest extends TestCase {
       50008 | a48d3108-fb40-11e8-a479-7a0060f0aa01 | Role Template         | 
 (7 rows)
 	 */
-	public void testFullResult() {
+	@Test
+	void testFullResult() {
 		int eValue = 7;
 		int value = new Query(Env.getCtx(), I_AD_Role.Table_Name, null, null)
 			.setOrderBy(I_AD_Role.COLUMNNAME_Created)
@@ -64,7 +68,8 @@ public final class QueryTest extends TestCase {
       50002 | a48d309a-fb40-11e8-a479-7a0060f0aa01 | FA User              | Fixed Asset User
 (5 rows)
 	 */
-	public void testLimit5() {
+	@Test
+	void testLimit5() {
 		int eValue = 5;
 		int value = new Query(Env.getCtx(), I_AD_Role.Table_Name, null, null)
 			.setOrderBy(I_AD_Role.COLUMNNAME_Created)
@@ -83,7 +88,8 @@ public final class QueryTest extends TestCase {
       50008 | a48d3108-fb40-11e8-a479-7a0060f0aa01 | Role Template         | 
 (3 rows)
 	 */
-	public void testLimit5Offset4() {
+	@Test
+	void testLimit5Offset4() {
 		int eValue = 3;
 		int value = new Query(Env.getCtx(), I_AD_Role.Table_Name, null, null)
 			.setOrderBy(I_AD_Role.COLUMNNAME_Created)
@@ -102,7 +108,8 @@ public final class QueryTest extends TestCase {
       50008 | a48d3108-fb40-11e8-a479-7a0060f0aa01 | Role Template         | 
 (3 rows)
 	 */
-	public void testOffset4() {
+	@Test
+	void testOffset4() {
 		int eValue = 3;
 		int value = new Query(Env.getCtx(), I_AD_Role.Table_Name, null, null)
 			.setOrderBy(I_AD_Role.COLUMNNAME_Created)
@@ -123,7 +130,8 @@ public final class QueryTest extends TestCase {
       50008 | a48d3108-fb40-11e8-a479-7a0060f0aa01 | Role Template         | 
 (5 rows)
 	 */
-	public void testOffset2() {
+	@Test
+	void testOffset2() {
 		int eValue = 5;
 		int value = new Query(Env.getCtx(), I_AD_Role.Table_Name, null, null)
 			.setOrderBy(I_AD_Role.COLUMNNAME_Created)
@@ -146,7 +154,8 @@ public final class QueryTest extends TestCase {
       50008 | a48d3108-fb40-11e8-a479-7a0060f0aa01 | Role Template         | 
 (7 rows)
 	 */
-	public void testOffset0() {
+	@Test
+	void testOffset0() {
 		int eValue = 7;
 		int value = new Query(Env.getCtx(), I_AD_Role.Table_Name, null, null)
 			.setOrderBy(I_AD_Role.COLUMNNAME_Created)
