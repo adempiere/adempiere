@@ -4,6 +4,8 @@ jdk:
 os:
 - linux
 sudo: required
+before_install:
+  - echo $(ant -version)
 addons:
   apt:
     packages:
