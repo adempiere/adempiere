@@ -131,6 +131,10 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		setIsSOTrx(isSOTrx);
 		setOpenAmt(openAmt);
 		setPayAmt (payAmt);
+		MInvoice invoice = new MInvoice(getCtx(), invoiceId, get_TrxName());
+		if(invoice.getC_ConversionType_ID() > 0) {
+			setC_ConversionType_ID(order.getC_ConversionType_ID());
+		}
 		setDiscountAmt(discountAmt);
 		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
 	}	//	setInvoive
@@ -157,6 +161,9 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		setAmtSource(amtSource);
 		setOpenAmt(openAmt);
 		setPayAmt (payAmt);
+		if(invoice.getC_ConversionType_ID() > 0) {
+			setC_ConversionType_ID(order.getC_ConversionType_ID());
+		}
 		setDiscountAmt(discountAmt);
 		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
 	}	//	setInvoice
@@ -184,6 +191,9 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		setAmtSource(amtSource);
 		setOpenAmt(openAmt);
 		setPayAmt (payAmt);
+		if(order.getC_ConversionType_ID() > 0) {
+			setC_ConversionType_ID(order.getC_ConversionType_ID());
+		}
 		setDiscountAmt(discountAmt);
 		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
 	}	//	setOrder
