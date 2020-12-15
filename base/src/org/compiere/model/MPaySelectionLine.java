@@ -23,6 +23,7 @@ package org.compiere.model;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -31,6 +32,7 @@ import org.compiere.util.Env;
 import org.eevolution.model.X_HR_Employee;
 import org.eevolution.model.X_HR_Movement;
 import org.eevolution.model.X_HR_Payroll;
+import org.eevolution.model.X_HR_Process;
 
 /**
  *	Payment Selection Line Model
@@ -189,9 +191,9 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	/**
 	 * Set Payroll Movement Info
 	 * @param movementId
-	 * @param payAmt
+	 * @param sourceAmount
 	 */
-	public void setHRMovement(int movementId, BigDecimal payAmt) {
+	public void setHRMovement(int movementId, BigDecimal sourceAmount, BigDecimal convertedAmount) {
 		setHR_Movement_ID(movementId);
 		X_HR_Movement movement = new X_HR_Movement(getCtx(), movementId, get_TrxName());
 		setC_BPartner_ID(movement.getC_BPartner_ID());
@@ -217,11 +219,13 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		if(getPaymentRule() == null) {
 			setPaymentRule(X_C_PaySelectionLine.PAYMENTRULE_Check);
 		}
-		//	
+		//	Get Conversion Type
+		X_HR_Process process = new X_HR_Process(getCtx(), movement.getHR_Process_ID(), get_TrxName());
 		setIsSOTrx(false);
-		setAmtSource(payAmt);
-		setOpenAmt(payAmt);
-		setPayAmt (payAmt);
+		setAmtSource(sourceAmount);
+		setOpenAmt(Optional.ofNullable(convertedAmount).orElse(sourceAmount));
+		setPayAmt(Optional.ofNullable(convertedAmount).orElse(sourceAmount));
+		setC_ConversionType_ID(process.getC_ConversionType_ID());
 		setDiscountAmt(Env.ZERO);
 		setDifferenceAmt(Env.ZERO);
 	}	//	setHRMovement

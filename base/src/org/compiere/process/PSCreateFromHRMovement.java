@@ -51,11 +51,12 @@ public class PSCreateFromHRMovement extends PSCreateFromHRMovementAbstract {
 			//	get values from result set
 			int HR_Movement_ID = key;
 			String PaymentRule = getSelectionAsString(key, "HRM_PaymentRule");
-			BigDecimal Amount = getSelectionAsBigDecimal(key, "HRM_Amount");
+			BigDecimal sourceAmount = getSelectionAsBigDecimal(key, "HRM_Amount");
+			BigDecimal convertedAmount = getSelectionAsBigDecimal(key, "HRM_ConvertedAmount");
 			m_SeqNo += 10;
 			MPaySelectionLine line = new MPaySelectionLine(paySelection, m_SeqNo, PaymentRule);
 			//	Add Order
-			line.setHRMovement(HR_Movement_ID, Amount);
+			line.setHRMovement(HR_Movement_ID, sourceAmount, convertedAmount);
 			//	Save
 			line.saveEx();
 		}
