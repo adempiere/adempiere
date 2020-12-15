@@ -191,7 +191,7 @@
     	destdir="${test.build.dir}" deprecation="on" debug="on" 
     	memoryinitialsize="512m" memorymaximumsize="512m">
       <src path="${test.src}"/>
-      <src path="../org.adempiere.test/src/main/java"/>
+      <!--src path="../org.adempiere.test/src/main/java"/-->
       <src path="../org.adempiere.test/src/test/java"/>
       <src path="../org.eevolution.manufacturing/src/main/java/base/org/eevolution/model/impl"/>	    	
       <classpath refid="test.class.path"/>
