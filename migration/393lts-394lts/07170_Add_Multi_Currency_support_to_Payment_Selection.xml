@@ -1,0 +1,1841 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add Multi Currency support to Payment Selection" ReleaseNo="3.9.4" SeqNo="7170">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70856" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">d31c6d45-2844-4885-9604-cf8c878868e6</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:36:33.542</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:36:33.542</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50102</Data>
+        <Data AD_Column_ID="58104" Column="Help">Indicates the Currency to be used when processing or reporting on this record</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">@C_Currency_ID@</Data>
+        <Data AD_Column_ID="58105" Column="Name">Currency to Convert</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">PS_C_Currency_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description">The Currency for this record</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70856</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50046</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70856" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70856</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:36:36.838</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:36:36.838</Data>
+        <Data AD_Column_ID="58049" Column="Description">The Currency for this record</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Currency to Convert</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">b05c1433-ee63-40cf-9d88-3d2b0cb6a1f8</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53228" Action="U" Record_ID="70856" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58049" Column="Description" oldValue="The Currency for this record">Moneda a Convertir el Documento</Data>
+        <Data AD_Column_ID="58052" Column="Name" oldValue="Currency to Convert">Moneda a Convertir</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID" oldValue="70856">70856</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="53232" Action="U" Record_ID="53973" Table="AD_View_Column">
+        <Data AD_Column_ID="58106" Column="ColumnSQL" oldValue="currencyConvert(inv.GrandTotal, inv.C_Currency_ID, @INV_C_Currency_ID@, TO_DATE('@PayDate@','YYYY-MM-DD'), inv.C_ConversionType_ID,inv.AD_Client_ID, inv.AD_Org_ID)">currencyConvert(inv.GrandTotal, inv.C_Currency_ID, @PS_C_Currency_ID@, TO_DATE('@PayDate@','YYYY-MM-DD'), inv.C_ConversionType_ID,inv.AD_Client_ID, inv.AD_Org_ID)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="53232" Action="U" Record_ID="53974" Table="AD_View_Column">
+        <Data AD_Column_ID="58106" Column="ColumnSQL" oldValue="currencyConvert(paymentTermDiscount(inv.GrandTotal, inv.C_Currency_ID, inv.C_PaymentTerm_ID, inv.DateInvoiced, TO_DATE('@PayDate@','YYYY-MM-DD')), inv.C_Currency_ID, @INV_C_Currency_ID@, TO_DATE('@PayDate@','YYYY-MM-DD'), inv.C_ConversionType_ID, inv.AD_Client_ID, inv.AD_Org_ID)">currencyConvert(paymentTermDiscount(inv.GrandTotal, inv.C_Currency_ID, inv.C_PaymentTerm_ID, inv.DateInvoiced, TO_DATE('@PayDate@','YYYY-MM-DD')), inv.C_Currency_ID, @PS_C_Currency_ID@, TO_DATE('@PayDate@','YYYY-MM-DD'), inv.C_ConversionType_ID, inv.AD_Client_ID, inv.AD_Org_ID)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="53232" Action="U" Record_ID="53975" Table="AD_View_Column">
+        <Data AD_Column_ID="58106" Column="ColumnSQL" oldValue="currencyConvert(invoiceOpen(inv.C_Invoice_ID, inv.C_InvoicePaySchedule_ID), inv.C_Currency_ID, @INV_C_Currency_ID@, TO_DATE('@PayDate@','YYYY-MM-DD'), inv.C_ConversionType_ID, inv.AD_Client_ID, inv.AD_Org_ID)">currencyConvert(invoiceOpen(inv.C_Invoice_ID, inv.C_InvoicePaySchedule_ID), inv.C_Currency_ID, @PS_C_Currency_ID@, TO_DATE('@PayDate@','YYYY-MM-DD'), inv.C_ConversionType_ID, inv.AD_Client_ID, inv.AD_Org_ID)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="53232" Action="U" Record_ID="54002" Table="AD_View_Column">
+        <Data AD_Column_ID="58106" Column="ColumnSQL" oldValue="CASE WHEN paymentTermDiscount(invoiceOpen(inv.C_Invoice_ID, inv.C_InvoicePaySchedule_ID), @INV_C_Currency_ID@, inv.C_PaymentTerm_ID, inv.DateInvoiced, TO_DATE('@PayDate@','YYYY-MM-DD')) &gt; 0 THEN 'Y' ELSE 'N' END">CASE WHEN paymentTermDiscount(invoiceOpen(inv.C_Invoice_ID, inv.C_InvoicePaySchedule_ID), @PS_C_Currency_ID@, inv.C_PaymentTerm_ID, inv.DateInvoiced, TO_DATE('@PayDate@','YYYY-MM-DD')) &gt; 0 THEN 'Y' ELSE 'N' END</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="53232" Action="U" Record_ID="54229" Table="AD_View_Column">
+        <Data AD_Column_ID="58106" Column="ColumnSQL" oldValue="currencyConvert(invoiceOpen(inv.C_Invoice_ID, inv.C_InvoicePaySchedule_ID), inv.C_Currency_ID, @INV_C_Currency_ID@, TO_DATE('@PayDate@','YYYY-MM-DD'), inv.C_ConversionType_ID, inv.AD_Client_ID, inv.AD_Org_ID)  -  currencyConvert(paymentTermDiscount(inv.GrandTotal, inv.C_Currency_ID, inv.C_PaymentTerm_ID, inv.DateInvoiced, TO_DATE('@PayDate@','YYYY-MM-DD')), inv.C_Currency_ID, @INV_C_Currency_ID@, TO_DATE('@PayDate@','YYYY-MM-DD'), inv.C_ConversionType_ID, inv.AD_Client_ID, inv.AD_Org_ID) ">currencyConvert(invoiceOpen(inv.C_Invoice_ID, inv.C_InvoicePaySchedule_ID), inv.C_Currency_ID, @PS_C_Currency_ID@, TO_DATE('@PayDate@','YYYY-MM-DD'), inv.C_ConversionType_ID, inv.AD_Client_ID, inv.AD_Org_ID)  -  currencyConvert(paymentTermDiscount(inv.GrandTotal, inv.C_Currency_ID, inv.C_PaymentTerm_ID, inv.DateInvoiced, TO_DATE('@PayDate@','YYYY-MM-DD')), inv.C_Currency_ID, @PS_C_Currency_ID@, TO_DATE('@PayDate@','YYYY-MM-DD'), inv.C_ConversionType_ID, inv.AD_Client_ID, inv.AD_Org_ID) </Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55285" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64354" Column="DefaultValue" oldValue="@C_Currency_ID@">-1</Data>
+        <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true" oldValue="@C_Currency_ID@!0"/>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="53223" Action="I" Record_ID="70126" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57964" Column="Created">2020-12-15 01:40:42.585</Data>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2020-12-15 01:40:42.585</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">true</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue">@C_Currency_ID@</Data>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57972" Column="Description">The Currency for this record</Data>
+        <Data AD_Column_ID="57974" Column="Help">Indicates the Currency to be used when processing or reporting on this record</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed">true</Data>
+        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
+        <Data AD_Column_ID="57981" Column="Name">Currency</Data>
+        <Data AD_Column_ID="63579" Column="IsReadOnly">true</Data>
+        <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="64358" Column="ReadOnlyLogic">1=1</Data>
+        <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="67114" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="81229" Column="IsInfoOnly">true</Data>
+        <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">70126</Data>
+        <Data AD_Column_ID="57982" Column="SeqNo">80</Data>
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57969" Column="AD_Element_ID">193</Data>
+        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50054</Data>
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">53929</Data>
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="64221" Column="SortNo" isNewNull="true"/>
+        <Data AD_Column_ID="64357" Column="FieldLength" isNewNull="true"/>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="84296" Column="UUID">2bfc3e67-1187-4022-a534-0b574243e2eb</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="53227" Action="I" Record_ID="0" Table="AD_Browse_Field_Trl">
+        <Data AD_Column_ID="84297" Column="UUID">5fdc1a7e-24ea-46e3-a645-af86ec59a5e9</Data>
+        <Data AD_Column_ID="58029" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58030" Column="Created">2020-12-15 01:40:44.728</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2020-12-15 01:40:44.728</Data>
+        <Data AD_Column_ID="58036" Column="Description">The Currency for this record</Data>
+        <Data AD_Column_ID="58037" Column="Help">Indicates the Currency to be used when processing or reporting on this record</Data>
+        <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58039" Column="Name">Currency</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">70126</Data>
+        <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="70126" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57982" Column="SeqNo" oldValue="80">85</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="70126" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55280" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="40">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55321" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="50">60</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55286" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="60">70</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55292" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="70">80</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55363" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="80">90</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55312" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="90">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55364" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="100">110</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55365" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="110">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55358" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="120">130</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55291" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="130">140</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55289" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="140">150</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55297" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="150">160</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55305" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="160">170</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55361" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="170">180</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="70126" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID" oldValue="53929">70856</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="53223" Action="I" Record_ID="70127" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57964" Column="Created">2020-12-15 01:49:32.591</Data>
+        <Data AD_Column_ID="57963" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57965" Column="Updated">2020-12-15 01:49:32.591</Data>
+        <Data AD_Column_ID="57980" Column="IsRange">false</Data>
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria">true</Data>
+        <Data AD_Column_ID="57985" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="64354" Column="DefaultValue">@SQL=SELECT ba.C_Currency_ID FROM C_BankAccount ba WHERE ba.C_BankAccount_ID = @C_BankAccount_ID@</Data>
+        <Data AD_Column_ID="64853" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="57972" Column="Description">The Currency for this record</Data>
+        <Data AD_Column_ID="57974" Column="Help">Indicates the Currency to be used when processing or reporting on this record</Data>
+        <Data AD_Column_ID="57976" Column="IsDisplayed">false</Data>
+        <Data AD_Column_ID="57977" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="57978" Column="IsKey">false</Data>
+        <Data AD_Column_ID="57981" Column="Name">Currency</Data>
+        <Data AD_Column_ID="63579" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="57975" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="64222" Column="IsOrderBy">false</Data>
+        <Data AD_Column_ID="64355" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="64356" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="64358" Column="ReadOnlyLogic">1=1</Data>
+        <Data AD_Column_ID="64359" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="64360" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="64361" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="67114" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="81229" Column="IsInfoOnly">true</Data>
+        <Data AD_Column_ID="57961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="57962" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="57973" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="57968" Column="AD_Browse_Field_ID">70127</Data>
+        <Data AD_Column_ID="57982" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57967" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="57966" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="63218" Column="Axis_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="57969" Column="AD_Element_ID">193</Data>
+        <Data AD_Column_ID="57983" Column="AD_Browse_ID">50064</Data>
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID">70856</Data>
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID">52492</Data>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" isNewNull="true"/>
+        <Data AD_Column_ID="64221" Column="SortNo">0</Data>
+        <Data AD_Column_ID="64357" Column="FieldLength">0</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="84296" Column="UUID">4bfe9d69-07b7-4744-b006-ed84d0cc7948</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="53227" Action="I" Record_ID="0" Table="AD_Browse_Field_Trl">
+        <Data AD_Column_ID="58030" Column="Created">2020-12-15 01:49:33.821</Data>
+        <Data AD_Column_ID="58031" Column="Updated">2020-12-15 01:49:33.821</Data>
+        <Data AD_Column_ID="84297" Column="UUID">d8b485a6-915f-48a7-89a8-81b634942195</Data>
+        <Data AD_Column_ID="58029" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58036" Column="Description">The Currency for this record</Data>
+        <Data AD_Column_ID="58037" Column="Help">Indicates the Currency to be used when processing or reporting on this record</Data>
+        <Data AD_Column_ID="58038" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58039" Column="Name">Currency</Data>
+        <Data AD_Column_ID="58027" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58028" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58035" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58033" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58034" Column="AD_Browse_Field_ID">70127</Data>
+        <Data AD_Column_ID="58032" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55995" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64354" Column="DefaultValue" isOldNull="true">-1</Data>
+        <Data AD_Column_ID="64358" Column="ReadOnlyLogic" isNewNull="true" oldValue="1=1"/>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="70127" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57981" Column="Name" oldValue="Currency">Currency To Convert</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="70127" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55995" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="20">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55987" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="30">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55962" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="40">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55972" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="50">60</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55985" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="60">70</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55988" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="70">80</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55940" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="80">90</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55986" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="90">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55945" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="100">110</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55944" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="110">120</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55969" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="120">130</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55941" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="130">140</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55971" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="140">150</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55973" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="150">160</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55974" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="160">170</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55975" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="170">180</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="500" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55962" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="50">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="510" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="70127" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="20">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="520" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55987" Table="AD_Browse_Field">
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="40">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="530" StepType="AD">
+      <PO AD_Table_ID="53231" Action="I" Record_ID="50530" Table="AD_View_Definition">
+        <Data AD_Column_ID="58092" Column="Processing">false</Data>
+        <Data AD_Column_ID="58083" Column="Updated">2020-12-15 01:58:34.139</Data>
+        <Data AD_Column_ID="58081" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58082" Column="Created">2020-12-15 01:58:34.139</Data>
+        <Data AD_Column_ID="58090" Column="TableAlias">hrp</Data>
+        <Data AD_Column_ID="58091" Column="JoinClause">INNER JOIN HR_Process hrp ON(hrp.HR_Process_ID = hrm.HR_Process_ID)</Data>
+        <Data AD_Column_ID="58086" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58079" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58080" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58084" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58085" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58089" Column="AD_Table_ID">53092</Data>
+        <Data AD_Column_ID="58087" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58088" Column="SeqNo">20</Data>
+        <Data AD_Column_ID="84464" Column="UUID">44598842-f96b-4507-a5ab-a88c93453462</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="540" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70857" Table="AD_View_Column">
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:58:40.983</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:58:40.983</Data>
+        <Data AD_Column_ID="84462" Column="UUID">8dabdf3e-9a39-4beb-b5f8-7b859e17dbb7</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">The Document Status indicates the status of a document at this time.  If you want to change the document status, use the Document Action field</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.DocStatus</Data>
+        <Data AD_Column_ID="58105" Column="Name">Document Status</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_DocStatus</Data>
+        <Data AD_Column_ID="58102" Column="Description">The current status of the document</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70857</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54869</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="550" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70857" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:58:42.829</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:58:42.829</Data>
+        <Data AD_Column_ID="58049" Column="Description">The current status of the document</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Document Status</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70857</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">55caf4fc-aceb-4517-959b-fef1b2846156</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="560" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70858" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">0f371c82-a441-4d74-9cce-7b8d6b371c0f</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:58:43.176</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:58:43.176</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">The name of an entity (record) is used as an default search option in addition to the search key. The name is up to 60 characters in length.</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.Name</Data>
+        <Data AD_Column_ID="58105" Column="Name">Name</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_Name</Data>
+        <Data AD_Column_ID="58102" Column="Description">Alphanumeric identifier of the entity</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70858</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54862</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="570" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70858" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:58:44.837</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:58:44.837</Data>
+        <Data AD_Column_ID="58049" Column="Description">Alphanumeric identifier of the entity</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Name</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70858</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">f043da3b-1d8a-413e-82fa-37d449a15683</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="580" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70859" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">286f8315-f0f4-4b6b-a00a-f5c59b360da8</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:58:45.21</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:58:45.21</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">You can convert document types (e.g. from Offer to Order or Invoice).  The conversion is then reflected in the current type.  This processing is initiated by selecting the appropriate Document Action.</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.C_DocTypeTarget_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Target Document Type</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_C_DocTypeTarget_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description">Target document type for conversing documents</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70859</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54863</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="590" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70859" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:58:46.101</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:58:46.101</Data>
+        <Data AD_Column_ID="58049" Column="Description">Target document type for conversing documents</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Target Document Type</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70859</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">99ef8588-0043-4df7-b43c-d0e99c9b974c</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="600" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70860" Table="AD_View_Column">
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:58:46.327</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:58:46.327</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.HR_Job_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Payroll Job</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_HR_Job_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70860</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54857</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84462" Column="UUID">46dfd72d-480d-4b9a-952e-1bc9fbbf9eb4</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="610" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70860" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:58:47.322</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:58:47.322</Data>
+        <Data AD_Column_ID="58049" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Payroll Job</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70860</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">8c78a6b4-577f-4268-82d6-0e5d33dd7a84</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="620" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70861" Table="AD_View_Column">
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54870</Data>
+        <Data AD_Column_ID="84462" Column="UUID">b3d4545a-3b7d-4ec8-9796-69f225bd49c0</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:58:47.553</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:58:47.553</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">The document number is usually automatically generated by the system and determined by the document type of the document. If the document is not saved, the preliminary number is displayed in "&lt;&gt;".
+
+If the document type of your document has no automatic document sequence defined, the field is empty if you create a new document. This is for documents which usually have an external number (like vendor invoice).  If you leave the field empty, the system will generate a document number for you. The document sequence used for this fallback number is defined in the "Maintain Sequence" window with the name "DocumentNo_&lt;TableName&gt;", where TableName is the actual name of the table (e.g. C_Order).</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.DocumentNo</Data>
+        <Data AD_Column_ID="58105" Column="Name">Document No</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_DocumentNo</Data>
+        <Data AD_Column_ID="58102" Column="Description">Document sequence number of the document</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70861</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="630" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70861" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:58:48.413</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:58:48.413</Data>
+        <Data AD_Column_ID="58049" Column="Description">Document sequence number of the document</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Document No</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70861</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">f3b113d3-ef11-4f0e-96d3-618e901094e1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="640" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70862" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">da3fb546-8768-44c0-ba38-a9d6d7858b21</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:58:48.626</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:58:48.626</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.Processing</Data>
+        <Data AD_Column_ID="58105" Column="Name">Process Now</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_Processing</Data>
+        <Data AD_Column_ID="58102" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70862</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54877</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="650" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70862" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:58:49.591</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:58:49.591</Data>
+        <Data AD_Column_ID="58049" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Process Now</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70862</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">e2d8a7af-c68c-4bc0-a1f4-bb3a310fecee</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="660" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70863" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">e32a2261-aa33-4883-865f-06b197f0ad14</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:58:50.0</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:58:50.0</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">The Processed checkbox indicates that a document has been processed.</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.Processed</Data>
+        <Data AD_Column_ID="58105" Column="Name">Processed</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_Processed</Data>
+        <Data AD_Column_ID="58102" Column="Description">The document has been processed</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70863</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54876</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="670" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70863" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:58:51.143</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:58:51.143</Data>
+        <Data AD_Column_ID="58049" Column="Description">The document has been processed</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Processed</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70863</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">0affe22c-fd57-435f-b4f1-80102a2077f7</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="680" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70864" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">9c447eb4-12bc-4f1a-bd9e-53be53973843</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54874</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:58:51.513</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:58:51.513</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">There are two methods of making records unavailable in the system: One is to delete the record, the other is to de-activate the record. A de-activated record is not available for selection, but available for reports.
+There are two reasons for de-activating and not deleting records:
+(1) The system requires the record for audit purposes.
+(2) The record is referenced by other records. E.g., you cannot delete a Business Partner, if there are invoices for this partner record existing. You de-activate the Business Partner and prevent that this record is used for future entries.</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.IsActive</Data>
+        <Data AD_Column_ID="58105" Column="Name">Active</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_IsActive</Data>
+        <Data AD_Column_ID="58102" Column="Description">The record is active in the system</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70864</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="690" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70864" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:58:52.465</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:58:52.465</Data>
+        <Data AD_Column_ID="58049" Column="Description">The record is active in the system</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Active</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70864</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">ce240f74-e507-4e98-b156-968ef51ba0e0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="700" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70865" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">ea11bf63-fd1c-4f08-81a8-6940031ecd04</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:58:52.744</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:58:52.744</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">The Posted field indicates the status of the Generation of General Ledger Accounting Lines </Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.Posted</Data>
+        <Data AD_Column_ID="58105" Column="Name">Posted</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_Posted</Data>
+        <Data AD_Column_ID="58102" Column="Description">Posting status</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70865</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54875</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="710" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70865" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="84463" Column="UUID">b9876232-c745-4032-be37-760e4be90a96</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:58:53.727</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:58:53.727</Data>
+        <Data AD_Column_ID="58049" Column="Description">Posting status</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Posted</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70865</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="720" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70866" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">78cd5e63-1a86-450a-a9f7-8fc9ea998a97</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:58:54.077</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:58:54.077</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">The Updated field indicates the date that this record was updated.</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.Updated</Data>
+        <Data AD_Column_ID="58105" Column="Name">Updated</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_Updated</Data>
+        <Data AD_Column_ID="58102" Column="Description">Date this record was updated</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70866</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54878</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="730" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70866" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:58:55.204</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:58:55.204</Data>
+        <Data AD_Column_ID="58049" Column="Description">Date this record was updated</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Updated</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70866</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">cdbb2003-dcdd-45e9-9209-1af5704db86c</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="740" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70867" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">4dcff1ee-0820-4b3a-a44b-2b44f2579538</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:58:55.466</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:58:55.466</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">The Created field indicates the date that this record was created.</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.Created</Data>
+        <Data AD_Column_ID="58105" Column="Name">Created</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_Created</Data>
+        <Data AD_Column_ID="58102" Column="Description">Date this record was created</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70867</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54865</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="750" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70867" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:58:56.567</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:58:56.567</Data>
+        <Data AD_Column_ID="58049" Column="Description">Date this record was created</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Created</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70867</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">108c914e-9eb4-447e-a1a0-04eb65dd72ee</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="760" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70868" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">f3a7158e-679c-4cb0-8575-0ab2e9cc8804</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:58:56.878</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:58:56.878</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.AD_Client_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Client</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_AD_Client_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description">Client/Tenant for this installation.</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70868</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54879</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="770" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70868" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:58:57.82</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:58:57.82</Data>
+        <Data AD_Column_ID="58049" Column="Description">Client/Tenant for this installation.</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Client</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70868</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">c51c26c3-10a7-4c0a-9097-ece3c463d984</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="780" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70869" Table="AD_View_Column">
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:58:58.241</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:58:58.241</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.AD_Org_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Organization</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_AD_Org_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description">Organizational entity within client</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70869</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54881</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84462" Column="UUID">fe5bd95c-a70f-4cf8-9304-8d6d750e190b</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="790" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70869" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:58:59.056</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:58:59.056</Data>
+        <Data AD_Column_ID="58049" Column="Description">Organizational entity within client</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Organization</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70869</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">ea2a37c5-ba55-4919-9863-78cf9f2a8596</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="800" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70870" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">d73c17c5-91cd-46d1-8c44-c685a78922ab</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:58:59.386</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:58:59.386</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">You find the current status in the Document Status field. The options are listed in a popup</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.DocAction</Data>
+        <Data AD_Column_ID="58105" Column="Name">Document Action</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_DocAction</Data>
+        <Data AD_Column_ID="58102" Column="Description">The targeted status of the document</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70870</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54868</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="810" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70870" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:00.435</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:00.435</Data>
+        <Data AD_Column_ID="58049" Column="Description">The targeted status of the document</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Document Action</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70870</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">1e2d08cf-7fba-455e-a4f2-e0e661b7c39d</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="820" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70871" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">4d739804-cc52-4ebd-9eda-3ff3073eb79e</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:00.636</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:00.636</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">The Document Type determines document sequence and processing rules</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.C_DocType_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Document Type</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_C_DocType_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description">Document type or rules</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70871</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54858</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="830" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70871" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:01.511</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:01.511</Data>
+        <Data AD_Column_ID="58049" Column="Description">Document type or rules</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Document Type</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70871</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">c92f72de-8643-4d4e-a5c0-4c1fff4a434c</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="840" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70872" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">1c1fb9d0-229a-4fe0-b6fd-a8564a2674fa</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:01.732</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:01.732</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.HR_Process_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Payroll Process</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_HR_Process_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70872</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54860</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="850" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70872" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:02.817</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:02.817</Data>
+        <Data AD_Column_ID="58049" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Payroll Process</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70872</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">3d67bb2b-a46f-456e-8653-7eb8b8a63d77</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="860" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70873" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">3b8840b1-48e9-4c04-ba0b-3de46e70432b</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:03.162</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:03.162</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">A Business Partner is anyone with whom you transact.  This can include Vendor, Customer, Employee or Salesperson</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.C_BPartner_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Business Partner </Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_C_BPartner_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description">Identifies a Business Partner</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70873</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54884</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="870" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70873" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:04.047</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:04.047</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58049" Column="Description">Identifies a Business Partner</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Business Partner </Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70873</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">c58bdecd-5ae9-4280-9bd4-2bd2548d0247</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="880" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70874" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">5daeb2ff-1c83-4988-a490-46f09f4679f0</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:04.248</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:04.248</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.HR_Department_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Payroll Department</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_HR_Department_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70874</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54871</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="890" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70874" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:05.148</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:05.148</Data>
+        <Data AD_Column_ID="58049" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Payroll Department</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70874</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">d73dfdb9-007a-437c-ab36-c381282b7188</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="900" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70875" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">42188f63-dbc3-4a88-9c1d-51ff9d96504b</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.Reversal_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Reversal ID</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_Reversal_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description">ID of document reversal</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70875</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">55310</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:05.474</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:05.474</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="910" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70875" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:06.503</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:06.503</Data>
+        <Data AD_Column_ID="58049" Column="Description">ID of document reversal</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Reversal ID</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70875</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">065573a3-c2db-4223-901c-c499f8248418</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="920" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70876" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">c5aeea17-d9c2-4b58-a48e-e538560f867e</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:06.751</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:06.751</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">The Created By field indicates the user who created this record.</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.CreatedBy</Data>
+        <Data AD_Column_ID="58105" Column="Name">Created By</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_CreatedBy</Data>
+        <Data AD_Column_ID="58102" Column="Description">User who created this records</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70876</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54866</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="930" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70876" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:07.615</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Created By</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70876</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">245cdfad-b07f-4be7-81e5-4bcf74b07f76</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:07.615</Data>
+        <Data AD_Column_ID="58049" Column="Description">User who created this records</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="940" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70877" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">33d90625-a751-4c4a-825f-287e9a89a17d</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:07.832</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:07.832</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">The Updated By field indicates the user who updated this record.</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.UpdatedBy</Data>
+        <Data AD_Column_ID="58105" Column="Name">Updated By</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_UpdatedBy</Data>
+        <Data AD_Column_ID="58102" Column="Description">User who updated this records</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70877</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54880</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="950" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70877" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:08.8</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:08.8</Data>
+        <Data AD_Column_ID="58049" Column="Description">User who updated this records</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Updated By</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70877</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">188a4732-9d8e-42f1-b384-c760593e61be</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="960" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70878" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">d041784d-5451-42de-8eba-f1d87ec709e9</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:09.004</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:09.004</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">The Workflow field identifies a unique Workflow in the system.</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.AD_Workflow_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Workflow</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_AD_Workflow_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description">Workflow or combination of tasks</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70878</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54883</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="970" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70878" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:09.942</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:09.942</Data>
+        <Data AD_Column_ID="58049" Column="Description">Workflow or combination of tasks</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Workflow</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70878</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">6afaded6-72d4-4b4a-8490-87ba220a70fa</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="980" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70879" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">0b5229ae-2223-49f7-b580-2335a9d6e800</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:10.209</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:10.209</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.HR_Employee_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Payroll Employee</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_HR_Employee_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70879</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54861</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="990" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70879" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:11.063</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:11.063</Data>
+        <Data AD_Column_ID="58049" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Payroll Employee</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70879</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">5f68f264-1893-4163-89da-4a1ce2b5309c</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1000" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70880" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">01c4be6e-0e8c-4e89-b29a-fe79e2d278dd</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:11.289</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:11.289</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">The ProcessedOn Date+Time save the exact moment (nanoseconds precision if allowed by the DB) when a document has been processed.</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.ProcessedOn</Data>
+        <Data AD_Column_ID="58105" Column="Name">Processed On</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_ProcessedOn</Data>
+        <Data AD_Column_ID="58102" Column="Description">The date+time (expressed in decimal format) when the document has been processed</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70880</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">59043</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1010" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70880" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:12.437</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:12.437</Data>
+        <Data AD_Column_ID="58049" Column="Description">The date+time (expressed in decimal format) when the document has been processed</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Processed On</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70880</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">160b8233-0735-446c-bfb1-ff2dc514e49d</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1020" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70881" Table="AD_View_Column">
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.UUID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Immutable Universally Unique Identifier</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_UUID</Data>
+        <Data AD_Column_ID="58102" Column="Description">Immutable Universally Unique Identifier</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70881</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">84845</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84462" Column="UUID">cf28cd96-1b71-41b5-a687-87e1887f9440</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:12.774</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:12.774</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">"A surrogate key in a database is a unique identifier for either an entity in the modeled world or an object in the database. The surrogate key is not derived from application data, unlike a natural (or business) key which is derived from application data. " , According to Wikipedia http://en.wikipedia.org/wiki/Surrogate_key</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1030" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70881" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:16.241</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:16.241</Data>
+        <Data AD_Column_ID="58049" Column="Description">Immutable Universally Unique Identifier</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Immutable Universally Unique Identifier</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70881</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">5ac91748-67cc-4592-8d85-ee1b40098a53</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1040" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70882" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">6582a99d-6a90-4a11-974f-62ea27d4aff8</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:16.472</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:16.472</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">Indicates the Currency to be used when processing or reporting on this record</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.C_Currency_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Currency</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_C_Currency_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description">The Currency for this record</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70882</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">92523</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1050" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70882" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:17.791</Data>
+        <Data AD_Column_ID="58052" Column="Name">Currency</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70882</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">e02e3f7d-5ccc-4a62-98b4-789b68bd2b1c</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:17.791</Data>
+        <Data AD_Column_ID="58049" Column="Description">The Currency for this record</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1060" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70883" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">fd617174-9d31-4028-9bd3-fc80bb1520c4</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:18.016</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:18.016</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">The Currency Conversion Rate Type lets you define different type of rates, e.g. Spot, Corporate and/or Sell/Buy rates.</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.C_ConversionType_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Currency Type</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_C_ConversionType_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description">Currency Conversion Rate Type</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70883</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">92524</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1070" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70883" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:18.805</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:18.805</Data>
+        <Data AD_Column_ID="58049" Column="Description">Currency Conversion Rate Type</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Currency Type</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70883</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">7fe98b1f-8876-44c1-bb4d-813975534a3f</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1080" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70884" Table="AD_View_Column">
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_HR_Period_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70884</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54873</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84462" Column="UUID">0060e0db-22b9-4a6b-8024-ce0202a1e525</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:19.018</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:19.018</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.HR_Period_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Payroll Period</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1090" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70884" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:20.018</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:20.018</Data>
+        <Data AD_Column_ID="58049" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Payroll Period</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70884</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">3cceb5c5-b37e-4008-868e-33d63f2f8ec4</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1100" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70885" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">1c8c0af9-a7bb-4aec-9dbb-237981edc25b</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:20.325</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:20.325</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">The Accounting Date indicates the date to be used on the General Ledger account entries generated from this document. It is also used for any currency conversion.</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.DateAcct</Data>
+        <Data AD_Column_ID="58105" Column="Name">Account Date</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_DateAcct</Data>
+        <Data AD_Column_ID="58102" Column="Description">Accounting Date</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70885</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54867</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1110" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70885" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:21.185</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70885</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">c980ff68-ad51-4c3c-8cf5-9323f5e86c44</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:21.185</Data>
+        <Data AD_Column_ID="58049" Column="Description">Accounting Date</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Account Date</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1120" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70886" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">231aba6f-7e5a-4b66-bff6-3d91a9712ef4</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:21.418</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:21.418</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.HR_Payroll_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Payroll</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_HR_Payroll_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70886</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">54872</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1130" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70886" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:22.44</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:22.44</Data>
+        <Data AD_Column_ID="58049" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Payroll</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70886</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">fe47b10c-69d3-46f4-bbfa-912a88ffb12e</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1140" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70887" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">013e4ba6-2ec4-474d-b101-a67aaa551661</Data>
+        <Data AD_Column_ID="58102" Column="Description">Performing or initiating organization</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70887</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">96195</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:22.739</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:22.739</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">The organization which performs or initiates this transaction (for another organization).  The owning Organization may not be the transaction organization in a service bureau environment, with centralized services, and inter-organization transactions.</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.AD_OrgTrx_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Trx Organization</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_AD_OrgTrx_ID</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1150" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70887" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:23.711</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:23.711</Data>
+        <Data AD_Column_ID="58049" Column="Description">Performing or initiating organization</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Trx Organization</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70887</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">f0932f9b-147f-48df-af46-5814d0ef81fa</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1160" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70888" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">68de27be-381c-4403-831d-29903c870de6</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:24.113</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:24.113</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">A Project allows you to track and control internal or external activities.</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.C_Project_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Project</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_C_Project_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description">Financial Project</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70888</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">96196</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1170" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70888" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:25.273</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">92e5e7fd-dec3-4879-a9ac-62ce392ec06b</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:25.273</Data>
+        <Data AD_Column_ID="58049" Column="Description">Financial Project</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Project</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70888</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1180" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70889" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">1784bf77-e51a-4d3f-a9ca-768a42fe3cbe</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:25.647</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:25.647</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">The Sales Region indicates a specific area of sales coverage.</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.C_SalesRegion_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Sales Region</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_C_SalesRegion_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description">Sales coverage region</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70889</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">96197</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1190" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70889" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:26.774</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:26.774</Data>
+        <Data AD_Column_ID="58049" Column="Description">Sales coverage region</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Sales Region</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70889</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">339d7be0-d096-4938-b244-1ad5a55741e2</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1200" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70890" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">45815574-c7cb-44b5-9452-a39befd9a97a</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70890</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">96198</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:27.047</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:27.047</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">Activities indicate tasks that are performed and used to utilize Activity based Costing</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.C_Activity_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Activity</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_C_Activity_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description">Business Activity</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1210" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70890" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:28.265</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:28.265</Data>
+        <Data AD_Column_ID="58049" Column="Description">Business Activity</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Activity</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70890</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">7f4cbb68-9a11-487c-ae61-b2d8b1586089</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1220" StepType="AD">
+      <PO AD_Table_ID="53232" Action="I" Record_ID="70891" Table="AD_View_Column">
+        <Data AD_Column_ID="84462" Column="UUID">d0a2ba5d-3e92-45df-b896-351d4c94d701</Data>
+        <Data AD_Column_ID="58095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58096" Column="Created">2020-12-15 01:59:28.603</Data>
+        <Data AD_Column_ID="58097" Column="Updated">2020-12-15 01:59:28.603</Data>
+        <Data AD_Column_ID="58101" Column="AD_View_Definition_ID">50530</Data>
+        <Data AD_Column_ID="58104" Column="Help">The Campaign defines a unique marketing program.  Projects can be associated with a pre defined Marketing Campaign.  You can then report based on a specific Campaign.</Data>
+        <Data AD_Column_ID="58106" Column="ColumnSQL">hrp.C_Campaign_ID</Data>
+        <Data AD_Column_ID="58105" Column="Name">Campaign</Data>
+        <Data AD_Column_ID="58107" Column="ColumnName">HRP_C_Campaign_ID</Data>
+        <Data AD_Column_ID="58102" Column="Description">Marketing Campaign</Data>
+        <Data AD_Column_ID="58100" Column="AD_View_Column_ID">70891</Data>
+        <Data AD_Column_ID="58093" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58094" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58103" Column="EntityType">D</Data>
+        <Data AD_Column_ID="58099" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="58108" Column="AD_View_ID">50044</Data>
+        <Data AD_Column_ID="58109" Column="AD_Column_ID">96199</Data>
+        <Data AD_Column_ID="58098" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1230" StepType="AD">
+      <PO AD_Table_ID="53228" Action="I" Record_ID="70891" Table="AD_View_Column_Trl">
+        <Data AD_Column_ID="58041" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="58044" Column="Updated">2020-12-15 01:59:29.724</Data>
+        <Data AD_Column_ID="58042" Column="IsActive">true</Data>
+        <Data AD_Column_ID="58043" Column="Created">2020-12-15 01:59:29.724</Data>
+        <Data AD_Column_ID="58049" Column="Description">Marketing Campaign</Data>
+        <Data AD_Column_ID="58050" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="58051" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="58052" Column="Name">Campaign</Data>
+        <Data AD_Column_ID="58047" Column="AD_View_Column_ID">70891</Data>
+        <Data AD_Column_ID="58040" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="58045" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="58048" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="58046" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84463" Column="UUID">0b9e95bd-841d-4600-ae26-3d535e2074b2</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1240" StepType="AD">
+      <PO AD_Table_ID="53232" Action="U" Record_ID="53812" Table="AD_View_Column">
+        <Data AD_Column_ID="58106" Column="ColumnSQL" oldValue="hrm.Amount">currencyConvert(hrm.Amount, hrp.C_Currency_ID, @C_Currency_ID@, TO_DATE('@PayDate@','YYYY-MM-DD'), hrp.C_ConversionType_ID,hrp.AD_Client_ID, hrp.AD_Org_ID)</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
