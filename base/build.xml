@@ -217,7 +217,7 @@
     	failureproperty="test.failed"
     	excludeTags="IntegrationTest">
       <classpath refid="test.class.path"/>
-      <testclasses outputdir="../base/${test.results.dir}">
+      <testclasses outputdir="${adempiere.base}/base/${test.results.dir}">
         <fileset dir="${test.build.dir}"/>
         <listener type="legacy-xml" sendSysErr="true" sendSysOut="true"/>
         <listener classname="org.adempiere.test.AdempiereTestExecutionListener"
@@ -237,7 +237,7 @@
     	failureproperty="test.failed"
     	excludeTags="UnitTest">
       <classpath refid="test.class.path"/>
-      <testclasses outputdir="../base/${test.results.dir}">
+      <testclasses outputdir="${adempiere.base}/base/${test.results.dir}">
         <fileset dir="${test.build.dir}"/>
         <listener type="legacy-xml" sendSysErr="true" sendSysOut="true"/>
       	<listener classname="org.adempiere.test.AdempiereTestExecutionListener"
