@@ -13,7 +13,7 @@
  * Copyright (C) 2003-2012 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): victor.perez@e-evolution.com, www.e-evolution.com          *
  *****************************************************************************/
-package org.eevolution.test.functional.mfg;
+package org.eevolution.model;
 
 import java.math.BigDecimal;
 
@@ -29,7 +29,7 @@ import org.eevolution.model.MPPProductBOM;
  * Using Standard BOM and Manufacturing Workflow
  * @author Victor Perez, www.e-evolution.com
  */
-public class MakeToOrderStandardBOMNotWF extends AbstractMakeToOrder
+public class MakeToOrderNotStandardBOMandWF extends AbstractMakeToOrder
 {
 	
 	public void test01() throws Exception
@@ -40,23 +40,16 @@ public class MakeToOrderStandardBOMNotWF extends AbstractMakeToOrder
 		//Define Business Partner
 		BPartner = new MBPartner(getCtx(), C_BPartner_ID, trxName);
 		
-		//Setting the BOM
-		
-		int PP_Product_BOM_ID = MPPProductBOM.getBOMSearchKey(product);
-		if(PP_Product_BOM_ID > 0)
-			bom = new MPPProductBOM(getCtx(), PP_Product_BOM_ID , trxName);
-		else 
-			throw new AdempiereException("@NotFound@ @PP_ProductBOM_ID@");
-		
+		//force not BOM Standard
+		bom = new MPPProductBOM(getCtx(), PP_Product_BOM_ID , trxName);	
 		if(bom != null)
 		{
+			bom.setValue(product.getValue() + "-Alternate");
 			bom.setBOMType(MPPProductBOM.BOMTYPE_Make_To_Order);
 			bom.setBOMUse(MPPProductBOM.BOMUSE_Manufacturing);
 			bom.saveEx();
 		}
-
 		
-
 		createOrder();
 		MPPOrder expected = createPPOrder();
 		

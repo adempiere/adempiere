@@ -13,13 +13,14 @@
  * Copyright (C) 2003-2012 e-Evolution,SC. All Rights Reserved.               *
  * Contributor(s): victor.perez@e-evolution.com, www.e-evolution.com          *
  *****************************************************************************/
-package org.eevolution.test.functional.mfg;
+package org.eevolution.model;
 
 import java.math.BigDecimal;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MProduct;
+import org.compiere.wf.MWorkflow;
 import org.eevolution.model.I_PP_Order;
 import org.eevolution.model.MPPOrder;
 import org.eevolution.model.MPPProductBOM;
@@ -29,8 +30,9 @@ import org.eevolution.model.MPPProductBOM;
  * Using Standard BOM and Manufacturing Workflow
  * @author Victor Perez, www.e-evolution.com
  */
-public class MakeToOrderNotStandardBOMandWF extends AbstractMakeToOrder
+public class MakeToOrderStandardBOMandWF extends AbstractMakeToOrder
 {
+	
 	
 	public void test01() throws Exception
 	{	
@@ -40,21 +42,42 @@ public class MakeToOrderNotStandardBOMandWF extends AbstractMakeToOrder
 		//Define Business Partner
 		BPartner = new MBPartner(getCtx(), C_BPartner_ID, trxName);
 		
-		//force not BOM Standard
-		bom = new MPPProductBOM(getCtx(), PP_Product_BOM_ID , trxName);	
+		//Setting the BOM
+		
+		int PP_Product_BOM_ID = MPPProductBOM.getBOMSearchKey(product);
+		if(PP_Product_BOM_ID > 0)
+			bom = new MPPProductBOM(getCtx(), PP_Product_BOM_ID , trxName);
+		else 
+			throw new AdempiereException("@NotFound@ @PP_ProductBOM_ID@");
+		
 		if(bom != null)
 		{
-			bom.setValue(product.getValue() + "-Alternate");
+			bom.setValue(product.getValue());
 			bom.setBOMType(MPPProductBOM.BOMTYPE_Make_To_Order);
 			bom.setBOMUse(MPPProductBOM.BOMUSE_Manufacturing);
 			bom.saveEx();
 		}
 		
+		//force Workflow as standard
+		workflow =  new MWorkflow(getCtx(), AD_Workflow_ID, trxName);
+		workflow.setValue(product.getValue());
+		workflow.saveEx();
+		
+		if( AD_Workflow_ID > 0)
+			workflow = MWorkflow.get(getCtx(), AD_Workflow_ID);
+		else
+			throw new AdempiereException("@NotFound@ @AD_Workflow_ID@");
+		
+		/* Validate Exception if a Planning data is no defined
+		MPPProductPlanning pp = MPPProductPlanning.find(getCtx(), AD_Org_ID, M_Warehouse_ID , S_Resource_ID , M_Product_ID, trxName); 	
+		pp.setS_Resource_ID(50000);
+		pp.saveEx();*/
+		
 		createOrder();
 		MPPOrder expected = createPPOrder();
 		
 		
-		I_PP_Order actual = MPPOrder.forC_OrderLine_ID(getCtx(), oline.get_ID(), oline.getM_Product_ID() , trxName);
+		I_PP_Order actual = MPPOrder.forC_OrderLine_ID(getCtx(), oline.get_ID(), oline.getM_Product_ID() ,trxName);
 		
 		if(actual == null)
 		{
