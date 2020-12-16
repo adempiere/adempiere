@@ -87,7 +87,7 @@ public class MPeriod extends X_C_Period
 	 */
 	public static MPeriod get (Properties ctx, Timestamp DateAcct)
 	{	
-		return get(ctx, DateAcct, 0, null);
+		return get(ctx, DateAcct, 0);
 	}	//	get
 	
 	/**
@@ -99,26 +99,13 @@ public class MPeriod extends X_C_Period
 	 */
 	public static MPeriod get (Properties ctx, Timestamp DateAcct, int AD_Org_ID)
 	{
-		return get(ctx, DateAcct, AD_Org_ID, null);
-	}	//	get
-
-	/**
-	 * Find standard Period of DateAcct based on Client Calendar
-	 * @param ctx context
-	 * @param dateAcct date
-	 * @param ad_org_id Organization
-	 * @param trxName The transaction
-	 * @return active Period or null
-	 */
-	public static MPeriod get (Properties ctx, Timestamp dateAcct, int ad_org_id, String trxName)
-	{
 		
-		if (dateAcct == null)
+		if (DateAcct == null)
 			return null;
 		
-        int C_Calendar_ID = getC_Calendar_ID(ctx,ad_org_id, trxName);
+        int C_Calendar_ID = getC_Calendar_ID(ctx,AD_Org_ID);
         
-        return findByCalendar(ctx, dateAcct, C_Calendar_ID, trxName);
+        return findByCalendar(ctx, DateAcct, C_Calendar_ID);
 	}	//	get
 
 	/**
@@ -221,7 +208,7 @@ public class MPeriod extends X_C_Period
 	 */
 	public static int getC_Period_ID (Properties ctx, Timestamp DateAcct, int AD_Org_ID)
 	{
-		MPeriod period = get (ctx, DateAcct, AD_Org_ID, null);
+		MPeriod period = get (ctx, DateAcct, AD_Org_ID);
 		if (period == null)
 			return 0;
 		return period.getC_Period_ID();
@@ -237,7 +224,7 @@ public class MPeriod extends X_C_Period
 	 */
 	public static boolean isOpen (Properties ctx, Timestamp DateAcct, String DocBaseType)
 	{
-		return isOpen(ctx, DateAcct,DocBaseType, 0, null );
+		return isOpen(ctx, DateAcct,DocBaseType, 0 );
 	}	//	isOpen
 	
 	/**
@@ -250,40 +237,26 @@ public class MPeriod extends X_C_Period
 	 */
 	public static boolean isOpen (Properties ctx, Timestamp DateAcct, String DocBaseType, int AD_Org_ID)
 	{
-		return isOpen(ctx, DateAcct, DocBaseType, AD_Org_ID, null);
-	}	//	isOpen
-
-	/**
-	 * 	Is standard Period Open for Document Base Type
-	 *	@param ctx context
-	 * @param dateAcct date
-	 * @param docBaseType base type
-	 * @param ad_org_id Organization
-	 * @param trxName TODO
-	 * @return true if open
-	 */
-	public static boolean isOpen (Properties ctx, Timestamp dateAcct, String docBaseType, int ad_org_id, String trxName)
-	{
-		if (dateAcct == null)
+		if (DateAcct == null)
 		{
 			s_log.warning("No DateAcct");
 			return false;
 		}
-		if (docBaseType == null)
+		if (DocBaseType == null)
 		{
 			s_log.warning("No DocBaseType");
 			return false;
 		}
-		MPeriod period = MPeriod.get (ctx, dateAcct, ad_org_id, trxName);
+		MPeriod period = MPeriod.get (ctx, DateAcct, AD_Org_ID);
 		if (period == null)
 		{
-			s_log.warning("No Period for " + dateAcct + " (" + docBaseType + ")");
+			s_log.warning("No Period for " + DateAcct + " (" + DocBaseType + ")");
 			return false;
 		}
-		boolean open = period.isOpen(docBaseType, dateAcct);
+		boolean open = period.isOpen(DocBaseType, DateAcct);
 		if (!open)
 			s_log.warning(period.getName()
-				+ ": Not open for " + docBaseType + " (" + dateAcct + ")");
+				+ ": Not open for " + DocBaseType + " (" + DateAcct + ")");
 		return open;
 	}	//	isOpen
 
@@ -309,7 +282,7 @@ public class MPeriod extends X_C_Period
 	public static MPeriod getFirstInYear (Properties ctx, Timestamp DateAcct, int AD_Org_ID)
 	{
 		MPeriod retValue = null;
-		int C_Calendar_ID = MPeriod.getC_Calendar_ID(ctx, AD_Org_ID, null);
+		int C_Calendar_ID = MPeriod.getC_Calendar_ID(ctx, AD_Org_ID);
 
         String sql = "SELECT * "
                     + "FROM C_Period "
@@ -429,11 +402,11 @@ public class MPeriod extends X_C_Period
 		ResultSet rs = null;
 		try
 		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, getC_Period_ID());
 			rs = pstmt.executeQuery();
 			while (rs.next())
-				list.add (new MPeriodControl (getCtx(), rs, get_TrxName()));
+				list.add (new MPeriodControl (getCtx(), rs, null));
 		}
 		catch (Exception e)
 		{
@@ -701,28 +674,12 @@ public class MPeriod extends X_C_Period
 	 * @param docBaseType
 	 * @param AD_Org_ID Organization
 	 * @throws PeriodClosedException if period is closed
-	 * @see #isOpen(Properties, Timestamp, String, int, String)
+	 * @see #isOpen(Properties, Timestamp, String, int)
 	 */
 	public static void testPeriodOpen(Properties ctx, Timestamp dateAcct, String docBaseType, int AD_Org_ID)
 	throws PeriodClosedException 
 	{
-		testPeriodOpen(ctx, dateAcct, docBaseType, AD_Org_ID, null);
-	}
-
-	/**
-	 * Convenient method for testing if a period is open
-	 * @param ctx
-	 * @param dateAcct
-	 * @param docBaseType
-	 * @param ad_org_id Organization
-	 * @param trxName TODO
-	 * @throws PeriodClosedException if period is closed
-	 * @see #isOpen(Properties, Timestamp, String, int, String)
-	 */
-	public static void testPeriodOpen(Properties ctx, Timestamp dateAcct, String docBaseType, int ad_org_id, String trxName)
-	throws PeriodClosedException 
-	{
-		if (!MPeriod.isOpen(ctx, dateAcct, docBaseType, ad_org_id, trxName)) {
+		if (!MPeriod.isOpen(ctx, dateAcct, docBaseType, AD_Org_ID)) {
 			throw new PeriodClosedException(dateAcct, docBaseType);
 		}
 	}
@@ -734,7 +691,7 @@ public class MPeriod extends X_C_Period
 	 * @param C_DocType_ID
 	 * @throws PeriodClosedException
 	 * @see {@link #isOpen(Properties, Timestamp, String)}
-	 * @deprecated
+     * @deprecated
 	 */
 	public static void testPeriodOpen(Properties ctx, Timestamp dateAcct, int C_DocType_ID)
 	throws PeriodClosedException
@@ -744,35 +701,19 @@ public class MPeriod extends X_C_Period
 	}
 	
 	/**
-		 * Convenient method for testing if a period is open
-		 * @param ctx
-		 * @param dateAcct
-		 * @param C_DocType_ID
-		 * @param AD_Org_ID Organization
-		 * @throws PeriodClosedException
-		 * @see {@link #isOpen(Properties, Timestamp, String, int, String)}
-		 */
-		public static void testPeriodOpen(Properties ctx, Timestamp dateAcct, int C_DocType_ID, int AD_Org_ID)
-		throws PeriodClosedException
-		{
-			testPeriodOpen(ctx, dateAcct, C_DocType_ID, AD_Org_ID, null);
-		}
-
-	/**
 	 * Convenient method for testing if a period is open
 	 * @param ctx
 	 * @param dateAcct
-	 * @param c_docType_id
-	 * @param ad_org_id Organization
-	 * @param trxName TODO
+	 * @param C_DocType_ID
+	 * @param AD_Org_ID Organization
 	 * @throws PeriodClosedException
-	 * @see {@link #isOpen(Properties, Timestamp, String, int, String)}
+	 * @see {@link #isOpen(Properties, Timestamp, String, int)}
 	 */
-	public static void testPeriodOpen(Properties ctx, Timestamp dateAcct, int c_docType_id, int ad_org_id, String trxName)
+	public static void testPeriodOpen(Properties ctx, Timestamp dateAcct, int C_DocType_ID, int AD_Org_ID)
 	throws PeriodClosedException
 	{
-		MDocType dt = MDocType.get(ctx, c_docType_id);
-		testPeriodOpen(ctx, dateAcct, dt.getDocBaseType(),  ad_org_id, trxName);
+		MDocType dt = MDocType.get(ctx, C_DocType_ID);
+		testPeriodOpen(ctx, dateAcct, dt.getDocBaseType(),  AD_Org_ID);
 	}
 	
 	/**
@@ -797,26 +738,13 @@ public class MPeriod extends X_C_Period
 	 * @param ctx Context
 	 * @param AD_Org_ID Organization
 	 * @return
-	 * @deprecated Use {@link #getC_Calendar_ID(Properties,int,String)} instead
 	 */
-	public static int getC_Calendar_ID(Properties ctx,int AD_Org_ID)
-	{
-		return getC_Calendar_ID(ctx, AD_Org_ID, null);
-	}   //  getC_Calendar_ID
-
-	/**
-	 * Get Calendar for Organization
-	 * @param ctx Context
-	 * @param ad_org_id Organization
-	 * @param trxName TODO
-	 * @return
-	 */
-    public static int getC_Calendar_ID(Properties ctx,int ad_org_id, String trxName)
+    public static int getC_Calendar_ID(Properties ctx,int AD_Org_ID)
     {	
         int C_Calendar_ID = 0;
-        if (ad_org_id != 0)
+        if (AD_Org_ID != 0)
         {
-            MOrgInfo info = MOrgInfo.get(ctx, ad_org_id, trxName);
+            MOrgInfo info = MOrgInfo.get(ctx, AD_Org_ID, null);
             C_Calendar_ID = info == null ? 0 : info.getC_Calendar_ID();
         }
         
