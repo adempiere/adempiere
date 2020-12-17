@@ -40,7 +40,7 @@ import org.junit.jupiter.api.Test;
 @Tag("Model")
 @Tag("MAlert")
 @Tag("MAlertProcessor")
-class IT_MAlert extends CommonGWSetup {
+class IT_MAlertProcessor extends CommonGWSetup {
 
     private MAlertProcessor processor;
     private MAlert alert;

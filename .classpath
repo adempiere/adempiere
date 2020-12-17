@@ -16,6 +16,11 @@
 	<classpathentry kind="src" path="extend/src"/>
 	<classpathentry kind="src" path="serverRoot/src/main/ejb"/>
 	<classpathentry kind="src" path="serverRoot/src/main/server"/>
+	<classpathentry kind="src" output="serverRoot/test/bin" path="serverRoot/src/test/server">
+		<attributes>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="serverRoot/src/main/servlet"/>
 	<classpathentry kind="src" path="serverApps/src/main/servlet"/>
 	<classpathentry kind="src" path="zkwebui/WEB-INF/src"/>
