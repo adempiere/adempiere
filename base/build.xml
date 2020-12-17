@@ -48,24 +48,6 @@
   	<pathelement path="../tools/lib/aws-java-sdk-s3-1.11.795.jar" />
   </path>
 		
-  <path id="test.class.path">
-    <pathelement location="${build.dir}"/>
-    <pathelement path="${build.dir}"/>
-    <pathelement path="${classpath}"/>
-    <pathelement path="${jar.path}/CCTools.jar"/>
-    <pathelement path="../base/build"/>
-    <pathelement path="${jar.path}/Adempiere.jar" />
-    <pathelement path="${jar.path}/oracle.jar" />
-    <pathelement path="${jar.path}/postgresql.jar" />
-    <pathelement path=".${jar.path}/mysql-connector-java-5.1.13-bin.jar" />
-    <pathelement path="${jar.path}/mariadb-java-client.jar"/>
-    <pathelement path="./base.jar" />    
-    <pathelement location="${test.build.dir}"/>
-    <pathelement location="${test.results.dir}"/>
-  	<pathelement path="${project.class.path}"/> 
-  	<fileset dir="../tools/lib/junit" includes="**/*.jar"/>
-  </path>
-	
   <target name="init" description="initialization target">
     <echo message="=========== Build Base"/>
     <!-- create the time stamp -->
@@ -160,6 +142,24 @@
   <!-- Tests                                       -->
   <!-- =========================================== -->
 
+  <path id="test.class.path">
+    <pathelement location="${build.dir}"/>
+    <pathelement path="${build.dir}"/>
+    <pathelement path="${classpath}"/>
+    <pathelement path="${jar.path}/CCTools.jar"/>
+    <pathelement path="../base/build"/>
+    <pathelement path="${jar.path}/Adempiere.jar" />
+    <pathelement path="${jar.path}/oracle.jar" />
+    <pathelement path="${jar.path}/postgresql.jar" />
+    <pathelement path=".${jar.path}/mysql-connector-java-5.1.13-bin.jar" />
+    <pathelement path="${jar.path}/mariadb-java-client.jar"/>
+    <pathelement path="./base.jar" />    
+    <pathelement location="${test.build.dir}"/>
+    <pathelement location="${test.results.dir}"/>
+    <pathelement path="${project.class.path}"/> 
+    <fileset dir="../tools/lib/junit" includes="**/*.jar"/>
+  </path>
+    
   <target name="check.tests">
   	<condition property="unitTests.run">
   		<and>
