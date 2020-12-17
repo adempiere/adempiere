@@ -40,6 +40,11 @@
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/test/java/base"/>
 	<classpathentry kind="src" path="org.eevolution.warehouse/src/main/java/base"/>
 	<classpathentry kind="src" path="org.adempiere.asset/src/main/java/base"/>
+	<classpathentry kind="src" output="org.adempiere.asset/test/bin" path="org.adempiere.asset/src/test/java/base">
+		<attributes>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="org.adempiere.webservice/WEB-INF/src"/>
 	<classpathentry kind="src" path="com.kkalice.adempiere.migrate/src"/>
 	<classpathentry kind="src" path="org.adempiere.test/src/main/java"/>
