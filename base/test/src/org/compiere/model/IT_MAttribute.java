@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 
 @Tag("Model")
 @Tag("MAttribute")
-class MAttributeTest extends CommonGWSetup {
+class IT_MAttribute extends CommonGWSetup {
 
     @Test
     void testQuery() throws Exception {
