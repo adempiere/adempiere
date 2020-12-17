@@ -17,10 +17,9 @@
 package org.spin.process;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -42,8 +41,6 @@ public class DepositFromCash extends DepositFromCashAbstract {
 	Map<Integer, Integer> referencePayments = new HashMap<Integer, Integer>();
 	/**	Deposits	*/
 	Map<String, MPayment> payments = new HashMap<String, MPayment>();
-	/**	Source Payments	*/
-	List<Integer> sourcePayments = new ArrayList<Integer>();
 	/**	Created	*/
 	AtomicInteger created = new AtomicInteger();
 	
@@ -67,7 +64,6 @@ public class DepositFromCash extends DepositFromCashAbstract {
   	  		int paymentId = getSelectionAsInt(key, "CP_C_Payment_ID");
 	  		//	get references from receipt
 	  		MPayment sourcePayment = new MPayment(getCtx(), paymentId, get_TrxName());
-	  		sourcePayments.add(paymentId);
 	  		//	
 	  		String paymentKey = getKey(String.valueOf(sourcePayment.getC_Payment_ID()), sourcePayment.getC_BankAccount_ID(), sourcePayment.isReceipt(), sourcePayment.getC_Currency_ID(), sourcePayment.getC_ConversionType_ID());
 	  		payments.put(paymentKey, sourcePayment);
@@ -91,29 +87,26 @@ public class DepositFromCash extends DepositFromCashAbstract {
   	  	StringBuffer msg = new StringBuffer();
   	  	payments.entrySet().forEach(entry -> {
   	  		MPayment payment = entry.getValue();
-  	  		if(!sourcePayments.stream().filter(paymentId -> paymentId == payment.getC_Payment_ID()).findAny().isPresent()) {
-	  	  		Integer referenceId = referencePayments.get(payment.getC_Payment_ID());
-	  	  		if(referenceId != null 
-	  	  				&& referenceId != 0) {
-	  	  			payment.setRef_Payment_ID(referenceId);
-	  	  			payment.saveEx();
-	  	  		}
-	  	  		//	Complete
-	  	  		if(payment.getDocStatus().equals(MPayment.DOCSTATUS_Drafted)) {
-		  	  		payment.processIt(DocAction.ACTION_Complete);
-					payment.saveEx();
-					if(msg.length() > 0) {
-						msg.append(", ");
-					}
-					//	
-					msg.append("[" + payment.getDocumentNo() + "]");	
-					//	Count it
-					created.addAndGet(1);
-	  	  		}
-	  	  		//	for Auto Reconcile
-	  	  		if(isAutoReconciled()) {
-	  	  			MBankStatement.addPayment(payment);
-	  	  		}
+  	  		Integer referenceId = referencePayments.get(payment.getC_Payment_ID());
+  	  		if(Optional.ofNullable(referenceId).orElse(0).intValue() > 0) {
+  	  			payment.setRef_Payment_ID(referenceId);
+  	  			payment.saveEx();
+  	  		}
+  	  		//	Complete
+  	  		if(payment.getDocStatus().equals(MPayment.DOCSTATUS_Drafted)) {
+	  	  		payment.processIt(DocAction.ACTION_Complete);
+				payment.saveEx();
+				if(msg.length() > 0) {
+					msg.append(", ");
+				}
+				//	
+				msg.append("[" + payment.getDocumentNo() + "]");
+				//	Count it
+				created.addAndGet(1);
+  	  		}
+  	  		//	Auto Reconcile
+  	  		if(isAutoReconciled()) {
+  	  			MBankStatement.addPayment(payment);
   	  		}
   	  	});
   	  	//	
