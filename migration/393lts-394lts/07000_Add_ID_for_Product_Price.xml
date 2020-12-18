@@ -354,7 +354,7 @@
         <Data AD_Column_ID="84323" Column="UUID">4221563c-3f1c-426d-af38-7979ec4dbd36</Data>
       </PO>
     </Step>
-    <Step DBType="ALL" Parse="N" SeqNo="180" StepType="SQL">
+    <Step DBType="ALL" Parse="Y" SeqNo="180" StepType="SQL">
       <SQLStatement>-- Product Price
 CREATE SEQUENCE M_ProductPrice_Seq START 1000000;
 UPDATE M_ProductPrice SET M_ProductPrice_ID = nextval('M_ProductPrice_Seq');
