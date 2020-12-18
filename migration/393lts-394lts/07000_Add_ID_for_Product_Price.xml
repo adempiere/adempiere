@@ -41,10 +41,10 @@
     </Step>
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="61562" Table="AD_Element">
+        <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2600" Column="Updated">2020-11-23 09:09:19.418</Data>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
         <Data AD_Column_ID="2603" Column="Name">Product Price</Data>
-        <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2598" Column="Created">2020-11-23 09:09:19.418</Data>
         <Data AD_Column_ID="2602" Column="ColumnName">M_ProductPrice_ID</Data>
         <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
@@ -100,14 +100,6 @@
     <Step SeqNo="60" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="97440" Table="AD_Column">
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
-        <Data AD_Column_ID="114" Column="AD_Table_ID">251</Data>
-        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="548" Column="IsActive">true</Data>
-        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2020-11-23 09:09:55.296</Data>
-        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
-        <Data AD_Column_ID="551" Column="Updated">2020-11-23 09:09:55.296</Data>
-        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">97440</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="111" Column="Name">Product Price</Data>
@@ -150,10 +142,19 @@
         <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
         <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
         <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">251</Data>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2020-11-23 09:09:55.296</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2020-11-23 09:09:55.296</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="70" StepType="AD">
       <PO AD_Table_ID="752" Action="I" Record_ID="97440" Table="AD_Column_Trl">
+        <Data AD_Column_ID="84310" Column="UUID">9d63a86d-6556-42f0-809a-e68d67f910d1</Data>
         <Data AD_Column_ID="12960" Column="Created">2020-11-23 09:09:56.704</Data>
         <Data AD_Column_ID="12959" Column="IsActive">true</Data>
         <Data AD_Column_ID="12952" Column="Updated">2020-11-23 09:09:56.704</Data>
@@ -165,7 +166,6 @@
         <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
-        <Data AD_Column_ID="84310" Column="UUID">9d63a86d-6556-42f0-809a-e68d67f910d1</Data>
       </PO>
     </Step>
     <Step SeqNo="80" StepType="AD">
@@ -293,14 +293,6 @@
         <Data AD_Column_ID="168" Column="Name">Product Price</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="172" Column="AD_Tab_ID">192</Data>
-        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="84320" Column="UUID">cc954429-a69e-4f1a-bbd3-963e6e6032f4</Data>
-        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
-        <Data AD_Column_ID="579" Column="Created">2020-11-23 09:12:05.693</Data>
-        <Data AD_Column_ID="78493" Column="IsQuickEntry">false</Data>
-        <Data AD_Column_ID="88877" Column="AD_FieldDefinition_ID" isNewNull="true"/>
-        <Data AD_Column_ID="581" Column="Updated">2020-11-23 09:12:05.693</Data>
-        <Data AD_Column_ID="88918" Column="AD_ContextInfo_ID" isNewNull="true"/>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="90940" Column="AD_Image_ID" isNewNull="true"/>
         <Data AD_Column_ID="59703" Column="IsEmbedded">false</Data>
@@ -334,6 +326,14 @@
         <Data AD_Column_ID="174" Column="AD_Column_ID">97440</Data>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
+        <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84320" Column="UUID">cc954429-a69e-4f1a-bbd3-963e6e6032f4</Data>
+        <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="579" Column="Created">2020-11-23 09:12:05.693</Data>
+        <Data AD_Column_ID="78493" Column="IsQuickEntry">false</Data>
+        <Data AD_Column_ID="88877" Column="AD_FieldDefinition_ID" isNewNull="true"/>
+        <Data AD_Column_ID="581" Column="Updated">2020-11-23 09:12:05.693</Data>
+        <Data AD_Column_ID="88918" Column="AD_ContextInfo_ID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="170" StepType="AD">
@@ -355,12 +355,15 @@
       </PO>
     </Step>
     <Step DBType="ALL" Parse="N" SeqNo="180" StepType="SQL">
-      <SQLStatement>UPDATE M_ProductPrice SET M_ProductPrice_ID = nextid((SELECT AD_Sequence_ID FROM AD_Sequence WHERE NAME = 'M_ProductPrice')::integer,'N'::varchar)</SQLStatement>
+      <SQLStatement>-- Product Price
+CREATE SEQUENCE M_ProductPrice_Seq START 1000000;
+UPDATE M_ProductPrice SET M_ProductPrice_ID = nextval('M_ProductPrice_Seq');
+DROP SEQUENCE M_ProductPrice_Seq;</SQLStatement>
     </Step>
     <Step SeqNo="190" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="97440" Table="AD_Column">
         <Data AD_Column_ID="124" Column="IsMandatory" oldValue="false">true</Data>
-        <Data AD_Column_ID="119" Column="IsKey">true</Data>
+        <Data AD_Column_ID="119" Column="IsKey" oldValue="">true</Data>
       </PO>
     </Step>
   </Migration>
