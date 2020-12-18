@@ -37,8 +37,10 @@ import org.compiere.util.Util;
  */
 public class DepositFromCash extends DepositFromCashAbstract {
 	
+	/**	Source with withdrawal reference	*/
+	Map<Integer, Integer> withdrawalLinkPayments = new HashMap<Integer, Integer>();
 	/**	Source with deposit reference	*/
-	Map<Integer, Integer> referencePayments = new HashMap<Integer, Integer>();
+	Map<Integer, Integer> depositLinkPayments = new HashMap<Integer, Integer>();
 	/**	Deposits	*/
 	Map<String, MPayment> payments = new HashMap<String, MPayment>();
 	/**	Created	*/
@@ -62,7 +64,7 @@ public class DepositFromCash extends DepositFromCashAbstract {
 		//	Process
   	  	getSelectionKeys().forEach(key -> {
   	  		int paymentId = getSelectionAsInt(key, "CP_C_Payment_ID");
-	  		//	get references from receipt
+  	  		//	get references from receipt
 	  		MPayment sourcePayment = new MPayment(getCtx(), paymentId, get_TrxName());
 	  		//	
 	  		String paymentKey = getKey(String.valueOf(sourcePayment.getC_Payment_ID()), sourcePayment.getC_BankAccount_ID(), sourcePayment.isReceipt(), sourcePayment.getC_Currency_ID(), sourcePayment.getC_ConversionType_ID());
@@ -73,7 +75,7 @@ public class DepositFromCash extends DepositFromCashAbstract {
 	  		}
 	  		MPayment bankDeposit = addPayment(documentNo, getBankAccountId(), true, sourcePayment.getPayAmt(), sourcePayment.getTenderType(), sourcePayment.getC_Currency_ID(), sourcePayment.getC_ConversionType_ID());
 	  		//	Set Reference
-	  		referencePayments.put(sourcePayment.getC_Payment_ID(), bankDeposit.getC_Payment_ID());
+	  		depositLinkPayments.put(sourcePayment.getC_Payment_ID(), bankDeposit.getC_Payment_ID());
 	  		//	Create withdrawal
 	  		MPayment cashWithdrawal = addPayment(getDocumentNo(), sourcePayment.getC_BankAccount_ID(), false, sourcePayment.getPayAmt(), sourcePayment.getTenderType(), sourcePayment.getC_Currency_ID(), sourcePayment.getC_ConversionType_ID());
 	  		if(sourcePayment.getC_POS_ID() > 0) {
@@ -81,17 +83,24 @@ public class DepositFromCash extends DepositFromCashAbstract {
 	  			cashWithdrawal.saveEx();
 	  		}
 	  		//	Add references
-	  		referencePayments.put(bankDeposit.getC_Payment_ID(), cashWithdrawal.getC_Payment_ID());
+	  		withdrawalLinkPayments.put(sourcePayment.getC_Payment_ID(), cashWithdrawal.getC_Payment_ID());
   	  	});
   	  	//	
   	  	StringBuffer msg = new StringBuffer();
   	  	payments.entrySet().forEach(entry -> {
   	  		MPayment payment = entry.getValue();
-  	  		Integer referenceId = referencePayments.get(payment.getC_Payment_ID());
+  	  		//	Link to Withdrawal
+  	  		Integer referenceId = withdrawalLinkPayments.get(payment.getC_Payment_ID());
   	  		if(Optional.ofNullable(referenceId).orElse(0).intValue() > 0) {
   	  			payment.setRef_Payment_ID(referenceId);
   	  			payment.saveEx();
   	  		}
+  	  		//	Link to deposit
+  	  		Integer relatedId = depositLinkPayments.get(payment.getC_Payment_ID());
+	  		if(Optional.ofNullable(relatedId).orElse(0).intValue() > 0) {
+	  			payment.setRelatedPayment_ID(relatedId);
+	  			payment.saveEx();
+	  		}
   	  		//	Complete
   	  		if(payment.getDocStatus().equals(MPayment.DOCSTATUS_Drafted)) {
 	  	  		payment.processIt(DocAction.ACTION_Complete);
