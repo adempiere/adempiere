@@ -11,12 +11,10 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *****************************************************************************/
-package test.functional.inventory;
+package org.compiere.process;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
-import org.compiere.process.DocAction;
 
 /**
  * @author Teo Sarca, www.arhipac.ro
@@ -25,8 +23,9 @@ public class MMDocument
 {
 	public final MMScenario scenario;
 	
-	public int csvLineNo = -1;
+	public int lineNo = -1;
 	public String DocBaseType;
+    public String DocSubBaseType = "";
 	public String DocumentNo;
 	public String BPValue = "junit-test-bp01";
 	public String LocatorValue;
@@ -34,14 +33,17 @@ public class MMDocument
 	public String ProductValue;
 	public BigDecimal Price;
 	public BigDecimal Qty;
+    public BigDecimal QtyOnHand;
 	public BigDecimal QtyOrdered;
 	public BigDecimal QtyReserved;
 	public Timestamp Date;
 	public String ASI;
+    public String ASI_To;
 	public String PODocumentNo;
 	public boolean IsReversal = false;
 	//
 	public DocAction document = null;
+
 	
 	public MMDocument(MMScenario scenario)
 	{
@@ -62,8 +64,7 @@ public class MMDocument
 	    String retValue = "";
 	    
 	    retValue = "MMDocument ( "
-//	        + super.toString() + TAB
-	        + "csvLineNo = " + this.csvLineNo + TAB
+	        + "csvLineNo = " + this.lineNo + TAB
 	        + "DocBaseType = " + this.DocBaseType + TAB
 	        + "DocumentNo = " + this.DocumentNo + TAB
 	        + "LocatorValue = " + this.LocatorValue + TAB
@@ -71,9 +72,11 @@ public class MMDocument
 	        + "ProductValue = " + this.ProductValue + TAB
 	        + "Price = " + this.Price + TAB
 	        + "Qty = " + this.Qty + TAB
+            + "QtyOnHand = " + this.QtyOnHand + TAB
 	        + "QtyOrdered = " + this.QtyOrdered + TAB
 	        + "QtyReserved = " + this.QtyReserved + TAB
 	        + "ASI = " + this.ASI + TAB
+	        + "ASI_TO = " + this.ASI_To + TAB
 	        + "Date = " + this.Date + TAB
 	        + "PODocumentNo = " + this.PODocumentNo + TAB
 	        + "IsReversal = " + this.IsReversal + TAB
