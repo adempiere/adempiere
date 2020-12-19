@@ -81,13 +81,11 @@ class IT_Inventory extends CommonGWSetup {
 
     static Stream<MMScenario> scenarioProvider() {
 
-        List<MMScenario> scenarios = new ArrayList<>();
-
-        scenarios.add(scenarioPO_NoASI(1));
-        scenarios.add(scenarioPOAndMR_NoASI(2));
-        scenarios.add(scenarioPO_MR_POSOrder_NOASI(3));
-
-        return scenarios.stream();
+        return Stream.of(
+                scenarioPO_NoASI(1),
+                scenarioPOAndMR_NoASI(2),
+                scenarioPO_MR_POSOrder_NOASI(3)
+            );
 
     }
 
