@@ -62,6 +62,19 @@ public class MProduct extends X_M_Product
 	 */
 	public static MProduct get (Properties ctx, int M_Product_ID)
 	{
+	    return get(ctx, M_Product_ID, null);
+	}
+
+   /**
+     *  Get MProduct from Cache
+     *  @param ctx context
+     *  @param M_Product_ID id
+     *  @param trxName
+     *  @return MProduct or null
+     */
+   public static MProduct get (Properties ctx, int M_Product_ID, String trxName)
+    {
+
 		if (M_Product_ID <= 0)
 		{
 			return null;
@@ -72,7 +85,7 @@ public class MProduct extends X_M_Product
 		{
 			return retValue;
 		}
-		retValue = new MProduct (ctx, M_Product_ID, null);
+		retValue = new MProduct (ctx, M_Product_ID, trxName);
 		if (retValue.get_ID () != 0)
 		{
 			s_cache.put (key, retValue);
@@ -871,7 +884,7 @@ public class MProduct extends X_M_Product
 	 * @return Material Management Policy
 	 */
 	public String getMMPolicy() {
-		MProductCategory pc = MProductCategory.get(getCtx(), getM_Product_Category_ID());
+		MProductCategory pc = MProductCategory.get(getCtx(), getM_Product_Category_ID(), get_TrxName());
 		String MMPolicy = pc.getMMPolicy();
 		if (MMPolicy == null || MMPolicy.length() == 0)
 			MMPolicy = MClient.get(getCtx()).getMMPolicy();

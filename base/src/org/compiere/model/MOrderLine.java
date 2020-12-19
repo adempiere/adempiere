@@ -334,7 +334,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	private MProductPricing getProductPricing (int M_PriceList_ID)
 	{
 		m_productPrice = new MProductPricing (getM_Product_ID(), 
-			getC_BPartner_ID(), getQtyOrdered(), m_IsSOTrx, null);
+			getC_BPartner_ID(), getQtyOrdered(), m_IsSOTrx, get_TrxName());
 		m_productPrice.setM_PriceList_ID(M_PriceList_ID);
 		m_productPrice.setPriceDate(getDateOrdered());
 		//
@@ -369,7 +369,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		//	Line Net Amt
 		BigDecimal lineNetAmount = null;
 		if(getM_Product_ID() != 0) {
-			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
+			MProduct product = MProduct.get(getCtx(), getM_Product_ID(), get_TrxName());
 			if(product.getC_UOM_ID() != getC_UOM_ID()
 					&& getPriceEntered() != null && !getPriceEntered().equals(Env.ZERO)
 					&& getQtyEntered() != null && !getQtyEntered().equals(Env.ZERO)) {
@@ -537,7 +537,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	public MProduct getProduct()
 	{
 		if (m_product == null && getM_Product_ID() != 0)
-			m_product =  MProduct.get (getCtx(), getM_Product_ID());
+			m_product =  MProduct.get (getCtx(), getM_Product_ID(), get_TrxName());
 		return m_product;
 	}	//	getProduct
 	
