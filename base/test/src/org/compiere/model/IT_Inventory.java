@@ -37,6 +37,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -45,6 +46,9 @@ import org.junit.jupiter.params.provider.MethodSource;
  * 
  * @author Teo Sarca, www.arhipac.ro
  */
+@Tag("Model")
+@Tag("Storage")
+@Tag("Inventory")
 class IT_Inventory extends CommonGWSetup {
 
     private BigDecimal qtyOnHand;
