@@ -84,8 +84,7 @@ class IT_Inventory extends CommonGWSetup {
         return Stream.of(
                 scenarioPO_NoASI(1),
                 scenarioPOAndMR_NoASI(2),
-                scenarioPO_MR_POSOrder_NOASI(3)
-            );
+                scenarioPO_MR_POSOrder_NOASI(3));
 
     }
 
