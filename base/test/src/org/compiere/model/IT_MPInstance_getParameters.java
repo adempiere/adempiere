@@ -1,46 +1,39 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2008 SC ARHIPAC SERVICE SRL. All Rights Reserved.            *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2020 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
-package test.functional;
+package org.compiere.model;
 
-import org.compiere.model.MPInstance;
-import org.compiere.model.MPInstancePara;
-import org.compiere.model.MPaySelection;
-import org.compiere.model.MPaySelectionLine;
-import org.compiere.util.Env;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import test.AdempiereTestCase;
+import org.adempiere.test.CommonGWSetup;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
-/**
- * @author Teo Sarca, www.arhipac.ro
- */
-public class MPInstanceTest extends AdempiereTestCase
-{
-	private MPInstance lines = null;
+@Tag("Model")
+@Tag("MPInstance")
+class IT_MPInstance_getParameters extends CommonGWSetup {
 
-	@Override
-	protected void setUp() throws Exception
-	{
-		super.setUp();
-		assertEquals("Client is not GardenWorld", 11, Env.getAD_Client_ID(getCtx()));
-	}
-	
-	public void testQuery() throws Exception
-	{
-		lines = new MPInstance(getCtx(), 1000000, getTrxName());
-		MPInstancePara[] params = lines.getParameters();
-		assertTrue("There should be params", params.length > 0);
+    private MPInstance lines = null;
 
-	}
+    @Test
+    void testQuery() {
+
+        lines = new MPInstance(getCtx(), 1000000, getTrxName());
+        MPInstancePara[] params = lines.getParameters();
+        assertTrue(params.length > 0, "There should be params");
+
+    }
 
 }
