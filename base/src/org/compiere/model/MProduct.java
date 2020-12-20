@@ -481,7 +481,7 @@ public class MProduct extends X_M_Product
 	public MAttributeSet getAttributeSet()
 	{
 		if (getM_AttributeSet_ID() != 0)
-			return MAttributeSet.get(getCtx(), getM_AttributeSet_ID());
+			return MAttributeSet.get(getCtx(), getM_AttributeSet_ID(), get_TrxName());
 		return null;
 	}	//	getAttributeSet
 	
@@ -493,7 +493,7 @@ public class MProduct extends X_M_Product
 	{
 		if (getM_AttributeSet_ID() == 0)
 			return false;
-		MAttributeSet mas = MAttributeSet.get(getCtx(), getM_AttributeSet_ID());
+		MAttributeSet mas = MAttributeSet.get(getCtx(), getM_AttributeSet_ID(), get_TrxName());
 		return mas.isInstanceAttribute();
 	}	//	isInstanceAttribute
 	
@@ -641,7 +641,7 @@ public class MProduct extends X_M_Product
 
 		if (getM_AttributeSet_ID() > 0 )
 		{
-			MAttributeSet attributeSet = MAttributeSet.get(getCtx(), getM_AttributeSet_ID());
+			MAttributeSet attributeSet = MAttributeSet.get(getCtx(), getM_AttributeSet_ID(), get_TrxName());
 			if (!attributeSet.isInstanceAttribute() && attributeSet.isMandatoryAlways() && getM_AttributeSetInstance_ID() == 0)
 				throw new AdempiereException("@M_AttributeSetInstance_ID@ @FillMandatory@ @M_AttributeSetInstance_ID@ : " + attributeSet.getName());
 
