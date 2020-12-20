@@ -36,7 +36,7 @@ class IT_MColor extends CommonGWSetup {
     @BeforeEach
     void localSetup() {
 
-        clr = new MColor(getCtx(), 0, get_TrxName());
+        clr = new MColor(getCtx(), 0, trxName);
 
     }
 
@@ -93,7 +93,7 @@ class IT_MColor extends CommonGWSetup {
         clr.saveEx();
         int id = clr.getAD_Color_ID();
 
-        MColor newClr = new MColor(ctx, id, get_TrxName());
+        MColor newClr = new MColor(ctx, id, trxName);
 
         assertEquals(id, newClr.getAD_Color_ID(), "Did not recover the id as expected");
         assertEquals("new", newClr.getName(), "Did not save the name");
