@@ -23,8 +23,11 @@ import org.adempiere.test.CommonGWData;
 import org.adempiere.test.CommonGWSetup;
 import org.compiere.util.Env;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+@Tag("Model")
+@Tag("MMatchInv")
 class IT_MMatchInv_getQueryTests extends CommonGWSetup {
 
     int invoiceId = 100;
