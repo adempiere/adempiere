@@ -60,3 +60,4 @@ migration/postgresql.properties
 /RemoteSystemsTempFiles/
 **/junit*.properties
 serverRoot/test/bin/
+org.adempiere.asset/test/test_results/

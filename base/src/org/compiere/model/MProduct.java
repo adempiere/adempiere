@@ -460,7 +460,7 @@ public class MProduct extends X_M_Product
 	 */
 	public int getA_Asset_Group_ID()
 	{
-		MProductCategory pc = MProductCategory.get(getCtx(), getM_Product_Category_ID());
+		MProductCategory pc = MProductCategory.get(getCtx(), getM_Product_Category_ID(), get_TrxName());
 		return pc.getA_Asset_Group_ID();
 	}	//	getA_Asset_Group_ID
 
@@ -470,7 +470,7 @@ public class MProduct extends X_M_Product
 	 */
 	public boolean isCreateAsset()
 	{
-		MProductCategory pc = MProductCategory.get(getCtx(), getM_Product_Category_ID());
+		MProductCategory pc = MProductCategory.get(getCtx(), getM_Product_Category_ID(), get_TrxName());
 		return pc.getA_Asset_Group_ID() != 0;
 	}	//	isCreated
 
