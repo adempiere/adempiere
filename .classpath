@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="base/src"/>
-	<classpathentry kind="src" output="base/test/bin" path="base/test/src">
+	<classpathentry kind="src" output="base/test/build" path="base/test/src">
 		<attributes>
 			<attribute name="test" value="true"/>
 		</attributes>
@@ -16,7 +16,7 @@
 	<classpathentry kind="src" path="extend/src"/>
 	<classpathentry kind="src" path="serverRoot/src/main/ejb"/>
 	<classpathentry kind="src" path="serverRoot/src/main/server"/>
-	<classpathentry kind="src" output="serverRoot/test/bin" path="serverRoot/src/test/server">
+	<classpathentry kind="src" output="serverRoot/test/build" path="serverRoot/src/test/server">
 		<attributes>
 			<attribute name="test" value="true"/>
 		</attributes>
@@ -24,6 +24,11 @@
 	<classpathentry kind="src" path="serverRoot/src/main/servlet"/>
 	<classpathentry kind="src" path="serverApps/src/main/servlet"/>
 	<classpathentry kind="src" path="zkwebui/WEB-INF/src"/>
+	<classpathentry kind="src" output="zkwebui/WEB-INF/test/build" path="zkwebui/WEB-INF/test/src">
+		<attributes>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry excluding="org/compiere/interfaces/" kind="src" path="JasperReports/src"/>
 	<classpathentry excluding="org/compiere/utils/DigestOfFile.java|org/compiere/interfaces/" kind="src" path="JasperReportsWebApp/src"/>
 	<classpathentry kind="src" path="tools/src"/>
@@ -37,10 +42,14 @@
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/base"/>
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/ui/swing"/>
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/ui/zk"/>
-	<classpathentry kind="src" path="org.eevolution.manufacturing/src/test/java/base"/>
+	<classpathentry kind="src" output="org.eevolution.manufacturing/test/build" path="org.eevolution.manufacturing/src/test/java/base">
+		<attributes>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="org.eevolution.warehouse/src/main/java/base"/>
 	<classpathentry kind="src" path="org.adempiere.asset/src/main/java/base"/>
-	<classpathentry kind="src" output="org.adempiere.asset/test/bin" path="org.adempiere.asset/src/test/java/base">
+	<classpathentry kind="src" output="org.adempiere.asset/test/build" path="org.adempiere.asset/src/test/java/base">
 		<attributes>
 			<attribute name="test" value="true"/>
 		</attributes>
@@ -49,7 +58,7 @@
 	<classpathentry kind="src" path="com.kkalice.adempiere.migrate/src"/>
 	<classpathentry kind="src" path="org.adempiere.test/src/main/java"/>
 	<classpathentry kind="src" path="org.adempiere.test/src/main/scala"/>
-	<classpathentry kind="src" output="org.adempiere.test/bin" path="org.adempiere.test/src/test/java">
+	<classpathentry kind="src" output="org.adempiere.asset/test/build" path="org.adempiere.test/src/test/java">
 		<attributes>
 			<attribute name="test" value="true"/>
 		</attributes>
