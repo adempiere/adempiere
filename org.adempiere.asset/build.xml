@@ -16,8 +16,10 @@
   <property name="dist"  location="dist"/>
   
   <property name="test.src" value="src/test/java/base"/>
-  <property name="test.build.dir" value="test/bin"/>
+  <property name="test.build.dir" value="test/build"/>
   <property name="test.results.dir" value="test/test_results"/>
+  <property name="base.test.build.dir" value="../base/test/build"/>
+  <property name="base.build.dir" value="../base/build"/>
 
   <path id="lib.class.path">
      <fileset dir="${adempiere.source}/lib">
@@ -68,6 +70,8 @@
     <!-- Delete the ${build} and ${dist} directory trees -->
     <delete dir="${build}"/>
     <delete dir="${dist}"/>
+    <delete dir="${env.ADEMPIERE_HOME}/packages/FixedAsset/lib"/>
+    <delete file="${adempiere.source}/packages/FixedAssetManagement.jar"/>
   </target>
   
   <!-- =========================================== -->
@@ -75,11 +79,18 @@
   <!-- =========================================== -->
 
   <path id="test.class.path">
+    <fileset dir="${adempiere.source}/lib">
+       <include name="*.jar"/>
+    </fileset>
+     <pathelement path="${adempiere.source}/base/Base.jar"/>
+     <fileset dir="${adempiere.source}/packages">
+      <include name="*.jar"/>
+   </fileset>
     <pathelement path="${build}"/>
     <pathelement location="${test.build.dir}"/>
-    <pathelement location="${test.results.dir}"/>
-    <pathelement path="${lib.class.path}"/> 
+    <pathelement location="${base.test.build.dir}"/>
     <fileset dir="../tools/lib/junit" includes="**/*.jar"/>
+    <fileset dir="../tools/lib/testing" includes="**/*.jar"/>
   </path>
     
   <target name="check.tests">
@@ -129,10 +140,10 @@
   </target>
     
   <target name="unit-tests" depends="compile.test, alertIfUnitTestSkipped" if="unitTests.run">
-    <mkdir dir="../base/${test.results.dir}"/>       
+    <mkdir dir="../org.adempiere.asset/${test.results.dir}"/>       
     <junitlauncher 
         printsummary="false" 
-        haltonfailure="no" 
+        haltonfailure="yes" 
         failureproperty="test.failed"
         excludeTags="IntegrationTest">
       <classpath refid="test.class.path"/>
@@ -149,7 +160,7 @@
     
   <target name="integration-tests" depends="unit-tests, alertIfIntegrationTestSkipped" 
         if="integrationTests.run">
-    <mkdir dir="../base/${test.results.dir}"/>       
+    <mkdir dir="../org.adempiere.asset/${test.results.dir}"/>       
     <junitlauncher 
         printsummary="false" 
         haltonfailure="yes" 
@@ -159,6 +170,7 @@
       <testclasses outputdir="${adempiere.base}/org.adempiere.asset/${test.results.dir}">
         <fileset dir="${test.build.dir}"/>
         <listener type="legacy-xml" sendSysErr="true" sendSysOut="true"/>
+        <listener type="legacy-brief" sendSysErr="true" sendSysOut="true"/>
         <listener classname="org.adempiere.test.AdempiereTestExecutionListener"
             sendSysErr="true" sendSysOut="true"/>
         <fork/>
