@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 @Tag("IntegrationTest")
-class MRoleTest extends CommonGWSetup
+class IT_MRole extends CommonGWSetup
 {
 
 	private MRole m_role = null;

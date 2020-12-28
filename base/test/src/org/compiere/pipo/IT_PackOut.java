@@ -1,85 +1,129 @@
-//PackOutTest.java
-package test.functional;
+/******************************************************************************
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2020 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
+ *****************************************************************************/
+package org.compiere.pipo;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.adempiere.pipo.IDFinder;
-import org.adempiere.pipo.PackInHandler;
 import org.adempiere.pipo.PackOut;
-import org.compiere.model.MLocation;
+import org.adempiere.test.CommonGWSetup;
+import org.compiere.model.MPInstance;
 import org.compiere.model.MPackageExp;
+import org.compiere.model.MProcess;
 import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.process.ProcessInfo;
-import org.compiere.util.Trx;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
-import test.AdempiereTestCase;
+@Tag("PIPO")
+@Tag("PackIn")
+@Tag("PackOut")
+class IT_PackOut extends CommonGWSetup {
 
-public class PackOutTest extends AdempiereTestCase {
-	
-	// Test: Specific variables
-	private MLocation location = null;
-	
+    @Test
+    void testPackOut() {
 
-	public void testPackOut() {
-		PackOut m_PackOut = new PackOut();
-		PackInHandler m_PackInHandler = new PackInHandler();
-		Trx m_trx = Trx.get(getTrxName(), true);
-		int m_ad_process_id = IDFinder.get_IDWithColumn("ad_process", "Name", "PackOut", getAD_Client_ID(), getTrxName());
-		int m_ad_table_id = IDFinder.get_IDWithColumn("ad_table", "Name", "AD_Package_Exp_ID", getAD_Client_ID(), getTrxName());
+        int processId = findProcessID();
+        int tableId = findTableId();
 
-		//Create 2Pack Export Package
-		MPackageExp m_MPackageExp = new MPackageExp(getCtx(), 0, getTrxName());
-		m_MPackageExp.setName("testSqlStatement2Pack"); 
-		m_MPackageExp.setIsActive(true); 
-		m_MPackageExp.setDescription("Test Output Package"); 
-		m_MPackageExp.setEMail("wgheath@gmail.com"); 
-		m_MPackageExp.setUserName("wgheath@gmail.com"); 
-		m_MPackageExp.setFile_Directory("packages/"); 
-		m_MPackageExp.setInstructions("use 2pack to import this package"); 
-		m_MPackageExp.setReleaseNo( X_AD_Package_Exp_Detail.RELEASENO_NoSpecificRelease); 
-		m_MPackageExp.setVersion("1.0"); 
-		m_MPackageExp.setPK_Version("1.0"); 
+        MPackageExp packageExp = create2PackPackage();
+        
+        ProcessInfo processInfo = new ProcessInfo("PackOut", processId,
+                tableId, packageExp.get_ID());
+        
+        MPInstance instance = createProcessInstance(processId, packageExp);
+        processInfo.setAD_PInstance_ID(instance.getAD_PInstance_ID());
 
-		boolean saveResult = m_MPackageExp.save();
-		assertTrue("MPackageExp.save()", saveResult);
+        PackOut packOut = new PackOut();
+        packOut.startProcess(getCtx(), processInfo, trx);
+        
+        instance.load(getTrxName());
+        
+        assertFalse(instance.isProcessing());
+        assertFalse(processInfo.isError(), "PackOut process reported error");
 
- 		X_AD_Package_Exp_Detail m_PackDetail =new X_AD_Package_Exp_Detail(getCtx(), 0, getTrxName());
-		m_PackDetail.setAD_Org_ID(m_MPackageExp.getAD_Org_ID());
-		m_PackDetail.setAD_Package_Exp_ID(m_MPackageExp.get_ID());                                        
-		m_MPackageExp.setIsActive(true); 
-		m_PackDetail.setType(X_AD_Package_Exp_Detail.TYPE_SQLStatement);
-		m_PackDetail.setDBType("ALL");
-		m_PackDetail.setSQLStatement("select * from ad_table");
-		m_PackDetail.setDescription("2pack test sql statement");
-		/*m_PackDetail.setFileName(rs.getString("FILENAME"));
-		m_PackDetail.setAD_Client_ID(m_MPackageExp.getAD_Client_ID());
-		m_PackDetail.setDescription(rs.getString("DESCRIPTION"));
-		m_PackDetail.setTarget_Directory(rs.getString("TARGET_DIRECTORY"));
-		m_PackDetail.setFile_Directory(rs.getString("FILE_DIRECTORY"));
-		m_PackDetail.setDestination_Directory(rs.getString("DESTINATION_DIRECTORY"));
-		m_PackDetail.setAD_Workflow_ID(rs.getInt("AD_WORKFLOW_ID"));
-		m_PackDetail.setAD_Window_ID(rs.getInt("AD_WINDOW_ID"));
-		m_PackDetail.setAD_Role_ID(rs.getInt("AD_ROLE_ID"));
-		m_PackDetail.setAD_Process_ID(rs.getInt("AD_PROCESS_ID"));
-		m_PackDetail.setAD_Menu_ID(rs.getInt("AD_MENU_ID"));
-		m_PackDetail.setAD_ImpFormat_ID(rs.getInt("AD_IMPFORMAT_ID"));
-		m_PackDetail.setAD_Workbench_ID(rs.getInt("AD_WORKBENCH_ID"));
-		m_PackDetail.setAD_Table_ID(rs.getInt("AD_TABLE_ID"));
-		m_PackDetail.setAD_Form_ID(rs.getInt("AD_FORM_ID"));
-		m_PackDetail.setAD_ReportView_ID(rs.getInt("AD_REPORTVIEW_ID"));
-		*/
-		m_PackDetail.setLine(10);
-		saveResult = m_PackDetail.save();
-		assertTrue("X_AD_Package_Exp_Detail.save()", saveResult);		
+    }
 
-		int m_ad_record_id = IDFinder.get_IDWithColumn("ad_package_exp", "Name", "test2packJunit", getAD_Client_ID(), getTrxName());
+    private MPInstance createProcessInstance(int processId,
+            MPackageExp packageExp) {
 
-		ProcessInfo m_ProcessInfo =  new ProcessInfo("PackOut", m_ad_process_id, m_ad_table_id, m_MPackageExp.get_ID());
-		m_PackOut.startProcess(getCtx(), m_ProcessInfo, m_trx);
-		assertFalse("PackOut", m_ProcessInfo.isError());
-		
-		try {
-			commit();
-		} catch (Exception e) {
-			fail(e.getLocalizedMessage());
-		}
-	}
+        MProcess proc = new MProcess(getCtx(), processId, getTrxName());
+        MPInstance instance = new MPInstance(proc, packageExp.get_ID());
+        instance.saveEx();
+        return instance;
+
+    }
+
+    private MPackageExp create2PackPackage() {
+
+        MPackageExp packageExp = createExportPackageHeader();
+        createPackDetail(packageExp);
+        return packageExp;
+
+    }
+
+    private int findTableId() {
+
+        int tableId = IDFinder.get_IDWithColumn("ad_table", "Name",
+                "AD_Package_Exp_ID", AD_CLIENT_ID, getTrxName());
+        return tableId;
+
+    }
+
+    private int findProcessID() {
+
+        int processId = IDFinder.get_IDWithColumn("ad_process", "Name",
+                "PackOut", AD_CLIENT_ID, getTrxName());
+        return processId;
+
+    }
+
+    private MPackageExp createExportPackageHeader() {
+
+        MPackageExp packageExp = new MPackageExp(getCtx(), 0, getTrxName());
+        packageExp.setName("testSqlStatement2Pack");
+        packageExp.setIsActive(true);
+        packageExp.setDescription("Test Output Package");
+        packageExp.setEMail("wgheath@gmail.com");
+        packageExp.setUserName("wgheath@gmail.com");
+        packageExp.setFile_Directory("packages/");
+        packageExp.setInstructions("use 2pack to import this package");
+        packageExp.setReleaseNo(
+                X_AD_Package_Exp_Detail.RELEASENO_NoSpecificRelease);
+        packageExp.setVersion("1.0");
+        packageExp.setPK_Version("1.0");
+        packageExp.save();
+        return packageExp;
+
+    }
+
+    private void createPackDetail(MPackageExp packageExp) {
+
+        X_AD_Package_Exp_Detail packDetail =
+                new X_AD_Package_Exp_Detail(getCtx(), 0, getTrxName());
+        packDetail.setAD_Org_ID(packageExp.getAD_Org_ID());
+        packDetail.setAD_Package_Exp_ID(packageExp.get_ID());
+        packageExp.setIsActive(true);
+        packDetail.setType(X_AD_Package_Exp_Detail.TYPE_SQLStatement);
+        packDetail.setDBType("ALL");
+        packDetail.setSQLStatement("select * from ad_table");
+        packDetail.setDescription("2pack test sql statement");
+        packDetail.setLine(10);
+        packDetail.save();
+
+    }
+
 }

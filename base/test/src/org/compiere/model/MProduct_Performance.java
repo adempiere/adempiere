@@ -1,155 +1,158 @@
-package test.performance;
+package org.compiere.model;
 
-import java.io.FileInputStream;
+import static org.adempiere.test.TestUtilities.randomString;
+
+import java.sql.Timestamp;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import junit.framework.TestCase;
-
-import org.compiere.model.MProduct;
+import org.adempiere.test.CommonGWData;
+import org.compiere.Adempiere;
 import org.compiere.util.CLogMgt;
-import org.compiere.util.DB;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
 import org.compiere.util.Ini;
+import org.compiere.util.Login;
+import org.compiere.util.Trx;
 
-public class SingleMProductTest extends TestCase {
-	
-	// Test: General
-	private Properties testProperties = null;
+public class MProduct_Performance {
 
-	private Properties m_Ctx = null;
-	
-	private String fileName_DefaultValue = "J:/Trifon-CD-0.3/workspace/adempiere-trunk/adempiere/Adempiere/Adempiere.properties";
-	private String fileName_Key = "AdempiereProperties";
-	private String fileName_Value = "";
-	
-	private String isClient_DefaultValue = "Y";
-	private String isClient_Key = "isClient";
-	private boolean isClient_Value = true;
+    private static Properties ctx = null;
+    private Trx trx = null;
+    private MProduct product = null;
+    private String testNumber = "all";
+    private static int C_UOM_ID;
+    private static CLogger log = CLogger.getCLogger(MOrder_Performance.class);
+    private NumberFormat formatter = new DecimalFormat("00000");
 
-	private String AD_User_ID_DefaultValue = "0";
-	private String AD_User_ID_Key = "AD_User_ID";
-	private int AD_User_ID_Value = 0;
+    public static void main(String[] args) {
 
-	// Test: Specific variables
-	private MProduct product = null;
-	
+        int numberOfTests = 20;
+        boolean singleTransaction = false;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		
-		testProperties = new Properties();
-		testProperties.load(new FileInputStream("test.properties"));
-		fileName_Value = testProperties.getProperty(fileName_Key, fileName_DefaultValue);
-		isClient_Value = "Y".equals( testProperties.getProperty(isClient_Key, isClient_DefaultValue) );
-		AD_User_ID_Value = Integer.parseInt(testProperties.getProperty(AD_User_ID_Key, AD_User_ID_DefaultValue) );
-		
-		m_Ctx = new Properties();
-		m_Ctx.setProperty("#AD_User_ID", new Integer(AD_User_ID_Value).toString());
-		System.out.println("m_Ctx: " + m_Ctx);
-		
-		if (fileName_Value.length() < 1) {
-		    assertEquals("Please specify path to Adempiere.properties file!", true, false);
-		}
-		
-		System.setProperty("PropertyFile", fileName_Value);
-		Ini.setClient (isClient_Value);
-		org.compiere.Adempiere.startup(isClient_Value);
+        setupEnvironment();
+        MProduct_Performance test = new MProduct_Performance();
+        test.testMProductCreation(numberOfTests, singleTransaction);
 
-		// Force connection if there are enough parameters. Else we work with Adempiere.properties
-//		if (args.length >= 6) {
-//		    CConnection cc = CConnection.get(Database.DB_ORACLE, args[1], Integer.valueOf(args[2]).intValue(), args[3], args[4], args[5]);
-//		    System.out.println("DB UserID:"+cc.getDbUid());
-//		    DB.setDBTarget(cc);
-//		}
-	
-		//CLogMgt.setLevel(Level.ALL);
-		CLogMgt.setLevel(Level.OFF);
-/*		Available levels: 
-		Level.OFF, Level.SEVERE, Level.WARNING, Level.INFO,
-		Level.CONFIG, Level.FINE, Level.FINER, Level.FINEST, Level.ALL
-*/
-	}
-	
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-		
-		testProperties = null;
-		m_Ctx = null;
-	}
+    }
 
-	public void testMProductCreation() {
-		boolean singleCommit = true;
-		String trxName = "test";
-		m_Ctx.setProperty("#AD_Client_ID", Integer.valueOf(11).toString());
-		
-		// Start time - 20:16
-		long startTime = System.currentTimeMillis();
-		System.out.println("Start Time(ms) = " + startTime);
-		System.out.println("Start Time     = " + new java.util.Date(startTime));
-		int startCount = 5;
-		int count = 1;
-		
-		for (int idx= startCount; idx < (startCount + count); idx++) {
-			//product = MProduct.get(m_Ctx, int M_Product_ID)
-			product = new MProduct(m_Ctx, 0, trxName);
-			//
-			product.setAD_Org_ID(0);
-			product.setValue("Test-Single-Product-" + idx);
-			product.setName("Test-Single-Product-" + idx);
-			
-			// M_Product_Category
-			int M_Product_Category_ID = 105; // TODO - Trifon
-			product.setM_Product_Category_ID(M_Product_Category_ID);
-			// C_TaxCategory
-			int C_TaxCategory_ID = 107; // TODO - Trifon
-			product.setC_TaxCategory_ID(C_TaxCategory_ID);
-			// C_UOM
-			int C_UOM_ID = 100; // TODO - Trifon
-			product.setC_UOM_ID(C_UOM_ID);
-			// C_UOM
-			String ProductType = "I"; // TODO - Trifon
-			product.setProductType(ProductType);
-			
-			boolean saveResult = product.save();
-			if (!saveResult) {
-				assertEquals("Product not updated!", true, saveResult);
-			} else {
-				//System.out.println("product.getM_Product_ID: " + product.getM_Product_ID());
-				if (singleCommit) {
-					try {
-						DB.commit(true, trxName);
-					} catch (Exception e) {
-						assertEquals("Product not updated!", true, false);
-					}
-				}	
-			} 
-		} // end loop
-		
-		if (!singleCommit) {
-			try {
-				DB.commit(true, trxName);
-			} catch (Exception e) {
-				assertEquals("Product not updated!", true, false);
-			}
-		}
-		long endTime = System.currentTimeMillis();
-		System.out.println("End Time(ms) = " + endTime);
-		System.out.println("End Time     = " + new java.util.Date(endTime));
-		long time = endTime - startTime;
-		System.out.println("Duration(ms) = " + time);
-		
-		time = time / 1000;
-		System.out.println("Duration(sec.) = " + time);
-		if (time > 0) {
-			System.out.println("Duration(min.) = " + time / 60);	
-		}
-		
-		System.out.println(  
-			  "Count = " + count 
-			+ "; Time(seconds) = " + time + "; Products/Second = " + ((float)count/time) + "; ");
-		
-		assertTrue(this.getClass().getName(), true);
-	}
+    private static void setupEnvironment() {
+
+        Adempiere.startup(true);
+
+        CLogMgt.setLoggerLevel(Level.INFO, null);
+        CLogMgt.setLevel(Level.INFO);
+
+        Ini.setProperty(Ini.P_UID, "SuperUser");
+        Ini.setProperty(Ini.P_PWD, "System");
+        Ini.setProperty(Ini.P_ROLE, "GardenWorld Admin");
+        Ini.setProperty(Ini.P_CLIENT, "GardenWorld");
+        Ini.setProperty(Ini.P_ORG, "HQ");
+        Ini.setProperty(Ini.P_WAREHOUSE, "HQ Warehouse");
+        Ini.setProperty(Ini.P_LANGUAGE, "English");
+        Login login = new Login(Env.getCtx());
+        if (!login.batchLogin(null))
+            System.exit(1);
+
+        ctx = Env.getCtx();
+        C_UOM_ID = MUOM.getDefault_UOM_ID(ctx);
+
+        CLogMgt.setLoggerLevel(Level.WARNING, null);
+        CLogMgt.setLevel(Level.WARNING);
+
+    }
+
+    private void testMProductCreation(int numberOfTests,
+            boolean oneTrxPerTest) {
+
+        String randomString = randomString(4);
+
+        long startTime = reportStart(oneTrxPerTest);
+        if (!oneTrxPerTest)
+            createAndStartTransaction();
+
+        for (int idx = 1; idx <= numberOfTests; idx++)
+            createSingleProductTest(idx, randomString, oneTrxPerTest);
+
+        if (!oneTrxPerTest)
+            commitAndCloseTransaction();
+
+        reportResults(startTime, numberOfTests);
+
+    }
+
+    private long reportStart(boolean oneTrxPerTest) {
+
+        long startTime = System.currentTimeMillis();
+        log.warning("Start Time = " + new Timestamp(startTime));
+        log.warning("One Transaction Per Test: " + oneTrxPerTest);
+        log.warning("Running ...");
+        return startTime;
+
+    }
+
+    private void reportResults(long startTime, int count) {
+    
+        long duration = System.currentTimeMillis() - startTime;
+        log.warning("... Finished");
+        log.warning("Number of products=" + count
+                + ". Total duration " + duration + "ms. Time per product "
+                + ((float) duration / count + ".")
+                + "ms");
+    
+    }
+
+    private void createSingleProductTest(int index, String uniqueName,
+            boolean oneTrxPerTest) {
+
+        if (oneTrxPerTest) {
+            createAndStartTransaction();
+            testNumber = String.valueOf(index);
+        }
+
+        String formattedIdx = formatter.format(index);
+        final String valueOrName =
+                "Test-Product-" + uniqueName + formattedIdx;
+
+        if (!createProduct(valueOrName))
+            log.warning("Product not saved!");
+
+        if (oneTrxPerTest)
+            commitAndCloseTransaction();
+
+    }
+
+    private boolean createProduct(final String valueOrName) {
+
+        product = new MProduct(ctx, 0, trx.getTrxName());
+        product.setValue(valueOrName);
+        product.setName(valueOrName);
+        product.setAD_Org_ID(0);
+        product.setM_Product_Category_ID(
+                CommonGWData.PRODUCT_CATEGORY_STANDARD_ID);
+        product.setC_TaxCategory_ID(CommonGWData.TAX_CATEGORY_STANDARD_ID);
+        product.setProductType(MProduct.PRODUCTTYPE_Item);
+        product.setC_UOM_ID(C_UOM_ID);
+        boolean saveResult = product.save();
+        return saveResult;
+
+    }
+
+    private void commitAndCloseTransaction() {
+
+        trx.commit();
+        trx.close();
+        trx = null;
+
+    }
+
+    private void createAndStartTransaction() {
+
+        trx = Trx.get(Trx.createTrxName("Test_" + testNumber), true);
+        trx.start();
+
+    }
+
 }

@@ -24,6 +24,7 @@ import java.sql.Savepoint;
 import java.sql.Timestamp;
 import java.util.Properties;
 
+import org.compiere.model.MUOM;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.TimeUtil;
@@ -43,12 +44,14 @@ public abstract class CommonGWSetup extends CommonIntegrationTestUtilities
 	protected static final boolean IS_CLIENT = CommonGWData.IS_CLIENT;
 	protected static final int SEEDFARM_ID = CommonGWData.SEEDFARM_ID;
 	protected static final int SEEDFARM_LOCATION_ID = CommonGWData.SEEDFARM_LOCATION_ID;
+	protected static final int TAX_CATEGORY_STANDARD_ID = CommonGWData.TAX_CATEGORY_STANDARD_ID;
 
 	protected static String trxName = null;
 	protected static Trx trx = null;
 	protected static Savepoint mainSavepoint = null;
 	protected Savepoint testSavepoint = null;
 	protected static Timestamp today = null;
+    protected static int DEFAULT_UOM_ID;
 	
 	@BeforeAll
 	public static void setUpBeforeClass() {
@@ -73,6 +76,9 @@ public abstract class CommonGWSetup extends CommonIntegrationTestUtilities
 		} catch (SQLException e) {
 			fail(e.getMessage());
 		}
+
+		DEFAULT_UOM_ID = MUOM.getDefault_UOM_ID(ctx);
+
 
 	}
 
@@ -124,5 +130,16 @@ public abstract class CommonGWSetup extends CommonIntegrationTestUtilities
 		}
 	
 	}
+	
+	public String get_TrxName() {
+	    return trxName;
+	}
 
+    public String getTrxName() {
+        return trxName;
+    }
+
+	public Properties getCtx() {
+	    return ctx;
+	}
 }

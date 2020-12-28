@@ -17,30 +17,36 @@ package org.adempiere.test;
 
 public class CommonGWData {
 
-	private CommonGWData () {}
-	
-	public static final int AD_USER_ID = 100;
-	public static final int AD_CLIENT_ID = 11;
-	public static final int AD_ORG_ID = 11;
-	public static final boolean IS_CLIENT = true;
+    private CommonGWData() {
 
-	public static final int SEEDFARM_ID = 120; // GW Seed Farm Business Partner
-	public static final int SEEDFARM_LOCATION_ID = 114; // GW SeedFarm SmallVillage
+    }
 
-	public static final int HQ_WAREHOUSE_ID = 103;
-	public static final int FURNITURE_WAREHOUSE_ID = 50001;
-	public static final int PRODUCT_CATEGORY_STANDARD_ID = 105; 
-	public static final int TAX_CATEGORY_STANDARD_ID = 107;
-	
-	public static final int SUPPLIER_PRICELIST_ID = 103;
-	
-	public static final int ADMIN_USER_ID = 101; 
-	
-	public static final int PATIOSET_PRODUCT_ID = 145;
-	public static final int PATIOCHAIR_BOM_PRODUCT_ID = 133;
-	public static final int PATIOSET_PP_PRODUCT_BOM_ID = 145;
-	public static final int PATIOSET_WORKFLOW_ID = 50018;
-	
-	public static final int FURNITURE_PLANT_RESOURCE_ID = 50005;
-	
+    public static final int AD_USER_ID = 100;
+    public static final int AD_CLIENT_ID = 11;
+    public static final int AD_ORG_ID = 11;
+    public static final boolean IS_CLIENT = true;
+
+    public static final int MONEYBANK_BankAccount_ID = 100;
+
+    public static final int SEEDFARM_ID = 120; // GW Seed Farm Business Partner
+    public static final int SEEDFARM_LOCATION_ID = 114; // GW SeedFarm
+                                                        // SmallVillage
+
+    public static final int HQ_WAREHOUSE_ID = 103;
+    public static final int FURNITURE_WAREHOUSE_ID = 50001;
+    public static final int PRODUCT_CATEGORY_STANDARD_ID = 105;
+    public static final int TAX_CATEGORY_STANDARD_ID = 107;
+
+    public static final int SUPPLIER_PRICELIST_ID = 103;
+
+    public static final int ADMIN_USER_ID = 101;
+
+    public static final int AZALEA_BUSH_PRODUCT_ID = 128;
+    public static final int PATIOSET_PRODUCT_ID = 145;
+    public static final int PATIOCHAIR_BOM_PRODUCT_ID = 133;
+    public static final int PATIOSET_PP_PRODUCT_BOM_ID = 145;
+    public static final int PATIOSET_WORKFLOW_ID = 50018;
+
+    public static final int FURNITURE_PLANT_RESOURCE_ID = 50005;
+
 }

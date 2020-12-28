@@ -26,6 +26,7 @@ import java.util.stream.Stream;
 
 import org.adempiere.test.CommonUnitTestSetup;
 import org.compiere.util.CLogger;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -33,6 +34,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+@Tag("Model")
+@Tag("MInvoice")
 @ExtendWith(MockitoExtension.class)
 class Test_MInvoice_TestAllocation extends CommonUnitTestSetup {
 
