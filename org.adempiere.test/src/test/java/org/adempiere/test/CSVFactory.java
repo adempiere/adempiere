@@ -11,7 +11,7 @@
  * with this program; if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  *****************************************************************************/
-package test.functional.inventory;
+package org.adempiere.test;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,6 +27,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.compiere.process.MMDocument;
+import org.compiere.process.MMScenario;
 import org.supercsv.io.CsvListReader;
 import org.supercsv.io.ICsvListReader;
 import org.supercsv.prefs.CsvPreference;
@@ -91,7 +93,7 @@ public class CSVFactory
 	private void readDocument(MMScenario scenario, String[] header, List<String> line)
 	{
 		MMDocument doc = new MMDocument(scenario);
-		doc.csvLineNo = reader.getLineNumber();
+		doc.lineNo = reader.getLineNumber();
 		doc.DocBaseType = getValue("DocType", String.class, header, line);
 		doc.DocumentNo = getValue("DocumentNo", String.class, header, line);
 		doc.LocatorValue = getValue("LocatorValue", String.class, header, line);
