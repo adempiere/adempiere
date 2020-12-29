@@ -244,7 +244,7 @@ public class TimeUtil
 		//	On same day
 		if (calStart.get(Calendar.YEAR) == calEnd.get(Calendar.YEAR)
 			&& calStart.get(Calendar.MONTH) == calEnd.get(Calendar.MONTH)
-			&& calStart.get(Calendar.DAY_OF_MONTH) == calEnd.get(Calendar.DAY_OF_YEAR))
+			&& calStart.get(Calendar.DAY_OF_MONTH) == calEnd.get(Calendar.DAY_OF_MONTH))
 		{
 			if ((!OnSaturday && dayStart == Calendar.SATURDAY)
 				|| (!OnSunday && dayStart == Calendar.SUNDAY)
