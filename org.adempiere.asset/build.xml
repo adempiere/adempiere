@@ -170,7 +170,6 @@
       <testclasses outputdir="${adempiere.base}/org.adempiere.asset/${test.results.dir}">
         <fileset dir="${test.build.dir}"/>
         <listener type="legacy-xml" sendSysErr="true" sendSysOut="true"/>
-        <listener type="legacy-brief" sendSysErr="true" sendSysOut="true"/>
         <listener classname="org.adempiere.test.AdempiereTestExecutionListener"
             sendSysErr="true" sendSysOut="true"/>
         <fork/>
