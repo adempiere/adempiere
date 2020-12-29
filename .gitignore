@@ -61,3 +61,6 @@ migration/postgresql.properties
 **/junit*.properties
 serverRoot/test/bin/
 org.adempiere.asset/test/test_results/
+org.eevolution.manufacturing/test/test_results/
+serverRoot/test/test_results/
+zkwebui/WEB-INF/test/test_results/
