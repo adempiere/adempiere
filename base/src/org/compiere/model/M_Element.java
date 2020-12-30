@@ -393,6 +393,7 @@ public class M_Element extends X_AD_Element
 			|| columnName.equals("IsReversal")
 			|| columnName.equals("DatePrinted")
 			|| columnName.equals("IsPrinted")
+			|| columnName.equals("IsOverUnderPayment")
 			|| (columnName.startsWith("Ref_") && columnName.endsWith("_ID"));
 	}
 	
