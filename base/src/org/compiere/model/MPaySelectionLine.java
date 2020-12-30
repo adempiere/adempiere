@@ -32,7 +32,6 @@ import org.compiere.util.Env;
 import org.eevolution.model.X_HR_Employee;
 import org.eevolution.model.X_HR_Movement;
 import org.eevolution.model.X_HR_Payroll;
-import org.eevolution.model.X_HR_Process;
 
 /**
  *	Payment Selection Line Model
@@ -199,13 +198,24 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 	}	//	setOrder
 	
 	/**
-	 * Set Payroll Movement Info
-	 * @param movementId
+	 * Based on movement
+	 * @param movement
 	 * @param sourceAmount
+	 * @param convertedAmount
 	 */
-	public void setHRMovement(int movementId, BigDecimal sourceAmount, BigDecimal convertedAmount) {
-		setHR_Movement_ID(movementId);
-		X_HR_Movement movement = new X_HR_Movement(getCtx(), movementId, get_TrxName());
+	public void setHRMovement(X_HR_Movement movement, BigDecimal sourceAmount, BigDecimal convertedAmount) {
+		Optional.ofNullable(movement.getHR_Process()).ifPresent(payrollProcess -> setHRMovement(movement, payrollProcess.getC_ConversionType_ID(), sourceAmount, convertedAmount));
+	}
+	
+	/**
+	 * Set Payroll Movement Info
+	 * @param movement
+	 * @param conversionTypeId
+	 * @param sourceAmount
+	 * @param convertedAmount
+	 */
+	public void setHRMovement(X_HR_Movement movement, int conversionTypeId, BigDecimal sourceAmount, BigDecimal convertedAmount) {
+		setHR_Movement_ID(movement.getHR_Movement_ID());
 		setC_BPartner_ID(movement.getC_BPartner_ID());
 		//	Set Payment Rule
 		X_HR_Employee employee = (X_HR_Employee) movement.getHR_Employee();
@@ -230,12 +240,11 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 			setPaymentRule(X_C_PaySelectionLine.PAYMENTRULE_Check);
 		}
 		//	Get Conversion Type
-		X_HR_Process process = new X_HR_Process(getCtx(), movement.getHR_Process_ID(), get_TrxName());
 		setIsSOTrx(false);
 		setAmtSource(sourceAmount);
 		setOpenAmt(Optional.ofNullable(convertedAmount).orElse(sourceAmount));
 		setPayAmt(Optional.ofNullable(convertedAmount).orElse(sourceAmount));
-		setC_ConversionType_ID(process.getC_ConversionType_ID());
+		setC_ConversionType_ID(conversionTypeId);
 		setDiscountAmt(Env.ZERO);
 		setDifferenceAmt(Env.ZERO);
 	}	//	setHRMovement
