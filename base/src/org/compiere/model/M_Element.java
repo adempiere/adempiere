@@ -376,7 +376,24 @@ public class M_Element extends X_AD_Element
 			|| columnName.equals("Processing")
 			|| columnName.equals("Related_ID")
 			|| columnName.equals("SeqNo")
-			|| columnName.equals("IsActive");
+			|| columnName.equals("IsActive")
+			|| columnName.equals("RelatedPayment_ID")
+			|| columnName.equals("RelatedProduct_ID")
+			|| columnName.equals("Ref_BPartner_ID")
+			|| columnName.equals("Ref_DefinitionPeriod_ID")
+			|| columnName.equals("Ref_InOut_ID")
+			|| columnName.equals("Ref_InOutLine_ID")
+			|| columnName.equals("Ref_Invoice_ID")
+			|| columnName.equals("Ref_InvoiceLine_ID")
+			|| columnName.equals("Ref_Order_ID")
+			|| columnName.equals("Ref_OrderLine_ID")
+			|| columnName.equals("Ref_Payment_ID")
+			|| columnName.equals("Ref_RMA_ID")
+			|| columnName.equals("Ref_RMALine_ID")
+			|| columnName.equals("IsReversal")
+			|| columnName.equals("DatePrinted")
+			|| columnName.equals("IsPrinted")
+			|| (columnName.startsWith("Ref_") && columnName.endsWith("_ID"));
 	}
 	
 	/**
