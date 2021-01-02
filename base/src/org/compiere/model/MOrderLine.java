@@ -757,6 +757,9 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		//	Product
 		if(inOutLineReference.getM_Product_ID() != 0) {
 			setM_Product_ID(inOutLineReference.getM_Product_ID());
+			if(inOutLineReference.getM_AttributeSetInstance_ID() > 0) {
+				setM_AttributeSetInstance_ID(inOutLineReference.getM_AttributeSetInstance_ID());
+			}
 		}
 		if(inOutLineReference.getC_UOM_ID() != 0) {
 			setC_UOM_ID(inOutLineReference.getC_UOM_ID());
@@ -789,11 +792,13 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		//	Set Price from Invoice / Order
 		if (invoiceLineReferenceId != 0) {
             MInvoiceLine invoiceLine = new MInvoiceLine(getCtx(), invoiceLineReferenceId, get_TrxName());
+            setPriceList(invoiceLine.getPriceList());
             setPriceEntered(invoiceLine.getPriceEntered());
             setPriceActual(invoiceLine.getPriceActual());
             setC_Tax_ID(invoiceLine.getC_Tax_ID());
         } else if (inOutLineReference.getC_OrderLine_ID() != 0) {
             MOrderLine orderLine = new MOrderLine (getCtx(), inOutLineReference.getC_OrderLine_ID(), get_TrxName());
+            setPriceList(orderLine.getPriceList());
             setPriceEntered(orderLine.getPriceEntered());
             setPriceActual(orderLine.getPriceActual());
             setC_Tax_ID(orderLine.getC_Tax_ID());
@@ -812,6 +817,9 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		//	Product
 		if(invoiceLineReference.getM_Product_ID() != 0) {
 			setM_Product_ID(invoiceLineReference.getM_Product_ID());
+			if(invoiceLineReference.getM_AttributeSetInstance_ID() > 0) {
+				setM_AttributeSetInstance_ID(invoiceLineReference.getM_AttributeSetInstance_ID());
+			}
 		}
 		if(invoiceLineReference.getC_UOM_ID() != 0) {
 			setC_UOM_ID(invoiceLineReference.getC_UOM_ID());
@@ -842,6 +850,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		}
 		setRef_InvoiceLine_ID(invoiceLineReference.getC_InvoiceLine_ID());
 		//	Set Price from Invoice / Order
+		setPriceList(invoiceLineReference.getPriceList());
 		setPriceEntered(invoiceLineReference.getPriceEntered());
         setPriceActual(invoiceLineReference.getPriceActual());
         setC_Tax_ID(invoiceLineReference.getC_Tax_ID());
