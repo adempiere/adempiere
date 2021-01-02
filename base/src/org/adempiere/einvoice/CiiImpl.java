@@ -10,7 +10,7 @@ import org.compiere.model.MInvoiceLine;
 import com.klst.einvoice.BusinessParty;
 import com.klst.einvoice.CoreInvoice;
 import com.klst.einvoice.CoreInvoiceLine;
-import com.klst.einvoice.CoreInvoiceVatBreakdown;
+import com.klst.einvoice.BG23_VatBreakdown;
 import com.klst.einvoice.CreditTransfer;
 import com.klst.einvoice.DirectDebit;
 import com.klst.einvoice.IContact;
@@ -23,7 +23,6 @@ import com.klst.einvoice.unece.uncefact.FinancialAccount;
 import com.klst.einvoice.unece.uncefact.IBANId;
 import com.klst.einvoice.unece.uncefact.TradeLineItem;
 import com.klst.einvoice.unece.uncefact.UnitPriceAmount;
-import com.klst.einvoice.unece.uncefact.VatBreakdown;
 import com.klst.marshaller.CiiTransformer;
 import com.klst.untdid.codelist.DocumentNameCode;
 import com.klst.untdid.codelist.PaymentMeansEnum;
@@ -85,13 +84,13 @@ public class CiiImpl extends AbstractEinvoice {
 	}
 
 	@Override
-	CoreInvoiceVatBreakdown createVatBreakdown(Amount taxableAmount, Amount taxAmount, TaxCategoryCode codeEnum, BigDecimal percent) {
+	BG23_VatBreakdown createVatBreakdown(Amount taxableAmount, Amount taxAmount, TaxCategoryCode codeEnum, BigDecimal percent) {
 		// https://github.com/klst-de/AD-e-invoice/issues/4 : CII : currencyID should not be present
-		return new VatBreakdown(new Amount(null, taxableAmount.getValue()), new Amount(null, taxAmount.getValue()), codeEnum, percent);
+		return invoice.createVATBreakDown(new Amount(null, taxableAmount.getValue()), new Amount(null, taxAmount.getValue()), codeEnum, percent);
 	}
 
 	@Override
-	void addVATBreakDown(CoreInvoiceVatBreakdown vatBreakdown) {
+	void addVATBreakDown(BG23_VatBreakdown vatBreakdown) {
 		invoice.addVATBreakDown(vatBreakdown);
 	}
 

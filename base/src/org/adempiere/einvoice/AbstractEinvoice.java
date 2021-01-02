@@ -28,8 +28,8 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.w3c.dom.Document;
 
+import com.klst.einvoice.BG23_VatBreakdown;
 import com.klst.einvoice.CoreInvoice;
-import com.klst.einvoice.CoreInvoiceVatBreakdown;
 import com.klst.einvoice.CreditTransfer;
 import com.klst.einvoice.DirectDebit;
 import com.klst.einvoice.IContact;
@@ -100,8 +100,8 @@ private static final Logger LOG = Logger.getLogger(AbstractEinvoice.class.getNam
 	abstract void setPaymentInstructions(PaymentMeansEnum code, String paymentMeansText, String remittanceInformation
 			, CreditTransfer creditTransfer, PaymentCard paymentCard, DirectDebit directDebit);
 	abstract void setPaymentTermsAndDate(String description, Timestamp ts);
-	abstract CoreInvoiceVatBreakdown createVatBreakdown(Amount taxableAmount, Amount taxAmount, TaxCategoryCode codeEnum, BigDecimal percent);
-	abstract void addVATBreakDown(CoreInvoiceVatBreakdown vatBreakdown);
+	abstract BG23_VatBreakdown createVatBreakdown(Amount taxableAmount, Amount taxAmount, TaxCategoryCode codeEnum, BigDecimal percent);
+	abstract void addVATBreakDown(BG23_VatBreakdown vatBreakdown);
 	abstract void mapLine(MInvoiceLine line);
 	// factory methods
 	/**
@@ -278,7 +278,7 @@ private static final Logger LOG = Logger.getLogger(AbstractEinvoice.class.getNam
 		List<MInvoiceTax> taxes = Arrays.asList(mInvoice.getTaxes(true));
 		taxes.forEach(mInvoiceTax -> {
 			I_C_Tax tax = mInvoiceTax.getC_Tax(); // mapping
-			CoreInvoiceVatBreakdown vatBreakdown = createVatBreakdown(
+			BG23_VatBreakdown vatBreakdown = createVatBreakdown(
 					  new Amount(mInvoice.getCurrencyISO(), mInvoiceTax.getTaxBaseAmt()) // taxableAmount
 					, new Amount(mInvoice.getCurrencyISO(), mInvoiceTax.getTaxAmt()) // taxAmount
 					, TaxCategoryCode.StandardRate, tax.getRate());

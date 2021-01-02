@@ -7,8 +7,8 @@ import java.util.logging.Logger;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 
+import com.klst.einvoice.BG23_VatBreakdown;
 import com.klst.einvoice.BusinessParty;
-import com.klst.einvoice.CoreInvoiceVatBreakdown;
 import com.klst.einvoice.CreditTransfer;
 import com.klst.einvoice.DirectDebit;
 import com.klst.einvoice.IContact;
@@ -18,7 +18,6 @@ import com.klst.einvoice.ubl.FinancialAccount;
 import com.klst.einvoice.ubl.GenericInvoice;
 import com.klst.einvoice.ubl.Party;
 import com.klst.einvoice.ubl.PaymentMandate;
-import com.klst.einvoice.ubl.VatBreakdown;
 import com.klst.einvoice.unece.uncefact.Amount;
 import com.klst.einvoice.unece.uncefact.BICId;
 import com.klst.einvoice.unece.uncefact.IBANId;
@@ -147,12 +146,12 @@ public class UblImpl extends AbstractEinvoice {
 	}
 
 	@Override
-	CoreInvoiceVatBreakdown createVatBreakdown(Amount taxableAmount, Amount taxAmount, TaxCategoryCode codeEnum, BigDecimal percent) {
-		return new VatBreakdown(taxableAmount, taxAmount, codeEnum, percent);
+	BG23_VatBreakdown createVatBreakdown(Amount taxableAmount, Amount taxAmount, TaxCategoryCode codeEnum, BigDecimal percent) {
+		return ublInvoice.createVATBreakDown(taxableAmount, taxAmount, codeEnum, percent);
 	}
 
 	@Override
-	void addVATBreakDown(CoreInvoiceVatBreakdown vatBreakdown) {
+	void addVATBreakDown(BG23_VatBreakdown vatBreakdown) {
 		ublInvoice.addVATBreakDown(vatBreakdown);
 	}
 }
