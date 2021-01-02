@@ -133,17 +133,17 @@ private static final Logger LOG = Logger.getLogger(AbstractEinvoice.class.getNam
 		String countryCode = mLocation.getCountry().getCountryCode();
 		String postalCode = mLocation.getPostal();
 		String city = mLocation.getCity();
-		String street = null;
+//		String street = null;
 		String a1 = mLocation.getAddress1();
 		String a2 = mLocation.getAddress2();
 		String a3 = mLocation.getAddress3();
-		String a4 = mLocation.getAddress4();
+//		String a4 = mLocation.getAddress4();
 		
 		PostalAddress address = addressFactory.createAddress(countryCode, postalCode, city);
 		if(a1!=null) address.setAddressLine1(a1);
 		if(a2!=null) address.setAddressLine2(a2);
 		if(a3!=null) address.setAddressLine3(a3);
-//		if(a4!=null) address.setAdditionalStreet(a4); // TODO AD 4 lines -> UBL/CII 3 lines ??????????????????
+//		if(a4!=null) address.setAdditionalStreet(a4); // TODO AD 4 lines -> UBL/CII 3 lines
 		return address;
 	}
 	
@@ -210,7 +210,7 @@ private static final Logger LOG = Logger.getLogger(AbstractEinvoice.class.getNam
 	// get AccountId of the seller/payee
 	MBankAccount getOrgBankAccount(int mAD_Org_ID ) {
 		MOrgInfo mOrgInfo = MOrgInfo.get(Env.getCtx(), mAD_Org_ID, get_TrxName());	
-		MBank mBank = new MBank(Env.getCtx(), mOrgInfo.getTransferBank_ID(), get_TrxName());
+//		MBank mBank = new MBank(Env.getCtx(), mOrgInfo.getTransferBank_ID(), get_TrxName());
 		final String sql = "SELECT MIN("+MBankAccount.COLUMNNAME_C_BankAccount_ID+")"
 				+" FROM "+MBankAccount.Table_Name
 				+" WHERE "+MBankAccount.COLUMNNAME_C_Bank_ID+"=?"
@@ -321,7 +321,7 @@ Für PaymentMeansEnum.Cheque gibt es keine kosit Beispiele
 		}
 
 		MPaymentTerm mPaymentTerm = new MPaymentTerm(Env.getCtx(), mInvoice.getC_PaymentTerm_ID(), get_TrxName());
-//		((Invoice)ublObject).addPaymentTerms("#SKONTO#TAGE=7#PROZENT=2.00#"); // de CIUS TODO
+//		((Invoice)ublObject).addPaymentTerms("#SKONTO#TAGE=7#PROZENT=2.00#"); // only de CIUS
 		setPaymentTermsAndDate(mPaymentTerm.getName(), (Timestamp)null); 
 	}
 

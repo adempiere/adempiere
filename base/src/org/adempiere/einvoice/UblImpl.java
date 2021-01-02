@@ -2,7 +2,6 @@ package org.adempiere.einvoice;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.logging.Logger;
 
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
@@ -29,7 +28,7 @@ import com.klst.untdid.codelist.TaxCategoryCode;
 
 public class UblImpl extends AbstractEinvoice {
 
-	private static final Logger LOG = Logger.getLogger(UblImpl.class.getName());
+//	private static final Logger LOG = Logger.getLogger(UblImpl.class.getName());
 
 	private UblImpl delegate;
 	GenericInvoice<?> ublInvoice;
@@ -97,7 +96,7 @@ public class UblImpl extends AbstractEinvoice {
 	// SEPA Überweisung	
 	@Override
 	CreditTransfer createCreditTransfer(IBANId iban, String accountName, BICId bic) {
-		return new FinancialAccount(iban, accountName, bic); // TODO static factory method
+		return new FinancialAccount(iban, accountName, bic);
 	}
 	// non SEPA
 	@Override

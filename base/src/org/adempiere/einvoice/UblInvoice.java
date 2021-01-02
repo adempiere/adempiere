@@ -1,7 +1,6 @@
 package org.adempiere.einvoice;
 
 import java.math.BigDecimal;
-import java.util.logging.Logger;
 
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
@@ -16,7 +15,7 @@ import com.klst.untdid.codelist.TaxCategoryCode;
 
 public class UblInvoice extends UblImpl {
 
-	private static final Logger LOG = Logger.getLogger(UblInvoice.class.getName());
+//	private static final Logger LOG = Logger.getLogger(UblInvoice.class.getName());
 
 	private Object ublObject;
 
