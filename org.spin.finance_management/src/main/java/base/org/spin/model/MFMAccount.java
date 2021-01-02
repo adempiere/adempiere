@@ -17,7 +17,9 @@
 
 package org.spin.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Properties;
 
@@ -52,21 +54,21 @@ public class MFMAccount extends X_FM_Account {
 		setAccountNo("#" + agreement.getDocumentNo());
 		int currencyId = MClient.get(agreement.getCtx()).getC_Currency_ID();
 		if(agreement.getFM_Product_ID() != 0) {
-			MFMProduct financialProduct = MFMProduct.getById(getCtx(), agreement.getFM_Product_ID());
-			if(financialProduct.get_ValueAsInt("C_Currency_ID") != 0) {
-				currencyId = financialProduct.get_ValueAsInt("C_Currency_ID");
+			MFMProduct financialProduct = MFMProduct.getById(getCtx(), agreement.getFM_Product_ID(), agreement.get_TrxName());
+			if(financialProduct.getC_Currency_ID() != 0) {
+				currencyId = financialProduct.getC_Currency_ID();
 			}
 			//	For Frequency
-			if(financialProduct.get_Value("PaymentFrequency") != null) {
-				set_ValueOfColumn("PaymentFrequency", financialProduct.get_Value("PaymentFrequency"));
+			if(financialProduct.getPaymentFrequency() != null) {
+				setPaymentFrequency(financialProduct.getPaymentFrequency());
 			}
 			//	Fees Quantity
-			if(financialProduct.get_ValueAsInt("FeesQty") > 0) {
-				set_ValueOfColumn("FeesQty", financialProduct.get_Value("FeesQty"));
+			if(financialProduct.get_ValueAsInt(COLUMNNAME_FeesQty) > 0) {
+				setFeesQty((BigDecimal) financialProduct.get_Value(COLUMNNAME_FeesQty));
 			}
 			//	Payment Date
-			if(financialProduct.get_Value("PayDate") != null) {
-				set_ValueOfColumn("PayDate", financialProduct.get_Value("PayDate"));
+			if(financialProduct.get_Value(COLUMNNAME_PayDate) != null) {
+				setPayDate((Timestamp) financialProduct.get_Value(COLUMNNAME_PayDate));
 			}
 		}
 		//	Set currency

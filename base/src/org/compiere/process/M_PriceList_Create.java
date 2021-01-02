@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.I_M_DiscountSchemaLine;
@@ -306,9 +307,50 @@ public class M_PriceList_Create extends M_PriceList_CreateAbstract {
 					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Classification_ID = ?)");
 					parameters.add(discountSchemaLine.getM_Product_Classification_ID());
 				}
+				//	For Product as Parameter
+				if(getProductId() > 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("M_Product_ID = ?");
+					parameters.add(getProductId());
+				}
+				//	for product category
+				if(getProductCategoryId() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Category_ID = ?)");
+					parameters.add(getProductCategoryId());
+				}
+				//	for product group
+				if(getProductGroupId() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Group_ID = ?)");
+					parameters.add(getProductGroupId());
+				}
+				//	for product class
+				if(getProductClassId() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Class_ID = ?)");
+					parameters.add(getProductClassId());
+				}
+				//	for product classification
+				if(getProductClassificationId() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Classification_ID = ?)");
+					parameters.add(getProductClassificationId());
+				}
 				//	Get from Product Purchasing
 				new Query(getCtx(), I_M_Product_PO.Table_Name, querywhereClause.toString(), get_TrxName())
 					.setParameters(parameters)
+					.setClient_ID()
 					.<MProductPO>list()
 					.forEach(productPurchasing -> {
 						//	Get conversion for Type
@@ -387,9 +429,50 @@ public class M_PriceList_Create extends M_PriceList_CreateAbstract {
 					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_ProductPrice.M_Product_ID AND p.M_Product_Classification_ID = ?)");
 					parameters.add(discountSchemaLine.getM_Product_Classification_ID());
 				}
+				//	For Product as Parameter
+				if(getProductId() > 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("M_Product_ID = ?");
+					parameters.add(getProductId());
+				}
+				//	for product category
+				if(getProductCategoryId() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Category_ID = ?)");
+					parameters.add(getProductCategoryId());
+				}
+				//	for product group
+				if(getProductGroupId() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Group_ID = ?)");
+					parameters.add(getProductGroupId());
+				}
+				//	for product class
+				if(getProductClassId() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Class_ID = ?)");
+					parameters.add(getProductClassId());
+				}
+				//	for product classification
+				if(getProductClassificationId() != 0) {
+					if(querywhereClause.length() > 0) {
+						querywhereClause.append(" AND ");
+					}
+					querywhereClause.append("EXISTS(SELECT 1 FROM M_Product p WHERE p.M_Product_ID = M_Product_PO.M_Product_ID AND p.M_Product_Classification_ID = ?)");
+					parameters.add(getProductClassificationId());
+				}
 				//	Get from Product Purchasing
 				new Query(getCtx(), I_M_ProductPrice.Table_Name, querywhereClause.toString(), get_TrxName())
 					.setParameters(parameters)
+					.setClient_ID()
 					.<MProductPrice>list()
 					.forEach(productPrice -> {
 						//	Get conversion for Type
@@ -454,12 +537,12 @@ public class M_PriceList_Create extends M_PriceList_CreateAbstract {
 		 * @param priceLimit
 		 * @param discountSchemaLine
 		 */
-		public ProductCombination(int productId, BigDecimal conversionRate, BigDecimal priceStandard, BigDecimal priceList, BigDecimal priceLimit, MDiscountSchemaLine discountSchemaLine) {
+		public ProductCombination(int productId, BigDecimal conversionRate, BigDecimal priceList, BigDecimal priceStandard, BigDecimal priceLimit, MDiscountSchemaLine discountSchemaLine) {
 			this.productId = productId;
 			this.conversionRate = conversionRate;
-			this.priceStandard = (priceStandard == null? Env.ZERO: priceStandard);
-			this.priceList = (priceList == null? Env.ZERO: priceList);
-			this.priceLimit = (priceLimit == null? Env.ZERO: priceLimit);
+			this.priceList = Optional.ofNullable(priceList).orElse(Env.ZERO);
+			this.priceStandard = Optional.ofNullable(priceStandard).orElse(Env.ZERO);
+			this.priceLimit = Optional.ofNullable(priceLimit).orElse(Env.ZERO);
 			this.discountSchemaLine = discountSchemaLine;
 		}
 		

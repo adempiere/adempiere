@@ -62,6 +62,8 @@ public abstract class BankTransferAbstract extends SvrProcess {
 	public static final String WITHDRAWALDOCUMENTTYPE_ID = "WithdrawalDocumentType_ID";
 	/**	Parameter Name for Deposit Document Type	*/
 	public static final String DEPOSITDOCUMENTTYPE_ID = "DepositDocumentType_ID";
+	/**	Parameter Name for Tender type	*/
+	public static final String TENDERTYPE = "TenderType";
 	/**	Parameter Value for Bank Account From	*/
 	private int cBankAccountId;
 	/**	Parameter Value for Bank Account To	*/
@@ -92,6 +94,8 @@ public abstract class BankTransferAbstract extends SvrProcess {
 	private int withdrawalDocumentTypeId;
 	/**	Parameter Value for Deposit Document Type	*/
 	private int depositDocumentTypeId;
+	/**	Parameter Value for Tender type	*/
+	private String tenderType;
 
 	@Override
 	protected void prepare() {
@@ -110,6 +114,7 @@ public abstract class BankTransferAbstract extends SvrProcess {
 		isAutoReconciled = getParameterAsBoolean(ISAUTORECONCILED);
 		withdrawalDocumentTypeId = getParameterAsInt(WITHDRAWALDOCUMENTTYPE_ID);
 		depositDocumentTypeId = getParameterAsInt(DEPOSITDOCUMENTTYPE_ID);
+		tenderType = getParameterAsString(TENDERTYPE);
 	}
 
 	/**	 Getter Parameter Value for Bank Account From	*/
@@ -260,6 +265,16 @@ public abstract class BankTransferAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Deposit Document Type	*/
 	protected void setDepositDocumentTypeId(int depositDocumentTypeId) {
 		this.depositDocumentTypeId = depositDocumentTypeId;
+	}
+
+	/**	 Getter Parameter Value for Tender type	*/
+	protected String getTenderType() {
+		return tenderType;
+	}
+
+	/**	 Setter Parameter Value for Tender type	*/
+	protected void setTenderType(String tenderType) {
+		this.tenderType = tenderType;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/

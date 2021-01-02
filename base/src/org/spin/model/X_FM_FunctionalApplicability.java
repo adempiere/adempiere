@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FM_FunctionalApplicability
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_FM_FunctionalApplicability extends PO implements I_FM_FunctionalApplicability, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20201113L;
 
     /** Standard Constructor */
     public X_FM_FunctionalApplicability (Properties ctx, int FM_FunctionalApplicability_ID, String trxName)
@@ -319,6 +319,30 @@ public class X_FM_FunctionalApplicability extends PO implements I_FM_FunctionalA
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Create Reversal.
+		@param IsCreateReversal 
+		Indicates that reversal movement will be created, if disabled the original movement will be deleted.
+	  */
+	public void setIsCreateReversal (boolean IsCreateReversal)
+	{
+		set_Value (COLUMNNAME_IsCreateReversal, Boolean.valueOf(IsCreateReversal));
+	}
+
+	/** Get Create Reversal.
+		@return Indicates that reversal movement will be created, if disabled the original movement will be deleted.
+	  */
+	public boolean isCreateReversal () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCreateReversal);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Sequence.

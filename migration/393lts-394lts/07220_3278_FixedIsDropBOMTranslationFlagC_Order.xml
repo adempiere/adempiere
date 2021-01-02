@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Can not delete Orders when the flag Records del" ReleaseNo="3.9.4" SeqNo="7120">
+    <Comments>https://github.com/adempiere/adempiere/issues/3278</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="92893" Table="AD_Column">
+        <Data AD_Column_ID="125" Column="IsTranslated" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="752" Action="U" Record_ID="92893" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12955" Column="AD_Column_ID" oldValue="92893">92893</Data>
+        <Data AD_Column_ID="12957" Column="Name" oldValue="Expansi&amp;oacute;n LDM">Explosión de LDM</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2648" Column="Help" oldValue="Traer (expandir) la lista de materiales en una orden, factura, etc. Los documentos deben estar en un estado Borrador. Aseg&amp;uacute;rese de que los art&amp;iacute;culos incluidos en la LDM est&amp;aacute;n en la lista de precios de la orden, factura, etc. de lo contrario el precio ser&amp;aacute; cero!">Realiza una explosión de lista de materiales en una orden, factura. Los documentos deben estar en un estado Borrador. Asegurarse de que los artículos incluidos en la lista de materiales estén en una la lista de precios de la orden, factura, etc. de lo contrario el precio será cero!</Data>
+        <Data AD_Column_ID="2646" Column="Name" oldValue="Expansi&amp;oacute;n LDM">Explosión de LDM</Data>
+        <Data AD_Column_ID="2647" Column="Description" oldValue="Expandir Listas de Materiales en una orden, factura, etc.">Explosión de Lista de Materiales en una orden, factura, etc.</Data>
+        <Data AD_Column_ID="4300" Column="PrintName" oldValue="Expansi&amp;oacute;n LDM">Explosión de LDM</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="60953">60953</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
