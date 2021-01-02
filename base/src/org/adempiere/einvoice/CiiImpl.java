@@ -20,6 +20,7 @@ import com.klst.einvoice.unece.uncefact.Amount;
 import com.klst.einvoice.unece.uncefact.BICId;
 import com.klst.einvoice.unece.uncefact.CrossIndustryInvoice;
 import com.klst.einvoice.unece.uncefact.FinancialAccount;
+import com.klst.einvoice.unece.uncefact.FinancialCard;
 import com.klst.einvoice.unece.uncefact.IBANId;
 import com.klst.einvoice.unece.uncefact.TradeLineItem;
 import com.klst.einvoice.unece.uncefact.UnitPriceAmount;
@@ -176,6 +177,11 @@ public class CiiImpl extends AbstractEinvoice {
 	DirectDebit createDirectDebit(String mandateID, String bankAssignedCreditorID, String debitedAccountID) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	PaymentCard createPaymentCard(String cardAccountID, String cardHolderName) {
+		return new FinancialCard(cardAccountID, cardHolderName);
 	}
 
 }

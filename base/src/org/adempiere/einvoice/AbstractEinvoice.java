@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.compiere.model.I_AD_User;
 import org.compiere.model.I_C_Tax;
 import org.compiere.model.MBPBankAccount;
 import org.compiere.model.MBPartner;
@@ -23,6 +24,7 @@ import org.compiere.model.MOrg;
 import org.compiere.model.MOrgInfo;
 import org.compiere.model.MPaymentTerm;
 import org.compiere.model.MUser;
+import org.compiere.model.Obscure;
 import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -116,6 +118,11 @@ private static final Logger LOG = Logger.getLogger(AbstractEinvoice.class.getNam
 	 */
 	abstract DirectDebit createDirectDebit(String mandateID, String bankAssignedCreditorID, IBANId iban);
 	abstract DirectDebit createDirectDebit(String mandateID, String bankAssignedCreditorID, String debitedAccountID);
+	/**
+	 * @return Interface BG-18 PAYMENT CARD INFORMATION
+	 * @see com.klst.einvoice.PaymentCardFactory
+	 */
+	abstract PaymentCard createPaymentCard(String cardAccountID, String cardHolderName);
 
 	public InterfaceMapping createMapping() {
 		return new CustomizedMapping();
@@ -212,15 +219,41 @@ private static final Logger LOG = Logger.getLogger(AbstractEinvoice.class.getNam
 		return new MBankAccount(Env.getCtx(), bankAccount_ID, get_TrxName());
 	}
 	
+	PaymentCard getCusomerCard(int partnerId) {
+		List<MBPBankAccount> mBPBankAccountList = MBPBankAccount.getByPartner(Env.getCtx(), partnerId);
+		PaymentCard paymentCard = null;
+		if(mBPBankAccountList.isEmpty()) return paymentCard;
+		for(int i=0; i<mBPBankAccountList.size(); i++) {
+			MBPBankAccount mBPBankAccount = mBPBankAccountList.get(i);
+			if(mBPBankAccount.isDirectDebit()) {
+				// this is not a card
+			} else {
+				I_AD_User adUser = mBPBankAccount.getAD_User();
+				/* In accordance with card payments security standards an invoice should 
+				 * never include a full card primary account number. 
+				 * At the moment PCI Security Standards Council has defined that 
+				 * the first 6 digits and last 4 digits are the maximum number of digits to be shown.
+				 */
+				String cardNumber = Obscure.obscure(mBPBankAccount.getCreditCardNumber());
+				LOG.info("CreditCard:"+mBPBankAccount.getCreditCardType()+" "+cardNumber + " adUser:"+adUser);
+				paymentCard = createPaymentCard(cardNumber, adUser==null? null : adUser.getName());
+			}
+		}
+		return paymentCard;
+	}
 	// IBAN of the customer needed for SEPA DirectDebit
 	String getCusomerIBAN(int partnerId) {
 		List<MBPBankAccount> mBPBankAccountList = MBPBankAccount.getByPartner(Env.getCtx(), partnerId);
-		mBPBankAccountList.forEach(mBPBankAccount -> {
-			LOG.info("DirectDebit:"+mBPBankAccount.isDirectDebit() + " IBAN="+mBPBankAccount.getIBAN() + " "+mBPBankAccount);
-		});
-		if(mBPBankAccountList.isEmpty()) return null;
-		
-		return mBPBankAccountList.get(0).getIBAN(); // get the first one
+		String iban = null;
+		if(mBPBankAccountList.isEmpty()) return iban;
+		for(int i=0; i<mBPBankAccountList.size(); i++) {
+			MBPBankAccount mBPBankAccount = mBPBankAccountList.get(i);
+			if(mBPBankAccount.isDirectDebit()) {
+				LOG.info("DirectDebit:"+mBPBankAccount.isDirectDebit() + " IBAN="+mBPBankAccount.getIBAN() + " "+mBPBankAccount);
+				iban = mBPBankAccount.getIBAN();
+			}
+		}
+		return iban;
 	}
 	
 	// mapping PaymentGroup
@@ -233,7 +266,36 @@ private static final Logger LOG = Logger.getLogger(AbstractEinvoice.class.getNam
 		
 		String customerIBAN = getCusomerIBAN(mInvoice.getC_BPartner_ID()); // IBAN of the customer		
 		
-		String remittanceInformation = "TODO Verwendungszweck";
+		String remittanceInformation = getDocumentNo();
+/*
+PAYMENTRULE Mapping: ==> BG-16 + 0..1 PAYMENT INSTRUCTIONS / ZAHLUNGSANWEISUNGEN
+
+DirectDeposit = "T"; OnCredit = "P"; ==> BG-17 ++ 0..n CREDIT TRANSFER / ÜBERWEISUNG
+CreditCard = "K";                    ==> BG-18 ++ 0..1 PAYMENT CARD INFORMATION / INFORMATIONEN ZUR ZAHLUNSKARTE
+DirectDebit = "D";                   ==> BG-19 ++ 0..1 DIRECT DEBIT / LASTSCHRIFTVERFAHREN
+Cash = "B";                          ==> ?
+Check = "S";                         ==> ?
+Mixed = "M";                         ==> ?
+
+DirectDeposit / Direktüberweiseung , direkte Einzahlung
+
+AD:	PaymentMeansEnum/UNTDID 4461:
+B:	InCash 				(10),
+S:	Cheque				(20),
+P:	CreditTransfer 		(30),
+T:	DebitTransfer 		(31),
+	PaymentToBankAccount 	(42),
+K:	BankCard 			(48),
+D:	DirectDebit 		(49),
+	StandingAgreement 	(57),
+P:	SEPACreditTransfer 	(58),
+D:	SEPADirectDebit 	(59),
+	ClearingBetweenPartners (97);
+
+Für PaymentMeansEnum.InCash gibt es keine kosit Beispiele
+Für PaymentMeansEnum.Cheque gibt es keine kosit Beispiele
+
+ */
 		if(mInvoice.getPaymentRule().equals(MInvoice.PAYMENTRULE_OnCredit) 
 		|| mInvoice.getPaymentRule().equals(MInvoice.PAYMENTRULE_DirectDeposit)) {
 			IBANId payeeIban = new IBANId(orgIBAN);
@@ -244,9 +306,16 @@ private static final Logger LOG = Logger.getLogger(AbstractEinvoice.class.getNam
 		} else if(mInvoice.getPaymentRule().equals(MInvoice.PAYMENTRULE_DirectDebit)) {
 			IBANId payerIban = new IBANId(customerIBAN);
 			String mandateID = null;
-			String paymentMeansText = null; // Text zur Zahlungsart
+			String paymentMeansText = null; // optional
 			DirectDebit sepaDirectDebit = createDirectDebit(mandateID, null, payerIban);
-			setPaymentInstructions(PaymentMeansEnum.SEPADirectDebit, null, remittanceInformation, null, null, sepaDirectDebit);
+			setPaymentInstructions(PaymentMeansEnum.SEPADirectDebit, paymentMeansText, remittanceInformation, null, null, sepaDirectDebit);
+		} else if(mInvoice.getPaymentRule().equals(MInvoice.PAYMENTRULE_CreditCard)) {
+			PaymentCard card = getCusomerCard(mInvoice.getC_BPartner_ID());
+			setPaymentInstructions(PaymentMeansEnum.BankCard, null, remittanceInformation, null, card, null);
+		} else if(mInvoice.getPaymentRule().equals(MInvoice.PAYMENTRULE_Cash)) {
+			String paymentMeansText = "cash"; // Text zur Zahlungsart
+			PaymentCard card = createPaymentCard("payed cash", null);
+			setPaymentInstructions(PaymentMeansEnum.InCash, paymentMeansText, remittanceInformation, null, card, null);
 		} else {
 			LOG.warning("TODO PaymentMeansCode: mInvoice.PaymentRule="+mInvoice.getPaymentRule());
 		}

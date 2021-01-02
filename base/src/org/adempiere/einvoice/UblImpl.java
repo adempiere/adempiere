@@ -14,6 +14,7 @@ import com.klst.einvoice.DirectDebit;
 import com.klst.einvoice.IContact;
 import com.klst.einvoice.PaymentCard;
 import com.klst.einvoice.PostalAddress;
+import com.klst.einvoice.ubl.CardAccount;
 import com.klst.einvoice.ubl.FinancialAccount;
 import com.klst.einvoice.ubl.GenericInvoice;
 import com.klst.einvoice.ubl.Party;
@@ -112,6 +113,11 @@ public class UblImpl extends AbstractEinvoice {
 	@Override
 	DirectDebit createDirectDebit(String mandateID, String bankAssignedCreditorID, String debitedAccountID) {
 		return PaymentMandate.createDirectDebit(mandateID, bankAssignedCreditorID, debitedAccountID);
+	}
+
+	@Override
+	PaymentCard createPaymentCard(String cardAccountID, String cardHolderName) {
+		return CardAccount.createPaymentCard(cardAccountID, cardHolderName);
 	}
 
 
