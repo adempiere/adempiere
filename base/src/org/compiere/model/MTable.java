@@ -26,6 +26,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -86,6 +87,7 @@ public class MTable extends X_AD_Table
 
 	/**	Cache						*/
 	private static CCache<Integer,MTable> s_cache = new CCache<Integer,MTable>("AD_Table", 20);
+	private static CCache<String, Integer> s_tableNameCache = new CCache<String, Integer>("AD_Table_Name", 20);
 	private static CCache<String,Class<?>> s_classCache = new CCache<String,Class<?>>("PO_Class", 20);
 	private static CCache<String,Boolean> s_cachetrl = new CCache<String,Boolean>("Table_Trl", 20);
 
@@ -876,22 +878,13 @@ public class MTable extends X_AD_Table
 	 *	@return int retValue
 	 */
 	public static int getTable_ID(String tableName) {
-		int retValue = 0;
-		String SQL = "SELECT AD_Table_ID FROM AD_Table WHERE tablename = ?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = DB.prepareStatement(SQL, null);
-			pstmt.setString(1, tableName);
-			rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = rs.getInt(1);
-		} catch (Exception e) {
-			s_log.log(Level.SEVERE, SQL, e);
-			retValue = -1;
-		} finally {
-			DB.close(rs, pstmt);
+		Integer tableId = s_tableNameCache.get(tableName);
+		if(Optional.ofNullable(tableId).orElse(new Integer(0)) > 0) {
+			return tableId;
 		}
+		int retValue = DB.getSQLValue(null, "SELECT AD_Table_ID FROM AD_Table WHERE tablename = ?", tableName);
+		//	Save cache
+		s_tableNameCache.put(tableName, retValue);
 		return retValue;
 	}
 
