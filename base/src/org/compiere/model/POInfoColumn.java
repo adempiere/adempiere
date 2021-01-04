@@ -50,7 +50,7 @@ public class POInfoColumn implements Serializable
 	 *	@param columnDescription Column Description
 	 *	@param isKey true if key
 	 *	@param isParent true if parent
-	 *	@param ad_Reference_Value_ID reference value
+	 *	@param referencevalueId reference value
 	 *	@param validationCode sql validation code
 	 *	@param fieldLength Field Length
 	 * 	@param valueMin minimal value
@@ -64,9 +64,9 @@ public class POInfoColumn implements Serializable
 		boolean isMandatory, boolean isUpdateable, String defaultLogic,
 		String columnLabel, String columnDescription,
 		boolean isKey, boolean isParent,
-		int ad_Reference_Value_ID, String validationCode,
+		int referencevalueId, String validationCode,
 		int fieldLength, String valueMin, String valueMax,
-		boolean isTranslated, boolean isEncrypted, boolean isAllowLogging, boolean isAllowCopy)
+		boolean isTranslated, boolean isEncrypted, boolean isAllowLogging, boolean isAllowCopy, String transactionName)
 	{
 		AD_Column_ID = ad_Column_ID;
 		ColumnName = columnName;
@@ -92,14 +92,14 @@ public class POInfoColumn implements Serializable
 			ColumnClass = org.compiere.util.DisplayType.getClass(displayType, true);
 		
 		//ADEMPIERE-101
-		if(org.compiere.util.DisplayType.Table==DisplayType && ad_Reference_Value_ID>0)
+		if(org.compiere.util.DisplayType.Table==DisplayType && referencevalueId > 0)
 		{
 			//Get the key ID
 			String sqlKey ="Select AD_Key FROM AD_Ref_Table WHERE AD_Reference_ID=?";
-			final int key_id = DB.getSQLValueEx(null, sqlKey,ad_Reference_Value_ID);
+			final int key_id = DB.getSQLValueEx(transactionName, sqlKey,referencevalueId);
 			//Get Reference ID
 			String sqlRef ="Select AD_Reference_ID FROM AD_Column WHERE AD_Column_ID=?";
-			final int ref_id = DB.getSQLValueEx(null, sqlRef,key_id);
+			final int ref_id = DB.getSQLValueEx(transactionName, sqlRef,key_id);
 			if (org.compiere.util.DisplayType.String==ref_id)
 			{
 				DisplayType = org.compiere.util.DisplayType.String;
@@ -115,7 +115,7 @@ public class POInfoColumn implements Serializable
 		IsKey = isKey;
 		IsParent = isParent;
 		//
-		AD_Reference_Value_ID = ad_Reference_Value_ID;
+		AD_Reference_Value_ID = referencevalueId;
 		ValidationCode = validationCode;
 		//
 		FieldLength = fieldLength;
