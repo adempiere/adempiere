@@ -185,6 +185,20 @@ public final class MPayment extends X_C_Payment
 	}   //  MPayment
 	
 	/**
+	 * Validate if exists a bank statement with this payment
+	 * @return
+	 */
+	public MBankStatementLine getBankStatementLine() {
+		return new Query(getCtx(), I_C_BankStatementLine.Table_Name, 
+				"C_Payment_ID = ? "
+				+ "AND EXISTS(SELECT 1 FROM C_BankStatement bs "
+				+ "		WHERE bs.C_BankStatement_ID = C_BankStatementLine.C_BankStatement_ID "
+				+ "		AND bs.DocStatus NOT IN('VO', 'RE'))", get_TrxName())
+				.setParameters(getC_Payment_ID())
+				.first();
+	}
+	
+	/**
 	 *  Load Constructor
 	 *  @param ctx context
 	 *  @param rs result set record

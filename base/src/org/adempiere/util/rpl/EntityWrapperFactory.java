@@ -18,6 +18,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -413,24 +414,27 @@ public class EntityWrapperFactory {
 							entityToCreate.saveReplica(true);
 						}
 					}
+					value = childEntity.get_ID();
 				} else {
 					// Export Format Line is not one of two possible values...ERROR
 					throw new AdempiereException("@EXPFormatLineNonValidType@");
 				}
 				//	Get ID
-				if(DisplayType.isID(column.getAD_Reference_ID()) || DisplayType.Integer == column.getAD_Reference_ID()) {
-					if (wrapper.getValueAsInt(key) > 0) {
-						//double doubleValue = Double.parseDouble(value.toString());
-						if (DisplayType.ID == column.getAD_Reference_ID()) {
-							replicationId.set(wrapper.getValueAsInt(key));
+				if(!Optional.ofNullable(value).isPresent()) {
+					if(DisplayType.isID(column.getAD_Reference_ID()) || DisplayType.Integer == column.getAD_Reference_ID()) {
+						if (wrapper.getValueAsInt(key) > 0) {
+							//double doubleValue = Double.parseDouble(value.toString());
+							if (DisplayType.ID == column.getAD_Reference_ID()) {
+								replicationId.set(wrapper.getValueAsInt(key));
+							}
+						} else {
+							value = null;
 						}
-					} else {
-						value = null;
+					} else if(value == null){	
+						value = wrapper.getValueAsObject(key);
 					}
-				} else {	
-					value = wrapper.getValueAsObject(key);
 				}
-				
+				//	
 				if (parameters.size() == 0) {
 					whereClause.append(" ").append(columnName).append(" = ? ");
 				} else {

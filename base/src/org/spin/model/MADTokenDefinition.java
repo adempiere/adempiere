@@ -67,7 +67,6 @@ public class MADTokenDefinition extends X_AD_TokenDefinition {
 			return definition;
 
 		definition = new Query(ctx , Table_Name , COLUMNNAME_AD_TokenDefinition_ID + "=?" , trxName)
-				.setClient_ID()
 				.setParameters(definitionId)
 				.first();
 		if (definition != null && definition.get_ID() > 0) {
