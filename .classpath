@@ -104,21 +104,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="jboss/lib/commons-httpclient.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant-commons-net.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant-launcher.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jsp-api.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -442,5 +427,8 @@
 	<classpathentry kind="lib" path="tools/lib/storefront/rank-eval-client-7.9.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/snakeyaml-1.26.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/t-digest-3.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/org.apache.ant_1.10.8.v20200515-1239/lib/ant.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/org.apache.ant_1.10.8.v20200515-1239/lib/ant-commons-net.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/org.apache.ant_1.10.8.v20200515-1239/lib/ant-launcher.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

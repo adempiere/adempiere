@@ -1,0 +1,196 @@
+Signature-Version: 1.0
+SHA-256-Digest-Manifest-Main-Attributes: cyvL8lo/5jQLd8Tftol+4fM+9oX/F
+ pfoZFmD2C/IazE=
+SHA-256-Digest-Manifest: dvOgnk/smBUq63SYXW89jWZmgC880xsNw5ttVzzfuKE=
+Created-By: 1.8.0_51 (Oracle Corporation)
+
+Name: lib/ant-xz.jar
+SHA-256-Digest: 5rlNk7+Mi9l3kjIPwV6kTVUrZWHUobkvSzc0zSqTuks=
+
+Name: etc/mmetrics-frames.xsl
+SHA-256-Digest: s5uF9XKQyp4JGI28uIWV1kLlJeeEQQ7WTXqmofG8Lhw=
+
+Name: about_files/SAX-LICENSE.html
+SHA-256-Digest: M7Cy21+h1nYo1fLVBx3ecmXYIM3q7tiNp5sj8L6xZ/A=
+
+Name: lib/ant-jdepend.jar
+SHA-256-Digest: yDRJHczvwhzj6eRHwXbiHUSHM9z8T/xDDdYHY8R8/QU=
+
+Name: lib/ant.jar
+SHA-256-Digest: pYsU9yR6N3JpSXeYV2iFLUGOPMG08dB156im7pKLj6g=
+
+Name: etc/checkstyle/checkstyle-frames.xsl
+SHA-256-Digest: OjEtB7ewyHZXdT+poMXCLVeShClljL/A1wBGynygwm4=
+
+Name: lib/ant-junit4.jar
+SHA-256-Digest: ta+LRlk4YZnhR4rGc2UrVixyoj8CzyeCMtoNW50nfwI=
+
+Name: lib/ant-antlr.jar
+SHA-256-Digest: LYZPBV22BqUm/OnmWnB9n6CrYUL9nhJdqTNPXqpU3s4=
+
+Name: etc/coverage-frames.xsl
+SHA-256-Digest: pLtQ7UTs916p6I3rabtKf3/CGjCMConv/yUXw3YI3xw=
+
+Name: lib/ant-apache-regexp.jar
+SHA-256-Digest: bWTSbefdINxNhpxY1d1LoEU7pGU5Q3Y84uTk0kxiG9M=
+
+Name: etc/junit-frames.xsl
+SHA-256-Digest: 8axpyQAG0GqesHcDXnggtrAmbqq2gi/mVkp1+ZotxSE=
+
+Name: lib/ant-apache-log4j.jar
+SHA-256-Digest: W8O2z4quI3+xRxbcxAGHf3bwSq9llt/jd4dEjoAJ+zc=
+
+Name: lib/ant-launcher.jar
+SHA-256-Digest: H4kVyojMmXqRk7w16n0CtGaPV0XybyLRfDlTrgESZJs=
+
+Name: bin/antRun.bat
+SHA-256-Digest: ZLdJBQW6IxySbCAboGjxsh8qcg5kZm1Az0zz458SO5A=
+
+Name: etc/checkstyle/checkstyle-text.xsl
+SHA-256-Digest: NdqzXmMqdHPkVzShGhTUv87hKBnNi64lCZeaH4fuW0k=
+
+Name: lib/ant-jai.jar
+SHA-256-Digest: V1iTRGyOYjfZe7nulMSAWhCf/kLUIfPG0gKSnKQk9nw=
+
+Name: about_files/LICENSE
+SHA-256-Digest: kGabODpciiLepjRfx3uGdpPJmJu9yK3jMJP9gVH53YM=
+
+Name: lib/ant-apache-xalan2.jar
+SHA-256-Digest: jswlwtbtjyYPYHi1P/+f84wF83uHpJizn2IFk0kKp4Y=
+
+Name: bin/antenv.cmd
+SHA-256-Digest: pYPlUSAE3+0tgABtJ0lDoJDXsY67Ktyie7xlfWTtQh8=
+
+Name: lib/ant-junit.jar
+SHA-256-Digest: wjopYTlmFLeH9zOK/H946rQkv0qVxEu+WDz01zSnfks=
+
+Name: lib/ant-junitlauncher.jar
+SHA-256-Digest: n4oyC+bPIT/Qm2hCksrQfFu5d2dKyf1bB9zRw7oqjD4=
+
+Name: lib/ant-commons-logging.jar
+SHA-256-Digest: wUHelAIgQZ5zDyg+2M/FdeSmtOhlrbffwz/gWzW0m8k=
+
+Name: lib/ant-imageio.jar
+SHA-256-Digest: 3wFGPGL5ChnnRy8t1FgkKUHW3G9ElEN5r4cUhvZYG6Q=
+
+Name: about_files/THE_APACHE_SOFTWARE_LICENSE__VERSION_2.0.txt
+SHA-256-Digest: 70sq4AoiKPmbnFMVhYi1e9oPczCS6WKy+maEqwyunWY=
+
+Name: bin/antRun.pl
+SHA-256-Digest: K/H9BcN7DbaqC7fbs024+JE/45orXbKXtIWPPoaRHE0=
+
+Name: lib/ant-apache-resolver.jar
+SHA-256-Digest: 0UbrzxW0O7mnns60/9oawc2lXNs1DkXyd+nmtHuWqJQ=
+
+Name: bin/ant
+SHA-256-Digest: fJULGubzn6+ZLGU+J0d0vzPDQJKVRxAJ7g6MRArdXg0=
+
+Name: lib/ant-netrexx.jar
+SHA-256-Digest: hYisGP7vG6fxrw1q5JYO3AMw3lpkTdI07kaeH0iGdis=
+
+Name: etc/checkstyle/checkstyle-xdoc.xsl
+SHA-256-Digest: 8lTSCyT8B4zBzEkwX+rMbF7dq8Y3gArLq0xrCGvCx3A=
+
+Name: etc/log.xsl
+SHA-256-Digest: PlgjTl+Q8nUVMOd2EX32ov7IhGolVZ5Pg2TSjEh8O+M=
+
+Name: OSGI-INF/l10n/bundle.properties
+SHA-256-Digest: Q/Ue1KlsXVs2uzGIe3ejCyNTAq9dWZw1xLRNRhtJEWc=
+
+Name: lib/ant-swing.jar
+SHA-256-Digest: rsU3eHwaI3YChNvzFfmuTAGIcrpRaLb9jlo9BXYbs5I=
+
+Name: lib/ant-apache-bsf.jar
+SHA-256-Digest: nJZm9jzTjEpSflbcoZlYCsURBw8g9ZLb6mMQeFJVnqo=
+
+Name: about_files/DOM-LICENSE.html
+SHA-256-Digest: bbX3yq2hnA+qEqKu/trTMX8L3pllaKCPvpm5pz/WrOU=
+
+Name: bin/complete-ant-cmd.pl
+SHA-256-Digest: gwk0WBS9BlVV9sA7b+P4sCx5g10iiu+kNVF4XyXMo4o=
+
+Name: lib/ant-testutil.jar
+SHA-256-Digest: +rgcxa6SDodUJqXrPqyIM4drI3I/gqvkv55u89N2al4=
+
+Name: lib/ant-jsch.jar
+SHA-256-Digest: z8hfMEa7vR+GIx7A5biVcL1nid2SUn4e/BoKaHyok28=
+
+Name: bin/lcp.bat
+SHA-256-Digest: iS7yarNKxpY8ATa3jRZnDcnZrUJgghigkYYnMVUPcSE=
+
+Name: etc/jdepend-frames.xsl
+SHA-256-Digest: rGPVez7woyYN9YmzS/9THuMrzO6K8mRVQeesdCNF3gs=
+
+Name: bin/envset.cmd
+SHA-256-Digest: 466Wu0yDsSvLosZYL4BUpgYjY6om0/7NKUy8XVaXEtk=
+
+Name: etc/maudit-frames.xsl
+SHA-256-Digest: xSZaO0z5zrgjiCqC41h/29G52Bz7TXyvHwu3O+SSasI=
+
+Name: bin/ant.bat
+SHA-256-Digest: iH7iYQT4bL4p8A2javT+IrDZSIBUsdnZHYll/XhVn7E=
+
+Name: bin/antRun
+SHA-256-Digest: rhM9NtZStJ7TqZjEk9bHLwKJQIYKLk+8ljUY5OO3ekQ=
+
+Name: etc/changelog.xsl
+SHA-256-Digest: 3HZNZMRtWOKqSoefGv5+O2olr3KWv02CsbOz01CHzFs=
+
+Name: lib/ant-commons-net.jar
+SHA-256-Digest: uMC2/hP37P/oIkjNuA1jPj8acicsry0sLKarJneqxBU=
+
+Name: etc/jdepend.xsl
+SHA-256-Digest: S0OGybqIFDHMMx5mGiqBMM4dEwE1a21b35SGst3mhIY=
+
+Name: etc/checkstyle/checkstyle-frames-sortby-check.xsl
+SHA-256-Digest: MYxt/iSBejgqgS71c6M8swYUKH1ZLSTpziJ8CdgeiLo=
+
+Name: about.html
+SHA-256-Digest: lxdzq2c9a6xtsAdS14NYYigxRdTkaengxJ/Dnr+BKbE=
+
+Name: etc/junit-noframes.xsl
+SHA-256-Digest: 0gXM8Ggz8IRiw4Q8KuDo3NBU8TLHRfujao6hpRmk7KA=
+
+Name: lib/ant-apache-oro.jar
+SHA-256-Digest: CxQ+9zE2kCQ2a/9nyKDchHMZgqv1jDbZSVESoleorCI=
+
+Name: lib/ant-javamail.jar
+SHA-256-Digest: nsEP8XBYyPuylt49z5+krBPxfI4V/7hpYmFkYsh7UuA=
+
+Name: lib/ant-jmf.jar
+SHA-256-Digest: 5jgyJmpZpsX6B+kw3LykssTulavf4rXSsa0mLgqKCAE=
+
+Name: about_files/NOTICE
+SHA-256-Digest: Dbkf+KXg7SnUlR1PKwLZlWTJvxNVK0U8jCPdwhdnmMc=
+
+Name: bin/runrc.cmd
+SHA-256-Digest: YJHGlOqOiP00pFY214SrbyxpnvUkTcWs9Sdey54Tb/c=
+
+Name: bin/runant.py
+SHA-256-Digest: eK7wjAgfvBsB5TA3Z22ZEnTTzlKdjaJvqhJG6OEwJ4I=
+
+Name: etc/junit-frames-xalan1.xsl
+SHA-256-Digest: BJXOZgz45dA1sNGzsaFqCZati+Sv6zKcgh3UrgVuiLE=
+
+Name: lib/ant-apache-bcel.jar
+SHA-256-Digest: qUF/fpu07BHP27ZQPWX89RBhFPfAF/t30CKlBTl4Cac=
+
+Name: bin/runant.pl
+SHA-256-Digest: gQ5YtlpEQL2FV8pI7Ioo1VAKkv/zb0OIdpg0H9OQBPI=
+
+Name: etc/ant-bootstrap.jar
+SHA-256-Digest: WvHks3ggVODLLFag9Y7E3lK2vlLCXSxIJ/x6x+vXNbM=
+
+Name: etc/tagdiff.xsl
+SHA-256-Digest: H+j3YVvWtlj2CNy7+xVBnvfeFHqt4Hu/QKlW+6SFCC0=
+
+Name: META-INF/maven/org.eclipse.orbit.bundles/org.apache.ant/pom.xml
+SHA-256-Digest: J/cf8Crj27D+jKuTTTm2riwmCBiNeLUNsLoa4dhvbFc=
+
+Name: META-INF/maven/org.eclipse.orbit.bundles/org.apache.ant/pom.prop
+ erties
+SHA-256-Digest: hyZrEPyO7DP1+zKw0qSeSonKODTA2EVE1iVrlS/zdy0=
+
+Name: bin/ant.cmd
+SHA-256-Digest: gSpJNmiH7lRv78NUINGZxHqNn+77UKR5bJ127IXD1lI=
+

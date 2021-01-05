@@ -23,15 +23,15 @@ if  [ ! -f $JAVA_HOME/lib/tools.jar ] ; then
 fi
 
 #classpath
-export ANT_CLASSPATH=$CLASSPATH:../tools/lib/ant.jar:../tools/lib/ant-launcher.jar:../tools/lib/ant-swing.jar:../tools/lib/ant-commons-net.jar:../tools/lib/commons-net.jar:$JAVA_HOME/lib/tools.jar
-
-export ANT_OPTS="-Xms128m -Xmx512m"
+export JAVA_CLASSPATH=$CLASSPATH:../tools/lib/ant/org.apache.ant_1.10.8.v20200515-1239/lib/ant-launcher.jar:../tools/lib/commons-net.jar:$JAVA_HOME/lib/tools.jar
+export JAVA_OPTS="-Xms128m -Xmx512m"
+export ANT_HOME="../tools/lib/ant/org.apache.ant_1.10.8.v20200515-1239"
 
 echo Cleanup ...
-$JAVA_HOME/bin/java $ANT_OPTS -classpath $ANT_CLASSPATH -Dant.home="." org.apache.tools.ant.Main clean
+$JAVA_HOME/bin/java $JAVA_OPTS -classpath $JAVA_CLASSPATH -Dant.home=$ANT_HOME org.apache.tools.ant.launch.Launcher clean
 
 echo Building ...
-$JAVA_HOME/bin/java $ANT_OPTS -classpath $ANT_CLASSPATH -Dant.home="." org.apache.tools.ant.Main -logger org.apache.tools.ant.listener.MailLogger complete
+$JAVA_HOME/bin/java $JAVA_OPTS -classpath $JAVA_CLASSPATH -Dant.home=$ANT_HOME org.apache.tools.ant.launch.Launcher complete
 
 echo Done ...
 
