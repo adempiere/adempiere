@@ -358,7 +358,10 @@
       <SQLStatement>-- Product Price
 CREATE SEQUENCE M_ProductPrice_Seq START 1000000;
 UPDATE M_ProductPrice SET M_ProductPrice_ID = nextval('M_ProductPrice_Seq');
-DROP SEQUENCE M_ProductPrice_Seq;</SQLStatement>
+DROP SEQUENCE M_ProductPrice_Seq;
+ALTER TABLE M_ProductPrice DROP CONSTRAINT M_ProductPrice_PKey;
+ALTER TABLE M_ProductPrice ADD CONSTRAINT M_ProductPrice_Key PRIMARY KEY (M_ProductPrice_ID);
+CREATE UNIQUE INDEX M_ProductPrice_PKey ON M_ProductPrice USING BTREE (M_PriceList_Version_ID, M_Product_ID);</SQLStatement>
     </Step>
     <Step SeqNo="190" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="97440" Table="AD_Column">
