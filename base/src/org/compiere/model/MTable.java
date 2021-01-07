@@ -696,9 +696,9 @@ public class MTable extends X_AD_Table
 		//  Remove the table from the cache so the cache will be 
 		//  updated with the changes.
 		s_cache.remove(this.getAD_Table_ID());
-		
-		if ((isView() || isDocument()) 
-				&& isDeleteable())
+		if (isView())
+			setIsDeleteable(false);
+		if (isDocument() && newRecord)
 			setIsDeleteable(false);
 		
 		//  #213 Synchronize the database if the table exists and 
