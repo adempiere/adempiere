@@ -91,16 +91,16 @@ public class DepositFromCash extends DepositFromCashAbstract {
   	  		MPayment payment = entry.getValue();
   	  		//	Link to Withdrawal
   	  		Integer referenceId = withdrawalLinkPayments.get(payment.getC_Payment_ID());
-  	  		if(Optional.ofNullable(referenceId).orElse(0).intValue() > 0) {
-  	  			payment.setRef_Payment_ID(referenceId);
-  	  			payment.saveEx();
-  	  		}
+	  	  	Optional.ofNullable(referenceId).ifPresent(theReferenceId -> {
+	            payment.setRef_Payment_ID(theReferenceId);
+	            payment.saveEx();               
+	        });
   	  		//	Link to deposit
   	  		Integer relatedId = depositLinkPayments.get(payment.getC_Payment_ID());
-	  		if(Optional.ofNullable(relatedId).orElse(0).intValue() > 0) {
-	  			payment.setRelatedPayment_ID(relatedId);
-	  			payment.saveEx();
-	  		}
+	  	  	Optional.ofNullable(relatedId).ifPresent(theRelatedId -> {
+	  	  	payment.setRelatedPayment_ID(theRelatedId);
+  			payment.saveEx();
+	        });
   	  		//	Complete
   	  		if(payment.getDocStatus().equals(MPayment.DOCSTATUS_Drafted)) {
 	  	  		payment.processIt(DocAction.ACTION_Complete);

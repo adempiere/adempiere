@@ -2539,9 +2539,9 @@ public final class MPayment extends X_C_Payment
 				&& bank.getBankType().equals(MBank.BANKTYPE_CashJournal)
 				&& !isReceipt()) {
 			new Query(getCtx(), Table_Name, 
-						"DocStatus = ? "
-						+ "AND IsReceipt = 'Y' "
-						+ "AND EXISTS(SELECT 1 FROM C_Payment p WHERE p.RelatedPayment_ID = C_Payment.C_Payment_ID AND p.Ref_Payment_ID = ?)", get_TrxName())
+					"DocStatus = ? "
+					+ "AND IsReceipt = 'Y' "
+					+ "AND EXISTS(SELECT 1 FROM C_Payment p WHERE p.RelatedPayment_ID = C_Payment.C_Payment_ID AND p.Ref_Payment_ID = ?)", get_TrxName())
 			.setParameters(MPayment.DOCSTATUS_Completed, getC_Payment_ID())
 			.<MPayment>list().stream().forEach(deposit -> {
 				deposit.processIt(MPayment.DOCACTION_Reverse_Correct);
