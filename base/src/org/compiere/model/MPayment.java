@@ -2522,9 +2522,10 @@ public final class MPayment extends X_C_Payment
 		MBankAccount bankAccount = MBankAccount.get(getCtx(), getC_BankAccount_ID());
 		MBank bank = MBank.get(getCtx(), bankAccount.getC_Bank_ID());
 		if(getRef_Payment_ID() != 0
+				&& getRelatedPayment_ID() != 0
 				&& !Util.isEmpty(bank.getBankType())
 				&& bank.getBankType().equals(MBank.BANKTYPE_CashJournal)) {
-			MPayment deposit = new MPayment(getCtx(), getRef_Payment_ID(), get_TrxName());
+			MPayment deposit = new MPayment(getCtx(), getRelatedPayment_ID(), get_TrxName());
 			MBankAccount depositBankAccount = MBankAccount.get(getCtx(), deposit.getC_BankAccount_ID());
 			MBank depositBank = MBank.get(getCtx(), depositBankAccount.getC_Bank_ID());
 			if(!Util.isEmpty(depositBank.getBankType())
@@ -2538,14 +2539,10 @@ public final class MPayment extends X_C_Payment
 				&& bank.getBankType().equals(MBank.BANKTYPE_CashJournal)
 				&& !isReceipt()) {
 			new Query(getCtx(), Table_Name, 
-					"Ref_Payment_ID = ? "
-						+ "AND DocStatus = ? "
-						+ "AND IsReceipt = 'Y'"
-						+ "AND EXISTS(SELECT 1 FROM C_Bank b"
-						+ "					INNER JOIN C_BankAccount ba ON(ba.C_Bank_ID = b.C_Bank_ID)"
-						+ "				WHERE ba.C_BankAccount_ID = C_Payment.C_BankAccount_ID"
-						+ "				AND b.BankType = ?)", get_TrxName())
-			.setParameters(getC_Payment_ID(), MPayment.DOCSTATUS_Completed, MBank.BANKTYPE_Bank)
+					"DocStatus = ? "
+					+ "AND IsReceipt = 'Y' "
+					+ "AND EXISTS(SELECT 1 FROM C_Payment p WHERE p.RelatedPayment_ID = C_Payment.C_Payment_ID AND p.Ref_Payment_ID = ?)", get_TrxName())
+			.setParameters(MPayment.DOCSTATUS_Completed, getC_Payment_ID())
 			.<MPayment>list().stream().forEach(deposit -> {
 				deposit.processIt(MPayment.DOCACTION_Reverse_Correct);
 				deposit.saveEx();
