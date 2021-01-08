@@ -27,7 +27,6 @@ import org.spin.model.MADAppRegistration;
 import org.spin.model.MADAppSupport;
 import org.compiere.util.Env;
 
-import com.sun.enterprise.admin.util.Logger;
 /**
  * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/2109">
@@ -122,10 +121,10 @@ public class AppSupportHandler {
                 superClazz = superClazz.getSuperclass();
             }
         } catch (Exception e) {
-        	Logger.logError("Loading class Error"+ e.getMessage());
+        	logger.log(Level.SEVERE, "Loading class Error"+ e.getMessage());
         }
         //
-        logger.log(Level.SEVERE,"Not found Class: " + className);
+        logger.log(Level.SEVERE, "Not found Class: " + className);
         return null;
     }	//	getHandlerClass
 
