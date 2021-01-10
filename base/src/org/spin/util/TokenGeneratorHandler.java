@@ -26,8 +26,6 @@ import org.compiere.util.Util;
 import org.spin.model.MADToken;
 import org.spin.model.MADTokenDefinition;
 import org.compiere.util.Env;
-
-import com.sun.enterprise.admin.util.Logger;
 /**
  * @author Raul Muñoz, rMunoz@erpya.com, ERPCyA http://www.erpcya.com
  * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
@@ -151,10 +149,10 @@ public class TokenGeneratorHandler {
                 superClazz = superClazz.getSuperclass();
             }
         } catch (Exception e) {
-        	Logger.logError("Loading class Error"+ e.getMessage());
+        	logger.log(Level.SEVERE, "Loading class Error"+ e.getMessage());
         }
         //
-        logger.log(Level.SEVERE,"Not found Class: " + className);
+        logger.log(Level.SEVERE, "Not found Class: " + className);
         return null;
     }	//	getHandlerClass
 
