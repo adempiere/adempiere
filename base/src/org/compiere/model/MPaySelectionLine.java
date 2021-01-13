@@ -242,8 +242,8 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		//	Get Conversion Type
 		setIsSOTrx(false);
 		setAmtSource(sourceAmount);
-		setOpenAmt(Optional.ofNullable(convertedAmount).orElse(sourceAmount));
-		setPayAmt(Optional.ofNullable(convertedAmount).orElse(sourceAmount));
+		setOpenAmt(Optional.ofNullable(convertedAmount).orElseGet(() -> sourceAmount));
+		setPayAmt(Optional.ofNullable(convertedAmount).orElseGet(() -> sourceAmount));
 		setC_ConversionType_ID(conversionTypeId);
 		setDiscountAmt(Env.ZERO);
 		setDifferenceAmt(Env.ZERO);
