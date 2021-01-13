@@ -2509,16 +2509,15 @@ public abstract class Doc
 		getReversalFactAcct().stream().forEach(factAcct -> {
 			MFactAcct reverseFactAcct = new MFactAcct(getPO().getCtx() , 0 , getPO().get_TrxName());
 			PO.copyValues(factAcct, reverseFactAcct);
+			MAcctSchema as = MAcctSchema.get(getCtx(), factAcct.getC_AcctSchema_ID());
 			reverseFactAcct.setAD_Org_ID(factAcct.getAD_Org_ID());
 			reverseFactAcct.setAD_Table_ID(getPO().get_Table_ID());
 			reverseFactAcct.setDateAcct(getDateAcct());
 			reverseFactAcct.setC_Period_ID(getC_Period_ID());
 			reverseFactAcct.setRecord_ID(getPO().get_ID());
 			reverseFactAcct.setQty(factAcct.getQty().negate());
-			reverseFactAcct.setAmtSourceDr(factAcct.getAmtSourceDr().negate());
-			reverseFactAcct.setAmtSourceCr(factAcct.getAmtSourceCr().negate());
-			reverseFactAcct.setAmtAcctDr(factAcct.getAmtAcctDr().negate());
-			reverseFactAcct.setAmtAcctCr(factAcct.getAmtAcctCr().negate());
+			FactLine.setSourceAmount(as, reverseFactAcct, factAcct.getAmtSourceDr().negate(), factAcct.getAmtSourceCr().negate());
+			FactLine.setAccountingAmount(as, reverseFactAcct, factAcct.getAmtAcctDr().negate(), factAcct.getAmtAcctCr().negate());
 			reverseFactAcct.saveEx();
 		});
 		return STATUS_Posted;
