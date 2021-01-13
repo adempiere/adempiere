@@ -63,11 +63,12 @@ public class PSCreateFromHRMovement extends PSCreateFromHRMovementAbstract {
 			MPaySelectionLine line = new MPaySelectionLine(paySelection, sequence.getAndAdd(10), paymentRule);
 			//	Add Order
 			X_HR_Movement payrollMovement = new X_HR_Movement(getCtx(), movementId, get_TrxName());
-			X_HR_Process payrollProcess = payrollProcessMap.get(payrollMovement.getHR_Process_ID());
-			if(!Optional.ofNullable(payrollProcess).isPresent()) {
-				payrollProcess = (X_HR_Process) payrollMovement.getHR_Process();
-				payrollProcessMap.put(payrollMovement.getHR_Process_ID(), payrollProcess);
-			}
+			Optional<X_HR_Process> mybePayrollProcess = Optional.ofNullable(payrollProcessMap.get(payrollMovement.getHR_Process_ID()));
+			X_HR_Process payrollProcess = mybePayrollProcess.orElseGet(() -> {
+				X_HR_Process processFromMovement = (X_HR_Process) payrollMovement.getHR_Process();
+				payrollProcessMap.put(payrollMovement.getHR_Process_ID(), processFromMovement);
+				return processFromMovement;
+			});
 			//	Set from Payroll Movement and conversion type
 			line.setHRMovement(payrollMovement, payrollProcess.getC_ConversionType_ID(), sourceAmount, convertedAmount);
 			//	Save
