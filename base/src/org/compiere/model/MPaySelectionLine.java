@@ -132,7 +132,7 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		setPayAmt (payAmt);
 		MInvoice invoice = new MInvoice(getCtx(), invoiceId, get_TrxName());
 		if(invoice.getC_ConversionType_ID() > 0) {
-			setC_ConversionType_ID(order.getC_ConversionType_ID());
+			setC_ConversionType_ID(invoice.getC_ConversionType_ID());
 		}
 		setDiscountAmt(discountAmt);
 		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
