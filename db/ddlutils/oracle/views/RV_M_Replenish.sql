@@ -103,7 +103,7 @@ FROM (SELECT r.AD_Client_ID,
                 SUM(s.QtyReserved) AS QtyReserved, 
                 SUM(s.QtyAvailable) AS QtyAvailable 
             FROM RV_Storage s
-            GROUP BY s.M_Product_ID) s ON(s.M_Product_ID = p.M_Product_ID)
+            GROUP BY s.M_Product_ID) s ON(s.M_Product_ID = p.M_Product_ID AND s.M_Warehouse_ID=r_1.M_Warehouse_ID) 
     WHERE r.IsActive = 'Y' AND p.IsActive = 'Y') r
 WHERE (r.QtyToOrder > 0
 OR (r.ReplenishType IN('0', '9')));
