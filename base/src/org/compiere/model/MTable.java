@@ -878,14 +878,22 @@ public class MTable extends X_AD_Table
 	 *	@return int retValue
 	 */
 	public static int getTable_ID(String tableName) {
-		Integer tableId = s_tableNameCache.get(tableName);
-		if(Optional.ofNullable(tableId).orElse(new Integer(0)) > 0) {
-			return tableId;
-		}
-		int retValue = DB.getSQLValue(null, "SELECT AD_Table_ID FROM AD_Table WHERE tablename = ?", tableName);
-		//	Save cache
-		s_tableNameCache.put(tableName, retValue);
-		return retValue;
+
+	    return Optional.ofNullable(s_tableNameCache.get(tableName))
+	            .orElseGet(() -> 
+	                getTable_IDAndAddToCache(tableName)
+	            );
+
+	}
+	
+	private static Integer getTable_IDAndAddToCache(String tableName) {
+
+	    int retValue = DB.getSQLValue(null,
+	            "SELECT AD_Table_ID FROM AD_Table WHERE tablename = ?",
+	            tableName);
+	    s_tableNameCache.put(tableName, retValue);
+	    return retValue;
+
 	}
 
 	/**
