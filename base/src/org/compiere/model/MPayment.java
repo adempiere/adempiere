@@ -1351,48 +1351,6 @@ public final class MPayment extends X_C_Payment
 	//		setDocumentNo(null);
 		super.setC_DocType_ID(C_DocType_ID);
 	}	//	setC_DocType_ID
-	
-	/**
-	 * 	Verify Document Type with Invoice
-	 * @param allocations 
-	 *	@return true if ok
-	 */
-	private boolean verifyDocType(MPaymentAllocate[] allocations) {
-		if (getC_DocType_ID() == 0)
-			return false;
-		//
-		boolean isSOTrx = isReceipt();
-		//	Check Invoice First
-		if (getC_Invoice_ID() > 0)
-		{
-			String documentBaseType = DB.getSQLValueString(get_TrxName(), "SELECT dt.DocBaseType "
-					+ "FROM C_Invoice i "
-					+ "INNER JOIN C_DocType dt ON(i.C_DocType_ID = dt.C_DocType_ID) "
-					+ "WHERE i.C_Invoice_ID = ?", getC_Invoice_ID());
-			//	Validate with invoice
-			isSOTrx = documentBaseType.equals(MDocType.DOCBASETYPE_ARInvoice) || documentBaseType.equals(MDocType.DOCBASETYPE_APCreditMemo);
-		}	//	now Order - in Adempiere is allowed to pay PO or receive SO
-		else if (getC_Order_ID() > 0) {
-			String isSOTrxAsString = DB.getSQLValueString(get_TrxName(), "SELECT "
-					+ "CASE "
-					+ "	WHEN o.IsSOTrx = 'Y' AND (dt.DocSubTypeSO IS NULL OR dt.DocSubTypeSO <> 'RM') THEN 'Y' "
-					+ "	WHEN o.IsSOTrx = 'N' AND (dt.DocSubTypeSO IS NOT NULL AND dt.DocSubTypeSO = 'RM') THEN 'Y' "
-					+ "	ELSE 'N' "
-					+ "END "
-					+ "FROM C_Order o "
-					+ "INNER JOIN C_DocType dt ON(o.C_DocType_ID = dt.C_DocType_ID) "
-					+ "WHERE o.C_Order_ID = ?", getC_Order_ID());  
-			//	Set
-			isSOTrx = isSOTrxAsString.equals("Y");
-		}	//	now Charge
-		//	Validate
-		if(isSOTrx != isReceipt() 
-				&& !getPayAmt().equals(Env.ZERO)) {
-			return false;
-		}
-		//	OK
-		return true;
-	}	//	verifyDocType
 
 	/**
 	 * 	Verify Payment Allocate is ignored (must not exists) if the payment header has charge/invoice/order
@@ -1614,13 +1572,6 @@ public final class MPayment extends X_C_Payment
 		}
 		
 		MPaymentAllocate[] pAllocs = MPaymentAllocate.get(this);
-		
-		//	Consistency of Invoice / Document Type and IsReceipt
-		if (!verifyDocType(pAllocs))
-		{
-			processMsg = "@PaymentDocTypeInvoiceInconsistent@";
-			return DocAction.STATUS_Invalid;
-		}
 
 		//	Payment Allocate is ignored if charge/invoice/order exists in header
 		if (!verifyPaymentAllocateVsHeader(pAllocs))
