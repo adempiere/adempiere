@@ -1502,8 +1502,7 @@ public abstract class AbstractADWindowPanel extends AbstractUIPart implements To
         if (!autoSave()) {
         	return;
         }
-
-		currentTab.setQuery(null);	//	reset previous queries
+        
 		MRole role = MRole.getDefault();
 		int maxRows = role.getMaxQueryRecords();
 		currentTab.query(m_onlyCurrentRows, 0, maxRows);
