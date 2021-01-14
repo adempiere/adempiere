@@ -223,7 +223,7 @@ OR (r.ReplenishType IN('0', '9')));</RollbackStatement>
     </Step>
     <Step DBType="Postgres" Parse="Y" SeqNo="20" StepType="SQL">
       <SQLStatement>-- View: RV_M_Replenish
--- DROP VIEW RV_M_Replenish;
+DROP VIEW RV_M_Replenish;
 /******************************************************************************
  * Product: Adempiere ERP &amp; CRM Smart Business Solution                       *
  * This program is free software; you can redistribute it and/or modify it    *
