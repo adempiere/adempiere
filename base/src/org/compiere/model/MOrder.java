@@ -484,8 +484,9 @@ public class MOrder extends X_C_Order implements DocAction
 		ii = bp.getSalesRep_ID();
 		if (ii != 0)
 			setSalesRep_ID(ii);
-
-
+		
+		//	Discount
+		setIsDiscountPrinted(bp.isDiscountPrinted());
 		//	Set Locations
 		MBPartnerLocation[] locs = bp.getLocations(false);
 		if (locs != null)
