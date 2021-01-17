@@ -21,50 +21,26 @@ import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_UserSocialMedia
+/** Generated Interface for AD_SetupDefinition
  *  @author Adempiere (generated) 
  *  @version Release 3.9.3
  */
-public interface I_AD_UserSocialMedia 
+public interface I_AD_SetupDefinition 
 {
 
-    /** TableName=AD_UserSocialMedia */
-    public static final String Table_Name = "AD_UserSocialMedia";
+    /** TableName=AD_SetupDefinition */
+    public static final String Table_Name = "AD_SetupDefinition";
 
-    /** AD_Table_ID=54625 */
+    /** AD_Table_ID=54786 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 7 - System - Client - Org 
+    /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(7);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
-
-    /** Column name AccountName */
-    public static final String COLUMNNAME_AccountName = "AccountName";
-
-	/** Set Account Name	  */
-	public void setAccountName (String AccountName);
-
-	/** Get Account Name	  */
-	public String getAccountName();
-
-    /** Column name AD_AppSupport_ID */
-    public static final String COLUMNNAME_AD_AppSupport_ID = "AD_AppSupport_ID";
-
-	/** Set App Support.
-	  * App Support for External Connection
-	  */
-	public void setAD_AppSupport_ID (int AD_AppSupport_ID);
-
-	/** Get App Support.
-	  * App Support for External Connection
-	  */
-	public int getAD_AppSupport_ID();
-
-	public org.spin.model.I_AD_AppSupport getAD_AppSupport() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -87,46 +63,31 @@ public interface I_AD_UserSocialMedia
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+    /** Column name AD_SetupDefinition_ID */
+    public static final String COLUMNNAME_AD_SetupDefinition_ID = "AD_SetupDefinition_ID";
 
-	/** Set User/Contact.
-	  * User within the system - Internal or Business Partner Contact
+	/** Set Setup Definition.
+	  * Setup Definition
 	  */
-	public void setAD_User_ID (int AD_User_ID);
+	public void setAD_SetupDefinition_ID (int AD_SetupDefinition_ID);
 
-	/** Get User/Contact.
-	  * User within the system - Internal or Business Partner Contact
+	/** Get Setup Definition.
+	  * Setup Definition
 	  */
-	public int getAD_User_ID();
+	public int getAD_SetupDefinition_ID();
 
-	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
+    /** Column name Classname */
+    public static final String COLUMNNAME_Classname = "Classname";
 
-    /** Column name AD_UserSocialMedia_ID */
-    public static final String COLUMNNAME_AD_UserSocialMedia_ID = "AD_UserSocialMedia_ID";
-
-	/** Set Social Media.
-	  * User External Link for Social Media
+	/** Set Classname.
+	  * Java Classname
 	  */
-	public void setAD_UserSocialMedia_ID (int AD_UserSocialMedia_ID);
+	public void setClassname (String Classname);
 
-	/** Get Social Media.
-	  * User External Link for Social Media
+	/** Get Classname.
+	  * Java Classname
 	  */
-	public int getAD_UserSocialMedia_ID();
-
-    /** Column name ApplicationType */
-    public static final String COLUMNNAME_ApplicationType = "ApplicationType";
-
-	/** Set Application Type.
-	  * Application Type, used for identify a Application Type like Message Queue
-	  */
-	public void setApplicationType (String ApplicationType);
-
-	/** Get Application Type.
-	  * Application Type, used for identify a Application Type like Message Queue
-	  */
-	public String getApplicationType();
+	public String getClassname();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -157,6 +118,34 @@ public interface I_AD_UserSocialMedia
 	  */
 	public String getDescription();
 
+    /** Column name EntityType */
+    public static final String COLUMNNAME_EntityType = "EntityType";
+
+	/** Set Entity Type.
+	  * Dictionary Entity Type;
+ Determines ownership and synchronization
+	  */
+	public void setEntityType (String EntityType);
+
+	/** Get Entity Type.
+	  * Dictionary Entity Type;
+ Determines ownership and synchronization
+	  */
+	public String getEntityType();
+
+    /** Column name Help */
+    public static final String COLUMNNAME_Help = "Help";
+
+	/** Set Comment/Help.
+	  * Comment or Hint
+	  */
+	public void setHelp (String Help);
+
+	/** Get Comment/Help.
+	  * Comment or Hint
+	  */
+	public String getHelp();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -169,6 +158,19 @@ public interface I_AD_UserSocialMedia
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name Name */
+    public static final String COLUMNNAME_Name = "Name";
+
+	/** Set Name.
+	  * Alphanumeric identifier of the entity
+	  */
+	public void setName (String Name);
+
+	/** Get Name.
+	  * Alphanumeric identifier of the entity
+	  */
+	public String getName();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

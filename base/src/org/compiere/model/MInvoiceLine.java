@@ -991,9 +991,6 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 			getParent().setPosted(false);
 			getParent().saveEx();
 		}
-		MLandedCost[] lcs = MLandedCost.getLandedCosts(this);
-		if (lcs.length == 0)
-			return "";
 
 		String sql = "DELETE M_CostDetail WHERE C_landedcostallocation_ID in " +
 				"(select c_landedCostAllocation_ID from c_landedcostAllocation where c_invoiceline_ID=" + getC_InvoiceLine_ID() + ")";
@@ -1005,6 +1002,10 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 		if (no != 0)
 			log.info("Deleted #" + no);
 
+		MLandedCost[] lcs = MLandedCost.getLandedCosts(this);
+		if (lcs.length == 0)
+			return "";
+		
 		int inserted = 0;
 		//	*** Single Criteria ***
 		if (lcs.length == 1)

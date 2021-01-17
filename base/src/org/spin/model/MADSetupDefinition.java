@@ -12,47 +12,34 @@
  * For the text or an alternative of this public license, you may reach us    *
  * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
  * All Rights Reserved.                                                       *
- * Contributor(s): Yamel Senih www.erpya.com                                  *
+ * Contributor(s): Raul Muñoz www.erpya.com                                   *
  *****************************************************************************/
 package org.spin.model;
 
 import java.sql.ResultSet;
-import java.util.List;
 import java.util.Properties;
 
-import org.compiere.model.I_AD_User;
-import org.compiere.model.MUser;
-import org.compiere.model.M_Element;
-import org.compiere.model.Query;
-import org.compiere.util.Env;
-
 /**
- * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
- *		Add for handle social media for user
+ * Model class for setup definition
+ * @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
  */
-public class MADUserSocialMedia extends X_AD_UserSocialMedia {
+public class MADSetupDefinition extends X_AD_SetupDefinition {
 
-	public MADUserSocialMedia(Properties ctx, int AD_UserSocialMedia_ID, String trxName) {
-		super(ctx, AD_UserSocialMedia_ID, trxName);
+
+	private static final long serialVersionUID = -1171525387615789574L;
+
+	public MADSetupDefinition(Properties ctx, int setupDefinitionId, String trxName) {
+		
+		super(ctx, setupDefinitionId, trxName);
 	}
 
-	public MADUserSocialMedia(Properties ctx, ResultSet rs, String trxName) {
+	public MADSetupDefinition(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
 
-	public static List<MADUserSocialMedia> getSocialMedias (Properties ctx, int userId) {
-		List<MADUserSocialMedia> retValue = new Query(ctx, MADUserSocialMedia.Table_Name, MADUserSocialMedia.COLUMNNAME_AD_User_ID + " = ?",null)
-				.setParameters(userId)
-				.setOnlyActiveRecords(true)
-				.list();
-		
-		
-		return retValue;
-	}	//	get
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7151089570474994623L;
-
+	@Override
+	public String toString() {
+		return "MADSetupDefinition [getAD_SetupDefinition_ID()=" + getAD_SetupDefinition_ID() + ", getClassname()="
+				+ getClassname() + ", getName()=" + getName() + "]";
+	}
 }

@@ -23,6 +23,7 @@ package org.compiere.model;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -129,6 +130,10 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		setIsSOTrx(isSOTrx);
 		setOpenAmt(openAmt);
 		setPayAmt (payAmt);
+		MInvoice invoice = new MInvoice(getCtx(), invoiceId, get_TrxName());
+		if(invoice.getC_ConversionType_ID() > 0) {
+			setC_ConversionType_ID(invoice.getC_ConversionType_ID());
+		}
 		setDiscountAmt(discountAmt);
 		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
 	}	//	setInvoive
@@ -155,6 +160,9 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		setAmtSource(amtSource);
 		setOpenAmt(openAmt);
 		setPayAmt (payAmt);
+		if(invoice.getC_ConversionType_ID() > 0) {
+			setC_ConversionType_ID(invoice.getC_ConversionType_ID());
+		}
 		setDiscountAmt(discountAmt);
 		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
 	}	//	setInvoice
@@ -182,18 +190,32 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		setAmtSource(amtSource);
 		setOpenAmt(openAmt);
 		setPayAmt (payAmt);
+		if(order.getC_ConversionType_ID() > 0) {
+			setC_ConversionType_ID(order.getC_ConversionType_ID());
+		}
 		setDiscountAmt(discountAmt);
 		setDifferenceAmt(openAmt.subtract(payAmt).subtract(discountAmt));
 	}	//	setOrder
 	
 	/**
-	 * Set Payroll Movement Info
-	 * @param movementId
-	 * @param payAmt
+	 * Based on movement
+	 * @param movement
+	 * @param sourceAmount
+	 * @param convertedAmount
 	 */
-	public void setHRMovement(int movementId, BigDecimal payAmt) {
-		setHR_Movement_ID(movementId);
-		X_HR_Movement movement = new X_HR_Movement(getCtx(), movementId, get_TrxName());
+	public void setHRMovement(X_HR_Movement movement, BigDecimal sourceAmount, BigDecimal convertedAmount) {
+		Optional.ofNullable(movement.getHR_Process()).ifPresent(payrollProcess -> setHRMovement(movement, payrollProcess.getC_ConversionType_ID(), sourceAmount, convertedAmount));
+	}
+	
+	/**
+	 * Set Payroll Movement Info
+	 * @param movement
+	 * @param conversionTypeId
+	 * @param sourceAmount
+	 * @param convertedAmount
+	 */
+	public void setHRMovement(X_HR_Movement movement, int conversionTypeId, BigDecimal sourceAmount, BigDecimal convertedAmount) {
+		setHR_Movement_ID(movement.getHR_Movement_ID());
 		setC_BPartner_ID(movement.getC_BPartner_ID());
 		//	Set Payment Rule
 		X_HR_Employee employee = (X_HR_Employee) movement.getHR_Employee();
@@ -217,11 +239,12 @@ public class MPaySelectionLine extends X_C_PaySelectionLine
 		if(getPaymentRule() == null) {
 			setPaymentRule(X_C_PaySelectionLine.PAYMENTRULE_Check);
 		}
-		//	
+		//	Get Conversion Type
 		setIsSOTrx(false);
-		setAmtSource(payAmt);
-		setOpenAmt(payAmt);
-		setPayAmt (payAmt);
+		setAmtSource(sourceAmount);
+		setOpenAmt(Optional.ofNullable(convertedAmount).orElseGet(() -> sourceAmount));
+		setPayAmt(Optional.ofNullable(convertedAmount).orElseGet(() -> sourceAmount));
+		setC_ConversionType_ID(conversionTypeId);
 		setDiscountAmt(Env.ZERO);
 		setDifferenceAmt(Env.ZERO);
 	}	//	setHRMovement
