@@ -17,23 +17,22 @@
 /** Generated Model - DO NOT CHANGE */
 package org.eevolution.model;
 
-import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.model.*;
-import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_LeaveAssign
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_HR_LeaveAssign extends PO implements I_HR_LeaveAssign, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_LeaveAssign (Properties ctx, int HR_LeaveAssign_ID, String trxName)
@@ -42,11 +41,11 @@ public class X_HR_LeaveAssign extends PO implements I_HR_LeaveAssign, I_Persiste
       /** if (HR_LeaveAssign_ID == 0)
         {
 			setC_BPartner_ID (0);
-			setC_Year_ID (0);
 			setHR_LeaveAssign_ID (0);
 			setHR_LeaveType_ID (0);
-			setNoOfLeavesAllocated (Env.ZERO);
-			setTotalLeaves (Env.ZERO);
+			setNoOfLeavesAllocated (0);
+			setTotalLeaves (0);
+			setValidFrom (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 
@@ -80,19 +79,19 @@ public class X_HR_LeaveAssign extends PO implements I_HR_LeaveAssign, I_Persiste
 
 	/** Set Balance.
 		@param Balance Balance	  */
-	public void setBalance (BigDecimal Balance)
+	public void setBalance (int Balance)
 	{
-		set_Value (COLUMNNAME_Balance, Balance);
+		set_Value (COLUMNNAME_Balance, Integer.valueOf(Balance));
 	}
 
 	/** Get Balance.
 		@return Balance	  */
-	public BigDecimal getBalance () 
+	public int getBalance () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Balance);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		Integer ii = (Integer)get_Value(COLUMNNAME_Balance);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
@@ -123,32 +122,21 @@ public class X_HR_LeaveAssign extends PO implements I_HR_LeaveAssign, I_Persiste
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_Year getC_Year() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_Year)MTable.get(getCtx(), org.compiere.model.I_C_Year.Table_Name)
-			.getPO(getC_Year_ID(), get_TrxName());	}
-
-	/** Set Year.
-		@param C_Year_ID 
-		Calendar Year
+	/** Set Date last run.
+		@param DateLastRun 
+		Date the process was last run.
 	  */
-	public void setC_Year_ID (int C_Year_ID)
+	public void setDateLastRun (Timestamp DateLastRun)
 	{
-		if (C_Year_ID < 1) 
-			set_Value (COLUMNNAME_C_Year_ID, null);
-		else 
-			set_Value (COLUMNNAME_C_Year_ID, Integer.valueOf(C_Year_ID));
+		set_Value (COLUMNNAME_DateLastRun, DateLastRun);
 	}
 
-	/** Get Year.
-		@return Calendar Year
+	/** Get Date last run.
+		@return Date the process was last run.
 	  */
-	public int getC_Year_ID () 
+	public Timestamp getDateLastRun () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_Year_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (Timestamp)get_Value(COLUMNNAME_DateLastRun);
 	}
 
 	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException
@@ -219,9 +207,9 @@ public class X_HR_LeaveAssign extends PO implements I_HR_LeaveAssign, I_Persiste
 	public void setHR_LeaveType_ID (int HR_LeaveType_ID)
 	{
 		if (HR_LeaveType_ID < 1) 
-			set_Value (COLUMNNAME_HR_LeaveType_ID, null);
+			set_ValueNoCheck (COLUMNNAME_HR_LeaveType_ID, null);
 		else 
-			set_Value (COLUMNNAME_HR_LeaveType_ID, Integer.valueOf(HR_LeaveType_ID));
+			set_ValueNoCheck (COLUMNNAME_HR_LeaveType_ID, Integer.valueOf(HR_LeaveType_ID));
 	}
 
 	/** Get Leave Type.
@@ -239,20 +227,20 @@ public class X_HR_LeaveAssign extends PO implements I_HR_LeaveAssign, I_Persiste
 		@param NoOfLeavesAllocated 
 		Number of Leaves Allocated
 	  */
-	public void setNoOfLeavesAllocated (BigDecimal NoOfLeavesAllocated)
+	public void setNoOfLeavesAllocated (int NoOfLeavesAllocated)
 	{
-		set_Value (COLUMNNAME_NoOfLeavesAllocated, NoOfLeavesAllocated);
+		set_ValueNoCheck (COLUMNNAME_NoOfLeavesAllocated, Integer.valueOf(NoOfLeavesAllocated));
 	}
 
 	/** Get Number of Leaves Allocated.
 		@return Number of Leaves Allocated
 	  */
-	public BigDecimal getNoOfLeavesAllocated () 
+	public int getNoOfLeavesAllocated () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_NoOfLeavesAllocated);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		Integer ii = (Integer)get_Value(COLUMNNAME_NoOfLeavesAllocated);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Process Now.
@@ -280,20 +268,20 @@ public class X_HR_LeaveAssign extends PO implements I_HR_LeaveAssign, I_Persiste
 		@param TotalLeaves 
 		Total of Leaves
 	  */
-	public void setTotalLeaves (BigDecimal TotalLeaves)
+	public void setTotalLeaves (int TotalLeaves)
 	{
-		set_Value (COLUMNNAME_TotalLeaves, TotalLeaves);
+		set_Value (COLUMNNAME_TotalLeaves, Integer.valueOf(TotalLeaves));
 	}
 
 	/** Get Total of Leaves.
 		@return Total of Leaves
 	  */
-	public BigDecimal getTotalLeaves () 
+	public int getTotalLeaves () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_TotalLeaves);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		Integer ii = (Integer)get_Value(COLUMNNAME_TotalLeaves);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Immutable Universally Unique Identifier.
@@ -317,19 +305,53 @@ public class X_HR_LeaveAssign extends PO implements I_HR_LeaveAssign, I_Persiste
 		@param UsedLeaves 
 		Used Leaves
 	  */
-	public void setUsedLeaves (BigDecimal UsedLeaves)
+	public void setUsedLeaves (int UsedLeaves)
 	{
-		set_Value (COLUMNNAME_UsedLeaves, UsedLeaves);
+		set_Value (COLUMNNAME_UsedLeaves, Integer.valueOf(UsedLeaves));
 	}
 
 	/** Get Used Leaves.
 		@return Used Leaves
 	  */
-	public BigDecimal getUsedLeaves () 
+	public int getUsedLeaves () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_UsedLeaves);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		Integer ii = (Integer)get_Value(COLUMNNAME_UsedLeaves);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Valid from.
+		@param ValidFrom 
+		Valid from including this date (first day)
+	  */
+	public void setValidFrom (Timestamp ValidFrom)
+	{
+		set_Value (COLUMNNAME_ValidFrom, ValidFrom);
+	}
+
+	/** Get Valid from.
+		@return Valid from including this date (first day)
+	  */
+	public Timestamp getValidFrom () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_ValidFrom);
+	}
+
+	/** Set Valid to.
+		@param ValidTo 
+		Valid to including this date (last day)
+	  */
+	public void setValidTo (Timestamp ValidTo)
+	{
+		set_Value (COLUMNNAME_ValidTo, ValidTo);
+	}
+
+	/** Get Valid to.
+		@return Valid to including this date (last day)
+	  */
+	public Timestamp getValidTo () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_ValidTo);
 	}
 }

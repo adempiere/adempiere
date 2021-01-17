@@ -24,14 +24,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_BOM_Indented
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_T_BOM_Indented extends PO implements I_T_BOM_Indented, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_T_BOM_Indented (Properties ctx, int T_BOM_Indented_ID, String trxName)

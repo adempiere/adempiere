@@ -19,14 +19,17 @@ package org.compiere.model;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.Adempiere;
 import org.compiere.util.CCache;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
+import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 
 /**
@@ -50,15 +53,24 @@ public class MSession extends X_AD_Session
 	 */
 	private static final long serialVersionUID = 480745219310430126L;
 
-
 	/**
 	 * 	Get existing or create local session
 	 *	@param ctx context
 	 *	@param createNew create if not found
 	 *	@return session session
 	 */
-	public static MSession get (Properties ctx, boolean createNew)
-	{
+	public static MSession get (Properties ctx, boolean createNew) {
+		return get(ctx, createNew, true);
+	}
+
+	/**
+	 * 	Get existing or create local session
+	 *	@param ctx context
+	 *	@param createNew create if not found
+	 *	@param keepAlive keep active session
+	 *	@return session session
+	 */
+	public static MSession get (Properties ctx, boolean createNew, boolean keepAlive) {
 		int AD_Session_ID = Env.getContextAsInt(ctx, "#AD_Session_ID");
 		MSession session = null;
 		if (AD_Session_ID > 0)
@@ -80,7 +92,10 @@ public class MSession extends X_AD_Session
 			AD_Session_ID = session.getAD_Session_ID();
 			Env.setContext (ctx, "#AD_Session_ID", AD_Session_ID);
 			s_sessions.put (new Integer(AD_Session_ID), session);
-		}	
+		}
+		if(session != null && keepAlive) {
+			session.keepAlive();
+		}
 		return session;
 	}	//	get
 	
@@ -238,10 +253,20 @@ public class MSession extends X_AD_Session
 	public void logout()
 	{
 		setProcessed(true);
-		save();
+		saveEx();
 		s_sessions.remove(new Integer(getAD_Session_ID()));
 		log.info(TimeUtil.formatElapsed(getCreated(), getUpdated()));
 	}	//	logout
+	
+	/**
+	 * Keep Alive Session
+	 */
+	public void keepAlive() {
+		Timestamp lastAlive = new Timestamp(System.currentTimeMillis());
+		set_ValueNoCheck(COLUMNNAME_Updated, lastAlive);
+		setDescription(Msg.parseTranslation(getCtx(), "@LastConnection@: ") + DisplayType.getDateFormat(DisplayType.DateTime).format(lastAlive));
+		saveEx();
+	}
 
 	/**
 	 * 	Preserved for backward compatibility

@@ -29,6 +29,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.Util;
 
 /**
  *  Order Line Model.
@@ -350,7 +351,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		int ii = Tax.get(getCtx(), getM_Product_ID(), getC_Charge_ID(), getDateOrdered(), getDateOrdered(),
 			getAD_Org_ID(), getM_Warehouse_ID(),
 			getC_BPartner_Location_ID(),		//	should be bill to
-			getC_BPartner_Location_ID(), m_IsSOTrx);
+			getC_BPartner_Location_ID(), m_IsSOTrx, get_TrxName());
 		if (ii == 0)
 		{
 			log.log(Level.SEVERE, "No Tax found");
@@ -364,10 +365,21 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	 * 	Calculate Extended Amt.
 	 * 	May or may not include tax
 	 */
-	public void setLineNetAmt ()
-	{
-		BigDecimal bd = getPriceActual().multiply(getQtyOrdered()); 
-		
+	public void setLineNetAmt () {
+		//	Line Net Amt
+		BigDecimal lineNetAmount = null;
+		if(getM_Product_ID() != 0) {
+			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
+			if(product.getC_UOM_ID() != getC_UOM_ID()
+					&& getPriceEntered() != null && !getPriceEntered().equals(Env.ZERO)
+					&& getQtyEntered() != null && !getQtyEntered().equals(Env.ZERO)) {
+				lineNetAmount = getQtyEntered().multiply(getPriceEntered());
+			}
+		}
+		//	Set default
+		if(lineNetAmount == null) {
+			lineNetAmount = getPriceActual().multiply(getQtyOrdered());
+		}
 		boolean documentLevel = getTax().isDocumentLevel();
 		
 		//	juddm: Tax Exempt & Tax Included in Price List & not Document Level - Adjust Line Amount
@@ -399,20 +411,20 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 				log.fine("stdTax rate is " + stdTax.getRate());
 				log.fine("orderTax rate is " + orderTax.getRate());
 				
-				taxThisAmt = taxThisAmt.add(orderTax.calculateTax(bd, isTaxIncluded(), getPrecision()));
-				taxStdAmt = taxStdAmt.add(stdTax.calculateTax(bd, isTaxIncluded(), getPrecision()));
+				taxThisAmt = taxThisAmt.add(orderTax.calculateTax(lineNetAmount, isTaxIncluded(), getPrecision()));
+				taxStdAmt = taxStdAmt.add(stdTax.calculateTax(lineNetAmount, isTaxIncluded(), getPrecision()));
 				
-				bd = bd.subtract(taxStdAmt).add(taxThisAmt);
+				lineNetAmount = lineNetAmount.subtract(taxStdAmt).add(taxThisAmt);
 				
 				log.fine("Price List includes Tax and Tax Changed on Order Line: New Tax Amt: " 
-						+ taxThisAmt + " Standard Tax Amt: " + taxStdAmt + " Line Net Amt: " + bd);	
+						+ taxThisAmt + " Standard Tax Amt: " + taxStdAmt + " Line Net Amt: " + lineNetAmount);	
 			}
 			
 		}
 		
-		if (bd.scale() > getPrecision())
-			bd = bd.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
-		super.setLineNetAmt (bd);
+		if (lineNetAmount.scale() > getPrecision())
+			lineNetAmount = lineNetAmount.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
+		super.setLineNetAmt (lineNetAmount);
 	}	//	setLineNetAmt
 	
 	/**
@@ -732,6 +744,126 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		super.setQtyOrdered(QtyOrdered);
 	}	//	setQtyOrdered
 
+	/**
+	 * Set reference for RMA
+	 * @param inOutLineReference
+	 */
+	public void setRef_InOutLine(MInOutLine inOutLineReference) {
+		setRef_InOutLine_ID(inOutLineReference.getM_InOutLine_ID());
+		//	Charge
+		if(inOutLineReference.getC_Charge_ID() != 0) {
+			setC_Charge_ID(inOutLineReference.getC_Charge_ID());
+		}
+		//	Product
+		if(inOutLineReference.getM_Product_ID() != 0) {
+			setM_Product_ID(inOutLineReference.getM_Product_ID());
+			if(inOutLineReference.getM_AttributeSetInstance_ID() > 0) {
+				setM_AttributeSetInstance_ID(inOutLineReference.getM_AttributeSetInstance_ID());
+			}
+		}
+		if(inOutLineReference.getC_UOM_ID() != 0) {
+			setC_UOM_ID(inOutLineReference.getC_UOM_ID());
+		}
+		if(inOutLineReference.getAD_OrgTrx_ID() != 0) {
+			setAD_OrgTrx_ID(inOutLineReference.getAD_OrgTrx_ID());
+		}
+		if(inOutLineReference.getC_Project_ID() != 0) {
+			setC_Project_ID(inOutLineReference.getC_Project_ID());
+		}
+		if(inOutLineReference.getC_Campaign_ID() != 0) {
+			setC_Campaign_ID(inOutLineReference.getC_Campaign_ID());
+		}
+		if(inOutLineReference.getC_Activity_ID() != 0) {
+			setC_Activity_ID(inOutLineReference.getC_Activity_ID());
+		}
+		if(inOutLineReference.getUser1_ID() != 0) {
+			setUser1_ID(inOutLineReference.getUser1_ID());
+		}
+		if(inOutLineReference.getUser2_ID() != 0) {
+			setUser2_ID(inOutLineReference.getUser2_ID());
+		}
+		if(inOutLineReference.getUser3_ID() != 0) {
+			setUser3_ID(inOutLineReference.getUser3_ID());
+		}
+		if(inOutLineReference.getUser4_ID() != 0) {
+			setUser4_ID(inOutLineReference.getUser4_ID());
+		}
+		int invoiceLineReferenceId = inOutLineReference.getInvoiceLineId();
+		//	Set Price from Invoice / Order
+		if (invoiceLineReferenceId != 0) {
+            MInvoiceLine invoiceLine = new MInvoiceLine(getCtx(), invoiceLineReferenceId, get_TrxName());
+            setPriceList(invoiceLine.getPriceList());
+            setPriceEntered(invoiceLine.getPriceEntered());
+            setPriceActual(invoiceLine.getPriceActual());
+            setC_Tax_ID(invoiceLine.getC_Tax_ID());
+        } else if (inOutLineReference.getC_OrderLine_ID() != 0) {
+            MOrderLine orderLine = new MOrderLine (getCtx(), inOutLineReference.getC_OrderLine_ID(), get_TrxName());
+            setPriceList(orderLine.getPriceList());
+            setPriceEntered(orderLine.getPriceEntered());
+            setPriceActual(orderLine.getPriceActual());
+            setC_Tax_ID(orderLine.getC_Tax_ID());
+        }
+	}
+	
+	/**
+	 * Set reference for RMA
+	 * @param invoiceLineReference
+	 */
+	public void setRef_InvoiceLine(MInvoiceLine invoiceLineReference) {
+		//	Charge
+		if(invoiceLineReference.getC_Charge_ID() != 0) {
+			setC_Charge_ID(invoiceLineReference.getC_Charge_ID());
+		}
+		//	Product
+		if(invoiceLineReference.getM_Product_ID() != 0) {
+			setM_Product_ID(invoiceLineReference.getM_Product_ID());
+			if(invoiceLineReference.getM_AttributeSetInstance_ID() > 0) {
+				setM_AttributeSetInstance_ID(invoiceLineReference.getM_AttributeSetInstance_ID());
+			}
+		}
+		if(invoiceLineReference.getC_UOM_ID() != 0) {
+			setC_UOM_ID(invoiceLineReference.getC_UOM_ID());
+		}
+		if(invoiceLineReference.getAD_OrgTrx_ID() != 0) {
+			setAD_OrgTrx_ID(invoiceLineReference.getAD_OrgTrx_ID());
+		}
+		if(invoiceLineReference.getC_Project_ID() != 0) {
+			setC_Project_ID(invoiceLineReference.getC_Project_ID());
+		}
+		if(invoiceLineReference.getC_Campaign_ID() != 0) {
+			setC_Campaign_ID(invoiceLineReference.getC_Campaign_ID());
+		}
+		if(invoiceLineReference.getC_Activity_ID() != 0) {
+			setC_Activity_ID(invoiceLineReference.getC_Activity_ID());
+		}
+		if(invoiceLineReference.getUser1_ID() != 0) {
+			setUser1_ID(invoiceLineReference.getUser1_ID());
+		}
+		if(invoiceLineReference.getUser2_ID() != 0) {
+			setUser2_ID(invoiceLineReference.getUser2_ID());
+		}
+		if(invoiceLineReference.getUser3_ID() != 0) {
+			setUser3_ID(invoiceLineReference.getUser3_ID());
+		}
+		if(invoiceLineReference.getUser4_ID() != 0) {
+			setUser4_ID(invoiceLineReference.getUser4_ID());
+		}
+		setRef_InvoiceLine_ID(invoiceLineReference.getC_InvoiceLine_ID());
+		//	Set Price from Invoice / Order
+		setPriceList(invoiceLineReference.getPriceList());
+		setPriceEntered(invoiceLineReference.getPriceEntered());
+        setPriceActual(invoiceLineReference.getPriceActual());
+        setC_Tax_ID(invoiceLineReference.getC_Tax_ID());
+        int inOutLineReferenceId = invoiceLineReference.getM_InOutLine_ID();
+        if(inOutLineReferenceId == 0) {
+        	inOutLineReferenceId = invoiceLineReference.getInOutLineId();
+        }
+		//	Set Price from Invoice / Order
+		if (inOutLineReferenceId != 0) {
+            setRef_InOutLine_ID(inOutLineReferenceId);
+        }
+	}
+	
 	/**************************************************************************
 	 * 	Before Save
 	 *	@param newRecord
@@ -777,9 +909,12 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 			//	Check if on Price list
 			if (m_productPrice == null)
 				getProductPricing(m_M_PriceList_ID);
-			if (!m_productPrice.isCalculated())
-			{
-				throw new ProductNotOnPriceListException(m_productPrice, getLine());
+			if (!m_productPrice.isCalculated()) {
+				MDocType documentType = MDocType.get(getCtx(), getParent().getC_DocTypeTarget_ID());
+				if(Util.isEmpty(documentType.getDocSubTypeSO())
+						|| !documentType.getDocSubTypeSO().equals(MDocType.DOCSUBTYPESO_ReturnMaterial)) {
+					throw new ProductNotOnPriceListException(m_productPrice, getLine());
+				}
 			}
 		}
 
@@ -903,14 +1038,14 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	{
 		if (!success)
 			return success;
-		if (!newRecord && is_ValueChanged("C_Tax_ID"))
-		{
-			//	Recalculate Tax for old Tax
-			if (!getParent().isProcessed())
-				if (!updateOrderTax(true))
-					return false;
-		}
-		return updateHeaderTax();
+		if (newRecord
+				|| (!newRecord && is_ValueChanged(MOrderLine.COLUMNNAME_C_Tax_ID) && !getParent().isProcessed())
+				|| (!newRecord && is_ValueChanged(MOrderLine.COLUMNNAME_QtyEntered) && !getParent().isProcessed())
+				|| (!newRecord && is_ValueChanged(MOrderLine.COLUMNNAME_PriceActual) && !getParent().isProcessed())
+		)
+			return updateHeaderTax();
+
+		return true;
 	}	//	afterSave
 
 	/**
@@ -932,30 +1067,6 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	}	//	afterDelete
 	
 	/**
-	 * Recalculate order tax
-	 * @param oldTax true if the old C_Tax_ID should be used
-	 * @return true if success, false otherwise
-	 * 
-	 * @author teo_sarca [ 1583825 ]
-	 */
-	private boolean updateOrderTax(boolean oldTax) {
-		MOrderTax tax = MOrderTax.get (this, getPrecision(), oldTax, get_TrxName());
-		if (tax != null) {
-			if (!tax.calculateTaxFromLines())
-				return false;
-			if (tax.getTaxAmt().signum() != 0) {
-				if (!tax.save(get_TrxName()))
-					return false;
-			}
-			else {
-				if (!tax.is_new() && !tax.delete(false, get_TrxName()))
-					return false;
-			}
-		}
-		return true;
-	}
-	
-	/**
 	 *	Update Tax & Header
 	 *	@return true if header updated
 	 */
@@ -963,8 +1074,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	{
 		//	Recalculate Tax for this Tax
 		if (!getParent().isProcessed())
-			if (!updateOrderTax(false))
-				return false;
+				getParent().calculateTaxTotal();
 		
 		//	Update Order Header
 		String sql = "UPDATE C_Order i"
@@ -1063,5 +1173,11 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	public int getC_ConversionType_ID()
 	{
 		return getParent().getC_ConversionType_ID();
+	}
+
+	@Override
+	public boolean isReversalParent() {
+		// TODO Auto-generated method stub
+		return getC_OrderLine_ID() < getReversalLine_ID();
 	}
 }	//	MOrderLine

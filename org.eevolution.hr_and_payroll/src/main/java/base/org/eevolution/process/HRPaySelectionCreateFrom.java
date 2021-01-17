@@ -114,8 +114,8 @@ public class HRPaySelectionCreateFrom extends HRPaySelectionCreateFromAbstract {
             Optional<MHREmployee> employeeOption = Optional.ofNullable( MHREmployee.getActiveEmployee(getCtx(), partner.getC_BPartner_ID(), movement.get_TrxName()));
             String paymentRule = employeeOption
                     .flatMap(employee -> Optional.ofNullable(employee.getPaymentRule())) // if the employee exists and has a payment rule then is used
-                    .orElse(Optional.ofNullable(partner.getPaymentRule()) // if has not then get partner payment rule
-                    .orElse(MHREmployee.PAYMENTRULE_DirectDeposit)); // if has not then use default
+                    .orElseGet(() -> Optional.ofNullable(partner.getPaymentRule()) // if has not then get partner payment rule
+                    .orElseGet(() -> MHREmployee.PAYMENTRULE_DirectDeposit)); // if has not then use default
 
             lineNo.updateAndGet(count -> count + 10);
             MHRPaySelectionLine paySelectionLine = new MHRPaySelectionLine(getCtx(), 0, get_TrxName());

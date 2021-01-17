@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for I_Payment
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_I_Payment extends PO implements I_I_Payment, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_I_Payment (Properties ctx, int I_Payment_ID, String trxName)

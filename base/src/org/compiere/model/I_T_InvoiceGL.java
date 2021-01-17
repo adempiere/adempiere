@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_InvoiceGL
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_T_InvoiceGL 
 {
@@ -77,6 +77,21 @@ public interface I_T_InvoiceGL
 
 	public org.compiere.model.I_AD_PInstance getAD_PInstance() throws RuntimeException;
 
+    /** Column name AD_Table_ID */
+    public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
+
+	/** Set Table.
+	  * Database Table information
+	  */
+	public void setAD_Table_ID (int AD_Table_ID);
+
+	/** Get Table.
+	  * Database Table information
+	  */
+	public int getAD_Table_ID();
+
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
+
     /** Column name APAR */
     public static final String COLUMNNAME_APAR = "APAR";
 
@@ -89,6 +104,21 @@ public interface I_T_InvoiceGL
 	  * Include Receivables and/or Payables transactions
 	  */
 	public String getAPAR();
+
+    /** Column name Account_ID */
+    public static final String COLUMNNAME_Account_ID = "Account_ID";
+
+	/** Set Account.
+	  * Account used
+	  */
+	public void setAccount_ID (int Account_ID);
+
+	/** Get Account.
+	  * Account used
+	  */
+	public int getAccount_ID();
+
+	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException;
 
     /** Column name AmtAcctBalance */
     public static final String COLUMNNAME_AmtAcctBalance = "AmtAcctBalance";
@@ -168,6 +198,21 @@ public interface I_T_InvoiceGL
 	  */
 	public BigDecimal getAmtSourceBalance();
 
+    /** Column name C_AcctSchema_ID */
+    public static final String COLUMNNAME_C_AcctSchema_ID = "C_AcctSchema_ID";
+
+	/** Set Accounting Schema.
+	  * Rules for accounting
+	  */
+	public void setC_AcctSchema_ID (int C_AcctSchema_ID);
+
+	/** Get Accounting Schema.
+	  * Rules for accounting
+	  */
+	public int getC_AcctSchema_ID();
+
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException;
+
     /** Column name C_ConversionTypeReval_ID */
     public static final String COLUMNNAME_C_ConversionTypeReval_ID = "C_ConversionTypeReval_ID";
 
@@ -182,6 +227,21 @@ public interface I_T_InvoiceGL
 	public int getC_ConversionTypeReval_ID();
 
 	public org.compiere.model.I_C_ConversionType getC_ConversionTypeReval() throws RuntimeException;
+
+    /** Column name C_Currency_ID */
+    public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
+
+	/** Set Currency.
+	  * The Currency for this record
+	  */
+	public void setC_Currency_ID (int C_Currency_ID);
+
+	/** Get Currency.
+	  * The Currency for this record
+	  */
+	public int getC_Currency_ID();
+
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
     /** Column name C_DocTypeReval_ID */
     public static final String COLUMNNAME_C_DocTypeReval_ID = "C_DocTypeReval_ID";
@@ -251,6 +311,8 @@ public interface I_T_InvoiceGL
 	/** Get Accounting Fact	  */
 	public int getFact_Acct_ID();
 
+	public org.compiere.model.I_Fact_Acct getFact_Acct() throws RuntimeException;
+
     /** Column name GrandTotal */
     public static final String COLUMNNAME_GrandTotal = "GrandTotal";
 
@@ -315,6 +377,28 @@ public interface I_T_InvoiceGL
 	  * Percentage
 	  */
 	public BigDecimal getPercent();
+
+    /** Column name Record_ID */
+    public static final String COLUMNNAME_Record_ID = "Record_ID";
+
+	/** Set Record ID.
+	  * Direct internal record ID
+	  */
+	public void setRecord_ID (int Record_ID);
+
+	/** Get Record ID.
+	  * Direct internal record ID
+	  */
+	public int getRecord_ID();
+
+    /** Column name T_InvoiceGL_ID */
+    public static final String COLUMNNAME_T_InvoiceGL_ID = "T_InvoiceGL_ID";
+
+	/** Set Gain/Loss Currency Temporary Table	  */
+	public void setT_InvoiceGL_ID (int T_InvoiceGL_ID);
+
+	/** Get Gain/Loss Currency Temporary Table	  */
+	public int getT_InvoiceGL_ID();
 
     /** Column name UUID */
     public static final String COLUMNNAME_UUID = "UUID";

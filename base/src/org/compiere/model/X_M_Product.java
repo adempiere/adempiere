@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_M_Product extends PO implements I_M_Product, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_Product (Properties ctx, int M_Product_ID, String trxName)
@@ -1216,6 +1216,34 @@ public class X_M_Product extends PO implements I_M_Product, I_Persistent
 	public String getName () 
 	{
 		return (String)get_Value(COLUMNNAME_Name);
+	}
+
+	public org.compiere.model.I_M_Product getParent_Product() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
+			.getPO(getParent_Product_ID(), get_TrxName());	}
+
+	/** Set Parent Product.
+		@param Parent_Product_ID 
+		Parent (superior) Product 
+	  */
+	public void setParent_Product_ID (int Parent_Product_ID)
+	{
+		if (Parent_Product_ID < 1) 
+			set_Value (COLUMNNAME_Parent_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_Parent_Product_ID, Integer.valueOf(Parent_Product_ID));
+	}
+
+	/** Get Parent Product.
+		@return Parent (superior) Product 
+	  */
+	public int getParent_Product_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Parent_Product_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Process Now.

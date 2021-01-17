@@ -796,6 +796,41 @@ public class SynchronizeTerminology extends SynchronizeTerminologyAbstract
 			no = DB.executeUpdate(sql, false, get_TrxName());	  	
 			log.info("  rows updated: "+no);
 			trx.commit(true);
+			
+			
+			//	Sync Names = Form
+			log.info("Synchronizing Menu with Forms");
+			sql="UPDATE	AD_MENU m"
+				+" SET		Name = (SELECT Name FROM AD_Browse f WHERE m.AD_Browse_ID=f.AD_Browse_ID),"
+				+" Description = (SELECT Description FROM AD_Browse f WHERE m.AD_Browse_ID=f.AD_Browse_ID)"
+				+" WHERE m.AD_Browse_ID IS NOT NULL"
+				+" AND m.Action = 'S'"
+				+" AND m.IsCentrallyMaintained='Y' AND m.IsActive='Y'"
+				;
+			no = DB.executeUpdate(sql, false, get_TrxName());	  	
+			log.info("  rows updated: "+no);
+			trx.commit(true);
+
+			sql="UPDATE	AD_MENU_TRL mt"
+				+" SET		Name = (SELECT ft.Name FROM AD_Browse_Trl ft, AD_MENU m"
+				+" WHERE mt.AD_Menu_ID=m.AD_Menu_ID AND m.AD_Browse_ID=ft.AD_Browse_ID"
+				+" AND mt.AD_LANGUAGE=ft.AD_LANGUAGE),"
+				+" Description = (SELECT ft.Description FROM AD_Browse_Trl ft, AD_MENU m"
+				+" WHERE mt.AD_Menu_ID=m.AD_Menu_ID AND m.AD_Browse_ID=ft.AD_Browse_ID"
+				+" AND mt.AD_LANGUAGE=ft.AD_LANGUAGE),"
+				+" IsTranslated = (SELECT ft.IsTranslated FROM AD_Browse_Trl ft, AD_MENU m"
+				+" WHERE mt.AD_Menu_ID=m.AD_Menu_ID AND m.AD_Browse_ID=ft.AD_Browse_ID"
+				+" AND mt.AD_LANGUAGE=ft.AD_LANGUAGE)"
+				+" WHERE EXISTS (SELECT 1 FROM AD_Browse_Trl ft, AD_MENU m"
+				+" WHERE mt.AD_Menu_ID=m.AD_Menu_ID AND m.AD_Browse_ID=ft.AD_Browse_ID"
+				+" AND mt.AD_LANGUAGE=ft.AD_LANGUAGE"
+				+" AND m.AD_Browse_ID IS NOT NULL"
+				+" AND m.Action = 'S'"
+				+" AND m.IsCentrallyMaintained='Y' AND m.IsActive='Y'"
+				+")";
+			no = DB.executeUpdate(sql, false, get_TrxName());	  	
+			log.info("  rows updated: "+no);
+			trx.commit(true);
 
 			//  Column Name + Element
 			log.info("Synchronizing Column with Element");

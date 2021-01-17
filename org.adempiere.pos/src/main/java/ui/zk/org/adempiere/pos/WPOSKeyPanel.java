@@ -348,7 +348,8 @@ public class WPOSKeyPanel extends Panel implements EventListener {
 			log.fine( "#" + map.size() + " - " + keyColor); 
 			Panel button = new Panel();
 			Label label = new Label(key.getName());
-			label.setStyle("margin: 25px 0px 00px 0px; top:20px; font-size:medium; font-weight: bold;");
+			String labelcolor = "Background-color:rgb("+keyColor.getRed()+","+keyColor.getGreen()+","+keyColor.getBlue()+")";
+			label.setStyle("margin: 25px 0px 00px 0px; top:20px; font-size:medium; font-weight: bold;" + labelcolor);
 			label.setHeight("100%");
 			button.appendChild(label);
 			button.setClass("z-button");

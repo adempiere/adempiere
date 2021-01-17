@@ -1,6 +1,7 @@
 /bin
 /lib
 /install/lib
+/install/CInstall.jar
 /test
 /backend
 /zkwebui/WEB-INF/classes/metainfo/zk/lang-addon.xml
@@ -18,11 +19,10 @@
 /JasperReportsWebApp/webAppEJB.jar
 /JasperReportsWebApp/webEJB-client.jar
 /migration/dist/
-/mobile/dist/
-/mobile/WEB-INF/classes/
+/org.compiere.mobile/WEB-INF/classes/
 /zkwebui/WEB-INF/classes/
-/org.adempiere.webservice/WEB-INF/classes
-/org.adempiere.webservice/dist
+/org.adempiere.webservice/WEB-INF/classes/
+/org.adempiere.webservice/deploy/lib/ADInterface-1.0.war
 /sqlj/sqlj.jar
 /webCM/deploy/
 /zkwebui/dist/

@@ -66,6 +66,17 @@ public abstract class AbstractElementHandler implements ElementHandler {
 	}
 	
 	/**
+	 * get Id from Node UUID
+	 * @param ctx
+	 * @param tableName
+	 * @param uuid
+	 * @return
+	 */
+	public int getIdFromNodeUUID(Properties ctx, String tableName, String uuid) {
+		return IDFinder.getIdFromNodeUUID(tableName, uuid, getTrxName(ctx));
+	}
+	
+	/**
 	 * Get UUID from id
 	 * @param ctx
 	 * @param tableName
@@ -74,6 +85,17 @@ public abstract class AbstractElementHandler implements ElementHandler {
 	 */
 	public String getUUIDFromId(Properties ctx, String tableName, int value) {
 		return IDFinder.getUUIDFromId(tableName, value, getClientId(ctx), getTrxName(ctx));
+	}
+	
+	/**
+	 * Get Node UUID from Node ID
+	 * @param ctx
+	 * @param tableName
+	 * @param nodeId
+	 * @return
+	 */
+	public String getUUIDFromNodeId(Properties ctx, String tableName, int treeId, int nodeId) {
+		return IDFinder.getUUIDFromNodeId(tableName, treeId, nodeId, getTrxName(ctx));
 	}
 	
 	/**
@@ -457,7 +479,7 @@ public abstract class AbstractElementHandler implements ElementHandler {
 		String value = atts.getValue(name);
 		if (Util.isEmpty(value, true))
 			return defaultValue;
-		 long i = Integer.parseInt(value.trim());
+		 long i = Long.parseLong(value.trim());
 		 return i;
 	}
     
@@ -511,4 +533,13 @@ public abstract class AbstractElementHandler implements ElementHandler {
 		return new BigDecimal(getDoubleValue(atts, name, 0.0));
 	}
     
+	/**
+	 * Get value for long attribute of PO
+	 * @param atts
+	 * @return
+	 */
+	protected long getLastUpdatedTime(Attributes atts) {
+		return getLongValue(atts, AttributeFiller.getLastUpdatedTimeAttribute(), 0);
+	}
+	
 }

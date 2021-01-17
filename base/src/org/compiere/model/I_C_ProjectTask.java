@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_ProjectTask
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_ProjectTask 
 {
@@ -89,6 +89,19 @@ public interface I_C_ProjectTask
 	  * Workflow or combination of tasks
 	  */
 	public int getAD_Workflow_ID();
+
+    /** Column name AlertMessage */
+    public static final String COLUMNNAME_AlertMessage = "AlertMessage";
+
+	/** Set Alert Message.
+	  * Message of the Alert
+	  */
+	public void setAlertMessage (String AlertMessage);
+
+	/** Get Alert Message.
+	  * Message of the Alert
+	  */
+	public String getAlertMessage();
 
     /** Column name C_Activity_ID */
     public static final String COLUMNNAME_C_Activity_ID = "C_Activity_ID";
@@ -306,6 +319,32 @@ public interface I_C_ProjectTask
 	  */
 	public Timestamp getDateFinishSchedule();
 
+    /** Column name DateLastAction */
+    public static final String COLUMNNAME_DateLastAction = "DateLastAction";
+
+	/** Set Date last action.
+	  * Date this request was last acted on
+	  */
+	public void setDateLastAction (Timestamp DateLastAction);
+
+	/** Get Date last action.
+	  * Date this request was last acted on
+	  */
+	public Timestamp getDateLastAction();
+
+    /** Column name DateLastAlert */
+    public static final String COLUMNNAME_DateLastAlert = "DateLastAlert";
+
+	/** Set Last Alert.
+	  * Date when last alert were sent
+	  */
+	public void setDateLastAlert (Timestamp DateLastAlert);
+
+	/** Get Last Alert.
+	  * Date when last alert were sent
+	  */
+	public Timestamp getDateLastAlert();
+
     /** Column name DateLastRun */
     public static final String COLUMNNAME_DateLastRun = "DateLastRun";
 
@@ -370,6 +409,19 @@ public interface I_C_ProjectTask
 	  * Optional short description of the record
 	  */
 	public String getDescription();
+
+    /** Column name DueType */
+    public static final String COLUMNNAME_DueType = "DueType";
+
+	/** Set Due type.
+	  * Status of the next action for this Request
+	  */
+	public void setDueType (String DueType);
+
+	/** Get Due type.
+	  * Status of the next action for this Request
+	  */
+	public String getDueType();
 
     /** Column name DurationEstimated */
     public static final String COLUMNNAME_DurationEstimated = "DurationEstimated";

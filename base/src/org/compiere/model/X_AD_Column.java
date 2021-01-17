@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Column
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_AD_Column extends PO implements I_AD_Column, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191230L;
 
     /** Standard Constructor */
     public X_AD_Column (Properties ctx, int AD_Column_ID, String trxName)
@@ -884,6 +884,23 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 		return (String)get_Value(COLUMNNAME_Name);
 	}
 
+	/** Set Name Old Value.
+		@param NameOldValue 
+		The old value of the column or table name.  Used to synchronize name changes with the database.
+	  */
+	public void setNameOldValue (String NameOldValue)
+	{
+		set_Value (COLUMNNAME_NameOldValue, NameOldValue);
+	}
+
+	/** Get Name Old Value.
+		@return The old value of the column or table name.  Used to synchronize name changes with the database.
+	  */
+	public String getNameOldValue () 
+	{
+		return (String)get_Value(COLUMNNAME_NameOldValue);
+	}
+
 	/** Set Read Only Logic.
 		@param ReadOnlyLogic 
 		Logic to determine if field is read only (applies only when field is read-write)
@@ -899,6 +916,30 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	public String getReadOnlyLogic () 
 	{
 		return (String)get_Value(COLUMNNAME_ReadOnlyLogic);
+	}
+
+	/** Set Requires Sync.
+		@param RequiresSync 
+		A flag indicating that the associated column or table definition is not synchronized with the database.
+	  */
+	public void setRequiresSync (boolean RequiresSync)
+	{
+		set_Value (COLUMNNAME_RequiresSync, Boolean.valueOf(RequiresSync));
+	}
+
+	/** Get Requires Sync.
+		@return A flag indicating that the associated column or table definition is not synchronized with the database.
+	  */
+	public boolean isRequiresSync () 
+	{
+		Object oo = get_Value(COLUMNNAME_RequiresSync);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Sequence.
@@ -936,23 +977,6 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
-	}
-
-	/** Set Value Format.
-		@param VFormat 
-		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public void setVFormat (String VFormat)
-	{
-		set_Value (COLUMNNAME_VFormat, VFormat);
-	}
-
-	/** Get Value Format.
-		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public String getVFormat () 
-	{
-		return (String)get_Value(COLUMNNAME_VFormat);
 	}
 
 	/** Set Max. Value.
@@ -1007,5 +1031,22 @@ public class X_AD_Column extends PO implements I_AD_Column, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Value Format.
+		@param VFormat 
+		Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public void setVFormat (String VFormat)
+	{
+		set_Value (COLUMNNAME_VFormat, VFormat);
+	}
+
+	/** Get Value Format.
+		@return Format of the value; Can contain fixed format elements, Variables: "_lLoOaAcCa09"
+	  */
+	public String getVFormat () 
+	{
+		return (String)get_Value(COLUMNNAME_VFormat);
 	}
 }

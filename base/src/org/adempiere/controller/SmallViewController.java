@@ -579,7 +579,9 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 						// Don't want to overwrite a user input, so if the field is rw and has
 						// a value, don't change it.
 						Object defaultValue = field.getDefault();
-						if (defaultValue != null && field.getOldValue() == null && (value == null || !value.equals(defaultValue))) {
+						if (defaultValue != null 
+								&& (field.getOldValue() == null || !defaultValue.equals(field.getOldValue()) || (DisplayType.isNumeric(field.getVO().displayType))) 
+								&& (value == null || !value.equals(defaultValue))) {
 							// Set the context and fire events if there is a change in value.
 							// Setting the field value to null fires events even if the field is
 							// already null so don't set null if the value is already null.
@@ -607,9 +609,12 @@ public abstract class SmallViewController implements SmallViewEditable, Vetoable
 							if (valueTo == null 
 									|| valueTo.toString().length() == 0 
 									|| !m_IsLoaded 
-									|| (!rw && DisplayType.isNumeric(fieldTo.getVO().displayType))) {
+									|| (!rw && (DisplayType.isNumeric(fieldTo.getVO().displayType)
+											|| DisplayType.isDate(fieldTo.getVO().displayType)))) {
 								Object defaultValueTo = fieldTo.getDefault();
-								if (defaultValueTo != null && fieldTo.getOldValue() == null && (valueTo == null || !valueTo.equals(defaultValueTo))) {
+								if (defaultValueTo != null 
+										&& (fieldTo.getOldValue() == null || !defaultValueTo.equals(fieldTo.getOldValue()) || DisplayType.isNumeric(fieldTo.getVO().displayType)) 
+										&& (valueTo == null || !valueTo.equals(defaultValueTo))) {
 									fieldTo.setValue(defaultValueTo, false);  // Not inserting - overwriting the current value
 									valueSet = true;
 									// Check for valid values, mandatory (similar to GridController)

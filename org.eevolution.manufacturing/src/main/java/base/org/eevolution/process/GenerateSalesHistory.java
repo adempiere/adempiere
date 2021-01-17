@@ -16,104 +16,26 @@
 
 package org.eevolution.process;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-
-import org.compiere.model.I_C_Invoice;
 import org.compiere.model.MSequence;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.eevolution.model.I_C_SalesHistory;
 import org.eevolution.model.MSalesHistory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Generate Sales History from Invoice history.
  * 
  * @author victor.perez@e-evolution.com ,www.e-evolution.com
  */
-public class GenerateSalesHistory extends SvrProcess {
-
-	private int p_AD_Org_ID;
-	private Timestamp p_DateInvoicedFrom;
-	private Timestamp p_DateInvoicedTo;
-	private int p_C_BPartner_ID;
-	private int p_C_BP_Group_ID;
-	private int p_C_BPartner_Location_ID;
-	private int p_M_Product_ID;
-	private int p_M_Product_Category_ID;
-	private int p_C_Campaign_ID;
-	private int p_C_SalesRegion_ID;
-	private int p_C_Activity_ID;
-	private int p_User1_ID;
-	private int p_User2_ID;
-	private int p_User3_ID;
-	private int p_User4_ID;
-	private int p_M_Warehouse_ID;
-	private int p_M_Product_Classification_ID;
-	private int p_M_Product_Class_ID;
-	private int p_M_Product_Group_ID;
-	private int p_C_Project_ID;
+public class GenerateSalesHistory extends GenerateSalesHistoryAbstract {
 
 	/**
 	 * Prepare - e.g., get Parameters.
 	 */
 	protected void prepare() {
-		for (ProcessInfoParameter para : getParameter()) {
-			String name = para.getParameterName();
-			if (para.getParameter() == null)
-				;
-			else if (name.equals(I_C_SalesHistory.COLUMNNAME_AD_Org_ID))
-				p_AD_Org_ID = para.getParameterAsInt();
-			else if (name.equals(I_C_SalesHistory.COLUMNNAME_DateInvoiced)) {
-				p_DateInvoicedFrom = (Timestamp) para.getParameter();
-				p_DateInvoicedTo = (Timestamp) para.getParameter_To();
-			} else if (name.equals(I_C_SalesHistory.COLUMNNAME_C_BPartner_ID))
-				p_C_BPartner_ID = para.getParameterAsInt();
-			else if (name.equals(I_C_SalesHistory.COLUMNNAME_C_BP_Group_ID))
-				p_C_BP_Group_ID = para.getParameterAsInt();
-			else if (name
-					.equals(I_C_SalesHistory.COLUMNNAME_C_BPartner_Location_ID))
-				p_C_BPartner_Location_ID = para.getParameterAsInt();
-			else if (name.equals(I_C_SalesHistory.COLUMNNAME_M_Product_ID))
-				p_M_Product_ID = para.getParameterAsInt();
-			else if (name
-					.equals(I_C_SalesHistory.COLUMNNAME_M_Product_Category_ID))
-				p_M_Product_Category_ID = para.getParameterAsInt();
-			else if (name
-					.equals(I_C_SalesHistory.COLUMNNAME_M_Product_Classification_ID))
-				p_M_Product_Classification_ID = para.getParameterAsInt();
-			else if (name
-					.equals(I_C_SalesHistory.COLUMNNAME_M_Product_Class_ID))
-				p_M_Product_Class_ID = para.getParameterAsInt();
-			else if (name
-					.equals(I_C_SalesHistory.COLUMNNAME_M_Product_Group_ID))
-				p_M_Product_Group_ID = para.getParameterAsInt();
-			else if (name.equals(I_C_SalesHistory.COLUMNNAME_M_Warehouse_ID))
-				p_M_Warehouse_ID = para.getParameterAsInt();
-			else if (name.equals(I_C_SalesHistory.COLUMNNAME_C_Campaign_ID))
-				p_C_Campaign_ID = para.getParameterAsInt();
-			else if (name.equals(I_C_SalesHistory.COLUMNNAME_C_SalesRegion_ID))
-				p_C_SalesRegion_ID = para.getParameterAsInt();
-			else if (name.equals(I_C_SalesHistory.COLUMNNAME_C_Project_ID))
-				p_C_Project_ID = para.getParameterAsInt();
-			else if (name.equals(I_C_SalesHistory.COLUMNNAME_C_Activity_ID))
-				p_C_Activity_ID = para.getParameterAsInt();
-			else if (name.equals(I_C_SalesHistory.COLUMNNAME_User1_ID))
-				p_User1_ID = para.getParameterAsInt();
-			else if (name.equals(I_C_SalesHistory.COLUMNNAME_User2_ID))
-				p_User2_ID = para.getParameterAsInt();
-			else if (name.equals(I_C_SalesHistory.COLUMNNAME_User3_ID))
-				p_User3_ID = para.getParameterAsInt();
-			else if (name.equals(I_C_SalesHistory.COLUMNNAME_User4_ID))
-				p_User4_ID = para.getParameterAsInt();
-
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
+		super.prepare();
 	} // prepare
 
 	/**
@@ -138,17 +60,16 @@ public class GenerateSalesHistory extends SvrProcess {
 				.append(" (");
 		insert.append(MSalesHistory.COLUMNNAME_C_SalesHistory_ID).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_C_InvoiceLine_ID).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_DocumentNo).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_AD_Client_ID).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_AD_Org_ID).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_C_BPartner_ID).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_C_BP_Group_ID).append(",");
-		insert.append(MSalesHistory.COLUMNNAME_C_BPartner_Location_ID).append(
-				",");
+		insert.append(MSalesHistory.COLUMNNAME_C_BPartner_Location_ID).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_SalesRep_ID).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_M_Product_ID).append(",");
-		insert.append(MSalesHistory.COLUMNNAME_M_Product_Category_ID).append(
-				",");
-		insert.append(MSalesHistory.COLUMNNAME_M_Product_Classification_ID)
-				.append(",");
+		insert.append(MSalesHistory.COLUMNNAME_M_Product_Category_ID).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_M_Product_Classification_ID).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_M_Product_Class_ID).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_M_Product_Group_ID).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_M_Warehouse_ID).append(",");
@@ -169,6 +90,17 @@ public class GenerateSalesHistory extends SvrProcess {
 		insert.append(MSalesHistory.COLUMNNAME_TotalInvAmt).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_CostAmt).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_TotalInvCost).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_C_Tax_ID).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_TaxAmt).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_C_UOM_ID).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_Description).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_LineNetAmt).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_LineTotalAmt).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_M_AttributeSetInstance_ID).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_PriceActual).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_PriceEntered).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_PriceList).append(",");
+		insert.append(MSalesHistory.COLUMNNAME_QtyEntered).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_Created).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_CreatedBy).append(",");
 		insert.append(MSalesHistory.COLUMNNAME_Updated).append(",");
@@ -179,17 +111,19 @@ public class GenerateSalesHistory extends SvrProcess {
 				.append(MSequence.get(getCtx(), MSalesHistory.Table_Name)
 						.get_ID()).append(",'Y')").append(",");
 		insert.append("il.C_InvoiceLine_ID,");
+		insert.append("i.DocumentNo,");
 		insert.append("il.AD_Client_ID,");
 		insert.append("il.AD_Org_ID,");
 		insert.append("i.C_BPartner_ID,");
 		insert.append("bp.C_BP_Group_ID,");
 		insert.append("i.C_BPartner_Location_ID,");
+		insert.append("i.SalesRep_ID,");
 		insert.append("il.M_Product_ID,");
 		insert.append("p.M_Product_Category_ID,");
 		insert.append("pcl.M_Product_Classification_ID,");
 		insert.append("pclass.M_Product_Class_ID,");
 		insert.append("pg.M_Product_Group_ID,");
-		insert.append("l.M_Warehouse_ID,");
+		insert.append("COALESCE(l.M_Warehouse_ID,ol.M_Warehouse_ID) AS M_Warehouse_ID,");
 		insert.append("il.C_Activity_ID,");
 		insert.append("il.C_Campaign_ID,");
 		insert.append("bpl.C_SalesRegion_ID,");
@@ -207,6 +141,17 @@ public class GenerateSalesHistory extends SvrProcess {
 		insert.append("il.LineTotalAmt,");
 		insert.append("0.00").append(",");
 		insert.append("0.00").append(",");
+		insert.append("il.C_Tax_ID").append(",");
+		insert.append("il.TaxAmt").append(",");
+		insert.append("il.C_UOM_ID").append(",");
+		insert.append("il.Description").append(",");
+		insert.append("il.LineNetAmt").append(",");
+		insert.append("il.LineTotalAmt").append(",");
+		insert.append("il.M_AttributeSetInstance_ID").append(",");
+		insert.append("il.PriceActual").append(",");
+		insert.append("il.PriceEntered").append(",");
+		insert.append("il.PriceList").append(",");
+		insert.append("il.QtyEntered").append(",");
 		insert.append("SYSDATE").append(",");
 		insert.append(Env.getAD_User_ID(getCtx())).append(",");
 		insert.append("SYSDATE").append(",");
@@ -217,10 +162,11 @@ public class GenerateSalesHistory extends SvrProcess {
 		insert.append(" INNER JOIN  M_Product p ON (il.M_Product_ID=p.M_Product_ID) ");
 		insert.append(" LEFT JOIN C_BPartner_Location bpl ON (i.C_BPartner_Location_ID=bpl.C_BPartner_Location_ID)");
 		insert.append(" LEFT JOIN M_Product_Category  pc ON (p.M_Product_Category_ID=pc.M_Product_Category_ID) ");
-		insert.append(" LEFT JOIN M_Product_Classification  pcl ON (p.Classification=pcl.Value) ");
-		insert.append(" LEFT JOIN M_Product_Class  pclass ON (p.Group1=pclass.Value) ");
-		insert.append(" LEFT JOIN M_Product_Group  pg ON (p.Group2=pg.Value) ");
-		insert.append(" LEFT JOIN M_InOutLine iol ON (il.M_InOutLine_ID=iol.M_InOutLine_ID ) ");
+		insert.append(" LEFT JOIN M_Product_Classification  pcl ON (p.M_Product_Classification_ID=pcl.M_Product_Classification_ID) ");
+		insert.append(" LEFT JOIN M_Product_Class  pclass ON (p.M_Product_Class_ID=pclass.M_Product_Class_ID) ");
+		insert.append(" LEFT JOIN M_Product_Group  pg ON (p.M_Product_Group_ID=pg.M_Product_Group_ID) ");
+		insert.append(" LEFT JOIN M_InOutLine iol ON (il.M_InOutLine_ID=iol.M_InOutLine_ID) ");
+		insert.append(" LEFT JOIN C_OrderLine ol ON (il.C_OrderLine_ID = ol.C_OrderLine_ID) ");
 		insert.append(" LEFT JOIN M_Locator l ON (iol.M_Locator_ID=l.M_Locator_ID) ");
 		insert.append(" WHERE i.IsSOTrx='Y' AND NOT EXISTS (SELECT 1 FROM C_SalesHistory sh WHERE sh.C_InvoiceLine_ID=il.C_InvoiceLine_ID) AND ");
 
@@ -229,98 +175,101 @@ public class GenerateSalesHistory extends SvrProcess {
 		whereClause.append("il.AD_Client_ID=? AND ");
 		parameters.add(getAD_Client_ID());
 
-		if (p_AD_Org_ID > 0) {
+		if (getOrgId() > 0) {
 			whereClause.append("il.AD_Org_ID=? AND ");
-			parameters.add(p_AD_Org_ID);
+			parameters.add(getOrgId());
 		}
 
 		// Product Dimension
-		if (p_M_Product_ID > 0) {
+		if (getProductId() > 0) {
 			whereClause.append("il.M_Product_ID=? AND ");
-			parameters.add(p_M_Product_ID);
+			parameters.add(getProductId());
 		}
 
-		if (p_M_Product_Category_ID > 0) {
+		if (getProductCategoryId() > 0) {
 			whereClause.append("pc.M_Product_Category_ID=? AND ");
-			parameters.add(p_M_Product_Category_ID);
+			parameters.add(getProductCategoryId());
 		}
 
-		if (p_M_Product_Classification_ID > 0) {
+		if (getProductClassificationId() > 0) {
 			whereClause.append("pcl.M_Product_Classification_ID=? AND ");
-			parameters.add(p_M_Product_Classification_ID);
+			parameters.add(getProductClassificationId());
 		}
 
-		if (p_M_Product_Class_ID > 0) {
+		if (getProductClassId() > 0) {
 			whereClause.append("pclass.M_Product_Class_ID=? AND ");
-			parameters.add(p_M_Product_Class_ID);
+			parameters.add(getProductClassId());
 		}
 
-		if (p_M_Product_Group_ID > 0) {
+		if (getProductGroupId() > 0) {
 			whereClause.append("pg.M_Product_Group_ID=? AND ");
-			parameters.add(p_M_Product_Group_ID);
+			parameters.add(getProductGroupId());
 		}
 
-		if (p_M_Warehouse_ID > 0) {
+		if (getWarehouseId() > 0) {
 			whereClause.append("l.M_Warehouse_ID=? AND ");
-			parameters.add(p_M_Warehouse_ID);
+			parameters.add(getWarehouseId());
 		}
 
 		// BPartner Dimension
-		if (p_C_BPartner_ID > 0) {
+		if (getBPartnerId() > 0) {
 			whereClause.append("i.C_BPartner_ID=? AND ");
-			parameters.add(p_C_BPartner_ID);
+			parameters.add(getBPartnerId());
 		}
-		if (p_C_BP_Group_ID > 0) {
+		if (getBPGroupId() > 0) {
 			whereClause.append("bp.C_BP_Group_ID=? AND ");
-			parameters.add(p_C_BP_Group_ID);
+			parameters.add(getBPGroupId());
 		}
-		if (p_C_BPartner_Location_ID > 0) {
+		if (getBPartnerLocationId() > 0) {
 			whereClause.append("il.C_BPartner_Location_ID=? AND ");
-			parameters.add(p_C_BPartner_Location_ID);
+			parameters.add(getBPartnerLocationId());
 		}
-
-		if (p_C_SalesRegion_ID > 0) {
+		if (getSalesRepId() > 0) {
+			whereClause.append("i.SalesRep_ID=? AND ");
+			parameters.add(getSalesRepId());
+		}
+		if (getSalesRegionId() > 0) {
 			whereClause.append("bpl.C_SalesRegion_ID=? AND ");
-			parameters.add(p_C_SalesRegion_ID);
+			parameters.add(getSalesRegionId());
 		}
-		if (p_C_Campaign_ID > 0) {
+		if (getCampaignId() > 0) {
 			whereClause.append("il.C_Campaign_ID=? AND ");
-			parameters.add(p_C_Campaign_ID);
+			parameters.add(getCampaignId());
 		}
 
-		if (p_C_Project_ID > 0) {
+		if (getProjectId() > 0) {
 			whereClause.append("il.C_Project_ID=? AND ");
-			parameters.add(p_C_Project_ID);
+			parameters.add(getProjectId());
 		}
-		if (p_C_Activity_ID > 0) {
+		if (getActivityId() > 0) {
 			whereClause.append("il.C_Activity_ID=? AND ");
-			parameters.add(p_C_Activity_ID);
+			parameters.add(getActivityId());
 		}
 
-		if (p_User1_ID > 0) {
+		if (getUser1Id() > 0) {
 			whereClause.append("il.User1_ID=? AND ");
-			parameters.add(p_User1_ID);
+			parameters.add(getUser1Id());
 		}
 
-		if (p_User2_ID > 0) {
+		if (getUser2Id() > 0) {
 			whereClause.append("il.User2_ID=? AND ");
-			parameters.add(p_User2_ID);
+			parameters.add(getUser2Id());
 		}
 
-		if (p_User3_ID > 0) {
+		if (getUser3Id() > 0) {
 			whereClause.append("il.User3_ID=? AND ");
-			parameters.add(p_User3_ID);
+			parameters.add(getUser3Id());
 		}
 
-		if (p_User4_ID > 0) {
+		if (getUser4Id() > 0) {
 			whereClause.append("il.User4_ID=? AND ");
-			parameters.add(p_User4_ID);
+			parameters.add(getUser4Id());
 		}
 
-		if (p_DateInvoicedFrom != null && p_DateInvoicedTo != null) {
+		if (getDateInvoiced() != null && getDateInvoicedTo() != null) {
 			whereClause.append("i.DateInvoiced BETWEEN ? AND ? ");
-			parameters.add(p_DateInvoicedFrom);
-			parameters.add(p_DateInvoicedTo);
+			parameters.add(getDateInvoiced());
+			parameters.add(getDateInvoicedTo());
 		}
 
 		insert.append(whereClause.toString());

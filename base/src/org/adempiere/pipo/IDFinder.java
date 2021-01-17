@@ -29,8 +29,12 @@ import java.util.Properties;
 import org.adempiere.exceptions.DBException;
 import org.adempiere.pipo.exception.NonUniqueIDLookupException;
 import org.compiere.model.I_AD_Element;
+import org.compiere.model.I_AD_TreeNode;
+import org.compiere.model.MTable;
+import org.compiere.model.X_AD_Table;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.Util;
 
 /**
@@ -50,19 +54,19 @@ public final class IDFinder
 	 *
 	 * @param tableName
 	 * @param name
-	 * @param AD_Client_ID
+	 * @param clientId
 	 * @param trxName
 	 * @throws NonUniqueIDLookupException if more then one result found for search criteria
 	 */
-	public static int get_ID (String tableName, String name, int AD_Client_ID, String trxName)
+	public static int get_ID (String tableName, String name, int clientId, String trxName)
 	{
 		//construct cache key
 		StringBuffer key = new StringBuffer();
 		key.append(tableName)
 			.append(".Name=")
 			.append(name);
-		if (!tableName.startsWith("AD_"))
-			key.append(" and AD_Client_ID=").append(AD_Client_ID);
+		if (isValidateClient(clientId, tableName))
+			key.append(" and AD_Client_ID=").append(clientId);
 		
 		//check cache
 		if (idCache.containsKey(key.toString()))
@@ -76,13 +80,30 @@ public final class IDFinder
 			.append(" where name=?");
 		params.add(name);
 		
-		if (!tableName.startsWith("AD_"))
+		if (isValidateClient(clientId, tableName))
 		{
 			sqlB = sqlB.append(" and AD_Client_ID=?");
-			params.add(AD_Client_ID);
+			params.add(clientId);
 		}
 		
 		return getID(sqlB.toString(), params, key.toString(), true, trxName);
+	}
+	
+	/**
+	 * Validate client
+	 * @param clientId
+	 * @param tableName
+	 * @return
+	 */
+	private static boolean isValidateClient(int clientId, String tableName) {
+		MTable table = MTable.get(Env.getCtx(), tableName);
+		//	
+		if(clientId == 0) {
+			return true;
+		}
+		return !table.getAccessLevel().equals(X_AD_Table.ACCESSLEVEL_All) 
+				&& !table.getAccessLevel().equals(X_AD_Table.ACCESSLEVEL_SystemPlusClient)
+				&& !table.getAccessLevel().equals(X_AD_Table.ACCESSLEVEL_SystemOnly);
 	}
 	
 	/**
@@ -119,13 +140,13 @@ public final class IDFinder
 	 * @param tableName
 	 * @param columName
 	 * @param value
-	 * @param AD_Client_ID
+	 * @param clientId
 	 * @param strict if true we throw NonUniqueIDLookupException on more then one result. Else we will return 0.
 	 * @param trxName
 	 * @return id or 0
 	 * @throws NonUniqueIDLookupException if more then one result found for search criteria and strict is true
 	 */
-	public static int get_IDWithColumn (String tableName, String columnName, Object value, int AD_Client_ID, boolean strict, String trxName)
+	public static int get_IDWithColumn (String tableName, String columnName, Object value, int clientId, boolean strict, String trxName)
 	{
 		if (value == null)
 			return 0;
@@ -137,8 +158,8 @@ public final class IDFinder
 			.append(columnName)
 			.append("=")
 			.append(value.toString());
-		if (!tableName.startsWith("AD_"))
-			key.append(" and AD_Client_ID=").append(AD_Client_ID);
+		if (isValidateClient(clientId, tableName))
+			key.append(" and AD_Client_ID=").append(clientId);
 		
 		ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer sqlB = new StringBuffer ("select ")
@@ -150,10 +171,10 @@ public final class IDFinder
 		 	.append(" = ?");
 		params.add(value);
 		
-		if (!tableName.startsWith("AD_"))
+		if (isValidateClient(clientId, tableName))
 		{
 			sqlB = sqlB.append(" and AD_Client_ID=?");
-			params.add(AD_Client_ID);
+			params.add(clientId);
 		}
 		
 		sqlB = sqlB.append(" Order By ")
@@ -183,7 +204,7 @@ public final class IDFinder
 		 	.append("_ID")
 			.append("=")
 			.append(value);
-		if (!tableName.startsWith("AD_")) {
+		if (isValidateClient(clientId, tableName)) {
 			key.append(" and AD_Client_ID=").append(clientId);
 		}
 		
@@ -198,7 +219,7 @@ public final class IDFinder
 		 	.append(" = ?");
 		params.add(value);
 		
-		if (!tableName.startsWith("AD_")) {
+		if (isValidateClient(clientId, tableName)) {
 			sql = sql.append(" and AD_Client_ID=?");
 			params.add(clientId);
 		}
@@ -206,6 +227,82 @@ public final class IDFinder
 		sql = sql.append(" Order By ").append(tableName).append("_ID");
 		
 		return getUUID(sql.toString(), params, key.toString(), trxName);
+	}
+	
+	/**
+	 * Get UUID from ID
+	 * @param tableName
+	 * @param nodeId
+	 * @param clientId
+	 * @param trxName
+	 * @return
+	 */
+	public static String getUUIDFromNodeId(String tableName, int treeId, int nodeId, String trxName) {
+		if (nodeId <= 0)
+			return null;
+		
+		//construct cache key
+		StringBuffer key = new StringBuffer();
+		key.append(tableName)
+			.append(".")
+		 	.append("Node_ID")
+			.append("=")
+			.append(nodeId)
+			.append(" AND ")
+			.append(tableName)
+			.append(".")
+			.append("AD_Tree_ID")
+			.append("=")
+			.append(treeId);
+		
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer ("select ")
+		 	.append(I_AD_Element.COLUMNNAME_UUID)
+			.append(" from ")
+		 	.append(tableName)
+		 	.append(" where ")
+		 	.append("Node_ID")
+		 	.append(" = ?")
+		 	.append(" and ")
+		 	.append("AD_Tree_ID")
+		 	.append(" = ?");
+		params.add(nodeId);
+		params.add(treeId);
+		//	Get
+		return getUUID(sql.toString(), params, key.toString(), trxName);
+	}
+	
+	/**
+	 * Get ID from Node UUID
+	 * @param tableName
+	 * @param value
+	 * @param clientId
+	 * @param trxName
+	 * @return
+	 */
+	public static int getIdFromNodeUUID(String tableName, String value, String trxName) {
+		if (Util.isEmpty(value))
+			return 0;
+		
+		//construct cache key
+		StringBuffer key = new StringBuffer();
+		key.append(tableName)
+			.append(".")
+		 	.append(I_AD_Element.COLUMNNAME_UUID)
+			.append("=")
+			.append(value);
+		
+		ArrayList<Object> params = new ArrayList<Object>();
+		StringBuffer sql = new StringBuffer ("select ")
+		 	.append(I_AD_TreeNode.COLUMNNAME_Node_ID)
+			.append(" from ")
+		 	.append(tableName)
+		 	.append(" where ")
+		 	.append(I_AD_Element.COLUMNNAME_UUID)
+		 	.append(" = ?");
+		params.add(value);
+		//	Get
+		return getID(sql.toString(), params, key.toString(), false, trxName);
 	}
 	
 	/**
@@ -343,19 +440,19 @@ public final class IDFinder
 	 * @param tableName
 	 * @param column
 	 * @param name
-	 * @param AD_Client_ID
+	 * @param clientId
 	 * @param trxName
 	 * @throws NonUniqueIDLookupException if more then one result found for search criteria
 	 */
-	public static int getIDbyColumn (String tableName, String column, String name, int AD_Client_ID, String trxName)
+	public static int getIDbyColumn (String tableName, String column, String name, int clientId, String trxName)
 	{
 		//construct cache key
 		StringBuffer key = new StringBuffer();
 		key.append(tableName)
 			.append("."+column+"=")
 			.append(name);
-		if (!tableName.startsWith("AD_"))
-			key.append(" AND AD_Client_ID=").append(AD_Client_ID);
+		if (isValidateClient(clientId, tableName))
+			key.append(" AND AD_Client_ID=").append(clientId);
 		
 		ArrayList<Object> params = new ArrayList<Object>();
 		StringBuffer sql = new StringBuffer("SELECT ")
@@ -366,10 +463,10 @@ public final class IDFinder
 			.append(" ")
 			.append("WHERE "+column+"=?");
 		params.add(name);
-		if (!tableName.startsWith("AD_"))
+		if (isValidateClient(clientId, tableName))
 		{
 			sql.append(" AND AD_Client_ID=?");
-			params.add(AD_Client_ID);
+			params.add(clientId);
 		}
 		
 		return getID(sql.toString(), params, key.toString(), true, trxName);

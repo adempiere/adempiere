@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_RequestUpdate
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_R_RequestUpdate 
 {
@@ -61,6 +61,21 @@ public interface I_R_RequestUpdate
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name C_InvoiceLine_ID */
+    public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
+
+	/** Set Invoice Line.
+	  * Invoice Detail Line
+	  */
+	public void setC_InvoiceLine_ID (int C_InvoiceLine_ID);
+
+	/** Get Invoice Line.
+	  * Invoice Detail Line
+	  */
+	public int getC_InvoiceLine_ID();
+
+	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
 
     /** Column name ConfidentialTypeEntry */
     public static final String COLUMNNAME_ConfidentialTypeEntry = "ConfidentialTypeEntry";
@@ -132,6 +147,19 @@ public interface I_R_RequestUpdate
 
 	public org.compiere.model.I_M_Product getM_ProductSpent() throws RuntimeException;
 
+    /** Column name Processed */
+    public static final String COLUMNNAME_Processed = "Processed";
+
+	/** Set Processed.
+	  * The document has been processed
+	  */
+	public void setProcessed (boolean Processed);
+
+	/** Get Processed.
+	  * The document has been processed
+	  */
+	public boolean isProcessed();
+
     /** Column name QtyInvoiced */
     public static final String COLUMNNAME_QtyInvoiced = "QtyInvoiced";
 
@@ -157,6 +185,21 @@ public interface I_R_RequestUpdate
 	  * Quantity used for this event
 	  */
 	public BigDecimal getQtySpent();
+
+    /** Column name R_RequestAction_ID */
+    public static final String COLUMNNAME_R_RequestAction_ID = "R_RequestAction_ID";
+
+	/** Set Request History.
+	  * Request has been changed
+	  */
+	public void setR_RequestAction_ID (int R_RequestAction_ID);
+
+	/** Get Request History.
+	  * Request has been changed
+	  */
+	public int getR_RequestAction_ID();
+
+	public org.compiere.model.I_R_RequestAction getR_RequestAction() throws RuntimeException;
 
     /** Column name R_RequestUpdate_ID */
     public static final String COLUMNNAME_R_RequestUpdate_ID = "R_RequestUpdate_ID";

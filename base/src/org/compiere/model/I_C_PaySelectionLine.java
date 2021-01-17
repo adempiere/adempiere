@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_PaySelectionLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_PaySelectionLine 
 {
@@ -318,6 +318,17 @@ public interface I_C_PaySelectionLine
 	  * Calculated amount of discount
 	  */
 	public BigDecimal getDiscountAmt();
+
+    /** Column name FM_Account_ID */
+    public static final String COLUMNNAME_FM_Account_ID = "FM_Account_ID";
+
+	/** Set Financial Account	  */
+	public void setFM_Account_ID (int FM_Account_ID);
+
+	/** Get Financial Account	  */
+	public int getFM_Account_ID();
+
+	public org.spin.model.I_FM_Account getFM_Account() throws RuntimeException;
 
     /** Column name HR_Movement_ID */
     public static final String COLUMNNAME_HR_Movement_ID = "HR_Movement_ID";

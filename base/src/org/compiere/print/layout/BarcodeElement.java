@@ -38,9 +38,16 @@ import org.compiere.print.MPrintFormatItem;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 			<li>FR [ 1803359 ] Migrate to barbecue 1.1
+ * @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ * 	Prevent NPE for barcode with undefined
  */
 public class BarcodeElement extends PrintElement
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -935853466496345172L;
+
 	/**
 	 * 	Barcode Element Constructor
 	 *	@param code barcode data string
@@ -142,13 +149,13 @@ public class BarcodeElement extends PrintElement
 			m_valid = false;
 		}
 		
-		if ( item.isPrintBarcodeText() )
-			m_barcode.setDrawingText(true);
-		else
-			m_barcode.setDrawingText(false);
-		
-		if (m_valid && m_barcode != null)
-		{
+		if (m_valid && m_barcode != null) {
+			if(item.isPrintBarcodeText()) {
+				m_barcode.setDrawingText(true);
+			} else {
+				m_barcode.setDrawingText(false);
+			}
+			//	
 			if (item.getAD_PrintFont_ID() != 0)
 			{
 				MPrintFont mFont = MPrintFont.get(item.getAD_PrintFont_ID());

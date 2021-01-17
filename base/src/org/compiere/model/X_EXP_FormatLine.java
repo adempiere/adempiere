@@ -1,8 +1,9 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2007 ComPiere, Inc. All Rights Reserved.                *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2017 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
+ * or (at your option) any later version.										*
  * by the Free Software Foundation. This program is distributed in the hope   *
  * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
@@ -11,8 +12,7 @@
  * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
 package org.compiere.model;
@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for EXP_FormatLine
  *  @author Adempiere (generated) 
- *  @version Release 3.8.0 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20150223L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_EXP_FormatLine (Properties ctx, int EXP_FormatLine_ID, String trxName)
@@ -247,6 +247,30 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
+	/** Set Create if Not Exists.
+		@param IsCreateNonExisting 
+		Create it if not exists
+	  */
+	public void setIsCreateNonExisting (boolean IsCreateNonExisting)
+	{
+		set_Value (COLUMNNAME_IsCreateNonExisting, Boolean.valueOf(IsCreateNonExisting));
+	}
+
+	/** Get Create if Not Exists.
+		@return Create it if not exists
+	  */
+	public boolean isCreateNonExisting () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsCreateNonExisting);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Mandatory.
 		@param IsMandatory 
 		Data entry is required in this column
@@ -352,6 +376,23 @@ public class X_EXP_FormatLine extends PO implements I_EXP_FormatLine, I_Persiste
 	public String getType () 
 	{
 		return (String)get_Value(COLUMNNAME_Type);
+	}
+
+	/** Set Immutable Universally Unique Identifier.
+		@param UUID 
+		Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID)
+	{
+		set_Value (COLUMNNAME_UUID, UUID);
+	}
+
+	/** Get Immutable Universally Unique Identifier.
+		@return Immutable Universally Unique Identifier
+	  */
+	public String getUUID () 
+	{
+		return (String)get_Value(COLUMNNAME_UUID);
 	}
 
 	/** Set Search Key.

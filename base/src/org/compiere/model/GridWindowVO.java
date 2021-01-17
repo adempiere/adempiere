@@ -27,6 +27,7 @@ import java.util.logging.Level;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.spin.util.ASPUtil;
 
 /**
  *  Model Window Value Object
@@ -199,60 +200,35 @@ public class GridWindowVO implements Serializable
 	 *  @param mWindowVO Window Value Object
 	 *  @return true if tabs were created
 	 */
-	private static boolean createTabs (GridWindowVO mWindowVO)
-	{
+	private static boolean createTabs (GridWindowVO mWindowVO) {
 		mWindowVO.Tabs = new ArrayList<GridTabVO>();
-
-		String sql = GridTabVO.getSQL(mWindowVO.ctx);
-		int TabNo = 0;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			//	create statement
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, mWindowVO.AD_Window_ID);
-			rs = pstmt.executeQuery();
-			boolean firstTab = true;
-			while (rs.next())
-			{
-				if (mWindowVO.AD_Table_ID == 0)
-					mWindowVO.AD_Table_ID = rs.getInt("AD_Table_ID");
-				//  Create TabVO
-				GridTabVO mTabVO = GridTabVO.create(mWindowVO, TabNo, rs,
-					mWindowVO.WindowType.equals(WINDOWTYPE_QUERY),  //  isRO
-					mWindowVO.WindowType.equals(WINDOWTYPE_TRX));   //  onlyCurrentRows
-				if (mTabVO == null && firstTab)
-					break;		//	don't continue if first tab is null
-				if (mTabVO != null)
-				{
-					if (!mTabVO.IsReadOnly && "N".equals(mWindowVO.IsReadWrite))
-						mTabVO.IsReadOnly = true;
-					mWindowVO.Tabs.add(mTabVO);
-					TabNo++;        //  must be same as mWindow.getTab(x)
-					firstTab = false;
-				}
+		boolean firstTab = true;
+		int tabNo = 0;
+		for(MTab tab : ASPUtil.getInstance(mWindowVO.ctx).getWindowTabs(mWindowVO.AD_Window_ID)) {
+			if(!tab.isActive()) {
+				continue;
+			}
+			if (mWindowVO.AD_Table_ID == 0)
+				mWindowVO.AD_Table_ID = tab.getAD_Table_ID();
+			//  Create TabVO
+			GridTabVO mTabVO = GridTabVO.create(mWindowVO, tabNo, tab,
+				mWindowVO.WindowType.equals(WINDOWTYPE_QUERY),  //  isRO
+				mWindowVO.WindowType.equals(WINDOWTYPE_TRX));   //  onlyCurrentRows
+			if (mTabVO == null && firstTab)
+				break;		//	don't continue if first tab is null
+			if (mTabVO != null) {
+				if (!mTabVO.IsReadOnly && "N".equals(mWindowVO.IsReadWrite))
+					mTabVO.IsReadOnly = true;
+				mWindowVO.Tabs.add(mTabVO);
+				tabNo++;        //  must be same as mWindow.getTab(x)
+				firstTab = false;
 			}
 		}
-		catch (SQLException e)
-		{
-			CLogger.get().log(Level.SEVERE, "createTabs", e);
-			return false;
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-
 		//  No Tabs
-		if (TabNo == 0 || mWindowVO.Tabs.size() == 0)
-		{
-			CLogger.get().log(Level.SEVERE, "No Tabs - AD_Window_ID=" 
-				+ mWindowVO.AD_Window_ID + " - " + sql);
+		if (tabNo == 0 || mWindowVO.Tabs.size() == 0) {
+			CLogger.get().log(Level.SEVERE, "No Tabs - AD_Window_ID = " + mWindowVO.AD_Window_ID);
 			return false;
 		}
-
 		//	Put base table of window in ctx (for VDocAction)
 		Env.setContext(mWindowVO.ctx, mWindowVO.WindowNo, "BaseTable_ID", mWindowVO.AD_Table_ID);
 		return true;

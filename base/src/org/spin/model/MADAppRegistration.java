@@ -135,6 +135,14 @@ public class MADAppRegistration extends X_AD_AppRegistration {
 	}
 	
 	/**
+	 * Reset cache for values
+	 */
+	public static void resetCache() {
+		definitionCacheIds.clear();
+		definitionCacheValues.clear();
+	}
+	
+	/**
 	 * Get parameter value from name
 	 * @param parameterName
 	 * @return
@@ -143,7 +151,11 @@ public class MADAppRegistration extends X_AD_AppRegistration {
 		if(parameters == null) {
 			loadParameters();
 		}
-		return parameters.get(parameterName).getParameterValue();
+		MADAppRegistrationPara parameter = parameters.get(parameterName);
+		if(parameter == null) {
+			return null;
+		}
+		return parameter.getParameterValue();
 	}
 	
 	/**
@@ -155,7 +167,11 @@ public class MADAppRegistration extends X_AD_AppRegistration {
 		if(parameters == null) {
 			loadParameters();
 		}
-		return parameters.get(parameterName).getParameterType();
+		MADAppRegistrationPara parameter = parameters.get(parameterName);
+		if(parameter == null) {
+			return null;
+		}
+		return parameter.getParameterType();
 	}
 	
 	/**
@@ -169,7 +185,36 @@ public class MADAppRegistration extends X_AD_AppRegistration {
 			parameters.put(parameter.getParameterName(), parameter);
 		});
 	}
-
+	
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		if(newRecord
+				&& success) {
+			List<MADAppSupportPara> defaultParametersList = MADAppSupport.getById(getCtx(), getAD_AppSupport_ID(), get_TrxName())
+					.getDefaultParametersList();
+			if(defaultParametersList != null) {
+				defaultParametersList.forEach(defaultParameter -> {
+					MADAppRegistrationPara parameter = new MADAppRegistrationPara(getCtx(), 0, get_TrxName());
+					parameter.setAD_AppRegistration_ID(getAD_AppRegistration_ID());
+					parameter.setDefaultParameter(defaultParameter);
+					parameter.saveEx();
+				});
+			}
+		}
+		return super.afterSave(newRecord, success);
+	}
+	
+	/**
+	 * get All Parameters for App Registration
+	 * @return
+	 */
+	public Map<String, MADAppRegistrationPara> getAllParameters(){
+		if (parameters== null)
+			loadParameters();
+		
+		return parameters;
+	}
+	
 	@Override
 	public String toString() {
 		return "MADAppRegistration [getAD_AppRegistration_ID()=" + getAD_AppRegistration_ID() + ", getName()=" + getName() 

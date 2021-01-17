@@ -67,7 +67,6 @@ public class MADTokenDefinition extends X_AD_TokenDefinition {
 			return definition;
 
 		definition = new Query(ctx , Table_Name , COLUMNNAME_AD_TokenDefinition_ID + "=?" , trxName)
-				.setClient_ID()
 				.setParameters(definitionId)
 				.first();
 		if (definition != null && definition.get_ID() > 0) {
@@ -99,10 +98,9 @@ public class MADTokenDefinition extends X_AD_TokenDefinition {
 		if (definition != null && definition.get_ID() > 0 )
 			return definition;
 
-		definition =  new Query(ctx, Table_Name , COLUMNNAME_TokenType +  "=?", trxName)
-				.setClient_ID()
-				.setParameters(tokenType)
-				.setOrderBy(COLUMNNAME_Value)
+		definition =  new Query(ctx, Table_Name , COLUMNNAME_TokenType +  "=? AND AD_Client_ID IN(0, ?)", trxName)
+				.setParameters(tokenType, clientId)
+				.setOrderBy(COLUMNNAME_AD_Client_ID + " DESC")
 				.first();
 
 		if (definition != null && definition.get_ID() > 0) {

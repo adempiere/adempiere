@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for WM_InOutBound
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_WM_InOutBound 
 {
@@ -365,6 +365,15 @@ public interface I_WM_InOutBound
 	  * Indicates if this document requires approval
 	  */
 	public boolean isApproved();
+
+    /** Column name IsDelivered */
+    public static final String COLUMNNAME_IsDelivered = "IsDelivered";
+
+	/** Set Delivered	  */
+	public void setIsDelivered (boolean IsDelivered);
+
+	/** Get Delivered	  */
+	public boolean isDelivered();
 
     /** Column name IsDropShip */
     public static final String COLUMNNAME_IsDropShip = "IsDropShip";

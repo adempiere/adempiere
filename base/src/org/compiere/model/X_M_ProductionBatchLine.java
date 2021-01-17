@@ -24,14 +24,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for M_ProductionBatchLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_M_ProductionBatchLine extends PO implements I_M_ProductionBatchLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_ProductionBatchLine (Properties ctx, int M_ProductionBatchLine_ID, String trxName)

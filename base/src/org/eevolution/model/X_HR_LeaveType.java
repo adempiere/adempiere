@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_LeaveType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_HR_LeaveType extends PO implements I_HR_LeaveType, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_LeaveType (Properties ctx, int HR_LeaveType_ID, String trxName)
@@ -44,9 +44,9 @@ public class X_HR_LeaveType extends PO implements I_HR_LeaveType, I_Persistent
         {
 			setHR_LeaveType_ID (0);
 			setLeaveCreditTimeType (null);
-			setMinAttendanceRequire (Env.ZERO);
+			setMinAttendanceRequire (0);
 			setName (null);
-			setNoOfLeavesAllocated (Env.ZERO);
+			setNoOfLeavesAllocated (0);
         } */
     }
 
@@ -140,6 +140,42 @@ public class X_HR_LeaveType extends PO implements I_HR_LeaveType, I_Persistent
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** FrequencyType AD_Reference_ID=221 */
+	public static final int FREQUENCYTYPE_AD_Reference_ID=221;
+	/** Minute = M */
+	public static final String FREQUENCYTYPE_Minute = "M";
+	/** Hour = H */
+	public static final String FREQUENCYTYPE_Hour = "H";
+	/** Day = D */
+	public static final String FREQUENCYTYPE_Day = "D";
+	/** Biweekly = B */
+	public static final String FREQUENCYTYPE_Biweekly = "B";
+	/** Monthly = N */
+	public static final String FREQUENCYTYPE_Monthly = "N";
+	/** Quarterly = Q */
+	public static final String FREQUENCYTYPE_Quarterly = "Q";
+	/** Weekly = W */
+	public static final String FREQUENCYTYPE_Weekly = "W";
+	/** Yearly = Y */
+	public static final String FREQUENCYTYPE_Yearly = "Y";
+	/** Set Frequency Type.
+		@param FrequencyType 
+		Frequency of event
+	  */
+	public void setFrequencyType (String FrequencyType)
+	{
+
+		set_Value (COLUMNNAME_FrequencyType, FrequencyType);
+	}
+
+	/** Get Frequency Type.
+		@return Frequency of event
+	  */
+	public String getFrequencyType () 
+	{
+		return (String)get_Value(COLUMNNAME_FrequencyType);
+	}
+
 	/** Set Leave Type.
 		@param HR_LeaveType_ID 
 		Leave Type for an Employee
@@ -163,17 +199,17 @@ public class X_HR_LeaveType extends PO implements I_HR_LeaveType, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Consider Adjacent Holidays As Leave?.
+	/** Set Consider Adjacent Holidays As Leave.
 		@param IsAdjacentHolidayAsLeave 
-		Consider Adjacent Holidays As Leave?
+		Consider Adjacent Holidays As Leave
 	  */
 	public void setIsAdjacentHolidayAsLeave (boolean IsAdjacentHolidayAsLeave)
 	{
 		set_Value (COLUMNNAME_IsAdjacentHolidayAsLeave, Boolean.valueOf(IsAdjacentHolidayAsLeave));
 	}
 
-	/** Get Consider Adjacent Holidays As Leave?.
-		@return Consider Adjacent Holidays As Leave?
+	/** Get Consider Adjacent Holidays As Leave.
+		@return Consider Adjacent Holidays As Leave
 	  */
 	public boolean isAdjacentHolidayAsLeave () 
 	{
@@ -187,21 +223,21 @@ public class X_HR_LeaveType extends PO implements I_HR_LeaveType, I_Persistent
 		return false;
 	}
 
-	/** Set Allowed En Cashment?.
-		@param IsAllowedEnCashment 
-		Allowed En Cashment? 
+	/** Set Allowed Encashment.
+		@param IsAllowedEncashment 
+		Allowed Encashment
 	  */
-	public void setIsAllowedEnCashment (boolean IsAllowedEnCashment)
+	public void setIsAllowedEncashment (boolean IsAllowedEncashment)
 	{
-		set_Value (COLUMNNAME_IsAllowedEnCashment, Boolean.valueOf(IsAllowedEnCashment));
+		set_Value (COLUMNNAME_IsAllowedEncashment, Boolean.valueOf(IsAllowedEncashment));
 	}
 
-	/** Get Allowed En Cashment?.
-		@return Allowed En Cashment? 
+	/** Get Allowed Encashment.
+		@return Allowed Encashment
 	  */
-	public boolean isAllowedEnCashment () 
+	public boolean isAllowedEncashment () 
 	{
-		Object oo = get_Value(COLUMNNAME_IsAllowedEnCashment);
+		Object oo = get_Value(COLUMNNAME_IsAllowedEncashment);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 
@@ -211,17 +247,17 @@ public class X_HR_LeaveType extends PO implements I_HR_LeaveType, I_Persistent
 		return false;
 	}
 
-	/** Set Half Day Leave Allowed ?.
+	/** Set Half Day Leave Allowed.
 		@param IsHalfDayLeaveAllowed 
-		Half Day Leave Allowed ?
+		Half Day Leave Allowed
 	  */
 	public void setIsHalfDayLeaveAllowed (boolean IsHalfDayLeaveAllowed)
 	{
 		set_Value (COLUMNNAME_IsHalfDayLeaveAllowed, Boolean.valueOf(IsHalfDayLeaveAllowed));
 	}
 
-	/** Get Half Day Leave Allowed ?.
-		@return Half Day Leave Allowed ?
+	/** Get Half Day Leave Allowed.
+		@return Half Day Leave Allowed
 	  */
 	public boolean isHalfDayLeaveAllowed () 
 	{
@@ -235,17 +271,17 @@ public class X_HR_LeaveType extends PO implements I_HR_LeaveType, I_Persistent
 		return false;
 	}
 
-	/** Set Is Leave Repeated?.
+	/** Set Is Leave Repeated.
 		@param IsLeaveRepeated 
-		Is Leave Repeated?
+		Is Leave Repeated
 	  */
 	public void setIsLeaveRepeated (boolean IsLeaveRepeated)
 	{
 		set_Value (COLUMNNAME_IsLeaveRepeated, Boolean.valueOf(IsLeaveRepeated));
 	}
 
-	/** Get Is Leave Repeated?.
-		@return Is Leave Repeated?
+	/** Get Is Leave Repeated.
+		@return Is Leave Repeated
 	  */
 	public boolean isLeaveRepeated () 
 	{
@@ -283,17 +319,17 @@ public class X_HR_LeaveType extends PO implements I_HR_LeaveType, I_Persistent
 		return false;
 	}
 
-	/** Set Is Provident Fund Employee?.
+	/** Set Is Provident Fund Employee.
 		@param IsProvidentFund 
-		Is Provident Fund Employee?
+		Is Provident Fund Employee
 	  */
 	public void setIsProvidentFund (boolean IsProvidentFund)
 	{
 		set_Value (COLUMNNAME_IsProvidentFund, Boolean.valueOf(IsProvidentFund));
 	}
 
-	/** Get Is Provident Fund Employee?.
-		@return Is Provident Fund Employee?
+	/** Get Is Provident Fund Employee.
+		@return Is Provident Fund Employee
 	  */
 	public boolean isProvidentFund () 
 	{
@@ -313,6 +349,8 @@ public class X_HR_LeaveType extends PO implements I_HR_LeaveType, I_Persistent
 	public static final String LEAVECREDITTIMETYPE_BeginingOfTheMonth = "BP";
 	/** End Of The Month = EP */
 	public static final String LEAVECREDITTIMETYPE_EndOfTheMonth = "EP";
+	/** Variable Date = VD */
+	public static final String LEAVECREDITTIMETYPE_VariableDate = "VD";
 	/** Set Leave Credit Time Type.
 		@param LeaveCreditTimeType 
 		Leave Credit Time Type
@@ -331,84 +369,104 @@ public class X_HR_LeaveType extends PO implements I_HR_LeaveType, I_Persistent
 		return (String)get_Value(COLUMNNAME_LeaveCreditTimeType);
 	}
 
+	/** Set Leave Duration Time.
+		@param LeaveDurationTime 
+		Leave Duration Time
+	  */
+	public void setLeaveDurationTime (BigDecimal LeaveDurationTime)
+	{
+		set_Value (COLUMNNAME_LeaveDurationTime, LeaveDurationTime);
+	}
+
+	/** Get Leave Duration Time.
+		@return Leave Duration Time
+	  */
+	public BigDecimal getLeaveDurationTime () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_LeaveDurationTime);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Maximum continous leaves.
 		@param MaxContinousLeaves 
 		Maximum continous leaves
 	  */
-	public void setMaxContinousLeaves (BigDecimal MaxContinousLeaves)
+	public void setMaxContinousLeaves (int MaxContinousLeaves)
 	{
-		set_Value (COLUMNNAME_MaxContinousLeaves, MaxContinousLeaves);
+		set_Value (COLUMNNAME_MaxContinousLeaves, Integer.valueOf(MaxContinousLeaves));
 	}
 
 	/** Get Maximum continous leaves.
 		@return Maximum continous leaves
 	  */
-	public BigDecimal getMaxContinousLeaves () 
+	public int getMaxContinousLeaves () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MaxContinousLeaves);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		Integer ii = (Integer)get_Value(COLUMNNAME_MaxContinousLeaves);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Maximum leaves carry forwarded.
 		@param MaxLeavesToForward 
 		Maximum leaves carry forwarded
 	  */
-	public void setMaxLeavesToForward (BigDecimal MaxLeavesToForward)
+	public void setMaxLeavesToForward (int MaxLeavesToForward)
 	{
-		set_Value (COLUMNNAME_MaxLeavesToForward, MaxLeavesToForward);
+		set_Value (COLUMNNAME_MaxLeavesToForward, Integer.valueOf(MaxLeavesToForward));
 	}
 
 	/** Get Maximum leaves carry forwarded.
 		@return Maximum leaves carry forwarded
 	  */
-	public BigDecimal getMaxLeavesToForward () 
+	public int getMaxLeavesToForward () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MaxLeavesToForward);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		Integer ii = (Integer)get_Value(COLUMNNAME_MaxLeavesToForward);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Minimum Attendance Require.
 		@param MinAttendanceRequire 
 		Minimum Attendance Require to elgibile leave
 	  */
-	public void setMinAttendanceRequire (BigDecimal MinAttendanceRequire)
+	public void setMinAttendanceRequire (int MinAttendanceRequire)
 	{
-		set_Value (COLUMNNAME_MinAttendanceRequire, MinAttendanceRequire);
+		set_Value (COLUMNNAME_MinAttendanceRequire, Integer.valueOf(MinAttendanceRequire));
 	}
 
 	/** Get Minimum Attendance Require.
 		@return Minimum Attendance Require to elgibile leave
 	  */
-	public BigDecimal getMinAttendanceRequire () 
+	public int getMinAttendanceRequire () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MinAttendanceRequire);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		Integer ii = (Integer)get_Value(COLUMNNAME_MinAttendanceRequire);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Minimum Encashment Days in a Request.
-		@param MinForencashmentDays 
+		@param MinForEncashmentDays 
 		Minimum Encashment Days in a Request
 	  */
-	public void setMinForencashmentDays (BigDecimal MinForencashmentDays)
+	public void setMinForEncashmentDays (int MinForEncashmentDays)
 	{
-		set_Value (COLUMNNAME_MinForencashmentDays, MinForencashmentDays);
+		set_Value (COLUMNNAME_MinForEncashmentDays, Integer.valueOf(MinForEncashmentDays));
 	}
 
 	/** Get Minimum Encashment Days in a Request.
 		@return Minimum Encashment Days in a Request
 	  */
-	public BigDecimal getMinForencashmentDays () 
+	public int getMinForEncashmentDays () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_MinForencashmentDays);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		Integer ii = (Integer)get_Value(COLUMNNAME_MinForEncashmentDays);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Name.
@@ -440,46 +498,88 @@ public class X_HR_LeaveType extends PO implements I_HR_LeaveType, I_Persistent
 		@param NoOfLeavesAllocated 
 		Number of Leaves Allocated
 	  */
-	public void setNoOfLeavesAllocated (BigDecimal NoOfLeavesAllocated)
+	public void setNoOfLeavesAllocated (int NoOfLeavesAllocated)
 	{
-		set_Value (COLUMNNAME_NoOfLeavesAllocated, NoOfLeavesAllocated);
+		set_Value (COLUMNNAME_NoOfLeavesAllocated, Integer.valueOf(NoOfLeavesAllocated));
 	}
 
 	/** Get Number of Leaves Allocated.
 		@return Number of Leaves Allocated
 	  */
-	public BigDecimal getNoOfLeavesAllocated () 
+	public int getNoOfLeavesAllocated () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_NoOfLeavesAllocated);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
+		Integer ii = (Integer)get_Value(COLUMNNAME_NoOfLeavesAllocated);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
-	/** RepeatedType AD_Reference_ID=53607 */
-	public static final int REPEATEDTYPE_AD_Reference_ID=53607;
-	/** Monthly = Monthly */
-	public static final String REPEATEDTYPE_Monthly = "Monthly";
-	/** Quarterly = Quarterly */
-	public static final String REPEATEDTYPE_Quarterly = "Quarterly";
-	/** Yearly = Yearly */
-	public static final String REPEATEDTYPE_Yearly = "Yearly";
-	/** Set Repeated type.
-		@param RepeatedType 
-		Repeated type
+	/** Set Time (From).
+		@param TimeFrom 
+		Starting Time
 	  */
-	public void setRepeatedType (String RepeatedType)
+	public void setTimeFrom (Timestamp TimeFrom)
 	{
-
-		set_Value (COLUMNNAME_RepeatedType, RepeatedType);
+		set_Value (COLUMNNAME_TimeFrom, TimeFrom);
 	}
 
-	/** Get Repeated type.
-		@return Repeated type
+	/** Get Time (From).
+		@return Starting Time
 	  */
-	public String getRepeatedType () 
+	public Timestamp getTimeFrom () 
 	{
-		return (String)get_Value(COLUMNNAME_RepeatedType);
+		return (Timestamp)get_Value(COLUMNNAME_TimeFrom);
+	}
+
+	/** Set Time (To).
+		@param TimeTo 
+		Ending Time
+	  */
+	public void setTimeTo (Timestamp TimeTo)
+	{
+		set_Value (COLUMNNAME_TimeTo, TimeTo);
+	}
+
+	/** Get Time (To).
+		@return Ending Time
+	  */
+	public Timestamp getTimeTo () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_TimeTo);
+	}
+
+	/** TimeUnit AD_Reference_ID=53376 */
+	public static final int TIMEUNIT_AD_Reference_ID=53376;
+	/** Day = D */
+	public static final String TIMEUNIT_Day = "D";
+	/** Week = W */
+	public static final String TIMEUNIT_Week = "W";
+	/** Month = M */
+	public static final String TIMEUNIT_Month = "M";
+	/** Quarter = Q */
+	public static final String TIMEUNIT_Quarter = "Q";
+	/** Year = Y */
+	public static final String TIMEUNIT_Year = "Y";
+	/** Hour = H */
+	public static final String TIMEUNIT_Hour = "H";
+	/** Minute = I */
+	public static final String TIMEUNIT_Minute = "I";
+	/** Set Time Unit.
+		@param TimeUnit 
+		The unit of time for grouping chart data.
+	  */
+	public void setTimeUnit (String TimeUnit)
+	{
+
+		set_Value (COLUMNNAME_TimeUnit, TimeUnit);
+	}
+
+	/** Get Time Unit.
+		@return The unit of time for grouping chart data.
+	  */
+	public String getTimeUnit () 
+	{
+		return (String)get_Value(COLUMNNAME_TimeUnit);
 	}
 
 	/** Set Immutable Universally Unique Identifier.

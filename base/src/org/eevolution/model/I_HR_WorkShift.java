@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_WorkShift
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_HR_WorkShift 
 {
@@ -62,6 +62,45 @@ public interface I_HR_WorkShift
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name BreakEndTime */
+    public static final String COLUMNNAME_BreakEndTime = "BreakEndTime";
+
+	/** Set Break End Time.
+	  * End Time for Break
+	  */
+	public void setBreakEndTime (Timestamp BreakEndTime);
+
+	/** Get Break End Time.
+	  * End Time for Break
+	  */
+	public Timestamp getBreakEndTime();
+
+    /** Column name BreakHoursNo */
+    public static final String COLUMNNAME_BreakHoursNo = "BreakHoursNo";
+
+	/** Set Break Hours No.
+	  * Break Hours Number
+	  */
+	public void setBreakHoursNo (BigDecimal BreakHoursNo);
+
+	/** Get Break Hours No.
+	  * Break Hours Number
+	  */
+	public BigDecimal getBreakHoursNo();
+
+    /** Column name BreakStartTime */
+    public static final String COLUMNNAME_BreakStartTime = "BreakStartTime";
+
+	/** Set Break Start Time.
+	  * Start Time for Break
+	  */
+	public void setBreakStartTime (Timestamp BreakStartTime);
+
+	/** Get Break Start Time.
+	  * Start Time for Break
+	  */
+	public Timestamp getBreakStartTime();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -155,6 +194,32 @@ public interface I_HR_WorkShift
 	  */
 	public boolean isOverTimeApplicable();
 
+    /** Column name IsVariableEntrance */
+    public static final String COLUMNNAME_IsVariableEntrance = "IsVariableEntrance";
+
+	/** Set Variable Entrance.
+	  * Variable Entrance
+	  */
+	public void setIsVariableEntrance (boolean IsVariableEntrance);
+
+	/** Get Variable Entrance.
+	  * Variable Entrance
+	  */
+	public boolean isVariableEntrance();
+
+    /** Column name MinAttendanceRequire */
+    public static final String COLUMNNAME_MinAttendanceRequire = "MinAttendanceRequire";
+
+	/** Set Minimum Attendance Require.
+	  * Minimum Attendance Require to elgibile leave
+	  */
+	public void setMinAttendanceRequire (int MinAttendanceRequire);
+
+	/** Get Minimum Attendance Require.
+	  * Minimum Attendance Require to elgibile leave
+	  */
+	public int getMinAttendanceRequire();
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -180,6 +245,97 @@ public interface I_HR_WorkShift
 	  * Number of Hours This Shift Contains
 	  */
 	public BigDecimal getNoOfHours();
+
+    /** Column name OnFriday */
+    public static final String COLUMNNAME_OnFriday = "OnFriday";
+
+	/** Set Friday.
+	  * Available on Fridays
+	  */
+	public void setOnFriday (boolean OnFriday);
+
+	/** Get Friday.
+	  * Available on Fridays
+	  */
+	public boolean isOnFriday();
+
+    /** Column name OnMonday */
+    public static final String COLUMNNAME_OnMonday = "OnMonday";
+
+	/** Set Monday.
+	  * Available on Mondays
+	  */
+	public void setOnMonday (boolean OnMonday);
+
+	/** Get Monday.
+	  * Available on Mondays
+	  */
+	public boolean isOnMonday();
+
+    /** Column name OnSaturday */
+    public static final String COLUMNNAME_OnSaturday = "OnSaturday";
+
+	/** Set Saturday.
+	  * Available on Saturday
+	  */
+	public void setOnSaturday (boolean OnSaturday);
+
+	/** Get Saturday.
+	  * Available on Saturday
+	  */
+	public boolean isOnSaturday();
+
+    /** Column name OnSunday */
+    public static final String COLUMNNAME_OnSunday = "OnSunday";
+
+	/** Set Sunday.
+	  * Available on Sundays
+	  */
+	public void setOnSunday (boolean OnSunday);
+
+	/** Get Sunday.
+	  * Available on Sundays
+	  */
+	public boolean isOnSunday();
+
+    /** Column name OnThursday */
+    public static final String COLUMNNAME_OnThursday = "OnThursday";
+
+	/** Set Thursday.
+	  * Available on Thursdays
+	  */
+	public void setOnThursday (boolean OnThursday);
+
+	/** Get Thursday.
+	  * Available on Thursdays
+	  */
+	public boolean isOnThursday();
+
+    /** Column name OnTuesday */
+    public static final String COLUMNNAME_OnTuesday = "OnTuesday";
+
+	/** Set Tuesday.
+	  * Available on Tuesdays
+	  */
+	public void setOnTuesday (boolean OnTuesday);
+
+	/** Get Tuesday.
+	  * Available on Tuesdays
+	  */
+	public boolean isOnTuesday();
+
+    /** Column name OnWednesday */
+    public static final String COLUMNNAME_OnWednesday = "OnWednesday";
+
+	/** Set Wednesday.
+	  * Available on Wednesdays
+	  */
+	public void setOnWednesday (boolean OnWednesday);
+
+	/** Get Wednesday.
+	  * Available on Wednesdays
+	  */
+	public boolean isOnWednesday();
 
     /** Column name OverTimeAmount */
     public static final String COLUMNNAME_OverTimeAmount = "OverTimeAmount";

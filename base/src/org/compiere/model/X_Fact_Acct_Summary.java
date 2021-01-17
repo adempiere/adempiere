@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for Fact_Acct_Summary
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_Fact_Acct_Summary extends PO implements I_Fact_Acct_Summary, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_Fact_Acct_Summary (Properties ctx, int Fact_Acct_Summary_ID, String trxName)

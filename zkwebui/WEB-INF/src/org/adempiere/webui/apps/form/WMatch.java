@@ -18,6 +18,7 @@ package org.adempiere.webui.apps.form;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.logging.Level;
 
 import org.adempiere.webui.LayoutUtils;
@@ -324,8 +325,8 @@ public class WMatch extends Match
 			new ColumnInfo(Msg.translate(Env.getCtx(), "C_BPartner_ID"),".", KeyNamePair.class, "."),   //  3
 			new ColumnInfo(Msg.translate(Env.getCtx(), "Line"),         ".", KeyNamePair.class, "."),
 			new ColumnInfo(Msg.translate(Env.getCtx(), "M_Product_ID"), ".", KeyNamePair.class, "."),   //  5
-			new ColumnInfo(Msg.translate(Env.getCtx(), "Qty"),          ".", Double.class),
-			new ColumnInfo(Msg.translate(Env.getCtx(), "Matched"),      ".", Double.class)
+			new ColumnInfo(Msg.translate(Env.getCtx(), "Qty"),          ".", BigDecimal.class),
+			new ColumnInfo(Msg.translate(Env.getCtx(), "Matched"),      ".", BigDecimal.class)
 		};
 
 		xMatchedTable.prepareTable(layout, "", "", false, "");
@@ -454,7 +455,7 @@ public class WMatch extends Match
 		int row = xMatchedTable.getSelectedRow();
 		log.config("Row=" + row);
 
-		double qty = 0.0;
+		Optional<BigDecimal> qty = Optional.ofNullable(Env.ZERO);
 		if (row < 0)
 		{
 			xMatchedToTable.setRowCount(0);
@@ -464,13 +465,13 @@ public class WMatch extends Match
 			//  ** Create SQL **
 			String displayString = (String)matchTo.getSelectedItem().getLabel();
 			int matchToType = matchFrom.getSelectedIndex();
-			double docQty = ((Double)xMatchedTable.getValueAt(row, I_QTY)).doubleValue();
-			double matchedQty = ((Double)xMatchedTable.getValueAt(row, I_MATCHED)).doubleValue();
-			qty = docQty - matchedQty;
+			Optional<BigDecimal> docQty = Optional.ofNullable((BigDecimal)xMatchedTable.getValueAt(row, I_QTY));
+			Optional<BigDecimal> matchedQty = Optional.ofNullable((BigDecimal)xMatchedTable.getValueAt(row, I_MATCHED));
+			qty = Optional.ofNullable(docQty.orElse(Env.ZERO).subtract(matchedQty.orElse(Env.ZERO)));
 			xMatchedToTable = (WListbox) cmd_searchTo(xMatchedTable, xMatchedToTable, displayString, matchToType, sameBPartner.isSelected(), sameProduct.isSelected(), sameQty.isSelected(), matchMode.getSelectedIndex() == MODE_MATCHED);
 		}
 		//  Display To be Matched Qty
-		m_xMatched = new BigDecimal (qty);
+		m_xMatched = qty.orElse(Env.ZERO);
 		xMatched.setValue(m_xMatched);
 		xMatchedTo.setValue(Env.ZERO);
 		difference.setValue(m_xMatched);
@@ -504,7 +505,7 @@ public class WMatch extends Match
 		KeyNamePair Product = (KeyNamePair)xMatchedTable.getValueAt(matchedRow, 5);
 
 		//  Matched To
-		double qty = 0.0;
+		Optional<BigDecimal> qty = Optional.ofNullable(Env.ZERO);
 		int noRows = 0;
 		for (int row = 0; row < xMatchedToTable.getRowCount(); row++)
 		{
@@ -518,15 +519,19 @@ public class WMatch extends Match
 				}
 				else
 				{
+					Optional<BigDecimal> docQty = Optional.ofNullable((BigDecimal)xMatchedToTable.getValueAt(row, I_QTY));
+					Optional<BigDecimal> matchedQty = Optional.ofNullable((BigDecimal)xMatchedToTable.getValueAt(row, I_MATCHED));
+					
 					if (matchMode.getSelectedIndex() == MODE_NOTMATCHED)
-						qty += ((Double)xMatchedToTable.getValueAt(row, I_QTY)).doubleValue();  //  doc
-					qty -= ((Double)xMatchedToTable.getValueAt(row, I_MATCHED)).doubleValue();  //  matched
+						qty = Optional.ofNullable(qty.orElse(Env.ZERO).add(docQty.orElse(Env.ZERO)));//  doc
+						
+					qty = Optional.ofNullable(qty.orElse(Env.ZERO).subtract(matchedQty.orElse(Env.ZERO)));//  matched
 					noRows++;
 				}
 			}
 		}
 		//  update qualtities
-		m_xMatchedTo = new BigDecimal(qty);
+		m_xMatchedTo = qty.orElse(Env.ZERO);
 		xMatchedTo.setValue(m_xMatchedTo);
 		difference.setValue(m_xMatched.subtract(m_xMatchedTo));
 		bProcess.setEnabled(noRows != 0);

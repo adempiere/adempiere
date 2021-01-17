@@ -679,5 +679,10 @@ public class MProductionLine extends X_M_ProductionLine implements IDocumentLine
 	{
 		return  MConversionType.getDefault(getAD_Client_ID());
 	}
+
+	@Override
+	public boolean isReversalParent() {
+		return getM_ProductionLine_ID() < getReversalLine_ID();
+	}
 	
 }

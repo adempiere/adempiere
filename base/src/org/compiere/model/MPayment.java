@@ -101,11 +101,22 @@ public final class MPayment extends X_C_Payment
      */
 	public static List<MPayment> getOfOrder(MOrder order)
 	{
-		return new Query(order.getCtx() , MPayment.Table_Name , MOrder.COLUMNNAME_C_Order_ID + "=?", order.get_TrxName())
+		return getOfOrder(order.getCtx(), order.getC_Order_ID(), order.get_TrxName());
+	}
+	
+	/**
+	 * Get payment for order ID
+	 * @param order
+	 * @return payments list
+     */
+	public static List<MPayment> getOfOrder(Properties ctx, int c_order_id, String trxName)
+	{
+		return new Query(ctx , MPayment.Table_Name , MOrder.COLUMNNAME_C_Order_ID + "=?", trxName)
 				.setClient_ID()
-				.setParameters(order.getC_Order_ID())
+				.setParameters(c_order_id)
 				.list();
 	}
+	
 
 	/**
 	 * 	Get Payments Of BPartner
@@ -172,6 +183,20 @@ public final class MPayment extends X_C_Payment
 			setTenderType(TENDERTYPE_Check);
 		}
 	}   //  MPayment
+	
+	/**
+	 * Validate if exists a bank statement with this payment
+	 * @return
+	 */
+	public MBankStatementLine getBankStatementLine() {
+		return new Query(getCtx(), I_C_BankStatementLine.Table_Name, 
+				"C_Payment_ID = ? "
+				+ "AND EXISTS(SELECT 1 FROM C_BankStatement bs "
+				+ "		WHERE bs.C_BankStatement_ID = C_BankStatementLine.C_BankStatement_ID "
+				+ "		AND bs.DocStatus NOT IN('VO', 'RE'))", get_TrxName())
+				.setParameters(getC_Payment_ID())
+				.first();
+	}
 	
 	/**
 	 *  Load Constructor
@@ -565,19 +590,20 @@ public final class MPayment extends X_C_Payment
 	protected boolean beforeSave (boolean newRecord)
 	{
 		// @Trifon - CashPayments
-		if ( isCashTrx() && !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true, getAD_Client_ID())) {
-			// Cash Book Is mandatory
-			if ( getC_CashBook_ID() <= 0 ) {
-				log.saveError("Error", Msg.parseTranslation(getCtx(), "@Mandatory@: @C_CashBook_ID@"));
-				return false;
-			}
-		} else {
+//		if ( isCashTrx() && !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true, getAD_Client_ID())) {
+//			// Cash Book Is mandatory
+//			if ( getC_CashBook_ID() <= 0 ) {
+//				log.saveError("Error", Msg.parseTranslation(getCtx(), "@Mandatory@: @C_CashBook_ID@"));
+//				return false;
+//			}
+//		} else {
 			// Bank Account Is mandatory
 			if ( getC_BankAccount_ID() <= 0 ) {
-				log.saveError("Error", Msg.parseTranslation(getCtx(), "@Mandatory@: @C_BankAccount_ID@"));
+				m_errorMessage = Msg.parseTranslation(getCtx(), "@Mandatory@: @C_BankAccount_ID@");
+				log.saveError("Error", m_errorMessage);
 				return false;
 			}
-		}
+//		}
 		// end @Trifon - CashPayments
 
 		//	We have a charge
@@ -592,6 +618,7 @@ public final class MPayment extends X_C_Payment
 				setIsOverUnderPayment(false);
 				setOverUnderAmt(Env.ZERO);
 				setIsPrepayment(false);
+				setIsUnidentifiedPayment(false);
 			}
 		}
 		//	We need a BPartner
@@ -603,7 +630,8 @@ public final class MPayment extends X_C_Payment
 				;
 			else
 			{
-				log.saveError("Error", Msg.parseTranslation(getCtx(), "@NotFound@: @C_BPartner_ID@"));
+				m_errorMessage = Msg.parseTranslation(getCtx(), "@NotFound@: @C_BPartner_ID@");
+				log.saveError("Error", m_errorMessage);
 				return false;
 			}
 		}
@@ -624,6 +652,7 @@ public final class MPayment extends X_C_Payment
 				setDiscountAmt(Env.ZERO);
 				setIsOverUnderPayment(false);
 				setOverUnderAmt(Env.ZERO);
+				setIsUnidentifiedPayment(false);
 			}
 		}
 
@@ -658,14 +687,16 @@ public final class MPayment extends X_C_Payment
 			if (getC_Invoice_ID() != 0) {
 				MInvoice inv = new MInvoice(getCtx(), getC_Invoice_ID(), get_TrxName());
 				if (inv.getC_BPartner_ID() != getC_BPartner_ID()) {
-					log.saveError("Error", Msg.parseTranslation(getCtx(), "BP different from BP Invoice"));
+					m_errorMessage = Msg.parseTranslation(getCtx(), "BP different from BP Invoice");
+					log.saveError("Error", m_errorMessage);
 					return false;
 				}
 			}
 			if (getC_Order_ID() != 0) {
 				MOrder ord = new MOrder(getCtx(), getC_Order_ID(), get_TrxName());
 				if (ord.getC_BPartner_ID() != getC_BPartner_ID()) {
-					log.saveError("Error", Msg.parseTranslation(getCtx(), "BP different from BP Order"));
+					m_errorMessage = Msg.parseTranslation(getCtx(), "BP different from BP Order");
+					log.saveError("Error", m_errorMessage);
 					return false;
 				}
 			}
@@ -690,7 +721,7 @@ public final class MPayment extends X_C_Payment
 			+ " INNER JOIN C_AllocationHdr ah ON (al.C_AllocationHdr_ID=ah.C_AllocationHdr_ID) "
 			+ " INNER JOIN C_Payment p ON (al.C_Payment_ID=p.C_Payment_ID) "
 			+ "WHERE al.C_Payment_ID=?"
-			+ " AND ah.IsActive='Y' AND al.IsActive='Y'";
+			+ " AND ah.IsActive='Y'  AND ah.DocStatus IN ('CO','CL') AND al.IsActive='Y'";
 		//	+ " AND al.C_Invoice_ID IS NOT NULL";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -1334,153 +1365,6 @@ public final class MPayment extends X_C_Payment
 	//		setDocumentNo(null);
 		super.setC_DocType_ID(C_DocType_ID);
 	}	//	setC_DocType_ID
-	
-	/**
-	 * 	Verify Document Type with Invoice
-	 * @param pAllocs 
-	 *	@return true if ok
-	 */
-	private boolean verifyDocType(MPaymentAllocate[] pAllocs)
-	{
-		if (getC_DocType_ID() == 0)
-			return false;
-		//
-		Boolean documentSO = null;
-		//	Check Invoice First
-		if (getC_Invoice_ID() > 0)
-		{
-			String sql = "SELECT idt.IsSOTrx "
-				+ "FROM C_Invoice i"
-				+ " INNER JOIN C_DocType idt ON (i.C_DocType_ID=idt.C_DocType_ID) "
-				+ "WHERE i.C_Invoice_ID=?";
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			try
-			{
-				pstmt = DB.prepareStatement(sql, get_TrxName());
-				pstmt.setInt(1, getC_Invoice_ID());
-				rs = pstmt.executeQuery();
-				if (rs.next())
-					documentSO = new Boolean ("Y".equals(rs.getString(1)));
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, sql, e);
-			}
-			finally
-			{
-				DB.close(rs, pstmt);
-				rs = null;
-				pstmt = null;
-			}
-		}	//	now Order - in Adempiere is allowed to pay PO or receive SO
-		else if (getC_Order_ID() > 0)
-		{
-			String sql = "SELECT odt.IsSOTrx "
-				+ "FROM C_Order o"
-				+ " INNER JOIN C_DocType odt ON (o.C_DocType_ID=odt.C_DocType_ID) "
-				+ "WHERE o.C_Order_ID=?";
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			try
-			{
-				pstmt = DB.prepareStatement(sql, get_TrxName());
-				pstmt.setInt(1, getC_Order_ID());
-				rs = pstmt.executeQuery();
-				if (rs.next())
-					documentSO = new Boolean ("Y".equals(rs.getString(1)));
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, sql, e);
-			}
-			finally
-			{
-				DB.close(rs, pstmt);
-				rs = null;
-				pstmt = null;
-			}
-		}	//	now Charge
-		else if (getC_Charge_ID() > 0) 
-		{
-			// do nothing about charge
-		} // now payment allocate
-		else
-		{
-			if (pAllocs.length > 0) {
-				for (MPaymentAllocate pAlloc : pAllocs) {
-					String sql = "SELECT idt.IsSOTrx "
-						+ "FROM C_Invoice i"
-						+ " INNER JOIN C_DocType idt ON (i.C_DocType_ID=idt.C_DocType_ID) "
-						+ "WHERE i.C_Invoice_ID=?";
-					PreparedStatement pstmt = null;
-					ResultSet rs = null;
-					try
-					{
-						pstmt = DB.prepareStatement(sql, get_TrxName());
-						pstmt.setInt(1, pAlloc.getC_Invoice_ID());
-						rs = pstmt.executeQuery();
-						if (rs.next()) {
-							if (documentSO != null) { // already set, compare with current
-								if (documentSO.booleanValue() != ("Y".equals(rs.getString(1)))) {
-									return false;
-								}
-							} else {
-								documentSO = new Boolean ("Y".equals(rs.getString(1)));
-							}
-						}
-					}
-					catch (Exception e)
-					{
-						log.log(Level.SEVERE, sql, e);
-					}
-					finally
-					{
-						DB.close(rs, pstmt);
-						rs = null;
-						pstmt = null;
-					}
-				}
-			}
-		}
-		
-		//	DocumentType
-		Boolean paymentSO = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT IsSOTrx "
-			+ "FROM C_DocType "
-			+ "WHERE C_DocType_ID=?";
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getC_DocType_ID());
-			rs = pstmt.executeQuery();
-			if (rs.next())
-				paymentSO = new Boolean ("Y".equals(rs.getString(1)));
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
-		}
-		//	No Payment info
-		if (paymentSO == null)
-			return false;
-		setIsReceipt(paymentSO.booleanValue());
-			
-		//	We have an Invoice .. and it does not match
-		if (documentSO != null 
-				&& documentSO.booleanValue() != paymentSO.booleanValue())
-			return false;
-		//	OK
-		return true;
-	}	//	verifyDocType
 
 	/**
 	 * 	Verify Payment Allocate is ignored (must not exists) if the payment header has charge/invoice/order
@@ -1702,13 +1586,6 @@ public final class MPayment extends X_C_Payment
 		}
 		
 		MPaymentAllocate[] pAllocs = MPaymentAllocate.get(this);
-		
-		//	Consistency of Invoice / Document Type and IsReceipt
-		if (!verifyDocType(pAllocs))
-		{
-			processMsg = "@PaymentDocTypeInvoiceInconsistent@";
-			return DocAction.STATUS_Invalid;
-		}
 
 		//	Payment Allocate is ignored if charge/invoice/order exists in header
 		if (!verifyPaymentAllocateVsHeader(pAllocs))
@@ -1849,51 +1726,18 @@ public final class MPayment extends X_C_Payment
 			processMsg += " @CounterDoc@: @C_Payment_ID@=" + counter.getDocumentNo();
 
 		// @Trifon - CashPayments
-		//if ( getTenderType().equals("X") ) {
-		if ( isCashTrx() && !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true , getAD_Client_ID())) {
-			// Create Cash Book entry
-			if ( getC_CashBook_ID() <= 0 ) {
-				log.saveError("Error", Msg.parseTranslation(getCtx(), "@Mandatory@: @C_CashBook_ID@"));
+		if ( isCashTrx() && getC_POS_ID() == 0) {
+			// Create Cash Book entry - check that the bank is a cash bank
+			// The bank account is mandatory
+			MBankAccount bankAccount = (MBankAccount) getC_BankAccount();
+			if ( !bankAccount.getC_Bank().getBankType().equals(MBank.BANKTYPE_CashJournal) ) {
+				m_errorMessage = Msg.parseTranslation(getCtx(), "@Mandatory@: @C_CashBook_ID@");
+				log.saveError("Error", m_errorMessage);
 				processMsg = "@NoCashBook@";
 				return DocAction.STATUS_Invalid;
 			}
-			//MCash cash = MCash.get (getCtx(), getAD_Org_ID(), getDateAcct(), getC_Currency_ID(), get_TrxName());SHW
-			MCash cash = MCash.get(getCtx(), getC_CashBook_ID(), getDateAcct(),get_TrxName());
-			if (cash == null || cash.get_ID() == 0)
-			{
-				processMsg = "@NoCashBook@";
-				return DocAction.STATUS_Invalid;
-			}
-			MCashLine cl = new MCashLine( cash );
-			cl.setCashType( X_C_CashLine.CASHTYPE_GeneralReceipts );
-			cl.setDescription("Generated From Payment #" + getDocumentNo());
-			cl.setC_Currency_ID( this.getC_Currency_ID() );
-			cl.setC_Payment_ID( getC_Payment_ID() ); // Set Reference to payment.
-			StringBuffer info=new StringBuffer();
-			info.append("Cash journal ( ")
-				.append(cash.getDocumentNo()).append(" )");				
-			processMsg = info.toString();
-			//	Amount
-			BigDecimal amt = this.getPayAmt();
-/*
-			MDocType dt = MDocType.get(getCtx(), invoice.getC_DocType_ID());			
-			if (MDocType.DOCBASETYPE_APInvoice.equals( dt.getDocBaseType() )
-				|| MDocType.DOCBASETYPE_ARCreditMemo.equals( dt.getDocBaseType() ) 
-			) {
-				amt = amt.negate();
-			}
-*/
-			cl.setAmount( amt );
-			//
-			cl.setDiscountAmt( Env.ZERO );
-			cl.setWriteOffAmt( Env.ZERO );
-			cl.setIsGenerated( true );
-			
-			if (!cl.save(get_TrxName()))
-			{
-				processMsg = "Could not save Cash Journal Line";
-				return DocAction.STATUS_Invalid;
-			}
+			// Find or create a suitable bank statement which is or will become the Cash Journal of this day
+			MBankStatement.addPayment(this);
 		}
 		// End Trifon - CashPayments
 		
@@ -2380,7 +2224,7 @@ public final class MPayment extends X_C_Payment
 
 		Timestamp currentDate = new Timestamp(System.currentTimeMillis());
 		Optional<Timestamp> loginDateOptional = Optional.of(Env.getContextAsDate(getCtx(),"#Date"));
-		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElse(currentDate) : getDateAcct();
+		Timestamp reversalDate =  isAccrual ? loginDateOptional.orElseGet(() -> currentDate) : getDateAcct();
 		MPeriod.testPeriodOpen(getCtx(), reversalDate, getC_DocType_ID(), getAD_Org_ID());
 
 		//	Auto Reconcile if not on Bank Statement
@@ -2523,18 +2367,28 @@ public final class MPayment extends X_C_Payment
 		//	For Cash Payment
 		MBankAccount bankAccount = MBankAccount.get(getCtx(), getC_BankAccount_ID());
 		MBank bank = MBank.get(getCtx(), bankAccount.getC_Bank_ID());
+		if(getRef_Payment_ID() != 0
+				&& getRelatedPayment_ID() != 0
+				&& !Util.isEmpty(bank.getBankType())
+				&& bank.getBankType().equals(MBank.BANKTYPE_CashJournal)) {
+			MPayment deposit = new MPayment(getCtx(), getRelatedPayment_ID(), get_TrxName());
+			MBankAccount depositBankAccount = MBankAccount.get(getCtx(), deposit.getC_BankAccount_ID());
+			MBank depositBank = MBank.get(getCtx(), depositBankAccount.getC_Bank_ID());
+			if(!Util.isEmpty(depositBank.getBankType())
+					&& depositBank.getBankType().equals(MBank.BANKTYPE_Bank)
+					&& (deposit.getDocStatus().equals(MPayment.DOCSTATUS_Completed)
+							|| deposit.getDocStatus().equals(MPayment.DOCSTATUS_Closed))) {
+				throw new AdempiereException("@DepositAlreadyExistsForCash@");
+			}
+		}
 		if(!Util.isEmpty(bank.getBankType())
 				&& bank.getBankType().equals(MBank.BANKTYPE_CashJournal)
 				&& !isReceipt()) {
 			new Query(getCtx(), Table_Name, 
-					"Ref_Payment_ID = ? "
-						+ "AND DocStatus = ? "
-						+ "AND IsReceipt = 'Y'"
-						+ "AND EXISTS(SELECT 1 FROM C_Bank b"
-						+ "					INNER JOIN C_BankAccount ba ON(ba.C_Bank_ID = b.C_Bank_ID)"
-						+ "				WHERE ba.C_BankAccount_ID = C_Payment.C_BankAccount_ID"
-						+ "				AND b.BankType = ?)", get_TrxName())
-			.setParameters(getC_Payment_ID(), MPayment.DOCSTATUS_Completed, MBank.BANKTYPE_Bank)
+					"DocStatus = ? "
+					+ "AND IsReceipt = 'Y' "
+					+ "AND EXISTS(SELECT 1 FROM C_Payment p WHERE p.RelatedPayment_ID = C_Payment.C_Payment_ID AND p.Ref_Payment_ID = ?)", get_TrxName())
+			.setParameters(MPayment.DOCSTATUS_Completed, getC_Payment_ID())
 			.<MPayment>list().stream().forEach(deposit -> {
 				deposit.processIt(MPayment.DOCACTION_Reverse_Correct);
 				deposit.saveEx();
@@ -2782,6 +2636,18 @@ public final class MPayment extends X_C_Payment
 	{
 		return isReversal;
 	}	//	isReversal
+	
+	/**
+	 * Get Payment Reference
+	 * @return
+	 */
+	public MPayment getPaymentReference() {
+		return new Query(getCtx(), MPayment.Table_Name, "Ref_Payment_ID=? AND DocStatus IN (?,?)", get_TrxName())
+			.setParameters(get_ID(),
+						MPayment.DOCSTATUS_Completed,
+						MPayment.DOCSTATUS_Closed)
+			.first();
+	}
 
 
 	

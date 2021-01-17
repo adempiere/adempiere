@@ -857,21 +857,23 @@ public class Doc_Invoice extends Doc
 				BigDecimal assetAmount = Optional.ofNullable(MCostDetail.getByDocLineLandedCost(
 						landedCostAllocation,
 						as.getC_AcctSchema_ID(),
-						costType.get_ID())).orElse(BigDecimal.ZERO);
-				//cost to Cost Adjustment
-				BigDecimal costAdjustment = landedCostAllocation.getAmt().subtract(assetAmount);
+						costType.get_ID())).orElseGet(() -> BigDecimal.ZERO);
 				if (assetAmount.signum() != 0)
 				{
 					if (isDebit)
 						debitAmount = assetAmount;
 					else
-						creditAmount = assetAmount;
+						creditAmount = assetAmount.negate();
 
 					factLine = fact.createLine(line, productCost.getAccount(ProductCost.ACCTTYPE_P_Asset, as),
 							as.getC_Currency_ID(), debitAmount, creditAmount);
 					factLine.setDescription(desc + " " + landedCostAllocation.getM_CostElement().getName());
 					factLine.setM_Product_ID(landedCostAllocation.getM_Product_ID());
 				}
+				//cost to Cost Adjustment
+				BigDecimal costAllocation =  landedCostAllocation.getPriceActual().multiply(landedCostAllocation.getQty());
+				BigDecimal costAdjustment =  costAllocation.subtract(assetAmount);
+				setIsMultiCurrency(landedCostAllocation.getC_Currency_ID()!=as.getC_Currency_ID());
 				if (costAdjustment.signum() != 0) {
 					if (isDebit)
 						debitAmount = costAdjustment;

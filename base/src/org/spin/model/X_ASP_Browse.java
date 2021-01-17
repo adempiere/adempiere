@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for ASP_Browse
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_ASP_Browse extends PO implements I_ASP_Browse, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_ASP_Browse (Properties ctx, int ASP_Browse_ID, String trxName)

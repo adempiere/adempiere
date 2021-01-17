@@ -706,10 +706,15 @@ public class MMatchPO extends X_M_MatchPO implements IDocumentLine
 		if (success && getC_OrderLine_ID() != 0) {
 			MOrderLine orderLine = getOrderLine();
 			if (isInOutLineChange && (newRecord || getM_InOutLine_ID() != get_ValueOldAsInt("M_InOutLine_ID"))) {
-				if (getM_InOutLine_ID() != 0)                            //	new delivery
-					orderLine.setQtyDelivered(orderLine.getQtyDelivered().add(getQty()));
+				BigDecimal quantity = getQty();
+				if (getM_InOutLine_ID() != 0) {
+					if(orderLine.getParent().isReturnOrder()) {
+						quantity = quantity.negate();
+					}
+					orderLine.setQtyDelivered(orderLine.getQtyDelivered().add(quantity));
+				}	
 				else //	if (getM_InOutLine_ID() == 0)					//	reset to 0
-					orderLine.setQtyDelivered(orderLine.getQtyDelivered().subtract(getQty()));
+					orderLine.setQtyDelivered(orderLine.getQtyDelivered().subtract(quantity));
 				orderLine.setDateDelivered(getDateTrx());    //	overwrite=last
 			}
 			
@@ -786,10 +791,15 @@ public class MMatchPO extends X_M_MatchPO implements IDocumentLine
 			// end AZ
 			
 			MOrderLine orderLine = new MOrderLine (getCtx(), getC_OrderLine_ID(), get_TrxName());
-			if (getM_InOutLine_ID() != 0)
-				orderLine.setQtyDelivered(orderLine.getQtyDelivered().subtract(getQty()));
+			BigDecimal quantity = getQty();
+			if (getM_InOutLine_ID() != 0) {
+				if(orderLine.getParent().isReturnOrder()) {
+					quantity = quantity.negate();
+				}
+				orderLine.setQtyDelivered(orderLine.getQtyDelivered().subtract(quantity));
+			}
 			if (getC_InvoiceLine_ID() != 0)
-				orderLine.setQtyInvoiced(orderLine.getQtyInvoiced().subtract(getQty()));
+				orderLine.setQtyInvoiced(orderLine.getQtyInvoiced().subtract(quantity));
 			return orderLine.save(get_TrxName());
 		}
 		return success;
@@ -897,7 +907,6 @@ public class MMatchPO extends X_M_MatchPO implements IDocumentLine
 
 	@Override
 	public BigDecimal getPriceActual() {
-		MOrderLine ol = getOrderLine();
 		return MConversionRate.convertBase(getCtx(), getOrderLine().getPriceActual(),getC_Currency_ID(),
 				getDateAcct(), getC_ConversionType_ID(),
 				getAD_Client_ID(), getAD_Org_ID());
@@ -1006,5 +1015,11 @@ public class MMatchPO extends X_M_MatchPO implements IDocumentLine
 			return reversal;
 		}
 		return null;
+	}
+
+	@Override
+	public boolean isReversalParent() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }	//	MMatchPO

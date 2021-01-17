@@ -136,7 +136,7 @@ public class   Doc_HRProcess extends Doc
 			X_HR_Concept_Acct conceptAcct = concept.getConceptAcct(
 					Optional.ofNullable(payrollDocLine.getAccountSchemaId()),
 					Optional.ofNullable(payrollDocLine.getPayrollId()),
-					Optional.ofNullable(payrollDocLine.getPayrollId()));
+					Optional.ofNullable(payrollDocLine.getC_BP_Group_ID()));
 
 			if(conceptAcct == null) {
 				continue;

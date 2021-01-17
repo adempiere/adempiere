@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Project
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_Project extends PO implements I_C_Project, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_Project (Properties ctx, int C_Project_ID, String trxName)
@@ -174,6 +174,40 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Alert Message.
+		@param AlertMessage 
+		Message of the Alert
+	  */
+	public void setAlertMessage (String AlertMessage)
+	{
+		set_Value (COLUMNNAME_AlertMessage, AlertMessage);
+	}
+
+	/** Get Alert Message.
+		@return Message of the Alert
+	  */
+	public String getAlertMessage () 
+	{
+		return (String)get_Value(COLUMNNAME_AlertMessage);
+	}
+
+	/** Set BOM Drop.
+		@param BOMDrop 
+		Drop (expand) Bill of Materials into an Order, Invoice, etc.
+	  */
+	public void setBOMDrop (String BOMDrop)
+	{
+		set_Value (COLUMNNAME_BOMDrop, BOMDrop);
+	}
+
+	/** Get BOM Drop.
+		@return Drop (expand) Bill of Materials into an Order, Invoice, etc.
+	  */
+	public String getBOMDrop () 
+	{
+		return (String)get_Value(COLUMNNAME_BOMDrop);
 	}
 
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException
@@ -722,6 +756,40 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 		return (Timestamp)get_Value(COLUMNNAME_DateFinishSchedule);
 	}
 
+	/** Set Date last action.
+		@param DateLastAction 
+		Date this request was last acted on
+	  */
+	public void setDateLastAction (Timestamp DateLastAction)
+	{
+		set_Value (COLUMNNAME_DateLastAction, DateLastAction);
+	}
+
+	/** Get Date last action.
+		@return Date this request was last acted on
+	  */
+	public Timestamp getDateLastAction () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateLastAction);
+	}
+
+	/** Set Last Alert.
+		@param DateLastAlert 
+		Date when last alert were sent
+	  */
+	public void setDateLastAlert (Timestamp DateLastAlert)
+	{
+		set_Value (COLUMNNAME_DateLastAlert, DateLastAlert);
+	}
+
+	/** Get Last Alert.
+		@return Date when last alert were sent
+	  */
+	public Timestamp getDateLastAlert () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_DateLastAlert);
+	}
+
 	/** Set Date Start.
 		@param DateStart 
 		Date Start for this Order
@@ -771,6 +839,32 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** DueType AD_Reference_ID=222 */
+	public static final int DUETYPE_AD_Reference_ID=222;
+	/** Overdue = 3 */
+	public static final String DUETYPE_Overdue = "3";
+	/** Due = 5 */
+	public static final String DUETYPE_Due = "5";
+	/** Scheduled = 7 */
+	public static final String DUETYPE_Scheduled = "7";
+	/** Set Due type.
+		@param DueType 
+		Status of the next action for this Request
+	  */
+	public void setDueType (String DueType)
+	{
+
+		set_Value (COLUMNNAME_DueType, DueType);
+	}
+
+	/** Get Due type.
+		@return Status of the next action for this Request
+	  */
+	public String getDueType () 
+	{
+		return (String)get_Value(COLUMNNAME_DueType);
 	}
 
 	/** DurationUnit AD_Reference_ID=299 */
@@ -1063,6 +1157,34 @@ public class X_C_Project extends PO implements I_C_Project, I_Persistent
 	public String getPOReference () 
 	{
 		return (String)get_Value(COLUMNNAME_POReference);
+	}
+
+	public org.compiere.model.I_C_Project getParentProject() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Project)MTable.get(getCtx(), org.compiere.model.I_C_Project.Table_Name)
+			.getPO(getParentProject_ID(), get_TrxName());	}
+
+	/** Set Parent Project.
+		@param ParentProject_ID 
+		The parent (summary) project
+	  */
+	public void setParentProject_ID (int ParentProject_ID)
+	{
+		if (ParentProject_ID < 1) 
+			set_Value (COLUMNNAME_ParentProject_ID, null);
+		else 
+			set_Value (COLUMNNAME_ParentProject_ID, Integer.valueOf(ParentProject_ID));
+	}
+
+	/** Get Parent Project.
+		@return The parent (summary) project
+	  */
+	public int getParentProject_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ParentProject_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Planned Amount.

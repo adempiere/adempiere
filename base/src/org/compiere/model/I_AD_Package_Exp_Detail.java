@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Package_Exp_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_AD_Package_Exp_Detail 
 {
@@ -35,9 +35,9 @@ public interface I_AD_Package_Exp_Detail
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 4 - System 
+    /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -172,6 +172,21 @@ public interface I_AD_Package_Exp_Detail
 
 	/** Get Old Package Code	  */
 	public String getAD_Package_Code_Old();
+
+    /** Column name AD_Package_Exp_Custom_ID */
+    public static final String COLUMNNAME_AD_Package_Exp_Custom_ID = "AD_Package_Exp_Custom_ID";
+
+	/** Set Package Custom Exporter.
+	  * Custom Exporter for any entity
+	  */
+	public void setAD_Package_Exp_Custom_ID (int AD_Package_Exp_Custom_ID);
+
+	/** Get Package Custom Exporter.
+	  * Custom Exporter for any entity
+	  */
+	public int getAD_Package_Exp_Custom_ID();
+
+	public org.spin.model.I_AD_Package_Exp_Custom getAD_Package_Exp_Custom() throws RuntimeException;
 
     /** Column name AD_Package_Exp_Detail_ID */
     public static final String COLUMNNAME_AD_Package_Exp_Detail_ID = "AD_Package_Exp_Detail_ID";
@@ -357,6 +372,17 @@ public interface I_AD_Package_Exp_Detail
 	public int getAD_Workflow_ID();
 
 	public org.compiere.model.I_AD_Workflow getAD_Workflow() throws RuntimeException;
+
+    /** Column name ASP_Module_ID */
+    public static final String COLUMNNAME_ASP_Module_ID = "ASP_Module_ID";
+
+	/** Set ASP Module	  */
+	public void setASP_Module_ID (int ASP_Module_ID);
+
+	/** Get ASP Module	  */
+	public int getASP_Module_ID();
+
+	public org.compiere.model.I_ASP_Module getASP_Module() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";

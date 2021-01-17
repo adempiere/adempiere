@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Exp_Common
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Common, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_Package_Exp_Common (Properties ctx, int AD_Package_Exp_Common_ID, String trxName)
@@ -643,6 +643,10 @@ public class X_AD_Package_Exp_Common extends PO implements I_AD_Package_Exp_Comm
 	public static final String TYPE_SmartBrowse = "SB";
 	/** Smart View = SV */
 	public static final String TYPE_SmartView = "SV";
+	/** ASP Module = ASP */
+	public static final String TYPE_ASPModule = "ASP";
+	/** Custom Export = CEP */
+	public static final String TYPE_CustomExport = "CEP";
 	/** Set Type.
 		@param Type 
 		Type of Validation (SQL, Java Script, Java Language)

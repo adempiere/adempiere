@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.Vector;
 import java.util.logging.Level;
 
@@ -168,7 +169,7 @@ public class Match
 		KeyNamePair lineMatched = (KeyNamePair)xMatchedTable.getValueAt(matchedRow, I_Line);
 		KeyNamePair Product = (KeyNamePair)xMatchedTable.getValueAt(matchedRow, I_Product);
 
-		double totalQty = m_xMatched.doubleValue();
+		Optional<BigDecimal> totalQty = Optional.ofNullable(m_xMatched);
 
 		//  Matched To
 		for (int row = 0; row < xMatchedToTable.getRowCount(); row++)
@@ -184,13 +185,20 @@ public class Match
 				KeyNamePair lineMatchedTo = (KeyNamePair)xMatchedToTable.getValueAt(row, I_Line);
 
 				//	Qty
-				double qty = 0.0;
+				Optional<BigDecimal> qty = Optional.empty();
+				Optional<BigDecimal> docQty = Optional.ofNullable((BigDecimal)xMatchedToTable.getValueAt(row, I_QTY));
+				Optional<BigDecimal> matchedQty = Optional.ofNullable((BigDecimal)xMatchedToTable.getValueAt(row, I_MATCHED));
+				
 				if (matchMode == MODE_NOTMATCHED)
-					qty = ((Double)xMatchedToTable.getValueAt(row, I_QTY)).doubleValue();	//  doc
-				qty -= ((Double)xMatchedToTable.getValueAt(row, I_MATCHED)).doubleValue();  //  matched
-				if (qty > totalQty)
+					qty = docQty;	//  doc
+				
+				qty = Optional.ofNullable(qty.orElse(Env.ZERO).subtract(matchedQty.orElse(Env.ZERO)));
+
+				if (qty.isPresent()
+						&& qty.get().compareTo(totalQty.orElse(Env.ZERO)) > 0)
 					qty = totalQty;
-				totalQty -= qty;
+				if (totalQty.isPresent())
+					totalQty = Optional.ofNullable(totalQty.get().subtract(qty.orElse(Env.ZERO)));
 
 				//  Invoice or PO
 				boolean invoice = true;
@@ -214,7 +222,7 @@ public class Match
 				//  Create it
 				String innerTrxName = Trx.createTrxName("Match");
 				Trx innerTrx = Trx.get(innerTrxName, true);
-				if (createMatchRecord(invoice, M_InOutLine_ID, Line_ID, new BigDecimal(qty), innerTrxName))
+				if (createMatchRecord(invoice, M_InOutLine_ID, Line_ID, qty.orElse(Env.ZERO), innerTrxName))
 					innerTrx.commit();
 				else
 					innerTrx.rollback();
@@ -256,7 +264,7 @@ public class Match
 			m_sql.append(" AND lin.M_Product_ID=").append(Product.getKey());
 
 		//  calculate qty
-		double docQty = ((Double)xMatchedTable.getValueAt(row, I_QTY)).doubleValue();
+		BigDecimal docQty = (BigDecimal)xMatchedTable.getValueAt(row, I_QTY);
 		if (sameQty)
 			m_sql.append(" AND ").append(m_qtyColumn).append("=").append(docQty);
 		//  ** Load Table **

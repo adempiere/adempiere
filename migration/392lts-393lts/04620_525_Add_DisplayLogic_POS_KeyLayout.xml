@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="(POS) logic read-only (product field) #525" ReleaseNo="3.9.3" SeqNo="4620">
+    <Comments>See: https://github.com/adempiere/adempiere/issues/525</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="10790" Table="AD_Field">
+        <Data AD_Column_ID="177" Column="DisplayLogic" oldValue="@POSKeyLayoutType@='P'">@POSKeyLayoutType@='P' &amp; @SubKeyLayout_ID@=0</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

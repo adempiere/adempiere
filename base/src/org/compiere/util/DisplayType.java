@@ -549,7 +549,8 @@ public final class DisplayType
 		if((dataType == Types.VARCHAR
 				|| dataType == Types.NVARCHAR)
 				&& (columnDataType == Types.VARCHAR
-						|| columnDataType == Types.NVARCHAR)) {
+						|| columnDataType == Types.NVARCHAR
+						|| columnDataType == Types.CHAR)) {  // Buttons
 			return (columnDataLength == 0 || columnDataLength == dataLength);
 		} else if((dataType == Types.NUMERIC
 				|| dataType == Types.DECIMAL)
@@ -567,6 +568,12 @@ public final class DisplayType
 						|| columnDataType == Types.TIME_WITH_TIMEZONE
 						|| columnDataType == Types.DATE)) {
 			return (columnDataLength == 0 || columnDataLength == dataLength);
+		}
+		else if (dataType == Types.CLOB && columnDataType == Types.CLOB) { // Field length not important
+			return true;
+		}
+		else if (dataType == Types.BLOB && columnDataType == Types.BLOB) { // Field length not important
+			return true;
 		}
 		//	
 		return false;

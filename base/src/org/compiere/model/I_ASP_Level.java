@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for ASP_Level
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_ASP_Level 
 {
@@ -158,6 +158,19 @@ public interface I_ASP_Level
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
+
+    /** Column name Type */
+    public static final String COLUMNNAME_Type = "Type";
+
+	/** Set Type.
+	  * Type of Validation (SQL, Java Script, Java Language)
+	  */
+	public void setType (String Type);
+
+	/** Get Type.
+	  * Type of Validation (SQL, Java Script, Java Language)
+	  */
+	public String getType();
 
     /** Column name UUID */
     public static final String COLUMNNAME_UUID = "UUID";

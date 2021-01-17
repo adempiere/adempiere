@@ -1,0 +1,1684 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="#2354 Calculate for Not Realized Gain / Loss for Account" ReleaseNo="3.9.2" SeqNo="4425">
+    <Comments>https://github.com/adempiere/adempiere/issues/2354</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="284" Action="I" Record_ID="54198" Table="AD_Process">
+        <Data AD_Column_ID="2804" Column="IsActive">true</Data>
+        <Data AD_Column_ID="11563" Column="WorkflowValue" isNewNull="true"/>
+        <Data AD_Column_ID="2809" Column="Name">Generate Not Realized Gain / Loss for Multi-Currency Account</Data>
+        <Data AD_Column_ID="4656" Column="Classname">org.adempiere.process.GenerateNotRealizedGainLossMultiCurrencyAccount</Data>
+        <Data AD_Column_ID="4214" Column="IsDirectPrint">false</Data>
+        <Data AD_Column_ID="50182" Column="JasperReport" isNewNull="true"/>
+        <Data AD_Column_ID="56515" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="14084" Column="IsServerProcess">false</Data>
+        <Data AD_Column_ID="50181" Column="ShowHelp">Y</Data>
+        <Data AD_Column_ID="2811" Column="Help">This process takes the accounting records until a closing date for all multi-currency accounting accounts of the balance in the source currency of the transaction is converted to the currency of the accounting scheme at the exchange rate of the closing date, the difference with the current balance balance in currency records a journal for the difference as loss or gain in exchange</Data>
+        <Data AD_Column_ID="6485" Column="EntityType">D</Data>
+        <Data AD_Column_ID="2813" Column="ProcedureName" isNewNull="true"/>
+        <Data AD_Column_ID="4023" Column="Value">GL Generate Not Realized Gain / Loss</Data>
+        <Data AD_Column_ID="57920" Column="CopyFromProcess">N</Data>
+        <Data AD_Column_ID="78843" Column="GenerateClass">N</Data>
+        <Data AD_Column_ID="5790" Column="AccessLevel">3</Data>
+        <Data AD_Column_ID="12458" Column="IsBetaFunctionality">false</Data>
+        <Data AD_Column_ID="3371" Column="IsReport">true</Data>
+        <Data AD_Column_ID="2801" Column="AD_Process_ID">54198</Data>
+        <Data AD_Column_ID="2802" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2803" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="11834" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2808" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2806" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="7752" Column="AD_PrintFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6653" Column="Statistic_Seconds">0</Data>
+        <Data AD_Column_ID="6652" Column="Statistic_Count">0</Data>
+        <Data AD_Column_ID="63488" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2805" Column="Created">2019-02-15 17:46:30.29</Data>
+        <Data AD_Column_ID="84383" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="2807" Column="Updated">2019-02-15 17:46:30.29</Data>
+        <Data AD_Column_ID="2810" Column="Description">Generate Not Realized Gain / Loss for Multi-Currency Account</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="287" Action="I" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2847" Column="IsActive">true</Data>
+        <Data AD_Column_ID="84387" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="2850" Column="Updated">2019-02-15 17:46:31.629</Data>
+        <Data AD_Column_ID="2848" Column="Created">2019-02-15 17:46:31.629</Data>
+        <Data AD_Column_ID="2853" Column="Description">Generate Not Realized Gain / Loss for Multi-Currency Account</Data>
+        <Data AD_Column_ID="2854" Column="Help">This process takes the accounting records until a closing date for all multi-currency accounting accounts of the balance in the source currency of the transaction is converted to the currency of the accounting scheme at the exchange rate of the closing date, the difference with the current balance balance in currency records a journal for the difference as loss or gain in exchange</Data>
+        <Data AD_Column_ID="2855" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2852" Column="Name">Generate Not Realized Gain / Loss for Multi-Currency Account</Data>
+        <Data AD_Column_ID="2846" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2845" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2851" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID">54198</Data>
+        <Data AD_Column_ID="2849" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54198">54198</Data>
+        <Data AD_Column_ID="2853" Column="Description" oldValue="Generate Not Realized Gain / Loss for Multi-Currency Account">Generar ganancias / pérdidas no realizadas para cuentas de múltiples monedas</Data>
+        <Data AD_Column_ID="2855" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Generate Not Realized Gain / Loss for Multi-Currency Account">Generar ganancia / pérdida no realizada</Data>
+        <Data AD_Column_ID="2854" Column="Help" oldValue="This process takes the accounting records until a closing date for all multi-currency accounting accounts of the balance in the source currency of the transaction is converted to the currency of the accounting scheme at the exchange rate of the closing date, the difference with the current balance balance in currency records a journal for the difference as loss or gain in exchange">Este proceso toma los registros contables a una fecha de cierre para todas las cuentas contables multi monedas, el saldo en la moneda de origen de la transacción se convierte a la moneda del esquema contable al tipo de cambio de la fecha de cierre, la diferencia con el saldo actual en moneda del esquema se registra como un diario por la diferencia como pérdida o ganancia a cambio</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="56829" Table="AD_Process_Para">
+        <Data AD_Column_ID="2824" Column="Help">An Accounting Schema defines the rules used in accounting such as costing method, currency and calendar</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">56829</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54198</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">25</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">10</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">181</Data>
+        <Data AD_Column_ID="84385" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="2820" Column="Updated">2019-02-15 18:32:26.078</Data>
+        <Data AD_Column_ID="2822" Column="Name">Accounting Schema</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-02-15 18:32:26.078</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">C_AcctSchema_ID</Data>
+        <Data AD_Column_ID="2823" Column="Description">Rules for accounting</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="56829" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-02-15 18:32:26.905</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-02-15 18:32:26.905</Data>
+        <Data AD_Column_ID="2840" Column="Name">Accounting Schema</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">Rules for accounting</Data>
+        <Data AD_Column_ID="3743" Column="Help">An Accounting Schema defines the rules used in accounting such as costing method, currency and calendar</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">56829</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56829" Table="AD_Process_Para">
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID" oldValue="25">19</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="56830" Table="AD_Process_Para">
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="2818" Column="Created">2019-02-15 18:43:51.117</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2019-02-15 18:43:51.117</Data>
+        <Data AD_Column_ID="2822" Column="Name">Currency</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">C_Currency_ID</Data>
+        <Data AD_Column_ID="2823" Column="Description">The Currency for this record</Data>
+        <Data AD_Column_ID="2824" Column="Help">Indicates the Currency to be used when processing or reporting on this record</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">56830</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54198</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">20</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">193</Data>
+        <Data AD_Column_ID="84385" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="56830" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-02-15 18:43:51.996</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-02-15 18:43:51.996</Data>
+        <Data AD_Column_ID="2840" Column="Name">Currency</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">The Currency for this record</Data>
+        <Data AD_Column_ID="3743" Column="Help">Indicates the Currency to be used when processing or reporting on this record</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">56830</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="56831" Table="AD_Process_Para">
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">2804</Data>
+        <Data AD_Column_ID="84385" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="2820" Column="Updated">2019-02-15 18:46:23.832</Data>
+        <Data AD_Column_ID="2822" Column="Name">Revaluation Conversion Type</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-02-15 18:46:23.832</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">C_ConversionTypeReval_ID</Data>
+        <Data AD_Column_ID="2823" Column="Description">Revaluation Currency Conversion Type</Data>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">56831</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54198</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">18</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">30</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">352</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="56831" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-02-15 18:46:27.354</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-02-15 18:46:27.354</Data>
+        <Data AD_Column_ID="2840" Column="Name">Revaluation Conversion Type</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">Revaluation Currency Conversion Type</Data>
+        <Data AD_Column_ID="3743" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">56831</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="56832" Table="AD_Process_Para">
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2820" Column="Updated">2019-02-15 18:51:01.423</Data>
+        <Data AD_Column_ID="2822" Column="Name">Revaluation Date</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-02-15 18:51:01.423</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">DateReval</Data>
+        <Data AD_Column_ID="2823" Column="Description">Date of Revaluation</Data>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">7</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54198</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">15</Data>
+        <Data AD_Column_ID="2826" Column="SeqNo">40</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">2805</Data>
+        <Data AD_Column_ID="84385" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">56832</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="56832" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-02-15 18:51:02.277</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-02-15 18:51:02.277</Data>
+        <Data AD_Column_ID="2840" Column="Name">Revaluation Date</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">Date of Revaluation</Data>
+        <Data AD_Column_ID="3743" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">56832</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="56833" Table="AD_Process_Para">
+        <Data AD_Column_ID="4017" Column="ColumnName">C_DocTypeReval_ID</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2820" Column="Updated">2019-02-15 18:53:31.723</Data>
+        <Data AD_Column_ID="2822" Column="Name">Revaluation Document Type</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-02-15 18:53:31.723</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="2823" Column="Description">Document Type for Revaluation Journal</Data>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">56833</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54198</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">18</Data>
+        <Data AD_Column_ID="2826" Column="SeqNo">50</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">170</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">2896</Data>
+        <Data AD_Column_ID="84385" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="56833" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-02-15 18:53:34.008</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-02-15 18:53:34.008</Data>
+        <Data AD_Column_ID="2840" Column="Name">Revaluation Document Type</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">Document Type for Revaluation Journal</Data>
+        <Data AD_Column_ID="3743" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">56833</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56833" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="50">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56832" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="40">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56832" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="50">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56831" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="30">40</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56833" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="40">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="56834" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">IsCreateNewJournal</Data>
+        <Data AD_Column_ID="2823" Column="Description">If selected a new journal within the batch is created</Data>
+        <Data AD_Column_ID="2824" Column="Help">Note that the balance check does not check that individual journals are balanced.</Data>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue">N</Data>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">56834</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">1</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54198</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">17</Data>
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">60</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID">319</Data>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">2852</Data>
+        <Data AD_Column_ID="84385" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="2820" Column="Updated">2019-02-15 19:01:21.407</Data>
+        <Data AD_Column_ID="2822" Column="Name">Create New Journal</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-02-15 19:01:21.407</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="56834" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2838" Column="Updated">2019-02-15 19:01:22.227</Data>
+        <Data AD_Column_ID="2836" Column="Created">2019-02-15 19:01:22.227</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2840" Column="Name">Create New Journal</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">If selected a new journal within the batch is created</Data>
+        <Data AD_Column_ID="3743" Column="Help">Note that the balance check does not check that individual journals are balanced.</Data>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">56834</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="116" Action="I" Record_ID="54437" Table="AD_Menu">
+        <Data AD_Column_ID="400" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="598" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57960" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="229" Column="Name">Generate Not Realized Gain / Loss for Multi-Currency Account</Data>
+        <Data AD_Column_ID="599" Column="Created">2019-02-15 19:04:16.185</Data>
+        <Data AD_Column_ID="601" Column="Updated">2019-02-15 19:04:16.185</Data>
+        <Data AD_Column_ID="235" Column="AD_Task_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1169" Column="IsSummary">false</Data>
+        <Data AD_Column_ID="4426" Column="IsSOTrx">false</Data>
+        <Data AD_Column_ID="6651" Column="IsReadOnly">false</Data>
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="230" Column="Description">Generate Not Realized Gain / Loss for Multi-Currency Account</Data>
+        <Data AD_Column_ID="232" Column="Action">P</Data>
+        <Data AD_Column_ID="399" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="228" Column="AD_Menu_ID">54437</Data>
+        <Data AD_Column_ID="6297" Column="AD_Workbench_ID" isNewNull="true"/>
+        <Data AD_Column_ID="7721" Column="EntityType">D</Data>
+        <Data AD_Column_ID="234" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="233" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="600" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4621" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="602" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="3375" Column="AD_Process_ID">54198</Data>
+        <Data AD_Column_ID="84344" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="120" Action="I" Record_ID="54437" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="245" Column="AD_Menu_ID">54437</Data>
+        <Data AD_Column_ID="636" Column="IsActive">true</Data>
+        <Data AD_Column_ID="639" Column="Updated">2019-02-15 19:04:17.009</Data>
+        <Data AD_Column_ID="637" Column="Created">2019-02-15 19:04:17.009</Data>
+        <Data AD_Column_ID="640" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="247" Column="Name">Generate Not Realized Gain / Loss for Multi-Currency Account</Data>
+        <Data AD_Column_ID="248" Column="Description">Generate Not Realized Gain / Loss for Multi-Currency Account</Data>
+        <Data AD_Column_ID="249" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="1194" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1195" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="638" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="246" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84345" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="452" Action="I" Record_ID="54437" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6153" Column="Updated">2019-02-15 19:04:17.274</Data>
+        <Data AD_Column_ID="6151" Column="Created">2019-02-15 19:04:17.274</Data>
+        <Data AD_Column_ID="6162" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6149" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID">54437</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID">0</Data>
+        <Data AD_Column_ID="6154" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="6152" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo">999</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID">10</Data>
+        <Data AD_Column_ID="84442" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="6150" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="54437" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="999">7</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54437">54437</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="0">278</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53288" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53288">53288</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="7">8</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53289" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53289">53289</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="8">9</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="53290" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="53290">53290</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="9">10</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="169" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="169">169</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="10">11</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="433" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="433">433</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="11">12</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="352" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="352">352</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="12">13</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="434" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="434">434</Data>
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="13">14</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="452" Action="U" Record_ID="435" Table="AD_TreeNodeMM">
+        <Data AD_Column_ID="6157" Column="SeqNo" oldValue="14">15</Data>
+        <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
+        <Data AD_Column_ID="6161" Column="Node_ID" oldValue="435">435</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="54437" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="249" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="54437">54437</Data>
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="247" Column="Name" oldValue="Generate Not Realized Gain / Loss for Multi-Currency Account">Generar ganancia / pérdida no realizada</Data>
+        <Data AD_Column_ID="248" Column="Description" oldValue="Generate Not Realized Gain / Loss for Multi-Currency Account">Generar ganancias / pérdidas no realizadas para cuentas de múltiples monedas</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="54437" Table="AD_Menu">
+        <Data AD_Column_ID="229" Column="Name" oldValue="Generate Not Realized Gain / Loss for Multi-Currency Account">Generate Not Realized Gain / Loss</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="54437" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="249" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="54437">54437</Data>
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56834" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="60">50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56833" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="50">60</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56833" Table="AD_Process_Para">
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isOldNull="true">@IsCreateNewJournal@</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="285" Action="I" Record_ID="56835" Table="AD_Process_Para">
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2826" Column="SeqNo">70</Data>
+        <Data AD_Column_ID="2821" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84385" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="7729" Column="AD_Element_ID">2092</Data>
+        <Data AD_Column_ID="2820" Column="Updated">2019-02-15 19:08:53.382</Data>
+        <Data AD_Column_ID="2822" Column="Name">Batch Description</Data>
+        <Data AD_Column_ID="2817" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2830" Column="IsRange">false</Data>
+        <Data AD_Column_ID="2818" Column="Created">2019-02-15 19:08:53.382</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="4017" Column="ColumnName">BatchDescription</Data>
+        <Data AD_Column_ID="2823" Column="Description">Description of the Batch</Data>
+        <Data AD_Column_ID="2824" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">56835</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">D</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">255</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54198</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2827" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="286" Action="I" Record_ID="56835" Table="AD_Process_Para_Trl">
+        <Data AD_Column_ID="2836" Column="Created">2019-02-15 19:08:54.653</Data>
+        <Data AD_Column_ID="2835" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2838" Column="Updated">2019-02-15 19:08:54.653</Data>
+        <Data AD_Column_ID="2840" Column="Name">Batch Description</Data>
+        <Data AD_Column_ID="2842" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="2841" Column="Description">Description of the Batch</Data>
+        <Data AD_Column_ID="3743" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2831" Column="AD_Process_Para_ID">56835</Data>
+        <Data AD_Column_ID="2833" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2834" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2832" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="2839" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84386" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56833" Table="AD_Process_Para">
+        <Data AD_Column_ID="56300" Column="DisplayLogic" oldValue="@IsCreateNewJournal@">@IsCreateNewJournal@='Y'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56835" Table="AD_Process_Para">
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isOldNull="true">@IsCreateNewJournal@='Y'</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56833" Table="AD_Process_Para">
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isOldNull="true">102</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56832" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="30">20</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56830" Table="AD_Process_Para">
+        <Data AD_Column_ID="2826" Column="SeqNo" oldValue="20">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56832" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56830" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56831" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="500" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56830" Table="AD_Process_Para">
+        <Data AD_Column_ID="3738" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="510" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56832" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isOldNull="true">@#Date@</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="520" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54198" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.adempiere.process.GenerateNotRealizedGainLossMultiCurrencyAccount">org.adempiere.process.GenerateNotRealizedGainLoss</Data>
+      </PO>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="525" StepType="SQL">
+      <SQLStatement>DELETE FROM T_InvoiceGL;
+ALTER TABLE T_InvoiceGL DROP CONSTRAINT t_invoicegl_pkey;</SQLStatement>
+      <RollbackStatement>ALTER TABLE T_InvoiceGL  ADD CONSTRAINT t_invoicegl_pkey PRIMARY KEY (ad_pinstance_id, c_invoice_id , fact_acct_id);</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="526" StepType="SQL">
+      <SQLStatement>DELETE FROM T_InvoiceGL;
+ALTER INDEX T_INVOICEGL_KEY RENAME TO T_INVOICEGL_KEY_OLD;
+ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;</SQLStatement>
+      <RollbackStatement>ALTER TABLE T_InvoiceGL  ADD CONSTRAINT T_INVOICEGL_KEY PRIMARY KEY (ad_pinstance_id, c_invoice_id , fact_acct_id);</RollbackStatement>
+    </Step>
+    <Step SeqNo="530" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="14078" Table="AD_Column">
+        <Data AD_Column_ID="124" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="540" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="92472" Table="AD_Column">
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">AD_Table_ID</Data>
+        <Data AD_Column_ID="113" Column="Help">The Database Table provides the information of the table definition</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">803</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">126</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description">Database Table information</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-02-15 19:32:50.02</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-02-15 19:32:50.02</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">92472</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Table</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="550" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="92472" Table="AD_Column_Trl">
+        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="12960" Column="Created">2019-02-15 19:32:51.419</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-02-15 19:32:51.419</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">92472</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Table</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="560" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="92473" Table="AD_Column">
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="112" Column="Description">Direct internal record ID</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-02-15 19:34:13.197</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-02-15 19:34:13.197</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">92473</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Record ID</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">Record_ID</Data>
+        <Data AD_Column_ID="113" Column="Help">The Record ID is the internal unique identifier of a record. Please note that zooming to the record may not be successful for Orders, Invoices and Shipment/Receipts as sometimes the Sales Order type is not known.</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">803</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">538</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">28</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="570" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="92473" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">92473</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Record ID</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="12960" Column="Created">2019-02-15 19:34:14.556</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-02-15 19:34:14.556</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="580" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="92474" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description">Account used</Data>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">30</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-02-15 20:59:53.448</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-02-15 20:59:53.448</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">92474</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Account</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">Account_ID</Data>
+        <Data AD_Column_ID="113" Column="Help">The (natural) account used</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">803</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">148</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">362</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="590" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="92474" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2019-02-15 20:59:54.605</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-02-15 20:59:54.605</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">92474</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Account</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="600" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56829" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isOldNull="true">-1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="610" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="56830" Table="AD_Process_Para">
+        <Data AD_Column_ID="3739" Column="DefaultValue" isOldNull="true">-1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="620" StepType="AD">
+      <PO AD_Table_ID="276" Action="I" Record_ID="60927" Table="AD_Element">
+        <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2600" Column="Updated">2019-02-20 20:23:16.385</Data>
+        <Data AD_Column_ID="2597" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2603" Column="Name">Gain/Loss Currency Temporary Table</Data>
+        <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="2598" Column="Created">2019-02-20 20:23:16.385</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">T_InvoiceGL_ID</Data>
+        <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="4299" Column="PrintName">Gain/Loss Currency Temporary Table</Data>
+        <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="58589" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID">13</Data>
+        <Data AD_Column_ID="2594" Column="AD_Element_ID">60927</Data>
+        <Data AD_Column_ID="2596" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2595" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="6484" Column="EntityType">D</Data>
+        <Data AD_Column_ID="2599" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2601" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84316" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="630" StepType="AD">
+      <PO AD_Table_ID="277" Action="I" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
+        <Data AD_Column_ID="2642" Column="Created">2019-02-20 20:23:17.49</Data>
+        <Data AD_Column_ID="6449" Column="PO_Help" isNewNull="true"/>
+        <Data AD_Column_ID="2641" Column="IsActive">true</Data>
+        <Data AD_Column_ID="2644" Column="Updated">2019-02-20 20:23:17.49</Data>
+        <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
+        <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="2646" Column="Name">Gain/Loss Currency Temporary Table</Data>
+        <Data AD_Column_ID="2647" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="4300" Column="PrintName">Gain/Loss Currency Temporary Table</Data>
+        <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
+        <Data AD_Column_ID="2640" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="2639" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2645" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="2643" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID">60927</Data>
+        <Data AD_Column_ID="84317" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="640" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="92482" Table="AD_Column">
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-02-20 20:23:51.34</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">92482</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Gain/Loss Currency Temporary Table</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">true</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">T_InvoiceGL_ID</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">803</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">60927</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">13</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-02-20 20:23:51.34</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="650" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="92482" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2019-02-20 20:23:52.862</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-02-20 20:23:52.862</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">92482</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Gain/Loss Currency Temporary Table</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="660" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="14079" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="13">30</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="670" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="14079" Table="AD_Column">
+        <Data AD_Column_ID="119" Column="IsKey" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="680" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="92482" Table="AD_Column">
+        <Data AD_Column_ID="6482" Column="EntityType" oldValue="U">D</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="690" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="2077" Table="AD_Field">
+        <Data AD_Column_ID="177" Column="DisplayLogic" oldValue="@ElementType@=A &amp; @IsSummary@=N &amp; @IsBankAccount@=Y">@ElementType@=A &amp; @IsSummary@=N</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="700" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54198" Table="AD_Process">
+        <Data AD_Column_ID="4374" Column="AD_ReportView_ID" isOldNull="true">160</Data>
+        <Data AD_Column_ID="3371" Column="IsReport" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="710" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="92486" Table="AD_Column">
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">AD_Table_ID</Data>
+        <Data AD_Column_ID="113" Column="Help">The Database Table provides the information of the table definition</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">804</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">126</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description">Database Table information</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-02-21 17:38:12.62</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-02-21 17:38:12.62</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">92486</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Table</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="720" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="92486" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2019-02-21 17:38:15.248</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-02-21 17:38:15.248</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">92486</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Table</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="730" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="92487" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description">Direct internal record ID</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">538</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">28</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-02-21 17:38:33.851</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-02-21 17:38:33.851</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">92487</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Record ID</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">Record_ID</Data>
+        <Data AD_Column_ID="113" Column="Help">The Record ID is the internal unique identifier of a record. Please note that zooming to the record may not be successful for Orders, Invoices and Shipment/Receipts as sometimes the Sales Order type is not known.</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">804</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="740" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="92487" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2019-02-21 17:38:37.381</Data>
+        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-02-21 17:38:37.381</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">92487</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Record ID</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="750" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="92488" Table="AD_Column">
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-02-21 17:41:09.434</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-02-21 17:41:09.434</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">92488</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Gain/Loss Currency Temporary Table</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">T_InvoiceGL_ID</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">804</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">60927</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="760" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="92488" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2019-02-21 17:41:10.57</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">92488</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Gain/Loss Currency Temporary Table</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-02-21 17:41:10.57</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="770" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="92488" Table="AD_Column">
+        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="19">13</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="780" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="14064" Table="AD_Column">
+        <Data AD_Column_ID="124" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="790" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="14030" Table="AD_Column">
+        <Data AD_Column_ID="124" Column="IsMandatory" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="800" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="14080" Table="AD_Column">
+        <Data AD_Column_ID="3360" Column="IsUpdateable" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="810" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="14080" Table="AD_Column">
+        <Data AD_Column_ID="117" Column="DefaultValue" isOldNull="true">@#AD_Client_ID@</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="820" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="92525" Table="AD_Column">
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">C_Currency_ID</Data>
+        <Data AD_Column_ID="113" Column="Help">Indicates the Currency to be used when processing or reporting on this record</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">803</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">193</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description">The Currency for this record</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-02-25 21:17:34.72</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-02-25 21:17:34.72</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">92525</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Currency</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="830" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="92525" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2019-02-25 21:17:36.237</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-02-25 21:17:36.237</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">92525</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Currency</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="840" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="14721" Table="AD_Column">
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isOldNull="true">121</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="850" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="92528" Table="AD_Column">
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">D</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">803</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">181</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description">Rules for accounting</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2019-02-26 17:13:12.145</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2019-02-26 17:13:12.145</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">92528</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Accounting Schema</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">C_AcctSchema_ID</Data>
+        <Data AD_Column_ID="113" Column="Help">An Accounting Schema defines the rules used in accounting such as costing method, currency and calendar</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="860" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="92528" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2019-02-26 17:13:13.358</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID" isNewNull="true"/>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2019-02-26 17:13:13.358</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">92528</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Accounting Schema</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+      </PO>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="865" StepType="SQL">
+      <SQLStatement>ALTER TABLE T_InvoiceGL DROP CONSTRAINT t_invoicegl_key;
+ALTER TABLE T_InvoiceGL  ADD CONSTRAINT t_invoicegl_pkey PRIMARY KEY (ad_pinstance_id, T_InvoiceGL_ID, fact_acct_id);</SQLStatement>
+      <RollbackStatement>ALTER TABLE T_InvoiceGL DROP CONSTRAINT t_invoicegl_pkey;
+ALTER TABLE T_InvoiceGL  ADD CONSTRAINT t_invoicegl_pkey PRIMARY KEY (ad_pinstance_id, c_invoice_id , fact_acct_id);</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="866" StepType="SQL">
+      <SQLStatement>
+        ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;
+        ALTER TABLE T_InvoiceGL  ADD CONSTRAINT T_INVOICEGL_KEY PRIMARY KEY (ad_pinstance_id, T_InvoiceGL_ID , fact_acct_id);</SQLStatement>
+      <RollbackStatement>
+        ALTER TABLE T_InvoiceGL DROP CONSTRAINT T_INVOICEGL_KEY CASCADE;
+        ALTER TABLE T_InvoiceGL  ADD CONSTRAINT T_INVOICEGL_KEY PRIMARY KEY (ad_pinstance_id, c_invoice_id , fact_acct_id);</RollbackStatement>
+    </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="870" StepType="SQL">
+      <SQLStatement>DROP VIEW T_INVOICEGL_V;
+DROP VIEW T_INVOICEGL_VT;
+
+CREATE OR REPLACE VIEW T_INVOICEGL_V
+(T_InvoiceGL_ID , AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY,
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO,
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID,
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID,
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL,
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID,
+ USER1_ID, USER2_ID, USER3_ID, USER4_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID,
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID,
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR,
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY,
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR,
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE,
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR,
+ AMTACCTOPENCR, AMTACCTOPENBALANCE, AD_Table_ID , Record_ID , AD_Language)
+AS
+SELECT
+    gl.T_InvoiceGL_ID,
+    COALESCE(i.AD_Client_ID,fa.AD_Client_ID) AS AD_Client_ID ,
+    COALESCE(i.AD_Org_ID, fa.AD_Org_ID) AS AD_Org_ID,
+    COALESCE(i.IsActive, fa.IsActive) AS IsActive,
+    COALESCE(i.Created, fa.Created) AS Created,
+    COALESCE(i.CreatedBy, fa.CreatedBy) AS CreatedBy,
+    COALESCE(i.Updated,fa.Updated) AS Updated,
+    COALESCE(i.UpdatedBy,fa.UpdatedBy) AS UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced,
+    COALESCE(i.DateAcct, fa.DateAcct) AS DateAcct,
+    i.C_PaymentTerm_ID,
+    COALESCE(i.C_BPartner_ID,fa.C_BPartner_ID) AS C_BPartner_ID,
+    i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+    COALESCE(gl.C_Currency_ID , i.C_Currency_ID) AS C_Currency_ID,
+    i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    COALESCE(i.C_Campaign_ID, fa.C_Campaign_ID) AS C_Campaign_ID,
+    COALESCE(i.C_Project_ID, fa.C_Project_ID) AS C_Project_ID,
+    COALESCE(i.C_Activity_ID, fa.C_Activity_ID) AS C_Activity_ID,
+    COALESCE(i.AD_OrgTrx_ID, fa.AD_OrgTrx_ID) AS AD_OrgTrx_ID,
+    COALESCE(i.User1_ID, fa.User1_ID) AS User1_ID,
+    COALESCE(i.User2_ID, fa.User2_ID) AS User2_ID,
+    COALESCE(i.User3_ID, fa.User3_ID) AS User3_ID,
+    COALESCE(i.User4_ID, fa.User4_ID) AS User4_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    gl.Fact_Acct_ID, COALESCE(gl.C_AcctSchema_ID , fa.C_AcctSchema_ID) AS C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance , gl.AD_Table_ID , gl.Record_ID , 'en_US' AS AD_Language
+FROM T_InvoiceGL gl
+  LEFT JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  LEFT JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);
+
+CREATE OR REPLACE VIEW T_INVOICEGL_VT
+(T_InvoiceGL_ID , AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY,
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO,
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID,
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID,
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL,
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID,
+ USER1_ID, USER2_ID, USER3_ID, USER4_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID,
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID,
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR,
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY,
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR,
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE,
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR,
+ AMTACCTOPENCR, AMTACCTOPENBALANCE,AD_Table_ID , Record_ID , AD_Language)
+AS
+SELECT
+    gl.T_InvoiceGL_ID,
+    COALESCE(i.AD_Client_ID,fa.AD_Client_ID) AS AD_Client_ID ,
+    COALESCE(i.AD_Org_ID, fa.AD_Org_ID) AS AD_Org_ID,
+    COALESCE(i.IsActive, fa.IsActive) AS IsActive,
+    COALESCE(i.Created, fa.Created) AS Created,
+    COALESCE(i.CreatedBy, fa.CreatedBy) AS CreatedBy,
+    COALESCE(i.Updated,fa.Updated) AS Updated,
+    COALESCE(i.UpdatedBy,fa.UpdatedBy) AS UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced,
+    COALESCE(i.DateAcct, fa.DateAcct) AS DateAcct,
+    i.C_PaymentTerm_ID,
+    COALESCE(i.C_BPartner_ID,fa.C_BPartner_ID) AS C_BPartner_ID,
+    i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+     COALESCE(i.C_Currency_ID, gl.C_Currency_ID) AS C_Currency_ID,
+    i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    COALESCE(i.C_Campaign_ID, fa.C_Campaign_ID) AS C_Campaign_ID,
+    COALESCE(i.C_Project_ID, fa.C_Project_ID) AS C_Project_ID,
+    COALESCE(i.C_Activity_ID, fa.C_Activity_ID) AS C_Activity_ID,
+    COALESCE(i.AD_OrgTrx_ID, fa.AD_OrgTrx_ID) AS AD_OrgTrx_ID,
+    COALESCE(i.User1_ID, fa.User1_ID) AS User1_ID,
+    COALESCE(i.User2_ID, fa.User2_ID) AS User2_ID,
+    COALESCE(i.User3_ID, fa.User3_ID) AS User3_ID,
+    COALESCE(i.User4_ID, fa.User4_ID) AS User4_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    gl.Fact_Acct_ID,  COALESCE(gl.C_AcctSchema_ID, fa.C_AcctSchema_ID) AS C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance,
+     gl.AD_Table_ID , gl.Record_ID , l.AD_Language
+FROM T_InvoiceGL gl
+  LEFT JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  LEFT JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID)
+  LEFT JOIN AD_Language l ON (l.IsSystemLanguage='Y' AND l.IsActive = 'Y')
+  LEFT JOIN C_DocType_Trl dttrl ON (gl.C_DocTypeReval_ID=dttrl.C_DocType_ID AND l.AD_Language=dttrl.AD_Language);
+</SQLStatement>
+      <RollbackStatement>DROP VIEW T_INVOICEGL_V;
+DROP VIEW T_INVOICEGL_VT;
+
+CREATE OR REPLACE VIEW T_INVOICEGL_V
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ USER1_ID, USER2_ID, USER3_ID, USER4_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID,
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
+ AMTACCTOPENCR, AMTACCTOPENBALANCE, AD_Language)
+AS 
+SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced, i.DateAcct, i.C_PaymentTerm_ID,
+    i.C_BPartner_ID, i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+    i.C_Currency_ID, i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID,
+    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID, i.User3_ID, i.User4_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    fa.Fact_Acct_ID, fa.C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance,
+    'en_US' AS AD_Language
+FROM T_InvoiceGL gl
+  INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID);
+
+CREATE OR REPLACE VIEW T_INVOICEGL_VT
+(AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
+ UPDATED, UPDATEDBY, C_INVOICE_ID, ISSOTRX, DOCUMENTNO, 
+ DOCSTATUS, C_DOCTYPE_ID, C_ORDER_ID, DESCRIPTION, SALESREP_ID, 
+ DATEINVOICED, DATEACCT, C_PAYMENTTERM_ID, C_BPARTNER_ID, C_BPARTNER_LOCATION_ID, 
+ AD_USER_ID, ISSELFSERVICE, C_CURRENCY_ID, C_CONVERSIONTYPE_ID, GRANDTOTAL, 
+ ISTAXINCLUDED, C_CAMPAIGN_ID, C_PROJECT_ID, C_ACTIVITY_ID, AD_ORGTRX_ID, 
+ USER1_ID, USER2_ID, USER3_ID, USER4_ID, C_LOCFROM_ID, C_LOCTO_ID, C_SALESREGION_ID,
+ FACT_ACCT_ID, C_ACCTSCHEMA_ID, ACCOUNT_ID, C_PERIOD_ID, GL_CATEGORY_ID, 
+ GL_BUDGET_ID, C_TAX_ID, M_LOCATOR_ID, POSTINGTYPE, AMTSOURCEDR, 
+ AMTSOURCECR, AMTACCTDR, AMTACCTCR, C_UOM_ID, QTY, 
+ AD_PINSTANCE_ID, APAR, OPENAMT, PERCENT, AMTREVALDR, 
+ AMTREVALCR, DATEREVAL, C_CONVERSIONTYPEREVAL_ID, AMTSOURCEBALANCE, AMTACCTBALANCE, 
+ C_DOCTYPEREVAL_ID, AMTREVALDRDIFF, AMTREVALCRDIFF, ISALLCURRENCIES, AMTACCTOPENDR, 
+ AMTACCTOPENCR, AMTACCTOPENBALANCE, AD_Language)
+AS 
+SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,
+    i.C_Invoice_ID, i.IsSOTrx, i.DocumentNo, i.DocStatus, i.C_DocType_ID, i.C_Order_ID,
+    i.Description, i.SalesRep_ID, i.DateInvoiced, i.DateAcct, i.C_PaymentTerm_ID,
+    i.C_BPartner_ID, i.C_BPartner_Location_ID, i.AD_User_ID, i.IsSelfService,
+    i.C_Currency_ID, i.C_ConversionType_ID, i.GrandTotal, i.IsTaxIncluded,
+--  References
+    i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID,
+    i.AD_OrgTrx_ID, i.User1_ID, i.User2_ID, i.User3_ID, i.User4_ID,
+    fa.C_LocFrom_ID, fa.C_LocTo_ID, fa.C_SalesRegion_ID,
+--  Accounting
+    fa.Fact_Acct_ID, fa.C_AcctSchema_ID, fa.Account_ID, fa.C_Period_ID, fa.GL_Category_ID, fa.GL_Budget_ID,
+    fa.C_Tax_ID, fa.M_Locator_ID,
+    fa.PostingType, fa.AmtSourceDr, fa.AmtSourceCr,
+    fa.AmtAcctDr, fa.AmtAcctCr,
+    fa.C_UOM_ID, fa.Qty,
+--  Gain/Loss
+    gl.AD_PInstance_ID, gl.APAR, gl.OpenAmt, gl.Percent,
+    gl.AmtRevalDr, gl.AmtRevalCr, gl.DateReval, gl.C_ConversionTypeReval_ID,
+    gl.AmtSourceBalance, gl.AmtAcctBalance,
+    gl.C_DocTypeReval_ID,
+    gl.AmtRevalDrDiff, gl.AmtRevalCrDiff, gl.IsAllCurrencies,
+    (fa.AmtAcctDr*gl.Percent/100) AS AmtAcctOpenDr, (fa.AmtAcctCr*gl.Percent/100) AS AmtAcctOpenCr,
+    ((fa.AmtAcctDr-fa.AmtAcctCr)*gl.Percent/100) AS AmtAcctOpenBalance,
+    l.AD_Language
+FROM T_InvoiceGL gl
+  INNER JOIN C_Invoice i ON (gl.C_Invoice_ID=i.C_Invoice_ID)
+  INNER JOIN Fact_Acct fa ON (gl.Fact_Acct_ID=fa.Fact_Acct_ID)
+  LEFT JOIN AD_Language l ON (l.IsSystemLanguage='Y' AND l.IsActive = 'Y');
+
+</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for C_BankMatcher
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_BankMatcher extends PO implements I_C_BankMatcher, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_BankMatcher (Properties ctx, int C_BankMatcher_ID, String trxName)

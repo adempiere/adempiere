@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BP_BankAccount
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_BP_BankAccount (Properties ctx, int C_BP_BankAccount_ID, String trxName)
@@ -516,6 +516,23 @@ public class X_C_BP_BankAccount extends PO implements I_C_BP_BankAccount, I_Pers
 	public String getCreditCardVV () 
 	{
 		return (String)get_Value(COLUMNNAME_CreditCardVV);
+	}
+
+	/** Set IBAN.
+		@param IBAN 
+		International Bank Account Number
+	  */
+	public void setIBAN (String IBAN)
+	{
+		set_Value (COLUMNNAME_IBAN, IBAN);
+	}
+
+	/** Get IBAN.
+		@return International Bank Account Number
+	  */
+	public String getIBAN () 
+	{
+		return (String)get_Value(COLUMNNAME_IBAN);
 	}
 
 	/** Set ACH.

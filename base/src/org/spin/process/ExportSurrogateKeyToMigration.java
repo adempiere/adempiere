@@ -18,6 +18,7 @@
 package org.spin.process;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.compiere.model.I_AD_MigrationStep;
@@ -31,8 +32,8 @@ import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
-import org.compiere.util.KeyNamePair;
 import org.compiere.util.Util;
+import org.compiere.util.ValueNamePair;
 
 /** Generated Process for (Export Surrogate Key)
  *  @author ADempiere (generated) 
@@ -58,12 +59,16 @@ public class ExportSurrogateKeyToMigration extends ExportSurrogateKeyToMigration
 		List<MTable> tableList = getTableList(get_TrxName());
 		//	Add columns
 		tableList.stream().filter(table -> table != null)
-			.filter(table -> table.getColumn(table.getTableName() + "_ID") != null)
+			.filter(table -> !table.getTableName().endsWith("_Trl"))
 			.filter(table -> table.getColumn(I_AD_Table.COLUMNNAME_UUID) != null)
+			.filter(table -> table.getColumn(I_AD_Table.COLUMNNAME_AD_Client_ID) != null)
 			.filter(table -> !table.isIgnoreMigration())
 			.forEach(table -> {
 			addTableToUpdate(table.getTableName());
 		});
+		if(migration != null) {
+			return "@AD_Migration_ID@: " + migration.getSeqNo() + " - " + migration.getName() + " (" + generated + ")";
+		}
 		return "@Created@: " + generated;
 	}
 	
@@ -142,6 +147,7 @@ public class ExportSurrogateKeyToMigration extends ExportSurrogateKeyToMigration
 		migration.setStatusCode(MMigration.STATUSCODE_Applied);
 		migration.setApply(MMigration.APPLY_Rollback);
 		migration.saveEx();
+		addLog(migration.getAD_Migration_ID(), null, null, "Ok");
 	}
 	
 	/**
@@ -149,17 +155,39 @@ public class ExportSurrogateKeyToMigration extends ExportSurrogateKeyToMigration
 	 * @param tableName
 	 */
 	private void addTableToUpdate(String tableName) {
-		String keyId = tableName + "_ID";
+		StringBuffer keyColumnNames = new StringBuffer();
 		String uuidKey = I_AD_Table.COLUMNNAME_UUID;
-		
-		KeyNamePair[] uuidValues = DB.getKeyNamePairs(get_TrxName(), "SELECT " + keyId + ", " + uuidKey + " FROM " + tableName + " WHERE AD_Client_ID = ? AND " + uuidKey + " IS NOT NULL" + entityTypeWhereClause, false, getAD_Client_ID());
-		//	Get all UUID
-		for(KeyNamePair value : uuidValues) {
-			updateList.add("UPDATE " + tableName + " SET " + uuidKey + "= '" + value.getName() + "' WHERE " + keyId + " = " + value.getKey() + ";");
-			rollbackList.add("UPDATE " + tableName + " SET " + uuidKey + " = NULL WHERE " + keyId + " = " + value.getKey() + ";");
+		String uuidWhereClause = uuidKey + " IS NOT NULL";
+		if(isOnlyUUIDMissing()) {
+			uuidKey = "getUUID()";
+			uuidWhereClause = I_AD_Table.COLUMNNAME_UUID + " IS NULL";
 		}
-		//	Add
-		addMigration();
+		MTable table = MTable.get(getCtx(), tableName);
+		//	Validate multiple key
+		String keyColumn[] = table.getKeyColumns();
+		if(keyColumn != null) {
+			Arrays.asList(keyColumn)
+				.forEach(columnName -> {
+					if(keyColumnNames.length() > 0) {
+						keyColumnNames.append(" || ' AND ' || ");
+					}
+					keyColumnNames.append("'").append(columnName).append(" = ' || ").append(columnName);
+				});
+		}
+		//	Only for key columns
+		if(keyColumnNames.length() > 0) {
+			List<Object> parameters = new ArrayList<>();
+			parameters.add(getAD_Client_ID());
+			//	Get
+			ValueNamePair[] uuidValuesPair = DB.getValueNamePairs("SELECT " + keyColumnNames + ", " + uuidKey + " FROM " + tableName + " WHERE AD_Client_ID = ? AND " + uuidWhereClause + entityTypeWhereClause, false, parameters);
+			//	Get all UUID
+			for(ValueNamePair value : uuidValuesPair) {
+				updateList.add("UPDATE " + tableName + " SET " + I_AD_Table.COLUMNNAME_UUID + " = '" + value.getName() + "' WHERE " + value.getValue() + ";");
+				rollbackList.add("UPDATE " + tableName + " SET " + I_AD_Table.COLUMNNAME_UUID + " = NULL WHERE " + value.getValue() + ";");
+			}
+			//	Add
+			addMigration();
+		}
 	}
 	
 	/**

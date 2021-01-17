@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
 import org.compiere.impexp.BankStatementMatchInfo;
@@ -494,10 +495,10 @@ public class BankStatementMatchController {
 				+ "LEFT JOIN C_Currency c ON(c.C_Currency_ID = p.C_Currency_ID) ");
 		//	Where Clause
 		sql.append("WHERE p.C_BankAccount_ID = ? ");
-		if(bankStatement == null
-				|| (!bankStatement.isProcessed() && !isMatchedMode())) {
-			sql.append("AND p.I_IsImported = 'N' ");
-		}
+//		if(bankStatement == null
+//				|| (!bankStatement.isProcessed() && !isMatchedMode())) {
+//			sql.append("AND p.I_IsImported = 'N' ");
+//		}
 		//	Match
 		if(isMatchedMode()) {
 			sql.append("AND (p.C_Payment_ID IS NOT NULL OR p.C_BPartner_ID IS NOT NULL OR p.C_Invoice_ID IS NOT NULL) ");
@@ -819,30 +820,34 @@ public class BankStatementMatchController {
 		}
 		//	
 		for(Map.Entry<Integer, X_I_BankStatement> entry : importedPaymentHashMap.entrySet()) {
-			X_I_BankStatement currentPayment = entry.getValue();
-			if(currentPayment.getC_Payment_ID() != 0
-					|| currentPayment.getC_BPartner_ID() != 0
-					|| currentPayment.getC_Invoice_ID() != 0) {
+			X_I_BankStatement currentBankStatementImport = entry.getValue();
+			if(currentBankStatementImport.getC_Payment_ID() != 0
+					|| currentBankStatementImport.getC_BPartner_ID() != 0
+					|| currentBankStatementImport.getC_Invoice_ID() != 0) {
 				//	put on hash
-				matchedPaymentHashMap.put(entry.getValue().getC_Payment_ID(), currentPayment);
+				matchedPaymentHashMap.put(entry.getValue().getC_Payment_ID(), currentBankStatementImport);
 				matched++;
 				continue;
 			}
 			for (MBankStatementMatcher matcher : matchersList) {
 				if (matcher.isMatcherValid()) {
-					BankStatementMatchInfo info = matcher.getMatcher().findMatch(currentPayment);
+					BankStatementMatchInfo info = matcher.getMatcher().findMatch(currentBankStatementImport);
 					if (info != null && info.isMatched()) {
+						//	Duplicate match
+						if(matchedPaymentHashMap.containsKey(info.getC_Payment_ID())) {
+							continue;
+						}
 						if (info.getC_Payment_ID() > 0) {
-							currentPayment.setC_Payment_ID(info.getC_Payment_ID());
+							currentBankStatementImport.setC_Payment_ID(info.getC_Payment_ID());
 						}
 						if (info.getC_Invoice_ID() > 0) {
-							currentPayment.setC_Invoice_ID(info.getC_Invoice_ID());
+							currentBankStatementImport.setC_Invoice_ID(info.getC_Invoice_ID());
 						}
 						if (info.getC_BPartner_ID() > 0) {
-							currentPayment.setC_BPartner_ID(info.getC_BPartner_ID());
+							currentBankStatementImport.setC_BPartner_ID(info.getC_BPartner_ID());
 						}
 						//	put on hash
-						matchedPaymentHashMap.put(entry.getValue().getC_Payment_ID(), currentPayment);
+						matchedPaymentHashMap.put(entry.getValue().getC_Payment_ID(), currentBankStatementImport);
 						matched++;
 						break;
 					}
@@ -892,51 +897,54 @@ public class BankStatementMatchController {
 	 *  Save Data
 	 */
 	public String saveData(int m_WindowNo, String trxName) {
-		if(matchedPaymentHashMap.isEmpty()) {
-			return Msg.translate(Env.getCtx(), "BankStatementMatch.NoMatchedFound");
-		}
-		int processed = 0;
-		int lineNo = 10;
+		AtomicInteger processed = new AtomicInteger();
+		AtomicInteger lineNo = new AtomicInteger(10);
 		int defaultChargeId = DB.getSQLValue(null, "SELECT MAX(C_Charge_ID) FROM C_Charge WHERE AD_Client_ID = ?", Env.getAD_Client_ID(Env.getCtx()));
 		if(defaultChargeId <= 0) {
 			return Msg.parseTranslation(Env.getCtx(), "@C_Charge_ID@ @NotFound@");
 		}
-		//	
-		for(Vector<Object> row : paymentData) {
-			IDColumn key = (IDColumn) row.get(0);	
-			X_I_BankStatement currentBankStatementImport = matchedPaymentHashMap.get(key.getRecord_ID());
-			//	Validate if it have a change
-			if(currentBankStatementImport == null
-					|| !currentBankStatementImport.is_Changed()) {
-				continue;
-			}
-			//	Set trx
-			currentBankStatementImport.set_TrxName(trxName);
-			//	Save It
-			currentBankStatementImport.saveEx();
-			//	For Bank Statement
-			if(bankStatement != null
-					&& !bankStatement.isProcessed()) {
-				if(!isMatchedMode()) {
+		importedPaymentHashMap
+			.entrySet()
+			.stream()
+			.forEach(entry -> {
+				X_I_BankStatement currentBankStatementImport = entry.getValue();
+				//	Set trx
+				currentBankStatementImport.set_TrxName(trxName);
+				//	Save It
+				currentBankStatementImport.saveEx();
+				//	For Bank Statement
+				if(bankStatement != null
+						&& !bankStatement.isProcessed()) {
 					if(currentBankStatementImport.getC_Payment_ID() <= 0
 							&& currentBankStatementImport.getC_Charge_ID() <= 0) {
 						currentBankStatementImport.setC_Charge_ID(defaultChargeId);
 					}
-					importMatched(currentBankStatementImport, lineNo);
-					lineNo += 10;
-				} else if(currentBankStatementImport.getC_BankStatementLine_ID() > 0) {
-					MBankStatementLine lineToDelete = new MBankStatementLine(Env.getCtx(), currentBankStatementImport.getC_BankStatementLine_ID(), trxName);
-					lineToDelete.deleteEx(true);
-					//	Change Imported
-					currentBankStatementImport.setC_BankStatement_ID(-1);
-					currentBankStatementImport.setC_BankStatementLine_ID(-1);
-					currentBankStatementImport.setI_IsImported(false);
-					currentBankStatementImport.setProcessed(false);
+					if(currentBankStatementImport.getC_BankStatementLine_ID() == 0) {
+						importMatched(currentBankStatementImport, lineNo.get());
+						lineNo.addAndGet(10);
+					} else {
+						MBankStatementLine currentStatementLine = new MBankStatementLine(Env.getCtx(), currentBankStatementImport.getC_BankStatementLine_ID(), trxName);
+						if(currentBankStatementImport.getC_Payment_ID() == 0) {
+							currentStatementLine.setC_Payment_ID(-1);
+						} else {
+							currentStatementLine.setC_Payment_ID(currentBankStatementImport.getC_Payment_ID());
+						}
+						if(currentBankStatementImport.getC_BPartner_ID() == 0) {
+							currentStatementLine.setC_BPartner_ID(-1);
+						} else {
+							currentStatementLine.setC_BPartner_ID(currentBankStatementImport.getC_BPartner_ID());
+						}
+						if(currentBankStatementImport.getC_Invoice_ID() == 0) {
+							currentStatementLine.setC_Invoice_ID(-1);
+						} else {
+							currentStatementLine.setC_Invoice_ID(currentBankStatementImport.getC_Invoice_ID());
+						}
+						currentStatementLine.saveEx();
+					}
 					currentBankStatementImport.saveEx();
 				}
-			}
-			processed++;
-		}
+				processed.addAndGet(1);
+			});
 		//	Return processed
 		return Msg.translate(Env.getCtx(), "BankStatementMatch.MatchedProcessed") + ": " + processed;
 	}   //  saveData

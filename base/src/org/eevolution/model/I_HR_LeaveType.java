@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_LeaveType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_HR_LeaveType 
 {
@@ -118,6 +118,19 @@ public interface I_HR_LeaveType
 	  */
 	public String getDescription();
 
+    /** Column name FrequencyType */
+    public static final String COLUMNNAME_FrequencyType = "FrequencyType";
+
+	/** Set Frequency Type.
+	  * Frequency of event
+	  */
+	public void setFrequencyType (String FrequencyType);
+
+	/** Get Frequency Type.
+	  * Frequency of event
+	  */
+	public String getFrequencyType();
+
     /** Column name HR_LeaveType_ID */
     public static final String COLUMNNAME_HR_LeaveType_ID = "HR_LeaveType_ID";
 
@@ -147,52 +160,52 @@ public interface I_HR_LeaveType
     /** Column name IsAdjacentHolidayAsLeave */
     public static final String COLUMNNAME_IsAdjacentHolidayAsLeave = "IsAdjacentHolidayAsLeave";
 
-	/** Set Consider Adjacent Holidays As Leave?.
-	  * Consider Adjacent Holidays As Leave?
+	/** Set Consider Adjacent Holidays As Leave.
+	  * Consider Adjacent Holidays As Leave
 	  */
 	public void setIsAdjacentHolidayAsLeave (boolean IsAdjacentHolidayAsLeave);
 
-	/** Get Consider Adjacent Holidays As Leave?.
-	  * Consider Adjacent Holidays As Leave?
+	/** Get Consider Adjacent Holidays As Leave.
+	  * Consider Adjacent Holidays As Leave
 	  */
 	public boolean isAdjacentHolidayAsLeave();
 
-    /** Column name IsAllowedEnCashment */
-    public static final String COLUMNNAME_IsAllowedEnCashment = "IsAllowedEnCashment";
+    /** Column name IsAllowedEncashment */
+    public static final String COLUMNNAME_IsAllowedEncashment = "IsAllowedEncashment";
 
-	/** Set Allowed En Cashment?.
-	  * Allowed En Cashment? 
+	/** Set Allowed Encashment.
+	  * Allowed Encashment
 	  */
-	public void setIsAllowedEnCashment (boolean IsAllowedEnCashment);
+	public void setIsAllowedEncashment (boolean IsAllowedEncashment);
 
-	/** Get Allowed En Cashment?.
-	  * Allowed En Cashment? 
+	/** Get Allowed Encashment.
+	  * Allowed Encashment
 	  */
-	public boolean isAllowedEnCashment();
+	public boolean isAllowedEncashment();
 
     /** Column name IsHalfDayLeaveAllowed */
     public static final String COLUMNNAME_IsHalfDayLeaveAllowed = "IsHalfDayLeaveAllowed";
 
-	/** Set Half Day Leave Allowed ?.
-	  * Half Day Leave Allowed ?
+	/** Set Half Day Leave Allowed.
+	  * Half Day Leave Allowed
 	  */
 	public void setIsHalfDayLeaveAllowed (boolean IsHalfDayLeaveAllowed);
 
-	/** Get Half Day Leave Allowed ?.
-	  * Half Day Leave Allowed ?
+	/** Get Half Day Leave Allowed.
+	  * Half Day Leave Allowed
 	  */
 	public boolean isHalfDayLeaveAllowed();
 
     /** Column name IsLeaveRepeated */
     public static final String COLUMNNAME_IsLeaveRepeated = "IsLeaveRepeated";
 
-	/** Set Is Leave Repeated?.
-	  * Is Leave Repeated?
+	/** Set Is Leave Repeated.
+	  * Is Leave Repeated
 	  */
 	public void setIsLeaveRepeated (boolean IsLeaveRepeated);
 
-	/** Get Is Leave Repeated?.
-	  * Is Leave Repeated?
+	/** Get Is Leave Repeated.
+	  * Is Leave Repeated
 	  */
 	public boolean isLeaveRepeated();
 
@@ -212,13 +225,13 @@ public interface I_HR_LeaveType
     /** Column name IsProvidentFund */
     public static final String COLUMNNAME_IsProvidentFund = "IsProvidentFund";
 
-	/** Set Is Provident Fund Employee?.
-	  * Is Provident Fund Employee?
+	/** Set Is Provident Fund Employee.
+	  * Is Provident Fund Employee
 	  */
 	public void setIsProvidentFund (boolean IsProvidentFund);
 
-	/** Get Is Provident Fund Employee?.
-	  * Is Provident Fund Employee?
+	/** Get Is Provident Fund Employee.
+	  * Is Provident Fund Employee
 	  */
 	public boolean isProvidentFund();
 
@@ -235,18 +248,31 @@ public interface I_HR_LeaveType
 	  */
 	public String getLeaveCreditTimeType();
 
+    /** Column name LeaveDurationTime */
+    public static final String COLUMNNAME_LeaveDurationTime = "LeaveDurationTime";
+
+	/** Set Leave Duration Time.
+	  * Leave Duration Time
+	  */
+	public void setLeaveDurationTime (BigDecimal LeaveDurationTime);
+
+	/** Get Leave Duration Time.
+	  * Leave Duration Time
+	  */
+	public BigDecimal getLeaveDurationTime();
+
     /** Column name MaxContinousLeaves */
     public static final String COLUMNNAME_MaxContinousLeaves = "MaxContinousLeaves";
 
 	/** Set Maximum continous leaves.
 	  * Maximum continous leaves
 	  */
-	public void setMaxContinousLeaves (BigDecimal MaxContinousLeaves);
+	public void setMaxContinousLeaves (int MaxContinousLeaves);
 
 	/** Get Maximum continous leaves.
 	  * Maximum continous leaves
 	  */
-	public BigDecimal getMaxContinousLeaves();
+	public int getMaxContinousLeaves();
 
     /** Column name MaxLeavesToForward */
     public static final String COLUMNNAME_MaxLeavesToForward = "MaxLeavesToForward";
@@ -254,12 +280,12 @@ public interface I_HR_LeaveType
 	/** Set Maximum leaves carry forwarded.
 	  * Maximum leaves carry forwarded
 	  */
-	public void setMaxLeavesToForward (BigDecimal MaxLeavesToForward);
+	public void setMaxLeavesToForward (int MaxLeavesToForward);
 
 	/** Get Maximum leaves carry forwarded.
 	  * Maximum leaves carry forwarded
 	  */
-	public BigDecimal getMaxLeavesToForward();
+	public int getMaxLeavesToForward();
 
     /** Column name MinAttendanceRequire */
     public static final String COLUMNNAME_MinAttendanceRequire = "MinAttendanceRequire";
@@ -267,25 +293,25 @@ public interface I_HR_LeaveType
 	/** Set Minimum Attendance Require.
 	  * Minimum Attendance Require to elgibile leave
 	  */
-	public void setMinAttendanceRequire (BigDecimal MinAttendanceRequire);
+	public void setMinAttendanceRequire (int MinAttendanceRequire);
 
 	/** Get Minimum Attendance Require.
 	  * Minimum Attendance Require to elgibile leave
 	  */
-	public BigDecimal getMinAttendanceRequire();
+	public int getMinAttendanceRequire();
 
-    /** Column name MinForencashmentDays */
-    public static final String COLUMNNAME_MinForencashmentDays = "MinForencashmentDays";
+    /** Column name MinForEncashmentDays */
+    public static final String COLUMNNAME_MinForEncashmentDays = "MinForEncashmentDays";
 
 	/** Set Minimum Encashment Days in a Request.
 	  * Minimum Encashment Days in a Request
 	  */
-	public void setMinForencashmentDays (BigDecimal MinForencashmentDays);
+	public void setMinForEncashmentDays (int MinForEncashmentDays);
 
 	/** Get Minimum Encashment Days in a Request.
 	  * Minimum Encashment Days in a Request
 	  */
-	public BigDecimal getMinForencashmentDays();
+	public int getMinForEncashmentDays();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -306,25 +332,51 @@ public interface I_HR_LeaveType
 	/** Set Number of Leaves Allocated.
 	  * Number of Leaves Allocated
 	  */
-	public void setNoOfLeavesAllocated (BigDecimal NoOfLeavesAllocated);
+	public void setNoOfLeavesAllocated (int NoOfLeavesAllocated);
 
 	/** Get Number of Leaves Allocated.
 	  * Number of Leaves Allocated
 	  */
-	public BigDecimal getNoOfLeavesAllocated();
+	public int getNoOfLeavesAllocated();
 
-    /** Column name RepeatedType */
-    public static final String COLUMNNAME_RepeatedType = "RepeatedType";
+    /** Column name TimeFrom */
+    public static final String COLUMNNAME_TimeFrom = "TimeFrom";
 
-	/** Set Repeated type.
-	  * Repeated type
+	/** Set Time (From).
+	  * Starting Time
 	  */
-	public void setRepeatedType (String RepeatedType);
+	public void setTimeFrom (Timestamp TimeFrom);
 
-	/** Get Repeated type.
-	  * Repeated type
+	/** Get Time (From).
+	  * Starting Time
 	  */
-	public String getRepeatedType();
+	public Timestamp getTimeFrom();
+
+    /** Column name TimeTo */
+    public static final String COLUMNNAME_TimeTo = "TimeTo";
+
+	/** Set Time (To).
+	  * Ending Time
+	  */
+	public void setTimeTo (Timestamp TimeTo);
+
+	/** Get Time (To).
+	  * Ending Time
+	  */
+	public Timestamp getTimeTo();
+
+    /** Column name TimeUnit */
+    public static final String COLUMNNAME_TimeUnit = "TimeUnit";
+
+	/** Set Time Unit.
+	  * The unit of time for grouping chart data.
+	  */
+	public void setTimeUnit (String TimeUnit);
+
+	/** Get Time Unit.
+	  * The unit of time for grouping chart data.
+	  */
+	public String getTimeUnit();
 
     /** Column name UUID */
     public static final String COLUMNNAME_UUID = "UUID";

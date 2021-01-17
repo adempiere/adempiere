@@ -18,6 +18,7 @@
 package org.eevolution.process;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.compiere.model.MBPartner;
@@ -29,7 +30,6 @@ import org.eevolution.model.MHRConcept;
 import org.eevolution.model.MHRMovement;
 import org.eevolution.model.MHRProcess;
 import org.eevolution.model.X_I_HR_Movement;
-
 /**
  * Import Payroll Movements
  * author victor.perez@e-evolution.com, www-e-evolution.com
@@ -47,7 +47,7 @@ public class ImportPayrollMovements extends ImportPayrollMovementsAbstract {
      * Perform process.
      *
      * @return Message
-     * @throws Exception
+     * @throws Exception Exception Error
      */
     protected String doIt() throws Exception {
 
@@ -75,47 +75,69 @@ public class ImportPayrollMovements extends ImportPayrollMovementsAbstract {
     /**
      * Fill mandatory information
      *
-     * @param importPayrollMovement
+     * @param importPayrollMovement Import Payroll Movement
      */
     private void fillIdValues(X_I_HR_Movement importPayrollMovement) {
 
         StringBuilder messageError = new StringBuilder();
         importPayrollMovement.setI_ErrorMsg("");
-        Integer processId = getId(MHRProcess.Table_Name, MHRProcess.COLUMNNAME_Name + "=?", importPayrollMovement.getProcessName());
-        if (processId < 0)
-            messageError.append("@HR_Process_ID@  @NotFound@ ");
-        else {
-            MHRProcess process = new MHRProcess(getCtx(), processId, importPayrollMovement.get_TrxName());
-            if (MHRProcess.DOCSTATUS_Drafted.equals(process.getDocStatus()) && MHRProcess.DOCSTATUS_InProgress.equals(process.getDocStatus()))
-                messageError.append("@DocStatus@ @NotValid@");
+        if (importPayrollMovement.getHR_Process_ID() <= 0) {
+            Optional<Integer> maybeProcessId = Optional.ofNullable(importPayrollMovement.getProcessName()).flatMap(processName -> {
+                int processId = getId(MHRProcess.Table_Name, MHRProcess.COLUMNNAME_Name + "=?", processName);
+                if (processId > 0)
+                    return Optional.of(processId);
+                else return Optional.empty();
+            });
+            if (maybeProcessId.isPresent())
+                maybeProcessId.ifPresent(importPayrollMovement::setHR_Process_ID);
+            else
+                messageError.append("@HR_Process_ID@  @NotFound@ ");
         }
 
-        Integer partnerId = getId(MBPartner.Table_Name, MBPartner.COLUMNNAME_Value + "=?", importPayrollMovement.getBPartner_Value());
-        if (partnerId < 0)
-            messageError.append(", ").append("@C_BPartner_ID@ @NotFound@");
-        else {
-            MBPartner partner = new MBPartner(getCtx(), partnerId, importPayrollMovement.get_TrxName());
-            if (!partner.isEmployee())
-                messageError.append(", ").append("@IsEmployee@ @NotValid@ @C_BPartner_ID@ " + partner.getName());
+        if (importPayrollMovement.getC_BPartner_ID() <= 0) {
+            Optional<Integer> maybePartnerId = Optional.ofNullable(importPayrollMovement.getBPartner_Value()).flatMap(partnerValue -> {
+                int partnerId = getId(MBPartner.Table_Name, MBPartner.COLUMNNAME_Value + "=?", partnerValue);
+                if (partnerId > 0) {
+                    MBPartner partner = new MBPartner(getCtx(), partnerId, importPayrollMovement.get_TrxName());
+                    if (!partner.isEmployee()) {
+                        messageError.append(", ").append("@IsEmployee@ @NotValid@ @C_BPartner_ID@ ").append(partner.getName());
+                        return Optional.empty();
+                    }
+                    return Optional.of(partnerId);
+                } else return Optional.empty();
+
+            });
+            if (maybePartnerId.isPresent())
+                maybePartnerId.ifPresent(importPayrollMovement::setC_BPartner_ID);
+            else
+                messageError.append(", ").append("@C_BPartner_ID@ @NotFound@ ");
         }
 
-        StringBuilder whereClause = new StringBuilder("");
-        whereClause.append(MHRConcept.COLUMNNAME_Value).append("=? AND ")
-                .append(MHRConcept.COLUMNNAME_IsManual).append("=? AND ")
-                .append(MHRConcept.COLUMNNAME_IsActive).append("=? ");
+        if (importPayrollMovement.getHR_Concept_ID() <= 0) {
+            Optional<Integer> maybeConceptId = Optional.ofNullable(importPayrollMovement.getConceptValue()).flatMap(conceptValue -> {
+                StringBuilder whereClause = new StringBuilder();
+                whereClause.append(MHRConcept.COLUMNNAME_Value).append("=? AND ")
+                        .append(MHRConcept.COLUMNNAME_IsManual).append("=? AND ")
+                        .append(MHRConcept.COLUMNNAME_IsActive).append("=? ");
+                int conceptId = getId(MHRConcept.Table_Name, whereClause.toString(), conceptValue.trim(), true, true);
+                if (conceptId > 0) {
+                    MHRConcept concept = new MHRConcept(getCtx(), conceptId, importPayrollMovement.get_TrxName());
+                    if (MHRConcept.TYPE_RuleEngine.equals(concept.getType())) {
+                        messageError.append(", ").append("@HR_Concept_ID@ ").append(concept.getName()).append(" @NotValid@ ");
+                        return Optional.empty();
+                    }
+                    return Optional.of(conceptId);
 
-        Integer conceptId = getId(MHRConcept.Table_Name, whereClause.toString(), importPayrollMovement.getConceptValue().trim(), true, true);
-        if (conceptId < 0)
-            setImportError(importPayrollMovement, "@HR_Concept_ID@ " + importPayrollMovement.getConceptValue() + " @NotFound@").saveEx(importPayrollMovement.get_TrxName());
-        else {
-            MHRConcept concept = new MHRConcept(getCtx(), conceptId, importPayrollMovement.get_TrxName());
-            if (MHRConcept.TYPE_RuleEngine.equals(concept.getType()))
-                messageError.append(", ").append("@HR_Concept_ID@ " + concept.getName() + " @NotValid@ ");
+                } else return Optional.empty();
+            });
+            if (maybeConceptId.isPresent())
+                maybeConceptId.ifPresent(importPayrollMovement::setHR_Concept_ID);
+            else
+                messageError.append("@HR_Concept_ID@ ").append(" @NotFound@ ");
         }
 
         if (importPayrollMovement.getValidFrom() == null)
-            messageError.append(", ").append("@ValidFrom@ @FillMandatory@ ");
-
+            messageError.append(", @ValidFrom@ @FillMandatory@ ");
 
         if (importPayrollMovement.getValidTo() == null)
             importPayrollMovement.setValidTo(importPayrollMovement.getValidFrom());
@@ -123,10 +145,7 @@ public class ImportPayrollMovements extends ImportPayrollMovementsAbstract {
         if (messageError.length() > 0)
             setImportError(importPayrollMovement, messageError.toString()).saveEx(importPayrollMovement.get_TrxName());
 
-        importPayrollMovement.setHR_Process_ID(processId);
-        importPayrollMovement.setHR_Concept_ID(conceptId);
-        importPayrollMovement.setC_BPartner_ID(partnerId);
-        importPayrollMovement.saveEx(importPayrollMovement.get_TrxName());
+        importPayrollMovement.saveEx();
     }
 
     private boolean importRecord(X_I_HR_Movement importPayrollMovement) {
@@ -150,10 +169,10 @@ public class ImportPayrollMovements extends ImportPayrollMovementsAbstract {
     /**
      * get Id based table name and where clause
      *
-     * @param tableName
-     * @param whereClause
-     * @param parameters
-     * @return
+     * @param tableName   Table Name
+     * @param whereClause Where Clause
+     * @param parameters  Parameters
+     * @return Id
      */
     private int getId(String tableName, String whereClause, Object... parameters) {
         return new Query(getCtx(), tableName, whereClause, get_TrxName())
@@ -165,9 +184,9 @@ public class ImportPayrollMovements extends ImportPayrollMovementsAbstract {
     /**
      * set Import Error
      *
-     * @param importPayrollMovement
-     * @param error
-     * @return
+     * @param importPayrollMovement Import Payroll Movement
+     * @param error                 Error
+     * @return Import Movement
      */
     private X_I_HR_Movement setImportError(X_I_HR_Movement importPayrollMovement, String error) {
         importPayrollMovement.setI_ErrorMsg(Msg.parseTranslation(getCtx(), error));
@@ -178,9 +197,9 @@ public class ImportPayrollMovements extends ImportPayrollMovementsAbstract {
     /**
      * Get payroll Import Movement
      *
-     * @param isImported
-     * @param isProcessed
-     * @return
+     * @param isImported  Is Imported
+     * @param isProcessed Is Processed
+     * @return Arrays ids
      */
     private int[] getPayrollImportMovementIds(boolean isImported, boolean isProcessed, String trxName) {
         StringBuilder whereClause = new StringBuilder();
@@ -188,6 +207,7 @@ public class ImportPayrollMovements extends ImportPayrollMovementsAbstract {
                 .append(I_I_HR_Movement.COLUMNNAME_Processed).append("=?");
 
         return new Query(getCtx(), X_I_HR_Movement.Table_Name, whereClause.toString(), trxName)
+                .setClient_ID()
                 .setOnlyActiveRecords(true)
                 .setParameters(isImported, isProcessed)
                 .getIDs();

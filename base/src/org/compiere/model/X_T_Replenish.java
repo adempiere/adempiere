@@ -24,14 +24,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_Replenish
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_T_Replenish (Properties ctx, int T_Replenish_ID, String trxName)
@@ -40,7 +40,6 @@ public class X_T_Replenish extends PO implements I_T_Replenish, I_Persistent
       /** if (T_Replenish_ID == 0)
         {
 			setAD_PInstance_ID (0);
-			setC_BPartner_ID (0);
 			setLevel_Max (Env.ZERO);
 			setLevel_Min (Env.ZERO);
 			setM_Product_ID (0);

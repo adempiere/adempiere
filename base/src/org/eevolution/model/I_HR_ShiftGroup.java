@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for HR_ShiftGroup
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_HR_ShiftGroup 
 {
@@ -137,12 +137,103 @@ public interface I_HR_ShiftGroup
 	/** Set No of Hours this Shift.
 	  * No of Hours this Shift work hours of the shift
 	  */
-	public void setNoOfHoursThisShift (BigDecimal NoOfHoursThisShift);
+	public void setNoOfHoursThisShift (int NoOfHoursThisShift);
 
 	/** Get No of Hours this Shift.
 	  * No of Hours this Shift work hours of the shift
 	  */
-	public BigDecimal getNoOfHoursThisShift();
+	public int getNoOfHoursThisShift();
+
+    /** Column name OnFriday */
+    public static final String COLUMNNAME_OnFriday = "OnFriday";
+
+	/** Set Friday.
+	  * Available on Fridays
+	  */
+	public void setOnFriday (boolean OnFriday);
+
+	/** Get Friday.
+	  * Available on Fridays
+	  */
+	public boolean isOnFriday();
+
+    /** Column name OnMonday */
+    public static final String COLUMNNAME_OnMonday = "OnMonday";
+
+	/** Set Monday.
+	  * Available on Mondays
+	  */
+	public void setOnMonday (boolean OnMonday);
+
+	/** Get Monday.
+	  * Available on Mondays
+	  */
+	public boolean isOnMonday();
+
+    /** Column name OnSaturday */
+    public static final String COLUMNNAME_OnSaturday = "OnSaturday";
+
+	/** Set Saturday.
+	  * Available on Saturday
+	  */
+	public void setOnSaturday (boolean OnSaturday);
+
+	/** Get Saturday.
+	  * Available on Saturday
+	  */
+	public boolean isOnSaturday();
+
+    /** Column name OnSunday */
+    public static final String COLUMNNAME_OnSunday = "OnSunday";
+
+	/** Set Sunday.
+	  * Available on Sundays
+	  */
+	public void setOnSunday (boolean OnSunday);
+
+	/** Get Sunday.
+	  * Available on Sundays
+	  */
+	public boolean isOnSunday();
+
+    /** Column name OnThursday */
+    public static final String COLUMNNAME_OnThursday = "OnThursday";
+
+	/** Set Thursday.
+	  * Available on Thursdays
+	  */
+	public void setOnThursday (boolean OnThursday);
+
+	/** Get Thursday.
+	  * Available on Thursdays
+	  */
+	public boolean isOnThursday();
+
+    /** Column name OnTuesday */
+    public static final String COLUMNNAME_OnTuesday = "OnTuesday";
+
+	/** Set Tuesday.
+	  * Available on Tuesdays
+	  */
+	public void setOnTuesday (boolean OnTuesday);
+
+	/** Get Tuesday.
+	  * Available on Tuesdays
+	  */
+	public boolean isOnTuesday();
+
+    /** Column name OnWednesday */
+    public static final String COLUMNNAME_OnWednesday = "OnWednesday";
+
+	/** Set Wednesday.
+	  * Available on Wednesdays
+	  */
+	public void setOnWednesday (boolean OnWednesday);
+
+	/** Get Wednesday.
+	  * Available on Wednesdays
+	  */
+	public boolean isOnWednesday();
 
     /** Column name UUID */
     public static final String COLUMNNAME_UUID = "UUID";

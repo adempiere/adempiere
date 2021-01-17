@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add Print Document Message" ReleaseNo="3.9.3" SeqNo="5140">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53645" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-09-01 22:13:01.536</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Do You want to print all documents?</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-09-01 22:13:01.536</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">PrintAllDocuments</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53645</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID">313ba6f8-cd27-11e9-9dd1-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-09-01 22:13:09.163</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-09-01 22:13:09.163</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Do You want to print all documents?</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53645</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID">3535dda0-cd27-11e9-9dd1-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Do You want to print all documents?">¿Desea imprimir todos los documentos generados?</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53645">53645</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="109" Action="U" Record_ID="53645" Table="AD_Message">
+        <Data AD_Column_ID="198" Column="MsgText" oldValue="Do You want to print all documents?">Do You want to print all generated documents?</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53646" Table="AD_Message">
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID">5f6a0bd2-cd27-11e9-9dd1-0242ac110002</Data>
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2019-09-01 22:14:19.049</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Do You want to print generated document?</Data>
+        <Data AD_Column_ID="591" Column="Updated">2019-09-01 22:14:19.049</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">PrintDocument</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53646</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2019-09-01 22:14:20.282</Data>
+        <Data AD_Column_ID="611" Column="Updated">2019-09-01 22:14:20.282</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Do You want to print generated document?</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53646</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID">5f99afb8-cd27-11e9-9dd1-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="119" Action="U" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="342" Column="MsgText" oldValue="Do You want to print generated document?">¿Desea imprimir el documento generado?</Data>
+        <Data AD_Column_ID="341" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID" oldValue="53646">53646</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

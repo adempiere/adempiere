@@ -892,6 +892,7 @@ public class ZkReportViewer extends Window implements EventListener {
 			cboType.getItems().clear();
 			//	
 			int defaultItem = 0;
+			exportHandler = new ReportExportHandler(m_ctx, m_reportEngine);
 			if(exportHandler.getExportFormatList() != null) {
 				for(AbstractExportFormat exportFormat : exportHandler.getExportFormatList()) {
 					if(exportFormat.getExtension().equals("arxml")
@@ -1148,7 +1149,7 @@ public class ZkReportViewer extends Window implements EventListener {
 	 */
 	private void cmd_find()
 	{
-		int AD_Table_ID = m_reportEngine.getPrintFormat().getAD_Table_ID();
+		int tableId = m_reportEngine.getPrintFormat().getAD_Table_ID();
 		
 		String title = null; 
 		String tableName = null;
@@ -1161,49 +1162,54 @@ public class ZkReportViewer extends Window implements EventListener {
 			+ " INNER JOIN AD_Table tt ON (t.AD_Table_ID=tt.AD_Table_ID) "
 			+ "WHERE tt.AD_Table_ID=? "
 			+ "ORDER BY w.IsDefault DESC, t.SeqNo, ABS (tt.AD_Window_ID-t.AD_Window_ID)";
-		int AD_Tab_ID = DB.getSQLValue(null, sql, AD_Table_ID);
+		int AD_Tab_ID = DB.getSQLValue(null, sql, tableId);
 		// ASP
 		MClient client = MClient.get(Env.getCtx());
-		String ASPFilter = "";
+		String aSPFilter = "";
 		if (client.isUseASP())
-			ASPFilter =
-				"     AND (   AD_Tab_ID IN ( "
-				// Just ASP subscribed tabs for client "
-				+ "              SELECT t.AD_Tab_ID "
-				+ "                FROM ASP_Tab t, ASP_Window w, ASP_Level l, ASP_ClientLevel cl "
-				+ "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
-				+ "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
-				+ "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
-				+ "                 AND t.ASP_Window_ID = w.ASP_Window_ID "
-				+ "                 AND t.IsActive = 'Y' "
-				+ "                 AND w.IsActive = 'Y' "
-				+ "                 AND l.IsActive = 'Y' "
-				+ "                 AND cl.IsActive = 'Y' "
-				+ "                 AND t.ASP_Status = 'S') " // Show
-				+ "        OR AD_Tab_ID IN ( "
-				// + show ASP exceptions for client
-				+ "              SELECT AD_Tab_ID "
-				+ "                FROM ASP_ClientException ce "
-				+ "               WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
-				+ "                 AND ce.IsActive = 'Y' "
-				+ "                 AND ce.AD_Tab_ID IS NOT NULL "
-				+ "                 AND ce.AD_Field_ID IS NULL "
-				+ "                 AND ce.ASP_Status = 'S') " // Show
-				+ "       ) "
-				+ "   AND AD_Tab_ID NOT IN ( "
-				// minus hide ASP exceptions for client
-				+ "          SELECT AD_Tab_ID "
-				+ "            FROM ASP_ClientException ce "
-				+ "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
-				+ "             AND ce.IsActive = 'Y' "
-				+ "             AND ce.AD_Tab_ID IS NOT NULL "
-				+ "             AND ce.AD_Field_ID IS NULL "
-				+ "             AND ce.ASP_Status = 'H')"; // Hide
+			aSPFilter =
+			"     AND (   AD_Tab_ID IN ( "
+			// Just ASP subscribed tabs for client "
+			+ "              SELECT t.AD_Tab_ID "
+			+ "                FROM ASP_Tab t, ASP_Window w, ASP_Level l, ASP_ClientLevel cl "
+			+ "               WHERE w.ASP_Level_ID = l.ASP_Level_ID "
+			+ "                 AND cl.AD_Client_ID = " + client.getAD_Client_ID()
+			+ "                 AND cl.ASP_Level_ID = l.ASP_Level_ID "
+			+ "                 AND t.ASP_Window_ID = w.ASP_Window_ID "
+			+ "                 AND t.IsActive = 'Y' "
+			+ "                 AND w.IsActive = 'Y' "
+			+ "                 AND l.IsActive = 'Y' "
+			+ "                 AND cl.IsActive = 'Y' "
+			+ "                 AND t.ASP_Status = 'S') " // Show
+			+ "OR "
+			//	+ show ASP exceptions for client
+			+ "	EXISTS(SELECT 1 FROM ASP_ClientException ce "
+			+ "				WHERE ce.AD_Tab_ID = t.AD_Tab_ID "
+			+ "				AND ce.AD_Client_ID = " + client.getAD_Client_ID()
+			+ "				AND ce.IsActive = 'Y' "
+			+ "				AND ce.AD_Tab_ID IS NOT NULL "
+			+ "				AND ce.AD_Field_ID IS NULL "
+			+ "				AND ce.ASP_Status = 'S')"	//	Show
+			//	minus hide ASP exceptions for client
+			+ "AND EXISTS(SELECT 1 FROM ASP_ClientException ce "
+			+ "				WHERE ce.AD_Tab_ID = t.AD_Tab_ID "
+			+ "				AND ce.AD_Client_ID = " + client.getAD_Client_ID()
+			+ "				AND ce.IsActive = 'Y' "
+			+ "				AND ce.AD_Tab_ID IS NOT NULL "
+			+ "				AND ce.AD_Field_ID IS NULL "
+			+ "				AND ce.ASP_Status = 'H')"	//	Hide
+			+ " OR EXISTS(SELECT 1 FROM ASP_Level l "
+			+ "					INNER JOIN ASP_ClientLevel cl ON(cl.ASP_Level_ID = l.ASP_Level_ID) "
+			+ "				WHERE cl.AD_Client_ID = " + client.getAD_Client_ID()
+			+ "				AND l.IsActive = 'Y' "
+			+ "				AND cl.IsActive = 'Y' "
+			+ "				AND l.Type = 'C') "	//	Show
+			+ ") ";
 		//
-		sql = "SELECT Name, TableName FROM AD_Tab_v WHERE AD_Tab_ID=? " + ASPFilter;
+		sql = "SELECT t.Name, t.TableName FROM AD_Tab_v t WHERE t.AD_Tab_ID=? " + aSPFilter;
 		if (!Env.isBaseLanguage(Env.getCtx(), "AD_Tab"))
-			sql = "SELECT Name, TableName FROM AD_Tab_vt WHERE AD_Tab_ID=?"
-				+ " AND AD_Language='" + Env.getAD_Language(Env.getCtx()) + "' " + ASPFilter;
+			sql = "SELECT t.Name, t.TableName FROM AD_Tab_vt t WHERE t.AD_Tab_ID=?"
+				+ " AND t.AD_Language='" + Env.getAD_Language(Env.getCtx()) + "' " + aSPFilter;
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);
@@ -1243,7 +1249,7 @@ public class ZkReportViewer extends Window implements EventListener {
 		} else {
 			String whereExtended = "";
 			whereExtended = m_reportEngine.getWhereExtended();
-            FindWindow find = new FindWindow(m_WindowNo, title, AD_Table_ID, tableName,whereExtended, findFields, 1, AD_Tab_ID);
+            FindWindow find = new FindWindow(m_WindowNo, title, tableId, tableName,whereExtended, findFields, 1, AD_Tab_ID);
             if (!find.isCancel())
             {
             	m_reportEngine.setQuery(find.getQuery());

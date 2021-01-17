@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BankAccount
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_BankAccount (Properties ctx, int C_BankAccount_ID, String trxName)
@@ -386,6 +386,20 @@ public class X_C_BankAccount extends PO implements I_C_BankAccount, I_Persistent
 	public String getPaymentExportClass () 
 	{
 		return (String)get_Value(COLUMNNAME_PaymentExportClass);
+	}
+
+	/** Set Payment Export Class (Payroll).
+		@param PayrollPaymentExportClass Payment Export Class (Payroll)	  */
+	public void setPayrollPaymentExportClass (String PayrollPaymentExportClass)
+	{
+		set_Value (COLUMNNAME_PayrollPaymentExportClass, PayrollPaymentExportClass);
+	}
+
+	/** Get Payment Export Class (Payroll).
+		@return Payment Export Class (Payroll)	  */
+	public String getPayrollPaymentExportClass () 
+	{
+		return (String)get_Value(COLUMNNAME_PayrollPaymentExportClass);
 	}
 
 	/** Set Immutable Universally Unique Identifier.

@@ -41,6 +41,9 @@ import org.xml.sax.SAXException;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> BR [ 425 ] Table ad_reportview_trl with wrong primary key
  *		@see https://github.com/adempiere/adempiere/issues/425
+ *  @author Michael McKay, mckayERP@gmail.com
+ *		<li><a href="https://github.com/adempiere/adempiere/issues/2912">#2912</a> Speed 
+ *  up the rollback of a failed migration
  */
 public class MMigration extends X_AD_Migration {
 
@@ -128,14 +131,15 @@ public class MMigration extends X_AD_Migration {
 			apply = true;
 
 		String retVal = toString();
-
+		
 		try{
 			//  Apply the Migration Steps
 			//  Set a flag to prevent migration status updates
 			Env.setContext(Env.getCtx() , "MigrationScriptBatchInProgress", "Y");
 			
 			// Get the set of active steps and apply each in order
-			for (int stepId : getStepIds(!apply))
+			boolean all = true;  // Use !all to only get the relevant steps
+			for (int stepId : getStepIds(!all, !apply))
 			{
 				MMigrationStep step = new MMigrationStep(getCtx(), stepId, get_TrxName());
 				step.setParent(this);
@@ -266,13 +270,45 @@ public class MMigration extends X_AD_Migration {
 		log.log(Level.CONFIG, this.toString() + " ---> " + status + " (" + getStatusCode() + ")");
 	}
 	
-	private int[] getStepIds(boolean rollback) {
+	/**
+	 * Get the step IDs for this migration.
+	 * @param all - if true, all IDs are returned regardless of the status. If false,
+	 * only the IDs relevant to the setting of the rollback parameter are returned.
+	 * @param rollback - if false, only IDs that are unapplied or failed are returned, 
+	 * if true only the applied and failed step IDs are returned. 
+	 * @return the array of Step IDs.
+	 */
+	private int[] getStepIds(boolean all, boolean rollback) {
 		String where = "AD_Migration_ID = " + getAD_Migration_ID();
-		String order = rollback ? "SeqNo DESC" : "SeqNo ASC";
+		
+		Object[] parameters = null; 
+
+		if (!all)
+		{
+			where += " AND (" 
+					+	MMigrationStep.COLUMNNAME_StatusCode + "=?"  
+					+ " OR "
+					+	MMigrationStep.COLUMNNAME_StatusCode + "=?" 
+					+ ")";
+			// Only get the relevant steps.
+			parameters = new Object[2];
+			if (rollback)
+			{
+				parameters[0] = MMigrationStep.STATUSCODE_Applied;
+				parameters[1] = MMigrationStep.STATUSCODE_Failed;
+			}
+			else
+			{
+				parameters[0] = MMigrationStep.STATUSCODE_Unapplied;
+				parameters[1] = MMigrationStep.STATUSCODE_Failed;
+			}
+		}
+		String order = rollback ? "SeqNo DESC" : "SeqNo ASC";	
 		return MTable.get(getCtx(), MMigrationStep.Table_ID)
 		.createQuery(where, null)  // Use a null Trx to generate a readonly query
 		.setOnlyActiveRecords(true)
 		.setOrderBy(order)
+		.setParameters(parameters)
 		.getIDs();
 	}
 
@@ -354,7 +390,7 @@ public class MMigration extends X_AD_Migration {
 		} 
 		
 		
-		for ( int stepId : getStepIds(false) )
+		for ( int stepId : getStepIds(true, false) )
 		{
 			MMigrationStep step = new MMigrationStep(getCtx(), stepId, get_TrxName());
 			log.log(Level.FINE, "Exporting step: " + step);
@@ -388,7 +424,9 @@ public class MMigration extends X_AD_Migration {
 	 */
 	protected boolean beforeDelete ()
 	{
-		for ( int stepID : getStepIds(false) )
+		// Get all the ids
+		boolean all = true;
+		for ( int stepID : getStepIds(all, false) )
 		{
 			MMigrationStep step = new MMigrationStep(getCtx(), stepID, get_TrxName());
 			step.deleteEx(true);
@@ -428,7 +466,8 @@ public class MMigration extends X_AD_Migration {
 
 			this.setProcessed(true);
 			
-			for ( int stepId : getStepIds(false) )
+			boolean all = true;
+			for ( int stepId : getStepIds(all, false) )
 			{
 				MMigrationStep step = new MMigrationStep(getCtx(), stepId, get_TrxName());
 				log.log(Level.CONFIG, "   Deleting step: " + step.toString());

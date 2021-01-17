@@ -20,11 +20,26 @@ package org.eevolution.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.compiere.util.CCache;
+
 
 /**
  * Project Status
+ * @author Carlos Parada, cparada@erpya.com, ERPCyA http://www.erpya.com
+ *  	<a href="https://github.com/adempiere/adempiere/issues/2202">
+ *		@see FR [ 2202 ] Add Support to Project Processor</a>
  */
 public class MProjectStatus extends X_C_ProjectStatus{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**	Cache							*/
+	static private CCache<Integer,MProjectStatus> s_cache
+		= new CCache<Integer,MProjectStatus> ("C_ProjectStatus", 10);
+	
+	
     public MProjectStatus(Properties ctx, int C_ProjectStatus_ID, String trxName) {
         super(ctx, C_ProjectStatus_ID, trxName);
     }
@@ -32,4 +47,25 @@ public class MProjectStatus extends X_C_ProjectStatus{
     public MProjectStatus(Properties ctx, ResultSet rs, String trxName) {
         super(ctx, rs, trxName);
     }
+    
+	/**
+	 * 	Get Project Status (cached)
+	 *  FR [ 2202 ]
+	 *	@param ctx context
+	 *	@param C_ProjectStatus_ID id
+	 *	@return Project Status or null
+	 */
+	public static MProjectStatus get (Properties ctx, int C_ProjectStatus_ID)
+	{
+		if (C_ProjectStatus_ID == 0)
+			return null;
+		Integer key = new Integer (C_ProjectStatus_ID);
+		MProjectStatus retValue = (MProjectStatus)s_cache.get(key);
+		if (retValue == null)
+		{
+			retValue = new MProjectStatus (ctx, C_ProjectStatus_ID, null);
+			s_cache.put(key, retValue);
+		}
+		return retValue;
+	}	//	get
 }

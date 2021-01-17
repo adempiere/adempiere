@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_ClientInfo
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_AD_ClientInfo 
 {
@@ -302,6 +302,21 @@ public interface I_AD_ClientInfo
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name FileHandler_ID */
+    public static final String COLUMNNAME_FileHandler_ID = "FileHandler_ID";
+
+	/** Set File Handler.
+	  * File Handler Registered as App Registration for handle all file system
+	  */
+	public void setFileHandler_ID (int FileHandler_ID);
+
+	/** Get File Handler.
+	  * File Handler Registered as App Registration for handle all file system
+	  */
+	public int getFileHandler_ID();
+
+	public org.spin.model.I_AD_AppRegistration getFileHandler() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

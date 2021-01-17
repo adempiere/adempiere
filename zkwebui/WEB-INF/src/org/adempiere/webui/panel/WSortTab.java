@@ -512,7 +512,7 @@ public class WSortTab extends Panel implements IADTabPanel {
 		{
 			init();
 			sortTabController = new SortTabController(windowNo, gridTab.getAD_Table_ID(), 
-					gridTab.getAD_ColumnSortOrder_ID(), gridTab.getAD_ColumnSortYesNo_ID()) {
+					gridTab.getAD_ColumnSortOrder_ID(), gridTab.getAD_ColumnSortYesNo_ID(), gridTab.getParent_Column_ID()) {
 				
 				@Override
 				public void addItem(ListElement item) {
@@ -641,5 +641,7 @@ public class WSortTab extends Panel implements IADTabPanel {
     {
         return isEmbedded;
     }
+    
+    public boolean isGridView() {return false;}
 }	//ADSortTab
 

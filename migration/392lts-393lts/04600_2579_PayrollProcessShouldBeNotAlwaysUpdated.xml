@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="The payroll process should be not always updated in payroll " ReleaseNo="3.9.3" SeqNo="4600">
+    <Comments>https://github.com/adempiere/adempiere/issues/2570</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="55033" Table="AD_Column">
+        <Data AD_Column_ID="3360" Column="IsUpdateable" oldValue="true">false</Data>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable" oldValue="true">false</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

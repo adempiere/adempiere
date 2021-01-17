@@ -1161,6 +1161,31 @@ public final class DB
 	}	//	executeUpdareMultiple
 
 	/**
+	 *	Execute multiple Update statements and throw exceptions on error
+	 *  @param sql multiple sql statements separated by "; " SQLSTATEMENT_SEPARATOR
+	 * 	@param trxName optional transaction name
+	 *  @return number of rows updated
+	 */
+	public static int executeUpdateMultipleEx (String sql, String trxName) throws DBException
+	{
+		if (sql == null || sql.length() == 0)
+			throw new IllegalArgumentException("Required parameter missing - " + sql);
+		int index = sql.indexOf(SQLSTATEMENT_SEPARATOR);
+		if (index == -1)
+			return executeUpdateEx(sql, null, trxName);
+		int no = 0;
+		//
+		String statements[] = sql.split(SQLSTATEMENT_SEPARATOR);
+		for (int i = 0; i < statements.length; i++)
+		{
+			log.fine(statements[i]);
+			no += executeUpdateEx(statements[i], null, trxName);
+		}
+
+		return no;
+	}	//	executeUpdareMultipleEx
+
+	/**
 	 * Execute Update and throw exception.
 	 * @see {@link #executeUpdateEx(String, Object[], String)}
 	 */

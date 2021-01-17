@@ -124,13 +124,13 @@ public class InvoiceNGL extends SvrProcess
 		
 		//	Insert Trx
 		String dateStr = DB.TO_DATE(p_DateReval, true);
-		sql = "INSERT INTO T_InvoiceGL (AD_Client_ID, AD_Org_ID, IsActive, Created,CreatedBy, Updated,UpdatedBy,"
+		sql = "INSERT INTO T_InvoiceGL (t_invoicegl_id , AD_Client_ID, AD_Org_ID, IsActive, Created,CreatedBy, Updated,UpdatedBy,"
 			+ " AD_PInstance_ID, C_Invoice_ID, GrandTotal, OpenAmt, "
 			+ " Fact_Acct_ID, AmtSourceBalance, AmtAcctBalance, "
 			+ " AmtRevalDr, AmtRevalCr, C_DocTypeReval_ID, IsAllCurrencies, "
-			+ " DateReval, C_ConversionTypeReval_ID, AmtRevalDrDiff, AmtRevalCrDiff, APAR) "
+			+ " DateReval, C_ConversionTypeReval_ID, AmtRevalDrDiff, AmtRevalCrDiff, APAR, UUID) "
 			//	--
-			+ "SELECT i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,"
+			+ "SELECT nextidfunc(1144,'Y') ,i.AD_Client_ID, i.AD_Org_ID, i.IsActive, i.Created,i.CreatedBy, i.Updated,i.UpdatedBy,"
 			+  getAD_PInstance_ID() + ", i.C_Invoice_ID, i.GrandTotal, invoiceOpen(i.C_Invoice_ID, 0), "
 			+ " fa.Fact_Acct_ID, fa.AmtSourceDr-fa.AmtSourceCr, fa.AmtAcctDr-fa.AmtAcctCr, " 
 			//	AmtRevalDr, AmtRevalCr,
@@ -138,7 +138,7 @@ public class InvoiceNGL extends SvrProcess
 		    + " currencyConvert(fa.AmtSourceCr, i.C_Currency_ID, a.C_Currency_ID, " + dateStr + ", " + p_C_ConversionTypeReval_ID + ", i.AD_Client_ID, i.AD_Org_ID),"
 		    + (p_C_DocTypeReval_ID==0 ? "NULL" : String.valueOf(p_C_DocTypeReval_ID)) + ", "
 		    + (p_IsAllCurrencies ? "'Y'," : "'N',")
-		    + dateStr + ", " + p_C_ConversionTypeReval_ID + ", 0, 0, '" + p_APAR + "' "
+		    + dateStr + ", " + p_C_ConversionTypeReval_ID + ", 0, 0, '" + p_APAR + "', getUUID() "
 		    //
 		    + "FROM C_Invoice_v i"
 		    + " INNER JOIN Fact_Acct fa ON (fa.AD_Table_ID=318 AND fa.Record_ID=i.C_Invoice_ID"

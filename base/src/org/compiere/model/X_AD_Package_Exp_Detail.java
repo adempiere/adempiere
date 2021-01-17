@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Package_Exp_Detail
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Detail, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_Package_Exp_Detail (Properties ctx, int AD_Package_Exp_Detail_ID, String trxName)
@@ -53,7 +53,7 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
     }
 
     /** AccessLevel
-      * @return 4 - System 
+      * @return 6 - System - Client 
       */
     protected int get_AccessLevel()
     {
@@ -287,6 +287,34 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public String getAD_Package_Code_Old () 
 	{
 		return (String)get_Value(COLUMNNAME_AD_Package_Code_Old);
+	}
+
+	public org.spin.model.I_AD_Package_Exp_Custom getAD_Package_Exp_Custom() throws RuntimeException
+    {
+		return (org.spin.model.I_AD_Package_Exp_Custom)MTable.get(getCtx(), org.spin.model.I_AD_Package_Exp_Custom.Table_Name)
+			.getPO(getAD_Package_Exp_Custom_ID(), get_TrxName());	}
+
+	/** Set Package Custom Exporter.
+		@param AD_Package_Exp_Custom_ID 
+		Custom Exporter for any entity
+	  */
+	public void setAD_Package_Exp_Custom_ID (int AD_Package_Exp_Custom_ID)
+	{
+		if (AD_Package_Exp_Custom_ID < 1) 
+			set_Value (COLUMNNAME_AD_Package_Exp_Custom_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Package_Exp_Custom_ID, Integer.valueOf(AD_Package_Exp_Custom_ID));
+	}
+
+	/** Get Package Custom Exporter.
+		@return Custom Exporter for any entity
+	  */
+	public int getAD_Package_Exp_Custom_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Package_Exp_Custom_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Package Exp. Detail.
@@ -650,6 +678,31 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_ASP_Module getASP_Module() throws RuntimeException
+    {
+		return (org.compiere.model.I_ASP_Module)MTable.get(getCtx(), org.compiere.model.I_ASP_Module.Table_Name)
+			.getPO(getASP_Module_ID(), get_TrxName());	}
+
+	/** Set ASP Module.
+		@param ASP_Module_ID ASP Module	  */
+	public void setASP_Module_ID (int ASP_Module_ID)
+	{
+		if (ASP_Module_ID < 1) 
+			set_Value (COLUMNNAME_ASP_Module_ID, null);
+		else 
+			set_Value (COLUMNNAME_ASP_Module_ID, Integer.valueOf(ASP_Module_ID));
+	}
+
+	/** Get ASP Module.
+		@return ASP Module	  */
+	public int getASP_Module_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ASP_Module_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** DBType AD_Reference_ID=50003 */
 	public static final int DBTYPE_AD_Reference_ID=50003;
 	/** All Database Types = ALL */
@@ -957,6 +1010,10 @@ public class X_AD_Package_Exp_Detail extends PO implements I_AD_Package_Exp_Deta
 	public static final String TYPE_SmartBrowse = "SB";
 	/** Smart View = SV */
 	public static final String TYPE_SmartView = "SV";
+	/** ASP Module = ASP */
+	public static final String TYPE_ASPModule = "ASP";
+	/** Custom Export = CEP */
+	public static final String TYPE_CustomExport = "CEP";
 	/** Set Type.
 		@param Type 
 		Type of Validation (SQL, Java Script, Java Language)

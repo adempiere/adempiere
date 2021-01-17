@@ -20,7 +20,11 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.apache.commons.validator.routines.IBANValidator;
 import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+import org.compiere.util.Util;
 
 /**
  *  BP Bank Account Model
@@ -39,6 +43,27 @@ public class MBPBankAccount extends X_C_BP_BankAccount
 	private static final long serialVersionUID = 2580706419593695062L;
 
 	/**
+	 * Get Accounts by BPartner
+	 * @param ctx
+	 * @param partnerId
+	 * @param whereClause
+	 * @param trxName
+	 * @return
+	 */
+	public static List<MBPBankAccount> getByPartner(Properties ctx, int partnerId, String whereClause,String trxName)
+	{
+		String finalWhereClause = MBPBankAccount.COLUMNNAME_C_BPartner_ID+"=?";
+		if (whereClause != null
+				&& whereClause.length() > 0)
+			finalWhereClause+=" AND " + whereClause;
+		
+		return new Query(ctx,I_C_BP_BankAccount.Table_Name,finalWhereClause,trxName)
+		.setParameters(partnerId)
+		.setOnlyActiveRecords(true)
+		.list();
+	}	//	getByPartner
+	
+	/**
 	 * 	Get Accounts by BPartner
 	 *	@param ctx context
 	 *	@param partnerId bpartner
@@ -46,11 +71,7 @@ public class MBPBankAccount extends X_C_BP_BankAccount
 	 */
 	public static List<MBPBankAccount> getByPartner(Properties ctx, int partnerId)
 	{
-		final String whereClause = MBPBankAccount.COLUMNNAME_C_BPartner_ID+"=?";
-		return new Query(ctx,I_C_BP_BankAccount.Table_Name,whereClause,null)
-		.setParameters(partnerId)
-		.setOnlyActiveRecords(true)
-		.list();
+		return getByPartner(ctx, partnerId, null,null);
 	}	//	getByPartner
 
     @Deprecated
@@ -184,9 +205,17 @@ public class MBPBankAccount extends X_C_BP_BankAccount
 		//	maintain routing on bank level
 		if (isACH() && getBank() != null)
 			setRoutingNo(null);
-		//
+		
+		// validate IBAN
+		if(!Util.isEmpty(getIBAN())) {
+			IBANValidator validator = IBANValidator.getInstance();
+			if(!validator.isValid(getIBAN().trim())) {
+				throw new AdempiereException("@ValidationError@ (@Invalid@ @IBAN@)");
+			}
+		}
+		
 		return true;
-	}	//	beforeSave
+	}
 	
 	/**
 	 *	String Representation

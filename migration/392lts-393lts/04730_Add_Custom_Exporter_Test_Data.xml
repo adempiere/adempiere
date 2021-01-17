@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Custom Packout Test Data" ReleaseNo="3.9.3" SeqNo="4730">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54652" Action="I" Record_ID="50000" Table="AD_Package_Exp_Custom">
+        <Data AD_Column_ID="93687" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="93688" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="93689" Column="IsActive">true</Data>
+        <Data AD_Column_ID="93690" Column="Created">2019-06-14 00:31:06.706</Data>
+        <Data AD_Column_ID="93691" Column="Updated">2019-06-14 00:31:06.706</Data>
+        <Data AD_Column_ID="93692" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="93693" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="93694" Column="UUID">fd046752-8e3e-11e9-bbaa-3346a2bf7b59</Data>
+        <Data AD_Column_ID="93695" Column="AD_Package_Exp_Custom_ID">50000</Data>
+        <Data AD_Column_ID="93696" Column="Value">TestExporterSpin</Data>
+        <Data AD_Column_ID="93697" Column="Name">Test Exporter (Menu)</Data>
+        <Data AD_Column_ID="93698" Column="Description">Export Test Menu for App</Data>
+        <Data AD_Column_ID="93699" Column="Classname">org.spin.util.impexp.TestPackoutExporter</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="50005" Action="I" Record_ID="50000" Table="AD_Package_Exp">
+        <Data AD_Column_ID="50093" Column="Processing">false</Data>
+        <Data AD_Column_ID="50094" Column="PK_Version">1.0</Data>
+        <Data AD_Column_ID="50085" Column="Instructions">None</Data>
+        <Data AD_Column_ID="50095" Column="IsActive">true</Data>
+        <Data AD_Column_ID="50098" Column="Created">2019-06-14 00:31:30.253</Data>
+        <Data AD_Column_ID="50087" Column="Processed">false</Data>
+        <Data AD_Column_ID="50092" Column="Updated">2019-06-14 00:31:30.253</Data>
+        <Data AD_Column_ID="50096" Column="File_Directory">/tmp</Data>
+        <Data AD_Column_ID="50097" Column="Description">None</Data>
+        <Data AD_Column_ID="50086" Column="Name">TestExporterSpin</Data>
+        <Data AD_Column_ID="50090" Column="UserName">ysenih@erpya.com</Data>
+        <Data AD_Column_ID="50089" Column="Version">1.0</Data>
+        <Data AD_Column_ID="50082" Column="AD_Package_Type">X</Data>
+        <Data AD_Column_ID="50088" Column="ReleaseNo">all</Data>
+        <Data AD_Column_ID="50084" Column="EMail">ysenih@erpya.com</Data>
+        <Data AD_Column_ID="50080" Column="AD_Package_Exp_ID">50000</Data>
+        <Data AD_Column_ID="50099" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="50081" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="50083" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="50091" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84361" Column="UUID">7945633a-8e61-11e9-b162-3f00115fe846</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="50006" Action="I" Record_ID="50000" Table="AD_Package_Exp_Detail">
+        <Data AD_Column_ID="50124" Column="Processing">false</Data>
+        <Data AD_Column_ID="50128" Column="Line">10</Data>
+        <Data AD_Column_ID="50114" Column="Description">Test Exporter for Payroll Reporting menu</Data>
+        <Data AD_Column_ID="50110" Column="File_Directory" isNewNull="true"/>
+        <Data AD_Column_ID="50117" Column="Created">2019-06-14 00:34:05.265</Data>
+        <Data AD_Column_ID="50125" Column="Processed">false</Data>
+        <Data AD_Column_ID="50113" Column="Destination_Directory" isNewNull="true"/>
+        <Data AD_Column_ID="50109" Column="IsActive">true</Data>
+        <Data AD_Column_ID="57958" Column="AD_ModelValidator_ID" isNewNull="true"/>
+        <Data AD_Column_ID="50119" Column="Updated">2019-06-14 00:34:05.265</Data>
+        <Data AD_Column_ID="50132" Column="AD_Package_Exp_ID">50000</Data>
+        <Data AD_Column_ID="50121" Column="Target_Directory" isNewNull="true"/>
+        <Data AD_Column_ID="50107" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="50111" Column="FileName" isNewNull="true"/>
+        <Data AD_Column_ID="50112" Column="Destination_FileName" isNewNull="true"/>
+        <Data AD_Column_ID="50123" Column="ReleaseNo" isNewNull="true"/>
+        <Data AD_Column_ID="50127" Column="Name2" isNewNull="true"/>
+        <Data AD_Column_ID="50115" Column="DBType">ALL</Data>
+        <Data AD_Column_ID="50134" Column="AD_Package_Code_New" isNewNull="true"/>
+        <Data AD_Column_ID="50135" Column="AD_Package_Code_Old" isNewNull="true"/>
+        <Data AD_Column_ID="53269" Column="AD_Reference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="50122" Column="SQLStatement" isNewNull="true"/>
+        <Data AD_Column_ID="50103" Column="AD_ImpFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="50120" Column="Type">CEP</Data>
+        <Data AD_Column_ID="57959" Column="AD_EntityType_ID" isNewNull="true"/>
+        <Data AD_Column_ID="50133" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="50101" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="50100" Column="AD_Package_Exp_Detail_ID">50000</Data>
+        <Data AD_Column_ID="50108" Column="AD_Workflow_ID" isNewNull="true"/>
+        <Data AD_Column_ID="50129" Column="AD_Workbench_ID" isNewNull="true"/>
+        <Data AD_Column_ID="50130" Column="AD_Table_ID" isNewNull="true"/>
+        <Data AD_Column_ID="50131" Column="AD_ReportView_ID" isNewNull="true"/>
+        <Data AD_Column_ID="50102" Column="AD_Form_ID" isNewNull="true"/>
+        <Data AD_Column_ID="50104" Column="AD_Menu_ID" isNewNull="true"/>
+        <Data AD_Column_ID="50213" Column="AD_Message_ID" isNewNull="true"/>
+        <Data AD_Column_ID="50217" Column="AD_PrintFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="63485" Column="AD_Browse_ID" isNewNull="true"/>
+        <Data AD_Column_ID="50106" Column="AD_Role_ID">0</Data>
+        <Data AD_Column_ID="50116" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="50105" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="50118" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="63484" Column="AD_View_ID" isNewNull="true"/>
+        <Data AD_Column_ID="50212" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84363" Column="UUID">d5e0a19a-8e61-11e9-adf0-6b2d3cc05c00</Data>
+        <Data AD_Column_ID="92857" Column="ASP_Module_ID" isNewNull="true"/>
+        <Data AD_Column_ID="93700" Column="AD_Package_Exp_Custom_ID">50000</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="50005" Action="U" Record_ID="50000" Table="AD_Package_Exp">
+        <Data AD_Column_ID="50085" Column="Instructions" oldValue="None">Test Exporter for Payroll Reporting menu</Data>
+        <Data AD_Column_ID="50097" Column="Description" oldValue="None">Test Exporter for Payroll Reporting menu</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_InOutLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_M_InOutLine 
 {
@@ -621,4 +621,15 @@ public interface I_M_InOutLine
 	public int getUser4_ID();
 
 	public org.compiere.model.I_C_ElementValue getUser4() throws RuntimeException;
+
+    /** Column name WM_InOutBoundLine_ID */
+    public static final String COLUMNNAME_WM_InOutBoundLine_ID = "WM_InOutBoundLine_ID";
+
+	/** Set Inbound & Outbound Order Line	  */
+	public void setWM_InOutBoundLine_ID (int WM_InOutBoundLine_ID);
+
+	/** Get Inbound & Outbound Order Line	  */
+	public int getWM_InOutBoundLine_ID();
+
+	public org.eevolution.model.I_WM_InOutBoundLine getWM_InOutBoundLine() throws RuntimeException;
 }

@@ -98,6 +98,7 @@ import org.compiere.util.Language;
 import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.eevolution.form.VBrowser;
+import org.spin.util.ASPUtil;
 
 /**
  *	Main Panel of application window.
@@ -800,7 +801,7 @@ public final class APanel extends CPanel
 					if (gTab.isSortTab())
 					{
 						VSortTab st = new VSortTab(m_curWindowNo, gTab.getAD_Table_ID(),
-							gTab.getAD_ColumnSortOrder_ID(), gTab.getAD_ColumnSortYesNo_ID());
+							gTab.getAD_ColumnSortOrder_ID(), gTab.getAD_ColumnSortYesNo_ID(), gTab.getParent_Column_ID());
 						st.setTabLevel(gTab.getTabLevel());
 						tabElement = st;
 					}
@@ -2684,8 +2685,7 @@ public final class APanel extends CPanel
 			pi.setAD_Client_ID (Env.getAD_Client_ID(ctx));
 			FormFrame ff = new FormFrame(getWindowNo());
 			ff.setProcessInfo(pi);
-			MBrowse browse = new MBrowse(Env.getCtx(), browse_ID , null);
-			new VBrowser(ff, true , getWindowNo(), "" , browse , "" , true, "", Env.isSOTrx(Env.getCtx(), m_curWindowNo));
+			new VBrowser(ff, true , getWindowNo(), "" , ASPUtil.getInstance().getBrowse(browse_ID), "" , true, "", Env.isSOTrx(Env.getCtx(), m_curWindowNo));
 			ff.pack();
 			AEnv.showCenterScreen(ff);
 			//	Yamel Senih

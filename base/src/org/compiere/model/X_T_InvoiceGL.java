@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for T_InvoiceGL
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_T_InvoiceGL (Properties ctx, int T_InvoiceGL_ID, String trxName)
@@ -48,7 +48,6 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 			setAmtRevalDrDiff (Env.ZERO);
 			setAmtSourceBalance (Env.ZERO);
 			setC_ConversionTypeReval_ID (0);
-			setC_Invoice_ID (0);
 			setDateReval (new Timestamp( System.currentTimeMillis() ));
 			setFact_Acct_ID (0);
 			setGrandTotal (Env.ZERO);
@@ -113,6 +112,34 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Table)MTable.get(getCtx(), org.compiere.model.I_AD_Table.Table_Name)
+			.getPO(getAD_Table_ID(), get_TrxName());	}
+
+	/** Set Table.
+		@param AD_Table_ID 
+		Database Table information
+	  */
+	public void setAD_Table_ID (int AD_Table_ID)
+	{
+		if (AD_Table_ID < 1) 
+			set_Value (COLUMNNAME_AD_Table_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Table_ID, Integer.valueOf(AD_Table_ID));
+	}
+
+	/** Get Table.
+		@return Database Table information
+	  */
+	public int getAD_Table_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Table_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** APAR AD_Reference_ID=332 */
 	public static final int APAR_AD_Reference_ID=332;
 	/** Receivables & Payables = A */
@@ -137,6 +164,34 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 	public String getAPAR () 
 	{
 		return (String)get_Value(COLUMNNAME_APAR);
+	}
+
+	public org.compiere.model.I_C_ElementValue getAccount() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_ElementValue)MTable.get(getCtx(), org.compiere.model.I_C_ElementValue.Table_Name)
+			.getPO(getAccount_ID(), get_TrxName());	}
+
+	/** Set Account.
+		@param Account_ID 
+		Account used
+	  */
+	public void setAccount_ID (int Account_ID)
+	{
+		if (Account_ID < 1) 
+			set_Value (COLUMNNAME_Account_ID, null);
+		else 
+			set_Value (COLUMNNAME_Account_ID, Integer.valueOf(Account_ID));
+	}
+
+	/** Get Account.
+		@return Account used
+	  */
+	public int getAccount_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Account_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Accounted Balance.
@@ -259,6 +314,34 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 		return bd;
 	}
 
+	public org.compiere.model.I_C_AcctSchema getC_AcctSchema() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_AcctSchema)MTable.get(getCtx(), org.compiere.model.I_C_AcctSchema.Table_Name)
+			.getPO(getC_AcctSchema_ID(), get_TrxName());	}
+
+	/** Set Accounting Schema.
+		@param C_AcctSchema_ID 
+		Rules for accounting
+	  */
+	public void setC_AcctSchema_ID (int C_AcctSchema_ID)
+	{
+		if (C_AcctSchema_ID < 1) 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_AcctSchema_ID, Integer.valueOf(C_AcctSchema_ID));
+	}
+
+	/** Get Accounting Schema.
+		@return Rules for accounting
+	  */
+	public int getC_AcctSchema_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_AcctSchema_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_ConversionType getC_ConversionTypeReval() throws RuntimeException
     {
 		return (org.compiere.model.I_C_ConversionType)MTable.get(getCtx(), org.compiere.model.I_C_ConversionType.Table_Name)
@@ -282,6 +365,34 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 	public int getC_ConversionTypeReval_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_ConversionTypeReval_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Currency)MTable.get(getCtx(), org.compiere.model.I_C_Currency.Table_Name)
+			.getPO(getC_Currency_ID(), get_TrxName());	}
+
+	/** Set Currency.
+		@param C_Currency_ID 
+		The Currency for this record
+	  */
+	public void setC_Currency_ID (int C_Currency_ID)
+	{
+		if (C_Currency_ID < 1) 
+			set_Value (COLUMNNAME_C_Currency_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Currency_ID, Integer.valueOf(C_Currency_ID));
+	}
+
+	/** Get Currency.
+		@return The Currency for this record
+	  */
+	public int getC_Currency_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Currency_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -359,6 +470,11 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateReval);
 	}
+
+	public org.compiere.model.I_Fact_Acct getFact_Acct() throws RuntimeException
+    {
+		return (org.compiere.model.I_Fact_Acct)MTable.get(getCtx(), org.compiere.model.I_Fact_Acct.Table_Name)
+			.getPO(getFact_Acct_ID(), get_TrxName());	}
 
 	/** Set Accounting Fact.
 		@param Fact_Acct_ID Accounting Fact	  */
@@ -462,6 +578,49 @@ public class X_T_InvoiceGL extends PO implements I_T_InvoiceGL, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Record ID.
+		@param Record_ID 
+		Direct internal record ID
+	  */
+	public void setRecord_ID (int Record_ID)
+	{
+		if (Record_ID < 0) 
+			set_Value (COLUMNNAME_Record_ID, null);
+		else 
+			set_Value (COLUMNNAME_Record_ID, Integer.valueOf(Record_ID));
+	}
+
+	/** Get Record ID.
+		@return Direct internal record ID
+	  */
+	public int getRecord_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Record_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Gain/Loss Currency Temporary Table.
+		@param T_InvoiceGL_ID Gain/Loss Currency Temporary Table	  */
+	public void setT_InvoiceGL_ID (int T_InvoiceGL_ID)
+	{
+		if (T_InvoiceGL_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_T_InvoiceGL_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_T_InvoiceGL_ID, Integer.valueOf(T_InvoiceGL_ID));
+	}
+
+	/** Get Gain/Loss Currency Temporary Table.
+		@return Gain/Loss Currency Temporary Table	  */
+	public int getT_InvoiceGL_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_T_InvoiceGL_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Immutable Universally Unique Identifier.

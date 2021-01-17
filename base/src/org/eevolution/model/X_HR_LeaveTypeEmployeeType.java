@@ -18,19 +18,20 @@
 package org.eevolution.model;
 
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.model.*;
 
 /** Generated Model for HR_LeaveTypeEmployeeType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_HR_LeaveTypeEmployeeType extends PO implements I_HR_LeaveTypeEmployeeType, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_LeaveTypeEmployeeType (Properties ctx, int HR_LeaveTypeEmployeeType_ID, String trxName)
@@ -41,6 +42,8 @@ public class X_HR_LeaveTypeEmployeeType extends PO implements I_HR_LeaveTypeEmpl
 			setHR_EmployeeType_ID (0);
 			setHR_LeaveTypeEmployeeType_ID (0);
 			setHR_LeaveType_ID (0);
+			setValidFrom (new Timestamp( System.currentTimeMillis() ));
+// @#Date@
         } */
     }
 
@@ -166,5 +169,39 @@ public class X_HR_LeaveTypeEmployeeType extends PO implements I_HR_LeaveTypeEmpl
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** Set Valid from.
+		@param ValidFrom 
+		Valid from including this date (first day)
+	  */
+	public void setValidFrom (Timestamp ValidFrom)
+	{
+		set_Value (COLUMNNAME_ValidFrom, ValidFrom);
+	}
+
+	/** Get Valid from.
+		@return Valid from including this date (first day)
+	  */
+	public Timestamp getValidFrom () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_ValidFrom);
+	}
+
+	/** Set Valid to.
+		@param ValidTo 
+		Valid to including this date (last day)
+	  */
+	public void setValidTo (Timestamp ValidTo)
+	{
+		set_Value (COLUMNNAME_ValidTo, ValidTo);
+	}
+
+	/** Get Valid to.
+		@return Valid to including this date (last day)
+	  */
+	public Timestamp getValidTo () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_ValidTo);
 	}
 }

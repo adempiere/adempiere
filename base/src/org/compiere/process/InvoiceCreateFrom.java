@@ -122,7 +122,7 @@ public class InvoiceCreateFrom extends InvoiceCreateFromAbstract {
 				final BigDecimal qty = qtyEntered;
 				MInOutLine inOutLine = Arrays.stream(inOutLines)
 						.filter(ioLine -> ioLine != null && ioLine.getQtyEntered().compareTo(qty) == 0)
-						.findFirst().orElse(inOutLines.length > 0 ? inOutLines[0] : null);
+						.findFirst().orElseGet(() -> inOutLines.length > 0 ? inOutLines[0] : null);
 				//	Set From
 				if(inOutLine != null)
 					invoiceLine.setShipLine(inOutLine);

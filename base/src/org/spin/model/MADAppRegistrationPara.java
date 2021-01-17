@@ -37,4 +37,28 @@ public class MADAppRegistrationPara extends X_AD_AppRegistration_Para {
 	public MADAppRegistrationPara(Properties ctx, ResultSet rs, String trxName) {
 		super(ctx, rs, trxName);
 	}
+	
+	/**
+	 * Set values from default parameter
+	 * @param defaultParameter
+	 */
+	public void setDefaultParameter(MADAppSupportPara defaultParameter) {
+		setAD_AppSupport_Para_ID(defaultParameter.getAD_AppSupport_Para_ID());
+		setDescription(defaultParameter.getDescription());
+		setParameterType(defaultParameter.getParameterType());
+		setParameterName(defaultParameter.getParameterName());
+		setParameterValue(defaultParameter.getParameterDefault());
+	}
+	
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		MADAppRegistration.resetCache();
+		return super.afterSave(newRecord, success);
+	}
+	
+	@Override
+	protected boolean afterDelete(boolean success) {
+		MADAppRegistration.resetCache();
+		return super.afterDelete(success);
+	}
 }

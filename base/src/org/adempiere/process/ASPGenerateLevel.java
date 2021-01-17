@@ -31,9 +31,10 @@
 package org.adempiere.process;
 
 import java.util.Enumeration;
-import java.util.logging.Level;
 
 import org.adempiere.model.MBrowse;
+import org.compiere.model.I_AD_Menu;
+import org.compiere.model.I_ASP_Level;
 import org.compiere.model.MClientInfo;
 import org.compiere.model.MColumn;
 import org.compiere.model.MField;
@@ -54,12 +55,10 @@ import org.compiere.model.X_ASP_Tab;
 import org.compiere.model.X_ASP_Task;
 import org.compiere.model.X_ASP_Window;
 import org.compiere.model.X_ASP_Workflow;
-import org.eevolution.model.X_ASP_Browse;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.wf.MWorkflow;
+import org.spin.model.X_ASP_Browse;
 
 /**
  * 	Generate ASP entries for a level
@@ -70,12 +69,7 @@ import org.compiere.wf.MWorkflow;
  * 		@see FR [ 569 ] ASP_Browse does not exist</a>
  *  
  */
-public class ASPGenerateLevel extends SvrProcess
-{
-	private String  p_ASP_Status;
-	private int p_AD_Menu_ID;
-	private boolean p_IsGenerateFields;
-	private int p_ASP_Level_ID;	
+public class ASPGenerateLevel extends ASPGenerateLevelAbstract {
 	private int noWindows = 0;
 	private int noTabs = 0;
 	private int noFields = 0;
@@ -85,28 +79,18 @@ public class ASPGenerateLevel extends SvrProcess
 	private int noBrowses = 0;
 	private int noTasks = 0;
 	private int noWorkflows = 0;
+	private int menuId = 0;
 	
-	/**
-	 * 	Prepare
-	 */
-	protected void prepare ()
-	{
-		for (ProcessInfoParameter para : getParameter())
-		{
-			String name = para.getParameterName();
-			if (para.getParameter() == null)
-				;
-			else if (name.equals("ASP_Status"))
-				p_ASP_Status = (String) para.getParameter();
-			else if (name.equals("AD_Menu_ID"))
-				p_AD_Menu_ID = para.getParameterAsInt();
-			else if (name.equals("IsGenerateFields"))
-				p_IsGenerateFields = para.getParameter().equals("Y");
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
+	@Override
+	protected void prepare() {
+		super.prepare();
+		if(getTable_ID() == I_AD_Menu.Table_ID) {
+			menuId = getRecord_ID();
+		} else if(getTable_ID() == I_ASP_Level.Table_ID) {
+			menuId = getParameterAsInt(I_AD_Menu.COLUMNNAME_AD_Menu_ID);
+			setLevelId(getRecord_ID());
 		}
-		p_ASP_Level_ID = getRecord_ID();
-	}	//	prepare
+	}
 
 	/**
 	 * 	Process
@@ -115,9 +99,9 @@ public class ASPGenerateLevel extends SvrProcess
 	 */
 	protected String doIt () throws Exception
 	{
-		log.info("ASP_Status=" + p_ASP_Status 
-			+ ", AD_Menu_ID=" + p_AD_Menu_ID
-			+ ", IsGenerateFields=" + p_IsGenerateFields
+		log.info("ASP_Status=" + getStatus() 
+			+ ", AD_Menu_ID=" + menuId
+			+ ", IsGenerateFields=" + isGenerateFields()
 			);
 		
 		MClientInfo clientInfo = MClientInfo.get(getCtx(), getAD_Client_ID(), get_TrxName());
@@ -127,8 +111,8 @@ public class ASPGenerateLevel extends SvrProcess
 		MTree thisTree = new MTree (getCtx(), AD_Tree_ID, true, true, null, get_TrxName());
 		//	End Yamel Senih
 		MTreeNode node;
-		if (p_AD_Menu_ID > 0)
-			node = thisTree.getRoot().findNode(p_AD_Menu_ID);
+		if (menuId > 0)
+			node = thisTree.getRoot().findNode(menuId);
 		else
 			node = thisTree.getRoot();
 			
@@ -178,14 +162,14 @@ public class ASPGenerateLevel extends SvrProcess
 			MWindow window = new MWindow(getCtx(), menu.getAD_Window_ID(), get_TrxName());
 			int asp_window_id = DB.getSQLValueEx(get_TrxName(),
 					"SELECT ASP_Window_ID FROM ASP_Window WHERE ASP_Level_ID = ? AND AD_Window_ID = ?",
-					p_ASP_Level_ID, window.getAD_Window_ID());
+					getLevelId(), window.getAD_Window_ID());
 			X_ASP_Window aspWindow = null;
 			if (asp_window_id < 1) {
 				// Add Window, Tabs and Fields (if IsGenerateFields)
 				aspWindow = new X_ASP_Window(getCtx(), 0, get_TrxName());
-				aspWindow.setASP_Level_ID(p_ASP_Level_ID);
+				aspWindow.setASP_Level_ID(getLevelId());
 				aspWindow.setAD_Window_ID(window.getAD_Window_ID());
-				aspWindow.setASP_Status(p_ASP_Status);
+				aspWindow.setASP_Status(getStatus());
 				if (aspWindow.save()) {
 					noWindows++;
 					asp_window_id = aspWindow.getASP_Window_ID();
@@ -203,8 +187,8 @@ public class ASPGenerateLevel extends SvrProcess
 					aspTab = new X_ASP_Tab(getCtx(), 0, get_TrxName());
 					aspTab.setASP_Window_ID(asp_window_id);
 					aspTab.setAD_Tab_ID(tab.getAD_Tab_ID());
-					aspTab.setASP_Status(p_ASP_Status);
-					aspTab.setAllFields(! p_IsGenerateFields);
+					aspTab.setASP_Status(getStatus());
+					aspTab.setAllFields(!isGenerateFields());
 					if (aspTab.save()) {
 						noTabs++;
 						asp_tab_id = aspTab.getASP_Tab_ID();
@@ -214,7 +198,7 @@ public class ASPGenerateLevel extends SvrProcess
 				}
 				// fields
 				for (MField field : tab.getFields(true, get_TrxName())) {
-					if (p_IsGenerateFields) {
+					if (isGenerateFields()) {
 						if (DB.getSQLValueEx(
 								get_TrxName(),
 								"SELECT COUNT(*) FROM ASP_Field WHERE ASP_Tab_ID = ? AND AD_Field_ID = ?",
@@ -222,7 +206,7 @@ public class ASPGenerateLevel extends SvrProcess
 							X_ASP_Field aspField = new X_ASP_Field(getCtx(), 0, get_TrxName());
 							aspField.setASP_Tab_ID(aspTab.getASP_Tab_ID());
 							aspField.setAD_Field_ID(field.getAD_Field_ID());
-							aspField.setASP_Status(p_ASP_Status);
+							aspField.setASP_Status(getStatus());
 							aspField.saveEx();
 							noFields++;
 						}
@@ -245,11 +229,11 @@ public class ASPGenerateLevel extends SvrProcess
 			if (DB.getSQLValueEx(
 					get_TrxName(),
 					"SELECT COUNT(*) FROM ASP_Form WHERE ASP_Level_ID = ? AND AD_Form_ID = ?",
-					p_ASP_Level_ID, form.getAD_Form_ID()) < 1) {
+					getLevelId(), form.getAD_Form_ID()) < 1) {
 				X_ASP_Form aspForm = new X_ASP_Form(getCtx(), 0, get_TrxName());
-				aspForm.setASP_Level_ID(p_ASP_Level_ID);
+				aspForm.setASP_Level_ID(getLevelId());
 				aspForm.setAD_Form_ID(form.getAD_Form_ID());
-				aspForm.setASP_Status(p_ASP_Status);
+				aspForm.setASP_Status(getStatus());
 				aspForm.saveEx();
 				noForms++;
 			}
@@ -259,11 +243,11 @@ public class ASPGenerateLevel extends SvrProcess
 			if (DB.getSQLValueEx(
 					get_TrxName(),
 					"SELECT COUNT(*) FROM ASP_Browse WHERE ASP_Level_ID = ? AND AD_Browse_ID = ?",
-					p_ASP_Level_ID, browse.getAD_Browse_ID()) < 1) {
+					getLevelId(), browse.getAD_Browse_ID()) < 1) {
 				X_ASP_Browse aspBrowse = new X_ASP_Browse(getCtx(), 0, get_TrxName());
-				aspBrowse.setASP_Level_ID(p_ASP_Level_ID);
+				aspBrowse.setASP_Level_ID(getLevelId());
 				aspBrowse.setAD_Browse_ID(browse.getAD_Browse_ID());
-				aspBrowse.setASP_Status(p_ASP_Status);
+				aspBrowse.setASP_Status(getStatus());
 				aspBrowse.saveEx();
 				noBrowses++;
 			}
@@ -273,11 +257,11 @@ public class ASPGenerateLevel extends SvrProcess
 			if (DB.getSQLValueEx(
 					get_TrxName(),
 					"SELECT COUNT(*) FROM ASP_Task WHERE ASP_Level_ID = ? AND AD_Task_ID = ?",
-					p_ASP_Level_ID, task.getAD_Task_ID()) < 1) {
+					getLevelId(), task.getAD_Task_ID()) < 1) {
 				X_ASP_Task aspTask = new X_ASP_Task(getCtx(), 0, get_TrxName());
-				aspTask.setASP_Level_ID(p_ASP_Level_ID);
+				aspTask.setASP_Level_ID(getLevelId());
 				aspTask.setAD_Task_ID(task.getAD_Task_ID());
-				aspTask.setASP_Status(p_ASP_Status);
+				aspTask.setASP_Status(getStatus());
 				aspTask.saveEx();
 				noTasks++;
 			}
@@ -295,13 +279,13 @@ public class ASPGenerateLevel extends SvrProcess
 		MProcess process = new MProcess(getCtx(), p_AD_Process_ID, get_TrxName());
 		int asp_process_id = DB.getSQLValueEx(get_TrxName(),
 				"SELECT ASP_Process_ID FROM ASP_Process WHERE ASP_Level_ID = ? AND AD_Process_ID = ?",
-				p_ASP_Level_ID, process.getAD_Process_ID());
+				getLevelId(), process.getAD_Process_ID());
 		X_ASP_Process aspProcess = null;
 		if (asp_process_id < 1) {
 			aspProcess = new X_ASP_Process(getCtx(), 0, get_TrxName());
-			aspProcess.setASP_Level_ID(p_ASP_Level_ID);
+			aspProcess.setASP_Level_ID(getLevelId());
 			aspProcess.setAD_Process_ID(process.getAD_Process_ID());
-			aspProcess.setASP_Status(p_ASP_Status);
+			aspProcess.setASP_Status(getStatus());
 			if (aspProcess.save()) {
 				noProcesses++;
 				asp_process_id = aspProcess.getASP_Process_ID();
@@ -318,7 +302,7 @@ public class ASPGenerateLevel extends SvrProcess
 				X_ASP_Process_Para aspProcess_Para = new X_ASP_Process_Para(getCtx(), 0, get_TrxName());
 				aspProcess_Para.setASP_Process_ID(asp_process_id);
 				aspProcess_Para.setAD_Process_Para_ID(processpara.getAD_Process_Para_ID());
-				aspProcess_Para.setASP_Status(p_ASP_Status);
+				aspProcess_Para.setASP_Status(getStatus());
 				if (aspProcess_Para.save())
 					noParameters++;
 			}
@@ -338,11 +322,11 @@ public class ASPGenerateLevel extends SvrProcess
 		if (DB.getSQLValueEx(
 				get_TrxName(),
 				"SELECT COUNT(*) FROM ASP_Workflow WHERE ASP_Level_ID = ? AND AD_Workflow_ID = ?",
-				p_ASP_Level_ID, workflow.getAD_Workflow_ID()) < 1) {
+				getLevelId(), workflow.getAD_Workflow_ID()) < 1) {
 			X_ASP_Workflow aspWorkflow = new X_ASP_Workflow(getCtx(), 0, get_TrxName());
-			aspWorkflow.setASP_Level_ID(p_ASP_Level_ID);
+			aspWorkflow.setASP_Level_ID(getLevelId());
 			aspWorkflow.setAD_Workflow_ID(workflow.getAD_Workflow_ID());
-			aspWorkflow.setASP_Status(p_ASP_Status);
+			aspWorkflow.setASP_Status(getStatus());
 			aspWorkflow.saveEx();
 			noWorkflows++;
 		}

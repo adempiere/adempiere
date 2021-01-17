@@ -327,7 +327,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		// search the Ship To Location
 		MBPartnerLocation partnerLocation = partnerLocations.stream() 			// create steam
 				.filter( pl -> pl.isShipTo()).reduce((first , last ) -> last) 	// get of last Ship to location
-				.orElse(partnerLocations.stream() 								// if not exist Ship to location else get first partner location
+				.orElseGet(() -> partnerLocations.stream() 								// if not exist Ship to location else get first partner location
 							.findFirst()										// if not exist partner location then throw an exception
 							.orElseThrow(() -> new AdempiereException("@IsShipTo@ @NotFound@"))
 				);
@@ -785,17 +785,6 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		// Bug 1564431
 		if (getDeliveryRule() != null && getDeliveryRule().equals(MDDOrder.DELIVERYRULE_CompleteOrder)) 
 		{
-			/*for (int i = 0; i < lines.length; i++)
-			{
-				MDDOrderLine line = lines[i];
-				MProduct product = line.getProduct();
-				if (product != null && product.isExcludeAutoDelivery())
-				{
-					processMessage = "@M_Product_ID@ "+product.getValue()+" @IsExcludeAutoDelivery@";
-					return DocAction.STATUS_Invalid;
-				}
-			}*/
-
 			orderLines.stream()
 					.filter(orderLine -> orderLine.getProduct() != null && orderLine.getProduct().isExcludeAutoDelivery())
 					.map(orderLine ->
@@ -969,7 +958,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 			return DocAction.STATUS_Invalid;
 		}
 
-		setProcessed(true);	
+		setProcessed(true);
 		processMessage = info.toString();
 		//
 		setDocAction(DOCACTION_Close);
@@ -1030,23 +1019,12 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		if (processMessage != null)
 			return false;
 
-		/*MDDOrderLine[] lines = getLines(true, "M_Product_ID");
-		for (int i = 0; i < lines.length; i++)
-		{
-			MDDOrderLine line = lines[i];
-			BigDecimal old = line.getQtyOrdered();
-			if (old.signum() != 0)
-			{
-				line.addDescription(Msg.getMsg(getCtx(), "Voided") + " (" + old + ")");		
-				line.save(get_TrxName());
-			}
-		}*/
-
 		List<MDDOrderLine> lines = getLines(true, "M_Product_ID");
 		lines.stream()
 				.filter(orderLine -> orderLine.getQtyOrdered().signum() != 0)
 				.forEach(orderLine -> {
-					orderLine.addDescription(Msg.getMsg(getCtx(), "Voided") + " (" + orderLine.getQtyOrdered() + ")");
+					orderLine.setDescription(Optional.ofNullable(orderLine.getDescription()).orElse("")
+							+ " " + Msg.parseTranslation(getCtx() , "@Voided@  @QtyOrdered@ (" + orderLine.getQtyOrdered() + ")"));
 					orderLine.save(get_TrxName());
 				});
 
@@ -1075,28 +1053,14 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
 		if (processMessage != null)
 			return false;
-		
-		//	Close Not delivered Qty - SO/PO
-		/*MDDOrderLine[] lines = getLines(true, "M_Product_ID");
-		for (int i = 0; i < lines.length; i++)
-		{
-			MDDOrderLine line = lines[i];
-			BigDecimal old = line.getQtyOrdered();
-			if (old.compareTo(line.getQtyDelivered()) != 0)
-			{
-				line.setQtyOrdered(line.getQtyDelivered());
-				//	QtyEntered unchanged
-				line.addDescription("Close (" + old + ")");
-				line.save(get_TrxName());
-			}
-		}*/
 
 		List<MDDOrderLine> lines = getLines(true, "M_Product_ID");
 		lines.stream()
 				.filter(orderLine -> orderLine.getQtyOrdered().compareTo(orderLine.getQtyDelivered()) != 0)
 				.forEach(orderLine -> {
 					orderLine.setQtyOrdered(orderLine.getQtyDelivered());
-					orderLine.addDescription("Close (" + orderLine.getQtyOrdered() + ")");
+					orderLine.setDescription(Optional.ofNullable(orderLine.getDescription()).orElse("")
+							+ " " + Msg.parseTranslation(getCtx() , "@close@  @QtyOrdered@ (" + orderLine.getQtyOrdered() + ")"));
 					orderLine.save(get_TrxName());
 				});
 
@@ -1105,7 +1069,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		setProcessed(true);
 		setDocAction(DOCACTION_None);
 		// After Close
-		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+		processMessage = ModelValidationEngine.get().fireDocValidate(this , ModelValidator.TIMING_AFTER_CLOSE);
 		if (processMessage != null)
 			return false;
 		return true;

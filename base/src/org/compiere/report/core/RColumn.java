@@ -34,6 +34,10 @@ import org.compiere.util.Msg;
  * 
  * @author Teo Sarca, SC ARHIPAC SERVICE SRL
  * 				<li>BF [ 1778373 ] AcctViewer: data is not sorted proper
+ *
+ * @author Victor Pérez , e-Evolution Consulting , www.e-evolution.com
+ * 				<li>#2598 The accounting information screen does not show the accounting entries when a accounting dimension User Element is defined </li>
+ * 				<li>https://github.com/adempiere/adempiere/issues/2598</li>
  */
 public class RColumn
 {
@@ -158,10 +162,17 @@ public class RColumn
 			}
 			else if (columnName.startsWith("UserElement") && refColumnName != null)
 			{
-				m_displaySQL = "(" + MLookupFactory.getLookup_TableDirEmbed(
-					language, refColumnName, RModel.TABLE_ALIAS, columnName) + ")";
-				m_colSQL += "," + m_displaySQL;
-				m_isIDcol = true;
+				if (displayType == DisplayType.Search || displayType == DisplayType.Table) {
+					m_displaySQL = "(" + MLookupFactory.getLookup_TableEmbed(
+							language, columnName, RModel.TABLE_ALIAS, AD_Reference_Value_ID) + ")";
+					m_colSQL += "," + m_displaySQL;
+					m_isIDcol = true;
+				} else if (displayType == DisplayType.TableDir) {
+						m_displaySQL = "(" + MLookupFactory.getLookup_TableDirEmbed(
+								language, refColumnName, RModel.TABLE_ALIAS, columnName) + ")";
+						m_colSQL += "," + m_displaySQL;
+						m_isIDcol = true;
+				}
 			}
 			else if (columnName.equals("C_LocFrom_ID") || columnName.equals("C_LocTo_ID"))
 			{

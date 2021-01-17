@@ -211,6 +211,7 @@ public class ProcessPanel extends ProcessController implements SmallViewEditable
 			messagePanel = new North();
 			messagePanel.appendChild(messageDiv);
 			messagePanel.setAutoscroll(true);
+			messagePanel.setSplittable(true);
 			messagePanel.setStyle("border: none;");
 			mainLayout.appendChild(messagePanel);
 		}

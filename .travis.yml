@@ -1,37 +1,25 @@
 language: java
 jdk:
-- oraclejdk8
+- openjdk8
 os:
 - linux
 sudo: required
-services:
-  - postgresql
 addons:
-  postgresql: "10"
   apt:
     packages:
-    - postgresql-10
-    - postgresql-client-10
-env:
-  global:
-  - PGPORT=5433
-before_script:
-  - psql -c "ALTER USER postgres WITH PASSWORD 'postgres';"
-before_install:
-- echo "utils_dev";
-- echo "Test";
-- sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/*/main/pg_hba.conf
-- sudo service postgresql restart
-- sleep 1
+      ant
 jobs:
   include:
   - stage: Main Build Test
     script: ant build
-notifications:
-  email:
-    recipients:
-    - ysenih@erpya.com
-    - victor.perez@e-evolution.com
-    - mario.calderon@westfalia-it.com
-    - susanne.de.calderon@westfalia-it.com
-    on_failure: always
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN_KEY
+  file: 
+    - "$TRAVIS_BUILD_DIR/adempiere/install/Adempiere_393LTS.tar.gz"
+    - "$TRAVIS_BUILD_DIR/adempiere/install/Adempiere_393LTS.tar.gz.MD5"
+    - "$TRAVIS_BUILD_DIR/adempiere/install/Adempiere_393LTS.zip"
+    - "$TRAVIS_BUILD_DIR/adempiere/install/Adempiere_393LTS.zip.MD5"
+  skip_cleanup: true
+  on:
+    tags: true

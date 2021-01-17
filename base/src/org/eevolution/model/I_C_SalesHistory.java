@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_SalesHistory
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_SalesHistory 
 {
@@ -226,6 +226,36 @@ public interface I_C_SalesHistory
 
 	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
 
+    /** Column name C_Tax_ID */
+    public static final String COLUMNNAME_C_Tax_ID = "C_Tax_ID";
+
+	/** Set Tax.
+	  * Tax identifier
+	  */
+	public void setC_Tax_ID (int C_Tax_ID);
+
+	/** Get Tax.
+	  * Tax identifier
+	  */
+	public int getC_Tax_ID();
+
+	public org.compiere.model.I_C_Tax getC_Tax() throws RuntimeException;
+
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
+
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
+
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
+
     /** Column name CostAmt */
     public static final String COLUMNNAME_CostAmt = "CostAmt";
 
@@ -268,6 +298,19 @@ public interface I_C_SalesHistory
 	  */
 	public Timestamp getDateInvoiced();
 
+    /** Column name Description */
+    public static final String COLUMNNAME_Description = "Description";
+
+	/** Set Description.
+	  * Optional short description of the record
+	  */
+	public void setDescription (String Description);
+
+	/** Get Description.
+	  * Optional short description of the record
+	  */
+	public String getDescription();
+
     /** Column name DocumentNo */
     public static final String COLUMNNAME_DocumentNo = "DocumentNo";
 
@@ -293,6 +336,47 @@ public interface I_C_SalesHistory
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name LineNetAmt */
+    public static final String COLUMNNAME_LineNetAmt = "LineNetAmt";
+
+	/** Set Line Amount.
+	  * Line Extended Amount (Quantity * Actual Price) without Freight and Charges
+	  */
+	public void setLineNetAmt (BigDecimal LineNetAmt);
+
+	/** Get Line Amount.
+	  * Line Extended Amount (Quantity * Actual Price) without Freight and Charges
+	  */
+	public BigDecimal getLineNetAmt();
+
+    /** Column name LineTotalAmt */
+    public static final String COLUMNNAME_LineTotalAmt = "LineTotalAmt";
+
+	/** Set Line Total.
+	  * Total line amount incl. Tax
+	  */
+	public void setLineTotalAmt (BigDecimal LineTotalAmt);
+
+	/** Get Line Total.
+	  * Total line amount incl. Tax
+	  */
+	public BigDecimal getLineTotalAmt();
+
+    /** Column name M_AttributeSetInstance_ID */
+    public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
+
+	/** Set Attribute Set Instance.
+	  * Product Attribute Set Instance
+	  */
+	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID);
+
+	/** Get Attribute Set Instance.
+	  * Product Attribute Set Instance
+	  */
+	public int getM_AttributeSetInstance_ID();
+
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
 
     /** Column name M_Product_Category_ID */
     public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
@@ -384,6 +468,32 @@ public interface I_C_SalesHistory
 
 	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
 
+    /** Column name PriceActual */
+    public static final String COLUMNNAME_PriceActual = "PriceActual";
+
+	/** Set Unit Price.
+	  * Actual Price 
+	  */
+	public void setPriceActual (BigDecimal PriceActual);
+
+	/** Get Unit Price.
+	  * Actual Price 
+	  */
+	public BigDecimal getPriceActual();
+
+    /** Column name PriceEntered */
+    public static final String COLUMNNAME_PriceEntered = "PriceEntered";
+
+	/** Set Price.
+	  * Price Entered - the price based on the selected/base UoM
+	  */
+	public void setPriceEntered (BigDecimal PriceEntered);
+
+	/** Get Price.
+	  * Price Entered - the price based on the selected/base UoM
+	  */
+	public BigDecimal getPriceEntered();
+
     /** Column name PriceInvoiced */
     public static final String COLUMNNAME_PriceInvoiced = "PriceInvoiced";
 
@@ -396,6 +506,32 @@ public interface I_C_SalesHistory
 	  * The priced invoiced to the customer (in the currency of the customer's AR price list) - 0 for default price
 	  */
 	public BigDecimal getPriceInvoiced();
+
+    /** Column name PriceLimit */
+    public static final String COLUMNNAME_PriceLimit = "PriceLimit";
+
+	/** Set Limit Price.
+	  * Lowest price for a product
+	  */
+	public void setPriceLimit (BigDecimal PriceLimit);
+
+	/** Get Limit Price.
+	  * Lowest price for a product
+	  */
+	public BigDecimal getPriceLimit();
+
+    /** Column name PriceList */
+    public static final String COLUMNNAME_PriceList = "PriceList";
+
+	/** Set List Price.
+	  * List Price
+	  */
+	public void setPriceList (BigDecimal PriceList);
+
+	/** Get List Price.
+	  * List Price
+	  */
+	public BigDecimal getPriceList();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -423,6 +559,19 @@ public interface I_C_SalesHistory
 	  */
 	public BigDecimal getQty();
 
+    /** Column name QtyEntered */
+    public static final String COLUMNNAME_QtyEntered = "QtyEntered";
+
+	/** Set Quantity.
+	  * The Quantity Entered is based on the selected UoM
+	  */
+	public void setQtyEntered (BigDecimal QtyEntered);
+
+	/** Get Quantity.
+	  * The Quantity Entered is based on the selected UoM
+	  */
+	public BigDecimal getQtyEntered();
+
     /** Column name SalesRep_ID */
     public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
 
@@ -437,6 +586,19 @@ public interface I_C_SalesHistory
 	public int getSalesRep_ID();
 
 	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
+
+    /** Column name TaxAmt */
+    public static final String COLUMNNAME_TaxAmt = "TaxAmt";
+
+	/** Set Tax Amount.
+	  * Tax Amount for a document
+	  */
+	public void setTaxAmt (BigDecimal TaxAmt);
+
+	/** Get Tax Amount.
+	  * Tax Amount for a document
+	  */
+	public BigDecimal getTaxAmt();
 
     /** Column name TotalInvAmt */
     public static final String COLUMNNAME_TotalInvAmt = "TotalInvAmt";

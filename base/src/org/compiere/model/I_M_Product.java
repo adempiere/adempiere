@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_M_Product 
 {
@@ -739,6 +739,21 @@ public interface I_M_Product
 	  * Alphanumeric identifier of the entity
 	  */
 	public String getName();
+
+    /** Column name Parent_Product_ID */
+    public static final String COLUMNNAME_Parent_Product_ID = "Parent_Product_ID";
+
+	/** Set Parent Product.
+	  * Parent (superior) Product 
+	  */
+	public void setParent_Product_ID (int Parent_Product_ID);
+
+	/** Get Parent Product.
+	  * Parent (superior) Product 
+	  */
+	public int getParent_Product_ID();
+
+	public org.compiere.model.I_M_Product getParent_Product() throws RuntimeException;
 
     /** Column name Processing */
     public static final String COLUMNNAME_Processing = "Processing";

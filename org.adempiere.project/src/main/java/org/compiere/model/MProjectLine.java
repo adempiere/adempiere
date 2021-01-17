@@ -358,11 +358,11 @@ public class MProjectLine extends X_C_ProjectLine
 	}
 
 	public Timestamp getDateOrdered() {
-		return getDateStartSchedule().orElse(getCreated());
+		return getDateStartSchedule().orElseGet(() -> getCreated());
 	}
 
 	public Timestamp getDatePromised() {
-		return getDateFinishSchedule().orElse(getDateDeadline().orElse(getCreated()));
+		return getDateFinishSchedule().orElseGet(() -> getDateDeadline().orElseGet(() -> getCreated()));
 	}
 
 	public String getPriorityRule()
@@ -370,7 +370,8 @@ public class MProjectLine extends X_C_ProjectLine
 		AtomicReference<String> priorityRule = new AtomicReference<>();
 		getProjectPhase().ifPresent(phase -> priorityRule.set(phase.getPriorityRule()));
 		getProjectTask().ifPresent(task -> priorityRule.set(task.getPriorityRule()));
-		return priorityRule.get();
+		Optional<String> maybePriorityRule = Optional.ofNullable(priorityRule.get());
+		return maybePriorityRule.orElse(MProject.PRIORITYRULE_Medium);
 	}
 
 } // MProjectLine

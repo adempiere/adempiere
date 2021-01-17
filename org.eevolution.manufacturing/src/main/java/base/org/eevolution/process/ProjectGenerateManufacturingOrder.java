@@ -70,25 +70,25 @@ public class ProjectGenerateManufacturingOrder extends ProjectGenerateManufactur
             atomicQuantity.set(projectLine.getPlannedQty());
             projectLine.getProjectPhase().ifPresent(projectPhaseLine -> {
                 Optional<Timestamp> dateOrderedOptional = Optional.ofNullable(
-                        Optional.ofNullable(projectPhaseLine.getDateStartSchedule()).orElse(project.getDateStartSchedule()));
+                        Optional.ofNullable(projectPhaseLine.getDateStartSchedule()).orElseGet(() -> project.getDateStartSchedule()));
                 Optional<Timestamp> datePromisedOptional = Optional.ofNullable(
-                        Optional.ofNullable(projectPhaseLine.getDateFinishSchedule()).orElse(project.getDateFinishSchedule()));
+                        Optional.ofNullable(projectPhaseLine.getDateFinishSchedule()).orElseGet(() -> project.getDateFinishSchedule()));
                 atomicProjectPhase.set((MProjectPhase) projectPhaseLine);
-                atomicDateOrdered.set(Optional.ofNullable(dateOrderedOptional.orElse(
-                        Optional.ofNullable(projectPhaseLine.getStartDate()).orElse(project.getDateStartSchedule()))));
-                atomicDatePromised.set(Optional.ofNullable(datePromisedOptional.orElse(
-                        Optional.ofNullable(projectPhaseLine.getDateDeadline()).orElse(project.getDateFinishSchedule()))));
+                atomicDateOrdered.set(Optional.ofNullable(dateOrderedOptional.orElseGet(() ->
+                        Optional.ofNullable(projectPhaseLine.getStartDate()).orElseGet(() -> project.getDateStartSchedule()))));
+                atomicDatePromised.set(Optional.ofNullable(datePromisedOptional.orElseGet(() ->
+                        Optional.ofNullable(projectPhaseLine.getDateDeadline()).orElseGet(() -> project.getDateFinishSchedule()))));
             });
             projectLine.getProjectTask().ifPresent(projectTaskLine -> {
                 MProjectPhase projectPhase = (MProjectPhase) projectTaskLine.getC_ProjectPhase();
                 atomicProjectTask.set((MProjectTask) projectTaskLine);
                 atomicProjectPhase.set(projectPhase);
                 Optional<Timestamp> dateOrderedOptional = Optional.ofNullable(Optional.ofNullable(projectTaskLine.getDateStartSchedule())
-                        .orElse(Optional.ofNullable(projectPhase.getDateStartSchedule())
-                                .orElse(project.getDateStartSchedule())));
+                        .orElseGet(() -> Optional.ofNullable(projectPhase.getDateStartSchedule())
+                                .orElseGet(() -> project.getDateStartSchedule())));
                 Optional<Timestamp> datePromisedOptional = Optional.ofNullable(Optional.ofNullable(projectTaskLine.getDateFinishSchedule())
-                        .orElse(Optional.ofNullable(projectPhase.getDateFinishSchedule())
-                                .orElse(project.getDateFinishSchedule())));
+                        .orElseGet(() -> Optional.ofNullable(projectPhase.getDateFinishSchedule())
+                                .orElseGet(() -> project.getDateFinishSchedule())));
                 dateOrderedOptional.ifPresent(dateOrdered -> atomicDateOrdered.set(Optional.ofNullable(dateOrdered)));
                 datePromisedOptional.ifPresent(datePromised -> atomicDatePromised.set(Optional.ofNullable(datePromised)));
             });
@@ -112,10 +112,10 @@ public class ProjectGenerateManufacturingOrder extends ProjectGenerateManufactur
             Optional<Timestamp> dateOrderedTask = Optional.ofNullable(projectTask.getDateStartSchedule());
             Optional<Timestamp> datePromisedTask = Optional.ofNullable(projectTask.getDateFinishSchedule() != null
                     ? projectTask.getDateFinishSchedule() : projectTask.getDateDeadline());
-            atomicDateOrdered.set(Optional.ofNullable(dateOrderedTask.orElse(dateOrderedPhase
-                    .orElse(project.getDateStartSchedule()))));
-            atomicDatePromised.set(Optional.ofNullable(datePromisedTask.orElse(datePromisedPhase
-                    .orElse(project.getDateFinishSchedule()))));
+            atomicDateOrdered.set(Optional.ofNullable(dateOrderedTask.orElseGet(() -> dateOrderedPhase
+                    .orElseGet(() -> project.getDateStartSchedule()))));
+            atomicDatePromised.set(Optional.ofNullable(datePromisedTask.orElseGet(() -> datePromisedPhase
+                    .orElseGet(() -> project.getDateFinishSchedule()))));
         } else if (getProjectPhaseId() > 0) {
             MProjectPhase projectPhase = new MProjectPhase(getCtx(), getProjectPhaseId(), get_TrxName());
             if (!PROJINVOICERULE_ProductQuantity.equals(projectPhase.getProjInvoiceRule())) {
@@ -133,10 +133,10 @@ public class ProjectGenerateManufacturingOrder extends ProjectGenerateManufactur
             Optional<Timestamp> dateOrderedPhase = Optional.ofNullable(projectPhase.getDateStartSchedule());
             Optional<Timestamp> datePromisedPhase = Optional.ofNullable(projectPhase.getDateFinishSchedule());
             atomicProjectPhase.set(projectPhase);
-            atomicDateOrdered.set(Optional.ofNullable(dateOrderedPhase.orElse(
-                    Optional.ofNullable(projectPhase.getStartDate()).orElse(project.getDateStartSchedule()))));
-            atomicDatePromised.set(Optional.ofNullable(datePromisedPhase.orElse(
-                    Optional.ofNullable(projectPhase.getDateDeadline()).orElse(project.getDateFinishSchedule()))));
+            atomicDateOrdered.set(Optional.ofNullable(dateOrderedPhase.orElseGet(() ->
+                    Optional.ofNullable(projectPhase.getStartDate()).orElseGet(() -> project.getDateStartSchedule()))));
+            atomicDatePromised.set(Optional.ofNullable(datePromisedPhase.orElseGet(() ->
+                    Optional.ofNullable(projectPhase.getDateDeadline()).orElseGet(() -> project.getDateFinishSchedule()))));
         }
 
         Timestamp dateOrdered = atomicDateOrdered.get()

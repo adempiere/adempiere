@@ -16,6 +16,16 @@
  *****************************************************************************/
 package org.compiere.process;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
+import org.compiere.util.Env;
+import org.compiere.util.Ini;
+import org.compiere.util.Msg;
+import org.compiere.util.Util;
+
 import java.io.File;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -26,15 +36,7 @@ import java.util.Hashtable;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
-
-import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.Ini;
-import org.compiere.util.Msg;
-import org.compiere.util.Util;
+import java.util.Optional;
 
 
 /**
@@ -164,6 +166,8 @@ public class ProcessInfo implements Serializable
 	private boolean 			reportingProcess = false;
 	//FR 1906632
 	private File 				pdfReportFile = null;
+	/**	Report as file				*/
+	private File 				reportAsFile = null;
 
 	private String 				reportType = null;
 	
@@ -626,26 +630,27 @@ public class ProcessInfo implements Serializable
 	 * Method getAD_Client_ID
 	 * @return Integer
 	 */
-	public Integer getAD_Client_ID()
-	{
-		return clientId;
+	public Integer getAD_Client_ID() {
+		return Optional.ofNullable(clientId)
+				.orElseThrow(() -> new AdempiereException("@AD_Client_ID@ @NotFound@"));
 	}
 
 	/**
 	 * Method setAD_User_ID
+	 *
 	 * @param userId int
 	 */
-	public void setAD_User_ID (int userId)
-	{
-		this.userId = new Integer (userId);
+	public void setAD_User_ID(int userId) {
+		this.userId = new Integer(userId);
 	}
+
 	/**
 	 * Method getAD_User_ID
 	 * @return Integer
 	 */
-	public Integer getAD_User_ID()
-	{
-		return userId;
+	public Integer getAD_User_ID() {
+		return Optional.ofNullable(userId)
+				.orElseThrow(() -> new AdempiereException("@AD_User_ID@ @NotFound@"));
 	}
 
 	
@@ -696,6 +701,7 @@ public class ProcessInfo implements Serializable
 	public void setSelectionKeys(List<Integer> selection) {
 		keySelection = selection;
 		setIsSelection(selection != null && selection.size() > 0);
+		saveSelection();
 	}
 	
 	/**
@@ -712,13 +718,50 @@ public class ProcessInfo implements Serializable
 	 */
 	public void setSelectionValues(LinkedHashMap<Integer, LinkedHashMap<String, Object>> selection) {
 		this.selection = selection;
-		setIsSelection(selection != null && selection.size() > 0);
+		setIsSelection(selection != null && selection.size() > 0 
+				|| getSelectionKeys() != null && getSelectionKeys().size() > 0);
 		//	fill key
 		if(selection != null) {
-			keySelection = new ArrayList<Integer>();
+			List<Integer> keySelection = new ArrayList<Integer>();
 			for(Entry<Integer,LinkedHashMap<String, Object>> records : selection.entrySet()) {
 				keySelection.add(records.getKey());
 			}
+			//	Set selections
+			if(getSelectionKeys() == null
+					|| getSelectionKeys().size() ==0) {
+				setSelectionKeys(keySelection);
+			}
+		}
+		//	Save it for DB
+		saveSelectionValues();
+	}
+	
+	/**
+	 * Save selection when process is called with selection
+	 */
+	private void saveSelection() {
+		if(isSelection()
+				&& getAD_PInstance_ID() > 0) {
+			if(getSelectionKeys() != null) {
+				//	Create Selection
+				DB.createT_Selection(getAD_PInstance_ID(), getSelectionKeys(), getTransactionName());
+			} 
+		}
+	}
+	
+	/**
+	 * Save selection values when process is called with selection values or from browser
+	 */
+	private void saveSelectionValues() {
+		if(isSelection()
+				&& getAD_PInstance_ID() > 0) {
+			if(getSelectionKeys() != null) {
+				//	Create Selection
+				if(getSelectionValues() != null) {
+					//	Create Selection for SB
+					DB.createT_Selection_Browse(getAD_PInstance_ID(), getSelectionValues(), getTransactionName());
+				}
+			} 
 		}
 	}
 
@@ -912,7 +955,23 @@ public class ProcessInfo implements Serializable
 	public File getPDFReport()
 	{
 		return pdfReportFile;
-	}	
+	}
+	
+	/**
+	 * Set report as file
+	 * @param reportAsFile
+	 */
+	public void setReportAsFile(File reportAsFile) {
+		this.reportAsFile = reportAsFile;
+	}
+	
+	/**
+	 * Get Report as File
+	 * @return
+	 */
+	public File getReportAsFile() {
+		return reportAsFile;
+	}
 	
 	/**
 	 * Add parameter

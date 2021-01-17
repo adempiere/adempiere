@@ -23,8 +23,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
@@ -63,6 +66,9 @@ import org.eevolution.model.MPPProductBOMLine;
  * 				https://sourceforge.net/tracker/?func=detail&aid=2892578&group_id=176962&atid=879335
  * @author Michael Judd, www.akunagroup.com
  *          <li>BF [ 2804888 ] Incorrect reservation of products with attributes
+ * @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ *		<a href="https://github.com/adempiere/adempiere/issues/1455">
+ * 		@see FR [ 1455 ] Add Sales Region to Order and Invoice</a>
  */
 public class MOrder extends X_C_Order implements DocAction
 {
@@ -382,6 +388,8 @@ public class MOrder extends X_C_Order implements DocAction
 	public static final String		DocSubTypeSO_OnCredit = "WI";
 	/** Sales Order Sub Type - RM	*/
 	public static final String		DocSubTypeSO_RMA = "RM";
+	/** Pre-Invoiced Sub Type - PI	*/
+	public static final String		DocSubTypeSO_InvoiceOrder = "IO";
 
 	/**
 	 * 	Set Target Sales Document Type
@@ -476,8 +484,9 @@ public class MOrder extends X_C_Order implements DocAction
 		ii = bp.getSalesRep_ID();
 		if (ii != 0)
 			setSalesRep_ID(ii);
-
-
+		
+		//	Discount
+		setIsDiscountPrinted(bp.isDiscountPrinted());
 		//	Set Locations
 		MBPartnerLocation[] locs = bp.getLocations(false);
 		if (locs != null)
@@ -679,7 +688,7 @@ public class MOrder extends X_C_Order implements DocAction
 	 */
 	public MOrderLine[] getLines (boolean requery, String orderBy)
 	{
-		if (m_lines != null && !requery) {
+		if (m_lines != null && m_lines.length > 0 && !requery) {
 			set_TrxName(m_lines, get_TrxName());
 			return m_lines;
 		}
@@ -978,12 +987,50 @@ public class MOrder extends X_C_Order implements DocAction
 				setC_Currency_ID(Env.getContextAsInt(getCtx(), "#C_Currency_ID"));
 		}
 
+		//	Set sales region
+		if(getC_SalesRegion_ID() == 0) {
+			int salesRegionId = 0;
+			if(getC_BPartner_Location_ID() != 0) {
+				MBPartnerLocation shipLocation = (MBPartnerLocation) getC_BPartner_Location();
+				if(shipLocation.getC_SalesRegion_ID() != 0) {
+					salesRegionId = shipLocation.getC_SalesRegion_ID();
+				}
+			}
+			if(getBill_Location_ID() != 0) {
+				MBPartnerLocation shiLocation = (MBPartnerLocation) getBill_Location();
+				if(shiLocation.getC_SalesRegion_ID() != 0) {
+					salesRegionId = shiLocation.getC_SalesRegion_ID();
+				}
+			}
+			//	Set Sales Region
+			if(salesRegionId != 0) {
+				setC_SalesRegion_ID(salesRegionId);
+			}
+		}
+		
 		//	Default Sales Rep
-		if (getSalesRep_ID() == 0)
-		{
-			int ii = Env.getContextAsInt(getCtx(), "#SalesRep_ID");
-			if (ii != 0)
-				setSalesRep_ID (ii);
+		if (getSalesRep_ID() == 0) {
+			int salesRepresentativeId = 0;
+			MBPartner businessPartner = (MBPartner) getC_BPartner();
+			if(businessPartner.getSalesRep_ID() != 0) {
+				salesRepresentativeId = businessPartner.getSalesRep_ID();
+			}
+			//	for Sales Region
+			if(salesRepresentativeId == 0) {
+				if(getC_SalesRegion_ID() != 0) {
+					MSalesRegion salesRegion = MSalesRegion.getById(getCtx(), getC_SalesRegion_ID(), get_TrxName());
+					if(salesRegion.getSalesRep_ID() != 0) {
+						salesRepresentativeId = salesRegion.getSalesRep_ID();
+					}
+				}
+			}
+			//	
+			if(salesRepresentativeId == 0) {
+				salesRepresentativeId = Env.getContextAsInt(getCtx(), "#SalesRep_ID");
+			}
+			if(salesRepresentativeId != 0) {
+				setSalesRep_ID(salesRepresentativeId);
+			}
 		}
 
 		//	Default Document Type
@@ -1004,7 +1051,6 @@ public class MOrder extends X_C_Order implements DocAction
 					setC_PaymentTerm_ID (ii);
 			}
 		}
-		
 		return true;
 	}	//	beforeSave
 	
@@ -1150,6 +1196,22 @@ public class MOrder extends X_C_Order implements DocAction
 		return true;
 	}	//	invalidateIt
 	
+	/**
+	 * Verify if this order is a Return Material Authorization
+	 * @return
+	 */
+	public boolean isReturnOrder() {
+		//	Validate RMA
+		MDocType documentType = MDocType.get(getCtx(), getC_DocTypeTarget_ID());
+		if(getC_DocTypeTarget_ID() != 0) {
+			if(!Util.isEmpty(documentType.getDocSubTypeSO())
+					&& documentType.getDocSubTypeSO().equals(MDocType.DOCSUBTYPESO_ReturnMaterial)) {
+				return true;
+			}
+		}
+		//	Default order
+		return false;
+	}
 	
 	/**************************************************************************
 	 *	Prepare Document
@@ -1161,10 +1223,10 @@ public class MOrder extends X_C_Order implements DocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_PREPARE);
 		if (m_processMsg != null)
 			return DocAction.STATUS_Invalid;
-		MDocType dt = MDocType.get(getCtx(), getC_DocTypeTarget_ID());
+		MDocType documentType = MDocType.get(getCtx(), getC_DocTypeTarget_ID());
 
 		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getDateAcct(), dt.getDocBaseType(), getAD_Org_ID()))
+		if (!MPeriod.isOpen(getCtx(), getDateAcct(), documentType.getDocBaseType(), getAD_Org_ID()))
 		{
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
@@ -1177,7 +1239,15 @@ public class MOrder extends X_C_Order implements DocAction
 			m_processMsg = "@NoLines@";
 			return DocAction.STATUS_Invalid;
 		}
-		
+		//	Validate RMA
+		if(isReturnOrder()) {
+			setDeliveryRule(DELIVERYRULE_Force);
+			if(getC_POS_ID() != 0) {
+				setInvoiceRule(INVOICERULE_Immediate);
+			} else {
+				setInvoiceRule(INVOICERULE_AfterDelivery);
+			}
+		}
 		// Bug 1564431
 		if (getDeliveryRule() != null && getDeliveryRule().equals(MOrder.DELIVERYRULE_CompleteOrder)) 
 		{
@@ -1201,7 +1271,7 @@ public class MOrder extends X_C_Order implements DocAction
 			{
 				MDocType dtOld = MDocType.get(getCtx(), getC_DocType_ID());
 				if (MDocType.DOCSUBTYPESO_StandardOrder.equals(dtOld.getDocSubTypeSO())		//	From SO
-					&& !MDocType.DOCSUBTYPESO_StandardOrder.equals(dt.getDocSubTypeSO()))	//	To !SO
+					&& !MDocType.DOCSUBTYPESO_StandardOrder.equals(documentType.getDocSubTypeSO()))	//	To !SO
 				{
 					for (int i = 0; i < lines.length; i++)
 					{
@@ -1225,7 +1295,7 @@ public class MOrder extends X_C_Order implements DocAction
 			}
 			else	//	convert only if offer
 			{
-				if (dt.isOffer())
+				if (documentType.isOffer())
 					setC_DocType_ID(getC_DocTypeTarget_ID());
 				else
 				{
@@ -1238,7 +1308,7 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Lines
 		if (explodeBOM())
 			lines = getLines(true, MOrderLine.COLUMNNAME_M_Product_ID);
-		if (!reserveStock(dt, lines))
+		if (!reserveStock(documentType, lines))
 		{
 			m_processMsg = "Cannot reserve Stock";
 			return DocAction.STATUS_Invalid;
@@ -1252,14 +1322,14 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Credit Check
 		if (isSOTrx())
 		{
-			if (   MDocType.DOCSUBTYPESO_POSOrder.equals(dt.getDocSubTypeSO())
+			if (   MDocType.DOCSUBTYPESO_POSOrder.equals(documentType.getDocSubTypeSO())
 					&& PAYMENTRULE_Cash.equals(getPaymentRule())
 					&& !MSysConfig.getBooleanValue("CHECK_CREDIT_ON_CASH_POS_ORDER", true, getAD_Client_ID(), getAD_Org_ID())) {
 				// ignore -- don't validate for Cash POS Orders depending on sysconfig parameter
-			} else if (MDocType.DOCSUBTYPESO_PrepayOrder.equals(dt.getDocSubTypeSO())
+			} else if (MDocType.DOCSUBTYPESO_PrepayOrder.equals(documentType.getDocSubTypeSO())
 					&& !MSysConfig.getBooleanValue("CHECK_CREDIT_ON_PREPAY_ORDER", true, getAD_Client_ID(), getAD_Org_ID())) {
 				// ignore -- don't validate Prepay Orders depending on sysconfig parameter
-			} else if (MDocType.DOCSUBTYPESO_Proposal.equals(dt.getDocSubTypeSO())
+			} else if (MDocType.DOCSUBTYPESO_Proposal.equals(documentType.getDocSubTypeSO())
 					&& !MSysConfig.getBooleanValue("CHECK_CREDIT_ON_PROPOSAL", true, getAD_Client_ID(), getAD_Org_ID())) {
 						// ignore -- don't validate Prepay Orders depending on sysconfig parameter
 			} else {
@@ -1421,7 +1491,7 @@ public class MOrder extends X_C_Order implements DocAction
 			dt = MDocType.get(getCtx(), getC_DocType_ID());
 
 		//	Binding
-		boolean binding = !dt.isProposal();
+		boolean binding = !dt.isProposal() && !isReturnOrder();
 		//	Not binding - i.e. Target=0
 		if (DOCACTION_Void.equals(getDocAction())
 			//	Closing Binding Quotation
@@ -1531,80 +1601,61 @@ public class MOrder extends X_C_Order implements DocAction
 	 * 	Calculate Tax and Total
 	 * 	@return true if tax total calculated
 	 */
-	public boolean calculateTaxTotal()
-	{
+	public boolean calculateTaxTotal() {
 		log.fine("");
 		//	Delete Taxes
 		DB.executeUpdateEx("DELETE C_OrderTax WHERE C_Order_ID=" + getC_Order_ID(), get_TrxName());
 		m_taxes = null;
-		
+
 		//	Lines
-		BigDecimal totalLines = Env.ZERO;
-		ArrayList<Integer> taxList = new ArrayList<Integer>();
-		MOrderLine[] lines = getLines();
-		for (int i = 0; i < lines.length; i++)
-		{
-			MOrderLine line = lines[i];
-			Integer taxID = new Integer(line.getC_Tax_ID());
-			if (!taxList.contains(taxID))
-			{
-				MOrderTax oTax = MOrderTax.get (line, getPrecision(), 
-					false, get_TrxName());	//	current Tax
-				oTax.setIsTaxIncluded(isTaxIncluded());
-				if (!oTax.calculateTaxFromLines())
-					return false;
-				if (!oTax.save(get_TrxName()))
-					return false;
-				taxList.add(taxID);
-			}
-			totalLines = totalLines.add(line.getLineNetAmt());
-		}
-		
-		//	Taxes
-		BigDecimal grandTotal = totalLines;
-		MOrderTax[] taxes = getTaxes(true);
-		for (int i = 0; i < taxes.length; i++)
-		{
-			MOrderTax oTax = taxes[i];
-			MTax tax = oTax.getTax();
-			if (tax.isSummary())
-			{
-				MTax[] cTaxes = tax.getChildTaxes(false);
-				for (int j = 0; j < cTaxes.length; j++)
-				{
-					MTax cTax = cTaxes[j];
-					BigDecimal taxAmt = cTax.calculateTax(oTax.getTaxBaseAmt(), isTaxIncluded(), getPrecision());
-					//
-					MOrderTax newOTax = new MOrderTax(getCtx(), 0, get_TrxName());
-					newOTax.setClientOrg(this);
-					newOTax.setC_Order_ID(getC_Order_ID());
-					newOTax.setC_Tax_ID(cTax.getC_Tax_ID());
-					newOTax.setPrecision(getPrecision());
-					newOTax.setIsTaxIncluded(isTaxIncluded());
-					newOTax.setTaxBaseAmt(oTax.getTaxBaseAmt());
-					newOTax.setTaxAmt(taxAmt);
-					if (!newOTax.save(get_TrxName()))
+		AtomicReference<BigDecimal> totalLines = new AtomicReference<>(Env.ZERO);
+		ArrayList<Integer> taxList = new ArrayList<>();
+		MOrderLine[] orderLines = getLines();
+		for (MOrderLine orderLine : orderLines) {
+			if (!taxList.contains(orderLine.getC_Tax_ID())) {
+				Optional<MOrderTax> maybeOrderTax = Optional.ofNullable(MOrderTax.get(orderLine, getPrecision(), false, get_TrxName()));//	current Tax
+				if (maybeOrderTax.isPresent()) {
+					MOrderTax orderTax = maybeOrderTax.get();
+					orderTax.setIsTaxIncluded(isTaxIncluded());
+					if (!orderTax.calculateTaxFromLines())
 						return false;
-					//
-					if (!isTaxIncluded())
-						grandTotal = grandTotal.add(taxAmt);
+					orderTax.saveEx();
+					taxList.add(orderLine.getC_Tax_ID());
 				}
-				if (!oTax.delete(true, get_TrxName()))
-					return false;
-				if (!oTax.save(get_TrxName()))
-					return false;
 			}
-			else
-			{
-				if (!isTaxIncluded())
-					grandTotal = grandTotal.add(oTax.getTaxAmt());
-			}
-		}		
-		//
-		setTotalLines(totalLines);
-		setGrandTotal(grandTotal);
+			totalLines.getAndUpdate(total -> total.add(orderLine.getLineNetAmt()));
+		}
+		//	Taxes
+		AtomicReference<BigDecimal> grandTotal = new AtomicReference<>(totalLines.get());
+		Arrays.stream(getTaxes(true))
+				.forEach(orderTax -> {
+					MTax tax = orderTax.getTax();
+					if (tax.isSummary()) {
+						Arrays.stream(tax.getChildTaxes(false)).forEach(childrenTax -> {
+							BigDecimal taxAmount = childrenTax.calculateTax(orderTax.getTaxBaseAmt(), isTaxIncluded(), getPrecision());
+							MOrderTax newOrderTax = new MOrderTax(getCtx(), 0, get_TrxName());
+							newOrderTax.setClientOrg(this);
+							newOrderTax.setC_Order_ID(getC_Order_ID());
+							newOrderTax.setC_Tax_ID(childrenTax.getC_Tax_ID());
+							newOrderTax.setPrecision(getPrecision());
+							newOrderTax.setIsTaxIncluded(isTaxIncluded());
+							newOrderTax.setTaxBaseAmt(orderTax.getTaxBaseAmt());
+							newOrderTax.setTaxAmt(taxAmount);
+							newOrderTax.saveEx();
+							if (!isTaxIncluded())
+								grandTotal.getAndUpdate(total -> total.add(taxAmount));
+						});
+						orderTax.deleteEx(true);
+						orderTax.saveEx();
+					} else {
+						if (!isTaxIncluded())
+							grandTotal.getAndUpdate(total -> total.add(orderTax.getTaxAmt()));
+					}
+				});
+		setTotalLines(totalLines.get());
+		setGrandTotal(grandTotal.get());
 		return true;
-	}	//	calculateTaxTotal
+	}    //	calculateTaxTotal
 	
 	
 	/**
@@ -1716,8 +1767,8 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Create SO Invoice - Always invoice complete Order
 		if ( MDocType.DOCSUBTYPESO_POSOrder.equals(DocSubTypeSO)
 			|| MDocType.DOCSUBTYPESO_OnCreditOrder.equals(DocSubTypeSO) 	
-			|| MDocType.DOCSUBTYPESO_PrepayOrder.equals(DocSubTypeSO)) 
-		{
+			|| MDocType.DOCSUBTYPESO_PrepayOrder.equals(DocSubTypeSO)
+			|| MDocType.DOCSUBTYPESO_InvoiceOrder.equals(DocSubTypeSO)) {
 			MInvoice invoice = createInvoice (dt, shipment, realTimePOS ? null : getDateOrdered());
 			if (invoice == null)
 				return DocAction.STATUS_Invalid;

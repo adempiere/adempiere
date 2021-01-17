@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_SalesRegion
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_SalesRegion extends PO implements I_C_SalesRegion, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_SalesRegion (Properties ctx, int C_SalesRegion_ID, String trxName)
@@ -186,6 +186,34 @@ public class X_C_SalesRegion extends PO implements I_C_SalesRegion, I_Persistent
     {
         return new KeyNamePair(get_ID(), getName());
     }
+
+	public org.compiere.model.I_C_SalesRegion getParentSalesRegion() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_SalesRegion)MTable.get(getCtx(), org.compiere.model.I_C_SalesRegion.Table_Name)
+			.getPO(getParentSalesRegion_ID(), get_TrxName());	}
+
+	/** Set Parent Sales Region.
+		@param ParentSalesRegion_ID 
+		The parent (summary) Sales Region
+	  */
+	public void setParentSalesRegion_ID (int ParentSalesRegion_ID)
+	{
+		if (ParentSalesRegion_ID < 1) 
+			set_Value (COLUMNNAME_ParentSalesRegion_ID, null);
+		else 
+			set_Value (COLUMNNAME_ParentSalesRegion_ID, Integer.valueOf(ParentSalesRegion_ID));
+	}
+
+	/** Get Parent Sales Region.
+		@return The parent (summary) Sales Region
+	  */
+	public int getParentSalesRegion_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_ParentSalesRegion_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException
     {

@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for HR_LeaveTypeCombination
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_HR_LeaveTypeCombination extends PO implements I_HR_LeaveTypeCombination, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_LeaveTypeCombination (Properties ctx, int HR_LeaveTypeCombination_ID, String trxName)
@@ -78,9 +78,9 @@ public class X_HR_LeaveTypeCombination extends PO implements I_HR_LeaveTypeCombi
 		return (org.eevolution.model.I_HR_LeaveType)MTable.get(getCtx(), org.eevolution.model.I_HR_LeaveType.Table_Name)
 			.getPO(getAllowedLeaveType_ID(), get_TrxName());	}
 
-	/** Set Allow  Leave with.
+	/** Set Allow Leave with.
 		@param AllowedLeaveType_ID 
-		Allow  Leave with
+		Allow Leave with
 	  */
 	public void setAllowedLeaveType_ID (int AllowedLeaveType_ID)
 	{
@@ -90,8 +90,8 @@ public class X_HR_LeaveTypeCombination extends PO implements I_HR_LeaveTypeCombi
 			set_Value (COLUMNNAME_AllowedLeaveType_ID, Integer.valueOf(AllowedLeaveType_ID));
 	}
 
-	/** Get Allow  Leave with.
-		@return Allow  Leave with
+	/** Get Allow Leave with.
+		@return Allow Leave with
 	  */
 	public int getAllowedLeaveType_ID () 
 	{

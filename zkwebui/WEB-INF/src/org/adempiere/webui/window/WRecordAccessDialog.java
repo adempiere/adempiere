@@ -158,13 +158,13 @@ public class WRecordAccessDialog extends Window implements EventListener
 	 */
 	private void jbInit() throws Exception
 	{
-		bDelete.setImage("/images/Delete16.png");
+		bDelete.setImage("/images/dark/Delete16.png");
 		bDelete.setTooltiptext(Msg.getMsg(Env.getCtx(), "Delete"));
-		bNew.setImage("/images/New16.png");
+		bNew.setImage("/images/dark/New16.png");
 		bNew.setTooltiptext(Msg.getMsg(Env.getCtx(), "New"));
-		bUp.setImage("/images/Previous16.png");
+		bUp.setImage("/images/dark/Previous16.png");
 		bUp.setTooltiptext(Msg.getMsg(Env.getCtx(), "Previous"));
-		bDown.setImage("/images/Next16.png");
+		bDown.setImage("/images/dark/Next16.png");
 		bDown.setTooltiptext(Msg.getMsg(Env.getCtx(), "Next"));
 		
 		cbActive.setText(Msg.translate(Env.getCtx(), "IsActive"));

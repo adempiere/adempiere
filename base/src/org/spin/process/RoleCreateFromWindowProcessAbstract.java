@@ -21,7 +21,7 @@ import org.compiere.process.SvrProcess;
 
 /** Generated Process for (Create Process Access from Windows)
  *  @author ADempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public abstract class RoleCreateFromWindowProcessAbstract extends SvrProcess {
 	/** Process Value 	*/

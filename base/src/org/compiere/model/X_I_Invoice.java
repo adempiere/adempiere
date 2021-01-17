@@ -25,14 +25,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for I_Invoice
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_I_Invoice (Properties ctx, int I_Invoice_ID, String trxName)
@@ -1107,6 +1107,20 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		return bd;
 	}
 
+	/** Set Price List Name.
+		@param PriceListName Price List Name	  */
+	public void setPriceListName (String PriceListName)
+	{
+		set_Value (COLUMNNAME_PriceListName, PriceListName);
+	}
+
+	/** Get Price List Name.
+		@return Price List Name	  */
+	public String getPriceListName () 
+	{
+		return (String)get_Value(COLUMNNAME_PriceListName);
+	}
+
 	/** Set Processed.
 		@param Processed 
 		The document has been processed
@@ -1266,6 +1280,20 @@ public class X_I_Invoice extends PO implements I_I_Invoice, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Sales Representative.
+		@param SalesRep_Name Sales Representative	  */
+	public void setSalesRep_Name (String SalesRep_Name)
+	{
+		set_Value (COLUMNNAME_SalesRep_Name, SalesRep_Name);
+	}
+
+	/** Get Sales Representative.
+		@return Sales Representative	  */
+	public String getSalesRep_Name () 
+	{
+		return (String)get_Value(COLUMNNAME_SalesRep_Name);
 	}
 
 	/** Set Tax Amount.

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add some views for Storage Detail" ReleaseNo="3.9.3" SeqNo="5250">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="361" Action="U" Record_ID="135" Table="AD_ReportView">
+        <Data AD_Column_ID="78517" Column="PrintName" isOldNull="true">Storage Detail</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="54060" Action="U" Record_ID="0" Table="AD_ReportView_Trl">
+        <Data AD_Column_ID="78527" Column="PrintName" isOldNull="true">Detalle de Almacenamiento</Data>
+        <Data AD_Column_ID="78528" Column="Name" oldValue="RV_Storage">Detalle de Almacenamiento</Data>
+        <Data AD_Column_ID="78526" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="78525" Column="AD_ReportView_ID" oldValue="135">135</Data>
+        <Data AD_Column_ID="84407" Column="UUID" isOldNull="true">7c51b1b8-d30e-11e9-bc2d-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="361" Action="I" Record_ID="53305" Table="AD_ReportView">
+        <Data AD_Column_ID="4388" Column="Created">2019-09-09 10:32:15.16</Data>
+        <Data AD_Column_ID="4394" Column="AD_Table_ID">630</Data>
+        <Data AD_Column_ID="84405" Column="UUID">9ea301ea-d30e-11e9-bc2d-0242ac110002</Data>
+        <Data AD_Column_ID="85531" Column="Classname" isNewNull="true"/>
+        <Data AD_Column_ID="4387" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4390" Column="Updated">2019-09-09 10:32:15.16</Data>
+        <Data AD_Column_ID="4384" Column="AD_ReportView_ID">53305</Data>
+        <Data AD_Column_ID="4395" Column="WhereClause">RV_Storage.QtyOnHand &lt;&gt; 0</Data>
+        <Data AD_Column_ID="4396" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="4393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="4392" Column="Name">RV_Storage only Stock</Data>
+        <Data AD_Column_ID="78517" Column="PrintName">Storage Detail Only Stock</Data>
+        <Data AD_Column_ID="78535" Column="IsCentrallyMaintained">false</Data>
+        <Data AD_Column_ID="4385" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="10032" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="4386" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="4389" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4391" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="54060" Action="I" Record_ID="0" Table="AD_ReportView_Trl">
+        <Data AD_Column_ID="78520" Column="IsActive">true</Data>
+        <Data AD_Column_ID="78521" Column="Created">2019-09-09 10:32:15.814</Data>
+        <Data AD_Column_ID="78522" Column="Updated">2019-09-09 10:32:15.814</Data>
+        <Data AD_Column_ID="78527" Column="PrintName">Sólo Existencia</Data>
+        <Data AD_Column_ID="78528" Column="Name">Sólo Existencia</Data>
+        <Data AD_Column_ID="78529" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="78534" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="78518" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="78519" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="78523" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="78524" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="78526" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="78525" Column="AD_ReportView_ID">53305</Data>
+        <Data AD_Column_ID="84407" Column="UUID">9ec3feae-d30e-11e9-bc2d-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="54060" Action="U" Record_ID="0" Table="AD_ReportView_Trl">
+        <Data AD_Column_ID="78527" Column="PrintName" oldValue="Storage Detail Only Stock">Sólo Existencia</Data>
+        <Data AD_Column_ID="78528" Column="Name" oldValue="RV_Storage only Stock">Solo Existencia</Data>
+        <Data AD_Column_ID="78526" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="78525" Column="AD_ReportView_ID" oldValue="53305">53305</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="361" Action="U" Record_ID="53305" Table="AD_ReportView">
+        <Data AD_Column_ID="78517" Column="PrintName" oldValue="Storage Detail Only Stock">Only Stock</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="361" Action="I" Record_ID="53306" Table="AD_ReportView">
+        <Data AD_Column_ID="4388" Column="Created">2019-09-09 10:33:42.292</Data>
+        <Data AD_Column_ID="85531" Column="Classname" isNewNull="true"/>
+        <Data AD_Column_ID="4387" Column="IsActive">true</Data>
+        <Data AD_Column_ID="4390" Column="Updated">2019-09-09 10:33:42.292</Data>
+        <Data AD_Column_ID="4384" Column="AD_ReportView_ID">53306</Data>
+        <Data AD_Column_ID="4395" Column="WhereClause">RV_Storage.QtyAvailable &lt;&gt; 0</Data>
+        <Data AD_Column_ID="4396" Column="OrderByClause" isNewNull="true"/>
+        <Data AD_Column_ID="4393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="4392" Column="Name">RV_Storage Only Available</Data>
+        <Data AD_Column_ID="78517" Column="PrintName">Only Available</Data>
+        <Data AD_Column_ID="78535" Column="IsCentrallyMaintained">false</Data>
+        <Data AD_Column_ID="4385" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="10032" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="4386" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="4389" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="4391" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="4394" Column="AD_Table_ID">630</Data>
+        <Data AD_Column_ID="84405" Column="UUID">d29409fe-d30e-11e9-bc2d-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="54060" Action="I" Record_ID="0" Table="AD_ReportView_Trl">
+        <Data AD_Column_ID="78525" Column="AD_ReportView_ID">53306</Data>
+        <Data AD_Column_ID="78520" Column="IsActive">true</Data>
+        <Data AD_Column_ID="78521" Column="Created">2019-09-09 10:33:42.946</Data>
+        <Data AD_Column_ID="78522" Column="Updated">2019-09-09 10:33:42.946</Data>
+        <Data AD_Column_ID="78527" Column="PrintName">Only Available</Data>
+        <Data AD_Column_ID="78528" Column="Name">Sólo Disponible</Data>
+        <Data AD_Column_ID="78529" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="78534" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="78518" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="78519" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="78523" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="78524" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="78526" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84407" Column="UUID">d2b3177c-d30e-11e9-bc2d-0242ac110002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="54060" Action="U" Record_ID="0" Table="AD_ReportView_Trl">
+        <Data AD_Column_ID="78527" Column="PrintName" oldValue="Only Available">Sólo Disponible</Data>
+        <Data AD_Column_ID="78526" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="78525" Column="AD_ReportView_ID" oldValue="53306">53306</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

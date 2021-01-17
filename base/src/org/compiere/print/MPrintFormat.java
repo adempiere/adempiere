@@ -185,7 +185,7 @@ public class MPrintFormat extends X_AD_PrintFormat
 	 * 	Get active Items
 	 * 	@return items
 	 */
-	private MPrintFormatItem[] getItems()
+	public MPrintFormatItem[] getItems()
 	{
 		ArrayList<MPrintFormatItem> list = new ArrayList<MPrintFormatItem>();
 		String sql = "SELECT * FROM AD_PrintFormatItem pfi "

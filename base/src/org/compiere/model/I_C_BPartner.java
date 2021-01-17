@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_BPartner 
 {
@@ -145,6 +145,8 @@ public interface I_C_BPartner
 	  */
 	public int getBPartner_Parent_ID();
 
+	public org.compiere.model.I_C_BPartner getBPartner_Parent() throws RuntimeException;
+
     /** Column name Birthday */
     public static final String COLUMNNAME_Birthday = "Birthday";
 
@@ -167,6 +169,21 @@ public interface I_C_BPartner
 	/** Get Blood Group	  */
 	public String getBloodGroup();
 
+    /** Column name C_BP_AccountType_ID */
+    public static final String COLUMNNAME_C_BP_AccountType_ID = "C_BP_AccountType_ID";
+
+	/** Set Account Type.
+	  * Account Type classification for Business Partner
+	  */
+	public void setC_BP_AccountType_ID (int C_BP_AccountType_ID);
+
+	/** Get Account Type.
+	  * Account Type classification for Business Partner
+	  */
+	public int getC_BP_AccountType_ID();
+
+	public org.spin.model.I_C_BP_AccountType getC_BP_AccountType() throws RuntimeException;
+
     /** Column name C_BP_Group_ID */
     public static final String COLUMNNAME_C_BP_Group_ID = "C_BP_Group_ID";
 
@@ -181,6 +198,51 @@ public interface I_C_BPartner
 	public int getC_BP_Group_ID();
 
 	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException;
+
+    /** Column name C_BP_IndustryType_ID */
+    public static final String COLUMNNAME_C_BP_IndustryType_ID = "C_BP_IndustryType_ID";
+
+	/** Set Industry Type.
+	  * Business Partner Industry Type or classification
+	  */
+	public void setC_BP_IndustryType_ID (int C_BP_IndustryType_ID);
+
+	/** Get Industry Type.
+	  * Business Partner Industry Type or classification
+	  */
+	public int getC_BP_IndustryType_ID();
+
+	public org.spin.model.I_C_BP_IndustryType getC_BP_IndustryType() throws RuntimeException;
+
+    /** Column name C_BP_SalesGroup_ID */
+    public static final String COLUMNNAME_C_BP_SalesGroup_ID = "C_BP_SalesGroup_ID";
+
+	/** Set Sales Group.
+	  * Sales Group
+	  */
+	public void setC_BP_SalesGroup_ID (int C_BP_SalesGroup_ID);
+
+	/** Get Sales Group.
+	  * Sales Group
+	  */
+	public int getC_BP_SalesGroup_ID();
+
+	public org.spin.model.I_C_BP_SalesGroup getC_BP_SalesGroup() throws RuntimeException;
+
+    /** Column name C_BP_Segment_ID */
+    public static final String COLUMNNAME_C_BP_Segment_ID = "C_BP_Segment_ID";
+
+	/** Set Segment.
+	  * Business Partner Segment
+	  */
+	public void setC_BP_Segment_ID (int C_BP_Segment_ID);
+
+	/** Get Segment.
+	  * Business Partner Segment
+	  */
+	public int getC_BP_Segment_ID();
+
+	public org.spin.model.I_C_BP_Segment getC_BP_Segment() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";

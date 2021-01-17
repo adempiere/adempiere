@@ -136,7 +136,7 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 	 * @param AD_Table_ID
 	 * @return X_AD_ReplicationDocument Document to replication
 	 */
-	public static X_AD_ReplicationDocument getReplicationDocument(Properties ctx ,int AD_ReplicationStrategy_ID , int AD_Table_ID, int C_DocType_ID)
+	public static MReplicationDocument getReplicationDocument(Properties ctx ,int AD_ReplicationStrategy_ID , int AD_Table_ID, int C_DocType_ID)
 	{
 	    final String whereClause = I_AD_ReplicationDocument.COLUMNNAME_AD_ReplicationStrategy_ID + "=? AND "
 	    						 + I_AD_ReplicationDocument.COLUMNNAME_AD_Table_ID + "=? AND "
@@ -187,5 +187,11 @@ public class MReplicationStrategy extends X_AD_ReplicationStrategy {
 				.setClient_ID()
 				.setParameters(get_ID())
 				.list();
+	}
+
+	@Override
+	public String toString() {
+		return "MReplicationStrategy [getAD_ReplicationStrategy_ID()=" + getAD_ReplicationStrategy_ID() + ", getName()="
+				+ getName() + ", getValue()=" + getValue() + "]";
 	}
 }

@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_BPartner
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_BPartner (Properties ctx, int C_BPartner_ID, String trxName)
@@ -193,6 +193,11 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return bd;
 	}
 
+	public org.compiere.model.I_C_BPartner getBPartner_Parent() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getBPartner_Parent_ID(), get_TrxName());	}
+
 	/** Set Partner Parent.
 		@param BPartner_Parent_ID 
 		Business Partner Parent
@@ -266,6 +271,34 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 		return (String)get_Value(COLUMNNAME_BloodGroup);
 	}
 
+	public org.spin.model.I_C_BP_AccountType getC_BP_AccountType() throws RuntimeException
+    {
+		return (org.spin.model.I_C_BP_AccountType)MTable.get(getCtx(), org.spin.model.I_C_BP_AccountType.Table_Name)
+			.getPO(getC_BP_AccountType_ID(), get_TrxName());	}
+
+	/** Set Account Type.
+		@param C_BP_AccountType_ID 
+		Account Type classification for Business Partner
+	  */
+	public void setC_BP_AccountType_ID (int C_BP_AccountType_ID)
+	{
+		if (C_BP_AccountType_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_AccountType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_AccountType_ID, Integer.valueOf(C_BP_AccountType_ID));
+	}
+
+	/** Get Account Type.
+		@return Account Type classification for Business Partner
+	  */
+	public int getC_BP_AccountType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_AccountType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_BP_Group getC_BP_Group() throws RuntimeException
     {
 		return (org.compiere.model.I_C_BP_Group)MTable.get(getCtx(), org.compiere.model.I_C_BP_Group.Table_Name)
@@ -289,6 +322,90 @@ public class X_C_BPartner extends PO implements I_C_BPartner, I_Persistent
 	public int getC_BP_Group_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Group_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.spin.model.I_C_BP_IndustryType getC_BP_IndustryType() throws RuntimeException
+    {
+		return (org.spin.model.I_C_BP_IndustryType)MTable.get(getCtx(), org.spin.model.I_C_BP_IndustryType.Table_Name)
+			.getPO(getC_BP_IndustryType_ID(), get_TrxName());	}
+
+	/** Set Industry Type.
+		@param C_BP_IndustryType_ID 
+		Business Partner Industry Type or classification
+	  */
+	public void setC_BP_IndustryType_ID (int C_BP_IndustryType_ID)
+	{
+		if (C_BP_IndustryType_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_IndustryType_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_IndustryType_ID, Integer.valueOf(C_BP_IndustryType_ID));
+	}
+
+	/** Get Industry Type.
+		@return Business Partner Industry Type or classification
+	  */
+	public int getC_BP_IndustryType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_IndustryType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.spin.model.I_C_BP_SalesGroup getC_BP_SalesGroup() throws RuntimeException
+    {
+		return (org.spin.model.I_C_BP_SalesGroup)MTable.get(getCtx(), org.spin.model.I_C_BP_SalesGroup.Table_Name)
+			.getPO(getC_BP_SalesGroup_ID(), get_TrxName());	}
+
+	/** Set Sales Group.
+		@param C_BP_SalesGroup_ID 
+		Sales Group
+	  */
+	public void setC_BP_SalesGroup_ID (int C_BP_SalesGroup_ID)
+	{
+		if (C_BP_SalesGroup_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_SalesGroup_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_SalesGroup_ID, Integer.valueOf(C_BP_SalesGroup_ID));
+	}
+
+	/** Get Sales Group.
+		@return Sales Group
+	  */
+	public int getC_BP_SalesGroup_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_SalesGroup_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.spin.model.I_C_BP_Segment getC_BP_Segment() throws RuntimeException
+    {
+		return (org.spin.model.I_C_BP_Segment)MTable.get(getCtx(), org.spin.model.I_C_BP_Segment.Table_Name)
+			.getPO(getC_BP_Segment_ID(), get_TrxName());	}
+
+	/** Set Segment.
+		@param C_BP_Segment_ID 
+		Business Partner Segment
+	  */
+	public void setC_BP_Segment_ID (int C_BP_Segment_ID)
+	{
+		if (C_BP_Segment_ID < 1) 
+			set_Value (COLUMNNAME_C_BP_Segment_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BP_Segment_ID, Integer.valueOf(C_BP_Segment_ID));
+	}
+
+	/** Get Segment.
+		@return Business Partner Segment
+	  */
+	public int getC_BP_Segment_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BP_Segment_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

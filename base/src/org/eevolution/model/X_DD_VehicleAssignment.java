@@ -23,14 +23,14 @@ import org.compiere.model.*;
 
 /** Generated Model for DD_VehicleAssignment
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_DD_VehicleAssignment extends PO implements I_DD_VehicleAssignment, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_DD_VehicleAssignment (Properties ctx, int DD_VehicleAssignment_ID, String trxName)

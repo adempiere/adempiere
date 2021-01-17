@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_WF_Node
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1 - $Id$ */
+ *  @version Release 3.9.2 - $Id$ */
 public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20181220L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_WF_Node (Properties ctx, int AD_WF_Node_ID, String trxName)
@@ -663,6 +663,16 @@ public class X_AD_WF_Node extends PO implements I_AD_WF_Node, I_Persistent
 	public static final String DYNPRIORITYUNIT_Hour = "H";
 	/** Day = D */
 	public static final String DYNPRIORITYUNIT_Day = "D";
+	/** Biweekly = B */
+	public static final String DYNPRIORITYUNIT_Biweekly = "B";
+	/** Monthly = N */
+	public static final String DYNPRIORITYUNIT_Monthly = "N";
+	/** Quarterly = Q */
+	public static final String DYNPRIORITYUNIT_Quarterly = "Q";
+	/** Weekly = W */
+	public static final String DYNPRIORITYUNIT_Weekly = "W";
+	/** Yearly = Y */
+	public static final String DYNPRIORITYUNIT_Yearly = "Y";
 	/** Set Dynamic Priority Unit.
 		@param DynPriorityUnit 
 		Change of priority when Activity is suspended waiting for user

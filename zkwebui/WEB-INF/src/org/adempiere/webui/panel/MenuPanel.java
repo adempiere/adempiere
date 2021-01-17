@@ -170,6 +170,8 @@ public class MenuPanel extends Panel implements EventListener
                 	treeitem.setImage(ITheme.MENU_PROCESS_IMAGE);
                 else if (mChildNode.isWorkFlow())
                 	treeitem.setImage(ITheme.MENU_WORKFLOW_IMAGE);
+                else if (mChildNode.isBrowse())
+                	treeitem.setImage(ITheme.MENU_BROWSER_IMAGE);
                 else
                 	treeitem.setImage(ITheme.MENU_WINDOW_IMAGE);
                 

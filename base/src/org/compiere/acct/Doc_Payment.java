@@ -37,6 +37,8 @@ import org.compiere.util.Env;
  *  </pre>
  *  @author Jorg Janke
  *  @version  $Id: Doc_Payment.java,v 1.3 2006/07/30 00:53:33 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ *		<li> Add support to unidentified payments
  */
 public class Doc_Payment extends Doc
 {
@@ -52,11 +54,13 @@ public class Doc_Payment extends Doc
 	}	//	Doc_Payment
 	
 	/**	Tender Type				*/
-	private String		m_TenderType = null;
+	private String		tenderType = null;
 	/** Prepayment				*/
-	private boolean		m_Prepayment = false;
+	private boolean		prepayment = false;
+	/** Unidentified			*/
+	private boolean		unidentified = false;
 	/** Bank Account			*/
-	private int			m_C_BankAccount_ID = 0;
+	private int			bankAccountId = 0;
 
 	/**
 	 *  Load Specific Document Details
@@ -66,9 +70,10 @@ public class Doc_Payment extends Doc
 	{
 		MPayment pay = (MPayment)getPO();
 		setDateDoc(pay.getDateTrx());
-		m_TenderType = pay.getTenderType();
-		m_Prepayment = pay.isPrepayment();
-		m_C_BankAccount_ID = pay.getC_BankAccount_ID();
+		tenderType = pay.getTenderType();
+		prepayment = pay.isPrepayment();
+		unidentified = pay.isUnidentifiedPayment();
+		bankAccountId = pay.getC_BankAccount_ID();
 		//	Amount
 		setAmount(Doc.AMTTYPE_Gross, pay.getPayAmt());
 		return null;
@@ -109,7 +114,7 @@ public class Doc_Payment extends Doc
 		//  create Fact Header
 		Fact fact = new Fact(this, as, Fact.POST_Actual);
 		//	Cash Transfer
-		if ("X".equals(m_TenderType) && !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true, getAD_Client_ID()))
+		if ("X".equals(tenderType) && !MSysConfig.getBooleanValue("CASH_AS_PAYMENT", true, getAD_Client_ID()))
 		{
 			ArrayList<Fact> facts = new ArrayList<Fact>();
 			facts.add(fact);
@@ -128,8 +133,10 @@ public class Doc_Payment extends Doc
 			MAccount acct = null;
 			if (getC_Charge_ID() != 0)
 				acct = MCharge.getAccount(getC_Charge_ID(), as, getAmount());
-			else if (m_Prepayment)
+			else if (prepayment)
 				acct = getAccount(Doc.ACCTTYPE_C_Prepayment, as);
+			else if(unidentified)
+				acct = getAccount(Doc.ACCTTYPE_BankUnidentified, as);
 			else
 				acct = getAccount(Doc.ACCTTYPE_UnallocatedCash, as);
 			fl = fact.createLine(null, acct,
@@ -144,8 +151,10 @@ public class Doc_Payment extends Doc
 			MAccount acct = null;
 			if (getC_Charge_ID() != 0)
 				acct = MCharge.getAccount(getC_Charge_ID(), as, getAmount());
-			else if (m_Prepayment)
+			else if (prepayment)
 				acct = getAccount(Doc.ACCTTYPE_V_Prepayment, as);
+			else if(unidentified)
+				acct = getAccount(Doc.ACCTTYPE_BankUnidentified, as);
 			else
 				acct = getAccount(Doc.ACCTTYPE_PaymentSelect, as);
 			FactLine fl = fact.createLine(null, acct,
@@ -178,10 +187,10 @@ public class Doc_Payment extends Doc
 	 */
 	private int getBank_Org_ID ()
 	{
-		if (m_C_BankAccount_ID == 0)
+		if (bankAccountId == 0)
 			return 0;
 		//
-		MBankAccount ba = MBankAccount.get(getCtx(), m_C_BankAccount_ID);
+		MBankAccount ba = MBankAccount.get(getCtx(), bankAccountId);
 		return ba.getAD_Org_ID();
 	}	//	getBank_Org_ID
 	

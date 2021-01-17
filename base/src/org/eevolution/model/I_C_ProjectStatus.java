@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_ProjectStatus
  *  @author Adempiere (generated) 
- *  @version Release 3.9.1
+ *  @version Release 3.9.2
  */
 public interface I_C_ProjectStatus 
 {
@@ -240,6 +240,19 @@ public interface I_C_ProjectStatus
  lowest number comes first
 	  */
 	public int getSeqNo();
+
+    /** Column name TimeoutDays */
+    public static final String COLUMNNAME_TimeoutDays = "TimeoutDays";
+
+	/** Set Timeout in Days.
+	  * Timeout in Days to change Status automatically
+	  */
+	public void setTimeoutDays (int TimeoutDays);
+
+	/** Get Timeout in Days.
+	  * Timeout in Days to change Status automatically
+	  */
+	public int getTimeoutDays();
 
     /** Column name UUID */
     public static final String COLUMNNAME_UUID = "UUID";
