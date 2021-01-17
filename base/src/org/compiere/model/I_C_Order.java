@@ -50,7 +50,18 @@ public interface I_C_Order
 	public int getAD_Client_ID();
 
     /** Column name AD_Org_ID */
- 
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
 
@@ -65,19 +76,6 @@ public interface I_C_Order
 	public int getAD_OrgTrx_ID();
 
 	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException;
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -415,6 +413,21 @@ public interface I_C_Order
 
 	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
+
     /** Column name ChargeAmt */
     public static final String COLUMNNAME_ChargeAmt = "ChargeAmt";
 
@@ -658,6 +671,19 @@ public interface I_C_Order
 	  */
 	public String getFreightCostRule();
 
+    /** Column name FreightRate */
+    public static final String COLUMNNAME_FreightRate = "FreightRate";
+
+	/** Set Freight Rate.
+	  * Freight Rate of Shipper 
+	  */
+	public void setFreightRate (BigDecimal FreightRate);
+
+	/** Get Freight Rate.
+	  * Freight Rate of Shipper 
+	  */
+	public BigDecimal getFreightRate();
+
     /** Column name GrandTotal */
     public static final String COLUMNNAME_GrandTotal = "GrandTotal";
 
@@ -868,6 +894,21 @@ public interface I_C_Order
 	public int getLink_Order_ID();
 
 	public org.compiere.model.I_C_Order getLink_Order() throws RuntimeException;
+
+    /** Column name M_Freight_ID */
+    public static final String COLUMNNAME_M_Freight_ID = "M_Freight_ID";
+
+	/** Set Freight.
+	  * Freight Rate
+	  */
+	public void setM_Freight_ID (int M_Freight_ID);
+
+	/** Get Freight.
+	  * Freight Rate
+	  */
+	public int getM_Freight_ID();
+
+	public org.compiere.model.I_M_Freight getM_Freight() throws RuntimeException;
 
     /** Column name M_FreightCategory_ID */
     public static final String COLUMNNAME_M_FreightCategory_ID = "M_FreightCategory_ID";

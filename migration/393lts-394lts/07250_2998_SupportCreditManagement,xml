@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="2998_SupportForCreditManagement" ReleaseNo="3.9.4" SeqNo="5551">
+  <Migration EntityType="D" Name="2998_SupportForCreditManagement" ReleaseNo="3.9.4" SeqNo="7250">
+    <Comments>See https://github.com/adempiere/adempiere/pull/2999</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="61284" Table="AD_Element">
         <Data AD_Column_ID="2600" Column="Updated">2020-02-22 21:01:31.079</Data>
         <Data AD_Column_ID="2597" Column="IsActive">true</Data>
         <Data AD_Column_ID="2603" Column="Name">IsApprovedForDelivery</Data>
-        <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2598" Column="Created">2020-02-22 21:01:31.079</Data>
-        <Data AD_Column_ID="2602" Column="ColumnName">IsApprovedForDelivery</Data>
-        <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
         <Data AD_Column_ID="6284" Column="PO_Help" isNewNull="true"/>
         <Data AD_Column_ID="6285" Column="PO_Name" isNewNull="true"/>
-        <Data AD_Column_ID="4299" Column="PrintName">IsApprovedForDelivery</Data>
+        <Data AD_Column_ID="2604" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="6286" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="6283" Column="PO_Description" isNewNull="true"/>
         <Data AD_Column_ID="58589" Column="FieldLength">1</Data>
@@ -25,6 +23,9 @@
         <Data AD_Column_ID="58590" Column="AD_Reference_Value_ID" isNewNull="true"/>
         <Data AD_Column_ID="2601" Column="UpdatedBy">0</Data>
         <Data AD_Column_ID="84316" Column="UUID">3fb9c42c-1ed9-4405-8abf-509fedcb4cd1</Data>
+        <Data AD_Column_ID="2602" Column="ColumnName">Approved For Delivery</Data>
+        <Data AD_Column_ID="4299" Column="PrintName">Approved For Delivery</Data>
+        <Data AD_Column_ID="2605" Column="Help" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="20" StepType="AD">
@@ -35,8 +36,6 @@
         <Data AD_Column_ID="2644" Column="Updated">2020-02-22 21:01:32.769</Data>
         <Data AD_Column_ID="2638" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="6450" Column="PO_Name" isNewNull="true"/>
-        <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
-        <Data AD_Column_ID="2647" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="2649" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="6451" Column="PO_PrintName" isNewNull="true"/>
         <Data AD_Column_ID="6448" Column="PO_Description" isNewNull="true"/>
@@ -48,6 +47,8 @@
         <Data AD_Column_ID="84317" Column="UUID">700e8741-c4db-4535-8a1a-bf7ae1c430e4</Data>
         <Data AD_Column_ID="4300" Column="PrintName">Aprobado para entrega</Data>
         <Data AD_Column_ID="2646" Column="Name">Aprobado para entrega</Data>
+        <Data AD_Column_ID="2647" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="2648" Column="Help" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="30" StepType="AD">
