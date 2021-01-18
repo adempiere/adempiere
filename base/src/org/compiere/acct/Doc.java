@@ -766,7 +766,7 @@ public abstract class Doc
 			return STATUS_PeriodClosed;
 
 		if (isReversed() && IsReverseGenerated() && isReverseWithOriginalAccounting())
-			return generateReverseWithOriginalAccounting();
+			return generateReverseWithOriginalAccounting(m_ass[index]);
 
 		//  createFacts
 		ArrayList<Fact> facts = createFacts (m_ass[index]);
@@ -2505,19 +2505,18 @@ public abstract class Doc
 	 * Generate Reverse using Orginal Accounting
 	 * @return
 	 */
-	private String generateReverseWithOriginalAccounting() {
-		getReversalFactAcct().stream().forEach(factAcct -> {
+	private String generateReverseWithOriginalAccounting(MAcctSchema asch) {
+		getReversalFactAcct(asch).stream().forEach(factAcct -> {
 			MFactAcct reverseFactAcct = new MFactAcct(getPO().getCtx() , 0 , getPO().get_TrxName());
 			PO.copyValues(factAcct, reverseFactAcct);
-			MAcctSchema as = MAcctSchema.get(getCtx(), factAcct.getC_AcctSchema_ID());
 			reverseFactAcct.setAD_Org_ID(factAcct.getAD_Org_ID());
 			reverseFactAcct.setAD_Table_ID(getPO().get_Table_ID());
 			reverseFactAcct.setDateAcct(getDateAcct());
 			reverseFactAcct.setC_Period_ID(getC_Period_ID());
 			reverseFactAcct.setRecord_ID(getPO().get_ID());
 			reverseFactAcct.setQty(factAcct.getQty().negate());
-			FactLine.setSourceAmount(as, reverseFactAcct, factAcct.getAmtSourceDr().negate(), factAcct.getAmtSourceCr().negate());
-			FactLine.setAccountingAmount(as, reverseFactAcct, factAcct.getAmtAcctDr().negate(), factAcct.getAmtAcctCr().negate());
+			FactLine.setSourceAmount(asch, reverseFactAcct, factAcct.getAmtSourceDr().negate(), factAcct.getAmtSourceCr().negate());
+			FactLine.setAccountingAmount(asch, reverseFactAcct, factAcct.getAmtAcctDr().negate(), factAcct.getAmtAcctCr().negate());
 			reverseFactAcct.saveEx();
 		});
 		return STATUS_Posted;
@@ -2527,14 +2526,15 @@ public abstract class Doc
 	 * get Reversal Fact Accounts
 	 * @return
 	 */
-	private List<MFactAcct> getReversalFactAcct()
+	private List<MFactAcct> getReversalFactAcct(MAcctSchema asch)
 	{
 		StringBuilder whereClause = new StringBuilder();
 		whereClause.append(MFactAcct.COLUMNNAME_AD_Table_ID).append("=? AND ");
-		whereClause.append(MFactAcct.COLUMNNAME_Record_ID).append("=?");
+		whereClause.append(MFactAcct.COLUMNNAME_Record_ID).append("=? AND ");
+		whereClause.append(MFactAcct.COLUMNNAME_C_AcctSchema_ID).append("=?");
 		return new Query(getCtx(), MFactAcct.Table_Name , whereClause.toString() , getPO().get_TrxName())
 				.setClient_ID()
-				.setParameters(getPO().get_Table_ID(), getReversalId())
+				.setParameters(getPO().get_Table_ID(), getReversalId(), asch.getC_AcctSchema_ID())
 				.setOrderBy(MFactAcct.COLUMNNAME_Fact_Acct_ID)
 				.list();
 	}
