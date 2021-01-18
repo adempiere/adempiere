@@ -17,6 +17,7 @@ package org.adempiere.process;
 
 import static org.compiere.Adempiere.startup;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
@@ -96,6 +97,13 @@ class IT_ClientAcctProcessor {
 
         }
 
+    }
+
+    private void assertProcessWasSuccessful(ProcessInfo info) {
+    
+        assertFalse(info.isError());
+        assertEquals("OK", info.getSummary());
+    
     }
 
     private Stream<MSysConfig> clientAccountingConfigs(int clientId) {
@@ -233,6 +241,7 @@ class IT_ClientAcctProcessor {
         String sql = "DELETE AD_PInstance_Log "
                 + "WHERE AD_PInstance_ID=" + instanceId;
         DB.executeUpdateEx(sql, null);
+        resetClientAccounting();
 
     }
 
@@ -284,7 +293,7 @@ class IT_ClientAcctProcessor {
         final void whenNoParameters_doItReturnsOk() throws Exception {
 
             ProcessInfo info = process.execute(trxName);
-            assertEquals("OK", info.getSummary());
+            assertProcessWasSuccessful(info);                
 
         }
 
@@ -297,7 +306,7 @@ class IT_ClientAcctProcessor {
                     .withParameter("ANullParameter", null)
                     .withParameter("AnotherNullParameter", null)
                     .execute(trxName);
-            assertEquals("OK", info.getSummary());
+            assertProcessWasSuccessful(info);                
 
         }
 
@@ -309,7 +318,7 @@ class IT_ClientAcctProcessor {
             ProcessInfo info = process
                     .withParameter("AnUnknownParameter", "someValue")
                     .execute(trxName);
-            assertEquals("OK", info.getSummary());
+            assertProcessWasSuccessful(info);                
 
         }
 
@@ -332,7 +341,7 @@ class IT_ClientAcctProcessor {
             final void whenPassedSchema_processSucceeds() {
 
                 ProcessInfo info = process.execute(trxName);
-                assertEquals("OK", info.getSummary());
+                assertProcessWasSuccessful(info);                
 
             }
 
@@ -360,7 +369,7 @@ class IT_ClientAcctProcessor {
                     throws Exception {
 
                 ProcessInfo info = process.execute(trxName);
-                assertEquals("OK", info.getSummary());
+                assertProcessWasSuccessful(info);                
 
             }
 
@@ -389,7 +398,7 @@ class IT_ClientAcctProcessor {
             final void whenPassedATable_processSucceeds() throws Exception {
 
                 ProcessInfo info = process.execute(trxName);
-                assertEquals("OK", info.getSummary());
+                assertProcessWasSuccessful(info);                
                 assertNoUnpostedDocuments(tableId);
 
             }
@@ -413,7 +422,8 @@ class IT_ClientAcctProcessor {
             final void WhenProcessIsRunThenAllDocumentShouldBePosted()
                     throws Exception {
 
-                process.execute(trxName);
+                ProcessInfo info = process.execute(trxName);
+                assertProcessWasSuccessful(info);                
                 assertNoUnpostedDocuments();
 
             }
