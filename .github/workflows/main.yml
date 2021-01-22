@@ -23,16 +23,12 @@ jobs:
       # Installs the latest version of Ant
       - name: Intall latest version of Ant
         run: |
-          wget --no-check-certificate https://www.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.tar.gz
-          tar -xzvf apache-ant-1.10.9-bin.tar.gz
-          export ANT_HOME=`pwd`/apache-ant-1.10.9
-          export PATH=${ANT_HOME}/bin:$PATH
+          apt update
+          apt upgrade ant
           echo '*************************'
           echo $ANT_HOME
           echo $PATH
           echo $(ant -version)
-          rm /home/runner/.ant/lib
-          cp apache-ant-1.10.9/lib/*.jar /home/runner/.ant/lib
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       # Build ADempiere with ant
