@@ -27,6 +27,7 @@ import java.util.stream.Stream;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.test.CommonGWData;
+import org.adempiere.test.IntegrationTestTag;
 import org.compiere.acct.Doc;
 import org.compiere.model.I_AD_SysConfig;
 import org.compiere.model.MAcctSchema;
@@ -52,7 +53,7 @@ import org.junit.jupiter.api.Test;
 @Tag("Accounting")
 @Tag("ClientAcctProcessor")
 @DisplayName("Given the GardenWorld client and the ClientAcctProcessor")
-class IT_ClientAcctProcessor {
+class IT_ClientAcctProcessor implements IntegrationTestTag {
 
     // Can't use the CommonGWSetup as the TrxName can't be maintained
     // throughout all tests

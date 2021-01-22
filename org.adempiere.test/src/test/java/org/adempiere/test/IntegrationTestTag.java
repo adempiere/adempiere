@@ -18,6 +18,6 @@ package org.adempiere.test;
 import org.junit.jupiter.api.Tag;
 
 @Tag("IntegrationTest")
-interface IntegrationTestTag {
+public interface IntegrationTestTag {
 
 }
