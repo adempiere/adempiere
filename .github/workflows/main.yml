@@ -25,9 +25,18 @@ jobs:
       # Build ADempiere with ant
       - name: Build Adempiere ...
         run: |
-           echo $GITHUB_REF
-           echo $GITHUB_HEAD_REF
-           echo $GITHUB_BASE_REF
-           echo ${{ github.ref }}
-           cd utils_dev
-           ant complete
+          echo $GITHUB_REF
+          echo $GITHUB_HEAD_REF
+          echo $GITHUB_BASE_REF
+          echo ${{ github.ref }}
+          echo "Current ant version: $(ant -version)"
+          echo "Installing ant version 1.10.9"
+          wget --no-check-certificate https://www.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.tar.gz
+          tar -xzf apache-ant-1.10.9-bin.tar.gz
+          export ANT_HOME=`pwd`/apache-ant-1.10.9
+          export PATH=${ANT_HOME}/bin:$PATH
+          echo $ANT_HOME
+          echo $PATH
+          echo $(ant -version)
+          cd utils_dev
+          ant complete

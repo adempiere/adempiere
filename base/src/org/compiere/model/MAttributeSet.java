@@ -86,11 +86,24 @@ public class MAttributeSet extends X_M_AttributeSet
 	 */
 	public static MAttributeSet get (Properties ctx, int M_AttributeSet_ID)
 	{
+	    return get(ctx, M_AttributeSet_ID, null);
+	}
+	
+   /**
+     *  Get MAttributeSet from Cache
+     *  @param ctx context
+     *  @param M_AttributeSet_ID id
+     *  @param trxName the Transaction name
+     *  @return MAttributeSet
+     */
+    public static MAttributeSet get (Properties ctx, int M_AttributeSet_ID, String trxName)
+    {
+
 		Integer key = new Integer (M_AttributeSet_ID);
 		MAttributeSet retValue = (MAttributeSet) s_cache.get (key);
 		if (retValue != null)
 			return retValue;
-		retValue = new MAttributeSet (ctx, M_AttributeSet_ID, null);
+		retValue = new MAttributeSet (ctx, M_AttributeSet_ID, trxName);
 		if (retValue.get_ID () != 0)
 			s_cache.put (key, retValue);
 		return retValue;

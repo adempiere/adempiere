@@ -459,7 +459,7 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 		//	Calculations & Rounding
 		BigDecimal lineNetAmount = null;
 		if(getM_Product_ID() != 0) {
-			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
+			MProduct product = MProduct.get(getCtx(), getM_Product_ID(), get_TrxName());
 			if(product.getC_UOM_ID() != getC_UOM_ID()
 					&& getPriceEntered() != null && !getPriceEntered().equals(Env.ZERO)
 					&& getQtyEntered() != null && !getQtyEntered().equals(Env.ZERO)) {
