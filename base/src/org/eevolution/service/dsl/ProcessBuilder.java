@@ -49,7 +49,7 @@ import org.compiere.util.Util;
  */
 public class ProcessBuilder {
 
-    static private ProcessBuilder processBuilder;
+    private ProcessBuilder thisBuilder;
     private Properties context;
     private ProcessInfo processInfo;
     private String title;
@@ -87,6 +87,7 @@ public class ProcessBuilder {
         this.parent = null;
         this.selectedRecordsIds = new ArrayList<>();
         this.tableSelectionId = 0;
+        this.thisBuilder = this;
     }
 
     /**
@@ -95,8 +96,7 @@ public class ProcessBuilder {
      * @return
      */
     public static ProcessBuilder create(Properties context) {
-        processBuilder = new ProcessBuilder(context);
-        return processBuilder;
+        return new ProcessBuilder(context);
     }
 
 
@@ -265,7 +265,7 @@ public class ProcessBuilder {
         try {
             Trx.run(trxName -> {
                 generateProcessInfo(trxName);
-                processBuilder.run(trxName);
+                thisBuilder.run(trxName);
                 if (processInfo.isError())
                     throw new AdempiereException("@ProcessRunError@ @Error@ " + processInfo.getSummary());
             });
@@ -299,7 +299,7 @@ public class ProcessBuilder {
             Trx.run(trxName, new TrxRunnable() {
                 public void run(String trxName) {
                     generateProcessInfo(trxName);
-                    processBuilder.run(trxName);
+                    thisBuilder.run(trxName);
                     if (processInfo.isError())
                         throw new AdempiereException("@ProcessRunError@ @Error@ "  + processInfo.getSummary());
                 }

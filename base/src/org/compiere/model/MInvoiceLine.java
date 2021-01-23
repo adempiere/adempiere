@@ -459,7 +459,7 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 		//	Calculations & Rounding
 		BigDecimal lineNetAmount = null;
 		if(getM_Product_ID() != 0) {
-			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
+			MProduct product = MProduct.get(getCtx(), getM_Product_ID(), get_TrxName());
 			if(product.getC_UOM_ID() != getC_UOM_ID()
 					&& getPriceEntered() != null && !getPriceEntered().equals(Env.ZERO)
 					&& getQtyEntered() != null && !getQtyEntered().equals(Env.ZERO)) {
@@ -947,6 +947,32 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 		return no == 1;
 	}	//	updateHeaderTax
 
+	
+	 /**
+     * Retrieves the inOutLine Id associated with the Invoice Line
+     * @return InOut Line ID
+     */
+    public int getInOutLineId() {
+    	int inOutLineId = getM_InOutLine_ID();
+    	//	Validate
+    	if(inOutLineId <= 0) {
+    		if(getParent().isSOTrx()) {
+    			inOutLineId = DB.getSQLValue(get_TrxName(), 
+    					"SELECT il.M_InOutLine_ID "
+    					+ "FROM M_InOutLine il "
+    					+ "WHERE il.C_OrderLine_ID = ? "
+    					+ "AND EXISTS(SELECT 1 FROM "
+    					+ "						M_InOut i "
+    					+ "						WHERE i.M_InOut_ID = il.M_InOut_ID "
+    					+ "						AND i.DocStatus IN('CO', 'CL'))", getC_OrderLine_ID());
+    		}
+        	//	
+        	if(inOutLineId == -1) {
+        		inOutLineId = 0;
+        	}
+    	}
+    	return inOutLineId;
+    }
 
 	/**************************************************************************
 	 * 	Allocate Landed Costs
@@ -965,9 +991,6 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 			getParent().setPosted(false);
 			getParent().saveEx();
 		}
-		MLandedCost[] lcs = MLandedCost.getLandedCosts(this);
-		if (lcs.length == 0)
-			return "";
 
 		String sql = "DELETE M_CostDetail WHERE C_landedcostallocation_ID in " +
 				"(select c_landedCostAllocation_ID from c_landedcostAllocation where c_invoiceline_ID=" + getC_InvoiceLine_ID() + ")";
@@ -979,6 +1002,10 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 		if (no != 0)
 			log.info("Deleted #" + no);
 
+		MLandedCost[] lcs = MLandedCost.getLandedCosts(this);
+		if (lcs.length == 0)
+			return "";
+		
 		int inserted = 0;
 		//	*** Single Criteria ***
 		if (lcs.length == 1)

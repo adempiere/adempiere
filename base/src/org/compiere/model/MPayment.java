@@ -1365,153 +1365,6 @@ public final class MPayment extends X_C_Payment
 	//		setDocumentNo(null);
 		super.setC_DocType_ID(C_DocType_ID);
 	}	//	setC_DocType_ID
-	
-	/**
-	 * 	Verify Document Type with Invoice
-	 * @param pAllocs 
-	 *	@return true if ok
-	 */
-	private boolean verifyDocType(MPaymentAllocate[] pAllocs)
-	{
-		if (getC_DocType_ID() == 0)
-			return false;
-		//
-		Boolean documentSO = null;
-		//	Check Invoice First
-		if (getC_Invoice_ID() > 0)
-		{
-			String sql = "SELECT idt.IsSOTrx "
-				+ "FROM C_Invoice i"
-				+ " INNER JOIN C_DocType idt ON (i.C_DocType_ID=idt.C_DocType_ID) "
-				+ "WHERE i.C_Invoice_ID=?";
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			try
-			{
-				pstmt = DB.prepareStatement(sql, get_TrxName());
-				pstmt.setInt(1, getC_Invoice_ID());
-				rs = pstmt.executeQuery();
-				if (rs.next())
-					documentSO = new Boolean ("Y".equals(rs.getString(1)));
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, sql, e);
-			}
-			finally
-			{
-				DB.close(rs, pstmt);
-				rs = null;
-				pstmt = null;
-			}
-		}	//	now Order - in Adempiere is allowed to pay PO or receive SO
-		else if (getC_Order_ID() > 0)
-		{
-			String sql = "SELECT odt.IsSOTrx "
-				+ "FROM C_Order o"
-				+ " INNER JOIN C_DocType odt ON (o.C_DocType_ID=odt.C_DocType_ID) "
-				+ "WHERE o.C_Order_ID=?";
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			try
-			{
-				pstmt = DB.prepareStatement(sql, get_TrxName());
-				pstmt.setInt(1, getC_Order_ID());
-				rs = pstmt.executeQuery();
-				if (rs.next())
-					documentSO = new Boolean ("Y".equals(rs.getString(1)));
-			}
-			catch (Exception e)
-			{
-				log.log(Level.SEVERE, sql, e);
-			}
-			finally
-			{
-				DB.close(rs, pstmt);
-				rs = null;
-				pstmt = null;
-			}
-		}	//	now Charge
-		else if (getC_Charge_ID() > 0) 
-		{
-			// do nothing about charge
-		} // now payment allocate
-		else
-		{
-			if (pAllocs.length > 0) {
-				for (MPaymentAllocate pAlloc : pAllocs) {
-					String sql = "SELECT idt.IsSOTrx "
-						+ "FROM C_Invoice i"
-						+ " INNER JOIN C_DocType idt ON (i.C_DocType_ID=idt.C_DocType_ID) "
-						+ "WHERE i.C_Invoice_ID=?";
-					PreparedStatement pstmt = null;
-					ResultSet rs = null;
-					try
-					{
-						pstmt = DB.prepareStatement(sql, get_TrxName());
-						pstmt.setInt(1, pAlloc.getC_Invoice_ID());
-						rs = pstmt.executeQuery();
-						if (rs.next()) {
-							if (documentSO != null) { // already set, compare with current
-								if (documentSO.booleanValue() != ("Y".equals(rs.getString(1)))) {
-									return false;
-								}
-							} else {
-								documentSO = new Boolean ("Y".equals(rs.getString(1)));
-							}
-						}
-					}
-					catch (Exception e)
-					{
-						log.log(Level.SEVERE, sql, e);
-					}
-					finally
-					{
-						DB.close(rs, pstmt);
-						rs = null;
-						pstmt = null;
-					}
-				}
-			}
-		}
-		
-		//	DocumentType
-		Boolean paymentSO = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT IsSOTrx "
-			+ "FROM C_DocType "
-			+ "WHERE C_DocType_ID=?";
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getC_DocType_ID());
-			rs = pstmt.executeQuery();
-			if (rs.next())
-				paymentSO = new Boolean ("Y".equals(rs.getString(1)));
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
-		}
-		//	No Payment info
-		if (paymentSO == null)
-			return false;
-		setIsReceipt(paymentSO.booleanValue());
-			
-		//	We have an Invoice .. and it does not match
-		if (documentSO != null 
-				&& documentSO.booleanValue() != paymentSO.booleanValue())
-			return false;
-		//	OK
-		return true;
-	}	//	verifyDocType
 
 	/**
 	 * 	Verify Payment Allocate is ignored (must not exists) if the payment header has charge/invoice/order
@@ -1733,13 +1586,6 @@ public final class MPayment extends X_C_Payment
 		}
 		
 		MPaymentAllocate[] pAllocs = MPaymentAllocate.get(this);
-		
-		//	Consistency of Invoice / Document Type and IsReceipt
-		if (!verifyDocType(pAllocs))
-		{
-			processMsg = "@PaymentDocTypeInvoiceInconsistent@";
-			return DocAction.STATUS_Invalid;
-		}
 
 		//	Payment Allocate is ignored if charge/invoice/order exists in header
 		if (!verifyPaymentAllocateVsHeader(pAllocs))
@@ -2522,9 +2368,10 @@ public final class MPayment extends X_C_Payment
 		MBankAccount bankAccount = MBankAccount.get(getCtx(), getC_BankAccount_ID());
 		MBank bank = MBank.get(getCtx(), bankAccount.getC_Bank_ID());
 		if(getRef_Payment_ID() != 0
+				&& getRelatedPayment_ID() != 0
 				&& !Util.isEmpty(bank.getBankType())
 				&& bank.getBankType().equals(MBank.BANKTYPE_CashJournal)) {
-			MPayment deposit = new MPayment(getCtx(), getRef_Payment_ID(), get_TrxName());
+			MPayment deposit = new MPayment(getCtx(), getRelatedPayment_ID(), get_TrxName());
 			MBankAccount depositBankAccount = MBankAccount.get(getCtx(), deposit.getC_BankAccount_ID());
 			MBank depositBank = MBank.get(getCtx(), depositBankAccount.getC_Bank_ID());
 			if(!Util.isEmpty(depositBank.getBankType())
@@ -2538,14 +2385,10 @@ public final class MPayment extends X_C_Payment
 				&& bank.getBankType().equals(MBank.BANKTYPE_CashJournal)
 				&& !isReceipt()) {
 			new Query(getCtx(), Table_Name, 
-					"Ref_Payment_ID = ? "
-						+ "AND DocStatus = ? "
-						+ "AND IsReceipt = 'Y'"
-						+ "AND EXISTS(SELECT 1 FROM C_Bank b"
-						+ "					INNER JOIN C_BankAccount ba ON(ba.C_Bank_ID = b.C_Bank_ID)"
-						+ "				WHERE ba.C_BankAccount_ID = C_Payment.C_BankAccount_ID"
-						+ "				AND b.BankType = ?)", get_TrxName())
-			.setParameters(getC_Payment_ID(), MPayment.DOCSTATUS_Completed, MBank.BANKTYPE_Bank)
+					"DocStatus = ? "
+					+ "AND IsReceipt = 'Y' "
+					+ "AND EXISTS(SELECT 1 FROM C_Payment p WHERE p.RelatedPayment_ID = C_Payment.C_Payment_ID AND p.Ref_Payment_ID = ?)", get_TrxName())
+			.setParameters(MPayment.DOCSTATUS_Completed, getC_Payment_ID())
 			.<MPayment>list().stream().forEach(deposit -> {
 				deposit.processIt(MPayment.DOCACTION_Reverse_Correct);
 				deposit.saveEx();
