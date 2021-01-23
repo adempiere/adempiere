@@ -279,7 +279,7 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 			
 			int productId = SetGetUtil.get_AttrValueAsInt(model, MInvoiceLine.COLUMNNAME_M_Product_ID);
 			if (productId > 0) {
-				MProduct product = MProduct.get(model.getCtx(), productId);
+				MProduct product = MProduct.get(model.getCtx(), productId, model.get_TrxName());
 				if (product.isCreateAsset())
 				{
 					isAsset = (product != null && product.get_ID() > 0 && product.isCreateAsset());

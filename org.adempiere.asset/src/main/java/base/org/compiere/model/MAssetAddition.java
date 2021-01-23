@@ -64,7 +64,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 	{
 		setA_CreateAsset();
 		//Set Useable Life according to Asset Group Accounting
-		MAssetGroupAcct assetGrpAcct = MAssetGroupAcct.forA_Asset_Group_ID(getCtx(), getA_Asset().getA_Asset_Group_ID(), POSTINGTYPE_Actual);
+		MAssetGroupAcct assetGrpAcct = MAssetGroupAcct.forA_Asset_Group_ID(getCtx(), getA_Asset().getA_Asset_Group_ID(), POSTINGTYPE_Actual, get_TrxName());
 		if (isA_CreateAsset())
 		{
 			setDeltaUseLifeYears(assetGrpAcct.getUseLifeYears());
@@ -130,7 +130,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 		{
 			MAsset asset = assetAddition.createAsset();
 			asset.dump();
-			MAssetGroupAcct assetGroupAcct = MAssetGroupAcct.forA_Asset_Group_ID(asset.getCtx(), asset.getA_Asset_Group_ID(), assetAddition.getPostingType());
+			MAssetGroupAcct assetGroupAcct = MAssetGroupAcct.forA_Asset_Group_ID(asset.getCtx(), asset.getA_Asset_Group_ID(), assetAddition.getPostingType(), asset.get_TrxName());
 			assetAddition.setDeltaUseLifeYears(assetGroupAcct.getUseLifeYears());
 			assetAddition.setDeltaUseLifeYears_F(assetGroupAcct.getUseLifeYears_F());
 		}
@@ -188,7 +188,7 @@ public class MAssetAddition extends X_A_Asset_Addition
 		asset.dump();
 		
 		// Copy UseLife values from asset group to workfile
-		MAssetGroupAcct assetgrpacct = MAssetGroupAcct.forA_Asset_Group_ID(asset.getCtx(), asset.getA_Asset_Group_ID(), assetAddition.getPostingType());
+		MAssetGroupAcct assetgrpacct = MAssetGroupAcct.forA_Asset_Group_ID(asset.getCtx(), asset.getA_Asset_Group_ID(), assetAddition.getPostingType(), null);
 		assetAddition.setDeltaUseLifeYears(assetgrpacct.getUseLifeYears());
 		assetAddition.setDeltaUseLifeYears_F(assetgrpacct.getUseLifeYears_F());
 		assetAddition.setA_Asset(asset);
