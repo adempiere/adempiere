@@ -127,6 +127,7 @@ public class TimeUtil
 		return new Timestamp (cal.getTimeInMillis());
 	}	//	getNextDay
 
+
 	/**
 	 * 	Get last date in month
 	 *  @param day day
@@ -1354,4 +1355,21 @@ public class TimeUtil
         //	Value
         return weeks;
 	}
+	
+	/**
+	 * Return a BigDecimal representing the time in milliseconds 2 seconds 
+	 * prior to the current database time (not the system time). Useful for
+	 * limiting processes that may conflict with current operations.
+	 * @return BigDecimal representing time in milliseconds
+	 */
+    public static BigDecimal getTwoSecondsPriorToCurrentTimeInMillis() {
+
+        Timestamp ts = DB.getCurrentTimeFromDatabase();
+        long ms = ts.getTime() - (2 * 1000);
+        ts = new Timestamp(ms);
+        long mili = ts.getTime();
+        return new BigDecimal(Long.toString(mili));
+
+    }
+
 }	//	TimeUtil
