@@ -31,9 +31,12 @@ import org.adempiere.test.IntegrationTestTag;
 import org.compiere.acct.Doc;
 import org.compiere.model.I_AD_SysConfig;
 import org.compiere.model.MAcctSchema;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
+import org.compiere.process.DocAction;
 import org.compiere.process.FactAcctReset;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.DB;
@@ -117,6 +120,28 @@ class IT_ClientAcctProcessor implements IntegrationTestTag {
                 .list(MSysConfig.class)
                 .stream();
 
+    }
+
+    private MInvoice createAnInvoiceThatWillFailPosting() {
+    
+        MInvoice invoice = new MInvoice(ctx, 0, trxName);
+        invoice.setC_BPartner_ID(CommonGWData.SEEDFARM_ID);
+        invoice.setIsSOTrx(false);
+        invoice.saveEx();
+    
+        MInvoiceLine invoiceLine = new MInvoiceLine(invoice);
+        invoiceLine.setM_Product_ID(CommonGWData.AZALEA_BUSH_PRODUCT_ID);
+        invoiceLine.setQtyEntered(Env.ONE);
+        invoiceLine.saveEx();
+    
+        invoice.prepareIt();
+        invoice.completeIt();
+        
+        invoice.setDocStatus(DocAction.STATUS_Invalid);
+        invoice.saveEx();
+        
+        return invoice;
+    
     }
 
     private void disableClientAccounting() {
@@ -403,6 +428,40 @@ class IT_ClientAcctProcessor implements IntegrationTestTag {
                 assertNoUnpostedDocuments(tableId);
 
             }
+            
+            @Nested
+            @DisplayName("When a document fails posting")
+            class WhenADocumentFailsPosting {
+                
+                MInvoice invoice;
+                
+                @BeforeEach
+                void setupACompletedInvoiceThatFailsPosting() {
+
+                    //  Ensure all current invoices are posted
+                    process.execute(trxName);
+                    invoice = createAnInvoiceThatWillFailPosting();
+
+                }
+                
+                @AfterEach
+                void deleteInvoice() {
+                    invoice.deleteEx(true);
+                }
+                
+                @Test
+                @DisplayName("Then the document will not be posted")
+                void ThenTheDocumentWillNotBePosted() {
+                    
+                    process.execute();
+                    invoice.load(trxName);
+                    assertEquals(DocAction.STATUS_Invalid, invoice.getDocStatus());
+                    assertFalse(invoice.isProcessing());
+                    
+                }
+                
+            }
+
 
         }
 
@@ -430,6 +489,7 @@ class IT_ClientAcctProcessor implements IntegrationTestTag {
             }
 
         }
+        
 
     }
 
