@@ -206,7 +206,7 @@ public abstract class AdempiereServer extends Thread
 	 * Validate if is fixed time
 	 * @return
 	 */
-	private boolean isValidForRun() {
+	protected boolean isValidForRun() {
 		if(Optional.ofNullable(p_model.getFrequencyType()).orElse(MScheduler.FREQUENCYTYPE_Day).equals(MScheduler.FREQUENCYTYPE_DoesNotRepeat)
 				&& Optional.ofNullable(p_model.getDateLastRun()).isPresent()) {
 			return false;
