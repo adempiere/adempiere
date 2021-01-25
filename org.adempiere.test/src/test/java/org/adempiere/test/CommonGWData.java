@@ -25,6 +25,8 @@ public class CommonGWData {
     public static final int AD_CLIENT_ID = 11;
     public static final int AD_ORG_ID = 11;
     public static final boolean IS_CLIENT = true;
+    
+    public static final int USD_CURRENCY_ID = 100;
 
     public static final int MONEYBANK_BankAccount_ID = 100;
 

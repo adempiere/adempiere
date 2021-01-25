@@ -1,417 +1,532 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) <Company or Author Name> All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or              *
- * modify it under the terms of the GNU General Public License                *
- * as published by the Free Software Foundation; either version 2             *
- * of the License, or (at your option) any later version.                     *
- * This program is distributed in the hope that it will be useful,            *
- * but WITHOUT ANY WARRANTY; without even the implied warranty of             *
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.                       *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2021 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- *                                                                            *
- * @author Nikunj Panelia, ADAXA                                              *
- * ADEMPIERE-257 Update Seed Database - Fix dates in GardenWorld              *
- * https://adempiere.atlassian.net/browse/ADEMPIERE-257                       *
- *  			                                                              *
+ * For the text or an alternative of this public license, you may reach us    *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 
 package org.compiere.process;
+
+import static org.compiere.util.Msg.wrapMsg;
+import static org.compiere.util.TimeUtil.getYearFromTimestamp;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.Adempiere;
+import org.compiere.acct.Doc;
+import org.compiere.model.I_AD_Client;
+import org.compiere.model.I_M_DiscountSchema;
+import org.compiere.model.I_M_ForecastLine;
+import org.compiere.model.I_M_PriceList_Version;
 import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
+import org.compiere.model.MDiscountSchema;
+import org.compiere.model.MPeriod;
+import org.compiere.model.MPriceListVersion;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
+import org.compiere.util.CLogMgt;
+import org.compiere.util.CPreparedStatement;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
+import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
+import org.eevolution.service.dsl.ProcessBuilder;
 
 /**
  * A process to change the dates in GardenWorld for all existing transactions to
  * bring them into recent history
- *  
- * @author Nikunj Panelia
+ * 
+ * @author Nikunj Panelia, ADAXA
+ *         <a hfre="https://adempiere.atlassian.net/browse/ADEMPIERE-257">
+ * @see ADEMPIERE-257 Update Seed Database - Fix dates in GardenWorld</a>
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
- *		<a href="https://github.com/adempiere/adempiere/issues/1280">
- * 		@see FR [ 1280 ] Error CleanUpGW Update Garden World example data</a>
+ *         <a href="https://github.com/adempiere/adempiere/issues/1280">
+ * @see FR [ 1280 ] Error CleanUpGW Update Garden World example data</a>
  */
-public class GardenWorldCleanUp extends SvrProcess
-{
-	protected void prepare() {
+public class GardenWorldCleanup extends GardenWorldCleanupAbstract {
 
-		// TODO: add a parameter to make this a dictionary change or user change
-		// TODO: add a parameter for the number of months to advance the dates
-		// TODO: add a parameter to delete calendar years earlier than the earliest transaction
+    private static final int GARDEN_WORLD_CLIENT_ID = 11;
+    static final int DESIRED_MIN_YEAR_OFFSET = 2;
 
-	}
-	
-	private Timestamp m_currentTime = new Timestamp(System.currentTimeMillis());
-	private Timestamp m_minDate = m_currentTime;
-	private Timestamp m_maxDate = new Timestamp(0);
-	
-	private long m_Offset = 0;
-	
-	private int gw_client_id = 11; // Hardcoded
+    static final String SUCCESS_MSG = "GardenWorldCleanup:Success";
+    static final String NO_CHANGES_MSG =
+            "GardenWorldCleanup:No_changes_required";
+    static final String CLIENT_NOT_FOUND_MSG =
+            "GardenWorldCleanup:Client_not_found";
 
-	// This isn't all the date columns.  There a few tables that don't have AD_Client_ID
-	private String m_sql=" SELECT t.tablename,c.ColumnName FROM AD_Column c "
-			+  " JOIN AD_Table t ON c.AD_Table_ID=t.AD_Table_ID "
-			+  " JOIN AD_Reference r ON (c.AD_Reference_ID = r.AD_Reference_ID) "
-			+  " JOIN (SELECT nc.AD_Table_ID FROM AD_Table nc JOIN AD_Column c  "
-			+  "      ON (nc.AD_Table_ID = c.AD_Table_ID) WHERE c.ColumnName = 'AD_Client_ID') nc "
-			+  "   ON (nc.AD_Table_ID = t.AD_Table_ID) "
-			+  " WHERE r.validationtype='D' and r.name in ('Date','DateTime') "
-			+  " AND c.columnsql IS NULL AND t.tablename NOT LIKE 'I_%' AND t.tablename not like 'T_%' "
-			+  " AND t.isview='N' AND upper(t.tableName) not like 'RV%' AND t.tableName <> 'C_Period' "
-			+  " AND c.columnName NOT IN ('Created','Updated') "
-			+  " AND t.EntityType='D'";
+    public static void main(String[] args) {
 
-	// Don't include From/To dates in the min/max date ranges.  They can be set to anything.
-	private String sqlWhereExclude = " AND c.columnName NOT LIKE '%From' AND c.columnName NOT LIKE '%To' ";
-	
-	private String sqlOrderBy = " ORDER BY t.tablename";
-	
-	protected String doIt() {		
-		if (!gardenWorldExists()) {
-			return "Garden World client can't be found.";
-		}
-		
-		// Clean up unimportant dates
-		// Delete all login records - 
-		clearSessionLog();
-		
-		// Set the min/max date limits
-		setDateLimits();
+        CLogMgt.setLevel(Level.CONFIG);
 
-		// Determine the time offset
-		determineOffset();
-		
-		if ( m_Offset == 0) {
-			log.config("The GardenWorld data is sufficiently up to date.  No changes were requried.");
-			return "The GardenWorld data is sufficiently up to date.  No changes were requried.";
-		}
-		
-		// Adjust the calendars first
-		adjustCalendarAndPeriods();
-		
-		// Apply the offset and update the dates.
-		updateDates();
+        Adempiere.startupEnvironment(false);
+        if (!DB.isConnected()) {
+            System.exit(1);
+        }
 
-		// Point the periods to the correct dates.
-		updatePeriods();
-		
-		// Cleanup
-		cleanUp();
+        Properties context = Env.getCtx();
 
-		log.config("Successfully updated Garden World data.");
-		return "Successfully updated Garden World data.";
-	}
-	
-	private void updateDates() {
-		// Update the date columns
-		PreparedStatement pstm=null;
-		ResultSet rs=null;
-		 try {
-			 pstm = DB.prepareStatement(m_sql+sqlOrderBy, get_TrxName());
-			 rs = pstm.executeQuery();
-			 String tableName=null;
-			 String columnName=null;
-			 while(rs.next()) {	
-				 tableName=rs.getString(1);
-				 columnName=rs.getString(2);
-				 		
-				 updateTable(tableName,columnName);
-			 }		 
-		 } catch (SQLException e) {
-			 log.log(Level.SEVERE, e.getLocalizedMessage());
-			 throw new AdempiereException("", e);	 
-		 } finally {
-			 DB.close(rs, pstm);
-		 }
-	}
+        try {
+            ProcessBuilder.create(context)
+                    .process(org.compiere.process.GardenWorldCleanup.class)
+                    .withTitle("Updating Garden World")
+                    .executeUsingSystemRole();
+        } catch (AdempiereException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
 
-	private void updatePeriods() {
-		// Update the date columns
-		PreparedStatement pstm=null;
-		ResultSet rs=null;
-		 try {
-			 pstm = DB.prepareStatement(m_sql+sqlOrderBy, get_TrxName());
-			 rs = pstm.executeQuery();
-			 String tableName=null;
-			 String columnName=null;
-			 while(rs.next()) {	
-				 tableName=rs.getString(1);
-				 columnName=rs.getString(2);
-				 		
-				 setPeriods(tableName,columnName);
-				 
-			 } 			 
-		 } catch (SQLException e) {
-			 log.log(Level.SEVERE, e.getLocalizedMessage());
-			 throw new AdempiereException("", e);	 
-		 } finally {
-			 DB.close(rs, pstm);
-		 }
+    }
 
-	}
+    private Timestamp currentDate = TimeUtil.getDay(System.currentTimeMillis());
+    private Timestamp minDate = null;
+    private Timestamp maxDate = null;
+    private int yearOffset = 0;
 
-	private void updateTable(String tableName, String columnName) {
-		
-		if ( m_Offset == 0 || tableName.isEmpty() || columnName.isEmpty()) {
-			return;  // Nothing to do
-		}
+    // This isn't all the date columns. There a few tables that don't have
+    // AD_Client_ID
+    private String dateColumnSQL =
+            " SELECT t.tablename,c.ColumnName FROM AD_Column c "
+                    + " JOIN AD_Table t ON c.AD_Table_ID=t.AD_Table_ID "
+                    + " JOIN AD_Reference r ON"
+                    + "     (c.AD_Reference_ID = r.AD_Reference_ID) "
+                    + " JOIN (SELECT nc.AD_Table_ID "
+                    + "       FROM AD_Table nc JOIN AD_Column c  "
+                    + "      ON (nc.AD_Table_ID = c.AD_Table_ID)"
+                    + "      WHERE c.ColumnName = 'AD_Client_ID') nc "
+                    + "   ON (nc.AD_Table_ID = t.AD_Table_ID) "
+                    + " WHERE r.validationtype='D'"
+                    + " AND r.name IN ('Date','DateTime') "
+                    + " AND c.columnsql IS NULL "
+                    + " AND c.columnName NOT IN ('Created','Updated') "
+                    + " AND upper(t.tableName) NOT LIKE 'I_%'"
+                    + " AND upper(t.tableName) NOT LIKE 'T_%' "
+                    + " AND upper(t.tableName) NOT LIKE 'RV%' "
+                    + " AND upper(t.tableName) != 'AD_SESSION' "
+                    + " AND t.tableName <> 'C_Period' "
+                    + " AND t.isview='N'"
+                    + " AND t.EntityType='D'";
 
-		// Convert offset to months
-		long monthOffset = m_Offset/(1000L*60L*60L*24L*30L);  // 30 day months
+    private String sqlOrderBy = " ORDER BY t.tablename";
 
-		// Set only the date fields that have a value.  Leave the rest null.
-		String sql="UPDATE "+ tableName + " SET  " + columnName + " = trunc(("
-				+ " CASE WHEN " + columnName + " > getdate() THEN add_months("+ columnName +", " + monthOffset + ") "  // columnName is already in the future, keep it there.
-				+ "      WHEN add_months("+ columnName +", " + monthOffset + ") > getdate() THEN getdate() "  // columnName will be moved to the future, make it today instead
-				+ "      ELSE add_months("+ columnName +", " + monthOffset + ")"
-				+ " END ), 'DD') "
-				+ " WHERE " + columnName + " IS NOT NULL "  
-				+ " AND AD_Client_ID=" + gw_client_id;
-		
-		PreparedStatement pstm=null;
-		 try {
-			 pstm = DB.prepareStatement(sql, get_TrxName());
-			 pstm.executeUpdate();
-			
-		 } catch (SQLException e) {
-			 log.log(Level.SEVERE, e.getLocalizedMessage());
-			 throw new AdempiereException("Problem in adding years to date columns", e);
-		 } finally {
-			 DB.close(pstm);
-		 }
-	}
-	
-	private void setPeriods(String tableName, String columnName) {
-		 //update periods according to the new dates
-		 String dateAcctColumn=null;
-		 MTable table=MTable.get(getCtx(), tableName);
-		 MColumn periodColumn=table.getColumn("C_Period_ID");
-		 if(periodColumn!=null) {
-			 MColumn dateaAcctColumn=table.getColumn("DateAcct");
-			 MColumn assetDepDateColumn=table.getColumn("AssetDepreciationDate");
-			 if(dateaAcctColumn!=null)
-				 dateAcctColumn=dateaAcctColumn.getColumnName();
-			 else if(assetDepDateColumn!=null)
-				 dateAcctColumn=assetDepDateColumn.getColumnName();
-			 if(dateAcctColumn != null) {
-			 
-				 log.fine("Table: " + tableName + " dateAcctColumn: " + dateAcctColumn);
-				String updatePeriodSql="update "+tableName+" set "
-						+ " C_Period_ID=(SELECT C_Period_ID from C_Period WHERE "+dateAcctColumn
-						+ " BETWEEN StartDate and EndDate and AD_Client_ID=" + gw_client_id 
-						+ ") WHERE AD_Client_ID=" + gw_client_id;
-				
-				PreparedStatement pstm = null;
-				try {
-					pstm = DB.prepareStatement(updatePeriodSql, get_TrxName());
-					pstm.executeUpdate();
-				
-			 	} catch (SQLException e) {
-			 		log.log(Level.SEVERE, e.getLocalizedMessage());
-					throw new AdempiereException("Problem in updating periods according to new accounting values.", e);
-			 	} finally {
-					DB.close(pstm);
-				}
-			 }
-		 }
-	}
-	
-	private void findDateLimits(String tableName, String columnName) {
+    void clearSessionLog() {
 
-		String sql=	"SELECT MIN(" + columnName + "), MAX(" + columnName + ") from " + tableName 
-					+ " WHERE AD_Client_ID=11 ";
-		
-		PreparedStatement pstm=null;
-		ResultSet rs=null;
-		 try {
-			 pstm = DB.prepareStatement(sql, get_TrxName());
-			 rs = pstm.executeQuery();
-			 while(rs.next()) {
-				 if (rs.getTimestamp(1) == null || rs.getTimestamp(1).getTime() == 0L) {
-					 // Null or zero. Ignore it.
-					 ;
-				 } else if (m_minDate.after(rs.getTimestamp(1))) {
-					 m_minDate = rs.getTimestamp(1);
-					 log.fine("Setting min date to " + m_minDate.toString() + "(" + tableName + "/" + columnName + ")");
-				 }
-				 
-				 if (rs.getTimestamp(2) == null || rs.getTimestamp(1).getTime() == 0L || rs.getTimestamp(2).after(m_currentTime)) {
-					 // Null, zero or in the future. Ignore it.
-					 continue;
-				 } else if (m_maxDate.before(rs.getTimestamp(2))) {
-					 m_maxDate = rs.getTimestamp(2);
-					 log.fine("Setting max date to " + m_maxDate.toString() + "(" + tableName + "/" + columnName + ")");
-				 }
-			 }
-			
-		 } catch (SQLException e) {
-			 log.log(Level.SEVERE, e.getLocalizedMessage());
-			 throw new AdempiereException("Problem finding the date limits", e);
-		 } finally {
-			 DB.close(pstm);
-		 }
-	}
-	
-	private void clearSessionLog() {
-		String deleteSessionLogSQL = "DELETE FROM AD_Session where AD_Client_ID=" + gw_client_id;
-		PreparedStatement pstm=null;
-		 try {
-			 pstm = DB.prepareStatement(deleteSessionLogSQL, get_TrxName());
-			 
-			 pstm.executeUpdate();
-			
-		 } catch (SQLException e) {
-			 log.log(Level.SEVERE, e.getLocalizedMessage());
-			 throw new AdempiereException("Problem deleting the GardenWorld session log", e);
-		 } finally {
-			 DB.close(pstm);
-		 }
-	}
-	
-	private Boolean gardenWorldExists() {
-		StringBuilder whereClause = new StringBuilder();
-		whereClause.append("AD_Client_ID=?");          // #1
+        final String whereClientID =
+                " WHERE AD_Client_ID=" + GARDEN_WORLD_CLIENT_ID;
+        DB.executeUpdateEx("DELETE FROM AD_PInstance"
+                + whereClientID, get_TrxName());
 
-		MClient gwClient = new Query(getCtx(), MClient.Table_Name, whereClause.toString(), null)
- 		.setParameters(new Object[]{gw_client_id})
- 		.first();
-		if (gwClient != null && gwClient.getName().equals("GardenWorld")) {
-			return true;
-		}
-		return false;
-	}
+        DB.executeUpdateEx("DELETE FROM AD_ChangeLog cl"
+                + " WHERE cl.AD_SESSION_ID IN (SELECT AD_SESSION_ID FROM AD_Session"
+                + whereClientID + ")", get_TrxName());
 
-	protected void setDateLimits() {
-		// Find the minimum and maximum date in all the columns
-		PreparedStatement pstm=null;
-		ResultSet rs=null;
-		 try
-		 {
-			 pstm = DB.prepareStatement(m_sql+sqlWhereExclude+sqlOrderBy, get_TrxName());
-			 rs = pstm.executeQuery();
-			 String tableName=null;
-			 String columnName=null;
-			 while(rs.next())
-			 {	
-				 tableName=rs.getString(1);
-				 columnName = rs.getString(2);
-		 		findDateLimits(tableName, columnName);
-			 }
-		 } catch (Exception e) {
-			 log.log(Level.SEVERE, e.getLocalizedMessage());
-			 throw new AdempiereException("", e);	 
-		 } finally {
-			 DB.close(rs, pstm);
-		 }
+    }
 
-	}
-	
-	private void determineOffset() {
-		// Two years in milliseconds
-		long twoYears = 1000L*60L*60L*24L*365L*2L;
-		
-		// Want to move the max date to today and the earliest date to two years previous
-		long maxOffset = m_currentTime.getTime() - m_maxDate.getTime();
-		long minOffset = m_currentTime.getTime() - twoYears - m_minDate.getTime();
-		
-		log.fine("Max offset - Years: " + maxOffset/(1000L*60L*60L*24L*365L));
-		log.fine("Min offset - Years: " + minOffset/(1000L*60L*60L*24L*365L));
-		
-		if ( maxOffset < 0 || minOffset < 0 ) {
-			// We are already exceeding our limits
-			m_Offset = 0;
-			return;
-		} 
-		if (maxOffset > minOffset) {
-			// Move to have the max at today.  The min will be within the two years
-			m_Offset = maxOffset;
-		} else {
-			// Move the min to within two years, the max will exceed today - be in the future
-			// TODO - verify that the max data is possible
-			m_Offset = minOffset;
-		}
-	}
-	
-	private void adjustCalendarAndPeriods() {
-		// Move the calendars by a year offset in milliseconds
-		long yearOffset = m_Offset/(1000L*60L*60L*24L*365L);  // round to years.
-		long monthOffset = yearOffset*12L;
+    void closePreparedStatement(PreparedStatement pstm) {
 
-		if ( monthOffset == 0) {
-			return; // nothing to do
-		}
+        DB.close(pstm);
 
-		//  Offset the periods 
-		String updatePeriod = "UPDATE C_Period SET StartDate = add_months(Startdate, " + monthOffset + "), "
-				 			+  "   EndDate = add_months(Enddate, " + monthOffset + "), "
-				 			+  "   Name = to_char(add_months(Enddate, " + monthOffset + "),'YYYY-MM') "
-				 			+  " WHERE ad_client_id=" + gw_client_id;
-		PreparedStatement pstm = null;
-		try {
-			 pstm = DB.prepareStatement(updatePeriod, get_TrxName());
-			 pstm.executeUpdate();
-		} catch (SQLException e) {
-			log.log(Level.SEVERE, e.getLocalizedMessage());
-			throw new AdempiereException("Problem Offsetting the periods", e);
-		} finally {
-			DB.close(pstm);
-			pstm = null;
-		} 
-		// Offset the year - have to do this twice to avoid a constraint.
-		String updateYear = "UPDATE C_Year SET fiscalyear=(SELECT max(to_char(p.enddate,'YYYY-MM')) "
-				 +  " from c_period p where p.c_year_id=c_year.c_year_id) "
-		 			+  " WHERE ad_client_id=" + gw_client_id;
-		try {
-			pstm = DB.prepareStatement(updateYear, get_TrxName());
-			pstm.executeUpdate();
-		} catch (SQLException e) {
-			log.log(Level.SEVERE, e.getLocalizedMessage());
-			throw new AdempiereException("Problem offsetting the year - 1st query to YYYY-MM", e);
-		} finally {
-			DB.close(pstm);
-			pstm = null;
-		}	
-		updateYear = "UPDATE C_Year SET fiscalyear=(SELECT max(to_char(p.enddate,'YYYY')) "
-				 +  " from c_period p where p.c_year_id=c_year.c_year_id) "
-		 			+  " WHERE ad_client_id=" + gw_client_id;
-		try {
-			pstm = DB.prepareStatement(updateYear, get_TrxName());
-			pstm.executeUpdate();
-		} catch (SQLException e) {
-			log.log(Level.SEVERE, e.getLocalizedMessage());
-			throw new AdempiereException("Problem offsetting the year to form YYYY", e);
-		} finally {
-			DB.close(pstm);
-			pstm = null;
-		}
-	}
-	
-	private void cleanUp() {
-		// Set bank statement names
-		String deleteSessionLogSQL = "UPDATE C_BankStatement SET NAME = to_char(StatementDate, 'YYYY-MM_DD') where AD_Client_ID=" + gw_client_id;
-		PreparedStatement pstm=null;
-		try {
-			pstm = DB.prepareStatement(deleteSessionLogSQL, get_TrxName()); 
-			pstm.executeUpdate();
-			
-		} catch (SQLException e) {
-			log.log(Level.SEVERE, e.getLocalizedMessage());
-			throw new AdempiereException("Problem updating the bank statement names", e);
-		} finally {
-			DB.close(pstm);
-		}
-	}
+    }
+
+    CPreparedStatement getPreparedStatement(String sql, String trxName) {
+
+        return DB.prepareStatement(sql, trxName);
+
+    }
+
+    Query getQuery(Properties ctx, String tableName, final String whereClause,
+            String trxName) {
+
+        return new Query(ctx, tableName,
+                whereClause, trxName);
+
+    }
+
+    int getYearOffSet() {
+
+        return yearOffset;
+
+    }
+
+    void setCurrentDate(Timestamp currentDate) {
+
+        this.currentDate = currentDate;
+
+    }
+
+    void setYearOffSet(int offSet) {
+
+        this.yearOffset = offSet;
+
+    }
+
+    int getTargetStartYear() {
+
+        Timestamp date = currentDate;
+        int year = getYearFromTimestamp(date);
+        return year - DESIRED_MIN_YEAR_OFFSET;
+
+    }
+
+    void cleanUp() {
+
+        cleanup_priceListVersions();
+        cleanup_bankStatement();
+        cleanup_discountSchema();
+
+    }
+
+    void cleanup_bankStatement() {
+
+        String updateBankStatementSQL =
+                "UPDATE C_BankStatement "
+                        + "SET NAME = to_char(StatementDate, 'YYYY-MM-DD') "
+                        + "where AD_Client_ID=" + GARDEN_WORLD_CLIENT_ID;
+        DB.executeUpdate(updateBankStatementSQL, get_TrxName());
+
+    }
+
+    void cleanup_discountSchema() {
+
+        new Query(getCtx(), I_M_DiscountSchema.Table_Name, null, get_TrxName())
+                .setClient_ID()
+                .list(MDiscountSchema.class)
+                .stream()
+                .forEach(schema -> {
+                    String name = schema.getName();
+                    schema.setName(name.substring(0, name.indexOf(" "))
+                            + " "
+                            + getYearFromTimestamp(schema.getValidFrom()));
+                    schema.saveEx(get_TrxName());
+                });
+
+    }
+
+    void cleanup_priceListVersions() {
+
+        new Query(getCtx(), I_M_PriceList_Version.Table_Name, null,
+                get_TrxName())
+                        .setClient_ID()
+                        .list(MPriceListVersion.class)
+                        .stream()
+                        .forEach(plVersion -> {
+                            String name = plVersion.getName();
+                            plVersion.setName(
+                                    name.substring(0, name.indexOf(" "))
+                                            + " "
+                                            + getYearFromTimestamp(
+                                                    plVersion.getValidFrom()));
+                            plVersion.saveEx(get_TrxName());
+                        });
+
+    }
+
+    String findDateColumnAssociatedWithPeriod(MTable table) {
+
+        String tableName = table.get_TableName();
+
+        if (isTableKnownToHavePeriodButNoDate(tableName))
+            return null;
+
+        String dateAcctColumn = getDateAcctColumnName(tableName);
+
+        if (dateAcctColumn == null) {
+            MColumn column = table.getColumn("DateAcct");
+            if (column != null)
+                dateAcctColumn = "DateAcct";
+
+        }
+
+        if (dateAcctColumn == null)
+            log.warning(tableName
+                    + " has C_Period_ID but the date field associated with it "
+                    + "is unknown. Check the table to see if there is a spefic "
+                    + "date and update the "
+                    + getClass().getCanonicalName() + " class to be able "
+                    + "to find it");
+
+        return dateAcctColumn;
+
+    }
+
+    String getDateAcctColumnName(String tableName) {
+
+        return Doc.getDateAcctColumnName(tableName);
+
+    }
+
+    private boolean gardenWorldDoesNotExist() {
+
+        final String whereClause = "AD_Client_ID=?";
+        MClient gwClient = getQuery(getCtx(), I_AD_Client.Table_Name,
+                whereClause, null)
+                        .setParameters(GARDEN_WORLD_CLIENT_ID)
+                        .first();
+
+        if (gwClient == null)
+            log.severe("GardenWorld Client not found!");
+
+        return gwClient == null;
+
+    }
+
+    boolean isTableKnownToHavePeriodButNoDate(String tableName) {
+
+        return tableName.equals(I_M_ForecastLine.Table_Name);
+
+    }
+
+    void updatePeriodFieldsToMatchDates(String tableName) {
+
+        MTable table = MTable.get(getCtx(), tableName);
+        MColumn periodColumn = table.getColumn("C_Period_ID");
+        if (periodColumn != null) {
+
+            String dateAcctColumn =
+                    findDateColumnAssociatedWithPeriod(table);
+
+            if (dateAcctColumn != null) {
+
+                log.fine("Table: " + tableName + " dateAcctColumn: "
+                        + dateAcctColumn);
+                String updatePeriodSql = "update " + tableName + " set "
+                        + " C_Period_ID=(SELECT C_Period_ID from C_Period WHERE "
+                        + dateAcctColumn
+                        + " BETWEEN StartDate and EndDate and AD_Client_ID="
+                        + GARDEN_WORLD_CLIENT_ID
+                        + ") WHERE AD_Client_ID=" + GARDEN_WORLD_CLIENT_ID
+                        + " AND EXISTS (SELECT C_Period_ID from C_Period WHERE "
+                        + dateAcctColumn
+                        + " BETWEEN StartDate and EndDate and AD_Client_ID="
+                        + GARDEN_WORLD_CLIENT_ID
+                        + ")";
+
+                PreparedStatement pstm = null;
+                try {
+                    pstm = getPreparedStatement(updatePeriodSql, get_TrxName());
+                    pstm.executeUpdate();
+
+                } catch (SQLException e) {
+                    log.severe(e.getLocalizedMessage());
+                    throw new AdempiereException(
+                            "Problem in updating periods according to new accounting values."
+                                    + " Table: " + tableName
+                                    + ", DateAcct Column: " + dateAcctColumn,
+                            e);
+                } finally {
+                    closePreparedStatement(pstm);
+                }
+            }
+        }
+
+    }
+
+    private void updatePeriods() {
+
+        // Update the date columns
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            pstm = DB.prepareStatement(dateColumnSQL + sqlOrderBy,
+                    get_TrxName());
+            rs = pstm.executeQuery();
+            String tableName = null;
+            while (rs.next()) {
+                tableName = rs.getString(1);
+                updatePeriodFieldsToMatchDates(tableName);
+            }
+        } catch (SQLException e) {
+            log.log(Level.SEVERE, e.getLocalizedMessage());
+            throw new AdempiereException("", e);
+        } finally {
+            DB.close(rs, pstm);
+        }
+
+    }
+
+    private void updateTable(String tableName, String columnName) {
+
+        if (yearOffset == 0 || tableName.isEmpty() || columnName.isEmpty()) {
+            return;
+        }
+
+        int monthOffset = yearOffset * 12;
+
+        String sql = "UPDATE " + tableName + " SET  " + columnName
+                + " = trunc(("
+                + " CASE WHEN add_months(" + columnName + ", "
+                + monthOffset + ") >= ?"
+                + "         AND add_months(" + columnName + ", "
+                + monthOffset + ") <= ?"
+                + "         THEN add_months(" + columnName + ", "
+                + monthOffset + ") "
+                + "     WHEN add_months(" + columnName + ", "
+                + monthOffset + ") < ?"
+                + "         THEN ?"
+                + "     WHEN add_months(" + columnName + ", "
+                + monthOffset + ") > ?"
+                + "         THEN ?"
+                + " ELSE " + columnName
+                + " END ), 'DD') "
+                + " WHERE " + columnName + " IS NOT NULL "
+                + " AND AD_Client_ID=" + GARDEN_WORLD_CLIENT_ID;
+
+        PreparedStatement pstm = null;
+        try {
+            pstm = DB.prepareStatement(sql, get_TrxName());
+            pstm.setTimestamp(1, minDate);
+            pstm.setTimestamp(2, maxDate);
+            pstm.setTimestamp(3, minDate);
+            pstm.setTimestamp(4, minDate);
+            pstm.setTimestamp(5, maxDate);
+            pstm.setTimestamp(6, maxDate);
+            pstm.executeUpdate();
+
+        } catch (SQLException e) {
+            log.log(Level.SEVERE, e.getLocalizedMessage());
+            throw new AdempiereException(
+                    "Problem in adding years to date columns", e);
+        } finally {
+            closePreparedStatement(pstm);
+        }
+
+    }
+
+    void determinePeriodOffset() {
+
+        Timestamp targetPeriodStart = getTargetEarliestPeriodStartDate();
+        Timestamp earliestPeriodStart =
+                getMinPeriodStartDate();
+
+        yearOffset = TimeUtil.getYearsBetween(earliestPeriodStart,
+                targetPeriodStart);
+
+    }
+
+    protected Timestamp getTargetEarliestPeriodStartDate() {
+
+        return TimeUtil.getDay(getTargetStartYear(), 1, 1);
+
+    }
+
+    protected Timestamp getMinPeriodStartDate() {
+
+        return MPeriod.getMinPeriodStartDate(getCtx(), get_TrxName());
+
+    }
+
+    protected boolean isSufficentlyUpToDate() {
+
+        return yearOffset == 0;
+
+    }
+
+    protected void adjustCalendarYearAndPeriods() {
+
+        if (yearOffset == 0) {
+            return; // nothing to do
+        }
+
+        // Move the calendars by a year offset
+        int monthOffset = yearOffset * 12;
+
+        // Offset the periods
+        final String whereADClientIDClause =
+                " WHERE ad_client_id=" + GARDEN_WORLD_CLIENT_ID;
+        String updatePeriod =
+                "UPDATE C_Period SET StartDate = add_months(Startdate, "
+                        + monthOffset + "), "
+                        + "   EndDate = add_months(Enddate, " + monthOffset
+                        + "), "
+                        + "   Name = to_char(add_months(Enddate, " + monthOffset
+                        + "),'YYYY-MM') "
+                        + whereADClientIDClause;
+        DB.executeUpdate(updatePeriod, get_TrxName());
+
+        // Offset the year - have to do this twice to avoid a constraint.
+        String updateYear =
+                "UPDATE C_Year SET fiscalyear=(SELECT max(to_char(p.enddate,'YYYY-MM')) "
+                        + " from c_period p where p.c_year_id=c_year.c_year_id) "
+                        + whereADClientIDClause;
+        DB.executeUpdate(updateYear, get_TrxName());
+
+        updateYear =
+                "UPDATE C_Year SET fiscalyear=(SELECT max(to_char(p.enddate,'YYYY')) "
+                        + " from c_period p where p.c_year_id=c_year.c_year_id) "
+                        + whereADClientIDClause;
+
+        DB.executeUpdate(updateYear, get_TrxName());
+
+    }
+
+    protected void updateDates() {
+
+        // Update the date columns
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            pstm = getPreparedStatement(dateColumnSQL + sqlOrderBy,
+                    get_TrxName());
+            rs = pstm.executeQuery();
+            String tableName = null;
+            String columnName = null;
+            while (rs.next()) {
+                tableName = rs.getString(1);
+                columnName = rs.getString(2);
+
+                updateTable(tableName, columnName);
+            }
+        } catch (SQLException e) {
+            log.log(Level.SEVERE, e.getLocalizedMessage());
+            throw new AdempiereException("", e);
+        } finally {
+            DB.close(rs, pstm);
+        }
+
+    }
+
+    protected Timestamp getMaxPeriodEndDate() {
+
+        return MPeriod.getMaxPeriodEndDate(getCtx(), get_TrxName());
+
+    }
+
+    @Override
+    protected String doIt() {
+
+        if (gardenWorldDoesNotExist())
+            return wrapMsg("ERROR") + " " + wrapMsg(CLIENT_NOT_FOUND_MSG);
+
+        clearSessionLog();
+        determinePeriodOffset();
+
+        if (isSufficentlyUpToDate()) {
+            return wrapMsg(NO_CHANGES_MSG);
+        }
+
+        adjustCalendarYearAndPeriods();
+        updateDates();
+        updatePeriods();
+        cleanUp();
+
+        log.config(Msg.translate(getCtx(), SUCCESS_MSG));
+        return wrapMsg(SUCCESS_MSG);
+
+    }
+
 }
