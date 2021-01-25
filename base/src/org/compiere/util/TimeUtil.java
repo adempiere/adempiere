@@ -16,11 +16,14 @@
  *****************************************************************************/
 package org.compiere.util;
 
+import static java.util.Objects.requireNonNull;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.BitSet;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 
 import org.compiere.model.MCalendar;
 
@@ -1354,4 +1357,18 @@ public class TimeUtil
         //	Value
         return weeks;
 	}
+	
+	/**
+	 * Get the year as an int
+	 * @param date a Timestamp. Not null.
+	 * @return year as an int
+	 */
+    public static int getYearFromTimestamp(Timestamp date) {
+
+        Timestamp time = requireNonNull(date);
+        Calendar todayCal = Calendar.getInstance();
+        todayCal.setTime(time);
+        return todayCal.get(Calendar.YEAR);
+
+    }
 }	//	TimeUtil
