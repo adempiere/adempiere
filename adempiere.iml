@@ -1406,7 +1406,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/commons-validator-1.6.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/commons-validator-1.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
