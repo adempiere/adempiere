@@ -17,10 +17,9 @@
 package org.spin.process;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -38,12 +37,12 @@ import org.compiere.util.Util;
  */
 public class DepositFromCash extends DepositFromCashAbstract {
 	
+	/**	Source with withdrawal reference	*/
+	Map<Integer, Integer> withdrawalLinkPayments = new HashMap<Integer, Integer>();
 	/**	Source with deposit reference	*/
-	Map<Integer, Integer> referencePayments = new HashMap<Integer, Integer>();
+	Map<Integer, Integer> depositLinkPayments = new HashMap<Integer, Integer>();
 	/**	Deposits	*/
 	Map<String, MPayment> payments = new HashMap<String, MPayment>();
-	/**	Source Payments	*/
-	List<Integer> sourcePayments = new ArrayList<Integer>();
 	/**	Created	*/
 	AtomicInteger created = new AtomicInteger();
 	
@@ -65,9 +64,8 @@ public class DepositFromCash extends DepositFromCashAbstract {
 		//	Process
   	  	getSelectionKeys().forEach(key -> {
   	  		int paymentId = getSelectionAsInt(key, "CP_C_Payment_ID");
-	  		//	get references from receipt
+  	  		//	get references from receipt
 	  		MPayment sourcePayment = new MPayment(getCtx(), paymentId, get_TrxName());
-	  		sourcePayments.add(paymentId);
 	  		//	
 	  		String paymentKey = getKey(String.valueOf(sourcePayment.getC_Payment_ID()), sourcePayment.getC_BankAccount_ID(), sourcePayment.isReceipt(), sourcePayment.getC_Currency_ID(), sourcePayment.getC_ConversionType_ID());
 	  		payments.put(paymentKey, sourcePayment);
@@ -77,7 +75,7 @@ public class DepositFromCash extends DepositFromCashAbstract {
 	  		}
 	  		MPayment bankDeposit = addPayment(documentNo, getBankAccountId(), true, sourcePayment.getPayAmt(), sourcePayment.getTenderType(), sourcePayment.getC_Currency_ID(), sourcePayment.getC_ConversionType_ID());
 	  		//	Set Reference
-	  		referencePayments.put(sourcePayment.getC_Payment_ID(), bankDeposit.getC_Payment_ID());
+	  		depositLinkPayments.put(sourcePayment.getC_Payment_ID(), bankDeposit.getC_Payment_ID());
 	  		//	Create withdrawal
 	  		MPayment cashWithdrawal = addPayment(getDocumentNo(), sourcePayment.getC_BankAccount_ID(), false, sourcePayment.getPayAmt(), sourcePayment.getTenderType(), sourcePayment.getC_Currency_ID(), sourcePayment.getC_ConversionType_ID());
 	  		if(sourcePayment.getC_POS_ID() > 0) {
@@ -85,35 +83,39 @@ public class DepositFromCash extends DepositFromCashAbstract {
 	  			cashWithdrawal.saveEx();
 	  		}
 	  		//	Add references
-	  		referencePayments.put(bankDeposit.getC_Payment_ID(), cashWithdrawal.getC_Payment_ID());
+	  		withdrawalLinkPayments.put(sourcePayment.getC_Payment_ID(), cashWithdrawal.getC_Payment_ID());
   	  	});
   	  	//	
   	  	StringBuffer msg = new StringBuffer();
   	  	payments.entrySet().forEach(entry -> {
   	  		MPayment payment = entry.getValue();
-  	  		if(!sourcePayments.stream().filter(paymentId -> paymentId == payment.getC_Payment_ID()).findAny().isPresent()) {
-	  	  		Integer referenceId = referencePayments.get(payment.getC_Payment_ID());
-	  	  		if(referenceId != null 
-	  	  				&& referenceId != 0) {
-	  	  			payment.setRef_Payment_ID(referenceId);
-	  	  			payment.saveEx();
-	  	  		}
-	  	  		//	Complete
-	  	  		if(payment.getDocStatus().equals(MPayment.DOCSTATUS_Drafted)) {
-		  	  		payment.processIt(DocAction.ACTION_Complete);
-					payment.saveEx();
-					if(msg.length() > 0) {
-						msg.append(", ");
-					}
-					//	
-					msg.append("[" + payment.getDocumentNo() + "]");	
-					//	Count it
-					created.addAndGet(1);
-	  	  		}
-	  	  		//	for Auto Reconcile
-	  	  		if(isAutoReconciled()) {
-	  	  			MBankStatement.addPayment(payment);
-	  	  		}
+  	  		//	Link to Withdrawal
+  	  		Integer referenceId = withdrawalLinkPayments.get(payment.getC_Payment_ID());
+	  	  	Optional.ofNullable(referenceId).ifPresent(theReferenceId -> {
+	            payment.setRef_Payment_ID(theReferenceId);
+	            payment.saveEx();               
+	        });
+  	  		//	Link to deposit
+  	  		Integer relatedId = depositLinkPayments.get(payment.getC_Payment_ID());
+	  	  	Optional.ofNullable(relatedId).ifPresent(theRelatedId -> {
+	  	  	payment.setRelatedPayment_ID(theRelatedId);
+  			payment.saveEx();
+	        });
+  	  		//	Complete
+  	  		if(payment.getDocStatus().equals(MPayment.DOCSTATUS_Drafted)) {
+	  	  		payment.processIt(DocAction.ACTION_Complete);
+				payment.saveEx();
+				if(msg.length() > 0) {
+					msg.append(", ");
+				}
+				//	
+				msg.append("[" + payment.getDocumentNo() + "]");
+				//	Count it
+				created.addAndGet(1);
+  	  		}
+  	  		//	Auto Reconcile
+  	  		if(isAutoReconciled()) {
+  	  			MBankStatement.addPayment(payment);
   	  		}
   	  	});
   	  	//	

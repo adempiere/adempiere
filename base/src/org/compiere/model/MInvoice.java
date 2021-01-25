@@ -1146,7 +1146,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 			change = test != isPaid();
 			if (change)
 				setIsPaid(test);
-			log.fine("Paid=" + test
+			get_Logger().fine("Paid=" + test
 					+ " (" + alloc + "=" + total + ")");
 		}
 
