@@ -22,6 +22,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+import org.compiere.model.I_M_Movement;
+import org.compiere.model.I_M_Production;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCost;
@@ -256,6 +258,12 @@ public class Doc_Production extends Doc
 		facts.add(fact);
 		return facts;
 	}   //  createFact
+	
+   public static String getDateAcctColumnName() {
+        
+         return I_M_Production.COLUMNNAME_MovementDate;
+    }
+
 
 	/**
 	 *  Create Facts (the accounting logic) for
