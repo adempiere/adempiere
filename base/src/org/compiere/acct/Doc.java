@@ -381,9 +381,9 @@ public abstract class Doc
 	Doc (MAcctSchema[] ass, Class<?> clazz, ResultSet rs, String defaultDocumentType, String trxName)
 	{
 		p_Status = STATUS_Error;
-		m_ass = ass;
-		m_ctx = new Properties(m_ass[0].getCtx());
-		m_ctx.setProperty("#AD_Client_ID", String.valueOf(m_ass[0].getAD_Client_ID()));
+		accountingSchemes = ass;
+		m_ctx = new Properties(accountingSchemes[0].getCtx());
+		m_ctx.setProperty("#AD_Client_ID", String.valueOf(accountingSchemes[0].getAD_Client_ID()));
 		
 		String className = clazz.getName();
 		className = className.substring(className.lastIndexOf('.')+1);
@@ -423,7 +423,7 @@ public abstract class Doc
 	}   //  Doc
 
 	/** Accounting Schema Array     */
-	private MAcctSchema[]    	m_ass = null;
+	private MAcctSchema[]    	accountingSchemes = null;
 	/** Properties					*/
 	private Properties			m_ctx = null;
 	/** Transaction Name			*/
@@ -560,10 +560,10 @@ public abstract class Doc
 		else
 			return "Invalid DocStatus='" + getDocStatus() + "' for DocumentNo=" + getDocumentNo();
 		//
-		if (p_po.getAD_Client_ID() != m_ass[0].getAD_Client_ID())
+		if (p_po.getAD_Client_ID() != accountingSchemes[0].getAD_Client_ID())
 		{
 			String error = "AD_Client_ID Conflict - Document=" + p_po.getAD_Client_ID()
-				+ ", AcctSchema=" + m_ass[0].getAD_Client_ID();
+				+ ", AcctSchema=" + accountingSchemes[0].getAD_Client_ID();
 			log.severe(error);
 			return error;
 		}
@@ -627,20 +627,20 @@ public abstract class Doc
 		getPO().setDoc(this);
 		try
 		{
-			for (int i = 0; OK && i < m_ass.length; i++)
+			for (int i = 0; OK && i < accountingSchemes.length; i++)
 			{
 				//	if acct schema has "only" org, skip
 				boolean skip = false;
-				if (m_ass[i].getAD_OrgOnly_ID() != 0)
+				if (accountingSchemes[i].getAD_OrgOnly_ID() != 0)
 				{
 					//	Header Level Org
-					skip = m_ass[i].isSkipOrg(getAD_Org_ID());
+					skip = accountingSchemes[i].isSkipOrg(getAD_Org_ID());
 					//	Line Level Org
 					if (p_lines != null)
 					{
 						for (int line = 0; skip && line < p_lines.length; line++)
 						{
-							skip = m_ass[i].isSkipOrg(p_lines[line].getAD_Org_ID());
+							skip = accountingSchemes[i].isSkipOrg(p_lines[line].getAD_Org_ID());
 							if (!skip)
 								break;
 						}
@@ -754,11 +754,11 @@ public abstract class Doc
 		log.info("(" + index + ") " + p_po);
 		
 		//  rejectUnbalanced
-		if (!m_ass[index].isSuspenseBalancing() && !isBalanced())
+		if (!accountingSchemes[index].isSuspenseBalancing() && !isBalanced())
 			return STATUS_NotBalanced;
 
 		//  rejectUnconvertible
-		if (!isConvertible(m_ass[index]))
+		if (!isConvertible(accountingSchemes[index]))
 			return STATUS_NotConvertible;
 
 		//  rejectPeriodClosed
@@ -766,15 +766,15 @@ public abstract class Doc
 			return STATUS_PeriodClosed;
 
 		if (isReversed() && IsReverseGenerated() && isReverseWithOriginalAccounting())
-			return generateReverseWithOriginalAccounting();
+			return generateReverseWithOriginalAccounting(accountingSchemes[index]);
 
 		//  createFacts
-		ArrayList<Fact> facts = createFacts (m_ass[index]);
+		ArrayList<Fact> facts = createFacts (accountingSchemes[index]);
 		if (facts == null)
 			return STATUS_Error;
 		
 		// call modelValidator
-		String validatorMsg = ModelValidationEngine.get().fireFactsValidate(m_ass[index], facts, getPO());
+		String validatorMsg = ModelValidationEngine.get().fireFactsValidate(accountingSchemes[index], facts, getPO());
 		if (validatorMsg != null) {
 			p_Error = validatorMsg;
 			return STATUS_Error;
@@ -2500,13 +2500,14 @@ public abstract class Doc
 		else
 			return false;
 	}
-
+	
 	/**
 	 * Generate Reverse using Orginal Accounting
+	 * @param originalAccountSchema
 	 * @return
 	 */
-	private String generateReverseWithOriginalAccounting() {
-		getReversalFactAcct().stream().forEach(factAcct -> {
+	private String generateReverseWithOriginalAccounting(MAcctSchema originalAccountSchema) {
+		getReversalFactAcct(originalAccountSchema).stream().forEach(factAcct -> {
 			MFactAcct reverseFactAcct = new MFactAcct(getPO().getCtx() , 0 , getPO().get_TrxName());
 			PO.copyValues(factAcct, reverseFactAcct);
 			reverseFactAcct.setAD_Org_ID(factAcct.getAD_Org_ID());
@@ -2515,10 +2516,8 @@ public abstract class Doc
 			reverseFactAcct.setC_Period_ID(getC_Period_ID());
 			reverseFactAcct.setRecord_ID(getPO().get_ID());
 			reverseFactAcct.setQty(factAcct.getQty().negate());
-			reverseFactAcct.setAmtSourceDr(factAcct.getAmtSourceDr().negate());
-			reverseFactAcct.setAmtSourceCr(factAcct.getAmtSourceCr().negate());
-			reverseFactAcct.setAmtAcctDr(factAcct.getAmtAcctDr().negate());
-			reverseFactAcct.setAmtAcctCr(factAcct.getAmtAcctCr().negate());
+			FactLine.setSourceAmount(originalAccountSchema, reverseFactAcct, factAcct.getAmtSourceDr().negate(), factAcct.getAmtSourceCr().negate());
+			FactLine.setAccountingAmount(originalAccountSchema, reverseFactAcct, factAcct.getAmtAcctDr().negate(), factAcct.getAmtAcctCr().negate());
 			reverseFactAcct.saveEx();
 		});
 		return STATUS_Posted;
@@ -2526,16 +2525,18 @@ public abstract class Doc
 
 	/**
 	 * get Reversal Fact Accounts
+	 * @param originalAccountSchema
 	 * @return
 	 */
-	private List<MFactAcct> getReversalFactAcct()
+	private List<MFactAcct> getReversalFactAcct(MAcctSchema originalAccountSchema)
 	{
 		StringBuilder whereClause = new StringBuilder();
 		whereClause.append(MFactAcct.COLUMNNAME_AD_Table_ID).append("=? AND ");
-		whereClause.append(MFactAcct.COLUMNNAME_Record_ID).append("=?");
+		whereClause.append(MFactAcct.COLUMNNAME_Record_ID).append("=? AND ");
+		whereClause.append(MFactAcct.COLUMNNAME_C_AcctSchema_ID).append("=?");
 		return new Query(getCtx(), MFactAcct.Table_Name , whereClause.toString() , getPO().get_TrxName())
 				.setClient_ID()
-				.setParameters(getPO().get_Table_ID(), getReversalId())
+				.setParameters(getPO().get_Table_ID(), getReversalId(), originalAccountSchema.getC_AcctSchema_ID())
 				.setOrderBy(MFactAcct.COLUMNNAME_Fact_Acct_ID)
 				.list();
 	}

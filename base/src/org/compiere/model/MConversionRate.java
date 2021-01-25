@@ -17,6 +17,7 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -200,26 +201,26 @@ public class MConversionRate extends X_C_Conversion_Rate
 	
 	/**
 	 *	Get Currency Conversion Rate
-	 *  @param  CurFrom_ID  The C_Currency_ID FROM
-	 *  @param  CurTo_ID    The C_Currency_ID TO
-	 *  @param  ConvDate    The Conversion date - if null - use current date
-	 *  @param  ConversionType_ID Conversion rate type - if 0 - use Default
-	 * 	@param	AD_Client_ID client
-	 * 	@param	AD_Org_ID	organization
+	 *  @param  currencyFromId  The C_Currency_ID FROM
+	 *  @param  currencyToId    The C_Currency_ID TO
+	 *  @param  conversionDate    The Conversion date - if null - use current date
+	 *  @param  conversionTypeId Conversion rate type - if 0 - use Default
+	 * 	@param	clientId client
+	 * 	@param	OrganizationId	organization
 	 *  @return currency Rate or null
 	 */
-	public static BigDecimal getRate (int CurFrom_ID, int CurTo_ID,
-		Timestamp ConvDate, int ConversionType_ID, int AD_Client_ID, int AD_Org_ID)
+	public static BigDecimal getRate (int currencyFromId, int currencyToId,
+		Timestamp conversionDate, int conversionTypeId, int clientId, int OrganizationId)
 	{
-		if (CurFrom_ID == CurTo_ID)
+		if (currencyFromId == currencyToId)
 			return Env.ONE;
 		//	Conversion Type
-		int C_ConversionType_ID = ConversionType_ID;
+		int C_ConversionType_ID = conversionTypeId;
 		if (C_ConversionType_ID == 0)
-			C_ConversionType_ID = MConversionType.getDefault(AD_Client_ID);
+			C_ConversionType_ID = MConversionType.getDefault(clientId);
 		//	Conversion Date
-		if (ConvDate == null)
-			ConvDate = new Timestamp (System.currentTimeMillis());
+		if (conversionDate == null)
+			conversionDate = new Timestamp (System.currentTimeMillis());
 
 		//	Get Rate
 		String sql = "SELECT MultiplyRate "
@@ -227,18 +228,20 @@ public class MConversionRate extends X_C_Conversion_Rate
 			+ "WHERE C_Currency_ID=?"					//	#1
 			+ " AND C_Currency_ID_To=?"					//	#2
 			+ " AND	C_ConversionType_ID=?"				//	#3
-			+ " AND	? BETWEEN ValidFrom AND ValidTo"	//	#4	TRUNC (?) ORA-00932: inconsistent datatypes: expected NUMBER got TIMESTAMP
-			+ " AND AD_Client_ID IN (0,?)"				//	#5
-			+ " AND AD_Org_ID IN (0,?) "				//	#6
+			+ " AND	? >= ValidFrom"						//	#4
+			+ " AND	? <= ValidTo"						//	#5
+			+ " AND AD_Client_ID IN (0,?)"				//	#6
+			+ " AND AD_Org_ID IN (0,?) "				//	#7
+			+ " AND IsActive='Y' "				//	#6
 			+ "ORDER BY AD_Client_ID DESC, AD_Org_ID DESC, ValidFrom DESC";
-		BigDecimal retValue = DB.getSQLValueBD(null, sql, CurFrom_ID, CurTo_ID, C_ConversionType_ID, ConvDate, AD_Client_ID, AD_Org_ID);			
+		BigDecimal retValue = DB.getSQLValueBD(null, sql, currencyFromId, currencyToId, C_ConversionType_ID, conversionDate, conversionDate, clientId, OrganizationId);			
 		if (retValue == null)
-			s_log.info ("getRate - not found - CurFrom=" + CurFrom_ID 
-			  + ", CurTo=" + CurTo_ID
-			  + ", " + ConvDate 
-			  + ", Type=" + ConversionType_ID + (ConversionType_ID==C_ConversionType_ID ? "" : "->" + C_ConversionType_ID) 
-			  + ", Client=" + AD_Client_ID 
-			  + ", Org=" + AD_Org_ID);
+			s_log.info ("getRate - not found - CurFrom=" + currencyFromId 
+			  + ", CurTo=" + currencyToId
+			  + ", " + conversionDate 
+			  + ", Type=" + conversionTypeId + (conversionTypeId==C_ConversionType_ID ? "" : "->" + C_ConversionType_ID) 
+			  + ", Client=" + clientId 
+			  + ", Org=" + OrganizationId);
 		return retValue;
 	}	//	getRate
 	
@@ -249,10 +252,10 @@ public class MConversionRate extends X_C_Conversion_Rate
 	 * @param conversionDate
 	 * @param conversionTypeId
 	 * @param clientId
-	 * @param orgId
+	 * @param organizationId
 	 * @return
 	 */
-	public static int getConversionRateId(int currencyFromId, int CurencyToId, Timestamp conversionDate, int conversionTypeId, int clientId, int orgId) {
+	public static int getConversionRateId(int currencyFromId, int CurencyToId, Timestamp conversionDate, int conversionTypeId, int clientId, int organizationId) {
 		if (currencyFromId == CurencyToId) {
 			return 0;
 		}
@@ -271,12 +274,14 @@ public class MConversionRate extends X_C_Conversion_Rate
 				+ "WHERE C_Currency_ID=?"					//	#1
 				+ " AND C_Currency_ID_To=?"					//	#2
 				+ " AND	C_ConversionType_ID=?"				//	#3
-				+ " AND	? BETWEEN ValidFrom AND ValidTo"	//	#4	TRUNC (?) ORA-00932: inconsistent datatypes: expected NUMBER got TIMESTAMP
-				+ " AND AD_Client_ID IN (0,?)"				//	#5
-				+ " AND AD_Org_ID IN (0,?) "				//	#6
+				+ " AND	? >= ValidFrom"						//	#4
+				+ " AND	? <= ValidTo"						//	#5
+				+ " AND AD_Client_ID IN (0,?)"				//	#6
+				+ " AND AD_Org_ID IN (0,?) "				//	#7
+				+ " AND IsActive = 'Y' "					//	#8
 				+ "ORDER BY AD_Client_ID DESC, AD_Org_ID DESC, ValidFrom DESC";
 		//	Get
-		int conversionRateId = DB.getSQLValue(null, sql, currencyFromId, CurencyToId, internalConversionTypeId, conversionDate, clientId, orgId);
+		int conversionRateId = DB.getSQLValue(null, sql, currencyFromId, CurencyToId, internalConversionTypeId, conversionDate, conversionDate, clientId, organizationId);
 		//	Show Log
 		if (conversionRateId == -1) {
 			s_log.info ("getRate - not found - CurFrom=" + currencyFromId 
@@ -284,7 +289,7 @@ public class MConversionRate extends X_C_Conversion_Rate
 						  + ", " + conversionDate 
 						  + ", Type=" + conversionTypeId + (conversionTypeId==internalConversionTypeId ? "" : "->" + internalConversionTypeId) 
 						  + ", Client=" + clientId 
-						  + ", Org=" + orgId);
+						  + ", Org=" + organizationId);
 		}
 		//	Return
 		return conversionRateId;
@@ -399,8 +404,7 @@ public class MConversionRate extends X_C_Conversion_Rate
 		else
 		{
 			super.setMultiplyRate(MultiplyRate);
-			double dd = 1 / MultiplyRate.doubleValue();
-			super.setDivideRate(new BigDecimal(dd));
+			super.setDivideRate(Env.ONE.divide(MultiplyRate, MathContext.DECIMAL128));
 		}
 	}	//	setMultiplyRate
 
@@ -421,8 +425,7 @@ public class MConversionRate extends X_C_Conversion_Rate
 		else
 		{
 			super.setDivideRate(DivideRate);
-			double dd = 1 / DivideRate.doubleValue();
-			super.setMultiplyRate(new BigDecimal(dd));
+			super.setMultiplyRate(Env.ONE.divide(DivideRate, MathContext.DECIMAL128));
 		}
 	}	//	setDivideRate
 

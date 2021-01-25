@@ -334,7 +334,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	private MProductPricing getProductPricing (int M_PriceList_ID)
 	{
 		m_productPrice = new MProductPricing (getM_Product_ID(), 
-			getC_BPartner_ID(), getQtyOrdered(), m_IsSOTrx, null);
+			getC_BPartner_ID(), getQtyOrdered(), m_IsSOTrx, get_TrxName());
 		m_productPrice.setM_PriceList_ID(M_PriceList_ID);
 		m_productPrice.setPriceDate(getDateOrdered());
 		//
@@ -369,7 +369,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		//	Line Net Amt
 		BigDecimal lineNetAmount = null;
 		if(getM_Product_ID() != 0) {
-			MProduct product = MProduct.get(getCtx(), getM_Product_ID());
+			MProduct product = MProduct.get(getCtx(), getM_Product_ID(), get_TrxName());
 			if(product.getC_UOM_ID() != getC_UOM_ID()
 					&& getPriceEntered() != null && !getPriceEntered().equals(Env.ZERO)
 					&& getQtyEntered() != null && !getQtyEntered().equals(Env.ZERO)) {
@@ -537,7 +537,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	public MProduct getProduct()
 	{
 		if (m_product == null && getM_Product_ID() != 0)
-			m_product =  MProduct.get (getCtx(), getM_Product_ID());
+			m_product =  MProduct.get (getCtx(), getM_Product_ID(), get_TrxName());
 		return m_product;
 	}	//	getProduct
 	
@@ -757,6 +757,9 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		//	Product
 		if(inOutLineReference.getM_Product_ID() != 0) {
 			setM_Product_ID(inOutLineReference.getM_Product_ID());
+			if(inOutLineReference.getM_AttributeSetInstance_ID() > 0) {
+				setM_AttributeSetInstance_ID(inOutLineReference.getM_AttributeSetInstance_ID());
+			}
 		}
 		if(inOutLineReference.getC_UOM_ID() != 0) {
 			setC_UOM_ID(inOutLineReference.getC_UOM_ID());
@@ -789,14 +792,75 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		//	Set Price from Invoice / Order
 		if (invoiceLineReferenceId != 0) {
             MInvoiceLine invoiceLine = new MInvoiceLine(getCtx(), invoiceLineReferenceId, get_TrxName());
+            setPriceList(invoiceLine.getPriceList());
             setPriceEntered(invoiceLine.getPriceEntered());
             setPriceActual(invoiceLine.getPriceActual());
             setC_Tax_ID(invoiceLine.getC_Tax_ID());
         } else if (inOutLineReference.getC_OrderLine_ID() != 0) {
             MOrderLine orderLine = new MOrderLine (getCtx(), inOutLineReference.getC_OrderLine_ID(), get_TrxName());
+            setPriceList(orderLine.getPriceList());
             setPriceEntered(orderLine.getPriceEntered());
             setPriceActual(orderLine.getPriceActual());
             setC_Tax_ID(orderLine.getC_Tax_ID());
+        }
+	}
+	
+	/**
+	 * Set reference for RMA
+	 * @param invoiceLineReference
+	 */
+	public void setRef_InvoiceLine(MInvoiceLine invoiceLineReference) {
+		//	Charge
+		if(invoiceLineReference.getC_Charge_ID() != 0) {
+			setC_Charge_ID(invoiceLineReference.getC_Charge_ID());
+		}
+		//	Product
+		if(invoiceLineReference.getM_Product_ID() != 0) {
+			setM_Product_ID(invoiceLineReference.getM_Product_ID());
+			if(invoiceLineReference.getM_AttributeSetInstance_ID() > 0) {
+				setM_AttributeSetInstance_ID(invoiceLineReference.getM_AttributeSetInstance_ID());
+			}
+		}
+		if(invoiceLineReference.getC_UOM_ID() != 0) {
+			setC_UOM_ID(invoiceLineReference.getC_UOM_ID());
+		}
+		if(invoiceLineReference.getAD_OrgTrx_ID() != 0) {
+			setAD_OrgTrx_ID(invoiceLineReference.getAD_OrgTrx_ID());
+		}
+		if(invoiceLineReference.getC_Project_ID() != 0) {
+			setC_Project_ID(invoiceLineReference.getC_Project_ID());
+		}
+		if(invoiceLineReference.getC_Campaign_ID() != 0) {
+			setC_Campaign_ID(invoiceLineReference.getC_Campaign_ID());
+		}
+		if(invoiceLineReference.getC_Activity_ID() != 0) {
+			setC_Activity_ID(invoiceLineReference.getC_Activity_ID());
+		}
+		if(invoiceLineReference.getUser1_ID() != 0) {
+			setUser1_ID(invoiceLineReference.getUser1_ID());
+		}
+		if(invoiceLineReference.getUser2_ID() != 0) {
+			setUser2_ID(invoiceLineReference.getUser2_ID());
+		}
+		if(invoiceLineReference.getUser3_ID() != 0) {
+			setUser3_ID(invoiceLineReference.getUser3_ID());
+		}
+		if(invoiceLineReference.getUser4_ID() != 0) {
+			setUser4_ID(invoiceLineReference.getUser4_ID());
+		}
+		setRef_InvoiceLine_ID(invoiceLineReference.getC_InvoiceLine_ID());
+		//	Set Price from Invoice / Order
+		setPriceList(invoiceLineReference.getPriceList());
+		setPriceEntered(invoiceLineReference.getPriceEntered());
+        setPriceActual(invoiceLineReference.getPriceActual());
+        setC_Tax_ID(invoiceLineReference.getC_Tax_ID());
+        int inOutLineReferenceId = invoiceLineReference.getM_InOutLine_ID();
+        if(inOutLineReferenceId == 0) {
+        	inOutLineReferenceId = invoiceLineReference.getInOutLineId();
+        }
+		//	Set Price from Invoice / Order
+		if (inOutLineReferenceId != 0) {
+            setRef_InOutLine_ID(inOutLineReferenceId);
         }
 	}
 	

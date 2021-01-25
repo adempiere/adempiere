@@ -42,13 +42,24 @@ public class MAlertProcessor extends X_AD_AlertProcessor
 
 
 	/**
-	 * 	Get Active
+	 * 	Get Active - assumes null transaction
 	 *	@param ctx context
 	 *	@return active processors
 	 */
 	public static MAlertProcessor[] getActive (Properties ctx)
 	{
-		List <MAlertProcessor> list = new Query(ctx,I_AD_AlertProcessor.Table_Name,  null, null)
+	    return getActive(ctx, null);
+	}
+	
+	   /**
+     *  Get Active
+     *  @param ctx context
+     *  @param trxName the Transaction Name
+     *  @return active processors
+     */
+    public static MAlertProcessor[] getActive (Properties ctx, String trxName)
+    {
+        List <MAlertProcessor> list = new Query(ctx,I_AD_AlertProcessor.Table_Name,  null, trxName)
 		.setOnlyActiveRecords(true)
 		.list();
 		MAlertProcessor[] retValue = new MAlertProcessor[list.size ()];
@@ -113,7 +124,7 @@ public class MAlertProcessor extends X_AD_AlertProcessor
 	public AdempiereProcessorLog[] getLogs ()
 	{
 		final String whereClause ="AD_AlertProcessor_ID=?"; 
-		List <MAlertProcessorLog> list = new Query(getCtx(), I_AD_AlertProcessorLog.Table_Name,  whereClause, null)
+		List <MAlertProcessorLog> list = new Query(getCtx(), I_AD_AlertProcessorLog.Table_Name,  whereClause, get_TrxName())
 		.setParameters(getAD_AlertProcessor_ID())
 		.setOrderBy("Created DESC")
 		.list();
@@ -150,7 +161,7 @@ public class MAlertProcessor extends X_AD_AlertProcessor
 			return alerts;
 		
 		final String whereClause ="AD_AlertProcessor_ID=?"; 
-		List <MAlert> list = new Query(getCtx(), I_AD_Alert.Table_Name,  whereClause, null)
+		List <MAlert> list = new Query(getCtx(), I_AD_Alert.Table_Name,  whereClause, get_TrxName())
 		.setParameters(getAD_AlertProcessor_ID())
 		.setOnlyActiveRecords(true)
 		.list();

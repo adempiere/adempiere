@@ -891,7 +891,68 @@ public class MHRMovement extends X_HR_Movement
 		MHREmployee employee  = MHREmployee.getActiveEmployee(Env.getCtx(), getC_BPartner_ID(), get_TrxName());
 		if (employee != null) {
 			setAD_Org_ID(employee.getAD_Org_ID());
-		}
+			int activityId = employee.getC_Activity_ID();
+			int user1Id = employee.getUser1_ID();
+			int user2Id = employee.getUser2_ID();
+			int user3Id = employee.getUser3_ID();
+			int user4Id = employee.getUser4_ID();
+			//	Get from Job
+			if(employee.getHR_Job_ID() > 0
+					&& (activityId <= 0 || user1Id <= 0 || user2Id <= 0 || user3Id <= 0 || user4Id <= 0)) {
+				MHRJob job = MHRJob.getById(getCtx(), employee.getHR_Job_ID(), get_TrxName());
+				if(activityId <= 0) {
+					activityId = job.getC_Activity_ID();
+				}
+				if(user1Id <= 0) {
+					user1Id = job.getUser1_ID();
+				}
+				if(user2Id <= 0) {
+					user2Id = job.getUser2_ID();
+				}
+				if(user3Id <= 0) {
+					user3Id = job.getUser3_ID();
+				}
+				if(user4Id <= 0) {
+					user4Id = job.getUser4_ID();
+				}
+			}
+			//	Get from Department
+			if(employee.getHR_Department_ID() > 0
+					&& (activityId <= 0 || user1Id <= 0 || user2Id <= 0 || user3Id <= 0 || user4Id <= 0)) {
+				MHRDepartment department = MHRDepartment.getById(getCtx(), employee.getHR_Department_ID(), get_TrxName());
+				if(activityId <= 0) {
+					activityId = department.getC_Activity_ID();
+				}
+				if(user1Id <= 0) {
+					user1Id = department.getUser1_ID();
+				}
+				if(user2Id <= 0) {
+					user2Id = department.getUser2_ID();
+				}
+				if(user3Id <= 0) {
+					user3Id = department.getUser3_ID();
+				}
+				if(user4Id <= 0) {
+					user4Id = department.getUser4_ID();
+				}
+			}
+			//	Set result
+			if(activityId > 0) {
+				setC_Activity_ID(activityId);
+			}
+			if(user1Id > 0) {
+				setUser1_ID(user1Id);
+			}
+			if(user2Id > 0) {
+				setUser2_ID(user2Id);
+			}
+			if(user3Id > 0) {
+				setUser3_ID(user3Id);
+			}
+			if(user4Id > 0) {
+				setUser4_ID(user4Id);
+			}
+		}		
 		return true;
 	}
 

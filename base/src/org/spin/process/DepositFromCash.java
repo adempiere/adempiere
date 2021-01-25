@@ -19,10 +19,12 @@ package org.spin.process;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MBankAccount;
+import org.compiere.model.MBankStatement;
 import org.compiere.model.MPayment;
 import org.compiere.process.DocAction;
 import org.compiere.util.Util;
@@ -35,14 +37,22 @@ import org.compiere.util.Util;
  */
 public class DepositFromCash extends DepositFromCashAbstract {
 	
-	/**	Tender Type								*/
-	private String defaultTenderType = MPayment.TENDERTYPE_Account;
+	/**	Source with withdrawal reference	*/
+	Map<Integer, Integer> withdrawalLinkPayments = new HashMap<Integer, Integer>();
 	/**	Source with deposit reference	*/
-	Map<Integer, Integer> referencePayments = new HashMap<Integer, Integer>();
+	Map<Integer, Integer> depositLinkPayments = new HashMap<Integer, Integer>();
 	/**	Deposits	*/
 	Map<String, MPayment> payments = new HashMap<String, MPayment>();
 	/**	Created	*/
 	AtomicInteger created = new AtomicInteger();
+	
+	@Override
+	protected void prepare() {
+		super.prepare();
+		if(Util.isEmpty(getTenderType())) {
+			setTenderType(MPayment.TENDERTYPE_DirectDeposit);
+		}
+	}
 	
 	@Override
 	protected String doIt() throws Exception {
@@ -54,7 +64,7 @@ public class DepositFromCash extends DepositFromCashAbstract {
 		//	Process
   	  	getSelectionKeys().forEach(key -> {
   	  		int paymentId = getSelectionAsInt(key, "CP_C_Payment_ID");
-	  		//	get references from receipt
+  	  		//	get references from receipt
 	  		MPayment sourcePayment = new MPayment(getCtx(), paymentId, get_TrxName());
 	  		//	
 	  		String paymentKey = getKey(String.valueOf(sourcePayment.getC_Payment_ID()), sourcePayment.getC_BankAccount_ID(), sourcePayment.isReceipt(), sourcePayment.getC_Currency_ID(), sourcePayment.getC_ConversionType_ID());
@@ -65,22 +75,32 @@ public class DepositFromCash extends DepositFromCashAbstract {
 	  		}
 	  		MPayment bankDeposit = addPayment(documentNo, getBankAccountId(), true, sourcePayment.getPayAmt(), sourcePayment.getTenderType(), sourcePayment.getC_Currency_ID(), sourcePayment.getC_ConversionType_ID());
 	  		//	Set Reference
-	  		referencePayments.put(sourcePayment.getC_Payment_ID(), bankDeposit.getC_Payment_ID());
+	  		depositLinkPayments.put(sourcePayment.getC_Payment_ID(), bankDeposit.getC_Payment_ID());
 	  		//	Create withdrawal
 	  		MPayment cashWithdrawal = addPayment(getDocumentNo(), sourcePayment.getC_BankAccount_ID(), false, sourcePayment.getPayAmt(), sourcePayment.getTenderType(), sourcePayment.getC_Currency_ID(), sourcePayment.getC_ConversionType_ID());
+	  		if(sourcePayment.getC_POS_ID() > 0) {
+	  			cashWithdrawal.setC_POS_ID(sourcePayment.getC_POS_ID());
+	  			cashWithdrawal.saveEx();
+	  		}
 	  		//	Add references
-	  		referencePayments.put(bankDeposit.getC_Payment_ID(), cashWithdrawal.getC_Payment_ID());
+	  		withdrawalLinkPayments.put(sourcePayment.getC_Payment_ID(), cashWithdrawal.getC_Payment_ID());
   	  	});
   	  	//	
   	  	StringBuffer msg = new StringBuffer();
   	  	payments.entrySet().forEach(entry -> {
   	  		MPayment payment = entry.getValue();
-  	  		Integer referenceId = referencePayments.get(payment.getC_Payment_ID());
-  	  		if(referenceId != null 
-  	  				&& referenceId != 0) {
-  	  			payment.setRef_Payment_ID(referenceId);
-  	  			payment.saveEx();
-  	  		}
+  	  		//	Link to Withdrawal
+  	  		Integer referenceId = withdrawalLinkPayments.get(payment.getC_Payment_ID());
+	  	  	Optional.ofNullable(referenceId).ifPresent(theReferenceId -> {
+	            payment.setRef_Payment_ID(theReferenceId);
+	            payment.saveEx();               
+	        });
+  	  		//	Link to deposit
+  	  		Integer relatedId = depositLinkPayments.get(payment.getC_Payment_ID());
+	  	  	Optional.ofNullable(relatedId).ifPresent(theRelatedId -> {
+	  	  	payment.setRelatedPayment_ID(theRelatedId);
+  			payment.saveEx();
+	        });
   	  		//	Complete
   	  		if(payment.getDocStatus().equals(MPayment.DOCSTATUS_Drafted)) {
 	  	  		payment.processIt(DocAction.ACTION_Complete);
@@ -89,9 +109,13 @@ public class DepositFromCash extends DepositFromCashAbstract {
 					msg.append(", ");
 				}
 				//	
-				msg.append("[" + payment.getDocumentNo() + "]");	
+				msg.append("[" + payment.getDocumentNo() + "]");
 				//	Count it
 				created.addAndGet(1);
+  	  		}
+  	  		//	Auto Reconcile
+  	  		if(isAutoReconciled()) {
+  	  			MBankStatement.addPayment(payment);
   	  		}
   	  	});
   	  	//	
@@ -156,7 +180,7 @@ public class DepositFromCash extends DepositFromCashAbstract {
 		payment.setC_BPartner_ID(getBPartnerId());
 		payment.setC_BankAccount_ID(bankAccountId);
 		payment.setIsReceipt(isReceipt);
-		payment.setTenderType(tenderType != null? tenderType: defaultTenderType);
+		payment.setTenderType(tenderType != null? tenderType: getTenderType());
 		payment.setDateTrx(getDateTrx());
 		payment.setDateAcct(getDateTrx());
 		if(!Util.isEmpty(documentNo)) {

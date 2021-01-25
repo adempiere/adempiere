@@ -51,7 +51,7 @@ public class MFMProduct extends X_FM_Product {
 	 * @return
 	 */
 	public List<MFMFunctionalApplicability> getApplicability(String eventType) {
-		MFMProductCategory category = MFMProductCategory.getById(getCtx(), getFM_ProductCategory_ID());
+		MFMProductCategory category = MFMProductCategory.getById(getCtx(), getFM_ProductCategory_ID(), get_TrxName());
 		return category.getApplicability(eventType);
 	}
 
@@ -62,7 +62,7 @@ public class MFMProduct extends X_FM_Product {
 	 * @return
 	 */
 	public List<MFMFunctionalApplicability> getApplicability(String tableName, String eventModelValidator) {
-		MFMProductCategory category = MFMProductCategory.getById(getCtx(), getFM_ProductCategory_ID());
+		MFMProductCategory category = MFMProductCategory.getById(getCtx(), getFM_ProductCategory_ID(), get_TrxName());
 		return category.getApplicability(tableName, eventModelValidator);
 	}
 	
@@ -73,9 +73,21 @@ public class MFMProduct extends X_FM_Product {
 	 * Get/Load Functional Product [CACHED]
 	 * @param ctx context
 	 * @param financialProductId
-	 * @return activity or null
+	 * @return financial product or null
 	 */
+	@Deprecated
 	public static MFMProduct getById(Properties ctx, int financialProductId) {
+		return getById(ctx, financialProductId, null);
+	}
+	
+	/**
+	 * Get/Load Functional Product [CACHED]
+	 * @param ctx context
+	 * @param financialProductId
+	 * @param transactionName
+	 * @return financial product or null
+	 */
+	public static MFMProduct getById(Properties ctx, int financialProductId, String transactionName) {
 		if (financialProductId <= 0)
 			return null;
 
@@ -83,7 +95,7 @@ public class MFMProduct extends X_FM_Product {
 		if (financialProduct != null && financialProduct.get_ID() > 0)
 			return financialProduct;
 
-		financialProduct = new Query(ctx , Table_Name , COLUMNNAME_FM_Product_ID + "=?" , null)
+		financialProduct = new Query(ctx , Table_Name , COLUMNNAME_FM_Product_ID + "=?" , transactionName)
 				.setClient_ID()
 				.setParameters(financialProductId)
 				.first();
@@ -91,6 +103,18 @@ public class MFMProduct extends X_FM_Product {
 			financialProductCacheIds.put(financialProduct.get_ID(), financialProduct);
 		}
 		return financialProduct;
+	}
+	
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		financialProductCacheIds.clear();
+		return super.afterSave(newRecord, success);
+	}
+	
+	@Override
+	protected boolean afterDelete(boolean success) {
+		financialProductCacheIds.clear();
+		return super.afterDelete(success);
 	}
 
 	@Override

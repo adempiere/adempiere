@@ -68,7 +68,7 @@ public class TokenGeneratorHandler {
      * @return
      * @throws Exception
      */
-    private ITokenGenerator getTokenGenerator(String tokenType) throws Exception  {
+    public ITokenGenerator getTokenGenerator(String tokenType) throws Exception  {
         if(!tokenGeneratorMap.containsKey(tokenType)) {
             loadClass(tokenType);
         }

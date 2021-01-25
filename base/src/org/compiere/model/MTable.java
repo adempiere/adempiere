@@ -26,6 +26,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -86,6 +87,7 @@ public class MTable extends X_AD_Table
 
 	/**	Cache						*/
 	private static CCache<Integer,MTable> s_cache = new CCache<Integer,MTable>("AD_Table", 20);
+	private static CCache<String, Integer> s_tableNameCache = new CCache<String, Integer>("AD_Table_Name", 20);
 	private static CCache<String,Class<?>> s_classCache = new CCache<String,Class<?>>("PO_Class", 20);
 	private static CCache<String,Boolean> s_cachetrl = new CCache<String,Boolean>("Table_Trl", 20);
 
@@ -696,9 +698,9 @@ public class MTable extends X_AD_Table
 		//  Remove the table from the cache so the cache will be 
 		//  updated with the changes.
 		s_cache.remove(this.getAD_Table_ID());
-		
-		if ((isView() || isDocument()) 
-				&& isDeleteable())
+		if (isView())
+			setIsDeleteable(false);
+		if (isDocument() && newRecord)
 			setIsDeleteable(false);
 		
 		//  #213 Synchronize the database if the table exists and 
@@ -876,23 +878,22 @@ public class MTable extends X_AD_Table
 	 *	@return int retValue
 	 */
 	public static int getTable_ID(String tableName) {
-		int retValue = 0;
-		String SQL = "SELECT AD_Table_ID FROM AD_Table WHERE tablename = ?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = DB.prepareStatement(SQL, null);
-			pstmt.setString(1, tableName);
-			rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = rs.getInt(1);
-		} catch (Exception e) {
-			s_log.log(Level.SEVERE, SQL, e);
-			retValue = -1;
-		} finally {
-			DB.close(rs, pstmt);
-		}
-		return retValue;
+
+	    return Optional.ofNullable(s_tableNameCache.get(tableName))
+	            .orElseGet(() -> 
+	                getTable_IDAndAddToCache(tableName)
+	            );
+
+	}
+	
+	private static Integer getTable_IDAndAddToCache(String tableName) {
+
+	    int retValue = DB.getSQLValue(null,
+	            "SELECT AD_Table_ID FROM AD_Table WHERE tablename = ?",
+	            tableName);
+	    s_tableNameCache.put(tableName, retValue);
+	    return retValue;
+
 	}
 
 	/**

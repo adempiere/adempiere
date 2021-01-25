@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Token
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_AD_Token 
 {
@@ -62,6 +62,21 @@ public interface I_AD_Token
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_Role_ID */
+    public static final String COLUMNNAME_AD_Role_ID = "AD_Role_ID";
+
+	/** Set Role.
+	  * Responsibility Role
+	  */
+	public void setAD_Role_ID (int AD_Role_ID);
+
+	/** Get Role.
+	  * Responsibility Role
+	  */
+	public int getAD_Role_ID();
+
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException;
 
     /** Column name AD_TokenDefinition_ID */
     public static final String COLUMNNAME_AD_TokenDefinition_ID = "AD_TokenDefinition_ID";
@@ -125,10 +140,14 @@ public interface I_AD_Token
     /** Column name ExpireDate */
     public static final String COLUMNNAME_ExpireDate = "ExpireDate";
 
-	/** Set Expire Date	  */
+	/** Set Expiration Time.
+	  * Expiration Time for Token or value
+	  */
 	public void setExpireDate (Timestamp ExpireDate);
 
-	/** Get Expire Date	  */
+	/** Get Expiration Time.
+	  * Expiration Time for Token or value
+	  */
 	public Timestamp getExpireDate();
 
     /** Column name IsActive */
@@ -157,19 +176,6 @@ public interface I_AD_Token
 	  */
 	public String getTokenValue();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -185,4 +191,17 @@ public interface I_AD_Token
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

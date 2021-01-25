@@ -250,7 +250,8 @@ public class POInfo implements Serializable
 						FieldLength, ValueMin, ValueMax,
 						IsTranslated, IsEncrypted,
 						IsAllowLogging,
-						isAllowCopy);
+						isAllowCopy,
+						trxName);
 					list.add(col);
 				} while(rs.next());
 			}
