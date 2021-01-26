@@ -837,8 +837,10 @@ public class MDDOrder extends X_DD_Order implements DocAction
 				.filter(orderLine -> orderLine.getCalculateQtyReserved().signum() != 0 ) // filter the order line that where Reserved Quantity need be change
 				.filter(orderLine -> orderLine.getProduct() != null && orderLine.getProduct().isStocked()) // filter that order line with product stocked
 				.forEach(orderLine -> {
-
-			MLocator locatorFrom = MLocator.get(getCtx(),orderLine.getM_Locator_ID());
+			orderLine.orderedStock();
+			orderLine.reserveStock();
+			orderLine.saveEx();
+			/*MLocator locatorFrom = MLocator.get(getCtx(),orderLine.getM_Locator_ID());
 			MLocator locatorTo = MLocator.get(getCtx(),orderLine.getM_LocatorTo_ID());
 			log.fine("Line=" + orderLine.getLine()
 				+ " - Ordered=" + orderLine.getQtyOrdered()
@@ -858,7 +860,8 @@ public class MDDOrder extends X_DD_Order implements DocAction
 
 				//	update line
 				orderLine.setQtyReserved(orderLine.getQtyReserved().add(orderLine.getCalculateQtyReserved()));
-				orderLine.saveEx();
+				orderLine.saveEx();*/
+
 		});
 		updateVolume();
 		updateWeight();
