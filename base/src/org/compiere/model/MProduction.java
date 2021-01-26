@@ -40,6 +40,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Util;
 import org.eevolution.model.MPPProductBOM;
 import org.eevolution.model.MPPProductBOMLine;
+import org.eevolution.process.RollupBillOfMaterial;
 import org.eevolution.service.dsl.ProcessBuilder;
 
 /**
@@ -1173,8 +1174,7 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		if (!as.getM_CostType().getCostingMethod().equals(MCostType.COSTINGMETHOD_StandardCosting))
 			return "";
 		ProcessInfo processInfo = ProcessBuilder.create(getCtx())
-				//.process(RollupBillOfMaterial.getProcessId())
-				.process(53062)
+				.process(RollupBillOfMaterial.getProcessId())
 				.withRecordId(MProduction.Table_ID, getM_Product_ID())
 				.withParameter("C_AcctSchema_ID", as.getC_AcctSchema_ID())
 				.withParameter("S_Resource_ID", as.getC_AcctSchema_ID())
