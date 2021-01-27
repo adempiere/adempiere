@@ -37,7 +37,6 @@ import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentReversalEnabled;
 import org.compiere.process.DocumentEngine;
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -141,7 +140,7 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 			}
 			//	Create Line
 			if (retValue.get_ID() == 0)	//	not saved yet
-				retValue.save(trxName);
+				retValue.saveEx(trxName);
 			//	Create a line until qty is reached
 			for (int ll = 0; ll < storages.length; ll++)
 			{
@@ -157,11 +156,11 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 						.multiply(oLines[i].getQtyEntered())
 						.divide(oLines[i].getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP));
 				inOutLine.setC_Project_ID(oLines[i].getC_Project_ID());
-				inOutLine.save(trxName);
+				inOutLine.saveEx(trxName);
 				//	Delivered everything ?
 				qty = qty.subtract(lineQty);
 			//	storage[ll].changeQtyOnHand(lineQty, !order.isSOTrx());	// Credit Memo not considered
-			//	storage[ll].save(get_TrxName());
+			//	storage[ll].saveEx(get_TrxName());
 				if (qty.signum() == 0)
 					break;
 			}
@@ -747,13 +746,13 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 			}
 			//
 			line.setProcessed(false);
-			if (line.save(get_TrxName()))
-				count++;
+			line.saveEx(get_TrxName());
+			count++;
 			//	Cross Link
 			if (counter)
 			{
 				fromLine.setRef_InOutLine_ID(line.getM_InOutLine_ID());
-				fromLine.save(get_TrxName());
+				fromLine.saveEx(get_TrxName());
 			}
 		}
 		if (fromLines.length != count) {
@@ -1260,6 +1259,19 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 		
 		//	For all lines
 		MInOutLine[] lines = getLines(true);
+		StringBuffer missingOrderLines = new StringBuffer();
+		Arrays.asList(lines).stream()
+			.filter(inOutLine -> inOutLine.getC_OrderLine_ID() <= 0 && inOutLine.getM_RMALine_ID() <= 0)
+			.forEach(inOutLine -> {
+				if(missingOrderLines.length() > 0) {
+					missingOrderLines.append(Env.NL);
+				}
+				missingOrderLines.append("@Line@").append(" ").append(inOutLine.getLine());
+		});
+		//	Validate missing references
+		if(missingOrderLines.length() > 0) {
+			throw new AdempiereException("@C_OrderLine_ID@ / @M_RMALine_ID@ @NotFound@ " + Env.NL + missingOrderLines.toString());
+		}
 		for (int lineIndex = 0; lineIndex < lines.length; lineIndex++)
 		{
 			MInOutLine inOutLine = lines[lineIndex];
@@ -1399,11 +1411,7 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 							inOutLine.getM_Product_ID(), ma.getM_AttributeSetInstance_ID(),
 							QtyMA, getMovementDate(), get_TrxName());
 						materialTransaction.setM_InOutLine_ID(inOutLine.getM_InOutLine_ID());
-						if (!materialTransaction.save())
-						{
-							processMsg = "Could not create Material Transaction (MA)";
-							return DocAction.STATUS_Invalid;
-						}
+						materialTransaction.saveEx();
 					}
 				}
 				//	sLine.getM_AttributeSetInstance_ID() != 0
@@ -1450,11 +1458,7 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 						inOutLine.getM_Product_ID(), inOutLine.getM_AttributeSetInstance_ID(),
 						quantity, getMovementDate(), get_TrxName());
 					materialTransaction.setM_InOutLine_ID(inOutLine.getM_InOutLine_ID());
-					if (!materialTransaction.save())
-					{
-						processMsg = CLogger.retrieveErrorString("Could not create Material Transaction");
-						return DocAction.STATUS_Invalid;
-					}
+					materialTransaction.saveEx();
 				}
 			}	//	stock movement
 
@@ -1499,11 +1503,7 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
                 {
                     rmaLine.setQtyDelivered(rmaLine.getQtyDelivered().subtract(quantity));
                 }
-                if (!rmaLine.save())
-                {
-                    processMsg = "Could not update RMA Line";
-                    return DocAction.STATUS_Invalid;
-                }
+                rmaLine.saveEx();
             }
 
 			//	Matching
@@ -1550,7 +1550,7 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 						&& inOutLine.getMovementQty().compareTo(orderLine.getQtyOrdered()) == 0) //  just if full match [ 1876965 ]
 					{
 						orderLine.setM_AttributeSetInstance_ID(inOutLine.getM_AttributeSetInstance_ID());
-						orderLine.save(get_TrxName());
+						orderLine.saveEx(get_TrxName());
 					}
 				}
 				else	//	No Order - Try finding links via Invoice
@@ -1562,14 +1562,14 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 						log.fine("PO(Inv) Matching");
 						inOutLine.setC_OrderLine_ID(invoiceLine.getC_OrderLine_ID());
 						MMatchPO matchPO = new MMatchPO(inOutLine, getMovementDate(), matchQty);
-						matchPO.save(get_TrxName());
+						matchPO.saveEx(get_TrxName());
 						//	Update PO with ASI
 						orderLine = new MOrderLine (getCtx(), matchPO.getC_OrderLine_ID(), get_TrxName());
 						if (   orderLine != null && orderLine.getM_AttributeSetInstance_ID() == 0
 								&& inOutLine.getMovementQty().compareTo(orderLine.getQtyOrdered()) == 0) //  just if full match [ 1876965 ]
 						{
 							orderLine.setM_AttributeSetInstance_ID(inOutLine.getM_AttributeSetInstance_ID());
-							orderLine.save(get_TrxName());
+							orderLine.saveEx(get_TrxName());
 						}
 						addDocsPostProcess(matchPO);
 					}
@@ -1686,7 +1686,7 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 
 		//	References (Should not be required
 		dropShipment.setSalesRep_ID(getSalesRep_ID());
-		dropShipment.save(get_TrxName());
+		dropShipment.saveEx(get_TrxName());
 
 		//		Update line order references to linked sales order lines
 		MInOutLine[] lines = dropShipment.getLines(true);
@@ -1903,7 +1903,7 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 
 		//	Refernces (Should not be required
 		counter.setSalesRep_ID(getSalesRep_ID());
-		counter.save(get_TrxName());
+		counter.saveEx(get_TrxName());
 
 		String MovementType = counter.getMovementType();
 		boolean inTrx = MovementType.charAt(1) == '+';	//	V+ Vendor Receipt
@@ -1918,7 +1918,7 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 			counterLine.setM_Locator_ID(0);
 			counterLine.setM_Locator_ID(inTrx ? Env.ZERO : counterLine.getMovementQty());
 			//
-			counterLine.save(get_TrxName());
+			counterLine.saveEx(get_TrxName());
 		}
 
 		log.fine(counter.toString());
@@ -1930,7 +1930,7 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 			{
 				counter.setDocAction(counterDT.getDocAction());
 				counter.processIt(counterDT.getDocAction());
-				counter.save(get_TrxName());
+				counter.saveEx(get_TrxName());
 			}
 		}
 		return counter;
@@ -1973,7 +1973,7 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 				{
 					line.setQty(Env.ZERO);
 					line.addDescription("Void (" + old + ")");
-					line.save(get_TrxName());
+					line.saveEx(get_TrxName());
 				}
 			}
 			//
