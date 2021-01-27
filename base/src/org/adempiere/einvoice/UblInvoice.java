@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 
+import com.klst.einvoice.CoreInvoice;
 import com.klst.einvoice.CoreInvoiceLine;
 import com.klst.einvoice.ubl.GenericInvoice;
 import com.klst.einvoice.ubl.GenericLine;
@@ -17,8 +18,9 @@ public class UblInvoice extends UblImpl {
 
 //	private static final Logger LOG = Logger.getLogger(UblInvoice.class.getName());
 
-	private Object ublObject;
+	private CoreInvoice ublInvoice;
 
+	
 	@Override
 	public String getDocumentNo() {
 		return ublInvoice.getId();
@@ -40,12 +42,14 @@ public class UblInvoice extends UblImpl {
 
 	Object mapToEModel(MInvoice adInvoice) {
 		mInvoice = adInvoice;
-		ublInvoice = GenericInvoice.createInvoice(DEFAULT_PROFILE, null, DocumentNameCode.CommercialInvoice);
+		ublInvoice = GenericInvoice.getFactory().createInvoice(DEFAULT_PROFILE, DocumentNameCode.CommercialInvoice);
 		ublInvoice.setId(mInvoice.getDocumentNo());
 		ublInvoice.setIssueDate(mInvoice.getDateInvoiced());
 		ublInvoice.setDocumentCurrency(mInvoice.getC_Currency().getISO_Code());
-		this.ublObject = ublInvoice.get();
-		super.mapBuyerReference();
+
+		setGenericInvoice((GenericInvoice<?>)ublInvoice);
+		
+		super.mapPOReference();
 
 		makeOptionals();
 
@@ -56,12 +60,15 @@ public class UblInvoice extends UblImpl {
 		super.mapDocumentTotals();
 		super.mapVatBreakDownGroup();
 		super.mapLineGroup();
-		return ublObject;
+		return ublInvoice;
 	}
 
 	protected void makeOptionals() {
 		// Description ==> optional INVOICE NOTE
-		ublInvoice.setNote(this.mapping.mapNote(mInvoice));
+		if(this.mapping.mapNote(mInvoice)!=null) {
+			String n = this.mapping.mapNote(mInvoice);
+			ublInvoice.addNote(ublInvoice.createNote(n));
+		}
 	}
 
 }

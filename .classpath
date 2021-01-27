@@ -332,7 +332,7 @@
 	<classpathentry kind="lib" path="tools/lib/ant-contrib-1.0b1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/cglib.jar"/>
 	<classpathentry kind="lib" path="tools/lib/commons-collections4-4.1.jar"/>
-	<classpathentry kind="lib" path="tools/lib/de.klst.facturx-1.0.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/de.klst.facturx-2.0.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/groovy-all-2.4.15.jar"/>
 	<classpathentry kind="lib" path="tools/lib/harness-1.0.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/icepdf-core-6.2.2.jar"/>

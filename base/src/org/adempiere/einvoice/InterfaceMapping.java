@@ -37,13 +37,13 @@ public interface InterfaceMapping {
 	public String mapUoM(String unitCode);
 	
 	/**
-	 * Buyer reference BT-10 - An identifier assigned by the Buyer used for internal routing purposes.
-	 * Cardinality: 0..1 (optional), but mandatory due to BR-DE-15
+	 * Purchase order reference BT-13 - An identifier of a referenced purchase order, issued by the Buyer. 
+	 * Cardinality: 0..1 (optional)
 	 * 
 	 * @param mInvoice
-	 * @return identifier must not be null, because in some CIUS it is mandatory
+	 * @return identifier String
 	 */
-	public String mapBuyerReference(MInvoice mInvoice);
+	public String mapPOReference(MInvoice mInvoice);
 	
 	/**
 	 * optional Invoice note BT-22

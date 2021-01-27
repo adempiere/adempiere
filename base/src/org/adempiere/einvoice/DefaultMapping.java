@@ -21,7 +21,7 @@ public class DefaultMapping implements InterfaceMapping {
 	}
 
 	@Override
-	public String mapBuyerReference(MInvoice mInvoice) {
+	public String mapPOReference(MInvoice mInvoice) {
 		String mPOReference = mInvoice.getPOReference();
 		if(mPOReference==null) {
 			I_C_Order order = mInvoice.getC_Order();

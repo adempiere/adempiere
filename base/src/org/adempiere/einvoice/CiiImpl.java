@@ -2,31 +2,33 @@ package org.adempiere.einvoice;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 
+import com.klst.einvoice.BG23_VatBreakdown;
 import com.klst.einvoice.BusinessParty;
 import com.klst.einvoice.CoreInvoice;
 import com.klst.einvoice.CoreInvoiceLine;
-import com.klst.einvoice.BG23_VatBreakdown;
 import com.klst.einvoice.CreditTransfer;
 import com.klst.einvoice.DirectDebit;
 import com.klst.einvoice.IContact;
 import com.klst.einvoice.PaymentCard;
+import com.klst.einvoice.PaymentInstructions;
 import com.klst.einvoice.PostalAddress;
 import com.klst.einvoice.unece.uncefact.Amount;
 import com.klst.einvoice.unece.uncefact.BICId;
 import com.klst.einvoice.unece.uncefact.CrossIndustryInvoice;
-import com.klst.einvoice.unece.uncefact.FinancialAccount;
-import com.klst.einvoice.unece.uncefact.FinancialCard;
 import com.klst.einvoice.unece.uncefact.IBANId;
 import com.klst.einvoice.unece.uncefact.TradeLineItem;
 import com.klst.einvoice.unece.uncefact.UnitPriceAmount;
 import com.klst.marshaller.CiiTransformer;
 import com.klst.untdid.codelist.DocumentNameCode;
 import com.klst.untdid.codelist.PaymentMeansEnum;
+import com.klst.untdid.codelist.ReferenceCode;
 import com.klst.untdid.codelist.TaxCategoryCode;
 
 public class CiiImpl extends AbstractEinvoice {
@@ -55,8 +57,8 @@ public class CiiImpl extends AbstractEinvoice {
 	}
 
 	@Override
-	void setBuyerReference(String buyerReference) {
-		invoice.setBuyerReference(buyerReference);
+	void setPurchaseOrderReference(String poReference) {
+		invoice.setPurchaseOrderReference(poReference);
 	}
 
 	@Override
@@ -66,12 +68,28 @@ public class CiiImpl extends AbstractEinvoice {
 	}
 
 	@Override
+	PaymentInstructions createPaymentInstructions(PaymentMeansEnum code, String paymentMeansText, String remittanceInformation
+			, CreditTransfer creditTransfer, PaymentCard paymentCard, DirectDebit directDebit) {
+		List<CreditTransfer> creditTransferList = null;
+		if(creditTransfer!=null) {
+			creditTransferList = new ArrayList<CreditTransfer>();
+			creditTransferList.add(creditTransfer);
+		}
+		return invoice.createPaymentInstructions(code, paymentMeansText, remittanceInformation, creditTransferList, paymentCard, directDebit);
+	}
+	
+	@Override
 	void setPaymentInstructions(PaymentMeansEnum code, String paymentMeansText, String remittanceInformation,
 			CreditTransfer creditTransfer, PaymentCard paymentCard, DirectDebit directDebit) {
 		// [BR-DE-13] In der Rechnung müssen Angaben zu genau einer der drei Gruppen 
 		//  "CREDIT TRANSFER" (BG-17), "PAYMENT CARD INFORMATION" (BG-18) oder "DIRECT DEBIT" (BG-19) übermittelt werden
 		LOG.info("CREDIT TRANSFER (BG-17):"+creditTransfer + " PAYMENT CARD INFORMATION (BG-18):"+creditTransfer+ " DIRECT DEBIT (BG-19):"+directDebit);
-		invoice.setPaymentInstructions(code, paymentMeansText, remittanceInformation, creditTransfer, paymentCard, directDebit);
+		List<CreditTransfer> creditTransferList = null;
+		if(creditTransfer!=null) {
+			creditTransferList = new ArrayList<CreditTransfer>();
+			creditTransferList.add(creditTransfer);
+		}
+		invoice.setPaymentInstructions(code, paymentMeansText, remittanceInformation, creditTransferList, paymentCard, directDebit);
 	}
 
 	@Override
@@ -109,7 +127,7 @@ public class CiiImpl extends AbstractEinvoice {
 		BusinessParty seller = invoice.createParty(sellerName, address, contact);
 		seller.setCompanyId(companyId);
 		seller.setCompanyLegalForm(companyLegalForm);
-		seller.setTaxRegistrationId(taxRegistrationId, "VA"); // TODO DEFAULT_TAX_SCHEME
+		seller.addTaxRegistrationId(taxRegistrationId, ReferenceCode.VATRegistrationNumber.getValue());
 		invoice.setSeller(seller);
 	}
 
@@ -120,7 +138,7 @@ public class CiiImpl extends AbstractEinvoice {
 		invoice.setId(this.mInvoice.getDocumentNo());
 		invoice.setIssueDate(this.mInvoice.getDateInvoiced());
 		this.ciiObject = invoice;
-		super.mapBuyerReference();
+		super.mapPOReference();
 //
 //		makeOptionals();
 
@@ -155,33 +173,43 @@ public class CiiImpl extends AbstractEinvoice {
 		invoice.addLine(line);		
 	}
 
+	@Override
+	PaymentInstructions getPaymentInstructions() {
+		return invoice.getPaymentInstructions();
+	}
+	
 	// factory methods
 	@Override
 	CreditTransfer createCreditTransfer(IBANId iban, String accountName, BICId bic) {
 		LOG.config("iban:"+iban + ", accountName="+accountName + ", bic:"+bic);
-		return new FinancialAccount(iban, accountName, bic);
+		return invoice.createCreditTransfer(iban, accountName, bic);
+	}
+	CreditTransfer addCreditTransfer(IBANId iban, String accountName, BICId bic) {
+		LOG.config("iban:"+iban + ", accountName="+accountName + ", bic:"+bic);
+		return invoice.addCreditTransfer(iban, accountName, bic);
 	}
 
 	@Override
 	CreditTransfer createCreditTransfer(String accountId, String accountName, BICId bic) {
-		return new FinancialAccount(accountId, accountName, bic);
+		return invoice.createCreditTransfer(accountId, accountName, bic);
+	}
+	CreditTransfer addCreditTransfer(String accountId, String accountName, BICId bic) {
+		return invoice.addCreditTransfer(accountId, accountName, bic);
 	}
 
 	@Override
 	DirectDebit createDirectDebit(String mandateID, String bankAssignedCreditorID, IBANId iban) {
-		LOG.info("not supported mandateID (BT-89):"+mandateID + ", bankAssignedCreditorID (BT-90):"+bankAssignedCreditorID + ", Debited iban (BT-91):"+iban);
-		return new FinancialAccount(iban);
+		return invoice.createDirectDebit(mandateID, bankAssignedCreditorID, iban);
 	}
 
 	@Override
 	DirectDebit createDirectDebit(String mandateID, String bankAssignedCreditorID, String debitedAccountID) {
-		// TODO Auto-generated method stub
-		return null;
+		return invoice.createDirectDebit(mandateID, bankAssignedCreditorID, debitedAccountID);
 	}
 
 	@Override
 	PaymentCard createPaymentCard(String cardAccountID, String cardHolderName) {
-		return new FinancialCard(cardAccountID, cardHolderName);
+		return invoice.createPaymentCard(cardAccountID, cardHolderName);
 	}
 
 }

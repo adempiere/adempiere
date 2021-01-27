@@ -37,6 +37,7 @@ import com.klst.einvoice.DirectDebit;
 import com.klst.einvoice.IContact;
 import com.klst.einvoice.IContactFactory;
 import com.klst.einvoice.PaymentCard;
+import com.klst.einvoice.PaymentInstructions;
 import com.klst.einvoice.PostalAddress;
 import com.klst.einvoice.PostalAddressFactory;
 import com.klst.einvoice.unece.uncefact.Amount;
@@ -50,7 +51,8 @@ public abstract class AbstractEinvoice extends SvrProcess implements InterfaceEi
 
 private static final Logger LOG = Logger.getLogger(AbstractEinvoice.class.getName());
 	
-	static final String DEFAULT_PROFILE = CoreInvoice.PROFILE_XRECHNUNG;
+//	static final String DEFAULT_PROFILE = CoreInvoice.PROFILE_XRECHNUNG; // DE-CIUS
+	static final String DEFAULT_PROFILE = CoreInvoice.PROFILE_EN_16931;
 
 	/**
 	 * factory method
@@ -95,10 +97,13 @@ private static final Logger LOG = Logger.getLogger(AbstractEinvoice.class.getNam
 	 */
 	abstract Object mapToEModel(MInvoice mInvoice);
 	
-	abstract void setBuyerReference(String buyerReference);
+	abstract void setPurchaseOrderReference(String poReference);
 	abstract void setTotals(Amount lineExtension, Amount taxExclusive, Amount taxInclusive, Amount payable, Amount taxTotal);
 	abstract void mapByuer(String buyerName, int location_ID, int user_ID);
-	abstract void mapSeller(String sellerName, int location_ID, int salesRep_ID, String companyID, String companyLegalForm, String taxCompanyId);
+	abstract void mapSeller(String sellerName, int location_ID, int salesRep_ID, String companyID, String companyLegalForm, String vatRegistrationId);
+	abstract PaymentInstructions getPaymentInstructions();
+	abstract PaymentInstructions createPaymentInstructions(PaymentMeansEnum code, String paymentMeansText, String remittanceInformation
+			, CreditTransfer creditTransfer, PaymentCard paymentCard, DirectDebit directDebit);
 	abstract void setPaymentInstructions(PaymentMeansEnum code, String paymentMeansText, String remittanceInformation
 			, CreditTransfer creditTransfer, PaymentCard paymentCard, DirectDebit directDebit);
 	abstract void setPaymentTermsAndDate(String description, Timestamp ts);
@@ -112,6 +117,8 @@ private static final Logger LOG = Logger.getLogger(AbstractEinvoice.class.getNam
 	 */
 	abstract CreditTransfer createCreditTransfer(IBANId iban, String accountName, BICId bic);
 	abstract CreditTransfer createCreditTransfer(String accountId, String accountName, BICId bic);
+	abstract CreditTransfer addCreditTransfer(IBANId iban, String accountName, BICId bic);
+	abstract CreditTransfer addCreditTransfer(String accountId, String accountName, BICId bic);
 	/**
 	 * @return Interface DirectDebit
 	 * @see com.klst.einvoice.DirectDebitFactory
@@ -155,9 +162,9 @@ private static final Logger LOG = Logger.getLogger(AbstractEinvoice.class.getNam
 		return contactFactory.createContact(contactName, contactTel, contactMail);
 	}
 
-	// mapping POReference -> BuyerReference 
-	void mapBuyerReference() {
-		setBuyerReference(mapping.mapBuyerReference(mInvoice));
+	// mapping POReference -> PurchaseOrderReference 
+	void mapPOReference() {
+		setPurchaseOrderReference(mapping.mapPOReference(mInvoice));
 	}
 	
 	// mapping SellerGroup
@@ -266,7 +273,7 @@ private static final Logger LOG = Logger.getLogger(AbstractEinvoice.class.getNam
 		
 		String customerIBAN = getCusomerIBAN(mInvoice.getC_BPartner_ID()); // IBAN of the customer		
 		
-		String remittanceInformation = getDocumentNo();
+		String remittanceInformation = "invoiceNo " + getDocumentNo();
 /*
 PAYMENTRULE Mapping: ==> BG-16 + 0..1 PAYMENT INSTRUCTIONS / ZAHLUNGSANWEISUNGEN
 
@@ -298,18 +305,20 @@ Für PaymentMeansEnum.Cheque gibt es keine kosit Beispiele
  */
 		if(mInvoice.getPaymentRule().equals(MInvoice.PAYMENTRULE_OnCredit) 
 		|| mInvoice.getPaymentRule().equals(MInvoice.PAYMENTRULE_DirectDeposit)) {
-			IBANId payeeIban = new IBANId(orgIBAN);
+//			IBANId payeeIban = new IBANId(orgIBAN);
 			MBank mBank = orgBankAccount.getBank();
 			BICId bicId = new BICId(mBank==null ? "" : mBank.getSwiftCode());
-			CreditTransfer sepaCreditTransfer = createCreditTransfer(payeeIban, orgBankAccount.getName(), bicId);
-			setPaymentInstructions(PaymentMeansEnum.CreditTransfer, null, remittanceInformation, sepaCreditTransfer, null, null);
+			CreditTransfer sepaCreditTransfer = addCreditTransfer(orgIBAN, orgBankAccount.getName(), bicId);
+			PaymentInstructions pi = getPaymentInstructions();
+			pi.setRemittanceInformation(remittanceInformation);
+			//createPaymentInstructions(PaymentMeansEnum.CreditTransfer, null, remittanceInformation, sepaCreditTransfer, null, null);
 		} else if(mInvoice.getPaymentRule().equals(MInvoice.PAYMENTRULE_DirectDebit)) {
 			IBANId payerIban = new IBANId(customerIBAN);
 			String mandateID = null;
 			String paymentMeansText = null; // optional
 			DirectDebit sepaDirectDebit = createDirectDebit(mandateID, null, payerIban);
 			setPaymentInstructions(PaymentMeansEnum.SEPADirectDebit, paymentMeansText, remittanceInformation, null, null, sepaDirectDebit);
-		} else if(mInvoice.getPaymentRule().equals(MInvoice.PAYMENTRULE_CreditCard)) {
+		} else if(mInvoice.getPaymentRule().equals(MInvoice.PAYMENTRULE_CreditCard)) {	
 			PaymentCard card = getCusomerCard(mInvoice.getC_BPartner_ID());
 			setPaymentInstructions(PaymentMeansEnum.BankCard, null, remittanceInformation, null, card, null);
 		} else if(mInvoice.getPaymentRule().equals(MInvoice.PAYMENTRULE_Cash)) {

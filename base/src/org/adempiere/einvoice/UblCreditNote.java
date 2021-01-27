@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 
+import com.klst.einvoice.CoreInvoice;
 import com.klst.einvoice.CoreInvoiceLine;
 import com.klst.einvoice.ubl.GenericInvoice;
 import com.klst.einvoice.ubl.GenericLine;
@@ -15,7 +16,7 @@ import com.klst.untdid.codelist.TaxCategoryCode;
 
 public class UblCreditNote extends UblImpl {
 
-	private Object ublObject;
+	private CoreInvoice ublInvoice;
 
 	@Override
 	public String getDocumentNo() {
@@ -38,12 +39,11 @@ public class UblCreditNote extends UblImpl {
 
 	Object mapToEModel(MInvoice adInvoice) {
 		mInvoice = adInvoice;
-		ublInvoice = GenericInvoice.createCreditNote(DEFAULT_PROFILE, null, DocumentNameCode.CreditNote);
+		ublInvoice = GenericInvoice.getFactory().createInvoice(DEFAULT_PROFILE, DocumentNameCode.CreditNote);
 		ublInvoice.setId(mInvoice.getDocumentNo());
 		ublInvoice.setIssueDate(mInvoice.getDateInvoiced());
 		ublInvoice.setDocumentCurrency(mInvoice.getC_Currency().getISO_Code());
-		this.ublObject = ublInvoice.get();
-		super.mapBuyerReference();
+		super.mapPOReference();
 //
 //		makeOptionals();
 
@@ -54,7 +54,7 @@ public class UblCreditNote extends UblImpl {
 		super.mapDocumentTotals();
 		super.mapVatBreakDownGroup();
 		super.mapLineGroup();
-		return ublObject;
+		return ublInvoice;
 	}
 
 }
