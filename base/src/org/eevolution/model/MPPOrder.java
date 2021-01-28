@@ -843,7 +843,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			if (qtyRequired.compareTo(line.getQtyDelivered()) != 0)
 			{	
 				line.setQtyRequired(line.getQtyDelivered());
-				line.addDescription(Msg.parseTranslation(getCtx(), "@closed@ @QtyRequired@ (" + qtyRequired + ")"));
+				line.addDescription(Msg.parseTranslation(getCtx(), "@LineNo@ @closed@ - @QtyRequired@ (" + qtyRequired + ")"));
 				line.saveEx();
 			}	
 		}
