@@ -41,7 +41,6 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MProject;
 import org.compiere.model.MResource;
 import org.compiere.model.MStorage;
-import org.compiere.model.MTable;
 import org.compiere.model.MUOM;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.ModelValidationEngine;
@@ -53,6 +52,7 @@ import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
@@ -843,9 +843,9 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			if (qtyRequired.compareTo(line.getQtyDelivered()) != 0)
 			{	
 				line.setQtyRequired(line.getQtyDelivered());
-				line.addDescription(Msg.parseTranslation(getCtx(), "@LineNo@ @closed@ - @QtyRequired@ (" + qtyRequired + ")"));
+				line.addDescription(Msg.parseTranslation(getCtx(), "@closed@ @QtyRequired@ (" + DisplayType.getNumberFormat(DisplayType.Quantity).format(qtyRequired) + ")"));
 				line.saveEx();
-			}	
+			}
 		}
 		
 		//Close all the activity do not reported
