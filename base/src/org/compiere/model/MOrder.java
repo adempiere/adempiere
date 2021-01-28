@@ -1310,7 +1310,7 @@ public class MOrder extends X_C_Order implements DocAction
 			lines = getLines(true, MOrderLine.COLUMNNAME_M_Product_ID);
 		if (!reserveStock(lines))
 		{
-			m_processMsg = "Cannot reserve Stock";
+			m_processMsg = "@Error@ @Qty@ @QtyNotReserved@";
 			return DocAction.STATUS_Invalid;
 		}
 		if (!calculateTaxTotal())
@@ -1557,54 +1557,6 @@ public class MOrder extends X_C_Order implements DocAction
 			line.saveEx();
 			Volume = Volume.add(product.getVolume().multiply(line.getQtyOrdered()));
 			Weight = Weight.add(product.getWeight().multiply(line.getQtyOrdered()));
-
-			//	Check Product - Stocked and Item
-			/*MProduct product = line.getProduct();
-			if (product != null) 
-			{
-				if (product.isStocked())
-				{
-					//	Mandatory Product Attribute Set Instance
-					MAttributeSet.validateAttributeSetInstanceMandatory(product, line.Table_ID, isSOTrx() , line.getM_AttributeSetInstance_ID());
-
-					BigDecimal ordered = isSOTrx ? Env.ZERO : difference;
-					BigDecimal reserved = isSOTrx ? difference : Env.ZERO;
-					int M_Locator_ID = 0; 
-					//	Get Locator to reserve
-					if (line.getM_AttributeSetInstance_ID() != 0)	//	Get existing Location
-						M_Locator_ID = MStorage.getM_Locator_ID (line.getM_Warehouse_ID(), 
-							line.getM_Product_ID(), line.getM_AttributeSetInstance_ID(), 
-							ordered, get_TrxName());
-					//	Get default Location
-					if (M_Locator_ID == 0)
-					{
-						// try to take default locator for product first
-						// if it is from the selected warehouse
-						MWarehouse wh = MWarehouse.get(getCtx(), line.getM_Warehouse_ID());
-						M_Locator_ID = product.getM_Locator_ID();
-						if (M_Locator_ID!=0) {
-							MLocator locator = new MLocator(getCtx(), product.getM_Locator_ID(), get_TrxName());
-							//product has default locator defined but is not from the order warehouse
-							if(locator.getM_Warehouse_ID()!=wh.get_ID()) {
-								M_Locator_ID = wh.getDefaultLocator().getM_Locator_ID();
-							}
-						} else {
-							M_Locator_ID = wh.getDefaultLocator().getM_Locator_ID();
-						}
-					}
-					//	Update Storage
-					if (!MStorage.add(getCtx(), line.getM_Warehouse_ID(), M_Locator_ID, 
-						line.getM_Product_ID(), 
-						line.getM_AttributeSetInstance_ID(), line.getM_AttributeSetInstance_ID(),
-						Env.ZERO, reserved, ordered, get_TrxName()))
-						return false;
-				}	//	stockec
-				//	update line
-				line.setQtyReserved(line.getQtyReserved().add(difference));
-				if (!line.save(get_TrxName()))
-					return false;
-			}	//	product
-			**/
 		}	//	reserve inventory
 		
 		setVolume(Volume);
@@ -2107,7 +2059,7 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Clear Reservations
 		if (!reserveStock(lines))
 		{
-			m_processMsg = "Cannot unreserve Stock (void)";
+			m_processMsg = "@Error@ @Undo@ @QtyReserved@ @From@ (@Voided@)";
 			return false;
 		}
 		
@@ -2246,7 +2198,7 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Clear Reservations
 		if (!reserveStock(lines))
 		{
-			m_processMsg = "Cannot unreserve Stock (close)";
+			m_processMsg = "@Error@ @Undo@ @QtyReserved@ @From@ (@closed@)";
 			return false;
 		}
 		
@@ -2300,7 +2252,7 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Clear Reservations
 		if (!reserveStock(lines))
 		{
-			m_processMsg = "Cannot unreserve Stock (close)";
+			m_processMsg ="@Error@ @Undo@ @QtyReserved@ @From@ (@closed@)";
 			return "Failed to update reservations";
 		}
 
