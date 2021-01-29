@@ -81,6 +81,6 @@ FROM (SELECT rep.ad_client_id,
             sto.M_Warehouse_ID
                    FROM rv_storage sto
                   GROUP BY sto.m_product_id,sto.M_Warehouse_ID) s ON(s.M_Product_ID = p.M_Product_ID AND s.M_Warehouse_ID=rep.M_Warehouse_ID)
-    WHERE r.IsActive = 'Y' AND p.IsActive = 'Y') r
+    WHERE rep.IsActive = 'Y' AND p.IsActive = 'Y') r
 WHERE (r.QtyToOrder > 0
 OR (r.ReplenishType IN('0', '9')));
