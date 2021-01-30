@@ -70,6 +70,7 @@
       <src path="../org.adempiere.request/src/main/java"/>
       <src path="../org.adempiere.project/src/main/java"/>
       <src path="../org.adempiere.crm/src/main/java"/>
+      <src path="../com.klst.einvoice/src/main/java"/>
       <src path="${src}"/>
       <src path="${looksSrc}"/>
       <src path="../glassfishfacet/src"/>
