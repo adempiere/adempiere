@@ -637,6 +637,12 @@ public abstract class Doc
 		return p_po;
 	}	//	getPO
 	
+	public final String postImmediate(boolean force) {
+	    
+        return post (force, true);  //  repost
+        
+	}
+	
 	/**
 	 *  Post Document.
 	 *  <pre>
@@ -654,15 +660,16 @@ public abstract class Doc
 	 */
 	public final String post (boolean force, boolean repost)
 	{
-		if (getDocStatus() == null)
+		final String docStatus = getDocStatus();
+        if (docStatus == null)
 			;	//	return "No DocStatus for DocumentNo=" + getDocumentNo();
-		else if (getDocStatus().equals(DocumentEngine.STATUS_Completed)
-			|| getDocStatus().equals(DocumentEngine.STATUS_Closed)
-			|| getDocStatus().equals(DocumentEngine.STATUS_Voided)
-			|| getDocStatus().equals(DocumentEngine.STATUS_Reversed))
+		else if (docStatus.equals(DocumentEngine.STATUS_Completed)
+			|| docStatus.equals(DocumentEngine.STATUS_Closed)
+			|| docStatus.equals(DocumentEngine.STATUS_Voided)
+			|| docStatus.equals(DocumentEngine.STATUS_Reversed))
 			;
 		else
-			return "Invalid DocStatus='" + getDocStatus() + "' for DocumentNo=" + getDocumentNo();
+			return "Invalid DocStatus='" + docStatus + "' for DocumentNo=" + getDocumentNo();
 		//
 		if (p_po.getAD_Client_ID() != accountingSchemes[0].getAD_Client_ID())
 		{
@@ -860,12 +867,12 @@ public abstract class Doc
 	 * 	Delete Accounting
 	 *	@return number of records
 	 */
-	private int deleteAcct()
+	int deleteAcct()
 	{
-		StringBuffer sql = new StringBuffer ("DELETE Fact_Acct WHERE AD_Table_ID=")
-			.append(get_Table_ID())
-			.append(" AND Record_ID=").append(p_po.get_ID());
-		int no = DB.executeUpdate(sql.toString(), getTrxName());
+		String sql = "DELETE Fact_Acct"
+		        + " WHERE AD_Table_ID=" + get_Table_ID()
+		        + " AND Record_ID=" + p_po.get_ID();
+		int no = DB.executeUpdate(sql, getTrxName());
 		if (no != 0)
 			log.info("deleted=" + no);
 		return no;
