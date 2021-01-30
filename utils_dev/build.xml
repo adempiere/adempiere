@@ -78,7 +78,7 @@
 		<ant inheritAll="false" dir="org.eevolution.freight" target="clean"/>
 		<ant inheritAll="false" dir="org.eevolution.fleet" target="clean"/>
         <ant inheritAll="false" dir="com.kkalice.adempiere.migrate" target="migrate.clean"/>
-        <ant inheritAll="false" dir="com.klst.einvoice" target="migrate.clean"/>
+        <ant inheritAll="false" dir="com.klst.einvoice" target="clean"/>
 		<ant inheritAll="false" dir="org.adempiere.pos" target="clean"/>
 		<ant inheritAll="false" dir="org.adempiere.production" target="clean"/>
 		<ant inheritAll="false" dir="org.spin.finance_management" target="clean"/>
