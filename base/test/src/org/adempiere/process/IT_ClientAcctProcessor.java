@@ -21,23 +21,19 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.Properties;
-import java.util.stream.Stream;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.test.CommonGWData;
 import org.adempiere.test.IntegrationTestTag;
 import org.compiere.acct.Doc;
-import org.compiere.model.I_AD_SysConfig;
+import org.compiere.acct.DocPostingTestUtilities;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
-import org.compiere.model.MSysConfig;
 import org.compiere.model.MTable;
 import org.compiere.model.Query;
 import org.compiere.process.DocAction;
-import org.compiere.process.FactAcctReset;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -62,17 +58,13 @@ class IT_ClientAcctProcessor implements IntegrationTestTag {
     // throughout all tests
     private static int AD_CLIENT_ID = CommonGWData.AD_CLIENT_ID;
     private static final String CLIENT_ACCOUNTING_IMMEDIATE = "I";
-    private static final String CLIENT_ACCOUNTING_DISABLED = "D";
     private static final boolean IS_CLIENT = true;
-    private static int initialClientAcctConfigId;
-    private static boolean createdNew = false;
-    private static String initialClientAcctValue = "";
     private ProcessBuilder process;
 
     ClientAcctProcessor processor;
-    private static Timestamp today;
     private static Properties ctx;
     private static String trxName = null;
+    private DocPostingTestUtilities docUtils;
 
     private void assertNoUnpostedDocuments() {
 
@@ -110,18 +102,6 @@ class IT_ClientAcctProcessor implements IntegrationTestTag {
     
     }
 
-    private Stream<MSysConfig> clientAccountingConfigs(int clientId) {
-
-        String where = "Name=? AND AD_Client_ID IN (0, ?)";
-        return new Query(ctx, I_AD_SysConfig.Table_Name, where, null)
-                .setOnlyActiveRecords(true)
-                .setParameters("CLIENT_ACCOUNTING", clientId)
-                .setOrderBy("AD_Client_ID DESC, AD_Org_ID DESC")
-                .list(MSysConfig.class)
-                .stream();
-
-    }
-
     private MInvoice createAnInvoiceThatWillFailPosting() {
     
         MInvoice invoice = new MInvoice(ctx, 0, trxName);
@@ -144,98 +124,10 @@ class IT_ClientAcctProcessor implements IntegrationTestTag {
     
     }
 
-    private void disableClientAccounting() {
-
-        MSysConfig gwAccounting = getOrCreateClientAcctConfig();
-        gwAccounting.setValue(CLIENT_ACCOUNTING_DISABLED);
-        gwAccounting.saveEx();
-
-    }
-
-    private MSysConfig getOrCreateClientAcctConfig() {
-
-        createdNew = false;
-        MSysConfig gwAccounting = clientAccountingConfigs(AD_CLIENT_ID)
-                .filter(config -> config.getAD_Client_ID() == AD_CLIENT_ID)
-                .findFirst()
-                .orElseGet(() -> {
-                    MSysConfig config = new MSysConfig(ctx, 0, null);
-                    config.setName("CLIENT_ACCOUNTING");
-                    createdNew = true;
-                    return config;
-                });
-        gwAccounting.saveEx();
-        setInitialConfigId(gwAccounting.get_ID());
-        setInitialConfigValue(gwAccounting.getValue());
-        return gwAccounting;
-
-    }
-
-    private void enableClientAccounting() {
-
-        MSysConfig gwAccounting = getOrCreateClientAcctConfig();
-        gwAccounting.setValue(CLIENT_ACCOUNTING_IMMEDIATE);
-        gwAccounting.saveEx();
-
-    }
-
-    private void resetClientAccounting() {
-
-        resetClientAccounting(0);
-
-    }
-
-    private void resetClientAccounting(int tableId) {
-
-        ProcessBuilder.create(ctx)
-                .process(org.compiere.process.FactAcctReset.class)
-                .withTitle("FactAcctReset")
-                .withParameter(FactAcctReset.AD_CLIENT_ID, AD_CLIENT_ID)
-                .withParameter(FactAcctReset.DELETEPOSTING, true)
-                .withParameter(FactAcctReset.AD_TABLE_ID, tableId)
-                .withParameter(FactAcctReset.DATEACCT,
-                        TimeUtil.getDay(1999, 01, 01), today)
-                .execute();
-
-    }
-
-    private void resetInitialConfig() {
-
-        if (createdNew) {
-            MSysConfig config =
-                    new MSysConfig(ctx, initialClientAcctConfigId, null);
-            config.deleteEx(true);
-        } else {
-            resetInitialConfigValue();
-        }
-
-    }
-
-    private void resetInitialConfigValue() {
-
-        MSysConfig config =
-                new MSysConfig(ctx, initialClientAcctConfigId, null);
-        config.setValue(initialClientAcctValue);
-        config.saveEx();
-
-    }
-
-    private void setInitialConfigId(int id) {
-
-        initialClientAcctConfigId = id;
-
-    }
-
-    private void setInitialConfigValue(String value) {
-
-        initialClientAcctValue = value;
-
-    }
 
     @BeforeAll
     static void givenTheGardenWorldContext() {
 
-        today = TimeUtil.getDay(System.currentTimeMillis());
         ctx = Env.getCtx();
         ctx.setProperty("#AD_Org_ID", Integer.toString(CommonGWData.AD_ORG_ID));
         ctx.setProperty("#AD_User_ID",
@@ -254,6 +146,8 @@ class IT_ClientAcctProcessor implements IntegrationTestTag {
     @BeforeEach
     void givenClientAcctProcessor() {
 
+        docUtils = new DocPostingTestUtilities();
+        
         process = ProcessBuilder.create(ctx)
                 .process(org.adempiere.process.ClientAcctProcessor.class)
                 .withTitle("ClientAcctProcessorTest");
@@ -267,7 +161,7 @@ class IT_ClientAcctProcessor implements IntegrationTestTag {
         String sql = "DELETE AD_PInstance_Log "
                 + "WHERE AD_PInstance_ID=" + instanceId;
         DB.executeUpdateEx(sql, null);
-        resetClientAccounting();
+        docUtils.resetClientAccounting(ctx, AD_CLIENT_ID, trxName);
 
     }
 
@@ -278,7 +172,7 @@ class IT_ClientAcctProcessor implements IntegrationTestTag {
         @BeforeEach
         void disableAccounting() {
 
-            disableClientAccounting();
+            docUtils.disableClientAccounting(ctx, AD_CLIENT_ID, trxName);
 
         }
 
@@ -302,14 +196,14 @@ class IT_ClientAcctProcessor implements IntegrationTestTag {
         @BeforeEach
         void enableAccounting() {
 
-            enableClientAccounting();
+            docUtils.setClientAccounting(ctx, AD_CLIENT_ID, CLIENT_ACCOUNTING_IMMEDIATE, trxName);
 
         }
 
         @AfterEach
         void resetClientAccountingConfig() {
 
-            resetInitialConfig();
+            docUtils.resetInitialConfig(ctx, trxName);
 
         }
 
@@ -412,7 +306,7 @@ class IT_ClientAcctProcessor implements IntegrationTestTag {
 
                 MTable table = MTable.get(ctx, "C_Invoice");
                 tableId = table.getAD_Table_ID();
-                resetClientAccounting(tableId);
+                docUtils.resetClientAccounting(ctx, AD_CLIENT_ID, tableId, trxName);
                 process = process
                         .withParameter("AD_Table_ID", tableId);
 
@@ -472,7 +366,7 @@ class IT_ClientAcctProcessor implements IntegrationTestTag {
             @BeforeEach
             void resetAccounting() {
 
-                resetClientAccounting();
+                docUtils.resetClientAccounting(ctx, AD_CLIENT_ID, trxName);
 
             }
 
