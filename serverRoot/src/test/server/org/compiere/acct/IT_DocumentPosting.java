@@ -833,7 +833,7 @@ class IT_DocumentPosting extends CommonGWSetup {
 
                     @Test
                     @DisplayName("Then the doc will be reposted and previous "
-                            + "accounting be deleted")
+                            + "accounting will be deleted")
                     void
                             thenIsRepostedAndPreviousAcctFactsDeleted() {
 
