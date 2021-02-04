@@ -86,7 +86,7 @@
 	  duplicate="preserve">
 	  <fileset dir="${compile.dir}"/>
 	  <!-- Ant (with ftp) files -->
-	  <zipfileset src="../tools/lib/ant/apache-ant-1.10.99/lib/ant.jar" >
+	  <zipfileset src="../tools/lib/ant/apache-ant-1.10.9/lib/ant.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
 	  <zipfileset src="../tools/lib/ant/apache-ant-1.10.9/lib/ant-launcher.jar" >
