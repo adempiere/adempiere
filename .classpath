@@ -430,6 +430,6 @@
 	<classpathentry kind="lib" path="tools/lib/storefront/t-digest-3.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant.jar"/>
 	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-commons-net.jar"/>
-	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-junitlauncher.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-launcher.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
