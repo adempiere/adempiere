@@ -644,7 +644,7 @@ public class MOrder extends X_C_Order implements DocAction
 	 */
 	public void setM_PriceList_ID (int M_PriceList_ID)
 	{
-		MPriceList pl = MPriceList.get(getCtx(), M_PriceList_ID, null);
+		MPriceList pl = MPriceList.get(getCtx(), M_PriceList_ID, get_TrxName());
 		if (pl.get_ID() == M_PriceList_ID)
 		{
 			super.setM_PriceList_ID(M_PriceList_ID);
