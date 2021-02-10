@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for FM_Transaction
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_FM_Transaction 
 {
@@ -76,6 +76,21 @@ public interface I_FM_Transaction
 	  */
 	public BigDecimal getAmount();
 
+    /** Column name C_Invoice_ID */
+    public static final String COLUMNNAME_C_Invoice_ID = "C_Invoice_ID";
+
+	/** Set Invoice.
+	  * Invoice Identifier
+	  */
+	public void setC_Invoice_ID (int C_Invoice_ID);
+
+	/** Get Invoice.
+	  * Invoice Identifier
+	  */
+	public int getC_Invoice_ID();
+
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException;
+
     /** Column name C_InvoiceLine_ID */
     public static final String COLUMNNAME_C_InvoiceLine_ID = "C_InvoiceLine_ID";
 
@@ -90,6 +105,51 @@ public interface I_FM_Transaction
 	public int getC_InvoiceLine_ID();
 
 	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException;
+
+    /** Column name C_Order_ID */
+    public static final String COLUMNNAME_C_Order_ID = "C_Order_ID";
+
+	/** Set Order.
+	  * Order
+	  */
+	public void setC_Order_ID (int C_Order_ID);
+
+	/** Get Order.
+	  * Order
+	  */
+	public int getC_Order_ID();
+
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException;
+
+    /** Column name C_OrderLine_ID */
+    public static final String COLUMNNAME_C_OrderLine_ID = "C_OrderLine_ID";
+
+	/** Set Sales Order Line.
+	  * Sales Order Line
+	  */
+	public void setC_OrderLine_ID (int C_OrderLine_ID);
+
+	/** Get Sales Order Line.
+	  * Sales Order Line
+	  */
+	public int getC_OrderLine_ID();
+
+	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException;
+
+    /** Column name C_Payment_ID */
+    public static final String COLUMNNAME_C_Payment_ID = "C_Payment_ID";
+
+	/** Set Payment.
+	  * Payment identifier
+	  */
+	public void setC_Payment_ID (int C_Payment_ID);
+
+	/** Get Payment.
+	  * Payment identifier
+	  */
+	public int getC_Payment_ID();
+
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -119,6 +179,30 @@ public interface I_FM_Transaction
 	  * Transaction Date
 	  */
 	public Timestamp getDateTrx();
+
+    /** Column name DD_Freight_ID */
+    public static final String COLUMNNAME_DD_Freight_ID = "DD_Freight_ID";
+
+	/** Set Order Freight	  */
+	public void setDD_Freight_ID (int DD_Freight_ID);
+
+	/** Get Order Freight	  */
+	public int getDD_Freight_ID();
+
+	public org.eevolution.model.I_DD_Freight getDD_Freight() throws RuntimeException;
+
+    /** Column name Description */
+    public static final String COLUMNNAME_Description = "Description";
+
+	/** Set Description.
+	  * Optional short description of the record
+	  */
+	public void setDescription (String Description);
+
+	/** Get Description.
+	  * Optional short description of the record
+	  */
+	public String getDescription();
 
     /** Column name FM_Account_ID */
     public static final String COLUMNNAME_FM_Account_ID = "FM_Account_ID";
@@ -153,6 +237,15 @@ public interface I_FM_Transaction
 
 	public org.spin.model.I_FM_Batch getFM_Batch() throws RuntimeException;
 
+    /** Column name FM_Transaction_ID */
+    public static final String COLUMNNAME_FM_Transaction_ID = "FM_Transaction_ID";
+
+	/** Set Financial Transaction	  */
+	public void setFM_Transaction_ID (int FM_Transaction_ID);
+
+	/** Get Financial Transaction	  */
+	public int getFM_Transaction_ID();
+
     /** Column name FM_TransactionType_ID */
     public static final String COLUMNNAME_FM_TransactionType_ID = "FM_TransactionType_ID";
 
@@ -163,15 +256,6 @@ public interface I_FM_Transaction
 	public int getFM_TransactionType_ID();
 
 	public org.spin.model.I_FM_TransactionType getFM_TransactionType() throws RuntimeException;
-
-    /** Column name FM_Transaction_ID */
-    public static final String COLUMNNAME_FM_Transaction_ID = "FM_Transaction_ID";
-
-	/** Set Financial Transaction	  */
-	public void setFM_Transaction_ID (int FM_Transaction_ID);
-
-	/** Get Financial Transaction	  */
-	public int getFM_Transaction_ID();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -199,19 +283,6 @@ public interface I_FM_Transaction
 	  */
 	public boolean isProcessed();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -227,4 +298,17 @@ public interface I_FM_Transaction
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }
