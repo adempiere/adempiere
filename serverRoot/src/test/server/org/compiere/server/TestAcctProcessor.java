@@ -35,7 +35,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @Tag("Accounting")
 @Tag("AcctProcessor")
 @ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
-@DisplayName("Given the AcctProcessor and GardenWorld context")
+@DisplayName("TestAcctProcessor: Given the AcctProcessor and GardenWorld context")
 class TestAcctProcessor extends CommonUnitTestSetup {
 
     @Test

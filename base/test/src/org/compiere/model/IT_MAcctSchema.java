@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
 @Tag("Model")
 @Tag("MAcctSchema")
 @Tag("Accounting")
-@DisplayName("Given the MAcctSchema class and the Garden World context")
+@DisplayName("IT_MAcctSchema: Given the MAcctSchema class and the Garden World context")
 class IT_MAcctSchema extends CommonGWSetup {
 
     @Test

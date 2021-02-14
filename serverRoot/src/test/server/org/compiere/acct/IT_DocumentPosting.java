@@ -71,8 +71,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 
+@Tag("DocProcess")
 @Tag("Accounting")
-@DisplayName("Given Accounting in GardenWorld context")
+@DisplayName("IT_DocumentPosting: Given Accounting in GardenWorld context")
 @ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
 class IT_DocumentPosting extends CommonGWSetup {
 
@@ -122,19 +123,19 @@ class IT_DocumentPosting extends CommonGWSetup {
     }
 
     private void completeInvoice() {
-    
+
         invoice.processIt(DocAction.ACTION_Complete);
         invoice.saveEx();
         moveProcessedOnTime5SecEarlier(invoice);
         invoice.load(trxName);
-    
+
     }
 
     private void completeInvoiceOnDate(final Timestamp date) {
-    
+
         invoice.setDateAcct(date);
         completeInvoice();
-    
+
     }
 
     private AdempiereServer createAcctAdempiereServer(final String trxName) {
@@ -834,8 +835,7 @@ class IT_DocumentPosting extends CommonGWSetup {
                     @Test
                     @DisplayName("Then the doc will be reposted and previous "
                             + "accounting will be deleted")
-                    void
-                            thenIsRepostedAndPreviousAcctFactsDeleted() {
+                    void thenIsRepostedAndPreviousAcctFactsDeleted() {
 
                         invoice.processIt(DocAction.ACTION_Post);
                         assertServerNotUsed();

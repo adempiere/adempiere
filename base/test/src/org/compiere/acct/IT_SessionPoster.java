@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
 @Tag("AcctProcessor")
 @Tag("SessionPoster")
 @Tag("ClientAcctProcessor")
-@DisplayName("Given the Garden World context")
+@DisplayName("IT_SessionPoster: Given the Garden World context")
 class IT_SessionPoster extends CommonGWSetup {
 
     private static int AD_CLIENT_ID = CommonGWData.AD_CLIENT_ID;

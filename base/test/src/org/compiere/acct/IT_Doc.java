@@ -46,8 +46,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 @Tag("Doc")
+@Tag("DocProcess")
 @Tag("Accounting")
-@DisplayName("Given the Doc class and the current database")
+@DisplayName("IT_Doc: Given the Doc class and the current database")
 class IT_Doc extends CommonGWSetup {
 
     private boolean FORCE = true;

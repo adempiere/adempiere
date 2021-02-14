@@ -45,7 +45,7 @@ import org.mockito.Captor;
 @Tag("Process")
 @Tag("Accounting")
 @Tag("ClientAcctProcessor")
-@DisplayName("Given the ClientAcctProcessor")
+@DisplayName("TestClientAcctProcessor: Given the ClientAcctProcessor")
 @ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
 class TestClientAcctProcessor extends CommonUnitTestSetup {
 

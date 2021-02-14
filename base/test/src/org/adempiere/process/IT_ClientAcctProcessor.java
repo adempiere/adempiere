@@ -51,7 +51,7 @@ import org.junit.jupiter.api.Test;
 @Tag("Process")
 @Tag("Accounting")
 @Tag("ClientAcctProcessor")
-@DisplayName("Given the GardenWorld client and the ClientAcctProcessor")
+@DisplayName("IT_ClientAcctProcessor: Given the GardenWorld client and the ClientAcctProcessor")
 class IT_ClientAcctProcessor implements IntegrationTestTag {
 
     // Can't use the CommonGWSetup as the TrxName can't be maintained

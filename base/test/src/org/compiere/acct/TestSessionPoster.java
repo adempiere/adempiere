@@ -41,7 +41,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @Tag("AcctProcessor")
 @Tag("SessionPoster")
 @Tag("ClientAcctProcessor")
-@DisplayName("Given the SessionPoster")
+@DisplayName("TestSessionPoster: Given the SessionPoster")
 @ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
 class TestSessionPoster extends CommonUnitTestSetup {
 
