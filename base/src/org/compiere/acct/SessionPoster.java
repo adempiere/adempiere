@@ -36,7 +36,7 @@ public class SessionPoster {
     private int[] counts;
     private int[] countErrors;
     private int[] documentTableIds = null;
-    private String transactionName = null;
+    private String trxName = null;
     private String[] documentTableNames = null;
     private Properties context;
     private MAcctSchema[] accountingSchema = null;
@@ -47,6 +47,43 @@ public class SessionPoster {
 
         requireNonNullAndNonEmpty(accountingSchema);
 
+    }
+
+    private String createLogSummary() {
+    
+        StringBuilder lastSummary = new StringBuilder();
+        for (int i = 0; i < getDocumentTableNames().length; i++) {
+            String tableName = getDocumentTableNames()[i];
+            String tableUpdateLog = "";
+            if (counts[i] > 0) {
+                tableUpdateLog = tableName + "=" + counts[i];
+                if (countErrors[i] > 0)
+                    tableUpdateLog += "(Errors=" + countErrors[i] + ")";
+                log.finer("SessionPoster: " + tableUpdateLog);
+            } else
+                log.finer("SessionPoster: " + tableName + " - no work");
+            if (tableUpdateLog.length() > 0) {
+                if (lastSummary.length() > 0)
+                    lastSummary.append("-");
+                lastSummary.append(tableUpdateLog);
+            }
+        }
+        return (lastSummary.toString());
+    
+    }
+
+    private String findTableName(int tableIdToFind, int[] ids, String[] names) {
+    
+        String specificTableName;
+        String matchingName = null;
+        for (int i = 0; i < ids.length; i++) {
+            if (tableIdToFind == ids[i]) {
+                matchingName = names[i];
+            }
+        }
+        specificTableName = matchingName;
+        return specificTableName;
+    
     }
 
     public SessionPoster withAccountingSchemas(MAcctSchema[] acctSchema) {
@@ -66,7 +103,7 @@ public class SessionPoster {
 
     public SessionPoster withTransactionName(String trxName) {
 
-        this.transactionName = trxName;
+        this.trxName = trxName;
         return this;
 
     }
@@ -91,7 +128,7 @@ public class SessionPoster {
         // average costing)
         List<BigDecimal> listProcessedOn =
                 Doc.getListOfUnpostedProcessedOnDates(context, tableNames,
-                        null, transactionName);
+                        null, trxName);
 
         Collections.sort(listProcessedOn);
         return listProcessedOn.stream();
@@ -106,7 +143,7 @@ public class SessionPoster {
 
             final int countIndex = i;
             Doc.streamUnpostedRecordIdsForTableOnDate(context,
-                    tableName, processedOn, transactionName)
+                    tableName, processedOn, trxName)
                     .forEach(recordId -> {
                         counts[countIndex]++;
                         if (!postDocumentInItsOwnTransaction(docTableId,
@@ -185,28 +222,24 @@ public class SessionPoster {
 
     void setDocumentNamesAndIds() {
 
-        int singleId = tableId;
-        String singleName = null;
-        int[] ids = Doc.getDocumentsTableID();
-        String[] names = Doc.getDocumentsTableName();
-        int numberOfDocs = ids.length;
+        int specificTableId = tableId;
+        String specificTableName = null;
+        int[] allIds = Doc.getDocumentsTableID();
+        String[] allNames = Doc.getDocumentsTableName();
 
-        if (singleId > 0) {
-            for (int i = 0; i < numberOfDocs; i++) {
-                if (singleId == ids[i]) {
-                    singleName = names[i];
-                }
-            }
-            if (singleName != null) {
-                documentTableIds = new int[] { singleId };
-                documentTableNames = new String[] { singleName };
+        if (specificTableId > 0) {
+            specificTableName = findTableName(specificTableId, 
+                    allIds, allNames);
+            if (specificTableName != null) {
+                documentTableIds = new int[] { specificTableId };
+                documentTableNames = new String[] { specificTableName };
             } else {
                 documentTableIds = new int[] {};
                 documentTableNames = new String[] {};
             }
         } else {
-            documentTableIds = ids;
-            documentTableNames = names;
+            documentTableIds = allIds;
+            documentTableNames = allNames;
         }
 
         initializeCounts();
@@ -234,29 +267,6 @@ public class SessionPoster {
             throw new IllegalArgumentException(errMsg);
 
         return as;
-
-    }
-
-    private String createLogSummary() {
-
-        StringBuilder lastSummary = new StringBuilder();
-        for (int i = 0; i < getDocumentTableNames().length; i++) {
-            String tableName = getDocumentTableNames()[i];
-            String tableUpdateLog = "";
-            if (counts[i] > 0) {
-                tableUpdateLog = tableName + "=" + counts[i];
-                if (countErrors[i] > 0)
-                    tableUpdateLog += "(Errors=" + countErrors[i] + ")";
-                log.finer("SessionPoster: " + tableUpdateLog);
-            } else
-                log.finer("SessionPoster: " + tableName + " - no work");
-            if (tableUpdateLog.length() > 0) {
-                if (lastSummary.length() > 0)
-                    lastSummary.append("-");
-                lastSummary.append(tableUpdateLog);
-            }
-        }
-        return (lastSummary.toString());
 
     }
 
