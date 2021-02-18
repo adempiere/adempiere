@@ -959,7 +959,6 @@ public class MColumn extends X_AD_Column
 			String sql = null;
 			Boolean oldColumnExists = false;
 			Boolean currentColumnExists = false;
-			Boolean oldNotNull = false;
 			Boolean currentNotNull = false;
 			int currentDataType = 0;
 			int currentColumnSize = 0;
@@ -991,7 +990,6 @@ public class MColumn extends X_AD_Column
 					
 					if (oldColumnName != null && columnName.equalsIgnoreCase(oldColumnName)) {
 						oldColumnExists = true;
-						oldNotNull = DatabaseMetaData.columnNoNulls == rs.getInt("NULLABLE");
 					}
 					
 					if (columnName.equalsIgnoreCase(getColumnName())) {
@@ -1044,7 +1042,7 @@ public class MColumn extends X_AD_Column
 					//  sync again.
 					boolean withDefault = (columnDefault != null && columnDefault.length() > 0 && !columnDefault.equals("NULL"));
 					if (oldColumnName != null) {
-						returnMessage += this.MSG_ColumnNameChanged + " " + oldColumnName + " -> " + getColumnName() + "<br>";
+						returnMessage += MSG_ColumnNameChanged + " " + oldColumnName + " -> " + getColumnName() + "<br>";
 					}
 					if (!DisplayType.isSameType(this, currentDataType, currentColumnSize)) {
 						
