@@ -62,6 +62,9 @@ import org.compiere.util.Util;
  *  @author mckayERP www.mckayERP.com
  *  	<li> FR [ <a href="https://github.com/adempiere/adempiere/issues/213">#213</a> ] Support for application dictionary changes 
  *  		 and configurable automatic syncing with the database
+ *  @author Edwin Betancourt EdwinBetanc0ut@outlook.com
+ *  	<li> <a href="https://github.com/adempiere/adempiere/issues/3363">
+ * 		@see BR [ 3363 ] Length in 0 of column, prevents to register values in that column</a>
  */
 public class MColumn extends X_AD_Column
 {
@@ -198,13 +201,7 @@ public class MColumn extends X_AD_Column
 	public MColumn (Properties ctx, int AD_Column_ID, String trxName)
 	{
 		super (ctx, AD_Column_ID, trxName);
-		if (AD_Column_ID == 0)
-		{
-		//	setAD_Element_ID (0);
-		//	setAD_Reference_ID (0);
-		//	setColumnName (null);
-		//	setName (null);
-		//	setEntityType (null);	// U
+		if (AD_Column_ID == 0) {
 			setIsAlwaysUpdateable (false);	// N
 			setIsEncrypted (false);
 			setIsIdentifier (false);
@@ -328,7 +325,7 @@ public class MColumn extends X_AD_Column
 	protected boolean beforeSave (boolean newRecord)
 	{
 		//set column default based in element when is a new column FR [ 3426134 ]
-		if(newRecord) {
+		if (newRecord) {
 			if(!isDirectLoad()) {
 				setAD_Column(getCtx(), this, get_TrxName());
 				//Create Document No or Value sequence
@@ -348,9 +345,10 @@ public class MColumn extends X_AD_Column
 				}
 				setIsAllowCopy(MColumn.isAllowCopy(getColumnName(), getAD_Reference_ID()));
 			}
+		} else {
+			//	Set field Length
+			setFieldLength(DisplayType.getDBDataLength(this));
 		}
-		//	Set field Length
-		setFieldLength(DisplayType.getDBDataLength(this));
 		
 		//	BR [ 9223372036854775807 ]
 		//  Skip the validation if this is a Direct Load (from a migration) or the Element is changing.

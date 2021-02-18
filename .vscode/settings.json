@@ -1,0 +1,7 @@
+{
+    "editor.trimAutoWhitespace": false,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "editor.find.addExtraSpaceOnTop": false,
+    "editor.insertSpaces": false,
+    "files.trimTrailingWhitespace": false
+}
