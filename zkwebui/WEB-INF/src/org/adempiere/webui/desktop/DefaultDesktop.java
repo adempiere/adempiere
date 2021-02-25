@@ -214,22 +214,24 @@ public class DefaultDesktop extends TabbedDesktop implements MenuListener, Seria
 
 			noOfColumns = getSessionColumnCount();
 			width = noOfColumns <= 0 ? 100 : 100 / noOfColumns;
-			for (final MDashboardContent dashboardContent : MDashboardContent.getForSession()) {
-				MRole role = MRole.getDefault(Env.getCtx(), false);
-				if (role.getDashboardAccess(dashboardContent.getPA_DashboardContent_ID())) {
-					int columnNo = dashboardContent.getColumnNo();
-					if (portalChildren == null || currentColumnNo != columnNo) {
-						String columnWidth = "" + width;
-						if (size != null && size.length > 0 && size.length > counter && !Util.isEmpty(size[counter], true))
-							columnWidth = size[counter];
-						portalChildren = new Portalchildren();
-						portalLayout.appendChild(portalChildren);
-						portalChildren.setWidth(columnWidth.trim() + "%");
-						portalChildren.setStyle("padding: 5px");
+			for (final MDashboardContent dashboardContent : getDashboardContent()) {
+				MRole role = getDefaultRole();
+				if (Boolean.FALSE.equals(role.getDashboardAccess(
+				        dashboardContent.getPA_DashboardContent_ID())))
+				    continue;
+				
+				int columnNo = dashboardContent.getColumnNo();
+				if (portalChildren == null || currentColumnNo != columnNo) {
+					String columnWidth = "" + width;
+					if (size != null && size.length > 0 && size.length > counter && !Util.isEmpty(size[counter], true))
+						columnWidth = size[counter];
+					portalChildren = new Portalchildren();
+					portalLayout.appendChild(portalChildren);
+					portalChildren.setWidth(columnWidth.trim() + "%");
+					portalChildren.setStyle("padding: 5px");
 
-						currentColumnNo = columnNo;
-						counter++;
-					}
+					currentColumnNo = columnNo;
+					counter++;
 				}
 
 
