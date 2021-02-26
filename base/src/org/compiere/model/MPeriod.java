@@ -757,4 +757,47 @@ public class MPeriod extends X_C_Period
       return C_Calendar_ID;
     }   //  getC_Calendar_ID
     
+
+    /**
+     * Get the minimum period start date for the standard client calendar
+     * @param ctx
+     * @param trxName
+     * @return the minimum start date for all periods or null if none found
+     */
+    public static Timestamp getMinPeriodStartDate(Properties ctx, String trxName) {
+
+        int calendarId = getC_Calendar_ID(ctx, 0);
+        String where = "C_Year_ID IN "
+                + "(SELECT C_Year_ID FROM C_Year WHERE C_Calendar_ID= ?)";
+
+        return new Query(ctx, I_C_Period.Table_Name, where, trxName)
+                .setClient_ID()
+                .setOnlyActiveRecords(true)
+                .setParameters(calendarId)
+                .aggregate(I_C_Period.COLUMNNAME_StartDate, Query.AGGREGATE_MIN,
+                        Timestamp.class);
+
+    }
+
+    /**
+     * Get the maximum period end date for the standard client calendar
+     * @param ctx
+     * @param trxName
+     * @return the maximum start date for all periods or null if none found
+     */
+    public static Timestamp getMaxPeriodEndDate(Properties ctx, String trxName) {
+
+        int calendarId = getC_Calendar_ID(ctx, 0);
+        String where = "C_Year_ID IN "
+                + "(SELECT C_Year_ID FROM C_Year WHERE C_Calendar_ID= ?)";
+
+        return new Query(ctx, I_C_Period.Table_Name, where, trxName)
+                .setClient_ID()
+                .setOnlyActiveRecords(true)
+                .setParameters(calendarId)
+                .aggregate(I_C_Period.COLUMNNAME_EndDate, Query.AGGREGATE_MAX,
+                        Timestamp.class);
+
+    }
+
 }	//	MPeriod
