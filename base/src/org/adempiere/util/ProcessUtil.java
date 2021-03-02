@@ -59,7 +59,13 @@ public final class ProcessUtil {
 	 * @return boolean
 	 */
 	public static boolean startDatabaseProcedure (ProcessInfo processInfo, String ProcedureName, Trx trx, boolean managedTrx) {
-		String sql = "{call " + ProcedureName + "(?)}";
+		String sql;
+		if(DB.isPostgreSQL())
+			sql = "call " + ProcedureName + "(?)";
+		else if (DB.isOracle())
+			sql = "{call " + ProcedureName + "(?)}";
+		else
+			sql = "{call " + ProcedureName + "(?)}";
 		String trxName = trx != null ? trx.getTrxName() : null;
 		try
 		{
