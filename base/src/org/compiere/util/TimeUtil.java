@@ -24,6 +24,7 @@ import java.util.BitSet;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Objects;
+import java.util.TimeZone;
 
 import org.compiere.model.MCalendar;
 
@@ -1359,7 +1360,7 @@ public class TimeUtil
 	}
 	
 	/**
-	 * Get the year as an int
+	 * Get the year (GMT) as an int.
 	 * @param date a Timestamp. Not null.
 	 * @return year as an int
 	 */
@@ -1367,7 +1368,8 @@ public class TimeUtil
 
         Timestamp time = requireNonNull(date);
         Calendar todayCal = Calendar.getInstance();
-        todayCal.setTime(time);
+        todayCal.setTimeZone(TimeZone.getTimeZone("GMT"));
+        todayCal.setTimeInMillis(time.getTime());
         return todayCal.get(Calendar.YEAR);
 
     }

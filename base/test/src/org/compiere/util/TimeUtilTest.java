@@ -606,9 +606,9 @@ class TimeUtilTest extends CommonUnitTestSetup {
     }
 
     @Test
-    void whenPassedBank_getYearFromTimestampReturns1970() {
+    void whenPassedZero_getYearFromTimestampReturns1970() {
 
-        assertEquals(1969, TimeUtil.getYearFromTimestamp(new Timestamp(0)));
+        assertEquals(1970, TimeUtil.getYearFromTimestamp(new Timestamp(0)));
 
     }
 
