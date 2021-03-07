@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="base/src"/>
+	<classpathentry kind="src" output="base/test/build" path="base/test/src">
+		<attributes>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="org.adempiere.project/src/main/java"/>
 	<classpathentry kind="src" path="org.adempiere.request/src/main/java"/>
 	<classpathentry kind="src" path="glassfishfacet/src"/>
@@ -11,9 +16,19 @@
 	<classpathentry kind="src" path="extend/src"/>
 	<classpathentry kind="src" path="serverRoot/src/main/ejb"/>
 	<classpathentry kind="src" path="serverRoot/src/main/server"/>
+	<classpathentry kind="src" output="serverRoot/test/build" path="serverRoot/src/test/server">
+		<attributes>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="serverRoot/src/main/servlet"/>
 	<classpathentry kind="src" path="serverApps/src/main/servlet"/>
 	<classpathentry kind="src" path="zkwebui/WEB-INF/src"/>
+	<classpathentry kind="src" output="zkwebui/WEB-INF/test/build" path="zkwebui/WEB-INF/test/src">
+		<attributes>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry excluding="org/compiere/interfaces/" kind="src" path="JasperReports/src"/>
 	<classpathentry excluding="org/compiere/utils/DigestOfFile.java|org/compiere/interfaces/" kind="src" path="JasperReportsWebApp/src"/>
 	<classpathentry kind="src" path="tools/src"/>
@@ -25,15 +40,30 @@
 	<classpathentry kind="src" path="org.eevolution.hr_and_payroll/src/main/java/ui/zk"/>
 	<classpathentry kind="src" path="org.spin.hr_time_and_attendance/src/main/java/base"/>
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/base"/>
-	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/test"/>
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/ui/swing"/>
 	<classpathentry kind="src" path="org.eevolution.manufacturing/src/main/java/ui/zk"/>
+	<classpathentry kind="src" output="org.eevolution.manufacturing/test/build" path="org.eevolution.manufacturing/src/test/java/base">
+		<attributes>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="org.eevolution.warehouse/src/main/java/base"/>
 	<classpathentry kind="src" path="org.adempiere.asset/src/main/java/base"/>
+	<classpathentry kind="src" output="org.adempiere.asset/test/build" path="org.adempiere.asset/src/test/java/base">
+		<attributes>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="src" path="org.adempiere.webservice/WEB-INF/src"/>
 	<classpathentry kind="src" path="com.kkalice.adempiere.migrate/src"/>
-	<classpathentry kind="src" path="org.adempiere.test/src/test/scala"/>
+	<classpathentry kind="src" path="org.adempiere.test/src/main/java"/>
 	<classpathentry kind="src" path="org.adempiere.test/src/main/scala"/>
+	<classpathentry kind="src" output="org.adempiere.asset/test/build" path="org.adempiere.test/src/test/java">
+		<attributes>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" path="org.adempiere.test/src/test/scala"/>
 	<classpathentry kind="src" path="org.adempiere.test/src/test/sahi"/>
 	<classpathentry kind="src" path="org.adempiere.pos/src/main/java/base"/>
 	<classpathentry kind="src" path="org.adempiere.pos/src/main/java/ui/swing"/>
@@ -48,7 +78,6 @@
 	<classpathentry kind="src" path="org.spin.loan_management/src/main/java/ui/swing"/>
 	<classpathentry kind="src" path="org.spin.finance_management/src/main/java/base"/>
 	<classpathentry kind="src" path="org.spin.store/src/main/java"/>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jstl.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -75,21 +104,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="jboss/lib/commons-httpclient.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant-commons-net.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant-launcher.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="tools/lib/jsp-api.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -252,8 +266,6 @@
 	<classpathentry exported="true" kind="lib" path="tools/lib/testing/spiffy-with_source-all-0.05.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/testing/SuperCSV-with_src-1.52.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/keylistener.jar"/>
-	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/junit.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit.jar"/>
 	<classpathentry exported="true" kind="lib" path="zkwebui/WEB-INF/lib/zweb.jar"/>
 	<classpathentry exported="true" kind="lib" path="tools/lib/miglayout-3.7.1-swing.jar">
 		<attributes>
@@ -301,6 +313,7 @@
 	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/xbean.jar"/>
 	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/xbean-spring-2.8.jar"/>
 	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/generated_xmlbeans.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/jackson-databind-2.10.4.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/scala-sdk-2.11.7"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SBT: org.scala-lang:scala-reflect:2.11.2:jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SBT: org.scala-lang.modules:scala-xml_2.11:1.0.2:jar"/>
@@ -335,7 +348,7 @@
 	<classpathentry kind="lib" path="tools/lib/wizard.jar"/>
 	<classpathentry kind="lib" path="tools/lib/oracle.jar"/>
 	<classpathentry kind="lib" path="tools/lib/zxing-2.3.0.jar"/>
-	<classpathentry kind="lib" path="tools/lib/commons-validator-1.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/commons-validator-1.7.jar"/>
 	<classpathentry kind="lib" path="tools/lib/sardine-5.9-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="tools/lib/fluent-hc-4.5.6.jar"/>
 	<classpathentry kind="lib" path="tools/lib/httpclient-4.5.6.jar"/>
@@ -349,6 +362,26 @@
 	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-core-1.11.795.jar"/>
 	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-kms-1.11.795.jar"/>
 	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-s3-1.11.795.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/apiguardian-api-1.1.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/byte-buddy-1.10.15.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/byte-buddy-agent-1.10.15.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-jupiter-api-5.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-jupiter-engine-5.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-jupiter-migrationsupport-5.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-jupiter-params-5.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-platform-commons-1.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-platform-console-1.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-platform-console-standalone-1.7.0.jar" sourcepath="tools/lib/junit/junit-platform-launcher-1.7.0-sources.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-platform-engine-1.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-platform-launcher-1.7.0.jar" sourcepath="tools/lib/junit/junit-platform-launcher-1.7.0-sources.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-platform-runner-1.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-platform-suite-api-1.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-platform-testkit-1.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/mockito-core-3.6.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/mockito-junit-jupiter-3.6.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/objenesis-3.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/opentest4j-1.2.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/aggs-matrix-stats-client-7.9.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/commons-codec-1.11.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/commons-logging-1.1.3.jar"/>
@@ -387,13 +420,16 @@
 	<classpathentry kind="lib" path="tools/lib/storefront/lucene-queries-8.6.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/lucene-queryparser-8.6.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/lucene-sandbox-8.6.2.jar"/>
-	<classpathentry kind="lib" path="tools/lib/storefront/lucene-spatial-extras-8.6.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/lucene-spatial3d-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-spatial-extras-8.6.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/lucene-suggest-8.6.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/mapper-extras-client-7.9.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/parent-join-client-7.9.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/rank-eval-client-7.9.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/snakeyaml-1.26.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/t-digest-3.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-commons-net.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-launcher.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

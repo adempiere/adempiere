@@ -62,6 +62,19 @@ public class MProduct extends X_M_Product
 	 */
 	public static MProduct get (Properties ctx, int M_Product_ID)
 	{
+	    return get(ctx, M_Product_ID, null);
+	}
+
+   /**
+     *  Get MProduct from Cache
+     *  @param ctx context
+     *  @param M_Product_ID id
+     *  @param trxName
+     *  @return MProduct or null
+     */
+   public static MProduct get (Properties ctx, int M_Product_ID, String trxName)
+    {
+
 		if (M_Product_ID <= 0)
 		{
 			return null;
@@ -72,7 +85,7 @@ public class MProduct extends X_M_Product
 		{
 			return retValue;
 		}
-		retValue = new MProduct (ctx, M_Product_ID, null);
+		retValue = new MProduct (ctx, M_Product_ID, trxName);
 		if (retValue.get_ID () != 0)
 		{
 			s_cache.put (key, retValue);
@@ -447,7 +460,7 @@ public class MProduct extends X_M_Product
 	 */
 	public int getA_Asset_Group_ID()
 	{
-		MProductCategory pc = MProductCategory.get(getCtx(), getM_Product_Category_ID());
+		MProductCategory pc = MProductCategory.get(getCtx(), getM_Product_Category_ID(), get_TrxName());
 		return pc.getA_Asset_Group_ID();
 	}	//	getA_Asset_Group_ID
 
@@ -457,7 +470,7 @@ public class MProduct extends X_M_Product
 	 */
 	public boolean isCreateAsset()
 	{
-		MProductCategory pc = MProductCategory.get(getCtx(), getM_Product_Category_ID());
+		MProductCategory pc = MProductCategory.get(getCtx(), getM_Product_Category_ID(), get_TrxName());
 		return pc.getA_Asset_Group_ID() != 0;
 	}	//	isCreated
 
@@ -468,7 +481,7 @@ public class MProduct extends X_M_Product
 	public MAttributeSet getAttributeSet()
 	{
 		if (getM_AttributeSet_ID() != 0)
-			return MAttributeSet.get(getCtx(), getM_AttributeSet_ID());
+			return MAttributeSet.get(getCtx(), getM_AttributeSet_ID(), get_TrxName());
 		return null;
 	}	//	getAttributeSet
 	
@@ -480,7 +493,7 @@ public class MProduct extends X_M_Product
 	{
 		if (getM_AttributeSet_ID() == 0)
 			return false;
-		MAttributeSet mas = MAttributeSet.get(getCtx(), getM_AttributeSet_ID());
+		MAttributeSet mas = MAttributeSet.get(getCtx(), getM_AttributeSet_ID(), get_TrxName());
 		return mas.isInstanceAttribute();
 	}	//	isInstanceAttribute
 	
@@ -628,7 +641,7 @@ public class MProduct extends X_M_Product
 
 		if (getM_AttributeSet_ID() > 0 )
 		{
-			MAttributeSet attributeSet = MAttributeSet.get(getCtx(), getM_AttributeSet_ID());
+			MAttributeSet attributeSet = MAttributeSet.get(getCtx(), getM_AttributeSet_ID(), get_TrxName());
 			if (!attributeSet.isInstanceAttribute() && attributeSet.isMandatoryAlways() && getM_AttributeSetInstance_ID() == 0)
 				throw new AdempiereException("@M_AttributeSetInstance_ID@ @FillMandatory@ @M_AttributeSetInstance_ID@ : " + attributeSet.getName());
 
@@ -871,7 +884,7 @@ public class MProduct extends X_M_Product
 	 * @return Material Management Policy
 	 */
 	public String getMMPolicy() {
-		MProductCategory pc = MProductCategory.get(getCtx(), getM_Product_Category_ID());
+		MProductCategory pc = MProductCategory.get(getCtx(), getM_Product_Category_ID(), get_TrxName());
 		String MMPolicy = pc.getMMPolicy();
 		if (MMPolicy == null || MMPolicy.length() == 0)
 			MMPolicy = MClient.get(getCtx()).getMMPolicy();

@@ -63,21 +63,32 @@ public class MImage extends X_AD_Image
 	 */
 	public static MImage get (Properties ctx, int AD_Image_ID)
 	{
-		if (AD_Image_ID == 0)
-			return new MImage (ctx, AD_Image_ID, null);
+	    return get(ctx, AD_Image_ID, null);
+	}
+	
+    /**
+     *  Get MImage from Cache
+     *  @param ctx context
+     *  @param ad_image_id id
+     *  @param trxName The Transaction name
+     *  @return MImage
+     */
+    public static MImage get (Properties ctx, int ad_image_id, String trxName)
+    {
+		if (ad_image_id == 0)
+			return new MImage (ctx, ad_image_id, trxName);
 		//
-		Integer key = new Integer (AD_Image_ID);
-		MImage retValue = (MImage) s_cache.get (key);
+		Integer key = Integer.valueOf(ad_image_id);
+		MImage retValue = cache.get (key);
 		if (retValue != null)
 			return retValue;
-		retValue = new MImage (ctx, AD_Image_ID, null);
+		retValue = new MImage (ctx, ad_image_id, trxName);
 		if (retValue.get_ID () != 0 && Ini.isClient())
-			s_cache.put (key, retValue);
+			cache.put (key, retValue);
 		return retValue;
 	} //	get
 
-	/**	Cache						*/
-	private static CCache<Integer,MImage> s_cache = new CCache<Integer,MImage>("AD_Image", 20);
+	private static CCache<Integer,MImage> cache = new CCache<>("AD_Image", 20);
 	
 	/**
 	 *  Constructor
