@@ -783,8 +783,6 @@ public final class Fact
 					factLine.setC_LocFrom_ID(factLineSource.getC_LocFrom_ID());
 				if (factLine.getC_LocTo_ID() <= 0 && factLineSource.getC_LocTo_ID() > 0)
 					factLine.setC_LocTo_ID(factLineSource.getC_LocTo_ID());
-				if (factLine.getC_Tax_ID() <= 0 && factLineSource.getC_Tax_ID() > 0)
-					factLine.setC_Tax_ID(factLineSource.getC_Tax_ID());
 
 				factLine.setPostingType(m_postingType);
 				if (distributionLine.isOverwritePostingType()
