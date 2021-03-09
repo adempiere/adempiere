@@ -231,6 +231,9 @@ public class MInvoiceTax extends X_C_InvoiceTax
 		
 		//	Calculate Tax
 		if (documentLevel || taxAmt.signum() == 0)
+		{
+			if (taxBaseAmt.scale()>getPrecision())
+				taxBaseAmt = taxBaseAmt.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
 			taxAmt = tax.calculateTax(taxBaseAmt, isTaxIncluded(), getPrecision());
 		setTaxAmt(taxAmt);
 
