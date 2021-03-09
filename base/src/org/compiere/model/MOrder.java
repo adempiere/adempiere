@@ -644,7 +644,7 @@ public class MOrder extends X_C_Order implements DocAction
 	 */
 	public void setM_PriceList_ID (int M_PriceList_ID)
 	{
-		MPriceList pl = MPriceList.get(getCtx(), M_PriceList_ID, null);
+		MPriceList pl = MPriceList.get(getCtx(), M_PriceList_ID, get_TrxName());
 		if (pl.get_ID() == M_PriceList_ID)
 		{
 			super.setM_PriceList_ID(M_PriceList_ID);
@@ -1610,7 +1610,7 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Lines
 		AtomicReference<BigDecimal> totalLines = new AtomicReference<>(Env.ZERO);
 		ArrayList<Integer> taxList = new ArrayList<>();
-		MOrderLine[] orderLines = getLines();
+		MOrderLine[] orderLines = getLines(true, null);
 		for (MOrderLine orderLine : orderLines) {
 			if (!taxList.contains(orderLine.getC_Tax_ID())) {
 				Optional<MOrderTax> maybeOrderTax = Optional.ofNullable(MOrderTax.get(orderLine, getPrecision(), false, get_TrxName()));//	current Tax

@@ -71,11 +71,11 @@ public class ThirdPartyAccess implements IThirdPartyAccessGenerator {
 	@Override
 	public String generateToken(int userId, int roleId) {
 		//	Validate user
-		if(userId <= 0) {
+		if(userId < 0) {
 			throw new AdempiereException("@AD_User_ID@ @NotFound@");
 		}
 		//	Validate Role
-		if(roleId <= 0) {
+		if(roleId < 0) {
 			throw new AdempiereException("@AD_Role_ID@ @NotFound@");
 		}
 		MADToken token = new MADToken(Env.getCtx(), 0, null);
