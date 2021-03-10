@@ -242,6 +242,7 @@ public class MInvoiceTax extends X_C_InvoiceTax
 			setTaxBaseAmt (taxBaseAmt.subtract(taxAmt));
 		else
 			setTaxBaseAmt (taxBaseAmt);
+		}
 		return true;
 	}	//	calculateTaxFromLines
 
