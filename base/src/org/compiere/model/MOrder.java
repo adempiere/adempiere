@@ -1610,7 +1610,7 @@ public class MOrder extends X_C_Order implements DocAction
 		//	Lines
 		AtomicReference<BigDecimal> totalLines = new AtomicReference<>(Env.ZERO);
 		ArrayList<Integer> taxList = new ArrayList<>();
-		MOrderLine[] orderLines = getLines();
+		MOrderLine[] orderLines = getLines(true, null);
 		for (MOrderLine orderLine : orderLines) {
 			if (!taxList.contains(orderLine.getC_Tax_ID())) {
 				Optional<MOrderTax> maybeOrderTax = Optional.ofNullable(MOrderTax.get(orderLine, getPrecision(), false, get_TrxName()));//	current Tax
