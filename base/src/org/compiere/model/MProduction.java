@@ -292,7 +292,7 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 								quantityMA.negate(), productionLine.getParent().getMovementDate(), get_TrxName());
 						transaction.setM_ProductionLine_ID(productionLine.getM_ProductionLine_ID());
 						BigDecimal quantityReserved = productionLine.getMovementQty();
-						MProductionBatchLine pbLine = MProductionBatchLine.getbyProduct(getM_ProductionBatch_ID(), getM_Product_ID(), getCtx(), get_TrxName());
+						MProductionBatchLine pbLine = MProductionBatchLine.getbyProduct(getM_ProductionBatch_ID(), productionLine.getM_Product_ID(), getCtx(), get_TrxName());
 						pbLine.setQtyReserved(pbLine.getQtyReserved().add(quantityReserved));
 						pbLine.saveEx();
 						transaction.saveEx();
