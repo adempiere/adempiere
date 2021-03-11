@@ -1438,7 +1438,7 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 								warehouse.getDefaultLocator().getM_Locator_ID(),
 								inOutLine.getM_Product_ID(),
 								inOutLine.getM_AttributeSetInstance_ID(), reservationAttributeSetInstance_ID,
-								Env.ZERO, QtySO.negate(), QtyPO.negate(), get_TrxName()))
+								Env.ZERO, QtySO, QtyPO.negate(), get_TrxName()))
 							{
 								processMsg = "Cannot correct Inventory";
 								return DocAction.STATUS_Invalid;
