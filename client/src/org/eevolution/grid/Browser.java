@@ -1220,16 +1220,18 @@ public abstract class Browser {
 					axisSql.append("SUM(")
 							.append(axisColumnName)
 							.append(") FROM  ")
-							.append(yColumn.getAD_View_Definition().getAD_Table().getTableName())
-							.append(" WHERE ")
-							.append(xTableName)
-							.append(".")
-							.append(fieldKey.getAD_View_Column().getAD_Column()
-									.getColumnName()).append("=")
-							.append(fieldKey.getAD_View_Column().getColumnSQL())
-							.append(")");
-
-					
+							.append(yColumn.getAD_View_Definition().getAD_Table().getTableName());
+					if(axisColumnName.equals(columnName)) {
+						axisSql.append(" WHERE ")
+								.append(xTableName)
+								.append(".")
+								.append(fieldKey.getAD_View_Column().getAD_Column()
+										.getColumnName()).append("=")
+								.append(fieldKey.getAD_View_Column().getColumnSQL())
+								.append(")");
+					} else {
+						axisSql.append(")");
+					}
 				}
 				//	
 				String dislayColumnName = Msg.translate(m_language, columnName);
