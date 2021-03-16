@@ -119,6 +119,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
             shipmentLine.setM_InOut_ID(shipment.getM_InOut_ID());
             shipmentLine.setM_Locator_ID(outboundLine.getM_LocatorTo_ID());
             shipmentLine.setM_Product_ID(outboundLine.getM_Product_ID());
+            shipmentLine.setDescription(outboundLine.getDescription());
             shipmentLine.setC_UOM_ID(outboundLine.getC_UOM_ID());
             shipmentLine.setQtyEntered(qtyDelivered);
             shipmentLine.setMovementQty(qtyDelivered);
@@ -132,6 +133,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
         // Generate Delivery Movement
         if (outboundLine.getDD_OrderLine_ID() > 0) {
             MDDOrderLine distributionOrderLine = (MDDOrderLine) outboundLine.getDD_OrderLine();
+            distributionOrderLine.setDescription(outboundLine.getDescription());
 
             if (distributionOrders.get(distributionOrderLine.getDD_Order_ID()) == null)
                 distributionOrders.put(distributionOrderLine.getDD_Order_ID(), distributionOrderLine.getDD_Order());
@@ -160,6 +162,8 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
                     true);
 
             issues.forEach(costCollector -> {
+                costCollector.setDescription(outboundLine.getDescription());
+                costCollector.saveEx();
                 if (manufacturingIssues.get(costCollector.getPP_Cost_Collector_ID()) == null)
                     manufacturingIssues.put(costCollector.getPP_Cost_Collector_ID(), costCollector);
             });
@@ -211,7 +215,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
 
 
     private void processingMovements() {
-        distributionOrders.entrySet().stream().filter(entry -> entry != null).forEach(entry -> {
+        distributionOrders.entrySet().stream().filter(Objects::nonNull).forEach(entry -> {
             I_DD_Order distributionOrder = entry.getValue();
             List<Integer> orderIds = new ArrayList<Integer>();
             orderIds.add(distributionOrder.getDD_Order_ID());
@@ -258,6 +262,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
         shipment = new MInOut(order, docTypeId, getMovementDate());
         shipment.setIsSOTrx(true);
         shipment.setM_Shipper_ID(outbound.getM_Shipper_ID());
+        shipment.setDescription(outbound.getDescription());
         shipment.setM_FreightCategory_ID(outbound.getM_FreightCategory_ID());
         shipment.setFreightCostRule(outbound.getFreightCostRule());
         shipment.setFreightAmt(outbound.getFreightAmt());
