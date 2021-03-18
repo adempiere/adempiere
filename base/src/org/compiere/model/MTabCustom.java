@@ -16,10 +16,13 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.util.Util;
 
 /**
  * Customization handler
@@ -88,6 +91,26 @@ public class MTabCustom extends X_AD_TabCustom {
 				.setParameters(getAD_TabCustom_ID())
 				.setOnlyActiveRecords(true)
 				.list();
+	}
+	
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		if(newRecord
+				&& getAD_WindowCustom_ID() > 0
+				&& getAD_Tab_ID() > 0) {
+			Optional.ofNullable(getAD_WindowCustom()).ifPresent(customWindow -> {
+				if(!Util.isEmpty(customWindow.getHierarchyType())
+						&& customWindow.getHierarchyType().equals(MWindowCustom.HIERARCHYTYPE_Overwrite)) {
+					//	For fields
+					Arrays.asList(MTab.get(getCtx(), getAD_Tab_ID()).getFields(true, get_TrxName())).forEach(field -> {
+						MFieldCustom customField = new MFieldCustom(this);
+						customField.setField(field);
+						customField.saveEx();
+					});
+				}
+			});
+		}
+		return super.afterSave(newRecord, success);
 	}
 	
 	@Override
