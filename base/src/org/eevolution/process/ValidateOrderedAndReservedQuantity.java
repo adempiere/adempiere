@@ -54,13 +54,23 @@ public class ValidateOrderedAndReservedQuantity extends ValidateOrderedAndReserv
 		if (getProductId() > 0)
 			productList.add(getProductId());
 		else {
-			warehouseList.forEach(warehouseId -> productList.addAll(
-					Arrays.stream((Objects.requireNonNull(
-							MProduct.getAllIDs(MProduct.Table_Name, "AD_Org_ID=0 OR AD_Org_ID=" + getOrgId(), get_TrxName()
-							)
-					)
-				)).boxed().collect(Collectors.toList()))
-			);
+			warehouseList.forEach(warehouseId -> {
+				StringBuilder whereClause = new StringBuilder("(AD_Org_ID=0 OR AD_Org_ID=" + getOrgId()).append(")");
+				if (getProductCategoryId() > 0)
+					whereClause.append(" AND M_Product_Category_ID=").append(getProductCategoryId());
+				if (getProductGroupId() > 0 )
+					whereClause.append(" AND M_Product_Group_ID=").append(getProductGroupId());
+				if (getProductClassId() > 0 )
+					whereClause.append(" AND M_Product_Class_ID=").append(getProductClassId());
+				if (getProductClassificationId() > 0 )
+					whereClause.append(" AND M_Product_Classification_ID=").append(getProductClassificationId());
+				productList.addAll(
+				Arrays.stream((Objects.requireNonNull(
+						MProduct.getAllIDs(MProduct.Table_Name, whereClause.toString(), get_TrxName()
+						)
+				)
+				)).boxed().collect(Collectors.toList()));
+			});
 		}
 
 		warehouseList.forEach( warehouseId -> {

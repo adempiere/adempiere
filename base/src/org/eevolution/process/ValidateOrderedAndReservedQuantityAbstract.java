@@ -34,12 +34,28 @@ public abstract class ValidateOrderedAndReservedQuantityAbstract extends SvrProc
 	public static final String AD_ORG_ID = "AD_Org_ID";
 	/**	Parameter Name for Warehouse	*/
 	public static final String M_WAREHOUSE_ID = "M_Warehouse_ID";
+	/**	Parameter Name for Product Category	*/
+	public static final String M_PRODUCT_CATEGORY_ID = "M_Product_Category_ID";
+	/**	Parameter Name for Product Group	*/
+	public static final String M_PRODUCT_GROUP_ID = "M_Product_Group_ID";
+	/**	Parameter Name for Product Class	*/
+	public static final String M_PRODUCT_CLASS_ID = "M_Product_Class_ID";
+	/**	Parameter Name for Product Classification	*/
+	public static final String M_PRODUCT_CLASSIFICATION_ID = "M_Product_Classification_ID";
 	/**	Parameter Name for Product	*/
 	public static final String M_PRODUCT_ID = "M_Product_ID";
 	/**	Parameter Value for Organization	*/
 	private int orgId;
 	/**	Parameter Value for Warehouse	*/
 	private int warehouseId;
+	/**	Parameter Value for Product Category	*/
+	private int productCategoryId;
+	/**	Parameter Value for Product Group	*/
+	private int productGroupId;
+	/**	Parameter Value for Product Class	*/
+	private int productClassId;
+	/**	Parameter Value for Product Classification	*/
+	private int productClassificationId;
 	/**	Parameter Value for Product	*/
 	private int productId;
 
@@ -47,6 +63,10 @@ public abstract class ValidateOrderedAndReservedQuantityAbstract extends SvrProc
 	protected void prepare() {
 		orgId = getParameterAsInt(AD_ORG_ID);
 		warehouseId = getParameterAsInt(M_WAREHOUSE_ID);
+		productCategoryId = getParameterAsInt(M_PRODUCT_CATEGORY_ID);
+		productGroupId = getParameterAsInt(M_PRODUCT_GROUP_ID);
+		productClassId = getParameterAsInt(M_PRODUCT_CLASS_ID);
+		productClassificationId = getParameterAsInt(M_PRODUCT_CLASSIFICATION_ID);
 		productId = getParameterAsInt(M_PRODUCT_ID);
 	}
 
@@ -68,6 +88,46 @@ public abstract class ValidateOrderedAndReservedQuantityAbstract extends SvrProc
 	/**	 Setter Parameter Value for Warehouse	*/
 	protected void setWarehouseId(int warehouseId) {
 		this.warehouseId = warehouseId;
+	}
+
+	/**	 Getter Parameter Value for Product Category	*/
+	protected int getProductCategoryId() {
+		return productCategoryId;
+	}
+
+	/**	 Setter Parameter Value for Product Category	*/
+	protected void setProductCategoryId(int productCategoryId) {
+		this.productCategoryId = productCategoryId;
+	}
+
+	/**	 Getter Parameter Value for Product Group	*/
+	protected int getProductGroupId() {
+		return productGroupId;
+	}
+
+	/**	 Setter Parameter Value for Product Group	*/
+	protected void setProductGroupId(int productGroupId) {
+		this.productGroupId = productGroupId;
+	}
+
+	/**	 Getter Parameter Value for Product Class	*/
+	protected int getProductClassId() {
+		return productClassId;
+	}
+
+	/**	 Setter Parameter Value for Product Class	*/
+	protected void setProductClassId(int productClassId) {
+		this.productClassId = productClassId;
+	}
+
+	/**	 Getter Parameter Value for Product Classification	*/
+	protected int getProductClassificationId() {
+		return productClassificationId;
+	}
+
+	/**	 Setter Parameter Value for Product Classification	*/
+	protected void setProductClassificationId(int productClassificationId) {
+		this.productClassificationId = productClassificationId;
 	}
 
 	/**	 Getter Parameter Value for Product	*/
