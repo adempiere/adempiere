@@ -370,6 +370,7 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
     }
 
     private KeyNamePair[] getTransactionIdsByDateAcct() {
+    	
         StringBuilder sql = new StringBuilder();
         List<Object> parameters = new ArrayList<Object>();
         StringBuilder whereClause = new StringBuilder("WHERE ");
@@ -393,10 +394,13 @@ public class GenerateCostDetail extends GenerateCostDetailAbstract {
             whereClause.append(" AND TRUNC(").append(MCostDetail.COLUMNNAME_DateAcct).append(")<=?");
             parameters.add(getDateAcctTo());
         }
+        String orderBy = " ORDER BY lowlevel desc, M_Product_ID ,  TRUNC( DateAcct ) , docstatuslevel," + 
+        		" case when docstatuslevel=2 then reversalline_Order_ID end, " + 
+        		" M_Transaction_ID, SUBSTR(MovementType,2,1)";
 
-        sql.append("SELECT M_Transaction_ID , M_Product_ID FROM RV_Transaction ")
+        sql.append("SELECT M_Transaction_ID , M_Product_ID FROM RV_Transaction_Costing ")
                 .append(whereClause)
-                .append(" ORDER BY lowlevel desc, M_Product_ID ,  TRUNC( DateAcct ) , M_Transaction_ID , SUBSTR(MovementType,2,1) ");
+                .append(orderBy);
         //.append(" ORDER BY M_Product_ID , DateAcct , M_Transaction_ID");
         //System.out.append("SQL :" + sql);
         return DB.getKeyNamePairs(get_TrxName(), sql.toString(), false, parameters.toArray());
