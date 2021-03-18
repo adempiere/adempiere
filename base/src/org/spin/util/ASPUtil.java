@@ -577,6 +577,7 @@ public class ASPUtil {
 			for(MBrowseField field : browseFields) {
 				MBrowseField fieldToAdd = field.getDuplicated();
 				fieldToAdd.setIsActive(false);
+				fieldToAdd.setIsDisplayed(false);
 				mergedFields.add(fieldToAdd);
 			}
 		} else {
@@ -1499,6 +1500,8 @@ public class ASPUtil {
 				if(!column.isKey()
 						&& !column.isParent()) {
 					fieldToAdd.setIsActive(false);
+					fieldToAdd.setIsDisplayed(false);
+					fieldToAdd.setIsDisplayedGrid(false);
 				}
 				mergedFields.add(fieldToAdd);
 			}

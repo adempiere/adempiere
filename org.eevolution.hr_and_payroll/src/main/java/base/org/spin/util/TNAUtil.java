@@ -326,22 +326,29 @@ public class TNAUtil {
 	 * @return
 	 */
 	public static List<MHRLeave> getLeaveListBetween(Properties ctx, int businessPartnerId, String leaveTypeValue, Timestamp from, Timestamp to, String trxName) {
-		String optionalWhereClause = "";
 		List<Object> parameters = new ArrayList<>();
 		parameters.add(businessPartnerId);
-		parameters.add(from);
-		parameters.add(to);
+		StringBuffer whereClause = new StringBuffer("DocStatus IN('CO') AND C_BPartner_ID = ?");
+		if(from != null
+				&& to != null) {
+			whereClause.append(" AND StartDate >= ? AND EndDate <= ?");
+			parameters.add(from);
+			parameters.add(to);
+		} else if(from != null) {
+			whereClause.append(" AND EndDate >= ?");
+			parameters.add(from);
+		} else {
+			whereClause.append(" AND EndDate >= ?");
+			parameters.add(to);
+		}
 		if(!Util.isEmpty(leaveTypeValue)) {
 			MHRLeaveType leaveType = MHRLeaveType.getByValue(ctx, leaveTypeValue, trxName);
 			if(leaveType != null) {
-				optionalWhereClause = " AND " + I_HR_Leave.COLUMNNAME_HR_LeaveType_ID + " = ?";
+				whereClause.append(" AND " + I_HR_Leave.COLUMNNAME_HR_LeaveType_ID + " = ?");
 				parameters.add(leaveType.getHR_LeaveType_ID());
 			}
 		}
-		return new Query(ctx, I_HR_Leave.Table_Name, "DocStatus IN('CO')"
-				+ " AND C_BPartner_ID = ?"
-				+ " AND StartDate <= ? AND EndDate >= ?"
-				+ optionalWhereClause, trxName)
+		return new Query(ctx, I_HR_Leave.Table_Name, whereClause.toString(), trxName)
 				.setParameters(parameters)
 				.setOnlyActiveRecords(true)
 				.setOrderBy(I_HR_Leave.COLUMNNAME_StartDate)

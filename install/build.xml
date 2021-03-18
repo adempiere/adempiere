@@ -35,8 +35,8 @@
 	<pathelement path="${lib.dir}/oracle.jar"/>
 	<pathelement path="${lib.dir}/postgresql.jar"/>
 	<pathelement path="../tools/lib/mysql-connector-java-5.1.13-bin.jar"/>
-	<pathelement path="../tools/lib/ant/org.apache.ant_1.10.8.v20200515-1239/lib/ant.jar"/>
-	<pathelement path="../tools/lib/ant/org.apache.ant_1.10.8.v20200515-1239/lib/ant-launcher.jar"/>
+	<pathelement path="../tools/lib/ant/apache-ant-1.10.9/lib/ant.jar"/>
+	<pathelement path="../tools/lib/ant/apache-ant-1.10.9/lib/ant-launcher.jar"/>
   </path>
 
   <patternset id="manifest.exclude">
@@ -86,13 +86,13 @@
 	  duplicate="preserve">
 	  <fileset dir="${compile.dir}"/>
 	  <!-- Ant (with ftp) files -->
-	  <zipfileset src="../tools/lib/ant/org.apache.ant_1.10.8.v20200515-1239/lib/ant.jar" >
+	  <zipfileset src="../tools/lib/ant/apache-ant-1.10.9/lib/ant.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
-	  <zipfileset src="../tools/lib/ant/org.apache.ant_1.10.8.v20200515-1239/lib/ant-launcher.jar" >
+	  <zipfileset src="../tools/lib/ant/apache-ant-1.10.9/lib/ant-launcher.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
-	  <zipfileset src="../tools/lib/ant/org.apache.ant_1.10.8.v20200515-1239/lib/ant-commons-net.jar" >
+	  <zipfileset src="../tools/lib/ant/apache-ant-1.10.9/lib/ant-commons-net.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
 	  <zipfileset src="../tools/lib/commons-net-1.4.0.jar" >
