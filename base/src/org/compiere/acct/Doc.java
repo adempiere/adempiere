@@ -26,13 +26,16 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.DBException;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MConversionRate;
+import org.compiere.model.MDocBaseType;
 import org.compiere.model.MDocType;
 import org.compiere.model.MFactAcct;
 import org.compiere.model.MNote;
@@ -273,8 +276,11 @@ public abstract class Doc
 	{
 		Doc doc = null;
 		
+		AtomicReference<String> className = new AtomicReference<String>(null);
+		
 		/* Classname of the Doc class follows this convention:
 		 * if the prefix (letters before the first underscore _) is 1 character, then the class is Doc_TableWithoutPrefixWithoutUnderscores
+		 
 		 * otherwise Doc_WholeTableWithoutUnderscores
 		 * i.e. following this query
               SELECT t.ad_table_id, tablename, 
@@ -315,20 +321,47 @@ public abstract class Doc
 		 * 53037	DD_Order			Doc_DDOrder
 		 * 53092	HR_Process			Doc_HRProcess
 		 */
-		
-		String tableName = MTable.getTableName(Env.getCtx(), AD_Table_ID);
-		String packageName = "org.compiere.acct";
-		String className = null;
 
-		int firstUnderscore = tableName.indexOf("_");
-		if (firstUnderscore == 1)
-			className = packageName + ".Doc_" + tableName.substring(2).replaceAll("_", "");
-		else
-			className = packageName + ".Doc_" + tableName.replaceAll("_", "");
+		Optional.ofNullable(MTable.get(Env.getCtx(), MDocBaseType.Table_Name))
+				.ifPresent(table ->{
+					Optional.ofNullable(table.getColumn(MDocBaseType.COLUMNNAME_C_DocBaseType_ID))
+							.ifPresent(columnDocBaseType->{
+								if (columnDocBaseType.getAD_Column_ID() > 0) {
+									int C_DocType_ID = 0; 
+									try {
+										C_DocType_ID = rs.getInt(MDocType.COLUMNNAME_C_DocType_ID);
+									}catch(Exception e) {
+										s_log.warning(e.getMessage());
+										C_DocType_ID = 0;
+									}finally{
+										className.set(Optional.ofNullable(
+														Optional.ofNullable(MDocBaseType.get(C_DocType_ID, AD_Table_ID))
+																.orElse(new MDocBaseType(Env.getCtx(), 0, trxName)).getAccountingClassname())
+															.orElse(""));
+										
+										
+									}
+								}
+							});
+					
+				});
+		
+		if (className.get()==null
+				|| (className.get()!=null 
+						&& className.get().isEmpty())) {
+			String tableName = MTable.getTableName(Env.getCtx(), AD_Table_ID);
+			String packageName = "org.compiere.acct";
+
+			int firstUnderscore = tableName.indexOf("_");
+			if (firstUnderscore == 1)
+				className.set(packageName + ".Doc_" + tableName.substring(2).replaceAll("_", ""));
+			else
+				className.set(packageName + ".Doc_" + tableName.replaceAll("_", ""));
+		}
 		
 		try
 		{
-			Class<?> cClass = Class.forName(className);
+			Class<?> cClass = Class.forName(className.get());
 			Constructor<?> cnstr = cClass.getConstructor(new Class[] {MAcctSchema[].class, ResultSet.class, String.class});
 			doc = (Doc) cnstr.newInstance(ass, rs, trxName);
 		}
@@ -337,7 +370,7 @@ public abstract class Doc
 			s_log.log(Level.SEVERE, "Doc Class invalid: " + className + " (" + e.toString() + ")");
 			throw new AdempiereUserError("Doc Class invalid: " + className + " (" + e.toString() + ")");
 		}
-
+		
 		if (doc == null)
 			s_log.log(Level.SEVERE, "Unknown AD_Table_ID=" + AD_Table_ID);
 		return doc;
