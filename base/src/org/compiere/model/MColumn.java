@@ -201,7 +201,13 @@ public class MColumn extends X_AD_Column
 	public MColumn (Properties ctx, int AD_Column_ID, String trxName)
 	{
 		super (ctx, AD_Column_ID, trxName);
-		if (AD_Column_ID == 0) {
+		if (AD_Column_ID == 0)
+		{
+		//	setAD_Element_ID (0);
+		//	setAD_Reference_ID (0);
+		//	setColumnName (null);
+		//	setName (null);
+		//	setEntityType (null);	// U
 			setIsAlwaysUpdateable (false);	// N
 			setIsEncrypted (false);
 			setIsIdentifier (false);
@@ -325,7 +331,7 @@ public class MColumn extends X_AD_Column
 	protected boolean beforeSave (boolean newRecord)
 	{
 		//set column default based in element when is a new column FR [ 3426134 ]
-		if (newRecord) {
+		if(newRecord) {
 			if(!isDirectLoad()) {
 				setAD_Column(getCtx(), this, get_TrxName());
 				//Create Document No or Value sequence
