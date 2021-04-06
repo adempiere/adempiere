@@ -22,7 +22,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-                  
+      
       # Ensure a compatible version of java is used
       - name: Setup Java JDK
         uses: actions/setup-java@v1.4.3

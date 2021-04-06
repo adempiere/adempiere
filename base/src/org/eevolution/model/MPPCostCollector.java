@@ -347,12 +347,8 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		{
 			return DocAction.STATUS_Invalid;
 		}
-		
-		MPeriod.testPeriodOpen(getCtx(), getDateAcct(), getC_DocTypeTarget_ID(), getAD_Org_ID());
 		//	Convert/Check DocType
 		setC_DocType_ID(getC_DocTypeTarget_ID());
-		
-		//
 		// Operation Activity
 		if(isActivityControl())
 		{
@@ -399,6 +395,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		// Issue
 		else if (isIssue())
 		{
+			MPeriod.testPeriodOpen(getCtx(), getDateAcct(), getC_DocTypeTarget_ID(), getAD_Org_ID());
 			MProduct product = getM_Product();
 			//Validate if ASI is mandatory
 			MAttributeSet.validateAttributeSetInstanceMandatory(product, Table_ID , false , getM_AttributeSetInstance_ID());
@@ -406,6 +403,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		// Receipt
 		else if (isReceipt())
 		{
+			MPeriod.testPeriodOpen(getCtx(), getDateAcct(), getC_DocTypeTarget_ID(), getAD_Org_ID());
 			MProduct product = getM_Product();
 			MAttributeSet.validateAttributeSetInstanceMandatory(product, Table_ID , false , getM_AttributeSetInstance_ID());
 		}
