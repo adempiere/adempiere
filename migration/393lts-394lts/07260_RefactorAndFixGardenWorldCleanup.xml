@@ -99,7 +99,7 @@
         <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="84347" Column="UUID">522b4660-60d7-4443-beb3-c72915dc8556</Data>
         <Data AD_Column_ID="344" Column="IsTranslated">true</Data>
-        <Data AD_Column_ID="342" Column="MsgText">Los datos de GardenWorld est·n suficientemente actualizados. No se requirieron cambios.</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Los datos de GardenWorld est√°n suficientemente actualizados. No se requirieron cambios.</Data>
       </PO>
     </Step>
     <Step SeqNo="90" StepType="AD">
