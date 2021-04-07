@@ -30,6 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
@@ -1130,9 +1131,9 @@ public abstract class Browser {
 		axisParametersValues = new ArrayList<>();
 
 		try {
-			I_AD_View_Column xColumn, pcol, yColumn;
+			I_AD_View_Column xColumn, parentAxisColumn, yColumn;
 			xColumn = field.getAD_View_Column();
-			pcol = field.getAxis_Parent_Column();
+			parentAxisColumn = field.getAxis_Parent_Column();
 			yColumn = field.getAxis_Column();
 			//	Validate Type
 			Optional<MBrowseField> maybeField = browseModel.getFields()
@@ -1174,7 +1175,7 @@ public abstract class Browser {
 					tableName = lookup.getTableName();
 				}
 
-				if (pcol != null && pcol.getAD_View_Column_ID() > 0) {
+				if (parentAxisColumn != null && parentAxisColumn.getAD_View_Column_ID() > 0) {
 					//	BR [ 242 ]
 					if(field.getAD_Val_Rule_ID() > 0) {
 						whereClause = Env.parseContext(Env.getCtx(), getWindowNo() , field.getAD_Val_Rule().getCode(), false);
@@ -1195,15 +1196,19 @@ public abstract class Browser {
 				}
 				//	Overwrite reference
 				if(yColumn.getAD_Column_ID() > 0) {
-					MColumn column = MColumn.get(field.getCtx(), xColumn.getAD_Column_ID());
+					MColumn column = MColumn.get(field.getCtx(), yColumn.getAD_Column_ID());
 					columnName = column.getColumnName();
-					referenceId = column.getAD_Reference_ID();
-					referenceValueId = column.getAD_Reference_Value_ID();
 					tableName = MTable.getTableName(field.getCtx(), column.getAD_Table_ID());
 				} else {
 					columnName = yField.getAD_Element().getColumnName();
-					referenceId = yField.getAD_Reference_ID();
-					referenceValueId = yField.getAD_Reference_Value_ID();
+				}
+				referenceId = yField.getAD_Reference_ID();
+				referenceValueId = yField.getAD_Reference_Value_ID();
+				AtomicReference<String> parentcolumnName = new AtomicReference<String>();
+				//	For Parent column
+				if (parentAxisColumn != null && parentAxisColumn.getAD_View_Column_ID() > 0) {
+					//	
+					parentcolumnName.set(parentAxisColumn.getColumnSQL());
 				}
 				//	Validate reference
 				if(DisplayType.isNumeric(referenceId)) {
@@ -1222,6 +1227,18 @@ public abstract class Browser {
 										.getColumnName()).append("=")
 								.append(fieldKey.getAD_View_Column().getColumnSQL())
 								.append(")");
+					} else if(!Util.isEmpty(parentcolumnName.get())){
+						axisSql.append(" WHERE ")
+							.append(xTableName)
+							.append(".")
+							.append(parentcolumnName.get().substring(parentcolumnName.get().lastIndexOf(".") + 1, parentcolumnName.get().length())).append("=")
+							.append(parentcolumnName.get())
+							.append(" AND ")
+							.append(xTableName)
+							.append(".")
+							.append(MColumn.get(field.getCtx(), xColumn.getAD_Column_ID()).getColumnName())
+							.append(" = @Axis_Record_ID@")
+							.append(")");
 					} else {
 						axisSql.append(")");
 					}
