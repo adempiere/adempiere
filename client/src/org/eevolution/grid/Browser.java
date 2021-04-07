@@ -53,7 +53,6 @@ import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
-import org.compiere.model.Query;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -1152,14 +1151,12 @@ public abstract class Browser {
 				if(xColumn.getAD_Column_ID() > 0) {
 					MColumn column = MColumn.get(field.getCtx(), xColumn.getAD_Column_ID());
 					columnName = column.getColumnName();
-					referenceId = column.getAD_Reference_ID();
-					referenceValueId = column.getAD_Reference_Value_ID();
 					tableName = MTable.getTableName(field.getCtx(), column.getAD_Table_ID());
 				} else {
 					columnName = field.getAD_Element().getColumnName();
-					referenceId = field.getAD_Reference_ID();
-					referenceValueId = field.getAD_Reference_Value_ID();
 				}
+				referenceId = field.getAD_Reference_ID();
+				referenceValueId = field.getAD_Reference_Value_ID();
 				if(field.getAD_Val_Rule_ID() > 0) {
 					whereClause = Env.parseContext(Env.getCtx(), getWindowNo() , field.getAD_Val_Rule().getCode(), false);
 				}
@@ -1178,10 +1175,6 @@ public abstract class Browser {
 				}
 
 				if (pcol != null && pcol.getAD_View_Column_ID() > 0) {
-					MTable parentTable = MTable.get(field.getCtx(), tableName);
-					MColumn parentColumn = getParentColumn(parentTable.getAD_Table_ID());
-					if (parentColumn == null)
-						throw new AdempiereException("@NotFound@ @IsParent@");
 					//	BR [ 242 ]
 					if(field.getAD_Val_Rule_ID() > 0) {
 						whereClause = Env.parseContext(Env.getCtx(), getWindowNo() , field.getAD_Val_Rule().getCode(), false);
@@ -1357,19 +1350,6 @@ public abstract class Browser {
 			return "AxisValue [key=" + key + ", value=" + value + "]";
 		}
     }
-
-    /**
-	 * Get Parent Column for Table
-	 * @param AD_Table_ID Table ID
-	 * @return MColumn
-	 */
-	private MColumn getParentColumn(int AD_Table_ID)
-	{
-		String whereClause = MColumn.COLUMNNAME_AD_Table_ID + "=? AND "
-				+ MColumn.COLUMNNAME_IsParent + "=? ";
-		return new Query(Env.getCtx(), MColumn.Table_Name, whereClause, null)
-				.setParameters(AD_Table_ID, true).first();
-	}
 	
 	/**
 	 * Get field Key
