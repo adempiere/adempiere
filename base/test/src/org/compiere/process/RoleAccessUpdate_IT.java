@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.test.CommonGWData;
+import org.adempiere.test.IntegrationTestTag;
 import org.compiere.model.I_AD_Window_Access;
 import org.compiere.model.MRole;
 import org.compiere.model.Query;
@@ -41,10 +42,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+@Tag("RoleAccessUpdate")
 @DisplayName("Given the GardenWorld Client ")
-class RoleAccessUpdate_IT {
+class RoleAccessUpdate_IT implements IntegrationTestTag{
 
     // Can't extend the CommonGWSetup as the transaction
     // has to be closed after each process run.
