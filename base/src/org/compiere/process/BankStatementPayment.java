@@ -228,7 +228,7 @@ public class BankStatementPayment extends BankStatementPaymentAbstract {
 		payment.setDescription(description);
 		//
 		if (invoiceId != 0) {
-			MInvoice invoice = new MInvoice (getCtx(), invoiceId, null);
+			MInvoice invoice = new MInvoice (getCtx(), invoiceId, get_TrxName());
 			payment.setC_DocType_ID(invoice.isSOTrx());		//	Receipt
 			payment.setC_Invoice_ID(invoice.getC_Invoice_ID());
 			payment.setC_BPartner_ID (invoice.getC_BPartner_ID());
