@@ -209,10 +209,10 @@ public class GardenWorldCleanUp extends SvrProcess
 			 if(dateAcctColumn != null) {
 			 
 				 log.fine("Table: " + tableName + " dateAcctColumn: " + dateAcctColumn);
-				String updatePeriodSql="update "+tableName+" set "
-						+ " C_Period_ID=(SELECT C_Period_ID from C_Period WHERE "+dateAcctColumn
-						+ " BETWEEN StartDate and EndDate and AD_Client_ID=" + gw_client_id 
-						+ ") WHERE AD_Client_ID=" + gw_client_id;
+				String updatePeriodSql="UPDATE "+tableName+" SET "
+						+ " C_Period_ID=(SELECT C_Period_ID FROM C_Period WHERE " + tableName + "." + dateAcctColumn + " BETWEEN StartDate AND EndDate AND AD_Client_ID=" + gw_client_id + ") "
+						+ "WHERE EXISTS(SELECT 1 FROM C_Period WHERE " + tableName + "." + dateAcctColumn + " BETWEEN StartDate AND EndDate AND AD_Client_ID = " + gw_client_id + ") "
+						+ "AND AD_Client_ID=" + gw_client_id;
 				
 				PreparedStatement pstm = null;
 				try {
@@ -266,6 +266,11 @@ public class GardenWorldCleanUp extends SvrProcess
 	}
 	
 	private void clearSessionLog() {
+		//	Delete change log
+		DB.executeUpdateEx("DELETE FROM AD_ChangeLog WHERE AD_Client_ID = " + gw_client_id, get_TrxName());
+		//	Delete process instance
+		DB.executeUpdateEx("DELETE FROM AD_PInstance WHERE AD_Client_ID = " + gw_client_id, get_TrxName());
+		//	
 		String deleteSessionLogSQL = "DELETE FROM AD_Session where AD_Client_ID=" + gw_client_id;
 		PreparedStatement pstm=null;
 		 try {
