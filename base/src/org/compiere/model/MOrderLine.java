@@ -909,7 +909,15 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 			//	Check if on Price list
 			if (m_productPrice == null)
 				getProductPricing(m_M_PriceList_ID);
-			if (!m_productPrice.isCalculated()) {
+			if (!m_productPrice.isCalculated()
+					&& !isProcessed()
+					&& (newRecord
+							|| is_ValueChanged(COLUMNNAME_M_Product_ID)
+							|| is_ValueChanged(COLUMNNAME_C_UOM_ID)
+							|| is_ValueChanged(COLUMNNAME_QtyEntered)
+							|| is_ValueChanged(COLUMNNAME_PriceEntered)
+							|| is_ValueChanged(COLUMNNAME_Discount)
+							|| is_ValueChanged(COLUMNNAME_PriceEntered))) {
 				MDocType documentType = MDocType.get(getCtx(), getParent().getC_DocTypeTarget_ID());
 				if(Util.isEmpty(documentType.getDocSubTypeSO())
 						|| !documentType.getDocSubTypeSO().equals(MDocType.DOCSUBTYPESO_ReturnMaterial)) {
