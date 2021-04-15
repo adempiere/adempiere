@@ -98,7 +98,7 @@
       </PO>
     </Step>
     <Step DBType="ALL" Parse="Y" SeqNo="80" StepType="SQL">
-      <SQLStatement>UPDATE AD_FieldCustom SET SeqNoGrid = (SELECT SeqNoGrid FROM AD_Field WHERE AD_Field_ID = AD_FieldCustom.AD_Field_ID) WHERE IsDisplayedGrid IS NULL;
+      <SQLStatement>UPDATE AD_FieldCustom SET SeqNoGrid = (SELECT CASE WHEN COALESCE(SeqNoGrid, 0) = 0 THEN SeqNo ELSE SeqNoGrid END FROM AD_Field WHERE AD_Field_ID = AD_FieldCustom.AD_Field_ID) WHERE IsDisplayedGrid IS NULL;
 UPDATE AD_FieldCustom SET IsDisplayedGrid = 'Y' WHERE IsDisplayedGrid IS NULL AND IsDisplayed = 'Y' AND EXISTS(SELECT 1 FROM AD_Field WHERE AD_Field_ID = AD_FieldCustom.AD_Field_ID AND IsDisplayedGrid = 'Y');
 UPDATE AD_FieldCustom SET IsDisplayedGrid = 'N' WHERE IsDisplayedGrid IS NULL;</SQLStatement>
     </Step>
