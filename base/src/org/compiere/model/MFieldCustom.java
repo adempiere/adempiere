@@ -82,6 +82,7 @@ public class MFieldCustom extends X_AD_FieldCustom {
 		setIsActive(field.isActive());
 		setIsDisplayed(field.isDisplayed());
 		setSeqNo(field.getSeqNo());
+		setIsDisplayedGrid(field.isDisplayedGrid());
 		setSeqNoGrid(field.getSeqNoGrid());
 	}
 
