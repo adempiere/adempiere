@@ -56,8 +56,8 @@
     </Step>
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="123" Action="I" Record_ID="55055" Table="AD_Tab_Trl">
-        <Data AD_Column_ID="654" Column="Updated">2021-04-15 12:32:32.966</Data>
         <Data AD_Column_ID="267" Column="Description">Field definitions in fields in table windows</Data>
+        <Data AD_Column_ID="654" Column="Updated">2021-04-15 12:32:32.966</Data>
         <Data AD_Column_ID="651" Column="IsActive">true</Data>
         <Data AD_Column_ID="652" Column="Created">2021-04-15 12:32:32.966</Data>
         <Data AD_Column_ID="266" Column="Name">Field Grid Sequence</Data>
@@ -98,7 +98,8 @@
       </PO>
     </Step>
     <Step DBType="ALL" Parse="Y" SeqNo="80" StepType="SQL">
-      <SQLStatement>UPDATE AD_FieldCustom SET IsDisplayedGrid = 'Y' WHERE IsDisplayedGrid IS NULL AND IsDisplayed = 'Y' AND EXISTS(SELECT 1 FROM AD_Field WHERE AD_Field_ID = AD_FieldCustom.AD_Field_ID AND IsDisplayedGrid = 'Y');
+      <SQLStatement>UPDATE AD_FieldCustom SET SeqNoGrid = (SELECT SeqNoGrid FROM AD_Field WHERE AD_Field_ID = AD_FieldCustom.AD_Field_ID) WHERE IsDisplayedGrid IS NULL;
+UPDATE AD_FieldCustom SET IsDisplayedGrid = 'Y' WHERE IsDisplayedGrid IS NULL AND IsDisplayed = 'Y' AND EXISTS(SELECT 1 FROM AD_Field WHERE AD_Field_ID = AD_FieldCustom.AD_Field_ID AND IsDisplayedGrid = 'Y');
 UPDATE AD_FieldCustom SET IsDisplayedGrid = 'N' WHERE IsDisplayedGrid IS NULL;</SQLStatement>
     </Step>
   </Migration>
