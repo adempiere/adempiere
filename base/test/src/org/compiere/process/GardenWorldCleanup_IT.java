@@ -36,7 +36,6 @@ import java.util.stream.Stream;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.test.CommonGWData;
-import org.adempiere.test.CommonGWSetup;
 import org.adempiere.test.CommonSystemSetup;
 import org.compiere.acct.Doc;
 import org.compiere.model.I_M_PriceList_Version;
@@ -72,7 +71,6 @@ class GardenWorldCleanup_IT extends CommonSystemSetup {
     private static CLogger log =
             CLogger.getCLogger(GardenWorldCleanup_IT.class);
 
-
     static Stream<Arguments> givenTargetAndActualYearAndExpectedOffset() {
 
         return Stream.of(
@@ -85,7 +83,7 @@ class GardenWorldCleanup_IT extends CommonSystemSetup {
     }
 
     private void createGardenWorldContext() {
-        
+
         int AD_USER_ID = CommonGWData.AD_USER_ID;
         int AD_CLIENT_ID = CommonGWData.AD_CLIENT_ID;
         int AD_ORG_ID = CommonGWData.AD_ORG_ID;
@@ -94,11 +92,12 @@ class GardenWorldCleanup_IT extends CommonSystemSetup {
         gwContext.setProperty("#AD_Org_ID", Integer.toString(AD_ORG_ID));
         gwContext.setProperty("#AD_User_ID", Integer.toString(AD_USER_ID));
         gwContext.setProperty("#AD_Client_ID", Integer.toString(AD_CLIENT_ID));
-        gwContext.setProperty("#Date", TimeUtil.getDay(System.currentTimeMillis()).toString());
+        gwContext.setProperty("#Date",
+                TimeUtil.getDay(System.currentTimeMillis()).toString());
         gwContext.setProperty("#AD_Language", "en");
 
     }
-    
+
     private void verifyCalendarOverlapsMinMaxDates() {
 
         setDateLimits();
@@ -181,7 +180,7 @@ class GardenWorldCleanup_IT extends CommonSystemSetup {
     void localSetup() {
 
         createGardenWorldContext();
-        
+
     }
 
     @ParameterizedTest
@@ -243,7 +242,8 @@ class GardenWorldCleanup_IT extends CommonSystemSetup {
             @DisplayName("Then bank statement names should match the statement date")
             void thenBankStatementNamesShouldMatchStatementDates() {
 
-                MBankStatement statement = new MBankStatement(gwContext, 0, trxName);
+                MBankStatement statement =
+                        new MBankStatement(gwContext, 0, trxName);
                 statement.setName("SomeName");
                 statement.setStatementDate(TimeUtil.getDay(2018, 10, 20));
                 statement.setC_BankAccount_ID(
@@ -262,7 +262,8 @@ class GardenWorldCleanup_IT extends CommonSystemSetup {
             @DisplayName("Then price list schema names should match the valid from date")
             void thenPriceListSchemaNamesShouldMatchValidFromDates() {
 
-                MDiscountSchema schema = new MDiscountSchema(gwContext, 0, trxName);
+                MDiscountSchema schema =
+                        new MDiscountSchema(gwContext, 0, trxName);
                 schema.setName("SomeName 2003");
                 schema.setValidFrom(TimeUtil.getDay(2018, 05, 01));
                 schema.saveEx();
@@ -281,18 +282,20 @@ class GardenWorldCleanup_IT extends CommonSystemSetup {
 
                 uut.cleanUp();
 
-                new Query(gwContext, I_M_PriceList_Version.Table_Name, null, trxName)
-                        .setClient_ID()
-                        .list(MPriceListVersion.class)
-                        .stream()
-                        .forEach(plVersion -> {
-                            String name = plVersion.getName();
-                            String preName =
-                                    name.substring(0, name.indexOf(" "));
-                            int year = TimeUtil.getYearFromTimestamp(
-                                    plVersion.getValidFrom());
-                            assertEquals(preName + " " + year, name);
-                        });
+                new Query(gwContext, I_M_PriceList_Version.Table_Name, null,
+                        trxName)
+                                .setClient_ID()
+                                .list(MPriceListVersion.class)
+                                .stream()
+                                .forEach(plVersion -> {
+                                    String name = plVersion.getName();
+                                    String preName =
+                                            name.substring(0,
+                                                    name.indexOf(" "));
+                                    int year = TimeUtil.getYearFromTimestamp(
+                                            plVersion.getValidFrom());
+                                    assertEquals(preName + " " + year, name);
+                                });
 
             }
 

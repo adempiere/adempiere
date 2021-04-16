@@ -19,8 +19,10 @@ import static org.compiere.process.GardenWorldCleanup.CLIENT_NOT_FOUND_MSG;
 import static org.compiere.process.GardenWorldCleanup.NO_CHANGES_MSG;
 import static org.compiere.util.Msg.wrapMsg;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -138,7 +140,13 @@ class GardenWorldCleanup_Test extends CommonUnitTestSetup {
         setGardenWorldClientExists();
         doNothing().when(uut).clearSessionLog();
         doNothing().when(uut).determinePeriodOffset();
+        doNothing().when(uut).determineDocDateOffset();
+        doNothing().when(uut).findDocDateLimits();
+        doReturn(null).when(uut).getMinPeriodStartDate();
+        doReturn(null).when(uut).getMaxPeriodEndDate();
+        doReturn(null).when(uut).translate(anyString());
         uut.setYearOffSet(0);
+        uut.setDocMonthOffset(0);
 
         String message = uut.doIt();
         assertEquals(wrapMsg(NO_CHANGES_MSG),
@@ -156,7 +164,6 @@ class GardenWorldCleanup_Test extends CommonUnitTestSetup {
         setGardenWorldClientExists();
         doNothing().when(uut).clearSessionLog();
         doNothing().when(uut).determinePeriodOffset();
-        doNothing().when(uut).adjustCalendarYearAndPeriods();
         uut.setYearOffSet(1);
         doReturn(psMock).when(uut).getPreparedStatement(anyString(), any());
         doThrow(SQLException.class).when(psMock).executeQuery();
@@ -167,8 +174,9 @@ class GardenWorldCleanup_Test extends CommonUnitTestSetup {
 
     }
 
-    @ParameterizedTest(name="When the target year is {0} and the actual year "
-            + "is {1}, the offset should be {2}")
+    @ParameterizedTest(
+            name = "When the target year is {0} and the actual year "
+                    + "is {1}, the offset should be {2}")
     @MethodSource("givenTargetAndActualYearAndExpectedOffset")
     @DisplayName("When provided with target and actual minimum period"
             + " start dates, the year offset is set correctly")
@@ -179,6 +187,8 @@ class GardenWorldCleanup_Test extends CommonUnitTestSetup {
                 .getTargetEarliestPeriodStartDate();
         doReturn(TimeUtil.getDay(actualYear, 1, 1)).when(uut)
                 .getMinPeriodStartDate();
+        doReturn(TimeUtil.getDay(actualYear + 6, 12, 31)).when(uut)
+                .getMaxPeriodEndDate();
 
         uut.determinePeriodOffset();
 
@@ -203,12 +213,22 @@ class GardenWorldCleanup_Test extends CommonUnitTestSetup {
     }
 
     @Test
+    @DisplayName("When provided a table name, then the process should know if "
+            + "the table has a C_Period_ID but no associated date field")
+    final void whenProvidedATable_ThenKnowsIfHasPeriodButNoDate() {
+
+        assertTrue(uut.isTableKnownToHavePeriodButNoDate("M_ForecastLine"));
+        assertFalse(uut.isTableKnownToHavePeriodButNoDate("M_InOut"));
+
+    }
+
+    @Test
     @DisplayName("When the table has DateAcct column, then "
             + "findDateColumnAssociatedWithPeriod will return the columnName")
     final void whenTableHasDateAcctColumn_thenReturnTheColumnName() {
 
         MTable tableMock = mock(MTable.class);
-        doReturn("SomeTable").when(tableMock).get_TableName();
+        doReturn("SomeTable").when(tableMock).getTableName();
 
         doReturn(false).when(uut)
                 .isTableKnownToHavePeriodButNoDate(anyString());
@@ -227,7 +247,7 @@ class GardenWorldCleanup_Test extends CommonUnitTestSetup {
     final void whenTableIsKnownToNotHaveDateAcctColumn_thenReturnNull() {
 
         MTable tableMock = mock(MTable.class);
-        doReturn("SomeTable").when(tableMock).get_TableName();
+        doReturn("SomeTable").when(tableMock).getTableName();
 
         doReturn(true).when(uut).isTableKnownToHavePeriodButNoDate(anyString());
 
@@ -245,7 +265,7 @@ class GardenWorldCleanup_Test extends CommonUnitTestSetup {
 
         MTable tableMock = mock(MTable.class);
         doReturn(null).when(tableMock).getColumn(anyString());
-        doReturn("SomeTable").when(tableMock).get_TableName();
+        doReturn("SomeTable").when(tableMock).getTableName();
 
         doReturn(false).when(uut)
                 .isTableKnownToHavePeriodButNoDate(anyString());

@@ -72,7 +72,7 @@ public class GardenWorldCleanup extends GardenWorldCleanupAbstract {
 
     public static void main(String[] args) {
 
-        CLogMgt.setLevel(Level.CONFIG);
+        CLogMgt.setLevel(Level.INFO);
 
         Adempiere.startupEnvironment(false);
         if (!DB.isConnected()) {
@@ -94,9 +94,10 @@ public class GardenWorldCleanup extends GardenWorldCleanupAbstract {
     }
 
     private Timestamp currentDate = TimeUtil.getDay(System.currentTimeMillis());
-    private Timestamp minDate = null;
-    private Timestamp maxDate = null;
-    private int yearOffset = 0;
+    private Timestamp minPeriodDate = null;
+    private Timestamp maxPeriodDate = null;
+    private int periodYearOffset = 0;
+    private int docMonthOffset = 0;
 
     // This isn't all the date columns. There a few tables that don't have
     // AD_Client_ID
@@ -123,23 +124,87 @@ public class GardenWorldCleanup extends GardenWorldCleanupAbstract {
                     + " AND t.EntityType='D'";
 
     private String sqlOrderBy = " ORDER BY t.tablename";
-
-    void clearSessionLog() {
-
-        final String whereClientID =
-                " WHERE AD_Client_ID=" + GARDEN_WORLD_CLIENT_ID;
-        DB.executeUpdateEx("DELETE FROM AD_PInstance"
-                + whereClientID, get_TrxName());
-
-        DB.executeUpdateEx("DELETE FROM AD_ChangeLog cl"
-                + " WHERE cl.AD_SESSION_ID IN (SELECT AD_SESSION_ID FROM AD_Session"
-                + whereClientID + ")", get_TrxName());
-
-    }
+    private Timestamp minDocDate;
+    private Timestamp maxDocDate;
 
     void closePreparedStatement(PreparedStatement pstm) {
 
         DB.close(pstm);
+
+    }
+
+    String findDateColumnAssociatedWithPeriod(MTable table) {
+
+        String tableName = table.getTableName();
+
+        if (isTableKnownToHavePeriodButNoDate(tableName))
+            return null;
+
+        String dateAcctColumn = getDateAcctColumnName(tableName);
+
+        if (dateAcctColumn == null) {
+            MColumn column = table.getColumn("DateAcct");
+            if (column != null)
+                dateAcctColumn = "DateAcct";
+
+        }
+
+        if (dateAcctColumn == null)
+            log.warning(tableName
+                    + " has C_Period_ID but the date field associated with it "
+                    + "is unknown. Check the table to see if there is a spefic "
+                    + "date and update the "
+                    + getClass().getCanonicalName() + " class to be able "
+                    + "to find it");
+
+        return dateAcctColumn;
+
+    }
+
+    void findDateLimitsForDocument(String tableName) {
+
+        String dateAcctColumn = getDateAcctColumnName(tableName);
+        if (dateAcctColumn != null) {
+
+            setMinMaxDocDate(tableName, dateAcctColumn);
+        }
+
+    }
+
+    void findDocDateLimits() {
+
+        minDocDate = null;
+        maxDocDate = null;
+
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            pstm = getPreparedStatement(dateColumnSQL + sqlOrderBy,
+                    get_TrxName());
+            rs = pstm.executeQuery();
+            String tableName = null;
+            while (rs.next()) {
+                tableName = rs.getString(1);
+                findDateLimitsForDocument(tableName);
+            }
+        } catch (SQLException e) {
+            log.log(Level.SEVERE, e.getLocalizedMessage());
+            throw new AdempiereException("", e);
+        } finally {
+            DB.close(rs, pstm);
+        }
+
+    }
+
+    String getDateAcctColumnName(String tableName) {
+
+        return Doc.getDateAcctColumnName(tableName);
+
+    }
+
+    int getDocMonthOffset() {
+
+        return docMonthOffset;
 
     }
 
@@ -157,21 +222,23 @@ public class GardenWorldCleanup extends GardenWorldCleanupAbstract {
 
     }
 
-    int getYearOffSet() {
+    Timestamp getMaxPeriodEndDate() {
 
-        return yearOffset;
-
-    }
-
-    void setCurrentDate(Timestamp currentDate) {
-
-        this.currentDate = currentDate;
+        return MPeriod.getMaxPeriodEndDate(getCtx(), GARDEN_WORLD_CLIENT_ID, 0,
+                get_TrxName());
 
     }
 
-    void setYearOffSet(int offSet) {
+    Timestamp getMinPeriodStartDate() {
 
-        this.yearOffset = offSet;
+        return MPeriod.getMinPeriodStartDate(getCtx(), GARDEN_WORLD_CLIENT_ID,
+                0, get_TrxName());
+
+    }
+
+    Timestamp getTargetEarliestPeriodStartDate() {
+
+        return TimeUtil.getDay(getTargetStartYear(), 1, 1);
 
     }
 
@@ -183,11 +250,89 @@ public class GardenWorldCleanup extends GardenWorldCleanupAbstract {
 
     }
 
-    void cleanUp() {
+    int getYearOffSet() {
 
-        cleanup_priceListVersions();
-        cleanup_bankStatement();
-        cleanup_discountSchema();
+        return periodYearOffset;
+
+    }
+
+    boolean isTableKnownToHavePeriodButNoDate(String tableName) {
+
+        return tableName.equals(I_M_ForecastLine.Table_Name);
+
+    }
+
+    boolean isTimeStampNotNullOrZero(Timestamp ts) {
+
+        return ts != null && ts.getTime() != 0L;
+
+    }
+
+    void setCurrentDate(Timestamp currentDate) {
+
+        this.currentDate = currentDate;
+
+    }
+
+    void setDocMonthOffset(int docMonthOffset) {
+
+        this.docMonthOffset = docMonthOffset;
+
+    }
+
+    void setMinMaxDocDate(String tableName, String dateAcctColumn) {
+
+        String sql = "SELECT MIN(" + dateAcctColumn + "), MAX(" + dateAcctColumn
+                + ") from " + tableName
+                + " WHERE AD_Client_ID=11 ";
+
+        log.fine("Looking at table/column "
+                + tableName + "/" + dateAcctColumn);
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            pstm = DB.prepareStatement(sql, get_TrxName());
+            rs = pstm.executeQuery();
+            while (rs.next()) {
+
+                final Timestamp minDateValue = rs.getTimestamp(1);
+                final Timestamp maxDateValue = rs.getTimestamp(2);
+
+                if (minDocDate == null)
+                    minDocDate = minDateValue;
+
+                if (maxDocDate == null)
+                    maxDocDate = maxDateValue;
+
+                if (isTimeStampNotNullOrZero(minDateValue)
+                        && minDocDate.after(minDateValue)) {
+                    minDocDate = minDateValue;
+                }
+                if (isTimeStampNotNullOrZero(maxDateValue) &&
+                        !maxDateValue.after(currentDate)
+                        && maxDocDate.before(maxDateValue)) {
+                    maxDocDate = maxDateValue;
+                }
+            }
+
+        } catch (SQLException e) {
+            log.log(Level.SEVERE, e.getLocalizedMessage());
+            throw new AdempiereException("Problem finding the date limits", e);
+        } finally {
+            DB.close(rs, pstm);
+        }
+
+    }
+
+    void setYearOffSet(int offSet) {
+
+        this.periodYearOffset = offSet;
+
+    }
+
+    String translate(String message) {
+
+        return Msg.translate(getCtx(), message);
 
     }
 
@@ -236,61 +381,6 @@ public class GardenWorldCleanup extends GardenWorldCleanupAbstract {
 
     }
 
-    String findDateColumnAssociatedWithPeriod(MTable table) {
-
-        String tableName = table.get_TableName();
-
-        if (isTableKnownToHavePeriodButNoDate(tableName))
-            return null;
-
-        String dateAcctColumn = getDateAcctColumnName(tableName);
-
-        if (dateAcctColumn == null) {
-            MColumn column = table.getColumn("DateAcct");
-            if (column != null)
-                dateAcctColumn = "DateAcct";
-
-        }
-
-        if (dateAcctColumn == null)
-            log.warning(tableName
-                    + " has C_Period_ID but the date field associated with it "
-                    + "is unknown. Check the table to see if there is a spefic "
-                    + "date and update the "
-                    + getClass().getCanonicalName() + " class to be able "
-                    + "to find it");
-
-        return dateAcctColumn;
-
-    }
-
-    String getDateAcctColumnName(String tableName) {
-
-        return Doc.getDateAcctColumnName(tableName);
-
-    }
-
-    private boolean gardenWorldDoesNotExist() {
-
-        final String whereClause = "AD_Client_ID=?";
-        MClient gwClient = getQuery(getCtx(), I_AD_Client.Table_Name,
-                whereClause, null)
-                        .setParameters(GARDEN_WORLD_CLIENT_ID)
-                        .first();
-
-        if (gwClient == null)
-            log.severe("GardenWorld Client not found!");
-
-        return gwClient == null;
-
-    }
-
-    boolean isTableKnownToHavePeriodButNoDate(String tableName) {
-
-        return tableName.equals(I_M_ForecastLine.Table_Name);
-
-    }
-
     void updatePeriodFieldsToMatchDates(String tableName) {
 
         MTable table = MTable.get(getCtx(), tableName);
@@ -336,50 +426,26 @@ public class GardenWorldCleanup extends GardenWorldCleanupAbstract {
 
     }
 
-    private void updatePeriods() {
+    void updateTable(String tableName, String columnName) {
 
-        // Update the date columns
-        PreparedStatement pstm = null;
-        ResultSet rs = null;
-        try {
-            pstm = DB.prepareStatement(dateColumnSQL + sqlOrderBy,
-                    get_TrxName());
-            rs = pstm.executeQuery();
-            String tableName = null;
-            while (rs.next()) {
-                tableName = rs.getString(1);
-                updatePeriodFieldsToMatchDates(tableName);
-            }
-        } catch (SQLException e) {
-            log.log(Level.SEVERE, e.getLocalizedMessage());
-            throw new AdempiereException("", e);
-        } finally {
-            DB.close(rs, pstm);
-        }
-
-    }
-
-    private void updateTable(String tableName, String columnName) {
-
-        if (yearOffset == 0 || tableName.isEmpty() || columnName.isEmpty()) {
+        if (docMonthOffset == 0 || tableName.isEmpty()
+                || columnName.isEmpty()) {
             return;
         }
-
-        int monthOffset = yearOffset * 12;
 
         String sql = "UPDATE " + tableName + " SET  " + columnName
                 + " = trunc(("
                 + " CASE WHEN add_months(" + columnName + ", "
-                + monthOffset + ") >= ?"
+                + docMonthOffset + ") >= ?"
                 + "         AND add_months(" + columnName + ", "
-                + monthOffset + ") <= ?"
+                + docMonthOffset + ") <= ?"
                 + "         THEN add_months(" + columnName + ", "
-                + monthOffset + ") "
+                + docMonthOffset + ") "
                 + "     WHEN add_months(" + columnName + ", "
-                + monthOffset + ") < ?"
+                + docMonthOffset + ") < ?"
                 + "         THEN ?"
                 + "     WHEN add_months(" + columnName + ", "
-                + monthOffset + ") > ?"
+                + docMonthOffset + ") > ?"
                 + "         THEN ?"
                 + " ELSE " + columnName
                 + " END ), 'DD') "
@@ -389,12 +455,12 @@ public class GardenWorldCleanup extends GardenWorldCleanupAbstract {
         PreparedStatement pstm = null;
         try {
             pstm = DB.prepareStatement(sql, get_TrxName());
-            pstm.setTimestamp(1, minDate);
-            pstm.setTimestamp(2, maxDate);
-            pstm.setTimestamp(3, minDate);
-            pstm.setTimestamp(4, minDate);
-            pstm.setTimestamp(5, maxDate);
-            pstm.setTimestamp(6, maxDate);
+            pstm.setTimestamp(1, minPeriodDate);
+            pstm.setTimestamp(2, maxPeriodDate);
+            pstm.setTimestamp(3, minPeriodDate);
+            pstm.setTimestamp(4, minPeriodDate);
+            pstm.setTimestamp(5, maxPeriodDate);
+            pstm.setTimestamp(6, maxPeriodDate);
             pstm.executeUpdate();
 
         } catch (SQLException e) {
@@ -407,44 +473,75 @@ public class GardenWorldCleanup extends GardenWorldCleanupAbstract {
 
     }
 
+    boolean gardenWorldDoesNotExist() {
+
+        final String whereClause = "AD_Client_ID=?";
+        MClient gwClient = getQuery(getCtx(), I_AD_Client.Table_Name,
+                whereClause, null)
+                        .setParameters(GARDEN_WORLD_CLIENT_ID)
+                        .first();
+
+        if (gwClient == null)
+            log.severe("GardenWorld Client not found!");
+
+        return gwClient == null;
+
+    }
+
+    void clearSessionLog() {
+
+        final String whereClientID =
+                " WHERE AD_Client_ID=" + GARDEN_WORLD_CLIENT_ID;
+        DB.executeUpdateEx("DELETE FROM AD_PInstance"
+                + whereClientID, get_TrxName());
+
+        DB.executeUpdateEx("DELETE FROM AD_ChangeLog cl"
+                + " WHERE cl.AD_SESSION_ID IN (SELECT AD_SESSION_ID FROM AD_Session"
+                + whereClientID + ")", get_TrxName());
+
+    }
+
     void determinePeriodOffset() {
 
         Timestamp targetPeriodStart = getTargetEarliestPeriodStartDate();
         Timestamp earliestPeriodStart =
                 getMinPeriodStartDate();
 
-        yearOffset = TimeUtil.getYearsBetween(earliestPeriodStart,
+        periodYearOffset = TimeUtil.getYearsBetween(earliestPeriodStart,
                 targetPeriodStart);
 
-    }
-
-    protected Timestamp getTargetEarliestPeriodStartDate() {
-
-        return TimeUtil.getDay(getTargetStartYear(), 1, 1);
+        minPeriodDate = targetPeriodStart;
+        maxPeriodDate = TimeUtil.addDuration(getMaxPeriodEndDate(),
+                TimeUtil.DURATIONUNIT_Year, periodYearOffset);
 
     }
 
-    protected Timestamp getMinPeriodStartDate() {
+    void determineDocDateOffset() {
 
-        return MPeriod.getMinPeriodStartDate(getCtx(), GARDEN_WORLD_CLIENT_ID,
-                0, get_TrxName());
+        findDocDateLimits();
+
+        if (minDocDate.after(minPeriodDate))
+            docMonthOffset = 0;
+        else
+            docMonthOffset =
+                    TimeUtil.getMonthsBetween(minDocDate, minPeriodDate) + 1;
 
     }
 
     protected boolean isSufficentlyUpToDate() {
 
-        return yearOffset == 0;
+        return periodYearOffset == 0 && docMonthOffset == 0;
 
     }
 
     protected void adjustCalendarYearAndPeriods() {
 
-        if (yearOffset == 0) {
+        if (periodYearOffset == 0) {
             return; // nothing to do
         }
 
         // Move the calendars by a year offset
-        int monthOffset = yearOffset * 12;
+        int monthOffset = periodYearOffset * 12;
 
         // Offset the periods
         final String whereADClientIDClause =
@@ -503,10 +600,46 @@ public class GardenWorldCleanup extends GardenWorldCleanupAbstract {
 
     }
 
-    protected Timestamp getMaxPeriodEndDate() {
+    protected void updatePeriods() {
 
-        return MPeriod.getMaxPeriodEndDate(getCtx(), GARDEN_WORLD_CLIENT_ID, 0,
-                get_TrxName());
+        // Update the date columns
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            pstm = DB.prepareStatement(dateColumnSQL + sqlOrderBy,
+                    get_TrxName());
+            rs = pstm.executeQuery();
+            String tableName = null;
+            while (rs.next()) {
+                tableName = rs.getString(1);
+                updatePeriodFieldsToMatchDates(tableName);
+            }
+        } catch (SQLException e) {
+            log.log(Level.SEVERE, e.getLocalizedMessage());
+            throw new AdempiereException("", e);
+        } finally {
+            DB.close(rs, pstm);
+        }
+
+    }
+
+    protected void cleanUp() {
+
+        cleanup_priceListVersions();
+        cleanup_bankStatement();
+        cleanup_discountSchema();
+
+    }
+
+    protected String reportResults(String message) {
+
+        findDocDateLimits();
+        log.info("Document Dates min/max = " + minDocDate + "/" + maxDocDate);
+        log.info("Period dates min/max =" + getMinPeriodStartDate() + "/"
+                + getMaxPeriodEndDate());
+        log.info(translate(message));
+
+        return wrapMsg(message);
 
     }
 
@@ -518,18 +651,17 @@ public class GardenWorldCleanup extends GardenWorldCleanupAbstract {
 
         clearSessionLog();
         determinePeriodOffset();
+        determineDocDateOffset();
 
-        if (isSufficentlyUpToDate()) {
-            return wrapMsg(NO_CHANGES_MSG);
-        }
+        if (isSufficentlyUpToDate())
+            return reportResults(NO_CHANGES_MSG);
 
         adjustCalendarYearAndPeriods();
         updateDates();
         updatePeriods();
         cleanUp();
 
-        log.config(Msg.translate(getCtx(), SUCCESS_MSG));
-        return wrapMsg(SUCCESS_MSG);
+        return reportResults(SUCCESS_MSG);
 
     }
 
