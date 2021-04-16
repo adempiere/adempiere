@@ -15,6 +15,7 @@
  *****************************************************************************/
 package org.compiere.process;
 
+import static org.compiere.process.GardenWorldCleanup.CALENDAR_NOT_FOUND_MSG;
 import static org.compiere.process.GardenWorldCleanup.CLIENT_NOT_FOUND_MSG;
 import static org.compiere.process.GardenWorldCleanup.NO_CHANGES_MSG;
 import static org.compiere.process.GardenWorldCleanup.SUCCESS_MSG;
@@ -30,7 +31,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.stream.Stream;
 
@@ -60,14 +60,14 @@ import org.junit.jupiter.params.provider.ValueSource;
 @ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
 @DisplayName("IT_GardenWorldCleanup: Given the GardenWorldCleanup process and "
         + "the common GardenWorld setup with the current database")
-class IT_GardenWorldCleanup extends CommonGWSetup {
+class GardenWorldCleanup_IT extends CommonGWSetup {
 
     private GardenWorldCleanup uut;
     private Timestamp currentDate = TimeUtil.getDay(2021, 07, 01);
     private Timestamp minDate;
     private Timestamp maxDate;
     private static CLogger log =
-            CLogger.getCLogger(IT_GardenWorldCleanup.class);
+            CLogger.getCLogger(GardenWorldCleanup_IT.class);
 
 
     static Stream<Arguments> givenTargetAndActualYearAndExpectedOffset() {
@@ -167,7 +167,7 @@ class IT_GardenWorldCleanup extends CommonGWSetup {
     @ParameterizedTest
     @DisplayName("Then the message translations should exist")
     @ValueSource(
-            strings = { SUCCESS_MSG, NO_CHANGES_MSG, CLIENT_NOT_FOUND_MSG })
+            strings = { SUCCESS_MSG, NO_CHANGES_MSG, CLIENT_NOT_FOUND_MSG, CALENDAR_NOT_FOUND_MSG })
     void checkTranslations(String msgKey) {
 
         assertEnEsMessageTranslationsExist(msgKey);

@@ -56,7 +56,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 @ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
 @DisplayName("TestGardenWorldCleanup: Given the GardenWorldCleanup process "
         + "and the Unit Test setup")
-class TestGardenWorldCleanup extends CommonUnitTestSetup {
+class GardenWorldCleanup_Test extends CommonUnitTestSetup {
 
     private GardenWorldCleanup uut;
     Timestamp currentDate = TimeUtil.getDay(2021, 07, 01);
@@ -183,6 +183,22 @@ class TestGardenWorldCleanup extends CommonUnitTestSetup {
         uut.determinePeriodOffset();
 
         assertEquals(expectedOffset, uut.getYearOffSet());
+
+    }
+
+    @Test
+    @DisplayName("When minimum period can't be found"
+            + " then determinePeriodOffset throws an exception")
+    final void givenNullMinPeriod_throwsException() {
+
+        doReturn(TimeUtil.getDay(2020, 1, 1)).when(uut)
+                .getTargetEarliestPeriodStartDate();
+        doReturn(null).when(uut)
+                .getMinPeriodStartDate();
+
+        assertThrows(NullPointerException.class, () -> {
+            uut.determinePeriodOffset();
+        });
 
     }
 
