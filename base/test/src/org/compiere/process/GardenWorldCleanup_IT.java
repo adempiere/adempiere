@@ -15,7 +15,6 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import static org.compiere.process.GardenWorldCleanup.CALENDAR_NOT_FOUND_MSG;
 import static org.compiere.process.GardenWorldCleanup.CLIENT_NOT_FOUND_MSG;
 import static org.compiere.process.GardenWorldCleanup.NO_CHANGES_MSG;
 import static org.compiere.process.GardenWorldCleanup.SUCCESS_MSG;
@@ -31,12 +30,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.stream.Stream;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.test.CommonGWData;
 import org.adempiere.test.CommonGWSetup;
+import org.adempiere.test.CommonSystemSetup;
 import org.compiere.acct.Doc;
 import org.compiere.model.I_M_PriceList_Version;
 import org.compiere.model.MBankStatement;
@@ -45,6 +46,7 @@ import org.compiere.model.MPriceListVersion;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -60,12 +62,13 @@ import org.junit.jupiter.params.provider.ValueSource;
 @ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
 @DisplayName("IT_GardenWorldCleanup: Given the GardenWorldCleanup process and "
         + "the common GardenWorld setup with the current database")
-class GardenWorldCleanup_IT extends CommonGWSetup {
+class GardenWorldCleanup_IT extends CommonSystemSetup {
 
     private GardenWorldCleanup uut;
     private Timestamp currentDate = TimeUtil.getDay(2021, 07, 01);
     private Timestamp minDate;
     private Timestamp maxDate;
+    private Properties gwContext;
     private static CLogger log =
             CLogger.getCLogger(GardenWorldCleanup_IT.class);
 
@@ -81,6 +84,21 @@ class GardenWorldCleanup_IT extends CommonGWSetup {
 
     }
 
+    private void createGardenWorldContext() {
+        
+        int AD_USER_ID = CommonGWData.AD_USER_ID;
+        int AD_CLIENT_ID = CommonGWData.AD_CLIENT_ID;
+        int AD_ORG_ID = CommonGWData.AD_ORG_ID;
+
+        gwContext = Env.getCtx();
+        gwContext.setProperty("#AD_Org_ID", Integer.toString(AD_ORG_ID));
+        gwContext.setProperty("#AD_User_ID", Integer.toString(AD_USER_ID));
+        gwContext.setProperty("#AD_Client_ID", Integer.toString(AD_CLIENT_ID));
+        gwContext.setProperty("#Date", TimeUtil.getDay(System.currentTimeMillis()).toString());
+        gwContext.setProperty("#AD_Language", "en");
+
+    }
+    
     private void verifyCalendarOverlapsMinMaxDates() {
 
         setDateLimits();
@@ -162,12 +180,14 @@ class GardenWorldCleanup_IT extends CommonGWSetup {
     @BeforeEach
     void localSetup() {
 
+        createGardenWorldContext();
+        
     }
 
     @ParameterizedTest
     @DisplayName("Then the message translations should exist")
     @ValueSource(
-            strings = { SUCCESS_MSG, NO_CHANGES_MSG, CLIENT_NOT_FOUND_MSG, CALENDAR_NOT_FOUND_MSG })
+            strings = { SUCCESS_MSG, NO_CHANGES_MSG, CLIENT_NOT_FOUND_MSG })
     void checkTranslations(String msgKey) {
 
         assertEnEsMessageTranslationsExist(msgKey);
@@ -223,7 +243,7 @@ class GardenWorldCleanup_IT extends CommonGWSetup {
             @DisplayName("Then bank statement names should match the statement date")
             void thenBankStatementNamesShouldMatchStatementDates() {
 
-                MBankStatement statement = new MBankStatement(ctx, 0, trxName);
+                MBankStatement statement = new MBankStatement(gwContext, 0, trxName);
                 statement.setName("SomeName");
                 statement.setStatementDate(TimeUtil.getDay(2018, 10, 20));
                 statement.setC_BankAccount_ID(
@@ -242,7 +262,7 @@ class GardenWorldCleanup_IT extends CommonGWSetup {
             @DisplayName("Then price list schema names should match the valid from date")
             void thenPriceListSchemaNamesShouldMatchValidFromDates() {
 
-                MDiscountSchema schema = new MDiscountSchema(ctx, 0, trxName);
+                MDiscountSchema schema = new MDiscountSchema(gwContext, 0, trxName);
                 schema.setName("SomeName 2003");
                 schema.setValidFrom(TimeUtil.getDay(2018, 05, 01));
                 schema.saveEx();
@@ -261,7 +281,7 @@ class GardenWorldCleanup_IT extends CommonGWSetup {
 
                 uut.cleanUp();
 
-                new Query(ctx, I_M_PriceList_Version.Table_Name, null, trxName)
+                new Query(gwContext, I_M_PriceList_Version.Table_Name, null, trxName)
                         .setClient_ID()
                         .list(MPriceListVersion.class)
                         .stream()
@@ -310,7 +330,7 @@ class GardenWorldCleanup_IT extends CommonGWSetup {
                 assertTrue(calendarYears >= dateYears,
                         "The GardenWorld calendar "
                                 + "does not have enough years to cover the required date "
-                                + "range of the GardenWold data.  Check the dates or add "
+                                + "range of the GardenWorld data.  Check the dates or add "
                                 + "more years to the calendar");
 
             }

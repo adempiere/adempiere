@@ -426,7 +426,8 @@ public class GardenWorldCleanup extends GardenWorldCleanupAbstract {
 
     protected Timestamp getMinPeriodStartDate() {
 
-        return MPeriod.getMinPeriodStartDate(getCtx(), get_TrxName());
+        return MPeriod.getMinPeriodStartDate(getCtx(), GARDEN_WORLD_CLIENT_ID,
+                0, get_TrxName());
 
     }
 
@@ -460,14 +461,16 @@ public class GardenWorldCleanup extends GardenWorldCleanupAbstract {
 
         // Offset the year - have to do this twice to avoid a constraint.
         String updateYear =
-                "UPDATE C_Year SET fiscalyear=(SELECT max(to_char(p.enddate,'YYYY-MM')) "
-                        + " from c_period p where p.c_year_id=c_year.c_year_id) "
+                "UPDATE C_Year SET fiscalyear=("
+                        + "SELECT max(to_char(p.enddate,'YYYY-MM')) "
+                        + " FROM c_period p where p.c_year_id=c_year.c_year_id) "
                         + whereADClientIDClause;
         DB.executeUpdate(updateYear, get_TrxName());
 
         updateYear =
-                "UPDATE C_Year SET fiscalyear=(SELECT max(to_char(p.enddate,'YYYY')) "
-                        + " from c_period p where p.c_year_id=c_year.c_year_id) "
+                "UPDATE C_Year SET fiscalyear=("
+                        + "SELECT max(to_char(p.enddate,'YYYY')) "
+                        + " FROM c_period p where p.c_year_id=c_year.c_year_id) "
                         + whereADClientIDClause;
 
         DB.executeUpdate(updateYear, get_TrxName());
@@ -502,7 +505,8 @@ public class GardenWorldCleanup extends GardenWorldCleanupAbstract {
 
     protected Timestamp getMaxPeriodEndDate() {
 
-        return MPeriod.getMaxPeriodEndDate(getCtx(), get_TrxName());
+        return MPeriod.getMaxPeriodEndDate(getCtx(), GARDEN_WORLD_CLIENT_ID, 0,
+                get_TrxName());
 
     }
 
