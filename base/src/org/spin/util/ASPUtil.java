@@ -1846,9 +1846,7 @@ public class ASPUtil {
 			field.setAD_FieldGroup_ID(customField.getAD_FieldGroup_ID());
 		}
 		//	Displayed in grid
-		if(!Util.isEmpty(customField.getIsDisplayedGrid())) {
-			field.setIsDisplayedGrid(customField.getIsDisplayedGrid().equals("Y"));
-		}
+		field.setIsDisplayedGrid(customField.isDisplayedGrid());
 		//	Read Only
 		if(!Util.isEmpty(customField.getIsReadOnly())) {
 			field.setIsReadOnly(customField.getIsReadOnly().equals("Y"));
