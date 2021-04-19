@@ -98,4 +98,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN_ACCESS }}
         with:
-          args: 'adempiere/Adempiere/data/ExpDat.dmp'
+          args: 'adempiere/Adempiere/data/Adempiere_pg.jar'
