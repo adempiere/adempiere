@@ -13,6 +13,7 @@
   <property name="myEnvironment" location="adempiere/Adempiere/utils/myEnvironment.sh"/>
   <property name="RUN_DBRestore" location="adempiere/Adempiere/utils/RUN_DBRestore.sh"/>
   <property name="RUN_DBExport" location="adempiere/Adempiere/utils/RUN_DBExport.sh"/>
+  <property name="RUN_ExportReference" location="adempiere/Adempiere/utils/RUN_ExportReference.sh"/>
   <property name="RUN_ImportAdempiere" location="adempiere/Adempiere/utils/RUN_ImportAdempiere.sh"/>
   <property name="RUN_MigrateXML" location="adempiere/Adempiere/utils/RUN_MigrateXML.sh"/>
   <property name="RUN_silentsetup" location="adempiere/Adempiere/RUN_silentsetup.sh"/>
@@ -24,7 +25,7 @@
   
   
   <target name="build">
-    <echo message="Building ADempiere"/>
+        <echo message="Building ADempiere"/>
 	<ant antfile="${adempiere_build}" target="complete"/>
 	
 	<echo message="Deploy ADempiere"/>
@@ -59,10 +60,10 @@
 	<exec dir="${AD_directory}" executable="/bin/bash" failonerror="true">
     	<arg value="${RUN_MigrateXML}"/>
   	</exec>
-	
+
 	<echo message="Run Export Database"/>
 	<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
-    	<arg value="${RUN_DBExport}"/>
+    	<arg value="${RUN_ExportReference}"/>
   	</exec>
   </target>
 </project>
