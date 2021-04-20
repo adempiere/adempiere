@@ -99,11 +99,10 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 			paymentRule = PAYMENTRULE_CreditCard;
 		else if (payment.getTenderType().equals(X_C_Payment.TENDERTYPE_DirectDebit))
 			paymentRule = PAYMENTRULE_DirectDebit;
-		else if (payment.getTenderType().equals(X_C_Payment.TENDERTYPE_DirectDeposit))
+		else if (payment.getTenderType().equals(X_C_Payment.TENDERTYPE_DirectDeposit)
+				|| payment.getTenderType().equals(MPayment.TENDERTYPE_MobilePaymentInterbank)
+				|| payment.getTenderType().equals(MPayment.TENDERTYPE_MobilePaymentInterbank))
 			paymentRule = PAYMENTRULE_DirectDeposit;
-	//	else if (payment.getTenderType().equals(MPayment.TENDERTYPE_Check))
-	//		PaymentRule = MPaySelectionCheck.PAYMENTRULE_Check;
-		
 		//	Create new PaySelection
 		MPaySelection paySelection = new MPaySelection(ctx, 0, trxName);
 		paySelection.setC_DocType_ID();
