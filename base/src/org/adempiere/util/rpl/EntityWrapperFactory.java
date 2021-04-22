@@ -10,7 +10,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the                     *
  * GNU General Public License for more details.                                     *
  * You should have received a copy of the GNU General Public License                *
- * along with this program.	If not, see <https://www.gnu.org/licenses/>.            *
+ * along with this program.	If not, see <https://www.gnu.org/licenses/>.        *
  ************************************************************************************/
 package org.adempiere.util.rpl;
 
@@ -33,7 +33,6 @@ import org.compiere.model.MColumn;
 import org.compiere.model.MEXPFormat;
 import org.compiere.model.MEXPFormatLine;
 import org.compiere.model.MImage;
-import org.compiere.model.MLocation;
 import org.compiere.model.MOrder;
 import org.compiere.model.MReplicationStrategy;
 import org.compiere.model.MTable;
@@ -628,34 +627,17 @@ public class EntityWrapperFactory {
 			// Referenced Export Format. Get it from cache
 			MEXPFormat referencedExpFormat = MEXPFormat.get(getContext(), line.getEXP_EmbeddedFormat_ID(), getTransactionName());
 			log.info("referencedExpFormat = " + referencedExpFormat);
-
-			int referencedRecordId = 0;
 			// Find Record_ID by ???Value??? In fact by Columns set as Part Of Unique Index in Export Format!
 			log.info("Seach for XML Element = " + key);
 			EntityWrapper referencedWrapper = wrapper.getReference(key);
 			log.info("referencedNode = " + referencedWrapper);
 			if (referencedWrapper != null) {
-				// SPECIAL HANDLING of C_Location !!!
-				// In Case of C_Location. Try to save C_Location First, similar to Embedded code
-				if (referencedExpFormat.getAD_Table().getTableName().equals(MLocation.Table_Name)) {
-					// Import embedded PO
-					log.info("=== BEGIN RECURSION CALL ===");
-					PO embeddedEntity = buildEntity(referencedExpFormat, referencedWrapper, getTransactionName());
-					log.info("embeddedPo = " + embeddedEntity);
-					if (!embeddedEntity.is_Changed()) {
-					    log.info("Object not changed = " + entity.toString());
-					} else {	
-						embeddedEntity.saveReplica(true);
-					}
-					referencedRecordId = embeddedEntity.get_ID();
-				} else {
-					PO embeddedEntity = findEntityFromWrapper(referencedExpFormat, referencedWrapper);
-					if(embeddedEntity != null
-							&& embeddedEntity.get_ID() > 0) {
-						value = embeddedEntity.get_ID();
-					}
+				PO embeddedEntity = findEntityFromWrapper(referencedExpFormat, referencedWrapper);
+				if(embeddedEntity != null
+						&& embeddedEntity.get_ID() > 0) {
+					value = embeddedEntity.get_ID();
 				}
-				log.info("refRecord_ID = " + referencedRecordId);
+				log.info("referenced Record_ID = " + value);
 			} else {
 				log.info("NULL VALUE FOR " + key);
 				value = null;
@@ -819,7 +801,9 @@ public class EntityWrapperFactory {
 			Object value = entity.get_Value(columnName);
 			if (value != null) {
 				Collection<PO> instances = null;
-				if (tableEmbedded.getTableName().equals("C_Country") || tableEmbedded.getTableName().equals("C_UOM")) {
+				MTable tableForGet = MTable.get(getContext(), tableEmbedded.getTableName());
+				if(tableForGet.getAccessLevel().equals(MTable.ACCESSLEVEL_All)
+						|| tableForGet.getAccessLevel().equals(MTable.ACCESSLEVEL_SystemPlusClient)) {
 					// SYSTEM records
 					instances = new Query(entity.getCtx(), tableEmbedded.getTableName(), whereClause.toString(), getTransactionName())
 						.setParameters(value)
