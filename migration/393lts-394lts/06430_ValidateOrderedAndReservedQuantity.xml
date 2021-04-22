@@ -327,7 +327,7 @@
         <Data AD_Column_ID="2817" Column="IsActive">true</Data>
         <Data AD_Column_ID="2830" Column="IsRange">false</Data>
         <Data AD_Column_ID="2818" Column="Created">2020-11-24 14:16:21.467</Data>
-        <Data AD_Column_ID="3738" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="3738" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="3742" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="4017" Column="ColumnName">AD_Org_ID</Data>
         <Data AD_Column_ID="2823" Column="Description">Organizational entity within client</Data>

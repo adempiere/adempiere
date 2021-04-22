@@ -19,6 +19,7 @@ package org.eevolution.process;
 import org.compiere.model.I_C_OrderLine;
 import org.compiere.model.I_M_Storage;
 import org.compiere.model.MOrderLine;
+import org.compiere.model.MOrg;
 import org.compiere.model.MProduct;
 import org.compiere.model.MStorage;
 import org.compiere.model.MWarehouse;
@@ -43,6 +44,7 @@ import java.util.stream.Collectors;
  */
 public class ValidateOrderedAndReservedQuantity extends ValidateOrderedAndReservedQuantityAbstract
 {
+	List<Integer> organizationList = new ArrayList<>();
 	List<Integer> warehouseList = new ArrayList<>();
 	List<Integer> productList = new ArrayList<>();
 
@@ -55,11 +57,18 @@ public class ValidateOrderedAndReservedQuantity extends ValidateOrderedAndReserv
 	@Override
 	protected String doIt() throws Exception
 	{
+		if (getOrgId() > 0)
+			organizationList.add(getOrgId());
+		else
+			organizationList.addAll(getOrganizations(getAD_Client_ID()));
+
 		if (getWarehouseId() > 0)
 			warehouseList.add(getWarehouseId());
-		else
-			Arrays.stream(MWarehouse.getForOrg(getCtx(),getOrgId()))
-					.forEach(warehouse -> warehouseList.add(warehouse.getM_Warehouse_ID()));
+		else {
+			organizationList
+					.forEach(organizationId -> Arrays.stream(MWarehouse.getForOrg(getCtx(), organizationId))
+					.forEach(warehouse -> warehouseList.add(warehouse.getM_Warehouse_ID())));
+		}
 
 		if (getProductId() > 0)
 			productList.add(getProductId());
@@ -112,6 +121,12 @@ public class ValidateOrderedAndReservedQuantity extends ValidateOrderedAndReserv
 			});
 		});
 		return "";
+	}
+
+	private List<Integer> getOrganizations(int clientId) {
+		return new Query(getCtx(),MOrg.Table_Name, "AD_Client_ID=?", get_TrxName())
+				.setParameters(clientId)
+				.getIDsAsList();
 	}
 
 	private List<MStorage> getStorage(int warehouseId ,int productId, String trxName) {
