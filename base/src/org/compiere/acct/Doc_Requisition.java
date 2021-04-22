@@ -21,6 +21,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.Level;
 
+import org.compiere.model.I_M_Movement;
+import org.compiere.model.I_M_Requisition;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MRequisition;
@@ -154,4 +156,11 @@ public class Doc_Requisition extends Doc
 		
 		return facts;
 	} // createFact
+	
+	public static String getDateAcctColumnName() {
+        
+         return I_M_Requisition.COLUMNNAME_DateDoc;
+         
+    }
+
 } // Doc_Requisition

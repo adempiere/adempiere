@@ -17,6 +17,8 @@
 package org.compiere.acct;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -49,6 +51,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.Trx;
+import org.compiere.util.Util;
 
 /**
  *  Posting Document Root.
@@ -317,19 +320,11 @@ public abstract class Doc
 		 */
 		
 		String tableName = MTable.getTableName(Env.getCtx(), AD_Table_ID);
-		String packageName = "org.compiere.acct";
-		String className = null;
-
-		int firstUnderscore = tableName.indexOf("_");
-		if (firstUnderscore == 1)
-			className = packageName + ".Doc_" + tableName.substring(2).replaceAll("_", "");
-		else
-			className = packageName + ".Doc_" + tableName.replaceAll("_", "");
-		
+		Class<?> cClass = getDocClass(tableName);
+		String className = cClass.getCanonicalName();
 		try
 		{
-			Class<?> cClass = Class.forName(className);
-			Constructor<?> cnstr = cClass.getConstructor(new Class[] {MAcctSchema[].class, ResultSet.class, String.class});
+			Constructor<?> cnstr = cClass.getConstructor(MAcctSchema[].class, ResultSet.class, String.class);
 			doc = (Doc) cnstr.newInstance(ass, rs, trxName);
 		}
 		catch (Exception e)
@@ -2540,4 +2535,98 @@ public abstract class Doc
 				.setOrderBy(MFactAcct.COLUMNNAME_Fact_Acct_ID)
 				.list();
 	}
+	
+	/**
+	 * This method should return the columnName used for the accounting date.  
+	 * In most documents this is DateAcct but where documents use another 
+	 * column, they should implement this same method to return that column 
+	 * name.
+	 *  
+	 * @return the column name used for the accounting date.
+	 */
+	public static String getDateAcctColumnName() {
+	
+	    return "DateAcct";
+	    
+	}
+	
+	/**
+	 * Return the columnName used for the accounting date for the 
+	 * given table name
+	 * @param tableName
+	 * @return the table columnName or null if not found
+	 */
+    public static String getDateAcctColumnName(String tableName) {
+
+        Class<?> cClass = getDocClass(tableName);
+        Method getDateAcctColumnNameMethod =
+                getDateAcctColumnNameMethod(cClass);
+        return getDateAcctColumnName(cClass,
+                getDateAcctColumnNameMethod);
+
+    }
+
+    private static Class<?> getDocClass(String tableName) {
+    
+        if(Util.isEmpty(tableName))
+            return null;
+        
+        String className = null;
+        String packageName = "org.compiere.acct";
+        int firstUnderscore = tableName.indexOf("_");
+        if (firstUnderscore == 1)
+            className = packageName + ".Doc_"
+                    + tableName.substring(2).replace("_", "");
+        else
+            className = packageName + ".Doc_"
+                    + tableName.replace("_", "");
+
+        Class<?> cClass = null;
+        try {
+            cClass = Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            s_log.config("Unrecognized classname for Document:  "
+                    + className);
+        }
+        return cClass;
+    
+    }
+
+    private static Method getDateAcctColumnNameMethod(Class<?> cClass) {
+    
+        Method getDateAcctColumnName = null;
+        if (cClass != null) {
+            try {
+                getDateAcctColumnName =
+                        cClass.getMethod("getDateAcctColumnName");
+            } catch (NoSuchMethodException | SecurityException e) {
+                s_log.config("Unable to call "
+                        + "getDateAcctColumnName for Document "
+                        + cClass.getCanonicalName());
+            }
+        }
+        return getDateAcctColumnName;
+    
+    }
+
+    private static String getDateAcctColumnName(Class<?> cClass,
+            Method getDateAcctColumnNameMethod) {
+
+        String dateAcctColumnName = null;
+        if (cClass != null) {
+            try {
+                dateAcctColumnName =
+                        (String) getDateAcctColumnNameMethod.invoke(null);
+            } catch (IllegalAccessException
+                    | IllegalArgumentException
+                    | InvocationTargetException e) {
+                s_log.config("Unable to invoke "
+                        + "getDateAcctColumnName for Document "
+                        + cClass.getCanonicalName());
+            }
+        }
+        return dateAcctColumnName;
+
+    }
+
 }   //  Doc
