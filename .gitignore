@@ -67,3 +67,4 @@ zkwebui/WEB-INF/test/test_results/
 utils_dev/packages/testSqlStatement2Pack.tar.gz
 utils_dev/packages/testSqlStatement2Pack.zip
 utils_dev/packages/testSqlStatement2Pack/
+utils_dev/mytest.properties

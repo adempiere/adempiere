@@ -34,7 +34,7 @@ public class X_FM_Batch extends PO implements I_FM_Batch, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20200919L;
+	private static final long serialVersionUID = 20210210L;
 
     /** Standard Constructor */
     public X_FM_Batch (Properties ctx, int FM_Batch_ID, String trxName)

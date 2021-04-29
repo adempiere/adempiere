@@ -21,13 +21,39 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
-import java.util.*;
-import org.adempiere.engine.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Properties;
+
+import org.adempiere.engine.CostingMethodFactory;
+import org.adempiere.engine.IDocumentLine;
+import org.adempiere.engine.StandardCostingMethod;
+import org.adempiere.engine.StorageEngine;
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DocTypeNotFoundException;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.adempiere.exceptions.NoVendorForProductException;
-import org.compiere.model.*;
+import org.compiere.model.I_C_UOM;
+import org.compiere.model.MAttributeSet;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MClient;
+import org.compiere.model.MConversionType;
+import org.compiere.model.MDocType;
+import org.compiere.model.MLocator;
+import org.compiere.model.MOrder;
+import org.compiere.model.MOrderLine;
+import org.compiere.model.MPeriod;
+import org.compiere.model.MProduct;
+import org.compiere.model.MProductPO;
+import org.compiere.model.MTransaction;
+import org.compiere.model.MUOM;
+import org.compiere.model.MWarehouse;
+import org.compiere.model.ModelValidationEngine;
+import org.compiere.model.ModelValidator;
+import org.compiere.model.Query;
+import org.compiere.model.X_M_CostType;
 import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
@@ -347,12 +373,8 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		{
 			return DocAction.STATUS_Invalid;
 		}
-		
-		MPeriod.testPeriodOpen(getCtx(), getDateAcct(), getC_DocTypeTarget_ID(), getAD_Org_ID());
 		//	Convert/Check DocType
 		setC_DocType_ID(getC_DocTypeTarget_ID());
-		
-		//
 		// Operation Activity
 		if(isActivityControl())
 		{
@@ -399,6 +421,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		// Issue
 		else if (isIssue())
 		{
+			MPeriod.testPeriodOpen(getCtx(), getDateAcct(), getC_DocTypeTarget_ID(), getAD_Org_ID());
 			MProduct product = getM_Product();
 			//Validate if ASI is mandatory
 			MAttributeSet.validateAttributeSetInstanceMandatory(product, Table_ID , false , getM_AttributeSetInstance_ID());
@@ -406,6 +429,7 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 		// Receipt
 		else if (isReceipt())
 		{
+			MPeriod.testPeriodOpen(getCtx(), getDateAcct(), getC_DocTypeTarget_ID(), getAD_Org_ID());
 			MProduct product = getM_Product();
 			MAttributeSet.validateAttributeSetInstanceMandatory(product, Table_ID , false , getM_AttributeSetInstance_ID());
 		}
@@ -462,31 +486,43 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 			MProduct product = getM_Product();
 			if (product != null	&& product.isStocked() && !isVariance())
 			{
-				StorageEngine.createTrasaction(
+				int reservationAttributeSetInstanceId = 0;
+				int reservationWarehouseId = 0;
+				if (getPP_Order_BOMLine_ID() > 0) {
+					MPPOrderBOMLine orderBOMLine = getPP_Order_BOMLine();
+					reservationAttributeSetInstanceId = orderBOMLine.getM_AttributeSetInstance_ID();
+					reservationWarehouseId = orderBOMLine.getM_Warehouse_ID();
+				} else {
+					MPPOrder order = getPP_Order();
+					reservationAttributeSetInstanceId = order.getM_AttributeSetInstance_ID();
+					reservationWarehouseId = order.getM_Warehouse_ID();
+				}
+
+				StorageEngine.createTransaction(
 						this,
 						getMovementType() , 
 						getMovementDate() , 
 						getMovementQty() , 
-						false,											// IsReversal=false
-						getM_Warehouse_ID(), 
-						getPP_Order().getM_AttributeSetInstance_ID(),	// Reservation ASI
-						getPP_Order().getM_Warehouse_ID(),				// Reservation Warehouse
-						false											// IsSOTrx=false
+						false,					// IsReversal=false
+						getM_Warehouse_ID(),
+						reservationAttributeSetInstanceId,	// Reservation ASI
+						reservationWarehouseId,				// Reservation Warehouse
+						false						// IsSOTrx=false
 						);
 			}	//	stock movement
 			
 			if (isIssue() && !isVariance())
 			{
 				//	Update PP Order Line
-				MPPOrderBOMLine obomline = getPP_Order_BOMLine();
-				obomline.setQtyDelivered(obomline.getQtyDelivered().add(getMovementQty()));
-				obomline.setQtyScrap(obomline.getQtyScrap().add(getScrappedQty()));
-				obomline.setQtyReject(obomline.getQtyReject().add(getQtyReject()));  
-				obomline.setDateDelivered(getMovementDate());	//	overwrite=last	
+				MPPOrderBOMLine orderBomLine = getPP_Order_BOMLine();
+				orderBomLine.setQtyDelivered(orderBomLine.getQtyDelivered().add(getMovementQty()));
+				orderBomLine.setQtyScrap(orderBomLine.getQtyScrap().add(getScrappedQty()));
+				orderBomLine.setQtyReject(orderBomLine.getQtyReject().add(getQtyReject()));
+				orderBomLine.setDateDelivered(getMovementDate());	//	overwrite=last
 
-				log.fine("OrderLine - Reserved=" + obomline.getQtyReserved() + ", Delivered=" + obomline.getQtyDelivered());				
-				obomline.saveEx();
-				log.fine("OrderLine -> Reserved="+obomline.getQtyReserved()+", Delivered="+obomline.getQtyDelivered());
+				log.fine("OrderLine - Reserved=" + orderBomLine.getQtyReserved() + ", Delivered=" + orderBomLine.getQtyDelivered());
+				orderBomLine.saveEx();
+				log.fine("OrderLine -> Reserved="+orderBomLine.getQtyReserved()+", Delivered="+orderBomLine.getQtyDelivered());
 			}
 			if (isReceipt())
 			{
@@ -496,18 +532,13 @@ public class MPPCostCollector extends X_PP_Cost_Collector implements DocAction ,
 				order.setQtyScrap(order.getQtyScrap().add(getScrappedQty()));
 				order.setQtyReject(order.getQtyReject().add(getQtyReject()));                
 				order.setQtyReserved(order.getQtyReserved().subtract(getMovementQty()));
-				
-				//
+
 				// Update PP Order Dates
 				order.setDateDelivered(getMovementDate()); //	overwrite=last
 				if (order.getDateStart() == null)
-				{
 					order.setDateStart(getDateStart());
-				}
 				if (order.getQtyOpen().signum() <= 0)
-				{
 					order.setDateFinish(getDateFinish());
-				}
 				order.saveEx();
 			}
 		}

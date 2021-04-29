@@ -577,6 +577,7 @@ public class ASPUtil {
 			for(MBrowseField field : browseFields) {
 				MBrowseField fieldToAdd = field.getDuplicated();
 				fieldToAdd.setIsActive(false);
+				fieldToAdd.setIsDisplayed(false);
 				mergedFields.add(fieldToAdd);
 			}
 		} else {
@@ -1499,6 +1500,8 @@ public class ASPUtil {
 				if(!column.isKey()
 						&& !column.isParent()) {
 					fieldToAdd.setIsActive(false);
+					fieldToAdd.setIsDisplayed(false);
+					fieldToAdd.setIsDisplayedGrid(false);
 				}
 				mergedFields.add(fieldToAdd);
 			}
@@ -1843,9 +1846,7 @@ public class ASPUtil {
 			field.setAD_FieldGroup_ID(customField.getAD_FieldGroup_ID());
 		}
 		//	Displayed in grid
-		if(!Util.isEmpty(customField.getIsDisplayedGrid())) {
-			field.setIsDisplayedGrid(customField.getIsDisplayedGrid().equals("Y"));
-		}
+		field.setIsDisplayedGrid(customField.isDisplayedGrid());
 		//	Read Only
 		if(!Util.isEmpty(customField.getIsReadOnly())) {
 			field.setIsReadOnly(customField.getIsReadOnly().equals("Y"));
