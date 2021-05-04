@@ -1518,8 +1518,8 @@ public class MOrder extends X_C_Order implements DocAction
 			|| MDocType.DOCBASETYPE_PurchaseOrder.equals(getDocumentType().getDocBaseType()))
 			header_M_Warehouse_ID = 0;		//	don't enforce
 		
-		BigDecimal Volume = Env.ZERO;
-		BigDecimal Weight = Env.ZERO;
+		BigDecimal volume = Env.ZERO;
+		BigDecimal weight = Env.ZERO;
 		
 		//	Always check and (un) Reserve Inventory		
 		for (int i = 0; i < lines.length; i++)
@@ -1542,8 +1542,8 @@ public class MOrder extends X_C_Order implements DocAction
 
 				if (product != null)
 				{
-					Volume = Volume.add(product.getVolume().multiply(line.getQtyOrdered()));
-					Weight = Weight.add(product.getWeight().multiply(line.getQtyOrdered()));
+					volume = volume.add(product.getVolume().multiply(line.getQtyOrdered()));
+					weight = weight.add(product.getWeight().multiply(line.getQtyOrdered()));
 				}
 				continue;
 			}
@@ -1555,12 +1555,15 @@ public class MOrder extends X_C_Order implements DocAction
 
 			line.reserveStock();
 			line.saveEx();
-			Volume = Volume.add(product.getVolume().multiply(line.getQtyOrdered()));
-			Weight = Weight.add(product.getWeight().multiply(line.getQtyOrdered()));
+			//	Validate if exist a product
+			if (product != null) {
+				volume = volume.add(product.getVolume().multiply(line.getQtyOrdered()));
+				weight = weight.add(product.getWeight().multiply(line.getQtyOrdered()));
+			}
 		}	//	reserve inventory
 		
-		setVolume(Volume);
-		setWeight(Weight);
+		setVolume(volume);
+		setWeight(weight);
 		return true;
 	}	//	reserveStock
 
