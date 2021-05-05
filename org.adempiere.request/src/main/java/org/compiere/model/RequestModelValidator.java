@@ -17,7 +17,6 @@
 
 package org.compiere.model;
 
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -36,11 +35,10 @@ import java.util.stream.Collectors;
  * @author OpenUp Solutions Sylvie Bouissa, sylvie.bouissa@openupsolutions.com, http://www.openupsolutions.com
  *      <li>#1451 Add additional condition to an Standard Request
  *      <li>Reference to issue https://github.com/adempiere/adempiere/issues/1451
+ * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
+ * 		<li>Add support to request type without document type and document status
  */
 public class RequestModelValidator implements ModelValidator {
-
-    //private Timestamp currentDate;
-    private static CLogger log = CLogger.getCLogger(RequestModelValidator.class);
 
     @Override
     public void initialize(ModelValidationEngine engine, MClient client) {
@@ -69,9 +67,7 @@ public class RequestModelValidator implements ModelValidator {
         standardRequestTypes.stream()
                 .filter(standardRequestType ->
                         standardRequestType.isValidFromTo() &&
-                        standardRequestType.getEventModelValidator().startsWith("D") &&
-                        standardRequestType.getC_DocType_ID() > 0 &&
-                        standardRequestType.getDocStatus() != null)
+                        standardRequestType.getEventModelValidator().startsWith("D"))
                 .collect(Collectors.groupingBy(MStandardRequestType::getAD_Table_ID))
                 .entrySet()
                 .stream()
@@ -92,8 +88,7 @@ public class RequestModelValidator implements ModelValidator {
 
     @Override
     public String modelChange(PO entity, int type) throws Exception {
-        Boolean isSOTrx = "Y".equals(Env.getContext(entity.getCtx(),"IsSOTrx"));
-        //#2541 Allow to delete draft or in process invoices generated from a request update.
+    	//#2541 Allow to delete draft or in process invoices generated from a request update.
         if (MInvoice.Table_ID == entity.get_Table_ID() && TYPE_BEFORE_DELETE == type) {
             StringBuilder statement = new StringBuilder();
             statement.append("UPDATE R_RequestUpdate r SET C_InvoiceLine_ID = NULL WHERE ");
@@ -149,19 +144,15 @@ public class RequestModelValidator implements ModelValidator {
      * @return
      */
     public String docValidate(PO entity, int timing) {
-        String documentStatus = entity.get_ColumnIndex(MStandardRequestType.COLUMNNAME_DocStatus) > 0 ?
-                entity.get_ValueAsString(MStandardRequestType.COLUMNNAME_DocStatus) : null;
-        Integer documentTypeId = entity.get_ColumnIndex(MStandardRequestType.COLUMNNAME_C_DocType_ID) > 0 ?
-                entity.get_ValueAsInt(MStandardRequestType.COLUMNNAME_C_DocType_ID) : null;
-        if (documentTypeId > 0 && documentStatus != null) {
-            MStandardRequestType.getByTable(entity).stream()
-                    .filter(standardRequestType ->
-                       standardRequestType.getEventModelValidator().equals(documentEventValidators[timing])
-                    && standardRequestType.isValidDocument(entity , documentTypeId , documentStatus))
-                    .forEach(standardRequestType -> {
-                            standardRequestType.createStandardRequest(entity);
-                    });
-        }
+        String documentStatus = entity.get_ValueAsString(MStandardRequestType.COLUMNNAME_DocStatus);
+        int documentTypeId = entity.get_ValueAsInt(MStandardRequestType.COLUMNNAME_C_DocType_ID);
+                MStandardRequestType.getByTable(entity).stream()
+                .filter(standardRequestType ->
+                   standardRequestType.getEventModelValidator().equals(documentEventValidators[timing])
+                && standardRequestType.isValidDocument(entity , documentTypeId , documentStatus))
+                .forEach(standardRequestType -> {
+                        standardRequestType.createStandardRequest(entity);
+                });
         return null;
     }
 }
