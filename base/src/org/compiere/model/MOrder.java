@@ -1557,6 +1557,7 @@ public class MOrder extends X_C_Order implements DocAction
 		// Calculate Reserve Stock
 		orderLines.forEach(orderLine ->{
 			//	Force same WH for all but SO/PO
+			//	Check/set WH/Org
 			forceSameWarehouseToLine(headerWarehouseId, orderLine);
 			//	Binding
 			BigDecimal target = binding ? orderLine.getQtyOrdered() : Env.ZERO;
@@ -1566,11 +1567,11 @@ public class MOrder extends X_C_Order implements DocAction
 				maybeProduct.ifPresent(product -> {
 					if (product.isStocked()) {
 						orderLine.reserveStock();
-					orderLine.saveEx();
-					log.fine("Line=" + orderLine.getLine()
-							+ " - Target=" + target + ",Difference=" + difference
-							+ " - Ordered=" + orderLine.getQtyOrdered()
-							+ ",Reserved=" + orderLine.getQtyReserved() + ",Delivered=" + orderLine.getQtyDelivered());
+						orderLine.saveEx();
+						log.fine("Line=" + orderLine.getLine()
+								+ " - Target=" + target + ",Difference=" + difference
+								+ " - Ordered=" + orderLine.getQtyOrdered()
+								+ ",Reserved=" + orderLine.getQtyReserved() + ",Delivered=" + orderLine.getQtyDelivered());
 					}
 				});
 			}
@@ -1579,8 +1580,6 @@ public class MOrder extends X_C_Order implements DocAction
 		calculateOrderSizes(orderLines);
 		return true;
 	}	//	reserveStock
-
-
 
 	/**
 	 * 	Calculate Tax and Total
