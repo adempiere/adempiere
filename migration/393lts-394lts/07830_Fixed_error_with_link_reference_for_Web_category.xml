@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fixed error with link reference for Web category" ReleaseNo="3.9.4" SeqNo="7830">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="55016" Table="AD_Tab">
+        <Data AD_Column_ID="2740" Column="AD_Column_ID" isOldNull="true">97164</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
