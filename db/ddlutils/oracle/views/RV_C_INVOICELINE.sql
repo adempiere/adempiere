@@ -25,13 +25,13 @@ SELECT
     il.M_AttributeSetInstance_ID, productAttribute(il.M_AttributeSetInstance_ID) AS ProductAttribute,
     pasi.M_AttributeSet_ID, pasi.M_Lot_ID, pasi.GuaranteeDate, pasi.Lot, pasi.SerNo,
 	--	Item Amounts
-	il.PriceList, il.PriceActual, il.PriceLimit, il.PriceEntered,
-	CASE WHEN PriceList=0 THEN 0 ELSE
-	  ROUND((PriceList-PriceActual)/PriceList*100,2) END AS Discount,
-	CASE WHEN PriceLimit=0 THEN 0 ELSE
-	  ROUND((PriceActual-PriceLimit)/PriceLimit*100,2) END AS Margin,
-	CASE WHEN PriceLimit=0 THEN 0 ELSE
-	  (PriceActual-PriceLimit)*QtyInvoiced END AS MarginAmt,
+	(i.Multiplier * il.PriceList) AS PriceList, (i.Multiplier * il.PriceActual) AS PriceActual, (i.Multiplier * il.PriceLimit) AS PriceLimit, (i.Multiplier * il.PriceEntered) AS PriceEntered,
+	i.Multiplier * (CASE WHEN PriceList=0 THEN 0 ELSE
+	  ROUND((PriceList-PriceActual)/PriceList*100,2) END) AS Discount,
+	i.Multiplier * (CASE WHEN PriceLimit=0 THEN 0 ELSE
+	  ROUND((PriceActual-PriceLimit)/PriceLimit*100,2) END) AS Margin,
+	i.Multiplier * (CASE WHEN PriceLimit=0 THEN 0 ELSE
+	  (PriceActual-PriceLimit)*QtyInvoiced END) AS MarginAmt,
 	--	Line Amounts
 	ROUND(i.Multiplier*LineNetAmt, 2) AS LineNetAmt,
 	ROUND(i.Multiplier*PriceList*QtyInvoiced, 2) AS LineListAmt,
@@ -44,8 +44,8 @@ SELECT
     il.Description AS LineDescription, i.C_DocTypeTarget_ID,
     i.C_BP_AccountType_ID, i.C_BP_SalesGroup_ID, i.C_BP_Segment_ID, i.C_BP_IndustryType_ID,
     i.C_SalesRegion_ID, 
-    (p.Weight * il.QtyInvoiced) AS Weight,
-    (p.Volume * il.QtyInvoiced) AS Volume,
+    (i.Multiplier * p.Weight * il.QtyInvoiced) AS Weight,
+    (i.Multiplier * p.Volume * il.QtyInvoiced) AS Volume,
     i.DocBaseType, i.C_Currency_ID
 FROM  RV_C_Invoice i
   INNER JOIN C_InvoiceLine il ON (i.C_Invoice_ID=il.C_Invoice_ID)
