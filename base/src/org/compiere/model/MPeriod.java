@@ -117,10 +117,10 @@ public class MPeriod extends X_C_Period
 		if (dateAcct == null)
 			return null;
 		
-        int C_Calendar_ID = getC_Calendar_ID(ctx,ad_org_id, trxName);
+        int calendarId = getC_Calendar_ID(ctx,ad_org_id);
+        return findByCalendar(ctx, dateAcct, calendarId, trxName);
         
-        return findByCalendar(ctx, dateAcct, C_Calendar_ID, trxName);
-	}	//	get
+	}
 
 	/**
 	 * 
@@ -311,7 +311,7 @@ public class MPeriod extends X_C_Period
 	public static MPeriod getFirstInYear (Properties ctx, Timestamp DateAcct, int AD_Org_ID)
 	{
 		MPeriod retValue = null;
-		int C_Calendar_ID = MPeriod.getC_Calendar_ID(ctx, AD_Org_ID, null);
+		int calendarId = MPeriod.getC_Calendar_ID(ctx, AD_Org_ID);
 
         String sql = "SELECT * "
                     + "FROM C_Period "
@@ -329,7 +329,7 @@ public class MPeriod extends X_C_Period
 		try
 		{
 			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt (1, C_Calendar_ID);
+			pstmt.setInt (1, calendarId);
 			pstmt.setTimestamp (2, DateAcct);
 			pstmt.setString (3, "Y");
 			pstmt.setString (4, "S");

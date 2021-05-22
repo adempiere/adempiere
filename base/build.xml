@@ -195,6 +195,7 @@
       <src path="${test.src}"/>
       <src path="../org.adempiere.test/src/test/java"/>
       <src path="../org.eevolution.manufacturing/src/main/java/base/org/eevolution/model/impl"/>	    	
+      <src path="../org.eevolution.manufacturing/src/main/java/base/org/compiere/acct"/>            
       <classpath refid="test.class.path"/>
     </javac>		
   </target>

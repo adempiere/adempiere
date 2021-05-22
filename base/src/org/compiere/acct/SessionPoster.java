@@ -163,6 +163,11 @@ public class SessionPoster {
         Trx innerTrx = Trx.get(perDocTrxName, true);
         String postStatus = Doc.STATUS_NotPosted;
         Doc doc = getDoc(tableId, recordId, perDocTrxName);
+        if (doc == null) {
+            log.log(Level.SEVERE, "Unable to find doc with tableId=" + tableId 
+                    + " and recordId=" + recordId);
+            return false;
+        }
         try {
             String error = postDoc(doc);
             ok = (error == null);

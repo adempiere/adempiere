@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.acct;
 
+import static java.util.Objects.requireNonNull;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -33,7 +35,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.stream.Stream;
 
-import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
@@ -455,6 +456,7 @@ public abstract class Doc
      */
     public static void savePostedStatus(Doc doc, String postStatus, String trxName) {
         
+        requireNonNull(doc);
         setPostedStatusAndUnlock(doc.get_TableName(), doc.get_ID(), postStatus, trxName);
 
     }
