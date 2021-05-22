@@ -20,10 +20,12 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import org.compiere.model.I_C_BankStatement;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MDocType;
 import org.compiere.model.MOrder;
 import org.compiere.util.Env;
+import org.eevolution.model.I_DD_Order;
 import org.eevolution.model.MDDOrder;
 
 /**
@@ -78,4 +80,11 @@ public class Doc_DDOrder extends Doc
 	{
 		return new ArrayList<Fact>();
 	}   //  createFact
+	
+   public static String getDateAcctColumnName() {
+        
+        return I_DD_Order.COLUMNNAME_DateOrdered;
+        
+    }
+
 }   //  Doc Cost Collector

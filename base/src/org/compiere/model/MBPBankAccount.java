@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.Properties;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.apache.commons.validator.routines.CreditCardValidator;
 import org.apache.commons.validator.routines.IBANValidator;
 import org.compiere.util.CLogger;
-import org.compiere.util.Env;
 import org.compiere.util.Util;
 
 /**
@@ -212,8 +212,30 @@ public class MBPBankAccount extends X_C_BP_BankAccount
 			if(!validator.isValid(getIBAN().trim())) {
 				throw new AdempiereException("@ValidationError@ (@Invalid@ @IBAN@)");
 			}
+			setIBAN(getIBAN().trim());
 		}
 		
+		// validate CreditCardNumber
+		if(!Util.isEmpty(getCreditCardNumber())) {
+			if(CREDITCARDTYPE_Amex.equals(getCreditCardType())
+			|| CREDITCARDTYPE_Visa.equals(getCreditCardType())
+			|| CREDITCARDTYPE_MasterCard.equals(getCreditCardType())
+			|| CREDITCARDTYPE_Discover.equals(getCreditCardType()) ) {
+				CreditCardValidator validator = new CreditCardValidator(); // for AMEX, VISA, MASTERCARD and DISCOVER
+				if(!validator.isValid(getCreditCardNumber().trim())) {
+					throw new AdempiereException("@ValidationError@ (@Invalid@ @CreditCardNumber@)");				
+				}
+				setCreditCardNumber(getCreditCardNumber().trim());
+			}
+			if(CREDITCARDTYPE_Diners.equals(getCreditCardType()) ) {
+				CreditCardValidator validator = new CreditCardValidator(CreditCardValidator.DINERS);
+				if(!validator.isValid(getCreditCardNumber().trim())) {
+					throw new AdempiereException("@ValidationError@ (@Invalid@ @CreditCardNumber@)");				
+				}
+				setCreditCardNumber(getCreditCardNumber().trim());
+			}
+		}
+
 		return true;
 	}
 	

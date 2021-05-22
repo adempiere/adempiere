@@ -56,7 +56,6 @@
 	</classpathentry>
 	<classpathentry kind="src" path="org.adempiere.webservice/WEB-INF/src"/>
 	<classpathentry kind="src" path="com.kkalice.adempiere.migrate/src"/>
-	<classpathentry kind="src" path="org.adempiere.test/src/main/java"/>
 	<classpathentry kind="src" path="org.adempiere.test/src/main/scala"/>
 	<classpathentry kind="src" output="org.adempiere.asset/test/build" path="org.adempiere.test/src/test/java">
 		<attributes>
@@ -354,7 +353,7 @@
 	<classpathentry kind="lib" path="tools/lib/wizard.jar"/>
 	<classpathentry kind="lib" path="tools/lib/oracle.jar"/>
 	<classpathentry kind="lib" path="tools/lib/zxing-2.3.0.jar"/>
-	<classpathentry kind="lib" path="tools/lib/commons-validator-1.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/commons-validator-1.7.jar"/>
 	<classpathentry kind="lib" path="tools/lib/sardine-5.9-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="tools/lib/fluent-hc-4.5.6.jar"/>
 	<classpathentry kind="lib" path="tools/lib/httpclient-4.5.6.jar"/>
@@ -434,8 +433,8 @@
 	<classpathentry kind="lib" path="tools/lib/storefront/rank-eval-client-7.9.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/snakeyaml-1.26.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/t-digest-3.2.jar"/>
-	<classpathentry kind="lib" path="tools/lib/ant/org.apache.ant_1.10.8.v20200515-1239/lib/ant.jar"/>
-	<classpathentry kind="lib" path="tools/lib/ant/org.apache.ant_1.10.8.v20200515-1239/lib/ant-commons-net.jar"/>
-	<classpathentry kind="lib" path="tools/lib/ant/org.apache.ant_1.10.8.v20200515-1239/lib/ant-launcher.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-commons-net.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-launcher.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

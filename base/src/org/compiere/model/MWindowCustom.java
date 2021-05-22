@@ -67,12 +67,6 @@ public class MWindowCustom extends X_AD_WindowCustom {
 				MTabCustom customTab = new MTabCustom(this);
 				customTab.setAD_Tab_ID(tab.getAD_Tab_ID());
 				customTab.saveEx();
-				//	For fields
-				Arrays.asList(tab.getFields(true, get_TrxName())).forEach(field -> {
-					MFieldCustom customField = new MFieldCustom(customTab);
-					customField.setField(field);
-					customField.saveEx();
-				});
 			});
 		}
 		return true;

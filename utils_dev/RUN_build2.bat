@@ -11,9 +11,9 @@
 @if (%1) == () goto usage
 
 @Rem Set classpath
-@SET JAVA_CLASSPATH=%CLASSPATH%;..\tools\lib\ant\org.apache.ant_1.10.8.v20200515-1239\lib\ant-launcher.jar;..\tools\lib\commons-net-1.4.0.jar
+@SET ANT_HOME=..\tools\lib\ant\apache-ant-1.10.9
+@SET JAVA_CLASSPATH=%CLASSPATH%;%ANT_HOME%\lib\ant-launcher.jar;..\tools\lib\commons-net-1.4.0.jar
 @SET JAVA_CLASSPATH="%JAVA_CLASSPATH%";"%JAVA_HOME%\lib\tools.jar"
-@SET ANT_HOME="..\tools\lib\ant\org.apache.ant_1.10.8.v20200515-1239"
 
 @SET JAVA_OPTS=-Xms128m -Xmx512m
 
@@ -22,28 +22,30 @@
 @IF ERRORLEVEL 1 goto ERROR
 
 @Echo Done ...
-@Pause
-@exit
+@GOTO DONE
 
 :usage
 @echo Usage:    %0 target
 @echo Examples: %0 complete
-@pause
-@exit
+@GOTO RETRY
 
 :javahome
 @echo JAVA_HOME is not set.
 @echo You may not be able to build Adempiere
 @echo Set JAVA_HOME to the directory of your local JDK.
-@pause
-@exit
+@goto DONE
 
 :jdk
 @echo "** Need full Java SDK **"
+@goto DONE
+
+:DONE
 @pause
 @exit
 
 :ERROR
-@Color fc
+@color FC
 
-@Pause
+:RETRY
+@pause
+@color
