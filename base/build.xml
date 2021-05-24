@@ -154,6 +154,7 @@
     <pathelement path=".${jar.path}/mysql-connector-java-5.1.13-bin.jar" />
     <pathelement path="${jar.path}/mariadb-java-client.jar"/>
     <pathelement path="./base.jar" />    
+    <pathelement path="../tools/lib/commons-lang-2.1.jar"/>
     <pathelement location="${test.build.dir}"/>
     <pathelement location="${test.results.dir}"/>
     <pathelement path="${project.class.path}"/> 
@@ -194,6 +195,7 @@
       <src path="${test.src}"/>
       <src path="../org.adempiere.test/src/test/java"/>
       <src path="../org.eevolution.manufacturing/src/main/java/base/org/eevolution/model/impl"/>	    	
+      <src path="../org.eevolution.manufacturing/src/main/java/base/org/compiere/acct"/>            
       <classpath refid="test.class.path"/>
     </javac>		
   </target>
