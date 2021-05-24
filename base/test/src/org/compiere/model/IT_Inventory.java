@@ -37,6 +37,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -55,8 +56,8 @@ class IT_Inventory extends CommonGWSetup {
     private BigDecimal qtyOrdered;
     private BigDecimal qtyReserved;
 
-    @BeforeAll
-    static void localSetup() {
+    @BeforeEach
+    void addElementsToContext() {
 
         Env.setContext(ctx, "$C_Currency_ID", 100);
         Env.setContext(ctx, "#M_Warehouse_ID", -1);
