@@ -17,6 +17,8 @@ package org.adempiere.test;
 
 import static org.compiere.model.X_C_PeriodControl.PERIODSTATUS_Closed;
 import static org.compiere.model.X_C_PeriodControl.PERIODSTATUS_Open;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 
 import java.sql.Timestamp;
 import java.util.Optional;
@@ -28,6 +30,8 @@ import org.compiere.model.MDocType;
 import org.compiere.model.MPeriod;
 import org.compiere.model.MPeriodControl;
 import org.compiere.util.Env;
+import org.compiere.util.Language;
+import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
 
 public class CommonIntegrationTestUtilities {
@@ -50,6 +54,20 @@ public class CommonIntegrationTestUtilities {
 
     }
 
+    public static void assertEnEsMessageTranslationsExist(String msgKey) {
+
+        Language base = Language.getBaseLanguage();
+        Language esMx = Language.getLanguage("es_MX");
+        String translatedMsgBase = Msg.translate(base, msgKey);
+        String translatedMsgEsMx = Msg.translate(esMx, msgKey);
+
+        assertNotEquals(msgKey, translatedMsgBase,
+                "Message not translated in " + base.getAD_Language() + ": " + msgKey);
+        assertNotEquals(translatedMsgBase, translatedMsgEsMx,
+                "Message not translated in " + esMx.getAD_Language() + ": " + msgKey);
+
+    }
+    
     public void turnOffAutoPeriodControl(Properties ctx, int ad_client_id) {
 
         MAcctSchema as = MClient.get(ctx, ad_client_id).getAcctSchema();
@@ -60,7 +78,7 @@ public class CommonIntegrationTestUtilities {
         as.saveEx();
 
     }
-
+    
     public void turnOnAutoPeriodControl(Properties ctx, int ad_client_id) {
 
         MAcctSchema as = MClient.get(ctx, ad_client_id).getAcctSchema();

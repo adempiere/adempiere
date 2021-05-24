@@ -25,7 +25,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Stream;
 
 import org.adempiere.exceptions.DBException;
@@ -36,7 +35,7 @@ import org.compiere.process.MMScenario;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -62,9 +61,12 @@ class IT_Inventory extends CommonGWSetup {
         Env.setContext(ctx, "$C_Currency_ID", 100);
         Env.setContext(ctx, "#M_Warehouse_ID", -1);
         Env.setContext(ctx, "#PO_PriceList_ID",
-                InventoryUtil.getCreatePriceList(ctx, "junit-PO", false, trxName).get_ID());
+                InventoryUtil
+                        .getCreatePriceList(ctx, "junit-PO", false, trxName)
+                        .get_ID());
         Env.setContext(ctx, "#SO_PriceList_ID",
-                InventoryUtil.getCreatePriceList(ctx, "junit-SO", true, trxName).get_ID());
+                InventoryUtil.getCreatePriceList(ctx, "junit-SO", true, trxName)
+                        .get_ID());
 
     }
 
@@ -92,9 +94,12 @@ class IT_Inventory extends CommonGWSetup {
     void assertStorage(MMDocument doc) {
 
         getStorageQuantities(doc);
-        assertEquals(doc.QtyOnHand, qtyOnHand, "QtyOnHand doesn't match " + doc.document);
-        assertEquals(doc.QtyReserved, qtyReserved, "QtyReserved doesn't match " + doc.document);
-        assertEquals(doc.QtyOrdered, qtyOrdered, "QtyOrdered doesn't match " + doc.document);
+        assertEquals(doc.QtyOnHand, qtyOnHand,
+                "QtyOnHand doesn't match " + doc.document);
+        assertEquals(doc.QtyReserved, qtyReserved,
+                "QtyReserved doesn't match " + doc.document);
+        assertEquals(doc.QtyOrdered, qtyOrdered,
+                "QtyOrdered doesn't match " + doc.document);
 
     }
 
@@ -104,9 +109,11 @@ class IT_Inventory extends CommonGWSetup {
         qtyOrdered = Env.ZERO;
         qtyReserved = Env.ZERO;
 
-        MLocator locator = InventoryUtil.getCreateLocator(ctx, -1, doc.LocatorValue,
-                doc.LocatorValue, trxName);
-        MProduct product = InventoryUtil.getCreateProduct(ctx, doc.ProductValue, null, trxName);
+        MLocator locator =
+                InventoryUtil.getCreateLocator(ctx, -1, doc.LocatorValue,
+                        doc.LocatorValue, trxName);
+        MProduct product = InventoryUtil.getCreateProduct(ctx, doc.ProductValue,
+                null, trxName);
         int M_ASI_ID = setASI(doc);
         ArrayList<Object> params = new ArrayList<Object>();
         String sql = "SELECT"
@@ -118,7 +125,8 @@ class IT_Inventory extends CommonGWSetup {
         params.add(locator.get_ID());
         params.add(product.get_ID());
         if (M_ASI_ID >= 0) {
-            sql += " AND " + MStorage.COLUMNNAME_M_AttributeSetInstance_ID + "=?";
+            sql += " AND " + MStorage.COLUMNNAME_M_AttributeSetInstance_ID
+                    + "=?";
             params.add(M_ASI_ID);
         }
         PreparedStatement pstmt = null;
@@ -227,7 +235,8 @@ class IT_Inventory extends CommonGWSetup {
 
     private static MMScenario scenarioPO_MR_POSOrder_NOASI(int key) {
 
-        MMScenario scenario = new MMScenario("Purchase Order, MR, POS Order - No ASI");
+        MMScenario scenario =
+                new MMScenario("Purchase Order, MR, POS Order - No ASI");
 
         scenario.key = key;
 
@@ -293,11 +302,13 @@ class IT_Inventory extends CommonGWSetup {
     private void createDocument(final MMDocument doc) {
 
         if (doc.IsReversal) {
-            MMDocument docOrig = doc.scenario.get(doc.DocBaseType, doc.DocumentNo);
+            MMDocument docOrig =
+                    doc.scenario.get(doc.DocBaseType, doc.DocumentNo);
             doc.ProductValue = docOrig.ProductValue;
             doc.LocatorValue = docOrig.LocatorValue;
             doc.LocatorValueTo = docOrig.LocatorValueTo;
-            InventoryUtil.processDocument(docOrig, DocAction.ACTION_Reverse_Correct,
+            InventoryUtil.processDocument(docOrig,
+                    DocAction.ACTION_Reverse_Correct,
                     DocAction.STATUS_Reversed);
             return;
         }
@@ -306,11 +317,14 @@ class IT_Inventory extends CommonGWSetup {
                 || MDocType.DOCBASETYPE_SalesOrder.equals(doc.DocBaseType)) {
             InventoryUtil.createOrder(ctx, doc, trxName);
         } else if (MDocType.DOCBASETYPE_MaterialReceipt.equals(doc.DocBaseType)
-                || MDocType.DOCBASETYPE_MaterialDelivery.equals(doc.DocBaseType)) {
+                || MDocType.DOCBASETYPE_MaterialDelivery
+                        .equals(doc.DocBaseType)) {
             InventoryUtil.createInOut(ctx, doc, trxName);
-        } else if (MDocType.DOCBASETYPE_MaterialMovement.equals(doc.DocBaseType)) {
+        } else if (MDocType.DOCBASETYPE_MaterialMovement
+                .equals(doc.DocBaseType)) {
             InventoryUtil.createMovement(ctx, doc, trxName);
-        } else if (MDocType.DOCBASETYPE_MaterialPhysicalInventory.equals(doc.DocBaseType)) {
+        } else if (MDocType.DOCBASETYPE_MaterialPhysicalInventory
+                .equals(doc.DocBaseType)) {
             InventoryUtil.createInventory(ctx, doc, trxName);
         } else if ("TST".equals(doc.DocBaseType)) {
             ;
