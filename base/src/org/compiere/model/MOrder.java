@@ -1502,42 +1502,6 @@ public class MOrder extends X_C_Order implements DocAction
 	}
 
 	/**
-	 * Force same Warehouse for Line but SO/PO
-	 * @param orderLine Order Line
-	 */
-	private void forceSameWarehouseToLine(int headerWarehouseId, MOrderLine orderLine) {
-		//	enforce WH
-		if (headerWarehouseId != 0)	{
-			if (headerWarehouseId != orderLine.getM_Warehouse_ID()) {
-				orderLine.setM_Warehouse_ID(headerWarehouseId);
-				orderLine.saveEx();
-			}
-			if (getAD_Org_ID() != orderLine.getAD_Org_ID()) {
-				orderLine.setAD_Org_ID(getAD_Org_ID());
-				orderLine.saveEx();
-			}
-		}
-	}
-
-	/**
-	 * Calculate Sizes
-	 * @param orderLines Order Lines
-	 */
-	private void calculateOrderSizes(List<MOrderLine> orderLines) {
-		List<BigDecimal> volumenList = new ArrayList<>();
-		List<BigDecimal> weightList = new ArrayList<>();
-		orderLines.forEach(orderLine -> {
-			Optional<MProduct> maybeProduct = Optional.ofNullable(orderLine.getProduct());
-			maybeProduct.ifPresent(product -> {
-				volumenList.add(product.getVolume().multiply(orderLine.getQtyOrdered()));
-				weightList.add(product.getWeight().multiply(orderLine.getQtyOrdered()));
-			});
-		});
-		setVolume(volumenList.stream().reduce(BigDecimal.ZERO, BigDecimal::add));
-		setWeight(weightList.stream().reduce(BigDecimal.ZERO, BigDecimal::add));
-	}
-
-	/**
 	 * 	Reserve Inventory.
 	 * 	Counterpart: MInOut.completeIt()
 	 * 	@param lines order lines (ordered by M_Product_ID for deadlock prevention)
@@ -1545,42 +1509,63 @@ public class MOrder extends X_C_Order implements DocAction
 	 */
 	private boolean reserveStock (MOrderLine[] lines)
 	{
-		List<MOrderLine> orderLines = Arrays.asList(lines);
 		boolean	binding = isBinding();
 		boolean isSOTrx = isSOTrx();
-		//	Force same Warehouse for all but SO/PO
-		final int headerWarehouseId = MDocType.DOCSUBTYPESO_StandardOrder.equals(getDocumentType().getDocSubTypeSO()) ||
-				MDocType.DOCBASETYPE_PurchaseOrder.equals(getDocumentType().getDocBaseType())
-				? 0 : getM_Warehouse_ID();
 		log.fine("Binding=" + binding + " - IsSOTrx=" + isSOTrx);
-		// Always check and (un) Reserve Inventory
-		// Calculate Reserve Stock
-		orderLines.forEach(orderLine ->{
-			//	Force same WH for all but SO/PO
-			forceSameWarehouseToLine(headerWarehouseId, orderLine);
-			//	Binding
-			BigDecimal target = binding ? orderLine.getQtyOrdered() : Env.ZERO;
-			BigDecimal difference = target.subtract(orderLine.getQtyReserved()).subtract(orderLine.getQtyDelivered());
-			if (difference.signum() != 0) {
-				Optional<MProduct> maybeProduct = Optional.ofNullable(orderLine.getProduct());
-				maybeProduct.ifPresent(product -> {
-					if (product.isStocked()) {
-						orderLine.reserveStock();
-					orderLine.saveEx();
-					log.fine("Line=" + orderLine.getLine()
-							+ " - Target=" + target + ",Difference=" + difference
-							+ " - Ordered=" + orderLine.getQtyOrdered()
-							+ ",Reserved=" + orderLine.getQtyReserved() + ",Delivered=" + orderLine.getQtyDelivered());
-					}
-				});
+		//	Force same WH for all but SO/PO
+		int header_M_Warehouse_ID = getM_Warehouse_ID();
+		if (MDocType.DOCSUBTYPESO_StandardOrder.equals(getDocumentType().getDocSubTypeSO())
+			|| MDocType.DOCBASETYPE_PurchaseOrder.equals(getDocumentType().getDocBaseType()))
+			header_M_Warehouse_ID = 0;		//	don't enforce
+		
+		BigDecimal volume = Env.ZERO;
+		BigDecimal weight = Env.ZERO;
+		
+		//	Always check and (un) Reserve Inventory		
+		for (int i = 0; i < lines.length; i++)
+		{
+			MOrderLine line = lines[i];
+			MProduct product = line.getProduct();
+			//	Check/set WH/Org
+			if (header_M_Warehouse_ID != 0)	//	enforce WH
+			{
+				if (header_M_Warehouse_ID != line.getM_Warehouse_ID())
+					line.setM_Warehouse_ID(header_M_Warehouse_ID);
+				if (getAD_Org_ID() != line.getAD_Org_ID())
+					line.setAD_Org_ID(getAD_Org_ID());
 			}
-		});
-		//Calculate Sizes (Weight & Volume)
-		calculateOrderSizes(orderLines);
+			//	Binding
+			BigDecimal target = binding ? line.getQtyOrdered() : Env.ZERO;
+			BigDecimal difference = target.subtract(line.getQtyReserved()).subtract(line.getQtyDelivered());
+			if (difference.signum() == 0)
+			{
+
+				if (product != null)
+				{
+					volume = volume.add(product.getVolume().multiply(line.getQtyOrdered()));
+					weight = weight.add(product.getWeight().multiply(line.getQtyOrdered()));
+				}
+				continue;
+			}
+			
+			log.fine("Line=" + line.getLine() 
+				+ " - Target=" + target + ",Difference=" + difference
+				+ " - Ordered=" + line.getQtyOrdered() 
+				+ ",Reserved=" + line.getQtyReserved() + ",Delivered=" + line.getQtyDelivered());
+
+			line.reserveStock();
+			line.saveEx();
+			//	Validate if exist a product
+			if (product != null) {
+				volume = volume.add(product.getVolume().multiply(line.getQtyOrdered()));
+				weight = weight.add(product.getWeight().multiply(line.getQtyOrdered()));
+			}
+		}	//	reserve inventory
+		
+		setVolume(volume);
+		setWeight(weight);
 		return true;
 	}	//	reserveStock
-
-
 
 	/**
 	 * 	Calculate Tax and Total
@@ -1641,7 +1626,8 @@ public class MOrder extends X_C_Order implements DocAction
 		setGrandTotal(grandTotal.get());
 		return true;
 	}    //	calculateTaxTotal
-
+	
+	
 	/**
 	 * 	Approve Document
 	 * 	@return true if success 
