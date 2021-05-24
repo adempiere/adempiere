@@ -1,6 +1,6 @@
 /******************************************************************************
  * Product: ADempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 2006-2020 ADempiere Foundation, All Rights Reserved.         *
+ * Copyright (C) 2006-2021 ADempiere Foundation, All Rights Reserved.         *
  * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
@@ -13,23 +13,31 @@
  * For the text or an alternative of this public license, you may reach us    *
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
-package org.compiere.model;
+package org.compiere.util;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class ModelTestUtilities {
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
-    private ModelTestUtilities() {
+import org.adempiere.test.CommonGWSetup;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
-    }
+@Tag("TimeUtil")
+class IT_TimeUtil extends CommonGWSetup {
 
-    public static void verifyExceptionForMissingMandatoryField(String fieldName,
-            Exception e) {
+    @Test
+    final void testGetCurrentTimeFromDatabase() {
 
-        String message = e.getMessage().split("\\n")[0];
-        assertTrue(message.contains("ERROR: null value in column \"" + fieldName + "\""));
-        assertTrue(message.contains("violates not-null constraint"));
+        BigDecimal twoSecondsPrior =
+                TimeUtil.getTwoSecondsPriorToCurrentTimeInMillis();
+        Timestamp dbTime = DB.getCurrentTimeFromDatabase();
 
+        long difference = dbTime.getTime() - twoSecondsPrior.longValue();
+        
+        assertTrue(difference >= 2000 );
+        
     }
 
 }

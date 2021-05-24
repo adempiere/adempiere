@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.acct;
 
+import static java.util.Objects.requireNonNull;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -28,8 +30,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
+import java.util.stream.Stream;
 
 import org.adempiere.exceptions.DBException;
 import org.compiere.model.MAccount;
@@ -50,6 +54,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.TimeUtil;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
 
@@ -356,6 +361,106 @@ public abstract class Doc
 		return "NoDoc";
 	}   //  post
 
+	
+    private static final String AND_PROCESSED_Y_AND_POSTED_N =
+            " AND Processed='Y' AND Posted='N' ";
+
+    /**
+     * Returns a stream of record IDs for unposted documents at a particular 
+     * date/time.  The date/time is defined by the ProcessedOn field which is 
+     * the time in milliseconds.
+     * @param ctx the properties containing the Client ID
+     * @param tableName the table name to search
+     * @param processedOn the ProcessedOn value to search for
+     * @param trxName the transaction name 
+     * @returns a stream of ids for the particular table.
+     */
+    public static Stream<Integer> streamUnpostedRecordIdsForTableOnDate(
+            Properties ctx, String tableName, BigDecimal processedOn, 
+            String trxName) {
+
+        String where = "COALESCE(ProcessedOn, 0) =?"
+                + AND_PROCESSED_Y_AND_POSTED_N;
+        
+        return new Query(ctx, tableName, where, trxName)
+                        .setClient_ID()
+                        .setOnlyActiveRecords(true)
+                        .setParameters(processedOn)
+                        .getIDsAsList()
+                        .stream();
+
+    }
+
+    /**
+     * Get an unsorted but distinct list of ProcessedOn values for the tables 
+     * identified in the array of tableNames with the maximum ProcessedOn 
+     * value less than the beforeTime value. If no ProcessedOn values are 
+     * found, the list will contain a single entry, Env.ZERO.
+     * @param ctx the properties containing the Client ID
+     * @param tableNames an array of tableNames.  This should be a subset
+     * of the Document table names.  If some other table name is passed, it
+     * will be ignored.
+     * @param beforeTime  The maximum ProcessedOn value to return.  If null, it 
+     * will default to two seconds prior to the current time.
+     * @param trxName the transaction name
+     * @returns a list of ProcessedOn times which represent the time in 
+     * milliseconds
+     */
+    public static List<BigDecimal> getListOfUnpostedProcessedOnDates(Properties ctx,
+            final String[] tableNames, BigDecimal beforeTime,
+            String trxName) {
+
+        BigDecimal max = Optional.ofNullable(beforeTime)
+                .orElse(TimeUtil.getTwoSecondsPriorToCurrentTimeInMillis());
+        List<BigDecimal> listProcessedOn = new ArrayList<>();
+        for (int i = 0; i < tableNames.length; i++) {
+            String tableName = tableNames[i];
+
+            String sql = "SELECT DISTINCT ProcessedOn"
+                    + " FROM " + tableName
+                    + " WHERE AD_Client_ID=? AND ProcessedOn<?"
+                    + AND_PROCESSED_Y_AND_POSTED_N
+                    + "  AND IsActive='Y'";
+            PreparedStatement pstmt = null;
+            ResultSet rs = null;
+            try {
+                pstmt = DB.prepareStatement(sql, trxName);
+                pstmt.setInt(1, Env.getAD_Client_ID(ctx));
+                pstmt.setBigDecimal(2, max);
+                rs = pstmt.executeQuery();
+                while (rs.next()) {
+                    BigDecimal processedOn = rs.getBigDecimal(1);
+                    if (!listProcessedOn.contains(processedOn))
+                        listProcessedOn.add(processedOn);
+                }
+            } catch (Exception e) {
+                s_log.log(Level.SEVERE, sql, e);
+            } finally {
+                DB.close(rs, pstmt);
+            }
+        }
+
+        if (listProcessedOn.isEmpty())
+            listProcessedOn.add(Env.ZERO);
+        return listProcessedOn;
+
+    }
+
+    /**
+     * Saves the postedStatus flag and unlocks the document. This change is 
+     * made directly in the database.  The Doc model should be reloaded,
+     * if required, following this call.
+     * @param doc The document for which the status will change
+     * @param postStatus the posting status to set
+     * @param trxName The transaction name to use
+     */
+    public static void savePostedStatus(Doc doc, String postStatus, String trxName) {
+        
+        requireNonNull(doc);
+        setPostedStatusAndUnlock(doc.get_TableName(), doc.get_ID(), postStatus, trxName);
+
+    }
+
 	/**	Static Log						*/
 	protected static CLogger	s_log = CLogger.getCLogger(Doc.class);
 	/**	Log	per Document				*/
@@ -528,6 +633,12 @@ public abstract class Doc
 		return p_po;
 	}	//	getPO
 	
+	public final String postImmediate(boolean force) {
+	    
+        return post (force, true);  //  repost
+        
+	}
+	
 	/**
 	 *  Post Document.
 	 *  <pre>
@@ -545,15 +656,16 @@ public abstract class Doc
 	 */
 	public final String post (boolean force, boolean repost)
 	{
-		if (getDocStatus() == null)
+		final String docStatus = getDocStatus();
+        if (docStatus == null)
 			;	//	return "No DocStatus for DocumentNo=" + getDocumentNo();
-		else if (getDocStatus().equals(DocumentEngine.STATUS_Completed)
-			|| getDocStatus().equals(DocumentEngine.STATUS_Closed)
-			|| getDocStatus().equals(DocumentEngine.STATUS_Voided)
-			|| getDocStatus().equals(DocumentEngine.STATUS_Reversed))
+		else if (docStatus.equals(DocumentEngine.STATUS_Completed)
+			|| docStatus.equals(DocumentEngine.STATUS_Closed)
+			|| docStatus.equals(DocumentEngine.STATUS_Voided)
+			|| docStatus.equals(DocumentEngine.STATUS_Reversed))
 			;
 		else
-			return "Invalid DocStatus='" + getDocStatus() + "' for DocumentNo=" + getDocumentNo();
+			return "Invalid DocStatus='" + docStatus + "' for DocumentNo=" + getDocumentNo();
 		//
 		if (p_po.getAD_Client_ID() != accountingSchemes[0].getAD_Client_ID())
 		{
@@ -563,24 +675,7 @@ public abstract class Doc
 			return error;
 		}
 		
-		//  Lock Record ----
-		String trxName = null;	//	outside trx if on server
-		if (! m_manageLocalTrx)
-			trxName = getTrxName(); // on trx if it's in client
-		StringBuffer sql = new StringBuffer ("UPDATE ");
-		sql.append(get_TableName()).append( " SET Processing='Y' WHERE ")
-			.append(get_TableName()).append("_ID=").append(get_ID())
-			.append(" AND Processed='Y' AND IsActive='Y'");
-		if (!force)
-			sql.append(" AND (Processing='N' OR Processing IS NULL)");
-		if (!repost)
-			sql.append(" AND Posted='N'");
-		if (DB.executeUpdate(sql.toString(), trxName) == 1)
-			log.info("Locked: " + get_TableName() + "_ID=" + get_ID());
-		else
-		{
-			log.log(Level.SEVERE, "Resubmit - Cannot lock " + get_TableName() + "_ID=" 
-				+ get_ID() + ", Force=" + force + ",RePost=" + repost);
+		if (!lock(force, repost)) {
 			if (force)
 				return "Cannot Lock - ReSubmit";
 			return "Cannot Lock - ReSubmit or RePost with Force";
@@ -724,16 +819,56 @@ public abstract class Doc
 		return p_Error;
 	}   //  post
 
+    boolean lock(boolean force, boolean repost) {
+
+        String trxName = null;  //  outside trx if on server
+        if (! m_manageLocalTrx)
+            trxName = getTrxName(); // on trx if it's in client
+
+        StringBuilder sql = new StringBuilder ("UPDATE ");
+		sql.append(get_TableName()).append( " SET Processing='Y' WHERE ")
+			.append(get_TableName()).append("_ID=").append(get_ID())
+			.append(" AND Processed='Y' AND IsActive='Y'");
+		if (!force)
+			sql.append(" AND (Processing='N' OR Processing IS NULL)");
+		if (!repost)
+			sql.append(" AND Posted='N'");
+		boolean locked = DB.executeUpdate(sql.toString(), trxName) == 1;
+		if (locked)
+		    log.info("Locked: " + get_TableName() + "_ID=" + get_ID());
+        else
+            log.log(Level.SEVERE, "Resubmit - Cannot lock " + get_TableName() 
+                + "_ID=" + get_ID() + ", Force=" + force 
+                + ",RePost=" + repost);
+		
+		return locked;
+		    
+    }
+
 	/**
+     *  Unlock Document
+     */
+    void unlock()
+    {
+    	String trxName = null;	//	outside trx if on server
+    	if (! m_manageLocalTrx)
+    		trxName = getTrxName(); // on trx if it's in client
+    	StringBuilder sql = new StringBuilder ("UPDATE ");
+    	sql.append(get_TableName()).append( " SET Processing='N' WHERE ")
+    		.append(get_TableName()).append("_ID=").append(p_po.get_ID());
+    	DB.executeUpdate(sql.toString(), trxName);
+    }   //  unlock
+
+    /**
 	 * 	Delete Accounting
 	 *	@return number of records
 	 */
-	private int deleteAcct()
+	int deleteAcct()
 	{
-		StringBuffer sql = new StringBuffer ("DELETE Fact_Acct WHERE AD_Table_ID=")
-			.append(get_Table_ID())
-			.append(" AND Record_ID=").append(p_po.get_ID());
-		int no = DB.executeUpdate(sql.toString(), getTrxName());
+		String sql = "DELETE Fact_Acct"
+		        + " WHERE AD_Table_ID=" + get_Table_ID()
+		        + " AND Record_ID=" + p_po.get_ID();
+		int no = DB.executeUpdate(sql, getTrxName());
 		if (no != 0)
 			log.info("deleted=" + no);
 		return no;
@@ -908,21 +1043,6 @@ public abstract class Doc
 		return m_trxName;
 	}	//	getTrxName
 	
-	/**
-	 *  Unlock Document
-	 */
-	private void unlock()
-	{
-		String trxName = null;	//	outside trx if on server
-		if (! m_manageLocalTrx)
-			trxName = getTrxName(); // on trx if it's in client
-		StringBuffer sql = new StringBuffer ("UPDATE ");
-		sql.append(get_TableName()).append( " SET Processing='N' WHERE ")
-			.append(get_TableName()).append("_ID=").append(p_po.get_ID());
-		DB.executeUpdate(sql.toString(), trxName);
-	}   //  unlock
-
-
 	/**************************************************************************
 	 *  Load Document Type and GL Info.
 	 * 	Set p_DocumentType and p_GL_Category_ID
@@ -1567,16 +1687,25 @@ public abstract class Doc
 	 */
 	private final boolean save (String trxName)
 	{
-		log.fine(toString() + "->" + p_Status);
+		final String postStatus = p_Status;
+        log.fine(toString() + "->" + postStatus);
 
-		StringBuffer sql = new StringBuffer("UPDATE ");
-		sql.append(get_TableName()).append(" SET Posted='").append(p_Status)
-			.append("',Processing='N' ")
-			.append("WHERE ")
-			.append(get_TableName()).append("_ID=").append(p_po.get_ID());
-		int no = DB.executeUpdate(sql.toString(), trxName);
+		int no = setPostedStatusAndUnlock(get_TableName(), p_po.get_ID(), 
+		        postStatus, trxName);
 		return no == 1;
 	}   //  save
+
+    private static final int setPostedStatusAndUnlock(String tableName, int record_id, 
+            String postStatus, String trxName) {
+
+        StringBuilder sql = new StringBuilder("UPDATE ");
+		sql.append(tableName).append(" SET Posted='").append(postStatus)
+			.append("',Processing='N' ")
+			.append("WHERE ")
+			.append(tableName).append("_ID=").append(record_id);
+		return DB.executeUpdate(sql.toString(), trxName);
+
+    }
 
 	/**
 	 *  Get DocLine with ID

@@ -31,13 +31,17 @@ public class CommonGWData {
     public static final int SEEDFARM_ID = 120; // GW Seed Farm Business Partner
     public static final int SEEDFARM_LOCATION_ID = 114; // GW SeedFarm
                                                         // SmallVillage
-
+    public static final int JOE_BLOCK_ID = 118;
+    public static final int JOE_BLOCK_LOCATION_ID = 113;
+    
     public static final int HQ_WAREHOUSE_ID = 103;
     public static final int FURNITURE_WAREHOUSE_ID = 50001;
     public static final int PRODUCT_CATEGORY_STANDARD_ID = 105;
     public static final int TAX_CATEGORY_STANDARD_ID = 107;
 
     public static final int SUPPLIER_PRICELIST_ID = 103;
+    public static final int STANDARD_PRICELIST_ID = 101;
+
 
     public static final int ADMIN_USER_ID = 101;
 
