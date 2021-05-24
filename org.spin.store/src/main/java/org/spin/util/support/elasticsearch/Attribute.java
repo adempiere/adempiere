@@ -146,4 +146,9 @@ public class Attribute implements IPersistenceWrapper {
 	public IPersistenceWrapper withWebStoreId(int webStoreId) {
 		return this;
 	}
+
+	@Override
+	public Map<String, Object> getMapping() {
+		return null;
+	}
 }
