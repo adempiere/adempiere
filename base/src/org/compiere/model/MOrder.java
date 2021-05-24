@@ -1313,6 +1313,9 @@ public class MOrder extends X_C_Order implements DocAction
 			m_processMsg = "@Error@ @Qty@ @QtyNotReserved@";
 			return DocAction.STATUS_Invalid;
 		}
+		//Calculate Sizes (Weight & Volume)
+		calculateOrderSizes(Arrays.asList(lines));
+
 		if (!calculateTaxTotal())
 		{
 			m_processMsg = "Error calculating tax";
@@ -1367,14 +1370,6 @@ public class MOrder extends X_C_Order implements DocAction
 			return DocAction.STATUS_Invalid;
 		
 		m_justPrepared = true;
-	//	if (!DOCACTION_Complete.equals(getDocAction()))		don't set for just prepare 
-	//		setDocAction(DOCACTION_Complete);
-		
-		/*for(final MOrderLine ol:getLines())
-		{
-				Util.assume(ol.getQtyReserved().compareTo(ol.getQtyOrdered()) == 0 || ol.getM_Product_ID() == 0 || dt.isProposal(), 
-						"After prepareIt, reservations do not equal quantities ordered.");
-		}*/
 		return DocAction.STATUS_InProgress;
 	}	//	prepareIt
 
@@ -1434,30 +1429,7 @@ public class MOrder extends X_C_Order implements DocAction
 						newLine.setPrice ();
 						newLine.save (get_TrxName());
 					}
-				}	
-				
-				/*MProductBOM[] boms = MProductBOM.getBOMLines (product);
-				for (int j = 0; j < boms.length; j++)
-				{
-					//MProductBOM bom = boms[j];
-					MPPProductBOMLine bom = boms[j];
-					MOrderLine newLine = new MOrderLine (this);
-					newLine.setLine (++lineNo);
-					//newLine.setM_Product_ID (bom.getProduct ()
-					//	.getM_Product_ID ());
-					newLine.setM_Product_ID (bom.getM_Product_ID ());
-					//newLine.setC_UOM_ID (bom.getProduct ().getC_UOM_ID ());
-					newLine.setC_UOM_ID (bom.getC_UOM_ID ());
-					//newLine.setQty (line.getQtyOrdered ().multiply (
-					//		bom.getBOMQty ()));
-					newLine.setQty (line.getQtyOrdered ().multiply (
-						bom.getQtyBOM()));
-					if (bom.getDescription () != null)
-						newLine.setDescription (bom.getDescription ());
-					//
-					newLine.setPrice ();
-					newLine.save (get_TrxName());
-				}*/
+				}
 				
 				//	Convert into Comment Line
 				line.setM_Product_ID (0);
@@ -1521,20 +1493,16 @@ public class MOrder extends X_C_Order implements DocAction
 
 	/**
 	 * Calculate Sizes
+	 *
 	 * @param orderLines Order Lines
 	 */
 	private void calculateOrderSizes(List<MOrderLine> orderLines) {
-		List<BigDecimal> volumenList = new ArrayList<>();
-		List<BigDecimal> weightList = new ArrayList<>();
-		orderLines.forEach(orderLine -> {
-			Optional<MProduct> maybeProduct = Optional.ofNullable(orderLine.getProduct());
-			maybeProduct.ifPresent(product -> {
-				volumenList.add(product.getVolume().multiply(orderLine.getQtyOrdered()));
-				weightList.add(product.getWeight().multiply(orderLine.getQtyOrdered()));
-			});
-		});
-		setVolume(volumenList.stream().reduce(BigDecimal.ZERO, BigDecimal::add));
-		setWeight(weightList.stream().reduce(BigDecimal.ZERO, BigDecimal::add));
+		setVolume(orderLines.stream().filter(orderLine -> orderLine.getM_Product_ID() > 0)
+				.map(orderLine -> Optional.ofNullable(orderLine.getProduct().getVolume()).orElse(BigDecimal.ZERO)
+						.multiply(orderLine.getQtyOrdered())).reduce(BigDecimal.ZERO, BigDecimal::add));
+		setWeight(orderLines.stream().filter(orderLine -> orderLine.getM_Product_ID() > 0)
+				.map(orderLine -> Optional.ofNullable(orderLine.getProduct().getWeight()).orElse(BigDecimal.ZERO)
+						.multiply(orderLine.getQtyOrdered())).reduce(BigDecimal.ZERO, BigDecimal::add));
 	}
 
 	/**
@@ -1576,8 +1544,6 @@ public class MOrder extends X_C_Order implements DocAction
 				});
 			}
 		});
-		//Calculate Sizes (Weight & Volume)
-		calculateOrderSizes(orderLines);
 		return true;
 	}	//	reserveStock
 
@@ -1684,8 +1650,12 @@ public class MOrder extends X_C_Order implements DocAction
 			|| MDocType.DOCSUBTYPESO_Quotation.equals(DocSubTypeSO)) 
 		{
 			//	Binding
-			if (MDocType.DOCSUBTYPESO_Quotation.equals(DocSubTypeSO))
-				reserveStock(getLines(true, MOrderLine.COLUMNNAME_M_Product_ID));
+			if (MDocType.DOCSUBTYPESO_Quotation.equals(DocSubTypeSO)) {
+				MOrderLine[] orderLines = getLines(true, MOrderLine.COLUMNNAME_M_Product_ID);
+				reserveStock(orderLines);
+				//Calculate Sizes (Weight & Volume)
+				calculateOrderSizes(Arrays.asList(orderLines));
+			}
 			m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_BEFORE_COMPLETE);
 			if (m_processMsg != null)
 				return DocAction.STATUS_Invalid;
@@ -2078,7 +2048,8 @@ public class MOrder extends X_C_Order implements DocAction
 			m_processMsg = "@Error@ @Undo@ @QtyReserved@ @From@ (@Voided@)";
 			return false;
 		}
-		
+		//Calculate Sizes (Weight & Volume)
+		calculateOrderSizes(Arrays.asList(lines));
 		// UnLink All Requisitions
 		MRequisitionLine.unlinkC_Order_ID(getCtx(), get_ID(), get_TrxName());
 		
@@ -2217,6 +2188,9 @@ public class MOrder extends X_C_Order implements DocAction
 			m_processMsg = "@Error@ @Undo@ @QtyReserved@ @From@ (@closed@)";
 			return false;
 		}
+
+		//Calculate Sizes (Weight & Volume)
+		calculateOrderSizes(Arrays.asList(lines));
 		
 		setProcessed(true);
 		setDocAction(DOCACTION_None);
@@ -2271,6 +2245,9 @@ public class MOrder extends X_C_Order implements DocAction
 			m_processMsg ="@Error@ @Undo@ @QtyReserved@ @From@ (@closed@)";
 			return "Failed to update reservations";
 		}
+
+		//Calculate Sizes (Weight & Volume)
+		calculateOrderSizes(Arrays.asList(lines));
 
 		setDocStatus(MOrder.DOCSTATUS_Completed);
 		setDocAction(DOCACTION_Close);
@@ -2383,14 +2360,6 @@ public class MOrder extends X_C_Order implements DocAction
 		
 		setDocAction(DOCACTION_Complete);
 		setProcessed(false);
-		
-		/*for(final MOrderLine ol: getLines())
-		{
-			Util.assume(ol.getQtyInvoiced().signum() == 0, 
-					"After reactivateIt, QtyInvoiced is zero");
-			Util.assume(ol.getQtyReserved().compareTo(ol.getQtyOrdered()) == 0, 
-					"After reactivateIt, reservations are still in place");
-		}*/
 		return true;
 	}	//	reActivateIt
 	
