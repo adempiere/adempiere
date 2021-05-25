@@ -17,6 +17,7 @@
 package org.compiere.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -324,6 +325,13 @@ class IT_DB extends CommonGWSetup {
         assertEquals("6", arr[i++].getName());
         assertEquals("7", arr[i++].getName());
 
+    }
+
+    @Test
+    final void testGetCurrentTimeFromDatabase() {
+
+        assertNotNull(DB.getCurrentTimeFromDatabase());
+        
     }
 
 }
