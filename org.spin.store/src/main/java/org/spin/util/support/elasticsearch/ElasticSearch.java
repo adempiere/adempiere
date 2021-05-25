@@ -202,7 +202,7 @@ public class ElasticSearch implements IExternalCache, IAppSupport {
 					}
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				throw new AdempiereException(e);
 			}
 			//	Create
 			IndexRequest indexRequest = new IndexRequest(getCatalogName(entity.getCatalogName())).id(entity.getKeyValue()).source(entity.getMap());

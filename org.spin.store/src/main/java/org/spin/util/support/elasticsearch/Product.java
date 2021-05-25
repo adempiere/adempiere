@@ -444,6 +444,12 @@ public class Product implements IPersistenceWrapper {
 		Map<String, Object> sku = new HashMap<>();
 		sku.put("type", "keyword");
 		properties.put("sku", sku);
+		Map<String, Object> price = new HashMap<>();
+		price.put("type", "float");
+		properties.put("price", price);
+		Map<String, Object> sizeOptions = new HashMap<>();
+		sizeOptions.put("type", "integer");
+		properties.put("size_options", sizeOptions);
 		//	Return mapping properties
 		Map<String, Object> mapping = new HashMap<>();
 		mapping.put("properties", properties);
