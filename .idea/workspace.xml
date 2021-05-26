@@ -5,25 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6ea42611-0cd8-47e7-b2d3-d009fb0e3735" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/apiguardian_api_1_1_0_sources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/scala_sdk_2_13_6.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/SBT__javax_servlet_javax_servlet_api_3_0_1_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/scala_sdk_2_13_11.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sbt.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sbt.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/scala_compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/scala_compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/main.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/main.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/release.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/release.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/adempiere.iml" beforeDir="false" afterPath="$PROJECT_DIR$/adempiere.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.sbt" beforeDir="false" afterPath="$PROJECT_DIR$/build.sbt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/ADInterface-1.0.war" beforeDir="false" afterPath="$PROJECT_DIR$/lib/ADInterface-1.0.war" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/mysql-connector-java-5.1.13-bin.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.test/build.sbt" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.test/build.sbt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.test/project/build.properties" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.test/project/build.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.test/project/plugins.sbt" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.test/project/plugins.sbt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/org.adempiere.test/src/test/scala/org/eevolution/test/CreateSalesOrder.scala" beforeDir="false" afterPath="$PROJECT_DIR$/org.adempiere.test/src/test/scala/org/eevolution/test/CreateSalesOrder.scala" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/build.properties" beforeDir="false" afterPath="$PROJECT_DIR$/project/build.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/project/plugins.sbt" beforeDir="false" afterPath="$PROJECT_DIR$/project/plugins.sbt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
