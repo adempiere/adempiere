@@ -159,7 +159,7 @@
       <src_folder value="file://$MODULE_DIR$/org.adempiere.test/src/main/scala" expected_position="32" />
     </src_description>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_11">
     <output url="file://$MODULE_DIR$/bin" />
     <output-test url="file://$MODULE_DIR$/test" />
     <exclude-output />
@@ -195,7 +195,6 @@
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.asset/src/main/java/base" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.webservice/WEB-INF/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/com.kkalice.adempiere.migrate/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/org.adempiere.test/src/test/scala" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.test/src/main/scala" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.eevolution.warehouse/src/main/java/ui/zk" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.production/src/main/java/base" isTestSource="false" />
@@ -220,8 +219,8 @@
       <sourceFolder url="file://$MODULE_DIR$/org.spin.loan_management/src/main/java/ui/zk" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.spin.finance_management/src/main/java/base" isTestSource="false" />
     </content>
+    <orderEntry type="jdk" jdkName="11" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="inheritedJdk" />
     <orderEntry type="module-library" exported="">
       <library name="jstl.jar">
         <CLASSES>
@@ -271,33 +270,6 @@
       <library name="commons-httpclient.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/jboss/lib/commons-httpclient.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="ant-commons-net.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/ant-commons-net.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="ant-launcher.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/ant-launcher.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="ant.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/ant.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1004,24 +976,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="junit.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/junit.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="tools/lib/junit.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/junit.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
       <library name="zweb.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/zkwebui/WEB-INF/lib/zweb.jar!/" />
@@ -1147,8 +1101,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="SBT: javax.servlet:javax.servlet-api:3.0.1:jar" level="project" />
-    <orderEntry type="library" name="SBT: com.typesafe:config:1.2.0:jar" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
@@ -1556,7 +1508,259 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="org.scalatest:scalatest_2.12:3.0.5" level="project" />
-    <orderEntry type="library" name="scala-sdk-2.12.10" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/aws-java-sdk-core-1.11.795.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/aws-java-sdk-kms-1.11.795.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/aws-java-sdk-s3-1.11.795.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-antlr.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-apache-bcel.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-apache-bsf.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-apache-log4j.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-apache-oro.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-apache-regexp.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-apache-resolver.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-apache-xalan2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-commons-logging.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-commons-net.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-imageio.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-jai.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-javamail.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-jdepend.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-jmf.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-jsch.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-junit.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-junit4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-junitlauncher.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-launcher.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-netrexx.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-swing.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-testutil.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant-xz.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.9/lib/ant.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="apiguardian-api-1.1.0-sources" level="project" />
+    <orderEntry type="library" name="scala-sdk-2.13.6" level="project" />
   </component>
 </module>
