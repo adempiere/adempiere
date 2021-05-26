@@ -257,7 +257,6 @@ public class CCachedRowSet extends OracleCachedRowSet implements CachedRowSet
 
 	@Override
 	public void setTypeMap(Map map) throws SQLException {
-		super.setTypeMap(map);
 		try {
 			super.setTypeMap((Map<String,Class>)map);
 		} catch (SQLException e) {
