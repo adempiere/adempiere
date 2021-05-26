@@ -1019,6 +1019,25 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 	}	//	beforeSave
 
 	/**
+	 * 	Before Delete
+	 *	@return true of it can be deleted
+	 */
+	protected boolean beforeDelete ()
+	{
+		if (isProcessed())
+			return false;
+
+		Arrays.stream(getLines()).forEach(inOutLine -> {
+			Optional<MInvoiceLine> maybeInvoiceLine = Optional.ofNullable(MInvoiceLine.getOfInOutLine(inOutLine));
+			maybeInvoiceLine.ifPresent(invoiceLine -> {
+				invoiceLine.setM_InOutLine_ID(-1);
+				invoiceLine.saveEx();
+			});
+		});
+		return true;
+	}	//	beforeDelete
+	
+	/**
 	 * 	After Save
 	 *	@param newRecord new
 	 *	@param success success

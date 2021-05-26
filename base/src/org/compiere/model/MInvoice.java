@@ -1339,9 +1339,29 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 	public boolean processIt (String processAction)
 	{
 		processMsg = null;
-		DocumentEngine engine = new DocumentEngine (this, getDocStatus());
+		DocumentEngine engine = getDocumentEngine(this, getDocStatus());
 		return engine.processIt (processAction, getDocAction());
 	}	//	process
+
+	
+	DocumentEngine documentEngine = null;
+	
+	/**
+	 * A method added for testing. Do not use outside of tests.
+	 * @return The invoice document engine
+	 */
+    protected DocumentEngine getDocumentEngine(MInvoice invoice, String docStatus) {
+
+        return Optional.ofNullable(documentEngine)
+                .orElseGet(() -> new DocumentEngine (invoice, docStatus)); 
+
+    }
+
+    public void setDocumentEngine_forTestingOnly(DocumentEngine engine) {
+
+        documentEngine = engine;
+        
+    }
 
 	/**	Process Message 			*/
 	private String processMsg = null;

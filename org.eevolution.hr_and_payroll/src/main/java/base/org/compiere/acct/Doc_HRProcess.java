@@ -135,7 +135,7 @@ public class   Doc_HRProcess extends Doc
 			//	Get Concept Account
 			X_HR_Concept_Acct conceptAcct = concept.getConceptAcct(
 					Optional.ofNullable(payrollDocLine.getAccountSchemaId()),
-					Optional.ofNullable(payrollDocLine.getPayrollId()),
+					Optional.ofNullable(process.getHR_Payroll_ID()),
 					Optional.ofNullable(payrollDocLine.getC_BP_Group_ID()));
 
 			if(conceptAcct == null) {
@@ -148,23 +148,23 @@ public class   Doc_HRProcess extends Doc
 				if (conceptAcct.isBalancing()) {
 					MAccount accountBPD = MAccount.getValidCombination (getCtx(), conceptAcct.getHR_Expense_Acct() , getTrxName());
 					FactLine debitLine = fact.createLine(line, accountBPD, getC_Currency_ID(),sumAmount, null);
-					debitLine.setDescription(process.getName() + " " + concept.getValue() + " " + concept.getName());
+					debitLine.setDescription(process.getDocumentNo() + " " + process.getName() + " " + concept.getValue() + " " + concept.getName());
 					debitLine.saveEx();
 					MAccount accountBPC = MAccount.getValidCombination (getCtx(), conceptAcct.getHR_Revenue_Acct() , getTrxName());
 					FactLine creditLine = fact.createLine(line,accountBPC, getC_Currency_ID(),null,sumAmount);
-					creditLine.setDescription(process.getName() + " " + concept.getValue() + " " + concept.getName());
+					creditLine.setDescription(process.getDocumentNo() + " " + process.getName() + " " + concept.getValue() + " " + concept.getName());
 					creditLine.saveEx();
 				} else {
 					if (MHRConcept.ACCOUNTSIGN_Debit.equals(payrollDocLine.getAccountSign())) {
 						MAccount accountBPD = MAccount.getValidCombination (getCtx(), conceptAcct.getHR_Expense_Acct() , getTrxName());
 						FactLine debitLine = fact.createLine(line, accountBPD, getC_Currency_ID(),sumAmount, null);
-						debitLine.setDescription(process.getName() + " " + concept.getValue() + " " + concept.getName());
+						debitLine.setDescription(process.getDocumentNo() + " " + process.getName() + " " + concept.getValue() + " " + concept.getName());
 						debitLine.saveEx();
 						totalDebit = totalDebit.add(sumAmount);
 					} else if (MHRConcept.ACCOUNTSIGN_Credit.equals(payrollDocLine.getAccountSign())) {
 						MAccount accountBPC = MAccount.getValidCombination (getCtx(), conceptAcct.getHR_Revenue_Acct(), getTrxName());
 						FactLine creditLine = fact.createLine(line,accountBPC, getC_Currency_ID(),null,sumAmount);
-						creditLine.setDescription(process.getName() + " " + concept.getValue() + " " + concept.getName());
+						creditLine.setDescription(process.getDocumentNo() + " " + process.getName() + " " + concept.getValue() + " " + concept.getName());
 						creditLine.saveEx();
 						totalCredit = totalCredit.add(sumAmount);
 					}
