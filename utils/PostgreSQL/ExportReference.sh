@@ -16,9 +16,9 @@ if [ "$ADEMPIERE_HOME" = "" -o  "$ADEMPIERE_DB_NAME" = "" -o "$ADEMPIERE_DB_SERV
     exit 1
 fi
 
-PGPASSWORD=reference
+PGPASSWORD=$2
 export PGPASSWORD
-pg_dump -h $ADEMPIERE_DB_SERVER -p $ADEMPIERE_DB_PORT --no-owner -U reference $ADEMPIERE_DB_NAME > $ADEMPIERE_HOME/data/Adempiere_pg.dmp 
+pg_dump -h $ADEMPIERE_DB_SERVER -p $ADEMPIERE_DB_PORT --no-owner -U $1 $ADEMPIERE_DB_NAME > $ADEMPIERE_HOME/data/Adempiere_pg.dmp 
 PGPASSWORD=
 export PGPASSWORD
 

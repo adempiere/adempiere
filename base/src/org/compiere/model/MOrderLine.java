@@ -909,7 +909,15 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 			//	Check if on Price list
 			if (m_productPrice == null)
 				getProductPricing(m_M_PriceList_ID);
-			if (!m_productPrice.isCalculated()) {
+			if (!m_productPrice.isCalculated()
+					&& !isProcessed()
+					&& (newRecord
+							|| is_ValueChanged(COLUMNNAME_M_Product_ID)
+							|| is_ValueChanged(COLUMNNAME_C_UOM_ID)
+							|| is_ValueChanged(COLUMNNAME_QtyEntered)
+							|| is_ValueChanged(COLUMNNAME_PriceEntered)
+							|| is_ValueChanged(COLUMNNAME_Discount)
+							|| is_ValueChanged(COLUMNNAME_PriceEntered))) {
 				MDocType documentType = MDocType.get(getCtx(), getParent().getC_DocTypeTarget_ID());
 				if(Util.isEmpty(documentType.getDocSubTypeSO())
 						|| !documentType.getDocSubTypeSO().equals(MDocType.DOCSUBTYPESO_ReturnMaterial)) {
@@ -1101,6 +1109,60 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		return no == 1;
 	}	//	updateHeaderTax
 
+	public void reserveStock() {
+		//	Binding
+		BigDecimal target = getParent().isBinding() ? getQtyOrdered() : Env.ZERO;
+		BigDecimal difference = target.subtract(getQtyReserved()).subtract(getQtyDelivered());
+		if (difference.signum() == 0)
+			return;
+
+		log.fine("Line=" + getLine()
+				+ " - Target=" + target + ",Difference=" + difference
+				+ " - Ordered=" + getQtyOrdered()
+				+ ",Reserved=" + getQtyReserved() + ",Delivered=" + getQtyDelivered());
+
+		//	Check Product - Stocked and Item
+		MProduct product = getProduct();
+		if (product != null) {
+			if (product.isStocked()) {
+				//	Mandatory Product Attribute Set Instance
+				MAttributeSet.validateAttributeSetInstanceMandatory(product, Table_ID, isSOTrx(), getM_AttributeSetInstance_ID());
+				BigDecimal ordered = isSOTrx() ? Env.ZERO : difference;
+				BigDecimal reserved = isSOTrx() ? difference : Env.ZERO;
+				int locatorId = 0;
+				//	Get Locator to reserve
+				if (getM_AttributeSetInstance_ID() != 0)    //	Get existing Location
+					locatorId = MStorage.getM_Locator_ID(getM_Warehouse_ID(),
+							getM_Product_ID(), getM_AttributeSetInstance_ID(),
+							ordered, get_TrxName());
+				//	Get default Location
+				if (locatorId == 0) {
+					// try to take default locator for product first
+					// if it is from the selected warehouse
+					MWarehouse warehouse = MWarehouse.get(getCtx(), getM_Warehouse_ID());
+					locatorId = product.getM_Locator_ID();
+					if (locatorId != 0) {
+						MLocator locator = new MLocator(getCtx(), product.getM_Locator_ID(), get_TrxName());
+						//product has default locator defined but is not from the order warehouse
+						if (locator.getM_Warehouse_ID() != warehouse.get_ID()) {
+							locatorId = warehouse.getDefaultLocator().getM_Locator_ID();
+						}
+					} else {
+						locatorId = warehouse.getDefaultLocator().getM_Locator_ID();
+					}
+				}
+				//	Update Storage
+				if (!MStorage.add(getCtx(), getM_Warehouse_ID(), locatorId,
+						getM_Product_ID(),
+						getM_AttributeSetInstance_ID(), getM_AttributeSetInstance_ID(),
+						Env.ZERO, reserved, ordered, get_TrxName()))
+					return;
+			}    //	stocked
+			//	update line
+			setQtyReserved(getQtyReserved().add(difference));
+		}
+	}
+
 	@Override
 	public int getM_Locator_ID() {
 		// TODO Auto-generated method stub
@@ -1121,8 +1183,7 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 
 	@Override
 	public boolean isSOTrx() {
-		// TODO Auto-generated method stub
-		return false;
+		return getParent().isSOTrx();
 	}
 
 	@Override
