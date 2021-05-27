@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 import java.util.Vector;
@@ -39,6 +40,8 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
+import org.compiere.util.DependentRecordAccess;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
@@ -642,6 +645,8 @@ public final class MRole extends X_AD_Role
 	private MRecordAccess[]			m_recordAccess = null;
 	/** List of Dependent Record Access		*/
 	private MRecordAccess[]			m_recordDependentAccess = null;
+	/**	Dependent Record Access Tables	*/
+	private DependentRecordAccess 	recordAccessTableDefinition = null;
 	
 	/**	Table Data Access Level	*/
 	private HashMap<Integer,String>		m_tableAccessLevel = null;
@@ -664,8 +669,6 @@ public final class MRole extends X_AD_Role
 	private HashMap<Integer,Boolean>	m_formAccess = null;
 	/**	Smart Browse Access				*/
 	private HashMap<Integer,Boolean>	m_browseAccess = null;
-	/**	Info Windows			*/
-	private HashMap<Integer, Boolean>	m_infoAccess = null;
 	/**	DashBoard Browse Access				*/
 	private HashMap<Integer,Boolean>	m_dashboardAccess = null;
 	
@@ -996,41 +999,32 @@ public final class MRole extends X_AD_Role
 	 * 	Load Record Access
 	 *	@param reload reload
 	 */
-	private void loadRecordAccess(boolean reload)
-	{
+	private void loadRecordAccess(boolean reload) {
 		if (!(reload || m_recordAccess == null || m_recordDependentAccess == null))
 			return;
 		ArrayList<MRecordAccess> list = new ArrayList<MRecordAccess>();
 		ArrayList<MRecordAccess> dependent = new ArrayList<MRecordAccess>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		String sql = "SELECT * FROM AD_Record_Access "
-			+ "WHERE AD_Role_ID=? AND IsActive='Y' ORDER BY AD_Table_ID";
-		try
-		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
-			pstmt.setInt(1, getAD_Role_ID());
-			rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				MRecordAccess ra = new MRecordAccess(getCtx(), rs, get_TrxName());
-				list.add(ra);
-				if (ra.isDependentEntities())
-					dependent.add(ra);
-			} 
+		String whereClause = "AD_Role_ID=?";
+		if(MColumn.getColumn_ID("AD_Record_Access", "AD_User_ID") != 0) {
+			whereClause = "(AD_Role_ID=? OR AD_User_ID = " + m_AD_User_ID + ")";
 		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-		}
+		//	Add standard access
+		new Query(getCtx(), I_AD_Record_Access.Table_Name, whereClause, get_TrxName())
+			.setParameters(getAD_Role_ID())
+			.setOnlyActiveRecords(true)
+			.setOrderBy(I_AD_Record_Access.COLUMNNAME_AD_Table_ID)
+			.<MRecordAccess>list()
+			.forEach(access -> {
+				list.add(access);
+				if (access.isDependentEntities()) {
+					dependent.add(access);
+				}
+			});	
 		m_recordAccess = new MRecordAccess[list.size()];
 		list.toArray(m_recordAccess);
 		m_recordDependentAccess = new MRecordAccess[dependent.size()];
 		dependent.toArray(m_recordDependentAccess);
+		recordAccessTableDefinition = new DependentRecordAccess(getCtx());
 		log.fine("#" + m_recordAccess.length + " - Dependent #" + m_recordDependentAccess.length); 
 	}	//	loadRecordAccess
 
@@ -2145,8 +2139,10 @@ public final class MRole extends X_AD_Role
 			String TableName = ti[i].getTableName();
 			
 			//[ 1644310 ] Rev. 1292 hangs on start
-			if (TableName.toUpperCase().endsWith("_TRL")) continue;
-			if (isView(TableName)) continue;
+			if (TableName.toUpperCase().endsWith("_TRL")) 
+				continue;
+			if (isView(TableName)) 
+				continue;
 			
 			int AD_Table_ID = getAD_Table_ID (TableName);
 			//	Data Table Access
@@ -2172,7 +2168,8 @@ public final class MRole extends X_AD_Role
 				keyColumnName += ".";
 			}
 			//keyColumnName += TableName + "_ID";	//	derived from table
-			if (getIdColumnName(TableName) == null) continue;
+			if (getIdColumnName(TableName) == null) 
+				continue;
 			keyColumnName += getIdColumnName(TableName); 
 	
 			//log.fine("addAccessSQL - " + TableName + "(" + AD_Table_ID + ") " + keyColumnName);
@@ -2191,6 +2188,7 @@ public final class MRole extends X_AD_Role
 		String whereColumnName = null;
 		ArrayList<Integer> includes = new ArrayList<Integer>();
 		ArrayList<Integer> excludes = new ArrayList<Integer>();
+		Map<Integer, List<Integer>> foreignAccess = new HashMap<>();
 		for (int i = 0; i < m_recordDependentAccess.length; i++)
 		{
 			String columnName = m_recordDependentAccess[i].getKeyColumnName
@@ -2207,48 +2205,154 @@ public final class MRole extends X_AD_Role
 				 MColumn column = table.getColumn(columnName);
 				 if (column == null || column.isVirtualColumn() || !column.isActive())
 					 continue;
-			} else {
-				int posColumn = getIndexOfColumn(mainSql, columnName);
-				if (posColumn == -1)
-					continue;
-				//	we found the column name - make sure it's a column name
-				char charCheck = mainSql.charAt(posColumn-1);	//	before
-				if (!(charCheck == ',' || charCheck == '.' || charCheck == ' ' || charCheck == '('))
-					continue;
-				charCheck = mainSql.charAt(posColumn+columnName.length());	//	after
-				if (!(charCheck == ',' || charCheck == ' ' || charCheck == ')'))
-					continue;
+			} else {				
+				if(!recordAccessTableDefinition.isMatchedForTable(MTable.getTableName(getCtx(), m_recordDependentAccess[i].getAD_Table_ID()), tableName)) {
+					//	Find whole word for SQL instead approximation
+					int posColumn = getIndexOfColumn(mainSql, columnName);
+					if (posColumn == -1)
+						continue;
+					//	we found the column name - make sure it's a column name
+					char charCheck = mainSql.charAt(posColumn-1);	//	before
+					if (!(charCheck == ',' || charCheck == '.' || charCheck == ' ' || charCheck == '('))
+						continue;
+					charCheck = mainSql.charAt(posColumn+columnName.length());	//	after
+					if (!(charCheck == ',' || charCheck == ' ' || charCheck == ')'))
+						continue;
+				} else {
+					List<Integer> currentRecords = foreignAccess.get(m_recordDependentAccess[i].getAD_Table_ID());
+					if(currentRecords == null) {
+						currentRecords = new ArrayList<>();
+					}
+					currentRecords.add(m_recordDependentAccess[i].getRecord_ID());
+					foreignAccess.put(m_recordDependentAccess[i].getAD_Table_ID(), currentRecords);
+				}
 			}
-			//	
-			if (AD_Table_ID != 0 && AD_Table_ID != m_recordDependentAccess[i].getAD_Table_ID()) {
-				retSQL.append(getDependentAccess(whereColumnName, includes, excludes));
-				//	Yamel Senih
-				//	Initialize values when table is changed
-				includes = new ArrayList<Integer>();
-				excludes = new ArrayList<Integer>();
-				//	End Yamel Senih
+			//	All based on reference of column
+			if(foreignAccess.isEmpty()) {
+				if (AD_Table_ID != 0 && AD_Table_ID != m_recordDependentAccess[i].getAD_Table_ID()) {
+					retSQL.append(getDependentAccess(whereColumnName, includes, excludes));
+					//	Yamel Senih
+					//	Initialize values when table is changed
+					includes = new ArrayList<Integer>();
+					excludes = new ArrayList<Integer>();
+					//	End Yamel Senih
+				}
+				
+				AD_Table_ID = m_recordDependentAccess[i].getAD_Table_ID();
+				//	*** we found the column in the main query
+				if (m_recordDependentAccess[i].isExclude())
+				{
+					excludes.add(m_recordDependentAccess[i].getRecord_ID());
+					log.fine("Exclude " + columnName + " - " + m_recordDependentAccess[i]);
+				}
+				else if (!rw || !m_recordDependentAccess[i].isReadOnly())
+				{
+					includes.add(m_recordDependentAccess[i].getRecord_ID());
+					log.fine("Include " + columnName + " - " + m_recordDependentAccess[i]);
+				}
+				whereColumnName = getDependentRecordWhereColumn (mainSql, columnName);
 			}
-			
-			AD_Table_ID = m_recordDependentAccess[i].getAD_Table_ID();
-			//	*** we found the column in the main query
-			if (m_recordDependentAccess[i].isExclude())
-			{
-				excludes.add(m_recordDependentAccess[i].getRecord_ID());
-				log.fine("Exclude " + columnName + " - " + m_recordDependentAccess[i]);
-			}
-			else if (!rw || !m_recordDependentAccess[i].isReadOnly())
-			{
-				includes.add(m_recordDependentAccess[i].getRecord_ID());
-				log.fine("Include " + columnName + " - " + m_recordDependentAccess[i]);
-			}
-			whereColumnName = getDependentRecordWhereColumn (mainSql, columnName);
 		}	//	for all dependent records
 		retSQL.append(getDependentAccess(whereColumnName, includes, excludes));
+		retSQL.append(getDependentAccessOfForeignTables(tableName, foreignAccess));
 		//
 		retSQL.append(orderBy);
 		log.finest(retSQL.toString());
 		return retSQL.toString();
 	}	//	addAccessSQL
+	
+	/**
+	 * Get Access based on references of tables
+	 * @param mainTableName
+	 * @param foreignAccess
+	 * @return
+	 */
+	private String getDependentAccessOfForeignTables(String mainTableName, 
+			Map<Integer, List<Integer>> foreignAccess) {
+		if(foreignAccess.isEmpty()) {
+			return "";
+		}
+		//	
+		StringBuffer where = new StringBuffer();
+		foreignAccess.keySet().forEach(tableId -> {
+			List<Integer> foreignColumnAccess = recordAccessTableDefinition.getColumnIds(MTable.getTableName(getCtx(), tableId), mainTableName);
+			if(foreignColumnAccess != null
+					&& foreignColumnAccess.size() > 0) {
+				foreignColumnAccess.forEach(columnId -> {
+					where.append(getDependentAccessBasedOnForeignTables(mainTableName, columnId, tableId, new ArrayList<Integer>(), foreignAccess.get(tableId)));
+				});
+			}
+		});
+		//	Return where
+		return where.toString();
+	}
+	
+	/**
+	 * 	Get Dependent Access 
+	 *	@param columnId column
+	 *	@param referencedTableId
+	 *	@param includes ids to include
+	 *	@param excludes ids to exclude
+	 *	@return where clause starting with AND or ""
+	 */
+	private String getDependentAccessBasedOnForeignTables(String tableName, int columnId, int referencedTableId, List<Integer> includes, List<Integer> excludes) {
+		//	
+		if (includes.size() == 0 && excludes.size() == 0)
+			return "";
+		if (includes.size() != 0 && excludes.size() != 0)
+			log.warning("Mixing Include and Excluse rules - Will not return values");
+		//	
+		MColumn column = MColumn.get(getCtx(), columnId);
+		MTable table = null;
+		if(DisplayType.isLookup(column.getAD_Reference_ID()) && column.getAD_Reference_Value_ID() > 0) {
+			MRefTable referenceToTable = MRefTable.getById(getCtx(), column.getAD_Reference_Value_ID());
+			table = MTable.get(getCtx(), referenceToTable.getAD_Table_ID());
+		} else {
+			table = MTable.get(getCtx(), column.getColumnName().replaceAll("_ID", ""));
+		}
+		//	Reference
+		MTable referencedTable = MTable.get(getCtx(), referencedTableId);
+		MColumn referencedColumn = referencedTable.getColumn(referencedTable.getTableName() + "_ID");
+		if(referencedColumn == null
+				|| table == null) {
+			return "";
+		}
+		String select = "EXISTS(SELECT 1 FROM " + table.getTableName() 
+				+ " WHERE " + tableName + "." +  column.getColumnName() + " = " + table.getTableName() + "." + table.getTableName() + "_ID AND ";
+		//	
+		StringBuffer where = new StringBuffer(" AND (");
+		if (includes.size() == 1) {
+			where.append(select).append(table.getTableName() + "." + referencedColumn.getColumnName()).append("=").append(includes.get(0));
+		} else if (includes.size() > 1) {
+			where.append(select).append(table.getTableName() + "." + referencedColumn.getColumnName()).append(" IN (");
+			for (int ii = 0; ii < includes.size(); ii++)
+			{
+				if (ii > 0)
+					where.append(",");
+				where.append(includes.get(ii));
+			}
+			where.append(")");
+		}
+		
+		if (excludes.size() == 1) {
+			where.append("NOT ").append(select)
+				.append("(").append(table.getTableName() + "." + referencedColumn.getColumnName()).append("=").append(excludes.get(0)).append(" OR ").append(table.getTableName() + "." + referencedColumn.getColumnName()).append(" IS NULL)");
+		} else if (excludes.size() > 1) {
+			where.append("NOT ").append(select).append(table.getTableName() + "." + referencedColumn.getColumnName()).append(" IN (");
+			for (int ii = 0; ii < excludes.size(); ii++)
+			{
+				if (ii > 0)
+					where.append(",");
+				where.append(excludes.get(ii));
+			}
+			where.append(")");
+		}
+		where.append("))");
+		log.finest(where.toString());
+		return where.toString();
+	}	//	getDependentAccess
+	
+	
 	
 	/**
 	 * Get Index of column from SQL finding with whole word
