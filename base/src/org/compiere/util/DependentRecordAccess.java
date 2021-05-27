@@ -55,11 +55,12 @@ public class DependentRecordAccess {
 			return;
 		}
 		List<KeyNamePair> referencedColumns = new ArrayList<KeyNamePair>();
-		String whereClause = "EXISTS(SELECT 1 FROM AD_Column c "
+		String whereClause = "AD_Column.ColumnSQL IS NULL "
+				+ "AND EXISTS(SELECT 1 FROM AD_Column c "
 				+ "						LEFT JOIN AD_Ref_Table rt ON(rt.AD_Reference_ID = c.AD_Reference_Value_ID) "
 				+ "						LEFT JOIN AD_Column rc ON(rc.AD_Column_ID = rt.AD_Key) "
 				+ "						LEFT JOIN AD_Table rrt ON(rrt.TableName || '_ID' = c.ColumnName) "
-				+ "						LEFT JOIN AD_Column dtc ON(dtc.AD_Table_ID = COALESCE(rrt.AD_Table_ID, rc.AD_Table_ID)) "
+				+ "						LEFT JOIN AD_Column dtc ON(dtc.AD_Table_ID = COALESCE(rrt.AD_Table_ID, rc.AD_Table_ID) AND dtc.ColumnSQL IS NULL) "
 				+ "						LEFT JOIN AD_Ref_Table rrrt ON(rrrt.AD_Reference_ID = dtc.AD_Reference_Value_ID) "
 				+ "						LEFT JOIN AD_Column rrc ON(rrc.AD_Column_ID = rrrt.AD_Key) "
 				+ "						LEFT JOIN AD_Table errt ON(errt.TableName || '_ID' = dtc.ColumnName) "
