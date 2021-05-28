@@ -375,8 +375,8 @@ public class M_PriceList_Create extends M_PriceList_CreateAbstract {
 						combinationMap.put(productPurchasing.getM_Product_ID(), 
 								new ProductCombination(productPurchasing.getM_Product_ID(), 
 										conversionRate, 
-										productPurchasing.getPriceList(), 
-										productPurchasing.getPriceList(), 
+										productPurchasing.getPricePO(), 
+										productPurchasing.getPricePO(), 
 										productPurchasing.getPricePO(), 
 										discountSchemaLine));
 					});
