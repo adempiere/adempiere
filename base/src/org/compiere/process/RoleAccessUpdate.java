@@ -52,23 +52,25 @@ public class RoleAccessUpdate extends RoleAccessUpdateAbstract {
         getProcessLog().info("AD_Client_ID=" + getClientId() + ", AD_Role_ID="
                 + getRoleId());
 
-        if (getRoleId() >= 0) {
-            updateRole(getRole(getRoleId()));
-        } else {
-            List<Object> params = new ArrayList<>();
-            String whereClause = "";
+        List<Object> params = new ArrayList<>();
+        StringBuffer whereClause = new StringBuffer();
 
-            if (getClientId() > 0) {
-                whereClause = "AD_Client_ID=?";
-                params.add(getClientId());
-            }
-
-            getRoleQuery(whereClause)
-                    .setOnlyActiveRecords(true)
-                    .setParameters(params)
-                    .setOrderBy("AD_Client_ID, Name")
-                    .<MRole>list().stream().forEach(this::updateRole);
+        whereClause.append("AD_Client_ID=?");
+        params.add(getClientId());
+        //	
+        if(getClientId() == 0) {
+        	whereClause.append(" AND AD_Role_ID=?");
+            params.add(getRoleId());
+        } else if(getRoleId() > 0) {
+        	whereClause.append(" AND AD_Role_ID=?");
+            params.add(getRoleId());
         }
+        //	
+        getRoleQuery(whereClause.toString())
+                .setOnlyActiveRecords(true)
+                .setParameters(params)
+                .setOrderBy("AD_Client_ID, Name")
+                .<MRole>list().stream().forEach(this::updateRole);
 
         return "";
 
