@@ -77,17 +77,6 @@ public interface I_C_DocType
 
 	public org.compiere.model.I_AD_PrintFormat getAD_PrintFormat() throws RuntimeException;
 
-    /** Column name C_DocBaseType_ID */
-    public static final String COLUMNNAME_C_DocBaseType_ID = "C_DocBaseType_ID";
-
-	/** Set Document Base Type	  */
-	public void setC_DocBaseType_ID (int C_DocBaseType_ID);
-
-	/** Get Document Base Type	  */
-	public int getC_DocBaseType_ID();
-
-	public org.compiere.model.I_C_DocBaseType getC_DocBaseType() throws RuntimeException;
-
     /** Column name C_DocTypeDifference_ID */
     public static final String COLUMNNAME_C_DocTypeDifference_ID = "C_DocTypeDifference_ID";
 
@@ -102,6 +91,19 @@ public interface I_C_DocType
 	public int getC_DocTypeDifference_ID();
 
 	public org.compiere.model.I_C_DocType getC_DocTypeDifference() throws RuntimeException;
+
+    /** Column name C_DocType_ID */
+    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
+
+	/** Set Document Type.
+	  * Document type or rules
+	  */
+	public void setC_DocType_ID (int C_DocType_ID);
+
+	/** Get Document Type.
+	  * Document type or rules
+	  */
+	public int getC_DocType_ID();
 
     /** Column name C_DocTypeInvoice_ID */
     public static final String COLUMNNAME_C_DocTypeInvoice_ID = "C_DocTypeInvoice_ID";
@@ -162,19 +164,6 @@ public interface I_C_DocType
 	public int getC_DocTypeShipment_ID();
 
 	public org.compiere.model.I_C_DocType getC_DocTypeShipment() throws RuntimeException;
-
-    /** Column name C_DocType_ID */
-    public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
-
-	/** Set Document Type.
-	  * Document type or rules
-	  */
-	public void setC_DocType_ID (int C_DocType_ID);
-
-	/** Get Document Type.
-	  * Document type or rules
-	  */
-	public int getC_DocType_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -424,19 +413,6 @@ public interface I_C_DocType
 	  */
 	public boolean isDocNoControlled();
 
-    /** Column name IsInTransit */
-    public static final String COLUMNNAME_IsInTransit = "IsInTransit";
-
-	/** Set In Transit.
-	  * Movement is in transit
-	  */
-	public void setIsInTransit (boolean IsInTransit);
-
-	/** Get In Transit.
-	  * Movement is in transit
-	  */
-	public boolean isInTransit();
-
     /** Column name IsIndexed */
     public static final String COLUMNNAME_IsIndexed = "IsIndexed";
 
@@ -449,6 +425,19 @@ public interface I_C_DocType
 	  * Index the document for the internal search engine
 	  */
 	public boolean isIndexed();
+
+    /** Column name IsInTransit */
+    public static final String COLUMNNAME_IsInTransit = "IsInTransit";
+
+	/** Set In Transit.
+	  * Movement is in transit
+	  */
+	public void setIsInTransit (boolean IsInTransit);
+
+	/** Get In Transit.
+	  * Movement is in transit
+	  */
+	public boolean isInTransit();
 
     /** Column name IsOverwriteDateOnComplete */
     public static final String COLUMNNAME_IsOverwriteDateOnComplete = "IsOverwriteDateOnComplete";
@@ -520,19 +509,6 @@ public interface I_C_DocType
 	  */
 	public boolean isReversedWithOriginalAcct();
 
-    /** Column name IsSOTrx */
-    public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
-
-	/** Set Sales Transaction.
-	  * This is a Sales Transaction
-	  */
-	public void setIsSOTrx (boolean IsSOTrx);
-
-	/** Get Sales Transaction.
-	  * This is a Sales Transaction
-	  */
-	public boolean isSOTrx();
-
     /** Column name IsShipConfirm */
     public static final String COLUMNNAME_IsShipConfirm = "IsShipConfirm";
 
@@ -545,6 +521,19 @@ public interface I_C_DocType
 	  * Require Ship or Receipt Confirmation before processing
 	  */
 	public boolean isShipConfirm();
+
+    /** Column name IsSOTrx */
+    public static final String COLUMNNAME_IsSOTrx = "IsSOTrx";
+
+	/** Set Sales Transaction.
+	  * This is a Sales Transaction
+	  */
+	public void setIsSOTrx (boolean IsSOTrx);
+
+	/** Get Sales Transaction.
+	  * This is a Sales Transaction
+	  */
+	public boolean isSOTrx();
 
     /** Column name IsSplitWhenDifference */
     public static final String COLUMNNAME_IsSplitWhenDifference = "IsSplitWhenDifference";
@@ -598,19 +587,6 @@ public interface I_C_DocType
 	  */
 	public String getPrintName();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -626,4 +602,17 @@ public interface I_C_DocType
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }
