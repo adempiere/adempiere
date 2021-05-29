@@ -176,6 +176,7 @@ public class AttachmentUtil {
 	 */
 	public AttachmentUtil withClientId(int clientId) {
 		this.clientId = clientId;
+		getFileHandlerFromClient();
 		return this;
 	}
 	

@@ -79,7 +79,8 @@ public class SetupFileStorageSystem extends SetupFileStorageSystemAbstract {
 									int attachmentReferenceId = DB.getSQLValue(get_TrxName(), "SELECT AD_AttachmentReference_ID "
 											+ "FROM AD_AttachmentReference "
 											+ "WHERE AD_Attachment_ID = ? "
-											+ "AND FileName = ?", attachmentPair.getKey(), entry.getName());
+											+ "AND FileName = ? "
+											+ "AND FileHandler_ID = ?", attachmentPair.getKey(), entry.getName(), getAppSupportId());
 									if(attachmentReferenceId < 0) {
 										try {
 											AttachmentUtil.getInstance(getCtx())
