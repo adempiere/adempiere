@@ -134,8 +134,7 @@ public class MOrder extends X_C_Order implements DocAction
 		else
 			to.setRef_Order_ID(0);
 		//
-		if (!to.save(trxName))
-			throw new IllegalStateException("Could not create Order");
+		to.saveEx(trxName);
 		if (counter)
 			from.setRef_Order_ID(to.getC_Order_ID());
 
@@ -567,13 +566,13 @@ public class MOrder extends X_C_Order implements DocAction
 			//
 			//
 			line.setProcessed(false);
-			if (line.save(get_TrxName()))
-				count++;
+			line.saveEx(get_TrxName());
+			count++;
 			//	Cross Link
 			if (counter)
 			{
 				fromLines[i].setRef_OrderLine_ID(line.getC_OrderLine_ID());
-				fromLines[i].save(get_TrxName());
+				fromLines[i].saveEx(get_TrxName());
 			}
 		}
 		if (fromLines.length != count)
@@ -724,7 +723,7 @@ public class MOrder extends X_C_Order implements DocAction
 		{
 			MOrderLine line = lines[i];
 			line.setLine(number);
-			line.save(get_TrxName());
+			line.saveEx(get_TrxName());
 			number += step;
 		}
 		m_lines = null;
@@ -1226,7 +1225,7 @@ public class MOrder extends X_C_Order implements DocAction
 
 
 		//	Std Period open?
-		if (!MPeriod.isOpen(getCtx(), getDateAcct(), getDocumentType().getDocBaseType(), getAD_Org_ID()))
+		if (!MPeriod.isOpen(getCtx(), getDateAcct(), getDocumentType().getDocBaseType(), getAD_Org_ID(), get_TrxName()))
 		{
 			m_processMsg = "@PeriodClosed@";
 			return DocAction.STATUS_Invalid;
@@ -1803,12 +1802,7 @@ public class MOrder extends X_C_Order implements DocAction
 	{
 		log.info("For " + dt);
 		MInOut shipment = new MInOut (this, dt.getC_DocTypeShipment_ID(), movementDate);
-	//	shipment.setDateAcct(getDateAcct());
-		if (!shipment.save(get_TrxName()))
-		{
-			m_processMsg = "Could not create Shipment";
-			return null;
-		}
+		shipment.saveEx(get_TrxName());
 		//
 		MOrderLine[] oLines = getLines(true, null);
 		for (int i = 0; i < oLines.length; i++)
@@ -1830,15 +1824,12 @@ public class MOrder extends X_C_Order implements DocAction
 			//
 			ioLine.setOrderLine(oLine, M_Locator_ID, MovementQty);
 			ioLine.setQty(MovementQty);
-			if (oLine.getQtyEntered().compareTo(oLine.getQtyOrdered()) != 0)
+			if (oLine.getQtyEntered().compareTo(oLine.getQtyOrdered()) != 0) {
 				ioLine.setQtyEntered(MovementQty
-					.multiply(oLine.getQtyEntered())
-					.divide(oLine.getQtyOrdered(), 6, BigDecimal.ROUND_HALF_UP));
-			if (!ioLine.save(get_TrxName()))
-			{
-				m_processMsg = "Could not create Shipment Line";
-				return null;
+						.multiply(oLine.getQtyEntered())
+						.divide(oLine.getQtyOrdered(), 6, BigDecimal.ROUND_HALF_UP));
 			}
+			ioLine.saveEx(get_TrxName());
 		}
 		//	Manually Process Shipment
 		shipment.processIt(DocAction.ACTION_Complete);
@@ -1862,11 +1853,7 @@ public class MOrder extends X_C_Order implements DocAction
 	{
 		log.info(dt.toString());
 		MInvoice invoice = new MInvoice (this, dt.getC_DocTypeInvoice_ID(), invoiceDate);
-		if (!invoice.save(get_TrxName()))
-		{
-			m_processMsg = "Could not create Invoice";
-			return null;
-		}
+		invoice.saveEx(get_TrxName());
 		
 		//	If we have a Shipment - use that as a base
 		if (shipment != null)
@@ -1887,17 +1874,10 @@ public class MOrder extends X_C_Order implements DocAction
 				else
 					iLine.setQtyEntered(sLine.getMovementQty());
 				iLine.setQtyInvoiced(sLine.getMovementQty());
-				if (!iLine.save(get_TrxName()))
-				{
-					m_processMsg = "Could not create Invoice Line from Shipment Line";
-					return null;
-				}
+				iLine.saveEx(get_TrxName());
 				//
 				sLine.setIsInvoiced(true);
-				if (!sLine.save(get_TrxName()))
-				{
-					log.warning("Could not update Shipment line: " + sLine);
-				}
+				sLine.saveEx(get_TrxName());
 			}
 		}
 		else	//	Create Invoice from Order
@@ -1914,16 +1894,12 @@ public class MOrder extends X_C_Order implements DocAction
 				iLine.setOrderLine(oLine);
 				//	Qty = Ordered - Invoiced	
 				iLine.setQtyInvoiced(oLine.getQtyOrdered().subtract(oLine.getQtyInvoiced()));
-				if (oLine.getQtyOrdered().compareTo(oLine.getQtyEntered()) == 0)
+				if (oLine.getQtyOrdered().compareTo(oLine.getQtyEntered()) == 0) {
 					iLine.setQtyEntered(iLine.getQtyInvoiced());
-				else
-					iLine.setQtyEntered(iLine.getQtyInvoiced().multiply(oLine.getQtyEntered())
-						.divide(oLine.getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP));
-				if (!iLine.save(get_TrxName()))
-				{
-					m_processMsg = "Could not create Invoice Line from Order Line";
-					return null;
+				} else {
+					iLine.setQtyEntered(iLine.getQtyInvoiced().multiply(oLine.getQtyEntered()).divide(oLine.getQtyOrdered(), 12, BigDecimal.ROUND_HALF_UP));
 				}
+				iLine.saveEx(get_TrxName());
 			}
 		}
 		//	Manually Process Invoice
@@ -1991,7 +1967,7 @@ public class MOrder extends X_C_Order implements DocAction
 		counter.setDatePromised(getDatePromised());		// default is date ordered 
 		//	Refernces (Should not be required
 		counter.setSalesRep_ID(getSalesRep_ID());
-		counter.save(get_TrxName());
+		counter.saveEx(get_TrxName());
 		
 		//	Update copied lines
 		MOrderLine[] counterLines = counter.getLines(true, null);
@@ -2001,7 +1977,7 @@ public class MOrder extends X_C_Order implements DocAction
 			counterLine.setOrder(counter);	//	copies header values (BP, etc.)
 			counterLine.setPrice();
 			counterLine.setTax();
-			counterLine.save(get_TrxName());
+			counterLine.saveEx(get_TrxName());
 		}
 		log.fine(counter.toString());
 		
@@ -2012,7 +1988,7 @@ public class MOrder extends X_C_Order implements DocAction
 			{
 				counter.setDocAction(counterDT.getDocAction());
 				counter.processIt(counterDT.getDocAction());
-				counter.save(get_TrxName());
+				counter.saveEx(get_TrxName());
 			}
 		}
 		return counter;
@@ -2041,7 +2017,7 @@ public class MOrder extends X_C_Order implements DocAction
 				line.addDescription(Msg.getMsg(getCtx(), "Voided") + " (" + old + ")");
 				line.setQty(Env.ZERO);
 				line.setLineNetAmt(Env.ZERO);
-				line.save(get_TrxName());
+				line.saveEx(get_TrxName());
 			}
 			//AZ Goodwill	
 			if (!isSOTrx())
@@ -2054,8 +2030,11 @@ public class MOrder extends X_C_Order implements DocAction
 		MOrderTax[] taxes = getTaxes(true);
 		for (MOrderTax tax : taxes )
 		{
-			if ( !(tax.calculateTaxFromLines() && tax.save()) )
+			if(tax.calculateTaxFromLines()) {
 				return false;
+			}
+			//	Save
+			tax.saveEx();
 		}
 		
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
@@ -2129,7 +2108,7 @@ public class MOrder extends X_C_Order implements DocAction
 				return false;
 			}
 			ship.setDocAction(MInOut.DOCACTION_None);
-			ship.save(get_TrxName());
+			ship.saveEx(get_TrxName());
 		}	//	for all shipments
 			
 		//	Reverse All *Invoices*
@@ -2162,7 +2141,7 @@ public class MOrder extends X_C_Order implements DocAction
 				return false;
 			}
 			invoice.setDocAction(MInvoice.DOCACTION_None);
-			invoice.save(get_TrxName());
+			invoice.saveEx(get_TrxName());
 		}	//	for all shipments
 		
 		m_processMsg = info.toString();
@@ -2195,7 +2174,7 @@ public class MOrder extends X_C_Order implements DocAction
 				line.setQtyOrdered(line.getQtyDelivered());
 				//	QtyEntered unchanged
 				line.addDescription("Close (" + old + ")");
-				line.save(get_TrxName());
+				line.saveEx(get_TrxName());
 			}
 		}
 		//	Clear Reservations
@@ -2248,8 +2227,7 @@ public class MOrder extends X_C_Order implements DocAction
 					desc = desc.concat(s);
 				}
 				line.setDescription(desc);
-				if (!line.save(get_TrxName()))
-					return "Couldn't save orderline";
+				line.saveEx(get_TrxName());
 			}
 		}
 		//	Clear Reservations
@@ -2261,10 +2239,8 @@ public class MOrder extends X_C_Order implements DocAction
 
 		setDocStatus(MOrder.DOCSTATUS_Completed);
 		setDocAction(DOCACTION_Close);
-		if (!this.save(get_TrxName()))
-			return "Couldn't save reopened order";
-		else
-			return "";
+		this.saveEx(get_TrxName());
+		return "";
 	}	//	reopenIt
 	/**
 	 * 	Reverse Correction - same void
