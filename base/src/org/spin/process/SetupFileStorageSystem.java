@@ -115,7 +115,7 @@ public class SetupFileStorageSystem extends SetupFileStorageSystemAbstract {
 		KeyNamePair [] imageArray = DB.getKeyNamePairs("SELECT AD_Image_ID, Name "
 				+ "FROM AD_Image "
 				+ "WHERE AD_Client_ID = ? "
-				+ "AND NOT EXISTS(SELECT 1 FROM AD_AttachmentReference ar WHERE ar.AD_Image_ID = AD_Image.AD_Image_ID)", false, getAD_Client_ID());
+				+ "AND NOT EXISTS(SELECT 1 FROM AD_AttachmentReference ar WHERE ar.AD_Image_ID = AD_Image.AD_Image_ID AND ar.FileHandler_ID = ?)", false, getAD_Client_ID(), getAppSupportId());
 		Arrays.asList(imageArray)
 			.forEach(imagePair -> {
 				Trx.run(new TrxRunnable() {
@@ -149,7 +149,7 @@ public class SetupFileStorageSystem extends SetupFileStorageSystemAbstract {
 		KeyNamePair [] archiveArray = DB.getKeyNamePairs("SELECT AD_Archive_ID, Name "
 				+ "FROM AD_Archive "
 				+ "WHERE AD_Client_ID = ? "
-				+ "AND NOT EXISTS(SELECT 1 FROM AD_AttachmentReference ar WHERE ar.AD_Archive_ID = AD_Archive.AD_Archive_ID)", false, getAD_Client_ID());
+				+ "AND NOT EXISTS(SELECT 1 FROM AD_AttachmentReference ar WHERE ar.AD_Archive_ID = AD_Archive.AD_Archive_ID AND ar.FileHandler_ID = ?)", false, getAD_Client_ID(), getAppSupportId());
 		Arrays.asList(archiveArray)
 			.forEach(archivePair -> {
 				Trx.run(new TrxRunnable() {
