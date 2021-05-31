@@ -107,6 +107,7 @@ public class AttachmentUtil {
 	 */
 	public AttachmentUtil withFileHandlerId(int fileHandlerId) {
 		this.fileHandlerId = fileHandlerId;
+		this.fileHandler = null;
 		return this;
 	}
 	
@@ -176,7 +177,8 @@ public class AttachmentUtil {
 	 */
 	public AttachmentUtil withClientId(int clientId) {
 		this.clientId = clientId;
-		getFileHandlerFromClient();
+		this.fileHandlerId = 0;
+		this.fileHandler = null;
 		return this;
 	}
 	
@@ -290,7 +292,9 @@ public class AttachmentUtil {
 		this.fileName = null;
 		this.description = null;
 		this.note = null;
-		this.transactionName = null; 
+		this.transactionName = null;
+		this.fileHandlerId = 0;
+		this.fileHandler = null;
 		return this;
 	}
 	
@@ -341,6 +345,11 @@ public class AttachmentUtil {
 	 * @return
 	 */
 	public List<String> getFileNameListFromAttachment() {
+		try {
+			getFileHandler();
+		} catch (Exception e) {
+			throw new AdempiereException(e);
+		}
 		List<MADAttachmentReference> list = MADAttachmentReference.getListByAttachmentId(context, fileHandlerId, attachmentId, transactionName);
 		List<String> fileNameList = new ArrayList<String>();
 		if(list != null) {
