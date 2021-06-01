@@ -2385,10 +2385,11 @@ public final class MRole extends X_AD_Role
 			log.warning("Mixing Include and Excluse rules - Will not return values");
 		
 		StringBuffer where = new StringBuffer(" AND ");
-		if (includes.size() == 1)
-			where.append(whereColumnName).append("=").append(includes.get(0));
-		else if (includes.size() > 1)
-		{
+		if (includes.size() == 1) {
+			where.append("(" + whereColumnName + " IS NULL OR ");
+			where.append(whereColumnName).append("=").append(includes.get(0)).append(")");
+		} else if (includes.size() > 1) {
+			where.append("(").append(whereColumnName).append(" IS NULL OR "); // @Trifon
 			where.append(whereColumnName).append(" IN (");
 			for (int ii = 0; ii < includes.size(); ii++)
 			{
@@ -2396,6 +2397,7 @@ public final class MRole extends X_AD_Role
 					where.append(",");
 				where.append(includes.get(ii));
 			}
+			where.append(")");
 			where.append(")");
 		}
 		else if (excludes.size() == 1)
