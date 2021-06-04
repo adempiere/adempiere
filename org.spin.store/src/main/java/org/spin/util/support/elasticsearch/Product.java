@@ -93,6 +93,8 @@ public class Product implements IPersistenceWrapper {
 			map.put("url_key", getValidValue(product.getName()));
 			map.put("type_id", getProductTypeFromProduct(product));
 			map.put("price", getPrice(product));
+			map.put("short_description", product.getDescription());
+			map.put("description", product.getHelp());
 //		    "special_price": 0,
 //		    "price_incl_tax": null,
 //		    "special_price_incl_tax": null,
