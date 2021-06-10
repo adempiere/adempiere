@@ -1227,7 +1227,13 @@ public abstract class Browser {
 										.getColumnName()).append("=")
 								.append(fieldKey.getAD_View_Column().getColumnSQL())
 								.append(")");
-					} else if(!Util.isEmpty(parentcolumnName.get())){
+					} else if(!Util.isEmpty(parentcolumnName.get())) {
+						MColumn column = MColumn.get(field.getCtx(), xColumn.getAD_Column_ID());
+						String valueToReplace = "@Axis_Record_ID@";
+						if(DisplayType.isText(column.getAD_Reference_ID())
+								|| DisplayType.List == column.getAD_Reference_ID()) {
+							valueToReplace = "'@Axis_Record_ID@'";
+						}
 						axisSql.append(" WHERE ")
 							.append(xTableName)
 							.append(".")
@@ -1236,8 +1242,8 @@ public abstract class Browser {
 							.append(" AND ")
 							.append(xTableName)
 							.append(".")
-							.append(MColumn.get(field.getCtx(), xColumn.getAD_Column_ID()).getColumnName())
-							.append(" = @Axis_Record_ID@")
+							.append(column.getColumnName())
+							.append(" = ").append(valueToReplace)
 							.append(")");
 					} else {
 						axisSql.append(")");
