@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -245,26 +246,46 @@ public class MADContextInfo extends X_AD_ContextInfo {
 			Object[] arguments = new Object[columnQty];
 			if (rs.next()) {
 				for(int column = 0; column < columnQty; column++)  {
-					Object value = rs.getObject(column + 1);
-					if(!(value instanceof BigDecimal)
-							&& !(value instanceof Double)
-							&& !(value instanceof Float)
-							&& !(value instanceof Integer)
-							&& !(value instanceof Long)
-							&& !(value instanceof String)
-							&& !(value instanceof Timestamp)) {
-						continue;
+					int columnNumber = column + 1;
+					Object value = rs.getObject(columnNumber);
+					int type = metaData.getColumnType(columnNumber);
+					
+					switch (type) {
+						case Types.TINYINT:
+						case Types.SMALLINT:
+						case Types.INTEGER:
+						case Types.BIGINT:
+							value = new Integer(((Number) value).intValue());
+							break;
+
+						case Types.FLOAT:
+						case Types.REAL:
+						case Types.DOUBLE:
+						case Types.NUMERIC:
+						case Types.DECIMAL:
+							value = ((BigDecimal) value).doubleValue();
+							break;
+
+						case Types.DATE:
+						case Types.TIME:
+						case Types.TIMESTAMP:
+						case Types.TIME_WITH_TIMEZONE:
+						case Types.TIMESTAMP_WITH_TIMEZONE:
+							value = new Long(((Timestamp) value).getTime());
+							break;
+
+						case Types.CHAR:
+						case Types.NCHAR:
+						case Types.VARCHAR:
+						case Types.NVARCHAR:
+						case Types.LONGVARCHAR:
+							value = String.valueOf(value);
+							break;
+
+						default:
+							continue;
 					}
-					//	
-					if(value instanceof BigDecimal) {
-						value = ((BigDecimal) value).doubleValue();
-					} else if(value instanceof Timestamp) {
-						value = new Long(((Timestamp) value).getTime());
-					} else if(value instanceof Number) {
-						value = new Integer(((Number) value).intValue());
-					} else {
-						value = String.valueOf(value);
-					}
+					
 					//	Set value
 					arguments[column] = value;
 				}
