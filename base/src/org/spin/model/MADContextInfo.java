@@ -41,6 +41,9 @@ import org.compiere.util.Util;
  * @author yamel, ysenih@erpya.com , http://www.erpya.com
  * <li> FR [ 1784 ]
  * @see https://github.com/adempiere/adempiere/issues/1784
+ * @author Edwin Betancourt, EdwinBetanc0urt@outlook.com , http://www.erpya.com
+ * 		<li> BR [ 3489 ] Window footer shows number of lines in null (ContextInfo)
+ * 		@see https://github.com/adempiere/adempiere/issues/3489
  */
 public class MADContextInfo extends X_AD_ContextInfo {
 
@@ -247,6 +250,7 @@ public class MADContextInfo extends X_AD_ContextInfo {
 							&& !(value instanceof Double)
 							&& !(value instanceof Float)
 							&& !(value instanceof Integer)
+							&& !(value instanceof Long)
 							&& !(value instanceof String)
 							&& !(value instanceof Timestamp)) {
 						continue;
