@@ -260,7 +260,9 @@ public final class MRole extends X_AD_Role
 	public static final int			SUPERUSER_USER_ID = 100;
 	/**	The AD_User_ID of the System Administrator	*/
 	public static final int			SYSTEM_USER_ID = 0;
-	
+	/**Default constants for Record Access	*/
+	private static final String		INCLUDE = "_Include";
+	private static final String		EXCLUDE = "_Exclude";
 	private static final String ROLE_KEY = "org.compiere.model.DefaultRole";
 	
 	
@@ -2188,7 +2190,7 @@ public final class MRole extends X_AD_Role
 		String whereColumnName = null;
 		ArrayList<Integer> includes = new ArrayList<Integer>();
 		ArrayList<Integer> excludes = new ArrayList<Integer>();
-		Map<Integer, List<Integer>> foreignAccess = new HashMap<>();
+		Map<String, List<Integer>> foreignAccess = new HashMap<>();
 		for (int i = 0; i < m_recordDependentAccess.length; i++)
 		{
 			String columnName = m_recordDependentAccess[i].getKeyColumnName
@@ -2219,12 +2221,13 @@ public final class MRole extends X_AD_Role
 					if (!(charCheck == ',' || charCheck == ' ' || charCheck == ')'))
 						continue;
 				} else {
-					List<Integer> currentRecords = foreignAccess.get(m_recordDependentAccess[i].getAD_Table_ID());
+					String key = m_recordDependentAccess[i].getAD_Table_ID() + (m_recordDependentAccess[i].isExclude()? EXCLUDE: INCLUDE);
+					List<Integer> currentRecords = foreignAccess.get(key);
 					if(currentRecords == null) {
 						currentRecords = new ArrayList<>();
 					}
 					currentRecords.add(m_recordDependentAccess[i].getRecord_ID());
-					foreignAccess.put(m_recordDependentAccess[i].getAD_Table_ID(), currentRecords);
+					foreignAccess.put(key, currentRecords);
 				}
 			}
 			//	All based on reference of column
@@ -2268,18 +2271,21 @@ public final class MRole extends X_AD_Role
 	 * @return
 	 */
 	private String getDependentAccessOfForeignTables(String mainTableName, 
-			Map<Integer, List<Integer>> foreignAccess) {
+			Map<String, List<Integer>> foreignAccess) {
 		if(foreignAccess.isEmpty()) {
 			return "";
 		}
 		//	
 		StringBuffer where = new StringBuffer();
-		foreignAccess.keySet().forEach(tableId -> {
+		foreignAccess.keySet().forEach(tableKey -> {
+			int tableId = Integer.parseInt(tableKey.replace(EXCLUDE, "").replace(INCLUDE, ""));
 			List<Integer> foreignColumnAccess = recordAccessTableDefinition.getColumnIds(MTable.getTableName(getCtx(), tableId), mainTableName);
 			if(foreignColumnAccess != null
 					&& foreignColumnAccess.size() > 0) {
+				List<Integer> include = tableKey.contains(INCLUDE)? foreignAccess.get(tableKey): new ArrayList<>();
+				List<Integer> exclude = tableKey.contains(EXCLUDE)? foreignAccess.get(tableKey): new ArrayList<>();
 				foreignColumnAccess.forEach(columnId -> {
-					where.append(getDependentAccessBasedOnForeignTables(mainTableName, columnId, tableId, new ArrayList<Integer>(), foreignAccess.get(tableId)));
+					where.append(getDependentAccessBasedOnForeignTables(mainTableName, columnId, tableId, include, exclude));
 				});
 			}
 		});
@@ -2317,42 +2323,51 @@ public final class MRole extends X_AD_Role
 				|| table == null) {
 			return "";
 		}
-		String select = "EXISTS(SELECT 1 FROM " + table.getTableName() 
-				+ " WHERE " + tableName + "." +  column.getColumnName() + " = " + table.getTableName() + "." + table.getTableName() + "_ID AND ";
+		//	Get names
+		String referencedColumnName = tableName + "." +  column.getColumnName();
+		String sourceColumnName = table.getTableName() + "." + referencedColumn.getColumnName();
+		String sourceTableName = table.getTableName();
+		boolean isExclude = excludes.size() > 0;
+		//	Get Match clause for it
+		String matchClause = getMatchClause(referencedColumnName, sourceTableName, sourceColumnName, isExclude? excludes: includes);
 		//	
-		StringBuffer where = new StringBuffer(" AND (");
-		if (includes.size() == 1) {
-			where.append(select).append(table.getTableName() + "." + referencedColumn.getColumnName()).append("=").append(includes.get(0));
-		} else if (includes.size() > 1) {
-			where.append(select).append(table.getTableName() + "." + referencedColumn.getColumnName()).append(" IN (");
-			for (int ii = 0; ii < includes.size(); ii++)
-			{
-				if (ii > 0)
-					where.append(",");
-				where.append(includes.get(ii));
-			}
-			where.append(")");
+		StringBuffer where = new StringBuffer(" AND (").append(referencedColumnName).append(" IS NULL OR ");
+		if(isExclude) {
+			where.append(" NOT ");
 		}
-		
-		if (excludes.size() == 1) {
-			where.append("NOT ").append(select)
-				.append("(").append(table.getTableName() + "." + referencedColumn.getColumnName()).append("=").append(excludes.get(0)).append(" OR ").append(table.getTableName() + "." + referencedColumn.getColumnName()).append(" IS NULL)");
-		} else if (excludes.size() > 1) {
-			where.append("NOT ").append(select).append(table.getTableName() + "." + referencedColumn.getColumnName()).append(" IN (");
-			for (int ii = 0; ii < excludes.size(); ii++)
-			{
-				if (ii > 0)
-					where.append(",");
-				where.append(excludes.get(ii));
-			}
-			where.append(")");
-		}
-		where.append("))");
+		where.append(matchClause);
+		where.append(")");
 		log.finest(where.toString());
 		return where.toString();
 	}	//	getDependentAccess
 	
-	
+	/**
+	 * Get Match clause for reference
+	 * @param referencedColumnName
+	 * @param sourceColumnName
+	 * @param ids
+	 * @return
+	 */
+	private String getMatchClause(String referencedColumnName, String sourceTableName, String sourceColumnName, List<Integer> ids) {
+		String sourceIdColumn = sourceTableName + "." + sourceTableName + "_ID";
+		StringBuffer whereClause = new StringBuffer("EXISTS(SELECT 1 FROM " + sourceTableName + " WHERE " + sourceIdColumn + " = " + referencedColumnName + " AND ");
+		if (ids.size() == 1) {
+			whereClause.append(sourceColumnName).append("=").append(ids.get(0));
+		} else if (ids.size() > 1) {
+			whereClause.append(sourceColumnName).append(" IN (");
+			StringBuffer inClause = new StringBuffer();
+			ids.forEach(id -> {
+				if(inClause.length() > 0) {
+					inClause.append(", ");
+				}
+				inClause.append(id);
+;			});
+			whereClause.append(inClause).append(")");
+		}
+		//	
+		whereClause.append(")");
+		return whereClause.toString();
+	}
 	
 	/**
 	 * Get Index of column from SQL finding with whole word
