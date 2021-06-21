@@ -1320,6 +1320,8 @@ public abstract class Browser {
 		if(!Util.isEmpty(axisLookupInfo.ValidationCode)) {
 			if(query.lastIndexOf("FROM " + axisLookupInfo.TableName + " WHERE ") > 0) {
 				query = query.replace("FROM " + axisLookupInfo.TableName + " WHERE ", "FROM " + axisLookupInfo.TableName + " WHERE (" + axisLookupInfo.ValidationCode + ") AND ");
+			} else if(query.lastIndexOf(" ORDER BY") > 0) {
+				query = query.replace(" ORDER BY"," AND (" + axisLookupInfo.ValidationCode + ")  ORDER BY");
 			}
 		}
 		try	{
