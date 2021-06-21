@@ -26,6 +26,10 @@ import org.compiere.util.DB;
  * 
  * @author victor.perez@e-evolution.com , www.e-evolution.com
  * 
+ * @author Edwin Betancourt, EdwinBetanc0urt@outlook.com, ERPCyA http://www.erpcya.com
+ * 		<a href="https://github.com/adempiere/adempiere/issues/3492">
+ * 		@see BR [ 3492 ] The Calculate Forecast process gets the value of C_BP_Group_ID wrong in the where clause.</a>
+ *
  */
 public class MPPForecastDefinitionLine extends X_PP_ForecastDefinitionLine {
 
@@ -108,10 +112,12 @@ public class MPPForecastDefinitionLine extends X_PP_ForecastDefinitionLine {
 			whereClause.append("=").append(getC_BPartner_ID()).append(" AND ");
 		}
 		if (getC_BP_Group_ID() > 0) {
-			whereClause.append(alias).append(".");
-			whereClause.append(MSalesHistory.COLUMNNAME_C_BP_Group_ID);
-			whereClause.append("=").append(getM_Product_Group_ID())
-					.append(" AND ");
+			whereClause.append(alias)
+				.append(".")
+				.append(MSalesHistory.COLUMNNAME_C_BP_Group_ID)
+				.append("=")
+				.append(getC_BP_Group_ID())
+				.append(" AND ");
 		}
 
 		if (getC_SalesRegion_ID() > 0) {
