@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.UUID;
 import java.util.Vector;
 import java.util.Map.Entry;
 import java.util.logging.Level;
@@ -2349,8 +2350,10 @@ public final class MRole extends X_AD_Role
 	 * @return
 	 */
 	private String getMatchClause(String referencedColumnName, String sourceTableName, String sourceColumnName, List<Integer> ids) {
-		String sourceIdColumn = sourceTableName + "." + sourceTableName + "_ID";
-		StringBuffer whereClause = new StringBuffer("EXISTS(SELECT 1 FROM " + sourceTableName + " WHERE " + sourceIdColumn + " = " + referencedColumnName + " AND ");
+		String uniqAlias = UUID.randomUUID().toString().replaceAll("-", "").replaceAll("[0-9]", "").toLowerCase().substring(0, 4);
+		String sourceIdColumn = uniqAlias + "." + sourceTableName + "_ID";
+		sourceColumnName = sourceColumnName.replace(sourceTableName + ".", uniqAlias + ".");
+		StringBuffer whereClause = new StringBuffer("EXISTS(SELECT 1 FROM " + sourceTableName + " AS " + uniqAlias + " WHERE " + sourceIdColumn + " = " + referencedColumnName + " AND ");
 		if (ids.size() == 1) {
 			whereClause.append(sourceColumnName).append("=").append(ids.get(0));
 		} else if (ids.size() > 1) {
