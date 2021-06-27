@@ -112,12 +112,10 @@ public class MPPForecastDefinitionLine extends X_PP_ForecastDefinitionLine {
 			whereClause.append("=").append(getC_BPartner_ID()).append(" AND ");
 		}
 		if (getC_BP_Group_ID() > 0) {
-			whereClause.append(alias)
-				.append(".")
-				.append(MSalesHistory.COLUMNNAME_C_BP_Group_ID)
-				.append("=")
-				.append(getC_BP_Group_ID())
-				.append(" AND ");
+			whereClause.append(alias).append(".");
+			whereClause.append(MSalesHistory.COLUMNNAME_C_BP_Group_ID);
+			whereClause.append("=").append(getC_BP_Group_ID())
+					.append(" AND ");
 		}
 
 		if (getC_SalesRegion_ID() > 0) {
