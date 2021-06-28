@@ -2030,7 +2030,26 @@ public class MOrder extends X_C_Order implements DocAction
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_VOID);
 		if (m_processMsg != null)
 			return false;
-
+		//	Validate if exists almost a receipt
+		if(!isSOTrx()) {
+			MDocType documentType = MDocType.get(getCtx(), getC_DocType_ID());
+			String docSubTypeSO = documentType.getDocSubTypeSO();
+			if(MDocType.DOCSUBTYPESO_WarehouseOrder.equals(docSubTypeSO)) {
+				createReversals(true);
+			} else {
+				StringBuffer receipts = new StringBuffer();
+				Arrays.asList(getShipments()).forEach(receipt -> {
+					receipts.append(Env.NL);
+					//	Add document no
+					receipts.append(receipt.getDocumentNo());
+				});
+				//	Verify
+				if(receipts.length() > 0) {
+					m_processMsg = "@SQLErrorReferenced@ @M_InOut_ID@ " + receipts.toString();
+					return false;
+				}
+			}
+		}
 		MOrderLine[] lines = getLines(true, MOrderLine.COLUMNNAME_M_Product_ID);
 		for (int i = 0; i < lines.length; i++)
 		{
@@ -2069,7 +2088,7 @@ public class MOrder extends X_C_Order implements DocAction
 		// UnLink All Requisitions
 		MRequisitionLine.unlinkC_Order_ID(getCtx(), get_ID(), get_TrxName());
 		
-		if (!createReversals())
+		if (!createReversals(false))
 			return false;
 		
 		/* globalqss - 2317928 - Reactivating/Voiding order must reset posted */
@@ -2090,10 +2109,10 @@ public class MOrder extends X_C_Order implements DocAction
 	 * 	Create Shipment/Invoice Reversals
 	 * 	@return true if success
 	 */
-	private boolean createReversals()
+	private boolean createReversals(boolean enforcePO)
 	{
 		//	Cancel only Sales 
-		if (!isSOTrx())
+		if (!isSOTrx() && !enforcePO)
 			return true;
 		
 		log.info("createReversals");
@@ -2158,7 +2177,7 @@ public class MOrder extends X_C_Order implements DocAction
 			}
 			else
 			{
-				m_processMsg = "Could not reverse Invoice " + invoice;
+				m_processMsg = "@Error@ " + invoice;
 				return false;
 			}
 			invoice.setDocAction(MInvoice.DOCACTION_None);
@@ -2351,7 +2370,7 @@ public class MOrder extends X_C_Order implements DocAction
 			|| MDocType.DOCSUBTYPESO_WarehouseOrder.equals(DocSubTypeSO)	//	(W)illCall(P)ickup	
 			|| MDocType.DOCSUBTYPESO_POSOrder.equals(DocSubTypeSO))			//	(W)alkIn(R)eceipt
 		{
-			if (!createReversals())
+			if (!createReversals(false))
 				return false;
 		}
 		else
