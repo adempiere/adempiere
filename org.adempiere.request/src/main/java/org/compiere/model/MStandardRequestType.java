@@ -21,6 +21,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Util;
 
 import java.sql.ResultSet;
 import java.sql.Timestamp;
@@ -35,8 +36,13 @@ import java.util.Properties;
  * Standard Request Type
  */
 public class MStandardRequestType extends X_R_StandardRequestType {
-    private List<MStandardRequest> standardRequests = new ArrayList<>();
-    private List<String> columnName = new ArrayList<>();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1032692474434985197L;
+	
+	private List<MStandardRequest> standardRequests = new ArrayList<>();
+	
     private HashMap<String, Boolean> columns = new HashMap<>();
 
 
@@ -114,6 +120,7 @@ public class MStandardRequestType extends X_R_StandardRequestType {
                     request.setTaskStatus(standardRequest.getTaskStatus());
                     request.setAD_Role_ID(standardRequest.getAD_Role_ID());
                     request.setSummary(standardRequest.getSummary());
+                    Optional.ofNullable(standardRequest.getSubject()).ifPresent(subject -> request.setSubject(standardRequest.getSubject()));
                     request.setPriority(standardRequest.getPriority());
                     request.setDateStartPlan(today);
 
@@ -138,19 +145,28 @@ public class MStandardRequestType extends X_R_StandardRequestType {
                         Optional<Timestamp> startPlanOptinal = Optional.ofNullable((Timestamp) entity.get_Value(MProject.COLUMNNAME_DateStart));
                         startPlanOptinal.ifPresent(startPlan -> request.setDateStartPlan(startPlan));
                     }
+                    else if (entity.get_ColumnIndex(MPaySelection.COLUMNNAME_DateDoc) >  0)
+                    {
+                        Optional<Timestamp> startPlanOptinal = Optional.ofNullable((Timestamp) entity.get_Value(MPaySelection.COLUMNNAME_DateDoc));
+                        startPlanOptinal.ifPresent(startPlan -> request.setDateStartPlan(startPlan));
+                    }
 
                     // Set Entity Link Reference
                     if (request.get_ColumnIndex(entity.get_TableName() + "_ID") > 0 && entity.get_ID() > 0)
                         request.set_Value(entity.get_TableName() + "_ID", entity.get_ID());
 
                     //Set Tanant Agent
-                    if (standardRequest.getSalesRep_ID() > 0) {
-                        request.setSalesRep_ID(standardRequest.getSalesRep_ID());
+                    int salesRepId = standardRequest.getSalesRep_ID();
+                    if(salesRepId == 0
+                    		&& entity.get_ColumnIndex(MOrder.COLUMNNAME_SalesRep_ID) > -1) {
+                    	salesRepId = entity.get_ValueAsInt(MOrder.COLUMNNAME_SalesRep_ID);
                     }
-                    else {
-                        int salesRepId = Env.getAD_User_ID(Env.getCtx());
-                        if (salesRepId > 0)
-                            request.setSalesRep_ID(salesRepId);
+                    if(salesRepId == 0) {
+                    	salesRepId = Env.getAD_User_ID(Env.getCtx());
+                    }
+                    //	Set
+                    if (salesRepId > 0) {
+                    	request.setSalesRep_ID(salesRepId);
                     }
                     Timestamp dateNextAction = TimeUtil.addDuration(request.getDateStartPlan() != null ? request.getDateStartPlan() : today ,standardRequest.getDurationUnit(), standardRequest.getDuration());
                     if (dateNextAction != null) {
@@ -197,8 +213,8 @@ public class MStandardRequestType extends X_R_StandardRequestType {
     {
         if (isValid(entity)
         && getAD_Table_ID() == entity.get_Table_ID()
-        && getC_DocType_ID() == documentTypeId
-        && (getDocStatus() == null || getDocStatus().equals(documentStatus)))
+        && (getC_DocType_ID() <= 0 || getC_DocType_ID() == documentTypeId)
+        && (getDocStatus() == null || Util.isEmpty(documentStatus) || getDocStatus().equals(documentStatus)))
             return true;
         else
             return false;

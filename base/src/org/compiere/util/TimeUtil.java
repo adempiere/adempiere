@@ -23,7 +23,6 @@ import java.sql.Timestamp;
 import java.util.BitSet;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.Objects;
 import java.util.TimeZone;
 
 import org.compiere.model.MCalendar;
@@ -1092,6 +1091,8 @@ public class TimeUtil
 			calendar.add(Calendar.MONTH, duration);
 		else if (DURATIONUNIT_Week.equals(durationUnit))
 			calendar.add(Calendar.WEEK_OF_MONTH, duration);
+		else if (DURATIONUNIT_Year.equals(durationUnit))
+			calendar.add(Calendar.YEAR, duration);
 		return new Timestamp(calendar.getTimeInMillis());
 	}
 	
