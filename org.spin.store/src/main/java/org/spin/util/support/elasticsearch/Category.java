@@ -94,8 +94,10 @@ public class Category implements IPersistenceWrapper {
 			map.put("level", getLevel());
 			//	Product Count
 			map.put("product_count", category.getProductCount());
+			//	TODO: Add from ADempiere
+//			map.put("include_in_menu", true);
 			//	Default
-			map.put("is_active", category.isActive());
+			map.put("is_active", category.isActive() && category.isWebStoreFeatured());
 			map.put("created_at", ElasticSearch.convertedDate(category.getCreated().getTime()));
 			map.put("updated_at", ElasticSearch.convertedDate(category.getUpdated().getTime()));
 
@@ -175,13 +177,9 @@ public class Category implements IPersistenceWrapper {
 	 */
 	public int getLevel() {
 		loadParents();
-		int level = parents.size();
-		if(level == 0) {
-			level = 1;
-		}
-		//	Validate if is a main searched category
-		if(category.isWebStoreFeatured()) {
-			level = 0;
+		int level = parents.size() + 2;
+		if(category.getW_Category_Parent_ID() == 0) {
+			level = 2;
 		}
 		return level;
 	}
@@ -234,12 +232,7 @@ public class Category implements IPersistenceWrapper {
 		Map<String, Object> mapOfChild = new HashMap<String, Object>();
 		List<Map<String, Object>> currentChildList = new ArrayList<Map<String,Object>>();
 		category.getChildList().forEach(child -> {
-			Map<String, Object> childMap = new HashMap<String, Object>();
-			childMap.put("id", child.getW_Category_ID());
-			Map<String, Object> childOfChild = getChild(child);
-			if(childOfChild.containsKey("children_data")) {
-				childMap.put("children_data", childOfChild.get("children_data"));
-			}
+			Map<String, Object> childMap = Category.newInstance().withCategoy(child).getMap();
 			currentChildList.add(childMap);
 		});
 		mapOfChild.put("children_data", currentChildList);
@@ -268,5 +261,31 @@ public class Category implements IPersistenceWrapper {
 	@Override
 	public IPersistenceWrapper withWebStoreId(int webStoreId) {
 		return this;
+	}
+
+	@Override
+	public Map<String, Object> getMapping() {
+		Map<String, Object> createdAt = new HashMap<>();
+		createdAt.put("type", "date");
+		createdAt.put("format", ElasticSearch.DATE_FORMAT);
+		Map<String, Object> updatedAt = new HashMap<>();
+		updatedAt.put("type", "date");
+		updatedAt.put("format", ElasticSearch.DATE_FORMAT);
+		Map<String, Object> properties = new HashMap<>();
+		properties.put("created_at", createdAt);
+		properties.put("updated_at", updatedAt);
+		Map<String, Object> slug = new HashMap<>();
+		slug.put("type", "keyword");
+		properties.put("slug", slug);
+		Map<String, Object> urlPath = new HashMap<>();
+		urlPath.put("type", "keyword");
+		properties.put("url_path", urlPath);
+		Map<String, Object> urlKey = new HashMap<>();
+		urlKey.put("type", "keyword");
+		properties.put("url_key", urlKey);
+		//	Return mapping properties
+		Map<String, Object> mapping = new HashMap<>();
+		mapping.put("properties", properties);
+		return mapping;
 	}
 }

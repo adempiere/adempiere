@@ -1478,9 +1478,9 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 			}	//	stock movement
 
 			//	Correct Order Line
-			if (product != null && orderLine != null && isSOTrx() && !orderLine.getParent().isReturnOrder())		//	other in VMatch.createMatchRecord
+			if (product != null && product.isStocked() && orderLine != null && isSOTrx() && !orderLine.getParent().isReturnOrder())		//	other in VMatch.createMatchRecord
 				orderLine.setQtyReserved(orderLine.getQtyReserved().add(QtySO));
-			else if (product != null && orderLine != null && !isSOTrx() && !orderLine.getParent().isReturnOrder())
+			else if (product != null && product.isStocked() && orderLine != null && !isSOTrx() && !orderLine.getParent().isReturnOrder())
 				orderLine.setQtyReserved(orderLine.getQtyReserved().add(QtyPO));
 
 			//	Update Sales Order Line

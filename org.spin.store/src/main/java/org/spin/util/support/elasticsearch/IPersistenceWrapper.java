@@ -30,6 +30,12 @@ public interface IPersistenceWrapper {
 	public Map<String, Object> getMap();
 	
 	/**
+	 * Get Mapping of entity using data type
+	 * @return
+	 */
+	public Map<String, Object> getMapping();
+	
+	/**
 	 * Get value of key for index
 	 * @return
 	 */
