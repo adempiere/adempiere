@@ -17,7 +17,6 @@
 
 package org.compiere.model;
 
-import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 
@@ -41,37 +40,13 @@ import java.util.stream.Collectors;
  */
 public class RequestModelValidator implements ModelValidator {
 
-	/** Client */
-	private int clientId = -1;
-	private static CLogger log = CLogger.getCLogger(RequestModelValidator.class);
-	/** ModelValidationEngine engine **/
-	ModelValidationEngine modelValidationEngine = null;
-	
     @Override
     public void initialize(ModelValidationEngine engine, MClient client) {
-    	this.modelValidationEngine = engine;
-		// client = null for global validator
-		if (client != null) {
-			clientId = client.getAD_Client_ID();
-			log.info(client.toString());
-		} else {
-			log.info("Initializing global validator: " + this.toString());
-		}
-    }
-
-    @Override
-    public int getAD_Client_ID() {
-    	return clientId;
-    }
-
-    @Override
-    public String login(int AD_Org_ID, int AD_Role_ID, int AD_User_ID) {
-    	log.info("AD_User_ID=" + AD_User_ID);
-    	List<MStandardRequestType> standardRequestTypes = new ArrayList<>();
+    	
+        List<MStandardRequestType> standardRequestTypes = new ArrayList<>();
 
         standardRequestTypes = new Query(Env.getCtx(), MStandardRequestType.Table_Name, null, null)
                 .setOnlyActiveRecords(true)
-                .setClient_ID()
                 .setOrderBy(MStandardRequestType.COLUMNNAME_AD_Table_ID + "," + MStandardRequestType.COLUMNNAME_C_DocType_ID)
                 .list();
 
@@ -83,7 +58,7 @@ public class RequestModelValidator implements ModelValidator {
                 .entrySet()
                 .stream()
                 .forEach(tableSet -> {
-                	modelValidationEngine.addModelChange(MTable.getTableName(Env.getCtx(), tableSet.getKey()), this);
+                    engine.addModelChange(MTable.getTableName(Env.getCtx(), tableSet.getKey()), this);
                 });
 
         standardRequestTypes.stream()
@@ -94,8 +69,17 @@ public class RequestModelValidator implements ModelValidator {
                 .entrySet()
                 .stream()
                 .forEach(tableSet -> {
-                	modelValidationEngine.addDocValidate(MTable.getTableName(Env.getCtx(), tableSet.getKey()), this);
+                    engine.addDocValidate(MTable.getTableName(Env.getCtx(), tableSet.getKey()), this);
                 });
+    }
+
+    @Override
+    public int getAD_Client_ID() {
+        return Env.getAD_Client_ID(Env.getCtx());
+    }
+
+    @Override
+    public String login(int AD_Org_ID, int AD_Role_ID, int AD_User_ID) {
         return null;
     }
 
