@@ -195,7 +195,7 @@ public class MStandardRequestType extends X_R_StandardRequestType {
     public boolean isValid(PO entity)
     {
     	//	Only for client
-    	if(entity.getAD_Client_ID() != getAD_Client_ID() && getAD_Client_ID() > 0) {
+    	if(entity.getAD_Client_ID() != getAD_Client_ID()) {
     		return false;
     	}
         if (isValidFromTo()         // Valid the Effective Date
