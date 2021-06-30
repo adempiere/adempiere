@@ -194,6 +194,10 @@ public class MStandardRequestType extends X_R_StandardRequestType {
 
     public boolean isValid(PO entity)
     {
+    	//	Only for client
+    	if(entity.getAD_Client_ID() != getAD_Client_ID()) {
+    		return false;
+    	}
         if (isValidFromTo()         // Valid the Effective Date
         &&  isValidSOTrx(entity , getIsSOTrx())                 // Valid Sales Transaction context
         &&  isValidWhereCondition(entity, getWhereClause()))    // Valid Where Condition

@@ -42,14 +42,11 @@ public class RequestModelValidator implements ModelValidator {
 
     @Override
     public void initialize(ModelValidationEngine engine, MClient client) {
-
-        engine.addModelChange(MInvoice.Table_Name, this);
-
+    	
         List<MStandardRequestType> standardRequestTypes = new ArrayList<>();
 
         standardRequestTypes = new Query(Env.getCtx(), MStandardRequestType.Table_Name, null, null)
                 .setOnlyActiveRecords(true)
-                .setClient_ID()
                 .setOrderBy(MStandardRequestType.COLUMNNAME_AD_Table_ID + "," + MStandardRequestType.COLUMNNAME_C_DocType_ID)
                 .list();
 
