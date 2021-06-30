@@ -1230,8 +1230,8 @@ public abstract class Browser {
 					} else if(!Util.isEmpty(parentcolumnName.get())) {
 						MColumn column = MColumn.get(field.getCtx(), xColumn.getAD_Column_ID());
 						String valueToReplace = "@Axis_Record_ID@";
-						if(DisplayType.isText(column.getAD_Reference_ID())
-								|| DisplayType.List == column.getAD_Reference_ID()) {
+						if(DisplayType.isText(field.getAD_Reference_ID())
+								|| DisplayType.List == field.getAD_Reference_ID()) {
 							valueToReplace = "'@Axis_Record_ID@'";
 						}
 						axisSql.append(" WHERE ")
