@@ -334,7 +334,6 @@
 	<classpathentry kind="lib" path="JasperReportsTools/lib/commons-digester-2.1.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-fonts-6.6.0.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jfreechart-1.0.13.jar"/>
-	<classpathentry kind="lib" path="tools/lib/ant-contrib-1.0b1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/cglib.jar"/>
 	<classpathentry kind="lib" path="tools/lib/commons-collections4-4.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/groovy-all-2.4.15.jar"/>
@@ -386,7 +385,11 @@
 	<classpathentry kind="lib" path="tools/lib/junit/mockito-junit-jupiter-3.6.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/junit/objenesis-3.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/junit/opentest4j-1.2.0.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="tools/lib/storefront/aggs-matrix-stats-client-7.9.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/commons-codec-1.11.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/commons-logging-1.1.3.jar"/>
@@ -436,5 +439,28 @@
 	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant.jar"/>
 	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-commons-net.jar"/>
 	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-launcher.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-antlr.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-apache-bcel.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-apache-bsf.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-apache-log4j.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-apache-oro.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-apache-regexp.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-apache-resolver.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-apache-xalan2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-commons-logging.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-imageio.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-jai.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-javamail.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-jdepend.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-jmf.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-jsch.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-junit.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-junit4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-junitlauncher.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-netrexx.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-swing.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-testutil.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-xz.jar"/>
+	<classpathentry kind="lib" path="tools/lib/javax.activation-1.2.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
