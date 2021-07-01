@@ -1129,6 +1129,8 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 				MAttributeSet.validateAttributeSetInstanceMandatory(product, Table_ID, isSOTrx(), getM_AttributeSetInstance_ID());
 				BigDecimal ordered = isSOTrx() ? Env.ZERO : difference;
 				BigDecimal reserved = isSOTrx() ? difference : Env.ZERO;
+				//	update line
+				setQtyReserved(getQtyReserved().add(difference));
 				int locatorId = 0;
 				//	Get Locator to reserve
 				if (getM_AttributeSetInstance_ID() != 0)    //	Get existing Location
@@ -1152,14 +1154,11 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 					}
 				}
 				//	Update Storage
-				if (!MStorage.add(getCtx(), getM_Warehouse_ID(), locatorId,
+				MStorage.add(getCtx(), getM_Warehouse_ID(), locatorId,
 						getM_Product_ID(),
 						getM_AttributeSetInstance_ID(), getM_AttributeSetInstance_ID(),
-						Env.ZERO, reserved, ordered, get_TrxName()))
-					return;
+						Env.ZERO, reserved, ordered, get_TrxName());
 			}    //	stocked
-			//	update line
-			setQtyReserved(getQtyReserved().add(difference));
 		}
 	}
 
