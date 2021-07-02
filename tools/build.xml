@@ -116,7 +116,16 @@
 			<zipgroupfileset dir="${glassfish.dir}/lib" includes="*.jar">
 				<patternset refid="manifest.exclude" />
 			</zipgroupfileset>
-			<zipfileset src="lib/javaee.jar">
+			<zipfileset src="lib/javax.annotation-api-1.3.2.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/ejb-api-3.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/javax.jms-api-2.0.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/javax.servlet-api-4.0.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<manifest>
@@ -215,10 +224,6 @@
 			<fileset dir="${build.dir}">
 				<include name="**/apache/ecs/**" />
 			</fileset>
-			<!-- Installing Script Based in JSR 223 Scripting APIs -->
-			<zipfileset src="lib/script-api.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
 			<!-- BeanShell -->
 			<zipfileset src="lib/bsh-2.0b6.jar">
 				<patternset refid="manifest.exclude" />
@@ -464,10 +469,6 @@
 			<zipfileset src="lib/mail.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<!-- Installing Script Based in JSR 223 Scripting APIs -->
-			<zipfileset src="lib/script-api.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
 			<!-- BeanShell -->
 			<zipfileset src="lib/bsh-2.0b6.jar">
 				<patternset refid="manifest.exclude" />
@@ -489,7 +490,6 @@
 			<zipfileset src="lib/jython-engine.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-
 			<!-- Payment Processors		-->
 			<zipfileset src="lib/Verisign.jar">
 				<patternset refid="manifest.exclude" />
