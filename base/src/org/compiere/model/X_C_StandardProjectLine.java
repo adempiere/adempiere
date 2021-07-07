@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_StandardProjectLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_C_StandardProjectLine extends PO implements I_C_StandardProjectLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190508L;
+	private static final long serialVersionUID = 20210707L;
 
     /** Standard Constructor */
     public X_C_StandardProjectLine (Properties ctx, int C_StandardProjectLine_ID, String trxName)
@@ -107,9 +107,9 @@ public class X_C_StandardProjectLine extends PO implements I_C_StandardProjectLi
 		return ii.intValue();
 	}
 
-	public I_C_ProjectLineType getC_ProjectLineType() throws RuntimeException
+	public org.compiere.model.I_C_ProjectLineType getC_ProjectLineType() throws RuntimeException
     {
-		return (I_C_ProjectLineType)MTable.get(getCtx(), I_C_ProjectLineType.Table_Name)
+		return (org.compiere.model.I_C_ProjectLineType)MTable.get(getCtx(), org.compiere.model.I_C_ProjectLineType.Table_Name)
 			.getPO(getC_ProjectLineType_ID(), get_TrxName());	}
 
 	/** Set Project Line Type.
@@ -160,8 +160,8 @@ public class X_C_StandardProjectLine extends PO implements I_C_StandardProjectLi
 		return ii.intValue();
 	}
 
-	/** Set Standard Project Line ID.
-		@param C_StandardProjectLine_ID Standard Project Line ID	  */
+	/** Set Standard Project Line.
+		@param C_StandardProjectLine_ID Standard Project Line	  */
 	public void setC_StandardProjectLine_ID (int C_StandardProjectLine_ID)
 	{
 		if (C_StandardProjectLine_ID < 1) 
@@ -170,8 +170,8 @@ public class X_C_StandardProjectLine extends PO implements I_C_StandardProjectLi
 			set_ValueNoCheck (COLUMNNAME_C_StandardProjectLine_ID, Integer.valueOf(C_StandardProjectLine_ID));
 	}
 
-	/** Get Standard Project Line ID.
-		@return Standard Project Line ID	  */
+	/** Get Standard Project Line.
+		@return Standard Project Line	  */
 	public int getC_StandardProjectLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_StandardProjectLine_ID);
@@ -483,9 +483,9 @@ public class X_C_StandardProjectLine extends PO implements I_C_StandardProjectLi
         return new KeyNamePair(get_ID(), getName());
     }
 
-	public I_C_StandardProjectLine getParent() throws RuntimeException
+	public org.compiere.model.I_C_StandardProjectLine getParent() throws RuntimeException
     {
-		return (I_C_StandardProjectLine)MTable.get(getCtx(), I_C_StandardProjectLine.Table_Name)
+		return (org.compiere.model.I_C_StandardProjectLine)MTable.get(getCtx(), org.compiere.model.I_C_StandardProjectLine.Table_Name)
 			.getPO(getParent_ID(), get_TrxName());	}
 
 	/** Set Parent.

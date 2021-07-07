@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_ProjectLineType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_C_ProjectLineType 
 {
@@ -30,7 +30,7 @@ public interface I_C_ProjectLineType
     /** TableName=C_ProjectLineType */
     public static final String Table_Name = "C_ProjectLineType";
 
-    /** AD_Table_ID=1000000 */
+    /** AD_Table_ID=54627 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_StandardProjectLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_C_StandardProjectLine 
 {
@@ -30,7 +30,7 @@ public interface I_C_StandardProjectLine
     /** TableName=C_StandardProjectLine */
     public static final String Table_Name = "C_StandardProjectLine";
 
-    /** AD_Table_ID=1000001 */
+    /** AD_Table_ID=54628 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -86,7 +86,7 @@ public interface I_C_StandardProjectLine
 	/** Get Project Line Type	  */
 	public int getC_ProjectLineType_ID();
 
-	public I_C_ProjectLineType getC_ProjectLineType() throws RuntimeException;
+	public org.compiere.model.I_C_ProjectLineType getC_ProjectLineType() throws RuntimeException;
 
     /** Column name C_ProjectType_ID */
     public static final String COLUMNNAME_C_ProjectType_ID = "C_ProjectType_ID";
@@ -122,10 +122,10 @@ public interface I_C_StandardProjectLine
     /** Column name C_StandardProjectLine_ID */
     public static final String COLUMNNAME_C_StandardProjectLine_ID = "C_StandardProjectLine_ID";
 
-	/** Set Standard Project Line ID	  */
+	/** Set Standard Project Line	  */
 	public void setC_StandardProjectLine_ID (int C_StandardProjectLine_ID);
 
-	/** Get Standard Project Line ID	  */
+	/** Get Standard Project Line	  */
 	public int getC_StandardProjectLine_ID();
 
     /** Column name Description */
@@ -321,7 +321,7 @@ public interface I_C_StandardProjectLine
 	  */
 	public int getParent_ID();
 
-	public I_C_StandardProjectLine getParent() throws RuntimeException;
+	public org.compiere.model.I_C_StandardProjectLine getParent() throws RuntimeException;
 
     /** Column name PP_Product_BOM_ID */
     public static final String COLUMNNAME_PP_Product_BOM_ID = "PP_Product_BOM_ID";

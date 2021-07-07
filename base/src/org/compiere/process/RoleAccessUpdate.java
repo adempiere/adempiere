@@ -76,7 +76,7 @@ public class RoleAccessUpdate extends RoleAccessUpdateAbstract {
 
     MRole getRole(int roleId) {
 
-        return new MRole(getCtx(), roleId, get_TrxName());
+        return new Query(getCtx(), MRole.Table_Name, "AD_Role_ID = ?", get_TrxName()).setParameters(roleId).first();
 
     }
 

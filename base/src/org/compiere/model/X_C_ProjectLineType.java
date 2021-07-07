@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for C_ProjectLineType
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_C_ProjectLineType extends PO implements I_C_ProjectLineType, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190508L;
+	private static final long serialVersionUID = 20210707L;
 
     /** Standard Constructor */
     public X_C_ProjectLineType (Properties ctx, int C_ProjectLineType_ID, String trxName)
