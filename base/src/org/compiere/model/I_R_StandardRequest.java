@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for R_StandardRequest
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_R_StandardRequest 
 {
@@ -301,6 +301,19 @@ public interface I_R_StandardRequest
  lowest number comes first
 	  */
 	public int getSeqNo();
+
+    /** Column name Subject */
+    public static final String COLUMNNAME_Subject = "Subject";
+
+	/** Set Subject.
+	  * Email Message Subject
+	  */
+	public void setSubject (String Subject);
+
+	/** Get Subject.
+	  * Email Message Subject
+	  */
+	public String getSubject();
 
     /** Column name Summary */
     public static final String COLUMNNAME_Summary = "Summary";

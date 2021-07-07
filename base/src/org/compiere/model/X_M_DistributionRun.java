@@ -30,7 +30,7 @@ public class X_M_DistributionRun extends PO implements I_M_DistributionRun, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_DistributionRun (Properties ctx, int M_DistributionRun_ID, String trxName)

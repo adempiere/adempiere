@@ -35,7 +35,11 @@ import java.util.stream.Collectors;
  */
 public class MHRJob extends X_HR_Job {
 
-    /** Cache **/
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7130732658556820555L;
+	/** Cache **/
     private static CCache<Integer, MHRJob> jobCacheIds = new CCache<Integer, MHRJob>(Table_Name, 100, 0);
     private static CCache<String, MHRJob> jobCacheValues = new CCache<String, MHRJob>(Table_Name, 100, 0);
 

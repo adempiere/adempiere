@@ -29,7 +29,7 @@ public class X_AD_WindowCustom extends PO implements I_AD_WindowCustom, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_WindowCustom (Properties ctx, int AD_WindowCustom_ID, String trxName)

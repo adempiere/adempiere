@@ -31,7 +31,7 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_QM_SpecificationLine (Properties ctx, int QM_SpecificationLine_ID, String trxName)
@@ -164,6 +164,26 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 		return (String)get_Value(COLUMNNAME_Operation);
 	}
 
+	/** Set QM Specification Line.
+		@param QM_SpecificationLine_ID QM Specification Line	  */
+	public void setQM_SpecificationLine_ID (int QM_SpecificationLine_ID)
+	{
+		if (QM_SpecificationLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_QM_SpecificationLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_QM_SpecificationLine_ID, Integer.valueOf(QM_SpecificationLine_ID));
+	}
+
+	/** Get QM Specification Line.
+		@return QM Specification Line	  */
+	public int getQM_SpecificationLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_QM_SpecificationLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_QM_Specification getQM_Specification() throws RuntimeException
     {
 		return (org.eevolution.model.I_QM_Specification)MTable.get(getCtx(), org.eevolution.model.I_QM_Specification.Table_Name)
@@ -184,26 +204,6 @@ public class X_QM_SpecificationLine extends PO implements I_QM_SpecificationLine
 	public int getQM_Specification_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_QM_Specification_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set QM Specification Line.
-		@param QM_SpecificationLine_ID QM Specification Line	  */
-	public void setQM_SpecificationLine_ID (int QM_SpecificationLine_ID)
-	{
-		if (QM_SpecificationLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_QM_SpecificationLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_QM_SpecificationLine_ID, Integer.valueOf(QM_SpecificationLine_ID));
-	}
-
-	/** Get QM Specification Line.
-		@return QM Specification Line	  */
-	public int getQM_SpecificationLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_QM_SpecificationLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

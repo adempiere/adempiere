@@ -161,12 +161,15 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 			//}
 			
 			if(timing==TIMING_AFTER_COMPLETE){
-				MInvoice mi = (MInvoice)po;
-				if (mi.isSOTrx()) {
-					MInvoiceLine[] mils = mi.getLines();
-					for (MInvoiceLine mil: mils) {
-						if (mil.isA_CreateAsset() && !mil.isA_Processed()) {
-							MAssetDisposed.createAssetDisposed(mil);
+				MInvoice invoice = (MInvoice)po;
+				if (invoice.isSOTrx()) {
+					MInvoiceLine[] invoiceLines = invoice.getLines();
+					for (MInvoiceLine invoiceLine: invoiceLines) {
+						if (invoiceLine.isA_CreateAsset() && !invoiceLine.isA_Processed()) {
+							if (invoiceLine.getA_Asset_ID() <= 0)
+								throw new AdempiereException("@A_Asset_ID@ @NotFound@");
+							
+							MAssetDisposed.createAssetDisposed(invoiceLine);
 						}
 					}
 				}
@@ -216,12 +219,7 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 							if (!product.isOneAssetPerUOM())
 								deliveryCount = 0;
 							MAsset asset = new MAsset(inOut, inOutLine, deliveryCount);
-							if (!asset.save(inOut.get_TrxName())) {
-								//m_processMsg = "Could not create Asset";
-								//return DocAction.STATUS_Invalid;
-								throw new IllegalStateException("Could not create Asset");
-							}
-							//info.append(asset.getValue());
+							asset.saveEx(inOut.get_TrxName());
 						}
 					}
 				}	//	Asset
@@ -281,7 +279,7 @@ implements org.compiere.model.ModelValidator, org.compiere.model.FactsValidator
 			
 			int productId = SetGetUtil.get_AttrValueAsInt(model, MInvoiceLine.COLUMNNAME_M_Product_ID);
 			if (productId > 0) {
-				MProduct product = MProduct.get(model.getCtx(), productId);
+				MProduct product = MProduct.get(model.getCtx(), productId, model.get_TrxName());
 				if (product.isCreateAsset())
 				{
 					isAsset = (product != null && product.get_ID() > 0 && product.isCreateAsset());

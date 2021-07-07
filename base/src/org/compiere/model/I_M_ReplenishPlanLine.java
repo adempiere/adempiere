@@ -203,6 +203,15 @@ public interface I_M_ReplenishPlanLine
 
 	public org.compiere.model.I_M_Production getM_Production() throws RuntimeException;
 
+    /** Column name M_ReplenishPlanLine_ID */
+    public static final String COLUMNNAME_M_ReplenishPlanLine_ID = "M_ReplenishPlanLine_ID";
+
+	/** Set M_ReplenishPlanLine ID	  */
+	public void setM_ReplenishPlanLine_ID (int M_ReplenishPlanLine_ID);
+
+	/** Get M_ReplenishPlanLine ID	  */
+	public int getM_ReplenishPlanLine_ID();
+
     /** Column name M_ReplenishPlan_ID */
     public static final String COLUMNNAME_M_ReplenishPlan_ID = "M_ReplenishPlan_ID";
 
@@ -213,15 +222,6 @@ public interface I_M_ReplenishPlanLine
 	public int getM_ReplenishPlan_ID();
 
 	public org.compiere.model.I_M_ReplenishPlan getM_ReplenishPlan() throws RuntimeException;
-
-    /** Column name M_ReplenishPlanLine_ID */
-    public static final String COLUMNNAME_M_ReplenishPlanLine_ID = "M_ReplenishPlanLine_ID";
-
-	/** Set M_ReplenishPlanLine ID	  */
-	public void setM_ReplenishPlanLine_ID (int M_ReplenishPlanLine_ID);
-
-	/** Get M_ReplenishPlanLine ID	  */
-	public int getM_ReplenishPlanLine_ID();
 
     /** Column name M_Requisition_ID */
     public static final String COLUMNNAME_M_Requisition_ID = "M_Requisition_ID";
@@ -247,15 +247,6 @@ public interface I_M_ReplenishPlanLine
 	/** Get Order Info	  */
 	public String getOrderInfo();
 
-    /** Column name ProductionInfo */
-    public static final String COLUMNNAME_ProductionInfo = "ProductionInfo";
-
-	/** Set Production Info	  */
-	public void setProductionInfo (String ProductionInfo);
-
-	/** Get Production Info	  */
-	public String getProductionInfo();
-
     /** Column name ProductName */
     public static final String COLUMNNAME_ProductName = "ProductName";
 
@@ -269,6 +260,15 @@ public interface I_M_ReplenishPlanLine
 	  */
 	public String getProductName();
 
+    /** Column name ProductionInfo */
+    public static final String COLUMNNAME_ProductionInfo = "ProductionInfo";
+
+	/** Set Production Info	  */
+	public void setProductionInfo (String ProductionInfo);
+
+	/** Get Production Info	  */
+	public String getProductionInfo();
+
     /** Column name RecordType */
     public static final String COLUMNNAME_RecordType = "RecordType";
 
@@ -277,6 +277,19 @@ public interface I_M_ReplenishPlanLine
 
 	/** Get RecordType	  */
 	public String getRecordType();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -293,19 +306,6 @@ public interface I_M_ReplenishPlanLine
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Week1 */
     public static final String COLUMNNAME_Week1 = "Week1";

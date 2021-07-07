@@ -11,5 +11,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/client"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.project"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.request"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/tools"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

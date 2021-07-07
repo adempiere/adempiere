@@ -17,13 +17,16 @@
 package org.eevolution.engine.freight;
 
 import org.compiere.model.MFreight;
+import org.compiere.model.MFreightCategory;
 import org.compiere.model.MLocation;
-import org.compiere.model.MProduct;
+import org.compiere.util.Env;
+import org.compiere.util.Util;
 import org.eevolution.service.FreightService;
 import org.eevolution.service.FreightServiceInterface;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -31,36 +34,6 @@ import java.util.Properties;
  * Created by e-Evolution author Victor Perez <victor.perez@e-evolution.com> on 23/08/16.
  */
 public class FreightRule implements FreightRuleInterface {
-    @Override
-    public BigDecimal calculate(
-            Properties ctx,
-            int productId,
-            int shipperId,
-            int locationFromId,
-            int locationToId,
-            int freightCategoryId,
-            int currencyId,
-            Timestamp date,
-            String trxName) {
-        MProduct product = MProduct.get(ctx, productId);
-
-        BigDecimal freightRateAmount = BigDecimal.ZERO;
-        FreightServiceInterface freightService = new FreightService();
-        BigDecimal freightRate = getFreightRate(
-                ctx,
-                shipperId,
-                freightCategoryId,
-                currencyId,
-                locationFromId,
-                locationToId,
-                date,
-                trxName);
-        if (freightRate.signum() != 0)
-            freightRateAmount = product.getWeight().multiply(freightRate);
-        else
-            freightRateAmount = BigDecimal.ZERO;
-        return  freightRateAmount;
-    }
 
     /**
      * get Freight Rate
@@ -79,7 +52,9 @@ public class FreightRule implements FreightRuleInterface {
             int currencyId,
             int locationFromId,
             int locationToId,
-            Timestamp date, String trxName) {
+            Timestamp date, 
+            String trxName,
+            Map<String, Object> parameters) {
 
         MLocation locationFrom = MLocation.get(ctx, locationFromId, trxName);
         MLocation locationTo = MLocation.get(ctx, locationToId, trxName);
@@ -104,7 +79,7 @@ public class FreightRule implements FreightRuleInterface {
         }
 
         FreightServiceInterface freightService = new FreightService();
-        Optional<MFreight> freightOptioonal = freightService.getFreightValid(ctx, shipperId, freightCategoryId, currencyId, date, trxName)
+        Optional<MFreight> maybeFreight = freightService.getFreightValid(ctx, shipperId, freightCategoryId, currencyId, date, trxName)
                 .stream()
                 .filter(freight -> {
                     if (freight.getC_Country_ID() == 0 && freight.getTo_Country_ID() == 0)
@@ -127,13 +102,86 @@ public class FreightRule implements FreightRuleInterface {
                     else
                         return false;
                 }).findFirst();
-        if (freightOptioonal.isPresent())
+        if (maybeFreight.isPresent())
         {
-            return freightOptioonal.get().getFreightAmt();
+            return maybeFreight.get().getFreightAmt();
         }
         else
         {
             return BigDecimal.ZERO;
         }
     }
+
+	@Override
+	public FreightInfo calculate(Properties ctx, int shipperId, int locationId, int locationToId, int freightCategoryId,
+			int currencyId, Timestamp date, BigDecimal weight, BigDecimal volume, String trxName, Map<String, Object> parameters) {
+		MLocation locationFrom = MLocation.get(ctx, locationId, trxName);
+        MLocation locationTo = MLocation.get(ctx, locationToId, trxName);
+        Optional<Integer> countryFromOptionalId;
+        Optional<Integer> regionFromOptionalId;
+        if (locationFrom != null && locationFrom.get_ID() > 0) {
+            countryFromOptionalId = Optional.ofNullable(locationFrom.getC_Country_ID());
+            regionFromOptionalId = Optional.ofNullable(locationFrom.getC_Region_ID());
+        } else {
+            countryFromOptionalId = Optional.empty();
+            regionFromOptionalId = Optional.empty();
+        }
+
+        Optional<Integer> countryToOptionalId;
+        Optional<Integer> regionToOptionalId;
+        if (locationTo != null && locationTo.get_ID() > 0) {
+            countryToOptionalId = Optional.ofNullable(locationTo.getC_Country_ID());
+            regionToOptionalId = Optional.ofNullable(locationTo.getC_Region_ID());
+        } else {
+            countryToOptionalId = Optional.empty();
+            regionToOptionalId = Optional.empty();
+        }
+        FreightServiceInterface freightService = new FreightService();
+        Optional<MFreight> maybeFreight = freightService.getFreightValid(ctx, shipperId, freightCategoryId, currencyId, date, trxName)
+                .stream()
+                .filter(freight -> {
+                    if (freight.getC_Country_ID() == 0 && freight.getTo_Country_ID() == 0)
+                        return true;
+                    else if (freight.getC_Country_ID() == 0 &&  (countryToOptionalId.isPresent() && countryToOptionalId.get() == freight.getTo_Country_ID()))
+                        return true;
+                    else if ((countryFromOptionalId.isPresent() && countryFromOptionalId.get() == freight.getC_Country_ID())
+                            &&  (countryToOptionalId.isPresent() && countryToOptionalId.get() == freight.getTo_Country_ID()))
+                        return true;
+                    else
+                        return false;
+                }).filter(freight -> {
+                    if (freight.getC_Region_ID() == 0 && freight.getTo_Region_ID() == 0)
+                        return true;
+                    else if (freight.getC_Region_ID() == 0 &&   (regionToOptionalId.isPresent() && regionToOptionalId.get() == freight.getTo_Region_ID()))
+                        return true;
+                    else if ((regionFromOptionalId.isPresent() && regionFromOptionalId.get() == freight.getC_Region_ID()) &&
+                            (regionToOptionalId.isPresent() && regionToOptionalId.get() == freight.getTo_Region_ID()))
+                        return true;
+                    else
+                        return false;
+                }).findFirst();
+        if (maybeFreight.isPresent()) {
+        	BigDecimal value = Env.ZERO;
+        	MFreightCategory freightCategory = MFreightCategory.getById(ctx, freightCategoryId, trxName);
+        	if(Util.isEmpty(freightCategory.getFreightCalculationType())
+        			|| freightCategory.getFreightCalculationType().equals(MFreightCategory.FREIGHTCALCULATIONTYPE_WeightBased)) {
+        		value = weight;
+        	} else if(freightCategory.getFreightCalculationType().equals(MFreightCategory.FREIGHTCALCULATIONTYPE_VolumeBased)) {
+        		value = volume;
+        	}
+            //	Validate
+        	if(value == null) {
+        		value = Env.ZERO;
+        	}
+        	BigDecimal freightRate = maybeFreight.get().getFreightAmt();
+        	if(freightRate == null) {
+        		freightRate = Env.ZERO;
+        	}
+            return new FreightInfo()
+            		.withFreightId(maybeFreight.get().getM_Freight_ID())
+            		.withFreightRate(freightRate)
+            		.withFreightAmount(value.multiply(freightRate));
+        }
+       return new FreightInfo();
+	}
 }

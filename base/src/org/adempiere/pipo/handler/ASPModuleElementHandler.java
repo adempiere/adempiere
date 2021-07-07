@@ -55,7 +55,7 @@ import org.compiere.model.X_ASP_Task;
 import org.compiere.model.X_ASP_Window;
 import org.compiere.model.X_ASP_Workflow;
 import org.compiere.util.Env;
-import org.eevolution.model.I_ASP_Browse;
+import org.spin.model.I_ASP_Browse;
 import org.spin.model.X_ASP_Browse;
 import org.xml.sax.SAXException;
 
@@ -84,7 +84,6 @@ public class ASPModuleElementHandler extends GenericPOHandler {
 			//	Level
 			List<X_ASP_Level> levelList = new Query(ctx, I_ASP_Level.Table_Name, I_ASP_Level.COLUMNNAME_ASP_Module_ID + " = ?", null)
 					.setParameters(aspModuleId)
-					.setOnlyActiveRecords(true)
 					.list();
 			//	For tabs
 			for(X_ASP_Level level : levelList) {
@@ -92,7 +91,6 @@ public class ASPModuleElementHandler extends GenericPOHandler {
 				//	For window
 				List<X_ASP_Window> windowList = new Query(ctx, I_ASP_Window.Table_Name, I_ASP_Window.COLUMNNAME_ASP_Level_ID + " = ?", null)
 						.setParameters(level.getASP_Level_ID())
-						.setOnlyActiveRecords(true)
 						.list();
 				//	For tabs
 				for(X_ASP_Window window : windowList) {
@@ -100,7 +98,6 @@ public class ASPModuleElementHandler extends GenericPOHandler {
 					//	For Tabs
 					List<X_ASP_Tab> tabList = new Query(ctx, I_ASP_Tab.Table_Name, I_ASP_Tab.COLUMNNAME_ASP_Window_ID + " = ?", null)
 							.setParameters(window.getASP_Window_ID())
-							.setOnlyActiveRecords(true)
 							.list();
 					//	
 					for(X_ASP_Tab tab : tabList) {
@@ -108,7 +105,6 @@ public class ASPModuleElementHandler extends GenericPOHandler {
 						//	For Fields
 						List<X_ASP_Field> fieldList = new Query(ctx, I_ASP_Field.Table_Name, I_ASP_Field.COLUMNNAME_ASP_Tab_ID + " = ?", null)
 								.setParameters(tab.getASP_Tab_ID())
-								.setOnlyActiveRecords(true)
 								.list();
 						//	
 						for(X_ASP_Field field : fieldList) {
@@ -119,14 +115,12 @@ public class ASPModuleElementHandler extends GenericPOHandler {
 				//	for Process
 				List<X_ASP_Process> processList = new Query(ctx, I_ASP_Process.Table_Name, I_ASP_Process.COLUMNNAME_ASP_Level_ID + " = ?", null)
 						.setParameters(level.getASP_Level_ID())
-						.setOnlyActiveRecords(true)
 						.list();
 				for(X_ASP_Process process : processList) {
 					packOut.createGenericPO(document, process, true, excludedTables);
 					//	For process parameters
 					List<X_ASP_Process_Para> processParamerersList = new Query(ctx, I_ASP_Process_Para.Table_Name, I_ASP_Process_Para.COLUMNNAME_ASP_Process_ID + " = ?", null)
 							.setParameters(process.getASP_Process_ID())
-							.setOnlyActiveRecords(true)
 							.list();
 					for(X_ASP_Process_Para processParameter : processParamerersList) {
 						packOut.createGenericPO(document, processParameter, true, excludedTables);
@@ -135,7 +129,6 @@ public class ASPModuleElementHandler extends GenericPOHandler {
 				//	For Task
 				List<X_ASP_Task> taskList = new Query(ctx, I_ASP_Task.Table_Name, I_ASP_Task.COLUMNNAME_ASP_Level_ID + " = ?", null)
 						.setParameters(level.getASP_Level_ID())
-						.setOnlyActiveRecords(true)
 						.list();
 				for(X_ASP_Task task : taskList) {
 					packOut.createGenericPO(document, task, true, excludedTables);
@@ -151,7 +144,6 @@ public class ASPModuleElementHandler extends GenericPOHandler {
 				//	For Form
 				List<X_ASP_Form> formList = new Query(ctx, I_ASP_Form.Table_Name, I_ASP_Form.COLUMNNAME_ASP_Level_ID + " = ?", null)
 						.setParameters(level.getASP_Level_ID())
-						.setOnlyActiveRecords(true)
 						.list();
 				for(X_ASP_Form form : formList) {
 					packOut.createGenericPO(document, form, true, excludedTables);
@@ -159,7 +151,6 @@ public class ASPModuleElementHandler extends GenericPOHandler {
 				//	For Workflow
 				List<X_ASP_Workflow> workflowList = new Query(ctx, I_ASP_Workflow.Table_Name, I_ASP_Workflow.COLUMNNAME_ASP_Level_ID + " = ?", null)
 						.setParameters(level.getASP_Level_ID())
-						.setOnlyActiveRecords(true)
 						.list();
 				for(X_ASP_Workflow workflow : workflowList) {
 					packOut.createGenericPO(document, workflow, true, excludedTables);
@@ -167,7 +158,6 @@ public class ASPModuleElementHandler extends GenericPOHandler {
 				//	For window Customization
 				List<MWindowCustom> windowCustomizationList = new Query(ctx, I_AD_WindowCustom.Table_Name, I_AD_WindowCustom.COLUMNNAME_ASP_Level_ID + " = ?", null)
 						.setParameters(level.getASP_Level_ID())
-						.setOnlyActiveRecords(true)
 						.list();
 				for(MWindowCustom window : windowCustomizationList) {
 					packOut.createWindowCustomization(window.getAD_WindowCustom_ID(), document);
@@ -175,7 +165,6 @@ public class ASPModuleElementHandler extends GenericPOHandler {
 				//	For process Customization
 				List<MProcessCustom> processCustomizationList = new Query(ctx, I_AD_ProcessCustom.Table_Name, I_AD_ProcessCustom.COLUMNNAME_ASP_Level_ID + " = ?", null)
 						.setParameters(level.getASP_Level_ID())
-						.setOnlyActiveRecords(true)
 						.list();
 				for(MProcessCustom process : processCustomizationList) {
 					packOut.createProcessCustomization(process.getAD_ProcessCustom_ID(), document);
@@ -183,7 +172,6 @@ public class ASPModuleElementHandler extends GenericPOHandler {
 				//	For process Customization
 				List<MBrowseCustom> browseCustomizationList = new Query(ctx, I_AD_BrowseCustom.Table_Name, I_AD_BrowseCustom.COLUMNNAME_ASP_Level_ID + " = ?", null)
 						.setParameters(level.getASP_Level_ID())
-						.setOnlyActiveRecords(true)
 						.list();
 				for(MBrowseCustom browse : browseCustomizationList) {
 					packOut.createBrowseCustomization(browse.getAD_BrowseCustom_ID(), document);

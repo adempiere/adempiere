@@ -30,7 +30,7 @@ public class X_HR_ProcessReportSource extends PO implements I_HR_ProcessReportSo
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_ProcessReportSource (Properties ctx, int HR_ProcessReportSource_ID, String trxName)

@@ -31,7 +31,7 @@ public class X_M_ReplenishPlan extends PO implements I_M_ReplenishPlan, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_ReplenishPlan (Properties ctx, int M_ReplenishPlan_ID, String trxName)
@@ -97,28 +97,6 @@ public class X_M_ReplenishPlan extends PO implements I_M_ReplenishPlan, I_Persis
 		return ii.intValue();
 	}
 
-	public org.compiere.model.I_C_DocType getC_DocType_PlannedOr() throws RuntimeException
-    {
-		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
-			.getPO(getC_DocType_PlannedOrder(), get_TrxName());	}
-
-	/** Set Planned Mfg Order Doc Type.
-		@param C_DocType_PlannedOrder Planned Mfg Order Doc Type	  */
-	public void setC_DocType_PlannedOrder (int C_DocType_PlannedOrder)
-	{
-		set_Value (COLUMNNAME_C_DocType_PlannedOrder, Integer.valueOf(C_DocType_PlannedOrder));
-	}
-
-	/** Get Planned Mfg Order Doc Type.
-		@return Planned Mfg Order Doc Type	  */
-	public int getC_DocType_PlannedOrder () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_PlannedOrder);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException
     {
 		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
@@ -136,6 +114,28 @@ public class X_M_ReplenishPlan extends PO implements I_M_ReplenishPlan, I_Persis
 	public int getC_DocType_PO () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_PO);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_DocType getC_DocType_PlannedOr() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_DocType)MTable.get(getCtx(), org.compiere.model.I_C_DocType.Table_Name)
+			.getPO(getC_DocType_PlannedOrder(), get_TrxName());	}
+
+	/** Set Planned Mfg Order Doc Type.
+		@param C_DocType_PlannedOrder Planned Mfg Order Doc Type	  */
+	public void setC_DocType_PlannedOrder (int C_DocType_PlannedOrder)
+	{
+		set_Value (COLUMNNAME_C_DocType_PlannedOrder, Integer.valueOf(C_DocType_PlannedOrder));
+	}
+
+	/** Get Planned Mfg Order Doc Type.
+		@return Planned Mfg Order Doc Type	  */
+	public int getC_DocType_PlannedOrder () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_DocType_PlannedOrder);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

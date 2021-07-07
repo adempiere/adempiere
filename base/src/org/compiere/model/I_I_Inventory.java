@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_Inventory
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_I_Inventory 
 {
@@ -61,6 +61,19 @@ public interface I_I_Inventory
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AttributeSetInstanceValue */
+    public static final String COLUMNNAME_AttributeSetInstanceValue = "AttributeSetInstanceValue";
+
+	/** Set Attribute Set Instance Value.
+	  * Value of the Attribute Set Instance
+	  */
+	public void setAttributeSetInstanceValue (String AttributeSetInstanceValue);
+
+	/** Get Attribute Set Instance Value.
+	  * Value of the Attribute Set Instance
+	  */
+	public String getAttributeSetInstanceValue();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -116,6 +129,19 @@ public interface I_I_Inventory
 	  * Optional short description of the record
 	  */
 	public String getDescription();
+
+    /** Column name GuaranteeDate */
+    public static final String COLUMNNAME_GuaranteeDate = "GuaranteeDate";
+
+	/** Set Guarantee Date.
+	  * Date when guarantee expires
+	  */
+	public void setGuaranteeDate (Timestamp GuaranteeDate);
+
+	/** Get Guarantee Date.
+	  * Date when guarantee expires
+	  */
+	public Timestamp getGuaranteeDate();
 
     /** Column name I_ErrorMsg */
     public static final String COLUMNNAME_I_ErrorMsg = "I_ErrorMsg";
@@ -194,6 +220,21 @@ public interface I_I_Inventory
 	  * Lot number (alphanumeric)
 	  */
 	public String getLot();
+
+    /** Column name M_AttributeSetInstance_ID */
+    public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
+
+	/** Set Attribute Set Instance.
+	  * Product Attribute Set Instance
+	  */
+	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID);
+
+	/** Get Attribute Set Instance.
+	  * Product Attribute Set Instance
+	  */
+	public int getM_AttributeSetInstance_ID();
+
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
 
     /** Column name M_Inventory_ID */
     public static final String COLUMNNAME_M_Inventory_ID = "M_Inventory_ID";

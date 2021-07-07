@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Order
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_C_Order 
 {
@@ -455,6 +455,21 @@ public interface I_C_Order
 	  */
 	public int getCreatedBy();
 
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
+
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";
 
@@ -655,6 +670,19 @@ public interface I_C_Order
 	  * Method for charging Freight
 	  */
 	public String getFreightCostRule();
+
+    /** Column name FreightRate */
+    public static final String COLUMNNAME_FreightRate = "FreightRate";
+
+	/** Set Freight Rate.
+	  * Freight Rate of Shipper 
+	  */
+	public void setFreightRate (BigDecimal FreightRate);
+
+	/** Get Freight Rate.
+	  * Freight Rate of Shipper 
+	  */
+	public BigDecimal getFreightRate();
 
     /** Column name GrandTotal */
     public static final String COLUMNNAME_GrandTotal = "GrandTotal";
@@ -873,6 +901,21 @@ public interface I_C_Order
 
 	public org.compiere.model.I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
 
+    /** Column name M_Freight_ID */
+    public static final String COLUMNNAME_M_Freight_ID = "M_Freight_ID";
+
+	/** Set Freight.
+	  * Freight Rate
+	  */
+	public void setM_Freight_ID (int M_Freight_ID);
+
+	/** Get Freight.
+	  * Freight Rate
+	  */
+	public int getM_Freight_ID();
+
+	public org.compiere.model.I_M_Freight getM_Freight() throws RuntimeException;
+
     /** Column name M_PriceList_ID */
     public static final String COLUMNNAME_M_PriceList_ID = "M_PriceList_ID";
 
@@ -887,6 +930,21 @@ public interface I_C_Order
 	public int getM_PriceList_ID();
 
 	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException;
+
+    /** Column name M_RMAType_ID */
+    public static final String COLUMNNAME_M_RMAType_ID = "M_RMAType_ID";
+
+	/** Set RMA Type.
+	  * Return Material Authorization Type
+	  */
+	public void setM_RMAType_ID (int M_RMAType_ID);
+
+	/** Get RMA Type.
+	  * Return Material Authorization Type
+	  */
+	public int getM_RMAType_ID();
+
+	public org.compiere.model.I_M_RMAType getM_RMAType() throws RuntimeException;
 
     /** Column name M_Shipper_ID */
     public static final String COLUMNNAME_M_Shipper_ID = "M_Shipper_ID";

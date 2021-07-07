@@ -66,7 +66,7 @@ import org.compiere.util.TrxRunnable;
 import org.eevolution.process.GenerateCostDetail;
 import org.eevolution.process.ValuationEffectiveDate;
 
-import test.AdempiereTestCase;
+import org.adempiere.test.CommonGWSetup;
 
 
 /**
@@ -75,7 +75,7 @@ import test.AdempiereTestCase;
  * @author victor.perez@e-evolution.com, www.e-evolution.com
  * http://spreadsheets.google.com/pub?key=0AtQL5-PW36eqdGdnUFVBZDhJMXVSbHh1TzMtRHhSbWc&hl=es&output=html
  */
-public class AverageInvoiceCostTest extends AdempiereTestCase
+public class AverageInvoiceCostTest extends CommonGWSetup
 {
 	
 	private static final int M_Product_Category_ID = 0;

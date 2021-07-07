@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_Scheduler
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20210101L;
 
     /** Standard Constructor */
     public X_AD_Scheduler (Properties ctx, int AD_Scheduler_ID, String trxName)
@@ -253,6 +253,20 @@ public class X_AD_Scheduler extends PO implements I_AD_Scheduler, I_Persistent
 	public static final String FREQUENCYTYPE_Hour = "H";
 	/** Day = D */
 	public static final String FREQUENCYTYPE_Day = "D";
+	/** Biweekly = B */
+	public static final String FREQUENCYTYPE_Biweekly = "B";
+	/** Monthly = N */
+	public static final String FREQUENCYTYPE_Monthly = "N";
+	/** Quarterly = Q */
+	public static final String FREQUENCYTYPE_Quarterly = "Q";
+	/** Weekly = W */
+	public static final String FREQUENCYTYPE_Weekly = "W";
+	/** Yearly = Y */
+	public static final String FREQUENCYTYPE_Yearly = "Y";
+	/** Does not repeat = X */
+	public static final String FREQUENCYTYPE_DoesNotRepeat = "X";
+	/** Secound = S */
+	public static final String FREQUENCYTYPE_Secound = "S";
 	/** Set Frequency Type.
 		@param FrequencyType 
 		Frequency of event

@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_FreightCategory
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_M_FreightCategory extends PO implements I_M_FreightCategory, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20200804L;
 
     /** Standard Constructor */
     public X_M_FreightCategory (Properties ctx, int M_FreightCategory_ID, String trxName)
@@ -38,6 +38,8 @@ public class X_M_FreightCategory extends PO implements I_M_FreightCategory, I_Pe
       super (ctx, M_FreightCategory_ID, trxName);
       /** if (M_FreightCategory_ID == 0)
         {
+			setFreightCalculationType (null);
+// W
 			setM_FreightCategory_ID (0);
 			setName (null);
 			setValue (null);
@@ -72,6 +74,34 @@ public class X_M_FreightCategory extends PO implements I_M_FreightCategory, I_Pe
       return sb.toString();
     }
 
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Charge)MTable.get(getCtx(), org.compiere.model.I_C_Charge.Table_Name)
+			.getPO(getC_Charge_ID(), get_TrxName());	}
+
+	/** Set Charge.
+		@param C_Charge_ID 
+		Additional document charges
+	  */
+	public void setC_Charge_ID (int C_Charge_ID)
+	{
+		if (C_Charge_ID < 1) 
+			set_Value (COLUMNNAME_C_Charge_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Charge_ID, Integer.valueOf(C_Charge_ID));
+	}
+
+	/** Get Charge.
+		@return Additional document charges
+	  */
+	public int getC_Charge_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Charge_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -89,6 +119,29 @@ public class X_M_FreightCategory extends PO implements I_M_FreightCategory, I_Pe
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** FreightCalculationType AD_Reference_ID=54221 */
+	public static final int FREIGHTCALCULATIONTYPE_AD_Reference_ID=54221;
+	/** Weight Based = W */
+	public static final String FREIGHTCALCULATIONTYPE_WeightBased = "W";
+	/** Volume Based = V */
+	public static final String FREIGHTCALCULATIONTYPE_VolumeBased = "V";
+	/** Customized = C */
+	public static final String FREIGHTCALCULATIONTYPE_Customized = "C";
+	/** Set Freight Calculation Type.
+		@param FreightCalculationType Freight Calculation Type	  */
+	public void setFreightCalculationType (String FreightCalculationType)
+	{
+
+		set_Value (COLUMNNAME_FreightCalculationType, FreightCalculationType);
+	}
+
+	/** Get Freight Calculation Type.
+		@return Freight Calculation Type	  */
+	public String getFreightCalculationType () 
+	{
+		return (String)get_Value(COLUMNNAME_FreightCalculationType);
+	}
+
 	/** Set Comment/Help.
 		@param Help 
 		Comment or Hint
@@ -104,6 +157,30 @@ public class X_M_FreightCategory extends PO implements I_M_FreightCategory, I_Pe
 	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
+	}
+
+	/** Set Invoiced.
+		@param IsInvoiced 
+		Is this invoiced?
+	  */
+	public void setIsInvoiced (boolean IsInvoiced)
+	{
+		set_Value (COLUMNNAME_IsInvoiced, Boolean.valueOf(IsInvoiced));
+	}
+
+	/** Get Invoiced.
+		@return Is this invoiced?
+	  */
+	public boolean isInvoiced () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsInvoiced);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Freight Category.
@@ -124,6 +201,34 @@ public class X_M_FreightCategory extends PO implements I_M_FreightCategory, I_Pe
 	public int getM_FreightCategory_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_FreightCategory_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
+			.getPO(getM_Product_ID(), get_TrxName());	}
+
+	/** Set Product.
+		@param M_Product_ID 
+		Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID)
+	{
+		if (M_Product_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_ID, Integer.valueOf(M_Product_ID));
+	}
+
+	/** Get Product.
+		@return Product, Service, Item
+	  */
+	public int getM_Product_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

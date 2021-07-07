@@ -23,17 +23,16 @@ import java.sql.Timestamp;
 import java.util.Properties;
 import org.compiere.util.Env;
 
-
 /** Generated Model for T_Aging
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_T_Aging extends PO implements I_T_Aging, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20200930L;
 
     /** Standard Constructor */
     public X_T_Aging (Properties ctx, int T_Aging_ID, String trxName)
@@ -276,7 +275,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 
 	public org.eevolution.model.I_C_CashFlow getC_CashFlow() throws RuntimeException
     {
-		return ( org.eevolution.model.I_C_CashFlow)MTable.get(getCtx(),  org.eevolution.model.I_C_CashFlow.Table_Name)
+		return (org.eevolution.model.I_C_CashFlow)MTable.get(getCtx(), org.eevolution.model.I_C_CashFlow.Table_Name)
 			.getPO(getC_CashFlow_ID(), get_TrxName());	}
 
 	/** Set C_CashFlow_ID.
@@ -534,6 +533,23 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return bd;
 	}
 
+	/** Set Due 15-30.
+		@param Due15_30 Due 15-30	  */
+	public void setDue15_30 (BigDecimal Due15_30)
+	{
+		set_Value (COLUMNNAME_Due15_30, Due15_30);
+	}
+
+	/** Get Due 15-30.
+		@return Due 15-30	  */
+	public BigDecimal getDue15_30 () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Due15_30);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Due 1-7.
 		@param Due1_7 Due 1-7	  */
 	public void setDue1_7 (BigDecimal Due1_7)
@@ -614,6 +630,23 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 	public BigDecimal getDue61_Plus () 
 	{
 		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Due61_Plus);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Due 8-14.
+		@param Due8_14 Due 8-14	  */
+	public void setDue8_14 (BigDecimal Due8_14)
+	{
+		set_Value (COLUMNNAME_Due8_14, Due8_14);
+	}
+
+	/** Get Due 8-14.
+		@return Due 8-14	  */
+	public BigDecimal getDue8_14 () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Due8_14);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
@@ -795,6 +828,23 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return bd;
 	}
 
+	/** Set Past Due 15-30.
+		@param PastDue15_30 Past Due 15-30	  */
+	public void setPastDue15_30 (BigDecimal PastDue15_30)
+	{
+		set_Value (COLUMNNAME_PastDue15_30, PastDue15_30);
+	}
+
+	/** Get Past Due 15-30.
+		@return Past Due 15-30	  */
+	public BigDecimal getPastDue15_30 () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDue15_30);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Past Due 1-7.
 		@param PastDue1_7 Past Due 1-7	  */
 	public void setPastDue1_7 (BigDecimal PastDue1_7)
@@ -880,6 +930,23 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return bd;
 	}
 
+	/** Set Past Due 8-14.
+		@param PastDue8_14 Past Due 8-14	  */
+	public void setPastDue8_14 (BigDecimal PastDue8_14)
+	{
+		set_Value (COLUMNNAME_PastDue8_14, PastDue8_14);
+	}
+
+	/** Get Past Due 8-14.
+		@return Past Due 8-14	  */
+	public BigDecimal getPastDue8_14 () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDue8_14);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Past Due 8-30.
 		@param PastDue8_30 Past Due 8-30	  */
 	public void setPastDue8_30 (BigDecimal PastDue8_30)
@@ -929,6 +996,34 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
+			.getPO(getSalesRep_ID(), get_TrxName());	}
+
+	/** Set Sales Representative.
+		@param SalesRep_ID 
+		Sales Representative or Company Agent
+	  */
+	public void setSalesRep_ID (int SalesRep_ID)
+	{
+		if (SalesRep_ID < 1) 
+			set_Value (COLUMNNAME_SalesRep_ID, null);
+		else 
+			set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
+	}
+
+	/** Get Sales Representative.
+		@return Sales Representative or Company Agent
+	  */
+	public int getSalesRep_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SalesRep_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Statement date.

@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_StandardRequest
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_R_StandardRequest extends PO implements I_R_StandardRequest, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20210505L;
 
     /** Standard Constructor */
     public X_R_StandardRequest (Properties ctx, int R_StandardRequest_ID, String trxName)
@@ -484,6 +484,23 @@ public class X_R_StandardRequest extends PO implements I_R_StandardRequest, I_Pe
     {
         return new KeyNamePair(get_ID(), String.valueOf(getSeqNo()));
     }
+
+	/** Set Subject.
+		@param Subject 
+		Email Message Subject
+	  */
+	public void setSubject (String Subject)
+	{
+		set_Value (COLUMNNAME_Subject, Subject);
+	}
+
+	/** Get Subject.
+		@return Email Message Subject
+	  */
+	public String getSubject () 
+	{
+		return (String)get_Value(COLUMNNAME_Subject);
+	}
 
 	/** Set Summary.
 		@param Summary 

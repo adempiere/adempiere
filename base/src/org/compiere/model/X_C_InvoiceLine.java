@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_InvoiceLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20200804L;
 
     /** Standard Constructor */
     public X_C_InvoiceLine (Properties ctx, int C_InvoiceLine_ID, String trxName)
@@ -550,6 +550,31 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.eevolution.model.I_DD_FreightLine getDD_FreightLine() throws RuntimeException
+    {
+		return (org.eevolution.model.I_DD_FreightLine)MTable.get(getCtx(), org.eevolution.model.I_DD_FreightLine.Table_Name)
+			.getPO(getDD_FreightLine_ID(), get_TrxName());	}
+
+	/** Set Order Freight Line.
+		@param DD_FreightLine_ID Order Freight Line	  */
+	public void setDD_FreightLine_ID (int DD_FreightLine_ID)
+	{
+		if (DD_FreightLine_ID < 1) 
+			set_Value (COLUMNNAME_DD_FreightLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_DD_FreightLine_ID, Integer.valueOf(DD_FreightLine_ID));
+	}
+
+	/** Get Order Freight Line.
+		@return Order Freight Line	  */
+	public int getDD_FreightLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_FreightLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -565,6 +590,31 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	public org.spin.model.I_FM_Amortization getFM_Amortization() throws RuntimeException
+    {
+		return (org.spin.model.I_FM_Amortization)MTable.get(getCtx(), org.spin.model.I_FM_Amortization.Table_Name)
+			.getPO(getFM_Amortization_ID(), get_TrxName());	}
+
+	/** Set Loan Amortization.
+		@param FM_Amortization_ID Loan Amortization	  */
+	public void setFM_Amortization_ID (int FM_Amortization_ID)
+	{
+		if (FM_Amortization_ID < 1) 
+			set_Value (COLUMNNAME_FM_Amortization_ID, null);
+		else 
+			set_Value (COLUMNNAME_FM_Amortization_ID, Integer.valueOf(FM_Amortization_ID));
+	}
+
+	/** Get Loan Amortization.
+		@return Loan Amortization	  */
+	public int getFM_Amortization_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FM_Amortization_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** Set Generate To.
@@ -1251,5 +1301,30 @@ public class X_C_InvoiceLine extends PO implements I_C_InvoiceLine, I_Persistent
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	public org.eevolution.model.I_WM_InOutBoundLine getWM_InOutBoundLine() throws RuntimeException
+    {
+		return (org.eevolution.model.I_WM_InOutBoundLine)MTable.get(getCtx(), org.eevolution.model.I_WM_InOutBoundLine.Table_Name)
+			.getPO(getWM_InOutBoundLine_ID(), get_TrxName());	}
+
+	/** Set Inbound & Outbound Order Line.
+		@param WM_InOutBoundLine_ID Inbound & Outbound Order Line	  */
+	public void setWM_InOutBoundLine_ID (int WM_InOutBoundLine_ID)
+	{
+		if (WM_InOutBoundLine_ID < 1) 
+			set_Value (COLUMNNAME_WM_InOutBoundLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_WM_InOutBoundLine_ID, Integer.valueOf(WM_InOutBoundLine_ID));
+	}
+
+	/** Get Inbound & Outbound Order Line.
+		@return Inbound & Outbound Order Line	  */
+	public int getWM_InOutBoundLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_WM_InOutBoundLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 }

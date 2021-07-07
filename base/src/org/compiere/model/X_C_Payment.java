@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Payment
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_C_Payment extends PO implements I_C_Payment, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20201029L;
 
     /** Standard Constructor */
     public X_C_Payment (Properties ctx, int C_Payment_ID, String trxName)
@@ -353,6 +353,34 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public int getC_BankAccount_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_BankAccount_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Bank getC_Bank() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Bank)MTable.get(getCtx(), org.compiere.model.I_C_Bank.Table_Name)
+			.getPO(getC_Bank_ID(), get_TrxName());	}
+
+	/** Set Bank.
+		@param C_Bank_ID 
+		Bank
+	  */
+	public void setC_Bank_ID (int C_Bank_ID)
+	{
+		if (C_Bank_ID < 1) 
+			set_Value (COLUMNNAME_C_Bank_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Bank_ID, Integer.valueOf(C_Bank_ID));
+	}
+
+	/** Get Bank.
+		@return Bank
+	  */
+	public int getC_Bank_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Bank_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -1294,6 +1322,30 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return false;
 	}
 
+	/** Set Unidentified Payment.
+		@param IsUnidentifiedPayment 
+		This flag determine ig a payment is unidentify
+	  */
+	public void setIsUnidentifiedPayment (boolean IsUnidentifiedPayment)
+	{
+		set_Value (COLUMNNAME_IsUnidentifiedPayment, Boolean.valueOf(IsUnidentifiedPayment));
+	}
+
+	/** Get Unidentified Payment.
+		@return This flag determine ig a payment is unidentify
+	  */
+	public boolean isUnidentifiedPayment () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsUnidentifiedPayment);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Micr.
 		@param Micr 
 		Combination of routing no, account and check no
@@ -1611,9 +1663,9 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public void setRef_Payment_ID (int Ref_Payment_ID)
 	{
 		if (Ref_Payment_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_Ref_Payment_ID, null);
+			set_Value (COLUMNNAME_Ref_Payment_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_Ref_Payment_ID, Integer.valueOf(Ref_Payment_ID));
+			set_Value (COLUMNNAME_Ref_Payment_ID, Integer.valueOf(Ref_Payment_ID));
 	}
 
 	/** Get Referenced Payment.
@@ -1781,6 +1833,34 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 		return (String)get_Value(COLUMNNAME_R_Result);
 	}
 
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
+			.getPO(getSalesRep_ID(), get_TrxName());	}
+
+	/** Set Sales Representative.
+		@param SalesRep_ID 
+		Sales Representative or Company Agent
+	  */
+	public void setSalesRep_ID (int SalesRep_ID)
+	{
+		if (SalesRep_ID < 1) 
+			set_Value (COLUMNNAME_SalesRep_ID, null);
+		else 
+			set_Value (COLUMNNAME_SalesRep_ID, Integer.valueOf(SalesRep_ID));
+	}
+
+	/** Get Sales Representative.
+		@return Sales Representative or Company Agent
+	  */
+	public int getSalesRep_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_SalesRep_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Swipe.
 		@param Swipe 
 		Track 1 and 2 of the Credit Card
@@ -1834,6 +1914,10 @@ public class X_C_Payment extends PO implements I_C_Payment, I_Persistent
 	public static final String TENDERTYPE_Cash = "X";
 	/** Credit Memo = M */
 	public static final String TENDERTYPE_CreditMemo = "M";
+	/** Zelle = Z */
+	public static final String TENDERTYPE_Zelle = "Z";
+	/** Mobile Payment Interbank = P */
+	public static final String TENDERTYPE_MobilePaymentInterbank = "P";
 	/** Set Tender type.
 		@param TenderType 
 		Method of Payment

@@ -31,7 +31,7 @@ public class X_DD_RequirementType extends PO implements I_DD_RequirementType, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_DD_RequirementType (Properties ctx, int DD_RequirementType_ID, String trxName)

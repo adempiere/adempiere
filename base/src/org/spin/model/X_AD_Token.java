@@ -24,14 +24,14 @@ import org.compiere.model.*;
 
 /** Generated Model for AD_Token
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_AD_Token extends PO implements I_AD_Token, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20201118L;
 
     /** Standard Constructor */
     public X_AD_Token (Properties ctx, int AD_Token_ID, String trxName)
@@ -41,7 +41,6 @@ public class X_AD_Token extends PO implements I_AD_Token, I_Persistent
         {
 			setAD_TokenDefinition_ID (0);
 			setAD_Token_ID (0);
-			setExpireDate (new Timestamp( System.currentTimeMillis() ));
         } */
     }
 
@@ -72,6 +71,34 @@ public class X_AD_Token extends PO implements I_AD_Token, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.compiere.model.I_AD_Role getAD_Role() throws RuntimeException
+    {
+		return (org.compiere.model.I_AD_Role)MTable.get(getCtx(), org.compiere.model.I_AD_Role.Table_Name)
+			.getPO(getAD_Role_ID(), get_TrxName());	}
+
+	/** Set Role.
+		@param AD_Role_ID 
+		Responsibility Role
+	  */
+	public void setAD_Role_ID (int AD_Role_ID)
+	{
+		if (AD_Role_ID < 0) 
+			set_Value (COLUMNNAME_AD_Role_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Role_ID, Integer.valueOf(AD_Role_ID));
+	}
+
+	/** Get Role.
+		@return Responsibility Role
+	  */
+	public int getAD_Role_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Role_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public org.spin.model.I_AD_TokenDefinition getAD_TokenDefinition() throws RuntimeException
     {
@@ -152,15 +179,18 @@ public class X_AD_Token extends PO implements I_AD_Token, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Expire Date.
-		@param ExpireDate Expire Date	  */
+	/** Set Expiration Time.
+		@param ExpireDate 
+		Expiration Time for Token or value
+	  */
 	public void setExpireDate (Timestamp ExpireDate)
 	{
 		set_Value (COLUMNNAME_ExpireDate, ExpireDate);
 	}
 
-	/** Get Expire Date.
-		@return Expire Date	  */
+	/** Get Expiration Time.
+		@return Expiration Time for Token or value
+	  */
 	public Timestamp getExpireDate () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_ExpireDate);

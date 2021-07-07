@@ -29,7 +29,7 @@ public class X_AD_Window_Access extends PO implements I_AD_Window_Access, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_Window_Access (Properties ctx, int AD_Window_Access_ID, String trxName)

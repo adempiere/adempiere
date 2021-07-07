@@ -30,7 +30,7 @@ public class X_DD_VehicleAssignment extends PO implements I_DD_VehicleAssignment
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_DD_VehicleAssignment (Properties ctx, int DD_VehicleAssignment_ID, String trxName)

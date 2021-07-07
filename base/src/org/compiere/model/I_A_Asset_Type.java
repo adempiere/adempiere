@@ -41,15 +41,6 @@ public interface I_A_Asset_Type
 
     /** Load Meta Data */
 
-    /** Column name A_Asset_Type_ID */
-    public static final String COLUMNNAME_A_Asset_Type_ID = "A_Asset_Type_ID";
-
-	/** Set Asset Type	  */
-	public void setA_Asset_Type_ID (int A_Asset_Type_ID);
-
-	/** Get Asset Type	  */
-	public int getA_Asset_Type_ID();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -70,6 +61,15 @@ public interface I_A_Asset_Type
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name A_Asset_Type_ID */
+    public static final String COLUMNNAME_A_Asset_Type_ID = "A_Asset_Type_ID";
+
+	/** Set Asset Type	  */
+	public void setA_Asset_Type_ID (int A_Asset_Type_ID);
+
+	/** Get Asset Type	  */
+	public int getA_Asset_Type_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -165,6 +165,19 @@ public interface I_A_Asset_Type
 	  */
 	public String getName();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -180,19 +193,6 @@ public interface I_A_Asset_Type
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

@@ -227,22 +227,6 @@ public interface I_AD_ClientInfo
 
 	public org.compiere.model.I_C_Calendar getC_Calendar() throws RuntimeException;
 
-    /** Column name Created */
-    public static final String COLUMNNAME_Created = "Created";
-
-	/** Get Created.
-	  * Date this record was created
-	  */
-	public Timestamp getCreated();
-
-    /** Column name CreatedBy */
-    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
-
-	/** Get Created By.
-	  * User who created this records
-	  */
-	public int getCreatedBy();
-
     /** Column name C_UOM_Length_ID */
     public static final String COLUMNNAME_C_UOM_Length_ID = "C_UOM_Length_ID";
 
@@ -303,6 +287,22 @@ public interface I_AD_ClientInfo
 
 	public org.compiere.model.I_C_UOM getC_UOM_Weight() throws RuntimeException;
 
+    /** Column name Created */
+    public static final String COLUMNNAME_Created = "Created";
+
+	/** Get Created.
+	  * Date this record was created
+	  */
+	public Timestamp getCreated();
+
+    /** Column name CreatedBy */
+    public static final String COLUMNNAME_CreatedBy = "CreatedBy";
+
+	/** Get Created By.
+	  * User who created this records
+	  */
+	public int getCreatedBy();
+
     /** Column name FileHandler_ID */
     public static final String COLUMNNAME_FileHandler_ID = "FileHandler_ID";
 
@@ -357,15 +357,6 @@ public interface I_AD_ClientInfo
 	  */
 	public int getKeepLogDays();
 
-    /** Column name Logo_ID */
-    public static final String COLUMNNAME_Logo_ID = "Logo_ID";
-
-	/** Set Logo	  */
-	public void setLogo_ID (int Logo_ID);
-
-	/** Get Logo	  */
-	public int getLogo_ID();
-
     /** Column name LogoReport_ID */
     public static final String COLUMNNAME_LogoReport_ID = "LogoReport_ID";
 
@@ -383,6 +374,15 @@ public interface I_AD_ClientInfo
 
 	/** Get Logo Web	  */
 	public int getLogoWeb_ID();
+
+    /** Column name Logo_ID */
+    public static final String COLUMNNAME_Logo_ID = "Logo_ID";
+
+	/** Set Logo	  */
+	public void setLogo_ID (int Logo_ID);
+
+	/** Get Logo	  */
+	public int getLogo_ID();
 
     /** Column name M_ProductFreight_ID */
     public static final String COLUMNNAME_M_ProductFreight_ID = "M_ProductFreight_ID";
@@ -410,6 +410,19 @@ public interface I_AD_ClientInfo
 
 	public org.compiere.model.I_R_MailText getRestorePassword_MailText() throws RuntimeException;
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -425,17 +438,4 @@ public interface I_AD_ClientInfo
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

@@ -1,0 +1,108 @@
+# This is a basic workflow to help you get started with Actions
+# This file was contributed by Carlos Parada and Yamel Senih from ERP Consultores y Asociados, C.A
+
+name: ADempiere Build
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the develop branch
+  push:
+   branches: [ "master", "develop", "bugfix/*", "feature/*" ]
+  pull_request:
+    branches: [ "master", "develop", "bugfix/*", "feature/*" ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
+      # Ensure a compatible version of java is used
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1.4.3
+        with:
+            java-version: '1.8'
+            java-package: jdk
+
+      # Build ADempiere with ant
+      - name: Build Adempiere ...
+        run: |
+          echo $(java -version)
+          echo $GITHUB_REF
+          echo $GITHUB_HEAD_REF
+          echo $GITHUB_BASE_REF
+          echo ${{ github.ref }}
+          echo "Current ant version: $(ant -version)"
+          echo "Installing ant version 1.10.9"
+          wget --no-check-certificate https://www.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.tar.gz
+          tar -xzf apache-ant-1.10.9-bin.tar.gz
+          export ANT_HOME=`pwd`/apache-ant-1.10.9
+          export PATH=${ANT_HOME}/bin:$PATH
+          echo $ANT_HOME
+          echo $PATH
+          echo $(ant -version)
+          cd utils_dev
+          ant complete
+  # This workflow contains a single job called "build"
+  create-seed:
+    needs: build
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+          
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      
+      # Ensure a compatible version of java is used
+      - name: Setup Java JDK
+        uses: actions/setup-java@v1.4.3
+        with:
+            java-version: '1.8'
+            java-package: jdk
+
+      # Build ADempiere with ant
+      - name: Build Adempiere ...
+        env:
+          ACTION_BUILD_DIR: ${{ github.action_path }}
+          POSTGRES_HOST: localhost
+          # The default PostgreSQL port
+          POSTGRES_PORT: 5432
+        run: |
+          echo $ACTION_BUILD_DIR
+          echo $GITHUB_REF
+          echo $GITHUB_HEAD_REF
+          echo $GITHUB_BASE_REF
+          echo ${{ github.ref }}
+          echo "Current ant version: $(ant -version)"
+          echo "Installing ant version 1.10.9"
+          wget --no-check-certificate https://www.apache.org/dist/ant/binaries/apache-ant-1.10.9-bin.tar.gz
+          tar -xzf apache-ant-1.10.9-bin.tar.gz
+          export ANT_HOME=`pwd`/apache-ant-1.10.9
+          export PATH=${ANT_HOME}/bin:$PATH
+          echo $ANT_HOME
+          echo $PATH
+          echo $(ant -version)
+          ant build

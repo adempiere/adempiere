@@ -17,6 +17,6 @@ patch: version
 
 pack: version
 	$(RM) -f compierejasper-$(shell $(JAVA) JasperReports.scripts.Version ).tar.bz2
-	tar -cvjf compierejasper-$(shell $(JAVA) JasperReports.scripts.Version ).tar.bz2 --exclude=JasperReports/lib --exclude=JasperReports/build --exclude=JasperReports/needed JasperReports tools/lib/barbecue-1.1.jar tools/lib/iReport.jar tools/lib/commons-beanutils-1.7.jar tools/lib/itext-1.2.jar tools/lib/commons-collections-3.1.jar tools/lib/commons-digester-1.6.jar tools/lib/commons-logging-1.4.jar tools/lib/jasperreports-0.6.5.jar tools/lib/jfreechart-0.9.21.jar tools/lib/xercesImpl.jar tools/lib/xml-apis.jar 
+	tar -cvjf compierejasper-$(shell $(JAVA) JasperReports.scripts.Version ).tar.bz2 --exclude=JasperReports/lib --exclude=JasperReports/build --exclude=JasperReports/needed JasperReports tools/lib/barbecue-1.1.jar tools/lib/iReport.jar tools/lib/commons-beanutils-1.7.jar tools/lib/itext-1.2.jar tools/lib/commons-collections-3.2.2.jar tools/lib/commons-digester-1.6.jar tools/lib/commons-logging-1.4.jar tools/lib/jasperreports-0.6.5.jar tools/lib/jfreechart-0.9.21.jar tools/lib/xercesImpl.jar tools/lib/xml-apis.jar
 	
 all: patch pack

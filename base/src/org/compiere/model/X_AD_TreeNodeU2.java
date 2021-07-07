@@ -29,7 +29,7 @@ public class X_AD_TreeNodeU2 extends PO implements I_AD_TreeNodeU2, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_TreeNodeU2 (Properties ctx, int AD_TreeNodeU2_ID, String trxName)

@@ -17,21 +17,23 @@
 /** Generated Model - DO NOT CHANGE */
 package org.spin.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
+import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_AttachmentReference
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_AD_AttachmentReference extends PO implements I_AD_AttachmentReference, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190602L;
+	private static final long serialVersionUID = 20200604L;
 
     /** Standard Constructor */
     public X_AD_AttachmentReference (Properties ctx, int AD_AttachmentReference_ID, String trxName)
@@ -249,6 +251,26 @@ public class X_AD_AttachmentReference extends PO implements I_AD_AttachmentRefer
     {
         return new KeyNamePair(get_ID(), getFileName());
     }
+
+	/** Set File Size.
+		@param FileSize 
+		Size of the File in bytes
+	  */
+	public void setFileSize (BigDecimal FileSize)
+	{
+		set_Value (COLUMNNAME_FileSize, FileSize);
+	}
+
+	/** Get File Size.
+		@return Size of the File in bytes
+	  */
+	public BigDecimal getFileSize () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FileSize);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
 
 	/** Set Text Message.
 		@param TextMsg 

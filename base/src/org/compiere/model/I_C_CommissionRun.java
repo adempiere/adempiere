@@ -73,6 +73,19 @@ public interface I_C_CommissionRun
 
 	public org.compiere.model.I_C_CommissionGroup getC_CommissionGroup() throws RuntimeException;
 
+    /** Column name C_CommissionRun_ID */
+    public static final String COLUMNNAME_C_CommissionRun_ID = "C_CommissionRun_ID";
+
+	/** Set Commission Run.
+	  * Commission Run or Process
+	  */
+	public void setC_CommissionRun_ID (int C_CommissionRun_ID);
+
+	/** Get Commission Run.
+	  * Commission Run or Process
+	  */
+	public int getC_CommissionRun_ID();
+
     /** Column name C_Commission_ID */
     public static final String COLUMNNAME_C_Commission_ID = "C_Commission_ID";
 
@@ -87,19 +100,6 @@ public interface I_C_CommissionRun
 	public int getC_Commission_ID();
 
 	public org.compiere.model.I_C_Commission getC_Commission() throws RuntimeException;
-
-    /** Column name C_CommissionRun_ID */
-    public static final String COLUMNNAME_C_CommissionRun_ID = "C_CommissionRun_ID";
-
-	/** Set Commission Run.
-	  * Commission Run or Process
-	  */
-	public void setC_CommissionRun_ID (int C_CommissionRun_ID);
-
-	/** Get Commission Run.
-	  * Commission Run or Process
-	  */
-	public int getC_CommissionRun_ID();
 
     /** Column name C_DocType_ID */
     public static final String COLUMNNAME_C_DocType_ID = "C_DocType_ID";
@@ -297,6 +297,19 @@ public interface I_C_CommissionRun
 	  */
 	public Timestamp getStartDate();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -312,17 +325,4 @@ public interface I_C_CommissionRun
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

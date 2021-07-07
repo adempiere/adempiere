@@ -30,7 +30,7 @@ public class X_R_MailText extends PO implements I_R_MailText, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_R_MailText (Properties ctx, int R_MailText_ID, String trxName)

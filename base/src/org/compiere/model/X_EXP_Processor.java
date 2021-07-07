@@ -29,7 +29,7 @@ public class X_EXP_Processor extends PO implements I_EXP_Processor, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_EXP_Processor (Properties ctx, int EXP_Processor_ID, String trxName)

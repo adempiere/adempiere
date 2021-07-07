@@ -62,19 +62,6 @@ public interface I_CM_Container
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name CM_Container_ID */
-    public static final String COLUMNNAME_CM_Container_ID = "CM_Container_ID";
-
-	/** Set Web Container.
-	  * Web Container contains content like images, text etc.
-	  */
-	public void setCM_Container_ID (int CM_Container_ID);
-
-	/** Get Web Container.
-	  * Web Container contains content like images, text etc.
-	  */
-	public int getCM_Container_ID();
-
     /** Column name CM_ContainerLink_ID */
     public static final String COLUMNNAME_CM_ContainerLink_ID = "CM_ContainerLink_ID";
 
@@ -89,6 +76,19 @@ public interface I_CM_Container
 	public int getCM_ContainerLink_ID();
 
 	public org.compiere.model.I_CM_Container getCM_ContainerLink() throws RuntimeException;
+
+    /** Column name CM_Container_ID */
+    public static final String COLUMNNAME_CM_Container_ID = "CM_Container_ID";
+
+	/** Set Web Container.
+	  * Web Container contains content like images, text etc.
+	  */
+	public void setCM_Container_ID (int CM_Container_ID);
+
+	/** Get Web Container.
+	  * Web Container contains content like images, text etc.
+	  */
+	public int getCM_Container_ID();
 
     /** Column name CM_Template_ID */
     public static final String COLUMNNAME_CM_Template_ID = "CM_Template_ID";
@@ -450,6 +450,19 @@ public interface I_CM_Container
 	  */
 	public String getTitle();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -465,17 +478,4 @@ public interface I_CM_Container
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

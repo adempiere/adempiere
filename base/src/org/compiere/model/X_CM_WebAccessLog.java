@@ -31,7 +31,7 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_CM_WebAccessLog (Properties ctx, int CM_WebAccessLog_ID, String trxName)
@@ -75,23 +75,6 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
       return sb.toString();
     }
 
-	/** Set Accept Language.
-		@param AcceptLanguage 
-		Language accepted based on browser information
-	  */
-	public void setAcceptLanguage (String AcceptLanguage)
-	{
-		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
-	}
-
-	/** Get Accept Language.
-		@return Language accepted based on browser information
-	  */
-	public String getAcceptLanguage () 
-	{
-		return (String)get_Value(COLUMNNAME_AcceptLanguage);
-	}
-
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException
     {
 		return (org.compiere.model.I_AD_User)MTable.get(getCtx(), org.compiere.model.I_AD_User.Table_Name)
@@ -118,6 +101,23 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Accept Language.
+		@param AcceptLanguage 
+		Language accepted based on browser information
+	  */
+	public void setAcceptLanguage (String AcceptLanguage)
+	{
+		set_Value (COLUMNNAME_AcceptLanguage, AcceptLanguage);
+	}
+
+	/** Get Accept Language.
+		@return Language accepted based on browser information
+	  */
+	public String getAcceptLanguage () 
+	{
+		return (String)get_Value(COLUMNNAME_AcceptLanguage);
 	}
 
 	public org.compiere.model.I_CM_BroadcastServer getCM_BroadcastServer() throws RuntimeException
@@ -417,23 +417,6 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 		return ii.intValue();
 	}
 
-	/** Set User Agent.
-		@param UserAgent 
-		Browser Used
-	  */
-	public void setUserAgent (String UserAgent)
-	{
-		set_Value (COLUMNNAME_UserAgent, UserAgent);
-	}
-
-	/** Get User Agent.
-		@return Browser Used
-	  */
-	public String getUserAgent () 
-	{
-		return (String)get_Value(COLUMNNAME_UserAgent);
-	}
-
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 
 		Immutable Universally Unique Identifier
@@ -449,6 +432,23 @@ public class X_CM_WebAccessLog extends PO implements I_CM_WebAccessLog, I_Persis
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** Set User Agent.
+		@param UserAgent 
+		Browser Used
+	  */
+	public void setUserAgent (String UserAgent)
+	{
+		set_Value (COLUMNNAME_UserAgent, UserAgent);
+	}
+
+	/** Get User Agent.
+		@return Browser Used
+	  */
+	public String getUserAgent () 
+	{
+		return (String)get_Value(COLUMNNAME_UserAgent);
 	}
 
 	/** Set Web Session.

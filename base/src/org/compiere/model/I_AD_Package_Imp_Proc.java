@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Package_Imp_Proc
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_AD_Package_Imp_Proc 
 {
@@ -35,9 +35,9 @@ public interface I_AD_Package_Imp_Proc
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 4 - System 
+    /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
 
@@ -156,6 +156,19 @@ public interface I_AD_Package_Imp_Proc
 
 	/** Get Process Now	  */
 	public boolean isProcessing();
+
+    /** Column name RequiresSync */
+    public static final String COLUMNNAME_RequiresSync = "RequiresSync";
+
+	/** Set Requires Sync.
+	  * A flag indicating that the associated column or table definition is not synchronized with the database.
+	  */
+	public void setRequiresSync (boolean RequiresSync);
+
+	/** Get Requires Sync.
+	  * A flag indicating that the associated column or table definition is not synchronized with the database.
+	  */
+	public boolean isRequiresSync();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";

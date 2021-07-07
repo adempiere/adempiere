@@ -29,7 +29,7 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190602L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_ClientInfo (Properties ctx, int AD_ClientInfo_ID, String trxName)
@@ -561,26 +561,6 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Logo.
-		@param Logo_ID Logo	  */
-	public void setLogo_ID (int Logo_ID)
-	{
-		if (Logo_ID < 1) 
-			set_Value (COLUMNNAME_Logo_ID, null);
-		else 
-			set_Value (COLUMNNAME_Logo_ID, Integer.valueOf(Logo_ID));
-	}
-
-	/** Get Logo.
-		@return Logo	  */
-	public int getLogo_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Logo_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Logo Report.
 		@param LogoReport_ID Logo Report	  */
 	public void setLogoReport_ID (int LogoReport_ID)
@@ -616,6 +596,26 @@ public class X_AD_ClientInfo extends PO implements I_AD_ClientInfo, I_Persistent
 	public int getLogoWeb_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_LogoWeb_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Logo.
+		@param Logo_ID Logo	  */
+	public void setLogo_ID (int Logo_ID)
+	{
+		if (Logo_ID < 1) 
+			set_Value (COLUMNNAME_Logo_ID, null);
+		else 
+			set_Value (COLUMNNAME_Logo_ID, Integer.valueOf(Logo_ID));
+	}
+
+	/** Get Logo.
+		@return Logo	  */
+	public int getLogo_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_Logo_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -32,7 +32,7 @@ public class X_M_CostQueue extends PO implements I_M_CostQueue, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_CostQueue (Properties ctx, int M_CostQueue_ID, String trxName)

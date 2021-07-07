@@ -378,6 +378,19 @@ public interface I_AD_Process_Para
 	  */
 	public int getSeqNo();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -394,18 +407,20 @@ public interface I_AD_Process_Para
 	  */
 	public int getUpdatedBy();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
+    /** Column name VFormat */
+    public static final String COLUMNNAME_VFormat = "VFormat";
 
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Set Value Format.
+	  * Format of the value;
+ Can contain fixed format elements, Variables: "_lLoOaAcCa09"
 	  */
-	public void setUUID (String UUID);
+	public void setVFormat (String VFormat);
 
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
+	/** Get Value Format.
+	  * Format of the value;
+ Can contain fixed format elements, Variables: "_lLoOaAcCa09"
 	  */
-	public String getUUID();
+	public String getVFormat();
 
     /** Column name ValueMax */
     public static final String COLUMNNAME_ValueMax = "ValueMax";
@@ -432,19 +447,4 @@ public interface I_AD_Process_Para
 	  * Minimum Value for a field
 	  */
 	public String getValueMin();
-
-    /** Column name VFormat */
-    public static final String COLUMNNAME_VFormat = "VFormat";
-
-	/** Set Value Format.
-	  * Format of the value;
- Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public void setVFormat (String VFormat);
-
-	/** Get Value Format.
-	  * Format of the value;
- Can contain fixed format elements, Variables: "_lLoOaAcCa09"
-	  */
-	public String getVFormat();
 }

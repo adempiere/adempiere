@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fixed Primary Key for AD_Sequences" ReleaseNo="3.9.3" SeqNo="5531">
+    <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>UPDATE AD_Sequence SET AD_Sequence_ID = 55200 WHERE Name = 'AD_RecentItem';
+UPDATE AD_Sequence SET AD_Sequence_ID = 55201 WHERE Name = 'AD_FieldCondition';
+UPDATE AD_Sequence SET AD_Sequence_ID = 55202 WHERE Name = 'DocumentNo_C_CommissionGroup' AND AD_Client_ID = 0;
+UPDATE AD_Sequence SET AD_Sequence_ID = 55203 WHERE Name = 'DD_VehicleGroup';
+UPDATE AD_Sequence SET AD_Sequence_ID = 55204 WHERE Name = 'T_TrialBalance';
+UPDATE AD_Sequence SET AD_Sequence_ID = 55205 WHERE Name = 'C_LandedCostType';
+UPDATE AD_Sequence SET AD_Sequence_ID = 55206 WHERE Name = 'DocumentNo_DD_VehicleGroup' AND AD_Client_ID = 0;
+UPDATE AD_Sequence SET AD_Sequence_ID = 55207 WHERE Name = 'DocumentNo_C_BP_IndustryType' AND AD_Client_ID = 0;
+UPDATE AD_Sequence SET AD_Sequence_ID = 55208 WHERE Name = 'DocumentNo_C_BP_SalesGroup' AND AD_Client_ID = 0;
+UPDATE AD_Sequence SET AD_Sequence_ID = 55209 WHERE Name = 'DocumentNo_C_BP_AccountType' AND AD_Client_ID = 0;
+UPDATE AD_Sequence SET AD_Sequence_ID = 55210 WHERE Name = 'DocumentNo_C_BP_Segment' AND AD_Client_ID = 0;</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>

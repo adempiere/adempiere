@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_ReplicationTable
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_AD_ReplicationTable 
 {
@@ -148,6 +148,17 @@ public interface I_AD_ReplicationTable
  Determines ownership and synchronization
 	  */
 	public String getEntityType();
+
+    /** Column name EXP_Format_ID */
+    public static final String COLUMNNAME_EXP_Format_ID = "EXP_Format_ID";
+
+	/** Set Export Format	  */
+	public void setEXP_Format_ID (int EXP_Format_ID);
+
+	/** Get Export Format	  */
+	public int getEXP_Format_ID();
+
+	public org.compiere.model.I_EXP_Format getEXP_Format() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

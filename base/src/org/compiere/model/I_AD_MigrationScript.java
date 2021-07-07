@@ -139,15 +139,6 @@ public interface I_AD_MigrationScript
 	  */
 	public boolean isActive();
 
-    /** Column name isApply */
-    public static final String COLUMNNAME_isApply = "isApply";
-
-	/** Set Apply Script	  */
-	public void setisApply (boolean isApply);
-
-	/** Get Apply Script	  */
-	public boolean isApply();
-
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -235,22 +226,6 @@ public interface I_AD_MigrationScript
 	  */
 	public String getStatus();
 
-    /** Column name Updated */
-    public static final String COLUMNNAME_Updated = "Updated";
-
-	/** Get Updated.
-	  * Date this record was updated
-	  */
-	public Timestamp getUpdated();
-
-    /** Column name UpdatedBy */
-    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
-
-	/** Get Updated By.
-	  * User who updated this records
-	  */
-	public int getUpdatedBy();
-
     /** Column name URL */
     public static final String COLUMNNAME_URL = "URL";
 
@@ -276,4 +251,29 @@ public interface I_AD_MigrationScript
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
+
+    /** Column name Updated */
+    public static final String COLUMNNAME_Updated = "Updated";
+
+	/** Get Updated.
+	  * Date this record was updated
+	  */
+	public Timestamp getUpdated();
+
+    /** Column name UpdatedBy */
+    public static final String COLUMNNAME_UpdatedBy = "UpdatedBy";
+
+	/** Get Updated By.
+	  * User who updated this records
+	  */
+	public int getUpdatedBy();
+
+    /** Column name isApply */
+    public static final String COLUMNNAME_isApply = "isApply";
+
+	/** Set Apply Script	  */
+	public void setisApply (boolean isApply);
+
+	/** Get Apply Script	  */
+	public boolean isApply();
 }

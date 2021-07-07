@@ -912,7 +912,7 @@ public class MBPartner extends X_C_BPartner
 			if (getC_BP_Group_ID() == 0)
 				m_group = MBPGroup.getDefault(getCtx());
 			else
-				m_group = MBPGroup.get(getCtx(), getC_BP_Group_ID());
+				m_group = MBPGroup.get(getCtx(), getC_BP_Group_ID(), get_TrxName());
 		}
 		return m_group;
 	}	//	getBPGroup

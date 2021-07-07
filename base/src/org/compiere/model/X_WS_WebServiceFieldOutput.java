@@ -30,7 +30,7 @@ public class X_WS_WebServiceFieldOutput extends PO implements I_WS_WebServiceFie
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_WS_WebServiceFieldOutput (Properties ctx, int WS_WebServiceFieldOutput_ID, String trxName)

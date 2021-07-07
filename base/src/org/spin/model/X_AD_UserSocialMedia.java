@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_UserSocialMedia
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_AD_UserSocialMedia extends PO implements I_AD_UserSocialMedia, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190529L;
+	private static final long serialVersionUID = 20200228L;
 
     /** Standard Constructor */
     public X_AD_UserSocialMedia (Properties ctx, int AD_UserSocialMedia_ID, String trxName)
@@ -146,8 +146,10 @@ public class X_AD_UserSocialMedia extends PO implements I_AD_UserSocialMedia, I_
 		return ii.intValue();
 	}
 
-	/** Set Social Media ID.
-		@param AD_UserSocialMedia_ID Social Media ID	  */
+	/** Set Social Media.
+		@param AD_UserSocialMedia_ID 
+		User External Link for Social Media
+	  */
 	public void setAD_UserSocialMedia_ID (int AD_UserSocialMedia_ID)
 	{
 		if (AD_UserSocialMedia_ID < 1) 
@@ -156,8 +158,9 @@ public class X_AD_UserSocialMedia extends PO implements I_AD_UserSocialMedia, I_
 			set_ValueNoCheck (COLUMNNAME_AD_UserSocialMedia_ID, Integer.valueOf(AD_UserSocialMedia_ID));
 	}
 
-	/** Get Social Media ID.
-		@return Social Media ID	  */
+	/** Get Social Media.
+		@return User External Link for Social Media
+	  */
 	public int getAD_UserSocialMedia_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_UserSocialMedia_ID);

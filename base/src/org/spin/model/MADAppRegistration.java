@@ -135,6 +135,14 @@ public class MADAppRegistration extends X_AD_AppRegistration {
 	}
 	
 	/**
+	 * Reset cache for values
+	 */
+	public static void resetCache() {
+		definitionCacheIds.clear();
+		definitionCacheValues.clear();
+	}
+	
+	/**
 	 * Get parameter value from name
 	 * @param parameterName
 	 * @return
@@ -195,7 +203,18 @@ public class MADAppRegistration extends X_AD_AppRegistration {
 		}
 		return super.afterSave(newRecord, success);
 	}
-
+	
+	/**
+	 * get All Parameters for App Registration
+	 * @return
+	 */
+	public Map<String, MADAppRegistrationPara> getAllParameters(){
+		if (parameters== null)
+			loadParameters();
+		
+		return parameters;
+	}
+	
 	@Override
 	public String toString() {
 		return "MADAppRegistration [getAD_AppRegistration_ID()=" + getAD_AppRegistration_ID() + ", getName()=" + getName() 

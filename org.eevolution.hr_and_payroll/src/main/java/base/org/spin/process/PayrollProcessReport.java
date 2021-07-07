@@ -19,18 +19,16 @@ package org.spin.process;
 import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JFileChooser;
 
 import org.adempiere.exceptions.AdempiereException;
-import org.compiere.apps.ProcessCtl;
 import org.compiere.model.MQuery;
 import org.compiere.model.PrintInfo;
 import org.compiere.model.Query;
 import org.compiere.print.MPrintFormat;
-import org.compiere.print.ReportCtl;
-import org.compiere.print.ReportEngine;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.util.Env;
@@ -41,6 +39,7 @@ import org.compiere.util.Util;
 import org.eevolution.model.I_HR_Process;
 import org.eevolution.model.MHRPayroll;
 import org.eevolution.model.MHRProcess;
+import org.eevolution.service.dsl.ProcessBuilder;
 import org.spin.model.I_HR_ProcessReport;
 import org.spin.model.I_RV_HR_ProcessDetail;
 import org.spin.model.MHRProcessReport;
@@ -73,25 +72,39 @@ public class PayrollProcessReport extends PayrollProcessReportAbstract {
 
 	@Override
 	protected String doIt() throws Exception {
-		//	Set direct print of properties
-		boolean directPrint = Ini.isPropertyBool(Ini.P_PRINTPREVIEW);
 		//	Get Print Format
-		MHRProcessReport pReport = MHRProcessReport.get(getCtx(), getProcessReportId());
+		MHRProcessReport processReport = MHRProcessReport.get(getCtx(), getProcessReportId());
 		//	Action Export File
-		if(pReport.isCanExport()) {
+		if(processReport.isCanExport()) {
 			//	Do It
-			return exportToFile(pReport);
+			return exportToFile(processReport);
 		}
+		String name = processReport.getName();
+		String printName = processReport.getPrintName();
+		String textMsg = processReport.getTextMsg();
+		String receiptFooterMsg = processReport.getReceiptFooterMsg();
 		//	For template
 		if(getProcessReportTemplateId() != 0) {
 			MHRProcessReportTemplate template = MHRProcessReportTemplate.get(getCtx(), getProcessReportTemplateId());
 			if(template != null) {
 				printFormatId = template.getAD_PrintFormat_ID();
+				if(!Util.isEmpty(template.getName())) {
+					name = template.getName();
+				}
+				if(!Util.isEmpty(template.getPrintName())) {
+					printName = template.getPrintName();
+				}
+				if(!Util.isEmpty(template.getTextMsg())) {
+					textMsg = template.getTextMsg();
+				}
+				if(!Util.isEmpty(template.getReceiptFooterMsg())) {
+					receiptFooterMsg = template.getReceiptFooterMsg();
+				}
 			}
 		}
 		//	Valid from Parameter
 		if(printFormatId == 0) {
-			printFormatId = pReport.getAD_PrintFormat_ID();
+			printFormatId = processReport.getAD_PrintFormat_ID();
 		}
 		//	Get from Payroll
 		if(printFormatId == 0) {
@@ -137,23 +150,28 @@ public class PayrollProcessReport extends PayrollProcessReportAbstract {
 		//	If exists Print Format 
 		if(format != null)	{
 			//	Engine
-			ReportEngine reportEngine = new ReportEngine(getCtx(), format, query , printInfo, get_TrxName()); //	Instance report Engine 
 			//	If report engine is not null
 			if(format.getJasperProcess_ID() > 0) { 
-				//		
-				ProcessInfo processInfo = new ProcessInfo (getProcessInfo().getTitle(), format.getJasperProcess_ID());
-				processInfo.setPrintPreview(!directPrint);
-				processInfo.setRecord_ID(getProcessReportId());
-				//	
-				processInfo.setParameter(getParameter());
+				//	Execute Process
+				ProcessBuilder builder = ProcessBuilder.create(getCtx())
+					.process(format.getJasperProcess_ID())
+					.withTitle(getProcessInfo().getTitle())
+					.withRecordId(I_HR_Process.Table_ID, getProcessReportId())
+					.withParameter("ProcessReportName", name)
+					.withParameter("ProcessReportPrintName", printName)
+					.withParameter("ProcessReportTextMsg", textMsg)
+					.withParameter("ProcessReportReceiptFooterMsg", receiptFooterMsg);
 				//	Add HR Process for internal window
 				if(getRecord_ID() != 0) {
-					processInfo.addParameter(HR_PROCESS_ID, new BigDecimal(getHRProcessId()), null);
+					builder.withParameter(HR_PROCESS_ID, new BigDecimal(getHRProcessId()));
 				}
-				processInfo.addParameter(ReportCtl.PARAM_PRINT_FORMAT, format, null);
-				processInfo.addParameter(ReportCtl.PARAM_PRINT_INFO, reportEngine.getPrintInfo(), null);
-				//	Execute Process
-				ProcessCtl.process(null, 0, null, processInfo, null);
+				//	Add current parameters
+				Arrays.asList(getParameter()).forEach(parameter -> builder.withParameter(parameter.getParameterName(), parameter.getParameter(), parameter.getParameter_To()));
+				//	Run it
+				builder.withPrintPreview();
+				ProcessInfo processInfo = builder.execute(get_TrxName());
+				getProcessInfo().setPDFReport(processInfo.getPDFReport());
+				getProcessInfo().setReportAsFile(processInfo.getPDFReport());
 			}
 		}
 		//	

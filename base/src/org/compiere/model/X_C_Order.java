@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for C_Order
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_C_Order extends PO implements I_C_Order, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20200804L;
 
     /** Standard Constructor */
     public X_C_Order (Properties ctx, int C_Order_ID, String trxName)
@@ -822,6 +822,34 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_SalesRegion)MTable.get(getCtx(), org.compiere.model.I_C_SalesRegion.Table_Name)
+			.getPO(getC_SalesRegion_ID(), get_TrxName());	}
+
+	/** Set Sales Region.
+		@param C_SalesRegion_ID 
+		Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID)
+	{
+		if (C_SalesRegion_ID < 1) 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_SalesRegion_ID, Integer.valueOf(C_SalesRegion_ID));
+	}
+
+	/** Get Sales Region.
+		@return Sales coverage region
+	  */
+	public int getC_SalesRegion_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_SalesRegion_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Account Date.
 		@param DateAcct 
 		Accounting Date
@@ -1214,6 +1242,26 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		return (String)get_Value(COLUMNNAME_FreightCostRule);
 	}
 
+	/** Set Freight Rate.
+		@param FreightRate 
+		Freight Rate of Shipper 
+	  */
+	public void setFreightRate (BigDecimal FreightRate)
+	{
+		set_Value (COLUMNNAME_FreightRate, FreightRate);
+	}
+
+	/** Get Freight Rate.
+		@return Freight Rate of Shipper 
+	  */
+	public BigDecimal getFreightRate () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FreightRate);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Grand Total.
 		@param GrandTotal 
 		Total amount of document
@@ -1600,6 +1648,34 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_M_Freight getM_Freight() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Freight)MTable.get(getCtx(), org.compiere.model.I_M_Freight.Table_Name)
+			.getPO(getM_Freight_ID(), get_TrxName());	}
+
+	/** Set Freight.
+		@param M_Freight_ID 
+		Freight Rate
+	  */
+	public void setM_Freight_ID (int M_Freight_ID)
+	{
+		if (M_Freight_ID < 1) 
+			set_Value (COLUMNNAME_M_Freight_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Freight_ID, Integer.valueOf(M_Freight_ID));
+	}
+
+	/** Get Freight.
+		@return Freight Rate
+	  */
+	public int getM_Freight_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Freight_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_PriceList getM_PriceList() throws RuntimeException
     {
 		return (org.compiere.model.I_M_PriceList)MTable.get(getCtx(), org.compiere.model.I_M_PriceList.Table_Name)
@@ -1623,6 +1699,34 @@ public class X_C_Order extends PO implements I_C_Order, I_Persistent
 	public int getM_PriceList_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_PriceList_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_RMAType getM_RMAType() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_RMAType)MTable.get(getCtx(), org.compiere.model.I_M_RMAType.Table_Name)
+			.getPO(getM_RMAType_ID(), get_TrxName());	}
+
+	/** Set RMA Type.
+		@param M_RMAType_ID 
+		Return Material Authorization Type
+	  */
+	public void setM_RMAType_ID (int M_RMAType_ID)
+	{
+		if (M_RMAType_ID < 1) 
+			set_Value (COLUMNNAME_M_RMAType_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_RMAType_ID, Integer.valueOf(M_RMAType_ID));
+	}
+
+	/** Get RMA Type.
+		@return Return Material Authorization Type
+	  */
+	public int getM_RMAType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_RMAType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

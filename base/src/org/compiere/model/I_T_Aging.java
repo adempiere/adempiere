@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for T_Aging
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_T_Aging 
 {
@@ -161,7 +161,7 @@ public interface I_T_Aging
 	/** Get C_CashFlow_ID	  */
 	public int getC_CashFlow_ID();
 
-	public  org.eevolution.model.I_C_CashFlow getC_CashFlow() throws RuntimeException;
+	public org.eevolution.model.I_C_CashFlow getC_CashFlow() throws RuntimeException;
 
     /** Column name C_Currency_ID */
     public static final String COLUMNNAME_C_Currency_ID = "C_Currency_ID";
@@ -307,6 +307,15 @@ public interface I_T_Aging
 	/** Get Due Today-7	  */
 	public BigDecimal getDue0_7();
 
+    /** Column name Due15_30 */
+    public static final String COLUMNNAME_Due15_30 = "Due15_30";
+
+	/** Set Due 15-30	  */
+	public void setDue15_30 (BigDecimal Due15_30);
+
+	/** Get Due 15-30	  */
+	public BigDecimal getDue15_30();
+
     /** Column name Due1_7 */
     public static final String COLUMNNAME_Due1_7 = "Due1_7";
 
@@ -351,6 +360,15 @@ public interface I_T_Aging
 
 	/** Get Due > 61	  */
 	public BigDecimal getDue61_Plus();
+
+    /** Column name Due8_14 */
+    public static final String COLUMNNAME_Due8_14 = "Due8_14";
+
+	/** Set Due 8-14	  */
+	public void setDue8_14 (BigDecimal Due8_14);
+
+	/** Get Due 8-14	  */
+	public BigDecimal getDue8_14();
 
     /** Column name Due8_30 */
     public static final String COLUMNNAME_Due8_30 = "Due8_30";
@@ -470,6 +488,15 @@ public interface I_T_Aging
 	/** Get Past Due 1-30	  */
 	public BigDecimal getPastDue1_30();
 
+    /** Column name PastDue15_30 */
+    public static final String COLUMNNAME_PastDue15_30 = "PastDue15_30";
+
+	/** Set Past Due 15-30	  */
+	public void setPastDue15_30 (BigDecimal PastDue15_30);
+
+	/** Get Past Due 15-30	  */
+	public BigDecimal getPastDue15_30();
+
     /** Column name PastDue1_7 */
     public static final String COLUMNNAME_PastDue1_7 = "PastDue1_7";
 
@@ -515,6 +542,15 @@ public interface I_T_Aging
 	/** Get Past Due > 61	  */
 	public BigDecimal getPastDue61_Plus();
 
+    /** Column name PastDue8_14 */
+    public static final String COLUMNNAME_PastDue8_14 = "PastDue8_14";
+
+	/** Set Past Due 8-14	  */
+	public void setPastDue8_14 (BigDecimal PastDue8_14);
+
+	/** Get Past Due 8-14	  */
+	public BigDecimal getPastDue8_14();
+
     /** Column name PastDue8_30 */
     public static final String COLUMNNAME_PastDue8_30 = "PastDue8_30";
 
@@ -541,6 +577,21 @@ public interface I_T_Aging
 
 	/** Get Past Due	  */
 	public BigDecimal getPastDueAmt();
+
+    /** Column name SalesRep_ID */
+    public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
+
+	/** Set Sales Representative.
+	  * Sales Representative or Company Agent
+	  */
+	public void setSalesRep_ID (int SalesRep_ID);
+
+	/** Get Sales Representative.
+	  * Sales Representative or Company Agent
+	  */
+	public int getSalesRep_ID();
+
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name StatementDate */
     public static final String COLUMNNAME_StatementDate = "StatementDate";

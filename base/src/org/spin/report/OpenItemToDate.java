@@ -27,11 +27,11 @@ import org.compiere.util.Util;
  * Add Open Item to Date, you can choice between date invoiced or accounting date
  */
 public class OpenItemToDate extends OpenItemToDateAbstract {
-	
+
 	/**	Start Time				*/
 	private long 				m_start = System.currentTimeMillis();
-	
-	
+
+
 	@Override
 	protected String doIt() throws SQLException{
 		StringBuffer sql = new StringBuffer();
@@ -72,16 +72,51 @@ public class OpenItemToDate extends OpenItemToDateAbstract {
 		if(getDateAcctTo() != null) {
 			whereClause.append(" AND i.DateAcct <= ?");
 		}
+		//	Activity
+		if(getActivityId() != 0) {
+			whereClause.append(" AND i.C_Activity_ID = ?");
+		}
+		//	Business Partner Account Type
+		if(getBPAccountTypeId() != 0) {
+			whereClause.append(" AND i.C_BP_AccountType_ID = ?");
+		}
+		//	Industry Type
+		if(getBPIndustryTypeId() != 0) {
+			whereClause.append(" AND i.C_BP_IndustryType_ID = ?");
+		}	
+		//	Business Partner Sales Group
+		if(getBPSalesGroupId() != 0) {
+			whereClause.append(" AND i.C_BP_SalesGroup_ID = ?");
+		}	
+		//	Segment
+		if(getBPSegmentId() != 0) {
+			whereClause.append(" AND i.C_BP_Segment_ID = ?");
+		}	
+		//	Sales Representative
+		if(getSalesRepId() != 0) {
+			whereClause.append(" AND i.SalesRep_ID = ?");
+		}
+		//	Price List
+		if(getPriceListId() != 0) {
+			whereClause.append(" AND i.M_PriceList_ID = ?");
+		}
+		//	Sales Region
+		if(getSalesRegionId() != 0) {
+			whereClause.append(" AND i.C_SalesRegion_ID = ?");
+		}
+
 		//	Insert
 		sql.append("INSERT INTO T_OpenItemToDate(AD_Org_ID, AD_Client_ID, DocumentNo, C_Invoice_ID, "
 				+ "C_Order_ID, C_BPartner_ID, IsSOTrx, DateInvoiced, "
 				+ "DateAcct, NetDays, DueDate, DaysDue, DiscountDate, "
-				+ "DiscountAmt, GrandTotal, PaidAmt, OpenAmt, "
-				+ "C_Currency_ID, C_ConversionType_ID, C_PaymentTerm_ID, "
+				+ "DiscountAmt, GrandTotal, PaidAmt, OpenAmt,"
+				+ "C_Currency_ID, C_ConversionType_ID, C_PaymentTerm_ID,"
 				+ "IsPayScheduleValid, C_InvoicePaySchedule_ID, InvoiceCollectionType, "
 				+ "C_Campaign_ID, C_Project_ID, C_Activity_ID, C_DocType_ID, DateTo, "
-				+ "AD_PInstance_ID, Created, Updated, CreatedBy, UpdatedBy) ");
-		
+				+ "AD_PInstance_ID, Created, Updated, CreatedBy, UpdatedBy, " 
+				+ "SalesRep_ID, C_BP_Group_ID, C_BP_AccountType_ID, C_BP_IndustryType_ID, C_BP_SalesGroup_ID, " 
+				+ "C_BP_Segment_ID, M_PriceList_ID, C_SalesRegion_ID) ");
+
 		//	Main Select
 		sql.append("SELECT i.AD_Org_ID, i.AD_Client_ID, i.DocumentNo, i.C_Invoice_ID, "
 				+ "i.C_Order_ID, i.C_BPartner_ID, i.IsSOTrx, i.DateInvoiced, "
@@ -89,9 +124,13 @@ public class OpenItemToDate extends OpenItemToDateAbstract {
 				+ "i.DiscountAmt, i.GrandTotal, i.PaidAmt, i.OpenAmt, "
 				+ "i.C_Currency_ID, i.C_ConversionType_ID, i.C_PaymentTerm_ID, "
 				+ "i.IsPayScheduleValid, i.C_InvoicePaySchedule_ID, i.InvoiceCollectionType, "
-				+ "i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID, i.C_DocType_ID, ?, ")
-				//	Instance, Created, Updated, CreatedBy, UpdatedBy
-				.append(getAD_PInstance_ID()).append(", getdate(), getdate(), ").append(getAD_User_ID()).append(", ").append(getAD_User_ID()).append(" ");
+				+ "i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID, i.C_DocType_ID, ? , ")
+		//	Instance, Created, Updated, CreatedBy, UpdatedBy
+		.append(getAD_PInstance_ID()).append(", getdate(), getdate(), ").append(getAD_User_ID()).append(", ").append(getAD_User_ID()).append(", ")
+		.append("i.SalesRep_ID, " 
+				+ "i.C_BP_Group_ID, i.C_BP_AccountType_ID, i.C_BP_IndustryType_ID, i.C_BP_SalesGroup_ID, "  
+				+ "i.C_BP_Segment_ID, i.M_PriceList_ID, i.C_SalesRegion_ID ");
+
 		//	Without Payment Schedule
 		sql.append("FROM (SELECT i.AD_Org_ID, i.AD_Client_ID,	"
 				+ "i.DocumentNo, i.C_Invoice_ID, i.C_Order_ID, i.C_BPartner_ID, i.IsSOTrx, "
@@ -108,6 +147,9 @@ public class OpenItemToDate extends OpenItemToDateAbstract {
 				+ "i.C_PaymentTerm_ID, "
 				+ "i.IsPayScheduleValid, cast(null as numeric) AS C_InvoicePaySchedule_ID, i.InvoiceCollectionType, "
 				+ "i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID, i.C_DocType_ID "
+				+ ", i.SalesRep_ID, " 
+				+ "i.C_BP_Group_ID, i.C_BP_AccountType_ID, i.C_BP_IndustryType_ID, i.C_BP_SalesGroup_ID, " 
+				+ "i.C_BP_Segment_ID, i.M_PriceList_ID, i.C_SalesRegion_ID "
 				+ "FROM RV_C_Invoice i "
 				+ "INNER JOIN C_PaymentTerm p ON (i.C_PaymentTerm_ID = p.C_PaymentTerm_ID) "
 				+ "WHERE invoiceOpenToDate(i.C_Invoice_ID, 0, ?) <> 0 "
@@ -131,6 +173,9 @@ public class OpenItemToDate extends OpenItemToDateAbstract {
 				+ "i.C_PaymentTerm_ID, "
 				+ "i.IsPayScheduleValid, ips.C_InvoicePaySchedule_ID, i.InvoiceCollectionType, "
 				+ "i.C_Campaign_ID, i.C_Project_ID, i.C_Activity_ID, i.C_DocType_ID "
+				+ ", i.SalesRep_ID, " 
+				+ "i.C_BP_Group_ID, i.C_BP_AccountType_ID, i.C_BP_IndustryType_ID, i.C_BP_SalesGroup_ID, " 
+				+ "i.C_BP_Segment_ID, i.M_PriceList_ID, i.C_SalesRegion_ID "
 				+ "FROM RV_C_Invoice i "
 				+ "INNER JOIN C_InvoicePaySchedule ips ON (i.C_Invoice_ID = ips.C_Invoice_ID)	"
 				+ "WHERE invoiceOpenToDate(i.C_Invoice_ID, ips.C_InvoicePaySchedule_ID, ? ) <> 0 "
@@ -189,6 +234,38 @@ public class OpenItemToDate extends OpenItemToDateAbstract {
 		//	Accounting Date To
 		if(getDateAcctTo() != null) {
 			pstmtInsert.setTimestamp(i++, getDateAcctTo());
+		}
+		//	Activity
+		if(getActivityId() != 0) {
+			pstmtInsert.setInt(i++, getActivityId());
+		}
+		//	Business Partner Account Type
+		if(getBPAccountTypeId() != 0) {
+			pstmtInsert.setInt(i++, getBPAccountTypeId());
+		}
+		//	Industry Type
+		if(getBPIndustryTypeId() != 0) {
+			pstmtInsert.setInt(i++, getBPIndustryTypeId());
+		}	
+		//	Business Partner Sales Group
+		if(getBPSalesGroupId() != 0) {
+			pstmtInsert.setInt(i++, getBPSalesGroupId());
+		}	
+		//	Segment
+		if(getBPSegmentId() != 0) {
+			pstmtInsert.setInt(i++, getBPSegmentId());
+		}	
+		//	Sales Representative
+		if(getSalesRepId() != 0) {
+			pstmtInsert.setInt(i++, getSalesRepId());
+		}
+		//	Price List
+		if(getPriceListId() != 0) {
+			pstmtInsert.setInt(i++, getPriceListId());
+		}
+		//	Sales Region
+		if(getSalesRegionId() != 0) {
+			pstmtInsert.setInt(i++, getSalesRegionId());
 		}
 		//	Execute Query for insert
 		int noInserts = pstmtInsert.executeUpdate();

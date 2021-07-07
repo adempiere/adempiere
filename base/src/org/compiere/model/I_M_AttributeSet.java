@@ -234,19 +234,6 @@ public interface I_M_AttributeSet
 	  */
 	public String getLotCharSOverwrite();
 
-    /** Column name MandatoryType */
-    public static final String COLUMNNAME_MandatoryType = "MandatoryType";
-
-	/** Set Mandatory Type.
-	  * The specification of a Product Attribute Instance is mandatory
-	  */
-	public void setMandatoryType (String MandatoryType);
-
-	/** Get Mandatory Type.
-	  * The specification of a Product Attribute Instance is mandatory
-	  */
-	public String getMandatoryType();
-
     /** Column name M_AttributeSet_ID */
     public static final String COLUMNNAME_M_AttributeSet_ID = "M_AttributeSet_ID";
 
@@ -290,6 +277,19 @@ public interface I_M_AttributeSet
 
 	public org.compiere.model.I_M_SerNoCtl getM_SerNoCtl() throws RuntimeException;
 
+    /** Column name MandatoryType */
+    public static final String COLUMNNAME_MandatoryType = "MandatoryType";
+
+	/** Set Mandatory Type.
+	  * The specification of a Product Attribute Instance is mandatory
+	  */
+	public void setMandatoryType (String MandatoryType);
+
+	/** Get Mandatory Type.
+	  * The specification of a Product Attribute Instance is mandatory
+	  */
+	public String getMandatoryType();
+
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
 
@@ -329,6 +329,19 @@ public interface I_M_AttributeSet
 	  */
 	public String getSerNoCharSOverwrite();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -344,17 +357,4 @@ public interface I_M_AttributeSet
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

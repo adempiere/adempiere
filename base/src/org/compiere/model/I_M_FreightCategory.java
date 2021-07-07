@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for M_FreightCategory
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_M_FreightCategory 
 {
@@ -62,6 +62,21 @@ public interface I_M_FreightCategory
 	  */
 	public int getAD_Org_ID();
 
+    /** Column name C_Charge_ID */
+    public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
+
+	/** Set Charge.
+	  * Additional document charges
+	  */
+	public void setC_Charge_ID (int C_Charge_ID);
+
+	/** Get Charge.
+	  * Additional document charges
+	  */
+	public int getC_Charge_ID();
+
+	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException;
+
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
 
@@ -91,6 +106,15 @@ public interface I_M_FreightCategory
 	  */
 	public String getDescription();
 
+    /** Column name FreightCalculationType */
+    public static final String COLUMNNAME_FreightCalculationType = "FreightCalculationType";
+
+	/** Set Freight Calculation Type	  */
+	public void setFreightCalculationType (String FreightCalculationType);
+
+	/** Get Freight Calculation Type	  */
+	public String getFreightCalculationType();
+
     /** Column name Help */
     public static final String COLUMNNAME_Help = "Help";
 
@@ -117,6 +141,19 @@ public interface I_M_FreightCategory
 	  */
 	public boolean isActive();
 
+    /** Column name IsInvoiced */
+    public static final String COLUMNNAME_IsInvoiced = "IsInvoiced";
+
+	/** Set Invoiced.
+	  * Is this invoiced?
+	  */
+	public void setIsInvoiced (boolean IsInvoiced);
+
+	/** Get Invoiced.
+	  * Is this invoiced?
+	  */
+	public boolean isInvoiced();
+
     /** Column name M_FreightCategory_ID */
     public static final String COLUMNNAME_M_FreightCategory_ID = "M_FreightCategory_ID";
 
@@ -129,6 +166,21 @@ public interface I_M_FreightCategory
 	  * Category of the Freight
 	  */
 	public int getM_FreightCategory_ID();
+
+    /** Column name M_Product_ID */
+    public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
+
+	/** Set Product.
+	  * Product, Service, Item
+	  */
+	public void setM_Product_ID (int M_Product_ID);
+
+	/** Get Product.
+	  * Product, Service, Item
+	  */
+	public int getM_Product_ID();
+
+	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";

@@ -30,7 +30,7 @@ public class X_CM_Chat extends PO implements I_CM_Chat, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_CM_Chat (Properties ctx, int CM_Chat_ID, String trxName)
@@ -102,29 +102,6 @@ public class X_CM_Chat extends PO implements I_CM_Chat, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Chat.
-		@param CM_Chat_ID 
-		Chat or discussion thread
-	  */
-	public void setCM_Chat_ID (int CM_Chat_ID)
-	{
-		if (CM_Chat_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, Integer.valueOf(CM_Chat_ID));
-	}
-
-	/** Get Chat.
-		@return Chat or discussion thread
-	  */
-	public int getCM_Chat_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_Chat_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_CM_ChatType getCM_ChatType() throws RuntimeException
     {
 		return (org.compiere.model.I_CM_ChatType)MTable.get(getCtx(), org.compiere.model.I_CM_ChatType.Table_Name)
@@ -148,6 +125,29 @@ public class X_CM_Chat extends PO implements I_CM_Chat, I_Persistent
 	public int getCM_ChatType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CM_ChatType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Chat.
+		@param CM_Chat_ID 
+		Chat or discussion thread
+	  */
+	public void setCM_Chat_ID (int CM_Chat_ID)
+	{
+		if (CM_Chat_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_Chat_ID, Integer.valueOf(CM_Chat_ID));
+	}
+
+	/** Get Chat.
+		@return Chat or discussion thread
+	  */
+	public int getCM_Chat_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_Chat_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

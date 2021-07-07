@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Payment
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_C_Payment 
 {
@@ -236,6 +236,21 @@ public interface I_C_Payment
 	public int getC_BankAccount_ID();
 
 	public org.compiere.model.I_C_BankAccount getC_BankAccount() throws RuntimeException;
+
+    /** Column name C_Bank_ID */
+    public static final String COLUMNNAME_C_Bank_ID = "C_Bank_ID";
+
+	/** Set Bank.
+	  * Bank
+	  */
+	public void setC_Bank_ID (int C_Bank_ID);
+
+	/** Get Bank.
+	  * Bank
+	  */
+	public int getC_Bank_ID();
+
+	public org.compiere.model.I_C_Bank getC_Bank() throws RuntimeException;
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -773,6 +788,19 @@ public interface I_C_Payment
 	  */
 	public boolean isSelfService();
 
+    /** Column name IsUnidentifiedPayment */
+    public static final String COLUMNNAME_IsUnidentifiedPayment = "IsUnidentifiedPayment";
+
+	/** Set Unidentified Payment.
+	  * This flag determine ig a payment is unidentify
+	  */
+	public void setIsUnidentifiedPayment (boolean IsUnidentifiedPayment);
+
+	/** Get Unidentified Payment.
+	  * This flag determine ig a payment is unidentify
+	  */
+	public boolean isUnidentifiedPayment();
+
     /** Column name Micr */
     public static final String COLUMNNAME_Micr = "Micr";
 
@@ -1078,6 +1106,21 @@ public interface I_C_Payment
 	  * Result of transmission
 	  */
 	public String getR_Result();
+
+    /** Column name SalesRep_ID */
+    public static final String COLUMNNAME_SalesRep_ID = "SalesRep_ID";
+
+	/** Set Sales Representative.
+	  * Sales Representative or Company Agent
+	  */
+	public void setSalesRep_ID (int SalesRep_ID);
+
+	/** Get Sales Representative.
+	  * Sales Representative or Company Agent
+	  */
+	public int getSalesRep_ID();
+
+	public org.compiere.model.I_AD_User getSalesRep() throws RuntimeException;
 
     /** Column name Swipe */
     public static final String COLUMNNAME_Swipe = "Swipe";

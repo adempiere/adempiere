@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="U" Name="I forgot to set the DICTIONARY_ID_COMMENTS System Configurat" ReleaseNo="" SeqNo="4691">
+  <Migration EntityType="D" Name="Add uuid not generated" ReleaseNo="3.9.3" SeqNo="4691">
     <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
       <SQLStatement>UPDATE AD_Browse_Access SET UUID = '5e85d2c0-8716-11e9-9d29-b77b4c183a08' WHERE AD_Browse_ID = 50050 AND AD_Role_ID = 0;</SQLStatement>
       <RollbackStatement>UPDATE AD_Browse_Access SET UUID = NULL WHERE AD_Browse_ID = 50050 AND AD_Role_ID = 0;</RollbackStatement>

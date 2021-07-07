@@ -32,7 +32,7 @@ public class X_A_Asset_Retirement extends PO implements I_A_Asset_Retirement, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_A_Asset_Retirement (Properties ctx, int A_Asset_Retirement_ID, String trxName)

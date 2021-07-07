@@ -1146,6 +1146,7 @@ public class Viewer extends CFrame
 		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		chooser.setDialogTitle(Msg.getMsg(m_ctx, "Export") + ": " + getTitle());
 		//	
+		exportHandler = new ReportExportHandler(m_ctx, m_reportEngine);
 		if(exportHandler.getExportFormatList() != null) {
 			for(AbstractExportFormat exportFormat : exportHandler.getExportFormatList()) {
 				if(exportFormat.getExtension().equals("arxml")
@@ -1324,9 +1325,9 @@ public class Viewer extends CFrame
 		int AD_Tab_ID = DB.getSQLValue(null, sql, AD_Table_ID);
 		// ASP
 		MClient client = MClient.get(Env.getCtx());
-		String ASPFilter = "";
+		String aSPFilter = "";
 		if (client.isUseASP())
-			ASPFilter =
+			aSPFilter =
 				"     AND (   AD_Tab_ID IN ( "
 				// Just ASP subscribed tabs for client "
 				+ "              SELECT t.AD_Tab_ID "
@@ -1340,32 +1341,37 @@ public class Viewer extends CFrame
 				+ "                 AND l.IsActive = 'Y' "
 				+ "                 AND cl.IsActive = 'Y' "
 				+ "                 AND t.ASP_Status = 'S') " // Show
-				+ "        OR AD_Tab_ID IN ( "
-				// + show ASP exceptions for client
-				+ "              SELECT AD_Tab_ID "
-				+ "                FROM ASP_ClientException ce "
-				+ "               WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
-				+ "                 AND ce.IsActive = 'Y' "
-				+ "                 AND ce.AD_Tab_ID IS NOT NULL "
-				+ "                 AND ce.AD_Field_ID IS NULL "
-				+ "                 AND ce.ASP_Status = 'S') " // Show
-				+ "       ) "
-				+ "   AND AD_Tab_ID NOT IN ( "
-				// minus hide ASP exceptions for client
-				+ "          SELECT AD_Tab_ID "
-				+ "            FROM ASP_ClientException ce "
-				+ "           WHERE ce.AD_Client_ID = " + client.getAD_Client_ID()
-				+ "             AND ce.IsActive = 'Y' "
-				+ "             AND ce.AD_Tab_ID IS NOT NULL "
-				+ "             AND ce.AD_Field_ID IS NULL "
-				+ "             AND ce.ASP_Status = 'H')"; // Hide
+				+ "OR "
+				//	+ show ASP exceptions for client
+				+ "	EXISTS(SELECT 1 FROM ASP_ClientException ce "
+				+ "				WHERE ce.AD_Tab_ID = t.AD_Tab_ID "
+				+ "				AND ce.AD_Client_ID = " + client.getAD_Client_ID()
+				+ "				AND ce.IsActive = 'Y' "
+				+ "				AND ce.AD_Tab_ID IS NOT NULL "
+				+ "				AND ce.AD_Field_ID IS NULL "
+				+ "				AND ce.ASP_Status = 'S')"	//	Show
+				//	minus hide ASP exceptions for client
+				+ "AND EXISTS(SELECT 1 FROM ASP_ClientException ce "
+				+ "				WHERE ce.AD_Tab_ID = t.AD_Tab_ID "
+				+ "				AND ce.AD_Client_ID = " + client.getAD_Client_ID()
+				+ "				AND ce.IsActive = 'Y' "
+				+ "				AND ce.AD_Tab_ID IS NOT NULL "
+				+ "				AND ce.AD_Field_ID IS NULL "
+				+ "				AND ce.ASP_Status = 'H')"	//	Hide
+				+ " OR EXISTS(SELECT 1 FROM ASP_Level l "
+				+ "					INNER JOIN ASP_ClientLevel cl ON(cl.ASP_Level_ID = l.ASP_Level_ID) "
+				+ "				WHERE cl.AD_Client_ID = " + client.getAD_Client_ID()
+				+ "				AND l.IsActive = 'Y' "
+				+ "				AND cl.IsActive = 'Y' "
+				+ "				AND l.Type = 'C') "	//	Show
+				+ ") ";
 		//
 		//jobriant - Feature #544
-		sql = "SELECT Name, TableName FROM AD_Tab_v WHERE AD_Tab_ID=? " + ASPFilter;
+		sql = "SELECT t.Name, t.TableName FROM AD_Tab_v t WHERE t.AD_Tab_ID=? " + aSPFilter;
 		
 		if (!Env.isBaseLanguage(Env.getCtx(), "AD_Tab"))
-			sql = "SELECT Name, TableName FROM AD_Tab_vt WHERE AD_Tab_ID=?"
-				+ " AND AD_Language='" + Env.getAD_Language(Env.getCtx()) + "' " + ASPFilter;
+			sql = "SELECT t.Name, t.TableName FROM AD_Tab_vt t WHERE t.AD_Tab_ID=?"
+				+ " AND t.AD_Language='" + Env.getAD_Language(Env.getCtx()) + "' " + aSPFilter;
 		try
 		{
 			PreparedStatement pstmt = DB.prepareStatement(sql, null);

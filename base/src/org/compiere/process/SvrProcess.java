@@ -29,10 +29,11 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MDocType;
 import org.compiere.model.MPInstance;
 import org.compiere.model.MProcess;
-import org.compiere.model.MProcessPara;
 import org.compiere.model.PO;
+import org.compiere.print.MPrintFormat;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -42,6 +43,7 @@ import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
 import org.eevolution.process.GenerateMovement;
+import org.spin.util.ASPUtil;
 
 /**
  *  Server Process Template
@@ -202,40 +204,40 @@ public abstract class SvrProcess implements ProcessCall
 	 * Validate Parameters
 	 */
 	private void validateParameter() {
-		MProcess process = MProcess.get(getCtx(), processInfo.getAD_Process_ID());
+		MProcess process = ASPUtil.getInstance(getCtx()).getProcess(processInfo.getAD_Process_ID());
 		//	No have parameter
 		if(process == null)
 			return;
 		//	
-		MProcessPara [] parameters = process.getParameters();
 		StringBuffer errorMsg = new StringBuffer();
 		//	Loop over parameter, find a mandatory parameter
-		for(MProcessPara parameter : parameters) {
-			if(parameter.isMandatory() && parameter.isActive() && Util.isEmpty(parameter.getDisplayLogic())) {
-				ProcessInfoParameter infoParameter = getInfoParameter(parameter.getColumnName());
-				if(infoParameter == null
-						|| infoParameter.getParameter() == null
-						|| (DisplayType.isID(parameter.getAD_Reference_ID()) 
-								&& (
-									(infoParameter.getParameter() instanceof String 
-											&& infoParameter.getParameterAsString() == null)
-									||
-									(infoParameter.getParameter() instanceof Number 
-											&& infoParameter.getParameterAsInt() < 0)
+		ASPUtil.getInstance(getCtx()).getProcessParameters(processInfo.getAD_Process_ID())
+			.forEach(parameter -> {
+				if(parameter.isMandatory() && parameter.isActive() && Util.isEmpty(parameter.getDisplayLogic())) {
+					ProcessInfoParameter infoParameter = getInfoParameter(parameter.getColumnName());
+					if(infoParameter == null
+							|| infoParameter.getParameter() == null
+							|| (DisplayType.isID(parameter.getAD_Reference_ID()) 
+									&& (
+										(infoParameter.getParameter() instanceof String 
+												&& infoParameter.getParameterAsString() == null)
+										||
+										(infoParameter.getParameter() instanceof Number 
+												&& infoParameter.getParameterAsInt() < 0)
+									)
 								)
-							)
-						|| (DisplayType.isText(parameter.getAD_Reference_ID()) 
-								&& (infoParameter.getParameterAsString() == null 
-										|| infoParameter.getParameterAsString().length() == 0))
-				) {
-					if(errorMsg.length() > 0) {
-						errorMsg.append(", ");
+							|| (DisplayType.isText(parameter.getAD_Reference_ID()) 
+									&& (infoParameter.getParameterAsString() == null 
+											|| infoParameter.getParameterAsString().length() == 0))
+					) {
+						if(errorMsg.length() > 0) {
+							errorMsg.append(", ");
+						}
+						//	
+						errorMsg.append("@").append(parameter.getColumnName()).append("@");
 					}
-					//	
-					errorMsg.append("@").append(parameter.getColumnName()).append("@");
 				}
-			}
-		}
+			});
 		//	throw exception
 		if(errorMsg.length() > 0) {
 			throw new AdempiereException(MESSAGE_FillMandatory + errorMsg.toString());
@@ -905,12 +907,85 @@ public abstract class SvrProcess implements ProcessCall
 	}
 
 	/**
+	 * Old compatibility
+	 * @param document
+	 * @param printFormantName
+	 */
+	public void printDocument(PO document, String printFormantName) {
+		printDocument(document, MPrintFormat.getPrintFormat_ID(printFormantName, document.get_Table_ID(), 0), true);
+	}
+	
+	/**
+	 * Print document with document type print format
+	 * @param document
+	 * @param askPrint
+	 * @param batchPrintMode
+	 */
+	public void printDocument(PO document, boolean askPrint) {
+		int printFormatId = getPrintFormatId(document);
+		if(printFormatId != 0) {
+			printDocument(document, printFormatId, askPrint);
+		}
+	}
+	
+	/**
+	 * Get Print format from document
+	 * @param document
+	 * @return
+	 */
+	private int getPrintFormatId(PO document) {
+		int documentTypeId = document.get_ValueAsInt("C_DocType_ID");
+		if(documentTypeId == 0) {
+			documentTypeId = document.get_ValueAsInt("C_DocTypeTarget_ID");
+		}
+		//	Validate before print
+		if(documentTypeId != 0) {
+			MDocType documentType = MDocType.get(getCtx(), documentTypeId);
+			return documentType.getAD_PrintFormat_ID();
+		}
+		return 0;
+	}
+	
+	/**
 	 * Print Document
 	 *
 	 * @param document
 	 * @param printFormantName
 	 */
-	public void printDocument(PO document, String printFormantName) {
+	public void printDocument(PO document, int printFormatId, boolean askPrint) {
+		getPrintDocumentImplementation().print(document, printFormatId, getProcessInfo().getWindowNo(), askPrint);
+	}
+	
+	/**
+	 * Print document without print format
+	 * @param documentList
+	 * @param askPrint
+	 */
+	public void printDocument(List<PO> documentList, boolean askPrint) {
+		if(documentList.size() == 0) {
+			return;
+		}
+		int printFormatId = getPrintFormatId(documentList.get(0));
+		if(printFormatId != 0) {
+			printDocument(documentList, printFormatId, askPrint);
+		}
+	}
+	
+	/**
+	 * Print a list
+	 * @param documentList
+	 * @param printFormatId
+	 * @param askPrint
+	 */
+	public void printDocument(List<PO> documentList, int printFormatId, boolean askPrint) {
+		getPrintDocumentImplementation().print(documentList, printFormatId, getProcessInfo().getWindowNo(), askPrint);
+	}
+	
+	/**
+	 * Get print document implementation
+	 * @return
+	 */
+	private IPrintDocument getPrintDocumentImplementation() {
 		IPrintDocument printDocument;
 		//	OK to print shipments
 		if (Ini.isClient()) {
@@ -936,7 +1011,7 @@ public abstract class SvrProcess implements ProcessCall
 				throw new AdempiereException(e);
 			}
 		}
-		printDocument.print(document, printFormantName, getProcessInfo().getWindowNo());
+		return printDocument;
 	}
 	
 	/**

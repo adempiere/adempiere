@@ -275,9 +275,6 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- PDF -->
-			<zipfileset src="lib/iText-2.1.7.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
 			<zipfileset src="lib/icepdf-core-6.2.2.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
@@ -366,7 +363,7 @@
 				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 			<!-- Commons -->
-			<zipfileset src="lib/commons-collections-3.1.jar">
+			<zipfileset src="lib/commons-collections-3.2.2.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/commons-collections4-4.1.jar">
@@ -375,11 +372,11 @@
 			<zipfileset src="lib/commons-codec-1.6.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/commons-validator-1.6.jar">
+			<zipfileset src="lib/commons-validator-1.7.jar">
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
 			<!-- jars for 2pack                         -->
-			<zipfileset src="lib/ant.jar">
+			<zipfileset src="lib/ant/apache-ant-1.10.9/lib/ant.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/xercesImpl.jar">
@@ -531,16 +528,13 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- jars for 2pack                         -->
-			<zipfileset src="lib/ant.jar">
+			<zipfileset src="lib/ant/apache-ant-1.10.9/lib/ant.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/xercesImpl.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- PDF -->
-			<zipfileset src="lib/iText-2.1.7.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
 			<zipfileset src="lib/icepdf-core-6.2.2.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
@@ -621,7 +615,7 @@
 				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 			<!-- Commons -->
-			<zipfileset src="lib/commons-collections-3.1.jar">
+			<zipfileset src="lib/commons-collections-3.2.2.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/commons-collections4-4.1.jar">
@@ -630,7 +624,7 @@
 			<zipfileset src="lib/commons-codec-1.6.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/commons-validator-1.6.jar">
+			<zipfileset src="lib/commons-validator-1.7.jar">
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
 			<zipfileset src="lib/ooxml-schemas-1.3.jar">

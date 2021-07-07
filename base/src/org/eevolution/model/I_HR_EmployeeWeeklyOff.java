@@ -107,17 +107,6 @@ public interface I_HR_EmployeeWeeklyOff
 	  */
 	public String getDescription();
 
-    /** Column name HR_Employee_ID */
-    public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
-
-	/** Set Payroll Employee	  */
-	public void setHR_Employee_ID (int HR_Employee_ID);
-
-	/** Get Payroll Employee	  */
-	public int getHR_Employee_ID();
-
-	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException;
-
     /** Column name HR_EmployeeWeeklyOff_ID */
     public static final String COLUMNNAME_HR_EmployeeWeeklyOff_ID = "HR_EmployeeWeeklyOff_ID";
 
@@ -130,6 +119,17 @@ public interface I_HR_EmployeeWeeklyOff
 	  * Employee Weekly Off of an Employee
 	  */
 	public int getHR_EmployeeWeeklyOff_ID();
+
+    /** Column name HR_Employee_ID */
+    public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
+
+	/** Set Payroll Employee	  */
+	public void setHR_Employee_ID (int HR_Employee_ID);
+
+	/** Get Payroll Employee	  */
+	public int getHR_Employee_ID();
+
+	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException;
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -235,6 +235,19 @@ public interface I_HR_EmployeeWeeklyOff
 	  */
 	public boolean isOnWednesday();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -250,17 +263,4 @@ public interface I_HR_EmployeeWeeklyOff
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

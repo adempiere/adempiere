@@ -30,7 +30,7 @@ public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReport
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_ProcessReportTemplate (Properties ctx, int HR_ProcessReportTemplate_ID, String trxName)
@@ -39,8 +39,8 @@ public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReport
       /** if (HR_ProcessReportTemplate_ID == 0)
         {
 			setAD_PrintFormat_ID (0);
-			setHR_ProcessReport_ID (0);
 			setHR_ProcessReportTemplate_ID (0);
+			setHR_ProcessReport_ID (0);
 			setName (null);
         } */
     }
@@ -118,6 +118,26 @@ public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReport
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
+	/** Set Payroll Process Report Template.
+		@param HR_ProcessReportTemplate_ID Payroll Process Report Template	  */
+	public void setHR_ProcessReportTemplate_ID (int HR_ProcessReportTemplate_ID)
+	{
+		if (HR_ProcessReportTemplate_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportTemplate_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportTemplate_ID, Integer.valueOf(HR_ProcessReportTemplate_ID));
+	}
+
+	/** Get Payroll Process Report Template.
+		@return Payroll Process Report Template	  */
+	public int getHR_ProcessReportTemplate_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ProcessReportTemplate_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.spin.model.I_HR_ProcessReport getHR_ProcessReport() throws RuntimeException
     {
 		return (org.spin.model.I_HR_ProcessReport)MTable.get(getCtx(), org.spin.model.I_HR_ProcessReport.Table_Name)
@@ -143,26 +163,6 @@ public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReport
 		return ii.intValue();
 	}
 
-	/** Set Payroll Process Report Template.
-		@param HR_ProcessReportTemplate_ID Payroll Process Report Template	  */
-	public void setHR_ProcessReportTemplate_ID (int HR_ProcessReportTemplate_ID)
-	{
-		if (HR_ProcessReportTemplate_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportTemplate_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_ProcessReportTemplate_ID, Integer.valueOf(HR_ProcessReportTemplate_ID));
-	}
-
-	/** Get Payroll Process Report Template.
-		@return Payroll Process Report Template	  */
-	public int getHR_ProcessReportTemplate_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_ProcessReportTemplate_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -178,6 +178,57 @@ public class X_HR_ProcessReportTemplate extends PO implements I_HR_ProcessReport
 	public String getName () 
 	{
 		return (String)get_Value(COLUMNNAME_Name);
+	}
+
+	/** Set Print Text.
+		@param PrintName 
+		The label text to be printed on a document or correspondence.
+	  */
+	public void setPrintName (String PrintName)
+	{
+		set_Value (COLUMNNAME_PrintName, PrintName);
+	}
+
+	/** Get Print Text.
+		@return The label text to be printed on a document or correspondence.
+	  */
+	public String getPrintName () 
+	{
+		return (String)get_Value(COLUMNNAME_PrintName);
+	}
+
+	/** Set Receipt Footer Msg.
+		@param ReceiptFooterMsg 
+		This message will be displayed at the bottom of a receipt when doing a sales or purchase
+	  */
+	public void setReceiptFooterMsg (String ReceiptFooterMsg)
+	{
+		set_Value (COLUMNNAME_ReceiptFooterMsg, ReceiptFooterMsg);
+	}
+
+	/** Get Receipt Footer Msg.
+		@return This message will be displayed at the bottom of a receipt when doing a sales or purchase
+	  */
+	public String getReceiptFooterMsg () 
+	{
+		return (String)get_Value(COLUMNNAME_ReceiptFooterMsg);
+	}
+
+	/** Set Text Message.
+		@param TextMsg 
+		Text Message
+	  */
+	public void setTextMsg (String TextMsg)
+	{
+		set_Value (COLUMNNAME_TextMsg, TextMsg);
+	}
+
+	/** Get Text Message.
+		@return Text Message
+	  */
+	public String getTextMsg () 
+	{
+		return (String)get_Value(COLUMNNAME_TextMsg);
 	}
 
 	/** Set Immutable Universally Unique Identifier.

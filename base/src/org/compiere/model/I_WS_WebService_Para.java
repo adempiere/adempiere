@@ -122,6 +122,19 @@ public interface I_WS_WebService_Para
 	/** Get Parameter Type	  */
 	public String getParameterType();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -138,28 +151,6 @@ public interface I_WS_WebService_Para
 	  */
 	public int getUpdatedBy();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
-    /** Column name WS_WebService_Para_ID */
-    public static final String COLUMNNAME_WS_WebService_Para_ID = "WS_WebService_Para_ID";
-
-	/** Set Web Service Parameters	  */
-	public void setWS_WebService_Para_ID (int WS_WebService_Para_ID);
-
-	/** Get Web Service Parameters	  */
-	public int getWS_WebService_Para_ID();
-
     /** Column name WS_WebServiceType_ID */
     public static final String COLUMNNAME_WS_WebServiceType_ID = "WS_WebServiceType_ID";
 
@@ -170,4 +161,13 @@ public interface I_WS_WebService_Para
 	public int getWS_WebServiceType_ID();
 
 	public org.compiere.model.I_WS_WebServiceType getWS_WebServiceType() throws RuntimeException;
+
+    /** Column name WS_WebService_Para_ID */
+    public static final String COLUMNNAME_WS_WebService_Para_ID = "WS_WebService_Para_ID";
+
+	/** Set Web Service Parameters	  */
+	public void setWS_WebService_Para_ID (int WS_WebService_Para_ID);
+
+	/** Get Web Service Parameters	  */
+	public int getWS_WebService_Para_ID();
 }

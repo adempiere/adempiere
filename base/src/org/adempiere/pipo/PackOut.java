@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -35,6 +37,7 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.pipo.handler.ASPModuleElementHandler;
 import org.adempiere.pipo.handler.AdElementHandler;
 import org.adempiere.pipo.handler.BrowseCustomElementHandler;
@@ -49,7 +52,6 @@ import org.adempiere.pipo.handler.GenericPOHandler;
 import org.adempiere.pipo.handler.ImpFormatElementHandler;
 import org.adempiere.pipo.handler.MenuElementHandler;
 import org.adempiere.pipo.handler.MessageElementHandler;
-import org.adempiere.pipo.handler.ModelValidatorElementHandler;
 import org.adempiere.pipo.handler.PrintFormatElementHandler;
 import org.adempiere.pipo.handler.ProcessCustomElementHandler;
 import org.adempiere.pipo.handler.ProcessElementHandler;
@@ -63,7 +65,9 @@ import org.adempiere.pipo.handler.ViewElementHandler;
 import org.adempiere.pipo.handler.WindowCustomElementHandler;
 import org.adempiere.pipo.handler.WindowElementHandler;
 import org.adempiere.pipo.handler.WorkflowElementHandler;
+import org.adempiere.util.ProcessUtil;
 import org.compiere.model.I_AD_BrowseCustom;
+import org.compiere.model.I_AD_ModelValidator;
 import org.compiere.model.I_AD_Package_Exp;
 import org.compiere.model.I_AD_Package_Exp_Detail;
 import org.compiere.model.I_AD_ProcessCustom;
@@ -77,6 +81,7 @@ import org.compiere.model.Query;
 import org.compiere.model.X_AD_Element;
 import org.compiere.model.X_AD_Package_Exp_Detail;
 import org.compiere.model.X_AD_Reference;
+import org.compiere.process.ProcessInfo;
 import org.compiere.util.Env;
 import org.spin.model.MADPackageExpCustom;
 import org.xml.sax.SAXException;
@@ -132,7 +137,6 @@ public class PackOut extends PackOutAbstract {
     DistFileElementHandler distFileHandler = new DistFileElementHandler();
     ReferenceElementHandler referenceHandler = new ReferenceElementHandler();
     AdElementHandler adElementHandler = new AdElementHandler();
-    ModelValidatorElementHandler modelValidatorHandler = new ModelValidatorElementHandler();
     EntityTypeElementHandler entitytypeHandler = new EntityTypeElementHandler();
     ASPModuleElementHandler aspModuleHandler = new ASPModuleElementHandler();
     WindowCustomElementHandler windowCustomizationHandler = new WindowCustomElementHandler();
@@ -439,6 +443,45 @@ public class PackOut extends PackOutAbstract {
 		CreateZipFile.zipFolder(srcFolder, destZipFile, includesdir);		
 		CreateZipFile.tarFolder(srcFolder, destTarFile, includesdir);
 		CreateZipFile.gzipFile(destTarFile, destGZipFile);
+		
+		if (ProcessInfo.INTERFACE_TYPE_ZK.equals(this.getProcessInfo().getInterfaceType()))
+		{
+			// Force download of the file
+			String className = "org.zkoss.zul.Filedownload";
+			//Get Class
+			Class<?> Filedownload = null;
+			//use context classloader if available
+			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+			if (classLoader == null)
+				classLoader = ProcessUtil.class.getClassLoader();
+			try
+			{
+				Filedownload = classLoader.loadClass(className);
+			}
+			catch (ClassNotFoundException ex)
+			{
+				log.log(Level.WARNING, className, ex);
+				throw new AdempiereException("Can't load the necessary class '" + className + "' to download the file. " + ex.getMessage());
+			}
+
+			Method save = null;
+			Object FileDownloader = Filedownload.newInstance();
+			File file = new File(packagename+".zip");			
+			try 
+			{
+				// Invoke the ZK Filedownload.save(file, contentType)
+				save = Filedownload.getMethod("save", java.io.File.class, java.lang.String.class);
+				save.invoke(FileDownloader, file, (String) null);
+			} 
+			catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) 
+			{
+				
+				log.log(Level.WARNING, "Can't download the file.", e);
+				throw new AdempiereException("Can't download the file. " + e.getMessage());
+				
+			}
+			
+		}
 		
 		//Clean .tar file up
 		destTarFile.delete();
@@ -772,16 +815,21 @@ public class PackOut extends PackOutAbstract {
 	}
 	
 	/**
+	 * Get generic PO handler
+	 * @return
+	 */
+	public GenericPOHandler getGenericPOHandler() {
+		return genericPOHandler;
+	}
+	
+	/**
 	 * 
-	 * @param AD_ModelValidator_ID
+	 * @param modelValidatorId
 	 * @param packOutDocument
 	 * @throws Exception
 	 */
-	public void createModelValidator (int AD_ModelValidator_ID, TransformerHandler packOutDocument) throws SAXException
-	{
-		Env.setContext(getCtx(), X_AD_Package_Exp_Detail.COLUMNNAME_AD_ModelValidator_ID, AD_ModelValidator_ID);
-		modelValidatorHandler.create(getCtx(), packOutDocument);
-		getCtx().remove(X_AD_Package_Exp_Detail.COLUMNNAME_AD_ModelValidator_ID);
+	public void createModelValidator (int modelValidatorId, TransformerHandler packOutDocument) throws SAXException {
+		createGenericPO(packOutDocument, I_AD_ModelValidator.Table_ID, modelValidatorId);
 	}
 	
 	/**
@@ -857,6 +905,8 @@ public class PackOut extends PackOutAbstract {
 		GenericPOHandler handler = exporter.getExporterInstance();
 		if(handler != null) {
 			handler.create(getCtx(), packOutDocument);
+		} else {
+			throw new AdempiereException("@HandlerClass@ @NotFound@");
 		}
 	}
 	

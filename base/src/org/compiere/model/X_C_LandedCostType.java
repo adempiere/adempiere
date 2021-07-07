@@ -29,7 +29,7 @@ public class X_C_LandedCostType extends PO implements I_C_LandedCostType, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_LandedCostType (Properties ctx, int C_LandedCostType_ID, String trxName)

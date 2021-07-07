@@ -33,7 +33,7 @@ public class X_DD_Vehicle extends PO implements I_DD_Vehicle, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_DD_Vehicle (Properties ctx, int DD_Vehicle_ID, String trxName)
@@ -41,8 +41,8 @@ public class X_DD_Vehicle extends PO implements I_DD_Vehicle, I_Persistent
       super (ctx, DD_Vehicle_ID, trxName);
       /** if (DD_Vehicle_ID == 0)
         {
-			setDD_Vehicle_ID (0);
 			setDD_VehicleType_ID (0);
+			setDD_Vehicle_ID (0);
 			setDimension_UOM_ID (0);
 			setName (null);
 			setVehicleStatus (null);
@@ -79,6 +79,29 @@ public class X_DD_Vehicle extends PO implements I_DD_Vehicle, I_Persistent
       return sb.toString();
     }
 
+	/** Set Image.
+		@param AD_Image_ID 
+		Image or Icon
+	  */
+	public void setAD_Image_ID (int AD_Image_ID)
+	{
+		if (AD_Image_ID < 1) 
+			set_Value (COLUMNNAME_AD_Image_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
+	}
+
+	/** Get Image.
+		@return Image or Icon
+	  */
+	public int getAD_Image_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Image_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException
     {
 		return (org.compiere.model.I_A_Asset)MTable.get(getCtx(), org.compiere.model.I_A_Asset.Table_Name)
@@ -102,29 +125,6 @@ public class X_DD_Vehicle extends PO implements I_DD_Vehicle, I_Persistent
 	public int getA_Asset_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_A_Asset_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Image.
-		@param AD_Image_ID 
-		Image or Icon
-	  */
-	public void setAD_Image_ID (int AD_Image_ID)
-	{
-		if (AD_Image_ID < 1) 
-			set_Value (COLUMNNAME_AD_Image_ID, null);
-		else 
-			set_Value (COLUMNNAME_AD_Image_ID, Integer.valueOf(AD_Image_ID));
-	}
-
-	/** Get Image.
-		@return Image or Icon
-	  */
-	public int getAD_Image_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Image_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -269,21 +269,26 @@ public class X_DD_Vehicle extends PO implements I_DD_Vehicle, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Vehicle.
-		@param DD_Vehicle_ID Vehicle	  */
-	public void setDD_Vehicle_ID (int DD_Vehicle_ID)
+	public org.spin.model.I_DD_VehicleGroup getDD_VehicleGroup() throws RuntimeException
+    {
+		return (org.spin.model.I_DD_VehicleGroup)MTable.get(getCtx(), org.spin.model.I_DD_VehicleGroup.Table_Name)
+			.getPO(getDD_VehicleGroup_ID(), get_TrxName());	}
+
+	/** Set Vehicle Group.
+		@param DD_VehicleGroup_ID Vehicle Group	  */
+	public void setDD_VehicleGroup_ID (int DD_VehicleGroup_ID)
 	{
-		if (DD_Vehicle_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_DD_Vehicle_ID, null);
+		if (DD_VehicleGroup_ID < 1) 
+			set_Value (COLUMNNAME_DD_VehicleGroup_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_DD_Vehicle_ID, Integer.valueOf(DD_Vehicle_ID));
+			set_Value (COLUMNNAME_DD_VehicleGroup_ID, Integer.valueOf(DD_VehicleGroup_ID));
 	}
 
-	/** Get Vehicle.
-		@return Vehicle	  */
-	public int getDD_Vehicle_ID () 
+	/** Get Vehicle Group.
+		@return Vehicle Group	  */
+	public int getDD_VehicleGroup_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Vehicle_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_VehicleGroup_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -309,6 +314,26 @@ public class X_DD_Vehicle extends PO implements I_DD_Vehicle, I_Persistent
 	public int getDD_VehicleType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DD_VehicleType_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Vehicle.
+		@param DD_Vehicle_ID Vehicle	  */
+	public void setDD_Vehicle_ID (int DD_Vehicle_ID)
+	{
+		if (DD_Vehicle_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_Vehicle_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_Vehicle_ID, Integer.valueOf(DD_Vehicle_ID));
+	}
+
+	/** Get Vehicle.
+		@return Vehicle	  */
+	public int getDD_Vehicle_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Vehicle_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -546,23 +571,6 @@ public class X_DD_Vehicle extends PO implements I_DD_Vehicle, I_Persistent
 		return bd;
 	}
 
-	/** Set Unladen Weight.
-		@param UnladenWeight Unladen Weight	  */
-	public void setUnladenWeight (BigDecimal UnladenWeight)
-	{
-		set_Value (COLUMNNAME_UnladenWeight, UnladenWeight);
-	}
-
-	/** Get Unladen Weight.
-		@return Unladen Weight	  */
-	public BigDecimal getUnladenWeight () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_UnladenWeight);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
-	}
-
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 
 		Immutable Universally Unique Identifier
@@ -578,6 +586,23 @@ public class X_DD_Vehicle extends PO implements I_DD_Vehicle, I_Persistent
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** Set Unladen Weight.
+		@param UnladenWeight Unladen Weight	  */
+	public void setUnladenWeight (BigDecimal UnladenWeight)
+	{
+		set_Value (COLUMNNAME_UnladenWeight, UnladenWeight);
+	}
+
+	/** Get Unladen Weight.
+		@return Unladen Weight	  */
+	public BigDecimal getUnladenWeight () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_UnladenWeight);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Search Key.

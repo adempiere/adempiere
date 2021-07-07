@@ -122,6 +122,15 @@ public interface I_AD_WorkbenchWindow
 
 	public org.compiere.model.I_AD_Window getAD_Window() throws RuntimeException;
 
+    /** Column name AD_WorkbenchWindow_ID */
+    public static final String COLUMNNAME_AD_WorkbenchWindow_ID = "AD_WorkbenchWindow_ID";
+
+	/** Set Workbench Window	  */
+	public void setAD_WorkbenchWindow_ID (int AD_WorkbenchWindow_ID);
+
+	/** Get Workbench Window	  */
+	public int getAD_WorkbenchWindow_ID();
+
     /** Column name AD_Workbench_ID */
     public static final String COLUMNNAME_AD_Workbench_ID = "AD_Workbench_ID";
 
@@ -136,15 +145,6 @@ public interface I_AD_WorkbenchWindow
 	public int getAD_Workbench_ID();
 
 	public org.compiere.model.I_AD_Workbench getAD_Workbench() throws RuntimeException;
-
-    /** Column name AD_WorkbenchWindow_ID */
-    public static final String COLUMNNAME_AD_WorkbenchWindow_ID = "AD_WorkbenchWindow_ID";
-
-	/** Set Workbench Window	  */
-	public void setAD_WorkbenchWindow_ID (int AD_WorkbenchWindow_ID);
-
-	/** Get Workbench Window	  */
-	public int getAD_WorkbenchWindow_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -218,6 +218,19 @@ public interface I_AD_WorkbenchWindow
 	  */
 	public int getSeqNo();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -233,17 +246,4 @@ public interface I_AD_WorkbenchWindow
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 }

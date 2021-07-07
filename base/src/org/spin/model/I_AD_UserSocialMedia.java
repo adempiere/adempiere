@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_UserSocialMedia
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_AD_UserSocialMedia 
 {
@@ -105,10 +105,14 @@ public interface I_AD_UserSocialMedia
     /** Column name AD_UserSocialMedia_ID */
     public static final String COLUMNNAME_AD_UserSocialMedia_ID = "AD_UserSocialMedia_ID";
 
-	/** Set Social Media ID	  */
+	/** Set Social Media.
+	  * User External Link for Social Media
+	  */
 	public void setAD_UserSocialMedia_ID (int AD_UserSocialMedia_ID);
 
-	/** Get Social Media ID	  */
+	/** Get Social Media.
+	  * User External Link for Social Media
+	  */
 	public int getAD_UserSocialMedia_ID();
 
     /** Column name ApplicationType */

@@ -16,15 +16,13 @@
 
 package org.eevolution.service;
 
-import org.compiere.model.Query;
-import org.compiere.model.MFreight;
-
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 import java.util.stream.Collectors;
+
+import org.compiere.model.MFreight;
+import org.compiere.model.Query;
 
 /**
  * Created by eEvolution author Victor Perez <victor.perez@e-evolution.com> on 20/08/16.

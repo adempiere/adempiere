@@ -30,7 +30,7 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_ChangeLog (Properties ctx, int AD_ChangeLog_ID, String trxName)
@@ -345,20 +345,6 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 		return (String)get_Value(COLUMNNAME_TrxName);
 	}
 
-	/** Set Undo.
-		@param Undo Undo	  */
-	public void setUndo (String Undo)
-	{
-		set_Value (COLUMNNAME_Undo, Undo);
-	}
-
-	/** Get Undo.
-		@return Undo	  */
-	public String getUndo () 
-	{
-		return (String)get_Value(COLUMNNAME_Undo);
-	}
-
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 
 		Immutable Universally Unique Identifier
@@ -374,5 +360,19 @@ public class X_AD_ChangeLog extends PO implements I_AD_ChangeLog, I_Persistent
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** Set Undo.
+		@param Undo Undo	  */
+	public void setUndo (String Undo)
+	{
+		set_Value (COLUMNNAME_Undo, Undo);
+	}
+
+	/** Get Undo.
+		@return Undo	  */
+	public String getUndo () 
+	{
+		return (String)get_Value(COLUMNNAME_Undo);
 	}
 }

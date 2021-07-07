@@ -27,43 +27,49 @@ package org.compiere.print;
  * 
  *  @author Michael McKay, mckayERP@gmail.com
  * 		<li>BR [ <a href="https://github.com/adempiere/adempiere/issues/431">#431</a> ] Report Groups do not handle single values well
-
+ * 	@author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ * 	@See: https://github.com/adempiere/adempiere/issues/2873
  */
 public class PrintDataColumn
 {
 	/**
 	 * 	Print Data Column
 	 *
-	 * 	@param AD_Column_ID Column
+	 * 	@param columnId Column
 	 * 	@param columnName Column Name
 	 * 	@param displayType Display Type
 	 * 	@param columnSize Column Size
 	 *  @param alias Alias in query or the same as column name or null
 	 *  @param isPageBreak if true force page break after function
+	 *  @param printFormatItemId reference
 	 */
-	public PrintDataColumn (int AD_Column_ID, String columnName,
+	public PrintDataColumn (int columnId, String columnName,
 		int displayType, int columnSize,
-		String alias, boolean isPageBreak)
+		String alias, boolean isPageBreak, int printFormatItemId, boolean isHideGrandTotal)
 	{
-		m_AD_Column_ID = AD_Column_ID;
-		m_columnName = columnName;
+		this.columnId = columnId;
+		this.columnName = columnName;
 		//
-		m_displayType = displayType;
-		m_columnSize = columnSize;
+		this.displayType = displayType;
+		this.columnSize = columnSize;
 		//
-		m_alias = alias;
-		if (m_alias == null)
-			m_alias = columnName;
-		m_pageBreak = isPageBreak;
+		this.alias = alias;
+		if (alias == null)
+			alias = columnName;
+		pageBreak = isPageBreak;
+		this.printFormatItemId = printFormatItemId;
+		this.isHideGrandTotal = isHideGrandTotal;
 	}	//	PrintDataColumn
 
-	private int			m_AD_Column_ID;
-	private String		m_columnName;
-	private int			m_displayType;
-	private int			m_columnSize;
-	private String		m_alias;
-	private boolean		m_pageBreak;
-	private String 		m_FormatPattern;
+	private int			columnId;
+	private String		columnName;
+	private int			displayType;
+	private int			columnSize;
+	private String		alias;
+	private boolean		pageBreak;
+	private String 		formatPattern;
+	private int 		printFormatItemId;
+	private boolean		isHideGrandTotal;
 	
 	/** The sort order index or -1 if not set.  
 	 *  Lower numbers are sorted first.  If there
@@ -90,7 +96,7 @@ public class PrintDataColumn
 	 */
 	public int getAD_Column_ID()
 	{
-		return m_AD_Column_ID;
+		return columnId;
 	}	//	getAD_Column_ID
 
 	/**
@@ -99,7 +105,7 @@ public class PrintDataColumn
 	 */
 	public String getColumnName()
 	{
-		return m_columnName;
+		return columnName;
 	}	//	getColumnName
 
 	/**
@@ -108,7 +114,7 @@ public class PrintDataColumn
 	 */
 	public int getDisplayType()
 	{
-		return m_displayType;
+		return displayType;
 	}	//	getDisplayType
 
 	/**
@@ -117,7 +123,7 @@ public class PrintDataColumn
 	 */
 	public String getAlias()
 	{
-		return m_alias;
+		return alias;
 	}	//	getAlias
 
 	/**
@@ -127,7 +133,7 @@ public class PrintDataColumn
 	 */
 	public boolean hasAlias()
 	{
-		return !m_columnName.equals(m_alias);
+		return !columnName.equals(alias);
 	}	//	hasAlias
 
 	/**
@@ -136,8 +142,24 @@ public class PrintDataColumn
 	 */
 	public boolean isPageBreak()
 	{
-		return m_pageBreak;
+		return pageBreak;
 	}	//	isPageBreak
+	
+	/**
+	 * Get Print Format Item reference
+	 * @return
+	 */
+	public int getPrinformatItemId() {
+		return printFormatItemId;
+	}
+	
+	/**
+	 * Is exclude of total calculation
+	 * @return
+	 */
+	public boolean isHideGrandTotal() {
+		return isHideGrandTotal;
+	}
 
 	/**
 	 *	String Representation
@@ -146,22 +168,22 @@ public class PrintDataColumn
 	public String toString()
 	{
 		StringBuffer sb = new StringBuffer("PrintDataColumn[");
-		sb.append("ID=").append(m_AD_Column_ID)
-			.append("-").append(m_columnName);
+		sb.append("ID=").append(columnId)
+			.append("-").append(columnName);
 		if (hasAlias())
-			sb.append("(").append(m_alias).append(")");
-		sb.append(",DisplayType=").append(m_displayType)
-			.append(",Size=").append(m_columnSize)
+			sb.append("(").append(alias).append(")");
+		sb.append(",DisplayType=").append(displayType)
+			.append(",Size=").append(columnSize)
 			.append("]");
 		return sb.toString();
 	}	//	toString
 
 	public void setFormatPattern(String formatPattern) {
-		m_FormatPattern = formatPattern;
+		this.formatPattern = formatPattern;
 	}
 	
 	public String getFormatPattern() {
-		return m_FormatPattern;
+		return formatPattern;
 	}
 	
 	/**

@@ -107,7 +107,6 @@
     <libelement value="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/servlet.jar!/" />
     <libelement value="jar://$MODULE_DIR$/packages/liberoHR.jar!/" />
     <libelement value="jar://$MODULE_DIR$/packages/liberoMFG.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/tools/lib/iText-2.1.7.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/miglayout-3.7.1-swing.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/payflow.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/cron4j-2.2.1.jar!/" />
@@ -212,6 +211,14 @@
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.project/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.adempiere.crm/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.spin.hr_tna/src/main/java/base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.mx.cdhcm/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.eevolution.freight/src/main/java/base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.spin.loan_and_investment_management/src/main/java/base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.spin.loan_management/src/main/java/base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.spin.hr_time _and_attendance/src/main/java/base" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.spin.loan_management/src/main/java/ui/swing" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.spin.loan_management/src/main/java/ui/zk" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/org.spin.finance_management/src/main/java/base" isTestSource="false" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="inheritedJdk" />
@@ -342,9 +349,9 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="commons-collections-3.1.jar">
+      <library name="commons-collections-3.2.2.jar">
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/commons-collections-3.1.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/commons-collections-3.2.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1033,15 +1040,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="iText-2.1.7.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/iText-2.1.7.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
       <library name="miglayout-3.7.1-swing.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/miglayout-3.7.1-swing.jar!/" />
@@ -1336,7 +1334,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/itext-pdfa-5.5.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/pdfa-7.1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1408,7 +1406,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/commons-validator-1.6.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/commons-validator-1.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1559,6 +1557,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="org.scalatest:scalatest_2.12:3.0.5" level="project" />
-    <orderEntry type="library" name="scala-sdk-2.12.8" level="project" />
+    <orderEntry type="library" name="scala-sdk-2.12.10" level="project" />
   </component>
 </module>

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for C_Invoice
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_C_Invoice 
 {
@@ -409,6 +409,21 @@ public interface I_C_Invoice
 	  */
 	public String getCreateFrom();
 
+    /** Column name C_SalesRegion_ID */
+    public static final String COLUMNNAME_C_SalesRegion_ID = "C_SalesRegion_ID";
+
+	/** Set Sales Region.
+	  * Sales coverage region
+	  */
+	public void setC_SalesRegion_ID (int C_SalesRegion_ID);
+
+	/** Get Sales Region.
+	  * Sales coverage region
+	  */
+	public int getC_SalesRegion_ID();
+
+	public org.compiere.model.I_C_SalesRegion getC_SalesRegion() throws RuntimeException;
+
     /** Column name DateAcct */
     public static final String COLUMNNAME_DateAcct = "DateAcct";
 
@@ -521,6 +536,17 @@ public interface I_C_Invoice
 
 	/** Get Dunning Grace Date	  */
 	public Timestamp getDunningGrace();
+
+    /** Column name FM_Account_ID */
+    public static final String COLUMNNAME_FM_Account_ID = "FM_Account_ID";
+
+	/** Set Financial Account	  */
+	public void setFM_Account_ID (int FM_Account_ID);
+
+	/** Get Financial Account	  */
+	public int getFM_Account_ID();
+
+	public org.spin.model.I_FM_Account getFM_Account() throws RuntimeException;
 
     /** Column name GenerateTo */
     public static final String COLUMNNAME_GenerateTo = "GenerateTo";

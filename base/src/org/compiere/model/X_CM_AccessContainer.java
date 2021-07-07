@@ -29,7 +29,7 @@ public class X_CM_AccessContainer extends PO implements I_CM_AccessContainer, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_CM_AccessContainer (Properties ctx, int CM_AccessContainer_ID, String trxName)

@@ -30,7 +30,7 @@ public class X_AD_Record_Access extends PO implements I_AD_Record_Access, I_Pers
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_Record_Access (Properties ctx, int AD_Record_Access_ID, String trxName)

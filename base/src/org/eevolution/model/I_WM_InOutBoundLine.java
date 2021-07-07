@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for WM_InOutBoundLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_WM_InOutBoundLine 
 {
@@ -307,6 +307,19 @@ public interface I_WM_InOutBoundLine
 	  */
 	public BigDecimal getFreightAmt();
 
+    /** Column name FreightRate */
+    public static final String COLUMNNAME_FreightRate = "FreightRate";
+
+	/** Set Freight Rate.
+	  * Freight Rate of Shipper 
+	  */
+	public void setFreightRate (BigDecimal FreightRate);
+
+	/** Get Freight Rate.
+	  * Freight Rate of Shipper 
+	  */
+	public BigDecimal getFreightRate();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -376,6 +389,51 @@ public interface I_WM_InOutBoundLine
 
 	public org.compiere.model.I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
 
+    /** Column name M_Freight_ID */
+    public static final String COLUMNNAME_M_Freight_ID = "M_Freight_ID";
+
+	/** Set Freight.
+	  * Freight Rate
+	  */
+	public void setM_Freight_ID (int M_Freight_ID);
+
+	/** Get Freight.
+	  * Freight Rate
+	  */
+	public int getM_Freight_ID();
+
+	public org.compiere.model.I_M_Freight getM_Freight() throws RuntimeException;
+
+    /** Column name M_InOut_ID */
+    public static final String COLUMNNAME_M_InOut_ID = "M_InOut_ID";
+
+	/** Set Shipment/Receipt.
+	  * Material Shipment Document
+	  */
+	public void setM_InOut_ID (int M_InOut_ID);
+
+	/** Get Shipment/Receipt.
+	  * Material Shipment Document
+	  */
+	public int getM_InOut_ID();
+
+	public org.compiere.model.I_M_InOut getM_InOut() throws RuntimeException;
+
+    /** Column name M_InOutLine_ID */
+    public static final String COLUMNNAME_M_InOutLine_ID = "M_InOutLine_ID";
+
+	/** Set Shipment/Receipt Line.
+	  * Line on Shipment or Receipt document
+	  */
+	public void setM_InOutLine_ID (int M_InOutLine_ID);
+
+	/** Get Shipment/Receipt Line.
+	  * Line on Shipment or Receipt document
+	  */
+	public int getM_InOutLine_ID();
+
+	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException;
+
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
 
@@ -405,6 +463,36 @@ public interface I_WM_InOutBoundLine
 	public int getM_LocatorTo_ID();
 
 	public I_M_Locator getM_LocatorTo() throws RuntimeException;
+
+    /** Column name M_Movement_ID */
+    public static final String COLUMNNAME_M_Movement_ID = "M_Movement_ID";
+
+	/** Set Inventory Move.
+	  * Movement of Inventory
+	  */
+	public void setM_Movement_ID (int M_Movement_ID);
+
+	/** Get Inventory Move.
+	  * Movement of Inventory
+	  */
+	public int getM_Movement_ID();
+
+	public org.compiere.model.I_M_Movement getM_Movement() throws RuntimeException;
+
+    /** Column name M_MovementLine_ID */
+    public static final String COLUMNNAME_M_MovementLine_ID = "M_MovementLine_ID";
+
+	/** Set Move Line.
+	  * Inventory Move document Line
+	  */
+	public void setM_MovementLine_ID (int M_MovementLine_ID);
+
+	/** Get Move Line.
+	  * Inventory Move document Line
+	  */
+	public int getM_MovementLine_ID();
+
+	public org.compiere.model.I_M_MovementLine getM_MovementLine() throws RuntimeException;
 
     /** Column name MovementQty */
     public static final String COLUMNNAME_MovementQty = "MovementQty";

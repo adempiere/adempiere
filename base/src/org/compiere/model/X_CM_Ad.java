@@ -31,7 +31,7 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_CM_Ad (Properties ctx, int CM_Ad_ID, String trxName)
@@ -420,23 +420,6 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set Target Frame.
-		@param Target_Frame 
-		Which target should be used if user clicks?
-	  */
-	public void setTarget_Frame (String Target_Frame)
-	{
-		set_Value (COLUMNNAME_Target_Frame, Target_Frame);
-	}
-
-	/** Get Target Frame.
-		@return Which target should be used if user clicks?
-	  */
-	public String getTarget_Frame () 
-	{
-		return (String)get_Value(COLUMNNAME_Target_Frame);
-	}
-
 	/** Set Target URL.
 		@param TargetURL 
 		URL for the Target
@@ -452,6 +435,23 @@ public class X_CM_Ad extends PO implements I_CM_Ad, I_Persistent
 	public String getTargetURL () 
 	{
 		return (String)get_Value(COLUMNNAME_TargetURL);
+	}
+
+	/** Set Target Frame.
+		@param Target_Frame 
+		Which target should be used if user clicks?
+	  */
+	public void setTarget_Frame (String Target_Frame)
+	{
+		set_Value (COLUMNNAME_Target_Frame, Target_Frame);
+	}
+
+	/** Get Target Frame.
+		@return Which target should be used if user clicks?
+	  */
+	public String getTarget_Frame () 
+	{
+		return (String)get_Value(COLUMNNAME_Target_Frame);
 	}
 
 	/** Set Immutable Universally Unique Identifier.

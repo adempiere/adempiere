@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_OrderLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_DD_OrderLine 
 {
@@ -297,6 +297,19 @@ public interface I_DD_OrderLine
 	  */
 	public BigDecimal getFreightAmt();
 
+    /** Column name FreightRate */
+    public static final String COLUMNNAME_FreightRate = "FreightRate";
+
+	/** Set Freight Rate.
+	  * Freight Rate of Shipper 
+	  */
+	public void setFreightRate (BigDecimal FreightRate);
+
+	/** Get Freight Rate.
+	  * Freight Rate of Shipper 
+	  */
+	public BigDecimal getFreightRate();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -406,6 +419,21 @@ public interface I_DD_OrderLine
 	public int getM_FreightCategory_ID();
 
 	public org.compiere.model.I_M_FreightCategory getM_FreightCategory() throws RuntimeException;
+
+    /** Column name M_Freight_ID */
+    public static final String COLUMNNAME_M_Freight_ID = "M_Freight_ID";
+
+	/** Set Freight.
+	  * Freight Rate
+	  */
+	public void setM_Freight_ID (int M_Freight_ID);
+
+	/** Get Freight.
+	  * Freight Rate
+	  */
+	public int getM_Freight_ID();
+
+	public org.compiere.model.I_M_Freight getM_Freight() throws RuntimeException;
 
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";

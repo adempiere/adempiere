@@ -16,11 +16,12 @@
  *****************************************************************************/
 package org.compiere.model;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.compiere.util.Env;
-
 /**
  *	Package Line Model
  *	
@@ -34,6 +35,20 @@ public class MPackageLine extends X_M_PackageLine
 	 */
 	private static final long serialVersionUID = 6018805803189654348L;
 
+	/**	Parent	*/
+	private MPackage parent = null;
+	
+	/**
+	 * 	Get Parent
+	 *	@return parent
+	 */
+	public MPackage getParent() {
+		if (parent == null) {
+			parent = new MPackage(getCtx(), getM_Package_ID(), get_TrxName());
+		}
+		return parent;
+	}	//	getParent
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -75,12 +90,97 @@ public class MPackageLine extends X_M_PackageLine
 	
 	/**
 	 * 	Set Shipment Line
-	 *	@param line line
+	 *	@param shipmentLine line
 	 */
-	public void setInOutLine (MInOutLine line)
-	{
-		setM_InOutLine_ID (line.getM_InOutLine_ID());
-		setQty (line.getMovementQty());
+	public void setInOutLine(MInOutLine shipmentLine) {
+		setM_InOutLine_ID (shipmentLine.getM_InOutLine_ID());
+		setQty (shipmentLine.getMovementQty());
 	}	//	setInOutLine
+	
+	/**
+	 * 	Set Shipment Line
+	 *	@param movementLine line
+	 */
+	public void setMovementLine(MMovementLine movementLine) {
+		setM_MovementLine_ID(movementLine.getM_MovementLine_ID());
+		setQty(movementLine.getMovementQty());
+	}	//	setInOutLine
+	
+	/**
+	 * 	After Save
+	 *	@param newRecord new
+	 *	@param success success
+	 *	@return saved
+	 */
+	protected boolean afterSave (boolean newRecord, boolean success) {
+		if (!success) {
+			return success;
+		}
+		if(newRecord
+				|| is_ValueChanged(COLUMNNAME_Width)
+				|| is_ValueChanged(COLUMNNAME_Height)
+				|| is_ValueChanged(COLUMNNAME_Depth)
+				|| is_ValueChanged(COLUMNNAME_Weight)
+				|| is_ValueChanged(COLUMNNAME_Volume)) {
+			return updateHeader();
+		}
+		return success;
+	}	//	afterSave
+	
+	/**
+	 * 	After Delete
+	 *	@param success success
+	 *	@return deleted
+	 */
+	protected boolean afterDelete (boolean success) {
+		if (!success) {
+			return success;
+		}
+		return updateHeader();
+	}	//	afterDelete
+
+	/**
+	 *	Update Tax & Header
+	 *	@return true if header updated
+	 */
+	private boolean updateHeader() {
+		//	Recalculate Tax for this Tax
+		if (getParent().isProcessed()) {
+			return false;
+		}
+		//	Update header values
+		AtomicReference<BigDecimal> weight = new AtomicReference<BigDecimal>(Env.ZERO);
+		AtomicReference<BigDecimal> volume = new AtomicReference<BigDecimal>(Env.ZERO);
+		AtomicReference<BigDecimal> width = new AtomicReference<BigDecimal>(Env.ZERO);
+		AtomicReference<BigDecimal> heigh = new AtomicReference<BigDecimal>(Env.ZERO);
+		AtomicReference<BigDecimal> depth = new AtomicReference<BigDecimal>(Env.ZERO);
+		//	
+		getParent().getLines(true).forEach(packageLine -> {
+			weight.updateAndGet(value -> value.add(packageLine.getWeight()));
+			volume.updateAndGet(value -> value.add(packageLine.getVolume()));
+			//	Package
+			width.updateAndGet(value -> value.max(packageLine.getWidth()));
+			heigh.updateAndGet(value -> value.max(packageLine.getHeight()));
+			depth.updateAndGet(value -> value.max(packageLine.getDepth()));
+		});
+		parent.setWeight(weight.get());
+		parent.setVolume(volume.get());
+		parent.setWidth(width.get());
+		parent.setHeight(heigh.get());
+		parent.setDepth(depth.get());
+		parent.saveEx();
+		//	Update Head without
+//		int updated = DB.executeUpdateEx("UPDATE " + I_M_Package.Table_Name 
+//				+ " SET " 
+//				+ I_M_Package.COLUMNNAME_Weight + " = ?, "
+//				+ I_M_Package.COLUMNNAME_Volume + " = ?, "
+//				+ I_M_Package.COLUMNNAME_Width + " = ?, "
+//				+ I_M_Package.COLUMNNAME_Height + " = ?, "
+//				+ I_M_Package.COLUMNNAME_Depth + " = ? ",
+//				new Object[]{weight.get(), volume.get(), width.get(), heigh.get(), depth.get()}, get_TrxName());
+		parent = null;
+		log.fine("Header updated");
+		return true;
+	}	//	updateHeaderTax
 	
 }	//	MPackageLine

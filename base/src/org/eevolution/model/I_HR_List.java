@@ -114,15 +114,6 @@ public interface I_HR_List
 
 	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException;
 
-    /** Column name HR_List_ID */
-    public static final String COLUMNNAME_HR_List_ID = "HR_List_ID";
-
-	/** Set Payroll List	  */
-	public void setHR_List_ID (int HR_List_ID);
-
-	/** Get Payroll List	  */
-	public int getHR_List_ID();
-
     /** Column name HR_ListType_ID */
     public static final String COLUMNNAME_HR_ListType_ID = "HR_ListType_ID";
 
@@ -133,6 +124,15 @@ public interface I_HR_List
 	public int getHR_ListType_ID();
 
 	public org.eevolution.model.I_HR_ListType getHR_ListType() throws RuntimeException;
+
+    /** Column name HR_List_ID */
+    public static final String COLUMNNAME_HR_List_ID = "HR_List_ID";
+
+	/** Set Payroll List	  */
+	public void setHR_List_ID (int HR_List_ID);
+
+	/** Get Payroll List	  */
+	public int getHR_List_ID();
 
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
@@ -184,6 +184,19 @@ public interface I_HR_List
 	  */
 	public String getName();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -199,19 +212,6 @@ public interface I_HR_List
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";

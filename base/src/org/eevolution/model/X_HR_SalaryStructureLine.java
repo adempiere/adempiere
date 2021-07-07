@@ -32,7 +32,7 @@ public class X_HR_SalaryStructureLine extends PO implements I_HR_SalaryStructure
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_SalaryStructureLine (Properties ctx, int HR_SalaryStructureLine_ID, String trxName)
@@ -42,8 +42,8 @@ public class X_HR_SalaryStructureLine extends PO implements I_HR_SalaryStructure
         {
 			setAmount (Env.ZERO);
 			setHR_Concept_ID (0);
-			setHR_SalaryStructure_ID (0);
 			setHR_SalaryStructureLine_ID (0);
+			setHR_SalaryStructure_ID (0);
 			setPercentage (Env.ZERO);
         } */
     }
@@ -124,6 +124,29 @@ public class X_HR_SalaryStructureLine extends PO implements I_HR_SalaryStructure
 		return ii.intValue();
 	}
 
+	/** Set Salary Structure Line.
+		@param HR_SalaryStructureLine_ID 
+		Salary Structure Line
+	  */
+	public void setHR_SalaryStructureLine_ID (int HR_SalaryStructureLine_ID)
+	{
+		if (HR_SalaryStructureLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_HR_SalaryStructureLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_HR_SalaryStructureLine_ID, Integer.valueOf(HR_SalaryStructureLine_ID));
+	}
+
+	/** Get Salary Structure Line.
+		@return Salary Structure Line
+	  */
+	public int getHR_SalaryStructureLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_HR_SalaryStructureLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.eevolution.model.I_HR_SalaryStructure getHR_SalaryStructure() throws RuntimeException
     {
 		return (org.eevolution.model.I_HR_SalaryStructure)MTable.get(getCtx(), org.eevolution.model.I_HR_SalaryStructure.Table_Name)
@@ -147,29 +170,6 @@ public class X_HR_SalaryStructureLine extends PO implements I_HR_SalaryStructure
 	public int getHR_SalaryStructure_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_HR_SalaryStructure_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Salary Structure Line.
-		@param HR_SalaryStructureLine_ID 
-		Salary Structure Line
-	  */
-	public void setHR_SalaryStructureLine_ID (int HR_SalaryStructureLine_ID)
-	{
-		if (HR_SalaryStructureLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_HR_SalaryStructureLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_HR_SalaryStructureLine_ID, Integer.valueOf(HR_SalaryStructureLine_ID));
-	}
-
-	/** Get Salary Structure Line.
-		@return Salary Structure Line
-	  */
-	public int getHR_SalaryStructureLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_HR_SalaryStructureLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

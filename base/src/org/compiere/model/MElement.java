@@ -17,8 +17,10 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.util.Optional;
 import java.util.Properties;
 
+import org.compiere.util.CCache;
 import org.compiere.util.Msg;
 
 /**
@@ -34,6 +36,8 @@ public class MElement extends X_C_Element
 	 */
 	private static final long serialVersionUID = 7656092284157893366L;
 
+	private static CCache<Integer,MElement> s_cache = new CCache<Integer,MElement>("C_Element", 10);
+	
 	/**
 	 * 	Standard Constructor
 	 *	@param ctx context
@@ -135,4 +139,14 @@ public class MElement extends X_C_Element
 		return true;
 	}	//	beforeSave
 	
+	
+	public static MElement get (Properties ctx, int C_Element_ID, String trxName)
+	{
+		MElement retValue = Optional.ofNullable((MElement)s_cache.get (C_Element_ID))
+									.orElse(new MElement (ctx, C_Element_ID, trxName));
+		
+		s_cache.put(C_Element_ID, retValue);
+		
+		return retValue;
+	}	//	get	
 }	//	MElement

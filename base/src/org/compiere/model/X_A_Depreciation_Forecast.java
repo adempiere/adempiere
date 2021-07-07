@@ -31,7 +31,7 @@ public class X_A_Depreciation_Forecast extends PO implements I_A_Depreciation_Fo
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_A_Depreciation_Forecast (Properties ctx, int A_Depreciation_Forecast_ID, String trxName)

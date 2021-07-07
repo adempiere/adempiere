@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_FieldCustom
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_AD_FieldCustom extends PO implements I_AD_FieldCustom, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20210415L;
 
     /** Standard Constructor */
     public X_AD_FieldCustom (Properties ctx, int AD_FieldCustom_ID, String trxName)
@@ -490,28 +490,28 @@ public class X_AD_FieldCustom extends PO implements I_AD_FieldCustom, I_Persiste
 		return false;
 	}
 
-	/** IsDisplayedGrid AD_Reference_ID=319 */
-	public static final int ISDISPLAYEDGRID_AD_Reference_ID=319;
-	/** Yes = Y */
-	public static final String ISDISPLAYEDGRID_Yes = "Y";
-	/** No = N */
-	public static final String ISDISPLAYEDGRID_No = "N";
 	/** Set Displayed in Grid.
 		@param IsDisplayedGrid 
 		Determines, if this field is displayed in grid view
 	  */
-	public void setIsDisplayedGrid (String IsDisplayedGrid)
+	public void setIsDisplayedGrid (boolean IsDisplayedGrid)
 	{
-
-		set_Value (COLUMNNAME_IsDisplayedGrid, IsDisplayedGrid);
+		set_Value (COLUMNNAME_IsDisplayedGrid, Boolean.valueOf(IsDisplayedGrid));
 	}
 
 	/** Get Displayed in Grid.
 		@return Determines, if this field is displayed in grid view
 	  */
-	public String getIsDisplayedGrid () 
+	public boolean isDisplayedGrid () 
 	{
-		return (String)get_Value(COLUMNNAME_IsDisplayedGrid);
+		Object oo = get_Value(COLUMNNAME_IsDisplayedGrid);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** IsEmbedded AD_Reference_ID=319 */

@@ -25,14 +25,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_PackageLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20200804L;
 
     /** Standard Constructor */
     public X_M_PackageLine (Properties ctx, int M_PackageLine_ID, String trxName)
@@ -40,7 +40,6 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
       super (ctx, M_PackageLine_ID, trxName);
       /** if (M_PackageLine_ID == 0)
         {
-			setM_InOutLine_ID (0);
 			setM_Package_ID (0);
 			setM_PackageLine_ID (0);
 			setQty (Env.ZERO);
@@ -75,6 +74,26 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
       return sb.toString();
     }
 
+	/** Set Depth.
+		@param Depth 
+		Depth required
+	  */
+	public void setDepth (BigDecimal Depth)
+	{
+		set_Value (COLUMNNAME_Depth, Depth);
+	}
+
+	/** Get Depth.
+		@return Depth required
+	  */
+	public BigDecimal getDepth () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Depth);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Description.
 		@param Description 
 		Optional short description of the record
@@ -90,6 +109,26 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** Set Height.
+		@param Height 
+		Height required
+	  */
+	public void setHeight (BigDecimal Height)
+	{
+		set_Value (COLUMNNAME_Height, Height);
+	}
+
+	/** Get Height.
+		@return Height required
+	  */
+	public BigDecimal getHeight () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Height);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	public org.compiere.model.I_M_InOutLine getM_InOutLine() throws RuntimeException
@@ -115,6 +154,34 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
 	public int getM_InOutLine_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_InOutLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_MovementLine getM_MovementLine() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_MovementLine)MTable.get(getCtx(), org.compiere.model.I_M_MovementLine.Table_Name)
+			.getPO(getM_MovementLine_ID(), get_TrxName());	}
+
+	/** Set Move Line.
+		@param M_MovementLine_ID 
+		Inventory Move document Line
+	  */
+	public void setM_MovementLine_ID (int M_MovementLine_ID)
+	{
+		if (M_MovementLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_MovementLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_MovementLine_ID, Integer.valueOf(M_MovementLine_ID));
+	}
+
+	/** Get Move Line.
+		@return Inventory Move document Line
+	  */
+	public int getM_MovementLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_MovementLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -179,6 +246,30 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
 		return ii.intValue();
 	}
 
+	/** Set Processed.
+		@param Processed 
+		The document has been processed
+	  */
+	public void setProcessed (boolean Processed)
+	{
+		set_Value (COLUMNNAME_Processed, Boolean.valueOf(Processed));
+	}
+
+	/** Get Processed.
+		@return The document has been processed
+	  */
+	public boolean isProcessed () 
+	{
+		Object oo = get_Value(COLUMNNAME_Processed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
 	/** Set Quantity.
 		@param Qty 
 		Quantity
@@ -214,5 +305,65 @@ public class X_M_PackageLine extends PO implements I_M_PackageLine, I_Persistent
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** Set Volume.
+		@param Volume 
+		Volume of a product
+	  */
+	public void setVolume (BigDecimal Volume)
+	{
+		set_Value (COLUMNNAME_Volume, Volume);
+	}
+
+	/** Get Volume.
+		@return Volume of a product
+	  */
+	public BigDecimal getVolume () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Volume);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Weight.
+		@param Weight 
+		Weight of a product
+	  */
+	public void setWeight (BigDecimal Weight)
+	{
+		set_Value (COLUMNNAME_Weight, Weight);
+	}
+
+	/** Get Weight.
+		@return Weight of a product
+	  */
+	public BigDecimal getWeight () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Weight);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Width.
+		@param Width 
+		Width required
+	  */
+	public void setWidth (BigDecimal Width)
+	{
+		set_Value (COLUMNNAME_Width, Width);
+	}
+
+	/** Get Width.
+		@return Width required
+	  */
+	public BigDecimal getWidth () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_Width);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 }

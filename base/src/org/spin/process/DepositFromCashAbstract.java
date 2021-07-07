@@ -22,7 +22,7 @@ import org.compiere.process.SvrProcess;
 
 /** Generated Process for (Deposit From Cash Process)
  *  @author ADempiere (generated) 
- *  @version Release 3.9.0
+ *  @version Release 3.9.3
  */
 public abstract class DepositFromCashAbstract extends SvrProcess {
 	/** Process Value 	*/
@@ -43,6 +43,14 @@ public abstract class DepositFromCashAbstract extends SvrProcess {
 	public static final String ISSPLITDEPOSITS = "IsSplitDeposits";
 	/**	Parameter Name for Charge	*/
 	public static final String C_CHARGE_ID = "C_Charge_ID";
+	/**	Parameter Name for Withdrawal Document Type	*/
+	public static final String WITHDRAWALDOCUMENTTYPE_ID = "WithdrawalDocumentType_ID";
+	/**	Parameter Name for Deposit Document Type	*/
+	public static final String DEPOSITDOCUMENTTYPE_ID = "DepositDocumentType_ID";
+	/**	Parameter Name for Tender type	*/
+	public static final String TENDERTYPE = "TenderType";
+	/**	Parameter Name for Reconcile Automatically	*/
+	public static final String ISAUTORECONCILED = "IsAutoReconciled";
 	/**	Parameter Value for Transaction Date	*/
 	private Timestamp dateTrx;
 	/**	Parameter Value for Bank Account	*/
@@ -55,6 +63,14 @@ public abstract class DepositFromCashAbstract extends SvrProcess {
 	private boolean isSplitDeposits;
 	/**	Parameter Value for Charge	*/
 	private int chargeId;
+	/**	Parameter Value for Withdrawal Document Type	*/
+	private int withdrawalDocumentTypeId;
+	/**	Parameter Value for Deposit Document Type	*/
+	private int depositDocumentTypeId;
+	/**	Parameter Value for Tender type	*/
+	private String tenderType;
+	/**	Parameter Value for Reconcile Automatically	*/
+	private boolean isAutoReconciled;
 
 	@Override
 	protected void prepare() {
@@ -64,6 +80,10 @@ public abstract class DepositFromCashAbstract extends SvrProcess {
 		documentNo = getParameterAsString(DOCUMENTNO);
 		isSplitDeposits = getParameterAsBoolean(ISSPLITDEPOSITS);
 		chargeId = getParameterAsInt(C_CHARGE_ID);
+		withdrawalDocumentTypeId = getParameterAsInt(WITHDRAWALDOCUMENTTYPE_ID);
+		depositDocumentTypeId = getParameterAsInt(DEPOSITDOCUMENTTYPE_ID);
+		tenderType = getParameterAsString(TENDERTYPE);
+		isAutoReconciled = getParameterAsBoolean(ISAUTORECONCILED);
 	}
 
 	/**	 Getter Parameter Value for Transaction Date	*/
@@ -124,6 +144,46 @@ public abstract class DepositFromCashAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for Charge	*/
 	protected void setChargeId(int chargeId) {
 		this.chargeId = chargeId;
+	}
+
+	/**	 Getter Parameter Value for Withdrawal Document Type	*/
+	protected int getWithdrawalDocumentTypeId() {
+		return withdrawalDocumentTypeId;
+	}
+
+	/**	 Setter Parameter Value for Withdrawal Document Type	*/
+	protected void setWithdrawalDocumentTypeId(int withdrawalDocumentTypeId) {
+		this.withdrawalDocumentTypeId = withdrawalDocumentTypeId;
+	}
+
+	/**	 Getter Parameter Value for Deposit Document Type	*/
+	protected int getDepositDocumentTypeId() {
+		return depositDocumentTypeId;
+	}
+
+	/**	 Setter Parameter Value for Deposit Document Type	*/
+	protected void setDepositDocumentTypeId(int depositDocumentTypeId) {
+		this.depositDocumentTypeId = depositDocumentTypeId;
+	}
+
+	/**	 Getter Parameter Value for Tender type	*/
+	protected String getTenderType() {
+		return tenderType;
+	}
+
+	/**	 Setter Parameter Value for Tender type	*/
+	protected void setTenderType(String tenderType) {
+		this.tenderType = tenderType;
+	}
+
+	/**	 Getter Parameter Value for Reconcile Automatically	*/
+	protected boolean isAutoReconciled() {
+		return isAutoReconciled;
+	}
+
+	/**	 Setter Parameter Value for Reconcile Automatically	*/
+	protected void setIsAutoReconciled(boolean isAutoReconciled) {
+		this.isAutoReconciled = isAutoReconciled;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/

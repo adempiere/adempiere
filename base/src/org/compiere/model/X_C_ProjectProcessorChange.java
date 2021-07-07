@@ -29,7 +29,7 @@ public class X_C_ProjectProcessorChange extends PO implements I_C_ProjectProcess
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190503L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_ProjectProcessorChange (Properties ctx, int C_ProjectProcessorChange_ID, String trxName)

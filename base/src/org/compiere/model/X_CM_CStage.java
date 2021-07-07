@@ -30,7 +30,7 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_CM_CStage (Properties ctx, int CM_CStage_ID, String trxName)
@@ -84,29 +84,6 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
       return sb.toString();
     }
 
-	/** Set Web Container Stage.
-		@param CM_CStage_ID 
-		Web Container Stage contains the staging content like images, text etc.
-	  */
-	public void setCM_CStage_ID (int CM_CStage_ID)
-	{
-		if (CM_CStage_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_CM_CStage_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_CM_CStage_ID, Integer.valueOf(CM_CStage_ID));
-	}
-
-	/** Get Web Container Stage.
-		@return Web Container Stage contains the staging content like images, text etc.
-	  */
-	public int getCM_CStage_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_CM_CStage_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_CM_CStage getCM_CStageLink() throws RuntimeException
     {
 		return (org.compiere.model.I_CM_CStage)MTable.get(getCtx(), org.compiere.model.I_CM_CStage.Table_Name)
@@ -130,6 +107,29 @@ public class X_CM_CStage extends PO implements I_CM_CStage, I_Persistent
 	public int getCM_CStageLink_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_CM_CStageLink_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Web Container Stage.
+		@param CM_CStage_ID 
+		Web Container Stage contains the staging content like images, text etc.
+	  */
+	public void setCM_CStage_ID (int CM_CStage_ID)
+	{
+		if (CM_CStage_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_CM_CStage_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_CM_CStage_ID, Integer.valueOf(CM_CStage_ID));
+	}
+
+	/** Get Web Container Stage.
+		@return Web Container Stage contains the staging content like images, text etc.
+	  */
+	public int getCM_CStage_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_CM_CStage_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

@@ -19,10 +19,10 @@ name := "org.adempiere.jetty"
 lazy val commonSettings = Seq(
   organization := "org.adempiere.net",
   version := "3.9.0-SNAPSHOT",
-  scalaVersion := "2.12.8"
+  scalaVersion := "2.13.1"
 )
 
-scalaVersion := "2.12.8"
+scalaVersion := "2.13.1"
 resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"
 
 fork := true
@@ -32,12 +32,10 @@ javaOptions in Test := Seq (adempiereProperties)
 
 libraryDependencies ++= Seq(
   "javax.servlet" % "javax.servlet-api" % "3.0.1" % "provided",
-  "com.typesafe" % "config" % "1.2.0",
-  "org.scala-lang" % "scala-reflect" % "2.12.8",
-  "org.scalactic" %% "scalactic" % "3.0.5",
-  "org.scalatest" %% "scalatest" % "3.0.5" % "test"
+  "org.scala-lang" % "scala-reflect" % "2.13.1",
+  "org.scalactic" %% "scalactic" % "3.1.0",
+  "org.scalatest" %% "scalatest" % "3.1.0" % "test"
 )
-
 
 //Documentation here ~compile https://github.com/earldouglas/xsbt-web-plugin/blob/master/docs/2.0.md
 //execute with sbt ~jetty:start

@@ -37,6 +37,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.UUID;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
@@ -1161,6 +1162,31 @@ public final class DB
 	}	//	executeUpdareMultiple
 
 	/**
+	 *	Execute multiple Update statements and throw exceptions on error
+	 *  @param sql multiple sql statements separated by "; " SQLSTATEMENT_SEPARATOR
+	 * 	@param trxName optional transaction name
+	 *  @return number of rows updated
+	 */
+	public static int executeUpdateMultipleEx (String sql, String trxName) throws DBException
+	{
+		if (sql == null || sql.length() == 0)
+			throw new IllegalArgumentException("Required parameter missing - " + sql);
+		int index = sql.indexOf(SQLSTATEMENT_SEPARATOR);
+		if (index == -1)
+			return executeUpdateEx(sql, null, trxName);
+		int no = 0;
+		//
+		String statements[] = sql.split(SQLSTATEMENT_SEPARATOR);
+		for (int i = 0; i < statements.length; i++)
+		{
+			log.fine(statements[i]);
+			no += executeUpdateEx(statements[i], null, trxName);
+		}
+
+		return no;
+	}	//	executeUpdareMultipleEx
+
+	/**
 	 * Execute Update and throw exception.
 	 * @see {@link #executeUpdateEx(String, Object[], String)}
 	 */
@@ -1458,6 +1484,8 @@ public final class DB
 			} else {
 				uuid = DB.getSQLValueString(trxName, "SELECT getUUID()");
 			}
+		} else {
+			uuid = UUID.randomUUID().toString();
 		}
 		return uuid;
 	}
@@ -2558,4 +2586,15 @@ public final class DB
 		}
 		return false;
 	}
+
+    /**
+     * Get the current time from the database
+     * @return a timestamp of the current database time
+     */
+    public static Timestamp getCurrentTimeFromDatabase() {
+
+        return DB.getSQLValueTS(null,
+                "SELECT getdate() FROM DUAL");
+
+    }
 }	//	DB

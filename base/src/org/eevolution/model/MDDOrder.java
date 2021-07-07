@@ -785,17 +785,6 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		// Bug 1564431
 		if (getDeliveryRule() != null && getDeliveryRule().equals(MDDOrder.DELIVERYRULE_CompleteOrder)) 
 		{
-			/*for (int i = 0; i < lines.length; i++)
-			{
-				MDDOrderLine line = lines[i];
-				MProduct product = line.getProduct();
-				if (product != null && product.isExcludeAutoDelivery())
-				{
-					processMessage = "@M_Product_ID@ "+product.getValue()+" @IsExcludeAutoDelivery@";
-					return DocAction.STATUS_Invalid;
-				}
-			}*/
-
 			orderLines.stream()
 					.filter(orderLine -> orderLine.getProduct() != null && orderLine.getProduct().isExcludeAutoDelivery())
 					.map(orderLine ->
@@ -848,28 +837,9 @@ public class MDDOrder extends X_DD_Order implements DocAction
 				.filter(orderLine -> orderLine.getCalculateQtyReserved().signum() != 0 ) // filter the order line that where Reserved Quantity need be change
 				.filter(orderLine -> orderLine.getProduct() != null && orderLine.getProduct().isStocked()) // filter that order line with product stocked
 				.forEach(orderLine -> {
-
-			MLocator locatorFrom = MLocator.get(getCtx(),orderLine.getM_Locator_ID());
-			MLocator locatorTo = MLocator.get(getCtx(),orderLine.getM_LocatorTo_ID());
-			log.fine("Line=" + orderLine.getLine()
-				+ " - Ordered=" + orderLine.getQtyOrdered()
-				+ ",Reserved=" + orderLine.getQtyReserved() + ",Delivered=" + orderLine.getQtyDelivered());
-			//	Update Storage
-			if (!MStorage.add(getCtx(), locatorTo.getM_Warehouse_ID(), locatorTo.getM_Locator_ID(),
-					orderLine.getM_Product_ID(),
-					orderLine.getM_AttributeSetInstance_ID(), orderLine.getM_AttributeSetInstance_ID(),
-				Env.ZERO, Env.ZERO , orderLine.getCalculateQtyReserved() , get_TrxName()))
-				throw new AdempiereException("@M_Storage_ID@ @Error@ @To@ @QtyReserved@");
-
-			if (!MStorage.add(getCtx(), locatorFrom.getM_Warehouse_ID(), locatorFrom.getM_Locator_ID(),
-					orderLine.getM_Product_ID(),
-					orderLine.getM_AttributeSetInstanceTo_ID(), orderLine.getM_AttributeSetInstance_ID(),
-				Env.ZERO, orderLine.getCalculateQtyReserved(), Env.ZERO , get_TrxName()))
-				throw new AdempiereException("@M_Storage_ID@ @Error@ @To@ @QtyReserved@");
-
-				//	update line
-				orderLine.setQtyReserved(orderLine.getQtyReserved().add(orderLine.getCalculateQtyReserved()));
-				orderLine.saveEx();
+			orderLine.orderedStock();
+			orderLine.reserveStock();
+			orderLine.saveEx();
 		});
 		updateVolume();
 		updateWeight();
@@ -969,7 +939,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 			return DocAction.STATUS_Invalid;
 		}
 
-		setProcessed(true);	
+		setProcessed(true);
 		processMessage = info.toString();
 		//
 		setDocAction(DOCACTION_Close);
@@ -1030,24 +1000,13 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		if (processMessage != null)
 			return false;
 
-		/*MDDOrderLine[] lines = getLines(true, "M_Product_ID");
-		for (int i = 0; i < lines.length; i++)
-		{
-			MDDOrderLine line = lines[i];
-			BigDecimal old = line.getQtyOrdered();
-			if (old.signum() != 0)
-			{
-				line.addDescription(Msg.getMsg(getCtx(), "Voided") + " (" + old + ")");		
-				line.save(get_TrxName());
-			}
-		}*/
-
 		List<MDDOrderLine> lines = getLines(true, "M_Product_ID");
 		lines.stream()
 				.filter(orderLine -> orderLine.getQtyOrdered().signum() != 0)
 				.forEach(orderLine -> {
-					orderLine.addDescription(Msg.getMsg(getCtx(), "Voided") + " (" + orderLine.getQtyOrdered() + ")");
-					orderLine.save(get_TrxName());
+					orderLine.setDescription(Optional.ofNullable(orderLine.getDescription()).orElse("")
+							+ " " + Msg.parseTranslation(getCtx() , "@Voided@  @QtyOrdered@ (" + orderLine.getQtyOrdered() + ")"));
+					orderLine.saveEx(get_TrxName());
 				});
 
 		addDescription(Msg.getMsg(getCtx(), "Voided"));
@@ -1075,28 +1034,14 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_CLOSE);
 		if (processMessage != null)
 			return false;
-		
-		//	Close Not delivered Qty - SO/PO
-		/*MDDOrderLine[] lines = getLines(true, "M_Product_ID");
-		for (int i = 0; i < lines.length; i++)
-		{
-			MDDOrderLine line = lines[i];
-			BigDecimal old = line.getQtyOrdered();
-			if (old.compareTo(line.getQtyDelivered()) != 0)
-			{
-				line.setQtyOrdered(line.getQtyDelivered());
-				//	QtyEntered unchanged
-				line.addDescription("Close (" + old + ")");
-				line.save(get_TrxName());
-			}
-		}*/
 
 		List<MDDOrderLine> lines = getLines(true, "M_Product_ID");
 		lines.stream()
 				.filter(orderLine -> orderLine.getQtyOrdered().compareTo(orderLine.getQtyDelivered()) != 0)
 				.forEach(orderLine -> {
 					orderLine.setQtyOrdered(orderLine.getQtyDelivered());
-					orderLine.addDescription("Close (" + orderLine.getQtyOrdered() + ")");
+					orderLine.setDescription(Optional.ofNullable(orderLine.getDescription()).orElse("")
+							+ " " + Msg.parseTranslation(getCtx() , "@close@  @QtyOrdered@ (" + orderLine.getQtyOrdered() + ")"));
 					orderLine.save(get_TrxName());
 				});
 
@@ -1105,7 +1050,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 		setProcessed(true);
 		setDocAction(DOCACTION_None);
 		// After Close
-		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_CLOSE);
+		processMessage = ModelValidationEngine.get().fireDocValidate(this , ModelValidator.TIMING_AFTER_CLOSE);
 		if (processMessage != null)
 			return false;
 		return true;

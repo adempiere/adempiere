@@ -42,21 +42,6 @@ public interface I_DD_TransportUnit
 
     /** Load Meta Data */
 
-    /** Column name A_Asset_ID */
-    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
-
-	/** Set Fixed Asset.
-	  * Fixed Asset used internally or by customers
-	  */
-	public void setA_Asset_ID (int A_Asset_ID);
-
-	/** Get Fixed Asset.
-	  * Fixed Asset used internally or by customers
-	  */
-	public int getA_Asset_ID();
-
-	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -90,6 +75,21 @@ public interface I_DD_TransportUnit
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name A_Asset_ID */
+    public static final String COLUMNNAME_A_Asset_ID = "A_Asset_ID";
+
+	/** Set Fixed Asset.
+	  * Fixed Asset used internally or by customers
+	  */
+	public void setA_Asset_ID (int A_Asset_ID);
+
+	/** Get Fixed Asset.
+	  * Fixed Asset used internally or by customers
+	  */
+	public int getA_Asset_ID();
+
+	public org.compiere.model.I_A_Asset getA_Asset() throws RuntimeException;
 
     /** Column name AxlesNumber */
     public static final String COLUMNNAME_AxlesNumber = "AxlesNumber";
@@ -149,15 +149,6 @@ public interface I_DD_TransportUnit
 
 	public org.eevolution.model.I_DD_CompatibilityGroup getDD_CompatibilityGroup() throws RuntimeException;
 
-    /** Column name DD_TransportUnit_ID */
-    public static final String COLUMNNAME_DD_TransportUnit_ID = "DD_TransportUnit_ID";
-
-	/** Set Transport Unit	  */
-	public void setDD_TransportUnit_ID (int DD_TransportUnit_ID);
-
-	/** Get Transport Unit	  */
-	public int getDD_TransportUnit_ID();
-
     /** Column name DD_TransportUnitType_ID */
     public static final String COLUMNNAME_DD_TransportUnitType_ID = "DD_TransportUnitType_ID";
 
@@ -168,6 +159,15 @@ public interface I_DD_TransportUnit
 	public int getDD_TransportUnitType_ID();
 
 	public org.eevolution.model.I_DD_TransportUnitType getDD_TransportUnitType() throws RuntimeException;
+
+    /** Column name DD_TransportUnit_ID */
+    public static final String COLUMNNAME_DD_TransportUnit_ID = "DD_TransportUnit_ID";
+
+	/** Set Transport Unit	  */
+	public void setDD_TransportUnit_ID (int DD_TransportUnit_ID);
+
+	/** Get Transport Unit	  */
+	public int getDD_TransportUnit_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -325,6 +325,19 @@ public interface I_DD_TransportUnit
 	/** Get Transport Width	  */
 	public BigDecimal getTransportWidth();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name UnladenWeight */
     public static final String COLUMNNAME_UnladenWeight = "UnladenWeight";
 
@@ -349,19 +362,6 @@ public interface I_DD_TransportUnit
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

@@ -30,7 +30,7 @@ public class X_WM_Section_Detail extends PO implements I_WM_Section_Detail, I_Pe
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_WM_Section_Detail (Properties ctx, int WM_Section_Detail_ID, String trxName)

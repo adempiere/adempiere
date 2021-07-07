@@ -30,7 +30,7 @@ public class X_WM_Strategy_Detail extends PO implements I_WM_Strategy_Detail, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_WM_Strategy_Detail (Properties ctx, int WM_Strategy_Detail_ID, String trxName)

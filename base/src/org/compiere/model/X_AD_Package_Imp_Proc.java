@@ -22,14 +22,14 @@ import java.util.Properties;
 
 /** Generated Model for AD_Package_Imp_Proc
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20200806L;
 
     /** Standard Constructor */
     public X_AD_Package_Imp_Proc (Properties ctx, int AD_Package_Imp_Proc_ID, String trxName)
@@ -51,7 +51,7 @@ public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, 
     }
 
     /** AccessLevel
-      * @return 4 - System 
+      * @return 6 - System - Client 
       */
     protected int get_AccessLevel()
     {
@@ -183,6 +183,30 @@ public class X_AD_Package_Imp_Proc extends PO implements I_AD_Package_Imp_Proc, 
 	public boolean isProcessing () 
 	{
 		Object oo = get_Value(COLUMNNAME_Processing);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
+	}
+
+	/** Set Requires Sync.
+		@param RequiresSync 
+		A flag indicating that the associated column or table definition is not synchronized with the database.
+	  */
+	public void setRequiresSync (boolean RequiresSync)
+	{
+		set_Value (COLUMNNAME_RequiresSync, Boolean.valueOf(RequiresSync));
+	}
+
+	/** Get Requires Sync.
+		@return A flag indicating that the associated column or table definition is not synchronized with the database.
+	  */
+	public boolean isRequiresSync () 
+	{
+		Object oo = get_Value(COLUMNNAME_RequiresSync);
 		if (oo != null) 
 		{
 			 if (oo instanceof Boolean) 

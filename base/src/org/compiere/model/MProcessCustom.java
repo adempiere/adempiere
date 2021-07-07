@@ -56,7 +56,7 @@ public class MProcessCustom extends X_AD_ProcessCustom {
 	 */
 	public List<MProcessParaCustom> getParameters() {
 		//	Get
-		return new Query(getCtx(), I_AD_ProcessParaCustom.Table_Name, COLUMNNAME_AD_ProcessCustom_ID + " = ?", null)
+		return new Query(getCtx(), I_AD_ProcessParaCustom.Table_Name, COLUMNNAME_AD_ProcessCustom_ID + " = ?", get_TrxName())
 				.setParameters(getAD_ProcessCustom_ID())
 				.setOnlyActiveRecords(true)
 				.list();

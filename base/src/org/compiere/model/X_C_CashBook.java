@@ -30,7 +30,7 @@ public class X_C_CashBook extends PO implements I_C_CashBook, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_CashBook (Properties ctx, int C_CashBook_ID, String trxName)

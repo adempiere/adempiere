@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_FieldCustom
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_AD_FieldCustom 
 {
@@ -339,12 +339,12 @@ public interface I_AD_FieldCustom
 	/** Set Displayed in Grid.
 	  * Determines, if this field is displayed in grid view
 	  */
-	public void setIsDisplayedGrid (String IsDisplayedGrid);
+	public void setIsDisplayedGrid (boolean IsDisplayedGrid);
 
 	/** Get Displayed in Grid.
 	  * Determines, if this field is displayed in grid view
 	  */
-	public String getIsDisplayedGrid();
+	public boolean isDisplayedGrid();
 
     /** Column name IsEmbedded */
     public static final String COLUMNNAME_IsEmbedded = "IsEmbedded";

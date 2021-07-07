@@ -31,7 +31,7 @@ public class X_HR_CareerLevel extends PO implements I_HR_CareerLevel, I_Persiste
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_HR_CareerLevel (Properties ctx, int HR_CareerLevel_ID, String trxName)

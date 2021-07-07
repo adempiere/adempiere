@@ -42,15 +42,6 @@ public interface I_I_HR_Attribute
 
     /** Load Meta Data */
 
-    /** Column name ActivityValue */
-    public static final String COLUMNNAME_ActivityValue = "ActivityValue";
-
-	/** Set Activity Value	  */
-	public void setActivityValue (String ActivityValue);
-
-	/** Get Activity Value	  */
-	public String getActivityValue();
-
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
 
@@ -58,19 +49,6 @@ public interface I_I_HR_Attribute
 	  * Client/Tenant for this installation.
 	  */
 	public int getAD_Client_ID();
-
-    /** Column name AD_Org_ID */
-    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
-
-	/** Set Organization.
-	  * Organizational entity within client
-	  */
-	public void setAD_Org_ID (int AD_Org_ID);
-
-	/** Get Organization.
-	  * Organizational entity within client
-	  */
-	public int getAD_Org_ID();
 
     /** Column name AD_OrgTrx_ID */
     public static final String COLUMNNAME_AD_OrgTrx_ID = "AD_OrgTrx_ID";
@@ -87,6 +65,19 @@ public interface I_I_HR_Attribute
 
 	public org.compiere.model.I_AD_Org getAD_OrgTrx() throws RuntimeException;
 
+    /** Column name AD_Org_ID */
+    public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
+
+	/** Set Organization.
+	  * Organizational entity within client
+	  */
+	public void setAD_Org_ID (int AD_Org_ID);
+
+	/** Get Organization.
+	  * Organizational entity within client
+	  */
+	public int getAD_Org_ID();
+
     /** Column name AD_Rule_ID */
     public static final String COLUMNNAME_AD_Rule_ID = "AD_Rule_ID";
 
@@ -97,6 +88,15 @@ public interface I_I_HR_Attribute
 	public int getAD_Rule_ID();
 
 	public org.compiere.model.I_AD_Rule getAD_Rule() throws RuntimeException;
+
+    /** Column name ActivityValue */
+    public static final String COLUMNNAME_ActivityValue = "ActivityValue";
+
+	/** Set Activity Value	  */
+	public void setActivityValue (String ActivityValue);
+
+	/** Get Activity Value	  */
+	public String getActivityValue();
 
     /** Column name Amount */
     public static final String COLUMNNAME_Amount = "Amount";
@@ -125,28 +125,6 @@ public interface I_I_HR_Attribute
 	public int getC_Activity_ID();
 
 	public org.compiere.model.I_C_Activity getC_Activity() throws RuntimeException;
-
-    /** Column name CampaignValue */
-    public static final String COLUMNNAME_CampaignValue = "CampaignValue";
-
-	/** Set Campaign Value	  */
-	public void setCampaignValue (String CampaignValue);
-
-	/** Get Campaign Value	  */
-	public String getCampaignValue();
-
-    /** Column name CareerLevelValue */
-    public static final String COLUMNNAME_CareerLevelValue = "CareerLevelValue";
-
-	/** Set Career Level Value.
-	  * The Career Level Value for this position
-	  */
-	public void setCareerLevelValue (String CareerLevelValue);
-
-	/** Get Career Level Value.
-	  * The Career Level Value for this position
-	  */
-	public String getCareerLevelValue();
 
     /** Column name C_BPartner_ID */
     public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
@@ -208,6 +186,43 @@ public interface I_I_HR_Attribute
 
 	public org.compiere.model.I_C_DocType getC_DocType() throws RuntimeException;
 
+    /** Column name C_Project_ID */
+    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
+
+	/** Set Project.
+	  * Financial Project
+	  */
+	public void setC_Project_ID (int C_Project_ID);
+
+	/** Get Project.
+	  * Financial Project
+	  */
+	public int getC_Project_ID();
+
+	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
+
+    /** Column name CampaignValue */
+    public static final String COLUMNNAME_CampaignValue = "CampaignValue";
+
+	/** Set Campaign Value	  */
+	public void setCampaignValue (String CampaignValue);
+
+	/** Get Campaign Value	  */
+	public String getCampaignValue();
+
+    /** Column name CareerLevelValue */
+    public static final String COLUMNNAME_CareerLevelValue = "CareerLevelValue";
+
+	/** Set Career Level Value.
+	  * The Career Level Value for this position
+	  */
+	public void setCareerLevelValue (String CareerLevelValue);
+
+	/** Get Career Level Value.
+	  * The Career Level Value for this position
+	  */
+	public String getCareerLevelValue();
+
     /** Column name ConceptValue */
     public static final String COLUMNNAME_ConceptValue = "ConceptValue";
 
@@ -233,21 +248,6 @@ public interface I_I_HR_Attribute
 	  * Payroll Contract Value
 	  */
 	public String getContractValue();
-
-    /** Column name C_Project_ID */
-    public static final String COLUMNNAME_C_Project_ID = "C_Project_ID";
-
-	/** Set Project.
-	  * Financial Project
-	  */
-	public void setC_Project_ID (int C_Project_ID);
-
-	/** Get Project.
-	  * Financial Project
-	  */
-	public int getC_Project_ID();
-
-	public org.compiere.model.I_C_Project getC_Project() throws RuntimeException;
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -449,17 +449,6 @@ public interface I_I_HR_Attribute
 
 	public org.eevolution.model.I_HR_Designation getHR_Designation() throws RuntimeException;
 
-    /** Column name HR_Employee_ID */
-    public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
-
-	/** Set Payroll Employee	  */
-	public void setHR_Employee_ID (int HR_Employee_ID);
-
-	/** Get Payroll Employee	  */
-	public int getHR_Employee_ID();
-
-	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException;
-
     /** Column name HR_EmployeeType_ID */
     public static final String COLUMNNAME_HR_EmployeeType_ID = "HR_EmployeeType_ID";
 
@@ -474,6 +463,17 @@ public interface I_I_HR_Attribute
 	public int getHR_EmployeeType_ID();
 
 	public org.eevolution.model.I_HR_EmployeeType getHR_EmployeeType() throws RuntimeException;
+
+    /** Column name HR_Employee_ID */
+    public static final String COLUMNNAME_HR_Employee_ID = "HR_Employee_ID";
+
+	/** Set Payroll Employee	  */
+	public void setHR_Employee_ID (int HR_Employee_ID);
+
+	/** Get Payroll Employee	  */
+	public int getHR_Employee_ID();
+
+	public org.eevolution.model.I_HR_Employee getHR_Employee() throws RuntimeException;
 
     /** Column name HR_Grade_ID */
     public static final String COLUMNNAME_HR_Grade_ID = "HR_Grade_ID";
@@ -505,17 +505,6 @@ public interface I_I_HR_Attribute
 
 	public org.eevolution.model.I_HR_JobEducation getHR_JobEducation() throws RuntimeException;
 
-    /** Column name HR_Job_ID */
-    public static final String COLUMNNAME_HR_Job_ID = "HR_Job_ID";
-
-	/** Set Payroll Job	  */
-	public void setHR_Job_ID (int HR_Job_ID);
-
-	/** Get Payroll Job	  */
-	public int getHR_Job_ID();
-
-	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException;
-
     /** Column name HR_JobType_ID */
     public static final String COLUMNNAME_HR_JobType_ID = "HR_JobType_ID";
 
@@ -530,6 +519,17 @@ public interface I_I_HR_Attribute
 	public int getHR_JobType_ID();
 
 	public org.eevolution.model.I_HR_JobType getHR_JobType() throws RuntimeException;
+
+    /** Column name HR_Job_ID */
+    public static final String COLUMNNAME_HR_Job_ID = "HR_Job_ID";
+
+	/** Set Payroll Job	  */
+	public void setHR_Job_ID (int HR_Job_ID);
+
+	/** Get Payroll Job	  */
+	public int getHR_Job_ID();
+
+	public org.eevolution.model.I_HR_Job getHR_Job() throws RuntimeException;
 
     /** Column name HR_Payroll_ID */
     public static final String COLUMNNAME_HR_Payroll_ID = "HR_Payroll_ID";
@@ -928,6 +928,19 @@ public interface I_I_HR_Attribute
 	  */
 	public String getTextMsg();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -943,19 +956,6 @@ public interface I_I_HR_Attribute
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";

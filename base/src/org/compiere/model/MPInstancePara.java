@@ -160,60 +160,124 @@ public class MPInstancePara extends X_AD_PInstance_Para
 			setP_Number_To (((Integer)P_Number_To).intValue());
 	}	//	setP_Number_To
 
+	/**
+	 * Set String Parameter
+	 * @param parameterName
+	 * @param stringParameter
+	 */
+	public void setParameter (String parameterName, String stringParameter) {
+		setParameter(parameterName, stringParameter, false);
+	}
 	
 	/**
 	 * 	Set String Parameter
 	 *	@param parameterName name
 	 *	@param stringParameter value
 	 */
-	public void setParameter (String parameterName, String stringParameter)
+	public void setParameter (String parameterName, String stringParameter, boolean isTo)
 	{
 		setParameterName(parameterName);
-		setP_String(stringParameter);
+		if(!isTo) {
+			setP_String(stringParameter);
+		} else {
+			setP_String_To(stringParameter);
+		}
 	}	//	setParameter
+	
+	/**
+	 * Set Number Parameter
+	 * @param parameterName
+	 * @param bdParameter
+	 */
+	public void setParameter (String parameterName, BigDecimal bdParameter) {
+		setParameter(parameterName, bdParameter, false);
+	}
 	
 	/**
 	 * 	Set Number Parameter
 	 *	@param parameterName name
 	 *	@param bdParameter value
 	 */
-	public void setParameter (String parameterName, BigDecimal bdParameter)
+	public void setParameter (String parameterName, BigDecimal bdParameter, boolean isTo)
 	{
 		setParameterName(parameterName);
-		setP_Number(bdParameter);
+		if(!isTo) {
+			setP_Number(bdParameter);
+		} else {
+			setP_Number_To(bdParameter);
+		}
 	}	//	setParameter
+	
+	/**
+	 * Set Number Parameter
+	 * @param parameterName
+	 * @param iParameter
+	 */
+	public void setParameter (String parameterName, int iParameter) {
+		setParameter(parameterName, iParameter, false);
+	}
 	
 	/**
 	 * 	Set Number Parameter
 	 *	@param parameterName name
 	 *	@param iParameter value
 	 */
-	public void setParameter (String parameterName, int iParameter)
+	public void setParameter (String parameterName, int iParameter, boolean isTo)
 	{
 		setParameterName(parameterName);
-		setP_Number(new BigDecimal(iParameter));
+		if(!isTo) {
+			setP_Number(new BigDecimal(iParameter));
+		} else {
+			setP_Number_To(new BigDecimal(iParameter));
+		}
 	}	//	setParameter
+	
+	/**
+	 * Set Date Parameter
+	 * @param parameterName
+	 * @param tsParameter
+	 */
+	public void setParameter (String parameterName, Timestamp tsParameter) {
+		setParameter(parameterName, tsParameter, false);
+	}
 	
 	/**
 	 * 	Set Date Parameter
 	 *	@param parameterName name
 	 *	@param tsParameter value
 	 */
-	public void setParameter (String parameterName, Timestamp tsParameter)
+	public void setParameter (String parameterName, Timestamp tsParameter, boolean isTo)
 	{
 		setParameterName(parameterName);
-		setP_Date(tsParameter);
+		if(!isTo) {
+			setP_Date(tsParameter);
+		} else {
+			setP_Date_To(tsParameter);
+		}
 	}	//	setParameter
+	
+	/**
+	 * Set Boolean Parameter
+	 * @param parameterName
+	 * @param boolParameter
+	 */
+	public void setParameter (String parameterName, boolean boolParameter) {
+		setParameter(parameterName, boolParameter, false);
+	}
 	
 	/**
 	 * 	Set Boolean Parameter
 	 *	@param parameterName name
 	 *	@param boolParameter value
 	 */
-	public void setParameter (String parameterName, boolean boolParameter)
+	public void setParameter (String parameterName, boolean boolParameter, boolean isTo)
 	{
 		setParameterName(parameterName);
-		setP_String(boolParameter ? "Y" : "N");
+		if(!isTo) {
+			setP_String(boolParameter ? "Y" : "N");
+		} else {
+			setP_String_To(boolParameter ? "Y" : "N");
+		}
 	}	//	setParameter
 
 	/**

@@ -31,7 +31,7 @@ public class X_DD_DriverAssignment extends PO implements I_DD_DriverAssignment, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_DD_DriverAssignment (Properties ctx, int DD_DriverAssignment_ID, String trxName)

@@ -32,7 +32,7 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_PA_DashboardContent (Properties ctx, int PA_DashboardContent_ID, String trxName)
@@ -74,38 +74,6 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
         .append(get_ID()).append("]");
       return sb.toString();
     }
-
-	/** AccessLevel AD_Reference_ID=5 */
-	public static final int ACCESSLEVEL_AD_Reference_ID=5;
-	/** Organization = 1 */
-	public static final String ACCESSLEVEL_Organization = "1";
-	/** Client+Organization = 3 */
-	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
-	/** System only = 4 */
-	public static final String ACCESSLEVEL_SystemOnly = "4";
-	/** All = 7 */
-	public static final String ACCESSLEVEL_All = "7";
-	/** System+Client = 6 */
-	public static final String ACCESSLEVEL_SystemPlusClient = "6";
-	/** Client only = 2 */
-	public static final String ACCESSLEVEL_ClientOnly = "2";
-	/** Set Data Access Level.
-		@param AccessLevel 
-		Access Level required
-	  */
-	public void setAccessLevel (String AccessLevel)
-	{
-
-		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
-	}
-
-	/** Get Data Access Level.
-		@return Access Level required
-	  */
-	public String getAccessLevel () 
-	{
-		return (String)get_Value(COLUMNNAME_AccessLevel);
-	}
 
 	public org.adempiere.model.I_AD_Browse getAD_Browse() throws RuntimeException
     {
@@ -158,6 +126,38 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** AccessLevel AD_Reference_ID=5 */
+	public static final int ACCESSLEVEL_AD_Reference_ID=5;
+	/** Organization = 1 */
+	public static final String ACCESSLEVEL_Organization = "1";
+	/** Client+Organization = 3 */
+	public static final String ACCESSLEVEL_ClientPlusOrganization = "3";
+	/** System only = 4 */
+	public static final String ACCESSLEVEL_SystemOnly = "4";
+	/** All = 7 */
+	public static final String ACCESSLEVEL_All = "7";
+	/** System+Client = 6 */
+	public static final String ACCESSLEVEL_SystemPlusClient = "6";
+	/** Client only = 2 */
+	public static final String ACCESSLEVEL_ClientOnly = "2";
+	/** Set Data Access Level.
+		@param AccessLevel 
+		Access Level required
+	  */
+	public void setAccessLevel (String AccessLevel)
+	{
+
+		set_Value (COLUMNNAME_AccessLevel, AccessLevel);
+	}
+
+	/** Get Data Access Level.
+		@return Access Level required
+	  */
+	public String getAccessLevel () 
+	{
+		return (String)get_Value(COLUMNNAME_AccessLevel);
 	}
 
 	/** Set Column No.
@@ -346,27 +346,6 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
         return new KeyNamePair(get_ID(), getName());
     }
 
-	/** onevent AD_Reference_ID=53574 */
-	public static final int ONEVENT_AD_Reference_ID=53574;
-	/** onClick = onClick */
-	public static final String ONEVENT_OnClick = "onClick";
-	/** onDoubleClick = onDoubleClick */
-	public static final String ONEVENT_OnDoubleClick = "onDoubleClick";
-	/** Set onevent.
-		@param onevent onevent	  */
-	public void setonevent (String onevent)
-	{
-
-		set_Value (COLUMNNAME_onevent, onevent);
-	}
-
-	/** Get onevent.
-		@return onevent	  */
-	public String getonevent () 
-	{
-		return (String)get_Value(COLUMNNAME_onevent);
-	}
-
 	/** Set Dashboard Content.
 		@param PA_DashboardContent_ID Dashboard Content	  */
 	public void setPA_DashboardContent_ID (int PA_DashboardContent_ID)
@@ -385,23 +364,6 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set PageSize.
-		@param PageSize PageSize	  */
-	public void setPageSize (BigDecimal PageSize)
-	{
-		set_Value (COLUMNNAME_PageSize, PageSize);
-	}
-
-	/** Get PageSize.
-		@return PageSize	  */
-	public BigDecimal getPageSize () 
-	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PageSize);
-		if (bd == null)
-			 return Env.ZERO;
-		return bd;
 	}
 
 	public org.compiere.model.I_PA_Goal getPA_Goal() throws RuntimeException
@@ -430,6 +392,23 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set PageSize.
+		@param PageSize PageSize	  */
+	public void setPageSize (BigDecimal PageSize)
+	{
+		set_Value (COLUMNNAME_PageSize, PageSize);
+	}
+
+	/** Get PageSize.
+		@return PageSize	  */
+	public BigDecimal getPageSize () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PageSize);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
 	}
 
 	/** Set Immutable Universally Unique Identifier.
@@ -539,5 +518,26 @@ public class X_PA_DashboardContent extends PO implements I_PA_DashboardContent, 
 	public String getZulFilePath () 
 	{
 		return (String)get_Value(COLUMNNAME_ZulFilePath);
+	}
+
+	/** onevent AD_Reference_ID=53574 */
+	public static final int ONEVENT_AD_Reference_ID=53574;
+	/** onClick = onClick */
+	public static final String ONEVENT_OnClick = "onClick";
+	/** onDoubleClick = onDoubleClick */
+	public static final String ONEVENT_OnDoubleClick = "onDoubleClick";
+	/** Set onevent.
+		@param onevent onevent	  */
+	public void setonevent (String onevent)
+	{
+
+		set_Value (COLUMNNAME_onevent, onevent);
+	}
+
+	/** Get onevent.
+		@return onevent	  */
+	public String getonevent () 
+	{
+		return (String)get_Value(COLUMNNAME_onevent);
 	}
 }

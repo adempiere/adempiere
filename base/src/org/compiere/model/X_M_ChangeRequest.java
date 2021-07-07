@@ -30,7 +30,7 @@ public class X_M_ChangeRequest extends PO implements I_M_ChangeRequest, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_ChangeRequest (Properties ctx, int M_ChangeRequest_ID, String trxName)

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_Table
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_AD_Table 
 {
@@ -364,6 +364,19 @@ public interface I_AD_Table
 	  */
 	public String getName();
 
+    /** Column name NameOldValue */
+    public static final String COLUMNNAME_NameOldValue = "NameOldValue";
+
+	/** Set Name Old Value.
+	  * The old value of the column or table name.  Used to synchronize name changes with the database.
+	  */
+	public void setNameOldValue (String NameOldValue);
+
+	/** Get Name Old Value.
+	  * The old value of the column or table name.  Used to synchronize name changes with the database.
+	  */
+	public String getNameOldValue();
+
     /** Column name PO_Window_ID */
     public static final String COLUMNNAME_PO_Window_ID = "PO_Window_ID";
 
@@ -391,6 +404,19 @@ public interface I_AD_Table
 	  * Type of Data Replication
 	  */
 	public String getReplicationType();
+
+    /** Column name RequiresSync */
+    public static final String COLUMNNAME_RequiresSync = "RequiresSync";
+
+	/** Set Requires Sync.
+	  * A flag indicating that the associated column or table definition is not synchronized with the database.
+	  */
+	public void setRequiresSync (boolean RequiresSync);
+
+	/** Get Requires Sync.
+	  * A flag indicating that the associated column or table definition is not synchronized with the database.
+	  */
+	public boolean isRequiresSync();
 
     /** Column name TableName */
     public static final String COLUMNNAME_TableName = "TableName";

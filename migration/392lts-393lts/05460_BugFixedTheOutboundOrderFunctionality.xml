@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Bug fixed  the Outbound Order functionality" ReleaseNo="3.9.3" SeqNo="5460">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50001" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="iob.IsSOTrx='Y' AND iob.DocStatus='DR' AND iobl.Processed='N'">iob.IsSOTrx='Y' AND (iobl.MovementQty - iobl.PickedQty) &lt;&gt; 0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50001" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="iob.IsSOTrx='Y' AND (iobl.MovementQty - iobl.PickedQty) &lt;&gt; 0">iob.IsSOTrx='Y' AND (COALESCE(iobl.MovementQty,0) - COALESCE(iobl.PickedQty,0)) &lt;&gt; 0 </Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50001" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="iob.IsSOTrx='Y' AND (COALESCE(iobl.MovementQty,0) - COALESCE(iobl.PickedQty,0)) &lt;&gt; 0 ">iob.DocStatus IN ('CO','CL') AND iob.IsSOTrx='Y' AND (COALESCE(iobl.MovementQty,0) - COALESCE(iobl.PickedQty,0)) &lt;&gt; 0  
+AND NOT EXISTS (SELECT 1 FROM DD_OrderLine ol INNER JOIN DD_Order o ON (ol.DD_Order_ID = o.DD_Order_ID) WHERE o.DocStatus NOT IN ('CL','VO') AND ol.WM_InOutBoundLine_ID=iobl.WM_InOutBoundLine_ID AND COALESCE(ol.QtyOrdered, 0) - COALESCE(ol.QtyDelivered,0) &lt;&gt; 0)
+</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50001" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="iob.DocStatus IN ('CO','CL') AND iob.IsSOTrx='Y' AND (COALESCE(iobl.MovementQty,0) - COALESCE(iobl.PickedQty,0)) &lt;&gt; 0  &#10;AND NOT EXISTS (SELECT 1 FROM DD_OrderLine ol INNER JOIN DD_Order o ON (ol.DD_Order_ID = o.DD_Order_ID) WHERE o.DocStatus NOT IN ('CL','VO') AND ol.WM_InOutBoundLine_ID=iobl.WM_InOutBoundLine_ID AND COALESCE(ol.QtyOrdered, 0) - COALESCE(ol.QtyDelivered,0) &lt;&gt; 0)&#10;">iob.IsSOTrx='Y' AND (COALESCE(iobl.MovementQty,0) - COALESCE(iobl.PickedQty,0)) &lt;&gt; 0  
+AND NOT EXISTS (SELECT 1 FROM DD_OrderLine ol INNER JOIN DD_Order o ON (ol.DD_Order_ID = o.DD_Order_ID) WHERE o.DocStatus NOT IN ('CL','VO') AND ol.WM_InOutBoundLine_ID=iobl.WM_InOutBoundLine_ID AND COALESCE(ol.QtyOrdered, 0) - COALESCE(ol.QtyDelivered,0) &lt;&gt; 0)
+</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50000" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="IsSOTrx='Y' AND DocStatus='CO' AND NOT EXISTS (SELECT 1 FROM WM_InOutBoundLine WHERE WM_InOutBoundLine.C_OrderLine_ID = ol.C_OrderLine_ID)">o.IsSOTrx = 'Y'
+AND o.DocStatus = 'CO'
+AND NOT EXISTS (
+    SELECT
+        1
+    FROM
+        WM_InOutBoundLine iobl
+        INNER JOIN WM_InOutBound iob ON (iobl.WM_InOutBound_ID = iob.WM_InOutBound_ID)
+    WHERE
+        iob.DocStatus NOT IN ('CL', 'VO')
+        AND iobl.C_OrderLine_ID = ol.C_OrderLine_ID
+        AND COALESCE(QtyOrdered, 0) - COALESCE(ol.QtyDelivered, 0) &lt;&gt; 0
+)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50048" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="demand.OrderType IN ('SOO','DOO' , 'MOP') AND demand.DocStatus IN ('CO','IP') AND NOT EXISTS (SELECT 1 FROM WM_InOutBoundLine WHERE WM_InOutBoundLine.PP_MRP_ID = demand.PP_MRP_ID)">demand.OrderType IN ('SOO', 'DOO', 'MOP')
+AND demand.DocStatus IN ('CO', 'IP')
+AND NOT EXISTS (
+    SELECT
+        1
+    FROM
+        WM_InOutBoundLine
+    WHERE
+        WM_InOutBoundLine.PP_MRP_ID = demand.PP_MRP_ID
+        AND COALESCE(demand.qty, 0) &lt;&gt; 0
+)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50002" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="NOT EXISTS (SELECT 1 FROM M_InOutLine WHERE M_InOutLine.C_OrderLine_ID = iobl.C_OrderLine_ID AND iobl.PickedQty &gt;= M_InOutLine.MovementQty)  AND iob.IsSOTrx='Y' AND iobl.Processed='Y' AND ol.QtyOrdered &lt;&gt; ol.QtyDelivered">AND iob.DocStatus IN ('CO') AND  (COALESCE(iobl.PickedQty,0) - COALESCE(ol.QtyDelivered)) &lt;&gt; 0 AND NOT EXISTS (SELECT 1 FROM M_InOutLine WHERE M_InOutLine.C_OrderLine_ID = iobl.C_OrderLine_ID AND iobl.PickedQty &gt;= M_InOutLine.MovementQty)  AND iob.IsSOTrx='Y' AND iobl.Processed='Y' AND ol.QtyOrdered &lt;&gt; ol.QtyDelivered</Data>
+        <Data AD_Column_ID="72125" Column="IsCollapsibleByDefault" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50002" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="AND iob.DocStatus IN ('CO') AND  (COALESCE(iobl.PickedQty,0) - COALESCE(ol.QtyDelivered)) &lt;&gt; 0 AND NOT EXISTS (SELECT 1 FROM M_InOutLine WHERE M_InOutLine.C_OrderLine_ID = iobl.C_OrderLine_ID AND iobl.PickedQty &gt;= M_InOutLine.MovementQty)  AND iob.IsSOTrx='Y' AND iobl.Processed='Y' AND ol.QtyOrdered &lt;&gt; ol.QtyDelivered">iob.DocStatus IN ('CO') AND  (COALESCE(iobl.PickedQty,0) - COALESCE(ol.QtyDelivered)) &lt;&gt; 0 AND NOT EXISTS (SELECT 1 FROM M_InOutLine WHERE M_InOutLine.C_OrderLine_ID = iobl.C_OrderLine_ID AND iobl.PickedQty &gt;= M_InOutLine.MovementQty)  AND iob.IsSOTrx='Y' AND iobl.Processed='Y' AND ol.QtyOrdered &lt;&gt; ol.QtyDelivered</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50049" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="iobl.processed='Y' AND iobl.QtyOrdered &lt;&gt; iobl.QtyDelivered">iob.DocStatus IN ('CO') AND  (COALESCE(iobl.PickedQty,0) - COALESCE(ol.QtyDelivered)) &lt;&gt; 0 AND NOT EXISTS (SELECT 1 FROM M_InOutLine WHERE M_InOutLine.C_OrderLine_ID = iobl.C_OrderLine_ID AND iobl.PickedQty &gt;= M_InOutLine.MovementQty)  AND iob.IsSOTrx='Y' AND iobl.Processed='Y' AND ol.QtyOrdered &lt;&gt; ol.QtyDelivered</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50049" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="iob.DocStatus IN ('CO') AND  (COALESCE(iobl.PickedQty,0) - COALESCE(ol.QtyDelivered)) &lt;&gt; 0 AND NOT EXISTS (SELECT 1 FROM M_InOutLine WHERE M_InOutLine.C_OrderLine_ID = iobl.C_OrderLine_ID AND iobl.PickedQty &gt;= M_InOutLine.MovementQty)  AND iob.IsSOTrx='Y' AND iobl.Processed='Y' AND ol.QtyOrdered &lt;&gt; ol.QtyDelivered">iobl.DocStatus IN ('CO')
+AND (
+    COALESCE(iobl.PickedQty, 0) - COALESCE(iobl.QtyDelivered)
+) &lt;&gt; 0
+AND NOT EXISTS (
+    SELECT
+        1
+    FROM
+        M_InOutLine
+    WHERE
+        M_InOutLine.C_OrderLine_ID = iobl.C_OrderLine_ID
+        AND iobl.PickedQty &gt;= M_InOutLine.MovementQty
+)
+AND iobl.IsSOTrx = 'Y'
+AND iobl.Processed = 'Y'
+AND iobl.QtyOrdered &lt;&gt; iobl.QtyDelivered</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53327" Table="AD_Process_Para">
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isOldNull="true">52027</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="285" Action="U" Record_ID="53331" Table="AD_Process_Para">
+        <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isOldNull="true">219</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50000" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="o.IsSOTrx = 'Y'&#10;AND o.DocStatus = 'CO'&#10;AND NOT EXISTS (&#10;    SELECT&#10;        1&#10;    FROM&#10;        WM_InOutBoundLine iobl&#10;        INNER JOIN WM_InOutBound iob ON (iobl.WM_InOutBound_ID = iob.WM_InOutBound_ID)&#10;    WHERE&#10;        iob.DocStatus NOT IN ('CL', 'VO')&#10;        AND iobl.C_OrderLine_ID = ol.C_OrderLine_ID&#10;        AND COALESCE(QtyOrdered, 0) - COALESCE(ol.QtyDelivered, 0) &lt;&gt; 0&#10;)">o.IsSOTrx = 'Y'
+AND o.DocStatus = 'CO'
+AND COALESCE(ol.QtyOrdered, 0) - COALESCE(ol.QtyDelivered, 0) &lt;&gt; 0
+AND NOT EXISTS (
+    SELECT
+        1
+    FROM
+        WM_InOutBoundLine iobl
+        INNER JOIN WM_InOutBound iob ON (iobl.WM_InOutBound_ID = iob.WM_InOutBound_ID)
+    WHERE
+        iob.DocStatus NOT IN ('CL', 'VO')
+        AND iobl.C_OrderLine_ID = ol.C_OrderLine_ID
+        AND COALESCE(ol.QtyOrdered, 0) - COALESCE(ol.QtyDelivered, 0) &lt;&gt; 0
+)</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="50476" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID" oldValue="30">19</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="50352" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID" oldValue="30">19</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="50386" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isOldNull="true">286</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="50383" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isOldNull="true">154</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="50363" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isOldNull="true">151</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="50364" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isOldNull="true">152</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="50373" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isOldNull="true">153</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="50470" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID" oldValue="30">19</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="50475" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID" oldValue="13">19</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="50395" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isNewNull="true" oldValue="53326"/>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID" oldValue="18">19</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="50648" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isOldNull="true">289</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="50557" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID" oldValue="18">19</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="50584" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isOldNull="true">286</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="50561" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isOldNull="true">151</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="50562" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isOldNull="true">152</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="50571" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isOldNull="true">153</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54924" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" oldValue="154">151</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="54916" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64354" Column="DefaultValue" isOldNull="true">-1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="50531" Table="AD_Browse_Field">
+        <Data AD_Column_ID="64354" Column="DefaultValue" isOldNull="true">-1</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

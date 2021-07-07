@@ -31,7 +31,7 @@ public class X_PP_Calendar extends PO implements I_PP_Calendar, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_PP_Calendar (Properties ctx, int PP_Calendar_ID, String trxName)

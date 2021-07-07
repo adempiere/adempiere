@@ -37,7 +37,6 @@ import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoUtil;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
@@ -86,45 +85,40 @@ public class ProcessCtl implements Runnable
 	 *
 	 *  @param parent ASyncProcess & Container
 	 *  @param WindowNo window no
-	 *  @param pi ProcessInfo process info
+	 *  @param processInfo ProcessInfo process info
 	 *  @param trx Transaction
 	 *  @return worker started ProcessCtl instance or null for workflow
 	 */
-	public static ProcessCtl process (ASyncProcess parent, int WindowNo, ProcessInfo pi, Trx trx)
-	{
-		log.fine("WindowNo=" + WindowNo + " - " + pi);
+	public static ProcessCtl process (ASyncProcess parent, int WindowNo, ProcessInfo processInfo, Trx trx) {
+		log.fine("WindowNo=" + WindowNo + " - " + processInfo);
 
 		MPInstance instance = null; 
-		try 
-		{ 
-			instance = new MPInstance(Env.getCtx(), pi.getAD_Process_ID(), pi.getRecord_ID()); 
-		} 
-		catch (Exception e) 
-		{ 
-			pi.setSummary (e.getLocalizedMessage()); 
-			pi.setError (true); 
-			log.warning(pi.toString()); 
+		try { 
+			instance = new MPInstance(Env.getCtx(), processInfo.getAD_Process_ID(), processInfo.getRecord_ID()); 
+		} catch (Exception e) { 
+			processInfo.setSummary (e.getLocalizedMessage()); 
+			processInfo.setError (true); 
+			log.warning(processInfo.toString()); 
 			return null; 
 		} 
-		catch (Error e) 
-		{ 
-			pi.setSummary (e.getLocalizedMessage()); 
-			pi.setError (true); 
-			log.warning(pi.toString()); 
+		catch (Error e) { 
+			processInfo.setSummary (e.getLocalizedMessage()); 
+			processInfo.setError (true); 
+			log.warning(processInfo.toString()); 
 			return null; 
 		}
-		if (!instance.save())
-		{
-			pi.setSummary (Msg.getMsg(Env.getCtx(), "ProcessNoInstance"));
-			pi.setError (true);
+		if (instance != null
+				&& !instance.save()) {
+			processInfo.setSummary (Msg.getMsg(Env.getCtx(), "ProcessNoInstance"));
+			processInfo.setError (true);
 			return null;
 		}
-		pi.setAD_PInstance_ID (instance.getAD_PInstance_ID());
+		processInfo.setAD_PInstance_ID (instance.getAD_PInstance_ID());
 
 		//	Get Parameters (Dialog)
 		//	FR [ 265 ]
 		//	Change to Standard Process Modal Dialog
-		ProcessModalDialog para = new ProcessModalDialog(Env.getFrame((Container)parent), WindowNo, pi);
+		ProcessModalDialog para = new ProcessModalDialog(Env.getFrame((Container)parent), WindowNo, processInfo);
 		if (para.isValidDialog()) {
 			para.validate();
 			para.pack();
@@ -135,14 +129,11 @@ public class ProcessCtl implements Runnable
 		}
 
 		//	execute
-		ProcessCtl worker = new ProcessCtl(parent, WindowNo, pi, trx);
-		if (parent != null)
-		{
+		ProcessCtl worker = new ProcessCtl(parent, WindowNo, processInfo, trx);
+		if (parent != null) {
 			//asynchrous
 			worker.start();
-		}
-		else
-		{
+		} else {
 			//synchrous
 			worker.run();
 		}
@@ -231,11 +222,11 @@ public class ProcessCtl implements Runnable
 	 */
 	public ProcessCtl (ASyncProcess parent, int WindowNo, ProcessInfo pi, boolean isOnlyProcess, Trx trx)
 	{
-		windowno = WindowNo;
-		m_parent = parent;
+		windowNo = WindowNo;
+		parentProcess = parent;
 		processInstance = pi;
-		m_trx = trx;	//	handeled correctly
-		m_IsOnlyProcess = isOnlyProcess;
+		transaction = trx;	//	handeled correctly
+		this.isOnlyProcess = isOnlyProcess;
 	}   //  ProcessCtl
 	
 	/**************************************************************************
@@ -252,16 +243,16 @@ public class ProcessCtl implements Runnable
 	}
 
 	/** Windowno */
-	int windowno;
+	int windowNo;
 	/** Parenr */
-	ASyncProcess m_parent;
+	ASyncProcess parentProcess;
 	/** Process Info */
 	ProcessInfo processInstance;
-	private Trx				m_trx;
+	private Trx				transaction;
 	private Waiting         waiting;
 	private boolean 		isServerProcess = false;
 	//	FR [ 295 ]
-	private boolean			m_IsOnlyProcess = false;
+	private boolean			isOnlyProcess = false;
 	
 	/**	Static Logger	*/
 	private static CLogger	log	= CLogger.getCLogger (ProcessCtl.class);
@@ -357,11 +348,6 @@ public class ProcessCtl implements Runnable
 				processInstance.setClassName(null);
 			}
 		}
-		//	Save selection
-		//	FR [ 352 ]
-		//	if is from a selection then save all record in DB
-		saveSelection();
-		
 		/**********************************************************************
 		 *	Start Optional Class
 		 */
@@ -410,9 +396,9 @@ public class ProcessCtl implements Runnable
 		
 		if (process.isReport()) {
 			processInstance.setReportingProcess(true);
-			if(!m_IsOnlyProcess) {
+			if(!isOnlyProcess) {
 				//	Start Report	-----------------------------------------------
-				boolean ok = ReportCtl.start(m_parent, windowno, processInstance, isDirectPrint);
+				boolean ok = ReportCtl.start(parentProcess, windowNo, processInstance, isDirectPrint);
 				processInstance.setSummary("Report " + processInstance.getTitle(), !ok);
 			}
 			//	
@@ -430,8 +416,7 @@ public class ProcessCtl implements Runnable
 			//	Success - getResult
 			ProcessInfoUtil.setSummaryFromDB(processInstance);
 			unlock();
-		}			//	*** Process submission ***
-	//	log.fine(Log.l3_Util, "ProcessCtl.run - done");
+		}
 	}   //  run
 
 	/**
@@ -441,12 +426,12 @@ public class ProcessCtl implements Runnable
 	{
 	//	log.info("...");
 		//m_parent is null for synchrous execution
-		if (m_parent != null)
+		if (parentProcess != null)
 		{
-			if (m_parent instanceof Container)
+			if (parentProcess instanceof Container)
 			{
 				//swing client
-				JFrame frame = Env.getFrame((Container)m_parent);
+				JFrame frame = Env.getFrame((Container)parentProcess);
 				if (frame instanceof AWindow)
 					((AWindow)frame).setBusyTimer(processInstance.getEstSeconds());
 				else
@@ -456,7 +441,7 @@ public class ProcessCtl implements Runnable
 					public void run()
 					{
 						log.finer("lock");
-						m_parent.lockUI(processInstance);
+						parentProcess.lockUI(processInstance);
 					}
 				});
 				if (waiting != null)
@@ -469,7 +454,7 @@ public class ProcessCtl implements Runnable
 			{
 				//other client
 				log.finer("lock");
-				m_parent.lockUI(processInstance);
+				parentProcess.lockUI(processInstance);
 			}
 		}
 	}   //  lock
@@ -483,9 +468,9 @@ public class ProcessCtl implements Runnable
 	//	log.info("...");
 		if (processInstance.isBatch())
 			processInstance.setIsTimeout(true);
-		if (m_parent != null)
+		if (parentProcess != null)
 		{
-			if (m_parent instanceof Container)
+			if (parentProcess instanceof Container)
 			{
 				//	Remove Waiting/Processing Indicator
 				if (waiting != null)
@@ -500,14 +485,14 @@ public class ProcessCtl implements Runnable
 						log.finer("unlock - " + summary);
 						if (summary != null && summary.indexOf('@') != -1)
 							processInstance.setSummary(Msg.parseTranslation(Env.getCtx(), summary));
-						m_parent.unlockUI(processInstance);
+						parentProcess.unlockUI(processInstance);
 					}
 				});
 			}
 			else
 			{
 				//other client
-				m_parent.unlockUI(processInstance);
+				parentProcess.unlockUI(processInstance);
 			}
 		}
 	}   //  unlock
@@ -544,8 +529,8 @@ public class ProcessCtl implements Runnable
 		//	Run locally
 		if (!started && !isServerProcess)
 		{
-			if (m_trx != null)
-				processInstance.setTransactionName(m_trx.getTrxName());
+			if (transaction != null)
+				processInstance.setTransactionName(transaction.getTrxName());
 			MWFProcess wfProcess = ProcessUtil.startWorkFlow(Env.getCtx(), processInstance, AD_Workflow_ID);
 			started = wfProcess != null;
 		}
@@ -619,12 +604,12 @@ public class ProcessCtl implements Runnable
 		if (!started && (!isServerProcess || clientOnly ))
 		{
 			if (processInstance.getClassName().toLowerCase().startsWith(MRule.SCRIPT_PREFIX)) {
-				return ProcessUtil.startScriptProcess(Env.getCtx(), processInstance, m_trx);
+				return ProcessUtil.startScriptProcess(Env.getCtx(), processInstance, transaction);
 			} else {
 				if (processInstance.isManagedTransaction())
-					return ProcessUtil.startJavaProcess(Env.getCtx(), processInstance, m_trx);
+					return ProcessUtil.startJavaProcess(Env.getCtx(), processInstance, transaction);
 				else
-					return ProcessUtil.startJavaProcess(Env.getCtx(), processInstance, m_trx, processInstance.isManagedTransaction());
+					return ProcessUtil.startJavaProcess(Env.getCtx(), processInstance, transaction, processInstance.isManagedTransaction());
 			}
 		}
 		return !processInstance.isError();
@@ -641,32 +626,24 @@ public class ProcessCtl implements Runnable
 		//  execute on this thread/connection
 		log.fine(ProcedureName + "(" + processInstance.getAD_PInstance_ID() + ")");
 		boolean started = false;
-		if (isServerProcess)
-		{
-			try
-			{
+		if (isServerProcess) {
+			try {
 				Server server = CConnection.get().getServer();
-				if (server != null)
-				{	//	See ServerBean
+				if (server != null) {	//	See ServerBean
 					processInstance = server.dbProcess(processInstance, ProcedureName);
 					log.finest("server => " + processInstance);
 					started = true;		
 				}
-			}
-			catch (UndeclaredThrowableException ex)
-			{
+			} catch (UndeclaredThrowableException ex) {
 				Throwable cause = ex.getCause();
-				if (cause != null)
-				{
+				if (cause != null) {
 					if (cause instanceof InvalidClassException)
 						log.log(Level.SEVERE, "Version Server <> Client: " 
 							+  cause.toString() + " - " + processInstance, ex);
 					else
 						log.log(Level.SEVERE, "AppsServer error(1b): " 
 							+ cause.toString() + " - " + processInstance, ex);
-				}
-				else
-				{
+				} else {
 					log.log(Level.SEVERE, " AppsServer error(1) - " 
 						+ processInstance, ex);
 					cause = ex;
@@ -674,9 +651,7 @@ public class ProcessCtl implements Runnable
 				processInstance.setSummary (Msg.getMsg(Env.getCtx(), "ProcessRunError") + " " + cause.getLocalizedMessage());
 				processInstance.setError (true);
 				return false;
-			}
-			catch (Exception ex)
-			{
+			} catch (Exception ex) {
 				Throwable cause = ex.getCause();
 				if (cause == null)
 					cause = ex;
@@ -688,31 +663,12 @@ public class ProcessCtl implements Runnable
 		}
 		
 		//try locally
-		if (!started)
-		{
+		if (!started) {
 			if (processInstance.isManagedTransaction())
-				return ProcessUtil.startDatabaseProcedure(processInstance, ProcedureName, m_trx);
+				return ProcessUtil.startDatabaseProcedure(processInstance, ProcedureName, transaction);
 			else
-				return  ProcessUtil.startDatabaseProcedure(processInstance , ProcedureName , m_trx , processInstance.isManagedTransaction());
+				return ProcessUtil.startDatabaseProcedure(processInstance , ProcedureName , transaction , processInstance.isManagedTransaction());
 		}
-	//	log.fine(Log.l4_Data, "ProcessCtl.startProcess - done");
 		return true;
 	}   //  startDBProcess
-
-	/**
-	 * Save selection when process is called with selection
-	 */
-	private void saveSelection() {
-		if(processInstance.isSelection()) {
-			if(processInstance.getSelectionKeys() != null) {
-				//	Create Selection
-				DB.createT_Selection(processInstance.getAD_PInstance_ID(), processInstance.getSelectionKeys(), processInstance.getTransactionName());
-				if(processInstance.getSelectionValues() != null) {
-					//	Create Selection for SB
-					DB.createT_Selection_Browse(processInstance.getAD_PInstance_ID(), processInstance.getSelectionValues(), processInstance.getTransactionName());
-				}
-			} 
-		}
-	}
-	
 }	//	ProcessCtl

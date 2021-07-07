@@ -14,6 +14,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="/tools/lib/groovy-all-2.4.15.jar" sourcepath="/tools/lib/testing/groovy-all-2.4.15-sources.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/org.adempiere.project-jars"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/org.adempiere.request-jars"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.project"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/org.adempiere.request"/>
 	<classpathentry kind="output" path="build"/>

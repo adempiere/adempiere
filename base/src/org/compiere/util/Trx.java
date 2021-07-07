@@ -50,6 +50,8 @@ import org.adempiere.exceptions.AdempiereException;
  *  @author Teo Sarca, teo.sarca@gmail.com
  *  		<li>BF [ 2849122 ] PO.AfterSave is not rollback on error - add releaseSavepoint method
  *  			https://sourceforge.net/tracker/index.php?func=detail&aid=2849122&group_id=176962&atid=879332#
+ *  @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ *  		<li>Fixed error with connection without close after throw a exception from Trx.run
  */
 public class Trx implements VetoableChangeListener
 {
@@ -529,44 +531,28 @@ public class Trx implements VetoableChangeListener
 			if (localTrx)
 				trx.commit(true);
 		}
-		catch (Throwable e)
-		{
+		catch (Throwable e) {
 			// Rollback transaction
-			if (localTrx)
-			{
+			if (localTrx) {
 				trx.rollback();
-			}
-			else if (savepoint != null)
-			{
+			} else if (savepoint != null) {
 				try {
 					trx.rollback(savepoint);
 				}
 				catch (SQLException e2) {;}
 			}
-			trx = null;
 			// Throw exception
-			if (e instanceof RuntimeException)
-			{
+			if (e instanceof RuntimeException) {
 				throw (RuntimeException)e;
-			}
-			else
-			{
+			} else {
 				throw new AdempiereException(e);
 			}
 		}
 		finally {
-			if (localTrx && trx != null)
-			{
+			if (localTrx && trx != null) {
 				trx.close();
 				trx = null;
 			}
 		}
-	}
-
-	private boolean isLocalTrx(String trxName)
-	{
-		return trxName == null
-			|| trxName.startsWith("POSave") // TODO: hardcoded
-			;
 	}
 }	//	Trx

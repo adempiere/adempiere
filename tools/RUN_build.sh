@@ -19,7 +19,16 @@ if  [ ! -f $JAVA_HOME/lib/tools.jar ] ; then
 fi
 
 #classpath
-export ANT_CLASSPATH=$CLASSPATH:../tools/lib/ant.jar:../tools/lib/ant-launcher.jar:../tools/lib/ant-swing.jar:../tools/lib/ant-commons-net.jar:../tools/lib/commons-net.jar:$JAVA_HOME/lib/tools.jar
+export ANT_HOME="../tools/lib/ant/apache-ant-1.10.9"
+export JAVA_CLASSPATH=$CLASSPATH:$ANT_HOME/lib/ant-launcher.jar:../tools/lib/commons-net.jar:$JAVA_HOME/lib/tools.jar
+export JAVA_OPTS="-Xms128m -Xmx512m"
 
-echo running Ant
-$JAVA_HOME/bin/java -Xmx512m -classpath $ANT_CLASSPATH -Dant.home="." $ANT_PROPERTIES org.apache.tools.ant.Main
+echo Cleaning ...
+$JAVA_HOME/bin/java $JAVA_OPTS -classpath $JAVA_CLASSPATH -Dant.home=$ANT_HOME org.apache.tools.ant.launch.Launcher clean
+
+echo Building toolsDistribution ... 
+$JAVA_HOME/bin/java $JAVA_OPTS -classpath $JAVA_CLASSPATH -Dant.home=$ANT_HOME org.apache.tools.ant.launch.Launcher toolsDistribution
+
+echo Done ...
+
+exit 0

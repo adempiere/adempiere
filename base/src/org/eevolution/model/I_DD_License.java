@@ -92,15 +92,6 @@ public interface I_DD_License
 	  */
 	public int getCreatedBy();
 
-    /** Column name DD_License_ID */
-    public static final String COLUMNNAME_DD_License_ID = "DD_License_ID";
-
-	/** Set License	  */
-	public void setDD_License_ID (int DD_License_ID);
-
-	/** Get License	  */
-	public int getDD_License_ID();
-
     /** Column name DD_LicenseType_ID */
     public static final String COLUMNNAME_DD_LicenseType_ID = "DD_LicenseType_ID";
 
@@ -111,6 +102,15 @@ public interface I_DD_License
 	public int getDD_LicenseType_ID();
 
 	public org.eevolution.model.I_DD_LicenseType getDD_LicenseType() throws RuntimeException;
+
+    /** Column name DD_License_ID */
+    public static final String COLUMNNAME_DD_License_ID = "DD_License_ID";
+
+	/** Set License	  */
+	public void setDD_License_ID (int DD_License_ID);
+
+	/** Get License	  */
+	public int getDD_License_ID();
 
     /** Column name Description */
     public static final String COLUMNNAME_Description = "Description";
@@ -151,6 +151,19 @@ public interface I_DD_License
 	  */
 	public String getName();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -166,19 +179,6 @@ public interface I_DD_License
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name ValidFrom */
     public static final String COLUMNNAME_ValidFrom = "ValidFrom";

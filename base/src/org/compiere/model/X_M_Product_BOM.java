@@ -32,7 +32,7 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_M_Product_BOM (Properties ctx, int M_Product_BOM_ID, String trxName)
@@ -44,8 +44,8 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
 // 1
 			setLine (0);
 // @SQL=SELECT NVL(MAX(Line),0)+10 AS DefaultValue FROM M_Product_BOM WHERE M_Product_ID=@M_Product_ID@
-			setM_Product_BOM_ID (0);
 			setM_ProductBOM_ID (0);
+			setM_Product_BOM_ID (0);
 			setM_Product_ID (0);
         } */
     }
@@ -259,26 +259,6 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
 		return ii.intValue();
 	}
 
-	/** Set BOM Line.
-		@param M_Product_BOM_ID BOM Line	  */
-	public void setM_Product_BOM_ID (int M_Product_BOM_ID)
-	{
-		if (M_Product_BOM_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_Product_BOM_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_Product_BOM_ID, Integer.valueOf(M_Product_BOM_ID));
-	}
-
-	/** Get BOM Line.
-		@return BOM Line	  */
-	public int getM_Product_BOM_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_BOM_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_M_Product getM_ProductBOM() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Product)MTable.get(getCtx(), org.compiere.model.I_M_Product.Table_Name)
@@ -314,6 +294,26 @@ public class X_M_Product_BOM extends PO implements I_M_Product_BOM, I_Persistent
     {
         return new KeyNamePair(get_ID(), String.valueOf(getM_ProductBOM_ID()));
     }
+
+	/** Set BOM Line.
+		@param M_Product_BOM_ID BOM Line	  */
+	public void setM_Product_BOM_ID (int M_Product_BOM_ID)
+	{
+		if (M_Product_BOM_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_Product_BOM_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_Product_BOM_ID, Integer.valueOf(M_Product_BOM_ID));
+	}
+
+	/** Get BOM Line.
+		@return BOM Line	  */
+	public int getM_Product_BOM_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_BOM_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
     {

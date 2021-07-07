@@ -30,7 +30,7 @@ public class X_S_Training extends PO implements I_S_Training, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_S_Training (Properties ctx, int S_Training_ID, String trxName)

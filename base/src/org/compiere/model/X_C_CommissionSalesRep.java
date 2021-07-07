@@ -29,7 +29,7 @@ public class X_C_CommissionSalesRep extends PO implements I_C_CommissionSalesRep
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_CommissionSalesRep (Properties ctx, int C_CommissionSalesRep_ID, String trxName)
@@ -38,8 +38,8 @@ public class X_C_CommissionSalesRep extends PO implements I_C_CommissionSalesRep
       /** if (C_CommissionSalesRep_ID == 0)
         {
 			setC_BPartner_ID (0);
-			setC_Commission_ID (0);
 			setC_CommissionSalesRep_ID (0);
+			setC_Commission_ID (0);
         } */
     }
 
@@ -99,6 +99,26 @@ public class X_C_CommissionSalesRep extends PO implements I_C_CommissionSalesRep
 		return ii.intValue();
 	}
 
+	/** Set Commission Sales Rep ID.
+		@param C_CommissionSalesRep_ID Commission Sales Rep ID	  */
+	public void setC_CommissionSalesRep_ID (int C_CommissionSalesRep_ID)
+	{
+		if (C_CommissionSalesRep_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_C_CommissionSalesRep_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_C_CommissionSalesRep_ID, Integer.valueOf(C_CommissionSalesRep_ID));
+	}
+
+	/** Get Commission Sales Rep ID.
+		@return Commission Sales Rep ID	  */
+	public int getC_CommissionSalesRep_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_CommissionSalesRep_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_Commission getC_Commission() throws RuntimeException
     {
 		return (org.compiere.model.I_C_Commission)MTable.get(getCtx(), org.compiere.model.I_C_Commission.Table_Name)
@@ -122,26 +142,6 @@ public class X_C_CommissionSalesRep extends PO implements I_C_CommissionSalesRep
 	public int getC_Commission_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_C_Commission_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Commission Sales Rep ID.
-		@param C_CommissionSalesRep_ID Commission Sales Rep ID	  */
-	public void setC_CommissionSalesRep_ID (int C_CommissionSalesRep_ID)
-	{
-		if (C_CommissionSalesRep_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_C_CommissionSalesRep_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_C_CommissionSalesRep_ID, Integer.valueOf(C_CommissionSalesRep_ID));
-	}
-
-	/** Get Commission Sales Rep ID.
-		@return Commission Sales Rep ID	  */
-	public int getC_CommissionSalesRep_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_C_CommissionSalesRep_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

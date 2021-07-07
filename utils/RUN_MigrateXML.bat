@@ -17,6 +17,7 @@ REM Can be called with argument "clean" to mark the applied dictionary migration
 REM and delete the steps and data to reduce the database size.
 SET cleanMode=%1
 SET forceMode=%2
+SET migrationPath=%3
 
 REM change to directory in which this script resides
 SET DIR_SAV=%CD%
@@ -81,7 +82,7 @@ PAUSE
 Set JAVA=%JAVA_HOME%\bin\java
 SET CP=%ADEMPIERE_HOME%\lib\CInstall.jar;%ADEMPIERE_HOME%\lib\Adempiere.jar;%ADEMPIERE_HOME%\lib\CCTools.jar;%ADEMPIERE_HOME%\lib\oracle.jar;%ADEMPIERE_HOME%\lib\jboss.jar;%ADEMPIERE_HOME%\lib\postgresql.jar;
 
-"%JAVA%" -classpath %CP% -DADEMPIERE_HOME=%ADEMPIERE_HOME% org.adempiere.process.MigrationLoader %cleanMode% %forceMode%
+"%JAVA%" -classpath %CP% -DADEMPIERE_HOME=%ADEMPIERE_HOME% org.adempiere.process.MigrationLoader %cleanMode% %forceMode% %migrationPath%
 SET result=%ERRORLEVEL% 
 
 IF NOT %result%==%errorSuccess% GOTO :SANE

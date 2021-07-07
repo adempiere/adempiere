@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_AttachmentReference
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_AD_AttachmentReference 
 {
@@ -177,6 +177,19 @@ public interface I_AD_AttachmentReference
 	  * Name of the local file or URL
 	  */
 	public String getFileName();
+
+    /** Column name FileSize */
+    public static final String COLUMNNAME_FileSize = "FileSize";
+
+	/** Set File Size.
+	  * Size of the File in bytes
+	  */
+	public void setFileSize (BigDecimal FileSize);
+
+	/** Get File Size.
+	  * Size of the File in bytes
+	  */
+	public BigDecimal getFileSize();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";

@@ -20,10 +20,12 @@ import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 
+import org.compiere.model.I_C_BankStatement;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MDocType;
 import org.compiere.model.MOrder;
 import org.compiere.util.Env;
+import org.eevolution.model.I_DD_Order;
 import org.eevolution.model.MDDOrder;
 
 /**
@@ -55,7 +57,8 @@ public class Doc_DDOrder extends Doc
 	{	
 		MDDOrder order = (MDDOrder)getPO();
 		setDateDoc(order.getDateOrdered());
-		return STATUS_Posted;
+		setDateAcct(order.getDateOrdered());
+		return null;
 	}   //  loadDocumentDetails
 
 	/**
@@ -74,7 +77,14 @@ public class Doc_DDOrder extends Doc
 	 *  @return Fact
 	 */
 	public ArrayList<Fact> createFacts (MAcctSchema as)
-	{		
-		return null;
+	{
+		return new ArrayList<Fact>();
 	}   //  createFact
+	
+   public static String getDateAcctColumnName() {
+        
+        return I_DD_Order.COLUMNNAME_DateOrdered;
+        
+    }
+
 }   //  Doc Cost Collector

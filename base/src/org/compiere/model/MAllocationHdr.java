@@ -80,7 +80,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 		String sql = "SELECT * FROM C_AllocationHdr h "
 			+ "WHERE IsActive='Y'"
 			+ " AND EXISTS (SELECT * FROM C_AllocationLine l "
-				+ "WHERE h.DocStatus IN ('CO','CL') AND h.C_AllocationHdr_ID=l.C_AllocationHdr_ID AND l.C_Payment_ID=?)";
+				+ "WHERE h.C_AllocationHdr_ID=l.C_AllocationHdr_ID AND l.C_Payment_ID=?)";
 		ArrayList<MAllocationHdr> list = new ArrayList<MAllocationHdr>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -118,7 +118,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 		String sql = "SELECT * FROM C_AllocationHdr h "
 			+ "WHERE IsActive='Y'"
 			+ " AND EXISTS (SELECT * FROM C_AllocationLine l "
-				+ "WHERE h.DocStatus IN ('CO','CL') AND h.C_AllocationHdr_ID=l.C_AllocationHdr_ID AND l.C_Invoice_ID=?)";
+				+ "WHERE h.C_AllocationHdr_ID=l.C_AllocationHdr_ID AND l.C_Invoice_ID=?)";
 		ArrayList<MAllocationHdr> list = new ArrayList<MAllocationHdr>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -143,7 +143,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 		list.toArray(retValue);
 		return retValue;
 	}	//	getOfInvoice
-	
+
 	//FR [ 1866214 ]
 	/**
 	 * 	Get Allocations of Cash
@@ -157,7 +157,7 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 		final String whereClause = "IsActive='Y'"
 			+ " AND EXISTS (SELECT 1 FROM C_CashLine cl, C_AllocationLine al "
 				+ "where cl.C_Cash_ID=? and al.C_CashLine_ID=cl.C_CashLine_ID "
-						+ "AND C_AllocationHdr.DocStatus IN ('CO','CL') AND  C_AllocationHdr.C_AllocationHdr_ID=al.C_AllocationHdr_ID)";
+						+ "AND C_AllocationHdr.C_AllocationHdr_ID=al.C_AllocationHdr_ID)";
 		Query query = MTable.get(ctx, I_C_AllocationHdr.Table_ID)
 							.createQuery(whereClause, trxName);
 		query.setParameters(C_Cash_ID);
@@ -974,8 +974,8 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 	{
 		List<MAllocationLine> allocationLines = Arrays.asList(getLines(false));
 		allocationLines.stream()
-				.filter(allocationLine -> allocationLine.getC_BPartner_ID() != 0
-						|| (allocationLine.getC_Invoice_ID() != 0) && (allocationLine.getC_Payment_ID() != 0))
+				.filter(allocationLine -> (allocationLine.getC_BPartner_ID()  > 0  && (allocationLine.getC_Invoice_ID() != 0))
+						||  (allocationLine.getC_BPartner_ID()  > 0  && allocationLine.getC_Payment_ID() != 0))
 				.forEach(allocationLine -> {
 
 					boolean isSOTrxInvoice = false;
@@ -1093,13 +1093,13 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 
 					//Calculate new Balance Business Partners
 					BigDecimal newBalance = BigDecimal.ZERO;
-					if (allocationLine.getC_Invoice_ID() > 0 && !paymentProcessed) {
+					if (allocationLine.getC_Invoice_ID() > 0) {
 						if (allocationAmount.compareTo(invoiceAmountAccounted) == 0) {
 							openBalanceDifference = openBalanceDifference.add(invoiceAmountAccounted).subtract(allocationAmountAccounted);
 						} else {
-							//	allocation as a percentage of the invoice
-							if (invoice.getOpenAmt().signum() != 0) {
-								BigDecimal multiplier = allocationAmount.divide(invoice.getOpenAmt(), 8, BigDecimal.ROUND_HALF_UP);
+								//	allocation as a percentage of the invoice
+								BigDecimal multiplier = invoice.getOpenAmt().signum() == 0 ? BigDecimal.ONE :
+									allocationAmount.divide(invoice.getOpenAmt(), 8, BigDecimal.ROUND_HALF_UP);
 								//	Reduce Orig Invoice Accounted
 								invoiceAmountAccounted = invoiceAmountAccounted.multiply(multiplier);
 								//	Difference based on percentage of Orig Invoice
@@ -1111,7 +1111,6 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 								int precision = MCurrency.getStdPrecision(getCtx(), client.getC_Currency_ID());
 								if (openBalanceDifference.scale() > precision)
 									openBalanceDifference = openBalanceDifference.setScale(precision, BigDecimal.ROUND_HALF_UP);
-							}
 						}
 					}
 
@@ -1151,6 +1150,10 @@ public final class MAllocationHdr extends X_C_AllocationHdr implements DocAction
 							else
 								newCreditAmount = newCreditAmount.subtract(invoiceAmountAccounted);
 						}
+						int precision = MCurrency.getStdPrecision(getCtx(), client.getC_Currency_ID());
+						if (newCreditAmount.scale() > precision)
+							newCreditAmount = newCreditAmount.setScale(precision, BigDecimal.ROUND_HALF_UP);
+
 						partner.setSO_CreditUsed(newCreditAmount);
 					}
 

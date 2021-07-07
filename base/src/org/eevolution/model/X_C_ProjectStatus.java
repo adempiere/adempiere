@@ -31,7 +31,7 @@ public class X_C_ProjectStatus extends PO implements I_C_ProjectStatus, I_Persis
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190503L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_C_ProjectStatus (Properties ctx, int C_ProjectStatus_ID, String trxName)

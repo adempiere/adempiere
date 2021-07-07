@@ -17,27 +17,23 @@
 package org.eevolution.service.dsl;
 
 
-import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.MInvoice;
-import org.compiere.model.MPInstance;
-import org.compiere.model.MPInstancePara;
-import org.compiere.model.MProcess;
-import org.compiere.process.ProcessInfo;
-import org.compiere.process.ProcessInfoUtil;
-import org.compiere.util.ASyncProcess;
-import org.compiere.util.DB;
-import org.compiere.util.Env;
-import org.compiere.util.Trx;
-import org.compiere.util.TrxRunnable;
-import org.compiere.util.Util;
-
 import java.lang.reflect.Constructor;
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Properties;
+
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.MInvoice;
+import org.compiere.model.MPInstance;
+import org.compiere.model.MProcess;
+import org.compiere.process.ProcessInfo;
+import org.compiere.process.ProcessInfoUtil;
+import org.compiere.util.ASyncProcess;
+import org.compiere.util.Env;
+import org.compiere.util.Trx;
+import org.compiere.util.TrxRunnable;
+import org.compiere.util.Util;
 
 
 /**
@@ -53,8 +49,8 @@ import java.util.Properties;
  */
 public class ProcessBuilder {
 
-    static private ProcessBuilder processBuilder;
-    static  private Properties context;
+    private ProcessBuilder thisBuilder;
+    private Properties context;
     private ProcessInfo processInfo;
     private String title;
     private Integer processId;
@@ -62,6 +58,8 @@ public class ProcessBuilder {
     private Integer tableId;
     private Integer windowNo;
     private Integer seqNo;
+    private Integer clientId;
+    private Integer userId;
     private MPInstance instance;
     private MProcess process;
     private ASyncProcess parent;
@@ -89,6 +87,7 @@ public class ProcessBuilder {
         this.parent = null;
         this.selectedRecordsIds = new ArrayList<>();
         this.tableSelectionId = 0;
+        this.thisBuilder = this;
     }
 
     /**
@@ -97,8 +96,7 @@ public class ProcessBuilder {
      * @return
      */
     public static ProcessBuilder create(Properties context) {
-        processBuilder = new ProcessBuilder(context);
-        return processBuilder;
+        return new ProcessBuilder(context);
     }
 
 
@@ -178,6 +176,12 @@ public class ProcessBuilder {
         processInfo.setTransactionName(trxName);
         processInfo.setIsSelection(isSelection);
         processInfo.setPrintPreview(isPrintPreview());
+        if(clientId != null) {
+        	processInfo.setAD_Client_ID(clientId);
+        }
+        if(userId != null) {
+        	processInfo.setAD_User_ID(userId);
+        }
         if(!Util.isEmpty(getReportExportFormat())) {
         	processInfo.setReportType(getReportExportFormat());
         } else {
@@ -198,17 +202,7 @@ public class ProcessBuilder {
         if (isSelection) {
             processInfo.setSelectionKeys(selectedRecordsIds);
             processInfo.setTableSelectionId(tableSelectionId);
-            if (selection != null && selection.size() > 0) {
-                processInfo.setSelectionValues(selection);
-                //TODO : Need Remove duplicate functionality ProcessCtl , WProcessCtl , ServerProcessCtl
-                //TODO : The WProcessCtl and ServerProcessCtl not save selection and smart browser selection
-                if (windowNo == 0)
-                        DB.createT_Selection_Browse(processInfo.getAD_PInstance_ID(), processInfo.getSelectionValues(), processInfo.getTransactionName());
-            }
-            //TODO : Need Remove duplicate functionality ProcessCtl , WProcessCtl , ServerProcessCtl
-            //TODO : The WProcessCtl and ServerProcessCtl not save selection and smart browser selection
-            if (windowNo == 0) // force the save selction the issue that not implement save selection
-                DB.createT_Selection(processInfo.getAD_PInstance_ID(), processInfo.getSelectionKeys(), processInfo.getTransactionName());
+            processInfo.setSelectionValues(selection);
         }
     }
 
@@ -271,7 +265,7 @@ public class ProcessBuilder {
         try {
             Trx.run(trxName -> {
                 generateProcessInfo(trxName);
-                processBuilder.run(trxName);
+                thisBuilder.run(trxName);
                 if (processInfo.isError())
                     throw new AdempiereException("@ProcessRunError@ @Error@ " + processInfo.getSummary());
             });
@@ -285,6 +279,14 @@ public class ProcessBuilder {
         }
         return processInfo;
     }
+    
+    /**
+     * Get Process Information for result
+     * @return
+     */
+    public ProcessInfo getProcessInfo() {
+    	return processInfo;
+    }
 
     /**
      * Execute the process based on transaction exists
@@ -297,7 +299,7 @@ public class ProcessBuilder {
             Trx.run(trxName, new TrxRunnable() {
                 public void run(String trxName) {
                     generateProcessInfo(trxName);
-                    processBuilder.run(trxName);
+                    thisBuilder.run(trxName);
                     if (processInfo.isError())
                         throw new AdempiereException("@ProcessRunError@ @Error@ "  + processInfo.getSummary());
                 }
@@ -340,6 +342,26 @@ public class ProcessBuilder {
         this.windowNo = windowNo;
         return this;
     }
+    
+    /**
+     * Define specific client id
+     * @param clientId
+     * @return
+     */
+    public ProcessBuilder withClientId(Integer clientId) {
+        this.clientId = clientId;
+        return this;
+    }
+    
+    /**
+     * Define user for process
+     * @param userId
+     * @return
+     */
+    public ProcessBuilder withUserId(Integer userId) {
+        this.userId = userId;
+        return this;
+    }
 
     /**
      * Define mutiples select record ids to be processed
@@ -374,46 +396,56 @@ public class ProcessBuilder {
        return this;
    }
 
-    /**
-     * Define parameter with automatic sequence
-     * @param name
-     * @param value
-     * @return
-     */
-    public ProcessBuilder withParameter(String name, Object value) {
-        if (instance == null)
-            generateProcessInstance();
-        return withParameter(name, value , seqNo + 10);
-    }
+   /**
+    * Define parameter with automatic sequence
+    * @param name
+    * @param value
+    * @return
+    */
+   public ProcessBuilder withParameter(String name, Object value) {
+	   return withParameter(name, value, (Object)null);
+   }
+   
+   /**
+    * Define parameter with automatic sequence and value to
+    * @param name
+    * @param value
+    * @return
+    */
+   public ProcessBuilder withParameter(String name, Object value, Object valueTo) {
+	   return withParameter(name, value, valueTo, seqNo + 10);
+   }
+   
+   /**
+    * Define parameter without to parameter
+    * @param parameterName
+    * @param value
+    * @param sequence
+    * @return
+    */
+   public ProcessBuilder withParameter(String parameterName, Object value, Integer sequence) {
+	   return withParameter(parameterName, value, null, sequence);
+   }
 
-    /**
-     * Define parameter and sequence
-     * @param name
-     * @param value
-     * @param sequence
-     * @return
-     */
-    public ProcessBuilder withParameter(String name, Object value , Integer sequence) {
-        if (name == null || name.length() == 0)
+   /**
+    * Define parameter and sequence
+    * @param parameterName
+    * @param value
+    * @param sequence
+    * @return
+    */
+    public ProcessBuilder withParameter(String parameterName, Object value, Object valueTo, Integer sequence) {
+        if (Util.isEmpty(parameterName))
             return this;
 
         if (instance == null)
             generateProcessInstance();
 
         seqNo = sequence;
-
-        MPInstancePara parameter = new MPInstancePara(instance, sequence);
-        if (value instanceof String)
-            parameter.setParameter(name, (String) value);
-        if (value instanceof Integer)
-            parameter.setParameter(name, (Integer) value);
-        if (value instanceof Timestamp)
-            parameter.setParameter(name, (Timestamp) value);
-        if (value instanceof Boolean)
-            parameter.setParameter(name, (java.lang.Boolean) value);
-        if (value instanceof BigDecimal)
-            parameter.setParameter(name, (BigDecimal) value);
-        parameter.saveEx();
+        instance.createParameter(sequence, parameterName, value);
+        if(valueTo != null) {
+        	instance.createParameter(sequence, parameterName + "_To", valueTo);
+        }
         return this;
     }
 

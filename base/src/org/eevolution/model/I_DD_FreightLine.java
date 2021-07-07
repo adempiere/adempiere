@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for DD_FreightLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_DD_FreightLine 
 {
@@ -62,6 +62,21 @@ public interface I_DD_FreightLine
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name C_BPartner_ID */
+    public static final String COLUMNNAME_C_BPartner_ID = "C_BPartner_ID";
+
+	/** Set Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID);
+
+	/** Get Business Partner .
+	  * Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID();
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException;
 
     /** Column name C_Charge_ID */
     public static final String COLUMNNAME_C_Charge_ID = "C_Charge_ID";
@@ -127,10 +142,10 @@ public interface I_DD_FreightLine
     /** Column name DD_Freight_ID */
     public static final String COLUMNNAME_DD_Freight_ID = "DD_Freight_ID";
 
-	/** Set Order Freight ID	  */
+	/** Set Order Freight	  */
 	public void setDD_Freight_ID (int DD_Freight_ID);
 
-	/** Get Order Freight ID	  */
+	/** Get Order Freight	  */
 	public int getDD_Freight_ID();
 
 	public org.eevolution.model.I_DD_Freight getDD_Freight() throws RuntimeException;
@@ -138,10 +153,10 @@ public interface I_DD_FreightLine
     /** Column name DD_FreightLine_ID */
     public static final String COLUMNNAME_DD_FreightLine_ID = "DD_FreightLine_ID";
 
-	/** Set Order Freight Line ID	  */
+	/** Set Order Freight Line	  */
 	public void setDD_FreightLine_ID (int DD_FreightLine_ID);
 
-	/** Get Order Freight Line ID	  */
+	/** Get Order Freight Line	  */
 	public int getDD_FreightLine_ID();
 
     /** Column name FreightAmt */
@@ -157,6 +172,19 @@ public interface I_DD_FreightLine
 	  */
 	public BigDecimal getFreightAmt();
 
+    /** Column name FreightRate */
+    public static final String COLUMNNAME_FreightRate = "FreightRate";
+
+	/** Set Freight Rate.
+	  * Freight Rate of Shipper 
+	  */
+	public void setFreightRate (BigDecimal FreightRate);
+
+	/** Get Freight Rate.
+	  * Freight Rate of Shipper 
+	  */
+	public BigDecimal getFreightRate();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -169,6 +197,19 @@ public interface I_DD_FreightLine
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsInvoiced */
+    public static final String COLUMNNAME_IsInvoiced = "IsInvoiced";
+
+	/** Set Invoiced.
+	  * Is this invoiced?
+	  */
+	public void setIsInvoiced (boolean IsInvoiced);
+
+	/** Get Invoiced.
+	  * Is this invoiced?
+	  */
+	public boolean isInvoiced();
 
     /** Column name Line */
     public static final String COLUMNNAME_Line = "Line";
@@ -212,6 +253,21 @@ public interface I_DD_FreightLine
 	public int getM_Freight_ID();
 
 	public org.compiere.model.I_M_Freight getM_Freight() throws RuntimeException;
+
+    /** Column name M_Package_ID */
+    public static final String COLUMNNAME_M_Package_ID = "M_Package_ID";
+
+	/** Set Package.
+	  * Shipment Package
+	  */
+	public void setM_Package_ID (int M_Package_ID);
+
+	/** Get Package.
+	  * Shipment Package
+	  */
+	public int getM_Package_ID();
+
+	public org.compiere.model.I_M_Package getM_Package() throws RuntimeException;
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";

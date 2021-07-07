@@ -16,8 +16,7 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.logging.Level;
-
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MInOut;
 import org.compiere.model.MPackage;
 import org.compiere.model.MShipper;
@@ -27,64 +26,30 @@ import org.compiere.model.MShipper;
  *	
  *  @author Jorg Janke
  *  @version $Id: PackageCreate.java,v 1.2 2006/07/30 00:51:01 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
+ *  Add support to package like document
  */
-public class PackageCreate extends SvrProcess
-{
-	/**	Shipper				*/
-	private int		p_M_Shipper_ID = 0;
-	/** Parent				*/
-	private int		p_M_InOut_ID = 0;
-	
-
-	/**
-	 *  Prepare - e.g., get Parameters.
-	 */
-	protected void prepare()
-	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("M_Shipper_ID"))
-				p_M_Shipper_ID = para[i].getParameterAsInt();
-			else if (name.equals("M_InOut_ID")) // BF [ 1754889 ] Create Package error
-				p_M_InOut_ID = para[i].getParameterAsInt();
-			else
-				log.log(Level.SEVERE, "prepare - Unknown Parameter: " + name);
-		}
-
-		// Bug [ 1754889 ] Create Package error
-		// Commenting these lines because this process is called also from window "Ship/Receipt Confirm"
-		// if (p_M_InOut_ID == 0)
-			// p_M_InOut_ID = getRecord_ID();
-
-	}	//	prepare
-
+public class PackageCreate extends PackageCreateAbstract {
 	/**
 	 * 	Process
 	 *	@return message
 	 *	@throws Exception
 	 */
-	protected String doIt () throws Exception
-	{
-		log.info("doIt - M_InOut_ID=" + p_M_InOut_ID + ", M_Shipper_ID=" + p_M_Shipper_ID);
-		if (p_M_InOut_ID == 0)
-			throw new IllegalArgumentException("No Shipment");
-		if (p_M_Shipper_ID == 0)
-			throw new IllegalArgumentException("No Shipper");
-		MInOut shipment = new MInOut (getCtx(), p_M_InOut_ID, null);
-		if (shipment.get_ID() != p_M_InOut_ID)
-			throw new IllegalArgumentException("Cannot find Shipment ID=" + p_M_InOut_ID);
-		MShipper shipper = new MShipper (getCtx(), p_M_Shipper_ID, get_TrxName());
-		if (shipper.get_ID() != p_M_Shipper_ID)
-			throw new IllegalArgumentException("Cannot find Shipper ID=" + p_M_InOut_ID);
+	protected String doIt () throws Exception {
+		log.info("doIt - M_InOut_ID=" + getInOutId() + ", M_Shipper_ID=" + getShipperId());
+		MInOut shipment = new MInOut (getCtx(), getInOutId(), get_TrxName());
+		if (shipment.get_ID() != getInOutId())
+			throw new IllegalArgumentException("@M_InOut_ID@ @NotFound@");
+		MShipper shipper = new MShipper (getCtx(), getShipperId(), get_TrxName());
+		if (shipper.get_ID() != getShipperId())
+			throw new IllegalArgumentException("@M_Shipper_ID@ @NotFound@");
 		//
-		
-		MPackage pack = MPackage.create (shipment, shipper, null);
-		
+		MPackage pack = MPackage.create(shipment, shipper, shipment.getMovementDate());
+		if(!pack.processIt(MPackage.ACTION_Complete)) {
+			throw new AdempiereException(pack.getProcessMsg());
+		}
+		//	Save
+		pack.saveEx();
 		return pack.getDocumentNo();
 	}	//	doIt
-	
 }	//	PackageCreate

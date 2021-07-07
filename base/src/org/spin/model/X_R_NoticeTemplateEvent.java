@@ -30,7 +30,7 @@ public class X_R_NoticeTemplateEvent extends PO implements I_R_NoticeTemplateEve
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_R_NoticeTemplateEvent (Properties ctx, int R_NoticeTemplateEvent_ID, String trxName)

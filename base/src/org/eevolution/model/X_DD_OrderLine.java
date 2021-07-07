@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for DD_OrderLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20200804L;
 
     /** Standard Constructor */
     public X_DD_OrderLine (Properties ctx, int DD_OrderLine_ID, String trxName)
@@ -467,6 +467,26 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 		return bd;
 	}
 
+	/** Set Freight Rate.
+		@param FreightRate 
+		Freight Rate of Shipper 
+	  */
+	public void setFreightRate (BigDecimal FreightRate)
+	{
+		set_Value (COLUMNNAME_FreightRate, FreightRate);
+	}
+
+	/** Get Freight Rate.
+		@return Freight Rate of Shipper 
+	  */
+	public BigDecimal getFreightRate () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FreightRate);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
 	/** Set Description Only.
 		@param IsDescription 
 		if true, the line is just description and no transaction
@@ -642,6 +662,34 @@ public class X_DD_OrderLine extends PO implements I_DD_OrderLine, I_Persistent
 	public int getM_FreightCategory_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_FreightCategory_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Freight getM_Freight() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Freight)MTable.get(getCtx(), org.compiere.model.I_M_Freight.Table_Name)
+			.getPO(getM_Freight_ID(), get_TrxName());	}
+
+	/** Set Freight.
+		@param M_Freight_ID 
+		Freight Rate
+	  */
+	public void setM_Freight_ID (int M_Freight_ID)
+	{
+		if (M_Freight_ID < 1) 
+			set_Value (COLUMNNAME_M_Freight_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Freight_ID, Integer.valueOf(M_Freight_ID));
+	}
+
+	/** Get Freight.
+		@return Freight Rate
+	  */
+	public int getM_Freight_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Freight_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

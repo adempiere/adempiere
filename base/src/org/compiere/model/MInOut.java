@@ -1019,6 +1019,25 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 	}	//	beforeSave
 
 	/**
+	 * 	Before Delete
+	 *	@return true of it can be deleted
+	 */
+	protected boolean beforeDelete ()
+	{
+		if (isProcessed())
+			return false;
+
+		Arrays.stream(getLines()).forEach(inOutLine -> {
+			Optional<MInvoiceLine> maybeInvoiceLine = Optional.ofNullable(MInvoiceLine.getOfInOutLine(inOutLine));
+			maybeInvoiceLine.ifPresent(invoiceLine -> {
+				invoiceLine.setM_InOutLine_ID(-1);
+				invoiceLine.saveEx();
+			});
+		});
+		return true;
+	}	//	beforeDelete
+	
+	/**
 	 * 	After Save
 	 *	@param newRecord new
 	 *	@param success success
@@ -1412,7 +1431,8 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 					
 					BigDecimal reservedDiff = Env.ZERO;
 					BigDecimal orderedDiff = Env.ZERO;
-					if (inOutLine.getC_OrderLine_ID() != 0 && sameWarehouse)
+					if (inOutLine.getC_OrderLine_ID() != 0 && sameWarehouse
+							&& !orderLine.getParent().isReturnOrder())
 					{
 						if (isSOTrx())
 							reservedDiff = QtySO;
@@ -1458,14 +1478,17 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 			}	//	stock movement
 
 			//	Correct Order Line
-			if (product != null && orderLine != null && isSOTrx())		//	other in VMatch.createMatchRecord
+			if (product != null && product.isStocked() && orderLine != null && isSOTrx() && !orderLine.getParent().isReturnOrder())		//	other in VMatch.createMatchRecord
 				orderLine.setQtyReserved(orderLine.getQtyReserved().add(QtySO));
-			else if (product != null && orderLine != null && !isSOTrx())
+			else if (product != null && product.isStocked() && orderLine != null && !isSOTrx() && !orderLine.getParent().isReturnOrder())
 				orderLine.setQtyReserved(orderLine.getQtyReserved().add(QtyPO));
 
 			//	Update Sales Order Line
 			if (orderLine != null)
 			{
+				if(orderLine.getParent().isReturnOrder()) {
+					quantity = quantity.negate();
+				}
 				if (isSOTrx()							//	PO is done by Matching
 					|| inOutLine.getM_Product_ID() == 0)	//	PO Charges, empty lines
 				{
@@ -1501,38 +1524,6 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
                     return DocAction.STATUS_Invalid;
                 }
             }
-
-			//	Create Asset for SO
-			// Move code to model validator to solve build dependence
-			/*if (product != null
-					&& isSOTrx()
-					&& product.isCreateAsset()
-					&& !product.getM_Product_Category().getA_Asset_Group().isFixedAsset()
-					&& sLine.getMovementQty().signum() > 0
-					&& !isReversal())
-			{
-				log.fine("Asset");
-				info.append("@A_Asset_ID@: ");
-				int noAssets = sLine.getMovementQty().intValue();
-				if (!product.isOneAssetPerUOM())
-					noAssets = 1;
-				for (int i = 0; i < noAssets; i++)
-				{
-					if (i > 0)
-						info.append(" - ");
-					int deliveryCount = i+1;
-					if (!product.isOneAssetPerUOM())
-						deliveryCount = 0;
-					MAsset asset = new MAsset (this, sLine, deliveryCount);
-					if (!asset.save(get_TrxName()))
-					{
-						processMsg = "Could not create Asset";
-						return DocAction.STATUS_Invalid;
-					}
-					info.append(asset.getValue());
-				}
-			}	//	Asset*/
-
 
 			//	Matching
 			if (!isSOTrx()

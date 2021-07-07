@@ -76,6 +76,7 @@ import org.compiere.util.ValueNamePair;
  * 			@see https://github.com/adempiere/adempiere/issues/237
  *		<a href="https://github.com/adempiere/adempiere/issues/1539">
  * 		@see FR [ 1539 ] Add Process for Reporting</a>
+ * 		@See: https://github.com/adempiere/adempiere/issues/2873
  * @author Michael McKay, mckayERP@gmail.com
  * 		<li>BR [ <a href="https://github.com/adempiere/adempiere/issues/431">#431</a> ] Report Groups do not handle single values well
  */
@@ -110,14 +111,14 @@ public class DataEngine
 	/**	Default Language				*/
 	private Language		m_language = Language.getLoginLanguage();
 	/** Break & Column Functions		*/
-	private PrintDataGroup 	m_group = new PrintDataGroup();
+	private PrintDataGroup 	group = new PrintDataGroup();
 	/** The PrintData being printed */
 	private PrintData printData = null;
 	
 	/**	Start Time						*/
 	private long			m_startTime = System.currentTimeMillis();
 	/** Running Total after .. lines	*/
-	private int				m_runningTotalLines = -1;
+	private int				runningTotalLines = -1;
 	/** Print String					*/
 	private String			m_runningTotalString = null;
 	/** TrxName String					*/
@@ -253,7 +254,7 @@ public class DataEngine
 		log.fine("TableName=" + tableName + ", Query=" + query);
 		log.fine("Format=" + format);
 		ArrayList<PrintDataColumn> columns = new ArrayList<PrintDataColumn>();
-		m_group = new PrintDataGroup();
+		group = new PrintDataGroup();
 
 		//	Order Columns (identified by non zero/null SortNo)
 		int[] orderAD_Column_IDs = format.getOrderAD_Column_IDs();
@@ -278,15 +279,16 @@ public class DataEngine
 		String sql = "SELECT c.AD_Column_ID,c.ColumnName,"				//	1..2
 			+ "c.AD_Reference_ID,c.AD_Reference_Value_ID,"				//	3..4
 			+ "c.FieldLength,c.IsMandatory,c.IsKey,c.IsParent,"			//	5..8
-			+ "COALESCE(rvc.IsGroupFunction,'N'),rvc.FunctionColumn,"	//	9..10
+			+ "COALESCE(rvc.IsGroupFunction,'N') AS IsGroupFunction, rvc.FunctionColumn,"	//	9..10
 			+ "pfi.IsGroupBy,pfi.IsSummarized,pfi.IsAveraged,pfi.IsCounted, "	//	11..14
 			+ "pfi.IsPrinted,pfi.SortNo,pfi.IsPageBreak, "				//	15..17
 			+ "pfi.IsMinCalc,pfi.IsMaxCalc, "							//	18..19
 			+ "pfi.isRunningTotal,pfi.RunningTotalLines, "				//	20..21
 			+ "pfi.IsVarianceCalc, pfi.IsDeviationCalc, "				//	22..23
-			+ "c.ColumnSQL, COALESCE(pfi.FormatPattern, c.FormatPattern) "		//	24, 25
+			+ "c.ColumnSQL, COALESCE(pfi.FormatPattern, c.FormatPattern) AS FormatPattern "		//	24, 25
 			+ " , pfi.isDesc " //26
 			+ " , pfi.SeqNo " //27
+			+ ", pfi.AD_PrintFormatItem_ID, pfi.IsHideGrandTotal " // 28
 			+ "FROM AD_PrintFormat pf"
 			+ " INNER JOIN AD_PrintFormatItem pfi ON (pf.AD_PrintFormat_ID=pfi.AD_PrintFormat_ID)"
 			+ " INNER JOIN AD_Column c ON (pfi.AD_Column_ID=c.AD_Column_ID)"
@@ -313,76 +315,78 @@ public class DataEngine
 			while (rs.next())
 			{
 				//	get Values from record
-				int AD_Column_ID = rs.getInt(1);
-				String ColumnName = rs.getString(2);
-				String ColumnSQL = rs.getString(24);
-				if (ColumnSQL == null)
-					ColumnSQL = "";
-				int AD_Reference_ID = rs.getInt(3);
-				int AD_Reference_Value_ID = rs.getInt(4);
+				int columnId = rs.getInt("AD_Column_ID");
+				String columnName = rs.getString("ColumnName");
+				String columnSQL = rs.getString("ColumnSQL");
+				if (columnSQL == null)
+					columnSQL = "";
+				int referenceId = rs.getInt("AD_Reference_ID");
+				int referenceValueId = rs.getInt("AD_Reference_Value_ID");
 				//  ColumnInfo
-				int FieldLength = rs.getInt(5);
-				boolean IsMandatory = "Y".equals(rs.getString(6));
-				boolean IsKey = "Y".equals(rs.getString(7));
-				boolean IsParent = "Y".equals(rs.getString(8));
+				int fieldLength = rs.getInt("FieldLength");
+				boolean isMandatory = "Y".equals(rs.getString("IsMandatory"));
+				boolean isKey = "Y".equals(rs.getString("IsKey"));
+				boolean isParent = "Y".equals(rs.getString("IsParent"));
 				//  SQL GroupBy
-				boolean IsGroupFunction = "Y".equals(rs.getString(9));
-				if (IsGroupFunction)
+				boolean isGroupFunction = "Y".equals(rs.getString("IsGroupFunction"));
+				if (isGroupFunction)
 					IsGroupedBy = true;
-				String FunctionColumn = rs.getString(10);
-				if (FunctionColumn == null)
-					FunctionColumn = "";
+				String functionColumn = rs.getString("FunctionColumn");
+				if (functionColumn == null)
+					functionColumn = "";
 				//	Breaks/Column Functions
-				if ("Y".equals(rs.getString(11)))
-					m_group.addGroupColumn(ColumnName);
-				if ("Y".equals(rs.getString(12)))
-					m_group.addFunction(ColumnName, PrintDataFunction.F_SUM);
-				if ("Y".equals(rs.getString(13)))
-					m_group.addFunction(ColumnName, PrintDataFunction.F_MEAN);
-				if ("Y".equals(rs.getString(14)))
-					m_group.addFunction(ColumnName, PrintDataFunction.F_COUNT);
-				if ("Y".equals(rs.getString(18)))	//	IsMinCalc
-					m_group.addFunction(ColumnName, PrintDataFunction.F_MIN);
-				if ("Y".equals(rs.getString(19)))	//	IsMaxCalc
-					m_group.addFunction(ColumnName, PrintDataFunction.F_MAX);
-				if ("Y".equals(rs.getString(22)))	//	IsVarianceCalc
-					m_group.addFunction(ColumnName, PrintDataFunction.F_VARIANCE);
-				if ("Y".equals(rs.getString(23)))	//	IsDeviationCalc
-					m_group.addFunction(ColumnName, PrintDataFunction.F_DEVIATION);
-				if ("Y".equals(rs.getString(20)))	//	isRunningTotal
+				if ("Y".equals(rs.getString("IsGroupBy")))
+					group.addGroupColumn(columnName);
+				if ("Y".equals(rs.getString("IsSummarized")))
+					group.addFunction(columnName, PrintDataFunction.F_SUM);
+				if ("Y".equals(rs.getString("IsAveraged")))
+					group.addFunction(columnName, PrintDataFunction.F_MEAN);
+				if ("Y".equals(rs.getString("IsCounted")))
+					group.addFunction(columnName, PrintDataFunction.F_COUNT);
+				if ("Y".equals(rs.getString("IsMinCalc")))	//	IsMinCalc
+					group.addFunction(columnName, PrintDataFunction.F_MIN);
+				if ("Y".equals(rs.getString("IsMaxCalc")))	//	IsMaxCalc
+					group.addFunction(columnName, PrintDataFunction.F_MAX);
+				if ("Y".equals(rs.getString("IsVarianceCalc")))	//	IsVarianceCalc
+					group.addFunction(columnName, PrintDataFunction.F_VARIANCE);
+				if ("Y".equals(rs.getString("IsDeviationCalc")))	//	IsDeviationCalc
+					group.addFunction(columnName, PrintDataFunction.F_DEVIATION);
+				if ("Y".equals(rs.getString("isRunningTotal")))	//	isRunningTotal
 					//	RunningTotalLines only once - use max
-					m_runningTotalLines = Math.max(m_runningTotalLines, rs.getInt(21));	
+					runningTotalLines = Math.max(runningTotalLines, rs.getInt("RunningTotalLines"));	
 
-				if (ColumnName.equalsIgnoreCase(MFactAcct.COLUMNNAME_Line_ID) 
-						|| ColumnName.equalsIgnoreCase(MFactAcct.COLUMNNAME_Record_ID)
+				if (columnName.equalsIgnoreCase(MFactAcct.COLUMNNAME_Line_ID) 
+						|| columnName.equalsIgnoreCase(MFactAcct.COLUMNNAME_Record_ID)
 						) {
 					isTableIDRequired = true;
 				}
 				
-				if (ColumnName.equalsIgnoreCase(MFactAcct.COLUMNNAME_AD_Table_ID)) {
+				if (columnName.equalsIgnoreCase(MFactAcct.COLUMNNAME_AD_Table_ID)) {
 					isTableIDPresent = true;
 				}				
 				//	General Info
-				boolean IsPrinted = "Y".equals(rs.getString(15));
+				boolean IsPrinted = "Y".equals(rs.getString("IsPrinted"));
 				int SortNo = rs.getInt(16);
-				boolean isPageBreak = "Y".equals(rs.getString(17));
+				boolean isPageBreak = "Y".equals(rs.getString("IsPageBreak"));
 				
-				String formatPattern = rs.getString(25);
-				boolean isDesc = "Y".equals(rs.getString(26));
+				String formatPattern = rs.getString("FormatPattern");
+				boolean isDesc = "Y".equals(rs.getString("isDesc"));
+				int printFormatItemId = rs.getInt("AD_PrintFormatItem_ID");
+				boolean isHideGrandTotal = "Y".equals(rs.getString("IsHideGrandTotal"));
 				//	Fully qualified Table.Column for ordering
-				String orderName = tableName + "." + ColumnName;
+				String orderName = tableName + "." + columnName;
 				String lookupSQL = orderName;
 				PrintDataColumn pdc = null;
 
-				int seqNo = rs.getInt(27);
+				int seqNo = rs.getInt("SeqNo");
 
 				//  -- Key --
-				if (IsKey)
+				if (isKey)
 				{
 					//	=>	Table.Column,
-					sqlSELECT.append(tableName).append(".").append(ColumnName).append(",");
-					groupByColumns.add(tableName+"."+ColumnName);
-					pdc = new PrintDataColumn(AD_Column_ID, ColumnName, AD_Reference_ID, FieldLength, KEY, isPageBreak);	//	KeyColumn
+					sqlSELECT.append(tableName).append(".").append(columnName).append(",");
+					groupByColumns.add(tableName+"."+columnName);
+					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, KEY, isPageBreak, printFormatItemId, isHideGrandTotal);	//	KeyColumn
 				}
 				// not printed Sort Columns
 				else if (!IsPrinted)
@@ -390,18 +394,8 @@ public class DataEngine
 					;
 				}
 				//	-- Parent, TableDir (and unqualified Search) --
-				else if ( /* (IsParent && DisplayType.isLookup(AD_Reference_ID))
-				// Test case - create a IsParent column with a different name than parent with ref table -- reporting on this column break  
-				 * or try to report on any column here:
-				 * 
-select t.tablename, c.columnname, c.ad_reference_id, c.AD_Reference_Value_ID
-from ad_column  c join ad_table t on c.AD_TABLE_ID=t.AD_TABLE_ID
-where c.isparent = 'Y' and  not
-(c.ad_reference_id = 19
-or (c.ad_reference_id = 30 and c.AD_Reference_Value_ID is null))
-order by 1,2
-						|| */ AD_Reference_ID == DisplayType.TableDir
-						|| (AD_Reference_ID == DisplayType.Search && AD_Reference_Value_ID == 0)
+				else if (referenceId == DisplayType.TableDir
+						|| (referenceId == DisplayType.Search && referenceValueId == 0)
 					)
 				{
 
@@ -409,60 +403,60 @@ order by 1,2
 					//  SELECT ColumnTable.Name FROM ColumnTable WHERE TableName.ColumnName=ColumnTable.ColumnName
 					String eSql;
 
-					if (ColumnSQL.length() > 0)
+					if (columnSQL.length() > 0)
 					{
-						eSql = MLookupFactory.getLookup_TableDirEmbed(m_language, ColumnName, tableName, "(" + ColumnSQL + ")");
-						lookupSQL = ColumnSQL;
+						eSql = MLookupFactory.getLookup_TableDirEmbed(m_language, columnName, tableName, "(" + columnSQL + ")");
+						lookupSQL = columnSQL;
 					}
 					else
 					{
-						eSql = MLookupFactory.getLookup_TableDirEmbed(m_language, ColumnName, tableName);
+						eSql = MLookupFactory.getLookup_TableDirEmbed(m_language, columnName, tableName);
 					}
 
 					//	TableName
-					String table = ColumnName;
+					String table = columnName;
 					if (table.endsWith("_ID"))
 						table = table.substring(0, table.length()-3);
 					//  DisplayColumn
-					String display = ColumnName;
+					String display = columnName;
 					//	=> (..) AS AName, Table.ID,
 					sqlSELECT.append("(").append(eSql).append(") AS ").append(m_synonym).append(display).append(",")
-							.append(lookupSQL).append(" AS ").append(ColumnName).append(",");
+							.append(lookupSQL).append(" AS ").append(columnName).append(",");
 					groupByColumns.add(lookupSQL);
 					orderName = m_synonym + display;
 					//
-					pdc = new PrintDataColumn(AD_Column_ID, ColumnName, AD_Reference_ID, FieldLength, orderName, isPageBreak);
+					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isHideGrandTotal);
 					synonymNext();
 				}
 
 				//	-- Table --
-				else if (AD_Reference_ID == DisplayType.Table
-						|| (AD_Reference_ID == DisplayType.Search && AD_Reference_Value_ID != 0)
+				else if (referenceId == DisplayType.Table
+						|| (referenceId == DisplayType.Search && referenceValueId != 0)
 					)
 				{
-					if (ColumnSQL.length() > 0)
+					if (columnSQL.length() > 0)
 					{
-						lookupSQL = ColumnSQL;
+						lookupSQL = columnSQL;
 					}
-					if (AD_Reference_Value_ID <= 0)
+					if (referenceValueId <= 0)
 					{
-						log.warning(ColumnName + " - AD_Reference_Value_ID not set");
+						log.warning(columnName + " - AD_Reference_Value_ID not set");
 						continue;
 					}
-					TableReference tr = getTableReference(AD_Reference_Value_ID);
+					TableReference tr = getTableReference(referenceValueId);
 					String display = tr.DisplayColumn;
 					//	=> A.Name AS AName, Table.ID,
 					if (tr.IsValueDisplayed)
 						sqlSELECT.append(m_synonym).append(".Value||'-'||");
 					sqlSELECT.append(m_synonym).append(".").append(display);
 					sqlSELECT.append(" AS ").append(m_synonym).append(display).append(",")
-						.append(lookupSQL).append(" AS ").append(ColumnName).append(",");
+						.append(lookupSQL).append(" AS ").append(columnName).append(",");
 					groupByColumns.add(m_synonym+display);
 					groupByColumns.add(lookupSQL);
 					orderName = m_synonym + display;
 
 					//	=> x JOIN table A ON (x.KeyColumn=A.Key)
-					if (IsMandatory)
+					if (isMandatory)
 						sqlFROM.append(" INNER JOIN ");
 					else
 						sqlFROM.append(" LEFT OUTER JOIN ");
@@ -470,17 +464,17 @@ order by 1,2
 						.append(lookupSQL).append("=")
 						.append(m_synonym).append(".").append(tr.KeyColumn).append(")");
 					//
-					pdc = new PrintDataColumn(AD_Column_ID, ColumnName, AD_Reference_ID, FieldLength, orderName, isPageBreak);
+					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isHideGrandTotal);
 					synonymNext();
 				}
 
 				//	-- List or Button with ReferenceValue --
-				else if (AD_Reference_ID == DisplayType.List 
-					|| (AD_Reference_ID == DisplayType.Button && AD_Reference_Value_ID != 0))
+				else if (referenceId == DisplayType.List 
+					|| (referenceId == DisplayType.Button && referenceValueId != 0))
 				{
-					if (ColumnSQL.length() > 0)
+					if (columnSQL.length() > 0)
 					{
-						lookupSQL = ColumnSQL;
+						lookupSQL = columnSQL;
 					}
 					if (Env.isBaseLanguage(m_language, "AD_Ref_List"))
 					{
@@ -489,13 +483,13 @@ order by 1,2
 						groupByColumns.add(m_synonym+".Name");
 						orderName = m_synonym + "Name";
 						//	=> x JOIN AD_Ref_List A ON (x.KeyColumn=A.Value AND A.AD_Reference_ID=123)
-						if (IsMandatory)
+						if (isMandatory)
 							sqlFROM.append(" INNER JOIN ");
 						else
 							sqlFROM.append(" LEFT OUTER JOIN ");
 						sqlFROM.append("AD_Ref_List ").append(m_synonym).append(" ON (")
 							.append(lookupSQL).append("=").append(m_synonym).append(".Value")
-							.append(" AND ").append(m_synonym).append(".AD_Reference_ID=").append(AD_Reference_Value_ID).append(")");
+							.append(" AND ").append(m_synonym).append(".AD_Reference_ID=").append(referenceValueId).append(")");
 					}
 					else
 					{
@@ -506,15 +500,15 @@ order by 1,2
 
 						//	LEFT OUTER JOIN AD_Ref_List XA ON (AD_Table.EntityType=XA.Value AND XA.AD_Reference_ID=245)
 						//	LEFT OUTER JOIN AD_Ref_List_Trl A ON (XA.AD_Ref_List_ID=A.AD_Ref_List_ID AND A.AD_Language='de_DE')
-						if (IsMandatory)
+						if (isMandatory)
 							sqlFROM.append(" INNER JOIN ");
 						else
 							sqlFROM.append(" LEFT OUTER JOIN ");
 						sqlFROM.append(" AD_Ref_List X").append(m_synonym).append(" ON (")
 							.append(lookupSQL).append("=X")
-							.append(m_synonym).append(".Value AND X").append(m_synonym).append(".AD_Reference_ID=").append(AD_Reference_Value_ID)
+							.append(m_synonym).append(".Value AND X").append(m_synonym).append(".AD_Reference_ID=").append(referenceValueId)
 							.append(")");
-						if (IsMandatory)
+						if (isMandatory)
 							sqlFROM.append(" INNER JOIN ");
 						else
 							sqlFROM.append(" LEFT OUTER JOIN ");
@@ -523,21 +517,21 @@ order by 1,2
 							.append(" AND ").append(m_synonym).append(".AD_Language='").append(m_language.getAD_Language()).append("')");
 					}
 					// 	TableName.ColumnName,
-					sqlSELECT.append(lookupSQL).append(" AS ").append(ColumnName).append(",");
-					pdc = new PrintDataColumn(AD_Column_ID, ColumnName, AD_Reference_ID, FieldLength, orderName, isPageBreak);
+					sqlSELECT.append(lookupSQL).append(" AS ").append(columnName).append(",");
+					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isHideGrandTotal);
 					synonymNext();
 				}
 
 				//  -- Special Lookups --
-				else if (AD_Reference_ID == DisplayType.Location
-					|| AD_Reference_ID == DisplayType.Account
-					|| AD_Reference_ID == DisplayType.Locator
-					|| AD_Reference_ID == DisplayType.PAttribute
+				else if (referenceId == DisplayType.Location
+					|| referenceId == DisplayType.Account
+					|| referenceId == DisplayType.Locator
+					|| referenceId == DisplayType.PAttribute
 				)
 				{
-					if (ColumnSQL.length() > 0)
+					if (columnSQL.length() > 0)
 					{
-						lookupSQL = ColumnSQL;
+						lookupSQL = columnSQL;
 					}
 					//	TableName, DisplayColumn
 					String table = ""; 
@@ -545,26 +539,26 @@ order by 1,2
 					String display = ""; 
 					String synonym = null;
 					//
-					if (AD_Reference_ID == DisplayType.Location)
+					if (referenceId == DisplayType.Location)
 					{
 						table = "C_Location";
 						key = "C_Location_ID";
 						display = "City||'.'";	//	in case City is empty
 						synonym = "Address";
 					}
-					else if (AD_Reference_ID == DisplayType.Account)
+					else if (referenceId == DisplayType.Account)
 					{
 						table = "C_ValidCombination";
 						key = "C_ValidCombination_ID";
 						display = "Combination";
 					}
-					else if (AD_Reference_ID == DisplayType.Locator)
+					else if (referenceId == DisplayType.Locator)
 					{
 						table = "M_Locator";
 						key = "M_Locator_ID";
 						display = "Value";
 					}
-					else if (AD_Reference_ID == DisplayType.PAttribute)
+					else if (referenceId == DisplayType.PAttribute)
 					{
 						table = "M_AttributeSetInstance";
 						key = "M_AttributeSetInstance_ID";
@@ -579,12 +573,12 @@ order by 1,2
 					//	=> A.Name AS AName, table.ID,
 					sqlSELECT.append(m_synonym).append(".").append(display).append(" AS ")
 						.append(m_synonym).append(synonym).append(",")
-						.append(lookupSQL).append(" AS ").append(ColumnName).append(",");
+						.append(lookupSQL).append(" AS ").append(columnName).append(",");
 					groupByColumns.add(m_synonym+"."+synonym);
 					groupByColumns.add(lookupSQL);
 					orderName = m_synonym + synonym;
 					//	=> x JOIN table A ON (table.ID=A.Key)
-					if (IsMandatory)
+					if (isMandatory)
 						sqlFROM.append(" INNER JOIN ");
 					else
 						sqlFROM.append(" LEFT OUTER JOIN ");
@@ -592,67 +586,66 @@ order by 1,2
 						.append(lookupSQL).append("=")
 						.append(m_synonym).append(".").append(key).append(")");
 					//
-					pdc = new PrintDataColumn(AD_Column_ID, ColumnName, AD_Reference_ID, FieldLength, orderName, isPageBreak);
+					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, orderName, isPageBreak, printFormatItemId, isHideGrandTotal);
 					synonymNext();
 				}
 
 				//	-- Standard Column --
 				else
 				{
-					int index = FunctionColumn.indexOf('@');
-					if (ColumnSQL != null && ColumnSQL.length() > 0)
+					int index = functionColumn.indexOf('@');
+					if (columnSQL != null && columnSQL.length() > 0)
 					{
 					//	=> ColumnSQL AS ColumnName
-						sqlSELECT.append(ColumnSQL).append(" AS ").append(ColumnName).append(",");
-						if (!IsGroupFunction)
-							groupByColumns.add(ColumnSQL);
-						orderName = ColumnName;		//	no prefix for synonym
+						sqlSELECT.append(columnSQL).append(" AS ").append(columnName).append(",");
+						if (!isGroupFunction)
+							groupByColumns.add(columnSQL);
+						orderName = columnName;		//	no prefix for synonym
 					}
 					else if (index == -1)
 					{
 					//	=> Table.Column,
 						StringBuffer sb = new StringBuffer();
-						sb.append(tableName).append(".").append(ColumnName);
+						sb.append(tableName).append(".").append(columnName);
 						sqlSELECT.append(sb).append(",");
-						if (!IsGroupFunction)
+						if (!isGroupFunction)
 							groupByColumns.add(sb.toString());
 					}
 					else
 					{
 					//  => Function(Table.Column) AS Column   -- function has @ where column name goes
 						StringBuffer sb = new StringBuffer();
-						sb.append(FunctionColumn.substring(0, index))
-							.append(tableName).append(".").append(ColumnName)
-							.append(FunctionColumn.substring(index+1));
-						sqlSELECT.append(sb).append(" AS ").append(ColumnName).append(",");
-						if (!IsGroupFunction)
+						sb.append(functionColumn.substring(0, index))
+							.append(tableName).append(".").append(columnName)
+							.append(functionColumn.substring(index+1));
+						sqlSELECT.append(sb).append(" AS ").append(columnName).append(",");
+						if (!isGroupFunction)
 							groupByColumns.add(sb.toString());
-						orderName = ColumnName;		//	no prefix for synonym
+						orderName = columnName;		//	no prefix for synonym
 					}
-					pdc = new PrintDataColumn(AD_Column_ID, ColumnName, 
-						AD_Reference_ID, FieldLength, ColumnName, isPageBreak);
+					pdc = new PrintDataColumn(columnId, columnName, referenceId, fieldLength, columnName, isPageBreak, printFormatItemId, isHideGrandTotal);
 				}
 
 				//	Order Sequence - Overwrite order column name
 				for (int i = 0; i < orderAD_Column_IDs.length; i++)
 				{
-					if (AD_Column_ID == orderAD_Column_IDs[i])
+					if (columnId == orderAD_Column_IDs[i])
 					{
 						if (isDesc)
 							orderName += " DESC";
 
 						orderColumns.set(i, orderName);
 						// We need to GROUP BY even is not printed, because is used in ORDER clause
-						if (!IsPrinted && !IsGroupFunction)
+						if (!IsPrinted && !isGroupFunction)
 						{
-							groupByColumns.add(tableName+"."+ColumnName);
+							groupByColumns.add(tableName+"."+columnName);
 						}
 						break;
 					}
 				}
 
 				//
-				if (pdc == null || (!IsPrinted && !IsKey))
+				if (pdc == null || (!IsPrinted && !isKey))
 					continue;
 
 				pdc.setFormatPattern(formatPattern);
@@ -791,7 +784,7 @@ order by 1,2
 		}
 		
 		log.finest (finalSQL.toString ());
-		log.finest ("Group=" + m_group);
+		log.finest ("Group=" + group);
 		return pd;
 	}	//	getPrintDataInfo
 
@@ -905,7 +898,7 @@ order by 1,2
 				else
 					levelNo = 0;
 				//	Check Group Change ----------------------------------------
-				if (m_group.getGroupColumnCount() > 1)	//	one is GRANDTOTAL_
+				if (group.getGroupColumnCount() > 1)	//	one is GRANDTOTAL_
 				{
 					int firstColumn = getFirstColumnIndexInGroupOrder();
 					rowNo = checkGroupChange(firstColumn, pd, rs, false, levelNo, rowNo); // Check for changes and add summary rows
@@ -1036,7 +1029,7 @@ order by 1,2
 								Object obj = rs.getObject(counter++);
 								if (obj != null && obj instanceof String)
 								{
-									obj = ((String)obj).trim();
+									obj = ((String)obj);
 									if (((String)obj).length() == 0)
 										obj = null;
 								}
@@ -1060,7 +1053,7 @@ order by 1,2
 						/** Report Summary FR [ 2011569 ]**/ 
 						if(!m_summary)
 							pd.addNode(pde);
-						m_group.addValue(pde.getColumnName(), pde.getFunctionValue());
+						group.addValue(pde.getColumnName(), pde.getFunctionValue());
 					}
 				}	//	for all columns
 				if (pd.isHasDummyTableID()) {
@@ -1071,7 +1064,7 @@ order by 1,2
 			
 			//	--	we have all rows - add the group functions, if any.
 			//	Check last Group Change
-			if (m_group.getGroupColumnCount() > 1)	//	one is TOTAL
+			if (group.getGroupColumnCount() > 1)	//	one is TOTAL
 			{
 				// Check for changes and add summary rows - force the groups to change
 				int firstColumn = getFirstColumnIndexInGroupOrder();
@@ -1089,9 +1082,9 @@ order by 1,2
 		}
 
 		//	Add Total Lines
-		if (m_group.isGroupColumn(PrintDataGroup.TOTAL))
+		if (group.isGroupColumn(PrintDataGroup.TOTAL))
 		{
-			char[] functions = m_group.getFunctions(PrintDataGroup.TOTAL);
+			char[] functions = group.getFunctions(PrintDataGroup.TOTAL);
 			for (int f = 0; f < functions.length; f++)
 			{
 				printRunningTotal(pd, levelNo, rowNo++);
@@ -1109,11 +1102,10 @@ order by 1,2
 							name = PrintDataFunction.getFunctionSymbol(functions[f]);	//	Symbol
 						pd.addNode(new PrintDataElement(pdc.getColumnName(), name.trim(),
 								DisplayType.String, pdc.getFormatPattern()));
-					}
-					else if (m_group.isFunctionColumn(pdc.getColumnName(), functions[f]))
-					{
+					} else if (group.isFunctionColumn(pdc.getColumnName(), functions[f])
+							&& !pdc.isHideGrandTotal()) {
 						pd.addNode(new PrintDataElement(pdc.getColumnName(),
-							m_group.getValue(PrintDataGroup.TOTAL, 
+							group.getValue(PrintDataGroup.TOTAL, 
 								pdc.getColumnName(), functions[f]),
 							PrintDataFunction.getFunctionDisplayType(functions[f], pdc.getDisplayType()), pdc.getFormatPattern()));
 					}
@@ -1143,11 +1135,11 @@ order by 1,2
 	 */
 	private void printRunningTotal (PrintData pd, int levelNo, int rowNo)
 	{
-		if (m_runningTotalLines < 1)	//	-1 = none
+		if (runningTotalLines < 1)	//	-1 = none
 			return;
-		log.fine("(" + m_runningTotalLines + ") - Row=" + rowNo 
-			+ ", mod=" + rowNo % m_runningTotalLines);
-		if (rowNo % m_runningTotalLines != 0)
+		log.fine("(" + runningTotalLines + ") - Row=" + rowNo 
+			+ ", mod=" + rowNo % runningTotalLines);
+		if (rowNo % runningTotalLines != 0)
 			return;
 			
 		log.fine("Row=" + rowNo);
@@ -1168,10 +1160,10 @@ order by 1,2
 					pd.addNode(new PrintDataElement(pdc.getColumnName(),
 						title, DisplayType.String, false, rt==0, pdc.getFormatPattern()));		//	page break
 				}
-				else if (m_group.isFunctionColumn(pdc.getColumnName(), PrintDataFunction.F_SUM))
+				else if (group.isFunctionColumn(pdc.getColumnName(), PrintDataFunction.F_SUM))
 				{
 					pd.addNode(new PrintDataElement(pdc.getColumnName(),
-						m_group.getValue(PrintDataGroup.TOTAL, pdc.getColumnName(), PrintDataFunction.F_SUM),
+						group.getValue(PrintDataGroup.TOTAL, pdc.getColumnName(), PrintDataFunction.F_SUM),
 						PrintDataFunction.getFunctionDisplayType(PrintDataFunction.F_SUM,
 								pdc.getDisplayType()), false, false, pdc.getFormatPattern()));
 				}
@@ -1226,7 +1218,7 @@ order by 1,2
 		// Check if this is not a group column and move on (recursive)
 		PrintDataColumn group_pdc = pd.getColumnInfo()[columnIndex];
 		PrintDataColumn pdc = null;
-		if (!m_group.isGroupColumn(group_pdc.getColumnName())) {
+		if (!group.isGroupColumn(group_pdc.getColumnName())) {
 			columnIndex = getNextColumnIndexInGroupOrder(columnIndex);
 			return checkGroupChange(columnIndex, pd, rs, forceChange, levelNo, rowNo);
 		}
@@ -1237,7 +1229,7 @@ order by 1,2
 		{
 			currentValue = rs.getObject(group_pdc.getAlias());
 		}
-		Object value = m_group.groupChange(group_pdc.getColumnName(), currentValue);
+		Object value = group.groupChange(group_pdc.getColumnName(), currentValue);
 		forceChange = forceChange || (value!=null);
 		columnIndex = getNextColumnIndexInGroupOrder(columnIndex);
 		rowNo = checkGroupChange(columnIndex, pd, rs, forceChange, levelNo, rowNo);
@@ -1246,7 +1238,7 @@ order by 1,2
 		if (forceChange)	//	Group change. ForceChange on value change or if a higher group changed.
 		{
 			// Add rows for all the functions affected
-			char[] functions = m_group.getFunctions(group_pdc.getColumnName());
+			char[] functions = group.getFunctions(group_pdc.getColumnName());
 			for (int f = 0; f < functions.length; f++)
 			{
 				printRunningTotal(pd, levelNo, rowNo++);
@@ -1273,10 +1265,10 @@ order by 1,2
 						pd.addNode(new PrintDataElement(pdc.getColumnName(),
 							valueString, DisplayType.String, false, pdc.isPageBreak(), pdc.getFormatPattern()));
 					}
-					else if (m_group.isFunctionColumn(pdc.getColumnName(), functions[f]))
+					else if (group.isFunctionColumn(pdc.getColumnName(), functions[f]))
 					{
 						pd.addNode(new PrintDataElement(pdc.getColumnName(),
-							m_group.getValue(group_pdc.getColumnName(), 
+							group.getValue(group_pdc.getColumnName(), 
 								pdc.getColumnName(), functions[f]), 
 							PrintDataFunction.getFunctionDisplayType(functions[f], pdc.getDisplayType()), 
 								false, pdc.isPageBreak(), pdc.getFormatPattern()));
@@ -1287,7 +1279,7 @@ order by 1,2
 			for (int c = 0; c < pd.getColumnInfo().length; c++)
 			{
 				pdc = pd.getColumnInfo()[c];
-				m_group.reset(group_pdc.getColumnName(), pdc.getColumnName());
+				group.reset(group_pdc.getColumnName(), pdc.getColumnName());
 			}
 		}
 		return rowNo;

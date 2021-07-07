@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ReplicationStrategy
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_AD_ReplicationStrategy extends PO implements I_AD_ReplicationStrategy, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20200331L;
 
     /** Standard Constructor */
     public X_AD_ReplicationStrategy (Properties ctx, int AD_ReplicationStrategy_ID, String trxName)
@@ -173,6 +173,30 @@ public class X_AD_ReplicationStrategy extends PO implements I_AD_ReplicationStra
 	public String getHelp () 
 	{
 		return (String)get_Value(COLUMNNAME_Help);
+	}
+
+	/** Set Validate Error.
+		@param IsValidateError 
+		Use this flag for revert operation if exist a error
+	  */
+	public void setIsValidateError (boolean IsValidateError)
+	{
+		set_Value (COLUMNNAME_IsValidateError, Boolean.valueOf(IsValidateError));
+	}
+
+	/** Get Validate Error.
+		@return Use this flag for revert operation if exist a error
+	  */
+	public boolean isValidateError () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsValidateError);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Name.

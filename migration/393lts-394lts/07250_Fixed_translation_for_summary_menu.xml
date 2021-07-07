@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fixed translation for summary menu" ReleaseNo="3.9.4" SeqNo="7250">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="54269" Table="AD_Menu">
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained" oldValue="true">false</Data>
+        <Data AD_Column_ID="84344" Column="UUID" isOldNull="true">edbcfdb2-8729-4274-85f7-4c393dee896c</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="54270" Table="AD_Menu">
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained" oldValue="true">false</Data>
+        <Data AD_Column_ID="84344" Column="UUID" isOldNull="true">c5d4f151-81dc-45c2-b1e7-7060d9edbc66</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="54299" Table="AD_Menu">
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained" oldValue="true">false</Data>
+        <Data AD_Column_ID="84344" Column="UUID" isOldNull="true">4f0c0981-2c56-45dc-a793-a9a22c3b4918</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="54246" Table="AD_Menu">
+        <Data AD_Column_ID="59134" Column="IsCentrallyMaintained" oldValue="true">false</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

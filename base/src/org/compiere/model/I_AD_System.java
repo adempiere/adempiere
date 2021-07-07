@@ -265,15 +265,6 @@ public interface I_AD_System
 	  */
 	public boolean isJustMigrated();
 
-    /** Column name LastBuildInfo */
-    public static final String COLUMNNAME_LastBuildInfo = "LastBuildInfo";
-
-	/** Set Last Build Info	  */
-	public void setLastBuildInfo (String LastBuildInfo);
-
-	/** Get Last Build Info	  */
-	public String getLastBuildInfo();
-
     /** Column name LDAPDomain */
     public static final String COLUMNNAME_LDAPDomain = "LDAPDomain";
 
@@ -299,6 +290,15 @@ public interface I_AD_System
 	  * Connection String to LDAP server starting with ldap://
 	  */
 	public String getLDAPHost();
+
+    /** Column name LastBuildInfo */
+    public static final String COLUMNNAME_LastBuildInfo = "LastBuildInfo";
+
+	/** Set Last Build Info	  */
+	public void setLastBuildInfo (String LastBuildInfo);
+
+	/** Get Last Build Info	  */
+	public String getLastBuildInfo();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -487,6 +487,19 @@ public interface I_AD_System
 	  */
 	public String getSystemStatus();
 
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -515,19 +528,6 @@ public interface I_AD_System
 	  * Email of the responsible for the System
 	  */
 	public String getUserName();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
 
     /** Column name Version */
     public static final String COLUMNNAME_Version = "Version";

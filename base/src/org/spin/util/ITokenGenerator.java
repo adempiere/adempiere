@@ -24,7 +24,7 @@ import org.spin.model.MADToken;
  * 		@see FR [ 1769 ] Add option to restore the password from the login</a>
  *
  */
-interface ITokenGenerator {
+public interface ITokenGenerator {
 
 	/**
 	 * Generate Token

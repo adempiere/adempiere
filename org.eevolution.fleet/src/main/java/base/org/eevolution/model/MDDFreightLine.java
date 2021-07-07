@@ -26,8 +26,13 @@ import java.util.Properties;
  * @author victor.perez@e-evolution.com, http://www.e-evolution.com , http://github.com/e-Evolution
  */
 public class MDDFreightLine extends X_DD_FreightLine {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2953035352565001669L;
 
-    /**
+	/**
      * Constructor  Freight Line Order
      * @param ctx
      * @param freightlineId
@@ -46,4 +51,26 @@ public class MDDFreightLine extends X_DD_FreightLine {
     public MDDFreightLine(Properties ctx, ResultSet rs, String trxName) {
         super(ctx, rs, trxName);
     }
+    
+	/**	Parent	*/
+	private MDDFreight parent = null;
+	
+	/**
+	 * 	Get Parent
+	 *	@return parent
+	 */
+	public MDDFreight getParent() {
+		if (parent == null) {
+			parent = new MDDFreight(getCtx(), getDD_Freight_ID(), get_TrxName());
+		}
+		return parent;
+	}	//	getParent
+
+	@Override
+	public String toString() {
+		return "MDDFreightLine [getC_LocFrom_ID()=" + getC_LocFrom_ID() + ", getC_LocTo_ID()=" + getC_LocTo_ID()
+				+ ", getDD_Freight_ID()=" + getDD_Freight_ID() + ", isInvoiced()=" + isInvoiced() + ", getLine()="
+				+ getLine() + ", getShipDate()=" + getShipDate() + ", getVolume()=" + getVolume() + ", getWeight()="
+				+ getWeight() + "]";
+	}
 }

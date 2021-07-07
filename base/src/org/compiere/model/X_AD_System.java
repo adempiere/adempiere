@@ -33,7 +33,7 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20190501L;
+	private static final long serialVersionUID = 20191120L;
 
     /** Standard Constructor */
     public X_AD_System (Properties ctx, int AD_System_ID, String trxName)
@@ -369,20 +369,6 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 		return false;
 	}
 
-	/** Set Last Build Info.
-		@param LastBuildInfo Last Build Info	  */
-	public void setLastBuildInfo (String LastBuildInfo)
-	{
-		set_Value (COLUMNNAME_LastBuildInfo, LastBuildInfo);
-	}
-
-	/** Get Last Build Info.
-		@return Last Build Info	  */
-	public String getLastBuildInfo () 
-	{
-		return (String)get_Value(COLUMNNAME_LastBuildInfo);
-	}
-
 	/** Set LDAP Domain.
 		@param LDAPDomain 
 		Directory service domain name - e.g. adempiere.org
@@ -415,6 +401,20 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	public String getLDAPHost () 
 	{
 		return (String)get_Value(COLUMNNAME_LDAPHost);
+	}
+
+	/** Set Last Build Info.
+		@param LastBuildInfo Last Build Info	  */
+	public void setLastBuildInfo (String LastBuildInfo)
+	{
+		set_Value (COLUMNNAME_LastBuildInfo, LastBuildInfo);
+	}
+
+	/** Get Last Build Info.
+		@return Last Build Info	  */
+	public String getLastBuildInfo () 
+	{
+		return (String)get_Value(COLUMNNAME_LastBuildInfo);
 	}
 
 	/** Set Name.
@@ -713,23 +713,6 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 		return (String)get_Value(COLUMNNAME_SystemStatus);
 	}
 
-	/** Set Registered EMail.
-		@param UserName 
-		Email of the responsible for the System
-	  */
-	public void setUserName (String UserName)
-	{
-		set_Value (COLUMNNAME_UserName, UserName);
-	}
-
-	/** Get Registered EMail.
-		@return Email of the responsible for the System
-	  */
-	public String getUserName () 
-	{
-		return (String)get_Value(COLUMNNAME_UserName);
-	}
-
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 
 		Immutable Universally Unique Identifier
@@ -745,6 +728,23 @@ public class X_AD_System extends PO implements I_AD_System, I_Persistent
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
+	}
+
+	/** Set Registered EMail.
+		@param UserName 
+		Email of the responsible for the System
+	  */
+	public void setUserName (String UserName)
+	{
+		set_Value (COLUMNNAME_UserName, UserName);
+	}
+
+	/** Get Registered EMail.
+		@return Email of the responsible for the System
+	  */
+	public String getUserName () 
+	{
+		return (String)get_Value(COLUMNNAME_UserName);
 	}
 
 	/** Set Version.
