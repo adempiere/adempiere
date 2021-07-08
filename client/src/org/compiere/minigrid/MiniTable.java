@@ -21,6 +21,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Event;
+import java.awt.GraphicsConfiguration;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
@@ -61,11 +62,15 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
 import org.adempiere.plaf.AdempierePLAF;
+import org.compiere.apps.AEnv;
+import org.compiere.apps.AWindow;
 import org.compiere.apps.search.Info_Column;
 import org.compiere.grid.ed.VCellRenderer;
 import org.compiere.grid.ed.VHeaderRenderer;
+import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
+import org.compiere.model.MTable;
 import org.compiere.model.PO;
 import org.compiere.swing.CCheckBox;
 import org.compiere.swing.CTable;
@@ -2064,5 +2069,35 @@ public class MiniTable extends CTable implements IMiniTable
     public void removeMiniTableSelectionListener(MiniTableSelectionListener l) {
         listenerList.remove(MiniTableSelectionListener.class, l);
     }
+
+	public int getAD_Window_ID(int tableID, boolean isSOTrx) {
+		MTable mTable = MTable.get(Env.getCtx(), tableID);
+		int window_ID = isSOTrx ? mTable.getAD_Window_ID() : mTable.getPO_Window_ID()==0 ? mTable.getAD_Window_ID() : mTable.getPO_Window_ID();
+		log.config("results to window_ID="+window_ID + " for table " + mTable + " and isSOTrx="+isSOTrx);
+		return window_ID;
+	}
+	
+	public int getAD_Window_ID(String tableName, boolean isSOTrx) {
+		MTable mTable = MTable.get(Env.getCtx(), tableName);
+		int window_ID = isSOTrx ? mTable.getAD_Window_ID() : mTable.getPO_Window_ID()==0 ? mTable.getAD_Window_ID() : mTable.getPO_Window_ID();
+		log.config("results to window_ID="+window_ID + " for table " + tableName + " and isSOTrx="+isSOTrx);
+		return window_ID;
+	}
+
+	public void zoom(int AD_Window_ID, MQuery zoomQuery) {
+		final AWindow frame = new AWindow((GraphicsConfiguration)null); // no GraphicsConfiguration, requires initWindow
+		if (!frame.initWindow(AD_Window_ID, zoomQuery))
+			return;
+		AEnv.addToWindowManager(frame);
+		new Thread() {
+			public void run() {
+				try {
+					sleep(50);
+				} catch (Exception e) {
+				}
+				AEnv.showCenterScreen(frame);
+			}
+		}.start();
+	}
 
 }   //  MiniTable

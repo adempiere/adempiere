@@ -69,6 +69,7 @@ import org.compiere.model.GridTab;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
 import org.compiere.model.MSysConfig;
+import org.compiere.model.MTable;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CMenuItem;
@@ -114,9 +115,6 @@ import org.jdesktop.swingx.JXTaskPane;
 public abstract class Info extends CDialog
 	implements ListSelectionListener, PropertyChangeListener
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5606614040914295869L;
 	
 	/**
@@ -1584,41 +1582,17 @@ public abstract class Info extends CDialog
 	 *	@param isSOTrx sales trx
 	 *	@return AD_Window_ID
 	 */
-	protected int getAD_Window_ID (String tableName, boolean isSOTrx)
-	{
+	protected int getAD_Window_ID(String tableName, boolean isSOTrx) {
 		if (!isSOTrx && m_PO_Window_ID > 0)
 			return m_PO_Window_ID;
 		if (m_SO_Window_ID > 0)
 			return m_SO_Window_ID;
-		//
-		String sql = "SELECT AD_Window_ID, PO_Window_ID FROM AD_Table WHERE TableName=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setString(1, tableName);
-			rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				m_SO_Window_ID = rs.getInt(1);
-				m_PO_Window_ID = rs.getInt(2);
-			}
-		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		finally {
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		//
-		if (!isSOTrx && m_PO_Window_ID > 0)
-			return m_PO_Window_ID;
-		return m_SO_Window_ID;
-	}	//	getAD_Window_ID
-	
+		
+		MTable mTable = MTable.get(Env.getCtx(), tableName);
+		int window_ID = isSOTrx ? mTable.getAD_Window_ID() : mTable.getPO_Window_ID()==0 ? mTable.getAD_Window_ID() : mTable.getPO_Window_ID();
+		log.config("results to window_ID="+window_ID + " for table " + tableName + " and isSOTrx="+isSOTrx);
+		return window_ID;
+	}
 	
 	/**
 	 * 
