@@ -35,7 +35,7 @@ import java.util.Optional;
  * @author victor.perez@e-evolution.com , e-Evolution ,SC
  */
 public class CreatePOFromRequisitionLines extends CreatePOFromRequisitionLinesAbstract {
-    List<Integer> purchaseOrderIds = new ArrayList();
+    List<Integer> purchaseOrderIds = new ArrayList<Integer>();
 
     @Override
     protected void prepare() {
@@ -85,6 +85,10 @@ public class CreatePOFromRequisitionLines extends CreatePOFromRequisitionLinesAb
             Optional.ofNullable(getDatePromised()).ifPresent(promised -> purchaseOrder.setDatePromised(promised));
             Optional.ofNullable(getPriorityRule()).ifPresent(priority -> purchaseOrder.setPriorityRule(priority));
             Optional.ofNullable(getPOReference()).ifPresent(POReference -> purchaseOrder.setPOReference(POReference));
+            //	Add document Type
+            if(getDocTypeId() > 0) {
+            	purchaseOrder.setC_DocTypeTarget_ID(getDocTypeId());
+            }
             if (getBPartnerLocationId() > 0)
                 purchaseOrder.setC_BPartner_Location_ID(getBPartnerLocationId());
             if (getPaymentTermId() > 0)

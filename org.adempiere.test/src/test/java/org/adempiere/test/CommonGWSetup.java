@@ -34,112 +34,108 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
-public abstract class CommonGWSetup extends CommonIntegrationTestUtilities 
-							implements IntegrationTestTag {
+public abstract class CommonGWSetup extends CommonIntegrationTestUtilities
+        implements IntegrationTestTag {
 
-	protected static Properties ctx;
-	protected static final int AD_USER_ID = CommonGWData.AD_USER_ID;
-	protected static final int AD_CLIENT_ID = CommonGWData.AD_CLIENT_ID;
-	protected static final int AD_ORG_ID = CommonGWData.AD_ORG_ID;
-	protected static final boolean IS_CLIENT = CommonGWData.IS_CLIENT;
-	protected static final int SEEDFARM_ID = CommonGWData.SEEDFARM_ID;
-	protected static final int SEEDFARM_LOCATION_ID = CommonGWData.SEEDFARM_LOCATION_ID;
-	protected static final int TAX_CATEGORY_STANDARD_ID = CommonGWData.TAX_CATEGORY_STANDARD_ID;
+    protected static Properties ctx;
+    protected static final int AD_USER_ID = CommonGWData.AD_USER_ID;
+    protected static final int AD_CLIENT_ID = CommonGWData.AD_CLIENT_ID;
+    protected static final int AD_ORG_ID = CommonGWData.AD_ORG_ID;
+    protected static final boolean IS_CLIENT = CommonGWData.IS_CLIENT;
+    protected static final int SEEDFARM_ID = CommonGWData.SEEDFARM_ID;
+    protected static final int SEEDFARM_LOCATION_ID =
+            CommonGWData.SEEDFARM_LOCATION_ID;
+    protected static final int TAX_CATEGORY_STANDARD_ID =
+            CommonGWData.TAX_CATEGORY_STANDARD_ID;
 
-	protected static String trxName = null;
-	protected static Trx trx = null;
-	protected static Savepoint mainSavepoint = null;
-	protected Savepoint testSavepoint = null;
-	protected static Timestamp today = null;
+    protected static String trxName = null;
+    protected static Trx trx = null;
+    protected static Savepoint mainSavepoint = null;
+    protected Savepoint testSavepoint = null;
+    protected static Timestamp today = null;
     protected static int DEFAULT_UOM_ID;
-	
-	@BeforeAll
-	public static void setUpBeforeClass() {
-		
-		today = TimeUtil.getDay(System.currentTimeMillis());
-		ctx = Env.getCtx();
-		ctx.setProperty("#AD_Org_ID", Integer.toString(AD_ORG_ID));
-		ctx.setProperty("#AD_User_ID", Integer.toString(AD_USER_ID));
-		ctx.setProperty("#AD_Client_ID", Integer.toString(AD_CLIENT_ID));
-		ctx.setProperty("#Date", TimeUtil.getDay(System.currentTimeMillis()).toString());
-		ctx.setProperty("#AD_Language", "en");
 
-		Ini.setClient (IS_CLIENT);
-		Ini.loadProperties(false);
-		startup(IS_CLIENT);
+    @BeforeAll
+    public static void setUpBeforeClass() {
 
-		trxName = Trx.createTrxName("TestRun_" + randomString(4));
-		trx = Trx.get(trxName, false);
-		
-		try {
-			mainSavepoint = trx.setSavepoint("AllTests_" + randomString(4));
-		} catch (SQLException e) {
-			fail(e.getMessage());
-		}
+        today = TimeUtil.getDay(System.currentTimeMillis());
+        ctx = Env.getCtx();
+        ctx.setProperty("#AD_Org_ID", Integer.toString(AD_ORG_ID));
+        ctx.setProperty("#AD_User_ID", Integer.toString(AD_USER_ID));
+        ctx.setProperty("#AD_Client_ID", Integer.toString(AD_CLIENT_ID));
+        ctx.setProperty("#Date",
+                TimeUtil.getDay(System.currentTimeMillis()).toString());
+        ctx.setProperty("#AD_Language", "en");
 
-		DEFAULT_UOM_ID = MUOM.getDefault_UOM_ID(ctx);
+        Ini.setClient(IS_CLIENT);
+        Ini.loadProperties(false);
+        startup(IS_CLIENT);
 
+        DEFAULT_UOM_ID = MUOM.getDefault_UOM_ID(ctx);
 
-	}
-
-	@AfterAll
-	public static void tearDownAfterClass() {
-	
-		try {
-			tryToRollback(mainSavepoint);
-			trx.close();
-		}
-		catch(SQLException e) {
-			fail("Unable to rollback. " + e.getMessage());
-			
-		}
-		finally {
-			trx.close();
-			trx = null;
-			ctx = null;
-		}
-		
-	}
-
-	@BeforeEach
-	public void setUp() {
-
-		try {
-			testSavepoint = trx.setSavepoint("SingleTest_"+randomString(4));
-		} catch (SQLException e) {
-			fail(e.getMessage());
-		}
-		
-	}
-
-	@AfterEach
-	public void tearDown() {
-		
-		try {
-			tryToRollback(testSavepoint);
-		} catch (SQLException e) {
-			fail("Unable to rollback. " + e.getMessage());
-		}	
-		
-	}
-
-	private static void tryToRollback(Savepoint savePoint) throws SQLException {
-		
-		if (trx != null && trx.isActive() && savePoint != null) { 
-			trx.rollback(savePoint);
-		}
-	
-	}
-	
-	public String get_TrxName() {
-	    return trxName;
-	}
-
-    public String getTrxName() {
-        return trxName;
     }
 
-	public Properties getCtx() {
-	    return ctx;
-	}
+    @AfterAll
+    public static void tearDownAfterClass() {
+
+        ctx = null;
+
+    }
+
+    @BeforeEach
+    public void setUp() {
+
+        trxName = Trx.createTrxName("TestRun_" + randomString(4));
+        trx = Trx.get(trxName, false);
+
+        try {
+            testSavepoint = trx.setSavepoint("SingleTest_" + randomString(4));
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+    }
+
+    @AfterEach
+    public void tearDown() {
+
+        if (trx != null && !trx.isActive())
+            trx.start();
+        
+        try {
+            tryToRollback(testSavepoint);
+        } catch (Exception e) {
+        }finally {
+            trx.close();
+            trx = null;
+        }
+
+    }
+
+    private static void tryToRollback(Savepoint savePoint) throws SQLException {
+
+        if (trx != null && trx.isActive() && savePoint != null) {
+            trx.rollback(savePoint);
+        }
+
+    }
+
+    public String get_TrxName() {
+
+        return trxName;
+
+    }
+
+    public String getTrxName() {
+
+        return trxName;
+
+    }
+
+    public Properties getCtx() {
+
+        return ctx;
+
+    }
+
 }
