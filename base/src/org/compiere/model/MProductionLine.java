@@ -169,7 +169,7 @@ public class MProductionLine extends X_M_ProductionLine implements IDocumentLine
 		return Env.ZERO;
 	}
 	public IDocumentLine getReversalDocumentLine(){
-		return null;
+		return this;
 	}
 
 	public int getM_AttributeSetInstanceTo_ID(){

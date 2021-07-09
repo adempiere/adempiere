@@ -470,7 +470,6 @@ public class Match
 			{
 				MMatchPO matchPO = new MMatchPO(iLine, iLine.getParent().getDateAcct() , qty);
 				matchPO.setC_InvoiceLine_ID(iLine);
-				matchPO.setM_InOutLine_ID(M_InOutLine_ID);
 				if (!matchPO.save())
 					log.log(Level.SEVERE, "PO(Inv) Match not created: " + matchPO);
 				if (MClient.isClientAccountingImmediate()) {

@@ -983,6 +983,8 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		scriptCtx.put("_From", dateFrom);
 		scriptCtx.put("_To", dateTo);
 		scriptCtx.put("_Period", payrollPeriod.getPeriodNo());
+		scriptCtx.put("_PeriodNo", payrollPeriod.getPeriodNo());
+		scriptCtx.put("_HR_Period_ID", getHR_Period_ID());
 		scriptCtx.put("_HR_Payroll_Value", payroll.getValue());
 		//	Scope
 		scriptCtx.put("SCOPE_PROCESS", HRProcessActionMsg.SCOPE_PROCESS);
