@@ -29,10 +29,10 @@ SELECT
     il.M_AttributeSetInstance_ID, productAttribute(il.M_AttributeSetInstance_ID) AS ProductAttribute,
     pasi.M_AttributeSet_ID, pasi.M_Lot_ID, pasi.GuaranteeDate, pasi.Lot, pasi.SerNo,
 	--	Item Amounts
-	(i.Multiplier * il.PriceList) AS PriceList, (i.Multiplier * il.PriceActual) AS PriceActual, (i.Multiplier * il.PriceLimit) AS PriceLimit, (i.Multiplier * il.PriceEntered) AS PriceEntered,
-	i.Multiplier * (CASE WHEN PriceList=0 THEN 0 ELSE
+	il.PriceList, il.PriceActual, il.PriceLimit, il.PriceEntered,
+	(CASE WHEN PriceList=0 THEN 0 ELSE
 	  ROUND((PriceList-PriceActual)/PriceList*100,2) END) AS Discount,
-	i.Multiplier * (CASE WHEN PriceLimit=0 THEN 0 ELSE
+	(CASE WHEN PriceLimit=0 THEN 0 ELSE
 	  ROUND((PriceActual-PriceLimit)/PriceLimit*100,2) END) AS Margin,
 	i.Multiplier * (CASE WHEN PriceLimit=0 THEN 0 ELSE
 	  (PriceActual-PriceLimit)*QtyInvoiced END) AS MarginAmt,
@@ -137,10 +137,10 @@ SELECT
     il.M_AttributeSetInstance_ID, productAttribute(il.M_AttributeSetInstance_ID) AS ProductAttribute,
     pasi.M_AttributeSet_ID, pasi.M_Lot_ID, pasi.GuaranteeDate, pasi.Lot, pasi.SerNo,
 	--	Item Amounts
-	(i.Multiplier * il.PriceList) AS PriceList, (i.Multiplier * il.PriceActual) AS PriceActual, (i.Multiplier * il.PriceLimit) AS PriceLimit, (i.Multiplier * il.PriceEntered) AS PriceEntered,
-	i.Multiplier * (CASE WHEN PriceList=0 THEN 0 ELSE
+	il.PriceList, il.PriceActual, il.PriceLimit, il.PriceEntered,
+	(CASE WHEN PriceList=0 THEN 0 ELSE
 	  ROUND((PriceList-PriceActual)/PriceList*100,2) END) AS Discount,
-	i.Multiplier * (CASE WHEN PriceLimit=0 THEN 0 ELSE
+	(CASE WHEN PriceLimit=0 THEN 0 ELSE
 	  ROUND((PriceActual-PriceLimit)/PriceLimit*100,2) END) AS Margin,
 	i.Multiplier * (CASE WHEN PriceLimit=0 THEN 0 ELSE
 	  (PriceActual-PriceLimit)*QtyInvoiced END) AS MarginAmt,
