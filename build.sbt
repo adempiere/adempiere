@@ -37,10 +37,10 @@ val adempiereProperties =
   "-Ytasty-reader"
 )*/
 
-javaOptions in Test := Seq(adempiereProperties)
+Test / javaOptions := Seq(adempiereProperties)
 
 libraryDependencies ++= Seq(
-  "javax.servlet" % "javax.servlet-api" % "3.0.1" % "provided",
+  "javax.servlet" % "javax.servlet-api" % "4.0.1" % "provided",
   "org.scala-lang" % "scala-reflect" % "2.13.6"
 )
 
@@ -51,75 +51,79 @@ Test / logBuffered := false
 
 //Documentation here ~compile https://github.com/earldouglas/xsbt-web-plugin/blob/master/docs/2.0.md
 //execute with sbt ~jetty:start
-javaOptions in Jetty ++= Seq(
+Jetty / javaOptions ++= Seq(
   adempiereProperties,
+  "--add-exports=java.desktop/sun.swing=ALL-UNNAMED",
+  "--add-exports=java.desktop/sun.awt=ALL-UNNAMED",
+  "--add-exports=java.base/sun.security.provider=ALL-UNNAMED",
+  "--add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED",
   "-Xdebug",
   "-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
 )
 
-assemblyJarName in assembly := "AdempiereTestSuite.jar"
-test in assembly := {}
+assembly / assemblyJarName := "AdempiereTestSuite.jar"
+assembly / test := {}
 
-assemblyOption in assembly := (assemblyOption in assembly).value
+assembly / assemblyOption := (assembly / assemblyOption).value
   .copy(includeScala = true, includeDependency = false)
 
 val sourceDirectoryTest = "org.adempiere.test"
-val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/develop"
+val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/developEE"
 
-//javaSource in Compile := baseDirectory.value / sourceDirectoryTest / "src" / "main" / "java"
-//javaSource in Test := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "java"
+//Compile / javaSource := baseDirectory.value / sourceDirectoryTest / "src" / "main" / "java"
+//Test / javaSource := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "java"
 
-//scalaSource in Compile := baseDirectory.value / sourceDirectoryTest / "src" / "main" / "scala"
-//scalaSource in Test := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "scala"
+//Compile / scalaSource := baseDirectory.value / sourceDirectoryTest / "src" / "main" / "scala"
+//Test scalaSource := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "scala"
 
-unmanagedClasspath in Compile += file(sourceAdempiere + "/bin")
-unmanagedClasspath in Compile += file(
+Compile / unmanagedClasspath += file(sourceAdempiere + "/bin")
+Compile / unmanagedClasspath += file(
   sourceAdempiere + "/zkwebui/WEB-INF/classes"
 )
-unmanagedClasspath in Compile += file(
+Compile / unmanagedClasspath += file(
   sourceAdempiere + "/target/scala-2.13/classes"
 )
-unmanagedClasspath in Compile += file(
+Compile / unmanagedClasspath += file(
   sourceAdempiere + "/target/scala-2.13/test-classes"
 )
 
-unmanagedJars in Compile ++= (file(
+Compile / unmanagedJars ++= (file(
   sourceAdempiere + "/zkwebui/WEB-INF/lib"
 ) * "*.jar").classpath
-unmanagedJars in Compile ++= (file(
+Compile / unmanagedJars ++= (file(
   sourceAdempiere + "/tools/lib"
 ) * "*.jar").classpath
-unmanagedJars in Compile ++= (file(
+Compile / unmanagedJars ++= (file(
   sourceAdempiere + "/JasperReportsTools/lib"
 ) * "*.jar").classpath
-unmanagedJars in Compile ++= (file(
+Compile / unmanagedJars ++= (file(
   sourceAdempiere + "/lib"
 ) * "*.jar").classpath
-unmanagedJars in Compile ++= (file(
+Compile / unmanagedJars ++= (file(
   sourceAdempiere + "/packages"
 ) * "*.jar").classpath
-unmanagedJars in Compile ++= (file(
+Compile / unmanagedJars ++= (file(
   sourceAdempiere + "/zkpackages"
 ) * "*.jar").classpath
 
-testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-oD")
-logBuffered in Test := false
+Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-oD")
+Test / logBuffered := false
 
 enablePlugins(JettyPlugin)
 enablePlugins(WebappPlugin)
 
-containerLibs in Jetty := Seq(
-  "org.eclipse.jetty" % "jetty-runner" % "9.2.1.v20140609" intransitive ()
+Jetty / containerLibs := Seq(
+  "org.eclipse.jetty" % "jetty-runner" % "10.0.6" intransitive ()
 )
-containerMain in Jetty := "org.eclipse.jetty.runner.Runner"
+Jetty / containerMain := "org.eclipse.jetty.runner.Runner"
 //containerForkOptions := new ForkOptions(runJVMOptions = Seq("-Dh2g2=42"))
 containerPort := 9090
 containerShutdownOnExit := true
 
-sourceDirectory in webappPrepare := (sourceDirectory in Compile).value / "zkwebui"
-//sourceDirectory in webappPrepare := (sourceDirectory in Compile).value / "serverRoot" / "src" / "web"
+webappPrepare / sourceDirectory := (Compile / sourceDirectory).value / "zkwebui"
+//webappPrepare / sourceDirectory := (sourceDirectory in Compile).value / "serverRoot" / "src" / "web"
 
-//target in webappPrepare := target.value / "admin"
+//webappPrepare / target := target.value / "admin"
 //inheritJarManifest := true
 
 webappPostProcess := { webappDir: File =>
