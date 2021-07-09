@@ -34,6 +34,7 @@ import org.compiere.model.X_M_Product_Class;
 import org.compiere.model.X_M_Product_Classification;
 import org.compiere.model.X_M_Product_Group;
 import org.compiere.util.DB;
+import org.compiere.util.Util;
 
 /**
  *	Import Products from I_Product
@@ -467,56 +468,6 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 			.append(clientCheck);
 		try
 		{
-			/*	Insert Product from Import
-			PreparedStatement pstmt_insertProduct = conn.prepareStatement
-				("INSERT INTO M_Product (M_Product_ID,"
-				+ "AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy,"
-				+ "Value,Name,Description,DocumentNote,Help,"
-				+ "UPC,SKU,C_UOM_ID,IsSummary,M_Product_Category_ID,C_TaxCategory_ID,"
-				+ "ProductType,ImageURL,DescriptionURL) "
-				+ "SELECT ?,"
-				+ "AD_Client_ID,AD_Org_ID,'Y',SysDate,CreatedBy,SysDate,UpdatedBy,"
-				+ "Value,Name,Description,DocumentNote,Help,"
-				+ "UPC,SKU,C_UOM_ID,'N',M_Product_Category_ID," + C_TaxCategory_ID + ","
-				+ "ProductType,ImageURL,DescriptionURL "
-				+ "FROM I_Product "
-				+ "WHERE I_Product_ID=?");
-			*/
-			//	Update Product from Import
-			//jz moved
-			/*
-			String sqlt = "UPDATE M_PRODUCT "
-				+ "SET (Value,Name,Description,DocumentNote,Help,"
-				+ "UPC,SKU,C_UOM_ID,M_Product_Category_ID,Classification,ProductType,"
-				+ "Volume,Weight,ShelfWidth,ShelfHeight,ShelfDepth,UnitsPerPallet,"
-				+ "Discontinued,DiscontinuedBy,Updated,UpdatedBy)= "
-				+ "(SELECT Value,Name,Description,DocumentNote,Help,"
-				+ "UPC,SKU,C_UOM_ID,M_Product_Category_ID,Classification,ProductType,"
-				+ "Volume,Weight,ShelfWidth,ShelfHeight,ShelfDepth,UnitsPerPallet,"
-				+ "Discontinued,DiscontinuedBy,SysDate,UpdatedBy"
-				+ " FROM I_Product WHERE I_Product_ID=?) "
-				+ "WHERE M_Product_ID=?";
-			PreparedStatement pstmt_updateProduct = DB.prepareStatement
-				(sqlt, get_TrxName());
-
-			//	Update Product_PO from Import
-			sqlt = "UPDATE M_Product_PO "
-				+ "SET (IsCurrentVendor,C_UOM_ID,C_Currency_ID,UPC,"
-				+ "PriceList,PricePO,RoyaltyAmt,PriceEffective,"
-				+ "VendorProductNo,VendorCategory,Manufacturer,"
-				+ "Discontinued,DiscontinuedBy,Order_Min,Order_Pack,"
-				+ "CostPerOrder,DeliveryTime_Promised,Updated,UpdatedBy)= "
-				+ "(SELECT 'Y',C_UOM_ID,C_Currency_ID,UPC,"
-				+ "PriceList,PricePO,RoyaltyAmt,PriceEffective,"
-				+ "VendorProductNo,VendorCategory,Manufacturer,"
-				+ "Discontinued,DiscontinuedBy,Order_Min,Order_Pack,"
-				+ "CostPerOrder,DeliveryTime_Promised,SysDate,UpdatedBy"
-				+ " FROM I_Product"
-				+ " WHERE I_Product_ID=?) "
-				+ "WHERE M_Product_ID=? AND C_BPartner_ID=?";
-			PreparedStatement pstmt_updateProductPO = DB.prepareStatement
-				(sqlt, get_TrxName());
-*/
 			//	Insert Product from Import
 			PreparedStatement pstmt_insertProductPO = DB.prepareStatement
 				("INSERT INTO M_Product_PO (M_Product_ID,C_BPartner_ID, "
@@ -558,8 +509,8 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 				Boolean saveNeeded = false;
 				// Class
 				if (imp.getM_Product_Class_ID() == 0 
-						&& imp.getProductClass_Value() != null 
-						&& !imp.getProductClass_Value().isEmpty()) {
+						&& !Util.isEmpty(imp.getProductClass_Value())
+						&& !Util.isEmpty(imp.getProductClass_Name())) {
 					String value = imp.getProductClass_Value();
 					String whereClause = "VALUE= '" + value + "'";
 					// Have we already added it?
@@ -571,7 +522,7 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 					if (pClass == null) {
 						pClass = new X_M_Product_Class(getCtx(), 0, get_TrxName());
 						pClass.setValue(imp.getProductClass_Value());
-						pClass.setName(imp.getProductClass_Value());
+						pClass.setName(imp.getProductClass_Name());
 						pClass.setIsActive(true);
 						pClass.setIsDefault(false);
 						pClass.saveEx();
@@ -582,8 +533,8 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 				}
 				// Classification
 				if (imp.getM_Product_Classification_ID() == 0 
-						&& imp.getProductClassification_Value() != null 
-						&& !imp.getProductClassification_Value().isEmpty()) {
+						&& !Util.isEmpty(imp.getProductClassification_Value())
+						&& !Util.isEmpty(imp.getProductClassification_Name())) {
 					String value = imp.getProductClassification_Value();
 					String whereClause = "VALUE= '" + value + "'";
 					// Have we already added it?
@@ -595,7 +546,7 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 					if (pClassification == null) {
 						pClassification = new X_M_Product_Classification(getCtx(), 0, get_TrxName());
 						pClassification.setValue(imp.getProductClassification_Value());
-						pClassification.setName(imp.getProductClassification_Value());
+						pClassification.setName(imp.getProductClassification_Name());
 						pClassification.setIsActive(true);
 						pClassification.setIsDefault(false);
 						pClassification.saveEx();
@@ -606,8 +557,8 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 				}
 				// Group
 				if (imp.getM_Product_Group_ID() == 0 
-						&& imp.getProductGroup_Value() != null 
-						&& !imp.getProductGroup_Value().isEmpty()) {
+						&& !Util.isEmpty(imp.getProductGroup_Value())
+						&& !Util.isEmpty(imp.getProductGroup_Name())) {
 					String value = imp.getProductGroup_Value();
 					String whereClause = "VALUE= '" + value + "'";
 					// Have we already added it?
@@ -619,7 +570,7 @@ public class ImportProduct extends SvrProcess implements ImportProcess
 					if (pGroup == null) {
 						pGroup = new X_M_Product_Group(getCtx(), 0, get_TrxName());
 						pGroup.setValue(imp.getProductGroup_Value());
-						pGroup.setName(imp.getProductGroup_Value());
+						pGroup.setName(imp.getProductGroup_Name());
 						pGroup.setIsActive(true);
 						pGroup.setIsDefault(false);
 						pGroup.saveEx();
