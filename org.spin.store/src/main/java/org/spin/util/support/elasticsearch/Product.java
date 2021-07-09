@@ -91,9 +91,10 @@ public class Product implements IPersistenceWrapper {
 			map.put("image", getImageName(product));
 			map.put("sku", product.getSKU());
 			map.put("url_key", getValidValue(product.getName()));
-			map.put("url_path", product.getDescriptionURL());
 			map.put("type_id", getProductTypeFromProduct(product));
 			map.put("price", getPrice(product));
+			map.put("short_description", product.getDescription());
+			map.put("description", product.getHelp());
 //		    "special_price": 0,
 //		    "price_incl_tax": null,
 //		    "special_price_incl_tax": null,
@@ -126,20 +127,27 @@ public class Product implements IPersistenceWrapper {
 			List<String> categoriesIds = new ArrayList<>();
 			//	Groups
 			List<MWCategory> productGroups = MWCategory.getOfProduct(product.getCtx(), product.getM_Product_ID(), product.get_TrxName());
+			StringBuffer urlPath = new StringBuffer();
 			if(productGroups != null
 					&& productGroups.size() > 0) {
 				productGroups.forEach(group -> {
 					Category wrapperOfGroup = Category.newInstance().withCategoy(group);
-					Map<String, Object> categoryMap = new HashMap<String, Object>();
-					categoryMap.put("id", group.getW_Category_ID());
-					categoryMap.put("name", group.getName());
-					categoryMap.put("slug", wrapperOfGroup.getURLKey(true));
-					categoryMap.put("path", wrapperOfGroup.getURLPath());
+//					categoryMap.put("id", group.getW_Category_ID());
+//					categoryMap.put("category_id", group.getW_Category_ID());
+//					categoryMap.put("name", group.getName());
+//					categoryMap.put("slug", wrapperOfGroup.getURLKey(true));
+//					categoryMap.put("path", wrapperOfGroup.getURLPath());
 					//	Add
-					categories.add(categoryMap);
+					categories.add(wrapperOfGroup.getMap());
 					categoriesIds.add(wrapperOfGroup.getKeyValue());
+					if(urlPath.length() == 0) {
+						urlPath.append(wrapperOfGroup.getURLPath());
+					}
 				});
 			}
+			urlPath.append("/").append(getValidValue(product.getName() + "-" + product.getM_Product_ID())).append(".html");
+			map.put("slug", getValidValue(product.getName() + "-" + product.getM_Product_ID()));
+			map.put("url_path", urlPath.toString());
 			//	Categories
 			map.put("category_ids", categoriesIds);
 			map.put("category", categories);
@@ -413,5 +421,43 @@ public class Product implements IPersistenceWrapper {
 			webStore = MStore.get(product.getCtx(), webStoreId);
 		}
 		return this;
+	}
+
+	@Override
+	public Map<String, Object> getMapping() {
+		Map<String, Object> createdAt = new HashMap<>();
+		createdAt.put("type", "date");
+		createdAt.put("format", ElasticSearch.DATE_FORMAT);
+		Map<String, Object> updatedAt = new HashMap<>();
+		updatedAt.put("type", "date");
+		updatedAt.put("format", ElasticSearch.DATE_FORMAT);
+		Map<String, Object> properties = new HashMap<>();
+		properties.put("created_at", createdAt);
+		properties.put("updated_at", updatedAt);
+		Map<String, Object> slug = new HashMap<>();
+		slug.put("type", "keyword");
+		properties.put("slug", slug);
+		Map<String, Object> urlPath = new HashMap<>();
+		urlPath.put("type", "keyword");
+		properties.put("url_path", urlPath);
+		Map<String, Object> urlKey = new HashMap<>();
+		urlKey.put("type", "keyword");
+		properties.put("url_key", urlKey);
+		Map<String, Object> sku = new HashMap<>();
+		sku.put("type", "keyword");
+		properties.put("sku", sku);
+		Map<String, Object> price = new HashMap<>();
+		price.put("type", "float");
+		properties.put("price", price);
+		Map<String, Object> finalPrice = new HashMap<>();
+		finalPrice.put("type", "float");
+		properties.put("final_price", finalPrice);
+		Map<String, Object> sizeOptions = new HashMap<>();
+		sizeOptions.put("type", "integer");
+		properties.put("size_options", sizeOptions);
+		//	Return mapping properties
+		Map<String, Object> mapping = new HashMap<>();
+		mapping.put("properties", properties);
+		return mapping;
 	}
 }
