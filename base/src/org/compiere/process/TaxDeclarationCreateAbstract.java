@@ -34,15 +34,20 @@ public abstract class TaxDeclarationCreateAbstract extends SvrProcess {
 	public static final String DELETEOLD = "DeleteOld";
 	/**	Parameter Name for UseDateAcct	*/
 	public static final String USEDATEACCT = "UseDateAcct";
+	/**	Parameter Name for OnlyPosted	*/
+	public static final String ONLYPOSTED = "OnlyPosted";
 	/**	Parameter Value for Delete old/existing records	*/
 	private boolean isDeleteOld;
 	/**	Parameter Value for UseDateAcct	*/
 	private boolean isUseDateAcct;
+	/**	Parameter Value for OnlyPosted	*/
+	private boolean isOnlyPosted;
 
 	@Override
 	protected void prepare() {
 		isDeleteOld = getParameterAsBoolean(DELETEOLD);
 		isUseDateAcct = getParameterAsBoolean(USEDATEACCT);
+		isOnlyPosted = getParameterAsBoolean(ONLYPOSTED);
 	}
 
 	/**	 Getter Parameter Value for Delete old/existing records	*/
@@ -63,6 +68,16 @@ public abstract class TaxDeclarationCreateAbstract extends SvrProcess {
 	/**	 Setter Parameter Value for UseDateAcct	*/
 	protected void setUseDateAcct(boolean isUseDateAcct) {
 		this.isUseDateAcct = isUseDateAcct;
+	}
+
+	/**	 Getter Parameter Value for OnlyPosted	*/
+	protected boolean isOnlyPosted() {
+		return isOnlyPosted;
+	}
+
+	/**	 Setter Parameter Value for OnlyPosted	*/
+	protected void setOnlyPosted(boolean isOnlyPosted) {
+		this.isOnlyPosted = isOnlyPosted;
 	}
 
 	/**	 Getter Parameter Value for Process ID	*/

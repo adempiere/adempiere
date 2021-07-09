@@ -87,7 +87,9 @@ public class TaxDeclarationCreate extends TaxDeclarationCreateAbstract
 			sqlCreate.append(" WHERE TRUNC(i.DateAcct, 'DD') >= ? AND TRUNC(i.DateAcct, 'DD') <= ? ");
 		else
 			sqlCreate.append(" WHERE TRUNC(i.DateInvoiced, 'DD') >= ? AND TRUNC(i.DateInvoiced, 'DD') <= ? ");
-		sqlCreate.append(" AND PROCESSED = 'Y' ");
+		sqlCreate.append(" AND Processed = 'Y' ");
+		if (isOnlyPosted())
+			sqlCreate.append(" AND i.Posted = 'Y' ");
 		sqlCreate.append(" AND NOT EXISTS (SELECT * FROM C_TaxDeclarationLine tdl "
 				+ "WHERE i.C_Invoice_ID=tdl.C_Invoice_ID)");			
 		PreparedStatement pstmt = null;
