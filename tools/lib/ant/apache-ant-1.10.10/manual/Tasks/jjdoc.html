@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>JJDoc Task</title>
+</head>
+<body>
+
+<h2 id="jjtree">JJDoc</h2>
+<p><em>Since Apache Ant 1.6</em></p>
+<h3>Description</h3>
+
+<p>Invokes the <a href="https://javacc.org/" target="_top">JJDoc</a> preprocessor for the JavaCC
+compiler compiler. It takes a JavaCC parser specification and produces documentation for the BNF
+grammar.  It can operate in three modes, determined by command line options.
+<p>To use the <code>jjdoc</code> task, set the <var>target</var> attribute to the name of the JavaCC
+grammar file to process. You also need to specify the directory containing the JavaCC installation
+using the <var>javacchome</var> attribute, so that Ant can find the JavaCC classes. Optionally, you
+can also set the <var>outputfile</var> to write the generated BNF documentation file to a specific
+(directory and) file.  Otherwise <code>jjdoc</code> writes the generated BNF documentation file as
+the JavaCC grammar file with a suffix <samp>.txt</samp> or <samp>.html</samp>.</p>
+<p>This task only invokes <code>JJDoc</code> if the grammar file is newer than the generated BNF
+documentation file.</p>
+
+<h3>Parameters</h3>
+
+<table class="attr">
+<tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+</tr>
+
+<tr>
+    <td>target</td>
+    <td>The JavaCC grammar file to process.</td>
+    <td>Yes</td>
+</tr>
+
+<tr>
+    <td>javacchome</td>
+    <td>The directory containing the JavaCC distribution.</td>
+    <td>Yes</td>
+</tr>
+
+<tr>
+    <td>outputfile</td>
+    <td>The file to write the generated BNF documentation file to. If not set, the file is written
+      with the same name as the JavaCC grammar file but with a the suffix <samp>.html</samp>
+      or <samp>.txt</samp></td>
+    <td>No</td>
+</tr>
+
+<tr>
+    <td>text</td>
+    <td>Sets the TEXT BNF documentation option. This is a boolean option.</td>
+    <td>No</td>
+</tr>
+
+<tr>
+    <td>onetable</td>
+    <td>Sets the ONE_TABLE BNF documentation option. This is a boolean option.</td>
+    <td>No</td>
+</tr>
+<tr>
+    <td>maxmemory</td>
+    <td>Max amount of memory to allocate to the forked JVM.  <em>since Ant 1.8.3</em></td>
+    <td>No</td>
+  </tr>
+</table>
+
+<h3>Example</h3>
+
+<p>Invoke JJDoc on grammar file <samp>src/Parser.jj</samp>, writing the generated BNF documentation
+file, <samp>ParserBNF.html</samp>, to <samp>doc</samp>.</p>
+
+<pre>
+&lt;jjdoc target="src/Parser.jj"
+       outputfile="doc/ParserBNF.html"
+       javacchome="c:/program files/JavaCC"/&gt;</pre>
+
+</body>
+</html>

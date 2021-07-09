@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>SSHEXEC Task</title>
+</head>
+
+<body>
+
+<h2 id="sshexec">SSHEXEC</h2>
+<p><em>Since Apache Ant 1.6</em></p>
+<h3>Description</h3>
+
+<p>Runs a command on a remote machine running SSH daemon.</p>
+
+<p><strong>Note</strong>: This task depends on external libraries not included in the Ant
+distribution.  See <a href="../install.html#librarydependencies">Library Dependencies</a> for more
+information.  This task has been tested with JSCh 0.1.29 and above and won't work with versions of
+JSCh earlier than 0.1.28.</p>
+
+<p>See also the <a href="scp.html">scp task</a></p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>host</td>
+    <td>The hostname or IP address of the remote host to which you wish to connect.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>username</td>
+    <td>The username on the remote host to which you are connecting.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>command</td>
+    <td>The command to run on the remote host.</td>
+    <td rowspan="2">Exactly one of the two</td>
+  </tr>
+  <tr>
+    <td>commandResource</td>
+    <td class="left">The resource (file) that contains the commands to run on the remote
+    host.  <em>Since Ant 1.7.1</em></td>
+  </tr>
+  <tr>
+    <td>port</td>
+    <td>The port to connect to on the remote host.</td>
+    <td>No; defaults to <q>22</q></td>
+  </tr>
+  <tr>
+    <td>trust</td>
+    <td>This trusts all unknown hosts if set to <q>yes</q>
+      or <q>true</q>.<br/><strong>Note</strong>: If you set this to <q>false</q> (the default), the
+      host you connect to must be listed in your <var>knownhosts</var> file, this also implies that
+      the file exists.</td>
+    <td>No; defaults to <q>no</q></td>
+  </tr>
+  <tr>
+    <td>knownhosts</td>
+    <td>This sets the known hosts file to use to validate the identity of the remote host.  This
+      must be a SSH2 format file.  SSH1 format is not supported.</td>
+    <td>No; defaults to <q>${user.home}/.ssh/known_hosts</q></td>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+    <td>Whether to halt the build if the command does not complete successfully.</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>password</td>
+    <td>The password.</td>
+    <td>Yes, unless you are using key based authentication or the password has been given in the
+      file or <var>todir</var> attribute.</td>
+  </tr>
+  <tr>
+    <td>keyfile</td>
+    <td>Location of the file holding the private key.</td>
+    <td>Yes, if you are using key based authentication</td>
+  </tr>
+  <tr>
+    <td>passphrase</td>
+    <td>Passphrase for your private key.</td>
+    <td>No; defaults to an empty string</td>
+  </tr>
+  <tr>
+    <td>sshConfig</td>
+    <td>Location of the file holding the OpenSSH style configuration (e.g. <code>${user.home}/.ssh/config</code>).
+        The username and the key file are read from the configuration file,
+        unless they are already specified in the task parameters.
+        <em>since Ant 1.10.8</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>suppresssystemout</td>
+    <td>Whether to suppress system out. <em>since Ant 1.9.0</em></td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>suppresssystemerr</td>
+    <td>Whether to suppress <code>System.err</code>. <em>since Ant 1.9.4</em></td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>output</td>
+    <td>Name of a file to which to write the output.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>errorOutput</td>
+    <td>The file to which the standard error of the command should be redirected.  <em>since Ant
+      1.9.4</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>append</td>
+    <td>Whether <var>output</var> file should be appended to or overwritten.</td>
+    <td>No; defaults to <q>false</q>, meaning overwrite any existing file</td>
+  </tr>
+  <tr>
+    <td>errAppend</td>
+    <td>Whether <var>errorOutput</var> file should be appended to or overwritten. <em>since Ant
+      1.9.4</em></td>
+    <td>No; defaults to <q>false</q>, meaning overwrite any existing file</td>
+  </tr>
+  <tr>
+    <td>outputproperty</td>
+    <td>The name of a property in which the output of the command should be stored.  If you use
+      the <var>commandResource</var> attribute, each command's output will be prefixed by the
+      command itself.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>errorproperty</td>
+    <td>The name of a property in which the standard error of the command should be
+      stored.  <em>since Ant 1.9.4</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>resultproperty</td>
+    <td>the name of a property in which the return code of the command should be stored. Only of
+      interest if <var>failonerror</var>=<q>false</q>.  <em>since Ant 1.9.4</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>timeout</td>
+    <td>Stop the command if it doesn't finish within the specified time (given in
+      milliseconds <strong>unlike <code>telnet</code>, which expects a timeout in
+      seconds</strong>).</td>
+    <td>No; defaults to <q>0</q> which means <q>never</q></td>
+  </tr>
+  <tr>
+    <td>input</td>
+    <td>A file from which the executed command's standard input is taken. This attribute is mutually
+      exclusive with the <var>inputstring</var> and <var>inputproperty</var> attributes.<br/>  When
+      executing more than one command via <var>commandResource</var>, input will be read for each
+      command.  <em>since Ant 1.8.0</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>verbose</td>
+    <td>Determines whether <code>sshexec</code> outputs verbosely to the user.<br/>  Similar output
+      is generated as the <kbd>ssh</kbd> command line tool with the <kbd>-v</kbd>
+      option.  <em>since Ant 1.8.0</em></td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>inputproperty</td>
+    <td>Name of a property content of which serves as the input stream for the executed
+      command. This attribute is mutually exclusive with the <var>input</var>
+      and <var>inputstring</var> attributes.<br/>  When executing more than one command
+      via <var>commandResource</var>, input will be read for each command.  <em>since Ant
+      1.8.0</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>inputstring</td>
+    <td>A string which serves as the input stream for the executed command. This attribute is
+      mutually exclusive with the <var>input</var> and <var>inputproperty</var> attributes.<br/>
+      When executing more than one command via <var>commandResource</var>, input will be read for
+      each command.  <em>since Ant 1.8.3</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>usepty</td>
+    <td>Whether to allocate a pseudo-tty (like <kbd>ssh -t</kbd>).  <em>since Ant 1.8.3</em></td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>useSystemIn</td>
+    <td>Whether to pass the current standard input to the remote process.  <em>since Ant
+      1.9.4</em></td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>serverAliveIntervalSeconds</td>
+    <td>Sets a timeout interval in seconds after which if no data has been received from the server,
+      the task will send a message through the encrypted channel to request a response from the
+      server.  <em>since Ant 1.9.7</em></td>
+    <td>No, the default is <q>0</q>, indicating that these messages will not be sent to the
+      server</td>
+  </tr>
+  <tr>
+    <td>serverAliveCountMax</td>
+    <td>The number of server alive messages which may be sent without receiving any messages back
+      from the server. Only used if <var>serverAliveIntervalSeconds</var> is
+      not <q>0</q>.  <em>since Ant 1.9.7</em></td>
+    <td>No; defaults to <q>3</q></td>
+  </tr>
+</table>
+
+<h3>Parameters specified as nested elements</h3>
+
+<h4 id="additionalConfig">additionalConfig</h4>
+
+<p><em>since Ant 1.10.10</em></p>
+
+<p>Adds configuration settings for the JSch Session created that are
+  not directly supported by specific Ant attributes.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>key</td>
+    <td>The key of the configuration setting.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>value</td>
+    <td>The value of the configuration setting.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+
+<p>Run a command on a remote machine using password authentication</p>
+
+<pre>
+&lt;sshexec host=&quot;somehost&quot;
+         username=&quot;dude&quot;
+         password=&quot;yo&quot;
+         command=&quot;touch somefile&quot;/&gt;</pre>
+
+<p>Run a command on a remote machine using key authentication</p>
+
+<pre>
+&lt;sshexec host=&quot;somehost&quot;
+         username=&quot;dude&quot;
+         keyfile=&quot;${user.home}/.ssh/id_dsa&quot;
+         passphrase=&quot;yo its a secret&quot;
+         command=&quot;touch somefile&quot;/&gt;</pre>
+
+<p>Run a command on a remote machine using key authentication with no passphrase</p>
+
+<pre>
+&lt;sshexec host=&quot;somehost&quot;
+         username=&quot;dude&quot;
+         keyfile=&quot;${user.home}/.ssh/id_dsa&quot;
+         command=&quot;touch somefile&quot;/&gt;</pre>
+
+<p>Run a set of commands from a command resource (file) on a remote machine using key authentication
+with no passphrase</p>
+
+<pre>
+&lt;sshexec host=&quot;somehost&quot;
+         username=&quot;dude&quot;
+         keyfile=&quot;${user.home}/.ssh/id_dsa&quot;
+         commandResource=&quot;to_run&quot;/&gt;</pre>
+
+<p><strong>Security Note</strong>: Hardcoding passwords and/or usernames in <var>sshexec</var> task
+can be a serious security hole. Consider using variable substitution and include the password on the
+command line. For example:</p>
+
+<pre>
+&lt;sshexec host=&quot;somehost&quot;
+         username=&quot;${username}&quot;
+         password=&quot;${password}&quot;
+         command=&quot;touch somefile&quot;/&gt;</pre>
+
+<p>Invoking Ant with the following command line:</p>
+<pre class="input">ant -Dusername=me -Dpassword=mypassword target1 target2</pre>
+<p>is slightly better, but the username/password is exposed to all users on an Unix system (via
+the <kbd>ps</kbd> command). The best approach is to use the <code>&lt;input&gt;</code> task and/or
+retrieve the password from a (secured) <samp>.properties</samp> file.</p>
+</body>
+</html>

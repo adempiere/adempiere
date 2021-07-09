@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+<title>The Apache Ant frontend: ProjectHelper</title>
+</head>
+
+<body>
+<h1>The Apache Ant frontend: ProjectHelper</h1>
+
+<h2 id="definition">What is a ProjectHelper?</h2>
+
+<p>
+The <code class="code">ProjectHelper</code> in Apache Ant is responsible for parsing the build file
+and creating Java instances representing the build workflow. It also signals which kind of file it
+can parse, and which file name it expects as default input file.
+</p>
+
+<p>
+Ant's default <code class="code">ProjectHelper</code>
+(<code class="code">org.apache.tools.ant.helper.ProjectHelper2</code>) parses the
+usual <code>build.xml</code> files. And if no build file is specified on the command line, it will
+expect to find a file named <code>build.xml</code>.
+</p>
+
+<p>
+The immediate benefit of a such abstraction it that it is possible to make Ant understand other kind
+of descriptive languages than XML. Some experiments have been done around a pure Java frontend, and
+a Groovy one too (ask the dev mailing list for further info about these).
+</p>
+
+<p>
+<em>Since Ant 1.8.2</em>, the <a href="Tasks/import.html">import</a> task will also try to use the
+proper helper to parse the imported file. So it is possible to write different build files in
+different languages and have them import each other.
+</p>
+
+<h2 id="repository">How is Ant is selecting the proper ProjectHelper</h2>
+
+<p>
+Ant knows about several implementations of <code class="code">ProjectHelper</code> and has to decide
+which to use for each build file.
+</p>
+
+<p>
+At startup Ant lists the all implementations found and keeps them in the same order they've been
+found in an internal 'repository':
+</p>
+<ul>
+  <li>the first to be searched for is the one declared by the system
+    property <code class="code">org.apache.tools.ant.ProjectHelper</code>
+    (see <a href="running.html#sysprops">Java System Properties</a>);</li>
+  <li>then it searches with its class loader for a <code>ProjectHelper</code> service declarations
+    in the <samp>META-INF</samp>: it searches in the classpath for a
+    file <samp>META-INF/services/org.apache.tools.ant.ProjectHelper</samp>.  This file will just
+    contain the fully qualified name of the implementation
+    of <code class="code">ProjectHelper</code> to instantiate;</li>
+  <li>it will also search with the system class loader for <code class="code">ProjectHelper</code>
+    service declarations in the <samp>META-INF</samp>;</li>
+  <li>last but not least it will add its default <code class="code">ProjectHelper</code> that can
+    parse classical <samp>build.xml</samp> files.</li>
+</ul>
+<p>
+In case of an error while trying to instantiate a <code class="code">ProjectHelper</code>, Ant will
+log an error but won't stop.  If you want further debugging info about
+the <code class="code">ProjectHelper</code> internal 'repository', use the <strong>system</strong>
+property <code>ant.project-helper-repo.debug</code> and set it to <q>true</q>; the full stack trace
+will then also be printed.
+</p>
+
+<p>
+When Ant is expected to parse a file, it will ask the <code class="code">ProjectHelper</code>
+repository to find an implementation that will be able to parse the input file. Actually it will
+just iterate over the ordered list and the first implementation that returns <q>true</q>
+to <code class="code">supportsBuildFile(File buildFile)</code> will be selected.
+</p>
+
+<p>
+When Ant is started and no input file has been specified, it will search for a default input
+file. It will iterate over list of <code class="code">ProjectHelper</code>s and will select the
+first one that expects a default file that actually exist.
+</p>
+
+<h2 id="writing">Writing your own ProjectHelper</h2>
+
+<p>
+The class <code class="code">org.apache.tools.ant.ProjectHelper</code> is the API expected to be
+implemented. So write your own <code class="code">ProjectHelper</code> by extending that abstract
+class. You are then expected to implement at least the function <code class="code">parse(Project
+project, Object source)</code>. Note also that your implementation will be instantiated by Ant, and
+it is expecting a default constructor with no arguments.
+</p>
+
+<p>
+There are some functions that will help you define what your helper is capable of and what is is
+expecting:
+</p>
+<ul>
+  <li><code class="code">getDefaultBuildFile()</code>: defines which file name is expected if none
+    provided</li>
+  <li><code class="code">supportsBuildFile(File buildFile)</code>: defines if your parser can parse
+    the input file</li>
+  <li><code class="code">canParseAntlibDescriptor(URL url)</code>: whether your implementation is
+    capable of parsing a given Antlib descriptor.  The base class returns <q>false</q></li>
+  <li><code class="code">parseAntlibDescriptor(Project containingProject, URL source)</code>:
+    invoked to actually parse the Antlib descriptor if your implementation returned <q>true</q> for
+    the previous method.</li>
+</ul>
+
+<p>
+Now that you have your implementation ready, you have to declare it to Ant. Three solutions here:
+</p>
+<ul>
+  <li>use the system property <code class="code">org.apache.tools.ant.ProjectHelper</code> (see also
+    the <a href="running.html#sysprops">Java System Properties</a>);</li>
+  <li>use the service file in <samp>META-INF</samp>: in the jar you will build with your
+    implementation, add a file <samp>META-INF/services/org.apache.tools.ant.ProjectHelper</samp>.
+    And then in this file just put the fully qualified name of your implementation</li>
+  <li>use the <a href="Tasks/projecthelper.html">projecthelper</a> task (<em>since Ant 1.8.2</em>)
+    which will install dynamically a helper in the internal helper 'repository'. Then your helper
+    can be used on the next call to the <a href="Tasks/import.html">import</a> task.</li>
+</ul>
+
+</body>
+</html>

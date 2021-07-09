@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>EAR Task</title>
+</head>
+
+<body>
+
+<h2 id="ear">Ear</h2>
+<h3>Description</h3>
+<p>An extension of the <a href="jar.html">Jar</a> task with special treatment for files that should
+end up in an Enterprise Application archive.</p>
+<p>(The <code>Ear</code> task is a shortcut for specifying the particular layout of a EAR file.  The
+same thing can be accomplished by using the <var>prefix</var> and <var>fullpath</var> attributes of
+zipfilesets in a <code>Zip</code> or <code>Jar</code> task.)</p>
+<p>The extended zipfileset element from the <code>Zip</code> task (with
+attributes <var>prefix</var>, <var>fullpath</var>, and <var>src</var>) is available in
+the <code>Ear</code> task.</p>
+
+<p><strong>Please note that the zip format allows multiple files of the same fully-qualified name to
+exist within a single archive.  This has been documented as causing various problems for
+unsuspecting users.  If you wish to avoid this behavior you must set the <var>duplicate</var>
+attribute to a value other than its default, <q>add</q>.</strong></p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>destfile</td>
+    <td>the EAR file to create.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>appxml</td>
+    <td>The deployment descriptor to use (<samp>META-INF/application.xml</samp>).</td>
+    <td>Yes, unless <var>update</var> is set to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>basedir</td>
+    <td>the directory from which to jar the files.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>compress</td>
+    <td>Not only store data but also compress them.  Unless you set the <var>keepcompression</var>
+      attribute to <q>false</q>, this will apply to the entire archive, not only the files you've
+      added while updating.</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>keepcompression</td>
+    <td>For entries coming from existing archives (like nested <code>zipfileset</code>s or while
+    updating the archive), keep the compression as it has been originally instead of using the
+    <var>compress</var> attribute.  <em>Since Apache Ant 1.6</em></td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>encoding</td>
+    <td>The character encoding to use for filenames inside the archive. <strong>It is not
+      recommended to change this value as the created archive will most likely be unreadable for
+      Java otherwise.</strong>  <br/>See also the <a href="zip.html#encoding">discussion in the zip
+      task page</a></td>
+    <td>No; defaults to <q>UTF8</q></td>
+  </tr>
+  <tr>
+    <td>filesonly</td>
+    <td>Store only file entries.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>includes</td>
+    <td>comma- or space-separated list of patterns of files that must be included.</td>
+    <td>No; defaults to all (<q>**</q>)</td>
+  </tr>
+  <tr>
+    <td>includesfile</td>
+    <td>name of a file. Each line of this file is taken to be an include pattern.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>excludes</td>
+    <td>comma- or space-separated list of patterns of files that must be excluded.</td>
+    <td>No; defaults to default excludes or none if <var>defaultexcludes</var> is <q>no</q></td>
+  </tr>
+  <tr>
+    <td>excludesfile</td>
+    <td>name of a file. Each line of this file is taken to be an exclude pattern.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>defaultexcludes</td>
+    <td>indicates whether default excludes should be used or not (<q>yes|no</q>).</td>
+    <td>No; defaults to <q>yes</q></td>
+  </tr>
+  <tr>
+    <td>manifest</td>
+    <td>the manifest file to use.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>filesetmanifest</td>
+    <td>behavior when a manifest file is found in a <code>zipfileset</code>
+      or <code>zipgroupfileset</code> file.  Valid values are <q>skip</q>, <q>merge</q>,
+      and <q>mergewithoutmain</q>.  <q>merge</q> will merge all of the manifests together, and merge
+      this into any other specified manifests.  <q>mergewithoutmain</q> merges everything but the
+      Main section of the manifests.</td>
+    <td>No; defaults to <q>skip</q></td>
+  </tr>
+  <tr>
+    <td>whenmanifestonly</td>
+    <td>behavior when no files match.  Valid values are <q>fail</q>, <q>skip</q>,
+    and <q>create</q>.</td>
+    <td>No; defaults to <q>create</q></td>
+  </tr>
+  <tr>
+    <td>manifestencoding</td>
+    <td>The encoding used to read the JAR manifest, when a manifest file is specified.</td>
+    <td>No; defaults to default JVM character encoding</td>
+  </tr>
+  <tr>
+    <td>index</td>
+    <td>whether to create
+      an <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#JAR_Index"
+      target="_top">index list</a> to speed up classloading.  Unless you specify additional jars with
+      nested <a href="jar.html#indexjars"><code>indexjars</code></a> elements, only the contents of
+      this jar will be included in the index.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>indexMetaInf</td>
+    <td>whether to include <samp>META-INF</samp> and its children in the index.  Doesn't have any
+      effect if <var>index</var> is false.<br/>Oracle's jar implementation used to skip
+      the <samp>META-INF</samp> directory and Ant followed that example.  The behavior has been
+      changed with <a href="https://bugs.openjdk.java.net/browse/JDK-4408526" target="_top">Java
+      5</a>.  In order to avoid problems with Ant generated jars on Java 1.4 or earlier, Ant will
+      not include <samp>META-INF</samp> unless explicitly asked to.<br/><em>Since Ant
+      1.8.0</em>.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>update</td>
+    <td>indicates whether to update or overwrite the destination file if it already exists.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>duplicate</td>
+    <td>behavior when a duplicate file is found.  Valid values are <q>add</q>, <q>preserve</q>,
+    and <q>fail</q>.</td>
+    <td>No; default is <q>add</q></td>
+  </tr>
+  <tr>
+    <td>roundup</td>
+    <td>Whether the file modification times will be rounded up to the next even number of
+      seconds.<br/>Zip archives store file modification times with a granularity of 2 seconds, so
+      the times will either be rounded up or down.  If you round down, the archive will always seem
+      out-of-date when you rerun the task, so the default is to round up.  Rounding up may lead to a
+      different type of problems like JSPs inside a web archive that seem to be slightly more recent
+      than precompiled pages, rendering precompilation useless.<br/><em>Since Ant 1.6.2</em></td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>level</td>
+    <td>Non-default level at which file compression should be performed. Valid values range
+    from <q>0</q> (no compression/fastest) to <q>9</q> (maximum compression/slowest). <em>Since Ant
+    1.7</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>preserve0permissions</td>
+    <td>when updating an archive or adding entries from a different archive Ant will assume that a
+      Unix permissions value of 0 (nobody is allowed to do anything to the file/directory) means
+      that the permissions haven't been stored at all rather than real permissions and will instead
+      apply its own default values.<br/>  Set this attribute to <q>true</q> if you really want to
+      preserve the original permission field. <em>Since Ant 1.8.0</em>
+    </td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>useLanguageEncodingFlag</td>
+    <td>Whether to set the language encoding flag if the encoding is UTF-8.  This setting doesn't
+      have any effect if the encoding is not UTF-8. <em>Since Ant 1.8.0</em>.<br/>See also
+      the <a href="zip.html#encoding">discussion in the zip task page</a></td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>createUnicodeExtraFields</td>
+    <td>Whether to create Unicode extra fields to store the file names a second time inside the
+      entry's metadata.<br/>Possible values are <q>never</q>, <q>always</q>
+      and <q>not-encodeable</q> which will only add Unicode extra fields if the file name cannot be
+      encoded using the specified encoding. <em>Since Ant 1.8.0</em>.  <br/>See also
+      the <a href="zip.html#encoding">discussion in the zip task page</a></td>
+    <td>No; default is <q>never</q></td>
+  </tr>
+  <tr>
+    <td>fallbacktoUTF8</td>
+    <td>Whether to use UTF-8 and the language encoding flag instead of the specified encoding if a
+      file name cannot be encoded using the specified encoding. <em>Since Ant 1.8.0</em>.<br/>See
+      also the <a href="zip.html#encoding">discussion in the zip task page</a></td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>mergeClassPathAttributes</td>
+    <td>Whether to merge the <code>Class-Path</code> attributes found in different manifests (if
+      merging manifests).  If <q>false</q>, only the attribute of the last merged manifest will be
+      preserved.  <em>Since Ant 1.8.0</em>.<br/>unless you also set <var>flattenAttributes</var>
+      to <q>true</q> this may result in manifests containing multiple <code>Class-Path</code>
+      attributes which violates the manifest specification.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>flattenAttributes</td>
+    <td>Whether to merge attributes occurring more than once in a section (this can only happen for
+      the <code>Class-Path</code> attribute) into a single attribute.  <em>Since Ant
+      1.8.0</em>.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>zip64Mode</td>
+    <td>When to use Zip64 extensions for entries.  The possible values
+      are <q>never</q>, <q>always</q> and <q>as-needed</q>.  <em>Since Ant 1.9.1</em>.<br/>See also
+      the <a href="zip.html#zip64">discussion in the zip task page</a></td>
+    <td>No; default is <q>never</q></td>
+  </tr>
+</table>
+
+<h3>Parameters specified as nested elements</h3>
+
+<h4>metainf</h4>
+<p>The nested <code>metainf</code> element specifies
+a <a href="../Types/fileset.html">FileSet</a>. All files included in this fileset will end up in
+the <samp>META-INF</samp> directory of the ear file. If this fileset includes a file
+named <samp>MANIFEST.MF</samp>, the file is ignored and you will get a warning.</p>
+
+<h4>manifest, indexjars, service</h4>
+<p>These are inherited from <a href="jar.html">&lt;jar&gt;</a></p>
+
+<h3>Example</h3>
+<pre>
+&lt;ear destfile=&quot;${build.dir}/myapp.ear&quot; appxml=&quot;${src.dir}/metadata/application.xml&quot;&gt;
+  &lt;fileset dir=&quot;${build.dir}&quot; includes=&quot;*.jar,*.war&quot;/&gt;
+&lt;/ear&gt;</pre>
+
+</body>
+</html>

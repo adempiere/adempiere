@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>SQL Task</title>
+</head>
+<body>
+
+<h2 id="sql">Sql</h2>
+<h3>Description</h3>
+<p>Executes a series of SQL statements via JDBC to a database. Statements can either be read in from
+a text file using the <var>src</var> attribute or from between the enclosing SQL tags.</p>
+
+<p>Multiple statements can be provided, separated by semicolons (or the
+defined <var>delimiter</var>). Individual lines within the statements can be commented using
+either <q>--</q>, <q>//</q> or <q>REM</q> at the start of the line.</p>
+
+<p>The <var>autocommit</var> attribute specifies whether auto-commit should be turned on or off
+whilst executing the statements. If auto-commit is turned <q>on</q> each statement will be executed
+and committed. If it is turned <q>off</q> the statements will all be executed as one
+transaction.</p>
+
+<p>The <var>onerror</var> attribute specifies how to proceed when an error occurs during the
+execution of one of the statements.  The possible values are: <q>continue</q> execution, only show
+the error; <q>stop</q> execution, log the error but don't fail the task and <q>abort</q> execution
+and transaction and fail task.</p>
+
+<p><strong>Proxies</strong>. Some JDBC drivers (including the Oracle thin driver), use the JVM's
+proxy settings to route their JDBC operations to the database.  <em>Since Apache Ant 1.7</em>, Ant
+running on Java 5 or later defaults to <a href="../proxy.html">using the proxy settings of the
+operating system</a>.  Accordingly, the OS proxy settings need to be valid, or Ant's proxy support
+disabled with <kbd>-noproxy</kbd> option.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>driver</td>
+    <td>Class name of the jdbc driver</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>url</td>
+    <td>Database connection URL</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>userid</td>
+    <td>Database user name</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>password</td>
+    <td>Database password</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>src</td>
+    <td>File containing SQL statements</td>
+    <td>Yes, unless statements enclosed within tags</td>
+  </tr>
+  <tr>
+    <td>encoding</td>
+    <td>The encoding of the files containing SQL statements</td>
+    <td>No; defaults to default JVM character encoding</td>
+  </tr>
+  <tr>
+    <td>outputencoding</td>
+    <td>The encoding of the files holding results.  <em>since Ant 1.9.4</em></td>
+    <td>No; defaults to default JVM character encoding</td>
+  </tr>
+  <tr>
+    <td>delimiter</td>
+    <td>String that separates SQL statements</td>
+    <td>No; defaults to <q>;;</q></td>
+  </tr>
+  <tr>
+    <td>autocommit</td>
+    <td>Auto commit flag for database connection</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>print</td>
+    <td>Print result sets from the statements</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>showheaders</td>
+    <td>Print headers for result sets from the statements</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>showtrailers</td>
+    <td>Print trailer for number of rows affected</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>output</td>
+    <td>Output file for result sets.  <em>Since Ant 1.8</em> can specify any Resource that supports
+      output (see <a href="../develop.html#set-magic">note</a>).</td>
+    <td>No; print to <code>System.out</code> by default</td>
+  </tr>
+  <tr>
+    <td>append</td>
+    <td>whether output should be appended to or overwrite an existing file.</td>
+    <td>No; defaults to <q>false</q>, ignored if <var>output</var> does not specify a filesystem
+      destination</td>
+  </tr>
+  <tr>
+    <td>classpath</td>
+    <td>Classpath used to load driver</td>
+    <td>No; defaults to system classpath</td>
+  </tr>
+  <tr>
+    <td>classpathref</td>
+    <td>The classpath to use, given as a <a href="../using.html#references">reference</a> to a path
+      defined elsewhere.</td>
+    <td>No; defaults to system classpath</td>
+  </tr>
+  <tr>
+    <td>onerror</td>
+    <td>Action to perform when statement fails: <q>continue</q>, <q>stop</q>, <q>abort</q></td>
+    <td>No; defaults to <q>abort</q></td>
+  </tr>
+  <tr>
+    <td>rdbms</td>
+    <td>Execute task only if this rdbms</td>
+    <td>No; unrestricted by default</td>
+  </tr>
+  <tr>
+    <td>version</td>
+    <td>Execute task only if rdbms version match</td>
+    <td>No; unrestricted by default</td>
+  </tr>
+  <tr>
+    <td>caching</td>
+    <td>Should the task cache loaders and the driver?</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>delimitertype</td>
+    <td>Control whether the delimiter will only be recognized on a line by itself.<br/>Can
+      be <q>normal</q>&mdash;anywhere on the line, or <q>row</q>, meaning it must be on a line by
+      itself</td>
+    <td>No; defaults to <q>normal</q></td>
+  </tr>
+  <tr>
+    <td>keepformat</td>
+    <td>Control whether the format of SQL will be preserved.<br/>Useful when loading packages and
+      procedures.
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>escapeprocessing</td>
+    <td>Control whether the Java statement object will perform escape substitution.<br/>
+      See <a href="https://docs.oracle.com/javase/8/docs/api/java/sql/Statement.html#setEscapeProcessing-boolean-"
+      target="_top">Statement's API docs</a> for details.  <em>Since Ant 1.6</em>.
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>expandproperties</td>
+    <td>Set to true to turn on property expansion in nested SQL, inline in the task or nested
+      transactions. <em>Since Ant 1.7</em>.
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>rawblobs</td>
+    <td>If <q>true</q>, will write raw streams rather than hex encoding when printing BLOB
+      results. <em>Since Ant 1.7.1</em>.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>failOnConnectionError</td>
+    <td>If <q>false</q>, will only print a warning message and not execute any statement if the task
+      fails to connect to the database.  <em>Since Ant 1.8.0</em>.</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>strictDelimiterMatching</td>
+    <td>If <q>false</q>, delimiters will be searched for in a case-insensitive manner
+      (i.e. <var>delimiter</var>=<q>go</q> matches <q>GO</q>) and surrounding whitespace will be
+      ignored (<var>delimiter</var>=<q>go</q> matches <q>GO </q>).  <em>Since Ant 1.8.0</em>.</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>showWarnings</td>
+    <td>If <q>true</q>, SQLWarnings will be logged at the <q>warning</q> level.  <em>Since Ant
+      1.8.0</em>.<br/><strong>Note</strong>: even if the attribute is set to <q>false</q>, warnings
+      that apply to the connection will be logged at the <q>verbose</q> level.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>treatWarningsAsErrors</td>
+    <td>If <q>true</q>, SQLWarnings will be treated like errors&mdash;and the logic selected via
+      the <var>onError</var> attribute applies.  <em>Since Ant 1.8.0</em>.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>csvColumnSeparator</td>
+    <td>The column separator used when printing the results.  <em>Since Ant 1.8.0</em>.</td>
+    <td>No; defaults to <q>,</q></td>
+  </tr>
+  <tr>
+    <td>csvQuoteCharacter</td>
+    <td>The character used to quote column values.<br/>If set, columns that contain either the
+      column separator or the quote character itself will be surrounded by the quote character.  The
+      quote character itself will be doubled if it appears inside of the column's
+      value.<br/><strong>Note</strong>: BLOB values will never be quoted.  <em>Since Ant
+      1.8.0</em>.</td>
+    <td>No; default is not set (i.e. no quoting ever occurs)</td>
+  </tr>
+  <tr>
+    <td>forceCsvQuoteChar</td>
+    <td>If <q>true</q>, quoting always occurs</td>
+    <td>No; default is not set (i.e. quoting occurs only where needed)</td>
+  </tr>
+  <tr>
+    <td>errorproperty</td>
+    <td>The name of a property to set in the event of an error.  <em>Since Ant 1.8.0</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>warningproperty</td>
+    <td>The name of a property to set in the event of an warning.  <em>Since Ant 1.8.0</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>rowcountproperty</td>
+    <td>The name of a property to set to the number of rows updated by the first
+      statement/transaction that actually returned a row count.  <em>Since Ant 1.8.0</em></td>
+    <td>No</td>
+  </tr>
+</table>
+
+<h3>Parameters specified as nested elements</h3>
+<h4>transaction</h4>
+<p>Use nested <code>&lt;transaction&gt;</code> elements to specify multiple blocks of commands to
+the executed executed in the same connection but different transactions. This is particularly useful
+when there are multiple files to execute on the same schema.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>src</td>
+    <td>File containing SQL statements</td>
+    <td>Yes, unless statements enclosed within tags</td>
+  </tr>
+</table>
+<p>The <code>&lt;transaction&gt;</code> element supports
+any <a href="../Types/resources.html">resource</a> or single element resource collection as nested
+element to specify the resource containing the SQL statements.</p>
+
+<h4>any <a href="../Types/resources.html">resource</a> or resource collection</h4>
+
+<p>You can specify multiple sources via nested resource collection elements.  Each resource of the
+collection will be run in a transaction of its own.  Prior to Ant 1.7 only filesets were supported.
+Use a sort resource collection to get a predictable order of transactions.</p>
+
+<h4>classpath</h4>
+<p><code>Sql</code>'s <em>classpath</em> attribute is a <a href="../using.html#path">path-like
+structure</a> and can also be set via a nested <em>classpath</em> element. It is used to load the
+JDBC classes.</p>
+
+<h4>connectionProperty</h4>
+<p><em>Since Ant 1.8.0</em></p>
+<p>Use nested <code>&lt;connectionProperty&gt;</code> elements to specify additional JDBC properties
+that need to be set when connecting to the database.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>Name of the property</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>value</td>
+    <td>Value of the property</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+
+<p>Connect to the database given in <var>url</var> as the <q>sa</q> user using
+the <code>org.database.jdbcDriver</code> and execute the SQL statements contained within the
+file <samp>data.sql</samp></p>
+
+<pre>
+&lt;sql driver=&quot;org.database.jdbcDriver&quot;
+     url=&quot;jdbc:database-url&quot;
+     userid=&quot;sa&quot;
+     password=&quot;pass&quot;
+     src=&quot;data.sql&quot;/&gt;</pre>
+
+<p>Connect to the database given in <var>url</var> as the <q>sa</q> user using
+the <code>org.database.jdbcDriver</code> and execute the SQL statements contained within the
+file <samp>data.sql</samp>. Also set the property <code>internal_logon</code> to the
+value <q>SYSDBA</q>.</p>
+
+<pre>
+&lt;sql driver=&quot;org.database.jdbcDriver&quot;
+     url=&quot;jdbc:database-url&quot;
+     userid=&quot;sa&quot;
+     password=&quot;pass&quot;
+     src=&quot;data.sql&quot;&gt;
+  &lt;connectionProperty name=&quot;internal_logon&quot; value=&quot;SYSDBA&quot;&gt;
+&lt;/sql&gt;</pre>
+
+<p>Connect to the database given in <var>url</var> as the <q>sa</q> user using
+the <code>org.database.jdbcDriver</code> and execute the two SQL statements inserting data
+into <samp>some_table</samp> and truncating <samp>some_other_table</samp>. Ant properties in the
+nested text will not be expanded.</p>
+
+<pre>
+&lt;sql driver=&quot;org.database.jdbcDriver&quot;
+     url=&quot;jdbc:database-url&quot;
+     userid=&quot;sa&quot;
+     password=&quot;pass&quot;&gt;
+insert
+into table some_table
+values(1,2,3,4);
+
+truncate table some_other_table;
+&lt;/sql&gt;</pre>
+
+<p>Note that you may want to enclose your statements in <code>&lt;![CDATA[</code>
+... <code>]]&gt;</code> sections so you don't need to
+escape <code>&lt;</code>, <code>&gt;</code>, <code>&amp;</code> or other special characters. For
+example:</p>
+
+<pre>
+&lt;sql driver=&quot;org.database.jdbcDriver&quot;
+     url=&quot;jdbc:database-url&quot;
+     userid=&quot;sa&quot;
+     password=&quot;pass&quot;&gt;&lt;![CDATA[
+
+update some_table set column1 = column1 + 1 where column2 &lt; 42;
+
+]]&gt;&lt;/sql&gt;</pre>
+
+<p>The following command turns property expansion in nested text on (it is off purely for backwards
+compatibility), then creates a new user in the HSQLDB database using Ant properties.</p>
+
+<pre>
+&lt;sql driver="org.hsqldb.jdbcDriver";
+     url="jdbc:hsqldb:file:${database.dir}"
+     userid="sa"
+     password=""
+     expandProperties="true"&gt;
+  &lt;transaction&gt;
+    CREATE USER ${newuser} PASSWORD ${newpassword}
+  &lt;/transaction&gt;
+&lt;/sql&gt;</pre>
+
+<p>The following connects to the database given in <var>url</var> as the <q>sa</q> user using
+the <code>org.database.jdbcDriver</code> and executes the SQL statements contained within the
+files <samp>data1.sql</samp>, <samp>data2.sql</samp> and <samp>data3.sql</samp> and then executes
+the truncate operation on <samp>some_other_table</samp>.</p>
+
+<pre>
+&lt;sql driver=&quot;org.database.jdbcDriver&quot;
+     url=&quot;jdbc:database-url&quot;
+     userid=&quot;sa&quot;
+     password=&quot;pass&quot;&gt;
+  &lt;transaction  src=&quot;data1.sql&quot;/&gt;
+  &lt;transaction  src=&quot;data2.sql&quot;/&gt;
+  &lt;transaction  src=&quot;data3.sql&quot;/&gt;
+  &lt;transaction&gt;
+    truncate table some_other_table;
+  &lt;/transaction&gt;
+&lt;/sql&gt;</pre>
+
+<p>The following example does the same as (and may execute additional SQL files if there are more
+files matching the pattern <samp>data*.sql</samp>) but doesn't guarantee that <samp>data1.sql</samp>
+will be run before <samp>data2.sql</samp>.</p>
+
+<pre>
+&lt;sql driver=&quot;org.database.jdbcDriver&quot;
+     url=&quot;jdbc:database-url&quot;
+     userid=&quot;sa&quot;
+     password=&quot;pass&quot;&gt;
+  &lt;path&gt;
+    &lt;fileset dir=&quot;.&quot;&gt;
+      &lt;include name=&quot;data*.sql&quot;/&gt;
+    &lt;/fileset&gt;
+  &lt;/path&gt;
+  &lt;transaction&gt;
+    truncate table some_other_table;
+  &lt;/transaction&gt;
+&lt;/sql&gt;</pre>
+
+<p>The following connects to the database given in <var>url</var> as the <q>sa</q> user using
+the <code>org.database.jdbcDriver</code> and executes the SQL statements contained within the
+file <samp>data.sql</samp>, with output piped to <samp>outputfile.txt</samp>,
+searching <samp>/some/jdbc.jar</samp> as well as the system classpath for the driver class.</p>
+
+<pre>
+&lt;sql driver=&quot;org.database.jdbcDriver&quot;
+     url=&quot;jdbc:database-url&quot;
+     userid=&quot;sa&quot;
+     password=&quot;pass&quot;
+     src=&quot;data.sql&quot;
+     print=&quot;yes&quot;
+     output=&quot;outputfile.txt&quot;&gt;
+  &lt;classpath&gt;
+    &lt;pathelement location=&quot;/some/jdbc.jar&quot;/&gt;
+  &lt;/classpath&gt;
+&lt;/sql&gt;</pre>
+
+<p>The following will only execute if the RDBMS is <q>oracle</q> and the version starts
+with <q>8.1.</q></p>
+
+<pre>
+&lt;sql driver=&quot;org.database.jdbcDriver&quot;
+     url=&quot;jdbc:database-url&quot;
+     userid=&quot;sa&quot;
+     password=&quot;pass&quot;
+     src=&quot;data.sql&quot;
+     rdbms=&quot;oracle&quot;
+     version=&quot;8.1.&quot;&gt;
+insert
+into table some_table
+values(1,2,3,4);
+
+truncate table some_other_table;
+&lt;/sql&gt;</pre>
+
+</body>
+</html>

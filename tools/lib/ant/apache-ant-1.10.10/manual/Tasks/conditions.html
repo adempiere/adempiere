@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Conditions Task</title>
+</head>
+
+<body>
+
+<h2 id="conditions">Conditions</h2>
+<p>Conditions are nested elements of the <a href="condition.html"><code>&lt;condition&gt;</code></a>
+and <a href="waitfor.html"><code>&lt;waitfor&gt;</code></a> tasks.  There are core conditions and
+custom conditions. Custom conditions are described
+in <a href="../Types/custom-programming.html#customconditions">Custom Conditions</a>.  Core
+Conditions are described below.</p>
+<h3 id="coreconditions">Core Conditions</h3>
+
+<p>These are the nested elements that can be used as conditions in
+the <a href="condition.html"><code>&lt;condition&gt;</code></a>
+and <a href="waitfor.html"><code>&lt;waitfor&gt;</code></a> tasks.</p>
+
+<h4 id="not">not</h4>
+<p>The <code>&lt;not&gt;</code> element expects exactly one other condition to be nested into this
+element, negating the result of the condition.  It doesn't have any attributes and accepts all
+nested elements of the condition task as nested elements as well.</p>
+
+<h4 id="and">and</h4>
+<p>The <code>&lt;and&gt;</code> element doesn't have any attributes and accepts an arbitrary number
+of conditions as nested elements&mdash;all nested elements of the condition task are supported.
+This condition is true if all of its contained conditions are, conditions will be evaluated in the
+order they have been specified in the build file.</p>
+<p>The <code>&lt;and&gt;</code> condition has the same shortcut semantics as the
+Java <code>&amp;&amp;</code> operator, as soon as one of the nested conditions is false, no other
+condition will be evaluated.</p>
+
+<h4 id="or">or</h4>
+<p>The <code>&lt;or&gt;</code> element doesn't have any attributes and accepts an arbitrary number
+of conditions as nested elements&mdash;all nested elements of the condition task are supported.
+This condition is true if at least one of its contained conditions is, conditions will be evaluated
+in the order they have been specified in the build file.</p>
+<p>The <code>&lt;or&gt;</code> condition has the same shortcut semantics as the Java <code>||</code>
+operator, as soon as one of the nested conditions is true, no other condition will be evaluated.</p>
+
+<h4 id="xor">xor</h4>
+<p>The <code>&lt;xor&gt;</code> element performs an exclusive or on all nested elements, similar to
+the <code>^</code> operator in Java. It only evaluates to true if an odd number of nested conditions
+are true. There is no shortcutting of evaluation, unlike the <code>&lt;and&gt;</code>
+and <code>&lt;or&gt;</code> tests.  It doesn't have any attributes and accepts all nested elements
+of the condition task as nested elements as well.</p>
+
+<h4 id="available">available</h4>
+<p>This condition is identical to the <a href="available.html">Available</a> task, all attributes
+and nested elements of that task are supported, the property and value attributes are redundant and
+will be ignored.</p>
+
+<h4 id="uptodate">uptodate</h4>
+<p>This condition is identical to the <a href="uptodate.html">Uptodate</a> task, all attributes and
+nested elements of that task are supported, the property and value attributes are redundant and will
+be ignored.</p>
+
+<h4 id="os">os</h4>
+<p>Test whether the current operating system is of a given type.  Each defined attribute is tested
+and the result is true only if <em>all</em> the tests succeed.
+</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>family</td>
+    <td>The name of the operating system family to expect.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>The name of the operating system to expect.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>arch</td>
+    <td>The architecture of the operating system to expect.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>version</td>
+    <td>The version of the operating system to expect.</td>
+    <td>No</td>
+  </tr>
+</table>
+<p>Supported values for the family attribute are:
+<ul>
+  <li><q>windows</q>&mdash;for all versions of Microsoft Windows</li>
+  <li><q>dos</q>&mdash;for all Microsoft DOS based operating systems including Microsoft Windows and
+    OS/2</li>
+  <li><q>mac</q>&mdash;for all Apple Macintosh systems prior to Mac OS X</li>
+  <li><q>unix</q>&mdash;for all Unix(-like) operating systems, including Linux and Mac OS
+      X/macOS</li>
+  <li><q>netware</q>&mdash;for Novell NetWare</li>
+  <li><q>os/2</q>&mdash;for OS/2</li>
+  <li><q>tandem</q>&mdash;for HP's NonStop Kernel, formerly Tandem</li>
+  <li><q>win9x</q>&mdash;for Microsoft Windows 95 and 98, ME and CE</li>
+  <li><q>winnt</q>&mdash;for Microsoft Windows NT-based systems, including Windows 2000, XP and
+      successors</li>
+  <li><q>z/os</q>&mdash;for z/OS and OS/390</li>
+  <li><q>os/400</q>&mdash;for OS/400</li>
+  <li><q>openvms</q>&mdash;for OpenVMS</li>
+</ul>
+
+<h4 id="equals">equals</h4>
+<p>Tests whether the two given values are equal.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>arg1</td>
+    <td>First value to test.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>arg2</td>
+    <td>Second value to test.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>casesensitive</td>
+    <td>Perform a case sensitive comparison.</td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>trim</td>
+    <td>Trim whitespace from arguments before comparing them.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>forcestring</td>
+    <td>Force string comparison of <var>arg1</var>/<var>arg2</var>.  <em>Since Apache Ant 1.8.1</em>
+    </td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+</table>
+
+<h4 id="isset">isset</h4>
+<p>Test whether a given property has been set in this project.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>property</td>
+    <td>The name of the property to test.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h4 id="checksum">checksum</h4>
+<p>This condition is identical to the <a href="checksum.html">Checksum</a> task, all attributes and
+nested elements of that task are supported, the property and overwrite attributes are redundant and
+will be ignored.</p>
+
+<h4 id="http">http</h4>
+<p>The <code>http</code> condition checks for a valid response from a web server of the specified
+URL. By default, HTTP responses errors of 400 or greater are viewed as invalid.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>url</td>
+    <td>The full URL of the page to request. The web server must return a status code below the
+      value of <var>errorsBeginAt</var></td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>errorsBeginAt</td>
+    <td>The lowest HTTP response code that signals an error; server errors, not-authorized,
+      not-found and the like are detected</td>
+    <td>No; default is <q>400</q></td>
+  </tr>
+  <tr>
+    <td>requestMethod</td>
+    <td>The HTTP method to be used when issuing the request.  Any
+      of <q>GET</q>, <q>POST</q>, <q>HEAD</q>, <q>OPTIONS</q>, <q>PUT</q>, <q>DELETE</q>
+      and <q>TRACE</q> are valid, subject to protocol restrictions.<br/><em>since Ant
+      1.8.0</em></td>
+    <td>No; default is <q>GET</q></td>
+  </tr>
+  <tr>
+    <td>followRedirects</td>
+    <td>Whether redirects should be followed.<br/><em>since Ant 1.9.7</em></td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>readTimeout</td>
+    <td>Read timeout, in milliseconds, that will be used while reading from the target URL.
+      Accepts any value &ge; 0. Value of 0 implies wait indefinitely. Value &lt; 0 will be silently
+      ignored.<br/>
+      <em>since Ant 1.10.6</em></td>
+    <td>No; defaults to <q>0</q></td>
+  </tr>
+</table>
+
+<h4 id="socket">socket</h4>
+<p>The <code>socket</code> condition checks for the existence of a TCP/IP listener at the specified
+host and port.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>server</td>
+    <td>The DNS name or IP address of the server.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>port</td>
+    <td>The port number to connect to.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h4 id="filesmatch">filesmatch</h4>
+<p>Test two files for matching. Nonexistence of one file results in <q>false</q>, although if
+neither exists they are considered equal in terms of content.  This test does a byte for byte
+comparison, so test time scales with byte size. <strong>Note</strong>: if the files are different
+sizes, one of them is missing or the filenames match the answer is so obvious the detailed test is
+omitted.
+</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>file1</td>
+    <td>First file to test</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>file2</td>
+    <td>Second file to test</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>textfile</td>
+    <td>Whether to ignore line endings when comparing files. <em>Since Ant 1.7</em>
+    </td>
+    <td>No; defaults to <q>false</q> which triggers a binary comparison</td>
+  </tr>
+</table>
+
+<h4 id="contains">contains</h4>
+<p>Tests whether a string contains another one.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>string</td>
+    <td>The string to search in.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>substring</td>
+    <td>The string to search for.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>casesensitive</td>
+    <td>Perform a case sensitive comparison.</td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+</table>
+
+<h4 id="istrue">istrue</h4>
+<p>Tests whether a string equals any of the Ant definitions of true, that
+is <q>true</q>, <q>yes</q>, or <q>on</q></p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>value</td>
+    <td>value to test</td>
+    <td>Yes</td>
+  </tr>
+</table>
+<pre>
+&lt;istrue value=&quot;${someproperty}&quot;/&gt;
+&lt;istrue value=&quot;false&quot;/&gt;</pre>
+
+<h4 id="isfalse">isfalse</h4>
+<p>Tests whether a string is not true, the negation of <code>&lt;istrue&gt;</code></p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>value</td>
+    <td>value to test</td>
+    <td>Yes</td>
+  </tr>
+</table>
+<pre>
+&lt;isfalse value=&quot;${someproperty}&quot;/&gt;
+&lt;isfalse value=&quot;false&quot;/&gt;</pre>
+
+<h4 id="isreference">isreference</h4>
+<p>Test whether a given reference has been defined in this project and&mdash;optionally&mdash;is of
+an expected type.</p>
+
+<p><em>Since Apache Ant 1.6</em>.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>refid</td>
+    <td>The <var>id</var> of the reference to test.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>type</td>
+    <td>Name of the data type or task this reference is expected to be.</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<h4 id="issigned">issigned</h4>
+<p>Test whether a jarfile is signed.  If the name of the signature is passed, the file is checked
+for presence of that particular signature; otherwise the file is checked for the existence of any
+signature. It does not perform rigorous signature validation; it only looks for the presence of a
+signature.</p>
+<p><em>Since Apache Ant 1.7</em>.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td>The jarfile that is to be tested for the presence of a signature.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>The signature name to check for.</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<h4 id="isfileselected">isfileselected</h4>
+<p>Test whether a file passes an embedded <a href="../Types/selectors.html">selector</a>.</p>
+<p><em>Since Apache Ant 1.6.3</em>.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td>The file to check if is passes the embedded selector.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>basedir</td>
+    <td>The base directory to use for name based selectors. It this is not set, the
+      project's <var>basedir</var> will be used.</td>
+    <td>No</td>
+  </tr>
+</table>
+<p>Example usage:</p>
+<pre>
+&lt;isfileselected file="a.xml"&gt;
+  &lt;date datetime="06/28/2000 2:02 pm" when="equal"/&gt;
+&lt;/isfileselected&gt;</pre>
+
+<h4 id="typefound">typefound</h4>
+
+<p>Test whether a given type is defined, and that its implementation class can be loaded. Types
+include tasks, datatypes, scriptdefs, macrodefs and presetdefs.</p>
+
+<p><em>Since Apache Ant 1.7</em>.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>Name of the type</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>uri</td>
+    <td>The URI that this type lives in.</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<p>Example usages:</p>
+<pre>
+&lt;typefound name="junit"/&gt;
+&lt;typefound uri="antlib:org.apache.maven.artifact.ant" name="artifact"/&gt;</pre>
+
+<h4 id="scriptcondition">scriptcondition</h4>
+
+<p>Evaluate a condition based on a script in any <a href="https://jakarta.apache.org/bsf"
+target="_top">Apache BSF</a>
+or <a href="https://jcp.org/aboutJava/communityprocess/maintenance/jsr223/223ChangeLog.html"
+target="_top">JSR 223</a> supported language.</p>
+<p>See the <a href="../Tasks/script.html">Script</a> task for an explanation of scripts and
+dependencies.</p>
+
+<p><em>Since Apache Ant 1.7</em>.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>language</td>
+    <td>script language</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>manager</td>
+    <td>The script engine manager to use.  See the <a href="../Tasks/script.html">script</a> task
+      for using this attribute.</td>
+    <td>No; default is <q>auto</q></td>
+  </tr>
+  <tr>
+    <td>value</td>
+    <td>default boolean value</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>src</td>
+    <td>filename of script source</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>encoding</td>
+    <td>The encoding of the script source. <em>Since Ant 1.10.2</em>.</td>
+    <td>No; defaults to default JVM character encoding</td>
+  </tr>
+  <tr>
+    <td>setbeans</td>
+    <td>whether to have all properties, references and targets as global variables in the
+      script.  <em>since Ant 1.8.0</em></td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>classpath</td>
+    <td>The classpath to pass into the script.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>classpathref</td>
+    <td>The classpath to use, given as a <a href="../using.html#references">reference</a> to a path
+    defined elsewhere.</td>
+    <td>No</td>
+  </tr>
+</table>
+<h5>Parameters specified as nested elements</h5>
+<h6>classpath</h6>
+<p>See the <a href="../Tasks/script.html">script</a> task for using this nested element.</p>
+<h5>Description</h5>
+<p>The script supports script language inline, this script has access to the same beans as
+the <code>&lt;script&gt;</code> task, and to the <code>self</code> bean, which refers back to the
+condition itself. If the script evaluates to a boolean result, this is the result of the condition's
+evaluation (<em>since Ant 1.7.1</em>).  Alternatively, <code>self.value</code> can be used to set
+the evaluation result.</p>
+<p>Example:</p>
+<pre>
+&lt;scriptcondition language=&quot;javascript&quot;
+        value=&quot;true&quot;&gt;
+    self.setValue(false);
+&lt;/scriptcondition&gt;</pre>
+
+<p>Sets the default value of the condition to <q>true</q>, then in the script, sets the value
+to <q>false</q>. This condition always evaluates to <q>false</q>.</p>
+
+<h4 id="parsersupports">parsersupports</h4>
+
+<p>Tests whether Ant's XML parser supports a given feature or property, as per the SAX/JAXP
+specifications, by attempting to set the appropriate property/feature</p>
+
+<p><em>Since Apache Ant 1.7</em>.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>property</td>
+    <td>property to set</td>
+    <td rowspan="2">Exactly one of the two</td>
+  </tr>
+  <tr>
+    <td>feature</td>
+    <td class="left">feature to set</td>
+  </tr>
+  <tr>
+    <td>value</td>
+    <td>string (property) or boolean (feature)</td>
+    <td>For property tests, but not for feature tests</td>
+  </tr>
+</table>
+
+<pre>&lt;parsersupports feature="http://xml.org/sax/features/namespaces"/&gt;</pre>
+<p>Check for namespace support. All SAX2 parsers should have this.</p>
+
+<pre>
+&lt;or&gt;
+  &lt;parsersupports
+    feature="http://apache.org/xml/features/validation/schema"/&gt;
+  &lt;parsersupports
+    feature="http://java.sun.com/xml/jaxp/properties/schemaSource"/&gt;
+&lt;/or&gt;</pre>
+<p>Check for XML Schema support.</p>
+
+<pre>
+&lt;parsersupports
+  property="http://apache.org/xml/properties/schema/external-noNamespaceSchemaLocation"
+  value="document.xsd"/&gt;</pre>
+<p>Check for Xerces-specific definition of the location of the no namespace schema.</p>
+
+<h4 id="isreachable">isreachable</h4>
+
+<p>Uses Java 5+ networking APIs to probe for a (remote) system being reachable. Exactly what probe
+mechanisms are used is an implementation feature of the JVM. They may include ICMP "ping" packets,
+UDP or TCP connections to port 7 "echo service" or other means.</p>
+<p>This condition turns unknown host exceptions into false conditions. This is because on a laptop,
+DNS is one of the first services when the network goes; you are implicitly offline.</p>
+<p>If a URL is supplied instead of a <var>host</var>, the hostname is extracted and used in the
+test&mdash;all other parts of the URL are discarded.</p>
+<p>The test may not work through firewalls, that is, something may be reachable using a protocol
+such as HTTP, while the lower level ICMP packets get dropped on the floor. Similarly, a host may
+detected as reachable with ICMP, but not reachable on other ports (i.e. port 80), because of
+firewalls.</p>
+<p><em>Since Apache Ant 1.7</em>.</p>
+
+<table class="attr">
+
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>host</td>
+    <td>host to check for</td>
+    <td rowspan="2">Exactly one of the two</td>
+  </tr>
+  <tr>
+    <td>url</td>
+    <td class="left">URL containing hostname</td>
+  </tr>
+  <tr>
+    <td>timeout</td>
+    <td>timeout in seconds</td>
+    <td>No; default is <q>30</q></td>
+  </tr>
+</table>
+
+<pre>
+&lt;condition property="offline"&gt;
+  &lt;isreachable url="https://ibiblio.org/maven/"/&gt;
+&lt;/condition&gt;</pre>
+
+<p>Probe for the Maven repository being reachable.</p>
+
+<pre>
+&lt;condition property="offline"&gt;
+  &lt;isreachable host="ibiblio.org" timeout="10"/&gt;
+&lt;/condition&gt;</pre>
+
+<p>Probe for the Maven repository being reachable using the hostname, ten second timeout.</p>
+
+<h4 id="length">length</h4>
+<p><em>Since Ant 1.6.3</em></p>
+<p>This condition is a facet of the <a href="length.html">Length</a> task. It is used to test the
+length of a string or one or more files.</p>
+
+<pre>&lt;length string=" foo " trim="true" length="3"/&gt;</pre>
+<p>Verify a string is of a certain length.</p>
+
+<pre>&lt;length file=&quot;foo&quot; when=&quot;greater&quot; length=&quot;0&quot;/&gt;</pre>
+<p>Verify that file <samp>foo</samp> is not empty.</p>
+
+<h4 id="isfailure">isfailure</h4>
+<p><em>Since Ant 1.7</em></p>
+<p>Test the return code of an executable (see the <a href="exec.html">Exec</a> task) for
+failure.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>code</td>
+    <td>The return code to test.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h4 id="resourcecount">resourcecount</h4>
+<p><em>Since Ant 1.7</em></p>
+<p>This condition is a facet of the <a href="resourcecount.html">ResourceCount</a> task.  It is used
+to test the size of a <a href="../Types/resources.html#collection">resource
+collection</a>.</p>
+
+<pre>&lt;resourcecount refid=&quot;myresourcecollection&quot; when=&quot;greater&quot; count=&quot;0&quot;/&gt;</pre>
+<p>Verify that a resource collection is not empty.</p>
+
+<h4 id="resourcesmatch">resourcesmatch</h4>
+<p><em>Since Ant 1.7</em></p>
+<p>Test resources for matching. Nonexistence of one or more resources results in <q>false</q>,
+although if none exists they are considered equal in terms of content.  By default, this test does a
+byte for byte comparison, so test time scales with byte size. <strong>Note</strong>: if the files
+are different sizes, one of them is missing or the filenames match the answer is so obvious the
+detailed test is omitted.  The resources to check are specified as
+nested <a href="../Types/resources.html#collection">resource collections</a>, meaning that more than
+two resources can be checked; in this case all resources must match.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>astext</td>
+    <td>Whether to ignore line endings when comparing resource content; <q>true</q> triggers a
+      binary comparison.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+</table>
+
+<h4 id="resourcecontains">resourcecontains</h4>
+<p><em>Since Ant 1.7.1</em></p>
+<p>Tests whether a resource contains a given (sub)string.</p>
+<p>The resources to check are specified via references or&mdash;in the case of file
+resources&mdash;via the <var>resource</var> attribute.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>resource</td>
+    <td>Name of a file that is the resource to test.</td>
+    <td rowspan="2">Exactly one of the two</td>
+  </tr>
+  <tr>
+    <td>refid</td>
+    <td class="left">Reference to a resource defined inside the project.</td>
+  </tr>
+  <tr>
+    <td>substring</td>
+    <td>The string to search for.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>casesensitive</td>
+    <td>Perform a case sensitive comparison.</td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+</table>
+
+<h4 id="hasmethod">hasmethod</h4>
+<p><em>Since Ant 1.7</em></p>
+<p>Tests for a class having a method or field. If the class is not found or fails to load, the build
+fails.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>classname</td>
+    <td>name of the class to load</td>
+    <td>yes</td>
+  </tr>
+  <tr>
+    <td>field</td>
+    <td>name of a field to look for</td>
+    <td rowspan="2">Exactly one of the two</td>
+  </tr>
+  <tr>
+    <td>method</td>
+    <td class="left">name of a method to look for</td>
+  </tr>
+  <tr>
+    <td>ignoreSystemClasses</td>
+    <td>should system classes be ignored?</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>classpath</td>
+    <td>a class path</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>classpathref</td>
+    <td>reference to a class path</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<p>There is also a nested <code>&lt;classpath&gt;</code> element, which can be used to specify a
+classpath.</p>
+<pre>&lt;hasmethod classname="java.util.ArrayList" method="trimToSize"/&gt;</pre>
+<p>Looks for the method <code class="code">trimToSize()</code> in
+the <code class="code">java.util.ArrayList</code> class.</p>
+
+<h4 id="matches">matches</h4>
+<p><em>Since Ant 1.7</em></p>
+<p>Test if the specified string matches the specified regular expression pattern</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>string</td>
+    <td>The string to test.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>pattern</td>
+    <td>The regular expression pattern used to test.</td>
+    <td>Yes, unless there is a nested <code>&lt;regexp&gt;</code> element</td>
+  </tr>
+  <tr>
+    <td>casesensitive</td>
+    <td>Perform a case sensitive match.</td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>multiline</td>
+    <td>Perform a multi line match.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>singleline</td>
+    <td>This allows <q>.</q> to match new lines. <var>SingleLine</var> is not to be confused with
+      multiline, <var>SingleLine</var> is a perl regex term, it corresponds to <var>dotall</var> in
+      Java regex.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+</table>
+
+<p>There is also an optional <code>&lt;regexp&gt;</code> element, which can be used to specify a
+regular expression instead of the <var>pattern</var> attribute.
+See <a href="../Types/regexp.html">Regexp Type</a> for the description of the nested element regexp
+and of the choice of regular expression implementation.</p>
+<p>An example:</p>
+<pre>
+&lt;condition property="legal-password"&gt;
+  &lt;matches pattern="[1-9]" string="${user-input}"/&gt;
+&lt;/condition&gt;
+&lt;fail message="Your password should at least contain one number"
+      unless="legal-password"/&gt;</pre>
+<p>The following example sets the property <code>ok</code> if the property <code>input</code> is
+three characters long, starting with <q>a</q> and ending with <q>b</q>.</p>
+<pre>
+&lt;condition property="ok"&gt;
+  &lt;matches string="${input}" pattern="^a.b$"/&gt;
+&lt;/condition&gt;</pre>
+<p>The following defines a reference regular expression for matching dates and then uses antunit to
+check if the property <code>today</code> is in the correct format:</p>
+<pre>
+&lt;regexp id="date.pattern" pattern="^[0123]\d-[01]\d-[12]\d\d\d$"/&gt;
+
+&lt;au:assertTrue xmlns:au="antlib:org.apache.ant.antunit"&gt;
+  &lt;matches string="${today}"&gt;
+    &lt;regexp refid="date.pattern"/&gt;
+  &lt;/matches&gt;
+&lt;/au:assertTrue&gt;</pre>
+<p>The following example shows the use of the <var>singleline</var> and the <var>casesensitive</var>
+flags.</p>
+<pre>
+&lt;au:assertTrue&gt;
+  &lt;matches string="AB${line.separator}C" pattern="^ab.*C$"
+           casesensitive="false"
+           singleline="true"/&gt;
+&lt;/au:assertTrue&gt;
+&lt;au:assertFalse&gt;
+  &lt;matches string="AB${line.separator}C" pattern="^ab.*C$"
+           casesensitive="false"
+           singleline="false"/&gt;
+&lt;/au:assertFalse&gt;</pre>
+
+<h4 id="antversion">antversion</h4>
+<p>This condition is identical to the <a href="antversion.html">Antversion</a> task, all attributes
+are supported, the <var>property</var> attribute is redundant and will be ignored.</p>
+
+<h4 id="hasfreespace">hasfreespace</h4>
+<p><em>Since Ant 1.7.0</em></p>
+<p>Tests a partition to see if there is enough space.</p>
+<p>Needed attribute can be specified using standard computing terms:</p>
+<ul>
+  <li>K : Kilobytes (1024 bytes)</li>
+  <li>M : Megabytes (1024 K)</li>
+  <li>G : Gigabytes (1024 M)</li>
+  <li>T : Terabytes (1024 G)</li>
+  <li>P : Petabytes (1024 T)</li>
+</ul>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>partition</td>
+    <td>The partition or filesystem to check for free space</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>needed</td>
+    <td>The amount of free space needed.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+<p>An example:</p>
+<pre>&lt;hasfreespace partition="c:" needed="100M"/&gt;</pre>
+
+<h4 id="islastmodified">islastmodified</h4>
+<p><em>Since Ant 1.8.0</em></p>
+<p>Tests the last modified date of a resource.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>millis</td>
+    <td>Specifies the expected modification time of the resource in milliseconds since midnight Jan
+      1 1970.</td>
+    <td rowspan="2">Exactly one of the two</td>
+  </tr>
+  <tr>
+    <td>datetime</td>
+    <td class="left">Specifies the expected modification time of the resource. The special
+      value <q>now</q> indicates the current time.</td>
+  </tr>
+  <tr>
+    <td>pattern</td>
+    <td>SimpleDateFormat-compatible pattern string.</td>
+    <td>No; defaults to <q>MM/dd/YYYY hh:mm a</q> or <q>MM/dd/YYYY hh:mm:ss a</q></td>
+  </tr>
+  <tr>
+    <td>mode</td>
+    <td>How to compare the timestamp.  Accepted values
+      are <q>equals</q>, <q>before</q>, <q>not-before</q>, <q>after</q> and <q>not-after</q>.
+    <td>No; defaults to <q>equals</q></td>
+  </tr>
+</table>
+
+<p>The actual resource to test is specified as a nested element.</p>
+
+<p>An example:</p>
+<pre>
+&lt;islastmodified dateTime="08/18/2009 04:41:19 AM" mode="not-before"&gt;
+  &lt;file file="${file}"/&gt;
+&lt;/islastmodified&gt;</pre>
+
+<h4 id="resourceexists">resourceexists</h4>
+<p><em>Since Ant 1.8.0</em></p>
+<p>Tests a resource for existence.</p>
+
+<p>The actual resource to test is specified as a nested element.</p>
+
+<p>An example:</p>
+<pre>
+&lt;resourceexists&gt;
+  &lt;file file="${file}"/&gt;
+&lt;/resourceexists&gt;</pre>
+
+<h4 id="javaversion">javaversion</h4>
+<p><em>Since Ant 1.10.2</em></p>
+<p>Tests the version of the JVM executing Ant.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td class="left">atleast</td>
+    <td>The version that this JVM is of at least. The format
+      is <code>major.minor.point</code>. Starting with Java 9 really only the major number is
+      determined.</td>
+    <td rowspan="3">Exactly one of the three</td>
+  </tr>
+  <tr>
+    <td>atmost</td>
+    <td class="left">The version that this JVM is of at most. The format
+      is <code>major.minor.point</code>. Starting with Java 9 really only the major number is
+      determined.<br/>
+      <em>Since Ant 1.10.10</em>
+    </td>
+  </tr>
+  <tr>
+    <td>exactly</td>
+    <td class="left">The version that this JVM is of exactly. The format
+      is <code>major.minor.point</code>. Starting with Java 9 really only the major number is
+      determined.</td>
+  </tr>
+</table>
+
+<p>An example:</p>
+
+<pre>&lt;javaversion atleast=&quot;9&quot;/&gt;</pre>
+
+<p>will evaluate to true if the current JVM is Java 9 or above.</p>
+
+</body>
+</html>

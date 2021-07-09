@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Jmod Task</title>
+</head>
+
+<body>
+
+<h2 id="jmod">Jmod</h2>
+<p><em>Since Apache Ant 1.10.6</em></p>
+
+<h3>Description</h3>
+<p>Creates a linkable jmod file from a modular jar file, and optionally from
+other application files such as native libraries and license documents.
+Equivalent to the JDK's
+<a href="https://docs.oracle.com/en/java/javase/11/tools/jmod.html">jmod</a>
+tool.</p>
+<p>Requires Java 9 or later.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>destFile</td>
+    <td>jmod file to create.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>classpath</td>
+    <td>Files to be placed in the jmod file.  Usually a single module.</td>
+    <td rowspan="2">One of these is required, unless a nested
+                    <code>&lt;classpath&gt;</code> is present.</td>
+  </tr>
+  <tr>
+    <td>classpathref</td>
+    <td class="left">Files to be placed in the jmod file, given as a
+        <a href="../using.html#references">reference</a>
+        to a path defined elsewhere.</td>
+  </tr>
+  <tr>
+    <td>modulepath</td>
+    <td>Locations of modules on which classpath modules depend.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>modulepathref</td>
+    <td>Locations of modules on which classpath modules depend,
+        given as a <a href="../using.html#references">reference</a>
+        to a path defined elsewhere.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>commandpath</td>
+    <td>Directories containing native commands to include in jmod.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>commandpathref</td>
+    <td>Directories containing native commands to include in jmod,
+        given as a <a href="../using.html#references">reference</a>
+        to a path defined elsewhere.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>headerpath</td>
+    <td>Directories containing header files to include in jmod.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>headerpathref</td>
+    <td>Directories containing header files to include in jmod,
+        given as a <a href="../using.html#references">reference</a>
+        to a path defined elsewhere.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>configpath</td>
+    <td>Directories containing user-editable configuration files
+        to include in jmod.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>configpathref</td>
+    <td>Directories containing user-editable configuration files
+        to include in jmod,
+        given as a <a href="../using.html#references">reference</a>
+        to a path defined elsewhere.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>legalpath</td>
+    <td>Directories containing legal licenses and notices to include in jmod.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>legalpathref</td>
+    <td>Directories containing legal licenses and notices to include in jmod,
+        given as a <a href="../using.html#references">reference</a>
+        to a path defined elsewhere.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>nativelibpath</td>
+    <td>Directories containing native libraries to include in jmod.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>nativelibpathref</td>
+    <td>Directories containing native libraries to include in jmod,
+        given as a <a href="../using.html#references">reference</a>
+        to a path defined elsewhere.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>manpath</td>
+    <td>Directories containing man pages to include in jmod.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>manpathref</td>
+    <td>Directories containing man pages to include in jmod,
+        given as a <a href="../using.html#references">reference</a>
+        to a path defined elsewhere.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>version</td>
+    <td><a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/module/ModuleDescriptor.Version.html">Module version</a> of jmod.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>mainclass</td>
+    <td>Class that acts as executable entry point of module.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>platform</td>
+    <td>The target platform for the jmod.  Typically takes the form
+        <var>OS</var><code>-</code><var>architecture</var>.  A particular JDK's
+        platform can be seen by running a command like
+        <samp>jmod describe $JDK_HOME/jmods/java.base.jmod | grep -i platform</samp></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>hashModulesPattern</td>
+    <td>Regular expression for names of modules in the module path
+        which depend on the jmod being created, and which should have
+        hashes generated for them and included in the new jmod.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>resolveByDefault</td>
+    <td>Boolean indicating whether the jmod should be one of
+        the default resolved modules when it is in a module path
+        searched by tools and applications.</td>
+    <td>No.  Default is true.</td>
+  </tr>
+  <tr>
+    <td>moduleWarnings</td>
+    <td>Whether to emit warnings when resolving modules which are
+        not recommended for use.  Comma-separated list of one of more of
+        the following:
+        <dl>
+        <dt><code>deprecated</code></dt>
+        <dd>Warn if module is deprecated</dd>
+        <dt><code>leaving</code></dt>
+        <dd>Warn if module is deprecated for removal</dd>
+        <dt><code>incubating</code></dt>
+        <dd>Warn if module is an incubating (not yet official) module</dd>
+        </dl>
+    </td>
+    <td>No, default is no warnings.</td>
+  </tr>
+</table>
+
+<h3>Parameters specified as nested elements</h3>
+<h4>classpath, modulepath, commandpath, headerpath, configpath, legalpath, nativelibpath, manpath</h4>
+<p>The
+   <code>classpath</code>,
+   <code>modulepath</code>,
+   <code>commandpath</code>,
+   <code>headerpath</code>,
+   <code>configpath</code>,
+   <code>legalpath</code>,
+   <code>nativelibpath</code>, and
+   <code>manpath</code>
+   attributes are <a href="../using.html#path">path-like structures</a>
+   and can also be set via nested
+   <code>&lt;classpath&gt;</code>,
+   <code>&lt;modulepath&gt;</code>,
+   <code>&lt;commandpath&gt;</code>,
+   <code>&lt;headerpath&gt;</code>,
+   <code>&lt;configpath&gt;</code>,
+   <code>&lt;legalpath&gt;</code>,
+   <code>&lt;nativelibpath&gt;</code>, and
+   <code>&lt;manpath&gt;</code>
+   elements, respectively.</p>
+
+<h4>version</h4>
+<p>Fine-grained alternative to the <code>version</code> attribute.  This
+nested element has these attributes:</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>number</td>
+    <td>Primary version number.  Can be any text, as long as it does not
+        contain a hyphen (<code>-</code>) or plus (<code>+</code>).</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>preRelease</td>
+    <td>Pre-release version.  Can be any text, as long as it does not
+        contain a plus (<code>+</code>).</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>build</td>
+    <td>Build version.  Can be any text.
+    <td>No</td>
+  </tr>
+</table>
+
+<p>See the <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/module/ModuleDescriptor.Version.html">ModuleDescriptor.Version documentation</a>
+for a full description of the meaning of each version component.</p>
+
+<h4>moduleWarning</h4>
+<p>Like the <code>moduleWarnings</code> attribute, but only specifies a single
+basis for emitting warnings.  This child element may appear multiple times,
+to specify multiple conditions under which warnings should be emitted by the
+jmod tool.</p>
+
+<p>Attributes:</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>reason</td>
+    <td>Condition which will cause jmod tool to emit warnings.  One of:
+        <dl>
+        <dt><code>deprecated</code></dt>
+        <dd>Warn if module is deprecated</dd>
+        <dt><code>leaving</code></dt>
+        <dd>Warn if module is deprecated for removal</dd>
+        <dt><code>incubating</code></dt>
+        <dd>Warn if module is an incubating (not yet official) module</dd>
+        </dl>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+
+<h4>Basic jmod</h4>
+<p>Create a jmod from a single modular jar file:</p>
+<pre>
+&lt;jmod destfile="MyApp.jmod" classpath="build/myapp.jar"/&gt;
+</pre>
+
+<h4>With dependencies</h4>
+<p>Create a jmod from a modular jar file which depends on another module:</p>
+<pre>
+&lt;jmod destfile="MyApp.jmod" classpath="build/myapp.jar"&gt;
+    &lt;modulepath&gt;
+        &lt;pathelement location="libs/thirdpartyutils.jar"/&gt;
+    &lt;/modulepath&gt;
+&lt;/jmod&gt;
+</pre>
+
+<h4>With version</h4>
+<p>Create a jmod with a module version:</p>
+<pre>
+&lt;jmod destfile="MyApp.jmod" classpath="build/myapp.jar"
+      version="1.2.1-ea+29"/&gt;
+</pre>
+
+<p>Create a versioned jmod from module version components:</p>
+<pre>
+&lt;property name="version" value="1.2.1"/&gt;
+&lt;buildnumber/&gt;
+&lt;loadfile property="buildnum" srcFile="build.number"/&gt;
+&lt;jmod destfile="MyApp.jmod" classpath="build/myapp.jar"&gt;
+    &lt;version number="${version}" build="${buildnum}"/&gt;
+&lt;/jmod&gt;
+</pre>
+
+<h4>Main class</h4>
+<p>Create a jmod with a main class:</p>
+<pre>
+&lt;jmod destfile="MyApp.jmod" classpath="build/myapp.jar"
+      mainclass="com.example.myapp.MainWindow"/&gt;
+</pre>
+
+<h4>Target platform</h4>
+<p>Create a jmod for a specific platform, possibly different from the
+current platform:</p>
+
+<pre>
+&lt;jmod destfile="MyApp.jmod" classpath="build/myapp.jar"
+      platform="windows-amd64"/&gt;
+</pre>
+
+</body>
+</html>

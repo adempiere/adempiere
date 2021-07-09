@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+    <title>JUnitLauncher Task</title>
+</head>
+<body>
+
+<h2 id="junitlauncher">JUnitLauncher</h2>
+<h3>Description</h3>
+
+<p>
+    This task allows tests to be launched and run using the JUnit 5 framework.
+</p>
+<p>
+    JUnit 5 introduced a newer set of APIs to write and launch tests. It also introduced the concept
+    of test engines. Test engines decide which classes are considered as testcases and how they are
+    executed. JUnit 5 supports running tests that have been written using JUnit 4 constructs as well
+    as tests that have been written using JUnit 5 constructs.  For more details about JUnit 5
+    itself, please refer to the JUnit 5 project's documentation
+    at <a href="https://junit.org/junit5/">https://junit.org/junit5/</a>.
+</p>
+<p>
+    The goal of this <code>junitlauncher</code> task is to allow launching the JUnit 5 test launcher
+    and building the test requests so that the selected tests can then be parsed and executed by the
+    test engine(s) supported by JUnit 5. This task in itself does <i>not</i> understand what a test
+    case is nor does it execute the tests itself.
+</p>
+<p>
+    This task captures testoutput and configuration data inside of
+    the <a href="../running.html#tmpdir">temporary directory</a>.
+</p>
+<p>
+    <strong>Note</strong>: This task depends on external libraries not included in the Apache Ant
+    distribution. See <a href="../install.html#librarydependencies">Library Dependencies</a> for
+    more information.
+</p>
+<p>
+    <strong>Note</strong>: You must have the necessary JUnit 5 libraries in the classpath of the
+    tests. At the time of writing this documentation, the list of JUnit 5 platform libraries that
+    are necessary to run the tests are:
+</p>
+
+<ul id="junit-platform-libraries">
+    <li>
+        <samp>junit-platform-commons.jar</samp>
+    </li>
+    <li>
+        <samp>junit-platform-engine.jar</samp>
+    </li>
+    <li>
+        <samp>junit-platform-launcher.jar</samp>
+    </li>
+    <li>
+        <samp>opentest4j.jar</samp>
+    </li>
+</ul>
+
+<p>
+    Depending on the test engine(s) that you want to use in your tests, you will further need the
+    following libraries in the classpath
+</p>
+
+<p id="junit-vintage-engine-libraries">
+    For <q>junit-vintage</q> engine:
+</p>
+
+<ul>
+    <li>
+        <samp>junit-vintage-engine.jar</samp>
+    </li>
+    <li>
+        <samp>junit.jar</samp> (JUnit 4.x version)
+    </li>
+</ul>
+
+<p id="junit-jupiter-engine-libraries">
+    For <q>junit-jupiter</q> engine:
+</p>
+
+<ul>
+    <li>
+        <samp>junit-jupiter-api.jar</samp>
+    </li>
+    <li>
+        <samp>junit-jupiter-engine.jar</samp>
+    </li>
+</ul>
+
+<p>
+    To have these in the test classpath, you can follow <em>either</em> of the following approaches:
+</p>
+
+<ul id="setup">
+    <li id="setup-recommended"><b>Recommended approach since Ant 1.10.6</b>: Place the <samp>ant-junitlauncher.jar</samp> in <samp>ANT_HOME/lib</samp> directory
+    and use the nested <code>&lt;classpath&gt;</code> element to specify the location of the
+    the rest of the JUnit specific jars (noted above). Please read the
+    <a href=#nested-classpath>using classpath element</a> section for more details.</li>
+
+    <li>OR Put all these relevant jars along with the <samp>ant-junitlauncher.jar</samp>
+        in <samp>ANT_HOME/lib</samp> directory</li>
+
+    <li>OR Put <samp>ant-junitlauncher.jar</samp> in the <samp>ANT_HOME/lib</samp> directory and
+        include all other relevant jars in the classpath by passing them as a <kbd>-lib</kbd>
+        option, while invoking Ant</li>
+</ul>
+
+<p>
+    Tests are defined by nested elements like <code>test</code>, <code>testclasses</code> tags
+    (see <a href="#nested">nested elements</a>).
+</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+    <tr>
+        <th scope="col">Attribute</th>
+        <th scope="col">Description</th>
+        <th scope="col">Required</th>
+    </tr>
+    <tr>
+        <td>includeTags</td>
+        <td>A comma separated list of <a href="https://junit.org/junit5/docs/current/user-guide/#writing-tests-annotations">JUnit 5 tags</a>, describing the tests to include.
+            <p><em>Since Ant 1.10.7</em></p>
+        </td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>excludeTags</td>
+        <td>A comma separated list of <a href="https://junit.org/junit5/docs/current/user-guide/#writing-tests-annotations">JUnit 5 tags</a>, describing the tests to exclude.
+            <p><em>Since Ant 1.10.7</em></p>
+        </td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>haltOnFailure</td>
+        <td>A value of <q>true</q> implies that build has to stop if any failure occurs in any of
+            the tests. JUnit 4+ classifies failures as both assertion failures as well as exceptions
+            that get thrown during test execution. As such, this task too considers both these cases
+            as failures and doesn't distinguish one from another.
+        </td>
+        <td>No; default is <q>false</q></td>
+    </tr>
+    <tr>
+        <td>failureProperty</td>
+        <td>The name of a property to set in the event of a failure
+            (exceptions in tests are considered failures as well).
+        </td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>printSummary</td>
+        <td>If the value is set to <code>true</code> then this task, upon completion of the test execution,
+            prints the summary of the execution to <code>System.out</code>. Starting Ant 1.10.10, unlike
+            in previous versions, this task itself generates the summary instead of using the one generated
+            by the JUnit 5 platform.
+        </td>
+        <td>No; defaults to <code>false</code></td>
+    </tr>
+</table>
+
+<h3 id="nested">Nested Elements</h3>
+
+<h4 id="nested-classpath">classpath</h4>
+<p>
+    The nested <code>&lt;classpath&gt;</code> element that represents
+    a <a href="../using.html#path">PATH like structure</a> can be used to configure the task to use
+    this classpath for finding and running the tests. This classpath will be used for:
+</p>
+<ul>
+    <li>Finding the test classes to execute</li>
+    <li>Finding test engines that run the tests</li>
+    <li>If <a href="#setup-recommended">configured to do so</a>, finding all necessary JUnit libraries</li>
+</ul>
+<p>
+    If the <code>classpath</code> element isn't configured for the task, then the classpath of Ant
+    itself will be used for finding the test classes and the JUnit libraries.
+</p>
+
+<p>
+    Below is an example of setting up the classpath to include the Jupiter test engine and
+    the JUnit platform libraries during the execution of the tests.
+</p>
+    <pre>
+&lt;project&gt;
+
+    &lt;property name="output.dir" value="${basedir}/build"/&gt;
+    &lt;property name="src.test.dir" value="${basedir}/src/test"/&gt;
+    &lt;property name="build.classes.dir" value="${output.dir}/classes"/&gt;
+
+    &lt;target name="init"&gt;
+        &lt;mkdir dir="${output.dir}"/&gt;
+    &lt;/target&gt;
+
+    &lt;path id="junit.platform.libs.classpath"&gt;
+        &lt;fileset dir="${basedir}/src/lib/junit-platform/"/&gt;
+    &lt;/path&gt;
+
+    &lt;path id="junit.engine.jupiter.classpath"&gt;
+        &lt;fileset dir="${basedir}/src/lib/jupiter/"/&gt;
+    &lt;/path&gt;
+
+    &lt;target name="compile-test" depends="init"&gt;
+        &lt;mkdir dir="${build.classes.dir}"/&gt;
+        &lt;javac srcdir="${src.test.dir}"
+           destdir="${build.classes.dir}"&gt;
+           &lt;!-- our tests only need JUnit Jupiter engine
+           libraries in our compile classpath for the tests --&gt;
+           &lt;classpath refid="junit.engine.jupiter.classpath"/&gt;
+        &lt;/javac&gt;
+    &lt;/target&gt;
+
+    &lt;target name="test" depends="compile-test"&gt;
+        &lt;junitlauncher&gt;
+            &lt;!-- include the JUnit platform related libraries
+            required to run the tests --&gt;
+            &lt;classpath refid="junit.platform.libs.classpath"/&gt;
+
+            &lt;!-- include the JUnit Jupiter engine libraries --&gt;
+            &lt;classpath refid="junit.engine.jupiter.classpath"/&gt;
+
+            &lt;classpath&gt;
+                &lt;!-- the test classes themselves --&gt;
+                &lt;pathelement location="${build.classes.dir}"/&gt;
+            &lt;/classpath&gt;
+            &lt;testclasses outputdir="${output.dir}"&gt;
+                &lt;fileset dir="${build.classes.dir}"/&gt;
+                &lt;listener type="legacy-brief" sendSysOut="true"/&gt;
+                &lt;listener type="legacy-xml" sendSysErr="true" sendSysOut="true"/&gt;
+
+            &lt;/testclasses&gt;
+        &lt;/junitlauncher&gt;
+    &lt;/target&gt;
+&lt;/project&gt;
+    </pre>
+<p>
+    In the example above,
+</p>
+    <ul>
+        <li>The <code>src/lib/jupiter</code> directory is expected to contain
+        the Jupiter test engine related jars (which have been
+        <a href="#junit-jupiter-engine-libraries">listed in an earlier section of this
+        document</a>).</li>
+        <li>The <code>src/lib/junit-platform</code> directory is expected to
+        contain the JUnit platform jars (which have been
+        <a href="#junit-platform-libraries">listed in an earlier section of this
+        document</a>)</li>
+    </ul>
+<p>
+    In the <code>test</code> target we use the <code>classpath</code> nested element
+    to point to the <code>junit.engine.jupiter.classpath</code> and <code>junit.platform.libs.classpath</code>
+    containing those jars.
+    In this <code>test</code> target we also use another <code>classpath</code> element to point to
+    the location containing our test classes. If required, all these classpaths can be combined
+    into one.
+</p>
+
+<h4>listener</h4>
+
+<p>
+    The <code>junitlauncher</code> task can be configured with <code>listener</code>(s) to listen to
+    test execution events (such as a test execution starting, completing etc...). The listener is
+    expected to be a class which implements
+    the <code class="code">org.junit.platform.launcher.TestExecutionListener</code>.
+    This <code class="code">TestExecutionListener</code> interface is an API exposed by the JUnit 5
+    platform APIs and isn't specific to Ant. As such, you can use any existing implementation
+    of <code class="code">TestExecutionListener</code> in this task.
+</p>
+
+<h5>Test result formatter</h5>
+<p>
+    <code>junitlauncher</code> provides a way where the test execution results can be formatted and
+    presented in a way that's customizable. The task allows for configuring test result formatters,
+    through the use of <code>listener</code> element. As noted previously, the <code>listener</code>
+    element expects the listener to implement
+    the <code class="code">org.junit.platform.launcher.TestExecutionListener</code>
+    interface. Typically, result formatters need a bit more configuration details to be fed to them,
+    during the test execution&mdash;details like where to write out the formatted result. Any such
+    listener can optionally implement
+    the <code class="code">org.apache.tools.ant.taskdefs.optional.junitlauncher.TestResultFormatter</code>
+    interface. This interface is specific to Ant <code>junitlauncher</code> task and it extends
+    the <code class="code">org.junit.platform.launcher.TestExecutionListener</code> interface
+</p>
+<p>
+    The <code>junitlauncher</code> task comes with the following pre-defined test result formatter
+    types:
+</p>
+<ul>
+    <li>
+        <q>legacy-plain</q> : This formatter prints a short statistics line for all test
+        cases.
+    </li>
+    <li>
+        <q>legacy-brief</q> : This formatter prints information for tests that failed or were
+        skipped.
+    </li>
+    <li>
+        <q>legacy-xml</q> : This formatter prints statistics for the tests in XML format.
+    </li>
+</ul>
+<p>
+    <strong>Note</strong>: Each of these formatters named <q>legacy</q> try to format the results
+    similar to what the <code>junit</code> task's formatters used to do. Furthermore,
+    the <q>legacy-xml</q> formatter generates the XML to comply with the same schema that
+    the <code>junit</code> task's XML formatter used to follow.  As a result, the XML generated by
+    this formatter, can be used as-is by the <code>junitreport</code> task.
+</p>
+<p>
+    The <code>listener</code> element supports the following attributes:
+</p>
+<table class="attr">
+    <tr>
+        <th scope="col">Attribute</th>
+        <th scope="col">Description</th>
+        <th scope="col">Required</th>
+    </tr>
+    <tr>
+        <td>type</td>
+        <td>Use a predefined formatter (either <q>legacy-xml</q>, <q>legacy-plain</q>
+            or <q>legacy-brief</q>).</td>
+        <td rowspan="2">Exactly one of these</td>
+    </tr>
+    <tr>
+        <td>classname</td>
+        <td class="left">Name of a listener class which
+            implements <code>org.junit.platform.launcher.TestExecutionListener</code> or
+            the <code>org.apache.tools.ant.taskdefs.optional.junitlauncher.TestResultFormatter</code>
+            interface
+        </td>
+    </tr>
+    <tr>
+        <td>resultFile</td>
+        <td>
+            The file name to which the formatted result needs to be written to. This attribute is
+            only relevant when the listener class implements
+            the <code>org.apache.tools.ant.taskdefs.optional.junitlauncher.TestResultFormatter</code>
+            interface.
+            <p>
+                If no value is specified for this attribute and the listener implements
+                the <code>org.apache.tools.ant.taskdefs.optional.junitlauncher.TestResultFormatter</code>
+                then the file name will be defaulted to and will be of the
+                form <code>TEST-<i>testname</i>.<i>formatter-specific-extension</i></code>
+                (ex: <samp>TEST-org.myapp.SomeTest.xml</samp> for the <q>legacy-xml</q> type
+                formatter)
+            </p>
+            <p>
+                This file is considered relative to the <code>outputDir</code> configured on the listener.
+                If no <code>outputDir</code> is set on the listener, then the file is considered relative to the
+                <code>outputDir</code> of the test in context of which this listener is being run.
+            </p>
+        </td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>outputDir</td>
+        <td>Directory into which to create the output of the listener.
+            <p><em>Since Ant 1.10.6</em></p>
+        </td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>sendSysOut</td>
+        <td>If set to <q>true</q> then the listener will be passed the <code>stdout</code> content
+            generated by the test(s). This attribute is relevant only if the listener class
+            implements
+            the <code>org.apache.tools.ant.taskdefs.optional.junitlauncher.TestResultFormatter</code>
+            interface.</td>
+        <td>No; defaults to <q>false</q></td>
+    </tr>
+    <tr>
+        <td>sendSysErr</td>
+        <td>If set to <q>true</q> then the listener will be passed the <code>stderr</code> content
+            generated by the test(s). This attribute is relevant only if the listener class
+            implements
+            the <code>org.apache.tools.ant.taskdefs.optional.junitlauncher.TestResultFormatter</code>
+            interface.</td>
+        <td>No; defaults to <q>false</q></td>
+    </tr>
+    <tr>
+        <td>if</td>
+        <td>Only use this listener <a href="../properties.html#if+unless">if the named property is
+            set</a>.</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>unless</td>
+        <td>Only use this listener <a href="../properties.html#if+unless">if the named property
+            is <strong>not</strong> set</a>.</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>useLegacyReportingName</td>
+        <td>Set to true, if the test identifiers reported by this listener should use legacy (JUnit4
+            style) names. Else set to false. Defaults to true.
+            <p><em>Since Ant 1.10.10</em></p>
+        </td>
+        <td>No</td>
+    </tr>
+</table>
+
+<h4>test</h4>
+
+<p>Defines a single test class.</p>
+
+<table class="attr">
+    <tr>
+        <th scope="col">Attribute</th>
+        <th scope="col">Description</th>
+        <th scope="col">Required</th>
+    </tr>
+    <tr>
+        <td>name</td>
+        <td>Fully qualified name of the test class.</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>methods</td>
+        <td>Comma-separated list of names of test case methods to execute.  If this is specified,
+            then only these test methods from the test class will be executed.</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>haltOnFailure</td>
+        <td>Stop the build process if a failure occurs during the test run (exceptions are
+            considered as failures too).  Overrides value set on <code>junitlauncher</code>
+            element.</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>failureProperty</td>
+        <td>The name of a property to set in the event of a failure (exceptions are considered
+            failures as well). Overrides value set on <code>junitlauncher</code> element.</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>outputDir</td>
+        <td>Directory to write the reports to.</td>
+        <td>No; default is the base directory of the project.</td>
+    </tr>
+    <tr>
+        <td>if</td>
+        <td>Only run this test <a href="../properties.html#if+unless">if the named property is
+            set</a>.</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>unless</td>
+        <td>Only run this test <a href="../properties.html#if+unless">if the named property
+            is <strong>not</strong> set</a>.</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>includeEngines</td>
+        <td>A comma separated set of test engine ids. If specified, only these test engine(s)
+            will be used for running the tests.
+            <br/>
+            For example: <code>includeEngines="junit-jupiter"</code> will only use the Jupiter
+            test engine for execution of the tests and will ignore any other engines that might
+            have been found in the classpath.
+        </td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>excludeEngines</td>
+        <td>A comma separated set of test engine ids. If specified, these test engine(s)
+            will be excluded when running the tests.
+            <br/>
+            For example: <code>excludeEngines="junit-vintage"</code> will exclude the vintage
+            test engine during execution of the tests and will use any other engines that might
+            have been found in the classpath.
+        </td>
+        <td>No</td>
+    </tr>
+</table>
+
+<p>
+    Tests can define their own listeners via nested <code>listener</code> elements.
+</p>
+
+<p>
+    The <a href="#fork">fork</a> nested element can be used to run the test in a newly forked
+    JVM.
+</p>
+
+<h4>testclasses</h4>
+
+<p>Define a number of tests based on pattern matching.</p>
+
+<p>
+    <code>testclasses</code> collects the included <a href="../Types/resources.html">resources</a>
+    from any number of nested <a href="../Types/resources.html#collection">Resource
+    Collection</a>s. It then selects each resource whose name ends in <code>.class</code>. These
+    classes are then passed on to the JUnit 5 platform for it to decide and run them as tests.
+</p>
+
+<table class="attr">
+    <tr>
+        <th scope="col">Attribute</th>
+        <th scope="col">Description</th>
+        <th scope="col">Required</th>
+    </tr>
+    <tr>
+        <td>haltOnFailure</td>
+        <td>Stop the build process if a failure occurs during the test run (exceptions are
+            considered as failures too).  Overrides value set on <code>junitlauncher</code>
+            element.</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>failureProperty</td>
+        <td>The name of a property to set in the event of a failure (exceptions are considered
+            failures as well). Overrides value set on <code>junitlauncher</code> element.</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>outputDir</td>
+        <td>Directory to write the reports to.</td>
+        <td>No; default is the base directory of the project.</td>
+    </tr>
+    <tr>
+        <td>if</td>
+        <td>Only run the tests <a href="../properties.html#if+unless">if the named property is
+            set</a>.</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>unless</td>
+        <td>Only run the tests <a href="../properties.html#if+unless">if the named property
+            is <strong>not</strong> set</a>.</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>includeEngines</td>
+        <td>A comma separated set of test engine ids. If specified, only these test engine(s)
+            will be used for running the tests.
+            <br/>
+            For example: <code>includeEngines="junit-jupiter"</code> will only use the Jupiter
+            test engine for execution of the tests and will ignore any other engines that might
+            have been found in the classpath.
+        </td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>excludeEngines</td>
+        <td>A comma separated set of test engine ids. If specified, these test engine(s)
+            will be excluded when running the tests.
+            <br/>
+            For example: <code>excludeEngines="junit-vintage"</code> will exclude the vintage
+            test engine during execution of the tests and will use any other engines that might
+            have been found in the classpath.
+        </td>
+        <td>No</td>
+    </tr>
+</table>
+
+<p>
+    <code>testclasses</code> can define their own listeners via nested <code>listener</code>
+    elements.
+</p>
+
+<p>
+    The <a href="#fork">fork</a> nested element can be used to run the tests in a newly forked
+    JVM. All tests that are part of this <code>testclasses</code> element will run in one single
+    instance of the newly forked JVM.
+</p>
+
+<h4 id="fork">fork</h4>
+
+<p><em>Since Ant 1.10.6</em></p>
+
+Tests launched using the <code>junitlauncher</code> task, by default, run in the same JVM that
+initiates the task. This behaviour can be changed using the <code>fork</code> element.
+The <code>fork</code> element and its attributes define the characteristics of
+the new JVM instance that will be created to launch the tests.
+
+<table class="attr">
+    <tr>
+        <th scope="col">Attribute</th>
+        <th scope="col">Description</th>
+        <th scope="col">Required</th>
+    </tr>
+    <tr>
+        <td>dir</td>
+        <td>The user working directory that will be used for the forked JVM</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>timeout</td>
+        <td>A value in milliseconds, specifying a maximum duration, the test
+            running in this forked JVM is allowed to run. If the test runs longer
+            than this configured value, then the JVM is killed</td>
+        <td>No</td>
+    </tr>
+    <tr>
+        <td>includeJUnitPlatformLibraries</td>
+        <td>If set to <code>true</code>, then the jar files that make up the
+        JUnit platform, will be included in the runtime classpath of the forked
+        JVM. If set to <code>false</code>, then the <a href="#nested-classpath">configured classpath</a>
+        of this task, which will be made available to the runtime classpath of the forked
+        JVM, is expected to contain the JUnit platform library jars</td>
+        <td>No. Value defaults to <code>true</code>.</td>
+    </tr>
+    <tr>
+        <td>includeAntRuntimeLibraries</td>
+        <td>If set to <code>true</code>, then the jar files that make up the
+            Ant runtime, will be included in the runtime classpath of the forked
+            JVM. If set to <code>false</code>, then the <a href="#nested-classpath">configured classpath</a>
+            of this task, which will be made available to the runtime classpath of the forked
+            JVM, is expected to contain the Ant runtime jars</td>
+        <td>No. Value defaults to <code>true</code>.</td>
+    </tr>
+</table>
+
+The <code>fork</code> element allows the following nested elements:
+
+<h5>jvmarg</h5>
+<p>
+    Additional JVM arguments may be passed to the forked JVM via the <code>jvmarg</code> elements.
+    For example:
+</p>
+    <pre>
+    &lt;fork ...&gt;
+      &lt;jvmarg value="-Djava.compiler=NONE"/&gt;
+      ...
+    &lt;/fork&gt;
+    </pre>
+
+<p>
+    <code>jvmarg</code> allows all attributes described in <a href="../using.html#arg">Command-line Arguments</a>
+</p>
+
+<h5>sysproperty</h5>
+<p>
+    The <code>sysproperty</code> elements allow passing Java system properties to the forked JVM:
+</p>
+    <pre>
+    &lt;fork&gt;
+        &lt;sysproperty key="greeting" value="hello world"/&gt;
+    ...
+    &lt;/fork&gt;
+    </pre>
+<p>
+    The attributes for this element are the same as for <a href="../Tasks/exec.html#env">environment variables</a>
+</p>
+
+<h5>syspropertyset</h5>
+
+<p>
+    You can specify a set of properties to be used as system properties with
+    <a href="../Types/propertyset.html">syspropertyset</a>(s)
+</p>
+
+
+<h5>env</h5>
+
+<p>
+    It is possible to specify environment variables to pass to the forked JVM via
+    nested <code>env</code> elements. For a description of the <code>env</code>
+    element's attributes, see the description in the <a href="../Tasks/exec.html#env">exec</a> task.
+</p>
+
+<h5>modulepath</h5>
+
+<p>
+    The location of Java modules can be specified using the <code>modulepath</code> element,
+    which is a <a href="../using.html#path">path-like structure</a>.
+</p>
+For example:
+<pre>
+&lt;fork&gt;
+  &lt;modulepath&gt;
+    &lt;pathelement location="lib"/&gt;
+    &lt;pathelement location="dist/test.jar"/&gt;
+  &lt;/modulepath&gt;
+  ...
+&lt;/fork&gt;
+</pre>
+
+<h5>upgrademodulepath</h5>
+
+<p>
+    The location of Java modules, that replace upgradeable modules in the runtime, can be specified
+    using the <code>upgrademodulepath</code> element, which is a <a href="../using.html#path">path-like
+    structure</a>.
+</p>
+
+
+<h3>Examples</h3>
+
+<p>
+    Launch the JUnit 5 platform to run the <samp>org.myapp.SimpleTest</samp> test
+</p>
+
+<pre>
+&lt;path id="test.classpath"&gt;
+    ...
+&lt;/path&gt;
+
+&lt;junitlauncher&gt;
+    &lt;classpath refid="test.classpath"/&gt;
+    &lt;test name="org.myapp.SimpleTest"/&gt;
+&lt;/junitlauncher&gt;</pre>
+
+<p>
+    Launch the JUnit 5 platform to run the <samp>org.myapp.SimpleTest</samp> and
+    the <samp>org.myapp.AnotherTest</samp> tests. The build process will be stopped if any test, in
+    the <samp>org.myapp.SimpleTest</samp>, fails.
+</p>
+
+<pre>
+&lt;junitlauncher&gt;
+    &lt;classpath refid="test.classpath"/&gt;
+    &lt;test name="org.myapp.SimpleTest" haltOnFailure="true"/&gt;
+    &lt;test name="org.myapp.AnotherTest"/&gt;
+&lt;/junitlauncher&gt;
+</pre>
+
+<p>
+    Launch the JUnit 5 platform to run only the <samp>testFoo</samp> and <samp>testBar</samp>
+    methods of the <samp>org.myapp.SimpleTest</samp> test class.
+</p>
+
+<pre>
+&lt;junitlauncher&gt;
+    &lt;classpath refid="test.classpath"/&gt;
+    &lt;test name="org.myapp.SimpleTest" methods="testFoo, testBar"/&gt;
+&lt;/junitlauncher&gt;</pre>
+
+<p>
+    Select any <samp>.class</samp> files that match
+    the <samp>org/example/**/tests/**/</samp> <code>fileset</code> filter, under
+    the <samp>${build.classes.dir}</samp> and passes those classes to the JUnit 5 platform for
+    execution as tests.
+</p>
+
+<pre>
+&lt;junitlauncher&gt;
+    &lt;classpath refid="test.classpath"/&gt;
+
+    &lt;testclasses outputdir="${output.dir}"&gt;
+        &lt;fileset dir="${build.classes.dir}"&gt;
+            &lt;include name="org/example/**/tests/**/"/&gt;
+        &lt;/fileset&gt;
+    &lt;/testclasses&gt;
+&lt;/junitlauncher&gt;</pre>
+
+<p>
+    Select any <samp>.class</samp> files that match
+    the <samp>org/example/**/tests/**/</samp> <code>fileset</code> filter, under
+    the <samp>${build.classes.dir}</samp> and pass those classes to the JUnit 5 platform for
+    execution as tests. Test results will be written out to the <samp>${output.dir}</samp> by
+    the <q>legacy-xml</q> and <q>legacy-plain</q> formatters, in separate files. Furthermore, both
+    the <q>legacy-xml</q> and the <q>legacy-plain</q> listeners, above, are configured to receive
+    the standard output content generated by the tests. The <q>legacy-xml</q> listener is configured
+    to receive standard error content as well.
+</p>
+
+<pre>
+&lt;junitlauncher&gt;
+    &lt;classpath refid="test.classpath"/&gt;
+
+    &lt;testclasses outputdir="${output.dir}"&gt;
+        &lt;fileset dir="${build.classes.dir}"&gt;
+            &lt;include name="org/example/**/tests/**/"/&gt;
+        &lt;/fileset&gt;
+        &lt;listener type="legacy-xml" sendSysOut="true" sendSysErr="true"/&gt;
+        &lt;listener type="legacy-plain" sendSysOut="true" /&gt;
+    &lt;/testclasses&gt;
+&lt;/junitlauncher&gt;</pre>
+
+</body>
+</html>

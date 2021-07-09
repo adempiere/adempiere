@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+  <head>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+    <title>Concat</title>
+  </head>
+
+  <body>
+
+    <h2 id="concat">Concat</h2>
+
+    <h3>Description</h3>
+
+    <p>Concatenates one or more <a href="../Types/resources.html">resource</a>s to a single file or
+      to the console. The destination file will be created if it does not exist unless the resource
+      list is empty and <var>ignoreempty</var> is <q>true</q>.</p>
+
+    <p><em>Since Apache Ant 1.7.1</em>, this task can be used as
+      a <a href="../Types/resources.html#collection">resource collection</a> that will return
+      exactly one <a href="../Types/resources.html">resource</a>.</p>
+
+    <p><a href="../Types/resources.html#collection">Resource collections</a> are used to select
+      which resources are to be concatenated. There is no singular attribute to specify a single
+      resource to <code>concat</code>.</p>
+
+    <h3>Parameters</h3>
+
+    <table class="attr">
+      <tr>
+        <th scope="col">Attribute</th>
+        <th scope="col">Description</th>
+        <th scope="col">Required</th>
+      </tr>
+      <tr>
+        <td>destfile</td>
+        <td>The destination file for the concatenated stream.  If not specified the console will be
+          used instead.</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>append</td>
+        <td>Specifies whether or not the file specified by <var>destfile</var> should be
+          appended.</td>
+        <td>No; defaults to <q>no</q></td>
+      </tr>
+      <tr>
+        <td>force</td>
+        <td>Specifies whether or not the file specified by <var>destfile</var> should be written to
+          even if it is newer than all source files. <em><u>Deprecated</u>, use
+          the <var>overwrite</var> attribute instead.</em></td>
+        <td>No; defaults to <q>yes</q></td>
+      </tr>
+      <tr>
+        <td>overwrite</td>
+        <td>Specifies whether or not the file specified by <var>destfile</var> should be written to
+          even if it is newer than all source files.  <em>Since Ant 1.8.2</em>.</td>
+        <td>No; defaults to <q>yes</q></td>
+      </tr>
+      <tr>
+        <td>forceReadOnly</td>
+        <td>Overwrite read-only destination files.  <em>Since Ant 1.8.2</em></td>
+        <td>No; defaults to <q>false</q></td>
+      </tr>
+      <tr>
+        <td>encoding</td>
+        <td>Specifies the encoding for the input files. Please
+          see <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html"
+          target="_top">Supported Encodings</a> for a list of possible values.</td>
+        <td>No; defaults to default JVM character encoding</td>
+      </tr>
+      <tr>
+        <td>outputencoding</td>
+        <td>The encoding to use when writing the output file.  <em>Since Ant 1.6</em>.</td>
+        <td>No; defaults to <var>encoding</var> if set or default JVM character encoding
+          otherwise</td>
+      </tr>
+      <tr>
+        <td>fixlastline</td>
+        <td>Specifies whether or not to check if each file concatenated is terminated by a new
+          line. If this attribute is <q>yes</q> a new line will be appended to the stream if the
+          file did not end in a new line.  <em>Since Ant 1.6</em>.  This attribute does not apply to
+          embedded text.</td>
+        <td>No; defaults to <q>no</q></td>
+      </tr>
+      <tr>
+        <td>eol</td>
+        <td>Specifies what the end of line character are for use by the fixlastline
+          attribute.  <em>Since Ant 1.6</em> Valid values for this property are:
+          <ul>
+            <li><q>cr</q>: a single CR</li>
+            <li><q>lf</q>: a single LF</li>
+            <li><q>crlf</q>: the pair CRLF</li>
+            <li><q>mac</q>: a single CR</li>
+            <li><q>unix</q>: a single LF</li>
+            <li><q>dos</q>: the pair CRLF</li>
+          </ul></td>
+        <td>No; default is platform dependent: <q>lf</q> for Unix, <q>crlf</q> for DOS family
+        (including Windows), <q>cr</q> for Mac OS 9 or earlier</td></tr>
+      <tr>
+        <td>binary</td>
+        <td><em>Since Ant 1.6.2</em> If this attribute is set to <q>true</q>, the task concatenates
+          the files in a byte by byte fashion. If this attribute is <q>false</q>, concat will not
+          normally work for binary files due to character encoding issues.  If this option is set
+          to <q>true</q>, the <var>destfile</var> attribute must be set, and the task cannot used
+          nested text.  Also the
+          attributes <var>encoding</var>, <var>outputencoding</var>, <var>filelastline</var> cannot
+          be used.</td>
+        <td>No; default is <q>false</q></td>
+      </tr>
+      <tr>
+        <td>filterbeforeconcat</td>
+        <td>If this attribute is set to <q>true</q>, the task applies the filterchain to each
+          input after applying <code>fixlastline</code>. If this attribute is <q>false</q>, concat
+          will apply the filterchain only once to the already concatenated inputs. Filtering of
+          <code>header</code> and <code>footer</code> is not affected by this setting.
+          <em>Since Ant 1.10.10</em></td>
+        <td>No; default is <q>false</q></td>
+      </tr>
+      <tr>
+        <td>ignoreempty</td>
+        <td><em>Since Ant 1.8.0</em> Specifies whether or not the file specified
+          by <var>destfile</var> should be created if the source resource list is empty.
+        </td>
+        <td>No; defaults to <q>true</q></td>
+      </tr>
+      <tr>
+        <td>resourcename</td>
+        <td><em>Since Ant 1.8.3</em> Specifies the name reported if this task is exposed as
+          a <a href="../Types/resources.html">resource</a>.
+        </td>
+        <td>No</td>
+      </tr>
+    </table>
+
+    <h3>Parameters specified as nested elements</h3>
+    <h4>resource collection</h4>
+    <p><em>Since Ant 1.7</em>.</p>
+
+    <p>Any of the various <a href="../Types/resources.html#collection">resource collection</a> types
+      can specify the resources to be concatenated.</p>
+
+    <h4>filterchain</h4>
+    <p><em>Since Ant 1.6</em>.</p>
+    <p>The task supports nested <a href="../Types/filterchain.html">FilterChain</a>s.</p>
+
+    <h4>header, footer</h4>
+    <p><em>Since Ant 1.6</em>.</p>
+    <p>Used to prepend or postpend text into the concatenated stream.</p>
+    <p>The text may be in-line or be in a file.</p>
+    <table class="attr">
+      <tr>
+        <th scope="col">Attribute</th>
+        <th scope="col">Description</th>
+        <th scope="col">Required</th>
+      </tr>
+      <tr>
+        <td>filtering</td>
+        <td>Whether to filter the text provided by this sub element.</td>
+        <td>No; default is <q>yes</q></td>
+      </tr>
+      <tr>
+        <td>file</td>
+        <td>A file to place at the head or tail of the concatenated text.</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>trim</td>
+        <td>Whether to trim the value.</td>
+        <td>No; default is <q>no</q></td>
+      </tr>
+      <tr>
+        <td>trimleading</td>
+        <td>Whether to trim leading white space on each line.</td>
+        <td>No; default is <q>no</q></td>
+      </tr>
+    </table>
+
+    <h3>Examples</h3>
+
+    <p>Concatenate a string to a file:</p>
+    <pre>&lt;concat destfile=&quot;README&quot;&gt;Hello, World!&lt;/concat&gt;</pre>
+
+    <p>Concatenate a series of files to the console:</p>
+    <pre>
+&lt;concat&gt;
+  &lt;fileset dir=&quot;messages&quot; includes=&quot;*important*&quot;/&gt;
+&lt;/concat&gt;</pre>
+
+    <p>Concatenate a single file, appending if the destination file exists:</p>
+    <pre>
+&lt;concat destfile=&quot;NOTES&quot; append=&quot;true&quot;&gt;
+  &lt;filelist dir=&quot;notes&quot; files=&quot;note.txt&quot;/&gt;
+&lt;/concat&gt;</pre>
+
+    <p>Concatenate a series of files, update the destination file only if is older that all the
+      source files:</p>
+    <pre>
+&lt;concat destfile=&quot;${docbook.dir}/all-sections.xml&quot;
+        force=&quot;no&quot;&gt;
+  &lt;filelist dir=&quot;${docbook.dir}/sections&quot;
+            files=&quot;introduction.xml,overview.xml&quot;/&gt;
+  &lt;fileset dir=&quot;${docbook.dir}&quot;
+           includes=&quot;sections/*.xml&quot;
+           excludes=&quot;introduction.xml,overview.xml&quot;/&gt;
+&lt;/concat&gt;</pre>
+
+    <p>Concatenate a series of files, expanding Ant properties.</p>
+    <pre>
+&lt;concat destfile="${build.dir}/subs"&gt;
+  &lt;path&gt;
+    &lt;fileset dir="${src.dir}" includes="*.xml"/&gt;
+    &lt;pathelement location="build.xml"/&gt;
+  &lt;/path&gt;
+  &lt;filterchain&gt;
+    &lt;expandproperties/&gt;
+  &lt;/filterchain&gt;
+&lt;/concat&gt;</pre>
+
+    <p>Filter the lines containing project from <samp>build.xml</samp> and output them
+      to <samp>report.output</samp>, prepending with a header.</p>
+    <pre>
+&lt;concat destfile="${build.dir}/report.output"&gt;
+  &lt;header filtering="no" trimleading="yes"&gt;
+      Lines that contain project
+      ==========================
+  &lt;/header&gt;
+  &lt;path path="build.xml"/&gt;
+  &lt;filterchain&gt;
+    &lt;linecontains&gt;
+      &lt;contains value="project"/&gt;
+    &lt;/linecontains&gt;
+  &lt;/filterchain&gt;
+&lt;/concat&gt;</pre>
+
+    <p>Concatenate a number of binary files.</p>
+    <pre>
+&lt;concat destfile="${build.dir}/dist.bin" binary="yes"&gt;
+  &lt;fileset file="${src.dir}/scripts/dist.sh"/&gt;
+  &lt;fileset file="${build.dir}/dist.tar.bz2"/&gt;
+&lt;/concat&gt;</pre>
+
+  </body>
+</html>

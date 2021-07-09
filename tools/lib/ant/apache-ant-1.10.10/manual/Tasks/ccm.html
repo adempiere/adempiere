@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Continuus Tasks</title>
+</head>
+
+<body>
+
+<h1>Continuus Support</h1>
+<ul>
+  <li><a href="#ccmcheckin">CCMCheckin</a></li>
+  <li><a href="#ccmcheckout">CCMCheckout</a></li>
+  <li><a href="#ccmcheckintask">CCMCheckinTask</a></li>
+  <li><a href="#ccmreconfigure">CCMReconfigure</a></li>
+  <li><a href="#ccmcreatetask">CCMCreateTask</a></li>
+</ul>
+
+<p>These Apache Ant tasks are wrappers
+around <a href="https://en.wikipedia.org/wiki/Rational_Synergy" target="_top">Continuus Source
+Manager</a>. They have been tested against versions 5.1/6.2 on Windows 2000, but should work on
+other platforms with <kbd>ccm</kbd> installed.</p>
+
+<hr/>
+
+<h2 id="ccmcheckin">CCMCheckin</h2>
+<h3>Description</h3>
+<p>Check in a file to Continuus</p>
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Values</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td>Path to the file that the command will operate on</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>comment</td>
+    <td>Specify a comment.</td>
+    <td>No; default is <q>Checkin</q> plus the date</td>
+  </tr>
+  <tr>
+    <td>task</td>
+    <td>Specify the task number used to check in the file (may use <q>default</q>)</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>ccmdir</td>
+    <td>path to the <kbd>ccm</kbd> executable file, required if it is not on
+    the <code>PATH</code></td>
+    <td>No</td>
+  </tr>
+</table>
+<h3>Examples</h3>
+
+<p>Check in the file <samp>c:/wa/com/foo/MyFile.java</samp>.  Text <samp>mycomment</samp> is added
+as a comment. The task used is the one set as the default.</p>
+<pre>
+&lt;ccmcheckin file=&quot;c:/wa/com/foo/MyFile.java&quot;
+            comment=&quot;mycomment&quot;/&gt;</pre>
+
+<hr/>
+
+<h2 id="ccmcheckout">CCMCheckout</h2>
+<h3>Description</h3>
+<p>Run a Continuus checkout command</p>
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Values</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td>Path to the file that the command will operate on</td>
+    <td rowspan="2">Exactly one of the two</td>
+  </tr>
+  <tr>
+    <td>fileset</td>
+    <td class="left">fileset containing the file to be checked out</td>
+  </tr>
+  <tr>
+    <td>comment</td>
+    <td>Specify a comment</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>task</td>
+    <td>Specify the task number used to checkin the file (may use <q>default</q>)</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>ccmdir</td>
+    <td>path to the <kbd>ccm</kbd> executable file, required if it is not on
+    the <code>PATH</code></td>
+    <td>No</td>
+  </tr>
+</table>
+<h3>Examples</h3>
+
+<p>Check out the file <samp>c:/wa/com/foo/MyFile.java</samp>.  Comment
+attribute <samp>mycomment</samp> is added as a task comment. The task used is the one set as the
+default.</p>
+<pre>
+&lt;ccmcheckout file=&quot;c:/wa/com/foo/MyFile.java&quot;
+             comment=&quot;mycomment&quot;/&gt;</pre>
+
+<p>Check out all the files in the <samp>lib</samp> directory having the <samp>.jar</samp>
+extension. Comment attribute <samp>mycomment</samp> is added as a task comment The used task is the
+one set as the default.</p>
+<pre>
+&lt;ccmcheckout comment=&quot;mycomment&quot;&gt;
+  &lt;fileset dir=&quot;lib&quot; &gt;
+    &lt;include name=&quot;**/*.jar&quot;/&gt;
+  &lt;/fileset&gt;
+&lt;/ccmcheckout &gt;</pre>
+
+<hr/>
+
+<h2 id="ccmcheckintask">CCMCheckinTask</h2>
+<h3>Description</h3>
+<p>Run a Continuus command to checkin default task</p>
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Values</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>comment</td>
+    <td>Specify a comment.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>task</td>
+    <td>Specify the task number used to check in the file (may use <q>default</q>)</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>ccmdir</td>
+    <td>path to the <kbd>ccm</kbd> executable file, required if it is not on
+    the <code>PATH</code></td>
+    <td>No</td>
+  </tr>
+</table>
+<h3>Examples</h3>
+
+<p>Perform a Checkin default task on all the checked out files in the current task.</p>
+<pre>&lt;ccmcheckintask comment=&quot;blahblah/&gt;</pre>
+
+<hr/>
+
+<h2 id="ccmreconfigure">CCMReconfigure</h2>
+<h3>Description</h3>
+<p>Run a Continuus reconfigure/update command</p>
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Values</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>recurse</td>
+    <td>recurse on subproject</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>verbose</td>
+    <td>do a verbose reconfigure operation</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>ccmproject</td>
+    <td>Specifies the ccm project on which the operation is applied.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>ccmdir</td>
+    <td>path to the <kbd>ccm</kbd> executable file, required if it is not on
+    the <code>PATH</code></td>
+    <td>No</td>
+  </tr>
+</table>
+<h3>Examples</h3>
+
+<p>Perform a Continuus <code>reconfigure</code> on the project <samp>ANTCCM_TEST#BMO_1</samp>.</p>
+<pre>
+&lt;ccmreconfigure ccmproject=&quot;ANTCCM_TEST#BMO_1&quot;
+                verbose=&quot;true&quot;/&gt;</pre>
+
+<hr/>
+
+<h2 id="ccmcreatetask">CCMCreateTask</h2>
+<h3>Description</h3>
+<p>Create a Continuus task.</p>
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Values</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>comment</td>
+    <td>Specify a comment</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>platform</td>
+    <td>Specify the target platform</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>ccmdir</td>
+    <td>path to the <kbd>ccm</kbd> executable file, required if it is not on
+    the <code>PATH</code></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>resolver</td>
+    <td>Specify the resolver</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>release</td>
+    <td>Specify the CCM release</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>subsystem</td>
+    <td>Specify the subsystem</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>task</td>
+    <td>Specify the task number used to checkin the file (may use <q>default</q>)</td>
+    <td>No</td>
+  </tr>
+</table>
+<h3>Examples</h3>
+
+<p>Create a task for the release <samp>ANTCCM_TEST</samp> with the current user as the resolver for
+this task.</p>
+<pre>
+&lt;ccmcreatetask resolver=&quot;${user.name}&quot;
+               release=&quot;ANTCCM_TEST&quot; comment=&quot;blahblah&quot;/&gt;</pre>
+
+</body>
+</html>

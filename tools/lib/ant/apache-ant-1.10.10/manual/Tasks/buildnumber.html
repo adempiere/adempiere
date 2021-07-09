@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>BuildNumber Task</title>
+</head>
+
+<body>
+
+<h2 id="buildnumber">BuildNumber</h2>
+<h3>Description</h3>
+<p>This is a basic task that can be used to track build numbers.</p>
+<p>It will first attempt to read a build number from a file (by default, <samp>build.number</samp>
+in the current directory), then set the property <code>build.number</code> to the value that was
+read in (or to <q>0</q>, if no such value). It will then increment the number by one and write it
+back out to the file.  (See the <a href="../Tasks/propertyfile.html">PropertyFile</a> task if you
+need finer control over things such as the property name or the number format.)</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td>The file to read and write the build number from/to.</td>
+    <td>No; defaults to <q>build.number</q></td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Read, increment, and write a build number to the default file, <samp>build.number</samp>.</p>
+<pre>&lt;buildnumber/&gt;</pre>
+
+<p>Read, increment, and write a build number to the file <samp>mybuild.number</samp>.</p>
+<pre>&lt;buildnumber file=&quot;mybuild.number&quot;/&gt;</pre>
+
+</body>
+</html>

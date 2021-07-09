@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>GenKey Task</title>
+</head>
+
+<body>
+
+<h2 id="genkey">GenKey</h2>
+<h3>Description</h3>
+<p>Generates a key in a keystore.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>alias</td>
+    <td>the alias to add under</td>
+    <td>Yes.</td>
+  </tr>
+  <tr>
+    <td>storepass</td>
+    <td>password for keystore integrity. Must be at least 6 characters long</td>
+    <td>Yes.</td>
+  </tr>
+  <tr>
+    <td>keystore</td>
+    <td>keystore location</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>storetype</td>
+    <td>keystore type</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>keypass</td>
+    <td>password for private key (if different)</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>sigalg</td>
+    <td>the algorithm to use in signing</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>keyalg</td>
+    <td>the method to use when generating name-value pair</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>verbose</td>
+    <td>(<q>true|false</q>) verbose output when signing</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>dname</td>
+    <td>The distinguished name for entity</td>
+    <td>Yes unless <code>&lt;dname&gt;</code> element is specified</td>
+  </tr>
+  <tr>
+    <td>saname</td>
+    <td>The subject alternative name for entity. Requires
+ Java 7 or higher.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>validity</td>
+    <td>(integer) indicates how many days certificate is valid</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>keysize</td>
+    <td>(integer) indicates the size of key generated</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<p>Alternatively you can specify the distinguished name by creating a <code>&lt;dname&gt;</code>
+sub-element and populating it with <code>&lt;param&gt;</code> elements that have a <var>name</var>
+and a <var>value</var>. When using the subelement, it is automatically encoded properly and commas
+(<q>,</q>) are replaced with <q>\,</q>.</p>
+
+<h3>Examples</h3>
+<p>The following two examples are identical:</p>
+<pre>
+&lt;genkey alias=&quot;apache-group&quot; storepass=&quot;secret&quot;
+        dname=&quot;CN=Ant Group, OU=Jakarta Division, O=Apache.org, C=US&quot;/&gt;</pre>
+
+<pre>
+&lt;genkey alias=&quot;apache-group&quot; storepass=&quot;secret&quot;&gt;
+  &lt;dname&gt;
+    &lt;param name=&quot;CN&quot; value=&quot;Ant Group&quot;/&gt;
+    &lt;param name=&quot;OU&quot; value=&quot;Jakarta Division&quot;/&gt;
+    &lt;param name=&quot;O&quot;  value=&quot;Apache.Org&quot;/&gt;
+    &lt;param name=&quot;C&quot;  value=&quot;US&quot;/&gt;
+  &lt;/dname&gt;
+&lt;/genkey&gt;</pre>
+
+</body>
+</html>

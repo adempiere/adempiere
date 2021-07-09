@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Tar Task</title>
+</head>
+
+<body>
+
+<h2 id="tar">Tar</h2>
+<h3>Description</h3>
+<p>Creates a tar archive.</p>
+<p>The <var>basedir</var> attribute is the reference directory from where to tar.</p>
+<p>This task is a <a href="../dirtasks.html#directorybasedtasks">directory based task</a> and, as
+such, forms an implicit <a href="../Types/fileset.html">Fileset</a>. This defines which files,
+relative to the <var>basedir</var>, will be included in the archive. The <code>tar</code> task
+supports all the attributes of Fileset to refine the set of files to be included in the implicit
+fileset.</p>
+
+<p>In addition to the implicit fileset, the <code>tar</code> task supports nested resource
+collections and a special form of filesets. These filesets are extended to allow control over the
+access mode, username and groupname to be applied to the tar entries. This is useful, for example,
+when preparing archives for Unix systems where some files need to have execute permission.  By
+default this task will use Unix permissions of 644 for files and 755 for directories.</p>
+
+<p>Early versions of <kbd>tar</kbd> utility did not support paths longer than 100 characters. Over
+time several incompatible extensions have been developed until a new POSIX standard was created that
+added so called PAX extension headers (as the <kbd>pax</kbd> utility first introduced them) that
+among another things addressed file names longer than 100 characters.  All modern implementations
+of <kbd>tar</kbd> support PAX extension headers.</p>
+
+<p>Ant's <kbd>tar</kbd> support predates the standard with PAX extension headers, it supports
+different dialects that can be enabled using the <var>longfile</var> attribute.  If
+the <var>longfile</var> attribute is set to <q>fail</q>, any long paths will cause
+the <code>tar</code> task to fail.  If the <var>longfile</var> attribute is set to <q>truncate</q>,
+any long paths will be truncated to the 100 character maximum length prior to adding to the
+archive. If the value of the <var>longfile</var> attribute is set to <q>omit</q> then files
+containing long paths will be omitted from the archive.  Either option ensures that the archive can
+be untarred by any compliant version of <kbd>tar</kbd>.</p>
+
+<p>If the loss of path or file information is not acceptable, and it rarely is, <var>longfile</var>
+may be set to the value <q>gnu</q> or <q>posix</q>.  With <q>posix</q> Ant will add PAX extension
+headers, with <q>gnu</q> it adds GNU <kbd>tar</kbd> specific extensions that newer versions of
+GNU <kbd>tar</kbd> call <q>oldgnu</q>.  GNU <kbd>tar</kbd> still creates these extensions by default
+but supports PAX extension headers as well.  Either choice will produce a tar file which can have
+arbitrary length paths. Note however, that the resulting archive will only be able to be untarred
+with <kbd>tar</kbd> tools that support the chosen format.</p>
+
+<p>The default for the <var>longfile</var> attribute is <q>warn</q> which behaves just like
+the <q>gnu</q> option except that it produces a warning for each filepath encountered that does not
+match the limit.  It uses <q>gnu</q> rather than <q>posix</q> for backwards compatibility
+reasons.</p>
+
+<p>To achieve best interoperability you should use either <q>fail</q> or <q>posix</q> for
+the <var>longfile</var> attribute.</p>
+
+<p>This task can perform compression by setting the <var>compression</var> attribute
+to <q>gzip</q>, <q>bzip2</q>, or <q>xz</q>.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>destfile</td>
+    <td>the tar file to create.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>basedir</td>
+    <td>the directory from which to tar the files.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>longfile</td>
+    <td>Determines how long filenames (&gt; 100 chars) are to be handled.  Allowed values
+      are <q>truncate</q>, <q>fail</q>, <q>warn</q>, <q>omit</q>, <q>gnu</q> and <q>posix</q>.</td>
+    <td>No; default is <q>warn</q></td>
+  </tr>
+  <tr>
+    <td>includes</td>
+    <td>comma- or space-separated list of patterns of files that must be included.</td>
+    <td>No; defaults to all (<q>**</q>)</td>
+  </tr>
+  <tr>
+    <td>includesfile</td>
+    <td>name of a file. Each line of this file is taken to be an include pattern</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>excludes</td>
+    <td>comma- or space-separated list of patterns of files that must be excluded.</td>
+    <td>No; defaults to default excludes or none if <var>defaultexcludes</var> is <q>no</q></td>
+  </tr>
+  <tr>
+    <td>excludesfile</td>
+    <td>name of a file. Each line of this file is taken to be an exclude pattern</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>defaultexcludes</td>
+    <td>indicates whether default excludes should be used or not (<q>yes|no</q>).</td>
+    <td>No; defaults to <q>yes</q></td>
+  </tr>
+  <tr>
+    <td>compression</td>
+    <td>compression method.  Allowable values are <q>none</q>, <q>gzip</q>, <q>xz</q>
+      and <q>bzip2</q>.</td>
+    <td>No; default is <q>none</q></td>
+  </tr>
+  <tr>
+    <td>encoding</td>
+    <td>The character encoding to use for filenames inside the tar file.  For a list of possible
+      values see
+      the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html"
+      target="_top">Supported Encodings</a>.<br/><em>Since Ant 1.9.5</em>
+    <td>No; defaults to default JVM character encoding</td>
+  </tr>
+</table>
+
+<h3>Parameters specified as nested elements</h3>
+
+<p>The task supports nested <a href="../Types/tarfileset.html">tarfileset</a> elements. These
+are extended <a href="../Types/fileset.html">FileSets</a> which, in addition to the standard
+elements, support one additional attributes</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>preserveLeadingSlashes</td>
+    <td>Indicates whether leading <q>/</q> should be preserved in the file names.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+</table>
+
+<h4>any other resource collection</h4>
+<p><a href="../Types/resources.html#collection">resource collections</a> are used to select groups
+of files to archive.</p>
+<p>Prior to Apache Ant 1.7 only <code>&lt;fileset&gt;</code> has been supported as a nested
+element.</p>
+
+<h3>Examples</h3>
+
+<p>Tar all files in the <samp>htdocs/manual</samp> directory into a file
+called <samp>manual.tar</samp> in the <samp>${dist}</samp> directory, then apply
+the <code>gzip</code> task to compress it.</p>
+
+<pre>
+&lt;tar destfile=&quot;${dist}/manual.tar&quot; basedir=&quot;htdocs/manual&quot;/&gt;
+&lt;gzip destfile=&quot;${dist}/manual.tar.gz&quot; src=&quot;${dist}/manual.tar&quot;/&gt;</pre>
+
+<p>Tar all files in the <samp>htdocs/manual</samp> directory into a file
+called <samp>manual.tar</samp> in the <samp>${dist}</samp> directory. Files in the
+directory <samp>mydocs</samp>, or files with the name <samp>todo.html</samp> are excluded.</p>
+
+<pre>
+&lt;tar destfile=&quot;${dist}/manual.tar&quot;
+     basedir=&quot;htdocs/manual&quot;
+     excludes=&quot;mydocs/**, **/todo.html&quot;/&gt;</pre>
+
+<p>Write the file <samp>docs/readme.txt</samp> as <samp>/usr/doc/ant/README</samp> into the
+archive. All <samp>*.html</samp> files in the <samp>docs</samp> directory are prefixed
+by <samp>/usr/doc/ant</samp>, so for example <samp>docs/index.html</samp> is written
+as <samp>/usr/doc/ant/index.html</samp> to the archive.</p>
+
+<pre>
+&lt;tar destfile=&quot;${basedir}/docs.tar&quot;&gt;
+  &lt;tarfileset dir=&quot;${dir.src}/docs&quot;
+              fullpath=&quot;/usr/doc/ant/README&quot;
+              preserveLeadingSlashes=&quot;true&quot;&gt;
+    &lt;include name=&quot;readme.txt&quot;/&gt;
+  &lt;/tarfileset&gt;
+  &lt;tarfileset dir=&quot;${dir.src}/docs&quot;
+              prefix=&quot;/usr/doc/ant&quot;
+              preserveLeadingSlashes=&quot;true&quot;&gt;
+    &lt;include name=&quot;*.html&quot;/&gt;
+  &lt;/tarfileset&gt;
+&lt;/tar&gt;</pre>
+
+<p>Build a tar which uses the GNU extensions for long paths where some files need to be marked as
+executable (mode 755) and the rest use the default mode (read-write by owner). The first fileset
+selects just the executable files. The second fileset must exclude the executable files and include
+all others.</p>
+
+<pre>
+&lt;tar longfile=&quot;gnu&quot;
+     destfile=&quot;${dist.base}/${dist.name}-src.tar&quot;&gt;
+  &lt;tarfileset dir=&quot;${dist.name}/..&quot; filemode=&quot;755&quot; username=&quot;ant&quot; group=&quot;ant&quot;&gt;
+    &lt;include name=&quot;${dist.name}/bootstrap.sh&quot;/&gt;
+    &lt;include name=&quot;${dist.name}/build.sh&quot;/&gt;
+  &lt;/tarfileset&gt;
+  &lt;tarfileset dir=&quot;${dist.name}/..&quot; username=&quot;ant&quot; group=&quot;ant&quot;&gt;
+    &lt;include name=&quot;${dist.name}/**&quot;/&gt;
+    &lt;exclude name=&quot;${dist.name}/bootstrap.sh&quot;/&gt;
+    &lt;exclude name=&quot;${dist.name}/build.sh&quot;/&gt;
+  &lt;/tarfileset&gt;
+&lt;/tar&gt;</pre>
+
+<p><strong>Note</strong>: The <code>tar</code> task does not ensure that a file is only selected by
+one resource collection. If the same file is selected by more than one collection, it will be
+included in the tar file twice, with the same path.</p>
+
+<p><strong>Note</strong>: The patterns in the <code>include</code> and <code>exclude</code> elements
+are considered to be relative to the corresponding <var>dir</var> attribute as with all other
+filesets.  In the example above, <samp>${dist.name}</samp> is not an absolute path, but a simple
+name of a directory, so <samp>${dist.name}</samp> is a valid path relative
+to <samp>${dist.name}/..</samp>.</p>
+
+<p>Re-package a ZIP archive as a GZip compressed tar archive.  If Unix file permissions have been
+stored as part of the ZIP file, they will be retained in the resulting tar archive.</p>
+
+<pre>
+&lt;tar destfile="release.tar.gz" compression="gzip"&gt;
+  &lt;zipfileset src="release.zip"/&gt;
+&lt;/tar&gt;</pre>
+
+<p><strong>Note</strong>: Please note the <code>tar</code> task creates a tar file, it does not
+append to an existing tar file. The existing tar file is replaced instead.  As with most tasks in
+Ant, the task only takes action if the output file (the tar file in this case) is older than the
+input files, or if the output file does not exist.</p>
+
+</body>
+</html>

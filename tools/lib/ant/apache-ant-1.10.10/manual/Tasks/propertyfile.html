@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>PropertyFile Task</title>
+</head>
+
+<body>
+
+<h1>PropertyFile</h1>
+<hr/>
+<h2 id="introduction">Introduction</h2>
+<p>Apache Ant provides an optional task for editing property files. This is very useful when wanting
+to make unattended modifications to configuration files for application servers and
+applications. Currently, the task maintains a working property file with the ability to add
+properties or make changes to existing ones. <em>Since Ant 1.8.0</em> comments and layout of the
+original properties file are preserved.</p>
+
+<p><em>Since Ant 1.8.2</em> the linefeed-style of the original file will be preserved as well, as
+long as style used to be consistent.  In general, linefeeds of the updated file will be the same as
+the first linefeed found when reading it.</p>
+
+<hr/>
+
+<h2 id="proptask">PropertyFile Task</h2>
+<h3>Parameters</h3>
+<table class="attr">
+<tr>
+  <th scope="col">Attribute</th>
+  <th scope="col">Description</th>
+  <th scope="col">Required</th>
+</tr>
+<tr>
+  <td>file</td>
+  <td>Location of the property file to be edited</td>
+  <td>Yes</td>
+</tr>
+<tr>
+  <td>comment</td>
+  <td>Header for the file itself</td>
+  <td>No</td>
+</tr>
+<tr>
+  <td>jdkproperties</td>
+  <td>Use <code>java.lang.Properties</code>, which will lose comments and layout of file.  <em>since
+    Ant 1.8.0</em></td>
+  <td>No; default is <q>false</q></td>
+</tr>
+</table>
+
+<p>The boolean attribute <var>jdkproperties</var> is provided to recover the previous behaviour of
+the task, in which the layout and any comments in the properties file were lost by the task.</p>
+
+<h3>Parameters specified as nested elements</h3>
+<h4 id="entryElement">Entry</h4>
+<p>Use nested <code>&lt;entry&gt;</code> elements to specify actual modifications to the property
+file itself.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>key</td>
+    <td>Name of the property name/value pair</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>value</td>
+    <td>Value to set (<q>=</q>), to add (<q>+</q>) or subtract (<q>-</q>)</td>
+    <td rowspan="2">At least one must be specified, if <var>operation</var> is not <q>del</q></td>
+  </tr>
+  <tr>
+    <td>default</td>
+    <td class="left">Initial value to set for a property if it is not already defined in the
+      property file.<br/>For type <var>date</var>, an additional keyword is
+      allowed: <q>now</q></td></tr>
+  <tr>
+    <td>type</td>
+    <td>Regard the value as: <q>int</q>, <q>date</q> or <q>string</q> (default)</td>
+    <td>No; defaults to <q>string</q></td>
+  </tr>
+  <tr>
+    <td>operation</td>
+    <td>One of the following operations:<br/>
+      <strong>for all datatypes:</strong>
+      <ul>
+        <li><q>del</q> : deletes an entry</li>
+        <li><q>+</q> : adds a value to the existing value</li>
+        <li><q>=</q> : sets a value instead of the existing value (default)</li>
+      </ul>
+      <strong>for <var>date</var> and <var>int</var> only:</strong>
+      <ul>
+        <li><q>-</q> : subtracts a value from the existing value</li>
+      </ul>
+    </td>
+    <td>No; defaults to <q>=</q></td>
+  </tr>
+  <tr>
+    <td>pattern</td>
+    <td>For <var>int</var> and <var>date</var> type only. If present, values will be parsed and
+      formatted accordingly.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>unit</td>
+    <td>The unit of the value to be applied to <var>date</var> <q>+</q>/<q>-</q> operations.  Valid
+      Values are:
+      <ul>
+        <li><q>millisecond</q></li>
+        <li><q>second</q></li>
+        <li><q>minute</q></li>
+        <li><q>hour</q></li>
+        <li><q>day</q> (default)</li>
+        <li><q>week</q></li>
+        <li><q>month</q></li>
+        <li><q>year</q></li>
+      </ul>
+      This only applies to <var>date</var> types using a <q>+</q>/<q>-</q> operation.
+    </td>
+    <td>No; defaults to <q>day</q></td>
+  </tr>
+</table>
+<p>The rules used when setting a property value are shown below. The operation
+occurs <strong>after</strong> these rules are considered.</p>
+
+<ul>
+  <li>If only <var>value</var> is specified, the property is set to it regardless of its previous
+    value.</li>
+  <li>If only <var>default</var> is specified and the property previously existed in the property
+    file, it is unchanged.</li>
+  <li>If only <var>default</var> is specified and the property did not exist in the property file,
+    the property is set to <var>default</var>.</li>
+  <li>If <var>value</var> and <var>default</var> are both specified and the property previously
+    existed in the property file, the property is set to <var>value</var>.</li>
+  <li>If <var>value</var> and <var>default</var> are both specified and the property did not exist
+    in the property file, the property is set to <var>default</var>.</li>
+</ul>
+
+<h3>Examples</h3>
+
+<p>The following changes the <samp>my.properties</samp> file.  Assume <samp>my.properties</samp>
+looks like:</p>
+
+<pre># A string value
+akey=original value
+
+# The following is a counter, which will be incremented by 1 for
+# each time the build is run.
+anint=1</pre>
+
+<p>After running, the file would now look like</p>
+<pre>#My properties
+#Wed Aug 31 13:47:19 BST 2005
+# A string value
+akey=avalue
+
+# The following is a counter, which will be incremented by 1 for
+# each time the build is run.
+anint=2
+
+adate=2005/08/31 13\:47
+
+formated.int=0014
+
+formated.date=243 13\:47</pre>
+<p>The slashes conform to the expectations of the Properties class.  The file will be stored in a
+manner so that each character is examined and escaped if necessary.</p>
+
+<p>The layout and comment of the original file is preserved. New properties are added at the end of
+the file. Existing properties are overwritten in place.</p>
+
+<pre>
+&lt;propertyfile file=&quot;my.properties&quot;
+              comment=&quot;My properties&quot;&gt;
+    &lt;entry key=&quot;akey&quot; value=&quot;avalue&quot;/&gt;
+    &lt;entry key=&quot;adate&quot; type=&quot;date&quot; value=&quot;now&quot;/&gt;
+    &lt;entry key=&quot;anint&quot; type=&quot;int&quot; default=&quot;0&quot; operation=&quot;+&quot;/&gt;
+    &lt;entry key=&quot;formated.int&quot; type=&quot;int&quot; default=&quot;0013&quot; operation=&quot;+&quot; pattern=&quot;0000&quot;/&gt;
+    &lt;entry key=&quot;formated.date&quot; type=&quot;date&quot; value=&quot;now&quot; pattern=&quot;DDD HH:mm&quot;/&gt;
+&lt;/propertyfile&gt;</pre>
+<p>To produce dates relative from today:</p>
+<pre>
+&lt;propertyfile file=&quot;my.properties&quot;
+              comment=&quot;My properties&quot;&gt;
+    &lt;entry key=&quot;formated.date-1&quot;
+           type=&quot;date&quot; default=&quot;now&quot; pattern=&quot;DDD&quot;
+           operation=&quot;-&quot; value=&quot;1&quot;/&gt;
+    &lt;entry key=&quot;formated.tomorrow&quot;
+           type=&quot;date&quot; default=&quot;now&quot; pattern=&quot;DDD&quot;
+           operation=&quot;+&quot; value=&quot;1&quot;/&gt;
+&lt;/propertyfile&gt;</pre>
+
+<p>Concatenation of strings:</p>
+<pre>
+&lt;propertyfile file=&quot;my.properties&quot;
+              comment=&quot;My properties&quot;&gt;
+    &lt;entrykey=&quot;progress&quot; default=&quot;&quot; operation=&quot;+&quot; value=&quot;.&quot;/&gt;
+&lt;/propertyfile&gt;</pre>
+<p>Each time called, a <q>.</q> will be appended to <code>progress</code></p>
+
+<p>Pumps the project version to the next minor version (increase minor and
+set <code>patch=0</code>):</p>
+<pre>
+&lt;target name="nextMinorVersion"&gt;
+    &lt;property name="header"
+              value="##Generated file - do not modify!"/&gt;
+    &lt;propertyfile file="version.properties" comment="${header}"&gt;
+        &lt;entry key="product.build.major" type="int"  value="3"/&gt;
+        &lt;entry key="product.build.minor" type="int"  operation="+"/&gt;
+        &lt;entry key="product.build.patch" type="int"  value="0"/&gt;
+        &lt;entry key="product.build.date"  type="date" value="now"/&gt;
+    &lt;/propertyfile&gt;
+&lt;/target&gt;</pre>
+<p>After running this target the version changed e.g. from 3.2.2 to 3.3.0.</p>
+
+</body>
+</html>

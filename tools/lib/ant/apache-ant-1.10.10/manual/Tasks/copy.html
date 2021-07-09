@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Copy Task</title>
+</head>
+
+<body>
+
+<h2 id="copy">Copy</h2>
+<h3>Description</h3>
+<p>Copies a file or resource collection to a new file or directory.  By default, files are only
+copied if the source file is newer than the destination file, or when the destination file does not
+exist.  However, you can explicitly overwrite files with the <var>overwrite</var> attribute.</p>
+
+<p><a href="../Types/resources.html#collection">Resource collections</a> are used to select a group
+of files to copy.  To use a resource collection, the <var>todir</var> attribute must be
+set. <strong>Note</strong> that some resources (for example
+the <a href="../Types/resources.html#file">file</a> resource) return absolute paths as names and the
+result of using them without using a nested mapper (or the flatten attribute) may not be what you
+expect.</p>
+
+<p><strong>Note</strong>: If you employ filters in your copy operation, you should limit the copy to
+text files. Binary files will be corrupted by the copy operation.  This applies whether the filters
+are implicitly defined by the <a href="filter.html">filter</a> task or explicitly provided to the
+copy operation
+as <a href="../Types/filterset.html">filtersets</a>.  <em>See <a href="#encoding">encoding
+note</a></em>.</p>
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td>The file to copy.</td>
+    <td>Yes, unless a nested resource collection element is used</td>
+  </tr>
+  <tr>
+    <td>preservelastmodified</td>
+    <td>Give the copied files the same last modified time as the original source files.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>tofile</td>
+    <td>The file to copy to. Prior to Apache Ant 1.8.2, the <var>tofile</var> attribute only
+      supported <a href="../Types/resources.html#file">file resources</a> to copy from.</td>
+    <td rowspan="2">With the <var>file</var> attribute, either <var>tofile</var> or <var>todir</var>
+      can be used.<br/>  With nested resource collection elements, if the number of included
+      resources is greater than 1, or if only the <var>dir</var> attribute is specified in
+      the <code>&lt;fileset&gt;</code>, or if the <var>file</var> attribute is also specified, then
+      only <var>todir</var> is allowed.<br/></td>
+  </tr>
+  <tr>
+    <td>todir</td>
+    <td class="left">The directory to copy to.</td>
+  </tr>
+  <tr>
+    <td>overwrite</td>
+    <td>Overwrite existing files even if the destination files are newer.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>force</td>
+    <td>Overwrite read-only destination files.  <em>since Ant 1.8.2</em></td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>filtering</td>
+    <td>Indicates whether token filtering using the <a href="../using.html#filters">global
+      build-file filters</a> should take place during the copy.  <strong>Note</strong>:
+      Nested <code>&lt;filterset&gt;</code> elements will always be used, even if this attribute is
+      not specified, or its value is <q>false</q>, <q>no</q>, or <q>off</q>.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>flatten</td>
+    <td>Ignore the directory structure of the source files, and copy all files into the directory
+      specified by the <var>todir</var> attribute.  Note that you can achieve the same effect by
+      using a <a href="../Types/mapper.html#flatten-mapper">flatten mapper</a>.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>includeEmptyDirs</td>
+     <td>Copy any empty directories included in the FileSet(s).</td>
+     <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+     <td>If <q>false</q>, log a warning message, but do not stop the build, when the file to copy
+       does not exist or one of the nested filesets points to a directory that doesn't exist or an
+       error occurs while copying.</td>
+     <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>quiet</td>
+    <td>If <q>true</q> and <var>failonerror</var> is <q>false</q>, then do not log a warning message
+       when the file to copy does not exist or one of the nested filesets points to a directory that
+       doesn't exist or an error occurs while copying. <em>since Ant 1.8.3</em>.</td>
+     <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>verbose</td>
+     <td>Log the files that are being copied.</td>
+     <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>encoding</td>
+    <td>The encoding to assume when filter-copying the files. <em>since Ant 1.5</em>.</td>
+    <td>No; defaults to default JVM character encoding</td>
+  </tr>
+  <tr>
+    <td>outputencoding</td>
+    <td>The encoding to use when writing the files.
+    <em>since Ant 1.6</em>.</td>
+    <td>No; defaults to <var>encoding</var> if set or default JVM character encoding otherwise</td>
+  </tr>
+  <tr>
+    <td>enablemultiplemappings</td>
+    <td>If <q>true</q> the task will process to all the mappings for a given source
+      path. If <q>false</q> the task will only process the first file or directory. This attribute
+      is only relevant if there is a <code>mapper</code> subelement.  <em>since Ant 1.6</em>.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>granularity</td>
+    <td>The number of milliseconds leeway to give before deciding a file is out of date. This is
+      needed because not every file system supports tracking the last modified time to the
+      millisecond level. This can also be useful if source and target files live on separate
+      machines with clocks being out of sync. <em>since Ant 1.6.2</em>.</td>
+    <td>No; default is 1 second, or 2 seconds on DOS systems</td>
+  </tr>
+</table>
+<h3>Parameters specified as nested elements</h3>
+
+<h4>any filesystem based resource collection</h4>
+<p><a href="../Types/resources.html#collection">Resource collections</a> are used to select groups
+of files to copy.  To use a resource collection, the <var>todir</var> attribute must be set.</p>
+<p>Prior to Ant 1.7, only <code>&lt;fileset&gt;</code> has been supported as a nested element.</p>
+
+<h4>mapper</h4>
+<p>You can define filename transformations by using a
+nested <a href="../Types/mapper.html">mapper</a> element. The default mapper used
+by <code>&lt;copy&gt;</code> is the <a href="../Types/mapper.html#identity-mapper">identity
+mapper</a>.</p>
+<p><em>Since Ant 1.6.3</em>, one can use a filenamemapper type in place of the mapper element.</p>
+
+<p>Note that the source name handed to the mapper depends on the resource collection you use.  If
+you use <code>&lt;fileset&gt;</code> or any other collection that provides a base directory, the
+name passed to the mapper will be a relative filename, relative to the base directory.  In any other
+case the absolute filename of the source will be used.</p>
+
+<h4>filterset</h4>
+<p><a href="../Types/filterset.html">FilterSet</a>s are used to replace tokens in files that are
+copied.  To use a FilterSet, use the nested <code>&lt;filterset&gt;</code> element.</p>
+
+<p>It is possible to use more than one filterset.</p>
+
+<h4>filterchain</h4>
+<p>The Copy task supports nested <a href="../Types/filterchain.html">FilterChain</a>s.</p>
+
+<p>If <code>&lt;filterset&gt;</code> and <code>&lt;filterchain&gt;</code> elements are used inside
+the same <code>&lt;copy&gt;</code> task, all <code>&lt;filterchain&gt;</code> elements are processed
+first followed by <code>&lt;filterset&gt;</code> elements.</p>
+
+<h3>Examples</h3>
+
+<p>Copy a single file</p>
+<pre>&lt;copy file=&quot;myfile.txt&quot; tofile=&quot;mycopy.txt&quot;/&gt;</pre>
+
+<p>Copy a single file to a directory</p>
+<pre>&lt;copy file=&quot;myfile.txt&quot; todir=&quot;../some/other/dir&quot;/&gt;</pre>
+
+<p>Copy a directory to another directory</p>
+<pre>
+&lt;copy todir=&quot;../new/dir&quot;&gt;
+  &lt;fileset dir=&quot;src_dir&quot;/&gt;
+&lt;/copy&gt;
+</pre>
+
+<p>Copy a set of files to a directory</p>
+<pre>
+&lt;copy todir=&quot;../dest/dir&quot;&gt;
+  &lt;fileset dir=&quot;src_dir&quot;&gt;
+    &lt;exclude name=&quot;**/*.java&quot;/&gt;
+  &lt;/fileset&gt;
+&lt;/copy&gt;
+
+&lt;copy todir=&quot;../dest/dir&quot;&gt;
+  &lt;fileset dir=&quot;src_dir&quot; excludes=&quot;**/*.java&quot;/&gt;
+&lt;/copy&gt;</pre>
+
+<p>Copy a set of files to a directory, appending <samp>.bak</samp> to the file name on the
+fly</p>
+<pre>
+&lt;copy todir=&quot;../backup/dir&quot;&gt;
+  &lt;fileset dir=&quot;src_dir&quot;/&gt;
+  &lt;globmapper from=&quot;*&quot; to=&quot;*.bak&quot;/&gt;
+&lt;/copy&gt;</pre>
+
+<p>Copy a set of files to a directory, replacing <code>@TITLE@</code> with <samp>Foo
+Bar</samp> in all files.</p>
+<pre>
+&lt;copy todir=&quot;../backup/dir&quot;&gt;
+  &lt;fileset dir=&quot;src_dir&quot;/&gt;
+  &lt;filterset&gt;
+    &lt;filter token=&quot;TITLE&quot; value=&quot;Foo Bar&quot;/&gt;
+  &lt;/filterset&gt;
+&lt;/copy&gt;</pre>
+
+<p>Collect all items from the current <code>CLASSPATH</code> setting into a destination
+directory, flattening the directory structure.</p>
+<pre>
+&lt;copy todir=&quot;dest&quot; flatten=&quot;true&quot;&gt;
+  &lt;path&gt;
+    &lt;pathelement path=&quot;${java.class.path}&quot;/&gt;
+  &lt;/path&gt;
+&lt;/copy&gt;</pre>
+
+<p>Copies some resources to a given directory.</p>
+<pre>
+&lt;copy todir=&quot;dest&quot; flatten=&quot;true&quot;&gt;
+  &lt;resources&gt;
+    &lt;file file=&quot;src_dir/file1.txt&quot;/&gt;
+    &lt;url url=&quot;https://ant.apache.org/index.html&quot;/&gt;
+  &lt;/resources&gt;
+&lt;/copy&gt;</pre>
+
+<p>If the example above didn't use the <var>flatten</var> attribute, the <code>&lt;file&gt;</code>
+resource would have returned its full path as source and target name and would not have been copied
+at all.  In general it is a good practice to use an explicit mapper together with resources that use
+an absolute path as their names.</p>
+
+<p>Copies the two newest resources into a destination directory.</p>
+<pre>
+&lt;copy todir=&quot;dest&quot; flatten=&quot;true&quot;&gt;
+  &lt;first count=&quot;2&quot;&gt;
+    &lt;sort&gt;
+      &lt;date xmlns=&quot;antlib:org.apache.tools.ant.types.resources.comparators&quot;/&gt;
+      &lt;resources&gt;
+        &lt;file file=&quot;src_dir/file1.txt&quot;/&gt;
+        &lt;file file=&quot;src_dir/file2.txt&quot;/&gt;
+        &lt;file file=&quot;src_dir/file3.txt&quot;/&gt;
+        &lt;url url=&quot;https://ant.apache.org/index.html&quot;/&gt;
+      &lt;/resources&gt;
+    &lt;/sort&gt;
+  &lt;/first&gt;
+&lt;/copy&gt;</pre>
+
+<p>The paragraph following the previous example applies to this example as well.</p>
+
+<p><strong>Unix Note</strong>: File permissions are not retained when files are copied; they end up
+with the default <code>UMASK</code> permissions instead. This is caused by the lack of any means to
+query or set file permissions in the current Java runtimes. If you need a permission-preserving copy
+function, use <code>&lt;exec executable="cp" ... &gt;</code> instead.</p>
+
+<p><strong>Windows Note</strong>: If you copy a file to a directory where that file already exists,
+but with different case, the copied file takes on the case of the original. The workaround is
+to <a href="delete.html">delete</a> the file in the destination directory before you copy it.</p>
+<p id="encoding"><strong>Important Encoding Note</strong>: The reason that binary files when
+filtered get corrupted is that filtering involves reading in the file using a Reader class. This has
+an encoding specifying how files are encoded. There are a number of different types of
+encoding&mdash;UTF-8, UTF-16, Cp1252, ISO-8859-1, US-ASCII and (lots of) others. On Windows the
+default character encoding is Cp1252, on Unix it is usually UTF-8. For both of these encoding there
+are illegal byte sequences (more in UTF-8 than for Cp1252).</p>
+<p>How the Reader class deals with these illegal sequences is up to the implementation of the
+character decoder. The current Sun Java implementation is to map them to legal characters. Previous
+Sun Java (1.3 and lower) threw a <code>MalformedInputException</code>. IBM Java 1.4 also throws this
+exception. It is the mapping of the characters that cause the corruption.</p>
+<p>On Unix, where the default is normally UTF-8, this is a <em>big</em> problem, as it is easy to
+edit a file to contain non US-ASCII characters from ISO-8859-1, for example the Danish &oelig;
+character. When this is copied (with filtering) by Ant, the character get converted to a question
+mark (or some such thing).</p>
+<p>There is not much that Ant can do. It cannot figure out which files are binary&mdash;a UTF-8
+version of Korean will have lots of bytes with the top bit set. It is not informed about illegal
+character sequences by current Sun Java implementations.</p>
+<p>One trick for filtering containing only US-ASCII is to use the ISO-8859-1 encoding. This does not
+seem to contain illegal character sequences, and the lower 7 bits are US-ASCII.  Another trick is to
+change the <code>LANG</code> environment variable from something like <q>us.utf8</q>
+to <q>us</q>.</p>
+
+</body>
+</html>

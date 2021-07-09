@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Manifest Task</title>
+</head>
+
+<body>
+
+<h2 id="manifest">Manifest</h2>
+<h3>Description</h3>
+<p>Creates a manifest file.</p>
+
+<p>This task can be used to write a Manifest file, optionally replacing or updating an existing
+file.</p>
+
+<p>Manifests are processed according to
+the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html" target="_top">Jar
+file specification</a>. Specifically, a manifest element consists of a set of attributes and
+sections. These sections in turn may contain attributes. Note in particular that this may result in
+manifest lines greater than 72 bytes being wrapped and continued on the next line.</p>
+
+<p>The Apache Ant team regularly gets complaints that this task in generating invalid manifests. By
+and large, this is not the case: we believe that we are following the specification to the
+letter. The usual problem is that some third party manifest reader is not following the same
+specification as well as they think they should; we cannot generate invalid manifest files just
+because one single application is broken. Java ME runtimes appear to be particularly
+troublesome.</p>
+
+<p>If you find that Ant generates manifests incompatible with your runtime, take a manifest it has
+built, fix it up however you need and switch to using the <a href="zip.html">zip</a> task to create
+the JAR, feeding in the hand-crafted manifest.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td>the manifest-file to create/update.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>mode</td>
+    <td>One of <q>update</q> or <q>replace</q>.</td>
+    <td>No; default is <q>replace</q></td>
+  </tr>
+  <tr>
+    <td>encoding</td>
+    <td>The encoding used to read the existing manifest when updating.  The task will always use
+      UTF-8 when writing the manifest.</td>
+    <td>No; defaults to UTF-8 encoding</td>
+  </tr>
+  <tr>
+    <td>mergeClassPathAttributes</td>
+    <td>Whether to merge the <code>Class-Path</code> attributes found in different manifests (if
+      updating).  If <q>false</q>, only the attribute of the most recent manifest will be
+      preserved.  <em>Since Ant 1.8.0</em>.<br/>Unless you also set <var>flattenAttributes</var>
+      to <q>true</q> this may result in manifests containing multiple <code>Class-Path</code>
+      attributes which violates the manifest specification.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>flattenAttributes</td>
+    <td>Whether to merge attributes occurring more than once in a section (this can only happen for
+      the <code>Class-Path</code> attribute) into a single attribute.  <em>Since Ant
+      1.8.0</em>.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+</table>
+
+<h3>Parameters specified as nested elements</h3>
+<h4 id="attribute">attribute</h4>
+<p>One attribute for the manifest file.  Those attributes that are not nested into a section will be
+added to the main section.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>the name of the attribute, must match the regexp <q>[A-Za-z0-9][A-Za-z0-9-_]*</q>.
+    </td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>value</td>
+    <td>the value of the attribute.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h4>section</h4>
+<p>A manifest section&mdash;you can nest <a href="#attribute">attribute</a> elements into
+sections.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>the name of the section.</td>
+    <td>No, defaults to the main section</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+
+<p>Create or replace the file <samp>MANIFEST.MF</samp>. Note that the <code>Built-By</code>
+attribute will take the value of the Ant property <code>${user.name}</code>. The same is true for
+the <code>${version}</code> and <code>${TODAY}</code> properties. This example produces
+a <samp>MANIFEST.MF</samp> that
+contains <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/versioning/spec/versioning2.html#wp90779"
+target="_top">package version identification</a> for the package <samp>common</samp>.</p>
+
+<pre>
+&lt;manifest file=&quot;MANIFEST.MF&quot;&gt;
+  &lt;attribute name=&quot;Built-By&quot; value=&quot;${user.name}&quot;/&gt;
+  &lt;section name=&quot;common&quot;&gt;
+    &lt;attribute name=&quot;Specification-Title&quot; value=&quot;Example&quot;/&gt;
+    &lt;attribute name=&quot;Specification-Version&quot; value=&quot;${version}&quot;/&gt;
+    &lt;attribute name=&quot;Specification-Vendor&quot; value=&quot;Example Organization&quot;/&gt;
+    &lt;attribute name=&quot;Implementation-Title&quot; value=&quot;common&quot;/&gt;
+    &lt;attribute name=&quot;Implementation-Version&quot; value=&quot;${version} ${TODAY}&quot;/&gt;
+    &lt;attribute name=&quot;Implementation-Vendor&quot; value=&quot;Example Corp.&quot;/&gt;
+  &lt;/section&gt;
+  &lt;section name=&quot;common/class1.class&quot;&gt;
+    &lt;attribute name=&quot;Sealed&quot; value=&quot;false&quot;/&gt;
+  &lt;/section&gt;
+&lt;/manifest&gt;</pre>
+
+<p>The manifest produced by the above would look like this:</p>
+
+<pre>
+Manifest-Version: 1.0
+Built-By: bodewig
+Created-By: Apache Ant 1.9
+
+Name: common
+Specification-Title: Example
+Specification-Vendor: Example Organization
+Implementation-Vendor: Example Corp.
+Specification-Version: 1.2
+Implementation-Version: 1.2 September 10, 2013
+Implementation-Title: common
+
+Name: common/class1.class
+Sealed: false</pre>
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>LoadProperties Task</title>
+</head>
+
+<body>
+
+
+<h2 id="loadproperties">LoadProperties</h2>
+<h3>Description</h3>
+<p>Load a file's contents as Apache Ant properties.  This is equivalent to <code>&lt;property
+file|resource=<q>...</q>/&gt;</code> except that it supports nested <code>&lt;filterchain&gt;</code>
+elements.  Also if the file is missing, the build is halted with an error, rather than a warning
+being printed.</p>
+
+<p><strong>Note</strong>: the default value of this task's <var>prefixValues</var> attribute is
+different from the default value of the same attribute in
+the <a href="property.html"><code>&lt;property&gt;</code></a> task.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>srcFile</td>
+    <td>source file</td>
+    <td rowspan="2">One of these or a nested resource</td>
+  </tr>
+  <tr>
+    <td>resource</td>
+    <td class="left">the resource name of the property file</td>
+  </tr>
+  <tr>
+    <td>encoding</td>
+    <td>encoding to use when loading the file</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>classpath</td>
+    <td>the classpath to use when looking up a resource.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>classpathref</td>
+    <td>the classpath to use when looking up a resource, given
+      as <a href="../using.html#references">reference</a> to a <code>&lt;path&gt;</code> defined
+      elsewhere.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>prefix</td>
+    <td>Prefix to apply to loaded properties. <em>Since Ant 1.8.1</em></td>
+    <td>No; default is <q>.</q></td>
+  </tr>
+  <tr>
+    <td>prefixValues</td>
+    <td>Whether to apply the prefix when expanding the right hand side of the properties.  <em>Since
+      Ant 1.8.2</em></td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+</table>
+
+<h3>Parameters specified as nested elements</h3>
+
+<h4>any <a href="../Types/resources.html">resource</a> or single element
+resource collection</h4>
+
+<p><em>Since Ant 1.7</em></p>
+
+<p>The specified resource will be used as <var>srcFile</var> or <var>resource</var>.</p>
+
+<h4><a href="../Types/filterchain.html">FilterChain</a></h4>
+
+<h4>classpath</h4>
+
+<p>for use with the <var>resource</var> attribute.</p>
+
+<h3>Examples</h3>
+
+<p>Load contents of <samp>file.properties</samp> as Ant properties.</p>
+<pre>&lt;loadproperties srcFile="file.properties"/&gt;</pre>
+<p>or</p>
+<pre>
+&lt;loadproperties&gt;
+    &lt;file file="file.properties"/&gt;
+&lt;/loadproperties&gt;</pre>
+
+<p>Read the lines that contain the string <q>import.</q> from the file <samp>file.properties</samp>
+and load them as Ant properties.</p>
+<pre>
+&lt;loadproperties srcFile="file.properties"&gt;
+    &lt;filterchain&gt;
+        &lt;<a href="../Types/filterchain.html#linecontains">linecontains</a>&gt;
+            &lt;contains value=&quot;import.&quot;/&gt;
+        &lt;/linecontains&gt;
+    &lt;/filterchain&gt;
+&lt;/loadproperties&gt;</pre>
+
+<p>Load contents of <samp>https://example.org/url.properties.gz</samp>, uncompress it on the fly and
+load the contents as Ant properties.</p>
+<pre>
+&lt;loadproperties&gt;
+    &lt;<a href="../Types/resources.html#gzipresource">gzipresource</a>&gt;
+        &lt;<a href="../Types/resources.html#url">url</a> url="https://example.org/url.properties.gz"/&gt;
+    &lt;/gzipresource&gt;
+&lt;/loadproperties&gt;</pre>
+
+</body>
+</html>

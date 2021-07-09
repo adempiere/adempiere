@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>PropertyHelper Task</title>
+</head>
+
+<body>
+
+<h2>PropertyHelper</h2>
+<p><em>Since Ant 1.8.0</em></p>
+<h3>Description</h3>
+<p>This task is provided for the purpose of allowing the user to <strong>(a)</strong> install a
+different <code>PropertyHelper</code> at run time, or <strong>(b)</strong> (hopefully more often)
+install one or more <code class="code">PropertyHelper</code> Delegates into
+the <code class="code">PropertyHelper</code> active on the
+current <code class="code">Project</code>. This is somewhat advanced Apache Ant usage and assumes a
+working familiarity with the modern Ant APIs. See the description of
+Ant's <a href="../properties.html#propertyHelper">Property Helper</a> for more information.</p>
+
+<h3>Parameters specified as nested elements</h3>
+
+<h4>PropertyHelper</h4>
+<p>You may specify exactly one configured <code>org.apache.tools.ant.PropertyHelper</code>
+instance.</p>
+
+<h4>PropertyHelper.Delegate</h4>
+<p>You may specify, either in conjunction with a new <code class="code">PropertyHelper</code> or
+not, one or more configured implementations of
+the <code class="code">org.apache.tools.ant.PropertyHelper.Delegate</code> interface. A deeper
+understanding of the API is required here, however, as <code class="code">Delegate</code> is a
+marker interface only: the nested arguments must implement a <code class="code">Delegate</code>
+subinterface in order to do anything meaningful.</p>
+
+<h4>delegate</h4>
+<p>A generic <code>&lt;delegate&gt;</code> element which can use project references is also
+provided:</p>
+
+<h5>Parameters</h5>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>refid</td>
+    <td>The <var>id</var> of a <code>PropertyHelper.Delegate</code> to install.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+
+<p>Install a completely different <code class="code">PropertyHelper</code> implementation
+(assuming <code class="code">MyPropertyHelper extends PropertyHelper</code>):</p>
+
+<pre>
+&lt;componentdef classname="org.example.MyPropertyHelper"
+              name="mypropertyhelper"/>
+&lt;propertyhelper>
+  &lt;mypropertyhelper/>
+&lt;/propertyhelper>
+</pre>
+
+<p>Add a new <code class="code">PropertyEvaluator</code> delegate
+(assuming <code class="code">MyPropertyEvaluator implements
+PropertyHelper.PropertyEvaluator</code>).  Note that <code class="code">PropertyHelper</code> uses
+the configured delegates in LIFO order.  I.e. the delegate added by this task will be consulted
+before any previously defined delegate and in particular before the built-in ones.</p>
+
+<pre>
+&lt;componentdef classname="org.example.MyPropertyEvaluator"
+              name="mypropertyevaluator"/>
+&lt;propertyhelper>
+  &lt;mypropertyevaluator/>
+&lt;/propertyhelper>
+</pre>
+
+<p>Add a new <code class="code">PropertyEvaluator</code> delegate using the <var>refid</var>
+syntax:</p>
+
+<pre>
+&lt;typedef classname="org.example.MyPropertyEvaluator"
+         name="mypropertyevaluator"/>
+&lt;mypropertyevaluator id="evaluator"/>
+&lt;propertyhelper>
+  &lt;delegate refid="evaluator"/>
+&lt;/propertyhelper>
+</pre>
+
+</body>
+</html>

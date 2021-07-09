@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Move Task</title>
+</head>
+
+<body>
+
+<h2 id="move">Move</h2>
+<h3>Description</h3>
+<p>Moves a file to a new file or directory, or collections of files to a new directory.  By default,
+the destination file is overwritten if it already exists.  When <var>overwrite</var> is turned off,
+then files are only moved if the source file is newer than the destination file, or when the
+destination file does not exist.</p>
+
+<p><a href="../Types/resources.html#collection">Resource collections</a> are used to select a group
+of files to move.  Only file system based resource collections are supported, this
+includes <a href="../Types/fileset.html">fileset</a>s, <a href="../Types/filelist.html">filelist</a>
+and <a href="../using.html#path">path</a>.  Prior to Apache Ant 1.7
+only <code>&lt;fileset&gt;</code> has been supported as a nested element.  To use a resource
+collection, the <var>todir</var> attribute must be set.</p>
+
+<p><em>Since Ant 1.6.3</em>, the <var>file</var> attribute may be used to move (rename) an entire
+directory.  If <var>tofile</var> denotes an existing file, or there is a directory by the same name
+in <var>todir</var>, the action will fail.</p>
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td>the file or directory to move</td>
+    <td>One of <var>file</var> or at least one nested resource collection element</td>
+  </tr>
+  <tr>
+    <td>preservelastmodified</td>
+    <td>Give the moved files the same last modified time as the original source files.
+      (<strong>Note</strong>: Ignored on Java 1.1)</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>tofile</td>
+    <td>the file to move to</td>
+    <td rowspan="2">With the <var>file</var> attribute, either <var>tofile</var> or <var>todir</var>
+      can be used.  With nested filesets, if the fileset size is greater than 1 or if the only entry
+      in the fileset is a directory or if the <var>file</var> attribute is already specified,
+      only <var>todir</var> is allowed</td>
+  </tr>
+  <tr>
+    <td>todir</td>
+    <td class="left">the directory to move to</td>
+  </tr>
+  <tr>
+    <td>overwrite</td>
+    <td>overwrite existing files even if the destination files are newer</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>force</td>
+    <td>Overwrite read-only destination files.  <em>since Ant 1.8.2</em></td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>filtering</td>
+    <td>indicates whether token filtering should take place during the move.  See
+      the <a href="filter.html">filter</a> task for a description of how filters work.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>flatten</td>
+    <td>ignore directory structure of source directory, copy all files into a single directory,
+      specified by the <var>todir</var> attribute. Note that you can achieve the same effect by
+      using a <a href="../Types/mapper.html#flatten-mapper">flatten mapper</a></td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>includeEmptyDirs</td>
+    <td>Copy empty directories included with the nested FileSet(s).</td>
+    <td>No; defaults to <q>yes</q></td>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+    <td>If false, log a warning message, but do not stop the build, when the file to copy does not
+      exist or one of the nested filesets points to a directory that doesn't exist or an error
+      occurs while moving.</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>quiet</td>
+    <td>If <q>true</q> and <var>failonerror</var> is <q>false</q>, then do not log a warning message
+      when the file to copy does not exist or one of the nested filesets points to a directory that
+      doesn't exist or an error occurs while copying. <em>since Ant 1.8.3</em>.</td>
+     <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>verbose</td>
+    <td>Log the files that are being moved.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>encoding</td>
+    <td>The encoding to assume when filter-copying the files. <em>since Ant 1.5</em>.</td>
+    <td>No; defaults to default JVM character encoding</td>
+  </tr>
+  <tr>
+    <td>outputencoding</td>
+    <td>The encoding to use when writing the files.  <em>since Ant 1.6</em>.</td>
+    <td>No; defaults to <var>encoding</var> if set or default JVM character encoding otherwise</td>
+  </tr>
+  <tr>
+    <td>enablemultiplemappings</td>
+    <td>If <q>true</q> the task will process to all the mappings for a given source
+      path. If <q>false</q> the task will only process the first file or directory. This attribute
+      is only relevant if there is a <code>mapper</code> subelement.  <em>since Ant 1.6</em>.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>granularity</td>
+    <td>The number of milliseconds leeway to give before deciding a file is out of date. This is
+      needed because not every file system supports tracking the last modified time to the
+      millisecond level.  This can also be useful if source and target files live on separate
+      machines with clocks being out of sync.  <em>since Ant 1.6</em>.</td>
+    <td>No; default is 0 milliseconds, or 2 seconds on DOS systems</td>
+  </tr>
+  <tr>
+    <td>performGCOnFailedDelete</td>
+    <td>If Ant fails to delete a file or directory it will retry the operation once.  If this flag
+      is set to <q>true</q> it will perform a garbage collection before retrying the delete.<br/>
+      Setting this flag to <q>true</q> is known to resolve some problems on Windows (where it
+      defaults to <q>true</q>) but also for directory trees residing on an NFS share.  <em>Since Ant
+      1.8.3</em></td>
+    <td>No; defaults to <q>true</q> on Windows and <q>false</q> on any other OS</td>
+  </tr>
+</table>
+<h3>Parameters specified as nested elements</h3>
+<h4>mapper</h4>
+<p>You can define file name transformations by using a
+nested <a href="../Types/mapper.html">mapper</a> element. The default mapper used
+by <code>&lt;move&gt;</code> is the <a href="../Types/mapper.html#identity-mapper">identity</a>.</p>
+<p>Note that the source name handed to the mapper depends on the resource collection you use.  If
+you use <code>&lt;fileset&gt;</code> or any other collection that provides a base directory, the
+name passed to the mapper will be a relative filename, relative to the base directory.  In any other
+case the absolute filename of the source will be used.</p>
+<h4>filterchain</h4>
+<p>The Move task supports nested <a href="../Types/filterchain.html">FilterChain</a>s.</p>
+<p>If <code>&lt;filterset&gt;</code> and <code>&lt;filterchain&gt;</code> elements are used inside
+the same <code>&lt;move&gt;</code> task, all <code>&lt;filterchain&gt;</code> elements are processed
+first followed by <code>&lt;filterset&gt;</code> elements.</p>
+
+<h3>Examples</h3>
+<p>Move a single file (rename a file)</p>
+<pre>&lt;move file=&quot;file.orig&quot; tofile=&quot;file.moved&quot;/&gt;</pre>
+
+<p>Move a single file to a directory</p>
+<pre>&lt;move file=&quot;file.orig&quot; todir=&quot;dir/to/move/to&quot;/&gt;</pre>
+
+<p>Move a directory to a new directory</p>
+<pre>
+&lt;move todir=&quot;new/dir/to/move/to&quot;&gt;
+  &lt;fileset dir=&quot;src/dir&quot;/&gt;
+&lt;/move&gt;</pre>
+<p>or, <em>since Ant 1.6.3</em>:</p>
+<pre>&lt;move file=&quot;src/dir&quot; tofile=&quot;new/dir/to/move/to&quot;/&gt;</pre>
+
+<p>Move a set of files to a new directory</p>
+<pre>
+&lt;move todir=&quot;some/new/dir&quot;&gt;
+  &lt;fileset dir=&quot;my/src/dir&quot;&gt;
+    &lt;include name=&quot;**/*.jar&quot;/&gt;
+    &lt;exclude name=&quot;**/ant.jar&quot;/&gt;
+  &lt;/fileset&gt;
+&lt;/move&gt;</pre>
+
+<p>Move a list of files to a new directory</p>
+<pre>
+&lt;move todir=&quot;some/new/dir&quot;&gt;
+  &lt;filelist dir=&quot;my/src/dir&quot;&gt;
+    &lt;file name="file1.txt"/&gt;
+    &lt;file name="file2.txt"/&gt;
+  &lt;/filelist&gt;
+&lt;/move&gt;</pre>
+
+<p>Append <code>&quot;.bak&quot;</code> to the names of all files in a directory.</p>
+<pre>
+&lt;move todir=&quot;my/src/dir&quot; includeemptydirs=&quot;false&quot;&gt;
+  &lt;fileset dir=&quot;my/src/dir&quot;&gt;
+    &lt;exclude name=&quot;**/*.bak&quot;/&gt;
+  &lt;/fileset&gt;
+  &lt;mapper type=&quot;glob&quot; from=&quot;*&quot; to=&quot;*.bak&quot;/&gt;
+&lt;/move&gt;</pre>
+
+</body>
+</html>

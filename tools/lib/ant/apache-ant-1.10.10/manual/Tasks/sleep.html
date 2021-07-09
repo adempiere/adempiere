@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Sleep Task</title>
+</head>
+
+<body>
+
+<h2 id="sleep">Sleep</h2>
+<h3>Description</h3>
+<p>A task for sleeping a short period of time, useful when a build or deployment process requires an
+interval between tasks.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>hours</td>
+    <td>hours to to add to the sleep time</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>minutes</td>
+    <td>minutes to add to the sleep time</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>seconds</td>
+    <td>seconds to add to the sleep time</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>milliseconds</td>
+    <td>milliseconds to add to the sleep time</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+    <td>flag controlling whether to break the build on an error</td>
+    <td>No</td>
+  </tr>
+</table>
+<p>The sleep time is the sum of specified values, hours, minutes seconds and milliseconds.  A
+negative value can be supplied to any of them provided the total sleep time is positive</p>
+<p>Note that sleep times are always hints to be interpreted by the OS how it feels&mdash;small times
+may either be ignored or rounded up to a minimum timeslice. Note also that the system clocks often
+have a fairly low granularity too, which complicates measuring how long a sleep actually took.</p>
+<h3>Examples</h3>
+<p>Sleep for about 10 ms.</p>
+<pre>&lt;sleep milliseconds=&quot;10&quot;/&gt;</pre>
+
+<p>Sleep for about 2 seconds.</p>
+<pre>&lt;sleep seconds=&quot;2&quot;/&gt;</pre>
+
+<p>Sleep for one hour less 59:58, or two seconds again.</p>
+<pre>&lt;sleep hours=&quot;1&quot; minutes=&quot;-59&quot; seconds=&quot;-58&quot;/&gt;</pre>
+
+<p>Sleep for no time at all. This may yield the CPU time to another thread or process.</p>
+<pre>&lt;sleep/&gt;</pre>
+
+</body>
+</html>

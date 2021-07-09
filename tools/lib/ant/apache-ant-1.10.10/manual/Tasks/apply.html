@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+  <title>Apply Task</title>
+</head>
+
+<body>
+
+<h2 id="apply">Apply</h2>
+<p><em>The name <code>execon</code> is <u>deprecated</u> and only kept for backwards
+compatibility.</em></p>
+<h3>Description</h3>
+<p>Executes a system command. When the <var>os</var> attribute is specified, then the command is
+only executed when Apache Ant is run on one of the specified operating systems.</p>
+
+<p>The files and/or directories of a number of <a href="../Types/resources.html#collection">Resource
+Collection</a>s &ndash;- including but not restricted
+to <a href="../Types/fileset.html">FileSet</a>s, <a href="../Types/dirset.html">DirSet</a>s
+(<em>since Ant 1.6</em>) or <a href="../Types/filelist.html">FileList</a>s (<em>since Ant 1.6</em>)
+&ndash;- are passed as arguments to the system command.</p>
+<p>If you specify a nested <a href="../Types/mapper.html">mapper</a>, the timestamp of each source
+file is compared to the timestamp of a target file which is defined by the
+nested <code>mapper</code> element and searched for in the given <var>dest</var>, if specified.</p>
+<p>At least one <code>fileset</code> or <code>filelist</code> is required, and you must not specify
+more than one <code>mapper</code>.</p>
+
+<p>Note that you cannot interact with the forked program, the only way to send input to it is via
+the <var>input</var> and <var>inputstring</var> attributes.</p>
+
+<h4 id="background">Running Ant as a background process on Unix(-like) systems</h4>
+
+<p>If you run Ant as a background process (like <kbd>ant &amp;</kbd>) and use
+the <code>&lt;apply&gt;</code> task with <var>spawn</var> set to <q>false</q>, you must provide
+explicit input to the forked process or Ant will be suspended because it tries to read from the
+standard input.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>executable</td>
+    <td>the command to execute without any command line arguments.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>dest</td>
+    <td>the directory where the command is expected to place target files when it is executed.</td>
+    <td>No; ignored unless a nested mapper is specified; by default, the target filenames returned
+      by the mapper will be interpreted as absolute paths</td>
+  </tr>
+  <tr>
+    <td>spawn</td>
+    <td>whether or not you want the commands to be spawned.<br/>  If you spawn a command, its output
+    will not be logged by Ant.<br/>  The input, output, error, and result property settings are not
+    active when spawning a process.<br/>  <em>since Ant 1.6</em></td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>dir</td>
+    <td>the directory in which the command should be executed.</td>
+    <td>No; if <var>vmlauncher</var> is <q>true</q>, defaults to the current working directory,
+      otherwise the project's <var>basedir</var></td>
+  </tr>
+  <tr>
+    <td>relative</td>
+    <td>whether the filenames should be passed on the command line as relative pathnames (relative
+      to the base directory of the corresponding fileset/list for source files or
+      the <var>dest</var> attribute for target files).</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>forwardslash</td>
+    <td>whether the file names should be passed with forward slashes even if the operating system
+      requires other file separator. The option is ignored if the system file separator is a forward
+      slash.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>os</td>
+    <td>list of Operating Systems on which the command may be executed.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>osfamily</td>
+    <td>OS family as used in the <code>&lt;os&gt;</code> condition.
+    <em>since Ant 1.7</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>output</td>
+    <td>the file to which the output of the command should be redirected.  If the error stream is
+    not also redirected to a file or property, it will appear in this output.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>error</td>
+    <td>The file to which the standard error of the command should be redirected.  <em>since Ant
+    1.6</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>logError</td>
+    <td>This attribute is used when you wish to see error output in Ant's log and you are
+    redirecting output to a file/property. The error output will not be included in the output
+    file/property. If you redirect error with the <var>error</var> or <var>errorProperty</var>
+    attributes, this will have no effect.  <em>since Ant 1.6</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>append</td>
+    <td>whether output should be appended to or overwrite an existing file.  If you
+      set <var>parallel</var> to <q>false</q>, you will probably want to set this one
+      to <q>true</q>.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>outputproperty</td>
+    <td>the name of a property in which the output of the command should be stored.  Unless the
+    error stream is redirected to a separate file or stream, this property will include the error
+    output.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>errorproperty</td>
+    <td>The name of a property in which the standard error of the command should be
+      stored.  <em>since Ant 1.6</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>input</td>
+    <td>A file from which the executed command's standard input is taken. This attribute is mutually
+    exclusive with the <var>inputstring</var> attribute.  <em>since Ant 1.6</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>inputstring</td>
+    <td>A string which serves as the input stream for the executed command. This attribute is
+    mutually exclusive with the <var>input</var> attribute.  <em>since Ant 1.6</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>resultproperty</td>
+    <td>the name of a property in which the return code of the command should be stored. Only of
+      interest if <var>failonerror</var> is <q>false</q>. If you set <var>parallel</var>
+      to <q>false</q>, only the result of the first execution will be stored.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>timeout</td>
+    <td>Stop the command if it doesn't finish within the specified time (given in
+      milliseconds).</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+    <td>Stop the build process if the command exits with a return code other than <q>0</q>.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>failifexecutionfails</td>
+    <td>Stop the build if we can't start the program.</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>skipemptyfilesets</td>
+    <td>Don't run the command, if no source files have been found or are newer than their
+      corresponding target files.  Despite its name, this attribute applies to filelists as
+      well.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>parallel</td>
+    <td>Run the command only once, appending all files as arguments. If <q>false</q>, command will
+      be executed once for every file.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>type</td>
+    <td>One of <q>file</q>, <q>dir</q> or <q>both</q>. If set to <q>file</q>, only the names of
+      plain files will be sent to the command. If set to <q>dir</q>, only the names of directories
+      are considered.<br/>
+      <strong>Note</strong>: The <var>type</var> attribute does not apply to
+      nested <code>dirset</code>s&mdash;<code>dirset</code>s always implicitly assume type to
+      be <q>dir</q>.</td>
+    <td>No; default is <q>file</q></td>
+  </tr>
+  <tr>
+    <td>newenvironment</td>
+    <td>Do not propagate old environment when new environment variables are specified.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>vmlauncher</td>
+    <td>Run command using the JVM's execution facilities where available. If set to <q>false</q> the
+      underlying OS's shell, either directly or through the <kbd>antRun</kbd> scripts, will be
+      used.  Under some operating systems, this gives access to facilities not normally available
+      through JVM including, under Windows, being able to execute scripts, rather than their
+      associated interpreter.  If you want to specify the name of the executable as a relative path
+      to the directory given by the <var>dir</var> attribute, it may become necessary to
+      set <var>vmlauncher</var> to <q>false</q> as well.</td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>resolveExecutable</td>
+    <td>When this attribute is <q>true</q>, the name of the executable if resolved firstly against
+      the project <var>basedir</var> and if that does not exist, against the execution directory if
+      specified. On Unix systems, if you only want to allow execution of commands in the user's
+      path, set this to <q>false</q>.
+    <em>since Ant 1.6</em></td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>maxparallel</td>
+    <td>Limit the amount of parallelism by passing at most this many sourcefiles at once.  Set it to
+      negative integer for unlimited. <em>Since Ant 1.6</em>.</td>
+    <td>No, unlimited by default</td>
+  </tr>
+  <tr>
+    <td>addsourcefile</td>
+    <td>Whether source file names should be added to the command automatically. <em>Since Ant
+      1.6</em>.</td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>verbose</td>
+    <td>Whether to print a summary after execution or not.  <em>Since Ant 1.6</em>.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>ignoremissing</td>
+    <td>Whether to ignore nonexistent files specified via filelists.  <em>Since Ant 1.6.2</em>.</td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>force</td>
+    <td>Whether to bypass timestamp comparisons for target files.  <em>Since Ant 1.6.3</em>.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>discardOutput</td>
+    <td>Whether output should completely be discarded. This setting is
+      incompatible with any setting that redirects output to files or
+      properties.<br/>
+      If you set this to <q>true</q> error output will be discared as
+      well unless you redirect error output to files, properties or
+      enable <q>logError</q>.
+      <em>Since Ant 1.10.10</em>
+    </td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>discardError</td>
+    <td>Whether error output should completely be discarded. This
+      setting is incompatible with any setting that redirects error
+      output to files or properties as well as <q>logError</q>.
+      <em>Since Ant 1.10.10</em>
+    </td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+</table>
+<h3>Parameters specified as nested elements</h3>
+<h4>fileset</h4>
+<p>You can use any number of nested <code>&lt;fileset&gt;</code> elements to define the files for
+this task and refer to <code>&lt;fileset&gt;</code>s defined elsewhere.</p>
+
+<h4>filelist</h4>
+<p><em>Since Ant 1.6</em></p>
+<p>You can use any number of nested <code>&lt;filelist&gt;</code> elements to define the files for
+this task and refer to <code>&lt;filelist&gt;</code>s defined elsewhere.</p>
+
+<h4>dirset</h4>
+<p><em>Since Ant 1.6</em></p>
+<p>You can use any number of nested <code>&lt;dirset&gt;</code> elements to define the directories
+for this task and refer to <code>&lt;dirset&gt;</code>s defined elsewhere.</p>
+
+<h4>Any other <a href="../Types/resources.html#collection">resource collection</a></h4>
+<p><em>Since Ant 1.7</em></p>
+<p>You can use any number of nested resource collections.</p>
+
+<h4>mapper</h4>
+<p>A single <code>&lt;mapper&gt;</code> specifies the target files relative to the <var>dest</var>
+attribute for dependency checking. If the <var>dest</var> attribute is specified it will be used as
+a base directory for resolving relative pathnames returned by the mapper. At least one
+<code>&lt;fileset&gt;</code> or <code>&lt;filelist&gt;</code> is required.</p>
+
+<h4>arg</h4>
+<p>Command line arguments should be specified as nested <code>&lt;arg&gt;</code>
+elements. See <a href="../using.html#arg">Command line arguments</a>.</p>
+
+<h4>srcfile</h4>
+<p>By default the file names of the source files will be added to the end of the command line
+(unless you set <var>addsourcefile</var> to <q>false</q>). If you need to place it somewhere
+different, use a nested <code>&lt;srcfile&gt;</code> element between your <code>&lt;arg&gt;</code>
+elements to mark the insertion point.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>prefix</td>
+    <td>a prefix to place in front of the file name when building the command line
+    argument.  <em>Since Ant 1.8.0</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>suffix</td>
+    <td>a suffix to append to the file name when building the command line argument.  <em>Since Ant
+    1.8.0</em></td>
+    <td>No</td>
+  </tr>
+</table>
+<h4>targetfile</h4>
+<p><code>&lt;targetfile&gt;</code> is similar to <code>&lt;srcfile&gt;</code> and marks the position
+of the target filename on the command line. If omitted, the target filenames will not be added to
+the command line at all. This element can only be specified if you also define a nested mapper.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>prefix</td>
+    <td>a prefix to place in front of the file name when building the command line
+    argument.  <em>Since Ant 1.8.0</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>suffix</td>
+    <td>a suffix to append to the file name when building the command line argument.  <em>Since Ant
+    1.8.0</em></td>
+    <td>No</td>
+  </tr>
+</table>
+<h4>env</h4>
+<p>It is possible to specify environment variables to pass to the system command via
+nested <code>&lt;env&gt;</code> elements. See the description in the section
+about <a href="exec.html#env">exec</a></p>
+<h4>redirector</h4>
+<em>Since Ant 1.6.2</em>
+<p>A nested <a href="../Types/redirector.html">I/O Redirector</a> can be specified.  &lt;apply&gt;'s
+behavior is like that of <a href="exec.html#redirector">exec</a> with regard to redirectors, with
+the exception that, in non-<var>parallel</var> mode, file mapping will take place with each
+iteration.  This grants the user the capacity to receive input from, and send output to, different
+files for each sourcefile.</p>
+<p>In <var>parallel</var> mode the redirector will be reset for each batch of executions
+(with <var>maxparallel</var> &gt; 0) and null will be used a source file just like it is in the case
+of <code>exec</code>.</p>
+<h3>Examples</h3>
+<p>Invoke <kbd>ls -l</kbd>, adding the absolute filenames of all files below <samp>/tmp</samp> not
+ending in <samp>.txt</samp> and all files of the FileSet with <var>id</var> <samp>other.files</samp>
+to the command line.</p>
+<pre>
+&lt;apply executable=&quot;ls&quot;&gt;
+  &lt;arg value=&quot;-l&quot;/&gt;
+  &lt;fileset dir=&quot;/tmp&quot;&gt;
+    &lt;patternset&gt;
+      &lt;exclude name=&quot;**/*.txt&quot;/&gt;
+    &lt;/patternset&gt;
+  &lt;/fileset&gt;
+  &lt;fileset refid=&quot;other.files&quot;/&gt;
+&lt;/apply&gt;</pre>
+
+<p>Invoke <kbd>somecommand arg1 SOURCEFILENAME arg2</kbd> for each file in <samp>/tmp</samp>
+replacing <code>SOURCEFILENAME</code> with the absolute filename of each file in
+turn. If <var>parallel</var> had been set to <q>true</q>, <code>SOURCEFILENAME</code> would be
+replaced with the absolute filenames of all files separated by spaces.</p>
+<pre>
+&lt;apply executable=&quot;somecommand&quot; parallel=&quot;false&quot;&gt;
+  &lt;arg value=&quot;arg1&quot;/&gt;
+  &lt;srcfile/&gt;
+  &lt;arg value=&quot;arg2&quot;/&gt;
+  &lt;fileset dir=&quot;/tmp&quot;/&gt;
+&lt;/apply&gt;
+</pre>
+
+<p>Invoke <kbd>cc -c -o TARGETFILE SOURCEFILE</kbd> for each <samp>.c</samp> file that is newer than
+the corresponding <samp>.o</samp>, replacing <code>TARGETFILE</code> with the absolute filename of
+the <samp>.o</samp> and <code>SOURCEFILE</code> with the absolute name of the <samp>.c</samp>
+file.</p>
+<pre>
+&lt;apply executable=&quot;cc&quot; dest=&quot;src/C&quot; parallel=&quot;false&quot;&gt;
+  &lt;arg value=&quot;-c&quot;/&gt;
+  &lt;arg value=&quot;-o&quot;/&gt;
+  &lt;targetfile/&gt;
+  &lt;srcfile/&gt;
+  &lt;fileset dir=&quot;src/C&quot; includes=&quot;*.c&quot;/&gt;
+  &lt;mapper type=&quot;glob&quot; from=&quot;*.c&quot; to=&quot;*.o&quot;/&gt;
+&lt;/apply&gt;</pre>
+
+<p>Apply the fictitious <kbd>processfile</kbd> executable to all files matching <samp>*.file</samp>
+in the <samp>src</samp> directory.  The <samp>out</samp> <code>&lt;mapper&gt;</code> has been set up
+to map <samp>*.file</samp> to <samp>*.out</samp>, then this <code>&lt;mapper&gt;</code> is used to
+specify <code>targetfile</code>s for this <code>&lt;apply&gt;</code> task.  A reference
+to <samp>out</samp> is then used as an <code>&lt;outputmapper&gt;</code> nested in
+a <code>&lt;redirector&gt;</code>, which in turn is nested beneath this <code>&lt;apply&gt;</code>
+instance.  This allows us to perform dependency checking against output files&mdash;the target files
+in this case.</p>
+<pre>
+&lt;mapper id=&quot;out&quot; type=&quot;glob&quot;
+           from=&quot;src${file.separator}*.file&quot;
+           to=&quot;dest${file.separator}*.out&quot;/&gt;
+
+&lt;apply executable=&quot;processfile&quot; dest=&quot;dest&quot;&gt;
+  &lt;fileset dir=&quot;src&quot; includes=&quot;*.file&quot;/&gt;
+  &lt;mapper refid=&quot;out&quot;/&gt;
+  &lt;redirector&gt;
+    &lt;outputmapper refid=&quot;out&quot;/&gt;
+  &lt;/redirector&gt;
+&lt;/apply&gt;</pre>
+
+<p>Apply the <kbd>ls</kbd> executable to all directories in the <code>PATH</code>, effectively
+listing all executables that are available on the <code>PATH</code>.</p>
+<pre>
+&lt;apply executable="ls" parallel="true"
+       force="true" dest="${basedir}" append="true" type="both"&gt;
+  &lt;path&gt;
+    &lt;pathelement path="${env.PATH}"/&gt;
+  &lt;/path&gt;
+  &lt;identitymapper/&gt;
+&lt;/apply&gt;</pre>
+
+<p>Convert all JavaScript files in the <samp>src</samp> directory using the command <kbd>jsmin &lt;
+src/a.js &gt; dest/a.js</kbd>. Because the filename itself should not be passed to
+the <code>jsmin</code> program, the <var>addsourcefile</var> is set to <q>false</q>.</p>
+<pre>
+&lt;apply executable="jsmin" addsourcefile="false"&gt;
+    &lt;!-- Collect the JS-files --&gt;
+    &lt;fileset dir="src" includes="*.js"/&gt;
+    &lt;redirector&gt;
+        &lt;!-- redirect STDIN; fileset collects relative to its dir, but we need --&gt;
+        &lt;!-- relative to basedir --&gt;
+        &lt;inputmapper type="glob" from="*" to="src/*"/&gt;
+        &lt;!-- redirect STDOUT to file in dest-dir --&gt;
+        &lt;outputmapper id="out" type="glob" from="*.js" to="dest/*.js"/&gt;
+    &lt;/redirector&gt;
+&lt;/apply&gt;</pre>
+
+</body>
+</html>

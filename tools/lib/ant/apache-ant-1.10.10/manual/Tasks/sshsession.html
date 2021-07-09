@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>SSHSESSION Task</title>
+</head>
+
+<body>
+
+<h2 id="sshsession">SSHSESSION</h2>
+<p><em>Since Apache Ant 1.8.0</em></p>
+<h3>Description</h3>
+
+<p>A Task which establishes an SSH connection with a remote machine running SSH daemon, optionally
+establishes any number of local or remote tunnels over that connection, then executes any nested
+tasks before taking down the connection.</p>
+
+<p><strong>Note</strong>: This task depends on external libraries not included in the Ant
+distribution. See <a href="../install.html#librarydependencies">Library Dependencies</a> for more
+information.  This task has been tested with JSCh 0.1.33 and above and won't work with versions of
+JSCh earlier than 0.1.28.</p>
+
+<p>See also the <a href="sshexec.html">sshexec</a> and <a href="scp.html">scp</a> tasks</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>host</td>
+    <td>The hostname or IP address of the remote host to which you wish to connect.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>username</td>
+    <td>The username on the remote host to which you are connecting.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>port</td>
+    <td>The port to connect to on the remote host.</td>
+    <td>No; defaults to <q>22</q></td>
+  </tr>
+  <tr>
+    <td>localtunnels</td>
+    <td>A comma-delimited list of colon-delimited <samp>lport:rhost:rport</samp> triplets defining
+      local port forwarding.<br/>If nested <a href="#LocalTunnel">localtunnel</a> elements are also
+      provided, both sets of tunnels will be established.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>remotetunnels</td>
+    <td>A comma-delimited list of colon-delimited <samp>rport:lhost:lport</samp> triplets defining
+      remote port forwarding.<br/>  If nested <a href="#RemoteTunnel">remotetunnel</a> elements are
+      also provided, both sets of tunnels will be established.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>trust</td>
+    <td>This trusts all unknown hosts if set to <q>yes</q>
+      or <q>true</q>.<br/><strong>Note</strong>: If you set this to <q>false</q> (the default), the
+      host you connect to must be listed in your <var>knownhosts</var> file, this also implies that
+      the file exists.</td>
+    <td>No; defaults to <q>no</q></td>
+  </tr>
+  <tr>
+    <td>knownhosts</td>
+    <td>This sets the known hosts file to use to validate the identity of the remote host. This must
+      be a SSH2 format file.  SSH1 format is not supported.</td>
+    <td>No; defaults to <q>${user.home}/.ssh/known_hosts</q></td>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+    <td>Whether to halt the build if the command does not complete successfully.</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>password</td>
+    <td>The password.</td>
+    <td>Yes, unless you are using key based authentication or the password has been given in the
+      file or <var>todir</var> attribute</td>
+  </tr>
+  <tr>
+    <td>keyfile</td>
+    <td>Location of the file holding the private key.</td>
+    <td>Yes, if you are using key based authentication</td>
+  </tr>
+  <tr>
+    <td>passphrase</td>
+    <td>Passphrase for your private key.</td>
+    <td>No; defaults to an empty string</td>
+  </tr>
+  <tr>
+    <td>sshConfig</td>
+    <td>Location of the file holding the OpenSSH style configuration (e.g. <code>${user.home}/.ssh/config</code>).
+        The username and the key file are read from the configuration file,
+        unless they are already specified in the task parameters.
+        <em>since Ant 1.10.8</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>timeout</td>
+    <td>Give up if the connection cannot be established within the specified time (given in
+      milliseconds).</td>
+    <td>No; defaults to <q>0</q> which means <q>never</q></td>
+  </tr>
+</table>
+
+<h3>Parameters specified as nested elements</h3>
+
+<h4 id="LocalTunnel">localtunnel</h4>
+<p>Optionally, any number of <code>localtunnel</code> elements can be used to define local port
+forwarding over the SSH connection.  If the <var>localtunnels</var> parameter was also specified,
+both sets of tunnels will be established.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>lport</td>
+    <td>The number of the local port to be forwarded.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>rhost</td>
+    <td>The hostname or IP address of the remote host to which the local port should be
+      forwarded.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>rport</td>
+    <td>The number of the port on the remote host to which the local port should be forwarded.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h4 id="RemoteTunnel">remotetunnel</h4>
+<p>Optionally, any number of <code>remotetunnel</code> elements can be used to define remote port
+forwarding over the SSH connection.  If the <var>remotetunnels</var> parameter was also specified,
+both sets of tunnels will be established.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>rport</td>
+    <td>The number of the remote port to be forwarded.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>lhost</td>
+    <td>The hostname or IP address of the local host to which the remote port should be
+      forwarded.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>lport</td>
+    <td>The number of the port on the local host to which the remote port should be forwarded.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h4 id="additionalConfig">additionalConfig</h4>
+
+<p><em>since Ant 1.10.10</em></p>
+
+<p>Adds configuration settings for the JSch Session created that are
+  not directly supported by specific Ant attributes.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>key</td>
+    <td>The key of the configuration setting.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>value</td>
+    <td>The value of the configuration setting.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h4 id="Sequential">sequential</h4>
+<p>The <code>sequential</code> element is a required parameter.  It is a container for nested Tasks
+which are to be executed once the SSH connection is established and all local and/or remote tunnels
+established.</p>
+
+<h3>Examples</h3>
+
+<p>Connect to a remote machine using password authentication, forward the local CVS port to the
+remote host, and execute a CVS command locally, which can use the tunnel.</p>
+
+<pre>
+&lt;sshsession host=&quot;somehost&quot;
+            username=&quot;dude&quot;
+            password=&quot;yo&quot;
+            localtunnels=&quot;2401:localhost:2401&quot;&gt;
+  &lt;sequential&gt;
+    &lt;cvs command=&quot;update ${cvs.parms} ${module}&quot;
+         cvsRoot=&quot;${cvs.root}&quot;
+         dest=&quot;${local.root}&quot;
+         failonerror=&quot;true&quot;/&gt;
+  &lt;/sequential&gt;
+&lt;/sshsession&gt;</pre>
+
+<p>Do the same thing using nested <code>localtunnel</code> element.</p>
+
+<pre>
+&lt;sshsession host=&quot;somehost&quot;
+            username=&quot;dude&quot;
+            password=&quot;yo&quot;&gt;
+  &lt;localtunnel lport=&quot;2401&quot; rhost=&quot;localhost&quot; rport=&quot;2401&quot;/&gt;
+  &lt;sequential&gt;
+    &lt;cvs command=&quot;update ${cvs.parms} ${module}&quot;
+         cvsRoot=&quot;${cvs.root}&quot;
+         dest=&quot;${local.root}&quot;
+         failonerror=&quot;true&quot;/&gt;
+  &lt;/sequential&gt;
+&lt;/sshsession&gt;</pre>
+
+<p>Connect to a remote machine using key authentication, forward port 1080 to port 80 of an intranet
+server which is not directly accessible, then run a <code>get</code> task using that tunnel.</p>
+
+<pre>
+&lt;sshsession host=&quot;somehost&quot;
+            username=&quot;dude&quot;
+            keyfile=&quot;${user.home}/.ssh/id_dsa&quot;
+            passphrase=&quot;yo its a secret&quot;/&gt;
+  &lt;LocalTunnel lport=&quot;1080&quot; rhost=&quot;intranet.mycomp.com&quot; rport=&quot;80&quot;/&gt;
+  &lt;sequential&gt;
+    &lt;get src=&quot;http://localhost:1080/somefile&quot; dest=&quot;temp/somefile&quot;/&gt;
+  &lt;/sequential&gt;
+&lt;/sshsession&gt;</pre>
+
+<p><strong>Security Note</strong>: Hardcoding passwords or passphrases and/or usernames
+in <code>sshsession</code> task can be a serious security hole. Consider using variable substitution
+and include the password on the command line. For example:</p>
+
+<pre>
+&lt;sshsession host=&quot;somehost&quot;
+            username=&quot;${username}&quot;
+            password=&quot;${password}&quot;
+            localtunnels=&quot;2401:localhost:2401&quot;&gt;
+  &lt;sequential&gt;
+    &lt;sometask/&gt;
+  &lt;/sequential&gt;
+&lt;/sshsession&gt;</pre>
+
+<p>Invoking Ant with the following command line:</p>
+<pre class="input">ant -Dusername=me -Dpassword=mypassword target1 target2</pre>
+<p>is slightly better, but the username/password is exposed to all users on an Unix system (via
+the <kbd>ps</kbd> command). The best approach is to use the <code>&lt;input&gt;</code> task and/or
+retrieve the password from a (secured) <samp>.properties</samp> file.</p>
+</body>
+</html>

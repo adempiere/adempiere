@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Input Task</title>
+</head>
+
+<body>
+
+<h2 id="input">Input</h2>
+<h3>Description</h3>
+
+<p>Allows user interaction during the build process by prompting for input.  To do so, it uses the
+configured <a href="../inputhandler.html">InputHandler</a>.</p>
+
+<p>The prompt can be set via the <var>message</var> attribute or as character data nested into the
+element.</p>
+
+<p>Optionally a set of valid input arguments can be defined via the <var>validargs</var>
+attribute. <code>Input</code> task will not accept a value that doesn't match one of the
+predefined.</p>
+
+<p>Optionally a property can be created from the value entered by the user. This property can then
+be used during the following build run. <code>Input</code> then behaves
+as <a href="property.html">property task</a> which means that existing properties cannot be
+overridden.  <em>Since Apache Ant 1.6</em>, <code>&lt;input&gt;</code> will not prompt for input if
+a property should be set by the task that has already been set in the project (and the task wouldn't
+have any effect).</p>
+
+<p>Historically, a regular complaint about this task has been that it echoes characters to the
+console, this is a critical security defect, we must fix it immediately, etc, etc.  This problem was
+due to the lack in early versions of Java of a (fully functional) facility for handling secure
+console input.  In Java 6 that shortcoming in Java's API was addressed and Ant versions 1.7.1 and
+1.8 have added support for Java 6 secure console input feature (see <a href="#handler.type">handler
+type</a>).</p>
+
+<p>IDE behaviour depends upon the IDE: some hang waiting for input, some let you type it in. For
+this situation, place the password in a (secured) property file and load in before
+the <code>input</code> task.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>message</td>
+    <td>the Message which gets displayed to the user during the build run.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>validargs</td>
+    <td>comma separated String containing valid input arguments. If set, <code>input</code> task
+      will reject any input not defined here. Comparison of input to <var>validargs</var> is case
+      sensitive. If you want <q>a</q> and
+    <q>A</q> to be accepted you will need to define both arguments within <var>validargs</var>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>addproperty</td>
+    <td>the name of a property to be created from input. Behaviour is equal
+      to <a href="property.html">property task</a> which means that existing properties cannot be
+      overridden.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>defaultvalue</td>
+    <td>Defines the default value of the property to be created from input.  Property value will be
+      set to default if no input is received.</td>
+    <td>No</td>
+  </tr>
+</table>
+<h3>Parameters specified as nested elements</h3>
+<h4>Handler</h4>
+<p><em>Since Ant 1.7</em>, a nested <code>&lt;handler&gt;</code> element can be used to specify
+an <code>InputHandler</code>, so that different <code>InputHandler</code>s may be used among
+different <code>Input</code> tasks.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr id="handler.type">
+    <td>type</td>
+    <td>one of <q>default</q>, <q>propertyfile</q>, <q>greedy</q>, or <q>secure</q> (<em>since Ant
+      1.8</em>).</td>
+    <td rowspan="3">One of these</td>
+  </tr>
+  <tr>
+    <td>refid</td>
+    <td class="left">Reference to an <code>InputHandler</code> defined elsewhere in the
+      project.</td>
+  </tr>
+  <tr>
+    <td>classname</td>
+    <td class="left">The name of an <code>InputHandler</code> subclass.</td>
+  </tr>
+  <tr>
+    <td>classpath</td>
+    <td>The classpath to use with <var>classname</var>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>classpathref</td>
+    <td>The refid of a classpath to use with <var>classname</var>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>loaderref</td>
+    <td>The refid of a classloader to use with <var>classname</var>.
+    </td>
+    <td>No</td>
+  </tr>
+</table>
+<p>The classpath can also be specified by means of one or more nested <code>&lt;classpath&gt;</code>
+elements.</p>
+
+<h3>Examples</h3>
+<p>Pause the build run until return key is pressed when using
+the <a href="../inputhandler.html#defaulthandler">default InputHandler</a>, the concrete behavior is
+defined by the <code>InputHandler</code> implementation you use.</p>
+<pre>&lt;input/&gt;</pre>
+
+<p>Display the message <q>Press Return key to continue...</q> and pause the build run until return
+key is pressed (again, the concrete behavior is implementation dependent).</p>
+<pre>&lt;input&gt;Press Return key to continue...&lt;/input&gt;</pre>
+
+<p>Display the message <q>Press Return key to continue...</q> and pause the build run until return
+key is pressed (see above).</p>
+<pre>&lt;input message=&quot;Press Return key to continue...&quot;/&gt;</pre>
+
+<p>Display the message <q>All data is going to be deleted from DB continue (y/n)?</q> and
+require <q>y</q> to continue build or <q>n</q> to exit build with following message <q>Build aborted
+by user.</q>.</p>
+<pre>
+&lt;input message=&quot;All data is going to be deleted from DB continue (y/n)?&quot;
+       validargs=&quot;y,n&quot;
+       addproperty=&quot;do.delete&quot;/&gt;
+&lt;condition property=&quot;do.abort&quot;&gt;
+  &lt;equals arg1=&quot;n&quot; arg2=&quot;${do.delete}&quot;/&gt;
+&lt;/condition&gt;
+&lt;fail if=&quot;do.abort&quot;&gt;Build aborted by user.&lt;/fail&gt;
+</pre>
+
+<p>Display the message <q>Please enter db-username:</q> and set the property <code>db.user</code> to
+the value entered by the user.</p>
+<pre>
+&lt;input message=&quot;Please enter db-username:&quot;
+       addproperty=&quot;db.user&quot;/&gt;</pre>
+
+<p>Same as above, but set <code>db.user</code> to the value <q>Scott-Tiger</q> if the user enters no
+value (simply presses <q>return</q>).</p>
+<pre>
+&lt;input message=&quot;Please enter db-username:&quot;
+       addproperty=&quot;db.user&quot;
+       defaultvalue=&quot;Scott-Tiger&quot;/&gt;</pre>
+
+</body>
+</html>

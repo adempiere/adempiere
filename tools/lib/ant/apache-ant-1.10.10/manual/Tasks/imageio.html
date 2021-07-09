@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Image Task</title>
+</head>
+
+<body>
+
+<h2 id="imageio">ImageIO</h2>
+<h3>Description</h3>
+<p>Applies a chain of image operations on a set of files.</p>
+<p>Uses AWT and ImageIO; replaces <a href="image.html">image</a> task for Java 9+. The task can be
+used with Java 8 as well, see parameter table for limitations.</p>
+<p><strong>Note</strong>: this task tries to stay as close as possible to syntax and semantics
+of <code>image</code> task. However, it uses <var>format</var> attribute rather
+than <var>encoding</var> attribute, because the latter is a misnomer: almost all tasks use similar
+attributes for character encodings in files, file names or other strings. Also,
+when <var>format</var> is not specified, its value is defined by the format of the first processed
+image file.</p>
+<h5>Overview of used datatypes</h5>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill-opacity="1"
+     color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black"
+     stroke-linecap="square" viewBox="0 0 1504 957" stroke-miterlimit="10" shape-rendering="auto"
+     stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1"
+     font-family="Sans-Serif" font-style="normal" stroke-linejoin="miter" font-size="12px" role="img"
+     stroke-dashoffset="0" image-rendering="auto" aria-labelledby="diagramTitle diagramDescription">
+  <title id="diagramTitle">ImageOperation class diagram</title>
+  <desc id="diagramDescription">A diagram of Ant DataType classes used by ImageIO task.</desc>
+  <defs id="genericDefs"/>
+  <g>
+    <defs id="defs1">
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath1">
+        <path d="M0 0 L1504 0 L1504 957 L0 957 L0 0 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath2">
+        <path d="M-435 -129 L1069 -129 L1069 828 L-435 828 L-435 -129 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath3">
+        <path d="M207 -113 L207 -66 L452 -66 L452 -113 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath4">
+        <path d="M239 26 L239 130 L421 130 L421 26 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath5">
+        <path d="M-24 106 L-24 221 L144 221 L144 106 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath6">
+        <path d="M527 105 L527 166 L913 166 L913 105 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath7">
+        <path d="M206 478 L206 562 L452 562 L452 478 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath8">
+        <path d="M562 541 L562 812 L813 812 L813 541 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath9">
+        <path d="M257 272 L257 402 L403 402 L403 272 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath10">
+        <path d="M449 272 L449 331 L571 331 L571 272 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath11">
+        <path d="M614 272 L614 360 L826 360 L826 272 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath12">
+        <path d="M874 272 L874 402 L1054 402 L1054 272 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath13">
+        <path d="M0 272 L0 346 L122 346 L122 272 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath14">
+        <path d="M-166 272 L-166 317 L-44 317 L-44 272 Z"/>
+      </clipPath>
+      <clipPath clipPathUnits="userSpaceOnUse" id="clipPath15">
+        <path d="M-375 272 L-375 360 L-208 360 L-208 272 Z"/>
+      </clipPath>
+    </defs>
+    <g fill="white" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="translate(435,129)" stroke="white">
+      <rect x="-435" width="1504" height="957" y="-129" clip-path="url(#clipPath2)" stroke="none"/>
+    </g>
+    <g fill="rgb(255,204,153)" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,435,129)" stroke="rgb(255,204,153)">
+      <rect x="208" width="243" height="45" y="-112" clip-path="url(#clipPath2)" stroke="none"/>
+      <rect x="207" y="-113" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="1" height="47" stroke="none"/>
+      <rect x="208" y="-113" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="243" height="1" stroke="none"/>
+      <rect x="208" y="-67" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="244" height="1" stroke="none"/>
+      <rect x="451" y="-113" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="1" height="46" stroke="none"/>
+    </g>
+    <g font-size="13px" stroke-linecap="butt" transform="matrix(1,0,0,1,435,129)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" stroke-miterlimit="1.45">
+      <text x="214.5425" xml:space="preserve" y="-95.5533" clip-path="url(#clipPath3)" stroke="none">org.apache.tools.ant.types.DataType</text>
+    </g>
+    <g text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,435,129)">
+      <line y2="-87" fill="none" x1="208" clip-path="url(#clipPath3)" x2="451" y1="-87"/>
+      <line y2="-77" fill="none" x1="208" clip-path="url(#clipPath3)" x2="451" y1="-77"/>
+      <text stroke-linecap="butt" x="212.5" y="-61.2095" clip-path="url(#clipPath3)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve"> </text>
+      <rect x="240" y="27" clip-path="url(#clipPath2)" fill="rgb(255,204,153)" width="180" height="102" stroke="none"/>
+      <rect x="239" y="26" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="1" height="104" stroke="none"/>
+      <rect x="240" y="26" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="180" height="1" stroke="none"/>
+      <rect x="240" y="129" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="181" height="1" stroke="none"/>
+      <rect x="420" y="26" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="1" height="103" stroke="none"/>
+    </g>
+    <g font-size="13px" stroke-linecap="butt" transform="matrix(1,0,0,1,435,129)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" font-style="italic" stroke-miterlimit="1.45">
+      <text x="279.4473" xml:space="preserve" y="43.5684" clip-path="url(#clipPath4)" stroke="none">ImageOperation</text>
+    </g>
+    <g text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,435,129)">
+      <line y2="51" fill="none" x1="240" clip-path="url(#clipPath4)" x2="420" y1="51"/>
+      <text stroke-linecap="butt" x="244" y="67.9121" clip-path="url(#clipPath4)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">instructions : List</text>
+      <line y2="75" fill="none" x1="240" clip-path="url(#clipPath4)" x2="420" y1="75"/>
+      <text stroke-linecap="butt" x="244" y="92.0449" clip-path="url(#clipPath4)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">addDraw(Draw : instr)</text>
+      <text stroke-linecap="butt" x="244" y="106.1777" clip-path="url(#clipPath4)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">addRotate(Rotate : instr)</text>
+      <text stroke-linecap="butt" x="244" y="120.3105" clip-path="url(#clipPath4)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">addScale(Scale : instr)</text>
+      <path fill="none" stroke-miterlimit="1.45" d="M-419.1051 469.593 L-173.5543 469.593 L-173.5543 484.593 L-158.5543 484.593 L-158.5543 574.593 L-419.1051 574.593 Z" clip-path="url(#clipPath2)" stroke-linecap="butt"/>
+      <path fill="none" stroke-miterlimit="1.45" d="M-173.5543 469.593 L-173.5543 484.593 L-158.5543 484.593 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke-linecap="butt"/>
+      <text stroke-linecap="butt" x="-412.1051" y="491.2961" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">The setType() method forces type to</text>
+      <text stroke-linecap="butt" x="-412.1051" y="505.4289" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">one of the values of java.awt.geom.Arc2D:</text>
+      <text stroke-linecap="butt" x="-412.1051" y="519.5617" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">open = Arc2D.OPEN</text>
+      <text stroke-linecap="butt" x="-412.1051" y="533.6945" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">pie = Arc2D.PIE</text>
+      <text stroke-linecap="butt" x="-412.1051" y="547.8273" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">chord = Arc2D.CHORD</text>
+      <text stroke-linecap="butt" x="-412.1051" y="561.9601" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">Parameter is not case-sensitive.</text>
+      <rect x="-23" y="107" clip-path="url(#clipPath2)" fill="rgb(255,204,153)" width="166" height="113" stroke="none"/>
+      <rect x="-24" y="106" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="1" height="115" stroke="none"/>
+      <rect x="-23" y="106" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="166" height="1" stroke="none"/>
+      <rect x="-23" y="220" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="167" height="1" stroke="none"/>
+      <rect x="143" y="106" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="1" height="114" stroke="none"/>
+    </g>
+    <g font-size="13px" stroke-linecap="butt" transform="matrix(1,0,0,1,435,129)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" font-style="italic" stroke-miterlimit="1.45">
+      <text x="25.3132" xml:space="preserve" y="123.5684" clip-path="url(#clipPath5)" stroke="none">BasicShape</text>
+    </g>
+    <g text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,435,129)">
+      <line y2="131" fill="none" x1="-23" clip-path="url(#clipPath5)" x2="143" y1="131"/>
+      <text stroke-linecap="butt" x="-19" y="147.9121" clip-path="url(#clipPath5)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">height : int = 0</text>
+      <text stroke-linecap="butt" x="-19" y="162.0449" clip-path="url(#clipPath5)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">width : int = 0</text>
+      <text stroke-linecap="butt" x="-19" y="176.1777" clip-path="url(#clipPath5)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">strokeWidth : int = 0</text>
+      <text stroke-linecap="butt" x="-19" y="190.3105" clip-path="url(#clipPath5)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">stroke : String = "black"</text>
+      <text stroke-linecap="butt" x="-19" y="204.4434" clip-path="url(#clipPath5)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">fill : String = "transparent"</text>
+      <line y2="211" fill="none" x1="-23" clip-path="url(#clipPath5)" x2="143" y1="211"/>
+      <rect x="528" y="106" clip-path="url(#clipPath2)" fill="rgb(255,204,153)" width="384" height="59" stroke="none"/>
+      <rect x="527" y="105" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="1" height="61" stroke="none"/>
+      <rect x="528" y="105" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="384" height="1" stroke="none"/>
+      <rect x="528" y="165" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="385" height="1" stroke="none"/>
+      <rect x="912" y="105" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="1" height="60" stroke="none"/>
+    </g>
+    <g font-size="13px" stroke-linecap="butt" transform="matrix(1,0,0,1,435,129)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" font-style="italic" stroke-miterlimit="1.45">
+      <text x="655.8347" xml:space="preserve" y="122.5684" clip-path="url(#clipPath6)" stroke="none">TransformOperation</text>
+    </g>
+    <g text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,435,129)">
+      <line y2="130" fill="none" x1="528" clip-path="url(#clipPath6)" x2="912" y1="130"/>
+      <line y2="140" fill="none" x1="528" clip-path="url(#clipPath6)" x2="912" y1="140"/>
+      <text stroke-linecap="butt" x="532" y="156.9121" clip-path="url(#clipPath6)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">executeTransformOperation(BufferedImage img) : BufferedImage</text>
+      <rect x="207" y="479" clip-path="url(#clipPath2)" fill="rgb(255,204,153)" width="244" height="82" stroke="none"/>
+      <rect x="206" y="478" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="1" height="84" stroke="none"/>
+      <rect x="207" y="478" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="244" height="1" stroke="none"/>
+      <rect x="207" y="561" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="245" height="1" stroke="none"/>
+      <rect x="451" y="478" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="1" height="83" stroke="none"/>
+      <text stroke-linecap="butt" x="284.4863" y="494.6016" clip-path="url(#clipPath7)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">&lt;&lt;interface&gt;&gt;</text>
+    </g>
+    <g font-size="13px" stroke-linecap="butt" transform="matrix(1,0,0,1,435,129)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" font-style="italic" stroke-miterlimit="1.45">
+      <text x="281.5259" xml:space="preserve" y="518.7012" clip-path="url(#clipPath7)" stroke="none">DrawOperation</text>
+    </g>
+    <g text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,435,129)">
+      <line y2="526" fill="none" x1="207" clip-path="url(#clipPath7)" x2="451" y1="526"/>
+      <line y2="536" fill="none" x1="207" clip-path="url(#clipPath7)" x2="451" y1="536"/>
+      <text stroke-linecap="butt" x="211" y="553.0449" clip-path="url(#clipPath7)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">executeDrawOperation() : BufferedImage</text>
+      <path fill="none" stroke-miterlimit="1.45" d="M220.3178 635.8665 L421.3783 635.8665 L421.3783 650.8665 L436.3783 650.8665 L436.3783 711.6233 L220.3178 711.6233 Z" clip-path="url(#clipPath2)" stroke-linecap="butt"/>
+      <path fill="none" stroke-miterlimit="1.45" d="M421.3783 635.8665 L421.3783 650.8665 L436.3783 650.8665 Z" fill-rule="evenodd" clip-path="url(#clipPath2)" stroke-linecap="butt"/>
+      <text stroke-linecap="butt" x="227.3178" y="657.0809" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">The implementing class uses</text>
+      <text stroke-linecap="butt" x="227.3178" y="671.2137" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">ColorMapper to evaluate the color.</text>
+      <text stroke-linecap="butt" x="227.3178" y="685.3465" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">Only the values defined in</text>
+      <text stroke-linecap="butt" x="227.3178" y="699.4793" clip-path="url(#clipPath2)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">ColorMapper are used.</text>
+      <rect x="563" y="542" clip-path="url(#clipPath2)" fill="rgb(255,204,153)" width="249" height="269" stroke="none"/>
+      <rect x="562" y="541" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="1" height="271" stroke="none"/>
+      <rect x="563" y="541" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="249" height="1" stroke="none"/>
+      <rect x="563" y="811" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="250" height="1" stroke="none"/>
+      <rect x="812" y="541" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="1" height="270" stroke="none"/>
+    </g>
+    <g font-size="13px" stroke-linecap="butt" transform="matrix(1,0,0,1,435,129)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" stroke-miterlimit="1.45">
+      <text x="647.6754" xml:space="preserve" y="558.9055" clip-path="url(#clipPath8)" stroke="none">ColorMapper</text>
+    </g>
+    <g text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,435,129)">
+      <line y2="566" fill="none" x1="563" clip-path="url(#clipPath8)" x2="812" y1="566"/>
+      <text stroke-linecap="butt" x="567.7103" y="583.2493" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">COLOR_BLACK : String = "black"</text>
+      <text stroke-linecap="butt" x="567.7103" y="597.3821" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">COLOR_BLUE : String = "blue"</text>
+      <text stroke-linecap="butt" x="567.7103" y="611.5149" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">COLOR_CYAN : String = "cyan"</text>
+      <text stroke-linecap="butt" x="567.7103" y="625.6477" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">COLOR_DARKGRAY : String = "darkgray"</text>
+      <text stroke-linecap="butt" x="567.7103" y="639.7805" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">COLOR_GRAY : String = "gray"</text>
+      <text stroke-linecap="butt" x="567.7103" y="653.9133" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">COLOR_LIGHTGRAY : String = "lightgray"</text>
+      <text stroke-linecap="butt" x="567.7103" y="668.0461" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">COLOR_DARKGREY : String = "darkgrey"</text>
+      <text stroke-linecap="butt" x="567.7103" y="682.179" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">COLOR_GREY : String = "grey"</text>
+      <text stroke-linecap="butt" x="567.7103" y="696.3118" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">COLOR_LIGHTGREY : String = "lightgrey"</text>
+      <text stroke-linecap="butt" x="567.7103" y="710.4446" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">COLOR_GREEN : String = "green"</text>
+      <text stroke-linecap="butt" x="567.7103" y="724.5774" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">COLOR_MAGENTA : String = "magenta"</text>
+      <text stroke-linecap="butt" x="567.7103" y="738.7102" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">COLOR_ORANGE : String = "orange"</text>
+      <text stroke-linecap="butt" x="567.7103" y="752.843" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">COLOR_PINK : String = "pink"</text>
+      <text stroke-linecap="butt" x="567.7103" y="766.9758" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">COLOR_RED : String = "red"</text>
+      <text stroke-linecap="butt" x="567.7103" y="781.1086" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">COLOR_WHITE : String = "white"</text>
+      <text stroke-linecap="butt" x="567.7103" y="795.2415" clip-path="url(#clipPath8)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">COLOR_YELLOW : String = "yellow"</text>
+      <line y2="802" fill="none" x1="563" clip-path="url(#clipPath8)" x2="812" y1="802"/>
+      <rect x="258" y="273" clip-path="url(#clipPath2)" fill="rgb(255,204,153)" width="144" height="128" stroke="none"/>
+      <rect x="257" y="272" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="1" height="130" stroke="none"/>
+      <rect x="258" y="272" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="144" height="1" stroke="none"/>
+      <rect x="258" y="401" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="145" height="1" stroke="none"/>
+      <rect x="402" y="272" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="1" height="129" stroke="none"/>
+    </g>
+    <g font-size="13px" stroke-linecap="butt" transform="matrix(1,0,0,1,435,129)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" stroke-miterlimit="1.45">
+      <text x="315.8511" xml:space="preserve" y="289.5684" clip-path="url(#clipPath9)" stroke="none">Text</text>
+    </g>
+    <g text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,435,129)">
+      <line y2="297" fill="none" x1="258" clip-path="url(#clipPath9)" x2="402" y1="297"/>
+      <text stroke-linecap="butt" x="262" y="313.9121" clip-path="url(#clipPath9)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">string : String = ""</text>
+      <text stroke-linecap="butt" x="262" y="328.0449" clip-path="url(#clipPath9)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">font : String = "Arial"</text>
+      <text stroke-linecap="butt" x="262" y="342.1777" clip-path="url(#clipPath9)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">point : int = 10</text>
+      <text stroke-linecap="butt" x="262" y="356.3105" clip-path="url(#clipPath9)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">bold : boolean = false</text>
+      <text stroke-linecap="butt" x="262" y="370.4434" clip-path="url(#clipPath9)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">color : String = "black"</text>
+      <text stroke-linecap="butt" x="262" y="384.5762" clip-path="url(#clipPath9)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">italic : boolean = false</text>
+      <line y2="392" fill="none" x1="258" clip-path="url(#clipPath9)" x2="402" y1="392"/>
+      <rect x="450" y="273" clip-path="url(#clipPath2)" fill="rgb(255,204,153)" width="120" height="57" stroke="none"/>
+      <rect x="449" y="272" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="1" height="59" stroke="none"/>
+      <rect x="450" y="272" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="120" height="1" stroke="none"/>
+      <rect x="450" y="330" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="121" height="1" stroke="none"/>
+      <rect x="570" y="272" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="1" height="58" stroke="none"/>
+    </g>
+    <g font-size="13px" stroke-linecap="butt" transform="matrix(1,0,0,1,435,129)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" stroke-miterlimit="1.45">
+      <text x="489.824" xml:space="preserve" y="289.5684" clip-path="url(#clipPath10)" stroke="none">Rotate</text>
+    </g>
+    <g text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,435,129)">
+      <line y2="297" fill="none" x1="450" clip-path="url(#clipPath10)" x2="570" y1="297"/>
+      <text stroke-linecap="butt" x="454" y="313.9121" clip-path="url(#clipPath10)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">angle : float = 0.0F</text>
+      <line y2="321" fill="none" x1="450" clip-path="url(#clipPath10)" x2="570" y1="321"/>
+      <rect x="615" y="273" clip-path="url(#clipPath2)" fill="rgb(255,204,153)" width="210" height="86" stroke="none"/>
+      <rect x="614" y="272" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="1" height="88" stroke="none"/>
+      <rect x="615" y="272" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="210" height="1" stroke="none"/>
+      <rect x="615" y="359" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="211" height="1" stroke="none"/>
+      <rect x="825" y="272" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="1" height="87" stroke="none"/>
+    </g>
+    <g font-size="13px" stroke-linecap="butt" transform="matrix(1,0,0,1,435,129)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" stroke-miterlimit="1.45">
+      <text x="704.0801" xml:space="preserve" y="289.5684" clip-path="url(#clipPath11)" stroke="none">Scale</text>
+    </g>
+    <g text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,435,129)">
+      <line y2="297" fill="none" x1="615" clip-path="url(#clipPath11)" x2="825" y1="297"/>
+      <text stroke-linecap="butt" x="619" y="313.9121" clip-path="url(#clipPath11)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">width : String = "100%"</text>
+      <text stroke-linecap="butt" x="619" y="328.0449" clip-path="url(#clipPath11)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">height : String = "100%"</text>
+      <text stroke-linecap="butt" x="619" y="342.1777" clip-path="url(#clipPath11)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">keepProportions : boolean = false</text>
+      <line y2="349" fill="none" x1="615" clip-path="url(#clipPath11)" x2="825" y1="349"/>
+      <rect x="875" y="273" clip-path="url(#clipPath2)" fill="rgb(255,204,153)" width="178" height="128" stroke="none"/>
+      <rect x="874" y="272" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="1" height="130" stroke="none"/>
+      <rect x="875" y="272" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="178" height="1" stroke="none"/>
+      <rect x="875" y="401" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="179" height="1" stroke="none"/>
+      <rect x="1053" y="272" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="1" height="129" stroke="none"/>
+    </g>
+    <g font-size="13px" stroke-linecap="butt" transform="matrix(1,0,0,1,435,129)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" stroke-miterlimit="1.45">
+      <text x="947.8738" xml:space="preserve" y="289.5684" clip-path="url(#clipPath12)" stroke="none">Draw</text>
+    </g>
+    <g text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,435,129)">
+      <line y2="297" fill="none" x1="875" clip-path="url(#clipPath12)" x2="1053" y1="297"/>
+      <text stroke-linecap="butt" x="879" y="313.9121" clip-path="url(#clipPath12)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">xloc : int = 0</text>
+      <text stroke-linecap="butt" x="879" y="328.0449" clip-path="url(#clipPath12)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">yloc : int = 0</text>
+      <line y2="335" fill="none" x1="875" clip-path="url(#clipPath12)" x2="1053" y1="335"/>
+      <text stroke-linecap="butt" x="879" y="352.1777" clip-path="url(#clipPath12)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">addText(Text : text)</text>
+      <text stroke-linecap="butt" x="879" y="366.3105" clip-path="url(#clipPath12)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">addRectangle(Rectangle rect)</text>
+      <text stroke-linecap="butt" x="879" y="380.4434" clip-path="url(#clipPath12)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">addEllipse(Ellipse elip)</text>
+      <text stroke-linecap="butt" x="879" y="394.5762" clip-path="url(#clipPath12)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">addArc(Arc arc)</text>
+      <rect x="1" y="273" clip-path="url(#clipPath2)" fill="rgb(255,204,153)" width="120" height="72" stroke="none"/>
+      <rect x="0" y="272" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="1" height="74" stroke="none"/>
+      <rect x="1" y="272" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="120" height="1" stroke="none"/>
+      <rect x="1" y="345" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="121" height="1" stroke="none"/>
+      <rect x="121" y="272" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="1" height="73" stroke="none"/>
+    </g>
+    <g font-size="13px" stroke-linecap="butt" transform="matrix(1,0,0,1,435,129)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" stroke-miterlimit="1.45">
+      <text x="30.3313" xml:space="preserve" y="289.5684" clip-path="url(#clipPath13)" stroke="none">Rectangle</text>
+    </g>
+    <g text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,435,129)">
+      <line y2="297" fill="none" x1="1" clip-path="url(#clipPath13)" x2="121" y1="297"/>
+      <text stroke-linecap="butt" x="5" y="313.9121" clip-path="url(#clipPath13)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">archeight : int = 0</text>
+      <text stroke-linecap="butt" x="5" y="328.0449" clip-path="url(#clipPath13)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">arcwidth : int = 0</text>
+      <line y2="335" fill="none" x1="1" clip-path="url(#clipPath13)" x2="121" y1="335"/>
+      <rect x="-165" y="273" clip-path="url(#clipPath2)" fill="rgb(255,204,153)" width="120" height="43" stroke="none"/>
+      <rect x="-166" y="272" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="1" height="45" stroke="none"/>
+      <rect x="-165" y="272" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="120" height="1" stroke="none"/>
+      <rect x="-165" y="316" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="121" height="1" stroke="none"/>
+      <rect x="-45" y="272" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="1" height="44" stroke="none"/>
+    </g>
+    <g font-size="13px" stroke-linecap="butt" transform="matrix(1,0,0,1,435,129)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" stroke-miterlimit="1.45">
+      <text x="-125.3178" xml:space="preserve" y="289.5684" clip-path="url(#clipPath14)" stroke="none">Ellipse</text>
+    </g>
+    <g text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,435,129)">
+      <line y2="297" fill="none" x1="-165" clip-path="url(#clipPath14)" x2="-45" y1="297"/>
+      <line y2="307" fill="none" x1="-165" clip-path="url(#clipPath14)" x2="-45" y1="307"/>
+      <text stroke-linecap="butt" x="-161.1323" y="323.9121" clip-path="url(#clipPath14)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve"> </text>
+      <rect x="-374" y="273" clip-path="url(#clipPath2)" fill="rgb(255,204,153)" width="165" height="86" stroke="none"/>
+      <rect x="-375" y="272" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="1" height="88" stroke="none"/>
+      <rect x="-374" y="272" clip-path="url(#clipPath2)" fill="rgb(255,255,218)" width="165" height="1" stroke="none"/>
+      <rect x="-374" y="359" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="166" height="1" stroke="none"/>
+      <rect x="-209" y="272" clip-path="url(#clipPath2)" fill="rgb(178,142,107)" width="1" height="87" stroke="none"/>
+    </g>
+    <g font-size="13px" stroke-linecap="butt" transform="matrix(1,0,0,1,435,129)" text-rendering="geometricPrecision" font-family="sans-serif" shape-rendering="geometricPrecision" stroke-miterlimit="1.45">
+      <text x="-302.3427" xml:space="preserve" y="289.5684" clip-path="url(#clipPath15)" stroke="none">Arc</text>
+    </g>
+    <g text-rendering="geometricPrecision" shape-rendering="geometricPrecision" transform="matrix(1,0,0,1,435,129)">
+      <line y2="297" fill="none" x1="-374" clip-path="url(#clipPath15)" x2="-209" y1="297"/>
+      <text stroke-linecap="butt" x="-370.369" y="313.9121" clip-path="url(#clipPath15)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">start : int = 0</text>
+      <text stroke-linecap="butt" x="-370.369" y="328.0449" clip-path="url(#clipPath15)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">stop : int = 0</text>
+      <text stroke-linecap="butt" x="-370.369" y="342.1777" clip-path="url(#clipPath15)" font-family="sans-serif" stroke="none" stroke-miterlimit="1.45" xml:space="preserve">type : enumerated = open</text>
+      <line y2="349" fill="none" x1="-374" clip-path="url(#clipPath15)" x2="-209" y1="349"/>
+      <path fill="none" stroke-miterlimit="1.45" d="M330 25.9866 L330 -51.1105" clip-path="url(#clipPath2)" stroke-linecap="butt"/>
+    </g>
+    <g stroke-linecap="butt" transform="matrix(1,0,0,1,435,129)" fill="white" text-rendering="geometricPrecision" shape-rendering="geometricPrecision" stroke="white" stroke-miterlimit="1.45">
+      <path d="M330 -66.1105 L324 -50.1105 L336 -50.1105 Z" stroke="none" clip-path="url(#clipPath2)"/>
+      <path fill="none" d="M330 -66.1105 L324 -50.1105 L336 -50.1105 Z" clip-path="url(#clipPath2)" stroke="black"/>
+      <text fill="black" x="358.1016" xml:space="preserve" y="-15.5257" clip-path="url(#clipPath2)" stroke="none"> </text>
+      <path fill="none" d="M144.0125 136.8961 L224.6586 111.3581" clip-path="url(#clipPath2)" stroke="black"/>
+      <path d="M238.9587 106.8297 L221.8939 105.9399 L225.5166 117.3801 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M238.9587 106.8297 L221.8939 105.9399 L225.5166 117.3801 Z" clip-path="url(#clipPath2)" stroke="black"/>
+      <text fill="black" x="189.6807" xml:space="preserve" y="157.8367" clip-path="url(#clipPath2)" stroke="none"> </text>
+      <path fill="none" d="M527.0471 119.4512 L435.6495 100.2246" clip-path="url(#clipPath2)" stroke="black"/>
+      <path d="M420.9707 97.1368 L435.3929 106.302 L437.8632 94.559 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M420.9707 97.1368 L435.3929 106.302 L437.8632 94.559 Z" clip-path="url(#clipPath2)" stroke="black"/>
+      <text fill="black" x="479.6386" xml:space="preserve" y="83.7562" clip-path="url(#clipPath2)" stroke="none"> </text>
+      <path fill="none" d="M297.296 477.9833 L103.3633 220.9684" clip-path="url(#clipPath2)" stroke="black"/>
+      <text fill="black" x="234.5212" xml:space="preserve" y="352.0335" clip-path="url(#clipPath2)" stroke="none"> </text>
+      <path fill="none" stroke-dasharray="6,2" d="M328.5086 635.8717 L328.8219 562.0092" clip-path="url(#clipPath2)" stroke="gray"/>
+      <text fill="black" x="356.7671" xml:space="preserve" y="603.4684" clip-path="url(#clipPath2)" stroke="none"> </text>
+      <path fill="none" stroke-dasharray="6,2" d="M562.7084 675.8958 L436.4021 674.7366" clip-path="url(#clipPath2)" stroke="gray"/>
+      <text fill="black" x="497.6459" xml:space="preserve" y="649.85" clip-path="url(#clipPath2)" stroke="none"> </text>
+      <path fill="none" d="M329.2297 477.9583 L329.6448 402.0074" clip-path="url(#clipPath2)" stroke="black"/>
+      <text fill="black" x="357.5392" xml:space="preserve" y="444.5352" clip-path="url(#clipPath2)" stroke="none"> </text>
+      <path fill="none" d="M330 272.0287 L330 144.9652" clip-path="url(#clipPath2)" stroke="black"/>
+      <path d="M330 129.9652 L324 145.9652 L336 145.9652 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M330 129.9652 L324 145.9652 L336 145.9652 Z" clip-path="url(#clipPath2)" stroke="black"/>
+      <text fill="black" x="358.1016" xml:space="preserve" y="205.5352" clip-path="url(#clipPath2)" stroke="none"> </text>
+      <path fill="none" d="M363.7992 477.991 L485.5677 330.9942" clip-path="url(#clipPath2)" stroke="black"/>
+      <text fill="black" x="459.6346" xml:space="preserve" y="411.5709" clip-path="url(#clipPath2)" stroke="none"> </text>
+      <path fill="none" d="M547.2986 272.0164 L669.6319 175.3148" clip-path="url(#clipPath2)" stroke="black"/>
+      <path d="M681.3994 166.0128 L665.1266 171.2279 L672.5682 180.6419 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M681.3994 166.0128 L665.1266 171.2279 L672.5682 180.6419 Z" clip-path="url(#clipPath2)" stroke="black"/>
+      <text fill="black" x="638.0605" xml:space="preserve" y="241.5466" clip-path="url(#clipPath2)" stroke="none"> </text>
+      <path fill="none" d="M409.4958 478.0022 L635.665 360.0009" clip-path="url(#clipPath2)" stroke="black"/>
+      <text fill="black" x="553.3226" xml:space="preserve" y="440.3445" clip-path="url(#clipPath2)" stroke="none"> </text>
+      <path fill="none" d="M720 271.9767 L720 180.9874" clip-path="url(#clipPath2)" stroke="black"/>
+      <path d="M720 165.9874 L714 181.9874 L726 181.9874 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M720 165.9874 L714 181.9874 L726 181.9874 Z" clip-path="url(#clipPath2)" stroke="black"/>
+      <text fill="black" x="748.1016" xml:space="preserve" y="223.5352" clip-path="url(#clipPath2)" stroke="none"> </text>
+      <path fill="none" d="M885.2778 271.9897 L768.5073 175.5583" clip-path="url(#clipPath2)" stroke="black"/>
+      <path d="M756.9413 166.0069 L765.4578 180.8214 L773.0989 171.5687 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M756.9413 166.0069 L765.4578 180.8214 L773.0989 171.5687 Z" clip-path="url(#clipPath2)" stroke="black"/>
+      <text fill="black" x="860.838" xml:space="preserve" y="219.0024" clip-path="url(#clipPath2)" stroke="none"> </text>
+      <path fill="none" d="M60.7458 272.0211 L60.4984 236.019" clip-path="url(#clipPath2)" stroke="black"/>
+      <path d="M60.3953 221.0194 L54.5054 237.0602 L66.5051 236.9778 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M60.3953 221.0194 L54.5054 237.0602 L66.5051 236.9778 Z" clip-path="url(#clipPath2)" stroke="black"/>
+      <text fill="black" x="88.6727" xml:space="preserve" y="251.0352" clip-path="url(#clipPath2)" stroke="none"> </text>
+      <path fill="none" d="M-76.7703 272.0004 L-24.2436 230.3307" clip-path="url(#clipPath2)" stroke="black"/>
+      <path d="M-12.4923 221.0084 L-28.756 226.2517 L-21.2981 235.6528 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M-12.4923 221.0084 L-28.756 226.2517 L-21.2981 235.6528 Z" clip-path="url(#clipPath2)" stroke="black"/>
+      <text fill="black" x="-16.4339" xml:space="preserve" y="265.4579" clip-path="url(#clipPath2)" stroke="none"> </text>
+      <path fill="none" stroke-dasharray="6,2" d="M-289.604 469.5886 L-291.2204 359.9842" clip-path="url(#clipPath2)" stroke="gray"/>
+      <text fill="black" x="-262.3073" xml:space="preserve" y="419.3316" clip-path="url(#clipPath2)" stroke="none"> </text>
+      <path fill="none" d="M-278.4248 271.9972 L-38.2704 195.005" clip-path="url(#clipPath2)" stroke="black"/>
+      <path d="M-23.9865 190.4256 L-41.0544 189.5967 L-37.391 201.0238 Z" clip-path="url(#clipPath2)" stroke="none"/>
+      <path fill="none" d="M-23.9865 190.4256 L-41.0544 189.5967 L-37.391 201.0238 Z" clip-path="url(#clipPath2)" stroke="black"/>
+      <text fill="black" x="-118.083" xml:space="preserve" y="256.023" clip-path="url(#clipPath2)" stroke="none"> </text>
+    </g>
+  </g>
+</svg>
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+    <td>Boolean value. If <q>false</q>, note errors to the output but keep going.</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>srcdir</td>
+    <td>Directory containing the images.</td>
+    <td>Yes, unless nested fileset is used</td>
+  </tr>
+  <tr>
+    <td>format</td>
+    <td>Image format.<br/>Valid (case insensitive)
+      are: <q>bmp</q>, <q>gif</q>, <q>jpeg</q>, <q>jpg</q>, <q>png</q>, <q>tif</q>, <q>tiff</q>, <q>wbmp</q>
+      (Java 8 VM lacks support for TIFF, which can be provided
+      by <a href="../install.html#librarydependencies">external libraries</a>).</td>
+    <td>No; defaults to the format of the (first) original file</td>
+  </tr>
+  <tr>
+    <td>overwrite</td>
+    <td>Boolean value. Sets whether or not to overwrite a file if there is naming conflict.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>gc</td>
+    <td>Boolean value. Enables garbage collection after each image processed.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>destdir</td>
+    <td>Directory where the result images are stored.</td>
+    <td>No; defaults to value of <var>srcdir</var></td>
+  </tr>
+  <!-- attributes inherited from MatchingTask -->
+  <tr>
+    <td>includes</td>
+    <td>comma- or space-separated list of patterns of files that must be included.</td>
+    <td>No; defaults to all (<q>**</q>)</td>
+  </tr>
+  <tr>
+    <td>includesfile</td>
+    <td>name of a file. Each line of this file is taken to be an include pattern</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>excludes</td>
+    <td>comma- or space-separated list of patterns of files that must be excluded.</td>
+    <td>No; defaults to default excludes or none if <var>defaultexcludes</var> is <q>no</q></td>
+  </tr>
+  <tr>
+    <td>excludesfile</td>
+    <td>name of a file. Each line of this file is taken to be an exclude pattern</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>defaultexcludes</td>
+    <td>indicates whether default excludes should be used or not (<q>yes|no</q>).</td>
+    <td>No; defaults to <q>yes</q></td>
+  </tr>
+  <tr>
+    <td>caseSensitive</td>
+    <td>Boolean value. Sets case sensitivity of the file system.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>followSymlinks</td>
+    <td>Boolean value. Sets whether or not symbolic links should be followed.</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+</table>
+
+<h3>Parameters specified as nested elements</h3>
+<p>This task forms an implicit <a href="../Types/fileset.html">FileSet</a> and supports most
+attributes of <code>&lt;fileset&gt;</code> as well as the
+nested <code>&lt;include&gt;</code>, <code>&lt;exclude&gt;</code>
+and <code>&lt;patternset&gt;</code> elements.</p>
+
+<p>The following ImageOperation objects can be specified as nested
+elements: <code>Rotate</code>, <code>Scale</code> and <code>Draw</code>.</p>
+
+<h4>Rotate</h4>
+<p>Adds a Rotate ImageOperation to chain.</p>
+<h5>Parameters</h5>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>angle</td>
+    <td>Float value. Sets the angle of rotation in degrees.</td>
+    <td>No; defaults to <q>0.0F</q></td>
+  </tr>
+</table>
+
+<h4>Scale</h4>
+<p>Adds a Scale ImageOperation to chain.</p>
+<h5>Parameters</h5>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>proportions</td>
+    <td>Sets which dimension to control proportions from. Valid values are:
+      <ul>
+        <li><q>ignore</q>&mdash;treat the dimensions independently.</li>
+        <li><q>height</q>&mdash;keep proportions based on the width.</li>
+        <li><q>width</q>&mdash;keep proportions based on the height.</li>
+        <li><q>cover</q>&mdash;keep proportions and fit in the supplied dimensions.</li>
+        <li><q>fit</q>&mdash;keep proportions and cover the supplied dimensions.</li>
+      </ul>
+    </td>
+    <td>No; defaults to <q>ignore</q></td>
+  </tr>
+  <tr>
+    <td>width</td>
+    <td>Sets the width of the image, either as an integer (pixels) or a %.</td>
+    <td>No; defaults to <q>100%</q></td>
+  </tr>
+  <tr>
+    <td>height</td>
+    <td>Sets the height of the image, either as an integer (pixels) or a %.</td>
+    <td>No; defaults to <q>100%</q></td>
+  </tr>
+</table>
+
+<h4 id="draw">Draw</h4>
+<p>Adds a Draw ImageOperation to chain. DrawOperation DataType objects can be nested inside the Draw
+object.</p>
+<h5>Parameters</h5>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>xloc</td>
+    <td>X-Position where to draw nested image elements.</td>
+    <td>No; defaults to <q>0</q></td>
+  </tr>
+  <tr>
+    <td>yloc</td>
+    <td>Y-Position where to draw nested image elements.</td>
+    <td>No; defaults to <q>0</q></td>
+  </tr>
+</table>
+<h5>Nested elements</h5>
+<p>Both Text and BasicShape objects can be nested. Currently supported BasicShape objects are Arc,
+Ellipse and Rectangle.</p>
+<h6>Common parameters of BasicShape objects</h6>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>height</td>
+    <td>Height of a BasicShape.</td>
+    <td>No; defaults to <q>0</q></td>
+  </tr>
+  <tr>
+    <td>width</td>
+    <td>Width of a BasicShape.</td>
+    <td>No; defaults to <q>0</q></td>
+  </tr>
+  <tr>
+    <td>strokewidth</td>
+    <td>Stroke width of a BasicShape.</td>
+    <td>No; defaults to <q>0</q></td>
+  </tr>
+  <tr>
+    <td>color</td>
+    <td>Color of a BasicShape.</td>
+    <td>No; defaults to <q>black</q></td>
+  </tr>
+  <tr>
+    <td>fill</td>
+    <td>Fill of a BasicShape.</td>
+    <td>No; defaults to <q>transparent</q></td>
+  </tr>
+</table>
+<h6>Parameters specific to Arc objects</h6>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>start</td>
+    <td>Start angle of an arc in degrees.</td>
+    <td>No; defaults to <q>0</q></td>
+  </tr>
+  <tr>
+    <td>stop</td>
+    <td>Angle extent of an arc in degrees.</td>
+    <td>No; defaults to <q>0</q></td>
+  </tr>
+  <tr>
+    <td>type</td>
+    <td>One of <q>chord</q>, <q>open</q>, <q>pie</q>.</td>
+    <td>No; defaults to <q>open</q></td>
+  </tr>
+</table>
+<h6>Parameters specific to Ellipse objects</h6>
+<p>None.</p>
+<h6>Parameters specific to Rectangle objects</h6>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>archeight</td>
+    <td>Vertical diameter of the arc at the corners of the rectangle.</td>
+    <td>No; defaults to <q>0</q></td>
+  </tr>
+  <tr>
+    <td>arcwidth</td>
+    <td>Horisontal diameter of the arc at the corners of the rectangle.</td>
+    <td>No; defaults to <q>0</q></td>
+  </tr>
+</table>
+<h6>Parameters of Text</h6>
+<table class="attr">
+    <tr>
+        <th scope="col">Attribute</th>
+        <th scope="col">Description</th>
+        <th scope="col">Required</th>
+    </tr>
+    <tr>
+        <td>string</td>
+        <td>The text string.</td>
+        <td>No; defaults to <q></q></td>
+    </tr>
+    <tr>
+        <td>font</td>
+        <td>The font to set the text in.</td>
+        <td>No; defaults to <q>Arial</q></td>
+    </tr>
+    <tr>
+        <td>point</td>
+        <td>Size of the font in points.</td>
+        <td>No; defaults to <q>10</q></td>
+    </tr>
+    <tr>
+        <td>bold</td>
+        <td>Whether the font is bold.</td>
+        <td>No; defaults to <q>false</q></td>
+    </tr>
+    <tr>
+        <td>color</td>
+        <td>Color of the text.</td>
+        <td>No; defaults to <q>black</q></td>
+    </tr>
+    <tr>
+        <td>italic</td>
+        <td>Whether the font is italic.</td>
+        <td>No; defaults to <q>false</q></td>
+    </tr>
+</table>
+<h4>mapper</h4>
+<p>You can define filename transformations by using a
+nested <a href="../Types/mapper.html">mapper</a> element. The default mapper used
+by <code>&lt;image&gt;</code> is the <a href="../Types/mapper.html#identity-mapper">identity
+mapper</a>.</p>
+
+<p>You can also use a <code>filenamemapper</code> type in place of the <code>mapper</code>
+element.</p>
+
+<h3>Examples</h3>
+
+<p>Create thumbnails of my images and make sure they all fit within the 160&times;160 pixel size
+whether the image is portrait or landscape.</p>
+<pre>
+&lt;image destdir="samples/low" overwrite="yes"&gt;
+    &lt;fileset dir="samples/full"&gt;
+        &lt;include name="**/*.jpg"/&gt;
+    &lt;/fileset&gt;
+    &lt;scale width="160" height="160" proportions="fit"/&gt;
+&lt;/image&gt;</pre>
+
+<p>Create a thumbnail for all PNG files in <samp>src</samp> of the size of 40 pixels keeping the
+proportions and store the <samp>src</samp>.</p>
+<pre>
+&lt;image srcdir="src" includes="*.png"&gt;
+    &lt;scale proportions="width" width="40"/&gt;
+&lt;/image&gt;</pre>
+
+<p>Same as above but store the result in <samp>dest</samp>.</p>
+<pre>
+&lt;image srcdir="src" destdir="dest" includes="*.png"&gt;
+    &lt;scale proportions="width" width="40"/&gt;
+&lt;/image&gt;</pre>
+
+<p>Same as above but store the result to files with original names prefixed
+by <samp>scaled-</samp>.</p>
+<pre>
+&lt;image srcdir="src" destdir="dest" includes="*.png"&gt;
+    &lt;scale proportions="width" width="40"/&gt;
+    &lt;globmapper from="*" to="scaled-*"/&gt;
+&lt;/image&gt;</pre>
+
+</body>
+</html>

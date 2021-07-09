@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css"/>
+  <title>If and Unless on all tasks/nested elements</title>
+</head>
+
+<body>
+  <h1 id="if_and_unless">If And Unless</h1>
+
+  <p><em>Since Ant 1.9.1</em>, it is possible to add <var>if</var> and <var>unless</var> attributes on all tasks and nested elements using special namespaces.</p>
+
+  <p>In order to use this feature you need to add the following namespace declarations</p>
+  <pre>
+xmlns:if=&quot;ant:if&quot;
+xmlns:unless=&quot;ant:unless&quot;</pre>
+
+  <p>The <code>if</code> and <code>unless</code> namespaces support the following 3 conditions:</p>
+  <dl>
+      <dt><q>true</q></dt><dd>true if the value of the attribute evaluates to true</dd>
+      <dt><q>blank</q></dt><dd>true if the value of the attribute is null or empty</dd>
+      <dt><q>set</q></dt><dd>true if the specified property is set</dd>
+  </dl>
+  <pre>
+&lt;project name=&quot;tryit&quot;
+ xmlns:if=&quot;ant:if&quot;
+ xmlns:unless=&quot;ant:unless&quot;&gt;
+ &lt;exec executable=&quot;java&quot;&gt;
+   &lt;arg line=&quot;-X&quot; if:true=&quot;${showextendedparams}&quot;/&gt;
+   &lt;arg line=&quot;-version&quot; unless:true=&quot;${showextendedparams}&quot;/&gt;
+ &lt;/exec&gt;
+ &lt;condition property=&quot;onmac&quot;&gt;
+   &lt;os family=&quot;mac&quot;/&gt;
+ &lt;/condition&gt;
+ &lt;echo if:set=&quot;onmac&quot;&gt;running on MacOS&lt;/echo&gt;
+ &lt;echo unless:set=&quot;onmac&quot;&gt;not running on MacOS&lt;/echo&gt;
+&lt;/project&gt;</pre>
+
+</body>
+</html>

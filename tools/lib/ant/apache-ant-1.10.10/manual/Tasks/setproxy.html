@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+  <title>Setproxy Task</title>
+</head>
+
+<body>
+<h2>Setproxy Task</h2>
+
+<h3 id="description">Description</h3>
+<p>Sets Java's web proxy properties, so that tasks and code run in the same JVM can have
+through-the-firewall access to remote web sites, and remote FTP sites. You can nominate an HTTP and
+FTP proxy, or a SOCKS server, reset the server settings, or do nothing at all.</p>
+
+<h3 id="attributes">Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Type</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>nonproxyhosts</td>
+    <td>A list of hosts to bypass the proxy on. These should be separated with the vertical bar
+      character <q>|</q>. Only in Java 1.4 does FTP use this
+      list. e.g. <samp>fozbot.corp.sun.com|*.eng.sun.com</samp></td>
+    <td>String</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>proxyhost</td>
+    <td>the HTTP/FTP proxy host. Set this to <q></q> for the HTTP proxy option to be disabled.</td>
+    <td>String</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>proxypassword</td>
+    <td>Set the password for the proxy. Used only if the <var>proxyUser</var> is set.</td>
+    <td>String</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>proxyport</td>
+    <td>the HTTP/FTP proxy port number</td>
+    <td>int</td>
+    <td>No; default is <q>80</q></td>
+  </tr>
+  <tr>
+    <td>proxyuser</td>
+    <td>set the proxy user. Probably requires a password to accompany this setting.</td>
+    <td>String</td>
+    <td>No; default is <q></q></td>
+  </tr>
+  <tr>
+    <td>socksproxyhost</td>
+    <td>The name of a SOCKS server. Set to <q></q> to turn SOCKS proxying off.</td>
+    <td>String</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>socksproxyport</td>
+    <td>Set the ProxyPort for SOCKS connections.</td>
+    <td>int</td>
+    <td>No; default is <q>1080</q></td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+
+<p>Do nothing</p>
+<pre>&lt;setproxy/&gt;</pre>
+
+<p>Set the proxy to <samp>firewall:80</samp></p>
+<pre>&lt;setproxy proxyhost="firewall"/&gt;</pre>
+
+<p>Set the proxy to <samp>firewall:81</samp></p>
+<pre>&lt;setproxy proxyhost="firewall" proxyport="81"/&gt;</pre>
+
+<p>Stop using HTTP proxy; don't change SOCKS settings</p>
+<pre>&lt;setproxy proxyhost=""/&gt;</pre>
+
+<p>Use SOCKS via <samp>socksy:1080</samp></p>
+<pre>&lt;setproxy socksproxyhost="socksy"/&gt;</pre>
+
+<p>Stop using the SOCKS server</p>
+<pre>&lt;setproxy socksproxyhost=""/&gt;</pre>
+
+<p>You can set a username and password for HTTP with the <var>proxyHost</var>
+and <var>proxyPassword</var> attributes. On Java 1.4 and above, these can also be used against SOCKS
+5 servers.</p>
+
+</body>
+</html>

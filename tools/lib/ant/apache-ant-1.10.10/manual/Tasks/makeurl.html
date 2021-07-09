@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+  <title>Makeurl Task</title>
+</head>
+
+<body>
+
+<h2>Makeurl Task</h2>
+<h3 id="description">Description</h3>
+<p>This task takes one or more filenames and turns them into URLs, which it then assigns to a
+property.  Useful when setting up RMI or JNLP codebases, for example.  Nested filesets are
+supported; if present, these are turned into the URLs with the supplied <var>separator</var> between
+them.</p>
+<h3 id="attributes">Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Type</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td>name of a file to be converted into a URL</td>
+    <td>File</td>
+    <td>No, if a nested fileset or path is supplied</td>
+  </tr>
+  <tr>
+    <td>property</td>
+    <td>name of a property to set to the URL</td>
+    <td>String</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>separator</td>
+    <td>separator for the multi-URL option</td>
+    <td>String</td>
+    <td>No; default is space</td>
+  </tr>
+  <tr>
+    <td>validate</td>
+    <td>validate that every named file exists</td>
+    <td>boolean</td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+</table>
+<h3 id="elements">Parameters as nested elements</h3>
+<h4><strong>fileset</strong> (org.apache.tools.ant.types.FileSet)</h4>
+
+<p>A fileset of JAR files to include in the URL list, each separated by the separator.</p>
+
+<h4><strong>path</strong> (org.apache.tools.ant.types.Path)</h4>
+
+<p>Add a path to the URL. All elements in the path will be converted to individual URL entries.</p>
+
+<h3>Examples</h3>
+
+<p>Set the property <code>m2.repository.url</code> to the file: URL of the local Maven2
+repository.</p>
+<pre>&lt;makeurl file="${user.home}/.m2/repository" property="m2.repository.url"/&gt;</pre>
+
+<p>Set the property <code>codebase</code> to the three URLs of the files provided as nested
+elements.</p>
+<pre>&lt;makeurl property="codebase"&gt;
+  &lt;fileset dir="lib includes="*.jar"/&gt;
+&lt;/makeurl&gt;</pre>
+</body>
+</html>

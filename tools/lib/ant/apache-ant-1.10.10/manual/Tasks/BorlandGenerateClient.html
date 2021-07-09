@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>BorlandGenerateClient Task</title>
+</head>
+
+<body>
+
+<h2 id="log">BorlandGenerateClient</h2>
+<p>by Benoit Moussaud (<a href="mailto:benoit.moussaud@criltelecom.com">benoit.moussaud@criltelecom.com</a>)</p>
+<h3>Description</h3>
+<p>The BorlandGenerateClient is a task dedicated to Borland Application Server v 4.5. It offers to
+generate the client jar file corresponding to an EJB jar file.</p>
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>ejbjar</td>
+    <td>EJB jar file</td>
+    <td>yes</td>
+  </tr>
+  <tr>
+    <td>debug</td>
+    <td>If <q>true</q>, turn on the debug mode for each Borland tool
+      (<code>java2iiop</code>, <code>iastool</code>, ...)</td>
+    <td>no; default <q>false</q></td>
+  </tr>
+  <tr>
+    <td>clientjar</td>
+    <td>client jar file name. If missing the client jar file name is build using
+      the <var>ejbjar</var> file name: <var>ejbjar</var>=<q>hellobean-ejb.jar</q>
+      &rArr; <q>hellobean-ejbclient.jar</q></td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>mode</td>
+    <td>choose the command launching mode. Two values: <q>java</q> or <q>fork</q>
+      (default). <q>java</q> is not supported for <var>version</var>=<q>5</q>. Possibility to
+      specify a classpath.</td>
+    <td>no</td>
+  </tr>
+  <tr>
+    <td>version</td>
+    <td>set the Borland Application Version.
+      <ul>
+        <li><q>4</q> means B.A.S (Borland Application Server 4.x)</li>
+        <li><q>5</q> means B.E.S (Borland Application Server 5.x)</li>
+      </ul>
+    </td>
+    <td>No; defaults to <q>4</q></td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>The following <samp>build.xml</samp> snippet is an example of how to use Borland element in
+the <code>ejbjar</code> task using the <q>fork</q> <var>mode</var>.</p>
+<pre>
+&lt;blgenclient ejbjar=&quot;lib/secutest-ejb.jar&quot; clientjar=&quot;lib/client.jar&quot; debug=&quot;true&quot; mode=&quot;fork&quot; version=&quot;5&quot;&gt;
+    &lt;classpath&gt;
+        &lt;pathelement location=&quot;mymodule.jar&quot;/&gt;
+    &lt;/classpath&gt;
+&lt;/blgenclient&gt;</pre>
+
+</body>
+</html>

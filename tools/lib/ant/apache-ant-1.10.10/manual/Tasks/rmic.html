@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Rmic Task</title>
+</head>
+
+<body>
+
+<h2 id="rmic">Rmic</h2>
+<h3>Description</h3>
+<p>Runs the <kbd>rmic</kbd> compiler for a certain class.</p>
+
+<p><b>Note</b> <kbd>rmic</kbd> has been deprecated as of Java 13 and
+  removed as of Java 15. Trying to use it with Java15 will fail unless
+  you specify the executable or rmic-adapter explicitly.</p>
+
+<p><code>Rmic</code> can be run on a single class (as specified with the classname attribute) or a
+number of classes at once (all classes below base that are neither <code>_Stub</code>
+nor <code>_Skel</code> classes).  If you want to <code>rmic</code> a single class and this class is
+a class nested into another class, you have to specify the classname in the
+form <code>Outer$$Inner</code> instead of <code>Outer.Inner</code>.</p>
+<p>It is possible to refine the set of files that are being <code>rmic</code>ed. This can be done
+with the <var>includes</var>, <var>includesfile</var>, <var>excludes</var>, <var>excludesfile</var>
+and <var>defaultexcludes</var> attributes. With the <var>includes</var> or <var>includesfile</var>
+attribute you specify the files you want to have included by using patterns. The <var>exclude</var>
+or <var>excludesfile</var> attribute is used to specify the files you want to have excluded. This is
+also done with patterns. And finally with the <var>defaultexcludes</var> attribute, you can specify
+whether you want to use default exclusions or not. See the section
+on <a href="../dirtasks.html#directorybasedtasks">directory based tasks</a>, on how the
+inclusion/exclusion of files works, and how to write patterns.</p>
+<p>This task forms an implicit <a href="../Types/fileset.html">FileSet</a> and supports most
+attributes of <code>&lt;fileset&gt;</code> (<var>dir</var> becomes <var>base</var>) as well as the
+nested <code>&lt;include&gt;</code>, <code>&lt;exclude&gt;</code>
+and <code>&lt;patternset&gt;</code> elements.</p>
+<p id="compilervalues">It is possible to use different compilers. This can be selected with
+the <code>build.rmic</code> property, the <var>compiler</var> attribute, or a nested element. Here
+are the choices:</p>
+<ul>
+  <li><q>default</q>&mdash;the default compiler (<q>kaffe</q>, <q>sun</q> or <q>forking</q>) for the
+    platform.
+  <li><q>sun</q>&mdash;the standard compiler prior to JDK 9</li>
+  <li><q>kaffe</q>&mdash;the standard compiler of <a href="https://github.com/kaffe/kaffe"
+    target="_top">Kaffe</a></li>
+  <li><q>weblogic</q></li>
+  <li><q>forking</q>&mdash;(<em>since Apache Ant 1.7</em>) the <q>sun</q> compiler forked into a
+    separate process.  <em>Since Ant 1.9.8</em>, this is the default when running on JDK 9+.</li>
+  <li><q>xnew</q>&mdash;(<em>since Ant 1.7</em>) the <q>sun</q> compiler forked into a separate
+    process, with the <kbd>-Xnew</kbd> option. This is the most reliable way to
+    use <kbd>-Xnew</kbd>.<br/>JDK 9 has removed support for <kbd>-Xnew</kbd> and <em>since Ant
+    1.9.8</em> this option will be rejected when running on JDK 9+.</li>
+  <li><q></q> (empty string). This has the same behaviour as not setting the compiler attribute.
+    First the value of <code>build.rmic</code> is used if defined, and if not, the default for the
+    platform is chosen. If <code>build.rmic</code> is set to this, you get the default.</li>
+</ul>
+
+<p>The <a href="https://web.archive.org/web/20131225023602/http://dione.zcu.cz/~toman40/miniRMI/"
+target="_top">miniRMI</a> project contains a compiler implementation for this task as well, please
+consult miniRMI's documentation to learn how to use it.</p>
+
+<h4>CORBA support</h4>
+
+<p>Java 11 <a href="https://openjdk.java.net/jeps/320" target="_top">removes</a> the Java EE and
+CORBA packages and <kbd>rmic</kbd> no longer supports either <kbd>-iiop</kbd>
+or <kbd>-idl</kbd> options. Starting with Ant 1.10.3, the <kbd>rmic</kbd> task will fail when using
+either while running Java 11+ unless you fork the task and explicitly specify an executable.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr id="footnote-1-back">
+    <td>base</td>
+    <td>the location to store the compiled files.  Also serves as the parent directory for any
+      non-Fileset includes, etc.  (This functionality has remained unchanged.)</td>
+    <td rowspan="2">See <a href="#footnote-1">note</a></td>
+  </tr>
+  <tr>
+    <td>destdir</td>
+    <td class="left">the location to store the compiled files.</td>
+  </tr>
+  <tr>
+    <td>classname</td>
+    <td>the class for which to run <kbd>rmic</kbd>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>filtering</td>
+    <td>indicates whether token filtering should take place</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>sourcebase</td>
+    <td>Pass the <kbd>-keepgenerated</kbd> flag to <kbd>rmic</kbd> and move the generated source
+      file to the given <var>sourcebase</var> directory.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>stubversion</td>
+    <td>Specify the JDK version for the generated stub code.  Specify <q>1.1</q> to pass
+      the <kbd>-v1.1</kbd> option to <kbd>rmic</kbd>, <q>1.2</q>
+      for <kbd>-v1.2</kbd>, <q>compat</q> for <kbd>-vcompat</kbd>.<br/><em>Since Ant 1.7</em>, if
+      you do not specify a version, and do not ask for <samp>.iiop</samp> or <samp>.idl</samp>
+      files, <q>compat</q> is selected.</td>
+    <td>No; default is <q>compat</q></td>
+  </tr>
+  <tr>
+    <td>classpath</td>
+    <td>The classpath to use during compilation</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>classpathref</td>
+    <td>The classpath to use during compilation, given
+      as <a href="../using.html#references">reference</a> to a path defined elsewhere</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>includes</td>
+    <td>comma- or space-separated list of patterns of files that must be included.</td>
+    <td>No; defaults to all (<q>**</q>)</td>
+  </tr>
+  <tr>
+    <td>includesfile</td>
+    <td>name of a file. Each line of this file is taken to be an include pattern</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>excludes</td>
+    <td>comma- or space-separated list of patterns of files that must be excluded.</td>
+    <td>No; defaults to default excludes or none if <var>defaultexcludes</var> is <q>no</q></td>
+  </tr>
+  <tr>
+    <td>excludesfile</td>
+    <td>name of a file. Each line of this file is taken to be an exclude pattern</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>defaultexcludes</td>
+    <td>indicates whether default excludes should be used or not (<q>yes|no</q>).</td>
+    <td>No; defaults to <q>yes</q></td>
+  </tr>
+  <tr>
+    <td>verify</td>
+    <td>check that classes implement <code>Remote</code> before handing them to <kbd>rmic</kbd></td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>iiop</td>
+    <td>indicates that portable (RMI/IIOP) stubs should be generated.<br/>  See the note on CORBA
+      support above.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>iiopopts</td>
+    <td>additional arguments for IIOP class generation</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>idl</td>
+    <td>indicates that IDL output files should be generated.<br/>  See the note on CORBA support
+      above.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>idlopts</td>
+    <td>additional arguments for IDL file generation</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>debug</td>
+    <td>generate debug info (passes <kbd>-g</kbd> to <kbd>rmic</kbd>)</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>includeAntRuntime</td>
+    <td>whether to include the Ant run-time libraries</td>
+    <td>No; defaults to <q>yes</q></td>
+  </tr>
+  <tr>
+    <td>includeJavaRuntime</td>
+    <td>whether to include the default run-time libraries from the executing JVM</td>
+    <td>No; defaults to <q>no</q></td>
+  </tr>
+  <tr>
+    <td>extdirs</td>
+    <td>location of installed extensions</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>compiler</td>
+    <td>The compiler implementation to use.  (See the above <a href="#compilervalues">list</a> of
+      valid compilers.)</td>
+    <td>No; defaults to the value of the <code>build.rmic</code> property, if set, and the default
+      compiler for the current JDK otherwise</td>
+  </tr>
+  <tr>
+    <td>executable</td>
+    <td>Complete path to the <kbd>rmic</kbd> executable to use in case of the <q>forking</q>
+      or <q>xnew</q> compiler. <em>Since Ant 1.8.0</em>.</td>
+    <td>No; defaults to the <kbd>rmic</kbd> compiler of JDK that is currently running Ant</td>
+  </tr>
+  <tr>
+    <td>listfiles</td>
+    <td>Indicates whether the source files to be compiled will be listed. <em>Since Ant
+      1.8.0</em>.</td>
+    <td>No; defaults to <q>no</q></td>
+  </tr>
+</table>
+
+<p id="footnote-1"><a href="#footnote-1-back">Note</a>:</p>
+<ul>
+  <li>Maintaining compatibility, <var>base</var>, when specified by itself, serves as both the
+    parent directory for any source files AND the output directory.</li>
+  <li><var>destdir</var> can be used to specify the output directory, allowing for <var>base</var>
+    to be used as the parent directory for any source files.</li>
+  <li>At least one of either <var>base</var> or <var>destdir</var> must be specified and exist, or
+    an error will occur at run time.</li>
+</ul>
+
+<h3>Parameters specified as nested elements</h3>
+<h4>classpath and extdirs</h4>
+<p><code>Rmic</code>'s <var>classpath</var> and <var>extdirs</var> attributes
+are <a href="../using.html#path">path-like structure</a> and can also be set via a nested
+<code>classpath</code> and <code>extdirs</code> elements.</p>
+
+<h4>compilerarg</h4>
+
+<p>You can specify additional command line arguments for the compiler with
+nested <code>&lt;compilerarg&gt;</code> elements.  These elements are specified
+like <a href="../using.html#arg">Command-line Arguments</a> but have an additional attribute that
+can be used to enable arguments only if a given compiler implementation will be used.</p>
+<table class="attr">
+<tr>
+  <th scope="col">Attribute</th>
+  <th scope="col">Description</th>
+  <th scope="col">Required</th>
+</tr>
+  <tr>
+    <td>value</td>
+    <td rowspan="4">See <a href="../using.html#arg">Command-line Arguments</a>.</td>
+    <td rowspan="4">Exactly one of these</td>
+  </tr>
+  <tr>
+    <td class="var">line</td>
+  </tr>
+  <tr>
+    <td class="var">file</td>
+  </tr>
+  <tr>
+    <td class="var">path</td>
+  </tr>
+  <tr>
+    <td>prefix</td>
+    <td rowspan="2">See
+    <a href="../using.html#arg">Command-line Arguments</a>.
+    <em>Since Ant 1.8</em>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>suffix</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>compiler</td>
+    <td>Only pass the specified argument if the chosen compiler implementation matches the value of
+      this attribute.  Legal values are the same as those in the
+      above <a href="#compilervalues">list</a> of valid compilers.)</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<h4>compilerclasspath</h4>
+<p><em>Since Ant 1.8.0</em></p>
+<p>A <a href="../using.html#path">path-like structure</a> holding the classpath to use when loading
+the compiler implementation if a custom class has been specified.  Doesn't have any effect when
+using one of the built-in compilers.</p>
+
+<h4>Any nested element of a type that implements RmicAdapter</h4>
+<p><em>Since Ant 1.8.0</em></p>
+<p>If a defined type implements the <code>RmicAdapter</code> interface a nested element of that type
+can be used as an alternative to the <var>compiler</var> attribute.</p>
+
+<h3>Examples</h3>
+
+<p>Run the <kbd>rmic</kbd> compiler for the class <code>com.xyz.FooBar</code>. The compiled files
+will be stored in the directory <samp>${build}/classes</samp>.</p>
+<pre>&lt;rmic classname=&quot;com.xyz.FooBar&quot; base=&quot;${build}/classes&quot;/&gt;</pre>
+
+<p>Run the <kbd>rmic</kbd> compiler for all classes with <samp>.class</samp> files
+below <samp>${build}/classes</samp> whose classname starts with <code>Remote</code>. The compiled
+files will be stored in the directory <samp>${build}/classes</samp>.</p>
+<pre>&lt;rmic base=&quot;${build}/classes&quot; includes=&quot;**/Remote*.class&quot;/&gt;</pre>
+
+<p>If you want to use a custom RmicAdapter <code>org.example.MyAdapter</code> you can either use
+the <var>compiler</var> attribute:</p>
+<pre>
+&lt;rmic classname=&quot;com.xyz.FooBar&quot;
+      base=&quot;${build}/classes&quot;
+      compiler="org.example.MyAdapter"/&gt;</pre>
+<p>or a define a type and nest this into the task like in:</p>
+<pre>
+&lt;componentdef classname="org.example.MyAdapter"
+              name="myadapter"/&gt;
+&lt;rmic classname=&quot;com.xyz.FooBar&quot;
+      base=&quot;${build}/classes&quot;&gt;
+  &lt;myadapter/&gt;
+&lt;/rmic&gt;</pre>
+<p>in which case your compiler adapter can support attributes and nested elements of its own.</p>
+
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+  <title>Tempfile Task</title>
+</head>
+
+<body>
+<h2>Tempfile Task</h2>
+<h3 id="description">Description</h3>
+<p>This task sets a property to the name of a temporary file.
+Unlike <code class="code">java.io.File.createTempFile</code>, this task does not actually create the
+temporary file, but it does guarantee that the file did not exist when the task was executed.</p>
+<h3 id="attributes">Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Type</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>property</td>
+    <td>Sets the property you wish to assign the temporary file to.</td>
+    <td>String</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>destdir</td>
+    <td>Sets the destination directory.</td>
+    <td>File</td>
+    <td>No; defaults to <var>basedir</var></td>
+  </tr>
+  <tr>
+    <td>prefix</td>
+    <td>Sets the optional prefix string for the temp file.</td>
+    <td>String</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>suffix</td>
+    <td>Sets the optional suffix string for the temp file.</td>
+    <td>String</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>deleteonexit</td>
+    <td>Whether the temp file will be marked for deletion on normal exit of JVM (even though the
+      file may never be created). <em>Since Apache Ant 1.7</em></td>
+    <td>boolean</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>createfile</td>
+    <td>Whether the temp file should be created by this task. <em>Since Ant 1.8</em></td>
+    <td>boolean</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Create a temporary file</p>
+<pre>&lt;tempfile property="temp.file"/&gt;</pre>
+
+<p>Create a temporary file with the <code>.xml</code> suffix</p>
+<pre>&lt;tempfile property="temp.file" suffix=".xml"/&gt;</pre>
+
+<p>Create a temporary file in the <code>build</code> subdirectory</p>
+<pre>&lt;tempfile property="temp.file" destDir="build"/&gt;</pre>
+</body>
+</html>

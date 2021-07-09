@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Echoproperties Task</title>
+</head>
+
+<body>
+
+<h2 id="echoproperties">echoproperties</h2>
+<h3>Description</h3>
+
+<p>Displays all the current properties (or a subset of them specified by a
+nested <code>&lt;propertyset&gt;</code>) in the project.  The output can be sent to a file if
+desired.  This task can be used as a somewhat contrived means of returning data from an
+<kbd>ant</kbd> invocation, but is really for debugging build
+files.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>destfile</td>
+    <td>If specified, the value indicates the name of the file to send the output of the statement
+      to.  The generated output file is compatible for loading by any Java application as a property
+      file.</td>
+    <td>No; by default, output to the log</td>
+  </tr>
+  <tr>
+    <td>prefix</td>
+    <td>a prefix which is used to filter the properties: only properties whose names start with this
+      prefix will be echoed.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>regex</td>
+    <td>a regular expression which is used to filter the properties: only those properties whose
+      names match it will be echoed.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+    <td>If an error occurs while writing the properties to a file, and this attribute is enabled,
+      then a <code>BuildException</code> will be thrown, causing the build to fail.  If disabled,
+      then IO errors will be reported as a log statement, and the build will continue without
+      failure from this task.</td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>format</td>
+    <td>One of <q>text</q> or <q>xml</q>.  Determines the output format.</td>
+    <td>No; defaults to <q>text</q></td>
+  </tr>
+</table>
+
+<h3>Parameters specified as nested elements</h3>
+
+<h4>propertyset</h4>
+
+<p><em>Since Ant 1.6</em>.</p>
+
+<p>You can specify subsets of properties to be echoed
+with <a href="../Types/propertyset.html">propertyset</a>s. Using <code>propertyset</code>s gives
+more control on which properties will be picked up. The attributes <var>prefix</var>
+and <var>regex</var> are just shortcuts that use <code>propertyset</code>s internally.</p>
+
+<h3>Examples</h3>
+<p>Report the current properties to the log.</p>
+<pre>&lt;echoproperties/&gt;</pre>
+
+<p>Report the current properties to the file <samp>my.properties</samp>, and fail the build if the
+file could not be created or written to.</p>
+<pre>&lt;echoproperties destfile="my.properties"/&gt;</pre>
+
+<p>Report the current properties to the file <samp>my.properties</samp>, and log a message if the
+file could not be created or written to, but still allow the build to continue.</p>
+<pre>&lt;echoproperties destfile="my.properties" failonerror="false"/&gt;</pre>
+
+<p>List all properties beginning with <samp>java.</samp></p>
+<pre>&lt;echoproperties prefix="java."/&gt;</pre>
+
+<p>Lists all properties beginning with <samp>java.</samp> using a
+nested <code>&lt;propertyset/&gt;</code> which is an equivalent but longer way.</p>
+<pre>
+&lt;echoproperties&gt;
+  &lt;propertyset&gt;
+    &lt;propertyref prefix="java."/&gt;
+  &lt;/propertyset&gt;
+&lt;/echoproperties&gt;</pre>
+
+<p>Lists all properties that contain <samp>ant</samp> in their names.</p>
+<pre>&lt;echoproperties regex=".*ant.*"/&gt;</pre>
+
+<p>The equivalent snippet with <code>&lt;propertyset/&gt;</code> is:</p>
+<pre>
+&lt;echoproperties&gt;
+  &lt;propertyset&gt;
+    &lt;propertyref regex=".*ant.*"/&gt;
+  &lt;/propertyset&gt;
+&lt;/echoproperties&gt;</pre>
+
+</body>
+</html>

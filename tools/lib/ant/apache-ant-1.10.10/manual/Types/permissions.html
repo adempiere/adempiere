@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Permissions type</title>
+</head>
+
+<body>
+
+<h2 id="permissions">Permissions</h2>
+<p>Permissions represents a set of security permissions granted or revoked to a specific part
+code executed in the JVM where Apache Ant is running in.  The actual Permissions are specified
+via a set of nested permission items either <code>&lt;grant&gt;</code>ed
+or <code>&lt;revoke&gt;</code>d.</p>
+<p>In the base situation a <a href="#baseset">base set</a> of permissions granted.  Extra
+permissions can be granted. A granted permission can be overruled by revoking a permission.  The
+security manager installed by the permissions will throw an <code>SecurityException</code> if
+the code subject to these permissions try to use an permission that has not been granted or that
+has been revoked.</p>
+<h3>Nested elements</h3>
+<h4>grant</h4>
+<p>Indicates a specific permission is always granted. Its attributes indicate which permissions
+are granted.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>class</td>
+    <td>The fully qualified name of the Permission class.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>The name of the Permission. The actual contents depends on the Permission class.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>actions</td>
+    <td>The actions allowed. The actual contents depend on the Permission class and name.</td>
+    <td>No</td>
+  </tr>
+</table>
+<p>Implied permissions are granted.</p>
+<p>Please note that some Permission classes may actually need a name and/or actions in order to
+function properly. The name and actions are parsed by the actual Permission class.</p>
+<h4>revoke</h4>
+<p>Indicates a specific permission is revoked.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>class</td>
+    <td>The fully qualified name of the Permission class.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>The name of the Permission. The actual contents depends on the Permission class.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>actions</td>
+    <td>The actions allowed. The actual contents depend on the Permission class and name.</td>
+    <td>No</td>
+  </tr>
+</table>
+<p>Implied permissions are not resolved and therefore also not revoked.</p>
+<p>The <var>name</var> can handle the <q>*</q> wildcard at the end of the name, in which case
+all permissions of the specified class of which the name starts with the specified name
+(excluding the <q>*</q>) are revoked. Note that the <q>-</q> wildcard often supported by the
+granted properties is not supported.  If the <var>name</var> is left empty all names match, and
+are revoked.  If the <var>actions</var> are left empty all actions match, and are revoked.</p>
+<h3 id="baseset">Base set</h3>
+<p>A permissions set implicitly contains the following permissions:</p>
+<pre>
+&lt;grant class=&quot;java.net.SocketPermission&quot; name=&quot;localhost:1024-&quot; actions=&quot;listen&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;java.version&quot; actions=&quot;read&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;java.vendor&quot; actions=&quot;read&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;java.vendor.url&quot; actions=&quot;read&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;java.class.version&quot; actions=&quot;read&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;os.name&quot; actions=&quot;read&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;os.version&quot; actions=&quot;read&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;os.arch&quot; actions=&quot;read&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;file.encoding&quot; actions=&quot;read&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;file.separator&quot; actions=&quot;read&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;path.separator&quot; actions=&quot;read&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;line.separator&quot; actions=&quot;read&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;java.specification.version&quot; actions=&quot;read&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;java.specification.vendor&quot; actions=&quot;read&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;java.specification.name&quot; actions=&quot;read&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;java.vm.specification.version&quot; actions=&quot;read&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;java.vm.specification.vendor&quot; actions=&quot;read&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;java.vm.specification.name&quot; actions=&quot;read&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;java.vm.version&quot; actions=&quot;read&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;java.vm.vendor&quot; actions=&quot;read&quot;&gt;
+&lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;java.vm.name&quot; actions=&quot;read&quot;&gt;
+</pre>
+<p>These permissions can be revoked via <code>&lt;revoke&gt;</code> elements if necessary.</p>
+
+<h3>Examples</h3>
+<pre>
+&lt;permissions&gt;
+  &lt;grant class=&quot;java.security.AllPermission&quot;/&gt;
+  &lt;revoke class=&quot;java.util.PropertyPermission&quot;/&gt;
+&lt;/permissions&gt;
+</pre>
+<p>Grants all permissions to the code except for those handling Properties.</p>
+<pre>
+&lt;permissions&gt;
+  &lt;grant class=&quot;java.net.SocketPermission&quot; name=&quot;foo.bar.com&quot; action=&quot;connect&quot;/&gt;
+  &lt;grant class=&quot;java.util.PropertyPermission&quot; name=&quot;user.home&quot; action=&quot;read,write&quot;/&gt;
+&lt;/permissions&gt;
+</pre>
+<p>Grants the base set of permissions with the addition of
+a <code class="code">SocketPermission</code> to connect to <samp>foo.bar.com</samp> and the
+permission to read and write the <code>user.home</code> system property.</p>
+
+</body>
+</html>

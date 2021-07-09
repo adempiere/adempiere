@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+  <head>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+    <title>AntLib</title>
+  </head>
+
+  <body>
+    <h2 id="antlib">Antlib</h2>
+
+    <h3>Description</h3>
+    <p>
+      An antlib file is an xml file with a root element of <code>antlib</code>.  Antlib's elements
+      are Apache Ant definition tasks&mdash;like <a href="../Tasks/taskdef.html">Taskdef</a> or any
+      Ant task that
+      extends <code class="code">org.apache.tools.ant.taskdefs.AntlibDefinition</code>.
+    </p>
+    <p>
+      The current set of declarations bundled with Ant that do this are:
+    </p>
+    <ol>
+      <li><a href="../Tasks/typedef.html">Typedef</a></li>
+      <li><a href="../Tasks/taskdef.html">Taskdef</a></li>
+      <li><a href="../Tasks/macrodef.html">Macrodef</a></li>
+      <li><a href="../Tasks/presetdef.html">Presetdef</a></li>
+      <li><a href="../Tasks/scriptdef.html">Scriptdef</a></li>
+    </ol>
+    <p>
+      A group of tasks and types may be defined together in an antlib file. For example the
+      file <samp>sample.xml</samp> contains the following:
+    </p>
+    <pre>
+&lt;?xml version="1.0"?&gt;
+&lt;antlib&gt;
+    &lt;typedef name="if" classname="org.acme.ant.If"/&gt;
+    &lt;typedef name="scriptpathmapper"
+             classname="org.acme.ant.ScriptPathMapper"
+             onerror="ignore"/&gt;
+    &lt;macrodef name="print"&gt;
+        &lt;attribute name="file"/&gt;
+        &lt;sequential&gt;
+            &lt;concat taskname="print"&gt;
+                &lt;fileset dir="." includes="@{file}"/&gt;
+            &lt;/concat&gt;
+        &lt;/sequential&gt;
+    &lt;/macrodef&gt;
+&lt;/antlib&gt;</pre>
+    <p>
+      It defines two types or tasks, <code>if</code> and <code>scriptpathmapper</code>.  This
+      antlib file may be used in a build script as follows:
+    </p>
+    <pre>&lt;typedef file="sample.xml"/&gt;</pre>
+    <p>
+      The other attributes of <code>&lt;typedef&gt;</code> may be used as well.  For example,
+      assuming that the <samp>sample.xml</samp> is in a jar file <samp>sample.jar</samp> also
+      containing the classes, the following build fragment will define the <code>if</code>
+      and <code>scriptpathmapper</code> tasks/types and place them in the namespace
+      uri <code>samples:/acme.org</code>.
+    </p>
+    <pre>
+&lt;typedef resource="org/acme/ant/sample.xml"
+         uri="samples:/acme.org"/&gt;</pre>
+    <p>
+      The definitions may then be used as follows:
+    </p>
+    <pre>
+&lt;sample:if valuetrue="${props}" xmlns:sample="samples:/acme.org"&gt;
+    &lt;sample:scriptpathmapper language="beanshell"&gt;
+        some bean shell
+    &lt;/sample:scriptpathmapper&gt;
+&lt;/sample:if&gt;</pre>
+
+    <h3 id="antlibnamespace">Antlib namespace</h3>
+    <p>
+      The name space URIs with the pattern <code>antlib:<i>java.package</i></code> are given
+      special treatment.
+    </p>
+    <p>
+      When Ant encounters a element with a namespace URI with this pattern, it will check to see
+      if there is a resource of the name <samp>antlib.xml</samp> in the package directory in the
+      default classpath.
+    </p>
+    <p>
+      For example, assuming that the file <samp>antcontrib.jar</samp> has been placed in the
+      directory <samp>${ant.home}/lib</samp> and it contains the
+      resource <samp>net/sf/antcontrib/antlib.xml</samp> which has all antcontrib's definitions
+      defined, the following build file will automatically load the antcontrib definitions at
+      location <code>HERE</code>:
+    </p>
+    <pre>
+&lt;project default="deletetest" xmlns:antcontrib="antlib:net.sf.antcontrib"&gt;
+    &lt;macrodef name="showdir"&gt;
+        &lt;attribute name="dir"/&gt;
+        &lt;sequential&gt;
+            &lt;antcontrib:shellscript shell="bash"&gt;  &lt;!-- HERE --&gt;
+                ls -Rl @{dir}
+            &lt;/antcontrib:shellscript&gt;
+        &lt;/sequential&gt;
+    &lt;/macrodef&gt;
+
+    &lt;target name="deletetest"&gt;
+        &lt;delete dir="a" quiet="yes"/&gt;
+        &lt;mkdir dir="a/b"/&gt;
+        &lt;touch file="a/a.txt"/&gt;
+        &lt;touch file="a/b/b.txt"/&gt;
+        &lt;delete&gt;
+            &lt;fileset dir="a"/&gt;
+        &lt;/delete&gt;
+        &lt;showdir dir="a"/&gt;
+    &lt;/target&gt;
+&lt;/project&gt;</pre>
+    <p>
+      The requirement that the resource is in the default classpath may be removed in future
+      versions of Ant.
+    </p>
+    <h3 id="loadFromInside">Load antlib from inside of the buildfile</h3>
+    <p>
+      If you want to separate the antlib from your local Ant installation, e.g. because you want
+      to hold that jar in your project's SCM system, you have to specify a classpath, so that
+      Ant could find that jar. The best solution is loading the antlib
+      with <code>&lt;taskdef&gt;</code>.
+    </p>
+    <pre>
+&lt;project xmlns:<span style="color:green">antcontrib</span>="<span style="color:red">antlib:net.sf.antcontrib</span>"&gt;
+    &lt;taskdef uri="<span style="color:red">antlib:net.sf.antcontrib</span>"
+             resource="net/sf/antcontrib/antlib.xml"
+             classpath="path/to/ant-contrib.jar"/&gt;
+
+    &lt;target name="iterate"&gt;
+        &lt;<span style="color:green">antcontrib</span>:for param="file"&gt;
+            &lt;fileset dir="."/&gt;
+            &lt;sequential&gt;
+                &lt;echo message="- @{file}"/&gt;
+            &lt;/sequential&gt;
+        &lt;/antcontrib:for&gt;
+    &lt;/target&gt;
+&lt;/project&gt;</pre>
+    <h3 id="currentnamespace">Current namespace</h3>
+    <p>
+      Definitions defined in antlibs may be used in antlibs. However, the namespace that
+      definitions are placed in are dependent on the <code>&lt;typedef&gt;</code> that uses the
+      antlib. To deal with this problem, the definitions are placed in the namespace
+      URI <code>ant:current</code> for the duration of the antlib execution.  For example, the
+      following antlib defines the task <code>&lt;if&gt;</code>, the
+      type <code>&lt;isallowed&gt;</code> and a macro <code>&lt;ifallowed&gt;</code> that makes
+      use of the task and type:
+    </p>
+    <pre>
+&lt;antlib xmlns:current="ant:current"&gt;
+    &lt;taskdef name="if" classname="org.acme.ant.If"/&gt;
+    &lt;typedef name="isallowed" classname="org.acme.ant.Isallowed"/&gt;
+    &lt;macrodef name="ifallowed"&gt;
+        &lt;attribute name="action"/&gt;
+        &lt;element name="do"/&gt;
+        &lt;sequential&gt;
+            &lt;current:if&gt;
+                &lt;current:isallowed test="@{action}"/&gt;
+                &lt;current:then&gt;
+                    &lt;do/&gt;
+                &lt;/current:then&gt;
+            &lt;/current:if&gt;
+        &lt;/sequential&gt;
+    &lt;/macrodef&gt;
+&lt;/antlib&gt;</pre>
+    <h3>Other examples and comments</h3>
+    <p>
+      Antlibs may make use of other antlibs.
+    </p>
+    <p>
+      As the names defined in the antlib are in the namespace URI as specified by the
+      calling <code>&lt;typedef&gt;</code> or by automatic element resolution, one may reuse
+      names from core Ant types and tasks, provided the caller uses a namespace URI. For
+      example, the following antlib may be used to define defaults for various tasks:
+    </p>
+    <pre>
+&lt;antlib xmlns:antcontrib="antlib:net.sf.antcontrib"&gt;
+    &lt;presetdef name="javac"&gt;
+        &lt;javac deprecation="${deprecation}"
+               debug="${debug}"/&gt;
+    &lt;/presetdef&gt;
+    &lt;presetdef name="delete"&gt;
+        &lt;delete quiet="yes"/&gt;
+    &lt;/presetdef&gt;
+    &lt;presetdef name="shellscript"&gt;
+        &lt;antcontrib:shellscript shell="bash"/&gt;
+    &lt;/presetdef&gt;
+&lt;/antlib&gt;</pre>
+    <p>
+      This may be used as follows:
+    </p>
+    <pre>
+&lt;project xmlns:local="localpresets"&gt;
+    &lt;typedef file="localpresets.xml" uri="localpresets"/&gt;
+    &lt;local:shellscript&gt;
+        echo "hello world"
+    &lt;/local:shellscript&gt;
+&lt;/project&gt;</pre>
+
+</body>
+</html>

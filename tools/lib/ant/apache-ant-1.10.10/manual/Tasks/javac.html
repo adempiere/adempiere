@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Javac Task</title>
+</head>
+
+<body>
+
+<h2 id="javac">Javac</h2>
+<h3>Description</h3>
+<p>Compiles a Java source tree.</p>
+<p>The source and destination directory will be recursively scanned for Java source files to
+compile. Only <code>.java</code> files that have no corresponding <samp>.class</samp> file or where
+the <code>.class</code> file is older than the <samp>.java</samp> file will be compiled.</p>
+<p><strong>Note</strong>: Apache Ant uses only the names of the source and class files to find the
+classes that need a rebuild. It will not scan the source and therefore will have no knowledge about
+nested classes, classes that are named differently from the source file, and so on. See
+the <a href="../Tasks/depend.html"><code>&lt;depend&gt;</code></a> task for dependency checking
+based on other than just existence/modification times.</p>
+<p>When the source files are part of a package, the directory structure of the source tree should
+follow the package hierarchy.</p>
+<p>It is possible to refine the set of files that are being compiled.  This can be done with
+the <var>includes</var>, <var>includesfile</var>, <var>excludes</var>, and <var>excludesfile</var>
+attributes. With the <var>includes</var> or <var>includesfile</var> attribute, you specify the files
+you want to have included.  The <var>exclude</var> or <var>excludesfile</var> attribute is used to
+specify the files you want to have excluded. In both cases, the list of files can be specified by
+either the filename, relative to the directory(s) specified in the <var>srcdir</var> attribute or
+nested <code>&lt;src&gt;</code> element(s), or by using wildcard patterns. See the section
+on <a href="../dirtasks.html#directorybasedtasks">directory-based tasks</a>, for information on how
+the inclusion/exclusion of files works, and how to write wildcard patterns.</p>
+<p id="compilervalues">It is possible to use different compilers. This can be specified by either
+setting the global <code>build.compiler</code> property, which will affect
+all <code>&lt;javac&gt;</code> tasks throughout the build, by setting the <var>compiler</var>
+attribute, specific to the current <code>&lt;javac&gt;</code> task or by using a nested element of
+any <a href="typedef.html">typedef</a>fed or <a href="componentdef.html">componentdef</a>fed type
+that implements <code>org.apache.tools.ant.taskdefs.compilers.CompilerAdapter</code>.  Valid values
+for either the <code>build.compiler</code> property or the <var>compiler</var> attribute are:</p>
+<ul>
+  <li><q>classic</q> (the standard compiler of JDK 1.1/1.2) &ndash; <q>javac1.1</q>
+    and <q>javac1.2</q> can be used as aliases.</li>
+  <li><q>modern</q> (the standard compiler of JDK 1.3 and later)
+    &ndash; <q>javac1.3</q>, <q>javac1.4</q>, <q>javac1.5</q> and <q>javac1.6</q>, <q>javac1.7</q>
+    (<em>since Ant 1.8.2</em>), <q>javac1.8</q> (<em>since Ant 1.8.3</em>), <q>javac1.9</q>
+    (<em>since Ant 1.9.5</em>), <q>javac9</q> (<em>since Ant 1.9.8</em>) and <q>javac10+</q>
+    (<em>since Ant 1.10.2</em>) can be used as aliases.</li>
+  <li><q>jikes</q> (the <a href="http://jikes.sourceforge.net/" target="_top">Jikes</a>
+    compiler).</li>
+  <li><q>jvc</q> (the Command-Line Compiler from Microsoft's SDK for Java / Visual J++)
+    &ndash; <q>microsoft</q> can be used as an alias.</li>
+  <li><q>kjc</q>
+    (the <a href="https://web.archive.org/web/20050212025507/http://www.dms.at/kopi/index.html"
+    target="_top">kopi</a> compiler).</li>
+  <li><q>gcj</q> (the <code>gcj</code> compiler
+    from <a href="https://gcc.gnu.org/gcc-7/changes.html#java" target="_top">GCC</a>).</li>
+  <li><q>sj</q> (Symantec Java compiler) &ndash; <q>symantec</q> can be used as an alias.</li>
+  <li><q>extJavac</q> (run either modern or classic in a JVM of its own).</li>
+</ul>
+<p>The default is <q>javacX</q> with <q>X</q> depending on the JDK version you use while you are
+running Ant.  If you wish to use a different compiler interface than those supplied, you can write a
+class that implements the CompilerAdapter interface
+(package <code>org.apache.tools.ant.taskdefs.compilers</code>). Supply the full classname in
+the <code>build.compiler</code> property or the <var>compiler</var> attribute.</p>
+<p>The <var>fork</var> attribute overrides the <code>build.compiler</code> property
+or <var>compiler</var> attribute setting and expects a JDK 1.1 or higher to be set
+in <code>JAVA_HOME</code>.</p>
+<p>You can also use the <var>compiler</var> attribute to tell Ant which JDK version it shall assume
+when it puts together the command line switches&mdash;even if you set <var>fork</var>=<q>true</q>.
+This is useful if you want to run the compiler of JDK 1.1 while your current JDK is 1.2+.  If you
+use <var>compiler</var>=<q>javac1.1</q> and (for example) <var>depend</var>=<q>true</q>, Ant will
+use the command line switch <kbd>-depend</kbd> instead of <kbd>-Xdepend</kbd>.</p>
+<p>This task will drop all entries that point to non-existent files/directories from the classpath
+it passes to the compiler.</p>
+<p>The working directory for a forked executable (if any) is the project's base directory.</p>
+<p><strong>Windows Note</strong>: When the modern compiler is used in unforked mode on Windows, it
+locks up the files present in the classpath of the <code>&lt;javac&gt;</code> task, and does not
+release them.  The side effect of this is that you will not be able to delete or move those files
+later on in the build.  The workaround is to fork when invoking the compiler.</p>
+<p>If your source contains native methods or fields annotated with
+the <code>@Native</code> annotation you can set the <var>nativeheaderdir</var> attribute in order to
+use the <kbd>-h</kbd> switch of <kbd>javac</kbd> to generate the native header files. Note that
+the logic Ant uses to determine which files to compile does not take native headers into account,
+i.e. if the <samp>.class</samp> is more recent than the corresponding <samp>.java</samp> file the
+file will not get compiled even if a native header file generated for it would be outdated.</p>
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>srcdir</td>
+    <td>Location of the java files. (See the <a href="#srcdirnote">note</a> below.)</td>
+    <td>Yes, unless nested <code>&lt;src&gt;</code> elements or <var>modulesourcepath</var>
+      attribute or corresponding elements are present</td>
+  </tr>
+  <tr>
+    <td>destdir</td>
+    <td>Location to store the class files.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>includes</td>
+    <td>Comma- or space-separated list of patterns of files that must be included.</td>
+    <td>No; defaults to all <samp>.java</samp> files</td>
+  </tr>
+  <tr>
+    <td>includesfile</td>
+    <td>Name of a file. Each line of this file is taken to be an include pattern.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>excludes</td>
+    <td>Comma- or space-separated list of patterns of files that must be excluded.</td>
+    <td>No; defaults to default excludes or none if <var>defaultexcludes</var> is <q>no</q></td>
+  </tr>
+  <tr>
+    <td>excludesfile</td>
+    <td>Name of a file. Each line of this file is taken to be an exclude pattern.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>defaultexcludes</td>
+    <td>Indicates whether default excludes should be used or not (<q>yes|no</q>).</td>
+    <td>No; defaults to <q>yes</q></td>
+  </tr>
+  <tr>
+    <td>classpath</td>
+    <td>The classpath to use.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>sourcepath</td>
+    <td>The sourcepath to use.  To suppress the <code>sourcepath</code> switch,
+      use <var>sourcepath</var>=<q></q>.</td>
+    <td>No; defaults to <var>srcdir</var> unless nested <code>&lt;src&gt;</code> elements are
+      specified</td>
+  </tr>
+  <tr>
+    <td>bootclasspath</td>
+    <td>Location of bootstrap class files. (See <a href="#bootstrap">below</a> for using
+      the <kbd>-X</kbd> and <kbd>-J-X</kbd> parameters for specifying the bootstrap
+      classpath).</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>classpathref</td>
+    <td>The <var>classpath</var> to use, given as a <a href="../using.html#references">reference</a>
+      to a path defined elsewhere.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>sourcepathref</td>
+    <td>The <var>sourcepath</var> to use, given as
+      a <a href="../using.html#references">reference</a> to a path defined elsewhere.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>bootclasspathref</td>
+    <td>The <var>bootstrapclasspath</var> to use, given as
+      a <a href="../using.html#references">reference</a> to a path defined elsewhere.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>extdirs</td>
+    <td>Location of installed extensions.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>encoding</td>
+    <td>Encoding of source files. (<strong>Note</strong>: <code>gcj</code> doesn't support this
+      option yet.)</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>nowarn</td>
+    <td>Indicates whether the <kbd>-nowarn</kbd> switch should be passed to the compiler.</td>
+    <td>No; defaults to <q>off</q></td>
+  </tr>
+  <tr>
+    <td>debug</td>
+    <td>Indicates whether source should be compiled with debug information.  If set
+      to <q>off</q>, <kbd>-g:none</kbd> will be passed on the command line for compilers that
+      support it (for other compilers, no command line argument will be used).  If set
+      to <q>true</q>, the value of the <var>debuglevel</var> attribute determines the command line
+      argument.</td>
+    <td>No; defaults to <q>off</q></td>
+  </tr>
+  <tr>
+    <td>debuglevel</td>
+    <td>Keyword list to be appended to the <kbd>-g</kbd> command-line switch. Legal values
+      are <q>none</q> or a comma-separated list of the following
+      keywords: <q>lines</q>, <q>vars</q>, and <q>source</q>.</td>
+    <td>No; ignored when <var>debug</var> is <q>false</q> or any implementation other
+      than <q>modern</q>, <q>javac1.2</q> and <q>jikes</q>; by default, nothing will be appended
+      to <kbd>-g</kbd></td>
+  </tr>
+  <tr>
+    <td>optimize</td>
+    <td>Indicates whether source should be compiled with optimization. <strong>Note</strong> that
+      this flag is just ignored by Sun's <kbd>javac</kbd> since JDK 1.3 (because compile-time
+      optimization is unnecessary).</td>
+    <td>No; defaults to <q>off</q></td>
+  </tr>
+  <tr>
+    <td>deprecation</td>
+    <td>Indicates whether source should be compiled with deprecation information.</td>
+    <td>No; defaults to <code>off</code></td>
+  </tr>
+  <tr>
+    <td>verbose</td>
+    <td>Asks the compiler for verbose output.</td>
+    <td>No; defaults to <q>no</q></td>
+  </tr>
+  <tr>
+    <td>depend</td>
+    <td>Enables dependency tracking for compilers that support this (<q>jikes</q>
+      and <q>classic</q>).</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>includeAntRuntime</td>
+    <td>Whether to include the Ant run-time libraries in the classpath. <em>It is usually best</em>
+      to set this to <q>false</q> so the script's behavior is not sensitive to the environment in
+      which it is run.</td>
+    <td>No; defaults to <q>yes</q>,
+      unless <a href="../sysclasspath.html"><code>build.sysclasspath</code></a> property is set</td>
+  </tr>
+  <tr>
+    <td>includeJavaRuntime</td>
+    <td>Whether to include the default run-time libraries from the executing JVM in the
+      classpath.<br/><strong>Note</strong>: In some setups the run-time libraries may be part of the
+      "Ant run-time libraries" so you may need to explicitly set <var>includeAntRuntime</var>
+      to <q>false</q> to ensure that the Java run-time libraries are not included.</td>
+    <td>No; defaults to <q>no</q></td>
+  </tr>
+  <tr>
+    <td>fork</td>
+    <td>Whether to execute <code>javac</code> using the JDK compiler externally.</td>
+    <td>No; defaults to <q>no</q></td>
+  </tr>
+  <tr>
+    <td>executable</td>
+    <td>Complete path to the <kbd>javac</kbd> executable to use in case of <var>fork</var>
+      is <q>yes</q>.<br/><em>Since Ant 1.6</em> this attribute can also be used to specify the path
+      to the executable when using <q>jikes</q>, <q>jvc</q>, <q>gcj</q> or <q>sj</q>.</td>
+    <td>No; defaults to the compiler of current JDK, ignored if <var>fork</var> is <q>no</q></td>
+  </tr>
+  <tr>
+    <td>memoryInitialSize</td>
+    <td>The initial size of the memory for the underlying JVM, if <kbd>javac</kbd> is run
+      externally.  (Examples: <q>83886080</q>, <q>81920k</q>, or <q>80m</q>)</td>
+    <td>No; defaults to the standard JVM memory setting, ignored if <var>fork</var>
+      is <q>no</q></td>
+  </tr>
+  <tr>
+    <td>memoryMaximumSize</td>
+    <td>The maximum size of the memory for the underlying JVM, if <kbd>javac</kbd> is run
+      externally; ignored otherwise.  (Examples: <q>83886080</q>, <q>81920k</q>, or <q>80m</q>)</td>
+    <td>No; defaults to the standard JVM memory setting, ignored if <var>fork</var>
+      is <q>no</q></td>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+    <td>Indicates whether compilation errors will fail the build>.</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>errorProperty</td>
+    <td>The property to set to <q>true</q> if compilation fails.  <em>Since Ant 1.7.1</em>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>source</td>
+    <td>Java language features accepted by compiler, as specified by the <kbd>-source</kbd>
+      command-line switch.  Valid feature versions are <q>1.3</q>, <q>1.4</q>, <q>1.5</q>
+      or <q>5</q>, etc.  The attribute will be ignored by all implementations prior
+      to <q>javac1.4</q> (or <q>modern</q> when Ant is not running in a JVM 1.3), <q>gcj</q>
+      and <q>jikes</q>.<br/>  If you use this attribute together with <q>gcj</q> or <q>jikes</q>, you
+      must make sure that your version supports the <kbd>-source</kbd> (or <kbd>-fsource</kbd>
+      for <kbd>gcj</kbd>) switch.</td>
+    <td>No; by default, no <kbd>-source</kbd> argument will be used at all unless the magic
+      <a href="../javacprops.html#source"><code>ant.build.javac.source</code></a> property is
+      set<br/><strong>Note that the default value depends on JDK that is running Ant.  We highly
+      recommend to always specify this attribute.</strong></td>
+  </tr>
+  <tr>
+    <td>target</td>
+    <td>Generate class files for specific JVM version (cross-compile).</td>
+    <td>No; by default, no <kbd>-target</kbd> argument will be used at all unless the
+      magic <a href="../javacprops.html#target"><code>ant.build.javac.target</code></a> property is
+      set<br/><strong>Note that the default value depends on JDK that is running Ant and
+      on <var>source</var>
+      (see <a href="https://docs.oracle.com/javase/8/docs/technotes/tools/windows/javac.html#BHCJDCID"
+      target="_top">Cross-Compilation Options</a>).  We highly recommend to always specify this
+      attribute.</strong></td>
+  </tr>
+  <tr>
+    <td>compiler</td>
+    <td>The compiler implementation to use.  See the above <a href="#compilervalues">list</a> of
+      valid compilers.</td>
+    <td>No; defaults to the value of the <code>build.compiler</code> property, if set, or default
+      compiler for the current JDK otherwise</td>
+  </tr>
+  <tr>
+    <td>listfiles</td>
+    <td>Indicates whether the source files to be compiled will be listed.</td>
+    <td>No; defaults to <q>no</q></td>
+  </tr>
+  <tr>
+    <td>tempdir</td>
+    <td>Where Ant should place temporary files.  This is only used if the task is forked and the
+      command line args length exceeds 4 kB.  <em>Since Ant 1.6</em>.</td>
+    <td>No; default is <code>java.io.tmpdir</code></td>
+  </tr>
+  <tr>
+    <td>updatedProperty</td>
+    <td>The property to set to <q>true</q> if compilation has taken place and has been
+      successful.  <em>Since Ant 1.7.1</em>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>includeDestClasses</td>
+    <td>This attribute controls whether to include the destination classes directory in the
+      classpath given to the compiler.  If set to <q>true</q> (default), previously compiled classes
+      are on the classpath for the compiler. This means that "greedy" compilers will not recompile
+      dependent classes that are already compiled.  In general this is a good thing as it stops the
+      compiler for doing unnecessary work. However, for some edge cases, involving generics,
+      the <kbd>javac</kbd> compiler needs to compile the dependent classes to get the generics
+      information. One example is documented in the bug
+      report: <a href="https://issues.apache.org/bugzilla/show_bug.cgi?id=40776" target="_top">Bug
+      40776 - a problem compiling a Java 5 project with generics</a>.  Setting the attribute
+      to <q>false</q> will cause the compiler to recompile dependent classes.  <em>Since Ant
+      1.7.1</em>.</td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>createMissingPackageInfoClass</td>
+    <td>Some package level annotations in <samp>package-info.java</samp> files don't create
+      any <samp>package-info.class</samp> files so Ant would recompile the same file every
+      time.<br/><em>Since Ant 1.8</em>, an empty <samp>package-info.class</samp> is created for
+      each <samp>package-info.java</samp> if there isn't one created by the compiler.<br/>In some
+      setups this additional class causes problems and it can be suppressed by setting this
+      attribute to <q>false</q>.  <em>Since Ant 1.8.3</em>.</td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>modulepath</td>
+    <td>Specify where to find application modules. A list of directories of modules, module files or
+    exploded modules.  <em>since Ant 1.9.7</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>modulepathref</td>
+    <td>The <var>modulepath</var> to use, given as <a href="../using.html#references">reference</a>
+    to a path defined elsewhere.  <em>since Ant 1.9.7</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>modulesourcepath</td>
+    <td>Specify where to find input source files for multiple module compilation.  <em>since Ant
+      1.9.7</em></td>
+    <td>Yes, unless <var>srcdir</var> attribute or nested <code>&lt;src&gt;</code> elements are
+      present</td>
+  </tr>
+  <tr>
+    <td>modulesourcepathref</td>
+    <td>The <var>modulesourcepath</var> to use, given
+      as <a href="../using.html#references">reference</a> to a path defined elsewhere.  <em>since
+      Ant 1.9.7</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>upgrademodulepath</td>
+    <td>Specify the location of modules that replace upgradeable modules in the runtime
+    image.  <em>since Ant 1.9.7</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>upgrademodulepathref</td>
+    <td>The <var>upgrademodulepath</var> to use, given
+    as <a href="../using.html#references">reference</a> to a path defined elsewhere.  <em>since Ant
+    1.9.7</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>nativeheaderdir</td>
+    <td>Specify where to place generated native header files.  <em>Since Ant 1.9.8</em>.
+    <td>No, ignored when compiling on JDK 7 or earlier</td>
+  </tr>
+  <tr>
+    <td>release</td>
+    <td>Specify the value for the <kbd>--release</kbd> switch.<br/>When set and running on JDK 9+
+      the <var>source</var> and <var>target</var> attributes as well as the <var>bootclasspath</var>
+      will be ignored.  <em>Since Ant 1.9.8</em>.
+    <td>No, ignored when compiling on JDK 8 or earlier</td>
+  </tr>
+</table>
+
+<h3>Parameters specified as nested elements</h3>
+<p>This task forms an implicit <a href="../Types/fileset.html">FileSet</a> and supports most
+attributes of <code>&lt;fileset&gt;</code> (<var>dir</var> becomes <var>srcdir</var>) as well as the
+nested <code>&lt;include&gt;</code>, <code>&lt;exclude&gt;</code>
+and <code>&lt;patternset&gt;</code> elements.</p>
+<h4><code>srcdir</code>, <code>classpath</code>, <code>sourcepath</code>, <code>bootclasspath</code>,
+<code>modulepath</code>, <code>modulesourcepath</code>, <code>upgrademodulepath</code> and <code>extdirs</code></h4>
+<p><code>&lt;javac&gt;</code>'s <var>srcdir</var>, <var>classpath</var>, <var>sourcepath</var>,
+<var>bootclasspath</var>, <var>extdirs</var>, <var>modulepath</var>, <var>modulesourcepath</var>,
+and <var>upgrademodulepath</var> attributes are <a href="../using.html#path">path-like
+structures</a> and can also be set via nested <code>&lt;src&gt;</code> (note the different
+name!), <code>&lt;classpath&gt;</code>, <code>&lt;sourcepath&gt;</code>, <code>&lt;bootclasspath&gt;</code>,
+<code>&lt;extdirs&gt;</code>, <code>&lt;modulepath&gt;</code>, <code>&lt;modulesourcepath&gt;</code>
+and <code>&lt;upgrademodulepath&gt;</code> elements, respectively.</p>
+
+<h4>compilerarg</h4>
+
+<p>You can specify additional command line arguments for the compiler with
+nested <code>&lt;compilerarg&gt;</code> elements.  These elements are specified
+like <a href="../using.html#arg">Command-line Arguments</a> but have an additional attribute that
+can be used to enable arguments only if a given compiler implementation will be used.</p>
+<table class="attr">
+<tr>
+  <th scope="col">Attribute</th>
+  <th scope="col">Description</th>
+  <th scope="col">Required</th>
+</tr>
+  <tr>
+    <td>value</td>
+    <td rowspan="4">See <a href="../using.html#arg">Command-line Arguments</a>.</td>
+    <td rowspan="4">Exactly one of these</td>
+  </tr>
+  <tr>
+    <td class="var">line</td>
+  </tr>
+  <tr>
+    <td class="var">file</td>
+  </tr>
+  <tr>
+    <td class="var">path</td>
+  </tr>
+  <tr>
+    <td>prefix</td>
+    <td rowspan="2">See <a href="../using.html#arg">Command-line Arguments</a>.  <em>Since Ant
+    1.8</em>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>suffix</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>compiler</td>
+    <td>Only pass the specified argument if the chosen compiler implementation matches the value of
+      this attribute.  Legal values are the same as those in the
+      above <a href="#compilervalues">list</a> of valid compilers.)</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<h4>compilerclasspath</h4>
+<p><em>Since Ant 1.8.0</em></p>
+<p>A <a href="../using.html#path">path-like structure</a> holding the classpath to use when loading
+the compiler implementation if a custom class has been specified.  Doesn't have any effect when
+using one of the built-in compilers.</p>
+
+<h4>Any nested element of a type that implements <code>CompilerAdapter</code></h4>
+<p><em>Since Ant 1.8.0</em></p>
+<p>If a defined type implements the <code>CompilerAdapter</code> interface a nested element of that
+type can be used as an alternative to the <var>compiler</var> attribute.</p>
+
+<h3>Examples</h3>
+
+<p>Compile all <samp>.java</samp> files under the <samp>${src}</samp> directory, and store
+the <samp>.class</samp> files in the <samp>${build}</samp> directory. The classpath used
+includes <samp>xyz.jar</samp>, and compiling with debug information is on. The source level
+is <q>1.4</q>, so you can use <code>assert</code> statements.</p>
+<pre>
+&lt;javac srcdir=&quot;${src}&quot;
+       destdir=&quot;${build}&quot;
+       classpath=&quot;xyz.jar&quot;
+       debug=&quot;on&quot;
+       source=&quot;1.4&quot;/&gt;</pre>
+
+<p>Compile all <samp>.java</samp> files under the <samp>${src}</samp> directory, and store
+the <samp>.class</samp> files in the <samp>${build}</samp> directory. Java compiler is forked using
+the default <kbd>javac</kbd> executable. The source level is <q>1.2</q> (similar to <q>1.1</q>
+or <q>1.3</q>) and the class files should be runnable under JDK 1.2+ as well.</p>
+<pre>
+&lt;javac srcdir=&quot;${src}&quot;
+       destdir=&quot;${build}&quot;
+       fork=&quot;true&quot;
+       source=&quot;1.2&quot;
+       target=&quot;1.2&quot;/&gt;</pre>
+
+<p>Compile all <samp>.java</samp> files under the <samp>${src}</samp> directory, and store
+the <samp>.class</samp> files in the <samp>${build}</samp> directory. Java compiler is forked using
+the executable named <kbd>java$javac.exe</kbd>. Note that the <q>$</q> sign needs to be escaped by a
+second one. The source level is <q>1.5</q>, so you can use generics.</p>
+<pre>
+&lt;javac srcdir=&quot;${src}&quot;
+       destdir=&quot;${build}&quot;
+       fork=&quot;java$$javac.exe&quot;
+       source=&quot;1.5&quot;/&gt;</pre>
+
+<p>Compile <samp>.java</samp> files under the <samp>${src}</samp> directory, and store
+the <samp>.class</samp> files in the <code>${build}</code> directory. The classpath used
+includes <samp>xyz.jar</samp>, and debug information is on. Only files
+under <samp>mypackage/p1</samp> and <samp>mypackage/p2</samp> are used. All files in and below
+the <samp>mypackage/p1/testpackage</samp> directory are excluded from compilation. You didn't
+specify a source or target level, so the actual values used will depend on which JDK you ran Ant
+with.</p>
+<pre>
+&lt;javac srcdir=&quot;${src}&quot;
+       destdir=&quot;${build}&quot;
+       includes=&quot;mypackage/p1/**,mypackage/p2/**&quot;
+       excludes=&quot;mypackage/p1/testpackage/**&quot;
+       classpath=&quot;xyz.jar&quot;
+       debug=&quot;on&quot;/&gt;</pre>
+
+<p>This is the same as the previous example, with the addition of a second source path, defined by
+the property <samp>src2</samp>. This can also be represented using nested <code>&lt;src&gt;</code>
+elements as follows:</p>
+<pre>
+&lt;javac destdir=&quot;${build}&quot;
+       classpath=&quot;xyz.jar&quot;
+       debug=&quot;on&quot;&gt;
+  &lt;src path=&quot;${src}&quot;/&gt;
+  &lt;src path=&quot;${src2}&quot;/&gt;
+  &lt;include name=&quot;mypackage/p1/**&quot;/&gt;
+  &lt;include name=&quot;mypackage/p2/**&quot;/&gt;
+  &lt;exclude name=&quot;mypackage/p1/testpackage/**&quot;/&gt;
+&lt;/javac&gt;</pre>
+
+<p>If you want to run the <kbd>javac</kbd> compiler of a different JDK, you should tell Ant where to
+find the compiler and which version of JDK you will be using so it can choose the correct command
+line switches. The following example executes a JDK 1.1 <kbd>javac</kbd> in a new process and uses
+the correct command line switches even when Ant is running in a JVM of a different version:</p>
+<pre>
+&lt;javac srcdir=&quot;${src}&quot;
+       destdir=&quot;${build}&quot;
+       fork=&quot;yes&quot;
+       executable=&quot;/opt/java/jdk1.1/bin/javac&quot;
+       compiler=&quot;javac1.1&quot;/&gt;</pre>
+
+<p id="srcdirnote"><strong>Note</strong>: If you wish to compile only source files located in
+certain packages below a common root, use the <var>include</var>/<var>exclude</var> attributes
+or <code>&lt;include&gt;</code>/<code>&lt;exclude&gt;</code> nested elements to filter for these
+packages. Do not include part of your package structure in the <var>srcdir</var> attribute (or
+nested <code>&lt;src&gt;</code> elements), or Ant will recompile your source files every time you
+run your compile target. See the <a href="https://ant.apache.org/faq.html#always-recompiles"
+target="_top">Ant FAQ</a> for additional information.</p>
+
+<p>If you wish to compile only files explicitly specified and disable <code>javac</code>'s default
+searching mechanism then you can unset the <var>sourcepath</var> attribute:</p>
+<pre>
+&lt;javac sourcepath=&quot;&quot; srcdir=&quot;${src}&quot;
+       destdir=&quot;${build}&quot; &gt;
+  &lt;include name="**/*.java"/&gt;
+  &lt;exclude name="**/Example.java"/&gt;
+&lt;/javac&gt;</pre>
+
+<p>That way the <code>javac</code> will compile all Java source files under <samp>${src}</samp>
+directory but skip the examples. The compiler will even produce errors if some of the non-example
+files refers to them.</p>
+
+<p>If you wish to compile with a special JDK (another than the one Ant is currently using), set
+the <var>executable</var> and <var>fork</var> attribute. Using <var>taskname</var> could show in the
+log, that these settings are fix.</p>
+<pre>
+&lt;javac srcdir=&quot;&quot;
+       destdir=&quot;&quot;
+       executable=&quot;path-to-java14-home/bin/javac&quot;
+       fork=&quot;true&quot;
+       taskname=&quot;javac1.4&quot;/&gt;</pre>
+
+<p>If you want to activate other compiler options like <code>lint</code> you could use
+the <code>&lt;compilerarg&gt;</code> element:</p>
+<pre>
+&lt;javac srcdir="${src.dir}"
+       destdir="${classes.dir}"
+       classpathref="libraries"&gt;
+  &lt;compilerarg value="-Xlint"/&gt;
+&lt;/javac&gt;</pre>
+
+<p>If you want to use a custom CompilerAdapter <code>org.example.MyAdapter</code> you can either use
+the <var>compiler</var> attribute:</p>
+
+<pre>
+&lt;javac srcdir="${src.dir}"
+       destdir="${classes.dir}"
+       compiler="org.example.MyAdapter"/&gt;</pre>
+
+<p>or a define a type and nest this into the task like in:</p>
+
+<pre>
+&lt;componentdef classname="org.example.MyAdapter"
+              name="myadapter"/&gt;
+&lt;javac srcdir="${src.dir}"
+       destdir="${classes.dir}"&gt;
+  &lt;myadapter/&gt;
+&lt;/javac&gt;</pre>
+
+<p>in which case your compiler adapter can support attributes and nested elements of its own.</p>
+
+<p>The following examples demonstrate the use of Java 9+ modules.</p>
+
+<p>Compile all <samp>.java</samp> files in a single module under the <samp>${src}</samp> directory,
+and store the <samp>.class</samp> files in the <code>${build}</code> directory. The compilation uses
+application modules located in <samp>modules</samp> folder. The source level is <q>9</q> to enable
+modules.</p>
+<pre>
+&lt;javac srcdir=&quot;${src}&quot;
+       destdir=&quot;${build}&quot;
+       includeantruntime=&quot;false&quot;
+       modulepath=&quot;modules&quot;
+       source=&quot;9&quot;/&gt;</pre>
+
+<p>Compile all <samp>.java</samp> files in <samp>gen/classes</samp>, <samp>lin32/classes</samp>
+and <code>lin64/classes</code> in all source modules under the <code>${src}</code>
+directory. Generate module directories in the <samp>${build}</samp> directory. Each generated module
+directory under the <samp>${build}</samp> directory contains <code>.class</code> files from
+corresponding source module. The <samp>*</samp> is a token representing the name of any of the
+modules in the compilation module set. The <code>{ ... , ... }</code> express alternates for
+expansion. The compilation uses application modules located in <code>modules</code> folder. The
+source level is <q>9</q> to enable modules.</p>
+<pre>
+&lt;javac modulesourcepath=&quot;${src}/*/{gen,lin{32,64}}/classes&quot;
+       destdir=&quot;${build}&quot;
+       includeantruntime=&quot;false&quot;
+       modulepath=&quot;modules&quot;
+       source=&quot;9&quot;/&gt;</pre>
+
+<h3 id="jikes">Jikes notes</h3>
+
+<p>You need Jikes 1.15 or later.</p>
+
+<p>Jikes supports some extra options, which can be set be defining the properties shown below prior
+to invoking the task. The setting for each property will be in effect for
+all <code>&lt;javac&gt;</code> tasks throughout the build.  The Ant developers are aware that this
+is ugly and inflexible &ndash; expect a better solution in the future.  All the options are boolean,
+and must be set to <q>true</q> or <q>yes</q> to be interpreted as anything other
+than <q>false</q>. By default, <code>build.compiler.warnings</code> is <q>true</q>, while all others
+are <q>false</q>.</p>
+
+<table>
+  <tr>
+    <th scope="col">Property</th>
+    <th scope="col">Description</th>
+    <th scope="col">Default</th>
+  </tr>
+  <tr>
+    <td><code>build.compiler.emacs</code></td>
+    <td>Enable emacs-compatible error messages.</td>
+    <td><q>false</q></td>
+  </tr>
+  <tr>
+    <td><code>build.compiler.fulldepend</code></td>
+    <td>Enable full dependency checking; see<br/> the <code>+F</code> switch in the Jikes
+      manual.</td>
+    <td><q>false</q></td>
+  </tr>
+  <tr>
+    <td><code>build.compiler.pedantic</code></td>
+    <td>Enable pedantic warnings.</td>
+    <td><q>false</q></td>
+  </tr>
+  <tr>
+    <td><code>build.compiler.warnings</code><br/><em><u>Deprecated</u></em>.
+      Use <code>&lt;javac&gt;</code>'s <var>nowarn</var> attribute instead.</td>
+    <td>Don't disable warning messages.</td>
+    <td><q>true</q></td>
+  </tr>
+</table>
+
+<h3 id="jvc">Jvc notes</h3>
+
+<p><q>Jvc</q> will enable Microsoft extensions unless you set the
+property <code>build.compiler.jvc.extensions</code> to <q>false</q> before
+invoking <code>&lt;javac&gt;</code>.</p>
+
+<h3 id="bootstrap">Bootstrap options</h3>
+<p>The Sun <kbd>javac</kbd> compiler has a <kbd>-bootclasspath</kbd> command line
+option&mdash;this corresponds to the <var>bootclasspath</var> attribute/element of
+the <code>&lt;javac&gt;</code> task. The Sun compiler also allows more control over the boot
+classpath using the <kbd>-X</kbd> and <kbd>-J-X</kbd> attributes.  One can set these by using
+the <code>&lt;compilerarg&gt;</code>. <em>Since Ant 1.6.0</em>, there is a shortcut to convert path
+references to strings that can by used in an OS independent fashion
+(see <a href="../using.html#pathshortcut">pathshortcut</a>). For example:</p>
+
+<pre>
+&lt;path id="lib.path.ref"&gt;
+  &lt;fileset dir="lib" includes="*.jar"/&gt;
+&lt;/path&gt;
+&lt;javac srcdir="src" destdir="classes"&gt;
+  &lt;compilerarg arg="-Xbootclasspath/p:${toString:lib.path.ref}"/&gt;
+&lt;/javac&gt;</pre>
+
+<h3>OpenJDK notes</h3>
+<p>The <a href="https://openjdk.java.net/" target="_top">OpenJDK</a> project has provided
+the <code>javac</code> <a href="https://openjdk.java.net/groups/compiler/" target="_top">compiler</a>
+as an open source project. The output of this project is a <code>javac.jar</code> which contains
+the <kbd>javac</kbd> compiler.  This compiler may be used with the <code>&lt;javac&gt;</code> task
+with the use of a <kbd>-Xbootclasspath/p</kbd> Java argument. The argument needs to be given to the
+runtime system of the <kbd>javac</kbd> executable, so it needs to be prepended with a <kbd>-J</kbd>,
+for example:</p>
+
+<pre>
+&lt;property name="patched.javac.jar"
+          location="${my.patched.compiler}/dist/lib/javac.jar"/&gt;
+
+&lt;presetdef name="patched.javac"&gt;
+  &lt;javac fork="yes"&gt;
+    &lt;compilerarg value="-J-Xbootclasspath/p:${patched.javac.jar}"/&gt;
+  &lt;/javac&gt;
+&lt;/presetdef&gt;
+
+
+&lt;patched.javac srcdir="src/java" destdir="build/classes"
+               debug="yes"/&gt;</pre>
+
+<h3>Note on package-info.java</h3>
+<p><samp>package-info.java</samp> files were introduced in Java 5 to allow package level
+annotations. On compilation, if the <code>.java</code> file does not contain runtime annotations,
+there will be no corresponding <code>.class</code> file.  Prior to Ant 1.7.1, when
+the <code>&lt;javac&gt;</code> task is run again, the task will try to compile
+the <samp>package-info.java</samp> files again.</p>
+<p>With Ant 1.7.1, a different kind of logic was introduced that involved the timestamp of the
+directory that would normally contain the <samp>.class</samp> file.  This logic turned out to lead
+to Ant not recompiling <samp>package-info.java</samp> in certain setup.</p>
+<p><em>Since Ant 1.8.0</em>, an "empty" <samp>package-info.class</samp> file is created if Ant
+compiles a <samp>package-info.java</samp> and no <samp>package-info.class</samp> file has been
+created by the compiler itself.</p>
+</body>
+</html>

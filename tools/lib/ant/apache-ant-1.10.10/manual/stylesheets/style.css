@@ -1,0 +1,263 @@
+/*
+ *  Licensed to the Apache Software Foundation (ASF) under one or more
+ *  contributor license agreements.  See the NOTICE file distributed with
+ *  this work for additional information regarding copyright ownership.
+ *  The ASF licenses this file to You under the Apache License, Version 2.0
+ *  (the "License"); you may not use this file except in compliance with
+ *  the License.  You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ */
+body {
+    font-family: "Palatino Linotype", Palatino, Georgia, "Century Schoolbook", serif;
+}
+
+h2 {
+  font-size: 200%;
+  background-color: white;
+}
+
+h3 {
+  font-size: 130%;
+  color: white;
+  background-color: #525d76;
+}
+
+h4 {
+  color: white;
+  background-color: #828da6;
+}
+
+h5 {
+  font-size: 100%;
+  color: white;
+  background-color: #a6adbe;
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+}
+
+h6 {
+  font-size: 100%;
+  color: white;
+  background-color: #c1c5d1;
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+}
+
+h5 + p, h6 + p {
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+}
+
+h3 > a, h4 > a, h5 > a, h6 > a {
+   color: white;
+}
+
+h3 > a:visited, h4 > a:visited, h5 > a:visited, h6 > a:visited,
+h3 > a:hover, h4 > a:hover, h5 > a:hover, h6 > a:hover {
+   color: lightskyblue;
+}
+
+var {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 0.8rem;
+}
+
+q {
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 0.8rem;
+}
+
+q.no-break {
+    white-space: nowrap;
+    hyphens: none;
+}
+
+code, samp, kbd {
+    white-space: nowrap;
+    hyphens: none;
+    font-size: 1.125rem;
+}
+
+h2 > code, h2 > samp {
+    font-size: 2rem;
+}
+
+h3 > code, h3 > samp {
+    font-size: 1.5rem;
+}
+
+h3 > var {
+    font-size: 1.125rem;
+}
+
+pre {
+   background-color: #efefef;
+   margin-right: 4rem;
+   margin-left: 4rem;
+   font-size: 1.125rem;
+}
+
+pre var, code var {
+    font-size: 0.65rem;
+}
+
+/* code snippets in examples and tutorials */
+.code {
+   background: #efefef;
+}
+
+/* highlight console input */
+.input, kbd {
+   color: white;
+   background: darkseagreen;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
+/* highlight console output */
+.output {
+   color: white;
+   background: #837a67;
+   overflow: hidden;
+   text-overflow: ellipsis;
+}
+
+/* a workaround for invisible
+   (white on white) overflows */
+pre.input:hover, pre.output:hover {
+    margin-right: 0;
+    margin-left: 0;
+    overflow: scroll;
+    text-overflow: initial;
+}
+
+td {
+   vertical-align: top;
+   background-color: #eeeeee;
+   color: black;
+}
+
+tr:hover > td {
+    background-color: whitesmoke;
+}
+
+th {
+   background-color: silver;
+   color: black;
+   vertical-align: middle;
+}
+
+td pre {
+    margin: 0 0 0 0;
+    font-size: 1rem;
+}
+
+thead.no-bold th {
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+table.attr {
+    width: 100%;
+}
+
+table.attr td:first-child {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+table.attr td:last-child {
+    text-align: center;
+}
+
+table.attr td.center, h1.center, p.center {
+    text-align: center;
+}
+
+table.attr td.left {
+    font-family: "Palatino Linotype", Palatino, Georgia, "Century Schoolbook", serif;
+    font-size: 1rem;
+    font-style: normal;
+    text-align: left;
+}
+
+table.attr td.var {
+    text-align: left;
+}
+
+td[rowspan] {
+   vertical-align: middle;
+}
+
+ul.inlinelist {
+   list-style-type: none;
+   margin-left: 0;
+   padding: 0;
+}
+
+li.indent {
+    padding-left: 1rem;
+}
+
+div.float {
+    margin-top: 0.5rem;
+    width: 100%;
+    min-height: 1.5rem;
+    line-height: 1.5rem;
+    background-color: silver;
+}
+
+div.float + table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+div.float + table th:first-child {
+    width: 20%;
+    white-space: nowrap;
+}
+
+div.float + table tr:first-child {
+    width: 20%;
+    white-space: nowrap;
+}
+
+span.left {
+    float: left;
+    font-family: Verdana, Geneva, sans-serif;
+    font-weight: bold;
+}
+
+span.right {
+    float: right;
+}
+
+span.left, span.right {
+    vertical-align: middle;
+    background-color: silver;
+}
+
+ol.refs {
+    counter-reset: refs;
+}
+
+ol.refs > li {
+    list-style: none;
+    position: relative;
+}
+
+ol.refs > li:before {
+    content: "[" counter(refs, decimal) "]";
+    counter-increment: refs;
+    position: absolute;
+    left: -2rem;
+}

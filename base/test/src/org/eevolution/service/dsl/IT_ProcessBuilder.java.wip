@@ -1,0 +1,134 @@
+package org.eevolution.service.dsl;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.stream.Stream;
+
+import org.adempiere.test.CommonGWSetup;
+import org.compiere.model.I_AD_SysConfig;
+import org.compiere.model.MSysConfig;
+import org.compiere.model.Query;
+import org.compiere.process.FactAcctReset;
+import org.compiere.process.ProcessInfo;
+import org.compiere.util.TimeUtil;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+    @DisplayName("Given the PocessBuilder and the GardenWorld context")
+    class IT_ProcessBuilder extends CommonGWSetup {
+    
+        private static final String CLIENT_ACCOUNTING_IMMEDIATE = "I";
+    
+        ProcessBuilder clientAcctProcessor;
+        ProcessBuilder resetAccounting;
+    
+        @BeforeEach
+        void givenClientAccountingEnabled() {
+    
+            enableClientAccounting();
+    
+        }
+    
+        @Nested
+        @DisplayName("When the first process is created")
+        class WhenASingleProcessIsCreated {
+    
+            @BeforeEach
+            void whenClientAcctProcessorIsCreated() {
+    
+                clientAcctProcessor = ProcessBuilder.create(ctx)
+                        .process(org.adempiere.process.ClientAcctProcessor.class)
+                        .withTitle("ClientAcctProcessorTest");
+    
+            }
+    
+            @Test
+            @DisplayName("When the first process is run, "
+                    + "then the process succeeds")
+            void whenTheClientAcctProcessorIsRun_itSucceeds() {
+    
+                ProcessInfo info = clientAcctProcessor.execute();
+                assertEquals("OK", info.getSummary());
+    
+            }
+    
+            @Nested
+            @DisplayName("When a second process is created")
+            class WhenASecondProcessIsCreated {
+    
+                @BeforeEach
+                void whenFactResetProcessorIsCreated() {
+    
+                    resetAccounting = ProcessBuilder.create(ctx)
+                            .process(org.compiere.process.FactAcctReset.class)
+                            .withTitle("FactAcctReset")
+                            .withParameter(FactAcctReset.AD_CLIENT_ID,
+                                    AD_CLIENT_ID)
+                            .withParameter(FactAcctReset.DELETEPOSTING, true)
+                            .withParameter(FactAcctReset.DATEACCT,
+                                    TimeUtil.getDay(1999, 01, 01), today);
+    
+                }
+    
+                @Test
+                @DisplayName("When the second process is executed, "
+                        + "then it succeeds")
+                void whenTheFactResetProcessorIsRun_itSucceeds() {
+    
+                    ProcessInfo info = resetAccounting.execute();
+                    assertTrue(info.getSummary().startsWith("Updated"));
+    
+                }
+    
+                @Test
+                @DisplayName("When the first process is executed again, "
+                        + "then it should succeeds")
+                void butWhenTheClientAcctProcessorIsRun_itFails() {
+    
+                    ProcessInfo info = clientAcctProcessor.execute();
+                    assertEquals("OK", info.getSummary());
+    
+                }
+    
+            }
+    
+        }
+    
+        private void enableClientAccounting() {
+    
+            MSysConfig gwAccounting = getOrCreateClientAcctConfig();
+            gwAccounting.setValue(CLIENT_ACCOUNTING_IMMEDIATE);
+            gwAccounting.saveEx();
+    
+        }
+    
+        private MSysConfig getOrCreateClientAcctConfig() {
+    
+            return clientAccountingConfigs(AD_CLIENT_ID)
+                    .filter(config -> config.getAD_Client_ID() == AD_CLIENT_ID)
+                    .findFirst()
+                    .orElseGet(() -> {
+                        MSysConfig config = new MSysConfig(ctx, 0, null);
+                        config.setName("CLIENT_ACCOUNTING");
+                        config.saveEx();
+                        return config;
+                    });
+    
+        }
+    
+        private Stream<MSysConfig> clientAccountingConfigs(int clientId) {
+    
+            String where = "Name=? AND AD_Client_ID IN (0, ?)";
+            return new Query(ctx, I_AD_SysConfig.Table_Name, where, null)
+                    .setOnlyActiveRecords(true)
+                    .setParameters("CLIENT_ACCOUNTING", clientId)
+                    .setOrderBy("AD_Client_ID DESC, AD_Org_ID DESC")
+                    .list(MSysConfig.class)
+                    .stream();
+    
+        }
+    
+    }

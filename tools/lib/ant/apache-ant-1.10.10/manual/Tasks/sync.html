@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Sync Task</title>
+</head>
+
+<body>
+
+<h2 id="get">Sync</h2>
+<p><em>Since Apache Ant 1.6</em></p>
+<h3>Description</h3>
+
+<p>Synchronize a target directory from the files defined in one or
+more <a href="../Types/resources.html#collection">resource collections</a>.</p>
+
+<p>Any file in the target directory that has not been matched by at least one of the nested resource
+collections gets removed.  I.e. if you exclude a file in your sources and a file of that name is
+present in the target dir, it will get removed from the target.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>todir</td>
+    <td>the target directory to sync with the resource collections</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>overwrite</td>
+    <td>Overwrite existing files even if the destination files are newer.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>includeEmptyDirs</td>
+    <td>Copy any empty directories included in the resource
+      collection(s).<br/><strong>Note</strong>: this attribute also controls the behavior for any
+      nested <code>&lt;preserveintarget&gt;</code> element.  If this attribute is <q>false</q> (the
+      default) empty directories that only exist in the target directory will be removed even if
+      they are matched by the patterns of <code>&lt;preserveintarget&gt;</code>.  This can be
+      overridden by <code>&lt;preserveintarget&gt;</code>'s <var>preserveEmptyDirs</var>
+      attribute.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+    <td>If set to <q>false</q>, log a warning message, but do not stop the build, when one of the
+      nested filesets points to a directory that doesn't exist.</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>verbose</td>
+    <td>Log the files that are being copied.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>granularity</td>
+    <td>The number of milliseconds leeway to give before deciding a file is out of date. This is
+      needed because not every file system supports tracking the last modified time to the
+      millisecond level.  This can also be useful if source and target files live on separate
+      machines with clocks being out of sync.  <em>since Ant 1.6.2</em>.</td>
+    <td>No; default is 0 milliseconds, or 2 seconds on DOS systems.</td>
+  </tr>
+</table>
+
+<h3>Parameters specified as nested elements</h3>
+
+<h4>any resource collection</h4>
+<p><a href="../Types/resources.html#collection">resource collections</a> are used to select groups
+of files to copy.</p>
+<p>Prior to Ant 1.7 only <code>&lt;fileset&gt;</code> has been supported as a nested element.</p>
+
+<h4>preserveInTarget</h4>
+
+<p><em>Since Ant 1.7.0</em></p>
+
+<p>Specifies files or directories that should be kept in the target directory even if they are not
+present in one of the source directories.</p>
+
+<p>This nested element is like a <a href="../Types/fileset.html">FileSet</a> except that it doesn't
+support the <var>dir</var> attribute and the <var>usedefaultexcludes</var> attribute defaults
+to <q>false</q>.</p>
+
+<h5>Additional parameters</h5>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>preserveEmptyDirs</td>
+    <td>Overrules the <var>includeEmptydirs</var> setting for directories matched by this element.
+      If you want to preserve empty directories that are not in your source directory you can either
+      set the task's <var>includeemptydirs</var> attribute or this one.  If the two attribute values
+      conflict, this attribute "wins".</td>
+    <td>No; defaults to the value of the task's <var>includeemptydirs</var> attribute</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+
+<p>Overwrite all files in <samp>site</samp> with newer files from <samp>generated-site</samp>,
+delete files from <samp>site</samp> that are not present in <samp>generated-site</samp>.</p>
+
+<pre>
+&lt;sync todir=&quot;site&quot;&gt;
+  &lt;fileset dir=&quot;generated-site&quot;/&gt;
+&lt;/sync&gt;</pre>
+
+<p>Overwrite all files in <samp>site</samp> with newer files from <samp>generated-site</samp>,
+delete files from <samp>site</samp> that are not present in <samp>generated-site</samp> but keep all
+files in any <samp>CVS</samp> sub-directory.</p>
+
+<pre>
+&lt;sync todir=&quot;site&quot;&gt;
+  &lt;fileset dir=&quot;generated-site&quot;/&gt;
+  &lt;preserveintarget&gt;
+    &lt;include name=&quot;**/CVS/**&quot;/&gt;
+  &lt;/preserveintarget&gt;
+&lt;/sync&gt;</pre>
+
+</body>
+</html>

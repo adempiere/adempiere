@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Borland EJB Tasks</title>
+</head>
+
+<body>
+
+<h2 id="log">BorlandDeployTool</h2>
+<p>by Benoit Moussaud (<a href="mailto:benoit.moussaud@criltelecom.com">benoit.moussaud@criltelecom.com</a>)</p>
+
+
+<h3>Description</h3>
+<p>The BorlandDeployTool is a vendor specific nested element for the Ejbjar optional task.</p>
+<p>BorlandDeployTool is dedicated to the Borland Application Server 4.5.x and Borland Enterprise
+Server 5.x. It generates and compiles the stubs and skeletons for all EJBs described in the
+Deployment Descriptor, builds the jar file including the support files and verifies whether the
+produced jar is valid or not.</p>
+
+<p>Benoit Moussaud maintains a
+separate <a href="https://web.archive.org/web/20141122083215/http://www.moussaud.org/ejbjar.html"
+target="_top">FAQ</a> for this task at his homepage.</p>
+
+<h3>Borland element</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>destdir</td>
+    <td>The base directory in which the generated Borland ready jar files are stored</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>debug</td>
+    <td>If <q>true</q>, turn on the debug mode for each Borland tools
+      (<code>java2iiop</code>, <code>iastool</code>, ...)</td>
+    <td>No; default <q>false</q></td>
+  </tr>
+  <tr>
+    <td>verify</td>
+    <td>If <q>true</q>, turn on the verification at the end of the jar production.</td>
+    <td>No; default <q>false</q></td>
+  </tr>
+  <tr>
+    <td>verifyargs</td>
+    <td>extra parameter for verify command</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>suffix</td>
+    <td>String value appended to the basename of the deployment descriptor to create the filename of
+      the Borland EJB jar file.</td>
+    <td>No; defaults to <q class="no-break">-ejb.jar</q></td>
+  </tr>
+  <tr>
+    <td>basdtd</td>
+    <td><em><u>Deprecated</u></em>. Defines the location of the DTD which covers the Borland
+      specific deployment descriptors.  This should not be necessary if you have borland in your
+      classpath. If you do not, you should use a nested
+      <a href="ejb.html#ejbjar-dtd"><code>&lt;dtd&gt;</code></a> element, described
+      in the ejbjar task documentation.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>ejbdtd</td>
+    <td><em><u>Deprecated</u></em>. Defines the location of the ejb-jar DTD in the class
+      hierarchy. This should not be necessary if you have borland in your classpath. If you do not,
+      you should use a nested <a href="ejb.html#ejbjar-dtd"><code>&lt;dtd&gt;</code></a> element,
+      described in the ejbjar task documentation.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>generateclient</td>
+    <td>If <q>true</q>, turn on the generation of the corresponding EJB jar.</td>
+    <td>No; default <q>false</q></td>
+  </tr>
+  <tr>
+    <td>version</td>
+    <td>set the Borland Application Version.
+      <ul>
+        <li>4 means B.A.S (Borland Application Server) 4.x, target will add ejb-inprise.xml file</li>
+        <li>5 means B.E.S (Borland Application Server) 5.x, target will add ejb-borland.xml file</li>
+      </ul>
+    </td>
+    <td>No; defaults to <q>4</q></td>
+  </tr>
+  <tr>
+    <td>java2iiopParams</td>
+    <td>If filled, the params are added to the <kbd>java2iiop</kbd> command
+    (ex: <kbd>-no_warn_missing_define</kbd>)</td>
+    <td>No</td>
+  </tr>
+
+</table>
+
+<h3>Examples</h3>
+<p>The following <samp>build.xml</samp> snippet is an example of how to use Borland element in
+the <code>ejbjar</code> task</p>
+<pre>
+&lt;ejbjar srcdir=&quot;${build.classes}&quot; basejarname=&quot;vsmp&quot; descriptordir=&quot;${rsc.dir}/hrmanager&quot;&gt;
+    &lt;borland destdir=&quot;lib&quot; verify=&quot;on&quot; generateclient=&quot;on&quot; version=&quot;5&quot;&gt;
+        &lt;classpath refid=&quot;classpath&quot;/&gt;
+    &lt;/borland&gt;
+    &lt;include name=&quot;**\ejb-jar.xml&quot;/&gt;
+    &lt;support dir=&quot;${build.classes}&quot;&gt;
+        &lt;include name=&quot;demo\*.class&quot;/&gt;
+        &lt;include name=&quot;demo\helper\*.class&quot;/&gt;
+    &lt;/support&gt;
+&lt;/ejbjar&gt;</pre>
+<p>The <code>borland</code> element will generate into the <samp>lib</samp> directory an EJB jar
+file using the deployment descriptor placed into the <samp>${rsc.dir}/hrmanager</samp> directory.
+The verify phase is turned on and the generate client phase as well.</p>
+
+</body>
+</html>

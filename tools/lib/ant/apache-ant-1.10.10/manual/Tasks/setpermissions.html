@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>SetPermissions Task</title>
+</head>
+
+<body>
+
+<h2 id="setpermissions">SetPermissions</h2>
+<p><em>Since Ant 1.10.0</em>.</p>
+<h3>Description</h3>
+<p>Changes the file permissions using Java's NIO support for permissions.</p>
+<p>This task provides a subset of the platform specific abilities of <a href="chmod.html">chmod</a>
+and <a href="attrib.html">attrib</a> in a platform independent way.</p>
+<p>If no permissions are specified either via the mode or the permissions attribute, then all
+permissions will be removed from the nested resources.</p>
+<p>The task accepts arbitrary resources as part of the nested resource collections, but not all
+resources support setting permissions. This task won't do anything for resources that don't support
+setting permissions&mdash;for example URLs.</p>
+<p>The permissions are applied to all resources contained within the nested resources
+collections. You may want to ensure the collection only returns files or directories if you want
+different sets of permissions to apply to either type of resource.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>permissions</td>
+    <td>The permissions to set as comma separated list of names
+      of <a href="https://docs.oracle.com/javase/8/docs/api/java/nio/file/attribute/PosixFilePermission.html"
+      target="_top">PosixFilePermission</a> values.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>mode</td>
+    <td>The permissions to set as traditional Unix three-digit octal number.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>nonPosixMode</td>
+    <td>What to do if changing the permissions of a file is not possible because the file-system
+      doesn't support POSIX file permissions. Possible options are <q>fail</q> (fail the
+      build), <q>pass</q> (just log an error), <q>tryDosOrFail</q> (at least try to set the
+      read-only flag on DOS file systems, fail if that isn't possible either)
+      and <q>tryDosOrPass</q> (at least try to set the read-only flag on DOS file systems, just log
+      an error if that isn't possible either).</td>
+    <td>No; defaults to <q>fail</q></td>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+    <td>Whether to stop the build if setting permissions fails.</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+</table>
+<h3>Parameters specified as nested elements</h3>
+
+<h4>any resource collection</h4>
+<p><a href="../Types/resources.html#collection">resource collections</a> are used to select groups
+of resources.</p>
+
+<h3>Examples</h3>
+
+<p>Make the <samp>start.sh</samp> file readable and executable for anyone and in addition writable
+by the owner.</p>
+<pre>
+&lt;setpermissions mode=&quot;755&quot;&gt;
+  &lt;file file=&quot;${dist}/start.sh&quot;/&gt;
+&lt;/setpermissions&gt;</pre>
+
+<p>Make the <samp>start.sh</samp> file readable and executable for anyone and in addition writable
+by the owner.</p>
+<pre>
+&lt;setpermissions permissions=&quot;OWNER_READ,OWNER_WRITE,OWNER_EXECUTE,OTHERS_READ,OTHERS_EXECUTE,GROUP_READ,GROUP_EXECUTE&quot;&gt;
+  &lt;file file=&quot;${dist}/start.sh&quot;/&gt;
+&lt;/setpermissions&gt;</pre>
+</body>
+</html>

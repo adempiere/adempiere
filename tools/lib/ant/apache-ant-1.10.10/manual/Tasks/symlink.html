@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Symlink Task</title>
+</head>
+
+<body>
+
+<h2 id="symlink">Symlink</h2>
+<h3>Description</h3>
+<p>Manages symbolic links on platforms where Java supports symbolic links.  Can be used to make an
+individual link, delete a link, create multiple links from properties files, or create properties
+files describing links in the specified directories. Existing files are not overwritten by
+default.</p>
+<p><a href="../Types/fileset.html">FileSet</a>s are used to select a set of links to record, or a
+set of property files to create links from.</p>
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>action</td>
+    <td>The type of action to perform, may be <q>single</q>, "<q>record</q>, <q>recreate</q>
+      or <q>delete</q>.</td>
+    <td>No; defaults to <q>single</q></td>
+  </tr>
+  <tr>
+    <td>link</td>
+    <td>The name of the link to be created or deleted.<br/><strong>Note</strong>: this attribute is
+      resolved against the current working directory rather than the project's <var>basedir</var>
+      for historical reasons.  It is recommended you always use an absolute path or a path
+      like <samp>${basedir}/some-path</samp> as its value.
+    </td>
+    <td>Yes, for <var>action</var>=<q>single</q> or <q>delete</q>; ignored in other actions</td>
+  </tr>
+  <tr>
+    <td>resource</td>
+    <td>The resource the link should point to.</td>
+    <td>Yes, for <var>action</var>=<q>single</q>; ignored in other actions</td>
+  </tr>
+  <tr>
+    <td>linkfilename</td>
+    <td>The name of the properties file to create in each included directory.</td>
+    <td>Yes, for <var>action</var>=<q>record</q>; ignored in other actions</td>
+  </tr>
+  <tr>
+    <td>overwrite</td>
+    <td>Overwrite existing files or not. If overwrite is set to <q>true</q>, then any existing file,
+      specified by the link attribute, will be overwritten irrespective of whether or not the
+      existing file is a symbolic link.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+    <td>Stop build if true, log a warning message, but do not stop the build, when the an error
+      occurs if <q>false</q>.</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+</table>
+<h3>Parameters specified as nested elements</h3>
+
+<h4>fileset</h4>
+<p><a href="../Types/fileset.html">FileSet</a>s are used when <var>action</var>=<q>record</q> to
+select directories and link names to be recorded.  They are also used
+when <var>action</var>=<q>recreate</q> to specify both the name of the property files to be
+processed, and the directories in which they can be found. At least one fileset is required for each
+case.</p>
+
+<h3>Examples</h3>
+
+<p>Make a link named <samp>foo</samp> to a resource named <samp>bar.foo</samp>
+in <samp>subdir</samp>:</p>
+<pre>&lt;symlink link="${dir.top}/foo" resource="${dir.top}/subdir/bar.foo"/&gt;</pre>
+
+<p>Record all links in <samp>subdir</samp> and it's descendants in files
+named <samp>dir.links</samp></p>
+<pre>
+&lt;symlink action="record" linkfilename="dir.links"&gt;
+    &lt;fileset dir="${dir.top}" includes="subdir/**"/&gt;
+&lt;/symlink&gt;</pre>
+
+<p>Recreate the links recorded in the previous example:</p>
+<pre>
+&lt;symlink action="recreate"&gt;
+    &lt;fileset dir="${dir.top}" includes="subdir/**/dir.links"/&gt;
+&lt;/symlink&gt;</pre>
+
+<p>Delete a link named <samp>foo</samp>:</p>
+<pre>&lt;symlink action="delete" link="${dir.top}/foo"/&gt;</pre>
+
+<p><strong>Java 1.2 and earlier</strong>: Due to limitations on executing system level commands in
+Java versions earlier than 1.3 this task may have difficulty operating with a relative path
+in <code>ANT_HOME</code>. The typical symptom is an <code>IOException</code> where Apache Ant can't
+find <samp>/some/working/directory${ANT_HOME}/bin/antRun</samp> or something similar. The workaround
+is to change your <code>ANT_HOME</code> environment variable to an absolute path, which will remove
+the <samp>/some/working/directory</samp> portion of the above path and allow Ant to find the correct
+command line execution script.</p>
+
+<p><strong>Note</strong>: <em>Since Ant 1.10.2</em>, this task relies on the symbolic link support
+introduced in Java 7 through the <code class="code">java.nio.file.Files</code> APIs</p>
+
+</body>
+</html>

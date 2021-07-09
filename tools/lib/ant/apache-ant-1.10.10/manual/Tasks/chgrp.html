@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Chgrp Task</title>
+</head>
+
+<body>
+
+<h2 id="chgrp">Chgrp</h2>
+<p><em>Since Apache Ant 1.6</em>.</p>
+<h3>Description</h3>
+
+<p>Changes the group of a file or all files inside specified directories. Right now it has effect
+only under Unix.  The group attribute is equivalent to the corresponding argument for
+the <kbd>chgrp</kbd> command.</p>
+
+<p><a href="../Types/fileset.html">FileSet</a>s, <a href="../Types/dirset.html">DirSet</a>s
+or <a href="../Types/filelist.html">FileList</a>s can be specified using
+nested <code>&lt;fileset&gt;</code>, <code>&lt;dirset&gt;</code> and <code>&lt;filelist&gt;</code>
+elements.</p>
+
+<p><em>Since Ant 1.7</em>, this task supports
+arbitrary <a href="../Types/resources.html#collection">resource collections</a> as nested
+elements.</p>
+
+<p>By default this task will use a single invocation of the underlying <kbd>chgrp</kbd> command.
+If you are working on a large number of files this may result in a command line that is too long for
+your operating system.  If you encounter such problems, you should set the <var>maxparallel</var>
+attribute of this task to a non-zero value.  The number to use highly depends on the length of your
+file names (the depth of your directory tree) and your operating system, so you'll have to
+experiment a little.  POSIX recommends command line length limits of at least 4096 characters, this
+may give you an approximation for the number you could use as initial value for these
+experiments.</p>
+
+<p>By default this task won't do anything unless it detects it is running on a Unix system.  If you
+know for sure that you have a <kbd>chgrp</kbd> executable on your <code>PATH</code> that is
+command line compatible with the Unix command, you can use the task's <var>os</var> attribute and
+set its value to your current OS.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td>the file or directory of which the group must be changed.</td>
+    <td>Yes, unless nested <code>&lt;fileset|filelist|dirset&gt;</code> elements are specified</td>
+  </tr>
+  <tr>
+    <td>group</td>
+    <td>the new group.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>parallel</td>
+    <td>process all specified files using a single <kbd>chgrp</kbd> command.</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>type</td>
+    <td>One of <q>file</q>, <q>dir</q> or <q>both</q>. If set to <q>file</q>, only the group of
+      plain files are going to be changed. If set to <q>dir</q>, only the directories are
+      considered.<br/><strong>Note</strong>: The type attribute does not apply to
+      nested <code>dirset</code>s&mdash;<code>dirset</code>s always implicitly assume type to
+      be <q>dir</q>.</td>
+    <td>No; default is <q>file</q></td>
+  </tr>
+  <tr>
+    <td>maxparallel</td>
+    <td>Limit the amount of parallelism by passing at most this many sourcefiles at once.  Set it to
+      negative integer for unlimited.</td>
+    <td>No; defaults to unlimited</td>
+  </tr>
+  <tr>
+    <td>verbose</td>
+    <td>Whether to print a summary after execution or not.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>os</td>
+    <td>list of Operating Systems on which the command may be executed.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>osfamily</td>
+    <td>OS family as used in the <a href="../Tasks/conditions.html#os">&lt;os&gt;</a>
+      condition.</td>
+    <td>No; defaults to <q>unix</q></td>
+  </tr>
+</table>
+<h3>Examples</h3>
+
+<p>Make the <samp>start.sh</samp> file belong to the <samp>coders</samp> group on a UNIX system.</p>
+<pre>&lt;chgrp file=&quot;${dist}/start.sh&quot; group=&quot;coders&quot;/&gt;</pre>
+
+<p>Make all <samp>.sh</samp> files below <samp>${dist}/bin</samp> belong to the <samp>coders</samp>
+group on a UNIX system.</p>
+<pre>
+&lt;chgrp group=&quot;coders&quot;&gt;
+  &lt;fileset dir=&quot;${dist}/bin&quot; includes=&quot;**/*.sh&quot;/&gt;
+&lt;/chgrp&gt;</pre>
+
+<p>Make all files below <samp>shared/sources1</samp> (except those below any directory
+named <samp>trial</samp>) belong to the <samp>coders</samp> group on a UNIX system. In addition, all
+files belonging to a FileSet with <var>id</var>=<samp>other.shared.sources</samp> get the same
+group.</p>
+<pre>
+&lt;chgrp group=&quot;coders&quot;&gt;
+  &lt;fileset dir=&quot;shared/sources1&quot;&gt;
+    &lt;exclude name=&quot;**/trial/**&quot;/&gt;
+  &lt;/fileset&gt;
+  &lt;fileset refid=&quot;other.shared.sources&quot;/&gt;
+&lt;/chgrp&gt;
+</pre>
+
+<p>Make all <samp>.test.jsp</samp>, and <samp>.new</samp> files belong to
+group <samp>webdev</samp>. Directories with names beginning with <samp>test_</samp> also will belong
+to <samp>webdev</samp>, but if there is a directory name that ends in <samp>.new</samp> or a file
+name that begins with <samp>test_</samp> it will be unaffected.</p>
+<pre>
+&lt;chgrp group=&quot;webdev&quot; type=&quot;file&quot;&gt;
+  &lt;fileset dir=&quot;/web&quot;&gt;
+    &lt;include name=&quot;**/*.test.jsp&quot;/&gt;
+    &lt;include name=&quot;**/*.new&quot;/&gt;
+  &lt;/fileset&gt;
+  &lt;dirset dir=&quot;/web&quot;&gt;
+    &lt;include name=&quot;**/test_*&quot;/&gt;
+  &lt;/dirset&gt;
+&lt;/chmod&gt;</pre>
+
+</body>
+</html>

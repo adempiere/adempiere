@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Java Task</title>
+</head>
+
+<body>
+
+<h2 id="java">Java</h2>
+<h3>Description</h3>
+<p>Executes a Java class within the running (Apache Ant) JVM or forks another JVM if specified.</p>
+<p>If odd things go wrong when you run this task, set <var>fork</var>=<q>true</q> to use a new
+JVM.</p>
+
+<p><em>Since Ant 1.6.3</em>, you can interact with a forked JVM, as well as sending input to it via
+the <var>input</var> and <var>inputstring</var> attributes.</p>
+
+<h4 id="background">Running Ant as a background process on Unix(-like) systems</h4>
+
+<p>If you run Ant as a background process (like <kbd>ant &amp;</kbd>) and use
+the <code>&lt;java&gt;</code> task with <var>spawn</var> set to <q>false</q> and <var>fork</var>
+to <q>true</q>, you must provide explicit input to the forked process or Ant will be suspended
+because it tries to read from the standard input.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr id="classname">
+    <td>classname</td>
+    <td>the Java class to execute.</td>
+    <td rowspan="4">Exactly one of the four</td>
+  </tr>
+  <tr>
+    <td>jar</td>
+    <td class="left">the location of the jar file to execute (must have a <code>Main-Class</code>
+      entry in the manifest). <var>fork</var> must be set to <q>true</q> if this option is selected.
+      See notes <a href="#jar-execute">below</a> for more details.
+    </td>
+  </tr>
+  <tr>
+    <td>module</td>
+    <td class="left">The initial or main module to resolve (must have a <code>Main-Class</code>
+      entry in the manifest).  <var>fork</var> must be set to <q>true</q> if this option is
+      selected. <em>since Ant 1.9.7</em></td>
+  </tr>
+  <tr>
+    <td>sourcefile</td>
+    <td class="left">The location of a ".java" file or a file containing shebang with Java source code.
+      Set this attribute to run Java single file source programs, a feature introduced in Java 11.
+      <var>fork</var> must be set to <q>true</q> if this option is selected.
+      <em>since Ant 1.10.5</em></td>
+  </tr>
+  <tr>
+    <td>args</td>
+    <td>the arguments for the class that is executed. <em><u>Deprecated</u>, use
+      nested <code>&lt;arg&gt;</code> elements instead.</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>classpath</td>
+    <td>the classpath to use.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>classpathref</td>
+    <td>the classpath to use, given as <a href="../using.html#references">reference</a> to
+      a <code>Path</code> defined elsewhere.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>modulepath</td>
+    <td>Specify where to find application modules. A list of directories of modules, module files or
+      exploded modules.  <em>since Ant 1.9.7</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>modulepathref</td>
+    <td>The modulepath to use, given as <a href="../using.html#references">reference</a> to
+      a <code>Path</code> defined elsewhere.  <em>since Ant 1.9.7</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>fork</td>
+    <td>if enabled triggers the class execution in another JVM.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>spawn</td>
+    <td>if enabled allows to start a process which will outlive Ant.<br/>Requires
+      that <var>fork</var> is <q>true</q>, and not compatible
+      with <var>timeout</var>, <var>input</var>, <var>output</var>, <var>error</var>, <var>result</var>
+      attributes</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>jvm</td>
+    <td>the command used to invoke JVM.  The command is resolved
+      by <code>java.lang.Runtime.exec()</code>.  Ignored if <var>fork</var> is <q>false</q>.
+    </td>
+    <td>No, default is <kbd>java</kbd></td>
+  </tr>
+  <tr>
+    <td>jvmargs</td>
+    <td>the arguments to pass to the forked JVM, ignored if <var>fork</var> is
+      disabled. <em><u>Deprecated</u>, use nested <code>&lt;jvmarg&gt;</code> elements
+      instead.</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>maxmemory</td>
+    <td>Max amount of memory to allocate to the forked JVM, ignored if <var>fork</var>
+      is <q>false</q></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+    <td>Stop the build process if the command exits with a return code other than <q>0</q>.</td>
+    <td>No; default is <q>false</q> (see <a href="#failonerror">note</a>)</td>
+  </tr>
+  <tr>
+    <td>resultproperty</td>
+    <td>The name of a property in which the return code of the command should be stored. Only of
+      interest if <var>failonerror</var> is <q>false</q> and if <var>fork</var> is <q>true</q>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>dir</td>
+    <td>The directory to invoke the JVM in, ignored if <var>fork</var> is <q>false</q>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>output</td>
+    <td>Name of a file to which to write the output. If the error stream is not also redirected to a
+      file or property, it will appear in this output.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>error</td>
+    <td>The file to which the standard error of the command should be redirected.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>logError</td>
+    <td>This attribute is used when you wish to see error output in Ant's log and you are
+      redirecting output to a file/property. The error output will not be included in the output
+      file/property. If you redirect error with the <var>error</var> or <var>errorProperty</var>
+      attributes, this will have no effect.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>append</td>
+    <td>Whether output and error files should be appended to or overwritten.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>outputproperty</td>
+    <td>The name of a property in which the output of the command should be stored. Unless the error
+      stream is redirected to a separate file or stream, this property will include the error
+      output.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>errorproperty</td>
+    <td>The name of a property in which the standard error of the command should be stored.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>input</td>
+    <td>A file from which the executed command's standard input is taken. This attribute is mutually
+      exclusive with the <var>inputstring</var> attribute</td>
+    <td>No; default is to take standard input from console
+      unless <var>spawn</var> is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>inputstring</td>
+    <td>A string which serves as the input stream for the executed command. This attribute is
+      mutually exclusive with the <var>input</var> attribute.</td>
+    <td>No; default is to take standard input from console unless <var>spawn</var>
+      is <q>true</q>)</td>
+  </tr>
+  <tr>
+    <td>newenvironment</td>
+    <td>Do not propagate old environment when new environment variables are specified.</td>
+    <td>No; default is <q>false</q>, ignored if <var>fork</var> is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>timeout</td>
+    <td>Stop the command if it doesn't finish within the specified time (given in
+      milliseconds).  <strong>It is highly recommended to use this feature only if <var>fork</var>
+      is <q>true</q>.</strong></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>clonevm</td>
+    <td>If set to <q>true</q>, then all system properties and the <var>bootclasspath</var> of the
+      forked JVM will be the same as those of the JVM running Ant. <em>since Ant 1.7</em></td>
+    <td>No; default is <q>false</q>, ignored if <var>fork</var> is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>discardOutput</td>
+    <td>Whether output should completely be discarded. This setting is
+      incompatible with any setting that redirects output to files or
+      properties.<br/>
+      If you set this to <q>true</q> error output will be discared as
+      well unless you redirect error output to files, properties or
+      enable <q>logError</q>.
+      <em>Since Ant 1.10.10</em>
+    </td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>discardError</td>
+    <td>Whether error output should completely be discarded. This
+      setting is incompatible with any setting that redirects error
+      output to files or properties as well as <q>logError</q>.
+      <em>Since Ant 1.10.10</em>
+    </td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+</table>
+<h3>Parameters specified as nested elements</h3>
+<h4>arg and jvmarg</h4>
+<p>Use nested <code>&lt;arg&gt;</code> and <code>&lt;jvmarg&gt;</code> elements to specify arguments
+for the Java class and the forked JVM respectively.  See <a href="../using.html#arg">Command line
+arguments</a>.</p>
+<h4>sysproperty</h4>
+<p>Use nested <code>&lt;sysproperty&gt;</code> elements to specify system properties required by the
+class.  These properties will be made available to JVM during the execution of the class (either
+Ant's JVM or the forked JVM). The attributes for this element are the same as
+for <a href="exec.html#env">environment variables</a>.</p>
+
+<h4>syspropertyset</h4>
+
+<p><em>Since Ant 1.6</em>.</p>
+
+<p>You can specify a set of properties to be used as system properties
+with <a href="../Types/propertyset.html">syspropertyset</a>s.</p>
+
+<h4>classpath</h4>
+<p><code>Java</code>'s <var>classpath</var> attribute is a <a href="../using.html#path">path-like
+structure</a> and can also be set via a nested <code>classpath</code> element.</p>
+
+<h4>bootclasspath</h4>
+
+<p><em>Since Ant 1.6</em>.</p>
+
+<p>The location of bootstrap class files can be specified using
+this <a href="../using.html#path">path-like structure</a>&mdash;will be ignored if <var>fork</var>
+is not <q>true</q> or the target JVM doesn't support it (i.e. Java 1.1).</p>
+
+<h4>env</h4>
+<p>It is possible to specify environment variables to pass to the forked JVM via
+nested <code>env</code> elements. See the description in the section
+about <a href="exec.html#env">exec</a></p>
+<p>Settings will be ignored if <var>fork</var> is <q>false</q>.</p>
+
+<h4>permissions</h4>
+
+<p><em>Since Ant 1.6</em>.</p>
+
+<p>Security permissions can be revoked and granted during the execution of the class via a
+nested <code>permissions</code> element. For more information please
+see <a href="../Types/permissions.html">permissions</a>.</p>
+<p>When the permission <code>RuntimePermission exitVM</code> has not been granted (or has been
+revoked) the <code>System.exit()</code> call will be intercepted and treated like indicated
+in <var>failonerror</var>.</p>
+<p><strong>Note</strong>:<br/> If you do not specify permissions, a set of default permissions will
+be added to your Java invocation to make sure that the Ant run will continue or terminated as
+indicated by <var>failonerror</var>. All permissions not granted per default will be checked by
+whatever security manager was already in place. <code>exitVM</code> will be disallowed.</p>
+<p>Settings will be ignored if <var>fork</var> is <q>true</q>.</p>
+
+<h4>assertions</h4>
+
+<p><em>Since Ant 1.6</em>.</p>
+
+<p>You can control enablement of Java 1.4 assertions with
+an <a href="../Types/assertions.html"><code>&lt;assertions&gt;</code></a> subelement.</p>
+
+<p>Assertion statements are currently ignored in non-forked mode.</p>
+
+<h4 id="redirector">redirector</h4>
+<em>Since Ant 1.6.2</em>
+<p>A nested <a href="../Types/redirector.html">I/O Redirector</a> can be specified.  In general, the
+attributes of the redirector behave as the corresponding attributes available at the task level.
+The most notable peculiarity stems from the retention of the <code>&lt;java&gt;</code> attributes
+for backwards compatibility.  Any file mapping is done using a <code>null</code> sourcefile;
+therefore not all <a href="../Types/mapper.html">Mapper</a> types will return results.  When no
+results are returned, redirection specifications will fall back to the task level attributes.  In
+practice this means that defaults can be specified for <var>input</var>, <var>output</var>,
+and <var>error</var> output files.</p>
+<h3 id="failonerror">Errors and return codes</h3>
+<p>By default, the return code of a <code>&lt;java&gt;</code> is ignored.  Alternatively, you can
+set <var>resultproperty</var> to the name of a property and have it assigned to the result code
+(barring immutability, of course).  When you set <var>failonerror</var>=<q>true</q>, the only
+possible value for <var>resultproperty</var> is <q>0</q>. Any non-zero response is treated as an
+error and would mean the build exits.</p>
+<p>Similarly, if <var>failonerror</var>=<q>false</q> and <var>fork</var>=<q>false</q>,
+then <code>&lt;java&gt;</code> <em>must</em> return <q>0</q> otherwise the build will exit, as the
+class was run by the build JVM.</p>
+
+<h4 id="modulepath">modulepath</h4>
+<em>Since Ant 1.9.7</em>
+<p><code>Java</code>'s <var>modulepath</var> attribute is a <a href="../using.html#path">path-like
+structure</a> and can also be set via a nested <code>modulepath</code> element.</p>
+
+<h4 id="upgrademodulepath">upgrademodulepath</h4>
+<em>Since Ant 1.9.7</em>
+<p>The location of modules that replace upgradeable modules in the runtime image can be specified
+using this <a href="../using.html#path">path-like structure</a>.</p>
+
+<h3 id="jar-execute">JAR file execution</h3>
+
+<p>The parameter of the <var>jar</var> attribute is of type <code>File</code>; that is, the
+parameter is resolved to an absolute file relative to the base directory of the
+project, <em>not</em> the directory in which the Java task is run. If you need to locate a JAR file
+relative to the directory the task will be run in, you need to explicitly create the full path to
+the JAR file.</p>
+<p>When using the <var>jar</var> attribute, all classpath settings are ignored according
+to <a href="https://docs.oracle.com/javase/8/docs/technotes/tools/windows/java.html"
+target="_top">Oracle's specification</a>.
+
+<h3>Examples</h3>
+<p>Run a class in this JVM with a new jar on the classpath</p>
+<pre>
+&lt;java classname=&quot;test.Main&quot;&gt;
+  &lt;arg value=&quot;-h&quot;/&gt;
+  &lt;classpath&gt;
+    &lt;pathelement location=&quot;dist/test.jar&quot;/&gt;
+    &lt;pathelement path=&quot;${java.class.path}&quot;/&gt;
+  &lt;/classpath&gt;
+&lt;/java&gt;</pre>
+
+<p>Run the JAR <samp>test.jar</samp> in this project's <samp>dist/lib</samp> directory, using the
+manifest supplied entry point, forking (as required), and with a maximum memory of 128 MB. Any non
+zero return code breaks the build.</p>
+<pre>
+&lt;java jar=&quot;dist/test.jar&quot;
+      fork="true"
+      failonerror="true"
+      maxmemory="128m"&gt;
+  &lt;arg value=&quot;-h&quot;/&gt;
+  &lt;classpath&gt;
+    &lt;pathelement location=&quot;dist/test.jar&quot;/&gt;
+    &lt;pathelement path=&quot;${java.class.path}&quot;/&gt;
+  &lt;/classpath&gt;
+&lt;/java&gt;</pre>
+
+<p>Run the JAR <samp>dist/test.jar</samp> relative to the directory <code>${exec.dir}</code>, this
+being the same directory in which JVM is to start up.</p>
+<pre>
+&lt;java dir=&quot;${exec.dir}&quot;
+      jar=&quot;${exec.dir}/dist/test.jar&quot;
+      fork=&quot;true&quot;
+      failonerror=&quot;true&quot;
+      maxmemory=&quot;128m&quot;&gt;
+  &lt;arg value=&quot;-h&quot;/&gt;
+  &lt;classpath&gt;
+    &lt;pathelement location=&quot;dist/test.jar&quot;/&gt;
+    &lt;pathelement path=&quot;${java.class.path}&quot;/&gt;
+  &lt;/classpath&gt;
+&lt;/java&gt;</pre>
+
+<p>Run a given class with the current classpath.</p>
+<pre>&lt;java classname=&quot;test.Main&quot;/&gt;</pre>
+
+<p>Add system properties and JVM properties to JVM as in <code>java
+-Xrunhprof:cpu=samples,file=log.txt,depth=3 -DDEBUG=true test.Main</code>
+<pre>
+&lt;java classname=&quot;test.Main&quot;
+      fork=&quot;yes&quot; &gt;
+  &lt;sysproperty key=&quot;DEBUG&quot; value=&quot;true&quot;/&gt;
+  &lt;arg value=&quot;-h&quot;/&gt;
+  &lt;jvmarg value=&quot;-Xrunhprof:cpu=samples,file=log.txt,depth=3&quot;/&gt;
+&lt;/java&gt;</pre>
+
+<p>Use a given Java implementation (other than the one Ant is currently using) to run the class. For
+documentation in the log <var>taskname</var> is used to change the <q>[java]</q> log-prefix
+to <q>[java1.4]</q>.</p>
+<pre>
+&lt;java classname=&quot;ShowJavaVersion&quot; classpath=&quot;.&quot;
+      jvm=&quot;path-to-java14-home/bin/java&quot; fork=&quot;true&quot;
+      taskname=&quot;java1.4&quot;/&gt;</pre>
+
+<p><strong>Note</strong>: you can not specify the (highly deprecated) MS
+JVM, <samp>jview.exe</samp>, as <var>jvm</var>, since it takes different parameters than other JVMs.
+That JVM can be started from <code>&lt;exec&gt;</code> if required.</p>
+
+<p>Run the module <samp>TestModule</samp> resolved on the modulepath <samp>lib/:dist/test.jar</samp>
+with a maximum memory of 128 MB. Any non zero return code breaks the build.</p>
+<pre>
+&lt;java fork=&quot;true&quot;
+      failonerror=&quot;true&quot;
+      maxmemory=&quot;128m&quot;
+      module=&quot;TestModule&quot;
+      modulepath=&quot;lib:dist/test.jar&quot;/&gt;</pre>
+
+<p>Run the class <samp>Main</samp> in module <samp>TestModule</samp> resolved on the
+modulepath <samp>lib/:dist/test.jar</samp> with a maximum memory of 128 MB. Any non zero return code
+breaks the build.</p>
+<pre>
+&lt;java fork=&quot;true&quot;
+      failonerror=&quot;true&quot;
+      maxmemory=&quot;128m&quot;
+      module=&quot;TestModule&quot;
+      classname=&quot;Main&quot;&gt;
+  &lt;modulepath&gt;
+    &lt;pathelement location=&quot;lib&quot;/&gt;
+    &lt;pathelement location=&quot;dist/test.jar&quot;/&gt;
+  &lt;/modulepath&gt;
+&lt;/java&gt;</pre>
+</body>
+</html>

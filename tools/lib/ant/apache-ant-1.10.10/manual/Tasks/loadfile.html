@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>LoadFile Task</title>
+</head>
+
+<body>
+
+<h2 id="loadfile">LoadFile</h2>
+<h3>Description</h3>
+<p>Specialization of <a href="loadresource.html">loadresource</a> that works on files exclusively
+and provides a <var>srcFile</var> attribute for convenience.  Unless an <var>encoding</var> is
+specified, the encoding of the current locale is used.</p>
+<p>If the resource content is empty (maybe after processing a <code>filterchain</code>) the property
+is not set.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>srcFile</td>
+    <td>source file</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>property</td>
+    <td>property to save to</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>encoding</td>
+    <td>encoding to use when loading the file</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+    <td>Whether to halt the build on failure</td>
+    <td>No; default <q>true</q></td>
+  </tr>
+  <tr>
+    <td>quiet</td>
+    <td>Do not display a diagnostic message (unless Apache Ant has been invoked with
+      the <kbd>-verbose</kbd> or <kbd>-debug</kbd> switches) or modify the exit status to
+      reflect an error. Setting this to <q>true</q> implies setting <var>failonerror</var>
+      to <q>false</q>. <em>Since Ant 1.7.0</em>.
+    </td>
+    <td>No; default <q>false</q></td>
+  </tr>
+
+</table>
+<p>The LoadFile task supports nested <a href="../Types/filterchain.html">FilterChain</a>s.</p>
+
+<h3>Examples</h3>
+<p>Load file <samp>message.txt</samp> into property <code>message</code>;
+an <code>&lt;echo&gt;</code> can print this.</p>
+<pre>
+&lt;loadfile property="message"
+          srcFile="message.txt"/&gt;</pre>
+
+<p>The above is identical to</p>
+<pre>
+&lt;loadresource property="message"&gt;
+    &lt;file file="message.txt"/&gt;
+&lt;/loadresource&gt;</pre>
+
+<p>Load a file using the Latin-1 encoding</p>
+<pre>
+&lt;loadfile property="encoded-file"
+          srcFile="loadfile.xml"
+          encoding="ISO-8859-1"/&gt;</pre>
+
+<p>Load a file, don't fail if it is missing (a message is printed, though)</p>
+<pre>
+&lt;loadfile property="optional.value"
+          srcFile="optional.txt"
+          failonerror="false"/&gt;</pre>
+
+<p>Load a property which can be used as a parameter for another task (in this
+case <code>mail</code>), merging lines to ensure this happens.</p>
+<pre>
+&lt;loadfile property="mail.recipients"
+          srcFile="recipientlist.txt"&gt;
+    &lt;filterchain&gt;
+        &lt;<a href="../Types/filterchain.html#striplinebreaks">striplinebreaks</a>/&gt;
+    &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<p>Load an XML file into a property, expanding all properties declared in the file in the
+process.</p>
+<pre>
+&lt;loadfile property="system.configuration.xml"
+          srcFile="configuration.xml"&gt;
+    &lt;filterchain&gt;
+        &lt;<a href="../Types/filterchain.html#expandproperties">expandproperties</a>/&gt;
+    &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+</body>
+</html>

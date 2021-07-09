@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>JUnit Task</title>
+</head>
+<body>
+
+<h2 id="junit">JUnit</h2>
+<h3>Description</h3>
+
+<p>This task runs tests from the JUnit testing framework. The latest version of the framework can be
+found at <a href="https://junit.org" target="_top">https://junit.org</a>.  This task has been tested
+with JUnit 3.0 up to JUnit 3.8.2; it won't work with versions prior to JUnit 3.0. It also works with
+JUnit 4.x, including "pure" JUnit 4 tests using only annotations and
+no <code>JUnit4TestAdapter</code>.</p>
+<p><strong>Note</strong>: This task depends on external libraries not included
+in the Apache Ant distribution.  See <a href="../install.html#librarydependencies">
+Library Dependencies</a> for more information.</p>
+<p><strong>Note</strong>: You must have <samp>junit.jar</samp> available.  You can do one of:</p>
+<ol>
+  <li>Put both <samp>junit.jar</samp> and <samp>ant-junit.jar</samp>
+    in <code>ANT_HOME/lib</code>.</li>
+  <li>Do not put either in <code>ANT_HOME/lib</code>, and instead include their locations in
+    your <code>CLASSPATH</code> environment variable.</li>
+  <li>Add both JARs to your classpath using <kbd>-lib</kbd>.</li>
+  <li>Specify the locations of both JARs using a <code>&lt;classpath&gt;</code> element in
+    a <code>&lt;taskdef&gt;</code> in the build file.</li>
+  <li>Leave <samp>ant-junit.jar</samp> in its default location in <code>ANT_HOME/lib</code> but
+    include <samp>junit.jar</samp> in the <code>&lt;classpath&gt;</code> passed
+    to <code>&lt;junit&gt;</code>. <em>Since Ant 1.7</em></li>
+</ol>
+<p>See <a href="https://ant.apache.org/faq.html#delegating-classloader" target="_top">the FAQ</a>
+for details.</p>
+
+<p>Tests are defined by nested <code>test</code> or <code>batchtest</code> tags
+(see <a href="#nested">nested elements</a>).</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>printsummary</td>
+    <td>Print one-line statistics for each testcase. Can take the values <q>on</q>, <q>off</q>,
+      and <q>withOutAndErr</q>.  <q>withOutAndErr</q> is the same as <q>on</q> but also includes the
+      output of the test as written to <code>System.out</code> and <code>System.err</code>.</td>
+    <td>No; default is <q>off</q></td>
+  </tr>
+  <tr>
+    <td>fork</td>
+    <td>Run the tests in a separate JVM.</td>
+    <td>No; default is <q>off</q></td>
+  </tr>
+  <tr>
+    <td>forkmode</td>
+    <td>Controls how many JVMs get created if you want to fork some tests.  Possible values
+      are <q>perTest</q> (the default), <q>perBatch</q> and <q>once</q>.  <q>once</q> creates only a
+      single JVM for all tests while <q>perTest</q> creates a new JVM for each TestCase
+      class.  <q>perBatch</q> creates a JVM for each nested <code>&lt;batchtest&gt;</code> and one
+      collecting all nested <code>&lt;test&gt;</code>s.  Note that only tests with the same settings
+      of <var>filtertrace</var>, <var>haltonerror</var>, <var>haltonfailure</var>, <var>errorproperty</var>
+      and <var>failureproperty</var> can share a JVM, so even if you set <var>forkmode</var>
+      to <q>once</q>, Ant may have to create more than a single JVM.  This attribute is ignored for
+      tests that don't get forked into a new JVM.  <em>Since Ant 1.6.2</em></td>
+    <td>No; default is <q>perTest</q></td>
+  </tr>
+  <tr>
+    <td>haltonerror</td>
+    <td>Stop the build process if an error occurs during the test run.</td>
+    <td>No; default is <q>off</q></td>
+  </tr>
+  <tr>
+    <td>errorproperty</td>
+    <td>The name of a property to set in the event of an error.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>haltonfailure</td>
+    <td>Stop the build process if a test fails (errors are considered failures as well).</td>
+    <td>No; default is <q>off</q></td>
+  </tr>
+  <tr>
+    <td>failureproperty</td>
+    <td>The name of a property to set in the event of a failure (errors are considered failures as
+      well).</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>filtertrace</td>
+    <td>Filter out JUnit and Ant stack frames from error and failure stack traces.</td>
+    <td>No; default is <q>on</q></td>
+  </tr>
+  <tr>
+    <td>timeout</td>
+    <td>Cancel the individual tests if they don't finish in the given time (measured in
+      milliseconds).  Ignored if <var>fork</var> is <q>off</q>.  When running multiple tests inside
+      the same JVM (see <var>forkMode</var>), <var>timeout</var> applies to the time that all tests
+      use together, not to an individual test.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>maxmemory</td>
+    <td>Maximum amount of memory to allocate to the forked JVM.  Ignored if <var>fork</var>
+      is <q>off</q>. <strong>Note</strong>: If you get <code>java.lang.OutOfMemoryError: Java heap
+      space</code> in some of your tests then you need to raise the size
+      like <var>maxmemory</var>=<q>128m</q></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>jvm</td>
+    <td>The command used to invoke JVM.  The command is resolved
+      by <code>java.lang.Runtime.exec()</code>.</td>
+    <td>No; default is <kbd>java</kbd>, ignored if <var>fork</var> is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>dir</td>
+    <td>The directory in which to invoke JVM.</td>
+    <td>No, ignored if <var>fork</var> is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>newenvironment</td>
+    <td>Do not propagate the old environment when new environment variables are specified.</td>
+    <td>No; default is <q>false</q>, ignored if <var>fork</var> is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>includeantruntime</td>
+    <td>Implicitly add the Ant classes required to run the tests and JUnit to the classpath in
+      forked mode.</td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>showoutput</td>
+    <td>Send any output generated by tests to Ant's logging system as well as to the
+      formatters.</td>
+    <td>No; by default only the formatters receive the output</td>
+  </tr>
+  <tr>
+    <td>outputtoformatters</td>
+    <td>Send any output generated by tests to the test formatters.  <em>Since Ant 1.7.0</em>.</td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>tempdir</td>
+    <td>Where Ant should place temporary files.  <em>Since Ant 1.6</em>.</td>
+    <td>No; default is the project's <var>basedir</var></td>
+  </tr>
+  <tr>
+    <td>reloading</td>
+    <td>Whether or not a new classloader should be instantiated for each test case.<br/>Ignore
+      if <var>fork</var> is set to <q>true</q>.  <em>Since Ant 1.6</em>.</td>
+    <td>No; default is <code>true</code></td>
+  </tr>
+  <tr>
+    <td>clonevm</td>
+    <td>If set to <q>true</q>, then all system properties and the <var>bootclasspath</var> of the
+      forked JVM will be the same as those of the JVM running Ant.  <em>since Ant 1.7</em></td>
+    <td>No; default is <q>false</q>, ignored if <var>fork</var> is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>logfailedtests</td>
+    <td>When Ant executes multiple tests and doesn't stop on errors or failures it will log a
+      "FAILED" message for each failing test to its logging system.  If you set this option
+      to <q>false</q>, the message will not be logged and you have to rely on the formatter output
+      to find the failing tests.  <em>since Ant 1.8.0</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>enableTestListenerEvents</td>
+    <td>Whether Ant should send fine grained information about the running tests to Ant's logging
+      system at the verbose level.  Such events may be used by custom test listeners to show the
+      progress of tests.<br/><em>since Ant 1.8.2</em>&mdash;<strong>Ant 1.7.0 to 1.8.1 behave as if
+      this attribute was <q>true</q> by default.</strong></td>
+    <td>No; defaults to <q>false</q>, can be overridden by
+      a <a href="#enabletestlistenerevents">magic property</a></td>
+  </tr>
+  <tr>
+    <td>threads</td>
+    <td>a number of threads to run the tests in.<br/>When this attribute is specified the tests will
+      be split arbitrarily among the threads.<br/>Requires that the tests be forked with
+      the <q>perTest</q> option to be operative.<br/><em>since Ant 1.9.4</em></td>
+    <td>No</td>
+  </tr>
+</table>
+
+<p>By using the <var>errorproperty</var> and <var>failureproperty</var> attributes, it is possible
+to perform setup work (such as starting an external server), execute the test, clean up, and still
+fail the build in the event of a failure.</p>
+
+<p>The <var>filtertrace</var> attribute condenses error and failure stack traces before reporting
+them.  It works with both the plain and XML formatters.  It filters out any lines that begin with
+the following string patterns:</p>
+
+<pre>
+   &quot;junit.framework.TestCase&quot;
+   &quot;junit.framework.TestResult&quot;
+   &quot;junit.framework.TestSuite&quot;
+   &quot;junit.framework.Assert.&quot;
+   &quot;junit.swingui.TestRunner&quot;
+   &quot;junit.awtui.TestRunner&quot;
+   &quot;junit.textui.TestRunner&quot;
+   &quot;java.lang.reflect.Method.invoke(&quot;
+   &quot;sun.reflect.&quot;
+   &quot;org.apache.tools.ant.&quot;
+   &quot;org.junit.&quot;
+   &quot;junit.framework.JUnit4TestAdapter&quot;
+   &quot; more&quot;</pre>
+
+<h3 id="nested">Parameters specified as nested elements</h3>
+
+<p>The <code>&lt;junit&gt;</code> task supports a nested <code>&lt;classpath&gt;</code> element that
+represents a <a href="../using.html#path">path-like structure</a>.</p>
+
+<p><em>Since Ant 1.7</em>, this classpath may be used to refer to <samp>junit.jar</samp> as well as
+your tests and the tested code.</p>
+
+<h4>jvmarg</h4>
+
+<p>If <var>fork</var> is <q>true</q>, additional parameters may be passed to the new JVM via
+nested <code>&lt;jvmarg&gt;</code> elements. For example:</p>
+
+<pre>
+&lt;junit fork=&quot;yes&quot;&gt;
+  &lt;jvmarg value=&quot;-Djava.compiler=NONE&quot;/&gt;
+  ...
+&lt;/junit&gt;
+</pre>
+
+<p>would run the test in a JVM without JIT.</p>
+
+<p><code>&lt;jvmarg&gt;</code> allows all attributes described
+in <a href="../using.html#arg">Command-line Arguments</a>.</p>
+
+<h4>sysproperty</h4>
+
+<p>Use nested <code>&lt;sysproperty&gt;</code> elements to specify system properties required by the
+class. These properties will be made available to JVM during the execution of the test (either Ant's
+JVM or the forked JVM, if <var>fork</var>=<q>true</q>).  The attributes for this element are the
+same as for <a href="../Tasks/exec.html#env">environment variables</a>.</p>
+
+<pre>
+&lt;junit fork=&quot;no&quot;&gt;
+  &lt;sysproperty key=&quot;basedir&quot; value=&quot;${basedir}&quot;/&gt;
+  ...
+&lt;/junit&gt;
+</pre>
+
+<p>would run the test in Ant's JVM and make the <code>basedir</code> property available to the
+test.</p>
+
+<h4>syspropertyset</h4>
+
+<p><em>Since Ant 1.6</em></p>
+
+<p>You can specify a set of properties to be used as system properties
+with <a href="../Types/propertyset.html">syspropertyset</a>s.</p>
+
+<h4>env</h4>
+
+<p>It is possible to specify environment variables to pass to the forked JVM via
+nested <code>&lt;env&gt;</code> elements. For a description of the <code>&lt;env&gt;</code>
+element's attributes, see the description in the <a href="../Tasks/exec.html#env">exec</a> task.</p>
+
+<p>Settings will be ignored if <var>fork</var>=<q>false</q>.</p>
+
+<h4>bootclasspath</h4>
+
+<p><em>Since Ant 1.6</em>.</p>
+
+<p>The location of bootstrap class files can be specified using
+this <a href="../using.html#path">path-like structure</a>&mdash;will be ignored if <var>fork</var>
+is <q>false</q> or the target JVM doesn't support it (i.e. Java 1.1).</p>
+
+<h4>permissions</h4>
+
+<p><em>Since Ant 1.6</em>.</p>
+
+<p>Security permissions can be revoked and granted during the execution of the class via a
+nested <code>permissions</code> element. For more information please
+see <a href="../Types/permissions.html">permissions</a></p>
+
+<p>Settings will be ignored if <var>fork</var>=<q>true</q>.</p>
+
+<h4>assertions</h4>
+
+<p><em>Since Ant 1.6</em>.</p>
+
+<p>You can control enablement of Java 1.4 assertions with
+an <a href="../Types/assertions.html"><code>&lt;assertions&gt;</code></a> subelement.</p>
+
+<p>Assertion statements are currently ignored in non-forked mode.</p>
+
+<h4>modulepath</h4>
+
+<p><em>Since Ant 1.9.8</em></p>
+
+<p>The location of modules can be specified using this <a href="../using.html#path">path-like
+structure</a>.<br/>The <code>modulepath</code> requires <var>fork</var> to be set to <q>true</q>.
+
+<h4>upgrademodulepath</h4>
+
+<p><em>Since Ant 1.9.8</em></p>
+
+<p>The location of modules that replace upgradeable modules in the runtime image can be specified
+using this <a href="../using.html#path">path-like
+structure</a>.<br/>The <code>upgrademodulepath</code> requires <var>fork</var> to be set
+to <q>true</q>.</p>
+
+<h4>formatter</h4>
+
+<p>The results of the tests can be printed in different formats. Output will always be sent to a
+file, unless you set the <var>usefile</var> attribute to <q>false</q>.  The name of the file is
+determined by the name of the test and can be set by the <var>outfile</var> attribute
+of <code>&lt;test&gt;</code>.</p>
+
+<p>There are four predefined formatters&mdash;one prints the test results in XML format, the other
+emits plain text.  The formatter named <q>brief</q> will only print detailed information for test
+cases that failed, while <q>plain</q> gives a little statistics line for all test cases.  Custom
+formatters that need to
+implement <code class="code">org.apache.tools.ant.taskdefs.optional.junit.JUnitResultFormatter</code>
+can be specified.</p>
+
+<p>If you use the XML formatter, it may not include the same output that your tests have written as
+some characters are illegal in XML documents and will be dropped.</p>
+
+<p>The fourth formatter named <q>failure</q> (<em>since Ant 1.8.0</em>) collects all
+failing <code class="code">testXXX()</code> methods and creates a
+new <code class="code">TestCase</code> which delegates only these failing methods. The name and the
+location can be specified via Java system property or Ant
+property <code>ant.junit.failureCollector</code>. The value has to point to the directory and the
+name of the resulting class (without suffix). It defaults
+to <samp><i>java-tmp-dir</i>/FailedTests</samp>.</p>
+
+<table class="attr">
+<tr>
+  <th scope="col">Attribute</th>
+  <th scope="col">Description</th>
+  <th scope="col">Required</th>
+</tr>
+  <tr>
+    <td>type</td>
+    <td>Use a predefined formatter (either <q>xml</q>, <q>plain</q>, <q>brief</q>
+      or <q>failure</q>).</td>
+    <td rowspan="2">Exactly one of these</td>
+  </tr>
+  <tr>
+    <td>classname</td>
+    <td class="left">Name of a custom formatter class.</td>
+  </tr>
+  <tr>
+    <td>extension</td>
+    <td>Extension to append to the output filename.</td>
+    <td>Yes, if <var>classname</var> has been used</td>
+  </tr>
+  <tr>
+    <td>usefile</td>
+    <td>Boolean that determines whether output should be sent to a file.</td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>if</td>
+    <td>Only use formatter <a href="../properties.html#if+unless">if the named property is
+      set</a>.</td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>unless</td>
+    <td>Only use formatter <a href="../properties.html#if+unless">if the named property
+      is <strong>not</strong> set</a>.</td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+</table>
+
+<h4>test</h4>
+
+<p>Defines a single test class.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>Name of the test class.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>methods</td>
+    <td>Comma-separated list of names of test case methods to execute.  <em>Since 1.8.2</em>
+      <p>The <var>methods</var> attribute can be useful in the followiang scenarios:</p>
+      <ul>
+        <li>A test method has failed and you want to re-run the test method to test a fix or re-run
+          the test under the Java debugger without having to wait for the other (possibly long
+          running) test methods to complete.</li>
+        <li>One or more test methods are running slower than expected and you want to re-run them
+          under a Java profiler (without the overhead of running the profiler whilst other test
+          methods are being executed).</li>
+      </ul>
+      <p>If the <var>methods</var> attribute is used but no test method is specified, then no test
+        method from the suite will be executed.</p>
+    </td>
+    <td>No; default is to run all test methods in the suite</td>
+  </tr>
+  <tr>
+    <td>fork</td>
+    <td>Run the tests in a separate JVM.  Overrides value set in <code>&lt;junit&gt;</code>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>haltonerror</td>
+    <td>Stop the build process if an error occurs during the test run. Overrides value set
+       in <code>&lt;junit&gt;</code>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>errorproperty</td>
+    <td>The name of a property to set in the event of an error.  Overrides value set
+      in <code>&lt;junit&gt;</code>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>haltonfailure</td>
+    <td>Stop the build process if a test fails (errors are considered failures as well).  Overrides
+      value set in <code>&lt;junit&gt;</code>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>failureproperty</td>
+    <td>The name of a property to set in the event of a failure (errors are considered failures as
+      well). Overrides value set in <code>&lt;junit&gt;</code>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>filtertrace</td>
+    <td>Filter out JUnit and Ant stack frames from error and failure stack traces.  Overrides value
+      set in <code>&lt;junit&gt;</code>.</td>
+    <td>No; default is <q>on</q></td>
+  </tr>
+  <tr>
+    <td>todir</td>
+    <td>Directory to write the reports to.</td>
+    <td>No; default is the current directory</td>
+  </tr>
+  <tr>
+    <td>outfile</td>
+    <td>Base name of the test result. The full filename
+    is <var>outfile</var>.<var>formatter</var>.</td>
+    <td>No; default is <samp>TEST-</samp><var>name</var></td>
+  </tr>
+  <tr>
+    <td>if</td>
+    <td>Only run test <a href="../properties.html#if+unless">if the named property is set</a>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>unless</td>
+    <td>Only run test <a href="../properties.html#if+unless">if the named property
+    is <strong>not</strong> set</a>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>skipNonTests</td>
+    <td>Do not pass any classes that do not contain JUnit tests to the test runner.  This prevents
+      non tests from appearing as test errors in test results.<br/>Tests are identified by looking
+      for the <code>@Test</code> annotation on any methods in concrete classes that don't
+      extend <code>junit.framework.TestCase</code>, or for public/protected methods with names
+      starting with <q>test</q> in concrete classes that
+      extend <code>junit.framework.TestCase</code>.  Classes marked with the JUnit
+      4 <code>org.junit.runner.RunWith</code> or <code>org.junit.runner.Suite.SuiteClasses</code>
+      annotations are also passed to JUnit for execution, as is any class with a public/protected
+      no-argument <code>suite()</code> method.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+</table>
+
+<p>Tests can define their own formatters via nested <code>&lt;formatter&gt;</code> elements.</p>
+
+<h4>batchtest</h4>
+
+<p>Define a number of tests based on pattern matching.</p>
+
+<p><code>batchtest</code> collects the included <a href="../Types/resources.html">resources</a> from
+any number of nested <a href="../Types/resources.html#collection">resource collections</a>. It then
+generates a test class name for each resource that ends in <samp>.java</samp>
+or <samp>.class</samp>.</p>
+
+<p>Any type of resource collection is supported as a nested element, prior to Ant 1.7
+only <code>&lt;fileset&gt;</code> has been supported.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>fork</td>
+    <td>Run the tests in a separate JVM.  Overrides value set in <code>&lt;junit&gt;</code>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>haltonerror</td>
+    <td>Stop the build process if an error occurs during the test run. Overrides value set
+      in <code>&lt;junit&gt;</code>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>errorproperty</td>
+    <td>The name of a property to set in the event of an error.  Overrides value set
+      in <code>&lt;junit&gt;</code>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>haltonfailure</td>
+    <td>Stop the build process if a test fails (errors are considered failures as well).  Overrides
+      value set in <code>&lt;junit&gt;</code>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>failureproperty</td>
+    <td>The name of a property to set in the event of a failure (errors are considered failures as
+      well). Overrides value set in <code>&lt;junit&gt;</code></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>filtertrace</td>
+    <td>Filter out JUnit and Ant stack frames from error and failure stack traces.  Overrides value
+      set in <code>&lt;junit&gt;</code>.</td>
+    <td>No; default is <q>on</q></td>
+  </tr>
+  <tr>
+    <td>todir</td>
+    <td>Directory to write the reports to.</td>
+    <td>No; default is the current directory</td>
+  </tr>
+  <tr>
+    <td>if</td>
+    <td>Only run tests <a href="../properties.html#if+unless">if the named property is set</a>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>unless</td>
+    <td>Only run tests <a href="../properties.html#if+unless">if the named property
+      is <strong>not</strong> set</a>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>skipNonTests</td>
+    <td>Do not pass any classes that do not contain JUnit tests to the test runner.  This prevents
+      non tests from appearing as test errors in test results.<br/>Tests are identified by looking
+      for the <code>@Test</code> annotation on any methods in concrete classes that don't
+      extend <code>junit.framework.TestCase</code>, or for public/protected methods with names
+      starting with <q>test</q> in concrete classes that
+      extend <code>junit.framework.TestCase</code>.  Classes marked with the JUnit
+      4 <code>org.junit.runner.RunWith</code> or <code>org.junit.runner.Suite.SuiteClasses</code>
+      annotations are also passed to JUnit for execution, as is any class with a public/protected
+      no-argument <code>suite()</code> method.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+</table>
+
+<p>Batch tests can define their own formatters via nested <code>&lt;formatter&gt;</code>
+elements.</p>
+
+<h3>Forked tests and <code>tearDown()</code></h3>
+
+<p>If a forked test runs into a timeout, Ant will terminate the JVM process it has created, which
+probably means the test's <code class="code">tearDown()</code> method will never be called.  The
+same is true if the forked JVM crashes for some other reason.</p>
+
+<p><em>Since Ant 1.8.0</em>, a special formatter is distributed with Ant that tries to load the
+testcase that was in the forked JVM and invoke that class' <code class="code">tearDown()</code>
+method.  This formatter has the following limitations:</p>
+
+<ul>
+  <li>It runs in the same JVM as Ant itself, this is a different JVM than the one that was executing
+    the test and it may see a different classloader (and thus may be unable to load the test
+    class).</li>
+  <li>It cannot determine which test was run when the timeout/crash occurred if the forked JVM was
+    running multiple tests.  I.e. the formatter cannot work with any <var>forkMode</var> other
+    than <q>perTest</q> and it won't do anything if the test class contains
+    a <code class="code">suite()</code> method.</li>
+</ul>
+
+<p>If the formatter recognizes an incompatible <var>forkMode</var> or
+a <code class="code">suite()</code> method or fails to load the test class it will silently do
+nothing.</p>
+
+<p>The formatter doesn't have any effect on tests that were not forked or didn't cause timeouts or
+JVM crashes.</p>
+
+<p>To enable the formatter, add a <code>formatter</code> like</p>
+
+<pre>
+&lt;formatter classname="org.apache.tools.ant.taskdefs.optional.junit.TearDownOnVmCrash"
+           usefile="false"/&gt;
+</pre>
+
+<p>to your <code>junit</code> task.</p>
+
+<h3 id="enabletestlistenerevents"><code>ant.junit.enabletestlistenerevents</code> magic property</h3>
+
+<p><em>Since Ant 1.8.2</em> the <var>enableTestListenerEvents</var> attribute of the task controls
+whether fine grained logging messages will be sent to the task's verbose log.  In addition to this
+attribute Ant will consult the property <code>ant.junit.enabletestlistenerevents</code> and the
+value of the property overrides the setting of the attribute.</p>
+
+<p>This property exists so that containers running Ant that depend on the additional logging events
+can ensure they will be generated even if the build file disables them.</p>
+
+<h3>Examples</h3>
+
+<p>Run the test defined in <code>my.test.TestCase</code> in the same VM. No output will be generated
+unless the test fails.</p>
+<pre>
+&lt;junit&gt;
+    &lt;test name="my.test.TestCase"/&gt;
+&lt;/junit&gt;</pre>
+
+<p>Run the test defined in <code>my.test.TestCase</code> in a separate JVM. At the end of the test,
+a one-line summary will be printed. A detailed report of the test can be found
+in <samp>TEST-my.test.TestCase.txt</samp>. The build process will be stopped if the test fails.</p>
+<pre>
+&lt;junit printsummary="yes" fork="yes" haltonfailure="yes"&gt;
+    &lt;formatter type="plain"/&gt;
+    &lt;test name="my.test.TestCase"/&gt;
+&lt;/junit&gt;</pre>
+
+<p>Run <code>my.test.TestCase</code> in the same JVM, ignoring the given <code>CLASSPATH</code>;
+only a warning is printed if this test fails. In addition to the plain text test results, for this
+test a XML result will be output to <samp>result.xml</samp>. Then, for each matching file in the
+directory defined for <samp>${src.tests}</samp>, a test is run in a separate JVM. If a test fails,
+the build process is aborted. Results are collected in files
+named <samp>TEST-</samp><var>name</var><samp>.txt</samp> and written
+to <samp>${reports.tests}</samp>.</p>
+<pre>
+&lt;junit printsummary="yes" haltonfailure="yes"&gt;
+    &lt;classpath&gt;
+        &lt;pathelement location="${build.tests}"/&gt;
+        &lt;pathelement path="${java.class.path}"/&gt;
+    &lt;/classpath&gt;
+
+    &lt;formatter type="plain"/&gt;
+
+    &lt;test name="my.test.TestCase" haltonfailure="no" outfile="result"&gt;
+        &lt;formatter type="xml"/&gt;
+    &lt;/test&gt;
+
+    &lt;batchtest fork="yes" todir="${reports.tests}"&gt;
+        &lt;fileset dir="${src.tests}"&gt;
+            &lt;include name="**/*Test*.java"/&gt;
+            &lt;exclude name="**/AllTests.java"/&gt;
+        &lt;/fileset&gt;
+    &lt;/batchtest&gt;
+&lt;/junit&gt;</pre>
+
+<p>On the first run, all tests are collected via the <code>&lt;batchtest/&gt;</code>
+element. Its <var>plain</var> formatter shows the output on the console. The <var>failure</var>
+formatter creates a Java source file in <samp>${build.dir}/failingTests/FailedTests.java</samp>
+which extends <code class="code">junit.framework.TestCase</code> and returns from
+a <code class="code">suite()</code> method a test suite for the failing tests.<br/>On a second run
+the collector class exists and instead of the <code>&lt;batchtest/&gt;</code> the
+single <code>&lt;test/&gt;</code> will run. So only the failing test cases are re-run. The two
+nested formatters are for displaying (for the user) and for updating the collector class.</p>
+<pre>
+&lt;target name=&quot;test&quot;&gt;
+    &lt;property name=&quot;collector.dir&quot; value=&quot;${build.dir}/failingTests&quot;/&gt;
+    &lt;property name=&quot;collector.class&quot; value=&quot;FailedTests&quot;/&gt;
+    &lt;!-- Delete 'old' collector classes --&gt;
+    &lt;delete&gt;
+        &lt;fileset dir=&quot;${collector.dir}&quot; includes=&quot;${collector.class}*.class&quot;/&gt;
+    &lt;/delete&gt;
+    &lt;!-- compile the FailedTests class if present --&gt;
+    &lt;javac srcdir=&quot;${collector.dir}&quot; destdir=&quot;${collector.dir}&quot;/&gt;
+    &lt;available file=&quot;${collector.dir}/${collector.class}.class&quot; property=&quot;hasFailingTests&quot;/&gt;
+    &lt;junit haltonerror=&quot;false&quot; haltonfailure=&quot;false&quot;&gt;
+        &lt;sysproperty key=&quot;ant.junit.failureCollector&quot; value=&quot;${collector.dir}/${collector.class}&quot;/&gt;
+        &lt;classpath&gt;
+            &lt;pathelement location=&quot;${collector.dir}&quot;/&gt;
+        &lt;/classpath&gt;
+        &lt;batchtest todir=&quot;${collector.dir}&quot; unless=&quot;hasFailingTests&quot;&gt;
+            &lt;fileset dir=&quot;${collector.dir}&quot; includes=&quot;**/*.java&quot; excludes=&quot;**/${collector.class}.*&quot;/&gt;
+            &lt;!-- for initial creation of the FailingTests.java --&gt;
+            &lt;formatter type=&quot;failure&quot;/&gt;
+            &lt;!-- I want to see something ... --&gt;
+            &lt;formatter type=&quot;plain&quot; usefile=&quot;false&quot;/&gt;
+        &lt;/batchtest&gt;
+        &lt;test name=&quot;FailedTests&quot; if=&quot;hasFailingTests&quot;&gt;
+            &lt;!-- update the FailingTests.java --&gt;
+            &lt;formatter type=&quot;failure&quot;/&gt;
+            &lt;!-- again, I want to see something --&gt;
+            &lt;formatter type=&quot;plain&quot; usefile=&quot;false&quot;/&gt;
+        &lt;/test&gt;
+    &lt;/junit&gt;
+&lt;/target&gt;</pre>
+
+<p>Run <code>my.test.TestCase</code> as a white-box test in the forked JVM given by
+the <code>platform.java</code> property. The JUnit library is a part of an unnamed module while the
+tested project and required modules are on the module path. The tests do not have module-info file
+and are executed in the project module given by <code>module.name</code>
+property.<br/>The <kbd>--patch-module</kbd> Java option executes the tests built
+into <samp>${build.test.classes}</samp> in a module given by <code>module.name</code>
+property.<br/>The <kbd>--add-modules</kbd> Java option enables the tested
+module.<br/>The <kbd>--add-reads</kbd> Java option makes the unnamed module containing JUnit
+readable by tested module.<br/>The <kbd>--add-exports</kbd> Java option makes the non-exported test
+package <code>my.test</code> accessible from the unnamed module containing JUnit.</p>
+<pre>
+&lt;junit fork="true"
+       jvm="${platform.java}"&gt;
+    &lt;jvmarg line="--patch-module ${module.name}=${build.test.classes}"/&gt;
+    &lt;jvmarg line="--add-modules ${module.name}"/&gt;
+    &lt;jvmarg line="--add-reads ${module.name}=ALL-UNNAMED"/&gt;
+    &lt;jvmarg line="--add-exports ${module.name}/my.test=ALL-UNNAMED"/&gt;
+    &lt;classpath&gt;
+        &lt;pathelement path="${libs.junit}"/&gt;
+    &lt;/classpath&gt;
+    &lt;modulepath&gt;
+        &lt;pathelement path="${modules}:${build.classes}"/&gt;
+    &lt;/modulepath&gt;
+    &lt;formatter type="plain"/&gt;
+    &lt;test name="my.test.TestCase"/&gt;
+&lt;/junit&gt;</pre>
+
+<p>Run <code>my.test.TestCase</code> as a black-box test in the forked JVM given by
+the <code>platform.java</code> property. The JUnit library is used as an automatic module. The
+tests' module-info requires the tested module and JUnit.<br/>The <kbd>--add-modules</kbd> Java
+option enables the test module.<br/>The <kbd>--add-exports</kbd> Java option makes the non-exported
+test package <code>my.test</code> accessible from the JUnit module and Ant's test runner. Another
+possibility is to export the test package in the tests' module-info by <code>exports my.test</code>
+directive.</p>
+<pre>
+&lt;junit fork="true"
+       jvm="${platform.java}"&gt;
+    &lt;jvmarg line="--add-modules ${test.module.name}"/&gt;
+    &lt;jvmarg line="--add-exports ${test.module.name}/my.test=junit,ALL-UNNAMED"/&gt;
+    &lt;modulepath&gt;
+        &lt;pathelement path="${modules}:${build.classes}:${libs.junit}"/&gt;
+    &lt;/modulepath&gt;
+    &lt;formatter type="plain"/&gt;
+    &lt;test name="my.test.TestCase"/&gt;
+&lt;/junit&gt;</pre>
+</body>
+</html>

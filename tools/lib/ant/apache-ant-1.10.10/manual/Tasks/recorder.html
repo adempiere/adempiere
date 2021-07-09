@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Recorder Task</title>
+</head>
+
+<body>
+
+<h2 id="log">Record</h2>
+<h3>Description</h3>
+<p>A recorder is a listener to the current build process that records the output to a file.</p>
+
+<p>Several recorders can exist at the same time.  Each recorder is associated with a file.  The
+filename is used as a unique identifier for the recorders.  The first call to
+the <code>record</code> task with an unused filename will create a recorder (using the parameters
+provided) and add it to the listeners of the build.  All subsequent calls to the <code>record</code>
+task using this filename will modify that recorder's state (recording or not) or other properties
+(like logging level).</p>
+
+<p>Some technical issues: the file's print stream is flushed for <q>finished</q> events
+(<q>buildFinished</q>, <q>targetFinished</q> and <q>taskFinished</q>), and is closed on
+a <q>buildFinished</q> event.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>The name of the file this logger is associated with.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>action</td>
+    <td>This tells the logger what to do: should it start recording or stop?  The first time that
+      the recorder task is called for this logfile, and if this attribute is not provided, then the
+      default for this attribute is <q>start</q>.  If this attribute is not provided on subsequent
+      calls, then the state remains as previous.</td>
+    <td>No [values = <q>start|stop</q>, default = no state change]</td>
+  </tr>
+  <tr>
+    <td>append</td>
+    <td>Should the recorder append to a file, or create a new one? This is only applicable the first
+      time this task is called for this file.</td>
+    <td>No [values = <q>start|stop</q>, default = no state change]</td>
+  </tr>
+  <tr>
+    <td>emacsmode</td>
+    <td>Removes <code>[task]</code> banners like Apache Ant's <kbd>-emacs</kbd> command line
+      switch if set to <q>true</q>.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>loglevel</td>
+    <td>At what logging level should this recorder instance record to?  This is not a once only
+      parameter (like <var>append</var> is)&mdash;you can increase or decrease the logging level as
+      the build process continues.
+    </td>
+    <td>No [values = <q>error|warn|info|verbose|debug</q>, default = no change]</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>The following <samp>build.xml</samp> snippet is an example of how to use the recorder to record
+just the <code>&lt;javac&gt;</code> task:</p>
+<pre>
+    ...
+    &lt;compile &gt;
+        &lt;record name=&quot;log.txt&quot; action=&quot;start&quot;/&gt;
+        &lt;javac ...
+        &lt;record name=&quot;log.txt&quot; action=&quot;stop&quot;/&gt;
+    &lt;compile/&gt;
+    ...
+</pre>
+
+<p>The following two calls to <code>&lt;record&gt;</code> set up two recorders: one to
+file <samp>records-simple.log</samp> at logging level <q>info</q> (the default) and one to
+file <samp>ISO.log</samp> using logging level of <q>verbose</q>.</p>
+<pre>
+    ...
+    &lt;record name=&quot;records-simple.log&quot;/&gt;
+    &lt;record name=&quot;ISO.log&quot; loglevel=&quot;verbose&quot;/&gt;
+    ...
+</pre>
+
+<h3>Notes</h3>
+<p>There is some functionality that I would like to be able to add in the future.  They include
+things like the following:</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>listener</td>
+    <td>A classname of a build listener to use from this point on instead of the default
+      listener.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>includetarget</td>
+    <td rowspan="2">A comma-separated list of targets to automatically record.  If this value
+      is <q>all</q>, then all targets are recorded.</td>
+    <td>No; default is <q>all</q></td>
+  </tr>
+  <tr>
+    <td>excludetarget</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>includetask</td>
+    <td rowspan="2">A comma-separated list of tasks to automatically record or not.  This could be
+      difficult as it may conflict with the <code>includetarget/excludetarget</code>.
+      (e.g.: <code>includetarget=&quot;compile&quot; excludetask=&quot;javac&quot;</code>, what
+      should happen?)</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>excludetask</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>action</td>
+    <td>add greater flexibility to the <var>action</var> attribute.  Things like <q>close</q> to
+      close the print stream.</td>
+    <td>No</td>
+  </tr>
+</table>
+
+</body>
+</html>

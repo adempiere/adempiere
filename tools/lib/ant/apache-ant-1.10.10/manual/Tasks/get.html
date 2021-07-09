@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Get Task</title>
+</head>
+
+<body>
+
+<h2 id="get">Get</h2>
+<h3>Description</h3>
+<p>Gets files from URLs.  When the <var>verbose</var> option is <q>on</q>, this task displays
+a <q>.</q> for every 100 Kb retrieved. Any URL schema supported by the runtime is valid here,
+including <q>http:</q>, <q>https:</q>, <q>ftp:</q> and <q>jar:</q>.</p>
+<p>The <var>usetimestamp</var> option enables you to control downloads so that the remote file is
+only fetched if newer than the local copy. If there is no local copy, the download always takes
+place. When a file is downloaded, the timestamp of the downloaded file is set to the remote
+timestamp.  <strong>Note</strong>: This timestamp facility only works on downloads using the HTTP
+protocol.</p>
+<p>A username and password can be specified, in which case basic ('slightly encoded plain text')
+authentication is used. This is only secure over an HTTPS link.</p>
+
+<p><strong>Proxies</strong>. <em>Since Apache Ant 1.7.0</em>, Ant running on Java 5 or later
+can <a href="../proxy.html">use the proxy settings of the operating system</a> if enabled with
+the <kbd>-autoproxy</kbd> command line option. There is also
+the <a href="../Tasks/setproxy.html">&lt;setproxy&gt;</a> task for earlier Java versions. With
+proxies turned on, <code>&lt;get&gt;</code> requests against localhost may not work as expected, if
+the request is relayed to the proxy.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>src</td>
+    <td>the URL from which to retrieve a file.</td>
+    <td>Yes, or a nested resource collection</td>
+  </tr>
+  <tr>
+    <td>dest</td>
+    <td>the file or directory where to store the retrieved file(s).</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>verbose</td>
+    <td>show verbose progress information (<q>on|off</q>).</td>
+    <td>No; default is <q>off</q></td>
+  </tr>
+  <tr>
+    <td>quiet</td>
+    <td>Log errors only.(<q>true|false</q>).</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>ignoreerrors</td>
+    <td>Log errors but don't treat as fatal.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>usetimestamp</td>
+    <td>conditionally download a file based on the timestamp of the local copy. HTTP only</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>username</td>
+    <td>username for basic HTTP authentication</td>
+    <td>Yes, if <var>password</var> is set</td>
+  </tr>
+  <tr>
+    <td>password</td>
+    <td>password for basic HTTP authentication</td>
+    <td>Yes if <var>username</var> is set</td>
+  </tr>
+  <tr>
+    <td>maxtime</td>
+    <td>Maximum time in seconds a single download may take, otherwise it will be interrupted and
+      treated like a download error.  <em>Since Ant 1.8.0</em></td>
+    <td>No; default is <q>0</q> which means
+      unlimited</td>
+  </tr>
+  <tr>
+    <td>retries</td>
+    <td>The number of attempts to make for opening the URI.<br/>The name of the attribute is
+      misleading as a value of <q>1</q> means "don't retry on error" and a value of <q>0</q> meant
+      don't even try to reach the URI at all.<br/><em>since Ant 1.8.0</em></td>
+    <td>No; default is <q>3</q></td>
+  </tr>
+  <tr>
+    <td>skipexisting</td>
+    <td>skip files that already exist on the local filesystem<br/><em>since Ant 1.8.0</em></td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+   <tr>
+    <td>httpusecaches</td>
+    <td>HTTP only&mdash;if <q>true</q>, allow caching at the <code>HttpUrlConnection</code> level,
+    if <q>false</q>, turn caching off.<br/><strong>Note</strong> this is only a hint to the
+    underlying <code>UrlConnection</code> class, implementations and proxies are free to ignore the
+    setting.</td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>useragent</td>
+    <td><code>User-Agent</code> HTTP header to send.<br/><em>since Ant 1.9.3</em></td>
+    <td>No; defaults to <q>Apache Ant VERSION</q></td>
+  </tr>
+  <tr>
+    <td>tryGzipEncoding</td>
+    <td>When set to <q>true</q>, Ant will tell the server it is willing to accept gzip encoding to
+      reduce the amount of data to transfer and uncompress the content transparently.<br/>Setting
+      this to <q>true</q> also means Ant will uncompress <code>.tar.gz</code> and similar files
+      automatically.<br/><em>since Ant 1.9.5</em></td>
+    <td>No; default is <q>false</q></td>
+</table>
+<h3>Parameters specified as nested elements</h3>
+<h4>any resource collection</h4>
+
+<p><a href="../Types/resources.html#collection">resource collections</a> are used to select groups
+of URLs to download.  If the collection contains more than one resource, the <var>dest</var>
+attribute must point to a directory if it exists or a directory will be created if it doesn't exist.
+The destination file name use the last part of the path of the source URL unless you also specify a
+mapper.</p>
+
+<h4>mapper</h4>
+
+<p>You can define name transformations by using a nested <a href="../Types/mapper.html">mapper</a>
+element.  You can also use any filenamemapper type in place of the mapper element.</p>
+
+<p>The mapper will receive the resource's name as argument.  Any resource for which the mapper
+returns no or more than one mapped name will be skipped.  If the returned name is a relative path,
+it will be considered relative to the <var>dest</var> attribute.</p>
+
+<h4>header</h4>
+<p>Any arbitrary number of HTTP headers can be added to a request.<br/>The attributes of a
+nested <code>&lt;header/&gt;</code> node are as follows:</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>The name or key of this header. Cannot be null or empty. Leading and trailing spaces are
+    removed</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>value</td>
+    <td>The value to assign to the header. Cannot be null or empty. Leading and trailing spaces are
+    removed</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+
+<p>Get the index page of <samp>https://ant.apache.org/</samp>, and store it in the
+file <samp>help/index.html</samp>.</p>
+<pre>&lt;get src=&quot;https://ant.apache.org/&quot; dest=&quot;help/index.html&quot;/&gt;</pre>
+
+<p>Get the PGP keys of Ant's (current and past) release managers, if the local copy is missing or
+out of date. Use the <var>verbose</var> option for progress information.</p>
+<pre>
+&lt;get src=&quot;https://www.apache.org/dist/ant/KEYS&quot;
+     dest=&quot;KEYS&quot;
+     verbose=&quot;true&quot;
+     usetimestamp=&quot;true&quot;/&gt;</pre>
+
+<p>Fetch some file from a server with access control. Because HTTPS is being used, the fact that
+basic auth sends passwords in plaintext is moot if you ignore the fact that it is part of your build
+file which may be readable by third parties.  If you need more security, consider using
+the <a href="input.html">input</a> task to query for a password.</p>
+<pre>
+&lt;get src=&quot;https://insecure-bank.org/statement/user=1214&quot;
+     dest=&quot;statement.html&quot;
+     username=&quot;1214&quot;
+     password=&quot;secret&quot;/&gt;</pre>
+
+<p>Using a macro like the following</p>
+
+<pre>
+&lt;macrodef name="get-and-checksum"&gt;
+  &lt;attribute name="url"/&gt;
+  &lt;attribute name="dest"/&gt;
+  &lt;sequential&gt;
+    &lt;local name="destdir"/&gt;
+    &lt;dirname property="destdir" file="@{dest}"/&gt;
+    &lt;get dest="${destdir}"&gt;
+      &lt;url url="@{url}"/&gt;
+      &lt;url url="@{url}.sha1"/&gt;
+      &lt;firstmatchmapper&gt;
+        &lt;globmapper from="@{url}.sha1" to="@{dest}.sha"/&gt;
+        &lt;globmapper from="@{url}" to="@{dest}"/&gt;
+      &lt;/firstmatchmapper&gt;
+    &lt;/get&gt;
+    &lt;local name="checksum.matches"/&gt;
+    &lt;local name="checksum.matches.fail"/&gt;
+    &lt;checksum file="@{dest}" algorithm="sha" fileext=".sha"
+              verifyproperty="checksum.matches"/&gt;
+    &lt;condition property="checksum.matches.fail"&gt;
+      &lt;equals arg1="${checksum.matches}" arg2="false"/&gt;
+    &lt;/condition&gt;
+    &lt;fail if="checksum.matches.fail"&gt;Checksum error&lt;/fail&gt;
+  &lt;/sequential&gt;
+&lt;/macrodef&gt;</pre>
+
+<p>it is possible to download an artifacts together with its SHA1 checksum (assuming a certain
+naming convention for the checksum file, of course) and validate the checksum on the fly.</p>
+
+<pre>
+&lt;get dest=&quot;downloads&quot;&gt;
+  &lt;url url=&quot;https://ant.apache.org/index.html&quot;/&gt;
+  &lt;url url=&quot;https://ant.apache.org/faq.html&quot;/&gt;
+&lt;/get&gt;</pre>
+
+<p>Using custom HTTP headers</p>
+
+<pre>
+&lt;get src=&quot;https://ant.apache.org/index.html&quot; dest=&quot;downloads&quot;&gt;
+  &lt;header name=&quot;header1&quot; value=&quot;headerValue1&quot;/&gt;
+  &lt;header name=&quot;header2&quot; value=&quot;headerValue2&quot;/&gt;
+  &lt;header name=&quot;header3&quot; value=&quot;headerValue3&quot;/&gt;
+&lt;/get&gt;</pre>
+
+<p>get the index and FAQ pages of <samp>https://ant.apache.org/</samp>, and store them in the
+directory <samp>downloads</samp> which will be created if necessary.</p>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>DirSet Type</title>
+</head>
+
+<body>
+
+<h2 id="dirset">DirSet</h2>
+<p>A DirSet is a group of directories. These directories can be found in a directory tree
+starting in a base directory and are matched by patterns taken from a number
+of <a href="patternset.html">PatternSets</a> and <a href="selectors.html">Selectors</a>.</p>
+<p>PatternSets can be specified as nested <code>&lt;patternset&gt;</code> elements. In
+addition, DirSet holds an implicit PatternSet and supports the
+nested <code>&lt;include&gt;</code>, <code>&lt;includesfile&gt;</code>, <code>&lt;exclude&gt;</code>
+and <code>&lt;excludesfile&gt;</code> elements of <code>&lt;patternset&gt;</code> directly,
+as well as <code>&lt;patternset&gt;</code>'s attributes.</p>
+<p>Selectors are available as nested elements within the DirSet.  If any of the selectors
+within the DirSet do not select the directory, it is not considered part of the DirSet. This
+makes a DirSet equivalent to an <code>&lt;and&gt;</code> selector container.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>dir</td>
+    <td>The root of the directory tree of this DirSet.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>includes</td>
+    <td>Comma- or space-separated list of patterns of directories that must be included.</td>
+    <td>No; defaults to all directories</td>
+  </tr>
+  <tr>
+    <td>includesfile</td>
+    <td>Name of a file; each line of this file is taken to be an include
+      pattern. <strong>Note:</strong> if the file is empty and there are no other patterns defined
+      for the fileset, all directories will be included.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>excludes</td>
+    <td>Comma- or space-separated list of patterns of directories that must be excluded.</td>
+    <td>No; defaults to none</td>
+  </tr>
+  <tr>
+    <td>excludesfile</td>
+    <td>Name of a file; each line of this file is taken to be an exclude pattern.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>casesensitive</td>
+    <td>Specifies whether case-sensitivity should be applied (<q>true</q>, <q>yes</q>, <q>on</q>
+      or <q>false</q>, <q>no</q>, <q>off</q>).</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>followsymlinks</td>
+    <td>Shall symbolic links be followed?  See <a href="fileset.html#symlink">fileset's
+      documentation</a>.</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>erroronmissingdir</td>
+    <td>Specify what happens if the base directory does not exist.  If <q>true</q> a build error
+      will happen, if <q>false</q>, the dirset will be ignored/empty.  <em>Since Apache Ant
+      1.7.1</em></td>
+    <td>No; defaults to true (for backward compatibility reasons)</td>
+  </tr>
+  <tr>
+    <td>refid</td>
+    <td>Makes this <code>dirset</code>
+      a <a href="../using.html#references">reference</a> to
+      a <code>dirset</code> defined elsewhere. If specified no other
+      attributes or nested elements are allowed.</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<h4>Examples</h4>
+
+<pre>
+&lt;dirset dir=&quot;${build.dir}&quot;&gt;
+  &lt;include name=&quot;apps/**/classes&quot;/&gt;
+  &lt;exclude name=&quot;apps/**/*Test*&quot;/&gt;
+&lt;/dirset&gt;
+</pre>
+<p>Groups all directories named <samp>classes</samp> found under the <samp>apps</samp> subdirectory
+of <samp>${build.dir}</samp>, except those that have the text <samp>Test</samp> in their name.</p>
+
+<pre>
+&lt;dirset dir=&quot;${build.dir}&quot;&gt;
+  &lt;patternset id=&quot;non.test.classes&quot;&gt;
+    &lt;include name=&quot;apps/**/classes&quot;/&gt;
+    &lt;exclude name=&quot;apps/**/*Test*&quot;/&gt;
+  &lt;/patternset&gt;
+&lt;/dirset&gt;
+</pre>
+<p>Groups the same directories as the above example, but also establishes a PatternSet that can be
+referenced in other <code>&lt;dirset&gt;</code> elements, rooted at a different directory.</p>
+
+<pre>
+&lt;dirset dir=&quot;${debug_build.dir}&quot;&gt;
+  &lt;patternset refid=&quot;non.test.classes&quot;/&gt;
+&lt;/dirset&gt;
+</pre>
+<p>Groups all directories in directory <samp>${debug_build.dir}</samp>, using the same patterns as
+the above example.</p>
+
+<pre>
+&lt;dirset id=&quot;dirset&quot; dir=&quot;${workingdir}&quot;&gt;
+   &lt;present targetdir=&quot;${workingdir}&quot;&gt;
+        &lt;mapper type=&quot;glob&quot; from=&quot;*&quot; to=&quot;*/${markerfile}&quot;/&gt;
+   &lt;/present&gt;
+&lt;/dirset&gt;
+</pre>
+<p>Selects all directories somewhere under <samp>${workingdir}</samp> which contain
+a <samp>${markerfile}</samp>.</p>
+
+</body>
+</html>

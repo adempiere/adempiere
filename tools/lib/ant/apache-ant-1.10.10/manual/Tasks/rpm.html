@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Rpm Task</title>
+</head>
+
+<body>
+
+<h2 id="rpm">Rpm</h2>
+<h3>Description</h3>
+<p> A basic task for invoking the <code>rpm</code> executable to build a RedHat Package Manager
+Linux installation file. The task currently only works on Linux or other Unix platforms
+with <code>rpm</code> support.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>specFile</td>
+    <td>The name of the spec file to be used. This must be relative to the <samp>SPECS</samp>
+      directory under the root of the RPM set in the <var>topDir</var> attribute.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>topDir</td>
+    <td>This is the directory which will have the expected
+      subdirectories, <samp>SPECS</samp>, <samp>SOURCES</samp>, <samp>BUILD</samp>, <samp>SRPMS</samp>.
+      If this isn't specified, the default RPM directory of the system (or user,
+      if <samp>~/.rpmmacros</samp> defines it) is used (often <samp>/usr/src/rpm</samp>.<br/>
+      Defining a <var>topdir</var> will set <code>%_topdir</code> to the specified
+      directory&mdash;there is no need to edit your <samp>.rpmmacros</samp> file.</td>
+    <td>No, but your build file is very brittle if it is not set.</td>
+  </tr>
+  <tr>
+    <td>cleanBuildDir</td>
+    <td>This will remove the generated files in the <samp>BUILD</samp> directory.  See the
+      the <kbd>--clean</kbd> option of <kbd>rpmbuild</kbd>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>removeSpec</td>
+    <td>This will remove the spec file from <samp>SPECS</samp>.  See the the <kbd>--rmspec</kbd>
+      option of <kbd>rpmbuild</kbd>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>removeSource</td>
+    <td>Flag to remove the sources after the build.  See the <kbd>--rmsource</kbd> option
+      of <kbd>rpmbuild</kbd>.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>rpmBuildCommand</td>
+    <td>The executable to use for building the RPM. Set this if default executables are not on
+      <code>PATH</code> or a different executable is needed.  <em>Since Apache Ant 1.6</em>.</td>
+    <td>No; defaults to <kbd>rpmbuild</kbd> if it can be found or <kbd>rpm</kbd> otherwise</td>
+  </tr>
+  <tr>
+    <td>command</td>
+    <td>The command to pass to the <code>rpmbuild</code> program.</td>
+    <td>No; default is <kbd>-bb</kbd></td>
+  </tr>
+  <tr>
+    <td>quiet</td>
+    <td>Suppress output.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>output/error</td>
+    <td>Where standard output and error go.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>failOnError</td>
+    <td>Stop the build process if the RPM build command exits with a non-zero return code.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<pre>
+&lt;rpm specFile="example.spec"
+     topDir="build/rpm"
+     cleanBuildDir="true"
+     failOnError="true"/&gt;</pre>
+</body>
+</html>

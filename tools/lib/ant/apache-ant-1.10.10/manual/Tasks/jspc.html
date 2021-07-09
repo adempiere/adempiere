@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>JSPC Task</title>
+</head>
+
+<body>
+
+<h2 id="jspc">jspc</h2>
+<h3><em><u>Deprecated</u></em></h3>
+<p><em>If you use this task with Tomcat's Jasper JSP compiler, you should seriously consider using
+the task shipping with Tomcat instead.</em>  This task is only tested against Tomcat 4.x. There are
+known problems with Tomcat 5.x that won't get fixed in Ant, please use Tomcat's <code>jspc</code>
+task instead.<br/>  Instead of relying on container-specific JSP compilers we suggest deploying the
+raw files (<samp>*.jsp</samp>) and use the container build-in functions: after deploying run a test
+suite (e.g. with <a href="https://attic.apache.org/projects/jakarta-cactus.html"
+target="_top">Cactus</a> or <a href="http://httpunit.sourceforge.net/" target="_top">HttpUnit</a>)
+against the deployed web application. So you'll get the test result <em>and</em> the compiled
+JSPs.</p>
+<h3>Description</h3>
+
+<p>Apache Ant task to run the JSP compiler and turn JSP pages into Java source files.</p>
+
+<p>This task can be used to precompile JSP pages for fast initial invocation of JSP pages,
+deployment on a server without the full JDK installed, or simply to syntax check the pages without
+deploying them.  In most cases, a <code>javac</code> task is usually the next stage in the build
+process.  The task does basic dependency checking to prevent unnecessary recompilation&mdash;this
+checking compares source and destination timestamps, and does not factor in class or taglib
+dependencies, or <code>&lt;jsp:include&gt;</code> references.</p>
+
+<p>By default the task uses the Jasper JSP compiler. This means the task
+needs <samp>jasper.jar</samp> and <samp>jasper-runtime.jar</samp>, which come with builds of Tomcat
+4/Catalina from the <a href="https://tomcat.apache.org/" target="_top">Apache Tomcat project</a>,
+and any other jar files which may be needed in future versions (it changes).</p>
+
+<p>We recommend (in March 2003) Tomcat version 4.1.x for the most robust version of Jasper.</p>
+
+<p>There are many limitations with this task which partially stem from the many versions of Jasper,
+others from implementation 'issues' in the task (i.e. nobody's willingness to radically change large
+bits of it to work around Jasper). Because of this and the fact that JSP pages do not have to be
+portable across implementations&mdash;or versions of implementations&mdash;this task is better used
+for validating JSP pages before deployment, rather than precompiling them. For the latter, just
+deploy and run your HttpUnit JUnit tests after deployment to compile and test your pages, all in one
+go.</p>
+
+
+<h3>Parameters</h3>
+<p>The Task has the following attributes:</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>destdir</td>
+    <td>Where to place the generated files. They are located under here according to the given
+      package name.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>srcdir</td>
+    <td>Where to look for source JSP files.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>verbose</td>
+    <td>The verbosity integer to pass to the compiler.</td>
+    <td>No; default <q>0</q></td>
+  </tr>
+  <tr>
+    <td>package</td>
+    <td>Name of the destination package for generated Java classes.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>compiler</td>
+    <td>class name of a JSP compiler adapter, such as <q>jasper</q> or <q>jasper41</q></td>
+    <td>No; defaults to <q>jasper</q></td>
+  </tr>
+  <tr>
+    <td>ieplugin</td>
+    <td>Java Plugin classid for Internet Explorer.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>mapped</td>
+    <td>(boolean) Generate separate <code>write()</code> calls for each HTML line in the JSP.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>classpath</td>
+    <td>The classpath to use to run the JSP compiler.</td>
+    <td>No, but it seems to work better when used; can also be specified by the nested
+      element <a href="../using.html#path"><code>classpath</code></a></td>
+  </tr>
+  <tr>
+    <td>classpathref</td>
+    <td>A <a href="../using.html#references">Reference</a>. As per <var>classpath</var>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+    <td>flag to control action on compile failures.</td>
+    <td>No; default <q>yes</q></td>
+  </tr>
+  <tr>
+    <td>uribase</td>
+    <td>The context of relative URI references in JSP.</td>
+    <td>No; derived from the location of the file relative to the declared or derived value
+      of <var>uriroot</var></td>
+  </tr>
+  <tr>
+    <td>uriroot</td>
+    <td>The root directory that URIs should be resolved against.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>compiler</td>
+    <td>Class name of JSP compiler adapter to use.</td>
+    <td>No; defaults to the standard adapter for Jasper</td>
+  </tr>
+  <tr>
+    <td>compilerclasspath</td>
+    <td>The classpath used to find the compiler adapter specified by the <var>compiler</var>
+      attribute.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>webinc</td>
+    <td>Output file name for the fraction of <samp>web.xml</samp> that lists servlets.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>webxml</td>
+    <td>File name for <samp>web.xml</samp> to be generated</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<p>The <var>mapped</var> option will, if set to <q>true</q>, split the JSP text content into a one
+line per call format.  There are comments above and below the mapped write calls to localize where
+in the JSP file each line of text comes from.  This can lead to a minor performance degradation (but
+it is bound by a linear complexity).  Without this option all adjacent writes are concatenated into
+a single write.</p>
+
+<p>The <var>ieplugin</var> option is used by the <code>&lt;jsp:plugin&gt;</code> tags.  If the Java
+Plug-in COM Class-ID you want to use changes then it can be specified here.  This should not need to
+be altered.</p>
+
+<p><var>uriroot</var> specifies the root of the web application.  This is where all absolute URIs
+will be resolved from.  If it is not specified then the first JSP page will be used to derive it.
+To derive it each parent directory of the first JSP page is searched for a <samp>WEB-INF</samp>
+directory, and the directory closest to the JSP page that has one will be used.  If none can be
+found then the directory Jasperc was called from will be used.  This only affects pages translated
+from an explicitly declared JSP file&mdash;including references to taglibs.</p>
+
+<p><var>uribase</var> is used to establish the context of relative URI references in the JSP pages.
+If it does not exist then it is derived from the location of the file relative to the declared or
+derived value of <var>uriroot</var>. This only affects pages translated from an explicitly declared
+JSP file.</p>
+
+<h3>Parameters specified as nested elements</h3>
+
+<p>This task is a <a href="../dirtasks.html">directory based task</a>, like <code>javac</code>, so
+the <samp>.jsp</samp> files to be compiled are located as <samp>.java</samp> files are
+by <code>javac</code>. That is, elements such as <code>includes</code> and <code>excludes</code> can
+be used directly inside the task declaration.</p>
+
+<p>Elements specific to the <code>jspc</code> task are:</p>
+
+<h4>classpath</h4>
+
+<p>The classpath used to compile the JSP pages, specified as for any other classpath.</p>
+
+<h4>classpathref</h4>
+
+<p>a reference to an existing classpath</p>
+
+<h4>webapp</h4>
+
+<p>Instructions to Jasper to build an entire web application.  The base directory must have
+a <samp>WEB-INF</samp> subdirectory beneath it.  When used, the task hands off all dependency
+checking to the compiler.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>basedir</td>
+    <td>the base directory of the web application</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h3>Example</h3>
+<p>Build all <samp>.jsp</samp> files under <samp>src/war</samp> into the
+destination <samp>/gensrc</samp>, in a package hierarchy beginning
+with <samp>com.i3sp.jsp</samp>.</p>
+<pre>
+&lt;jspc srcdir="${basedir}/src/war"
+      destdir="${basedir}/gensrc"
+      package="com.i3sp.jsp"
+      compiler="jasper41"
+      verbose="9"&gt;
+  &lt;include name="**/*.jsp"/&gt;
+&lt;/jspc&gt;</pre>
+
+<p>Generate <samp>.java</samp> files from <samp>.jsp</samp> files, then <code>javac</code> them down
+to bytecode. Include <samp>lib/taglibs.jar</samp> in the Java compilation. Dependency checking is
+used to scrub the <samp>.java</samp> files if class dependencies indicate it is needed.</p>
+<pre>
+&lt;jspc destdir="interim"
+      verbose="1"
+      srcdir="src"
+      compiler="jasper41"
+      package="com.i3sp.jsp"&gt;
+  &lt;include name="**/*.jsp"/&gt;
+&lt;/jspc&gt;
+&lt;depend srcdir="interim"
+         destdir="build"
+         cache="build/dependencies"
+         classpath="lib/taglibs.jar"/&gt;
+&lt;javac srcdir="interim"
+         destdir="build"
+         classpath="lib/taglibs.jar"
+         debug="on"/&gt;</pre>
+
+<h4>Notes</h4>
+<p>Using the <var>package</var> attribute it is possible to identify the
+resulting <samp>.java</samp> files and thus do full dependency checking&mdash;this task should only
+rebuild <samp>.java</samp> files if their <samp>.jsp</samp> file has been modified. However, this
+only works with some versions of Jasper. By default the checking supports Tomcat 4.0.x with
+the <q>jasper</q> compiler, set the compiler to <q>jasper41</q> for the Tomcat 4.1.x dependency
+checking. Even when it does work, changes in <samp>.tld</samp> imports or in compile time includes
+do not get picked up.</p>
+<p>Jasper generates JSP pages against the JSP 1.2 specification&mdash;a copy of version 2.3 of the
+servlet specification is needed on the classpath to compile the Java code.</p>
+</body>
+</html>

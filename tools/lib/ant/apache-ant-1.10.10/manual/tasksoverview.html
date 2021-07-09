@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+<title>Overview of Apache Ant Tasks</title>
+  <base target="mainFrame">
+</head>
+
+<body>
+<h2 id="top">Overview of Apache Ant Tasks</h2>
+<p>Given the large number of tasks available with Ant, it may be
+difficult to get an overall view of what each task can do.  The following
+tables provide a short description of each task and a link to the complete
+documentation.</p>
+
+<a href="#archive">Archive Tasks</a><br/>
+<a href="#audit">Audit/Coverage Tasks</a><br/>
+<a href="#compile">Compile Tasks</a><br/>
+<a href="#deploy">Deployment Tasks</a><br/>
+<a href="#doc">Documentation Tasks</a><br/>
+<a href="#ejb">EJB Tasks</a><br/>
+<a href="#exec">Execution Tasks</a><br/>
+<a href="#file">File Tasks</a><br/>
+<a href="#extensions">Java Extensions Tasks</a><br/>
+<a href="#log">Logging Tasks</a><br/>
+<a href="#mail">Mail Tasks</a><br/>
+<a href="#misc">Miscellaneous Tasks</a><br/>
+<a href="#preproc">Pre-process Tasks</a><br/>
+<a href="#prop">Property Tasks</a><br/>
+<a href="#remote">Remote Tasks</a><br/>
+<a href="#scm">SCM Tasks</a><br/>
+<a href="#testing">Testing Tasks</a><br/>
+
+<div class="float" id="archive">
+    <span class="left">Archive Tasks</span>
+    <span class="right"><a href="#top" style="text-decoration:none;">&#x1f51d;</a></span>
+</div>
+
+<table>
+  <tr>
+    <th scope="col">Task Name</th>
+    <th scope="col">Description</th>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/unpack.html">GUnzip/BUnzip2/UnXZ</a></td>
+    <td><p>Expands a file packed using GZip, BZip2 or XZ.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/pack.html">GZip/BZip2/XZ</a></td>
+    <td><p>Packs a file using the GZip, BZip2 or XZ algorithm. This task
+     does not do any dependency checking; the output file is always
+     generated</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/cab.html">Cab</a></td>
+    <td><p>Creates Microsoft CAB archive files. It is invoked similar
+     to the <a href="Tasks/jar.html">Jar</a>
+     or <a href="Tasks/zip.html">Zip</a> tasks. This task will work on
+     Windows using the external <code>cabarc</code> tool (provided by
+     Microsoft), which must be located in your executable
+     path.</p></td>
+   </tr>
+
+  <tr>
+    <td><a href="Tasks/ear.html">Ear</a></td>
+    <td><p>An extension of the <a href="Tasks/jar.html">Jar</a> task
+     with special treatment for files that should end up in an
+     Enterprise Application archive.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/jar.html">Jar</a></td>
+    <td><p>Jars a set of files.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/jlink.html">Jlink</a></td>
+    <td><p><em><u>Deprecated</u></em>. Use the <code>zipfileset</code>
+     and <code>zipgroupfileset</code> attributes of
+     the <a href="Tasks/jar.html">Jar</a>
+     or <a href="Tasks/zip.html">Zip</a> tasks instead.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/manifest.html">Manifest</a></td>
+    <td><p>Creates a manifest file.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/rpm.html">Rpm</a></td>
+    <td><p>Invokes the <kbd>rpm</kbd> executable to build a Linux
+     installation file. This task currently only works on Linux or
+     other Unix platforms with RPM support.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/signjar.html">SignJar</a></td>
+    <td><p>Signs a jar or zip file with the <kbd>javasign</kbd>
+     command-line tool.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/tar.html">Tar</a></td>
+    <td><p>Creates a tar archive.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/unzip.html">Unjar</a></td>
+    <td><p>Unzips a jarfile.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/unzip.html">Untar</a></td>
+    <td><p>Untars a tarfile.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/unzip.html">Unwar</a></td>
+    <td><p>Unzips a warfile.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/unzip.html">Unzip</a></td>
+    <td><p>Unzips a zipfile.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/war.html">War</a></td>
+    <td><p>An extension of the <a href="Tasks/jar.html">Jar</a> task
+     with special treatment for files that should end up in
+     the <samp>WEB-INF/lib</samp>, <samp>WEB-INF/classes</samp>,
+     or <samp>WEB-INF</samp> directories of the Web Application
+     Archive.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/zip.html">Zip</a></td>
+    <td><p>Creates a zipfile.</p></td>
+  </tr>
+</table>
+
+<div class="float" id="audit">
+    <span class="left">Audit/Coverage Tasks</span>
+    <span class="right"><a href="#top" style="text-decoration:none;">&#x1f51d;</a></span>
+</div>
+
+<table>
+  <tr>
+    <th scope="col">Task Name</th>
+    <th scope="col">Description</th>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/jdepend.html">JDepend</a></td>
+    <td><p>Invokes
+     the <a href="https://github.com/clarkware/jdepend"
+     target="_top">JDepend</a> parser. This parser &quot;traverses a
+     set of Java source-file directories and generates design-quality
+     metrics for each Java package&quot;.</p></td>
+   </tr>
+</table>
+
+<div class="float" id="compile">
+    <span class="left">Compile Tasks</span>
+    <span class="right"><a href="#top" style="text-decoration:none;">&#x1f51d;</a></span>
+</div>
+
+<table>
+  <tr>
+    <th scope="col">Task Name</th>
+    <th scope="col">Description</th>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/depend.html">Depend</a></td>
+    <td><p>Determines which class files are out-of-date with respect
+     to their source, removing the class files of any other classes
+     that depend on the out-of-date classes, forcing the re-compile of
+     the removed class files.  Typically used in conjunction with the
+     <a href="Tasks/javac.html">Javac</a> task.</p></td>
+
+  <tr>
+    <td><a href="Tasks/javac.html">Javac</a></td>
+    <td><p>Compiles the specified source file(s) within the running
+     (Ant) JVM, or in another JVM if the <var>fork</var> attribute is
+     specified.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/jspc.html">JspC</a></td>
+    <td><p>Runs the JSP compiler. It can be used to precompile JSP
+     pages for fast initial invocation of JSP pages, deployment on a
+     server without the full JDK installed, or simply to syntax-check
+     the pages without deploying
+     them. The <a href="Tasks/javac.html">Javac</a> task can be used
+     to compile the generated Java source.  (For WebLogic JSP
+     compiler, see the <a href="Tasks/wljspc.html">Wljspc</a>
+     task.)</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/netrexxc.html">NetRexxC</a></td>
+    <td><p>Compiles
+     a <a href="https://www.ibm.com/software/awdtools/netrexx/library.html"
+     target="_top">NetRexx</a> source tree within the running (Ant)
+     JVM.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/rmic.html">Rmic</a></td>
+    <td><p>Runs the <kbd>rmic</kbd> compiler on the specified file(s).</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/wljspc.html">Wljspc</a></td>
+    <td><p>Compiles JSP pages using WebLogic JSP
+     compiler, <code>weblogic.jspc</code>. (For non-WebLogic JSP
+     compiler, see the <a href="Tasks/jspc.html">JspC</a>
+     task.</p></td>
+  </tr>
+</table>
+
+<div class="float" id="deploy">
+    <span class="left">Deployment Tasks</span>
+    <span class="right"><a href="#top" style="text-decoration:none;">&#x1f51d;</a></span>
+</div>
+
+<table>
+  <tr>
+    <th scope="col">Task Name</th>
+    <th scope="col">Description</th>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/serverdeploy.html">ServerDeploy</a></td>
+    <td><p>Runs a &quot;hot&quot; deployment tool for vendor-specific
+     J2EE server.</p></td>
+  </tr>
+</table>
+
+<div class="float" id="doc">
+    <span class="left">Documentation Tasks</span>
+    <span class="right"><a href="#top" style="text-decoration:none;">&#x1f51d;</a></span>
+</div>
+
+<table>
+  <tr>
+    <th scope="col">Task Name</th>
+    <th scope="col">Description</th>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/javadoc.html">Javadoc</a></td>
+    <td><p>Generates code documentation using the <kbd>javadoc</kbd>
+     tool. <em>The <code>Javadoc2</code> task is <u>deprecated</u>; use
+     the <code>Javadoc</code> task instead.</em></p></td>
+  </tr>
+</table>
+
+<div class="float" id="ejb">
+    <span class="left">EJB Tasks</span>
+    <span class="right"><a href="#top" style="text-decoration:none;">&#x1f51d;</a></span>
+</div>
+
+<table>
+  <tr>
+    <th scope="col">Task Name</th>
+    <th scope="col">Description</th>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/ejb.html">EJB Tasks</a></td>
+    <td><p>(See the documentation describing the EJB tasks.)</p></td>
+  </tr>
+</table>
+
+<div class="float" id="exec">
+    <span class="left">Execution Tasks</span>
+    <span class="right"><a href="#top" style="text-decoration:none;">&#x1f51d;</a></span>
+</div>
+
+<table>
+  <tr>
+    <th scope="col">Task Name</th>
+    <th scope="col">Description</th>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/ant.html">Ant</a></td>
+    <td><p>Runs Ant on a supplied buildfile, optionally
+     passing properties (with possibly new values).
+     This task can be used to build sub-projects.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/antcall.html">AntCall</a></td>
+    <td><p>Runs another target within the same buildfile, optionally
+     passing properties (with possibly new values).</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/apply.html">Apply/<em>ExecOn</em></a></td>
+    <td><p>Executes a system command. When the <var>os</var> attribute is
+     specified, the command is only executed when Ant is run on one
+     of the specified operating systems.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/dependset.html">Dependset</a></td>
+    <td><p>Compares a set of source files with a set of target
+     files.  If any of the source files is newer than any of
+     the target files, all the target files are removed.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/exec.html">Exec</a></td>
+    <td><p>Executes a system command. When the <var>os</var> attribute
+     is specified, the command is only executed when Ant is run on one of
+     the specified operating systems.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/java.html">Java</a></td>
+    <td><p>Executes a Java class within the running (Ant) JVM, or in
+     another JVM if the <var>fork</var> attribute is specified.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/parallel.html">Parallel</a></td>
+    <td><p>A container task that can contain other Ant tasks.
+     Each nested task specified within the <code>&lt;parallel&gt;</code>
+     tag will be executed in its own thread.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/sequential.html">Sequential</a></td>
+    <td><p>A container task that can contain other Ant tasks.
+     The nested tasks are simply executed in sequence. Its primary use is
+     to support the sequential execution of a subset of tasks within
+     the <code>&lt;parallel&gt;</code> tag.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/sleep.html">Sleep</a></td>
+    <td><p>Suspends execution for a specified period of time.
+     Useful when a build or deployment process requires an interval between
+     tasks.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/subant.html">Subant</a></td>
+    <td><p>Calls a given target for all defined sub-builds. This is an
+     extension of ant for bulk project execution.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/waitfor.html">Waitfor</a></td>
+    <td><p>Blocks execution until a set of specified conditions become true.
+     This task is intended to be used with the
+     <a href="Tasks/parallel.html">Parallel</a> task to synchronize
+     a set of processes.</p></td>
+  </tr>
+</table>
+
+<div class="float" id="file">
+    <span class="left">File Tasks</span>
+    <span class="right"><a href="#top" style="text-decoration:none;">&#x1f51d;</a></span>
+</div>
+
+<table>
+  <tr>
+    <th scope="col">Task Name</th>
+    <th scope="col">Description</th>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/attrib.html">Attrib</a></td>
+    <td><p>Changes the permissions and/or attributes of a file or all
+     files inside the specified directories. Currently, it has effect
+     only under Windows.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/checksum.html">Checksum</a></td>
+    <td><p>Generates a checksum for a file or set of files. This task can
+     also be used to perform checksum verifications.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/chgrp.html">Chgrp</a></td>
+    <td><p>Changes the group ownership of a file or all files inside
+     the specified directories. Currently, it has effect only under
+     Unix.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/chmod.html">Chmod</a></td>
+    <td><p>Changes the permissions of a file or all files inside the
+     specified directories. Currently, it has effect only under Unix.
+     The permissions are also UNIX style, like the arguments for the
+     <kbd>chmod</kbd> command.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/chown.html">Chown</a></td>
+    <td><p>Changes the owner of a file or all files inside the
+     specified directories. Currently, it has effect only under
+     Unix.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/concat.html">Concat</a></td>
+    <td><p>Concatenates multiple files into a single one or to Ant's
+     logging system.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/copy.html">Copy</a></td>
+    <td><p>Copies a file or Fileset to a new file or directory.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/copydir.html"><em>Copydir</em></a></td>
+    <td><p><em><u>Deprecated</u></em>.  Use
+     the <a href="Tasks/copy.html">Copy</a> task instead.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/copyfile.html"><em>Copyfile</em></a></td>
+    <td><p><em><u>Deprecated</u></em>.  Use
+     the <a href="Tasks/copy.html">Copy</a> task instead.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/delete.html">Delete</a></td>
+    <td><p>Deletes either a single file, all files and sub-directories
+     in a specified directory, or a set of files specified by one or
+     more <a href="Types/fileset.html">FileSet</a>s.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/deltree.html"><em>Deltree</em></a></td>
+    <td><p><em><u>Deprecated</u></em>.  Use
+     the <a href="Tasks/delete.html">Delete</a> task instead.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/filter.html">Filter</a></td>
+    <td><p>Sets a token filter for this project, or reads multiple
+     token filters from a specified file and sets these as
+     filters. Token filters are used by all tasks that perform
+     file-copying operations.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/fixcrlf.html">FixCRLF</a></td>
+    <td><p>Modifies a file to add or remove tabs, carriage returns,
+     linefeeds, and EOF characters.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/get.html">Get</a></td>
+    <td><p>Gets a file from a URL.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/mkdir.html">Mkdir</a></td>
+    <td><p>Creates a directory. Non-existent parent directories are
+     created, when necessary.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/move.html">Move</a></td>
+    <td><p>Moves a file to a new file or directory, or a set(s) of
+     file(s) to a new directory.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/patch.html">Patch</a></td>
+      <td><p>Applies a <q>diff</q> file to originals.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/rename.html"><em>Rename</em></a></td>
+    <td><p><em><u>Deprecated</u></em>.  Use
+    the <a href="Tasks/move.html">Move</a> task instead.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/renameextensions.html"><em>RenameExtensions</em></a></td>
+    <td><p><em><u>Deprecated</u></em>. Use
+     the <a href="Tasks/move.html">Move</a> task with
+     a <a href="Types/mapper.html#glob-mapper">glob mapper</a>
+     instead.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/replace.html">Replace</a></td>
+    <td><p>Replaces the occurrence of a given string with another
+     string in a file or set of files.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/replaceregexp.html">ReplaceRegExp</a></td>
+    <td><p>Replaces the occurrence of a given regular expression with
+     a substitution pattern in a file or set of files.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/setpermissions.html">SetPermissions</a></td>
+    <td><p>Changes the permissions of a collection of resources.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/sync.html">Sync</a></td>
+    <td><p>Synchronizes two directory trees.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/tempfile.html">Tempfile</a></td>
+    <td><p>Generates a name for a new temporary file and sets the
+     specified property to that name.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/touch.html">Touch</a></td>
+    <td><p>Changes the modification time of a file and possibly
+     creates it at the same time.</p></td>
+  </tr>
+</table>
+
+<div class="float" id="extensions">
+    <span class="left">Java Extensions Tasks</span>
+    <span class="right"><a href="#top" style="text-decoration:none;">&#x1f51d;</a></span>
+</div>
+
+<table>
+  <tr>
+    <th scope="col">Task Name</th>
+    <th scope="col">Description</th>
+  </tr>
+
+  <tr>
+    <td>
+    <a href="Tasks/jarlib-available.html">Jarlib-available</a></td>
+    <td><p>Checks whether an extension is present in a FileSet or an
+      ExtensionSet. If the extension is present, the specified
+      property is set.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    <a href="Tasks/jarlib-display.html">Jarlib-display</a></td>
+    <td><p>Displays the <q>Optional Package</q> and <q>Package
+     Specification</q> information contained within the specified
+     jars.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    <a href="Tasks/jarlib-manifest.html">Jarlib-manifest</a></td>
+    <td><p>Generates a manifest that declares all the dependencies in
+     manifest. The dependencies are determined by looking in the
+     specified path and searching for <q>Extension</q>/<q>Optional
+     Package</q> specifications in the manifests of the jars.</p>
+    </td>
+  </tr>
+
+  <tr>
+    <td>
+    <a href="Tasks/jarlib-resolve.html">Jarlib-resolve</a></td>
+    <td><p>Tries to locate a jar to satisfy an extension, and places the
+     location of the jar into the specified property.</p>
+    </td>
+  </tr>
+</table>
+
+<div class="float" id="log">
+    <span class="left">Logging Tasks</span>
+    <span class="right"><a href="#top" style="text-decoration:none;">&#x1f51d;</a></span>
+</div>
+
+<table>
+  <tr>
+    <th scope="col">Task Name</th>
+    <th scope="col">Description</th>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/recorder.html">Record</a></td>
+    <td><p>Runs a listener that records the logging output of the
+     build process events to a file. Several recorders can exist
+     at the same time. Each recorder is associated with a file.</p></td>
+  </tr>
+</table>
+
+<div class="float" id="mail">
+    <span class="left">Mail Tasks</span>
+    <span class="right"><a href="#top" style="text-decoration:none;">&#x1f51d;</a></span>
+</div>
+
+<table>
+  <tr>
+    <th scope="col">Task Name</th>
+    <th scope="col">Description</th>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/mail.html">Mail</a></td>
+    <td><p>Sends SMTP email.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/mimemail.html"><em>MimeMail</em></a></td>
+    <td><p><em><u>Deprecated</u></em>. Use
+     the <a href="Tasks/mail.html">Mail</a> task instead.</p></td>
+  </tr>
+</table>
+
+<div class="float" id="misc">
+    <span class="left">Miscellaneous Tasks</span>
+    <span class="right"><a href="#top" style="text-decoration:none;">&#x1f51d;</a></span>
+</div>
+
+<table>
+  <tr>
+    <th scope="col">Task Name</th>
+    <th scope="col">Description</th>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/defaultexcludes.html">Defaultexcludes</a></td>
+    <td><p>Modifies the list of default exclude patterns from within
+     your build file.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/echo.html">Echo</a></td>
+    <td><p>Echoes text to <code>System.out</code> or to a file.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/fail.html">Fail</a></td>
+    <td><p>Exits the current build by throwing
+     a <code>BuildException</code>, optionally printing additional
+     information.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/genkey.html">GenKey</a></td>
+    <td><p>Generates a key in keystore.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/hostinfo.html">HostInfo</a></td>
+    <td><p>Sets properties related to the provided host, or to the
+     host the process is run on.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/input.html">Input</a></td>
+    <td><p>Allows user interaction during the build process by
+     displaying a message and reading a line of input from the
+     console.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/script.html">Script</a></td>
+    <td><p>Executes a script in
+     a <a href="https://jakarta.apache.org/bsf/" target="_top">Apache
+     BSF</a>-supported language.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/sound.html">Sound</a></td>
+    <td><p>Plays a sound file at the end of the build, according to
+     whether the build failed or succeeded.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/splash.html">Splash</a></td>
+    <td><p>Displays a splash screen.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/sql.html">Sql</a></td>
+    <td><p>Executes a series of SQL statements via JDBC to a
+     database. Statements can either be read in from a text file using
+     the <code>src</code> attribute, or from between the enclosing SQL
+     tags.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/taskdef.html">Taskdef</a></td>
+    <td><p>Adds a task definition to the current project, such that
+     this new task can be used in the current project.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/tstamp.html">TStamp</a></td>
+    <td><p>Sets the <code>DSTAMP</code>, <code>TSTAMP</code>,
+     and <code>TODAY</code> properties in the current project, based
+     on the current date and time.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/typedef.html">Typedef</a></td>
+    <td><p>Adds a data-type definition to the current project, such
+     that this new type can be used in the current project.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/xmlvalidate.html">XmlValidate</a></td>
+    <td><p>Checks that XML files are valid (or only well-formed). This
+     task uses the XML parser that is currently used by Ant by
+     default, but any SAX1/2 parser can be specified, if
+     needed.</p></td>
+  </tr>
+</table>
+
+<div class="float" id="preproc">
+    <span class="left">Pre-process Tasks</span>
+    <span class="right"><a href="#top" style="text-decoration:none;">&#x1f51d;</a></span>
+</div>
+
+<table>
+  <tr>
+    <th scope="col">Task Name</th>
+    <th scope="col">Description</th>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/antlr.html">ANTLR</a></td>
+    <td><p>Invokes the <a href="https://www.antlr.org/"
+     target="_top">ANTLR</a> Translator generator on a grammar
+     file.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/antstructure.html">AntStructure</a></td>
+    <td><p>Generates a DTD for Ant buildfiles that contains
+     information about all tasks currently known to Ant.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/import.html">Import</a></td>
+    <td><p>Imports another build file and potentially overrides
+     targets in it with targets of your own.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/include.html">Include</a></td>
+    <td><p>Includes another build file.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/javacc.html">JavaCC</a></td>
+    <td><p>Invokes the <a href="https://javacc.org/"
+     target="_top">JavaCC</a> compiler-compiler on a grammar
+     file.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/javah.html">Javah</a></td>
+    <td><p>Generates JNI headers from a Java class.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/jjdoc.html">JJDoc</a></td>
+    <td><p>Invokes the <a href="https://javacc.org/"
+     target="_top">JJDoc</a> documentation generator for the JavaCC
+     compiler-compiler.  JJDoc takes a JavaCC parser specification and
+     produces documentation for the BNF grammar.  It can operate in
+     three modes, determined by command line options. This task only
+     invokes JJDoc if the grammar file is newer than the generated BNF
+     grammar documentation.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/jjtree.html">JJTree</a></td>
+    <td><p>Invokes the <a href="https://javacc.org/"
+     target="_top">JJTree</a> preprocessor for the JavaCC
+     compiler-compiler. It inserts parse-tree building actions at
+     various places in the JavaCC source that it generates. The output
+     of JJTree is run through JavaCC to create the parser. This task
+     only invokes JJTree if the grammar file is newer than the
+     generated JavaCC file.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/macrodef.html">Macrodef</a></td>
+    <td><p>Defines a new task as a macro built-up upon other tasks.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/native2ascii.html">Native2Ascii</a></td>
+    <td><p>Converts files from native encodings to ASCII with escaped
+     Unicode.  A common usage is to convert source files maintained in
+     a native operating system encoding to ASCII, prior to
+     compilation.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/presetdef.html">Presetdef</a></td>
+    <td><p>Defines a new task by instrumenting an existing task with
+     default values for attributes or child elements.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/translate.html">Translate</a></td>
+    <td><p>Identifies keys in files, delimited by special tokens, and
+     translates them with values read from resource bundles.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/style.html">XSLT</a></td>
+    <td><p>Processes a set of documents via XSLT.</p></td>
+  </tr>
+</table>
+
+<div class="float" id="prop">
+    <span class="left">Property Tasks</span>
+    <span class="right"><a href="#top" style="text-decoration:none;">&#x1f51d;</a></span>
+</div>
+
+<table>
+  <tr>
+    <th scope="col">Task Name</th>
+    <th scope="col">Description</th>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/available.html">Available</a></td>
+    <td><p>Sets a property if a specified file, directory, class in
+     the classpath, or JVM system resource is available at
+     run time.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/basename.html">Basename</a></td>
+    <td><p>Sets a property to the last element of a specified path.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/buildnumber.html">BuildNumber</a></td>
+    <td><p>Helps tracking build numbers.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/condition.html">Condition</a></td>
+    <td><p>Sets a property if a certain condition holds true; this is
+     a generalization of <a href="Tasks/available.html">Available</a>
+     and <a href="Tasks/uptodate.html">Uptodate</a>.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/dirname.html">Dirname</a></td>
+    <td><p>Sets a property to the value of the specified file up to,
+     but not including, the last path element.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/echoproperties.html">Echoproperties</a></td>
+    <td><p>Lists the current properties.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/loadfile.html">LoadFile</a></td>
+    <td><p>Loads a file into a property.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/loadproperties.html">LoadProperties</a></td>
+    <td><p>Loads a file's contents as Ant properties. This task is
+     equivalent to using <code>&lt;property
+     file=&quot;...&quot;/&gt;</code> except that it supports
+     nested <code>&lt;filterchain&gt;</code> elements, and it cannot
+     be specified outside a target.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/makeurl.html">MakeURL</a></td>
+    <td><p>Creates a URL (list) from a file/fileset or path</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/pathconvert.html">PathConvert</a></td>
+    <td><p>Converts a nested path, path reference, filelist reference,
+     or fileset reference to the form usable on a specified platform
+     and/or to a list of items separated by the specified separator
+     and stores the result in the specified property.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/property.html">Property</a></td>
+    <td><p>Sets a property (by name and value), or set of properties
+     (from a file or resource) in the project.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/propertyfile.html">PropertyFile</a></td>
+    <td><p>Creates or modifies property files. Useful when wanting to
+     make unattended modifications to configuration files for
+     application servers and applications. Typically used for things
+     such as automatically generating a build number and saving it to
+     a build properties file, or doing date manipulation.<p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/uptodate.html">Uptodate</a></td>
+    <td><p>Sets a property if a given target file is newer than a set
+     of source files.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/whichresource.html">Whichresource</a></td>
+    <td><p>Finds a class or resource.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/xmlproperty.html">XmlProperty</a></td>
+    <td><p>Loads property values from a well-formed XML file.</p></td>
+  </tr>
+</table>
+
+<div class="float" id="remote">
+    <span class="left">Remote Tasks</span>
+    <span class="right"><a href="#top" style="text-decoration:none;">&#x1f51d;</a></span>
+</div>
+
+<table>
+  <tr>
+    <th scope="col">Task Name</th>
+    <th scope="col">Description</th>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/ftp.html">FTP</a></td>
+    <td><p>Implements a basic FTP client that can send, receive, list,
+     and delete files, and create directories.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/rexec.html">Rexec</a></td>
+    <td><p>Automates a <code>rexec</code> session.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/scp.html">Scp</a></td>
+    <td><p>Copies files to or from a remote server using SSH.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/setproxy.html">setproxy</a></td>
+    <td><p>Sets Java's HTTP proxy properties, so that tasks and code
+     run in the same JVM can have access to remote web sites through a
+     firewall.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/sshexec.html">Sshexec</a></td>
+    <td><p>Executes a command on a remote server using SSH.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/telnet.html">Telnet</a></td>
+    <td><p>Automates a <code>telnet</code> session. This task uses
+     nested <code>&lt;read&gt;</code> and <code>&lt;write&gt;</code>
+     tags to indicate strings to wait for and specify text to
+     send.</p></td>
+  </tr>
+</table>
+
+<div class="float" id="scm">
+    <span class="left">SCM Tasks</span>
+    <span class="right"><a href="#top" style="text-decoration:none;">&#x1f51d;</a></span>
+</div>
+
+<table>
+  <tr>
+    <th scope="col">Task Name</th>
+    <th scope="col">Description</th>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/cvs.html">Cvs</a></td>
+    <td><p>Handles packages/modules retrieved from
+     a <a href="https://www.nongnu.org/cvs/" target="_top">CVS</a>
+     repository.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/changelog.html">CvsChangeLog</a></td>
+    <td><p>Generates an XML report of the changes recorded in
+     a <a href="https://www.nongnu.org/cvs/" target="_top">CVS</a>
+     repository.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/cvspass.html">CVSPass</a></td>
+    <td><p>Adds entries to a <samp>.cvspass</samp> file. Adding
+     entries to this file has the same affect as a <kbd>cvs
+     login</kbd> command.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/cvstagdiff.html">CvsTagDiff</a></td>
+    <td><p>Generates an XML-formatted report file of the changes
+     between two tags or dates recorded in
+     a <a href="https://www.nongnu.org/cvs/" target="_top">CVS</a>
+     repository.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/clearcase.html">ClearCase</a></td>
+    <td><p>Tasks to perform the ClearCase <kbd>cleartool checkin</kbd>,
+     <kbd>checkout</kbd>, <kbd>uncheckout</kbd>, <kbd>update</kbd>,
+     <kbd>lock</kbd>, <kbd>unlock</kbd>, <kbd>mklbtype</kbd>, <kbd>rmtype</kbd>,
+     <kbd>mklabel</kbd>, <kbd>mkattr</kbd>, <kbd>mkdir</kbd>, <kbd>mkelem</kbd>,
+     and <kbd>mkbl</kbd> commands.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/ccm.html">Continuus/Synergy</a></td>
+    <td><p>Tasks to perform the Continuus <kbd>ccm checkin</kbd>,
+     <kbd>checkout</kbd>, <kbd>reconfigure</kbd>, <em>ccmcheckintask</em>,
+     and <em>ccmcreatetask</em> commands.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/vss.html">Microsoft Visual SourceSafe</a></td>
+    <td><p>Tasks to perform the Visual SourceSafe <kbd>ss get</kbd>,
+     <kbd>label</kbd>, <kbd>history</kbd>, <kbd>checkin</kbd>,
+     <kbd>checkout</kbd>, <kbd>add</kbd>, <kbd>cp</kbd>,
+     and <kbd>create</kbd> commands.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/pvcstask.html">Pvcs</a></td>
+    <td><p>Allows the user extract the latest edition of the source
+     code from a PVCS repository.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/sos.html">SourceOffSite</a></td>
+    <td><p>Tasks to perform the SourceOffSite <kbd>sos get</kbd>, <kbd>label</kbd>,
+     <kbd>checkin</kbd>, and <kbd>checkout</kbd> commands.</p></td>
+  </tr>
+</table>
+
+<div class="float" id="testing">
+    <span class="left">Testing Tasks</span>
+    <span class="right"><a href="#top" style="text-decoration:none;">&#x1f51d;</a></span>
+</div>
+
+<table>
+  <tr>
+    <th scope="col">Task Name</th>
+    <th scope="col">Description</th>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/junit.html">Junit</a></td>
+    <td><p>Runs tests from the <a href="https://junit.org"
+     target="_top">Junit</a> testing framework. This task has been
+     tested with JUnit 3.0 and later; it won't work with versions
+     prior to JUnit 3.0.</p></td>
+  </tr>
+
+  <tr>
+    <td><a href="Tasks/junitreport.html">JunitReport</a></td>
+    <td><p>Merges the individual XML files generated by
+     the <a href="Tasks/junit.html">Junit</a> task and applies a
+     stylesheet on the resulting merged document to provide a
+     browsable report of the testcases results.</p></td>
+  </tr>
+</table>
+
+</body>
+</html>

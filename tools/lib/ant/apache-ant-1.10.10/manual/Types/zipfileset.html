@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>ZipFileSet Type</title>
+</head>
+<body>
+<h2 id="fileset">ZipFileSet</h2>
+
+<p>A <code>&lt;zipfileset&gt;</code> is a special form of
+a <code>&lt;<a href="fileset.html">fileset</a>&gt;</code> which can behave in 2 different ways:</p>
+<ul>
+  <li>When the <var>src</var> attribute is used&mdash;or a nested resource collection has been
+    specified (<em>since Apache Ant 1.7</em>), the zipfileset is populated with zip entries found in
+    the file <var>src</var>.</li>
+  <li>When the <var>dir</var> attribute is used, the zipfileset is populated with filesystem files
+    found under <var>dir</var>.</li>
+</ul>
+<p><code>&lt;zipfileset&gt;</code> supports all attributes
+of <code>&lt;<a href="fileset.html">fileset</a>&gt;</code> in addition to those listed below.  Note
+that zip archives in general don't contain entries with leading slashes so you shouldn't
+use <var>includes</var>/<var>excludes</var> patterns that start with slashes either.</p>
+
+<p><em>Since Ant 1.6</em>, a zipfileset can be defined with the <var>id</var> attribute and referred
+to with the <var>refid</var> attribute.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tbody>
+    <tr>
+      <th scope="col">Attribute</th>
+      <th scope="col">Description</th>
+      <th scope="col">Required</th>
+    </tr>
+    <tr>
+      <td>prefix</td>
+      <td>all files in the fileset are prefixed with that path in the archive.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>fullpath</td>
+      <td>the file described by the fileset is placed at that exact location in the archive.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>src</td>
+      <td>may be used in place of the <var>dir</var> attribute to specify a zip file whose contents
+        will be extracted and included in the archive.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>filemode</td>
+      <td>A 3 digit octal string, specify the user, group and other modes in the standard Unix
+        fashion. Only applies to plain files. <em>Since Ant 1.5.2</em></td>
+      <td>No; default is <q>644</q></td>
+    </tr>
+    <tr>
+      <td>dirmode</td>
+      <td>A 3 digit octal string, specify the user, group and other modes in the standard Unix
+        fashion. Only applies to directories. <em>Since Ant 1.5.2</em></td>
+      <td>No; default is <q>755</q></td>
+    </tr>
+    <tr>
+      <td>encoding</td>
+      <td>The character encoding to use for filenames inside the zip file.  For a list of possible
+        values see
+        the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html"
+        target="_top">Supported Encodings</a>.
+      <td>No; defaults to default JVM character encoding</td>
+    </tr>
+    <tr>
+      <td>erroronmissingarchive</td>
+      <td>Specify what happens if the archive does not exist.  If <q>true</q>, a build error will
+        happen; if <q>false</q>, the fileset will be ignored/empty.  <em>Since Ant 1.8.0</em></td>
+      <td>No; defaults to <q>true</q></td>
+    </tr>
+  </tbody>
+</table>
+<p>The <var>fullpath</var> attribute can only be set for filesets that represent a single
+file. The <var>prefix</var> and <var>fullpath</var> attributes cannot both be set on the same
+fileset.</p>
+<p>When using the <var>src</var> attribute, <var>includes</var> and <var>excludes</var> patterns
+may be used to specify a subset of the archive for inclusion in the archive as with
+the <var>dir</var> attribute.</p>
+
+<p>Please note that currently only the <a href="../Tasks/tar.html">tar</a>
+and <a href="../Tasks/zip.html">zip</a> tasks use the permission.</p>
+
+<h3>Parameters specified as nested elements</h3>
+
+<h4>any file system based <a href="resources.html">resource</a> or single element resource
+collection</h4>
+
+<p>The specified resource will be used as <var>src</var>.</p>
+
+<h4>Examples</h4>
+<pre>
+&lt;zip destfile="${dist}/manual.zip"&gt;
+  &lt;zipfileset dir="htdocs/manual" prefix="docs/user-guide"/&gt;
+  &lt;zipfileset dir="." includes="ChangeLog27.txt" fullpath="docs/ChangeLog.txt"/&gt;
+  &lt;zipfileset src="examples.zip" includes="**/*.html" prefix="docs/examples"/&gt;
+&lt;/zip&gt;</pre>
+<p>zips all files in the <samp>htdocs/manual</samp> directory into
+the <samp>docs/user-guide</samp> directory in the archive, adds the
+file <samp>ChangeLog27.txt</samp> in the current directory as <samp>docs/ChangeLog.txt</samp>,
+and includes all the html files in <samp>examples.zip</samp> under <samp>docs/examples</samp>.
+The archive might end up containing the files:</p>
+<pre>docs/user-guide/html/index.html
+docs/ChangeLog.txt
+docs/examples/index.html</pre>
+
+</body>
+</html>

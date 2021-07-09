@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+<head>
+  <link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+  <title>XmlNamespaceSupport</title>
+</head>
+  <body>
+    <h2 id="namespace">XML Namespace Support</h2>
+    Apache Ant 1.6 introduces support for XML namespaces.
+    <h3>History</h3>
+
+    <p>
+      All releases of Ant prior to Ant 1.6 do not support XML namespaces.  No support basically
+      implies two things here:
+    </p>
+    <ul>
+      <li>Element names correspond to the "qname" of the tags, which is usually the same as the
+        local name. But if the build file writer uses colons in names of defined tasks/types,
+        those become part of the element name. Turning on namespace support gives
+        colon-separated prefixes in tag names a special meaning, and thus build files using
+        colons in user-defined tasks and types will break.
+      </li>
+      <li>Attributes with the names <q>xmlns</q> and <q>xmlns:<em>prefix</em></q> are not
+        treated specially, which means that custom tasks and types have actually been able to
+        use such attributes as parameter names. Again, such tasks/types are going to break when
+        namespace support is enabled on the parser.
+      </li>
+    </ul>
+    <p>Use of colons in element names has been discouraged in the past, and using any attribute
+      starting with <q>xml</q> is actually strongly discouraged by the XML spec to reserve such
+      names for future use.
+    </p>
+
+    <h3>Motivation</h3>
+    <p>In build files using a lot of custom and third-party tasks, it is easy to get into name
+      conflicts. When individual types are defined, the build file writer can do some
+      namespacing manually (for example, using <q>tomcat-deploy</q> instead of
+      just <q>deploy</q>). But when defining whole libraries of types using
+      the <code>&lt;typedef&gt;</code> <var>resource</var> attribute, the build file writer has
+      no chance to override or even prefix the names supplied by the library.</p>
+
+    <h3>Assigning Namespaces</h3>
+    <p>
+      Adding a <var>prefix</var> attribute to <code>&lt;typedef&gt;</code> might have been
+      enough, but XML already has a well-known method for namespacing. Thus, instead of adding
+      a <var>prefix</var> attribute, the <code>&lt;typedef&gt;</code>
+      and <code>&lt;taskdef&gt;</code> tasks get a <var>uri</var> attribute, which stores the
+      URI of the XML namespace with which the type should be associated:
+    </p>
+    <pre>
+&lt;typedef resource="org/example/tasks.properties" uri="http://example.org/tasks"/&gt;
+&lt;my:task xmlns:my="http://example.org/tasks"&gt;
+    ...
+&lt;/my:task&gt;</pre>
+    <p>As the above example demonstrates, the namespace URI needs to be specified at least
+      twice: one time as the value of the <var>uri</var> attribute, and another time to actually
+      map the namespace to occurrences of elements from that namespace, by using
+      the <var>xmlns</var> attribute. This mapping can happen at any level in the build file:
+    </p>
+    <pre>
+&lt;project name="test" xmlns:my="http://example.org/tasks"&gt;
+    &lt;typedef resource="org/example/tasks.properties" uri="http://example.org/tasks"/&gt;
+    &lt;my:task&gt;
+        ...
+    &lt;/my:task&gt;
+&lt;/project&gt;</pre>
+    <p>
+      Use of a namespace prefix is of course optional. Therefore the example could also look
+      like this:
+    </p>
+    <pre>
+&lt;project name="test"&gt;
+    &lt;typedef resource="org/example/tasks.properties" uri="http://example.org/tasks"/&gt;
+    &lt;task xmlns="http://example.org/tasks"&gt;
+        ...
+    &lt;/task&gt;
+&lt;/project&gt;</pre>
+    <p>
+      Here, the namespace is set as the default namespace for the <code>&lt;task&gt;</code>
+      element and all its descendants.
+    </p>
+
+    <h3>Default Namespace</h3>
+    <p>
+      The default namespace used by Ant is <code>antlib:org.apache.tools.ant</code>.
+    </p>
+    <pre>
+&lt;typedef resource="org/example/tasks.properties" uri="antlib:org.apache.tools.ant"/&gt;
+&lt;task&gt;
+    ...
+&lt;/task&gt;</pre>
+
+    <h3>Namespaces and Nested Elements</h3>
+    <p>
+      Almost always in Ant 1.6, elements nested inside a namespaced element have the same
+      namespace as their parent. So if <code>task</code> in the example above allowed a
+      nested <code>config</code> element, the build file snippet would look like this:
+    </p>
+    <pre>
+&lt;typedef resource="org/example/tasks.properties" uri="http://example.org/tasks"/&gt;
+&lt;my:task xmlns:my="http://example.org/tasks"&gt;
+    &lt;my:config a="foo" b="bar"/&gt;
+    ...
+&lt;/my:task&gt;</pre>
+    <p>If the element allows or requires a lot of nested elements, the prefix needs to be used
+      for every nested element. Making the namespace the default can reduce the verbosity of the
+      script:
+    </p>
+    <pre>
+&lt;typedef resource="org/example/tasks.properties" uri="http://example.org/tasks"/&gt;
+&lt;task xmlns="http://example.org/tasks"&gt;
+    &lt;config a="foo" b="bar"/&gt;
+    ...
+&lt;/task&gt;</pre>
+    <p>
+      <em>Since Ant 1.6.2</em>, elements nested inside a namespaced element may also be in Ant's
+      default namespace. This means that the following is now allowed:
+    </p>
+    <pre>
+&lt;typedef resource="org/example/tasks.properties"
+    uri="http://example.org/tasks"/&gt;
+&lt;my:task xmlns:my="http://example.org/tasks"&gt;
+    &lt;config a="foo" b="bar"/&gt;
+    ...
+&lt;/my:task&gt;</pre>
+
+    <h3>Namespaces and Attributes</h3>
+    <p>
+      Attributes are only used to configure the element they belong to if:
+    </p>
+    <ul>
+      <li>they have no namespace (note that the default namespace does <strong>not</strong> apply to attributes)</li>
+      <li>they are in the same namespace as the element they belong to</li>
+    </ul>
+    <p>
+      <em>Since Ant 1.9.1</em> two attribute namespaces <code>ant:if</code>
+      and <code>ant:unless</code> are available to allow you to insert elements conditionally.
+    </p>
+    <p>
+      Other attributes are simply ignored.
+    </p>
+    <p>
+      This means that both:
+    </p>
+    <p>
+    </p>
+    <pre>
+&lt;my:task xmlns:my="http://example.org/tasks"&gt;
+    &lt;my:config a="foo" b="bar"/&gt;
+    ...
+&lt;/my:task&gt;</pre>
+    <p>
+      and
+    </p>
+    <pre>
+&lt;my:task xmlns:my="http://example.org/tasks"&gt;
+    &lt;my:config my:a="foo" my:b="bar"/&gt;
+    ...
+&lt;/my:task&gt;</pre>
+    <p>
+      result in the parameters <var>a</var> and <var>b</var> being used as parameters to
+      configure the nested <code>config</code> element.
+    </p>
+    <p>
+      It also means that you can use attributes from other namespaces to markup the build file
+      with extra metadata, such as RDF and XML-Schema (whether that's a good thing or not). The
+      same is not true for elements from unknown namespaces, which result in a error.
+    </p>
+    <h3>Mixing Elements from Different Namespaces</h3>
+
+    <p>
+      Now comes the difficult part: elements from different namespaces can be woven together under
+      certain circumstances. This has a lot to do with the Ant
+      1.6 <a href="../develop.html#nestedtype">add type introspection rules</a>: Ant types and tasks
+      are now free to accept arbitrary named types as nested elements, as long as the concrete type
+      implements the interface expected by the task/type. The most obvious example for this is
+      the <code>&lt;condition&gt;</code> task, which supports various nested conditions, all of
+      which extend the interface <code class="code">Condition</code>. To integrate a custom
+      condition in Ant, you can now simply <code>&lt;typedef&gt;</code> the condition, and then use
+      it anywhere nested conditions are allowed (assuming the containing element has a
+      generic <code class="code">add(Condition)</code>
+      or <code class="code">addConfigured(Condition)</code> method):
+    </p>
+    <pre>
+&lt;typedef resource="org/example/conditions.properties" uri="http://example.org/conditions"/&gt;
+&lt;condition property="prop" xmlns="http://example.org/conditions"&gt;
+    &lt;and&gt;
+        &lt;available file="bla.txt"/&gt;
+        &lt;my:condition a="foo"/&gt;
+    &lt;/and&gt;
+&lt;/condition&gt;</pre>
+    <p>
+      In Ant 1.6, this feature cannot be used as much as we'd all like to: a lot of code has not
+      yet been adapted to the new introspection rules, and elements like Ant's built-in
+      conditions and selectors are not really types in 1.6. This is expected to change in Ant
+      1.7.
+    </p>
+    <h3>Namespaces and Antlib</h3>
+
+    <p>
+      The new <a href="antlib.html">AntLib</a> feature is also very much integrated with the
+      namespace support in Ant 1.6. Basically, you can "import" Antlibs simply by using a
+      special scheme for the namespace URI: the <code>antlib</code> scheme, which expects the
+      package name in which a special <samp>antlib.xml</samp> file is located.
+    </p>
+
+</body>
+</html>

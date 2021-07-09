@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Checksum Task</title>
+</head>
+
+<body>
+
+<h2 id="checksum">Checksum</h2>
+<h3>Description</h3>
+<p>Generates checksum for files.  This task can also be used to perform checksum verifications.</p>
+
+<p>Note that many popular message digest functions&mdash;including MD5 and SHA-1&mdash;have been
+broken recently.  If you are going to use the task to create checksums used in an environment where
+security is important, please take some time to investigate the algorithms offered by your JCE
+provider.  Note also that some JCE providers like the one by <a href="https://www.bouncycastle.org/"
+target="_top">The Legion of the Bouncy Castle</a>,
+the <a href="https://www.gnu.org/software/gnu-crypto/" target="_top">GNU Crypto project</a>
+or <a href="https://jce.iaik.tugraz.at/sic/Products" target="_top">the Technical University Graz</a>
+offer more digest algorithms than those built-in into your JDK.</p>
+
+<p>Warning: the case of the extension is that of the algorithm used.  If you ask
+for <samp>SHA1</samp>, you get a <samp>.SHA1</samp> extension; if you ask for <samp>sha1</samp>, you
+get a file ending in <samp>.sha1</samp>. The Java Crypto Engines are case-insensitive in matching
+algorithms, so choose a name to match your desired output extension, or set the <var>fileext</var>
+attribute. The names of common hashing algorithms can be located on
+the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#MessageDigest"
+target="_top">Cryptography Architecture Standard Algorithm Name Documentation</a></p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td>The file to generate checksum for.</td>
+    <td>Yes, unless at least one nested (filesystem-only) resource collection is specified.</td>
+  </tr>
+  <tr>
+    <td>todir</td>
+    <td>The root directory where checksums should be written.</td>
+    <td>No; by default, checksum files will be written to the same directory as the original
+      files.  <em>since Apache Ant 1.6</em>
+    </td>
+  </tr>
+  <tr>
+    <td>algorithm</td>
+    <td>Specifies the algorithm to be used to compute the checksum. Please check
+      the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/StandardNames.html#MessageDigest"
+      target="_top">documentation</a> for available algorithm names, like <q>SHA-1</q>
+      or <q>SHA-512</q>.
+    </td>
+    <td>No; defaults to <q>MD5</q></td>
+  </tr>
+  <tr>
+    <td>provider</td>
+    <td>Specifies the provider of the algorithm.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>fileext</td>
+    <td>The generated checksum file's name will be the original filename with the <var>fileext</var>
+      added to it.
+    </td>
+    <td>No; defaults to a <q>.</q> and the algorithm name being used</td>
+  </tr>
+  <tr>
+    <td>property</td>
+    <td>This attribute can mean two different things, it depends on the presence of
+      the <var>verifyproperty</var> attribute.<br/><strong>If you don't set</strong>
+      the <var>verifyproperty</var> attribute, property specifies the name of the property to be set
+      with the generated checksum value.<br/><strong>If you set</strong>
+      the <var>verifyproperty</var> attribute, property specifies the checksum you expect to be
+      generated (the checksum itself, not a name of a property containing the checksum).<br/>  This
+      cannot be specified when <var>fileext</var> is being used or when the number of files for
+      which checksums are to be generated is greater than 1.
+    </td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>pattern</td>
+    <td>Specifies the pattern to use as a pattern suitable
+    for <a href="https://docs.oracle.com/javase/8/docs/api/java/text/MessageFormat.html"
+    target="_top">MessageFormat</a> where <code>{0}</code> is replaced with the checksum
+    and <code>{1}</code> with the file name. <em>Since Ant 1.7.0</em><br/><em>Since Ant
+    1.8.2</em> <code>{2}</code> is replaced by the path of the file relative to the checksum file
+    being written, <code>{3}</code> with the path of the file relative to the
+    project's <var>basedir</var> and <code>{4}</code> with the absolute path of the file.</td>
+    <td>No; default is <q>{0}</q></td>
+  </tr>
+  <tr>
+    <td>format</td>
+    <td>Specifies the pattern to use as one of a well-known format.  Supported values are
+      <table>
+      <tr>
+        <th scope="col">name</th>
+        <th scope="col">pattern</th>
+        <th scope="col">description</th>
+      </tr>
+      <tr>
+        <td>CHECKSUM</td>
+        <td><code>{0}</code></td>
+        <td>only the checksum itself</td>
+      </tr>
+      <tr>
+        <td>MD5SUM</td>
+        <td><code>{0} *{1}</code></td>
+        <td>the format of GNU textutils <code>md5sum</code></td>
+      </tr>
+      <tr>
+        <td>SVF</td>
+        <td><code>MD5 ({1}) = {0}</code></td>
+        <td>the format of BSD <code>md5</code> command</td>
+      </tr>
+      </table>
+      <em>Since Ant 1.7.0</em></td>
+    <td>No; default is <q>CHECKSUM</q></td>
+  </tr>
+  <tr>
+    <td>totalproperty</td>
+    <td>If specified, this attribute specifies the name of the property that will hold a checksum of
+      all the checksums and file paths. The individual checksums and the relative paths to the files
+      within the resource collections in which they are defined will be used to compute this
+      checksum. (The file separators in the paths will be converted to <q>/</q> before computation
+      to ensure platform portability).  <em>since Ant 1.6</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>forceoverwrite</td>
+    <td>Overwrite existing files even if the destination files are newer.</td>
+    <td>No; defaults to <q>no</q></td>
+  </tr>
+  <tr>
+    <td>verifyproperty</td>
+    <td>Specifies the name of the property to be set with <q>true</q> or <q>false</q> depending upon
+      whether the generated checksum matches the existing checksum.  When this is set, the generated
+      checksum is not written to a file or property, but rather, the content of the file or property
+      is used to check against the generated checksum.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>readbuffersize</td>
+    <td>The size of the buffer (in bytes) to use when reading a file.</td>
+    <td>No; defaults to <q>8192</q>&mdash;you may get a better performance on big files if you
+      increase this value</td>
+  </tr>
+</table>
+<h3>Parameters specified as nested elements</h3>
+
+<h4>resource collections</h4>
+<p><a href="../Types/resources.html#collection">Resource collections</a> are used to select files
+for which checksums should be generated.</p>
+
+<h3>Examples</h3>
+
+<p><strong>Example 1</strong></p>
+<p>Generate a MD5 checksum for <samp>foo.bar</samp> and store the checksum in the destination
+file <samp>foo.bar.MD5</samp>.  <samp>foo.bar.MD5</samp> is overwritten only if <samp>foo.bar</samp>
+is newer than itself.</p>
+<pre>&lt;checksum file=&quot;foo.bar&quot;/&gt;</pre>
+
+<p><strong>Example 2</strong></p>
+<p>Generate a MD5 checksum for <samp>foo.bar</samp> and store the checksum
+in <samp>foo.bar.MD5</samp>.  If <samp>foo.bar.MD5</samp> already exists, it is overwritten.</p>
+<pre>&lt;checksum file=&quot;foo.bar&quot; forceOverwrite=&quot;yes&quot;/&gt;</pre>
+
+<p><strong>Example 3</strong></p>
+<p>Generate a MD5 checksum for <samp>foo.bar</samp> and store it in the project
+property <code>foobarMD5</code>.</p>
+<pre>&lt;checksum file=&quot;foo.bar&quot; property=&quot;foobarMD5&quot;/&gt;</pre>
+
+<p><strong>Example 4</strong></p>
+<p>Generate a MD5 checksum for <samp>foo.bar</samp>, compare it against <samp>foo.bar.MD5</samp> and
+set <code>isMD5ok</code> to either <q>true</q> or <q>false</q>, depending upon the result.</p>
+<pre>&lt;checksum file=&quot;foo.bar&quot; verifyProperty=&quot;isMD5ok&quot;/&gt;</pre>
+
+<p><strong>Example 5</strong></p>
+<p>Generate a SHA-512 checksum for <samp>foo.bar</samp> and store the checksum in the destination
+file <samp>foo.bar.asc</samp>.  <samp>foo.bar.asc</samp> is overwritten only if <samp>foo.bar</samp>
+is newer than itself.</p>
+<pre>&lt;checksum file=&quot;foo.bar&quot; algorithm=&quot;SHA-512&quot; fileext=&quot;asc&quot;/&gt;</pre>
+
+<p><strong>Example 6</strong></p>
+<p>Generate a MD5 checksum for <samp>foo.bar</samp>, compare it against the value of the
+property <code>md5</code>, and set <code>isEqual</code> to either <q>true</q> or <q>false</q>,
+depending upon the result.</p>
+<pre>&lt;checksum file=&quot;foo.bar&quot; property=&quot;${md5}&quot; verifyProperty=&quot;isEqual&quot;/&gt;</pre>
+
+<p><strong>Example 7</strong></p>
+<p>Just like Example 1, but generates a <samp>.MD5</samp> file for every file that begins with the
+name <samp>foo</samp>.</p>
+<pre>
+&lt;checksum&gt;
+  &lt;fileset dir=&quot;.&quot;&gt;
+    &lt;include name=&quot;foo*&quot;/&gt;
+  &lt;/fileset&gt;
+&lt;/checksum&gt;</pre>
+
+<p><strong>Example 8</strong></p>
+<p>Just like Example 4, but only sets <code>isChecksumEqual</code> to <q>true</q>, if the checksum
+matches&mdash;it will never be set to <q>false</q>.  This example demonstrates use with
+the <code>condition</code> task.</p>
+<pre>
+&lt;condition property=&quot;isChecksumEqual&quot;&gt;
+  &lt;checksum&gt;
+    &lt;fileset dir=&quot;.&quot;&gt;
+      &lt;include name=&quot;foo.bar&quot;/&gt;
+    &lt;/fileset&gt;
+  &lt;/checksum&gt;
+&lt;/condition&gt;</pre>
+
+<h3>Note</h3>
+<p>When working with more than one file, if condition and/or <var>verifyproperty</var> is used, the
+result will be true only if the checksums matched correctly for all files being considered.</p>
+
+</body>
+</html>

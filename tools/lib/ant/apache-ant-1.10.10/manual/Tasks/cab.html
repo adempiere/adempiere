@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Cab Task</title>
+</head>
+
+<body>
+
+<h2 id="cab">Cab</h2>
+<h3>Description</h3>
+<p>The cab task creates Microsoft cabinet archive files.  It is invoked similar to
+the <a href="../Tasks/jar.html">jar</a> or <a href="../Tasks/zip.html">zip</a> tasks.  This task
+will work on Windows using the external <kbd>cabarc</kbd> tool (provided by Microsoft) which must
+be located in your executable path.</p>
+<p>To use this task on other platforms you need to download and compile <code>libcabinet</code>
+from <a href="https://www.freshports.org/archivers/libcabinet/"
+target="_top">https://www.freshports.org/archivers/libcabinet/</a>.</p>
+<p>See the section on <a href="../dirtasks.html#directorybasedtasks">directory based tasks</a>, on
+how the inclusion/exclusion of files works, and how to write patterns.</p>
+<p>This task forms an implicit <a href="../Types/fileset.html">FileSet</a> and supports most
+attributes of <code>&lt;fileset&gt;</code> (<var>dir</var> becomes <var>basedir</var>) as well as
+the nested <code>&lt;include&gt;</code>, <code>&lt;exclude&gt;</code>
+and <code>&lt;patternset&gt;</code> elements.</p>
+
+<p>On non-Unix platforms this task writes the list of files to archive
+  to the <a href="../running.html#tmpdir">temporary directory</a>.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>cabfile</td>
+    <td>the name of the cab file to create.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>basedir</td>
+    <td>the directory to start archiving files from.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>verbose</td>
+    <td>set to <q>yes</q> if you want to see the output from the <code>cabarc</code> tool.</td>
+    <td>No; defaults to <q>no</q></td>
+  </tr>
+  <tr>
+    <td>compress</td>
+    <td>set to <q>no</q> to store files without compressing.</td>
+    <td>No; defaults to <q>yes</q></td>
+  </tr>
+  <tr>
+    <td>options</td>
+    <td>set additional command-line options for the <code>cabarc</code> tool.  Should not
+      normally be necessary.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>includes</td>
+    <td>comma- or space-separated list of patterns of files that must be included.</td>
+    <td>No; defaults to all (<q>**</q>)</td>
+  </tr>
+  <tr>
+    <td>includesfile</td>
+    <td>name of a file. Each line of this file is taken to be an include pattern</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>excludes</td>
+    <td>comma- or space-separated list of patterns of files that must be excluded.</td>
+    <td>No; defaults to default excludes or none if <var>defaultexcludes</var> is <q>no</q></td>
+  </tr>
+  <tr>
+    <td>excludesfile</td>
+    <td>name of a file. Each line of this file is taken to be an exclude pattern</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>defaultexcludes</td>
+    <td>indicates whether default excludes should be used or not (<q>yes|no</q>).</td>
+    <td>No; defaults to <q>yes</q></td>
+  </tr>
+</table>
+<h3>Parameters specified as nested elements</h3>
+<h4>fileset</h4>
+
+<p>The cab task supports one nested <a href="../Types/fileset.html"><code>&lt;fileset&gt;</code></a>
+element to specify the files to be included in the archive.  If this is specified,
+the <var>basedir</var> attribute cannot be used.</p>
+
+<h3>Examples</h3>
+<p>Cab all files in the <samp>htdocs/manual</samp> directory into a file
+called <samp>manual.cab</samp> in the <samp>${dist}</samp> directory.</p>
+<pre>
+&lt;cab cabfile=&quot;${dist}/manual.cab&quot;
+     basedir=&quot;htdocs/manual&quot;/&gt;</pre>
+
+<p>Cab all files in the <samp>htdocs/manual</samp> directory into a file
+called <samp>manual.cab</samp> in the <samp>${dist}</samp> directory. Files in the
+directory <samp>mydocs</samp>, or files with the name <samp>todo.html</samp> are excluded.</p>
+<pre>
+&lt;cab cabfile=&quot;${dist}/manual.cab&quot;
+     basedir=&quot;htdocs/manual&quot;
+     excludes=&quot;mydocs/**, **/todo.html&quot;/&gt;</pre>
+
+<p>Cab all files in the <samp>htdocs/manual</samp> directory into a file
+called <samp>manual.cab</samp> in the <samp>${dist}</samp> directory. Only <samp>.html</samp> files
+under the directory <samp>api</samp> are archived, and files with the name <samp>todo.html</samp>
+are excluded. Output from the <kbd>cabarc</kbd> tool is displayed in the build output.</p>
+<pre>
+&lt;cab cabfile=&quot;${dist}/manual.cab&quot;
+     basedir=&quot;htdocs/manual&quot;
+     includes=&quot;api/**/*.html&quot;
+     excludes=&quot;**/todo.html&quot;
+     verbose=&quot;yes&quot;/&gt;</pre>
+
+<p>The following is equivalent to the example above.</p>
+<pre>
+&lt;cab cabfile=&quot;${dist}/manual.cab&quot;
+     verbose=&quot;yes&quot;&gt;
+  &lt;fileset
+       dir=&quot;htdocs/manual&quot;
+       includes=&quot;api/**/*.html&quot;
+       excludes=&quot;**/todo.html&quot;/&gt;
+&lt;/cab&gt;</pre>
+
+</body>
+</html>

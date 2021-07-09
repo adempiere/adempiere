@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>FilterChains and FilterReaders</title>
+</head>
+
+<body>
+
+<h2>FilterChains and FilterReaders</h2>
+<p>Consider the flexibility of Unix pipes.  If you wanted, for example, to copy just those lines
+that contained the string <q>blee</q> from the first 10 lines of a text file <samp>foo</samp>
+(<em>you wouldn't want to filter a binary file</em>) to a file <samp>bar</samp>, you would do
+something like:</p>
+<pre class="input">cat foo|head -n10|grep blee &gt; bar</pre>
+<p>Apache Ant was not flexible enough.  There was no way for the <code>&lt;copy&gt;</code> task to
+do something similar.  If you wanted the <code>&lt;copy&gt;</code> task to get the first 10 lines,
+you would have had to create special attributes:</p>
+<pre>&lt;copy file=&quot;foo&quot; tofile=&quot;bar&quot; head=&quot;10&quot; contains=&quot;blee&quot;/&gt;</pre>
+<p>The obvious problem thus surfaced: Ant tasks would not be able to accommodate such data
+transformation attributes as they would be endless.  The task would also not know in which order
+these attributes were to be interpreted.  That is, must the task execute the contains attribute
+first and then the head attribute or vice-versa?  What Ant tasks needed was a mechanism to allow
+pluggable filter (data transformer) chains.  Ant would provide a few filters for which there have
+been repeated requests.  Users with special filtering needs would be able to easily write their own
+and plug them in.</p>
+
+<p>The solution was to refactor data transformation oriented tasks to support FilterChains.  A
+FilterChain is a group of ordered FilterReaders.  Users can define their own FilterReaders by just
+extending the <code class="code">java.io.FilterReader</code> class.  Such custom FilterReaders can
+be easily plugged in as nested elements of <code>&lt;filterchain&gt;</code> by
+using <code>&lt;filterreader&gt;</code> elements.</p>
+<p>Example:</p>
+<pre>
+&lt;copy file=&quot;${src.file}&quot; tofile=&quot;${dest.file}&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;filterreader classname=&quot;your.extension.of.java.io.FilterReader&quot;&gt;
+      &lt;param name=&quot;foo&quot; value=&quot;bar&quot;/&gt;
+    &lt;/filterreader&gt;
+    &lt;filterreader classname=&quot;another.extension.of.java.io.FilterReader&quot;&gt;
+      &lt;classpath&gt;
+        &lt;pathelement path="${classpath}"/&gt;
+      &lt;/classpath&gt;
+      &lt;param name=&quot;blah&quot; value=&quot;blee&quot;/&gt;
+      &lt;param type=&quot;abra&quot; value=&quot;cadabra&quot;/&gt;
+    &lt;/filterreader&gt;
+  &lt;/filterchain&gt;
+&lt;/copy&gt;</pre>
+
+<p>Ant provides some built-in filter readers.  These filter readers can also be declared using a
+syntax similar to the above syntax.  However, they can be declared using some simpler syntax
+also.</p>
+<p>Example:</p>
+<pre>
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;src.file.head&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;headfilter lines=&quot;15&quot;/&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+<p>is equivalent to:</p>
+<pre>
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;src.file.head&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;filterreader classname=&quot;org.apache.tools.ant.filters.HeadFilter&quot;&gt;
+      &lt;param name=&quot;lines&quot; value=&quot;15&quot;/&gt;
+    &lt;/filterreader&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<p>The only supported attribute is <code>refid</code> which makes this
+  <code>filterchain</code>
+  a <a href="../using.html#references">reference</a> to
+  a <code>filterchain</code> defined elsewhere. If specified no other
+  attributes or nested elements are allowed.</p>
+
+<p>The following built-in tasks support nested <code>&lt;filterchain&gt;</code> elements.<br/>
+<a href="../Tasks/concat.html">Concat</a>,<br/>
+<a href="../Tasks/copy.html">Copy</a>,<br/>
+<a href="../Tasks/loadfile.html">LoadFile</a>,<br/>
+<a href="../Tasks/loadproperties.html">LoadProperties</a>,<br/>
+<a href="../Tasks/loadresource.html">LoadResource</a>,<br/>
+<a href="../Tasks/move.html">Move</a></p>
+
+<p>A FilterChain is formed by defining zero or more of the following nested elements.<br/>
+<a href="#filterreader">FilterReader</a><br/>
+<a href="#classconstants">ClassConstants</a><br/>
+<a href="#escapeunicode">EscapeUnicode</a><br/>
+<a href="#expandproperties">ExpandProperties</a><br/>
+<a href="#headfilter">HeadFilter</a><br/>
+<a href="#linecontains">LineContains</a><br/>
+<a href="#linecontainsregexp">LineContainsRegExp</a><br/>
+<a href="#prefixlines">PrefixLines</a><br/>
+<a href="#replacetokens">ReplaceTokens</a><br/>
+<a href="#stripjavacomments">StripJavaComments</a><br/>
+<a href="#striplinebreaks">StripLineBreaks</a><br/>
+<a href="#striplinecomments">StripLineComments</a><br/>
+<a href="#suffixlines">SuffixLines</a><br/>
+<a href="#tabstospaces">TabsToSpaces</a><br/>
+<a href="#tailfilter">TailFilter</a><br/>
+<a href="#deletecharacters">DeleteCharacters</a><br/>
+<a href="#concatfilter">ConcatFilter</a><br/>
+<a href="#sortfilter">SortFilter</a><br/>
+<a href="#tokenfilter">TokenFilter</a><br/>
+<a href="../Tasks/fixcrlf.html">FixCRLF</a></p>
+
+<h3 id="filterreader">FilterReader</h3>
+
+<p>The <code>filterreader</code> element is the generic way to define a filter.  User defined filter
+elements are defined in the build file using this.  Please note that built in filter readers can
+also be defined using this syntax.</p>
+
+<p>A FilterReader element must be supplied with a class name as an attribute value.  The class
+resolved by this name must extend <code class="code">java.io.FilterReader</code>.  If the custom
+filter reader needs to be parameterized, it must
+implement <code class="code">org.apache.tools.type.Parameterizable</code>.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>classname</td>
+    <td>The class name of the filter reader.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h4>Nested elements</h4>
+<p><code>&lt;filterreader&gt;</code> supports <code>&lt;classpath&gt;</code>
+and <code>&lt;param&gt;</code> as nested elements.  Each <code>&lt;param&gt;</code> element may take
+in the following attributes&mdash;<var>name</var>, <var>type</var> and <var>value</var>.</p>
+<p>The following FilterReaders are supplied with the default distribution.</p>
+
+<h3 id="classconstants">ClassConstants</h3>
+<p>This filters basic constants defined in a Java Class, and outputs them in lines composed of the
+format <em>name</em>=<em>value</em>.  This filter uses the BCEL library to understand the Java Class
+file.  See <a href="../install.html#librarydependencies">Library Dependencies</a>.</p>
+<p><strong>Important</strong>: This filter is different from most of the other filters.  Most of the
+filters operate on a sequence of characters.  This filter operates on the sequence of bytes that
+makes up a class. However the bytes arrive to the filter as a sequence of characters. This means
+that one must be careful on the choice of character encoding to use. Most encodings lose information
+on conversion from an arbitrary sequence of bytes to characters and back again to bytes. In
+particular, the usual default character encodings (CP1252 and UTF-8) do.  For this reason, <em>since
+Ant 1.7</em>, the character encoding <strong>ISO-8859-1</strong> is used to convert from characters
+back to bytes, so one <strong>has</strong> to use this encoding for reading the Java class file.</p>
+<h4>Example</h4>
+
+<p>This loads the basic constants defined in a Java class as Ant properties.</p>
+
+<pre>
+&lt;loadproperties srcfile="foo.class" encoding="ISO-8859-1"&gt;
+  &lt;filterchain&gt;
+    &lt;classconstants/&gt;
+  &lt;/filterchain&gt;
+&lt;/loadproperties&gt;</pre>
+
+<p>This loads the constants from a Java class file as Ant properties, prepending the names with
+a prefix.</p>
+
+<pre>
+&lt;loadproperties srcfile="build/classes/org/acme/bar.class"
+                encoding="ISO-8859-1"&gt;
+  &lt;filterchain&gt;
+    &lt;classconstants/&gt;
+    &lt;prefixlines prefix="ini."/&gt;
+  &lt;/filterchain&gt;
+&lt;/loadproperties&gt;</pre>
+<h3 id="escapeunicode">EscapeUnicode</h3>
+
+<p>This filter converts its input by changing all non US-ASCII characters into their equivalent
+Unicode escape backslash u plus 4 digits.</p>
+
+<p><em>Since Ant 1.6</em></p>
+
+<h4>Example</h4>
+
+<p>This loads the basic constants defined in a Java class as Ant properties.</p>
+<pre>
+&lt;loadproperties srcfile=&quot;non_ascii_property.properties&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;filterreader classname=&quot;org.apache.tools.ant.filters.EscapeUnicode&quot;/&gt;
+  &lt;/filterchain&gt;
+&lt;/loadproperties&gt;</pre>
+
+<p>Convenience method:</p>
+<pre>
+&lt;loadproperties srcfile=&quot;non_ascii_property.properties&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;escapeunicode/&gt;
+  &lt;/filterchain&gt;
+&lt;/loadproperties&gt;</pre>
+
+<h3 id="expandproperties">ExpandProperties</h3>
+<p>If the data contains data that represents Ant properties (of the form <code>${...}</code>), that
+is substituted with the property's actual value.</p>
+
+<h4>Example</h4>
+
+<p>This results in the property <code>modifiedmessage</code> holding the value <q>All these moments
+will be lost in time, like teardrops in the rain</q></p>
+<pre>
+&lt;echo message=&quot;All these moments will be lost in time, like teardrops in the ${weather}&quot;
+      file=&quot;loadfile1.tmp&quot;/&gt;
+&lt;property name=&quot;weather&quot; value=&quot;rain&quot;/&gt;
+&lt;loadfile property=&quot;modifiedmessage&quot; srcFile=&quot;loadfile1.tmp&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;filterreader classname=&quot;org.apache.tools.ant.filters.ExpandProperties&quot;/&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<p>Convenience method:</p>
+<pre>
+&lt;echo message=&quot;All these moments will be lost in time, like teardrops in the ${weather}&quot;
+      file=&quot;loadfile1.tmp&quot;/&gt;
+&lt;property name=&quot;weather&quot; value=&quot;rain&quot;/&gt;
+&lt;loadfile property=&quot;modifiedmessage&quot; srcFile=&quot;loadfile1.tmp&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;expandproperties/&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<p><em>Since Ant 1.8.3</em>, a nested <a href="propertyset.html">PropertySet</a> can be specified:</p>
+
+<pre>
+&lt;property name=&quot;weather&quot; value=&quot;rain&quot;/&gt;
+&lt;loadfile property=&quot;modifiedmessage&quot; srcFile=&quot;loadfile1.tmp&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;expandproperties&gt;
+      &lt;propertyset&gt;
+        &lt;propertyref name="weather"/&gt;
+      &lt;/propertyset&gt;
+    &lt;/expandproperties&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<h3 id="headfilter">HeadFilter</h3>
+
+<p>This filter reads the first few lines from the data supplied to it.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Parameter Name</th>
+    <th scope="col">Parameter Value</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>lines</td>
+    <td>Number of lines to be read.<br/>
+      A negative value means that all lines are passed (useful with <var>skip</var>).</td>
+    <td>No; defaults to <q>10</q></td>
+  </tr>
+  <tr>
+    <td>skip</td>
+    <td>Number of lines to be skipped (from the beginning).</td>
+    <td>No; defaults to <q>0</q></td>
+  </tr>
+</table>
+
+<h4>Example</h4>
+<p>This stores the first 15 lines of the supplied data in the property <code>src.file.head</code></p>
+<pre>
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;src.file.head&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;filterreader classname=&quot;org.apache.tools.ant.filters.HeadFilter&quot;&gt;
+      &lt;param name=&quot;lines&quot; value=&quot;15&quot;/&gt;
+    &lt;/filterreader&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<p>Convenience method:</p>
+<pre>
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;src.file.head&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;headfilter lines=&quot;15&quot;/&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<p>This stores the first 15 lines, skipping the first 2 lines, of the supplied data in the
+property <code>src.file.head</code> (means: lines 3-17).</p>
+<pre>
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;src.file.head&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;headfilter lines=&quot;15&quot; skip=&quot;2&quot;/&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<p>See the testcases for more examples (<samp>src\etc\testcases\filters\head-tail.xml</samp> in
+the source distribution).</p>
+
+<h3 id="linecontains">LineContains</h3>
+
+<p>This filter includes only those lines that contain all the user-specified strings.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Parameter Type</th>
+    <th scope="col">Parameter Value</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>contains</td>
+    <td>Substring to be searched for.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>negate</td>
+    <td>Whether to select <em>non-</em>matching lines only. <em>Since Ant 1.7</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>matchAny</td>
+    <td>If <q>false</q>, then all the strings are expected to be present in the line. If
+      <q>true</q>, then the presence of any of the strings in the line is considered
+      a successful match.<br/><em>Since Ant 1.10.4</em>
+    </td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+</table>
+<p>
+<h4>Example</h4>
+
+<p>This will include only those lines that contain <q>foo</q> and <q>bar</q>.</p>
+<pre>
+&lt;filterreader classname=&quot;org.apache.tools.ant.filters.LineContains&quot;&gt;
+  &lt;param type=&quot;contains&quot; value=&quot;foo&quot;/&gt;
+  &lt;param type=&quot;contains&quot; value=&quot;bar&quot;/&gt;
+&lt;/filterreader&gt;</pre>
+
+<p>Convenience method:</p>
+<pre>
+&lt;linecontains&gt;
+  &lt;contains value=&quot;foo&quot;/&gt;
+  &lt;contains value=&quot;bar&quot;/&gt;
+&lt;/linecontains&gt;</pre>
+
+<p>Negation:</p>
+<pre>
+&lt;filterreader classname=&quot;org.apache.tools.ant.filters.LineContains&quot;&gt;
+  &lt;param type=&quot;negate&quot; value=&quot;true&quot;/&gt;
+  &lt;param type=&quot;contains&quot; value=&quot;foo&quot;/&gt;
+  &lt;param type=&quot;contains&quot; value=&quot;bar&quot;/&gt;
+&lt;/filterreader&gt;</pre>
+<p><em>or</em></p>
+<pre>
+&lt;linecontains negate=&quot;true&quot;&gt;
+  &lt;contains value=&quot;foo&quot;/&gt;
+  &lt;contains value=&quot;bar&quot;/&gt;
+&lt;/linecontains&gt;</pre>
+
+<h3 id="linecontainsregexp">LineContainsRegExp</h3>
+
+<p>Filter which includes only those lines that contain the user-specified regular expression
+matching strings.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Parameter Type</th>
+    <th scope="col">Parameter Value</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>regexp</td>
+    <td>Regular expression to be searched for.<br/><em>Since Ant 1.10.2</em>, this also works as an
+      attribute on <code>linecontainsregexp</code>. In earlier versions of Ant you must use a nested
+      element when using the convenience method.
+    </td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>negate</td>
+    <td>Whether to select <em>non-</em>matching lines only. <em>Since Ant 1.7</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>casesensitive</td>
+    <td>Perform a case sensitive match. <em>Since Ant 1.8.2</em></td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+</table>
+
+<p>See <a href="regexp.html">Regexp Type</a> for the description of the nested element regexp
+and of the choice of regular expression implementation.</p>
+
+<h4>Example</h4>
+
+<p>This will fetch all those lines that contain the pattern <code>foo</code></p>
+<pre>
+&lt;filterreader classname=&quot;org.apache.tools.ant.filters.LineContainsRegExp&quot;&gt;
+  &lt;param type=&quot;regexp&quot; value=&quot;foo*&quot;/&gt;
+&lt;/filterreader&gt;</pre>
+
+<p>Convenience method:</p>
+<pre>
+&lt;linecontainsregexp&gt;
+  &lt;regexp pattern=&quot;foo*&quot;/&gt;
+&lt;/linecontainsregexp&gt;</pre>
+
+<p>Negation:</p>
+<pre>
+&lt;filterreader classname=&quot;org.apache.tools.ant.filters.LineContainsRegExp&quot;&gt;
+  &lt;param type=&quot;negate&quot; value=&quot;true&quot;/&gt;
+  &lt;param type=&quot;regexp&quot; value=&quot;foo*&quot;/&gt;
+&lt;/filterreader&gt;</pre>
+<p><em>or</em></p>
+<pre>
+&lt;linecontainsregexp negate=&quot;true&quot;&gt;
+  &lt;regexp pattern=&quot;foo*&quot;/&gt;
+&lt;/linecontainsregexp&gt;</pre>
+
+<h3 id="prefixlines">PrefixLines</h3>
+
+<p>Attaches a prefix to every line.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Parameter Name</th>
+    <th scope="col">Parameter Value</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>prefix</td>
+    <td>Prefix to be attached to lines.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h4>Example</h4>
+
+<p>This will attach the prefix <code>Foo</code> to all lines.</p>
+<pre>
+&lt;filterreader classname=&quot;org.apache.tools.ant.filters.PrefixLines&quot;&gt;
+  &lt;param name=&quot;prefix&quot; value=&quot;Foo&quot;/&gt;
+&lt;/filterreader&gt;</pre>
+
+<p>Convenience method:</p>
+<pre>&lt;prefixlines prefix=&quot;Foo&quot;/&gt;</pre>
+
+<h3 id="suffixlines">SuffixLines</h3>
+
+<p><em>Since Ant 1.8.0</em></p>
+
+<p>Attaches a suffix to every line.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Parameter Name</th>
+    <th scope="col">Parameter Value</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>suffix</td>
+    <td>Suffix to be attached to lines.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h4>Example</h4>
+
+<p>This will attach the suffix <code>Foo</code> to all lines.</p>
+<pre>
+&lt;filterreader classname=&quot;org.apache.tools.ant.filters.SuffixLines&quot;&gt;
+  &lt;param name=&quot;suffix&quot; value=&quot;Foo&quot;/&gt;
+&lt;/filterreader&gt;</pre>
+
+<p>Convenience method:</p>
+<pre>&lt;suffixlines suffix=&quot;Foo&quot;/&gt;</pre>
+
+<h3 id="replacetokens">ReplaceTokens</h3>
+
+<p>This filter reader replaces all strings that are sandwiched between <var>begintoken</var>
+and <var>endtoken</var> with user defined values.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Parameter Type</th>
+    <th scope="col">Parameter Name</th>
+    <th scope="col">Parameter Value</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>tokenchar</td>
+    <td>begintoken</td>
+    <td>String marking the beginning of a token.</td>
+    <td>No; defaults to <q>@</q></td>
+  </tr>
+  <tr>
+    <td>tokenchar</td>
+    <td>endtoken</td>
+    <td>String marking the end of a token.</td>
+    <td>No; defaults to <q>@</q></td>
+  </tr>
+  <tr>
+    <td>token</td>
+    <td>User defined token string</td>
+    <td>Replacement value for the token.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>propertiesfile</td>
+    <td rowspan="2">Not applicable</td>
+    <td>Properties file to take tokens and replacement values from.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>propertiesResource</td>
+    <td>Properties resource to take tokens from.
+      Note this only works is you use the
+      "convenience" <code>&lt;replacetokens&gt;</code> syntax.
+      <em>since Ant 1.8.0</em></td>
+    <td>No</td>
+  </tr>
+</table>
+
+<h4>Example</h4>
+
+<p>This replaces occurrences of the string <code>@DATE@</code> in the data with today's date and
+stores it in the property <code>${src.file.replaced}</code>.</p>
+<pre>
+&lt;tstamp/&gt;
+&lt;!-- just for explaining the use of the properties --&gt;
+&lt;property name=&quot;src.file&quot; value=&quot;orders.csv&quot;/&gt;
+&lt;property name=&quot;src.file.replaced&quot; value=&quot;orders.replaced&quot;/&gt;
+
+&lt;!-- do the loading and filtering --&gt;
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;${src.file.replaced}&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;filterreader classname=&quot;org.apache.tools.ant.filters.ReplaceTokens&quot;&gt;
+      &lt;param type=&quot;token&quot; name=&quot;DATE&quot; value=&quot;${TODAY}&quot;/&gt;
+    &lt;/filterreader&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;
+
+&lt;!-- just for explaining the use of the properties --&gt;
+&lt;echo message=&quot;${orders.replaced}&quot;/&gt;</pre>
+
+<p>Convenience method:</p>
+<pre>
+&lt;tstamp/&gt;
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;${src.file.replaced}&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;replacetokens&gt;
+      &lt;token key=&quot;DATE&quot; value=&quot;${TODAY}&quot;/&gt;
+    &lt;/replacetokens&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<p>This replaces occurrences of the string <q>{{DATE}}</q> in the data with today's date and
+stores it in the property <samp>${src.file.replaced}</samp>.</p>
+<pre>
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;${src.file.replaced}&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;filterreader classname=&quot;org.apache.tools.ant.filters.ReplaceTokens&quot;&gt;
+      &lt;param type=&quot;tokenchar&quot; name=&quot;begintoken&quot; value=&quot;{{&quot;/&gt;
+      &lt;param type=&quot;tokenchar&quot; name=&quot;endtoken&quot; value=&quot;}}&quot;/&gt;
+    &lt;/filterreader&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<p>Convenience method:</p>
+<pre>
+&lt;tstamp/&gt;
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;${src.file.replaced}&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;replacetokens begintoken=&quot;{{&quot; endtoken=&quot;}}&quot;&gt;
+      &lt;token key=&quot;DATE&quot; value=&quot;${TODAY}&quot;/&gt;
+    &lt;/replacetokens&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<p>This will treat each properties file entry in sample.properties as a token/key pair:</p>
+<pre>
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;${src.file.replaced}&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;filterreader classname=&quot;org.apache.tools.ant.filters.ReplaceTokens&quot;&gt;
+      &lt;param type=&quot;propertiesfile&quot; value=&quot;sample.properties&quot;/&gt;
+    &lt;/filterreader&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<p>This reads the properties from an Ant resource referenced by its <var>id</var>:</p>
+<pre>
+&lt;string id=&quot;embedded-properties&quot;&gt;
+foo=bar
+baz=xyzzy
+&lt;/string&gt;
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;${src.file.replaced}&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;replacetokens propertiesResource=&quot;${ant.refid:embedded-properties}&quot;/&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<h3 id="stripjavacomments">StripJavaComments</h3>
+
+<p>This filter reader strips away comments from the data, using Java syntax guidelines.  This
+filter does not take in any parameters.</p>
+
+<h4>Example</h4>
+
+<pre>
+&lt;loadfile srcfile=&quot;${java.src.file}&quot; property=&quot;${java.src.file.nocomments}&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;filterreader classname=&quot;org.apache.tools.ant.filters.StripJavaComments&quot;/&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<p>Convenience method:</p>
+<pre>
+&lt;loadfile srcfile=&quot;${java.src.file}&quot; property=&quot;${java.src.file.nocomments}&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;stripjavacomments/&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<h3 id="striplinebreaks">StripLineBreaks</h3>
+
+<p>This filter reader strips away specific characters from the data supplied to it.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Parameter Name</th>
+    <th scope="col">Parameter Value</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>linebreaks</td>
+    <td>Characters that are to be stripped out.</td>
+    <td>No; defaults to <q>\r\n</q></td>
+  </tr>
+</table>
+
+<h4>Examples</h4>
+
+<p>This strips the <q>\r</q> and <q>\n</q> characters.</p>
+<pre>
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;${src.file.contents}&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;filterreader classname=&quot;org.apache.tools.ant.filters.StripLineBreaks&quot;/&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<p>Convenience method:</p>
+<pre>
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;${src.file.contents}&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;striplinebreaks/&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<p>This treats the <q>(</q> and <q>)</q> characters as line break characters and strips
+them.</p>
+<pre>
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;${src.file.contents}&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;filterreader classname=&quot;org.apache.tools.ant.filters.StripLineBreaks&quot;&gt;
+      &lt;param name=&quot;linebreaks&quot; value=&quot;()&quot;/&gt;
+    &lt;/filterreader&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<h3 id="striplinecomments">StripLineComments</h3>
+
+<p>This filter removes all those lines that begin with strings that represent comments as specified
+by the user.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Parameter Type</th>
+    <th scope="col">Parameter Value</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>comment</td>
+    <td>Strings that identify a line as a comment when they appear at the start of the
+    line.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+<p>
+<h4>Examples</h4>
+
+<p>This removes all lines that begin with <q>#</q>, <q>--</q>, <q>REM</q>, <q>rem</q>
+and <q>//</q></p>
+<pre>
+&lt;filterreader classname=&quot;org.apache.tools.ant.filters.StripLineComments&quot;&gt;
+  &lt;param type=&quot;comment&quot; value=&quot;#&quot;/&gt;
+  &lt;param type=&quot;comment&quot; value=&quot;--&quot;/&gt;
+  &lt;param type=&quot;comment&quot; value=&quot;REM &quot;/&gt;
+  &lt;param type=&quot;comment&quot; value=&quot;rem &quot;/&gt;
+  &lt;param type=&quot;comment&quot; value=&quot;//&quot;/&gt;
+&lt;/filterreader&gt;</pre>
+
+<p>Convenience method:</p>
+<pre>
+&lt;striplinecomments&gt;
+  &lt;comment value=&quot;#&quot;/&gt;
+  &lt;comment value=&quot;--&quot;/&gt;
+  &lt;comment value=&quot;REM &quot;/&gt;
+  &lt;comment value=&quot;rem &quot;/&gt;
+  &lt;comment value=&quot;//&quot;/&gt;
+&lt;/striplinecomments&gt;</pre>
+
+<h3 id="tabstospaces">TabsToSpaces</h3>
+
+<p>This filter replaces tabs with spaces</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Parameter Name</th>
+    <th scope="col">Parameter Value</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>tablength</td>
+    <td>Amount of space characters to replace a tab character with.</td>
+    <td>No; defaults to <q>8</q></td>
+  </tr>
+</table>
+
+<h4>Examples</h4>
+
+<p>This replaces tabs in <samp>${src.file}</samp> with spaces.</p>
+<pre>
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;${src.file.notab}&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;filterreader classname=&quot;org.apache.tools.ant.filters.TabsToSpaces&quot;/&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<p>Convenience method:</p>
+<pre>
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;${src.file.notab}&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;tabstospaces/&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<h3 id="tailfilter">TailFilter</h3>
+
+<p>This filter reads the last few lines from the data supplied to it.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Parameter Name</th>
+    <th scope="col">Parameter Value</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>lines</td>
+    <td>Number of lines to be read.<br/>
+      A negative value means that all lines are passed
+      (useful with <var>skip</var>)</td>
+    <td>No; defaults to <q>10</q></td>
+  </tr>
+  <tr>
+    <td>skip</td>
+    <td>Number of lines to be skipped (from the end).</td>
+    <td>No; defaults to <q>0</q></td>
+  </tr>
+</table>
+<p>
+
+<h4>Background</h4>
+<p>With HeadFilter and TailFilter you can extract each part of a text file you want.  This graphic
+shows the dependencies:</p>
+
+<table>
+<tr>
+ <th scope="col">Content</th>
+ <th scope="col" colspan="3">Filter</th>
+</tr>
+<tr>
+ <td>Line 1</td>
+ <td rowspan="2" style="background:limegreen;">
+   <pre style="background:limegreen;margin: 0 0 0 0;">&lt;filterchain&gt;
+    &lt;headfilter lines="2"/&gt;
+&lt;/filterchain&gt;</pre></td>
+ <td rowspan="9" style="background:fuchsia;">
+   <pre style="background:fuchsia;margin: 0 0 0 0;">&lt;filterchain&gt;
+    &lt;tailfilter lines="-1" skip="2"/&gt;
+&lt;/filterchain&gt;</pre>
+ </td>
+ <td rowspan="2">&nbsp;</td>
+</tr>
+<tr>
+ <td>Line 2</td>
+</tr>
+<tr>
+ <td>Line 3</td>
+ <td rowspan="9" style="background:tomato;">
+   <pre style="background:tomato;margin: 0 0 0 0;">&lt;filterchain&gt;
+    &lt;headfilter lines="-1" skip="2"/&gt;
+&lt;/filterchain&gt;</pre></td>
+ <td rowspan="7" style="background:dodgerblue;">
+   <pre style="background:dodgerblue;margin: 0 0 0 0;">&lt;filterchain&gt;
+    &lt;headfilter lines="-1" skip="2"/&gt;
+    &lt;tailfilter lines="-1" skip="2"/&gt;
+&lt;/filterchain&gt;</pre></td>
+</tr>
+<tr>
+ <td>Line 4</td>
+</tr>
+<tr>
+ <td>Line 5</td>
+</tr>
+<tr>
+ <td>Lines ...</td>
+</tr>
+<tr>
+ <td>Line 95</td>
+</tr>
+<tr>
+ <td>Line 96</td>
+</tr>
+<tr>
+ <td>Line 97</td>
+</tr>
+<tr>
+ <td>Line 98</td>
+ <td rowspan="2" style="background:lime;">
+   <pre  style="background:lime;margin: 0 0 0 0;">&lt;filterchain&gt;
+    &lt;tailfilter lines="2"/&gt;
+&lt;/filterchain&gt;</pre></td>
+ <td rowspan="2">&nbsp;</td>
+</tr>
+<tr>
+ <td>Line 99</td>
+</tr>
+</table>
+
+<h4>Examples</h4>
+
+<p>This stores the last 15 lines of the supplied data in the
+property <samp>${src.file.tail}</samp></p>
+<pre>
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;${src.file.tail}&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;filterreader classname=&quot;org.apache.tools.ant.filters.TailFilter&quot;&gt;
+      &lt;param name=&quot;lines&quot; value=&quot;15&quot;/&gt;
+    &lt;/filterreader&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<p>Convenience method:</p>
+<pre>
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;${src.file.tail}&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;tailfilter lines=&quot;15&quot;/&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<p>This stores the last 5 lines of the first 15 lines of the supplied data in the
+property <samp>${src.file.mid}</samp></p>
+<pre>
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;${src.file.mid}&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;filterreader classname=&quot;org.apache.tools.ant.filters.HeadFilter&quot;&gt;
+      &lt;param name=&quot;lines&quot; value=&quot;15&quot;/&gt;
+    &lt;/filterreader&gt;
+    &lt;filterreader classname=&quot;org.apache.tools.ant.filters.TailFilter&quot;&gt;
+      &lt;param name=&quot;lines&quot; value=&quot;5&quot;/&gt;
+    &lt;/filterreader&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<p>Convenience method:</p>
+<pre>
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;${src.file.mid}&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;headfilter lines=&quot;15&quot;/&gt;
+    &lt;tailfilter lines=&quot;5&quot;/&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<p>This stores the last 10 lines, skipping the last 2 lines, of the supplied data in the
+property <code>src.file.head</code>. (Means: if supplied data contains 60 lines, lines 49-58 are
+extracted)</p>
+<pre>
+&lt;loadfile srcfile=&quot;${src.file}&quot; property=&quot;src.file.head&quot;&gt;
+  &lt;filterchain&gt;
+    &lt;tailfilter lines=&quot;10&quot; skip=&quot;2&quot;/&gt;
+  &lt;/filterchain&gt;
+&lt;/loadfile&gt;</pre>
+
+<h3 id="deletecharacters">DeleteCharacters</h3>
+
+<p><em>Since Ant 1.6</em></p>
+
+<p>This filter deletes specified characters.</p>
+
+<p>This filter is only available in the convenience form.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Parameter Name</th>
+    <th scope="col">Parameter Value</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>chars</td>
+    <td>
+      The characters to delete. This attribute is <a href="#backslash">backslash enabled</a>.
+    </td>
+    <td>Yes</td>
+  </tr>
+</table>
+<p>
+<h4>Examples</h4>
+
+<p>Delete tabs and returns from the data.</p>
+<pre>&lt;deletecharacters chars="\t\r"/&gt;</pre>
+
+<h3 id="concatfilter">ConcatFilter</h3>
+<p><em>Since Ant 1.6</em></p>
+<p>This filter prepends or appends the content file to the filtered files.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Parameter Name</th>
+    <th scope="col">Parameter Value</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>prepend</td>
+    <td>
+      The name of the file which content should be prepended to the file.
+    </td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>append</td>
+    <td>
+      The name of the file which content should be appended to the file.
+    </td>
+    <td>No</td>
+  </tr>
+</table>
+<p>
+
+<h4>Examples</h4>
+
+<p>Do nothing:</p>
+<pre>
+&lt;filterchain&gt;
+    &lt;concatfilter/&gt;
+&lt;/filterchain&gt;</pre>
+
+<p>Adds a license text before each Java source file:</p>
+<pre>
+&lt;filterchain&gt;
+    &lt;concatfilter prepend="apache-license-java.txt"/&gt;
+&lt;/filterchain&gt;</pre>
+
+<h3 id="sortfilter">SortFilter</h3>
+<p><em>Since Ant 1.8.0</em></p>
+
+<p>The sort filter reads all lines and sorts them.  The sort order can be reversed and it is
+possible to specify a custom implementation of the <code class="code">java.util.Comparator</code>
+interface to get even more control.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Parameter Name</th>
+    <th scope="col">Parameter Value</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>reverse</td>
+    <td>Whether to reverse the sort order.<br/><strong>Note</strong>: this parameter is ignored
+      if the comparator parameter is present as well.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>comparator</td>
+    <td>Class name of a class that implements <code class="code">java.util.Comparator</code> for
+      Strings.  This class will be used to determine the sort order of lines.</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<p>This filter is also available using the name <code>sortfilter</code>.
+The <code>reverse</code> parameter becomes an attribute, <code>comparator</code> can be
+specified by using a nested element.</p>
+
+<h4>Examples</h4>
+
+<pre>
+&lt;copy todir=&quot;build&quot;&gt;
+    &lt;fileset dir=&quot;input&quot; includes=&quot;*.txt&quot;/&gt;
+    &lt;filterchain&gt;
+        &lt;sortfilter/&gt;
+    &lt;/filterchain&gt;
+&lt;/copy&gt;</pre>
+
+<p>
+Sort all files <samp>*.txt</samp> from <samp>src</samp> location into <samp>build</samp>
+location. The lines of each file are sorted in ascendant order comparing the lines via the
+<code>String.compareTo(Object o)</code> method.
+</p>
+
+<pre>
+&lt;copy todir=&quot;build&quot;&gt;
+    &lt;fileset dir=&quot;input&quot; includes=&quot;*.txt&quot;/&gt;
+    &lt;filterchain&gt;
+        &lt;sortfilter reverse=&quot;true&quot;/&gt;
+    &lt;/filterchain&gt;
+&lt;/copy&gt;</pre>
+
+<p>
+Sort all files <samp>*.txt</samp> from <samp>src</samp> location into reverse order and copy
+them into <samp>build</samp> location.
+</p>
+
+<pre>
+&lt;copy todir=&quot;build&quot;&gt;
+    &lt;fileset dir=&quot;input&quot; includes=&quot;*.txt&quot;/&gt;
+    &lt;filterchain&gt;
+        &lt;filterreader classname=&quot;org.apache.tools.ant.filters.SortFilter&quot;&gt;
+            &lt;param name=&quot;comparator&quot; value=&quot;org.apache.tools.ant.filters.EvenFirstCmp&quot;/&gt;
+        &lt;/filterreader&gt;
+    &lt;/filterchain&gt;
+&lt;/copy&gt;</pre>
+
+<p>
+Sort all files <samp>*.txt</samp> from <samp>src</samp> location using as sorting
+criterium <code class="code">EvenFirstCmp</code> class, that sorts the file lines putting even lines
+first then odd lines for example. The modified files are copied into <samp>build</samp>
+location. The <code class="code">EvenFirstCmp</code> has to an instanciable class
+via <code class="code">Class.newInstance()</code>, therefore in case of inner class has to
+be <em>static</em>. It also has to implement <code class="code">java.util.Comparator</code>
+interface, for example:
+</p>
+
+<pre>
+package org.apache.tools.ant.filters;
+... (omitted)
+public final class EvenFirstCmp implements &lt;b&gt;Comparator&lt;/b&gt; {
+   public int compare(Object o1, Object o2) {
+       ...(omitted)
+   }
+}</pre>
+
+<p>The example above is equivalent to:</p>
+
+<pre>
+&lt;componentdef name=&quot;evenfirst&quot;
+              classname=&quot;org.apache.tools.ant.filters.EvenFirstCmp&quot;/&gt;
+&lt;copy todir=&quot;build&quot;&gt;
+    &lt;fileset dir=&quot;input&quot; includes=&quot;*.txt&quot;/&gt;
+    &lt;filterchain&gt;
+        &lt;sortfilter&gt;
+            &lt;evenfirst/&gt;
+        &lt;/sortfilter&gt;
+    &lt;/filterchain&gt;
+&lt;/copy&gt;</pre>
+
+<h3 id="tokenfilter">TokenFilter</h3>
+<p>This filter tokenizes the InputStream into strings and passes these strings to filters of
+strings. Unlike the other FilterReaders, this does not support <code>param</code>s, only
+convenience methods are implemented.  The tokenizer and the string filters are defined by nested
+elements.</p>
+<p><em>Since Ant 1.6</em></p>
+<p>
+Only one <code>tokenizer</code> element may be used, the LineTokenizer is the default if none
+are specified.  A tokenizer splits the input into token strings and trailing delimiter strings.
+<p>
+There may be zero or more string filters. A string filter processes a token and either returns a
+string or a null.  It the string is not null it is passed to the next filter. This proceeds
+until all the filters are called.  If a string is returned after all the filters, the string is
+outputs with its associated token delimiter (if one is present).  The trailing delimiter may be
+overridden by the <var>delimOutput</var> attribute.
+<h4 id="backslash">Backslash interpretation</h4>
+<p>
+A number of attributes (including <var>delimOutput</var>) interpret backslash escapes. The
+following are understood: <q>\n</q>, <q>\r</q>, <q>\f</q>, <q>\t</q> and <q>\\</q>.
+</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>delimOutput</td>
+    <td>
+     This overrides the token delimiter returned by the tokenizer if it is not empty. This
+     attribute is backslash enabled.
+    </td>
+    <td>No</td>
+  </tr>
+</table>
+<p>The following tokenizers are provided by the default distribution.</p>
+<p>
+  <a href="#linetokenizer">LineTokenizer</a><br/>
+  <a href="#filetokenizer">FileTokenizer</a><br/>
+  <a href="#stringtokenizer">StringTokenizer</a>
+</p>
+<p>The following string filters are provided by the default distribution.</p>
+<p>
+  <a href="#replacestring">ReplaceString</a><br/>
+  <a href="#containsstring">ContainsString</a><br/>
+  <a href="#replaceregex">ReplaceRegex</a><br/>
+  <a href="#containsregex">ContainsRegex</a><br/>
+  <a href="#trim">Trim</a><br/>
+  <a href="#ignoreblank">IgnoreBlank</a><br/>
+  <a href="#filterdeletecharacters">DeleteCharacters</a><br/>
+  <a href="#uniqfilter">UniqFilter</a><br/>
+  <a href="#native2asciifilter">Native2AsciiFilter</a>
+</p>
+<p>The following string filters are provided by the optional distribution.</p>
+<p>
+  <a href="#scriptfilter">ScriptFilter</a>
+</p>
+<p>
+  <a href="#custom">Custom</a> tokenizers and string filters can be declared
+  using <a href="../Tasks/typedef.html">typedef</a> task.
+</p>
+<p>
+Some of the filters may be used directly within a <code>filterchain</code>. In this case
+a <code>tokenfilter</code> is created implicitly. An extra attribute <var>byline</var> is added to
+the filter to specify whether to use a <code>linetokenizer</code> (<var>byline</var>=<q>true</q>) or
+a <code>filetokenizer</code> (<var>byline</var>=<q>false</q>). The default is <q>true</q>.
+</p>
+
+<h4 id="linetokenizer">LineTokenizer</h4>
+<p>This tokenizer splits the input into lines.  The tokenizer delimits lines by <q>\r</q>, <q>\n</q>
+or <q>\r\n</q>.  This is the default tokenizer.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>includeDelims</td>
+    <td>
+      Include the line endings in the token.
+    </td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+</table>
+<h5>Examples</h5>
+
+<p>Convert input current line endings to Unix style line endings.</p>
+<pre>&lt;tokenfilter delimoutput=&quot;\n&quot;/&gt;</pre>
+
+<p>Remove blank lines.</p>
+<pre>
+&lt;tokenfilter&gt;
+    &lt;ignoreblank/&gt;
+&lt;/tokenfilter&gt;</pre>
+
+<h4 id="filetokenizer">FileTokenizer</h4>
+<p>This tokenizer treats <strong>all</strong> the input as a token. So be careful not to use
+this on very large input.</p>
+<h5>Examples</h5>
+
+<p>Replace the first occurrence of <samp>package</samp> with <samp>//package</samp>.</p>
+<pre>
+&lt;tokenfilter&gt;
+      &lt;filetokenizer/&gt;
+      &lt;replaceregex pattern="([\n\r]+[ \t]*|^[ \t]*)package"
+                    flags="s"
+                    replace="\1//package"/&gt;
+&lt;/tokenfilter&gt;</pre>
+
+<h4 id="stringtokenizer">StringTokenizer</h4>
+<p>This tokenizer is based on <code class="code">java.util.StringTokenizer</code>.  It splits up the
+input into strings separated by white space, or by a specified list of delimiting characters.  If
+the stream starts with delimiter characters, the first token will be the empty string (unless
+the <var>delimsaretokens</var> attribute is used).</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>delims</td>
+    <td>The delimiter characters.
+    </td>
+    <td>No; defaults to white space as defined
+      by <code>java.lang.Character.isWhitespace()</code></td>
+  </tr>
+  <tr>
+    <td>delimsaretokens</td>
+    <td>If this is <q>true</q>, each delimiter character is returned as a token.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>suppressdelims</td>
+    <td>If this is <q>true</q>, delimiters are not returned.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>includeDelims</td>
+    <td>Include the delimiters in the token.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+</table>
+
+<h5>Examples</h5>
+
+<p>Surround each non space token with a <q>[]</q>.</p>
+
+<pre>
+&lt;tokenfilter&gt;
+    &lt;stringtokenizer/&gt;
+    &lt;replaceregex pattern="(.+)" replace="[\1]"/&gt;
+&lt;/tokenfilter&gt;</pre>
+
+<h4 id="replacestring">ReplaceString</h4>
+<p>This is a simple filter to replace strings.  This filter may be used directly within
+a <code>filterchain</code>.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>from</td>
+    <td>The string that must be replaced.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>to</td>
+    <td>The new value for the replaced string.</td>
+    <td>No; defaults to empty string</td>
+  </tr>
+</table>
+
+<h5>Examples</h5>
+
+<p>Replace <q>sun</q> with <q>moon</q>.</p>
+
+<pre>
+&lt;tokenfilter&gt;
+    &lt;replacestring from="sun" to="moon"/&gt;
+&lt;/tokenfilter&gt;</pre>
+
+<h4 id="containsstring">ContainsString</h4>
+<p>This is a simple filter to filter tokens that contains a specified string.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>contains</td>
+    <td>The string that the token must contain.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h5>Examples</h5>
+
+<p>Include only lines that contain <q>foo</q></p>
+
+<pre>
+&lt;tokenfilter&gt;
+    &lt;containsstring contains="foo"/&gt;
+&lt;/tokenfilter&gt;</pre>
+
+<h4 id="replaceregex">ReplaceRegex</h4>
+<p>
+This string filter replaces regular expressions.  This filter may be used directly within
+a <code>filterchain</code>.
+</p>
+<p>
+See <a href="regexp.html#implementation">Regexp Type</a> concerning the choice of the
+implementation.
+</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>pattern</td>
+    <td>The regular expression pattern to match in the token.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>replace</td>
+    <td>The substitution pattern to replace the matched regular expression.</td>
+    <td>No; defaults to empty string</td>
+  </tr>
+  <tr>
+    <td>flags</td>
+    <td>See <a href="../Tasks/replaceregexp.html">ReplaceRegexp</a> for an explanation of regex
+      flags.</td>
+    <td>No</td>
+  </tr>
+</table>
+<h5>Examples</h5>
+
+<p>Replace all occurrences of <q>hello</q> with <q>world</q>, ignoring case.</p>
+
+<pre>
+&lt;tokenfilter&gt;
+    &lt;replaceregex pattern="hello" replace="world" flags="gi"/&gt;
+&lt;/tokenfilter&gt;</pre>
+
+<h4 id="containsregex">ContainsRegex</h4>
+<p>
+This filters strings that match regular expressions.  The filter may optionally replace the
+matched regular expression.  This filter may be used directly within a <code>filterchain</code>.
+</p>
+<p>
+See <a href="regexp.html#implementation">Regexp Type</a> concerning the choice of regular
+expression implementation.
+</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>pattern</td>
+    <td>The regular expression pattern to match in the token.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>replace</td>
+    <td>The substitution pattern to replace the matched regular expression.</td>
+    <td>No; defaults to returning the original token</td>
+  </tr>
+  <tr>
+    <td>flags</td>
+    <td>See <a href="../Tasks/replaceregexp.html">ReplaceRegexp</a> for an explanation of regex
+      flags.</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<h5>Examples</h5>
+
+<p>Filter lines that contain <q>hello</q> or <q>world</q>, ignoring case.</p>
+
+<pre>
+&lt;tokenfilter&gt;
+    &lt;containsregex pattern="(hello|world)" flags="i"/&gt;
+&lt;/tokenfilter&gt;</pre>
+
+<p>This example replaces lines like <code>SUITE(TestSuite, bits);</code> with <code>void
+register_bits();</code> and removes other lines.</p>
+
+<pre>
+&lt;tokenfilter&gt;
+    &lt;containsregex
+        pattern="^ *SUITE\(.*,\s*(.*)\s*\).*"
+        replace="void register_\1();"/&gt;
+&lt;/tokenfilter&gt;</pre>
+
+<h4 id="trim">Trim</h4>
+<p>This filter trims whitespace from the start and end of tokens.  This filter may be used
+directly within a <code>filterchain</code>.</p>
+
+<h4 id="ignoreblank">IgnoreBlank</h4>
+<p>This filter removes empty tokens.  This filter may be used directly within
+a <code>filterchain</code>.</p>
+
+<h4 id="filterdeletecharacters">DeleteCharacters</h4>
+<p>This filter deletes specified characters from tokens.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>chars</td>
+    <td>The characters to delete. This attribute is backslash enabled.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h5>Examples</h5>
+
+<p>Delete tabs from lines, trim the lines and removes empty lines.</p>
+
+<pre>
+&lt;tokenfilter&gt;
+    &lt;deletecharacters chars="\t"/&gt;
+    &lt;trim/&gt;
+    &lt;ignoreblank/&gt;
+&lt;/tokenfilter&gt;</pre>
+
+<h4 id="uniqfilter">UniqFilter</h4>
+
+<p>Suppresses all tokens that match their ancestor token.  It is most useful if combined with a
+sort filter.</p>
+
+<p>This filter may be used directly within a <code>filterchain</code>.</p>
+
+<h5>Example</h5>
+
+<p>This suppresses duplicate lines.</p>
+<pre>
+&lt;tokenfilter&gt;
+  &lt;uniqfilter/&gt;
+&lt;/tokenfilter&gt;</pre>
+
+<h4 id="native2asciifilter">Native2AsciiFilter</h4>
+
+<p><em>Since Ant 1.9.8</em></p>
+
+<p>Uses the "builtin" implementation of
+the <a href="../Tasks/native2ascii.html">native2ascii</a> task.</p>
+
+<p>Replaces non-ASCII characters by their Unicode-escapes or vice-versa.</p>
+
+<p>This filter may be used directly within a <code>filterchain</code>.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>reverse</td>
+    <td>Reverse the sense of the conversion, i.e. convert from ASCII to native.</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<h5>Example</h5>
+
+<p>This replaces all non-ASCII characters by their Unicode-escapes.</p>
+<pre>
+&lt;tokenfilter&gt;
+  &lt;native2asciifilter/&gt;
+&lt;/tokenfilter&gt;</pre>
+
+<h4 id="scriptfilter">ScriptFilter</h4>
+<p>
+This is an optional filter that executes a script in a <a href="https://jakarta.apache.org/bsf"
+target="_top">Apache BSF</a>
+or <a href="https://jcp.org/aboutJava/communityprocess/maintenance/jsr223/223ChangeLog.html"
+target="_top">JSR 223</a> supported language.
+</p>
+<p>
+See the <a href="../Tasks/script.html">Script</a> task for an explanation of scripts and
+dependencies.
+</p>
+<p>
+The script is provided with an object <samp class="code">self</samp> that
+has <code class="code">getToken()</code> and <code class="code">setToken(String)</code> methods.
+The <code class="code">getToken()</code> method returns the current
+token. The <code class="code">setToken(String)</code> method replaces the current token.
+</p>
+<p>
+This filter may be used directly within a <code>filterchain</code>.
+</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>language</td>
+    <td>Programming language the script is written in.  Must be a supported Apache BSF or JSR 223
+      language</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>manager</td>
+    <td>Script engine manager to use.  See the <a href="../Tasks/script.html">script</a> task for
+      using this attribute.</td>
+    <td>No; default is <q>auto</q></td>
+  </tr>
+  <tr>
+    <td>src</td>
+    <td>Location of the script as a file, if not inline.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>encoding</td>
+    <td>Encoding of the script as a file. <em>Since Ant 1.10.2</em></td>
+    <td>No; defaults to default JVM character encoding</td>
+  </tr>
+  <tr>
+    <td>setbeans</td>
+    <td>Whether to have all properties, references and targets as global variables in the
+      script.  <em>Since Ant 1.8.0</em></td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>classpath</td>
+    <td>The classpath to pass into the script.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>classpathref</td>
+    <td>The classpath to use, given as a <a href="../using.html#references">reference</a> to a path
+      defined elsewhere.
+    <td>No</td>
+  </tr>
+</table>
+<p>
+This filter can take a nested <code>&lt;classpath&gt;</code> element.  See
+the <a href="../Tasks/script.html">script</a> task on how to use this element.
+</p>
+<h5>Examples</h5>
+<p>Convert to uppercase:</p>
+<pre>
+&lt;tokenfilter&gt;
+    &lt;scriptfilter language="javascript"&gt;
+        self.setToken(self.getToken().toUpperCase());
+    &lt;/scriptfilter&gt;
+&lt;/tokenfilter&gt;</pre>
+
+<p>Remove lines containing the string <q>bad</q> while copying text files:</p>
+<pre>
+&lt;copy todir="dist"&gt;
+  &lt;fileset dir="src" includes="**/*.txt"/&gt;
+  &lt;filterchain&gt;
+    &lt;scriptfilter language="beanshell"&gt;
+        if (self.getToken().indexOf("bad") != -1) {
+            self.setToken(null);
+        }
+    &lt;/scriptfilter&gt;
+  &lt;/filterchain&gt;
+&lt;/copy&gt;</pre>
+
+<h4 id="custom">Custom tokenizers and string filters</h4>
+
+<p>Custom string filters and tokenizers may be plugged in by extending the
+interfaces <code class="code">org.apache.tools.ant.filters.TokenFilter.Filter</code>
+and <code class="code">org.apache.tools.ant.util.Tokenizer</code> respectly.</p>
+
+<p>They are defined in the build file using <code>&lt;typedef/&gt;</code>. For example, a string
+filter that capitalizes words may be declared as:</p>
+<pre>
+package my.customant;
+import org.apache.tools.ant.filters.TokenFilter;
+
+public class Capitalize
+    implements TokenFilter.Filter
+{
+    public String filter(String token) {
+        if (token.length() == 0)
+            return token;
+        return token.substring(0, 1).toUpperCase() +
+                token.substring(1);
+   }
+}</pre>
+
+<p>This may be used as follows:</p>
+<pre>
+&lt;typedef name="capitalize" classname="my.customant.Capitalize"
+         classpath="my.customant.path"/&gt;
+&lt;copy file="input" tofile="output"&gt;
+  &lt;filterchain&gt;
+    &lt;tokenfilter&gt;
+      &lt;stringtokenizer/&gt;
+      &lt;capitalize/&gt;
+    &lt;/tokenfilter&gt;
+  &lt;/filterchain&gt;
+&lt;/copy&gt;</pre>
+
+</body>
+</html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+  <title>Exec Task</title>
+</head>
+
+<body>
+
+<h2 id="exec">Exec</h2>
+<h3>Description</h3>
+<p>Executes a system command. When the <var>os</var> attribute is specified, then the command is
+only executed when Apache Ant is run on one of the specified operating systems.</p>
+
+<p>Note that you cannot interact with the forked program, the only way to send input to it is via
+the input and inputstring attributes. Also note that <em>since Ant 1.6</em>, any attempt to read
+input in the forked program will receive an EOF (<q>-1</q>). This is a change from Ant 1.5, where
+such an attempt would block.</p>
+
+<p>If you want to execute an executable using a path relative to the project's <var>basedir</var>,
+you may need to use <var>vmlauncher</var>=<q>false</q> on some operating systems&mdash;but even this
+may fail (Solaris 8/9 has been reported as problematic).  The <var>resolveexecutable</var> attribute
+should be more reliable, as would be something like</p>
+<pre>
+&lt;property name="executable-full-path"
+          location="../relative/path/to/executable"/&gt;
+&lt;exec executable="${executable-full-path}" ...</pre>
+
+<h4>Windows Users</h4>
+<p>The <code>&lt;exec&gt;</code> task delegates to <code>Runtime.exec</code> which in turn
+apparently
+calls <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms682425(v=vs.85).aspx"
+target="_top"><code>::CreateProcess</code></a>. It is the latter Win32 function that defines the
+exact semantics of the call. In particular, if you do not put a file extension on the executable,
+only <samp>.EXE</samp> files are looked for, not <samp>.COM</samp>, <samp>.CMD</samp> or other file
+types listed in the environment variable <code>PATHEXT</code>. That is only used by the shell.</p>
+<p>Note that <samp>.bat</samp> files cannot in general by executed directly.  One normally needs to
+execute the command shell executable <kbd>cmd</kbd> using the <kbd>/c</kbd> switch.</p>
+<pre>
+&lt;target name="help"&gt;
+  &lt;exec executable="cmd"&gt;
+    &lt;arg value="/c"/&gt;
+    &lt;arg value="ant.bat"/&gt;
+    &lt;arg value="-p"/&gt;
+  &lt;/exec&gt;
+&lt;/target&gt;</pre>
+
+<p>A common problem is not having the executable on the <code>PATH</code>. In case you get an error
+message <code class="output">Cannot run program "...":CreateProcess error=2. The system cannot find
+the path specified.</code> have a look at your <code>PATH</code> variable. Just type the command
+directly on the command line and if Windows finds it, Ant should do it too. (Otherwise ask on the
+user mailinglist for help.) If Windows can not execute the program, add the directory of the program
+to the <code>PATH</code> (<code>set PATH=%PATH%;dirOfProgram</code>) or specify the absolute path in
+the <var>executable</var> attribute in your buildfile.</p>
+
+<h4>Cygwin Users</h4>
+<p>The <code>&lt;exec&gt;</code> task will not understand paths such as <q>/bin/sh</q> for
+the <var>executable</var> parameter.  This is because JVM in which Ant is running is a standard
+Windows executable and is not aware of the Cygwin environment (i.e., doesn't
+load <samp>cygwin1.dll</samp>).  The only work-around for this is to compile a JVM under Cygwin (at
+your own risk).  See for
+instance <a href="https://cdn.rawgit.com/AdoptOpenJDK/openjdk-jdk9/dev/common/doc/building.html#cygwin"
+target="_top">OpenJDK build instructions for cygwin</a>.</p>
+
+<h4>OpenVMS Users</h4>
+<p>The command specified using <var>executable</var> and <code>&lt;arg&gt;</code> elements is
+executed exactly as specified inside a temporary DCL script.  This has some implications:</p>
+<ul>
+  <li>the DCL script will be created inside
+  the <a href="../running.html#tmpdir">temporary directory</a>.</li>
+  <li>paths have to be written in VMS style</li>
+  <li>if your <var>executable</var> points to a DCL script remember to prefix it with
+    an <q>@</q>-sign (e.g. <var>executable</var>=<q>@[FOO]BAR.COM</q>), just as you would in a DCL
+    script</li>
+</ul>
+
+<p>Please note that JVM provided by HP doesn't follow OpenVMS' conventions of exit codes.  If you
+run a JVM with this task, the task may falsely claim that an error occurred (or silently ignore an
+error).  Don't use this task to run <kbd>JAVA.EXE</kbd>, use a <code>&lt;java&gt;</code> task with
+the <var>fork</var> attribute set to <q>true</q> instead as this task will follow the JVM's
+interpretation of exit codes.</p>
+
+<h4>RedHat S/390 Users</h4>
+<p>It has been <a href="https://www.mail-archive.com/linux-390@vm.marist.edu/msg22223.html"
+target="_top">reported on linux-390</a> that shell scripts invoked via the Ant Exec task must have
+their interpreter specified, i.e., the scripts must start with something like:</p>
+
+<pre>#!/bin/bash</pre>
+<p>or the task will fail as follows:</p>
+<pre class="output">
+[exec] Warning: UNIXProcess.forkAndExec native error: Exec format error
+[exec] Result: 255</pre>
+
+<h4 id="background">Running Ant as a background process on Unix(-like) systems</h4>
+
+<p>If you run Ant as a background process (like <kbd>ant &amp;</kbd>) and use
+the <code>&lt;exec&gt;</code> task with <var>spawn</var> set to <q>false</q>, you must provide
+explicit input to the forked process or Ant will be suspended because it tries to read from the
+standard input.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>command</td>
+    <td>the command to execute with all command line arguments. <em><u>Deprecated</u>,
+      use <var>executable</var> and nested <code>&lt;arg&gt;</code> elements instead</em>.</td>
+    <td rowspan="2">Exactly one of the two</td>
+  </tr>
+  <tr>
+    <td>executable</td>
+    <td class="left">the command to execute without any command line arguments.</td>
+  </tr>
+  <tr>
+    <td>dir</td>
+    <td>the directory in which the command should be executed.</td>
+    <td>No; if <var>vmlauncher</var> is <q>true</q>, defaults to the current working directory,
+      otherwise the project's <var>basedir</var></td>
+  </tr>
+  <tr>
+    <td>os</td>
+    <td>list of Operating Systems on which the command may be executed. If the current OS's name is
+      contained in this list, the command will be executed. The OS's name is determined by JVM and
+      is set in the <code>os.name</code> system property.
+      </td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>osfamily</td>
+    <td>OS family as used in the <code>&lt;os&gt;</code> condition.  <em>since Ant 1.7</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>spawn</td>
+    <td>whether or not you want the command to be spawned<br/>If you spawn a command, its output
+    will not be logged by Ant.<br/>The <var>input</var>, <var>output</var>, <var>error</var>,
+    and <var>result</var> property settings are not active when spawning a process.<br/><em>since
+    Ant 1.6</em>
+    </td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>output</td>
+    <td>Name of a file to which to write the output. If the error stream is not also redirected to a
+      file or property, it will appear in this output.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>error</td>
+    <td>The file to which the standard error of the command should be redirected.  <em>since Ant
+    1.6</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>logError</td>
+    <td>This attribute is used when you wish to see error output in Ant's log and you are
+      redirecting output to a file/property. The error output will not be included in the output
+      file/property. If you redirect error with the <var>error</var> or <var>errorProperty</var>
+      attributes, this will have no effect.  <em>since Ant 1.6</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>append</td>
+    <td>Whether output and error files should be appended to or overwritten.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>outputproperty</td>
+    <td>The name of a property in which the output of the command should be stored. Unless the error
+      stream is redirected to a separate file or stream, this property will include the error
+      output.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>errorproperty</td>
+    <td>The name of a property in which the standard error of the command should be
+      stored.  <em>since Ant 1.6</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>input</td>
+    <td>A file from which the executed command's standard input is taken. This attribute is mutually
+      exclusive with the <var>inputstring</var> attribute.  <em>since Ant 1.6</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>inputstring</td>
+    <td>A string which serves as the input stream for the executed command. This attribute is
+      mutually exclusive with the <var>input</var> attribute.  <em>since Ant 1.6</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>resultproperty</td>
+    <td>the name of a property in which the return code of the command should be stored. Only of
+      interest if <var>failonerror</var>=<q>false</q>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>timeout</td>
+    <td>Stop the command if it doesn't finish within the specified time (given in
+      milliseconds).</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+    <td>Stop the build process if the command exits with a return code signaling failure.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>failifexecutionfails</td>
+    <td>Stop the build if we can't start the program.</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>newenvironment</td>
+    <td>Do not propagate old environment when new environment variables are specified.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>vmlauncher</td>
+    <td>Run command using the JVM's execution facilities where available. If set to <q>false</q> the
+      underlying OS's shell, either directly or through the <kbd>antRun</kbd> scripts, will be
+      used.  Under some operating systems, this gives access to facilities not normally available
+      through JVM including, under Windows, being able to execute scripts, rather than their
+      associated interpreter.  If you want to specify the name of the executable as a relative path
+      to the directory given by the <var>dir</var> attribute, it may become necessary to
+      set <var>vmlauncher</var> to <q>false</q> as well.</td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>resolveexecutable</td>
+    <td>When this attribute is <q>true</q>, the name of the executable is resolved firstly against
+      the project <var>basedir</var> and if that does not exist, against the execution directory if
+      specified. On Unix systems, if you only want to allow execution of commands in the user's
+      path, set this to <q>false</q>.  <em>since Ant 1.6</em></td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>searchpath</td>
+    <td>When this attribute is <q>true</q>, then system path environment variables will be searched
+      when resolving the location of the executable. <em>since Ant 1.6.3</em></td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>discardOutput</td>
+    <td>Whether output should completely be discarded. This setting is
+      incompatible with any setting that redirects output to files or
+      properties.<br/>
+      If you set this to <q>true</q> error output will be discared as
+      well unless you redirect error output to files, properties or
+      enable <q>logError</q>.
+      <em>Since Ant 1.10.10</em>
+    </td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>discardError</td>
+    <td>Whether error output should completely be discarded. This
+      setting is incompatible with any setting that redirects error
+      output to files or properties as well as <q>logError</q>.
+      <em>Since Ant 1.10.10</em>
+    </td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+</table>
+<h3>Examples</h3>
+<pre>
+&lt;exec dir=&quot;${src}&quot; executable=&quot;cmd.exe&quot; os=&quot;Windows 2000&quot; output=&quot;dir.txt&quot;&gt;
+  &lt;arg line=&quot;/c dir&quot;/&gt;
+&lt;/exec&gt;</pre>
+
+<h3>Parameters specified as nested elements</h3>
+<h4>arg</h4>
+<p>Command line arguments should be specified as nested <code>&lt;arg&gt;</code>
+elements. See <a href="../using.html#arg">Command line arguments</a>.</p>
+<h4 id="env">env</h4>
+<p>It is possible to specify environment variables to pass to the system command via
+nested <code>&lt;env&gt;</code> elements.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>key</td>
+    <td>The name of the environment variable.<br/><strong>Note</strong>: <em>since Ant 1.7</em>, for
+      Windows, the name is case-insensitive.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>value</td>
+    <td>The literal value for the environment variable.</td>
+    <td rowspan="3">Exactly one of these</td>
+  </tr>
+  <tr>
+    <td>path</td>
+    <td class="left">The value for a <code>PATH</code>-like environment variable. You can
+      use <q>;</q> or <q>:</q> as path separators and Ant will convert it to the platform's local
+      conventions.</td>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td class="left">The value for the environment variable. Will be replaced by the absolute
+      filename of the file by Ant.</td>
+  </tr>
+</table>
+<h4 id="redirector">redirector</h4>
+<em>Since Ant 1.6.2</em>
+<p>A nested <a href="../Types/redirector.html">I/O Redirector</a> can be specified.  In general, the
+attributes of the redirector behave as the corresponding attributes available at the task level.
+The most notable peculiarity stems from the retention of the <code>&lt;exec&gt;</code> attributes
+for backwards compatibility.  Any file mapping is done using a <code>null</code> sourcefile;
+therefore not all<a href="../Types/mapper.html">Mapper</a> types will return results.  When no
+results are returned, redirection specifications will fall back to the task level attributes.  In
+practice this means that defaults can be specified for input, output, and error output files.</p>
+<h3>Errors and return codes</h3>
+<p>By default the return code of a <code>&lt;exec&gt;</code> is ignored; when you
+set <var>failonerror</var> to <q>true</q> then any return code signaling failure (OS specific)
+causes the build to fail. Alternatively, you can set <var>resultproperty</var> to the name of a
+property and have it assigned to the result code (barring immutability, of course).</p>
+<p>If the attempt to start the program fails with an OS dependent error code,
+then <code>&lt;exec&gt;</code> halts the build unless <var>failifexecutionfails</var> is set
+to <q>false</q>. You can use that to run a program if it exists, but otherwise do nothing.</p>
+<p>What do those error codes mean? Well, they are OS dependent. On Windows boxes you have to look
+at <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms681382(v=vs.85).aspx"
+target="_top">the documentation</a>; <code>error=2</code> means 'no such program', which usually
+means it is not on the path. Any time you see such an error from any Ant task, it is usually not an
+Ant bug, but some configuration problem on your machine.</p>
+
+<h3>Examples</h3>
+
+<p>Start <kbd>emacs</kbd> on display 1 of the X Window System.</p>
+<pre>
+&lt;exec executable=&quot;emacs&quot;&gt;
+  &lt;env key=&quot;DISPLAY&quot; value=&quot;:1.0&quot;/&gt;
+&lt;/exec&gt;
+</pre>
+
+<p>Add <samp>${basedir}/bin</samp> to the <code>PATH</code> of the system command.</p>
+<pre>
+&lt;property environment=&quot;env&quot;/&gt;
+&lt;exec ... &gt;
+  &lt;env key=&quot;PATH&quot; path=&quot;${env.PATH}:${basedir}/bin&quot;/&gt;
+&lt;/exec&gt;
+</pre>
+
+<p>Start the <samp>${browser}</samp> with the specified <samp>${file}</samp> and end the Ant
+process. The browser will remain.</p>
+<pre>
+&lt;property name="browser" location="C:/Program Files/Internet Explorer/iexplore.exe"/&gt;
+&lt;property name="file" location="ant/docs/manual/index.html"/&gt;
+
+&lt;exec executable="${browser}" spawn="true"&gt;
+    &lt;arg value="${file}"/&gt;
+&lt;/exec&gt;
+</pre>
+
+<p>Send the string <q>blah before blah</q> to the <kbd>cat</kbd> executable, using
+an <a href="../Types/filterchain.html">&lt;inputfilterchain&gt;</a> to replace <q>before</q>
+with <q>after</q> on the way in. Output is sent to the file <samp>redirector.out</samp> and stored
+in a property of the same name. Similarly, error output is sent to a file and a property, both
+named <samp>redirector.err</samp>.</p>
+<pre>
+&lt;exec executable=&quot;cat&quot;&gt;
+    &lt;redirector outputproperty=&quot;redirector.out&quot;
+                errorproperty=&quot;redirector.err&quot;
+                inputstring=&quot;blah before blah&quot;&gt;
+        &lt;inputfilterchain&gt;
+            &lt;replacestring from=&quot;before&quot; to=&quot;after&quot;/&gt;
+        &lt;/inputfilterchain&gt;
+        &lt;outputmapper type=&quot;merge&quot; to=&quot;redirector.out&quot;/&gt;
+        &lt;errormapper type=&quot;merge&quot; to=&quot;redirector.err&quot;/&gt;
+    &lt;/redirector&gt;
+&lt;/exec&gt;
+</pre>
+
+<p><strong>Note</strong>: do not try to specify arguments using a simple <code>arg</code>-element
+and separate them by spaces. This results in only a single argument containing the entire
+string.</p>
+<p><strong>Timeouts</strong>: If a timeout is specified, when it is reached the sub process is
+killed and a message printed to the log. The return value of the execution will be <q>-1</q>, which
+will halt the build if <var>failonerror</var>=<q>true</q>, but be ignored otherwise.</p>
+</body>
+</html>

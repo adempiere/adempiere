@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Ant Task</title>
+</head>
+
+<body>
+
+<h2 id="ant">Ant</h2>
+<h3>Description</h3>
+
+<p>Runs Apache Ant on a supplied buildfile. This can be used to build subprojects.  <strong>This
+task must not be used outside of a <code>target</code> if it invokes the same build file it is part
+of.</strong></p>
+
+<p>When the <var>antfile</var> attribute is omitted, the file <samp>build.xml</samp> in the supplied
+directory (<var>dir</var> attribute) is used.</p>
+<p>If no target attribute is supplied, the default target of the new project is used.</p>
+<p>By default, all of the properties of the current project will be available in the new project.
+Alternatively, you can set the <var>inheritAll</var> attribute to <q>false</q> and only
+&quot;user&quot; properties (i.e., those passed on the command-line) will be passed to the new
+project.  In either case, the set of properties passed to the new project will override the
+properties that are set in the new project (See also the <a href="property.html">property</a>
+task).</p>
+
+<p>You can also set properties in the new project from the old project by using
+nested <code>property</code> tags. These properties are always passed to the new project and any
+project created in that project regardless of the setting of <var>inheritAll</var>.  This allows you
+to parameterize your subprojects.</p>
+
+<p>When more than one nested <code>&lt;property&gt;</code> element would set a property of the same
+name, the one declared last will win.  This is for backwards compatibility reasons even though it is
+different from the way <code>&lt;property&gt;</code> tasks in build files behave.</p>
+
+<p>Properties defined on the command line cannot be overridden by
+nested <code>&lt;property&gt;</code> elements.  <em>Since Ant 1.8.0</em>, the same is true for
+nested structures of <code>&lt;ant&gt;</code> tasks: if a build file <var>A</var>
+invokes <var>B</var> via an <code>&lt;ant&gt;</code> task setting a property with a
+nested <code>&lt;property&gt;</code> element and <var>B</var> contains an <code>&lt;ant&gt;</code>
+tasks invoking <var>C</var>, <var>C</var> will see the value set in <var>A</var>, even
+if <var>B</var> used a nested <code>&lt;property&gt;</code> element as well.</p>
+
+<p>References to data types can also be passed to the new project, but by default they are not.  If
+you set the <var>inheritrefs</var> attribute to <q>true</q>, all references will be copied, but they
+will not override references defined in the new project.</p>
+
+<p>Nested <a href="#reference"><code>&lt;reference&gt;</code></a> elements can also be used to copy
+references from the calling project to the new project, optionally under a different <var>id</var>.
+References taken from nested elements will override existing references that have been defined
+outside of targets in the new project&mdash;but not those defined inside of targets.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>antfile</td>
+    <td>the buildfile to use. This file is expected to be a filename relative to the <var>dir</var>
+      attribute given.</td>
+    <td>No; defaults to <q>build.xml</q></td>
+  </tr>
+  <tr>
+    <td>dir</td>
+    <td>the directory to use as a <var>basedir</var> for the new Ant project
+      (unless <var>useNativeBasedir</var> is set to <q>true</q>).  This will override
+      the <var>basedir</var> setting of the called project.<br/>  Also serves as the directory to
+      resolve the <var>antfile</var> and <var>output</var> attribute's values (if any).
+    </td>
+    <td>No; defaults to the current project's <var>basedir</var>, unless <var>inheritall</var> has
+      been set to <q>false</q>, in which case it doesn't have a default value</td>
+  </tr>
+  <tr>
+    <td>target</td>
+    <td>the target of the new Ant project that should be executed.</td>
+    <td>No; defaults to the new project's default target</td>
+  </tr>
+  <tr>
+    <td>output</td>
+    <td>Filename to write the Ant output to.  This is relative to the value of the <var>dir</var>
+      attribute if it has been set or to the <var>basedir</var> of the current project otherwise.
+    </td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>inheritAll</td>
+    <td>If <q>true</q>, pass all properties to the new Ant project.</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>inheritRefs</td>
+    <td>If <q>true</q>, pass all references to the new Ant project.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>useNativeBasedir</td>
+    <td>If set to <q>true</q>, the child build will use the same <var>basedir</var> as it would have
+      used when run from the command line (i.e. the <var>basedir</var> one would expect when looking
+      at the child build's buildfile).  <em>Since Ant 1.8.0</em></td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+</table>
+
+<h3>Parameters specified as nested elements</h3>
+
+<h4>property</h4>
+<p>See the description of the <a href="property.html">property</a> task.<br/>  These properties
+become equivalent to properties you define on the command line. These are special properties and
+they will always get passed down, even through additional <code>&lt;*ant*&gt;</code> tasks
+with <var>inheritAll</var> set to <q>false</q> (see above).<br/>  Note that the <var>refid</var>
+attribute points to a reference in the calling project, not in the new one.</p>
+
+<h4 id="reference">reference</h4>
+<p>Used to choose references that shall be copied into the new project, optionally changing
+their <var>id</var>.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>refid</td>
+    <td>The <var>id</var> of the reference in the calling project.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>torefid</td>
+    <td>The <var>id</var> of the reference in the new project.</td>
+    <td>No; defaults to the value of <var>refid</var></td>
+  </tr>
+</table>
+
+<h4>propertyset</h4>
+
+<p><em>Since Ant 1.6</em>.</p>
+
+<p>You can specify a set of properties to be copied into the new project
+with <a href="../Types/propertyset.html">propertyset</a>s.</p>
+
+<h4>target</h4>
+<p><em>Since Ant 1.6.3</em>.</p>
+
+<p>You can specify multiple targets using nested <code>&lt;target&gt;</code> elements instead of
+using the <var>target</var> attribute.  These will be executed as if Ant had been invoked with a
+single target whose dependencies are the targets so specified, in the order specified.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>The name of the called target.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h3>Basedir of the new project</h3>
+
+<p>If you set <var>useNativeBasedir</var> to true, the <var>basedir</var> of the new project will be
+whatever the <var>basedir</var> attribute of the <code>&lt;project&gt;</code> element of the new
+project says (or the new project's directory if the there is no <var>basedir</var>
+attribute)&mdash;no matter what any other attribute of this task says and no matter how deeply
+nested into levels of <code>&lt;ant&gt;</code> invocations this task lives.</p>
+
+<p>If you haven't set <var>useNativeBasedir</var> or set it to <q>false</q>, the following rules
+apply:</p>
+
+<p>The <var>basedir</var> value of the new project is affected by the two attributes, <var>dir</var>
+and <var>inheritall</var>, as well as the <code>&lt;ant&gt;</code> task's history.  The current
+behaviour is known to be confusing but cannot be changed without breaking backwards compatibility in
+subtle ways.</p>
+
+<p>If the <code>&lt;ant&gt;</code> task is in a "top level" build file, i.e. the project containing
+the <code>&lt;ant&gt;</code> task has not itself been invoked as part of a
+different <code>&lt;ant&gt;</code> (or <code>&lt;antcall&gt;</code>) task "higher up", the following
+table shows the details:</p>
+
+<table>
+  <tr>
+    <th scope="col"><var>dir</var> attribute</th>
+    <th scope="col"><var>inheritAll</var> attribute</th>
+    <th scope="col">new project's <var>basedir</var></th>
+  </tr>
+  <tr>
+    <td>value provided</td>
+    <td><q>true</q></td>
+    <td>value of <var>dir</var> attribute</td>
+  </tr>
+  <tr>
+    <td>value provided</td>
+    <td><q>false</q></td>
+    <td>value of <var>dir</var> attribute</td>
+  </tr>
+  <tr>
+    <td>omitted</td>
+    <td><q>true</q></td>
+    <td><var>basedir</var> of calling project (the one whose build
+      file contains the <code>&lt;ant&gt;</code> task).</td>
+  </tr>
+  <tr>
+    <td>omitted</td>
+    <td><q>false</q></td>
+    <td><var>basedir</var> attribute of the <code>&lt;project&gt;</code> element
+      of the new project</td>
+  </tr>
+</table>
+
+<p>If on the other hand the <code>&lt;ant&gt;</code> task is already nested into another invocation,
+the parent invocation's settings affect the outcome of the <var>basedir</var> value.  The current
+task's <var>dir</var> attribute will always win, but if the <var>dir</var> attribute has been
+omitted an even more complex situation arises:</p>
+
+<table>
+  <tr>
+    <th scope="col">parent <var>dir</var> attribute</th>
+    <th scope="col">parent <var>inheritAll</var> attribute</th>
+    <th scope="col">current <var>inheritAll</var> attribute</th>
+    <th scope="col">new project's <var>basedir</var></th>
+  </tr>
+  <tr>
+    <td>value provided</td>
+    <td>any</td>
+    <td>any</td>
+    <td>value of parent's <var>dir</var> attribute</td>
+  </tr>
+  <tr>
+    <td>omitted</td>
+    <td><q>true</q></td>
+    <td><q>true</q></td>
+    <td><var>basedir</var> of parent project (the one whose build file called the build file that
+      contains the current <code>&lt;ant&gt;</code> task).</td>
+  </tr>
+  <tr>
+    <td>omitted</td>
+    <td><q>true</q></td>
+    <td><q>false</q></td>
+    <td><var>basedir</var> of parent project (the one whose build file called the build file that
+      contains the current <code>&lt;ant&gt;</code> task).</td>
+  </tr>
+  <tr>
+    <td>omitted</td>
+    <td><q>false</q></td>
+    <td><q>true</q></td>
+    <td><var>basedir</var> of calling project (the one whose build file contains the
+      current <code>&lt;ant&gt;</code> task).</td>
+  </tr>
+  <tr>
+    <td>omitted</td>
+    <td><q>false</q></td>
+    <td><q>false</q></td>
+    <td><var>basedir</var> attribute of the <code>&lt;project&gt;</code> element of the new
+      project</td>
+  </tr>
+</table>
+
+<p>If you add even deeper levels of nesting, things get even more complicated and you need to apply
+the above table recursively.</p>
+
+<p>If the <var>basedir</var> of the outermost build has been specified as a property on the command
+line (i.e. <kbd>-Dbasedir=some-value</kbd> or a <kbd>-propertyfile</kbd> argument) the value
+provided will get an even higher priority.  For any <code>&lt;ant&gt;</code> task that doesn't
+specify a <var>dir</var> attribute, the new project's <var>basedir</var> will be the value specified
+on the command line&mdash;no matter how deeply nested into layers of build files the task may
+be.</p>
+
+<p>The same happens if the <var>basedir</var> is specified as a nested <code>&lt;property&gt;</code>
+of an <code>&lt;ant&gt;</code> task.  The <var>basedir</var> of build files started at deeper levels
+will be set to the specified value of the property element unless the corresponding Ant tasks set
+the <var>dir</var> attribute explicitly.</p>
+
+<h3>Examples</h3>
+<p>These are different ways of using the task:</p>
+<pre>
+&lt;ant antfile=&quot;subproject/subbuild.xml&quot; target=&quot;compile&quot;/&gt;
+
+&lt;ant dir=&quot;subproject&quot;/&gt;
+
+&lt;ant antfile=&quot;subproject/property_based_subbuild.xml&quot;&gt;
+  &lt;property name=&quot;param1&quot; value=&quot;version 1.x&quot;/&gt;
+  &lt;property file=&quot;config/subproject/default.properties&quot;/&gt;
+&lt;/ant&gt;
+
+&lt;ant inheritAll=&quot;false&quot; antfile=&quot;subproject/subbuild.xml&quot;&gt;
+  &lt;property name=&quot;output.type&quot; value=&quot;html&quot;/&gt;
+&lt;/ant&gt;</pre>
+
+<p>These lines invoke the same build file:</p>
+<pre>
+&lt;ant antfile=&quot;sub1/sub2/build.xml&quot;/&gt;
+&lt;ant antfile=&quot;sub2/build.xml&quot; dir=&quot;sub1&quot;/&gt;
+&lt;ant antfile=&quot;build.xml&quot; dir=&quot;sub1/sub2&quot;/&gt;</pre>
+
+<p>The build file of the calling project defines some <code>&lt;path&gt;</code> elements like
+this:</p>
+
+<pre>
+&lt;path id="path1"&gt;
+    ...
+&lt;/path&gt;
+&lt;path id="path2"&gt;
+    ...
+&lt;/path&gt;</pre>
+
+<p>and the called build file (<samp>subbuild.xml</samp>) also defines a <code>&lt;path&gt;</code>
+with the <var>id</var> <samp>path1</samp>, but <samp>path2</samp> is not defined; then</p>
+
+<pre>&lt;ant antfile=&quot;subbuild.xml&quot; inheritrefs=&quot;true&quot;/&gt;</pre>
+
+<p>will not override <samp>subbuild</samp>'s definition of <samp>path1</samp>, but make the parent's
+definition of <samp>path2</samp> available in the <samp>subbuild</samp>, whereas</p>
+
+<pre>&lt;ant antfile=&quot;subbuild.xml&quot;/&gt;</pre>
+
+<p>as well as</p>
+
+<pre>&lt;ant antfile=&quot;subbuild.xml&quot; inheritrefs=&quot;false&quot;/&gt;</pre>
+
+<p>will neither override <samp>path1</samp> nor copy <samp>path2</samp>, while</p>
+
+<pre>
+&lt;ant antfile=&quot;subbuild.xml&quot; inheritrefs=&quot;false&quot;&gt;
+  &lt;reference refid=&quot;path1&quot;/&gt;
+&lt;/ant&gt;</pre>
+
+<p>will override <samp>subbuild</samp>'s definition of <samp>path1</samp>, and</p>
+
+<pre>
+&lt;ant antfile=&quot;subbuild.xml&quot; inheritrefs=&quot;false&quot;&gt;
+  &lt;reference refid=&quot;path1&quot; torefid=&quot;path2&quot;/&gt;
+&lt;/ant&gt;</pre>
+
+<p>will copy the parent's definition of <samp>path1</samp> into the new project using
+the <var>id</var> <samp>path2</samp>.</p>
+
+</body>
+</html>

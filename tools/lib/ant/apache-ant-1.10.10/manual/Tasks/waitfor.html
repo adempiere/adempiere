@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>WaitFor Task</title>
+</head>
+
+<body>
+
+<h2>Waitfor</h2>
+<h3>Description</h3>
+<p>Blocks execution until a set of specified conditions become true. This is intended to be used
+with the <a href="parallel.html">parallel</a> task to synchronize a set of processes.</p>
+<p>The conditions to wait for are defined in <a href="waitfor.html#nested">nested elements</a>, if
+multiple conditions are specified, then the task will wait until all conditions are true.</p>
+<p>If both <var>maxwait</var> and <var>maxwaitunit</var> are not specified,
+default <var>maxwait</var> is 3 minutes (180000 milliseconds).</p>
+<p>If the <var>timeoutproperty</var> attribute has been set, a property of that name will be created
+if the condition didn't come true within the specified time.</p>
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>maxwait</td>
+    <td>The maximum amount of time to wait for all the required conditions to become true before
+      failing the task.</td>
+    <td>No; defaults to 180000 <var>maxwaitunit</var>s</td>
+  </tr>
+  <tr>
+    <td>maxwaitunit</td>
+    <td>The unit of time that must be used to interpret the value of the <var>maxwait</var>
+      attribute.  Valid values are
+      <ul>
+        <li><q>millisecond</q></li>
+        <li><q>second</q></li>
+        <li><q>minute</q></li>
+        <li><q>hour</q></li>
+        <li><q>day</q></li>
+        <li><q>week</q></li>
+      </ul>
+    </td>
+    <td>No; defaults to <q>millisecond</q></td>
+  </tr>
+  <tr>
+    <td>checkevery</td>
+    <td>The amount of time to wait between each test of the conditions.</td>
+    <td>No; defaults to 500 <var>checkeveryunit</var>s</td>
+  </tr>
+  <tr>
+    <td>checkeveryunit</td>
+    <td>The unit of time that must be used to interpret the value of the <var>checkevery</var>
+      attribute.  Valid values are
+      <ul>
+        <li><q>millisecond</q></li>
+        <li><q>second</q></li>
+        <li><q>minute</q></li>
+        <li><q>hour</q></li>
+        <li><q>day</q></li>
+        <li><q>week</q></li>
+      </ul>
+    </td>
+    <td>No; defaults to <q>millisecond</q></td>
+  </tr>
+  <tr>
+    <td>timeoutproperty</td>
+    <td>the name of the property to set if <var>maxwait</var> has been exceeded.</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<h3 id="nested">Parameters specified as nested elements</h3>
+<p>The available conditions that satisfy the <code>&lt;waitfor&gt;</code> task are the same as those
+for the <a href="condition.html"><code>&lt;condition&gt;</code></a>
+task. See <a href="conditions.html">here</a> for the full list.</p>
+
+<h3>Examples</h3>
+
+<p>Wait up to 30 seconds for a file called <samp>errors.log</samp> to appear.</p>
+<pre>
+&lt;waitfor maxwait="30" maxwaitunit="second"&gt;
+    &lt;available file="errors.log"/&gt;
+&lt;/waitfor&gt;</pre>
+
+<p>Wait up to 3 minutes (and checks every 500 milliseconds) for a web server
+on <samp>localhost</samp> to serve up the specified URL.</p>
+<pre>
+&lt;waitfor maxwait="3" maxwaitunit="minute" checkevery="500"&gt;
+    &lt;http url="https://localhost/myapp/index.html"/&gt;
+&lt;/waitfor&gt;</pre>
+
+<p>Wait up to 10 seconds for a server on the <samp>dbserver</samp> machine to begin listening on
+port 1521 and for the <samp>https://webserver/mypage.html</samp> web page to become available.</p>
+<pre>
+&lt;waitfor maxwait="10" maxwaitunit="second"&gt;
+    &lt;and&gt;
+        &lt;socket server="dbserver" port="1521"/&gt;
+        &lt;http url="https://webserver/mypage.html"/&gt;
+    &lt;/and&gt;
+&lt;/waitfor&gt;</pre>
+
+</body>
+</html>

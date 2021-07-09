@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Mail Task</title>
+</head>
+
+<body>
+
+<h2 id="mail">Mail</h2>
+<h3>Description</h3>
+<p>A task to send SMTP email.</p>
+<p>This task can send mail using either plain text, UU encoding, or MIME format mail, depending on
+what is available.</p>
+<p>SMTP auth and SSL/TLS require JavaMail and are only available in MIME format.</p>
+<p>Attachments may be sent using nested <code>&lt;attachments&gt;</code> elements, which
+are <a href="../using.html#path">path-like structures</a>.  This means any filesystem
+based <a href="../Types/resources.html">resource</a> or resource collection can be used to point to
+attachments.  Prior to Apache Ant 1.7 only <code>&lt;fileset&gt;</code> has been supported as a
+nested element, you can still use this directly without an <code>&lt;attachments&gt;</code>
+container.</p>
+<p><strong>Note</strong>: This task may depend on external libraries that are not included in the
+Ant distribution.  See <a href="../install.html#librarydependencies">Library Dependencies</a> for
+more information.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>from</td>
+    <td>Email address of sender.</td>
+    <td>Either a <var>from</var> attribute, or a <code>&lt;from&gt;</code> element.</td>
+  </tr>
+  <tr>
+    <td>replyto</td>
+    <td>Reply-to email address.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>tolist</td>
+    <td>Comma-separated list of recipients.</td>
+    <td rowspan="3">At least one of these, or the equivalent nested elements</td>
+  </tr>
+  <tr>
+    <td>cclist</td>
+    <td class="left">Comma-separated list of recipients to carbon copy</td>
+    </tr>
+  <tr>
+    <td>bcclist</td>
+    <td class="left">Comma-separated list of recipients to blind carbon copy
+    </td>
+  </tr>
+  <tr>
+    <td>message</td>
+    <td>Message to send in the body of the email.</td>
+    <td rowspan="2">One of these or a <code>&lt;message&gt;</code> element.</td>
+  </tr>
+  <tr>
+    <td>messagefile</td>
+    <td class="left">File to send as the body of the email. Property values in the file will be
+      expanded.</td>
+  </tr>
+  <tr>
+    <td>messagefileinputencoding</td>
+    <td>Specifies the encoding of the input file. Please
+      see <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html"
+      target="_top">Supported Encodings</a> for a list of possible values. <em>Since Ant 1.9.4</em>
+    </td>
+    <td>No; defaults to default JVM character encoding</td>
+  </tr>
+  <tr>
+    <td>messagemimetype</td>
+    <td>The content type of the message.</td>
+    <td>No; default is <q>text/plain</q></td>
+  </tr>
+  <tr>
+    <td>files</td>
+    <td>Files to send as attachments to the email.  Separate multiple file names using a comma or
+      space.  You can also use <code>&lt;fileset&gt;</code> elements to specify files.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+    <td>flag to indicate whether to halt the build on any error.</td>
+    <td>No; default is <q>true</q></td>
+  </tr>
+  <tr>
+    <td>includefilenames</td>
+    <td>Include filename(s) before file contents.</td>
+    <td>No; default is <q>false</q>, ignored unless <q>plain</q> encoding is used</td>
+  </tr>
+  <tr>
+    <td>mailhost</td>
+    <td>Host name of the SMTP server.</td>
+    <td>No; default is <q>localhost</q></td>
+  </tr>
+  <tr>
+    <td>mailport</td>
+    <td>TCP port of the SMTP server.</td>
+    <td>No; default is <q>25</q></td>
+  </tr>
+  <tr>
+    <td>user</td>
+    <td>user name for SMTP auth</td>
+    <td>Yes, if SMTP auth is required on your SMTP server;<br/>the email message will be then sent
+      using MIME and requires JavaMail</td>
+  </tr>
+  <tr>
+    <td>password</td>
+    <td>password for SMTP auth</td>
+    <td>Yes, if SMTP auth is required on your SMTP server;<br/>the email message will be then sent
+      using MIME and requires JavaMail</td>
+  </tr>
+  <tr>
+    <td>ssl</td>
+    <td><q>true</q>, <q>on</q>, or <q>yes</q> accepted here<br/>indicates whether you need
+      TLS/SSL</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>encoding</td>
+    <td>Specifies the encoding to use for the content of the email.  Values
+      are <q>mime</q>, <q>uu</q>, <q>plain</q>, or <q>auto</q>. <q>uu</q> or <q>plain</q> are not
+      compatible with SMTP auth</td>
+    <td>No; default is <q>auto</q></td>
+  </tr>
+  <tr>
+    <td>charset</td>
+    <td>Character set of the email.<br/>You can also set the <var>charset</var> in
+      the <code>message</code> nested element.<br/>  These options are mutually exclusive.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>subject</td>
+    <td>Email subject line.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>ignoreInvalidRecipients</td>
+    <td>(boolean) Whether the task should try to send the message to as many recipients as possible
+      and should only fail if neither is reachable.  <em>Since Ant 1.8.0</em>.</td>
+    <td>No; default is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>enableStartTLS</td>
+    <td>(boolean) Whether the <code>STARTTLS</code> command used to switch to an encrypted
+      connection for authentication should be supported.  Requires JavaMail.  <em>Since Ant
+      1.8.0</em></td>
+    <td>No</td>
+  </tr>
+</table>
+
+<h3>Note regarding the attributes containing email addresses</h3>
+<p><em>Since Ant 1.6</em>, the
+attributes <var>from</var>, <var>replyto</var>, <var>tolist</var>, <var>cclist</var>, <var>bcclist</var>
+can contain email addresses of the form:</p>
+<ul>
+  <li><samp>address@xyz.com</samp></li>
+  <li><samp>name &lt;address@xyz.com&gt;</samp></li>
+  <li><samp>&lt;address@xyz.com&gt; name</samp></li>
+  <li><samp>(name) address@xyz.com</samp></li>
+  <li><samp>address@xyz.com (name)</samp></li>
+</ul>
+<p>You need to enter the angle brackets as XML entities <q>&amp;gt;</q> and <q>&amp;lt;</q>.</p>
+
+<h3>Parameters specified as nested elements</h3>
+
+<h4>to / cc / bcc / from/ replyto</h4>
+<p>Adds an email address element.  It takes the following attributes:</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>The display name for the address.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>address</td>
+    <td>The email address.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h4>message</h4>
+
+<p>Specifies the message to include in the email body.  It takes the following attributes:</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>src</td>
+    <td>The file to use as the message.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>mimetype</td>
+    <td>The content type to use for the message.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>charset</td>
+    <td>Character set of the message<br/>You can also set the <var>charset</var> as attribute of the
+      enclosing <code>mail</code> task.<br/>  These options are mutually exclusive.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>inputencoding</td>
+    <td>
+      Specifies the encoding of the input file. Please
+      see <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html"
+      target="_top">Supported Encodings</a> for a list of possible values. <em>Since Ant 1.9.4</em>
+    </td>
+    <td>No; defaults to default JVM character encoding</td>
+  </tr>
+</table>
+
+<p>If the <var>src</var> attribute is not specified, then text can be added inside
+the <code>&lt;message&gt;</code> element. Property expansion will occur in the message, whether it
+is specified as an external file or as text within the <code>&lt;message&gt;</code> element.</p>
+
+<h4>header</h4>
+<p><em>Since Ant 1.7</em>, arbitrary mail headers can be added by specifying these attributes on one
+or more nested header elements:</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>The name associated with this mail header.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>value</td>
+    <td>The value to assign to this mail header.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<p>It is permissible to duplicate the name attribute amongst multiple headers.</p>
+
+<h3>Examples</h3>
+
+<p>Send an email from <q>me</q> to <q>you</q> with a subject of <q>Results of nightly build</q> and
+include the contents of the file <samp>build.log</samp> in the body of the message.</p>
+
+<pre>
+&lt;mail from=&quot;me&quot;
+      tolist=&quot;you&quot;
+      subject=&quot;Results of nightly build&quot;
+      files=&quot;build.log&quot;/&gt;</pre>
+
+<p>Send an email from <q>config@myisp.com</q> to <q>all@xyz.com</q> with a subject of <q>Test
+Build</q>. Replies to this email will go to <q>me@myisp.com</q>. Any zip files from
+the <samp>dist</samp> directory are attached. The task will attempt to use JavaMail and fall back to
+UU encoding or no encoding in that order depending on what support classes are
+available. <samp>${buildname}</samp> will be replaced with the <code>buildname</code> property's
+value.</p>
+
+<pre>
+&lt;mail mailhost=&quot;smtp.myisp.com&quot; mailport=&quot;1025&quot; subject=&quot;Test build&quot;&gt;
+  &lt;from address=&quot;config@myisp.com&quot;/&gt;
+  &lt;replyto address=&quot;me@myisp.com&quot;/&gt;
+  &lt;to address=&quot;all@xyz.com&quot;/&gt;
+  &lt;message&gt;The ${buildname} nightly build has completed&lt;/message&gt;
+  &lt;attachments&gt;
+    &lt;fileset dir=&quot;dist&quot;&gt;
+      &lt;include name=&quot;**/*.zip&quot;/&gt;
+    &lt;/fileset&gt;
+  &lt;/attachments&gt;
+&lt;/mail&gt;</pre>
+
+<p>Send an email from <q>me@myisp.com</q> to <q>all@xyz.com</q> with a subject of <q>Test Build</q>,
+the message body being coded in UTF-8.
+
+<pre>
+&lt;property name=&quot;line2&quot; value=&quot;some_international_message&quot;/&gt;
+&lt;echo message=&quot;${line2}&quot;/&gt;
+
+&lt;mail mailhost=&quot;somehost@xyz.com&quot; mailport=&quot;25&quot; subject=&quot;Test build&quot;  charset=&quot;utf-8&quot;&gt;
+  &lt;from address=&quot;me@myist.com&quot;/&gt;
+  &lt;to address=&quot;all@xyz.com&quot;/&gt;
+  &lt;message&gt;some international text:${line2}&lt;/message&gt;
+&lt;/mail&gt;</pre>
+
+</body>
+</html>

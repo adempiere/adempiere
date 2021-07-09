@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+  <head>
+    <link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+    <title>MacroDef Task</title>
+  </head>
+
+  <body>
+
+    <h2 id="macrodef">MacroDef</h2>
+    <p><em>Since Apache Ant 1.6</em></p>
+    <h3>Description</h3>
+    <p>This defines a new task using a <code>&lt;sequential&gt;</code> nested task as a
+      template. Nested elements <code>&lt;attribute&gt;</code> and <code>&lt;element&gt;</code> are
+      used to specify attributes and elements of the new task. These get substituted into
+      the <code>&lt;sequential&gt;</code> task when the new task is run.</p>
+    <h3>Note</h3>
+    <p>You can also use <em>prior defined</em> attributes for <var>default</var> values in other
+      attributes. See the examples.</p>
+    <h3>Parameters</h3>
+    <table class="attr">
+      <tr>
+        <th scope="col">Attribute</th>
+        <th scope="col">Description</th>
+        <th scope="col">Required</th>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>The name of the new definition.</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>uri</td>
+        <td>
+          The uri that this definition should live in.
+        </td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>description</td>
+        <td>A description of the macrodef
+          (for documentation purposes only).
+        </td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>backtrace</td>
+        <td>This controls the error traceback if there is an error detected when running the
+          macro. If this is set to <q>true</q>, there will be an error trackback, if <q>false</q>
+          there will be none. <em>Since Ant 1.7</em>.</td>
+        <td>No; default <q>true</q></td>
+      </tr>
+    </table>
+    <h3>Parameters specified as nested elements</h3>
+    <h4>attribute</h4>
+    <p>This is used to specify attributes of the new task. The values of the attributes get
+      substituted into the templated task.  The attributes will be required attributes unless a
+      default value has been set.</p>
+    <p>This attribute is placed in the body of the templated task using a notation similar to the
+      Ant property notation&mdash;<code>@{attribute name}</code>. (May be remembered as "put the
+      substitution AT this location").</p>
+    <p>The escape sequence <code>@@</code> is used to escape <code>@</code>. This
+      allows <code>@{x}</code> to be placed in the text without substitution of <code>x</code> by
+      using <code>@@{x}</code>.  This corresponds to the <code>$$</code> escape sequence for
+      properties.</p>
+    <p>The case of the attribute is ignored, so <code>@{myAttribute}</code> is treated the same
+      as <code>@{MyAttribute}</code>.</p>
+    <h5>Parameters</h5>
+    <table class="attr">
+      <tr>
+        <th scope="col">Attribute</th>
+        <th scope="col">Description</th>
+        <th scope="col">Required</th>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>The name of the new attribute</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>default</td>
+        <td>The default value of the attribute.</td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>description</td>
+        <td>This contains a description of the attribute.  <em>Since Ant 1.6.1</em></td>
+        <td>No</td>
+      </tr>
+      <tr>
+        <td>doubleexpanding</td>
+        <td>Controls whether or not property references in the attribute are expanded twice or just
+          once.  See the <a href="https://ant.apache.org/faq.html#macrodef-property-expansion"
+          target="_top">FAQ</a> for details.  <em>Since Ant 1.8.3</em></td>
+        <td>No; default is <q>true</q></td>
+      </tr>
+    </table>
+    <h4>element</h4>
+    <p>This is used to specify nested elements of the new task.  The contents of the nested elements
+      of the task instance are placed in the templated task at the tag name.</p>
+    <p>The case of the <code>element</code> name is ignored.</p>
+    <h5>Parameters</h5>
+    <table class="attr">
+      <tr>
+        <th scope="col">Attribute</th>
+        <th scope="col">Description</th>
+        <th scope="col">Required</th>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>The name of the element.</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>optional</td>
+        <td>If <q>true</q> this nested element is optional.</td>
+        <td>No; default is <q>false</q>&mdash;the nested element is required in the new task</td>
+      </tr>
+      <tr>
+        <td>implicit</td>
+        <td>If <q>true</q> this nested element is implicit. This means that any nested elements of
+          the <code>macrodef</code> instance will be placed in the element indicated by the name of
+          this element.  There can only be one element if an element is implicit.  <em>Since Ant
+          1.6.2</em></td>
+        <td>No; default is <q>false</q></td>
+      </tr>
+      <tr>
+        <td>description</td>
+        <td>This contains a description informing the user what the contents of the element are
+          expected to be.  <em>Since Ant 1.6.1</em></td>
+        <td>No</td>
+      </tr>
+    </table>
+    <h4>text</h4>
+    <p>This is used to specify the treatment of text contents of the macro invocation.  If this
+      element is not present, then any nested text in the macro invocation will be an error. If
+      the <code>text</code> element is present, then the name becomes an attribute that gets set to
+      the nested text of the macro invocation.  <em>Since Ant 1.6.1</em>.</p>
+    <p>The case of the <code>text</code> name is ignored.</p>
+    <h5>Parameters</h5>
+    <table class="attr">
+      <tr>
+        <th scope="col">Attribute</th>
+        <th scope="col">Description</th>
+        <th scope="col">Required</th>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td>The name of the text attribute.</td>
+        <td>Yes</td>
+      </tr>
+      <tr>
+        <td>optional</td>
+        <td>If <q>true</q> nested text in the macro is optional.</td>
+        <td>No; default is <q>false</q></td>
+      </tr>
+      <tr>
+        <td>trim</td>
+        <td>If <q>true</q>, the nested text is trimmed of white space.</td>
+        <td>No; default is <q>false</q></td>
+      </tr>
+      <tr>
+        <td>description</td>
+        <td>This contains a description informing the user what the nested text of the macro is
+          expected to be.</td>
+        <td>No</td>
+      </tr>
+    </table>
+
+    <h3>Examples</h3>
+    <p>The following example defined a task called testing and runs it.</p>
+    <pre>
+&lt;macrodef name="testing"&gt;
+    &lt;attribute name="v" default="NOT SET"/&gt;
+    &lt;element name="some-tasks" optional="yes"/&gt;
+    &lt;sequential&gt;
+        &lt;echo&gt;v is @{v}&lt;/echo&gt;
+        &lt;some-tasks/&gt;
+    &lt;/sequential&gt;
+&lt;/macrodef&gt;
+
+&lt;testing v="This is v"&gt;
+    &lt;some-tasks&gt;
+        &lt;echo&gt;this is a test&lt;/echo&gt;
+    &lt;/some-tasks&gt;
+&lt;/testing&gt;</pre>
+    <p>The following fragment defines a task called <code>&lt;call-cc&gt;</code> which take the
+      attributes <var>target</var>, <var>link</var> and <var>target.dir</var> and the nested
+      element <code>cc-elements</code>. The body of the task uses the <code>&lt;cc&gt;</code> task
+      from the <a href="http://ant-contrib.sourceforge.net/" target="_top">ant-contrib</a>
+      project.</p>
+    <pre>
+&lt;macrodef name="call-cc"&gt;
+    &lt;attribute name="target"/&gt;
+    &lt;attribute name="link"/&gt;
+    &lt;attribute name="target.dir"/&gt;
+    &lt;element name="cc-elements"/&gt;
+    &lt;sequential&gt;
+        &lt;mkdir dir="${obj.dir}/@{target}"/&gt;
+        &lt;mkdir dir="@{target.dir}"/&gt;
+        &lt;cc link="@{link}" objdir="${obj.dir}/@{target}"
+            outfile="@{target.dir}/@{target}"&gt;
+            &lt;compiler refid="compiler.options"/&gt;
+            &lt;cc-elements/&gt;
+        &lt;/cc&gt;
+    &lt;/sequential&gt;
+&lt;/macrodef&gt;</pre>
+    <p>This then can be used as follows:</p>
+    <pre>
+&lt;call-cc target="unittests" link="executable"
+         target.dir="${build.bin.dir}"&gt;
+   &lt;cc-elements&gt;
+      &lt;includepath location="${gen.dir}"/&gt;
+      &lt;includepath location="test"/&gt;
+      &lt;fileset dir="test/unittest" includes = "**/*.cpp"/&gt;
+      &lt;fileset dir="${gen.dir}" includes = "*.cpp"/&gt;
+      &lt;linker refid="linker-libs"/&gt;
+   &lt;/cc-elements&gt;
+&lt;/call-cc&gt;</pre>
+    <p>The following fragment shows <code>&lt;call-cc&gt;</code>, but this time using an implicit
+      element and with the <var>link</var> and <var>target.dir</var> arguments having default
+      values.</p>
+    <pre>
+&lt;macrodef name="call-cc"&gt;
+   &lt;attribute name="target"/&gt;
+   &lt;attribute name="link" default="executable"/&gt;
+   &lt;attribute name="target.dir" default="${build.bin.dir}"/&gt;
+   &lt;element name="cc-elements" implicit="yes"/&gt;
+   &lt;sequential&gt;
+      &lt;mkdir dir="${obj.dir}/@{target}"/&gt;
+      &lt;mkdir dir="@{target.dir}"/&gt;
+         &lt;cc link="@{link}" objdir="${obj.dir}/@{target}"
+             outfile="@{target.dir}/@{target}"&gt;
+             &lt;compiler refid="compiler.options"/&gt;
+             &lt;cc-elements/&gt;
+         &lt;/cc&gt;
+      &lt;/sequential&gt;
+&lt;/macrodef&gt;</pre>
+    <p>This then can be used as follows, note that <code>&lt;cc-elements&gt;</code> is not
+    specified.</p>
+    <pre>
+&lt;call-cc target="unittests"&gt;
+   &lt;includepath location="${gen.dir}"/&gt;
+   &lt;includepath location="test"/&gt;
+   &lt;fileset dir="test/unittest" includes = "**/*.cpp"/&gt;
+   &lt;fileset dir="${gen.dir}" includes = "*.cpp"/&gt;
+   &lt;linker refid="linker-libs"/&gt;
+&lt;/call-cc&gt;
+    </pre>
+    <p>The following shows the use of the <code>text</code> element.</p>
+    <pre>
+&lt;macrodef name="echotest"&gt;
+   &lt;text name="text"/&gt;
+   &lt;sequential&gt;
+      &lt;echo&gt;@{text}&lt;/echo&gt;
+   &lt;/sequential&gt;
+&lt;/macrodef&gt;
+&lt;echotest&gt;
+   Hello world
+&lt;/echotest&gt;
+    </pre>
+    <p>The following uses a prior defined attribute for setting the default value of another. The
+      output would be <code class="output">one=test two=test</code>. If you change the order of
+      lines *1 and *2 the output would be <code class="output">one=test two=@{one}</code>, because
+      while processing the <var>two</var>-line the value for <var>one</var> is not set.</p>
+    <pre>
+&lt;macrodef name="test"&gt;
+   &lt;attribute name="one"/&gt;                     <strong>*1</strong>
+   &lt;attribute name="two" default="@{one}"/&gt;    <strong>*2</strong>
+   &lt;sequential&gt;
+      &lt;echo&gt;one=@{one}   two=@{two}&lt;/echo&gt;
+   &lt;/sequential&gt;
+&lt;/macrodef&gt;
+&lt;test one="test"/&gt;</pre>
+
+</body>
+</html>

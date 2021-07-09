@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Jar Task</title>
+</head>
+
+<body>
+
+<h2 id="jar">Jar</h2>
+<h3>Description</h3>
+<p>Jars a set of files.</p>
+<p>The <var>basedir</var> attribute is the reference directory from where to jar.</p>
+<p>Note that file permissions will not be stored in the resulting jarfile.</p>
+
+<p>It is possible to refine the set of files that are being jarred. This can be done with
+the <var>includes</var>, <var>includesfile</var>, <var>excludes</var>, <var>excludesfile</var>
+and <var>defaultexcludes</var> attributes. With the <var>includes</var> or <var>includesfile</var>
+attribute you specify the files you want to have included by using patterns. The <var>exclude</var>
+or <var>excludesfile</var> attribute is used to specify the files you want to have excluded. This is
+also done with patterns. And finally with the <var>defaultexcludes</var> attribute, you can specify
+whether you want to use default exclusions or not. See the section
+on <a href="../dirtasks.html#directorybasedtasks">directory based tasks</a>, on how the
+inclusion/exclusion of files works, and how to write patterns.</p>
+
+<p>This task forms an implicit <a href="../Types/fileset.html">FileSet</a> and supports most
+attributes of <code>&lt;fileset&gt;</code> (<var>dir</var> becomes <var>basedir</var>) as well as
+the nested <code>&lt;include&gt;</code>, <code>&lt;exclude&gt;</code>
+and <code>&lt;patternset&gt;</code> elements.</p>
+<p>You can also use nested file sets for more flexibility, and specify multiple ones to merge
+together different trees of files into one JAR.  The extended <code>fileset</code>
+and <code>groupfileset</code> child elements from the <code>zip</code> task are also available in
+the <code>jar</code> task.  See the <a href="zip.html">Zip</a> task for more details and
+examples.</p>
+
+<p>The <var>update</var> parameter controls what happens if the JAR file already exists. When set
+to <q>yes</q>, the JAR file is updated with the files specified. When set to <q>no</q> (the default)
+the JAR file is overwritten. An example use of this is provided in the <a href="zip.html">Zip task
+documentation</a>.  Please note that ZIP files store file modification times with a granularity of 2
+seconds.  If a file is less than 2 seconds newer than the entry in the archive, Ant will not
+consider it newer.</p>
+
+<p>If the manifest is omitted, a simple one will be supplied by Apache Ant.</p>
+
+<p>The <var>whenmanifestonly</var> parameter controls what happens when no files, apart from the
+manifest file, or nested services, match.  If <q>skip</q>, the JAR is not created and a warning is
+issued.  If <q>fail</q>, the JAR is not created and the build is halted with an error.
+If <q>create</q> (default), an empty JAR file (only containing a manifest and services) is
+created.</p>
+
+<p>(The <code>Jar</code> task has a shortcut for specifying the manifest file of a JAR file.  The
+same thing can be accomplished by using the <var>fullpath</var> attribute of
+a <code>zipfileset</code> in a <code>Zip</code> task. The one difference is that if
+the <var>manifest</var> attribute is not specified, the <code>Jar</code> task will include an empty
+one for you.)</p>
+
+<p>Manifests are processed by the <code>Jar</code> task according to
+the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html" target="_top">Jar
+file specification.</a>  Note in particular that this may result in manifest lines greater than 72
+bytes being wrapped and continued on the next line.</p>
+
+<p>The <code>Jar</code> task checks whether you specified package information according to
+the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/versioning/spec/versioning2.html#wp90779"
+target="_top">versioning specification</a>.</p>
+
+<p><strong>Please note that the ZIP format allows multiple files of the same fully-qualified name to
+exist within a single archive. This has been documented as causing various problems for unsuspecting
+users. If you wish to avoid this behavior you must set the <var>duplicate</var> attribute to a value
+other than its default, <q>add</q>.</strong></p>
+
+<p>To cryptographically sign your JAR file, use the <a href="signjar.html">SignJar task</a> on the
+JAR that you create from this task.</p>
+
+<p>For creating a simple version of a <a href="https://openjdk.java.net/jeps/238" target="_top">JEP
+238 multi-release jar</a>, you don't need any special tools. Just set the
+required <code>manifest</code> entry and place the files where required, as you could see in
+the <a href="#jep238-example">JEP 238 example</a>. If you want to tune this kind of jar,
+e.g. decreasing the size by deleting 'same' classes from the versions-branches, you have to do more
+...</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>destfile</td>
+    <td>the JAR file to create.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>basedir</td>
+    <td>the directory from which to jar the files.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>compress</td>
+    <td>Not only store data but also compress them.  Unless you set the <var>keepcompression</var>
+      attribute to <q>false</q>, this will apply to the entire archive, not only the files you've
+      added while updating.</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>keepcompression</td>
+    <td>For entries coming from existing archives (like nested <code>zipfileset</code>s or while
+      updating the archive), keep the compression as it has been originally instead of using the
+    <var>compress</var> attribute.  <em>Since Ant 1.6</em></td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>encoding</td>
+    <td>The character encoding to use for filenames inside the archive. <strong>It is not
+      recommended to change this value as the created archive will most likely be unreadable for
+      Java otherwise.</strong>  <br/>See also the <a href="zip.html#encoding">discussion in the zip
+      task page</a></td>
+    <td>No; defaults to <q>UTF8</q></td>
+  </tr>
+  <tr>
+    <td>filesonly</td>
+    <td>Store only file entries</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>includes</td>
+    <td>comma- or space-separated list of patterns of files that must be included</td>
+    <td>No; defaults to all (<q>**</q>)</td>
+  </tr>
+  <tr>
+    <td>includesfile</td>
+    <td>name of a file. Each line of this file is taken to be an include pattern</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>excludes</td>
+    <td>comma- or space-separated list of patterns of files that must be excluded</td>
+    <td>No; defaults to default excludes or none if <var>defaultexcludes</var> is <q>no</q></td>
+  </tr>
+  <tr>
+    <td>excludesfile</td>
+    <td>Name of a file. Each line of this file is taken to be an exclude pattern</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>defaultexcludes</td>
+    <td>indicates whether default excludes should be used or not (<q>yes|no</q>)</td>
+    <td>No; defaults to <q>yes</q></td>
+  </tr>
+  <tr>
+    <td>manifest</td>
+    <td>the manifest file to use.  This can be either the location of a manifest, or the name of a
+      jar added through a fileset.  If its the name of an added jar, the task expects the manifest
+      to be in the jar at <samp>META-INF/MANIFEST.MF</samp></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>filesetmanifest</td>
+    <td>behavior when a manifest is found in a <code>zipfileset</code>
+      or <code>zipgroupfileset</code> file.  Valid values are <q>skip</q>, <q>merge</q>,
+      and <q>mergewithoutmain</q>.  <q>merge</q> will merge all of the manifests together, and merge
+      this into any other specified manifests.  <q>mergewithoutmain</q> merges everything but the
+      Main section of the manifests.
+    </td>
+    <td>No; defaults to <q>skip</q></td>
+  </tr>
+  <tr>
+    <td>update</td>
+    <td>indicates whether to update or overwrite the destination file if it already exists</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>whenmanifestonly</td>
+    <td>behavior when no files match.  Valid values are <q>fail</q>, <q>skip</q>,
+      and <q>create</q>.</td>
+    <td>No; defaults to <q>create</q></td>
+  </tr>
+  <tr>
+    <td>duplicate</td>
+    <td>behavior when a duplicate file is found.  Valid values are <q>add</q>, <q>preserve</q>,
+      and <q>fail</q>.</td>
+    <td>No; defaults to <q>add</q></td>
+  </tr>
+  <tr>
+    <td>index</td>
+    <td>whether to create
+      an <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#JAR_Index"
+      target="_top">index list</a> to speed up classloading.
+      Unless you specify additional jars with nested <a href="#indexjars"><code>indexjars</code></a>
+      elements, only the contents of this jar will be included in the index.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>indexMetaInf</td>
+    <td>whether to include <samp>META-INF</samp> and its children in the index.  Doesn't have any
+      effect if <var>index</var> is <q>false</q>.<br/>Sun's jar implementation used to skip
+      the <samp>META-INF</samp> directory and Ant followed that example.  The behavior has been
+      changed with <a href="https://bugs.openjdk.java.net/browse/JDK-4408526" target="_top">Java
+      5</a>.  In order to avoid problems with Ant generated jars on Java 1.4 or earlier Ant will not
+      include <samp>META-INF</samp> unless explicitly asked to. <em>Since Ant 1.8.0</em></td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>manifestencoding</td>
+    <td>The encoding used to read the JAR manifest, when a manifest file is specified.  The task
+      will always use UTF-8 when writing the manifest.</td>
+    <td>No; defaults to default JVM character encoding</td>
+  </tr>
+  <tr>
+    <td>roundup</td>
+    <td>Whether the file modification times will be rounded up to the next even number of
+      seconds.<br/>Zip archives store file modification times with a granularity of 2 seconds, so
+      the times will either be rounded up or down.  If you round down, the archive will always seem
+      out-of-date when you rerun the task, so the default is to round up.  Rounding up may lead to a
+      different type of problems like JSPs inside a web archive that seem to be slightly more recent
+      than precompiled pages, rendering precompilation useless. <em>Since Ant 1.6.2</em></td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>level</td>
+    <td>Non-default level at which file compression should be performed. Valid values range
+      from <q>0</q> (no compression/fastest) to <q>9</q> (maximum compression/slowest). <em>Since
+      Ant 1.7</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>strict</td>
+    <td>Configures how to handle breaks of the packaging version specification:
+      <ul>
+        <li><q>fail</q> = throws a BuildException</li>
+        <li><q>warn</q> = logs a message on warn level</li>
+        <li><q>ignore</q> = logs a message on verbose level (default)</li>
+      </ul><em>Since Ant 1.7.1</em></td>
+    <td>No; defaults to <q>ignore</q></td>
+  </tr>
+  <tr>
+    <td>preserve0permissions</td>
+    <td>when updating an archive or adding entries from a different archive Ant will assume that a
+      Unix permissions value of 0 (nobody is allowed to do anything to the file/directory) means
+      that the permissions haven't been stored at all rather than real permissions and will instead
+      apply its own default values.<br/>  Set this attribute to <q>true</q> if you really want to
+      preserve the original permission field. <em>since Ant 1.8.0</em>
+    </td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>useLanguageEncodingFlag</td>
+    <td>Whether to set the language encoding flag if the encoding is UTF-8.  This setting doesn't
+      have any effect if the encoding is not UTF-8. <em>Since Ant 1.8.0</em>.  <br/>See also
+      the <a href="zip.html#encoding">discussion in the zip task page</a></td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>createUnicodeExtraFields</td>
+    <td>Whether to create Unicode extra fields to store the file names a second time inside the
+      entry's metadata.<br/>Possible values are <q>never</q>, <q>always</q>
+      and <q>not-encodeable</q> which will only add Unicode extra fields if the file name
+      cannot.<br/>See also the <a href="zip.html#encoding">discussion in the zip task page</a></td>
+    <td>No; defaults to <q>never</q></td>
+  </tr>
+  <tr>
+    <td>fallbacktoUTF8</td>
+    <td>Whether to use UTF-8 and the language encoding flag instead of the specified encoding if a
+      file name cannot be encoded using the specified encoding. <em>Since Ant 1.8.0</em>.<br/>See
+      also the <a href="zip.html#encoding">discussion in the zip task page</a></td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>mergeClassPathAttributes</td>
+    <td>Whether to merge the <code>Class-Path</code> attributes found in different manifests (if
+      merging manifests).  If <q>false</q>, only the attribute of the last merged manifest will be
+      preserved.  <em>Since Ant 1.8.0</em>.<br/>Unless you also set <var>flattenAttributes</var>
+      to <q>true</q>, this may result in manifests containing multiple <code>Class-Path</code>
+      attributes which violates the manifest specification.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>flattenAttributes</td>
+    <td>Whether to merge attributes occurring more than once in a section (this can only happen for
+      the <code>Class-Path</code> attribute) into a single attribute.  <em>Since Ant
+      1.8.0</em>.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>zip64Mode</td>
+    <td>When to use Zip64 extensions for entries.  The possible values
+      are <q>never</q>, <q>always</q> and <q>as-needed</q>.  <em>Since Ant 1.9.1</em>.<br/>See also
+      the <a href="zip.html#zip64">discussion in the zip task page</a></td>
+    <td>No; defaults to <q>never</q></td>
+  </tr>
+</table>
+
+<h3>Parameters specified as nested elements</h3>
+<h4>metainf</h4>
+<p>The nested <code>metainf</code> element specifies
+a <a href="../Types/fileset.html">FileSet</a>. All files included in this fileset will end up in
+the <samp>META-INF</samp> directory of the jar file. If this fileset includes a file
+named <samp>MANIFEST.MF</samp>, the file is ignored and you will get a warning.</p>
+
+<h4>manifest</h4>
+<p>The nested <code>manifest</code> element allows the manifest for the Jar file to be provided
+inline in the build file rather than in an external file. This element is identical to the
+<a href="manifest.html">manifest</a> task, but the <var>file</var> and <var>mode</var>
+attributes must be omitted.</p>
+<p>If both an inline manifest and an external file are both specified, the manifests are merged.</p>
+
+<p>When using inline manifests, the <code>Jar</code> task will check whether the manifest contents
+have changed (i.e. the manifest as specified is different in any way from the manifest that exists
+in the jar, if it exists.  If the manifest values have changed, the jar will be updated or rebuilt,
+as appropriate.</p>
+
+<h4 id="indexjars">indexjars</h4>
+
+<p><em>Since Ant 1.6.2</em></p>
+
+<p>The nested <code>indexjars</code> element specifies a <a href="../using.html#path">path-like
+structure</a>.  Its content is completely ignored unless you set the <var>index</var> attribute of
+the task to <q>true</q>.</p>
+
+<p>The index created by this task will contain indices for the archives contained in this path, the
+names used for the archives depend on your manifest:</p>
+<ul>
+  <li>If the generated jar's manifest contains no <code>Class-Path</code> attribute, the file name
+  without any leading directory path will be used and all parts of the path will get indexed.</li>
+  <li>If the manifest contains a <code>Class-Path</code> attribute, this task will try to guess
+  which part of the <code>Class-Path</code> belongs to a given archive.  If it cannot guess a name,
+  the archive will be skipped, otherwise the name listed inside the <code>Class-Path</code>
+  attribute will be used.</li>
+</ul>
+
+<p>This task will not create any index entries for archives that are empty or only contain files
+inside the <samp>META-INF</samp> directory unless the <var>indexmetainf</var> attribute has been set
+to <q>true</q>.</p>
+
+<h4 id="indexjarsmapper">indexjarsmapper</h4>
+
+<p><em>Since Ant 1.10.9</em></p>
+
+<p>The nested <code>indexjarsmapper</code> element can be used to perform custom filename
+transformations for the archives specified by <code>indexjars</code> if the
+<a href="#indexjars">default filename transformation</a> doesn't suffice.
+
+<h4 id="service">service</h4>
+
+<p><em>Since Ant 1.7.0</em></p>
+
+<p>The nested <code>service</code> element specifies a service.  Services are described in
+the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/jar/jar.html#Service_Provider"
+target="_top">service provider overview</a>.  The approach is to have providers JARs include files
+named by the service provided, for
+example, <samp>META-INF/services/javax.script.ScriptEngineFactory</samp> which can include
+implementation class names, one per line (usually just one per JAR).</p>
+
+<p>The name of the service is set by the <var>type</var> attribute. The classname implementing the
+service is the the <var>provider</var> attribute, or if one wants to specify a number of classes
+that implement the service, by <code>provider</code> nested elements.</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>type</td>
+    <td>The name of the service.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>provider</td>
+    <td>The classname of the class implementing the service.</td>
+    <td>Yes, unless there is a nested <code>&lt;provider&gt;</code> element.</td>
+  </tr>
+</table>
+<p>The provider classname is specified either by the <var>provider</var> attribute, or by a
+nested <code>&lt;provider&gt;</code> element, which has a single <var>classname</var> attribute.  If
+a JAR file has more that one implementation of the service, a number of
+nested <code>&lt;provider&gt;</code> elements may be used.</p>
+
+<h3>Examples</h3>
+
+<h4>Simple</h4>
+<p>Jar all files in the <samp>${build}/classes</samp> directory into a file
+called <samp>app.jar</samp> in the <samp>${dist}/lib</samp> directory.</p>
+<pre>&lt;jar destfile=&quot;${dist}/lib/app.jar&quot; basedir=&quot;${build}/classes&quot;/&gt;</pre>
+
+<h4>With filters</h4>
+
+<p>Jar all files in the <samp>${build}/classes</samp> directory into a file
+called <samp>app.jar</samp> in the <samp>${dist}/lib</samp> directory. Files with the
+name <samp>Test.class</samp> are excluded.</p>
+<pre>&lt;jar destfile=&quot;${dist}/lib/app.jar&quot;
+     basedir=&quot;${build}/classes&quot;
+     excludes=&quot;**/Test.class&quot;/&gt;</pre>
+
+<p>Jar all files in the <samp>${build}/classes</samp> directory into a file
+called <samp>app.jar</samp> in the <samp>${dist}/lib</samp> directory. Only files under the
+directory <samp>mypackage/test</samp> are used, and files with the name <samp>Test.class</samp> are
+excluded.</p>
+<pre>
+&lt;jar destfile=&quot;${dist}/lib/app.jar&quot;
+     basedir=&quot;${build}/classes&quot;
+     includes=&quot;mypackage/test/**&quot;
+     excludes=&quot;**/Test.class&quot;/&gt;</pre>
+
+<h4>Multiple filesets</h4>
+<p>Jar all files in the <samp>${build}/classes</samp> directory and also in
+the <samp>${src}/resources</samp> directory together into a file called <samp>app.jar</samp> in
+the <samp>${dist}/lib</samp> directory. Files with the name <samp>Test.class</samp> are excluded. If
+there are files such as <samp>${build}/classes/mypackage/MyClass.class</samp>
+and <samp>${src}/resources/mypackage/image.gif</samp>, they will appear in the same directory in the
+jar (and thus be considered in the same package by Java).</p>
+<pre>
+&lt;jar destfile=&quot;${dist}/lib/app.jar&quot;&gt;
+    &lt;fileset dir=&quot;${build}/classes&quot;
+             excludes=&quot;**/Test.class&quot;/&gt;
+    &lt;fileset dir=&quot;${src}/resources&quot;/&gt;
+&lt;/jar&gt;</pre>
+
+<h4>Merging archives</h4>
+
+<p>Create an executable jar file with a main class <samp>com.acme.checksites.Main</samp>, and embed
+all the classes from the jar <samp>lib/main/some.jar</samp>.</p>
+<pre>
+&lt;jar destfile="build/main/checksites.jar"&gt;
+    &lt;fileset dir="build/main/classes"/&gt;
+    &lt;zipfileset includes="**/*.class" src="lib/main/some.jar"/&gt;
+    &lt;manifest&gt;
+      &lt;attribute name="Main-Class"
+                 value="com.acme.checksites.Main"/&gt;
+    &lt;/manifest&gt;
+&lt;/jar&gt;</pre>
+
+<p>Create an executable jar file with a main class <samp>com.acme.checksites.Main</samp>, and embed
+all the classes from all the jars in <samp>lib/main</samp>.</p>
+<pre>
+&lt;jar destfile="build/main/checksites.jar"&gt;
+    &lt;fileset dir="build/main/classes"/&gt;
+    &lt;restrict&gt;
+       &lt;name name="**/*.class"/&gt;
+       &lt;archives&gt;
+           &lt;zips&gt;
+               &lt;fileset dir="lib/main" includes="**/*.jar"/&gt;
+           &lt;/zips&gt;
+       &lt;/archives&gt;
+    &lt;/restrict&gt;
+    &lt;manifest&gt;
+        &lt;attribute name="Main-Class"
+              value="com.acme.checksites.Main"/&gt;
+    &lt;/manifest&gt;
+&lt;/jar&gt;</pre>
+
+<h4>Inline manifest</h4>
+<pre>
+&lt;jar destfile=&quot;test.jar&quot; basedir=&quot;.&quot;&gt;
+    &lt;include name=&quot;build&quot;/&gt;
+    &lt;manifest&gt;
+        &lt;!-- If this is an Applet or Web Start application, include
+             the proper attributes from <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/jweb/index.html" target="_top">https://docs.oracle.com/javase/8/docs/technotes/guides/jweb/index.html</a> --&gt;
+        &lt;attribute name=&quot;Permissions&quot; value=&quot;sandbox&quot;/&gt;
+        &lt;attribute name=&quot;Codebase&quot; value=&quot;example.com&quot;/&gt;
+        &lt;!-- Who is building this jar? --&gt;
+        &lt;attribute name=&quot;Built-By&quot; value=&quot;${user.name}&quot;/&gt;
+        &lt;!-- Information about the program itself --&gt;
+        &lt;attribute name=&quot;Implementation-Vendor&quot; value=&quot;ACME inc.&quot;/&gt;
+        &lt;attribute name=&quot;Implementation-Title&quot; value=&quot;GreatProduct&quot;/&gt;
+        &lt;attribute name=&quot;Implementation-Version&quot; value=&quot;1.0.0beta2&quot;/&gt;
+        &lt;!-- details --&gt;
+        &lt;section name=&quot;common/MyClass.class&quot;&gt;
+            &lt;attribute name=&quot;Sealed&quot; value=&quot;false&quot;/&gt;
+        &lt;/section&gt;
+    &lt;/manifest&gt;
+&lt;/jar&gt;</pre>
+<p>This is an example of an inline manifest specification including the version of the build program
+(<code>Implementation-Version</code>). Note that the <code>Built-By</code> attribute will take the
+value of the Ant property <code>user.name</code>. The manifest produced by the above would look like
+this:</p>
+
+<pre>
+Manifest-Version: 1.0
+Permissions: sandbox
+Codebase: example.com
+Built-By: conor
+Implementation-Vendor: ACME inc.
+Implementation-Title: GreatProduct
+Implementation-Version: 1.0.0beta2
+Created-By: Apache Ant 1.9.2
+
+Name: common/MyClass.class
+Sealed: false</pre>
+
+<h4>Service Provider</h4>
+
+<p>The following shows how to create a jar file specifying a service with an implementation of the
+scripting interface:</p>
+<pre>
+&lt;jar destfile="pinky.jar"&gt;
+    &lt;fileset dir="build/classes"/&gt;
+    &lt;service type="javax.script.ScriptEngineFactory"
+             provider="org.acme.PinkyLanguage"/&gt;
+&lt;/jar&gt;</pre>
+
+<p>The following shows how to create a jar file specifying a service with two implementations of the
+scripting interface:</p>
+<pre>
+&lt;jar destfile="pinkyandbrain.jar"&gt;
+    &lt;fileset dir="classes"/&gt;
+    &lt;service type="javax.script.ScriptEngineFactory"&gt;
+        &lt;provider classname="org.acme.PinkyLanguage"/&gt;
+        &lt;provider classname="org.acme.BrainLanguage"/&gt;
+    &lt;/service&gt;
+&lt;/jar&gt;</pre>
+
+<h4 id="jep238-example">JEP 238 example: a Multi-Release JAR Files</h4>
+<p>Here we want to create a <em>Multi-Release JAR File</em> according the
+specification <a href="https://openjdk.java.net/jeps/238" target="_top">JEP 238</a>. It defines on
+top of a JAR the possibility to place additional or overwriting classes in a jar, which are
+available according to the Java version you run.<br/>Basically it says, that you have to set the
+manifest entry <code>Multi-Release: true</code> and place all additional or overwriting classes
+in <samp>META-INF/versions/<i>number</i>/package-structure</samp>,
+e.g. <samp>META-INF/versions/9/org/apache/ant/MyClass.class</samp></p>
+<p>In this example we expect that the normal classes are compiled into <samp>${java.classes}</samp>
+and the Java 9 classes are compiled into <samp>${java9.classes}</samp>.</p>
+<pre>
+&lt;jar destfile=&quot;mrjar.jar&quot;&gt;
+    &lt;manifest&gt;
+        &lt;!-- special mf-entry according to the spec --&gt;
+        &lt;attribute name=&quot;Multi-Release&quot; value=&quot;true&quot;/&gt;
+    &lt;/manifest&gt;
+    &lt;!-- directory structure according to the spec ... --&gt;
+    &lt;!-- ... default classes loadable by old (&lt;Java 9) versions --&gt;
+    &lt;fileset dir=&quot;${java.classes}&quot;/&gt;
+    &lt;!-- ... per release classes, require Java 9+ for loadable via standard ClassLoader --&gt;
+    &lt;zipfileset prefix=&quot;META-INF/versions/9/&quot; dir=&quot;${java9.classes}&quot;/&gt;
+&lt;/jar&gt;</pre>
+
+</body>
+</html>

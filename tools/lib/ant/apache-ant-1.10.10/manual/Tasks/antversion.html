@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Antversion Task</title>
+</head>
+
+<body>
+
+<h2 id="antversion">Antversion</h2>
+<p><em>Since Ant 1.7.0</em></p>
+<h3>Description</h3>
+<p>Stores the Apache Ant version (when used as task) or checks for a specific Ant version (when used
+as condition).</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col" rowspan="2">Attribute</th>
+    <th scope="col" rowspan="2">Description</th>
+    <th scope="col" colspan="2">Required</th>
+  </tr>
+  <tr>
+    <th scope="col">Task</th>
+    <th scope="col">Condition</th>
+  </tr>
+  <tr>
+    <td>atleast</td>
+    <td>The version that this Ant is of at least.  The format
+      is <code>major.minor.point</code>.</td>
+    <td class="center">No</td>
+    <td rowspan="2">Exactly one of these</td>
+  </tr>
+  <tr>
+    <td>exactly</td>
+    <td>The version that this Ant is of exactly.  The format is <code>major.minor.point</code>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>property</td>
+    <td>The name of the property to set.</td>
+    <td class="center">Yes</td>
+    <td>Ignored</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+
+<p>Store the current Ant version in the property <code>antversion</code>.</p>
+<pre>&lt;antversion property=&quot;antversion&quot;/&gt;</pre>
+
+<p>Store the Ant version in the property <code>antversion</code> if the current Ant version is 1.6.0
+or higher. Otherwise the property remains unset.</p>
+<pre>&lt;antversion property=&quot;antversion&quot; atleast=&quot;1.6&quot;/&gt;</pre>
+
+<p>Set the property <code>ant-is-exact-7</code> if Ant 1.7.0 is running. Neither 1.6.5 nor 1.7.1
+would match.</p>
+<pre>&lt;antversion property=&quot;ant-is-exact-7&quot; exactly=&quot;1.7.0&quot;/&gt;</pre>
+
+<p>Set <code>Ant17isOnline</code> if Ant 1.7.0 is running and can get a non-error-response from the
+Ant homepage.</p>
+<pre>
+&lt;condition property=&quot;Ant17isOnline&quot;&gt;
+  &lt;and&gt;
+    &lt;antversion exactly=&quot;1.7.0&quot;/&gt;
+    &lt;http url=&quot;https://ant.apache.org&quot;/&gt;
+  &lt;/and&gt;
+&lt;/condition&gt;</pre>
+
+</body>
+</html>

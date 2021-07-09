@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Link Task</title>
+</head>
+
+<body>
+
+<h2 id="link">Link</h2>
+<p><em>Since Apache Ant 1.10.6</em></p>
+
+<h3>Description</h3>
+<p>Assembles jmod files into an executable image.  Equivalent to the JDK's
+<a href="https://docs.oracle.com/en/java/javase/11/tools/jlink.html">jlink</a>
+tool.
+</p>
+<p>Requires Java 9 or later.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>destDir</td>
+    <td>Root directory of created image.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>modulepath</td>
+    <td>Path-like sequence of jmod files to link in order to create image.</td>
+    <td rowspan="2">One of these is required, unless a nested
+        <code>&lt;modulepath&gt;</code> is present.</td>
+  </tr>
+  <tr>
+    <td>modulepathref</td>
+    <td class="left">Path-like sequence of jmod files to link in order to
+        create image, given as a <a href="../using.html#references">reference</a>
+        to a path defined elsewhere.</td>
+  </tr>
+  <tr>
+    <td>modules</td>
+    <td>Comma-separated list of modules to place in the linked image.</td>
+    <td>Yes, unless one or more nested <code>&lt;module&gt;</code> elements
+        are present.</td>
+  </tr>
+  <tr>
+    <td>observableModules</td>
+    <td>Comma-separated list of explicit modules that comprise
+        "universe" visible to link tool while linking.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>launchers</td>
+    <td>Comma-separated list of commands, each of the form
+        <var>name</var><code>=</code><var>module</var> or
+        <var>name</var><code>=</code><var>module</var><code>/</code><var>mainclass</var></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>locales</td>
+    <td>Comma-separated list of extra locales, or wildcard patterns matching
+        multiple locale names, to include.
+        Requires <code>jdk.localedata</code> module.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>excludeResources</td>
+    <td>Comma-separated list of patterns specifying resources to exclude
+        from source jmods.  Each is either a
+        <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/FileSystem.html#getPathMatcher%28java.lang.String%29">standard PathMatcher pattern</a>
+        or <code>@</code><var>filename</var>, indicating a text file with
+        one resource name per line.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>excludeFiles</td>
+    <td>Comma-separated list of patterns specifying files to exclude
+        from linked image.  Each is either a
+        <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/FileSystem.html#getPathMatcher%28java.lang.String%29">standard PathMatcher pattern</a>
+        or <code>@</code><var>filename</var>, indicating a text file with
+        one file name per line.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>resourceOrder</td>
+    <td>Comma-separated list of patterns specifying resource search order.
+        Each is either a
+        <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/FileSystem.html#getPathMatcher%28java.lang.String%29">standard PathMatcher pattern</a>
+        or <code>@</code><var>filename</var>, indicating a text file with
+        one resource name per line.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>bindServices</td>
+    <td>Boolean, whether to include in linked image any service providers
+        found in module path corresponding to service provider interfaces
+        used by explicitly linked modules.</td>
+    <td>No, default is false</td>
+  </tr>
+  <tr>
+    <td>ignoreSigning</td>
+    <td>Boolean, whether to allow signed jar files.
+        (Note: As of Java 11, this is ignored and is always treated as true.)</td>
+    <td>No, default is false</td>
+  </tr>
+  <tr>
+    <td>includeHeaders</td>
+    <td>Boolean, whether to include header files in linked image.</td>
+    <td>No, default is true</td>
+  </tr>
+  <tr>
+    <td>includeManPages</td>
+    <td>Boolean, whether to include man pages in linked image.</td>
+    <td>No, default is true</td>
+  </tr>
+  <tr>
+    <td>includeNativeCommands</td>
+    <td>Boolean, whether to include native executables in linked image.</td>
+    <td>No, default is true</td>
+  </tr>
+  <tr>
+    <td>debug</td>
+    <td>Boolean, whether to include debug information.</td>
+    <td>No, default is true</td>
+  </tr>
+  <tr>
+    <td>verboseLevel</td>
+    <td>If set, the linker will produce verbose output, which will be logged at
+        the specified Ant log level (<code>DEBUG</code>, <code>VERBOSE</code>,
+        <code>INFO</code>, <code>WARN</code>, or <code>ERR</code>).</td>
+    <td>No, default is no verbose output</td>
+  </tr>
+  <tr>
+    <td>compress</td>
+    <td>Compression level of linked image. One of:
+        <dl>
+        <dt><code>0</code> or
+            <code>none</code></dt>
+        <dd>no compression (default)</dd>
+        <dt><code>1</code> or
+            <code>strings</code></dt>
+        <dd>constant string sharing</dd>
+        <dt><code>2</code> or
+            <code>zip</code></dt>
+        <dd>zip compression</dd>
+        </dl>
+    </td>
+    <td>No, default is no compression</td>
+  </tr>
+  <tr>
+    <td>endianness</td>
+    <td>Byte order of linked image, must be <code>little</code> or <code>big</code>
+    <td>No, default is native byte order</td>
+  </tr>
+  <tr>
+    <td>checkDuplicateLegal</td>
+    <td>Boolean.  When merging legal notices from different modules
+        because they have the same name, verify that their contents
+        are identical.</td>
+    <td>No, default is false, which means any license files
+        with the same name are assumed to have the same content, and no
+        checking is done.</td>
+  </tr>
+  <tr>
+    <td>vmType</td>
+    <td>Hotspot VM in image. One of:
+        <ul>
+        <li><code>client</code>
+        <li><code>server</code>
+        <li><code>minimal</code>
+        <li><code>all</code>
+        </ul>
+    </td>
+    <td>No, default is <code>all</code></td>
+  </tr>
+</table>
+
+<h3>Parameters specified as nested elements</h3>
+
+<p><code>&lt;link&gt;</code> can have the following nested elements:</p>
+<ul>
+<li><a href="#nested-modulepath">modulepath</a></li>
+<li><a href="#nested-module">module</a></li>
+<li><a href="#nested-observableModule">observableModule</a></li>
+<li><a href="#nested-launcher">launcher</a></li>
+<li><a href="#nested-locale">locale</a></li>
+<li><a href="#nested-resourceOrder">resourceOrder</a></li>
+<li><a href="#nested-excludeResources">excludeResources</a></li>
+<li><a href="#nested-excludeFiles">excludeFiles</a></li>
+<li><a href="#nested-compress">compress</a></li>
+<li><a href="#nested-releaseInfo">releaseInfo</a></li>
+</ul>
+
+<h4 id="nested-modulepath">modulepath</h4>
+<p><a href="../using.html#path">Path-like structure</a> pointing to
+    jmod files to link into image.</p>
+
+<h4 id="nested-module">module</h4>
+<p>Names a single module to be placed in the linked image.  This may be
+specified multiple times.</p>
+<p>Attributes:</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>Name of module to add.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h4 id="nested-observableModule">observableModule</h4>
+<p>Names a module visible to the linking process, instead of every module
+in the module path being considered.  This may be specified multiple times.
+<p>Attributes:</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>Name of module to add to list of observable modules.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h4 id="nested-launcher">launcher</h4>
+<p>Specifies an executable file which will be added to the linked image,
+which executes a particular module's main class.  Attributes:</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>Name of launcher.  This typically is used for the name of the
+        executable file.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>module</td>
+    <td>Name of module to execute.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>mainClass</td>
+    <td>Name of entry point class in module to execute.</td>
+    <td>Required unless module has its own main class defined.</td>
+  </tr>
+</table>
+
+<h4 id="nested-locale">locale</h4>
+<p>Specifies locales to include in linked image.  May be specified multiple
+times.  Requires <code>jdk.localedata</code> module.  Attributes:</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>Name of locale, or wildcard pattern with <q><code>*</code></q>
+        that matches multiple locale names.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h4 id="nested-resourceOrder">resourceOrder</h4>
+<p>Explicit resource search order in linked image.  May be specified multiple
+times.  Attributes:</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>pattern</td>
+    <td>A <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/FileSystem.html#getPathMatcher%28java.lang.String%29">standard PathMatcher pattern</a>
+        for matching resources</td>
+    <td rowspan="2">Exactly one of these</td>
+  </tr>
+  <tr>
+    <td>listFile</td>
+    <td class="left">Text file containing list of resource names (not patterns),
+        one per line</td>
+  </tr>
+</table>
+
+<p>If the <code>resourceOrder</code> attribute is also present on the task, its
+patterns are treated as if they occur before patterns in nested
+<code>&lt;resourceOrder&gt;</code> elements.</p>
+
+<h4 id="nested-excludeResources">excludeResources</h4>
+<p>Excludes files from linked image tree.  May be specified multiple times.
+   Attributes:</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>pattern</td>
+    <td>A <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/FileSystem.html#getPathMatcher%28java.lang.String%29">standard PathMatcher pattern</a>
+        for matching resources</td>
+    <td rowspan="2">Exactly one of these</td>
+  </tr>
+  <tr>
+    <td>listFile</td>
+    <td class="left">Text file containing list of resource names (not patterns),
+        one per line</td>
+  </tr>
+</table>
+
+<h4 id="nested-excludeFiles">excludeFiles</h4>
+<p>Excludes files from linked image.  May be specified multiple times.
+   Attributes:</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>pattern</td>
+    <td>A <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/FileSystem.html#getPathMatcher%28java.lang.String%29">standard PathMatcher pattern</a>
+        for matching files</td>
+    <td rowspan="2">Exactly one of these</td>
+  </tr>
+  <tr>
+    <td>listFile</td>
+    <td class="left">Text file containing list of file names (not patterns),
+        one per line</td>
+  </tr>
+</table>
+
+<h4 id="nested-compress">compress</h4>
+<p>Describes how image should be compressed.  Attributes:</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>level</td>
+    <td>Compression level of linked image. One of:
+        <dl>
+        <dt><code>0</code> or
+            <code>none</code></dt>
+        <dd>no compression (default)</dd>
+        <dt><code>1</code> or
+            <code>strings</code></dt>
+        <dd>constant string sharing</dd>
+        <dt><code>2</code> or
+            <code>zip</code></dt>
+        <dd>zip compression</dd>
+        </dl>
+    </td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>files</td>
+    <td>Comma-separated list of patterns matching files to compress.
+        Each pattern either a
+        <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/FileSystem.html#getPathMatcher%28java.lang.String%29">standard PathMatcher pattern</a>
+        or <code>@</code><var>filename</var>, indicating a text file with
+        one file name per line.</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<p><code>&lt;compress&gt;</code> can also have any number of nested
+<code>&lt;files&gt;</code> elements, with these attributes:</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>pattern</td>
+    <td>A <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/nio/file/FileSystem.html#getPathMatcher%28java.lang.String%29">standard PathMatcher pattern</a>
+        for matching files</td>
+    <td rowspan="2">Exactly one of these</td>
+  </tr>
+  <tr>
+    <td>listFile</td>
+    <td class="left">Text file containing list of file names (not patterns),
+        one per line</td>
+  </tr>
+</table>
+
+<h4 id="nested-releaseInfo">releaseInfo</h4>
+<p>Replaces, augments, or trims the image's release info properties.
+Can be specified multiple times.  Attributes:</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td>Java properties file containing new release info properties
+        that will entirely replace the current ones.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>delete</td>
+    <td>Comma-separated property keys to remove from application's
+        release info
+    <td>No</td>
+  </tr>
+</table>
+
+<p><code>&lt;releaseInfo&gt;</code> can also have any number of these nested elements:</p>
+<h5>add</h5>
+<p>Specifies additional release info properties.  Attributes:</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>key</td>
+    <td>Key of single property to add.</td>
+    <td rowspan="2">Yes, unless <code>file</code> is specified</td>
+  </tr>
+  <tr>
+    <td>value</td>
+    <td class="left">Value of single property to add.</td>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td>Java property file containing any number of properties to add.</td>
+    <td>Yes, unless <code>key</code> and <code>value</code> are specified</td>
+  </tr>
+  <tr>
+    <td>charset</td>
+    <td>Character set of property file.</td>
+    <td>No, default is <code>ISO_8859_1</code>, in accordance with
+        java.util.Properties class.</td>
+  </tr>
+</table>
+
+<h5>delete</h5>
+<p>Property keys to remove from applicaiton's release info.  Attributes:</p>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>key</td>
+    <td>Key of property to remove.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<h4>Basic linking</h4>
+<pre>
+&lt;jmod destfile="MyApp.jmod" classpath="build/myapp.jar"/&gt;
+&lt;link destDir="build/image" modulepath="MyApp.jmod"
+      modules="com.example.myapp"/&gt;
+</pre>
+
+<h4>Custom binaries</h4>
+<p>This will cause a <samp>bin/MyEditor</samp> script to appear in the
+image:
+<pre>
+&lt;jmod destfile="MyApp.jmod" classpath="build/myapp.jar"/&gt;
+&lt;link destDir="build/image" modulepath="MyApp.jmod"
+      modules="com.example.myapp"
+      launchers="MyEditor=com.example.myapp/com.example.myapp.editors.EditorMain"/&gt;
+</pre>
+
+<p>Same thing, using a nested launcher element:</p>
+<pre>
+&lt;jmod destfile="MyApp.jmod" classpath="build/myapp.jar"/&gt;
+&lt;link destDir="build/image" modulepath="MyApp.jmod"
+      modules="com.example.myapp"&gt;
+
+    &lt;launcher name="MyEditor" module="com.example.myapp"
+              mainClass="com.example.myapp.editors.EditorMain"/&gt;
+
+&lt;/link&gt;
+</pre>
+
+<h4>Limiting locales</h4>
+<p>Include just the locales needed by the application from the <a href="https://docs.oracle.com/en/java/javase/11/docs/api/jdk.localedata/module-summary.html">jdk.localedata</a> module:</p>
+<pre>
+&lt;jmod destfile="MyApp.jmod" classpath="build/myapp.jar"/&gt;
+&lt;link destDir="build/image" modulepath="MyApp.jmod"
+      modules="com.example.myapp,jdk.localedata"
+      locales="zh,jp-*"/&gt;
+</pre>
+
+<h4>Compressed image</h4>
+<p>Compress entire image:</p>
+<pre>
+&lt;jmod destfile="MyApp.jmod" classpath="build/myapp.jar"/&gt;
+&lt;link destDir="build/image" modulepath="MyApp.jmod"
+      modules="com.example.myapp,jdk.localedata"
+      compress="zip"/&gt;
+</pre>
+
+<p>Compress only some files in the image:</p>
+<pre>
+&lt;jmod destfile="MyApp.jmod" classpath="build/myapp.jar"/&gt;
+&lt;link destDir="build/image" modulepath="MyApp.jmod"
+      modules="com.example.myapp,jdk.localedata"&gt;
+
+    &lt;compress level="zip" files=".*\.xml"/&gt;
+
+&lt;/link&gt;
+</pre>
+
+<h4>Cross-compiling</h4>
+<p>To create an image for a different platform:
+
+<ul>
+<li>Download the JDK for that platform, and expand the archive manually into
+a directory of your choice.  (Downloading a zip or tar.gz version of a JDK
+instead of an installer will make this easier.)</li>
+<li>Determine the foreign JDK's platform string.  This can be done with
+a command that examines the JDK's <samp>jmods/java.base.jmod</samp> file:
+<pre>
+jmod describe "$FOREIGN_JDK_HOME"/jmods/java.base.jmod | grep '^platform'
+</pre>
+</li>
+<li>Create your jmod using the foreign JDK's platform string:
+<pre>
+&lt;jmod destfile="MyApp.jmod" classpath="build/myapp.jar" platform="windows-amd64"/&gt;
+</pre>
+</li>
+<li>Link with the foreign JDK's <samp>jmods</samp> directory in the module path:
+<pre>
+&lt;link destDir="build/image"
+      modulepath="MyApp.jmod;${foreign-jdk-home}/jmods"
+      modules="com.example.myapp"/&gt;
+</pre>
+</li>
+</ul>
+
+</body>
+</html>

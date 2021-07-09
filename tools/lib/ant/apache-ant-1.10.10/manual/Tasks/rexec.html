@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>RExec Task</title>
+</head>
+
+<body>
+
+<h2 id="rexec">RExec</h2>
+<h3>Description</h3>
+<p>Task to automate a remote rexec session. Just like the <code>Telnet</code> task, it uses
+nested <code>&lt;read&gt;</code> to indicate strings to wait for, and
+<code>&lt;write&gt;</code> tags to specify text to send to the remote
+process.</p>
+
+<p><strong>Note</strong>: This task depends on external libraries not included in the Apache Ant
+distribution.  See <a href="../install.html#librarydependencies">Library Dependencies</a> for more
+information.</p>
+
+<p>You can specify the commands you want to execute as nested elements or via the <var>command</var>
+attribute, we recommend you use the <var>command</var> attribute.  If you use the <var>command</var>
+attribute, you must use the <var>username</var> and <var>password</var> attributes as well.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Values</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+     <td>userid</td>
+     <td>the login id to use on the remote server.</td>
+     <td>No</td>
+  </tr>
+  <tr>
+     <td>password</td>
+     <td>the login password to use on the remote server.</td>
+     <td>No</td>
+  </tr>
+  <tr>
+     <td>server</td>
+     <td>the address of the remote rexec server.</td>
+     <td>Yes</td>
+  </tr>
+  <tr>
+     <td>command</td>
+     <td>the command to execute on the remote server.</td>
+     <td>No</td>
+  </tr>
+  <tr>
+     <td>port</td>
+      <td>the port number of the remote rexec server.</td>
+     <td>No; defaults to <q>512</q> in Unix</td>
+  </tr>
+  <tr>
+     <td>timeout</td>
+     <td>set a default timeout to wait for a response, specified in seconds.</td>
+     <td>No; default is no timeout</td>
+  </tr>
+</table>
+<h3 id="nested">Parameters specified as nested elements</h3>
+<p>The input to send to the server, and responses to wait for, are described as nested elements.</p>
+
+<h4>read</h4>
+
+<p>declare (as a text child of this element) a string to wait for.  The element supports
+the <var>timeout</var> attribute, which overrides any timeout specified for the task as a whole. It
+also has a <var>string</var> attribute, which is an alternative to specifying the string as a text
+element.</p>
+<p><em>It is not necessary to declare a closing <code>&lt;read&gt;</code> element like for
+the <code>Telnet</code> task. The connection is not broken until the command has completed and the
+input stream (output of the command) is terminated.</em></p>
+
+<h4>write</h4>
+
+<p>describes the text to send to the server. The <var>echo</var> boolean attribute controls whether
+the string is echoed to the local log; this is <q>true</q> by default.</p>
+<h3>Example</h3>
+<p>A simple example of connecting to a server and running a command.</p>
+
+<pre>&lt;rexec userid=&quot;bob&quot; password=&quot;badpass&quot; server=&quot;localhost&quot; command=&quot;ls&quot;/&gt;</pre>
+
+<p>The task can be used with other ports as well:</p>
+
+<pre>&lt;rexec port=&quot;80&quot; userid=&quot;bob&quot; password=&quot;badpass&quot; server=&quot;localhost&quot; command=&quot;ls&quot;/&gt;</pre>
+
+</body>
+</html>

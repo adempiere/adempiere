@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>TarFileSet Type</title>
+</head>
+<body>
+<h2 id="fileset">TarFileSet</h2>
+
+<p><code>TarFileSet</code> has been a stand-alone type <em>since Apache Ant 1.7</em>.</p>
+
+<p>A <code>&lt;tarfileset&gt;</code> is a special form of
+a <code>&lt;<a href="fileset.html">fileset</a>&gt;</code> which can behave in 2 different ways:</p>
+<ul>
+  <li>When the <var>src</var> attribute is used&mdash;or a nested resource collection has been
+  specified, the tarfileset is populated with tar entries found in the file <var>src</var>.</li>
+  <li>When the <var>dir</var> attribute is used, the tarfileset is populated with filesystem files
+  found under <var>dir</var>.</li>
+</ul>
+<p><code>&lt;tarfileset&gt;</code> supports all attributes
+of <code>&lt;<a href="fileset.html">fileset</a>&gt;</code> in addition to those listed below.  Note
+that tar archives in general don't contain entries with leading slashes so you shouldn't use
+include/exclude patterns that start with slashes either.</p>
+<p><em>Since Ant 1.7</em>, a tarfileset can be defined with the <var>id</var> attribute and referred
+to with the <var>refid</var> attribute.</p>
+<h3>Parameters</h3>
+<table class="attr">
+  <tbody>
+    <tr>
+      <th scope="col">Attribute</th>
+      <th scope="col">Description</th>
+      <th scope="col">Required</th>
+    </tr>
+    <tr>
+      <td>prefix</td>
+      <td>all files in the fileset are prefixed with that path in the archive.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>fullpath</td>
+      <td>the file described by the fileset is placed at that exact location in the archive.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>src</td>
+      <td>may be used in place of the <var>dir</var> attribute to specify a tar file whose contents
+        will be extracted and included in the archive.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>filemode</td>
+      <td>A 3 digit octal string, specify the user, group and other modes in the standard Unix
+        fashion.  Only applies to plain files.</td>
+      <td>No; default is <q>644</q></td>
+    </tr>
+    <tr>
+      <td>dirmode</td>
+      <td>A 3 digit octal string, specify the user, group and other modes in the standard Unix
+        fashion.  Only applies to directories.</td>
+      <td>No; default is <q>755</q></td>
+    </tr>
+    <tr>
+      <td>username</td>
+      <td>The username for the tar entry. This is not the same as the UID.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>group</td>
+      <td>The groupname for the tar entry. This is not the same as the GID.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>uid</td>
+      <td>The user identifier (UID) for the tar entry. This is an integer value and is not the
+        same as the username.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>gid</td>
+      <td>The group identifier (GID) for the tar entry.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>erroronmissingarchive</td>
+      <td>Specify what happens if the archive does not exist.  If <q>true</q>, a build error will
+        happen; if <q>false</q>, the fileset will be ignored/empty.  <em>Since Ant 1.8.0</em></td>
+      <td>No; defaults to <q>true</q></td>
+    </tr>
+    <tr>
+      <td>encoding</td>
+      <td>The character encoding to use for filenames inside the zip file.  For a list of possible
+      values see
+      the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/intl/encoding.doc.html"
+      target="_top">Supported Encodings</a>.  <em>Since Ant 1.9.5</em></td>
+      <td>No; defaults to default JVM character encoding</td>
+    </tr>
+  </tbody>
+</table>
+<p>The <var>fullpath</var> attribute can only be set for filesets that represent a single
+file. The <var>prefix</var> and <var>fullpath</var> attributes cannot both be set on the same
+fileset.</p>
+<p>When using the <var>src</var> attribute, <var>include</var> and <var>exclude</var> patterns may
+be used to specify a subset of the archive for inclusion in the archive as with the <var>dir</var>
+attribute.</p>
+
+<p>Please note that currently only the <a href="../Tasks/tar.html">tar</a> task uses the permission
+and ownership attributes.</p>
+
+<h3>Parameters specified as nested elements</h3>
+
+<h4>any <a href="resources.html">resource</a> or single element resource collection</h4>
+
+<p>The specified resource will be used as src.</p>
+
+<h4>Examples</h4>
+
+<pre>
+&lt;copy todir="some-dir"&gt;
+ &lt;tarfileset includes="lib/**"&gt;
+   &lt;bzip2resource&gt;
+     &lt;url url="https://example.org/dist/some-archive.tar.bz2"/&gt;
+   &lt;/bzip2resource&gt;
+ &lt;/tarfileset&gt;
+&lt;/copy&gt;</pre>
+
+<p>downloads the archive <samp>some-archive.tar.bz2</samp>, uncompresses and extracts it on the fly,
+copies the contents of the <samp>lib</samp> directory into <samp>some-dir</samp> and discards the
+rest of the archive.  File timestamps will be compared between the archive's entries and files
+inside the target directory, no files get overwritten unless they are out-of-date.</p>
+
+</body>
+</html>

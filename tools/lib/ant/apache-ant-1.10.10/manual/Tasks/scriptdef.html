@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Scriptdef Task</title>
+</head>
+
+<body>
+
+<h2 id="script">Scriptdef</h2>
+<h3>Description</h3>
+<p><code>Scriptdef</code> can be used to define an Apache Ant task using a scripting language. Ant
+scripting languages supported by <a href="https://jakarta.apache.org/bsf" target="_top">Apache
+BSF</a> or <a href="https://jcp.org/aboutJava/communityprocess/maintenance/jsr223/223ChangeLog.html"
+target="_top">JSR 223</a> may be used to define the script. <code>Scriptdef</code> provides a
+mechanism to encapsulate control logic from a build within an Ant task minimizing the need for
+providing control style tasks in Ant itself. Complex logic can be made available while retaining the
+simple structure of an Ant build file. <code>Scriptdef</code> is also useful for prototyping new
+custom tasks. Certainly as the complexity of the script increases it would be better to migrate the
+task definition into a Java based custom task.</p>
+
+<p><strong>Note</strong>: This task depends on external libraries not included in the Ant
+distribution. See <a href="../install.html#librarydependencies">Library Dependencies</a> for more
+information.</p>
+
+<p>The attributes and nested elements supported by the task may be defined
+using <code>&lt;attribute&gt;</code> and <code>&lt;element&gt;</code> nested elements. These are
+available to the script that implements the task as two collection style script
+variables <code class="code">attributes</code> and <code class="code">elements</code>. The elements
+in the <code class="code">attributes</code> collection may be accessed by the attribute
+name. The <code class="code">elements</code> collection is accessed by the nested element name. This
+will return a list of all instances of the nested element.  The instances in this list may be
+accessed by an integer index.</p>
+
+<p><strong>Note</strong>: Ant will turn all attribute and element names into all lowercase names, so
+even if you use <var>name</var>=<q>SomeAttribute</q>, you'll have to use <q>someattribute</q> to
+retrieve the attribute's value from the <code class="code">attributes</code> collection.</p>
+
+<p>The name <code class="code">self</code> (<em>since Ant 1.6.3</em>) is a pre-defined reference to
+the <code>scriptdef</code> task instance.  It can be used for logging, or for integration with the
+rest of Ant. The <code class="code">self.text</code> attribute contains any nested text passed to
+the script</p>
+
+<p>If an attribute or element is not passed in, then <code class="code">attributes.get()</code>
+or <code class="code">elements.get()</code> will return null. It is up to the script to perform any
+checks and validation. <code class="code">self.fail(String message)</code>can be used to raise
+a <code>BuildException</code>.</p>
+
+<p>The name <code class="code">project</code> is a pre-defined reference to the Ant Project. For
+more information on writing scripts, please refer to
+the <a href="script.html"><code>&lt;script&gt;</code></a> task.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>the name of the task to be created using the script</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>language</td>
+    <td>The programming language the script is written in.  Must be a supported Apache BSF or JSR
+      223 language</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>manager</td>
+    <td>The script engine manager to use.  See the <a href="../Tasks/script.html">script</a> task
+      for using this attribute.</td>
+    <td>No; default is <q>auto</q></td>
+  </tr>
+  <tr>
+    <td>src</td>
+    <td>The location of the script as a file, if not inline</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>encoding</td>
+    <td>The encoding of the script as a file. <em>since Ant 1.10.2</em>.</td>
+    <td>No; defaults to default JVM character encoding</td>
+  </tr>
+  <tr>
+    <td>compiled</td>
+    <td>If true, the script is compiled before the first evaluation for faster multiple executions,
+      on the condition that the <var>manager</var> is <q>javax</q> and the target engine
+      implements <code>javax.script.Compilable</code>.  Note that the <q>bsf</q> manager may
+      automatically compile the script. <em>since Ant 1.10.2</em>.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td>uri</td>
+    <td>The XML namespace uri that this definition should live in.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>classpath</td>
+    <td>The classpath to pass into the script.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>classpathref</td>
+    <td>The classpath to use, given as a <a href="../using.html#references">reference</a> to a path
+      defined elsewhere.
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>loaderRef</td>
+    <td>the name of the loader that is used to load the script, constructed from the specified
+      classpath. This allows multiple script definitions to reuse the same class loader.
+    </td>
+    <td>No</td>
+  </tr>
+</table>
+
+<h3>Parameters specified as nested elements</h3>
+<h4>attribute</h4>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>the name of the attribute</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h4>element</h4>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>the name of the nested element to be supported by the task defined by the script</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>classname</td>
+    <td>the classname of the class to be used for the nested element.  This specifies the class
+      directly and is an alternative to specifying the Ant type name.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>type</td>
+    <td>This is the name of an Ant task or type which is to be used when this element is to be
+      created. This is an alternative to specifying the class name directly. If the type is in a
+      namespace, the URI and a <q>:</q> must be prefixed to the type. For
+      example <var>type</var>=<q>antlib:example.org:newtype</q></td>
+    <td>No</td>
+  </tr>
+</table>
+
+<h4>classpath</h4>
+<p>See the <a href="../Tasks/script.html">script</a> task for using this nested element.</p>
+
+<h4>any resource collection</h4>
+<p><em>Since Ant 1.7.1</em></p>
+<p>This task can load scripts from any resource supplied as a nested element.</p>
+
+<h3>Examples</h3>
+
+<p>The following definition creates a task which supports an attribute called <var>attr</var> and
+two nested elements, one being a fileset and the other a path. When executed, the resulting task
+logs the value of the attribute and the <var>basedir</var> of the first fileset.</p>
+
+<pre>
+&lt;scriptdef name=&quot;scripttest&quot; language=&quot;javascript&quot;&gt;
+  &lt;attribute name=&quot;attr1&quot;/&gt;
+  &lt;element name=&quot;fileset&quot; type=&quot;fileset&quot;/&gt;
+  &lt;element name=&quot;path&quot; type=&quot;path&quot;/&gt;
+  &lt;![CDATA[
+
+    self.log(&quot;Hello from script&quot;);
+    self.log(&quot;Attribute attr1 = &quot; + attributes.get(&quot;attr1&quot;));
+    self.log(&quot;First fileset basedir = &quot;
+      + elements.get(&quot;fileset&quot;).get(0).getDir(project));
+
+  ]]&gt;
+&lt;/scriptdef&gt;
+
+&lt;scripttest attr1=&quot;test&quot;&gt;
+  &lt;path&gt;
+    &lt;pathelement location=&quot;src&quot;/&gt;
+  &lt;/path&gt;
+  &lt;fileset dir=&quot;src&quot;/&gt;
+  &lt;fileset dir=&quot;main&quot;/&gt;
+&lt;/scripttest&gt;</pre>
+
+<p>The following variation on the above script lists the number of fileset elements and iterates
+through them</p>
+<pre>
+&lt;scriptdef name=&quot;scripttest2&quot; language=&quot;javascript&quot;&gt;
+  &lt;element name=&quot;fileset&quot; type=&quot;fileset&quot;/&gt;
+  &lt;![CDATA[
+    filesets = elements.get(&quot;fileset&quot;);
+    self.log(&quot;Number of filesets = &quot; + filesets.size());
+    for (i = 0; i &lt; filesets.size(); ++i) {
+      self.log(&quot;fileset &quot; + i + &quot; basedir = &quot;
+        + filesets.get(i).getDir(project));
+    }
+  ]]&gt;
+&lt;/scriptdef&gt;
+
+&lt;scripttest2&gt;
+  &lt;fileset dir=&quot;src&quot;/&gt;
+  &lt;fileset dir=&quot;main&quot;/&gt;
+&lt;/scripttest2&gt;</pre>
+
+<p>When a script has a syntax error, the <code>scriptdef</code> name will be listed in the
+error. For example in the above script, removing the closing curly bracket would result in this
+error</p>
+
+<pre class="output">build.xml:15: SyntaxError: missing } in compound
+statement (scriptdef &lt;scripttest2&gt;; line 10)</pre>
+
+<p>Script errors are only detected when a <code>script</code> task is actually executed.</p>
+<p>The next example does uses nested text in Jython. It also declares the script in a new xml
+namespace, which must be used to refer to the task. Declaring scripts in a new namespace guarantees
+that Ant will not create a task of the same (namespace,localname) name pair.</p>
+
+<pre>
+&lt;target name="echo-task-jython"&gt;
+  &lt;scriptdef language="jython"
+             name="echo"
+             uri="https://example.org/script"&gt;
+      &lt;![CDATA[
+self.log("text: " +self.text)
+      ]]&gt;
+    &lt;/scriptdef&gt;
+&lt;/target&gt;
+
+&lt;target name="testEcho" depends="echo-task-jython"
+        xmlns:s="https://example.org/script"&gt;
+  &lt;s:echo&gt;nested text&lt;/s:echo&gt;
+&lt;/target&gt;</pre>
+
+<p>The next example shows the use of <code>&lt;classpath&gt;</code> and <var>loaderref</var> to get
+access to the beanshell jar.</p>
+<pre>
+&lt;scriptdef name="b1" language="beanshell"
+           loaderref="beanshell-ref"&gt;
+  &lt;attribute name="a"/&gt;
+  &lt;classpath path="${user.home}/scripting/beanshell/bsh-1.3b1.jar"/&gt;
+  self.log("attribute a is " + attributes.get("a"));
+&lt;/scriptdef&gt;
+
+&lt;scriptdef name="b2" language="beanshell"
+           loaderref="beanshell-ref"&gt;
+  &lt;attribute name="a2"/&gt;
+  self.log("attribute a2 is " + attributes.get("a2"));
+&lt;/scriptdef&gt;
+
+&lt;b1 a="this is an 'a'"/&gt;
+&lt;b2 a2="this is an 'a2' for b2"/&gt;</pre>
+
+<h3>Testing scripts</h3>
+
+<p>The easiest way to test scripts is to use the <a href="https://ant.apache.org/antlibs/antunit/"
+target="_top">AntUnit</a> Ant library.  This will run all targets in a script that begin
+with <q>test</q> (and their dependencies).</p>
+
+</body>
+</html>

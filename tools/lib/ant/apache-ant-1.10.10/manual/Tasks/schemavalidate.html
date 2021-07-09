@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>SchemaValidate Task</title>
+</head>
+
+<body>
+
+<h2 id="schemavalidate">SchemaValidate</h2>
+<h3>Description</h3>
+
+<p>This <code>schemavalidate</code> task validates XML files described by an XML Schema.  The task
+extends the <code>XmlValidate</code> task with XSD-specific features.</p>
+<ol>
+  <li>The parser is created validating and namespace aware.</li>
+  <li>Validation is turned on.</li>
+  <li>Schema validation is turned on.</li>
+  <li>Any no-namespace schema URL or file supplied is used as the no-namespace schema.</li>
+  <li>All nested schema declarations are turned into the list of namespace-url bindings for schema
+    lookup.</li>
+</ol>
+
+<p>Note that nested catalogs are still used for lookup of the URLs given as the sources of schema
+documents, so you can still delegate lookup to a catalog, you just need to list all schema URIs and
+their URL equivalents.</p>
+
+<p>This task supports the use of nested</p>
+<ul>
+  <li><a href="../Types/xmlcatalog.html"><code>&lt;xmlcatalog&gt;</code></a> elements</li>
+  <li><code>&lt;schema&gt;</code> elements, that bind a namespace URI to a URL or a local
+    filename.</li>
+  <li><code>&lt;dtd&gt;</code> elements which are used to resolve DTDs and entities.</li>
+  <li><code>&lt;attribute&gt;</code> elements which are used to set features on the parser.  These
+    can be any number
+    of <a href="http://www.saxproject.org/apidoc/org/xml/sax/package-summary.html#package_description"
+    target="_top"><code>http://xml.org/sax/features/</code></a> or other features that your parser
+    may support.</li>
+  <li><code>&lt;property&gt;</code> elements, containing string properties</li>
+</ul>
+
+<p>The task only supports SAX2 or later parsers: it is an error to specify a SAX1 parser.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>classname</td>
+    <td>the parser to use.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>classpathref</td>
+    <td>where to find the parser class.  Optionally can use an
+      embedded <code>&lt;classpath&gt;</code> element.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>disableDTD</td>
+    <td>Flag to disable DTD support. DTD support is needed to validate XSD files themselves, amongst
+      others.</td>
+    <td>No; default <q>false</q></td>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+    <td>fails on a error if set to <q>true</q>.</td>
+    <td>No; defaults to <q>true</q></td>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td>the file(s) you want to check (optionally use an embedded fileset).</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>fullchecking</td>
+    <td>enable full schema checking. Slow but strict.</td>
+    <td>No; default <q>true</q></td>
+  </tr>
+  <tr>
+    <td>lenient</td>
+    <td>if <q>true</q>, only check the XML document is well formed</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>noNamespaceFile</td>
+    <td>filename of a no-namespace XSD file to provide the schema for no-namespace XML content</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>noNamespaceURL</td>
+    <td>URL of a no-namespace XSD file to provide the schema for no-namespace XML content</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>warn</td>
+    <td>log parser warn events</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<h3 id="nested">Parameters specified as nested elements</h3>
+
+<h4>schema</h4>
+<p>Identify the name and location of a schema that may be used in validating the document(s).</p>
+<table class="attr">
+<tr>
+  <th scope="col">Attribute</th>
+  <th scope="col">Description</th>
+  <th scope="col">Required</th>
+</tr>
+  <tr>
+    <td>namespace</td>
+    <td>URI of the schema namespace</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>url</td>
+    <td>URL of the schema</td>
+    <td rowspan="2">Exactly one of the two</td>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td class="left">file of the schema</td>
+  </tr>
+</table>
+
+<h4>dtd</h4>
+<p><code>&lt;dtd&gt;</code> is used to specify different locations for DTD resolution.</p>
+<table class="attr">
+<tr>
+  <th scope="col">Attribute</th>
+  <th scope="col">Description</th>
+  <th scope="col">Required</th>
+</tr>
+  <tr>
+    <td>publicId</td>
+    <td>Public ID of the DTD to resolve</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>location</td>
+    <td>Location of the DTD to use, which can be a file,
+    a resource, or a URL</td>
+    <td>Yes</td>
+  </tr>
+</table>
+<h4>xmlcatalog</h4>
+<p>The <a href="../Types/xmlcatalog.html"><code>&lt;xmlcatalog&gt;</code></a> element is used to
+perform entity resolution.</p>
+<h4>attribute</h4>
+<p>The <code>&lt;attribute&gt;</code> element is used to set parser features.<br/>Features usable
+with the Xerces parser are defined here: <a href="https://xml.apache.org/xerces-j/features.html"
+target="_top">Setting features</a><br/>SAX features are defined
+here: <a href="http://www.saxproject.org/apidoc/org/xml/sax/package-summary.html#package_description"
+target="_top"><code>http://xml.org/sax/features/</code></a></p>
+<table class="attr">
+  <tr>
+  <th scope="col">Attribute</th>
+  <th scope="col">Description</th>
+  <th scope="col">Required</th>
+</tr>
+  <tr>
+    <td>name</td>
+    <td>The name of the feature</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>value</td>
+    <td>The boolean value of the feature</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h4>property</h4>
+<p>The <code>&lt;property&gt;</code> element is used to set properties.  These properties are
+defined here for the Xerces XML parser
+implementation: <a href="https://xml.apache.org/xerces-j/properties.html" target="_top">XML Parser
+properties</a>. Properties can be used to set the schema used to validate the XML file.
+</p>
+<table class="attr">
+<tr>
+  <th scope="col">Attribute</th>
+  <th scope="col">Description</th>
+  <th scope="col">Required</th>
+</tr>
+  <tr>
+    <td>name</td>
+    <td>The name of the feature</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>value</td>
+    <td>The string value of the property</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Validate a document against an XML schema. The document does not declare any schema itself, which
+is why the <var>noNamespaceFile</var> is needed.</p>
+<pre>
+&lt;schemavalidate noNamespaceFile="document.xsd"
+                file="xml/endpiece.xml"/&gt;</pre>
+
+<p>Declare a new preset task, <code>&lt;validate-soap&gt;</code>, that validates XSD and WSDL
+documents against the relevant specifications. To validate XSD documents, you also
+need <samp>XMLSchema.dtd</samp> and <samp>datatypes.dtd</samp> in the same directory
+as <samp>XMLSchema.xsd</samp>, or pointed to via the catalog. All these files can be fetched
+from <a href="https://www.w3.org/2001/XMLSchema" target="_top">W3C</a>.</p>
+<pre>
+&lt;presetdef name="validate-soap"&gt;
+  &lt;schemavalidate&gt;
+    &lt;schema namespace="http://schemas.xmlsoap.org/ws/2003/03/addressing"
+            file="${soap.dir}/ws-addressing.xsd"/&gt;
+    &lt;schema namespace="http://www.w3.org/2003/05/soap-envelope"
+            file="${soap.dir}/soap12.xsd"/&gt;
+    &lt;schema namespace="http://schemas.xmlsoap.org/wsdl/"
+            file="${soap.dir}/wsdl.xsd"/&gt;
+    &lt;schema namespace="http://www.w3.org/2001/XMLSchema"
+            file="${soap.dir}/XMLSchema.xsd"/&gt;
+    &lt;/schemavalidate&gt;
+&lt;/presetdef&gt;</pre>
+
+<p>Use the preset task defined above to validate an XML Schema document.</p>
+<pre>&lt;validate-soap file="xml/test.xsd"/&gt;</pre>
+
+</body>
+</html>

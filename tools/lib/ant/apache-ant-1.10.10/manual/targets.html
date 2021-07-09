@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" type="text/css" href="stylesheets/style.css"/>
+  <title>Targets and Extension-Points</title>
+</head>
+
+<body>
+  <h1 id="targets">Targets</h1>
+
+  <p>A target is a container of tasks that cooperate to reach a
+    desired state during the build process.</p>
+
+  <p>Targets can depend on other targets and Apache Ant ensures that these
+    other targets have been executed before the current target. For
+    example you might have a target for compiling and a
+    target for creating a distributable. You can only build a
+    distributable when you have compiled first, so the distribute
+    target <em>depends on</em> the compile target.</p>
+
+  <p>Ant tries to execute the targets in the <var>depends</var>
+    attribute in the order they appear (from left to right). Keep in
+    mind that it is possible that a target can get executed earlier
+    when an earlier target depends on it:</p>
+
+  <pre>&lt;target name=&quot;A&quot;/&gt;
+&lt;target name=&quot;B&quot; depends=&quot;A&quot;/&gt;
+&lt;target name=&quot;C&quot; depends=&quot;B&quot;/&gt;
+&lt;target name=&quot;D&quot; depends=&quot;C,B,A&quot;/&gt;</pre>
+
+  <p>Suppose we want to execute target D. From its
+    <var>depends</var> attribute, you might think that first target
+    C, then B and then A is executed.  Wrong! C depends on B, and B
+    depends on A, so first A is executed, then B, then C, and finally
+    D.</p>
+
+  <pre><b>Call-Graph:</b>  A &rarr; B &rarr; C &rarr; D</pre>
+
+  <p>In a chain of dependencies stretching back from a given target
+    such as D above, each target gets executed only once, even when
+    more than one target depends on it. Thus, executing the D target
+    will first result in C being called, which in turn will first call
+    B, which in turn will first call A. After A, then B, then C have
+    executed, execution returns to the dependency list of D, which
+    will <strong>not</strong> call B and A, since they were already called in
+    process of dependency resolution for C and B respectively as
+    dependencies of D. Had no such dependencies been discovered in
+    processing C and B, B and A would have been executed after C in
+    processing D's dependency list.</p>
+
+  <p>A target also has the ability to perform its execution if (or
+    unless) a property has been set. This allows, for example, better
+    control on the building process depending on the state of the
+    system (Java version, OS, command-line property defines, etc.).
+    To make a target <em>sense</em> this property, you should add
+    the <var>if</var> (or <var>unless</var>) attribute with the
+    name of the property that the target should react
+    to. <strong>Note:</strong> In the most simple case Ant will only
+    check whether the property has been set, the value doesn't matter,
+    but using property expansions you can build more complex
+    conditions.  See
+    <a href="properties.html#if+unless">the properties page</a> for
+    more details.  For example:</p>
+
+  <pre>&lt;target name=&quot;build-module-A&quot; if=&quot;module-A-present&quot;/&gt;</pre>
+  <pre>&lt;target name=&quot;build-own-fake-module-A&quot; unless=&quot;module-A-present&quot;/&gt;</pre>
+
+  <p>In the first example, if the <code>module-A-present</code>
+    property is set (to any value, e.g. <q>false</q>), the target will
+    be run. In the second example, if
+    the <code>module-A-present</code> property is set (again, to any
+    value), the target will not be run.</p>
+
+  <p>Only one property name can be specified in
+    the <var>if</var>/<var>unless</var> attribute. If you want to
+    check multiple conditions, you can use a dependent target for
+    computing the result for the check:</p>
+
+<pre>
+&lt;target name="myTarget" depends="myTarget.check" if="myTarget.run"&gt;
+    &lt;echo&gt;Files foo.txt and bar.txt are present.&lt;/echo&gt;
+&lt;/target&gt;
+
+&lt;target name="myTarget.check"&gt;
+    &lt;condition property="myTarget.run"&gt;
+        &lt;and&gt;
+            &lt;available file="foo.txt"/&gt;
+            &lt;available file="bar.txt"/&gt;
+        &lt;/and&gt;
+    &lt;/condition&gt;
+&lt;/target&gt;</pre>
+
+  <pre><b>Call-Graph:</b>  myTarget.check &rarr; maybe(myTarget)</pre>
+
+  <p>If no <var>if</var> and no <var>unless</var> attribute is
+    present, the target will always be executed.</p>
+
+  <p><strong>Important</strong>: the <var>if</var> and <var>unless</var>
+    attributes only enable or disable the target to which they are
+    attached. They do not control whether or not targets that a
+    conditional target depends upon get executed.  In fact, they do
+    not even get evaluated until the target is about to be executed,
+    and all its predecessors have already run.
+
+  <p>The optional <var>description</var> attribute can be used to
+    provide a one-line description of this target, which is printed by
+    the <kbd>-projecthelp</kbd> command-line option. Targets without
+    such a description are deemed internal and will not be listed,
+    unless either the <kbd>-verbose</kbd> or <kbd>-debug</kbd>
+    option is used.</p>
+
+  <p>It is a good practice to place
+    your <a href="Tasks/tstamp.html">tstamp</a> tasks in a
+    so-called <em>initialization</em> target, on which all other targets
+    depend. Make sure that target is always the first one in the
+    depends list of the other targets. In this manual, most
+    initialization targets have the name <code>&quot;init&quot;</code>.</p>
+    <pre>
+&lt;project&gt;
+    &lt;target name=&quot;init&quot;&gt;
+        &lt;tstamp/&gt;
+    &lt;/target&gt;
+    &lt;target name=&quot;otherTarget&quot; depends=&quot;init&quot;&gt;
+        ...
+    &lt;/target&gt;
+&lt;/project&gt;</pre>
+
+  <p>Especially if you only have a few tasks you also could place these
+    tasks directly under the project tag (<em>since Ant 1.6.0</em>):</p>
+  <pre>
+&lt;project&gt;
+    &lt;tstamp/&gt;
+&lt;/project&gt;</pre>
+
+  <p>If the <var>depends</var> attribute and
+  the <var>if</var>/<var>unless</var> attribute are set,
+  the <var>depends</var> attribute is executed first.</p>
+
+  <p>A target has the following attributes:</p>
+
+  <table class="attr">
+    <tr>
+      <th scope="col">Attribute</th>
+      <th scope="col">Description</th>
+      <th scope="col">Required</th>
+    </tr>
+    <tr>
+      <td>name</td>
+      <td>the name of the target.</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td>depends</td>
+      <td>a comma-separated list of names of targets on
+        which this target depends.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>if</td>
+      <td>the name of the property that must be set in
+        order for this target to execute,
+        or <a href="properties.html#if+unless">something evaluating to
+          <q>true</q></a>.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>unless</td>
+      <td>the name of the property that must not be set
+        in order for this target to execute,
+        or <a href="properties.html#if+unless">something evaluating to
+        <q>false</q></a>.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>description</td>
+      <td>a short description of this target's function.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>extensionOf</td>
+      <td>Adds the current target to the depends list of
+        the named <a href="#extension-points">extension-point</a>.
+        <em>since Ant 1.8.0</em>.</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td>onMissingExtensionPoint</td>
+      <td>What to do if this target tries to extend a
+        missing
+        <a href="#extension-points">extension-point</a>. (<q>fail</q>,
+        <q>warn</q>, <q>ignore</q>).
+        <em>since Ant 1.8.2</em>.</td>
+      <td>No; not allowed unless
+        <var>extensionOf</var> is present, defaults to <q>fail</q>.
+      </td>
+    </tr>
+  </table>
+
+  <p>A target name can be any alphanumeric string valid in the
+    encoding of the XML file. The empty string <q></q> is in this set,
+    as is comma <q>,</q> and space <q>&nbsp;</q>. Please avoid using
+    these, as they will not be supported in future Ant versions
+    because of all the confusion they cause on command line and
+    IDE. IDE support of unusual target names, or any target name
+    containing spaces, varies with the IDE.</p>
+
+  <p>Targets beginning with a hyphen such as <q>-restart</q> are
+    valid, and can be used to name targets that should not be called
+    directly from the command line.<br/>
+    For Ant's main class every option starting with hyphen is an
+    option for Ant itself and not a target. For that reason calling
+    these targets from command line is not possible. On the other
+    hand, IDEs usually don't use Ant's main class as entry point and
+    calling them from the IDE is usually possible.</p>
+
+  <h1 id="extension-points">Extension-Points</h1>
+
+  <p><em>Since Ant 1.8.0</em>.</p>
+
+  <p>Extension-Points are similar to targets in that they have a name
+    and a <var>depends</var> list and can be executed from the command
+    line.  Just like targets they represent a state during the build
+    process.</p>
+
+  <p>Unlike targets they don't contain any tasks, their main purpose
+    is to collect targets that contribute to the desired state in
+    their <var>depends</var> list.</p>
+
+  <p>Targets can add themselves to an
+    extension-point's <var>depends</var> list via
+    their <var>extensionOf</var> attribute.  The targets that add
+    themselves will be added after the targets of the
+    explicit <var>depends</var> attribute of the extension-point, if
+    multiple targets add themselves, their relative order is not
+    defined.</p>
+
+  <p>The main purpose of an extension-point is to act as an extension
+    point for build files designed to
+    be <a href="Tasks/import.html">imported</a>.  In the imported
+    file, an extension-point defines a state that must be reached and
+    targets from other build files can join the <var>depends</var>
+    list of said extension-point in order to contribute to that
+    state.</p>
+
+  <p>For example your imported build file may need to compile code, it
+    might look like:</p>
+<pre>
+&lt;target name="create-directory-layout"&gt;
+   ...
+&lt;/target&gt;
+&lt;extension-point name="ready-to-compile"
+              depends="create-directory-layout"/&gt;
+&lt;target name="compile" depends="ready-to-compile"&gt;
+   ...
+&lt;/target&gt;</pre>
+
+  <pre><b>Call-Graph:</b>  create-directory-layout &rarr; 'empty slot' &rarr; compile</pre>
+
+  <p>And you need to generate some source before compilation, then in
+    your main build file you may use something like</p>
+<pre>
+&lt;target name="generate-sources"
+        extensionOf="ready-to-compile"&gt;
+   ...
+&lt;/target&gt;</pre>
+
+  <pre><b>Call-Graph:</b>  create-directory-layout &rarr; generate-sources  &rarr; compile</pre>
+
+  <p>This will ensure that the <q>generate-sources</q> target is
+    executed before the <q>compile</q> target.</p>
+
+  <p>Don't rely on the order of the depends list,
+    if <q>generate-sources</q> depends
+    on <q>create-directory-layout</q> then it must explicitly depend
+    on it via its own depends attribute.</p>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Regexp Type</title>
+</head>
+
+<body>
+
+<h2 id="regexp">Regexp</h2>
+<p>
+Regexp represents a regular expression.
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>pattern</td>
+    <td>regular expression pattern</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>refid</td>
+    <td>Makes this <code>regexp</code>
+      a <a href="../using.html#references">reference</a> to
+      a <code>regexp</code> defined elsewhere. If specified no other
+      attributes or nested elements are allowed.</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<pre>&lt;regexp id="myregexp" pattern="alpha(.+)beta"/&gt;</pre>
+<p>Defines a regular expression for later use with <var>id</var> <q>myregexp</q>.</p>
+<pre>&lt;regexp refid="myregexp"/&gt;</pre>
+<p>Use the regular expression with <var>id</var> <q>myregexp</q>.</p>
+<h3 id="implementation">Choice of regular expression implementation</h3>
+<p>Apache Ant comes with wrappers for
+the <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/package-summary.html"
+target="_top"><code>java.util.regex</code>
+package</a>, <a href="https://attic.apache.org/projects/jakarta-regexp.html"
+target="_top">jakarta-regexp</a> and <a href="https://attic.apache.org/projects/jakarta-oro.html"
+target="_top">jakarta-ORO</a>, see <a href="../install.html#librarydependencies">installation
+dependencies</a> concerning the supporting libraries.</p>
+<p>The property <code>ant.regexp.regexpimpl</code> governs which regular expression implementation
+will be chosen.  Possible values for this property are:</p>
+<ul>
+<li><code class="code">org.apache.tools.ant.util.regexp.Jdk14RegexpRegexp</code></li>
+<li><code class="code">org.apache.tools.ant.util.regexp.JakartaOroRegexp</code></li>
+<li><code class="code">org.apache.tools.ant.util.regexp.JakartaRegexpRegexp</code></li>
+</ul>
+<p>It can also be another implementation of the
+interface <code class="code">org.apache.tools.ant.util.regexp.Regexp</code>.
+If <code>ant.regexp.regexpimpl</code> is not defined, Ant uses Jdk14Regexp as this is always
+available.</p>
+<p>
+There are cross-platform issues for matches related to line terminator.  For example if you
+use <q>$</q> to anchor your regular expression on the end of a line the results might be very
+different depending on both your platform and the regular expression library you use. It
+is <em>highly recommended</em> that you test your pattern on both Unix and Windows platforms before
+you rely on it.</p>
+<ul>
+  <li>Jakarta Oro defines a line terminator as <q>\n</q> and is consistent with Perl.</li>
+  <li>Jakarta RegExp uses a system-dependent line terminator.</li>
+  <li><code>java.util.regex</code> uses <q>\n</q>, <q>\r\n</q>, <q>\u0085</q>, <q>\u2028</q>, <q>\u2029</q> as a
+    default but is configured in the wrapper to use only <q>\n</q> (UNIX_LINE)</li>
+</ul>
+<p><em>We used to recommend that you use Jakarta ORO but since its development has been retired
+Java's built-in regex package is likely the best choice going forward.</em></p>
+<h3>Usage</h3> The following tasks and types use the Regexp type:
+<ul>
+<li><a href="../Tasks/replaceregexp.html">ReplaceRegExp task</a></li>
+<li><a href="filterchain.html#linecontainsregexp">LineContainsRegexp filter</a></li>
+</ul>
+<p>These string filters also use the mechanism of regexp to choose a regular expression
+implementation:</p>
+<ul>
+<li><a href="filterchain.html#containsregex">ContainsRegex string filter</a></li>
+<li><a href="filterchain.html#replaceregex">ReplaceRegex string filter</a></li>
+<li><a href="selectors.html#filenameselect">filename selector</a></li>
+<li><a href="resources.html#rsel.name">name resource selector</a></li>
+<li><a href="selectors.html#regexpselect">containsregexp selector</a></li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>VerifyJar Task</title>
+</head>
+
+<body>
+
+<h2 id="verifyjar">VerifyJar</h2>
+<h3>Description</h3>
+<p>Verifies JAR files with
+the <a href="https://docs.oracle.com/javase/8/docs/technotes/tools/windows/jarsigner.html"
+target="_top"><kbd>jarsigner</kbd></a> command line tool.  It will take a named file in
+the <var>jar</var> attribute. Nested paths are also supported.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>jar</td>
+    <td>the jar file to verify</td>
+    <td>Yes, unless nested paths have been used</td>
+  </tr>
+  <tr>
+    <td>alias</td>
+    <td>the alias to verify under</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>storepass</td>
+    <td>password for keystore integrity.
+    Note that
+    jarsigner does not read the password from stdin during
+    verification, so the password must be send via a command line
+    interface and may be visible to other users of the system.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>keystore</td>
+    <td>keystore location</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>storetype</td>
+    <td>keystore type</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>keypass</td>
+    <td>password for private key (if different)</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>certificates</td>
+    <td>(<q>true|false</q>) display information about certificates</td>
+    <td>No; default <q>false</q></td>
+  </tr>
+  <tr>
+    <td>verbose</td>
+    <td>(<q>true|false</q>) verbose output when verifying</td>
+    <td>No; default <q>false</q></td>
+  </tr>
+  <tr>
+    <td>strict</td>
+    <td>(<q>true|false</q>) strict checking when verifying.<br/><em>since Ant 1.9.1</em>.</td>
+    <td>No; default <q>false</q></td>
+  </tr>
+  <tr>
+    <td>maxmemory</td>
+    <td>Specifies the maximum memory the <kbd>jarsigner</kbd> JVM will use. Specified in the style
+      of standard Java memory specs (e.g. <q>128m</q> = 128 MBytes)</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>executable</td>
+    <td>Specify a particular <kbd>jarsigner</kbd> executable to use in place of the default binary
+      (found in the same JDK as Apache Ant is running in).<br/>  Must support the same command line
+      options as the Sun JDK <kbd>jarsigner</kbd> command.  <em>since Ant 1.8.0</em>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>providername</td>
+    <td>name of a cryptographic service provider's name
+      when listed in the security properties file.
+      <em>since Ant 1.10.6</em>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>providerclass</td>
+    <td>name of a cryptographic service provider's master
+      class file when the service provider is not listed in the security
+      properties file.
+      <em>since Ant 1.10.6</em>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>providerarg</td>
+    <td>Represents an optional string input argument for
+      the constructor of provider_class_name. Ignored
+      if <code>providerclass</code> is not set.
+      <em>since Ant 1.10.6</em>.</td>
+    <td>No</td>
+  </tr>
+</table>
+<h3>Parameters as nested elements</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>path</td>
+    <td>path of JAR files to verify. <em>since Ant 1.7</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>fileset</td>
+    <td>fileset of JAR files to verify.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>sysproperty</td>
+    <td>JVM system properties, with the syntax of Ant <a href="exec.html#env">environment
+      variables</a></td>
+    <td>No, and only one can be supplied</td>
+  </tr>
+  <tr>
+    <td>arg</td>
+    <td>Use this to specify a <kbd>keytool</kbd>
+    <a href="../using.html#arg">command line argument</a> not
+    explicitly supported via an attribute.
+    <em>since Ant 1.10.6</em>.</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+
+<p>Verify the <samp>ant.jar</samp> with alias <q>apache-group</q> accessing the keystore and private
+key via <q>secret</q> password.</p>
+<pre>
+&lt;verifyjar jar=&quot;${dist}/lib/ant.jar&quot;
+           alias=&quot;apache-group&quot; storepass=&quot;secret&quot;/&gt;</pre>
+
+</body>
+</html>

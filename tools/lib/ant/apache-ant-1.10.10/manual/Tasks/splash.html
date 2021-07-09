@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Apache Ant User Manual</title>
+</head>
+
+<body>
+
+<h2 id="splash">Splash</h2>
+<p>by Les Hughes (leslie.hughes@rubus.com)
+<h3>Description</h3>
+<p>This task creates a splash screen. The splash screen is displayed for the duration of the build
+and includes a handy progress bar as well. Use in conjunction with the <code>sound</code> task to
+provide interest whilst waiting for your builds to complete...</p>
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>imageurl</td>
+    <td>A URL pointing to an image to display.</td>
+    <td>No; defaults to <samp>antlogo.gif</samp> from the classpath</td>
+  </tr>
+  <tr>
+    <td>showduration</td>
+    <td>Initial period to pause the build to show the splash in milliseconds.</td>
+    <td>No; defaults to <q>5000</q></td>
+  </tr>
+  <tr>
+    <td>progressregexp</td>
+    <td>Progress regular expression which is used to parse the output and dig out current
+      progress. Exactly one group pattern must exists, and it represents the progress number (0-100)
+      (i.e <q>Progress: (.*)%</q>)<br/><em>since Apache Ant 1.8.0</em></td>
+    <td>No; defaults to progress increase with every action and logged output line</td>
+  </tr>
+  <tr>
+    <td>displaytext</td>
+    <td>display text presented in the splash window<br/><em>since Ant 1.8.0</em></td>
+    <td>No; defaults to <q class="no-break">Building ...</q></td>
+  </tr>
+</table>
+<h3>Deprecated properties</h3>
+
+<p>The following properties can be used to configure the proxy settings to retrieve an image from
+behind a firewall. However, the settings apply not just to this task, but to all following
+tasks. Therefore they are now deprecated in preference to the <code>&lt;setproxy&gt;</code> task,
+that makes it clear to readers of the build exactly what is going on.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>useproxy</td>
+    <td>Use a proxy to access <var>imgurl</var>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>proxy</td>
+    <td>IP or hostname of the proxy server</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>port</td>
+    <td>Proxy port number</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>user</td>
+    <td>User to authenticate to the proxy as</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>password</td>
+    <td>Proxy password</td>
+    <td>No</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+
+<p>Splash <samp>images/ant_logo_large.gif</samp> from the classpath.</p>
+<pre>&lt;splash/&gt;</pre>
+
+<p>Splash the Jakarta logo, for an initial period of 5 seconds.</p>
+<pre>
+&lt;splash imageurl=&quot;https://jakarta.apache.org/images/jakarta-logo.gif&quot;
+        useproxy=&quot;true&quot;
+        showduration=&quot;5000&quot;/&gt;</pre>
+
+<p>Splash with controlled progress and nondefault text</p>
+<pre>
+&lt;target name="test_new_features"&gt;
+    &lt;echo&gt;New features&lt;/echo&gt;
+    &lt;splash progressRegExp="Progress: (.*)%" showduration="0" displayText="Test text"/&gt;
+    &lt;sleep seconds="1"/&gt;
+    &lt;echo&gt;Progress: 10%&lt;/echo&gt;
+    &lt;sleep seconds="1"/&gt;
+    &lt;echo&gt;Progress: 20%&lt;/echo&gt;
+    &lt;sleep seconds="1"/&gt;
+    &lt;echo&gt;Progress: 50%&lt;/echo&gt;
+    &lt;sleep seconds="1"/&gt;
+    &lt;echo&gt;Progress: 70%&lt;/echo&gt;
+    &lt;sleep seconds="1"/&gt;
+    &lt;echo&gt;Progress: 100%&lt;/echo&gt;
+    &lt;sleep seconds="3"/&gt;
+&lt;/target&gt;</pre>
+
+</body>
+</html>

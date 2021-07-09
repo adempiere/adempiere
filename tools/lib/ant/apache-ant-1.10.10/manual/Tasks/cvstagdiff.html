@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>CvsTagDiff Task</title>
+</head>
+<body>
+<h2 id="cvstagdiff">CvsTagDiff</h2>
+<h3>Description</h3>
+<p>Generates an XML-formatted report file of the changes between two tags or dates recorded in
+a <a href="https://www.nongnu.org/cvs/" target="_top">CVS</a> repository.</p>
+<p><strong>Important</strong>: This task needs <kbd>cvs</kbd> on the path. If it isn't, you will get
+an error (such as <code>error=2</code> on Windows). If <code>&lt;cvs&gt;</code> doesn't work, try to
+execute <kbd>cvs.exe</kbd> from the command line in the target directory in which you are working.
+Also note that this task assumes that the <kbd>cvs</kbd> executable is compatible with the Unix
+version, this is not completely true for certain other CVS clients&mdash;like CVSNT for
+example&mdash;and some operation may fail when using such an incompatible client.</p>
+<p>This task captures the output of the CVS command in a file inside of
+  the <a href="../running.html#tmpdir">temporary directory</a>.</p>
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>startTag</td>
+    <td>The earliest tag from which diffs are to be included in the report.</td>
+    <td rowspan="2">Exactly one of the two</td>
+  </tr>
+  <tr>
+    <td>startDate</td>
+    <td class="left">The earliest date from which diffs are to be included in the
+     report.<br/>Accepts all formats accepted by the <kbd>cvs</kbd> command for <kbd>-D
+     date_spec</kbd> arguments.</td>
+  </tr>
+  <tr>
+    <td>endTag</td>
+    <td>The latest tag from which diffs are to be included in the report.</td>
+    <td rowspan="2">Exactly one of the two</td>
+  </tr>
+  <tr>
+    <td>endDate</td>
+    <td class="left">The latest date from which diffs are to be included in the report.<br/>Accepts
+     all formats accepted by the <kbd>cvs</kbd> command for <kbd>-D date_spec</kbd>
+     arguments.</td>
+  </tr>
+  <tr>
+    <td>destfile</td>
+    <td>The file in which to write the diff report.</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td>ignoreRemoved</td>
+    <td>When set to <q>true</q>, the report will not include any removed files.  <em>Since Apache
+      Ant 1.8.0</em></td>
+    <td>No; defaults to <q>false</q></td>
+</table>
+
+<h3>Parameters inherited from the <code>cvs</code> task</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>compression</td>
+    <td><q>true</q> (equivalent to <q>3</q>), <q>false</q>, or a number between <q>1</q>
+    and <q>9</q> (corresponding to possible values for CVS <kbd>-z#</kbd> argument). Any other
+    value is treated as <q>false</q></td>
+    <td>No; defaults to no compression</td>
+  </tr>
+  <tr>
+    <td>cvsRoot</td>
+    <td>the <code>CVSROOT</code> variable.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>cvsRsh</td>
+    <td>the <code>CVS_RSH</code> variable.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>package</td>
+    <td>the package/module to analyze.<br/><em>Since Ant 1.6</em> multiple packages separated by
+      spaces are possible.  aliases corresponding to different modules are also possible.  Use a
+      nested <code>&lt;module&gt;</code> element if you want to specify a module with spaces in its
+      name.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>quiet</td>
+    <td>suppress informational messages.</td>
+    <td>No; default <q>false</q></td>
+  </tr>
+  <tr>
+    <td>port</td>
+    <td>Port used by CVS to communicate with the server.</td>
+    <td>No; default <q>2401</q></td>
+  </tr>
+  <tr>
+    <td>passfile</td>
+    <td>Password file to read passwords from.</td>
+    <td>No; default <q>~/.cvspass</q></td>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+    <td>Stop the build process if the command exits with a return code other than <q>0</q>.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+</table>
+
+<h3>Parameters specified as nested elements</h3>
+
+<h4>module</h4>
+
+<p>Specifies a package/module to work on, unlike the package attribute modules specified using this
+attribute can contain spaces in their name.</p>
+
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>Name of the module/package.</td>
+    <td>Yes</td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+<p>Generate a <code>tagdiff</code> report for all the changes that have been made in
+  the <code>ant</code> module between the tags <samp>ANT_14</samp>
+  and <samp>ANT_141</samp>. Write these changes into the file <samp>tagdiff.xml</samp>.</p>
+<pre>
+&lt;cvstagdiff cvsRoot=&quot;:pserver:anoncvs@cvs.apache.org:/home/cvspublic&quot;
+            destfile=&quot;tagdiff.xml&quot;
+            package=&quot;ant&quot;
+            startTag=&quot;ANT_14&quot;
+            endTag=&quot;ANT_141&quot;/&gt;</pre>
+
+<p>Generate a <code>tagdiff</code> report for all the changes that have been made in
+  the <samp>ant</samp> module in January 2002. Write the changes into the
+  file <samp>tagdiff.xml</samp>. In this example, <var>cvsRoot</var> has not been
+  set. The current <var>cvsRoot</var> will be used (assuming the build is started from a folder stored
+  in CVS.</p>
+<pre>
+&lt;cvstagdiff destfile=&quot;tagdiff.xml&quot;
+            package=&quot;ant&quot;
+            startDate=&quot;2002-01-01&quot;
+            endDate=&quot;2002-31-01&quot;/&gt;</pre>
+
+<p>Generate a <code>tagdiff</code> report for all the changes that have been made in
+  the <samp>ant</samp> and <samp>jakarta-gump</samp> modules in January 2003. Write the changes into
+  the file <samp>tagdiff.xml</samp>. In this
+  example, <var>cvsRoot</var> has not been set. The current <var>cvsRoot</var> will be used (assuming
+  the build is started from a folder stored in CVS.</p>
+<pre>
+&lt;cvstagdiff destfile=&quot;tagdiff.xml&quot;
+            package=&quot;ant jakarta-gump&quot;
+            startDate=&quot;2003-01-01&quot;
+            endDate=&quot;2003-31-01&quot;/&gt;</pre>
+
+<h4>Generate Report</h4>
+<p>Ant includes a basic XSLT stylesheet that you can use to generate a HTML report based on the XML
+output. The following example illustrates how to generate an HTML report from the XML report.</p>
+
+<pre>
+&lt;style in="tagdiff.xml"
+       out="tagdiff.html"
+       style="${ant.home}/etc/tagdiff.xsl"&gt;
+  &lt;param name="title" expression="Ant Diff"/&gt;
+  &lt;param name="module" expression="ant"/&gt;
+  &lt;param name="cvsweb" expression="https://cvs.apache.org/viewcvs/"/&gt;
+&lt;/style&gt;</pre>
+
+<h4>Output</h4>
+<p>The <var>cvsroot</var> and <var>package</var> attributes of the <code>&lt;tagdiff&gt;</code> element are
+  added <em>since Ant 1.6</em>.</p>
+
+<p>Description of <code>&lt;entry&gt;</code> attributes:</p>
+<table>
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Comment</th>
+  </tr>
+  <tr>
+    <td><var>name</var></td>
+    <td>when reporting on one package, the package name is removed from the output</td>
+  </tr>
+  <tr>
+    <td><var>revision</var></td>
+    <td>supplied for files which exist at the end of the reporting period</td>
+  </tr>
+  <tr>
+    <td><var>prevrevision</var></td>
+    <td>supplied for files which exist at the beginning of the reporting period.<br/>Old CVS servers
+      do not supply it for deleted files. CVS 1.12.2 supplies it.</td>
+  </tr>
+</table>
+
+<p>Example:</p>
+<pre>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;tagdiff startTag=&quot;ANT_14&quot; endTag=&quot;ANT_141&quot;
+         cvsroot=&quot;:pserver:anoncvs@cvs.apache.org:/home/cvspublic&quot; package=&quot;ant&quot;&gt;
+  &lt;entry&gt;
+    &lt;file&gt;
+      &lt;name&gt;src/main/org/apache/tools/ant/DirectoryScanner.java&lt;/name&gt;
+      &lt;revision&gt;1.15.2.1&lt;/revision&gt;
+      &lt;prevrevision&gt;1.15&lt;/prevrevision&gt;
+    &lt;/file&gt;
+  &lt;/entry&gt;
+&lt;/tagdiff&gt;
+</pre>
+
+</body>
+</html>

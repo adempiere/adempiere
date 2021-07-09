@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Touch Task</title>
+</head>
+
+<body>
+
+<h2 id="touch">Touch</h2>
+<h3>Description</h3>
+
+<p>Changes the modification time of a resource and possibly creates it at the same time. In addition
+to working with a single file, this Task can also work
+on <a href="../Types/resources.html">resources</a> and resource collections (which also includes
+directories).  Prior to Apache Ant 1.7 only FileSet or <a href="../Types/filelist.html">Filelist</a>
+(<em>since Ant 1.6</em>) were supported.</p>
+
+<p>Ant uses the API of <code class="code">java.io.File</code> to set the last modification time
+which has some limitations.  For example, the timestamp granularity depends on the operating system
+and sometimes the operating system may allow a granularity smaller than milliseconds.  If you need
+more control you have to fall back to the <code>&lt;exec&gt;</code> task and native commands.</p>
+
+<p><em>Since Ant 1.8.2</em>, a warning message is logged upon failure to change the file
+modification time.  This will happen if you try to change the modification time of a file you do not
+own on many Unix systems, for example.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td>The name of the file.</td>
+    <td>Unless a nested resource collection element has been specified</td>
+  </tr>
+  <tr>
+    <td>millis</td>
+    <td>Specifies the new modification time of the file in milliseconds since midnight Jan 1
+      1970.</td>
+    <td rowspan="2">No; <var>datetime</var> takes precedence, however if both are omitted then
+      current time is assumed</td>
+  </tr>
+  <tr>
+    <td>datetime</td>
+    <td class="left">Specifies the new modification time of the file.  <em>Since Ant 1.8</em>, the
+      special value <q>now</q> indicates the current time.</td>
+  </tr>
+  <tr>
+    <td>pattern</td>
+    <td>SimpleDateFormat-compatible pattern string using the current locale. <em>Since Ant
+      1.6.3</em></td>
+    <td>No; defaults to <q>MM/dd/YYYY hh:mm a</q> or <q>MM/dd/yyyy hh:mm:ss a</q> using the US
+      locale.</td>
+  </tr>
+  <tr>
+    <td>mkdirs</td>
+    <td>Whether to create nonexistent parent directories when touching new files. <em>Since Ant
+      1.6.3</em></td>
+    <td>No; default <q>false</q></td>
+  </tr>
+  <tr>
+    <td>verbose</td>
+    <td>Whether to log the creation of new files.  <em>Since Ant 1.6.3</em></td>
+    <td>No; default <q>true</q></td>
+  </tr>
+</table>
+<h3>Parameters specified as nested elements</h3>
+<h4>any resource collection</h4>
+
+<p>You can use any number of nested resource collection elements to define the resources for this
+task and refer to resources defined elsewhere. <strong>Note</strong>: resources passed to this task
+must implement the <code class="code">org.apache.tools.ant.types.resources.Touchable</code>
+interface, this is true for all filesystem-based resources like those returned by path, fileset ot
+filelist.</p>
+
+<p>For backwards compatibility directories matched by nested filesets will be "touched" as well, use
+a <var>type</var> selector to suppress this.  This only applies to filesets nested into the task
+directly, not to filesets nested into a path or any other resource collection.</p>
+
+<h4>mapper</h4>
+<p><em>Since Ant 1.6.3</em>, a nested <a href="../Types/mapper.html">mapper</a> can be specified.
+Files specified via nested <code>fileset</code>s, <code>filelist</code>s, or the <code>file</code>
+attribute are mapped using the specified mapper.  For each file mapped, the resulting files are
+touched. If no time has been specified and the original file exists its timestamp will be used.  If
+no time has been specified and the original file does not exist the current time is used. <em>Since
+Ant 1.8</em>, the task settings (<var>millis</var> and <var>datetime</var>) have priority over the
+timestamp of the original file.</p>
+<h3>Examples</h3>
+
+<p>Create <samp>myfile</samp> if it doesn't exist and change the modification time to the current
+time.</p>
+<pre>&lt;touch file=&quot;myfile&quot;/&gt;</pre>
+
+<p>Create <samp>myfile</samp> if it doesn't exist and change the modification time to Jun, 28 2000
+2:02 pm (14:02 for those used to 24 hour time).</p>
+<pre>&lt;touch file=&quot;myfile&quot; datetime=&quot;06/28/2000 2:02 pm&quot;/&gt;</pre>
+
+<p>Change the modification time to Oct, 09 1974 4:30 pm of all files and directories found
+in <samp>src_dir</samp>.</p>
+<pre>
+&lt;touch datetime=&quot;09/10/1974 4:30 pm&quot;&gt;
+    &lt;fileset dir=&quot;src_dir&quot;/&gt;
+&lt;/touch&gt;</pre>
+
+<p>Create <samp>myfile</samp> if it doesn't exist and change the modification time to Jun, 28 2000
+2:02:17 pm (14:02:17 for those used to 24 hour time), if the filesystem allows a precision of one
+second&mdash;a time close to it otherwise.</p>
+<pre>&lt;touch file=&quot;myfile&quot; datetime=&quot;06/28/2000 2:02:17 pm&quot;/&gt;</pre>
+
+<p>Create <samp>bar</samp> if it doesn't exist and change the modification time to that
+of <samp>foo</samp>.</p>
+<pre>
+&lt;touch file=&quot;foo&quot;&gt;
+    &lt;mapper type=&quot;glob&quot; from=&quot;foo&quot; to=&quot;bar&quot;/&gt;
+&lt;/touch&gt;</pre>
+
+<p>Create files in the <samp>shadow</samp> directory for every <samp>.java</samp> file in
+the <samp>src</samp> directory if it doesn't exist and change the modification time of those files
+to the current time.</p>
+<pre>
+&lt;touch file=&quot;foo&quot; datetime=&quot;now&quot;&gt;
+    &lt;mapper type=&quot;regexp&quot; from=&quot;^src(.*)\.java&quot; to=&quot;shadow\1.empty&quot;/&gt;
+&lt;/touch&gt;</pre>
+
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+  <title>CVSVersion Task</title>
+</head>
+
+<body>
+
+<h2 id="cvs">CvsVersion</h2>
+<p><em>Since Apache Ant 1.6.1</em>.</p>
+<h3>Description</h3>
+<p>This task allows to retrieve a CVS client and server version.</p>
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td colspan="3" class="left">Attributes from parent <code>&lt;cvs&gt;</code> task which are
+    meaningful here</td>
+  </tr>
+  <tr>
+    <td>cvsRoot</td>
+    <td>the <code>CVSROOT</code> variable.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>cvsRsh</td>
+    <td>the <code>CVS_RSH</code> variable.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>dest</td>
+    <td>directory containing the checked out version of the project</td>
+    <td>No; default is project's <var>basedir</var></td>
+  </tr>
+  <tr>
+    <td>package</td>
+    <td>the package/module to check out.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>port</td>
+    <td>Port used by CVS to communicate with the server.</td>
+    <td>No; default is <q>2401</q></td>
+  </tr>
+  <tr>
+    <td>passfile</td>
+    <td>Password file to read passwords from.</td>
+    <td>No; default is <q>~/.cvspass</q></td>
+  </tr>
+  <tr>
+    <td>failonerror</td>
+    <td>Stop the build process if the command exits with a return code other than <q>0</q>.</td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+  <tr>
+    <td colspan="3" class="left">Specific attributes</td>
+  </tr>
+  <tr>
+    <td>clientversionproperty</td>
+    <td>Name of a property where the CVS client version should be stored</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>serverversionproperty</td>
+    <td>Name of a property where the CVS server version should be stored</td>
+    <td>No</td>
+  </tr>
+</table>
+<h3>Examples</h3>
+
+<p>Find out the CVS client and server versions and store the versions in the properties
+called <code>apachecvsversion</code> and <code>localcvsversion</code></p>
+<pre>
+&lt;cvsversion cvsRoot=&quot;:pserver:anoncvs@cvs.apache.org:/home/cvspublic&quot;
+            passfile=&quot;/home/myself/.cvspass&quot;
+            serverversionproperty=&quot;apachecvsversion&quot;
+            clientversionproperty=&quot;localcvsversion&quot;/&gt;</pre>
+
+</body>
+</html>

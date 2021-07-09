@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Echo Task</title>
+</head>
+
+<body>
+
+<h2 id="echo">Echo</h2>
+<h3>Description</h3>
+<p>Echoes a message to the current loggers and listeners which means <code>System.out</code> unless
+overridden. A <var>level</var> can be specified, which controls at what logging level the message is
+filtered at.</p>
+<p>The task can also echo to a file, in which case the option to append rather than overwrite the
+file is available, and the <var>level</var> option is ignored</p>
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>message</td>
+    <td>the message to echo.</td>
+    <td>No; defaults to a blank line unless text is included in a character section within this
+      element</td>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td>the file to write the message to.</td>
+    <td rowspan="2">No; only one of these may be used</td>
+  </tr>
+  <tr>
+    <td>output</td>
+    <td class="left">the <a href="../Types/resources.html">Resource</a>
+      to write the message to (see <a href="../develop.html#set-magic">note</a>).
+      <em>Since Apache Ant 1.8</em></td>
+  </tr>
+  <tr>
+    <td>append</td>
+    <td>Append to an existing file
+      (or <a href="https://docs.oracle.com/javase/8/docs/api//java/io/FileWriter.html#FileWriter-java.lang.String-boolean-"
+      target="_top"> open a new file / overwrite an existing file</a>)?
+    </td>
+    <td>No; ignored unless <var>output</var> indicates a filesystem destination, default
+      is <q>false</q></td>
+  </tr>
+  <tr>
+    <td>level</td>
+    <td>Control the level at which this message is reported.  One
+      of <q>error</q>, <q>warning</q>, <q>info</q>, <q>verbose</q>, <q>debug</q> (decreasing
+      order)</td>
+    <td>No; default is <q>warning</q></td>
+  </tr>
+  <tr>
+    <td>encoding</td>
+    <td>encoding to use. <em>since Ant 1.7</em></td>
+    <td>No; defaults to default JVM character encoding</td>
+  </tr>
+  <tr>
+    <td>force</td>
+    <td>Overwrite read-only destination files.  <em>since Ant 1.8.2</em></td>
+    <td>No; defaults to <q>false</q></td>
+  </tr>
+</table>
+
+<h3>Examples</h3>
+
+<p>Basic use:</p>
+<pre>&lt;echo message=&quot;Hello, world&quot;/&gt;</pre>
+<pre>&lt;echo message=&quot;Embed a line break:${line.separator}&quot;/&gt;</pre>
+<pre>&lt;echo&gt;Embed another:${line.separator}&lt;/echo&gt;</pre>
+<pre>&lt;echo&gt;This is a longer message stretching over
+two lines.
+&lt;/echo&gt;</pre>
+
+<p>The newline immediately following the <code>&lt;echo&gt;</code> tag is part of the
+output. Newlines in character data within the content of an element are not discarded by XML
+parsers.<br/>See <a href="https://www.w3.org/TR/xml/#sec-line-ends" target="_top">W3C Recommendation
+26 November 2008 / End of Line handling</a> for more details.</p>
+<pre>&lt;echo&gt;
+This is a longer message stretching over
+three lines; the first line is a blank
+&lt;/echo&gt;</pre>
+
+<p>A message which only appears in <kbd>-debug</kbd> mode.</p>
+<pre>&lt;echo message=&quot;Deleting drive C:&quot; level=&quot;debug&quot;/&gt;</pre>
+
+<p>A message which appears even in <kbd>-quiet</kbd> mode.</p>
+<pre>&lt;echo level=&quot;error&quot;&gt;
+Imminent failure in the antimatter containment facility.
+Please withdraw to safe location at least 50km away.
+&lt;/echo&gt;</pre>
+
+<p>Generate a shell script by echoing to a file.  Note the use of a double <q>$</q> symbol to stop
+Ant filtering out the single <q>$</q> during variable expansion.</p>
+<pre>&lt;echo file="runner.csh" append="false"&gt;#\!/bin/tcsh
+java-1.3.1 -mx1024m ${project.entrypoint} $$*
+&lt;/echo&gt;</pre>
+
+<p>Depending on the log level Ant runs at, messages are print out or silently ignored:</p>
+<table>
+<tr>
+  <th scope="col">Ant command line</th>
+  <th scope="col"><kbd>-quiet</kbd>, <kbd>-q</kbd></th>
+  <th scope="col"><em>no switch</em></th>
+  <th scope="col"><kbd>-verbose</kbd>, <kbd>-v</kbd></th>
+  <th scope="col"><kbd>-debug</kbd>, <kbd>-d</kbd></th>
+</tr>
+<tr>
+  <td><pre>&lt;echo message="This is error message." level="error"/&gt;</pre></td>
+  <td>ok</td>
+  <td>ok</td>
+  <td>ok</td>
+  <td>ok</td>
+</tr>
+<tr>
+  <td><pre>&lt;echo message="This is warning message."/&gt;</pre></td>
+  <td>ok</td>
+  <td>ok</td>
+  <td>ok</td>
+  <td>ok</td>
+</tr>
+<tr>
+  <td><pre>&lt;echo message="This is warning message." level="warning"/&gt;</pre></td>
+  <td>ok</td>
+  <td>ok</td>
+  <td>ok</td>
+  <td>ok</td>
+</tr>
+<tr>
+  <td><pre>&lt;echo message="This is info message." level="info"/&gt;</pre></td>
+  <td>not logged</td>
+  <td>ok</td>
+  <td>ok</td>
+  <td>ok</td>
+</tr>
+<tr>
+  <td><pre>&lt;echo message="This is verbose message." level="verbose"/&gt;</pre></td>
+  <td>not logged</td>
+  <td>not logged</td>
+  <td>ok</td>
+  <td>ok</td>
+</tr>
+<tr>
+  <td><pre>&lt;echo message="This is debug message." level="debug"/&gt;</pre></td>
+  <td>not logged</td>
+  <td>not logged</td>
+  <td>not logged</td>
+  <td>ok</td>
+</tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<!--
+   Licensed to the Apache Software Foundation (ASF) under one or more
+   contributor license agreements.  See the NOTICE file distributed with
+   this work for additional information regarding copyright ownership.
+   The ASF licenses this file to You under the Apache License, Version 2.0
+   (the "License"); you may not use this file except in compliance with
+   the License.  You may obtain a copy of the License at
+
+       https://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+-->
+<html lang="en">
+
+<head>
+<link rel="stylesheet" type="text/css" href="../stylesheets/style.css">
+<title>Typedef Task</title>
+</head>
+
+<body>
+
+<h2 id="typedef">Typedef</h2>
+<h3>Description</h3>
+<p>Adds a task or a data type definition to the current project such that this new type or task can
+be used in the current project.</p>
+<p>A Task is any class that extends <code class="code">org.apache.tools.ant.Task</code> or can be adapted
+as a Task using an adapter class.</p>
+<p>Data types are things like <a href="../using.html#path">paths</a>
+or <a href="../Types/fileset.html">filesets</a> that can be defined at the project level and
+referenced via their <var>id</var> attribute.  Custom data types usually need custom tasks to put
+them to good use.</p>
+<p>Two attributes are needed to make a definition: the name that identifies this data type uniquely,
+and the full name of the class (including its package name) that implements this type.</p>
+<p>You can also define a group of definitions at once using the file or resource attributes.  These
+attributes point to files in the format of Java property files or an xml format.</p>
+<p>For property files each line defines a single data type in the format:</p>
+<pre>typename=fully.qualified.java.classname</pre>
+<p>The xml format is described in the <a href="../Types/antlib.html">Antlib</a> section.</p>
+
+<p>If you are defining tasks or types that share the same classpath with
+multiple <code>taskdef</code> or <code>typedef</code> tasks, the corresponding classes will be
+loaded by different
+Java <a href="https://docs.oracle.com/javase/8/docs/api/java/lang/ClassLoader.html"
+target="_top">ClassLoaders</a>.  Two classes with the same name loaded via different ClassLoaders
+are not the same class from the point of view of JVM, they don't share static variables and
+instances of these classes can't access private methods or attributes of instances defined by "the
+other class" of the same name.  They don't even belong to the same Java package and can't access
+package private code, either.</p>
+
+<p>The best way to load several tasks/types that are supposed to cooperate with each other via
+shared Java code is to use the <var>resource</var> attribute and an <code>antlib</code> descriptor.
+If this is not possible, the second best option is to use the <var>loaderref</var> attribute and
+specify the same name for each and every <code>typedef</code>/<code>taskdef</code>&mdash;this way
+the classes will share the same <code>ClassLoader</code>.  Note that
+the <code>typedef</code>/<code>taskdef</code> tasks must use identical classpath definitions (this
+includes the order of path components) for the <var>loaderref</var> attribute to work.</p>
+
+<h3>Parameters</h3>
+<table class="attr">
+  <tr>
+    <th scope="col">Attribute</th>
+    <th scope="col">Description</th>
+    <th scope="col">Required</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>the name of the data type</td>
+    <td rowspan="2">Yes, unless <var>file</var> or <var>resource</var> attributes have been
+      specified.</td>
+  </tr>
+  <tr>
+    <td>classname</td>
+    <td class="left">the full class name implementing the data type</td>
+  </tr>
+  <tr>
+    <td>file</td>
+    <td>Name of the file to load definitions from.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>resource</td>
+    <td>Name of the resource to load definitions from.  If multiple resources by this name are found
+      along the classpath, and <var>format</var> is <q>properties</q>, the first resource will be
+      loaded; otherwise all such resources will be loaded.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>format</td>
+    <td>The format of the file or resource. The values are <q>properties</q>" or <q>xml</q>. If the
+      value is <q>properties</q> the file/resource is a property file contains name-classname
+      pairs. If the value is <q>xml</q>, the file/resource is an XML file/resource structured
+      according to <a href="../Types/antlib.html">Antlib</a>.  The default is <q>properties</q>
+      unless the file/resource name ends with <samp>.xml</samp>, in which case the <var>format</var>
+      attribute will have the value <q>xml</q>.  <em>Since Ant 1.6</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>classpath</td>
+    <td>the classpath to use when looking up <var>classname</var>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>classpathref</td>
+    <td>a reference to a classpath to use when looking up <var>classname</var>.</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>loaderRef</td>
+    <td>the name of the loader that is used to load the class, constructed from the specified
+      classpath. Use this to allow multiple tasks/types to be loaded with the same loader, so they
+      can call each other. <em>Since Ant 1.5</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>onerror</td>
+    <td>The action to take if there was a failure in defining the type. The values are <q>fail</q>:
+      cause a build exception; <q>report</q>: output a warning, but continue; <q>ignore</q>: do
+      nothing.  <em>Since Ant 1.6</em>, an additional value is <q>failall</q>: cause all behavior of
+      fail, as well as a build exception for the resource or file attribute if the resource or file
+      is not found.</td>
+    <td>No; default is <q>fail</q> (<em>since Ant 1.7</em>)</td>
+  </tr>
+  <tr>
+    <td>adapter</td>
+    <td>A class that is used to adapt the defined class to another interface/class. The adapter
+      class must implement the interface <code>org.apache.tools.ant.TypeAdapter</code>. The adapter
+      class will be used to wrap the defined class unless the defined class implements/extends the
+      class defined by the attribute <q>adaptto</q>.  If <q>adaptto</q> is not set, the defined
+      class will always be wrapped.  <em>Since Ant 1.6</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>adaptto</td>
+    <td>This attribute is used in conjunction with the adapter attribute.  If the defined class does
+      not implement/extend the interface/class specified by this attribute, the adaptor class will
+      be used to wrap the class. <em>Since Ant 1.6</em></td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td>uri</td>
+    <td>The uri that this definition should live in.  <em>Since Ant 1.6</em></td>
+    <td>No</td>
+  </tr>
+</table>
+<h3>Parameters specified as nested elements</h3>
+<h4>classpath</h4>
+<p><code>Typedef</code>'s <var>classpath</var> attribute is a <a href="../using.html#path">path-like
+structure</a> and can also be set via a nested <code>classpath</code> element.</p>
+
+<h3>Examples</h3>
+<p>The following fragment defines define a type called <code>urlset</code>.</p>
+<pre>&lt;typedef name="urlset" classname="com.mydomain.URLSet"/&gt;</pre>
+<p>The data type is now available to Ant. The class <code>com.mydomain.URLSet</code> implements this
+type.</p>
+
+<p>Assuming a class <code>org.acme.ant.RunnableAdapter</code> that
+extends <code class="code">Task</code> and
+implements <code class="code">org.apache.tools.ant.TypeAdapter</code>, and in
+the <code class="code">execute()</code> method invokes <code class="code">run()</code> on the
+proxied object, one may use a <code class="code">Runnable</code> class as an Ant task. The following
+fragment defines a task called <code>runclock</code>.</p>
+<pre>
+&lt;typedef name="runclock"
+         classname="com.acme.ant.RunClock"
+         adapter="org.acme.ant.RunnableAdapter"/&gt;</pre>
+
+<p>The following fragment shows the use of the <var>classpathref</var> and <var>loaderref</var> to
+load up two definitions.</p>
+<pre>
+&lt;path id="lib.path"&gt;
+    &lt;fileset dir="lib" includes="lib/*.jar"/&gt;
+&lt;/path&gt;
+
+&lt;typedef name="filter1"
+         classname="org.acme.filters.Filter1"
+         classpathref="lib.path"
+         loaderref="lib.path.loader"/&gt;
+&lt;typedef name="filter2"
+         classname="org.acme.filters.Filter2"
+         loaderref="lib.path.loader"/&gt;</pre>
+
+<p>If you want to load an antlib into a special XML namespace, the <var>uri</var> attribute is
+important:</p>
+<pre>
+&lt;project xmlns:antcontrib="antlib:net.sf.antcontrib"&gt;
+     &lt;taskdef uri="antlib:net.sf.antcontrib"
+              resource="net/sf/antcontrib/antlib.xml"
+              classpath="path/to/ant-contrib.jar"/&gt;</pre>
+
+<p>Here the namespace declaration <code>xmlns:antcontrib="antlib:net.sf.antcontrib"</code> allows
+tasks and types of the Ant-Contrib Antlib to be used with the <samp>antcontrib</samp> prefix
+like <code>&lt;antcontrib:if&gt;</code>.  The normal rules of XML namespaces apply and you can
+declare the prefix at any element to make it usable for the element it is declared on as well as all
+its child elements.</p>
+
+</body>
+</html>
