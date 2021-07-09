@@ -112,7 +112,7 @@ public class MDistribution extends X_GL_Distribution
 			if (distribution.getC_DocType_ID() != 0 && distribution.getC_DocType_ID() != docTypeId)
 				continue;
 			//	Optional Elements - "non-Any"
-			if (!distribution.isAnyOrg() && distribution.getAD_Org_ID() != orgId)
+			if (!distribution.isAnyOrg() && distribution.getOrg_ID() != orgId)
 				continue;
 			if (!distribution.isAnyAcct() && distribution.getAccount_ID() != accountId)
 				continue;
@@ -151,12 +151,12 @@ public class MDistribution extends X_GL_Distribution
 	/**
 	 * 	Get Distributions for Account
 	 *	@param ctx context
-	 *	@param Account_ID id
+	 *	@param accountId Account Id
 	 *	@return array of distributions
 	 */
-	public static List<MDistribution> get (Properties ctx, int Account_ID)
+	public static List<MDistribution> get (Properties ctx, int accountId)
 	{
-		Integer key = new Integer (Account_ID);
+		Integer key = accountId;
 		List<MDistribution> distributions = distributionCache.get(key);
 		if (distributions != null)
 			return distributions;
@@ -165,10 +165,11 @@ public class MDistribution extends X_GL_Distribution
 		List<MDistribution> list = new Query(ctx,I_GL_Distribution.Table_Name,whereClause,null)
 		.setClient_ID()
 		.setOnlyActiveRecords(true)
-		.setParameters(Account_ID)
+		.setParameters(accountId)
 		.list();
-		distributionCache.put(key, list);
-		return distributions;
+		if (list != null && list.size() > 0)
+			distributionCache.put(key, list);
+		return list;
 	}	//	get
 	
 	/**	Static Logger	*/
@@ -362,7 +363,7 @@ public class MDistribution extends X_GL_Distribution
 				continue;
 			
 			if (!distribution.isAnyOrg()
-					&& distribution.getAD_Org_ID() != orgId)
+					&& distribution.getOrg_ID() != orgId)
 				continue;
 			if (!distribution.isAnyAcct()
 					&& distribution.getAccount_ID() != accountId)

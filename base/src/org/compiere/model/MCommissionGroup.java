@@ -68,6 +68,7 @@ public class MCommissionGroup extends X_C_CommissionGroup {
 		List<MCommission> list = new Query(getCtx(), I_C_Commission.Table_Name, whereClauseFinal, get_TrxName())
 										.setParameters(getC_CommissionGroup_ID())
 										.setOrderBy(I_C_Commission.COLUMNNAME_C_BPartner_ID)
+										.setOnlyActiveRecords(true)
 										.list();
 		return list;
 	}

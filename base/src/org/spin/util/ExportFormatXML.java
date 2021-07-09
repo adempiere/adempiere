@@ -16,7 +16,12 @@
  *****************************************************************************/
 package org.spin.util;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -63,6 +68,22 @@ public class ExportFormatXML extends AbstractExportFormat {
 		return createXML(convertFile(file));
 	}
 	
+	@Override // with UTF-8 charset , @see https://github.com/adempiere/adempiere/issues/2701
+	public BufferedWriter convertFile(File file) {
+		Writer fileWriter = null;
+		FileOutputStream osf;
+		try {
+			fileWriter = new OutputStreamWriter(new FileOutputStream(file, false), "UTF-8");
+		} catch (FileNotFoundException | UnsupportedEncodingException e) {
+			log.log(Level.SEVERE, e.getLocalizedMessage());
+		}
+		//	Validate null
+		if(fileWriter == null) { 
+			return null;
+		}
+		return new BufferedWriter(fileWriter);
+	}
+
 	/**
 	 * 	Write XML to writer
 	 * 	@param writer writer

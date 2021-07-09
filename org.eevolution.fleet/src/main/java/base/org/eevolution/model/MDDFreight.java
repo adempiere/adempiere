@@ -139,7 +139,7 @@ public class MDDFreight extends X_DD_Freight implements DocAction, DocOptions {
         }
 
         //	Std Period open?
-        MPeriod.testPeriodOpen(getCtx(), getDateDoc(), MDocType.DOCBASETYPE_DistributionOrder, getAD_Org_ID());
+        MPeriod.testPeriodOpen(getCtx(), getDateDoc(), MDocType.DOCBASETYPE_FreightOrder, getAD_Org_ID());
 
         processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
         if (processMsg != null)

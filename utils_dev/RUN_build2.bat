@@ -10,39 +10,42 @@
 
 @if (%1) == () goto usage
 
-@Rem Set ant classpath
-@SET ANT_CLASSPATH=%CLASSPATH%;..\tools\lib\ant.jar;..\tools\lib\ant-launcher.jar;..\tools\lib\ant-swing.jar;..\tools\lib\ant-commons-net.jar;..\tools\lib\commons-net-1.4.0.jar
-@SET ANT_CLASSPATH=%ANT_CLASSPATH%;"%JAVA_HOME%\lib\tools.jar"
+@Rem Set classpath
+@SET ANT_HOME=..\tools\lib\ant\apache-ant-1.10.9
+@SET JAVA_CLASSPATH=%CLASSPATH%;%ANT_HOME%\lib\ant-launcher.jar;..\tools\lib\commons-net-1.4.0.jar
+@SET JAVA_CLASSPATH="%JAVA_CLASSPATH%";"%JAVA_HOME%\lib\tools.jar"
 
-@SET ANT_OPTS=-Xms128m -Xmx512m
+@SET JAVA_OPTS=-Xms128m -Xmx512m
 
-@echo Building ...
-@"%JAVA_HOME%\bin\java" %ANT_OPTS% -classpath %ANT_CLASSPATH% -Dant.home="." org.apache.tools.ant.Main %1
+@echo Cleanup ...
+@"%JAVA_HOME%\bin\java" %JAVA_OPTS% -classpath %JAVA_CLASSPATH% -Dant.home=%ANT_HOME% org.apache.tools.ant.launch.Launcher %1
 @IF ERRORLEVEL 1 goto ERROR
 
 @Echo Done ...
-@Pause
-@exit
+@GOTO DONE
 
 :usage
 @echo Usage:    %0 target
 @echo Examples: %0 complete
-@pause
-@exit
+@GOTO RETRY
 
 :javahome
 @echo JAVA_HOME is not set.
 @echo You may not be able to build Adempiere
 @echo Set JAVA_HOME to the directory of your local JDK.
-@pause
-@exit
+@goto DONE
 
 :jdk
 @echo "** Need full Java SDK **"
+@goto DONE
+
+:DONE
 @pause
 @exit
 
 :ERROR
-@Color fc
+@color FC
 
-@Pause
+:RETRY
+@pause
+@color

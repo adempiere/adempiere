@@ -34,8 +34,10 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -1345,14 +1347,7 @@ public abstract class PO
 					continue;
 				String colName = from.p_info.getColumnName(i1);
 				//  Ignore Standard Values
-				if (colName.startsWith("Created")
-					|| colName.startsWith("Updated")
-					|| colName.equals("IsActive")
-					|| colName.equals("AD_Client_ID")
-					|| colName.equals("AD_Org_ID")
-					|| colName.equals("Processing")
-					|| colName.equals("UUID")
-					)
+				if (M_Element.isReservedColumnName(colName))
 					;	//	ignore
 				else
 				{
@@ -2177,7 +2172,7 @@ public abstract class PO
 				log.warning("beforeSave failed - " + toString());
 				if (localTrx != null)
 				{
-					localTrx.rollback();
+					localTrx.rollback(true);
 					localTrx.close();
 					m_trxName = null;
 				}
@@ -2221,7 +2216,7 @@ public abstract class PO
 				log.saveError("Error", errorMsg);
 				if (localTrx != null)
 				{
-					localTrx.rollback();
+					localTrx.rollback(true);
 					m_trxName = null;
 				}
 				else
@@ -2237,14 +2232,14 @@ public abstract class PO
 				if (b)
 				{
 					if (localTrx != null)
-						return localTrx.commit();
+						return localTrx.commit(true);
 					else
 						return b;
 				}
 				else
 				{
 					if (localTrx != null)
-						localTrx.rollback();
+						localTrx.rollback(true);
 					else
 						trx.rollback(savepoint);
 					return b;
@@ -2256,23 +2251,23 @@ public abstract class PO
 				if (b)
 				{
 					if (localTrx != null)
-						return localTrx.commit();
+						return localTrx.commit(true);
 					else
 						return b;
 				}
 				else
 				{
 					if (localTrx != null)
-						localTrx.rollback();
+						localTrx.rollback(true);
 					else
 						trx.rollback(savepoint);
 					return b;
 				}
 			}
 		}
-		catch (SQLException e)
+		catch (Exception e)
 		{
-			log.log(Level.WARNING, "afterSave - " + toString(), e);
+			log.saveError("Error", e);
 			if (localTrx != null)
 			{
 				localTrx.rollback();
@@ -2287,25 +2282,20 @@ public abstract class PO
 			}
 			return false;
 		}
-		finally
-		{
-			if (localTrx != null)
-			{
-				localTrx.close();
-				m_trxName = null;
-			}
-			else
-			{
-				if (savepoint != null)
-				{
-					try {
+		finally {
+			try {
+				if (localTrx != null) {
+					localTrx.close();
+					m_trxName = null;
+				} else {
+					if (savepoint != null) {
 						trx.releaseSavepoint(savepoint);
-					} catch (SQLException e) {
-						e.printStackTrace();
 					}
+					savepoint = null;
+					trx = null;
 				}
-				savepoint = null;
-				trx = null;
+			} catch (SQLException e) {
+				log.saveError("Error", e);
 			}
 		}
 	}	//	save
@@ -2520,7 +2510,7 @@ public abstract class PO
 			}
 		}
 		//	Change Log
-		MSession session = MSession.get (p_ctx, false);
+		MSession session = MSession.get (p_ctx, false, !p_info.getTableName().equals(I_AD_Session.Table_Name));
 		if (session == null)
 			log.fine("No Session found");
 		// log migration
@@ -2627,6 +2617,7 @@ public abstract class PO
 				&& !p_info.isEncrypted(i)		//	not encrypted
 				&& !p_info.isVirtualColumn(i)	//	no virtual column
 				&& !"Password".equals(columnName)
+				&& !p_info.getTableName().equals(I_AD_Session.Table_Name)
 				)
 			{
 				Object oldV = m_oldValues[i];
@@ -2786,7 +2777,7 @@ public abstract class PO
 		columnName = I_AD_Element.COLUMNNAME_UUID;
 		if (p_info.getColumnIndex(columnName) != -1) {
 			String value = get_ValueAsString(columnName);
-			if (value == null || value.length() == 0) {
+			if (Util.isEmpty(value) || (!isDirectLoad && !isReplication())) {
 				value = DB.getUUID(m_trxName);
 				set_ValueNoCheck(columnName, value);
 			}
@@ -2795,7 +2786,7 @@ public abstract class PO
 		lobReset();
 
 		//	Change Log
-		MSession session = MSession.get (p_ctx, false);
+		MSession session = MSession.get (p_ctx, false, !p_info.getTableName().equals(I_AD_Session.Table_Name));
 		if (session == null)
 			log.fine("No Session found");
 		// log migration
@@ -2883,6 +2874,7 @@ public abstract class PO
 				&& !p_info.isEncrypted(i)		//	not encrypted
 				&& !p_info.isVirtualColumn(i)	//	no virtual column
 				&& !"Password".equals(columnName)
+				&& !p_info.getTableName().equals(I_AD_Session.Table_Name)
 				&& (insertLog.equalsIgnoreCase("Y")
 						|| (insertLog.equalsIgnoreCase("K") && p_info.getColumn(i).IsKey))
 				)
@@ -3149,7 +3141,7 @@ public abstract class PO
 			if (success)
 			{
 
-				MSession session = MSession.get (p_ctx, false);
+				MSession session = MSession.get (p_ctx, false, !p_info.getTableName().equals(I_AD_Session.Table_Name));
 				if (session == null)
 					log.fine("No Session found");
 				else if ( Ini.isPropertyBool(Ini.P_LOGMIGRATIONSCRIPT) )
@@ -3170,6 +3162,7 @@ public abstract class PO
 								&& !p_info.isEncrypted(i)		//	not encrypted
 								&& !p_info.isVirtualColumn(i)	//	no virtual column
 								&& !"Password".equals(p_info.getColumnName(i))
+								&& !p_info.getTableName().equals(I_AD_Session.Table_Name)
 								)
 							{
 								// change log on delete
@@ -3605,24 +3598,38 @@ public abstract class PO
 	 */
 	private boolean insertTreeNode() {	
 		int tableId = get_Table_ID();
+		String whereClause = null;
 		if (!MTree.hasTree(tableId))
 			return false;
 		//	Get Node Table Name
-		String treeTableName = MTree.getNodeTableName(tableId);
+		AtomicReference<String> treeTableName = new AtomicReference<>();
 		int elementId = 0;
 		if (tableId == X_C_ElementValue.Table_ID) {
 			Integer ii = (Integer)get_Value("C_Element_ID");
-			if (ii != null)
+			if (ii != null) {
 				elementId = ii.intValue();
+				whereClause = "C_Element_ID = " + elementId;
+				MElement element = MElement.get(getCtx(), elementId, get_TrxName());
+				Optional.ofNullable(element.getTree()).ifPresent(tree ->{
+					treeTableName.set(MTree.getNodeTableName(tree.getTreeType()));
+				});
+			}
 		}
+		
+		if (treeTableName.get()==null)
+			treeTableName.set(MTree.getNodeTableName(tableId));
+		
 		int m_AD_Tree_ID = MTree.getDefaultTreeIdFromTableId(getAD_Client_ID(), tableId, elementId);
 		//	Valid tree
 		if(m_AD_Tree_ID < 0)
 			return false;
 		
+		if (treeTableName.get()==null)
+			return false;
+		
 		MTree tree = new MTree(getCtx(), m_AD_Tree_ID, get_TrxName());
 		
-		PO treeNode = MTable.get(getCtx(), treeTableName).getPO(0, get_TrxName());
+		PO treeNode = MTable.get(getCtx(), treeTableName.get()).getPO(0, get_TrxName());
 		treeNode.setAD_Client_ID(getAD_Client_ID());
 		treeNode.setAD_Org_ID(0);
 		treeNode.setIsActive(true);
@@ -3633,12 +3640,13 @@ public abstract class PO
 		if (tree.getParent_Column_ID()>0) {
 			parentColumnIDforTree = MColumn.get(getCtx(), tree.getParent_Column_ID());
 			treeNode.set_CustomColumn("Parent_ID", get_ValueAsInt(parentColumnIDforTree.getColumnName()));
-		}
+		}else
+			treeNode.set_CustomColumn("Parent_ID", 0);
 		
 		if (treeNode.get_ValueAsInt("Parent_ID") == 0 
 				&& tree.getAD_ColumnSortOrder_ID() > 0) {
 			MColumn columnSortforTree = MColumn.get(getCtx(), tree.getAD_ColumnSortOrder_ID());
-			treeNode.set_CustomColumn("Parent_ID", getParentFromSort(columnSortforTree.getColumnName(), get_ValueAsString(columnSortforTree.getColumnName())));
+			treeNode.set_CustomColumn("Parent_ID", getParentFromSort(columnSortforTree.getColumnName(), get_ValueAsString(columnSortforTree.getColumnName()), whereClause));
 			if (parentColumnIDforTree!= null) {
 				if (treeNode.get_ValueAsInt("Parent_ID")!=get_ValueAsInt(parentColumnIDforTree.getColumnName())) {
 					set_Value(parentColumnIDforTree.getColumnName(), treeNode.get_ValueAsInt("Parent_ID"));
@@ -3647,8 +3655,7 @@ public abstract class PO
 			}
 			
 		}
-		else
-			treeNode.set_CustomColumn("Parent_ID", 0);
+		
 		
 		treeNode.set_CustomColumn("SeqNo", 999);
 		treeNode.saveEx();
@@ -3666,21 +3673,33 @@ public abstract class PO
 		if (!MTree.hasTree(tableId))
 			return false;
 		//	Get Node Table Name
-		String treeTableName = MTree.getNodeTableName(tableId);
+		AtomicReference<String> treeTableName = new AtomicReference<>();
 		int elementId = 0;
 		if (tableId == X_C_ElementValue.Table_ID) {
 			Integer ii = (Integer)get_Value("C_Element_ID");
-			if (ii != null)
+			if (ii != null) {
 				elementId = ii.intValue();
+				MElement element = MElement.get(getCtx(), elementId, get_TrxName());
+				Optional.ofNullable(element.getTree()).ifPresent(tree ->{
+					treeTableName.set(MTree.getNodeTableName(tree.getTreeType()));
+				});
+			}
 		}
+		
+		if (treeTableName.get()==null)
+			treeTableName.set(MTree.getNodeTableName(tableId));
+		
 		int m_AD_Tree_ID = MTree.getDefaultTreeIdFromTableId(getAD_Client_ID(), tableId, elementId);
 		//	Valid tree
 		if(m_AD_Tree_ID < 0)
 			return false;
 		
+		if (treeTableName.get()==null)
+			return false;
+		
 		MTree tree = new MTree(getCtx(), m_AD_Tree_ID, get_TrxName());
 		
-		PO treeNode = MTable.get(getCtx(), treeTableName).getPO("Node_ID = " + get_ID(), get_TrxName());
+		PO treeNode = MTable.get(getCtx(), treeTableName.get()).getPO("Node_ID = " + get_ID(), get_TrxName());
 		if (treeNode!=null) {
 			if (tree.getParent_Column_ID() > 0) {
 				MColumn columnIDforTree = MColumn.get(getCtx(), tree.getParent_Column_ID());
@@ -4351,10 +4370,12 @@ public abstract class PO
 	 * @param sortValue
 	 * @return
 	 */
-	private int getParentFromSort(String sortColumn ,String sortValue) {
+	private int getParentFromSort(String sortColumn ,String sortValue, String whereClause) {
 		Integer parentID = 0 ;
+		whereClause = Optional.ofNullable(whereClause + " AND ").orElse("");
+		
 		if (sortValue!=null) {
-			List<PO> parentPO = new Query(getCtx(), get_TableName(), "IsSummary = 'Y' ", get_TrxName()).setOrderBy(sortColumn).list();
+			List<PO> parentPO = new Query(getCtx(), get_TableName(), whereClause + " IsSummary = 'Y' ", get_TrxName()).setOrderBy(sortColumn).list();
 			HashMap<String,Integer> currentValues = new HashMap<String,Integer>();
 			
 			for (PO po : parentPO) 

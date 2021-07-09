@@ -91,7 +91,7 @@ public class WDocumentStatusPanel extends Panel implements EventListener
 	 */
 	public void onEvent(Event e) throws Exception 
 	{
-		if (e.getTarget() instanceof WPerformanceIndicator)
+		if (e.getTarget() instanceof WDocumentStatusIndicator)
 		{
 			WDocumentStatusIndicator pi = (WDocumentStatusIndicator) e.getTarget();
 			log.info(pi.toString());

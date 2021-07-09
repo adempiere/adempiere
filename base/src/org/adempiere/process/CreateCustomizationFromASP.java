@@ -83,13 +83,17 @@ public class CreateCustomizationFromASP extends CreateCustomizationFromASPAbstra
 		}
 			
 		// Navigate the menu and add every non-summary node
-		if (node != null && node.isSummary()) {
-			Enumeration<?> en = node.preorderEnumeration();
-			while (en.hasMoreElements()) {
-				MTreeNode nn = (MTreeNode)en.nextElement();
-				if (!nn.isSummary()) {
-					addNodeToLevel(nn);
+		if (node != null) {
+			if(node.isSummary()) {
+				Enumeration<?> en = node.preorderEnumeration();
+				while (en.hasMoreElements()) {
+					MTreeNode childNode = (MTreeNode)en.nextElement();
+					if (!childNode.isSummary()) {
+						addNodeToLevel(childNode);
+					}
 				}
+			} else {
+				addNodeToLevel(node);
 			}
 		}
 		if (noWindows > 0)

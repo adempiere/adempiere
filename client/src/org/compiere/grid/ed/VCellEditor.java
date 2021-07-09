@@ -36,6 +36,7 @@ import javax.swing.border.Border;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.table.TableCellEditor;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.plaf.AdempiereEditorAbstractUI;
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.grid.VTable;
@@ -176,6 +177,9 @@ public final class VCellEditor extends AbstractCellEditor
 		}
 		
 		editorComponent = m_editor.getComponent();
+		if (editorComponent == null)
+		    throw new AdempiereException("Can't find editorComponent for " + m_editor);
+		
 		if (editorComponent instanceof CComboBox)
 		{
 			((JComponent) editorComponent).putClientProperty("JComboBox.isTableCellEditor", true);
@@ -183,7 +187,7 @@ public final class VCellEditor extends AbstractCellEditor
 		}
 		
 		// Remove the default enter behaviour to allow the table action (move down) to happen
-		editorComponent.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "none");
+	    editorComponent.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "none");
 				
 				
 	}   //  createEditor

@@ -27,6 +27,7 @@ import org.compiere.apps.search.InfoPAttribute;
 import org.compiere.apps.search.InfoProduct;
 import org.compiere.model.GridTab;
 import org.compiere.model.MAttributeSet;
+import org.compiere.model.MColumn;
 import org.compiere.model.MPAttributeLookup;
 import org.compiere.model.MProduct;
 import org.compiere.swing.CButton;
@@ -90,30 +91,39 @@ public class VPAttribute extends VEditorAbstract
 	 *	Create Product Attribute Set Instance Editor.
 	 *  @param mandatory mandatory
 	 *  @param isReadOnly read only
-	 *  @param isUpdateable updateable
+	 *  @param isUpdated isUpdated
 	 * 	@param WindowNo WindowNo
 	 * 	@param lookup Model Product Attribute
 	 */
-	public VPAttribute (boolean mandatory, boolean isReadOnly, boolean isUpdateable, 
-		int WindowNo, MPAttributeLookup lookup, boolean searchOnly)
+	public VPAttribute (boolean mandatory,
+						boolean isReadOnly,
+						boolean isUpdated,
+						int WindowNo,
+						MPAttributeLookup lookup,
+						boolean searchOnly)
 	{
-		this(null, mandatory, isReadOnly, isUpdateable, WindowNo, lookup, searchOnly);
+		this(null, mandatory, isReadOnly, isUpdated, WindowNo, lookup, searchOnly);
 	}
-	
+
 	/**
 	 *	Create Product Attribute Set Instance Editor.
 	 *  @param gridTab
 	 *  @param mandatory mandatory
 	 *  @param isReadOnly read only
-	 *  @param isUpdateable updateable
-	 * 	@param WindowNo WindowNo
+	 *  @param isUpdatable updatable
+	 * 	@param windowNo WindowNo
 	 * 	@param lookup Model Product Attribute
 	 *  @param searchOnly True if only used to search instances
 	 */
-	public VPAttribute (GridTab gridTab, boolean mandatory, boolean isReadOnly, boolean isUpdateable, 
-		int WindowNo, MPAttributeLookup lookup, boolean searchOnly)
+	public VPAttribute (GridTab gridTab,
+						boolean mandatory,
+						boolean isReadOnly,
+						boolean isUpdatable,
+						int windowNo,
+						MPAttributeLookup lookup,
+						boolean searchOnly)
 	{
-		this(gridTab, mandatory, isReadOnly, isUpdateable, WindowNo, lookup, searchOnly, false);
+		this(gridTab, mandatory, isReadOnly, isUpdatable, windowNo, lookup, searchOnly, false);
 	}
 	
 	/**
@@ -121,41 +131,41 @@ public class VPAttribute extends VEditorAbstract
 	 *  @param gridTab
 	 *  @param mandatory mandatory
 	 *  @param isReadOnly read only
-	 *  @param isUpdateable updateable
+	 *  @param isUpdateable updatable
 	 * 	@param WindowNo WindowNo
 	 * 	@param lookup Model Product Attribute
 	 *  @param searchOnly True if only used to search instances
 	 *  @param tableCellEditor true if the editor will be used in a table cell
 	 */
 	public VPAttribute (GridTab gridTab, boolean mandatory, boolean isReadOnly, boolean isUpdateable, 
-		int WindowNo, MPAttributeLookup lookup, boolean searchOnly, boolean tableCellEditor)
+		int windowNo, MPAttributeLookup lookup, boolean searchOnly, boolean tableCellEditor)
 	{
 		super("M_AttributeSetInstance_ID", mandatory, isReadOnly, isUpdateable, tableCellEditor);
 		
 		textEditor = (CTextField) ((AdempierePAttributeUI) getUI()).getEditorComponent();
 		button = ((AdempierePAttributeUI) getUI()).getButtonComponent();
 		
-		textEditor.setName("VPAttribute Text - " + m_columnName);
-		button.setName("VPAttribute Button - " + m_columnName);
+		textEditor.setName("VPAttribute Text - " + columnName);
+		button.setName("VPAttribute Button - " + columnName);
 		
 		this.gridTab = gridTab; // added for processCallout
-		windowNo = WindowNo;
+		this.windowNo = windowNo;
 		attributeLookup = lookup;
-		c_bpartner_id = Env.getContextAsInt(Env.getCtx(), WindowNo, "C_BPartner_ID");
+		partnerId = Env.getContextAsInt(Env.getCtx(), windowNo, "C_BPartner_ID");
 		isSearchOnly = searchOnly;
 		
 		menuEditor = new CMenuItem(Msg.getMsg(Env.getCtx(), "PAttribute"), Env.getImageIcon("Zoom16.gif"));
 		menuEditor.addActionListener(this);
 		popupMenu.add(menuEditor);
-		
+
 	}	//	VPAttribute
 	
 	
 	/** Attribute Where Clause  */
-	private String pAttributeWhere = null;
+	private String attributeWhere = null;
 	
 	/** Column Name - fixed		*/
-	private String				m_columnName = "M_AttributeSetInstance_ID";
+	private String 				columnName = "M_AttributeSetInstance_ID";
 	
 	/** The Attribute Instance	*/
 	private MPAttributeLookup	attributeLookup;
@@ -168,14 +178,14 @@ public class VPAttribute extends VEditorAbstract
 	private CMenuItem 			menuEditor;
 
 	private int					windowNo;
-	private int					c_bpartner_id;
+	private int					partnerId;
 	private boolean 			isSearchOnly;
 	
 	/** The Grid Tab * */
 	private GridTab gridTab; // added for processCallout
 	
 	/**	Calling Window Info				*/
-	private int					ad_column_id = 0;
+	private int					columnId = 0;
 	
 	private String oldWhere = "";
 	
@@ -192,7 +202,7 @@ public class VPAttribute extends VEditorAbstract
 			currentValue = NO_INSTANCE;  // Set to zero, not null as would normally be expected. This is an artifact of 
 										 // FIFO/LIFO tracking using AttributeSetInstances.  
 			textEditor.setText("");
-			pAttributeWhere = "";
+			attributeWhere = "";
 			return "";
 		}
 		
@@ -215,7 +225,7 @@ public class VPAttribute extends VEditorAbstract
 		// The text can be long.  Use the tooltip to help display the info.
 		textEditor.setToolTipText(textEditor.getText());
 		
-		pAttributeWhere = "EXISTS (SELECT * FROM M_Storage s "
+		attributeWhere = "EXISTS (SELECT * FROM M_Storage s "
 				+ "WHERE s.M_AttributeSetInstance_ID=" + currentValue
 				+ " AND s.M_Product_ID=p.M_Product_ID)";
 		
@@ -238,7 +248,7 @@ public class VPAttribute extends VEditorAbstract
 	public String getAttributeWhere()
 	{
 		
-		return pAttributeWhere;
+		return attributeWhere;
 	
 	}	//	getAttributeWhere()
 
@@ -279,42 +289,43 @@ public class VPAttribute extends VEditorAbstract
 		button.setEnabled (false);
 		//		
 		int oldValueInt = currentValue == null ? 0 : currentValue.intValue ();
-		int M_AttributeSetInstance_ID = oldValueInt;
-		int M_Product_ID = 0;
-		int M_ProductBOM_ID = 0;
+		int attributeSetInstanceId = oldValueInt;
+		int productId= 0;
+		int productBOMId = 0;
 		if (gridTab != null) {
-			M_Product_ID = Env.getContextAsInt (Env.getCtx (), windowNo, gridTab.getTabNo(), "M_Product_ID");
-			M_ProductBOM_ID = Env.getContextAsInt (Env.getCtx (), windowNo, gridTab.getTabNo(), "M_ProductBOM_ID");
+		    productId = Env.getContextAsInt (Env.getCtx (), windowNo, gridTab.getTabNo(), "M_Product_ID");
+		    productBOMId = Env.getContextAsInt (Env.getCtx (), windowNo, gridTab.getTabNo(), "M_ProductBOM_ID");
 		} else {
-			M_Product_ID = Env.getContextAsInt (Env.getCtx (), windowNo, "M_Product_ID");
-			M_ProductBOM_ID = Env.getContextAsInt (Env.getCtx (), windowNo, "M_ProductBOM_ID");
+		    productId = Env.getContextAsInt (Env.getCtx (), windowNo, "M_Product_ID");
+		    productBOMId = Env.getContextAsInt (Env.getCtx (), windowNo, "M_ProductBOM_ID");
 		}
-		int M_Locator_ID = -1;
+		int locatorId = -1;
 
-		log.config("M_Product_ID=" + M_Product_ID + "/" + M_ProductBOM_ID
-			+ ",M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID
-			+ ", AD_Column_ID=" + ad_column_id);
+		log.config("M_Product_ID=" + productId + "/" + productBOMId
+			+ ",M_AttributeSetInstance_ID=" + attributeSetInstanceId
+			+ ", AD_Column_ID=" + columnId);
 		
 		//	M_Product.M_AttributeSetInstance_ID = 8418
-		boolean productWindow = ad_column_id == 8418;		//	HARDCODED
+		boolean productWindow = columnId == 8418;		//	HARDCODED
 		
 		//	Exclude ability to enter ASI
 		boolean exclude = false;
 		
-		if (M_Product_ID != 0)
+		if (productId != 0)
 		{
-			MProduct product = MProduct.get(Env.getCtx(), M_Product_ID);
-			int M_AttributeSet_ID = product.getM_AttributeSet_ID();
-			if (M_AttributeSet_ID != 0)
+			MProduct product = MProduct.get(Env.getCtx(), productId);
+			int attributeSetId = product.getM_AttributeSet_ID();
+			if (attributeSetId != 0)
 			{
-				MAttributeSet mas = MAttributeSet.get(Env.getCtx(), M_AttributeSet_ID);
-				exclude = mas.excludeEntry(ad_column_id, Env.isSOTrx(Env.getCtx(), windowNo));
+				int tableId = MColumn.getTable_ID(Env.getCtx(), columnId, null);
+				MAttributeSet mas = MAttributeSet.get(Env.getCtx(), attributeSetId);
+				exclude = mas.excludeEntry(tableId, Env.isSOTrx(Env.getCtx(), this.windowNo));
 			}
 		}
 		
 		boolean changed = false;
-		if (M_ProductBOM_ID != 0)	//	Use BOM Component
-			M_Product_ID = M_ProductBOM_ID;
+		if (productBOMId != 0)	//	Use BOM Component
+			productId = productBOMId;
 
 		//  If the VPAttribute component is in a dialog, use the search
 		//  This should only happen when the editor is in the InfoProduct window
@@ -335,7 +346,8 @@ public class VPAttribute extends VEditorAbstract
 			//  provides a where clause that is used to find products with
 			//  matching attribute set instances.
 			InfoPAttribute ia = new InfoPAttribute((CDialog) me);
-			pAttributeWhere = ia.getWhereClause();
+			attributeWhere = ia.getWhereClause();
+			String oldText = textEditor.getText();
 			textEditor.setText(ia.getDisplay());
 			// The text can be long.  Use the tooltip to help display the info.
 			textEditor.setToolTipText(textEditor.getText());
@@ -347,26 +359,25 @@ public class VPAttribute extends VEditorAbstract
 			//  TODO not the generally correct way to fire an event
 			((InfoProduct) me).actionPerformed(ae);
 		}
-		else if (!productWindow && (M_Product_ID == 0 || exclude))
+		else if (!productWindow && (productId == 0 || exclude))
 		{
 			//  If this isn't the product window and there is no product
 			//  or the field is excluded for this window
 			//  then there can be no attribute set instance
 			changed = true;
-			M_AttributeSetInstance_ID = 0;
+				attributeSetInstanceId = 0;
 		}
 		else
 		{
-			// Product window or some other window with a product
 			VPAttributeDialog vad = new VPAttributeDialog (SwingEnv.getFrame (this), 
-				M_AttributeSetInstance_ID, M_Product_ID, c_bpartner_id,
-				productWindow, ad_column_id, windowNo, isReadWrite());
+				attributeSetInstanceId, productId, this.partnerId,
+				productWindow,this.columnId, this.windowNo, isReadWrite());
 			if (vad.isChanged())
 			{
-				M_AttributeSetInstance_ID = vad.getM_AttributeSetInstance_ID();
+			    attributeSetInstanceId = vad.getM_AttributeSetInstance_ID();
 				if (!productWindow && vad.getM_Locator_ID() > 0)
 				{
-					M_Locator_ID = vad.getM_Locator_ID();
+						locatorId = vad.getM_Locator_ID();
 				}
 				changed = true;
 			}
@@ -375,19 +386,19 @@ public class VPAttribute extends VEditorAbstract
 		//	Set Value
 		if (changed)
 		{
-			log.finest("Changed M_AttributeSetInstance_ID=" + M_AttributeSetInstance_ID);
+			log.finest("Changed M_AttributeSetInstance_ID=" + attributeSetInstanceId);
 			
-			setDisplayBasedOnValue(M_AttributeSetInstance_ID);
+			setDisplayBasedOnValue(attributeSetInstanceId);
 				
 			//  TODO - this is the wrong place for this - it is model info
 			//	The locator ID may relate to another ASI on the tab so 
 			//  setting the value should be in a controller that is 
 			//  aware of the tab and other fields
 			//  Possibly move to the callout?
-			if (gridTab != null && M_Locator_ID > 0)
+			if (gridTab != null && locatorId > 0)
 			{
-				log.finest("Change M_Locator_ID="+M_Locator_ID);
-				gridTab.setValue("M_Locator_ID", M_Locator_ID);
+				log.finest("Change M_Locator_ID="+locatorId);
+				gridTab.setValue("M_Locator_ID", locatorId);
 			}
 			
 		}	//	change
@@ -402,9 +413,9 @@ public class VPAttribute extends VEditorAbstract
 	@Override
 	public boolean hasChanged() {
 
-		if(pAttributeWhere != null)
+		if(attributeWhere != null)
 			if(oldWhere != null)
-				return !oldWhere.equals(pAttributeWhere);
+				return !oldWhere.equals(attributeWhere);
 			else
 				return true;
 		else  // m_pAttributeWhere is null
@@ -419,7 +430,7 @@ public class VPAttribute extends VEditorAbstract
 	public void set_oldValue() {
 		
 		super.set_oldValue();
-		oldWhere = pAttributeWhere;
+		oldWhere = attributeWhere;
 	
 	}
 	
@@ -433,4 +444,4 @@ public class VPAttribute extends VEditorAbstract
 		actionButton();
 	}
 
-}	//	VPAttribute
+}

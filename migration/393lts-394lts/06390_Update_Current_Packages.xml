@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Update Current Packages" ReleaseNo="3.9.4" SeqNo="6390">
+    <Step DBType="ALL" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>UPDATE M_Package SET DateDoc = Created, C_DocType_ID = (SELECT C_DocType_ID FROM C_DocType WHERE DocBaseType = 'MMK' AND AD_Client_ID = M_Package.AD_Client_ID), Processed = 'Y', DocStatus = 'CO';
+UPDATE M_PackageLine SET Processed = 'Y';</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>

@@ -20,12 +20,10 @@ package org.spin.process;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.compiere.model.I_AD_Attachment;
 import org.compiere.model.MArchive;
 import org.compiere.model.MAttachment;
 import org.compiere.model.MClientInfo;
 import org.compiere.model.MImage;
-import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
@@ -68,11 +66,12 @@ public class SetupFileStorageSystem extends SetupFileStorageSystemAbstract {
 	 */
 	private void migrateAttachment() {
 		addLog("@AD_Attachment_ID@");
-		new Query(getCtx(), I_AD_Attachment.Table_Name, null, get_TrxName())
-				.setClient_ID()
-				.<MAttachment>list()
-				.forEach(attachment -> {
-					Arrays.asList(attachment.getEntries())
+		KeyNamePair [] attachmentArray = DB.getKeyNamePairs("SELECT AD_Attachment_ID, UUID "
+				+ "FROM AD_Attachment "
+				+ "WHERE AD_Client_ID = ?", false, getAD_Client_ID());
+		Arrays.asList(attachmentArray)
+				.forEach(attachmentPair -> {
+					Arrays.asList(new MAttachment(getCtx(), attachmentPair.getKey(), get_TrxName()).getEntries())
 						.forEach(entry -> {
 							Trx.run(new TrxRunnable() {
 								public void run(String trxName) {
@@ -80,15 +79,16 @@ public class SetupFileStorageSystem extends SetupFileStorageSystemAbstract {
 									int attachmentReferenceId = DB.getSQLValue(get_TrxName(), "SELECT AD_AttachmentReference_ID "
 											+ "FROM AD_AttachmentReference "
 											+ "WHERE AD_Attachment_ID = ? "
-											+ "AND FileName = ?", attachment.getAD_Attachment_ID(), entry.getName());
+											+ "AND FileName = ? "
+											+ "AND FileHandler_ID = ?", attachmentPair.getKey(), entry.getName(), getAppSupportId());
 									if(attachmentReferenceId < 0) {
 										try {
 											AttachmentUtil.getInstance(getCtx())
-												.withFileHandlerId(getFileHandlerId())
-												.withAttachmentId(attachment.getAD_Attachment_ID())
+												.withData(entry.getData())
+												.withAttachmentId(attachmentPair.getKey())
 												.withFileName(entry.getName())
 												.withDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"))
-												.withData(entry.getData())
+												.withFileHandlerId(getFileHandlerId())
 												.saveAttachment();
 											addLog(entry.getName() + ": @Ok@");
 											processed.incrementAndGet();
@@ -115,7 +115,7 @@ public class SetupFileStorageSystem extends SetupFileStorageSystemAbstract {
 		KeyNamePair [] imageArray = DB.getKeyNamePairs("SELECT AD_Image_ID, Name "
 				+ "FROM AD_Image "
 				+ "WHERE AD_Client_ID = ? "
-				+ "AND NOT EXISTS(SELECT 1 FROM AD_AttachmentReference ar WHERE ar.AD_Image_ID = AD_Image.AD_Image_ID)", false, getAD_Client_ID());
+				+ "AND NOT EXISTS(SELECT 1 FROM AD_AttachmentReference ar WHERE ar.AD_Image_ID = AD_Image.AD_Image_ID AND ar.FileHandler_ID = ?)", false, getAD_Client_ID(), getAppSupportId());
 		Arrays.asList(imageArray)
 			.forEach(imagePair -> {
 				Trx.run(new TrxRunnable() {
@@ -123,11 +123,11 @@ public class SetupFileStorageSystem extends SetupFileStorageSystemAbstract {
 						MImage image = MImage.get(getCtx(), imagePair.getKey());
 						try {
 							AttachmentUtil.getInstance(getCtx())
-								.withFileHandlerId(getFileHandlerId())
+								.withData(image.getData())
 								.withImageId(image.getAD_Image_ID())
 								.withFileName(image.getName())
 								.withDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"))
-								.withData(image.getData())
+								.withFileHandlerId(getFileHandlerId())
 								.saveAttachment();
 							addLog(image.getName() + ": @Ok@");
 							processed.incrementAndGet();
@@ -149,7 +149,7 @@ public class SetupFileStorageSystem extends SetupFileStorageSystemAbstract {
 		KeyNamePair [] archiveArray = DB.getKeyNamePairs("SELECT AD_Archive_ID, Name "
 				+ "FROM AD_Archive "
 				+ "WHERE AD_Client_ID = ? "
-				+ "AND NOT EXISTS(SELECT 1 FROM AD_AttachmentReference ar WHERE ar.AD_Archive_ID = AD_Archive.AD_Archive_ID)", false, getAD_Client_ID());
+				+ "AND NOT EXISTS(SELECT 1 FROM AD_AttachmentReference ar WHERE ar.AD_Archive_ID = AD_Archive.AD_Archive_ID AND ar.FileHandler_ID = ?)", false, getAD_Client_ID(), getAppSupportId());
 		Arrays.asList(archiveArray)
 			.forEach(archivePair -> {
 				Trx.run(new TrxRunnable() {
@@ -158,11 +158,11 @@ public class SetupFileStorageSystem extends SetupFileStorageSystemAbstract {
 						try {
 							String fileName = archive.getName() + ".pdf";
 							AttachmentUtil.getInstance(getCtx())
-								.withFileHandlerId(getFileHandlerId())
+								.withData(archive.getBinaryData())
 								.withArchiveId(archive.getAD_Archive_ID())
 								.withFileName(fileName)
 								.withDescription(Msg.getMsg(getCtx(), "CreatedFromSetupExternalStorage"))
-								.withData(archive.getBinaryData())
+								.withFileHandlerId(getFileHandlerId())
 								.saveAttachment();
 							addLog(fileName + ": @Ok@");
 							processed.incrementAndGet();

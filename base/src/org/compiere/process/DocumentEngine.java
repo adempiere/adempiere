@@ -16,19 +16,23 @@
  *****************************************************************************/
 package org.compiere.process;
 
+import static java.util.Objects.requireNonNull;
+
 import java.io.File;
+import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import org.adempiere.exceptions.AdempiereException;
 import org.compiere.acct.Doc;
 import org.compiere.db.CConnection;
 import org.compiere.interfaces.Server;
+import org.compiere.model.I_C_Order;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAllocationHdr;
 import org.compiere.model.MBankStatement;
@@ -41,7 +45,6 @@ import org.compiere.model.MInvoice;
 import org.compiere.model.MJournal;
 import org.compiere.model.MJournalBatch;
 import org.compiere.model.MMovement;
-import org.compiere.model.MOrder;
 import org.compiere.model.MPayment;
 import org.compiere.model.MProduction;
 import org.compiere.model.MProductionBatch;
@@ -49,10 +52,12 @@ import org.compiere.model.MRequisition;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
 import org.compiere.model.PO;
+import org.compiere.util.AdempiereUserError;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.eevolution.model.I_DD_Order;
+import org.eevolution.model.I_HR_Process;
 import org.eevolution.model.I_PP_Cost_Collector;
 import org.eevolution.model.I_PP_Order;
 
@@ -67,46 +72,71 @@ import org.eevolution.model.I_PP_Order;
  */
 public class DocumentEngine implements DocAction
 {
+    /**
+     *  Doc Engine - basic constructor
+     */
+    public DocumentEngine ()
+    {
+        document = null;
+        docStatus = null;
+    }
+
 	/**
 	 * 	Doc Engine (Drafted)
 	 * 	@param po document
 	 */
 	public DocumentEngine (DocAction po)
 	{
-		this (po, STATUS_Drafted);
-	}	//	DocActionEngine
+		this (po, null);
+	}
 	
 	/**
 	 * 	Doc Engine
 	 * 	@param po document
-	 * 	@param docStatus initial document status
+	 * 	@param status initial document status
 	 */
-	public DocumentEngine (DocAction po, String docStatus)
+	public DocumentEngine (DocAction po, String status)
 	{
-		m_document = po;
-		if (docStatus != null)
-			m_status = docStatus;
-	}	//	DocActionEngine
+		document = requireNonNull(po);
+		docStatus = Optional.ofNullable(status).orElse(STATUS_Drafted);
+		ctx = document.getCtx();
+		clientId = Env.getAD_Client_ID(ctx);
+		tableId = document.get_Table_ID();
+		recordId = document.get_ID();
+		trxName = document.get_TrxName();
+		
+	}	
 
 	/** Persistent Document 	*/
-	private DocAction	m_document;
+	private DocAction	document;
 	/** Document Status			*/
-	private String		m_status = STATUS_Drafted;
+	private String		docStatus = STATUS_Drafted;
 	/**	Process Message 		*/
-	private String		m_message = null;
+	private String		message = null;
 	/** Actual Doc Action		*/
-	private String		m_action = null;
+	private String		action = null;
+    protected Properties ctx = null;
+    protected Integer clientId = null;
+    protected Integer tableId = null;
+    protected Integer recordId = null;
+    protected String trxName = null;
 	
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(DocumentEngine.class);
 	
-	/**
+	protected CLogger getLogger() {
+    
+        return log;
+    
+    }
+
+    /**
 	 * 	Get Doc Status
 	 *	@return document status
 	 */
 	public String getDocStatus()
 	{
-		return m_status;
+		return docStatus;
 	}	//	getDocStatus
 
 	/**
@@ -116,7 +146,8 @@ public class DocumentEngine implements DocAction
 	 */
 	public void setDocStatus(String ignored)
 	{
-	}	//	setDocStatus
+	    // Ignored as docStatus is not set directly
+	}
 
 	/**
 	 * 	Document is Drafted
@@ -124,8 +155,8 @@ public class DocumentEngine implements DocAction
 	 */
 	public boolean isDrafted()
 	{
-		return STATUS_Drafted.equals(m_status);
-	}	//	isDrafted
+		return STATUS_Drafted.equals(docStatus);
+	}
 	
 	/**
 	 * 	Document is Invalid
@@ -133,8 +164,8 @@ public class DocumentEngine implements DocAction
 	 */
 	public boolean isInvalid()
 	{
-		return STATUS_Invalid.equals(m_status);
-	}	//	isInvalid
+		return STATUS_Invalid.equals(docStatus);
+	}
 	
 	/**
 	 * 	Document is In Progress
@@ -142,8 +173,8 @@ public class DocumentEngine implements DocAction
 	 */
 	public boolean isInProgress()
 	{
-		return STATUS_InProgress.equals(m_status);
-	}	//	isInProgress
+		return STATUS_InProgress.equals(docStatus);
+	}
 	
 	/**
 	 * 	Document is Approved
@@ -151,8 +182,8 @@ public class DocumentEngine implements DocAction
 	 */
 	public boolean isApproved()
 	{
-		return STATUS_Approved.equals(m_status);
-	}	//	isApproved
+		return STATUS_Approved.equals(docStatus);
+	}
 	
 	/**
 	 * 	Document is Not Approved
@@ -160,8 +191,8 @@ public class DocumentEngine implements DocAction
 	 */
 	public boolean isNotApproved()
 	{
-		return STATUS_NotApproved.equals(m_status);
-	}	//	isNotApproved
+		return STATUS_NotApproved.equals(docStatus);
+	}
 	
 	/**
 	 * 	Document is Waiting Payment or Confirmation
@@ -169,9 +200,9 @@ public class DocumentEngine implements DocAction
 	 */
 	public boolean isWaiting()
 	{
-		return STATUS_WaitingPayment.equals(m_status)
-			|| STATUS_WaitingConfirmation.equals(m_status);
-	}	//	isWaitingPayment
+		return STATUS_WaitingPayment.equals(docStatus)
+			|| STATUS_WaitingConfirmation.equals(docStatus);
+	}
 	
 	/**
 	 * 	Document is Completed
@@ -179,8 +210,8 @@ public class DocumentEngine implements DocAction
 	 */
 	public boolean isCompleted()
 	{
-		return STATUS_Completed.equals(m_status);
-	}	//	isCompleted
+		return STATUS_Completed.equals(docStatus);
+	}
 	
 	/**
 	 * 	Document is Reversed
@@ -188,8 +219,8 @@ public class DocumentEngine implements DocAction
 	 */
 	public boolean isReversed()
 	{
-		return STATUS_Reversed.equals(m_status);
-	}	//	isReversed
+		return STATUS_Reversed.equals(docStatus);
+	}
 	
 	/**
 	 * 	Document is Closed
@@ -197,8 +228,8 @@ public class DocumentEngine implements DocAction
 	 */
 	public boolean isClosed()
 	{
-		return STATUS_Closed.equals(m_status);
-	}	//	isClosed
+		return STATUS_Closed.equals(docStatus);
+	}
 	
 	/**
 	 * 	Document is Voided
@@ -206,8 +237,8 @@ public class DocumentEngine implements DocAction
 	 */
 	public boolean isVoided()
 	{
-		return STATUS_Voided.equals(m_status);
-	}	//	isVoided
+		return STATUS_Voided.equals(docStatus);
+	}
 	
 	/**
 	 * 	Document Status is Unknown
@@ -215,11 +246,11 @@ public class DocumentEngine implements DocAction
 	 */
 	public boolean isUnknown()
 	{
-		return STATUS_Unknown.equals(m_status) || 
+		return STATUS_Unknown.equals(docStatus) || 
 			!(isDrafted() || isInvalid() || isInProgress() || isNotApproved()
 				|| isApproved() || isWaiting() || isCompleted()
 				|| isReversed() || isClosed() || isVoided() );
-	}	//	isUnknown
+	}
 
 	/**
 	 * 	Process actual document.
@@ -231,21 +262,21 @@ public class DocumentEngine implements DocAction
 	 */
 	public boolean processIt (String processAction, String docAction)
 	{
-		m_message = null;
-		m_action = null;
+		message = null;
+		action = null;
 		//	Std User Workflows - see MWFNodeNext.isValidFor
 		
 		if (isValidAction(processAction))	//	WF Selection first
-			m_action = processAction;
+			action = processAction;
 		//
 		else if (isValidAction(docAction))	//	User Selection second
-			m_action = docAction;
+			action = docAction;
 		//	Nothing to do
 		else if (processAction.equals(ACTION_None)
 			|| docAction.equals(ACTION_None))
 		{
-			if (m_document != null)
-				m_document.get_Logger().info ("**** No Action (Prc=" + processAction + "/Doc=" + docAction + ") " + m_document);
+			if (document != null)
+				document.get_Logger().info ("**** No Action (Prc=" + processAction + "/Doc=" + docAction + ") " + document);
 			return true;	
 		}
 		else
@@ -253,100 +284,151 @@ public class DocumentEngine implements DocAction
 			throw new IllegalStateException("Status=" + getDocStatus() 
 				+ " - Invalid Actions: Process="  + processAction + ", Doc=" + docAction);
 		}
-		if (m_document != null)
-			m_document.get_Logger().info ("**** Action=" + m_action + " (Prc=" + processAction + "/Doc=" + docAction + ") " + m_document);
-		boolean success = processIt (m_action);
-		if (m_document != null)
-			m_document.get_Logger().fine("**** Action=" + m_action + " - Success=" + success);
+		if (document != null)
+			document.get_Logger().info ("**** Action=" + action + " (Prc=" + processAction + "/Doc=" + docAction + ") " + document);
+		boolean success = processIt (action);
+		if (document != null)
+			document.get_Logger().fine("**** Action=" + action + " - Success=" + success);
 		return success;
 	}	//	process
 	
 	/**
 	 * 	Process actual document - do not call directly.
 	 * 	Calls the individual actions which call the document action
-	 *	@param action document action
+	 *	@param docAction document action
 	 *	@return true if performed
 	 */
-	public boolean processIt (String action)
+	public boolean processIt (String docAction)
 	{
-		m_message = null;
-		m_action = action;
+		message = null;
+		action = docAction;
 		//
-		if (ACTION_Unlock.equals(m_action))
+		if (ACTION_Unlock.equals(action))
 			return unlockIt();
-		if (ACTION_Invalidate.equals(m_action))
+		if (ACTION_Invalidate.equals(action))
 			return invalidateIt();
-		if (ACTION_Prepare.equals(m_action))
+		if (ACTION_Prepare.equals(action))
 			return STATUS_InProgress.equals(prepareIt());
-		if (ACTION_Approve.equals(m_action))
+		if (ACTION_Approve.equals(action))
 			return approveIt();
-		if (ACTION_Reject.equals(m_action))
+		if (ACTION_Reject.equals(action))
 			return rejectIt();
-		if (ACTION_Complete.equals(m_action) || ACTION_WaitComplete.equals(m_action))
-		{
-			String status = null;
-			if (isDrafted() || isInvalid())		//	prepare if not prepared yet
-			{
-				status = prepareIt();
-				if (!STATUS_InProgress.equals(status))
-					return false;
-			}
-			status = completeIt();
-			boolean ok =   STATUS_Completed.equals(status)
-						|| STATUS_InProgress.equals(status)
-						|| STATUS_WaitingPayment.equals(status)
-						|| STATUS_WaitingConfirmation.equals(status);
-			if (m_document != null && ok)
-			{
-				// PostProcess documents when invoice or inout (this is to postprocess the generated MatchPO and MatchInv if any)
-				ArrayList<PO> docsPostProcess = new ArrayList<PO>();
-				if (m_document instanceof MInvoice || m_document instanceof MInOut) {
-					if (m_document instanceof MInvoice) {
-						docsPostProcess  = ((MInvoice) m_document).getDocsPostProcess();
-					}
-					if (m_document instanceof MInOut) {
-						docsPostProcess  = ((MInOut) m_document).getDocsPostProcess();
-					}
-				}
-				if (m_document instanceof PO && docsPostProcess.size() > 0) {
-					// Process (this is to update the ProcessedOn flag with a timestamp after the original document)
-					for (PO docafter : docsPostProcess) {
-						docafter.setProcessedOn("Processed", true, false);
-						docafter.saveEx();
-					}
-				}
-				
-				if (STATUS_Completed.equals(status) && MClient.isClientAccountingImmediate())
-				{
-					m_document.saveEx();
-						postIt();
-					
-					if (m_document instanceof PO && docsPostProcess.size() > 0) {
-						for (PO docafter : docsPostProcess) {
-							@SuppressWarnings("unused")
-							String ignoreError = DocumentEngine.postImmediate(docafter.getCtx(), docafter.getAD_Client_ID(), docafter.get_Table_ID(), docafter.get_ID(), true, docafter.get_TrxName());
-						}
-					}
-				}
-
-			}
-			return ok;
-		}
-		if (ACTION_ReActivate.equals(m_action))
+		if (ACTION_Complete.equals(action) 
+		        || ACTION_WaitComplete.equals(action))
+			return prepareThenCompleteIt();
+		if (ACTION_ReActivate.equals(action))
 			return reActivateIt();
-		if (ACTION_Reverse_Accrual.equals(m_action))
+		if (ACTION_Reverse_Accrual.equals(action))
 			return reverseAccrualIt();
-		if (ACTION_Reverse_Correct.equals(m_action))
+		if (ACTION_Reverse_Correct.equals(action))
 			return reverseCorrectIt();
-		if (ACTION_Close.equals(m_action))
+		if (ACTION_Close.equals(action))
 			return closeIt();
-		if (ACTION_Void.equals(m_action))
+		if (ACTION_Void.equals(action))
 			return voidIt();
-		if (ACTION_Post.equals(m_action))
+		if (ACTION_Post.equals(action))
 			return postIt();
 		//
 		return false;
 	}	//	processDocument
+
+    private boolean prepareThenCompleteIt() {
+
+        String status = null;
+        if (isDrafted() || isInvalid())		//	prepare if not prepared yet
+        {
+        	status = prepareIt();
+        	if (!STATUS_InProgress.equals(status))
+        		return false;
+        }
+        status = completeIt();
+        boolean ok =   STATUS_Completed.equals(status)
+        			|| STATUS_InProgress.equals(status)
+        			|| STATUS_WaitingPayment.equals(status)
+        			|| STATUS_WaitingConfirmation.equals(status);
+        if (document != null && ok)
+        {
+            
+        	ArrayList<PO> docsPostProcess = postProcessDocument();
+        	postTheDocAndAnyPostProcessDocs(status, docsPostProcess);
+
+        }
+        return ok;
+
+    }
+
+    protected void postTheDocAndAnyPostProcessDocs(String status,
+            ArrayList<PO> docsPostProcess) {
+
+        if (STATUS_Completed.equals(status) && isClientAccountingImmediate())
+        {
+        	document.saveEx();
+        		postIt();
+        	
+        	if (!docsPostProcess.isEmpty()) {
+        		for (PO docafter : docsPostProcess) {
+        			getNewDocumentEngine()
+        			    .withContext(docafter.getCtx())
+        			    .withAD_Client_ID(docafter.getAD_Client_ID())
+        			    .withAD_Table_ID(docafter.get_Table_ID())
+        			    .withRecord_ID(docafter.get_ID())
+        			    .withTrxName(docafter.get_TrxName())
+        			    .postImmediate(true); // Force
+        		}
+        	}
+        }
+
+    }
+
+    protected static DocumentEngine get() {
+
+        return new DocumentEngine();
+
+    }
+
+    protected static DocumentEngine get(DocAction doc, String docStatus) {
+    
+        return new DocumentEngine(doc, docStatus);
+    
+    }
+
+    protected DocumentEngine getNewDocumentEngine() {
+
+        return new DocumentEngine();
+
+    }
+
+    boolean isClientAccountingImmediate() {
+
+        return MClient.isClientAccountingImmediate();
+
+    }
+
+    protected ArrayList<PO> postProcessDocument() {
+
+        ArrayList<PO> docsPostProcess = new ArrayList<>();
+        
+        //  PostProcess documents when invoice or inout (this is to postprocess 
+        //  the generated MatchPO and MatchInv if any)
+
+    	if (document instanceof MInvoice) {
+    		docsPostProcess  = ((MInvoice) document).getDocsPostProcess();
+    	}
+    	if (document instanceof MInOut) {
+    		docsPostProcess  = ((MInOut) document).getDocsPostProcess();
+    	}
+        if (!docsPostProcess.isEmpty()) {
+        	// Process (this is to update the ProcessedOn flag with 
+            // a timestamp after the original document to ensure
+            // postings are completed in order)
+        	for (PO docafter : docsPostProcess) {
+        		docafter.setProcessedOn("Processed", true, false);
+        		docafter.saveEx();
+        	}
+        }
+        return docsPostProcess;
+
+    }
 	
 	/**
 	 * 	Unlock Document.
@@ -358,17 +440,17 @@ public class DocumentEngine implements DocAction
 	{
 		if (!isValidAction(ACTION_Unlock))
 			return false;
-		if (m_document != null)
+		if (document != null)
 		{
-			if (m_document.unlockIt())
+			if (document.unlockIt())
 			{
-				m_status = STATUS_Drafted;
-				m_document.setDocStatus(m_status);
+				docStatus = STATUS_Drafted;
+				document.setDocStatus(docStatus);
 				return true;
 			}
 			return false;
 		}
-		m_status = STATUS_Drafted;
+		docStatus = STATUS_Drafted;
 		return true;
 	}	//	unlockIt
 	
@@ -382,17 +464,17 @@ public class DocumentEngine implements DocAction
 	{
 		if (!isValidAction(ACTION_Invalidate))
 			return false;
-		if (m_document != null)
+		if (document != null)
 		{
-			if (m_document.invalidateIt())
+			if (document.invalidateIt())
 			{
-				m_status = STATUS_Invalid;
-				m_document.setDocStatus(m_status);
+				docStatus = STATUS_Invalid;
+				document.setDocStatus(docStatus);
 				return true;
 			}
 			return false;
 		}
-		m_status = STATUS_Invalid;
+		docStatus = STATUS_Invalid;
 		return true;
 	}	//	invalidateIt
 	
@@ -405,13 +487,13 @@ public class DocumentEngine implements DocAction
 	public String prepareIt()
 	{
 		if (!isValidAction(ACTION_Prepare))
-			return m_status;
-		if (m_document != null)
+			return docStatus;
+		if (document != null)
 		{
-			m_status = m_document.prepareIt();
-			m_document.setDocStatus(m_status);
+			docStatus = document.prepareIt();
+			document.setDocStatus(docStatus);
 		}
-		return m_status;
+		return docStatus;
 	}	//	processIt
 
 	/**
@@ -424,17 +506,17 @@ public class DocumentEngine implements DocAction
 	{
 		if (!isValidAction(ACTION_Approve))
 			return false;
-		if (m_document != null)
+		if (document != null)
 		{
-			if (m_document.approveIt())
+			if (document.approveIt())
 			{
-				m_status = STATUS_Approved;
-				m_document.setDocStatus(m_status);
+				docStatus = STATUS_Approved;
+				document.setDocStatus(docStatus);
 				return true;
 			}
 			return false;
 		}
-		m_status = STATUS_Approved;
+		docStatus = STATUS_Approved;
 		return true;
 	}	//	approveIt
 	
@@ -448,17 +530,17 @@ public class DocumentEngine implements DocAction
 	{
 		if (!isValidAction(ACTION_Reject))
 			return false;
-		if (m_document != null)
+		if (document != null)
 		{
-			if (m_document.rejectIt())
+			if (document.rejectIt())
 			{
-				m_status = STATUS_NotApproved;
-				m_document.setDocStatus(m_status);
+				docStatus = STATUS_NotApproved;
+				document.setDocStatus(docStatus);
 				return true;
 			}
 			return false;
 		}
-		m_status = STATUS_NotApproved;
+		docStatus = STATUS_NotApproved;
 		return true;
 	}	//	rejectIt
 	
@@ -471,13 +553,13 @@ public class DocumentEngine implements DocAction
 	public String completeIt()
 	{
 		if (!isValidAction(ACTION_Complete))
-			return m_status;
-		if (m_document != null)
+			return docStatus;
+		if (document != null)
 		{
-			m_status = m_document.completeIt();
-			m_document.setDocStatus(m_status);
+			docStatus = document.completeIt();
+			document.setDocStatus(docStatus);
 		}
-		return m_status;
+		return docStatus;
 	}	//	completeIt
 	
 	/**
@@ -488,10 +570,10 @@ public class DocumentEngine implements DocAction
 	public boolean postIt()
 	{
 		if (!isValidAction(ACTION_Post) 
-			|| m_document == null)
+			|| document == null)
 			return false;
-
-		String error = DocumentEngine.postImmediate(Env.getCtx(), m_document.getAD_Client_ID(), m_document.get_Table_ID(), m_document.get_ID(), true, m_document.get_TrxName());
+		boolean force = true;
+		String error = postImmediate(force);
 		return (error == null);
 	}	//	postIt
 	
@@ -505,17 +587,17 @@ public class DocumentEngine implements DocAction
 	{
 		if (!isValidAction(ACTION_Void))
 			return false;
-		if (m_document != null)
+		if (document != null)
 		{
-			if (m_document.voidIt())
+			if (document.voidIt())
 			{
-				m_status = STATUS_Voided;
-				m_document.setDocStatus(m_status);
+				docStatus = STATUS_Voided;
+				document.setDocStatus(docStatus);
 				return true;
 			}
 			return false;
 		}
-		m_status = STATUS_Voided;
+		docStatus = STATUS_Voided;
 		return true;
 	}	//	voidIt
 	
@@ -527,22 +609,22 @@ public class DocumentEngine implements DocAction
 	 */
 	public boolean closeIt()
 	{
-		if (m_document != null 	//	orders can be closed any time
-			&& m_document.get_Table_ID() == MOrder.Table_ID)
+		if (document != null 	//	orders can be closed at any time
+			&& document.get_Table_ID() == I_C_Order.Table_ID)
 			;
 		else if (!isValidAction(ACTION_Close))
 			return false;
-		if (m_document != null)
+		if (document != null)
 		{
-			if (m_document.closeIt())
+			if (document.closeIt())
 			{
-				m_status = STATUS_Closed;
-				m_document.setDocStatus(m_status);
+				docStatus = STATUS_Closed;
+				document.setDocStatus(docStatus);
 				return true;
 			}
 			return false;
 		}
-		m_status = STATUS_Closed;
+		docStatus = STATUS_Closed;
 		return true;
 	}	//	closeIt
 	
@@ -556,17 +638,17 @@ public class DocumentEngine implements DocAction
 	{
 		if (!isValidAction(ACTION_Reverse_Correct))
 			return false;
-		if (m_document != null)
+		if (document != null)
 		{
-			if (m_document.reverseCorrectIt())
+			if (document.reverseCorrectIt())
 			{
-				m_status = STATUS_Reversed;
-				m_document.setDocStatus(m_status);
+				docStatus = STATUS_Reversed;
+				document.setDocStatus(docStatus);
 				return true;
 			}
 			return false;
 		}
-		m_status = STATUS_Reversed;
+		docStatus = STATUS_Reversed;
 		return true;
 	}	//	reverseCorrectIt
 	
@@ -580,17 +662,17 @@ public class DocumentEngine implements DocAction
 	{
 		if (!isValidAction(ACTION_Reverse_Accrual))
 			return false;
-		if (m_document != null)
+		if (document != null)
 		{
-			if (m_document.reverseAccrualIt())
+			if (document.reverseAccrualIt())
 			{
-				m_status = STATUS_Reversed;
-				m_document.setDocStatus(m_status);
+				docStatus = STATUS_Reversed;
+				document.setDocStatus(docStatus);
 				return true;
 			}
 			return false;
 		}
-		m_status = STATUS_Reversed;
+		docStatus = STATUS_Reversed;
 		return true;
 	}	//	reverseAccrualIt
 	
@@ -604,17 +686,17 @@ public class DocumentEngine implements DocAction
 	{
 		if (!isValidAction(ACTION_ReActivate))
 			return false;
-		if (m_document != null)
+		if (document != null)
 		{
-			if (m_document.reActivateIt())
+			if (document.reActivateIt())
 			{
-				m_status = STATUS_InProgress;
-				m_document.setDocStatus(m_status);
+				docStatus = STATUS_InProgress;
+				document.setDocStatus(docStatus);
 				return true;
 			}
 			return false;
 		}
-		m_status = STATUS_InProgress;
+		docStatus = STATUS_InProgress;
 		return true;
 	}	//	reActivateIt
 
@@ -625,7 +707,7 @@ public class DocumentEngine implements DocAction
 	 */
 	void setStatus (String newStatus)
 	{
-		m_status = newStatus;
+		docStatus = newStatus;
 	}	//	setStatus
 
 	
@@ -692,7 +774,7 @@ public class DocumentEngine implements DocAction
 	 */
 	public String getProcessMsg ()
 	{
-		return m_message;
+		return message;
 	}	//	getProcessMsg
 	
 	/**
@@ -701,12 +783,12 @@ public class DocumentEngine implements DocAction
 	 */
 	public void setProcessMsg (String msg)
 	{
-		m_message = msg;
+		message = msg;
 	}	//	setProcessMsg
 	
 	
 	/**	Document Exception Message		*/
-	private static String EXCEPTION_MSG = "Document Engine is no Document"; 
+	private static final String EXCEPTION_MSG = "Document Engine is not a Document"; 
 	
 	/*************************************************************************
 	 * 	Get Summary
@@ -786,7 +868,7 @@ public class DocumentEngine implements DocAction
 	 */
 	public String getDocAction()
 	{
-		return m_action;
+		return action;
 	}
 
 	/**
@@ -802,7 +884,7 @@ public class DocumentEngine implements DocAction
 	 * 	Save Document
 	 *	@return throw exception
 	 */
-	public void saveEx() throws AdempiereException
+	public void saveEx()
 	{
 		throw new IllegalStateException(EXCEPTION_MSG);
 	}
@@ -813,8 +895,8 @@ public class DocumentEngine implements DocAction
 	 */
 	public Properties getCtx()
 	{
-		if (m_document != null)
-			return m_document.getCtx();
+		if (document != null)
+			return document.getCtx();
 		throw new IllegalStateException(EXCEPTION_MSG);
 	}	//	getCtx
 
@@ -824,8 +906,8 @@ public class DocumentEngine implements DocAction
 	 */
 	public int get_ID()
 	{
-		if (m_document != null)
-			return m_document.get_ID();
+		if (document != null)
+			return document.get_ID();
 		throw new IllegalStateException(EXCEPTION_MSG);
 	}	//	get_ID
 	
@@ -835,8 +917,8 @@ public class DocumentEngine implements DocAction
 	 */
 	public int get_Table_ID()
 	{
-		if (m_document != null)
-			return m_document.get_Table_ID();
+		if (document != null)
+			return document.get_Table_ID();
 		throw new IllegalStateException(EXCEPTION_MSG);
 	}	//	get_Table_ID
 	
@@ -846,8 +928,8 @@ public class DocumentEngine implements DocAction
 	 */
 	public CLogger get_Logger()
 	{
-		if (m_document != null)
-			return m_document.get_Logger();
+		if (document != null)
+			return document.get_Logger();
 		throw new IllegalStateException(EXCEPTION_MSG);
 	}	//	get_Logger
 
@@ -876,13 +958,14 @@ public class DocumentEngine implements DocAction
 	 * @param processing
 	 * @param orderType
 	 * @param isSOTrx
-	 * @param AD_Table_ID
+	 * @param tableId
 	 * @param docAction
 	 * @param options
 	 * @return Number of valid options
 	 */
 	public static int getValidActions(String docStatus, Object processing, 
-			String orderType, String isSOTrx, int AD_Table_ID, String[] docAction, String[] options)
+			String orderType, String isSOTrx, int tableId, String[] docAction, 
+			String[] options)
 	{
 		if (options == null)
 			throw new IllegalArgumentException("Option array parameter is null");
@@ -898,205 +981,217 @@ public class DocumentEngine implements DocAction
 			if (!locked && processing instanceof Boolean)
 				locked = ((Boolean)processing).booleanValue();
 			if (locked)
-				options[index++] = DocumentEngine.ACTION_Unlock;
+				options[index++] = ACTION_Unlock;
 		}
 
 		//	Approval required           ..  NA
-		if (docStatus.equals(DocumentEngine.STATUS_NotApproved))
+		if (docStatus.equals(STATUS_NotApproved))
 		{
-			options[index++] = DocumentEngine.ACTION_Prepare;
-			options[index++] = DocumentEngine.ACTION_Void;
+			options[index++] = ACTION_Prepare;
+			options[index++] = ACTION_Void;
 		}
 		//	Draft/Invalid				..  DR/IN
-		else if (docStatus.equals(DocumentEngine.STATUS_Drafted)
-			|| docStatus.equals(DocumentEngine.STATUS_Invalid))
+		else if (docStatus.equals(STATUS_Drafted)
+			|| docStatus.equals(STATUS_Invalid))
 		{
-			options[index++] = DocumentEngine.ACTION_Complete;
-			options[index++] = DocumentEngine.ACTION_Prepare;
-			options[index++] = DocumentEngine.ACTION_Void;
+			options[index++] = ACTION_Complete;
+			options[index++] = ACTION_Prepare;
+			options[index++] = ACTION_Void;
 		}
 		//	In Process                  ..  IP
-		else if (docStatus.equals(DocumentEngine.STATUS_InProgress)
-			|| docStatus.equals(DocumentEngine.STATUS_Approved))
+		else if (docStatus.equals(STATUS_InProgress)
+			|| docStatus.equals(STATUS_Approved))
 		{
-			options[index++] = DocumentEngine.ACTION_Complete;
-			options[index++] = DocumentEngine.ACTION_Void;
+			options[index++] = ACTION_Complete;
+			options[index++] = ACTION_Void;
 		}
 		//	Complete                    ..  CO
-		else if (docStatus.equals(DocumentEngine.STATUS_Completed))
+		else if (docStatus.equals(STATUS_Completed))
 		{
-			options[index++] = DocumentEngine.ACTION_Close;
+			options[index++] = ACTION_Close;
 		}
 		//	Waiting Payment
-		else if (docStatus.equals(DocumentEngine.STATUS_WaitingPayment)
-			|| docStatus.equals(DocumentEngine.STATUS_WaitingConfirmation))
+		else if (docStatus.equals(STATUS_WaitingPayment)
+			|| docStatus.equals(STATUS_WaitingConfirmation))
 		{
-			options[index++] = DocumentEngine.ACTION_Void;
-			options[index++] = DocumentEngine.ACTION_Prepare;
+			options[index++] = ACTION_Void;
+			options[index++] = ACTION_Prepare;
 		}
 		//	Closed, Voided, REversed    ..  CL/VO/RE
-		else if (docStatus.equals(DocumentEngine.STATUS_Closed) 
-			|| docStatus.equals(DocumentEngine.STATUS_Voided) 
-			|| docStatus.equals(DocumentEngine.STATUS_Reversed))
+		else if (docStatus.equals(STATUS_Closed) 
+			|| docStatus.equals(STATUS_Voided) 
+			|| docStatus.equals(STATUS_Reversed))
 			return 0;
 
 		/********************
 		 *  Order
 		 */
-		if (AD_Table_ID == MOrder.Table_ID)
+		if (tableId == I_C_Order.Table_ID)
 		{
 			//	Draft                       ..  DR/IP/IN
-			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
-				|| docStatus.equals(DocumentEngine.STATUS_InProgress)
-				|| docStatus.equals(DocumentEngine.STATUS_Invalid))
+			if (docStatus.equals(STATUS_Drafted)
+				|| docStatus.equals(STATUS_InProgress)
+				|| docStatus.equals(STATUS_Invalid))
 			{
-				options[index++] = DocumentEngine.ACTION_Prepare;
-				options[index++] = DocumentEngine.ACTION_Close;
+				options[index++] = ACTION_Prepare;
+				options[index++] = ACTION_Close;
 				//	Draft Sales Order Quote/Proposal - Process
 				if ("Y".equals(isSOTrx)
 					&& ("OB".equals(orderType) || "ON".equals(orderType)))
-					docAction[0] = DocumentEngine.ACTION_Prepare;
+					docAction[0] = ACTION_Prepare;
 			}
 			//	Complete                    ..  CO
-			else if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			else if (docStatus.equals(STATUS_Completed))
 			{
-				options[index++] = DocumentEngine.ACTION_Void;
-				options[index++] = DocumentEngine.ACTION_ReActivate;
+				options[index++] = ACTION_Void;
+				options[index++] = ACTION_ReActivate;
 			}
-			else if (docStatus.equals(DocumentEngine.STATUS_WaitingPayment))
+			else if (docStatus.equals(STATUS_WaitingPayment))
 			{
-				options[index++] = DocumentEngine.ACTION_ReActivate;
-				options[index++] = DocumentEngine.ACTION_Close;
+				options[index++] = ACTION_ReActivate;
+				options[index++] = ACTION_Close;
 			}
 		}
 		
-		else if (AD_Table_ID == MRequisition.Table_ID)
-		{
-			//	Prepare
-				options[index++] = DocumentEngine.ACTION_Prepare;
+		else if (tableId == MRequisition.Table_ID) {
+			//	Draft                       ..  DR/IP/IN
+			if (docStatus.equals(STATUS_Drafted)
+				|| docStatus.equals(STATUS_InProgress)
+				|| docStatus.equals(STATUS_Invalid)) {
+				options[index++] = ACTION_Prepare;
+				options[index++] = ACTION_Close;
+			}
+			//	Complete                    ..  CO
+			else if (docStatus.equals(STATUS_Completed)) {
+				options[index++] = ACTION_Void;
+				options[index++] = ACTION_ReActivate;
+			} else if (docStatus.equals(STATUS_WaitingPayment)) {
+				options[index++] = ACTION_ReActivate;
+				options[index++] = ACTION_Close;
+			}
 
 		}
 		
 		/********************
 		 *  Shipment
 		 */
-		else if (AD_Table_ID == MInOut.Table_ID)
+		else if (tableId == MInOut.Table_ID)
 		{
 			//	Complete                    ..  CO
-			if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			if (docStatus.equals(STATUS_Completed))
 			{
-				options[index++] = DocumentEngine.ACTION_Void;
-				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
-				options[index++] = DocumentEngine.ACTION_Reverse_Accrual;
+				options[index++] = ACTION_Void;
+				options[index++] = ACTION_Reverse_Correct;
+				options[index++] = ACTION_Reverse_Accrual;
 			}
 		}
 		/********************
 		 *  Invoice
 		 */
-		else if (AD_Table_ID == MInvoice.Table_ID)
+		else if (tableId == MInvoice.Table_ID)
 		{
 			//	Complete                    ..  CO
-			if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			if (docStatus.equals(STATUS_Completed))
 			{
-				options[index++] = DocumentEngine.ACTION_Void;
-				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
-				options[index++] = DocumentEngine.ACTION_Reverse_Accrual;
+				options[index++] = ACTION_Void;
+				options[index++] = ACTION_Reverse_Correct;
+				options[index++] = ACTION_Reverse_Accrual;
 			}
 		}
 		/********************
 		 *  Payment
 		 */
-		else if (AD_Table_ID == MPayment.Table_ID)
+		else if (tableId == MPayment.Table_ID)
 		{
 			//	Complete                    ..  CO
-			if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			if (docStatus.equals(STATUS_Completed))
 			{
-				options[index++] = DocumentEngine.ACTION_Void;
-				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
-				options[index++] = DocumentEngine.ACTION_Reverse_Accrual;
+				options[index++] = ACTION_Void;
+				options[index++] = ACTION_Reverse_Correct;
+				options[index++] = ACTION_Reverse_Accrual;
 			}
 		}
 		/********************
 		 *  GL Journal
 		 */
-		else if (AD_Table_ID == MJournal.Table_ID || AD_Table_ID == MJournalBatch.Table_ID)
+		else if (tableId == MJournal.Table_ID || tableId == MJournalBatch.Table_ID)
 		{
 			//	Complete                    ..  CO
-			if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			if (docStatus.equals(STATUS_Completed))
 			{
-				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
-				options[index++] = DocumentEngine.ACTION_Reverse_Accrual;
-				options[index++] = DocumentEngine.ACTION_ReActivate;
+				options[index++] = ACTION_Reverse_Correct;
+				options[index++] = ACTION_Reverse_Accrual;
+				options[index++] = ACTION_ReActivate;
 			}
 		}
 		/********************
 		 *  Allocation
 		 */
-		else if (AD_Table_ID == MAllocationHdr.Table_ID)
+		else if (tableId == MAllocationHdr.Table_ID)
 		{
 			//	Complete                    ..  CO
-			if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			if (docStatus.equals(STATUS_Completed))
 			{
-				options[index++] = DocumentEngine.ACTION_Void;
-				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
-				options[index++] = DocumentEngine.ACTION_Reverse_Accrual;
+				options[index++] = ACTION_Void;
+				options[index++] = ACTION_Reverse_Correct;
+				options[index++] = ACTION_Reverse_Accrual;
 			}
 		}
 		//[ 1782412 ]
 		/********************
 		 *  Cash
 		 */
-		else if (AD_Table_ID == MCash.Table_ID)
+		else if (tableId == MCash.Table_ID)
 		{
 			//	Complete                    ..  CO
-			if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			if (docStatus.equals(STATUS_Completed))
 			{
-				options[index++] = DocumentEngine.ACTION_Void;
+				options[index++] = ACTION_Void;
 			}
 		}
 		/********************
 		 *  Bank Statement
 		 */
-		else if (AD_Table_ID == MBankStatement.Table_ID)
+		else if (tableId == MBankStatement.Table_ID)
 		{
 			//	Complete                    ..  CO
-			if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			if (docStatus.equals(STATUS_Completed))
 			{
-				options[index++] = DocumentEngine.ACTION_Void;
+				options[index++] = ACTION_Void;
 			}
 		}
 		/********************
 		 *  Inventory Movement, Physical Inventory
 		 */
-		else if (AD_Table_ID == MMovement.Table_ID
-			|| AD_Table_ID == MInventory.Table_ID)
+		else if (tableId == MMovement.Table_ID
+			|| tableId == MInventory.Table_ID)
 		{
 			//	Complete                    ..  CO
-			if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			if (docStatus.equals(STATUS_Completed))
 			{
-				options[index++] = DocumentEngine.ACTION_Void;
-				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
-				options[index++] = DocumentEngine.ACTION_Reverse_Accrual;
+				options[index++] = ACTION_Void;
+				options[index++] = ACTION_Reverse_Correct;
+				options[index++] = ACTION_Reverse_Accrual;
 			}
 		}
 		/********************
 		 *  Production
 		 */
-		else if (AD_Table_ID == MProduction.Table_ID)
+		else if (tableId == MProduction.Table_ID)
 		{
 			//	Draft                       ..  DR/IP/IN
-			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
-					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
-					|| docStatus.equals(DocumentEngine.STATUS_Invalid))
+			if (docStatus.equals(STATUS_Drafted)
+					|| docStatus.equals(STATUS_InProgress)
+					|| docStatus.equals(STATUS_Invalid))
 			{
-				options[index++] = DocumentEngine.ACTION_Prepare;
+				options[index++] = ACTION_Prepare;
 			}
 			//	Complete                    ..  CO
-			else if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			else if (docStatus.equals(STATUS_Completed))
 			{
-				options[index++] = DocumentEngine.ACTION_Void;
-				options[index++] = DocumentEngine.ACTION_Reverse_Correct;
-				options[index++] = DocumentEngine.ACTION_Reverse_Accrual;
+				options[index++] = ACTION_Void;
+				options[index++] = ACTION_Reverse_Correct;
+				options[index++] = ACTION_Reverse_Accrual;
 			}
 
 		}
@@ -1104,91 +1199,91 @@ public class DocumentEngine implements DocAction
 		/********************
 		 * Production Batch
 		 */
-		else if (AD_Table_ID == MProductionBatch.Table_ID)
+		else if (tableId == MProductionBatch.Table_ID)
 		{
 			// Complete .. CO
-			if (docStatus.equals(DocumentEngine.STATUS_Completed))
+			if (docStatus.equals(STATUS_Completed))
 			{
-				options[index++] = DocumentEngine.ACTION_Void;
+				options[index++] = ACTION_Void;
 			}
 		}
 
 		/********************
 		 *  Manufacturing Order
 		 */
-		else if (AD_Table_ID == I_PP_Order.Table_ID)
+		else if (tableId == I_PP_Order.Table_ID)
 		{
-			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
-					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
-					|| docStatus.equals(DocumentEngine.STATUS_Invalid))
+			if (docStatus.equals(STATUS_Drafted)
+					|| docStatus.equals(STATUS_InProgress)
+					|| docStatus.equals(STATUS_Invalid))
 				{
-					options[index++] = DocumentEngine.ACTION_Prepare;
-					options[index++] = DocumentEngine.ACTION_Close;
+					options[index++] = ACTION_Prepare;
+					options[index++] = ACTION_Close;
 				}
 				//	Complete                    ..  CO
-				else if (docStatus.equals(DocumentEngine.STATUS_Completed))
+				else if (docStatus.equals(STATUS_Completed))
 				{
-					options[index++] = DocumentEngine.ACTION_Void;
-					options[index++] = DocumentEngine.ACTION_ReActivate;
+					options[index++] = ACTION_Void;
+					options[index++] = ACTION_ReActivate;
 				}
 		}
 		/********************
 		 *  Manufacturing Cost Collector
 		 */
-		else if (AD_Table_ID == I_PP_Cost_Collector.Table_ID)
+		else if (tableId == I_PP_Cost_Collector.Table_ID)
 		{
-			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
-					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
-					|| docStatus.equals(DocumentEngine.STATUS_Invalid))
+			if (docStatus.equals(STATUS_Drafted)
+					|| docStatus.equals(STATUS_InProgress)
+					|| docStatus.equals(STATUS_Invalid))
 				{
-					options[index++] = DocumentEngine.ACTION_Prepare;
-					options[index++] = DocumentEngine.ACTION_Close;
+					options[index++] = ACTION_Prepare;
+					options[index++] = ACTION_Close;
 				}
 				//	Complete                    ..  CO
-				else if (docStatus.equals(DocumentEngine.STATUS_Completed))
+				else if (docStatus.equals(STATUS_Completed))
 				{
-					options[index++] = DocumentEngine.ACTION_Void;
-					options[index++] = DocumentEngine.ACTION_Reverse_Correct;
+					options[index++] = ACTION_Void;
+					options[index++] = ACTION_Reverse_Correct;
 				}
 		}
 		/********************
 		 *  Distribution Order
 		 */
-		else if (AD_Table_ID == I_DD_Order.Table_ID)
+		else if (tableId == I_DD_Order.Table_ID)
 		{
-			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
-					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
-					|| docStatus.equals(DocumentEngine.STATUS_Invalid))
+			if (docStatus.equals(STATUS_Drafted)
+					|| docStatus.equals(STATUS_InProgress)
+					|| docStatus.equals(STATUS_Invalid))
 				{
-					options[index++] = DocumentEngine.ACTION_Prepare;
-					options[index++] = DocumentEngine.ACTION_Close;
+					options[index++] = ACTION_Prepare;
+					options[index++] = ACTION_Close;
 				}
 				//	Complete                    ..  CO
-				else if (docStatus.equals(DocumentEngine.STATUS_Completed))
+				else if (docStatus.equals(STATUS_Completed))
 				{
-					options[index++] = DocumentEngine.ACTION_Void;
-					options[index++] = DocumentEngine.ACTION_ReActivate;
+					options[index++] = ACTION_Void;
+					options[index++] = ACTION_ReActivate;
 				}
 		}
 		/********************
 		 *  Payroll Process
 		 */
-		else if (AD_Table_ID == MTable.getTable_ID("HR_Process")) // I_HR_Process.Table_ID
+		else if (tableId == I_HR_Process.Table_ID)
 		{
-			if (docStatus.equals(DocumentEngine.STATUS_Drafted)
-					|| docStatus.equals(DocumentEngine.STATUS_InProgress)
-					|| docStatus.equals(DocumentEngine.STATUS_Invalid))
+			if (docStatus.equals(STATUS_Drafted)
+					|| docStatus.equals(STATUS_InProgress)
+					|| docStatus.equals(STATUS_Invalid))
 				{
-					options[index++] = DocumentEngine.ACTION_Prepare;
-					options[index++] = DocumentEngine.ACTION_Close;
+					options[index++] = ACTION_Prepare;
+					options[index++] = ACTION_Close;
 				}
 				//	Complete                    ..  CO
-				else if (docStatus.equals(DocumentEngine.STATUS_Completed))
+				else if (docStatus.equals(STATUS_Completed))
 				{
-					options[index++] = DocumentEngine.ACTION_Void;
-					options[index++] = DocumentEngine.ACTION_ReActivate;
-					options[index++] = DocumentEngine.ACTION_Reverse_Correct;
-					options[index++] = DocumentEngine.ACTION_Reverse_Accrual;
+					options[index++] = ACTION_Void;
+					options[index++] = ACTION_ReActivate;
+					options[index++] = ACTION_Reverse_Correct;
+					options[index++] = ACTION_Reverse_Accrual;
 				}
 		}
 		return index;
@@ -1269,7 +1364,7 @@ public class DocumentEngine implements DocAction
 	 *  Post Immediate
 	 *
 	 *	@param	ctx Client Context
-	 *  @param  AD_Client_ID    Client ID of Document
+	 *  @param  clientId    Client ID of Document
 	 *  @param  AD_Table_ID     Table ID of Document
 	 *  @param  Record_ID       Record ID of this document
 	 *  @param  force           force posting
@@ -1277,50 +1372,61 @@ public class DocumentEngine implements DocAction
 	 *  @return null, if success or error message
 	 */
 	public static String postImmediate (Properties ctx, 
-		int AD_Client_ID, int AD_Table_ID, int Record_ID, boolean force, String trxName)
+		int clientId, int tableId, int recordId, boolean force, String trxName)
 	{
-		// Ensure the table has Posted column / i.e. GL_JournalBatch can be completed but not posted
-		if (MColumn.getColumn_ID(MTable.getTableName(ctx, AD_Table_ID), "Posted") <= 0)
-			return null;
-			
-		String error = null;
-		if (MClient.isClientAccounting()) {
-			log.info ("Table=" + AD_Table_ID + ", Record=" + Record_ID);
-			MAcctSchema[] ass = MAcctSchema.getClientAcctSchema(ctx, AD_Client_ID);
-			error = Doc.postImmediate(ass, AD_Table_ID, Record_ID, force, trxName);
-			return error;
-		}
-		
-		//  try to get from Server when enabled
-		if (CConnection.get().isAppsServerOK(true))
-		{
-			log.config("trying server");
-			try
-			{
-				Server server = CConnection.get().getServer();
-				if (server != null)
-				{
-					Properties p = Env.getRemoteCallCtx(Env.getCtx());
-					error = server.postImmediate(p, AD_Client_ID,
-						AD_Table_ID, Record_ID, force, null); // don't pass transaction to server
-					log.config("from Server: " + error== null ? "OK" : error);
-				}
-				else
-				{
-					error = "NoAppsServer";
-				}
-			}
-			catch (Exception e)
-			{
-				log.log(Level.WARNING, "(RE)", e);
-				error = e.getMessage();
-			}
-		}
-		
-		return error;
-	}	//	postImmediate
+	    
+	    DocumentEngine docEngine = get()
+	            .withContext(ctx)
+	            .withAD_Client_ID(clientId)
+	            .withAD_Table_ID(tableId)
+	            .withRecord_ID(recordId)
+	            .withTrxName(trxName);
+	    
+	    return docEngine.postImmediate(force);
+	    
+	}
 
-	/**
+	public DocumentEngine withTrxName(String trxName) {
+
+        if(document == null)
+            this.trxName = trxName;
+	    return this;
+
+    }
+
+    public DocumentEngine withRecord_ID(int recordId) {
+
+        if(document == null)
+            this.recordId = recordId;
+        return this;
+
+    }
+
+    public DocumentEngine withAD_Table_ID(int tableId) {
+
+        if(document == null)
+            this.tableId = tableId;
+        return this;
+
+    }
+
+    public DocumentEngine withAD_Client_ID(int clientId) {
+	    
+        if(document == null)
+            this.clientId = clientId;
+        return this;
+
+    }
+
+    public DocumentEngine withContext(Properties ctx) {
+
+        if(document == null)
+            this.ctx = ctx;
+        return this;
+
+    }
+
+    /**
 	 * Process document.  This replaces DocAction.processIt().
 	 * @param doc
 	 * @param processAction
@@ -1329,9 +1435,182 @@ public class DocumentEngine implements DocAction
 	public static boolean processIt(DocAction doc, String processAction) {
 		boolean success = false;
 
-		DocumentEngine engine = new DocumentEngine(doc, doc.getDocStatus());
+		DocumentEngine engine = get(doc, doc.getDocStatus());
 		success = engine.processIt(processAction, doc.getDocAction());
 
 		return success;
 	}
+
+	
+	   /**
+     *  Post Immediate
+     *
+     *  @param  force           force posting
+     *  @return null, if success or error message
+     */
+    public String postImmediate (boolean force)
+    {
+        
+        requireNonNull(ctx);
+        requireNonNull(clientId);
+        requireNonNull(tableId);
+        requireNonNull(recordId);
+        requireNonNull(trxName);
+        
+        String tableName = MTable.getTableName(ctx, tableId);
+        
+        //  Ensure the table has Posted column / i.e. GL_JournalBatch can be 
+        //  completed but not posted
+        if (MColumn.getColumn_ID(tableName, "Posted") <= 0)
+            return null;
+            
+        String error = null;
+        if (MClient.isClientAccounting()) {
+            getLogger().info ("Table=" + tableName + ", Record=" + recordId);
+            MAcctSchema[] ass = MAcctSchema.getClientAcctSchema(ctx, clientId);
+            Doc doc = getDoc(ass, tableName, recordId, trxName);
+            error = doc.postImmediate(force);
+            return error;
+        }
+        
+        //  try to get from Server when enabled
+        CConnection serverConnection = getServerConnection();
+        if (serverConnection.isAppsServerOK(true))
+        {
+            getLogger().config("trying server");
+            try
+            {
+                Server server = getServer();
+                if (server != null)
+                {
+                    Properties p = Env.getRemoteCallCtx(Env.getCtx());
+                    error = server.postImmediate(p, clientId,
+                        tableId, recordId, force, null); // don't pass transaction to server
+                    getLogger().config("from Server: " + (error== null ? "OK" : error));
+                }
+                else
+                {
+                    error = "NoAppsServer";
+                }
+            }
+            catch (Exception e)
+            {
+                getLogger().log(Level.WARNING, "(RE)", e);
+                error = e.getMessage();
+            }
+        }
+        
+        return error;
+    }   //  postImmediate
+
+    /**
+     * Get the server connection.  Used for testing only.
+     * @return
+     */
+    // Public access required for testing
+    public CConnection getServerConnection() {
+
+        return CConnection.get();
+
+    }
+
+	/**
+     * Get the server.  Used for testing only.
+     * @return
+     */
+    // Public access required for testing
+    public Server getServer() {
+    
+        return getServerConnection().getServer();
+    
+    }
+
+    /**
+     *  Create Posting document
+     *  @param acctSchemas accounting schema
+     *  @param tableId Table ID of Documents
+     *  @param recordId record ID to load
+     *  @param trxName transaction name
+     *  @return Document or null
+     */
+    public Doc getDoc (MAcctSchema[] acctSchemas, String tableName, int recordId, String trxName)
+    {
+        Doc doc = null;
+        String sql = "SELECT * FROM " + tableName
+                +" WHERE " + tableName + "_ID=? AND Processed='Y'";
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        try
+        {
+            pstmt = DB.prepareStatement (sql, trxName);
+            pstmt.setInt (1, recordId);
+            rs = pstmt.executeQuery ();
+            if (rs.next ())
+            {
+                doc = getDoc (acctSchemas, tableName, rs, trxName);
+            }
+            else
+                getLogger().severe("Not Found: " + tableName + "_ID=" + recordId);
+        }
+        catch (Exception e)
+        {
+            getLogger().log (Level.SEVERE, sql, e);
+        }
+        finally
+        {
+            DB.close(rs, pstmt);
+            rs = null; 
+            pstmt = null;
+        }
+        return doc;
+    }
+
+    /**
+     *  Create Posting document
+     *  @param acctSchemas accounting schema
+     *  @param tableId Table ID of Documents
+     *  @param rs ResultSet
+     *  @param trxName transaction name
+     *  @return Document
+     * @throws AdempiereUserError 
+     */
+    public Doc getDoc (MAcctSchema[] acctSchemas, String tableName, ResultSet rs, String trxName) throws AdempiereUserError
+    {
+        Doc doc = null;
+        
+        String packageName = "org.compiere.acct";
+        String className = null;
+
+        int firstUnderscore = tableName.indexOf("_");
+        if (firstUnderscore == 1)
+            className = packageName + ".Doc_" + tableName.substring(2).replace("_", "");
+        else
+            className = packageName + ".Doc_" + tableName.replace("_", "");
+        
+        try
+        {
+            Class<?> cClass = Class.forName(className);
+            Constructor<?> cnstr = cClass.getConstructor(MAcctSchema[].class, ResultSet.class, String.class);
+            doc = (Doc) cnstr.newInstance(acctSchemas, rs, trxName);
+        }
+        catch (Exception e)
+        {
+            getLogger().log(Level.SEVERE, "Doc Class invalid: " + className + " (" + e.toString() + ")");
+            throw new AdempiereUserError("Doc Class invalid: " + className + " (" + e.toString() + ")");
+        }
+
+        if (doc == null)
+            getLogger().log(Level.SEVERE, "Unknown table =" + tableName);
+        
+        return doc;
+    }
+
+    // For testing
+    protected Object getDocument() {
+
+        return document;
+
+    }
+
+
 }	//	DocumentEnine

@@ -116,7 +116,7 @@ public final class VPassword extends VEditorAbstract
 		if (VFormat != null && VFormat.length() != 0)
 			passwordUI.setCaret(new VOvrCaret());
 
-		this.setEditorComponent(passwordEditor);
+		passwordEditor = (CPassword) this.getEditorComponent();
 
 	}	//	VPassword
 

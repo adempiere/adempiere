@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_FieldCustom
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_AD_FieldCustom 
 {
@@ -339,12 +339,12 @@ public interface I_AD_FieldCustom
 	/** Set Displayed in Grid.
 	  * Determines, if this field is displayed in grid view
 	  */
-	public void setIsDisplayedGrid (String IsDisplayedGrid);
+	public void setIsDisplayedGrid (boolean IsDisplayedGrid);
 
 	/** Get Displayed in Grid.
 	  * Determines, if this field is displayed in grid view
 	  */
-	public String getIsDisplayedGrid();
+	public boolean isDisplayedGrid();
 
     /** Column name IsEmbedded */
     public static final String COLUMNNAME_IsEmbedded = "IsEmbedded";
@@ -532,19 +532,6 @@ public interface I_AD_FieldCustom
 	  */
 	public int getSortNo();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -560,4 +547,17 @@ public interface I_AD_FieldCustom
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

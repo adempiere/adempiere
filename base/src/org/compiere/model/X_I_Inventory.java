@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for I_Inventory
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20200302L;
 
     /** Standard Constructor */
     public X_I_Inventory (Properties ctx, int I_Inventory_ID, String trxName)
@@ -73,6 +73,23 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	/** Set Attribute Set Instance Value.
+		@param AttributeSetInstanceValue 
+		Value of the Attribute Set Instance
+	  */
+	public void setAttributeSetInstanceValue (String AttributeSetInstanceValue)
+	{
+		set_Value (COLUMNNAME_AttributeSetInstanceValue, AttributeSetInstanceValue);
+	}
+
+	/** Get Attribute Set Instance Value.
+		@return Value of the Attribute Set Instance
+	  */
+	public String getAttributeSetInstanceValue () 
+	{
+		return (String)get_Value(COLUMNNAME_AttributeSetInstanceValue);
+	}
 
 	/** Set Current Cost Price.
 		@param CurrentCostPrice 
@@ -129,6 +146,23 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** Set Guarantee Date.
+		@param GuaranteeDate 
+		Date when guarantee expires
+	  */
+	public void setGuaranteeDate (Timestamp GuaranteeDate)
+	{
+		set_Value (COLUMNNAME_GuaranteeDate, GuaranteeDate);
+	}
+
+	/** Get Guarantee Date.
+		@return Date when guarantee expires
+	  */
+	public Timestamp getGuaranteeDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_GuaranteeDate);
 	}
 
 	/** Set Import Error Message.
@@ -237,29 +271,29 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 		return (String)get_Value(COLUMNNAME_Lot);
 	}
 
-	public org.compiere.model.I_M_InventoryLine getM_InventoryLine() throws RuntimeException
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException
     {
-		return (org.compiere.model.I_M_InventoryLine)MTable.get(getCtx(), org.compiere.model.I_M_InventoryLine.Table_Name)
-			.getPO(getM_InventoryLine_ID(), get_TrxName());	}
+		return (I_M_AttributeSetInstance)MTable.get(getCtx(), I_M_AttributeSetInstance.Table_Name)
+			.getPO(getM_AttributeSetInstance_ID(), get_TrxName());	}
 
-	/** Set Phys.Inventory Line.
-		@param M_InventoryLine_ID 
-		Unique line in an Inventory document
+	/** Set Attribute Set Instance.
+		@param M_AttributeSetInstance_ID 
+		Product Attribute Set Instance
 	  */
-	public void setM_InventoryLine_ID (int M_InventoryLine_ID)
+	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID)
 	{
-		if (M_InventoryLine_ID < 1) 
-			set_Value (COLUMNNAME_M_InventoryLine_ID, null);
+		if (M_AttributeSetInstance_ID < 0) 
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, null);
 		else 
-			set_Value (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
+			set_Value (COLUMNNAME_M_AttributeSetInstance_ID, Integer.valueOf(M_AttributeSetInstance_ID));
 	}
 
-	/** Get Phys.Inventory Line.
-		@return Unique line in an Inventory document
+	/** Get Attribute Set Instance.
+		@return Product Attribute Set Instance
 	  */
-	public int getM_InventoryLine_ID () 
+	public int getM_AttributeSetInstance_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_InventoryLine_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_AttributeSetInstance_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -293,6 +327,34 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_M_InventoryLine getM_InventoryLine() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_InventoryLine)MTable.get(getCtx(), org.compiere.model.I_M_InventoryLine.Table_Name)
+			.getPO(getM_InventoryLine_ID(), get_TrxName());	}
+
+	/** Set Phys.Inventory Line.
+		@param M_InventoryLine_ID 
+		Unique line in an Inventory document
+	  */
+	public void setM_InventoryLine_ID (int M_InventoryLine_ID)
+	{
+		if (M_InventoryLine_ID < 1) 
+			set_Value (COLUMNNAME_M_InventoryLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_InventoryLine_ID, Integer.valueOf(M_InventoryLine_ID));
+	}
+
+	/** Get Phys.Inventory Line.
+		@return Unique line in an Inventory document
+	  */
+	public int getM_InventoryLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_InventoryLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_Locator getM_Locator() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Locator)MTable.get(getCtx(), org.compiere.model.I_M_Locator.Table_Name)
@@ -319,6 +381,23 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
+	}
+
+	/** Set Movement Date.
+		@param MovementDate 
+		Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate)
+	{
+		set_Value (COLUMNNAME_MovementDate, MovementDate);
+	}
+
+	/** Get Movement Date.
+		@return Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate () 
+	{
+		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
 	}
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException
@@ -375,23 +454,6 @@ public class X_I_Inventory extends PO implements I_I_Inventory, I_Persistent
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** Set Movement Date.
-		@param MovementDate 
-		Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate)
-	{
-		set_Value (COLUMNNAME_MovementDate, MovementDate);
-	}
-
-	/** Get Movement Date.
-		@return Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate () 
-	{
-		return (Timestamp)get_Value(COLUMNNAME_MovementDate);
 	}
 
 	/** Set Processed.

@@ -16,8 +16,13 @@
 package org.compiere.model;
 
 import java.sql.ResultSet;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
+
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.util.Util;
 
 /**
  * Customization handler
@@ -59,15 +64,53 @@ public class MTabCustom extends X_AD_TabCustom {
 	}
 	
 	/**
+	 * Copy all values from custom tab
+	 * Note that if current custom tab already exist then the field referenced is keep
+	 * <br> Call {@link org.compiere.model.PO#saveEx()} after use this method
+	 * @param customTab
+	 */
+	public void overwriteValuesFromCustomTab(MTabCustom customTab) {
+		if(getAD_TabCustom_ID() == 0) {
+			throw new AdempiereException("Use default constructor based on other custom field");
+		}
+		int tabId = getAD_Tab_ID();
+		int customWindowId = getAD_WindowCustom_ID();
+		PO.copyValues(customTab, this);
+		setIsActive(customTab.isActive());
+		set_ValueNoCheck(COLUMNNAME_AD_WindowCustom_ID, customWindowId);
+		set_ValueNoCheck(COLUMNNAME_AD_Tab_ID, tabId);
+	}
+	
+	/**
 	 * Get tabs for it
 	 * @return
 	 */
 	public List<MFieldCustom> getFields() {
 		//	Get
-		return new Query(getCtx(), I_AD_FieldCustom.Table_Name, COLUMNNAME_AD_TabCustom_ID + " = ?", null)
+		return new Query(getCtx(), I_AD_FieldCustom.Table_Name, COLUMNNAME_AD_TabCustom_ID + " = ?", get_TrxName())
 				.setParameters(getAD_TabCustom_ID())
 				.setOnlyActiveRecords(true)
 				.list();
+	}
+	
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		if(newRecord
+				&& getAD_WindowCustom_ID() > 0
+				&& getAD_Tab_ID() > 0) {
+			Optional.ofNullable(getAD_WindowCustom()).ifPresent(customWindow -> {
+				if(!Util.isEmpty(customWindow.getHierarchyType())
+						&& customWindow.getHierarchyType().equals(MWindowCustom.HIERARCHYTYPE_Overwrite)) {
+					//	For fields
+					Arrays.asList(MTab.get(getCtx(), getAD_Tab_ID()).getFields(true, get_TrxName())).forEach(field -> {
+						MFieldCustom customField = new MFieldCustom(this);
+						customField.setField(field);
+						customField.saveEx();
+					});
+				}
+			});
+		}
+		return super.afterSave(newRecord, success);
 	}
 	
 	@Override

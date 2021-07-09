@@ -178,7 +178,7 @@ public class MColor extends X_AD_Color
 	{
 		if (AD_Image_ID == 0)
 			return null;
-		return MImage.get(getCtx(), AD_Image_ID).getImageURL();
+		return MImage.get(getCtx(), AD_Image_ID, get_TrxName()).getImageURL();
 	}   //  getURL
 
 }   //  MColor

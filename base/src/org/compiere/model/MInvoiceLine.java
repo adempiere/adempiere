@@ -457,8 +457,19 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 	public void setLineNetAmt ()
 	{
 		//	Calculations & Rounding
-		BigDecimal bd = getPriceActual().multiply(getQtyInvoiced());
-		
+		BigDecimal lineNetAmount = null;
+		if(getM_Product_ID() != 0) {
+			MProduct product = MProduct.get(getCtx(), getM_Product_ID(), get_TrxName());
+			if(product.getC_UOM_ID() != getC_UOM_ID()
+					&& getPriceEntered() != null && !getPriceEntered().equals(Env.ZERO)
+					&& getQtyEntered() != null && !getQtyEntered().equals(Env.ZERO)) {
+				lineNetAmount = getQtyEntered().multiply(getPriceEntered());
+			}
+		}
+		//	Set default
+		if(lineNetAmount == null) {
+			lineNetAmount = getPriceActual().multiply(getQtyInvoiced());
+		}
 		boolean documentLevel = getTax().isDocumentLevel();
 
 		//	juddm: Tax Exempt & Tax Included in Price List & not Document Level - Adjust Line Amount
@@ -490,19 +501,19 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 				log.fine("stdTax rate is " + stdTax.getRate());
 				log.fine("invoiceTax rate is " + invoiceTax.getRate());
 				
-				taxThisAmt = taxThisAmt.add(invoiceTax.calculateTax(bd, isTaxIncluded(), getPrecision()));
-				taxStdAmt = taxStdAmt.add(stdTax.calculateTax(bd, isTaxIncluded(), getPrecision()));
+				taxThisAmt = taxThisAmt.add(invoiceTax.calculateTax(lineNetAmount, isTaxIncluded(), getPrecision()));
+				taxStdAmt = taxStdAmt.add(stdTax.calculateTax(lineNetAmount, isTaxIncluded(), getPrecision()));
 				
-				bd = bd.subtract(taxStdAmt).add(taxThisAmt);
+				lineNetAmount = lineNetAmount.subtract(taxStdAmt).add(taxThisAmt);
 				
 				log.fine("Price List includes Tax and Tax Changed on Invoice Line: New Tax Amt: " 
-						+ taxThisAmt + " Standard Tax Amt: " + taxStdAmt + " Line Net Amt: " + bd);	
+						+ taxThisAmt + " Standard Tax Amt: " + taxStdAmt + " Line Net Amt: " + lineNetAmount);	
 			}
 		}
 		
-		if (bd.scale() > getPrecision())
-			bd = bd.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
-		super.setLineNetAmt (bd);
+		if (lineNetAmount.scale() > getPrecision())
+			lineNetAmount = lineNetAmount.setScale(getPrecision(), BigDecimal.ROUND_HALF_UP);
+		super.setLineNetAmt (lineNetAmount);
 	}	//	setLineNetAmt
 	/**
 	 * 	Get Charge
@@ -860,32 +871,6 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 	}	//	beforeSave
 
 	/**
-	 * Recalculate invoice tax
-	 * @param oldTax true if the old C_Tax_ID should be used
-	 * @return true if success, false otherwise
-	 *
-	 * @author teo_sarca [ 1583825 ]
-	 */
-	private boolean updateInvoiceTax(boolean oldTax) {
-		MInvoiceTax tax = MInvoiceTax.get (this, getPrecision(), oldTax, get_TrxName());
-		if (tax != null) {
-			if (!tax.calculateTaxFromLines())
-				return false;
-		
-			// red1 - solving BUGS #[ 1701331 ] , #[ 1786103 ]
-			if (tax.getTaxAmt().signum() != 0) {
-				if (!tax.save(get_TrxName()))
-					return false;
-			}
-			else {
-				if (!tax.is_new() && !tax.delete(false, get_TrxName()))
-					return false;
-			}
-		}
-		return true;
-	}
-
-	/**
 	 * 	After Save
 	 *	@param newRecord new
 	 *	@param success success
@@ -895,13 +880,14 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 	{
 		if (!success)
 			return success;
-		if (!newRecord && is_ValueChanged("C_Tax_ID"))
-		{
-			//	Recalculate Tax for old Tax
-			if (!updateInvoiceTax(true))
-				return false;
-		}
-		return updateHeaderTax();
+		if (newRecord
+				|| (!newRecord && is_ValueChanged(MInvoiceLine.COLUMNNAME_C_Tax_ID) && !getParent().isProcessed())
+				|| (!newRecord && is_ValueChanged(MInvoiceLine.COLUMNNAME_QtyEntered) && !getParent().isProcessed())
+				|| (!newRecord && is_ValueChanged(MInvoiceLine.COLUMNNAME_PriceActual) && !getParent().isProcessed())
+				|| (!newRecord && is_ValueChanged(MInvoiceLine.COLUMNNAME_TaxAmt) && !getParent().isProcessed())
+		)
+			return updateHeaderTax();
+		return true;
 	}	//	afterSave
 
 	/**
@@ -932,12 +918,8 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 	private boolean updateHeaderTax()
 	{
 		// Update header only if the document is not processed - teo_sarca BF [ 2317305 ]
-		if (isProcessed() && !is_ValueChanged(COLUMNNAME_Processed))
-			return true;
-
-		//	Recalculate Tax for this Tax
-		if (!updateInvoiceTax(false))
-			return false;
+		if (!getParent().isProcessed())
+			getParent().calculateTaxTotal();
 
 		//	Update Invoice Header
 		String sql = "UPDATE C_Invoice i"
@@ -965,6 +947,32 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 		return no == 1;
 	}	//	updateHeaderTax
 
+	
+	 /**
+     * Retrieves the inOutLine Id associated with the Invoice Line
+     * @return InOut Line ID
+     */
+    public int getInOutLineId() {
+    	int inOutLineId = getM_InOutLine_ID();
+    	//	Validate
+    	if(inOutLineId <= 0) {
+    		if(getParent().isSOTrx()) {
+    			inOutLineId = DB.getSQLValue(get_TrxName(), 
+    					"SELECT il.M_InOutLine_ID "
+    					+ "FROM M_InOutLine il "
+    					+ "WHERE il.C_OrderLine_ID = ? "
+    					+ "AND EXISTS(SELECT 1 FROM "
+    					+ "						M_InOut i "
+    					+ "						WHERE i.M_InOut_ID = il.M_InOut_ID "
+    					+ "						AND i.DocStatus IN('CO', 'CL'))", getC_OrderLine_ID());
+    		}
+        	//	
+        	if(inOutLineId == -1) {
+        		inOutLineId = 0;
+        	}
+    	}
+    	return inOutLineId;
+    }
 
 	/**************************************************************************
 	 * 	Allocate Landed Costs
@@ -972,11 +980,17 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 	 */
 	public String allocateLandedCosts()
 	{
-		if (isProcessed())
-			return "Processed";
-		MLandedCost[] lcs = MLandedCost.getLandedCosts(this);
-		if (lcs.length == 0)
-			return "";
+		//if (isProcessed())
+		//	return "Processed";
+		if (getParent().isProcessed())
+			MPeriod.testPeriodOpen(getCtx(), getParent().getDateAcct(), getParent().getC_DocTypeTarget_ID(), getAD_Org_ID());
+		if (getParent().isProcessed()) {
+			MFactAcct.deleteEx(MInvoice.Table_ID, getParent().get_ID(), get_TrxName());
+			//
+			// Update Invoice
+			getParent().setPosted(false);
+			getParent().saveEx();
+		}
 
 		String sql = "DELETE M_CostDetail WHERE C_landedcostallocation_ID in " +
 				"(select c_landedCostAllocation_ID from c_landedcostAllocation where c_invoiceline_ID=" + getC_InvoiceLine_ID() + ")";
@@ -988,6 +1002,10 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
 		if (no != 0)
 			log.info("Deleted #" + no);
 
+		MLandedCost[] lcs = MLandedCost.getLandedCosts(this);
+		if (lcs.length == 0)
+			return "";
+		
 		int inserted = 0;
 		//	*** Single Criteria ***
 		if (lcs.length == 1)
@@ -1299,17 +1317,4 @@ public class MInvoiceLine extends X_C_InvoiceLine implements DocumentReversalLin
         setC_Activity_ID(rmaLine.getC_Activity_ID());
         setC_Campaign_ID(rmaLine.getC_Campaign_ID());
 	}
-
-	/**
-	 * @return matched qty
-	 */
-	public BigDecimal getMatchedQty()
-	{
-		String sql = "SELECT COALESCE(SUM("+MMatchInv.COLUMNNAME_Qty+"),0)"
-						+" FROM "+MMatchInv.Table_Name
-						+" WHERE "+MMatchInv.COLUMNNAME_C_InvoiceLine_ID+"=?"
-							+" AND "+MMatchInv.COLUMNNAME_Processed+"=?";
-		return DB.getSQLValueBDEx(get_TrxName(), sql, getC_InvoiceLine_ID(), true);
-	}
-
 }	//	MInvoiceLine

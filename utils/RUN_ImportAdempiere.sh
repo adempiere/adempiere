@@ -38,13 +38,23 @@ errorModifySchema=53	# the schema could not be modified
 errorImportData=60		# an error occured while trying to import data
 errorImportSqlj=61		# an error occured while trying to import sqlj
 
-
-# if called with any argument, import the reference database
-# otherwise import the seed database
+# The script can be called with multiple arguments
+# If called with argument "silent", run without pause (See #2926)
+# If any other argument is used, import the reference database
+# otherwise import the seed database.
 importMode="Seed"
-if [ $# -gt 0 ] 
+silentMode="Pause"
+if [ $# -gt 0 ]
 then
-	importMode="Reference"
+	for argument in "$@"
+	do
+		if [ "$argument" == "silent" ]
+		then
+			silentMode="Silent"
+		else
+			importMode="Reference"
+		fi
+	done
 fi
 
 # identify this script
@@ -175,8 +185,11 @@ then
 	echo "and import $dbSeedFile"
 	echo
 	echo "== The import will show warnings. This is OK =="
-	echo "Press enter to continue ..."
-	read in
+	if [ "$silentMode" == "Pause" ]
+	then
+		echo "Press enter to continue ..."
+		read in
+	fi
 	
 	$dbImportScript "$dbVendor" "$dbHost" "$dbPort" "$dbUser" "$dbPwd" "$sysUser" "$sysPwd" "$dbName" "$dbCatalog" "$dbSchema" "$dbSeedFile" "$dbSqljFile"
 	result=$? 

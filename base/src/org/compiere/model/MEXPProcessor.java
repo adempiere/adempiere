@@ -29,19 +29,20 @@
 
 package org.compiere.model;
 
-import java.sql.PreparedStatement;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
-import java.util.logging.Level;
 
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
+import org.compiere.util.Util;
 
 /**
  * @author Trifon N. Trifonov
+ * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
+ * <li> Add cast for parameters
  */
 public class MEXPProcessor extends X_EXP_Processor {
 	/**
@@ -51,14 +52,19 @@ public class MEXPProcessor extends X_EXP_Processor {
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MEXPProcessor.class);
 	
-	private static MEXPProcessor processor= null;
-	private X_EXP_ProcessorParameter[] parameters = null;
+	private static MEXPProcessor processor = null;
+	private List<MEXPProcessorParameter> parameters = null;
 	
-	public static MEXPProcessor get(Properties ctx, int EXP_Processor_ID, String trxName)
-	{
-	    if(processor == null)
-	    {
-		processor = new MEXPProcessor(ctx, EXP_Processor_ID, trxName);
+	/**
+	 * Clean instance
+	 */
+	public void cleanInstance() {
+		processor = null;
+	}
+	
+	public static MEXPProcessor get(Properties ctx, int EXP_Processor_ID, String trxName) {
+	    if(processor == null) {
+	    	processor = new MEXPProcessor(ctx, EXP_Processor_ID, trxName);
 	    }
 	    return processor;
 	}
@@ -71,45 +77,135 @@ public class MEXPProcessor extends X_EXP_Processor {
 		super (ctx, rs, trxName);
 	}
 	
+	/**
+	 * Please use getProcessorParameters instead
+	 * Old compatibility
+	 * @param trxName
+	 * @return
+	 */
 	public X_EXP_ProcessorParameter[] getEXP_ProcessorParameters(String trxName) {
-	    
-	    if(parameters != null)
-		return parameters;
-	    
-		List<X_EXP_ProcessorParameter> resultList = new ArrayList<X_EXP_ProcessorParameter>();
-		                   
-		StringBuffer sql = new StringBuffer("SELECT * ")
-			.append(" FROM ").append(X_EXP_ProcessorParameter.Table_Name)
-			.append(" WHERE ").append(X_EXP_ProcessorParameter.COLUMNNAME_EXP_Processor_ID).append("=?") // # 1
-			.append(" AND IsActive = ?")  // # 2
-			//.append(" ORDER BY ").append(X_EXP_ProcessorParameter.COLUMNNAME_)
-		;
-		PreparedStatement pstmt = null;
-		X_EXP_ProcessorParameter processorParameter = null;
-		try {
-			pstmt = DB.prepareStatement (sql.toString(), trxName);
-			pstmt.setInt(1, getEXP_Processor_ID());
-			pstmt.setString(2, "Y");
-			ResultSet rs = pstmt.executeQuery ();
-			while ( rs.next() ) {
-				processorParameter = new X_EXP_ProcessorParameter (getCtx(), rs, trxName);
-				resultList.add(processorParameter);
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
-		} catch (SQLException e) {
-			s_log.log(Level.SEVERE, sql.toString(), e);
-		} finally {
-			try	{
-				if (pstmt != null) pstmt.close ();
-				pstmt = null;
-			} catch (Exception e) {	pstmt = null; }
-		}
-		X_EXP_ProcessorParameter[] result = (X_EXP_ProcessorParameter[])resultList.toArray( new X_EXP_ProcessorParameter[0]);
-		parameters = result;
-		return result;
+	    getProcessorParameters();
+	    //	
+		return parameters.toArray(new X_EXP_ProcessorParameter[0]);
 	}
 
+	/**
+	 * Get Processor parameter using instance
+	 * @return
+	 */
+	public List<MEXPProcessorParameter> getProcessorParameters() {
+		if(parameters != null) {
+	    	return parameters;
+	    }
+	    //	Get list
+	    parameters = new Query(getCtx(), I_EXP_ProcessorParameter.Table_Name, I_EXP_ProcessorParameter.COLUMNNAME_EXP_Processor_ID + " = ?", get_TrxName())
+	    		.setParameters(getEXP_Processor_ID())
+	    		.setOnlyActiveRecords(true)
+	    		.list();
+	    return parameters;
+	}
 	
+	/**
+     *  Get parameter as int
+     *  @param Value for cast
+     *  @return int value or 0
+     */
+    public int getParameterAsInt(String key) {
+        Optional<MEXPProcessorParameter> maybeParameter = getProcessorParameters().stream().filter(parameter -> parameter.getValue().equals(key)).findFirst();
+        if(maybeParameter.isPresent()) {
+        	if(!Util.isEmpty(maybeParameter.get().getParameterValue())) {
+        		try {
+                    return Integer.parseInt(maybeParameter.get().getParameterValue());
+                } catch (NumberFormatException ex) {
+                	s_log.warning(ex.getLocalizedMessage());
+                }
+        	}
+        }
+        return 0;
+    }   //  getParameterAsInt
+
+    /**
+     * 	Get Column Value
+     *	@param key name
+     *	@return value
+     */
+    public String getParameterAsString(String key) {
+    	Optional<MEXPProcessorParameter> maybeParameter = getProcessorParameters().stream().filter(parameter -> parameter.getValue().equals(key)).findFirst();
+        if(maybeParameter.isPresent()) {
+        	return maybeParameter.get().getParameterValue();
+        }
+        return null;
+    }	//	getParameterAsString
+
+    /**
+     * Get value as Boolean
+     * @param Value for cast
+     * @return boolean value
+     */
+    public boolean getValueAsBoolean(String key) {
+    	Optional<MEXPProcessorParameter> maybeParameter = getProcessorParameters().stream().filter(parameter -> parameter.getValue().equals(key)).findFirst();
+        if(maybeParameter.isPresent()) {
+        	return Util.isEmpty(maybeParameter.get().getParameterValue()) 
+        			&& (maybeParameter.get().getParameterValue().equals("Y") || maybeParameter.get().getParameterValue().equals("true"));
+        }
+        return false;
+    }
+
+    /**
+     * Get value as big decimal
+     * @param key
+     * @return
+     */
+    public BigDecimal getValueAsBigDecimal(String key) {
+    	Optional<MEXPProcessorParameter> maybeParameter = getProcessorParameters().stream().filter(parameter -> parameter.getValue().equals(key)).findFirst();
+    	BigDecimal bigDecimalValue = null;
+    	if(maybeParameter.isPresent()) {
+        	if(!Util.isEmpty(maybeParameter.get().getParameterValue())) {
+        		try {
+        			bigDecimalValue = new BigDecimal(maybeParameter.get().getParameterValue());
+        		} catch (Exception e) {
+        			s_log.warning(e.getLocalizedMessage());
+				}
+        	}
+        }
+        //  Default
+        return bigDecimalValue;
+    }
+
+    /**
+     * Get value as Timestamp
+     * @param Value for cast
+     * @return boolean value
+     */
+    public Timestamp getValueAsDate(String key, String pattern) {
+    	Optional<MEXPProcessorParameter> maybeParameter = getProcessorParameters().stream().filter(parameter -> parameter.getValue().equals(key)).findFirst();
+    	if(maybeParameter.isPresent()) {
+        	if(!Util.isEmpty(maybeParameter.get().getParameterValue())) {
+        		try {
+        			return Timestamp.valueOf (maybeParameter.get().getParameterValue());
+        		} catch (Exception e) {
+        			s_log.warning(e.getLocalizedMessage());
+				}
+        	}
+    	}
+        return null;
+    }
+    
+    @Override
+    protected boolean afterSave(boolean newRecord, boolean success) {
+    	cleanInstance();
+    	return super.afterSave(newRecord, success);
+    }
+    
+    @Override
+    protected boolean afterDelete(boolean success) {
+    	cleanInstance();
+    	return super.afterDelete(success);
+    }
+
+	@Override
+	public String toString() {
+		return "MEXPProcessor [getEXP_Processor_ID()=" + getEXP_Processor_ID() + ", getName()=" + getName()
+				+ ", getValue()=" + getValue() + "]";
+	}
 }

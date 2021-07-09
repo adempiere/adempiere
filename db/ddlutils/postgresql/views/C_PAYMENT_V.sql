@@ -92,6 +92,6 @@ CREATE OR REPLACE VIEW C_Payment_v AS
     p.User1_ID,
     p.User2_ID, 
     p.Description,
-    bp.C_BP_AccountType_ID, bp.C_BP_SalesGroup_ID, bp.C_BP_Segment_ID, bp.C_BP_IndustryType_ID
+    bp.C_BP_AccountType_ID, bp.C_BP_SalesGroup_ID, bp.C_BP_Segment_ID, bp.C_BP_IndustryType_ID, CollectingAgent_ID
    FROM C_Payment p
    LEFT JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID);

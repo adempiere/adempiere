@@ -18,6 +18,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+
 /**
  * Customization handler
  * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
@@ -55,6 +57,23 @@ public class MFieldCustom extends X_AD_FieldCustom {
 	}
 	
 	/**
+	 * Copy all values from custom field
+	 * Note that if current custom field already exist then the field referenced is keep
+	 * <br> Call {@link org.compiere.model.PO#saveEx()} after use this method
+	 * @param customField
+	 */
+	public void overwriteValuesFromCustomField(MFieldCustom customField) {
+		if(getAD_FieldCustom_ID() == 0) {
+			throw new AdempiereException("Use default constructor based on other custom field");
+		}
+		int fieldId = getAD_Field_ID();
+		int customTabId = getAD_TabCustom_ID();
+		PO.copyValues(customField, this);
+		set_ValueNoCheck(COLUMNNAME_AD_TabCustom_ID, customTabId);
+		set_ValueNoCheck(COLUMNNAME_AD_Field_ID, fieldId);
+	}
+	
+	/**
 	 * Set Field
 	 * @param field
 	 */
@@ -63,7 +82,12 @@ public class MFieldCustom extends X_AD_FieldCustom {
 		setIsActive(field.isActive());
 		setIsDisplayed(field.isDisplayed());
 		setSeqNo(field.getSeqNo());
-		setSeqNoGrid(field.getSeqNoGrid());
+		setIsDisplayedGrid(field.isDisplayedGrid());
+		if(field.getSeqNoGrid() > 0) {
+			setSeqNoGrid(field.getSeqNoGrid());
+		} else {
+			setSeqNoGrid(field.getSeqNo());
+		}
 	}
 
 	@Override

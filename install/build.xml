@@ -35,8 +35,8 @@
 	<pathelement path="${lib.dir}/oracle.jar"/>
 	<pathelement path="${lib.dir}/postgresql.jar"/>
 	<pathelement path="../tools/lib/mysql-connector-java-5.1.13-bin.jar"/>
-	<pathelement path="../tools/lib/ant.jar"/>
-	<pathelement path="../tools/lib/ant-launcher.jar"/>
+	<pathelement path="../tools/lib/ant/apache-ant-1.10.9/lib/ant.jar"/>
+	<pathelement path="../tools/lib/ant/apache-ant-1.10.9/lib/ant-launcher.jar"/>
   </path>
 
   <patternset id="manifest.exclude">
@@ -86,13 +86,13 @@
 	  duplicate="preserve">
 	  <fileset dir="${compile.dir}"/>
 	  <!-- Ant (with ftp) files -->
-	  <zipfileset src="../tools/lib/ant.jar" >
+	  <zipfileset src="../tools/lib/ant/apache-ant-1.10.9/lib/ant.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
-	  <zipfileset src="../tools/lib/ant-launcher.jar" >
+	  <zipfileset src="../tools/lib/ant/apache-ant-1.10.9/lib/ant-launcher.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
-	  <zipfileset src="../tools/lib/ant-commons-net.jar" >
+	  <zipfileset src="../tools/lib/ant/apache-ant-1.10.9/lib/ant-commons-net.jar" >
 		<patternset refid="manifest.exclude"/>
 	  </zipfileset>
 	  <zipfileset src="../tools/lib/commons-net-1.4.0.jar" >
@@ -245,7 +245,12 @@
 	  <mkdir dir="${build.dir}/Adempiere/zkpackages/TimeAndAttendance"/>
 	  <mkdir dir="${build.dir}/Adempiere/zkpackages/TimeAndAttendance/lib"/>
 	  <!--copy file="../zkpackages/TimeAndAttendanceZk.jar" tofile="${build.dir}/Adempiere/zkpackages/LoanManagement/lib/TimeAndAttendanceZk.jar"/-->
-
+	  
+	  <!-- Store Front Integration -->
+	  <mkdir dir="${build.dir}/Adempiere/packages/StoreIntegration"/>
+	  <mkdir dir="${build.dir}/Adempiere/packages/StoreIntegration/lib"/>
+	  <copy file="../packages/StoreIntegration.jar" tofile="${build.dir}/Adempiere/packages/StoreIntegration/lib/StoreIntegration.jar"/>
+	  
 	  <copy file="../lib/CheckConflicts.sh" tofile="${build.dir}/Adempiere/lib/CheckConflicts.sh"/>
 
 	<!-- Base Directory			-->
