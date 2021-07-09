@@ -543,13 +543,13 @@ public interface I_T_Aging
 	public BigDecimal getPastDue31_Plus();
 
     /** Column name PastDue360_plus */
-    public static final String COLUMNNAME_PastDue360_plus = "PastDue360_plus";
+    public static final String COLUMNNAME_PastDue360_Plus = "PastDue360_Plus";
 
 	/** Set PastDue360_plus	  */
-	public void setPastDue360_plus (BigDecimal PastDue360_plus);
+	public void setPastDue360_Plus (BigDecimal PastDue360_plus);
 
 	/** Get PastDue360_plus	  */
-	public BigDecimal getPastDue360_plus();
+	public BigDecimal getPastDue360_Plus();
 
     /** Column name PastDue61_90 */
     public static final String COLUMNNAME_PastDue61_90 = "PastDue61_90";

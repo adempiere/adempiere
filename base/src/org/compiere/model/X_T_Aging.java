@@ -72,7 +72,7 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 // 0
 			setPastDue31_60 (Env.ZERO);
 			setPastDue31_Plus (Env.ZERO);
-			setPastDue360_plus (Env.ZERO);
+			setPastDue360_Plus (Env.ZERO);
 // 0
 			setPastDue61_90 (Env.ZERO);
 			setPastDue61_Plus (Env.ZERO);
@@ -938,18 +938,18 @@ public class X_T_Aging extends PO implements I_T_Aging, I_Persistent
 		return bd;
 	}
 
-	/** Set PastDue360_plus.
-		@param PastDue360_plus PastDue360_plus	  */
-	public void setPastDue360_plus (BigDecimal PastDue360_plus)
+	/** Set PastDue360_Plus.
+		@param PastDue360_Plus PastDue360_Plus	  */
+	public void setPastDue360_Plus (BigDecimal PastDue360_Plus)
 	{
-		set_Value (COLUMNNAME_PastDue360_plus, PastDue360_plus);
+		set_Value (COLUMNNAME_PastDue360_Plus, PastDue360_Plus);
 	}
 
-	/** Get PastDue360_plus.
-		@return PastDue360_plus	  */
-	public BigDecimal getPastDue360_plus () 
+	/** Get PastDue360_Plus.
+		@return PastDue360_Plus	  */
+	public BigDecimal getPastDue360_Plus () 
 	{
-		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDue360_plus);
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_PastDue360_Plus);
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;

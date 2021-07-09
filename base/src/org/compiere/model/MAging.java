@@ -312,7 +312,7 @@ public class MAging extends X_T_Aging
 			if (daysDue >= 181 && daysDue <= 360)
 				setPastDue180_360(getPastDue180_360().add(amt));
 			if (daysDue >= 361)
-				setPastDue360_plus(getPastDue360_plus().add(amt));
+				setPastDue360_Plus(getPastDue360_Plus().add(amt));
 		}
 	}	//	add
 
