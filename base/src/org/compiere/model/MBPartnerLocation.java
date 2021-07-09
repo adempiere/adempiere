@@ -51,14 +51,30 @@ public class MBPartnerLocation extends X_C_BPartner_Location
 	
 	/**
 	 * Get Locations for BPartner
+	 * @param ctx
+	 * @param C_BPartner_ID
+	 * @param trxName
+	 * @return
+	 */
+	public static MBPartnerLocation[] getForBPartner (Properties ctx, int C_BPartner_ID, String trxName){
+		return getForBPartner(ctx, C_BPartner_ID, null, trxName);
+	}
+	
+	/**
+	 * Get Locations for BPartner
 	 * @param ctx context
 	 * @param C_BPartner_ID bp
 	 * @param trxName
 	 * @return array of locations
 	 */
-	public static MBPartnerLocation[] getForBPartner (Properties ctx, int C_BPartner_ID, String trxName)
+	public static MBPartnerLocation[] getForBPartner (Properties ctx, int C_BPartner_ID,String whereClause, String trxName)
 	{
-		List<MBPartnerLocation> list = new Query(ctx, Table_Name, "C_BPartner_ID=?", trxName)
+		String finalwhereClause = "C_BPartner_ID=?";
+		if (whereClause!=null
+				&& !whereClause.isEmpty()) 
+			finalwhereClause += " AND " + whereClause;
+		
+		List<MBPartnerLocation> list = new Query(ctx, Table_Name, finalwhereClause, trxName)
 			.setParameters(C_BPartner_ID)
 			.list();
 		MBPartnerLocation[] retValue = new MBPartnerLocation[list.size ()];

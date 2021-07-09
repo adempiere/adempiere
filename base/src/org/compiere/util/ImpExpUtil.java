@@ -84,16 +84,16 @@ public class ImpExpUtil {
 	{
 		
 		
-		PackIn.m_UpdateMode = "false";
-		PackIn.m_Package_Dir = arxml.getParentFile().getAbsolutePath();
+		PackIn.updateMode = false;
+		PackIn.packageDirectory = arxml.getParentFile().getAbsolutePath();
 		
-		File doc = new File(PackIn.m_Package_Dir + File.separator + "doc");
+		File doc = new File(PackIn.packageDirectory + File.separator + "doc");
 		doc.mkdir();
 		
 		if (DB.isOracle())
-			PackIn.m_Database = "Oracle";
+			PackIn.database = "Oracle";
 		else if (DB.isPostgreSQL())
-			PackIn.m_Database = "PostgreSQL";
+			PackIn.database = "PostgreSQL";
 
 		// call XML Handler
 		String trxName = Trx.createTrxName();

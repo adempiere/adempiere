@@ -76,13 +76,17 @@ public class RoleElementHandler extends GenericPOHandler {
 			.setParameters(roleId)
 			.<MRoleOrgAccess>list();
 		for(MRoleOrgAccess access : orgAccessList) {
+			packOut.getGenericPOHandler().setIgnoreWhenSaveError(true);
+			packOut.getGenericPOHandler().setIgnoreWhenMissingMandatoryReference(true);
 			packOut.createGenericPO(document, access);
 		}
 		//	User Access
 		List<MUserRoles> userAccessList = new Query(ctx, I_AD_User_Roles.Table_Name, "AD_Role_ID = ?", null)
-			.setParameters(roleId)
+			.setParameters(roleId)	
 			.<MUserRoles>list();
 		for(MUserRoles access : userAccessList) {
+			packOut.getGenericPOHandler().setIgnoreWhenSaveError(true);
+			packOut.getGenericPOHandler().setIgnoreWhenMissingMandatoryReference(true);
 			packOut.createGenericPO(document, access);
 		}
 		//	Process Access
@@ -90,6 +94,8 @@ public class RoleElementHandler extends GenericPOHandler {
 			.setParameters(roleId)
 			.<MProcessAccess>list();
 		for(MProcessAccess access : processAccessList) {
+			packOut.getGenericPOHandler().setIgnoreWhenSaveError(true);
+			packOut.getGenericPOHandler().setIgnoreWhenMissingMandatoryReference(true);
 			packOut.createGenericPO(document, access);
 		}
 		//	Window Access
@@ -97,6 +103,8 @@ public class RoleElementHandler extends GenericPOHandler {
 			.setParameters(roleId)
 			.<MWindowAccess>list();
 		for(MWindowAccess access : windowAccessList) {
+			packOut.getGenericPOHandler().setIgnoreWhenSaveError(true);
+			packOut.getGenericPOHandler().setIgnoreWhenMissingMandatoryReference(true);
 			packOut.createGenericPO(document, access);
 		}
 		//	Form Access
@@ -104,6 +112,8 @@ public class RoleElementHandler extends GenericPOHandler {
 			.setParameters(roleId)
 			.<MFormAccess>list();
 		for(MFormAccess access : formAccessList) {
+			packOut.getGenericPOHandler().setIgnoreWhenSaveError(true);
+			packOut.getGenericPOHandler().setIgnoreWhenMissingMandatoryReference(true);
 			packOut.createGenericPO(document, access);
 		}
 		//	Browse Access
@@ -111,6 +121,8 @@ public class RoleElementHandler extends GenericPOHandler {
 			.setParameters(roleId)
 			.<X_AD_Browse_Access>list();
 		for(X_AD_Browse_Access access : browseAccessList) {
+			packOut.getGenericPOHandler().setIgnoreWhenSaveError(true);
+			packOut.getGenericPOHandler().setIgnoreWhenMissingMandatoryReference(true);
 			packOut.createGenericPO(document, access);
 		}
 		//	Task Access
@@ -118,6 +130,8 @@ public class RoleElementHandler extends GenericPOHandler {
 			.setParameters(roleId)
 			.<X_AD_Task_Access>list();
 		for(X_AD_Task_Access access : taskAccessList) {
+			packOut.getGenericPOHandler().setIgnoreWhenSaveError(true);
+			packOut.getGenericPOHandler().setIgnoreWhenMissingMandatoryReference(true);
 			packOut.createGenericPO(document, access);
 		}
 		//	Dashboard Access
@@ -125,6 +139,8 @@ public class RoleElementHandler extends GenericPOHandler {
 			.setParameters(roleId)
 			.<X_AD_Dashboard_Access>list();
 		for(X_AD_Dashboard_Access access : dashboardAccessList) {
+			packOut.getGenericPOHandler().setIgnoreWhenSaveError(true);
+			packOut.getGenericPOHandler().setIgnoreWhenMissingMandatoryReference(true);
 			packOut.createGenericPO(document, access);
 		}
 		//	Workflow Access
@@ -132,6 +148,8 @@ public class RoleElementHandler extends GenericPOHandler {
 			.setParameters(roleId)
 			.<MWorkflowAccess>list();
 		for(MWorkflowAccess access : workflowAccessList) {
+			packOut.getGenericPOHandler().setIgnoreWhenSaveError(true);
+			packOut.getGenericPOHandler().setIgnoreWhenMissingMandatoryReference(true);
 			packOut.createGenericPO(document, access);
 		}
 		//	Document Action Access
@@ -139,6 +157,8 @@ public class RoleElementHandler extends GenericPOHandler {
 			.setParameters(roleId)
 			.<X_AD_Document_Action_Access>list();
 		for(X_AD_Document_Action_Access access : documentActionAccessList) {
+			packOut.getGenericPOHandler().setIgnoreWhenSaveError(true);
+			packOut.getGenericPOHandler().setIgnoreWhenMissingMandatoryReference(true);
 			packOut.createGenericPO(document, access);
 		}
 		//	Include Role Access
@@ -147,7 +167,11 @@ public class RoleElementHandler extends GenericPOHandler {
 			.<X_AD_Role_Included>list();
 		for(X_AD_Role_Included access : includeRoleAccessList) {
 			MRole includedRole = MRole.get(ctx, access.getIncluded_Role_ID());
+			packOut.getGenericPOHandler().setIgnoreWhenSaveError(true);
+			packOut.getGenericPOHandler().setIgnoreWhenMissingMandatoryReference(true);
 			packOut.createGenericPO(document, includedRole, true, null);
+			packOut.getGenericPOHandler().setIgnoreWhenSaveError(true);
+			packOut.getGenericPOHandler().setIgnoreWhenMissingMandatoryReference(true);
 			packOut.createGenericPO(document, access);
 		}
 		//	Table Access
@@ -155,6 +179,8 @@ public class RoleElementHandler extends GenericPOHandler {
 			.setParameters(roleId)
 			.<MTableAccess>list();
 		for(MTableAccess access : tableAccessList) {
+			packOut.getGenericPOHandler().setIgnoreWhenSaveError(true);
+			packOut.getGenericPOHandler().setIgnoreWhenMissingMandatoryReference(true);
 			packOut.createGenericPO(document, access);
 		}
 		//	Column Access
@@ -163,6 +189,8 @@ public class RoleElementHandler extends GenericPOHandler {
 			.setOnlyActiveRecords(true)
 			.<MColumnAccess>list();
 		for(MColumnAccess access : columnAccessList) {
+			packOut.getGenericPOHandler().setIgnoreWhenSaveError(true);
+			packOut.getGenericPOHandler().setIgnoreWhenMissingMandatoryReference(true);
 			packOut.createGenericPO(document, access);
 		}
 		//	Record Access
@@ -171,6 +199,8 @@ public class RoleElementHandler extends GenericPOHandler {
 			.setOnlyActiveRecords(true)
 			.<MRecordAccess>list();
 		for(MRecordAccess access : recordAccessList) {
+			packOut.getGenericPOHandler().setIgnoreWhenSaveError(true);
+			packOut.getGenericPOHandler().setIgnoreWhenMissingMandatoryReference(true);
 			packOut.createGenericPO(document, access);
 		}
 	}

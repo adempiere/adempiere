@@ -29,6 +29,7 @@ import org.compiere.model.MPayment;
 import org.compiere.model.X_I_BankStatement;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.Util;
 
 /**
@@ -39,6 +40,9 @@ import org.compiere.util.Util;
  *  @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
  *  Add support to unidentified payments
  *  https://github.com/adempiere/adempiere/issues/2785
+ *  @author Victor Perez, victor.perez@e-evolution.com , http://e-evolution.com
+ *  [Bug Report] Transaction blocking error when creating payment from the account statement and immediate posting #3429
+ *  https://github.com/adempiere/adempiere/issues/3429
  */
 public class BankStatementPayment extends BankStatementPaymentAbstract {
 
@@ -150,13 +154,21 @@ public class BankStatementPayment extends BankStatementPaymentAbstract {
 			documentNo = bankStatementLine.getEftReference();
 		}
 		String checkNo = bankStatementLine.getEftCheckNo();
+		boolean isUnidentified = false;
+		if(!Util.isEmpty(getParameterAsString("TrxType"))
+				&& getParameterAsString("TrxType").equals("U")) {
+			isUnidentified = true;
+		}
 		//
 		MPayment payment = createPayment (bankStatementLine.getC_Invoice_ID(), bankStatementLine.getC_BPartner_ID(),
 			bankStatementLine.getC_Currency_ID(), bankStatementLine.getStmtAmt(), bankStatementLine.getTrxAmt(), 
 			bankStatement.getC_BankAccount_ID(), bankStatementLine.getStatementLineDate(), bankStatementLine.getDateAcct(),
-			bankStatementLine.getDescription(), bankStatementLine.getAD_Org_ID(), bankStatementLine.getC_Charge_ID(), getParameterAsString("TrxType").equals("U"), documentNo, checkNo);
+			bankStatementLine.getDescription(), bankStatementLine.getAD_Org_ID(), bankStatementLine.getC_Charge_ID(), isUnidentified, documentNo, checkNo);
 		//	update statement
 		bankStatementLine.setPayment(payment);
+		if(isUnidentified) {
+			bankStatementLine.setC_Charge_ID(-1);
+		}
 		bankStatementLine.saveEx();
 		//
 		String retString = "@C_Payment_ID@ = " + payment.getDocumentNo();
@@ -219,7 +231,7 @@ public class BankStatementPayment extends BankStatementPaymentAbstract {
 		payment.setDescription(description);
 		//
 		if (invoiceId != 0) {
-			MInvoice invoice = new MInvoice (getCtx(), invoiceId, null);
+			MInvoice invoice = new MInvoice (getCtx(), invoiceId, get_TrxName());
 			payment.setC_DocType_ID(invoice.isSOTrx());		//	Receipt
 			payment.setC_Invoice_ID(invoice.getC_Invoice_ID());
 			payment.setC_BPartner_ID (invoice.getC_BPartner_ID());
@@ -260,6 +272,9 @@ public class BankStatementPayment extends BankStatementPaymentAbstract {
 			payment.setCheckNo(checkNo);
 		}
 		payment.setIsUnidentifiedPayment(isUnidentified);
+		if(isUnidentified) {
+			payment.addDescription(Msg.parseTranslation(getCtx(), "@UnidentifiedPayment@"));
+		}
 		payment.saveEx();
 		//
 		payment.processIt(MPayment.DOCACTION_Complete);

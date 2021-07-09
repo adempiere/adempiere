@@ -21,6 +21,7 @@ import org.compiere.model.PO;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.Trx;
 import org.zkoss.zk.ui.event.DropEvent;
 import org.zkoss.zk.ui.event.Event;
@@ -106,18 +107,16 @@ public class ADTreeOnDropListener implements EventListener {
 			Treeitem toItem = tree.renderItemByPath(path);
 			
 			tree.setSelectedItem(toItem);
-			Events.sendEvent(tree, new Event(Events.ON_SELECT, tree));
 			
 			MenuListener listener = new MenuListener(movingNode, toNode);
 			
-			//TODO: translation
 			Menupopup popup = new Menupopup();
-			Menuitem menuItem = new Menuitem("Insert After");
+			Menuitem menuItem = new Menuitem(Msg.translate(Env.getCtx(), "insert.after"));
 			menuItem.setValue("InsertAfter");
 			menuItem.setParent(popup);
 			menuItem.addEventListener(Events.ON_CLICK, listener);
 			
-			menuItem = new Menuitem("Move Into");
+			menuItem = new Menuitem(Msg.translate(Env.getCtx(), "move.into"));
 			menuItem.setValue("MoveInto");
 			menuItem.setParent(popup);
 			menuItem.addEventListener(Events.ON_CLICK, listener);
@@ -192,7 +191,7 @@ public class ADTreeOnDropListener implements EventListener {
 							table.saveEx();
 						}
 					}
-				}else { 
+				}
 				StringBuffer sql = new StringBuffer("UPDATE ");
 					sql.append(mTree.getNodeTableName())
 						.append(" SET Parent_ID=").append(oldMParent.getNode_ID())
@@ -202,7 +201,6 @@ public class ADTreeOnDropListener implements EventListener {
 						.append(" AND Node_ID=").append(md.getNode_ID());
 					log.fine(sql.toString());
 					no = DB.executeUpdate(sql.toString(),trx.getTrxName());
-				}
 			}
 			if (oldParent != newParent) 
 			{
@@ -224,17 +222,17 @@ public class ADTreeOnDropListener implements EventListener {
 								table.saveEx();
 							}
 						}
-					}else {
-						StringBuffer sql = new StringBuffer("UPDATE ");
-						sql.append(mTree.getNodeTableName())
-							.append(" SET Parent_ID=").append(newMParent.getNode_ID())
-							.append(", SeqNo=").append(i)
-							.append(", Updated=SysDate")
-							.append(" WHERE AD_Tree_ID=").append(mTree.getAD_Tree_ID())
-							.append(" AND Node_ID=").append(md.getNode_ID());
-						log.fine(sql.toString());
-						no = DB.executeUpdate(sql.toString(),trx.getTrxName());
 					}
+					StringBuffer sql = new StringBuffer("UPDATE ");
+					sql.append(mTree.getNodeTableName())
+						.append(" SET Parent_ID=").append(newMParent.getNode_ID())
+						.append(", SeqNo=").append(i)
+						.append(", Updated=SysDate")
+						.append(" WHERE AD_Tree_ID=").append(mTree.getAD_Tree_ID())
+						.append(" AND Node_ID=").append(md.getNode_ID());
+					log.fine(sql.toString());
+					no = DB.executeUpdate(sql.toString(),trx.getTrxName());
+				
 				}
 			}
 			//	COMMIT          *********************

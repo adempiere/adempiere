@@ -99,7 +99,7 @@ public class VAttributeGrid extends CPanel
 		tabbedPane.add(selectPanel, Msg.getMsg(Env.getCtx(), "Selection"));
 		selectPanel.add(attributeLabel1, new ALayoutConstraint(0,0));
 		m_attributes = MAttribute.getOfClient(Env.getCtx(), true, true);
-		Vector<KeyNamePair> vector = new Vector<KeyNamePair>();
+		Vector<Object> vector = new Vector<Object>();
 		vector.add(new KeyNamePair(0,""));
 		for (int i = 0; i < m_attributes.length; i++)
 			vector.add(m_attributes[i].getKeyNamePair());

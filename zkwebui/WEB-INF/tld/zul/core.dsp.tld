@@ -17,13 +17,6 @@ Copyright (C) 2006 Potix Corporation. All Rights Reserved.
 	Methods and actions for ZUL in DSP/ZUML
 	</description>
 
-	<!--         -->
-	<!-- Imports -->
-	<!--         -->
-	<import>
-		<import-name>ZulFns</import-name>
-		<import-class>org.zkoss.zul.fn.ZulFns</import-class>
-	</import>
 
 	<!--           -->
 	<!-- Functions -->

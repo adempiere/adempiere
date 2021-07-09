@@ -27,25 +27,8 @@ RETURNS numeric AS $body$
  * Test:
  *		SELECT currencyBase(100,116,null,11,null) FROM AD_System; => 64.72
  ************************************************************************/
-DECLARE
-	v_CurTo_ID	NUMERIC;
 BEGIN
-	--	Get Currency
-	SELECT	MAX(ac.C_Currency_ID)
-	  INTO	v_CurTo_ID
-	FROM	AD_ClientInfo ci, C_AcctSchema ac
-	WHERE	ci.C_AcctSchema1_ID=ac.C_AcctSchema_ID
-	  AND	ci.AD_Client_ID=p_Client_ID;
-	--	Same as Currency_Conversion - if currency/rate not found - return 0
-	IF (v_CurTo_ID IS NULL) THEN
-		RETURN NULL;
-	END IF;
-	--	Same currency
-	IF (p_CurFrom_ID = v_CurTo_ID) THEN
-		RETURN p_Amount;
-	END IF;
-
-	RETURN currencyConvert (p_Amount, p_CurFrom_ID, v_CurTo_ID, p_ConvDate, null, p_Client_ID, p_Org_ID);
+	RETURN currencyBase(p_Amount, p_CurFrom_ID, p_ConvDate, null, p_Client_ID, p_Org_ID);
 END;
 
 $body$ LANGUAGE plpgsql;

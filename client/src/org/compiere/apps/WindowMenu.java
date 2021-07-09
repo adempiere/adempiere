@@ -50,6 +50,7 @@ import javax.swing.event.MenuListener;
 import org.compiere.swing.CFrame;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.jdesktop.swingx.JXButton;
 import org.jdesktop.swingx.JXImageView;
 import org.jdesktop.swingx.JXPanel;
@@ -266,7 +267,7 @@ public class WindowMenu extends JMenu {
         }
         	
         if ( !(frame instanceof AMenu) ) {
-        	JFrame frame = Env.getWindow(0);
+        	JFrame frame = SwingEnv.getWindow(0);
         	if (frame != null && frame instanceof AMenu) {
         		menu = new ChildMenuItem((AMenu)frame);
                 menu.setState(false);
@@ -338,7 +339,7 @@ public class WindowMenu extends JMenu {
 			int width = ( s.width - 30 ) / 3;
 			int height = ( s.height - 30 ) / 3;
 			int count = 0;
-			JFrame frame = Env.getWindow(0);
+			JFrame frame = SwingEnv.getWindow(0);
 	    	if (frame != null && frame instanceof AMenu) {
 	    		JXTitledPanel box = createImageBox(p, dialog, width, height,
 						(CFrame)frame);

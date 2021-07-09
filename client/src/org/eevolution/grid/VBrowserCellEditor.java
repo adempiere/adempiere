@@ -1,19 +1,19 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.eevolution.grid;
 
 
@@ -44,6 +44,9 @@ import java.util.EventObject;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  * 		<li>BR [ 268 ] Smart Browse Table don't have a MVC
  * 		@see https://github.com/adempiere/adempiere/issues/268
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+ * 
  */
 public final class VBrowserCellEditor extends AbstractCellEditor
         implements TableCellEditor, VetoableChangeListener, ActionListener {
@@ -142,10 +145,6 @@ public final class VBrowserCellEditor extends AbstractCellEditor
             table.setRowSelectionInterval(row, row);     //  force moving to new row
         if (m_editor == null)
             createEditor();
-
-        if (m_editor instanceof VLookup) {
-            ((VLookup) m_editor).setStopEditing(false);
-        }
 
         this.row = row;
         this.col = col;
@@ -249,26 +248,6 @@ public final class VBrowserCellEditor extends AbstractCellEditor
         m_mField = null;
         table = null;
     }    //	dispose
-
-    @Override
-    public boolean stopCellEditing() {
-        if (super.stopCellEditing()) {
-            if (m_editor instanceof VLookup) {
-                ((VLookup) m_editor).setStopEditing(true);
-            }
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public void cancelCellEditing() {
-        super.cancelCellEditing();
-        if (m_editor instanceof VLookup) {
-            ((VLookup) m_editor).setStopEditing(true);
-        }
-    }
 
     public void setActionListener(ActionListener listener) {
         actionListener = listener;

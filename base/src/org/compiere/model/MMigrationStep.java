@@ -49,6 +49,9 @@ import org.w3c.dom.NodeList;
  * 		@see FR [ 673 ] Model Migration don't load current value for Multi-Key records</a>
  * 		<a href="https://github.com/adempiere/adempiere/issues/1072">
  * 		@see BR [ 1072 ] Synchronize Column is unnecessary when it is not apply for DB</a>
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2914">#2914</a>: Force delete of an entity when
+ *  		rolling back a migration step
  */
 public class MMigrationStep extends X_AD_MigrationStep {
 
@@ -678,8 +681,14 @@ public class MMigrationStep extends X_AD_MigrationStep {
 
 			// If the record was inserted, delete it.
 			if ( getAction().equals(MMigrationStep.ACTION_Insert) && po != null)  {
-				// force delete to remove processed records.
-				po.deleteEx(true, get_TrxName());
+				//  Force delete to remove processed records and entity types
+				if (po instanceof  MEntityType) {
+					MEntityType entityType = (MEntityType) po;
+					entityType.setIsDeleteForced(true);
+					entityType.delete(true , get_TrxName());
+				} else {
+					po.deleteEx(true, get_TrxName());
+				}
 				//TODO column sync database?
 			}
 			// If the record was updated, set the values back to the old values.

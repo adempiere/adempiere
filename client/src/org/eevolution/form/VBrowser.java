@@ -66,6 +66,7 @@ import org.compiere.util.Ini;
 import org.compiere.util.Login;
 import org.compiere.util.Msg;
 import org.compiere.util.Splash;
+import org.compiere.util.SwingEnv;
 import org.eevolution.grid.Browser;
 import org.eevolution.grid.BrowserSearch;
 import org.eevolution.grid.VBrowserTable;
@@ -142,7 +143,7 @@ public class VBrowser extends Browser implements ActionListener, ListSelectionLi
 		m_frame = frame;
 		m_frame.setTitle(browse.getTitle());
 		m_frame.getContentPane().add(statusBar, BorderLayout.SOUTH);
-		windowNo = Env.createWindowNo(m_frame.getContainer());
+		windowNo = SwingEnv.createWindowNo(m_frame.getContainer());
 		Env.setContext(Env.getCtx(), windowNo, "IsSOTrx", isSOTrx ? "Y" : "N");
 		setProcessInfo(frame.getProcessInfo());
 		copyWinContext();

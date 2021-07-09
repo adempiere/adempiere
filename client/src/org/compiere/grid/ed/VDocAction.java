@@ -45,6 +45,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.compiere.wf.MWFActivity;
 
 /**
@@ -72,7 +73,7 @@ public class VDocAction extends CDialog
 	 */
 	public VDocAction (int WindowNo, GridTab mTab, VButton button, int Record_ID)
 	{
-		super(Env.getWindow(WindowNo), Msg.translate(Env.getCtx(), "DocAction"), true);
+		super(SwingEnv.getWindow(WindowNo), Msg.translate(Env.getCtx(), "DocAction"), true);
 		log.config("");
 		m_WindowNo = WindowNo;
 		m_mTab = mTab;
@@ -93,7 +94,7 @@ public class VDocAction extends CDialog
 		//
 		dynInit(Record_ID);
 		//
-		AEnv.positionCenterWindow(Env.getWindow(WindowNo), this);
+		AEnv.positionCenterWindow(SwingEnv.getWindow(WindowNo), this);
 	}	//	VDocAction
 
 	//

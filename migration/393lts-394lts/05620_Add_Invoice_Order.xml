@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add Invoice Order as Sub Type for orders" ReleaseNo="3.9.3" SeqNo="5620">
+    <Comments>See: https://github.com/adempiere/adempiere/pull/3042</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55447" Table="AD_Ref_List">
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="564" Column="Created">2020-02-21 21:19:15.418</Data>
+        <Data AD_Column_ID="566" Column="Updated">2020-02-21 21:19:15.418</Data>
+        <Data AD_Column_ID="200" Column="Value">IO</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">148</Data>
+        <Data AD_Column_ID="150" Column="Description">Invoice Order allows generate a invoice automatically after complete, the delivery is based on delivery rule from standar sales process</Data>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Invoice Order</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55447</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84390" Column="UUID">2e566fc6-b08b-464d-8b10-5684654b18cb</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55447" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="709" Column="Updated">2020-02-21 21:19:27.106</Data>
+        <Data AD_Column_ID="707" Column="Created">2020-02-21 21:19:27.106</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="338" Column="Name">Invoice Order</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="339" Column="Description">Invoice Order allows generate a invoice automatically after complete, the delivery is based on delivery rule from standar sales process</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55447</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID">9d507747-08eb-4ddd-ade2-2a4b9314faf5</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55447" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="339" Column="Description" oldValue="Invoice Order allows generate a invoice automatically after complete, the delivery is based on delivery rule from standar sales process">La orden Pre-Facturada permite generar una factura automáticamente al completarse, la entrega es basada en la regla de entrega desde el proceso estándar de ventas</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55447">55447</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="338" Column="Name" oldValue="Invoice Order">Orden Facturada (Automáticamente)</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

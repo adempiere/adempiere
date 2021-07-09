@@ -34,7 +34,7 @@ import javax.swing.JComponent;
 import org.compiere.model.MAssignmentSlot;
 import org.compiere.plaf.CompiereUtils;
 import org.compiere.util.CLogger;
-import org.compiere.util.Env;
+import org.compiere.util.SwingEnv;
 
 /**
  *	Schedule Time Panel.
@@ -86,7 +86,7 @@ public class VScheduleTimePanel extends JComponent
 		FontMetrics fm = null;
 		Graphics g = getGraphics();
 		if (g == null)
-			g = Env.getGraphics(this);
+			g = SwingEnv.getGraphics(this);
 		if (g != null)
 			fm = g.getFontMetrics(m_font);		//	the "correct" way
 		else

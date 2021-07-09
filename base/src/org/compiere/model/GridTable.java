@@ -997,6 +997,17 @@ public class GridTable extends AbstractTableModel
 	}	//	getKeyColumnName
 
 
+	public Object getValue (int row, String columnName)
+	{
+		Object value = null;
+		
+		int targetColIndex = findColumn(columnName);
+		if (targetColIndex != -1)
+		{
+			value = getValueAt(row, targetColIndex);
+		}
+		return value;
+	}
 	/**************************************************************************
 	 * 	Get Value in Resultset
 	 *  @param row row
@@ -1273,7 +1284,12 @@ public class GridTable extends AbstractTableModel
 		//  update Table // QuickEntry: check for DropDown list populate but focus is lose while LEFT/RIGHT key-event fire.
 		if (!m_fields.get(0).getGridTab().isIncluded()
 				&& (DisplayType.List != m_fields.get(col).getDisplayType()))
-		fireTableCellUpdated(row, col);
+			fireTableCellUpdated(row, col);
+		
+		// Special Case of isActive. Need to trigger a redraw of the entire row
+		if (m_fields.get(col).getColumnName().equals("IsActive"))
+			fireTableRowsUpdated(row,row);
+		
 		//  update MField
 		GridField field = getField(col);
 		field.setValue(value, m_inserting);
@@ -2997,15 +3013,34 @@ public class GridTable extends AbstractTableModel
 		//	Check column range
 		if (col < 0 && col >= m_fields.size())
 			return false;
-		//  IsActive Column always editable if no processed exists
-		if (col == m_indexActiveColumn && m_indexProcessedColumn == -1)
+		
+		int[] co = getClientOrg(row);
+		int AD_Client_ID = co[0]; 
+		int AD_Org_ID = co[1];
+		int Record_ID = getKeyID(row);
+		boolean canUpdate = MRole.getDefault(m_ctx, false).canUpdate
+			(AD_Client_ID, AD_Org_ID, m_AD_Table_ID, Record_ID, false);
+		
+		//  IsActive Column always editable if no processed exists ...
+		if (col == m_indexActiveColumn && m_indexProcessedColumn == -1 && canUpdate)
 			return true;
-		//	Row
-		if (!isRowEditable(row))
-			return false;
-
+		
 		//	Column
-		return ((GridField)m_fields.get(col)).isEditable(false);
+		if (!((GridField)m_fields.get(col)).isEditable(false))
+			return false;
+		
+		// Column is always editable
+		if (((GridField)m_fields.get(col)).isAlwaysUpdateable())
+			return true;
+		
+//		//	Row
+//		if (!isRowEditable(row))
+//			return false;
+		
+		//	Column
+//		return ((GridField)m_fields.get(col)).isEditable(false);
+			
+		return isRowEditable(row);
 	}	//	IsCellEditable
 
 

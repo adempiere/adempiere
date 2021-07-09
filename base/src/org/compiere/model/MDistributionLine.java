@@ -81,13 +81,13 @@ public class MDistributionLine extends X_GL_DistributionLine
 	}	//	MDistributionLine
 
 	/**	The Parent						*/
-	private MDistribution		m_parent = null;
+	private MDistribution parent = null;
 	/** The Amount						*/
-	private BigDecimal			m_amt = null;
+	private BigDecimal amount = null;
 	/** The Quantity					*/
-	private BigDecimal			m_qty = null;
+	private BigDecimal quantity = null;
 	/** The Base Account				*/
-	private MAccount			m_account = null;
+	private MAccount account = null;
 
 	/**
 	 * 	Get Parent
@@ -95,9 +95,9 @@ public class MDistributionLine extends X_GL_DistributionLine
 	 */
 	public MDistribution getParent ()
 	{
-		if (m_parent == null)
-			m_parent = new MDistribution (getCtx(), getGL_Distribution_ID(), get_TrxName()); 
-		return m_parent;
+		if (parent == null)
+			parent = new MDistribution (getCtx(), getGL_Distribution_ID(), get_TrxName());
+		return parent;
 	}	//	getParent
 	
 	/**
@@ -106,7 +106,7 @@ public class MDistributionLine extends X_GL_DistributionLine
 	 */
 	public void setParent (MDistribution parent)
 	{
-		m_parent = parent;
+		this.parent = parent;
 	}	//	setParent
 	
 	/**
@@ -115,7 +115,7 @@ public class MDistributionLine extends X_GL_DistributionLine
 	 */
 	public void setAccount (MAccount acct)
 	{
-		m_account = acct;
+		account = acct;
 	}	//	setAccount
 	
 	/**
@@ -124,29 +124,28 @@ public class MDistributionLine extends X_GL_DistributionLine
 	 */
 	public MAccount getAccount()
 	{
-		MAccount acct = MAccount.get(getCtx(), 
-			m_account.getAD_Client_ID(), 
-			isOverwriteOrg() && getOrg_ID() != 0 ? getOrg_ID() : m_account.getAD_Org_ID(), 
-			m_account.getC_AcctSchema_ID(),
-			isOverwriteAcct() && getAccount_ID() != 0 ? getAccount_ID() : m_account.getAccount_ID(),
-				m_account.getC_SubAcct_ID(),
-			//	
-			isOverwriteProduct() ? getM_Product_ID() : m_account.getM_Product_ID(), 
-			isOverwriteBPartner() ? getC_BPartner_ID() : m_account.getC_BPartner_ID(), 
-			isOverwriteOrgTrx() ? getAD_OrgTrx_ID() : m_account.getAD_OrgTrx_ID(), 
-			isOverwriteLocFrom() ? getC_LocFrom_ID() : m_account.getC_LocFrom_ID(), 
-			isOverwriteLocTo() ? getC_LocTo_ID() : m_account.getC_LocTo_ID(), 
-			isOverwriteSalesRegion() ? getC_SalesRegion_ID() : m_account.getC_SalesRegion_ID(), 
-			isOverwriteProject() ? getC_Project_ID() : m_account.getC_Project_ID(), 
-			isOverwriteCampaign() ? getC_Campaign_ID() : m_account.getC_Campaign_ID(), 
-			isOverwriteActivity() ? getC_Activity_ID() : m_account.getC_Activity_ID(),
-			isOverwriteUser1() ? getUser1_ID() : m_account.getUser1_ID(), 
-			isOverwriteUser2() ? getUser2_ID() : m_account.getUser2_ID(),
-			isOverwriteUser3() ? getUser3_ID() : m_account.getUser3_ID(),
-			isOverwriteUser4() ? getUser4_ID() : m_account.getUser4_ID(),
-				m_account.getUserElement1_ID(),
-				m_account.getUserElement2_ID(), null);
-		return acct;
+		return MAccount.get(getCtx(),
+			account.getAD_Client_ID(),
+			isOverwriteOrg() && getOrg_ID() != 0 ? getOrg_ID() : account.getAD_Org_ID(),
+			account.getC_AcctSchema_ID(),
+			isOverwriteAcct() && getAccount_ID() != 0 ? getAccount_ID() : account.getAccount_ID(),
+				account.getC_SubAcct_ID(),
+			//
+			isOverwriteProduct() ? getM_Product_ID() : account.getM_Product_ID(),
+			isOverwriteBPartner() ? getC_BPartner_ID() : account.getC_BPartner_ID(),
+			isOverwriteOrgTrx() ? getAD_OrgTrx_ID() : account.getAD_OrgTrx_ID(),
+			isOverwriteLocFrom() ? getC_LocFrom_ID() : account.getC_LocFrom_ID(),
+			isOverwriteLocTo() ? getC_LocTo_ID() : account.getC_LocTo_ID(),
+			isOverwriteSalesRegion() ? getC_SalesRegion_ID() : account.getC_SalesRegion_ID(),
+			isOverwriteProject() ? getC_Project_ID() : account.getC_Project_ID(),
+			isOverwriteCampaign() ? getC_Campaign_ID() : account.getC_Campaign_ID(),
+			isOverwriteActivity() ? getC_Activity_ID() : account.getC_Activity_ID(),
+			isOverwriteUser1() ? getUser1_ID() : account.getUser1_ID(),
+			isOverwriteUser2() ? getUser2_ID() : account.getUser2_ID(),
+			isOverwriteUser3() ? getUser3_ID() : account.getUser3_ID(),
+			isOverwriteUser4() ? getUser4_ID() : account.getUser4_ID(),
+				account.getUserElement1_ID(),
+				account.getUserElement2_ID(), get_TrxName());
 	}	//	setAccount
 
 	
@@ -156,7 +155,7 @@ public class MDistributionLine extends X_GL_DistributionLine
 	 */
 	public BigDecimal getAmt ()
 	{
-		return m_amt;
+		return amount;
 	}	//	getAmt
 	
 	/**
@@ -165,7 +164,7 @@ public class MDistributionLine extends X_GL_DistributionLine
 	 */
 	public void setAmt (BigDecimal amt)
 	{
-		m_amt = amt;
+		amount = amt;
 	}	//	setAmt
 	
 	/**************************************************************************
@@ -174,7 +173,7 @@ public class MDistributionLine extends X_GL_DistributionLine
 	 */
 	public BigDecimal getQty ()
 	{
-		return m_qty;
+		return quantity;
 	}	//	getQty
 	
 	/**
@@ -183,7 +182,7 @@ public class MDistributionLine extends X_GL_DistributionLine
 	 */
 	public void setQty (BigDecimal qty)
 	{
-		m_qty = qty;
+		quantity = qty;
 	}	//	setQty
 	
 	/**
@@ -193,8 +192,8 @@ public class MDistributionLine extends X_GL_DistributionLine
 	 */
 	public void calculateAmt (BigDecimal amt, int precision)
 	{
-		m_amt = amt.multiply(getPercent());
-		m_amt = m_amt.divide(Env.ONEHUNDRED, precision, BigDecimal.ROUND_HALF_UP);
+		amount = amt.multiply(getPercent());
+		amount = amount.divide(Env.ONEHUNDRED, precision, BigDecimal.ROUND_HALF_UP);
 	}	//	setAmt
 
 	/**
@@ -203,8 +202,8 @@ public class MDistributionLine extends X_GL_DistributionLine
 	 */
 	public void calculateQty (BigDecimal qty)
 	{
-		m_qty = qty.multiply(getPercent());
-		m_qty = m_qty.divide(Env.ONEHUNDRED, BigDecimal.ROUND_HALF_UP);
+		quantity = qty.multiply(getPercent());
+		quantity = quantity.divide(Env.ONEHUNDRED, BigDecimal.ROUND_HALF_UP);
 	}	//	setAmt
 
 	
@@ -277,8 +276,8 @@ public class MDistributionLine extends X_GL_DistributionLine
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
 		getParent();
-		m_parent.validate();
-		m_parent.saveEx();
+		parent.validate();
+		parent.saveEx();
 		return success;
 	}	//	afterSave
 

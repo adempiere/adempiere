@@ -41,7 +41,7 @@ import org.compiere.swing.CDialog;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CMenuItem;
 import org.compiere.swing.CPanel;
-import org.compiere.swing.CTextPane;
+import org.compiere.swing.CScrollingTextPane;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -149,7 +149,7 @@ public final class ADialogDialog extends CDialog implements ActionListener
 	private CPanel westPanel = new CPanel();
 	private CLabel iconLabel = new CLabel();
 	private GridBagLayout westLayout = new GridBagLayout();
-	private CTextPane info = new CTextPane ();
+	private CScrollingTextPane info = new CScrollingTextPane ();
 	private GridBagLayout infoLayout = new GridBagLayout();
 	private CPanel infoPanel = new CPanel();
 

@@ -146,7 +146,6 @@ public class MPrintFormatItem extends X_AD_PrintFormatItem
 			return printFormatItem;
 
 		printFormatItem = new Query(ctx , Table_Name , COLUMNNAME_AD_PrintFormatItem_ID + "=?" , trxName)
-				.setClient_ID()
 				.setParameters(printFormatItemId)
 				.first();
 		if (printFormatItem != null && printFormatItem.get_ID() > 0) {

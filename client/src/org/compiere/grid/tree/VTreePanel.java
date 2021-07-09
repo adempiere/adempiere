@@ -88,6 +88,7 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.Util;
 import org.jdesktop.swingx.JXTaskPane;
 import org.jdesktop.swingx.JXTaskPaneContainer;
@@ -576,6 +577,7 @@ public final class VTreePanel extends CPanel
 			if (search.openDocumentsByDocumentNo(treeSearch.getText().substring(1)))
 				treeSearch.setText(null);
 			setBusy(false);
+			e.consume();
 			return;
 		}
 
@@ -591,12 +593,17 @@ public final class VTreePanel extends CPanel
 				MTreeNode tn = (MTreeNode)tp.getLastPathComponent();
 				setSelectedNode(tn);
 			}
+			e.consume();
 		}
 
 		//  *** treeSearch ***
 		else if (e.getSource() == treeSearch)
 		{
 			String search = treeSearch.getText();
+			
+			if (search.isEmpty())
+				return;  // Pass on the event.
+			
 			boolean found = false;
 
 			//  at the end - try from top
@@ -627,6 +634,8 @@ public final class VTreePanel extends CPanel
 			}
 			if (!found)
 				ADialog.beep();
+			
+			e.consume();
 		}   //  treeSearch
 
 	}   //  keyPressed
@@ -879,7 +888,7 @@ public final class VTreePanel extends CPanel
 				//	Launch
 				if(recentItem.isOptionMenu()) {
 					MMenu menu = MMenu.getFromId(Env.getCtx(), recentItem.getAD_Menu_ID());
-					CFrame frame = (CFrame) Env.getFrame((JButton) e.getSource());
+					CFrame frame = (CFrame) SwingEnv.getFrame((JButton) e.getSource());
 					AMenu aMenu = AEnv.getAMenu(frame);
 					new AMenuStartItem(menu.getAD_Menu_ID(), true, 
 							menu.get_Translation(MMenu.COLUMNNAME_Name), aMenu)
@@ -1206,7 +1215,7 @@ public final class VTreePanel extends CPanel
 	 */
 	private void setBusy (boolean busy)
 	{
-		JFrame frame = Env.getFrame(this);
+		JFrame frame = SwingEnv.getFrame(this);
 		log.info("frame: " + frame);
 		if (frame == null)  //  during init
 			return;

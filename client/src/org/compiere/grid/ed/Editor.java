@@ -50,10 +50,11 @@ import org.compiere.swing.CDialog;
 import org.compiere.swing.CMenuItem;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CTextArea;
-import org.compiere.swing.CTextPane;
+import org.compiere.swing.CScrollingTextPane;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 
 /**
  *  Editor for Text (textArea) with HTML (textPane) View
@@ -81,7 +82,7 @@ public class Editor extends CDialog
 	public static String startEditor(Container jc, String header, String text, boolean editable, int maxSize)
 	{
 		//	Find frame
-		JFrame frame = Env.getFrame(jc);
+		JFrame frame = SwingEnv.getFrame(jc);
 		String hdr = header;
 		if (hdr == null || hdr.length() == 0)
 			hdr = Msg.getMsg(Env.getCtx(), "Editor");
@@ -146,7 +147,7 @@ public class Editor extends CDialog
 	private BorderLayout panelLayout = new BorderLayout();
 	private JTabbedPane tabbedPane = new JTabbedPane();
 	private CTextArea textArea = new CTextArea();
-	private CTextPane textPane = new CTextPane();
+	private CScrollingTextPane textPane = new CScrollingTextPane();
 	private JMenuBar menuBar = new JMenuBar();
 	private JMenu mFile = new JMenu();
 	private CMenuItem mImport = new CMenuItem();

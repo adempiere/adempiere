@@ -62,6 +62,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -107,7 +108,7 @@ public class AcctViewer extends CFrame
 		super (Msg.getMsg(Env.getCtx(), "AcctViewer"));
 		log.info("AD_Table_ID=" + tableId + ", Record_ID=" + recordId);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		accountViewerData = new AcctViewerData (Env.getCtx(), Env.createWindowNo(this), clientId, tableId);
+		accountViewerData = new AcctViewerData (Env.getCtx(), SwingEnv.createWindowNo(this), clientId, tableId);
 		AEnv.addToWindowManager(this);
 		//
 		try

@@ -18,12 +18,14 @@ package org.eevolution.process;
 
 import java.sql.Timestamp;
 
+import org.compiere.model.I_C_POS;
 import org.compiere.model.MBankAccount;
 import org.compiere.model.MBankStatement;
 import org.compiere.model.MBankStatementLine;
 import org.compiere.model.MPayment;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
  
 /**
  *  Bank Transfer. Generate two Payments entry
@@ -37,6 +39,14 @@ import org.compiere.util.Env;
  *	
  **/
 public class BankTransfer extends BankTransferAbstract {
+	
+	@Override
+	protected void prepare() {
+		super.prepare();
+		if(Util.isEmpty(getTenderType())) {
+			setTenderType(MPayment.TENDERTYPE_DirectDeposit);
+		}
+	}
 	
 	/**
 	 *  Perform process.
@@ -80,7 +90,7 @@ public class BankTransfer extends BankTransferAbstract {
 		paymentBankFrom.setDocumentNo(getDocumentNo());
 		paymentBankFrom.setDateAcct(dateAcct);
 		paymentBankFrom.setDateTrx(statementDate);
-		paymentBankFrom.setTenderType(MPayment.TENDERTYPE_DirectDeposit);
+		paymentBankFrom.setTenderType(getTenderType());
 		paymentBankFrom.setDescription(getDescription());
 		paymentBankFrom.setC_BPartner_ID (getBPartnerId());
 		paymentBankFrom.setC_Currency_ID(getCurrencyId());
@@ -89,7 +99,11 @@ public class BankTransfer extends BankTransferAbstract {
 		}
 		paymentBankFrom.setPayAmt(getAmount());
 		paymentBankFrom.setOverUnderAmt(Env.ZERO);
-		paymentBankFrom.setC_DocType_ID(false);
+		if(getWithdrawalDocumentTypeId() != 0) {
+			paymentBankFrom.setC_DocType_ID(getWithdrawalDocumentTypeId());
+		} else {
+			paymentBankFrom.setC_DocType_ID(false);
+		}
 		paymentBankFrom.setC_Charge_ID(getChargeId());
 		paymentBankFrom.saveEx();
 		//	
@@ -98,16 +112,25 @@ public class BankTransfer extends BankTransferAbstract {
 		paymentBankTo.setDocumentNo(documentNoTo);
 		paymentBankTo.setDateAcct(dateAcct);
 		paymentBankTo.setDateTrx(statementDate);
-		paymentBankTo.setTenderType(MPayment.TENDERTYPE_DirectDeposit);
+		paymentBankTo.setTenderType(getTenderType());
 		paymentBankTo.setDescription(getDescription());
 		paymentBankTo.setC_BPartner_ID (getBPartnerId());
 		paymentBankTo.setC_Currency_ID(getCurrencyId());
 		if(getConversionTypeId() > 0) {
-			paymentBankFrom.setC_ConversionType_ID(getConversionTypeId());	
+			paymentBankTo.setC_ConversionType_ID(getConversionTypeId());	
+		}
+		//	Support to cash opening
+		if(getParameterAsInt(I_C_POS.COLUMNNAME_C_POS_ID) > 0) {
+			paymentBankFrom.setC_POS_ID(getParameterAsInt(I_C_POS.COLUMNNAME_C_POS_ID));
+			paymentBankTo.setC_POS_ID(getParameterAsInt(I_C_POS.COLUMNNAME_C_POS_ID));
 		}
 		paymentBankTo.setPayAmt(getAmount());
 		paymentBankTo.setOverUnderAmt(Env.ZERO);
-		paymentBankTo.setC_DocType_ID(true);
+		if(getDepositDocumentTypeId() != 0) {
+			paymentBankTo.setC_DocType_ID(getDepositDocumentTypeId());
+		} else {
+			paymentBankTo.setC_DocType_ID(true);
+		}
 		paymentBankTo.setC_Charge_ID(getChargeId());
 		paymentBankTo.saveEx();
 
@@ -115,6 +138,7 @@ public class BankTransfer extends BankTransferAbstract {
 		paymentBankFrom.saveEx();
 		paymentBankFrom.processIt(MPayment.DOCACTION_Complete);
 		paymentBankFrom.saveEx();
+		addLog("@C_Payment_ID@ @IsReceipt@: ");
 		//	Add to current bank statement for account
 		if(isAutoReconciled()) {
 			MBankStatementLine bsl = MBankStatement.addPayment(paymentBankFrom);

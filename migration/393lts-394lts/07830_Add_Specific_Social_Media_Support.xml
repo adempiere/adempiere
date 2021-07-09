@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add Specific Social Media Support" ReleaseNo="3.9.4" SeqNo="7830">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55616" Table="AD_Ref_List">
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="564" Column="Created">2021-06-04 09:26:40.09</Data>
+        <Data AD_Column_ID="566" Column="Updated">2021-06-04 09:26:40.09</Data>
+        <Data AD_Column_ID="200" Column="Value">STW</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">54081</Data>
+        <Data AD_Column_ID="150" Column="Description">https://twitter.com/</Data>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Twitter</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55616</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84390" Column="UUID">442b6c0a-9a48-4496-a216-54bbd863fee6</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55616" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="707" Column="Created">2021-06-04 09:26:41.869</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID">1270ad5f-7c44-4fee-af0a-68a7a72a44c1</Data>
+        <Data AD_Column_ID="709" Column="Updated">2021-06-04 09:26:41.869</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="338" Column="Name">Twitter</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="339" Column="Description">https://twitter.com/</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55616</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55617" Table="AD_Ref_List">
+        <Data AD_Column_ID="566" Column="Updated">2021-06-04 09:26:56.935</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="564" Column="Created">2021-06-04 09:26:56.935</Data>
+        <Data AD_Column_ID="200" Column="Value">SFA</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">54081</Data>
+        <Data AD_Column_ID="150" Column="Description">https://www.facebook.com/</Data>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Facebook</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55617</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84390" Column="UUID">a4ebea30-cb26-452e-befe-d63648e408ad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55617" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="707" Column="Created">2021-06-04 09:26:58.008</Data>
+        <Data AD_Column_ID="709" Column="Updated">2021-06-04 09:26:58.008</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="338" Column="Name">Facebook</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="339" Column="Description">https://www.facebook.com/</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55617</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID">44a1ed69-4994-4a59-b356-7f57e4badc75</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55618" Table="AD_Ref_List">
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="564" Column="Created">2021-06-04 09:27:16.702</Data>
+        <Data AD_Column_ID="566" Column="Updated">2021-06-04 09:27:16.702</Data>
+        <Data AD_Column_ID="200" Column="Value">SIG</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">54081</Data>
+        <Data AD_Column_ID="150" Column="Description">https://www.instagram.com/</Data>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Instagram</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55618</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84390" Column="UUID">7b7aeba6-75d7-495f-b558-bac8b0421f10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55618" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="707" Column="Created">2021-06-04 09:27:17.72</Data>
+        <Data AD_Column_ID="709" Column="Updated">2021-06-04 09:27:17.72</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="338" Column="Name">Instagram</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="339" Column="Description">https://www.instagram.com/</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55618</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID">eb4dd0d4-2a88-4d60-9338-3f35f53834ca</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55619" Table="AD_Ref_List">
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="564" Column="Created">2021-06-04 09:27:31.339</Data>
+        <Data AD_Column_ID="566" Column="Updated">2021-06-04 09:27:31.339</Data>
+        <Data AD_Column_ID="200" Column="Value">SSK</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">54081</Data>
+        <Data AD_Column_ID="150" Column="Description">https://www.skype.com/</Data>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Skype</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55619</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84390" Column="UUID">9df616ed-678c-4076-bafa-876b7fe21b7f</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55619" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="707" Column="Created">2021-06-04 09:27:32.318</Data>
+        <Data AD_Column_ID="709" Column="Updated">2021-06-04 09:27:32.318</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="338" Column="Name">Skype</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="339" Column="Description">https://www.skype.com/</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55619</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID">527f2b1a-928d-4ac6-9fc8-e2c4ddc9778b</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55620" Table="AD_Ref_List">
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="564" Column="Created">2021-06-04 09:27:45.604</Data>
+        <Data AD_Column_ID="566" Column="Updated">2021-06-04 09:27:45.604</Data>
+        <Data AD_Column_ID="200" Column="Value">SIN</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">54081</Data>
+        <Data AD_Column_ID="150" Column="Description">https://www.linkedin.com/</Data>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">LinkedIn</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55620</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84390" Column="UUID">756b11b6-55d1-4d8f-8a3b-cea11f6a6da5</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55620" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="707" Column="Created">2021-06-04 09:27:46.91</Data>
+        <Data AD_Column_ID="709" Column="Updated">2021-06-04 09:27:46.91</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="338" Column="Name">LinkedIn</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="339" Column="Description">https://www.linkedin.com/</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55620</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID">37d1111b-9249-4b72-8519-4d70371d7f1f</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55621" Table="AD_Ref_List">
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="564" Column="Created">2021-06-04 09:28:00.086</Data>
+        <Data AD_Column_ID="566" Column="Updated">2021-06-04 09:28:00.086</Data>
+        <Data AD_Column_ID="200" Column="Value">SSN</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">54081</Data>
+        <Data AD_Column_ID="150" Column="Description">https://www.snapchat.com/</Data>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">SnapChat</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55621</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84390" Column="UUID">447998e9-a699-47b0-9df0-ffe924d7c47f</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55621" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="707" Column="Created">2021-06-04 09:28:00.871</Data>
+        <Data AD_Column_ID="709" Column="Updated">2021-06-04 09:28:00.871</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="338" Column="Name">SnapChat</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="339" Column="Description">https://www.snapchat.com/</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55621</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID">ba6c4342-be09-4711-9144-08a4a3a1f986</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55622" Table="AD_Ref_List">
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="564" Column="Created">2021-06-04 09:28:14.172</Data>
+        <Data AD_Column_ID="566" Column="Updated">2021-06-04 09:28:14.172</Data>
+        <Data AD_Column_ID="200" Column="Value">STG</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">54081</Data>
+        <Data AD_Column_ID="150" Column="Description">https://www.telegram.org/</Data>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">Telegram</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55622</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84390" Column="UUID">179b3339-99f9-4aa4-9825-697bf6fc5635</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55622" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="707" Column="Created">2021-06-04 09:28:15.002</Data>
+        <Data AD_Column_ID="709" Column="Updated">2021-06-04 09:28:15.002</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="338" Column="Name">Telegram</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="339" Column="Description">https://www.telegram.org/</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55622</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID">f71ef380-3638-4a2a-9a6a-cc8548aa5aab</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55623" Table="AD_Ref_List">
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="564" Column="Created">2021-06-04 09:28:27.597</Data>
+        <Data AD_Column_ID="566" Column="Updated">2021-06-04 09:28:27.597</Data>
+        <Data AD_Column_ID="200" Column="Value">SWH</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">54081</Data>
+        <Data AD_Column_ID="150" Column="Description">https://www.whatsapp.com/</Data>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">WhatsApp</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55623</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84390" Column="UUID">7404f563-d396-4602-bb95-6dbce51b9c00</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55623" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="707" Column="Created">2021-06-04 09:28:28.529</Data>
+        <Data AD_Column_ID="709" Column="Updated">2021-06-04 09:28:28.529</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="338" Column="Name">WhatsApp</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="339" Column="Description">https://www.whatsapp.com/</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55623</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID">3ee051e3-434b-4408-8773-957508f07906</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55624" Table="AD_Ref_List">
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="149" Column="Name">YouTube</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55624</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84390" Column="UUID">6cf1faba-d164-466f-8bd4-71717f94b544</Data>
+        <Data AD_Column_ID="564" Column="Created">2021-06-04 09:36:39.141</Data>
+        <Data AD_Column_ID="566" Column="Updated">2021-06-04 09:36:39.141</Data>
+        <Data AD_Column_ID="200" Column="Value">SYT</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">54081</Data>
+        <Data AD_Column_ID="150" Column="Description">https://www.youtube.com/</Data>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55624" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="707" Column="Created">2021-06-04 09:36:40.312</Data>
+        <Data AD_Column_ID="709" Column="Updated">2021-06-04 09:36:40.312</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="338" Column="Name">YouTube</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="339" Column="Description">https://www.youtube.com/</Data>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55624</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID">fd214119-2109-478b-9efe-0f48db8fcfca</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="104" Action="U" Record_ID="55363" Table="AD_Ref_List">
+        <Data AD_Column_ID="563" Column="IsActive" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="93145" Table="AD_Column">
+        <Data AD_Column_ID="124" Column="IsMandatory" oldValue="true">false</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">AD_AppSupport_ID</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="108" Action="I" Record_ID="52880" Table="AD_Val_Rule">
+        <Data AD_Column_ID="583" Column="IsActive">true</Data>
+        <Data AD_Column_ID="192" Column="Type">S</Data>
+        <Data AD_Column_ID="193" Column="Code">AD_Ref_List.Value IN('STW', 'SFA', 'SYT', 'SIG', 'SSK', 'SIN', 'SSN', 'STG', 'SWH')</Data>
+        <Data AD_Column_ID="586" Column="Updated">2021-06-04 09:48:08.314</Data>
+        <Data AD_Column_ID="584" Column="Created">2021-06-04 09:48:08.314</Data>
+        <Data AD_Column_ID="188" Column="Name">ApplicationType Only Social Media</Data>
+        <Data AD_Column_ID="189" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="387" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="388" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="187" Column="AD_Val_Rule_ID">52880</Data>
+        <Data AD_Column_ID="7715" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="587" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="585" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84460" Column="UUID">852ef68e-4e99-4da9-95a2-36100f715351</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="93147" Table="AD_Column">
+        <Data AD_Column_ID="117" Column="DefaultValue" oldValue="SMN">STG</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isOldNull="true">52880</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">ApplicationType</Data>
+      </PO>
+    </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="230" StepType="SQL">
+      <Comments>Update Current Application Types</Comments>
+      <SQLStatement>UPDATE AD_AppSupport SET ApplicationType = 'STW' WHERE Value = 'Twitter';
+UPDATE AD_AppSupport SET ApplicationType = 'SFA' WHERE Value = 'Facebook';
+UPDATE AD_AppSupport SET ApplicationType = 'SYT' WHERE Value = 'YouTube';
+UPDATE AD_AppSupport SET ApplicationType = 'SIG' WHERE Value = 'Instagram';
+UPDATE AD_AppSupport SET ApplicationType = 'SSK' WHERE Value = 'Skype';
+UPDATE AD_AppSupport SET ApplicationType = 'SIN' WHERE Value = 'LinkedIn';
+UPDATE AD_AppSupport SET ApplicationType = 'SSN' WHERE Value = 'SnapChat';
+UPDATE AD_AppSupport SET ApplicationType = 'STG' WHERE Value = 'Telegram';
+UPDATE AD_AppSupport SET ApplicationType = 'SWH' WHERE Value = 'WhatsApp';</SQLStatement>
+    </Step>
+  </Migration>
+</Migrations>

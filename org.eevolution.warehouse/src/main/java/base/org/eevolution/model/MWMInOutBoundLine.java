@@ -147,6 +147,7 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 		setM_Product_ID(invoiceLine.getM_Product_ID());
 		setC_Charge_ID(invoiceLine.getC_Charge_ID());
 		setC_UOM_ID(invoiceLine.getC_UOM_ID());
+		setDescription(invoiceLine.getDescription());
 	}
 
 	public MWMInOutBoundLine (MWMInOutBound inOutBound , MOrderLine orderLine)
@@ -159,6 +160,7 @@ public class MWMInOutBoundLine extends X_WM_InOutBoundLine
 		setM_Product_ID(orderLine.getM_Product_ID());
 		setC_Charge_ID(orderLine.getC_Charge_ID());
 		setC_UOM_ID(orderLine.getC_UOM_ID());
+		setDescription(orderLine.getDescription());
 	}
 	
 	/**

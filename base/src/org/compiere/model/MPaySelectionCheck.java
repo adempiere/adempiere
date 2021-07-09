@@ -99,11 +99,10 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 			paymentRule = PAYMENTRULE_CreditCard;
 		else if (payment.getTenderType().equals(X_C_Payment.TENDERTYPE_DirectDebit))
 			paymentRule = PAYMENTRULE_DirectDebit;
-		else if (payment.getTenderType().equals(X_C_Payment.TENDERTYPE_DirectDeposit))
+		else if (payment.getTenderType().equals(X_C_Payment.TENDERTYPE_DirectDeposit)
+				|| payment.getTenderType().equals(MPayment.TENDERTYPE_MobilePaymentInterbank)
+				|| payment.getTenderType().equals(MPayment.TENDERTYPE_Zelle))
 			paymentRule = PAYMENTRULE_DirectDeposit;
-	//	else if (payment.getTenderType().equals(MPayment.TENDERTYPE_Check))
-	//		PaymentRule = MPaySelectionCheck.PAYMENTRULE_Check;
-		
 		//	Create new PaySelection
 		MPaySelection paySelection = new MPaySelection(ctx, 0, trxName);
 		paySelection.setC_DocType_ID();
@@ -157,11 +156,15 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 			}
 			//	For all
 			paySelectionLine.setIsPrepayment(payment.isPrepayment());
-			//	
+			//	calculate open amount from payment amount
+			BigDecimal openAmount = Env.ZERO;
+			if(payment.isOverUnderPayment()) {
+				openAmount = payment.getPayAmt().add(payment.getDiscountAmt()).add(payment.getOverUnderAmt());
+			}
 			paySelectionLine.setC_BPartner_ID(payment.getC_BPartner_ID());
 			paySelectionLine.setIsSOTrx (payment.isReceipt());
 			paySelectionLine.setAmtSource(payment.getPayAmt());
-			paySelectionLine.setOpenAmt(payment.getPayAmt().add(payment.getDiscountAmt()));
+			paySelectionLine.setOpenAmt(openAmount);
 			paySelectionLine.setPayAmt (payment.getPayAmt());
 			paySelectionLine.setDiscountAmt(payment.getDiscountAmt());
 			paySelectionLine.setDifferenceAmt (Env.ZERO);
@@ -370,10 +373,13 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 							receiptAccount.setC_DocType_ID(!payment.isReceipt());
 							receiptAccount.setRelatedPayment_ID(payment.getC_Payment_ID());
 							receiptAccount.setTenderType(MPayment.TENDERTYPE_DirectDeposit);
+							receiptAccount.setC_Charge_ID(line.getC_Charge_ID());
 							receiptAccount.saveEx();
 							receiptAccount.processIt(DocAction.ACTION_Complete);
 							receiptAccount.saveEx();
 							payment.setRelatedPayment_ID(receiptAccount.getC_Payment_ID());
+							payment.setC_Charge_ID(receiptAccount.getC_Charge_ID());
+							payment.saveEx();
 						}
 					}
 				} else {
@@ -508,14 +514,22 @@ public final class MPaySelectionCheck extends X_C_PaySelectionCheck
 					.filter(partnerBankAccount -> partnerBankAccount != null && partnerBankAccount.isDirectDebit())
 					.filter(employeeAccount -> employeeAccount.isPayrollAccount() || !isPayrollAccount)
 					.findFirst()
-					.ifPresent( partnerBankAccount -> setC_BP_BankAccount_ID(partnerBankAccount.getC_BP_BankAccount_ID()));
+					.ifPresent( partnerBankAccount -> {
+						setC_BP_BankAccount_ID(partnerBankAccount.getC_BP_BankAccount_ID());
+						paySelectionLine.setC_BP_BankAccount_ID(partnerBankAccount.getC_BP_BankAccount_ID());
+						paySelectionLine.saveEx();
+					});
 		} else if (X_C_Order.PAYMENTRULE_DirectDeposit.equals(paymentRule)) {
 			List<MBPBankAccount> partnerBankAccounts = MBPBankAccount.getByPartner(paySelectionLine.getCtx(), partnerId);
 			partnerBankAccounts.stream()
 					.filter(partnerBankAccount -> partnerBankAccount != null && partnerBankAccount.isDirectDeposit())
 					.filter(employeeAccount -> employeeAccount.isPayrollAccount() || !isPayrollAccount)
 					.findFirst()
-					.ifPresent( partnerBankAccount -> setC_BP_BankAccount_ID(partnerBankAccount.getC_BP_BankAccount_ID()));
+					.ifPresent( partnerBankAccount -> {
+						setC_BP_BankAccount_ID(partnerBankAccount.getC_BP_BankAccount_ID());
+						paySelectionLine.setC_BP_BankAccount_ID(partnerBankAccount.getC_BP_BankAccount_ID());
+						paySelectionLine.saveEx();
+					});
 		}
 		setPaymentRule (paymentRule);
 		//

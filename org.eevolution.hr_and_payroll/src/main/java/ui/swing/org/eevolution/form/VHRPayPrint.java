@@ -33,6 +33,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.ValueNamePair;
 import org.eevolution.model.MHRPaySelectionCheck;
 import org.eevolution.service.HRPayPrint;
@@ -425,7 +426,7 @@ public class VHRPayPrint extends HRPayPrint implements FormPanel, ActionListener
 		for (MHRPaySelectionCheck check : m_checks)
 		{
 			//	ReportCtrl will check BankAccountDoc for PrintFormat
-			boolean ok = ReportCtl.startDocumentPrint(ReportEngine.HR_CHECK, check.get_ID(), null, Env.getWindowNo(panel), directPrint);
+			boolean ok = ReportCtl.startDocumentPrint(ReportEngine.HR_CHECK, check.get_ID(), null, SwingEnv.getWindowNo(panel), directPrint);
 			if (!somethingPrinted && ok)
 				somethingPrinted = true;
 		}
@@ -448,7 +449,7 @@ public class VHRPayPrint extends HRPayPrint implements FormPanel, ActionListener
 		{
 			for (MHRPaySelectionCheck check : m_checks)
 			{
-				ReportCtl.startDocumentPrint(ReportEngine.HR_REMITTANCE, check.get_ID(), null, Env.getWindowNo(panel), directPrint);
+				ReportCtl.startDocumentPrint(ReportEngine.HR_REMITTANCE, check.get_ID(), null, SwingEnv.getWindowNo(panel), directPrint);
 			}
 		}	//	remittance
 

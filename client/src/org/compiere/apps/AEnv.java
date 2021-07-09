@@ -64,6 +64,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.Splash;
+import org.compiere.util.SwingEnv;
 
 /**
  *  Windows Application Environment and utilities
@@ -161,22 +162,26 @@ public final class AEnv
 		window.pack();
 		// take into account task bar and other adornments
 		GraphicsConfiguration config = window.getGraphicsConfiguration();
-		Rectangle bounds = config.getBounds();
-		Dimension sSize = bounds.getSize();
+		Rectangle displayBounds = config.getBounds();
 		Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(config);
-		sSize.width -= (insets.left + insets.right);
-		sSize.height -= (insets.top + insets.bottom);
+		displayBounds.x += insets.left;
+		displayBounds.y += insets.top;
+		displayBounds.width -= (insets.left + insets.right);
+		displayBounds.height -= (insets.top + insets.bottom);
 		
 		Dimension wSize = window.getSize();
 		//	fit on window
-		if (wSize.height > sSize.height)
-			wSize.height = sSize.height;
-		if (wSize.width > sSize.width)
-			wSize.width = sSize.width;
+		if (wSize.height > displayBounds.height)
+			wSize.height = displayBounds.height;
+		if (wSize.width > displayBounds.width)
+			wSize.width = displayBounds.width;
 		window.setSize(wSize);
-		//	Center
-		int x = (sSize.width - wSize.width) / 2;
-		int y = (sSize.height - wSize.height) / 2;
+		
+		//  Display device offset is set below. Here
+		//  x and y are relative to the screen.
+		//	Center 
+		int x = (displayBounds.width - wSize.width) / 2;
+		int y = (displayBounds.height - wSize.height) / 2;
 		if (position == SwingConstants.CENTER)
 			;
 		else if (position == SwingConstants.NORTH_WEST)
@@ -190,7 +195,7 @@ public final class AEnv
 		}
 		else if (position == SwingConstants.NORTH_EAST)
 		{
-			x = (sSize.width - wSize.width);
+			x = (displayBounds.width - wSize.width);
 			y = 0;
 		}
 		else if (position == SwingConstants.WEST)
@@ -199,24 +204,25 @@ public final class AEnv
 		}
 		else if (position == SwingConstants.EAST)
 		{
-			x = (sSize.width - wSize.width);
+			x = (displayBounds.width - wSize.width);
 		}
 		else if (position == SwingConstants.SOUTH)
 		{
-			y = (sSize.height - wSize.height);
+			y = (displayBounds.height - wSize.height);
 		}
 		else if (position == SwingConstants.SOUTH_WEST)
 		{
 			x = 0;
-			y = (sSize.height - wSize.height);
+			y = (displayBounds.height - wSize.height);
 		}
 		else if (position == SwingConstants.SOUTH_EAST)
 		{
-			x = (sSize.width - wSize.width);
-			y = (sSize.height - wSize.height);
+			x = (displayBounds.width - wSize.width);
+			y = (displayBounds.height - wSize.height);
 		}
-		//
-		window.setLocation(bounds.x + x + insets.left, bounds.y + y + insets.top);
+		
+		//  Now add the display device offsets
+		window.setLocation(displayBounds.x + x + insets.left, displayBounds.y + y + insets.top);
 	}	//	positionScreen
 
 	/**
@@ -246,41 +252,47 @@ public final class AEnv
 		}
 		window.pack();
 		//
-		Dimension sSize = Toolkit.getDefaultToolkit().getScreenSize();
 		// take into account task bar and other adornments
 		GraphicsConfiguration config = window.getGraphicsConfiguration();
+		Rectangle displayBounds = config.getBounds(); // Mulit-screen aware
 		Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(config);
-		sSize.width -= (insets.left + insets.right);
-		sSize.height -= (insets.top + insets.bottom);
+		displayBounds.x += insets.left;
+		displayBounds.y += insets.top;
+		displayBounds.width -= (insets.left + insets.right);
+		displayBounds.height -= (insets.top + insets.bottom);
 		
 		Dimension wSize = window.getSize();
 		//	fit on window
-		if (wSize.height > sSize.height)
-			wSize.height = sSize.height;
-		if (wSize.width > sSize.width)
-			wSize.width = sSize.width;
+		if (wSize.height > displayBounds.height)
+			wSize.height = displayBounds.height;
+		if (wSize.width > displayBounds.width)
+			wSize.width = displayBounds.width;
 		window.setSize(wSize);
 		//	center in parent
 		Rectangle pBounds = parent.getBounds();
-		//	Parent is in upper left corner
-		if (pBounds.x == pBounds.y && pBounds.x == 0)
+		//	Parent is in upper left corner and smaller than
+		//  the window. 
+		if (pBounds.x == displayBounds.x 
+			&& pBounds.y == displayBounds.y
+			&& pBounds.width < wSize.width
+			&& pBounds.height < wSize.height)
 		{
 			positionCenterScreen(window);
 			return;
 		}
 		//  Find middle
 		int x = pBounds.x + ((pBounds.width-wSize.width)/2);
-		if (x < 0)
-			x = 0;
+		if (x < pBounds.x)
+			x = pBounds.x;
 		int y = pBounds.y + ((pBounds.height-wSize.height)/2);
-		if (y < 0)
-			y = 0;
+		if (y < pBounds.y)
+			y = pBounds.y;
 
 		//	Is it on Screen?
-		if (x + wSize.width > sSize.width)
-			x = sSize.width - wSize.width;
-		if (y + wSize.height > sSize.height)
-			y = sSize.height - wSize.height;
+		if (x + wSize.width > displayBounds.x + displayBounds.width)
+			x = displayBounds.x + displayBounds.width - wSize.width;
+		if (y + wSize.height > displayBounds.y + displayBounds.height)
+			y = displayBounds.y + displayBounds.height - wSize.height;
 		//
 	//	System.out.println("Position: x=" + x + " y=" + y + " w=" + wSize.getWidth() + " h=" + wSize.getHeight()
 	//		+ " - Parent loc x=" + pLoc.x + " y=" + y + " w=" + pSize.getWidth() + " h=" + pSize.getHeight());
@@ -369,11 +381,11 @@ public final class AEnv
 		//  File Menu   ------------------------
 		if (actionCommand.equals("PrintScreen"))
 		{
-			PrintScreenPainter.printScreen (Env.getFrame(c));
+			PrintScreenPainter.printScreen (SwingEnv.getFrame(c));
 		}
 		else if (actionCommand.equals("ScreenShot"))
 		{
-			ScreenShot.createJPEG(Env.getFrame(c), null);
+			ScreenShot.createJPEG(SwingEnv.getFrame(c), null);
 		}
 	//	else if (actionCommand.equals("Report"))
 	//	{
@@ -383,28 +395,28 @@ public final class AEnv
 		{
 			if (ADialog.ask(WindowNo, c, "ExitApplication?"))
 			{
-				AMenu aMenu = (AMenu)Env.getWindow(0);
+				AMenu aMenu = (AMenu)SwingEnv.getWindow(0);
 				aMenu.dispose() ;
 			}
 		}
 		else if (actionCommand.equals("Logout"))
 		{
-			AMenu aMenu = (AMenu)Env.getWindow(0);
+			AMenu aMenu = (AMenu)SwingEnv.getWindow(0);
 			aMenu.logout();
 		}
 
 		//  View Menu   ------------------------
 		else if (actionCommand.equals("InfoProduct") && AEnv.canAccessInfo("PRODUCT"))
 		{
-			org.compiere.apps.search.Info.showProduct (Env.getFrame(c), WindowNo);
+			org.compiere.apps.search.Info.showProduct (SwingEnv.getFrame(c), WindowNo);
 		}
 		else if (actionCommand.equals("InfoBPartner") && AEnv.canAccessInfo("BPARTNER"))
 		{
-			org.compiere.apps.search.Info.showBPartner (Env.getFrame(c), WindowNo);
+			org.compiere.apps.search.Info.showBPartner (SwingEnv.getFrame(c), WindowNo);
 		}
 		else if (actionCommand.equals("InfoAsset") && AEnv.canAccessInfo("ASSET"))
 		{
-			org.compiere.apps.search.Info.showAsset (Env.getFrame(c), WindowNo);
+			org.compiere.apps.search.Info.showAsset (SwingEnv.getFrame(c), WindowNo);
 		}
 		else if (actionCommand.equals("InfoAccount") && 
 				  MRole.getDefault().isShowAcct() &&
@@ -414,12 +426,12 @@ public final class AEnv
 		}
 		else if (actionCommand.equals("InfoSchedule") && AEnv.canAccessInfo("SCHEDULE"))
 		{
-			new org.compiere.apps.search.InfoSchedule (Env.getFrame(c), null, false);
+			new org.compiere.apps.search.InfoSchedule (SwingEnv.getFrame(c), null, false);
 		}
 		//FR [ 1966328 ] 
 		else if (actionCommand.equals("InfoMRP") && AEnv.canAccessInfo("MRP"))
 		{
-			CFrame frame = (CFrame) Env.getFrame(c);
+			CFrame frame = (CFrame) SwingEnv.getFrame(c);
 			int	m_menu_id = MMenu.getMenu_ID("MRP Info");
 			AMenu menu = AEnv.getAMenu(frame);
 			AMenuStartItem form = new AMenuStartItem (m_menu_id, true, Msg.translate(Env.getCtx(), "MRP Info"), menu);		//	async load
@@ -427,7 +439,7 @@ public final class AEnv
 		}
 		else if (actionCommand.equals("InfoCRP") && AEnv.canAccessInfo("CRP"))
 		{
-			CFrame frame = (CFrame) Env.getFrame(c);
+			CFrame frame = (CFrame) SwingEnv.getFrame(c);
 			int	m_menu_id = MMenu.getMenu_ID("CRP Info");
 			AMenu menu = AEnv.getAMenu(frame);
 			AMenuStartItem form = new AMenuStartItem (m_menu_id, true, Msg.translate(Env.getCtx(), "CRP Info"), menu);		//	async load
@@ -435,27 +447,27 @@ public final class AEnv
 		}
 		else if (actionCommand.equals("InfoOrder") && AEnv.canAccessInfo("ORDER"))
 		{
-			org.compiere.apps.search.Info.showOrder (Env.getFrame(c), WindowNo, "");
+			org.compiere.apps.search.Info.showOrder (SwingEnv.getFrame(c), WindowNo, "");
 		}
 		else if (actionCommand.equals("InfoInvoice") && AEnv.canAccessInfo("INVOICE"))
 		{
-			org.compiere.apps.search.Info.showInvoice (Env.getFrame(c), WindowNo, "");
+			org.compiere.apps.search.Info.showInvoice (SwingEnv.getFrame(c), WindowNo, "");
 		}
 		else if (actionCommand.equals("InfoInOut") && AEnv.canAccessInfo("INOUT"))
 		{
-			org.compiere.apps.search.Info.showInOut (Env.getFrame(c), WindowNo, "");
+			org.compiere.apps.search.Info.showInOut (SwingEnv.getFrame(c), WindowNo, "");
 		}
 		else if (actionCommand.equals("InfoPayment") && AEnv.canAccessInfo("PAYMENT"))
 		{
-			org.compiere.apps.search.Info.showPayment (Env.getFrame(c), WindowNo, "");
+			org.compiere.apps.search.Info.showPayment (SwingEnv.getFrame(c), WindowNo, "");
 		}
 		else if (actionCommand.equals("InfoCashLine") && AEnv.canAccessInfo("CASHJOURNAL"))
 		{
-			org.compiere.apps.search.Info.showCashLine (Env.getFrame(c), WindowNo, "");
+			org.compiere.apps.search.Info.showCashLine (SwingEnv.getFrame(c), WindowNo, "");
 		}
 		else if (actionCommand.equals("InfoAssignment") && AEnv.canAccessInfo("RESOURCE"))
 		{
-			org.compiere.apps.search.Info.showAssignment (Env.getFrame(c), WindowNo, "");
+			org.compiere.apps.search.Info.showAssignment (SwingEnv.getFrame(c), WindowNo, "");
 		}
 		
 
@@ -466,32 +478,32 @@ public final class AEnv
 		}
 		else if (actionCommand.equals("Home"))
 		{
-			showWindow(Env.getWindow(0));
+			showWindow(SwingEnv.getWindow(0));
 		}
 
 		//  Tools Menu  ------------------------
 		else if (actionCommand.equals("Calculator"))
 		{
-			Calculator calc = new org.compiere.grid.ed.Calculator(Env.getFrame(c));
+			Calculator calc = new org.compiere.grid.ed.Calculator(SwingEnv.getFrame(c));
 			calc.setDisposeOnEqual(false);
 			AEnv.showCenterScreen (calc);
 		}
 		else if (actionCommand.equals("Calendar"))
 		{
-			AEnv.showCenterScreen (new org.compiere.grid.ed.Calendar(Env.getFrame(c)));
+			AEnv.showCenterScreen (new org.compiere.grid.ed.Calendar(SwingEnv.getFrame(c)));
 		}
 		else if (actionCommand.equals("Editor"))
 		{
-			AEnv.showCenterScreen (new org.compiere.grid.ed.Editor(Env.getFrame(c)));
+			AEnv.showCenterScreen (new org.compiere.grid.ed.Editor(SwingEnv.getFrame(c)));
 		}
 		else if (actionCommand.equals("Script"))
 		{
-			new BeanShellEditor(Env.getFrame(c));
+			new BeanShellEditor(SwingEnv.getFrame(c));
 		}
 		else if (actionCommand.equals("Preference"))
 		{
 			if (role.isShowPreference()) {
-				AEnv.showCenterScreen(new Preference (Env.getFrame(c), WindowNo));
+				AEnv.showCenterScreen(new Preference (SwingEnv.getFrame(c), WindowNo));
 			}
 		}
 
@@ -502,11 +514,11 @@ public final class AEnv
 		}
 		else if (actionCommand.equals("EMailSupport"))
 		{
-			ADialog.createSupportEMail(Env.getFrame(c), Env.getFrame(c).getTitle(), "\n\n");
+			ADialog.createSupportEMail(SwingEnv.getFrame(c), SwingEnv.getFrame(c).getTitle(), "\n\n");
 		}
 		else if (actionCommand.equals("About"))
 		{
-			AEnv.showCenterScreen(new AboutBox(Env.getFrame(c)));
+			AEnv.showCenterScreen(new AboutBox(SwingEnv.getFrame(c)));
 		}
 		else
 			return false;
@@ -697,7 +709,7 @@ public final class AEnv
 	 */
 	public static void addToWindowManager(CFrame frame)
 	{
-		JFrame top = Env.getWindow(0);
+		JFrame top = SwingEnv.getWindow(0);
 		if (top instanceof AMenu)
 		{
 			((AMenu)top).getWindowManager().add(frame);
@@ -723,7 +735,7 @@ public final class AEnv
 	 */
 	public static AMenu getAMenu(CFrame frame)
 	{
-		JFrame top = Env.getWindow(0);
+		JFrame top = SwingEnv.getWindow(0);
 		if (top instanceof AMenu)
 		{
 			return (AMenu)top;
@@ -736,12 +748,12 @@ public final class AEnv
 	 */
 	public static void exit (int status)
 	{
-		Env.exitEnv(status);
+		SwingEnv.exitEnv(status);
 	}	//	exit
 
 	public static void logout() 
 	{
-		Env.logout();
+		SwingEnv.logout();
 		
 		Splash.getSplash().setVisible(true);
 
@@ -991,8 +1003,8 @@ public final class AEnv
 	 */
 	public static void updateUI()
 	{
-		Set<Window> updated = Env.updateUI();
-		JFrame top = Env.getWindow(0);
+		Set<Window> updated = SwingEnv.updateUI();
+		JFrame top = SwingEnv.getWindow(0);
 		if (top instanceof AMenu)
 		{
 			CFrame[] frames = ((AMenu)top).getWindowManager().getWindows();

@@ -1,4 +1,7 @@
-<project name="ManufacturingManagement" default="zkdist" basedir=".">
+<project name="ManufacturingManagement" default="zkdist" basedir="."
+  xmlns:if="ant:if"
+  xmlns:unless="ant:unless">
+  
     <description>
         Building ManufacturingManagement.jar
         by
@@ -14,6 +17,12 @@
   <property name="dist"  location="${basedir}/dist"/>
   <property name="zksrc" value="${basedir}/src/main/java/ui/zk"/>
   <property name="zkclasses" value="${basedir}/build/zkwebui/WEB-INF/classes"/>
+
+  <property name="test.src" value="src/test/java/base"/>
+  <property name="test.build.dir" value="test/build"/>
+  <property name="test.results.dir" value="test/test_results"/>
+  <property name="base.test.build.dir" value="../base/test/build"/>
+  <property name="base.build.dir" value="../base/build"/>
 
   <path id="compile.classpath">
     <pathelement location="${basedir}/build"/>
@@ -48,7 +57,7 @@
     </javac>
   </target>
 
-  <target name="dist" depends="compile"
+  <target name="dist" depends="compile, integration-tests"
         description="generate the distribution" >
     <!-- Create the distribution directory -->
     <mkdir dir="${dist}/lib"/>
@@ -95,4 +104,103 @@
     <delete dir="${dist}"/>
     <delete dir="${zkclasses}"/>
   </target>
+  
+  <!-- =========================================== -->
+  <!-- Tests                                       -->
+  <!-- =========================================== -->
+
+  <path id="test.class.path">
+    <pathelement path="${build}"/>
+    <pathelement location="${test.build.dir}"/>
+    <pathelement location="${base.test.build.dir}"/>
+    <fileset dir="${adempiere.base}/base" includes="Base.jar"/>
+    <fileset dir="../lib" includes="**/*.jar"/>
+    <fileset dir="../tools/lib/junit" includes="**/*.jar"/>
+    <fileset dir="../tools/lib/testing" includes="**/*.jar"/>
+  </path>
+    
+  <target name="check.tests">
+    <condition property="unitTests.run">
+        <and>
+            <istrue value="${test.performTests}"/>
+            <istrue value="${test.performUnitTests}"/>
+        </and>
+    </condition>
+    <condition property="integrationTests.run">
+        <and>
+            <istrue value="${test.performTests}"/>
+            <istrue value="${test.performIntegrationTests}"/>
+        </and>
+    </condition>
+  </target>
+    
+  <target name="alertIfTestSkipped" depends="check.tests" unless="${test.performTests}">
+    <echo message="Tests will not be performed. See adempiere/utils_dev/test.properties."/>     
+  </target>
+    
+  <target name="clean.tests" depends="alertIfTestSkipped" if="${test.performTests}">
+    <delete dir="${test.build.dir}"/>
+    <delete dir="${test.results.dir}"/>
+  </target>
+
+  <target name="compile.test" depends="compile, clean.tests"
+        if="${test.performTests}">
+    <mkdir dir="${test.build.dir}"/>
+    <javac target="1.8" encoding="UTF-8" fork="true" includeantruntime="false" 
+        destdir="${test.build.dir}" deprecation="on" debug="on" 
+        memoryinitialsize="512m" memorymaximumsize="512m">
+      <src path="${test.src}"/>
+      <classpath refid="test.class.path"/>
+    </javac>        
+  </target>
+    
+  <target name="alertIfUnitTestSkipped" depends="check.tests" unless="unitTests.run">
+    <echo if:true="${test.performTests}">
+"===> Unit tests will not be performed. See adempiere/utils_dev/test.properties."</echo>
+  </target>
+
+  <target name="alertIfIntegrationTestSkipped" depends="check.tests" 
+        unless="integrationTests.run">
+    <echo if:true="${test.performTests}">
+"===> Integration tests will not be performed. See adempiere/utils_dev/test.properties."</echo> 
+  </target>
+    
+  <target name="unit-tests" depends="compile.test, alertIfUnitTestSkipped" if="unitTests.run">
+    <mkdir dir="${basedir}/${test.results.dir}"/>       
+    <junitlauncher 
+        printsummary="false" 
+        haltonfailure="yes" 
+        failureproperty="test.failed"
+        excludeTags="IntegrationTest">
+      <classpath refid="test.class.path"/>
+      <testclasses outputdir="${basedir}/${test.results.dir}">
+        <fileset dir="${test.build.dir}"/>
+        <listener type="legacy-xml" sendSysErr="true" sendSysOut="true"/>
+        <listener classname="org.adempiere.test.AdempiereTestExecutionListener"
+            sendSysErr="true" sendSysOut="true"/>
+        <fork/>
+      </testclasses>
+    </junitlauncher>
+  </target>
+
+    
+  <target name="integration-tests" depends="unit-tests, alertIfIntegrationTestSkipped" 
+        if="integrationTests.run">
+    <mkdir dir="${basedir}/${test.results.dir}"/>       
+    <junitlauncher 
+        printsummary="false" 
+        haltonfailure="yes" 
+        failureproperty="test.failed"
+        excludeTags="UnitTest">
+      <classpath refid="test.class.path"/>
+      <testclasses outputdir="${basedir}/${test.results.dir}">
+        <fileset dir="${test.build.dir}"/>
+        <listener type="legacy-xml" sendSysErr="true" sendSysOut="true"/>
+        <listener classname="org.adempiere.test.AdempiereTestExecutionListener"
+            sendSysErr="true" sendSysOut="true"/>
+        <fork/>
+      </testclasses>            
+    </junitlauncher>
+  </target>
+    
 </project>

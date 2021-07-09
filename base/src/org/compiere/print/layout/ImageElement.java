@@ -40,6 +40,8 @@ import org.compiere.print.PrintDataElement;
 import org.compiere.util.CCache;
 import org.compiere.util.Env;
 
+import com.itextpdf.io.IOException;
+
 /**
  *	Image Element
  *
@@ -317,7 +319,17 @@ public class ImageElement extends PrintElement
 		try
 		{
 			BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(imageData));
-		    m_image = bufferedImage;
+			if(bufferedImage != null) {
+				m_image = bufferedImage;
+				MPrintFormatItem printFormatItem = MPrintFormatItem.getById(Env.getCtx(), AD_PrintFormatItem_ID, null);
+				if(printFormatItem.getMaxWidth() > 0
+						&& printFormatItem.getMaxHeight() > 0) {
+					p_maxHeight = printFormatItem.getMaxHeight();
+					p_maxWidth = printFormatItem.getMaxWidth();
+					calculateSize();
+					m_image = resizeImage(bufferedImage, (int) p_width, (int) p_height);
+				}
+			}
 		}
 		catch (Exception e)
 		{
@@ -330,6 +342,21 @@ public class ImageElement extends PrintElement
 			log.log(Level.WARNING, attachment.getEntryName(0)
 				+ " - not loaded (must be gif or jpg) - AD_PrintFormatItem_ID=" + AD_PrintFormatItem_ID);
 	}	//	loadAttachment
+	
+	/**
+	 * Just resize image
+	 * @param originalImage
+	 * @param targetWidth
+	 * @param targetHeight
+	 * @return
+	 * @throws IOException
+	 */
+	private BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
+	    Image resultingImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_FAST);
+	    BufferedImage outputImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+	    outputImage.getGraphics().drawImage(resultingImage, 0, 0, null);
+	    return outputImage;
+	}
 
 	/**************************************************************************
 	 * 	Calculate Image Size.

@@ -46,7 +46,6 @@ public class PrintFormatElementHandler extends GenericPOHandler {
 			packOut.setLocalContext(ctx);
 		}
 		//	Task
-		packOut.createGenericPO(document, I_AD_PrintFormat.Table_ID, printFormatId, true, null);
 		List<MPrintFormat> printFormatList = new Query(ctx, I_AD_PrintFormat.Table_Name, "AD_PrintFormat_ID = ? "
 				+ "OR EXISTS(SELECT 1 FROM AD_PrintFormatItem pfi WHERE pfi.AD_PrintFormatChild_ID = AD_PrintFormat.AD_PrintFormat_ID AND pfi.AD_PrintFormat_ID = ?)", null)
 			.setParameters(printFormatId, printFormatId)
@@ -62,6 +61,7 @@ public class PrintFormatElementHandler extends GenericPOHandler {
 				packOut.createGenericPO(document, I_AD_PrintFormatItem.Table_ID, printFormatItem.getAD_PrintFormatItem_ID(), true, null);
 			}
 		}
+		packOut.createGenericPO(document, I_AD_PrintFormat.Table_ID, printFormatId, true, null);
 	}
 	
 	@Override

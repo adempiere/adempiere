@@ -12,8 +12,6 @@ import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.metal.MetalTheme;
 
-import org.compiere.plaf.CompiereColor;
-
 public final class ThemeUtils {
 
 	/**	Logger					*/
@@ -147,7 +145,6 @@ public final class ThemeUtils {
 	 */
 	public static void save (Properties properties, MetalTheme theme)
 	{
-		log.config(CompiereColor.getDefaultBackground().toString());
 		//
 		properties.setProperty(P_Primary1, getColorAsString(theme.getPrimaryControlDarkShadow()));
 		properties.setProperty(P_Primary2, getColorAsString(theme.getPrimaryControlShadow()));

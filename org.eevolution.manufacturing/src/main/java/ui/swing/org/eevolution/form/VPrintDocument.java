@@ -35,6 +35,7 @@ import org.compiere.print.Viewer;
 import org.compiere.process.IPrintDocument;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.eevolution.service.dsl.ProcessBuilder;
 
 /**
@@ -45,7 +46,7 @@ import org.eevolution.service.dsl.ProcessBuilder;
 public class VPrintDocument implements IPrintDocument {
     @Override
     public void print(PO document, int printFormatId, int windowNo, boolean askPrint) {
-        JFrame window = Env.getWindow(windowNo);
+        JFrame window = SwingEnv.getWindow(windowNo);
         if (ADialog.ask(windowNo, window, "PrintDocument", document.getDisplayValue())) {
             window.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
             int retValue = ADialogDialog.A_CANCEL;    //	see also ProcessDialog.printShipments/Invoices
@@ -69,7 +70,7 @@ public class VPrintDocument implements IPrintDocument {
 
 	@Override
 	public void print(List<PO> documentList, int printFormatId, int windowNo, boolean askPrint) {
-		JFrame window = Env.getWindow(windowNo);
+		JFrame window = SwingEnv.getWindow(windowNo);
 		StringBuffer documentLabels = new StringBuffer();
 		documentList.stream().forEach(document -> {
 			if(documentLabels.length() > 0) {

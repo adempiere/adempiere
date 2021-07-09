@@ -1,0 +1,79 @@
+<project name="StoreIntegration" default="dist" basedir=".">
+    <description>
+        Building StoreIntegration.jar
+        by
+        Yamel Senih 
+        http://www.erpya.com
+    </description>
+  <!-- set global properties for this build -->
+  <import file="../utils_dev/properties.xml"/>
+  <property name="src" location="src/main/java"/>
+  <property name="build" location="build"/>
+  <property name="dist"  location="dist"/>
+  <property name="base" location="../base/src"/>
+  <property name="Store" location="../org.spin.store/src"/>
+
+  <path id="lib.class.path">
+     <fileset dir="../lib">
+        <include name="*.jar"/>
+     </fileset>
+     <fileset dir="../tools/lib/storefront">
+        <include name="*.jar"/>
+     </fileset>
+    <fileset dir="../packages">
+       <include name="*.jar"/>
+    </fileset>
+  </path>
+  <path id="compile.classpath">
+    <pathelement location="${basedir}/build"/>
+    <fileset dir="../lib">
+        <include name="*.jar"/>
+    </fileset>
+    <fileset dir="../packages">
+        <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <target name="init" depends="clean">
+    <echo message="Trunk location: .."/>
+    <!-- Create the time stamp -->
+    <tstamp/>
+    <!-- Create the build directory structure used by compile -->
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init"
+        description="compile the source " >
+    <!-- Compile the java code from ${src} into ${build} -->
+    <javac encoding="UTF-8"  srcdir="${src}" sourcepath="${base}:${Store}:${controller}" destdir="${build}">
+      <classpath refid="lib.class.path"/>
+    </javac>
+
+  </target>
+
+  <target name="dist" depends="compile"
+        description="generate the distribution" >
+    <!-- Create the distribution directory -->
+    <mkdir dir="${dist}/lib"/>
+
+    <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
+    <jar jarfile="${dist}/lib/StoreIntegration.jar" basedir="${build}"/>
+
+    <!-- Create target Libero deployment -->
+    <mkdir dir="${env.ADEMPIERE_HOME}/packages/StoreIntegration/lib"/>
+
+    <!-- Transfer liberoWM.jar -->
+    <copy file="${dist}/lib/StoreIntegration.jar" todir="${env.ADEMPIERE_HOME}/packages/StoreIntegration/lib"/>
+    <copy file="${dist}/lib/StoreIntegration.jar" todir="../packages/"/>
+
+  </target>
+
+
+  <target name="clean"
+        description="clean up" >
+    <!-- Delete the ${build} and ${dist} directory trees -->
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+    <delete dir="${zkclasses}"/>
+  </target>
+</project>

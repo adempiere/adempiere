@@ -18,6 +18,8 @@ package org.compiere.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
+
 /**
  * Customization handler
  * @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
@@ -52,6 +54,24 @@ public class MProcessParaCustom extends X_AD_ProcessParaCustom {
 			MProcessPara processParameter = MProcessPara.get(getCtx(), processParaId);
 			setProcessParameter(processParameter);
 		}
+	}
+	
+	/**
+	 * Copy all values from custom parameter
+	 * Note that if current custom parameter already exist then the parameter referenced is keep
+	 * <br> Call {@link org.compiere.model.PO#saveEx()} after use this method
+	 * @param customParameter
+	 */
+	public void overwriteValuesFromCustomParameter(MProcessParaCustom customParameter) {
+		if(getAD_ProcessParaCustom_ID() == 0) {
+			throw new AdempiereException("Use default constructor based on other custom parameter");
+		}
+		int parameterId = getAD_Process_Para_ID();
+		int customProcessId = getAD_ProcessCustom_ID();
+		PO.copyValues(customParameter, this);
+		setIsActive(customParameter.isActive());
+		set_ValueNoCheck(COLUMNNAME_AD_ProcessCustom_ID, customProcessId);
+		set_ValueNoCheck(COLUMNNAME_AD_Process_Para_ID, parameterId);
 	}
 	
 	/**

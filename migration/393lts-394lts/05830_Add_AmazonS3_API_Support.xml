@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add AmazonS3 API support" ReleaseNo="3.9.3" SeqNo="5830">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54542" Action="I" Record_ID="50012" Table="AD_AppSupport">
+        <Data AD_Column_ID="91310" Column="UUID">c5ab522b-0645-4aba-b242-dac5662d36c7</Data>
+        <Data AD_Column_ID="91312" Column="Value">AmazonS3</Data>
+        <Data AD_Column_ID="91313" Column="Name">Amazon S3 Support</Data>
+        <Data AD_Column_ID="91314" Column="Description">See: https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/examples-s3-objects.html for more information</Data>
+        <Data AD_Column_ID="91315" Column="Help">This API allows use Amazon S3 service for storage files generated from ADempiere</Data>
+        <Data AD_Column_ID="91316" Column="Classname">org.spin.util.support.aws3.AmazonWS3</Data>
+        <Data AD_Column_ID="91306" Column="Created">2020-06-04 23:20:34.918</Data>
+        <Data AD_Column_ID="91307" Column="Updated">2020-06-04 23:20:34.918</Data>
+        <Data AD_Column_ID="91308" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91303" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91304" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91305" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91309" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91317" Column="ApplicationType">WDV</Data>
+        <Data AD_Column_ID="91318" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="91311" Column="AD_AppSupport_ID">50012</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50012" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">921e5af5-7fc7-4018-80cf-b0e7551b9eb4</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">F</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2020-06-04 23:21:30.761</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2020-06-04 23:21:30.761</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50012</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50012</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">ACCESS_KEY</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50013" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">a4b3dff6-1baa-4579-afe1-04de17e97e75</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">F</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2020-06-04 23:21:40.355</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2020-06-04 23:21:40.355</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50013</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50012</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">SECRET_KEY</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="54544" Action="U" Record_ID="50012" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91393" Column="Description" isOldNull="true">Access key provided by S3 storage provider</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="54544" Action="U" Record_ID="50013" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91393" Column="Description" isOldNull="true">Secret key provided by S3 storage provider</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50014" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">d12a4c76-2b02-4b3b-a3c1-8342ca7aa323</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">F</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91393" Column="Description">Base end point or URL of provider</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2020-06-04 23:23:11.721</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2020-06-04 23:23:11.721</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50014</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50012</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">BUCKET_ENDPOINT</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50015" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">aff655d9-a2d2-4826-9d60-9ceb83c01f08</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">F</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91393" Column="Description">Bucket region</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2020-06-04 23:23:40.003</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2020-06-04 23:23:40.003</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50015</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50012</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">BUCKET_REGION</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50016" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">24090235-c2ae-4779-b304-35bdbb0df92e</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">F</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91393" Column="Description">Bucket Name</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2020-06-04 23:24:01.844</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2020-06-04 23:24:01.844</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50016</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50012</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">BUCKET_NAME</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="54544" Action="U" Record_ID="50012" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91390" Column="ParameterType" oldValue="F">C</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="54544" Action="U" Record_ID="50013" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91390" Column="ParameterType" oldValue="F">C</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="54544" Action="D" Record_ID="50014" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID" isNewNull="true" oldValue="d12a4c76-2b02-4b3b-a3c1-8342ca7aa323"/>
+        <Data AD_Column_ID="91390" Column="ParameterType" isNewNull="true" oldValue="F"/>
+        <Data AD_Column_ID="91391" Column="IsMandatory" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="91393" Column="Description" isNewNull="true" oldValue="Base end point or URL of provider"/>
+        <Data AD_Column_ID="91381" Column="IsActive" isNewNull="true" oldValue="true"/>
+        <Data AD_Column_ID="91382" Column="Created" isNewNull="true" oldValue="2020-06-04 23:23:11.0"/>
+        <Data AD_Column_ID="91383" Column="Updated" isNewNull="true" oldValue="2020-06-04 23:23:11.0"/>
+        <Data AD_Column_ID="91384" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="91385" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID" isNewNull="true" oldValue="50014"/>
+        <Data AD_Column_ID="91389" Column="ParameterDefault" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID" isNewNull="true" oldValue="50012"/>
+        <Data AD_Column_ID="91388" Column="ParameterName" isNewNull="true" oldValue="BUCKET_ENDPOINT"/>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID" isNewNull="true" oldValue="10"/>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="54544" Action="U" Record_ID="50015" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91390" Column="ParameterType" oldValue="F">C</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="54544" Action="U" Record_ID="50016" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91390" Column="ParameterType" oldValue="F">C</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="54544" Action="I" Record_ID="50017" Table="AD_AppSupport_Para">
+        <Data AD_Column_ID="91386" Column="UUID">86d7fc36-bbc0-4c43-85d1-d184d3bcc5c4</Data>
+        <Data AD_Column_ID="91390" Column="ParameterType">C</Data>
+        <Data AD_Column_ID="91391" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="91379" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91380" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91393" Column="Description">Base folder for save files</Data>
+        <Data AD_Column_ID="91381" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91382" Column="Created">2020-06-05 00:28:35.363</Data>
+        <Data AD_Column_ID="91383" Column="Updated">2020-06-05 00:28:35.363</Data>
+        <Data AD_Column_ID="91384" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91385" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91387" Column="AD_AppSupport_Para_ID">50017</Data>
+        <Data AD_Column_ID="91389" Column="ParameterDefault" isNewNull="true"/>
+        <Data AD_Column_ID="91394" Column="AD_AppSupport_ID">50012</Data>
+        <Data AD_Column_ID="91388" Column="ParameterName">BaseFolder</Data>
+        <Data AD_Column_ID="91392" Column="AD_Reference_ID">10</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

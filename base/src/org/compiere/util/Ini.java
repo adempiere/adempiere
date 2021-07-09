@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -44,8 +46,6 @@ import javax.jnlp.UnavailableServiceException;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.adempiere.plaf.AdempiereLookAndFeel;
-import org.adempiere.plaf.AdempiereThemeInnova;
 import org.compiere.model.ModelValidationEngine;
 
 /**
@@ -101,10 +101,9 @@ public final class Ini implements Serializable
 	/** Look & Feel			*/
 	public static final String	P_UI_LOOK =			"UILookFeel";
 
-    private static final String	DEFAULT_UI_LOOK =	AdempiereLookAndFeel.NAME;
+    private static final String	DEFAULT_UI_LOOK =	"Adempiere"; // Hardcoded in base - see org.adempiere.plaf.AdempiereTheme.java
 	/** UI Theme			*/
-        
-	private static final String	DEFAULT_UI_THEME =	AdempiereThemeInnova.NAME;        
+	private static final String	DEFAULT_UI_THEME =	"Adempiere Theme";  // Hardcoded in base - see org.adempiere.plaf.AdempiereThemeInnova.java     
 	/** UI Theme			*/
 	public static final String	P_UI_THEME =		"UITheme";
 	
@@ -282,19 +281,22 @@ public final class Ini implements Serializable
 	 *	Load INI parameters from disk
 	 *  @param reload reload
 	 */
-	public static void loadProperties (boolean reload)
+	public static boolean loadProperties (boolean reload)
 	{
 		if (reload || s_prop.size() == 0)
 		{
 			if (isWebStartClient())
 			{
-				loadWebStartProperties();
+				return loadWebStartProperties();
 			}
 			else
 			{
-				loadProperties(getFileName(s_client));
+				return loadProperties(getFileName(s_client));
 			}
 		}
+		
+		return true;
+		
 	}	//	loadProperties
 
 	private static boolean loadWebStartProperties() {
@@ -346,9 +348,24 @@ public final class Ini implements Serializable
 		{
 			firstTime = true;
 			if (isShowLicenseDialog())
-				if (!IniDialog.accept())
-					System.exit(-1);
-
+			{
+				// Add reflection to avoid dependencies between base and client code
+				// The IniDialog class was moved to the swing client.
+				try {
+					Class<?> iniDialogClass = Class.forName("org.compiere.util.IniDialog");
+					Method accept = iniDialogClass.getMethod("accept");
+					if (! (Boolean) accept.invoke(null, (Object[]) null));
+						System.exit(-1);
+				}
+				catch (ClassNotFoundException 
+						| NoSuchMethodException 
+						| SecurityException 
+						| IllegalAccessException 
+						| IllegalArgumentException 
+						| InvocationTargetException e) {
+					log.severe(e.getMessage());
+				}
+			}
             checkProperties();
 		}
 
@@ -447,14 +464,31 @@ public final class Ini implements Serializable
 			log.log(Level.SEVERE, filename + " - " + t.toString());
 			loadOK = false;
 		}
+		
 		if (!loadOK || s_prop.getProperty(P_TODAY, "").equals(""))
 		{
 			log.config(filename);
 			firstTime = true;
 			if (isShowLicenseDialog())
-				if (!IniDialog.accept())
-					System.exit(-1);
-
+			{
+				// Add reflection to avoid dependencies between base and client code
+				// The IniDialog class was moved to the swing client.
+				try {
+					Class<?> iniDialogClass = Class.forName("org.compiere.util.IniDialog");
+					Method accept = iniDialogClass.getMethod("accept");
+					if (! (Boolean) accept.invoke(null, (Object[]) null));
+						System.exit(-1);
+				}
+				catch (ClassNotFoundException 
+						| NoSuchMethodException 
+						| SecurityException 
+						| IllegalAccessException 
+						| IllegalArgumentException 
+						| InvocationTargetException e) {
+					log.severe(e.getMessage());
+				}
+			}
+			
             checkProperties();
 		}
 

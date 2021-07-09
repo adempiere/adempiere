@@ -249,6 +249,12 @@ public class MAging extends X_T_Aging
 			if (daysDue <= -1 && daysDue >= -7)
 				setDue1_7 (getDue1_7().add(amt));
 				
+			if (daysDue <= -8 && daysDue >= -14)
+				setDue8_14(getDue8_14().add(amt));
+			
+			if (daysDue <= -15 && daysDue >= -30)
+				setDue15_30(getDue15_30().add(amt));
+			
 			if (daysDue <= -8 && daysDue >= -30)
 				setDue8_30 (getDue8_30().add(amt));
 				
@@ -275,7 +281,13 @@ public class MAging extends X_T_Aging
 				
 			if (daysDue <= 30)
 				setPastDue1_30 (getPastDue1_30().add(amt));
-				
+			
+			if (daysDue >= 8 && daysDue <= 14)
+				setPastDue8_14(getPastDue8_14().add(amt));
+			
+			if (daysDue >= 15 && daysDue <= 30)
+				setPastDue15_30 (getPastDue15_30().add(amt));
+			
 			if (daysDue >= 8 && daysDue <= 30)
 				setPastDue8_30 (getPastDue8_30().add(amt));
 			

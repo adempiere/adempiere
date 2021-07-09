@@ -26,14 +26,14 @@ import org.compiere.util.Env;
 
 /** Generated Model for DD_FreightLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_DD_FreightLine extends PO implements I_DD_FreightLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20200804L;
 
     /** Standard Constructor */
     public X_DD_FreightLine (Properties ctx, int DD_FreightLine_ID, String trxName)
@@ -44,7 +44,6 @@ public class X_DD_FreightLine extends PO implements I_DD_FreightLine, I_Persiste
 			setDD_FreightLine_ID (0);
 			setFreightAmt (Env.ZERO);
 			setLine (0);
-			setM_Freight_ID (0);
 			setWeight_UOM_ID (0);
         } */
     }
@@ -76,6 +75,34 @@ public class X_DD_FreightLine extends PO implements I_DD_FreightLine, I_Persiste
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.compiere.model.I_C_BPartner getC_BPartner() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_BPartner)MTable.get(getCtx(), org.compiere.model.I_C_BPartner.Table_Name)
+			.getPO(getC_BPartner_ID(), get_TrxName());	}
+
+	/** Set Business Partner .
+		@param C_BPartner_ID 
+		Identifies a Business Partner
+	  */
+	public void setC_BPartner_ID (int C_BPartner_ID)
+	{
+		if (C_BPartner_ID < 1) 
+			set_Value (COLUMNNAME_C_BPartner_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_BPartner_ID, Integer.valueOf(C_BPartner_ID));
+	}
+
+	/** Get Business Partner .
+		@return Identifies a Business Partner
+	  */
+	public int getC_BPartner_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_BPartner_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 
 	public org.compiere.model.I_C_Charge getC_Charge() throws RuntimeException
     {
@@ -161,33 +188,13 @@ public class X_DD_FreightLine extends PO implements I_DD_FreightLine, I_Persiste
 		return ii.intValue();
 	}
 
-	/** Set Order Freight Line ID.
-		@param DD_FreightLine_ID Order Freight Line ID	  */
-	public void setDD_FreightLine_ID (int DD_FreightLine_ID)
-	{
-		if (DD_FreightLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_DD_FreightLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_DD_FreightLine_ID, Integer.valueOf(DD_FreightLine_ID));
-	}
-
-	/** Get Order Freight Line ID.
-		@return Order Freight Line ID	  */
-	public int getDD_FreightLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_DD_FreightLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.eevolution.model.I_DD_Freight getDD_Freight() throws RuntimeException
     {
 		return (org.eevolution.model.I_DD_Freight)MTable.get(getCtx(), org.eevolution.model.I_DD_Freight.Table_Name)
 			.getPO(getDD_Freight_ID(), get_TrxName());	}
 
-	/** Set Order Freight ID.
-		@param DD_Freight_ID Order Freight ID	  */
+	/** Set Order Freight.
+		@param DD_Freight_ID Order Freight	  */
 	public void setDD_Freight_ID (int DD_Freight_ID)
 	{
 		if (DD_Freight_ID < 1) 
@@ -196,11 +203,31 @@ public class X_DD_FreightLine extends PO implements I_DD_FreightLine, I_Persiste
 			set_ValueNoCheck (COLUMNNAME_DD_Freight_ID, Integer.valueOf(DD_Freight_ID));
 	}
 
-	/** Get Order Freight ID.
-		@return Order Freight ID	  */
+	/** Get Order Freight.
+		@return Order Freight	  */
 	public int getDD_Freight_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Freight_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Order Freight Line.
+		@param DD_FreightLine_ID Order Freight Line	  */
+	public void setDD_FreightLine_ID (int DD_FreightLine_ID)
+	{
+		if (DD_FreightLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_DD_FreightLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_DD_FreightLine_ID, Integer.valueOf(DD_FreightLine_ID));
+	}
+
+	/** Get Order Freight Line.
+		@return Order Freight Line	  */
+	public int getDD_FreightLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_FreightLine_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -224,6 +251,50 @@ public class X_DD_FreightLine extends PO implements I_DD_FreightLine, I_Persiste
 		if (bd == null)
 			 return Env.ZERO;
 		return bd;
+	}
+
+	/** Set Freight Rate.
+		@param FreightRate 
+		Freight Rate of Shipper 
+	  */
+	public void setFreightRate (BigDecimal FreightRate)
+	{
+		set_Value (COLUMNNAME_FreightRate, FreightRate);
+	}
+
+	/** Get Freight Rate.
+		@return Freight Rate of Shipper 
+	  */
+	public BigDecimal getFreightRate () 
+	{
+		BigDecimal bd = (BigDecimal)get_Value(COLUMNNAME_FreightRate);
+		if (bd == null)
+			 return Env.ZERO;
+		return bd;
+	}
+
+	/** Set Invoiced.
+		@param IsInvoiced 
+		Is this invoiced?
+	  */
+	public void setIsInvoiced (boolean IsInvoiced)
+	{
+		set_Value (COLUMNNAME_IsInvoiced, Boolean.valueOf(IsInvoiced));
+	}
+
+	/** Get Invoiced.
+		@return Is this invoiced?
+	  */
+	public boolean isInvoiced () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsInvoiced);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Line No.
@@ -297,6 +368,34 @@ public class X_DD_FreightLine extends PO implements I_DD_FreightLine, I_Persiste
 	public int getM_Freight_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Freight_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Package getM_Package() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Package)MTable.get(getCtx(), org.compiere.model.I_M_Package.Table_Name)
+			.getPO(getM_Package_ID(), get_TrxName());	}
+
+	/** Set Package.
+		@param M_Package_ID 
+		Shipment Package
+	  */
+	public void setM_Package_ID (int M_Package_ID)
+	{
+		if (M_Package_ID < 1) 
+			set_Value (COLUMNNAME_M_Package_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Package_ID, Integer.valueOf(M_Package_ID));
+	}
+
+	/** Get Package.
+		@return Shipment Package
+	  */
+	public int getM_Package_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Package_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

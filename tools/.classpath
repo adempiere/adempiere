@@ -132,7 +132,7 @@
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="lib/poi-3.17.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/poi-ooxml-3.17.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-codec-1.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/commons-validator-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-codec-1.10.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/commons-validator-1.7.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>

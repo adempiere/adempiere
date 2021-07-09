@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -206,27 +207,10 @@ public final class FactLine extends X_Fact_Acct
 	 */
 	public boolean setAmtSource (int C_Currency_ID, BigDecimal AmtSourceDr, BigDecimal AmtSourceCr)
 	{
-		if (! m_acctSchema.isAllowNegativePosting()) {
-	        // begin Victor Perez e-evolution 30.08.2005
-			// fix Debit & Credit 
-			if (AmtSourceDr != null)
-			{	
-				if (AmtSourceDr.compareTo(Env.ZERO) == -1)
-				{	
-					AmtSourceCr = AmtSourceDr.abs();
-					AmtSourceDr = Env.ZERO;
-				}
-			}
-			if (AmtSourceCr != null)
-			{	
-				if (AmtSourceCr.compareTo(Env.ZERO) == -1)
-				{	
-					AmtSourceDr = AmtSourceCr.abs();
-					AmtSourceCr = Env.ZERO;
-				}
-			}
-			// end Victor Perez e-evolution 30.08.2005
-		}
+		FactLine.setSourceAmount(m_acctSchema, this, AmtSourceDr, AmtSourceCr);
+		
+		AmtSourceDr = getAmtSourceDr();
+		AmtSourceCr = getAmtSourceCr();
 		
 		setC_Currency_ID (C_Currency_ID);
 		if (AmtSourceDr != null)
@@ -264,23 +248,7 @@ public final class FactLine extends X_Fact_Acct
 	 */
 	public void setAmtAcct(BigDecimal AmtAcctDr, BigDecimal AmtAcctCr)
 	{
-		if (! m_acctSchema.isAllowNegativePosting()) {
-	        // begin Victor Perez e-evolution 30.08.2005
-			// fix Debit & Credit 
-			if (AmtAcctDr.compareTo(Env.ZERO) == -1)
-			{	
-				AmtAcctCr = AmtAcctDr.abs();
-				AmtAcctDr = Env.ZERO;
-			}
-			if (AmtAcctCr.compareTo(Env.ZERO) == -1)
-			{	
-				AmtAcctDr = AmtAcctCr.abs();
-				AmtAcctCr = Env.ZERO;
-			}
-			// end Victor Perez e-evolution 30.08.2005
-		}
-		setAmtAcctDr (AmtAcctDr);
-		setAmtAcctCr (AmtAcctCr);
+		FactLine.setAccountingAmount(m_acctSchema, this, AmtAcctDr, AmtAcctCr);
 	}   //  setAmtAcct
 
 	/**
@@ -292,21 +260,11 @@ public final class FactLine extends X_Fact_Acct
 	public void setAmtAcct(int C_Currency_ID, BigDecimal AmtAcctDr, BigDecimal AmtAcctCr)
 	{
 
-		if (! m_acctSchema.isAllowNegativePosting()) {
-			if (AmtAcctDr.compareTo(Env.ZERO) == -1)
-			{
-				AmtAcctCr = AmtAcctDr.abs();
-				AmtAcctDr = Env.ZERO;
-			}
-			if (AmtAcctCr.compareTo(Env.ZERO) == -1)
-			{
-				AmtAcctDr = AmtAcctCr.abs();
-				AmtAcctCr = Env.ZERO;
-			}
-		}
+		FactLine.setAccountingAmount(m_acctSchema, this, AmtAcctDr, AmtAcctCr);
 
-		setAmtAcctDr (AmtAcctDr);
-		setAmtAcctCr (AmtAcctCr);
+		AmtAcctDr = getAmtAcctDr();
+		AmtAcctCr = getAmtAcctCr();
+		
 		//	Currency Precision
 		int precision = MCurrency.getStdPrecision(getCtx(), C_Currency_ID);
 		if (AmtAcctDr != null && AmtAcctDr.scale() > precision)
@@ -325,6 +283,62 @@ public final class FactLine extends X_Fact_Acct
 		}
 	}   //  setAmtAcct
 
+	/**
+	 * Set Source Amount
+	 * @param as
+	 * @param fact
+	 * @param AmtDr
+	 * @param AmtCr
+	 */
+	public static void setSourceAmount(MAcctSchema as, X_Fact_Acct fact,BigDecimal AmtDr, BigDecimal AmtCr) {
+		FactLine.setAmount(as, fact, Optional.ofNullable(AmtDr).orElse(Env.ZERO), Optional.ofNullable(AmtCr).orElse(Env.ZERO), true);
+	}
+	
+	/**
+	 * Set Accounting Amount
+	 * @param as
+	 * @param fact
+	 * @param AmtDr
+	 * @param AmtCr
+	 */
+	public static void setAccountingAmount(MAcctSchema as, X_Fact_Acct fact,BigDecimal AmtDr, BigDecimal AmtCr) {
+		FactLine.setAmount(as, fact, Optional.ofNullable(AmtDr).orElse(Env.ZERO), Optional.ofNullable(AmtCr).orElse(Env.ZERO), false);
+	}
+	
+	/**
+	 * Set Amount Source or Accounting
+	 * @param as
+	 * @param fact
+	 * @param AmtDr
+	 * @param AmtCr
+	 * @param isSource
+	 */
+	public static void setAmount(MAcctSchema as, X_Fact_Acct fact,BigDecimal AmtDr, BigDecimal AmtCr, boolean isSource) {
+		if (! as.isAllowNegativePosting()) {
+			// begin Victor Perez e-evolution 30.08.2005
+			// fix Debit & Credit 
+			if (AmtDr.compareTo(Env.ZERO) == -1)
+			{
+				AmtCr = AmtDr.abs();
+				AmtDr = Env.ZERO;
+			}
+			if (AmtCr.compareTo(Env.ZERO) == -1)
+			{
+				AmtDr = AmtCr.abs();
+				AmtCr = Env.ZERO;
+			}
+			// end Victor Perez e-evolution 30.08.2005
+		}
+		
+		if (isSource) {
+			fact.setAmtSourceDr (AmtDr);
+			fact.setAmtSourceCr (AmtCr);
+		}else {
+			fact.setAmtAcctDr (AmtDr);
+			fact.setAmtAcctCr (AmtCr);
+		}
+	}
+	
 	/**
 	 *  Set Document Info
 	 *  @param doc document

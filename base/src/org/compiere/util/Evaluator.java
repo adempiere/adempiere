@@ -16,6 +16,9 @@
  *****************************************************************************/
 package org.compiere.util;
 
+import org.compiere.model.GridField;
+import org.compiere.model.GridTab;
+import org.compiere.model.GridTable;
 import org.compiere.model.PO;
 
 import java.math.BigDecimal;
@@ -68,7 +71,7 @@ public class Evaluator
 		}
 		return true;
 	}	//	isAllVariablesDefined
-	
+
 	/**
 	 *	Evaluate Logic.
 	 *  <code>
@@ -89,6 +92,30 @@ public class Evaluator
 	 */
 	public static boolean evaluateLogic (Evaluatee source, String logic)
 	{
+		return evaluateLogic(source, logic, null, -1);
+	}
+	
+	/**
+	 *	Evaluate Logic.
+	 *  <code>
+	 *	format		:= <expression> [<logic> <expression>]
+	 *	expression	:= @<context>@<exLogic><value>
+	 *	logic		:= <|> | <&>
+	 *  exLogic		:= <=> | <!> | <^> | <<> | <>>
+	 *
+	 *	context		:= any global or window context
+	 *	value		:= strings can be with ' or "
+	 *	logic operators	:= AND or OR with the prevoius result from left to right
+	 *
+	 *	Example	'@AD_Table@=Test | @Language@=GERGER
+	 *  </code>
+	 *  @param source class implementing get_ValueAsString(variable)
+	 *  @param logic logic string
+	 *  @param useContext if false, the context term will be evaluated using the current record field names only
+	 *  @return locic result
+	 */
+	public static boolean evaluateLogic (Evaluatee source, String logic, GridTable table, int row)
+	{
 		//	Conditional
 		StringTokenizer st = new StringTokenizer(logic.trim(), "&|", true);
 		int it = st.countTokens();
@@ -107,7 +134,7 @@ public class Evaluator
         }        
 
 		//boolean retValue = evaluateLogicTuple(source, st.nextToken());
-        boolean retValue = evaluateLogicTuple(source, exprStrand);
+        boolean retValue = evaluateLogicTuple(source, exprStrand, table, row);
 		while (st.hasMoreTokens())
 		{
 			String logOp = st.nextToken().trim();
@@ -120,7 +147,7 @@ public class Evaluator
                     exprStrand = exprStrand.concat(st.nextToken());                         
             }
 
-            boolean temp = evaluateLogicTuple(source, exprStrand);
+            boolean temp = evaluateLogicTuple(source, exprStrand, table, row);
 
 			if (logOp.equals("&"))
 				retValue = retValue & temp;
@@ -135,6 +162,7 @@ public class Evaluator
 		return retValue;
 	}   //  evaluateLogic
 
+
 	/**
 	 *	Evaluate	@context@=value or @context@!value or @context@^value.
 	 *  <pre>
@@ -146,6 +174,21 @@ public class Evaluator
 	 *	@return	true or false
 	 */
 	private static boolean evaluateLogicTuple (Evaluatee source, String logic)
+	{
+		return evaluateLogicTuple(source, logic, null, -1);
+	}
+	/**
+	 *	Evaluate	@context@=value or @context@!value or @context@^value.
+	 *  <pre>
+	 *	value: strips ' and " always (no escape or mid stream)
+	 *  value: can also be a context variable
+	 *  </pre>
+	 *  @param source class implementing get_ValueAsString(variable)
+	 *  @param logic logic tuple
+	 *  @param noContext if true, the context variable will be evaluated using the current record field names first.
+	 *	@return	true or false
+	 */
+	private static boolean evaluateLogicTuple (Evaluatee source, String logic, GridTable table, int row)
 	{
 		StringTokenizer st = new StringTokenizer (logic.trim(), "!=^><", true);
 		if (st.countTokens() != 3)
@@ -160,7 +203,7 @@ public class Evaluator
 		if (first.indexOf('@') != -1)		//	variable
 		{
 			first = first.replace ('@', ' ').trim (); 			//	strip 'tag'
-			firstEval = source.get_ValueAsString (first);		//	replace with it's value
+			firstEval = getValueAsString(source, first, table, row);
 		}
 		firstEval = firstEval.replace('\'', ' ').replace('"', ' ').trim();	//	strip ' and "
 
@@ -173,7 +216,7 @@ public class Evaluator
 		if (second.indexOf('@') != -1)		//	variable
 		{
 			second = second.replace('@', ' ').trim();			// strip tag
-			secondEval = source.get_ValueAsString (second);		//	replace with it's value
+			secondEval = getValueAsString(source, second, table, row);		//	replace with it's value
 		}
 		secondEval = secondEval.replace('\'', ' ').replace('"', ' ').trim();	//	strip ' and "
 
@@ -193,6 +236,40 @@ public class Evaluator
 		return result;
 	}	//	evaluateLogicTuple
 	
+	private static String getValueAsString(Evaluatee source, String variableName, GridTable table, int row) {
+
+		String returnVal = "";
+		
+		if (table != null && source instanceof GridField && row >= 0)
+		{
+			int targetColIndex = table.findColumn(variableName);
+			if (targetColIndex != -1)
+			{
+				GridField targetField = table.getFields()[targetColIndex];
+				Object targetValue = table.getValueAt(row, targetColIndex);
+				if (targetField.getDisplayType() == DisplayType.YesNo)
+				{
+					if (targetValue != null && targetValue instanceof Boolean)
+						returnVal = (Boolean) targetValue ? "Y":"N";
+					else
+						returnVal = targetValue == null ? "N" : targetValue.toString();
+				}
+				else
+					returnVal = targetValue == null ? "" : targetValue.toString();
+			}
+			else  // default to the context. The variable name isn't a column name in the current record so the context might work
+			{
+				returnVal = source.get_ValueAsString (variableName);
+			}
+		}
+		else
+		{
+			returnVal = source.get_ValueAsString (variableName);
+		}
+		
+		return returnVal;
+	}
+
 	/**
 	 * 	Evaluate Logic Tuple
 	 *	@param value1 value

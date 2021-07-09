@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.compiere.model.I_M_CostElement;
+import org.compiere.model.I_M_Movement;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCostDetail;
@@ -32,6 +33,7 @@ import org.compiere.model.ProductCost;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.eevolution.model.I_PP_Cost_Collector;
 import org.eevolution.model.I_PP_Order;
 import org.eevolution.model.MPPCostCollector;
 import org.eevolution.model.RoutingService;
@@ -409,4 +411,10 @@ public class Doc_PPCostCollector extends Doc
 	}
 	
 	private List<MCostDetail> costDetails = null;
+	
+   public static String getDateAcctColumnName() {
+        
+         return I_PP_Cost_Collector.COLUMNNAME_MovementDate;
+    }
+
 }   //  Doc Cost Collector

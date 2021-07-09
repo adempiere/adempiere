@@ -18,20 +18,26 @@
 package org.compiere.model;
 
 import java.lang.reflect.Constructor;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.model.GenericPO;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
+import org.compiere.util.Trx;
 import org.compiere.util.Util;
 import org.compiere.wf.MWFNode;
 import org.compiere.wf.MWFNodeNext;
@@ -67,7 +73,8 @@ import org.compiere.wf.MWorkflow;
  * 			@see FR [ 657 ] The tables mark like IsDocument is deleteable</a>
  * 			<a href="https://github.com/adempiere/adempiere/issues/884">
  * 			@see FR [ 884 ] Recent Items in Dashboard (Add new functionality)</a>
- *
+ *  @author Michael McKay, mckayERP
+ *  		<li> FR [ <a href="https://github.com/adempiere/adempiere/issues/213">213</a> ] Automatic sync with database
  *	@author Trifon Trifon
  *			<li> FR [ 356 ] Decrease verbosity of SQL statement closing lines.
  *			@see https://github.com/adempiere/adempiere/issues/356
@@ -80,6 +87,7 @@ public class MTable extends X_AD_Table
 
 	/**	Cache						*/
 	private static CCache<Integer,MTable> s_cache = new CCache<Integer,MTable>("AD_Table", 20);
+	private static CCache<String, Integer> s_tableNameCache = new CCache<String, Integer>("AD_Table_Name", 20);
 	private static CCache<String,Class<?>> s_classCache = new CCache<String,Class<?>>("PO_Class", 20);
 	private static CCache<String,Boolean> s_cachetrl = new CCache<String,Boolean>("Table_Trl", 20);
 
@@ -123,6 +131,11 @@ public class MTable extends X_AD_Table
 	//	AD_Attribute_Value, AD_TreeNode
 	};
 
+	private static final String MSG_TableWithThatNameAlreadyExists = "@MTable_SyncErrorTableWithThatNameAlreadyExists@";
+	private static final String MSG_WillUpdatePrimaryKey = "@MTable_WillUpdatePrimaryKey@"; 
+	private static final String MSG_ErrorSynchronizingChanges = "@MTable_ErrorSynchronizingChanges@"; 
+	private static final String MSG_CannotSyncView = "@MTable_CannotSyncView";  
+	
 	/**
 	 * 	Get Table from Cache
 	 *	@param ctx context
@@ -682,12 +695,49 @@ public class MTable extends X_AD_Table
 	 */
 	protected boolean beforeSave (boolean newRecord)
 	{
-		if ((isView() || isDocument()) 
-				&& isDeleteable())
+		//  Remove the table from the cache so the cache will be 
+		//  updated with the changes.
+		s_cache.remove(this.getAD_Table_ID());
+		if (isView())
 			setIsDeleteable(false);
+		if (isDocument() && newRecord)
+			setIsDeleteable(false);
+		
+		//  #213 Synchronize the database if the table exists and 
+		//  the name has changed. The goal is to preserve any existing
+		//  data. Synchronization is not required for new tables.
 		//
+		//  Synchronizing table changes after this transaction 
+		//  is complete may result in the creation of a new table 
+		//  while the existing table is orphaned.  To prevent this
+		//  save a copy of the old table name and flag that a 
+		//  sync is required.  If autoSync is enabled, the sync
+		//  will be done in the afterSave method.
+		//
+		//  See MColumn.SYSCONFIG_DATABASE_AUTO_SYNC.
+		if (!isView() && (newRecord || is_ValueChanged(MTable.COLUMNNAME_TableName)))
+		{
+			if (isRequiresSync())
+			{
+				// We already have a change prepared.
+				if (getTableName().equals(getNameOldValue()))
+				{
+					// We already had a change ready and the user has changed the name back
+					//  to what it was.  We can cancel the change.
+					setRequiresSync(false);
+					setNameOldValue(null);
+				}
+			}
+			else
+			{
+				setRequiresSync(true);
+				setNameOldValue((String) this.get_ValueOld(MTable.COLUMNNAME_TableName));
+			}
+		}
+
 		return true;
 	}	//	beforeSave
+	
 	
 	/**
 	 * 	After Save
@@ -697,9 +747,13 @@ public class MTable extends X_AD_Table
 	 */
 	protected boolean afterSave (boolean newRecord, boolean success)
 	{
-		// Skip the ogic while migration process is executed
-		if(isDirectLoad())
+		// Add to cache
+		s_cache.put(this.getAD_Table_ID(), this);
+		
+		if (isView())
 			return success;
+		
+		String oldTableName = (String) get_ValueOld(MTable.COLUMNNAME_TableName);
 
 		//	Sync Table ID
 		if (newRecord)
@@ -719,33 +773,39 @@ public class MTable extends X_AD_Table
 				createMandatoryDocumentColumns();
 			}
 			
-			// Find or create the associated sequence and 
-			// Check if the database table name changed.
-			String oldTableName = (String) get_ValueOld(MTable.COLUMNNAME_TableName);
-
+			//  Create or update the associated sequence. Make sure one exists even if the table name has not changed.
+			//  Possibilities: no sequence exists - create the new one
+			//  New sequence exists - do nothing, the system will simply use the existing sequence
+			//  Old sequence exists and no new sequence - rename old.
+			MSequence seqOld = MSequence.get(getCtx(), oldTableName, get_TrxName());
+			MSequence seqNew = MSequence.get(getCtx(), getTableName(), get_TrxName());
 			// Find the sequence based on the old TableName. If the table name hasn't 
 			// changed, nothing needs be done.
-			MSequence seq = MSequence.get(getCtx(), oldTableName, get_TrxName());
-			if (seq == null || seq.get_ID() == 0)
+			if ((seqOld == null || seqOld.get_ID() == 0) && (seqNew == null || seqNew.get_ID() == 0))
 			{
-				// Not found.  Check if a sequence exists with the new name.
-				seq = MSequence.get(getCtx(), getTableName(), get_TrxName());
-				if (seq == null || seq.get_ID() == 0)
-				{
 					// No sequence matches the old or new table name.  
 					// Create a new sequence using the new name.
 					MSequence.createTableSequence(getCtx(), getTableName(), get_TrxName());
-				} // else, sequence with the current tablename exists. Do nothing.
-			}
+			} 
 			// A sequence with the old TableName exists. Check if it needs to be updated.
-			else if (!seq.getName().equals(getTableName()))
+			else if (!(seqOld == null || seqOld.get_ID() == 0) && (seqNew == null || seqNew.get_ID() == 0)) 
 			{
-				seq.setName(getTableName());
-				seq.setDescription("Table " + getTableName());
-				seq.saveEx();
-			}
+				if (!seqOld.getName().equals(getTableName()))
+				{
+					seqOld.setName(getTableName());
+					seqOld.setDescription("Table " + getTableName());
+					seqOld.saveEx();
+				}
+			} // Else, the new sequence exists already - do nothing.	
 		}	
 		
+		//  #213 Synchronize the database
+		//  MColumn.SYSCONFIG_DATABASE_AUTO_SYNC.
+		if (MColumn.isAutoSync() && isRequiresSync())
+		{
+			// Ignore errors
+			syncDatabase(null);
+		}
 		return success;
 	}	//	afterSave
 	
@@ -793,8 +853,16 @@ public class MTable extends X_AD_Table
 					cols.append(", ");
 				cols.append(column.getColumnName());
 			}
+			String tableName = getTableName();
+			String constraintName = "";
+			if (tableName.length() > 26)
+				// Oracle restricts object names to 30 characters
+				constraintName = tableName.substring(0, 26) + "_Key";
+			else
+				constraintName = tableName + "_Key";
+
 			sb.append(", CONSTRAINT ")
-				.append(getTableName()).append("_Key PRIMARY KEY (")
+				.append(constraintName).append(" PRIMARY KEY (")
 				.append(cols).append(")");
 		}
 
@@ -810,23 +878,22 @@ public class MTable extends X_AD_Table
 	 *	@return int retValue
 	 */
 	public static int getTable_ID(String tableName) {
-		int retValue = 0;
-		String SQL = "SELECT AD_Table_ID FROM AD_Table WHERE tablename = ?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = DB.prepareStatement(SQL, null);
-			pstmt.setString(1, tableName);
-			rs = pstmt.executeQuery();
-			if (rs.next())
-				retValue = rs.getInt(1);
-		} catch (Exception e) {
-			s_log.log(Level.SEVERE, SQL, e);
-			retValue = -1;
-		} finally {
-			DB.close(rs, pstmt);
-		}
-		return retValue;
+
+	    return Optional.ofNullable(s_tableNameCache.get(tableName))
+	            .orElseGet(() -> 
+	                getTable_IDAndAddToCache(tableName)
+	            );
+
+	}
+	
+	private static Integer getTable_IDAndAddToCache(String tableName) {
+
+	    int retValue = DB.getSQLValue(null,
+	            "SELECT AD_Table_ID FROM AD_Table WHERE tablename = ?",
+	            tableName);
+	    s_tableNameCache.put(tableName, retValue);
+	    return retValue;
+
 	}
 
 	/**
@@ -847,7 +914,32 @@ public class MTable extends X_AD_Table
 	{		
 		MColumn column = null;
 		//M_Element.get(getCtx(),COLUMNNAME_AD_Client_ID);
-		
+
+		if(!isView())
+		{	
+			if(!getTableName().endsWith("_Trl") && !getTableName().endsWith("_Access"))
+			{
+
+				// Create a primary key
+				M_Element element = M_Element.get(getCtx(), getTableName()+"_ID", get_TrxName());
+				if(element == null) {
+					element = new M_Element(getCtx(), 0 , get_TrxName());
+					element.setColumnName(getTableName()+"_ID");
+					element.setName(getName());
+					element.setPrintName(getName());
+					element.setEntityType(getEntityType());
+					element.saveEx();
+				}
+				
+				column = new MColumn(this, element.getColumnName(), 22 , DisplayType.ID, "");
+				column.setAD_Element_ID(element.get_ID());
+				column.setIsKey(true);
+				column.setUpdateable(false);
+				column.setIsMandatory(true);
+				column.saveEx();
+			}
+		}
+
 		column = new MColumn(this, COLUMNNAME_AD_Client_ID	, 22 , DisplayType.TableDir , "@#AD_Client_ID@");
 		column.setUpdateable(false);
 		column.setAD_Val_Rule_ID(129);
@@ -872,28 +964,6 @@ public class MTable extends X_AD_Table
 		column = new MColumn(this, COLUMNNAME_UUID, 36 , DisplayType.String, "");
 		column.setIsMandatory(false);
 		column.saveEx();
-		if(!isView())
-		{	
-			if(getTableName().endsWith("_Trl") || getTableName().endsWith("_Access"))
-				return;
-			
-			M_Element element = M_Element.get(getCtx(), getTableName()+"_ID", get_TrxName());
-			if(element != null)
-				return;				
-			element = new M_Element(getCtx(), 0 , get_TrxName());
-			element.setColumnName(getTableName()+"_ID");
-			element.setName(getName() + " ID");
-			element.setPrintName(getName() + " ID");
-			element.setEntityType(getEntityType());
-			element.saveEx();
-			
-			column = new MColumn(this, element.getColumnName(), 22 , DisplayType.ID, "");
-			column.setAD_Element_ID(element.get_ID());
-			column.setIsKey(true);
-			column.setUpdateable(false);
-			column.setIsMandatory(true);
-			column.saveEx();
-		}
 	}
 	
 	/**
@@ -1125,5 +1195,494 @@ public class MTable extends X_AD_Table
 		
 		return hasTrl;
 	}
+
+
+
+	/**
+	 * 	Generates a SQL script to change the table name and names of constraints.  If 
+	 *  the old table name and the new table name are the same, the return value will 
+	 *  be a null string.  Otherwise, the return will be a batch script which will 
+	 *  make the necessary changes to the table and constraints.  This function should 
+	 *  be called after the new name has been saved.
+	 *  
+	 *  <p>See <a href="https://github.com/adempiere/adempiere/issues/213">Github issue #213</a>
+	 *  	 
+	 *	@return Alter table DDL batch script or null if there are no changes
+	 */
+	public String getSQLAlter(String oldTableName, Connection conn)
+	{
+		// Check if the database table name changed.
+		if (oldTableName == null 
+				|| oldTableName.length() == 0 
+				|| oldTableName.equals(getTableName()))
+			return "";
+
+		StringBuffer sb = new StringBuffer("ALTER TABLE IF EXISTS ")
+			.append(oldTableName).append(" RENAME TO ")
+			.append(getTableName()).append(DB.SQLSTATEMENT_SEPARATOR);
+		//
+		// Rename constraints by creating new ones and then dropping the old ones.
+		boolean hasPK = false;
+		boolean hasParents = false;
+		StringBuffer constraints = new StringBuffer();
+		String constraintName = "";
+
+		//  Flag if we need to close the connection.  If it was passed in,
+		//  assume it is to remain open.
+		boolean closeConn = false;
+
+		//	Find the old table in Database - we know it exists.
+		try {
+			
+			//  Get the connection. Don't open additional connections if
+			//  one is already available. If we open a connection, we have
+			//  to close it too.
+			if (conn == null)
+			{
+				//  Use the transaction connection if available
+				if (get_TrxName() != null && !get_TrxName().isEmpty())
+				{
+					conn = Trx.get(get_TrxName(), true).getConnection();
+					//  Will be closed when the transaction is closed.
+				}
+				else
+				{
+					conn = DB.getConnectionRO();
+					closeConn = true;
+				}
+			}
+
+			DatabaseMetaData md = conn.getMetaData();
+			String catalog = DB.getDatabase().getCatalog();
+			String schema = DB.getDatabase().getSchema();
+			// Find the old table
+			String tableName = oldTableName;
+			if (md.storesUpperCaseIdentifiers())
+			{
+				tableName = tableName.toUpperCase();
+			}
+			else if (md.storesLowerCaseIdentifiers())
+			{
+				tableName = tableName.toLowerCase();
+			}
+			// Find the primary key constraints
+			// ResultSet rs = md.getTables(catalog, schema, tableName, tableTypes);
+			ResultSet rs = md.getPrimaryKeys(catalog, schema, tableName);
+			while (rs.next())
+			{
+				if (rs.getString("PK_Name") != null)
+				{
+					constraintName = rs.getString("PK_Name");
+					if (constraintName != null && constraintName.length() > 0)
+					{
+						constraints.append(" ").append("ALTER TABLE IF EXISTS ")
+							.append(getTableName()).append(" DROP CONSTRAINT IF EXISTS ")
+							.append(constraintName).append(" CASCADE").append(DB.SQLSTATEMENT_SEPARATOR);					
+					}
+				}
+			}
+			rs.close();
+			rs = null;
+		}
+		catch (SQLException e) {
+			throw new AdempiereException(e);
+		}
+		finally {
+			if (closeConn && conn != null) {
+				try {
+					conn.close();
+				} catch (Exception e) {}
+				conn = null;
+			}
+		}
+		
+		//
+		getColumns(true);
+		for (MColumn column : columns) {
+			//
+			if (column.isKey())
+				hasPK = true;
+			if (column.isParent())
+				hasParents = true;
+			String constraint = column.getConstraint(getTableName());
+			if (constraint != null && constraint.length() > 0)
+				constraints.append(" ").append("ALTER TABLE IF EXISTS ")
+				.append(getTableName()).append(" ADD ")
+				.append(constraint).append(DB.SQLSTATEMENT_SEPARATOR);					
+		}
+		//	Multi Column PK 
+		if (!hasPK && hasParents)
+		{
+			StringBuffer cols = new StringBuffer();
+			for (MColumn column : columns) {
+
+				if (!column.isParent())
+					continue;
+				if (cols.length() > 0)
+					cols.append(", ");
+				cols.append(column.getColumnName());
+			}
+			String tableName = getTableName();
+			constraintName = "";
+			if (tableName.length() > 26)
+				// Oracle restricts object names to 30 characters
+				constraintName = tableName.substring(0, 26) + "_Key";
+			else
+				constraintName = tableName + "_Key";
+
+			constraints.append(" ").append("ALTER TABLE IF EXISTS ")
+				.append(getTableName()).append(" ADD CONSTRAINT ")
+				.append(constraintName).append(" PRIMARY KEY (")
+				.append(cols).append(")").append(DB.SQLSTATEMENT_SEPARATOR);
+		}
+
+		sb.append(constraints);
+		return sb.toString();
+	}	//	getSQLAlter
+
+	/**
+	 * Sync changes in this table definition with the database.
+	 */
+	public String syncDatabase(Connection conn)
+	{
+		return syncDatabase(conn, false);
+	}
+	
+	/**
+	 * Sync changes in this table definition with the database.
+	 */
+	public String syncDatabase(Connection conn, boolean isOnlyReport)
+	{
+		if (isView())
+		{
+			// Can't sync views - Shouldn't happen
+			// but in case, turn off the indicators
+			// so it won't happen again.
+			markSyncComplete();
+			s_log.warning("Can't sync a column in a view. Table ID: " + this.get_Table_ID());
+			return MSG_CannotSyncView;
+		}				
+		
+		if (get_ID() == 0)
+			throw new AdempiereException("@NotFound@ @AD_Table_ID@ " + getAD_Table_ID());
+		
+		String returnMessage = updatePrimaryKeyColumn(isOnlyReport);
+		if (!returnMessage.isEmpty())
+			returnMessage += "\n";
+
+		// Check if the database table name changed.
+		String oldTableName = getNameOldValue();
+		if (oldTableName == null 
+				|| oldTableName.length() == 0 
+				|| oldTableName.equals(getTableName())) {
+			oldTableName = null;
+		}
+		
+		boolean oldTableExists = false;
+		boolean newTableExists = false;
+		
+		boolean errorOccured = true;
+		
+		//	Find the table in Database
+		ResultSet rs = null;
+		boolean closeConn = false;
+		
+		try {
+						
+			//String trxName = Trx.createTrxName("SyncTable");
+			String trxName = get_TrxName();
+			
+			if (conn == null)
+			{
+				if (trxName == null || trxName.isEmpty())
+				{
+					conn = DB.getConnectionRO();
+					closeConn = true;
+				}
+				else
+				{
+					conn = Trx.get(trxName, true).getConnection();
+					//  Will be closed when the transaction is closed.
+				}
+			}
+			
+			DatabaseMetaData md = conn.getMetaData();
+			String catalog = DB.getDatabase().getCatalog();
+			String schema = DB.getDatabase().getSchema();
+			String[] tableTypes = {"TABLE"};
+			String tableName = oldTableName;
+
+			// Find the old table
+			if (oldTableName != null ) {
+				if (md.storesUpperCaseIdentifiers())
+				{
+					tableName = tableName.toUpperCase();
+				}
+				else if (md.storesLowerCaseIdentifiers())
+				{
+					tableName = tableName.toLowerCase();
+				}
+				//
+				rs = md.getTables(catalog, schema, tableName, tableTypes);
+				while (rs.next())
+				{
+					oldTableExists = true;
+					break;
+				}
+				rs.close();
+			}
+			// Try to find the new/current table name
+			tableName = getTableName();
+			if (md.storesUpperCaseIdentifiers())
+			{
+				tableName = tableName.toUpperCase();
+			}
+			else if (md.storesLowerCaseIdentifiers())
+			{
+				tableName = tableName.toLowerCase();
+			}
+			//
+			rs = md.getTables(catalog, schema, tableName, tableTypes);
+			while (rs.next())
+			{
+				newTableExists = true;
+				break;
+			}
+			
+			rs.close();
+			rs = null;
+			
+			String sql = null;
+
+			boolean onlySyncedIDColumn = false;
+			//  Four options
+			//    1. the table has not been created, 
+			//    2. the table exists but the name has changed and doesn't match an existing table.
+			//    3. the table exists and the name has changed to an existing table (this is an error)
+			//    4. No name change has occurred and the table exists - no sync required.
+			//  nothing has changed
+			if (!oldTableExists && !newTableExists) {
+				onlySyncedIDColumn = false;  // All columns will be synced
+				sql = getSQLCreate();
+			}
+			else if (oldTableExists && !newTableExists) {
+				onlySyncedIDColumn = true;  // Other columns not synced
+				sql = getSQLAlter(oldTableName, conn);
+			}
+			else if (oldTableExists && newTableExists) {
+				//  The new table already exists.  This is a potential problem as the underlying
+				//  columns may be different.
+				s_log.severe("New table already exists: " + oldTableName + "->" + tableName);
+				throw new AdempiereException(MSG_TableWithThatNameAlreadyExists + ": " +  oldTableName + "->" + tableName);
+			}
+			else if (!oldTableExists && newTableExists) {
+				sql = null;
+			}
+
+			if ( sql == null || sql.isEmpty() )
+			{
+				if (!isOnlyReport)
+					markSyncComplete();
+				return returnMessage + MColumn.MSG_NoSQLNOChangesMade;
+			}
+			
+			returnMessage += sql;
+			
+			if (!isOnlyReport)
+			{
+				try {
+					log.info("Syncing table " + this.getTableName() + ": " + sql);
+					DB.executeUpdateMultiple(sql, false, trxName);
+					DB.commit(true, trxName);
+					Exception error = CLogger.retrieveException();
+					if (error == null)
+					{
+						returnMessage += "<br>" + MColumn.MSG_SQLSuccessfullyApplied;
+						errorOccured = false;
+					}
+					else
+					{
+						returnMessage += "<br>" +"@Error@ " + MSG_ErrorSynchronizingChanges + " " + error.toString();
+					}
+					// Remove the old table definition from cache 
+					POInfo.removeFromCache(getAD_Table_ID());
+		
+					//  Success.  Remove the sync flags from this record
+					if (!errorOccured)
+					{
+						markSyncComplete();
+						//  Update the sync status of the columns
+						for (MColumn column : columns)
+						{
+							if (onlySyncedIDColumn)
+							{
+								if (column.isKey()) 
+								{
+									column.markSyncComplete();
+									break;
+								}
+							}
+							else
+							{
+								column.markSyncComplete();
+							}
+						}
+					}
+				}
+				catch (Exception e) 
+				{
+				
+					log.severe("Manual intervention required: Cannot sync table: " + getTableName());
+					returnMessage += "@Error@: " + MSG_ErrorSynchronizingChanges + " " + getTableName();
+					returnMessage += "\n" + sql; 
+					returnMessage += "\n" + e.getLocalizedMessage();
+				}
+	
+			}			
+			return returnMessage;
+			
+		} 
+		catch (SQLException e) {
+			throw new AdempiereException(e);
+		}
+		finally {
+			DB.close(rs);
+			rs = null;
+			if (closeConn && conn != null) {
+				try {
+					conn.close();
+				} catch (Exception e) {}
+				conn = null;
+			}
+		}
+	} // syncDatabase
+
+	/**
+	 * Set the flags for isSyncRequired and NameOldValue when the sync is complete 
+	 * or not required. 
+	 */
+	public void markSyncComplete() {
+		if (isRequiresSync() || getNameOldValue() != null)
+		{
+			setIsDirectLoad(true);
+			set_ValueNoCheck(COLUMNNAME_RequiresSync, Boolean.valueOf(false));
+			set_ValueNoCheck(COLUMNNAME_NameOldValue, null);
+			saveEx();
+		}			
+	}
+
+	/**
+	 *  Update the name of the primary key column. This method will change the column name 
+	 *  in the database and should only be called when synchronizing the database and 
+	 *  before the table name change has been synced.  It only applies to columns that
+	 *  follow the Adempiere naming convention of tableName_ID and for single key tables.
+	 *  Where there are multiple keys, there is no enforced link with the table name.
+	 */
+	private String updatePrimaryKeyColumn(boolean isOnlyReport)
+	{		
+		if(isView())
+			return "";
+
+		// Check if the database table name changed.
+		String oldTableName = getNameOldValue();
+		if (oldTableName == null 
+				|| oldTableName.length() == 0 
+				|| oldTableName.equals(getTableName()))
+			return "";
+
+		if(getTableName().endsWith("_Trl") || getTableName().endsWith("_Access"))
+			return "";
+			
+		if(!isSingleKey())
+			return "";
+
+		String keyColumnName = getKeyColumns()[0];
+		if(!keyColumnName.endsWith("_ID"))
+			return "";
+
+
+		int AD_Column_ID = MColumn.getColumn_ID(oldTableName, keyColumnName);
+		if (AD_Column_ID <= 0)
+		{
+			// Table record may have been saved with new name, try that.
+			AD_Column_ID = MColumn.getColumn_ID(getTableName(), keyColumnName);
+			if (AD_Column_ID <= 0)
+				throw new AdempiereException("@NotFound@ @" + keyColumnName + "@ @AD_Table@ " + oldTableName);
+		}
+		
+		//  Rename the column in the database - this has to be done here as the column aftersave will not 
+		//  be able to locate the new table name in the metadata and will think a new table has been created. 
+		//  If we don't do this here, the column sync will create a duplicate table.
+		StringBuffer sb = new StringBuffer("ALTER TABLE IF EXISTS ").append(oldTableName)
+				.append(" RENAME COLUMN ").append(oldTableName+"_ID").append(" TO ")
+				.append(getTableName()+"_ID;");
+
+		
+		if (isOnlyReport)
+		{
+			return MSG_WillUpdatePrimaryKey + " " + oldTableName+"_ID" + "->" + getTableName()+ "_ID"
+					+ "\n" + sb.toString();
+		}
+		
+		// Remove the element definition from the column to prevent element aftersave actions
+		// from affecting the column and triggering any autosync activity in the column aftersave
+		MColumn column = MColumn.get(getCtx(), AD_Column_ID);
+		column.set_TrxName(get_TrxName());
+		column.set_ValueNoCheck(MColumn.COLUMNNAME_AD_Element_ID, 0);  // Remove the element definition to prevent element aftersave action
+		column.saveEx();  // The column should now be isolated from element changes
+		
+		// Create or Update the element.
+		M_Element element = M_Element.get(getCtx(), keyColumnName, get_TrxName());
+		// Old element exists.  Update it.
+		if(element != null)
+		{
+			element.setColumnName(getTableName()+"_ID");
+			element.setName(getName() + " ID");
+			element.setPrintName(getName() + " ID");
+			element.setEntityType(getEntityType());
+			element.setAD_Reference_ID(DisplayType.ID);
+			element.saveEx();
+		}
+		else // Create a new element
+		{
+			// Check if one already exists
+			element = M_Element.get (getCtx(), getTableName()+"_ID", get_TrxName());				
+			if(element != null)
+			{
+				// Element already exists. Update it.
+				// element.setColumnName(getTableName()+"_ID");
+				element.setName(getName());
+				element.setPrintName(getName());
+				element.setEntityType(getEntityType());
+				element.setAD_Reference_ID(DisplayType.ID);
+				element.saveEx();  // Will change the columnName in the M_Element.afterSave()
+			}
+			else
+			{
+				// No element - create one
+				element = new M_Element (getCtx(), getTableName()+"_ID", getEntityType(), get_TrxName());
+				element.setName(getName());
+				element.setPrintName(getName());
+				element.setAD_Reference_ID(DisplayType.ID);
+				element.saveEx();  // Create the ID
+			} 
+		}
+
+		//  Finally, update the column data to match
+		//  See MColumn.beforeSave() sync terminology.
+		column.set_ValueNoCheck(MColumn.COLUMNNAME_AD_Element_ID, element.get_ID()); 
+		column.set_ValueNoCheck(MColumn.COLUMNNAME_AD_Reference_ID, DisplayType.ID);
+		//  Set directLoad to prevent MColumn.aftersave and possible autosync which will fail
+		//  because the table has changed.
+		column.setIsDirectLoad(true);  
+		column.set_ValueNoCheck(MColumn.COLUMNNAME_RequiresSync, false);
+		column.set_ValueNoCheck(MColumn.COLUMNNAME_NameOldValue, null);
+		column.saveEx();
+
+		DB.executeUpdateEx(sb.toString(), get_TrxName());
+		
+		return sb.toString();
+	
+	}  // updatePrimaryKeyColumn
 
 }	//	MTable

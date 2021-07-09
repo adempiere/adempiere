@@ -292,9 +292,12 @@ public class MHRConcept extends X_HR_Concept {
      */
     protected boolean beforeSave(boolean newRecord) {
         if (is_Changed() && is_ValueChanged(MHRConcept.COLUMNNAME_Value)) {
-            final String errorMessage = validateRules((String) get_ValueOld(MHRConcept.COLUMNNAME_Value));
-            if (errorMessage.length() > 0)
-                throw new AdempiereException("@HR_Concept_ID@ @RecordFound@ " + errorMessage);
+        	String oldValue = (String) get_ValueOld(MHRConcept.COLUMNNAME_Value);
+        	String newValue = getValue();
+            final String errorMessage = validateRules(oldValue);
+            if (errorMessage.length() > 0) {
+            	throw new AdempiereException("@RecordFound@ @HR_Concept_ID@: " + getName() + " [@OldValue@: " + oldValue + " @NewValue@: " + newValue + " ]" + errorMessage);
+            }
         }
         return true;
     }

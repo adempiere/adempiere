@@ -25,6 +25,7 @@ import org.compiere.model.MQuery;
 import org.compiere.swing.CFrame;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.SwingEnv;
 
 /**
  *  Main Application Window.
@@ -209,7 +210,7 @@ public class AWindow extends CFrame
 	 */
 	public void dispose()
 	{
-		if (Env.hideWindow(this))
+		if (SwingEnv.hideWindow(this))
 			return;
 		log.info(toString());
 		if (m_APanel != null)

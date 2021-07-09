@@ -17,6 +17,8 @@
 package org.compiere.db;
 
 import java.io.Serializable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -137,15 +139,15 @@ public class CConnection implements Serializable, Cloneable
 				}*/
 				if (s_cc == null)
 				{
-					if (cc == null) cc = new CConnection(apps_host);
-					CConnectionDialog ccd = new CConnectionDialog (cc);
-					s_cc = ccd.getConnection ();
-					if (!s_cc.isDatabaseOK() && !ccd.isCancel()) {
-						s_cc.testDatabase(true);
-					}
-					//  set also in ALogin and Ctrl
-					Ini.setProperty (Ini.P_CONNECTION, s_cc.toStringLong ());
-					Ini.saveProperties (Ini.isClient ());
+//					if (cc == null) cc = new CConnection(apps_host);
+//					CConnectionDialog ccd = new CConnectionDialog (cc);  // This is UI specific!!
+//					s_cc = ccd.getConnection ();
+//					if (!s_cc.isDatabaseOK() && !ccd.isCancel()) {
+//						s_cc.testDatabase(true);
+//					}
+//					//  set also in ALogin and Ctrl
+//					Ini.setProperty (Ini.P_CONNECTION, s_cc.toStringLong ());
+//					Ini.saveProperties (Ini.isClient ());
 				}
 			}
 			else
@@ -1703,7 +1705,7 @@ public class CConnection implements Serializable, Cloneable
 	}
 
 	/**************************************************************************
-	 *  Testing
+	 *  Testing - commented out as it calls a UI element from the base
 	 *  @param args ignored
 	 */
 	public static void main (String[] args)
@@ -1729,6 +1731,23 @@ public class CConnection implements Serializable, Cloneable
 //		System.out.println (">> " + cc.toStringLong ());
 		Connection con = cc.getConnection (false,
 						 Connection.TRANSACTION_READ_COMMITTED);
-		new CConnectionDialog(cc);
+		
+		try {
+			
+			// Get UI dialog
+			Class<?> connectionDialog = Class.forName("org.compiere.db.CConnectionDialog");
+			connectionDialog.getConstructor(Connection.class).newInstance(cc);
+			
+		} catch (ClassNotFoundException 
+				| InstantiationException 
+				| IllegalAccessException 
+				| IllegalArgumentException 
+				| InvocationTargetException 
+				| NoSuchMethodException 
+				| SecurityException e) {
+			
+			e.printStackTrace();
+		}
+		
 	}	//	main
 }	//  CConnection

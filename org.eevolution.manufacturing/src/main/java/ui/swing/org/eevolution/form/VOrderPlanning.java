@@ -66,6 +66,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.eevolution.model.MPPOrder;
 /**
  *
@@ -379,7 +380,7 @@ implements FormPanel, ActionListener, VetoableChangeListener, ChangeListener, Li
 		int AD_Tab_ID = MTab.getTab_ID(AD_Window_ID, "Order");
 		//
 		GridField[] findFields = GridField.createFields(Env.getCtx(),AD_Window_ID, 0, AD_Tab_ID);	
-		Find find = new Find (Env.getFrame(this),AD_Window_ID, this.getName() ,
+		Find find = new Find (SwingEnv.getFrame(this),AD_Window_ID, this.getName() ,
 				AD_Tab_ID, AD_Table_ID, getTableName(), 
 				"", findFields, 1); 
 		MQuery query = find.getQuery();

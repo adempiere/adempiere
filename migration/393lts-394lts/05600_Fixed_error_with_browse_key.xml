@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fixed error with browse key" ReleaseNo="3.9.4" SeqNo="5600">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="53247" Table="AD_Tab">
+        <Data AD_Column_ID="2741" Column="WhereClause" oldValue="(IsDisplayed='Y' OR IsQueryCriteria='Y' OR IsIdentifier = 'Y')">(IsDisplayed='Y' OR IsQueryCriteria='Y' OR IsIdentifier = 'Y' OR IsKey = 'Y')</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="106" Action="U" Record_ID="54763" Table="AD_Tab">
+        <Data AD_Column_ID="2741" Column="WhereClause" oldValue="(IsDisplayed='Y' OR IsQueryCriteria='Y' OR IsIdentifier = 'Y')">(IsDisplayed='Y' OR IsQueryCriteria='Y' OR IsIdentifier = 'Y' OR IsKey = 'Y')</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

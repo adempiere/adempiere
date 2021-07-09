@@ -19,6 +19,7 @@ package org.spin.util;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
@@ -100,7 +101,7 @@ public abstract class AbstractFunctionalSetting {
 	 * Set from Parameters hash
 	 * @param parameters
 	 */
-	public void setParameters(HashMap<String, Object> parameters) {
+	public void setParameters(Map<String, Object> parameters) {
 		for(Entry<String, Object> entry : parameters.entrySet()) {
 			this.parameters.put(entry.getKey(), entry.getValue());
 		}

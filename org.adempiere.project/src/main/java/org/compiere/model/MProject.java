@@ -61,7 +61,7 @@ public class MProject extends X_C_Project
 		if (project != null)
 			return project;
 
-		project =  new Query(ctx , Table_Name , COLUMNNAME_C_Project_ID + "=?" , null)
+		project =  new Query(ctx , Table_Name , COLUMNNAME_C_Project_ID + "=?" , trxName)
 				.setClient_ID()
 				.setParameters(projectId)
 				.first();

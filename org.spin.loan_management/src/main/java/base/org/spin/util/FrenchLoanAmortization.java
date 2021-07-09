@@ -20,7 +20,10 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import org.compiere.model.MCurrency;
+import org.compiere.util.Env;
 import org.spin.model.MFMAccount;
 import org.spin.model.MFMAgreement;
 import org.spin.model.MFMAmortization;
@@ -48,23 +51,23 @@ public class FrenchLoanAmortization extends AbstractFunctionalSetting {
 	
 	//Generate Loan Amortization 
 	private String generateAmortization(MFMAgreement loan){
-		
-		//HashMap<String, Object> retValues = new HashMap<String, Object>();
+		String transactionName = (String) getParameter(FinancialSetting.PARAMETER_TRX_NAME);
 		List<AmortizationValue> amortizationList = new ArrayList<AmortizationValue>();
-		MFMProduct financialProduct= (MFMProduct)loan.getFM_Product();
-		//int financialProductId = loan.getFM_Product_ID();
-		
+		MFMProduct financialProduct = MFMProduct.getById(getCtx(), loan.getFM_Product_ID(), transactionName);
+		loan.set_TrxName(transactionName);
 		List<MFMAccount> accounts = loan.getAccounts();
 		
 		for (MFMAccount account : accounts) {
-			if (MFMAmortization.checkAccount(account))
+			account.set_TrxName(transactionName);
+			if (MFMAmortization.checkAccount(account)) {
 				continue;
+			}
 			
 			MFMAmortization.deleteForAccount(account);
 			
-			MCurrency currency = (MCurrency)account.getC_Currency();
+			MCurrency currency = MCurrency.get(getCtx(), account.getC_Currency_ID());
 			BigDecimal capitalAmt = (BigDecimal) account.get_Value("CapitalAmt");
-			int feesQty = ((BigDecimal)account.get_Value("FeesQty")).intValue();
+			int feesQty = Optional.ofNullable(((BigDecimal)account.get_Value("FeesQty"))).orElse(Env.ZERO).intValue();
 			Timestamp startDate = (Timestamp) account.get_Value("StartDate");
 			Timestamp endDate = (Timestamp) account.get_Value("EndDate");
 			Timestamp payDate = (Timestamp) account.get_Value("PayDate");
@@ -73,12 +76,8 @@ public class FrenchLoanAmortization extends AbstractFunctionalSetting {
 			amortizationList = (List) LoanUtil.calculateFrenchAmortization(financialProduct.getFM_Product_ID(), capitalAmt, 
 															feesQty, startDate,
 																endDate, payDate,
-																	paymentFrequency, account.getCtx())
+																	paymentFrequency, account.getCtx(), transactionName)
 						.get("AMORTIZATION_LIST");
-			
-			
-			
-			//retValues.get("AMORTIZATION_LIST");
 		
 			for (AmortizationValue amortization : amortizationList) {
 				//Create Amortization
@@ -92,7 +91,7 @@ public class FrenchLoanAmortization extends AbstractFunctionalSetting {
 													amortization.getPeriodNo(), 
 													amortization.getStartDate(), 
 													amortization.getTaxAmtFee().setScale(currency.getStdPrecision(), BigDecimal.ROUND_HALF_UP), 
-													account.get_TrxName());
+													transactionName);
 			}
 			
 		}

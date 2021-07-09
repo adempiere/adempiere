@@ -16,12 +16,16 @@
  *****************************************************************************/
 package org.spin.util;
 
+import java.math.BigDecimal;
 import java.security.SecureRandom;
 import java.sql.Timestamp;
+import java.util.Optional;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
 import org.spin.model.MADToken;
+import org.spin.model.MADTokenDefinition;
 /**
  * @author Raul Muñoz, rMunoz@erpya.com, ERPCyA http://www.erpya.com
  * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
@@ -36,8 +40,6 @@ public class TokenGenerator implements ITokenGenerator {
     
     private String token;
     private MADToken passReset;
-    private Timestamp expireDate;
-    
     
     public TokenGenerator() {
     	//	
@@ -48,10 +50,18 @@ public class TokenGenerator implements ITokenGenerator {
 	    long longToken = Math.abs( random.nextLong());
         String random = Long.toString( longToken, 16);
         token = random + userId;
-        expireDate = new Timestamp(System.currentTimeMillis()+5*60*1000);
         passReset = new MADToken(Env.getCtx(), 0, null);
         passReset.setTokenType(tokenType);
-        passReset.setExpireDate(expireDate);
+        passReset.setTokenType(MADTokenDefinition.TOKENTYPE_ThirdPartyAccess);
+        if(passReset.getAD_TokenDefinition_ID() <= 0) {
+        	throw new AdempiereException("@AD_TokenDefinition_ID@ @NotFound@");
+        }
+        MADTokenDefinition definition = MADTokenDefinition.getById(Env.getCtx(), passReset.getAD_TokenDefinition_ID(), null);
+        if(definition.isHasExpireDate()) {
+        	BigDecimal expirationTime = Optional.ofNullable(definition.getExpirationTime()).orElse(new BigDecimal(5 * 60 * 1000));
+        	passReset.setExpireDate(new Timestamp(System.currentTimeMillis() + expirationTime.longValue()));
+        }
+        //	
         passReset.setTokenValue(token);
         passReset.setAD_User_ID(userId);
         passReset.saveEx();

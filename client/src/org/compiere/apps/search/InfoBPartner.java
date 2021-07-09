@@ -439,7 +439,8 @@ public class InfoBPartner extends Info implements PropertyChangeListener, Action
 	 */
 	protected void recordSelected(int key)
 	{
-		m_C_BPartner_ID = getSelectedRowKey();
+		Integer id = getSelectedRowKey();
+		m_C_BPartner_ID = id == null ? 0 : id.intValue();
 		refresh();
 		p_detailTaskPane.setCollapsed(false);
 		return;

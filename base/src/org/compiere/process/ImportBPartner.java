@@ -22,12 +22,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.logging.Level;
 
 import org.adempiere.exceptions.DBException;
 import org.adempiere.model.ImportValidator;
 import org.adempiere.process.ImportProcess;
+import org.compiere.model.MBPBankAccount;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MContactInterest;
@@ -37,6 +39,7 @@ import org.compiere.model.MUser;
 import org.compiere.model.ModelValidationEngine;
 import org.compiere.model.X_I_BPartner;
 import org.compiere.util.DB;
+import org.compiere.util.Msg;
 import org.eevolution.model.X_C_ProjectMember;
 import org.eevolution.model.X_C_ProjectMemberType;
 
@@ -151,7 +154,7 @@ implements ImportProcess
 		log.fine("Set Group=" + no);
 		//
 		sql = new StringBuilder ("UPDATE I_BPartner "
-				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid Group, ' "
+				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR="+ Msg.parseTranslation(getCtx(), "@Invalid@ @C_BP_Group_ID@") +", ' "
 				+ "WHERE C_BP_Group_ID IS NULL"
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
@@ -167,7 +170,7 @@ implements ImportProcess
 		log.fine("Set Country=" + no);
 		//
 		sql = new StringBuilder ("UPDATE I_BPartner "
-				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid Country, ' "
+				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR="+ Msg.parseTranslation(getCtx(), "@Invalid@ @C_Country_ID@") +", ' "
 				+ "WHERE C_Country_ID IS NULL AND (City IS NOT NULL OR Address1 IS NOT NULL)"
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
@@ -202,7 +205,7 @@ implements ImportProcess
 		log.fine("Set Country=" + no);
 		//
 		sql = new StringBuilder ("UPDATE I_BPartner "
-				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid Birth Country, ' "
+				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=" + Msg.parseTranslation(getCtx(), "@Invalid@ @BirthCountry_ID@") + ", ' "
 				+ "WHERE BirthCountry_ID IS NULL AND BirthCity IS NOT NULL"
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
@@ -229,7 +232,7 @@ implements ImportProcess
 		
 		//
 		sql = new StringBuilder ("UPDATE I_BPartner i "
-				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid Region, ' "
+				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR="+ Msg.parseTranslation(getCtx(), "@Invalid@ @C_Country_ID@") +", ' "
 				+ "WHERE C_Region_ID IS NULL "
 				+ " AND EXISTS (SELECT * FROM C_Country c"
 				+ " WHERE c.C_Country_ID=i.C_Country_ID AND c.HasRegion='Y')"
@@ -247,7 +250,7 @@ implements ImportProcess
 		log.fine("Set Greeting=" + no);
 		//
 		sql = new StringBuilder ("UPDATE I_BPartner i "
-				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Invalid Greeting, ' "
+				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR="+ Msg.parseTranslation(getCtx(), "@Invalid@ @C_Greeting_ID@") +", ' "
 				+ "WHERE C_Greeting_ID IS NULL AND BPContactGreeting IS NOT NULL"
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
@@ -300,7 +303,7 @@ implements ImportProcess
 
 		//	Existing Contact ? Match Name
 		sql = new StringBuilder ("UPDATE I_BPartner i "
-				+ "SET AD_User_ID=(SELECT AD_User_ID FROM AD_User c"
+				+ "SET AD_User_ID=(SELECT MAX(AD_User_ID) FROM AD_User c"
 				+ " WHERE UPPER(i.ContactName)=UPPER(c.Name) AND i.C_BPartner_ID=c.C_BPartner_ID AND c.AD_Client_ID=i.AD_Client_ID) "
 				+ "WHERE C_BPartner_ID IS NOT NULL AND AD_User_ID IS NULL AND ContactName IS NOT NULL"
 				+ " AND I_IsImported='N'").append(clientCheck);
@@ -350,11 +353,28 @@ implements ImportProcess
 
 		// Value is mandatory error
 		sql = new StringBuilder ("UPDATE I_BPartner "
-				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=Value is mandatory, ' "
+				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR="+ Msg.parseTranslation(getCtx(), "@FillMandatory@ @Value@") +", ' "
 				+ "WHERE Value IS NULL "
 				+ " AND I_IsImported<>'Y'").append(clientCheck);
 		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
 		log.config("Value is mandatory=" + no);
+		
+		// Set Bank
+		sql = new StringBuilder ("UPDATE I_BPartner i "
+				+ "SET C_Bank_ID=(SELECT MAX(C_Bank_ID) FROM C_Bank b "
+				+ "WHERE UPPER(i.BankName)=UPPER(b.Name) AND b.AD_Client_ID=i.AD_Client_ID) "
+				+ "WHERE C_Bank_ID IS NULL AND BankName IS NOT NULL AND IsACH='Y'"
+				+ " AND I_IsImported='N'").append(clientCheck);
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
+		log.fine("Set Bank=" + no);
+		
+		// Invalid Bank
+		sql = new StringBuilder ("UPDATE I_BPartner "
+				+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=" + Msg.parseTranslation(getCtx(), "@Invalid@ @C_Bank_ID@") + ", ' "
+				+ "WHERE C_Bank_ID IS NULL AND BankName IS NOT NULL AND IsACH='Y'"
+				+ " AND I_IsImported<>'Y'").append(clientCheck);
+		no = DB.executeUpdateEx(sql.toString(), get_TrxName());
+		log.config("Invalid Country=" + no);
 		
 		ModelValidationEngine.get().fireImportValidate(this, null, null, ImportValidator.TIMING_AFTER_VALIDATE);
 
@@ -372,6 +392,7 @@ implements ImportProcess
 				+ "WHERE I_IsImported='N'").append(clientCheck);
 		// gody: 20070113 - Order so the same values are consecutive.
 		sql.append(" ORDER BY Value, I_BPartner_ID");
+		String whereClause = "";
 		PreparedStatement pstmt =  null;
 		ResultSet rs = null;
 		try
@@ -479,88 +500,123 @@ implements ImportProcess
 							continue;
 						}
 					}
-
-					//	****	Create/Update BPartner Location	****
-					bpl = null;
-					if (importPartner.getC_BPartner_Location_ID() != 0)		//	Update Location
+				}else {
+					importPartner.setC_BPartner_ID(bp.getC_BPartner_ID());
+					importPartner.save();
+				}
+				Old_BPValue = New_BPValue ;
+				
+				whereClause = " EXISTS(SELECT 1 FROM C_Location l, I_BPartner i "
+										+ "WHERE "
+										+ "l.C_Location_ID = C_BPartner_Location.C_Location_ID AND i.I_BPartner_ID = " + importPartner.getI_BPartner_ID();
+				
+				if (importPartner.getAddress1()!=null
+						&& !importPartner.getAddress1().isEmpty())
+					whereClause+=" AND l.Address1 = i.Address1";
+				if (importPartner.getAddress2()!=null
+						&& !importPartner.getAddress2().isEmpty())
+					whereClause+=" AND l.Address2 = i.Address2";
+				if (importPartner.getAddress3()!=null
+						&& !importPartner.getAddress3().isEmpty())
+					whereClause+=" AND l.Address3 = i.Address3";
+				if (importPartner.getAddress4()!=null
+						&& !importPartner.getAddress4().isEmpty())
+					whereClause+=" AND l.Address4 = i.Address4";
+				if (importPartner.getCity()!=null
+						&& !importPartner.getCity().isEmpty())
+					whereClause+=" AND l.City = i.City";
+				if (importPartner.getC_Region_ID()!=0)
+					whereClause+=" AND l.C_Region_ID = i.C_Region_ID" ;
+				if (importPartner.getC_Country_ID()!=0)
+					whereClause+=" AND l.C_Country_ID = i.C_Country_ID" ;
+				if (importPartner.getPostal()!=null
+						&& !importPartner.getPostal().isEmpty())
+					whereClause+=" AND l.Postal = i.Postal";
+				if (importPartner.getPostal_Add()!=null
+						&& !importPartner.getPostal_Add().isEmpty())
+					whereClause+=" AND l.Postal_Add = i.Postal_Add";
+				
+				whereClause+= ")";
+				bpl = Arrays.stream(MBPartnerLocation.getForBPartner(getCtx(), importPartner.getC_BPartner_ID(), whereClause, importPartner.get_TrxName()))
+						.findFirst()
+						.orElse(null);
+				if (bpl!=null)		//	Update Location
+				{
+					//bpl = new MBPartnerLocation(getCtx(), importPartner.getC_BPartner_Location_ID(), get_TrxName());
+					MLocation location = new MLocation(getCtx(), bpl.getC_Location_ID(), get_TrxName());
+					location.setC_Country_ID(importPartner.getC_Country_ID());
+					location.setC_Region_ID(importPartner.getC_Region_ID());
+					location.setCity(importPartner.getCity());
+					location.setAddress1(importPartner.getAddress1());
+					location.setAddress2(importPartner.getAddress2());
+					location.setAddress3(importPartner.getAddress3());
+					location.setAddress4(importPartner.getAddress4());
+					location.setPostal(importPartner.getPostal());
+					location.setPostal_Add(importPartner.getPostal_Add());
+					if (!location.save())
+						log.warning("Location not updated");
+					else
+						bpl.setC_Location_ID(location.getC_Location_ID());
+					if (importPartner.getPhone() != null)
+						bpl.setPhone(importPartner.getPhone());
+					if (importPartner.getPhone2() != null)
+						bpl.setPhone2(importPartner.getPhone2());
+					if (importPartner.getFax() != null)
+						bpl.setFax(importPartner.getFax());
+					ModelValidationEngine.get().fireImportValidate(this, importPartner, bpl, ImportValidator.TIMING_AFTER_IMPORT);
+					bpl.saveEx();
+				}
+				else 	//	New Location
+					if (importPartner.getC_Country_ID() != 0
+							&& importPartner.getAddress1() != null
+							&& importPartner.getCity() != null)
 					{
-						bpl = new MBPartnerLocation(getCtx(), importPartner.getC_BPartner_Location_ID(), get_TrxName());
-						MLocation location = new MLocation(getCtx(), bpl.getC_Location_ID(), get_TrxName());
-						location.setC_Country_ID(importPartner.getC_Country_ID());
-						location.setC_Region_ID(importPartner.getC_Region_ID());
-						location.setCity(importPartner.getCity());
+						MLocation location = new MLocation(getCtx(), importPartner.getC_Country_ID(),
+								importPartner.getC_Region_ID(), importPartner.getCity(), get_TrxName());
 						location.setAddress1(importPartner.getAddress1());
 						location.setAddress2(importPartner.getAddress2());
 						location.setAddress3(importPartner.getAddress3());
 						location.setAddress4(importPartner.getAddress4());
 						location.setPostal(importPartner.getPostal());
 						location.setPostal_Add(importPartner.getPostal_Add());
-						if (!location.save())
-							log.warning("Location not updated");
+						if (location.save())
+							log.finest("Insert Location - " + location.getC_Location_ID());
 						else
-							bpl.setC_Location_ID(location.getC_Location_ID());
-						if (importPartner.getPhone() != null)
-							bpl.setPhone(importPartner.getPhone());
-						if (importPartner.getPhone2() != null)
-							bpl.setPhone2(importPartner.getPhone2());
-						if (importPartner.getFax() != null)
-							bpl.setFax(importPartner.getFax());
-						ModelValidationEngine.get().fireImportValidate(this, importPartner, bpl, ImportValidator.TIMING_AFTER_IMPORT);
-						bpl.saveEx();
-					}
-					else 	//	New Location
-						if (importPartner.getC_Country_ID() != 0
-								&& importPartner.getAddress1() != null
-								&& importPartner.getCity() != null)
 						{
-							MLocation location = new MLocation(getCtx(), importPartner.getC_Country_ID(),
-									importPartner.getC_Region_ID(), importPartner.getCity(), get_TrxName());
-							location.setAddress1(importPartner.getAddress1());
-							location.setAddress2(importPartner.getAddress2());
-							location.setAddress3(importPartner.getAddress3());
-							location.setAddress4(importPartner.getAddress4());
-							location.setPostal(importPartner.getPostal());
-							location.setPostal_Add(importPartner.getPostal_Add());
-							if (location.save())
-								log.finest("Insert Location - " + location.getC_Location_ID());
-							else
-							{
-								rollback();
-								noInsert--;
-								sql = new StringBuilder ("UPDATE I_BPartner i "
-										+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||")
-								.append("'Cannot Insert Location, ' ")
-								.append("WHERE I_BPartner_ID=").append(importPartner.getI_BPartner_ID());
-								DB.executeUpdateEx(sql.toString(), get_TrxName());
-								continue;
-							}
-							//
-							bpl = new MBPartnerLocation (bp);
-							bpl.setC_Location_ID(location.getC_Location_ID());
-							bpl.setPhone(importPartner.getPhone());
-							bpl.setPhone2(importPartner.getPhone2());
-							bpl.setFax(importPartner.getFax());
-							ModelValidationEngine.get().fireImportValidate(this, importPartner, bpl, ImportValidator.TIMING_AFTER_IMPORT);
-							if (bpl.save())
-							{
-								log.finest("Insert BP Location - " + bpl.getC_BPartner_Location_ID());
-								importPartner.setC_BPartner_Location_ID(bpl.getC_BPartner_Location_ID());
-							}
-							else
-							{
-								rollback();
-								noInsert--;
-								sql = new StringBuilder ("UPDATE I_BPartner i "
-										+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||")
-								.append("'Cannot Insert BPLocation, ' ")
-								.append("WHERE I_BPartner_ID=").append(importPartner.getI_BPartner_ID());
-								DB.executeUpdateEx(sql.toString(), get_TrxName());
-								continue;
-							}
+							rollback();
+							noInsert--;
+							sql = new StringBuilder ("UPDATE I_BPartner i "
+									+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||")
+							.append("'Cannot Insert Location, ' ")
+							.append("WHERE I_BPartner_ID=").append(importPartner.getI_BPartner_ID());
+							DB.executeUpdateEx(sql.toString(), get_TrxName());
+							continue;
 						}
-				}
-
-				Old_BPValue = New_BPValue ;
+						//
+						bpl = new MBPartnerLocation (bp);
+						bpl.setC_Location_ID(location.getC_Location_ID());
+						bpl.setPhone(importPartner.getPhone());
+						bpl.setPhone2(importPartner.getPhone2());
+						bpl.setFax(importPartner.getFax());
+						ModelValidationEngine.get().fireImportValidate(this, importPartner, bpl, ImportValidator.TIMING_AFTER_IMPORT);
+						if (bpl.save())
+						{
+							log.finest("Insert BP Location - " + bpl.getC_BPartner_Location_ID());
+							importPartner.setC_BPartner_Location_ID(bpl.getC_BPartner_Location_ID());
+						}
+						else
+						{
+							rollback();
+							noInsert--;
+							sql = new StringBuilder ("UPDATE I_BPartner i "
+									+ "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||")
+							.append("'Cannot Insert BPLocation, ' ")
+							.append("WHERE I_BPartner_ID=").append(importPartner.getI_BPartner_ID());
+							DB.executeUpdateEx(sql.toString(), get_TrxName());
+							continue;
+						}
+					}
+				
 
 				//	****	Create/Update Contact	****
 				MUser user = null;
@@ -672,6 +728,57 @@ implements ImportProcess
 							importPartner.getR_InterestArea_ID(), user.getAD_User_ID(),
 							true, get_TrxName());
 					ci.saveEx();		//	don't subscribe or re-activate
+				}
+				//
+				whereClause = "IsACH = 'Y' AND EXISTS (SELECT 1 FROM I_BPartner i WHERE i.I_BPartner_ID = " + importPartner.getI_BPartner_ID() + "AND i.A_Name = C_BP_BankAccount.A_Name";
+				if (importPartner.isACH()) 
+					whereClause += " AND C_Bank_ID = i.C_Bank_ID";
+				
+				whereClause+=")";
+				
+				MBPBankAccount bpBankAccount = MBPBankAccount.getByPartner(getCtx(), importPartner.getC_BPartner_ID(), whereClause, importPartner.get_TrxName())
+												.stream()
+												.findFirst()
+												.orElse(new MBPBankAccount(getCtx(), 0, get_TrxName()));
+				
+				if ((importPartner.isACH()
+						&& importPartner.getC_Bank_ID() !=0
+							&& importPartner.getA_Name()!=null)
+						|| (!importPartner.isACH()
+								&& importPartner.getA_Name()!=null)) {
+						
+					
+					bpBankAccount.setC_BPartner_ID(importPartner.getC_BPartner_ID());
+					bpBankAccount.setIsACH(importPartner.isACH());
+					
+					bpBankAccount.setIsACH(importPartner.isACH());
+					bpBankAccount.setCreditCardType(importPartner.getCreditCardType());
+					bpBankAccount.setCreditCardNumber(importPartner.getCreditCardNumber());
+					bpBankAccount.setCreditCardVV(importPartner.getCreditCardVV());
+					bpBankAccount.setCreditCardExpMM(importPartner.getCreditCardExpMM());
+					bpBankAccount.setCreditCardExpYY(importPartner.getCreditCardExpYY());
+					
+					bpBankAccount.setBPBankAcctUse(importPartner.getBPBankAcctUse());
+					bpBankAccount.setIBAN(importPartner.getIBAN());
+					bpBankAccount.setC_Bank_ID(importPartner.getC_Bank_ID());
+					bpBankAccount.setBankAccountType(importPartner.getBankAccountType());
+					bpBankAccount.setRoutingNo(importPartner.getRoutingNo());
+					bpBankAccount.setAccountNo(importPartner.getAccountNo());
+					
+					bpBankAccount.setA_Name(importPartner.getA_Name());
+					bpBankAccount.setA_Street(importPartner.getA_Street());
+					bpBankAccount.setA_City(importPartner.getA_City());
+					bpBankAccount.setA_Zip(importPartner.getA_Zip());
+					bpBankAccount.setA_State(importPartner.getA_State());
+					bpBankAccount.setA_Country(importPartner.getA_Country());
+					bpBankAccount.setA_Ident_DL(importPartner.getA_Ident_DL());
+					bpBankAccount.setA_Ident_SSN(importPartner.getA_Ident_SSN());
+					bpBankAccount.setA_EMail(importPartner.getA_EMail());
+					bpBankAccount.setR_AvsAddr(importPartner.getR_AvsAddr());
+					bpBankAccount.setR_AvsZip(importPartner.getR_AvsZip());
+					bpBankAccount.save();
+					
+					importPartner.setC_BP_BankAccount_ID(bpBankAccount.getC_BP_BankAccount_ID());
 				}
 				//
 				importPartner.setI_IsImported(true);

@@ -1,6 +1,6 @@
 package org.adempiere.pdf;
 
-import java.awt.Color;
+
 import java.awt.Toolkit;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -14,29 +14,32 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.logging.Level;
 
+import org.adempiere.util.StringUtils;
 import org.compiere.model.MImage;
+import org.compiere.model.ReportTO;
 import org.compiere.report.MReportColumn;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
-import org.adempiere.util.StringUtils;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.ExceptionConverter;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.PageSize;
-import com.lowagie.text.Paragraph;
-import com.lowagie.text.Phrase;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfPCell;
-import com.lowagie.text.pdf.PdfPTable;
-import com.lowagie.text.pdf.PdfPageEventHelper;
-import com.lowagie.text.pdf.PdfTemplate;
-import com.lowagie.text.pdf.PdfWriter;
-import org.compiere.model.ReportTO;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.ExceptionConverter;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfPageEventHelper;
+import com.itextpdf.text.pdf.PdfTemplate;
+import com.itextpdf.text.pdf.PdfWriter;
+
 
 /**
  * @version <li>SmartJSP: SmjPdfReport.java, 2011/03/01
@@ -62,13 +65,13 @@ public class SmjPdfReport extends PdfPageEventHelper {
 	/** Logger */
 	public CLogger log = CLogger.getCLogger(SmjPdfReport.class);
 	private ByteArrayOutputStream baosPDF;
-	private Font titleFont = new Font(Font.HELVETICA, 15, Font.BOLDITALIC);
-	private Font titleTableFont = new Font(Font.HELVETICA, 12, Font.BOLDITALIC);
-	private Font catFont = new Font(Font.HELVETICA, 12, Font.BOLD);
-	private Font subFont = new Font(Font.HELVETICA, 10, Font.NORMAL);
+	private Font titleFont = new Font(FontFamily.HELVETICA, 15, Font.BOLDITALIC);
+	private Font titleTableFont = new Font(FontFamily.HELVETICA, 12, Font.BOLDITALIC);
+	private Font catFont = new Font(FontFamily.HELVETICA, 12, Font.BOLD);
+	private Font subFont = new Font(FontFamily.HELVETICA, 10, Font.NORMAL);
 	private int cols = 0;
 	private LinkedList<ReportTO> data = null;
-	private Document document = null;
+	private com.itextpdf.text.Document document = null;
 	private PdfWriter writer = null;
 	private PdfPTable table = null;
 	private BaseFont helv;
@@ -94,7 +97,7 @@ public class SmjPdfReport extends PdfPageEventHelper {
 		catFont = FontFactory.getFont(fontPar[0], lFont + 2, Font.BOLD);
 		subFont = FontFactory.getFont(fontPar[0], lFont, Font.NORMAL);
 		try {
-			document = new Document(PageSize.LETTER, 20, 20, 20, 40);// izq-der-arrib
+			document = new com.itextpdf.text.Document(PageSize.LETTER, 20, 20, 20, 40);// izq-der-arrib
 			writer = PdfWriter.getInstance(document, baosPDF);
 			document.open();
 			// metadata del documento
@@ -115,7 +118,7 @@ public class SmjPdfReport extends PdfPageEventHelper {
 			} else {
 				img = org.compiere.Adempiere.getImageLogoSmall(true); // 48x15
 			}
-			com.lowagie.text.Image logo = com.lowagie.text.Image.getInstance(img, null);
+			Image logo = Image.getInstance(img, null);
 			logo.scaleToFit(100, 30);
 			document.add(logo);
 			// Titulo General - general Title
@@ -165,19 +168,19 @@ public class SmjPdfReport extends PdfPageEventHelper {
 			// Nombre - name
 			PdfPCell cellTitle = new PdfPCell(new Paragraph(Msg.translate(Env.getCtx(), "name").toUpperCase(), catFont));
 			cellTitle.setHorizontalAlignment(Paragraph.ALIGN_RIGHT);
-			cellTitle.setBackgroundColor(Color.LIGHT_GRAY);
+			cellTitle.setBackgroundColor(BaseColor.LIGHT_GRAY);
 			table.addCell(cellTitle);
 			// Desripcion - description
 			cellTitle = new PdfPCell(new Paragraph(Msg.translate(Env.getCtx(), "description").toUpperCase(), catFont));
 			cellTitle.setHorizontalAlignment(Paragraph.ALIGN_LEFT);
-			cellTitle.setBackgroundColor(Color.LIGHT_GRAY);
+			cellTitle.setBackgroundColor(BaseColor.LIGHT_GRAY);
 			table.addCell(cellTitle);
 			// columnas de valores - Value Columns
 			for (MReportColumn mcol:m_columns){
 				String colName = mcol.getName();
 				cellTitle = new PdfPCell(new Paragraph(colName.toUpperCase(), catFont));
 				cellTitle.setHorizontalAlignment(Paragraph.ALIGN_RIGHT);
-				cellTitle.setBackgroundColor(Color.LIGHT_GRAY);
+				cellTitle.setBackgroundColor(BaseColor.LIGHT_GRAY);
 				table.addCell(cellTitle);
 			}//for columnas
 
@@ -222,7 +225,7 @@ public class SmjPdfReport extends PdfPageEventHelper {
 				line.setBorderWidthLeft(0);
 				line.setBorderWidthRight(0);
 				line.setBorderWidthTop(0);
-				line.setBorderColorBottom(Color.BLACK);
+				line.setBorderColorBottom(BaseColor.BLACK);
 				table.addCell(line);
 			} else if (rpt.getReportlinestyle() != null	&& rpt.getReportlinestyle().equals("X")) {
 				// coloca linea de total - Put total line
@@ -241,7 +244,7 @@ public class SmjPdfReport extends PdfPageEventHelper {
 				tableCell.setBorderWidthLeft(0);
 				tableCell.setBorderWidthRight(0);
 				tableCell.setBorderWidthTop(0);
-				tableCell.setBorderColorBottom(Color.BLACK);
+				tableCell.setBorderColorBottom(BaseColor.BLACK);
 				table.addCell(tableCell);
 				for (int i = 0; i < (cols - 2); i++) {
 					tableCell = new PdfPCell(new Phrase(""));
@@ -427,7 +430,7 @@ public class SmjPdfReport extends PdfPageEventHelper {
 			tableCell.setBorderWidthLeft(0);
 			tableCell.setBorderWidthRight(0);
 			tableCell.setBorderWidthTop(0);
-			tableCell.setBorderColorBottom(Color.BLACK);
+			tableCell.setBorderColorBottom(BaseColor.BLACK);
 			table.addCell(tableCell);
 			
 		}// for
@@ -439,7 +442,7 @@ public class SmjPdfReport extends PdfPageEventHelper {
 	 * @param writer
 	 * @param document
 	 */
-	public void onOpenDocument(PdfWriter writer, Document document) {
+	public void onOpenDocument(PdfWriter writer, com.itextpdf.text.Document document) {
 		total = writer.getDirectContent().createTemplate(100, 100);
 		total.setBoundingBox(new Rectangle(-20, -20, 100, 100));
 		try {
@@ -456,7 +459,7 @@ public class SmjPdfReport extends PdfPageEventHelper {
 	 * @param writer
 	 * @param document
 	 */
-	public void onEndPage(PdfWriter writer, Document document) {
+	public void onEndPage(PdfWriter writer, com.itextpdf.text.Document document) {
 		PdfContentByte cb = writer.getDirectContent();
 		cb.saveState();
 		Date date = new Date();

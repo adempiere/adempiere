@@ -23,6 +23,7 @@ import org.compiere.acct.Fact;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
+import org.compiere.util.Util;
 
 import javax.script.ScriptEngine;
 import java.util.ArrayList;
@@ -54,16 +55,16 @@ import java.util.logging.Level;
  * 					https://sourceforge.net/tracker/?func=detail&aid=2819617&group_id=176962&atid=879332
  * @author victor.perez@e-evolution.com, www.e-evolution.com
  * 				<li>BF [ 2947607 ] Model Validator Engine duplicate listeners 
+ * @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ * 				<li> Add support to model validator definition by client
  */
-public class ModelValidationEngine 
-{
-
+public class ModelValidationEngine {
+	
 	/**
 	 * 	Get Singleton
 	 *	@return modelValidatorEngine
 	 */
-	public synchronized static ModelValidationEngine get()
-	{
+	public synchronized static ModelValidationEngine get() {
 		if (modelValidatorEngine == null)
 			modelValidatorEngine = new ModelValidationEngine();
 		return modelValidatorEngine;
@@ -79,25 +80,19 @@ public class ModelValidationEngine
 	 * 	Constructor.
 	 * 	Creates Model Validators
 	 */
-	private ModelValidationEngine ()
-	{
+	private ModelValidationEngine () {
 		super ();
 		// Load global validators
-		
-		MTable table = MTable.get(Env.getCtx(), X_AD_ModelValidator.Table_ID);
-		Query query = table.createQuery("IsActive='Y'", null);
-		query.setOrderBy("SeqNo");
 		try {
-			List<X_AD_ModelValidator> entityTypes = query.list();
-			for (X_AD_ModelValidator entityType : entityTypes)
-			{
-				String className = entityType.getModelValidationClass();
-				if (className == null || className.length() == 0)
-					continue;
-				loadValidatorClass(null, className);
-			}
-		} catch (Exception e)
-		{
+			List<X_AD_ModelValidator> entityTypes = new Query(Env.getCtx(), I_AD_ModelValidator.Table_Name, null, null)
+					.setOnlyActiveRecords(true)
+					.setOrderBy(I_AD_ModelValidator.COLUMNNAME_SeqNo)
+					.list();
+			entityTypes
+				.stream()
+				.filter(validator -> !Util.isEmpty(validator.getModelValidationClass()))
+				.forEach(validator -> loadValidatorClass(validator.getAD_Client_ID() == 0? null: MClient.get(Env.getCtx(), validator.getAD_Client_ID()), validator.getModelValidationClass()));
+		} catch (Exception e) {
 			//logging to db will try to init ModelValidationEngine again!
 			//log.warning(e.getLocalizedMessage());
 			// System.err.println(e.getLocalizedMessage());
@@ -109,20 +104,14 @@ public class ModelValidationEngine
 				.ifPresent(clientList -> Arrays.stream(clientList)
 								.filter(client -> client.getModelValidationClasses() != null && client.getModelValidationClasses().length() > 0)
 								.forEach(client -> loadValidatorClasses(client, client.getModelValidationClasses())));
-
 		//logging to db will try to init ModelValidationEngine again!
-		//log.config(toString());
-		// System.out.println(toString());
 	}	//	ModelValidatorEngine
 	
-	private void loadValidatorClasses(MClient client, String classNames) 
-	{
+	private void loadValidatorClasses(MClient client, String classNames)  {
 		StringTokenizer st = new StringTokenizer(classNames, ";");
-		while (st.hasMoreTokens())
-		{
+		while (st.hasMoreTokens()) {
 			String className = null;			
-			try
-			{
+			try {
 				className = st.nextToken();
 				if (className == null)
 					continue;
@@ -131,27 +120,24 @@ public class ModelValidationEngine
 					continue;
 				//
 				loadValidatorClass(client, className);					
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				//logging to db will try to init ModelValidationEngine again!
-				//log.log(Level.SEVERE, className + ": " + e.getMessage());
-				// System.err.println(className + ": " + e.getMessage());
 				missingModelValidationMessage = missingModelValidationMessage + e.toString() + " on client " + client.getName() + '\n';
 			}
 		}
 	}
 	
 	private void loadValidatorClass(MClient client, String className) {
-		try
-		{
+		if(existValidatorClass(className)) {
+			log.warning((client != null ? ("client " + client.getName()) : " global") + " already exists for class: " + className);
+			return;
+		}
+		try {
 			//
 			Class<?> clazz = Class.forName(className);
 			ModelValidator validator = (ModelValidator)clazz.newInstance();
 			initialize(validator, client);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			//logging to db will try to init ModelValidationEngine again!
 			//log.log(Level.SEVERE, className + ": " + e.getMessage());
 			// System.err.println(e.toString());
@@ -162,9 +148,8 @@ public class ModelValidationEngine
 	
 	/**	Logger					*/
 	private static CLogger log = CLogger.getCLogger(ModelValidationEngine.class);
-//	/** Change Support			*/
-//	private VetoableChangeSupport m_changeSupport = new VetoableChangeSupport(this);
-
+	/**	Verify Class	*/
+	private List<String> validatorClasses = new ArrayList<String>();
 	/**	Validators						*/
 	private List<ModelValidator> validators = new ArrayList<ModelValidator>();
 	/**	Model Change Listeners			*/
@@ -183,8 +168,7 @@ public class ModelValidationEngine
 	 *	@param validator
 	 *	@param client
 	 */
-	private void initialize(ModelValidator validator, MClient client)
-	{
+	private void initialize(ModelValidator validator, MClient client) {
 		if (client == null)
 			globalValidators.add(validator);
 		validators.add(validator);
@@ -192,6 +176,26 @@ public class ModelValidationEngine
 		
 	}	//	initialize
 
+	/**
+	 * Verify if exist a validator class
+	 * @param validatorClass
+	 * @return
+	 */
+	private boolean existValidatorClass(String validatorClass) {
+		if(Util.isEmpty(validatorClass)) {
+			return true;
+		}
+		boolean alreadyExist = validatorClasses
+				.stream()
+				.filter(validatorClassToFind -> validatorClassToFind.equals(validatorClass))
+				.findFirst()
+				.isPresent();
+		if(!alreadyExist) {
+			validatorClasses.add(validatorClass);
+		}
+		return alreadyExist;
+	}
+	
 	/**
 	 * 	Called when login is complete
 	 * 	@param clientId client

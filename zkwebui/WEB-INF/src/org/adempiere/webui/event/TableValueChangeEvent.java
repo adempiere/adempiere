@@ -17,6 +17,8 @@
 
 package org.adempiere.webui.event;
 
+import org.adempiere.exceptions.ValueChangeEvent;
+
 /**
  * An event encapsulating a change in a Table.
  * The event details the object that changed, it's position in the table

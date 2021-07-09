@@ -52,6 +52,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.ValueNamePair;
 
 /**
@@ -88,7 +89,7 @@ public class VPayment extends CDialog
 	 */
 	public VPayment (int WindowNo, GridTab mTab, VButton button)
 	{
-		super(Env.getWindow(WindowNo), Msg.getMsg(Env.getCtx(), "Payment"), true);
+		super(SwingEnv.getWindow(WindowNo), Msg.getMsg(Env.getCtx(), "Payment"), true);
 		windowNo = WindowNo;
 		controller = new PaymentFormController(this, WindowNo, mTab, button.getValues());
 
@@ -103,7 +104,7 @@ public class VPayment extends CDialog
 			m_initOK = false;
 		}
 		//
-		AEnv.positionCenterWindow(Env.getWindow(WindowNo), this);
+		AEnv.positionCenterWindow(SwingEnv.getWindow(WindowNo), this);
 	}	//	VPayment
 
 	PaymentFormController 		controller;

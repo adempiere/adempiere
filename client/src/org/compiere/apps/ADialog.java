@@ -35,6 +35,7 @@ import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.Trace;
 import org.compiere.util.Util;
 
@@ -68,9 +69,9 @@ public final class ADialog
 		if (clearText != null && !clearText.equals(""))
 			out += "\n" + clearText;
 		//
-		Window parent = Env.getParent(c);
+		Window parent = SwingEnv.getParent(c);
 		if (parent == null)
-			parent = Env.getWindow(WindowNo);
+			parent = SwingEnv.getWindow(WindowNo);
 		//
 		if (showDialog  && parent != null)
 		{
@@ -109,9 +110,9 @@ public final class ADialog
 		if (msg != null && msg.length() > 0)
 			out.append("\n").append(msg);
 		//
-		Window parent = Env.getParent(c);
+		Window parent = SwingEnv.getParent(c);
 		if (parent == null)
-			parent = Env.getWindow(WindowNo);
+			parent = SwingEnv.getWindow(WindowNo);
 		//
 		if (showDialog && parent != null)
 		{
@@ -162,9 +163,9 @@ public final class ADialog
 		if (msg != null && msg.length() > 0)
 			out.append("\n").append(msg);
 		//
-		Window parent = Env.getParent(c);
+		Window parent = SwingEnv.getParent(c);
 		if (parent == null)
-			parent = Env.getWindow(WindowNo);
+			parent = SwingEnv.getWindow(WindowNo);
 		//
 		if (showDialog  && parent != null)
 		{
@@ -217,9 +218,9 @@ public final class ADialog
 		if (msg != null && msg.length() > 0)
 			out.append("\n").append(msg);
 		//
-		Window parent = Env.getParent(c);
+		Window parent = SwingEnv.getParent(c);
 		if (parent == null)
-			parent = Env.getWindow(WindowNo);
+			parent = SwingEnv.getWindow(WindowNo);
 		//
 		if (showDialog && parent != null)
 		{
@@ -235,7 +236,7 @@ public final class ADialog
 					JOptionPane.ERROR_MESSAGE);
 		}
 		else
-			JOptionPane.showMessageDialog(Env.getWindow(WindowNo),
+			JOptionPane.showMessageDialog(SwingEnv.getWindow(WindowNo),
 				out.toString() + "\n",			//	message
 				Env.getHeader(ctx, WindowNo),	//	title
 				JOptionPane.ERROR_MESSAGE);
@@ -271,9 +272,9 @@ public final class ADialog
 		if (msg != null && msg.length() > 0)
 			out.append("\n").append(msg);
 		//
-		Window parent = Env.getParent(c);
+		Window parent = SwingEnv.getParent(c);
 		if (parent == null)
-			parent = Env.getWindow(WindowNo);
+			parent = SwingEnv.getWindow(WindowNo);
 
 		boolean retValue = false;
 		if (showDialog && parent != null)
@@ -338,9 +339,9 @@ public final class ADialog
 		if (parse.length() == 0)
 			parse = "ERROR parsing: " + ParseString;
 		//
-		Window parent = Env.getParent(c);
+		Window parent = SwingEnv.getParent(c);
 		if (parent == null)
-			parent = Env.getWindow(WindowNo);
+			parent = SwingEnv.getWindow(WindowNo);
 		//
 		if (showDialog && parent != null)
 		{

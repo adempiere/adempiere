@@ -837,28 +837,9 @@ public class MDDOrder extends X_DD_Order implements DocAction
 				.filter(orderLine -> orderLine.getCalculateQtyReserved().signum() != 0 ) // filter the order line that where Reserved Quantity need be change
 				.filter(orderLine -> orderLine.getProduct() != null && orderLine.getProduct().isStocked()) // filter that order line with product stocked
 				.forEach(orderLine -> {
-
-			MLocator locatorFrom = MLocator.get(getCtx(),orderLine.getM_Locator_ID());
-			MLocator locatorTo = MLocator.get(getCtx(),orderLine.getM_LocatorTo_ID());
-			log.fine("Line=" + orderLine.getLine()
-				+ " - Ordered=" + orderLine.getQtyOrdered()
-				+ ",Reserved=" + orderLine.getQtyReserved() + ",Delivered=" + orderLine.getQtyDelivered());
-			//	Update Storage
-			if (!MStorage.add(getCtx(), locatorTo.getM_Warehouse_ID(), locatorTo.getM_Locator_ID(),
-					orderLine.getM_Product_ID(),
-					orderLine.getM_AttributeSetInstance_ID(), orderLine.getM_AttributeSetInstance_ID(),
-				Env.ZERO, Env.ZERO , orderLine.getCalculateQtyReserved() , get_TrxName()))
-				throw new AdempiereException("@M_Storage_ID@ @Error@ @To@ @QtyReserved@");
-
-			if (!MStorage.add(getCtx(), locatorFrom.getM_Warehouse_ID(), locatorFrom.getM_Locator_ID(),
-					orderLine.getM_Product_ID(),
-					orderLine.getM_AttributeSetInstanceTo_ID(), orderLine.getM_AttributeSetInstance_ID(),
-				Env.ZERO, orderLine.getCalculateQtyReserved(), Env.ZERO , get_TrxName()))
-				throw new AdempiereException("@M_Storage_ID@ @Error@ @To@ @QtyReserved@");
-
-				//	update line
-				orderLine.setQtyReserved(orderLine.getQtyReserved().add(orderLine.getCalculateQtyReserved()));
-				orderLine.saveEx();
+			orderLine.orderedStock();
+			orderLine.reserveStock();
+			orderLine.saveEx();
 		});
 		updateVolume();
 		updateWeight();
@@ -1025,7 +1006,7 @@ public class MDDOrder extends X_DD_Order implements DocAction
 				.forEach(orderLine -> {
 					orderLine.setDescription(Optional.ofNullable(orderLine.getDescription()).orElse("")
 							+ " " + Msg.parseTranslation(getCtx() , "@Voided@  @QtyOrdered@ (" + orderLine.getQtyOrdered() + ")"));
-					orderLine.save(get_TrxName());
+					orderLine.saveEx(get_TrxName());
 				});
 
 		addDescription(Msg.getMsg(getCtx(), "Voided"));

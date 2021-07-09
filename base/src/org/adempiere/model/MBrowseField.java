@@ -25,6 +25,7 @@ import org.compiere.model.GridFieldVO;
 import org.compiere.model.M_Element;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
+import org.compiere.util.Util;
 
 /**
  * Class Model for Browse Field
@@ -46,6 +47,27 @@ public class MBrowseField extends X_AD_Browse_Field {
 	private static final long serialVersionUID = 3076943543303710639L;
 
 	private static final String CONTEXT_TABLE_PREFIX = "Table_";
+	/**	Optional Column Name for Save Selection	*/
+	private String columnNameForSelection = null;
+	
+	/**
+	 * @return the columnNameForSelection
+	 */
+	public final String getColumnNameForSelection() {
+		if(!Util.isEmpty(columnNameForSelection)) {
+			return columnNameForSelection;
+		}
+		//	Default
+		return getAD_View_Column().getColumnName();
+	}
+
+	/**
+	 * @param columnNameForSelection the columnNameForSelection to set
+	 */
+	public final void setColumnNameForSelection(String columnNameForSelection) {
+		this.columnNameForSelection = columnNameForSelection;
+	}
+
 	/**
 	 *
 	 * @param field
@@ -199,8 +221,12 @@ public class MBrowseField extends X_AD_Browse_Field {
 		setAD_Browse_ID(browse.getAD_Browse_ID());
 		if (column.get_ID() > 0 )
 			setAD_View_Column_ID(column.getAD_View_Column_ID());
-		if (column.getAD_Element_ID() > 0 )
+		if (column.getAD_Element_ID() > 0) {
 			setAD_Element_ID(column.getAD_Element_ID());
+			setAD_Reference_ID(column.getAD_Reference_ID());
+			setAD_Reference_Value_ID(column.getAD_Column().getAD_Reference_Value_ID());
+			setFieldLength(column.getAD_Column().getFieldLength());
+		}
 		setName(column.getName());
 		setDescription(column.getDescription());
 		setHelp(column.getHelp());
@@ -208,39 +234,9 @@ public class MBrowseField extends X_AD_Browse_Field {
 		setIsIdentifier(column.isIdentifier());
 		setIsRange(false);
 		setIsQueryCriteria(false);
-		if (column.get_ID() > 0)
-			setAD_Reference_ID(column.getAD_Reference_ID());
-		if (column.get_ID() > 0)
-			setAD_Reference_Value_ID(column.getAD_Column().getAD_Reference_Value_ID());
-		if (column.get_ID() > 0)
-			setFieldLength(column.getAD_Column().getFieldLength());
 		setIsKey(false);
 		setIsDisplayed(true);
 		m_view_column = column;
-	}
-
-	/**
-	 * Before Save
-	 * @param newRecord new
-	 * @return true
-	 */
-	protected boolean beforeSave(boolean newRecord) {
-		if (is_ValueChanged(COLUMNNAME_IsKey)) {
-			/*
-			 * if(getFieldKey() != null) { throw new
-			 * AdempiereException("Only can have one field as key"); }
-			 */
-		}
-		//
-		return true;
-	} // beforeSave
-
-	@Override
-	protected boolean afterSave(boolean newRecord, boolean success) {
-		if (!success) {
-			return false;
-		}
-		return success;
 	}
 	
 	/**

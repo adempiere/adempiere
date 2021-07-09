@@ -264,7 +264,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 			}
 		} else if(getC_CommissionGroup_ID() != 0) {
 			MCommissionGroup group = new MCommissionGroup(getCtx(), getC_CommissionGroup_ID(), get_TrxName());
-			commissionList = group.getLines(MCommissionGroup.COLUMNNAME_IsActive + "Y");
+			commissionList = group.getLines(null);
 			frequencyType = group.getFrequencyType();
 		}
 		
@@ -654,7 +654,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				String sqlAppend = "";
 				if (commission.isTotallyPaid()) 
 		        	// Last payment must be within commission period 
-					sqlAppend = " AND (p.DateTrx <? or  p.DateTrx <?) AND maxPayDate(h.c_Invoice_ID) between ? AND ? ";
+					sqlAppend = " AND (p.DateTrx <= ? or  p.DateTrx <= ?) AND maxPayDate(h.c_Invoice_ID) between ? AND ? ";
 				else 
 					sqlAppend = " AND p.DateTrx BETWEEN ? AND ? ";
 				
@@ -665,7 +665,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 						+ " (linenetamtrealinvoiceline(l.c_Invoiceline_ID) * (al.Amount/h.GrandTotal)) AS Amt,"
 						+ " (l.QtyInvoiced*al.Amount/h.GrandTotal) AS Qty,"
 						+ " NULL, l.C_InvoiceLine_ID, l.C_OrderLine_ID, (p.DocumentNo || '_' || h.DocumentNo) AS Reference,"
-						+ " COALESCE(prd.Value,l.Description) AS Info, h.DateInvoiced AS DateDoc"
+						+ " COALESCE(prd.Value,l.Description) AS Info, h.DateInvoiced AS DateDoc "
 						+ "FROM C_Payment p"
 						+ " INNER JOIN C_AllocationLine al ON (p.C_Payment_ID=al.C_Payment_ID)"
 						+ " INNER JOIN C_Invoice h ON (al.C_Invoice_ID = h.C_Invoice_ID)"
@@ -712,7 +712,7 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 				if (commission.isListDetails()) {
 					sql.append("SELECT h.C_Currency_ID, linenetamtrealorderline(l.c_OrderLine_ID) AS Amt, l.QtyOrdered AS Qty, "
 						+ "l.C_OrderLine_ID, NULL AS C_InvoiceLine_ID, h.DocumentNo AS Reference,"
-						+ " COALESCE(prd.Value,l.Description) AS Info,h.DateOrdered AS DateDoc"
+						+ " COALESCE(prd.Value,l.Description) AS Info,h.DateOrdered AS DateDoc "
 						+ "FROM C_Order h"
 						+ " INNER JOIN C_OrderLine l ON (h.C_Order_ID = l.C_Order_ID)"
 						+ " LEFT OUTER JOIN M_Product prd ON (l.M_Product_ID = prd.M_Product_ID) "
@@ -1581,9 +1581,9 @@ public class MCommissionRun extends X_C_CommissionRun implements DocAction, DocO
 	 */
 	private void setStartEndDate(String frequencyType) {
 		//	If Recalculate flag is false and Start and End Date are filled then it is not recalculated
-		if(getStartDate() != null
-				&& getEndDate() != null
-				&& !isReCalculate()) {
+		if((getStartDate() != null
+				&& getEndDate() != null)
+				|| !isReCalculate()) {
 			return;
 		}
 		GregorianCalendar cal = new GregorianCalendar(Language.getLoginLanguage().getLocale());

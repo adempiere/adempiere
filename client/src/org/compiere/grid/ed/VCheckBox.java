@@ -1,18 +1,17 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 package org.compiere.grid.ed;
 
@@ -24,6 +23,7 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
@@ -31,6 +31,7 @@ import javax.swing.SwingUtilities;
 import org.compiere.apps.RecordInfo;
 import org.compiere.model.GridField;
 import org.compiere.swing.CCheckBox;
+import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 
@@ -38,14 +39,16 @@ import org.compiere.util.Msg;
  *  Checkbox Control
  *
  *  @author 	Jorg Janke
- *  @version 	$Id: VCheckBox.java,v 1.2 2006/07/30 00:51:28 jjanke Exp $
  *  
  *  @author Michael McKay, 
- * 				<li>ADEMPIERE-72 VLookup and Info Window improvements
- * 					https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ * 		<li>ADEMPIERE-72 VLookup and Info Window improvements
+ * 				https://adempiere.atlassian.net/browse/ADEMPIERE-72
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
  * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
  *		@see https://github.com/adempiere/adempiere/issues/146
+ *
+ * @version 3.9.4
  */
 public class VCheckBox extends CCheckBox
 	implements VEditor, ActionListener
@@ -54,6 +57,8 @@ public class VCheckBox extends CCheckBox
 	 * 
 	 */
 	private static final long serialVersionUID = -9199643773556184995L;
+	
+	CLogger log = CLogger.getCLogger(VCheckBox.class);
 
 	/******************************************************************************
 	 *	Mouse Listener
@@ -115,6 +120,8 @@ public class VCheckBox extends CCheckBox
 		else
 			setEditable(true);
 
+		setTableCellEditor(tableEditor);
+		
 		//  Normal
 		if (!tableEditor)
 		{
@@ -124,6 +131,7 @@ public class VCheckBox extends CCheckBox
 		}
 		else
 		{
+			setBorderPainted(true);
 			setHorizontalAlignment(JLabel.CENTER);
 		}
 		//
@@ -146,6 +154,9 @@ public class VCheckBox extends CCheckBox
 	//	Popup
 	JPopupMenu 				popupMenu = new JPopupMenu();
 	private Object m_oldValue;
+	private Object lastValue;
+
+	private boolean isTableCellEditor;
 
 	/**
 	 *	Set Editable
@@ -171,6 +182,7 @@ public class VCheckBox extends CCheckBox
 	 */
 	public void setValue (Object value)
 	{
+		lastValue = value;
 		boolean sel = false;
 		if (value != null)
 		{
@@ -229,13 +241,19 @@ public class VCheckBox extends CCheckBox
 			RecordInfo.start(m_mField);
 			return;
 		}
+		
+		log.info("Button action: " + e);
 		//	ADebug.info("VCheckBox.actionPerformed");
 		try
 		{
-			fireVetoableChange(m_columnName, null, getValue());
+			Object newValue = new Boolean (isSelected());
+			fireVetoableChange(m_columnName, lastValue, newValue);
+			setValue(newValue); // This may have already been done. No harm in the duplication
 		}
 		catch (PropertyVetoException pve)
 		{
+			log.info("Change vetoed! " + pve);
+			setValue(lastValue);
 		}
 	}	//	actionPerformed
 
@@ -301,6 +319,21 @@ public class VCheckBox extends CCheckBox
 				return true;
 			else
 				return false;
+	}
+
+	@Override
+	public JComponent getComponent() {
+		return this;
+	}
+
+	@Override
+	public void setTableCellEditor(boolean isTableCellEditor) {
+		this.isTableCellEditor = isTableCellEditor;
+	}
+
+	@Override
+	public boolean isTableCellEditor() {
+		return isTableCellEditor;
 	}
 
 }	//	VCheckBox

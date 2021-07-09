@@ -64,7 +64,7 @@ import org.compiere.swing.CPanel;
 import org.compiere.swing.CScrollPane;
 import org.compiere.swing.CTextArea;
 import org.compiere.swing.CTextField;
-import org.compiere.swing.CTextPane;
+import org.compiere.swing.CScrollingTextPane;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
@@ -163,7 +163,7 @@ public class WFActivity extends CPanel
 	private CLabel lHelp = new CLabel(Msg.translate(Env.getCtx(), "Help"));
 	private CTextArea fHelp = new CTextArea();
 	private CLabel lHistory = new CLabel(Msg.translate(Env.getCtx(), "History"));
-	private CTextPane fHistory = new CTextPane();
+	private CScrollingTextPane fHistory = new CScrollingTextPane();
 	private CLabel lAnswer = new CLabel(Msg.getMsg(Env.getCtx(), "Answer"));
 	private CPanel answers = new CPanel(new FlowLayout(FlowLayout.LEADING));
 	private CTextField fAnswerText = new CTextField();

@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_TokenDefinition
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_AD_TokenDefinition 
 {
@@ -118,6 +118,19 @@ public interface I_AD_TokenDefinition
 	  */
 	public String getDescription();
 
+    /** Column name ExpirationTime */
+    public static final String COLUMNNAME_ExpirationTime = "ExpirationTime";
+
+	/** Set Expiration Time.
+	  * Expiration Time for Token in milliseconds, default 5 minutes
+	  */
+	public void setExpirationTime (BigDecimal ExpirationTime);
+
+	/** Get Expiration Time.
+	  * Expiration Time for Token in milliseconds, default 5 minutes
+	  */
+	public BigDecimal getExpirationTime();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -130,6 +143,19 @@ public interface I_AD_TokenDefinition
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsHasExpireDate */
+    public static final String COLUMNNAME_IsHasExpireDate = "IsHasExpireDate";
+
+	/** Set Has Expire Date.
+	  * Has Expire Date for generated token
+	  */
+	public void setIsHasExpireDate (boolean IsHasExpireDate);
+
+	/** Get Has Expire Date.
+	  * Has Expire Date for generated token
+	  */
+	public boolean isHasExpireDate();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -157,19 +183,6 @@ public interface I_AD_TokenDefinition
 	  */
 	public String getTokenType();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -185,6 +198,19 @@ public interface I_AD_TokenDefinition
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

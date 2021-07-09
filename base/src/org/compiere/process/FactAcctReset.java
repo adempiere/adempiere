@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
+import org.compiere.acct.Doc;
 import org.compiere.model.I_AD_Column;
 import org.compiere.model.I_AD_Table;
 import org.compiere.model.MAcctSchema;
@@ -288,29 +289,7 @@ public class FactAcctReset extends FactAcctResetAbstract {
     }    //	delete
 
     public String getDateAcct(int tableId) {
-        String docDateField = "DateAcct";
-        if (tableId == MProjectIssue.Table_ID)
-            docDateField = MProjectIssue.COLUMNNAME_MovementDate;
-        else if (tableId == MBankStatement.Table_ID)
-            docDateField = MBankStatement.COLUMNNAME_EftStatementDate;
-        else if (tableId == MMovement.Table_ID)
-            docDateField = MMovement.COLUMNNAME_MovementDate;
-        else if (tableId == MRequisition.Table_ID)
-            docDateField = MRequisition.COLUMNNAME_DateDoc;
-        else if (tableId == MInventory.Table_ID)
-            docDateField = MInventory.COLUMNNAME_MovementDate;
-        else if (tableId == X_M_Production.Table_ID)
-            docDateField = X_M_Production.COLUMNNAME_MovementDate;
-        else if (tableId == MOrder.Table_ID)
-            docDateField = MOrder.COLUMNNAME_DateOrdered;
-        else if (tableId == X_PP_Order.Table_ID)
-            docDateField = X_PP_Order.COLUMNNAME_DateOrdered;
-        else if (tableId == X_DD_Order.Table_ID)
-            docDateField = X_DD_Order.COLUMNNAME_DateOrdered;
-        else if (tableId == X_M_ProductionBatch.Table_ID)
-            docDateField = X_M_ProductionBatch.COLUMNNAME_MovementDate;
-
-        return docDateField;
+        return Doc.getDateAcctColumnName(MTable.getTableName(getCtx(), tableId));
     }
 
     public String getDocumentBaseType(int tableId, String tableName) {

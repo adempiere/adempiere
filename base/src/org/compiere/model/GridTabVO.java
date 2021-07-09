@@ -18,7 +18,11 @@ package org.compiere.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
@@ -221,23 +225,28 @@ public class GridTabVO implements Evaluatee, Serializable {
 
 	/**************************************************************************
 	 *  Create Tab Fields
-	 *  @param mTabVO tab value object
+	 *  @param gridTabVO tab value object
 	 *  @return true if fields were created
 	 */
-	private static boolean createFields (GridTabVO mTabVO) {
-		//local only or remote fail for vpn profile
-		mTabVO.Fields = new ArrayList<GridFieldVO>();
-		for(MField field : ASPUtil.getInstance(mTabVO.ctx).getWindowFields(mTabVO.AD_Tab_ID)) {
-			GridFieldVO voF = GridFieldVO.create (mTabVO.ctx, 
-					mTabVO.WindowNo, mTabVO.TabNo, 
-					mTabVO.AD_Window_ID, mTabVO.AD_Tab_ID, 
-					mTabVO.IsReadOnly, field);
-			if (voF != null) {
-				mTabVO.Fields.add(voF);
-			}
-		}
-		mTabVO.initFields = true;
-		return mTabVO.Fields.size() != 0;
+	private static boolean createFields (GridTabVO gridTabVO) {
+		Optional<GridTabVO> maybeGridTabVO = Optional.ofNullable(gridTabVO);
+		ArrayList<GridFieldVO> gridFieldVOList = new ArrayList<GridFieldVO>();
+		maybeGridTabVO.ifPresent(gridTabValueObject -> {
+			Optional<ASPUtil> maybeInstance = Optional.ofNullable(ASPUtil.getInstance(gridTabValueObject.ctx));
+			maybeInstance.ifPresent(instance -> {
+				List<MField> fields = instance.getWindowFields(gridTabValueObject.AD_Tab_ID).stream().filter(Objects::nonNull).collect(Collectors.toList());
+				fields.forEach(field -> {
+					GridFieldVO gridFieldVO = GridFieldVO.create(gridTabValueObject.ctx,
+							gridTabValueObject.WindowNo, gridTabValueObject.TabNo,
+							gridTabValueObject.AD_Window_ID, gridTabValueObject.AD_Tab_ID,
+							gridTabValueObject.IsReadOnly, field);
+					gridFieldVOList.add(gridFieldVO);
+				});
+				gridTabVO.Fields = gridFieldVOList;
+				gridTabVO.initFields = true;
+			});
+		});
+		return gridFieldVOList.size() != 0;
 	}   //  createFields
 	
 	/**************************************************************************

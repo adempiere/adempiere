@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import org.compiere.model.ModelValidator;
@@ -91,7 +92,7 @@ public class FinancialSetting {
 			return null;
 		}
 		//	Get Product
-		MFMProduct financialProduct = MFMProduct.getById(po.getCtx(), financialProductId);
+		MFMProduct financialProduct = MFMProduct.getById(po.getCtx(), financialProductId, po.get_TrxName());
 		//	Apply Listener
 		List<MFMFunctionalApplicability> applicabilityList = financialProduct.getApplicability(po.get_TableName(), ModelValidator.documentEventValidators[docTiming]);
 		//	flush return values
@@ -113,7 +114,7 @@ public class FinancialSetting {
 			return null;
 		}
 		//	Get Product
-		MFMProduct financialProduct = MFMProduct.getById(po.getCtx(), financialProductId);
+		MFMProduct financialProduct = MFMProduct.getById(po.getCtx(), financialProductId, po.get_TrxName());
 		if(financialProduct == null) {
 			return null;
 		}
@@ -133,12 +134,12 @@ public class FinancialSetting {
 	 * @param trxName
 	 * @return
 	 */
-	public String fire(Properties ctx, int financialProductId, String eventType, HashMap<String, Object> parameters, String trxName) {
+	public String fire(Properties ctx, int financialProductId, String eventType, Map<String, Object> parameters, String trxName) {
 		if (financialProductId <= 0) {
 			return null;
 		}
 		//	
-		MFMProduct financialProduct = MFMProduct.getById(ctx, financialProductId);
+		MFMProduct financialProduct = MFMProduct.getById(ctx, financialProductId, trxName);
 		if(financialProduct == null) {
 			return null;
 		}
@@ -192,7 +193,7 @@ public class FinancialSetting {
 	 * @param applicabilityList
 	 * @return
 	 */
-	private String runApplicability(Properties ctx, String trxName, PO po, List<MFMFunctionalApplicability> applicabilityList, HashMap<String, Object> parameters) {
+	private String runApplicability(Properties ctx, String trxName, PO po, List<MFMFunctionalApplicability> applicabilityList, Map<String, Object> parameters) {
 		//	
 		StringBuffer message = new StringBuffer();
 		try {
@@ -212,8 +213,10 @@ public class FinancialSetting {
 				//	Create Batch
 				if(applicability.getEventType().equals(MFMFunctionalApplicability.EVENTTYPE_Process)) {
 					MFMAccount account = (MFMAccount) parameters.get(ACCOUNT_PO);
-					//	Reverse Previos Batch
-					reversePreviousBatch(ctx, trxName, applicability.getFM_FunctionalSetting_ID(), account.getFM_Account_ID());
+					//	Reverse Previous Batch
+					if(applicability.isCreateReversal()) {
+						reversePreviousBatch(ctx, trxName, applicability.getFM_FunctionalSetting_ID(), account.getFM_Account_ID());
+					}
 					batch = new MFMBatch(ctx, 0, trxName);
 					batch.setDateDoc(new Timestamp(System.currentTimeMillis()));
 					batch.setFM_Account_ID(account.getFM_Account_ID());
@@ -242,7 +245,9 @@ public class FinancialSetting {
 					returnValues.put(entry.getKey(), entry.getValue());
 				}
 				//	Complete Batch
-				if(batch != null) {
+				if(batch != null
+						&& !batch.isProcessed()
+						&& !batch.getDocStatus().equals(MFMBatch.DOCACTION_Complete)) {
 					batch.processIt(MFMBatch.ACTION_Complete);
 					batch.saveEx();
 				}

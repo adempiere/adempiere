@@ -16,6 +16,8 @@
  *****************************************************************************/
 package org.compiere.process;
 
+import java.lang.reflect.Method;
+
 import org.compiere.util.Env;
 
 /**
@@ -42,7 +44,14 @@ public class CacheReset extends SvrProcess implements ClientProcess
 	protected String doIt() throws java.lang.Exception
 	{
 		log.info("");
-		Env.reset(false);	// not final
+		if (ProcessInfo.INTERFACE_TYPE_SWING.equals(this.getProcessInfo().getInterfaceType()))
+		{
+			Class<?> swingEnv = Class.forName("org.compiere.util.SwingEnv");
+			Method resetCache = swingEnv.getMethod("reset", boolean.class);
+			resetCache.invoke(null, false);
+		}
+		else Env.reset(false);	// not final
+		
 		return "Cache Reset";
 	}	//	doIt
 

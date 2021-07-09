@@ -147,6 +147,7 @@ public class MAsset extends X_A_Asset
 		MInvoiceLine invoiceLine = new MInvoiceLine(getCtx(), match.getC_InvoiceLine_ID(), get_TrxName());
 		MInOutLine inoutLine = new MInOutLine(getCtx(), match.getM_InOutLine_ID(), get_TrxName());
 		
+		setM_InOutLine_ID(inoutLine.getM_InOutLine_ID());
 		setIsOwned(true);
 		setIsInPosession(true);
 		setA_Asset_CreateDate(inoutLine.getM_InOut().getMovementDate());
@@ -157,7 +158,7 @@ public class MAsset extends X_A_Asset
 		
 		// Asset Group:
 		int A_Asset_Group_ID = invoiceLine.getA_Asset_Group_ID();
-		MProduct product = MProduct.get(getCtx(), invoiceLine.getM_Product_ID());
+		MProduct product = MProduct.get(getCtx(), invoiceLine.getM_Product_ID(), get_TrxName());
 		if (A_Asset_Group_ID <= 0) {
 			A_Asset_Group_ID = product.getA_Asset_Group_ID();
 		}
@@ -530,11 +531,12 @@ public class MAsset extends X_A_Asset
 		{
 			throw new AssetCheckDocumentException("Asset Group and Product's Asset Group are different");
 		}//End of Asset Group Check
-		
+		System.err.println("getA_Asset_Group_ID()=" + getA_Asset_Group_ID());
 		//Goodwill - Check for Asset Group Accounting
 		if (getA_Asset_Group_ID() > 0)
 		{
-			List<MAssetGroupAcct> assetGrpAcct = MAssetGroupAcct.forA_Asset_Group_ID(getCtx(), getA_Asset_Group_ID());
+			List<MAssetGroupAcct> assetGrpAcct = MAssetGroupAcct.forA_Asset_Group_ID(getCtx(), getA_Asset_Group_ID(), get_TrxName());
+            log.severe("assetGrpAcct.size()=" + assetGrpAcct.size());
 			if (assetGrpAcct.size() == 0)
 			{
 				log.saveError("Create Asset Error: ", Msg.translate(getCtx(), "No Asset Group Account"));

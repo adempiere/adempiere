@@ -27,14 +27,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for FM_Transaction
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_FM_Transaction extends PO implements I_FM_Transaction, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20210210L;
 
     /** Standard Constructor */
     public X_FM_Transaction (Properties ctx, int FM_Transaction_ID, String trxName)
@@ -46,8 +46,8 @@ public class X_FM_Transaction extends PO implements I_FM_Transaction, I_Persiste
 			setDateTrx (new Timestamp( System.currentTimeMillis() ));
 			setFM_Account_ID (0);
 			setFM_Batch_ID (0);
-			setFM_TransactionType_ID (0);
 			setFM_Transaction_ID (0);
+			setFM_TransactionType_ID (0);
 			setProcessed (false);
 // N
         } */
@@ -101,6 +101,34 @@ public class X_FM_Transaction extends PO implements I_FM_Transaction, I_Persiste
 		return bd;
 	}
 
+	public org.compiere.model.I_C_Invoice getC_Invoice() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Invoice)MTable.get(getCtx(), org.compiere.model.I_C_Invoice.Table_Name)
+			.getPO(getC_Invoice_ID(), get_TrxName());	}
+
+	/** Set Invoice.
+		@param C_Invoice_ID 
+		Invoice Identifier
+	  */
+	public void setC_Invoice_ID (int C_Invoice_ID)
+	{
+		if (C_Invoice_ID < 1) 
+			set_Value (COLUMNNAME_C_Invoice_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Invoice_ID, Integer.valueOf(C_Invoice_ID));
+	}
+
+	/** Get Invoice.
+		@return Invoice Identifier
+	  */
+	public int getC_Invoice_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Invoice_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_C_InvoiceLine getC_InvoiceLine() throws RuntimeException
     {
 		return (org.compiere.model.I_C_InvoiceLine)MTable.get(getCtx(), org.compiere.model.I_C_InvoiceLine.Table_Name)
@@ -129,6 +157,90 @@ public class X_FM_Transaction extends PO implements I_FM_Transaction, I_Persiste
 		return ii.intValue();
 	}
 
+	public org.compiere.model.I_C_Order getC_Order() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Order)MTable.get(getCtx(), org.compiere.model.I_C_Order.Table_Name)
+			.getPO(getC_Order_ID(), get_TrxName());	}
+
+	/** Set Order.
+		@param C_Order_ID 
+		Order
+	  */
+	public void setC_Order_ID (int C_Order_ID)
+	{
+		if (C_Order_ID < 1) 
+			set_Value (COLUMNNAME_C_Order_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Order_ID, Integer.valueOf(C_Order_ID));
+	}
+
+	/** Get Order.
+		@return Order
+	  */
+	public int getC_Order_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Order_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_OrderLine getC_OrderLine() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_OrderLine)MTable.get(getCtx(), org.compiere.model.I_C_OrderLine.Table_Name)
+			.getPO(getC_OrderLine_ID(), get_TrxName());	}
+
+	/** Set Sales Order Line.
+		@param C_OrderLine_ID 
+		Sales Order Line
+	  */
+	public void setC_OrderLine_ID (int C_OrderLine_ID)
+	{
+		if (C_OrderLine_ID < 1) 
+			set_Value (COLUMNNAME_C_OrderLine_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_OrderLine_ID, Integer.valueOf(C_OrderLine_ID));
+	}
+
+	/** Get Sales Order Line.
+		@return Sales Order Line
+	  */
+	public int getC_OrderLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_OrderLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_C_Payment getC_Payment() throws RuntimeException
+    {
+		return (org.compiere.model.I_C_Payment)MTable.get(getCtx(), org.compiere.model.I_C_Payment.Table_Name)
+			.getPO(getC_Payment_ID(), get_TrxName());	}
+
+	/** Set Payment.
+		@param C_Payment_ID 
+		Payment identifier
+	  */
+	public void setC_Payment_ID (int C_Payment_ID)
+	{
+		if (C_Payment_ID < 1) 
+			set_Value (COLUMNNAME_C_Payment_ID, null);
+		else 
+			set_Value (COLUMNNAME_C_Payment_ID, Integer.valueOf(C_Payment_ID));
+	}
+
+	/** Get Payment.
+		@return Payment identifier
+	  */
+	public int getC_Payment_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_C_Payment_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	/** Set Transaction Date.
 		@param DateTrx 
 		Transaction Date
@@ -144,6 +256,48 @@ public class X_FM_Transaction extends PO implements I_FM_Transaction, I_Persiste
 	public Timestamp getDateTrx () 
 	{
 		return (Timestamp)get_Value(COLUMNNAME_DateTrx);
+	}
+
+	public org.eevolution.model.I_DD_Freight getDD_Freight() throws RuntimeException
+    {
+		return (org.eevolution.model.I_DD_Freight)MTable.get(getCtx(), org.eevolution.model.I_DD_Freight.Table_Name)
+			.getPO(getDD_Freight_ID(), get_TrxName());	}
+
+	/** Set Order Freight.
+		@param DD_Freight_ID Order Freight	  */
+	public void setDD_Freight_ID (int DD_Freight_ID)
+	{
+		if (DD_Freight_ID < 1) 
+			set_Value (COLUMNNAME_DD_Freight_ID, null);
+		else 
+			set_Value (COLUMNNAME_DD_Freight_ID, Integer.valueOf(DD_Freight_ID));
+	}
+
+	/** Get Order Freight.
+		@return Order Freight	  */
+	public int getDD_Freight_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_DD_Freight_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Description.
+		@param Description 
+		Optional short description of the record
+	  */
+	public void setDescription (String Description)
+	{
+		set_Value (COLUMNNAME_Description, Description);
+	}
+
+	/** Get Description.
+		@return Optional short description of the record
+	  */
+	public String getDescription () 
+	{
+		return (String)get_Value(COLUMNNAME_Description);
 	}
 
 	public org.spin.model.I_FM_Account getFM_Account() throws RuntimeException
@@ -229,6 +383,26 @@ public class X_FM_Transaction extends PO implements I_FM_Transaction, I_Persiste
 		return ii.intValue();
 	}
 
+	/** Set Financial Transaction.
+		@param FM_Transaction_ID Financial Transaction	  */
+	public void setFM_Transaction_ID (int FM_Transaction_ID)
+	{
+		if (FM_Transaction_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_FM_Transaction_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_FM_Transaction_ID, Integer.valueOf(FM_Transaction_ID));
+	}
+
+	/** Get Financial Transaction.
+		@return Financial Transaction	  */
+	public int getFM_Transaction_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_FM_Transaction_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.spin.model.I_FM_TransactionType getFM_TransactionType() throws RuntimeException
     {
 		return (org.spin.model.I_FM_TransactionType)MTable.get(getCtx(), org.spin.model.I_FM_TransactionType.Table_Name)
@@ -249,26 +423,6 @@ public class X_FM_Transaction extends PO implements I_FM_Transaction, I_Persiste
 	public int getFM_TransactionType_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_FM_TransactionType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Financial Transaction.
-		@param FM_Transaction_ID Financial Transaction	  */
-	public void setFM_Transaction_ID (int FM_Transaction_ID)
-	{
-		if (FM_Transaction_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_FM_Transaction_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_FM_Transaction_ID, Integer.valueOf(FM_Transaction_ID));
-	}
-
-	/** Get Financial Transaction.
-		@return Financial Transaction	  */
-	public int getFM_Transaction_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_FM_Transaction_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

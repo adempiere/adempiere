@@ -19,6 +19,8 @@ package org.compiere.acct;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+
+import org.compiere.model.I_M_Movement;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCostDetail;
 import org.compiere.model.MMovement;
@@ -198,4 +200,10 @@ public class Doc_Movement extends Doc
 		facts.add(fact);
 		return facts;
 	}   //  createFact
+	
+	public static String getDateAcctColumnName() {
+	    
+	     return I_M_Movement.COLUMNNAME_MovementDate;
+	}
+	
 }   //  Doc_Movement

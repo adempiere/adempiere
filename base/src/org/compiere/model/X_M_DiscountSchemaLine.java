@@ -26,14 +26,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for M_DiscountSchemaLine
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20200305L;
 
     /** Standard Constructor */
     public X_M_DiscountSchemaLine (Properties ctx, int M_DiscountSchemaLine_ID, String trxName)
@@ -60,8 +60,8 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 			setList_MinAmt (Env.ZERO);
 			setList_Rounding (null);
 // C
-			setM_DiscountSchemaLine_ID (0);
 			setM_DiscountSchema_ID (0);
+			setM_DiscountSchemaLine_ID (0);
 			setSeqNo (0);
 // @SQL=SELECT NVL(MAX(SeqNo),0)+10 AS DefaultValue FROM M_DiscountSchemaLine WHERE M_DiscountSchema_ID=@M_DiscountSchema_ID@
 			setStd_AddAmt (Env.ZERO);
@@ -549,29 +549,6 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 		return (String)get_Value(COLUMNNAME_List_Rounding);
 	}
 
-	/** Set Discount Pricelist.
-		@param M_DiscountSchemaLine_ID 
-		Line of the pricelist trade discount schema
-	  */
-	public void setM_DiscountSchemaLine_ID (int M_DiscountSchemaLine_ID)
-	{
-		if (M_DiscountSchemaLine_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_M_DiscountSchemaLine_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_M_DiscountSchemaLine_ID, Integer.valueOf(M_DiscountSchemaLine_ID));
-	}
-
-	/** Get Discount Pricelist.
-		@return Line of the pricelist trade discount schema
-	  */
-	public int getM_DiscountSchemaLine_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_M_DiscountSchemaLine_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	public org.compiere.model.I_M_DiscountSchema getM_DiscountSchema() throws RuntimeException
     {
 		return (org.compiere.model.I_M_DiscountSchema)MTable.get(getCtx(), org.compiere.model.I_M_DiscountSchema.Table_Name)
@@ -600,6 +577,29 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 		return ii.intValue();
 	}
 
+	/** Set Discount Pricelist.
+		@param M_DiscountSchemaLine_ID 
+		Line of the pricelist trade discount schema
+	  */
+	public void setM_DiscountSchemaLine_ID (int M_DiscountSchemaLine_ID)
+	{
+		if (M_DiscountSchemaLine_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_M_DiscountSchemaLine_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_M_DiscountSchemaLine_ID, Integer.valueOf(M_DiscountSchemaLine_ID));
+	}
+
+	/** Get Discount Pricelist.
+		@return Line of the pricelist trade discount schema
+	  */
+	public int getM_DiscountSchemaLine_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_DiscountSchemaLine_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
 	public org.compiere.model.I_M_Product_Category getM_Product_Category() throws RuntimeException
     {
 		return (org.compiere.model.I_M_Product_Category)MTable.get(getCtx(), org.compiere.model.I_M_Product_Category.Table_Name)
@@ -623,6 +623,90 @@ public class X_M_DiscountSchemaLine extends PO implements I_M_DiscountSchemaLine
 	public int getM_Product_Category_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_Category_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Product_Class getM_Product_Class() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Product_Class)MTable.get(getCtx(), org.compiere.model.I_M_Product_Class.Table_Name)
+			.getPO(getM_Product_Class_ID(), get_TrxName());	}
+
+	/** Set Product Class.
+		@param M_Product_Class_ID 
+		Class of a Product
+	  */
+	public void setM_Product_Class_ID (int M_Product_Class_ID)
+	{
+		if (M_Product_Class_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_Class_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_Class_ID, Integer.valueOf(M_Product_Class_ID));
+	}
+
+	/** Get Product Class.
+		@return Class of a Product
+	  */
+	public int getM_Product_Class_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_Class_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Product_Classification getM_Product_Classification() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Product_Classification)MTable.get(getCtx(), org.compiere.model.I_M_Product_Classification.Table_Name)
+			.getPO(getM_Product_Classification_ID(), get_TrxName());	}
+
+	/** Set Product Classification.
+		@param M_Product_Classification_ID 
+		Classification of a Product
+	  */
+	public void setM_Product_Classification_ID (int M_Product_Classification_ID)
+	{
+		if (M_Product_Classification_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_Classification_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_Classification_ID, Integer.valueOf(M_Product_Classification_ID));
+	}
+
+	/** Get Product Classification.
+		@return Classification of a Product
+	  */
+	public int getM_Product_Classification_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_Classification_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.compiere.model.I_M_Product_Group getM_Product_Group() throws RuntimeException
+    {
+		return (org.compiere.model.I_M_Product_Group)MTable.get(getCtx(), org.compiere.model.I_M_Product_Group.Table_Name)
+			.getPO(getM_Product_Group_ID(), get_TrxName());	}
+
+	/** Set Product Group.
+		@param M_Product_Group_ID 
+		Group of a Product
+	  */
+	public void setM_Product_Group_ID (int M_Product_Group_ID)
+	{
+		if (M_Product_Group_ID < 1) 
+			set_Value (COLUMNNAME_M_Product_Group_ID, null);
+		else 
+			set_Value (COLUMNNAME_M_Product_Group_ID, Integer.valueOf(M_Product_Group_ID));
+	}
+
+	/** Get Product Group.
+		@return Group of a Product
+	  */
+	public int getM_Product_Group_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_M_Product_Group_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

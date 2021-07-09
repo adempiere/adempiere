@@ -17,10 +17,7 @@
 package org.compiere.report;
 
 import org.compiere.model.MAcctSchemaElement;
-import org.compiere.model.MElementValue;
 import org.compiere.model.MPeriod;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
@@ -29,7 +26,6 @@ import org.compiere.util.Msg;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.logging.Level;
 
 /**
  *  Statement of Account
@@ -55,9 +51,6 @@ public class FinStatement extends FinStatementAbstract
 	/** AcctSchame Parameter			*/
 	/**	Parameter Where Clause			*/
 	private StringBuffer		parameterWhere = new StringBuffer();
-	/**	Account							*/ 
-	private MElementValue 		m_acct = null;
-
 
 	/**	Start Time						*/
 	private long 				m_start = System.currentTimeMillis();
@@ -172,7 +165,7 @@ public class FinStatement extends FinStatementAbstract
 	private void createBalanceLine()
 	{
 		StringBuilder where = new StringBuilder();
-		where.append(" WHERE Account_ID = ev.C_ElementValue_ID AND ").append(parameterWhere).append(" AND TRUNC(DateAcct, 'DD') < ").append(DB.TO_DATE(getDateAcct()));
+		where.append(" WHERE ").append(parameterWhere).append(" AND TRUNC(DateAcct, 'DD') < ").append(DB.TO_DATE(getDateAcct()));
 		StringBuffer sb = new StringBuffer("INSERT INTO T_ReportStatement "
 				+ "(AD_PInstance_ID, Fact_Acct_ID, LevelNo,"
 				+ "DateAcct, Name, Description,"
@@ -180,12 +173,26 @@ public class FinStatement extends FinStatementAbstract
 		sb.append("SELECT ").append(getAD_PInstance_ID()).append(",0,0,")
 				.append(DB.TO_DATE(getDateAcct(), true)).append(",")
 				.append(DB.TO_STRING(Msg.getMsg(Env.getCtx(), "BeginningBalance"))).append(",NULL,")
-				.append("COALESCE((SELECT SUM(AcctBalance(Account_ID, AmtAcctDr , 0         )) FROM Fact_Acct ").append(where).append(" ),0), ")
-				.append("COALESCE((SELECT SUM(AcctBalance(Account_ID, 0         , AmtAcctCr )) FROM Fact_Acct ").append(where).append(" ),0), ")
-				.append("COALESCE((SELECT SUM(AcctBalance(Account_ID, AmtAcctDr , 0 ) - AcctBalance(Account_ID, 0 , AmtAcctCr )) FROM Fact_Acct ").append(where).append(" ),0), ")
-				.append("COALESCE((SELECT SUM(AcctBalance(Account_ID, Qty       , 0         )) FROM Fact_Acct ").append(where).append(" ),0), ")
+				
+				.append("COALESCE(fa.AmtAcctDr, 0) AmtAcctDr, ")
+				.append("COALESCE(fa.AmtAcctCr, 0) AmtAcctCr, ")
+				.append("COALESCE(fa.Balance,0) Balance, ")
+				.append("COALESCE(fa.Qty, 0) Qty, ")
 				.append("ev.C_ElementValue_ID , ev.value, ev.name, ev.accounttype ")
-				.append(" FROM C_ElementValue ev INNER JOIN C_Element e ON (ev.C_Element_ID=e.C_Element_ID) WHERE e.ElementType = 'A' ");
+				.append("FROM C_ElementValue ev ")
+				.append("INNER JOIN C_Element e ON (ev.C_Element_ID=e.C_Element_ID) ")
+				
+				.append("LEFT JOIN (SELECT ")
+							.append("Account_ID, ")
+							.append("SUM(AcctBalance(Account_ID, AmtAcctDr, 0)) AmtAcctDr, ")
+							.append("SUM(AcctBalance(fa.Account_ID, 0, AmtAcctCr)) AmtAcctCr, ")
+							.append("SUM(AcctBalance(fa.Account_ID, fa.AmtAcctDr, 0) - AcctBalance(fa.Account_ID, 0, fa.AmtAcctCr)) Balance, ")
+							.append("SUM(AcctBalance(Account_ID, Qty, 0)) Qty ")
+							.append("FROM Fact_Acct fa ")
+							.append(where)
+							.append("GROUP BY fa.Account_ID) fa ON (fa.Account_ID = ev.C_ElementValue_ID) ")
+				.append("WHERE e.ElementType = 'A' ");
+				
 
 		if (getAccountId() > 0)
 			sb.append(" AND  ev.C_ElementValue_ID = ").append(getAccountId());
@@ -193,6 +200,9 @@ public class FinStatement extends FinStatementAbstract
 		if (getAccountType() != null && !getAccountType().isEmpty())
 			sb.append(" AND  ev.AccountType = '").append(getAccountType()).append("'");
 
+		//Client Filter 
+		sb.append(" AND ev.AD_Client_ID = ").append(getAD_Client_ID());
+		
 		int no = DB.executeUpdate(sb.toString(), get_TrxName());
 		log.fine("#" + no + " (Account_ID=" + getAccountId() + ")");
 		log.finest(sb.toString());
@@ -209,12 +219,16 @@ public class FinStatement extends FinStatementAbstract
 			+ "AmtAcctDr, AmtAcctCr, Balance, Qty, ACCOUNT_ID , accountvalue, accountName, accounttype ) ");
 		sb.append("SELECT ").append(getAD_PInstance_ID()).append(",fact_Acct.Fact_Acct_ID,1,")
 			.append("TRUNC(fact_Acct.DateAcct, 'DD'),NULL,NULL,"
-			+ "AmtAcctDr, AmtAcctCr, AmtAcctDr-AmtAcctCr, Qty, fact_Acct.ACCOUNT_ID, ev.value, ev.name, accounttype "
+			+ "AmtAcctDr, AmtAcctCr, AmtAcctDr-AmtAcctCr, Qty, fact_Acct.ACCOUNT_ID, ev.value, ev.name, ev.accounttype "
 			+ "FROM Fact_Acct "
-			+ " INNER JOIN C_Elementvalue ev on fact_Acct.account_ID = ev.c_ElementValue_ID "
+			+ " INNER JOIN (SELECT ev.c_ElementValue_ID,ev.Value, ev.Name, ev.AccountType, ev.AD_Client_ID FROM C_Elementvalue ev ) ev on (fact_Acct.account_ID = ev.c_ElementValue_ID) "
 			+ "WHERE ").append(parameterWhere)
 			.append(" AND TRUNC(DateAcct, 'DD') BETWEEN ").append(DB.TO_DATE(getDateAcct()))
 			.append(" AND ").append(DB.TO_DATE(getDateAcctTo()));
+		
+		//Client Filter 
+		sb.append(" AND ev.AD_Client_ID = ").append(getAD_Client_ID());
+		
 		//
 		int no = DB.executeUpdate(sb.toString(), get_TrxName());
 		log.fine("#" + no);

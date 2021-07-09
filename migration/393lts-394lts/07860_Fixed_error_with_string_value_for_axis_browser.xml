@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Fixed error with string value for axis browser" ReleaseNo="3.9.4" SeqNo="7860">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55579" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57984" Column="AD_Reference_Value_ID" isOldNull="true">214</Data>
+        <Data AD_Column_ID="57969" Column="AD_Element_ID" oldValue="119">1441</Data>
+        <Data AD_Column_ID="57971" Column="AD_View_Column_ID" oldValue="54184">54098</Data>
+        <Data AD_Column_ID="64353" Column="AD_Val_Rule_ID" isNewNull="true" oldValue="52460"/>
+        <Data AD_Column_ID="57970" Column="AD_Reference_ID" oldValue="19">17</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="69546" Table="AD_Browse_Field">
+        <Data AD_Column_ID="57979" Column="IsQueryCriteria" oldValue="false">true</Data>
+        <Data AD_Column_ID="78559" Column="SeqNoGrid" oldValue="0">60</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="53223" Action="U" Record_ID="55579" Table="AD_Browse_Field">
+        <Data AD_Column_ID="63219" Column="Axis_Parent_Column_ID" oldValue="54160">70384</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

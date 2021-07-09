@@ -41,13 +41,19 @@ SET errorImportData=60
 SET errorImportSqlj=61
 
 
-
-REM if called with any argument, import the reference database
+REM If called with argument "silent", run without pause (See #2926)
+REM if called with any other argument, import the reference database
 REM otherwise import the seed database
+SET silentMode=Pause
 SET importMode=Seed
-SET argCount=0
-FOR %%a IN (%*) DO SET /A argCount+=1
-IF NOT %argCount%==0 SET importMode=Reference
+FOR %%a IN (%*) DO (
+    IF %%a==silent (
+        SET silentMode=silent
+    ) ELSE (
+        SET importMode=Reference
+    )
+)
+
 
 REM identify this script
 ECHO.
@@ -186,7 +192,7 @@ ECHO Re-create user %dbUser%
 ECHO and import %dbSeedFile%
 ECHO.
 ECHO == The import will show warnings. This is OK ==
-PAUSE
+IF "%silentMode%"=="Pause" PAUSE
 	
 CALL "%dbImportScript%" "%dbVendor%" "%dbHost%" "%dbPort%" "%dbUser%" "%dbPwd%" "%sysUser%" "%sysPwd%" "%dbName%" "%dbCatalog%" "%dbSchema%" "%dbSeedFile%" "%dbSqljFile%"
 SET result=%ERRORLEVEL% 

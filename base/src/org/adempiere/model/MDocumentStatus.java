@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import org.compiere.model.MRole;
 import org.compiere.model.MTable;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -14,30 +15,29 @@ public class MDocumentStatus {
 	/**
 	 * 	Get User Goals
 	 *	@param ctx context
-	 *	@param AD_User_ID user
-	 * @param AD_Role_ID 
+	 *	@param userId user
+	 * @param roleId 
 	 *	@return array of goals
 	 */
-	public static IDocumentStatus[] getDocumentStatusIndicators(Properties ctx, int AD_User_ID, int AD_Role_ID)
+	public static IDocumentStatus[] getDocumentStatusIndicators(Properties ctx, int userId, int roleId)
 	{
-		if (AD_User_ID < 0)
+		if (userId < 0)
 			return new IDocumentStatus[0];
 		
 		ArrayList<IDocumentStatus> list = new ArrayList<IDocumentStatus>();
 		String sql = "SELECT * FROM PA_DocumentStatus g "
 			+ "WHERE IsActive='Y'"
-			+ " AND AD_Client_ID=?"		//	#1
 			+ " AND ((AD_User_ID IS NULL OR AD_User_ID=?) AND " //#2
 				+ " ( AD_Role_ID IS NULL OR AD_Role_ID=?)) "	//	#3)
 			+ "ORDER BY SeqNo";
+		sql = MRole.getDefault().addAccessSQL(sql, "g", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, Env.getAD_Client_ID(ctx));
-			pstmt.setInt (2, AD_User_ID);
-			pstmt.setInt (3, AD_Role_ID);
+			pstmt.setInt (1, userId);
+			pstmt.setInt (2, roleId);
 			rs = pstmt.executeQuery ();
 			while (rs.next ())
 			{
@@ -66,7 +66,8 @@ public class MDocumentStatus {
 		String where = getWhereClause(documentStatus);
 		if (where != null && where.trim().length() > 0)
 			sql.append(" WHERE " ).append(where);
-		return DB.getSQLValue(null, sql.toString());
+		String parsedSql = MRole.getDefault().addAccessSQL(sql.toString(), tableName, MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
+		return DB.getSQLValue(null, parsedSql.toString());
 	}
 
 	public static String getWhereClause(IDocumentStatus documentStatus) {

@@ -48,7 +48,7 @@ public class LeaveCreditManual extends LeaveCreditManualAbstract {
 		boolean isFromPreviousLeave = false;
 		//	
 		if(getValidFrom() != null) {
-			if(TimeUtil.isValid(validFrom, assignedLeave.getValidTo(), getValidFrom())) {
+			if(!TimeUtil.isValid(validFrom, assignedLeave.getValidTo(), getValidFrom())) {
 				throw new AdempiereException("@Invalid@ @ValidFrom@");
 			}
 			validFrom = getValidFrom();

@@ -127,6 +127,29 @@ public class ColumnInfo
 	public ColumnInfo (String colHeader, String colSQL, Class<?> colClass, int displayType,
 		boolean readOnly, boolean colorColumn, String keyPairColSQL, boolean visible)
 	{
+		this(colHeader, colSQL, colClass, 0 ,
+				readOnly,  colorColumn, keyPairColSQL, visible, true);
+	}
+	
+	
+	/**
+	 *  Create Info Column
+	 *
+	 *  @param colHeader Column Header
+	 *  @param colSQL    SQL select code for column
+	 *  @param colClass  class of column - determines display
+	 *  @param readOnly  column is read only
+	 *  @param colorColumn   if true, value of column determines foreground color
+	 *  @param keyPairColSQL  SQL select for the ID of the for the displayed column
+	 *  @param visible  if true, the column will be visible.  False, it will be hidden.
+	 *  @param mandatory if true, the column editors will be set as mandatory.  Default false.
+	 */
+	
+	public ColumnInfo (String colHeader, String colSQL, Class<?> colClass, int displayType,
+			boolean readOnly, boolean colorColumn, String keyPairColSQL, boolean visible,
+			boolean mandatory)
+		{
+	
 		setColHeader(colHeader);
 		setColSQL(colSQL);
 		setColClass(colClass);
@@ -135,6 +158,8 @@ public class ColumnInfo
 		setKeyPairColSQL(keyPairColSQL);
 		setDisplayType(displayType);
 		setVisibility(visible);
+		setMandatory(mandatory);
+		
 	}   //  ColumnInfo
 	
 	/**
@@ -169,6 +194,7 @@ public class ColumnInfo
 	private String      m_keyPairColSQL = "";
 	private int      	m_DisplayType;
 	private boolean		m_isVisible;
+	private boolean		isMandatory = false;
 
 	private int			m_colWidth = -1;
 	private GridField	m_gridField;
@@ -333,5 +359,19 @@ public class ColumnInfo
 	public void setGridField(GridField gridField)
 	{
 		m_gridField = gridField;
+	}
+
+	/**
+	 * @return the isMandatory
+	 */
+	public boolean isMandatory() {
+		return isMandatory;
+	}
+
+	/**
+	 * @param isMandatory the isMandatory to set
+	 */
+	public void setMandatory(boolean isMandatory) {
+		this.isMandatory = isMandatory;
 	}
 }   //  infoColumn

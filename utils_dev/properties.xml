@@ -11,6 +11,8 @@
     <property file="${user.home}/.adempiere.properties"/>
     <property file="${adempiere.base}/utils_dev/mybuild.properties"/>
     <property file="${adempiere.base}/utils_dev/build.properties"/>
+    <property file="${adempiere.base}/utils_dev/mytest.properties"/>
+    <property file="${adempiere.base}/utils_dev/test.properties"/>
 
     <!-- Here we could add most common buildpaths -->
 

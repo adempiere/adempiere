@@ -40,6 +40,7 @@ import org.compiere.swing.CDialog;
 import org.compiere.swing.CPanel;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.SwingEnv;
 
 
 /**
@@ -90,7 +91,7 @@ public class POSKeyboard extends CDialog
 	 * @param keyLayoutId
 	 */
 	public POSKeyboard(CPanel posPanel, int keyLayoutId) {
-		super(Env.getFrame(posPanel), true);
+		super(SwingEnv.getFrame(posPanel), true);
 		m_Keylayout = MPOSKeyLayout.get(Env.getCtx(), keyLayoutId);
 		init(keyLayoutId);
 	}

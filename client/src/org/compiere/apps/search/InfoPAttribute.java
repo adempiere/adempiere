@@ -622,9 +622,9 @@ public class InfoPAttribute extends CDialog
 	private void setDisplay()
 	{
 		StringBuffer display = new StringBuffer();
-		if (serNoField != null && serNoField.getValue().toString().length() > 0)
+		if (serNoField != null && serNoField.getValue() != null && serNoField.getValue().toString().length() > 0)
 			display.append(serNoField.getValue().toString() + "-");
-		if (lotField != null && lotField.getValue().toString().length() > 0)
+		if (lotField != null && lotField.getValue() != null && lotField.getValue().toString().length() > 0)
 			display.append(lotField.getValue().toString() + "-");
 		if (lotSelection != null && lotSelection.getDisplay().length() > 0)
 			display.append(lotSelection.getDisplay() + "-");

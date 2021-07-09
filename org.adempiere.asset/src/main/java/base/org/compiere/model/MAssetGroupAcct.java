@@ -42,7 +42,14 @@ public class MAssetGroupAcct extends X_A_Asset_Group_Acct
 	 */
 	public static List<MAssetGroupAcct> forA_Asset_Group_ID(Properties ctx, int A_Asset_Group_ID)
 	{
-		return new Query(ctx, Table_Name, COLUMNNAME_A_Asset_Group_ID+"=?", null)
+	    return forA_Asset_Group_ID(ctx, A_Asset_Group_ID, null);
+	}
+    /**
+     * Get Asset Group Accountings for given group
+     */
+    public static List<MAssetGroupAcct> forA_Asset_Group_ID(Properties ctx, int A_Asset_Group_ID, String trxName)
+    {
+		return new Query(ctx, Table_Name, COLUMNNAME_A_Asset_Group_ID+"=?", trxName)
 					.setParameters(new Object[]{A_Asset_Group_ID})
 					.list();
 	}
@@ -50,10 +57,10 @@ public class MAssetGroupAcct extends X_A_Asset_Group_Acct
 	/**
 	 * Get Asset Group Accountings for given group
 	 */
-	public static MAssetGroupAcct forA_Asset_Group_ID(Properties ctx, int A_Asset_Group_ID, String postingType)
+	public static MAssetGroupAcct forA_Asset_Group_ID(Properties ctx, int A_Asset_Group_ID, String postingType, String trxName)
 	{
 		final String whereClause = COLUMNNAME_A_Asset_Group_ID+"=? AND "+COLUMNNAME_PostingType+"=?";
-		return new Query(ctx, Table_Name, whereClause, null)
+		return new Query(ctx, Table_Name, whereClause, trxName)
 					.setParameters(new Object[]{A_Asset_Group_ID, postingType})
 					.firstOnly();
 	}

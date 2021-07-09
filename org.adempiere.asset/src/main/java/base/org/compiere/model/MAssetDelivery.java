@@ -29,6 +29,8 @@ import org.compiere.util.EMail;
  *
  *  @author Jorg Janke
  *  @version $Id: MAssetDelivery.java,v 1.3 2006/07/30 00:51:03 jjanke Exp $
+ *  @author Yamel Senih, ysenih@erpya.com , http://www.erpya.com
+ *  @see	https://github.com/adempiere/adempiere/issues/3085
  */
 public class MAssetDelivery extends X_A_Asset_Delivery
 {
@@ -67,11 +69,10 @@ public class MAssetDelivery extends X_A_Asset_Delivery
 	 * 	Create Asset Delivery for HTTP Request
 	 * 	@param asset asset
 	 * 	@param request request
-	 * 	@param AD_User_ID BP Contact
+	 * 	@param businessPartnerId business partner
+	 * 	@param userId BP Contact
 	 */
-	public MAssetDelivery (MAsset asset, 
-		HttpServletRequest request, int AD_User_ID)
-	{
+	public MAssetDelivery (MAsset asset, HttpServletRequest request, int userId) {
 		super (asset.getCtx(), 0, asset.get_TrxName());
 		setAD_Client_ID(asset.getAD_Client_ID());
 		setAD_Org_ID(asset.getAD_Org_ID());
@@ -88,7 +89,7 @@ public class MAssetDelivery extends X_A_Asset_Delivery
 		setRemote_Addr(request.getRemoteAddr());
 		setRemote_Host(request.getRemoteHost());
 		//	Who
-		setAD_User_ID(AD_User_ID);
+		setAD_User_ID(userId);
 		//
 		saveEx();
 	}	//	MAssetDelivery
@@ -96,11 +97,10 @@ public class MAssetDelivery extends X_A_Asset_Delivery
 	/**
 	 * 	Create Asset Delivery for EMail
 	 * 	@param asset asset
-	 * 	@param email email
-	 * 	@param AD_User_ID BP Contact
+	 * 	@param userId BP Contact
+	 * 	@param movementDate optional delivery date
 	 */
-	public MAssetDelivery (MAsset asset, EMail email, int AD_User_ID)
-	{
+	public MAssetDelivery (MAsset asset, int businessPartnerId, int userId, Timestamp movementDate) {
 		super (asset.getCtx(), 0, asset.get_TrxName());
 		//	Asset Info
 		setA_Asset_ID (asset.getA_Asset_ID());
@@ -108,22 +108,34 @@ public class MAssetDelivery extends X_A_Asset_Delivery
 		setSerNo(asset.getSerNo());
 		setVersionNo(asset.getVersionNo());
 		//
-		setMovementDate (new Timestamp (System.currentTimeMillis ()));
-		//	EMail
+		if(movementDate == null) {
+			movementDate = new Timestamp (System.currentTimeMillis());
+		}
+		setMovementDate(movementDate);
+		//	Who
+		if(userId != 0) {
+			setAD_User_ID(userId);
+		}
+		//	Validate Business Partner
+		if(businessPartnerId != 0) {
+			setC_BPartner_ID(businessPartnerId);
+		}
+	}	//	MAssetDelivery
+	
+	/**
+	 * Confirm delivery Asset from email
+	 * @param email
+	 */
+	public void confirmMailDelivery(EMail email) {
 		setEMail(email.getTo().toString());
 		setMessageID(email.getMessageID());
-		//	Who
-		setAD_User_ID(AD_User_ID);
-		//
-		saveEx();
-	}	//	MAssetDelivery
-
+	}
+	
 	/**
 	 * 	String representation
 	 *	@return info
 	 */
-	public String toString ()
-	{
+	public String toString () {
 		StringBuffer sb = new StringBuffer ("MAssetDelivery[")
 			.append (get_ID ())
 			.append(",A_Asset_ID=").append(getA_Asset_ID())

@@ -52,10 +52,23 @@ public class MProductCategory extends X_M_Product_Category
 	 */
 	public static MProductCategory get (Properties ctx, int M_Product_Category_ID)
 	{
-		Integer ii = new Integer (M_Product_Category_ID);
+	    return get(ctx, M_Product_Category_ID, null);
+	}
+
+    /**
+     *  Get from Cache
+     *  @param ctx context
+     *  @param M_Product_Category_ID id
+     *  @Param trxName The Transaction Name
+     *  @return category
+     */	
+	public static MProductCategory get (Properties ctx, int M_Product_Category_ID, String trxName)
+    {
+
+	    Integer ii = new Integer (M_Product_Category_ID);
 		MProductCategory pc = (MProductCategory)s_cache.get(ii);
 		if (pc == null)
-			pc = new MProductCategory (ctx, M_Product_Category_ID, null);
+			pc = new MProductCategory (ctx, M_Product_Category_ID, trxName);
 		return pc;
 	}	//	get
 	

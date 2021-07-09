@@ -82,9 +82,10 @@ public class PackInHandler extends DefaultHandler {
     }   // PackInHandler   
     
     /** Set this if you want to update Dictionary  */
-    private String m_UpdateMode = "true";
+    private boolean updateMode = true;
     private String packageDirectory = null;
-    private String m_DatabaseType = "Oracle";
+    private String databaseType = "Oracle";
+    private boolean synchronizeColumns = true;
     private int clientId = 0;
     private int AD_Package_Imp_ID=0;
 	private int AD_Package_Imp_Inst_ID=0;
@@ -99,7 +100,7 @@ public class PackInHandler extends DefaultHandler {
 	private String PK_Status = "Installing";
 	// transaction name 
 	private	String 		trxName = null;
-	private Properties  m_ctx = null;
+	private Properties  context = null;
 	
 	private List<Element> workflow = new ArrayList<Element>();
 	private List<DeferEntry> defer = new ArrayList<DeferEntry>();
@@ -110,9 +111,10 @@ public class PackInHandler extends DefaultHandler {
 	private void init() throws SAXException {
 		if (packIn == null)
 			packIn = new PackIn();
-		packageDirectory = PackIn.m_Package_Dir;
-		m_UpdateMode = PackIn.m_UpdateMode;
-		m_DatabaseType = PackIn.m_Database;
+		packageDirectory = PackIn.packageDirectory;
+		updateMode = PackIn.updateMode;
+		databaseType = PackIn.database;
+		synchronizeColumns = PackIn.isRequiresSync;
 		SimpleDateFormat formatter_file = new SimpleDateFormat("yyMMddHHmmssZ");
 		SimpleDateFormat formatter_log = new SimpleDateFormat("MM/dd/yy HH:mm:ss");
 		Date today = new Date();
@@ -142,15 +144,15 @@ public class PackInHandler extends DefaultHandler {
 		logDocument.startDocument();		
 		logDocument.processingInstruction("xml-stylesheet","type=\"text/css\" href=\"adempiereDocument.css\"");
 		Properties tmp = new Properties();
-		if (m_ctx != null)
-			tmp.putAll(m_ctx);
+		if (context != null)
+			tmp.putAll(context);
 		else
 			tmp.putAll(Env.getCtx());
-		m_ctx = tmp;
+		context = tmp;
 		if (trxName == null)
 			trxName = Trx.createTrxName("PackIn");
 		
-		clientId = Env.getContextAsInt(m_ctx, "AD_Client_ID");
+		clientId = Env.getContextAsInt(context, "AD_Client_ID");
 		
 		Start_Doc=1;
 	}
@@ -179,7 +181,7 @@ public class PackInHandler extends DefaultHandler {
 		
 		// adempiereAD.	
 		if (elementValue.equals("adempiereAD")) {		
-			log.info("adempiereAD updateMode="+m_UpdateMode);
+			log.info("adempiereAD updateMode="+updateMode);
 			//Start package log
 			AttributesImpl attsOut = new AttributesImpl();
 			logDocument.startElement("","","adempiereDocument",attsOut);
@@ -228,7 +230,7 @@ public class PackInHandler extends DefaultHandler {
 				+	"' AND PK_VERSION ='" +  atts.getValue("Version") + "'";		
 			int PK_preInstalled = DB.getSQLValue(trxName,sql2); 
 			
-			AD_Package_Imp_ID = DB.getNextID (Env.getAD_Client_ID(m_ctx), "AD_Package_Imp", null);
+			AD_Package_Imp_ID = DB.getNextID (Env.getAD_Client_ID(context), "AD_Package_Imp", null);
 			
 			StringBuffer sqlB = new StringBuffer ("INSERT INTO AD_Package_Imp") 
 					.append( "(AD_Client_ID, AD_Org_ID, CreatedBy, UpdatedBy, " ) 
@@ -236,10 +238,10 @@ public class PackInHandler extends DefaultHandler {
 					.append( ", DESCRIPTION, NAME, CREATOR" ) 
 					.append( ", CREATORCONTACT, CREATEDDATE,UPDATEDDATE,PK_STATUS)" )
 					.append( "VALUES(" )
-					.append( " "+ Env.getAD_Client_ID(m_ctx) )
-					.append( ", "+ Env.getAD_Org_ID(m_ctx) )
-					.append( ", "+ Env.getAD_User_ID(m_ctx) )
-					.append( ", "+ Env.getAD_User_ID(m_ctx) )
+					.append( " "+ Env.getAD_Client_ID(context) )
+					.append( ", "+ Env.getAD_Org_ID(context) )
+					.append( ", "+ Env.getAD_User_ID(context) )
+					.append( ", "+ Env.getAD_User_ID(context) )
 					.append( ", " + AD_Package_Imp_ID ) 
 					.append( ", '" + atts.getValue("CompVer") )
 					.append( "', '" + atts.getValue("Version") )
@@ -252,13 +254,13 @@ public class PackInHandler extends DefaultHandler {
 					.append( "', '" + atts.getValue("updateddate") )
 					.append( "', '" + PK_Status )
 					.append( "')" );
-			Env.getAD_User_ID(m_ctx);
+			Env.getAD_User_ID(context);
 			int no = DB.executeUpdate (sqlB.toString(), trxName);		
 			if (no == -1)
 				log.info("Insert to Package import failed");
 			
 			if ( PK_preInstalled == -1){		
-				AD_Package_Imp_Inst_ID = DB.getNextID (Env.getAD_Client_ID(m_ctx), "AD_Package_Imp_Inst", null);
+				AD_Package_Imp_Inst_ID = DB.getNextID (Env.getAD_Client_ID(context), "AD_Package_Imp_Inst", null);
 				
 				//Insert Package into package install log
 				sqlB = new StringBuffer ("INSERT INTO AD_Package_Imp_Inst") 
@@ -267,10 +269,10 @@ public class PackInHandler extends DefaultHandler {
 						.append( ", DESCRIPTION, NAME, CREATOR" ) 
 						.append( ", CREATORCONTACT, CREATEDDATE,UPDATEDDATE,PK_STATUS)" )
 						.append( "VALUES(" )
-						.append( " "+ Env.getAD_Client_ID(m_ctx) )
-						.append( ", "+ Env.getAD_Org_ID(m_ctx) )
-						.append( ", "+ Env.getAD_User_ID(m_ctx) )
-						.append( ", "+ Env.getAD_User_ID(m_ctx) )
+						.append( " "+ Env.getAD_Client_ID(context) )
+						.append( ", "+ Env.getAD_Org_ID(context) )
+						.append( ", "+ Env.getAD_User_ID(context) )
+						.append( ", "+ Env.getAD_User_ID(context) )
 						.append( ", " + AD_Package_Imp_Inst_ID ) 
 						.append( ", '" + atts.getValue("CompVer") )
 						.append( "', '" + atts.getValue("Version") )
@@ -284,7 +286,7 @@ public class PackInHandler extends DefaultHandler {
 						.append( "', '" + PK_Status )
 						.append( "')" );
 				
-				Env.getAD_User_ID(m_ctx);
+				Env.getAD_User_ID(context);
 				no = DB.executeUpdate (sqlB.toString(), trxName);		
 				if (no == -1)
 					log.info("Insert to Package List import failed");
@@ -299,12 +301,13 @@ public class PackInHandler extends DefaultHandler {
 				if (no == -1)
 					log.info("Update to package summary failed");
 			}
-			Env.setContext(m_ctx, "AD_Package_Imp_ID", AD_Package_Imp_ID);
-			Env.setContext(m_ctx, "UpdateMode", m_UpdateMode);
-			Env.setContext(m_ctx, "TrxName", trxName);
-			Env.setContext(m_ctx, "PackageDirectory", packageDirectory);
-			m_ctx.put("LogDocument", logDocument);
-			m_ctx.put("PackInProcess", packIn);
+			Env.setContext(context, "AD_Package_Imp_ID", AD_Package_Imp_ID);
+			Env.setContext(context, "UpdateMode", updateMode);
+			Env.setContext(context, "TrxName", trxName);
+			Env.setContext(context, "SynchronizeColumns", synchronizeColumns);
+			Env.setContext(context, "PackageDirectory", packageDirectory);
+			context.put("LogDocument", logDocument);
+			context.put("PackInProcess", packIn);
 		}
 		Element e = new Element(uri, localName, qName, new AttributesImpl(atts));
 		if (stack.size() > 0)
@@ -323,7 +326,7 @@ public class PackInHandler extends DefaultHandler {
 			handler = new GenericPOHandler();
 		}
 		if (handler != null)
-			handler.startElement(m_ctx, e);
+			handler.startElement(context, e);
 		if (e.defer) {
 			defer.add(new DeferEntry(e, true));
 		}	
@@ -344,9 +347,9 @@ public class PackInHandler extends DefaultHandler {
     		dbm = conn.getMetaData();
     		//    	 check if table is there
     		ResultSet tables = null;
-    		if (m_DatabaseType.equals("Oracle"))
+    		if (databaseType.equals("Oracle"))
     			tables = dbm.getTables(null, null, tablename.toUpperCase(), null );
-    		else if (m_DatabaseType.equals("PostgreSQL"))
+    		else if (databaseType.equals("PostgreSQL"))
     			tables = dbm.getTables(null, null, tablename.toLowerCase(), null );
     		
     		if (tables.next()) {
@@ -382,7 +385,7 @@ public class PackInHandler extends DefaultHandler {
     					PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(),ResultSet.TYPE_FORWARD_ONLY,
     							ResultSet.CONCUR_UPDATABLE, null);
     					pstmt.executeUpdate();
-    					MSequence.createTableSequence (m_ctx, "AD_Package_Imp", trxName);
+    					MSequence.createTableSequence (context, "AD_Package_Imp", trxName);
     					pstmt.close();
     					pstmt = null;
     				}
@@ -419,7 +422,7 @@ public class PackInHandler extends DefaultHandler {
     					PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(),ResultSet.TYPE_FORWARD_ONLY,
     							ResultSet.CONCUR_UPDATABLE, null);
     					pstmt.executeUpdate();
-    					MSequence.createTableSequence (m_ctx, "AD_Package_Imp_Inst", trxName);
+    					MSequence.createTableSequence (context, "AD_Package_Imp_Inst", trxName);
     					pstmt.close();
     					pstmt = null;
     				}
@@ -453,7 +456,7 @@ public class PackInHandler extends DefaultHandler {
     					PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(),ResultSet.TYPE_FORWARD_ONLY,
     							ResultSet.CONCUR_UPDATABLE, null);
     					pstmt.executeUpdate();
-    					MSequence.createTableSequence (m_ctx, "AD_Package_Imp_Detail", trxName);
+    					MSequence.createTableSequence (context, "AD_Package_Imp_Detail", trxName);
     					pstmt.close();
     					pstmt = null;
     				}
@@ -486,7 +489,7 @@ public class PackInHandler extends DefaultHandler {
     					PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(),ResultSet.TYPE_FORWARD_ONLY,
     							ResultSet.CONCUR_UPDATABLE, null);
     					pstmt.executeUpdate();
-    					MSequence.createTableSequence (m_ctx, "AD_Package_Imp_Backup", trxName);
+    					MSequence.createTableSequence (context, "AD_Package_Imp_Backup", trxName);
     					pstmt.close();
     					pstmt = null;
     				}	
@@ -561,7 +564,7 @@ public class PackInHandler extends DefaultHandler {
         			MWorkflow workflow = null;
     				int workflowId = IDFinder.getIdFromUUID(Env.getCtx(), I_AD_Workflow.Table_Name, workflowUuid, clientId, trxName);
     				if(workflowId > 0) {
-    					workflow = new MWorkflow(m_ctx, workflowId , trxName);
+    					workflow = new MWorkflow(context, workflowId , trxName);
     					String workFlowNodeUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_Workflow.COLUMNNAME_AD_WF_Node_ID));
     					if (!Util.isEmpty(workFlowNodeUuid)) {
     						List<MWFNode> nodesList = Arrays.asList(workflow.getNodes(false, clientId));
@@ -577,13 +580,13 @@ public class PackInHandler extends DefaultHandler {
         	}
         	//	
         	//	Columns
-        	if(columns.size() > 0) {
+        	if(Env.getContext(context, "SynchronizeColumns").equals("Y") && columns.size() > 0) {
         		for (Element e : columns) {
     	    		Attributes atts = e.attributes;
     	    		String columnUuid = atts.getValue(AttributeFiller.getUUIDAttribute(I_AD_Column.Table_Name));
-    	    		int id = IDFinder.getIdFromUUID(m_ctx, I_AD_Column.Table_Name, columnUuid, 0, trxName);
+    	    		int id = IDFinder.getIdFromUUID(context, I_AD_Column.Table_Name, columnUuid, 0, trxName);
     				if(id > 0) {
-    					MColumn column = new MColumn(m_ctx, id, trxName);
+    					MColumn column = new MColumn(context, id, trxName);
     					if(column.getAD_Table_ID() > 0) {
     						try {
     							column.syncDatabase();
@@ -612,7 +615,7 @@ public class PackInHandler extends DefaultHandler {
     		} else {
 	    		ElementHandler handler = PackinCustomHandler.getInstance().getHandler(elementValue);
 	    		if (handler != null)
-	    			handler.endElement(m_ctx, e);
+	    			handler.endElement(context, e);
 	    		if (e.defer || e.deferEnd)
 					defer.add(new DeferEntry(e, false));
 	    		else if (!e.skip) {
@@ -651,9 +654,9 @@ public class PackInHandler extends DefaultHandler {
     			ElementHandler handler = PackinCustomHandler.getInstance().getHandler(d.element.getElementValue());
     			if (handler != null) {
     				if (d.startElement)
-    					handler.startElement(m_ctx, d.element);
+    					handler.startElement(context, d.element);
     				else
-    					handler.endElement(m_ctx, d.element);
+    					handler.endElement(context, d.element);
     			}
     			if (d.element.defer)
     				defer.add(d);
@@ -692,7 +695,7 @@ public class PackInHandler extends DefaultHandler {
     
     // globalqss - add support for trx in 3.1.2
 	public void setCtx(Properties ctx) {
-		m_ctx = ctx;
+		context = ctx;
 	}
 
 	class DeferEntry {

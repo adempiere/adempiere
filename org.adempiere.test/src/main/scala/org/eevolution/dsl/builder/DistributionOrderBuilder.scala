@@ -86,9 +86,9 @@ object DistributionOrderBuilder {
 
 
       val order = new DistributionOrder(context, 0, trxName)
-      order.setAD_Org_ID(organization.get getAD_Org_ID())
+      order.setAD_Org_ID(organization.get.getAD_Org_ID())
       order.setBPartner(partner.get)
-      order.setM_Warehouse_ID(warehouse.get getM_Warehouse_ID)
+      order.setM_Warehouse_ID(warehouse.get.getM_Warehouse_ID)
       if (X_C_DocType.DOCBASETYPE_DistributionOrder== baseDocumentType.get)
       {
         val documentTypeId = MDocType.getDocType(baseDocumentType.get,organization.get.getAD_Org_ID)

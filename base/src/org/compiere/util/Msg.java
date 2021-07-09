@@ -39,6 +39,7 @@ public final class Msg
 	private static final int 		MAP_SIZE = 1500;
 	/**  Separator between Msg and optional Tip     */
 	private static final String     SEPARATOR = Env.NL + Env.NL;
+    protected static final char       MSG_TOKEN = '@';
 
 	/**	Singleton						*/
 	private static	Msg				s_msg = null;
@@ -631,7 +632,7 @@ public final class Msg
 	}   //  translate
 
 	/**
-	 *	Translate elements enclosed in "@" (at sign)
+	 *	Translate elements enclosed in MSG_TOKEN (at sign)
 	 *  @param ctx      Context
 	 *  @param text     Text
 	 *  @return translated text or original text if not found
@@ -642,31 +643,44 @@ public final class Msg
 			return text;
 
 		String inStr = text;
-		String token;
-		StringBuffer outStr = new StringBuffer();
+		String msgKey;
+		StringBuilder outStr = new StringBuilder();
 
-		int i = inStr.indexOf('@');
+		int i = inStr.indexOf(MSG_TOKEN);
 		while (i != -1)
 		{
-			outStr.append(inStr.substring(0, i));			// up to @
-			inStr = inStr.substring(i+1, inStr.length());	// from first @
+			outStr.append(inStr.substring(0, i));			// up to MSG_TOKEN
+			inStr = inStr.substring(i+1, inStr.length());	// from first MSG_TOKEN
 
-			int j = inStr.indexOf('@');						// next @
+			int j = inStr.indexOf(MSG_TOKEN);				// next MSG_TOKEN
 			if (j < 0)										// no second tag
 			{
-				inStr = "@" + inStr;
+				inStr = MSG_TOKEN + inStr;
 				break;
 			}
 
-			token = inStr.substring(0, j);
-			outStr.append(translate(ctx, token));			// replace context
+			msgKey = inStr.substring(0, j);
+			outStr.append(translate(ctx, msgKey));			// replace context
 
-			inStr = inStr.substring(j+1, inStr.length());	// from second @
-			i = inStr.indexOf('@');
+			inStr = inStr.substring(j+1, inStr.length());	// from second MSG_TOKEN
+			i = inStr.indexOf(MSG_TOKEN);
 		}
 
 		outStr.append(inStr);           					//	add remainder
 		return outStr.toString();
 	}   //  parseTranslation
+
+
+	/**
+	 * Wrap a message value with tokens so it can be parsed for translation.
+	 * @param messageValue - the message value or key used to identify
+	 * the message
+	 * @return The wrapped message in the form <token><value><token>
+	 */
+    public static String wrapMsg(String messageValue) {
+
+        return MSG_TOKEN + messageValue + MSG_TOKEN;
+
+    }
 
 }	//	Msg

@@ -24,6 +24,7 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyVetoException;
 
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingUtilities;
@@ -39,7 +40,10 @@ import org.compiere.util.Msg;
  *  variant selection on the BOM Drop form.  Copied from VCheckbox.
  *
  *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li>Original contribution
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
  *  
+ *  @version 3.9.4
  */
 public class VRadioButton extends CRadioButton
 	implements VEditor, ActionListener
@@ -140,6 +144,7 @@ public class VRadioButton extends CRadioButton
 	//	Popup
 	JPopupMenu 			popupMenu = new JPopupMenu();
 	private Object 		oldValue;
+	private boolean isTableCellEditor;
 
 	/**
 	 *	Set Editable
@@ -297,4 +302,18 @@ public class VRadioButton extends CRadioButton
 				return false;
 	}
 
+	@Override
+	public JComponent getComponent() {
+		return this;
+	}
+
+	@Override
+	public void setTableCellEditor(boolean isTableCellEditor) {
+		this.isTableCellEditor = isTableCellEditor;
+	}
+
+	@Override
+	public boolean isTableCellEditor() {
+		return isTableCellEditor;
+	}
 }	//	VCheckBox

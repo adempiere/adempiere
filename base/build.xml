@@ -4,17 +4,24 @@
 <!-- ============================================= -->
 <!-- $Header: /cvs/adempiere/base/build.xml,v 1.1 2006/04/21 17:41:36 jjanke Exp $ -->
 
-<project name="base" default="dist" basedir=".">
-
+<project name="base" default="dist" basedir="."
+  xmlns:if="ant:if"
+  xmlns:unless="ant:unless">
+	
   <description>
     This buildfile is used to build the base subproject within 
     the Adempiere project.
   </description>
 
+  <import file="../utils_dev/properties.xml"/>	
+	
   <!-- set global properties for this build -->
   <property name="src" value="src"/>
   <property name="looksSrc" value="../looks/src"/>
   <property name="build.dir" value="build"/>
+  <property name="test.src" value="test/src"/>
+  <property name="test.build.dir" value="test/build"/>
+  <property name="test.results.dir" value="test/test_results"/>
   <property name="dist.dir" value="."/>
   <property name="jar.path" value="../lib"/>
   <property name="jar.name" value="Base"/>
@@ -29,7 +36,6 @@
     <pathelement path="${jar.path}/jboss.jar"/>
     <pathelement path="${jar.path}/glassfish.jar"/>
 	<pathelement path="../tools/lib/mysql-connector-java-5.1.13-bin.jar"/><!--@MySQl-->
-    <pathelement path="../tools/lib/junit.jar"/>
     <pathelement path="../tools/lib/j2ee.jar"/>
     <pathelement path="../tools/lib/jnlp.jar"/>
     <pathelement path="../tools/lib/servlet-api.jar" />  	
@@ -37,9 +43,11 @@
     <pathelement path="../tools/lib/commons-io.jar"/>
   	<pathelement path="../tools/lib/poi-ooxml-3.17.jar" />
   	<pathelement path="../tools/lib/sardine-5.9-SNAPSHOT.jar" />
+  	<pathelement path="../tools/lib/aws-java-sdk-core-1.11.795.jar" />
+  	<pathelement path="../tools/lib/aws-java-sdk-kms-1.11.795.jar" />
+  	<pathelement path="../tools/lib/aws-java-sdk-s3-1.11.795.jar" />
   </path>
-
-
+		
   <target name="init" description="initialization target">
     <echo message="=========== Build Base"/>
     <!-- create the time stamp -->
@@ -58,7 +66,7 @@
   
   <target name="compile" depends="makedir">
     <!-- compile the java code from ${src} into ${build.dir} -->
-    <javac target="1.8" encoding="UTF-8" fork="true" destdir="${build.dir}" deprecation="on" debug="on" memoryinitialsize="512m" memorymaximumsize="512m">
+    <javac target="1.8" encoding="UTF-8" fork="true" includeantruntime="false" destdir="${build.dir}" deprecation="on" debug="on" memoryinitialsize="512m" memorymaximumsize="512m">
       <src path="../org.adempiere.request/src/main/java"/>
       <src path="../org.adempiere.project/src/main/java"/>
       <src path="../org.adempiere.crm/src/main/java"/>
@@ -105,32 +113,17 @@
     </copy>
   </target>
 
-
   <!-- =========================================== -->
   <!-- Distribution                                -->
   <!-- =========================================== -->
-  <target name="dist" depends="compile">
+  <target name="dist" depends="integration-tests">
     <!-- put everything from ${build.dir} into the ${jar.name}.jar file -->
     <jar jarfile="${dist.dir}/${jar.name}.jar" basedir="${build.dir}"/>
   </target>
 
-  <path id="class.path.test">
-    <pathelement path="${build.dir}"/>
-    <pathelement path="${classpath}"/>
-    <pathelement path="${jar.path}/CCTools.jar"/>
-    <pathelement path="../base/build"/>
-    <pathelement path="../tools/lib/junit.jar"/>
-    <pathelement path="../adempiere/Adempiere/lib/Adempiere.jar" />
-    <pathelement path="../adempiere/Adempiere/lib/jboss.jar" />
-    <pathelement path="../adempiere/Adempiere/lib/oracle.jar" />
-    <pathelement path="../adempiere/Adempiere/lib/postgresql.jar" />
-	<pathelement path="../adempiere/Adempiere/lib/mysql-connector-java-5.1.13-bin.jar" /><!--@MySQL-->
-    <pathelement path="./base.jar" />
-  </path>
-
 <target name="GenerateModel" depends="dist"> 
       <java fork="true" classname="org.compiere.util.GenerateModel">
-      	<classpath refid="class.path.test" />
+      	<classpath refid="test.class.path" />
 	<arg value="/work2/adempiere/base/src/org/compiere/model/"/>
 	<arg value="org.compiere.model"/>
 	<arg value="'D'"/>
@@ -138,12 +131,122 @@
       </java>
   </target>
 
-
-
   <target name="clean">
     <!-- Delete the ${build.dir} directory trees -->
     <delete dir="${build.dir}"/>
     <delete file="${dist.dir}/${jar.name}.jar" failonerror="false"/>
+  </target>
+
+
+  <!-- =========================================== -->
+  <!-- Tests                                       -->
+  <!-- =========================================== -->
+
+  <path id="test.class.path">
+    <pathelement location="${build.dir}"/>
+    <pathelement path="${build.dir}"/>
+    <pathelement path="${classpath}"/>
+    <pathelement path="${jar.path}/CCTools.jar"/>
+    <pathelement path="../base/build"/>
+    <pathelement path="${jar.path}/Adempiere.jar" />
+    <pathelement path="${jar.path}/oracle.jar" />
+    <pathelement path="${jar.path}/postgresql.jar" />
+    <pathelement path=".${jar.path}/mysql-connector-java-5.1.13-bin.jar" />
+    <pathelement path="${jar.path}/mariadb-java-client.jar"/>
+    <pathelement path="./base.jar" />    
+    <pathelement path="../tools/lib/commons-lang-2.1.jar"/>
+    <pathelement location="${test.build.dir}"/>
+    <pathelement location="${test.results.dir}"/>
+    <pathelement path="${project.class.path}"/> 
+    <fileset dir="../tools/lib/junit" includes="**/*.jar"/>
+    <fileset dir="../tools/lib/testing" includes="**/*.jar"/>
+  </path>
+    
+  <target name="check.tests">
+  	<condition property="unitTests.run">
+  		<and>
+  			<istrue value="${test.performTests}"/>
+  			<istrue value="${test.performUnitTests}"/>
+		</and>
+  	</condition>
+  	<condition property="integrationTests.run">
+  		<and>
+  			<istrue value="${test.performTests}"/>
+  			<istrue value="${test.performIntegrationTests}"/>
+		</and>
+  	</condition>
+  </target>
+	
+  <target name="alertIfTestSkipped" depends="check.tests" unless="${test.performTests}">
+	<echo message="Tests will not be performed. See adempiere/utils_dev/test.properties."/>  	
+  </target>
+	
+  <target name="clean.tests" depends="alertIfTestSkipped" if="${test.performTests}">
+  	<delete dir="${test.build.dir}"/>
+  	<delete dir="${test.results.dir}"/>
+  </target>
+
+  <target name="compile.test" depends="compile, clean.tests"
+  	    if="${test.performTests}">
+    <mkdir dir="${test.build.dir}"/>
+    <javac target="1.8" encoding="UTF-8" fork="true" includeantruntime="false" 
+    	destdir="${test.build.dir}" deprecation="on" debug="on" 
+    	memoryinitialsize="512m" memorymaximumsize="512m">
+      <src path="${test.src}"/>
+      <src path="../org.adempiere.test/src/test/java"/>
+      <src path="../org.eevolution.manufacturing/src/main/java/base/org/eevolution/model/impl"/>	    	
+      <src path="../org.eevolution.manufacturing/src/main/java/base/org/compiere/acct"/>            
+      <classpath refid="test.class.path"/>
+    </javac>		
+  </target>
+	
+  <target name="alertIfUnitTestSkipped" depends="check.tests" unless="unitTests.run">
+	<echo if:true="${test.performTests}">
+"===> Unit tests will not be performed. See adempiere/utils_dev/test.properties."</echo>
+  </target>
+
+  <target name="alertIfIntegrationTestSkipped" depends="check.tests" 
+  	    unless="integrationTests.run">
+	<echo if:true="${test.performTests}">
+"===> Integration tests will not be performed. See adempiere/utils_dev/test.properties."</echo>	
+  </target>
+	
+  <target name="unit-tests" depends="compile.test, alertIfUnitTestSkipped" if="unitTests.run">
+	<mkdir dir="../base/${test.results.dir}"/>  	 
+    <junitlauncher 
+    	printsummary="false" 
+    	haltonfailure="yes" 
+    	failureproperty="test.failed"
+    	excludeTags="IntegrationTest">
+      <classpath refid="test.class.path"/>
+      <testclasses outputdir="${adempiere.base}/base/${test.results.dir}">
+        <fileset dir="${test.build.dir}"/>
+        <listener type="legacy-xml" sendSysErr="true" sendSysOut="true"/>
+        <listener classname="org.adempiere.test.AdempiereTestExecutionListener"
+            sendSysErr="true" sendSysOut="true"/>
+        <fork/>
+      </testclasses>
+    </junitlauncher>
+  </target>
+
+	
+  <target name="integration-tests" depends="unit-tests, alertIfIntegrationTestSkipped" 
+  	    if="integrationTests.run">
+    <mkdir dir="../base/${test.results.dir}"/>  	 
+    <junitlauncher 
+    	printsummary="false" 
+    	haltonfailure="yes" 
+    	failureproperty="test.failed"
+    	excludeTags="UnitTest">
+      <classpath refid="test.class.path"/>
+      <testclasses outputdir="${adempiere.base}/base/${test.results.dir}">
+        <fileset dir="${test.build.dir}"/>
+        <listener type="legacy-xml" sendSysErr="true" sendSysOut="true"/>
+      	<listener classname="org.adempiere.test.AdempiereTestExecutionListener"
+      		sendSysErr="true" sendSysOut="true"/>
+       	<fork/>
+      </testclasses>	    	
+    </junitlauncher>
   </target>
 
 </project>

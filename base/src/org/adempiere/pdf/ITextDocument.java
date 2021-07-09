@@ -44,28 +44,6 @@ import io.konik.harness.AppendParameter;
 import io.konik.harness.FileAppender;
 import io.konik.harness.FileExtractor;
 
-/* @see https://github.com/adempiere/adempiere/pull/1576
- * 
- * TODO:
- * wo werden com.lowagie.* Packages verwendet?
- *  org.adempiere.pdf.SmjPdfReport
- *  org.compiere.grid.VPanel
- *  org.adempiere.webui.apps.AEnv
- * wo wird iText-2.1.7.jar verwendet?
- *  adempiere.iml
- *  org.adempiere.pos/adempierePOS.iml
- *  ADempiere.launch
- *  serverRoot/Remote Debug Adempiere - serverRoot.launch
- *  JasperReports/build.xml
- *  org.adempierepos/buildPOSClient.xml
- *  tools/build.xml
- *  
- * TODO:
- *   add pom dependences
- *   add http://central.maven.org/maven2/io/konik/itext-carriage/0.8.0/itext-carriage-0.8.0.pom
- *   ...
- */
-
 /**
  * this class will replace the deprecated org.adempiere.pdf.Document which is a container for static methods
  * <p> 

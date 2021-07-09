@@ -1139,8 +1139,11 @@ public class MRequest extends X_R_Request
 					roleId = -1;
 				
 				//	Don't send mail to oneself
+				Boolean isIncludeOwnChanges = false;
+				if (from !=null)
+					isIncludeOwnChanges = from.isIncludeOwnChanges();
 				if (userId == updatedBy
-						&& !from.isIncludeOwnChanges())
+						&& !isIncludeOwnChanges)
 					continue;
 				
 				//	No confidential to externals

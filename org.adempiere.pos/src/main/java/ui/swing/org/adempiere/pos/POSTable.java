@@ -31,6 +31,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableColumn;
 
+import org.compiere.grid.ed.VCellEditor;
 import org.compiere.grid.ed.VCellRenderer;
 import org.compiere.grid.ed.VHeaderRenderer;
 import org.compiere.minigrid.CheckRenderer;
@@ -179,10 +180,7 @@ public class POSTable extends MiniTable {
 			
 			if (readOnly)
 				tableColumn.setCellEditor(new ROCellEditor());
-			else if (DisplayType.Date == displayType || DisplayType.DateTime == displayType)
-				tableColumn.setCellEditor(new MiniCellEditor(c, displayType));
-			else 
-				tableColumn.setCellEditor(new MiniCellEditor(c));
+				tableColumn.setCellEditor(new VCellEditor(c, displayType));
 			
 			minWidth.add(new Integer(30));
 			if (DisplayType.DateTime == displayType)
@@ -201,7 +199,7 @@ public class POSTable extends MiniTable {
 			}
 			else
 			{
-				tableColumn.setCellEditor(new MiniCellEditor(c));
+				tableColumn.setCellEditor(new VCellEditor(c, displayType));
 				minWidth.add(new Integer(80));
 			}
 			
@@ -218,7 +216,7 @@ public class POSTable extends MiniTable {
 			}
 			else
 			{
-				tableColumn.setCellEditor(new MiniCellEditor(c));
+				tableColumn.setCellEditor(new VCellEditor(c, displayType));
 				minWidth.add(new Integer(80));
 			}
 			
@@ -231,7 +229,7 @@ public class POSTable extends MiniTable {
 			if (readOnly)
 				tableColumn.setCellEditor(new ROCellEditor());
 			else
-				tableColumn.setCellEditor(new MiniCellEditor(c));
+				tableColumn.setCellEditor(new VCellEditor(c, displayType));
 			minWidth.add(new Integer(30));
 			
 			tableColumn.setHeaderRenderer(new VHeaderRenderer(DisplayType.Number));
@@ -243,7 +241,7 @@ public class POSTable extends MiniTable {
 			if (readOnly)
 				tableColumn.setCellEditor(new ROCellEditor());
 			else
-				tableColumn.setCellEditor(new MiniCellEditor(String.class));
+				tableColumn.setCellEditor(new VCellEditor(c, displayType));
 			minWidth.add(new Integer(30));
 			
 			tableColumn.setHeaderRenderer(new VHeaderRenderer(DisplayType.String));

@@ -47,7 +47,7 @@ public class StorageEngine
 	/**	Logger							*/
 	protected static transient CLogger	log = CLogger.getCLogger (StorageEngine.class);
 	
-	public static void createTrasaction (
+	public static void createTransaction(
 			IDocumentLine docLine,
 			String MovementType , 
 			Timestamp MovementDate , 

@@ -796,7 +796,7 @@ public abstract class Info extends CDialog
 
 	/**
 	 *  Get the key of currently selected row
-	 *  @return selected key
+	 *  @return selected key or null
 	 */
 	protected Integer getSelectedRowKey()
 	{
@@ -1378,7 +1378,7 @@ public abstract class Info extends CDialog
 	{
 		// ValueChanged triggered by count can be ignored.  Event is fired in the info worker run()
 		// when the table is cleared.
-		if (m_ignoreEvents || p_table.getRowCount() == 0)
+		if (m_ignoreEvents || p_table == null || p_table.getRowCount() == 0)
 			return;
 		
 		//  Mouse events cause duplicate firings of the valueChanged event.  Trap the duplicate.

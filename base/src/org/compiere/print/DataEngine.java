@@ -1029,7 +1029,7 @@ public class DataEngine
 								Object obj = rs.getObject(counter++);
 								if (obj != null && obj instanceof String)
 								{
-									obj = ((String)obj).trim();
+									obj = ((String)obj);
 									if (((String)obj).length() == 0)
 										obj = null;
 								}

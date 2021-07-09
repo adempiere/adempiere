@@ -5,7 +5,7 @@ CREATE OR REPLACE VIEW RV_C_RFQRESPONSE
  ISSELFSERVICE, DESCRIPTION, HELP, M_PRODUCT_ID, M_ATTRIBUTESETINSTANCE_ID, 
  LINE, LINEDATEWORKSTART, LINEDELIVERYDAYS, LINEDATEWORKCOMPLETE, LINEDESCRIPTION, 
  LINEHELP, C_UOM_ID, QTY, BENCHMARKPRICE, BENCHMARKDIFFERENCE, 
- QTYPRICE, DISCOUNT, QTYRANKING)
+ QTYPRICE, DISCOUNT, QTYRANKING, C_RfQResponseLine_ID, C_RfQLine_ID, C_RfQLineQty_ID)
 AS 
 SELECT q.AD_Client_ID, q.AD_Org_ID, q.C_RfQ_ID, q.C_RfQ_Topic_ID,
     r.C_BPartner_ID, r.C_BPartner_Location_ID, r.AD_User_ID,
@@ -19,7 +19,7 @@ SELECT q.AD_Client_ID, q.AD_Org_ID, q.C_RfQ_ID, q.C_RfQ_Topic_ID,
     rl.Description AS LineDescription, rl.Help AS LineHelp,
     --  Qty
     qlq.C_UOM_ID, qlq.Qty, qlq.BenchmarkPrice, rlq.Price-qlq.BenchmarkPrice AS BenchmarkDifference,
-    rlq.Price AS QtyPrice, rlq.Discount, rlq.Ranking AS QtyRanking
+    rlq.Price AS QtyPrice, rlq.Discount, rlq.Ranking AS QtyRanking, rl.C_RfQResponseLine_ID, ql.C_RfQLine_ID, qlq.C_RfQLineQty_ID
 FROM C_RfQ q
     INNER JOIN C_RfQLine ql ON (q.C_RfQ_ID = ql.C_RfQ_ID)
     INNER JOIN C_RfQLineQty qlq ON (ql.C_RfQLine_ID = qlq.C_RfQLine_ID)
@@ -30,6 +30,3 @@ FROM C_RfQ q
         (rl.C_RfQResponseLine_ID = rlq.C_RfQResponseLine_ID AND qlq.C_RfQLineQty_ID = rlq.C_RfQLineQty_ID)
 WHERE r.IsComplete='Y'
     AND q.Processed='N';
-
-
-

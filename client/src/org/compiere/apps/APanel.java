@@ -24,6 +24,7 @@ import java.awt.Dimension;
 import java.awt.Event;
 import java.awt.FlowLayout;
 import java.awt.Image;
+import java.awt.KeyboardFocusManager;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,14 +47,12 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.adempiere.model.MBrowse;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.apps.search.Find;
 import org.compiere.grid.APanelTab;
@@ -96,6 +95,7 @@ import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.Util;
 import org.eevolution.form.VBrowser;
 import org.spin.util.ASPUtil;
@@ -150,6 +150,10 @@ import org.spin.util.ASPUtil;
  * 		@see FR [ 990 ] Sort Tab is not MVC</a>
  * 		<a href="https://github.com/adempiere/adempiere/issues/884">
  * 		@see FR [ 884 ] Recent Items in Dashboard</a>
+ * 
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+ * 
  *  @sponsor www.metas.de
  */
 public final class APanel extends CPanel
@@ -310,8 +314,10 @@ public final class APanel extends CPanel
 		northPanel.add(toolBar, null);
 	}	//	jbInit
 
+	// Added aNewTableRow to handle new records with Ctrl-F2 when in a VTable as
+	// F2 is used to start editing the current cell
 	private AppsAction 		aPrevious, aNext, aParent, aDetail, aFirst, aLast,
-							aNew, aCopy, aDelete, aPrint, aPrintPreview,
+							aNew, aNewTableRow, aCopy, aDelete, aPrint, aPrintPreview,
 							aExport = null,
 							aRefresh, aHistory, aAttachment, aChat, aMulti, aFind,
 							aWorkflow, aZoomAcross, aRequest, aProcess, aWinSize, aArchive;
@@ -327,6 +333,7 @@ public final class APanel extends CPanel
 							aOnline, aMailSupport, aAbout, aPrintScr, aScrShot, aExit, aBPartner,
 							aDeleteSelection, aShowAllWindow;
 
+	@Deprecated // Moved to VTable
 	private SwitchAction aSwitchLinesDownAction, aSwitchLinesUpAction;
 
 	private WindowMenu m_WindowMenu;
@@ -360,6 +367,7 @@ public final class APanel extends CPanel
 		JMenu mEdit = AEnv.getMenu("Edit");
 		menuBar.add(mEdit);
 		aNew = 		addAction("New", 			mEdit, 	KeyStroke.getKeyStroke(KeyEvent.VK_F2, 0), false);
+		aNewTableRow = addAction("New", 			mEdit, 	KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.CTRL_MASK), false);
 		aSave = 	addAction("Save",			mEdit, 	KeyStroke.getKeyStroke(KeyEvent.VK_F4, 0),	false);
 		mEdit.addSeparator();
 		aCopy =		addAction("Copy", 			mEdit, 	KeyStroke.getKeyStroke(KeyEvent.VK_F2, Event.SHIFT_MASK),	false);
@@ -474,7 +482,7 @@ public final class APanel extends CPanel
 		}
 
 		//Window
-		AMenu aMenu = (AMenu)Env.getWindow(0);
+		AMenu aMenu = (AMenu)SwingEnv.getWindow(0);
 		m_WindowMenu = new WindowMenu(aMenu.getWindowManager(), m_window);
 		menuBar.add(m_WindowMenu);
 		aShowAllWindow = addAction("ShowAllWindow", null, KeyStroke.getKeyStroke(KeyEvent.VK_W, KeyEvent.CTRL_MASK),	false);
@@ -693,7 +701,7 @@ public final class APanel extends CPanel
 		for (int wb = 0; wb < m_mWorkbench.getWindowCount(); wb++)
 		{
 			//  Get/set WindowNo
-			m_curWindowNo = Env.createWindowNo (this);			                //  Timing: ca. 1.5 sec
+			m_curWindowNo = SwingEnv.createWindowNo (this);			                //  Timing: ca. 1.5 sec
 			m_mWorkbench.setWindowNo(wb, m_curWindowNo);
 			//  Set AutoCommit for this Window
 			Env.setAutoCommit(ctx, m_curWindowNo, Env.isAutoCommit(ctx));
@@ -801,14 +809,14 @@ public final class APanel extends CPanel
 					if (gTab.isSortTab())
 					{
 						VSortTab st = new VSortTab(m_curWindowNo, gTab.getAD_Table_ID(),
-							gTab.getAD_ColumnSortOrder_ID(), gTab.getAD_ColumnSortYesNo_ID());
+							gTab.getAD_ColumnSortOrder_ID(), gTab.getAD_ColumnSortYesNo_ID(), gTab.getParent_Column_ID());
 						st.setTabLevel(gTab.getTabLevel());
 						tabElement = st;
 					}
 					else	//	normal tab
 					{
 						GridController gc = new GridController();			        //  Timing: ca. .1 sec
-						CompiereColor cc = mainWindow.getColor();
+						CompiereColor cc = CompiereColor.getColor(mainWindow);
 						if (cc != null)
 							gc.setBackgroundColor(cc);                  //  set color on Window level
 						gc.initGrid(gTab, false, m_curWindowNo, this, mainWindow, (tab != 0));  //  will set color on Tab level
@@ -1113,7 +1121,7 @@ public final class APanel extends CPanel
 		if (require)
 		{
 			GridField[] findFields = mTab.getFields();
-			Find find = new Find (Env.getFrame(this), m_curWindowNo, mTab.getName(),
+			Find find = new Find (SwingEnv.getFrame(this), m_curWindowNo, mTab.getName(),
 				mTab.getAD_Tab_ID(), mTab.getAD_Table_ID(), mTab.getTableName(),
 				where.toString(), findFields, 10);	//	no query below 10
 			query = find.getQuery();
@@ -1224,13 +1232,14 @@ public final class APanel extends CPanel
 		int changedColumn = e.getChangedColumn();
 		boolean inserting = e.isInserting();
 
-		if(e.getAD_Message() != null && e.getAD_Message().equals("Saved"))
+  		if(e.getAD_Message() != null && e.getAD_Message().equals("Saved"))
 			changed = false;
 		boolean readOnly = currentTab.isReadOnly();
 		boolean insertRecord = !readOnly;
 		if (insertRecord)
 			insertRecord = currentTab.isInsertRecord();
 		aNew.setEnabled(((inserting && changedColumn>0) || !inserting) && insertRecord);
+		aNewTableRow.setEnabled(((inserting && changedColumn>0) || !inserting) && insertRecord);
 		aCopy.setEnabled(!changed && insertRecord);
 		aRefresh.setEnabled(!changed);
 		aDelete.setEnabled(!changed && !readOnly);
@@ -1249,6 +1258,7 @@ public final class APanel extends CPanel
 		//	No Rows
 		if (e.getTotalRows() == 0 && insertRecord) {
 			aNew.setEnabled(true);
+			aNewTableRow.setEnabled(true);
 			aDelete.setEnabled(false);
 			aDeleteSelection.setEnabled(false);
 		}
@@ -1268,6 +1278,7 @@ public final class APanel extends CPanel
 		if (m_curWinTab.getSelectedComponent() instanceof GridController) {
 			GridController gridController = (GridController)m_curWinTab.getSelectedComponent();
 			gridController.reloadFieldTrxInfo();
+			gridController.requestFocusInWindow();
 		}
 		//	Check Attachment
 		boolean canHaveAttachment = currentTab.canHaveAttachment();		//	not single _ID column
@@ -1340,7 +1351,7 @@ public final class APanel extends CPanel
 	{
 		m_isLocked = busy;
 		//
-		JFrame frame = Env.getFrame(this);
+		JFrame frame = SwingEnv.getFrame(this);
 		if (frame == null)  //  during init
 			return;
 		if (frame instanceof AWindow)
@@ -1587,6 +1598,7 @@ public final class APanel extends CPanel
 			aMulti.setPressed(false);
 			aMulti.setEnabled(false);
 			aNew.setEnabled(false);
+			aNewTableRow.setEnabled(false);
 			aCopy.setEnabled(false);
 			aReport.setEnabled(false);
 			aPrint.setEnabled(false);
@@ -1748,6 +1760,8 @@ public final class APanel extends CPanel
 			//	Edit
 			else if (cmd.equals(aNew.getName()))
 				cmd_new(false);
+			else if (cmd.equals(aNewTableRow.getName()))
+				cmd_new(false);
 			else if (cmd.equals(aSave.getName()))
 				cmd_save(true);
 			else if (cmd.equals(aCopy.getName()))
@@ -1772,12 +1786,15 @@ public final class APanel extends CPanel
 			else if (cmd.equals(aHistory.getName()))
 				cmd_history();
 			else if (cmd.equals(aMulti.getName()))
+			{
 				m_curGC.switchRowPresentation();
+				m_curGC.getTable().requestFocus();
+			}
 			//	Go
 			else if (cmd.equals(aHome.getName())) {
 				// show main menu - teo_sarca [ 1706409, 1707221 ]
 				setBusy(false, false);
-				AEnv.showWindow(Env.getWindow(0));
+				AEnv.showWindow(SwingEnv.getWindow(0));
 				return;
 			}
 			else if (cmd.equals(aFirst.getName()))
@@ -1786,13 +1803,14 @@ public final class APanel extends CPanel
 				m_curGC.acceptEditorChanges();
 				currentTab.navigate(0);
 			}
-			else if (cmd.equals(aSwitchLinesUpAction.getName()))
-			{
-				//up-key + shift
-				m_curGC.getTable().removeEditor();
-				currentTab.switchRows(currentTab.getCurrentRow(), currentTab.getCurrentRow() - 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
-				m_curGC.getTable().requestFocus();
-			}
+//  		Switch rows moved to VTable to accommodate frozen columns
+//			else if (cmd.equals(aSwitchLinesUpAction.getName()))
+//			{
+//				//up-key + shift
+//				m_curGC.getTable().removeEditor();
+//				currentTab.switchRows(currentTab.getCurrentRow(), currentTab.getCurrentRow() - 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
+//				m_curGC.getTable().requestFocus();
+//			}
 			else if (cmd.equals(aPrevious.getName()))
 			{ /* cmd_save(false); */
 				//up-image + shift
@@ -1804,13 +1822,14 @@ public final class APanel extends CPanel
 					currentTab.navigateRelative(-1);
 				}
 			}
-			else if (cmd.equals(aSwitchLinesDownAction.getName()))
-			{
-				//down-key + shift
-				m_curGC.getTable().removeEditor();
-				currentTab.switchRows(currentTab.getCurrentRow(), currentTab.getCurrentRow() + 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
-				m_curGC.getTable().requestFocus();
-			}
+//  Switch rows moved to VTable to accommodate frozen columns
+//			else if (cmd.equals(aSwitchLinesDownAction.getName()))
+//			{
+//				//down-key + shift
+//				m_curGC.getTable().removeEditor();
+//				currentTab.switchRows(currentTab.getCurrentRow(), currentTab.getCurrentRow() + 1, m_curGC.getTable().getSortColumn(), m_curGC.getTable().isSortAscending());
+//				m_curGC.getTable().requestFocus();
+//			}
 			else if (cmd.equals(aNext.getName()))
 			{ /* cmd_save(false); */
 				//down-image + shift
@@ -1876,7 +1895,7 @@ public final class APanel extends CPanel
 	}	//	actionPerformed
 
 	private void cmd_logout() {
-		JFrame top = Env.getWindow(0);
+		JFrame top = SwingEnv.getWindow(0);
 		if (top instanceof AMenu) {
 			((AMenu)top).logout();
 		}
@@ -2082,7 +2101,11 @@ public final class APanel extends CPanel
 	 */
 	private void cmd_ignore()
 	{
+
+		// Get the focus owner
+		Component owner = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
 		m_curGC.stopEditor(false);
+
 		// Ignore changes in APanelTab (e.g. VSortTab) - teo_sarca [ 1705429 ]
 		if (currentAPanelTab != null)
 		{
@@ -2090,6 +2113,7 @@ public final class APanel extends CPanel
 		}
 		currentTab.dataIgnore();
 		m_curGC.dynamicDisplay(0);
+		owner.requestFocus();
 
 	}   //  cmd_ignore
 
@@ -2261,7 +2285,7 @@ public final class APanel extends CPanel
 		if (currentTab == null)
 			return;
 		cmd_save(false);
-		new ASearch(aFind,Env.getFrame(this), m_curWindowNo,m_curGC, currentTab, m_onlyCurrentDays);
+		new ASearch(aFind,SwingEnv.getFrame(this), m_curWindowNo,m_curGC, currentTab, m_onlyCurrentDays);
 	}	//	cmd_find
 
 	/**
@@ -2278,7 +2302,7 @@ public final class APanel extends CPanel
 		}
 
 	//	Attachment va =
-		new Attachment (Env.getFrame(this), m_curWindowNo,
+		new Attachment (SwingEnv.getFrame(this), m_curWindowNo,
 			currentTab.getAD_AttachmentID(), currentTab.getAD_Table_ID(), record_ID, null);
 		//
 		currentTab.loadAttachments();				//	reload
@@ -2314,7 +2338,7 @@ public final class APanel extends CPanel
 		String description = infoName + ": " + infoDisplay;
 		//
 	//	AChat va =
-		new AChat (Env.getFrame(this), m_curWindowNo,
+		new AChat (SwingEnv.getFrame(this), m_curWindowNo,
 			currentTab.getCM_ChatID(), currentTab.getAD_Table_ID(), record_ID,
 			description, null);
 		//
@@ -2336,7 +2360,7 @@ public final class APanel extends CPanel
 		//	Control Pressed
 		if ((m_lastModifiers & InputEvent.CTRL_MASK) != 0)
 		{
-			new RecordAccessDialog(Env.getFrame(this), currentTab.getAD_Table_ID(), record_ID);
+			new RecordAccessDialog(SwingEnv.getFrame(this), currentTab.getAD_Table_ID(), record_ID);
 		}
 		else
 		{
@@ -2359,7 +2383,7 @@ public final class APanel extends CPanel
 
 			Point pt = new Point (0, aHistory.getButton().getBounds().height);
 			SwingUtilities.convertPointToScreen(pt, aHistory.getButton());
-			VOnlyCurrentDays ocd = new VOnlyCurrentDays(Env.getFrame(this), pt);
+			VOnlyCurrentDays ocd = new VOnlyCurrentDays(SwingEnv.getFrame(this), pt);
 			if (!ocd.isCancel()) {
 				m_onlyCurrentDays = ocd.getCurrentDays();
 				if (m_onlyCurrentDays == 1)	//	Day
@@ -2393,7 +2417,7 @@ public final class APanel extends CPanel
 	private void cmd_help()
 	{
 		log.info("");
-		Help hlp = new Help (Env.getFrame(this), this.getTitle(), m_mWorkbench.getMWindow(getWindowIndex()));
+		Help hlp = new Help (SwingEnv.getFrame(this), this.getTitle(), m_mWorkbench.getMWindow(getWindowIndex()));
 		hlp.setVisible(true);
 	}	//	cmd_help
 
@@ -2409,7 +2433,7 @@ public final class APanel extends CPanel
 		if (exit && ADialog.ask(m_curWindowNo, this, "ExitApplication?"))
 			exitSystem = true;
 
-		Env.getFrame(this).dispose();		//	calls this dispose
+		SwingEnv.getFrame(this).dispose();		//	calls this dispose
 
 		if (exitSystem)
 			AEnv.exit(0);
@@ -2694,7 +2718,7 @@ public final class APanel extends CPanel
 			return;
 		}
 		else {
-			ProcessModalDialog dialog = new ProcessModalDialog(ctx, Env.getWindow(m_curWindowNo), Env.getHeader(ctx, m_curWindowNo),
+			ProcessModalDialog dialog = new ProcessModalDialog(ctx, SwingEnv.getWindow(m_curWindowNo), Env.getHeader(ctx, m_curWindowNo),
 					this, m_curWindowNo, vButton.getProcess_ID(), table_ID,
 					record_ID, startWOasking);
 			//	FR [ 265 ]
@@ -2703,7 +2727,7 @@ public final class APanel extends CPanel
 					&& !dialog.isAutoStart()) {
 				dialog.validate();
 				dialog.pack();
-				AEnv.showCenterWindow(Env.getWindow(m_curWindowNo), dialog);
+				AEnv.showCenterWindow(SwingEnv.getWindow(m_curWindowNo), dialog);
 			}
 		}
 	}	//	actionButton
@@ -2847,6 +2871,7 @@ public final class APanel extends CPanel
 	 * @author Karsten Thiemann, kthiemann@adempiere.org
 	 *
 	 */
+	@Deprecated // Moved to VTable
 	class SwitchAction extends AbstractAction {
 		/**
 		 *
@@ -2886,32 +2911,34 @@ public final class APanel extends CPanel
 
 	/**
 	 * Removes the default KeyStroke action for the up/down keys and adds switch
-	 * line actions.
+	 * line actions.  This capability has been moved to VTable.  This method
+	 * does nothing.
 	 */
+	@Deprecated // Moved to VTable
 	private void initSwitchLineAction() {
-		aSwitchLinesDownAction = new SwitchAction("switchLinesDown", KeyStroke.getKeyStroke(
-				KeyEvent.VK_DOWN, Event.SHIFT_MASK), this);
-		aSwitchLinesUpAction = new SwitchAction("switchLinesUp", KeyStroke.getKeyStroke(
-				KeyEvent.VK_UP, Event.SHIFT_MASK), this);
-
-		JTable table = m_curGC.getTable();
-		table.getInputMap(CPanel.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
-				KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Event.SHIFT_MASK), "none");
-		table.getInputMap(CPanel.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
-				KeyStroke.getKeyStroke(KeyEvent.VK_UP, Event.SHIFT_MASK), "none");
-		table.getInputMap(CPanel.WHEN_FOCUSED).put(
-				KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Event.SHIFT_MASK), "none");
-		table.getInputMap(CPanel.WHEN_FOCUSED).put(
-				KeyStroke.getKeyStroke(KeyEvent.VK_UP, Event.SHIFT_MASK), "none");
-
-		getInputMap(CPanel.WHEN_IN_FOCUSED_WINDOW).put(
-				KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Event.SHIFT_MASK),
-				aSwitchLinesDownAction.getName());
-		getActionMap().put(aSwitchLinesDownAction.getName(), aSwitchLinesDownAction);
-		getInputMap(CPanel.WHEN_IN_FOCUSED_WINDOW).put(
-				KeyStroke.getKeyStroke(KeyEvent.VK_UP, Event.SHIFT_MASK),
-				aSwitchLinesUpAction.getName());
-		getActionMap().put(aSwitchLinesUpAction.getName(), aSwitchLinesUpAction);
+//		aSwitchLinesDownAction = new SwitchAction("switchLinesDown", KeyStroke.getKeyStroke(
+//				KeyEvent.VK_DOWN, Event.SHIFT_MASK), this);
+//		aSwitchLinesUpAction = new SwitchAction("switchLinesUp", KeyStroke.getKeyStroke(
+//				KeyEvent.VK_UP, Event.SHIFT_MASK), this);
+//
+//		JTable table = m_curGC.getTable();
+//		table.getInputMap(CPanel.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
+//				KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Event.SHIFT_MASK), "none");
+//		table.getInputMap(CPanel.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
+//				KeyStroke.getKeyStroke(KeyEvent.VK_UP, Event.SHIFT_MASK), "none");
+//		table.getInputMap(CPanel.WHEN_FOCUSED).put(
+//				KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Event.SHIFT_MASK), "none");
+//		table.getInputMap(CPanel.WHEN_FOCUSED).put(
+//				KeyStroke.getKeyStroke(KeyEvent.VK_UP, Event.SHIFT_MASK), "none");
+//
+//		getInputMap(CPanel.WHEN_IN_FOCUSED_WINDOW).put(
+//				KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, Event.SHIFT_MASK),
+//				aSwitchLinesDownAction.getName());
+//		getActionMap().put(aSwitchLinesDownAction.getName(), aSwitchLinesDownAction);
+//		getInputMap(CPanel.WHEN_IN_FOCUSED_WINDOW).put(
+//				KeyStroke.getKeyStroke(KeyEvent.VK_UP, Event.SHIFT_MASK),
+//				aSwitchLinesUpAction.getName());
+//		getActionMap().put(aSwitchLinesUpAction.getName(), aSwitchLinesUpAction);
 	}
 
 	public boolean isNested() {

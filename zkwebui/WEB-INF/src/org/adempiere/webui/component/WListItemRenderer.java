@@ -73,7 +73,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 	private ArrayList<WTableColumn> m_tableColumns = new ArrayList<WTableColumn>();
 	/** Array of {@link ListHeader}s for the list head. */
     private ArrayList<ListHeader> m_headers = new ArrayList<ListHeader>();
-
+    
     private Listbox listBox;
 
 	private EventListener cellListener;
@@ -491,6 +491,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
     	}
     	else if (classType != null && classType.isAssignableFrom(IDColumn.class))
     	{
+    		header.setSort("none");
     		header.setLabel("");
     		header.setWidth("35px");
     	}
@@ -515,12 +516,12 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
             		if (width > 0 && width < 180)
             			width = 180;
             	}
-            	else if (classType.equals(IDColumn.class))
-            	{
-            		header.setSort("none");
-            		if (width == 0)
-            			width = 30;
-            	}
+//            	else if (classType.equals(IDColumn.class))
+//            	{
+//            		header.setSort("none");
+//            		if (width == 0)
+//            			width = 30;
+//            	}
 	            else if (width > 0 && width < 100 && (classType == null || !classType.isAssignableFrom(Boolean.class)))
             		width = 100;
             }
@@ -610,6 +611,7 @@ public class WListItemRenderer implements ListitemRenderer, EventListener, Listi
 		Component header;
         WTableColumn column;
 
+        head.getChildren().clear();
 		for (int columnIndex = 0; columnIndex < m_tableColumns.size(); columnIndex++)
         {
             column = m_tableColumns.get(columnIndex);

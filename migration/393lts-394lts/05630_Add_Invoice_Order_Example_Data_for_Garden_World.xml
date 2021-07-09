@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add Invoice Order Example Data for Garden World" ReleaseNo="3.9.4" SeqNo="5630">
+    <Comments>See: https://github.com/adempiere/adempiere/pull/3042</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="115" Action="I" Record_ID="55252" Table="AD_Sequence">
+        <Data AD_Column_ID="349" Column="IsActive">true</Data>
+        <Data AD_Column_ID="347" Column="Description">Invoice Order allows generate a invoice automatically after complete, the delivery is based on delivery rule from standar sales process</Data>
+        <Data AD_Column_ID="629" Column="Updated">2020-03-21 20:11:12.896</Data>
+        <Data AD_Column_ID="627" Column="Created">2020-03-21 20:11:12.896</Data>
+        <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
+        <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="1188" Column="IsAutoSequence">true</Data>
+        <Data AD_Column_ID="222" Column="IsAudited">false</Data>
+        <Data AD_Column_ID="223" Column="Prefix">IO-</Data>
+        <Data AD_Column_ID="224" Column="Suffix" isNewNull="true"/>
+        <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
+        <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
+        <Data AD_Column_ID="216" Column="Name">Invoice Order</Data>
+        <Data AD_Column_ID="427" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="426" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1186" Column="AD_Sequence_ID">55252</Data>
+        <Data AD_Column_ID="2747" Column="IncrementNo">1</Data>
+        <Data AD_Column_ID="2746" Column="StartNo">300000</Data>
+        <Data AD_Column_ID="350" Column="IsTableID">false</Data>
+        <Data AD_Column_ID="3887" Column="CurrentNextSys">100</Data>
+        <Data AD_Column_ID="220" Column="CurrentNext">50000</Data>
+        <Data AD_Column_ID="628" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84417" Column="UUID">d5854f79-0dfd-4241-9d60-76f38144f61c</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="217" Action="I" Record_ID="50038" Table="C_DocType">
+        <Data AD_Column_ID="89355" Column="IsBankTransfer">false</Data>
+        <Data AD_Column_ID="85653" Column="IsReversedWithOriginalAcct">false</Data>
+        <Data AD_Column_ID="1507" Column="Updated">2020-03-21 20:11:30.493</Data>
+        <Data AD_Column_ID="86860" Column="IsAllocateImmediate">false</Data>
+        <Data AD_Column_ID="1504" Column="IsActive">true</Data>
+        <Data AD_Column_ID="3024" Column="DocBaseType">SOO</Data>
+        <Data AD_Column_ID="4428" Column="IsSOTrx">true</Data>
+        <Data AD_Column_ID="87473" Column="C_DocTypePayment_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1521" Column="IsDocNoControlled">true</Data>
+        <Data AD_Column_ID="1505" Column="Created">2020-03-21 20:11:30.493</Data>
+        <Data AD_Column_ID="15806" Column="IsIndexed">true</Data>
+        <Data AD_Column_ID="62601" Column="PrintDocument" isNewNull="true"/>
+        <Data AD_Column_ID="4204" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="84052" Column="IsCopyDocNoOnReversal">false</Data>
+        <Data AD_Column_ID="3392" Column="DocSubTypeSO">IO</Data>
+        <Data AD_Column_ID="3023" Column="PrintName">Invoice Order</Data>
+        <Data AD_Column_ID="12417" Column="IsCreateCounter">true</Data>
+        <Data AD_Column_ID="54087" Column="IsOverwriteSeqOnComplete">false</Data>
+        <Data AD_Column_ID="54089" Column="IsOverwriteDateOnComplete">false</Data>
+        <Data AD_Column_ID="12075" Column="IsDefaultCounterDoc">false</Data>
+        <Data AD_Column_ID="1509" Column="Name">Invoice Order</Data>
+        <Data AD_Column_ID="1510" Column="Description">Invoice Order allows generate a invoice automatically after complete, the delivery is based on delivery rule from standar sales process</Data>
+        <Data AD_Column_ID="3697" Column="HasCharges">false</Data>
+        <Data AD_Column_ID="3025" Column="DocumentNote" isNewNull="true"/>
+        <Data AD_Column_ID="3913" Column="HasProforma">false</Data>
+        <Data AD_Column_ID="12080" Column="IsPickQAConfirm">false</Data>
+        <Data AD_Column_ID="54088" Column="DefiniteSequence_ID" isNewNull="true"/>
+        <Data AD_Column_ID="12112" Column="IsInTransit">false</Data>
+        <Data AD_Column_ID="12081" Column="IsShipConfirm">false</Data>
+        <Data AD_Column_ID="12405" Column="IsSplitWhenDifference">false</Data>
+        <Data AD_Column_ID="59148" Column="IsPrepareSplitDocument">true</Data>
+        <Data AD_Column_ID="1527" Column="GL_Category_ID">108</Data>
+        <Data AD_Column_ID="1501" Column="C_DocType_ID">50038</Data>
+        <Data AD_Column_ID="1503" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1502" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="8761" Column="AD_PrintFormat_ID" isNewNull="true"/>
+        <Data AD_Column_ID="4205" Column="DocumentCopies">1</Data>
+        <Data AD_Column_ID="3915" Column="C_DocTypeShipment_ID">122</Data>
+        <Data AD_Column_ID="3914" Column="C_DocTypeProforma_ID" isNewNull="true"/>
+        <Data AD_Column_ID="1508" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="1522" Column="DocNoSequence_ID">55252</Data>
+        <Data AD_Column_ID="1506" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="3916" Column="C_DocTypeInvoice_ID">116</Data>
+        <Data AD_Column_ID="12404" Column="C_DocTypeDifference_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84652" Column="UUID">c69a77fd-b774-4b06-a85d-7b81d884b5c4</Data>
+        <Data AD_Column_ID="94551" Column="IsPayrollPayment">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="300" Action="I" Record_ID="50038" Table="C_DocType_Trl">
+        <Data AD_Column_ID="3130" Column="Created">2020-03-21 20:11:31.531</Data>
+        <Data AD_Column_ID="3132" Column="Updated">2020-03-21 20:11:31.531</Data>
+        <Data AD_Column_ID="3129" Column="IsActive">true</Data>
+        <Data AD_Column_ID="3136" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="4322" Column="Name">Invoice Order</Data>
+        <Data AD_Column_ID="3134" Column="PrintName">Invoice Order</Data>
+        <Data AD_Column_ID="3135" Column="DocumentNote" isNewNull="true"/>
+        <Data AD_Column_ID="3128" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="3125" Column="C_DocType_ID">50038</Data>
+        <Data AD_Column_ID="3127" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="3126" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="3131" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="3133" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84654" Column="UUID">94c534d7-41db-4ed8-846d-6a80f916da69</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

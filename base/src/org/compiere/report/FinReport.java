@@ -122,7 +122,7 @@ public class FinReport extends FinReportAbstract {
 			parameterWhere.append(" AND UserElement1_ID=").append(getUserElement1Id());
 		//  Optional UserElement2_ID
 		if (getUserElement2Id() != 0)
-			parameterWhere.append(" AND UserElement2_ID=").append(getUserElement1Id());
+			parameterWhere.append(" AND UserElement2_ID=").append(getUserElement2Id());
 
 		//	Load Report Definition
 		finReport = new MReport (getCtx(), getRecord_ID(), get_TrxName());

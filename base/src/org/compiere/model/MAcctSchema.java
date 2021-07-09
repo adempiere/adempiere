@@ -23,6 +23,7 @@ import java.util.Properties;
 
 import org.compiere.report.MReportTree;
 import org.compiere.util.CCache;
+import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 
 /**
@@ -135,11 +136,63 @@ public class MAcctSchema extends X_C_AcctSchema
 		return retValue;
 	}   //  getClientAcctSchema
 
-	/** Cache of Client AcctSchema Arrays		**/
+    /**
+     * Returns an array of MAcctSchema. If schemaID is zero, all schema
+     * for the client specified in the context will be returned.  If non
+     * zero, a specific schema will be returned. If none are found or there
+     * is an error, the array will be empty.
+     * @param ctx the Context specifying the default client
+     * @param schemaId the C_AcctSchema_ID to search for or zero for all. 
+     * @param trxName The transaction name to use
+     * @return a non-null Array of MAcctSchema containing the relevant schema.
+     */
+    public static MAcctSchema[] getAcctSchema(Properties ctx, int schemaId, String trxName) {
+    
+        return getAcctSchema(ctx, 0, schemaId, trxName);
+        
+    }
+
+    /**
+     * Returns an array of MAcctSchema. If schemaID is zero, all schema
+     * for the client specified will be returned.  If non-zero, a specific 
+     * schema will be returned. If none are found or there is an error, 
+     * the array will be empty.
+     * @param ctx the Context specifying the default client
+     * @param specificClientId the id of a client. Set to zero to use the default 
+     * in the context.
+     * @param schemaId the C_AcctSchema_ID to search for or zero for all. 
+     * @param trxName The transaction name to use
+     * @return a non-null Array of MAcctSchema containing the relevant schema.
+     */
+    public static MAcctSchema[] getAcctSchema(Properties ctx, int specificClientId, 
+            int schemaId, String trxName) {
+    
+        int clientId = specificClientId;
+        if (clientId == 0)
+            clientId = Env.getAD_Client_ID(ctx);
+        
+        MAcctSchema[] acctSchema = new MAcctSchema[] {};
+        if (schemaId == 0)
+            acctSchema = MAcctSchema.getClientAcctSchema(ctx, clientId, trxName);
+        else if (schemaId > 0)
+            acctSchema = new MAcctSchema[] { 
+                    MAcctSchema.get(ctx, schemaId, trxName) };
+
+        return acctSchema;
+        
+    }
+
+    /** Cache of Client AcctSchema Arrays		**/
 	private static CCache<Integer,MAcctSchema[]> s_schema = new CCache<Integer,MAcctSchema[]>("AD_ClientInfo", 3);	//  3 clients
 	/**	Cache of AcctSchemas 					**/
 	private static CCache<Integer,MAcctSchema> s_cache = new CCache<Integer,MAcctSchema>("C_AcctSchema", 3);	//  3 accounting schemas
 	
+	// Added for testing. Can be package or protected level.
+	static void clearSchemaCache() {
+	    
+	    s_schema = new CCache<>("AD_ClientInfo", 3);
+	    
+	}
 	
 	/**************************************************************************
 	 * 	Standard Constructor

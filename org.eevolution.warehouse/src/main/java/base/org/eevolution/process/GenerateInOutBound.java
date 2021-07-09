@@ -124,6 +124,14 @@ public class GenerateInOutBound extends GenerateInOutBoundAbstract {
     private void createBasedOnSalesOrders(MWMInOutBound outBoundOrder, List<MOrderLine> orderLines) {
         orderLines.forEach(orderLine -> {
             MWMInOutBoundLine outBoundOrderLine = new MWMInOutBoundLine(outBoundOrder);
+            //Set Description based on Sales Order if not exist
+            Optional<String> maybeOutboundOrderDescription  = Optional.ofNullable(outBoundOrder.getDescription());
+            if (!maybeOutboundOrderDescription.isPresent()) {
+                String orderDescription = Optional.ofNullable(orderLine.getParent().getDescription()).orElse("");
+                outBoundOrder.setDescription(orderDescription);
+                outBoundOrder.saveEx();
+            }
+            
             outBoundOrderLine.setLine(getLineNo(outBoundOrder));
             outBoundOrderLine.setM_Product_ID(orderLine.getM_Product_ID());
             outBoundOrderLine.setM_AttributeSetInstance_ID(orderLine.getM_AttributeSetInstance_ID());

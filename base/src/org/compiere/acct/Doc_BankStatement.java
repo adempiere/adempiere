@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import org.compiere.model.I_C_BankStatement;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MBankAccount;
@@ -301,4 +302,9 @@ public class Doc_BankStatement extends Doc
 		return ba.getAD_Org_ID();
 	}	//	getBank_Org_ID
 
+	public static String getDateAcctColumnName() {
+	    
+	    return I_C_BankStatement.COLUMNNAME_StatementDate;
+	    
+	}
 }   //  Doc_Bank

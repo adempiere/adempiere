@@ -125,7 +125,18 @@ public class MFMProductCategory extends X_FM_ProductCategory {
 	 * @param financialProductCategoryId
 	 * @return activity or null
 	 */
+	@Deprecated
 	public static MFMProductCategory getById(Properties ctx, int financialProductCategoryId) {
+		return getById(ctx, financialProductCategoryId,  null);
+	}
+	/**
+	 * Get/Load Functional Product [CACHED]
+	 * @param ctx context
+	 * @param financialProductCategoryId
+	 * @param transactionName
+	 * @return financial product category or null
+	 */
+	public static MFMProductCategory getById(Properties ctx, int financialProductCategoryId, String transactionName) {
 		if (financialProductCategoryId <= 0)
 			return null;
 
@@ -133,7 +144,7 @@ public class MFMProductCategory extends X_FM_ProductCategory {
 		if (financialProductCategory != null && financialProductCategory.get_ID() > 0)
 			return financialProductCategory;
 
-		financialProductCategory = new Query(ctx , Table_Name , COLUMNNAME_FM_ProductCategory_ID + "=?" , null)
+		financialProductCategory = new Query(ctx , Table_Name , COLUMNNAME_FM_ProductCategory_ID + "=?" , transactionName)
 				.setClient_ID()
 				.setParameters(financialProductCategoryId)
 				.first();

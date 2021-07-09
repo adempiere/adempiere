@@ -29,12 +29,12 @@ import org.compiere.apps.AppsAction;
 import org.compiere.apps.ConfirmPanel;
 import org.compiere.apps.StatusBar;
 import org.compiere.minigrid.MiniTable;
-import org.compiere.minigrid.MiniTable.MiniTableSelectionListener;
-import org.compiere.minigrid.MiniTable.RowSelectionEvent;
+import org.compiere.minigrid.SelectionListener;
+import org.compiere.minigrid.RowSelectionEvent;
 import org.compiere.swing.CButton;
 import org.compiere.swing.CDialog;
 import org.compiere.swing.CPanel;
-import org.compiere.util.Env;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 
@@ -48,7 +48,7 @@ import org.compiere.util.TrxRunnable;
  *		@see https://github.com/adempiere/adempiere/issues/114
  */
 @Deprecated
-public class VCreateFromDialog extends CDialog implements ActionListener, MiniTableSelectionListener
+public class VCreateFromDialog extends CDialog implements ActionListener, SelectionListener
 {
 	private static final long serialVersionUID = 1L;
 	
@@ -64,7 +64,7 @@ public class VCreateFromDialog extends CDialog implements ActionListener, MiniTa
 	
 	public VCreateFromDialog(CreateFrom createFrom, int windowNo, boolean modal)
 	{
-		super(Env.getWindow(windowNo), modal);
+		super(SwingEnv.getWindow(windowNo), modal);
 		
 		this.createFrom = createFrom;
 		this.windowNo = windowNo;

@@ -32,7 +32,7 @@ import org.compiere.util.ValueNamePair;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *
  */
-public class POSLookupListCellRenderer implements ListCellRenderer<ValueNamePair> {
+public class POSLookupListCellRenderer implements ListCellRenderer<Object> {
 	
 	/**
 	 * *** Constructor ***
@@ -49,7 +49,7 @@ public class POSLookupListCellRenderer implements ListCellRenderer<ValueNamePair
 
 	@Override
 	public Component getListCellRendererComponent(
-			JList<? extends ValueNamePair> list, ValueNamePair value,
+			JList<? extends Object> list, Object value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 		JLabel renderer = (JLabel) defaultRenderer
 				.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);

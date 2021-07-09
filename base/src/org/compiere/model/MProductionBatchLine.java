@@ -88,7 +88,7 @@ public class MProductionBatchLine extends X_M_ProductionBatchLine
 		else
 			reservedQty = diff;
 		MStorage.add(getCtx(), getM_ProductionBatch().getM_Locator().getM_Warehouse_ID(), getM_ProductionBatch().getM_Locator_ID(),
-				getM_Product_ID(), 0, 0, Env.ZERO, reservedQty,orderedQty , get_TrxName());
+				getM_Product_ID(), 0, 0, Env.ZERO, reservedQty,orderedQty.negate() , get_TrxName());
 		return true;
 	}
 }

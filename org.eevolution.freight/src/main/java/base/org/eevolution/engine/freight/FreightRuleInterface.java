@@ -16,29 +16,29 @@
 
 package org.eevolution.engine.freight;
 
-import org.compiere.model.MFreight;
-
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.Properties;
 
 /**
  * Created by eEvolution author Victor Perez <victor.perez@e-evolution.com> 23/08/16.
  */
 public interface FreightRuleInterface {
-    public BigDecimal calculate(
-            Properties ctx,
-            int productId,
-            int shipperId,
-            int locationId,
-            int locationToId,
-            int freightCategoryId,
-            int currencyId,
-            Timestamp date,
-            String trxName);
 
+    /**
+     * get freight rate
+     * @param ctx
+     * @param shipperId
+     * @param freightCategoryId
+     * @param currencyId
+     * @param locationFromId
+     * @param locationToId
+     * @param date
+     * @param trxName
+     * @param parameters
+     * @return
+     */
     public BigDecimal getFreightRate(
             Properties ctx,
             int shipperId,
@@ -46,5 +46,35 @@ public interface FreightRuleInterface {
             int currencyId,
             int locationFromId,
             int locationToId,
-            Timestamp date, String trxName);
+            Timestamp date, 
+            String trxName, 
+            Map<String, Object> parameters);
+    
+    /**
+     * Calculate freight
+     * @param ctx
+     * @param shipperId
+     * @param locationId
+     * @param locationToId
+     * @param freightCategoryId
+     * @param currencyId
+     * @param date
+     * @param weight
+     * @param volume
+     * @param trxName
+     * @param parameters
+     * @return a info class with Freight reference, rate applied and amount based on calculation
+     */
+    public FreightInfo calculate(
+            Properties ctx,
+            int shipperId,
+            int locationId,
+            int locationToId,
+            int freightCategoryId,
+            int currencyId,
+            Timestamp date,
+            BigDecimal weight,
+            BigDecimal volume,
+            String trxName,
+            Map<String, Object> parameters);
 }

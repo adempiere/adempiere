@@ -17,13 +17,6 @@ Copyright (C) 2005 Potix Corporation. All Rights Reserved.
 	Methods and actions for ZK in DSP/ZUML
 	</description>
 
-	<!--         -->
-	<!-- Imports -->
-	<!--         -->
-	<import>
-		<import-name>ZkFns</import-name>
-		<import-class>org.zkoss.zk.fn.ZkFns</import-class>
-	</import>
 
 	<!--           -->
 	<!-- Functions -->

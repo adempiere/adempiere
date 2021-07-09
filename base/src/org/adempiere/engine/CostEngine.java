@@ -250,7 +250,7 @@ public class CostEngine {
 	 */
 	public void createCostDetail(MTransaction transaction, IDocumentLine model) {
 
-		MClient client = new MClient (transaction.getCtx() , transaction.getAD_Client_ID(), transaction.get_TrxName());
+		MClient client =  MClient.get(transaction.getCtx());
 		StringBuilder description = new StringBuilder();
 		if (model != null && model.getDescription() != null && !Util.isEmpty(model.getDescription(), true))
 			description.append(model.getDescription());
@@ -311,7 +311,7 @@ public class CostEngine {
 
 		if (model instanceof MLandedCostAllocation) {
 			MLandedCostAllocation allocation = (MLandedCostAllocation) model;
-			costThisLevel = convertCostToSchemaCurrency(accountSchema, model , model.getPriceActualCurrency());
+			costThisLevel  = allocation.getPriceActual();
 		}
 
 		MCost cost = MCost.validateCostForCostType(accountSchema, costType, costElement,
@@ -504,17 +504,15 @@ public class CostEngine {
 	 */
 	private BigDecimal convertCostToSchemaCurrency(MAcctSchema acctSchema , IDocumentLine model , BigDecimal cost)
 	{
-		BigDecimal costThisLevel = BigDecimal.ZERO;
-		BigDecimal rate = MConversionRate.getRate(
-				model.getC_Currency_ID(), acctSchema.getC_Currency_ID() ,
-				model.getDateAcct(), model.getC_ConversionType_ID() ,
-				model.getAD_Client_ID(), model.getAD_Org_ID());
-		if (rate != null) {
-			costThisLevel = cost.multiply(rate);
-			if (costThisLevel.scale() > acctSchema.getCostingPrecision())
-				costThisLevel = costThisLevel.setScale(acctSchema.getCostingPrecision(), BigDecimal.ROUND_HALF_UP);
-		}
-		return costThisLevel;
+		BigDecimal totalCostThisLevel = MConversionRate.convertBase(
+				model.getCtx(),
+				cost,
+				model.getC_Currency_ID(),
+				model.getDateAcct(),
+				model.getC_ConversionType_ID(),
+				model.getAD_Client_ID(),
+				model.getAD_Org_ID());
+		return totalCostThisLevel;
 	}
 
 	//Create cost detail for by document
@@ -732,7 +730,7 @@ public class CostEngine {
 			}
 			else if (transaction.getC_ProjectIssue_ID() > 0) {
 				MProjectIssue line = (MProjectIssue) transaction.getC_ProjectIssue();
-				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line.getParent(),  transaction.getM_Product_ID() , line.getMovementDate()))
+				if (!clearAccounting(accountSchema, accountSchema.getM_CostType() , line,  transaction.getM_Product_ID() , line.getMovementDate()))
 					return;
 			}
 

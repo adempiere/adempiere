@@ -52,6 +52,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.NamePair;
+import org.compiere.util.SwingEnv;
 
 /**
  * Change History for field
@@ -363,7 +364,7 @@ public class FieldRecordInfo extends CDialog
 	 */
 	public static void start(GridField mField) {
 		int WindowNo = mField.getWindowNo();
-		Frame frame = Env.getWindow(WindowNo);
+		Frame frame = SwingEnv.getWindow(WindowNo);
 		new FieldRecordInfo(frame, mField.getColumnName(), mField.getGridTab().getAD_Table_ID(), 
 				mField.getAD_Column_ID(), mField.getGridTab().getRecord_ID(), mField.getGridTab().getUUID());
 	}

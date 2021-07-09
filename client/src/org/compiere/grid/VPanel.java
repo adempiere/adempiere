@@ -1,25 +1,26 @@
 /******************************************************************************
- * Product: Adempiere ERP & CRM Smart Business Solution                       *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
- * @contributor Victor Perez , e-Evolution.SC FR [ 1757088 ]
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.compiere.grid;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Event;
+import java.awt.Font;
+import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,16 +32,14 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
 
-import net.miginfocom.layout.BoundSize;
-import net.miginfocom.layout.ComponentWrapper;
-import net.miginfocom.layout.ConstraintParser;
-import net.miginfocom.layout.LayoutCallback;
-import net.miginfocom.swing.MigLayout;
+import net.miginfocom.layout.*;
+import net.miginfocom.swing.*;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.apps.APanel;
 import org.compiere.grid.ed.VButton;
 import org.compiere.grid.ed.VCheckBox;
+import org.compiere.grid.ed.VEditorAbstract;
 import org.compiere.grid.ed.VEditor;
 import org.compiere.grid.ed.VEditorFactory;
 import org.compiere.model.GridField;
@@ -56,8 +55,6 @@ import org.compiere.util.Util;
 import org.jdesktop.swingx.JXCollapsiblePane;
 import org.jdesktop.swingx.border.DropShadowBorder;
 
-import com.lowagie.text.Font;
-
 /**
  *  Single Row Panel.
  *  Called from GridController
@@ -71,6 +68,10 @@ import com.lowagie.text.Font;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<li> FR [ 359 ] Field group created as label overflow the text with ellipsis when the field label is short
  *		@see https://github.com/adempiere/adempiere/issues/359
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+ *
+ *  @version 3.9.4
  */
 public final class VPanel extends CTabbedPane
 {
@@ -123,6 +124,7 @@ public final class VPanel extends CTabbedPane
 	}	//	VPanel
 	
 	/** Orientation             */
+	@SuppressWarnings("unused")
 	private final boolean       m_leftToRight = Language.getLoginLanguage().isLeftToRight();
 	/** Previous Field Group Header     */
 	private String              m_oldFieldGroup = null;
@@ -224,7 +226,6 @@ public final class VPanel extends CTabbedPane
 	 *	Add the previous Field and Label to Panel
 	 *  @param editor editor
 	 *  @param mField field model
-	 *  @param wrap move to next line after this field
 	 */
 	public void addField (VEditor editor, GridField mField)
 	{
@@ -353,11 +354,11 @@ public final class VPanel extends CTabbedPane
 			else // Label or null
 			{								
 				m_main.add(field, constraints);
-			if (!mField.isLongField())
-				fieldMinWidth = field.getPreferredSize().width > fieldMinWidth ? field.getPreferredSize().width : fieldMinWidth;
+				if (!mField.isLongField())
+					fieldMinWidth = field.getPreferredSize().width > fieldMinWidth ? field.getPreferredSize().width : fieldMinWidth;
 			}	
 			//	Link Label to Field
-			if (label != null)
+			if (label.getText() != null && !label.getText().isEmpty() )
 				label.setLabelFor(field);
 			else if (mField.isCreateMnemonic())
 				setMnemonic(editor, mField.getMnemonic());
@@ -441,7 +442,7 @@ public final class VPanel extends CTabbedPane
 		else // Label or null
 		{
 			CLabel label = new CLabel(fieldGroup, CLabel.LEADING);
-			label.setFont(AdempierePLAF.getFont_Label().deriveFont(Font.BOLDITALIC, AdempierePLAF.getFont_Label().getSize2D()));
+			label.setFont(AdempierePLAF.getFont_Label().deriveFont(Font.BOLD+Font.ITALIC, AdempierePLAF.getFont_Label().getSize2D()));
 			//	BR [ 359 ]
 			//	Show label completely
 			m_main.add(label, "newline, alignx leading, spanx, growx");
@@ -556,6 +557,9 @@ public final class VPanel extends CTabbedPane
 	{
 		if (text == null || text.length() == 0)
 			return 0;
+		if(text.trim().length()==0) { // text (aka translation for the field name) contains only whitespaces
+			return 0; // see https://github.com/adempiere/adempiere/issues/3124
+		}
 		String oText = text;
 		text = text.trim().toUpperCase();
 		char mnemonic = text.charAt(0);
@@ -730,6 +734,14 @@ public final class VPanel extends CTabbedPane
 		//this can be call before addField
 		if (!includedTabList.containsKey(detail.getMTab().getAD_Tab_ID()))
 			includedTabList.put(detail.getMTab().getAD_Tab_ID(), detail);
+	}
+
+	public void stopEditor(boolean saveValue) {
+		
+		Component c = KeyboardFocusManager.getCurrentKeyboardFocusManager().getFocusOwner();
+		if (c instanceof VEditorAbstract)
+			((VEditorAbstract) c).stopEditing(true, saveValue);
+		
 	}
 
 	

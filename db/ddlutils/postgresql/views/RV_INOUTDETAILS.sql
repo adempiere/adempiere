@@ -34,14 +34,15 @@ SELECT h.AD_Client_ID, h.AD_Org_ID, l.IsActive, l.Created, l.CreatedBy, l.Update
   l.M_Product_ID, l.C_UOM_ID,
   l.M_AttributeSetInstance_ID, productAttribute(l.M_AttributeSetInstance_ID) AS ProductAttribute,
   pasi.M_AttributeSet_ID, pasi.M_Lot_ID, pasi.GuaranteeDate, pasi.Lot, pasi.SerNo,
-  l.MovementQty, l.QtyEntered,
+  (CASE WHEN h.MovementType IN('C+', 'V-') THEN -1 ELSE 1 END * l.MovementQty) AS MovementQty, 
+  (CASE WHEN h.MovementType IN('C+', 'V-') THEN -1 ELSE 1 END * l.QtyEntered) AS QtyEntered,
   l.IsDescription,
-  l.ConfirmedQty, l.PickedQty, l.ScrappedQty, l.TargetQty,
+  (CASE WHEN h.MovementType IN('C+', 'V-') THEN -1 ELSE 1 END * l.ConfirmedQty) AS ConfirmedQty, 
+  (CASE WHEN h.MovementType IN('C+', 'V-') THEN -1 ELSE 1 END * l.PickedQty) AS PickedQty, 
+  (CASE WHEN h.MovementType IN('C+', 'V-') THEN -1 ELSE 1 END * l.ScrappedQty) AS ScrappedQty, 
+  (CASE WHEN h.MovementType IN('C+', 'V-') THEN -1 ELSE 1 END * l.TargetQty) AS TargetQty,
   loc.Value AS LocatorValue, loc.X, loc.Y, loc.Z
 FROM M_InOut h
   INNER JOIN M_InOutLine l ON (h.M_InOut_ID=l.M_InOut_ID)
   LEFT OUTER JOIN M_Locator loc ON (l.M_Locator_ID=loc.M_Locator_ID)
   LEFT OUTER JOIN M_AttributeSetInstance pasi ON (l.M_AttributeSetInstance_ID=pasi.M_AttributeSetInstance_ID);
-
-
-

@@ -89,7 +89,8 @@ public class ExportFormatPDF extends AbstractExportFormat {
 		log.fine(uri.toString());
 
 		try {
-			getReportEngine().getView();
+			//  Updated to getLayout() as getView() was swing specific.
+			getReportEngine().getLayout();
 			ArchiveEngine.get().archive(getLayoutEngine(), getPrintInfo());
 			new ITextDocument().getPDFAsFile(fileName, getReportEngine().getLayout().getPageable(false));
 		} catch (Exception e) {

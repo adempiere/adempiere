@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import org.compiere.model.I_M_Inventory;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCostDetail;
@@ -27,6 +28,7 @@ import org.compiere.model.MInventory;
 import org.compiere.model.MInventoryLine;
 import org.compiere.model.ProductCost;
 import org.compiere.util.Env;
+import org.eevolution.model.I_DD_Order;
 
 /**
  *  Post Inventory Documents.
@@ -238,5 +240,11 @@ public class Doc_Inventory extends Doc
 		facts.add(fact);
 		return facts;
 	}   //  createFact
+
+	   public static String getDateAcctColumnName() {
+	        
+	        return I_M_Inventory.COLUMNNAME_MovementDate;
+	        
+	    }
 
 }   //  Doc_Inventory

@@ -29,13 +29,14 @@ import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.Util;
 
 /**
  * 	Inventory Storage Model
  *
  *	@author Jorg Janke
  *	@version $Id: MStorage.java,v 1.3 2006/07/30 00:51:05 jjanke Exp $
+ *	@author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com 
+ *	Add support to Storage ID
  */
 public class MStorage extends X_M_Storage
 {
@@ -683,18 +684,17 @@ public class MStorage extends X_M_Storage
 	/**************************************************************************
 	 * 	Persistency Constructor
 	 *	@param ctx context
-	 *	@param ignored ignored
+	 *	@param storageId
 	 *	@param trxName transaction
 	 */
-	public MStorage (Properties ctx, int ignored, String trxName)
+	public MStorage (Properties ctx, int storageId, String trxName)
 	{
-		super(ctx, 0, trxName);
-		if (ignored != 0)
-			throw new IllegalArgumentException("Multi-Key");
-		//
-		setQtyOnHand (Env.ZERO);
-		setQtyOrdered (Env.ZERO);
-		setQtyReserved (Env.ZERO);
+		super(ctx, storageId, trxName);
+		if(storageId <= 0) {
+			setQtyOnHand (Env.ZERO);
+			setQtyOrdered (Env.ZERO);
+			setQtyReserved (Env.ZERO);
+		}
 	}	//	MStorage
 
 	/**

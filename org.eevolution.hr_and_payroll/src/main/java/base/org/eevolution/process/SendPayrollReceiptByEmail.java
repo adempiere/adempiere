@@ -16,16 +16,26 @@
 
 package org.eevolution.process;
 
-import org.adempiere.exceptions.AdempiereException;
-import org.compiere.model.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import org.compiere.model.I_C_Payment;
+import org.compiere.model.MBPBankAccount;
+import org.compiere.model.MBPartner;
+import org.compiere.model.MBPartnerLocation;
+import org.compiere.model.MClient;
+import org.compiere.model.MMailText;
+import org.compiere.model.MPayment;
+import org.compiere.model.MUser;
+import org.compiere.model.Query;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.EMail;
 import org.compiere.util.Env;
+import org.compiere.util.Util;
 import org.eevolution.service.dsl.ProcessBuilder;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Send mail to employee
@@ -118,15 +128,44 @@ public class SendPayrollReceiptByEmail extends SendPayrollReceiptByEmailAbstract
                     .setOnlyActiveRecords(true)
                     .setParameters(employee.getC_BPartner_ID(), MBPartnerLocation.CONTACTTYPE_Primary)
                     .first();
-
-            if (location == null) {
+            //	EMail
+            String eMail = null;
+            //	Get from bank account definition
+            if(location != null) {
+            	eMail = location.getEMail();
+            }
+            //	Get from Bank Account
+            if (Util.isEmpty(eMail)) {
+            	MBPBankAccount bankAccount = getBPAccountInfo(payment, true);
+            	if(bankAccount != null) {
+            		eMail = bankAccount.getA_EMail();
+            		//	Send to user
+            		if(Util.isEmpty(eMail) 
+            				&& bankAccount.getAD_User_ID() != 0) {
+            			MUser user = MUser.get(getCtx(), bankAccount.getAD_User_ID());
+            			eMail = user.getEMail();
+            		}
+            	}
+            }
+            //	Get from default account
+            if (Util.isEmpty(eMail)) {
+            	Optional<MUser> maybeUser = Arrays.asList(MUser.getOfBPartner(getCtx(), employee.getC_BPartner_ID(), get_TrxName()))
+            		.stream()
+            		.filter(user -> !Util.isEmpty(user.getNotificationType()) && (user.getNotificationType().equals(MUser.NOTIFICATIONTYPE_EMail) 
+            				|| user.getNotificationType().equals(MUser.NOTIFICATIONTYPE_EMailPlusNotice)))
+            		.filter(user -> !Util.isEmpty(user.getEMail()))
+            		.findFirst();
+            	if(maybeUser.isPresent()) {
+            		eMail = maybeUser.get().getEMail();
+            	}
+            }
+            if (Util.isEmpty(eMail)) {
                 addLog(0, null, null, employee.getName() + " @Email@ @NotFound@");
                 return false;
             }
-
             MClient client = MClient.get(getCtx());
             MUser user = MUser.get(getCtx(), Env.getAD_User_ID(getCtx()));
-            EMail email = client.createEMail(user, location.getEMail() , mailText.getMailHeader(), message);
+            EMail email = client.createEMail(user, eMail , mailText.getMailHeader(), message);
             if (mailText.isHtml())
                 email.setMessageHTML(mailText.getMailHeader(), message);
             else {
@@ -155,6 +194,36 @@ public class SendPayrollReceiptByEmail extends SendPayrollReceiptByEmailAbstract
             return Boolean.FALSE;
         }
     }    //	sendIndividualMail
+    
+    
+    /**
+	 * Get business partner account information as PO
+	 * @param payment
+	 * @param defaultWhenNull if payment account is null try get a account of bp
+	 * @return
+	 */
+	public MBPBankAccount getBPAccountInfo(MPayment payment, boolean defaultWhenNull) {
+		if(payment.getC_BP_BankAccount_ID() != 0) {
+			return (MBPBankAccount) payment.getC_BP_BankAccount();
+		}
+		//	Get any bp account
+		if(defaultWhenNull) {
+			List<MBPBankAccount> bpAccountList = MBPBankAccount.getByPartner(Env.getCtx(), payment.getC_BPartner_ID());
+			if(bpAccountList == null
+					|| bpAccountList.size() == 0) {
+				return null;
+			}
+			//	Get 
+			Optional<MBPBankAccount> first = bpAccountList.stream().filter(account -> account.isACH()).findFirst();
+			if(first.isPresent()) {
+				return first.get();
+			} else {
+				bpAccountList.get(0);
+			}
+		}
+		//	default
+		return null;
+	}
 
 
     private int[] getPaymentIds() {

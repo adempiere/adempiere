@@ -43,14 +43,14 @@ import org.compiere.util.Trx;
 import org.compiere.util.TrxRunnable;
 import org.compiere.util.Util;
 
-import test.AdempiereTestCase;
+import org.adempiere.test.CommonGWSetup;
 
 
 /**
  * Run Inventory Tests
  * @author Teo Sarca
  */
-public class InventoryTest extends AdempiereTestCase
+public class InventoryTest extends CommonGWSetup
 {
 	@Override
 	protected void setUp() throws Exception

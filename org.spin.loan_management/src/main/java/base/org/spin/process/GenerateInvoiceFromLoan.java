@@ -92,7 +92,7 @@ public class GenerateInvoiceFromLoan extends GenerateInvoiceFromLoanAbstract {
 					//	
 					lastAmortization = MFMAmortization.getLastAmortizationFromAccount(account.getFM_Account_ID(), get_TrxName());
 					//	Get Financial Product for configuration
-					financialProduct = MFMProduct.getById(getCtx(), agreement.getFM_Product_ID());
+					financialProduct = MFMProduct.getById(getCtx(), agreement.getFM_Product_ID(), get_TrxName());
 					product = MProduct.get(getCtx(), financialProduct.getM_Product_ID());
 					businessPartner = MBPartner.get(getCtx(), agreement.getC_BPartner_ID());
 					int rateForInterestId = financialProduct.get_ValueAsInt("FM_Rate_ID");

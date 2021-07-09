@@ -14,7 +14,7 @@ CREATE OR REPLACE VIEW RV_PAYMENT
  DOCSTATUS, DOCACTION, ISPREPAYMENT, C_CHARGE_ID, ISRECONCILED, 
  ISALLOCATED, ISONLINE, PROCESSED, POSTED, C_CAMPAIGN_ID, 
  C_PROJECT_ID, C_ACTIVITY_ID, IsUnidentifiedPayment, Ref_Payment_ID, RelatedPayment_ID, Description, 
- C_BP_AccountType_ID, C_BP_SalesGroup_ID, C_BP_Segment_ID, C_BP_IndustryType_ID)
+ C_BP_AccountType_ID, C_BP_SalesGroup_ID, C_BP_Segment_ID, C_BP_IndustryType_ID, CollectingAgent_ID)
 AS 
 SELECT p.C_Payment_ID, p.AD_Client_ID, p.AD_Org_ID, p.IsActive, p.Created, p.CreatedBy, p.Updated, p.UpdatedBy,
     p.DocumentNo, p.DateTrx, p.IsReceipt, p.C_DocType_ID, p.TrxType,
@@ -39,6 +39,6 @@ SELECT p.C_Payment_ID, p.AD_Client_ID, p.AD_Org_ID, p.IsActive, p.Created, p.Cre
     p.IsReconciled, p.IsAllocated, p.IsOnline, p.Processed, p.Posted,
     p.C_Campaign_ID, p.C_Project_ID, p.C_Activity_ID, p.IsUnidentifiedPayment, p.Ref_Payment_ID, p.RelatedPayment_ID,
     p.Description, 
-    bp.C_BP_AccountType_ID, bp.C_BP_SalesGroup_ID, bp.C_BP_Segment_ID, bp.C_BP_IndustryType_ID
+    bp.C_BP_AccountType_ID, bp.C_BP_SalesGroup_ID, bp.C_BP_Segment_ID, bp.C_BP_IndustryType_ID, p.CollectingAgent_ID
 FROM C_Payment p
 LEFT JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID);

@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_ReplicationTable
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_AD_ReplicationTable extends PO implements I_AD_ReplicationTable, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20200331L;
 
     /** Standard Constructor */
     public X_AD_ReplicationTable (Properties ctx, int AD_ReplicationTable_ID, String trxName)
@@ -197,6 +197,31 @@ public class X_AD_ReplicationTable extends PO implements I_AD_ReplicationTable, 
 	public String getEntityType () 
 	{
 		return (String)get_Value(COLUMNNAME_EntityType);
+	}
+
+	public org.compiere.model.I_EXP_Format getEXP_Format() throws RuntimeException
+    {
+		return (org.compiere.model.I_EXP_Format)MTable.get(getCtx(), org.compiere.model.I_EXP_Format.Table_Name)
+			.getPO(getEXP_Format_ID(), get_TrxName());	}
+
+	/** Set Export Format.
+		@param EXP_Format_ID Export Format	  */
+	public void setEXP_Format_ID (int EXP_Format_ID)
+	{
+		if (EXP_Format_ID < 1) 
+			set_Value (COLUMNNAME_EXP_Format_ID, null);
+		else 
+			set_Value (COLUMNNAME_EXP_Format_ID, Integer.valueOf(EXP_Format_ID));
+	}
+
+	/** Get Export Format.
+		@return Export Format	  */
+	public int getEXP_Format_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_EXP_Format_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
 	}
 
 	/** ReplicationType AD_Reference_ID=126 */

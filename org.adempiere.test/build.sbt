@@ -21,7 +21,7 @@ name := "org.adempiere.test"
 
 //organization := "e-Evolution"
 //version := "0.1.0-SNAPSHOT"
-scalaVersion := "2.12.8"
+scalaVersion := "2.13.1"
 
 resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"
 
@@ -31,7 +31,9 @@ val adempiereProperties = "-DPropertyFile=/Users/e-Evolution/AdempierePG.propert
 javaOptions in Test := Seq (adempiereProperties)
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "3.0.5"
+  "org.scala-lang" % "scala-reflect" % "2.13.1",
+  "org.scalactic" %% "scalactic" % "3.1.0",
+  "org.scalatest" %% "scalatest" % "3.1.0" % "test"
 )
 
 //Documentation here ~compilehttps://github.com/earldouglas/xsbt-web-plugin/blob/master/docs/2.0.md
@@ -50,7 +52,7 @@ assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeSca
 lazy val commonSettings = Seq(
   version := "0.1-SNAPSHOT",
   organization := "org.eevolution",
-  scalaVersion := "2.12.8"
+  scalaVersion := "2.13.1"
 )
 
 

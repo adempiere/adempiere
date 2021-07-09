@@ -19,6 +19,7 @@ package org.compiere.wf;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -26,6 +27,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.model.MMenu;
 import org.compiere.model.MProduct;
@@ -46,18 +48,21 @@ import org.compiere.util.Trx;
  *
  * 	@author 	Jorg Janke
  * 	@version 	$Id: MWorkflow.java,v 1.4 2006/07/30 00:51:05 jjanke Exp $
- * 
+ *
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>FR [ 2214883 ] Remove SQL code and Replace for Query
  * 			<li>BF [ 2665963 ] Copy Workflow name in Activity name
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *			<li> FR [ 94 ] "IsDocument" flag in table for create default columns
  *			@see https://github.com/adempiere/adempiere/issues/94
+ * @author Victor Pérez, E Evolution Consulting,  wwww.e-evolution.com
+ * 				<li>[Bug Report] The workflow engine is not correctly handling transactions when processing documents #3170
+ * 				<a href="https://github.com/adempiere/adempiere/issues/3170">
  */
 public class MWorkflow extends X_AD_Workflow
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 4925514638954671534L;
 
@@ -78,7 +83,7 @@ public class MWorkflow extends X_AD_Workflow
 			s_cache.put(AD_Workflow_ID, retValue);
 		return retValue;
 	}	//	get
-	
+
 	/**
 	 * Get Workflow from Table if is Document
 	 * @param ctx
@@ -99,9 +104,9 @@ public class MWorkflow extends X_AD_Workflow
 		//	Get from Cache or DB
 		return get(ctx, m_AD_Workflow_ID);
 	}
-	
-	
-	
+
+
+
 	/**
 	 * 	Get Doc Value Workflow
 	 *	@param ctx context
@@ -110,7 +115,7 @@ public class MWorkflow extends X_AD_Workflow
 	 *	@return document value workflow array or null
 	 */
 	public static MWorkflow[] getDocValue (Properties ctx, int AD_Client_ID, int AD_Table_ID
-			, String trxName //Bug 1568766 Trx should be kept all along the road		
+			, String trxName //Bug 1568766 Trx should be kept all along the road
 	)
 	{
 		String key = "C" + AD_Client_ID + "T" + AD_Table_ID;
@@ -139,7 +144,7 @@ public class MWorkflow extends X_AD_Workflow
 				oldKey = newKey;
 				list.add(wf);
 			}
-			
+
 			//	Last one
 			if (list.size() > 0)
 			{
@@ -163,16 +168,16 @@ public class MWorkflow extends X_AD_Workflow
 		}*/
 		return retValue;
 	}	//	getDocValue
-	
-	
+
+
 	/**	Single Cache					*/
 	private static CCache<Integer,MWorkflow>	s_cache = new CCache<Integer,MWorkflow>("AD_Workflow", 20);
 	/**	Document Value Cache			*/
 	private static CCache<String,MWorkflow[]>	s_cacheDocValue = new CCache<String,MWorkflow[]> ("AD_Workflow", 5);
 	/**	Static Logger	*/
 	private static CLogger	s_log	= CLogger.getCLogger (MWorkflow.class);
-	
-	
+
+
 	/**************************************************************************
 	 * 	Create/Load Workflow
 	 * 	@param ctx Context
@@ -203,7 +208,7 @@ public class MWorkflow extends X_AD_Workflow
 		loadTrl();
 		loadNodes();
 	}	//	MWorkflow
-	
+
 	/**
 	 * 	Load Constructor
 	 * 	@param ctx context
@@ -278,7 +283,7 @@ public class MWorkflow extends X_AD_Workflow
 		log.fine("#" + m_nodes.size());
 	}	//	loadNodes
 
-	
+
 	/**************************************************************************
 	 * 	Get Number of Nodes
 	 * 	@return number of nodes
@@ -441,7 +446,7 @@ public class MWorkflow extends X_AD_Workflow
 	{
 		ArrayList<MWFNode> tmplist = new ArrayList<MWFNode> ();
 		MWFNode node = getNode (AD_WF_Node_ID);
-		if (node != null 
+		if (node != null
 			&& (node.getAD_Client_ID() == 0 || node.getAD_Client_ID() == AD_Client_ID))
 		{
 			if (!list.contains(node))
@@ -466,7 +471,7 @@ public class MWorkflow extends X_AD_Workflow
 				addNodesSF (list, tmplist.get(i).get_ID(), AD_Client_ID);
 		}
 	}	//	addNodesSF
-	
+
 	/**************************************************************************
 	 * 	Get first transition (Next Node) of ID
 	 * 	@param AD_WF_Node_ID id
@@ -507,7 +512,7 @@ public class MWorkflow extends X_AD_Workflow
 		}
 		return null;
 	}	//	getNext
-	
+
 	/**
 	 * 	Get (first) Previous Node of ID
 	 * 	@param AD_WF_Node_ID id
@@ -566,7 +571,7 @@ public class MWorkflow extends X_AD_Workflow
 		return AD_WF_Node_ID == nodes[nodes.length-1].getAD_WF_Node_ID();
 	}	//	isLast
 
-	
+
 	/**************************************************************************
 	 * 	Get Name
 	 * 	@param translated translated
@@ -614,7 +619,7 @@ public class MWorkflow extends X_AD_Workflow
 			.append ("]");
 		return sb.toString ();
 	} //	toString
-	
+
 	/**************************************************************************
 	 * 	Before Save
 	 *	@param newRecord new
@@ -625,7 +630,7 @@ public class MWorkflow extends X_AD_Workflow
 		validate();
 		return true;
 	}	//	beforeSave
-	
+
 	/**
 	 *  After Save.
 	 *  @param newRecord new record
@@ -648,7 +653,7 @@ public class MWorkflow extends X_AD_Workflow
 				nodes[i].saveEx(get_TrxName());
 			}
 		}
-		
+
 		if (newRecord)
 		{
 			int AD_Role_ID = Env.getAD_Role_ID(getCtx());
@@ -656,7 +661,7 @@ public class MWorkflow extends X_AD_Workflow
 			wa.saveEx();
 		}
 		//	Menu/Workflow
-		else if (is_ValueChanged("IsActive") || is_ValueChanged(COLUMNNAME_Name) 
+		else if (is_ValueChanged("IsActive") || is_ValueChanged(COLUMNNAME_Name)
 			|| is_ValueChanged(COLUMNNAME_Description) || is_ValueChanged(COLUMNNAME_Help))
 		{
 			MMenu[] menues = MMenu.get(getCtx(), "AD_Workflow_ID=" + getAD_Workflow_ID(), get_TrxName());
@@ -694,54 +699,64 @@ public class MWorkflow extends X_AD_Workflow
 
 	/**************************************************************************
 	 * 	Start Workflow.
-	 * 	@param pi Process Info (Record_ID)
-	 *  @deprecated
+	 * 	@param processInfo Process Info (Record_ID)
 	 *	@return process
 	 */
-	public MWFProcess start (ProcessInfo pi)
-	{
-		return start(pi, null);
-	}
-	
-	/**************************************************************************
-	 * 	Start Workflow.
-	 * 	@param pi Process Info (Record_ID)
-	 *	@return process
-	 */
-	public MWFProcess start (ProcessInfo pi, String trxName)
+	public MWFProcess start (ProcessInfo processInfo)
 	{
 		MWFProcess workflowProcess = null;
-		Trx localTrx = null;
-		if (trxName == null)
-			localTrx = Trx.get(Trx.createTrxName("WFP"), true);
-		try
-		{
-			if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType()) && isLock(getAD_Table_ID(), pi.getRecord_ID()))
+		Trx workflowProcessTransaction = null;
+		Savepoint savepoint = null;
+		try {
+			workflowProcess = new MWFProcess (this, processInfo, null);
+			// Check if exits activities actives if this way then Other Process Active
+			boolean isOtherProcessActive = workflowProcess.getActivities(true, true).length > 0;
+			if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType())
+					&& isLock(getAD_Table_ID(), processInfo.getRecord_ID())
+					&& isOtherProcessActive) {
 				throw new IllegalStateException(Msg.getMsg(getCtx() , "OtherProcessActive"));
-			else if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType()))
-				lock(getAD_Table_ID(),pi.getRecord_ID());
+			} else if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType())) {
+				workflowProcess.lockDocument();
+			}
+			if (processInfo.getTransactionName() == null)
+				workflowProcessTransaction = Trx.get(Trx.createTrxName("WFP"), true);
+			else {
+				workflowProcessTransaction = Trx.get(processInfo.getTransactionName(), false);
+				savepoint = workflowProcessTransaction.setSavepoint(null);
+			}
 
-			workflowProcess = new MWFProcess (this, pi, trxName != null ? trxName : localTrx.getTrxName());
+			workflowProcess.setWorkflowProcessTransaction(workflowProcessTransaction);
 			workflowProcess.saveEx();
-			pi.setSummary(Msg.getMsg(getCtx(), "Processing"));
-			workflowProcess.startWork();
-			if (localTrx != null)
-				localTrx.commit(true);
+			processInfo.setSummary(Msg.getMsg(getCtx(), "Processing"));
+			workflowProcess.startWork(workflowProcessTransaction);
+			//Check if transaction is management by the process info or workflow engine
+			if (workflowProcessTransaction != null) {
+				if (processInfo.getTransactionName() == null)
+					workflowProcessTransaction.commit(true);
+				else
+					workflowProcessTransaction.releaseSavepoint(savepoint);
+			}
 			if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType()))
-				unlock(getAD_Table_ID(),pi.getRecord_ID());
-		}
-		catch (Exception e)
-		{
-			if (localTrx != null)
-				localTrx.rollback();
+				workflowProcess.unlockDocument();
+		} catch (Exception e) {
+			if (workflowProcessTransaction != null) {
+				if (processInfo.getTransactionName() == null)
+					workflowProcessTransaction.rollback();
+				else {
+					try {
+						workflowProcessTransaction.rollback(savepoint);
+					} catch (SQLException sqlException) {
+						throw new AdempiereException(sqlException.getMessage());
+					}
+				}
+			}
 			log.log(Level.SEVERE, e.getLocalizedMessage(), e);
-			pi.setSummary(e.getMessage(), true);
+			processInfo.setSummary(e.getMessage(), true);
 			workflowProcess = null;
-		}
-		finally 
-		{
-			if (localTrx != null)
-				localTrx.close();
+		} finally {
+			//Check if transaction is management by the process info or workflow engine
+			if (workflowProcessTransaction != null && processInfo.getTransactionName() == null)
+				workflowProcessTransaction.close();
 		}
 		return workflowProcess;
 	}	//	MWFProcess
@@ -760,40 +775,16 @@ public class MWorkflow extends X_AD_Workflow
 	}
 
 	/**
-	 * Lock the entity data based on field processing set on for this document
-	 * @param tableId
-	 * @param recordId
-	 */
-	private void lock(int tableId , int recordId)
-	{
-		MTable domain = MTable.get(getCtx() , tableId);
-		String update = "UPDATE "+ domain.getTableName() +" SET Processing='Y' WHERE (Processing='N' OR Processing IS NULL) AND " +  domain.getKeyColumns()[0]+ "=?";
-		DB.executeUpdateEx(update, new Object[] {recordId}, null);
-	}
-
-	/**
-	 * Unlock the entity data based on field processing set off for this document
-	 * @param tableId
-	 * @param recordId
-	 */
-	private void unlock(int tableId , int recordId)
-	{
-		MTable domain = MTable.get (getCtx(), tableId);
-		String update = "UPDATE "+ domain.getTableName() +" SET Processing='N' WHERE " +  domain.getKeyColumns()[0]+ "=?";
-		DB.executeUpdateEx(update, new Object[] {recordId}, null);
-	}
-
-	/**
 	 * 	Start Workflow and Wait for completion.
-	 * 	@param pi process info with Record_ID record for the workflow
+	 * 	@param processInfo process info with Record_ID record for the workflow
 	 *	@return process
 	 */
-	public MWFProcess startWait (ProcessInfo pi)
+	public MWFProcess startWait (ProcessInfo processInfo)
 	{
 		final int SLEEP = 500;		//	1/2 sec
-		final int MAXLOOPS = 30;	//	15 sec	
+		final int MAXLOOPS = 30;	//	15 sec
 		//
-		MWFProcess process = start(pi, pi.getTransactionName());
+		MWFProcess process = start(processInfo);
 		if (process == null)
 			return null;
 		Thread.yield();
@@ -804,8 +795,8 @@ public class MWorkflow extends X_AD_Workflow
 			if (loops > MAXLOOPS)
 			{
 				log.warning("Timeout after sec " + ((SLEEP*MAXLOOPS)/1000));
-				pi.setSummary(Msg.getMsg(getCtx(), "ProcessRunning"));
-				pi.setIsTimeout(true);
+				processInfo.setSummary(Msg.getMsg(getCtx(), "ProcessRunning"));
+				processInfo.setIsTimeout(true);
 				return process;
 			}
 		//	System.out.println("--------------- " + loops + ": " + state);
@@ -817,7 +808,7 @@ public class MWorkflow extends X_AD_Workflow
 			catch (InterruptedException e)
 			{
 				log.log(Level.SEVERE, "startWait interrupted", e);
-				pi.setSummary("Interrupted");
+				processInfo.setSummary("Interrupted");
 				return process;
 			}
 			Thread.yield();
@@ -826,11 +817,11 @@ public class MWorkflow extends X_AD_Workflow
 		String summary = process.getProcessMsg();
 		if (summary == null || summary.trim().length() == 0)
 			summary = state.toString();
-		pi.setSummary(summary, state.isTerminated() || state.isAborted());
+		processInfo.setSummary(summary, state.isTerminated() || state.isAborted());
 		log.fine(summary);
 		return process;
 	}	//	startWait
-	
+
 	/**
 	 * 	Get Duration Base in Seconds
 	 *	@return duration unit in seconds
@@ -853,7 +844,7 @@ public class MWorkflow extends X_AD_Workflow
 			return 31536000;
 		return 0;
 	}	//	getDurationBaseSec
-		
+
 	/**
 	 * 	Get Duration CalendarField
 	 *	@return Calendar.MINUTE, etc.
@@ -877,7 +868,7 @@ public class MWorkflow extends X_AD_Workflow
 		return Calendar.MINUTE;
 	}	//	getDurationCalendarField
 
-	
+
 	/**************************************************************************
 	 * 	Validate workflow.
 	 * 	Sets Valid flag
@@ -890,17 +881,17 @@ public class MWorkflow extends X_AD_Workflow
 		if (getAD_WF_Node_ID() == 0)
 			errors.append(" - No Start Node");
 		//
-		if (WORKFLOWTYPE_DocumentValue.equals(getWorkflowType()) 
+		if (WORKFLOWTYPE_DocumentValue.equals(getWorkflowType())
 			&& (getDocValueLogic() == null || getDocValueLogic().length() == 0))
 			errors.append(" - No Document Value Logic");
 		//
-		
+
 		//
 		if (getWorkflowType().equals(MWorkflow.WORKFLOWTYPE_Manufacturing))
 		{
 			this.setAD_Table_ID(0);
 		}
-			
+
 		//	final
 		boolean valid = errors.length() == 0;
 		setIsValid(valid);
@@ -908,9 +899,9 @@ public class MWorkflow extends X_AD_Workflow
 			log.info("validate: " + errors);
 		return errors.toString();
 	}	//	validate
-	
-	
-	
+
+
+
 	/**************************************************************************
 	 * 	main
 	 *	@param args
@@ -936,7 +927,7 @@ public class MWorkflow extends X_AD_Workflow
 		node10.saveEx();
 		wf.setAD_WF_Node_ID(node10.getAD_WF_Node_ID());
 		wf.saveEx();
-		
+
 		MWFNode node20 = new MWFNode (wf, "20", "(DocAuto)");
 		node20.setDescription("(Standard Node)");
 		node20.setEntityType (ENTITYTYPE_Dictionary);
@@ -949,7 +940,7 @@ public class MWorkflow extends X_AD_Workflow
 		tr10_20.setDescription("(Standard Transition)");
 		tr10_20.setSeqNo(100);
 		tr10_20.saveEx();
-		
+
 		MWFNode node100 = new MWFNode (wf, "100", "(DocPrepare)");
 		node100.setDescription("(Standard Node)");
 		node100.setEntityType (ENTITYTYPE_Dictionary);
@@ -963,7 +954,7 @@ public class MWorkflow extends X_AD_Workflow
 		tr10_100.setIsStdUserWorkflow(true);
 		tr10_100.setSeqNo(10);
 		tr10_100.saveEx();
-		
+
 		MWFNode node200 = new MWFNode (wf, "200", "(DocComplete)");
 		node200.setDescription("(Standard Node)");
 		node200.setEntityType (ENTITYTYPE_Dictionary);
@@ -976,8 +967,8 @@ public class MWorkflow extends X_AD_Workflow
 		tr100_200.setDescription("(Standard Transition)");
 		tr100_200.setSeqNo(100);
 		tr100_200.saveEx();
-		
-		
+
+
 		/**
 		Env.setContext(Env.getCtx(), "#AD_Client_ID ", "11");
 		Env.setContext(Env.getCtx(), "#AD_Org_ID ", "11");
@@ -993,9 +984,9 @@ public class MWorkflow extends X_AD_Workflow
 		MWorkflow wf = MWorkflow.get (Env.getCtx(), AD_Workflow_ID);
 		**/
 	//	wf.start(M_Requsition_ID);
-		
+
 	}	//	main
-	
+
 	/**
 	 * Get AD_Workflow_ID for given M_Product_ID
 	 * @param M_Product_ID
@@ -1018,7 +1009,7 @@ public class MWorkflow extends X_AD_Workflow
 	{
 		Timestamp validFrom = getValidFrom();
 		Timestamp validTo = getValidTo();
-		
+
 		if (validFrom != null && date.before(validFrom))
 			return false;
 		if (validTo != null && date.after(validTo))

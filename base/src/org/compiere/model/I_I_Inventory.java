@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_Inventory
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_I_Inventory 
 {
@@ -61,6 +61,19 @@ public interface I_I_Inventory
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AttributeSetInstanceValue */
+    public static final String COLUMNNAME_AttributeSetInstanceValue = "AttributeSetInstanceValue";
+
+	/** Set Attribute Set Instance Value.
+	  * Value of the Attribute Set Instance
+	  */
+	public void setAttributeSetInstanceValue (String AttributeSetInstanceValue);
+
+	/** Get Attribute Set Instance Value.
+	  * Value of the Attribute Set Instance
+	  */
+	public String getAttributeSetInstanceValue();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -116,6 +129,19 @@ public interface I_I_Inventory
 	  * Optional short description of the record
 	  */
 	public String getDescription();
+
+    /** Column name GuaranteeDate */
+    public static final String COLUMNNAME_GuaranteeDate = "GuaranteeDate";
+
+	/** Set Guarantee Date.
+	  * Date when guarantee expires
+	  */
+	public void setGuaranteeDate (Timestamp GuaranteeDate);
+
+	/** Get Guarantee Date.
+	  * Date when guarantee expires
+	  */
+	public Timestamp getGuaranteeDate();
 
     /** Column name I_ErrorMsg */
     public static final String COLUMNNAME_I_ErrorMsg = "I_ErrorMsg";
@@ -195,20 +221,20 @@ public interface I_I_Inventory
 	  */
 	public String getLot();
 
-    /** Column name M_InventoryLine_ID */
-    public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
+    /** Column name M_AttributeSetInstance_ID */
+    public static final String COLUMNNAME_M_AttributeSetInstance_ID = "M_AttributeSetInstance_ID";
 
-	/** Set Phys.Inventory Line.
-	  * Unique line in an Inventory document
+	/** Set Attribute Set Instance.
+	  * Product Attribute Set Instance
 	  */
-	public void setM_InventoryLine_ID (int M_InventoryLine_ID);
+	public void setM_AttributeSetInstance_ID (int M_AttributeSetInstance_ID);
 
-	/** Get Phys.Inventory Line.
-	  * Unique line in an Inventory document
+	/** Get Attribute Set Instance.
+	  * Product Attribute Set Instance
 	  */
-	public int getM_InventoryLine_ID();
+	public int getM_AttributeSetInstance_ID();
 
-	public org.compiere.model.I_M_InventoryLine getM_InventoryLine() throws RuntimeException;
+	public I_M_AttributeSetInstance getM_AttributeSetInstance() throws RuntimeException;
 
     /** Column name M_Inventory_ID */
     public static final String COLUMNNAME_M_Inventory_ID = "M_Inventory_ID";
@@ -225,6 +251,21 @@ public interface I_I_Inventory
 
 	public org.compiere.model.I_M_Inventory getM_Inventory() throws RuntimeException;
 
+    /** Column name M_InventoryLine_ID */
+    public static final String COLUMNNAME_M_InventoryLine_ID = "M_InventoryLine_ID";
+
+	/** Set Phys.Inventory Line.
+	  * Unique line in an Inventory document
+	  */
+	public void setM_InventoryLine_ID (int M_InventoryLine_ID);
+
+	/** Get Phys.Inventory Line.
+	  * Unique line in an Inventory document
+	  */
+	public int getM_InventoryLine_ID();
+
+	public org.compiere.model.I_M_InventoryLine getM_InventoryLine() throws RuntimeException;
+
     /** Column name M_Locator_ID */
     public static final String COLUMNNAME_M_Locator_ID = "M_Locator_ID";
 
@@ -239,6 +280,19 @@ public interface I_I_Inventory
 	public int getM_Locator_ID();
 
 	public org.compiere.model.I_M_Locator getM_Locator() throws RuntimeException;
+
+    /** Column name MovementDate */
+    public static final String COLUMNNAME_MovementDate = "MovementDate";
+
+	/** Set Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public void setMovementDate (Timestamp MovementDate);
+
+	/** Get Movement Date.
+	  * Date a product was moved in or out of inventory
+	  */
+	public Timestamp getMovementDate();
 
     /** Column name M_Product_ID */
     public static final String COLUMNNAME_M_Product_ID = "M_Product_ID";
@@ -269,19 +323,6 @@ public interface I_I_Inventory
 	public int getM_Warehouse_ID();
 
 	public org.compiere.model.I_M_Warehouse getM_Warehouse() throws RuntimeException;
-
-    /** Column name MovementDate */
-    public static final String COLUMNNAME_MovementDate = "MovementDate";
-
-	/** Set Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public void setMovementDate (Timestamp MovementDate);
-
-	/** Get Movement Date.
-	  * Date a product was moved in or out of inventory
-	  */
-	public Timestamp getMovementDate();
 
     /** Column name Processed */
     public static final String COLUMNNAME_Processed = "Processed";
@@ -357,19 +398,6 @@ public interface I_I_Inventory
 	  */
 	public String getUPC();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -385,6 +413,19 @@ public interface I_I_Inventory
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

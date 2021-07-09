@@ -56,6 +56,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.Util;
 import org.compiere.util.ValueNamePair;
 
@@ -701,7 +702,7 @@ public class ProcessPanel extends ProcessController
 				int M_InOut_ID = ids[i];
 				ReportCtl.startDocumentPrint(ReportEngine.SHIPMENT, M_InOut_ID, this, getWindowNo(), true);
 			}
-			ADialogDialog d = new ADialogDialog (Env.getWindow(getWindowNo()),
+			ADialogDialog d = new ADialogDialog (SwingEnv.getWindow(getWindowNo()),
 				Env.getHeader(Env.getCtx(), getWindowNo()),
 				Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
 				JOptionPane.QUESTION_MESSAGE);
@@ -745,7 +746,7 @@ public class ProcessPanel extends ProcessController
 				int AD_Invoice_ID = ids[i];
 				ReportCtl.startDocumentPrint(ReportEngine.INVOICE, AD_Invoice_ID, this, getWindowNo(), true);
 			}
-			ADialogDialog d = new ADialogDialog (Env.getWindow(getWindowNo()),
+			ADialogDialog d = new ADialogDialog (SwingEnv.getWindow(getWindowNo()),
 				Env.getHeader(Env.getCtx(), getWindowNo()),
 				Msg.getMsg(Env.getCtx(), "PrintoutOK?"),
 				JOptionPane.QUESTION_MESSAGE);

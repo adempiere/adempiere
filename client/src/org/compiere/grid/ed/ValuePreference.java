@@ -53,6 +53,7 @@ import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 
 /**
  *  Maintain Value Preferences.
@@ -118,7 +119,7 @@ public class ValuePreference extends CDialog
 		int AD_Client_ID = Env.getAD_Client_ID(Env.getCtx());
 		int AD_Org_ID = Env.getContextAsInt(Env.getCtx(), WindowNo, "AD_Org_ID");
 		int AD_User_ID = Env.getAD_User_ID(Env.getCtx());
-		Frame frame = Env.getWindow(WindowNo);
+		Frame frame = SwingEnv.getWindow(WindowNo);
 
 		//  Create Editor
 		ValuePreference vp = new ValuePreference (frame, WindowNo,

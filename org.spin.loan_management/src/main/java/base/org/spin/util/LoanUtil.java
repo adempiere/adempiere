@@ -143,7 +143,7 @@ public class LoanUtil {
 	public static HashMap<String, Object> calculateFrenchAmortization(int financialProductId, BigDecimal capitalAmt, 
 																			int feesQty,Timestamp startDate,
 																				Timestamp endDate, Timestamp payDate,
-																					String paymentFrequency, Properties ctx){
+																					String paymentFrequency, Properties ctx, String transactionName){
 		/**	Return Value */
 		HashMap<String, Object> returnValues = new HashMap<String, Object>();
 		
@@ -155,7 +155,7 @@ public class LoanUtil {
 			payDate = startDate;
 		}
 		//	Calculate it
-		MFMProduct financialProduct = MFMProduct.getById(ctx, financialProductId);
+		MFMProduct financialProduct = MFMProduct.getById(ctx, financialProductId, transactionName);
 		//	Get Interest Rate
 		int rateId = financialProduct.get_ValueAsInt("FM_Rate_ID");
 		BigDecimal interestRate = Env.ZERO;
@@ -318,7 +318,7 @@ public class LoanUtil {
 		//	Get agreement
 		MFMAgreement agreement = MFMAgreement.getById(ctx, agreementId, trxName);
 		//	Calculate it
-		MFMProduct financialProduct = MFMProduct.getById(ctx, agreement.getFM_Product_ID());
+		MFMProduct financialProduct = MFMProduct.getById(ctx, agreement.getFM_Product_ID(), trxName);
 		//	Get Interest Rate
 		int dunningRateId = financialProduct.get_ValueAsInt("DunningInterest_ID");
 		int dunningId = financialProduct.get_ValueAsInt("FM_Dunning_ID");
@@ -459,7 +459,7 @@ public class LoanUtil {
 		//	Get agreement
 		MFMAgreement agreement = MFMAgreement.getById(ctx, agreementId, trxName);
 		//	Calculate it
-		MFMProduct financialProduct = MFMProduct.getById(ctx, agreement.getFM_Product_ID());
+		MFMProduct financialProduct = MFMProduct.getById(ctx, agreement.getFM_Product_ID(), trxName);
 		//	Get Interest Rate
 		int dunningId = financialProduct.get_ValueAsInt("FM_Dunning_ID");
 		//	Validate Dunning for it
@@ -545,7 +545,7 @@ public class LoanUtil {
 		//	Get agreement
 		MFMAgreement agreement = MFMAgreement.getById(ctx, agreementId, trxName);
 		//	Calculate it
-		MFMProduct financialProduct = MFMProduct.getById(ctx, agreement.getFM_Product_ID());
+		MFMProduct financialProduct = MFMProduct.getById(ctx, agreement.getFM_Product_ID(), trxName);
 		//	Get Interest Rate
 		int dunningId = financialProduct.get_ValueAsInt("FM_Dunning_ID");
 		//	Validate Dunning for it
@@ -617,7 +617,7 @@ public class LoanUtil {
 		//	Get agreement
 		MFMAgreement agreement = MFMAgreement.getById(ctx, agreementId, trxName);
 		//	Calculate it
-		MFMProduct financialProduct = MFMProduct.getById(ctx, agreement.getFM_Product_ID());
+		MFMProduct financialProduct = MFMProduct.getById(ctx, agreement.getFM_Product_ID(), trxName);
 		//	Get Interest Rate
 		int rateId = financialProduct.get_ValueAsInt("FM_Rate_ID");
 		//	Validate Dunning for it

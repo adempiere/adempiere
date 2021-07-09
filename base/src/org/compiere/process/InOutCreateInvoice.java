@@ -16,47 +16,31 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.util.logging.Level;
-
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
  
+import java.util.Optional;
+
 /**
  *	Create (Generate) Invoice from Shipment
  *	
  *  @author Jorg Janke
  *  @version $Id: InOutCreateInvoice.java,v 1.2 2006/07/30 00:51:02 jjanke Exp $
  */
-public class InOutCreateInvoice extends SvrProcess
+public class InOutCreateInvoice extends InOutCreateInvoiceAbstract
 {
-	/**	Shipment					*/
-	private int 	p_M_InOut_ID = 0;
-	/**	Price List Version			*/
-	private int		p_M_PriceList_ID = 0;
-	/* Document No					*/
-	private String	p_InvoiceDocumentNo = null;
+
+	/* Invoice Header */
+	private MInvoice invoice = null;
 	
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
-	protected void prepare()
-	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("M_PriceList_ID"))
-				p_M_PriceList_ID = para[i].getParameterAsInt();
-			else if (name.equals("InvoiceDocumentNo"))
-				p_InvoiceDocumentNo = (String)para[i].getParameter();
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
-		p_M_InOut_ID = getRecord_ID();
+	protected void prepare() {
+		super.prepare();
 	}	//	prepare
 
 	/**
@@ -64,44 +48,55 @@ public class InOutCreateInvoice extends SvrProcess
 	 *	@return document no
 	 *	@throws Exception
 	 */
-	protected String doIt () throws Exception
-	{
-		log.info("M_InOut_ID=" + p_M_InOut_ID 
-			+ ", M_PriceList_ID=" + p_M_PriceList_ID
-			+ ", InvoiceDocumentNo=" + p_InvoiceDocumentNo);
-		if (p_M_InOut_ID == 0)
+	protected String doIt () throws Exception {
+		log.info("M_InOut_ID=" + getRecord_ID()
+			+ ", M_PriceList_ID=" + getPriceListId()
+			+ ", InvoiceDocumentNo=" + getInvoiceDocumentNo());
+		if (getRecord_ID() == 0)
 			throw new IllegalArgumentException("No Shipment");
 		//
-		MInOut ship = new MInOut (getCtx(), p_M_InOut_ID, get_TrxName());
-		if (ship.get_ID() == 0)
+		MInOut materialReceipt = new MInOut (getCtx(), getRecord_ID(), get_TrxName());
+		if (materialReceipt.get_ID() == 0)
 			throw new IllegalArgumentException("Shipment not found");
-		if (!MInOut.DOCSTATUS_Completed.equals(ship.getDocStatus()))
+		if (!MInOut.DOCSTATUS_Completed.equals(materialReceipt.getDocStatus()))
 			throw new IllegalArgumentException("Shipment not completed");
 		
-		MInvoice invoice = new MInvoice (ship, null);
-		// Should not override pricelist for RMA
-		if (p_M_PriceList_ID != 0 && ship.getM_RMA_ID() == 0)
-			invoice.setM_PriceList_ID(p_M_PriceList_ID);
-		if (p_InvoiceDocumentNo != null && p_InvoiceDocumentNo.length() > 0)
-			invoice.setDocumentNo(p_InvoiceDocumentNo);
-		if (!invoice.save())
-			throw new IllegalArgumentException("Cannot save Invoice");
-		MInOutLine[] shipLines = ship.getLines(false);
-		for (int i = 0; i < shipLines.length; i++)
-		{
-			MInOutLine sLine = shipLines[i];
-			MInvoiceLine line = new MInvoiceLine(invoice);
-			line.setShipLine(sLine);
-			if (sLine.sameOrderLineUOM())
-				line.setQtyEntered(sLine.getQtyEntered());
+		MInOutLine[] materialReceiptLines = materialReceipt.getLines(false);
+		for (MInOutLine materialReceiptLine : materialReceiptLines) {
+			Optional<MInvoiceLine> maybeInvoiceLine = Optional.ofNullable(MInvoiceLine.getOfInOutLine(materialReceiptLine));
+			if(maybeInvoiceLine.isPresent())
+				continue;
+
+			MInvoice invoice = getCreateHeader(materialReceipt);
+			MInvoiceLine invoiceLine = new MInvoiceLine(invoice);
+			invoiceLine.setShipLine(materialReceiptLine);
+			if (materialReceiptLine.sameOrderLineUOM())
+				invoiceLine.setQtyEntered(materialReceiptLine.getQtyEntered());
 			else
-				line.setQtyEntered(sLine.getMovementQty());
-			line.setQtyInvoiced(sLine.getMovementQty());
-			if (!line.save())
+				invoiceLine.setQtyEntered(materialReceiptLine.getMovementQty());
+			invoiceLine.setQtyInvoiced(materialReceiptLine.getMovementQty());
+			if (!invoiceLine.save())
 				throw new IllegalArgumentException("Cannot save Invoice Line");
 		}
-		
+		if (invoice == null)
+			throw new AdempiereException("@InvoiceFullyMatched@");
+
 		return invoice.getDocumentNo();
 	}	//	InOutCreateInvoice
 	
+	private MInvoice getCreateHeader(MInOut shipment)
+	{
+		if (invoice != null)
+			return invoice;
+
+		invoice = new MInvoice (shipment, null);
+		// Should not override pricelist for RMA
+		if (getPriceListId() != 0 && shipment.getM_RMA_ID() == 0)
+			invoice.setM_PriceList_ID(getPriceListId());
+		if (getInvoiceDocumentNo() != null && getInvoiceDocumentNo().length() > 0)
+			invoice.setDocumentNo(getInvoiceDocumentNo());
+		if (!invoice.save())
+			throw new IllegalArgumentException("Cannot save Invoice");
+		return invoice;
+	}
 }	//	InOutCreateInvoice

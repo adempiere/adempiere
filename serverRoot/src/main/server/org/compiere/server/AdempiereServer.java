@@ -17,6 +17,7 @@
 package org.compiere.server;
 
 import java.sql.Timestamp;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -45,6 +46,8 @@ import org.eevolution.model.MProjectProcessor;
  *  @author Carlos Parada, cparada@erpya.com, ERPCyA http://www.erpya.com
  *  		<a href="https://github.com/adempiere/adempiere/issues/2202">
  *			@see FR [ 2202 ] Add Support to Project Processor</a>
+ *	@author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ *	<li>Add support to only one run for a scheduler
  */
 public abstract class AdempiereServer extends Thread
 {
@@ -98,7 +101,7 @@ public abstract class AdempiereServer extends Thread
 		m_initialNap = initialNap;
 		Timestamp dateNextRun = getDateNextRun(true);
 		if (dateNextRun != null)
-			m_nextWork = dateNextRun.getTime();
+			nextWork = dateNextRun.getTime();
 	//	log.info(model.getName() + " - " + getThreadGroup());
 	}	//	ServerBase
 
@@ -108,9 +111,9 @@ public abstract class AdempiereServer extends Thread
 	private int					m_initialNap = 0;
 
 	/**	Miliseconds to sleep - 10 Min default	*/
-	private long				m_sleepMS = 600000;
+	private long				sleepTime = 600000;
 	/** Sleeping					*/
-	private volatile boolean	m_sleeping = false;
+	private volatile boolean	sleeping = false;
 	/** Server start time					*/
 	private long				m_start = 0;
 	/** Number of Work executions	*/
@@ -122,7 +125,7 @@ public abstract class AdempiereServer extends Thread
 	/** Number of MS total			*/
 	private long 				m_runTotalMS = 0;
 	/** When to run next			*/
-	private long 				m_nextWork = 0;
+	private long 				nextWork = 0;
 
 	/**	Logger						*/
 	protected CLogger	log = CLogger.getCLogger(getClass());
@@ -147,7 +150,7 @@ public abstract class AdempiereServer extends Thread
 	 */
 	public long getSleepMS ()
 	{
-		return m_sleepMS;
+		return sleepTime;
 	}	//	getSleepMS
 
 
@@ -162,19 +165,19 @@ public abstract class AdempiereServer extends Thread
 			log.info (getName() + ": interrupted");
 			return false;
 		}
-		log.fine(getName() + ": sleeping " + TimeUtil.formatElapsed(m_sleepMS));
-		m_sleeping = true;
+		log.fine(getName() + ": sleeping " + TimeUtil.formatElapsed(sleepTime));
+		sleeping = true;
 		try
 		{
-			sleep (m_sleepMS);
+			sleep (sleepTime);
 		}
 		catch (InterruptedException e)
 		{
 			log.info (getName() + ": interrupted");
-			m_sleeping = false;
+			sleeping = false;
 			return false;
 		}
-		m_sleeping = false;
+		sleeping = false;
 		return true;
 	}	//	sleep
 
@@ -199,6 +202,18 @@ public abstract class AdempiereServer extends Thread
 		log.fine(getName() + ": " + getStatistics());
 	}	//	runNow
 
+	/**
+	 * Validate if is fixed time
+	 * @return
+	 */
+	protected boolean isValidForRun() {
+		if(Optional.ofNullable(p_model.getFrequencyType()).orElse(MScheduler.FREQUENCYTYPE_Day).equals(MScheduler.FREQUENCYTYPE_DoesNotRepeat)
+				&& Optional.ofNullable(p_model.getDateLastRun()).isPresent()) {
+			return false;
+		}
+		return true;
+	}
+	
 	/**************************************************************************
 	 * 	Run async
 	 */
@@ -218,16 +233,16 @@ public abstract class AdempiereServer extends Thread
 		m_start = System.currentTimeMillis();
 		while (true)
 		{
-			if (m_nextWork == 0)
+			if (nextWork == 0)
 			{
 				Timestamp dateNextRun = getDateNextRun(true);
 				if (dateNextRun != null)
-					m_nextWork = dateNextRun.getTime();
+					nextWork = dateNextRun.getTime();
 			}
 			long now = System.currentTimeMillis();
-			if (m_nextWork > now)
+			if (nextWork > now)
 			{
-				m_sleepMS = m_nextWork - now;
+				sleepTime = nextWork - now;
 				if (!sleep ())
 					break;
 			}
@@ -236,7 +251,11 @@ public abstract class AdempiereServer extends Thread
 				log.info (getName() + ": interrupted");
 				break;
 			}
-
+			//	Validate if is for not repeat
+			if(!isValidForRun()) {
+				log.info (getName() + ": Run finished");
+				break;
+			}
 			//	---------------
 			p_startWork = System.currentTimeMillis();
 			doWork();
@@ -247,34 +266,36 @@ public abstract class AdempiereServer extends Thread
 			m_runLastMS = now - p_startWork;
 			m_runTotalMS += m_runLastMS;
 			//
-			m_sleepMS = calculateSleep();
-			Timestamp lastRun = new Timestamp(now);
+			sleepTime = calculateSleep();
+			Timestamp dateLastRun = new Timestamp(now);
 			if (p_model instanceof AdempiereProcessor2)
 			{
 				AdempiereProcessor2 ap = (AdempiereProcessor2) p_model;
 				if (ap.isIgnoreProcessingTime())
 				{
-					lastRun = new Timestamp(p_startWork);
-					if (m_nextWork <= 0)
-						m_nextWork = p_startWork;
-					m_nextWork = m_nextWork + m_sleepMS;
-					while (m_nextWork < now)
+					dateLastRun = new Timestamp(p_startWork);
+					if (nextWork <= 0)
+						nextWork = p_startWork;
+					nextWork = nextWork + sleepTime;
+					while (nextWork < now)
 					{
-						m_nextWork = m_nextWork + m_sleepMS;
+						nextWork = nextWork + sleepTime;
 					}
 				}
 				else
 				{
-					m_nextWork = now + m_sleepMS;
+					nextWork = now + sleepTime;
 				}
 			}
 			else
 			{
-				m_nextWork = now + m_sleepMS;
+				nextWork = now + sleepTime;
 			}
 			//
-			p_model.setDateLastRun(lastRun);
-			p_model.setDateNextRun(new Timestamp(m_nextWork));
+			p_model.setDateLastRun(dateLastRun);
+			if(Optional.ofNullable(p_model.getFrequencyType()).orElse(MScheduler.FREQUENCYTYPE_Day).equals(MScheduler.FREQUENCYTYPE_DoesNotRepeat)) {
+				p_model.setDateNextRun(new Timestamp(nextWork));
+			}
 			p_model.saveEx();
 			//
 			log.fine(getName() + ": " + getStatistics());
@@ -293,7 +314,7 @@ public abstract class AdempiereServer extends Thread
 		return "Run #" + p_runCount
 			+ " - Last=" + TimeUtil.formatElapsed(m_runLastMS)
 			+ " - Total=" + TimeUtil.formatElapsed(m_runTotalMS)
-			+ " - Next " + TimeUtil.formatElapsed(m_nextWork - System.currentTimeMillis());
+			+ " - Next " + TimeUtil.formatElapsed(nextWork - System.currentTimeMillis());
 	}	//	getStatistics
 
 	/**
@@ -365,14 +386,27 @@ public abstract class AdempiereServer extends Thread
 			frequency = 1;
 		//
 		long typeSec = 600;			//	10 minutes
-		if (frequencyType == null)
+		if (frequencyType == null) {
 			typeSec = 300;			//	5 minutes
-		else if (MRequestProcessor.FREQUENCYTYPE_Minute.equals(frequencyType))
+		} else if (MScheduler.FREQUENCYTYPE_Secound.equals(frequencyType)) {
+			typeSec = 1;
+		} else if (MScheduler.FREQUENCYTYPE_Minute.equals(frequencyType)) {
 			typeSec = 60;
-		else if (MRequestProcessor.FREQUENCYTYPE_Hour.equals(frequencyType))
+		} else if (MScheduler.FREQUENCYTYPE_Hour.equals(frequencyType)) {
 			typeSec = 3600;
-		else if (MRequestProcessor.FREQUENCYTYPE_Day.equals(frequencyType))
+		} else if (MScheduler.FREQUENCYTYPE_Day.equals(frequencyType)) {
 			typeSec = 86400;
+		} else if(MScheduler.FREQUENCYTYPE_Weekly.equals(frequencyType)) {
+			typeSec = 604800;
+		} else if(MScheduler.FREQUENCYTYPE_Quarterly.equals(frequencyType)) {
+			typeSec = 1296000;
+		} else if(MScheduler.FREQUENCYTYPE_Monthly.equals(frequencyType)) {
+			typeSec = 2592000;
+		} else if(MScheduler.FREQUENCYTYPE_Yearly.equals(frequencyType)) {
+			typeSec = 31536000;
+		} else if(MScheduler.FREQUENCYTYPE_DoesNotRepeat.equals(frequencyType)) {
+			typeSec = 30;
+		}
 		//
 		return typeSec * 1000 * frequency;		//	ms
 	}	//	calculateSleep
@@ -383,7 +417,7 @@ public abstract class AdempiereServer extends Thread
 	 */
 	public boolean isSleeping()
 	{
-		return m_sleeping;
+		return sleeping;
 	}	//	isSleeping
 
 	/**
@@ -396,9 +430,9 @@ public abstract class AdempiereServer extends Thread
 			.append (",Prio=").append(getPriority())
 			.append (",").append (getThreadGroup())
 			.append (",Alive=").append(isAlive())
-			.append (",Sleeping=").append(m_sleeping)
+			.append (",Sleeping=").append(sleeping)
 			.append (",Last=").append(getDateLastRun());
-		if (m_sleeping)
+		if (sleeping)
 			sb.append (",Next=").append(getDateNextRun(false));
 		return sb.toString ();
 	}	//	toString

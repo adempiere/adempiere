@@ -17,10 +17,10 @@ package org.compiere.dbPort;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
-import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -78,9 +78,8 @@ public class Convert_MariaDB extends Convert_SQL92 {
 	 */
 	protected ArrayList<String> convertStatement(String sqlStatement) {
 		ArrayList<String> result = new ArrayList<String>();
-		/** Vector to save previous values of quoted strings **/
-		Vector<String> retVars = new Vector<String>();
-		
+		/** LinkedHashMap to save previous values of quoted strings **/
+		Map<String, String> retVars = new LinkedHashMap<>();
 		//Validate Next ID Function and use Native Sequence if the functionality is active
 		int found_next_fuction = sqlStatement.toUpperCase().indexOf("NEXTIDFUNC(");
 		if (found_next_fuction<=0)
@@ -107,7 +106,7 @@ public class Convert_MariaDB extends Convert_SQL92 {
 			}			
 		}
 		
-		String statement = replaceQuotedStrings(sqlStatement, retVars);
+		String statement = replaceQuotedStrings(sqlStatement , retVars);
 		statement = convertWithConvertMap(statement);
 		
 		String cmpString = statement.toUpperCase();
@@ -123,11 +122,11 @@ public class Convert_MariaDB extends Convert_SQL92 {
 		else if (isCreate && cmpString.indexOf(" VIEW ") != -1)
 			;
 		else if (isCreate && cmpString.indexOf(" TABLE ") != -1) {
-			statement = recoverQuotedStrings(statement, retVars);
+			statement = recoverQuotedStrings(statement , retVars);
 			retVars.clear();
 			statement = convertDDL(convertComplexStatement(statement)) + " ENGINE=InnoDB"; // "TYPE=InnoDB"
 		} else if (cmpString.indexOf("ALTER TABLE") != -1) {
-			statement = recoverQuotedStrings(statement, retVars);
+			statement = recoverQuotedStrings(statement , retVars);
 			retVars.clear();
 			statement = convertDDL(convertComplexStatement(statement));
 		} else if (cmpString.indexOf("DELETE ") != -1
@@ -142,7 +141,7 @@ public class Convert_MariaDB extends Convert_SQL92 {
 			statement = convertComplexStatement(convertAlias(statement));
 		}
 		if (retVars.size() > 0)
-			statement = recoverQuotedStrings(statement, retVars);
+			statement = recoverQuotedStrings(statement , retVars);
 		result.add(statement);
 		
 		return result;

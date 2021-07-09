@@ -194,7 +194,7 @@ public class MProcess extends X_AD_Process
 	 */
 	public List<MProcessPara> getASPParameters() {
 		MClient client = MClient.get(Env.getCtx());
-		String key = getAD_Process_ID() + "|" + client.getAD_Client_ID();
+		String key = getAD_Process_ID() + "|" + client.getAD_Client_ID() + "|" + Env.getAD_Language(getCtx());
 		List<MProcessPara> retValue = cacheASPParameters.get (key);
 		if (retValue != null)
 			return retValue;

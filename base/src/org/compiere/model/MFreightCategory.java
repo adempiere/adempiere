@@ -32,6 +32,8 @@ package org.compiere.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import org.compiere.util.CCache;
 /**
  *
  * @author Daniel Tamm
@@ -66,6 +68,32 @@ public class MFreightCategory extends X_M_FreightCategory {
         super(ctx, rs, trxName);
     }
     
+    /** Static Cache */
+	private static CCache<Integer, MFreightCategory> freightCategoryCacheIds = new CCache<Integer, MFreightCategory>(Table_Name, 30);
+	
+	/**
+	 * Get/Load Freight Category [CACHED]
+	 * @param ctx context
+	 * @param freightCategoryId
+	 * @param trxName
+	 * @return activity or null
+	 */
+	public static MFreightCategory getById(Properties ctx, int freightCategoryId, String trxName) {
+		if (freightCategoryId <= 0)
+			return null;
+
+		MFreightCategory tax = freightCategoryCacheIds.get(freightCategoryId);
+		if (tax != null && tax.get_ID() > 0)
+			return tax;
+
+		tax = new Query(ctx , Table_Name , COLUMNNAME_M_FreightCategory_ID + "=?" , trxName)
+				.setParameters(freightCategoryId)
+				.first();
+		if (tax != null && tax.get_ID() > 0) {
+			freightCategoryCacheIds.put(tax.get_ID(), tax);
+		}
+		return tax;
+	}
     
     /**
      * Reads a freight category from database based on the value (key) of the category.

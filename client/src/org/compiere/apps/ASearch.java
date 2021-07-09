@@ -37,6 +37,7 @@ import org.compiere.print.Viewer;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 
 /**
  *	Application Search.
@@ -208,7 +209,7 @@ public class ASearch implements ActionListener
 	private void find ()
 	{
 		GridField[] findFields = GridField.createFields(Env.getCtx(), m_targetWindowNo, 0, m_AD_Tab_ID);
-		Find find = new Find (Env.getFrame(m_owner), m_targetWindowNo, m_title,
+		Find find = new Find (SwingEnv.getFrame(m_owner), m_targetWindowNo, m_title,
 				m_AD_Tab_ID, m_AD_Table_ID, m_tableName, 
 				m_where, findFields, 1);
 		

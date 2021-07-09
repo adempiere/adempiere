@@ -93,7 +93,7 @@ public class GeneratePaySelectionFromLoan extends GeneratePaySelectionFromLoanAb
 					throw new AdempiereException("@LoanManagement.OpenCapitalLessPay@");
 				}
 				MFMAgreement agreement = (MFMAgreement) account.getFM_Agreement();
-				MFMProduct financialProduct = MFMProduct.getById(getCtx(), agreement.get_ValueAsInt("FM_Product_ID"));
+				MFMProduct financialProduct = MFMProduct.getById(getCtx(), agreement.get_ValueAsInt("FM_Product_ID"), get_TrxName());
 				if(financialProduct == null) {
 					throw new AdempiereException("@FM_Product_ID@ @NotFound@");
 				}
@@ -162,7 +162,7 @@ public class GeneratePaySelectionFromLoan extends GeneratePaySelectionFromLoanAb
 				int financialAccountId = key;
 				MFMAccount account = new MFMAccount(getCtx(), financialAccountId, get_TrxName());
 				MFMAgreement agreement = (MFMAgreement) account.getFM_Agreement();
-				MFMProduct financialProduct = MFMProduct.getById(getCtx(), agreement.get_ValueAsInt("FM_Product_ID"));
+				MFMProduct financialProduct = MFMProduct.getById(getCtx(), agreement.get_ValueAsInt("FM_Product_ID"), get_TrxName());
 				if(financialProduct == null) {
 					throw new AdempiereException("@FM_Product_ID@ @NotFound@");
 				}

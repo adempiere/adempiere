@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Change Access Level for Generate Token Process" ReleaseNo="3.9.4" SeqNo="7660">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54462" Table="AD_Process">
+        <Data AD_Column_ID="5790" Column="AccessLevel" oldValue="3">7</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54463" Table="AD_Process">
+        <Data AD_Column_ID="5790" Column="AccessLevel" oldValue="3">6</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54462" Table="AD_Process">
+        <Data AD_Column_ID="5790" Column="AccessLevel" oldValue="7">6</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="54464" Table="AD_Process">
+        <Data AD_Column_ID="5790" Column="AccessLevel" oldValue="3">6</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

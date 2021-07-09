@@ -16,51 +16,25 @@
  *****************************************************************************/
 package org.compiere.wf;
 
-import java.util.logging.Level;
-
 import org.compiere.model.MUser;
-import org.compiere.process.ProcessInfoParameter;
 import org.compiere.process.StateEngine;
-import org.compiere.process.SvrProcess;
 
 /**
  *	Manage Workflow Process
  *	
  *  @author Jorg Janke
- *  @version $Id: WFProcessManage.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
+ * 	@author Victor Pérez, E Evolution Consulting,  wwww.e-evolution.com
+ * 				<li>[Bug Report] The workflow engine is not correctly handling transactions when processing documents #3170
+ * 				<a href="https://github.com/adempiere/adempiere/issues/3170">
  */
-public class WFProcessManage extends SvrProcess
+public class WFProcessManage extends WFProcessManageAbstract
 {
-	/**	Abort It				*/	
-	private boolean		p_IsAbort = false;
-	/** New User				*/
-	private int			p_AD_User_ID = 0;
-	/** New Responsible			*/
-	private int			p_AD_WF_Responsible_ID = 0;
-	/** Record					*/
-	private int			p_AD_WF_Process_ID = 0;
-	
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
 	protected void prepare()
 	{
-		ProcessInfoParameter[] para = getParameter();
-		for (int i = 0; i < para.length; i++)
-		{
-			String name = para[i].getParameterName();
-			if (para[i].getParameter() == null)
-				;
-			else if (name.equals("IsAbort"))
-				p_IsAbort = "Y".equals(para[i].getParameter());
-			else if (name.equals("AD_User_ID"))
-				p_AD_User_ID = para[i].getParameterAsInt();
-			else if (name.equals("AD_WF_Responsible_ID"))
-				p_AD_WF_Responsible_ID = para[i].getParameterAsInt();
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
-		p_AD_WF_Process_ID = getRecord_ID();
+		super.prepare();
 	}	//	prepare
 
 	/**
@@ -70,46 +44,50 @@ public class WFProcessManage extends SvrProcess
 	 */
 	protected String doIt() throws Exception
 	{
-		MWFProcess process = new MWFProcess (getCtx(), p_AD_WF_Process_ID, get_TrxName());
-		log.info("doIt - " + process);
+		MWFProcess workflowProcess = new MWFProcess (getCtx(), getRecord_ID(), get_TrxName());
+		log.info("doIt - " + workflowProcess);
 		
 		MUser user = MUser.get(getCtx(), getAD_User_ID());
 		//	Abort
-		if (p_IsAbort)
+		if (isAbort())
 		{
-			String msg = user.getName() + ": Abort";
-			process.setTextMsg(msg);
-			process.setAD_User_ID(getAD_User_ID());
-			process.setWFState(StateEngine.STATE_Aborted);
-			return msg;
+			String processMessage = user.getName() + ": Abort";
+			workflowProcess.setTextMsg(processMessage);
+			workflowProcess.setAD_User_ID(getAD_User_ID());
+			workflowProcess.setWFState(StateEngine.STATE_Aborted);
+			workflowProcess.saveEx();
+			if (workflowProcess.isProcessed())
+				workflowProcess.unlockDocument();
+
+			return processMessage;
 		}
-		String msg = null;
+		String userMessage = null;
 		//	Change User
-		if (p_AD_User_ID != 0 && process.getAD_User_ID() != p_AD_User_ID)
+		if (getUserId() != 0 && workflowProcess.getAD_User_ID() != getUserId())
 		{
-			MUser from = MUser.get(getCtx(), process.getAD_User_ID());
-			MUser to = MUser.get(getCtx(), p_AD_User_ID);
-			msg = user.getName() + ": " + from.getName() + " -> " + to.getName();
-			process.setTextMsg(msg);
-			process.setAD_User_ID(p_AD_User_ID);
+			MUser userFrom = MUser.get(getCtx(), workflowProcess.getAD_User_ID());
+			MUser userTo = MUser.get(getCtx(), getUserId());
+			userMessage = user.getName() + ": " + userFrom.getName() + " -> " + userTo.getName();
+			workflowProcess.setTextMsg(userMessage);
+			workflowProcess.setAD_User_ID(getUserId());
 		}
 		//	Change Responsible
-		if (p_AD_WF_Responsible_ID != 0 && process.getAD_WF_Responsible_ID() != p_AD_WF_Responsible_ID)
+		if (getWFResponsibleId() != 0 && workflowProcess.getAD_WF_Responsible_ID() != getWFResponsibleId())
 		{
-			MWFResponsible from = MWFResponsible.get(getCtx(), process.getAD_WF_Responsible_ID());
-			MWFResponsible to = MWFResponsible.get(getCtx(), p_AD_WF_Responsible_ID);
-			String msg1 = user.getName() + ": " + from.getName() + " -> " + to.getName();
-			process.setTextMsg(msg1);
-			process.setAD_WF_Responsible_ID(p_AD_WF_Responsible_ID);
-			if (msg == null)
-				msg = msg1;
+			MWFResponsible responsibleFrom = MWFResponsible.get(getCtx(), workflowProcess.getAD_WF_Responsible_ID());
+			MWFResponsible responsibleTo = MWFResponsible.get(getCtx(), getWFResponsibleId());
+			String responsibleMessage = user.getName() + ": " + responsibleFrom.getName() + " -> " + responsibleTo.getName();
+			workflowProcess.setTextMsg(responsibleMessage);
+			workflowProcess.setAD_WF_Responsible_ID(getWFResponsibleId());
+			if (userMessage == null)
+				userMessage = responsibleMessage;
 			else
-				msg += " - " + msg1;
+				userMessage += " - " + responsibleMessage;
 		}
 		//
-		process.saveEx();
+		workflowProcess.saveEx();
 		
-		return "OK";
+		return userMessage;
 	}	//	doIt
 	
 }	//	WFProcessManage

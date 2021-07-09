@@ -38,6 +38,7 @@ import org.zkoss.zul.Menupopup;
  * @author victor.perez@e-evolution.com, www.e-evolution.com
  * 	<li>RF [ 2853359 ] Popup Menu for Lookup Record
  * 	<li>http://sourceforge.net/tracker/?func=detail&aid=2853359&group_id=176962&atid=879335
+ * 	<li>#2953 Navigating through tabs https://github.com/adempiere/adempiere/issues/2953</>
  * 
  * @author Michael Mckay, michael.mckay@mckayERP.com
  *  <li>ZK port of ASearch.java
@@ -45,57 +46,57 @@ import org.zkoss.zul.Menupopup;
 public class WSearch
 {
     /** Invoking component			*/
-	private Component		m_invoker;
+	private Component 				invoker;
 	/** Target Window No            */
-    private int             m_targetWindowNo;
+    private int 					targetWindowNo;
     /** Table ID                    */
-    private int             m_AD_Table_ID;
+    private int 					tableId;
     /** Tab ID						*/
-    private int m_AD_Tab_ID = 0;
+    private int 					tabId = 0;
     /** Table Name                  */
-    private String          m_tableName;
+    private String 					tableName;
     /** Title                       */
-    private String          m_title;
+    private String 					title;
     /** Where                       */
-    private String          m_whereExtended;
+    private String 					whereExtended;
     /** Search Fields               */
-    private GridField[]     m_findFields;
+    private GridField[] 			findFields;
     /** Resulting query             */
-    private MQuery          m_query = null;
+    private MQuery 					query = null;
     /** Popup menu                  */
-	private Menupopup 	m_popup = new Menupopup(); // Popup menu listing saved user queries.
+	private Menupopup 				popupMenu = new Menupopup(); // Popup menu listing saved user queries.
 	/** The calling panel - used to call a onFindCallback */
-	private AbstractADWindowPanel m_panel;
+	private AbstractADWindowPanel 	windowPanel;
 	
 	private static final CLogger log = CLogger.getCLogger(WSearch.class);
 	
-	public WSearch (AbstractADWindowPanel panel, Component invoker, GridTab currentTab, GridField[] findFields) {
+	public WSearch (AbstractADWindowPanel panel, Component invokerComponent, GridTab currentTab, GridField[] currentFindFields) {
 		
-		m_panel = panel;
-        m_invoker = invoker;
-		m_targetWindowNo = currentTab.getWindowNo();
-        m_AD_Table_ID = currentTab.getAD_Table_ID();
-        m_tableName = currentTab.getTableName();
-        m_whereExtended = currentTab.getWhereExtended();
-        m_findFields = findFields;
-        m_title = currentTab.getName();
-        m_AD_Tab_ID = currentTab.getAD_Tab_ID();
+		windowPanel = panel;
+        invoker = invokerComponent;
+		targetWindowNo = currentTab.getWindowNo();
+        tableId = currentTab.getAD_Table_ID();
+        tableName = currentTab.getTableName();
+        whereExtended = currentTab.getWhereExtended();
+        findFields = currentFindFields;
+        title = currentTab.getName();
+        tabId = currentTab.getAD_Tab_ID();
         //
-        m_query = new MQuery (m_tableName);
-        m_query.addRestriction(m_whereExtended);
+        query = new MQuery (tableName);
+        query.addRestriction(whereExtended);
         //  Required for Column Validation
-        Env.setContext(Env.getCtx(), m_targetWindowNo, "Find_Table_ID", m_AD_Table_ID);
+        Env.setContext(Env.getCtx(), targetWindowNo, "Find_Table_ID", tableId);
         //  Context for Advanced Search Grid is WINDOW_FIND
-        Env.setContext(Env.getCtx(), Env.WINDOW_FIND, "Find_Table_ID", m_AD_Table_ID);
+        Env.setContext(Env.getCtx(), Env.WINDOW_FIND, "Find_Table_ID", tableId);
 
         // Find any saved user queries and populate the popup menu
 		fillPopup();
 				
 		//  If there are any popup menu elements, display the popup
-		if (m_popup.getChildren().size() > 0)
+		if (popupMenu.getChildren().size() > 0)
 		{			
-			m_popup.setPage(m_invoker.getPage());
-			m_popup.open(m_invoker);
+			popupMenu.setPage(invoker.getPage());
+			popupMenu.open(invoker);
 		}	
 		else
 		{
@@ -109,7 +110,7 @@ public class WSearch
 	 * searches, the FindWindow will open.
 	 */
 	private void fillPopup() {
-		MUserQuery[] search = MUserQuery.get(Env.getCtx(), m_AD_Tab_ID);
+		MUserQuery[] search = MUserQuery.get(Env.getCtx(), tabId);
 		
 		if(search.length == 0)
 		{
@@ -127,20 +128,20 @@ public class WSearch
 				find();
 			}
 		});
-		m_popup.appendChild(menuItem);
+		popupMenu.appendChild(menuItem);
 
-		for (final MUserQuery query: search)
+		for (final MUserQuery queryUser: search)
 		{
-			menuItem = new Menuitem(query.getName());
+			menuItem = new Menuitem(queryUser.getName());
 			menuItem.addEventListener(Events.ON_CLICK, new EventListener () {
 				@Override
 				public void onEvent(Event event) throws Exception {
 					// Set the query
-					m_query = query.getQuery(m_AD_Table_ID, m_targetWindowNo, m_findFields);
-		        	m_panel.onFindCallback(m_query);
+					query = queryUser.getQuery(tableId, targetWindowNo, findFields);
+		        	windowPanel.onFindCallback(query);
 				}		
 			});
-			m_popup.appendChild(menuItem);
+			popupMenu.appendChild(menuItem);
 		}
 	}	//	fillPopup
 	
@@ -148,13 +149,15 @@ public class WSearch
 	 * Open the FindWindow dialog and record the resulting query;
 	 */
 	private void find() {
-		
-		FindWindow find = new FindWindow (m_targetWindowNo, m_title,
-				m_AD_Table_ID, m_tableName, m_whereExtended, m_findFields, 1, m_AD_Tab_ID);
-
+		FindWindow find = new FindWindow (targetWindowNo, title,
+				tableId, tableName, whereExtended, findFields, 1, tabId);
         if (!find.isCancel())
         {
-        	m_panel.onFindCallback(find.getQuery());
+        	if (find.isCreateNew()) {
+				windowPanel.onNew();
+			} else {
+				windowPanel.onFindCallback(find.getQuery());
+			}
         }
 	} //  find
 }	//	WSwearch

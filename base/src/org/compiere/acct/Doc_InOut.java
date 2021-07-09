@@ -95,7 +95,8 @@ public class Doc_InOut extends Doc
 			
 			DocLine docLine = new DocLine (line, this);
 			BigDecimal Qty = line.getMovementQty();
-			docLine.setReversalLine_ID(line.getReversalLine_ID());		
+			if (!line.isReversalParent())
+				docLine.setReversalLine_ID(line.getReversalLine_ID());		
 			docLine.setQty (Qty, !getDocumentType().equals(DOCTYPE_MatShipment));    //  sets Trx and Storage Qty
 			
 			//Define if Outside Processing 

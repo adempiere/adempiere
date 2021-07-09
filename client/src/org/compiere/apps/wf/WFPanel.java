@@ -278,7 +278,7 @@ public class WFPanel extends CPanel
 		KeyNamePair[] pp = DB.getKeyNamePairs(sql, true);
 		//
 		workflow = new CComboBox(pp);
-		AutoCompletion.enable(workflow);
+		// AutoCompletion.enable(workflow);  // Not required - part of the CComboBox
 		loadPanel.add(workflow);
 		workflow.addActionListener(this);
 		//

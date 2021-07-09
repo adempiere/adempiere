@@ -20,22 +20,26 @@
 package org.adempiere.apps.toolbar;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import org.adempiere.ad.process.ISvrProcessPrecondition;
 import org.adempiere.ad.service.IDeveloperModeBL;
 import org.adempiere.util.Check;
 import org.adempiere.util.Services;
+import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
 import org.compiere.model.I_AD_Process;
-import org.compiere.model.MProcess;
 import org.compiere.model.I_AD_Table_Process;
+import org.compiere.model.MProcess;
 import org.compiere.model.MRole;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
@@ -67,7 +71,10 @@ public class AProcessActionModel
 		{
 			return emptyList;
 		}
-
+		// get fields the button type that are displayed
+		final List<GridField> gridFieldProcess = Arrays.stream(gridTab.getFields())
+				.filter(field -> field.getAD_Process_ID() > 0 && field.isDisplayed())
+				.collect(Collectors.toList());
 		final MRole role = MRole.getDefault(ctx, false);
 		Check.assumeNotNull(role, "No role found for {0}", ctx);
 		final List<MProcess> list = fetchProcessesForTab(ctx, gridTab);
@@ -75,6 +82,15 @@ public class AProcessActionModel
 		for (Iterator<MProcess> it = list.iterator(); it.hasNext();)
 		{
 			final MProcess process = it.next();
+			//Validate if process is displayed based on display rule
+			Optional<GridField> maybeGridFieldProcess = gridFieldProcess.stream()
+					.filter(field -> field.getAD_Process_ID() == process.getAD_Process_ID())
+					.findFirst();
+			boolean isDisplay = maybeGridFieldProcess.map(gridField -> gridField.isDisplayed(true)).orElse(true);
+			if (!isDisplay) {
+				it.remove();
+				continue;
+			}
 
 			// Filter out processes on which we don't have access
 			final Boolean accessRW = role.checkProcessAccess(process.getAD_Process_ID());

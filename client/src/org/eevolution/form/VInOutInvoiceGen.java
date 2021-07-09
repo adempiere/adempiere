@@ -63,7 +63,7 @@ import org.compiere.process.ProcessInfo;
 import org.compiere.swing.CLabel;
 import org.compiere.swing.CPanel;
 import org.compiere.swing.CTabbedPane;
-import org.compiere.swing.CTextPane;
+import org.compiere.swing.CScrollingTextPane;
 import org.compiere.util.ASyncProcess;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -71,6 +71,7 @@ import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
+import org.compiere.util.SwingEnv;
 import org.compiere.util.Trx;
 
 /**
@@ -137,7 +138,7 @@ public class VInOutInvoiceGen extends CPanel
 	private StatusBar statusBar = new StatusBar();
 	private CPanel genPanel = new CPanel();
 	private BorderLayout genLayout = new BorderLayout();
-	private CTextPane info = new CTextPane();
+	private CScrollingTextPane info = new CScrollingTextPane();
 	private JScrollPane scrollPane = new JScrollPane();
 	private MiniTable miniTable = new MiniTable();
 	
@@ -579,7 +580,7 @@ public class VInOutInvoiceGen extends CPanel
 		}
 
 		// Execute Process
-		ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(this), pi, trx);
+		ProcessCtl worker = new ProcessCtl(this, SwingEnv.getWindowNo(this), pi, trx);
 		worker.start(); // complete tasks in unlockUI / generateShipments_complete
 		//
 	} // generateShipments
@@ -623,7 +624,7 @@ public class VInOutInvoiceGen extends CPanel
 				// Loop through all items
 				for (int i = 0; i < ids.length; i++) {
 					int M_InOut_ID = ids[i];
-					ReportCtl.startDocumentPrint(ReportEngine.SHIPMENT, M_InOut_ID, this, Env.getWindowNo(this), true);
+					ReportCtl.startDocumentPrint(ReportEngine.SHIPMENT, M_InOut_ID, this, SwingEnv.getWindowNo(this), true);
 				}
 				// Yamel Senih 2015-11-23 FR [ 114 ] Add support to dynamic create from
 				ADialogDialog d = new ADialogDialog (m_frame.getCFrame(),
@@ -728,7 +729,7 @@ public class VInOutInvoiceGen extends CPanel
 		}
 
 		// Execute Process
-		ProcessCtl worker = new ProcessCtl(this, Env.getWindowNo(this), pi, trx);
+		ProcessCtl worker = new ProcessCtl(this, SwingEnv.getWindowNo(this), pi, trx);
 		worker.start(); // complete tasks in unlockUI / generateInvoice_complete
 	} // generateInvoices
 
@@ -764,7 +765,7 @@ public class VInOutInvoiceGen extends CPanel
 				// Loop through all items
 				for (int i = 0; i < ids.length; i++) {
 					int C_Invoice_ID = ids[i];
-					ReportCtl.startDocumentPrint(ReportEngine.INVOICE, C_Invoice_ID, this, Env.getWindowNo(this), true);
+					ReportCtl.startDocumentPrint(ReportEngine.INVOICE, C_Invoice_ID, this, SwingEnv.getWindowNo(this), true);
 				}
 				// Yamel Senih 2015-11-23 FR [ 114 ] Add support to dynamic create from
 				ADialogDialog d = new ADialogDialog (m_frame.getCFrame(),

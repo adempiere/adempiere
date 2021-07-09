@@ -715,6 +715,8 @@ public final class Fact
 			}
 			
 			MDistribution distribution = distributions.get(0);
+			//Set the transaction name based on posting document, if not a null trx name is used based on the cache causing the lock database
+			distribution.set_TrxName(get_TrxName());
 			List<MDistributionLine> distributionLines = distribution.getLines(false);
 
 			if(distribution.getPercentTotal().signum() != 0)

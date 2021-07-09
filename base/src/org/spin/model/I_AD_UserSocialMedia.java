@@ -23,7 +23,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for AD_UserSocialMedia
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_AD_UserSocialMedia 
 {
@@ -41,6 +41,15 @@ public interface I_AD_UserSocialMedia
     BigDecimal accessLevel = BigDecimal.valueOf(7);
 
     /** Load Meta Data */
+
+    /** Column name AccountName */
+    public static final String COLUMNNAME_AccountName = "AccountName";
+
+	/** Set Account Name	  */
+	public void setAccountName (String AccountName);
+
+	/** Get Account Name	  */
+	public String getAccountName();
 
     /** Column name AD_AppSupport_ID */
     public static final String COLUMNNAME_AD_AppSupport_ID = "AD_AppSupport_ID";
@@ -78,19 +87,6 @@ public interface I_AD_UserSocialMedia
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_UserSocialMedia_ID */
-    public static final String COLUMNNAME_AD_UserSocialMedia_ID = "AD_UserSocialMedia_ID";
-
-	/** Set Social Media.
-	  * User External Link for Social Media
-	  */
-	public void setAD_UserSocialMedia_ID (int AD_UserSocialMedia_ID);
-
-	/** Get Social Media.
-	  * User External Link for Social Media
-	  */
-	public int getAD_UserSocialMedia_ID();
-
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
 
@@ -106,14 +102,18 @@ public interface I_AD_UserSocialMedia
 
 	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
 
-    /** Column name AccountName */
-    public static final String COLUMNNAME_AccountName = "AccountName";
+    /** Column name AD_UserSocialMedia_ID */
+    public static final String COLUMNNAME_AD_UserSocialMedia_ID = "AD_UserSocialMedia_ID";
 
-	/** Set Account Name	  */
-	public void setAccountName (String AccountName);
+	/** Set Social Media.
+	  * User External Link for Social Media
+	  */
+	public void setAD_UserSocialMedia_ID (int AD_UserSocialMedia_ID);
 
-	/** Get Account Name	  */
-	public String getAccountName();
+	/** Get Social Media.
+	  * User External Link for Social Media
+	  */
+	public int getAD_UserSocialMedia_ID();
 
     /** Column name ApplicationType */
     public static final String COLUMNNAME_ApplicationType = "ApplicationType";
@@ -170,19 +170,6 @@ public interface I_AD_UserSocialMedia
 	  */
 	public boolean isActive();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -198,4 +185,17 @@ public interface I_AD_UserSocialMedia
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

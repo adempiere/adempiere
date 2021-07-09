@@ -16,9 +16,6 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.math.BigDecimal;
-import java.util.logging.Level;
-
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.FillMandatoryException;
 import org.adempiere.exceptions.InvoiceFullyMatchedException;
@@ -26,7 +23,11 @@ import org.compiere.model.MInOut;
 import org.compiere.model.MInOutLine;
 import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
+import org.compiere.model.MMatchPO;
+import org.compiere.model.MOrderLine;
 import org.compiere.util.Env;
+
+import java.math.BigDecimal;
  
 /**
  * Create (Generate) Shipment from Invoice
@@ -37,33 +38,18 @@ import org.compiere.util.Env;
  * @author Teo Sarca, www.arhipac.ro
  * 			<li>FR [ 1895317 ] InvoiceCreateInOut: you can create many receipts
  */
-public class InvoiceCreateInOut extends SvrProcess
+public class InvoiceCreateInOut extends InvoiceCreateInOutAbstract
 {
 	public static final String PARAM_M_Warehouse_ID = MInOut.COLUMNNAME_M_Warehouse_ID;
-	
-	/**	Warehouse			*/
-	private int p_M_Warehouse_ID = 0;
-	/** Invoice				*/
-	private int p_C_Invoice_ID = 0;
 	/** Receipt				*/
-	private MInOut m_inout = null;
+	private MInOut inOut = null;
 
 	/**
 	 *  Prepare - e.g., get Parameters.
 	 */
 	protected void prepare()
 	{
-		for (ProcessInfoParameter para : getParameter())
-		{
-			String name = para.getParameterName();
-			if (para.getParameter() == null)
-				;
-			else if (name.equals(PARAM_M_Warehouse_ID))
-				p_M_Warehouse_ID = para.getParameterAsInt();
-			else
-				log.log(Level.SEVERE, "Unknown Parameter: " + name);
-		}
-		p_C_Invoice_ID = getRecord_ID();
+		super.prepare();
 	}	//	prepare
 
 	
@@ -74,13 +60,13 @@ public class InvoiceCreateInOut extends SvrProcess
 	 */
 	protected String doIt () throws Exception
 	{
-		log.info("C_Invoice_ID=" + p_C_Invoice_ID + ", M_Warehouse_ID=" + p_M_Warehouse_ID);
-		if (p_C_Invoice_ID <= 0)
+		log.info("C_Invoice_ID=" + getRecord_ID() + ", M_Warehouse_ID=" + getWarehouseId());
+		if (getRecord_ID() <= 0)
 			throw new FillMandatoryException("C_Invoice_ID");
-		if (p_M_Warehouse_ID == 0)
+		if (getWarehouseId() == 0)
 			throw new FillMandatoryException(PARAM_M_Warehouse_ID);
 		//
-		MInvoice invoice = new MInvoice (getCtx(), p_C_Invoice_ID, null);
+		MInvoice invoice = new MInvoice (getCtx(), getRecord_ID() , get_TrxName());
 		if (invoice.get_ID() <= 0)
 			throw new AdempiereException("@NotFound@ @C_Invoice_ID@");
 		if (!MInvoice.DOCSTATUS_Completed.equals(invoice.getDocStatus()))
@@ -90,58 +76,58 @@ public class InvoiceCreateInOut extends SvrProcess
 		{
 			createLine(invoice, invoiceLine);
 		}
-		if (m_inout == null)
+		if (inOut == null)
 			throw new InvoiceFullyMatchedException();
 		//
-		return m_inout.getDocumentNo();
+		return inOut.getDocumentNo();
 	}	//	doIt
 
 	/**
 	 * Create Shipment/Receipt header
-	 * @param invoice
+	 * @param invoice Invoice
 	 * @return Shipment/Receipt header
 	 */
 	private MInOut getCreateHeader(MInvoice invoice)
 	{
-		if (m_inout != null)
-			return m_inout;
-		m_inout = new MInOut (invoice, 0, null, p_M_Warehouse_ID);
-		m_inout.saveEx();
-		return m_inout;
+		if (inOut != null)
+			return inOut;
+		inOut = new MInOut (invoice, 0, null, getWarehouseId());
+		inOut.saveEx();
+		return inOut;
 	}
 	
 	/**
 	 * Create shipment/receipt line
-	 * @param invoice
-	 * @param invoiceLine
-	 * @return shipment/receipt line
+	 * @param invoice Invoice
+	 * @param invoiceLine Invoice Line
 	 */
-	private MInOutLine createLine(MInvoice invoice, MInvoiceLine invoiceLine)
+	private void createLine(MInvoice invoice, MInvoiceLine invoiceLine)
 	{
-		BigDecimal qtyMatched = invoiceLine.getMatchedQty();
-		BigDecimal qtyInvoiced = invoiceLine.getQtyInvoiced();
-		BigDecimal qtyNotMatched = qtyInvoiced.subtract(qtyMatched);
-		// If is fully matched don't create anything
-		if (qtyNotMatched.signum() == 0)
-		{
-			return null;
+		if (invoiceLine.getM_InOutLine_ID() > 0)
+			return;
+
+		// if is fully delivery don't create anything
+		if (invoiceLine.getC_OrderLine_ID() > 0) {
+			MOrderLine orderLine = (MOrderLine)invoiceLine.getC_OrderLine();
+			BigDecimal qtyNotMatched = orderLine.getQtyOrdered().subtract(MMatchPO.getPOMatchedQuantity(orderLine)).subtract(invoiceLine.getQtyInvoiced());
+			// If is fully matched don't create anything
+			if (qtyNotMatched.signum() < 0)
+				return;
 		}
-		MInOut inout = getCreateHeader(invoice);
-		MInOutLine sLine = new MInOutLine(inout);
-		sLine.setInvoiceLine(invoiceLine, 0,	//	Locator 
-			invoice.isSOTrx() ? qtyNotMatched : Env.ZERO);
-		sLine.setQtyEntered(qtyNotMatched);
-		sLine.setMovementQty(qtyNotMatched);
-		if (invoice.isCreditMemo())
-		{
-			sLine.setQtyEntered(sLine.getQtyEntered().negate());
-			sLine.setMovementQty(sLine.getMovementQty().negate());
+		MInOut inOut = getCreateHeader(invoice);
+		MInOutLine inOutLine = new MInOutLine(inOut);
+		inOutLine.setInvoiceLine(invoiceLine, 0,	//	Locator
+			invoice.isSOTrx() ? invoiceLine.getQtyInvoiced() : Env.ZERO);
+		inOutLine.setQtyEntered(invoiceLine.getQtyInvoiced());
+		inOutLine.setMovementQty(invoiceLine.getQtyInvoiced());
+		if (invoice.isCreditMemo()) {
+			inOutLine.setQtyEntered(inOutLine.getQtyEntered().negate());
+			inOutLine.setMovementQty(inOutLine.getMovementQty().negate());
 		}
-		sLine.saveEx();
+		inOutLine.saveEx();
 		//
-		invoiceLine.setM_InOutLine_ID(sLine.getM_InOutLine_ID());
+		invoiceLine.setM_InOutLine_ID(inOutLine.getM_InOutLine_ID());
 		invoiceLine.saveEx();
 		//
-		return sLine;
 	}
 }	//	InvoiceCreateInOut

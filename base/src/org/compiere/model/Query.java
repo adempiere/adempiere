@@ -59,6 +59,7 @@ import org.compiere.util.Util;
  *			<li>FR: [ 2214883 ] - to introduce .setClient_ID
  * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
  * 		Add support to pagination
+ * 		Add getIDsAsList method
  */
 public class Query
 {
@@ -784,40 +785,8 @@ public class Query
 	 * Get a Array with the IDs for this Query
 	 * @return Get a Array with the IDs
 	 */
-	public int[] getIDs ()
-	{
-		String[] keys = table.getKeyColumns();
-		if (keys.length != 1)
-		{
-			throw new DBException("Table "+table+" has 0 or more than 1 key columns");
-		}
-
-		StringBuffer selectClause = new StringBuffer("SELECT ");
-		selectClause.append(keys[0]);
-		selectClause.append(" FROM ").append(table.getTableName());
-		String sql = buildSQL(selectClause, true);
-		
-		ArrayList<Integer> list = new ArrayList<Integer>();
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, trxName);
-			rs = createResultSet(pstmt);
-			while (rs.next())
-			{
-				list.add(rs.getInt(1));
-			}
-		}
-		catch (SQLException e)
-		{
-			throw new DBException(e, sql);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
+	public int[] getIDs () {
+		List<Integer> list = getIDsAsList();
 		//	Convert to array
 		int[] retValue = new int[list.size()];
 		for (int i = 0; i < retValue.length; i++)
@@ -826,5 +795,41 @@ public class Query
 		}
 		return retValue;
 	}	//	get_IDs
+	
+	/**
+	 * Get Ids as list
+	 * @return
+	 */
+	public List<Integer> getIDsAsList() {
+		String[] keys = table.getKeyColumns();
+		if (keys.length != 1) {
+			throw new DBException("Table "+table+" has 0 or more than 1 key columns");
+		}
+
+		StringBuffer selectClause = new StringBuffer("SELECT ");
+		selectClause.append(keys[0]);
+		selectClause.append(" FROM ").append(table.getTableName());
+		String sql = buildSQL(selectClause, true);
+		
+		List<Integer> list = new ArrayList<Integer>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = DB.prepareStatement(sql, trxName);
+			rs = createResultSet(pstmt);
+			while (rs.next()) {
+				list.add(rs.getInt(1));
+			}
+		}
+		catch (SQLException e) {
+			throw new DBException(e, sql);
+		}
+		finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
+		}
+		//	Return list from IDs
+		return list;
+	}
 
 }

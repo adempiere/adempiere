@@ -132,7 +132,8 @@ public class MRNoticeTemplate extends X_R_NoticeTemplate {
         final String key = clientId + "|" + templateType + "|" + eventType;
         MMailText mailTemplate = cacheMailTextValue.get(key);
         if (mailTemplate != null) {
-        	return mailTemplate;
+			mailTemplate.clear();
+			return mailTemplate;
         }
         String whereClause = COLUMNNAME_AD_Client_ID + " IN(?,?) "
         		+ "AND EXISTS(SELECT 1 FROM R_NoticeTemplate rt "

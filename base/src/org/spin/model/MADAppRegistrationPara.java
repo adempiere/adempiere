@@ -49,4 +49,16 @@ public class MADAppRegistrationPara extends X_AD_AppRegistration_Para {
 		setParameterName(defaultParameter.getParameterName());
 		setParameterValue(defaultParameter.getParameterDefault());
 	}
+	
+	@Override
+	protected boolean afterSave(boolean newRecord, boolean success) {
+		MADAppRegistration.resetCache();
+		return super.afterSave(newRecord, success);
+	}
+	
+	@Override
+	protected boolean afterDelete(boolean success) {
+		MADAppRegistration.resetCache();
+		return super.afterDelete(success);
+	}
 }

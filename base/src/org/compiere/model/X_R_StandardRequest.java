@@ -23,14 +23,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for R_StandardRequest
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_R_StandardRequest extends PO implements I_R_StandardRequest, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20210505L;
 
     /** Standard Constructor */
     public X_R_StandardRequest (Properties ctx, int R_StandardRequest_ID, String trxName)
@@ -355,29 +355,6 @@ public class X_R_StandardRequest extends PO implements I_R_StandardRequest, I_Pe
 		return ii.intValue();
 	}
 
-	/** Set Standard Request Type.
-		@param R_StandardRequestType_ID 
-		Standard Request Type
-	  */
-	public void setR_StandardRequestType_ID (int R_StandardRequestType_ID)
-	{
-		if (R_StandardRequestType_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_R_StandardRequestType_ID, null);
-		else 
-			set_ValueNoCheck (COLUMNNAME_R_StandardRequestType_ID, Integer.valueOf(R_StandardRequestType_ID));
-	}
-
-	/** Get Standard Request Type.
-		@return Standard Request Type
-	  */
-	public int getR_StandardRequestType_ID () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_R_StandardRequestType_ID);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
 	/** Set Standard Request.
 		@param R_StandardRequest_ID 
 		Standard Request
@@ -396,6 +373,29 @@ public class X_R_StandardRequest extends PO implements I_R_StandardRequest, I_Pe
 	public int getR_StandardRequest_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_R_StandardRequest_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Standard Request Type.
+		@param R_StandardRequestType_ID 
+		Standard Request Type
+	  */
+	public void setR_StandardRequestType_ID (int R_StandardRequestType_ID)
+	{
+		if (R_StandardRequestType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_R_StandardRequestType_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_R_StandardRequestType_ID, Integer.valueOf(R_StandardRequestType_ID));
+	}
+
+	/** Get Standard Request Type.
+		@return Standard Request Type
+	  */
+	public int getR_StandardRequestType_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_R_StandardRequestType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -484,6 +484,23 @@ public class X_R_StandardRequest extends PO implements I_R_StandardRequest, I_Pe
     {
         return new KeyNamePair(get_ID(), String.valueOf(getSeqNo()));
     }
+
+	/** Set Subject.
+		@param Subject 
+		Email Message Subject
+	  */
+	public void setSubject (String Subject)
+	{
+		set_Value (COLUMNNAME_Subject, Subject);
+	}
+
+	/** Get Subject.
+		@return Email Message Subject
+	  */
+	public String getSubject () 
+	{
+		return (String)get_Value(COLUMNNAME_Subject);
+	}
 
 	/** Set Summary.
 		@param Summary 

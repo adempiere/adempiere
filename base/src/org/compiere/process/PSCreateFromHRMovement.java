@@ -17,10 +17,16 @@
 package org.compiere.process;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MPaySelection;
 import org.compiere.model.MPaySelectionLine;
+import org.eevolution.model.X_HR_Movement;
+import org.eevolution.model.X_HR_Process;
 
 /**
  * 	Payment Selection Create From Invoice, used for Smart Browse (Create From Payroll Movement)
@@ -31,8 +37,9 @@ import org.compiere.model.MPaySelectionLine;
 public class PSCreateFromHRMovement extends PSCreateFromHRMovementAbstract {
 
 	/**	Sequence			*/
-	private int				m_SeqNo = 10;
-	
+	private AtomicInteger sequence = new AtomicInteger(10);
+	/**	Process Cache	*/
+	private Map<Integer, X_HR_Process> payrollProcessMap = new HashMap<>();
 	@Override
 	protected void prepare() {
 		super.prepare();
@@ -45,20 +52,28 @@ public class PSCreateFromHRMovement extends PSCreateFromHRMovementAbstract {
 	protected String doIt() throws Exception {
 		//	Instance current Payment Selection
 		MPaySelection paySelection = new MPaySelection(getCtx(), getRecord_ID(), get_TrxName());
-		m_SeqNo = paySelection.getLastLineNo();
+		sequence.set(paySelection.getLastLineNo());
 		//	Loop for keys
-		for(Integer key : getSelectionKeys()) {
+		getSelectionKeys().forEach(key -> {
 			//	get values from result set
-			int HR_Movement_ID = key;
-			String PaymentRule = getSelectionAsString(key, "HRM_PaymentRule");
-			BigDecimal Amount = getSelectionAsBigDecimal(key, "HRM_Amount");
-			m_SeqNo += 10;
-			MPaySelectionLine line = new MPaySelectionLine(paySelection, m_SeqNo, PaymentRule);
+			int movementId = key;
+			String paymentRule = getSelectionAsString(key, "HRM_PaymentRule");
+			BigDecimal sourceAmount = getSelectionAsBigDecimal(key, "HRM_Amount");
+			BigDecimal convertedAmount = getSelectionAsBigDecimal(key, "HRM_ConvertedAmount");
+			MPaySelectionLine line = new MPaySelectionLine(paySelection, sequence.getAndAdd(10), paymentRule);
 			//	Add Order
-			line.setHRMovement(HR_Movement_ID, Amount);
+			X_HR_Movement payrollMovement = new X_HR_Movement(getCtx(), movementId, get_TrxName());
+			Optional<X_HR_Process> mybePayrollProcess = Optional.ofNullable(payrollProcessMap.get(payrollMovement.getHR_Process_ID()));
+			X_HR_Process payrollProcess = mybePayrollProcess.orElseGet(() -> {
+				X_HR_Process processFromMovement = (X_HR_Process) payrollMovement.getHR_Process();
+				payrollProcessMap.put(payrollMovement.getHR_Process_ID(), processFromMovement);
+				return processFromMovement;
+			});
+			//	Set from Payroll Movement and conversion type
+			line.setHRMovement(payrollMovement, payrollProcess.getC_ConversionType_ID(), sourceAmount, convertedAmount);
 			//	Save
 			line.saveEx();
-		}
+		});
 		//	Default Ok
 		return "@OK@";
 	}

@@ -107,7 +107,6 @@
     <libelement value="jar://$MODULE_DIR$/posterita/posterita/web/WEB-INF/lib/servlet.jar!/" />
     <libelement value="jar://$MODULE_DIR$/packages/liberoHR.jar!/" />
     <libelement value="jar://$MODULE_DIR$/packages/liberoMFG.jar!/" />
-    <libelement value="jar://$MODULE_DIR$/tools/lib/iText-2.1.7.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/miglayout-3.7.1-swing.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/payflow.jar!/" />
     <libelement value="jar://$MODULE_DIR$/tools/lib/cron4j-2.2.1.jar!/" />
@@ -1041,15 +1040,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="iText-2.1.7.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/iText-2.1.7.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
       <library name="miglayout-3.7.1-swing.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/miglayout-3.7.1-swing.jar!/" />
@@ -1344,7 +1334,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/itext-pdfa-5.5.2.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/pdfa-7.1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1416,7 +1406,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/commons-validator-1.6.jar!/" />
+          <root url="jar://$MODULE_DIR$/tools/lib/commons-validator-1.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.*;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -657,5 +658,34 @@ public class MDDOrderLine extends X_DD_OrderLine
 				.setOrderBy(MMovementLine.COLUMNNAME_Created)
 				.setParameters(getDD_OrderLine_ID())
 				.list();
+	}
+
+	public void orderedStock() {
+		MLocator locatorTo = MLocator.get(getCtx(),getM_LocatorTo_ID());
+		log.fine("Line=" + getLine()
+				+ " - Ordered=" + getQtyOrdered()
+				+ ",Reserved=" + getQtyReserved() + ",Delivered=" + getQtyDelivered());
+			//	Update Storage
+			if (!MStorage.add(getCtx(), locatorTo.getM_Warehouse_ID(), locatorTo.getM_Locator_ID(),
+					getM_Product_ID(),
+					getM_AttributeSetInstance_ID(), getM_AttributeSetInstance_ID(),
+					Env.ZERO, Env.ZERO , getCalculateQtyReserved() , get_TrxName()))
+				throw new AdempiereException("@M_Storage_ID@ @Error@ @To@ @QtyReserved@");
+		//	update line
+		setQtyReserved(getQtyReserved().add(getCalculateQtyReserved()));
+	}
+
+	public void reserveStock() {
+		MLocator locatorFrom = MLocator.get(getCtx(),getM_Locator_ID());
+		log.fine("Line=" + getLine()
+				+ " - Ordered=" + getQtyOrdered()
+				+ ",Reserved=" + getQtyReserved() + ",Delivered=" + getQtyDelivered());
+		if (!MStorage.add(getCtx(), locatorFrom.getM_Warehouse_ID(), locatorFrom.getM_Locator_ID(),
+				getM_Product_ID(),
+				getM_AttributeSetInstanceTo_ID(), getM_AttributeSetInstance_ID(),
+				Env.ZERO, getCalculateQtyReserved(), Env.ZERO , get_TrxName()))
+			throw new AdempiereException("@M_Storage_ID@ @Error@ @To@ @QtyReserved@");
+
+		setQtyReserved(getQtyReserved().add(getCalculateQtyReserved()));
 	}
 }	//	MDDOrderLine

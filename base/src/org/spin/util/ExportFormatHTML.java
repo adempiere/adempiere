@@ -122,7 +122,9 @@ public class ExportFormatHTML extends AbstractExportFormat {
 				cssPrefix = null;
 			
 			table table = new table();
-			
+			//	Print Writer
+			PrintWriter printWriter = new PrintWriter(writer);
+			//	
 			if (printFormat.getAD_PrintFont_ID() != 0) {
 				MPrintFont font = (MPrintFont) printFormat.getAD_PrintFont();
 				Font ff = font.getFont();
@@ -140,13 +142,30 @@ public class ExportFormatHTML extends AbstractExportFormat {
 			}
 			if (cssPrefix != null)
 				table.setClass(cssPrefix + "-table");
+			if (!onlyTable) {
+				XhtmlDocument doc = new XhtmlDocument();
+				doc.appendBody(table);
+				if (extension!=null && extension.getStyleURL() != null)
+				{
+					link l = new link(extension.getStyleURL(), "stylesheet", "text/css");
+					doc.appendHead(l);					
+				}
+				if (extension!=null && extension.getScriptURL() != null)
+				{
+					script jslink = new script();
+					jslink.setLanguage("javascript");
+					jslink.setSrc(extension.getScriptURL());
+					doc.appendHead(jslink);
+				}
+				printWriter.write(doc.toString().replaceAll("</table>", "").replaceAll("</body>", "").replaceAll("</html>", ""));
+			} else {
+				printWriter.write(table.toString().replaceAll("</table>", ""));
+			}
 			//
 			//	for all rows (-1 = header row)
 			for (int row = -1; row < printData.getRowCount(); row++)
 			{
 				tr tr = new tr();
-				table.addElement(tr);
-
 				String cssclass = "";
 				if (cssPrefix != null && row % 2 == 0)
 					cssclass = cssPrefix + "-odd";
@@ -319,31 +338,19 @@ public class ExportFormatHTML extends AbstractExportFormat {
 						}
 					}	//	printed
 				}	//	for all columns
+				tr.output(printWriter);
 			}	//	for all rows
-
-			//
-			PrintWriter w = new PrintWriter(writer);
-			if (onlyTable) {
-				table.output(w);
-			} else {
-				XhtmlDocument doc = new XhtmlDocument();
-				doc.appendBody(table);
-				if (extension!=null && extension.getStyleURL() != null)
-				{
-					link l = new link(extension.getStyleURL(), "stylesheet", "text/css");
-					doc.appendHead(l);					
-				}
-				if (extension!=null && extension.getScriptURL() != null)
-				{
-					script jslink = new script();
-					jslink.setLanguage("javascript");
-					jslink.setSrc(extension.getScriptURL());
-					doc.appendHead(jslink);
-				}
-				doc.output(w);
+			printWriter.write('\n');
+			printWriter.write("		</table>");
+			printWriter.write('\n');
+			if(!onlyTable) {
+				printWriter.write("	</body>");
+				printWriter.write('\n');
+				printWriter.write("</html>");
+				printWriter.write('\n');
 			}
-			w.flush();
-			w.close();
+			printWriter.flush();
+			printWriter.close();
 		} catch (Exception e) {
 			log.log(Level.SEVERE, "(w)", e);
 		}

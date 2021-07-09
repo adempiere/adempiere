@@ -397,7 +397,7 @@ implements IDocumentLine , DocumentReversalLineEnable
 	public MProduct getProduct()
 	{
 		if (m_product == null && getM_Product_ID() != 0)
-			m_product = MProduct.get (getCtx(), getM_Product_ID());
+			m_product = MProduct.get (getCtx(), getM_Product_ID(), get_TrxName());
 		return m_product;
 	}	//	getProduct
 

@@ -1,21 +1,23 @@
 /******************************************************************************
- * Product: Compiere ERP & CRM Smart Business Solution                        *
- * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
- * This program is free software; you can redistribute it and/or modify it    *
+ * Product: ADempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 2006-2019 ADempiere Foundation, All Rights Reserved.         *
+ * This program is free software, you can redistribute it and/or modify it    *
  * under the terms version 2 of the GNU General Public License as published   *
  * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * that it will be useful, but WITHOUT ANY WARRANTY, without even the implied *
  * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
  * See the GNU General Public License for more details.                       *
  * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * with this program, if not, write to the Free Software Foundation, Inc.,    *
  * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
  * For the text or an alternative of this public license, you may reach us    *
- * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
- * or via info@compiere.org or http://www.compiere.org/license.html           *
+ * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
+
 package org.compiere.util;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -24,6 +26,7 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.logging.Level;
 
+import org.compiere.minigrid.IDColumn;
 import org.compiere.model.MColumn;
 import org.compiere.model.MRefTable;
 
@@ -40,6 +43,12 @@ import org.compiere.model.MRefTable;
  * @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/676">
  * 		@see FR [ 677 ] Process Class Generator not get parameters type correctly</a>
+ *  @author Michael McKay, mckayERP@gmail.com
+ *  	<li><a href="https://github.com/adempiere/adempiere/issues/2908">#2908</a>Updates to ADempiere Look and Feel
+ * 
+ *  @author Edwin Betancourt EdwinBetanc0ut@outlook.com
+ *  	<li> <a href="https://github.com/adempiere/adempiere/issues/3363">
+ * 		@see BR [ 3363 ] Length in 0 of column, prevents to register values in that column</a>
  */
 public final class DisplayType
 {
@@ -427,7 +436,7 @@ public final class DisplayType
 	 *  @param yesNoAsBoolean - yes or no as boolean
 	 *  @return class Integer - BigDecimal - Timestamp - String - Boolean
 	 */
-	public static Class getClass (int displayType, boolean yesNoAsBoolean)
+	public static Class<?> getClass (int displayType, boolean yesNoAsBoolean)
 	{
 		if (isText(displayType) || displayType == List)
 			return String.class;
@@ -549,7 +558,8 @@ public final class DisplayType
 		if((dataType == Types.VARCHAR
 				|| dataType == Types.NVARCHAR)
 				&& (columnDataType == Types.VARCHAR
-						|| columnDataType == Types.NVARCHAR)) {
+						|| columnDataType == Types.NVARCHAR
+						|| columnDataType == Types.CHAR)) {  // Buttons
 			return (columnDataLength == 0 || columnDataLength == dataLength);
 		} else if((dataType == Types.NUMERIC
 				|| dataType == Types.DECIMAL)
@@ -567,6 +577,12 @@ public final class DisplayType
 						|| columnDataType == Types.TIME_WITH_TIMEZONE
 						|| columnDataType == Types.DATE)) {
 			return (columnDataLength == 0 || columnDataLength == dataLength);
+		}
+		else if (dataType == Types.CLOB && columnDataType == Types.CLOB) { // Field length not important
+			return true;
+		}
+		else if (dataType == Types.BLOB && columnDataType == Types.BLOB) { // Field length not important
+			return true;
 		}
 		//	
 		return false;
@@ -625,17 +641,27 @@ public final class DisplayType
 				return fieldLength;
 			}
 			//	EntityType, AD_Language	fallback
-			else {
-				return fieldLength;
-			}
+			return fieldLength;
 		}
 		//
-		if (displayType == DisplayType.Integer)
-			return 10;
-		if (DisplayType.isDate(displayType))
-			return 0;
-		if (DisplayType.isNumeric(displayType))
-			return 0;
+		if (displayType == DisplayType.Integer) {
+			if (fieldLength <= 0 || fieldLength > 10) {
+				return 10;
+			}
+			return fieldLength;
+		}
+		if (DisplayType.isDate(displayType)) {
+			if (fieldLength <= 0 || fieldLength > 7) {
+				return 7;
+			}
+			return fieldLength;
+		}
+		if (DisplayType.isNumeric(displayType)) {
+			if (fieldLength <= 0 || fieldLength > 22) {
+				return 22;
+			}
+			return fieldLength;
+		}
 		if (displayType == DisplayType.Binary)
 			return 0;
 		if (displayType == DisplayType.TextLong 
@@ -644,30 +670,21 @@ public final class DisplayType
 		if (displayType == DisplayType.YesNo)
 			return 1;
 		if (displayType == DisplayType.List) {
-			if (fieldLength == 1)
-				return fieldLength;
-			else
-				return fieldLength;
+			return fieldLength;
 		}
-		if (displayType == DisplayType.Color) // this condition is never reached - filtered above in isID
-		{
-			if (columnName.endsWith("_ID"))
+		if (displayType == DisplayType.Button) {
+			if (columnName.endsWith("_ID")) {
 				return 10;
-			else
-				return fieldLength;
+			}
+			return fieldLength;
 		}
-		if (displayType == DisplayType.Button)
-		{
-			if (columnName.endsWith("_ID"))
-				return 10;
-			else
-				return fieldLength;
-		}
-		if (!DisplayType.isText(displayType))
+		if (!DisplayType.isText(displayType)) {
 			s_log.severe("Unhandled Data Type = " + displayType);
-				
+		}
+
 		return fieldLength;
 	}	//	getSQLDataType
+	
 	/**
 	 * Get Data Type used for compare with DB
 	 * @param displayType
@@ -826,4 +843,52 @@ public final class DisplayType
 		return "UNKNOWN DisplayType=" + displayType;
 	}	//	getDescription
 	
+
+	/**
+	 * Returns the Display Type associated with a particular class.
+	 * The results are basic and assume, for example, that a Timestamp 
+	 * will use the {@link #Date} format.
+	 * @param c
+	 * @return the display type
+	 * @since 3.9.4
+	 */
+	public static int getDisplayTypeFromClass(Class<?> c) {
+		
+		//  ID Column & Selection
+		if (c == IDColumn.class)
+		{
+			return DisplayType.ID;
+		}
+		//  Boolean
+		else if (c == Boolean.class )
+		{
+			return DisplayType.YesNo;
+		}
+		//  Date
+		else if (c == Timestamp.class)
+		{
+			return DisplayType.Date;
+		}
+		//  Amount
+		else if (c == BigDecimal.class )
+		{
+			return DisplayType.Amount;
+		}
+		//  Number
+		else if (c == Double.class)
+		{
+			return DisplayType.Number;
+		}
+		//  Integer
+		else if (c == Integer.class )
+		{
+			return DisplayType.Integer; 
+		}
+		//  String
+		else
+		{
+			return DisplayType.String;
+		}
+	}
+
 }	//	DisplayType

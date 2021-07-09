@@ -26,6 +26,7 @@ import org.adempiere.exceptions.AdempiereException;
 import org.compiere.apps.IStatusBar;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.MCurrency;
+import org.compiere.model.MDocType;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -121,7 +122,7 @@ public abstract class LoanSimulator {
 		if(userId != 0) {
 			agreement.set_ValueOfColumn("AD_User_ID", userId);
 		}
-		agreement.setC_DocType_ID("FMA");
+		agreement.setC_DocType_ID(MDocType.DOCBASETYPE_FinancialAgreement);
 		agreement.setFM_AgreementType_ID();
 		agreement.setDescription(Msg.parseTranslation(Env.getCtx(), "@Generate@ @from@ @Simulation@"));
 		agreement.setValidFrom(startDate);
@@ -276,7 +277,7 @@ public abstract class LoanSimulator {
 		}
 		//	Validate Max and Min capital
 		if(financialProductId != 0) {
-			MFMProduct financialProduct = MFMProduct.getById(Env.getCtx(), financialProductId);
+			MFMProduct financialProduct = MFMProduct.getById(Env.getCtx(), financialProductId, null);
 			//	Capital Amount
 			BigDecimal minCapitalAmt = (BigDecimal) financialProduct.get_Value("MinCapitalAmt");
 			if(minCapitalAmt == null) {

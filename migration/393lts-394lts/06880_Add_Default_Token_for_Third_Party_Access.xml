@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add Default Token for Third Party Access" ReleaseNo="3.9.4" SeqNo="6880">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54529" Action="I" Record_ID="50005" Table="AD_TokenDefinition">
+        <Data AD_Column_ID="90944" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="90945" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90946" Column="Created">2020-11-18 16:32:21.836</Data>
+        <Data AD_Column_ID="90947" Column="Updated">2020-11-18 16:32:21.836</Data>
+        <Data AD_Column_ID="90948" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="90949" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="90950" Column="UUID">e11d45be-1c4d-486a-8614-6745540c2639</Data>
+        <Data AD_Column_ID="90952" Column="Value">TPA</Data>
+        <Data AD_Column_ID="90953" Column="Name">Third Party Access</Data>
+        <Data AD_Column_ID="90954" Column="Description">Third Party Access Generator</Data>
+        <Data AD_Column_ID="90951" Column="AD_TokenDefinition_ID">50005</Data>
+        <Data AD_Column_ID="90943" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="90956" Column="TokenType">TPA</Data>
+        <Data AD_Column_ID="90957" Column="Classname">org.spin.util.ThirdPartyAccess</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="54529" Action="U" Record_ID="50005" Table="AD_TokenDefinition">
+        <Data AD_Column_ID="97391" Column="IsHasExpireDate" oldValue="true">false</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

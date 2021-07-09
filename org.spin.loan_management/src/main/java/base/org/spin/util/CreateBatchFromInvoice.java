@@ -67,7 +67,7 @@ public class CreateBatchFromInvoice extends AbstractFunctionalSetting {
 	 * @return
 	 */
 	private String generateBatch(MInvoice invoice) {
-		int financialAccountId = invoice.get_ValueAsInt("FM_Account_ID");
+		int financialAccountId = invoice.getFM_Account_ID();
     	if(financialAccountId <= 0) {
     		return null;
     	}
@@ -103,7 +103,7 @@ public class CreateBatchFromInvoice extends AbstractFunctionalSetting {
     	//	Get Agreement
     	MFMAgreement agreement = (MFMAgreement) account.getFM_Agreement();
     	//	Get Financial Product
-    	MFMProduct financialProduct = MFMProduct.getById(getCtx(), agreement.getFM_Product_ID());
+    	MFMProduct financialProduct = MFMProduct.getById(getCtx(), agreement.getFM_Product_ID(), invoice.get_TrxName());
     	//	Create Batch
     	MFMBatch batch = createBatch(invoice.getDateInvoiced());
     	if(batch != null) {
@@ -159,7 +159,7 @@ public class CreateBatchFromInvoice extends AbstractFunctionalSetting {
     				transaction = batch.addTransaction(capitalType.getFM_TransactionType_ID(), line.getLineNetAmt().multiply(multiplier));
     			} else if(line.getC_Charge_ID() != 0
     					&& line.getC_Charge_ID() == interestChargeId) {	//	Interest
-    				int amortizationId = line.get_ValueAsInt("FM_Amortization_ID");
+    				int amortizationId = line.getFM_Amortization_ID();
     				if(amortizationId > 0) {
     					MFMAmortization amortization = new MFMAmortization(getCtx(), amortizationId, invoice.get_TrxName());
     					if(amortization.getEndDate().after(invoice.getDateInvoiced())
@@ -191,14 +191,14 @@ public class CreateBatchFromInvoice extends AbstractFunctionalSetting {
     			}
     			//	Add reference
     			if(transaction != null) {
-					if(line.get_ValueAsInt("FM_Amortization_ID") != 0) {
-						transaction.set_ValueOfColumn("FM_Amortization_ID", line.get_ValueAsInt("FM_Amortization_ID"));
+					if(line.getFM_Amortization_ID() != 0) {
+						transaction.set_ValueOfColumn("FM_Amortization_ID", line.getFM_Amortization_ID());
 						transaction.set_ValueOfColumn("C_InvoiceLine_ID", line.getC_InvoiceLine_ID());
     					transaction.saveEx();
 					}
 					if(transactionTax != null) {
-						if(line.get_ValueAsInt("FM_Amortization_ID") != 0) {
-							transactionTax.set_ValueOfColumn("FM_Amortization_ID", line.get_ValueAsInt("FM_Amortization_ID"));
+						if(line.getFM_Amortization_ID() != 0) {
+							transactionTax.set_ValueOfColumn("FM_Amortization_ID", line.getFM_Amortization_ID());
 							transactionTax.set_ValueOfColumn("C_InvoiceLine_ID", line.getC_InvoiceLine_ID());
 							transactionTax.saveEx();
 						}

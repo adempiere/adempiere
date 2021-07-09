@@ -21,7 +21,7 @@ import java.io.FileInputStream;
 import javax.swing.JFrame;
 
 import org.compiere.apps.AMenu;
-import org.compiere.util.Env;
+import org.compiere.util.SwingEnv;
 
 /**
  * 
@@ -32,7 +32,7 @@ public class SwingViewerProvider implements ReportViewerProvider {
 
 	public void openViewer(ReportEngine re) {
 		Viewer viewer = new Viewer(re);
-		JFrame top = Env.getWindow(0);
+		JFrame top = SwingEnv.getWindow(0);
 		if (top instanceof AMenu)
 			((AMenu)top).getWindowManager().add(viewer);
 	}

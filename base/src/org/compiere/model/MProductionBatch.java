@@ -19,6 +19,7 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -422,25 +423,15 @@ public class MProductionBatch extends X_M_ProductionBatch implements DocAction {
 			return false;
 		}
 
-		for (MProduction production: getProductionArray(true))
-		{
-			if (!(MProduction.DOCSTATUS_Closed.equals(production.getDocStatus())
-					|| MProduction.DOCSTATUS_Reversed.equals(production.getDocStatus()) || MProduction.DOCSTATUS_Voided
-					.equals(production.getDocStatus())))
-			{
-				if ((MProduction.DOCSTATUS_Drafted.equals(production.getDocStatus())
-						|| MProduction.DOCSTATUS_InProgress.equals(production.getDocStatus()) || MProduction.DOCSTATUS_Invalid
-						.equals(production.getDocStatus())))
-					//reserveStock((MProduct)getM_Product(), getTargetQty(), production.getM_Production_ID());
-				{
-					if (!production.voidIt())
-					{
-						m_processMsg = "Document Not Voided: " + production.getDocumentNo();
-						return false;
-					}
-					production.saveEx(get_TrxName());
-				}
-			}
+		StringBuffer errorMessage = new StringBuffer();
+		Arrays.asList(getProductionArray(true))
+			.stream()
+			.filter(production -> !production.getDocStatus().equals(MProduction.DOCSTATUS_Reversed) && !production.getDocStatus().equals(MProduction.DOCSTATUS_Voided))
+			.forEach(production -> errorMessage.append(Env.NL).append(production.getDocumentInfo()));
+		//	Verify validation
+		if(errorMessage.length() > 0) {
+			m_processMsg = "@SQLErrorReferenced@: " + errorMessage;
+			return false;
 		}
 		
 		MProductionBatch pBatch = new MProductionBatch(getCtx(), get_ID(), get_TrxName());
