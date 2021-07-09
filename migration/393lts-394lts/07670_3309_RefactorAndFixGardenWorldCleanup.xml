@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Refactor name of GardenWorldCleanup and add messages" ReleaseNo="3.9.4" SeqNo="7260">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="284" Action="U" Record_ID="53733" Table="AD_Process">
+        <Data AD_Column_ID="4656" Column="Classname" oldValue="org.compiere.process.GardenWorldCleanUp">org.compiere.process.GardenWorldCleanup</Data>
+        <Data AD_Column_ID="2811" Column="Help" oldValue="Brings all GardenWorld activity into the last two years.  Calendars need to exist.">Brings all GardenWorld activity into the last two years.  The process is run as part of the seed database updates but can be run at any time.</Data>
+        <Data AD_Column_ID="2809" Column="Name" oldValue="Clean Up Garden World">Garden World Cleanup</Data>
+        <Data AD_Column_ID="2810" Column="Description" oldValue="Advance the Dates in Garden World">Set dates in the Garden World demo client to be recent</Data>
+        <Data AD_Column_ID="4023" Column="Value" oldValue="CleanUpGardenWorld">GardenWorldCleanup</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2855" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="53733">53733</Data>
+        <Data AD_Column_ID="84387" Column="UUID" isOldNull="true">47993a7e-d869-4b6a-a3da-cbf6f0d2242f</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="116" Action="U" Record_ID="53920" Table="AD_Menu">
+        <Data AD_Column_ID="230" Column="Description" oldValue="Advance the Dates in Garden World">Set dates in the Garden World demo client to be recent</Data>
+        <Data AD_Column_ID="229" Column="Name" oldValue="Clean Up Garden World">Garden World Cleanup</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="120" Action="U" Record_ID="53920" Table="AD_Menu_Trl">
+        <Data AD_Column_ID="249" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="245" Column="AD_Menu_ID" oldValue="53920">53920</Data>
+        <Data AD_Column_ID="246" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="84345" Column="UUID" isOldNull="true">a771ab23-7a0c-4bce-be70-38553dcda219</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53690" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2021-01-24 11:02:33.703</Data>
+        <Data AD_Column_ID="198" Column="MsgText">Successfully updated Garden World data.	</Data>
+        <Data AD_Column_ID="591" Column="Updated">2021-01-24 11:02:33.703</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">GardenWorldCleanup:Success</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53690</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID">37ff17e4-9ed3-4843-9230-e6bc67bb3f59</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2021-01-24 11:02:34.681</Data>
+        <Data AD_Column_ID="611" Column="Updated">2021-01-24 11:02:34.681</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53690</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID">30214c6d-75ba-44e9-bd0e-107b10f33bc4</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Los datos de Garden World se han actualizado correctamente.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53691" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2021-01-24 12:05:21.437</Data>
+        <Data AD_Column_ID="198" Column="MsgText">The GardenWorld data is sufficiently up to date.  No changes were requried.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2021-01-24 12:05:21.437</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">GardenWorldCleanup:No_changes_required</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53691</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID">7bde90c4-e4ea-457c-b511-e69e0e02c22e</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2021-01-24 12:05:22.317</Data>
+        <Data AD_Column_ID="611" Column="Updated">2021-01-24 12:05:22.317</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53691</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID">522b4660-60d7-4443-beb3-c72915dc8556</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText">Los datos de GardenWorld están suficientemente actualizados. No se requirieron cambios.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="109" Action="I" Record_ID="53692" Table="AD_Message">
+        <Data AD_Column_ID="588" Column="IsActive">true</Data>
+        <Data AD_Column_ID="589" Column="Created">2021-01-24 12:08:55.492</Data>
+        <Data AD_Column_ID="198" Column="MsgText">The Garden World client can't be found.</Data>
+        <Data AD_Column_ID="591" Column="Updated">2021-01-24 12:08:55.492</Data>
+        <Data AD_Column_ID="197" Column="MsgType">I</Data>
+        <Data AD_Column_ID="6766" Column="Value">GardenWorldCleanup:Client_not_found</Data>
+        <Data AD_Column_ID="199" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="392" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="391" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="7716" Column="EntityType">D</Data>
+        <Data AD_Column_ID="6765" Column="AD_Message_ID">53692</Data>
+        <Data AD_Column_ID="590" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="592" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84346" Column="UUID">31884f88-42d8-465c-aa87-b04a17796e50</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="119" Action="I" Record_ID="0" Table="AD_Message_Trl">
+        <Data AD_Column_ID="609" Column="Created">2021-01-24 12:08:56.31</Data>
+        <Data AD_Column_ID="611" Column="Updated">2021-01-24 12:08:56.31</Data>
+        <Data AD_Column_ID="608" Column="IsActive">true</Data>
+        <Data AD_Column_ID="343" Column="MsgTip" isNewNull="true"/>
+        <Data AD_Column_ID="1192" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1193" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="610" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="341" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="6767" Column="AD_Message_ID">53692</Data>
+        <Data AD_Column_ID="612" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84347" Column="UUID">bac4709c-3d2d-404e-963d-a4b08e1ff4ed</Data>
+        <Data AD_Column_ID="344" Column="IsTranslated">true</Data>
+        <Data AD_Column_ID="342" Column="MsgText">No se puede encontrar al cliente de Garden World.</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

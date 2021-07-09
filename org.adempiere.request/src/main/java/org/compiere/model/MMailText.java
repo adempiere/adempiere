@@ -458,4 +458,11 @@ public class MMailText extends X_R_MailText
 	public String toString() {
 		return "MMailText [getMailHeader()=" + getMailHeader() + ", getR_MailText_ID()=" + getR_MailText_ID() + "]";
 	}
+
+	/**
+	 * Clear the entityMap from the previous context
+	 */
+	public void clear() {
+		entityMap.clear();
+	}
 }	//	MMailText

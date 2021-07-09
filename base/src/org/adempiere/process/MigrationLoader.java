@@ -127,7 +127,7 @@ public class MigrationLoader {
 			});
 			//	
 			processInfo = ProcessBuilder.create(context)
-					.process(org.compiere.process.GardenWorldCleanUp.class)
+					.process(org.compiere.process.GardenWorldCleanup.class)
 					.withTitle("Updating Garden World")
 					.executeUsingSystemRole();
 			log.log(Level.INFO, "Process=" + processInfo.getTitle() + " Error="+processInfo.isError() + " Summary=" + processInfo.getSummary());

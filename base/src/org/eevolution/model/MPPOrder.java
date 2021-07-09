@@ -41,7 +41,6 @@ import org.compiere.model.MProduct;
 import org.compiere.model.MProject;
 import org.compiere.model.MResource;
 import org.compiere.model.MStorage;
-import org.compiere.model.MTable;
 import org.compiere.model.MUOM;
 import org.compiere.model.MWarehouse;
 import org.compiere.model.ModelValidationEngine;
@@ -53,6 +52,7 @@ import org.compiere.print.ReportEngine;
 import org.compiere.process.DocAction;
 import org.compiere.process.DocumentEngine;
 import org.compiere.util.DB;
+import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.KeyNamePair;
 import org.compiere.util.Msg;
@@ -429,7 +429,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		if( is_ValueChanged(MPPOrder.COLUMNNAME_QtyDelivered)
 				|| is_ValueChanged(MPPOrder.COLUMNNAME_QtyOrdered))
 		{	
-			orderStock();
+			orderedStock();
 		}
 
 		
@@ -489,7 +489,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 				   MPPOrder.DOCSTATUS_Completed.equals(getDocStatus()))
 		{	
 			setQtyOrdered(Env.ZERO);
-			orderStock();
+			orderedStock();
 		}	
 
 		return true;
@@ -589,12 +589,6 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		{
 			; // nothing
 		}
-		// ManufacturingOrder, MaintenanceOrder
-		else
-		{
-			reserveStock(lines);
-			orderStock();
-		}
 		
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
 		if (m_processMsg != null)
@@ -604,7 +598,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		return DocAction.STATUS_InProgress;
 	} //	prepareIt
 
-	private void orderStock()
+	public void orderedStock()
 	{
 		MProduct product = getM_Product();
 		if (!product.isStocked())
@@ -619,11 +613,11 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		}
 		BigDecimal ordered = difference;
 		
-		int M_Locator_ID = getM_Locator_ID(ordered);
+		int locatorId = getM_Locator_ID(ordered);
 		// Necessary to clear order quantities when called from closeIt - 4Layers
 		if (DOCACTION_Close.equals(getDocAction()))
 		{
-			if (!MStorage.add(getCtx(), getM_Warehouse_ID(), M_Locator_ID,
+			if (!MStorage.add(getCtx(), getM_Warehouse_ID(), locatorId,
 					getM_Product_ID(), getM_AttributeSetInstance_ID(),
 					getM_AttributeSetInstance_ID(), Env.ZERO, Env.ZERO, ordered, get_TrxName()))
 			{
@@ -633,7 +627,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		else
 		{
 			//	Update Storage
-			if (!MStorage.add(getCtx(), getM_Warehouse_ID(), M_Locator_ID,
+			if (!MStorage.add(getCtx(), getM_Warehouse_ID(), locatorId,
 					getM_Product_ID(), getM_AttributeSetInstance_ID(),
 					getM_AttributeSetInstance_ID(), Env.ZERO, Env.ZERO, ordered, get_TrxName()))
 			{
@@ -654,7 +648,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		//	Always check and (un) Reserve Inventory		
 		for (MPPOrderBOMLine line : lines)
 		{
-			line.reserveStock();
+			line.reservedStock();
 			line.saveEx();
 		}
 	} //	reserveStock
@@ -806,7 +800,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			saveEx();
 		}	
 		
-		orderStock(); // Clear Ordered Quantities
+		orderedStock(); // Clear Ordered Quantities
 		reserveStock(getLines()); //	Clear Reservations
 		
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_AFTER_VOID);
@@ -845,13 +839,13 @@ public class MPPOrder extends X_PP_Order implements DocAction
 		
 		for(MPPOrderBOMLine line : getLines())
 		{
-			BigDecimal old = line.getQtyRequired();
-			if (old.compareTo(line.getQtyDelivered()) != 0)
+			BigDecimal qtyRequired = line.getQtyRequired();
+			if (qtyRequired.compareTo(line.getQtyDelivered()) != 0)
 			{	
 				line.setQtyRequired(line.getQtyDelivered());
-				line.addDescription(Msg.parseTranslation(getCtx(), "@closed@ @QtyRequired@ (" + old + ")"));
+				line.addDescription(Msg.parseTranslation(getCtx(), "@closed@ @QtyRequired@ (" + DisplayType.getNumberFormat(DisplayType.Quantity).format(qtyRequired) + ")"));
 				line.saveEx();
-			}	
+			}
 		}
 		
 		//Close all the activity do not reported
@@ -867,7 +861,7 @@ public class MPPOrder extends X_PP_Order implements DocAction
 			saveEx();
 		}
 	
-		orderStock(); // Clear Ordered Quantities
+		orderedStock(); // Clear Ordered Quantities
 		reserveStock(getLines()); //	Clear Reservations
 		
 		setDocStatus(DOCSTATUS_Closed);

@@ -292,7 +292,7 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 								quantityMA.negate(), productionLine.getParent().getMovementDate(), get_TrxName());
 						transaction.setM_ProductionLine_ID(productionLine.getM_ProductionLine_ID());
 						BigDecimal quantityReserved = productionLine.getMovementQty();
-						MProductionBatchLine pbLine = MProductionBatchLine.getbyProduct(getM_ProductionBatch_ID(), getM_Product_ID(), getCtx(), get_TrxName());
+						MProductionBatchLine pbLine = MProductionBatchLine.getbyProduct(getM_ProductionBatch_ID(), productionLine.getM_Product_ID(), getCtx(), get_TrxName());
 						pbLine.setQtyReserved(pbLine.getQtyReserved().add(quantityReserved));
 						pbLine.saveEx();
 						transaction.saveEx();
@@ -1061,19 +1061,21 @@ public class MProduction extends X_M_Production implements DocAction , DocumentR
 		
 		recalculate();
 		// Check batch having production planned Qty.
-		BigDecimal cntQty = Env.ZERO;
-		MProductionBatch pBatch = (MProductionBatch) getM_ProductionBatch();
-		for (MProduction p : pBatch.getProductionArray(true)) {
-			if (p.getM_Production_ID() != getM_Production_ID())
-				cntQty = cntQty.add(p.getProductionQty());
-		}
+		if(getM_ProductionBatch_ID() > 0) {
+			BigDecimal cntQty = Env.ZERO;
+			MProductionBatch pBatch = (MProductionBatch) getM_ProductionBatch();
+			for (MProduction p : pBatch.getProductionArray(true)) {
+				if (p.getM_Production_ID() != getM_Production_ID())
+					cntQty = cntQty.add(p.getProductionQty());
+			}
 
-		BigDecimal maxPlanQty = pBatch.getTargetQty().subtract(cntQty);
-		if (getProductionQty().compareTo(maxPlanQty) > 0) {
-			DecimalFormat format = DisplayType.getNumberFormat(DisplayType.Quantity);
-			throw new AdempiereException("@Total@ @ProductionQty@ > @TargetQty@ [@TargetQty@ = " + format.format(pBatch.getTargetQty())
-					+ " @Total@ @ProductionQty@ = " + format.format(cntQty)
-					+ " @Max@ = " + format.format(maxPlanQty));
+			BigDecimal maxPlanQty = pBatch.getTargetQty().subtract(cntQty);
+			if (getProductionQty().compareTo(maxPlanQty) > 0) {
+				DecimalFormat format = DisplayType.getNumberFormat(DisplayType.Quantity);
+				throw new AdempiereException("@Total@ @ProductionQty@ > @TargetQty@ [@TargetQty@ = " + format.format(pBatch.getTargetQty())
+						+ " @Total@ @ProductionQty@ = " + format.format(cntQty)
+						+ " @Max@ = " + format.format(maxPlanQty));
+			}
 		}
 		//	Delete before process
 		deleteLines();

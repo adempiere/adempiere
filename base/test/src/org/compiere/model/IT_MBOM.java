@@ -18,6 +18,7 @@ package org.compiere.model;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.compiere.model.ModelTestUtilities.verifyExceptionForMissingMandatoryField;
 import static org.compiere.model.X_M_BOM.BOMTYPE_CurrentActive;
 import static org.compiere.model.X_M_BOM.BOMTYPE_Make_To_Order;
 import static org.compiere.model.X_M_BOM.BOMTYPE_Make_To_Kit;
@@ -60,11 +61,7 @@ class IT_MBOM extends CommonGWSetup {
             bom.saveEx();
         });
 
-        String message = e.getMessage().split("\\n")[0];
-        assertEquals(
-                "ERROR: null value in column \"m_product_id\" violates "
-                + "not-null constraint",
-                message, "Exception message not as expected");
+        verifyExceptionForMissingMandatoryField("m_product_id", e);
 
     }
 
@@ -77,11 +74,7 @@ class IT_MBOM extends CommonGWSetup {
             bom.saveEx();
         });
 
-        String message = e.getMessage().split("\\n")[0];
-        assertEquals(
-                "ERROR: null value in column \"name\" violates "
-                + "not-null constraint",
-                message, "Exception message not as expected");
+        verifyExceptionForMissingMandatoryField("name", e);
 
     }
     

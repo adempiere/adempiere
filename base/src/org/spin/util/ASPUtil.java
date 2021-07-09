@@ -46,6 +46,7 @@ import org.compiere.model.MProcess;
 import org.compiere.model.MProcessCustom;
 import org.compiere.model.MProcessPara;
 import org.compiere.model.MProcessParaCustom;
+import org.compiere.model.MRole;
 import org.compiere.model.MTab;
 import org.compiere.model.MTabCustom;
 import org.compiere.model.MTable;
@@ -577,6 +578,7 @@ public class ASPUtil {
 			for(MBrowseField field : browseFields) {
 				MBrowseField fieldToAdd = field.getDuplicated();
 				fieldToAdd.setIsActive(false);
+				fieldToAdd.setIsDisplayed(false);
 				mergedFields.add(fieldToAdd);
 			}
 		} else {
@@ -774,15 +776,28 @@ public class ASPUtil {
 	}
 	
 	/**
+	 * Get role where clause for included
+	 * @return
+	 */
+	private String getIncludedRoleWhereClause() {
+		StringBuffer whereClause = new StringBuffer("AD_Role_ID IN(").append(roleId);
+		MRole.get(context, roleId).getIncludedRoles(true).forEach(role -> whereClause.append(", ").append(role.getAD_Role_ID()));
+		//	Add last
+		whereClause.append(")");
+		return whereClause.toString();
+	}
+	
+	/**
 	 * Get role window list for ASP
 	 * @param windowId
 	 * @return
 	 */
 	private List<MWindowCustom> getRoleWindowList(int windowId) {
-		String whereClause = "AD_Role_ID = ? AND AD_Window_ID = ?";
+		//	Add last
+		String whereClause = getIncludedRoleWhereClause() + " AND AD_Window_ID = ?";
 		//	Get
 		return new Query(context, I_AD_WindowCustom.Table_Name, whereClause, null)
-				.setParameters(roleId, windowId)
+				.setParameters(windowId)
 				.setOnlyActiveRecords(true)
 				.list();
 	}
@@ -793,10 +808,10 @@ public class ASPUtil {
 	 * @return
 	 */
 	private List<MProcessCustom> getRoleProcessList(int processId) {
-		String whereClause = "AD_Role_ID = ? AND AD_Process_ID = ?";
+		String whereClause = getIncludedRoleWhereClause() + " AND AD_Process_ID = ?";
 		//	Get
 		return new Query(context, I_AD_ProcessCustom.Table_Name, whereClause, null)
-				.setParameters(roleId, processId)
+				.setParameters(processId)
 				.setOnlyActiveRecords(true)
 				.list();
 	}
@@ -807,10 +822,10 @@ public class ASPUtil {
 	 * @return
 	 */
 	private List<MBrowseCustom> getRoleBrowseList(int browseId) {
-		String whereClause = "AD_Role_ID = ? AND AD_Process_ID = ?";
+		String whereClause = getIncludedRoleWhereClause() + " AND AD_Browse_ID = ?";
 		//	Get
 		return new Query(context, I_AD_BrowseCustom.Table_Name, whereClause, null)
-				.setParameters(roleId, browseId)
+				.setParameters(browseId)
 				.setOnlyActiveRecords(true)
 				.list();
 	}
@@ -1499,6 +1514,8 @@ public class ASPUtil {
 				if(!column.isKey()
 						&& !column.isParent()) {
 					fieldToAdd.setIsActive(false);
+					fieldToAdd.setIsDisplayed(false);
+					fieldToAdd.setIsDisplayedGrid(false);
 				}
 				mergedFields.add(fieldToAdd);
 			}
@@ -1843,9 +1860,7 @@ public class ASPUtil {
 			field.setAD_FieldGroup_ID(customField.getAD_FieldGroup_ID());
 		}
 		//	Displayed in grid
-		if(!Util.isEmpty(customField.getIsDisplayedGrid())) {
-			field.setIsDisplayedGrid(customField.getIsDisplayedGrid().equals("Y"));
-		}
+		field.setIsDisplayedGrid(customField.isDisplayedGrid());
 		//	Read Only
 		if(!Util.isEmpty(customField.getIsReadOnly())) {
 			field.setIsReadOnly(customField.getIsReadOnly().equals("Y"));
