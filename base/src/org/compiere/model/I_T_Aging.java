@@ -546,7 +546,7 @@ public interface I_T_Aging
     public static final String COLUMNNAME_PastDue360_Plus = "PastDue360_Plus";
 
 	/** Set PastDue360_plus	  */
-	public void setPastDue360_Plus (BigDecimal PastDue360_plus);
+	public void setPastDue360_Plus (BigDecimal PastDue360_Plus);
 
 	/** Get PastDue360_plus	  */
 	public BigDecimal getPastDue360_Plus();
