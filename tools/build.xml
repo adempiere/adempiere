@@ -302,6 +302,10 @@
 			<zipfileset src="lib/kernel-7.1.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
+			<!-- e-invoicing -->
+			<zipfileset src="lib/de.klst.facturx-2.0.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
 			<!-- JFreeChart			-->
 			<zipfileset src="lib/jfreechart-1.0.15.jar">
 				<patternset refid="manifest.exclude" />
@@ -560,6 +564,10 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/kernel-7.1.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<!-- e-invoicing -->
+			<zipfileset src="lib/de.klst.facturx-2.0.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/swingx-1.6.jar">

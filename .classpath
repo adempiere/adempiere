@@ -56,6 +56,7 @@
 	</classpathentry>
 	<classpathentry kind="src" path="org.adempiere.webservice/WEB-INF/src"/>
 	<classpathentry kind="src" path="com.kkalice.adempiere.migrate/src"/>
+	<classpathentry kind="src" path="com.klst.einvoice/src/main/java"/>
 	<classpathentry kind="src" path="org.adempiere.test/src/main/scala"/>
 	<classpathentry kind="src" output="org.adempiere.asset/test/build" path="org.adempiere.test/src/test/java">
 		<attributes>
@@ -337,6 +338,7 @@
 	<classpathentry kind="lib" path="tools/lib/ant-contrib-1.0b1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/cglib.jar"/>
 	<classpathentry kind="lib" path="tools/lib/commons-collections4-4.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/de.klst.facturx-2.0.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/groovy-all-2.4.15.jar"/>
 	<classpathentry kind="lib" path="tools/lib/harness-1.0.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/icepdf-core-6.2.2.jar"/>

@@ -4121,6 +4121,18 @@ public abstract class PO
 		return retValue;
 	}	//	saveLOB
 
+
+	/**
+	 * externalize Object to a given xml representation (non adempiere)
+	 * 
+	 * to be implemented in subclass / used for e-invoicing, @see https://github.com/adempiere/adempiere/issues/2658
+	 * 
+	 * @return xmldata
+	 */
+	public byte[] externalize() {
+		return null;
+	}
+
 	/**
 	 * 	Get Object xml representation as string
 	 *	@param xml optional string buffer
