@@ -158,7 +158,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	private GridWindow			m_window;
 
 	/** The Table Model for Query   */
-	private GridTable          	m_mTable = null;
+	GridTable                	m_mTable = null; // Visible for testing
 
 	private String 				m_keyColumnName = "";
 	private String 				m_linkColumnName = "";
@@ -173,7 +173,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	private ArrayList<Integer>	m_Lock = null;
 
 	/** Current Row         */
-	private int					m_currentRow = -1;
+	int					m_currentRow = -1; // Visible for testing
 
 	/** Property Change     */
 	private PropertyChangeSupport m_propertyChangeSupport = new PropertyChangeSupport(this);
@@ -1767,7 +1767,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	/**
 	 *  Load Dependent Information
 	 */
-	private void loadDependentInfo()
+	void loadDependentInfo() // Visible for testing
 	{
 		/**
 		 * Load Order Type from C_DocTypeTarget_ID
@@ -2275,7 +2275,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *  @param targetRow target row
 	 *  @return checked row
 	 */
-	private int verifyRow (int targetRow)
+	int verifyRow (int targetRow)
 	{
 		int newRow = targetRow;
 		//  Table Open?
