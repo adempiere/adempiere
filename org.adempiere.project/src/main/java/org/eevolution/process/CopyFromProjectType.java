@@ -19,7 +19,10 @@ package org.eevolution.process;
 import org.compiere.model.MProjectType;
 import org.compiere.model.MProjectTypePhase;
 import org.compiere.model.MProjectTypeTask;
+import org.compiere.model.MStandardProjectLine;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 /** Generated Process for (Copy from another Project Type)
@@ -39,7 +42,35 @@ public class CopyFromProjectType extends CopyFromProjectTypeAbstract
 	{
 		Optional<MProjectType> projectTypeFromOptiional = Optional.of(new MProjectType(getCtx() , getProjectTypeId() , get_TrxName()));
 		projectTypeFromOptiional.ifPresent(projectTypeFrom -> {
-			projectTypeFrom.getPhases().stream().forEach(fromPhase -> {
+			if (projectTypeFrom.get_ValueAsString("ProjectBased").equals("L")) {
+				List<MStandardProjectLine> standardLinesFrom = MStandardProjectLine.getNodes(projectTypeFrom, 0);
+				HashMap<MStandardProjectLine,MStandardProjectLine> standardLinesTo = new HashMap<MStandardProjectLine,MStandardProjectLine>();
+				HashMap<Integer,Integer> stdParents = new HashMap<Integer,Integer>(); 
+				
+				
+				standardLinesFrom.stream()
+					.forEach(stdPLineFrom ->{
+						MStandardProjectLine stdPLineTo = new MStandardProjectLine(getCtx(), 0, get_TrxName());
+						MStandardProjectLine.copyValues(stdPLineFrom, stdPLineTo);
+						stdPLineTo.setParent_ID(0);
+						stdPLineTo.setC_ProjectType_ID(getRecord_ID());
+						stdPLineTo.save();
+						if (stdPLineFrom.hasChilds())
+							stdParents.put(stdPLineFrom.getC_StandardProjectLine_ID(),stdPLineTo.getC_StandardProjectLine_ID());
+						standardLinesTo.put(stdPLineFrom, stdPLineTo);
+				});
+		
+				standardLinesTo
+					.forEach( (stdPLineFrom, stdPLineTo) ->{
+						Integer Parent_ID = stdParents.get(stdPLineFrom.getParent_ID());
+						if (Parent_ID!=null) {
+							stdPLineTo.setParent_ID(Parent_ID);
+							stdPLineTo.save();
+						}
+				});
+				
+			}else {
+				projectTypeFrom.getPhases().stream().forEach(fromPhase -> {
 					MProjectTypePhase projectTypePhase = new MProjectTypePhase(getCtx(), 0, get_TrxName());
 					projectTypePhase.setC_ProjectType_ID(getRecord_ID());
 					projectTypePhase.setSeqNo(fromPhase.getSeqNo());
@@ -62,7 +93,8 @@ public class CopyFromProjectType extends CopyFromProjectTypeAbstract
 						projectTypeTask.setR_StandardRequestType_ID(task.getR_StandardRequestType_ID());
 						projectTypeTask.saveEx();
 					});
-			});
+				});
+			}
 		});
 		return "@OK@";
 	}
