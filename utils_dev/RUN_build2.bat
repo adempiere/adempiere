@@ -11,7 +11,7 @@
 @if (%1) == () goto usage
 
 @Rem Set classpath
-@SET ANT_HOME=..\tools\lib\ant\apache-ant-1.10.9
+@SET ANT_HOME=..\tools\lib\ant\apache-ant-1.10.10
 @SET JAVA_CLASSPATH=%CLASSPATH%;%ANT_HOME%\lib\ant-launcher.jar;..\tools\lib\commons-net-1.4.0.jar
 @SET JAVA_CLASSPATH="%JAVA_CLASSPATH%";"%JAVA_HOME%\lib\tools.jar"
 
