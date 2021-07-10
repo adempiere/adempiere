@@ -394,7 +394,7 @@ public class WLocatorDialog extends Window implements EventListener
 		m_AD_Org_ID = 0;
 
 		String SQL = "SELECT M_Warehouse_ID, Value, Name, Separator, AD_Client_ID, AD_Org_ID "
-			+ "FROM M_Warehouse WHERE M_Warehouse_ID=?";
+			+ "FROM M_Warehouse WHERE IsActive = 'Y' AND M_Warehouse_ID=?";
 		
 		try
 		{
