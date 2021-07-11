@@ -36,8 +36,9 @@ public class MDocBaseType extends X_C_DocBaseType{
 	 */
 	private static final long serialVersionUID = 1L;
 	/**	Cache						*/
-	private static CCache<String,MDocBaseType>	acct_cache	= new CCache<String,MDocBaseType>(MDocBaseType.Table_Name, 20, 2);	//	2 minutes
-	private static CCache<Integer,MDocBaseType>	doc_cache	= new CCache<Integer,MDocBaseType>(MDocBaseType.Table_Name, 20, 2);	//	2 minutes
+	private static CCache<String,MDocBaseType>	acct_cache	= new CCache<String,MDocBaseType>(MDocBaseType.Table_Name, 20);
+	private static CCache<Integer,MDocBaseType>	doc_cache	= new CCache<Integer,MDocBaseType>(MDocBaseType.Table_Name, 20);
+	private static CCache<String,MDocBaseType>	cache	= new CCache<String,MDocBaseType>(MDocBaseType.Table_Name, 20);
 	
 	/**
 	 * Constructor
@@ -108,4 +109,24 @@ public class MDocBaseType extends X_C_DocBaseType{
 		}
 		return docBaseType;
 	}
+	
+	/**
+	 * Get Document Base by Document Base Type Static 
+	 * @param DocBaseType
+	 * @return
+	 */
+	public static MDocBaseType get(String DocBaseType) {
+		MDocBaseType docBaseType = cache.get(DocBaseType);
+		
+		if (docBaseType == null) {
+			String whereClause = "DocBaseType = ? ";
+			docBaseType = new Query(Env.getCtx(), MDocBaseType.Table_Name, whereClause, null)
+							.setParameters(DocBaseType)
+							.setOrderBy("IsDefault DESC")
+							.first();
+			cache.put(DocBaseType, docBaseType);
+		}
+		return docBaseType;
+	}
+	
 }//MDocBaseType
