@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="#197 Delete inactive Cost Elements in Garden World" ReleaseNo="3.9.2" SeqNo="4390">
+    <Comments>See https://github.com/adempiere/adempiere/issues/197</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="770" Action="D" Record_ID="104" Table="M_CostElement">
+        <Data AD_Column_ID="13453" Column="AD_Client_ID" isNewNull="true" oldValue="11"/>
+        <Data AD_Column_ID="13454" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="13455" Column="IsActive" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="13458" Column="Updated" isNewNull="true" oldValue="2018-10-14 07:56:20.0"/>
+        <Data AD_Column_ID="13459" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="13461" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="13460" Column="Name" isNewNull="true" oldValue="Average Invoice"/>
+        <Data AD_Column_ID="13462" Column="CostElementType" isNewNull="true" oldValue="M"/>
+        <Data AD_Column_ID="13457" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="13463" Column="CostingMethod" isNewNull="true" oldValue="I"/>
+        <Data AD_Column_ID="13464" Column="IsCalculated" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="59917" Column="IsDefault" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="84916" Column="UUID" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="13452" Column="M_CostElement_ID" isNewNull="true" oldValue="104"/>
+        <Data AD_Column_ID="13456" Column="Created" isNewNull="true" oldValue="2005-07-31 11:24:31.0"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="770" Action="D" Record_ID="103" Table="M_CostElement">
+        <Data AD_Column_ID="13455" Column="IsActive" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="13458" Column="Updated" isNewNull="true" oldValue="2010-10-15 11:30:44.0"/>
+        <Data AD_Column_ID="13459" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="13461" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="13460" Column="Name" isNewNull="true" oldValue="Average PO"/>
+        <Data AD_Column_ID="13452" Column="M_CostElement_ID" isNewNull="true" oldValue="103"/>
+        <Data AD_Column_ID="13453" Column="AD_Client_ID" isNewNull="true" oldValue="11"/>
+        <Data AD_Column_ID="13454" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="13462" Column="CostElementType" isNewNull="true" oldValue="M"/>
+        <Data AD_Column_ID="13457" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="13456" Column="Created" isNewNull="true" oldValue="2005-07-31 09:45:11.0"/>
+        <Data AD_Column_ID="13463" Column="CostingMethod" isNewNull="true" oldValue="A"/>
+        <Data AD_Column_ID="13464" Column="IsCalculated" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="59917" Column="IsDefault" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="84916" Column="UUID" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="770" Action="D" Record_ID="102" Table="M_CostElement">
+        <Data AD_Column_ID="13452" Column="M_CostElement_ID" isNewNull="true" oldValue="102"/>
+        <Data AD_Column_ID="13453" Column="AD_Client_ID" isNewNull="true" oldValue="11"/>
+        <Data AD_Column_ID="13454" Column="AD_Org_ID" isNewNull="true" oldValue="0"/>
+        <Data AD_Column_ID="13455" Column="IsActive" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="13456" Column="Created" isNewNull="true" oldValue="2005-07-31 09:43:59.0"/>
+        <Data AD_Column_ID="13458" Column="Updated" isNewNull="true" oldValue="2010-10-15 11:30:44.0"/>
+        <Data AD_Column_ID="13459" Column="UpdatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="13461" Column="Description" isNewNull="true" isOldNull="true"/>
+        <Data AD_Column_ID="13460" Column="Name" isNewNull="true" oldValue="Fifo"/>
+        <Data AD_Column_ID="13462" Column="CostElementType" isNewNull="true" oldValue="M"/>
+        <Data AD_Column_ID="13457" Column="CreatedBy" isNewNull="true" oldValue="100"/>
+        <Data AD_Column_ID="13463" Column="CostingMethod" isNewNull="true" oldValue="F"/>
+        <Data AD_Column_ID="13464" Column="IsCalculated" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="59917" Column="IsDefault" isNewNull="true" oldValue="false"/>
+        <Data AD_Column_ID="84916" Column="UUID" isNewNull="true" isOldNull="true"/>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
