@@ -20,6 +20,7 @@ package org.spin.test;
 import org.compiere.model.I_AD_Role;
 import org.compiere.model.Query;
 import org.compiere.util.Env;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,7 +32,9 @@ import org.adempiere.test.CommonGWSetup;
  */
 class IT_Query extends CommonGWSetup {
 	
-	/**
+	private static int maxCount;
+
+    /**
 	 * ADempiereSeed=# SELECT AD_Role_ID, UUID, Name, Description FROM AD_Role ORDER BY Created;
  ad_role_id |                 uuid                 |         name          |                  description                  
 ------------+--------------------------------------+-----------------------+-----------------------------------------------
@@ -44,16 +47,16 @@ class IT_Query extends CommonGWSetup {
       50008 | a48d3108-fb40-11e8-a479-7a0060f0aa01 | Role Template         | 
 (7 rows)
 	 */
-	@Test
-	void testFullResult() {
-		int eValue = 7;
-		int value = new Query(Env.getCtx(), I_AD_Role.Table_Name, null, null)
-			.setOrderBy(I_AD_Role.COLUMNNAME_Created)
-			.list()
-			.size();
-		assertEquals(eValue, value);
-	}
-	
+    @BeforeAll
+    static void getCount() {
+        
+        maxCount = new Query(Env.getCtx(), I_AD_Role.Table_Name, null, null)
+        .setOrderBy(I_AD_Role.COLUMNNAME_Created)
+        .list()
+        .size();
+        
+    }
+    	
 	/**
 	 * ADempiereSeed=# SELECT AD_Role_ID, UUID, Name, Description FROM AD_Role ORDER BY Created LIMIT 5;
  ad_role_id |                 uuid                 |         name         |                  description                  
@@ -87,7 +90,7 @@ class IT_Query extends CommonGWSetup {
 	 */
 	@Test
 	void testLimit5Offset4() {
-		int eValue = 3;
+		int eValue = Math.min(5, maxCount-4);
 		int value = new Query(Env.getCtx(), I_AD_Role.Table_Name, null, null)
 			.setOrderBy(I_AD_Role.COLUMNNAME_Created)
 			.setLimit(5, 4)
@@ -107,7 +110,7 @@ class IT_Query extends CommonGWSetup {
 	 */
 	@Test
 	void testOffset4() {
-		int eValue = 3;
+		int eValue = maxCount-4;
 		int value = new Query(Env.getCtx(), I_AD_Role.Table_Name, null, null)
 			.setOrderBy(I_AD_Role.COLUMNNAME_Created)
 			.setLimit(Query.NO_LIMIT, 4)
@@ -129,7 +132,7 @@ class IT_Query extends CommonGWSetup {
 	 */
 	@Test
 	void testOffset2() {
-		int eValue = 5;
+		int eValue = maxCount-2;
 		int value = new Query(Env.getCtx(), I_AD_Role.Table_Name, null, null)
 			.setOrderBy(I_AD_Role.COLUMNNAME_Created)
 			.setLimit(Query.NO_LIMIT, 2)
@@ -153,7 +156,7 @@ class IT_Query extends CommonGWSetup {
 	 */
 	@Test
 	void testOffset0() {
-		int eValue = 7;
+		int eValue = maxCount;
 		int value = new Query(Env.getCtx(), I_AD_Role.Table_Name, null, null)
 			.setOrderBy(I_AD_Role.COLUMNNAME_Created)
 			.setLimit(Query.NO_LIMIT, 0)

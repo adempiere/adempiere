@@ -15,7 +15,7 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ModelTestUtilities {
 
@@ -27,10 +27,8 @@ public class ModelTestUtilities {
             Exception e) {
 
         String message = e.getMessage().split("\\n")[0];
-        assertEquals(
-                "ERROR: null value in column \"" + fieldName + "\" "
-                        + "violates not-null constraint",
-                message, "Error message not as expected");
+        assertTrue(message.contains("ERROR: null value in column \"" + fieldName + "\""));
+        assertTrue(message.contains("violates not-null constraint"));
 
     }
 
