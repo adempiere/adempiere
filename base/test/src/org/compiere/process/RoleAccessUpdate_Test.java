@@ -18,6 +18,7 @@ package org.compiere.process;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doReturn;
@@ -43,6 +44,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.ArgumentCaptor;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Captor;
 
 @ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
@@ -56,10 +58,15 @@ class RoleAccessUpdate_Test extends CommonUnitTestSetup {
     static Stream<Arguments> argProviderRoleAndClient() {
 
         return Stream.of(
-                arguments(0, null, ""),
-                arguments(0, new BigDecimal(-1), ""),
-                arguments(1, null, "AD_Client_ID=?"),
-                arguments(1, new BigDecimal(-1), "AD_Client_ID=?"));
+                arguments(0, null, "", "all clients, all roles"),
+                arguments(0, new BigDecimal(-1), "", "all clients, all roles"),
+                arguments(1, null, "AD_Client_ID=?", "specific client, all roles"),
+                arguments(1, new BigDecimal(-1), "AD_Client_ID=?", "specific client, all roles"),
+                arguments(0, new BigDecimal(0), "AD_Role_ID=?", "system role only"),
+                arguments(1, new BigDecimal(0), "AD_Client_ID=? AND AD_Role_ID=?", 
+                        "specific non-system client, system role (shouldn't happen)"),
+                arguments(1, new BigDecimal(1), "AD_Client_ID=? AND AD_Role_ID=?", 
+                        "specific non-system client, non-system role"));
 
     }
 
@@ -83,12 +90,12 @@ class RoleAccessUpdate_Test extends CommonUnitTestSetup {
     }
 
     @ParameterizedTest(
-            name = "When ClientId = {0} and RoleId={1} then where clause is {3}")
+            name = "When ClientId={0} and RoleId={1} then where clause is {2} meaning {3}")
     @MethodSource("argProviderRoleAndClient")
     @DisplayName("When role is -1(null) or zero and client is 0 or not 0, then "
             + "the where clause should be set appropriately")
     final void whenRoleNullOrNegOneAndClientSet_ThenWhereMatches(int clientId,
-            BigDecimal roleId, String expectedWhere) throws Exception {
+            BigDecimal roleId, String expectedWhere, String ignored) throws Exception {
 
         doReturn(clientId).when(roleAccessUpdate)
                 .getParameterAsInt("AD_Client_ID");
@@ -108,12 +115,12 @@ class RoleAccessUpdate_Test extends CommonUnitTestSetup {
         MRole roleMock = mock(MRole.class);
         doReturn(1).when(roleAccessUpdate).getParameterAsInt("AD_Client_ID");
         doReturn(Env.ONE).when(roleAccessUpdate).getParameter("AD_Role_ID");
-        doReturn(roleMock).when(roleAccessUpdate).getRole(1);
+        doReturn(Stream.of(roleMock)).when(roleAccessUpdate).getRoles(anyInt(), anyInt());
 
         roleAccessUpdate.prepare();
         roleAccessUpdate.doIt();
 
-        verify(roleAccessUpdate).getRole(1);
+        verify(roleAccessUpdate).getRoles(1, 1);
         verify(roleAccessUpdate).updateRole(roleMock);
 
     }

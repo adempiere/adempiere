@@ -625,7 +625,10 @@ public class VLocator extends JComponent
 			return;
 		}
 		MWarehouse wh = MWarehouse.get(Env.getCtx(), M_Warehouse_ID);
-		if (wh == null || wh.get_ID() <= 0) {
+		if (wh == null || wh.get_ID() <= 0  
+			|| !wh.isActive() 					// this fixes bug https://github.com/adempiere/adempiere/issues/3143
+			) 
+		{
 			return;
 		}
 		MLocator loc = wh.getDefaultLocator();

@@ -380,7 +380,7 @@
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
 			<!-- jars for 2pack                         -->
-			<zipfileset src="lib/ant/apache-ant-1.10.9/lib/ant.jar">
+			<zipfileset src="lib/ant/apache-ant-1.10.10/lib/ant.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/xercesImpl.jar">
@@ -540,7 +540,7 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- jars for 2pack                         -->
-			<zipfileset src="lib/ant/apache-ant-1.10.9/lib/ant.jar">
+			<zipfileset src="lib/ant/apache-ant-1.10.10/lib/ant.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/xercesImpl.jar">
