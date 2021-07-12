@@ -840,7 +840,7 @@ public class MMovement extends X_M_Movement implements DocAction , DocumentRever
 		if (processMessage != null)
 			return false;
 
-		MMovement reversalMovement = reverseIt(true);
+		MMovement reversalMovement = reverseIt(false);
 		if (reversalMovement == null)
 			return false;
 
@@ -952,6 +952,10 @@ public class MMovement extends X_M_Movement implements DocAction , DocumentRever
 		// Before reverseAccrual
 		processMessage = ModelValidationEngine.get().fireDocValidate(this,ModelValidator.TIMING_BEFORE_REVERSEACCRUAL);
 		if (processMessage != null)
+			return false;
+		
+		MMovement reversalMovement = reverseIt(true);
+		if (reversalMovement == null)
 			return false;
 		
 		// After reverseAccrual
