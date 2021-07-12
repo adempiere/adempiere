@@ -2586,4 +2586,15 @@ public final class DB
 		}
 		return false;
 	}
+
+    /**
+     * Get the current time from the database
+     * @return a timestamp of the current database time
+     */
+    public static Timestamp getCurrentTimeFromDatabase() {
+
+        return DB.getSQLValueTS(null,
+                "SELECT getdate() FROM DUAL");
+
+    }
 }	//	DB

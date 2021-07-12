@@ -112,7 +112,7 @@ public class MDistribution extends X_GL_Distribution
 			if (distribution.getC_DocType_ID() != 0 && distribution.getC_DocType_ID() != docTypeId)
 				continue;
 			//	Optional Elements - "non-Any"
-			if (!distribution.isAnyOrg() && distribution.getAD_Org_ID() != orgId)
+			if (!distribution.isAnyOrg() && distribution.getOrg_ID() != orgId)
 				continue;
 			if (!distribution.isAnyAcct() && distribution.getAccount_ID() != accountId)
 				continue;
@@ -363,7 +363,7 @@ public class MDistribution extends X_GL_Distribution
 				continue;
 			
 			if (!distribution.isAnyOrg()
-					&& distribution.getAD_Org_ID() != orgId)
+					&& distribution.getOrg_ID() != orgId)
 				continue;
 			if (!distribution.isAnyAcct()
 					&& distribution.getAccount_ID() != accountId)

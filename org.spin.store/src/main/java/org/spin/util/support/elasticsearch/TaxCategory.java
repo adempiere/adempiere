@@ -137,7 +137,7 @@ public class TaxCategory implements IPersistenceWrapper {
 
 	@Override
 	public String getCatalogName() {
-		return "tax_rule";
+		return "taxrule";
 	}
 
 	@Override
@@ -146,5 +146,10 @@ public class TaxCategory implements IPersistenceWrapper {
 			webStore = MStore.get(taxCategory.getCtx(), webStoreId);
 		}
 		return this;
+	}
+
+	@Override
+	public Map<String, Object> getMapping() {
+		return null;
 	}
 }

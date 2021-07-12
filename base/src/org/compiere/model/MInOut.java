@@ -1019,6 +1019,25 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 	}	//	beforeSave
 
 	/**
+	 * 	Before Delete
+	 *	@return true of it can be deleted
+	 */
+	protected boolean beforeDelete ()
+	{
+		if (isProcessed())
+			return false;
+
+		Arrays.stream(getLines()).forEach(inOutLine -> {
+			Optional<MInvoiceLine> maybeInvoiceLine = Optional.ofNullable(MInvoiceLine.getOfInOutLine(inOutLine));
+			maybeInvoiceLine.ifPresent(invoiceLine -> {
+				invoiceLine.setM_InOutLine_ID(-1);
+				invoiceLine.saveEx();
+			});
+		});
+		return true;
+	}	//	beforeDelete
+	
+	/**
 	 * 	After Save
 	 *	@param newRecord new
 	 *	@param success success
@@ -1459,9 +1478,9 @@ public class MInOut extends X_M_InOut implements DocAction , DocumentReversalEna
 			}	//	stock movement
 
 			//	Correct Order Line
-			if (product != null && orderLine != null && isSOTrx() && !orderLine.getParent().isReturnOrder())		//	other in VMatch.createMatchRecord
+			if (product != null && product.isStocked() && orderLine != null && isSOTrx() && !orderLine.getParent().isReturnOrder())		//	other in VMatch.createMatchRecord
 				orderLine.setQtyReserved(orderLine.getQtyReserved().add(QtySO));
-			else if (product != null && orderLine != null && !isSOTrx() && !orderLine.getParent().isReturnOrder())
+			else if (product != null && product.isStocked() && orderLine != null && !isSOTrx() && !orderLine.getParent().isReturnOrder())
 				orderLine.setQtyReserved(orderLine.getQtyReserved().add(QtyPO));
 
 			//	Update Sales Order Line

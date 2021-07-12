@@ -40,6 +40,8 @@ import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.indices.CreateIndexRequest;
+import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.search.fetch.subphase.FetchSourceContext;
 import org.spin.model.MADAppRegistration;
 import org.spin.support.IExternalCache;
@@ -189,6 +191,20 @@ public class ElasticSearch implements IExternalCache, IAppSupport {
 			if(exist(entity)) {
 				return update(entity);
 			}
+			try {
+				GetIndexRequest getRequest = new GetIndexRequest(getCatalogName(entity.getCatalogName()));
+				if(!client.indices().exists(getRequest, RequestOptions.DEFAULT)) {
+					CreateIndexRequest indexDefinition = new CreateIndexRequest(getCatalogName(entity.getCatalogName()));
+					Map<String, Object> mapping = entity.getMapping();
+					if(Optional.ofNullable(mapping).isPresent()) {
+						indexDefinition.mapping(mapping);
+						client.indices().create(indexDefinition, RequestOptions.DEFAULT);
+					}
+				}
+			} catch (Exception e) {
+				throw new AdempiereException(e);
+			}
+			//	Create
 			IndexRequest indexRequest = new IndexRequest(getCatalogName(entity.getCatalogName())).id(entity.getKeyValue()).source(entity.getMap());
 			indexRequest.opType(DocWriteRequest.OpType.CREATE);
 			IndexResponse indexResponse = client.index(indexRequest, RequestOptions.DEFAULT);
@@ -312,6 +328,11 @@ public class ElasticSearch implements IExternalCache, IAppSupport {
 
 				@Override
 				public IPersistenceWrapper withWebStoreId(int webStoreId) {
+					return null;
+				}
+
+				@Override
+				public Map<String, Object> getMapping() {
 					return null;
 				}
 			});
