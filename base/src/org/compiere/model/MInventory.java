@@ -783,6 +783,7 @@ public class MInventory extends X_M_Inventory implements DocAction, DocumentReve
 		if(dt.isCopyDocNoOnReversal()) {
 			reversal.setDocumentNo(getDocumentNo() + Msg.getMsg(getCtx(), "^"));
 		}
+		reversal.setMovementDate(reversalDate);
 		reversal.setDocStatus(DOCSTATUS_Drafted);
 		reversal.setDocAction(DOCACTION_Complete);
 		reversal.setIsApproved (false);
