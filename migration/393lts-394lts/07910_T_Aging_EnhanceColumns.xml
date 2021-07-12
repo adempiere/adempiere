@@ -2,11 +2,6 @@
 <Migrations>
   <Migration EntityType="D" Name="T_Aging_EnhanceColumns" ReleaseNo="3.9.4" SeqNo="7910">
     <Comments>https://github.com/adempiere/adempiere/pull/3412</Comments>
-    <Step SeqNo="10" StepType="AD">
-      <PO AD_Table_ID="50009" Action="U" Record_ID="50000" Table="AD_SysConfig">
-        <Data AD_Column_ID="50196" Column="Value" oldValue="http://developer.adempiere.com/cgi-bin/get_ID">http://190.215.113.98:7780/cgi-bin/get_ID</Data>
-      </PO>
-    </Step>
     <Step SeqNo="20" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="61767" Table="AD_Element">
         <Data AD_Column_ID="2600" Column="Updated">2021-07-09 09:24:15.776</Data>
