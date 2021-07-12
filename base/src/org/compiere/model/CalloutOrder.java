@@ -40,6 +40,10 @@ import java.util.logging.Level;
  *  @author Michael McKay (mjmckay)
  *  		<li> BF3468458 - Attribute Set Instance not filled on Orders when product lookup not used.
  *  			 See https://sourceforge.net/tracker/?func=detail&aid=3468458&group_id=176962&atid=879332
+ *
+ *	@author Nicolas Sarlabos, nicolas.sarlabos@openupsolutions.com, http://www.openupsolutions.com
+ *			<li> FR [ 1459 ] Invoice with price list that includes taxes
+ *			@see https://github.com/adempiere/adempiere/issues/1459
  */
 public class CalloutOrder extends CalloutEngine
 {
@@ -1124,7 +1128,8 @@ public class CalloutOrder extends CalloutEngine
 		}
 
 		//	Line Net Amt
-		BigDecimal lineNetAmount = null;
+		BigDecimal lineNetAmount = quantityOrdered.multiply(priceActual);
+
 		if(productId != 0) {
 			MProduct product = MProduct.get(ctx, productId);
 			if(product.getC_UOM_ID() != uOMToId
@@ -1137,6 +1142,28 @@ public class CalloutOrder extends CalloutEngine
 		if(lineNetAmount == null) {
 			lineNetAmount = quantityOrdered.multiply(priceActual);
 		}
+
+		if (isTaxIncluded(WindowNo))
+		{
+
+			int tax_ID = 0;
+
+			if (mTab.getValue("C_Tax_ID") != null){
+				tax_ID = (Integer)mTab.getValue("C_Tax_ID");
+			}
+
+			if(tax_ID > 0){
+
+				MTax Tax = new MTax(ctx,tax_ID,null);
+
+				BigDecimal multiplier = Tax.getRate().divide(Env.ONEHUNDRED, 12, BigDecimal.ROUND_HALF_UP);
+
+				multiplier = multiplier.add(Env.ONE);
+				lineNetAmount = lineNetAmount.divide(multiplier, 12, BigDecimal.ROUND_HALF_UP);
+
+			}
+		}
+
 		if (lineNetAmount.scale() > standardPrecision)
 			lineNetAmount = lineNetAmount.setScale(standardPrecision, BigDecimal.ROUND_HALF_UP);
 		log.info("LineNetAmt=" + lineNetAmount);
@@ -1301,5 +1328,29 @@ public class CalloutOrder extends CalloutEngine
 		}
 		return "";
 	}	//	qty
+
+	/**
+	 * 	Is Tax Included
+	 *	@param WindowNo window no
+	 *	@return tax included (default: false)
+	 */
+	private boolean isTaxIncluded (int WindowNo)
+	{
+		String ss = Env.getContext(Env.getCtx(), WindowNo, "IsTaxIncluded");
+		//	Not Set Yet
+		if (ss.length() == 0)
+		{
+			int M_PriceList_ID = Env.getContextAsInt(Env.getCtx(), WindowNo, "M_PriceList_ID");
+			if (M_PriceList_ID == 0)
+				return false;
+			ss = DB.getSQLValueString(null,
+					"SELECT IsTaxIncluded FROM M_PriceList WHERE M_PriceList_ID=?",
+					M_PriceList_ID);
+			if (ss == null)
+				ss = "N";
+			Env.setContext(Env.getCtx(), WindowNo, "IsTaxIncluded", ss);
+		}
+		return "Y".equals(ss);
+	}	//	isTaxIncluded
 }	//	CalloutOrder
 

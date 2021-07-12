@@ -52,6 +52,9 @@ import org.compiere.util.Util;
  * 			<li>BF [ 1733602 ] Price List including Tax Error - when a user changes the orderline or
  * 				invoice line for a product on a price list that includes tax, the net amount is
  * 				incorrectly calculated.
+ *	@author Nicolas Sarlabos, nicolas.sarlabos@openupsolutions.com, http://www.openupsolutions.com
+ *			<li> FR [ 1459 ] Invoice with price list that includes taxes
+ *			@see https://github.com/adempiere/adempiere/issues/1459
  */
 public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 {
@@ -413,7 +416,9 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 				
 				taxThisAmt = taxThisAmt.add(orderTax.calculateTax(lineNetAmount, isTaxIncluded(), getPrecision()));
 				taxStdAmt = taxStdAmt.add(stdTax.calculateTax(lineNetAmount, isTaxIncluded(), getPrecision()));
-				
+
+				if(isTaxIncluded()) taxThisAmt=Env.ZERO;
+
 				lineNetAmount = lineNetAmount.subtract(taxStdAmt).add(taxThisAmt);
 				
 				log.fine("Price List includes Tax and Tax Changed on Order Line: New Tax Amt: " 
@@ -1093,15 +1098,11 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		if (no != 1)
 			log.warning("(1) #" + no);
 
-		if (isTaxIncluded())
-			sql = "UPDATE C_Order i "
-				+ " SET GrandTotal=TotalLines "
-				+ "WHERE C_Order_ID=" + getC_Order_ID();
-		else
-			sql = "UPDATE C_Order i "
+		sql = "UPDATE C_Order i "
 				+ " SET GrandTotal=TotalLines+"
-					+ "(SELECT COALESCE(SUM(TaxAmt),0) FROM C_OrderTax it WHERE i.C_Order_ID=it.C_Order_ID) "
-					+ "WHERE C_Order_ID=" + getC_Order_ID();
+				+ "(SELECT COALESCE(SUM(TaxAmt),0) FROM C_OrderTax it WHERE i.C_Order_ID=it.C_Order_ID) "
+				+ "WHERE C_Order_ID=" + getC_Order_ID();
+
 		no = DB.executeUpdate(sql, get_TrxName());
 		if (no != 1)
 			log.warning("(2) #" + no);

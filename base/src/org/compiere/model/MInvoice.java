@@ -67,6 +67,9 @@ import org.eevolution.model.MPPProductBOMLine;
  *  @author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *			<a href="https://github.com/adempiere/adempiere/issues/887">
  * 			@see FR [ 887 ] System Config reversal invoice DocNo</a>
+ *	@author Nicolas Sarlabos, nicolas.sarlabos@openupsolutions.com, http://www.openupsolutions.com
+ *			<li> FR [ 1459 ] Invoice with price list that includes taxes
+ *			@see https://github.com/adempiere/adempiere/issues/1459
  */
 public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversalEnabled
 {
@@ -1621,8 +1624,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 				invoiceTax.deleteEx(true);
 				invoiceTax.saveEx();
 			} else {
-				if (!isTaxIncluded())
-					grandTotal.getAndUpdate(total -> total.add(invoiceTax.getTaxAmt()));
+				grandTotal.getAndUpdate(total -> total.add(invoiceTax.getTaxAmt()));
 			}
 		});
 		//

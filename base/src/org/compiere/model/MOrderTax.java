@@ -31,6 +31,10 @@ import org.compiere.util.Env;
  *	
  *  @author Jorg Janke
  *  @version $Id: MOrderTax.java,v 1.4 2006/07/30 00:51:04 jjanke Exp $
+ *
+ *	@author Nicolas Sarlabos, nicolas.sarlabos@openupsolutions.com, http://www.openupsolutions.com
+ *			<li> FR [ 1459 ] Invoice with price list that includes taxes
+ *			@see https://github.com/adempiere/adempiere/issues/1459
  */
 public class MOrderTax extends X_C_OrderTax
 {
@@ -210,7 +214,7 @@ public class MOrderTax extends X_C_OrderTax
 		boolean documentLevel = getTax().isDocumentLevel();
 		MTax tax = getTax();
 		//
-		String sql = "SELECT LineNetAmt FROM C_OrderLine WHERE C_Order_ID=? AND C_Tax_ID=?";
+		String sql = "SELECT LineNetAmt, PriceEntered, QtyEntered FROM C_OrderLine WHERE C_Order_ID=? AND C_Tax_ID=?";
 		PreparedStatement pstmt = null;
 		try
 		{
@@ -223,8 +227,21 @@ public class MOrderTax extends X_C_OrderTax
 				BigDecimal baseAmt = rs.getBigDecimal(1);
 				taxBaseAmt = taxBaseAmt.add(baseAmt);
 				//
-				if (!documentLevel)		// calculate line tax
-					taxAmt = taxAmt.add(tax.calculateTax(baseAmt, isTaxIncluded(), getPrecision()));
+				if (!documentLevel){
+					// calculate line tax
+					if(isTaxIncluded()){
+
+						BigDecimal priceEntered = rs.getBigDecimal(2);
+						BigDecimal qtyEntered = rs.getBigDecimal(3);
+						BigDecimal bd = priceEntered.multiply(qtyEntered);
+
+						taxAmt = taxAmt.add(tax.calculateTax(bd, isTaxIncluded(), getPrecision()));
+
+					} else {
+
+						taxAmt = taxAmt.add(tax.calculateTax(baseAmt, isTaxIncluded(), getPrecision()));
+					}
+				}
 			}
 			rs.close ();
 			pstmt.close ();
@@ -255,10 +272,8 @@ public class MOrderTax extends X_C_OrderTax
 		setTaxAmt(taxAmt);
 
 		//	Set Base
-		if (isTaxIncluded())
-			setTaxBaseAmt (taxBaseAmt.subtract(taxAmt));
-		else
-			setTaxBaseAmt (taxBaseAmt);
+		setTaxBaseAmt (taxBaseAmt);
+
 		log.fine(toString());
 		return true;
 	}	//	calculateTaxFromLines

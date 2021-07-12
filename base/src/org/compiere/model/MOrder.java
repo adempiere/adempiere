@@ -69,6 +69,9 @@ import org.eevolution.model.MPPProductBOMLine;
  * @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
  *		<a href="https://github.com/adempiere/adempiere/issues/1455">
  * 		@see FR [ 1455 ] Add Sales Region to Order and Invoice</a>
+ *	@author Nicolas Sarlabos, nicolas.sarlabos@openupsolutions.com, http://www.openupsolutions.com
+ *			<li> FR [ 1459 ] Invoice with price list that includes taxes
+ *			@see https://github.com/adempiere/adempiere/issues/1459
  */
 public class MOrder extends X_C_Order implements DocAction
 {
@@ -1597,8 +1600,7 @@ public class MOrder extends X_C_Order implements DocAction
 						orderTax.deleteEx(true);
 						orderTax.saveEx();
 					} else {
-						if (!isTaxIncluded())
-							grandTotal.getAndUpdate(total -> total.add(orderTax.getTaxAmt()));
+						grandTotal.getAndUpdate(total -> total.add(orderTax.getTaxAmt()));
 					}
 				});
 		setTotalLines(totalLines.get());

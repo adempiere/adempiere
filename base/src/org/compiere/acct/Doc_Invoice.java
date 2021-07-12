@@ -50,6 +50,10 @@ import org.compiere.util.Env;
  *  	<li>BF: 2797257	Landed Cost Detail is not using allocation qty
  *  
  *  @version  $Id: Doc_Invoice.java,v 1.2 2006/07/30 00:53:33 jjanke Exp $
+ *
+ *	@author Nicolas Sarlabos, nicolas.sarlabos@openupsolutions.com, http://www.openupsolutions.com
+ *			<li> FR [ 1459 ] Invoice with price list that includes taxes
+ *			@see https://github.com/adempiere/adempiere/issues/1459
  */
 public class Doc_Invoice extends Doc
 {
@@ -166,6 +170,7 @@ public class Doc_Invoice extends Doc
 			docLine.setQty(cm ? Qty.negate() : Qty, invoice.isSOTrx());
 			//
 			BigDecimal LineNetAmt = line.getLineNetAmt();
+			BigDecimal LineTotalAmt = line.getLineTotalAmt();
 			BigDecimal PriceList = line.getPriceList();
 			int C_Tax_ID = docLine.getC_Tax_ID();
 			//	Correct included Tax
@@ -174,9 +179,9 @@ public class Doc_Invoice extends Doc
 				MTax tax = MTax.get(getCtx(), C_Tax_ID);
 				if (!tax.isZeroTax())
 				{
-					BigDecimal LineNetAmtTax = tax.calculateTax(LineNetAmt, true, getStdPrecision());
+					BigDecimal LineNetAmtTax = tax.calculateTax(LineTotalAmt, true, getStdPrecision());
 					log.fine("LineNetAmt=" + LineNetAmt + " - Tax=" + LineNetAmtTax);
-					LineNetAmt = LineNetAmt.subtract(LineNetAmtTax);
+					LineNetAmt = LineTotalAmt.subtract(LineNetAmtTax);
 					for (int t = 0; t < m_taxes.length; t++)
 					{
 						if (m_taxes[t].getC_Tax_ID() == C_Tax_ID)

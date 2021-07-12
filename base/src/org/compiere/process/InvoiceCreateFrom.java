@@ -40,6 +40,9 @@ import org.compiere.util.Env;
  * 	@author Yamel Senih, ysenih@erpcya.com, ERPCyA http://www.erpcya.com
  *	@author Victor Perez , victor.perez@e-evolution.com, http://e-evolution.com
  *  @version Release 3.8.0
+ *  @author Nicolas Sarlabos, nicolas.sarlabos@openupsolutions.com, http://www.openupsolutions.com
+ *  *			<li> FR [ 1459 ] Invoice with price list that includes taxes
+ *  *			@see https://github.com/adempiere/adempiere/issues/1459
  */
 public class InvoiceCreateFrom extends InvoiceCreateFromAbstract {
 
@@ -112,6 +115,10 @@ public class InvoiceCreateFrom extends InvoiceCreateFromAbstract {
 				MOrderLine orderLine = new MOrderLine (getCtx(), key, get_TrxName());
 				//	Set reference
 				referenceId.set(orderLine.getC_Order_ID());
+				if (invoice.getC_Order_ID() == 0) {
+					MOrder order = (MOrder) orderLine.getC_Order();
+					invoice.setM_PriceList_ID(order.getM_PriceList_ID());
+				}
 				invoiceLine.setOrderLine(orderLine);
 			} else if(createFromType.equals(INVOICE)) {
 				MInvoiceLine fromLine = new MInvoiceLine(getCtx(), key, get_TrxName());

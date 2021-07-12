@@ -35,6 +35,10 @@ import org.compiere.util.Env;
  *  
  *  @author Teo Sarca, www.arhipac.ro
  *  		<li>FR [ 2214883 ] Remove SQL code and Replace for Query
+ *
+ *	@author Nicolas Sarlabos, nicolas.sarlabos@openupsolutions.com, http://www.openupsolutions.com
+ *			<li> FR [ 1459 ] Invoice with price list that includes taxes
+ *			@see https://github.com/adempiere/adempiere/issues/1459
  */
 public class MInvoiceTax extends X_C_InvoiceTax
 {
@@ -184,10 +188,10 @@ public class MInvoiceTax extends X_C_InvoiceTax
 		boolean documentLevel = getTax().isDocumentLevel();
 		MTax tax = getTax();
 		//
-		String sql = "SELECT il.LineNetAmt, COALESCE(il.TaxAmt,0), i.IsSOTrx "
-			+ "FROM C_InvoiceLine il"
-			+ " INNER JOIN C_Invoice i ON (il.C_Invoice_ID=i.C_Invoice_ID) "
-			+ "WHERE il.C_Invoice_ID=? AND il.C_Tax_ID=?";
+		String sql = "SELECT il.LineNetAmt, COALESCE(il.TaxAmt,0), i.IsSOTrx, il.PriceEntered, il.QtyEntered "
+				+ "FROM C_InvoiceLine il"
+				+ " INNER JOIN C_Invoice i ON (il.C_Invoice_ID=i.C_Invoice_ID) "
+				+ "WHERE il.C_Invoice_ID=? AND il.C_Tax_ID=?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try
@@ -209,13 +213,22 @@ public class MInvoiceTax extends X_C_InvoiceTax
 				//
 				// phib [ 1702807 ]: manual tax should never be amended
 				// on line level taxes
-				if (!documentLevel && amt.signum() != 0)	//	manually entered
-					;
-				else if (documentLevel || baseAmt.signum() == 0)
+				if (!documentLevel && amt.signum() != 0) {
+
+					if(isTaxIncluded()){
+
+						BigDecimal priceEntered = rs.getBigDecimal(4);
+						BigDecimal qtyEntered = rs.getBigDecimal(5);
+						BigDecimal bd = priceEntered.multiply(qtyEntered);
+
+						amt = tax.calculateTax(bd, isTaxIncluded(), getPrecision());
+
+					}
+				}else if (documentLevel || baseAmt.signum() == 0)
 					amt = Env.ZERO;
-				else	// calculate line tax
+				else // calculate line tax
 					amt = tax.calculateTax(baseAmt, isTaxIncluded(), getPrecision());
-				//
+
 				taxAmt = taxAmt.add(amt);
 			}
 		}
@@ -235,10 +248,8 @@ public class MInvoiceTax extends X_C_InvoiceTax
 		setTaxAmt(taxAmt);
 
 		//	Set Base
-		if (isTaxIncluded())
-			setTaxBaseAmt (taxBaseAmt.subtract(taxAmt));
-		else
-			setTaxBaseAmt (taxBaseAmt);
+		setTaxBaseAmt (taxBaseAmt);
+
 		return true;
 	}	//	calculateTaxFromLines
 
