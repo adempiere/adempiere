@@ -200,7 +200,7 @@ public class VueStoreFront implements ModelValidator {
 		} else if(type == TYPE_AFTER_DELETE) {
 			if(po instanceof MProduct) {
 				MProduct product = (MProduct) po;
-				ElasticSearchHelper.getInstance().connect().index(Product.newInstance().withProduct(product)).close();
+				ElasticSearchHelper.getInstance().connect().delete(Product.newInstance().withProduct(product)).close();
 			} else if(po instanceof MWCategory) {
 				MWCategory group = (MWCategory) po;
 				ElasticSearchHelper.getInstance().connect().delete(Category.newInstance().withCategoy(group)).close();
@@ -210,19 +210,19 @@ public class VueStoreFront implements ModelValidator {
 			} else if(po instanceof MTax) {
 				MTax tax = (MTax) po;
 				MTaxCategory taxCategory = (MTaxCategory) tax.getC_TaxCategory();
-				ElasticSearchHelper.getInstance().connect().index(TaxCategory.newInstance().withTaxCategory(taxCategory)).close();
+				ElasticSearchHelper.getInstance().connect().delete(TaxCategory.newInstance().withTaxCategory(taxCategory)).close();
 			} else if(po instanceof MAttribute) {
 				MAttribute attribute = (MAttribute) po;
 				ElasticSearchHelper.getInstance().connect().delete(Attribute.newInstance().withAttribute(attribute)).close();
 			} else if(po instanceof MAttributeValue) {
 				MAttributeValue attributeValue = (MAttributeValue) po;
 				MAttribute attribute = (MAttribute) attributeValue.getM_Attribute();
-				ElasticSearchHelper.getInstance().connect().index(Attribute.newInstance().withAttribute(attribute)).close();
+				ElasticSearchHelper.getInstance().connect().delete(Attribute.newInstance().withAttribute(attribute)).close();
 			} else if(po instanceof MAttachment) {
 				MAttachment attachment = (MAttachment) po;
 				if(attachment.getAD_Table_ID() == MProduct.Table_ID) {
 					MProduct product = MProduct.get(attachment.getCtx(), attachment.getRecord_ID());
-					ElasticSearchHelper.getInstance().connect().index(Product.newInstance().withProduct(product)).close();
+					ElasticSearchHelper.getInstance().connect().delete(Product.newInstance().withProduct(product)).close();
 				}
 			} else if(po.get_TableName().equals(I_W_Basket.Table_Name)) {
 				X_W_Basket basket = (X_W_Basket) po;

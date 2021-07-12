@@ -7,4 +7,4 @@ if [ $ADEMPIERE_HOME ]; then
 fi
 . ./myEnvironment.sh Server
 echo Export Reference - $ADEMPIERE_HOME \($ADEMPIERE_DB_NAME\)
-sh $ADEMPIERE_DB_PATH/ExportReference.sh
+sh $ADEMPIERE_DB_PATH/ExportReference.sh $ADEMPIERE_DB_USER $ADEMPIERE_DB_PASSWORD

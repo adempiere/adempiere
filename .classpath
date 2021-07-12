@@ -56,7 +56,6 @@
 	</classpathentry>
 	<classpathentry kind="src" path="org.adempiere.webservice/WEB-INF/src"/>
 	<classpathentry kind="src" path="com.kkalice.adempiere.migrate/src"/>
-	<classpathentry kind="src" path="org.adempiere.test/src/main/java"/>
 	<classpathentry kind="src" path="org.adempiere.test/src/main/scala"/>
 	<classpathentry kind="src" output="org.adempiere.asset/test/build" path="org.adempiere.test/src/test/java">
 		<attributes>
@@ -314,6 +313,12 @@
 	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/xbean-spring-2.8.jar"/>
 	<classpathentry kind="lib" path="org.adempiere.webservice/WEB-INF/lib/generated_xmlbeans.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/jackson-databind-2.10.4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/mockito-inline-3.6.0.jar" sourcepath="tools/lib/junit/mockito-inline-3.6.0-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/adempiere/tools/lib/junit/mockito-inline-3.6.0-javadoc.jar!/"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/scala-sdk-2.11.7"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SBT: org.scala-lang:scala-reflect:2.11.2:jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/SBT: org.scala-lang.modules:scala-xml_2.11:1.0.2:jar"/>
@@ -428,8 +433,8 @@
 	<classpathentry kind="lib" path="tools/lib/storefront/rank-eval-client-7.9.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/snakeyaml-1.26.jar"/>
 	<classpathentry kind="lib" path="tools/lib/storefront/t-digest-3.2.jar"/>
-	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant.jar"/>
-	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-commons-net.jar"/>
-	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.9/lib/ant-launcher.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-commons-net.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-launcher.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

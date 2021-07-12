@@ -396,9 +396,7 @@ public class RequisitionPOCreate extends RequisitionPOCreateAbstract
 
 		//	New Order - Different Vendor
 		if (purchaseOrder == null
-			|| purchaseOrder.getC_BPartner_ID() != partnerId
-			|| purchaseOrder.getDatePromised().compareTo(requisitionLine.getDateRequired()) != 0
-			)
+			|| purchaseOrder.getC_BPartner_ID() != partnerId)
 		{
 			newOrder(requisitionLine, partnerId);
 		}

@@ -2228,7 +2228,7 @@ public final class MPayment extends X_C_Payment
 		MPeriod.testPeriodOpen(getCtx(), reversalDate, getC_DocType_ID(), getAD_Org_ID());
 
 		//	Auto Reconcile if not on Bank Statement
-		boolean reconciled = getC_BankStatementLine_ID() == 0; //AZ Goodwill
+		boolean reconciled = getC_BankStatementLine_ID() > 0; //AZ Goodwill
 
 		//	Create Reversal
 		MPayment reversal = new MPayment (getCtx(), 0, get_TrxName());
@@ -2253,7 +2253,7 @@ public final class MPayment extends X_C_Payment
 		reversal.setOverUnderAmt(getOverUnderAmt().negate());
 		//
 		reversal.setIsAllocated(true);
-		reversal.setIsReconciled(reconciled);	//	to put on bank statement
+		reversal.setIsReconciled(!reconciled);	//	to put on bank statement
 		reversal.setIsOnline(false);
 		reversal.setIsApproved(true);
 		reversal.setR_PnRef(null);
@@ -2273,17 +2273,19 @@ public final class MPayment extends X_C_Payment
 		//	Post Reversal
 		if (!reversal.processIt(DocAction.ACTION_Complete))
 		{
-			processMsg = "Reversal ERROR: " + reversal.getProcessMsg();
+			processMsg = "@Error@ " + reversal.getProcessMsg();
 			return null;
 		}
 		reversal.closeIt();
 		reversal.setDocStatus(DOCSTATUS_Reversed);
 		reversal.setDocAction(DOCACTION_None);
-		reversal.save(get_TrxName());
+		reversal.saveEx(get_TrxName());
 
 		//	Unlink & De-Allocate
 		deAllocate(isAccrual);
-		setIsReconciled (reconciled);
+		if(!reconciled) {
+			setIsReconciled (true);
+		}
 		setIsAllocated (true);	//	the allocation below is overwritten
 		//	Set Status
 		addDescription("(" + reversal.getDocumentNo() + "<-)");
@@ -2313,18 +2315,22 @@ public final class MPayment extends X_C_Payment
 		allocationLine.saveEx(get_TrxName());
 
 		if (!allocationHdr.processIt(DocAction.ACTION_Complete))
-			throw new AdempiereException("Failed when processing document - " + allocationHdr.getProcessMsg());
+			throw new AdempiereException("@Error@ " + allocationHdr.getProcessMsg());
 
-		allocationHdr.save(get_TrxName());
+		allocationHdr.saveEx(get_TrxName());
 		StringBuffer info = new StringBuffer (reversal.getDocumentNo());
 		info.append(" - @C_AllocationHdr_ID@: ").append(allocationHdr.getDocumentNo());
-
+		//	Set is Allocated manually
+		reversal.setIsAllocated(true);
+		reversal.saveEx(get_TrxName());
+		setIsAllocated(true);
+		saveEx(get_TrxName());
 		//	Update BPartner
 		if (getC_BPartner_ID() != 0)
 		{
 			MBPartner partner = new MBPartner (getCtx(), getC_BPartner_ID(), get_TrxName());
 			partner.setTotalOpenBalance();
-			partner.save(get_TrxName());
+			partner.saveEx(get_TrxName());
 		}
 
 		processMsg = info.toString();
@@ -2442,16 +2448,15 @@ public final class MPayment extends X_C_Payment
 	}	//	reverseAccrualIt
 
 	/**
-	 * 	Get Bank Statement Line of payment or 0
-	 *	@return id or 0
+	 * 	Get Bank Statement Line of payment , return -1 if not exists
+	 *	@return id or -1
 	 */
-	private int getC_BankStatementLine_ID()
-	{
-		String sql = "SELECT C_BankStatementLine_ID FROM C_BankStatementLine WHERE C_Payment_ID=?";
-		int id = DB.getSQLValue(get_TrxName(), sql, getC_Payment_ID());
-		if (id < 0)
-			return 0;
-		return id;
+	private int getC_BankStatementLine_ID() {
+		String sql = "SELECT bsl.C_BankStatementLine_ID FROM C_BankStatementLine bsl WHERE bsl.C_Payment_ID=? "
+				+ "AND EXISTS(SELECT 1 FROM C_BankStatement bs "
+				+ "					WHERE bs.C_BankStatement_ID = bsl.C_BankStatement_ID "
+				+ "					AND bs.DocStatus IN('CO', 'CL'))";
+		return DB.getSQLValue(get_TrxName(), sql, getC_Payment_ID());
 	}	//	getC_BankStatementLine_ID
 
 	/** 

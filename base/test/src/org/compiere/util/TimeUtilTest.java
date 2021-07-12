@@ -577,4 +577,39 @@ class TimeUtilTest extends CommonUnitTestSetup {
 
     }
 
+    static Stream<Arguments> dateToYearProvider() {
+
+        return Stream.of(
+
+                arguments(1970, 01, 01),
+                arguments(2001, 12, 31),
+                arguments(2010, 05, 10));
+
+    }
+
+    @ParameterizedTest
+    @MethodSource("dateToYearProvider")
+    void getYearFromTimestamp(int yr, int m, int d) {
+
+        assertEquals(yr,
+                TimeUtil.getYearFromTimestamp(TimeUtil.getDay(yr, m, d)));
+
+    }
+
+    @Test
+    void whenPassedNull_getYearFromTimestampThrowsNPE() {
+
+        assertThrows(NullPointerException.class, () -> {
+            TimeUtil.getYearFromTimestamp(null);
+        });
+
+    }
+
+    @Test
+    void whenPassedZero_getYearFromTimestampReturns1970() {
+
+        assertEquals(1970, TimeUtil.getYearFromTimestamp(new Timestamp(0)));
+
+    }
+
 }
