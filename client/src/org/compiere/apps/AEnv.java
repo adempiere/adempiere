@@ -44,11 +44,13 @@ import javax.swing.RepaintManager;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import org.compiere.acct.Doc;
 import org.compiere.apps.form.FormFrame;
 import org.compiere.db.CConnection;
 import org.compiere.grid.ed.Calculator;
 import org.compiere.interfaces.Server;
 import org.compiere.model.GridWindowVO;
+import org.compiere.model.MAcctSchema;
 import org.compiere.model.MMenu;
 import org.compiere.model.MQuery;
 import org.compiere.model.MRole;
@@ -947,13 +949,15 @@ public final class AEnv
 	public static String postImmediate (int WindowNo, int AD_Client_ID, 
 		int AD_Table_ID, int Record_ID, boolean force)
 	{
-		log.config("Window=" + WindowNo 
-			+ ", AD_Table_ID=" + AD_Table_ID + "/" + Record_ID
-			+ ", Force=" + force);
+		log.info("Window=" + WindowNo
+				+ ", AD_Table_ID=" + AD_Table_ID + "/" + Record_ID
+				+ ", Force=" + force);
+			
+			String error = null;
+			MAcctSchema[] ass = MAcctSchema.getClientAcctSchema(Env.getCtx(), AD_Client_ID);
+			error = Doc.postImmediate(ass, AD_Table_ID, Record_ID, force, null);
 
-		String error = DocumentEngine.postImmediate(Env.getCtx(), AD_Client_ID, AD_Table_ID, Record_ID, force, null);
-
-		return error;
+			return error;
 	}   //  postImmediate
 
 	/**
