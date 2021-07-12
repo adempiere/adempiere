@@ -16,7 +16,7 @@
 # limitations under the License.
 
 # -----------------------------------------------------------------------------
-# Version Script for the CATALINA Server
+# Script to digest password using the algorithm specified
 # -----------------------------------------------------------------------------
 
 # Better OS/400 detection: see Bugzilla 31132
@@ -39,7 +39,7 @@ while [ -h "$PRG" ] ; do
 done
 
 PRGDIR=`dirname "$PRG"`
-EXECUTABLE=catalina.sh
+EXECUTABLE=tool-wrapper.sh
 
 # Check that target executable exists
 if $os400; then
@@ -57,4 +57,4 @@ else
   fi
 fi
 
-exec "$PRGDIR"/"$EXECUTABLE" version "$@"
+exec "$PRGDIR"/"$EXECUTABLE" org.apache.tomcat.util.net.openssl.ciphers.OpenSSLCipherConfigurationParser "$@"
