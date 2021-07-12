@@ -47,6 +47,7 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
      * @param costLowLevel
      * @param isSalesTransaction
      */
+	MTransaction originalReversal = null;
 	public void setCostingMethod(MAcctSchema accountSchema, MTransaction transaction, IDocumentLine model,
                                  MCost dimension, BigDecimal costThisLevel,
                                  BigDecimal costLowLevel, Boolean isSalesTransaction) {
@@ -90,8 +91,11 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 
 		// If model is reversal then no calculate cost
 		//Validate if model have a reverses and processing of reverse
-		if (model.getReversalLine_ID() > 0 && costDetail == null && !model.isReversalParent())
+		if (model.getReversalLine_ID() > 0 && costDetail == null && !model.isReversalParent()) {
+			originalReversal = MTransaction.getByDocumentLine(transaction);
+			if (originalReversal != null)			
 			return;
+		}
 		else if( costDetail != null && costDetail.isReversal() && model.getReversalLine_ID() > 0)
 	    {
             setReversalCostDetail();
@@ -313,8 +317,10 @@ public class AverageInvoiceCostingMethod extends AbstractCostingMethod
 		// transaction
 		//Validate if model have a reverses and processing of reverse
 		if (model.getReversalLine_ID() > 0 && costDetail == null && !model.isReversalParent()) {
-			createReversalCostDetail();
-			return;
+			if (originalReversal != null) {
+				createReversalCostDetail();
+				return;				
+			}
 		} 
 		else if (model.getReversalLine_ID() > 0 && !model.isReversalParent())
 			return;
