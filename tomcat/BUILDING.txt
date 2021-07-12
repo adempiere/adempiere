@@ -16,11 +16,11 @@
 ================================================================================
 
             ====================================================
-            Building The Apache Tomcat 8.5 Servlet/JSP Container
+            Building The Apache Tomcat 9.0 Servlet/JSP Container
             ====================================================
 
-This subproject contains the source code for Tomcat 8.5, a container that
-implements the Servlet 3.1, JSP 2.3, EL 3.0, WebSocket 1.1 and JASPIC 1.1
+This subproject contains the source code for Tomcat 9.0, a container that
+implements the Servlet 4.0, JSP 2.3, EL 3.0, WebSocket 1.1 and JASPIC 1.1
 specifications from the Java Community Process <https://www.jcp.org/>.
 
 Note: If you just need to run Apache Tomcat, it is not necessary to build
@@ -35,7 +35,7 @@ source distribution, do the following:
 
  1. If the JDK is already installed, skip to (2).
 
- 2. Download a version 7 of Java Development Kit (JDK) release (use the
+ 2. Download a version 8 of Java Development Kit (JDK) release (use the
     latest update available for your chosen version) from one of:
 
         http://www.oracle.com/technetwork/java/javase/downloads/index.html
@@ -64,9 +64,9 @@ source distribution, do the following:
     into which you installed the JDK release.
 
 
-(2) Install Apache Ant version 1.9.8 or later on your computer.
+(2) Install Apache Ant version 1.9.10 or later on your computer.
 
- 1. If Apache Ant version 1.9.8 or later is already installed on your
+ 1. If Apache Ant version 1.9.10 or later is already installed on your
     computer, skip to (3).
 
  2. Download a binary distribution of Ant from:
@@ -89,21 +89,21 @@ source distribution, do the following:
     available, which will be used to actually perform the build.
 
 
-(3) Building Tomcat 8.5
+(3) Building Tomcat 9.0
 
-(3.1) Checkout or obtain the source code for Tomcat 8.5
+(3.1) Checkout or obtain the source code for Tomcat 9.0
 
-Checkout the source using SVN, selecting a tag for released version or
-trunk for the current development code, or download and unpack a source
+Clone the source using git, then checkout a specific major branch or
+master for the latest code development, or download and unpack a source
 package.
 
- *  Tomcat SVN repository URL:
+ *  Tomcat GitHub repository URL:
 
-        https://svn.apache.org/repos/asf/tomcat/tc8.5.x/trunk/
+        https://github.com/apache/tomcat
 
  *  Source packages can be downloaded from:
 
-        https://tomcat.apache.org/download-80.cgi
+        https://tomcat.apache.org/download-90.cgi
 
 The location where the source has been placed will be further referred as
 ${tomcat.source}.
@@ -183,8 +183,8 @@ each release package has the appropriate line-endings.
 
 (4) Updating sources and rebuilding
 
-It is recommended that you regularly update the downloaded Tomcat 8.5
-sources using your SVN client.
+It is recommended that you regularly update the downloaded Tomcat 9.0
+sources using your git client.
 
 For a quick rebuild of only modified code you can use:
 
@@ -297,12 +297,6 @@ You can build them by using the following commands:
         codesigning.service=Microsoft Windows Signing
 
     Release managers will be provided with the necessary credentials by the PMC.
-    It will also be necessary to enable TLS 1.1 and TLS 1.2 by default (they are
-    disabled by default on Java 7) for the build process to communicate with the
-    code signing service. The simplest way is by setting the ANT_OPTS
-    environment variable. E.g. (for Windows):
-
-    set ANT_OPTS=-Dhttps.protocols=TLSv1,TLSv1.1,TLSv1.2
 
  4. Build the release:
 
@@ -487,11 +481,10 @@ NOTE: Cobertura is licensed under GPL v2 with parts of it being under
 
         java.net.preferIPv4Stack=true
 
- 10. It is possible to control whether the output of the tests is displayed
-     on the console or not. By default it is displayed and can be disabled
-     by the following property:
+ 10. By default the output of unit tests is sent to the console and can be
+     quite verbose. The output can be disabled by setting the property:
 
-        test.verbose=true
+        test.verbose=false
 
 (8) Source code checks
 
@@ -529,7 +522,7 @@ target. The command is:
 NOTE: FindBugs is licensed under LGPL. Using Findbugs during Tomcat build is
       optional and is off by default.
 
-      See http://findbugs.sourceforge.net/ for more information.
+      See https://spotbugs.github.io/ for more information.
 
 To enable FindBugs, add the following property to build.properties file:
 
@@ -551,15 +544,12 @@ The report file by default is written to
 You usually would not need to run this check. You can skip this section.
 
 Apache Tomcat project has convention that all of its textual source files,
-stored in Subversion repository, are marked with Subversion property
-"svn:eol-style" with value of "native". This convention makes the editing
-of source code on different platforms easier.
+stored in the Git repository, use Unix style LF line endings.
 
 This test is used by developers to check that the source code adheres to
 this convention. It verifies that the ends of lines in textual files are
-appropriate for the operating system where it is run. The idea is to run
-this check regularly on two different platforms and notify developers when
-an inconsistency is detected.
+appropriate. The idea is to run this check regularly and notify developers
+when an inconsistency is detected.
 
 The command to run this test is:
 

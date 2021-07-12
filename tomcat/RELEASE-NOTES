@@ -16,7 +16,7 @@
 ================================================================================
 
 
-                     Apache Tomcat Version 8.5.35
+                     Apache Tomcat Version 9.0.50
                             Release Notes
 
 
@@ -38,7 +38,7 @@ CONTENTS:
 ===================
 Dependency Changes:
 ===================
-Tomcat 8.5 is designed to run on Java SE 7 and later.
+Tomcat 9.0 is designed to run on Java 8 and later.
 
 
 ==============
@@ -46,7 +46,7 @@ API Stability:
 ==============
 
 The public interfaces for the following classes are fixed and will not be
-changed at all during the remaining lifetime of the 8.x series:
+changed at all during the remaining lifetime of the 9.x series:
 - All classes in the javax namespace
 
 The public interfaces for the following classes may be added to in order to
@@ -54,13 +54,8 @@ resolve bugs and/or add new features. No existing interface method will be
 removed or changed although it may be deprecated.
 - org.apache.catalina.* (excluding sub-packages)
 
-Note: As Tomcat 8 matures, the above list will be added to. The list is not
+Note: As Tomcat 9 matures, the above list will be added to. The list is not
       considered complete at this time.
-
-Note: A large number of deprecated methods, fields and configuration options
-      were removed in the transition from 8.0.x to 8.5.x. If any of those
-      removals triggers significant problems for the user community that the
-      deletion may be reverted in a later point release.
 
 The remaining classes are considered part of the Tomcat internals and may change
 without notice between point releases.
@@ -69,20 +64,21 @@ without notice between point releases.
 =============
 Bundled APIs:
 =============
-A standard installation of Tomcat 8.5 makes all of the following APIs available
+A standard installation of Tomcat 9.0 makes all of the following APIs available
 for use by web applications (by placing them in "lib"):
 * annotations-api.jar (Annotations package)
 * catalina.jar (Tomcat Catalina implementation)
 * catalina-ant.jar (Tomcat Catalina Ant tasks)
 * catalina-ha.jar (High availability package)
+* catalina-ssi.jar (Server-side Includes module)
 * catalina-storeconfig.jar (Generation of XML configuration from current state)
 * catalina-tribes.jar (Group communication)
-* ecj-4.6.3.jar (Eclipse JDT Java compiler)
+* ecj-4.20.jar (Eclipse JDT Java compiler)
 * el-api.jar (EL 3.0 API)
 * jasper.jar (Jasper 2 Compiler and Runtime)
 * jasper-el.jar (Jasper 2 EL implementation)
 * jsp-api.jar (JSP 2.3 API)
-* servlet-api.jar (Servlet 3.1 API)
+* servlet-api.jar (Servlet 4.0 API)
 * tomcat-api.jar (Interfaces shared by Catalina and Jasper)
 * tomcat-coyote.jar (Tomcat connectors and utility classes)
 * tomcat-dbcp.jar (package renamed database connection pool based on Commons DBCP 2)
@@ -120,7 +116,7 @@ and putting them in the shared classloader instead (JARs should be put in the
 Security manager URLs:
 ======================
 In order to grant security permissions to JARs located inside the
-web application repository, use URLs of of the following format
+web application repository, use URLs of the following format
 in your policy file:
 
 file:${catalina.base}/webapps/examples/WEB-INF/lib/driver.jar

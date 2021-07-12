@@ -16,20 +16,20 @@
 ================================================================================
 
             ===================================================
-            Running The Apache Tomcat 8.5 Servlet/JSP Container
+            Running The Apache Tomcat 9.0 Servlet/JSP Container
             ===================================================
 
-Apache Tomcat 8.5 requires a Java Standard Edition Runtime
-Environment (JRE) version 7 or later.
+Apache Tomcat 9.0 requires a Java Standard Edition Runtime
+Environment (JRE) version 8 or later.
 
 =============================
-Running With JRE 7 Or Later
+Running With JRE 8 Or Later
 =============================
 
 (1) Download and Install a Java SE Runtime Environment (JRE)
 
 (1.1) Download a Java SE Runtime Environment (JRE),
-      release version 7 or later, from
+      release version 8 or later, from
       http://www.oracle.com/technetwork/java/javase/downloads/index.html
 
 (1.2) Install the JRE according to the instructions included with the
@@ -157,7 +157,7 @@ create the following script file:
 
 On Windows, %CATALINA_BASE%\bin\setenv.bat:
 
-  set "JRE_HOME=%ProgramFiles%\Java\jre7"
+  set "JRE_HOME=%ProgramFiles%\Java\jre8"
   exit /b 0
 
 On *nix, $CATALINA_BASE/bin/setenv.sh:
@@ -297,8 +297,8 @@ CATALINA_BASE can be referenced in the XML configuration files processed
 by Tomcat as ${catalina.home} and ${catalina.base} respectively.
 
 For example, the standard manager web application can be kept in
-CATALINA_HOME/webapps/manager and loaded into CATALINA_BASE by using
-the following trick:
+CATALINA_HOME/webapps/manager and loaded into CATALINA_BASE by copying
+its deployment descriptor into the desired virtual host:
 
  * Copy the CATALINA_HOME/webapps/manager/META-INF/context.xml
    file as CATALINA_BASE/conf/Catalina/localhost/manager.xml
@@ -312,6 +312,7 @@ The file will look like the following:
     antiResourceLocking="false" privileged="true" >
     <Valve className="org.apache.catalina.valves.RemoteAddrValve"
          allow="127\.0\.0\.1" />
+    <Manager sessionAttributeValueClassNameFilter="java\.lang\.(?:Boolean|Integer|Long|Number|String)|org\.apache\.catalina\.filters\.CsrfPreventionFilter\$LruCache(?:\$1)?|java\.util\.(?:Linked)?HashMap"/>
   </Context>
 
 See Deployer chapter in User Guide and Context and Host chapters in the
@@ -393,14 +394,14 @@ For further reading:
 
     * Documentation for APR/Native library in the Tomcat User's Guide
 
-      https://tomcat.apache.org/tomcat-8.5-doc/apr.html
+      https://tomcat.apache.org/tomcat-9.0-doc/apr.html
 
     * Documentation for the HTTP and AJP protocol connectors in the Tomcat
       Configuration Reference
 
-      https://tomcat.apache.org/tomcat-8.5-doc/config/http.html
+      https://tomcat.apache.org/tomcat-9.0-doc/config/http.html
 
-      https://tomcat.apache.org/tomcat-8.5-doc/config/ajp.html
+      https://tomcat.apache.org/tomcat-9.0-doc/config/ajp.html
 
  - Apache Tomcat Native project home
 
@@ -455,22 +456,22 @@ For further reading:
 
     * Installing Apache Tomcat
 
-      https://tomcat.apache.org/tomcat-8.5-doc/setup.html
+      https://tomcat.apache.org/tomcat-9.0-doc/setup.html
 
-    * Windows service HOW-TO
+    * Windows Service How-To
 
-      https://tomcat.apache.org/tomcat-8.5-doc/windows-service-howto.html
+      https://tomcat.apache.org/tomcat-9.0-doc/windows-service-howto.html
 
 The binary files of Apache Commons Daemon in Apache Tomcat distributions
 for Windows are named:
 
-  - "tomcat8.exe"
-  - "tomcat8w.exe"
+  - "tomcat9.exe"
+  - "tomcat9w.exe"
 
 These files are renamed copies of "prunsrv.exe" and "prunmgr.exe" from
 Apache Commons Daemon distribution. The file names have a meaning: they are
 used as the service name to register the service in Windows, as well as the
 key name to store distinct configuration for this installation of
-"procrun". If you would like to install several instances of Tomcat 8.5
+"procrun". If you would like to install several instances of Tomcat 9.0
 in parallel, you have to further rename those files, using the same naming
 scheme.

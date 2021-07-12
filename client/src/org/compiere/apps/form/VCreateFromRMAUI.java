@@ -162,7 +162,7 @@ public class VCreateFromRMAUI extends CreateFromRMA
 	 *  Load Order/Invoice/Shipment data into Table
 	 *  @param data data
 	 */
-	protected void loadTableOIS (Vector<?> data)
+	protected void loadTableOIS (Vector<? extends Vector> data)
 	{
 		//  Remove previous listeners
 		v_CreateFromPanel.getMiniTable().removeMiniTableSelectionListener(v_CreateFromPanel);

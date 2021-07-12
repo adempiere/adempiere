@@ -19,21 +19,22 @@ name := "org.adempiere.test"
 
 //scalacOptions in (Compile, doc) ++= Opts.doc.title("ADempiere Test Suite")
 
-//organization := "e-Evolution"
-//version := "0.1.0-SNAPSHOT"
-scalaVersion := "2.13.1"
+scalaVersion := "2.13.6"
 
-resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"
+resolvers += "Artima Maven Repository" at "https://repo.artima.com/releases"
 
 fork := true
-val adempiereProperties = "-DPropertyFile=/Users/e-Evolution/AdempierePG.properties"
+val adempiereProperties =
+  "-DPropertyFile=/Users/e-Evolution/AdempierePG.properties"
 //scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation", "-encoding" , "utf8")
-javaOptions in Test := Seq (adempiereProperties)
+javaOptions in Test := Seq(adempiereProperties)
 
 libraryDependencies ++= Seq(
-  "org.scala-lang" % "scala-reflect" % "2.13.1",
-  "org.scalactic" %% "scalactic" % "3.1.0",
-  "org.scalatest" %% "scalatest" % "3.1.0" % "test"
+  "org.scala-lang" % "scala-reflect" % "2.13.6",
+  "org.scalactic" %% "scalactic" % "3.2.9",
+  "org.scalatest" %% "scalatest" % "3.2.9" % "test",
+  "org.scalatest" %% "scalatest-freespec" % "3.2.9" % "test",
+  "org.scalatest" %% "scalatest-featurespec" % "3.2.9" % "test"
 )
 
 //Documentation here ~compilehttps://github.com/earldouglas/xsbt-web-plugin/blob/master/docs/2.0.md
@@ -47,7 +48,8 @@ libraryDependencies ++= Seq(
 assemblyJarName in assembly := "AdempiereTestSuite.jar"
 test in assembly := {}
 
-assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = true, includeDependency =false)
+assemblyOption in assembly := (assemblyOption in assembly).value
+  .copy(includeScala = true, includeDependency = false)
 
 lazy val commonSettings = Seq(
   version := "0.1-SNAPSHOT",
@@ -55,9 +57,8 @@ lazy val commonSettings = Seq(
   scalaVersion := "2.13.1"
 )
 
-
 //val sourceDirectoryTest = "org.adempiere.test"
-val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/391"
+val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/develop"
 
 //System.setProperty("PropertyFile", adempiereProperties)
 
@@ -68,22 +69,35 @@ val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/391"
 //scalaSource in Test := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "scala"
 
 unmanagedClasspath in Compile += file(sourceAdempiere + "/bin")
-unmanagedClasspath in Compile += file(sourceAdempiere + "/zkwebui/WEB-INF/classes")
-unmanagedClasspath in Compile += file(sourceAdempiere + "/target/scala-2.12/classes")
-unmanagedClasspath in Compile += file(sourceAdempiere + "/target/scala-2.12/test-classes")
+unmanagedClasspath in Compile += file(
+  sourceAdempiere + "/zkwebui/WEB-INF/classes"
+)
+unmanagedClasspath in Compile += file(
+  sourceAdempiere + "/target/scala-2.13/classes"
+)
+unmanagedClasspath in Compile += file(
+  sourceAdempiere + "/target/scala-2.13/test-classes"
+)
 
 //unmanagedJars in Compile += Attributed.blank(file(System.getenv("JAVA_HOME") + "/jre/lib/jfxrt.jar"))
 
-unmanagedJars in Compile ++= (file(sourceAdempiere + "/zkwebui/WEB-INF/lib") * "*.jar").classpath
-unmanagedJars in Compile ++= (file(sourceAdempiere + "/lib") * "*.jar").classpath
-unmanagedJars in Compile ++= (file(sourceAdempiere + "/tools/lib") * "*.jar").classpath
-unmanagedJars in Compile ++= (file(sourceAdempiere + "/packages") * "*.jar").classpath
+unmanagedJars in Compile ++= (file(
+  sourceAdempiere + "/zkwebui/WEB-INF/lib"
+) * "*.jar").classpath
+unmanagedJars in Compile ++= (file(
+  sourceAdempiere + "/lib"
+) * "*.jar").classpath
+unmanagedJars in Compile ++= (file(
+  sourceAdempiere + "/tools/lib"
+) * "*.jar").classpath
+unmanagedJars in Compile ++= (file(
+  sourceAdempiere + "/packages"
+) * "*.jar").classpath
 
 //-oD to show test duration
 testOptions in Test += Tests.Argument("-oD")
 
-lazy val adempiereTestSuite = (project in file(".")).
-  settings(commonSettings: _*).
-  settings(
+lazy val adempiereTestSuite = (project in file("."))
+  .settings(commonSettings: _*)
+  .settings(
   )
-

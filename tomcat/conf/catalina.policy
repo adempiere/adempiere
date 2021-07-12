@@ -39,7 +39,7 @@ grant codeBase "file:${java.home}/jre/lib/ext/-" {
         permission java.security.AllPermission;
 };
 
-// These permissions apply to javac when ${java.home] points at $JAVA_HOME/jre
+// These permissions apply to javac when ${java.home} points at $JAVA_HOME/jre
 grant codeBase "file:${java.home}/../lib/-" {
         permission java.security.AllPermission;
 };
@@ -50,9 +50,14 @@ grant codeBase "file:${java.home}/lib/ext/-" {
         permission java.security.AllPermission;
 };
 
+// This permission is required when using javac to compile JSPs on Java 9
+// onwards
+//grant codeBase "jrt:/jdk.compiler" {
+//        permission java.security.AllPermission;
+//};
+
 
 // ========== CATALINA CODE PERMISSIONS =======================================
-
 
 // These permissions apply to the daemon code
 grant codeBase "file:${catalina.home}/bin/commons-daemon.jar" {
@@ -172,21 +177,9 @@ grant {
     permission java.lang.RuntimePermission
      "accessClassInPackage.org.apache.jasper.runtime.*";
 
-    // The cookie code needs these.
-    permission java.util.PropertyPermission
-     "org.apache.catalina.STRICT_SERVLET_COMPLIANCE", "read";
-    permission java.util.PropertyPermission
-     "org.apache.tomcat.util.http.ServerCookie.STRICT_NAMING", "read";
-    permission java.util.PropertyPermission
-     "org.apache.tomcat.util.http.ServerCookie.FWD_SLASH_IS_SEPARATOR", "read";
-
     // Applications using WebSocket need to be able to access these packages
     permission java.lang.RuntimePermission "accessClassInPackage.org.apache.tomcat.websocket";
     permission java.lang.RuntimePermission "accessClassInPackage.org.apache.tomcat.websocket.server";
-
-    // Applications need to access these packages to use the Servlet 4.0 Preview
-    permission java.lang.RuntimePermission "accessClassInPackage.org.apache.catalina.servlet4preview";
-    permission java.lang.RuntimePermission "accessClassInPackage.org.apache.catalina.servlet4preview.http";
 };
 
 

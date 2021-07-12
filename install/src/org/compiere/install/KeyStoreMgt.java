@@ -459,9 +459,9 @@ public class KeyStoreMgt
 		try
 		{
 			final String version = System.getProperty("java.version");
-			if (version.startsWith("1.7"))
-				keyTool = Class.forName(KEYTOOL_JAVA7);
-			else if (version.startsWith("1.8"))
+			if (version.startsWith("1.8"))
+				keyTool = Class.forName(KEYTOOL_JAVA8);
+			if (version.startsWith("11"))
 				keyTool = Class.forName(KEYTOOL_JAVA8);
 
 			Class[] argTypes = new Class[] { String[].class };
