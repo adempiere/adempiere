@@ -21,6 +21,7 @@ import java.awt.Container;
 import java.awt.FocusTraversalPolicy;
 import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
 import javax.swing.JComponent;
@@ -30,12 +31,11 @@ import javax.swing.SwingUtilities;
 import javax.swing.plaf.ComponentInputMapUIResource;
 import javax.swing.plaf.metal.MetalLabelUI;
 
-import sun.swing.UIAction;
-
 /**
  * 	Adempiere Label UI
  *	
  *  @author Jorg Janke
+ *  @author Marek Mosiewicz - adopt to JDK10
  *  @version $Id: AdempiereLabelUI.java,v 1.2 2006/07/30 00:52:24 jjanke Exp $
  */
 public class CompiereLabelUI extends MetalLabelUI
@@ -90,7 +90,7 @@ public class CompiereLabelUI extends MetalLabelUI
 	/**
 	 * 	Adempiere Label UI Actions
 	 */
-    private static class PressAction extends UIAction
+    private static class PressAction extends AbstractAction
 	{
 
 		PressAction ()
@@ -101,7 +101,7 @@ public class CompiereLabelUI extends MetalLabelUI
 		public void actionPerformed (ActionEvent e)
 		{
 			JLabel label = (JLabel)e.getSource ();
-			String key = getName ();
+			String key = (String)getValue (NAME);
 			if (key.equals(PRESS))
 			{
 				doPress (label);

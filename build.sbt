@@ -18,85 +18,140 @@ name := "org.adempiere.jetty"
 
 lazy val commonSettings = Seq(
   organization := "org.adempiere.net",
-  version := "3.9.0-SNAPSHOT",
-  scalaVersion := "2.13.1"
+  version := "3.9.4-SNAPSHOT",
+  scalaVersion := "2.13.6"
 )
 
-scalaVersion := "2.13.1"
-resolvers += "Artima Maven Repository" at "http://repo.artima.com/releases"
+scalaVersion := "2.13.6"
+resolvers += "Artima Maven Repository" at "https://repo.artima.com/releases"
 
 fork := true
-val adempiereProperties = "-DPropertyFile=/Users/e-Evolution/AdempierePG.properties"
-//scalacOptions ++= Seq("-feature", "-unchecked", "-deprecation", "-encoding" , "utf8")
-javaOptions in Test := Seq (adempiereProperties)
+val adempiereProperties =
+  "-DPropertyFile=/Users/e-Evolution/AdempierePG.properties"
+/*scalacOptions ++= Seq(
+  "-feature",
+  "-unchecked",
+  "-deprecation",
+  "-encoding",
+  "utf8",
+  "-Ytasty-reader"
+)*/
+
+Test / javaOptions := Seq(adempiereProperties)
 
 libraryDependencies ++= Seq(
-  "javax.servlet" % "javax.servlet-api" % "3.0.1" % "provided",
-  "org.scala-lang" % "scala-reflect" % "2.13.1",
-  "org.scalactic" %% "scalactic" % "3.1.0",
-  "org.scalatest" %% "scalatest" % "3.1.0" % "test"
+  "javax.servlet" % "javax.servlet-api" % "4.0.1" % "provided",
+  "org.scala-lang" % "scala-reflect" % "2.13.6"
 )
+
+libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.9"
+libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % Test
+libraryDependencies += "org.scalatest" %% "scalatest-featurespec" % "3.2.9" % Test
+Test / logBuffered := false
 
 //Documentation here ~compile https://github.com/earldouglas/xsbt-web-plugin/blob/master/docs/2.0.md
 //execute with sbt ~jetty:start
-javaOptions in Jetty ++= Seq(
+Jetty / javaOptions ++= Seq(
   adempiereProperties,
+  "--add-exports=java.desktop/sun.swing=ALL-UNNAMED",
+  "--add-exports=java.desktop/sun.awt=ALL-UNNAMED",
+  "--add-exports=java.base/sun.security.provider=ALL-UNNAMED",
+  "--add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED",
   "-Xdebug",
   "-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
 )
 
-assemblyJarName in assembly := "AdempiereTestSuite.jar"
-test in assembly := {}
+assembly / assemblyJarName := "AdempiereTestSuite.jar"
+assembly / test := {}
 
-assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = true, includeDependency =false)
+assembly / assemblyOption := (assembly / assemblyOption).value
+  .copy(includeScala = true, includeDependency = false)
 
 val sourceDirectoryTest = "org.adempiere.test"
-val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/develop"
+val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/developEE"
 
-//javaSource in Compile := baseDirectory.value  / sourceDirectoryTest / "src" / "main" / "java"
-//javaSource in Test := baseDirectory.value  / sourceDirectoryTest / "src" / "test" / "java"
+//Compile / javaSource := baseDirectory.value / sourceDirectoryTest / "src" / "main" / "java"
+//Test / javaSource := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "java"
 
-scalaSource in Compile := baseDirectory.value / sourceDirectoryTest / "src" / "main" / "scala"
-scalaSource in Test := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "scala"
+//Compile / scalaSource := baseDirectory.value / sourceDirectoryTest / "src" / "main" / "scala"
+//Test scalaSource := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "scala"
 
-unmanagedClasspath in Compile += file(sourceAdempiere + "/bin")
-unmanagedClasspath in Compile += file(sourceAdempiere + "/zkwebui/WEB-INF/classes")
-unmanagedClasspath in Compile += file(sourceAdempiere + "/target/scala-2.12/classes")
-unmanagedClasspath in Compile += file(sourceAdempiere + "/target/scala-2.12/test-classes")
+Compile / unmanagedClasspath += file(sourceAdempiere + "/bin")
+Compile / unmanagedClasspath += file(
+  sourceAdempiere + "/zkwebui/WEB-INF/classes"
+)
+Compile / unmanagedClasspath += file(
+  sourceAdempiere + "/target/scala-2.13/classes"
+)
+Compile / unmanagedClasspath += file(
+  sourceAdempiere + "/target/scala-2.13/test-classes"
+)
 
-unmanagedJars in Compile ++= (file(sourceAdempiere + "/zkwebui/WEB-INF/lib") * "*.jar").classpath
-unmanagedJars in Compile ++= (file(sourceAdempiere + "/tools/lib") * "*.jar").classpath
-unmanagedJars in Compile ++= (file(sourceAdempiere + "/JasperReportsTools/lib") * "*.jar").classpath
-unmanagedJars in Compile ++= (file(sourceAdempiere + "/lib") * "*.jar").classpath
-unmanagedJars in Compile ++= (file(sourceAdempiere + "/packages") * "*.jar").classpath
-unmanagedJars in Compile ++= (file(sourceAdempiere + "/zkpackages") * "*.jar").classpath
+Compile / unmanagedJars ++= (file(
+  sourceAdempiere + "/zkwebui/WEB-INF/lib"
+) * "*.jar").classpath
+Compile / unmanagedJars ++= (file(
+  sourceAdempiere + "/tools/lib"
+) * "*.jar").classpath
+Compile / unmanagedJars ++= (file(
+  sourceAdempiere + "/JasperReportsTools/lib"
+) * "*.jar").classpath
+Compile / unmanagedJars ++= (file(
+  sourceAdempiere + "/lib"
+) * "*.jar").classpath
+Compile / unmanagedJars ++= (file(
+  sourceAdempiere + "/packages"
+) * "*.jar").classpath
+Compile / unmanagedJars ++= (file(
+  sourceAdempiere + "/zkpackages"
+) * "*.jar").classpath
 
-testOptions in Test += Tests.Argument("-oD")
+Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-oD")
+Test / logBuffered := false
 
 enablePlugins(JettyPlugin)
 enablePlugins(WebappPlugin)
 
-containerLibs in Jetty := Seq("org.eclipse.jetty" % "jetty-runner" % "9.2.1.v20140609" intransitive())
-containerMain in Jetty := "org.eclipse.jetty.runner.Runner"
+Jetty / containerLibs := Seq(
+  "org.eclipse.jetty" % "jetty-runner" % "10.0.6" intransitive ()
+)
+Jetty / containerMain := "org.eclipse.jetty.runner.Runner"
 //containerForkOptions := new ForkOptions(runJVMOptions = Seq("-Dh2g2=42"))
 containerPort := 9090
 containerShutdownOnExit := true
 
-sourceDirectory in webappPrepare := (sourceDirectory in Compile).value / "zkwebui"
-//sourceDirectory in webappPrepare := (sourceDirectory in Compile).value / "serverRoot" / "src" / "web"
+webappPrepare / sourceDirectory := (Compile / sourceDirectory).value / "zkwebui"
+//webappPrepare / sourceDirectory := (sourceDirectory in Compile).value / "serverRoot" / "src" / "web"
 
-//target in webappPrepare := target.value / "admin"
+//webappPrepare / target := target.value / "admin"
 //inheritJarManifest := true
 
-webappPostProcess := {
-  webappDir: File =>
-    IO.copyDirectory(baseDirectory.value / "bin", webappDir / "WEB-INF" / "classes")
-    IO.copyDirectory(baseDirectory.value / "org.eevolution.manufacturing/src/main/java/ui/zk",webappDir / "WEB-INF" / "classes")
-    IO.copyDirectory(baseDirectory.value / "org.eevolution.hr_and_payroll/src/main/java/ui/zk",webappDir / "WEB-INF" / "classes")
-    IO.copyDirectory(baseDirectory.value / "zkwebui", webappDir)
-    //IO.copyDirectory(baseDirectory.value / "serverRoot" / "src" / "web", webappDir)
-    IO.copyDirectory(baseDirectory.value / "lib", webappDir / "WEB-INF" / "lib")
-    IO.copyDirectory(baseDirectory.value / "packages", webappDir / "WEB-INF" / "lib")
-    IO.copyDirectory(baseDirectory.value / "zkpackages", webappDir / "WEB-INF" / "lib")
-    IO.copyDirectory(baseDirectory.value / "zkwebui/WEB-INF/classes", webappDir / "WEB-INF" / "classes")
+webappPostProcess := { webappDir: File =>
+  IO.copyDirectory(
+    baseDirectory.value / "bin",
+    webappDir / "WEB-INF" / "classes"
+  )
+  IO.copyDirectory(
+    baseDirectory.value / "org.eevolution.manufacturing/src/main/java/ui/zk",
+    webappDir / "WEB-INF" / "classes"
+  )
+  IO.copyDirectory(
+    baseDirectory.value / "org.eevolution.hr_and_payroll/src/main/java/ui/zk",
+    webappDir / "WEB-INF" / "classes"
+  )
+  IO.copyDirectory(baseDirectory.value / "zkwebui", webappDir)
+  //IO.copyDirectory(baseDirectory.value / "serverRoot" / "src" / "web", webappDir)
+  IO.copyDirectory(baseDirectory.value / "lib", webappDir / "WEB-INF" / "lib")
+  IO.copyDirectory(
+    baseDirectory.value / "packages",
+    webappDir / "WEB-INF" / "lib"
+  )
+  IO.copyDirectory(
+    baseDirectory.value / "zkpackages",
+    webappDir / "WEB-INF" / "lib"
+  )
+  IO.copyDirectory(
+    baseDirectory.value / "zkwebui/WEB-INF/classes",
+    webappDir / "WEB-INF" / "classes"
+  )
 }

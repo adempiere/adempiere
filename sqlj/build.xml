@@ -35,7 +35,7 @@
 	<target name="sqljCompile" depends="sqljInit">
 	    <javac srcdir="${src}" destdir="${build.dir}" 
 	    	deprecation="on" 
-	    	source="1.3" target="1.1" optimize="off" 
+	    	source="11" target="11" optimize="off"
 	    	debug="on">
 	      <classpath refid="project.class.path"/>
 	    </javac>
