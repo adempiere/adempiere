@@ -1,0 +1,1012 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Slow moving inventory Report #3319" ReleaseNo="3.9.4" SeqNo="7280">
+    <Comments>https://github.com/adempiere/adempiere/issues/3319</Comments>
+    <Step DBType="Postgres" Parse="Y" SeqNo="1" StepType="SQL">
+      <Comments>RV_M_SlowMovingInventory</Comments>
+      <SQLStatement>CREATE VIEW RV_M_SlowMovingInventory AS
+SELECT
+  p.AD_Client_ID,
+  p.AD_Org_ID,
+  p.Created,
+  p.CreatedBy,
+  p.Updated,
+  p.UpdatedBy,
+  p.M_Product_ID,
+  p.Value,
+  p.Name,
+  p.Description,
+  p.M_Product_Category_ID,
+  p.M_Product_Group_ID,
+  p.M_PRoduct_Class_ID,
+  p.M_Product_Classification_ID,
+  p.C_UOM_ID,
+  p.IsActive,
+  p.isStocked,
+  p.Discontinued,
+  (
+    SELECT
+      COALESCE(SUM(ps.QtyOnhand), 0)
+    FROM
+      M_Product_Stock_v ps
+    WHERE
+      ps.M_Product_ID = p.M_Product_ID
+  ) AS QtyOnhand,
+  ppo.PriceLastPO,
+  ppo.PriceLastInv,
+  pp.M_PriceList_Version_ID,
+  pp.PriceList,
+  pp.PriceStd,
+  pp.PriceLimit,
+  (
+    SELECT
+      MAX(t.MovementDate)
+    FROM
+      M_Transaction t
+      INNER JOIN M_Locator l ON (t.M_Locator_ID = l.M_Locator_ID)
+    WHERE
+      t.M_Product_ID = p.M_Product_ID
+      AND t.MovementType = 'V+'
+  ) AS LastDateReceipted,
+  (
+    SELECT
+      MAX(t.MovementDate)
+    FROM
+      M_Transaction t
+      INNER JOIN M_Locator l ON (t.M_Locator_ID = l.M_Locator_ID)
+    WHERE
+      t.M_Product_ID = p.M_Product_ID
+      AND t.MovementType = 'C-'
+  ) AS LastDateDelivered,
+  getDate() :: date - COALESCE(
+    (
+      SELECT
+        MAX(t.MovementDate)
+      FROM
+        M_Transaction t
+        INNER JOIN M_Locator l ON (t.M_Locator_ID = l.M_Locator_ID)
+      WHERE
+        t.M_Product_ID = p.M_Product_ID
+        AND t.MovementType = 'C-'),
+        (
+          SELECT
+            MAX(t.MovementDate)
+          FROM
+            M_Transaction t
+            INNER JOIN M_Locator l ON (t.M_Locator_ID = l.M_Locator_ID)
+          WHERE
+            t.M_Product_ID = p.M_Product_ID
+            AND t.MovementType = 'V+'
+        ) :: date
+    ) AS DaysWithoutMovement
+    FROM
+      M_Product p
+      LEFT JOIN M_Product_Category pc ON (
+        p.M_Product_Category_ID = pc.M_Product_Category_ID
+      )
+      LEFT JOIN M_Product_Group pg ON (p.M_Product_Group_ID = pg.M_Product_Group_ID)
+      LEFT JOIN M_Product_Class pcl ON (p.M_Product_Class_ID = pcl.M_Product_Class_ID)
+      LEFT JOIN M_Product_Classification pcls ON (
+        p.M_Product_Classification_ID = pcls.M_Product_Classification_ID
+      )
+      LEFT JOIN M_Product_PO ppo ON (
+        p.M_Product_ID = ppo.M_Product_ID
+        AND ppo.IsCurrentVendor = 'Y'
+      )
+      LEFT JOIN M_ProductPrice pp ON (p.M_Product_ID = pp.M_Product_ID)
+      LEFT JOIN M_PriceList_Version plv ON (
+        pp.M_PriceList_Version_ID = plv.M_PriceList_Version_ID
+        AND plv.isActive = 'Y'
+      )
+      LEFT JOIN M_PriceList pl ON (
+        plv.M_PriceList_ID = pl.M_PriceList_ID
+        AND pl.IsSoPriceList = 'Y'
+      )
+    WHERE
+      p.isStocked = 'Y'
+      AND (
+        SELECT
+          COALESCE(SUM(ps.QtyOnhand), 0)
+        FROM
+          M_Product_Stock_v ps
+        WHERE
+          ps.M_Product_ID = p.M_Product_ID
+      ) &gt; 0;</SQLStatement>
+      <RollbackStatement>DROP VIEW RV_M_SlowMovingInventory;</RollbackStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="2" StepType="SQL">
+      <Comments>RV_M_SlowMovingWarehouseInventory</Comments>
+      <SQLStatement>CREATE VIEW RV_M_SlowMovingWarehouseInventory AS
+SELECT
+  p.AD_Client_ID,
+  p.AD_Org_ID,
+  p.Created,
+  p.CreatedBy,
+  p.Updated,
+  p.UpdatedBy,
+  p.M_Product_ID,
+  p.Value,
+  p.Name,
+  p.Description,
+  p.M_Product_Category_ID,
+  p.M_Product_Group_ID,
+  p.M_PRoduct_Class_ID,
+  p.M_Product_Classification_ID,
+  p.C_UOM_ID,
+  p.IsActive,
+  p.isStocked,
+  p.Discontinued,
+  l.M_Warehouse_ID,
+  COALESCE(SUM(s.QtyOnhand), 0) AS QtyOnhand,
+  ppo.PriceLastPO,
+  ppo.PriceLastInv,
+  pp.M_PriceList_Version_ID,
+  pp.PriceList,
+  pp.PriceStd,
+  pp.PriceLimit,
+  (
+    SELECT
+      MAX(t.MovementDate)
+    FROM
+      M_Transaction t
+      INNER JOIN M_Locator sl ON (t.M_Locator_ID = sl.M_Locator_ID)
+    WHERE
+      t.M_Product_ID = p.M_Product_ID
+      AND sl.M_Warehouse_ID = l.M_Warehouse_ID
+      AND t.MovementType LIKE '%+'
+  ) AS LastDateReceipted,
+  (
+    SELECT
+      MAX(t.MovementDate)
+    FROM
+      M_Transaction t
+      INNER JOIN M_Locator sl ON (t.M_Locator_ID = sl.M_Locator_ID)
+    WHERE
+      t.M_Product_ID = p.M_Product_ID
+      AND sl.M_Warehouse_ID = l.M_Warehouse_ID
+      AND t.MovementType LIKE '%-'
+  ) AS LastDateDelivered,
+  getDate() :: date - COALESCE (
+    (
+      SELECT
+        MAX(t.MovementDate)
+      FROM
+        M_Transaction t
+        INNER JOIN M_Locator sl ON (t.M_Locator_ID = sl.M_Locator_ID)
+      WHERE
+        t.M_Product_ID = p.M_Product_ID
+        AND sl.M_Warehouse_ID = l.M_Warehouse_ID
+        AND t.MovementType LIKE '%-'
+    ) :: date,
+    (
+      SELECT
+        MAX(t.MovementDate)
+      FROM
+        M_Transaction t
+        INNER JOIN M_Locator sl ON (t.M_Locator_ID = sl.M_Locator_ID)
+      WHERE
+        t.M_Product_ID = p.M_Product_ID
+        AND sl.M_Warehouse_ID = l.M_Warehouse_ID
+        AND t.MovementType LIKE '%+'
+    ) :: date
+  ) AS DaysWithoutMovement
+FROM
+  M_Product p
+  INNER JOIN M_Storage s ON (p.M_Product_ID = s.M_Product_ID)
+  INNER JOIN M_Locator l ON (s.M_Locator_ID = l.M_Locator_ID)
+  LEFT JOIN M_Product_Category pc ON (
+    p.M_Product_Category_ID = pc.M_Product_Category_ID
+  )
+  LEFT JOIN M_Product_Group pg ON (p.M_Product_Group_ID = pg.M_Product_Group_ID)
+  LEFT JOIN M_Product_Class pcl ON (p.M_Product_Class_ID = pcl.M_Product_Class_ID)
+  LEFT JOIN M_Product_Classification pcls ON (
+    p.M_Product_Classification_ID = pcls.M_Product_Classification_ID
+  )
+  LEFT JOIN M_Product_PO ppo ON (
+    p.M_Product_ID = ppo.M_Product_ID
+    AND ppo.IsCurrentVendor = 'Y'
+  )
+  LEFT JOIN M_ProductPrice pp ON (p.M_Product_ID = pp.M_Product_ID)
+  LEFT JOIN M_PriceList_Version plv ON (
+    pp.M_PriceList_Version_ID = plv.M_PriceList_Version_ID
+    AND plv.isActive = 'Y'
+  )
+  LEFT JOIN M_PriceList pl ON (
+    plv.M_PriceList_ID = pl.M_PriceList_ID
+    AND pl.IsSoPriceList = 'Y'
+  )
+WHERE
+  p.isStocked = 'Y'
+  AND s.QtyOnhand &lt;&gt; 0
+GROUP BY
+  p.M_Product_ID,
+  l.M_Warehouse_ID,
+  ppo.PriceLastPO,
+  ppo.PriceLastinv,
+  pp.M_PriceList_Version_ID,
+  pp.PriceList,
+  pp.PriceStd,
+  pp.PriceLimit;</SQLStatement>
+      <RollbackStatement>DROP VIEW RV_M_SlowMovingWarehouseInventory;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="3" StepType="SQL">
+      <Comments>RV_M_SlowMovingInventory</Comments>
+      <SQLStatement>CREATE VIEW RV_M_SlowMovingInventory AS
+SELECT
+  p.AD_Client_ID,
+  p.AD_Org_ID,
+  p.Created,
+  p.CreatedBy,
+  p.Updated,
+  p.UpdatedBy,
+  p.M_Product_ID,
+  p.Value,
+  p.Name,
+  p.Description,
+  p.M_Product_Category_ID,
+  p.M_Product_Group_ID,
+  p.M_PRoduct_Class_ID,
+  p.M_Product_Classification_ID,
+  p.C_UOM_ID,
+  p.IsActive,
+  p.isStocked,
+  p.Discontinued,
+  (
+    SELECT
+      COALESCE(SUM(ps.QtyOnhand), 0)
+    FROM
+      M_Product_Stock_v ps
+    WHERE
+      ps.M_Product_ID = p.M_Product_ID
+  ) AS QtyOnhand,
+  ppo.PriceLastPO,
+  ppo.PriceLastInv,
+  pp.M_PriceList_Version_ID,
+  pp.PriceList,
+  pp.PriceStd,
+  pp.PriceLimit,
+  (
+    SELECT
+      MAX(t.MovementDate)
+    FROM
+      M_Transaction t
+      INNER JOIN M_Locator l ON (t.M_Locator_ID = l.M_Locator_ID)
+    WHERE
+      t.M_Product_ID = p.M_Product_ID
+      AND t.MovementType = 'V+'
+  ) AS LastDateReceipted,
+  (
+    SELECT
+      MAX(t.MovementDate)
+    FROM
+      M_Transaction t
+      INNER JOIN M_Locator l ON (t.M_Locator_ID = l.M_Locator_ID)
+    WHERE
+      t.M_Product_ID = p.M_Product_ID
+      AND t.MovementType = 'C-'
+  ) AS LastDateDelivered,
+  CAST(getDate() AS Date) - CAST(
+    COALESCE(
+      (
+        SELECT
+          MAX(t.MovementDate)
+        FROM
+          M_Transaction t
+          INNER JOIN M_Locator l ON (t.M_Locator_ID = l.M_Locator_ID)
+        WHERE
+          t.M_Product_ID = p.M_Product_ID
+          AND t.MovementType = 'C-'
+      ),
+      (
+        SELECT
+          MAX(t.MovementDate)
+        FROM
+          M_Transaction t
+          INNER JOIN M_Locator l ON (t.M_Locator_ID = l.M_Locator_ID)
+        WHERE
+          t.M_Product_ID = p.M_Product_ID
+          AND t.MovementType = 'V+'
+      ) AS Date
+    )
+  ) AS DaysWithoutMovement
+FROM
+  M_Product p
+  LEFT JOIN M_Product_Category pc ON (
+    p.M_Product_Category_ID = pc.M_Product_Category_ID
+  )
+  LEFT JOIN M_Product_Group pg ON (p.M_Product_Group_ID = pg.M_Product_Group_ID)
+  LEFT JOIN M_Product_Class pcl ON (p.M_Product_Class_ID = pcl.M_Product_Class_ID)
+  LEFT JOIN M_Product_Classification pcls ON (
+    p.M_Product_Classification_ID = pcls.M_Product_Classification_ID
+  )
+  LEFT JOIN M_Product_PO ppo ON (
+    p.M_Product_ID = ppo.M_Product_ID
+    AND ppo.IsCurrentVendor = 'Y'
+  )
+  LEFT JOIN M_ProductPrice pp ON (p.M_Product_ID = pp.M_Product_ID)
+  LEFT JOIN M_PriceList_Version plv ON (
+    pp.M_PriceList_Version_ID = plv.M_PriceList_Version_ID
+    AND plv.isActive = 'Y'
+  )
+  LEFT JOIN M_PriceList pl ON (
+    plv.M_PriceList_ID = pl.M_PriceList_ID
+    AND pl.IsSoPriceList = 'Y'
+  )
+WHERE
+  p.isStocked = 'Y'
+  AND (
+    SELECT
+      COALESCE(SUM(ps.QtyOnhand), 0)
+    FROM
+      M_Product_Stock_v ps
+    WHERE
+      ps.M_Product_ID = p.M_Product_ID
+  ) &gt; 0;</SQLStatement>
+      <RollbackStatement>DROP VIEW RV_M_SlowMovingInventory;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="4" StepType="SQL">
+      <Comments>RV_M_SlowMovingWarehouseInventory</Comments>
+      <SQLStatement>CREATE VIEW RV_M_SlowMovingInventory AS
+SELECT
+  p.AD_Client_ID,
+  p.AD_Org_ID,
+  p.Created,
+  p.CreatedBy,
+  p.Updated,
+  p.UpdatedBy,
+  p.M_Product_ID,
+  p.Value,
+  p.Name,
+  p.Description,
+  p.M_Product_Category_ID,
+  p.M_Product_Group_ID,
+  p.M_PRoduct_Class_ID,
+  p.M_Product_Classification_ID,
+  p.C_UOM_ID,
+  p.IsActive,
+  p.isStocked,
+  p.Discontinued,
+  (
+    SELECT
+      COALESCE(SUM(ps.QtyOnhand), 0)
+    FROM
+      M_Product_Stock_v ps
+    WHERE
+      ps.M_Product_ID = p.M_Product_ID
+  ) AS QtyOnhand,
+  ppo.PriceLastPO,
+  ppo.PriceLastInv,
+  pp.M_PriceList_Version_ID,
+  pp.PriceList,
+  pp.PriceStd,
+  pp.PriceLimit,
+  (
+    SELECT
+      MAX(t.MovementDate)
+    FROM
+      M_Transaction t
+      INNER JOIN M_Locator l ON (t.M_Locator_ID = l.M_Locator_ID)
+    WHERE
+      t.M_Product_ID = p.M_Product_ID
+      AND t.MovementType = 'V+'
+  ) AS LastDateReceipted,
+  (
+    SELECT
+      MAX(t.MovementDate)
+    FROM
+      M_Transaction t
+      INNER JOIN M_Locator l ON (t.M_Locator_ID = l.M_Locator_ID)
+    WHERE
+      t.M_Product_ID = p.M_Product_ID
+      AND t.MovementType = 'C-'
+  ) AS LastDateDelivered,
+  CAST(getDate() AS Date) - CAST(
+    COALESCE(
+      (
+        SELECT
+          MAX(t.MovementDate)
+        FROM
+          M_Transaction t
+          INNER JOIN M_Locator l ON (t.M_Locator_ID = l.M_Locator_ID)
+        WHERE
+          t.M_Product_ID = p.M_Product_ID
+          AND t.MovementType = 'C-'
+      ),
+      (
+        SELECT
+          MAX(t.MovementDate)
+        FROM
+          M_Transaction t
+          INNER JOIN M_Locator l ON (t.M_Locator_ID = l.M_Locator_ID)
+        WHERE
+          t.M_Product_ID = p.M_Product_ID
+          AND t.MovementType = 'V+'
+      ) AS Date
+    )
+  ) AS DaysWithoutMovement
+FROM
+  M_Product p
+  LEFT JOIN M_Product_Category pc ON (
+    p.M_Product_Category_ID = pc.M_Product_Category_ID
+  )
+  LEFT JOIN M_Product_Group pg ON (p.M_Product_Group_ID = pg.M_Product_Group_ID)
+  LEFT JOIN M_Product_Class pcl ON (p.M_Product_Class_ID = pcl.M_Product_Class_ID)
+  LEFT JOIN M_Product_Classification pcls ON (
+    p.M_Product_Classification_ID = pcls.M_Product_Classification_ID
+  )
+  LEFT JOIN M_Product_PO ppo ON (
+    p.M_Product_ID = ppo.M_Product_ID
+    AND ppo.IsCurrentVendor = 'Y'
+  )
+  LEFT JOIN M_ProductPrice pp ON (p.M_Product_ID = pp.M_Product_ID)
+  LEFT JOIN M_PriceList_Version plv ON (
+    pp.M_PriceList_Version_ID = plv.M_PriceList_Version_ID
+    AND plv.isActive = 'Y'
+  )
+  LEFT JOIN M_PriceList pl ON (
+    plv.M_PriceList_ID = pl.M_PriceList_ID
+    AND pl.IsSoPriceList = 'Y'
+  )
+WHERE
+  p.isStocked = 'Y'
+  AND (
+    SELECT
+      COALESCE(SUM(ps.QtyOnhand), 0)
+    FROM
+      M_Product_Stock_v ps
+    WHERE
+      ps.M_Product_ID = p.M_Product_ID
+  ) &gt; 0;</SQLStatement>
+      <RollbackStatement>DROP VIEW RV_M_SlowMovingInventory;</RollbackStatement>
+    </Step>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="100" Action="I" Record_ID="54796" Table="AD_Table">
+        <Data AD_Column_ID="546" Column="Updated">2021-01-16 12:00:36.371</Data>
+        <Data AD_Column_ID="544" Column="Created">2021-01-16 12:00:36.371</Data>
+        <Data AD_Column_ID="102" Column="Name">RV_M_SlowMovingInventory</Data>
+        <Data AD_Column_ID="4196" Column="IsHighVolume">false</Data>
+        <Data AD_Column_ID="88913" Column="AD_ContextInfo_ID" isNewNull="true"/>
+        <Data AD_Column_ID="543" Column="IsActive">true</Data>
+        <Data AD_Column_ID="103" Column="Description">View show the slow moving inventory report shows products in stock but not moving in a period of time</Data>
+        <Data AD_Column_ID="50183" Column="CopyColumnsFromTable">N</Data>
+        <Data AD_Column_ID="107" Column="TableName">RV_M_SlowMovingInventory</Data>
+        <Data AD_Column_ID="354" Column="AccessLevel">3</Data>
+        <Data AD_Column_ID="104" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="9341" Column="ReplicationType">L</Data>
+        <Data AD_Column_ID="8564" Column="IsChangeLog">false</Data>
+        <Data AD_Column_ID="65574" Column="ACTriggerLength">0</Data>
+        <Data AD_Column_ID="80143" Column="IsIgnoreMigration">false</Data>
+        <Data AD_Column_ID="78180" Column="IsDocument">false</Data>
+        <Data AD_Column_ID="6489" Column="ImportTable">N</Data>
+        <Data AD_Column_ID="726" Column="IsSecurityEnabled">false</Data>
+        <Data AD_Column_ID="727" Column="IsDeleteable">false</Data>
+        <Data AD_Column_ID="6125" Column="IsView">true</Data>
+        <Data AD_Column_ID="59135" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="356" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="355" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="100" Column="AD_Table_ID">54796</Data>
+        <Data AD_Column_ID="6488" Column="EntityType">EE03</Data>
+        <Data AD_Column_ID="106" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="105" Column="AD_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="545" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="108" Column="LoadSeq">0</Data>
+        <Data AD_Column_ID="547" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="9342" Column="PO_Window_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84425" Column="UUID">89db7565-935f-48fe-b71c-e7ea42b76598</Data>
+        <Data AD_Column_ID="92543" Column="RequiresSync">false</Data>
+        <Data AD_Column_ID="92544" Column="NameOldValue" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="746" Action="I" Record_ID="0" Table="AD_Table_Trl">
+        <Data AD_Column_ID="12722" Column="Created">2021-01-16 12:00:40.142</Data>
+        <Data AD_Column_ID="12723" Column="Updated">2021-01-16 12:00:40.142</Data>
+        <Data AD_Column_ID="12724" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12721" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12716" Column="Name">RV_M_SlowMovingInventory</Data>
+        <Data AD_Column_ID="12720" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12719" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12715" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="12714" Column="AD_Table_ID">54796</Data>
+        <Data AD_Column_ID="12718" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12717" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="84429" Column="UUID">db9a3331-ae57-4e1f-9e56-a59a6ecae128</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="100" Action="U" Record_ID="54796" Table="AD_Table">
+        <Data AD_Column_ID="102" Column="Name" oldValue="RV_M_SlowMovingInventory">Slow moving inventory report</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="746" Action="U" Record_ID="0" Table="AD_Table_Trl">
+        <Data AD_Column_ID="12724" Column="IsTranslated" oldValue="false">true</Data>
+        <Data AD_Column_ID="12716" Column="Name" oldValue="RV_M_SlowMovingInventory">Vista de inventario de lento movimiento</Data>
+        <Data AD_Column_ID="12715" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="12714" Column="AD_Table_ID" oldValue="54796">54796</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="97539" Table="AD_Column">
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description">Client/Tenant for this installation.</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2021-01-16 12:03:08.696</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2021-01-16 12:03:08.696</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">97539</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Client</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">AD_Client_ID</Data>
+        <Data AD_Column_ID="113" Column="Help">A Client is a company or a legal entity. You cannot share data between Clients. Tenant is a synonym for Client.</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">EE03</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">54796</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">102</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID">00d59f52-2adc-43de-bca0-378b01eb3183</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="97539" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12952" Column="Updated">2021-01-16 12:03:11.529</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">97539</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Client</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID">63c58732-da06-42c8-ab69-bf1cf307fe60</Data>
+        <Data AD_Column_ID="12960" Column="Created">2021-01-16 12:03:11.529</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="97540" Table="AD_Column">
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="112" Column="Description">Organizational entity within client</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2021-01-16 12:03:12.469</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2021-01-16 12:03:12.469</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">97540</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Organization</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">AD_Org_ID</Data>
+        <Data AD_Column_ID="113" Column="Help">An organization is a unit of your client or legal entity - examples are store, department. You can share data between organizations.</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">EE03</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">54796</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">113</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID">47868748-7d5d-4ad6-b5e2-6aa09e437f4d</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="97540" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2021-01-16 12:03:14.932</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2021-01-16 12:03:14.932</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">97540</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Organization</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID">04d99b9e-9ec5-49bf-9d64-78e7798de270</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="97541" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description">Date this record was created</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2021-01-16 12:03:15.802</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2021-01-16 12:03:15.802</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">97541</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Created</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">Created</Data>
+        <Data AD_Column_ID="113" Column="Help">The Created field indicates the date that this record was created.</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">EE03</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">54796</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">245</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">0</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">16</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID">7b0701c9-eda8-4db9-84e3-02754c643082</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="97541" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2021-01-16 12:03:18.14</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2021-01-16 12:03:18.14</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">97541</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Created</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID">dfcd1a7e-2bdc-4d17-93da-8341d8286fc3</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="97542" Table="AD_Column">
+        <Data AD_Column_ID="112" Column="Description">User who created this records</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2021-01-16 12:03:19.005</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2021-01-16 12:03:19.005</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">97542</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Created By</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">CreatedBy</Data>
+        <Data AD_Column_ID="113" Column="Help">The Created By field indicates the user who created this record.</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">EE03</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">54796</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">246</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">110</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">18</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID">87ee2ee9-0c0f-4edc-87a2-cf2a94cbe7e1</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="97542" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2021-01-16 12:03:21.624</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2021-01-16 12:03:21.624</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">97542</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Created By</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID">9d1396f9-763f-4a8a-ab17-a83ee6736cf7</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="97543" Table="AD_Column">
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">EE03</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">54796</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">607</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">0</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">16</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID">682a8b58-ef30-4c67-9317-86a9dd2d99a9</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2021-01-16 12:03:22.485</Data>
+        <Data AD_Column_ID="112" Column="Description">Date this record was updated</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2021-01-16 12:03:22.485</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">97543</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Updated</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">Updated</Data>
+        <Data AD_Column_ID="113" Column="Help">The Updated field indicates the date that this record was updated.</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="97543" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12957" Column="Name">Updated</Data>
+        <Data AD_Column_ID="12960" Column="Created">2021-01-16 12:03:25.146</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2021-01-16 12:03:25.146</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">97543</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID">bfa8ebc4-cbe2-42fe-90c4-eb71fb5b8238</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="97544" Table="AD_Column">
+        <Data AD_Column_ID="111" Column="Name">Updated By</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">18</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID">569acc35-8663-4e7e-8456-0a3436cf7a59</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description">User who updated this records</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2021-01-16 12:03:26.032</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2021-01-16 12:03:26.032</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">97544</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">UpdatedBy</Data>
+        <Data AD_Column_ID="113" Column="Help">The Updated By field indicates the user who updated this record.</Data>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">false</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">EE03</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">54796</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">608</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">110</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="97544" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2021-01-16 12:03:29.638</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2021-01-16 12:03:29.638</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">97544</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Updated By</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID">084ef845-db66-4d68-b2e8-2be0625f03ed</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="115" Action="I" Record_ID="55310" Table="AD_Sequence">
+        <Data AD_Column_ID="223" Column="Prefix" isNewNull="true"/>
+        <Data AD_Column_ID="349" Column="IsActive">true</Data>
+        <Data AD_Column_ID="347" Column="Description">DocumentNo/Value for Table RV_M_SlowMovingInventory</Data>
+        <Data AD_Column_ID="629" Column="Updated">2021-01-16 12:03:30.576</Data>
+        <Data AD_Column_ID="627" Column="Created">2021-01-16 12:03:30.576</Data>
+        <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
+        <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="1188" Column="IsAutoSequence">true</Data>
+        <Data AD_Column_ID="222" Column="IsAudited">false</Data>
+        <Data AD_Column_ID="224" Column="Suffix" isNewNull="true"/>
+        <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
+        <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
+        <Data AD_Column_ID="216" Column="Name">DocumentNo_RV_M_SlowMovingInventory</Data>
+        <Data AD_Column_ID="427" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="426" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="1186" Column="AD_Sequence_ID">55310</Data>
+        <Data AD_Column_ID="2747" Column="IncrementNo">1</Data>
+        <Data AD_Column_ID="2746" Column="StartNo">1000000</Data>
+        <Data AD_Column_ID="350" Column="IsTableID">false</Data>
+        <Data AD_Column_ID="3887" Column="CurrentNextSys">50000</Data>
+        <Data AD_Column_ID="220" Column="CurrentNext">1000000</Data>
+        <Data AD_Column_ID="628" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84417" Column="UUID">1643aa37-b0a3-409c-b566-5c7d01a11cb1</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="115" Action="I" Record_ID="55311" Table="AD_Sequence">
+        <Data AD_Column_ID="349" Column="IsActive">true</Data>
+        <Data AD_Column_ID="347" Column="Description">DocumentNo/Value for Table RV_M_SlowMovingInventory</Data>
+        <Data AD_Column_ID="629" Column="Updated">2021-01-16 12:03:32.549</Data>
+        <Data AD_Column_ID="627" Column="Created">2021-01-16 12:03:32.549</Data>
+        <Data AD_Column_ID="225" Column="StartNewYear">false</Data>
+        <Data AD_Column_ID="1187" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="1188" Column="IsAutoSequence">true</Data>
+        <Data AD_Column_ID="222" Column="IsAudited">false</Data>
+        <Data AD_Column_ID="223" Column="Prefix" isNewNull="true"/>
+        <Data AD_Column_ID="224" Column="Suffix" isNewNull="true"/>
+        <Data AD_Column_ID="54272" Column="DateColumn" isNewNull="true"/>
+        <Data AD_Column_ID="54309" Column="DecimalPattern" isNewNull="true"/>
+        <Data AD_Column_ID="216" Column="Name">DocumentNo_RV_M_SlowMovingInventory</Data>
+        <Data AD_Column_ID="427" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="426" Column="AD_Client_ID">11</Data>
+        <Data AD_Column_ID="1186" Column="AD_Sequence_ID">55311</Data>
+        <Data AD_Column_ID="2747" Column="IncrementNo">1</Data>
+        <Data AD_Column_ID="2746" Column="StartNo">1000000</Data>
+        <Data AD_Column_ID="350" Column="IsTableID">false</Data>
+        <Data AD_Column_ID="3887" Column="CurrentNextSys">50000</Data>
+        <Data AD_Column_ID="220" Column="CurrentNext">1000000</Data>
+        <Data AD_Column_ID="628" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="630" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84417" Column="UUID">362c4c76-b31f-4cda-b395-55b265d5d6ec</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
