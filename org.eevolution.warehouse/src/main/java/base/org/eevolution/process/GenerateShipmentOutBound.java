@@ -29,14 +29,6 @@
 
 package org.eevolution.process;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
@@ -56,6 +48,14 @@ import org.eevolution.model.MPPOrderBOMLine;
 import org.eevolution.model.MWMInOutBound;
 import org.eevolution.model.MWMInOutBoundLine;
 import org.eevolution.service.dsl.ProcessBuilder;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * @author victor.perez@e-evolution.com, www.e-evolution.com
@@ -110,7 +110,8 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
         // Generate Shipment based on Outbound Order
         if (outboundLine.getC_OrderLine_ID() > 0) {
             MOrderLine orderLine = outboundLine.getOrderLine();
-            if (orderLine.getQtyOrdered().subtract(orderLine.getQtyDelivered()).subtract(outboundLine.getPickedQty()).signum() <= 0 && !isIncludeNotAvailable())
+            //Validate if you should make a shipment
+            if (outboundLine.getQtyToDeliver().subtract(outboundLine.getQtyToPick()).signum() <= 0 && !isIncludeNotAvailable())
                 return;
 
             BigDecimal qtyDelivered = getQtyDelivered(outboundLine, orderLine.getQtyDelivered());
