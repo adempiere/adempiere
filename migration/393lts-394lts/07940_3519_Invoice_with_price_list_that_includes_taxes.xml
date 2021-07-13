@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="07940_3519_Invoice_with_price_list_that_includes_taxes" ReleaseNo="3.9.4" SeqNo="7940">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="2235" Table="AD_Column">
+        <Data AD_Column_ID="1692" Column="Callout" isOldNull="true">org.compiere.model.CalloutOrder.amt</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="814" Action="I" Record_ID="50057" Table="AD_UserQuery">
+        <Data AD_Column_ID="14353" Column="Created">2021-07-12 21:48:22.984</Data>
+        <Data AD_Column_ID="14352" Column="IsActive">true</Data>
+        <Data AD_Column_ID="14351" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="14349" Column="AD_UserQuery_ID">50057</Data>
+        <Data AD_Column_ID="14350" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="14356" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="14355" Column="Updated">2021-07-12 21:48:22.984</Data>
+        <Data AD_Column_ID="14358" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="14360" Column="AD_Table_ID">53217</Data>
+        <Data AD_Column_ID="14361" Column="Code">AD_Migration_ID&lt;^&gt;=&lt;^&gt;5000&lt;^&gt;&lt;^&gt;AND&lt;^&gt;&lt;^&gt;</Data>
+        <Data AD_Column_ID="14357" Column="Name">** Last Query **</Data>
+        <Data AD_Column_ID="14354" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="53251" Column="AD_Tab_ID">53233</Data>
+        <Data AD_Column_ID="14359" Column="AD_User_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84456" Column="UUID">fd645bb0-dfd9-4841-a320-691a3158eb68</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="814" Action="I" Record_ID="50058" Table="AD_UserQuery">
+        <Data AD_Column_ID="14353" Column="Created">2021-07-12 21:48:43.188</Data>
+        <Data AD_Column_ID="14352" Column="IsActive">true</Data>
+        <Data AD_Column_ID="14351" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="14349" Column="AD_UserQuery_ID">50058</Data>
+        <Data AD_Column_ID="14350" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="14356" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="14355" Column="Updated">2021-07-12 21:48:43.188</Data>
+        <Data AD_Column_ID="14358" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="14360" Column="AD_Table_ID">53217</Data>
+        <Data AD_Column_ID="14361" Column="Code">AD_Migration_ID&lt;^&gt;=&lt;^&gt;50000&lt;^&gt;&lt;^&gt;AND&lt;^&gt;&lt;^&gt;</Data>
+        <Data AD_Column_ID="14357" Column="Name">** Last Query **</Data>
+        <Data AD_Column_ID="14354" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="53251" Column="AD_Tab_ID">53233</Data>
+        <Data AD_Column_ID="14359" Column="AD_User_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84456" Column="UUID">fdd90237-c341-4dd5-acfd-cdfbec423740</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
