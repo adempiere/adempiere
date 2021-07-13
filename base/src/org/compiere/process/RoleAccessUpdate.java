@@ -19,6 +19,7 @@ package org.compiere.process;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+import java.util.stream.Stream;
 
 import org.compiere.Adempiere;
 import org.compiere.model.I_AD_Role;
@@ -52,31 +53,35 @@ public class RoleAccessUpdate extends RoleAccessUpdateAbstract {
         getProcessLog().info("AD_Client_ID=" + getClientId() + ", AD_Role_ID="
                 + getRoleId());
 
-        if (getRoleId() >= 0) {
-            updateRole(getRole(getRoleId()));
-        } else {
-            List<Object> params = new ArrayList<>();
-            String whereClause = "";
-
-            if (getClientId() > 0) {
-                whereClause = "AD_Client_ID=?";
-                params.add(getClientId());
-            }
-
-            getRoleQuery(whereClause)
-                    .setOnlyActiveRecords(true)
-                    .setParameters(params)
-                    .setOrderBy("AD_Client_ID, Name")
-                    .<MRole>list().stream().forEach(this::updateRole);
-        }
-
+        getRoles(getClientId(), getRoleId())
+            .forEach(this::updateRole);
+            
         return "";
 
     }
 
-    MRole getRole(int roleId) {
+    Stream<MRole> getRoles(int clientId, int roleId) {
 
-        return new MRole(getCtx(), roleId, get_TrxName());
+        List<Object> params = new ArrayList<>();
+        String whereClause = "";
+
+        if (getClientId() > 0) {
+            whereClause = "AD_Client_ID=?";
+            params.add(getClientId());
+        }
+        
+        if (getRoleId() >= 0) { 
+            if (!whereClause.isEmpty())
+                whereClause += " AND ";
+            whereClause += "AD_Role_ID=?";
+            params.add(getRoleId());
+        }
+
+        return getRoleQuery(whereClause)
+                .setOnlyActiveRecords(true)
+                .setParameters(params)
+                .setOrderBy("AD_Client_ID, Name")
+                .<MRole>list().stream();
 
     }
 
