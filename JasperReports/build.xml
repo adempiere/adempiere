@@ -158,6 +158,9 @@
         <zipfileset src="../tools/lib/xercesImpl.jar">
             <patternset refid="manifest.exclude"/>
         </zipfileset>
+        <zipfileset src="../JasperReportsTools/lib/iText-2.1.7.jar">
+            <patternset refid="manifest.exclude"/>
+        </zipfileset>
       <manifest>
 	<attribute name="Specification-Title" value="Needed libraries for Jasper Reports integration on org.compiere.report.ReportStarter"/>
 	<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}${version}"/>
