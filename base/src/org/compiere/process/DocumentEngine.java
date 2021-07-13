@@ -1455,7 +1455,6 @@ public class DocumentEngine implements DocAction
         requireNonNull(clientId);
         requireNonNull(tableId);
         requireNonNull(recordId);
-        requireNonNull(trxName);
         
         String tableName = MTable.getTableName(ctx, tableId);
         
