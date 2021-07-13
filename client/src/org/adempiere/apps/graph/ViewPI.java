@@ -138,7 +138,7 @@ implements FormPanel, ActionListener
 			PerformanceIndicator pi = (PerformanceIndicator)e.getSource();
 			log.info(pi.getName());
 			MGoal goal = pi.getGoal();
-			if (goal.getMeasure() != null)
+			if (goal.getMeasure() != null || goal.getAD_Chart_ID() > 0)
 				new PerformanceDetail(goal);
 		}
 	}	//	actionPerformed
