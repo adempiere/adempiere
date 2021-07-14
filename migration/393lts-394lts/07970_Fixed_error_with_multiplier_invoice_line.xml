@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Fixed error with multiplier invoice line" ReleaseNo="3.9.4" SeqNo="7840">
+  <Migration EntityType="D" Name="Fixed error with multiplier invoice line" ReleaseNo="3.9.4" SeqNo="7970">
     <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW RV_C_INVOICELINE
 (AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
