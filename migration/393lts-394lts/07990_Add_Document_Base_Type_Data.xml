@@ -1,0 +1,2189 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add Document Base Type Data" ReleaseNo="3.9.4" SeqNo="7990">
+    <Comments>Add Document Base Type Data</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50000" Table="C_DocBaseType">
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:24:02.214</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50000</Data>
+        <Data AD_Column_ID="97955" Column="UUID">1cfb5aed-720a-4ed0-b78a-cbbad1ef26ea</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:24:02.214</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">GLJ</Data>
+        <Data AD_Column_ID="97948" Column="Description">Accounting Note</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_GLJournal</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">224</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Accounting Note Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">GL Journal</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97964" Column="Description">Accounting Note</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Accounting Note Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">GL Journal</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:24:02.747</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">4e5f670c-f66b-4d4d-9ac7-a9c9cd3d92f7</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:24:02.747</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50000</Data>
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97968" Column="Name" oldValue="GL Journal">Nota de Contabilidad</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Accounting Note">Nota de Contabilidad</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50000">50000</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Accounting Note Document Type">Define el comportamiento para el tipo de documento Nota de Contabilidad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50001" Table="C_DocBaseType">
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50001</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:27:19.937</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:27:19.937</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">SOO</Data>
+        <Data AD_Column_ID="97948" Column="Description">Sales Order</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_Order</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">259</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Sales Order Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Sales Order</Data>
+        <Data AD_Column_ID="97955" Column="UUID">8359913d-c3c2-44f5-8fb2-fda5cd2f4eb4</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">Sales Order</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Sales Order Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">Sales Order</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50001</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:27:20.186</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">8acd6f98-6f5b-4157-9f23-54c7470d5bdd</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:27:20.186</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Sales Order">Orden de Venta</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Sales Order">Orden de Venta</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50001">50001</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Sales Order Document Type">Define el comportamiento para el tipo de documento Orden de Venta</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50002" Table="C_DocBaseType">
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50002</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:28:25.315</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">POO</Data>
+        <Data AD_Column_ID="97948" Column="Description">Purchase Order</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_Order</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">259</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Purchase Order Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Purchase Order</Data>
+        <Data AD_Column_ID="97955" Column="UUID">2a3ed386-002a-4139-a9ca-462b60882405</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:28:25.315</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">906dbbf5-37b9-4dc7-bc3c-1e8c7f983d4a</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:28:25.636</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">Purchase Order</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Purchase Order Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">Purchase Order</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:28:25.636</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Purchase Order">Orden de Compra</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Purchase Order Document Type">Define el comportamiento para el tipo de documento Orden de Compra</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Purchase Order">Orden de Compra</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50002">50002</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50003" Table="C_DocBaseType">
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50003</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:29:42.537</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">API</Data>
+        <Data AD_Column_ID="97948" Column="Description">AP Invoice</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_Invoice</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">318</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for AP Invoice Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">AP Invoice</Data>
+        <Data AD_Column_ID="97955" Column="UUID">6f41c27d-9520-462e-b752-7736c1931c42</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:29:42.537</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:29:42.856</Data>
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">AP Invoice</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for AP Invoice Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">AP Invoice</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:29:42.856</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">22d95eee-0df8-44fb-a7be-a5c620e6dbd4</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50003</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="AP Invoice">Factura de CxP</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50003">50003</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="AP Invoice">Factura de CxP</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for AP Invoice Document Type">Define el comportamiento para el tipo de documento Factura de Cuentas por Pagar</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50004" Table="C_DocBaseType">
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:30:13.674</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50004</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:30:13.674</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">APC</Data>
+        <Data AD_Column_ID="97948" Column="Description">AP Credit Memo</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_Invoice</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">318</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for AP Credit Memo Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">AP Credit Memo</Data>
+        <Data AD_Column_ID="97955" Column="UUID">a9f16bb3-8919-41f5-85fc-eb88dc4bd2b5</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="140" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50004</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:30:14.073</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">d5cc7026-9fab-4ce5-afc3-966120c16672</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:30:14.073</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">AP Credit Memo</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for AP Credit Memo Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">AP Credit Memo</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="150" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50004">50004</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for AP Credit Memo Document Type">Define el comportamiento para el tipo de documento Nota de Crédito de Cuentas por Pagar</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="AP Credit Memo">Nota de Crédito de CxP</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="AP Credit Memo">Nota de Crédito de CxP</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="160" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50005" Table="C_DocBaseType">
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:30:39.624</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:30:39.624</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">ARI</Data>
+        <Data AD_Column_ID="97948" Column="Description">AR Invoice</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_Invoice</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">318</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for AR Invoice Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">AR Invoice</Data>
+        <Data AD_Column_ID="97955" Column="UUID">161e9fed-a309-408a-bb98-0845644672b0</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50005</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="170" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">02e38149-b3e5-4fce-9417-91927a49976e</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:30:39.925</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">AR Invoice</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for AR Invoice Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">AR Invoice</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:30:39.925</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50005</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="180" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97968" Column="Name" oldValue="AR Invoice">Factura de CxC</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="AR Invoice">Factura de CxC</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50005">50005</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for AR Invoice Document Type">Define el comportamiento para el tipo de documento Factura de Cuentas por Cobrar</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="190" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50006" Table="C_DocBaseType">
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:32:19.091</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">ARC</Data>
+        <Data AD_Column_ID="97948" Column="Description">AR Credit Memo</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_Invoice</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">318</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for AR Credit Memo Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">AR Credit Memo</Data>
+        <Data AD_Column_ID="97955" Column="UUID">c7b7c58e-4e53-4d54-bf80-1b997ea43fa8</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:32:19.091</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50006</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="200" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">AR Credit Memo</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for AR Credit Memo Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">AR Credit Memo</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:32:19.423</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">8038e07f-b5be-4b57-b08e-fd2dfa01ebbf</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:32:19.423</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50006</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="210" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50006">50006</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for AR Credit Memo Document Type">Define el comportamiento para el tipo de documento Nota de Crédito de Cuentas por Cobrar</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="AR Credit Memo">Nota de Crédito de CxC</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="AR Credit Memo">Nota de Crédito de CxC</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="220" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50007" Table="C_DocBaseType">
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Material Delivery Document Type</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97955" Column="UUID">dfae140d-771b-4629-8f8d-a958343e5faa</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:33:01.242</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:33:01.242</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50007</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">MMS</Data>
+        <Data AD_Column_ID="97948" Column="Description">Material Delivery</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_InOut</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">319</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Material Delivery</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="230" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50007</Data>
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">Material Delivery</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Material Delivery Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">Material Delivery</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:33:01.57</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">20a4c2df-1754-4073-bdc1-08050cf81ac5</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:33:01.57</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="240" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50007">50007</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Material Delivery">Entrega de Producto</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Material Delivery">Entrega de Producto</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Material Delivery Document Type">Define el comportamiento para el tipo de documento Entrega de Producto</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="250" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50008" Table="C_DocBaseType">
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">MMR</Data>
+        <Data AD_Column_ID="97948" Column="Description">Material Receipt</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:33:57.202</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:33:57.202</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_InOut</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">319</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Material Receipt Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50008</Data>
+        <Data AD_Column_ID="97954" Column="Name">Material Receipt</Data>
+        <Data AD_Column_ID="97955" Column="UUID">ad51c995-f4da-4ef2-ad27-593ef5cb0ca8</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="260" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">Material Receipt</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Material Receipt Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">Material Receipt</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:33:57.501</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97969" Column="UUID">e9a6f254-3c44-4faa-b7aa-71e8d35cc3d7</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:33:57.501</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50008</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="270" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Material Receipt">Recepción de Productos</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50008">50008</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Material Receipt">Recepción de Productos</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Material Receipt Document Type">Define el comportamiento para el tipo de documento Recepción de Productos</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="280" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50009" Table="C_DocBaseType">
+        <Data AD_Column_ID="97955" Column="UUID">cadd71a0-87a1-495e-8bb6-840d2c078303</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:34:36.993</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50009</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:34:36.993</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">MMI</Data>
+        <Data AD_Column_ID="97948" Column="Description">Material Physical Inventory</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_Inventory</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">321</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Material Physical Inventory Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Material Physical Inventory</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="290" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">Material Physical Inventory</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Material Physical Inventory Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">Material Physical Inventory</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:34:37.319</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">6c628963-a8da-40be-8d4e-5ac589ea45ff</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:34:37.319</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50009</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="300" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Material Physical Inventory">Inventario Físico del Material</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50009">50009</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Material Physical Inventory">Inventario Físico del Material</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Material Physical Inventory Document Type">Define el comportamiento para el tipo de documento Inventario Físico de Material</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="310" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50010" Table="C_DocBaseType">
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:35:27.615</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">MMM</Data>
+        <Data AD_Column_ID="97948" Column="Description">Material Movement</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_Movement</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">323</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50010</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Material Movement Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Material Movement</Data>
+        <Data AD_Column_ID="97955" Column="UUID">48f1cc27-5cad-4971-a1f5-44b4e3c9c56f</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:35:27.615</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="320" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:35:27.928</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50010</Data>
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">Material Movement</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Material Movement Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">Material Movement</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">599115d3-a559-42b6-8cfe-cb3cde734cbe</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:35:27.928</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="330" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Material Movement">Movimiento de Material</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50010">50010</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Material Movement">Movimiento de Material</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Material Movement Document Type">Define el comportamiento para el tipo de documento Movimiento de Material</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="340" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50011" Table="C_DocBaseType">
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Material Production Document Type</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Material Production</Data>
+        <Data AD_Column_ID="97955" Column="UUID">2999b645-4f7b-49e5-afbd-2caade945f37</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:36:32.198</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:36:32.198</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">MMP</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50011</Data>
+        <Data AD_Column_ID="97948" Column="Description">Material Production</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_Production</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">325</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="350" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">Material Production</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Material Production Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">Material Production</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:36:32.521</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">1d341eef-feb7-4a8a-a9b3-c47b80bbc6fe</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:36:32.521</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50011</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="360" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Material Production">Producción de Material</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50011">50011</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Material Production">Producción de Material</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Material Production Document Type">Define el comportamiento para el tipo de documento Producción de Material</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="370" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50012" Table="C_DocBaseType">
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:37:07.735</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">ARR</Data>
+        <Data AD_Column_ID="97948" Column="Description">AR Receipt</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_Payment</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">335</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for AR Receipt Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">AR Receipt</Data>
+        <Data AD_Column_ID="97955" Column="UUID">97e1132d-6eb6-4769-9a43-390232b205ca</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:37:07.735</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50012</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="380" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97969" Column="UUID">ae15021f-ce88-4211-92fb-e1c201faa367</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:37:08.046</Data>
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">AR Receipt</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for AR Receipt Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">AR Receipt</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:37:08.046</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50012</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="390" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97964" Column="Description" oldValue="AR Receipt">Cobros de CxC	</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="AR Receipt">Cobros de CxC</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50012">50012</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for AR Receipt Document Type">Define el comportamiento para el tipo de documento Cobros de CxC</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="400" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50013" Table="C_DocBaseType">
+        <Data AD_Column_ID="97954" Column="Name">AP Payment</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:37:43.248</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">APP</Data>
+        <Data AD_Column_ID="97948" Column="Description">AP Payment</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_Payment</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">335</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for AP Payment Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50013</Data>
+        <Data AD_Column_ID="97955" Column="UUID">aa3e19e5-ac0b-4ea0-b9fc-f3686a874460</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:37:43.248</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="410" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for AP Payment Document Type</Data>
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">AP Payment</Data>
+        <Data AD_Column_ID="97968" Column="Name">AP Payment</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50013</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:37:43.564</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">c1dff1bc-6ca8-4458-a0bb-1c23eb7a9f97</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:37:43.564</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="420" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97964" Column="Description" oldValue="AP Payment">Pagos de CxP</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for AP Payment Document Type">Define el comportamiento para el tipo de documento Pagos de CxP</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="AP Payment">Pagos de CxP</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50013">50013</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="430" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50014" Table="C_DocBaseType">
+        <Data AD_Column_ID="97954" Column="Name">Bank Statement</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_BankStatement</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50014</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">392</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Bank Statement Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97955" Column="UUID">60430d93-e268-4537-956a-50b3c5e82fed</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:38:19.872</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:38:19.872</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">CMB</Data>
+        <Data AD_Column_ID="97948" Column="Description">Bank Statement</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="440" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:38:20.221</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:38:20.221</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">Bank Statement</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Bank Statement Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">Bank Statement</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">ce132062-6265-45cb-af4d-2fc7bfd9c1bf</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50014</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="450" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Bank Statement">Extracto Bancario</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50014">50014</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Bank Statement">Extracto Bancario</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Bank Statement Document Type">Extracto Bancario</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="460" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50014">50014</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Extracto Bancario">Define el comportamiento para el tipo de documento Extracto Bancario</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="470" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50015" Table="C_DocBaseType">
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:39:21.606</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">CMC</Data>
+        <Data AD_Column_ID="97948" Column="Description">Cash Journal</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_Cash</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">407</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Cash Journal Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Cash Journal</Data>
+        <Data AD_Column_ID="97955" Column="UUID">63419fb2-cc9a-4da3-95a3-5b40b2ae2b4a</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:39:21.606</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50015</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="480" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">Cash Journal</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Cash Journal Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">Cash Journal</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:39:21.941</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">bec15fa2-cac4-4b64-ac6c-7bc3f20105e6</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:39:21.941</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50015</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="490" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Cash Journal">Caja Menor</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50015">50015</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Cash Journal">Caja Menor</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Cash Journal Document Type">Define el comportamiento para el tipo de documento Caja Menor</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="500" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50016" Table="C_DocBaseType">
+        <Data AD_Column_ID="97949" Column="DocBaseType">MXI</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:40:01.66</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97948" Column="Description">Match Invoice</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_MatchInv</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">472</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Match Invoice Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Match Invoice</Data>
+        <Data AD_Column_ID="97955" Column="UUID">a38f611d-16bb-457e-9ab7-d266d58e051e</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:40:01.66</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50016</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="510" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50016</Data>
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">Match Invoice</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Match Invoice Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">Match Invoice</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:40:02.017</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">552d5fd3-82a4-4f04-84ff-2a9ca5fbedb4</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:40:02.017</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="520" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Match Invoice">Asignar Factura</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50016">50016</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Match Invoice">Asignar Factura</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Match Invoice Document Type">Define el comportamiento para el tipo de documento Asignar Factura</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="530" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50017" Table="C_DocBaseType">
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:40:26.923</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50017</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:40:26.923</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">MXP</Data>
+        <Data AD_Column_ID="97948" Column="Description">Match PO</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_MatchPO</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">473</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Match PO Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Match PO</Data>
+        <Data AD_Column_ID="97955" Column="UUID">890466bb-bd40-4252-9a46-85ddfce09c05</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="540" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">Match PO</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Match PO Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">Match PO</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:40:27.238</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">53e38ca0-edc0-4f35-9405-109a1fb2b686</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:40:27.238</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50017</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="550" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Match PO">Asignar OC</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Match PO">Asignar OC</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50017">50017</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Match PO Document Type">Define el comportamiento para el tipo de documento Asignar Orden de Compra</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="560" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50018" Table="C_DocBaseType">
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50018</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:41:23.419</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">PJI</Data>
+        <Data AD_Column_ID="97948" Column="Description">Project Issue</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_ProjectIssue</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">623</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Project Issue Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Project Issue</Data>
+        <Data AD_Column_ID="97955" Column="UUID">e9d0e39a-29b5-44bf-9319-8a2a0f3dce5a</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:41:23.419</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="570" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">1ac7bf63-8894-4b07-a76e-2af02454a1cd</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:41:23.748</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">Project Issue</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Project Issue Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">Project Issue</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:41:23.748</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50018</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="580" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Project Issue">Insumo de Proyecto</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Project Issue Document Type">Define el comportamiento para el tipo de documento Insumo de Proyecto</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50018">50018</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Project Issue">Insumo de Proyecto</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="590" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50019" Table="C_DocBaseType">
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:42:34.953</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">POR</Data>
+        <Data AD_Column_ID="97948" Column="Description">Purchase Requisition</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_Requisition</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">702</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Purchase Requisition Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Purchase Requisition</Data>
+        <Data AD_Column_ID="97955" Column="UUID">f48773a7-18d4-4975-bd24-ed4b4210ed58</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:42:34.953</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50019</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="600" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">0436ee33-e03c-48c8-a9d0-13e4da84847c</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:42:35.303</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Purchase Requisition Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">Purchase Requisition</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">Purchase Requisition</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:42:35.303</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50019</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="610" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Purchase Requisition">Requisición de Compra</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50019">50019</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Purchase Requisition">Requisición de Compra</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Purchase Requisition Document Type">Define el comportamiento para el tipo de documento Requisición de Compra</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="620" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50020" Table="C_DocBaseType">
+        <Data AD_Column_ID="97949" Column="DocBaseType">CMA</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:43:13.764</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50020</Data>
+        <Data AD_Column_ID="97948" Column="Description">Payment Allocation</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_AllocationHdr</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">735</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Payment Allocation Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Payment Allocation</Data>
+        <Data AD_Column_ID="97955" Column="UUID">7fab8148-a2c1-475c-aee3-6eceeb42c21e</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:43:13.764</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="630" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">Payment Allocation</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Payment Allocation Document Type</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50020</Data>
+        <Data AD_Column_ID="97968" Column="Name">Payment Allocation</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:43:14.079</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">19a8615b-f16b-4cdb-bb68-e406fe9c8c5d</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:43:14.079</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="640" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50020">50020</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Payment Allocation">Asignación de Pago</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Payment Allocation">Asignación de Pago</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Payment Allocation Document Type">Define el comportamiento para el tipo de documento Asignación de Pago</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="650" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50021" Table="C_DocBaseType">
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50021</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:43:53.021</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">MOP</Data>
+        <Data AD_Column_ID="97948" Column="Description">Manufacturing Order</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_PPOrder</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">53027</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Manufacturing Order Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Manufacturing Order</Data>
+        <Data AD_Column_ID="97955" Column="UUID">8d346d4b-7aa1-4fce-b630-863febb5c2bd</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:43:53.021</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="660" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50021</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">97e5fbfe-8c25-40f6-acd2-7241f1939ede</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:43:53.33</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">Manufacturing Order</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Manufacturing Order Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">Manufacturing Order</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:43:53.33</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="670" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Manufacturing Order">Orden de Manufactura</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50021">50021</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Manufacturing Order">Orden de Manufactura</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Manufacturing Order Document Type">Define el comportamiento para el tipo de documento Orden de Manufactura</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="680" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50022" Table="C_DocBaseType">
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50022</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Manufacturing Cost Collector</Data>
+        <Data AD_Column_ID="97955" Column="UUID">15300082-f10f-42ab-b263-42fd4c7ba8b9</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:44:17.389</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_PPCostCollector</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">53035</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:44:17.389</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">MCC</Data>
+        <Data AD_Column_ID="97948" Column="Description">Manufacturing Cost Collector</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Manufacturing Cost Collector Document Type</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="690" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50022</Data>
+        <Data AD_Column_ID="97964" Column="Description">Manufacturing Cost Collector</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Manufacturing Cost Collector Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">Manufacturing Cost Collector</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:44:17.677</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">8cdeb571-4a25-41a1-b0f6-983c662c5390</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:44:17.677</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="700" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50022">50022</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Manufacturing Cost Collector">Colector de Costos de Manufactura</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Manufacturing Cost Collector">Colector de Costos de Manufactura</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Manufacturing Cost Collector Document Type">Define el comportamiento para el tipo de documento Colector de Costos de Manufactura</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="710" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50023" Table="C_DocBaseType">
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50023</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Distribution Order Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Distribution Order</Data>
+        <Data AD_Column_ID="97955" Column="UUID">ff092791-1765-46ca-9fc9-3658f6c24332</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:44:47.261</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:44:47.261</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">DOO</Data>
+        <Data AD_Column_ID="97948" Column="Description">Distribution Order</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_DDOrder</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">53037</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="720" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:44:47.568</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:44:47.568</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">Distribution Order</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Distribution Order Document Type</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97968" Column="Name">Distribution Order</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50023</Data>
+        <Data AD_Column_ID="97969" Column="UUID">1662bea9-6aa5-4d36-ae97-27dc8610ed47</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="730" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Distribution Order">Orden de Distribución</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50023">50023</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Distribution Order">Orden de Distribución</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Distribution Order Document Type">Define el comportamiento para el tipo de documento Orden de Distribución</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="740" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50024" Table="C_DocBaseType">
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50024</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-29 10:46:34.08</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">HRP</Data>
+        <Data AD_Column_ID="97948" Column="Description">Payroll Process</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname">org.compiere.acct.Doc_HRProcess</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">53092</Data>
+        <Data AD_Column_ID="97951" Column="Help">Defined the behavior for Payroll Process Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Payroll</Data>
+        <Data AD_Column_ID="97955" Column="UUID">0c038bf4-f452-425b-833f-f559859c832c</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-29 10:46:34.08</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="750" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50024</Data>
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97964" Column="Description">Payroll Process</Data>
+        <Data AD_Column_ID="97965" Column="Help">Defined the behavior for Payroll Process Document Type</Data>
+        <Data AD_Column_ID="97968" Column="Name">Payroll</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-29 10:46:34.385</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97969" Column="UUID">0c63bfce-2039-4d43-9412-c5019418021a</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-29 10:46:34.385</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="760" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Payroll Process">Proceso de Nómina</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50024">50024</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Payroll">Nómina</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Defined the behavior for Payroll Process Document Type">Define el comportamiento para el tipo de documento Proceso de Nómina</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="770" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50023" Table="C_DocBaseType">
+        <Data AD_Column_ID="97950" Column="EntityType" oldValue="D">EE01</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="780" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50022" Table="C_DocBaseType">
+        <Data AD_Column_ID="97950" Column="EntityType" oldValue="D">EE01</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="790" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50021" Table="C_DocBaseType">
+        <Data AD_Column_ID="97950" Column="EntityType" oldValue="D">EE01</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="800" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50021" Table="C_DocBaseType">
+        <Data AD_Column_ID="97949" Column="DocBaseType" oldValue="MOP">APC</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="810" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50024" Table="C_DocBaseType">
+        <Data AD_Column_ID="97950" Column="EntityType" oldValue="D">EE02</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="820" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50026" Table="C_DocBaseType">
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isNewNull="true"/>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50026</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-30 10:17:23.941</Data>
+        <Data AD_Column_ID="97948" Column="Description">AP Payment Selection</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">APS</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for AP Payment Selection Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">AP Payment Selection</Data>
+        <Data AD_Column_ID="97955" Column="UUID">485ab258-c94e-4338-907b-8b103c0f9d71</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">426</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-30 10:17:23.941</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="830" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50026</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-30 10:17:24.98</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">AP Payment Selection</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for AP Payment Selection Document Type</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97968" Column="Name">AP Payment Selection</Data>
+        <Data AD_Column_ID="97969" Column="UUID">9798780c-e0fa-4fc6-9545-5f21d7120d00</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-30 10:17:24.98</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="840" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50026">50026</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="AP Payment Selection">Selección de Pago</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="AP Payment Selection">Selección de Pago</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for AP Payment Selection Document Type">Define el comportamiento para el tipo de documento Selección de Pago</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="850" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50027" Table="C_DocBaseType">
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for AR Pro Forma Invoice Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">AR Pro Forma Invoice</Data>
+        <Data AD_Column_ID="97955" Column="UUID">122f9a04-c1da-4ef6-b046-a52d33fd9b6d</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">318</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-30 10:18:59.203</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">ARF</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isNewNull="true"/>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50027</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-30 10:18:59.203</Data>
+        <Data AD_Column_ID="97948" Column="Description">AR Pro Forma Invoice</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="860" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50027</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-30 10:19:00.045</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">AR Pro Forma Invoice</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for AR Pro Forma Invoice Document Type</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97968" Column="Name">AR Pro Forma Invoice</Data>
+        <Data AD_Column_ID="97969" Column="UUID">7d265fc9-4a5c-4f7f-a106-0210b34a0645</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-30 10:19:00.045</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="870" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for AR Pro Forma Invoice Document Type">Define el comportamiento para el tipo de documento Factura Pro forma de CxC</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50027">50027</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="AR Pro Forma Invoice">Factura Pro forma de CxC</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="AR Pro Forma Invoice">Factura Pro forma de CxC</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="880" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50028" Table="C_DocBaseType">
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isNewNull="true"/>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50028</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-30 10:22:09.442</Data>
+        <Data AD_Column_ID="97948" Column="Description">Attendance Record</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">TNA</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">ECA03</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Attendance Record Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Attendance Record</Data>
+        <Data AD_Column_ID="97955" Column="UUID">15fd5c05-934b-4742-a8e8-b22feace8f9d</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">54498</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-30 10:22:09.442</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="890" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50028</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-30 10:22:10.606</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">Attendance Record</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Attendance Record Document Type</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97968" Column="Name">Attendance Record</Data>
+        <Data AD_Column_ID="97969" Column="UUID">3cad3e57-de48-46d8-bd33-c35bf30d01e6</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-30 10:22:10.606</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="900" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Attendance Record Document Type">Define el comportamiento para el tipo de documento Registro de Asistencia</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50028">50028</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Attendance Record">Registro de Asistencia</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Attendance Record">Registro de Asistencia</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="910" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50029" Table="C_DocBaseType">
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isNewNull="true"/>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50029</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-30 10:28:06.051</Data>
+        <Data AD_Column_ID="97948" Column="Description">Financial Agreement</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">FMA</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">FMS</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Financial Agreement Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Financial Agreement</Data>
+        <Data AD_Column_ID="97955" Column="UUID">7263c400-edf2-469c-afb6-40d447adef44</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">54362</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-30 10:28:06.051</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="920" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50029</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-30 10:28:06.862</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">Financial Agreement</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Financial Agreement Document Type</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97968" Column="Name">Financial Agreement</Data>
+        <Data AD_Column_ID="97969" Column="UUID">8798d558-5df3-45f6-acd7-f2bef83a1b9f</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-30 10:28:06.862</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="930" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Financial Agreement Document Type">Define el comportamiento para el tipo de documento Acuerdo Financiero</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Financial Agreement">Acuerdo Financiero</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50029">50029</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Financial Agreement">Acuerdo Financiero</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="940" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50029" Table="C_DocBaseType">
+        <Data AD_Column_ID="97943" Column="AD_Table_ID" oldValue="54362">54363</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="950" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50030" Table="C_DocBaseType">
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isNewNull="true"/>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50030</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-30 10:31:11.702</Data>
+        <Data AD_Column_ID="97948" Column="Description">Financial Transaction Batch</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">FMB</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">FMS</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Financial Transaction Batch Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Financial Transaction Batch</Data>
+        <Data AD_Column_ID="97955" Column="UUID">c22ca06d-99b2-4229-9981-90047e4516bc</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">54370</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-30 10:31:11.703</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="960" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50030</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-30 10:31:12.548</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">Financial Transaction Batch</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Financial Transaction Batch Document Type</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97968" Column="Name">Financial Transaction Batch</Data>
+        <Data AD_Column_ID="97969" Column="UUID">2d99dd14-7d87-46ac-bcae-64bcd31c078d</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-30 10:31:12.548</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="970" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Financial Transaction Batch Document Type">Define el comportamiento para el tipo de documento Lote de Transacción Financiera</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50030">50030</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Financial Transaction Batch">Lote de Transacción Financiera</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Financial Transaction Batch">Lote de Transacción Financiera</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="980" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50031" Table="C_DocBaseType">
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-30 10:39:49.668</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isNewNull="true"/>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50031</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-30 10:39:49.668</Data>
+        <Data AD_Column_ID="97948" Column="Description">Fixed Assets Addition</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">FAA</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Fixed Assets Addition Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Fixed Assets Addition</Data>
+        <Data AD_Column_ID="97955" Column="UUID">afeaeeac-05e0-4897-9cf0-e6ee153d7f56</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">53137</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="990" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50031</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-30 10:39:50.59</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">Fixed Assets Addition</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Fixed Assets Addition Document Type</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97968" Column="Name">Fixed Assets Addition</Data>
+        <Data AD_Column_ID="97969" Column="UUID">2d5c2b31-ca09-4a05-a4cd-2b8b4b426ae7</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-30 10:39:50.59</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1000" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Fixed Assets Addition Document Type">Define el comportamiento para el tipo de documento Adición de Activos Fijos</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50031">50031</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Fixed Assets Addition">Adición de Activos Fijos</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Fixed Assets Addition">Adición de Activos Fijos</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1010" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50032" Table="C_DocBaseType">
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isNewNull="true"/>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50032</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-30 10:41:46.118</Data>
+        <Data AD_Column_ID="97948" Column="Description">Fixed Assets Depreciation</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">FDP</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Fixed Assets Depreciation Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Fixed Assets Depreciation</Data>
+        <Data AD_Column_ID="97955" Column="UUID">eda220d3-8d79-4a09-9841-4098aa30b1e1</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">53137</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-30 10:41:46.118</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1020" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Fixed Assets Depreciation Document Type</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97968" Column="Name">Fixed Assets Depreciation</Data>
+        <Data AD_Column_ID="97969" Column="UUID">10af1ceb-70ef-4808-8743-3bb425df3f6d</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-30 10:41:47.48</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50032</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-30 10:41:47.48</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">Fixed Assets Depreciation</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1030" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50032" Table="C_DocBaseType">
+        <Data AD_Column_ID="97943" Column="AD_Table_ID" oldValue="53137">53121</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1040" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Fixed Assets Depreciation Document Type">Define el comportamiento para el tipo de documento Depreciación de Activos Fijos</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50032">50032</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Fixed Assets Depreciation">Depreciación de Activos Fijos</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Fixed Assets Depreciation">Depreciación de Activos Fijos</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1050" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50033" Table="C_DocBaseType">
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isNewNull="true"/>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50033</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-30 10:43:33.722</Data>
+        <Data AD_Column_ID="97948" Column="Description">Fixed Assets Disposal</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">FAD</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Fixed Assets Disposal Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Fixed Assets Disposal</Data>
+        <Data AD_Column_ID="97955" Column="UUID">e51087e2-f606-4a17-9e29-a9fd8aa7d5e4</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">53127</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-30 10:43:33.722</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1060" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50033</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-30 10:43:34.774</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">Fixed Assets Disposal</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Fixed Assets Disposal Document Type</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97968" Column="Name">Fixed Assets Disposal</Data>
+        <Data AD_Column_ID="97969" Column="UUID">3944b7ac-e094-4c13-bde6-ebd327af77ee</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-30 10:43:34.774</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1070" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Fixed Assets Disposal Document Type">Define el comportamiento para el tipo de documento Enajenación de Activos Fijos</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50033">50033</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Fixed Assets Disposal">Enajenación de Activos Fijos</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Fixed Assets Disposal">Enajenación de Activos Fijos</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1080" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50034" Table="C_DocBaseType">
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isNewNull="true"/>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50034</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-30 10:45:03.059</Data>
+        <Data AD_Column_ID="97948" Column="Description">Fixed Assets Split</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">FAS</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Fixed Assets Splitl Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Fixed Assets Split</Data>
+        <Data AD_Column_ID="97955" Column="UUID">8b7607c8-cf4f-41bd-85a8-0cc83ff459bf</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">53122</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-30 10:45:03.059</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1090" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50034</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-30 10:45:04.589</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">Fixed Assets Split</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Fixed Assets Splitl Document Type</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97968" Column="Name">Fixed Assets Split</Data>
+        <Data AD_Column_ID="97969" Column="UUID">039e23cf-c748-4d72-9fcc-a8edbf2190f4</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-30 10:45:04.589</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1100" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Fixed Assets Splitl Document Type">Define el comportamiento para el tipo de documento División de Activos Fijos</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50034">50034</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Fixed Assets Split">División de Activos Fijos</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Fixed Assets Split">División de Activos Fijos</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1110" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50035" Table="C_DocBaseType">
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Freight Order</Data>
+        <Data AD_Column_ID="97955" Column="UUID">eb82a6b0-c955-45d5-93d3-396bf85fd035</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">54258</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-30 10:48:15.528</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isNewNull="true"/>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50035</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-30 10:48:15.528</Data>
+        <Data AD_Column_ID="97948" Column="Description">Freight Order</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">FRO</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Freight Order Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1120" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50035</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-30 10:48:16.508</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">Freight Order</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Freight Order Document Type</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97968" Column="Name">Freight Order</Data>
+        <Data AD_Column_ID="97969" Column="UUID">28228209-8e99-4b83-909b-368b787b5cf5</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-30 10:48:16.508</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1130" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50035">50035</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Freight Order Document Type">Define el comportamiento para el tipo de documento Orden de Flete</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Freight Order">Orden de Flete</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Freight Order">Orden de Flete</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1140" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50034" Table="C_DocBaseType">
+        <Data AD_Column_ID="97951" Column="Help" oldValue="Define the behavior for Fixed Assets Splitl Document Type">Define the behavior for Fixed Assets Split Document Type</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1150" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50036" Table="C_DocBaseType">
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for GL Document Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">GL Document</Data>
+        <Data AD_Column_ID="97955" Column="UUID">26a311dc-3a37-44dc-81a1-12687453be94</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">803</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-30 10:50:02.06</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isNewNull="true"/>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50036</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-30 10:50:02.06</Data>
+        <Data AD_Column_ID="97948" Column="Description">GL Document</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">GLD</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1160" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for GL Document Document Type</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97968" Column="Name">GL Document</Data>
+        <Data AD_Column_ID="97969" Column="UUID">42d1b650-996f-472a-bb68-f30ce978536f</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-30 10:50:03.011</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50036</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-30 10:50:03.011</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">GL Document</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1170" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="GL Document">Documento de Contabilidad</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50036">50036</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for GL Document Document Type">Define el comportamiento para el tipo de documento Documento de Contabilidad</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="GL Document">Documento de Contabilidad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1180" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50037" Table="C_DocBaseType">
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isNewNull="true"/>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50037</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-30 10:51:12.496</Data>
+        <Data AD_Column_ID="97948" Column="Description">HR Incidence</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">TNI</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">ECA03</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for HR Incidence Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">HR Incidence</Data>
+        <Data AD_Column_ID="97955" Column="UUID">e79c856d-4664-4817-bc02-b811d3123f62</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">54501</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-30 10:51:12.496</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1190" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97968" Column="Name">HR Incidence</Data>
+        <Data AD_Column_ID="97969" Column="UUID">6f143d02-d189-4696-bfbd-8237cbd0d7bc</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-30 10:51:14.234</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50037</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-30 10:51:14.234</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">HR Incidence</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for HR Incidence Document Type</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1200" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for HR Incidence Document Type">Define el comportamiento para el tipo de documento Incidencia de Nómina</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50037">50037</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="HR Incidence">Incidencia de Nómina</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="HR Incidence">Incidencia de Nómina</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1210" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50038" Table="C_DocBaseType">
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isNewNull="true"/>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50038</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-30 10:52:32.759</Data>
+        <Data AD_Column_ID="97948" Column="Description">Leave Request</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">TNL</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">ECA03</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Leave Request Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Leave Request</Data>
+        <Data AD_Column_ID="97955" Column="UUID">8685a1bf-a14e-44c1-9fa6-bac29d5450cc</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">53697</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-30 10:52:32.759</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1220" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50038</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-30 10:52:33.745</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">Leave Request</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Leave Request Document Type</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97968" Column="Name">Leave Request</Data>
+        <Data AD_Column_ID="97969" Column="UUID">42b26b42-a70a-4f08-8ded-40320269b0c1</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-30 10:52:33.745</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1230" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Leave Request">Solicitud del Permiso</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50038">50038</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Leave Request Document Type">Define el comportamiento para el tipo de documento Solicitud del Permiso</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Leave Request">Solicitud del Permiso</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1240" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50039" Table="C_DocBaseType">
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isNewNull="true"/>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50039</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-30 10:56:16.08</Data>
+        <Data AD_Column_ID="97948" Column="Description">Maintenance Order</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">MOF</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">EE01</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Maintenance Order Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Maintenance Order</Data>
+        <Data AD_Column_ID="97955" Column="UUID">f0b2721a-d90f-4f71-baa3-b4a917d95dff</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">53027</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-30 10:56:16.08</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1250" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50039</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-30 10:56:17.402</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">Maintenance Order</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Maintenance Order Document Type</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97968" Column="Name">Maintenance Order</Data>
+        <Data AD_Column_ID="97969" Column="UUID">f1b61d9c-d729-4ef6-ba0b-4563698d8a39</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-30 10:56:17.402</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1260" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Maintenance Order Document Type">Define el comportamiento para el tipo de documento Orden de Mantenimiento</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50039">50039</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Maintenance Order">Orden de Mantenimiento</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Maintenance Order">Orden de Mantenimiento</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1270" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50040" Table="C_DocBaseType">
+        <Data AD_Column_ID="97955" Column="UUID">689c34a4-7d04-491d-b4c1-3a30ad12043b</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">54052</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-30 10:57:29.578</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isNewNull="true"/>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50040</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-30 10:57:29.578</Data>
+        <Data AD_Column_ID="97948" Column="Description">Manufacturing Planned Order</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">MPO</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Manufacturing Planned Order Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Manufacturing Planned Order</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1280" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97969" Column="UUID">a52ba692-9201-41e2-85d7-965e615e52c8</Data>
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50040</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-30 10:57:32.395</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">Manufacturing Planned Order</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Manufacturing Planned Order Document Type</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97968" Column="Name">Manufacturing Planned Order</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-30 10:57:32.395</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1290" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Manufacturing Planned Order">Orden Planificada de Fabricación</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50040">50040</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Manufacturing Planned Order Document Type">Define el comportamiento para el tipo de documento Orden Planificada de Fabricación</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Manufacturing Planned Order">Orden Planificada de Fabricación</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1300" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50041" Table="C_DocBaseType">
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isNewNull="true"/>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50041</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-30 10:59:24.401</Data>
+        <Data AD_Column_ID="97948" Column="Description">Package</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">MMK</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">ECA02</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Package Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Package</Data>
+        <Data AD_Column_ID="97955" Column="UUID">f3b827d6-727e-4feb-8840-f056078ed059</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">664</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-30 10:59:24.401</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1310" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50041</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-30 10:59:25.893</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">Package</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Package Document Type</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97968" Column="Name">Package</Data>
+        <Data AD_Column_ID="97969" Column="UUID">d24fe7f5-83b9-45c9-92ab-431f7404f03f</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-30 10:59:25.893</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1320" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Package Document Type">Define el comportamiento para el tipo de documento Paquete</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50041">50041</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Package">Paquete</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Package">Paquete</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1330" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50042" Table="C_DocBaseType">
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-30 11:00:42.815</Data>
+        <Data AD_Column_ID="97948" Column="Description">Quality Order</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">MQO</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">EE01</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Quality Order Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Quality Order</Data>
+        <Data AD_Column_ID="97955" Column="UUID">1c410c2b-84d4-4389-94e9-eb025cc7d144</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">53027</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-30 11:00:42.815</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isNewNull="true"/>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50042</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1340" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50042</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-30 11:00:44.126</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">Quality Order</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Quality Order Document Type</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97968" Column="Name">Quality Order</Data>
+        <Data AD_Column_ID="97969" Column="UUID">0227bc8b-856f-4ab5-9066-f5e8e1a18084</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-30 11:00:44.126</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1350" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Quality Order">Orden de Calidad</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50042">50042</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Quality Order Document Type">Define el comportamiento para el tipo de documento Orden de Calidad</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Quality Order">Orden de Calidad</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1360" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50043" Table="C_DocBaseType">
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isNewNull="true"/>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50043</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-30 11:01:48.141</Data>
+        <Data AD_Column_ID="97948" Column="Description">Sales Commission</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">SOC</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">D</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Sales Commission Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Sales Commission</Data>
+        <Data AD_Column_ID="97955" Column="UUID">529219be-0d35-4801-956a-61e5b71a4ab9</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">436</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-30 11:01:48.141</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1370" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50043</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-30 11:01:49.192</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">Sales Commission</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Sales Commission Document Type</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97968" Column="Name">Sales Commission</Data>
+        <Data AD_Column_ID="97969" Column="UUID">cb76b88b-73c7-4b55-948c-1bf2431e86ab</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-30 11:01:49.192</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1380" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Sales Commission Document Type">Define el comportamiento para el tipo de documento Comisión de Ventas</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50043">50043</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Sales Commission">Comisión de Ventas</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Sales Commission">Comisión de Ventas</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1390" StepType="AD">
+      <PO AD_Table_ID="54810" Action="I" Record_ID="50044" Table="C_DocBaseType">
+        <Data AD_Column_ID="97947" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97941" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97942" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isNewNull="true"/>
+        <Data AD_Column_ID="97945" Column="C_DocBaseType_ID">50044</Data>
+        <Data AD_Column_ID="97946" Column="Created">2021-03-30 11:03:03.693</Data>
+        <Data AD_Column_ID="97948" Column="Description">Warehouse Management Order</Data>
+        <Data AD_Column_ID="97949" Column="DocBaseType">WMO</Data>
+        <Data AD_Column_ID="97950" Column="EntityType">EE03</Data>
+        <Data AD_Column_ID="97951" Column="Help">Define the behavior for Warehouse Management Order Document Type</Data>
+        <Data AD_Column_ID="97952" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97953" Column="IsDefault">true</Data>
+        <Data AD_Column_ID="97954" Column="Name">Warehouse Management Order</Data>
+        <Data AD_Column_ID="97955" Column="UUID">8ea511fd-49be-49ab-9301-a10bbdefa51f</Data>
+        <Data AD_Column_ID="97943" Column="AD_Table_ID">53233</Data>
+        <Data AD_Column_ID="97956" Column="Updated">2021-03-30 11:03:03.693</Data>
+        <Data AD_Column_ID="97957" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1400" StepType="AD">
+      <PO AD_Table_ID="54811" Action="I" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97958" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="97960" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID">50044</Data>
+        <Data AD_Column_ID="97962" Column="Created">2021-03-30 11:03:05.057</Data>
+        <Data AD_Column_ID="97963" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="97964" Column="Description">Warehouse Management Order</Data>
+        <Data AD_Column_ID="97965" Column="Help">Define the behavior for Warehouse Management Order Document Type</Data>
+        <Data AD_Column_ID="97966" Column="IsActive">true</Data>
+        <Data AD_Column_ID="97967" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="97968" Column="Name">Warehouse Management Order</Data>
+        <Data AD_Column_ID="97969" Column="UUID">b890a5f6-2fd7-4ff7-b304-15e49c672759</Data>
+        <Data AD_Column_ID="97970" Column="Updated">2021-03-30 11:03:05.057</Data>
+        <Data AD_Column_ID="97971" Column="UpdatedBy">100</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1410" StepType="AD">
+      <PO AD_Table_ID="54811" Action="U" Record_ID="0" Table="C_DocBaseType_Trl">
+        <Data AD_Column_ID="97961" Column="C_DocBaseType_ID" oldValue="50044">50044</Data>
+        <Data AD_Column_ID="97964" Column="Description" oldValue="Warehouse Management Order">Orden de Gestión de Almacén</Data>
+        <Data AD_Column_ID="97959" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="97965" Column="Help" oldValue="Define the behavior for Warehouse Management Order Document Type">Define el comportamiento para el tipo de documento Orden de Gestión de Almacén</Data>
+        <Data AD_Column_ID="97968" Column="Name" oldValue="Warehouse Management Order">Orden de Gestión de Almacén</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1420" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50021" Table="C_DocBaseType">
+        <Data AD_Column_ID="97949" Column="DocBaseType" oldValue="APC">MOP</Data>
+      </PO>
+    </Step>
+    <Step DBType="ALL" Parse="Y" SeqNo="1430" StepType="SQL">
+      <SQLStatement>UPDATE C_DocType SET C_DocBaseType_ID = (SELECT dbt.C_DocBaseType_ID FROM C_DocBaseType dbt WHERE dbt.DocBaseType = C_DocType.DocBaseType);</SQLStatement>
+      <RollbackStatement>UPDATE C_DocType SET C_DocBaseType_ID =NULL;</RollbackStatement>
+    </Step>
+    <Step SeqNo="1440" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="100280" Table="AD_Field">
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1450" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="2079" Table="AD_Field">
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="1460" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="100280" Table="AD_Field">
+        <Data AD_Column_ID="15013" Column="IsMandatory" isOldNull="true">Y</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
