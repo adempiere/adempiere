@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Index on Migration Data" ReleaseNo="3.9.4" SeqNo="7920">
+    <Comments>Index on Migration Data</Comments>
+    <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
+      <SQLStatement>CREATE INDEX AD_Migration_Data_Step_Active ON AD_MigrationData(AD_MigrationStep_ID,IsActive);</SQLStatement>
+      <RollbackStatement>DROP INDEX AD_Migration_Data_Step_Active;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="N" SeqNo="20" StepType="SQL">
+      <SQLStatement>CREATE INDEX AD_Migration_Data_Step_Active ON AD_MigrationData(AD_MigrationStep_ID,IsActive);</SQLStatement>
+      <RollbackStatement>DROP INDEX AD_Migration_Data_Step_Active;</RollbackStatement>
+    </Step>
+    <Step DBType="MySQL" Parse="N" SeqNo="30" StepType="SQL">
+      <SQLStatement>CREATE INDEX AD_Migration_Data_Step_Active ON AD_MigrationData(AD_MigrationStep_ID,IsActive);</SQLStatement>
+      <RollbackStatement>DROP INDEX AD_Migration_Data_Step_Active;</RollbackStatement>
+    </Step>
+  </Migration>
+</Migrations>

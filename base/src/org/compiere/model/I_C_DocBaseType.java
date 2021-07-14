@@ -20,35 +20,26 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_Chart
+/** Generated Interface for C_DocBaseType
  *  @author Adempiere (generated) 
  *  @version Release 3.9.3
  */
-public interface I_AD_Chart 
+public interface I_C_DocBaseType 
 {
 
-    /** TableName=AD_Chart */
-    public static final String Table_Name = "AD_Chart";
+    /** TableName=C_DocBaseType */
+    public static final String Table_Name = "C_DocBaseType";
 
-    /** AD_Table_ID=53284 */
+    /** AD_Table_ID=54810 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 4 - System 
+    /** AccessLevel = 6 - System - Client 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(4);
+    BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
-
-    /** Column name AD_Chart_ID */
-    public static final String COLUMNNAME_AD_Chart_ID = "AD_Chart_ID";
-
-	/** Set Chart	  */
-	public void setAD_Chart_ID (int AD_Chart_ID);
-
-	/** Get Chart	  */
-	public int getAD_Chart_ID();
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -71,31 +62,42 @@ public interface I_AD_Chart
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name ChartOrientation */
-    public static final String COLUMNNAME_ChartOrientation = "ChartOrientation";
+    /** Column name AD_Table_ID */
+    public static final String COLUMNNAME_AD_Table_ID = "AD_Table_ID";
 
-	/** Set Orientation.
-	  * The orientation of the chart.
+	/** Set Table.
+	  * Database Table information
 	  */
-	public void setChartOrientation (String ChartOrientation);
+	public void setAD_Table_ID (int AD_Table_ID);
 
-	/** Get Orientation.
-	  * The orientation of the chart.
+	/** Get Table.
+	  * Database Table information
 	  */
-	public String getChartOrientation();
+	public int getAD_Table_ID();
 
-    /** Column name ChartType */
-    public static final String COLUMNNAME_ChartType = "ChartType";
+	public org.compiere.model.I_AD_Table getAD_Table() throws RuntimeException;
 
-	/** Set Chart Type.
-	  * Type fo chart to render
+    /** Column name AccountingClassname */
+    public static final String COLUMNNAME_AccountingClassname = "AccountingClassname";
+
+	/** Set Accounting Class Name.
+	  * Java Classname
 	  */
-	public void setChartType (String ChartType);
+	public void setAccountingClassname (String AccountingClassname);
 
-	/** Get Chart Type.
-	  * Type fo chart to render
+	/** Get Accounting Class Name.
+	  * Java Classname
 	  */
-	public String getChartType();
+	public String getAccountingClassname();
+
+    /** Column name C_DocBaseType_ID */
+    public static final String COLUMNNAME_C_DocBaseType_ID = "C_DocBaseType_ID";
+
+	/** Set Document Base Type	  */
+	public void setC_DocBaseType_ID (int C_DocBaseType_ID);
+
+	/** Get Document Base Type	  */
+	public int getC_DocBaseType_ID();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -126,18 +128,46 @@ public interface I_AD_Chart
 	  */
 	public String getDescription();
 
-    /** Column name DomainLabel */
-    public static final String COLUMNNAME_DomainLabel = "DomainLabel";
+    /** Column name DocBaseType */
+    public static final String COLUMNNAME_DocBaseType = "DocBaseType";
 
-	/** Set Domain Label.
-	  * Label for the domain axis.
+	/** Set Document BaseType.
+	  * Logical type of document
 	  */
-	public void setDomainLabel (String DomainLabel);
+	public void setDocBaseType (String DocBaseType);
 
-	/** Get Domain Label.
-	  * Label for the domain axis.
+	/** Get Document BaseType.
+	  * Logical type of document
 	  */
-	public String getDomainLabel();
+	public String getDocBaseType();
+
+    /** Column name EntityType */
+    public static final String COLUMNNAME_EntityType = "EntityType";
+
+	/** Set Entity Type.
+	  * Dictionary Entity Type;
+ Determines ownership and synchronization
+	  */
+	public void setEntityType (String EntityType);
+
+	/** Get Entity Type.
+	  * Dictionary Entity Type;
+ Determines ownership and synchronization
+	  */
+	public String getEntityType();
+
+    /** Column name Help */
+    public static final String COLUMNNAME_Help = "Help";
+
+	/** Set Comment/Help.
+	  * Comment or Hint
+	  */
+	public void setHelp (String Help);
+
+	/** Get Comment/Help.
+	  * Comment or Hint
+	  */
+	public String getHelp();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -152,31 +182,18 @@ public interface I_AD_Chart
 	  */
 	public boolean isActive();
 
-    /** Column name IsDisplayLegend */
-    public static final String COLUMNNAME_IsDisplayLegend = "IsDisplayLegend";
+    /** Column name IsDefault */
+    public static final String COLUMNNAME_IsDefault = "IsDefault";
 
-	/** Set Display Legend.
-	  * Display chart legend
+	/** Set Default.
+	  * Default value
 	  */
-	public void setIsDisplayLegend (boolean IsDisplayLegend);
+	public void setIsDefault (boolean IsDefault);
 
-	/** Get Display Legend.
-	  * Display chart legend
+	/** Get Default.
+	  * Default value
 	  */
-	public boolean isDisplayLegend();
-
-    /** Column name IsTimeSeries */
-    public static final String COLUMNNAME_IsTimeSeries = "IsTimeSeries";
-
-	/** Set Time Series.
-	  * The domain data for the chart is organised by time.
-	  */
-	public void setIsTimeSeries (boolean IsTimeSeries);
-
-	/** Get Time Series.
-	  * The domain data for the chart is organised by time.
-	  */
-	public boolean isTimeSeries();
+	public boolean isDefault();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -191,44 +208,18 @@ public interface I_AD_Chart
 	  */
 	public String getName();
 
-    /** Column name RangeLabel */
-    public static final String COLUMNNAME_RangeLabel = "RangeLabel";
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
 
-	/** Set Range Label.
-	  * Label for the range axis.
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
 	  */
-	public void setRangeLabel (String RangeLabel);
+	public void setUUID (String UUID);
 
-	/** Get Range Label.
-	  * Label for the range axis.
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
 	  */
-	public String getRangeLabel();
-
-    /** Column name TimeScope */
-    public static final String COLUMNNAME_TimeScope = "TimeScope";
-
-	/** Set Time Scope.
-	  * The number of time units to include the chart result.
-	  */
-	public void setTimeScope (int TimeScope);
-
-	/** Get Time Scope.
-	  * The number of time units to include the chart result.
-	  */
-	public int getTimeScope();
-
-    /** Column name TimeUnit */
-    public static final String COLUMNNAME_TimeUnit = "TimeUnit";
-
-	/** Set Time Unit.
-	  * The unit of time for grouping chart data.
-	  */
-	public void setTimeUnit (String TimeUnit);
-
-	/** Get Time Unit.
-	  * The unit of time for grouping chart data.
-	  */
-	public String getTimeUnit();
+	public String getUUID();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -245,26 +236,4 @@ public interface I_AD_Chart
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
-    /** Column name WinHeight */
-    public static final String COLUMNNAME_WinHeight = "WinHeight";
-
-	/** Set Window Height	  */
-	public void setWinHeight (int WinHeight);
-
-	/** Get Window Height	  */
-	public int getWinHeight();
 }
