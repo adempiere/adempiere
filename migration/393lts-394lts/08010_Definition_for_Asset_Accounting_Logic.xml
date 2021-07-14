@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="D" Name="Definition for Asset Accounting Logic" ReleaseNo="3.9.4" SeqNo="7880">
+  <Migration EntityType="D" Name="Definition for Asset Accounting Logic" ReleaseNo="3.9.4" SeqNo="8010">
     <Comments>Definition for Asset Accounting Logic</Comments>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="54810" Action="U" Record_ID="50030" Table="C_DocBaseType">
