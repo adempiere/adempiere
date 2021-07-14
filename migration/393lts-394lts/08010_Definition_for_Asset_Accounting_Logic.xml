@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Definition for Asset Accounting Logic" ReleaseNo="3.9.4" SeqNo="8010">
+    <Comments>Definition for Asset Accounting Logic</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50030" Table="C_DocBaseType">
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isOldNull="true">org.compiere.acct.Doc_FMBatch</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50031" Table="C_DocBaseType">
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isOldNull="true">org.compiere.acct.Doc_AssetAddition</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50032" Table="C_DocBaseType">
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isOldNull="true">org.compiere.acct.Doc_DepreciationEntry</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50033" Table="C_DocBaseType">
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isOldNull="true">org.compiere.acct.Doc_AssetDisposed</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50034" Table="C_DocBaseType">
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isOldNull="true">org.compiere.acct.Doc_AssetSplit</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="54810" Action="U" Record_ID="50027" Table="C_DocBaseType">
+        <Data AD_Column_ID="97944" Column="AccountingClassname" isOldNull="true">org.compiere.acct.Doc_Invoice</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
