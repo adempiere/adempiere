@@ -60,7 +60,7 @@ jobs:
           echo ${{ github.ref }}
           echo "Current ant version: $(ant -version)"
           echo "Installing ant version 1.10.10"
-          wget --no-check-certificate https://www.apache.org/dist/ant/binaries/apache-ant-1.10.10-bin.tar.gz
+          wget --no-check-certificate https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.10-bin.tar.gz
           tar -xzf apache-ant-1.10.10-bin.tar.gz
           export ANT_HOME=`pwd`/apache-ant-1.10.10
           export PATH=${ANT_HOME}/bin:$PATH

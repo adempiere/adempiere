@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Changes in Document Type Window" ReleaseNo="3.9.4" SeqNo="8020">
+    <Comments>Changes in Document Type Window</Comments>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="2079" Table="AD_Field">
+        <Data AD_Column_ID="176" Column="IsDisplayed" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="2079" Table="AD_Field">
+        <Data AD_Column_ID="2007" Column="IsReadOnly" oldValue="false">true</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="107" Action="U" Record_ID="100280" Table="AD_Field">
+        <Data AD_Column_ID="2745" Column="IsCentrallyMaintained" oldValue="true">false</Data>
+        <Data AD_Column_ID="169" Column="Description" isOldNull="true">Defined Document Base Type</Data>
+        <Data AD_Column_ID="168" Column="Name" oldValue="Document Base Type">Defined Document Base Type</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="127" Action="U" Record_ID="100280" Table="AD_Field_Trl">
+        <Data AD_Column_ID="285" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="284" Column="AD_Field_ID" oldValue="100280">100280</Data>
+        <Data AD_Column_ID="286" Column="Name" oldValue="Document Base Type">Definición de Tipo de Documento Base</Data>
+        <Data AD_Column_ID="287" Column="Description" isOldNull="true">Definición de Tipo de Documento Base</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

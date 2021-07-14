@@ -530,7 +530,7 @@ public class MGoal extends X_PA_Goal
 	//		setMeasureDisplay(getMeasureScope());
 		
 		//	Measure required if nor Summary
-		if (!isSummary() && getPA_Measure_ID() == 0)
+		if (!isSummary() && getPA_Measure_ID() == 0 && getAD_Chart_ID() == 0)
 		{
 			log.saveError("FillMandatory", Msg.getElement(getCtx(), "PA_Measure_ID"));
 			return false;

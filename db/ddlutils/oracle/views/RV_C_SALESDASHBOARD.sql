@@ -10,5 +10,6 @@ CREATE OR REPLACE VIEW rv_c_salesdashboard AS
     isactive,
     ad_user_id,
     name,
-    0 AS salespipeline
+    0 AS salespipeline,
+    uuid
    FROM ad_user;
