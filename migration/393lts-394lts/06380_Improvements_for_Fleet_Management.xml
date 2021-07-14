@@ -270,7 +270,7 @@ Monto de Flete: {5,number,#,##0.00}</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">96666</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="111" Column="Name">Document Type</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
@@ -338,7 +338,7 @@ Monto de Flete: {5,number,#,##0.00}</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">96667</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="111" Column="Name">Document Date</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue">@#Date@</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
@@ -451,7 +451,7 @@ Monto de Flete: {5,number,#,##0.00}</Data>
         <Data AD_Column_ID="109" Column="AD_Column_ID">96668</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="111" Column="Name">Delivery Via</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory">true</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue">P</Data>
         <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>

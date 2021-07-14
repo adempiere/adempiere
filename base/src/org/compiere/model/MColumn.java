@@ -1127,7 +1127,10 @@ public class MColumn extends X_AD_Column
 					POInfo.removeFromCache(getAD_Table_ID());
 					
 				}
-				
+				//	Throw message
+				if(errorOccured) {
+					throw new DBException(returnMessage);
+				}
 			}
 			else
 			{

@@ -17,6 +17,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import org.compiere.model.MChart;
 import org.compiere.model.MGoal;
 import org.compiere.model.MMeasure;
 import org.compiere.model.X_PA_Goal;
@@ -58,33 +59,38 @@ public class GraphBuilder {
 	 * @return JFreeChart
 	 */
 	public JFreeChart createChart(String type) {
-		if(X_PA_Goal.CHARTTYPE_BarChart.equals(type))
-		{
-			return createBarChart();
-		}
-		else if (X_PA_Goal.CHARTTYPE_PieChart.equals(type))
-		{
-			return createPieChart();
-		}
-		else if (X_PA_Goal.CHARTTYPE_AreaChart.equals(type))
-		{
-			return createAreaChart();
-		}
-		else if (X_PA_Goal.CHARTTYPE_LineChart.equals(type))
-		{
-			return createLineChart();
-		}
-		else if (X_PA_Goal.CHARTTYPE_RingChart.equals(type))
-		{
-			return createRingChart();
-		}
-		else if (X_PA_Goal.CHARTTYPE_WaterfallChart.equals(type))
-		{
-			return createWaterfallChart();
-		}
-		else
-		{
-			throw new IllegalArgumentException("unknown chart type=" + type);
+		if(m_goal.getAD_Chart_ID() > 0) {
+			MChart chart = new MChart(m_goal.getCtx(), m_goal.getAD_Chart_ID(), m_goal.get_TrxName());
+			return chart.createChart();
+		} else {
+			if(X_PA_Goal.CHARTTYPE_BarChart.equals(type))
+			{
+				return createBarChart();
+			}
+			else if (X_PA_Goal.CHARTTYPE_PieChart.equals(type))
+			{
+				return createPieChart();
+			}
+			else if (X_PA_Goal.CHARTTYPE_AreaChart.equals(type))
+			{
+				return createAreaChart();
+			}
+			else if (X_PA_Goal.CHARTTYPE_LineChart.equals(type))
+			{
+				return createLineChart();
+			}
+			else if (X_PA_Goal.CHARTTYPE_RingChart.equals(type))
+			{
+				return createRingChart();
+			}
+			else if (X_PA_Goal.CHARTTYPE_WaterfallChart.equals(type))
+			{
+				return createWaterfallChart();
+			}
+			else
+			{
+				throw new IllegalArgumentException("unknown chart type=" + type);
+			}
 		}
 	}
 
