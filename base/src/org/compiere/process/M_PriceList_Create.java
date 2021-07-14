@@ -376,7 +376,7 @@ public class M_PriceList_Create extends M_PriceList_CreateAbstract {
 								new ProductCombination(productPurchasing.getM_Product_ID(), 
 										conversionRate, 
 										productPurchasing.getPriceList(), 
-										productPurchasing.getPriceList(), 
+										productPurchasing.getPricePO(), 
 										productPurchasing.getPricePO(), 
 										discountSchemaLine));
 					});
@@ -540,9 +540,21 @@ public class M_PriceList_Create extends M_PriceList_CreateAbstract {
 		public ProductCombination(int productId, BigDecimal conversionRate, BigDecimal priceList, BigDecimal priceStandard, BigDecimal priceLimit, MDiscountSchemaLine discountSchemaLine) {
 			this.productId = productId;
 			this.conversionRate = conversionRate;
-			this.priceList = Optional.ofNullable(priceList).orElse(Env.ZERO);
-			this.priceStandard = Optional.ofNullable(priceStandard).orElse(Env.ZERO);
-			this.priceLimit = Optional.ofNullable(priceLimit).orElse(Env.ZERO);
+			BigDecimal defaultPrice = Optional.ofNullable(priceList).orElseGet(() -> {
+				//	Standard
+				if(Optional.ofNullable(priceStandard).isPresent()) {
+					return priceStandard;
+				}
+				//	Limit
+				if(Optional.ofNullable(priceLimit).isPresent()) {
+					return priceLimit;
+				}
+				//	Default
+				return Env.ZERO;
+			});
+			this.priceList = Optional.ofNullable(priceList).orElse(defaultPrice);
+			this.priceStandard = Optional.ofNullable(priceStandard).orElse(defaultPrice);
+			this.priceLimit = Optional.ofNullable(priceLimit).orElse(defaultPrice);
 			this.discountSchemaLine = discountSchemaLine;
 		}
 		

@@ -800,7 +800,7 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 				return;
 			}
 			
-			gridTab.setCurrentRow(row);
+			gridTab.dataRefresh(row);
 			
 			currentRowIndex = gridTab.getCurrentRow();
 		}

@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for I_Product
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_I_Product 
 {
@@ -105,21 +105,6 @@ public interface I_I_Product
 
 	public org.compiere.model.I_C_Currency getC_Currency() throws RuntimeException;
 
-    /** Column name C_UOM_ID */
-    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
-
-	/** Set UOM.
-	  * Unit of Measure
-	  */
-	public void setC_UOM_ID (int C_UOM_ID);
-
-	/** Get UOM.
-	  * Unit of Measure
-	  */
-	public int getC_UOM_ID();
-
-	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
-
     /** Column name Classification */
     public static final String COLUMNNAME_Classification = "Classification";
 
@@ -161,6 +146,21 @@ public interface I_I_Product
 	  * User who created this records
 	  */
 	public int getCreatedBy();
+
+    /** Column name C_UOM_ID */
+    public static final String COLUMNNAME_C_UOM_ID = "C_UOM_ID";
+
+	/** Set UOM.
+	  * Unit of Measure
+	  */
+	public void setC_UOM_ID (int C_UOM_ID);
+
+	/** Get UOM.
+	  * Unit of Measure
+	  */
+	public int getC_UOM_ID();
+
+	public org.compiere.model.I_C_UOM getC_UOM() throws RuntimeException;
 
     /** Column name DeliveryTime_Promised */
     public static final String COLUMNNAME_DeliveryTime_Promised = "DeliveryTime_Promised";
@@ -266,19 +266,6 @@ public interface I_I_Product
 	  */
 	public String getHelp();
 
-    /** Column name ISO_Code */
-    public static final String COLUMNNAME_ISO_Code = "ISO_Code";
-
-	/** Set ISO Currency Code.
-	  * Three letter ISO 4217 Code of the Currency
-	  */
-	public void setISO_Code (String ISO_Code);
-
-	/** Get ISO Currency Code.
-	  * Three letter ISO 4217 Code of the Currency
-	  */
-	public String getISO_Code();
-
     /** Column name I_ErrorMsg */
     public static final String COLUMNNAME_I_ErrorMsg = "I_ErrorMsg";
 
@@ -305,19 +292,6 @@ public interface I_I_Product
 	  */
 	public boolean isI_IsImported();
 
-    /** Column name I_Product_ID */
-    public static final String COLUMNNAME_I_Product_ID = "I_Product_ID";
-
-	/** Set Import Product.
-	  * Import Item or Service
-	  */
-	public void setI_Product_ID (int I_Product_ID);
-
-	/** Get Import Product.
-	  * Import Item or Service
-	  */
-	public int getI_Product_ID();
-
     /** Column name ImageURL */
     public static final String COLUMNNAME_ImageURL = "ImageURL";
 
@@ -331,6 +305,19 @@ public interface I_I_Product
 	  */
 	public String getImageURL();
 
+    /** Column name I_Product_ID */
+    public static final String COLUMNNAME_I_Product_ID = "I_Product_ID";
+
+	/** Set Import Product.
+	  * Import Item or Service
+	  */
+	public void setI_Product_ID (int I_Product_ID);
+
+	/** Get Import Product.
+	  * Import Item or Service
+	  */
+	public int getI_Product_ID();
+
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -343,6 +330,32 @@ public interface I_I_Product
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name ISO_Code */
+    public static final String COLUMNNAME_ISO_Code = "ISO_Code";
+
+	/** Set ISO Currency Code.
+	  * Three letter ISO 4217 Code of the Currency
+	  */
+	public void setISO_Code (String ISO_Code);
+
+	/** Get ISO Currency Code.
+	  * Three letter ISO 4217 Code of the Currency
+	  */
+	public String getISO_Code();
+
+    /** Column name Manufacturer */
+    public static final String COLUMNNAME_Manufacturer = "Manufacturer";
+
+	/** Set Manufacturer.
+	  * Manufacturer of the Product
+	  */
+	public void setManufacturer (String Manufacturer);
+
+	/** Get Manufacturer.
+	  * Manufacturer of the Product
+	  */
+	public String getManufacturer();
 
     /** Column name M_Product_Category_ID */
     public static final String COLUMNNAME_M_Product_Category_ID = "M_Product_Category_ID";
@@ -418,19 +431,6 @@ public interface I_I_Product
 	public int getM_Product_ID();
 
 	public org.compiere.model.I_M_Product getM_Product() throws RuntimeException;
-
-    /** Column name Manufacturer */
-    public static final String COLUMNNAME_Manufacturer = "Manufacturer";
-
-	/** Set Manufacturer.
-	  * Manufacturer of the Product
-	  */
-	public void setManufacturer (String Manufacturer);
-
-	/** Get Manufacturer.
-	  * Manufacturer of the Product
-	  */
-	public String getManufacturer();
 
     /** Column name Name */
     public static final String COLUMNNAME_Name = "Name";
@@ -567,18 +567,18 @@ public interface I_I_Product
 	/** Get Product Category Key	  */
 	public String getProductCategory_Value();
 
-    /** Column name ProductClass_Value */
-    public static final String COLUMNNAME_ProductClass_Value = "ProductClass_Value";
+    /** Column name ProductClassification_Name */
+    public static final String COLUMNNAME_ProductClassification_Name = "ProductClassification_Name";
 
-	/** Set Product Class Key.
-	  * The key value for the product class
+	/** Set Product Classification Name.
+	  * The key value for the product classification
 	  */
-	public void setProductClass_Value (String ProductClass_Value);
+	public void setProductClassification_Name (String ProductClassification_Name);
 
-	/** Get Product Class Key.
-	  * The key value for the product class
+	/** Get Product Classification Name.
+	  * The key value for the product classification
 	  */
-	public String getProductClass_Value();
+	public String getProductClassification_Name();
 
     /** Column name ProductClassification_Value */
     public static final String COLUMNNAME_ProductClassification_Value = "ProductClassification_Value";
@@ -592,6 +592,45 @@ public interface I_I_Product
 	  * The key value for the product classification
 	  */
 	public String getProductClassification_Value();
+
+    /** Column name ProductClass_Name */
+    public static final String COLUMNNAME_ProductClass_Name = "ProductClass_Name";
+
+	/** Set Product Class Name.
+	  * The key value for the product class
+	  */
+	public void setProductClass_Name (String ProductClass_Name);
+
+	/** Get Product Class Name.
+	  * The key value for the product class
+	  */
+	public String getProductClass_Name();
+
+    /** Column name ProductClass_Value */
+    public static final String COLUMNNAME_ProductClass_Value = "ProductClass_Value";
+
+	/** Set Product Class Key.
+	  * The key value for the product class
+	  */
+	public void setProductClass_Value (String ProductClass_Value);
+
+	/** Get Product Class Key.
+	  * The key value for the product class
+	  */
+	public String getProductClass_Value();
+
+    /** Column name ProductGroup_Name */
+    public static final String COLUMNNAME_ProductGroup_Name = "ProductGroup_Name";
+
+	/** Set Product Group Name.
+	  * The key value for the product group
+	  */
+	public void setProductGroup_Name (String ProductGroup_Name);
+
+	/** Get Product Group Name.
+	  * The key value for the product group
+	  */
+	public String getProductGroup_Name();
 
     /** Column name ProductGroup_Value */
     public static final String COLUMNNAME_ProductGroup_Value = "ProductGroup_Value";
@@ -632,19 +671,6 @@ public interface I_I_Product
 	  */
 	public BigDecimal getRoyaltyAmt();
 
-    /** Column name SKU */
-    public static final String COLUMNNAME_SKU = "SKU";
-
-	/** Set SKU.
-	  * Stock Keeping Unit
-	  */
-	public void setSKU (String SKU);
-
-	/** Get SKU.
-	  * Stock Keeping Unit
-	  */
-	public String getSKU();
-
     /** Column name ShelfDepth */
     public static final String COLUMNNAME_ShelfDepth = "ShelfDepth";
 
@@ -684,31 +710,18 @@ public interface I_I_Product
 	  */
 	public int getShelfWidth();
 
-    /** Column name UPC */
-    public static final String COLUMNNAME_UPC = "UPC";
+    /** Column name SKU */
+    public static final String COLUMNNAME_SKU = "SKU";
 
-	/** Set UPC/EAN.
-	  * Bar Code (Universal Product Code or its superset European Article Number)
+	/** Set SKU.
+	  * Stock Keeping Unit
 	  */
-	public void setUPC (String UPC);
+	public void setSKU (String SKU);
 
-	/** Get UPC/EAN.
-	  * Bar Code (Universal Product Code or its superset European Article Number)
+	/** Get SKU.
+	  * Stock Keeping Unit
 	  */
-	public String getUPC();
-
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
+	public String getSKU();
 
     /** Column name UnitsPerPallet */
     public static final String COLUMNNAME_UnitsPerPallet = "UnitsPerPallet";
@@ -722,6 +735,19 @@ public interface I_I_Product
 	  * Units Per Pallet
 	  */
 	public int getUnitsPerPallet();
+
+    /** Column name UPC */
+    public static final String COLUMNNAME_UPC = "UPC";
+
+	/** Set UPC/EAN.
+	  * Bar Code (Universal Product Code or its superset European Article Number)
+	  */
+	public void setUPC (String UPC);
+
+	/** Get UPC/EAN.
+	  * Bar Code (Universal Product Code or its superset European Article Number)
+	  */
+	public String getUPC();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -738,6 +764,19 @@ public interface I_I_Product
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 
     /** Column name Value */
     public static final String COLUMNNAME_Value = "Value";

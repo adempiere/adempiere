@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.compiere.model.MAttribute;
 import org.compiere.model.MAttributeValue;
@@ -78,7 +79,9 @@ public class Attribute implements IPersistenceWrapper {
 		//	For list of values
 		if(attribute.getAttributeValueType().equals(MAttribute.ATTRIBUTEVALUETYPE_List)) {
 			List<Map<String, Object>> attributeValuesList = new ArrayList<Map<String,Object>>();
-			Arrays.asList(attribute.getMAttributeValues()).forEach(attributeValue -> {
+			Arrays.asList(attribute.getMAttributeValues())
+				.stream().filter(attributeValue -> Optional.ofNullable(attributeValue).isPresent())
+				.forEach(attributeValue -> {
 				Map<String, Object> attributeValueMap = new HashMap<String, Object>();
 				attributeValueMap.put("value", String.valueOf(attributeValue.getM_AttributeValue_ID()));
 				attributeValueMap.put("label", attributeValue.getName());
@@ -136,7 +139,9 @@ public class Attribute implements IPersistenceWrapper {
 			return false;
 		}
 		//	
-		if(attributeValues == null) {
+		if(attributeValues == null
+				&& attribute.getMAttributeValues() != null
+				&& attribute.getMAttributeValues().length > (attribute.isMandatory()? 0: 1)) {
 			attributeValues = Arrays.asList(attribute.getMAttributeValues());
 		}
 		return attributeValues != null && attributeValues.size() > 0;
@@ -145,5 +150,10 @@ public class Attribute implements IPersistenceWrapper {
 	@Override
 	public IPersistenceWrapper withWebStoreId(int webStoreId) {
 		return this;
+	}
+
+	@Override
+	public Map<String, Object> getMapping() {
+		return null;
 	}
 }
