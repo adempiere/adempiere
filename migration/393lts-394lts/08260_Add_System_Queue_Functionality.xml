@@ -1326,7 +1326,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="707" Column="Created">2021-05-28 12:15:42.731</Data>
         <Data AD_Column_ID="709" Column="Updated">2021-05-28 12:15:42.731</Data>
         <Data AD_Column_ID="706" Column="IsActive">true</Data>
-        <Data AD_Column_ID="338" Column="Name">System Notification</Data>
+        <Data AD_Column_ID="338" Column="Name">Default Notifier</Data>
         <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
         <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
@@ -1340,7 +1340,7 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="460" StepType="AD">
       <PO AD_Table_ID="136" Action="U" Record_ID="55611" Table="AD_Ref_List_Trl">
-        <Data AD_Column_ID="338" Column="Name" oldValue="System Notification">Notificación de Sistema</Data>
+        <Data AD_Column_ID="338" Column="Name" oldValue="System Notification">Notificador Predeterminado</Data>
         <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55611">55611</Data>
         <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
       </PO>
