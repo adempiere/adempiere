@@ -18,12 +18,16 @@ package org.spin.queue.setup;
 
 import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.I_AD_Scheduler;
 import org.compiere.model.MProcess;
 import org.compiere.model.MScheduler;
 import org.compiere.model.MSchedulerPara;
 import org.compiere.model.Query;
 import org.compiere.util.TimeUtil;
+import org.spin.model.MADAppRegistration;
+import org.spin.model.MADAppSupport;
+import org.spin.queue.notification.DefaultNotifier;
 import org.spin.queue.process.FlushSystemQueue;
 import org.spin.util.ISetupDefinition;
 
@@ -37,10 +41,56 @@ public class QueueSetup implements ISetupDefinition {
 	
 	@Override
 	public String doIt(Properties context, String transactionName) {
+		//	App registration
+		createDefaultNotifiers(context, transactionName);
 		//	Scheduler
 		createSchedule(context, transactionName);
 		//	financial management
 		return "@AD_SetupDefinition_ID@ @Ok@";
+	}
+	
+	/**
+	 * Create notifiers as app registration
+	 * @param context
+	 * @param transactionName
+	 */
+	private void createDefaultNotifiers(Properties context, String transactionName) {
+		MADAppRegistration emailSender = MADAppRegistration.getByApplicationType(context, DefaultNotifier.DefaultNotificationType_EMail, transactionName);
+		if(emailSender == null
+				|| emailSender.getAD_AppRegistration_ID() <= 0) {
+			MADAppSupport emailSupport = MADAppSupport.getByApplicationType(context, DefaultNotifier.DefaultNotificationType_EMail, transactionName);
+			if(emailSupport == null
+					|| emailSupport.getAD_AppSupport_ID() <= 0) {
+				throw new AdempiereException("@AD_AppSupport_ID@ @EMail@ @NotFound@");
+			}
+			emailSender = new MADAppRegistration(context, 0, transactionName);
+			emailSender.setValue("EMail");
+			emailSender.setApplicationType(DefaultNotifier.DefaultNotificationType_EMail);
+			emailSender.setAD_AppSupport_ID(emailSupport.getAD_AppSupport_ID());
+			emailSender.setName("Default EMail Sender");
+			emailSender.setVersionNo("1.0");
+			emailSender.setHost("localhost");
+			emailSender.setPort(0);
+			emailSender.saveEx();
+		}
+		MADAppRegistration notesSender = MADAppRegistration.getByApplicationType(context, DefaultNotifier.DefaultNotificationType_Notes, transactionName);
+		if(notesSender == null
+				|| notesSender.getAD_AppRegistration_ID() <= 0) {
+			MADAppSupport notesSupport = MADAppSupport.getByApplicationType(context, DefaultNotifier.DefaultNotificationType_Notes, transactionName);
+			if(notesSupport == null
+					|| notesSupport.getAD_AppSupport_ID() <= 0) {
+				throw new AdempiereException("@AD_AppSupport_ID@ @Note@ @NotFound@");
+			}
+			notesSender = new MADAppRegistration(context, 0, transactionName);
+			notesSender.setValue("Notes");
+			notesSender.setApplicationType(DefaultNotifier.DefaultNotificationType_Notes);
+			notesSender.setAD_AppSupport_ID(notesSupport.getAD_AppSupport_ID());
+			notesSender.setName("Default Notes Sender");
+			notesSender.setVersionNo("1.0");
+			notesSender.setHost("localhost");
+			notesSender.setPort(0);
+			notesSender.saveEx();
+		}
 	}
 	
 	/**

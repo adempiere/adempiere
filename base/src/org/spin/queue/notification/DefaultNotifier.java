@@ -16,7 +16,11 @@
  *****************************************************************************/
 package org.spin.queue.notification;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -396,35 +400,58 @@ public class DefaultNotifier extends QueueManager {
 		return registration;
 	}
 	
+	/**
+	 * Write a file from download
+	 * @param url
+	 * @param fileName
+	 */
+	private static void writeTempFile(String url, String fileName) {
+		try {
+			BufferedInputStream in = new BufferedInputStream(new URL(url).openStream());
+			FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+			byte dataBuffer[] = new byte[1024];
+			int bytesRead;
+			while ((bytesRead = in.read(dataBuffer, 0, 1024)) != -1) {
+				fileOutputStream.write(dataBuffer, 0, bytesRead);
+			}
+			//	
+			fileOutputStream.close();
+		} catch (IOException e) {
+		    // handle exception
+		}
+	}
+	
 	public static void main(String[] args) {
 		org.compiere.Adempiere.startup(true);
 		Env.setContext(Env.getCtx(), "#AD_Client_ID", 11);
+		writeTempFile("https://user-images.githubusercontent.com/2333092/125704926-691a2f7f-4533-4654-a037-8fcc30494b5e.png", "/tmp/ADempiereQueue.png");
+		writeTempFile("https://github.com/adempiere/adempiere/files/6819389/ADempiereQueue.pdf", "/tmp/ADempiereQueue.pdf");
+		File file1 = new File("/tmp/ADempiereQueue.png");
+		File file2 = new File("/tmp/ADempiereQueue.pdf");
 		Trx.run(transactionName -> {
 			DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(QUEUETYPE_DefaultNotifier)
 					.withContext(Env.getCtx())
 					.withTransactionName(transactionName);
 			//	EMail
-//			notifier
-//				.clearMessage()
-//				.withApplicationType(DefaultNotificationType_EMail)
-//				.withUserId(100)
-//				.withText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla faucibus enim quis aliquam. Integer tincidunt et dui vitae egestas. Suspendisse felis est, commodo at ex eu, pellentesque varius leo. Pellentesque tempor quis felis et rutrum. Curabitur imperdiet euismod leo, in pretium ante convallis eu. Nam non odio vulputate, luctus est sed, semper dolor. Vivamus auctor, odio vitae sodales vestibulum, lacus metus auctor ex, nec accumsan est nibh a erat. Ut suscipit velit a imperdiet vestibulum.\n" + 
-//						"\n" + 
-//						"Maecenas vel felis ac nulla eleifend volutpat in ac magna. Duis dui est, facilisis at posuere eu, faucibus at nisl. Duis efficitur porttitor lorem. Curabitur tincidunt lorem massa, in sollicitudin ante fringilla sit amet. Nunc nec neque pharetra, tempor mi ac, pharetra risus. Donec tristique laoreet dolor tincidunt venenatis. Sed et leo eget diam molestie venenatis in a eros. Cras nibh arcu, laoreet et suscipit sed, ornare eu mauris. Nulla egestas lacus efficitur, faucibus odio sed, elementum velit. Proin fringilla bibendum lacinia. Vivamus maximus vulputate hendrerit. Fusce mauris ex, finibus eget augue at, volutpat viverra ipsum. Nullam justo nibh, maximus vel nisl tempus, sollicitudin tempor magna.\n" + 
-//						"\n" + 
-//						"Sed odio dui, tristique sit amet pretium vitae, vehicula vitae enim. In et interdum quam. Etiam id metus a quam interdum tempor. Sed luctus, tellus et mollis porttitor, dolor lectus dignissim eros, in commodo mauris ligula quis eros. Suspendisse scelerisque ipsum at turpis suscipit interdum at ac velit. Aenean suscipit ipsum ut velit cursus sodales. Nulla viverra mi quis commodo aliquam. Ut auctor condimentum urna sed mollis. Fusce neque neque, interdum eget purus ut, efficitur vestibulum lectus. Praesent sagittis nunc ut tincidunt posuere. In faucibus, elit vel vehicula porta, felis ligula finibus arcu, in suscipit odio risus pellentesque lorem. Etiam viverra lacus a eros placerat, eget tempus mi eleifend. Donec ac arcu vel lacus tristique imperdiet. Quisque venenatis arcu egestas ex viverra accumsan. Aenean vitae massa sed elit hendrerit faucibus.\n" + 
-//						"\n" + 
-//						"In hac habitasse platea dictumst. Sed tellus ante, pretium ut viverra feugiat, consectetur et velit. Nulla quis nibh est. Quisque pharetra sem eget ultrices efficitur. Phasellus maximus posuere metus, facilisis dictum justo bibendum ut. Sed aliquet scelerisque risus vel luctus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse eget diam vestibulum risus venenatis pellentesque. Suspendisse tincidunt orci et nisl malesuada, ut porta neque dictum. Quisque at mollis arcu. Nulla sodales diam id lacus efficitur aliquet. In dui leo, pharetra vulputate purus quis, tincidunt ultricies enim. Nulla facilisi. Donec sagittis pharetra ante. Aenean et condimentum ligula, sed volutpat lorem.\n" + 
-//						"\n" + 
-//						"Nulla laoreet faucibus odio, in rutrum diam semper ut. Praesent at purus id massa hendrerit ultricies. Nam sodales sapien id diam finibus viverra. Duis efficitur hendrerit vulputate. Cras urna enim, vestibulum sit amet ex nec, lobortis viverra massa. Morbi accumsan vel magna in dictum. Cras sed mollis libero. Etiam egestas, orci sed dapibus tempus, ligula ex vulputate lacus, sit amet volutpat urna nulla ac massa. Phasellus ac sollicitudin purus. Ut sit amet ligula eget justo imperdiet rhoncus non nec lectus. Mauris euismod ornare felis et dictum. Maecenas vestibulum dictum dui, ut elementum tellus convallis ac. In congue nunc vel felis elementum, at ultrices velit pharetra.\n")
-//				.addRecipient("yamelsenih@gmail.com")
-//				.addRecipient("ysenih@erpya.com")
-//				.addRecipient("cparada@erpya.com")
-//				.addRecipient("jbotero@erpya.com")
-//				.addAttachment(new File("/home/yamel/Downloads/ERP-02.png"), "Hola Holaaaaaaaa YoSoyLeo")
-//				.addAttachment(new File("/home/yamel/Downloads/ADempiereQueue.pdf"))
-//				.withDescription("Hello by EMAil")
-//				.addToQueue();
+			notifier
+				.clearMessage()
+				.withApplicationType(DefaultNotificationType_EMail)
+				.withUserId(100)
+				.withText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla faucibus enim quis aliquam. Integer tincidunt et dui vitae egestas. Suspendisse felis est, commodo at ex eu, pellentesque varius leo. Pellentesque tempor quis felis et rutrum. Curabitur imperdiet euismod leo, in pretium ante convallis eu. Nam non odio vulputate, luctus est sed, semper dolor. Vivamus auctor, odio vitae sodales vestibulum, lacus metus auctor ex, nec accumsan est nibh a erat. Ut suscipit velit a imperdiet vestibulum.\n" + 
+						"\n" + 
+						"Maecenas vel felis ac nulla eleifend volutpat in ac magna. Duis dui est, facilisis at posuere eu, faucibus at nisl. Duis efficitur porttitor lorem. Curabitur tincidunt lorem massa, in sollicitudin ante fringilla sit amet. Nunc nec neque pharetra, tempor mi ac, pharetra risus. Donec tristique laoreet dolor tincidunt venenatis. Sed et leo eget diam molestie venenatis in a eros. Cras nibh arcu, laoreet et suscipit sed, ornare eu mauris. Nulla egestas lacus efficitur, faucibus odio sed, elementum velit. Proin fringilla bibendum lacinia. Vivamus maximus vulputate hendrerit. Fusce mauris ex, finibus eget augue at, volutpat viverra ipsum. Nullam justo nibh, maximus vel nisl tempus, sollicitudin tempor magna.\n" + 
+						"\n" + 
+						"Sed odio dui, tristique sit amet pretium vitae, vehicula vitae enim. In et interdum quam. Etiam id metus a quam interdum tempor. Sed luctus, tellus et mollis porttitor, dolor lectus dignissim eros, in commodo mauris ligula quis eros. Suspendisse scelerisque ipsum at turpis suscipit interdum at ac velit. Aenean suscipit ipsum ut velit cursus sodales. Nulla viverra mi quis commodo aliquam. Ut auctor condimentum urna sed mollis. Fusce neque neque, interdum eget purus ut, efficitur vestibulum lectus. Praesent sagittis nunc ut tincidunt posuere. In faucibus, elit vel vehicula porta, felis ligula finibus arcu, in suscipit odio risus pellentesque lorem. Etiam viverra lacus a eros placerat, eget tempus mi eleifend. Donec ac arcu vel lacus tristique imperdiet. Quisque venenatis arcu egestas ex viverra accumsan. Aenean vitae massa sed elit hendrerit faucibus.\n" + 
+						"\n" + 
+						"In hac habitasse platea dictumst. Sed tellus ante, pretium ut viverra feugiat, consectetur et velit. Nulla quis nibh est. Quisque pharetra sem eget ultrices efficitur. Phasellus maximus posuere metus, facilisis dictum justo bibendum ut. Sed aliquet scelerisque risus vel luctus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse eget diam vestibulum risus venenatis pellentesque. Suspendisse tincidunt orci et nisl malesuada, ut porta neque dictum. Quisque at mollis arcu. Nulla sodales diam id lacus efficitur aliquet. In dui leo, pharetra vulputate purus quis, tincidunt ultricies enim. Nulla facilisi. Donec sagittis pharetra ante. Aenean et condimentum ligula, sed volutpat lorem.\n" + 
+						"\n" + 
+						"Nulla laoreet faucibus odio, in rutrum diam semper ut. Praesent at purus id massa hendrerit ultricies. Nam sodales sapien id diam finibus viverra. Duis efficitur hendrerit vulputate. Cras urna enim, vestibulum sit amet ex nec, lobortis viverra massa. Morbi accumsan vel magna in dictum. Cras sed mollis libero. Etiam egestas, orci sed dapibus tempus, ligula ex vulputate lacus, sit amet volutpat urna nulla ac massa. Phasellus ac sollicitudin purus. Ut sit amet ligula eget justo imperdiet rhoncus non nec lectus. Mauris euismod ornare felis et dictum. Maecenas vestibulum dictum dui, ut elementum tellus convallis ac. In congue nunc vel felis elementum, at ultrices velit pharetra.\n")
+				.addRecipient("yamelsenih@gmail.com")
+				.addRecipient("ysenih@erpya.com")
+				.addAttachment(file1, "Just a Test")
+				.addAttachment(file2)
+				.withDescription("Hello by EMAil")
+				.addToQueue();
 			//	Notes
 			notifier
 				.clearMessage()
@@ -440,54 +467,9 @@ public class DefaultNotifier extends QueueManager {
 						"\n" + 
 						"Nulla laoreet faucibus odio, in rutrum diam semper ut. Praesent at purus id massa hendrerit ultricies. Nam sodales sapien id diam finibus viverra. Duis efficitur hendrerit vulputate. Cras urna enim, vestibulum sit amet ex nec, lobortis viverra massa. Morbi accumsan vel magna in dictum. Cras sed mollis libero. Etiam egestas, orci sed dapibus tempus, ligula ex vulputate lacus, sit amet volutpat urna nulla ac massa. Phasellus ac sollicitudin purus. Ut sit amet ligula eget justo imperdiet rhoncus non nec lectus. Mauris euismod ornare felis et dictum. Maecenas vestibulum dictum dui, ut elementum tellus convallis ac. In congue nunc vel felis elementum, at ultrices velit pharetra.\n")
 				.addRecipient("YamelSenih")
-				.addAttachment(new File("/home/yamel/Downloads/ADempiereQueue.pdf"), "Hola Holaaaaaaaa YoSoyLeo")
+				.addAttachment(file1, "Just a test")
 				.withDescription("Hello by Notes")
 				.addToQueue();
-//			notifier
-//			.clearMessage()
-//			.withApplicationType(DefaultNotificationType_Instagram)
-//			.withUserId(100)
-//			.withText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla faucibus enim quis aliquam. Integer tincidunt et dui vitae egestas. Suspendisse felis est, commodo at ex eu, pellentesque varius leo. Pellentesque tempor quis felis et rutrum. Curabitur imperdiet euismod leo, in pretium ante convallis eu. Nam non odio vulputate, luctus est sed, semper dolor. Vivamus auctor, odio vitae sodales vestibulum, lacus metus auctor ex, nec accumsan est nibh a erat. Ut suscipit velit a imperdiet vestibulum.\n" + 
-//					"\n" + 
-//					"Maecenas vel felis ac nulla eleifend volutpat in ac magna. Duis dui est, facilisis at posuere eu, faucibus at nisl. Duis efficitur porttitor lorem. Curabitur tincidunt lorem massa, in sollicitudin ante fringilla sit amet. Nunc nec neque pharetra, tempor mi ac, pharetra risus. Donec tristique laoreet dolor tincidunt venenatis. Sed et leo eget diam molestie venenatis in a eros. Cras nibh arcu, laoreet et suscipit sed, ornare eu mauris. Nulla egestas lacus efficitur, faucibus odio sed, elementum velit. Proin fringilla bibendum lacinia. Vivamus maximus vulputate hendrerit. Fusce mauris ex, finibus eget augue at, volutpat viverra ipsum. Nullam justo nibh, maximus vel nisl tempus, sollicitudin tempor magna.\n" + 
-//					"\n" + 
-//					"Sed odio dui, tristique sit amet pretium vitae, vehicula vitae enim. In et interdum quam. Etiam id metus a quam interdum tempor. Sed luctus, tellus et mollis porttitor, dolor lectus dignissim eros, in commodo mauris ligula quis eros. Suspendisse scelerisque ipsum at turpis suscipit interdum at ac velit. Aenean suscipit ipsum ut velit cursus sodales. Nulla viverra mi quis commodo aliquam. Ut auctor condimentum urna sed mollis. Fusce neque neque, interdum eget purus ut, efficitur vestibulum lectus. Praesent sagittis nunc ut tincidunt posuere. In faucibus, elit vel vehicula porta, felis ligula finibus arcu, in suscipit odio risus pellentesque lorem. Etiam viverra lacus a eros placerat, eget tempus mi eleifend. Donec ac arcu vel lacus tristique imperdiet. Quisque venenatis arcu egestas ex viverra accumsan. Aenean vitae massa sed elit hendrerit faucibus.\n" + 
-//					"\n" + 
-//					"In hac habitasse platea dictumst. Sed tellus ante, pretium ut viverra feugiat, consectetur et velit. Nulla quis nibh est. Quisque pharetra sem eget ultrices efficitur. Phasellus maximus posuere metus, facilisis dictum justo bibendum ut. Sed aliquet scelerisque risus vel luctus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse eget diam vestibulum risus venenatis pellentesque. Suspendisse tincidunt orci et nisl malesuada, ut porta neque dictum. Quisque at mollis arcu. Nulla sodales diam id lacus efficitur aliquet. In dui leo, pharetra vulputate purus quis, tincidunt ultricies enim. Nulla facilisi. Donec sagittis pharetra ante. Aenean et condimentum ligula, sed volutpat lorem.\n" + 
-//					"\n" + 
-//					"Nulla laoreet faucibus odio, in rutrum diam semper ut. Praesent at purus id massa hendrerit ultricies. Nam sodales sapien id diam finibus viverra. Duis efficitur hendrerit vulputate. Cras urna enim, vestibulum sit amet ex nec, lobortis viverra massa. Morbi accumsan vel magna in dictum. Cras sed mollis libero. Etiam egestas, orci sed dapibus tempus, ligula ex vulputate lacus, sit amet volutpat urna nulla ac massa. Phasellus ac sollicitudin purus. Ut sit amet ligula eget justo imperdiet rhoncus non nec lectus. Mauris euismod ornare felis et dictum. Maecenas vestibulum dictum dui, ut elementum tellus convallis ac. In congue nunc vel felis elementum, at ultrices velit pharetra.\n")
-//			.addRecipient("carlosaparadam")
-//			.addRecipient("yamelsenih")
-//			.addRecipient("josea.botero")
-//			.addRecipient("angelfmr")
-//			.addRecipient("yamelsenihHolaL")
-//			.addAttachment(new File("/home/yamel/Downloads/ERP-02.jpg"), "Hola Holaaaaaaaa YoSoyLeo")
-//			.addAttachment(new File("/home/yamel/Downloads/ADempiereQueue.pdf"))
-//			.withDescription("Hello by Instagram")
-//			.addToQueue();
-			//	add to queue
-//			IntStream.range(0, 300).forEach(queueRecord -> {
-//				DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(QUEUETYPE_DefaultNotifier)
-//						.withContext(Env.getCtx())
-//						.withTransactionName(transactionName)
-//						.withDescription("Hello: " + queueRecord);
-//				//	Add Data to send
-//				notifier
-//					.withApplicationType(DefaultNotificationType_SocialMedia_All)
-//					.withUserId(100)
-//					.withText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla faucibus enim quis aliquam. Integer tincidunt et dui vitae egestas. Suspendisse felis est, commodo at ex eu, pellentesque varius leo. Pellentesque tempor quis felis et rutrum. Curabitur imperdiet euismod leo, in pretium ante convallis eu. Nam non odio vulputate, luctus est sed, semper dolor. Vivamus auctor, odio vitae sodales vestibulum, lacus metus auctor ex, nec accumsan est nibh a erat. Ut suscipit velit a imperdiet vestibulum.\n" + 
-//							"\n" + 
-//							"Maecenas vel felis ac nulla eleifend volutpat in ac magna. Duis dui est, facilisis at posuere eu, faucibus at nisl. Duis efficitur porttitor lorem. Curabitur tincidunt lorem massa, in sollicitudin ante fringilla sit amet. Nunc nec neque pharetra, tempor mi ac, pharetra risus. Donec tristique laoreet dolor tincidunt venenatis. Sed et leo eget diam molestie venenatis in a eros. Cras nibh arcu, laoreet et suscipit sed, ornare eu mauris. Nulla egestas lacus efficitur, faucibus odio sed, elementum velit. Proin fringilla bibendum lacinia. Vivamus maximus vulputate hendrerit. Fusce mauris ex, finibus eget augue at, volutpat viverra ipsum. Nullam justo nibh, maximus vel nisl tempus, sollicitudin tempor magna.\n" + 
-//							"\n" + 
-//							"Sed odio dui, tristique sit amet pretium vitae, vehicula vitae enim. In et interdum quam. Etiam id metus a quam interdum tempor. Sed luctus, tellus et mollis porttitor, dolor lectus dignissim eros, in commodo mauris ligula quis eros. Suspendisse scelerisque ipsum at turpis suscipit interdum at ac velit. Aenean suscipit ipsum ut velit cursus sodales. Nulla viverra mi quis commodo aliquam. Ut auctor condimentum urna sed mollis. Fusce neque neque, interdum eget purus ut, efficitur vestibulum lectus. Praesent sagittis nunc ut tincidunt posuere. In faucibus, elit vel vehicula porta, felis ligula finibus arcu, in suscipit odio risus pellentesque lorem. Etiam viverra lacus a eros placerat, eget tempus mi eleifend. Donec ac arcu vel lacus tristique imperdiet. Quisque venenatis arcu egestas ex viverra accumsan. Aenean vitae massa sed elit hendrerit faucibus.\n" + 
-//							"\n" + 
-//							"In hac habitasse platea dictumst. Sed tellus ante, pretium ut viverra feugiat, consectetur et velit. Nulla quis nibh est. Quisque pharetra sem eget ultrices efficitur. Phasellus maximus posuere metus, facilisis dictum justo bibendum ut. Sed aliquet scelerisque risus vel luctus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse eget diam vestibulum risus venenatis pellentesque. Suspendisse tincidunt orci et nisl malesuada, ut porta neque dictum. Quisque at mollis arcu. Nulla sodales diam id lacus efficitur aliquet. In dui leo, pharetra vulputate purus quis, tincidunt ultricies enim. Nulla facilisi. Donec sagittis pharetra ante. Aenean et condimentum ligula, sed volutpat lorem.\n" + 
-//							"\n" + 
-//							"Nulla laoreet faucibus odio, in rutrum diam semper ut. Praesent at purus id massa hendrerit ultricies. Nam sodales sapien id diam finibus viverra. Duis efficitur hendrerit vulputate. Cras urna enim, vestibulum sit amet ex nec, lobortis viverra massa. Morbi accumsan vel magna in dictum. Cras sed mollis libero. Etiam egestas, orci sed dapibus tempus, ligula ex vulputate lacus, sit amet volutpat urna nulla ac massa. Phasellus ac sollicitudin purus. Ut sit amet ligula eget justo imperdiet rhoncus non nec lectus. Mauris euismod ornare felis et dictum. Maecenas vestibulum dictum dui, ut elementum tellus convallis ac. In congue nunc vel felis elementum, at ultrices velit pharetra.\n")
-//					.addRecipient("YamelSenih")
-//					.addAttachment(new File("/tmp/Screenshot_20210602_113140.png"))
-//					.addToQueue();
-//			});
 		});
 		Trx.run(transactionName -> {
 			//	add to queue
