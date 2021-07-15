@@ -35,6 +35,8 @@ import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.PeriodClosedException;
 import org.compiere.model.MBPartner;
 import org.compiere.model.MCommission;
+import org.compiere.model.MConversionRate;
+import org.compiere.model.MCurrency;
 import org.compiere.model.MDocType;
 import org.compiere.model.MFactAcct;
 import org.compiere.model.MPeriod;
@@ -1219,13 +1221,6 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			if (description != null)
 				movement.setDescription(description.toString());
 		}
-		else
-		{
-			movement.setQty(attribute.getQty());
-			movement.setAmount(attribute.getAmount());
-			movement.setTextMsg(attribute.getTextMsg());
-			movement.setServiceDate(attribute.getServiceDate());
-		}
 		movement.setProcessed(true);
 		movements.put(concept.getHR_Concept_ID(), movement);
 	}
@@ -1319,8 +1314,25 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		movement.setIsManual(concept.isManual());
 		movement.setC_BP_Group_ID(businessPartner.getC_BP_Group_ID());
 		movement.setEmployee(employee);
+		if (!MHRConcept.TYPE_RuleEngine.equals(concept.getType())) {
+			int currencyPrecision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(p_ctx, "#C_Currency_ID"));
+			Optional<Integer> conceptStandardPrecisionOptional = Optional.ofNullable((Integer)concept.get_Value("StdPrecision"));
+			BigDecimal rate = Env.ONE;
+			BigDecimal amount = attribute.getAmount();
+			if(attribute.isConvertedAmount() && attribute.getC_Currency_ID() != getC_Currency_ID()) {
+				rate = MConversionRate.getRate(attribute.getC_Currency_ID(), getC_Currency_ID(), getDateAcct(), getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
+				if(rate != null) {
+					amount = rate.multiply(Optional.ofNullable(amount).orElse(Env.ZERO))
+							.setScale(conceptStandardPrecisionOptional.orElseGet(() -> currencyPrecision),BigDecimal.ROUND_HALF_UP);
+					
+				}
+			}
+			movement.setAmount(amount);
+			movement.setQty(attribute.getQty());
+			movement.setTextMsg(attribute.getTextMsg());
+			movement.setServiceDate(attribute.getServiceDate());
+		}
 		return movement;
-
 	}
 
 	// Helper methods -------------------------------------------------------------------------------
@@ -1805,8 +1817,24 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			return attribute.getQty().doubleValue();
 
 		// if column type is Amount return amount
-		if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount))
-			return attribute.getAmount().doubleValue();
+		if (concept.getColumnType().equals(MHRConcept.COLUMNTYPE_Amount)) {
+			BigDecimal rate = Env.ONE;
+			BigDecimal amount = attribute.getAmount();
+			if(attribute.isConvertedAmount() && attribute.getC_Currency_ID() != getC_Currency_ID()) {
+				int currencyPrecision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(p_ctx, "#C_Currency_ID"));
+				Optional<Integer> conceptStandardPrecisionOptional = Optional.ofNullable((Integer)concept.get_Value("StdPrecision"));
+				rate = MConversionRate.getRate(attribute.getC_Currency_ID(), getC_Currency_ID(), getDateAcct(), getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
+				if(rate != null) {
+					amount = rate.multiply(Optional.ofNullable(amount).orElse(Env.ZERO))
+							.setScale(conceptStandardPrecisionOptional.orElseGet(() -> currencyPrecision),BigDecimal.ROUND_HALF_UP);
+					
+				}
+			}
+			if(amount == null) {
+				return 0.0;
+			}
+			return amount.doubleValue();
+		}
 
 		//something else
 		return 0.0; //TODO throw exception ?? 
