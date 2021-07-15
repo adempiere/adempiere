@@ -785,6 +785,9 @@ public class ASPUtil {
 		MRole.get(context, roleId).getIncludedRoles(true).forEach(role -> inClause.append(", ").append(role.getAD_Role_ID()));
 		//	Add last
 		inClause.append(")");
+		if(MTable.get(context, "ASP_Level_Access") == null) {
+			return "AD_Role_ID " + inClause;
+		}
 		StringBuffer aspAccess = new StringBuffer("IN(0");
 		new Query(context, I_ASP_Level.Table_Name, "EXISTS(SELECT 1 FROM ASP_Level_Access la WHERE la.ASP_Level_ID = ASP_Level.ASP_Level_ID AND la.AD_Role_ID " + inClause.toString() + ")", null)
 			.getIDsAsList().forEach(levelId -> aspAccess.append(", ").append(levelId));
