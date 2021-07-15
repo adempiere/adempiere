@@ -66,7 +66,7 @@
   
   <target name="compile" depends="makedir">
     <!-- compile the java code from ${src} into ${build.dir} -->
-    <javac target="1.8" encoding="UTF-8" fork="true" includeantruntime="false" destdir="${build.dir}" deprecation="on" debug="on" memoryinitialsize="512m" memorymaximumsize="512m">
+    <javac target="11" encoding="UTF-8" fork="true" includeantruntime="false" destdir="${build.dir}" deprecation="on" debug="on" memoryinitialsize="512m" memorymaximumsize="512m">
       <src path="../org.adempiere.request/src/main/java"/>
       <src path="../org.adempiere.project/src/main/java"/>
       <src path="../org.adempiere.crm/src/main/java"/>
@@ -189,7 +189,7 @@
   <target name="compile.test" depends="compile, clean.tests"
   	    if="${test.performTests}">
     <mkdir dir="${test.build.dir}"/>
-    <javac target="1.8" encoding="UTF-8" fork="true" includeantruntime="false" 
+    <javac target="11" encoding="UTF-8" fork="true" includeantruntime="false"
     	destdir="${test.build.dir}" deprecation="on" debug="on" 
     	memoryinitialsize="512m" memorymaximumsize="512m">
       <src path="${test.src}"/>
@@ -197,6 +197,7 @@
       <src path="../org.eevolution.manufacturing/src/main/java/base/org/eevolution/model/impl"/>	    	
       <src path="../org.eevolution.manufacturing/src/main/java/base/org/compiere/acct"/>            
       <classpath refid="test.class.path"/>
+      <compilerarg line="--add-exports java.naming/com.sun.jndi.ldap=ALL-UNNAMED"/>
     </javac>		
   </target>
 	
