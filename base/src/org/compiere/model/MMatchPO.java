@@ -288,7 +288,9 @@ public class MMatchPO extends X_M_MatchPO implements IDocumentLine
 	 */
 	public static BigDecimal getPOMatchedQuantity(MOrderLine orderLine) {
 		Optional<BigDecimal> maybeMatchedQty = Optional.ofNullable(
-				new Query(orderLine.getCtx() , MMatchPO.Table_Name , MMatchPO.COLUMNNAME_C_OrderLine_ID + "=? AND " + MMatchPO.COLUMNNAME_Processed + "=? ",  orderLine.get_TrxName())
+				new Query(orderLine.getCtx() , MMatchPO.Table_Name , MMatchPO.COLUMNNAME_C_OrderLine_ID
+						+ "=? AND " + MMatchPO.COLUMNNAME_M_InOutLine_ID
+						+" IS NOT NULL AND "+ MMatchPO.COLUMNNAME_Processed + "=? ",  orderLine.get_TrxName())
 						.setClient_ID()
 						.setParameters(orderLine.getC_OrderLine_ID(), true)
 						.sum(MMatchPO.COLUMNNAME_Qty)
