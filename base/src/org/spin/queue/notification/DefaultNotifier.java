@@ -25,6 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MAttachment;
 import org.compiere.model.Query;
@@ -421,7 +424,32 @@ public class DefaultNotifier extends QueueManager {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param email
+	 * @return
+	 */
+	public static boolean isValidEmailAddress(String email) {
+		boolean result = true;
+		try {
+			InternetAddress emailAddr = new InternetAddress(email);
+		    emailAddr.validate();
+		} catch (AddressException ex) {
+			ex.printStackTrace();
+			result = false;
+		}
+		return result;
+	}
+	
 	public static void main(String[] args) {
+		if(args == null
+				|| args.length == 0) {
+			throw new AdempiereException("Email is Mandatory");
+		}
+		//			
+		if(!isValidEmailAddress(args[0])) {
+			throw new AdempiereException("Please provide a valid email");
+		}
 		org.compiere.Adempiere.startup(true);
 		Env.setContext(Env.getCtx(), "#AD_Client_ID", 11);
 		writeTempFile("https://user-images.githubusercontent.com/2333092/125704926-691a2f7f-4533-4654-a037-8fcc30494b5e.png", "/tmp/ADempiereQueue.png");
@@ -446,8 +474,7 @@ public class DefaultNotifier extends QueueManager {
 						"In hac habitasse platea dictumst. Sed tellus ante, pretium ut viverra feugiat, consectetur et velit. Nulla quis nibh est. Quisque pharetra sem eget ultrices efficitur. Phasellus maximus posuere metus, facilisis dictum justo bibendum ut. Sed aliquet scelerisque risus vel luctus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse eget diam vestibulum risus venenatis pellentesque. Suspendisse tincidunt orci et nisl malesuada, ut porta neque dictum. Quisque at mollis arcu. Nulla sodales diam id lacus efficitur aliquet. In dui leo, pharetra vulputate purus quis, tincidunt ultricies enim. Nulla facilisi. Donec sagittis pharetra ante. Aenean et condimentum ligula, sed volutpat lorem.\n" + 
 						"\n" + 
 						"Nulla laoreet faucibus odio, in rutrum diam semper ut. Praesent at purus id massa hendrerit ultricies. Nam sodales sapien id diam finibus viverra. Duis efficitur hendrerit vulputate. Cras urna enim, vestibulum sit amet ex nec, lobortis viverra massa. Morbi accumsan vel magna in dictum. Cras sed mollis libero. Etiam egestas, orci sed dapibus tempus, ligula ex vulputate lacus, sit amet volutpat urna nulla ac massa. Phasellus ac sollicitudin purus. Ut sit amet ligula eget justo imperdiet rhoncus non nec lectus. Mauris euismod ornare felis et dictum. Maecenas vestibulum dictum dui, ut elementum tellus convallis ac. In congue nunc vel felis elementum, at ultrices velit pharetra.\n")
-				.addRecipient("yamelsenih@gmail.com")
-				.addRecipient("ysenih@erpya.com")
+				.addRecipient(args[0])
 				.addAttachment(file1, "Just a Test")
 				.addAttachment(file2)
 				.withDescription("Hello by EMAil")
