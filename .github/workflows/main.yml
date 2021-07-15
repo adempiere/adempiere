@@ -48,8 +48,30 @@ jobs:
             java-package: jdk
 
       # Build ADempiere with ant
+      - name: Build Adempiere ...
+        env:
+          ACTION_BUILD_DIR: ${{ github.action_path }}
+          POSTGRES_HOST: localhost
+          # The default PostgreSQL port
+          POSTGRES_PORT: 5432
+        run: |
+          echo $ACTION_BUILD_DIR
+          echo $GITHUB_REF
+          echo $GITHUB_HEAD_REF
+          echo $GITHUB_BASE_REF
+          echo ${{ github.ref }}
+          echo "Current ant version: $(ant -version)"
+          echo "Installing ant version 1.10.10"
+          wget --no-check-certificate https://archive.apache.org/dist/ant/binaries/apache-ant-1.10.10-bin.tar.gz
+          tar -xzf apache-ant-1.10.10-bin.tar.gz
+          export ANT_HOME=`pwd`/apache-ant-1.10.10
+          export PATH=${ANT_HOME}/bin:$PATH
+          echo $ANT_HOME
+          echo $PATH
+          echo $(ant -version)
+          ant build
       - name: Upload Seed
         uses: actions/upload-artifact@v2
         with:
-            name: complete-seed
-            path: build.xml
+            name: Adempiere_PostgreSQL_Seed
+            path: adempiere/Adempiere/data/Adempiere_pg.dmp
