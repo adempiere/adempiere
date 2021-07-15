@@ -16,4 +16,9 @@
       <entry name="!?*.clj" />
     </wildcardResourcePatterns>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="adempiere" options="--add-exports java.desktop/sun.swing=ALL-UNNAMED --add-exports java.desktop/sun.awt=ALL-UNNAMED --add-exports java.base/sun.security.provider=ALL-UNNAMED --add-exports java.naming/com.sun.jndi.ldap=ALL-UNNAMED" />
+    </option>
+  </component>
 </project>

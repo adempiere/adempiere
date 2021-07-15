@@ -1175,7 +1175,7 @@ public class MTree extends X_AD_Tree
 		while (needsTrim)
 		{
 			needsTrim = false;
-			Enumeration<MTreeNode> en = rootNode.preorderEnumeration();
+			Enumeration en = rootNode.preorderEnumeration();
 			while (rootNode.getChildCount() > 0 && en.hasMoreElements())
 			{
 				MTreeNode nd = (MTreeNode)en.nextElement();

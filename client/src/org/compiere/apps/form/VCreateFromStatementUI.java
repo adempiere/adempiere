@@ -277,7 +277,7 @@ public class VCreateFromStatementUI extends CreateFromStatement
 	 * Load Table Columns
 	 * @param data
 	 */
-	private void loadTableOIS (Vector<?> data) {
+	private void loadTableOIS (Vector<? extends Vector> data) {
 		//  Remove previous listeners
 		v_CreateFromPanel.getMiniTable().removeMiniTableSelectionListener(v_CreateFromPanel);
 		//dialog.getMiniTable().getModel().removeTableModelListener(dialog);
