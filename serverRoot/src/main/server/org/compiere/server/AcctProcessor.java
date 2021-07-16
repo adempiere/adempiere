@@ -37,7 +37,7 @@ public class AcctProcessor extends AdempiereServer {
     private MAcctProcessor model = null;
     private MAcctSchemaProvider provider = new MAcctSchemaProvider();
     private SessionPoster sessionPoster = new SessionPoster();
-    private StringBuilder summary;
+    private StringBuilder summary = new StringBuilder("Just initialized ");
 
     /**
      * Accounting Processor
