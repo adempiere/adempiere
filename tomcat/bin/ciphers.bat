@@ -15,7 +15,7 @@ rem See the License for the specific language governing permissions and
 rem limitations under the License.
 
 rem ---------------------------------------------------------------------------
-rem Configuration test script for the CATALINA Server
+rem Script to digest password using the algorithm specified
 rem ---------------------------------------------------------------------------
 
 setlocal
@@ -24,18 +24,18 @@ rem Guess CATALINA_HOME if not defined
 set "CURRENT_DIR=%cd%"
 if not "%CATALINA_HOME%" == "" goto gotHome
 set "CATALINA_HOME=%CURRENT_DIR%"
-if exist "%CATALINA_HOME%\bin\catalina.bat" goto okHome
+if exist "%CATALINA_HOME%\bin\tool-wrapper.bat" goto okHome
 cd ..
 set "CATALINA_HOME=%cd%"
 cd "%CURRENT_DIR%"
 :gotHome
-if exist "%CATALINA_HOME%\bin\catalina.bat" goto okHome
+if exist "%CATALINA_HOME%\bin\tool-wrapper.bat" goto okHome
 echo The CATALINA_HOME environment variable is not defined correctly
 echo This environment variable is needed to run this program
 goto end
 :okHome
 
-set "EXECUTABLE=%CATALINA_HOME%\bin\catalina.bat"
+set "EXECUTABLE=%CATALINA_HOME%\bin\tool-wrapper.bat"
 
 rem Check that target executable exists
 if exist "%EXECUTABLE%" goto okExec
@@ -53,6 +53,6 @@ shift
 goto setArgs
 :doneSetArgs
 
-call "%EXECUTABLE%" configtest %CMD_LINE_ARGS%
+call "%EXECUTABLE%" org.apache.tomcat.util.net.openssl.ciphers.OpenSSLCipherConfigurationParser %CMD_LINE_ARGS%
 
 :end
