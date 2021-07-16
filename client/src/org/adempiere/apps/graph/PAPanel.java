@@ -141,7 +141,7 @@ public class PAPanel extends CPanel implements ActionListener
 	    
 		for (int i = 0; i < java.lang.Math.min(2, m_goals.length); i++)
 		{
-			if (m_goals[i].getMeasure() != null) //MGoal goal = pi.getGoal();
+			if (m_goals[i].getMeasure() != null || m_goals[i].getAD_Chart_ID() > 0) //MGoal goal = pi.getGoal();
 				boxH1.add ( new Graph(m_goals[i]), BorderLayout.SOUTH);
 		}
 	    boxV2.add(boxH1, BorderLayout.SOUTH);
@@ -176,7 +176,7 @@ public class PAPanel extends CPanel implements ActionListener
 			PerformanceIndicator pi = (PerformanceIndicator)e.getSource();
 			log.info(pi.getName());
 			MGoal goal = pi.getGoal();
-			if (goal.getMeasure() != null)
+			if (goal.getMeasure() != null || goal.getAD_Chart_ID() > 0)
 				new PerformanceDetail(goal);
 		}
 	}	//	actionPerformed

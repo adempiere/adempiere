@@ -153,6 +153,8 @@ public class PaymentCreateFromInvoice extends PaymentCreateFromInvoiceAbstract {
 	private void createPayment(int businessPartnerId, int currencyId) {
 		if(getRecord_ID() > 0) {	//	Already exists
 			payment = new MPayment(getCtx(), getRecord_ID(), get_TrxName());
+			remaining = payment.getPayAmt();
+			return;
 		} else {
 			payment = new MPayment(getCtx(), 0, get_TrxName());
 			//	

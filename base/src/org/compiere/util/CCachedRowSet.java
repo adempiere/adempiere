@@ -32,16 +32,14 @@ import oracle.jdbc.rowset.OracleCachedRowSet;
 import org.compiere.db.AdempiereDatabase;
 import org.compiere.db.Database;
 
-import com.sun.rowset.CachedRowSetImpl;
-
-
 /**
  *	Adempiere Cached Row Set Implementation
  *	
  *  @author Jorg Janke
+ *  @author Marek Mosiewicz - porting to Oracle implementation of CachedRowSet for JDK 10 port
  *  @version $Id: CCachedRowSet.java,v 1.6 2006/07/30 00:54:36 jjanke Exp $
  */
-public class CCachedRowSet extends CachedRowSetImpl implements CachedRowSet
+public class CCachedRowSet extends OracleCachedRowSet implements CachedRowSet
 {
 	/**
 	 * 
@@ -186,7 +184,7 @@ public class CCachedRowSet extends CachedRowSetImpl implements CachedRowSet
 			System.out.println("OK 1");
 			get();
 			System.out.println("OK 1a");
-			new CachedRowSetImpl();
+			new CCachedRowSet();
 			System.out.println("OK 2");
 		}
 		catch (Exception e)
@@ -257,8 +255,22 @@ public class CCachedRowSet extends CachedRowSetImpl implements CachedRowSet
 		}	
 	}
 
-    @Override
-    public void setTypeMap(Map map) {
-        super.setTypeMap(map);
-    }
+	@Override
+	public void setTypeMap(Map map) throws SQLException {
+		try {
+			super.setTypeMap((Map<String,Class>)map);
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	@Override
+	public <T> T getObject(String name, Class<T> type) throws SQLException{
+		return null;
+	}
+	@Override
+	public <T> T getObject(int colIndex, Class<T> type) throws SQLException{
+		return null;
+	}
+
+
 }	//	CCachedRowSet
