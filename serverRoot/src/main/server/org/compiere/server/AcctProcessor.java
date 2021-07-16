@@ -17,6 +17,7 @@
 package org.compiere.server;
 
 import java.sql.Timestamp;
+import java.util.Optional;
 
 import org.compiere.acct.SessionPoster;
 import org.compiere.model.MAcctProcessor;
@@ -90,7 +91,7 @@ public class AcctProcessor extends AdempiereServer {
      */
     public String getServerInfo() {
     
-        return "#" + p_runCount + " - Last=" + summary.toString();
+        return "#" + p_runCount + " - Last=" + Optional.ofNullable(summary).orElse(new StringBuilder("")).toString();
     
     }
 

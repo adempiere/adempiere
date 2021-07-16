@@ -70,3 +70,13 @@ jobs:
           echo $PATH
           echo $(ant -version)
           ant build
+      - name: Upload Binary Files
+        uses: actions/upload-artifact@v2
+        with:
+            name: adempiere-binary-files
+            path: adempiere/install/
+      - name: Upload Seed
+        uses: actions/upload-artifact@v2
+        with:
+            name: adempiere-postgresql-seed
+            path: adempiere/Adempiere/data/Adempiere_pg.dmp
