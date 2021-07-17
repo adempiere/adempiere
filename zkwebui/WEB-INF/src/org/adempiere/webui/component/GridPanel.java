@@ -491,7 +491,7 @@ public class GridPanel extends Borderlayout implements EventListener
 						renderer.stopColEditing(true);
 					}
 					int indexOnPage = listbox.getRows().getChildren().indexOf(row);
-					renderer.setCurrentCell(indexOnPage);
+					renderer.setCurrentRowOnPage(indexOnPage);
 				}
 			}
 			if(data instanceof Col) {
@@ -542,7 +542,8 @@ public class GridPanel extends Borderlayout implements EventListener
 							}
 							else if(!dataSave(0)) {
 								gridTab.navigateRelative(+1);
-								renderer.setCurrentCell(row);
+								int rowIndexOnPage = renderer.getRowIndexInPage(row);
+								renderer.setCurrentRowOnPage(rowIndexOnPage);
 							}
 						}
 						else {
@@ -597,7 +598,8 @@ public class GridPanel extends Borderlayout implements EventListener
 					if(currentCol > 0) {
 						if(row < 0 || gridTab.getCurrentRow()< 0) {
 							renderer.setGrid(listbox);
-							renderer.setCurrentCell(0);
+							listModel.setPage(0);
+							renderer.setCurrentRowOnPage(0);
 						} else {
 							renderer.stopColEditing(true);
 							renderer.setCurrentColumn(currentCol-1);
@@ -614,7 +616,8 @@ public class GridPanel extends Borderlayout implements EventListener
 				{
 					if(row < 0 || gridTab.getCurrentRow()< 0) {
 						renderer.setGrid(listbox);
-						renderer.setCurrentCell(0);
+						listModel.setPage(0);
+						renderer.setCurrentRowOnPage(0);
 					} else
 						renderer.setCurrentColumn(currentCol+1);
 				}
@@ -628,7 +631,7 @@ public class GridPanel extends Borderlayout implements EventListener
 				else if (code == KeyEvent.HOME)
 				{
 					row = 0;
-					renderer.setCurrentCell(row);
+					renderer.setCurrentRowOnPage(row);
 					renderer.setCurrentColumn(currentCol);
 				}
 				else if (code == KeyEvent.PAGE_DOWN)
@@ -1059,7 +1062,8 @@ public class GridPanel extends Borderlayout implements EventListener
             }
 		    if(!gridTab.isNew()) {
         		newRow = gridTab.navigateRelative(value);
-                renderer.setCurrentCell(newRow);
+        		int newRowIndexInPage = renderer.getRowIndexInPage(newRow);
+                renderer.setCurrentRowOnPage(newRowIndexInPage);
     			renderer.setCurrentColumn(currentCol);
                 scrollRowIntoViewWithSpacing(newRow, value);
 		    }

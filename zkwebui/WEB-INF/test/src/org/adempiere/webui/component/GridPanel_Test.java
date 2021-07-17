@@ -1,8 +1,8 @@
 package org.adempiere.webui.component;
 
-import static org.adempiere.webui.component.TestGridPanel.Direction.UP;
-import static org.adempiere.webui.component.TestGridPanel.Direction.DOWN;
-import static org.adempiere.webui.component.TestGridPanel.Direction.NO_CHANGE;
+import static org.adempiere.webui.component.GridPanel_Test.Direction.UP;
+import static org.adempiere.webui.component.GridPanel_Test.Direction.DOWN;
+import static org.adempiere.webui.component.GridPanel_Test.Direction.NO_CHANGE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -54,7 +54,7 @@ import org.zkoss.zk.ui.event.KeyEvent;
 @Tag("GridPanel")
 @ExtendWith(org.mockito.junit.jupiter.MockitoExtension.class)
 @DisplayName("TestGridPanel: Feature: GridPanel")
-class TestGridPanel extends CommonUnitTestSetup {
+class GridPanel_Test extends CommonUnitTestSetup {
 
     private static final String PAGE_SIZE_KEY = "ZK_PAGING_SIZE";
     private static final String MODE_LESS_KEY = "ZK_GRID_EDIT_MODELESS";
@@ -784,7 +784,7 @@ class TestGridPanel extends CommonUnitTestSetup {
                 doReturn(true).when(gridTabMock).isNew();
                 sendKeyEvent(key);
                 verify(gridTabMock, never()).navigateRelative(anyInt());
-                verify(rendererMock, never()).setCurrentCell(anyInt());
+                verify(rendererMock, never()).setCurrentRowOnPage(anyInt());
 
             }
 

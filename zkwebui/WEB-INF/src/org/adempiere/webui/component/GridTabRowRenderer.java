@@ -822,11 +822,17 @@ public class GridTabRowRenderer implements RowRenderer, RowRendererExt, Renderer
 		return currentDiv;
 	}
 	
-	public void setCurrentCell(int rowIndex) {
+	/**
+	 * Sets the 
+	 * @param rowIndexInPage
+	 */
+	public void setCurrentRowOnPage(int rowIndexInPage) {
 	    
-        if (rowIndex != currentRowIndex)
+	    int currentRowInPage = getRowIndexInPage(currentRowIndex);
+	    
+        if (rowIndexInPage != currentRowInPage && rowIndexInPage != -1)
 		{			
-			gridTab.dataRefresh(row);
+			gridTab.setCurrentRow(getRowIndexAcrossAllPages(rowIndexInPage));
 			currentRowIndex = gridTab.getCurrentRow();
 		}
 

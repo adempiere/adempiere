@@ -1,11 +1,13 @@
 package org.adempiere.webui.component;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.util.ArrayList;
+import java.util.stream.Stream;
 
 import org.adempiere.test.CommonUnitTestSetup;
 import org.compiere.model.GridTab;
@@ -14,12 +16,18 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.zkoss.zul.Paging;
 
 @Tag("ZK")
 @Tag("GridTabRowRenderer")
 @DisplayName("TestGridTabRowRenderer: Feature: Rendering of rows in a GridTab")
-class TestGridTabRowRenderer extends CommonUnitTestSetup {
+class GridTabRowRenderer_Test extends CommonUnitTestSetup {
 
     int numberOfRows = 100;
     ArrayList<Row> testRows = new ArrayList<>();
@@ -55,7 +63,7 @@ class TestGridTabRowRenderer extends CommonUnitTestSetup {
         }
 
     }
-
+    
     @Nested
     @DisplayName("When paging is null")
     class givenNoPaging {
@@ -134,7 +142,8 @@ class TestGridTabRowRenderer extends CommonUnitTestSetup {
     }
 
     @Nested
-    @DisplayName("Given paging with 20 rows per page")
+    @DisplayName("Given paging with 20 rows per page and the current page is 2")
+    @TestInstance(Lifecycle.PER_CLASS)
     class givenPagingWith20RowsPerPage {
 
         @BeforeEach
@@ -150,7 +159,7 @@ class TestGridTabRowRenderer extends CommonUnitTestSetup {
         }
 
         @Test
-        @DisplayName("When on page 2, the absolute index should be 40 + "
+        @DisplayName("When given an index in the page, the absolute index should be 40 + "
                 + "index in page")
         final void whenOnPage2_rowIndexShouldReflectThePage() {
 
@@ -173,13 +182,26 @@ class TestGridTabRowRenderer extends CommonUnitTestSetup {
 
         }
 
-        @Test
+        private Stream<Arguments> argProviderPageRows() {
+            
+            return Stream.of(
+                    
+                    arguments(0,40),
+                    arguments(1,41),
+                    arguments(19,59),
+                    arguments(20,60)
+                    
+                    );
+        }
+        
+        @ParameterizedTest(name="When row in page is {0}, then currentRow should be {1}")
         @DisplayName("Renderer setCurrentCell method should set the gridTab "
                 + "setCurrentRow to the same value")
-        final void rendererSetCurrentCellShouldSetGridTabCurrentRow() {
+        @MethodSource("argProviderPageRows")
+        final void rendererSetCurrentCellShouldSetGridTabCurrentRow(int rowInPage, int rowInTable) {
 
-            renderer.setCurrentCell(47);
-            verify(gridTabMock).setCurrentRow(47);
+            renderer.setCurrentRowOnPage(rowInPage);
+            verify(gridTabMock).setCurrentRow(rowInTable);
 
         }
 

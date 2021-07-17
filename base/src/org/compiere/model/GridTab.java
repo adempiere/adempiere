@@ -2307,7 +2307,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	/**
 	 *  Set current row and load data into fields.
 	 *  If there is no row - load nulls
-	 *  @param newCurrentRow new current row
+	 *  @param newCurrentRow new current row in table, not the page
 	 *  @param fireEvents fire events
 	 *  @return current row
 	 */
