@@ -1281,6 +1281,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
                 activateChild(false, ep);
             }
 		} else {
+		    gridTab.dataRefresh(gridTab.getCurrentRow());
 			formComponent.setVisible(true);
 			repaintComponents(false);
 			//activate embedded panel
@@ -1299,7 +1300,7 @@ public class ADTabPanel extends Div implements Evaluatee, EventListener, DataSta
 
 			if (listPanel != null && listPanel.getADTabPanel() != null && listPanel.getADTabPanel().getGlobalToolbar() != null )
 				listPanel.getADTabPanel().getGlobalToolbar().setCurrentPanel(this);
-
+			    
 				listPanel.refresh(gridTab);
 			listPanel.scrollToCurrentRow();
 			repaintComponents(true);
