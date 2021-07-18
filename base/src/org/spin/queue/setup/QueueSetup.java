@@ -24,6 +24,7 @@ import org.compiere.model.MProcess;
 import org.compiere.model.MScheduler;
 import org.compiere.model.MSchedulerPara;
 import org.compiere.model.Query;
+import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
 import org.spin.model.MADAppRegistration;
 import org.spin.model.MADAppSupport;
@@ -110,7 +111,7 @@ public class QueueSetup implements ISetupDefinition {
 		scheduler.setName(FlushSystemQueue.getProcessName());
 		scheduler.setDescription(SETUP_DESCRIPTION);
 		scheduler.setAD_Process_ID(FlushSystemQueue.getProcessId());
-		scheduler.setSupervisor_ID(100);
+		scheduler.setSupervisor_ID(Env.getAD_User_ID(context));
 		scheduler.setFrequencyType(MScheduler.FREQUENCYTYPE_Minute);
 		scheduler.setFrequency(5);
 		scheduler.setKeepLogDays(7);
