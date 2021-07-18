@@ -31,7 +31,7 @@ import org.compiere.model.MRule;
 import org.compiere.model.Query;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-import org.eevolution.model.MHRConcept;
+import org.eevolution.model.X_HR_Concept;
 
 /**
  * 	Generate Rule Classes
@@ -48,7 +48,7 @@ public class RuleClassGenerator {
 		//	Get Values
 		this.rule = rule;
 		directoryName = directory;
-		concept = new Query(rule.getCtx(), MHRConcept.Table_Name, "EXISTS(SELECT 1 FROM HR_Attribute a "
+		concept = new Query(rule.getCtx(), X_HR_Concept.Table_Name, "EXISTS(SELECT 1 FROM HR_Attribute a "
 				+ "WHERE a.HR_Concept_ID = HR_Concept.HR_Concept_ID "
 				+ "AND a.AD_Rule_ID = ?)", rule.get_TrxName()).setParameters(rule.getAD_Rule_ID()).first();
 	}
@@ -86,7 +86,7 @@ public class RuleClassGenerator {
 	/**	Rule		*/
 	private MRule rule = null;
 	/**	Concept Name	*/
-	private MHRConcept concept = null;
+	private X_HR_Concept concept = null;
 	/**	Directory Name		*/
 	private String directoryName = null;
 	
@@ -113,10 +113,10 @@ public class RuleClassGenerator {
 		String resultType = "double";
 		//	Yamel Senih Add DefValue to another Types
 		String defValue = "0";
-		if  (MHRConcept.COLUMNTYPE_Date.equals(concept.getColumnType())) {
+		if  (X_HR_Concept.COLUMNTYPE_Date.equals(concept.getColumnType())) {
 			resultType = "Timestamp";
 			defValue = "null";
-		} else if  (MHRConcept.COLUMNTYPE_Text.equals(concept.getColumnType())) {
+		} else if  (X_HR_Concept.COLUMNTYPE_Text.equals(concept.getColumnType())) {
 			resultType = "String";
 			defValue = "null";
 		}
