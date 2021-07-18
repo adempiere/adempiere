@@ -1315,15 +1315,17 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 		movement.setC_BP_Group_ID(businessPartner.getC_BP_Group_ID());
 		movement.setEmployee(employee);
 		if (!MHRConcept.TYPE_RuleEngine.equals(concept.getType())) {
-			int currencyPrecision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(p_ctx, "#C_Currency_ID"));
-			Optional<Integer> conceptStandardPrecisionOptional = Optional.ofNullable((Integer)concept.get_Value("StdPrecision"));
+			int precision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(p_ctx, "#C_Currency_ID"));
+			if(concept.getStdPrecision() > 0) {
+				precision = concept.getStdPrecision();
+			}
 			BigDecimal rate = Env.ONE;
 			BigDecimal amount = attribute.getAmount();
 			if(attribute.isConvertedAmount() && attribute.getC_Currency_ID() != getC_Currency_ID()) {
 				rate = MConversionRate.getRate(attribute.getC_Currency_ID(), getC_Currency_ID(), getDateAcct(), getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
 				if(rate != null) {
 					amount = rate.multiply(Optional.ofNullable(amount).orElse(Env.ZERO))
-							.setScale(conceptStandardPrecisionOptional.orElseGet(() -> currencyPrecision),BigDecimal.ROUND_HALF_UP);
+							.setScale(precision, BigDecimal.ROUND_HALF_UP);
 					
 				}
 			}
@@ -1821,12 +1823,14 @@ public class MHRProcess extends X_HR_Process implements DocAction , DocumentReve
 			BigDecimal rate = Env.ONE;
 			BigDecimal amount = attribute.getAmount();
 			if(attribute.isConvertedAmount() && attribute.getC_Currency_ID() != getC_Currency_ID()) {
-				int currencyPrecision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(p_ctx, "#C_Currency_ID"));
-				Optional<Integer> conceptStandardPrecisionOptional = Optional.ofNullable((Integer)concept.get_Value("StdPrecision"));
+				int precision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(p_ctx, "#C_Currency_ID"));
+				if(concept.getStdPrecision() > 0) {
+					precision = concept.getStdPrecision();
+				}
 				rate = MConversionRate.getRate(attribute.getC_Currency_ID(), getC_Currency_ID(), getDateAcct(), getC_ConversionType_ID(), getAD_Client_ID(), getAD_Org_ID());
 				if(rate != null) {
 					amount = rate.multiply(Optional.ofNullable(amount).orElse(Env.ZERO))
-							.setScale(conceptStandardPrecisionOptional.orElseGet(() -> currencyPrecision),BigDecimal.ROUND_HALF_UP);
+							.setScale(precision, BigDecimal.ROUND_HALF_UP);
 					
 				}
 			}
