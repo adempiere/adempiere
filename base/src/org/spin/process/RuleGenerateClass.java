@@ -30,6 +30,7 @@ public class RuleGenerateClass extends RuleGenerateClassAbstract {
 	
 	@Override
 	protected void prepare() {
+		super.prepare();
 		//	Validate parameters
 		if(getDirectory() == null
 				|| getDirectory().length() == 0) {
