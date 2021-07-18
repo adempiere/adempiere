@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
-  <Migration EntityType="ECA22" Name="Queue: Add Delete Record Parameter" ReleaseNo="1.0" SeqNo="8280">
+  <Migration EntityType="D" Name="Queue: Add Delete Record Parameter" ReleaseNo="3.9.4" SeqNo="8280">
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="276" Action="I" Record_ID="61757" Table="AD_Element">
         <Data AD_Column_ID="2600" Column="Updated">2021-05-31 18:04:16.52</Data>
