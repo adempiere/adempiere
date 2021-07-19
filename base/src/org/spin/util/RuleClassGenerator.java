@@ -22,8 +22,12 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.adempiere.util.ModelInterfaceGenerator;
 import org.compiere.Adempiere;
@@ -51,6 +55,49 @@ public class RuleClassGenerator {
 		concept = new Query(rule.getCtx(), X_HR_Concept.Table_Name, "EXISTS(SELECT 1 FROM HR_Attribute a "
 				+ "WHERE a.HR_Concept_ID = HR_Concept.HR_Concept_ID "
 				+ "AND a.AD_Rule_ID = ?)", rule.get_TrxName()).setParameters(rule.getAD_Rule_ID()).first();
+		loadImports();
+	}
+	
+	/**
+	 * Load default imports
+	 */
+	private void loadImports() {
+		importClasses.put("import org.eevolution.model.*;", true);
+		importClasses.put("import org.compiere.model.*;", true);
+		importClasses.put("import org.adempiere.model.*;", true);
+		importClasses.put("import org.compiere.util.*;", true);
+		importClasses.put("import org.spin.model.*;", true);
+		importClasses.put("import org.spin.util.*;", true);
+		importClasses.put("import java.util.*;", true);
+		importClasses.put("import java.math.*;", true);
+		importClasses.put("import java.sql.*;", true);
+	}
+	
+	/**
+	 * Convert imports from script
+	 * @param script
+	 * @return
+	 */
+	private String extractImports(String script) {
+		Pattern importPattern = Pattern.compile("import");
+		Matcher importMatcher = importPattern.matcher(script);
+		//	
+		Pattern semicolonPattern = Pattern.compile(";");
+		Matcher semicolonMatcher = semicolonPattern.matcher(script);
+		//	
+		while (importMatcher.find()) {
+			int beginIndex = importMatcher.start();
+			if(semicolonMatcher.find(beginIndex)) {
+				String importValue = script.substring(beginIndex, semicolonMatcher.start() + 1);
+				importClasses.put(importValue, true);
+			}
+		}
+		//	Remove imports
+		for(String value : importClasses.keySet()) {
+			script = script.replace(value, "");
+		}
+		//	
+		return script;
 	}
 	
 	/**	List of values	*/
@@ -90,25 +137,17 @@ public class RuleClassGenerator {
 	/**	Directory Name		*/
 	private String directoryName = null;
 	
-	/**	Script to import	*/
-	private static StringBuffer s_scriptImport = new StringBuffer("import org.eevolution.model.*;" 
-			+ Env.NL + "import org.compiere.model.*;"
-			+ Env.NL + "import org.adempiere.model.*;"
-			+ Env.NL + "import org.compiere.util.*;"
-			+ Env.NL + "import org.spin.model.*;"
-			+ Env.NL + "import org.spin.util.*;"
-			+ Env.NL + "import java.util.*;" 
-			+ Env.NL + "import java.math.*;"
-			+ Env.NL + "import java.sql.*;");
+	private Map<String, Boolean> importClasses = new HashMap<>();
 	
 	/**
 	 * Get Script from rule
 	 * @return
 	 */
 	private String getScript() {
-		String text = "";
-		text = rule.getScript().trim().replaceAll("\\bget", "process.get")
+		String text = rule.getScript().trim().replaceAll("\\bget", "process.get")
 				.replace(".process.get", ".get");
+		//	Extract imports
+		text = extractImports(text);
 		//	
 		String resultType = "double";
 		//	Yamel Senih Add DefValue to another Types
@@ -157,6 +196,7 @@ public class RuleClassGenerator {
 	 * @return
 	 */
 	private StringBuffer createHeader(String packageName, String className) {
+		String script = getScript();
 		StringBuffer header = new StringBuffer();
 		//	Add license
 		header.append(ModelInterfaceGenerator.COPY);
@@ -166,7 +206,7 @@ public class RuleClassGenerator {
 		header.append("package ").append(packageName).append(";\n");
 		//	New line
 		header.append(ModelInterfaceGenerator.NL);
-		header.append(s_scriptImport.toString());
+		importClasses.keySet().forEach(importValue -> header.append(importValue).append(ModelInterfaceGenerator.NL));
 		header.append(ModelInterfaceGenerator.NL);
 		//	Add comments
 		header.append("\n\n/** Generated Process for (").append(rule.getValue()).append(" ").append(rule.getName()).append(")\n");
@@ -187,7 +227,7 @@ public class RuleClassGenerator {
 		header
 			.append("\n\n\t@Override")
 			.append("\n\tpublic Object run(MHRProcess process, Map<String, Object> engineContext) {")
-			.append("\n\t\t").append(getScript())
+			.append("\n\t\t").append(script)
 			.append("\n\t\treturn result;")
 			.append("\n\t}");
 		//	get Description
