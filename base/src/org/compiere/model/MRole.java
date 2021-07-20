@@ -487,6 +487,15 @@ public final class MRole extends X_AD_Role
 				+ getUpdatedBy() + ", SysDate," + getUpdatedBy() + " "
 				+ "FROM PA_DashboardContent b "
 				+ "WHERE AccessLevel IN ";
+		
+		String sqlASPAccess = "INSERT INTO ASP_Level_Access "
+				+ "(ASP_Level_ID, AD_Role_ID,"
+				+ " AD_Client_ID,AD_Org_ID,IsActive,Created,CreatedBy,Updated,UpdatedBy) "
+				+ "SELECT l.ASP_Level_ID, " + getAD_Role_ID() + ","
+						+ getAD_Client_ID() + "," + getAD_Org_ID() + ", l.IsActive, SysDate," 
+						+ getUpdatedBy() + ", SysDate," + getUpdatedBy() + " "
+				+ "FROM ASP_Level l "
+				+ "WHERE l.IsActive = 'Y'";
 
 
 		/**
@@ -536,6 +545,8 @@ public final class MRole extends X_AD_Role
 		int docact = DB.executeUpdate(sqlDocAction, get_TrxName());
 		int dashboardDel = DB.executeUpdate("DELETE FROM AD_Dashboard_Access" + whereDel, get_TrxName());
 		int dashboard = DB.executeUpdate(sqlDashboard + roleAccessLevel, get_TrxName());
+		int aSPLevelDel = DB.executeUpdate("DELETE FROM ASP_Level_Access" + whereDel, get_TrxName());
+		int aSPLevel = DB.executeUpdate(sqlASPAccess, get_TrxName());
 
 		log.fine("AD_Window_ID=" + winDel + "+" + win 
 			+ ", AD_Process_ID=" + procDel + "+" + proc
@@ -544,6 +555,7 @@ public final class MRole extends X_AD_Role
 			+ ", AD_Workflow_ID=" + wfDel + "+" + wf
 			+ ", AD_Document_Action_Access=" + docactDel + "+" + docact
 			+ ", PA_DashboardContent_ID=" + dashboardDel + "+" + dashboard
+			+ ", ASP_Level_ID=" + aSPLevel + "+" + aSPLevelDel
 			);
 		
 		loadAccess(true);
@@ -553,7 +565,8 @@ public final class MRole extends X_AD_Role
 			+ " -  @AD_Browse_ID@ #"+ browse
 			+ " -  @AD_Workflow_ID@ #" + wf
 			+ " -  @DocAction@ #" + docact
-			+ " -  @PA_DashboardContent_ID@ #"+ dashboard;
+			+ " -  @PA_DashboardContent_ID@ #"+ dashboard
+			+ " -  @ASP_Level_ID@ #"+ aSPLevel;
 	}	//	createAccessRecords
 
 	/**
@@ -569,6 +582,7 @@ public final class MRole extends X_AD_Role
 		int wfDel = DB.executeUpdate("DELETE FROM AD_WorkFlow_Access" + whereDel, get_TrxName());
 		int docactDel = DB.executeUpdate("DELETE FROM AD_Document_Action_Access" + whereDel, get_TrxName());
 		int dashboardDel = DB.executeUpdate("DELETE FROM AD_Dashboard_Access" + whereDel, get_TrxName());
+		int aSPLevelDel = DB.executeUpdate("DELETE FROM ASP_Level_Access" + whereDel, get_TrxName());
 
 		log.fine("AD_Window_Access=" + winDel
 			+ ", AD_Process_Access=" + procDel
@@ -576,7 +590,8 @@ public final class MRole extends X_AD_Role
 			+ ", AD_Browse_Access=" + browseDel
 			+ ", AD_Workflow_Access=" + wfDel
 			+ ", AD_Document_Action_Access=" + docactDel
-			+ ", AD_Dashboard_Access=" + dashboardDel);
+			+ ", AD_Dashboard_Access=" + dashboardDel
+			+ ", ASP_Level_Access=" + aSPLevelDel);
 	}
 	
 	/**
