@@ -170,6 +170,19 @@ public interface I_AD_UserSocialMedia
 	  */
 	public boolean isActive();
 
+    /** Column name IsReceiveNotifications */
+    public static final String COLUMNNAME_IsReceiveNotifications = "IsReceiveNotifications";
+
+	/** Set Receive Notifications.
+	  * This flag allows define a social media for receive notifications from system
+	  */
+	public void setIsReceiveNotifications (boolean IsReceiveNotifications);
+
+	/** Get Receive Notifications.
+	  * This flag allows define a social media for receive notifications from system
+	  */
+	public boolean isReceiveNotifications();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
