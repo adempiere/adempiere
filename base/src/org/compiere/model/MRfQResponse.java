@@ -245,7 +245,7 @@ public class MRfQResponse extends X_C_RfQResponse
 		//	Get instance for notifier
 		DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
 				.withContext(Env.getCtx())
-				.withTransactionName(get_TableName());
+				.withTransactionName(get_TrxName());
 		//	Prepare message
 		String message = m_rfq.getDescription();
 		if (message == null || message.length() == 0)
