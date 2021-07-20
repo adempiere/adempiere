@@ -51,20 +51,20 @@ public interface I_AD_UserSocialMedia
 	/** Get Account Name	  */
 	public String getAccountName();
 
-    /** Column name AD_AppSupport_ID */
-    public static final String COLUMNNAME_AD_AppSupport_ID = "AD_AppSupport_ID";
+    /** Column name AD_AttachmentNote_ID */
+    public static final String COLUMNNAME_AD_AttachmentNote_ID = "AD_AttachmentNote_ID";
 
-	/** Set App Support.
-	  * App Support for External Connection
+	/** Set Attachment Note.
+	  * Personal Attachment Note
 	  */
-	public void setAD_AppSupport_ID (int AD_AppSupport_ID);
+	public void setAD_AttachmentNote_ID (int AD_AttachmentNote_ID);
 
-	/** Get App Support.
-	  * App Support for External Connection
+	/** Get Attachment Note.
+	  * Personal Attachment Note
 	  */
-	public int getAD_AppSupport_ID();
+	public int getAD_AttachmentNote_ID();
 
-	public org.spin.model.I_AD_AppSupport getAD_AppSupport() throws RuntimeException;
+	public org.compiere.model.I_AD_AttachmentNote getAD_AttachmentNote() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -169,6 +169,19 @@ public interface I_AD_UserSocialMedia
 	  * The record is active in the system
 	  */
 	public boolean isActive();
+
+    /** Column name IsReceiveNotifications */
+    public static final String COLUMNNAME_IsReceiveNotifications = "IsReceiveNotifications";
+
+	/** Set Receive Notifications.
+	  * This flag allows define a social media for receive notifications from system
+	  */
+	public void setIsReceiveNotifications (boolean IsReceiveNotifications);
+
+	/** Get Receive Notifications.
+	  * This flag allows define a social media for receive notifications from system
+	  */
+	public boolean isReceiveNotifications();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
