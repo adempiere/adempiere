@@ -32,10 +32,11 @@ import org.compiere.model.MPayment;
 import org.compiere.model.MUser;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfo;
-import org.compiere.util.EMail;
 import org.compiere.util.Env;
 import org.compiere.util.Util;
 import org.eevolution.service.dsl.ProcessBuilder;
+import org.spin.queue.notification.DefaultNotifier;
+import org.spin.queue.util.QueueLoader;
 
 /**
  * Send mail to employee
@@ -128,6 +129,19 @@ public class SendPayrollReceiptByEmail extends SendPayrollReceiptByEmailAbstract
                     .setOnlyActiveRecords(true)
                     .setParameters(employee.getC_BPartner_ID(), MBPartnerLocation.CONTACTTYPE_Primary)
                     .first();
+			//	Get instance for notifier
+			DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+					.withContext(Env.getCtx())
+					.withTransactionName(get_TrxName());
+			//	Send notification to queue
+			notifier
+				.clearMessage()
+				.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+				.withText(message)
+				.withUserId(Env.getAD_User_ID(getCtx()))
+				.withDescription(mailText.getMailHeader())
+				.withTableId(MPayment.Table_ID)
+				.withRecordId(paymentId);
             //	EMail
             String eMail = null;
             //	Get from bank account definition
@@ -147,49 +161,17 @@ public class SendPayrollReceiptByEmail extends SendPayrollReceiptByEmailAbstract
             		}
             	}
             }
+            //	Attachment
+            notifier.addAttachment(getPDF(paymentId));
+            //	Add EMail
+            notifier.addRecipient(eMail);
             //	Get from default account
-            if (Util.isEmpty(eMail)) {
-            	Optional<MUser> maybeUser = Arrays.asList(MUser.getOfBPartner(getCtx(), employee.getC_BPartner_ID(), get_TrxName()))
-            		.stream()
-            		.filter(user -> !Util.isEmpty(user.getNotificationType()) && (user.getNotificationType().equals(MUser.NOTIFICATIONTYPE_EMail) 
-            				|| user.getNotificationType().equals(MUser.NOTIFICATIONTYPE_EMailPlusNotice)))
-            		.filter(user -> !Util.isEmpty(user.getEMail()))
-            		.findFirst();
-            	if(maybeUser.isPresent()) {
-            		eMail = maybeUser.get().getEMail();
-            	}
-            }
-            if (Util.isEmpty(eMail)) {
-                addLog(0, null, null, employee.getName() + " @Email@ @NotFound@");
-                return false;
-            }
-            MClient client = MClient.get(getCtx());
-            MUser user = MUser.get(getCtx(), Env.getAD_User_ID(getCtx()));
-            EMail email = client.createEMail(user, eMail , mailText.getMailHeader(), message);
-            if (mailText.isHtml())
-                email.setMessageHTML(mailText.getMailHeader(), message);
-            else {
-                email.setSubject(mailText.getMailHeader());
-                email.setMessageText(message);
-            }
-            File attachment = getPDF(paymentId);
-            if (attachment != null)
-                email.addAttachment(attachment);
-
-            if (!email.isValid() && !email.isValid(true)) {
-                addLog(0, null, null, employee.getName() + " @Email@ @NotValid@ " + email);
-                log.warning("NOT VALID - " + email);
-                return Boolean.FALSE;
-            }
-            boolean ok = EMail.SENT_OK.equals(email.send());
-            if (ok) {
-                addLog(0, null, null, employee.getName() + " @Email@ @OK@");
-                log.fine(employee.getURL());
-            } else
-                log.warning("FAILURE - " + employee.getURL());
-
-            addLog(0, null, null, (ok ? "@OK@" : "@ERROR@") + " - " + email.getFrom().getAddress());
-            return ok;
+            Arrays.asList(MUser.getOfBPartner(getCtx(), employee.getC_BPartner_ID(), get_TrxName())).forEach(user -> notifier.addRecipient(user.getAD_User_ID()));
+            //	A message
+            addLog(0, null, null, employee.getName() + " @MessageAddedToQueue@");
+			//	Add to queue
+			notifier.addToQueue();
+            return true;
         } catch (Exception e) {
             return Boolean.FALSE;
         }
