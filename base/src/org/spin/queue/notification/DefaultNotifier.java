@@ -44,6 +44,7 @@ import org.spin.model.MADAppRegistration;
 import org.spin.model.MADAppSupport;
 import org.spin.model.MADUserSocialMedia;
 import org.spin.queue.model.MADQueue;
+import org.spin.queue.model.MADQueueType;
 import org.spin.queue.notification.model.MADNotificationQueue;
 import org.spin.queue.notification.model.MADNotificationRecipient;
 import org.spin.queue.notification.support.INotification;
@@ -77,29 +78,29 @@ public class DefaultNotifier extends QueueManager {
 	private static CCache<String, MADAppRegistration> notifierCache = new CCache<String, MADAppRegistration>(MADAppRegistration.Table_Name, 30, 0);
 	
 	/** Default Notifier = NTF */
-	public static final String QUEUETYPE_DefaultNotifier = "NTF";
+	public static final String QUEUETYPE_DefaultNotifier = MADQueueType.QUEUETYPE_SystemNotification;
 	/**	Email Service	*/
-	public static final String DefaultNotificationType_Notes = "NTE";
+	public static final String DefaultNotificationType_Notes = MADAppSupport.APPLICATIONTYPE_Notes;
 	/**	Internal Notes	*/
-	public static final String DefaultNotificationType_EMail = "EMA";
+	public static final String DefaultNotificationType_EMail = MADAppSupport.APPLICATIONTYPE_EMail;
 	/**	Twitter	*/
-	public static final String DefaultNotificationType_Twitter = "STW";
+	public static final String DefaultNotificationType_Twitter = MADAppSupport.APPLICATIONTYPE_Twitter;
 	/**	Facebook	*/
-	public static final String DefaultNotificationType_Facebook = "SFA";
+	public static final String DefaultNotificationType_Facebook = MADAppSupport.APPLICATIONTYPE_Facebook;
 	/**	YouTube	*/
-	public static final String DefaultNotificationType_YouTube = "SYT";
+	public static final String DefaultNotificationType_YouTube = MADAppSupport.APPLICATIONTYPE_YouTube;
 	/**	Instagram	*/
-	public static final String DefaultNotificationType_Instagram = "SIG";
+	public static final String DefaultNotificationType_Instagram = MADAppSupport.APPLICATIONTYPE_Instagram;
 	/**	Skype	*/
-	public static final String DefaultNotificationType_Skype = "SSK";
+	public static final String DefaultNotificationType_Skype = MADAppSupport.APPLICATIONTYPE_Skype;
 	/**	LinkedIn	*/
-	public static final String DefaultNotificationType_LinkedIn = "SIN";
+	public static final String DefaultNotificationType_LinkedIn = MADAppSupport.APPLICATIONTYPE_LinkedIn;
 	/**	SnapChat	*/
-	public static final String DefaultNotificationType_SnapChat = "SSN";
+	public static final String DefaultNotificationType_SnapChat = MADAppSupport.APPLICATIONTYPE_SnapChat;
 	/**	Telegram	*/
-	public static final String DefaultNotificationType_Telegram = "STG";
+	public static final String DefaultNotificationType_Telegram = MADAppSupport.APPLICATIONTYPE_Telegram;
 	/**	WhatsApp	*/
-	public static final String DefaultNotificationType_WhatsApp = "SWH";
+	public static final String DefaultNotificationType_WhatsApp = MADAppSupport.APPLICATIONTYPE_WhatsApp;
 	/**	User Defined	*/
 	public static final String DefaultNotificationType_UserDefined = "UDP";
 	
