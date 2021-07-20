@@ -658,23 +658,37 @@ public class MUser extends X_AD_User
 	 * 	Get Notification via EMail
 	 *	@return true if email
 	 */
-	public boolean isNotificationEMail()
-	{
+	public boolean isNotificationEMail() {
 		String s = getNotificationType();
 		return s == null || NOTIFICATIONTYPE_EMail.equals(s)
-				|| NOTIFICATIONTYPE_EMailPlusNotice.equals(s);
+				|| NOTIFICATIONTYPE_EMailPlusNotice.equals(s)
+				|| NOTIFICATIONTYPE_EMailPlusSocialMedia.equals(s)
+				|| NOTIFICATIONTYPE_AllPossibleMeans.equals(s);
 	}	//	isNotificationEMail
 	
 	/**
 	 * 	Get Notification via Note
 	 *	@return true if note
 	 */
-	public boolean isNotificationNote()
-	{
+	public boolean isNotificationNote() {
 		String s = getNotificationType();
 		return s != null && (NOTIFICATIONTYPE_Notice.equals(s)
-							|| NOTIFICATIONTYPE_EMailPlusNotice.equals(s));
+							|| NOTIFICATIONTYPE_EMailPlusNotice.equals(s)
+							|| NOTIFICATIONTYPE_NoticePlusSocialMedia.equals(s)
+							|| NOTIFICATIONTYPE_AllPossibleMeans.equals(s));
 	}	//	isNotificationNote
+
+	/**
+	 * Get notification via note
+	 * @return
+	 */
+	public boolean isNotificationSocialMedia() {
+		String s = getNotificationType();
+		return s != null && (NOTIFICATIONTYPE_SocialMedia.equals(s)
+				|| NOTIFICATIONTYPE_EMailPlusSocialMedia.equals(s)
+				|| NOTIFICATIONTYPE_NoticePlusSocialMedia.equals(s)
+				|| NOTIFICATIONTYPE_AllPossibleMeans.equals(s));
+	}	//	isNotificationSocialMedia
 	
 	
 	/**************************************************************************

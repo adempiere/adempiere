@@ -31,7 +31,7 @@ public class X_AD_QueueType extends PO implements I_AD_QueueType, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20210601L;
+	private static final long serialVersionUID = 20210720L;
 
     /** Standard Constructor */
     public X_AD_QueueType (Properties ctx, int AD_QueueType_ID, String trxName)
@@ -165,6 +165,8 @@ public class X_AD_QueueType extends PO implements I_AD_QueueType, I_Persistent
 
 	/** QueueType AD_Reference_ID=54274 */
 	public static final int QUEUETYPE_AD_Reference_ID=54274;
+	/** System Notification = NTF */
+	public static final String QUEUETYPE_SystemNotification = "NTF";
 	/** Queue Test Loader = QTL */
 	public static final String QUEUETYPE_QueueTestLoader = "QTL";
 	/** Set Queue Type.
