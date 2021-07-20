@@ -27,10 +27,10 @@ import org.compiere.model.MInterestArea;
 import org.compiere.model.MMailText;
 import org.compiere.model.MStore;
 import org.compiere.model.MUser;
-import org.compiere.model.MUserMail;
 import org.compiere.util.DB;
-import org.compiere.util.EMail;
 import org.compiere.util.Msg;
+import org.spin.queue.notification.DefaultNotifier;
+import org.spin.queue.util.QueueLoader;
 
 /**
  *  Send Mail to Interest Area Subscribers
@@ -254,61 +254,41 @@ public class SendMailText extends SvrProcess
 	/**
 	 * 	Send Individual Mail
 	 *	@param Name user name
-	 *	@param AD_User_ID user
+	 *	@param userId user
 	 *	@param unsubscribe unsubscribe message
 	 *	@return true if mail has been sent
 	 */
-	private Boolean sendIndividualMail (String Name, int AD_User_ID, String unsubscribe)
-	{
+	private Boolean sendIndividualMail (String Name, int userId, String unsubscribe) {
 		//	Prevent two email
-		Integer ii = new Integer (AD_User_ID);
+		Integer ii = new Integer (userId);
 		if (m_list.contains(ii))
 			return null;
 		m_list.add(ii);
 		//
-		MUser to = new MUser (getCtx(), AD_User_ID, null);
-		m_MailText.setUser(AD_User_ID);		//	parse context
+		MUser to = new MUser (getCtx(), userId, get_TrxName());
+		m_MailText.setUser(userId);		//	parse context
 		String message = m_MailText.getMailText(true);
 		//	Unsubscribe
-		if (unsubscribe != null)
+		if (unsubscribe != null) {
 			message += unsubscribe;
-		//
-		EMail email = m_client.createEMail(m_from, to, m_MailText.getMailHeader(), message);
-		if (email == null) {
-			String errorMessage = "@RequestActionEMailError@ ";
-			if (m_from != null && m_from.getEMail() != null)
-				errorMessage =  errorMessage + " @From@ " + m_from.getEMail();
-			if (to != null && to.getEMail() != null)
-				errorMessage = errorMessage + " @To@ " + to.getEMail();
-
-			addLog(0, null, null, errorMessage);
-			return false;
 		}
-
-		if (m_MailText.isHtml())
-			email.setMessageHTML(m_MailText.getMailHeader(), message);
-		else
-		{
-			email.setSubject (m_MailText.getMailHeader());
-			email.setMessageText (message);
-		}
-		if (!email.isValid() && !email.isValid(true))
-		{
-			log.warning("NOT VALID - " + email);
-			to.setIsActive(false);
-			to.addDescription("Invalid EMail");
-			to.saveEx();
-			return Boolean.FALSE;
-		}
-		boolean OK = EMail.SENT_OK.equals(email.send());
-		new MUserMail(m_MailText, AD_User_ID, email).saveEx();
-		//
-		if (OK)
-			log.fine(to.getEMail());
-		else
-			log.warning("FAILURE - " + to.getEMail());
-		addLog(0, null, null, (OK ? "@OK@" : "@ERROR@")  + " @From@ " + m_from.getEMail() +" @To@ " + to.getEMail());
-		return new Boolean(OK);
+		//	Get instance for notifier
+		DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+				.withContext(getCtx())
+				.withTransactionName(get_TrxName());
+		//	Send notification to queue
+		notifier
+			.clearMessage()
+			.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+			.withUserId(m_from.getAD_User_ID())
+			.addRecipient(to.getAD_User_ID())
+			.withText(message)
+			.withDescription(m_MailText.getMailHeader());
+		//	Add to queue
+		notifier.addToQueue();
+		//	Notify
+		addLog(0, null, null, "@OK@" + " @From@ " + m_from.getName() +" @To@ " + to.getName());
+		return true;
 	}	//	sendIndividualMail
 
 }	//	SendMailText
