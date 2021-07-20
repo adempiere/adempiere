@@ -22,12 +22,13 @@ import org.compiere.model.MClient;
 import org.compiere.model.MClientInfo;
 import org.compiere.model.MMailText;
 import org.compiere.model.MUser;
-import org.compiere.model.MUserMail;
 import org.compiere.util.AdempiereUserError;
-import org.compiere.util.EMail;
 import org.compiere.util.Env;
+import org.compiere.util.Trx;
 import org.compiere.util.Util;
 import org.spin.model.MADTokenDefinition;
+import org.spin.queue.notification.DefaultNotifier;
+import org.spin.queue.util.QueueLoader;
 
 
 /**
@@ -85,26 +86,24 @@ public class GeneratePassword  {
 		text.setPO(TokenGeneratorHandler.getInstance().getToken(MADTokenDefinition.TOKENTYPE_URLTokenUsedAsURL));
 		text.setUser(user);
 		//	
-		EMail email = client.createEMail(user.getEMail(), null, null);
-		//	
-		String msg = null;
-		if (!email.isValid()) {
-			msg = "@RequestActionEMailError@ Invalid EMail: " + user;
-			throw new AdempiereUserError (
-					"@RequestActionEMailError@ Invalid EMail: " + user);
-		}
-		//text.setUser(user);	//	variable context
 		String message = text.getMailText(true);
-		email.setMessageHTML(text.getMailHeader(), message);
-		//
-		msg = email.send();
-		MUserMail um = new MUserMail(text, user.getAD_User_ID(), email);
-		um.saveEx();
-		if (!msg.equals(EMail.SENT_OK)) {
-			throw new AdempiereUserError (
-					user.getName() + " @RequestActionEMailError@ " + msg);
-		}
-  	  	return msg ;
+		//	
+		Trx.run(transactionName -> {
+			//	Get instance for notifier
+			DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+					.withContext(Env.getCtx())
+					.withTransactionName(transactionName);
+			//	Send notification to queue
+			notifier
+				.clearMessage()
+				.withApplicationType(DefaultNotifier.DefaultNotificationType_EMail)
+				.addRecipient(user.getAD_User_ID(), user.getEMail())
+				.withText(message)
+				.withDescription(text.getMailHeader());
+			//	Add to queue
+			notifier.addToQueue();
+		});
+  	  	return user.getName() + ": @Ok@";
 	}
 
 }
