@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Queue: Rename class for Senders" ReleaseNo="3.9.4" SeqNo="8820">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54542" Action="U" Record_ID="50016" Table="AD_AppSupport">
+        <Data AD_Column_ID="91316" Column="Classname" oldValue="org.spin.queue.notification.support.EMail">org.spin.queue.notification.support.EMailSender</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="54542" Action="U" Record_ID="50017" Table="AD_AppSupport">
+        <Data AD_Column_ID="91316" Column="Classname" oldValue="org.spin.queue.notification.support.Notes">org.spin.queue.notification.support.NoteSender</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
