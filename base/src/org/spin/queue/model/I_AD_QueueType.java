@@ -14,61 +14,33 @@
  * For the text or an alternative of this public license, you may reach us    *
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
-package org.spin.model;
+package org.spin.queue.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_AppRegistration
+/** Generated Interface for AD_QueueType
  *  @author Adempiere (generated) 
  *  @version Release 3.9.3
  */
-public interface I_AD_AppRegistration 
+public interface I_AD_QueueType 
 {
 
-    /** TableName=AD_AppRegistration */
-    public static final String Table_Name = "AD_AppRegistration";
+    /** TableName=AD_QueueType */
+    public static final String Table_Name = "AD_QueueType";
 
-    /** AD_Table_ID=54540 */
+    /** AD_Table_ID=54843 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
 
-    /** AccessLevel = 6 - System - Client 
+    /** AccessLevel = 4 - System 
      */
-    BigDecimal accessLevel = BigDecimal.valueOf(6);
+    BigDecimal accessLevel = BigDecimal.valueOf(4);
 
     /** Load Meta Data */
-
-    /** Column name AD_AppRegistration_ID */
-    public static final String COLUMNNAME_AD_AppRegistration_ID = "AD_AppRegistration_ID";
-
-	/** Set Application Registration.
-	  * External Application Registration
-	  */
-	public void setAD_AppRegistration_ID (int AD_AppRegistration_ID);
-
-	/** Get Application Registration.
-	  * External Application Registration
-	  */
-	public int getAD_AppRegistration_ID();
-
-    /** Column name AD_AppSupport_ID */
-    public static final String COLUMNNAME_AD_AppSupport_ID = "AD_AppSupport_ID";
-
-	/** Set App Support.
-	  * App Support for External Connection
-	  */
-	public void setAD_AppSupport_ID (int AD_AppSupport_ID);
-
-	/** Get App Support.
-	  * App Support for External Connection
-	  */
-	public int getAD_AppSupport_ID();
-
-	public org.spin.model.I_AD_AppSupport getAD_AppSupport() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -91,33 +63,27 @@ public interface I_AD_AppRegistration
 	  */
 	public int getAD_Org_ID();
 
-    /** Column name AD_User_ID */
-    public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
+    /** Column name AD_QueueType_ID */
+    public static final String COLUMNNAME_AD_QueueType_ID = "AD_QueueType_ID";
 
-	/** Set User/Contact.
-	  * User within the system - Internal or Business Partner Contact
+	/** Set Queue Type	  */
+	public void setAD_QueueType_ID (int AD_QueueType_ID);
+
+	/** Get Queue Type	  */
+	public int getAD_QueueType_ID();
+
+    /** Column name Classname */
+    public static final String COLUMNNAME_Classname = "Classname";
+
+	/** Set Classname.
+	  * Java Classname
 	  */
-	public void setAD_User_ID (int AD_User_ID);
+	public void setClassname (String Classname);
 
-	/** Get User/Contact.
-	  * User within the system - Internal or Business Partner Contact
+	/** Get Classname.
+	  * Java Classname
 	  */
-	public int getAD_User_ID();
-
-	public org.compiere.model.I_AD_User getAD_User() throws RuntimeException;
-
-    /** Column name ApplicationType */
-    public static final String COLUMNNAME_ApplicationType = "ApplicationType";
-
-	/** Set Application Type.
-	  * Application Type, used for identify a Application Type like Message Queue
-	  */
-	public void setApplicationType (String ApplicationType);
-
-	/** Get Application Type.
-	  * Application Type, used for identify a Application Type like Message Queue
-	  */
-	public String getApplicationType();
+	public String getClassname();
 
     /** Column name Created */
     public static final String COLUMNNAME_Created = "Created";
@@ -148,14 +114,18 @@ public interface I_AD_AppRegistration
 	  */
 	public String getDescription();
 
-    /** Column name Host */
-    public static final String COLUMNNAME_Host = "Host";
+    /** Column name Help */
+    public static final String COLUMNNAME_Help = "Help";
 
-	/** Set Host	  */
-	public void setHost (String Host);
+	/** Set Comment/Help.
+	  * Comment or Hint
+	  */
+	public void setHelp (String Help);
 
-	/** Get Host	  */
-	public String getHost();
+	/** Get Comment/Help.
+	  * Comment or Hint
+	  */
+	public String getHelp();
 
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
@@ -183,27 +153,18 @@ public interface I_AD_AppRegistration
 	  */
 	public String getName();
 
-    /** Column name Port */
-    public static final String COLUMNNAME_Port = "Port";
+    /** Column name QueueType */
+    public static final String COLUMNNAME_QueueType = "QueueType";
 
-	/** Set Port	  */
-	public void setPort (int Port);
-
-	/** Get Port	  */
-	public int getPort();
-
-    /** Column name Timeout */
-    public static final String COLUMNNAME_Timeout = "Timeout";
-
-	/** Set Timeout.
-	  * Is Timeout (In milliseconds) for sending or receive data
+	/** Set Queue Type.
+	  * Queue Type define the queue implementation for manage
 	  */
-	public void setTimeout (int Timeout);
+	public void setQueueType (String QueueType);
 
-	/** Get Timeout.
-	  * Is Timeout (In milliseconds) for sending or receive data
+	/** Get Queue Type.
+	  * Queue Type define the queue implementation for manage
 	  */
-	public int getTimeout();
+	public String getQueueType();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -246,17 +207,4 @@ public interface I_AD_AppRegistration
 	  * Search key for the record in the format required - must be unique
 	  */
 	public String getValue();
-
-    /** Column name VersionNo */
-    public static final String COLUMNNAME_VersionNo = "VersionNo";
-
-	/** Set Version No.
-	  * Version Number
-	  */
-	public void setVersionNo (String VersionNo);
-
-	/** Get Version No.
-	  * Version Number
-	  */
-	public String getVersionNo();
 }

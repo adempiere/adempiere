@@ -14,24 +14,24 @@
  * For the text or an alternative of this public license, you may reach us    *
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
-package org.spin.model;
+package org.spin.queue.notification.model;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Interface for AD_AppRegistration
+/** Generated Interface for AD_NotificationQueue
  *  @author Adempiere (generated) 
  *  @version Release 3.9.3
  */
-public interface I_AD_AppRegistration 
+public interface I_AD_NotificationQueue 
 {
 
-    /** TableName=AD_AppRegistration */
-    public static final String Table_Name = "AD_AppRegistration";
+    /** TableName=AD_NotificationQueue */
+    public static final String Table_Name = "AD_NotificationQueue";
 
-    /** AD_Table_ID=54540 */
+    /** AD_Table_ID=54845 */
     public static final int Table_ID = MTable.getTable_ID(Table_Name);
 
     KeyNamePair Model = new KeyNamePair(Table_ID, Table_Name);
@@ -54,6 +54,8 @@ public interface I_AD_AppRegistration
 	  * External Application Registration
 	  */
 	public int getAD_AppRegistration_ID();
+
+	public org.spin.model.I_AD_AppRegistration getAD_AppRegistration() throws RuntimeException;
 
     /** Column name AD_AppSupport_ID */
     public static final String COLUMNNAME_AD_AppSupport_ID = "AD_AppSupport_ID";
@@ -78,6 +80,19 @@ public interface I_AD_AppRegistration
 	  */
 	public int getAD_Client_ID();
 
+    /** Column name AD_NotificationQueue_ID */
+    public static final String COLUMNNAME_AD_NotificationQueue_ID = "AD_NotificationQueue_ID";
+
+	/** Set Notification Queue.
+	  * Notification Queue used for manage all system notification
+	  */
+	public void setAD_NotificationQueue_ID (int AD_NotificationQueue_ID);
+
+	/** Get Notification Queue.
+	  * Notification Queue used for manage all system notification
+	  */
+	public int getAD_NotificationQueue_ID();
+
     /** Column name AD_Org_ID */
     public static final String COLUMNNAME_AD_Org_ID = "AD_Org_ID";
 
@@ -90,6 +105,17 @@ public interface I_AD_AppRegistration
 	  * Organizational entity within client
 	  */
 	public int getAD_Org_ID();
+
+    /** Column name AD_Queue_ID */
+    public static final String COLUMNNAME_AD_Queue_ID = "AD_Queue_ID";
+
+	/** Set System Queue	  */
+	public void setAD_Queue_ID (int AD_Queue_ID);
+
+	/** Get System Queue	  */
+	public int getAD_Queue_ID();
+
+	public org.spin.queue.model.I_AD_Queue getAD_Queue() throws RuntimeException;
 
     /** Column name AD_User_ID */
     public static final String COLUMNNAME_AD_User_ID = "AD_User_ID";
@@ -148,15 +174,6 @@ public interface I_AD_AppRegistration
 	  */
 	public String getDescription();
 
-    /** Column name Host */
-    public static final String COLUMNNAME_Host = "Host";
-
-	/** Set Host	  */
-	public void setHost (String Host);
-
-	/** Get Host	  */
-	public String getHost();
-
     /** Column name IsActive */
     public static final String COLUMNNAME_IsActive = "IsActive";
 
@@ -170,40 +187,27 @@ public interface I_AD_AppRegistration
 	  */
 	public boolean isActive();
 
-    /** Column name Name */
-    public static final String COLUMNNAME_Name = "Name";
+    /** Column name Processed */
+    public static final String COLUMNNAME_Processed = "Processed";
 
-	/** Set Name.
-	  * Alphanumeric identifier of the entity
+	/** Set Processed.
+	  * The document has been processed
 	  */
-	public void setName (String Name);
+	public void setProcessed (boolean Processed);
 
-	/** Get Name.
-	  * Alphanumeric identifier of the entity
+	/** Get Processed.
+	  * The document has been processed
 	  */
-	public String getName();
+	public boolean isProcessed();
 
-    /** Column name Port */
-    public static final String COLUMNNAME_Port = "Port";
+    /** Column name Text */
+    public static final String COLUMNNAME_Text = "Text";
 
-	/** Set Port	  */
-	public void setPort (int Port);
+	/** Set Description	  */
+	public void setText (String Text);
 
-	/** Get Port	  */
-	public int getPort();
-
-    /** Column name Timeout */
-    public static final String COLUMNNAME_Timeout = "Timeout";
-
-	/** Set Timeout.
-	  * Is Timeout (In milliseconds) for sending or receive data
-	  */
-	public void setTimeout (int Timeout);
-
-	/** Get Timeout.
-	  * Is Timeout (In milliseconds) for sending or receive data
-	  */
-	public int getTimeout();
+	/** Get Description	  */
+	public String getText();
 
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
@@ -233,30 +237,4 @@ public interface I_AD_AppRegistration
 	  * Immutable Universally Unique Identifier
 	  */
 	public String getUUID();
-
-    /** Column name Value */
-    public static final String COLUMNNAME_Value = "Value";
-
-	/** Set Search Key.
-	  * Search key for the record in the format required - must be unique
-	  */
-	public void setValue (String Value);
-
-	/** Get Search Key.
-	  * Search key for the record in the format required - must be unique
-	  */
-	public String getValue();
-
-    /** Column name VersionNo */
-    public static final String COLUMNNAME_VersionNo = "VersionNo";
-
-	/** Set Version No.
-	  * Version Number
-	  */
-	public void setVersionNo (String VersionNo);
-
-	/** Get Version No.
-	  * Version Number
-	  */
-	public String getVersionNo();
 }

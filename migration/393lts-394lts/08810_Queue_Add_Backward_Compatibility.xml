@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Queue: Add Backward Compatibility" ReleaseNo="3.9.4" SeqNo="8810">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55614" Table="AD_Ref_List">
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="564" Column="Created">2021-06-02 11:34:55.605</Data>
+        <Data AD_Column_ID="566" Column="Updated">2021-06-02 11:34:55.605</Data>
+        <Data AD_Column_ID="200" Column="Value">EMA</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA23</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">54081</Data>
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="149" Column="Name">EMail</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55614</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84390" Column="UUID">925f6f6c-61bc-4e7b-945a-1f8b51544209</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55614" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="707" Column="Created">2021-06-02 11:34:56.813</Data>
+        <Data AD_Column_ID="709" Column="Updated">2021-06-02 11:34:56.813</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="338" Column="Name">EMail</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55614</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID">051cb631-444d-4edc-8913-46bb20574787</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="30" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55614" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="EMail">Correo Electrónico</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55614">55614</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="40" StepType="AD">
+      <PO AD_Table_ID="104" Action="I" Record_ID="55615" Table="AD_Ref_List">
+        <Data AD_Column_ID="150" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="152" Column="ValidFrom" isNewNull="true"/>
+        <Data AD_Column_ID="563" Column="IsActive">true</Data>
+        <Data AD_Column_ID="564" Column="Created">2021-06-02 11:35:24.087</Data>
+        <Data AD_Column_ID="566" Column="Updated">2021-06-02 11:35:24.087</Data>
+        <Data AD_Column_ID="200" Column="Value">NTE</Data>
+        <Data AD_Column_ID="7712" Column="EntityType">ECA23</Data>
+        <Data AD_Column_ID="151" Column="AD_Reference_ID">54081</Data>
+        <Data AD_Column_ID="149" Column="Name">Notes</Data>
+        <Data AD_Column_ID="153" Column="ValidTo" isNewNull="true"/>
+        <Data AD_Column_ID="148" Column="AD_Ref_List_ID">55615</Data>
+        <Data AD_Column_ID="372" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="371" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="565" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="567" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84390" Column="UUID">d8553323-17d5-4eed-a3a1-3f43307d4875</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="136" Action="I" Record_ID="55615" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="707" Column="Created">2021-06-02 11:35:24.953</Data>
+        <Data AD_Column_ID="709" Column="Updated">2021-06-02 11:35:24.953</Data>
+        <Data AD_Column_ID="706" Column="IsActive">true</Data>
+        <Data AD_Column_ID="338" Column="Name">Notes</Data>
+        <Data AD_Column_ID="340" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="339" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="1216" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="1215" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="710" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="708" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID">55615</Data>
+        <Data AD_Column_ID="337" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84391" Column="UUID">4b0c90f1-8011-43da-9c02-c4c836654eb7</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="136" Action="U" Record_ID="55615" Table="AD_Ref_List_Trl">
+        <Data AD_Column_ID="338" Column="Name" oldValue="Notes">Notas Internas</Data>
+        <Data AD_Column_ID="336" Column="AD_Ref_List_ID" oldValue="55615">55615</Data>
+        <Data AD_Column_ID="337" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="54542" Action="I" Record_ID="50016" Table="AD_AppSupport">
+        <Data AD_Column_ID="91310" Column="UUID">6167d5c9-2f2a-4f66-ab5d-499d8491035c</Data>
+        <Data AD_Column_ID="91312" Column="Value">DEMA</Data>
+        <Data AD_Column_ID="91313" Column="Name">Default Email</Data>
+        <Data AD_Column_ID="91314" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91315" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="91316" Column="Classname">org.spin.queue.notification.EMail</Data>
+        <Data AD_Column_ID="91308" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91306" Column="Created">2021-06-02 11:45:00.695</Data>
+        <Data AD_Column_ID="91307" Column="Updated">2021-06-02 11:45:00.695</Data>
+        <Data AD_Column_ID="91303" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91304" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91305" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91309" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91317" Column="ApplicationType">EMA</Data>
+        <Data AD_Column_ID="91318" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="91311" Column="AD_AppSupport_ID">50016</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="54542" Action="I" Record_ID="50017" Table="AD_AppSupport">
+        <Data AD_Column_ID="91304" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="91305" Column="IsActive">true</Data>
+        <Data AD_Column_ID="91309" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="91310" Column="UUID">f58b2522-4eb9-4904-8165-a1ceb8cb97e1</Data>
+        <Data AD_Column_ID="91312" Column="Value">DNOT</Data>
+        <Data AD_Column_ID="91313" Column="Name">Default Notes</Data>
+        <Data AD_Column_ID="91314" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="91315" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="91316" Column="Classname">org.spin.queue.notification.support.Notes</Data>
+        <Data AD_Column_ID="91308" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="91306" Column="Created">2021-06-02 11:45:35.117</Data>
+        <Data AD_Column_ID="91307" Column="Updated">2021-06-02 11:45:35.117</Data>
+        <Data AD_Column_ID="91303" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="91317" Column="ApplicationType">NTE</Data>
+        <Data AD_Column_ID="91318" Column="IsDefault">false</Data>
+        <Data AD_Column_ID="91311" Column="AD_AppSupport_ID">50017</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="54542" Action="U" Record_ID="50016" Table="AD_AppSupport">
+        <Data AD_Column_ID="91316" Column="Classname" oldValue="org.spin.queue.notification.EMail">org.spin.queue.notification.support.EMail</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Queue: Add Test Queue Manager Implementation" ReleaseNo="3.9.4" SeqNo="8320">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="54843" Action="I" Record_ID="50002" Table="AD_QueueType">
+        <Data AD_Column_ID="98903" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="98902" Column="AD_QueueType_ID">50002</Data>
+        <Data AD_Column_ID="98904" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="98911" Column="Classname">org.spin.queue.test.DefaultTest</Data>
+        <Data AD_Column_ID="98906" Column="Created">2021-06-01 11:54:18.258</Data>
+        <Data AD_Column_ID="98908" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="98914" Column="Description">Was created for make a test for queue</Data>
+        <Data AD_Column_ID="98915" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="98905" Column="IsActive">true</Data>
+        <Data AD_Column_ID="98912" Column="Name">Default Test Queue</Data>
+        <Data AD_Column_ID="98916" Column="QueueType">QTL</Data>
+        <Data AD_Column_ID="98907" Column="Updated">2021-06-01 11:54:18.258</Data>
+        <Data AD_Column_ID="98909" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="98910" Column="UUID">d9e036ec-2500-4447-97c7-78dc81c4c6d9</Data>
+        <Data AD_Column_ID="98913" Column="Value">DTQ</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>

@@ -15,17 +15,17 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.spin.model;
+package org.spin.queue.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for AD_AppSupport
+/** Generated Model for AD_QueueType
  *  @author Adempiere (generated) 
  *  @version Release 3.9.3 - $Id$ */
-public class X_AD_AppSupport extends PO implements I_AD_AppSupport, I_Persistent 
+public class X_AD_QueueType extends PO implements I_AD_QueueType, I_Persistent 
 {
 
 	/**
@@ -34,21 +34,21 @@ public class X_AD_AppSupport extends PO implements I_AD_AppSupport, I_Persistent
 	private static final long serialVersionUID = 20210720L;
 
     /** Standard Constructor */
-    public X_AD_AppSupport (Properties ctx, int AD_AppSupport_ID, String trxName)
+    public X_AD_QueueType (Properties ctx, int AD_QueueType_ID, String trxName)
     {
-      super (ctx, AD_AppSupport_ID, trxName);
-      /** if (AD_AppSupport_ID == 0)
+      super (ctx, AD_QueueType_ID, trxName);
+      /** if (AD_QueueType_ID == 0)
         {
-			setAD_AppSupport_ID (0);
-			setApplicationType (null);
+			setAD_QueueType_ID (0);
 			setClassname (null);
 			setName (null);
+			setQueueType (null);
 			setValue (null);
         } */
     }
 
     /** Load Constructor */
-    public X_AD_AppSupport (Properties ctx, ResultSet rs, String trxName)
+    public X_AD_QueueType (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -70,82 +70,29 @@ public class X_AD_AppSupport extends PO implements I_AD_AppSupport, I_Persistent
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_AD_AppSupport[")
+      StringBuffer sb = new StringBuffer ("X_AD_QueueType[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
 
-	/** Set App Support.
-		@param AD_AppSupport_ID 
-		App Support for External Connection
-	  */
-	public void setAD_AppSupport_ID (int AD_AppSupport_ID)
+	/** Set Queue Type.
+		@param AD_QueueType_ID Queue Type	  */
+	public void setAD_QueueType_ID (int AD_QueueType_ID)
 	{
-		if (AD_AppSupport_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_AppSupport_ID, null);
+		if (AD_QueueType_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_QueueType_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_AD_AppSupport_ID, Integer.valueOf(AD_AppSupport_ID));
+			set_ValueNoCheck (COLUMNNAME_AD_QueueType_ID, Integer.valueOf(AD_QueueType_ID));
 	}
 
-	/** Get App Support.
-		@return App Support for External Connection
-	  */
-	public int getAD_AppSupport_ID () 
+	/** Get Queue Type.
+		@return Queue Type	  */
+	public int getAD_QueueType_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AppSupport_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_QueueType_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
-	}
-
-	/** ApplicationType AD_Reference_ID=54081 */
-	public static final int APPLICATIONTYPE_AD_Reference_ID=54081;
-	/** Message Queue = MQS */
-	public static final String APPLICATIONTYPE_MessageQueue = "MQS";
-	/** WebDav Application = WDV */
-	public static final String APPLICATIONTYPE_WebDavApplication = "WDV";
-	/** Social Media = SMN */
-	public static final String APPLICATIONTYPE_SocialMedia = "SMN";
-	/** Cache Server Provider = CSP */
-	public static final String APPLICATIONTYPE_CacheServerProvider = "CSP";
-	/** EMail = EMA */
-	public static final String APPLICATIONTYPE_EMail = "EMA";
-	/** Notes = NTE */
-	public static final String APPLICATIONTYPE_Notes = "NTE";
-	/** Twitter = STW */
-	public static final String APPLICATIONTYPE_Twitter = "STW";
-	/** Facebook = SFA */
-	public static final String APPLICATIONTYPE_Facebook = "SFA";
-	/** Instagram = SIG */
-	public static final String APPLICATIONTYPE_Instagram = "SIG";
-	/** Skype = SSK */
-	public static final String APPLICATIONTYPE_Skype = "SSK";
-	/** LinkedIn = SIN */
-	public static final String APPLICATIONTYPE_LinkedIn = "SIN";
-	/** SnapChat = SSN */
-	public static final String APPLICATIONTYPE_SnapChat = "SSN";
-	/** Telegram = STG */
-	public static final String APPLICATIONTYPE_Telegram = "STG";
-	/** WhatsApp = SWH */
-	public static final String APPLICATIONTYPE_WhatsApp = "SWH";
-	/** YouTube = SYT */
-	public static final String APPLICATIONTYPE_YouTube = "SYT";
-	/** Set Application Type.
-		@param ApplicationType 
-		Application Type, used for identify a Application Type like Message Queue
-	  */
-	public void setApplicationType (String ApplicationType)
-	{
-
-		set_ValueNoCheck (COLUMNNAME_ApplicationType, ApplicationType);
-	}
-
-	/** Get Application Type.
-		@return Application Type, used for identify a Application Type like Message Queue
-	  */
-	public String getApplicationType () 
-	{
-		return (String)get_Value(COLUMNNAME_ApplicationType);
 	}
 
 	/** Set Classname.
@@ -199,30 +146,6 @@ public class X_AD_AppSupport extends PO implements I_AD_AppSupport, I_Persistent
 		return (String)get_Value(COLUMNNAME_Help);
 	}
 
-	/** Set Default.
-		@param IsDefault 
-		Default value
-	  */
-	public void setIsDefault (boolean IsDefault)
-	{
-		set_Value (COLUMNNAME_IsDefault, Boolean.valueOf(IsDefault));
-	}
-
-	/** Get Default.
-		@return Default value
-	  */
-	public boolean isDefault () 
-	{
-		Object oo = get_Value(COLUMNNAME_IsDefault);
-		if (oo != null) 
-		{
-			 if (oo instanceof Boolean) 
-				 return ((Boolean)oo).booleanValue(); 
-			return "Y".equals(oo);
-		}
-		return false;
-	}
-
 	/** Set Name.
 		@param Name 
 		Alphanumeric identifier of the entity
@@ -238,6 +161,30 @@ public class X_AD_AppSupport extends PO implements I_AD_AppSupport, I_Persistent
 	public String getName () 
 	{
 		return (String)get_Value(COLUMNNAME_Name);
+	}
+
+	/** QueueType AD_Reference_ID=54274 */
+	public static final int QUEUETYPE_AD_Reference_ID=54274;
+	/** System Notification = NTF */
+	public static final String QUEUETYPE_SystemNotification = "NTF";
+	/** Queue Test Loader = QTL */
+	public static final String QUEUETYPE_QueueTestLoader = "QTL";
+	/** Set Queue Type.
+		@param QueueType 
+		Queue Type define the queue implementation for manage
+	  */
+	public void setQueueType (String QueueType)
+	{
+
+		set_Value (COLUMNNAME_QueueType, QueueType);
+	}
+
+	/** Get Queue Type.
+		@return Queue Type define the queue implementation for manage
+	  */
+	public String getQueueType () 
+	{
+		return (String)get_Value(COLUMNNAME_QueueType);
 	}
 
 	/** Set Immutable Universally Unique Identifier.

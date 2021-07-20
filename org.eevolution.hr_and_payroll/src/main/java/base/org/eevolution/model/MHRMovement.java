@@ -899,9 +899,10 @@ public class MHRMovement extends X_HR_Movement
 			}
 			//	
 			final String columnType = concept.getColumnType();
-			int currencyPrecision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(p_ctx, "#C_Currency_ID"));
-			Optional<Integer> conceptStandardPrecisionOptional = Optional.ofNullable((Integer)concept.get_Value("StdPrecision"));
-			
+			int precision = MCurrency.getStdPrecision(getCtx(), Env.getContextAsInt(p_ctx, "#C_Currency_ID"));
+			if(concept.getStdPrecision() > 0) {
+				precision = concept.getStdPrecision();
+			}
 			if(MHRConcept.COLUMNTYPE_Text.equals(columnType)) {
 				setTextMsg(value.toString().trim());
 			} else if(MHRConcept.COLUMNTYPE_Date.equals(columnType)) {
@@ -926,7 +927,7 @@ public class MHRMovement extends X_HR_Movement
 				//	Set from type
 				if(MHRConcept.COLUMNTYPE_Amount.equals(columnType)) {
 					BigDecimal amount = new BigDecimal(doubleValue)
-							.setScale(conceptStandardPrecisionOptional.orElseGet(() -> currencyPrecision),BigDecimal.ROUND_HALF_UP);
+							.setScale(precision, BigDecimal.ROUND_HALF_UP);
 					setAmount(amount);
 					setQty(Env.ZERO);
 				} else {

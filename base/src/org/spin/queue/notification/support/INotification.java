@@ -14,45 +14,20 @@
  * All Rights Reserved.                                                       *
  * Contributor(s): Yamel Senih www.erpya.com                                  *
  *****************************************************************************/
-package org.spin.model;
+package org.spin.queue.notification.support;
 
-import java.sql.ResultSet;
-import java.util.List;
-import java.util.Properties;
-
-import org.compiere.model.Query;
+import org.spin.queue.notification.model.MADNotificationQueue;
+import org.spin.util.support.IAppSupport;
 
 /**
  * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
- *		Add for handle social media for user
+ * Contract for notification
  */
-public class MADUserSocialMedia extends X_AD_UserSocialMedia {
-
-	public MADUserSocialMedia(Properties ctx, int AD_UserSocialMedia_ID, String trxName) {
-		super(ctx, AD_UserSocialMedia_ID, trxName);
-	}
-
-	public MADUserSocialMedia(Properties ctx, ResultSet rs, String trxName) {
-		super(ctx, rs, trxName);
-	}
-
-	/**
-	 * Get user Social Media
-	 * @param ctx
-	 * @param userId
-	 * @param transactionName
-	 * @return
-	 */
-	public static List<MADUserSocialMedia> getSocialMedias (Properties ctx, int userId, String transactionName) {
-		return new Query(ctx, MADUserSocialMedia.Table_Name, MADUserSocialMedia.COLUMNNAME_AD_User_ID + " = ?", transactionName)
-				.setParameters(userId)
-				.setOnlyActiveRecords(true)
-				.list();
-	}	//	get
+public interface INotification extends IAppSupport {
 	
 	/**
-	 * 
+	 * Send notification method from queue
+	 * @param queue
 	 */
-	private static final long serialVersionUID = -7151089570474994623L;
-
+	public void sendNotification(MADNotificationQueue queue);
 }

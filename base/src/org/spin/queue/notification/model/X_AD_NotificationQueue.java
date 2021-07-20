@@ -15,43 +15,38 @@
  * or via info@adempiere.net or http://www.adempiere.net/license.html         *
  *****************************************************************************/
 /** Generated Model - DO NOT CHANGE */
-package org.spin.model;
+package org.spin.queue.notification.model;
 
 import java.sql.ResultSet;
 import java.util.Properties;
 import org.compiere.model.*;
 import org.compiere.util.KeyNamePair;
 
-/** Generated Model for AD_AppRegistration
+/** Generated Model for AD_NotificationQueue
  *  @author Adempiere (generated) 
  *  @version Release 3.9.3 - $Id$ */
-public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_Persistent 
+public class X_AD_NotificationQueue extends PO implements I_AD_NotificationQueue, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20210720L;
+	private static final long serialVersionUID = 20210602L;
 
     /** Standard Constructor */
-    public X_AD_AppRegistration (Properties ctx, int AD_AppRegistration_ID, String trxName)
+    public X_AD_NotificationQueue (Properties ctx, int AD_NotificationQueue_ID, String trxName)
     {
-      super (ctx, AD_AppRegistration_ID, trxName);
-      /** if (AD_AppRegistration_ID == 0)
+      super (ctx, AD_NotificationQueue_ID, trxName);
+      /** if (AD_NotificationQueue_ID == 0)
         {
-			setAD_AppRegistration_ID (0);
-			setAD_AppSupport_ID (0);
+			setAD_NotificationQueue_ID (0);
+			setAD_Queue_ID (0);
 			setApplicationType (null);
-			setHost (null);
-			setName (null);
-			setPort (0);
-			setValue (null);
-			setVersionNo (null);
         } */
     }
 
     /** Load Constructor */
-    public X_AD_AppRegistration (Properties ctx, ResultSet rs, String trxName)
+    public X_AD_NotificationQueue (Properties ctx, ResultSet rs, String trxName)
     {
       super (ctx, rs, trxName);
     }
@@ -73,10 +68,15 @@ public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_
 
     public String toString()
     {
-      StringBuffer sb = new StringBuffer ("X_AD_AppRegistration[")
+      StringBuffer sb = new StringBuffer ("X_AD_NotificationQueue[")
         .append(get_ID()).append("]");
       return sb.toString();
     }
+
+	public org.spin.model.I_AD_AppRegistration getAD_AppRegistration() throws RuntimeException
+    {
+		return (org.spin.model.I_AD_AppRegistration)MTable.get(getCtx(), org.spin.model.I_AD_AppRegistration.Table_Name)
+			.getPO(getAD_AppRegistration_ID(), get_TrxName());	}
 
 	/** Set Application Registration.
 		@param AD_AppRegistration_ID 
@@ -85,9 +85,9 @@ public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_
 	public void setAD_AppRegistration_ID (int AD_AppRegistration_ID)
 	{
 		if (AD_AppRegistration_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_AppRegistration_ID, null);
+			set_Value (COLUMNNAME_AD_AppRegistration_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_AD_AppRegistration_ID, Integer.valueOf(AD_AppRegistration_ID));
+			set_Value (COLUMNNAME_AD_AppRegistration_ID, Integer.valueOf(AD_AppRegistration_ID));
 	}
 
 	/** Get Application Registration.
@@ -113,9 +113,9 @@ public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_
 	public void setAD_AppSupport_ID (int AD_AppSupport_ID)
 	{
 		if (AD_AppSupport_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_AppSupport_ID, null);
+			set_Value (COLUMNNAME_AD_AppSupport_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_AD_AppSupport_ID, Integer.valueOf(AD_AppSupport_ID));
+			set_Value (COLUMNNAME_AD_AppSupport_ID, Integer.valueOf(AD_AppSupport_ID));
 	}
 
 	/** Get App Support.
@@ -124,6 +124,54 @@ public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_
 	public int getAD_AppSupport_ID () 
 	{
 		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AppSupport_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	/** Set Notification Queue.
+		@param AD_NotificationQueue_ID 
+		Notification Queue used for manage all system notification
+	  */
+	public void setAD_NotificationQueue_ID (int AD_NotificationQueue_ID)
+	{
+		if (AD_NotificationQueue_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_NotificationQueue_ID, null);
+		else 
+			set_ValueNoCheck (COLUMNNAME_AD_NotificationQueue_ID, Integer.valueOf(AD_NotificationQueue_ID));
+	}
+
+	/** Get Notification Queue.
+		@return Notification Queue used for manage all system notification
+	  */
+	public int getAD_NotificationQueue_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_NotificationQueue_ID);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
+
+	public org.spin.queue.model.I_AD_Queue getAD_Queue() throws RuntimeException
+    {
+		return (org.spin.queue.model.I_AD_Queue)MTable.get(getCtx(), org.spin.queue.model.I_AD_Queue.Table_Name)
+			.getPO(getAD_Queue_ID(), get_TrxName());	}
+
+	/** Set System Queue.
+		@param AD_Queue_ID System Queue	  */
+	public void setAD_Queue_ID (int AD_Queue_ID)
+	{
+		if (AD_Queue_ID < 1) 
+			set_Value (COLUMNNAME_AD_Queue_ID, null);
+		else 
+			set_Value (COLUMNNAME_AD_Queue_ID, Integer.valueOf(AD_Queue_ID));
+	}
+
+	/** Get System Queue.
+		@return System Queue	  */
+	public int getAD_Queue_ID () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_Queue_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();
@@ -141,9 +189,9 @@ public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_
 	public void setAD_User_ID (int AD_User_ID)
 	{
 		if (AD_User_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_User_ID, null);
+			set_Value (COLUMNNAME_AD_User_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
+			set_Value (COLUMNNAME_AD_User_ID, Integer.valueOf(AD_User_ID));
 	}
 
 	/** Get User/Contact.
@@ -167,28 +215,6 @@ public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_
 	public static final String APPLICATIONTYPE_SocialMedia = "SMN";
 	/** Cache Server Provider = CSP */
 	public static final String APPLICATIONTYPE_CacheServerProvider = "CSP";
-	/** EMail = EMA */
-	public static final String APPLICATIONTYPE_EMail = "EMA";
-	/** Notes = NTE */
-	public static final String APPLICATIONTYPE_Notes = "NTE";
-	/** Twitter = STW */
-	public static final String APPLICATIONTYPE_Twitter = "STW";
-	/** Facebook = SFA */
-	public static final String APPLICATIONTYPE_Facebook = "SFA";
-	/** Instagram = SIG */
-	public static final String APPLICATIONTYPE_Instagram = "SIG";
-	/** Skype = SSK */
-	public static final String APPLICATIONTYPE_Skype = "SSK";
-	/** LinkedIn = SIN */
-	public static final String APPLICATIONTYPE_LinkedIn = "SIN";
-	/** SnapChat = SSN */
-	public static final String APPLICATIONTYPE_SnapChat = "SSN";
-	/** Telegram = STG */
-	public static final String APPLICATIONTYPE_Telegram = "STG";
-	/** WhatsApp = SWH */
-	public static final String APPLICATIONTYPE_WhatsApp = "SWH";
-	/** YouTube = SYT */
-	public static final String APPLICATIONTYPE_YouTube = "SYT";
 	/** Set Application Type.
 		@param ApplicationType 
 		Application Type, used for identify a Application Type like Message Queue
@@ -196,7 +222,7 @@ public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_
 	public void setApplicationType (String ApplicationType)
 	{
 
-		set_ValueNoCheck (COLUMNNAME_ApplicationType, ApplicationType);
+		set_Value (COLUMNNAME_ApplicationType, ApplicationType);
 	}
 
 	/** Get Application Type.
@@ -206,6 +232,14 @@ public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_
 	{
 		return (String)get_Value(COLUMNNAME_ApplicationType);
 	}
+
+    /** Get Record ID/ColumnName
+        @return ID/ColumnName pair
+      */
+    public KeyNamePair getKeyNamePair() 
+    {
+        return new KeyNamePair(get_ID(), String.valueOf(getApplicationType()));
+    }
 
 	/** Set Description.
 		@param Description 
@@ -224,72 +258,42 @@ public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_
 		return (String)get_Value(COLUMNNAME_Description);
 	}
 
-	/** Set Host.
-		@param Host Host	  */
-	public void setHost (String Host)
-	{
-		set_Value (COLUMNNAME_Host, Host);
-	}
-
-	/** Get Host.
-		@return Host	  */
-	public String getHost () 
-	{
-		return (String)get_Value(COLUMNNAME_Host);
-	}
-
-	/** Set Name.
-		@param Name 
-		Alphanumeric identifier of the entity
+	/** Set Processed.
+		@param Processed 
+		The document has been processed
 	  */
-	public void setName (String Name)
+	public void setProcessed (boolean Processed)
 	{
-		set_Value (COLUMNNAME_Name, Name);
+		set_Value (COLUMNNAME_Processed, Boolean.valueOf(Processed));
 	}
 
-	/** Get Name.
-		@return Alphanumeric identifier of the entity
+	/** Get Processed.
+		@return The document has been processed
 	  */
-	public String getName () 
+	public boolean isProcessed () 
 	{
-		return (String)get_Value(COLUMNNAME_Name);
+		Object oo = get_Value(COLUMNNAME_Processed);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
-	/** Set Port.
-		@param Port Port	  */
-	public void setPort (int Port)
+	/** Set Description.
+		@param Text Description	  */
+	public void setText (String Text)
 	{
-		set_Value (COLUMNNAME_Port, Integer.valueOf(Port));
+		set_Value (COLUMNNAME_Text, Text);
 	}
 
-	/** Get Port.
-		@return Port	  */
-	public int getPort () 
+	/** Get Description.
+		@return Description	  */
+	public String getText () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Port);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
-	}
-
-	/** Set Timeout.
-		@param Timeout 
-		Is Timeout (In milliseconds) for sending or receive data
-	  */
-	public void setTimeout (int Timeout)
-	{
-		set_Value (COLUMNNAME_Timeout, Integer.valueOf(Timeout));
-	}
-
-	/** Get Timeout.
-		@return Is Timeout (In milliseconds) for sending or receive data
-	  */
-	public int getTimeout () 
-	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_Timeout);
-		if (ii == null)
-			 return 0;
-		return ii.intValue();
+		return (String)get_Value(COLUMNNAME_Text);
 	}
 
 	/** Set Immutable Universally Unique Identifier.
@@ -307,47 +311,5 @@ public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_
 	public String getUUID () 
 	{
 		return (String)get_Value(COLUMNNAME_UUID);
-	}
-
-	/** Set Search Key.
-		@param Value 
-		Search key for the record in the format required - must be unique
-	  */
-	public void setValue (String Value)
-	{
-		set_Value (COLUMNNAME_Value, Value);
-	}
-
-	/** Get Search Key.
-		@return Search key for the record in the format required - must be unique
-	  */
-	public String getValue () 
-	{
-		return (String)get_Value(COLUMNNAME_Value);
-	}
-
-    /** Get Record ID/ColumnName
-        @return ID/ColumnName pair
-      */
-    public KeyNamePair getKeyNamePair() 
-    {
-        return new KeyNamePair(get_ID(), getValue());
-    }
-
-	/** Set Version No.
-		@param VersionNo 
-		Version Number
-	  */
-	public void setVersionNo (String VersionNo)
-	{
-		set_Value (COLUMNNAME_VersionNo, VersionNo);
-	}
-
-	/** Get Version No.
-		@return Version Number
-	  */
-	public String getVersionNo () 
-	{
-		return (String)get_Value(COLUMNNAME_VersionNo);
 	}
 }
