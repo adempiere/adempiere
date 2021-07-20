@@ -31,7 +31,7 @@ public class X_AD_UserSocialMedia extends PO implements I_AD_UserSocialMedia, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20210719L;
+	private static final long serialVersionUID = 20210720L;
 
     /** Standard Constructor */
     public X_AD_UserSocialMedia (Properties ctx, int AD_UserSocialMedia_ID, String trxName)
@@ -89,29 +89,29 @@ public class X_AD_UserSocialMedia extends PO implements I_AD_UserSocialMedia, I_
 		return (String)get_Value(COLUMNNAME_AccountName);
 	}
 
-	public org.compiere.model.I_AD_AttachmentNote getAD_AttachmentNote() throws RuntimeException
+	public org.spin.model.I_AD_AppSupport getAD_AppSupport() throws RuntimeException
     {
-		return (org.compiere.model.I_AD_AttachmentNote)MTable.get(getCtx(), org.compiere.model.I_AD_AttachmentNote.Table_Name)
-			.getPO(getAD_AttachmentNote_ID(), get_TrxName());	}
+		return (org.spin.model.I_AD_AppSupport)MTable.get(getCtx(), org.spin.model.I_AD_AppSupport.Table_Name)
+			.getPO(getAD_AppSupport_ID(), get_TrxName());	}
 
-	/** Set Attachment Note.
-		@param AD_AttachmentNote_ID 
-		Personal Attachment Note
+	/** Set App Support.
+		@param AD_AppSupport_ID 
+		App Support for External Connection
 	  */
-	public void setAD_AttachmentNote_ID (int AD_AttachmentNote_ID)
+	public void setAD_AppSupport_ID (int AD_AppSupport_ID)
 	{
-		if (AD_AttachmentNote_ID < 1) 
-			set_ValueNoCheck (COLUMNNAME_AD_AttachmentNote_ID, null);
+		if (AD_AppSupport_ID < 1) 
+			set_ValueNoCheck (COLUMNNAME_AD_AppSupport_ID, null);
 		else 
-			set_ValueNoCheck (COLUMNNAME_AD_AttachmentNote_ID, Integer.valueOf(AD_AttachmentNote_ID));
+			set_ValueNoCheck (COLUMNNAME_AD_AppSupport_ID, Integer.valueOf(AD_AppSupport_ID));
 	}
 
-	/** Get Attachment Note.
-		@return Personal Attachment Note
+	/** Get App Support.
+		@return App Support for External Connection
 	  */
-	public int getAD_AttachmentNote_ID () 
+	public int getAD_AppSupport_ID () 
 	{
-		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AttachmentNote_ID);
+		Integer ii = (Integer)get_Value(COLUMNNAME_AD_AppSupport_ID);
 		if (ii == null)
 			 return 0;
 		return ii.intValue();

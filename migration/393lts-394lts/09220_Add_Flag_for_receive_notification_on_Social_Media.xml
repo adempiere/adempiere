@@ -6,15 +6,6 @@
         <Data AD_Column_ID="193" Column="Code" oldValue="AD_Ref_List.Value IN('Twitter', 'Facebook', 'YouTube', 'Instagram', 'Skype', 'LinkedIn', 'SnapChat', 'Telegram', 'WhatsApp')">AD_Ref_List.Value IN('STW', 'SFA', 'SYT', 'SIG', 'SSK', 'SIN', 'SSN', 'STG', 'SWH')</Data>
       </PO>
     </Step>
-    <Step SeqNo="20" StepType="AD">
-      <PO AD_Table_ID="101" Action="U" Record_ID="93145" Table="AD_Column">
-        <Data AD_Column_ID="112" Column="Description" oldValue="App Support for External Connection">Personal Attachment Note</Data>
-        <Data AD_Column_ID="111" Column="Name" oldValue="App Support">Attachment Note</Data>
-        <Data AD_Column_ID="116" Column="ColumnName" oldValue="AD_AppSupport_ID">AD_AttachmentNote_ID</Data>
-        <Data AD_Column_ID="113" Column="Help" isNewNull="true" oldValue="Used for define a new API for external Connection"/>
-        <Data AD_Column_ID="2608" Column="AD_Element_ID" oldValue="60725">2460</Data>
-      </PO>
-    </Step>
     <Step SeqNo="30" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="93982" Table="AD_Field">
         <Data AD_Column_ID="168" Column="Name" oldValue="App Support">Attachment Note</Data>
@@ -227,6 +218,7 @@
     </Step>
     <Step SeqNo="120" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="101301" Table="AD_Field">
+        <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
         <Data AD_Column_ID="168" Column="Name">Receive Notifications</Data>
         <Data AD_Column_ID="2007" Column="IsReadOnly">false</Data>
         <Data AD_Column_ID="579" Column="Created">2021-07-19 22:51:27.422</Data>
@@ -248,7 +240,6 @@
         <Data AD_Column_ID="177" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="15011" Column="AD_Reference_ID" isNewNull="true"/>
         <Data AD_Column_ID="15013" Column="IsMandatory" isNewNull="true"/>
-        <Data AD_Column_ID="59704" Column="PreferredWidth">0</Data>
         <Data AD_Column_ID="62478" Column="IsDisplayedGrid">true</Data>
         <Data AD_Column_ID="183" Column="IsSameLine">false</Data>
         <Data AD_Column_ID="184" Column="IsHeading">false</Data>

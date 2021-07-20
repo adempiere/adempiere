@@ -51,20 +51,20 @@ public interface I_AD_UserSocialMedia
 	/** Get Account Name	  */
 	public String getAccountName();
 
-    /** Column name AD_AttachmentNote_ID */
-    public static final String COLUMNNAME_AD_AttachmentNote_ID = "AD_AttachmentNote_ID";
+    /** Column name AD_AppSupport_ID */
+    public static final String COLUMNNAME_AD_AppSupport_ID = "AD_AppSupport_ID";
 
-	/** Set Attachment Note.
-	  * Personal Attachment Note
+	/** Set App Support.
+	  * App Support for External Connection
 	  */
-	public void setAD_AttachmentNote_ID (int AD_AttachmentNote_ID);
+	public void setAD_AppSupport_ID (int AD_AppSupport_ID);
 
-	/** Get Attachment Note.
-	  * Personal Attachment Note
+	/** Get App Support.
+	  * App Support for External Connection
 	  */
-	public int getAD_AttachmentNote_ID();
+	public int getAD_AppSupport_ID();
 
-	public org.compiere.model.I_AD_AttachmentNote getAD_AttachmentNote() throws RuntimeException;
+	public org.spin.model.I_AD_AppSupport getAD_AppSupport() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";

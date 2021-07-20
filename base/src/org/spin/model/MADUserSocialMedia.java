@@ -20,11 +20,7 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Properties;
 
-import org.compiere.model.I_AD_User;
-import org.compiere.model.MUser;
-import org.compiere.model.M_Element;
 import org.compiere.model.Query;
-import org.compiere.util.Env;
 
 /**
  * @author Yamel Senih, ySenih@erpya.com, ERPCyA http://www.erpya.com
@@ -40,14 +36,18 @@ public class MADUserSocialMedia extends X_AD_UserSocialMedia {
 		super(ctx, rs, trxName);
 	}
 
-	public static List<MADUserSocialMedia> getSocialMedias (Properties ctx, int userId) {
-		List<MADUserSocialMedia> retValue = new Query(ctx, MADUserSocialMedia.Table_Name, MADUserSocialMedia.COLUMNNAME_AD_User_ID + " = ?",null)
+	/**
+	 * Get user Social Media
+	 * @param ctx
+	 * @param userId
+	 * @param transactionName
+	 * @return
+	 */
+	public static List<MADUserSocialMedia> getSocialMedias (Properties ctx, int userId, String transactionName) {
+		return new Query(ctx, MADUserSocialMedia.Table_Name, MADUserSocialMedia.COLUMNNAME_AD_User_ID + " = ?", transactionName)
 				.setParameters(userId)
 				.setOnlyActiveRecords(true)
 				.list();
-		
-		
-		return retValue;
 	}	//	get
 	
 	/**

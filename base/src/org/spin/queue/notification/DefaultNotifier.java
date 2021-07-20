@@ -30,6 +30,7 @@ import javax.mail.internet.InternetAddress;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MAttachment;
+import org.compiere.model.MUser;
 import org.compiere.model.Query;
 import org.compiere.process.ProcessInfo;
 import org.compiere.util.CCache;
@@ -41,6 +42,7 @@ import org.eevolution.service.dsl.ProcessBuilder;
 import org.spin.model.I_AD_AppRegistration;
 import org.spin.model.MADAppRegistration;
 import org.spin.model.MADAppSupport;
+import org.spin.model.MADUserSocialMedia;
 import org.spin.queue.model.MADQueue;
 import org.spin.queue.notification.model.MADNotificationQueue;
 import org.spin.queue.notification.model.MADNotificationRecipient;
@@ -98,6 +100,8 @@ public class DefaultNotifier extends QueueManager {
 	public static final String DefaultNotificationType_Telegram = "STG";
 	/**	WhatsApp	*/
 	public static final String DefaultNotificationType_WhatsApp = "SWH";
+	/**	User Defined	*/
+	public static final String DefaultNotificationType_UserDefined = "UDP";
 	
 	@Override
 	public QueueManager clear() {
@@ -293,6 +297,92 @@ public class DefaultNotifier extends QueueManager {
 		if(Util.isEmpty(text) && Util.isEmpty(getDescription())) {
 			throw new AdempiereException("@Text@ @IsMandatory@");
 		}
+		if(getApplicationType().equals(DefaultNotificationType_UserDefined)
+				&& getUserId() == 0) {
+			throw new AdempiereException("@AD_User_ID@ @IsMandatory@");
+		}
+		//	for default
+		if(!getApplicationType().equals(DefaultNotificationType_UserDefined)) {
+			addToQueueBasedOnApplicationType(queueId);
+		} else {
+			getRecipients().stream().filter(recipient -> recipient.getKey() > 0)
+				.forEach(recipient -> {
+				MUser userRecipient = MUser.get(getContext(), recipient.getKey());
+				//	For EMail
+				if(userRecipient.isNotificationEMail()) {
+					int applicationSupportId = getApplicationSupportFromValue(DefaultNotificationType_EMail);
+					addToQueueBasedOnUserDefinition(DefaultNotificationType_EMail, applicationSupportId, queueId, recipient);
+				}
+				//	For Note
+				if(userRecipient.isNotificationNote()) {
+					int applicationSupportId = getApplicationSupportFromValue(DefaultNotificationType_Notes);
+					addToQueueBasedOnUserDefinition(DefaultNotificationType_Notes, applicationSupportId, queueId, recipient);
+				}
+				//	For Social Media
+				if(userRecipient.isNotificationSocialMedia()) {
+					MADUserSocialMedia.getSocialMedias(getContext(), recipient.getKey(), getTransactionName())
+						.stream()
+						.filter(socialMedia -> socialMedia.isReceiveNotifications())
+						.forEach(socialMedia -> {
+							int applicationSupportId = socialMedia.getAD_AppSupport_ID();
+							if(applicationSupportId <= 0) {
+								applicationSupportId = getApplicationSupportFromValue(socialMedia.getApplicationType());
+							}
+							addToQueueBasedOnUserDefinition(socialMedia.getApplicationType(), applicationSupportId, queueId, new KeyNamePair(socialMedia.getAD_User_ID(), socialMedia.getAccountName()));
+					});
+				}
+			});
+		}
+	}
+
+	/**
+	 * Add to queue 
+	 * @param applicationType
+	 * @param applicationSupportId
+	 * @param queueId
+	 * @param recipient
+	 */
+	private void addToQueueBasedOnUserDefinition(String applicationType, int applicationSupportId, int queueId, KeyNamePair recipient) {
+		MADQueue queue = new MADQueue(getContext(), queueId, getTransactionName());
+		MADNotificationQueue notification = new MADNotificationQueue(queue);
+		notification.setApplicationType(applicationType);
+		if(getUserId() > 0) {
+			notification.setAD_User_ID(getUserId());
+		}
+		if(getApplicationSupportId() > 0) {
+			notification.setAD_AppSupport_ID(applicationSupportId);
+		}
+		if(!Util.isEmpty(getText())) {
+			notification.setText(getText());
+		}
+		if(!Util.isEmpty(getDescription())) {
+			notification.setDescription(getDescription());
+		}
+		notification.saveEx();
+		//	Add recipient
+		MADNotificationRecipient notificationRecipient = new MADNotificationRecipient(notification);
+		notificationRecipient.setAccountName(recipient.getName().trim());
+		if(recipient.getKey() > 0) {
+			notificationRecipient.setAD_User_ID(recipient.getKey());
+		}
+		notificationRecipient.saveEx();
+		//	Add Attachments
+		if(getAttachments().size() > 0) {
+			getAttachments().forEach(attachment -> {
+				MAttachment attachmentReference = notification.createAttachment();
+				attachmentReference.addEntry(attachment.getAttachment());
+				Optional.ofNullable(attachment.getComment()).ifPresent(comment -> attachmentReference.addTextMsg(comment));
+				attachmentReference.saveEx(getTransactionName());
+			});
+		}
+		logger.fine("Queue Added: " + notification);
+	}
+	
+	/**
+	 * Add to queue using the application supported defined
+	 * @param queueId
+	 */
+	private void addToQueueBasedOnApplicationType(int queueId) {
 		MADQueue queue = new MADQueue(getContext(), queueId, getTransactionName());
 		MADNotificationQueue notification = new MADNotificationQueue(queue);
 		notification.setApplicationType(getApplicationType());
@@ -332,7 +422,7 @@ public class DefaultNotifier extends QueueManager {
 		}
 		logger.fine("Queue Added: " + notification);
 	}
-
+	
 	@Override
 	public void process(int queueId) {
 		MADNotificationQueue.getNotificationsFromQueue(getContext(), queueId, getTransactionName()).forEach(notification -> {
@@ -463,7 +553,7 @@ public class DefaultNotifier extends QueueManager {
 			//	EMail
 			notifier
 				.clearMessage()
-				.withApplicationType(DefaultNotificationType_EMail)
+				.withApplicationType(DefaultNotificationType_UserDefined)
 				.withUserId(100)
 				.withText("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec fringilla faucibus enim quis aliquam. Integer tincidunt et dui vitae egestas. Suspendisse felis est, commodo at ex eu, pellentesque varius leo. Pellentesque tempor quis felis et rutrum. Curabitur imperdiet euismod leo, in pretium ante convallis eu. Nam non odio vulputate, luctus est sed, semper dolor. Vivamus auctor, odio vitae sodales vestibulum, lacus metus auctor ex, nec accumsan est nibh a erat. Ut suscipit velit a imperdiet vestibulum.\n" + 
 						"\n" + 
@@ -474,7 +564,7 @@ public class DefaultNotifier extends QueueManager {
 						"In hac habitasse platea dictumst. Sed tellus ante, pretium ut viverra feugiat, consectetur et velit. Nulla quis nibh est. Quisque pharetra sem eget ultrices efficitur. Phasellus maximus posuere metus, facilisis dictum justo bibendum ut. Sed aliquet scelerisque risus vel luctus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse eget diam vestibulum risus venenatis pellentesque. Suspendisse tincidunt orci et nisl malesuada, ut porta neque dictum. Quisque at mollis arcu. Nulla sodales diam id lacus efficitur aliquet. In dui leo, pharetra vulputate purus quis, tincidunt ultricies enim. Nulla facilisi. Donec sagittis pharetra ante. Aenean et condimentum ligula, sed volutpat lorem.\n" + 
 						"\n" + 
 						"Nulla laoreet faucibus odio, in rutrum diam semper ut. Praesent at purus id massa hendrerit ultricies. Nam sodales sapien id diam finibus viverra. Duis efficitur hendrerit vulputate. Cras urna enim, vestibulum sit amet ex nec, lobortis viverra massa. Morbi accumsan vel magna in dictum. Cras sed mollis libero. Etiam egestas, orci sed dapibus tempus, ligula ex vulputate lacus, sit amet volutpat urna nulla ac massa. Phasellus ac sollicitudin purus. Ut sit amet ligula eget justo imperdiet rhoncus non nec lectus. Mauris euismod ornare felis et dictum. Maecenas vestibulum dictum dui, ut elementum tellus convallis ac. In congue nunc vel felis elementum, at ultrices velit pharetra.\n")
-				.addRecipient(args[0])
+				.addRecipient(104, args[0])
 				.addAttachment(file1, "Just a Test")
 				.addAttachment(file2)
 				.withDescription("Hello by EMAil")
