@@ -73,14 +73,13 @@ import org.compiere.util.Ini;
 import org.compiere.util.MiniBrowser;
 import org.compiere.util.ValueNamePair;
 
-import sun.awt.AppContext;
-
 /**
  *  Adempiere PLAF Editor.
  *  <p>
  *  start with <code>new AdempierePLAFEditor()</code>
  *
  *  @author     Jorg Janke
+ *  @author     Marek Mosiewicz - switching to correct way of detecting theme
  *  @version    $Id: AdempierePLAFEditor.java,v 1.3 2006/07/30 00:52:24 jjanke Exp $
  */
 public class PLAFEditor extends JDialog
@@ -447,8 +446,7 @@ public class PLAFEditor extends JDialog
 		if (metal)
 		{
 			theme = null;
-			AppContext context = AppContext.getAppContext();
-			metalTheme = (MetalTheme)context.get("currentMetalTheme");
+			metalTheme = MetalLookAndFeel.getCurrentTheme();
 			if (metalTheme != null)
 			{
 				String lookTheme = metalTheme.getName();

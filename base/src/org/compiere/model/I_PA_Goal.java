@@ -22,7 +22,7 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Interface for PA_Goal
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2
+ *  @version Release 3.9.3
  */
 public interface I_PA_Goal 
 {
@@ -40,6 +40,17 @@ public interface I_PA_Goal
     BigDecimal accessLevel = BigDecimal.valueOf(6);
 
     /** Load Meta Data */
+
+    /** Column name AD_Chart_ID */
+    public static final String COLUMNNAME_AD_Chart_ID = "AD_Chart_ID";
+
+	/** Set Chart	  */
+	public void setAD_Chart_ID (int AD_Chart_ID);
+
+	/** Get Chart	  */
+	public int getAD_Chart_ID();
+
+	public org.compiere.model.I_AD_Chart getAD_Chart() throws RuntimeException;
 
     /** Column name AD_Client_ID */
     public static final String COLUMNNAME_AD_Client_ID = "AD_Client_ID";
@@ -305,6 +316,19 @@ public interface I_PA_Goal
 
 	public org.compiere.model.I_PA_ColorSchema getPA_ColorSchema() throws RuntimeException;
 
+    /** Column name PA_Goal_ID */
+    public static final String COLUMNNAME_PA_Goal_ID = "PA_Goal_ID";
+
+	/** Set Goal.
+	  * Performance Goal
+	  */
+	public void setPA_Goal_ID (int PA_Goal_ID);
+
+	/** Get Goal.
+	  * Performance Goal
+	  */
+	public int getPA_Goal_ID();
+
     /** Column name PA_GoalParent_ID */
     public static final String COLUMNNAME_PA_GoalParent_ID = "PA_GoalParent_ID";
 
@@ -319,19 +343,6 @@ public interface I_PA_Goal
 	public int getPA_GoalParent_ID();
 
 	public org.compiere.model.I_PA_Goal getPA_GoalParent() throws RuntimeException;
-
-    /** Column name PA_Goal_ID */
-    public static final String COLUMNNAME_PA_Goal_ID = "PA_Goal_ID";
-
-	/** Set Goal.
-	  * Performance Goal
-	  */
-	public void setPA_Goal_ID (int PA_Goal_ID);
-
-	/** Get Goal.
-	  * Performance Goal
-	  */
-	public int getPA_Goal_ID();
 
     /** Column name PA_Measure_ID */
     public static final String COLUMNNAME_PA_Measure_ID = "PA_Measure_ID";
@@ -376,19 +387,6 @@ public interface I_PA_Goal
 	  */
 	public int getSeqNo();
 
-    /** Column name UUID */
-    public static final String COLUMNNAME_UUID = "UUID";
-
-	/** Set Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public void setUUID (String UUID);
-
-	/** Get Immutable Universally Unique Identifier.
-	  * Immutable Universally Unique Identifier
-	  */
-	public String getUUID();
-
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -404,4 +402,17 @@ public interface I_PA_Goal
 	  * User who updated this records
 	  */
 	public int getUpdatedBy();
+
+    /** Column name UUID */
+    public static final String COLUMNNAME_UUID = "UUID";
+
+	/** Set Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public void setUUID (String UUID);
+
+	/** Get Immutable Universally Unique Identifier.
+	  * Immutable Universally Unique Identifier
+	  */
+	public String getUUID();
 }

@@ -31,7 +31,7 @@ public class X_AD_UserSocialMedia extends PO implements I_AD_UserSocialMedia, I_
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20200228L;
+	private static final long serialVersionUID = 20210720L;
 
     /** Standard Constructor */
     public X_AD_UserSocialMedia (Properties ctx, int AD_UserSocialMedia_ID, String trxName)
@@ -40,11 +40,10 @@ public class X_AD_UserSocialMedia extends PO implements I_AD_UserSocialMedia, I_
       /** if (AD_UserSocialMedia_ID == 0)
         {
 			setAccountName (null);
-			setAD_AppSupport_ID (0);
 			setAD_User_ID (0);
 			setAD_UserSocialMedia_ID (0);
 			setApplicationType (null);
-// SMN
+// STG
         } */
     }
 
@@ -102,9 +101,9 @@ public class X_AD_UserSocialMedia extends PO implements I_AD_UserSocialMedia, I_
 	public void setAD_AppSupport_ID (int AD_AppSupport_ID)
 	{
 		if (AD_AppSupport_ID < 1) 
-			set_Value (COLUMNNAME_AD_AppSupport_ID, null);
+			set_ValueNoCheck (COLUMNNAME_AD_AppSupport_ID, null);
 		else 
-			set_Value (COLUMNNAME_AD_AppSupport_ID, Integer.valueOf(AD_AppSupport_ID));
+			set_ValueNoCheck (COLUMNNAME_AD_AppSupport_ID, Integer.valueOf(AD_AppSupport_ID));
 	}
 
 	/** Get App Support.
@@ -177,6 +176,30 @@ public class X_AD_UserSocialMedia extends PO implements I_AD_UserSocialMedia, I_
 	public static final String APPLICATIONTYPE_WebDavApplication = "WDV";
 	/** Social Media = SMN */
 	public static final String APPLICATIONTYPE_SocialMedia = "SMN";
+	/** Cache Server Provider = CSP */
+	public static final String APPLICATIONTYPE_CacheServerProvider = "CSP";
+	/** EMail = EMA */
+	public static final String APPLICATIONTYPE_EMail = "EMA";
+	/** Notes = NTE */
+	public static final String APPLICATIONTYPE_Notes = "NTE";
+	/** Twitter = STW */
+	public static final String APPLICATIONTYPE_Twitter = "STW";
+	/** Facebook = SFA */
+	public static final String APPLICATIONTYPE_Facebook = "SFA";
+	/** Instagram = SIG */
+	public static final String APPLICATIONTYPE_Instagram = "SIG";
+	/** Skype = SSK */
+	public static final String APPLICATIONTYPE_Skype = "SSK";
+	/** LinkedIn = SIN */
+	public static final String APPLICATIONTYPE_LinkedIn = "SIN";
+	/** SnapChat = SSN */
+	public static final String APPLICATIONTYPE_SnapChat = "SSN";
+	/** Telegram = STG */
+	public static final String APPLICATIONTYPE_Telegram = "STG";
+	/** WhatsApp = SWH */
+	public static final String APPLICATIONTYPE_WhatsApp = "SWH";
+	/** YouTube = SYT */
+	public static final String APPLICATIONTYPE_YouTube = "SYT";
 	/** Set Application Type.
 		@param ApplicationType 
 		Application Type, used for identify a Application Type like Message Queue
@@ -184,7 +207,7 @@ public class X_AD_UserSocialMedia extends PO implements I_AD_UserSocialMedia, I_
 	public void setApplicationType (String ApplicationType)
 	{
 
-		set_Value (COLUMNNAME_ApplicationType, ApplicationType);
+		set_ValueNoCheck (COLUMNNAME_ApplicationType, ApplicationType);
 	}
 
 	/** Get Application Type.
@@ -218,6 +241,30 @@ public class X_AD_UserSocialMedia extends PO implements I_AD_UserSocialMedia, I_
 	public String getDescription () 
 	{
 		return (String)get_Value(COLUMNNAME_Description);
+	}
+
+	/** Set Receive Notifications.
+		@param IsReceiveNotifications 
+		This flag allows define a social media for receive notifications from system
+	  */
+	public void setIsReceiveNotifications (boolean IsReceiveNotifications)
+	{
+		set_Value (COLUMNNAME_IsReceiveNotifications, Boolean.valueOf(IsReceiveNotifications));
+	}
+
+	/** Get Receive Notifications.
+		@return This flag allows define a social media for receive notifications from system
+	  */
+	public boolean isReceiveNotifications () 
+	{
+		Object oo = get_Value(COLUMNNAME_IsReceiveNotifications);
+		if (oo != null) 
+		{
+			 if (oo instanceof Boolean) 
+				 return ((Boolean)oo).booleanValue(); 
+			return "Y".equals(oo);
+		}
+		return false;
 	}
 
 	/** Set Immutable Universally Unique Identifier.

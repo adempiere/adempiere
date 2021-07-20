@@ -24,14 +24,14 @@ import org.compiere.util.KeyNamePair;
 
 /** Generated Model for AD_AppRegistration
  *  @author Adempiere (generated) 
- *  @version Release 3.9.2 - $Id$ */
+ *  @version Release 3.9.3 - $Id$ */
 public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_Persistent 
 {
 
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20191120L;
+	private static final long serialVersionUID = 20210720L;
 
     /** Standard Constructor */
     public X_AD_AppRegistration (Properties ctx, int AD_AppRegistration_ID, String trxName)
@@ -165,6 +165,30 @@ public class X_AD_AppRegistration extends PO implements I_AD_AppRegistration, I_
 	public static final String APPLICATIONTYPE_WebDavApplication = "WDV";
 	/** Social Media = SMN */
 	public static final String APPLICATIONTYPE_SocialMedia = "SMN";
+	/** Cache Server Provider = CSP */
+	public static final String APPLICATIONTYPE_CacheServerProvider = "CSP";
+	/** EMail = EMA */
+	public static final String APPLICATIONTYPE_EMail = "EMA";
+	/** Notes = NTE */
+	public static final String APPLICATIONTYPE_Notes = "NTE";
+	/** Twitter = STW */
+	public static final String APPLICATIONTYPE_Twitter = "STW";
+	/** Facebook = SFA */
+	public static final String APPLICATIONTYPE_Facebook = "SFA";
+	/** Instagram = SIG */
+	public static final String APPLICATIONTYPE_Instagram = "SIG";
+	/** Skype = SSK */
+	public static final String APPLICATIONTYPE_Skype = "SSK";
+	/** LinkedIn = SIN */
+	public static final String APPLICATIONTYPE_LinkedIn = "SIN";
+	/** SnapChat = SSN */
+	public static final String APPLICATIONTYPE_SnapChat = "SSN";
+	/** Telegram = STG */
+	public static final String APPLICATIONTYPE_Telegram = "STG";
+	/** WhatsApp = SWH */
+	public static final String APPLICATIONTYPE_WhatsApp = "SWH";
+	/** YouTube = SYT */
+	public static final String APPLICATIONTYPE_YouTube = "SYT";
 	/** Set Application Type.
 		@param ApplicationType 
 		Application Type, used for identify a Application Type like Message Queue

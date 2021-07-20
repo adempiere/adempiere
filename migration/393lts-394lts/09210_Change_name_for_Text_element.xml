@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Change name for Text element" ReleaseNo="3.9.4" SeqNo="9210">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="53475" Table="AD_Element">
+        <Data AD_Column_ID="2603" Column="Name" oldValue="Description">Text Message</Data>
+        <Data AD_Column_ID="2604" Column="Description" isOldNull="true">This field allows define a text message with a text very long</Data>
+        <Data AD_Column_ID="4299" Column="PrintName" oldValue="Description">Text Message</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
+        <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2649" Column="IsTranslated" oldValue="true">false</Data>
+        <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="53475">53475</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
