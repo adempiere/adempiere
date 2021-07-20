@@ -240,6 +240,16 @@ public class DefaultNotifier extends QueueManager {
 	}
 
 	/**
+	 * @param userId the userId to set
+	 */
+	public final DefaultNotifier addRecipient(int userId) {
+		if(userId > 0) {
+			this.recipients.add(new KeyNamePair(userId, null));
+		}
+		return this;
+	}
+	
+	/**
 	 * @param recipient the recipient to set
 	 */
 	public final DefaultNotifier addRecipient(String recipient) {
@@ -311,7 +321,7 @@ public class DefaultNotifier extends QueueManager {
 				//	For EMail
 				if(userRecipient.isNotificationEMail()) {
 					int applicationSupportId = getApplicationSupportFromValue(DefaultNotificationType_EMail);
-					addToQueueBasedOnUserDefinition(DefaultNotificationType_EMail, applicationSupportId, queueId, recipient);
+					addToQueueBasedOnUserDefinition(DefaultNotificationType_EMail, applicationSupportId, queueId, new KeyNamePair(userRecipient.getAD_User_ID(), userRecipient.getEMail()));
 				}
 				//	For Note
 				if(userRecipient.isNotificationNote()) {
@@ -328,7 +338,7 @@ public class DefaultNotifier extends QueueManager {
 							if(applicationSupportId <= 0) {
 								applicationSupportId = getApplicationSupportFromValue(socialMedia.getApplicationType());
 							}
-							addToQueueBasedOnUserDefinition(socialMedia.getApplicationType(), applicationSupportId, queueId, new KeyNamePair(socialMedia.getAD_User_ID(), socialMedia.getAccountName()));
+							addToQueueBasedOnUserDefinition(socialMedia.getApplicationType(), applicationSupportId, queueId, new KeyNamePair(userRecipient.getAD_User_ID(), socialMedia.getAccountName()));
 					});
 				}
 			});
@@ -361,7 +371,7 @@ public class DefaultNotifier extends QueueManager {
 		notification.saveEx();
 		//	Add recipient
 		MADNotificationRecipient notificationRecipient = new MADNotificationRecipient(notification);
-		notificationRecipient.setAccountName(recipient.getName().trim());
+		notificationRecipient.setAccountName(Optional.ofNullable(recipient.getName()).orElse("").trim());
 		if(recipient.getKey() > 0) {
 			notificationRecipient.setAD_User_ID(recipient.getKey());
 		}
@@ -405,7 +415,7 @@ public class DefaultNotifier extends QueueManager {
 		//	Add recipients
 		getRecipients().forEach(recipient -> {
 			MADNotificationRecipient notificationRecipient = new MADNotificationRecipient(notification);
-			notificationRecipient.setAccountName(recipient.getName().trim());
+			notificationRecipient.setAccountName(Optional.ofNullable(recipient.getName()).orElse("").trim());
 			if(recipient.getKey() > 0) {
 				notificationRecipient.setAD_User_ID(recipient.getKey());
 			}
