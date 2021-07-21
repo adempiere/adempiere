@@ -328,9 +328,9 @@ public class RequestProcessor extends AdempiereServer
 				.clearMessage()
 				.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
 				.addRecipient(request.getSalesRep_ID())
-				.withText(subject.get())
+				.withText(message.get())
 				.addAttachment(request.createPDF())
-				.withDescription(message.get());
+				.withDescription(subject.get());
 			//	Add to queue
 			notifier.addToQueue();
 		});
@@ -386,9 +386,9 @@ public class RequestProcessor extends AdempiereServer
 			notifier
 				.clearMessage()
 				.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
-				.withText(subject.get())
+				.withText(message.get())
 				.addAttachment(request.createPDF())
-				.withDescription(message.get());
+				.withDescription(subject.get());
 			//	Add recipients
 			recipients.forEach(recipientId -> notifier.addRecipient(recipientId));
 			//	Add to queue
