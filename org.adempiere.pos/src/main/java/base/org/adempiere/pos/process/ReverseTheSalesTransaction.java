@@ -17,6 +17,7 @@
 package org.adempiere.pos.process;
 
 import org.adempiere.pos.AdempierePOSException;
+import org.compiere.model.MBankStatement;
 import org.compiere.model.MDocType;
 import org.compiere.model.MInOut;
 import org.compiere.model.MInOutConfirm;
@@ -219,6 +220,7 @@ public class ReverseTheSalesTransaction extends ReverseTheSalesTransactionAbstra
             payment.processIt(DocAction.ACTION_Complete);
             payment.saveEx();
             payments.add(payment);
+            MBankStatement.addPayment(payment);
         }
         return payments;
     }
