@@ -314,15 +314,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="commons-collections-3.2.2.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/commons-collections-3.2.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
       <library name="commons-net-1.4.0.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/commons-net-1.4.0.jar!/" />
@@ -1288,15 +1279,6 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/commons-collections4-4.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/JasperReportsTools/lib/jasperreports-6.6.0.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -1946,6 +1928,15 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/ant/apache-ant-1.10.10/lib/ant.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/commons-collections4-4.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
