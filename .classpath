@@ -140,16 +140,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="tools/lib/c3p0-0.9.1.2.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="tools/lib/c3p0-oracle-thin-extras-0.9.1.2.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="tools/lib/activemq-core-5.7.0.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -438,5 +428,8 @@
 	<classpathentry kind="lib" path="tools/lib/ejb-api-3.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/javax.servlet-api-4.0.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/commons-collections4-4.4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/HikariCP-5.0.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/slf4j-api-1.7.32.jar"/>
+	<classpathentry kind="lib" path="tools/lib/slf4j-simple-1.7.32.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

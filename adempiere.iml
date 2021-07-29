@@ -341,24 +341,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="c3p0-0.9.1.2.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/c3p0-0.9.1.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="c3p0-oracle-thin-extras-0.9.1.2.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/c3p0-oracle-thin-extras-0.9.1.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
       <library name="activemq-core-5.7.0.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/activemq-core-5.7.0.jar!/" />
@@ -1937,6 +1919,33 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/commons-collections4-4.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/slf4j-api-1.7.32.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/slf4j-simple-1.7.32.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/HikariCP-5.0.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
