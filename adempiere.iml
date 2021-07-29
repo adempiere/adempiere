@@ -220,7 +220,6 @@
       <sourceFolder url="file://$MODULE_DIR$/org.spin.finance_management/src/main/java/base" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.compiere.mobile/WEB-INF/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.spin.store/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$" type="java-test-resource" />
     </content>
     <orderEntry type="jdk" jdkName="11" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
