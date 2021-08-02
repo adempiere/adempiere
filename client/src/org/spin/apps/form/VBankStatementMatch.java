@@ -339,9 +339,6 @@ public class VBankStatementMatch extends BankStatementMatchController
 			changeMessageButton();
 			mainPanel.setCursor(Cursor.getDefaultCursor());
 		} else if(e.getActionCommand().equals(ConfirmPanel.A_OK)) {
-			if(!isAvailableForSave()) {
-				return;
-			}
 			if(ADialog.ask(getWindowNo(), frame.getContainer(), "SaveChanges?", getAskMatchMessage())) {
 				mainPanel.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				saveData();
@@ -357,7 +354,6 @@ public class VBankStatementMatch extends BankStatementMatchController
 	 */
 	private void refresh() {
 		clear();
-		setIsAvailableForSave(false);
 		getParameters();
 		String message = validateParameters();
 		if(Util.isEmpty(message)) {
@@ -462,7 +458,6 @@ public class VBankStatementMatch extends BankStatementMatchController
 	 */
 	private void loadMatchedPaymentsFromMatch() {
 		Vector<Vector<Object>> matchedPayments = getMatchedPayments();
-		setIsAvailableForSave(matchedPayments != null && !matchedPayments.isEmpty());
 		fillMatchedPayments(matchedPayments);
 	}
 	
@@ -598,9 +593,6 @@ public class VBankStatementMatch extends BankStatementMatchController
 	 *  Save Data
 	 */
 	public void saveData() {
-		if(!isAvailableForSave()) {
-			return;
-		}
 		try {
 			Trx.run(new TrxRunnable() {
 				public void run(String trxName) {
