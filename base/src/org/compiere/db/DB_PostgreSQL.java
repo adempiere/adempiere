@@ -33,6 +33,8 @@ import javax.sql.ConnectionPoolDataSource;
 import javax.sql.DataSource;
 import javax.sql.RowSet;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
 import org.compiere.dbPort.Convert;
@@ -42,8 +44,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Ini;
-
-import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 /**
  *  PostgreSQL Database Port
@@ -83,7 +83,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	public static final int         DEFAULT_PORT = 5432;
 	
 	/** Data Source				*/
-	private ComboPooledDataSource m_ds = null;
+	private HikariDataSource m_ds = null;
 
 	/** Statement Converter     */
 	private Convert_PostgreSQL         m_convert = new Convert_PostgreSQL();
@@ -256,10 +256,11 @@ public class DB_PostgreSQL implements AdempiereDatabase
         try
         {
             StringBuffer logBuffer = new StringBuffer(50);
-            logBuffer.append("# Connections: ").append(m_ds.getNumConnections());
+			logBuffer.append("# Connections: ").append(m_ds.toString());
+            /*logBuffer.append("# Connections: ").append(m_ds.getNumConnections());
             logBuffer.append(" , # Busy Connections: ").append(m_ds.getNumBusyConnections());
             logBuffer.append(" , # Idle Connections: ").append(m_ds.getNumIdleConnections());
-            logBuffer.append(" , # Orphaned Connections: ").append(m_ds.getNumUnclosedOrphanedConnections());
+            logBuffer.append(" , # Orphaned Connections: ").append(m_ds.getNumUnclosedOrphanedConnections());*/
         }
         catch (Exception e)
         {
@@ -283,10 +284,11 @@ public class DB_PostgreSQL implements AdempiereDatabase
         StringBuffer sb = new StringBuffer();
         try
         {
-            sb.append("# Connections: ").append(m_ds.getNumConnections());
+			sb.append("# Connections: ").append(m_ds.toString());
+            /*sb.append("# Connections: ").append(m_ds.getNumConnections());
             sb.append(" , # Busy Connections: ").append(m_ds.getNumBusyConnections());
             sb.append(" , # Idle Connections: ").append(m_ds.getNumIdleConnections());
-            sb.append(" , # Orphaned Connections: ").append(m_ds.getNumUnclosedOrphanedConnections());
+            sb.append(" , # Orphaned Connections: ").append(m_ds.getNumUnclosedOrphanedConnections());*/
         }
         catch (Exception e)
         {}
@@ -531,7 +533,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 			
 			try
 	        {
-                int numConnections = m_ds.getNumBusyConnections();
+                int numConnections = m_ds.getMaximumPoolSize(); //m_ds.getNumBusyConnections();
 	            if(numConnections >= m_maxbusyconnections && m_maxbusyconnections > 0)
 	            {
 	                log.warning(getStatus());
@@ -558,46 +560,34 @@ public class DB_PostgreSQL implements AdempiereDatabase
 		
         try
         {
-            System.setProperty("com.mchange.v2.log.MLog", "com.mchange.v2.log.FallbackMLog");
+            //System.setProperty("com.mchange.v2.log.MLog", "com.mchange.v2.log.FallbackMLog");
             //System.setProperty("com.mchange.v2.log.FallbackMLog.DEFAULT_CUTOFF_LEVEL", "ALL");
-            ComboPooledDataSource cpds = new ComboPooledDataSource();
-            cpds.setDataSourceName("AdempiereDS");
-            cpds.setDriverClass(DRIVER);
-            //loads the jdbc driver
-            cpds.setJdbcUrl(getConnectionURL(connection));
-            cpds.setUser(connection.getDbUid());
-            cpds.setPassword(connection.getDbPwd());
-            cpds.setPreferredTestQuery(DEFAULT_CONN_TEST_SQL);
-            cpds.setIdleConnectionTestPeriod(1200);
-            //cpds.setTestConnectionOnCheckin(true);
-            //cpds.setTestConnectionOnCheckout(true);
-            cpds.setAcquireRetryAttempts(2);
-            //cpds.setCheckoutTimeout(60);
+			HikariConfig config = new HikariConfig();
+			config.setDriverClassName(DRIVER);
+			config.setJdbcUrl(getConnectionURL(connection));
+			config.setUsername(connection.getDbUid());
+			config.setPassword(connection.getDbPwd());
 
-            if (Ini.isClient())
-            {
-                cpds.setInitialPoolSize(1);
-                cpds.setMinPoolSize(1);
-                cpds.setMaxPoolSize(15);
-                cpds.setMaxIdleTimeExcessConnections(1200);
-                cpds.setMaxIdleTime(900);
-                m_maxbusyconnections = 10;
-            }
-            else
-            {
-                cpds.setInitialPoolSize(10);
-                cpds.setMinPoolSize(5);
-                cpds.setMaxPoolSize(150);
-                cpds.setMaxIdleTimeExcessConnections(1200);
-                cpds.setMaxIdleTime(1200);
-                m_maxbusyconnections = 120;
-            }
+			config.addDataSourceProperty( "poolName" , "AdempiereDS" );
+			config.addDataSourceProperty( "cachePrepStmts" , "true" );
+			config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
+			config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
+			config.addDataSourceProperty("connectionTestQuery", DEFAULT_CONN_TEST_SQL);
 
-            //the following sometimes kill active connection!
-            //cpds.setUnreturnedConnectionTimeout(1200);
-            //cpds.setDebugUnreturnedConnectionStackTraces(true);
-
-            m_ds = cpds;
+			if (Ini.isClient()) {
+				config.addDataSourceProperty( "connectionInitSql" , "1" );
+				config.addDataSourceProperty( "maximumPoolSize" , "15" );
+				config.addDataSourceProperty( "idleTimeout" , "1200" );
+				m_maxbusyconnections = 10;
+			} else {
+				config.addDataSourceProperty( "connectionInitSql" , "1" );
+				config.addDataSourceProperty( "maximumPoolSize" , "150" );
+				config.addDataSourceProperty( "idleTimeout" , "1200" );
+				m_maxbusyconnections = 10;
+				m_maxbusyconnections = 120;
+			}
+			HikariDataSource cpds = new HikariDataSource(config);
+			m_ds = cpds;
         }
         catch (Exception ex)
         {
