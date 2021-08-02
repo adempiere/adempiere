@@ -167,7 +167,7 @@ public class AdempiereMonitorFilter implements Filter
 	 */
 	public void destroy ()
 	{
-		log.info ("");
+		log.info ("AdempiereMonitorFilter Destroyed");
 	}
 
 }

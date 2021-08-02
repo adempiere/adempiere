@@ -48,7 +48,7 @@ public class AdempiereServerMgr
 	 * 	Get Adempiere Server Manager
 	 *	@return mgr
 	 */
-	public static AdempiereServerMgr get()
+	public synchronized static AdempiereServerMgr get()
 	{
 		if (serverManager == null)
 		{
@@ -89,8 +89,10 @@ public class AdempiereServerMgr
 	private boolean startEnvironment()
 	{
 		Adempiere.startup(false);
+		java.sql.Timestamp today  = new java.sql.Timestamp(System.currentTimeMillis());
+		Env.setContext(getCtx(), "#Date", today);
 		log.info("");
-		
+
 		//	Set Session
 		MSession session = MSession.get(getCtx(), true);
 		session.setWebStoreSession(false);
@@ -104,7 +106,7 @@ public class AdempiereServerMgr
 	 * 	Start Environment
 	 *	@return true if started
 	 */
-	private boolean startServers()
+	private synchronized boolean startServers()
 	{
 		log.info("");
 		int noServers = 0;
@@ -193,7 +195,7 @@ public class AdempiereServerMgr
 	/**
 	 * Restart services, if exists a new service is reloaded
 	 */
-	public void restartServices() {
+	public synchronized void restartServices() {
 		log.fine("#" + serversList.size());
 		destroy();
 		startServers();
@@ -203,7 +205,7 @@ public class AdempiereServerMgr
 	 * 	Get Server Context
 	 *	@return ctx
 	 */
-	public Properties getCtx()
+	public  Properties getCtx()
 	{
 		return context;
 	}	//	getCtx
@@ -212,7 +214,7 @@ public class AdempiereServerMgr
 	 * 	Start all servers
 	 *	@return true if started
 	 */
-	public boolean startAll()
+	public synchronized boolean startAll()
 	{
 		log.info ("");
 		AdempiereServer[] servers = getInActive();
@@ -236,7 +238,7 @@ public class AdempiereServerMgr
 						}
 						try
 						{
-							Thread.sleep(100);		//	1/10 sec
+							Thread.sleep(10);		//	1/10 sec
 						}
 						catch (InterruptedException e)
 						{
@@ -298,7 +300,7 @@ public class AdempiereServerMgr
 	 * 	@param serverID server ID
 	 *	@return true if started
 	 */
-	public boolean start (String serverID)
+	public synchronized boolean start (String serverID)
 	{
 		AdempiereServer server = getServer(serverID);
 		if (server == null)
@@ -333,7 +335,7 @@ public class AdempiereServerMgr
 	 * 	Stop all Servers
 	 *	@return true if stopped
 	 */
-	public boolean stopAll()
+	public synchronized boolean stopAll()
 	{
 		log.info ("");
 		AdempiereServer[] servers = getActive();
@@ -347,6 +349,8 @@ public class AdempiereServerMgr
 				{
 					server.setPriority(Thread.MAX_PRIORITY-1);
 					server.interrupt();
+					log.info ("Stop: " + server);
+					Thread.sleep(120);	//	1/100 sec
 				}
 			}
 			catch (Exception e)
@@ -411,12 +415,12 @@ public class AdempiereServerMgr
 
 	/**
 	 * 	Stop Server if not stopped
-	 * 	@param serverID server ID
+	 * 	@param serverId server ID
 	 *	@return true if interrupted
 	 */
-	public boolean stop (String serverID)
+	public synchronized boolean stop (String serverId)
 	{
-		AdempiereServer server = getServer(serverID);
+		AdempiereServer server = getServer(serverId);
 		if (server == null)
 			return false;
 		if (!server.isAlive())
@@ -425,7 +429,8 @@ public class AdempiereServerMgr
 		try
 		{
 			server.interrupt();
-			Thread.sleep(10);	//	1/100 sec
+			log.info ("Stop: " + server);
+			Thread.sleep(120);	//	1/100 sec
 		}
 		catch (Exception e)
 		{
@@ -441,7 +446,7 @@ public class AdempiereServerMgr
 	/**
 	 * 	Destroy
 	 */
-	public void destroy ()
+	public synchronized void destroy ()
 	{
 		log.info ("");
 		stopAll();
@@ -452,7 +457,7 @@ public class AdempiereServerMgr
 	 * 	Get Active Servers
 	 *	@return array of active servers
 	 */
-	protected AdempiereServer[] getActive()
+	protected synchronized AdempiereServer[] getActive()
 	{
 		ArrayList<AdempiereServer> list = new ArrayList<AdempiereServer>();
 		for (int i = 0; i < serversList.size(); i++)
@@ -470,7 +475,7 @@ public class AdempiereServerMgr
 	 * 	Get InActive Servers
 	 *	@return array of inactive servers
 	 */
-	protected AdempiereServer[] getInActive()
+	protected synchronized AdempiereServer[] getInActive()
 	{
 		ArrayList<AdempiereServer> list = new ArrayList<AdempiereServer>();
 		for (int i = 0; i < serversList.size(); i++)
@@ -488,7 +493,7 @@ public class AdempiereServerMgr
 	 * 	Get all Servers
 	 *	@return array of servers
 	 */
-	public AdempiereServer[] getAll()
+	public synchronized AdempiereServer[] getAll()
 	{
 		AdempiereServer[] retValue = new AdempiereServer[serversList.size()];
 		serversList.toArray (retValue);
@@ -497,17 +502,17 @@ public class AdempiereServerMgr
 	
 	/**
 	 * 	Get Server with ID
-	 *	@param serverID server id
+	 *	@param serverId server id
 	 *	@return server or null
 	 */
-	public AdempiereServer getServer (String serverID)
+	public synchronized AdempiereServer getServer (String serverId)
 	{
-		if (serverID == null)
+		if (serverId == null)
 			return null;
 		for (int i = 0; i < serversList.size(); i++)
 		{
 			AdempiereServer server = (AdempiereServer)serversList.get(i);
-			if (serverID.equals(server.getServerID()))
+			if (serverId.equals(server.getServerID()))
 				return server;
 		}
 		return null;
@@ -540,7 +545,7 @@ public class AdempiereServerMgr
 	 * 	Get Number Servers
 	 *	@return no of servers
 	 */
-	public String getServerCount()
+	public synchronized String getServerCount()
 	{
 		int noRunning = 0;
 		int noStopped = 0;
