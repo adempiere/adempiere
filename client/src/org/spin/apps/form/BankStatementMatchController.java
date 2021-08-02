@@ -77,8 +77,6 @@ public class BankStatementMatchController {
 	private Vector<Vector<Object>> paymentData = new Vector<Vector<Object>>();
 	/**	Account PO	*/
 	private MBankAccount account = null;
-	/**	is available for save	*/
-	private boolean isAvailableForSave = false;
 	/**	Amount From	*/
 	private BigDecimal amtFrom = null;
 	/**	Amount To	*/
@@ -183,22 +181,6 @@ public class BankStatementMatchController {
 	 */
 	public boolean isMatchedMode() {
 		return getMatchedMode() == MODE_MATCHED;
-	}
-	
-	/**
-	 * Set if is available for save
-	 * @param isAvailableForSave
-	 */
-	public void setIsAvailableForSave(boolean isAvailableForSave) {
-		this.isAvailableForSave = isAvailableForSave;
-	}
-	
-	/**
-	 * Is Available for save
-	 * @return
-	 */
-	public boolean isAvailableForSave() {
-		return isAvailableForSave;
 	}
 	
 	/**
