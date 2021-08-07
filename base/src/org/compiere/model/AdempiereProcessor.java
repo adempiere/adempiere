@@ -109,6 +109,12 @@ public interface AdempiereProcessor
 	 * @see #save()
 	 */
 	public void saveEx() throws AdempiereException;
+
+	/**
+	 * 	Set Trx
+	 *	@param trxName transaction
+	 */
+	public void set_TrxName (String trxName);
 	
 	/**
 	 * 	Get Processor Logs

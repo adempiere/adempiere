@@ -111,7 +111,11 @@ public class AlertProcessor extends AdempiereServer
 		pLog.setReference("#" + String.valueOf(p_runCount) 
 			+ " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
 		pLog.setTextMsg(m_errors.toString());
-		pLog.saveEx();
+		Trx.run(trxName -> {
+			pLog.set_TrxName(trxName);
+			pLog.saveEx();
+		});
+
 	}	//	doWork
 
 	/**

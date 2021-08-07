@@ -35,6 +35,7 @@ import org.compiere.model.MUser;
 import org.compiere.model.Query;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Trx;
 import org.compiere.util.Util;
 import org.spin.model.MRNoticeTemplate;
 import org.spin.model.MRNoticeTemplateEvent;
@@ -88,7 +89,11 @@ public class RequestProcessor extends AdempiereServer
 		MRequestProcessorLog pLog = new MRequestProcessorLog(m_model, m_summary.toString());
 		pLog.setReference("#" + String.valueOf(p_runCount) 
 			+ " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-		pLog.saveEx();
+		Trx.run(trxName -> {
+			pLog.set_TrxName(trxName);
+			pLog.saveEx();
+		});
+
 	}	//	doWork
 
 	
