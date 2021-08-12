@@ -78,15 +78,12 @@ public class GridPanel extends Borderlayout implements EventListener
 	private static final int KEYBOARD_KEY_S = 83;
 	private static final int KEYBOARD_KEY_RETURN = 13;
 	private static final int MOVE_SIZE = 7;
+	private static final int LOOKAHEAD_SPACING = 3;
 
 	public static final String		CNTRL_KEYS				= "#f5#del^d^s";
 	private static final String		KEYS_MOVE			= "#pgup#pgdn#end#home#up#down#left#right#enter";
 	
 	private int lastKeyEvent = 0;	
-
-	private Grid listbox = null;
-
-	private int pageSize = 100;
 
 	private GridField[] gridField;
 	private AbstractTableModel tableModel;
@@ -103,15 +100,10 @@ public class GridPanel extends Borderlayout implements EventListener
 
 	private Paging paging;
 
-	private GridTabRowRenderer renderer;
-
 	private South south;
 
-	private boolean modeless;
 
 	private String columnOnClick;
-
-	private AbstractADWindowPanel windowPanel;
 
 	public static final String PAGE_SIZE_KEY = "ZK_PAGING_SIZE";
 
@@ -124,9 +116,17 @@ public class GridPanel extends Borderlayout implements EventListener
 	private int currentCol = 0;
 	
 	private Center center;
-	
-	private boolean isNewRecord;
-	
+
+    int pageSize = -1;
+    boolean modeless;
+    boolean isNewRecord;
+
+    // The following fields require package or protected level of
+    // visibility for testing
+    Grid listbox = new Grid();
+    GridTabRowRenderer renderer;
+    AbstractADWindowPanel windowPanel;
+    
 	public void setADTabPanel(IADTabPanel panel)
 	{
 		tabPanel = panel;
@@ -148,24 +148,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	public GridPanel(int windowNo)
 	{
 		this.windowNo = windowNo;
-		listbox = new Grid();
-		
-		listbox.addEventListener(Events.ON_FOCUS, this);
-		
-		
-		listbox.setOddRowSclass(null);
-		south = new South();
-		this.appendChild(south);
-
-		center = new Center();
-		center.appendChild(listbox);
-		this.appendChild(center);
-		
-		//default paging size
-		pageSize = MSysConfig.getIntValue(PAGE_SIZE_KEY, 100);
-
-		//default false for better performance
-		modeless = MSysConfig.getBooleanValue(MODE_LESS_KEY, false);
+				
 	}
 
 	/**
@@ -174,8 +157,23 @@ public class GridPanel extends Borderlayout implements EventListener
 	 */
 	public void init(GridTab gridTab)
 	{
-		if (init && !gridTab.isQuickEntry()) return; //init && !gridTab.isQuickEntry()
+	    if (pageSize < 0)
+	        pageSize = getSysConfigPageSizeOrDefault(100);
+        modeless = getSysConfigModelessOrDefault(false);
+        
+	    if (init && !gridTab.isQuickEntry()) return; 
 
+	    listbox.addEventListener(Events.ON_FOCUS, this);
+        listbox.setOddRowSclass(null);
+        
+        south = new South();
+        this.appendChild(south);
+
+        center = new Center();
+        center.appendChild(listbox);
+        this.appendChild(center);
+
+	    
 		this.gridTab = gridTab;
 		tableModel = gridTab.getTableModel();
 
@@ -296,7 +294,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	}
 	
 	
-	private void setupColumns()
+	void setupColumns()
 	{
 		
 		if (init && !gridTab.isQuickEntry()) return; //init && !gridTab.isQuickEntry()
@@ -363,7 +361,7 @@ public class GridPanel extends Borderlayout implements EventListener
 		}
 	}
 
-	private void render()
+	void render()
 	{
 		LayoutUtils.addSclass("adtab-grid-panel", this);
 
@@ -492,12 +490,8 @@ public class GridPanel extends Borderlayout implements EventListener
 					if(renderer.getCurrentDiv() != null) {
 						renderer.stopColEditing(true);
 					}
-					int index = listbox.getRows().getChildren().indexOf(row);
-//					renderer.setCurrentRow(row);
-					renderer.setCurrentCell(index);
-					if (index >= 0 ) {
-//						onSelectedRowChange(index);
-					}
+					int indexOnPage = listbox.getRows().getChildren().indexOf(row);
+					renderer.setCurrentRowOnPage(indexOnPage);
 				}
 			}
 			if(data instanceof Col) {
@@ -548,7 +542,8 @@ public class GridPanel extends Borderlayout implements EventListener
 							}
 							else if(!dataSave(0)) {
 								gridTab.navigateRelative(+1);
-								renderer.setCurrentCell(row);
+								int rowIndexOnPage = renderer.getRowIndexInPage(row);
+								renderer.setCurrentRowOnPage(rowIndexOnPage);
 							}
 						}
 						else {
@@ -603,7 +598,8 @@ public class GridPanel extends Borderlayout implements EventListener
 					if(currentCol > 0) {
 						if(row < 0 || gridTab.getCurrentRow()< 0) {
 							renderer.setGrid(listbox);
-							renderer.setCurrentCell(0);
+							listModel.setPage(0);
+							renderer.setCurrentRowOnPage(0);
 						} else {
 							renderer.stopColEditing(true);
 							renderer.setCurrentColumn(currentCol-1);
@@ -620,7 +616,8 @@ public class GridPanel extends Borderlayout implements EventListener
 				{
 					if(row < 0 || gridTab.getCurrentRow()< 0) {
 						renderer.setGrid(listbox);
-						renderer.setCurrentCell(0);
+						listModel.setPage(0);
+						renderer.setCurrentRowOnPage(0);
 					} else
 						renderer.setCurrentColumn(currentCol+1);
 				}
@@ -634,7 +631,7 @@ public class GridPanel extends Borderlayout implements EventListener
 				else if (code == KeyEvent.HOME)
 				{
 					row = 0;
-					renderer.setCurrentCell(row);
+					renderer.setCurrentRowOnPage(row);
 					renderer.setCurrentColumn(currentCol);
 				}
 				else if (code == KeyEvent.PAGE_DOWN)
@@ -676,7 +673,7 @@ public class GridPanel extends Borderlayout implements EventListener
 			return;
 		int rowIndex  = gridTab.isOpen() ? gridTab.getCurrentRow() : -1;
 		if (rowIndex >= 0 && pageSize > 0) {
-			int pgIndex = rowIndex >= 0 ? rowIndex % pageSize : 0;
+			int pgIndex = renderer.getRowIndexInPage(rowIndex);
 			org.zkoss.zul.Row row = (org.zkoss.zul.Row) listbox.getRows().getChildren().get(pgIndex);
 			if (!isRowRendered(row, pgIndex)) {
 				listbox.renderRow(row);
@@ -1006,7 +1003,8 @@ public class GridPanel extends Borderlayout implements EventListener
 		listbox.setVflex(true);
 	} // createListbox
 	
-	private void onNew() {
+	// Visible for testing
+	protected void onNew() {
 		if(renderer.getTotalColumns() != -1) {
 			isNewRecord = gridTab.dataNew(false);
 	        if (isNewRecord) {
@@ -1032,6 +1030,7 @@ public class GridPanel extends Borderlayout implements EventListener
 	}
 	
 	private void updateToolbar(boolean enabled) {
+	    if (windowPanel == null) return;
 		if(windowPanel.getToolbar().getCurrentPanel() != null)
 			windowPanel.getToolbar().getCurrentPanel().dynamicDisplay(0);
     	windowPanel.getToolbar().enableChanges(enabled);
@@ -1044,51 +1043,143 @@ public class GridPanel extends Borderlayout implements EventListener
     
 	}
 	
-	private void setUpDownRow(int value) {
-		int row = renderer.getCurrentRowIndex();
-		int totalRow = gridTab.getRowCount();
+	protected void setUpDownRow(int value) {
+        int row = renderer.getCurrentRowIndex();
+        int lastRow = gridTab.getRowCount()-1;
+        int newRow = row + value;
 
-		if(totalRow <= 0) {
-			onNew();
-			onPostSelectedRowChanged();
+		if(gridTab.getRowCount() <= 0) {
+			createANewRow();
 		}
-		else if(((GridTable)tableModel).checkField(row)) {
-			
-			// multiply by 2 to avoid last row
-			int verifyRow = row + (value * 2);
-			row += value;
-			if(row < 0)
-				return;
-			else if(verifyRow < 0)
-				verifyRow = 0;
-			else if(verifyRow >= totalRow)
-				verifyRow = totalRow-1;
-			
-			// set next Row for scroll
-			org.zkoss.zul.Row r = (org.zkoss.zul.Row) listbox.getRows().getChildren().get(verifyRow);
-			
-			if(row >= totalRow) {
-				row = totalRow;
-				gridTab.navigate(totalRow-1);
-				renderer.setCurrentColumn(currentCol);
-			}
-			if (row == totalRow)	{
-				if(!isNewRecord && !dataSave(0)) {
-					if(renderer.isLastColumn()) {
-						renderer.setCurrentColumn(0); 
-					}
-					onNew();
-				}
-				return;
-			}
-			else {
-				if(!gridTab.isNew()) {
-					gridTab.navigateRelative(value);
-					renderer.setCurrentCell(row);
-					renderer.setCurrentColumn(currentCol);
-					Clients.scrollIntoView(r);
-				}
-			}
+		else if(isSafeToLeaveRow(row)) {
+            if (row == lastRow && row + value > lastRow) {
+                if(!isNewRecord && !dataSave(0)) {
+                    if(renderer.isLastColumn()) {
+                        renderer.setCurrentColumn(0); 
+                    }
+                    createANewRow();
+                }
+            }
+		    if(!gridTab.isNew()) {
+        		newRow = gridTab.navigateRelative(value);
+        		int newRowIndexInPage = renderer.getRowIndexInPage(newRow);
+                renderer.setCurrentRowOnPage(newRowIndexInPage);
+    			renderer.setCurrentColumn(currentCol);
+                scrollRowIntoViewWithSpacing(newRow, value);
+		    }
 		}
 	}
+
+    void scrollRowIntoViewWithSpacing(int newRow, int value) {
+
+        int indexInPage = getRowPageIndexToMakeSpacingVisible(newRow, value);
+        if (indexInPage >= 0) {
+            Row r = (Row) listbox.getRows()
+                    .getChildren().get(indexInPage);
+            scrollRowIntoView(r);
+        }
+
+    }
+
+    protected int getRowPageIndexToMakeSpacingVisible(int rowIndex, int direction) {
+
+        if (rowIndex < 0)
+            return -1;
+        
+        if (gridTab.getRowCount() <= 0)
+            return -1;
+        
+        if (rowIndex >= gridTab.getRowCount())
+            return -1;
+
+        if (direction == 0)
+            return getCurrentRowInPage(rowIndex);
+        
+        if (direction < 0) 
+            direction = -1;
+        else
+            direction = 1;
+        
+        int targetRow = rowIndex + LOOKAHEAD_SPACING*direction;
+        
+        targetRow = clipToTable(targetRow);
+        
+        return clipToPageAndConvert(rowIndex, targetRow);
+                
+    }
+
+    private int clipToTable(int targetRow) {
+
+        if (targetRow < 0)
+            return 0;
+        else if (targetRow >= gridTab.getRowCount())
+            return gridTab.getRowCount()-1;
+        return targetRow;
+                    
+    }
+
+    private int clipToPageAndConvert(int rowIndex, int targetRow) {
+
+        int clippedRow = targetRow;
+
+        if (pageSize > 0) {
+            int page = rowIndex / pageSize;   
+            int targetPage = targetRow / pageSize;
+            if (targetPage != page) {
+                 if(targetRow < rowIndex)
+                     clippedRow = page * pageSize;
+                 else if (targetRow > rowIndex)
+                     clippedRow = (page + 1) * pageSize -1;
+            }
+            clippedRow = clippedRow % pageSize;
+        }                 
+        return clippedRow;
+        
+    }
+
+    private int getCurrentRowInPage(int rowIndex) {
+
+        if (pageSize == 0)
+            return rowIndex;
+        return rowIndex % pageSize;
+
+    }
+
+    void scrollRowIntoView(org.zkoss.zul.Row row) {
+
+        Clients.scrollIntoView(row);
+
+    }
+
+    boolean isSafeToLeaveRow(int rowIndex) {
+
+        return ((GridTable)tableModel).checkField(rowIndex);
+
+    }
+
+    void createANewRow() {
+
+        onNew();
+        onPostSelectedRowChanged();
+
+    }
+	
+	protected boolean hasNoRows() {
+	    return gridTab.getRowCount() <= 0; 
+	}
+
+	// Protected for testing
+    protected boolean getSysConfigModelessOrDefault(boolean defaultValue) {
+
+        return MSysConfig.getBooleanValue(MODE_LESS_KEY, defaultValue);
+
+    }
+
+    // Protected for testing
+    protected int getSysConfigPageSizeOrDefault(int defaultPageSize) {
+
+        return MSysConfig.getIntValue(PAGE_SIZE_KEY, defaultPageSize);
+
+    }
+
 }

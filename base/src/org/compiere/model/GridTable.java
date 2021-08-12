@@ -651,6 +651,7 @@ public class GridTable extends AbstractTableModel
 		m_open = true;
 		//
 		m_changed = false;
+		m_newRow = -1;
 		m_rowChanged = -1;
 		m_inserting = false;
 		return true;
