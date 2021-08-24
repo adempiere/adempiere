@@ -482,6 +482,13 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 						table.setCheckmark(true);
 						table.removeEventListener(Events.ON_SELECT, this);
 						table.addEventListener(Events.ON_SELECT, this);
+					}else
+					{
+						ListItem listItem = table.getItemAtIndex(rowIndex);
+						boolean selected = id.isSelected();
+						if (listItem != null && !listItem.isSelected() && selected) {
+							listItem.setSelected(true);
+						}
 					}
 				}
 			}
