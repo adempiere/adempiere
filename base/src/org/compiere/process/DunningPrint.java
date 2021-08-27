@@ -168,7 +168,7 @@ public class DunningPrint extends DunningPrintAbstract {
 				notifier
 					.clearMessage()
 					.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
-					.addRecipient(getAD_User_ID())
+					.addRecipient(to.getAD_User_ID())
 					.withText(message)
 					.withDescription(text.getMailHeader())
 					.withTableId(MDunningRunEntry.Table_ID)
