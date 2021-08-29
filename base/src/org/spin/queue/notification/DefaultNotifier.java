@@ -309,7 +309,7 @@ public class DefaultNotifier extends QueueManager {
 			throw new AdempiereException("@Text@ @IsMandatory@");
 		}
 		if(getApplicationType().equals(DefaultNotificationType_UserDefined)
-				&& getUserId() == 0) {
+				&& !getRecipients().stream().filter(recipient -> recipient.getKey() > 0).findFirst().isPresent()) {
 			throw new AdempiereException("@AD_User_ID@ @IsMandatory@");
 		}
 		//	for default
