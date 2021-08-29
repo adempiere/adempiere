@@ -406,26 +406,30 @@ public class WorkflowProcessor extends AdempiereServer
 			list.add (new Integer(m_model.getSupervisor_ID()));
 		}
 		Trx.run(transactionName -> {
-			//	Get instance for notifier
-			DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
-					.withContext(getCtx())
-					.withTransactionName(transactionName);
-			//	Send notification to queue
-			notifier
-				.clearMessage()
+			DefaultNotifier notifier = getDefaultNotifierInstance(transactionName);
+			notifier.clearMessage()
 				.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
 				.withText(subject)
 				.addAttachment(attachmentAsPDF.get())
 				.withDescription(message.get())
 				.withTableId(po.get_Table_ID())
 				.withRecordId(po.get_ID());
-			//	Add all recipients
 			list.forEach(userId -> notifier.addRecipient(userId));
-			//	Add to queue
 			notifier.addToQueue();
 		});
 		return counter;
 	}   //  sendAlert
+	
+	/**
+	 * Get Default notifier
+	 * @param transactionName
+	 * @return
+	 */
+	private DefaultNotifier getDefaultNotifierInstance(String transactionName) {
+		return (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+				.withContext(getCtx())
+				.withTransactionName(transactionName);
+	}
 	
 	/**
 	 * 	Send Alert To Responsible
@@ -481,11 +485,7 @@ public class WorkflowProcessor extends AdempiereServer
 		}
 		//	Send
 		Trx.run(transactionName -> {
-			//	Get instance for notifier
-			DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
-					.withContext(getCtx())
-					.withTransactionName(transactionName);
-			//	Send notification to queue
+			DefaultNotifier notifier = getDefaultNotifierInstance(transactionName);
 			notifier
 				.clearMessage()
 				.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
