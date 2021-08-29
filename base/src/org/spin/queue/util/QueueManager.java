@@ -243,11 +243,13 @@ public abstract class QueueManager {
 		}
 		//	Call abstract implementation
 		boolean processed = true;
+		String error = null;
 		try {
 			process(queueToProcess.getAD_Queue_ID());
 		} catch (Exception e) {
 			logger.severe(e.getLocalizedMessage());
 			processed = false;
+			error = e.getLocalizedMessage();
 		}
 		//	
 		if(deleteAfterProcess) {
@@ -261,6 +263,9 @@ public abstract class QueueManager {
 			queueToProcess.setProcessedOn(bdtimestamp);
 			queueToProcess.setProcessed(processed);
 			queueToProcess.saveEx();
+		}
+		if(!processed) {
+			throw new AdempiereException(error);
 		}
 	}
 
