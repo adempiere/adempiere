@@ -17,13 +17,14 @@
 package org.spin.util;
 
 import java.util.List;
+import java.util.Properties;
 
+import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MClient;
 import org.compiere.model.MClientInfo;
 import org.compiere.model.MMailText;
 import org.compiere.model.MUser;
 import org.compiere.util.AdempiereUserError;
-import org.compiere.util.Env;
 import org.compiere.util.Trx;
 import org.compiere.util.Util;
 import org.spin.model.MADTokenDefinition;
@@ -40,11 +41,11 @@ import org.spin.queue.util.QueueLoader;
  */
 public class GeneratePassword  {
 
-	StringBuffer msg = new StringBuffer();
-	StringBuffer msgException = new StringBuffer();
+	private StringBuffer msg = new StringBuffer();
+	private Properties context;
 	
 	public String doIt(String userName) {
-		List<MUser> users = MUser.getUsers(Env.getCtx(), userName);
+		List<MUser> users = MUser.getUsers(this.context, userName);
 		users.stream()
 			.filter(user -> user.isActive() && user.isLoginUser())
 			.forEach(user -> {
@@ -55,7 +56,17 @@ public class GeneratePassword  {
 				}
 		});
 		return msg.toString();
-		
+	}
+	
+	/**
+	 * Default Constructor, note that exist a context as parameter
+	 * @param context
+	 */
+	public GeneratePassword(Properties context) {
+		if(context == null) {
+			throw new AdempiereException("Context is Mandatory");
+		}
+		this.context = context;
 	}
 	
 	/**
@@ -82,7 +93,7 @@ public class GeneratePassword  {
 			throw new AdempiereUserError ("@RestorePassword_MailText_ID@ @NotFound@");
 		}
 		//	Set from mail template
-		MMailText text = new MMailText (Env.getCtx(), mailTextId, null);
+		MMailText text = new MMailText (this.context, mailTextId, null);
 		text.setPO(TokenGeneratorHandler.getInstance().getToken(MADTokenDefinition.TOKENTYPE_URLTokenUsedAsURL));
 		text.setUser(user);
 		//	
@@ -91,7 +102,7 @@ public class GeneratePassword  {
 		Trx.run(transactionName -> {
 			//	Get instance for notifier
 			DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
-					.withContext(Env.getCtx())
+					.withContext(this.context)
 					.withTransactionName(transactionName);
 			//	Send notification to queue
 			notifier
