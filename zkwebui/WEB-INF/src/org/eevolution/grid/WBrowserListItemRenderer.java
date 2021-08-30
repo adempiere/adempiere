@@ -815,7 +815,8 @@ public class WBrowserListItemRenderer implements ListitemRenderer, EventListener
 			WBrowserTable table = (WBrowserTable) event.getTarget();
 			if (table.isCheckmark()) {
 				int cnt = table.getRowCount();
-				if (cnt == 0 || !(table.getValueAt(0, 0) instanceof IDColumn))
+				if (table.getValueAt(0, 0) !=null && 
+						(cnt == 0 || !(table.getValueAt(0, 0) instanceof IDColumn)))
 					return;
 
 				//update IDColumn
