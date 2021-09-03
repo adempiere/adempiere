@@ -94,7 +94,7 @@ public class BankStatementMatcher extends SvrProcess
 		{
 			if (m_matchers[i].isMatcherValid())
 			{
-				info = m_matchers[i].getMatcher().findMatch(ibs);
+				info = m_matchers[i].getMatcher().findMatch(ibs, null, null);
 				if (info != null && info.isMatched())
 				{
 					if (info.getC_Payment_ID() > 0)
@@ -128,7 +128,7 @@ public class BankStatementMatcher extends SvrProcess
 		{
 			if (m_matchers[i].isMatcherValid())
 			{
-				info = m_matchers[i].getMatcher().findMatch(bsl);
+				info = m_matchers[i].getMatcher().findMatch(bsl, null, null);
 				if (info != null && info.isMatched())
 				{
 					if (info.getC_Payment_ID() > 0)
