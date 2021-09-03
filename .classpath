@@ -293,7 +293,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="tools/lib/mariadb-java-client.jar"/>
-	<classpathentry kind="lib" path="tools/lib/slf4j-api-1.6.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/poi-3.17.jar"/>
 	<classpathentry kind="lib" path="tools/lib/poi-ooxml-3.17.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-6.6.0.jar"/>
