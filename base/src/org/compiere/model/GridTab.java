@@ -2079,10 +2079,16 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		log.fine("#" + m_vo.TabNo + " - " + e.toString());
 		int oldCurrentRow = e.getCurrentRow();
 		m_DataStatusEvent = e;          //  save it
-		//  when sorted set current row to 0
+		//  when sorted set current row
 		String msg = m_DataStatusEvent.getAD_Message();
 		if (msg != null && msg.equals("Sorted"))
-			setCurrentRow(0, true);
+		{
+			oldCurrentRow = m_currentRow;
+			if (e.getCurrentRow() >= 0)
+				setCurrentRow(e.getCurrentRow());
+			else
+				setCurrentRow(0, true);
+		}
 		//  set current row
 		m_DataStatusEvent = e;          //  setCurrentRow clear it, need to save again
 		m_DataStatusEvent.setCurrentRow(m_currentRow);
@@ -2355,6 +2361,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			}
 		}
 		loadDependentInfo();
+
+		m_mTable.setCurrentRow(m_currentRow);
 
 		if (!fireEvents)    //  prevents informing twice
 			return m_currentRow;

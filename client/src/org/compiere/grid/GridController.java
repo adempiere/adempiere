@@ -761,14 +761,6 @@ public class GridController extends CPanel
 			return;
 		cardLayout.first(cardPanel);
 		m_singleRow = true;
-		
-		// Refresh the data to ensure embedded tabs are updated with
-		// the selected row. Check if the table model is open before 
-		// trying to refresh.  It may not have been opened yet, in 
-		// which case, the refresh will cause an error. See issue #421
-		if (m_mTab.getTableModel().isOpen()) 
-			m_mTab.dataRefresh(m_mTab.getCurrentRow());  // Fix for #421
-		
 		dynamicDisplay(0);
 	//	vPanel.requestFocus();
 	}   //  switchSingleRow
