@@ -317,6 +317,7 @@ public class MInvoice extends X_C_Invoice implements DocAction , DocumentReversa
 		setC_BPartner_ID(order.getBill_BPartner_ID());
 		setC_BPartner_Location_ID(order.getBill_Location_ID());
 		setAD_User_ID(order.getBill_User_ID());
+		setC_POS_ID(order.getC_POS_ID());
 	}	//	MInvoice
 
 	/**

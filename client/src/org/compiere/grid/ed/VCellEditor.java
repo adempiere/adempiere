@@ -203,9 +203,10 @@ public final class VCellEditor extends AbstractCellEditor
 	{
 		if (m_table == null)
 			return;
+
 		log.fine(e.getPropertyName() + "=" + e.getNewValue());
-		//
-		((GridTable)m_table.getModel()).setChanged(true);
+
+		m_table.setValueAt(e.getNewValue(), m_table.getEditingRow(), m_table.getEditingColumn());
 	}   //  vetoableChange
 
 	/**

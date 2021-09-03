@@ -89,9 +89,9 @@ public class AdempiereMonitor extends HttpServlet
 	/**	Logger				*/
 	private static CLogger	log = CLogger.getCLogger(AdempiereMonitor.class);
 	/**	The Server			*/
-	private AdempiereServerMgr	m_serverMgr = null;
+	private AdempiereServerMgr adempiereServerMgr = null;
 	/** Message				*/
-	private p				m_message = null;
+	private p message = null;
 	
 
 	
@@ -105,7 +105,7 @@ public class AdempiereMonitor extends HttpServlet
 	protected void doGet (HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException
 	{
-		m_message = null;
+		message = null;
 		if (processLogParameter (request, response))
 			return;
 		if (processTraceParameter (request, response))
@@ -143,7 +143,7 @@ public class AdempiereMonitor extends HttpServlet
 	 *	@throws ServletException
 	 *	@throws IOException
 	 */
-	private boolean processLogParameter (HttpServletRequest request, HttpServletResponse response)
+	private synchronized boolean processLogParameter (HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException
 	{
 		String serverID = WebUtil.getParameter (request, "Log");
@@ -151,12 +151,12 @@ public class AdempiereMonitor extends HttpServlet
 			return false;
 		
 		log.info ("ServerID=" + serverID);
-		AdempiereServer server = m_serverMgr.getServer(serverID);
+		AdempiereServer server = adempiereServerMgr.getServer(serverID);
 		if (server == null)
 		{
-			m_message = new p();
-			m_message.addElement(new strong("Server not found: "));
-			m_message.addElement(serverID);
+			message = new p();
+			message.addElement(new strong("Server not found: "));
+			message.addElement(serverID);
 			return false;
 		}
 		
@@ -214,7 +214,7 @@ public class AdempiereMonitor extends HttpServlet
 	 *	@throws ServletException
 	 *	@throws IOException
 	 */
-	private boolean processRunNowParameter (HttpServletRequest request)
+	private synchronized boolean processRunNowParameter (HttpServletRequest request)
 		throws ServletException, IOException
 	{
 		String serverID = WebUtil.getParameter (request, "RunNow");
@@ -222,12 +222,12 @@ public class AdempiereMonitor extends HttpServlet
 			return false;
 		
 		log.info ("ServerID=" + serverID);
-		AdempiereServer server = m_serverMgr.getServer(serverID);
+		AdempiereServer server = adempiereServerMgr.getServer(serverID);
 		if (server == null)
 		{
-			m_message = new p();
-			m_message.addElement(new strong("Server not found: "));
-			m_message.addElement(serverID);
+			message = new p();
+			message.addElement(new strong("Server not found: "));
+			message.addElement(serverID);
 			return false;
 		}
 		//
@@ -240,7 +240,7 @@ public class AdempiereMonitor extends HttpServlet
 	 * 	Process Action Parameter
 	 *	@param request request
 	 */
-	private void processActionParameter (HttpServletRequest request)
+	private synchronized void processActionParameter (HttpServletRequest request)
 	{
 		String action = WebUtil.getParameter (request, "Action");
 		if (action == null || action.length() == 0)
@@ -249,47 +249,47 @@ public class AdempiereMonitor extends HttpServlet
 		try
 		{
 			boolean start = action.startsWith("Start");
-			m_message = new p();
+			message = new p();
 			String msg = (start ? "Started" : "Stopped") + ": ";
-			m_message.addElement(new strong(msg));
+			message.addElement(new strong(msg));
 			//
 			String serverID = action.substring(action.indexOf('_')+1);
 			boolean ok = false;
 			if (serverID.equals("All"))
 			{
 				if (start)
-					ok = m_serverMgr.startAll();
+					ok = adempiereServerMgr.startAll();
 				else
-					ok = m_serverMgr.stopAll();
-				m_message.addElement("All");
+					ok = adempiereServerMgr.stopAll();
+				message.addElement("All");
 			}
 			else
 			{
-				AdempiereServer server = m_serverMgr.getServer(serverID);
+				AdempiereServer server = adempiereServerMgr.getServer(serverID);
 				if (server == null)
 				{
-					m_message = new p();
-					m_message.addElement(new strong("Server not found: "));
-					m_message.addElement(serverID);
+					message = new p();
+					message.addElement(new strong("Server not found: "));
+					message.addElement(serverID);
 					return;
 				}
 				else
 				{
 					if (start)
-						ok = m_serverMgr.start (serverID);
+						ok = adempiereServerMgr.start (serverID);
 					else
-						ok = m_serverMgr.stop (serverID);
-					m_message.addElement(server.getName());
+						ok = adempiereServerMgr.stop (serverID);
+					message.addElement(server.getName());
 				}
 			}
-			m_message.addElement(ok ? " - OK" : " - Error!");
+			message.addElement(ok ? " - OK" : " - Error!");
 		}
 		catch (Exception e)
 		{
-			m_message = new p();
-			m_message.addElement(new strong("Error processing parameter: " + action));
-			m_message.addElement(new br());
-			m_message.addElement(e.toString());
+			message = new p();
+			message.addElement(new strong("Error processing parameter: " + action));
+			message.addElement(new br());
+			message.addElement(e.toString());
 		}
 	}	//	processActionParameter
 
@@ -422,8 +422,8 @@ public class AdempiereMonitor extends HttpServlet
 		}
 		if (AD_Client_ID < 0)
 		{
-			m_message = new p();
-			m_message.addElement("No EMail: " + email);
+			message = new p();
+			message.addElement("No EMail: " + email);
 			return false;
 		}
 		
@@ -431,8 +431,8 @@ public class AdempiereMonitor extends HttpServlet
 		MClient client = MClient.get(new Properties(), AD_Client_ID);
 		log.info ("Test: " + client);
 		
-		m_message = new p();
-		m_message.addElement(client.getName() + ": " + client.testEMail());
+		message = new p();
+		message.addElement(client.getName() + ": " + client.testEMail());
 		return false;
 	}	//	processEMailParameter
 	
@@ -454,29 +454,29 @@ public class AdempiereMonitor extends HttpServlet
 		String tableName = WebUtil.getParameter (request, "CacheTableName");
 		String record_ID = WebUtil.getParameter (request, "CacheRecord_ID");
 		
-		m_message = new p();
+		message = new p();
 		try
 		{
 			if (tableName == null || tableName.length() == 0)
 			{
 				CacheMgt.get().reset();
-				m_message.addElement("Cache Reset: All");
+				message.addElement("Cache Reset: All");
 			}
 			else if (record_ID == null || record_ID.length() == 0)
 			{
 				CacheMgt.get().reset(tableName);
-				m_message.addElement("Cache Reset: " + tableName);
+				message.addElement("Cache Reset: " + tableName);
 			}
 			else
 			{
 				CacheMgt.get().reset(tableName, Integer.parseInt(record_ID));
-				m_message.addElement("Cache Reset: " + tableName + ", Record_ID=" + record_ID);
+				message.addElement("Cache Reset: " + tableName + ", Record_ID=" + record_ID);
 			}
 		}
 		catch (Exception e)
 		{
 			log.severe(e.toString());
-			m_message.addElement("Error: " + e.toString());
+			message.addElement("Error: " + e.toString());
 		}
 		return false;	//	continue
 	}	//	processEMailParameter
@@ -488,7 +488,7 @@ public class AdempiereMonitor extends HttpServlet
 	 *	@throws ServletException
 	 *	@throws IOException
 	 */
-	private void createSummaryPage (HttpServletRequest request, HttpServletResponse response)
+	private synchronized void createSummaryPage (HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException
 	{
 		WebDoc doc = WebDoc.create ("Adempiere Server Monitor");
@@ -498,10 +498,10 @@ public class AdempiereMonitor extends HttpServlet
 		//	Body
 		body bb = doc.getBody();
 		//	Message
-		if (m_message != null)
+		if (message != null)
 		{
 			bb.addElement(new hr());
-			bb.addElement(m_message);
+			bb.addElement(message);
 			bb.addElement(new hr());
 		}
 		
@@ -521,16 +521,16 @@ public class AdempiereMonitor extends HttpServlet
 		table.addElement(line);
 		line = new tr();
 		line.addElement(new th().addElement("Manager"));
-		line.addElement(new td().addElement(WebEnv.getCellContent(m_serverMgr.getDescription())));
+		line.addElement(new td().addElement(WebEnv.getCellContent(adempiereServerMgr.getDescription())));
 		table.addElement(line);
 		line = new tr();
 		line.addElement(new th().addElement("Start - Elapsed"));
-		line.addElement(new td().addElement(WebEnv.getCellContent(m_serverMgr.getStartTime())
-			+ " - " + TimeUtil.formatElapsed(m_serverMgr.getStartTime())));
+		line.addElement(new td().addElement(WebEnv.getCellContent(adempiereServerMgr.getStartTime())
+			+ " - " + TimeUtil.formatElapsed(adempiereServerMgr.getStartTime())));
 		table.addElement(line);
 		line = new tr();
 		line.addElement(new th().addElement("Servers"));
-		line.addElement(new td().addElement(WebEnv.getCellContent(m_serverMgr.getServerCount())));
+		line.addElement(new td().addElement(WebEnv.getCellContent(adempiereServerMgr.getServerCount())));
 		table.addElement(line);
 		line = new tr();
 		line.addElement(new th().addElement("Last Updated"));
@@ -552,7 +552,7 @@ public class AdempiereMonitor extends HttpServlet
 		//	***** Server Links *****
 		bb.addElement(new hr());
 		para = new p();
-		AdempiereServer[] servers = m_serverMgr.getAll();		
+		AdempiereServer[] servers = adempiereServerMgr.getAll();
 		for (int i = 0; i < servers.length; i++)
 		{
 			if (i > 0)
@@ -891,20 +891,21 @@ public class AdempiereMonitor extends HttpServlet
 	 *	@param config config
 	 *	@throws javax.servlet.ServletException
 	 */
-	public void init (ServletConfig config) throws ServletException
+	public synchronized void init (ServletConfig config) throws ServletException
 	{
 		WebEnv.initWeb(config);
 		log.info ("");
-		m_serverMgr = AdempiereServerMgr.get();
+		adempiereServerMgr = AdempiereServerMgr.get();
 	}	//	init
 	
 	/**
 	 * 	Destroy
 	 */
-	public void destroy ()
+	public synchronized void destroy ()
 	{
 		log.info ("destroy");
-		m_serverMgr = null;
+		adempiereServerMgr.destroy();
+		adempiereServerMgr = null;
 	}	//	destroy
 	
 	/**

@@ -457,17 +457,6 @@ public class DB_MariaDB implements AdempiereDatabase {
 			//
 			conn.setAutoCommit(autoCommit);
 			conn.setTransactionIsolation(transactionIsolation);
-
-			try {
-				int numConnections =  m_ds.getMaximumPoolSize(); //m_ds.getNumBusyConnections();
-				if (numConnections >= m_maxbusyconnections
-						&& m_maxbusyconnections > 0) {
-					log.warning(getStatus());
-					// hengsin: make a best effort to reclaim leak connection
-					Runtime.getRuntime().runFinalization();
-				}
-			} catch (Exception ex) {
-			}
 		}
 		return conn;
 	}

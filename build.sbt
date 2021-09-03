@@ -14,15 +14,15 @@
   * Created by victor.perez@e-evolution.com , www.e-evolution.com
   */
 
-name := "org.adempiere.jetty"
+name := "org.adempiere.server"
 
 lazy val commonSettings = Seq(
   organization := "org.adempiere.net",
   version := "3.9.4-SNAPSHOT",
-  scalaVersion := "2.13.6"
+  scalaVersion := "3.0.0"
 )
 
-scalaVersion := "2.13.6"
+scalaVersion := "3.0.0"
 resolvers += "Artima Maven Repository" at "https://repo.artima.com/releases"
 
 fork := true
@@ -40,26 +40,14 @@ val adempiereProperties =
 Test / javaOptions := Seq(adempiereProperties)
 
 libraryDependencies ++= Seq(
-  "javax.servlet" % "javax.servlet-api" % "4.0.1" % "provided",
-  "org.scala-lang" % "scala-reflect" % "2.13.6"
+  "javax.servlet" % "javax.servlet-api" % "4.0.1" % "provided"
+  //"org.scala-lang" % "scala-reflect" % "3.0.0"
 )
 
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.9"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % Test
 libraryDependencies += "org.scalatest" %% "scalatest-featurespec" % "3.2.9" % Test
 Test / logBuffered := false
-
-//Documentation here ~compile https://github.com/earldouglas/xsbt-web-plugin/blob/master/docs/2.0.md
-//execute with sbt ~jetty:start
-Jetty / javaOptions ++= Seq(
-  adempiereProperties,
-  "--add-exports=java.desktop/sun.swing=ALL-UNNAMED",
-  "--add-exports=java.desktop/sun.awt=ALL-UNNAMED",
-  "--add-exports=java.base/sun.security.provider=ALL-UNNAMED",
-  "--add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED",
-  "-Xdebug",
-  "-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
-)
 
 assembly / assemblyJarName := "AdempiereTestSuite.jar"
 assembly / test := {}
@@ -70,7 +58,10 @@ assembly / assemblyOption := (assembly / assemblyOption).value
 val sourceDirectoryTest = "org.adempiere.test"
 val sourceAdempiere = "/Users/e-Evolution/Develop/ADempiere/developEE"
 
-//Compile / javaSource := baseDirectory.value / sourceDirectoryTest / "src" / "main" / "java"
+/**
+Compile / javaSource := baseDirectory.value / "serverRoot" / "src" / "main" / "server"
+Compile / javaSource := baseDirectory.value / "serverRoot" / "src" / "main" / "servlet"
+**/
 //Test / javaSource := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "java"
 
 //Compile / scalaSource := baseDirectory.value / sourceDirectoryTest / "src" / "main" / "scala"
@@ -81,10 +72,10 @@ Compile / unmanagedClasspath += file(
   sourceAdempiere + "/zkwebui/WEB-INF/classes"
 )
 Compile / unmanagedClasspath += file(
-  sourceAdempiere + "/target/scala-2.13/classes"
+  sourceAdempiere + "/target/scala-3.0.0/classes"
 )
 Compile / unmanagedClasspath += file(
-  sourceAdempiere + "/target/scala-2.13/test-classes"
+  sourceAdempiere + "/target/scala-3.0.0/test-classes"
 )
 
 Compile / unmanagedJars ++= (file(
@@ -109,49 +100,90 @@ Compile / unmanagedJars ++= (file(
 Test / testOptions += Tests.Argument(TestFrameworks.ScalaTest, "-oD")
 Test / logBuffered := false
 
-enablePlugins(JettyPlugin)
 enablePlugins(WebappPlugin)
 
+// Enable to Tomcat Server
+//execute with sbt ~tomcat:start
+enablePlugins(TomcatPlugin)
+Tomcat / containerLibs := Seq(
+  "com.heroku" % "webapp-runner" % "9.0.41.0" intransitive ()
+)
+Tomcat / containerMain := "webapp.runner.launch.Main"
+//Documentation here ~compile https://github.com/earldouglas/xsbt-web-plugin/blob/master/docs/2.0.md
+
+Tomcat / javaOptions ++= Seq(
+  adempiereProperties,
+  "--add-exports=java.desktop/sun.swing=ALL-UNNAMED",
+  "--add-exports=java.desktop/sun.awt=ALL-UNNAMED",
+  "--add-exports=java.base/sun.security.provider=ALL-UNNAMED",
+  "--add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED",
+  "-DADEMPIERE_HOME=/Users/e-Evolution",
+  "-Xdebug",
+  "-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
+)
+
+// Enable to Jetty Server
+//execute with sbt ~jetty:start
+
+enablePlugins(JettyPlugin)
 Jetty / containerLibs := Seq(
   "org.eclipse.jetty" % "jetty-runner" % "10.0.6" intransitive ()
 )
 Jetty / containerMain := "org.eclipse.jetty.runner.Runner"
 //containerForkOptions := new ForkOptions(runJVMOptions = Seq("-Dh2g2=42"))
+
+Jetty / javaOptions ++= Seq(
+  adempiereProperties,
+  "--add-exports=java.desktop/sun.swing=ALL-UNNAMED",
+  "--add-exports=java.desktop/sun.awt=ALL-UNNAMED",
+  "--add-exports=java.base/sun.security.provider=ALL-UNNAMED",
+  "--add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED",
+  "-Xdebug",
+  "-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
+)
+
 containerPort := 9090
 containerShutdownOnExit := true
-
+// deployment webui
 webappPrepare / sourceDirectory := (Compile / sourceDirectory).value / "zkwebui"
+
+// Deployment Server Root
 //webappPrepare / sourceDirectory := (sourceDirectory in Compile).value / "serverRoot" / "src" / "web"
-
 //webappPrepare / target := target.value / "admin"
-//inheritJarManifest := true
+inheritJarManifest := true
 
-webappPostProcess := { webappDir: File =>
-  IO.copyDirectory(
-    baseDirectory.value / "bin",
-    webappDir / "WEB-INF" / "classes"
-  )
-  IO.copyDirectory(
-    baseDirectory.value / "org.eevolution.manufacturing/src/main/java/ui/zk",
-    webappDir / "WEB-INF" / "classes"
-  )
-  IO.copyDirectory(
-    baseDirectory.value / "org.eevolution.hr_and_payroll/src/main/java/ui/zk",
-    webappDir / "WEB-INF" / "classes"
-  )
-  IO.copyDirectory(baseDirectory.value / "zkwebui", webappDir)
-  //IO.copyDirectory(baseDirectory.value / "serverRoot" / "src" / "web", webappDir)
-  IO.copyDirectory(baseDirectory.value / "lib", webappDir / "WEB-INF" / "lib")
-  IO.copyDirectory(
-    baseDirectory.value / "packages",
-    webappDir / "WEB-INF" / "lib"
-  )
-  IO.copyDirectory(
-    baseDirectory.value / "zkpackages",
-    webappDir / "WEB-INF" / "lib"
-  )
-  IO.copyDirectory(
-    baseDirectory.value / "zkwebui/WEB-INF/classes",
-    webappDir / "WEB-INF" / "classes"
-  )
+webappPostProcess := {
+  val log = streams.value.log
+  webappDir: File =>
+    IO.copyDirectory(
+      baseDirectory.value / "bin",
+      webappDir / "WEB-INF" / "classes"
+    )
+    IO.copyDirectory(
+      baseDirectory.value / "org.eevolution.manufacturing/src/main/java/ui/zk",
+      webappDir / "WEB-INF" / "classes"
+    )
+    IO.copyDirectory(
+      baseDirectory.value / "org.eevolution.hr_and_payroll/src/main/java/ui/zk",
+      webappDir / "WEB-INF" / "classes"
+    )
+    IO.copyDirectory(baseDirectory.value / "lib", webappDir / "WEB-INF" / "lib")
+
+    /**IO.copyDirectory(
+      baseDirectory.value / "serverRoot" / "src" / "web",
+      webappDir
+    )**/
+    IO.copyDirectory(baseDirectory.value / "zkwebui", webappDir)
+    IO.copyDirectory(
+      baseDirectory.value / "packages",
+      webappDir / "WEB-INF" / "lib"
+    )
+    IO.copyDirectory(
+      baseDirectory.value / "zkpackages",
+      webappDir / "WEB-INF" / "lib"
+    )
+    IO.copyDirectory(
+      baseDirectory.value / "zkwebui/WEB-INF/classes",
+      webappDir / "WEB-INF" / "classes"
+    )
 }

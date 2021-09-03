@@ -667,22 +667,6 @@ public class DB_Oracle implements AdempiereDatabase
             exception = e;
         }
 
-        try
-        {
-        	if (conn != null) {
-        		int numConnections = m_ds.getMaximumPoolSize(); //m_ds.getNumBusyConnections();
-	            if(numConnections >= m_maxbusyconnections && m_maxbusyconnections > 0)
-	            {
-	                log.warning(getStatus());
-	                //hengsin: make a best effort to reclaim leak connection
-	                Runtime.getRuntime().runFinalization();
-	            }
-        	}
-        }
-        catch (Exception ex)
-        {
-
-        }
         if (exception != null)
             throw exception;
         return conn;

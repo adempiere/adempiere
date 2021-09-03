@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Add new Currency for Venezuela Bolivar Digital" ReleaseNo="3.9.4" SeqNo="9230">
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="141" Action="I" Record_ID="50003" Table="C_Currency">
+        <Data AD_Column_ID="789" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="790" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="457" Column="C_Currency_ID">50003</Data>
+        <Data AD_Column_ID="461" Column="CostingPrecision">4</Data>
+        <Data AD_Column_ID="792" Column="Created">2021-08-19 09:09:29.543</Data>
+        <Data AD_Column_ID="793" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="796" Column="CurSymbol">Bs.S</Data>
+        <Data AD_Column_ID="460" Column="Description">Bolivar Digital</Data>
+        <Data AD_Column_ID="462" Column="EMUEntryDate" isNewNull="true"/>
+        <Data AD_Column_ID="463" Column="EMURate">0</Data>
+        <Data AD_Column_ID="791" Column="IsActive">true</Data>
+        <Data AD_Column_ID="798" Column="IsEMUMember">false</Data>
+        <Data AD_Column_ID="797" Column="IsEuro">false</Data>
+        <Data AD_Column_ID="458" Column="ISO_Code">VED</Data>
+        <Data AD_Column_ID="52074" Column="RoundOffFactor">1</Data>
+        <Data AD_Column_ID="459" Column="StdPrecision">2</Data>
+        <Data AD_Column_ID="794" Column="Updated">2021-08-19 09:09:29.543</Data>
+        <Data AD_Column_ID="795" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84646" Column="UUID">87f26860-fcc8-4c4f-aca0-e35218543097</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="20" StepType="AD">
+      <PO AD_Table_ID="617" Action="I" Record_ID="0" Table="C_Currency_Trl">
+        <Data AD_Column_ID="9634" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="9627" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="9632" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="9631" Column="C_Currency_ID">50003</Data>
+        <Data AD_Column_ID="9624" Column="Created">2021-08-19 09:09:36.094</Data>
+        <Data AD_Column_ID="9623" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="9633" Column="CurSymbol">Bs.S</Data>
+        <Data AD_Column_ID="9629" Column="Description">Bolivar Digital</Data>
+        <Data AD_Column_ID="9625" Column="IsActive">true</Data>
+        <Data AD_Column_ID="9628" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="9626" Column="Updated">2021-08-19 09:09:36.094</Data>
+        <Data AD_Column_ID="9630" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84648" Column="UUID">10a53623-832c-497b-aa6c-fa29003d572c</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
