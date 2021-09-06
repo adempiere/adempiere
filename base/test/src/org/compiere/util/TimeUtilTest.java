@@ -581,7 +581,7 @@ class TimeUtilTest extends CommonUnitTestSetup {
 
         return Stream.of(
 
-                arguments(1970, 01, 01),
+                arguments(1970, 01, 02),
                 arguments(2001, 12, 31),
                 arguments(2010, 05, 10));
 
