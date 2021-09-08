@@ -100,7 +100,7 @@ public class DashboardRunnable implements Runnable, Serializable {
             try {
                 Thread.sleep(interval);
             } catch (InterruptedException interruptedException) {
-                logger.log(Level.INFO, "Thread was interrupted, Failed to complete operation");
+                logger.log(Level.INFO, "Thread was interrupted ...");
                 break;
             }
 
@@ -109,7 +109,7 @@ public class DashboardRunnable implements Runnable, Serializable {
                 try {
                     refreshDashboard();
                 } catch (Exception exception) {
-                    logger.log(Level.INFO, "Refresh Dashboard problem ..." + exception.getMessage());
+                    logger.log(Level.INFO, "Refresh Dashboard stop execution ..." + exception.getMessage());
                     running.set(false);
                 }
             });
