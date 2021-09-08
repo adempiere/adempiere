@@ -23,17 +23,13 @@
 
 package org.adempiere.webui.window;
 
-import java.util.Locale;
-import java.util.Properties;
-
-import org.adempiere.webui.IWebClient;
 import org.adempiere.webui.component.FWindow;
 import org.adempiere.webui.panel.LoginPanel;
 import org.adempiere.webui.panel.NewPassPanel;
 import org.adempiere.webui.panel.PassResetPanel;
 import org.adempiere.webui.panel.RolePanel;
+import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.I_AD_User;
-import org.compiere.model.MSession;
 import org.compiere.model.MUser;
 import org.compiere.model.M_Element;
 import org.compiere.util.Env;
@@ -44,6 +40,9 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+
+import java.util.Locale;
+import java.util.Properties;
 
 /**
  *
@@ -62,7 +61,6 @@ public class LoginWindow extends FWindow implements EventListener
 	 *
 	 */
 	private static final long serialVersionUID = -365979563919913804L;
-	private IWebClient app;
     private Properties ctx;
     private LoginPanel pnlLogin;
     private RolePanel pnlRole;
@@ -70,10 +68,9 @@ public class LoginWindow extends FWindow implements EventListener
     private NewPassPanel pnlNewPass;
     private boolean isPassReset;
 
-    public LoginWindow(IWebClient app)
+    public LoginWindow()
     {
         this.ctx = Env.getCtx();
-        this.app = app;
         initComponents();
         init();
         // add listener on 'ENTER' key for the login window
@@ -119,7 +116,7 @@ public class LoginWindow extends FWindow implements EventListener
 
     public void loginCompleted()
     {
-        app.loginCompleted();
+        SessionManager.getApplication().loginCompleted();
     }
 
     public void loginCancelled()
@@ -150,18 +147,21 @@ public class LoginWindow extends FWindow implements EventListener
            if (loginPanel != null)
            {
                loginPanel.validateLogin();
+               cleanup();
            }
            
            NewPassPanel newPassPanel = (NewPassPanel)this.getFellowIfAny("NewPassPanel");
            if (newPassPanel != null)
            {
         	   newPassPanel.validateLogin();
+               cleanup();
            }
            
            PassResetPanel passResetPanel = (PassResetPanel)this.getFellowIfAny("PassResetPanel");
            if (passResetPanel != null)
            {
         	   passResetPanel.validatePassReset();
+               cleanup();
            }
        }
     }
@@ -205,5 +205,21 @@ public class LoginWindow extends FWindow implements EventListener
 
     public boolean isPassReset() {
     	return isPassReset;
+    }
+
+    public void cleanup() {
+        if (pnlLogin != null) {
+            pnlLogin.detach();
+            pnlLogin = null;
+        }
+        if (pnlRole != null) {
+            pnlRole = null;
+        }
+        if (pnlResetPass != null) {
+            pnlResetPass = null;
+        }
+        if (pnlNewPass != null){
+            pnlNewPass = null;
+        }
     }
 }

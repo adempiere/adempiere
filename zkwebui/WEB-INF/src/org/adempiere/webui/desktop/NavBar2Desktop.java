@@ -86,8 +86,6 @@ public class NavBar2Desktop extends TabbedDesktop implements MenuListener, Seria
 
 	private Borderlayout layout;
 
-	private Thread dashboardThread;
-
 	private DashboardRunnable dashboardRunnable;
 
 	private Accordion shortcutPanel;
@@ -121,7 +119,7 @@ public class NavBar2Desktop extends TabbedDesktop implements MenuListener, Seria
         else
         	layout.setPage(page);
 
-        dashboardRunnable = new DashboardRunnable(layout.getDesktop(), this);
+		dashboardRunnable = new DashboardRunnable(layout.getDesktop(), this);
 
         North n = new North();
         n.setSplittable(true);
@@ -140,12 +138,12 @@ public class NavBar2Desktop extends TabbedDesktop implements MenuListener, Seria
 			@Override
 			public void onEvent(Event event) throws Exception {
 				OpenEvent oe = (OpenEvent) event;
-				UserPreference pref = SessionManager.getSessionApplication().getUserPreference();
+				UserPreference pref = SessionManager.getUserPreference();
 				pref.setProperty(UserPreference.P_MENU_COLLAPSED, !oe.isOpen());
 				pref.savePreference();
 			}
 		});
-        UserPreference pref = SessionManager.getSessionApplication().getUserPreference();
+        UserPreference pref = SessionManager.getUserPreference();
         boolean menuCollapsed= pref.isPropertyBool(UserPreference.P_MENU_COLLAPSED);
         w.setOpen(!menuCollapsed);
         pnlSide.setParent(w);        
@@ -371,11 +369,10 @@ public class NavBar2Desktop extends TabbedDesktop implements MenuListener, Seria
         if (!portalLayout.getDesktop().isServerPushEnabled())
         	portalLayout.getDesktop().enableServerPush(true);
 
-        dashboardRunnable.refreshDashboard();
 
-        dashboardThread = new Thread(dashboardRunnable, "UpdateInfo");
-        dashboardThread.setDaemon(true);
-        dashboardThread.start();
+		dashboardRunnable = new DashboardRunnable(layout.getDesktop(), this);
+        dashboardRunnable.refreshDashboard();
+		dashboardRunnable.start();
 	}
 
     public void onEvent(Event event)
@@ -421,15 +418,11 @@ public class NavBar2Desktop extends TabbedDesktop implements MenuListener, Seria
 			layout.setPage(page);
 			this.page = page;
 		}
-		if (dashboardThread != null && dashboardThread.isAlive()) {
-			dashboardRunnable.stop();
-			dashboardThread.interrupt();
-
-			DashboardRunnable tmp = dashboardRunnable;
-			dashboardRunnable = new DashboardRunnable(tmp, layout.getDesktop(), this);
-			dashboardThread = new Thread(dashboardRunnable, "UpdateInfo");
-	        dashboardThread.setDaemon(true);
-	        dashboardThread.start();
+		if (dashboardRunnable.isRunning()) {
+				dashboardRunnable.interrupt();
+				DashboardRunnable tmp = dashboardRunnable;
+				dashboardRunnable = new DashboardRunnable(tmp, layout.getDesktop());
+				dashboardRunnable.start();
 		}
 	}
 
@@ -442,9 +435,8 @@ public class NavBar2Desktop extends TabbedDesktop implements MenuListener, Seria
 	}
 
 	public void logout() {
-		if (dashboardThread != null && dashboardThread.isAlive()) {
-			dashboardRunnable.stop();
-			dashboardThread.interrupt();
+		if (dashboardRunnable.isRunning()) {
+			dashboardRunnable.interrupt();
 		}
 	}
 

@@ -105,7 +105,7 @@ public class WPreference extends Popup implements EventListener {
         btn.addEventListener(Events.ON_CLICK, this);
         toolbar.appendChild(btn);
 
-		UserPreference preference = SessionManager.getSessionApplication().getUserPreference();
+		UserPreference preference = SessionManager.getUserPreference();
 		autoCommit.setValue(preference.getProperty(UserPreference.P_AUTO_COMMIT));
 		autoNew.setValue(preference.getProperty(UserPreference.P_AUTO_NEW));
 		tabCollapsible.setValue(preference.getProperty(UserPreference.P_WINDOW_TAB_COLLAPSIBLE));
@@ -119,7 +119,7 @@ public class WPreference extends Popup implements EventListener {
 	}
 
 	private void onSave() {
-		UserPreference preference = SessionManager.getSessionApplication().getUserPreference();
+		UserPreference preference = SessionManager.getUserPreference();
 		preference.setProperty(UserPreference.P_AUTO_COMMIT,
 				(Boolean)autoCommit.getValue() ? "Y" : "N");
 		preference.setProperty(UserPreference.P_AUTO_NEW,
