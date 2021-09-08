@@ -237,6 +237,8 @@ public class GridController extends CPanel
 		splitPane.add(cardPanel, JSplitPane.RIGHT);
 		splitPane.setBorder(null);
 		splitPane.setName("gc_splitPane");
+		splitPane.getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke("F6"), "none");
+		splitPane.getInputMap(WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(KeyStroke.getKeyStroke("F8"), "none");
 		//
 		cardPanel.setLayout(cardLayout);
 		cardPanel.add(vPane, "vPane");	//	Sequence Important!
