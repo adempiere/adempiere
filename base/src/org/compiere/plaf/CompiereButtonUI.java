@@ -48,17 +48,6 @@ public class CompiereButtonUI extends MetalButtonUI
 	/** UI shared   */
 	private static CompiereButtonUI s_buttonUI = new CompiereButtonUI();
 
-	
-	/**************************************************************************
-	 *  Install Defaults
-	 *  @param b
-	 */
-	public void installDefaults(AbstractButton b)
-	{
-		super.installDefaults(b);
-		b.setOpaque(false);
-	}   //  installDefaults
-
 	/**
 	 *  Update.
 	 *  This method is invoked by <code>JComponent</code> when the specified
@@ -94,7 +83,7 @@ public class CompiereButtonUI extends MetalButtonUI
 		ButtonModel model = b.getModel();
 		boolean in = model.isPressed() || model.isSelected();
 		//
-		if (b.isBorderPainted())
+		if (b.isOpaque() && b.isBorderPainted())
 			CompiereUtils.paint3Deffect((Graphics2D)g, c, CompiereLookAndFeel.ROUND, !in);
 	}   //  paint
 
