@@ -37,6 +37,7 @@ import java.lang.ref.WeakReference;
 import java.util.Hashtable;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.logging.Level;
 
 import static org.adempiere.webui.session.SessionContextListener.SESSION_CTX;
 
@@ -227,6 +228,7 @@ public class SessionManager
 			if (adempiereSessionId > 0) {
 				MSession adempiereSession = MSession.get(Env.getCtx(), session.getRemoteAddr(), session.getRemoteHost(), httpSession.getId());
 				adempiereSession.logout();
+				log.log(Level.INFO, "ADempiere Session " + httpSession.getId() + " Logout ...");
 			}
 			application.logoutDestroyed();
 			session.removeAttribute(SESSION_CTX);
@@ -236,5 +238,6 @@ public class SessionManager
 			session.removeAttribute(SESSION_APPLICATION);
 		});
 		session.invalidate();
+		log.log(Level.INFO, "Session " + httpSession.getId() + " Invalidate ...");
 	}
 }

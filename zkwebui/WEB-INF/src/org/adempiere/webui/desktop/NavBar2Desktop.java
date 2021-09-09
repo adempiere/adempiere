@@ -86,6 +86,8 @@ public class NavBar2Desktop extends TabbedDesktop implements MenuListener, Seria
 
 	private Borderlayout layout;
 
+	private Portallayout portalLayout;
+
 	private DashboardRunnable dashboardRunnable;
 
 	private Accordion shortcutPanel;
@@ -201,7 +203,7 @@ public class NavBar2Desktop extends TabbedDesktop implements MenuListener, Seria
         Tabpanel homeTab = new Tabpanel();
         windowContainer.addWindow(homeTab, Util.cleanAmp(Msg.getMsg(Env.getCtx(), "Home")), false);
 
-        Portallayout portalLayout = new Portallayout();
+        portalLayout = new Portallayout();
         portalLayout.setWidth("100%");
         portalLayout.setHeight("100%");
         portalLayout.setStyle("position: absolute; overflow: auto");
@@ -437,6 +439,8 @@ public class NavBar2Desktop extends TabbedDesktop implements MenuListener, Seria
 	public void logout() {
 		if (dashboardRunnable.isRunning()) {
 			dashboardRunnable.interrupt();
+			portalLayout.getDesktop().enableServerPush(false);
+			portalLayout = null;
 		}
 	}
 

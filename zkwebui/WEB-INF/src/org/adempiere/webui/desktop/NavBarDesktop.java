@@ -94,6 +94,8 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
 
 	private DashboardRunnable dashboardRunnable;
 
+	private Portallayout portalLayout;
+
 	private Accordion navigationPanel;
 
 	private West leftRegion;
@@ -203,7 +205,7 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
         Tabpanel homeTab = new Tabpanel();
         windowContainer.addWindow(homeTab, Msg.getMsg(Env.getCtx(), "Home").replaceAll("&", ""), false);
 
-        Portallayout portalLayout = new Portallayout();
+		portalLayout = new Portallayout();
         portalLayout.setWidth("100%");
         portalLayout.setHeight("100%");
         portalLayout.setStyle("position: absolute; overflow: auto");
@@ -451,6 +453,8 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
 	public void logout() {
 		if (dashboardRunnable.isRunning()) {
 			dashboardRunnable.interrupt();
+			portalLayout.getDesktop().enableServerPush(false);
+			portalLayout = null;
 		}
 	}
 

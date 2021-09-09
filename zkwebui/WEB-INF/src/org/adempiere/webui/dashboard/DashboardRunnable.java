@@ -100,7 +100,7 @@ public class DashboardRunnable implements Runnable, Serializable {
             try {
                 Thread.sleep(interval);
             } catch (InterruptedException interruptedException) {
-                logger.log(Level.INFO, "Thread was interrupted ...");
+                logger.log(Level.INFO, "Thread was interrupted ..." + interruptedException.getMessage());
                 break;
             }
 
