@@ -177,7 +177,8 @@ public class UserPanel extends Vbox  implements EventListener
 
 		if (logout == event.getTarget())
         {
-            SessionManager.logoutSession();
+			cleanup();
+			SessionManager.getApplication().logout();
         }
 		else if (role == event.getTarget())
 		{
@@ -211,5 +212,43 @@ public class UserPanel extends Vbox  implements EventListener
 			SessionManager.changeRole(user);
 		}
 
+	}
+
+	public void cleanup() {
+		if( logout != null) {
+			logout.detach();
+			logout = null;
+		}
+		if (role != null) {
+			role.detach();
+			role =  null;
+		}
+		if (preference != null) {
+			preference.detach();
+			preference =  null;
+		}
+		if (changeRole != null) {
+			changeRole.detach();
+			changeRole =  null;
+		}
+		if (context != null) {
+			context.detach();
+			context =  null;
+		}
+
+		if (lblUserNameValue != null) {
+			lblUserNameValue.detach();
+			lblUserNameValue =  null;
+
+		}
+		if(preferencePopup != null) {
+			preferencePopup.detach();
+			preferencePopup =  null;
+		}
+		if (contextPopup != null) {
+			contextPopup.detach();
+			contextPopup =  null;
+		}
+		detach();
 	}
 }

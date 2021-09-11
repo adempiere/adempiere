@@ -17,10 +17,8 @@
 
 package org.adempiere.webui.session;
 
+import java.io.Serializable;
 import java.util.Properties;
-
-import org.compiere.util.Env;
-import org.compiere.util.Language;
 
 /**
  *
@@ -28,7 +26,7 @@ import org.compiere.util.Language;
  * @date    Feb 25, 2007
  * @version $Revision: 0.10 $
  */
-public final class ServerContext extends Properties
+public final class ServerContext implements Serializable
 {
     /**
 	 * 
@@ -37,17 +35,13 @@ public final class ServerContext extends Properties
 
 	private ServerContext()
     {
-        super();
-        /**
-         * Set english as default language
-         */
-        this.put(Env.LANGUAGE, Language.getBaseAD_Language());        
     }
-    
-    private static InheritableThreadLocal<ServerContext> context = new InheritableThreadLocal<ServerContext>() {
-        protected ServerContext initialValue()
+
+    private static InheritableThreadLocal<Properties> context = new InheritableThreadLocal<Properties>() {
+        protected synchronized Properties initialValue()
         {
-            return new ServerContext();
+            Properties context = new Properties();
+            return context;
         }
     };
     
@@ -55,35 +49,27 @@ public final class ServerContext extends Properties
      * Get server context for current thread
      * @return ServerContext
      */
-    public static ServerContext getCurrentInstance()
+    public synchronized static Properties getCurrentInstance()
     {
-        return (ServerContext)context.get();
+        return (Properties)context.get();
     }
     
     /**
      * dispose server context for current thread
      */
-    public static void dispose()
+    public synchronized static void dispose()
     {
-    	context.remove();
+        context.remove();
     }
-    
-    /**
-     * Allocate new server context for current thread
-     * @return ServerContext
-     */
-    public static ServerContext newInstance() 
-    {
-    	dispose();
-    	return getCurrentInstance();
-    }
+
     
     /**
      * Set server context for current thread
      * @param ctx
      */
-    public static void setCurrentInstance(ServerContext ctx)
+    public synchronized static void setCurrentInstance(Properties ctx)
     {
+        dispose();
         context.set(ctx);
     }
 }

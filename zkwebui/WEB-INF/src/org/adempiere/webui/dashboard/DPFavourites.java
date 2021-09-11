@@ -20,7 +20,6 @@ import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.session.SessionManager;
 import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.window.FDialog;
-import org.compiere.model.MMenu;
 import org.compiere.model.MTree;
 import org.compiere.model.MTreeNode;
 import org.compiere.util.CLogger;

@@ -369,7 +369,8 @@ public class LoginPanel extends Window implements EventListener
 			if(AD_User_ID > 0)
 			{
 				// Elaine 2009/02/06 Load preference from AD_Preference
-				UserPreference userPreference = SessionManager.getSessionApplication().loadUserPreference(AD_User_ID);
+				SessionManager.loadUserPreference(AD_User_ID);
+				UserPreference userPreference = SessionManager.getUserPreference();
 				String initDefault = userPreference.getProperty(UserPreference.P_LANGUAGE);
 				for(int i = 0; i < lstLanguage.getItemCount(); i++)
 		        {
@@ -453,10 +454,7 @@ public class LoginPanel extends Window implements EventListener
         KeyNamePair rolesKNPairs[] = login.getRoles(userId, userPassword);
         if(rolesKNPairs == null || rolesKNPairs.length == 0) {
         	throw new WrongValueException("User Id or Password invalid!!!");
-        }
-
-        else
-        {
+        } else {
         	String langName = null;
         	if ( lstLanguage.getSelectedItem() != null )
         		langName = (String) lstLanguage.getSelectedItem().getLabel();
@@ -479,8 +477,8 @@ public class LoginPanel extends Window implements EventListener
 		// [ adempiere-ZK Web Client-2832968 ] User context lost?
 		// https://sourceforge.net/tracker/?func=detail&atid=955896&aid=2832968&group_id=176962
 		// it's harmless, if there is no bug then this must never fail
-        Session currSess = Executions.getCurrent().getDesktop().getSession();
-        currSess.setAttribute("Check_AD_User_ID", Env.getAD_User_ID(ctx));
+        Session currentSession = Executions.getCurrent().getDesktop().getSession();
+        currentSession.setAttribute("Check_AD_User_ID", Env.getAD_User_ID(ctx));
 		// End of temporary code for [ adempiere-ZK Web Client-2832968 ] User context lost?
 
         Env.setContext(ctx, BrowserToken.REMEMBER_ME, chkRememberMe.isChecked());

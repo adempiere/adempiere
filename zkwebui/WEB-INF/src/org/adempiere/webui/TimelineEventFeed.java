@@ -40,15 +40,9 @@ public class TimelineEventFeed extends HttpServlet {
 		Properties ctx = (Properties)req.getSession().getAttribute(SessionContextListener.SESSION_CTX);
         if (ctx == null) {
              return;
-        } 
-        
-        ServerContext serverContext = ServerContext.getCurrentInstance();
-        if (serverContext == null) {
-        	serverContext = ServerContext.newInstance();
         }
-        serverContext.clear();
-        serverContext.putAll(ctx);
-         
+
+		ServerContext.setCurrentInstance(ctx);
 		int resourceId  = 0;
 		String resourceIdParam = req.getParameter("S_Resource_ID");
 		if (resourceIdParam != null && resourceIdParam.trim().length() > 0) {

@@ -18,8 +18,6 @@ import java.util.Arrays;
 
 import org.adempiere.webui.component.ConfirmPanel;
 import org.adempiere.webui.component.Textbox;
-import org.adempiere.webui.component.ToolBar;
-import org.adempiere.webui.component.ToolBarButton;
 import org.adempiere.webui.component.Window;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.util.Env;
@@ -29,9 +27,7 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zkex.zul.Borderlayout;
 import org.zkoss.zkex.zul.Center;
-import org.zkoss.zkex.zul.North;
 import org.zkoss.zkex.zul.South;
-import org.zkoss.zul.Div;
 
 /**
  * Based on WPreference.java and Info.java

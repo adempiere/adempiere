@@ -24,7 +24,6 @@ import java.util.logging.Level;
 import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.panel.MenuPanel;
 import org.adempiere.webui.session.SessionManager;
-import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.window.WStringEditorDialog;
 import org.compiere.model.MTreeFavorite;
 import org.compiere.model.MTreeFavoriteNode;

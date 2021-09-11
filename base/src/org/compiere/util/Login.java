@@ -50,6 +50,8 @@ import org.compiere.model.*;
  */
 public class Login
 {
+	protected Integer authenticatedUserId = null;
+
 	/**
 	 *  Test Init - Set Environment for tests
 	 *	@param isClient client session
@@ -329,12 +331,15 @@ public class Login
 	 */
 	private KeyNamePair[] getRoles (String app_user, String app_pwd, boolean force) {
 		long start = System.currentTimeMillis();
-		//	
-		int userId = getAuthenticatedUserId(app_user, app_pwd);
+
+		if (getAuthenticatedUserId() == null )
+			authenticatedUserId = getAuthenticatedUserId(app_user, app_pwd);
+
 		//	Fail authentication
-		if(userId == -1) {
+		if(getAuthenticatedUserId() == -1) {
 			return null;
 		}
+
 		KeyNamePair[] retValue = null;
 		ArrayList<KeyNamePair> list = new ArrayList<KeyNamePair>();
 		//	Validate if exist column
@@ -360,7 +365,7 @@ public class Login
 		ResultSet rs = null;
 		try {
 			pstmt = DB.prepareStatement(sql.toString(), null);
-			pstmt.setInt(1, userId);
+			pstmt.setInt(1, authenticatedUserId);
 			//	execute a query
 			rs = pstmt.executeQuery();
 			//	
@@ -1221,5 +1226,8 @@ public class Login
 	{
 		return null;
 	}	//	getPrincipal
-	
+
+	public Integer getAuthenticatedUserId() {
+		return authenticatedUserId;
+	}
 }	//	Login
