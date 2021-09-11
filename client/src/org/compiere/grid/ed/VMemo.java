@@ -169,7 +169,7 @@ public class VMemo extends CTextArea implements VEditor, KeyListener, ActionList
 	 */
 	public void propertyChange (PropertyChangeEvent evt)
 	{
-		if (evt.getPropertyName().equals(org.compiere.model.GridField.PROPERTY))
+		if (evt.getPropertyName().equals(org.compiere.model.GridField.PROPERTY) && !getText().equals(evt.getNewValue()))
 			setValue(evt.getNewValue());
 	}   //  propertyChange
 
