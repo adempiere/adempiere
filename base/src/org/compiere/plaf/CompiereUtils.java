@@ -77,7 +77,7 @@ public class CompiereUtils
 			cc = CompiereColor.getDefaultBackground();
 
 		//  Paint AdempiereColor
-		if (cc != null)
+		if (cc != null && !cc.isFlat())
 		{
 			//  bounds is often not within Panel bouunds
 			cc.paint(g2D, c);
