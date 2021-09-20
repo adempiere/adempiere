@@ -295,10 +295,8 @@
 	<classpathentry kind="lib" path="tools/lib/mariadb-java-client.jar"/>
 	<classpathentry kind="lib" path="tools/lib/poi-3.17.jar"/>
 	<classpathentry kind="lib" path="tools/lib/poi-ooxml-3.17.jar"/>
-	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-6.6.0.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/commons-beanutils-1.9.3.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/commons-digester-2.1.jar"/>
-	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-fonts-6.6.0.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jfreechart-1.0.13.jar"/>
 	<classpathentry kind="lib" path="tools/lib/cglib.jar"/>
 	<classpathentry kind="lib" path="tools/lib/groovy-all-2.4.15.jar"/>
@@ -430,5 +428,8 @@
 	<classpathentry kind="lib" path="tools/lib/HikariCP-5.0.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/slf4j-api-1.7.32.jar"/>
 	<classpathentry kind="lib" path="tools/lib/slf4j-simple-1.7.32.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-6.17.0.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-fonts-6.17.0.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/iText-2.1.7.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
