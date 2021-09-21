@@ -58,7 +58,8 @@ import org.compiere.util.Util;
 /**
  * Class Model for In & Out Bound Operation
  * @author victor.perez@e-evoluton.com, e-Evolution
- *
+ * @author Yamel Senih, ysenih@erpya.com, ERPCyA http://www.erpya.com
+ * Fix get line method
  */
 public class MWMInOutBound extends X_WM_InOutBound implements DocAction, DocOptions {
 
@@ -643,7 +644,7 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction, DocOpti
 	{
 		StringBuffer whereClause = new StringBuffer(MWMInOutBoundLine.COLUMNNAME_WM_InOutBound_ID+"=?");
 		if (!Util.isEmpty(where, true))
-			whereClause.append(whereClause);
+			whereClause.append(where);
 		if (orderClause.length() == 0)
 			orderClause = MWMInOutBoundLine.COLUMNNAME_Line;
 		//

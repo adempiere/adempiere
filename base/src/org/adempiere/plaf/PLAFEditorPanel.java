@@ -185,7 +185,7 @@ public class PLAFEditorPanel extends CPanel {
 		updatePreviewComponents();
 		setLFSelection();
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		this.repaint();
+		previewPanel.paint(previewPanel.getGraphics());
 	}
 
 	/**
@@ -204,7 +204,7 @@ public class PLAFEditorPanel extends CPanel {
 		updatePreviewComponents();
 		setLFSelection();
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		this.repaint();
+		previewPanel.paint(previewPanel.getGraphics());
 	}
 
 	private void updatePreviewComponents() {
@@ -419,6 +419,7 @@ class PreviewPanel extends CPanel {
 					UIManager.setLookAndFeel(laf);
 				} catch (UnsupportedLookAndFeelException e) {
 				}
+				SwingUtilities.updateComponentTreeUI(this);
 				laf = null;
 				theme = null;
 			}

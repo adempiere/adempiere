@@ -20,7 +20,7 @@
 
 	<!-- //// -->
 	<!-- ZK -->
-	<listener>
+	<!--listener>
 		<description>
 			Used to cleanup when a session is destroyed
 		</description>
@@ -28,7 +28,7 @@
 		<listener-class>
 			org.zkoss.zk.ui.http.HttpSessionListener
 		</listener-class>
-	</listener>
+	</listener-->
 
 	<servlet>
 		<description>ZK loader for ZUML pages</description>
@@ -81,6 +81,7 @@
 	<!-- Miscellaneous -->
 	<session-config>
 		<session-timeout>60</session-timeout>
+		<timer-keep-alive>false</timer-keep-alive>
 	</session-config>
 
 	<!-- MIME mapping -->

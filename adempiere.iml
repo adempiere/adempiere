@@ -1261,15 +1261,6 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/JasperReportsTools/lib/jasperreports-6.6.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/commons-validator-1.7.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -1949,6 +1940,34 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/JasperReportsTools/lib/jasperreports-6.17.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/JasperReportsTools/lib/iText-2.1.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/JasperReportsTools/lib/jasperreports-fonts-6.17.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="jar://$MODULE_DIR$/JasperReportsTools/lib/jasperreports-fonts-6.17.0.jar!/" recursive="false" />
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="scala-sdk-2.13.6" level="project" />

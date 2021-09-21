@@ -114,20 +114,23 @@ public final class UserPreference implements Serializable {
 			Query query = new Query(Env.getCtx(), I_AD_Preference.Table_Name, "AD_User_ID = ? AND Attribute = ? AND AD_Window_ID Is NULL", null);
 			for (int i = 0; i < PROPERTIES.length; i++) {
 				String attribute = PROPERTIES[i];
-				String value = props.getProperty(attribute);
-
-				MPreference preference = query.setParameters(new Object[]{m_AD_User_ID, attribute}).firstOnly();
-				if (preference == null) {
-					preference = new MUserPreference(Env.getCtx(), 0, null);
-					preference.setAD_User_ID(m_AD_User_ID);
-					preference.setAttribute(attribute);
-				} else {
-					if (preference.getAD_Client_ID() > 0 || preference.getAD_Org_ID() > 0) {
-						preference = new MUserPreference(Env.getCtx(), preference.getAD_Preference_ID(), null);
+				if (attribute != null) {
+					String value = props.getProperty(attribute);
+					MPreference preference = query.setParameters(new Object[]{m_AD_User_ID, attribute}).firstOnly();
+					if (preference == null) {
+						preference = new MUserPreference(Env.getCtx(), 0, null);
+						preference.setAD_User_ID(m_AD_User_ID);
+						preference.setAttribute(attribute);
+					} else {
+						if (preference.getAD_Client_ID() > 0 || preference.getAD_Org_ID() > 0) {
+							preference = new MUserPreference(Env.getCtx(), preference.getAD_Preference_ID(), null);
+						}
+					}
+					if (value != null && !value.isEmpty()) {
+						preference.setValue(value);
+						preference.saveEx();
 					}
 				}
-				preference.setValue(value);
-				preference.saveEx();
 			}
 		}
 	}

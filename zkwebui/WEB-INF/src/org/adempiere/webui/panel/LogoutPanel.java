@@ -57,8 +57,6 @@ public class LogoutPanel extends Panel implements EventListener
     public void onEvent(Event event)
     {
         if (btnLogOut == event.getTarget())
-        {
-            SessionManager.logoutSession();
-        }
+            SessionManager.getApplication().logout();
     }
 }

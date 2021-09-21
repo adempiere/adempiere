@@ -17,22 +17,27 @@
 
 package org.adempiere.webui.session;
 
-import java.util.List;
-import java.util.Properties;
-
-import javax.servlet.http.HttpSession;
-
 import org.compiere.util.Env;
 import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventThreadCleanup;
 import org.zkoss.zk.ui.event.EventThreadInit;
 import org.zkoss.zk.ui.event.EventThreadResume;
+import org.zkoss.zk.ui.sys.DesktopCtrl;
+import org.zkoss.zk.ui.sys.ServerPush;
+import org.zkoss.zk.ui.util.DesktopCleanup;
+import org.zkoss.zk.ui.util.DesktopInit;
 import org.zkoss.zk.ui.util.ExecutionCleanup;
 import org.zkoss.zk.ui.util.ExecutionInit;
+
+import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Properties;
 
 /**
  *
@@ -41,7 +46,7 @@ import org.zkoss.zk.ui.util.ExecutionInit;
  * @version $Revision: 0.10 $
  */
 public class SessionContextListener implements ExecutionInit,
-        ExecutionCleanup, EventThreadInit, EventThreadResume, EventThreadCleanup
+        ExecutionCleanup, EventThreadInit, DesktopCleanup, DesktopInit , EventThreadResume, EventThreadCleanup
 {
 	public static final String SERVLET_SESSION_ID = "servlet.sessionId";
     public static final String SESSION_CTX = "WebUISessionContext";
@@ -54,54 +59,35 @@ public class SessionContextListener implements ExecutionInit,
      */
     public void init(Execution exec, Execution parent)
     {
+        //in servlet thread
         if (parent == null)
         {
-        	Properties ctx = (Properties)exec.getDesktop().getSession().getAttribute(SESSION_CTX);
-            if (ctx == null)
+            ServerPush serverPush = ((DesktopCtrl)exec.getDesktop()).getServerPush();
+            if (serverPush == null || !serverPush.isActive())
             {
-            	ctx = new Properties();
-            	HttpSession session = (HttpSession)exec.getDesktop().getSession().getNativeSession();
-            	ctx.setProperty(SERVLET_SESSION_ID, session.getId());
-                ctx.setProperty("#UI", "WebUI");
-                exec.getDesktop().getSession().setAttribute(SESSION_CTX, ctx);
+                setContextForSession(Executions.getCurrent());
+                //set locale
+                Locales.setThreadLocal(Env.getLanguage(ServerContext.getCurrentInstance()).getLocale());
             }
-            
-            ServerContext serverContext = ServerContext.getCurrentInstance();
-            if (serverContext == null)
-            {
-            	serverContext = ServerContext.newInstance();
-            }
-            serverContext.clear();
-            serverContext.putAll(ctx);
-            exec.setAttribute(SESSION_CTX, serverContext);
-
-            //set locale
-            Locales.setThreadLocal(Env.getLanguage(ctx).getLocale());
         }
     }
 
     /**
-     * @param exec
+     * Refresh the context from session
+     * @param execution
      * @param parent
      * @param errs
      * @see ExecutionCleanup#cleanup(Execution, Execution, List)
      */
-    public void cleanup(Execution exec, Execution parent, List errs)
+    public void cleanup(Execution execution, Execution parent, List errs)
     {
         if (parent == null)
         {
-        	Properties ctx = (Properties)exec.getDesktop().getSession().getAttribute(SESSION_CTX);
-        	if (ctx != null)
-        	{
-        		ServerContext serverContext = (ServerContext) Executions.getCurrent().getAttribute(SESSION_CTX);
-        		if (serverContext != null)
-        		{
-        			ctx.clear();
-        			ctx.putAll(serverContext);
-        		}
-        	}
-            ServerContext.dispose();
-            exec.removeAttribute(SESSION_CTX);
+            ServerPush serverPush = ((DesktopCtrl)execution.getDesktop()).getServerPush();
+            if (serverPush == null || !serverPush.isActive())
+                setContextForSession(Executions.getCurrent());
+            else
+                ServerContext.dispose();
         }
     }
 
@@ -112,6 +98,15 @@ public class SessionContextListener implements ExecutionInit,
      */
     public void prepare(Component comp, Event evt)
     {
+        //in servlet thread
+        //check is thread local context have been setup
+        if (ServerContext.getCurrentInstance().isEmpty() || !isValidContext())
+        {
+            setContextForSession(Executions.getCurrent());
+        }
+
+        //set locale
+        Locales.setThreadLocal(Env.getLanguage(ServerContext.getCurrentInstance()).getLocale());
     }
 
     /**
@@ -121,20 +116,51 @@ public class SessionContextListener implements ExecutionInit,
      */
     public boolean init(Component comp, Event evt)
     {
-        ServerContext serverContext = (ServerContext) Executions.getCurrent().getAttribute(SESSION_CTX);
-        if (serverContext == null)
+		return true;
+    }
+
+    public static boolean isValidContext() {
+        Execution execution = Executions.getCurrent();
+        Properties ctx = ServerContext.getCurrentInstance();
+        if (ctx == null)
+            return false;
+
+        if (execution == null || execution.getDesktop() == null)
+            return false;
+
+        Session session = execution.getDesktop().getSession();
+        HttpSession httpSession = (HttpSession)session.getNativeSession();
+        //verify ctx
+        String existsSessionId = ctx.getProperty(SERVLET_SESSION_ID);
+        if (existsSessionId == null || httpSession == null || !existsSessionId.equals(httpSession.getId()) )
         {
-        	serverContext = ServerContext.newInstance();
-        }
-        else
-        {
-        	ServerContext.setCurrentInstance(serverContext);
+            return false;
         }
 
-        //set locale
-        Locales.setThreadLocal(Env.getLanguage(serverContext).getLocale());
-        
-		return true;
+        Properties sessionCtx = null;
+        //catch invalidated session exception
+        try {
+            sessionCtx = (Properties) session.getAttribute(SESSION_CTX);
+        } catch (IllegalStateException e) {
+            return false;
+        }
+        if (sessionCtx != null)
+        {
+            if (Env.getAD_Client_ID(sessionCtx) != Env.getAD_Client_ID(ctx))
+            {
+                return false;
+            }
+            if (Env.getAD_User_ID(sessionCtx) != Env.getAD_User_ID(ctx))
+            {
+                return false;
+            }
+            if (Env.getAD_Role_ID(sessionCtx) != Env.getAD_Role_ID(ctx))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -153,18 +179,14 @@ public class SessionContextListener implements ExecutionInit,
      */
     public void afterResume(Component comp, Event evt)
     {
-    	ServerContext serverContext = (ServerContext) Executions.getCurrent().getAttribute(SESSION_CTX);
-        if (serverContext == null)
-    	{
-    			serverContext = ServerContext.newInstance();
-    		}
+    	Properties ctx = ServerContext.getCurrentInstance();
+        if (ctx == null)
+    		ServerContext.dispose();
         else
-        {
-        	ServerContext.setCurrentInstance(serverContext);
-    	}
-
+            setContextForSession(Executions.getCurrent());
         //set locale
-        Locales.setThreadLocal(Env.getLanguage(serverContext).getLocale());
+        Locales.setThreadLocal(Env.getLanguage(ctx).getLocale());
+
     }
 
     /**
@@ -182,17 +204,91 @@ public class SessionContextListener implements ExecutionInit,
      * @param errs
      * @see EventThreadCleanup#cleanup(Component, Event, List)
      */
-	public void cleanup(Component comp, Event evt, List errs) throws Exception 
+	public void cleanup(Component comp, Event evt, List errs) throws Exception
 	{
-    	ServerContext.dispose();
+        ServerPush serverPush = ((DesktopCtrl)Executions.getCurrent().getDesktop()).getServerPush();
+        if (serverPush == null || !serverPush.isActive())
+            setContextForSession(Executions.getCurrent());
+        else
+            ServerContext.dispose();
 	}
 
 	/**
 	 * @param comp
 	 * @param evt
-	 * @see EventThreadCleanup#complete(Component, Event) 
+	 * @see EventThreadCleanup#complete(Component, Event)
 	 */
-	public void complete(Component comp, Event evt) throws Exception 
+	public void complete(Component comp, Event evt) throws Exception
 	{
 	}
+
+
+
+    @Override
+    public void cleanup(Desktop desktop) throws Exception {
+        if(Executions.getCurrent() == null) {
+            if (!ServerContext.getCurrentInstance().isEmpty()) {
+                ServerContext.dispose();
+            }
+            return;
+        }
+
+        if (ServerContext.getCurrentInstance().isEmpty() || !isValidContext())
+        {
+            setContextForSession(Executions.getCurrent());
+        }
+    }
+
+    @Override
+    public void init(Desktop desktop, Object request) throws Exception {
+        if(Executions.getCurrent() == null)
+            return;
+
+        if (ServerContext.getCurrentInstance().isEmpty() || !isValidContext())
+        {
+            setContextForSession(Executions.getCurrent());
+        }
+    }
+
+    /**
+     * get servlet thread local context from session
+     * @param execution
+     */
+    public static void setContextForSession(Execution execution) {
+        Session session = execution.getDesktop().getSession();
+        Properties context = null;
+        //catch potential Session already invalidated exception
+        boolean sessionInvalidated = false;
+        try {
+            context = (Properties)session.getAttribute(SESSION_CTX);
+        } catch (IllegalStateException e) {
+            sessionInvalidated = true;
+        }
+        HttpSession httpSession = sessionInvalidated ? null : (HttpSession)session.getNativeSession();
+        //create empty context if there's no valid native session
+        if (httpSession == null)
+        {
+            context = new Properties();
+            ServerContext.setCurrentInstance(context);
+            return;
+        }
+
+        if (context != null)
+        {
+            //verify ctx
+            String cacheId = context.getProperty(SERVLET_SESSION_ID);
+            if (cacheId == null || !cacheId.equals(httpSession.getId()) )
+            {
+                context = null;
+                session.removeAttribute(SESSION_CTX);
+            }
+        }
+        if (context == null)
+        {
+            context = new Properties();
+            context.setProperty(SERVLET_SESSION_ID, httpSession.getId());
+            session.setAttribute(SESSION_CTX, context);
+        }
+        ServerContext.setCurrentInstance(context);
+    }
 }
