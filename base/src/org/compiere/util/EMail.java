@@ -113,6 +113,7 @@ public final class EMail implements Serializable
 	 */
 	public EMail (MClient client, int eMailConfigId, String from, String to, 
 		String subject, String message, boolean html) {
+		this.client = client;
 		ctx = client.getCtx();
 		isManual = false;
 		//	FR [ 402 ]
@@ -250,6 +251,8 @@ public final class EMail implements Serializable
 	private String				token = "";
 	/** Context - may be null		*/
 	private Properties			ctx;
+	/** Client						*/
+	private MClient				client;
 	/**	Is Manual					*/
 	private boolean				isManual = false;
 
@@ -625,7 +628,6 @@ public final class EMail implements Serializable
 		}
 		//	Validate Config
 		if(eMailConfigId == 0) {
-			MClient client = MClient.get(ctx);
 			eMailConfigId = client.getAD_EMailConfig_ID();
 		}
 		MEMailConfig eMailConfig = MEMailConfig.get(ctx, eMailConfigId);
