@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="ECA02" Name="Fixed Return Quantity for Shipment Details report" ReleaseNo="3.9.4" SeqNo="5920">
-    <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
+    <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW RV_INOUTDETAILS
 (AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
  UPDATED, UPDATEDBY, M_INOUT_ID, ISSOTRX, DOCUMENTNO, 
@@ -96,7 +96,7 @@ FROM M_InOut h
   LEFT OUTER JOIN M_Locator loc ON (l.M_Locator_ID=loc.M_Locator_ID)
   LEFT OUTER JOIN M_AttributeSetInstance pasi ON (l.M_AttributeSetInstance_ID=pasi.M_AttributeSetInstance_ID);</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="10" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="10" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW RV_INOUTDETAILS
 (AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
  UPDATED, UPDATEDBY, M_INOUT_ID, ISSOTRX, DOCUMENTNO, 
