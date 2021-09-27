@@ -582,7 +582,7 @@ public class MColumn extends X_AD_Column
 			String defaultValue = getDefaultValueSQL();
 			sql.append("ALTER TABLE ")
 			.append(table.getTableName())
-			.append(" ALTER ").append(getColumnName())
+			.append(" ADD ").append(getColumnName())
 			.append(" SET DEFAULT ").append(defaultValue)
 				.append(DB.SQLSTATEMENT_SEPARATOR);				
 
