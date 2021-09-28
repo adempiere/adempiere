@@ -582,9 +582,10 @@ public class MColumn extends X_AD_Column
 			String defaultValue = getDefaultValueSQL();
 			sql.append("ALTER TABLE ")
 			.append(table.getTableName())
-			.append(" ADD ").append(getColumnName())
-			.append(" SET DEFAULT ").append(defaultValue)
-				.append(DB.SQLSTATEMENT_SEPARATOR);				
+			.append(" MODIFY ").append(getColumnName())
+			.append(" ").append(getSQLDataType())
+			.append(" DEFAULT ").append(defaultValue)
+			.append(DB.SQLSTATEMENT_SEPARATOR);
 
 			//  Set the default value in all existing records
 			if (defaultValue != null && defaultValue.length() > 0 && !defaultValue.equals("NULL"))
@@ -600,8 +601,8 @@ public class MColumn extends X_AD_Column
 			//  Set the column to Not Null - makes it mandatory
 			sql.append("ALTER TABLE ")
 			.append(table.getTableName())
-			.append(" ALTER ").append(getColumnName())
-			.append(" SET NOT NULL")
+			.append(" MODIFY ").append(getColumnName())
+			.append(" NOT NULL")
 			.append(DB.SQLSTATEMENT_SEPARATOR);
 
 		}
