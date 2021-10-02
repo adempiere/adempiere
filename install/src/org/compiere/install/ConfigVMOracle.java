@@ -27,13 +27,13 @@ import org.compiere.util.CLogMgt;
  *  @author Jorg Janke
  *  @version $Id: ConfigVMSun.java,v 1.3 2006/07/30 00:57:42 jjanke Exp $
  */
-public class ConfigVMSun extends Config
+public class ConfigVMOracle extends Config
 {
 	/**
 	 * 	ConfigVMSun
 	 * 	@param data configuration
 	 */
-	public ConfigVMSun (ConfigurationData data)
+	public ConfigVMOracle(ConfigurationData data)
 	{
 		super (data);
 	}	//	ConfigVMSun
@@ -85,21 +85,21 @@ public class ConfigVMSun extends Config
 		System.setProperty(ConfigurationData.JAVA_HOME, javaHome.getAbsolutePath());
 		
 		//	Java Version
-        final String VERSION18 = "1.8.0";	//	The real one
 		final String VERSION_11 = "11";	//	The real one
+		final String VERSION_17 = "17";
 		pass = false;
 		String jh = javaHome.getAbsolutePath();
-        if (!pass && jh.indexOf(VERSION18) != -1)	//
-            pass = true;
 		if (!pass && jh.indexOf(VERSION_11) != -1)	//
+			pass = true;
+		if (!pass && jh.indexOf(VERSION_17) != -1)	//
 			pass = true;
 		String thisJH = System.getProperty("java.home");
 		if (thisJH.indexOf(jh) != -1)	//	we are running the version currently
 		{
 			String thisJV = System.getProperty("java.version");
-            if (!pass && thisJV.indexOf(VERSION18) != -1)
-                pass = true;
 			if (!pass && thisJV.indexOf(VERSION_11) != -1)
+				pass = true;
+			if (!pass && thisJV.indexOf(VERSION_17) != -1)
 				pass = true;
 			if (pass)
 			  log.info("OK: Version=" + thisJV);

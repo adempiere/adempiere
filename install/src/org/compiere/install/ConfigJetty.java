@@ -24,14 +24,14 @@ import java.net.InetAddress;
  *	Tomcat
  *	
  */
-public class ConfigTomcat extends Config
+public class ConfigJetty extends Config
 {
 
 	/**
 	 * 	ConfigTomcat
 	 * 	@param data configuration
 	 */
-	public ConfigTomcat(ConfigurationData data)
+	public ConfigJetty(ConfigurationData data)
 	{
 		super (data);
 	}	//	ConfigJBoss
@@ -59,7 +59,7 @@ public class ConfigTomcat extends Config
 	private String getDeployDir()
 	{
 		return p_data.getAdempiereHome()
-			+ File.separator + "tomcat"
+			+ File.separator + "jetty"
 			+ File.separator + "webapps";
 	}	//	getDeployDir
 	

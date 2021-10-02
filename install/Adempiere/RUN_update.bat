@@ -15,6 +15,6 @@ goto START
 @Set JAVA=%JAVA_HOME%\bin\java
 
 :START
-@"%JAVA%" -classpath lib\CInstall.jar; -DADEMPIERE_HOME=%ADEMPIERE_HOME% -Dant.home="." org.apache.tools.ant.launch.Launcher update
+@"%JAVA%" --add-opens java.base/sun.security.tools.keytool=ALL-UNNAMED -classpath lib\CInstall.jar; -DADEMPIERE_HOME=%ADEMPIERE_HOME% -Dant.home="." org.apache.tools.ant.launch.Launcher update
 @Rem Sleep 10
 @CHOICE /C YN /T 10 /D N > NUL

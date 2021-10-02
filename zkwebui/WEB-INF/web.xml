@@ -160,10 +160,12 @@
 	<welcome-file-list>
 		<welcome-file>index.zul</welcome-file>
 	</welcome-file-list>
-		
-	<!--env-entry>
-		<env-entry-name>ADEMPIERE_HOME</env-entry-name>
-		<env-entry-type>java.lang.String</env-entry-type>
-		<env-entry-value>/opt/adempiere/</env-entry-value>
-	</env-entry-->
+
+	<resource-ref>
+		<description>Adempiere Connection Pool</description>
+		<res-ref-name>java/AdempiereDS</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
+	</resource-ref>
+
 </web-app>

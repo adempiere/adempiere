@@ -26,6 +26,7 @@ import java.net.InetAddress;
  *  @author Jorg Janke
  *  @version $Id: ConfigJBoss.java,v 1.3 2006/07/30 00:57:42 jjanke Exp $
  */
+@Deprecated
 public class ConfigJBoss extends Config
 {
 
@@ -44,7 +45,7 @@ public class ConfigJBoss extends Config
 	public void init()
 	{
 		p_data.setAppsServerDeployDir(getDeployDir());
-		p_data.setAppsServerDeployDir(false);
+		p_data.setAppsServerDeployDir(true);
 		//
 		p_data.setAppsServerJNPPort("1099");
 		p_data.setAppsServerJNPPort(true);

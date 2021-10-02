@@ -27,7 +27,7 @@ goto START
 @Rem To test the OCI driver, add -DTestOCI=Y to the command - example:
 @Rem %JAVA% -classpath %CP% -DADEMPIERE_HOME=%ADEMPIERE_HOME% -DTestOCI=Y org.compiere.install.Setup %ARGS%
 
-@"%JAVA%" -classpath %CP% -DADEMPIERE_HOME=%ADEMPIERE_HOME% org.compiere.install.SilentSetup %ARGS%
+@"%JAVA%" --add-opens java.base/sun.security.tools.keytool=ALL-UNNAMED -classpath %CP% -DADEMPIERE_HOME=%ADEMPIERE_HOME% org.compiere.install.SilentSetup %ARGS%
 @Echo ErrorLevel = %ERRORLEVEL%
 @IF NOT ERRORLEVEL = 1 GOTO NEXT
 @Echo ***************************************

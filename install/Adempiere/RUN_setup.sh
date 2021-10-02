@@ -25,7 +25,7 @@ ARGS=CONFIG
 # To test the OCI driver, add -DTestOCI=Y to the command - example:
 # $JAVA -classpath $CP -DADEMPIERE_HOME=$ADEMPIERE_HOME -DTestOCI=Y org.compiere.install.Setup $ARGS
 
-$JAVA -classpath $CP -DADEMPIERE_HOME=$ADEMPIERE_HOME org.compiere.install.Setup $ARGS
+$JAVA --add-opens java.base/sun.security.tools.keytool=ALL-UNNAMED -classpath $CP -DADEMPIERE_HOME=$ADEMPIERE_HOME org.compiere.install.Setup $ARGS
 
 # Sign database build
 cd utils

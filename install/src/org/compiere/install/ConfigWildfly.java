@@ -1,55 +1,42 @@
-/**********************************************************************
-* This file is part of Adempiere ERP Bazaar                           *
-* http://www.adempiere.org                                            *
-*                                                                     *
-* Copyright (C) Praneet Tiwari.                                       *
-* Copyright (C) Contributors                                          *
-*                                                                     *
-* This program is free software; you can redistribute it and/or       *
-* modify it under the terms of the GNU General Public License         *
-* as published by the Free Software Foundation; either version 2      *
-* of the License, or (at your option) any later version.              *
-*                                                                     *
-* This program is distributed in the hope that it will be useful,     *
-* but WITHOUT ANY WARRANTY; without even the implied warranty of      *
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the        *
-* GNU General Public License for more details.                        *
-*                                                                     *
-* You should have received a copy of the GNU General Public License   *
-* along with this program; if not, write to the Free Software         *
-* Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,          *
-* MA 02110-1301, USA.                                                 *
-*                                                                     *
-* Contributors:                                                       *
-* - Trifon Trifonov (trifonnt@users.sourceforge.net)                  *
-*                                                                     *
-* Sponsors:                                                           *
-* - D3 Soft (http://www.d3-soft.com)                                  *
-***********************************************************************/
-
+/******************************************************************************
+ * Product: Adempiere ERP & CRM Smart Business Solution                       *
+ * Copyright (C) 1999-2006 ComPiere, Inc. All Rights Reserved.                *
+ * This program is free software; you can redistribute it and/or modify it    *
+ * under the terms version 2 of the GNU General Public License as published   *
+ * by the Free Software Foundation. This program is distributed in the hope   *
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+ * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+ * See the GNU General Public License for more details.                       *
+ * You should have received a copy of the GNU General Public License along    *
+ * with this program; if not, write to the Free Software Foundation, Inc.,    *
+ * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+ * For the text or an alternative of this public license, you may reach us    *
+ * ComPiere, Inc., 2620 Augustine Dr. #245, Santa Clara, CA 95054, USA        *
+ * or via info@compiere.org or http://www.compiere.org/license.html           *
+ *****************************************************************************/
 package org.compiere.install;
 
 import java.io.File;
 import java.net.InetAddress;
 
+
 /**
- *	GlassFish v2UR1 Apps Server Configuration
+ *	JBoss 4.0.2 Apps Server Configuration
  *	
- *  @author Praneet Tiwari
- *  @author Trifon Trifonov
- *  @version $Id:  $
+ *  @author Jorg Janke
+ *  @version $Id: ConfigJBoss.java,v 1.3 2006/07/30 00:57:42 jjanke Exp $
  */
-@Deprecated
-public class ConfigGlassfish extends Config {
+public class ConfigWildfly extends Config
+{
 
 	/**
-	 * 	ConfigGlassfish
+	 * 	ConfigJBoss
 	 * 	@param data configuration
 	 */
-	public ConfigGlassfish (ConfigurationData data)
+	public ConfigWildfly(ConfigurationData data)
 	{
 		super (data);
-	}	//	ConfigGlassfish
+	}	//	ConfigJBoss
 	
 	/**
 	 * 	Initialize
@@ -59,9 +46,9 @@ public class ConfigGlassfish extends Config {
 		p_data.setAppsServerDeployDir(getDeployDir());
 		p_data.setAppsServerDeployDir(true);
 		//
-		p_data.setAppsServerJNPPort("3700");
+		p_data.setAppsServerJNPPort("1099");
 		p_data.setAppsServerJNPPort(true);
-		p_data.setAppsServerWebPort("8080");
+		p_data.setAppsServerWebPort("80");
 		p_data.setAppsServerWebPort(true);
 		p_data.setAppsServerSSLPort("443");
 		p_data.setAppsServerSSLPort(true);
@@ -73,13 +60,10 @@ public class ConfigGlassfish extends Config {
 	 */
 	private String getDeployDir()
 	{
-		// TODO - check deployment directory
-		return p_data.getAdempiereHome() + File.separator + "glassfish";
-                /*Commented for now
-			+ File.separator + "glassfish"
-			+ File.separator + "domains"
-			+ File.separator + "domain1" ;
-                 * */
+		return p_data.getAdempiereHome()
+			+ File.separator + "wildfly"
+			+ File.separator + "standalone"
+			+ File.separator + "deployments";
 	}	//	getDeployDir
 	
 	/**
@@ -114,10 +98,30 @@ public class ConfigGlassfish extends Config {
 		setProperty(ConfigurationData.ADEMPIERE_APPS_SERVER, appsServer.getHostName());
 		setProperty(ConfigurationData.ADEMPIERE_APPS_TYPE, p_data.getAppsServerType());
 
+		//	Deployment Dir
+		p_data.setAppsServerDeployDir(getDeployDir());
+		File deploy = new File (p_data.getAppsServerDeployDir());
+		pass = deploy.exists();
+		error = "Not found: " + deploy;
+		if (getPanel() != null)
+			signalOK(getPanel().okDeployDir, "ErrorDeployDir", 
+				pass, true, error);
+		if (!pass)
+			return error;
 		setProperty(ConfigurationData.ADEMPIERE_APPS_DEPLOY, p_data.getAppsServerDeployDir());
+		log.info("OK: Deploy Directory = " + deploy);
 		
 		//	JNP Port
 		int JNPPort = p_data.getAppsServerJNPPort();
+		pass = !p_data.testPort (appsServer, JNPPort, false) 
+			&& p_data.testServerPort(JNPPort);
+		error = "Not correct: JNP Port = " + JNPPort;
+		if (getPanel() != null)
+			signalOK(getPanel().okJNPPort, "ErrorJNPPort", 
+				pass, true, error);
+		if (!pass)
+			return error;
+		log.info("OK: JNPPort = " + JNPPort);
 		setProperty(ConfigurationData.ADEMPIERE_JNP_PORT, String.valueOf(JNPPort));
 
 		//	Web Port
@@ -149,5 +153,4 @@ public class ConfigGlassfish extends Config {
 		return null;
 	}	//	test
 	
-}	//	ConfigGlassfish
-
+}	//	ConfigJBoss
