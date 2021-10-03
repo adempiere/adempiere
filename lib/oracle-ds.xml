@@ -1,9 +1,9 @@
 <datasources>
-    <datasource jta="true" jndi-name="java:jboss/datasources/AdempiereDS" pool-name="AdempiereDS" enabled="true" use-ccm="true" use-java-context="true">
+    <datasource jta="true" jndi-name="java:/AdempiereDS" pool-name="AdempiereDS" enabled="true" use-ccm="true" use-java-context="true">
         <connection-url>@ADEMPIERE_DB_URL@</connection-url>
         <driver-class>@@JDBC_DRIVER_CLASS@@</driver-class>
         <driver>AdempiereSLib.jar</driver>
-        <transaction-isolation>TRANSACTION_REPEATABLE_READ</transaction-isolation>
+        <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
         <pool>
             <min-pool-size>10</min-pool-size>
             <max-pool-size>150</max-pool-size>
