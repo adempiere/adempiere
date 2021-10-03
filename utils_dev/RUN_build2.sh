@@ -17,10 +17,10 @@ else
 fi
 
 # check jdk
-if  [ ! -f $JAVA_HOME/lib/tools.jar ] ; then
-   echo "** Need full Java SDK **"
-   exit
-fi
+#if  [ ! -f $JAVA_HOME/lib/tools.jar ] ; then
+#   echo "** Need full Java SDK **"
+#   exit
+#fi
 
 if [ $# -eq 0 ] 
   then

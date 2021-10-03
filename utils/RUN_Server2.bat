@@ -1,3 +1,4 @@
+@echo off
 @if (%ADEMPIERE_HOME%) == () (CALL myEnvironment.bat Server) else (CALL %ADEMPIERE_HOME%\utils\myEnvironment.bat Server)
 @Title Adempiere Server Start - %ADEMPIERE_HOME% (%ADEMPIERE_APPS_TYPE%)
 
@@ -19,21 +20,22 @@
 @Set WILDFLY_BASE=%ADEMPIERE_HOME%\wildfly
 @Set JAVA_OPTS=-server %ADEMPIERE_JAVA_OPTIONS% %SECURE% -Dorg.adempiere.server.embedded=true
 @Echo Start Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
-if exist "%WILDFLY_HOME%\login-modules.configured" (
-     @Echo -> Login modules were configured before
+IF EXIST %WILDFLY_HOME%\login-modules.configured (
+    @Echo "-> Login modules were configured before"
+) ELSE ( 
+@Echo "-> Adding Login modules"
+@Call START %WILDFLY_HOME%\bin\standalone.bat --admin-only -Djboss.server.base.dir=%WILDFLY_BASE%\standalone -Djboss.http.port=%ADEMPIERE_WEB_PORT% -Djboss.https.port=%ADEMPIERE_SSL_PORT% -Djboss.bind.address=0.0.0.0
+@timeout 5
+@Call %WILDFLY_HOME%\bin\jboss-cli.bat --connect command="/subsystem=security/security-domain=custom-security-realm:add"
+@Call %WILDFLY_HOME%\bin\jboss-cli.bat --connect command="/subsystem=security/security-domain=custom-security-realm/authentication=classic:add(login-modules=[{"code" => "org.adempiere.as.jboss.AdempiereLoginModule", "flag" => "required", "module-options"=[ ("junauthenticatedIdentity"=>"anonymous")]}])"
+@Call %WILDFLY_HOME%\bin\jboss-cli.bat --connect command=:shutdown
+@Echo "-> Added Login modules"
+@Echo configured > %WILDFLY_HOME%\login-modules.configured
+@Echo 
 )
-else (
-    @Echo -> Adding Login modules
-    @Call START /B %WILDFLY_HOME%\bin\standalone.bat --admin-only -Djboss.server.base.dir=%WILDFLY_BASE%/standalone -Djboss.http.port=%ADEMPIERE_WEB_PORT% -Djboss.https.port=%ADEMPIERE_SSL_PORT% -Djboss.bind.address=0.0.0.0 &
-    timeout 5
-    @Call %WILDFLY_HOME%\bin\jboss-cli.bat --connect command="/subsystem=security/security-domain=custom-security-realm:add"
-    @Call %WILDFLY_HOME%\bin\jboss-cli.bat --connect command="/subsystem=security/security-domain=custom-security-realm/authentication=classic:add(login-modules=[{"code" => "org.adempiere.as.jboss.AdempiereLoginModule", "flag" => "required", "module-options"=[ ("junauthenticatedIdentity"=>"anonymous")]}])"
-    @Call %WILDFLY_HOME%\bin\jboss-cli.bat --connect command=:shutdown
-    @Echo -> Added Login modules
-    echo "configured" > %WILDFLY_HOME%\login-modules.configured
-)
+
 @Echo "-> WildFly Starting the Service"
-@Call START /B %WILDFLY_HOME%\bin\standalone.bat -Djboss.server.base.dir=%WILDFLY_BASE% --start-mode normal -Djboss.http.port=%ADEMPIERE_WEB_PORT% -Djboss.https.port=%ADEMPIERE_SSL_PORT% -Djboss.bind.address=0.0.0.0 &
+@Call START %WILDFLY_HOME%\bin\standalone.bat -Djboss.server.base.dir=%WILDFLY_BASE%\standalone --start-mode normal -Djboss.http.port=%ADEMPIERE_WEB_PORT% -Djboss.https.port=%ADEMPIERE_SSL_PORT% -Djboss.bind.address=0.0.0.0
 
 @GOTO END
 
