@@ -19,7 +19,22 @@
 @Set WILDFLY_BASE=%ADEMPIERE_HOME%\wildfly
 @Set JAVA_OPTS=-server %ADEMPIERE_JAVA_OPTIONS% %SECURE% -Dorg.adempiere.server.embedded=true
 @Echo Start Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
-@Call %WILDFLY_HOME%\bin\standalone.bat -Djboss.server.base.dir=$WILDFLY_BASE --start-mode normal -Djboss.http.port=%ADEMPIERE_WEB_PORT% -Djboss.https.port=%ADEMPIERE_SSL_PORT% -Djboss.bind.address=0.0.0.0
+if exist "%WILDFLY_HOME%\login-modules.configured" (
+     @Echo -> Login modules were configured before
+)
+else (
+    @Echo -> Adding Login modules
+    @Call START /B %WILDFLY_HOME%\bin\standalone.bat --admin-only -Djboss.server.base.dir=%WILDFLY_BASE%/standalone -Djboss.http.port=%ADEMPIERE_WEB_PORT% -Djboss.https.port=%ADEMPIERE_SSL_PORT% -Djboss.bind.address=0.0.0.0 &
+    timeout 5
+    @Call %WILDFLY_HOME%\bin\jboss-cli.bat --connect command="/subsystem=security/security-domain=custom-security-realm:add"
+    @Call %WILDFLY_HOME%\bin\jboss-cli.bat --connect command="/subsystem=security/security-domain=custom-security-realm/authentication=classic:add(login-modules=[{"code" => "org.adempiere.as.jboss.AdempiereLoginModule", "flag" => "required", "module-options"=[ ("junauthenticatedIdentity"=>"anonymous")]}])"
+    @Call %WILDFLY_HOME%\bin\jboss-cli.bat --connect command=:shutdown
+    @Echo -> Added Login modules
+    echo "configured" > %WILDFLY_HOME%\login-modules.configured
+)
+@Echo "-> WildFly Starting the Service"
+@Call START /B %WILDFLY_HOME%\bin\standalone.bat -Djboss.server.base.dir=%WILDFLY_BASE% --start-mode normal -Djboss.http.port=%ADEMPIERE_WEB_PORT% -Djboss.https.port=%ADEMPIERE_SSL_PORT% -Djboss.bind.address=0.0.0.0 &
+
 @GOTO END
 
 :TOMCAT
@@ -36,8 +51,8 @@
 @Set JETTY_BASE=%ADEMPIERE_HOME%\jetty
 @Set JAVA_OPTS=-server %ADEMPIERE_JAVA_OPTIONS% %SECURE% -Dorg.adempiere.server.embedded=true
 @Echo Start Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
-@Call java $JAVA_OPTS -jar %JETTY_HOME%/start.jar jetty.base=%ADEMPIERE_HOME%/jetty --create-start-d --add-modules=server,ext,deploy,jndi,jsp,http jetty.http.port=%ADEMPIERE_WEB_PORT% jetty.server.stopAtShutdown=true %JETTY_BASE%/jetty-ds.xml
-@Call java $JAVA_OPTS -jar %JETTY_HOME%/start.jar jetty.base=%ADEMPIERE_HOME%/jetty %JETTY_BASE%/jetty-ds.xml
+@Call %JAVA_HOME%/bin/java %JAVA_OPTS% -jar %JETTY_HOME%/start.jar jetty.base=%ADEMPIERE_HOME%/jetty --create-start-d --add-modules=server,ext,deploy,jndi,jsp,http jetty.http.port=%ADEMPIERE_WEB_PORT% jetty.server.stopAtShutdown=true %JETTY_BASE%/jetty-ds.xml
+@Call START /B %JAVA_HOME%/bin/java %JAVA_OPTS% -jar %JETTY_HOME%/start.jar jetty.base=%ADEMPIERE_HOME%/jetty %JETTY_BASE%/jetty-ds.xml &
 @Echo Done Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
 @GOTO END
 

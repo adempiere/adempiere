@@ -81,7 +81,6 @@
 	<!-- Miscellaneous -->
 	<session-config>
 		<session-timeout>60</session-timeout>
-		<timer-keep-alive>false</timer-keep-alive>
 	</session-config>
 
 	<!-- MIME mapping -->
