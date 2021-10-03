@@ -959,7 +959,7 @@ public class ConfigurationData
 	/** SUN VM (default)	*/
 	private static String JAVATYPE_ORACLE = "oracle";
 	/** Apple VM			*/
-	private static String	JAVATYPE_MAC = "mac";
+	private static String	JAVATYPE_MAC = "macOS";
 	/** IBM VM				*/
 	private static String	JAVATYPE_IBM = "<ibm>";
 	/** Open JDK			*/
@@ -1004,7 +1004,7 @@ public class ConfigurationData
 	
 	/** Virtual machine Configurations	*/
 	private Config[] m_javaConfig = new Config[]
-	    {new ConfigVMOracle(this), new ConfigVMOpenJDK(this), new ConfigVMMac(this), null};
+	    {new ConfigVMOracle(this), new ConfigVMOpenJDK(this), new ConfigVMMacOS(this), null};
 
 	/**
 	 * 	Init Database

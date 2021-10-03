@@ -27,13 +27,13 @@ import org.compiere.util.CLogMgt;
  *  @author Jorg Janke
  *  @version $Id: ConfigVMMac.java,v 1.3 2006/07/30 00:57:42 jjanke Exp $
  */
-public class ConfigVMMac extends Config
+public class ConfigVMMacOS extends Config
 {
 	/**
 	 * 	ConfigVMMac
 	 * 	@param data configuration
 	 */
-	public ConfigVMMac (ConfigurationData data)
+	public ConfigVMMacOS(ConfigurationData data)
 	{
 		super (data);
 	}	//	ConfigVMMac
