@@ -46,7 +46,10 @@
 		<echo message="AppsDeployment= ${ADEMPIERE_APPS_DEPLOY}" />
 
 		<condition property="isOracle">
-			<equals arg1="Oracle" arg2="${ADEMPIERE_DB_TYPE}" />
+			<or>
+				<equals arg1="Oracle" arg2="${ADEMPIERE_DB_TYPE}" />
+				<equals arg1="OracleXE" arg2="${ADEMPIERE_DB_TYPE}" />
+			</or>
 		</condition>
 		<condition property="isPostgres">
 			<equals arg1="PostgreSQL" arg2="${ADEMPIERE_DB_TYPE}" />
