@@ -383,10 +383,6 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction, DocOpti
 			// Generate Shipment based on Outbound Order
 			if (inboundLine.getC_OrderLine_ID() > 0) {
 				MOrderLine orderLine = inboundLine.getOrderLine();
-				BigDecimal orderedAvailable = orderLine.getQtyOrdered().subtract(orderLine.getQtyDelivered());
-				if (orderedAvailable.subtract(inboundLine.getMovementQty()).signum() < 0)
-					return;
-
 				BigDecimal qtyToReceipt = inboundLine.getMovementQty();
 				MInOut receipt = receipts.get(orderLine.getC_Order_ID());
 				if(receipt == null) {
