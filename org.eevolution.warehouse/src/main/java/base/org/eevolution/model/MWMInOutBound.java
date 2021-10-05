@@ -431,7 +431,13 @@ public class MWMInOutBound extends X_WM_InOutBound implements DocAction, DocOpti
 	 */
 	private MInOut createReceipt(MOrderLine orderLine, MWMInOutBound outbound) {
 		MOrder order = orderLine.getParent();
-		int docTypeId = MDocType.getDocType(MDocType.DOCBASETYPE_MaterialReceipt , orderLine.getAD_Org_ID());
+		MDocType orderDocumentType = MDocType.get(getCtx(), order.getC_DocTypeTarget_ID());
+		int docTypeId = 0;
+		if(orderDocumentType.getC_DocTypeShipment_ID() > 0) {
+			docTypeId = orderDocumentType.getC_DocTypeShipment_ID();
+		} else {
+			docTypeId = MDocType.getDocType(MDocType.DOCBASETYPE_MaterialReceipt , orderLine.getAD_Org_ID());
+		}
 		MInOut shipment = new MInOut(order,docTypeId, getDateTrx());
 		shipment.setIsSOTrx(false);
 		shipment.setM_Shipper_ID(outbound.getM_Shipper_ID());
