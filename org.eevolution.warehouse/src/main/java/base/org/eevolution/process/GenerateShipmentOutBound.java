@@ -110,10 +110,10 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
         // Generate Shipment based on Outbound Order
         if (outboundLine.getC_OrderLine_ID() > 0) {
             MOrderLine orderLine = outboundLine.getOrderLine();
-            if (orderLine.getQtyOrdered().subtract(orderLine.getQtyDelivered()).subtract(outboundLine.getPickedQty()).signum() <= 0 && !isIncludeNotAvailable())
+            if (orderLine.getQtyOrdered().subtract(orderLine.getQtyDelivered()).subtract(outboundLine.getPickedQty()).signum() < 0 && !isIncludeNotAvailable())
                 return;
 
-            BigDecimal qtyDelivered = getQtyDelivered(outboundLine, orderLine.getQtyDelivered());
+            BigDecimal qtyDelivered = outboundLine.getPickedQty();//getQtyDelivered(outboundLine, orderLine.getQtyDelivered());
             MInOut shipment = getShipment(orderLine, outboundLine.getParent());
             MInOutLine shipmentLine = new MInOutLine(outboundLine.getCtx(), 0, outboundLine.get_TrxName());
             shipmentLine.setM_InOut_ID(shipment.getM_InOut_ID());
@@ -127,6 +127,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
             shipmentLine.setM_Shipper_ID(outboundLine.getM_Shipper_ID());
             shipmentLine.setM_FreightCategory_ID(outboundLine.getM_FreightCategory_ID());
             shipmentLine.setFreightAmt(outboundLine.getFreightAmt());
+            shipmentLine.setM_AttributeSetInstance_ID(outboundLine.getM_AttributeSetInstance_ID());
             shipmentLine.setWM_InOutBoundLine_ID(outboundLine.getWM_InOutBoundLine_ID());
             shipmentLine.saveEx();
         }
@@ -145,12 +146,12 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
         // Generate Delivery Manufacturing Order
         if (outboundLine.getPP_Order_BOMLine_ID() > 0) {
             MPPOrderBOMLine orderBOMLine = (MPPOrderBOMLine) outboundLine.getPP_Order_BOMLine();
-            if (outboundLine.getPickedQty().subtract(orderBOMLine.getQtyDelivered()).signum() <= 0 && !isIncludeNotAvailable())
+            if (outboundLine.getPickedQty().subtract(orderBOMLine.getQtyDelivered()).signum() < 0 && !isIncludeNotAvailable())
                 return;
 
             MStorage[] storage = MStorage.getAll(getCtx(), orderBOMLine.getM_Product_ID(), outboundLine.getM_LocatorTo_ID(), get_TrxName());
 
-            BigDecimal qtyDelivered = getQtyDelivered(outboundLine, orderBOMLine.getQtyDelivered());
+            BigDecimal qtyDelivered = outboundLine.getPickedQty();//getQtyDelivered(outboundLine, orderBOMLine.getQtyDelivered());
             List<MPPCostCollector> issues = MPPOrder.createIssue(
                     orderBOMLine.getParent(),
                     orderBOMLine,
