@@ -154,9 +154,6 @@ public class OutBoundOrder {
 	/**	Max Sequence		*/
 	protected int				maxSeqNo = 0;
 	
-	/**	Validate Quantity	*/
-	protected boolean 			validateQuantity = true;
-	
 	/**	Load Order			*/
 	protected MWMInOutBound  	outBoundOrder = null;
 	
@@ -168,10 +165,6 @@ public class OutBoundOrder {
 		//	Load Validation Flag
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
-		if(docTypeTargetId > 0) { 
-			MDocType m_DocType = MDocType.get(Env.getCtx(), docTypeTargetId);
-			validateQuantity = m_DocType.get_ValueAsBoolean("IsValidateQuantity");
-		}
 		//	
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		StringBuffer sql = null;
@@ -667,8 +660,7 @@ public class OutBoundOrder {
 						MRefList.getListName(Env.getCtx(), 
 								X_C_Order.DELIVERYRULE_AD_Reference_ID, deliveryRuleKey));
 				//	Valid Quantity On Hand
-				if(deliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Availability)
-						&&	validateQuantity) {
+				if(!deliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Force) && !deliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Manual)) {
 					//FR [ 1 ]
 					BigDecimal diff = ((BigDecimal)(isStocked ? Env.ONE : Env.ZERO)).multiply(qtyOnHand.subtract(qty).setScale(precision, BigDecimal.ROUND_HALF_UP));
 					//	Set Quantity
@@ -812,11 +804,6 @@ public class OutBoundOrder {
 	 * @return
 	 */
 	public String validateQuantity(IMiniTable orderLineTable) {
-		MDocType m_DocType = MDocType.get(Env.getCtx(), docTypeTargetId);
-		validateQuantity = m_DocType.get_ValueAsBoolean("IsValidateQuantity");
-		if(!validateQuantity) {
-			return null;
-		}
 		StringBuffer errorMessage = new StringBuffer();
 		DecimalFormat format = DisplayType.getNumberFormat(DisplayType.Number);
 		for (int row = 0; row < orderLineTable.getRowCount(); row++) {
@@ -828,26 +815,29 @@ public class OutBoundOrder {
 				BigDecimal qtyOrderLine = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_IN_TRANSIT);
 				BigDecimal qtyDelivered = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_DELIVERED);
 				KeyNamePair uom = (KeyNamePair) orderLineTable.getValueAt(row, OL_UOM);
+				KeyNamePair deliveryRule = (KeyNamePair) orderLineTable.getValueAt(row, OL_DELIVERY_RULE);
 				//	
 				MProduct product = MProduct.get(Env.getCtx(), productId);
 				int precision = MUOM.getPrecision(Env.getCtx(), uom.getKey());
 				//	
-				BigDecimal qtyAvailable = qtyOrdered
-						.subtract(qtyDelivered)
-						.subtract(qtyOrderLine)
-						.setScale(precision, BigDecimal.ROUND_HALF_UP);
-				//	
-				if(qty.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue() 
-						> qtyAvailable.doubleValue()) {
-					if(errorMessage.length() > 0) {
-						errorMessage.append(Env.NL);
-					} else {
-						errorMessage.append("@Error@ @Qty@ > @QtyAvailable@ ");
+				if(!deliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Force) && !deliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Manual)) {
+					BigDecimal qtyAvailable = qtyOrdered
+							.subtract(qtyDelivered)
+							.subtract(qtyOrderLine)
+							.setScale(precision, BigDecimal.ROUND_HALF_UP);
+					//	
+					if(qty.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue() 
+							> qtyAvailable.doubleValue()) {
+						if(errorMessage.length() > 0) {
+							errorMessage.append(Env.NL);
+						} else {
+							errorMessage.append("@Error@ @Qty@ > @QtyAvailable@ ");
+						}
+						errorMessage.append("@C_Order_ID@ " + order.getName())
+							.append(", @M_Product_ID@ " + product.getValue() + "-" + product.getName())
+							.append(", @Qty@ " + format.format(qty))
+							.append(", @QtyAvailable@ " + format.format(qtyAvailable));
 					}
-					errorMessage.append("@C_Order_ID@ " + order.getName())
-						.append(", @M_Product_ID@ " + product.getValue() + "-" + product.getName())
-						.append(", @Qty@ " + format.format(qty))
-						.append(", @QtyAvailable@ " + format.format(qtyAvailable));
 				}
 			}
 		}
