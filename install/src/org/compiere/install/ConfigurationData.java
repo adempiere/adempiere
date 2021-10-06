@@ -957,16 +957,16 @@ public class ConfigurationData
 	 *************************************************************************/
 
 	/** SUN VM (default)	*/
-	private static String	JAVATYPE_SUN = "sun";
+	private static String JAVATYPE_ORACLE = "oracle";
 	/** Apple VM			*/
-	private static String	JAVATYPE_MAC = "mac";
+	private static String	JAVATYPE_MAC = "macOS";
 	/** IBM VM				*/
 	private static String	JAVATYPE_IBM = "<ibm>";
 	/** Open JDK			*/
-	private static String	JAVATYPE_OPENJDK = "OpenJDK";
+	private static String	JAVATYPE_OPENJDK = "openJDK";
 	/** Java VM Types		*/
 	static String[]	JAVATYPE = new String[]
-		{JAVATYPE_SUN, JAVATYPE_OPENJDK, JAVATYPE_MAC, JAVATYPE_IBM};
+		{JAVATYPE_ORACLE, JAVATYPE_OPENJDK, JAVATYPE_MAC, JAVATYPE_IBM};
 	//	FR [ 402 ]
 	/** None = N */
 	private static final String ENCRYPTIONTYPE_None = "None";
@@ -1004,7 +1004,7 @@ public class ConfigurationData
 	
 	/** Virtual machine Configurations	*/
 	private Config[] m_javaConfig = new Config[]
-	    {new ConfigVMSun(this), new ConfigVMOpenJDK(this), new ConfigVMMac(this), null};
+	    {new ConfigVMOracle(this), new ConfigVMOpenJDK(this), new ConfigVMMacOS(this), null};
 
 	/**
 	 * 	Init Database
@@ -1108,25 +1108,30 @@ public class ConfigurationData
 	/**************************************************************************
 	 * 	Apps Server Settings
 	 *************************************************************************/
-
-	/**	JBoss (default)		*/
-	protected static String	APPSTYPE_JBOSS = "jboss";
-	/** GlassFish            */
-    protected static String APPSTYPE_GLASSFISH = "glassfish";
+	/* Wildfly */
+	protected static String	APPSTYPE_WILDFLY = "wildfly";
+	/* GlassFish            */
+    //protected static String APPSTYPE_GLASSFISH = "glassfish";
 	/** Tomcat            */
 	protected static String APPSTYPE_TOMCAT = "tomcat";
+	/** Jetty            */
+	protected static String APPSTYPE_JETTY = "jetty";
+
+
 
 	/** Application Server Type		*/
 	static String[]	APPSTYPE = new String[]
 		{ APPSTYPE_TOMCAT
-		, APPSTYPE_JBOSS
-		, APPSTYPE_GLASSFISH
+		, APPSTYPE_JETTY
+		, APPSTYPE_WILDFLY
+		//, APPSTYPE_GLASSFISH
 		};
 	/** Database Configs	*/
 	private Config[] m_appsConfig = new Config[]
 	    { new ConfigTomcat( this )
-		, new ConfigJBoss(this)
-	    , new ConfigGlassfish( this )
+		, new ConfigJetty(this)
+		, new ConfigWildfly(this)
+	    //, new ConfigGlassfish( this )
 	    };
 
 	/**

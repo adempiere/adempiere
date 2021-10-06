@@ -22,20 +22,21 @@ import org.compiere.util.CLogMgt;
 
 
 /**
- *	Open JDK JVM Configuration
+ *	Sun Java VM Configuration
  *	
  *  @author Jorg Janke
- *  @author Trifon Trifonov
+ *  @version $Id: ConfigVMSun.java,v 1.3 2006/07/30 00:57:42 jjanke Exp $
  */
-public class ConfigVMOpenJDK extends Config
+public class ConfigVMOracle extends Config
 {
 	/**
+	 * 	ConfigVMSun
 	 * 	@param data configuration
 	 */
-	public ConfigVMOpenJDK (ConfigurationData data)
+	public ConfigVMOracle(ConfigurationData data)
 	{
 		super (data);
-	}
+	}	//	ConfigVMSun
 	
 	/**
 	 * 	Init
@@ -48,7 +49,7 @@ public class ConfigVMOpenJDK extends Config
 		if (javaHome.endsWith("jre"))
 			javaHome = javaHome.substring(0, javaHome.length()-4);
 		p_data.setJavaHome(javaHome);
-	}
+	}	//	init
 	
 	/**
 	 * 	Test
@@ -65,6 +66,17 @@ public class ConfigVMOpenJDK extends Config
 				pass, true, error);
 		if (!pass)
 			return error;
+		//	Look for tools.jar to make sure that it is not the JRE
+		File tools = new File (p_data.getJavaHome() 
+			+ File.separator + "lib" + File.separator + "tools.jar");
+		pass = tools.exists();
+		error = "Not found: Java SDK = " + tools;
+		if (getPanel() != null)
+			signalOK(getPanel().okJavaHome, "ErrorJavaHome",
+				pass, true, error);
+		if (!pass)
+			return error;
+		//
 		if (CLogMgt.isLevelFinest())
 			CLogMgt.printProperties(System.getProperties(), "System", true);
 		//
@@ -74,8 +86,7 @@ public class ConfigVMOpenJDK extends Config
 		
 		//	Java Version
 		final String VERSION_11 = "11";	//	The real one
-		final String VERSION_17 = "17";	//
-
+		final String VERSION_17 = "17";
 		pass = false;
 		String jh = javaHome.getAbsolutePath();
 		if (!pass && jh.indexOf(VERSION_11) != -1)	//
@@ -95,13 +106,14 @@ public class ConfigVMOpenJDK extends Config
 		}
 		error = "Wrong Java Version: Should be " + VERSION_11;
 		if (getPanel() != null)
-			signalOK(getPanel().okJavaHome, "ErrorJavaHome", pass, true, error);
+			signalOK(getPanel().okJavaHome, "ErrorJavaHome",
+					pass, true, error);
 		if (!pass)
 			return error;
 		//
 		setProperty(ConfigurationData.JAVA_TYPE, p_data.getJavaType());
-
+		
 		return null;
-	}
+	}	//	test
 
 }
