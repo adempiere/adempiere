@@ -21,11 +21,11 @@
 	  <exclude name="META-INF/INDEX.LIST"/>
 	</patternset>
 
-
 	<!-- ==================================================== -->
 	<!-- Init                                                 -->
 	<!-- ==================================================== -->
-	<target name="setupInit"  description="initialization target">
+	<target name="setupInit"
+		description="initialization target">
 
 		<echo message="Adempiere Server Setup ===================" />
 		<echo message="ADEMPIERE_HOME = ${env.ADEMPIERE_HOME}" />
@@ -45,28 +45,13 @@
 		<echo message="Apps Server   = ${ADEMPIERE_APPS_TYPE}" />
 		<echo message="AppsDeployment= ${ADEMPIERE_APPS_DEPLOY}" />
 
-		<condition property="isOracle">
-			<or>
-				<equals arg1="Oracle" arg2="${ADEMPIERE_DB_TYPE}" />
-				<equals arg1="OracleXE" arg2="${ADEMPIERE_DB_TYPE}" />
-			</or>
-		</condition>
-		<condition property="isPostgres">
-			<equals arg1="PostgreSQL" arg2="${ADEMPIERE_DB_TYPE}" />
-		</condition>
-		<condition property="isMySQL">
-			<equals arg1="MySQL" arg2="${ADEMPIERE_DB_TYPE}" />
-		</condition>
-		<condition property="isMariaDB">
-			<equals arg1="MariaDB" arg2="${ADEMPIERE_DB_TYPE}" />
-		</condition>
 
 		<!-- Environment variables -->
 		<condition property="isWindows">
 			<os family="windows" />
 		</condition>
-		<condition property="isAppsWildfly">
-			<equals arg1="wildfly" arg2="${ADEMPIERE_APPS_TYPE}" />
+		<condition property="isAppsJBoss">
+			<equals arg1="jboss" arg2="${ADEMPIERE_APPS_TYPE}" />
 		</condition>
 		<condition property="isAppsGlassfish">
 			<equals arg1="glassfish" arg2="${ADEMPIERE_APPS_TYPE}" />
@@ -74,16 +59,7 @@
 		<condition property="isAppsTomcat">
 			<equals arg1="tomcat" arg2="${ADEMPIERE_APPS_TYPE}" />
 		</condition>
-		<condition property="isAppsJetty">
-			<equals arg1="jetty" arg2="${ADEMPIERE_APPS_TYPE}" />
-		</condition>
-
-		<antcall target="datasourcePostgres" inheritall="true"/>
-		<antcall target="datasourceOracle" inheritall="true"/>
-		<antcall target="datasourceMySQL" inheritall="true"/>
-		<antcall target="datasourceMariaDB" inheritall="true"/>
-		
-		<echo message="Windows=${isWindows} Wildfly=${isAppsWildfly} Glassfish=${isAppsGlassfish} Tomcat=${isAppsTomcat} Jetty=${isAppsJetty}" />
+		<echo message="Windows=${isWindows} JBoss=${isAppsJBoss} Glassfish=${isAppsGlassfish} Tomcat=${isAppsTomcat}" />
 
 	</target>
 
@@ -265,13 +241,16 @@
 			<zipfileset src="lib/${ADEMPIERE_APPS_TYPE}.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
-			<zipfileset src="lib/CCTools.jar">
+			<zipfileset src="lib/CCTools.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
 			<zipfileset src="lib/oracle.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
-			<zipfileset src="lib/driver.jar" >
+			<zipfileset src="lib/postgresql.jar" >
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
+			<zipfileset src="lib/mysql-connector-java-5.1.13-bin.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
 
@@ -309,13 +288,16 @@
 				<patternset refid="manifest.exclude"/>
 				<exclude name="**/*.bsh"/>
 			</zipfileset>
-			<zipfileset src="lib/oracle.jar">
+			<zipfileset src="lib/oracle.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
-			<zipfileset src="lib/driver.jar">
+			<zipfileset src="lib/postgresql.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
 			<zipfileset src="lib/CompiereJasperReqs.jar" >
+				<patternset refid="manifest.exclude"/>
+			</zipfileset>
+			<zipfileset src="lib/mysql-connector-java-5.1.13-bin.jar" >
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
 			<manifest>
@@ -405,7 +387,7 @@
 		</zip>
 	</target>
 
-	<target name="createEAR" >
+	<target name="createEAR">
 		<!-- Create adempiereRoot war		-->
 		<zip destfile="${basedir}/lib/adempiereRoot.war">
 			<!-- copy Base	-->
@@ -424,19 +406,17 @@
 			<zipfileset src="${basedir}/lib/adempiereWebCMbase.war" />
 		</zip>
 
-		<antcall target="wildflyEAR" inheritall="true"/>
+		<antcall target="jbossEAR" inheritall="true"/>
 		<antcall target="glassfishEAR" inheritall="true"/>
 		<antcall target="tomcatWAR" inheritall="true"/>
-		<antcall target="jettyWAR" inheritall="true"/>
 	</target>
 
-	<target name="wildflyEAR" if="isAppsWildfly">
+	<target name="jbossEAR" if="isAppsJBoss">
 		<!-- bundle everything in one ear file for simpler deployment -->
 		<ear destfile="${basedir}/lib/adempiere.ear" appxml="${basedir}/lib/adempiereAll.xml" >
-			<fileset dir="${basedir}/lib" includes="Adempiere.jar,AdempiereSLib.jar,adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,webui.war,mobile.war,ADInterface-1.0.war" />
-			<metainf dir="${basedir}/lib" includes="wildfly-ds.xml"/>
+			<fileset dir="${basedir}/lib"
+				includes="Adempiere.jar,AdempiereSLib.jar,adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,webui.war,mobile.war,ADInterface-1.0.war" />
 		</ear>
-		<copy file="${basedir}/lib/adempiere.ear" tofile="${basedir}/wildfly/standalone/deployments/adempiere.ear" overwrite="yes"/>
 	</target>
 
 	<target name="glassfishEAR" if="isAppsGlassfish">
@@ -456,84 +436,7 @@
 	</target>
 
 	<target name="tomcatWAR" if="isAppsTomcat" depends="setupInit">
-	</target>
-
-	<target name="jettyWAR" if="isAppsJetty" depends="setupInit">
-	</target>
-
-	<target name="datasourcePostgres" depends= "driverPostgres" if="isPostgres">
-		<echo message="Database ${ADEMPIERE_DB_TYPE}" />
-		<!--antcall target="driverPostgres" inheritall="true"/-->
-		<copy file="${basedir}/lib/postgresql-ds.xml" tofile="${basedir}/lib/wildfly-ds.xml" overwrite="yes" filtering="yes"/>
-		<copy file="${basedir}/lib/postgresql.jar" tofile="${basedir}/lib/driver.jar" overwrite="yes"/>
-		<replace file="${basedir}/lib/wildfly-ds.xml">
-			<replacefilter token="@ADEMPIERE_DB_URL@" value="${ADEMPIERE_DB_URL}" />
-			<replacefilter token="@ADEMPIERE_DB_USER@" value="${ADEMPIERE_DB_USER}" />
-			<replacefilter token="@ADEMPIERE_DB_PASSWORD@" value="${ADEMPIERE_DB_PASSWORD}" />
-			<replacefilter token="@@JDBC_DRIVER_CLASS@@" value="${JDBC_DRIVER_CLASS}" />
-		</replace>
-	</target>
-
-	<target name="datasourceOracle" depends= "driverOracle" if="isOracle">
-		<echo message="Database ${ADEMPIERE_DB_TYPE}" />
-		<!--antcall target="driverOracle" inheritall="true"/-->
-		<copy file="${basedir}/lib/oracle-ds.xml" tofile="${basedir}/lib/wildfly-ds.xml" overwrite="yes" filtering="yes"/>
-		<copy file="${basedir}/lib/oracle.jar" tofile="${basedir}/lib/driver.jar" overwrite="yes"/>
-		<replace file="${basedir}/lib/wildfly-ds.xml">
-			<replacefilter token="@ADEMPIERE_DB_URL@" value="${ADEMPIERE_DB_URL}" />
-			<replacefilter token="@ADEMPIERE_DB_USER@" value="${ADEMPIERE_DB_USER}" />
-			<replacefilter token="@ADEMPIERE_DB_PASSWORD@" value="${ADEMPIERE_DB_PASSWORD}" />
-			<replacefilter token="@ADEMPIERE_DB_URL@" value="${ADEMPIERE_DB_URL}" />
-			<replacefilter token="@@JDBC_DRIVER_CLASS@@" value="${JDBC_DRIVER_CLASS}" />
-		</replace>
-	</target>
-
-	<target name="datasourceMySQL" depends= "driverMySQL" if="isMySQL">
-		<echo message="Database ${ADEMPIERE_DB_TYPE}" />
-		<!--antcall target="driverMySQL" inheritall="true"/-->
-		<copy file="${basedir}/lib/mysql-ds.xml" tofile="${basedir}/lib/wildfly-ds.xml" overwrite="yes" filtering="yes"/>
-		<copy file="${basedir}/lib/mysql-connector-java-5.1.13-bin.jar" tofile="${basedir}/lib/driver.jar" overwrite="yes"/>
-		<replace file="${basedir}/lib/wildfly-ds.xml">
-			<replacefilter token="@ADEMPIERE_DB_URL@" value="${ADEMPIERE_DB_URL}" />
-			<replacefilter token="@ADEMPIERE_DB_USER@" value="${ADEMPIERE_DB_USER}" />
-			<replacefilter token="@ADEMPIERE_DB_PASSWORD@" value="${ADEMPIERE_DB_PASSWORD}" />
-			<replacefilter token="@ADEMPIERE_DB_URL@" value="${ADEMPIERE_DB_URL}" />
-			<replacefilter token="@@JDBC_DRIVER_CLASS@@" value="${JDBC_DRIVER_CLASS}" />
-		</replace>
-	</target>
-
-	<target name="datasourceMariaDB" depends= "driverMariaDB" if="isMariaDB">
-		<echo message="Database ${ADEMPIERE_DB_TYPE}" />
-		<!--antcall target="driverMariaDB" inheritall="true"/-->
-		<copy file="${basedir}/lib/mariadb-ds.xml" tofile="${basedir}/lib/wildfly-ds.xml" overwrite="yes" filtering="yes"/>
-		<copy file="${basedir}/lib/mysql-connector-java-5.1.13-bin.jar" tofile="${basedir}/lib/driver.jar" overwrite="yes"/>
-		<replace file="${basedir}/lib/wildfly-ds.xml">
-			<replacefilter token="@ADEMPIERE_DB_URL@" value="${ADEMPIERE_DB_URL}" />
-			<replacefilter token="@ADEMPIERE_DB_USER@" value="${ADEMPIERE_DB_USER}" />
-			<replacefilter token="@ADEMPIERE_DB_PASSWORD@" value="${ADEMPIERE_DB_PASSWORD}" />
-			<replacefilter token="@ADEMPIERE_DB_URL@" value="${ADEMPIERE_DB_URL}" />
-			<replacefilter token="@@JDBC_DRIVER_CLASS@@" value="${JDBC_DRIVER_CLASS}" />
-		</replace>
-	</target>
-
-	<target name="driverPostgres" if="isPostgres">
-		<property name="JDBC_DRIVER_CLASS" value="org.postgresql.Driver"/>
-		<echo message="Driver = ${JDBC_DRIVER_CLASS}" />
-	</target>
-
-	<target name="driverOracle" if="isOracle">
-		<property name="JDBC_DRIVER_CLASS" value="oracle.jdbc.OracleDriver"/>
-		<echo message="Driver = ${JDBC_DRIVER_CLASS}" />
-	</target>
-
-	<target name="driverMySQL" if="isMySQL">
-		<property name="JDBC_DRIVER_CLASS" value="com.mysql.jdbc.Driver"/>
-		<echo message="Driver = ${JDBC_DRIVER_CLASS}"/>
-	</target>
-
-	<target name="driverMariaDB" if="isMariaDB">
-		<property name="JDBC_DRIVER_CLASS" value="org.mariadb.jdbc.Driver"/>
-		<echo message="Driver = ${JDBC_DRIVER_CLASS}" />
+		
 	</target>
 
 	<!-- ==================================================== -->
@@ -549,15 +452,15 @@
 		<antcall target="createEAR" inheritall="true"/>
 	</target>
 
-	<target name="updateWildfly" depends="updateEAR" if="isAppsWildfly"
-			description="Update Wildfly Application Server">
+	<!-- Update JBoss Server -->
+	<target name="updateJBoss" depends="updateEAR" if="isAppsJBoss"
+		description="Update JBoss Application Server">
 
 		<!-- Copy			-->
 		<echo message="AppsDeployment= ${ADEMPIERE_APPS_DEPLOY}" />
 		<!-- Deploy in exploded format for faster startup time -->
-		<copy file="${basedir}/lib/Adempiere.jar" tofile="${basedir}/wildfly/standalone/lib/ext/Adempiere.jar" overwrite="yes"/>
-		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${basedir}/wildfly/standalone/lib/ext/AdempiereSLib.jar"  overwrite="yes"/>
-		<copy file="${basedir}/lib/adempiereApps.jar" tofile="${basedir}/wildfly/standalone/lib/ext/adempiereApps.jar"  overwrite="yes"/>
+		<unjar dest="${ADEMPIERE_APPS_DEPLOY}/adempiere.ear" src="${basedir}/lib/adempiere.ear" overwrite="true">
+		</unjar>
 	</target>
 
     <!-- ==================================================== -->
@@ -573,14 +476,14 @@
 	<!-- ==================================================== -->
 	<!-- Setup Tomcat              -->
 	<!-- ==================================================== -->
-	<target name="setupTomcat" depends="driverPostgres, driverOracle , driverMySQL , driverMariaDB, setupLib, setupEAR " if="isAppsTomcat"
+	<target name="setupTomcat" depends="setupLib, setupEAR" if="isAppsTomcat"
+
 		description="Setup tomcat Server">
 		<delete dir="${ADEMPIERE_APPS_DEPLOY}/mobile" />
 		<delete dir="${ADEMPIERE_APPS_DEPLOY}/webui" />
 		<delete dir="${ADEMPIERE_APPS_DEPLOY}/admin" />
 		<delete dir="${ADEMPIERE_APPS_DEPLOY}/wstore" />
 
-		<!--Setting the ADempiere Web Applications -->
 		<copy file="${basedir}/lib/adempiereRoot.war" tofile="${ADEMPIERE_APPS_DEPLOY}/admin.war"/>
 		<copy file="${basedir}/lib/adempiereApps.war" tofile="${ADEMPIERE_APPS_DEPLOY}/adempiere.war"/>
 		<copy file="${basedir}/lib/webui.war" tofile="${ADEMPIERE_APPS_DEPLOY}/webui.war"/>
@@ -588,98 +491,47 @@
 		<copy file="${basedir}/lib/adempiereWebStore.war" tofile="${ADEMPIERE_APPS_DEPLOY}/wstore.war"/>
 		<copy file="${basedir}/lib/adempiereWebCM.war" tofile="${ADEMPIERE_APPS_DEPLOY}/ROOT.war"/>
 		<copy file="${basedir}/lib/ADInterface-1.0.war" tofile="${ADEMPIERE_APPS_DEPLOY}/ADInterface.war"/>
-
-		<!--Setting the ADempiere Shared Libraries -->
-		<delete dir="${ADEMPIERE_APPS_DEPLOY}/../shared/lib"/>
-		<mkdir dir="${ADEMPIERE_APPS_DEPLOY}/../shared/lib"/>
-		<copy file="${basedir}/lib/Adempiere.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../shared/lib/Adempiere.jar" overwrite="true"/>
-		<copy file="${basedir}/lib/adempiereRoot.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../shared/lib/adempiereRoot.jar" overwrite="true"/>
-		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../shared/lib/AdempiereSLib.jar" overwrite="true"/>
-		<copy file="${basedir}/lib/adempiereApps.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../shared/lib/adempiereApps.jar" overwrite="true"/>
-		<replaceregexp file="${ADEMPIERE_APPS_DEPLOY}/../conf/catalina.properties" match="shared.loader=" replace='shared.loader="${catalina.home}/shared/lib","${catalina.home}/shared/lib/*.jar"' byline="true"/>
-
-		<!--Setting the Connection Pool-->
-
-		<copy file="${basedir}/lib/context.xml" tofile="${ADEMPIERE_APPS_DEPLOY}/../conf/context.xml" filtering="yes" overwrite="yes"/>
-		<echo message="Database Driver Class ${JDBC_DRIVER_CLASS}" />	
-		<replace file="${ADEMPIERE_APPS_DEPLOY}/../conf/context.xml">
-			<replacefilter token="@@JDBC_DRIVER_CLASS@@" value="${JDBC_DRIVER_CLASS}"/>
-		</replace>
-
-		<!-- Setting Tomcat Server -->
-		<copy file="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" tofile="${ADEMPIERE_APPS_DEPLOY}/../conf/server.bak" failonerror="false"/>
-		<copy file="${ADEMPIERE_APPS_DEPLOY}/../conf/server.bak" tofile="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" overwrite="yes"/>
-		<replaceregexp file="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" match="8080" replace="${ADEMPIERE_WEB_PORT}" byline="true"/>
-		<replaceregexp file="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" match="8443" replace="${ADEMPIERE_SSL_PORT}" byline="true"/>
-		<replaceregexp file="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" match="&#60;/Server&#62;" replace="" byline="true"/>
-		<replaceregexp file="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" match="  &#60;/Service&#62;" replace="" byline="true"/>
-		<concat destfile="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" append="true">
-<![CDATA[    <Connector
-            protocol="org.apache.coyote.http11.Http11NioProtocol"
-            port="${ADEMPIERE_SSL_PORT}" maxThreads="200"
-            scheme="https" secure="true" SSLEnabled="true"
-            keystoreFile="${ADEMPIERE_KEYSTORE}" keystorePass="${ADEMPIERE_KEYSTOREPASS}"
-            clientAuth="false" sslProtocol="TLS"/>
-
-    <Connector port="8009" protocol="AJP/1.3" redirectPort="${ADEMPIERE_SSL_PORT}" secretRequired="false"/>
-
-  </Service>
-</Server>
-]]>
-		</concat>
-
+		<copy file="${basedir}/lib/Adempiere.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../lib/Adempiere.jar" overwrite="true" />
+		<copy file="${basedir}/lib/adempiereRoot.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../lib/adempiereRoot.jar" overwrite="true" />
+		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../lib/AdempiereSLib.jar" overwrite="true" />
+		<copy file="${basedir}/lib/adempiereApps.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../lib/adempiereApps.jar" overwrite="true" />
+		<copy file="${basedir}/lib/server.xml" tofile="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" filtering="yes" overwrite="yes"/>
 	</target>
 
 	<!-- ==================================================== -->
-	<!-- Setup Tomcat              -->
+	<!-- Setup JBoss Server                                   -->
 	<!-- ==================================================== -->
-	<target name="setupJetty" depends="driverPostgres, driverOracle , driverMySQL , driverMariaDB, setupLib, setupEAR " if="isAppsJetty" description="Setup jetty Server">
-		<delete dir="${ADEMPIERE_APPS_DEPLOY}/mobile" />
-		<delete dir="${ADEMPIERE_APPS_DEPLOY}/webui" />
-		<delete dir="${ADEMPIERE_APPS_DEPLOY}/admin" />
-		<delete dir="${ADEMPIERE_APPS_DEPLOY}/wstore" />
+	<target name="setupJBoss" depends="setupEAR" if="isAppsJBoss"
+		description="Setup JBoss Application Server">
 
-		<mkdir dir="${basedir}/jetty/webapps"/>
-		<copy file="${basedir}/lib/adempiereRoot.war" tofile="${ADEMPIERE_APPS_DEPLOY}/admin.war"/>
-		<copy file="${basedir}/lib/adempiereApps.war" tofile="${ADEMPIERE_APPS_DEPLOY}/adempiere.war"/>
-		<copy file="${basedir}/lib/webui.war" tofile="${ADEMPIERE_APPS_DEPLOY}/webui.war"/>
-		<copy file="${basedir}/lib/mobile.war" tofile="${ADEMPIERE_APPS_DEPLOY}/mobile.war"/>
-		<copy file="${basedir}/lib/adempiereWebStore.war" tofile="${ADEMPIERE_APPS_DEPLOY}/wstore.war"/>
-		<copy file="${basedir}/lib/adempiereWebCM.war" tofile="${ADEMPIERE_APPS_DEPLOY}/ROOT.war"/>
-		<copy file="${basedir}/lib/ADInterface-1.0.war" tofile="${ADEMPIERE_APPS_DEPLOY}/ADInterface.war"/>
+		<!-- Filter JBoss Templates Conf	-->
+		<copy file="${basedir}/jboss/server/adempiere/conf/jboss-serviceTemplate.xml" tofile="${basedir}/jboss/server/adempiere/conf/jboss-service.xml" filtering="yes" overwrite="yes" />
+		<copy file="${basedir}/jboss/server/adempiere/conf/login-configTemplate.xml" tofile="${basedir}/jboss/server/adempiere/conf/login-config.xml" filtering="yes" overwrite="yes" />
 
-		<mkdir dir="${ADEMPIERE_APPS_DEPLOY}/../lib/ext"/>
-		<copy file="${basedir}/lib/Adempiere.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../lib/ext/Adempiere.jar" overwrite="true" />
-		<copy file="${basedir}/lib/adempiereRoot.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../lib/ext/adempiereRoot.jar" overwrite="true" />
-		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../lib/ext/AdempiereSLib.jar" overwrite="true" />
-		<copy file="${basedir}/lib/adempiereApps.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../lib/ext/adempiereApps.jar" overwrite="true" />
+		<!-- Filter JBoss Templates HTTP Invoker	-->
+		<copy file="${basedir}/jboss/server/adempiere/deploy/http-invoker.sar/META-INF/jboss-serviceTemplate.xml" tofile="${basedir}/jboss/server/adempiere/deploy/http-invoker.sar/META-INF/jboss-service.xml" filtering="yes" overwrite="yes" />
 
-		<echo message="JDBC Driver =${JDBC_DRIVER_CLASS} for ${ADEMPIERE_APPS_DEPLOY}" />
-		<copy file="${basedir}/lib/jetty-ds.xml" tofile="${ADEMPIERE_APPS_DEPLOY}/../jetty-ds.xml" filtering="yes" overwrite="yes"/>
-		<replace file="${ADEMPIERE_APPS_DEPLOY}/../jetty-ds.xml">
-			<replacefilter token="@@JDBC_DRIVER_CLASS@@" value="${JDBC_DRIVER_CLASS}" />
-		</replace>
-	</target>
+		<!-- Filter Tomcat 6.0 				-->
+		<copy file="${basedir}/jboss/server/adempiere/deploy/jboss-web.deployer/serverTemplate.xml" tofile="${basedir}/jboss/server/adempiere/deploy/jboss-web.deployer/server.xml" filtering="yes" overwrite="yes" />
 
-	<!-- ==================================================== -->
-	<!-- Setup Wildfly Server                                   -->
-	<!-- ==================================================== -->
-	<target name="setupWildfly" depends="setupEAR" if="isAppsWildfly"
-			description="Setup Wildfly Application Server">
+		<!-- Delete Old		-->
+		<delete file="${basedir}/jboss/server/adempiere/lib/CClient.jar" failonerror="no" />
+		<delete file="${basedir}/jboss/server/adempiere/lib/CSTools.jar" failonerror="no" />
+		<delete file="${basedir}/jboss/server/adempiere/lib/CServer.jar" failonerror="no" />
+		<delete file="${basedir}/jboss/server/adempiere/lib/oracle.jar" failonerror="no" />
 
 		<!-- Copy			-->
-		<echo message="AppsDeployment=${ADEMPIERE_APPS_DEPLOY}" />
+		<echo message="AppsDeployment= ${ADEMPIERE_APPS_DEPLOY}" />
 		<!-- Deploy in exploded format for faster startup time -->
-		<copy file="${basedir}/lib/Adempiere.jar" tofile="${basedir}/wildfly/standalone/lib/ext/Adempiere.jar" overwrite="yes"/>
-		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${basedir}/wildfly/standalone/lib/ext/AdempiereSLib.jar"  overwrite="yes"/>
-		<copy file="${basedir}/lib/adempiereApps.jar" tofile="${basedir}/wildfly/standalone/lib/ext/adempiereApps.jar"  overwrite="yes"/>
+		<unjar dest="${ADEMPIERE_APPS_DEPLOY}/adempiere.ear" src="${basedir}/lib/adempiere.ear" overwrite="true">
+		</unjar>
 	</target>
 
 
 	<!-- ==================================================== -->
 	<!-- Update J2EE Server                                   -->
 	<!-- ==================================================== -->
-	<target name="updateDeploy" depends="updateWildfly"
+	<target name="updateDeploy" depends="updateJBoss"
 		description="Update Adempiere Application Server">
 		<echo message="AppsDeployment= ${ADEMPIERE_APPS_DEPLOY}" />
 	</target>
@@ -687,7 +539,7 @@
 	<!-- ==================================================== -->
 	<!-- Deploy J2EE Server                                   -->
 	<!-- ==================================================== -->
-	<target name="setupDeploy" depends="setupWildfly, setupGlassfish, setupTomcat, setupJetty"
+	<target name="setupDeploy" depends="setupJBoss, setupGlassfish, setupTomcat"
 		description="Deploy Adempiere Application Server">
 		<echo message="AppsDeployment= ${ADEMPIERE_APPS_DEPLOY}" />
 	</target>
@@ -714,7 +566,7 @@
 		description="Copy Adempiere to Test System">
 
 		<delete dir="lib" />
-		<delete dir="wildfly" />
+		<delete dir="jboss" />
 		<delete dir="log" />
 		<unzip src="\\\\Dev1\\Adempiere\\Install\\Adempiere_253d.zip"
 			overwrite="true" />
@@ -757,11 +609,11 @@
 
 		<echo message="================Adempiere Server Shutdown Complete===================" />
 		<sleep seconds="2"/>
-		<!-- Deleting all the log files, wildfly dir and log dir in ${env.ADEMPIERE_HOME} directory -->
+		<!-- Deleting all the log files, jboss dir and log dir in ${env.ADEMPIERE_HOME} directory -->
 		<delete>
 			<fileset dir="${env.ADEMPIERE_HOME}" includes="*.log" />
 		</delete>
-		<delete dir="${env.ADEMPIERE_HOME}\wildfly" />
+		<delete dir="${env.ADEMPIERE_HOME}\jboss" />
 		<delete dir="${env.ADEMPIERE_HOME}\log" />
 
 		<echo message="=========== ftp to nas and download the current build==============="/>
@@ -789,5 +641,7 @@
 		  <arg value="-c" />
 		  <arg value="RUN_ImportAdempiere.sh" />
 		</exec>
+
 	</target>
+
 </project>

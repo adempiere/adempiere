@@ -156,9 +156,6 @@ public class MSequence extends X_AD_Sequence
 
 					// Get the table
 					MTable table = MTable.get(Env.getCtx(), TableName);
-					// Set the transaction from Persistence Object avoid null transaction error
-					if (table.get_TrxName() == null && trxName != null)
-						table.set_TrxName(trxName);
 
 					int AD_Sequence_ID = rs.getInt(4);
 					boolean gotFromHTTP = false;

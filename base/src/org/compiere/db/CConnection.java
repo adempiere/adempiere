@@ -1356,10 +1356,9 @@ public class CConnection implements Serializable, Cloneable
 			{
 				conn = m_db.getCachedConnection(this, autoCommit, transactionIsolation);
 			}
-			catch (Exception exception)
+			catch (Exception e)
 			{
-				log.severe(exception.getMessage());
-				ee = exception;
+				ee = e;
 			}
 			//	Verify Connection
 			if (conn != null)
