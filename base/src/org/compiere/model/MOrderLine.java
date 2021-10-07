@@ -1169,10 +1169,6 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 		return this.getQtyEntered();
 	}
 
-	public BigDecimal getQtyToDelivery() {
-		return getQtyOrdered().subtract(getQtyDelivered());
-	}
-
 	@Override
 	public int getReversalLine_ID() {
 		// TODO Auto-generated method stub
