@@ -774,6 +774,25 @@ class Convert_PostgreSQLTest {
 								+ "E'this ''is'' a string with ''quotes'' and backslashes "
 								+ "''\\\\''', 'val4')"));
 
+
+		argList.add(arguments("[Bug Report] XML 06380 Error in DDL ALTER TABLE For Oracle #3633",
+
+				"ALTER TABLE M_Package ADD DocAction CHAR(2)",
+
+				"ALTER TABLE M_Package ADD COLUMN DocAction CHAR(2)"));
+
+		argList.add(arguments("[Bug Report] XML 06380 Error in DDL ALTER TABLE For Oracle #3633",
+
+				"ALTER TABLE M_Package MODIFY DocAction CHAR(2) DEFAULT 'CO'",
+
+				"INSERT INTO t_alter_column values('m_package','DocAction','CHAR(2)',null,'CO')"));
+
+		argList.add(arguments("[Bug Report] XML 06380 Error in DDL ALTER TABLE For Oracle #3633",
+
+				"ALTER TABLE M_Package MODIFY DocAction NOT NULL",
+
+				"INSERT INTO t_alter_column values('m_package','DocAction',null,'NOT NULL',null)"));
+
 		argList.add(arguments("No changes", goodSQL, goodSQL));
 
 
