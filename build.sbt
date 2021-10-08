@@ -19,15 +19,15 @@ name := "org.adempiere.server"
 lazy val commonSettings = Seq(
   organization := "org.adempiere.net",
   version := "3.9.4-SNAPSHOT",
-  scalaVersion := "3.0.0"
+  scalaVersion := "3.0.2"
 )
 
-scalaVersion := "3.0.0"
+scalaVersion := "3.0.2"
 resolvers += "Artima Maven Repository" at "https://repo.artima.com/releases"
 
 fork := true
 val adempiereProperties =
-  "-DPropertyFile=/Users/e-Evolution/AdempierePG.properties"
+  "-DPropertyFile=/Users/e-Evolution/Develop/ADempiere/developEE/install/build/Adempiere/Adempiere.properties"
 /*scalacOptions ++= Seq(
   "-feature",
   "-unchecked",
@@ -67,15 +67,17 @@ Compile / javaSource := baseDirectory.value / "serverRoot" / "src" / "main" / "s
 //Compile / scalaSource := baseDirectory.value / sourceDirectoryTest / "src" / "main" / "scala"
 //Test scalaSource := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "scala"
 
+Compile / javaSource := baseDirectory.value / "org.eevolution.warehouse" / "src" / "main" / "java" / "ui" / "zk"
+
 Compile / unmanagedClasspath += file(sourceAdempiere + "/bin")
 Compile / unmanagedClasspath += file(
   sourceAdempiere + "/zkwebui/WEB-INF/classes"
 )
 Compile / unmanagedClasspath += file(
-  sourceAdempiere + "/target/scala-3.0.0/classes"
+  sourceAdempiere + "/target/scala-3.0.2/classes"
 )
 Compile / unmanagedClasspath += file(
-  sourceAdempiere + "/target/scala-3.0.0/test-classes"
+  sourceAdempiere + "/target/scala-3.0.2/test-classes"
 )
 
 Compile / unmanagedJars ++= (file(
@@ -113,13 +115,24 @@ Tomcat / containerMain := "webapp.runner.launch.Main"
 
 Tomcat / javaOptions ++= Seq(
   adempiereProperties,
+  "--add-exports=java.base/jdk.internal.misc=ALL-UNNAMED",
   "--add-exports=java.desktop/sun.swing=ALL-UNNAMED",
   "--add-exports=java.desktop/sun.awt=ALL-UNNAMED",
   "--add-exports=java.base/sun.security.provider=ALL-UNNAMED",
   "--add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED",
-  "-DADEMPIERE_HOME=/Users/e-Evolution",
+  "--add-exports=jdk.naming.dns/com.sun.jndi.dns=java.naming",
+  "--add-opens=java.base/java.lang=ALL-UNNAMED",
   "-Xdebug",
   "-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
+)
+
+Tomcat / containerArgs := Seq(
+  "--context-xml",
+  "/Users/e-Evolution/Develop/ADempiere/developEE/install/build/Adempiere/tomcat/conf/context.xml",
+  "--enable-naming",
+  "--access-log",
+  "--access-log-pattern",
+  "common"
 )
 
 // Enable to Jetty Server
@@ -140,6 +153,11 @@ Jetty / javaOptions ++= Seq(
   "--add-exports=java.naming/com.sun.jndi.ldap=ALL-UNNAMED",
   "-Xdebug",
   "-Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
+)
+
+Jetty / containerArgs := Seq(
+  "--config",
+  "/Users/e-Evolution/Develop/ADempiere/developEE/install/build/Adempiere/jetty/jetty-ds.xml"
 )
 
 containerPort := 9090
@@ -164,10 +182,18 @@ webappPostProcess := {
       webappDir / "WEB-INF" / "classes"
     )
     IO.copyDirectory(
+      baseDirectory.value / "org.eevolution.warehouse/src/main/java/ui/zk",
+      webappDir / "WEB-INF" / "classes"
+    )
+    IO.copyDirectory(
       baseDirectory.value / "org.eevolution.hr_and_payroll/src/main/java/ui/zk",
       webappDir / "WEB-INF" / "classes"
     )
     IO.copyDirectory(baseDirectory.value / "lib", webappDir / "WEB-INF" / "lib")
+    IO.copyDirectory(
+      baseDirectory.value / "tools/lib/HikariCP-5.0.0.jar",
+      webappDir / "WEB-INF" / "lib"
+    )
 
     /**IO.copyDirectory(
       baseDirectory.value / "serverRoot" / "src" / "web",

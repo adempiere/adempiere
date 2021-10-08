@@ -582,7 +582,7 @@ public class DB_Oracle implements AdempiereDatabase
                 config.addDataSourceProperty("maximumPoolSize", "15");
                 HikariDataSource cpds = new HikariDataSource(config);
                 m_ds = cpds;
-                log.warning("Starting Hikari Connection Pool based on client");
+                log.warning("Starting Client Hikari Connection Pool");
             } else {
                 Optional<String> maybeApplicationType = Optional.ofNullable(System.getenv("ADEMPIERE_APPS_TYPE"));
                 m_ds = maybeApplicationType
@@ -611,7 +611,7 @@ public class DB_Oracle implements AdempiereDatabase
                                 return new HikariDataSource(config);
                             } catch (Exception namingException) {
                                 m_ds = null;
-                                log.log(Level.SEVERE, "Could not initialise Hikari Connection Pool", namingException);
+                                log.log(Level.SEVERE, "Application Server does not exist Could not initialise Hikari Connection Pool", namingException);
                                 namingException.printStackTrace();
                             }
                             log.warning("Connection successful using Standalone Hikari Config Connection Pool");
@@ -629,11 +629,11 @@ public class DB_Oracle implements AdempiereDatabase
                             config.addDataSourceProperty("idleTimeout", "1200");
                             config.addDataSourceProperty("maximumPoolSize", "150");
                             return new HikariDataSource(config);
-                        }).orElseThrow(() -> new AdempiereException("Could not initialise Hikari Connection Pool"));
+                        }).orElseThrow(() -> new AdempiereException("The ADEMPIERE_APPS_TYPE environment variable is not set, so it is not possible to initialize the Hikari Connection Pool"));
             }
         } catch (Exception exception) {
             m_ds = null;
-            log.log(Level.SEVERE, "Could not initialise Hikari Connection Pool", exception);
+            log.log(Level.SEVERE, "Application Server does not exist, no is possible to initialize the initialise Hikari Connection Pool", exception);
             exception.printStackTrace();
         }
         return m_ds;
