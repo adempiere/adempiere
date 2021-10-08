@@ -156,6 +156,8 @@ public class OutBoundOrder {
 	
 	/**	Load Order			*/
 	protected MWMInOutBound  	outBoundOrder = null;
+	/** Outbound Locator Id */
+	protected Integer locatorId = null;
 	
 	/**
 	 * Get Order data from parameters
@@ -815,7 +817,7 @@ public class OutBoundOrder {
 				BigDecimal qtyOrderLine = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_IN_TRANSIT);
 				BigDecimal qtyDelivered = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_DELIVERED);
 				KeyNamePair uom = (KeyNamePair) orderLineTable.getValueAt(row, OL_UOM);
-				KeyNamePair deliveryRule = (KeyNamePair) orderLineTable.getValueAt(row, OL_DELIVERY_RULE);
+				ValueNamePair deliveryRule = (ValueNamePair) orderLineTable.getValueAt(row, OL_DELIVERY_RULE);
 				//	
 				MProduct product = MProduct.get(Env.getCtx(), productId);
 				int precision = MUOM.getPrecision(Env.getCtx(), uom.getKey());
@@ -944,7 +946,10 @@ public class OutBoundOrder {
 					outBoundOrderLine.setC_OrderLine_ID(line.getC_OrderLine_ID());
 					outBoundOrderLine.setM_AttributeSetInstance_ID(line.getM_AttributeSetInstance_ID());
 					outBoundOrderLine.setC_UOM_ID(product.getC_UOM_ID());
-					outBoundOrderLine.setM_Locator_ID(getDefaultLocator(line.getM_Warehouse_ID(), productId, line.getM_AttributeSetInstance_ID(), qty, trxName));
+					if (locatorId == null)
+						locatorId = getDefaultLocator(line.getM_Warehouse_ID(), productId, line.getM_AttributeSetInstance_ID(), qty, trxName);
+
+					outBoundOrderLine.setM_LocatorTo_ID(locatorId);
 				}
 				outBoundOrderLine.setM_Product_ID(productId);
 				outBoundOrderLine.setMovementQty(qty);
