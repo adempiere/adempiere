@@ -46,6 +46,7 @@ import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MStorage;
 import org.compiere.model.PO;
+import org.compiere.model.X_C_Order;
 import org.compiere.process.ProcessInfo;
 import org.eevolution.model.I_DD_Order;
 import org.eevolution.model.MDDOrder;
@@ -183,8 +184,11 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
             //The quantity to delivery of the Outbound order cannot be greater than the pending quantity to delivery  of the sales order.
             if (outboundOrderQtyToDelivery.compareTo(salesOrderQtyToDelivery) > 0)
                 qtyToDelivery = salesOrderQtyToDelivery;
-            else
+            else if (!X_C_Order.DELIVERYRULE_Force.equals(orderLine.getParent().getDeliveryRule()) &&
+                     !X_C_Order.DELIVERYRULE_Manual.equals(orderLine.getParent().getDeliveryRule()))
                 qtyToDelivery = outboundOrderQtyToDelivery;
+            else
+                qtyToDelivery = salesOrderQtyToDelivery;
         }
         return qtyToDelivery;
     }
@@ -201,8 +205,11 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
             //The quantity to delivery of the Outbound order cannot be greater than the pending quantity to delivery  of the sales order.
             if (outboundOrderQtyToDelivery.compareTo(manufacturingOrderQtyToDelivery) > 0)
                 qtyToDelivery = manufacturingOrderQtyToDelivery;
-            else
+            else if (!X_C_Order.DELIVERYRULE_Force.equals(orderBOMLine.getParent().getDeliveryRule()) &&
+                     !X_C_Order.DELIVERYRULE_Manual.equals(orderBOMLine.getParent().getDeliveryRule()))
                 qtyToDelivery = outboundOrderQtyToDelivery;
+            else
+                qtyToDelivery = manufacturingOrderQtyToDelivery;
         }
         return qtyToDelivery;
     }
@@ -219,6 +226,9 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
             //The quantity to delivery of the Outbound order cannot be greater than the pending quantity to delivery  of the sales order.
             if (outboundOrderQtyToDelivery.compareTo(distributionOrderQtyToDelivery) > 0)
                 qtyToDelivery = distributionOrderQtyToDelivery;
+            else if (!X_C_Order.DELIVERYRULE_Force.equals(orderLine.getParent().getDeliveryRule()) &&
+                     !X_C_Order.DELIVERYRULE_Manual.equals(orderLine.getParent().getDeliveryRule()))
+                qtyToDelivery = outboundOrderQtyToDelivery;
             else
                 qtyToDelivery = outboundOrderQtyToDelivery;
         }
