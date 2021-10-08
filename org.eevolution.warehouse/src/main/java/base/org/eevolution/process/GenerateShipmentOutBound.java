@@ -230,7 +230,7 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
                      !X_C_Order.DELIVERYRULE_Manual.equals(orderLine.getParent().getDeliveryRule()))
                 qtyToDelivery = outboundOrderQtyToDelivery;
             else
-                qtyToDelivery = outboundOrderQtyToDelivery;
+                qtyToDelivery = distributionOrderQtyToDelivery;
         }
         return qtyToDelivery;
     }
