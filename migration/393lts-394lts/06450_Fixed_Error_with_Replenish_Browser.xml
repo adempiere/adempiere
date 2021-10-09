@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="ECA02" Name="Fixed Error with Replenish Browser" ReleaseNo="3.9.4" SeqNo="6450">
-    <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
+    <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
       <SQLStatement>-- View: RV_M_Replenish
 -- DROP VIEW RV_M_Replenish;
 /******************************************************************************
@@ -221,7 +221,7 @@ FROM (SELECT r.AD_Client_ID,
 WHERE (r.QtyToOrder &gt; 0
 OR (r.ReplenishType IN('0', '9')));</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="10" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="10" StepType="SQL">
       <SQLStatement>-- View: RV_M_Replenish
 -- DROP VIEW RV_M_Replenish;
 /******************************************************************************
