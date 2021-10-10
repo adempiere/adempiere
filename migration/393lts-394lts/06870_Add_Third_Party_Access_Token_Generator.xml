@@ -17,10 +17,8 @@ ALTER TABLE AD_Token RENAME COLUMN TokenValue_l TO TokenValue ;</SQLStatement>
         <Data AD_Column_ID="124" Column="IsMandatory" oldValue="true">false</Data>
       </PO>
     </Step>
-    <Step SeqNo="20" StepType="AD">
-      <PO AD_Table_ID="101" Action="U" Record_ID="88837" Table="AD_Column">
-        <Data AD_Column_ID="118" Column="FieldLength" oldValue="255">16000</Data>
-      </PO>
+    <Step DBType="ALL" Parse="Y" SeqNo="20" StepType="SQL">
+      <SQLStatement>UPDATE AD_Column SET FieldLength = 16000 WHERE AD_Column_ID=88837;</SQLStatement>
     </Step>
     <Step SeqNo="40" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="97390" Table="AD_Column">
