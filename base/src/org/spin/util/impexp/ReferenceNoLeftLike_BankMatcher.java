@@ -46,12 +46,21 @@ public class ReferenceNoLeftLike_BankMatcher implements BankStatementMatcherInte
 	}
 
 	@Override
-	public BankStatementMatchInfo findMatch(MBankStatementLine bsl) {
+	public BankStatementMatchInfo findMatch(MBankStatementLine bsl, List<Integer> includedPayments, List<Integer> exludedPayments) {
 		return null;
 	}
 
 	@Override
-	public BankStatementMatchInfo findMatch(X_I_BankStatement ibs) {
+	public BankStatementMatchInfo findMatch(X_I_BankStatement ibs, List<Integer> includedPayments, List<Integer> exludedPayments) {
+		StringBuffer paymentWhereClause = new StringBuffer();
+		if(includedPayments != null
+				&& includedPayments.size() > 0) {
+			paymentWhereClause.append(" AND ").append("p.C_Payment_ID").append(" IN").append(includedPayments.toString().replace('[','(').replace(']',')'));
+		}
+		if(exludedPayments != null
+				&& exludedPayments.size() > 0) {
+			paymentWhereClause.append(" AND ").append("p.C_Payment_ID").append(" NOT IN").append(exludedPayments.toString().replace('[','(').replace(']',')'));
+		}
 		BankStatementMatchInfo info = new BankStatementMatchInfo();
 		//	Validate
 		if(ibs.getC_Payment_ID() != 0) {
@@ -62,6 +71,9 @@ public class ReferenceNoLeftLike_BankMatcher implements BankStatementMatcherInte
 		StringBuffer sql = new StringBuffer("SELECT p.C_Payment_ID "
 				+ "FROM C_Payment p "
 				+ "WHERE p.AD_Client_ID = ? ");
+		if(paymentWhereClause.length() > 0) {
+			sql.append(paymentWhereClause);
+		}
 		//	Were
 		StringBuffer where = new StringBuffer();
 		StringBuffer orderByClause = new StringBuffer(" ORDER BY ");
