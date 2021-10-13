@@ -21,11 +21,10 @@ fi
 
 if [ $ADEMPIERE_APPS_TYPE = "tomcat" ]
 then
-   if test -f "$TOMCAT_HOME/tomcat.pid"
+   if test -f "$CATALINA_BASE/tomcat.pid"
    then
-      echo sh $TOMCAT_HOME/bin/shutdown.sh
-      sh $TOMCAT_HOME/bin/shutdown.sh
-      rm $TOMCAT_HOME/tomcat.pid
+      echo sh $CATALINA_BASE/bin/shutdown.sh
+      sh $CATALINA_BASE/bin/shutdown.sh
    fi
 fi
 

@@ -102,10 +102,10 @@ public class Login
 		//if (jVersion.startsWith("1.5.0"))
 		//	return true;
         //vpj-cd e-evolution support to java 6
-        if (jVersion.startsWith("1.8.0"))
+        if (jVersion.startsWith("11"))
             return true;
 		//Add ADEMPIERE-86 Add JAVA 11.0 support in ADempiere
-		if (jVersion.startsWith("11"))
+		if (jVersion.startsWith("17"))
 			return true;
         //end
 		//  Warning
@@ -119,7 +119,7 @@ public class Login
 		msg.append(System.getProperty("java.vm.name")).append(" - ").append(jVersion);
 		if (ok)
 			msg.append("(untested)");
-        msg.append(" <> 1.8.0, 11");
+        msg.append(" <> 11, 17");
 		//
 		if (isClient)
 			JOptionPane.showMessageDialog(null, msg.toString(),

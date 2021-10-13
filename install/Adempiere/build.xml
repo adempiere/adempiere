@@ -575,6 +575,42 @@
 	<!-- ==================================================== -->
 	<target name="setupTomcat" depends="driverPostgres, driverOracle , driverMySQL , driverMariaDB, setupLib, setupEAR " if="isAppsTomcat"
 		description="Setup tomcat Server">
+
+		<echo message="Tomcat Base : ${ADEMPIERE_APPS_DEPLOY}/.."/>	
+		<echo message="Tomcat Home : ${env.CATALINA_HOME}"/>	
+
+		
+		<mkdir dir="${ADEMPIERE_APPS_DEPLOY}/../logs"/>
+		<delete dir="${ADEMPIERE_APPS_DEPLOY}/../bin"/>
+		<mkdir dir="${ADEMPIERE_APPS_DEPLOY}/../bin"/>
+
+		<echo file="${ADEMPIERE_APPS_DEPLOY}/../bin/startup.bat" append="false">
+set CATALINA_BASE=${ADEMPIERE_APPS_DEPLOY}\..			
+%CATALINA_HOME%\bin\startup.bat
+		</echo>
+			
+		<echo file="${ADEMPIERE_APPS_DEPLOY}/../bin/startup.sh" append="false">#\!/bin/tcsh
+export CATALINA_BASE=${ADEMPIERE_APPS_DEPLOY}/..
+export CATALINA_PID="$CATALINA_BASE/tomcat.pid"
+$CATALINA_HOME/bin/startup.sh
+		</echo>
+
+		<echo file="${ADEMPIERE_APPS_DEPLOY}/../bin/shutdown.bat" append="false">
+%CATALINA_HOME%\bin\shutdown.bat
+		</echo>
+				
+		<echo file="${ADEMPIERE_APPS_DEPLOY}/../bin/shutdown.sh" append="false">#\!/bin/tcsh
+$CATALINA_HOME/bin/shutdown.sh
+		</echo>
+
+		<chmod dir="${ADEMPIERE_APPS_DEPLOY}/../bin" perm="ugo+rx" includes="**/*.sh"/>	
+
+		<copy file="${env.CATALINA_HOME}/bin/tomcat-juli.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../bin/tomcat-juli.jar" failonerror="false"/>
+		<delete dir="${ADEMPIERE_APPS_DEPLOY}/../conf"/>
+		<copy todir="${ADEMPIERE_APPS_DEPLOY}/../conf" failonerror="false">
+			<fileset dir="${env.CATALINA_HOME}/conf" includes="**"/>  
+		</copy>	
+
 		<delete dir="${ADEMPIERE_APPS_DEPLOY}/mobile" />
 		<delete dir="${ADEMPIERE_APPS_DEPLOY}/webui" />
 		<delete dir="${ADEMPIERE_APPS_DEPLOY}/admin" />
@@ -596,8 +632,8 @@
 		<copy file="${basedir}/lib/adempiereRoot.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../shared/lib/adempiereRoot.jar" overwrite="true"/>
 		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../shared/lib/AdempiereSLib.jar" overwrite="true"/>
 		<copy file="${basedir}/lib/adempiereApps.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../shared/lib/adempiereApps.jar" overwrite="true"/>
-		<replaceregexp file="${ADEMPIERE_APPS_DEPLOY}/../conf/catalina.properties" match="shared.loader=" replace='shared.loader="${catalina.home}/shared/lib","${catalina.home}/shared/lib/*.jar"' byline="true"/>
-
+		<replaceregexp file="${ADEMPIERE_APPS_DEPLOY}/../conf/catalina.properties" match="shared.loader=" replace='shared.loader="${catalina.base}/shared/lib","${catalina.base}/shared/lib/*.jar"' byline="true"/>
+		<replaceregexp file="${ADEMPIERE_APPS_DEPLOY}/../conf/catalina.properties" match="xom-\*.jar" replace='xom-\*.jar,\\\\${line.separator}Adempiere.jar,\\\\${line.separator}adempiereRoot.jar,\\\\${line.separator}AdempiereSLib.jar,\\\\${line.separator}adempiereApps.jar,\\\\${line.separator}javax.mail.jar' byline="true"/>
 		<!--Setting the Connection Pool-->
 
 		<copy file="${basedir}/lib/context.xml" tofile="${ADEMPIERE_APPS_DEPLOY}/../conf/context.xml" filtering="yes" overwrite="yes"/>
@@ -607,8 +643,8 @@
 		</replace>
 
 		<!-- Setting Tomcat Server -->
-		<copy file="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" tofile="${ADEMPIERE_APPS_DEPLOY}/../conf/server.bak" failonerror="false"/>
-		<copy file="${ADEMPIERE_APPS_DEPLOY}/../conf/server.bak" tofile="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" overwrite="yes"/>
+		<!--copy file="${env.CATALINA_HOME}/conf/server.xml" tofile="${ADEMPIERE_APPS_DEPLOY}/../conf/server.bak" failonerror="false"/-->
+		<!--copy file="${ADEMPIERE_APPS_DEPLOY}/../conf/server.bak" tofile="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" overwrite="yes"/-->
 		<replaceregexp file="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" match="8080" replace="${ADEMPIERE_WEB_PORT}" byline="true"/>
 		<replaceregexp file="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" match="8443" replace="${ADEMPIERE_SSL_PORT}" byline="true"/>
 		<replaceregexp file="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" match="&#60;/Server&#62;" replace="" byline="true"/>
@@ -634,6 +670,10 @@
 	<!-- Setup Tomcat              -->
 	<!-- ==================================================== -->
 	<target name="setupJetty" depends="driverPostgres, driverOracle , driverMySQL , driverMariaDB, setupLib, setupEAR " if="isAppsJetty" description="Setup jetty Server">
+
+		<echo message="Tomcat Base : ${env.JETTY_BASE}"/>	
+		<echo message="Tomcat Home : ${env.JETTY_HOME}"/>	
+
 		<delete dir="${ADEMPIERE_APPS_DEPLOY}/mobile" />
 		<delete dir="${ADEMPIERE_APPS_DEPLOY}/webui" />
 		<delete dir="${ADEMPIERE_APPS_DEPLOY}/admin" />
@@ -649,14 +689,14 @@
 		<copy file="${basedir}/lib/ADInterface-1.0.war" tofile="${ADEMPIERE_APPS_DEPLOY}/ADInterface.war"/>
 
 		<mkdir dir="${ADEMPIERE_APPS_DEPLOY}/../lib/ext"/>
-		<copy file="${basedir}/lib/Adempiere.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../lib/ext/Adempiere.jar" overwrite="true" />
-		<copy file="${basedir}/lib/adempiereRoot.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../lib/ext/adempiereRoot.jar" overwrite="true" />
-		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../lib/ext/AdempiereSLib.jar" overwrite="true" />
-		<copy file="${basedir}/lib/adempiereApps.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../lib/ext/adempiereApps.jar" overwrite="true" />
+		<copy file="${basedir}/lib/Adempiere.jar" tofile="${env.JETTY_BASE}/lib/ext/Adempiere.jar" overwrite="true" />
+		<copy file="${basedir}/lib/adempiereRoot.jar" tofile="${env.JETTY_BASE}/lib/ext/adempiereRoot.jar" overwrite="true" />
+		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${env.JETTY_BASE}/lib/ext/AdempiereSLib.jar" overwrite="true" />
+		<copy file="${basedir}/lib/adempiereApps.jar" tofile="${env.JETTY_BASE}/lib/ext/adempiereApps.jar" overwrite="true" />
 
 		<echo message="JDBC Driver =${JDBC_DRIVER_CLASS} for ${ADEMPIERE_APPS_DEPLOY}" />
-		<copy file="${basedir}/lib/jetty-ds.xml" tofile="${ADEMPIERE_APPS_DEPLOY}/../jetty-ds.xml" filtering="yes" overwrite="yes"/>
-		<replace file="${ADEMPIERE_APPS_DEPLOY}/../jetty-ds.xml">
+		<copy file="${basedir}/lib/jetty-ds.xml" tofile="${env.JETTY_BASE}/jetty-ds.xml" filtering="yes" overwrite="yes"/>
+		<replace file="${env.JETTY_BASE}/jetty-ds.xml">
 			<replacefilter token="@@JDBC_DRIVER_CLASS@@" value="${JDBC_DRIVER_CLASS}" />
 		</replace>
 	</target>

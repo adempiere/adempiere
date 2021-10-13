@@ -17,7 +17,6 @@
 
 :WILDFLY
 @Set NOPAUSE=Yes
-@Set WILDFLY_BASE=%ADEMPIERE_HOME%\wildfly
 @Set JAVA_OPTS=-server %ADEMPIERE_JAVA_OPTIONS% %SECURE% -Dorg.adempiere.server.embedded=true
 @Echo Start Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
 IF EXIST %WILDFLY_HOME%\login-modules.configured (
@@ -41,20 +40,18 @@ IF EXIST %WILDFLY_HOME%\login-modules.configured (
 
 :TOMCAT
 @Set NOPAUSE=Yes
-@Rem @Set CATALINA_HOME=..\tomcat
 @Set JAVA_OPTS=-server %ADEMPIERE_JAVA_OPTIONS% %SECURE% -Dorg.adempiere.server.embedded=true --add-exports java.base/jdk.internal.misc=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED
 @Echo Start Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
-@Call ..\tomcat\bin\startup.bat
+@Call START %CATALINA_BASE%\bin\startup.bat
 @Echo Done Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
 @GOTO END
 
 :JETTY
 @Set NOPAUSE=Yes
-@Set JETTY_BASE=%ADEMPIERE_HOME%\jetty
 @Set JAVA_OPTS=-server %ADEMPIERE_JAVA_OPTIONS% %SECURE% -Dorg.adempiere.server.embedded=true
 @Echo Start Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
 @Call %JAVA_HOME%/bin/java %JAVA_OPTS% -jar %JETTY_HOME%/start.jar jetty.base=%ADEMPIERE_HOME%/jetty --create-start-d --add-modules=server,ext,deploy,jndi,jsp,http jetty.http.port=%ADEMPIERE_WEB_PORT% jetty.server.stopAtShutdown=true %JETTY_BASE%/jetty-ds.xml
-@Call START /B %JAVA_HOME%/bin/java %JAVA_OPTS% -jar %JETTY_HOME%/start.jar jetty.base=%ADEMPIERE_HOME%/jetty %JETTY_BASE%/jetty-ds.xml &
+@Call START %JAVA_HOME%/bin/java %JAVA_OPTS% -jar %JETTY_HOME%/start.jar jetty.base=%JETTY_BASE% %JETTY_BASE%/jetty-ds.xml &
 @Echo Done Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
 @GOTO END
 

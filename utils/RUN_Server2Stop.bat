@@ -13,11 +13,11 @@
 
 :TOMCAT
 @Set NOPAUSE=Yes
-Call %TOMCAT_HOME%/tomcat/bin/shutdown.bat
+Call %CATALINA_BASE%/tomcat/bin/shutdown.bat
 
 :JETTY
 @Set NOPAUSE=Yes
-Call java $JAVA_OPTS -jar %JETTY_HOME%/start.jar jetty.base=%ADEMPIERE_HOME%/jetty --stop stop.port=%ADEMPIERE_WEB_PORT%
+Call java $JAVA_OPTS -jar %JETTY_HOME%/start.jar jetty.base=%JETTY_BASE% --stop stop.port=%ADEMPIERE_WEB_PORT%
 
 @CD %WILDFLY_HOME%\bin
 Call jboss-cli.bat --connect command=:shutdown
