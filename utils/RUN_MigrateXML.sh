@@ -42,7 +42,7 @@ then
 	cat <<-EOF
 	Please make sure that the environment variables are set correctly:
 	  ADEMPIERE_HOME	e.g. "/Adempiere"
-	  JAVA_HOME			e.g. "/usr/java/jdk1.8.0_25"
+	  JAVA_HOME			e.g. "/usr/java/jdk11"
 	When in doubt, please run RUN_Setup.sh
 	EOF
 	sanityCheck=$errorNoEnvironment
@@ -67,10 +67,10 @@ then
 	echo "Press enter to continue ..."
 	read in
 	
-	CP=$ADEMPIERE_HOME/lib/CInstall.jar:$ADEMPIERE_HOME/lib/Adempiere.jar:$ADEMPIERE_HOME/lib/CCTools.jar:$ADEMPIERE_HOME/lib/oracle.jar:$ADEMPIERE_HOME/lib/jboss.jar:$ADEMPIERE_HOME/lib/postgresql.jar:
+	CP=$ADEMPIERE_HOME/lib/CInstall.jar:$ADEMPIERE_HOME/lib/Adempiere.jar:$ADEMPIERE_HOME/lib/CCTools.jar:$ADEMPIERE_HOME/lib/oracle.jar:$ADEMPIERE_HOME/lib/postgresql.jar:
 	JAVA=$JAVA_HOME/bin/java
 
-	$JAVA -classpath $CP -DADEMPIERE_HOME=$ADEMPIERE_HOME org.adempiere.process.MigrationLoader $CLEAN_MODE $FORCE_MODE $MIGRATION_PATH
+	$JAVA -classpath $CP -DADEMPIERE_HOME=$ADEMPIERE_HOME -DPropertyFile=$ADEMPIERE_HOME/AdempiereEnv.properties org.adempiere.process.MigrationLoader $CLEAN_MODE $FORCE_MODE $MIGRATION_PATH
 	result=$? 
 		
 else

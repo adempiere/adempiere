@@ -793,8 +793,10 @@ public class ConfigurationData
 		String ccType = Database.DB_ORACLE;
 		for (String dbType : DBTYPE)
 		{
-			if (getDatabaseType().equals(DBTYPE))
+			if (getDatabaseType().equals(dbType)) {
 				ccType = dbType;
+				break;
+			}
 		}
 		CConnection cc = null;
 		try

@@ -1240,7 +1240,7 @@ public class CConnection implements Serializable, Cloneable
 	public AdempiereDatabase getDatabase ()
 	{
 		//  different driver
-		if (m_db != null && !m_db.getName ().equals (m_type))
+		if (m_db != null && !m_db.getName().equals(m_type))
 			m_db = null;
 
 		if (m_db == null)
