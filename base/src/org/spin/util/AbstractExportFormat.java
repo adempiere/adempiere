@@ -261,8 +261,6 @@ public abstract class AbstractExportFormat {
 			//	for all rows (-1 = header row)
 			for (int row = startAt; row < printData.getRowCount(); row++)
 			{
-				if ( row != startAt )
-					writer.write(Env.NL);
 				StringBuffer sb = new StringBuffer();
 				if (row != -1)
 					printData.setRowIndex(row);

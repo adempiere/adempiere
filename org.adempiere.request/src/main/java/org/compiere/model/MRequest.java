@@ -26,6 +26,8 @@ import org.compiere.util.TimeUtil;
 import org.compiere.util.Util;
 import org.spin.model.MRNoticeTemplate;
 import org.spin.model.MRNoticeTemplateEvent;
+import org.spin.queue.notification.DefaultNotifier;
+import org.spin.queue.util.QueueLoader;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -1102,7 +1104,6 @@ public class MRequest extends X_R_Request
 		log.finer(message);
 		
 		//	Prepare sending Notice/Mail
-		MClient client = MClient.get(getCtx());
 		//	Reset from if external
 		if (from.getEMailUser() == null || from.getEMailUserPW() == null)
 			from = null;
@@ -1110,7 +1111,7 @@ public class MRequest extends X_R_Request
 		int failure = 0;
 		int notices = 0;
 		//
-		ArrayList<Integer> userList = new ArrayList<Integer>();
+		ArrayList<Integer> recipients = new ArrayList<Integer>();
 		final String sql = "SELECT u.AD_User_ID, u.NotificationType, u.EMail, u.Name, MAX(r.AD_Role_ID) "
 			+ "FROM RV_RequestUpdates_Only ru"
 			+ " INNER JOIN AD_User u ON (ru.AD_User_ID=u.AD_User_ID OR u.AD_User_ID=?)"
@@ -1119,100 +1120,56 @@ public class MRequest extends X_R_Request
 			+ "GROUP BY u.AD_User_ID, u.NotificationType, u.EMail, u.Name";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		try
-		{
+		try {
 			pstmt = DB.prepareStatement (sql, get_TrxName());
 			pstmt.setInt (1, getSalesRep_ID());
 			pstmt.setInt (2, getR_Request_ID());
 			rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
+			while (rs.next()) {
 				int userId = rs.getInt(1);
-				String notificationType = rs.getString(2);
-				if (notificationType == null)
-					notificationType = X_AD_User.NOTIFICATIONTYPE_EMail;
-				String email = rs.getString(3);
-				String Name = rs.getString(4);
 				//	Role
 				int roleId = rs.getInt(5);
 				if (rs.wasNull())
 					roleId = -1;
 				
 				//	Don't send mail to oneself
-				Boolean isIncludeOwnChanges = false;
+				boolean isIncludeOwnChanges = false;
 				if (from !=null)
 					isIncludeOwnChanges = from.isIncludeOwnChanges();
 				if (userId == updatedBy
 						&& !isIncludeOwnChanges)
 					continue;
-				
 				//	No confidential to externals
 				if (roleId == -1 
 					&& (getConfidentialTypeEntry().equals(CONFIDENTIALTYPE_Internal)
 						|| getConfidentialTypeEntry().equals(CONFIDENTIALTYPE_PrivateInformation)))
 					continue;
-				
-				if (X_AD_User.NOTIFICATIONTYPE_None.equals(notificationType))
-				{
-					log.config("Opt out: " + Name);
-					continue;
-				}
-				if ((X_AD_User.NOTIFICATIONTYPE_EMail.equals(notificationType)
-					|| X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(notificationType))
-					&& (email == null || email.length() == 0))
-				{
-					if (roleId >= 0)
-						notificationType = X_AD_User.NOTIFICATIONTYPE_Notice;
-					else
-					{
-						log.config("No EMail: " + Name);
-						continue;
-					}
-				}
-				if (X_AD_User.NOTIFICATIONTYPE_Notice.equals(notificationType)
-					&& roleId >= 0)
-				{
-					log.config("No internal User: " + Name);
-					continue;
-				}
-
 				//	Check duplicate receivers
 				Integer ii = new Integer (userId);
-				if (userList.contains(ii))
+				if (recipients.contains(ii))
 					continue;
-				userList.add(ii);
-				//
-				MUser to = MUser.get (getCtx(), userId);
-				//	Send Mail
-				if (X_AD_User.NOTIFICATIONTYPE_EMail.equals(notificationType)
-					|| X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(notificationType))
-				{
-					if (client.sendEMail(from, to, subject, message, pdf)) 
-					{
-						success++;
-						if (m_emailTo.length() > 0)
-							m_emailTo.append(", ");
-						m_emailTo.append(to.getEMail());
-					}
-					else
-					{
-						log.warning("Failed: " + Name);
-						failure++;
-						notificationType = X_AD_User.NOTIFICATIONTYPE_Notice;
-					}
-				}
-				//	Send Note
-				if (X_AD_User.NOTIFICATIONTYPE_Notice.equals(notificationType)
-					|| X_AD_User.NOTIFICATIONTYPE_EMailPlusNotice.equals(notificationType))
-				{
-					int AD_Message_ID = 834;
-					MNote note = new MNote(getCtx(), AD_Message_ID, userId,
-						X_R_Request.Table_ID, getR_Request_ID(),
-						subject, message, get_TrxName());
-					if (note.save())
-						notices++;
-				}
+				recipients.add(ii);
 			}
+			//	Send notifications
+			//	Get instance for notifier
+			DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+					.withContext(getCtx())
+					.withTransactionName(get_TrxName());
+			//	Send notification to queue
+			notifier
+				.clearMessage()
+				.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+				.withUserId(updatedBy)
+				.withText(message)
+				.addAttachment(pdf)
+				.withDescription(subject)
+				.withTableId(MRequest.Table_ID)
+				.withRecordId(getR_Request_ID());
+			//	Add recipients
+			recipients.forEach(recipientId -> notifier.addRecipient(recipientId));
+			//	Add to queue
+			notifier.addToQueue();
+			success = recipients.size();
 		}
 		catch (SQLException e)
 		{

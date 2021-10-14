@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import org.compiere.impexp.BankStatementMatchInfo;
 import org.compiere.minigrid.IDColumn;
@@ -813,7 +814,7 @@ public class BankStatementMatchController {
 			}
 			for (MBankStatementMatcher matcher : matchersList) {
 				if (matcher.isMatcherValid()) {
-					BankStatementMatchInfo info = matcher.getMatcher().findMatch(currentBankStatementImport);
+					BankStatementMatchInfo info = matcher.getMatcher().findMatch(currentBankStatementImport, currentPaymentHashMap.keySet().stream().collect(Collectors.toList()), matchedPaymentHashMap.keySet().stream().collect(Collectors.toList()));
 					if (info != null && info.isMatched()) {
 						//	Duplicate match
 						if(matchedPaymentHashMap.containsKey(info.getC_Payment_ID())) {
