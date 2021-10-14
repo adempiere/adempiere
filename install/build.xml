@@ -20,7 +20,6 @@
   <property name="keystore.dir" value="../keystore"/>
   <property name="data.dir" value="../data"/>
   <property name="migration.dir" value="../migration"/>
-  <property name="jboss.dir" value="../jboss"/>
 
   <property name="src" value="src"/>
   <property name="compile.dir" value="lib"/>
@@ -326,22 +325,6 @@
 	    <include name="**/*.sql"/>
 	  </fileset>
 	</copy>
-
-	<!-- JBoss Directory		-->
-	<mkdir dir="${build.dir}/Adempiere/jboss"/>
-	<mkdir dir="${build.dir}/Adempiere/jboss/bin"/>
-	<copy todir="${build.dir}/Adempiere/jboss/bin">
-	  <fileset dir="${jboss.dir}/bin" excludes="**/CVS/**"/>
-	</copy>
-	<mkdir dir="${build.dir}/Adempiere/jboss/lib"/>
-	<copy todir="${build.dir}/Adempiere/jboss/lib">
-	  <fileset dir="${jboss.dir}/lib" excludes="**/CVS/**"/>
-	</copy>
-	<mkdir dir="${build.dir}/Adempiere/jboss/server"/>
-	<copy todir="${build.dir}/Adempiere/jboss/server">
-	  <fileset dir="${jboss.dir}/server"
-		excludes="**/CVS/**"/>
-	</copy>
   	
   	<!-- GlassFish -->
   	<mkdir dir="${build.dir}/Adempiere/glassfish"/>
@@ -360,7 +343,6 @@
           <include name="*.sh"/>
           <include name="utils/*.sh"/>
           <include name="utils/**/*.sh"/>
-          <include name="jboss/bin/*.sh"/>
       </fileset>
   </chmod>
 

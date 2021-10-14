@@ -77,7 +77,7 @@
       	  <pathelement path="../tools/lib/xercesImpl.jar"/>
       	  <pathelement path="../tools/lib/postgresql.jar"/>  
 		  <pathelement path="../JasperReportsTools/lib/iText-2.1.7.jar"/>
-      	  <fileset dir="../jboss/client" includes="*.jar"/>
+      	  <fileset dir="../wildfly/client/lib" includes="*.jar"/>
       </classpath>
     </javac>
     <!-- copy all image & sound files from src to the build directory -->
