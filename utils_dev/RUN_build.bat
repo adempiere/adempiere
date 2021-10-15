@@ -5,15 +5,12 @@
 @IF NOT EXIST "%JAVA_HOME%\bin" goto JAVAHOME
 @SET PATH="%JAVA_HOME%\bin";%PATH%
 
-@Rem Check jdk
-@IF NOT EXIST "%JAVA_HOME%\lib\tools.jar" goto JDK
-
 @Rem Set classpath
 @SET ANT_HOME=..\tools\lib\ant\apache-ant-1.10.10
 @SET JAVA_CLASSPATH=%CLASSPATH%;%ANT_HOME%\lib\ant-launcher.jar;..\tools\lib\commons-net-1.4.0.jar
 @SET JAVA_CLASSPATH="%JAVA_CLASSPATH%";"%JAVA_HOME%\lib\tools.jar"
 
-@SET JAVA_OPTS=-Xms128m -Xmx512m
+@SET JAVA_OPTS=-Xms512m -Xmx512m
 
 @echo Building ...
 @"%JAVA_HOME%\bin\java" %JAVA_OPTS% -classpath %JAVA_CLASSPATH% -Dant.home=%ANT_HOME% org.apache.tools.ant.launch.Launcher

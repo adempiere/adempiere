@@ -4,26 +4,28 @@
         by
         Yamel Senih
         http://www.erpya.com
+		Victor Perez victor.perez@e-evolution.com
+		http://www.e-evolution.com
     </description>
+
+  <property environment="env" />
   <!-- set global properties for this build -->
   <property name="env_directory" location="adempiere/Adempiere/utils"/>
   <property name="AD_directory" location="adempiere/Adempiere"/>
   <property name="adempiere_build" location="utils_dev/build.xml"/>
-  <property name="myEnvironment_CI" location="adempiere/Adempiere/utils/myEnvironment_CI.sh"/>
   <property name="myEnvironment" location="adempiere/Adempiere/utils/myEnvironment.sh"/>
+  <property name="myEnvironmentTemplate" location="adempiere/Adempiere/utils/myEnvironmentTemplate.sh"/>
   <property name="RUN_DBRestore" location="adempiere/Adempiere/utils/RUN_DBRestore.sh"/>
   <property name="RUN_DBExport" location="adempiere/Adempiere/utils/RUN_DBExport.sh"/>
   <property name="RUN_ExportReference" location="adempiere/Adempiere/utils/RUN_ExportReference.sh"/>
   <property name="RUN_ImportAdempiere" location="adempiere/Adempiere/utils/RUN_ImportAdempiere.sh"/>
   <property name="RUN_MigrateXML" location="adempiere/Adempiere/utils/RUN_MigrateXML.sh"/>
   <property name="RUN_silentsetup" location="adempiere/Adempiere/RUN_silentsetup.sh"/>
-  <property name="AdempierePropertiesFrom" location="adempiere/Adempiere/utils/adempiereProperties_CI.properties"/>
-  <property name="AdempierePropertiesTo" location="adempiere/Adempiere/Adempiere.properties"/>
+  <property name="AdempierePropertiesFrom" location="adempiere/Adempiere/AdempiereEnvTemplate.properties"/>
+  <property name="AdempierePropertiesTo" location="adempiere/Adempiere/AdempiereEnv.properties"/>
   <property name="myDBcopyTemplate" location="adempiere/Adempiere/utils/myDBcopyTemplate.sh"/>
   <property name="myDBcopy" location="adempiere/Adempiere/utils/myDBcopy.sh"/>
-  
-  
-  
+
   <target name="build">
         <echo message="Building ADempiere"/>
 	<ant antfile="${adempiere_build}" target="complete"/>
@@ -33,19 +35,44 @@
 	<chmod dir="${AD_directory}/data" perm="ugo+rx" includes="**/*.dmp"/>
 	<chmod dir="${env_directory}" perm="ugo+rx" includes="**/*.sh"/>
 	<chmod dir="${env_directory}/PostgreSQL" perm="ugo+rx" includes="**/*.sh"/>
-	<echo message="Copy myEnvironment_CI to myEnvironment"/>
-  	<copy file="${myEnvironment_CI}"
-			tofile="${myEnvironment}" filtering="yes" overwrite="yes" />
-  	
-	
+
+	<echo message="Java Home : ${env.JAVA_HOME}"/>
+	<echo message="Adempiere Home : ${env.ADEMPIERE_HOME}"/>
+	<echo message="Copy AdempiereEnvTemplate.properties to AdempiereEnv.properties"/>
+	<copy file="${AdempierePropertiesFrom}" tofile="${AdempierePropertiesTo}" filtering="yes" overwrite="yes" />
+	<replaceregexp file="${AdempierePropertiesTo}" match="ADEMPIERE_HOME=/opt/Adempiere" replace="ADEMPIERE_HOME=${env.ADEMPIERE_HOME}" byline="true"/>
+	<replaceregexp file="${AdempierePropertiesTo}" match="JAVA_HOME=/usr/lib/jvm/jdk-11" replace="JAVA_HOME=${env.JAVA_HOME}" byline="true"/>
+	<property file="${AdempierePropertiesTo}"/>
+	<filter filtersfile="${AdempierePropertiesTo}" />
+	<echo message="Generate myEnvironment.sh"/>
+	<copy file="${myEnvironmentTemplate}" tofile="${myEnvironment}" filtering="yes" overwrite="yes" />
+
+	<java dir="${env.ADEMPIERE_HOME}" classname="org.compiere.install.SilentSetup" fork="true">
+	  <arg value="ALL"/>
+	  <jvmarg value="--add-opens"/>
+	  <jvmarg value="java.base/sun.security.tools.keytool=ALL-UNNAMED"/>
+	  <jvmarg value="--add-exports"/>
+	  <jvmarg value="java.base/jdk.internal.misc=ALL-UNNAMED"/>
+	  <jvmarg value="--add-opens"/>
+	  <jvmarg value="java.base/java.lang=ALL-UNNAMED"/>
+	  <sysproperty key="ADEMPIERE_HOME" value="${env.ADEMPIERE_HOME}"/>
+	  <classpath>
+		  <pathelement location="${env.ADEMPIERE_HOME}/lib/CInstall.jar"/>
+		  <pathelement location="${env.ADEMPIERE_HOME}/lib/Adempiere.jar"/>
+		  <pathelement location="${env.ADEMPIERE_HOME}/lib/CCTools.jar"/>
+		  <pathelement location="${env.ADEMPIERE_HOME}/lib/oracle.jar"/>
+		  <pathelement location="${env.ADEMPIERE_HOME}/lib/postgresql.jar"/>
+		  <pathelement path="${java.class.path}"/>
+	  </classpath>
+	</java>
+	<tstamp>
+	  <format property="current.time" pattern="dd/MM/yyyy hh:mm:ss"/>
+	</tstamp>
+	<concat destfile="${AdempierePropertiesTo}" append="true">CDate=${current.time}</concat>
 	<echo message="Copy myDBcopyTemplate to myDBcopy"/>
   	<copy file="${myDBcopyTemplate}"
 			tofile="${myDBcopy}" filtering="yes" overwrite="yes" />
-	
-  	<echo message="Copy myEnvironment_CI to myEnvironment"/>
-  	<copy file="${AdempierePropertiesFrom}"
-			tofile="${AdempierePropertiesTo}" filtering="yes" overwrite="yes" />
-	
+
   	<echo message="Run Import Adempiere"/>
   	<exec dir="${env_directory}" executable="/bin/bash" failonerror="true">
     	<arg value="${RUN_ImportAdempiere}"/>

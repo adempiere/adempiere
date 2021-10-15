@@ -18,23 +18,9 @@
  *****************************************************************************/
 package org.compiere.db;
 
-import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.util.Properties;
-import java.util.logging.Level;
-
-import javax.sql.ConnectionPoolDataSource;
-import javax.sql.DataSource;
-import javax.sql.RowSet;
-
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
 import org.compiere.dbPort.Convert;
@@ -44,6 +30,23 @@ import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Ini;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.ConnectionPoolDataSource;
+import javax.sql.DataSource;
+import javax.sql.RowSet;
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.Optional;
+import java.util.Properties;
+import java.util.logging.Level;
 
 /**
  *  PostgreSQL Database Port
@@ -540,48 +543,83 @@ public class DB_PostgreSQL implements AdempiereDatabase
 	 *	@param connection connection
 	 *	@return data dource
 	 */
-	public DataSource getDataSource(CConnection connection)
-	{
+	public DataSource getDataSource(CConnection connection) {
 		if (m_ds != null)
 			return m_ds;
-		
-        try
-        {
-            //System.setProperty("com.mchange.v2.log.MLog", "com.mchange.v2.log.FallbackMLog");
-            //System.setProperty("com.mchange.v2.log.FallbackMLog.DEFAULT_CUTOFF_LEVEL", "ALL");
-			HikariConfig config = new HikariConfig();
-			config.setDriverClassName(DRIVER);
-			config.setJdbcUrl(getConnectionURL(connection));
-			config.setUsername(connection.getDbUid());
-			config.setPassword(connection.getDbPwd());
 
-			config.addDataSourceProperty( "poolName" , "AdempiereDS" );
-			config.addDataSourceProperty( "cachePrepStmts" , "true" );
-			config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
-			config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
-			config.addDataSourceProperty("connectionTestQuery", DEFAULT_CONN_TEST_SQL);
-
+		try
+		{
 			if (Ini.isClient()) {
+				log.warning("Config Hikari Connection Pool Datasource");
+				HikariConfig config = new HikariConfig();
+				config.setDriverClassName(DRIVER);
+				config.setJdbcUrl(getConnectionURL(connection));
+				config.setUsername(connection.getDbUid());
+				config.setPassword(connection.getDbPwd());
+				config.addDataSourceProperty( "poolName" , "AdempiereDS" );
+				config.addDataSourceProperty( "cachePrepStmts" , "true" );
+				config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
+				config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
+				config.addDataSourceProperty("connectionTestQuery", DEFAULT_CONN_TEST_SQL);
 				config.addDataSourceProperty( "connectionInitSql" , "1" );
-				config.addDataSourceProperty( "maximumPoolSize" , "15" );
 				config.addDataSourceProperty( "idleTimeout" , "1200" );
-				m_maxbusyconnections = 10;
+				config.addDataSourceProperty("maximumPoolSize", "15");
+				HikariDataSource cpds = new HikariDataSource(config);
+				m_ds = cpds;
+				log.warning("Starting Client Hikari Connection Pool");
 			} else {
-				config.addDataSourceProperty( "connectionInitSql" , "1" );
-				config.addDataSourceProperty( "maximumPoolSize" , "150" );
-				config.addDataSourceProperty( "idleTimeout" , "1200" );
-				m_maxbusyconnections = 10;
-				m_maxbusyconnections = 120;
+				Optional<String> maybeApplicationType = Optional.ofNullable(System.getenv("ADEMPIERE_APPS_TYPE"));
+				m_ds = maybeApplicationType
+						.map(applicationType -> {
+							if ("wildfly".equals(applicationType)) {
+								try {
+									Context initCtx = new InitialContext();
+									DataSource dataSource = (DataSource) initCtx.lookup("java:/AdempiereDS");
+									log.warning("Connection Lookup JNDI Datasource for java:/AdempiereDS Hikari Connection Pool");
+									HikariConfig config = new HikariConfig();
+									config.addDataSourceProperty("maximumPoolSize", "150");
+									config.setDataSource(dataSource);
+									return new HikariDataSource(config);
+								} catch (Exception namingException) {
+									m_ds = null;
+									log.log(Level.SEVERE, "Could not initialise Hikari Connection Pool", namingException);
+									namingException.printStackTrace();
+								}
+							}
+							try {
+								DataSource dataSource = InitialContext.doLookup("java:comp/env/java/AdempiereDS");
+								log.warning("Connection Lookup JNDI Datasource for java:comp/env/java/AdempiereDS Hikari Connection Pool");
+								HikariConfig config = new HikariConfig();
+								config.addDataSourceProperty("maximumPoolSize", "150");
+								config.setDataSource(dataSource);
+								return new HikariDataSource(config);
+							} catch (Exception namingException) {
+								m_ds = null;
+								log.log(Level.SEVERE, "Application Server does not exist Could not initialise Hikari Connection Pool", namingException);
+								namingException.printStackTrace();
+							}
+							log.warning("Connection successful using Standalone Hikari Config Connection Pool");
+							HikariConfig config = new HikariConfig();
+							config.setDriverClassName(DRIVER);
+							config.setJdbcUrl(getConnectionURL(connection));
+							config.setUsername(connection.getDbUid());
+							config.setPassword(connection.getDbPwd());
+							config.addDataSourceProperty("poolName", "AdempiereDS");
+							config.addDataSourceProperty("cachePrepStmts", "true");
+							config.addDataSourceProperty("prepStmtCacheSize", "250");
+							config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+							config.addDataSourceProperty("connectionTestQuery", DEFAULT_CONN_TEST_SQL);
+							config.addDataSourceProperty("connectionInitSql", "1");
+							config.addDataSourceProperty("idleTimeout", "1200");
+							config.addDataSourceProperty("maximumPoolSize", "150");
+							return new HikariDataSource(config);
+						}).orElseThrow(() -> new AdempiereException("The ADEMPIERE_APPS_TYPE environment variable is not set, so it is not possible to initialize the Hikari Connection Pool"));
 			}
-			HikariDataSource cpds = new HikariDataSource(config);
-			m_ds = cpds;
-        }
-        catch (Exception ex)
-        {
-            m_ds = null;
-            log.log(Level.SEVERE, "Could not initialise C3P0 Datasource", ex);
-        }
-		
+		} catch (Exception exception) {
+			m_ds = null;
+			log.log(Level.SEVERE, "Application Server does not exist, no is possible to initialize the initialise Hikari Connection Pool", exception);
+			exception.printStackTrace();
+		}
 		return m_ds;
 	}
 

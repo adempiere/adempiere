@@ -42,7 +42,7 @@ GOTO :ENVOK
 :ENVNOK
 ECHO Please make sure that the environment variables are set correctly:
 ECHO ADEMPIERE_HOME	e.g. "C:\Adempiere"
-ECHO JAVA_HOME e.g. "C:\Program Files\Java\jdk1.7.0_71"
+ECHO JAVA_HOME e.g. "C:\Program Files\Java\jdk11"
 ECHO When in doubt, please run RUN_Setup.bat
 SET sanityCheck=%errorNoEnvironment%
 :ENVOK
@@ -80,9 +80,9 @@ Echo.
 PAUSE
 
 Set JAVA=%JAVA_HOME%\bin\java
-SET CP=%ADEMPIERE_HOME%\lib\CInstall.jar;%ADEMPIERE_HOME%\lib\Adempiere.jar;%ADEMPIERE_HOME%\lib\CCTools.jar;%ADEMPIERE_HOME%\lib\oracle.jar;%ADEMPIERE_HOME%\lib\jboss.jar;%ADEMPIERE_HOME%\lib\postgresql.jar;
+SET CP=%ADEMPIERE_HOME%\lib\CInstall.jar;%ADEMPIERE_HOME%\lib\Adempiere.jar;%ADEMPIERE_HOME%\lib\CCTools.jar;%ADEMPIERE_HOME%\lib\oracle.jar;%ADEMPIERE_HOME%\lib\postgresql.jar;
 
-"%JAVA%" -classpath %CP% -DADEMPIERE_HOME=%ADEMPIERE_HOME% org.adempiere.process.MigrationLoader %cleanMode% %forceMode% %migrationPath%
+"%JAVA%" -classpath %CP% -DADEMPIERE_HOME=%ADEMPIERE_HOME% -DPropertyFile=%ADEMPIERE_HOME%\AdempiereEnv.properties org.adempiere.process.MigrationLoader %cleanMode% %forceMode% %migrationPath%
 SET result=%ERRORLEVEL% 
 
 IF NOT %result%==%errorSuccess% GOTO :SANE

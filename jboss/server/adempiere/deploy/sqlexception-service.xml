@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<server>
-   <mbean code="org.jboss.ejb.plugins.cmp.jdbc.SQLExceptionProcessor"
-          name="jboss.jdbc:service=SQLExceptionProcessor">
-   </mbean>
-</server>

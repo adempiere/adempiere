@@ -3,23 +3,24 @@
 
 @Rem $Id: RUN_Server2Stop.bat,v 1.12 2005/09/06 02:46:16 jjanke Exp $
 
-@IF '%ADEMPIERE_APPS_TYPE%' == 'jboss' GOTO JBOSS
+@IF '%ADEMPIERE_APPS_TYPE%' == 'wildfly' GOTO WILDFLY
 @IF '%ADEMPIERE_APPS_TYPE%' == 'tomcat' GOTO TOMCAT
+@IF '%ADEMPIERE_APPS_TYPE%' == 'jetty' GOTO JETTY
 @GOTO UNSUPPORTED
 
-:JBOSS
+:WILDFLY
 @Set NOPAUSE=Yes
-@Set JBOSS_LIB=%JBOSS_HOME%\lib
-@Set JBOSS_SERVERLIB=%JBOSS_HOME%\server\adempiere\lib
-@Set JBOSS_CLASSPATH=%ADEMPIERE_HOME%\lib\jboss.jar;%JBOSS_LIB%\jboss-system.jar
 
 :TOMCAT
 @Set NOPAUSE=Yes
-Call ../tomcat/bin/shutdown.bat
+Call %CATALINA_BASE%/tomcat/bin/shutdown.bat
 
+:JETTY
+@Set NOPAUSE=Yes
+Call java $JAVA_OPTS -jar %JETTY_HOME%/start.jar jetty.base=%JETTY_BASE% --stop stop.port=%ADEMPIERE_WEB_PORT%
 
-@CD %JBOSS_HOME%\bin
-Call shutdown --server=jnp://%ADEMPIERE_APPS_SERVER%:%ADEMPIERE_JNP_PORT% --shutdown
+@CD %WILDFLY_HOME%\bin
+Call jboss-cli.bat --connect command=:shutdown
 
 @Echo Done Stopping Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
 @GOTO END

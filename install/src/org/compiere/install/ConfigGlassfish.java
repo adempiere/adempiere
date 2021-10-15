@@ -39,7 +39,7 @@ import java.net.InetAddress;
  *  @author Trifon Trifonov
  *  @version $Id:  $
  */
-
+@Deprecated
 public class ConfigGlassfish extends Config {
 
 	/**
@@ -57,7 +57,7 @@ public class ConfigGlassfish extends Config {
 	public void init()
 	{
 		p_data.setAppsServerDeployDir(getDeployDir());
-		p_data.setAppsServerDeployDir(false);
+		p_data.setAppsServerDeployDir(true);
 		//
 		p_data.setAppsServerJNPPort("3700");
 		p_data.setAppsServerJNPPort(true);

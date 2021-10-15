@@ -42,7 +42,7 @@ public class ConfigTomcat extends Config
 	public void init()
 	{
 		p_data.setAppsServerDeployDir(getDeployDir());
-		p_data.setAppsServerDeployDir(false);
+		p_data.setAppsServerDeployDir(true);
 		//
 		p_data.setAppsServerJNPPort("0");
 		p_data.setAppsServerJNPPort(false);

@@ -1031,7 +1031,7 @@ public final class DB
 	{
 		if (sql == null || sql.length() == 0)
 			throw new IllegalArgumentException("Required parameter missing - " + sql);
-		verifyTrx(trxName, sql);
+		//verifyTrx(trxName, sql);
 		//
 		int no = -1;
 		CPreparedStatement cs = ProxyFactory.newCPreparedStatement(ResultSet.TYPE_FORWARD_ONLY,

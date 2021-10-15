@@ -1240,7 +1240,7 @@ public class CConnection implements Serializable, Cloneable
 	public AdempiereDatabase getDatabase ()
 	{
 		//  different driver
-		if (m_db != null && !m_db.getName ().equals (m_type))
+		if (m_db != null && !m_db.getName().equals(m_type))
 			m_db = null;
 
 		if (m_db == null)
@@ -1356,9 +1356,10 @@ public class CConnection implements Serializable, Cloneable
 			{
 				conn = m_db.getCachedConnection(this, autoCommit, transactionIsolation);
 			}
-			catch (Exception e)
+			catch (Exception exception)
 			{
-				ee = e;
+				log.severe(exception.getMessage());
+				ee = exception;
 			}
 			//	Verify Connection
 			if (conn != null)
