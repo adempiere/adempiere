@@ -367,7 +367,7 @@ ALTER TABLE M_ProductPrice ADD CONSTRAINT M_ProductPrice_Key PRIMARY KEY (M_Prod
 CREATE SEQUENCE M_ProductPrice_Seq START WITH 1000000;
 UPDATE M_ProductPrice SET M_ProductPrice_ID = M_ProductPrice_Seq.nextval ;
 DROP SEQUENCE M_ProductPrice_Seq;
-ALTER TABLE M_ProductPrice DROP CONSTRAINT M_PRODUCTPRICE_KEY ;
+ALTER TABLE M_ProductPrice DROP CONSTRAINT M_PRODUCTPICE_KEY ;
 ALTER TABLE M_ProductPrice ADD CONSTRAINT M_ProductPrice_Key PRIMARY KEY (M_ProductPrice_ID);</SQLStatement>
     </Step>
     <Step SeqNo="190" StepType="AD">
