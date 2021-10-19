@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="ECA02" Name="Fixed Error with Replenish Browser" ReleaseNo="3.9.4" SeqNo="7130">
-    <Step DBType="Oracle" Parse="N" SeqNo="10" StepType="SQL">
-      <SQLStatement>-- View: RV_M_Replenish
--- DROP VIEW RV_M_Replenish;
-
-CREATE OR REPLACE VIEW RV_M_Replenish AS
+    <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
+      <SQLStatement>CREATE OR REPLACE VIEW RV_M_Replenish AS
 SELECT r.AD_Client_ID, 
     r.AD_Org_ID, 
     r.M_Product_ID, 
@@ -89,10 +86,7 @@ FROM (SELECT rep.ad_client_id,
     WHERE rep.IsActive = 'Y' AND p.IsActive = 'Y') r
 WHERE (r.QtyToOrder &gt; 0
 OR (r.ReplenishType IN('0', '9')));</SQLStatement>
-      <RollbackStatement>-- View: RV_M_Replenish
--- DROP VIEW RV_M_Replenish;
-
-CREATE OR REPLACE VIEW RV_M_Replenish AS
+      <RollbackStatement>CREATE OR REPLACE VIEW RV_M_Replenish AS
 SELECT r.AD_Client_ID, 
     r.AD_Org_ID, 
     r.M_Product_ID, 
@@ -176,11 +170,8 @@ FROM (SELECT r.AD_Client_ID,
 WHERE (r.QtyToOrder &gt; 0
 OR (r.ReplenishType IN('0', '9')));</RollbackStatement>
     </Step>
-    <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
-      <SQLStatement>-- View: RV_M_Replenish
--- DROP VIEW RV_M_Replenish;
-
-CREATE OR REPLACE VIEW RV_M_Replenish AS
+    <Step DBType="Oracle" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>CREATE OR REPLACE VIEW RV_M_Replenish AS
 SELECT r.AD_Client_ID, 
     r.AD_Org_ID, 
     r.M_Product_ID, 
@@ -264,10 +255,7 @@ FROM (SELECT rep.ad_client_id,
     WHERE rep.IsActive = 'Y' AND p.IsActive = 'Y') r
 WHERE (r.QtyToOrder &gt; 0
 OR (r.ReplenishType IN('0', '9')));</SQLStatement>
-      <RollbackStatement>-- View: RV_M_Replenish
--- DROP VIEW RV_M_Replenish;
-
-CREATE OR REPLACE VIEW RV_M_Replenish AS
+      <RollbackStatement>CREATE OR REPLACE VIEW RV_M_Replenish AS
 SELECT r.AD_Client_ID, 
     r.AD_Org_ID, 
     r.M_Product_ID, 

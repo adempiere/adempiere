@@ -28,9 +28,7 @@
       ******************************************************************************/
       -->
     <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
-      <SQLStatement>-- View: RV_M_Replenish;
--- DROP VIEW RV_M_Replenish;
-CREATE OR REPLACE VIEW RV_M_Replenish AS
+      <SQLStatement>CREATE OR REPLACE VIEW RV_M_Replenish AS
 SELECT r.AD_Client_ID, 
     r.AD_Org_ID, 
     r.M_Product_ID, 
@@ -113,9 +111,7 @@ FROM (SELECT r.AD_Client_ID,
     WHERE r.IsActive = 'Y' AND p.IsActive = 'Y') r
 WHERE (r.QtyToOrder &gt; 0
 OR (r.ReplenishType IN('0', '9')));</SQLStatement>
-      <RollbackStatement>-- View: RV_M_Replenish
--- DROP VIEW RV_M_Replenish;
-CREATE OR REPLACE VIEW RV_M_Replenish AS
+      <RollbackStatement>CREATE OR REPLACE VIEW RV_M_Replenish AS
 SELECT r.AD_Client_ID, 
     r.AD_Org_ID, 
     r.M_Product_ID, 
@@ -226,9 +222,7 @@ OR (r.ReplenishType IN('0', '9')));</RollbackStatement>
           ******************************************************************************/
           -->
       <Step DBType="Oracle" Parse="Y" SeqNo="10" StepType="SQL">
-      <SQLStatement>-- View: RV_M_Replenish;
--- DROP VIEW RV_M_Replenish;
-CREATE OR REPLACE VIEW RV_M_Replenish AS
+      <SQLStatement>CREATE OR REPLACE VIEW RV_M_Replenish AS
 SELECT r.AD_Client_ID, 
     r.AD_Org_ID, 
     r.M_Product_ID, 
@@ -311,9 +305,7 @@ FROM (SELECT r.AD_Client_ID,
     WHERE r.IsActive = 'Y' AND p.IsActive = 'Y') r
 WHERE (r.QtyToOrder &gt; 0
 OR (r.ReplenishType IN('0', '9')));</SQLStatement>
-      <RollbackStatement>-- View: RV_M_Replenish
--- DROP VIEW RV_M_Replenish;
-CREATE OR REPLACE VIEW RV_M_Replenish AS
+      <RollbackStatement>CREATE OR REPLACE VIEW RV_M_Replenish AS
 SELECT r.AD_Client_ID, 
     r.AD_Org_ID, 
     r.M_Product_ID, 
