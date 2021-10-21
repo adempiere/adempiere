@@ -285,62 +285,59 @@ SELECT
       t.M_Product_ID = p.M_Product_ID
       AND t.MovementType = 'C-'
   ) AS LastDateDelivered,
-  CAST(getDate() AS Date) - CAST(
-    COALESCE(
-      (
-        SELECT
-          MAX(t.MovementDate)
-        FROM
-          M_Transaction t
-          INNER JOIN M_Locator l ON (t.M_Locator_ID = l.M_Locator_ID)
-        WHERE
-          t.M_Product_ID = p.M_Product_ID
-          AND t.MovementType = 'C-'
-      ),
-      (
-        SELECT
-          MAX(t.MovementDate)
-        FROM
-          M_Transaction t
-          INNER JOIN M_Locator l ON (t.M_Locator_ID = l.M_Locator_ID)
-        WHERE
-          t.M_Product_ID = p.M_Product_ID
-          AND t.MovementType = 'V+'
-      ) AS Date
-    )
-  ) AS DaysWithoutMovement
-FROM
-  M_Product p
-  LEFT JOIN M_Product_Category pc ON (
-    p.M_Product_Category_ID = pc.M_Product_Category_ID
-  )
-  LEFT JOIN M_Product_Group pg ON (p.M_Product_Group_ID = pg.M_Product_Group_ID)
-  LEFT JOIN M_Product_Class pcl ON (p.M_Product_Class_ID = pcl.M_Product_Class_ID)
-  LEFT JOIN M_Product_Classification pcls ON (
-    p.M_Product_Classification_ID = pcls.M_Product_Classification_ID
-  )
-  LEFT JOIN M_Product_PO ppo ON (
-    p.M_Product_ID = ppo.M_Product_ID
-    AND ppo.IsCurrentVendor = 'Y'
-  )
-  LEFT JOIN M_ProductPrice pp ON (p.M_Product_ID = pp.M_Product_ID)
-  LEFT JOIN M_PriceList_Version plv ON (
-    pp.M_PriceList_Version_ID = plv.M_PriceList_Version_ID
-    AND plv.isActive = 'Y'
-  )
-  LEFT JOIN M_PriceList pl ON (
-    plv.M_PriceList_ID = pl.M_PriceList_ID
-    AND pl.IsSoPriceList = 'Y'
-  )
-WHERE
-  p.isStocked = 'Y'
-  AND (
-    SELECT
-      COALESCE(SUM(ps.QtyOnhand), 0)
+  SYSDATE - COALESCE(
+    (
+      SELECT
+        MAX(t.MovementDate)
+      FROM
+        M_Transaction t
+        INNER JOIN M_Locator l ON (t.M_Locator_ID = l.M_Locator_ID)
+      WHERE
+        t.M_Product_ID = p.M_Product_ID
+        AND t.MovementType = 'C-'),
+        (
+          SELECT
+            MAX(t.MovementDate)
+          FROM
+            M_Transaction t
+            INNER JOIN M_Locator l ON (t.M_Locator_ID = l.M_Locator_ID)
+          WHERE
+            t.M_Product_ID = p.M_Product_ID
+            AND t.MovementType = 'V+'
+        )
+    ) AS DaysWithoutMovement
     FROM
-      M_Product_Stock_v ps
+      M_Product p
+      LEFT JOIN M_Product_Category pc ON (
+        p.M_Product_Category_ID = pc.M_Product_Category_ID
+      )
+      LEFT JOIN M_Product_Group pg ON (p.M_Product_Group_ID = pg.M_Product_Group_ID)
+      LEFT JOIN M_Product_Class pcl ON (p.M_Product_Class_ID = pcl.M_Product_Class_ID)
+      LEFT JOIN M_Product_Classification pcls ON (
+        p.M_Product_Classification_ID = pcls.M_Product_Classification_ID
+      )
+      LEFT JOIN M_Product_PO ppo ON (
+        p.M_Product_ID = ppo.M_Product_ID
+        AND ppo.IsCurrentVendor = 'Y'
+      )
+      LEFT JOIN M_ProductPrice pp ON (p.M_Product_ID = pp.M_Product_ID)
+      LEFT JOIN M_PriceList_Version plv ON (
+        pp.M_PriceList_Version_ID = plv.M_PriceList_Version_ID
+        AND plv.isActive = 'Y'
+      )
+      LEFT JOIN M_PriceList pl ON (
+        plv.M_PriceList_ID = pl.M_PriceList_ID
+        AND pl.IsSoPriceList = 'Y'
+      )
     WHERE
-      ps.M_Product_ID = p.M_Product_ID
+      p.isStocked = 'Y'
+      AND (
+        SELECT
+          COALESCE(SUM(ps.QtyOnhand), 0)
+        FROM
+          M_Product_Stock_v ps
+        WHERE
+          ps.M_Product_ID = p.M_Product_ID
   ) &gt; 0;</SQLStatement>
       <RollbackStatement>DROP VIEW RV_M_SlowMovingInventory;</RollbackStatement>
     </Step>
@@ -367,7 +364,7 @@ SELECT
   p.isStocked,
   p.Discontinued,
   l.M_Warehouse_ID,
-  COALESCE(SUM(s.QtyOnhand), 0) AS QtyOnhand,
+  SUM(COALESCE(s.QtyOnhand, 0)) AS QtyOnhand,
   ppo.PriceLastPO,
   ppo.PriceLastInv,
   pp.M_PriceList_Version_ID,
@@ -396,20 +393,18 @@ SELECT
       AND sl.M_Warehouse_ID = l.M_Warehouse_ID
       AND t.MovementType LIKE '%-'
   ) AS LastDateDelivered,
-  CAST(getDate() AS Date) - CAST(
-    COALESCE (
-      (
-        SELECT
-          MAX(t.MovementDate)
-        FROM
-          M_Transaction t
-          INNER JOIN M_Locator sl ON (t.M_Locator_ID = sl.M_Locator_ID)
-        WHERE
-          t.M_Product_ID = p.M_Product_ID
-          AND sl.M_Warehouse_ID = l.M_Warehouse_ID
-          AND t.MovementType LIKE '%-'
-      ) AS Date
-    ),
+  sysdate - COALESCE (
+    (
+      SELECT
+        MAX(t.MovementDate)
+      FROM
+        M_Transaction t
+        INNER JOIN M_Locator sl ON (t.M_Locator_ID = sl.M_Locator_ID)
+      WHERE
+        t.M_Product_ID = p.M_Product_ID
+        AND sl.M_Warehouse_ID = l.M_Warehouse_ID
+        AND t.MovementType LIKE '%-'
+    ) ,
     (
       SELECT
         MAX(t.MovementDate)
@@ -420,9 +415,8 @@ SELECT
         t.M_Product_ID = p.M_Product_ID
         AND sl.M_Warehouse_ID = l.M_Warehouse_ID
         AND t.MovementType LIKE '%+'
-    ) AS Date
-  )
-) AS DaysWithoutMovement
+    ) 
+  ) AS DaysWithoutMovement
 FROM
   M_Product p
   INNER JOIN M_Storage s ON (p.M_Product_ID = s.M_Product_ID)
@@ -452,10 +446,27 @@ WHERE
   p.isStocked = 'Y'
   AND s.QtyOnhand &lt;&gt; 0
 GROUP BY
+  p.AD_Client_ID,
+  p.AD_Org_ID,
+  p.Created,
+  p.CreatedBy,
+  p.Updated,
+  p.UpdatedBy,
   p.M_Product_ID,
+  p.Value,
+  p.Name,
+  p.Description,
+  p.M_Product_Category_ID,
+  p.M_Product_Group_ID,
+  p.M_PRoduct_Class_ID,
+  p.M_Product_Classification_ID,
+  p.C_UOM_ID,
+  p.IsActive,
+  p.isStocked,
+  p.Discontinued,
   l.M_Warehouse_ID,
   ppo.PriceLastPO,
-  ppo.PriceLastinv,
+  ppo.PriceLastInv,
   pp.M_PriceList_Version_ID,
   pp.PriceList,
   pp.PriceStd,
@@ -1156,6 +1167,11 @@ If you leave the search key empty, the system automatically creates a numeric nu
     </Step>
     <Step SeqNo="230" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="97547" Table="AD_Column">
+        <Data AD_Column_ID="551" Column="Updated">2021-01-16 12:03:41.683</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">97547</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Description</Data>
         <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
         <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
@@ -1202,11 +1218,6 @@ If you leave the search key empty, the system automatically creates a numeric nu
         <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
         <Data AD_Column_ID="549" Column="Created">2021-01-16 12:03:41.683</Data>
         <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
-        <Data AD_Column_ID="551" Column="Updated">2021-01-16 12:03:41.683</Data>
-        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="109" Column="AD_Column_ID">97547</Data>
-        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
-        <Data AD_Column_ID="111" Column="Name">Description</Data>
       </PO>
     </Step>
     <Step SeqNo="240" StepType="AD">
@@ -2082,6 +2093,31 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="490" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="97560" Table="AD_Column">
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">EE03</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">957</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">0</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">22</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID">d706b69e-6190-46ce-a9ae-1dfb51938043</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2021-01-16 12:04:30.773</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2021-01-16 12:04:30.773</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">97560</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
         <Data AD_Column_ID="114" Column="AD_Table_ID">54796</Data>
         <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="112" Column="Description">Standard Price</Data>
@@ -2108,31 +2144,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
         <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
-        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
-        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
-        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">EE03</Data>
-        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
-        <Data AD_Column_ID="2608" Column="AD_Element_ID">957</Data>
-        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
-        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="118" Column="FieldLength">0</Data>
-        <Data AD_Column_ID="226" Column="AD_Reference_ID">22</Data>
-        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="84306" Column="UUID">d706b69e-6190-46ce-a9ae-1dfb51938043</Data>
-        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
-        <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
-        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true"/>
-        <Data AD_Column_ID="548" Column="IsActive">true</Data>
-        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2021-01-16 12:04:30.773</Data>
-        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
-        <Data AD_Column_ID="551" Column="Updated">2021-01-16 12:04:30.773</Data>
-        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="109" Column="AD_Column_ID">97560</Data>
-        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
       </PO>
     </Step>
     <Step SeqNo="500" StepType="AD">
@@ -3057,6 +3068,20 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1010" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="58058" Table="AD_Process_Para">
+        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
+        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
+        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
+        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">58058</Data>
+        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="7728" Column="EntityType">EE03</Data>
+        <Data AD_Column_ID="3737" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="2825" Column="AD_Process_ID">54482</Data>
+        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
         <Data AD_Column_ID="2827" Column="AD_Reference_ID">19</Data>
         <Data AD_Column_ID="3736" Column="AD_Val_Rule_ID" isNewNull="true"/>
         <Data AD_Column_ID="2826" Column="SeqNo">40</Data>
@@ -3075,20 +3100,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="2823" Column="Description">Category of a Product</Data>
         <Data AD_Column_ID="2824" Column="Help">Identifies the category which this product belongs to.  Product categories are used for pricing and selection.</Data>
         <Data AD_Column_ID="56299" Column="ReadOnlyLogic" isNewNull="true"/>
-        <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
-        <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
-        <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
-        <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
-        <Data AD_Column_ID="2814" Column="AD_Process_Para_ID">58058</Data>
-        <Data AD_Column_ID="2815" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="2816" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="7728" Column="EntityType">EE03</Data>
-        <Data AD_Column_ID="3737" Column="FieldLength">10</Data>
-        <Data AD_Column_ID="2825" Column="AD_Process_ID">54482</Data>
-        <Data AD_Column_ID="2819" Column="CreatedBy">100</Data>
       </PO>
     </Step>
     <Step SeqNo="1020" StepType="AD">
@@ -4079,7 +4090,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1550" StepType="AD">
       <PO AD_Table_ID="522" Action="I" Record_ID="0" Table="AD_PrintFormatItem_Trl">
-        <Data AD_Column_ID="7608" Column="Created">2021-01-16 12:36:28.918</Data>
         <Data AD_Column_ID="7612" Column="Updated">2021-01-16 12:36:28.918</Data>
         <Data AD_Column_ID="7610" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="7614" Column="IsActive">true</Data>
@@ -4092,6 +4102,7 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="7605" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="7606" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="7615" Column="AD_PrintFormatItem_ID">61915</Data>
+        <Data AD_Column_ID="7608" Column="Created">2021-01-16 12:36:28.918</Data>
       </PO>
     </Step>
     <Step SeqNo="1560" StepType="AD">
@@ -4966,33 +4977,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1760" StepType="AD">
       <PO AD_Table_ID="489" Action="I" Record_ID="61926" Table="AD_PrintFormatItem">
-        <Data AD_Column_ID="74122" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="6959" Column="Updated">2021-01-16 12:37:10.554</Data>
-        <Data AD_Column_ID="64457" Column="IsPrintBarcodeText">true</Data>
-        <Data AD_Column_ID="200016" Column="IsDesc">false</Data>
-        <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
-        <Data AD_Column_ID="6942" Column="Created">2021-01-16 12:37:10.554</Data>
-        <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
-        <Data AD_Column_ID="6964" Column="IsActive">true</Data>
-        <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
-        <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
-        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
-        <Data AD_Column_ID="84374" Column="UUID">08a62213-6c01-4a8c-ac4d-88615dd4cb41</Data>
-        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
-        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
-        <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
-        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
-        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
-        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
-        <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
-        <Data AD_Column_ID="6943" Column="IsNextLine">false</Data>
-        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
-        <Data AD_Column_ID="7061" Column="IsAveraged">false</Data>
-        <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
-        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
-        <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
-        <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
-        <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
         <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
         <Data AD_Column_ID="13054" Column="IsFilledRectangle">false</Data>
         <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
@@ -5032,6 +5016,33 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="9965" Column="RunningTotalLines">20</Data>
         <Data AD_Column_ID="6947" Column="YSpace">0</Data>
         <Data AD_Column_ID="94915" Column="IsHideGrandTotal">false</Data>
+        <Data AD_Column_ID="74122" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="6959" Column="Updated">2021-01-16 12:37:10.554</Data>
+        <Data AD_Column_ID="64457" Column="IsPrintBarcodeText">true</Data>
+        <Data AD_Column_ID="200016" Column="IsDesc">false</Data>
+        <Data AD_Column_ID="6950" Column="IsPageBreak">false</Data>
+        <Data AD_Column_ID="6942" Column="Created">2021-01-16 12:37:10.554</Data>
+        <Data AD_Column_ID="6951" Column="IsRelativePosition">true</Data>
+        <Data AD_Column_ID="6964" Column="IsActive">true</Data>
+        <Data AD_Column_ID="8197" Column="PrintNameSuffix" isNewNull="true"/>
+        <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
+        <Data AD_Column_ID="6967" Column="XPosition">0</Data>
+        <Data AD_Column_ID="84374" Column="UUID">08a62213-6c01-4a8c-ac4d-88615dd4cb41</Data>
+        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
+        <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
+        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
+        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
+        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
+        <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
+        <Data AD_Column_ID="6943" Column="IsNextLine">false</Data>
+        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
+        <Data AD_Column_ID="7061" Column="IsAveraged">false</Data>
+        <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
+        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
+        <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
+        <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
+        <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
       </PO>
     </Step>
     <Step SeqNo="1770" StepType="AD">
@@ -5906,8 +5917,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1970" StepType="AD">
       <PO AD_Table_ID="522" Action="I" Record_ID="0" Table="AD_PrintFormatItem_Trl">
-        <Data AD_Column_ID="7608" Column="Created">2021-01-16 12:37:49.94</Data>
-        <Data AD_Column_ID="7612" Column="Updated">2021-01-16 12:37:49.94</Data>
         <Data AD_Column_ID="7610" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="7614" Column="IsActive">true</Data>
         <Data AD_Column_ID="84375" Column="UUID">f02070e8-e1c8-40a1-ad3a-bb3089a4d9c9</Data>
@@ -5919,6 +5928,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="7605" Column="AD_Language">es_MX</Data>
         <Data AD_Column_ID="7606" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="7615" Column="AD_PrintFormatItem_ID">61936</Data>
+        <Data AD_Column_ID="7608" Column="Created">2021-01-16 12:37:49.94</Data>
+        <Data AD_Column_ID="7612" Column="Updated">2021-01-16 12:37:49.94</Data>
       </PO>
     </Step>
     <Step SeqNo="1980" StepType="AD">
@@ -6970,6 +6981,23 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="2680" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="97572" Table="AD_Column">
+        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
+        <Data AD_Column_ID="6482" Column="EntityType">EE03</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">54797</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">608</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">110</Data>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">18</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="84306" Column="UUID">fc795917-fa60-4292-9dea-6bbba0ef64cf</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true"/>
         <Data AD_Column_ID="110" Column="Version">0</Data>
         <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
         <Data AD_Column_ID="116" Column="ColumnName">UpdatedBy</Data>
@@ -7004,23 +7032,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
         <Data AD_Column_ID="68024" Column="IsRange">false</Data>
         <Data AD_Column_ID="62199" Column="IsAllowCopy">false</Data>
-        <Data AD_Column_ID="127" Column="SeqNo" isNewNull="true"/>
-        <Data AD_Column_ID="6482" Column="EntityType">EE03</Data>
-        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
-        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
-        <Data AD_Column_ID="114" Column="AD_Table_ID">54797</Data>
-        <Data AD_Column_ID="550" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="2608" Column="AD_Element_ID">608</Data>
-        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID">110</Data>
-        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
-        <Data AD_Column_ID="118" Column="FieldLength">10</Data>
-        <Data AD_Column_ID="226" Column="AD_Reference_ID">18</Data>
-        <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
-        <Data AD_Column_ID="84306" Column="UUID">fc795917-fa60-4292-9dea-6bbba0ef64cf</Data>
-        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
-        <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
-        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="2690" StepType="AD">
@@ -7882,31 +7893,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="2940" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="97584" Table="AD_Column">
-        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2021-01-16 14:23:43.822</Data>
-        <Data AD_Column_ID="112" Column="Description">This product is no longer available</Data>
-        <Data AD_Column_ID="548" Column="IsActive">true</Data>
-        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
-        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
-        <Data AD_Column_ID="551" Column="Updated">2021-01-16 14:23:43.822</Data>
-        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
-        <Data AD_Column_ID="109" Column="AD_Column_ID">97584</Data>
-        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
-        <Data AD_Column_ID="111" Column="Name">Discontinued</Data>
-        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
-        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
-        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
-        <Data AD_Column_ID="120" Column="IsParent">false</Data>
-        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
-        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
-        <Data AD_Column_ID="119" Column="IsKey">false</Data>
-        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
-        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
-        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
-        <Data AD_Column_ID="110" Column="Version">0</Data>
-        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
-        <Data AD_Column_ID="116" Column="ColumnName">Discontinued</Data>
         <Data AD_Column_ID="113" Column="Help">The Discontinued check box indicates a product that has been discontinued.</Data>
         <Data AD_Column_ID="3360" Column="IsUpdateable">false</Data>
         <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
@@ -7933,6 +7919,31 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="84306" Column="UUID">e1eaa3c5-855e-4af7-b24b-0b1f88e60197</Data>
         <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
         <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2021-01-16 14:23:43.822</Data>
+        <Data AD_Column_ID="112" Column="Description">This product is no longer available</Data>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2021-01-16 14:23:43.822</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">97584</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Discontinued</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase" isNewNull="true"/>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">Discontinued</Data>
       </PO>
     </Step>
     <Step SeqNo="2950" StepType="AD">
@@ -8823,6 +8834,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="3310" StepType="AD">
       <PO AD_Table_ID="493" Action="I" Record_ID="50447" Table="AD_PrintFormat">
+        <Data AD_Column_ID="7021" Column="FooterMargin">0</Data>
+        <Data AD_Column_ID="50209" Column="JasperProcess_ID" isNewNull="true"/>
         <Data AD_Column_ID="64491" Column="IsPrintParameters">true</Data>
         <Data AD_Column_ID="7010" Column="IsActive">true</Data>
         <Data AD_Column_ID="7023" Column="AD_PrintPaper_ID">100</Data>
@@ -8851,8 +8864,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="7016" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="7015" Column="HeaderMargin">0</Data>
         <Data AD_Column_ID="7640" Column="AD_PrintTableFormat_ID">101</Data>
-        <Data AD_Column_ID="7021" Column="FooterMargin">0</Data>
-        <Data AD_Column_ID="50209" Column="JasperProcess_ID" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="3320" StepType="AD">
@@ -9715,6 +9726,16 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="3550" StepType="AD">
       <PO AD_Table_ID="489" Action="I" Record_ID="61949" Table="AD_PrintFormatItem">
+        <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">61949</Data>
+        <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
+        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
+        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6949" Column="AD_Column_ID">97593</Data>
+        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
+        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
+        <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
+        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
         <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
         <Data AD_Column_ID="56351" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
@@ -9771,16 +9792,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="13238" Column="IsImageField">false</Data>
         <Data AD_Column_ID="6961" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="6944" Column="AD_Client_ID">0</Data>
-        <Data AD_Column_ID="6954" Column="AD_PrintFormatItem_ID">61949</Data>
-        <Data AD_Column_ID="13055" Column="LineWidth">1</Data>
-        <Data AD_Column_ID="6966" Column="MaxHeight">0</Data>
-        <Data AD_Column_ID="6945" Column="AD_PrintFormatChild_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6949" Column="AD_Column_ID">97593</Data>
-        <Data AD_Column_ID="6957" Column="YPosition">0</Data>
-        <Data AD_Column_ID="6958" Column="AD_PrintColor_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6955" Column="CreatedBy">100</Data>
-        <Data AD_Column_ID="6963" Column="AD_PrintFont_ID" isNewNull="true"/>
-        <Data AD_Column_ID="6952" Column="UpdatedBy">100</Data>
       </PO>
     </Step>
     <Step SeqNo="3560" StepType="AD">
@@ -10672,26 +10683,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="3770" StepType="AD">
       <PO AD_Table_ID="489" Action="I" Record_ID="61960" Table="AD_PrintFormatItem">
-        <Data AD_Column_ID="6947" Column="YSpace">0</Data>
-        <Data AD_Column_ID="94915" Column="IsHideGrandTotal">false</Data>
-        <Data AD_Column_ID="74122" Column="DisplayLogic" isNewNull="true"/>
-        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
-        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
-        <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
-        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
-        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
-        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
-        <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
-        <Data AD_Column_ID="6943" Column="IsNextLine">false</Data>
-        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
-        <Data AD_Column_ID="7061" Column="IsAveraged">false</Data>
-        <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
-        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
-        <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
-        <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
-        <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
-        <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
-        <Data AD_Column_ID="13054" Column="IsFilledRectangle">false</Data>
         <Data AD_Column_ID="15015" Column="BarcodeType" isNewNull="true"/>
         <Data AD_Column_ID="56351" Column="FormatPattern" isNewNull="true"/>
         <Data AD_Column_ID="6970" Column="IsOrderBy">false</Data>
@@ -10738,6 +10729,26 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="9964" Column="IsMaxCalc">false</Data>
         <Data AD_Column_ID="6967" Column="XPosition">0</Data>
         <Data AD_Column_ID="84374" Column="UUID">a9422e0d-d393-4c34-83be-79b0d1bf6095</Data>
+        <Data AD_Column_ID="6947" Column="YSpace">0</Data>
+        <Data AD_Column_ID="94915" Column="IsHideGrandTotal">false</Data>
+        <Data AD_Column_ID="74122" Column="DisplayLogic" isNewNull="true"/>
+        <Data AD_Column_ID="7058" Column="ImageURL" isNewNull="true"/>
+        <Data AD_Column_ID="10258" Column="IsVarianceCalc">false</Data>
+        <Data AD_Column_ID="7032" Column="PrintAreaType">C</Data>
+        <Data AD_Column_ID="7059" Column="ImageIsAttached">false</Data>
+        <Data AD_Column_ID="6971" Column="IsGroupBy">false</Data>
+        <Data AD_Column_ID="6969" Column="IsPrinted">true</Data>
+        <Data AD_Column_ID="6956" Column="IsSummarized">false</Data>
+        <Data AD_Column_ID="6943" Column="IsNextLine">false</Data>
+        <Data AD_Column_ID="7030" Column="LineAlignmentType">X</Data>
+        <Data AD_Column_ID="7061" Column="IsAveraged">false</Data>
+        <Data AD_Column_ID="7655" Column="IsFixedWidth">false</Data>
+        <Data AD_Column_ID="7565" Column="IsSuppressNull">false</Data>
+        <Data AD_Column_ID="7566" Column="IsSetNLPosition">false</Data>
+        <Data AD_Column_ID="7654" Column="IsNextPage">false</Data>
+        <Data AD_Column_ID="9967" Column="IsMinCalc">false</Data>
+        <Data AD_Column_ID="13057" Column="ShapeType">N</Data>
+        <Data AD_Column_ID="13054" Column="IsFilledRectangle">false</Data>
       </PO>
     </Step>
     <Step SeqNo="3780" StepType="AD">
@@ -11728,8 +11739,6 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="4310" StepType="AD">
       <PO AD_Table_ID="285" Action="I" Record_ID="58069" Table="AD_Process_Para">
-        <Data AD_Column_ID="2820" Column="Updated">2021-01-16 16:53:49.25</Data>
-        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
         <Data AD_Column_ID="3739" Column="DefaultValue" isNewNull="true"/>
         <Data AD_Column_ID="56300" Column="DisplayLogic" isNewNull="true"/>
         <Data AD_Column_ID="81287" Column="IsInfoOnly">false</Data>
@@ -11763,6 +11772,8 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="5819" Column="IsCentrallyMaintained">true</Data>
         <Data AD_Column_ID="5593" Column="DefaultValue2" isNewNull="true"/>
         <Data AD_Column_ID="3740" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="2820" Column="Updated">2021-01-16 16:53:49.25</Data>
+        <Data AD_Column_ID="3741" Column="ValueMin" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="4320" StepType="AD">

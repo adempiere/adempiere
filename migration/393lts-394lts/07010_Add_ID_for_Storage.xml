@@ -151,10 +151,14 @@
         <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">M_Product_ID</Data>
       </PO>
     </Step>
-    <Step DBType="ALL" Parse="Y" SeqNo="90" StepType="SQL">
-      <SQLStatement>-- Storage
-CREATE SEQUENCE M_Storage_Seq START 1000000;
+    <Step DBType="Postgres" Parse="Y" SeqNo="90" StepType="SQL">
+      <SQLStatement>CREATE SEQUENCE M_Storage_Seq START 1000000;
 UPDATE M_Storage SET M_Storage_ID = nextval('M_Storage_Seq');
+DROP SEQUENCE M_Storage_Seq;</SQLStatement>
+    </Step>
+	<Step DBType="Oracle" Parse="Y" SeqNo="91" StepType="SQL">
+      <SQLStatement>CREATE SEQUENCE M_Storage_Seq START with 1000000;
+UPDATE M_Storage SET M_Storage_ID = M_Storage_Seq.nextval;
 DROP SEQUENCE M_Storage_Seq;</SQLStatement>
     </Step>
     <Step SeqNo="100" StepType="AD">
