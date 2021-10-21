@@ -21,7 +21,7 @@ SELECT
   p.isStocked,
   p.Discontinued,
   l.M_Warehouse_ID,
-  COALESCE(SUM(s.QtyOnhand), 0) AS QtyOnhand,
+  SUM(COALESCE(s.QtyOnhand, 0)) AS QtyOnhand,
   ppo.PriceLastPO,
   ppo.PriceLastInv,
   pp.M_PriceList_Version_ID,
@@ -50,20 +50,18 @@ SELECT
       AND sl.M_Warehouse_ID = l.M_Warehouse_ID
       AND t.MovementType LIKE '%-'
   ) AS LastDateDelivered,
-  CAST(getDate() AS Date) - CAST(
-    COALESCE (
-      (
-        SELECT
-          MAX(t.MovementDate)
-        FROM
-          M_Transaction t
-          INNER JOIN M_Locator sl ON (t.M_Locator_ID = sl.M_Locator_ID)
-        WHERE
-          t.M_Product_ID = p.M_Product_ID
-          AND sl.M_Warehouse_ID = l.M_Warehouse_ID
-          AND t.MovementType LIKE '%-'
-      ) AS Date
-    ),
+  sysdate - COALESCE (
+    (
+      SELECT
+        MAX(t.MovementDate)
+      FROM
+        M_Transaction t
+        INNER JOIN M_Locator sl ON (t.M_Locator_ID = sl.M_Locator_ID)
+      WHERE
+        t.M_Product_ID = p.M_Product_ID
+        AND sl.M_Warehouse_ID = l.M_Warehouse_ID
+        AND t.MovementType LIKE '%-'
+    ) ,
     (
       SELECT
         MAX(t.MovementDate)
@@ -74,9 +72,8 @@ SELECT
         t.M_Product_ID = p.M_Product_ID
         AND sl.M_Warehouse_ID = l.M_Warehouse_ID
         AND t.MovementType LIKE '%+'
-    ) AS Date
-  )
-) AS DaysWithoutMovement
+    ) 
+  ) AS DaysWithoutMovement
 FROM
   M_Product p
   INNER JOIN M_Storage s ON (p.M_Product_ID = s.M_Product_ID)
@@ -106,10 +103,27 @@ WHERE
   p.isStocked = 'Y'
   AND s.QtyOnhand <> 0
 GROUP BY
+  p.AD_Client_ID,
+  p.AD_Org_ID,
+  p.Created,
+  p.CreatedBy,
+  p.Updated,
+  p.UpdatedBy,
   p.M_Product_ID,
+  p.Value,
+  p.Name,
+  p.Description,
+  p.M_Product_Category_ID,
+  p.M_Product_Group_ID,
+  p.M_PRoduct_Class_ID,
+  p.M_Product_Classification_ID,
+  p.C_UOM_ID,
+  p.IsActive,
+  p.isStocked,
+  p.Discontinued,
   l.M_Warehouse_ID,
   ppo.PriceLastPO,
-  ppo.PriceLastinv,
+  ppo.PriceLastInv,
   pp.M_PriceList_Version_ID,
   pp.PriceList,
   pp.PriceStd,
