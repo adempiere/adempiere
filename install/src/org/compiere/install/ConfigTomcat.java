@@ -41,6 +41,9 @@ public class ConfigTomcat extends Config
 	 */
 	public void init()
 	{
+		p_data.setAppsServerDir(getServerDir());
+		p_data.setAppsServerDir(true);
+		//
 		p_data.setAppsServerDeployDir(getDeployDir());
 		p_data.setAppsServerDeployDir(true);
 		//
@@ -51,6 +54,16 @@ public class ConfigTomcat extends Config
 		p_data.setAppsServerSSLPort("4444");
 		p_data.setAppsServerSSLPort(true);
 	}	//	init
+
+	/**
+	 * 	Get Deployment Dir
+	 *	@return deployment dir
+	 */
+	private String getServerDir()
+	{
+		return File.separator + "opt"
+			 + File.separator + "tomcat";
+	}	//	getDeployDir
 
 	/**
 	 * 	Get Deployment Dir
@@ -90,6 +103,19 @@ public class ConfigTomcat extends Config
 		log.info("OK: AppsServer = " + appsServer);
 		setProperty(ConfigurationData.ADEMPIERE_APPS_SERVER, appsServer.getHostName());
 		setProperty(ConfigurationData.ADEMPIERE_APPS_TYPE, p_data.getAppsServerType());
+
+		//	Server Dir
+		File serverPath = new File (p_data.getAppsServerDir());
+		pass = serverPath.exists();
+		error = "Not found: " + serverPath;
+		if (getPanel() != null)
+			signalOK(getPanel().okServerDir, "ErrorServerDir",
+					pass, true, error);
+		if (!pass)
+			return error;
+
+		setProperty(ConfigurationData.ADEMPIERE_APPS_PATH, p_data.getAppsServerDir());
+		log.info("OK: Deploy Directory = " + serverPath);
 
 		//	Deployment Dir
 		p_data.setAppsServerDeployDir(getDeployDir());

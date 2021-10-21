@@ -23,7 +23,7 @@ IF EXIST %WILDFLY_HOME%\login-modules.configured (
     @Echo "-> Login modules were configured before"
 ) ELSE ( 
 @Echo "-> Adding Login modules"
-@Call START %WILDFLY_HOME%\bin\standalone.bat --admin-only -Djboss.server.base.dir=%WILDFLY_BASE%\standalone -Djboss.http.port=%ADEMPIERE_WEB_PORT% -Djboss.https.port=%ADEMPIERE_SSL_PORT% -Djboss.bind.address=0.0.0.0
+@Call START %WILDFLY_HOME%\bin\standalone.bat --admin-only -Djboss.server.base.dir=%WILDFLY_BASE% -Djboss.http.port=%ADEMPIERE_WEB_PORT% -Djboss.https.port=%ADEMPIERE_SSL_PORT% -Djboss.bind.address=0.0.0.0
 @timeout 5
 @Call %WILDFLY_HOME%\bin\jboss-cli.bat --connect command="/subsystem=security/security-domain=custom-security-realm:add"
 @Call %WILDFLY_HOME%\bin\jboss-cli.bat --connect command="/subsystem=security/security-domain=custom-security-realm/authentication=classic:add(login-modules=[{"code" => "org.adempiere.as.jboss.AdempiereLoginModule", "flag" => "required", "module-options"=[ ("junauthenticatedIdentity"=>"anonymous")]}])"
@@ -34,7 +34,7 @@ IF EXIST %WILDFLY_HOME%\login-modules.configured (
 )
 
 @Echo "-> WildFly Starting the Service"
-@Call START %WILDFLY_HOME%\bin\standalone.bat -Djboss.server.base.dir=%WILDFLY_BASE%\standalone --start-mode normal -Djboss.http.port=%ADEMPIERE_WEB_PORT% -Djboss.https.port=%ADEMPIERE_SSL_PORT% -Djboss.bind.address=0.0.0.0
+@Call START %WILDFLY_HOME%\bin\standalone.bat -Djboss.server.base.dir=%WILDFLY_BASE% --start-mode normal -Djboss.http.port=%ADEMPIERE_WEB_PORT% -Djboss.https.port=%ADEMPIERE_SSL_PORT% -Djboss.bind.address=0.0.0.0
 
 @GOTO END
 
@@ -51,7 +51,7 @@ IF EXIST %WILDFLY_HOME%\login-modules.configured (
 @Set JAVA_OPTS=-server %ADEMPIERE_JAVA_OPTIONS% %SECURE% -Dorg.adempiere.server.embedded=true
 @Echo Start Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
 @Call %JAVA_HOME%/bin/java %JAVA_OPTS% -jar %JETTY_HOME%/start.jar jetty.base=%ADEMPIERE_HOME%/jetty --create-start-d --add-modules=server,ext,deploy,jndi,jsp,http jetty.http.port=%ADEMPIERE_WEB_PORT% jetty.server.stopAtShutdown=true %JETTY_BASE%/jetty-ds.xml
-@Call START %JAVA_HOME%/bin/java %JAVA_OPTS% -jar %JETTY_HOME%/start.jar jetty.base=%JETTY_BASE% %JETTY_BASE%/jetty-ds.xml &
+@Call START %JAVA_HOME%/bin/java %JAVA_OPTS% -jar %JETTY_HOME%/start.jar --add-to-start=gzip jetty.base=%JETTY_BASE% %JETTY_BASE%/jetty-ds.xml &
 @Echo Done Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
 @GOTO END
 

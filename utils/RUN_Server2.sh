@@ -18,35 +18,34 @@ JAVA_OPTS="-server $ADEMPIERE_JAVA_OPTIONS $SECURE -Djava.awt.headless=true -Dor
 export JAVA_OPTS
 
 if [ $ADEMPIERE_APPS_TYPE = "wildfly" ]; then
-    if test -z  "$CATALINA_HOME"
+    if test -z  "$WILDFLY_HOME" 
         then
-                echo "CATALINA_HOME not defined"
+                echo "WILDFLY_HOME not defined"
         else        
           PID="${WILDFLY_HOME}/wildfly.pid"
           if [ -f $PID ] && pgrep -F $PID ; then
             echo "ADempiere's Server is already running .."
           else
-            export JBOSS_HOME=
-            export WILDFLY_BASE=$ADEMPIERE_HOME/wildfly
             echo "ADempiere Server $ADEMPIERE_APPS_TYPE starting ..."
-            if test -f "$WILDFLY_HOME/login-modules.configured" ; then
-              echo "-> Login modules were configured before"
-            else
-              echo "-> Adding Login modules"
-              nohup $WILDFLY_HOME/bin/standalone.sh --admin-only -Djboss.server.base.dir=$WILDFLY_BASE/standalone -Djboss.http.port=$ADEMPIERE_WEB_PORT \
-                    -Djboss.https.port=$ADEMPIERE_SSL_PORT -Djboss.bind.address=0.0.0.0 >./nohup.out 2>./nohup.err &
-              sleep 7
-              sh $WILDFLY_HOME/bin/jboss-cli.sh --connect command="/subsystem=security/security-domain=custom-security-realm:add"
-              sh $WILDFLY_HOME/bin/jboss-cli.sh --connect command="/subsystem=security/security-domain=custom-security-realm/authentication=classic:add(login-modules=[{"code" => "org.adempiere.as.jboss.AdempiereLoginModule", "flag" => "required", "module-options"=[ ("junauthenticatedIdentity"=>"anonymous")]}])"
-              sh $WILDFLY_HOME/bin/jboss-cli.sh --connect command=:shutdown
-              echo "configured" > $WILDFLY_HOME/login-modules.configured
-              echo "-> Added Login modules"
-            fi
-          echo "-> WildFly Starting the Service"
-          nohup $WILDFLY_HOME/bin/standalone.sh --start-mode normal -Djboss.server.base.dir=$WILDFLY_BASE/standalone -Djboss.http.port=$ADEMPIERE_WEB_PORT \
+            echo "ADempiere Server Home $WILDFLY_HOME ..."
+                if test -f "$WILDFLY_HOME/login-modules.configured" ; then
+                  echo "-> Login modules were configured before"
+                else
+                  echo "-> Adding Login modules"
+                  nohup $WILDFLY_HOME/bin/standalone.sh --admin-only -Djboss.server.base.dir=$WILDFLY_BASE -Djboss.http.port=$ADEMPIERE_WEB_PORT \
+                        -Djboss.https.port=$ADEMPIERE_SSL_PORT -Djboss.bind.address=0.0.0.0 >./nohup.out 2>./nohup.err &
+                  sleep 7
+                  sh $WILDFLY_HOME/bin/jboss-cli.sh --connect command="/subsystem=security/security-domain=custom-security-realm:add"
+                  sh $WILDFLY_HOME/bin/jboss-cli.sh --connect command="/subsystem=security/security-domain=custom-security-realm/authentication=classic:add(login-modules=[{"code" => "org.adempiere.as.jboss.AdempiereLoginModule", "flag" => "required", "module-options"=[ ("junauthenticatedIdentity"=>"anonymous")]}])"
+                  sh $WILDFLY_HOME/bin/jboss-cli.sh --connect command=:shutdown
+                  echo "configured" > $WILDFLY_HOME/login-modules.configured
+                  echo "-> Added Login modules"
+                fi
+            echo "-> WildFly Starting the Service"
+            nohup $WILDFLY_HOME/bin/standalone.sh --start-mode normal -Djboss.server.base.dir=$WILDFLY_BASE -Djboss.http.port=$ADEMPIERE_WEB_PORT \
                 -Djboss.https.port=$ADEMPIERE_SSL_PORT -Djboss.bind.address=0.0.0.0 >./nohup.out 2>./nohup.err &
-          echo $! > $WILDFLY_HOME/wildfly.pid
-        fi
+            echo $! > $WILDFLY_HOME/wildfly.pid
+          fi
     fi       
 fi
 

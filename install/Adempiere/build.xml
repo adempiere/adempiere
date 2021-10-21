@@ -39,11 +39,12 @@
 		<property file="${envFile}"/>
 		<filter filtersfile="${envFile}" />
 
-		<echo message="Environment   = ${envFile}" />
-		<echo message="Java VM       = ${ADEMPIERE_JAVA_TYPE}" />
-		<echo message="Database      = ${ADEMPIERE_DB_TYPE}" />
-		<echo message="Apps Server   = ${ADEMPIERE_APPS_TYPE}" />
-		<echo message="AppsDeployment= ${ADEMPIERE_APPS_DEPLOY}" />
+		<echo message="Environment   		= ${envFile}" />
+		<echo message="Java VM       		= ${ADEMPIERE_JAVA_TYPE}" />
+		<echo message="Database      		= ${ADEMPIERE_DB_TYPE}" />
+		<echo message="Apps Server   		= ${ADEMPIERE_APPS_TYPE}" />
+		<echo message="Apps Server Path  	= ${ADEMPIERE_APPS_PATH}" />
+		<echo message="AppsDeployment		= ${ADEMPIERE_APPS_DEPLOY}" />
 
 		<condition property="isOracle">
 			<or>
@@ -87,12 +88,39 @@
 
 	</target>
 
+
+	<target name="wildflyHome" if="isAppsWildfly">
+		<echo message="Wildfly Home ${ADEMPIERE_APPS_PATH}"/>
+		<property name="WILDFLY_HOME" location="${ADEMPIERE_APPS_PATH}"/>
+		<property name="WILDFLY_BASE" location="${ADEMPIERE_APPS_DEPLOY}"/>
+	</target>
+
+	<target name="catalinaHome" if="isAppsTomcat">
+		<property name="CATALINA_HOME" location="${ADEMPIERE_APPS_PATH}"/>
+		<property name="CATALINA_BASE" location="${ADEMPIERE_APPS_DEPLOY}/.."/>
+		<echo message="Catalina Home ${CATALINA_HOME}"/>
+		<echo message="Catalina Base ${CATALINA_BASE}"/>
+	</target>
+
+	<target name="jettyHome" if="isAppsJetty">
+		<property name="JETTY_HOME" location="${ADEMPIERE_APPS_PATH}"/>
+		<property name="JETTY_BASE" location="${ADEMPIERE_APPS_DEPLOY}/.."/>
+		<echo message="Jetty Home ${JETTY_HOME}"/>
+		<echo message="Jetty Base ${JETTY_BASE}"/>
+	</target>
+
+	<target name="glassfishHome" if="isAppsGlassfish">
+		<property name="GLASSFISH_HOME" location="${ADEMPIERE_APPS_PATH}"/>
+		<property name="GLASSFISH_BASE" location="${ADEMPIERE_APPS_DEPLOY}"/>
+		<echo message="Glassfish Home ${GLASSFISH_HOME}"/>
+		<echo message="Glassfish Home ${GLASSFISH_BASE}"/>
+	</target>
+
 	<!-- ==================================================== -->
 	<!-- Windows Setup                                        -->
 	<!-- ==================================================== -->
-	<target name="setupWin" depends="setupInit" if="isWindows"
+	<target name="setupWin" depends="setupInit,wildflyHome,catalinaHome,jettyHome,glassfishHome" if="isWindows"
 		description="Windows Setup">
-
 		<!--	Filter files No Overwrite	-->
 		<copy file="utils/myDBcopyTemplate.bat"
 			tofile="utils/myDBcopy.bat" filtering="yes" overwrite="no" />
@@ -100,6 +128,15 @@
 		<!--	Filter files Overwrite		-->
 		<copy file="utils/myEnvironmentTemplate.bat"
 			tofile="utils/myEnvironment.bat" filtering="yes" overwrite="yes" />
+
+		<replace file="utils/myEnvironment.bat">
+			<replacefilter token="@WILDFLY_HOME@" value="${WILDFLY_HOME}" />
+			<replacefilter token="@CATALINA_HOME@" value="${CATALINA_HOME}" />
+			<replacefilter token="@JETTY_HOME@" value="${JETTY_HOME}" />
+			<replacefilter token="@WILDFLY_BASE@" value="${WILDFLY_BASE}" />
+			<replacefilter token="@CATALINA_BASE@" value="${CATALINA_BASE}" />
+			<replacefilter token="@JETTY_BASE@" value="${JETTY_BASE}" />
+		</replace>
 
 		<copy file="utils/RUN_GetAdempiereTemplate.bat"
 			tofile="utils/RUN_GetAdempiere.bat" filtering="yes" overwrite="yes" />
@@ -112,13 +149,15 @@
 			<fileset dir="." includes="**/*.sh" excludes="RUN_Adempiere.sh" />
 		</delete>
 
+
+
 	</target>
 
 
 	<!-- ==================================================== -->
 	<!-- Non Windows Setup                                    -->
 	<!-- ==================================================== -->
-	<target name="setupNonWin" depends="setupInit" unless="isWindows"
+	<target name="setupNonWin" depends="setupInit,wildflyHome,catalinaHome,jettyHome,glassfishHome" unless="isWindows"
 		description="Non Windows Setup">
 
 		<!--	Filter files No Overwrite	-->
@@ -128,6 +167,15 @@
 		<!--	Filter files Overwrite		-->
 		<copy file="utils/myEnvironmentTemplate.sh"
 			tofile="utils/myEnvironment.sh" filtering="yes" overwrite="yes" />
+
+		<replace file="utils/myEnvironment.sh">
+			<replacefilter token="@WILDFLY_HOME@" value="${WILDFLY_HOME}" />
+			<replacefilter token="@CATALINA_HOME@" value="${CATALINA_HOME}" />
+			<replacefilter token="@JETTY_HOME@" value="${JETTY_HOME}" />
+			<replacefilter token="@WILDFLY_BASE@" value="${WILDFLY_BASE}" />
+			<replacefilter token="@CATALINA_BASE@" value="${CATALINA_BASE}" />
+			<replacefilter token="@JETTY_BASE@" value="${JETTY_BASE}" />
+		</replace>	
 
 		<copy file="utils/RUN_GetAdempiereTemplate.sh"
 			tofile="utils/RUN_GetAdempiere.sh" filtering="yes" overwrite="yes" />
@@ -436,7 +484,7 @@
 			<fileset dir="${basedir}/lib" includes="Adempiere.jar,AdempiereSLib.jar,adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,webui.war,mobile.war,ADInterface-1.0.war" />
 			<metainf dir="${basedir}/lib" includes="wildfly-ds.xml"/>
 		</ear>
-		<copy file="${basedir}/lib/adempiere.ear" tofile="${basedir}/wildfly/standalone/deployments/adempiere.ear" overwrite="yes"/>
+		<copy file="${basedir}/lib/adempiere.ear" tofile="${ADEMPIERE_APPS_DEPLOY}/adempiere.ear" overwrite="yes"/>
 	</target>
 
 	<target name="glassfishEAR" if="isAppsGlassfish">
@@ -549,15 +597,15 @@
 		<antcall target="createEAR" inheritall="true"/>
 	</target>
 
-	<target name="updateWildfly" depends="updateEAR" if="isAppsWildfly"
+	<target name="updateWildfly" depends="wildflyHome, updateEAR" if="isAppsWildfly"
 			description="Update Wildfly Application Server">
 
 		<!-- Copy			-->
 		<echo message="AppsDeployment= ${ADEMPIERE_APPS_DEPLOY}" />
 		<!-- Deploy in exploded format for faster startup time -->
-		<copy file="${basedir}/lib/Adempiere.jar" tofile="${basedir}/wildfly/standalone/lib/ext/Adempiere.jar" overwrite="yes"/>
-		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${basedir}/wildfly/standalone/lib/ext/AdempiereSLib.jar"  overwrite="yes"/>
-		<copy file="${basedir}/lib/adempiereApps.jar" tofile="${basedir}/wildfly/standalone/lib/ext/adempiereApps.jar"  overwrite="yes"/>
+		<copy file="${basedir}/lib/Adempiere.jar" tofile="${WILDFLY_BASE}/lib/ext/Adempiere.jar" overwrite="yes"/>
+		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${WILDFLY_BASE}/lib/ext/AdempiereSLib.jar"  overwrite="yes"/>
+		<copy file="${basedir}/lib/adempiereApps.jar" tofile="${WILDFLY_BASE}/lib/ext/adempiereApps.jar"  overwrite="yes"/>
 	</target>
 
     <!-- ==================================================== -->
@@ -573,42 +621,46 @@
 	<!-- ==================================================== -->
 	<!-- Setup Tomcat              -->
 	<!-- ==================================================== -->
-	<target name="setupTomcat" depends="driverPostgres, driverOracle , driverMySQL , driverMariaDB, setupLib, setupEAR " if="isAppsTomcat"
+	<target name="setupTomcat" depends="driverPostgres, driverOracle , driverMySQL , driverMariaDB, catalinaHome , setupLib, setupEAR " if="isAppsTomcat"
 		description="Setup tomcat Server">
 
-		<echo message="Tomcat Base : ${ADEMPIERE_APPS_DEPLOY}/.."/>	
-		<echo message="Tomcat Home : ${env.CATALINA_HOME}"/>	
+		<echo message="Tomcat Home : ${CATALINA_HOME}"/>
+		<echo message="Tomcat Base : ${CATALINA_BASE}"/>
 
-		
-		<mkdir dir="${ADEMPIERE_APPS_DEPLOY}/../logs"/>
-		<delete dir="${ADEMPIERE_APPS_DEPLOY}/../bin"/>
-		<mkdir dir="${ADEMPIERE_APPS_DEPLOY}/../bin"/>
+		<mkdir dir="${CATALINA_BASE}/logs"/>
+		<delete dir="${CATALINA_BASE}/bin"/>
+		<delete dir="${CATALINA_BASE}/temp"/>
+		<mkdir dir="${CATALINA_BASE}/bin"/>
+		<mkdir dir="${CATALINA_BASE}/temp"/>
 
-		<echo file="${ADEMPIERE_APPS_DEPLOY}/../bin/startup.bat" append="false">
-set CATALINA_BASE=${ADEMPIERE_APPS_DEPLOY}\..			
+		<echo file="${CATALINA_BASE}/bin/startup.bat" append="false">
+set CATALINA_BASE=${CATALINA_BASE}		
+set CATALINA_TMPDIR=${CATALINA_BASE}\temp
+set CATALINA_PID=$CATALINA_BASE}\tomcat.pid
 %CATALINA_HOME%\bin\startup.bat
 		</echo>
 			
-		<echo file="${ADEMPIERE_APPS_DEPLOY}/../bin/startup.sh" append="false">#\!/bin/tcsh
-export CATALINA_BASE=${ADEMPIERE_APPS_DEPLOY}/..
-export CATALINA_PID="$CATALINA_BASE/tomcat.pid"
+		<echo file="${CATALINA_BASE}/bin/startup.sh" append="false">#\!/bin/tcsh
+export CATALINA_BASE=${CATALINA_BASE}
+export CATALINA_TMPDIR=${CATALINA_BASE}/temp
+export CATALINA_PID="$CATALINA_BASE}/tomcat.pid"
 $CATALINA_HOME/bin/startup.sh
 		</echo>
 
-		<echo file="${ADEMPIERE_APPS_DEPLOY}/../bin/shutdown.bat" append="false">
+		<echo file="${CATALINA_BASE}/bin/shutdown.bat" append="false">
 %CATALINA_HOME%\bin\shutdown.bat
 		</echo>
 				
-		<echo file="${ADEMPIERE_APPS_DEPLOY}/../bin/shutdown.sh" append="false">#\!/bin/tcsh
+		<echo file="${CATALINA_BASE}/bin/shutdown.sh" append="false">#\!/bin/tcsh
 $CATALINA_HOME/bin/shutdown.sh
 		</echo>
 
-		<chmod dir="${ADEMPIERE_APPS_DEPLOY}/../bin" perm="ugo+rx" includes="**/*.sh"/>	
+		<chmod dir="${CATALINA_BASE}/bin" perm="ugo+rx" includes="**/*.sh"/>
 
-		<copy file="${env.CATALINA_HOME}/bin/tomcat-juli.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../bin/tomcat-juli.jar" failonerror="false"/>
-		<delete dir="${ADEMPIERE_APPS_DEPLOY}/../conf"/>
-		<copy todir="${ADEMPIERE_APPS_DEPLOY}/../conf" failonerror="false">
-			<fileset dir="${env.CATALINA_HOME}/conf" includes="**"/>  
+		<copy file="${CATALINA_HOME}/bin/tomcat-juli.jar" tofile="${CATALINA_BASE}/bin/tomcat-juli.jar" failonerror="false"/>
+		<delete dir="${CATALINA_BASE}/conf"/>
+		<copy todir="${CATALINA_BASE}/conf" failonerror="false">
+			<fileset dir="${CATALINA_HOME}/conf" includes="**"/>
 		</copy>	
 
 		<delete dir="${ADEMPIERE_APPS_DEPLOY}/mobile" />
@@ -626,32 +678,31 @@ $CATALINA_HOME/bin/shutdown.sh
 		<copy file="${basedir}/lib/ADInterface-1.0.war" tofile="${ADEMPIERE_APPS_DEPLOY}/ADInterface.war"/>
 
 		<!--Setting the ADempiere Shared Libraries -->
-		<delete dir="${ADEMPIERE_APPS_DEPLOY}/../shared/lib"/>
-		<mkdir dir="${ADEMPIERE_APPS_DEPLOY}/../shared/lib"/>
-		<copy file="${basedir}/lib/Adempiere.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../shared/lib/Adempiere.jar" overwrite="true"/>
-		<copy file="${basedir}/lib/adempiereRoot.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../shared/lib/adempiereRoot.jar" overwrite="true"/>
-		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../shared/lib/AdempiereSLib.jar" overwrite="true"/>
-		<copy file="${basedir}/lib/adempiereApps.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/../shared/lib/adempiereApps.jar" overwrite="true"/>
-		<replaceregexp file="${ADEMPIERE_APPS_DEPLOY}/../conf/catalina.properties" match="shared.loader=" replace='shared.loader="${catalina.base}/shared/lib","${catalina.base}/shared/lib/*.jar"' byline="true"/>
-		<replaceregexp file="${ADEMPIERE_APPS_DEPLOY}/../conf/catalina.properties" match="xom-\*.jar" replace='xom-\*.jar,\\\\${line.separator}Adempiere.jar,\\\\${line.separator}adempiereRoot.jar,\\\\${line.separator}AdempiereSLib.jar,\\\\${line.separator}adempiereApps.jar,\\\\${line.separator}javax.mail.jar' byline="true"/>
+		<delete dir="${CATALINA_BASE}/shared/lib"/>
+		<mkdir dir="${CATALINA_BASE}/shared/lib"/>
+		<copy file="${basedir}/lib/Adempiere.jar" tofile="${CATALINA_BASE}/shared/lib/Adempiere.jar" overwrite="true"/>
+		<copy file="${basedir}/lib/adempiereRoot.jar" tofile="${CATALINA_BASE}/shared/lib/adempiereRoot.jar" overwrite="true"/>
+		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${CATALINA_BASE}/shared/lib/AdempiereSLib.jar" overwrite="true"/>
+		<copy file="${basedir}/lib/adempiereApps.jar" tofile="${CATALINA_BASE}/shared/lib/adempiereApps.jar" overwrite="true"/>
+		<replaceregexp file="${CATALINA_BASE}/conf/catalina.properties" match="shared.loader=" replace='shared.loader="${catalina.base}/shared/lib","${catalina.base}/shared/lib/*.jar"' byline="true"/>
+		<replaceregexp file="${CATALINA_BASE}/conf/catalina.properties" match="xom-\*.jar" replace='xom-\*.jar,\\\\${line.separator}Adempiere.jar,\\\\${line.separator}adempiereRoot.jar,\\\\${line.separator}AdempiereSLib.jar,\\\\${line.separator}adempiereApps.jar,\\\\${line.separator}javax.mail.jar' byline="true"/>
 		<!--Setting the Connection Pool-->
 
-		<copy file="${basedir}/lib/context.xml" tofile="${ADEMPIERE_APPS_DEPLOY}/../conf/context.xml" filtering="yes" overwrite="yes"/>
+		<copy file="${basedir}/lib/context.xml" tofile="${CATALINA_BASE}/conf/context.xml" filtering="yes" overwrite="yes"/>
 		<echo message="Database Driver Class ${JDBC_DRIVER_CLASS}" />	
-		<replace file="${ADEMPIERE_APPS_DEPLOY}/../conf/context.xml">
+		<replace file="${CATALINA_BASE}/conf/context.xml">
 			<replacefilter token="@@JDBC_DRIVER_CLASS@@" value="${JDBC_DRIVER_CLASS}"/>
 		</replace>
 
 		<!-- Setting Tomcat Server -->
-		<!--copy file="${env.CATALINA_HOME}/conf/server.xml" tofile="${ADEMPIERE_APPS_DEPLOY}/../conf/server.bak" failonerror="false"/-->
-		<!--copy file="${ADEMPIERE_APPS_DEPLOY}/../conf/server.bak" tofile="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" overwrite="yes"/-->
-		<replaceregexp file="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" match="8080" replace="${ADEMPIERE_WEB_PORT}" byline="true"/>
-		<replaceregexp file="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" match="8443" replace="${ADEMPIERE_SSL_PORT}" byline="true"/>
-		<replaceregexp file="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" match="&#60;/Server&#62;" replace="" byline="true"/>
-		<replaceregexp file="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" match="  &#60;/Service&#62;" replace="" byline="true"/>
-		<concat destfile="${ADEMPIERE_APPS_DEPLOY}/../conf/server.xml" append="true">
+		<replaceregexp file="${CATALINA_BASE}/conf/server.xml" match="8080" replace="${ADEMPIERE_WEB_PORT}" byline="true"/>
+		<replaceregexp file="${CATALINA_BASE}/conf/server.xml" match="8443" replace="${ADEMPIERE_SSL_PORT}" byline="true"/>
+		<replaceregexp file="${CATALINA_BASE}/conf/server.xml" match="&#60;/Server&#62;" replace="" byline="true"/>
+		<replaceregexp file="${CATALINA_BASE}/conf/server.xml" match="  &#60;/Service&#62;" replace="" byline="true"/>
+		<concat destfile="${CATALINA_BASE}/conf/server.xml" append="true">
 <![CDATA[    <Connector
             protocol="org.apache.coyote.http11.Http11NioProtocol"
+			compression="on" noCompressionUserAgents="gozilla, traviata" compressionMinSize="2048" compressableMimeType ="text/html,text/xml,text/plain,text/css,text/javascript"/>
             port="${ADEMPIERE_SSL_PORT}" maxThreads="200"
             scheme="https" secure="true" SSLEnabled="true"
             keystoreFile="${ADEMPIERE_KEYSTORE}" keystorePass="${ADEMPIERE_KEYSTOREPASS}"
@@ -663,17 +714,15 @@ $CATALINA_HOME/bin/shutdown.sh
 </Server>
 ]]>
 		</concat>
-
 	</target>
 
 	<!-- ==================================================== -->
 	<!-- Setup Tomcat              -->
 	<!-- ==================================================== -->
-	<target name="setupJetty" depends="driverPostgres, driverOracle , driverMySQL , driverMariaDB, setupLib, setupEAR " if="isAppsJetty" description="Setup jetty Server">
+	<target name="setupJetty" depends="driverPostgres, driverOracle , driverMySQL , driverMariaDB, jettyHome, setupLib, setupEAR " if="isAppsJetty" description="Setup jetty Server">
 
-		<echo message="Tomcat Base : ${env.JETTY_BASE}"/>	
-		<echo message="Tomcat Home : ${env.JETTY_HOME}"/>	
-
+		<echo message="Jetty Home : ${JETTY_HOME}"/>
+		<echo message="Jetty Base : ${JETTY_BASE}"/>
 		<delete dir="${ADEMPIERE_APPS_DEPLOY}/mobile" />
 		<delete dir="${ADEMPIERE_APPS_DEPLOY}/webui" />
 		<delete dir="${ADEMPIERE_APPS_DEPLOY}/admin" />
@@ -688,15 +737,15 @@ $CATALINA_HOME/bin/shutdown.sh
 		<copy file="${basedir}/lib/adempiereWebCM.war" tofile="${ADEMPIERE_APPS_DEPLOY}/ROOT.war"/>
 		<copy file="${basedir}/lib/ADInterface-1.0.war" tofile="${ADEMPIERE_APPS_DEPLOY}/ADInterface.war"/>
 
-		<mkdir dir="${ADEMPIERE_APPS_DEPLOY}/../lib/ext"/>
-		<copy file="${basedir}/lib/Adempiere.jar" tofile="${env.JETTY_BASE}/lib/ext/Adempiere.jar" overwrite="true" />
-		<copy file="${basedir}/lib/adempiereRoot.jar" tofile="${env.JETTY_BASE}/lib/ext/adempiereRoot.jar" overwrite="true" />
-		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${env.JETTY_BASE}/lib/ext/AdempiereSLib.jar" overwrite="true" />
-		<copy file="${basedir}/lib/adempiereApps.jar" tofile="${env.JETTY_BASE}/lib/ext/adempiereApps.jar" overwrite="true" />
+		<mkdir dir="${JETTY_BASE}/lib/ext"/>
+		<copy file="${basedir}/lib/Adempiere.jar" tofile="${JETTY_BASE}/lib/ext/Adempiere.jar" overwrite="true" />
+		<copy file="${basedir}/lib/adempiereRoot.jar" tofile="${JETTY_BASE}/lib/ext/adempiereRoot.jar" overwrite="true" />
+		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${JETTY_BASE}/lib/ext/AdempiereSLib.jar" overwrite="true" />
+		<copy file="${basedir}/lib/adempiereApps.jar" tofile="${JETTY_BASE}/lib/ext/adempiereApps.jar" overwrite="true" />
 
 		<echo message="JDBC Driver =${JDBC_DRIVER_CLASS} for ${ADEMPIERE_APPS_DEPLOY}" />
-		<copy file="${basedir}/lib/jetty-ds.xml" tofile="${env.JETTY_BASE}/jetty-ds.xml" filtering="yes" overwrite="yes"/>
-		<replace file="${env.JETTY_BASE}/jetty-ds.xml">
+		<copy file="${basedir}/lib/jetty-ds.xml" tofile="${JETTY_BASE}/jetty-ds.xml" filtering="yes" overwrite="yes"/>
+		<replace file="${JETTY_BASE}/jetty-ds.xml">
 			<replacefilter token="@@JDBC_DRIVER_CLASS@@" value="${JDBC_DRIVER_CLASS}" />
 		</replace>
 	</target>
@@ -709,10 +758,13 @@ $CATALINA_HOME/bin/shutdown.sh
 
 		<!-- Copy			-->
 		<echo message="AppsDeployment=${ADEMPIERE_APPS_DEPLOY}" />
+		<copy todir="${ADEMPIERE_APPS_DEPLOY}" failonerror="false">
+			<fileset dir="${ADEMPIERE_APPS_PATH}/standalone" includes="**"/>
+		</copy>
 		<!-- Deploy in exploded format for faster startup time -->
-		<copy file="${basedir}/lib/Adempiere.jar" tofile="${basedir}/wildfly/standalone/lib/ext/Adempiere.jar" overwrite="yes"/>
-		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${basedir}/wildfly/standalone/lib/ext/AdempiereSLib.jar"  overwrite="yes"/>
-		<copy file="${basedir}/lib/adempiereApps.jar" tofile="${basedir}/wildfly/standalone/lib/ext/adempiereApps.jar"  overwrite="yes"/>
+		<copy file="${basedir}/lib/Adempiere.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/lib/ext/Adempiere.jar" overwrite="yes"/>
+		<copy file="${basedir}/lib/AdempiereSLib.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/lib/ext/AdempiereSLib.jar"  overwrite="yes"/>
+		<copy file="${basedir}/lib/adempiereApps.jar" tofile="${ADEMPIERE_APPS_DEPLOY}/lib/ext/adempiereApps.jar"  overwrite="yes"/>
 	</target>
 
 
@@ -801,7 +853,7 @@ $CATALINA_HOME/bin/shutdown.sh
 		<delete>
 			<fileset dir="${env.ADEMPIERE_HOME}" includes="*.log" />
 		</delete>
-		<delete dir="${env.ADEMPIERE_HOME}\wildfly" />
+		<!--delete dir="${ADEMPIERE_APPS_DEPLOY}/deployments" /-->
 		<delete dir="${env.ADEMPIERE_HOME}\log" />
 
 		<echo message="=========== ftp to nas and download the current build==============="/>
@@ -810,12 +862,12 @@ $CATALINA_HOME/bin/shutdown.sh
 			userid="guest"
 			password="">
 			<fileset  dir="${env.ADEMPIERE_HOME}">
-				<include name="**/Adempiere_391.zip"/>
+				<include name="**/Adempiere_393.zip"/>
 			</fileset>
 		</ftp>
 
 		<!-- unzip and overwrite them and delete the downloaded directory -->
-		<unzip src="${env.ADEMPIERE_HOME}/Disk 1/Adempiere_391.zip" dest="${env.ADEMPIERE_HOME}\..\"  overwrite="yes" />
+		<unzip src="${env.ADEMPIERE_HOME}/Disk 1/Adempiere_393.zip" dest="${env.ADEMPIERE_HOME}\..\"  overwrite="yes" />
 		<delete dir="${env.ADEMPIERE_HOME}/Disk 1"/>
 
 		<echo message="======================Setup adempiere==============================" />

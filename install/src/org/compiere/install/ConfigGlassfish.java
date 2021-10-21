@@ -56,8 +56,11 @@ public class ConfigGlassfish extends Config {
 	 */
 	public void init()
 	{
+		p_data.setAppsServerDir(getServerDir());
+		p_data.setAppsServerDir(false);
+		//
 		p_data.setAppsServerDeployDir(getDeployDir());
-		p_data.setAppsServerDeployDir(true);
+		p_data.setAppsServerDeployDir(false);
 		//
 		p_data.setAppsServerJNPPort("3700");
 		p_data.setAppsServerJNPPort(true);
@@ -66,6 +69,15 @@ public class ConfigGlassfish extends Config {
 		p_data.setAppsServerSSLPort("443");
 		p_data.setAppsServerSSLPort(true);
 	}	//	init
+
+	/**
+	 * 	Get Server Dir
+	 *	@return Server dir
+	 */
+	private String getServerDir(){
+		return File.separator + "opt"
+			 + File.separator + "glassfish";
+	}	//	getServerDir
 
 	/**
 	 * 	Get Deployment Dir
@@ -114,7 +126,29 @@ public class ConfigGlassfish extends Config {
 		setProperty(ConfigurationData.ADEMPIERE_APPS_SERVER, appsServer.getHostName());
 		setProperty(ConfigurationData.ADEMPIERE_APPS_TYPE, p_data.getAppsServerType());
 
-		setProperty(ConfigurationData.ADEMPIERE_APPS_DEPLOY, p_data.getAppsServerDeployDir());
+		//	Server Dir
+		File serverPath = new File (p_data.getAppsServerDir());
+		pass = serverPath.exists();
+		error = "Not found: " + serverPath;
+		if (getPanel() != null)
+			signalOK(getPanel().okServerDir, "ErrorServerDir",
+					pass, true, error);
+		if (!pass)
+			return error;
+
+		setProperty(ConfigurationData.ADEMPIERE_APPS_PATH, p_data.getAppsServerDir());
+		log.info("OK: Deploy Directory = " + serverPath);
+
+		// Deploy Dir
+		p_data.setAppsServerDeployDir(getDeployDir());
+		File deploy = new File (p_data.getAppsServerDeployDir());
+		pass = deploy.exists();
+		error = "Not found: " + deploy;
+		if (getPanel() != null)
+			signalOK(getPanel().okDeployDir, "ErrorDeployDir",
+					pass, true, error);
+		if (!pass)
+			return error;
 		
 		//	JNP Port
 		int JNPPort = p_data.getAppsServerJNPPort();
