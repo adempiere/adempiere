@@ -9,7 +9,6 @@
 	<classpathentry kind="src" path="org.adempiere.project/src/main/java"/>
 	<classpathentry kind="src" path="org.adempiere.request/src/main/java"/>
 	<classpathentry kind="src" path="glassfishfacet/src"/>
-	<classpathentry kind="src" path="jbossfacet/src"/>
 	<classpathentry kind="src" path="client/src"/>
 	<classpathentry kind="src" path="sqlj/src"/>
 	<classpathentry kind="src" path="install/src"/>
@@ -80,6 +79,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
 			<attribute name="module" value="true"/>
+			<attribute name="add-exports" value="java.desktop/sun.swing=ALL-UNNAMED:java.desktop/sun.awt=ALL-UNNAMED:java.base/sun.security.provider=ALL-UNNAMED:java.naming/com.sun.jndi.ldap=ALL-UNNAMED:java.xml/org.w3c.dom=ALL-UNNAMED"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="tools/lib/jstl.jar">
@@ -427,7 +427,6 @@
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-6.17.0.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-fonts-6.17.0.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/iText-2.1.7.jar"/>
-	<classpathentry kind="lib" path="wildfly/client/lib/jbossall-client-4.2.2.GA.jar"/>
 	<classpathentry kind="lib" path="tools/lib/jakarta.servlet.jsp-api-3.0.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/jakarta.servlet-api-5.0.0.jar"/>
 	<classpathentry kind="output" path="bin"/>

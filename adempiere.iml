@@ -166,7 +166,6 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/base/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/glassfishfacet/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/jbossfacet/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/client/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sqlj/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/install/src" isTestSource="false" />
@@ -1941,15 +1940,6 @@
         <JAVADOC />
         <SOURCES />
         <jarDirectory url="jar://$MODULE_DIR$/JasperReportsTools/lib/jasperreports-fonts-6.17.0.jar!/" recursive="false" />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/wildfly/client/lib/jbossall-client-4.2.2.GA.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="scala-sdk-2.13.6" level="project" />
