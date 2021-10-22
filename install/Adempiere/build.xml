@@ -636,14 +636,14 @@
 		<echo file="${CATALINA_BASE}/bin/startup.bat" append="false">
 set CATALINA_BASE=${CATALINA_BASE}		
 set CATALINA_TMPDIR=${CATALINA_BASE}\temp
-set CATALINA_PID=$CATALINA_BASE}\tomcat.pid
+set CATALINA_PID=${CATALINA_BASE}\tomcat.pid
 %CATALINA_HOME%\bin\startup.bat
 		</echo>
 			
 		<echo file="${CATALINA_BASE}/bin/startup.sh" append="false">#\!/bin/tcsh
 export CATALINA_BASE=${CATALINA_BASE}
 export CATALINA_TMPDIR=${CATALINA_BASE}/temp
-export CATALINA_PID="$CATALINA_BASE}/tomcat.pid"
+export CATALINA_PID=${CATALINA_BASE}/tomcat.pid
 $CATALINA_HOME/bin/startup.sh
 		</echo>
 

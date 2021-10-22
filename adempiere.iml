@@ -269,15 +269,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="commons-httpclient.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/jboss/lib/commons-httpclient.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
       <library name="jsp-api.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/jsp-api.jar!/" />
@@ -524,24 +515,6 @@
       <library name="iReport.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/JasperReportsTools/lib/iReport.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="jbosssx-client.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/jboss/client/jbosssx-client.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="jnp-client.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/jboss/client/jnp-client.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1968,6 +1941,15 @@
         <JAVADOC />
         <SOURCES />
         <jarDirectory url="jar://$MODULE_DIR$/JasperReportsTools/lib/jasperreports-fonts-6.17.0.jar!/" recursive="false" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/wildfly/client/lib/jbossall-client-4.2.2.GA.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="scala-sdk-2.13.6" level="project" />
