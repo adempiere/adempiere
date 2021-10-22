@@ -37,6 +37,8 @@ if [ $ADEMPIERE_APPS_TYPE = "wildfly" ]; then
                   sleep 7
                   sh $WILDFLY_HOME/bin/jboss-cli.sh --connect command="/subsystem=security/security-domain=custom-security-realm:add"
                   sh $WILDFLY_HOME/bin/jboss-cli.sh --connect command="/subsystem=security/security-domain=custom-security-realm/authentication=classic:add(login-modules=[{"code" => "org.adempiere.as.jboss.AdempiereLoginModule", "flag" => "required", "module-options"=[ ("junauthenticatedIdentity"=>"anonymous")]}])"
+                  sh $WILDFLY_HOME/bin/jboss-cli.sh --connect command="/subsystem=undertow/configuration=filter/gzip=gzipFilter/:add"
+                  sh $WILDFLY_HOME/bin/jboss-cli.sh --connect command="/subsystem=undertow/server=default-server/host=default-host/filter-ref=gzipFilter:add(predicate=\"exists['%{o,Content-Type}'] and regex[pattern='(?:application/javascript|text/css|tex/html|text/xml|application/json)(;.*)?', value=%{o,Content-Type}, full-match=true]\")"
                   sh $WILDFLY_HOME/bin/jboss-cli.sh --connect command=:shutdown
                   echo "configured" > $WILDFLY_HOME/login-modules.configured
                   echo "-> Added Login modules"

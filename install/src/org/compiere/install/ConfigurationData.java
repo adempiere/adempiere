@@ -967,12 +967,12 @@ public class ConfigurationData
 	/** Apple VM			*/
 	private static String	JAVATYPE_MAC = "macOS";
 	/** IBM VM				*/
-	private static String	JAVATYPE_IBM = "<ibm>";
+	//private static String	JAVATYPE_IBM = "<ibm>";
 	/** Open JDK			*/
 	private static String	JAVATYPE_OPENJDK = "openJDK";
 	/** Java VM Types		*/
 	static String[]	JAVATYPE = new String[]
-		{JAVATYPE_ORACLE, JAVATYPE_OPENJDK, JAVATYPE_MAC, JAVATYPE_IBM};
+		{JAVATYPE_ORACLE, JAVATYPE_OPENJDK, JAVATYPE_MAC};
 	//	FR [ 402 ]
 	/** None = N */
 	private static final String ENCRYPTIONTYPE_None = "None";
@@ -1433,8 +1433,8 @@ public class ConfigurationData
 		new ConfigOracle(this,true),
 		new ConfigOracle(this,false),
 		new ConfigPostgreSQL(this),
-        new ConfigMySQL(this),
-		new ConfigMariaDB(this)
+        //new ConfigMySQL(this),
+		//new ConfigMariaDB(this)
 		};
 
 	/**

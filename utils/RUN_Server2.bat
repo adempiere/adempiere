@@ -27,6 +27,8 @@ IF EXIST %WILDFLY_HOME%\login-modules.configured (
 @timeout 5
 @Call %WILDFLY_HOME%\bin\jboss-cli.bat --connect command="/subsystem=security/security-domain=custom-security-realm:add"
 @Call %WILDFLY_HOME%\bin\jboss-cli.bat --connect command="/subsystem=security/security-domain=custom-security-realm/authentication=classic:add(login-modules=[{"code" => "org.adempiere.as.jboss.AdempiereLoginModule", "flag" => "required", "module-options"=[ ("junauthenticatedIdentity"=>"anonymous")]}])"
+@Call %WILDFLY_HOME%\bin\jboss-cli.bat --connect command="/subsystem=undertow/configuration=filter/gzip=gzipFilter/:add"
+@Call %WILDFLY_HOME%\bin\jboss-cli.bat --connect command="/subsystem=undertow/server=default-server/host=default-host/filter-ref=gzipFilter:add(predicate=\"exists['%{o,Content-Type}'] and regex[pattern='(?:application/javascript|text/css|tex/html|text/xml|application/json)(;.*)?', value=%{o,Content-Type}, full-match=true]\")"
 @Call %WILDFLY_HOME%\bin\jboss-cli.bat --connect command=:shutdown
 @Echo "-> Added Login modules"
 @Echo configured > %WILDFLY_HOME%\login-modules.configured

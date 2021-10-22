@@ -484,7 +484,7 @@
 			<fileset dir="${basedir}/lib" includes="Adempiere.jar,AdempiereSLib.jar,adempiereRoot.jar,adempiereApps.jar,adempiereApps.war,adempiereRoot.war,adempiereWebStore.war,adempiereWebCM.war,webui.war,mobile.war,ADInterface-1.0.war" />
 			<metainf dir="${basedir}/lib" includes="wildfly-ds.xml"/>
 		</ear>
-		<copy file="${basedir}/lib/adempiere.ear" tofile="${ADEMPIERE_APPS_DEPLOY}/adempiere.ear" overwrite="yes"/>
+		<copy file="${basedir}/lib/adempiere.ear" tofile="${ADEMPIERE_APPS_DEPLOY}/deployments/adempiere.ear" overwrite="yes"/>
 	</target>
 
 	<target name="glassfishEAR" if="isAppsGlassfish">
