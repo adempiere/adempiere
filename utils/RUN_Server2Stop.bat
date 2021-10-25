@@ -11,6 +11,9 @@
 :WILDFLY
 @Set NOPAUSE=Yes
 
+@CD %WILDFLY_HOME%\bin
+Call jboss-cli.bat --connect command=:shutdown
+
 :TOMCAT
 @Set NOPAUSE=Yes
 Call %CATALINA_BASE%/tomcat/bin/shutdown.bat
@@ -18,9 +21,6 @@ Call %CATALINA_BASE%/tomcat/bin/shutdown.bat
 :JETTY
 @Set NOPAUSE=Yes
 Call java $JAVA_OPTS -jar %JETTY_HOME%/start.jar jetty.base=%JETTY_BASE% --stop stop.port=%ADEMPIERE_WEB_PORT%
-
-@CD %WILDFLY_HOME%\bin
-Call jboss-cli.bat --connect command=:shutdown
 
 @Echo Done Stopping Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
 @GOTO END
