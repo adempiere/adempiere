@@ -24,7 +24,6 @@
 package org.adempiere.webui.panel;
 
 import java.util.Properties;
-import java.util.ResourceBundle;
 
 import org.adempiere.webui.LayoutUtils;
 import org.adempiere.webui.component.ConfirmPanel;
@@ -35,8 +34,6 @@ import org.adempiere.webui.theme.ITheme;
 import org.adempiere.webui.theme.ThemeManager;
 import org.adempiere.webui.util.BrowserToken;
 import org.adempiere.webui.window.LoginWindow;
-import org.compiere.model.MSystem;
-import org.compiere.util.CLogger;
 import org.compiere.util.EMail;
 import org.compiere.util.Msg;
 import org.spin.util.GeneratePassword;
@@ -45,7 +42,6 @@ import org.zkoss.zhtml.Table;
 import org.zkoss.zhtml.Td;
 import org.zkoss.zhtml.Tr;
 import org.zkoss.zk.au.out.AuFocus;
-import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
@@ -186,7 +182,7 @@ public class PassResetPanel extends Window implements EventListener
     **/
     public void validatePassReset()
     {
-    	GeneratePassword pass = new GeneratePassword();
+    	GeneratePassword pass = new GeneratePassword(ctx);
 		String msg = pass.doIt(txtUserId.getValue());
 		if(msg.contains(EMail.SENT_OK)) {
         	Executions.sendRedirect("index.zul");
