@@ -11,16 +11,18 @@
 :WILDFLY
 @Set NOPAUSE=Yes
 
+@CD %WILDFLY_HOME%\bin
+Call jboss-cli.bat --connect command=:shutdown
+@GOTO END
+
 :TOMCAT
 @Set NOPAUSE=Yes
-Call %CATALINA_BASE%/tomcat/bin/shutdown.bat
+Call %CATALINA_BASE%/bin/shutdown.bat
+@GOTO END
 
 :JETTY
 @Set NOPAUSE=Yes
-Call java $JAVA_OPTS -jar %JETTY_HOME%/start.jar jetty.base=%JETTY_BASE% --stop stop.port=%ADEMPIERE_WEB_PORT%
-
-@CD %WILDFLY_HOME%\bin
-Call jboss-cli.bat --connect command=:shutdown
+Call java -jar %JETTY_HOME%/start.jar jetty.base=%JETTY_BASE% stop.port=7777 stop.key=%ADEMPIERE_KEYSTOREPASS% --stop
 
 @Echo Done Stopping Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
 @GOTO END
@@ -29,7 +31,7 @@ Call jboss-cli.bat --connect command=:shutdown
 @Echo Apps Server stop of %ADEMPIERE_APPS_TYPE% not supported
 
 :END
-@Rem Sleep 30
-@CHOICE /C YN /T 30 /D N > NUL
+@Rem Sleep 5
+@CHOICE /C YN /T 5 /D N > NUL
 
 @Exit

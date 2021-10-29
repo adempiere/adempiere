@@ -39,7 +39,7 @@ then
         echo "Jetty Base directory : ${JETTY_BASE}"
         if test -f "$JETTY_BASE/jetty.pid"
           then
-            kill -9 `cat $JETTY_BASE/jetty.pid`
+            $JAVA_HOME/bin/java $JAVA_OPTS -jar $JETTY_HOME/start.jar stop.port=7777 stop.key=$ADEMPIERE_KEYSTOREPASS --stop
             rm $JETTY_BASE/jetty.pid
         fi
     fi

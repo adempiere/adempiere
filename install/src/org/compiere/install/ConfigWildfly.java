@@ -43,6 +43,9 @@ public class ConfigWildfly extends Config
 	 */
 	public void init()
 	{
+		p_data.setAppsServerDir(getServerDir());
+		p_data.setAppsServerDir(true);
+		//
 		p_data.setAppsServerDeployDir(getDeployDir());
 		p_data.setAppsServerDeployDir(true);
 		//
@@ -55,15 +58,22 @@ public class ConfigWildfly extends Config
 	}	//	init
 
 	/**
+	 * 	Get Server Dir
+	 *	@return Server dir
+	 */
+	private String getServerDir()
+	{
+		return  File.separator + "opt"
+			  + File.separator + "wildfly";
+	}	//	getDeployDir
+
+	/**
 	 * 	Get Deployment Dir
 	 *	@return deployment dir
 	 */
 	private String getDeployDir()
 	{
-		return p_data.getAdempiereHome()
-			+ File.separator + "wildfly"
-			+ File.separator + "standalone"
-			+ File.separator + "deployments";
+		return p_data.getAppsServerDir() + File.separator + "standalone";
 	}	//	getDeployDir
 	
 	/**
@@ -97,6 +107,19 @@ public class ConfigWildfly extends Config
 		log.info("OK: AppsServer = " + appsServer);
 		setProperty(ConfigurationData.ADEMPIERE_APPS_SERVER, appsServer.getHostName());
 		setProperty(ConfigurationData.ADEMPIERE_APPS_TYPE, p_data.getAppsServerType());
+
+		//	Server Dir
+		File serverPath = new File (p_data.getAppsServerDir());
+		pass = serverPath.exists();
+		error = "Not found: " + serverPath;
+		if (getPanel() != null)
+			signalOK(getPanel().okServerDir, "ErrorServerDir",
+					pass, true, error);
+		if (!pass)
+			return error;
+
+		setProperty(ConfigurationData.ADEMPIERE_APPS_PATH, p_data.getAppsServerDir());
+		log.info("OK: Deploy Directory = " + serverPath);
 
 		//	Deployment Dir
 		p_data.setAppsServerDeployDir(getDeployDir());

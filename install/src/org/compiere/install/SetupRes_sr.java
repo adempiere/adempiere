@@ -77,7 +77,10 @@ public class SetupRes_sr extends ListResourceBundle
 	{ "JavaTypeInfo",			"Java VM Vendor"},
 	{ "AppsType",				"\u0422\u0438\u043F \u0441\u0435\u0440\u0432\u0435\u0440\u0430"},
 	{ "AppsTypeInfo",			"\u0422\u0438\u043F JEE \u0430\u043F\u043B\u0438\u043A\u0430\u0442\u0438\u0432\u043D\u043E\u0433 \u0441\u0435\u0440\u0432\u0435\u0440\u0430"},
-	{ "DeployDir",				"Deployment"},
+	{ "ServerDir",				"Именик сервера апликација"},
+	{ "ServerDirInfo",			"Директоријум сервера апликација Ј2ЕЕ"},
+	{ "ErrorServerDir",			"Грешка у директоријуму сервера апликација"},
+	{ "DeployDir",				"Распоређивање"},
 	{ "DeployDirInfo",			"J2EE Deployment \u0434\u0438\u0440\u0435\u043A\u0442\u043E\u0440\u0438\u0458\u0443\u043C"},
 	{ "ErrorDeployDir",			"Error Deployment \u0434\u0438\u0440\u0435\u043A\u0442\u043E\u0440\u0438\u0458\u0443\u043C"},
 	//
