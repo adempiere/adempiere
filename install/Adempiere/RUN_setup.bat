@@ -1,6 +1,7 @@
 @Title Install ADempiere Server
 @Echo off
 
+@CALL utils\functions.bat
 
 @if not "%JAVA_HOME%" == "" goto JAVA_HOME_OK
 @Set JAVA=java
