@@ -781,6 +781,12 @@ class Convert_PostgreSQLTest {
 
 				"ALTER TABLE M_Package ADD COLUMN DocAction CHAR(2)"));
 
+		argList.add(arguments(" [Bug Report] ALTER TABLE C_Invoice MODIFY Description CLOB #3671",
+
+				"ALTER TABLE C_INVOICE ADD Description_T CLOB",
+
+				"ALTER TABLE C_INVOICE ADD COLUMN Description_T TEXT"));
+
 		argList.add(arguments("[Bug Report] XML 06380 Error in DDL ALTER TABLE For Oracle #3633",
 
 				"ALTER TABLE M_Package MODIFY DocAction CHAR(2) DEFAULT 'CO'",
