@@ -3,11 +3,14 @@
 @Rem Modified by Horacio Miranda, hmiranda@prolinux.cl, 2021-10-30
 
 @REM CALLED_WITH_CMD_C [YES|NO]
-@call(../util/functions.bat)
+
+
+@CALL ..\utils\functions.bat
 
 @SET JAVA_OPTS=-Xms512m -Xmx512m
 
 @echo Building ...
+echo %JAVA_HOME%
 @"%JAVA_HOME%\bin\java" %JAVA_OPTS% -classpath %JAVA_CLASSPATH% -Dant.home=%ANT_HOME% org.apache.tools.ant.launch.Launcher
 @IF ERRORLEVEL 1 goto ERROR
 

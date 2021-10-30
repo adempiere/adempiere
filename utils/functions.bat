@@ -4,24 +4,15 @@
 @REM Variable CALLED_WITH_CMD_C is set when the bat is called from cmd
 @REM CALLED_WITH_CMD_C [YES|NO]
 
+@REM Example
 @REM IF "%CALLED_WITH_CMD_C%"=="NO"  (
 @REM @pause
 @REM @exit
 @REM )
 
-@:pauseIfDoubleClicked
-@setlocal enabledelayedexpansion
-@set testl=%cmdcmdline:"=%
-@set testr=!testl:%~nx0=!
-@if "%testl%" == "%testr%" (
-@  set CALLED_WITH_CMD_C=YES
-) ELSE (
-@  set CALLED_WITH_CMD_C=NO
-)
-
 @Rem Check java home
 @SET JAVA_HOME=%JAVA_HOME:Program Files=PROGRA~1%
-@IF EXIST %JAVA_HOME%\bin goto CONTINUE
+@IF EXIST %JAVA_HOME%\bin goto JAVAOK
 @SET PATH=%JAVA_HOME%\bin;%PATH%
 
 :JAVAHOME
@@ -32,9 +23,17 @@ echo %JAVA_HOME%
 @pause
 @exit
 
-:CONTINUE
-@echo JAVA_HOME=%JAVA_HOME%
-
+:JAVAOK
 @Rem Set classpath
 @SET ANT_HOME=..\tools\lib\ant\apache-ant-1.10.10
 @SET JAVA_CLASSPATH=%CLASSPATH%;%ANT_HOME%\lib\ant-launcher.jar;..\tools\lib\commons-net-1.4.0.jar
+
+@:pauseIfDoubleClicked
+@setlocal enabledelayedexpansion
+@set testl=%cmdcmdline:"=%
+@set testr=!testl:%~nx0=!
+@if "%testl%" == "%testr%" (
+@  set CALLED_WITH_CMD_C=YES
+) ELSE (
+@  set CALLED_WITH_CMD_C=NO
+)
