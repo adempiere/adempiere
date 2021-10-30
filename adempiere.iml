@@ -166,7 +166,6 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/base/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/glassfishfacet/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/jbossfacet/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/client/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sqlj/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/install/src" isTestSource="false" />
@@ -263,15 +262,6 @@
       <library name="Verisign.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/Verisign.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="commons-httpclient.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/jboss/lib/commons-httpclient.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -524,24 +514,6 @@
       <library name="iReport.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/JasperReportsTools/lib/iReport.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="jbosssx-client.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/jboss/client/jbosssx-client.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="jnp-client.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/jboss/client/jnp-client.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

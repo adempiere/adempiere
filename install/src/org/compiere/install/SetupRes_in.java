@@ -74,9 +74,12 @@ public class SetupRes_in extends ListResourceBundle
 	{ "KeyStorePasswordInfo",	"Kata Sandi untuk SSL Key Store" },
 	//
 	{ "JavaType",				"Java VM"},
-	{ "JavaTypeInfo",			"Vendor Java VM"},
+	{ "JavaTypeInfo",			"Penjaja Java VM"},
 	{ "AppsType",				"Tipe Server"},
 	{ "AppsTypeInfo",			"Tipe Server Aplikasi J2EE"},
+	{ "ServerDir",				"ADirektori Server Aplikasi"},
+	{ "ServerDirInfo",			"Direktori Server Aplikasi J2EE"},
+	{ "ErrorServerDir",			"Kesalahan dalam Direktori Server Aplikasi"},
 	{ "DeployDir",				"Direktori"},
 	{ "DeployDirInfo",			"Direktori sebar aplikasi J2EE"},
 	{ "ErrorDeployDir",			"Error direktori sebar aplikasi J2EE"},
