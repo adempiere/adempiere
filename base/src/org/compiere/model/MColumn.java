@@ -725,7 +725,7 @@ public class MColumn extends X_AD_Column
 		}
 
 		StringBuffer sqlBase = new StringBuffer("ALTER TABLE ");
-		if(DisplayType.isLOB(getAD_Reference_ID())) {
+		if("CLOB".equals(getSQLDataType())) {
 
 			// ALTER TABLE <TABLE_NAME> ADD <COLUMN_NAME>_T CLOB;
 			sqlBase.append(table.getTableName())
@@ -816,8 +816,8 @@ public class MColumn extends X_AD_Column
 		if (isKey()) {
 			String constraintName;
 			if (tableName.length() > 26)
-				// Oracle restricts object names to 30 characters
-				constraintName = tableName.substring(0, 26) + "_Key";
+			// Oracle restricts object names to 30 characters
+			constraintName = tableName.substring(0, 26) + "_Key";
 			else
 				constraintName = tableName + "_Key";
 			return "CONSTRAINT " + constraintName + " PRIMARY KEY (" + getColumnName() + ")";
