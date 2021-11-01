@@ -756,7 +756,7 @@ public class MColumn extends X_AD_Column
 			sqlBase.append("ALTER TABLE ").append(table.getTableName()).append(" RENAME COLUMN ")
 					.append(getColumnName()).append("_T TO ").append(getColumnName())
 					.append(DB.SQLSTATEMENT_SEPARATOR);
-			sql.append(DB.SQLSTATEMENT_SEPARATOR).append(sqlBase);
+			sql.append(sqlBase);
 		} else {
 
 			// For non ID columns, we can manage defaults and other stuff
