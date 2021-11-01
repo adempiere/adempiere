@@ -38,6 +38,7 @@ import org.adempiere.webui.component.Row;
 import org.adempiere.webui.component.Rows;
 import org.adempiere.webui.component.WListbox;
 import org.adempiere.webui.editor.WTableDirEditor;
+import org.adempiere.webui.editor.WLocatorEditor;
 import org.adempiere.webui.event.WTableModelEvent;
 import org.adempiere.webui.event.WTableModelListener;
 import org.adempiere.webui.panel.ADForm;
@@ -49,6 +50,7 @@ import org.adempiere.webui.window.FDialog;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.I_C_Order;
 import org.compiere.model.MDocType;
+import org.compiere.model.MLocatorLookup;
 import org.compiere.model.MLookup;
 import org.compiere.model.MLookupFactory;
 import org.compiere.model.MProduct;
@@ -151,6 +153,9 @@ public class WOutBoundOrder extends OutBoundOrder
 	private Label 			shipperLabel = new Label();
 	private WTableDirEditor shipperPick = null;
 	private DateFormat 		dateFormat 		 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	/** Locator 				*/
+	protected Label locatorLabel = new Label();
+	protected WLocatorEditor locatorField = new WLocatorEditor();
 	
 	/** Panels				*/
 	private Panel 			orderPanel = new Panel();
@@ -333,6 +338,9 @@ public class WOutBoundOrder extends OutBoundOrder
 		row = rows.newRow();
 		row.appendChild(selectAllButton);
 		selectAllButton.setImage("/images/SelectAll24.png");
+
+		row.appendChild(locatorLabel.rightAlign());
+		row.appendChild(locatorField.getComponent());
 		row.appendChild(new Space());
 		row.appendChild(confirmPanel);
 		
@@ -517,6 +525,14 @@ public class WOutBoundOrder extends OutBoundOrder
 		//	Document Action
 		docActionPick = new WTableDirEditor("DocAction", true, false, true,docActionL);
 		docActionPick.setValue(DocAction.ACTION_Complete);
+
+		locatorLabel.setValue(Msg.translate(Env.getCtx(), "M_Locator_ID"));
+		locatorLabel.setMandatory(true);
+		MLocatorLookup locator = new MLocatorLookup(Env.getCtx(), form.getWindowNo());
+		locatorField = new WLocatorEditor ("M_Locator_ID", true, false, true, locator, form.getWindowNo());
+		locatorField.setMandatory(true);
+		locatorField.addValueChangeListener(this);
+
 		//	
 		documentDateField.setValue(Env.getContextAsDate(Env.getCtx(), "#Date"));
 		//	Set Date
@@ -655,8 +671,15 @@ public class WOutBoundOrder extends OutBoundOrder
 	 * @return
 	 */
 	private boolean validateDataForSave() {
-		String error = validateData();
+
 		StringBuffer errorMessage = new StringBuffer();
+
+		if (locatorField.getValue() == null )
+			errorMessage.append(" @WM_InOutBound_ID@ @M_Locator_ID@ @NotFound@");
+		else
+			locatorId = (Integer)locatorField.getValue();
+
+		String error = validateData();
 		if(!Util.isEmpty(error)) {
 			errorMessage.append(error);
 		}
