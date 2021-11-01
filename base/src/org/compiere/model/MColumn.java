@@ -736,6 +736,8 @@ public class MColumn extends X_AD_Column
 			String defaultValue = getDefaultValueSQL();
 			sqlBase.append(" ALTER TABLE ")
 					.append(table.getTableName())
+					.append(" MODIFY ")
+					.append(getColumnName())
 					.append(" DEFAULT ")
 					.append(defaultValue)
 					.append(DB.SQLSTATEMENT_SEPARATOR);
@@ -748,12 +750,13 @@ public class MColumn extends X_AD_Column
 			// ALTER TABLE <TABLE_NAME> DROP(<COLUMN_NAME>);
 			sqlBase.append("ALTER TABLE ").append(table.getTableName()).append(" DROP(")
 					.append(getColumnName()).append(")")
-					.append(getColumnName()).append(DB.SQLSTATEMENT_SEPARATOR);
+					.append(DB.SQLSTATEMENT_SEPARATOR);
 
 			// ALTER TABLE <TABLE_NAME> RENAME COLUMN <COLUMN_NAME>_T TO <COLUMN_NAME>;
 			sqlBase.append("ALTER TABLE ").append(table.getTableName()).append(" RENAME COLUMN ")
 					.append(getColumnName()).append("_T TO ").append(getColumnName())
-					.append(getColumnName()).append(DB.SQLSTATEMENT_SEPARATOR);
+					.append(DB.SQLSTATEMENT_SEPARATOR);
+			sql.append(DB.SQLSTATEMENT_SEPARATOR).append(sqlBase);
 		} else {
 
 			// For non ID columns, we can manage defaults and other stuff
