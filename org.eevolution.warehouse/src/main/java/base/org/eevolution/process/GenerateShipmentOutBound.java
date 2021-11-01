@@ -46,6 +46,7 @@ import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MStorage;
 import org.compiere.model.PO;
+import org.compiere.model.X_C_Order;
 import org.compiere.process.ProcessInfo;
 import org.eevolution.model.I_DD_Order;
 import org.eevolution.model.MDDOrder;
@@ -110,10 +111,10 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
         // Generate Shipment based on Outbound Order
         if (outboundLine.getC_OrderLine_ID() > 0) {
             MOrderLine orderLine = outboundLine.getOrderLine();
-            if (orderLine.getQtyOrdered().subtract(orderLine.getQtyDelivered()).subtract(outboundLine.getPickedQty()).signum() <= 0 && !isIncludeNotAvailable())
+            if (orderLine.getQtyToDelivery().subtract(outboundLine.getPickedQty()).signum() < 0 && !isIncludeNotAvailable())
                 return;
 
-            BigDecimal qtyDelivered = getQtyDelivered(outboundLine, orderLine.getQtyDelivered());
+            BigDecimal qtyToDelivery = getSalesOrderQtyToDelivery(outboundLine, orderLine);
             MInOut shipment = getShipment(orderLine, outboundLine.getParent());
             MInOutLine shipmentLine = new MInOutLine(outboundLine.getCtx(), 0, outboundLine.get_TrxName());
             shipmentLine.setM_InOut_ID(shipment.getM_InOut_ID());
@@ -121,12 +122,13 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
             shipmentLine.setM_Product_ID(outboundLine.getM_Product_ID());
             shipmentLine.setDescription(outboundLine.getDescription());
             shipmentLine.setC_UOM_ID(outboundLine.getC_UOM_ID());
-            shipmentLine.setQtyEntered(qtyDelivered);
-            shipmentLine.setMovementQty(qtyDelivered);
+            shipmentLine.setQtyEntered(qtyToDelivery);
+            shipmentLine.setMovementQty(qtyToDelivery);
             shipmentLine.setC_OrderLine_ID(orderLine.getC_OrderLine_ID());
             shipmentLine.setM_Shipper_ID(outboundLine.getM_Shipper_ID());
             shipmentLine.setM_FreightCategory_ID(outboundLine.getM_FreightCategory_ID());
             shipmentLine.setFreightAmt(outboundLine.getFreightAmt());
+            shipmentLine.setM_AttributeSetInstance_ID(outboundLine.getM_AttributeSetInstance_ID());
             shipmentLine.setWM_InOutBoundLine_ID(outboundLine.getWM_InOutBoundLine_ID());
             shipmentLine.saveEx();
         }
@@ -138,19 +140,19 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
             if (distributionOrders.get(distributionOrderLine.getDD_Order_ID()) == null)
                 distributionOrders.put(distributionOrderLine.getDD_Order_ID(), distributionOrderLine.getDD_Order());
 
-            distributionOrderLine.setConfirmedQty(outboundLine.getPickedQty());
+            distributionOrderLine.setConfirmedQty(getDistributionOrderQtyToDelivery(outboundLine, distributionOrderLine));
             distributionOrderLine.saveEx();
         }
 
         // Generate Delivery Manufacturing Order
         if (outboundLine.getPP_Order_BOMLine_ID() > 0) {
             MPPOrderBOMLine orderBOMLine = (MPPOrderBOMLine) outboundLine.getPP_Order_BOMLine();
-            if (outboundLine.getPickedQty().subtract(orderBOMLine.getQtyDelivered()).signum() <= 0 && !isIncludeNotAvailable())
+            if (outboundLine.getPickedQty().subtract(orderBOMLine.getQtyDelivered()).signum() < 0 && !isIncludeNotAvailable())
                 return;
 
             MStorage[] storage = MStorage.getAll(getCtx(), orderBOMLine.getM_Product_ID(), outboundLine.getM_LocatorTo_ID(), get_TrxName());
 
-            BigDecimal qtyDelivered = getQtyDelivered(outboundLine, orderBOMLine.getQtyDelivered());
+            BigDecimal qtyDelivered = getManufacturingOrderQtyToDelivery(outboundLine , orderBOMLine);
             List<MPPCostCollector> issues = MPPOrder.createIssue(
                     orderBOMLine.getParent(),
                     orderBOMLine,
@@ -170,15 +172,67 @@ public class GenerateShipmentOutBound extends GenerateShipmentOutBoundAbstract {
         }
     }
 
-    private BigDecimal getQtyDelivered(MWMInOutBoundLine outBoundLine, BigDecimal qtyDemandDelivered) {
-        BigDecimal qtyDelivered;
-
+    private BigDecimal getSalesOrderQtyToDelivery(MWMInOutBoundLine outboundLine, MOrderLine orderLine) {
+        BigDecimal qtyToDelivery;
         if (isIncludeNotAvailable())
-            qtyDelivered = outBoundLine.getQtyToPick().subtract(qtyDemandDelivered);
-        else
-            qtyDelivered = outBoundLine.getPickedQty().subtract(qtyDemandDelivered);
+            qtyToDelivery = outboundLine.getQtyToPick();
+        else {
+            //Sales Order Qty To Delivery
+            BigDecimal salesOrderQtyToDelivery = orderLine.getQtyToDelivery();
+            //Outbound Order Qty To Delivery
+            BigDecimal outboundOrderQtyToDelivery = outboundLine.getPickedQty().subtract(outboundLine.getShipmentQtyDelivered());
+            //The quantity to delivery of the Outbound order cannot be greater than the pending quantity to delivery  of the sales order.
+            if (outboundOrderQtyToDelivery.compareTo(salesOrderQtyToDelivery) > 0)
+                qtyToDelivery = salesOrderQtyToDelivery;
+            else if (!X_C_Order.DELIVERYRULE_Force.equals(orderLine.getParent().getDeliveryRule()) &&
+                     !X_C_Order.DELIVERYRULE_Manual.equals(orderLine.getParent().getDeliveryRule()))
+                qtyToDelivery = outboundOrderQtyToDelivery;
+            else
+                qtyToDelivery = salesOrderQtyToDelivery;
+        }
+        return qtyToDelivery;
+    }
 
-        return qtyDelivered;
+    private BigDecimal getManufacturingOrderQtyToDelivery(MWMInOutBoundLine outboundLine, MPPOrderBOMLine orderBOMLine) {
+        BigDecimal qtyToDelivery;
+        if (isIncludeNotAvailable())
+            qtyToDelivery = outboundLine.getQtyToPick();
+        else {
+            //Sales Order Qty To Delivery
+            BigDecimal manufacturingOrderQtyToDelivery = orderBOMLine.getQtyRequired().subtract(orderBOMLine.getQtyRequired());
+            //Outbound Order Qty To Delivery
+            BigDecimal outboundOrderQtyToDelivery = outboundLine.getPickedQty().subtract(outboundLine.getManufacturingOrderQtyDelivered());
+            //The quantity to delivery of the Outbound order cannot be greater than the pending quantity to delivery  of the sales order.
+            if (outboundOrderQtyToDelivery.compareTo(manufacturingOrderQtyToDelivery) > 0)
+                qtyToDelivery = manufacturingOrderQtyToDelivery;
+            else if (!X_C_Order.DELIVERYRULE_Force.equals(orderBOMLine.getParent().getDeliveryRule()) &&
+                     !X_C_Order.DELIVERYRULE_Manual.equals(orderBOMLine.getParent().getDeliveryRule()))
+                qtyToDelivery = outboundOrderQtyToDelivery;
+            else
+                qtyToDelivery = manufacturingOrderQtyToDelivery;
+        }
+        return qtyToDelivery;
+    }
+
+    private BigDecimal getDistributionOrderQtyToDelivery(MWMInOutBoundLine outboundLine, MDDOrderLine orderLine) {
+        BigDecimal qtyToDelivery;
+        if (isIncludeNotAvailable())
+            qtyToDelivery = outboundLine.getQtyToPick();
+        else {
+            //Sales Order Qty To Delivery
+            BigDecimal distributionOrderQtyToDelivery = orderLine.getQtyToDeliver();
+            //Outbound Order Qty To Delivery
+            BigDecimal outboundOrderQtyToDelivery = outboundLine.getPickedQty().subtract(outboundLine.getDistributionOrderQtyDelivered());
+            //The quantity to delivery of the Outbound order cannot be greater than the pending quantity to delivery  of the sales order.
+            if (outboundOrderQtyToDelivery.compareTo(distributionOrderQtyToDelivery) > 0)
+                qtyToDelivery = distributionOrderQtyToDelivery;
+            else if (!X_C_Order.DELIVERYRULE_Force.equals(orderLine.getParent().getDeliveryRule()) &&
+                     !X_C_Order.DELIVERYRULE_Manual.equals(orderLine.getParent().getDeliveryRule()))
+                qtyToDelivery = outboundOrderQtyToDelivery;
+            else
+                qtyToDelivery = distributionOrderQtyToDelivery;
+        }
+        return qtyToDelivery;
     }
 
     private void processingIssues() {

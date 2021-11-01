@@ -1,0 +1,1095 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Does not show the Outbound orders picked pending" ReleaseNo="3.9.4" SeqNo="9270">
+    <Comments>https://github.com/adempiere/adempiere/issues/3647</Comments>
+    <Step DBType="Postgres" Parse="Y" SeqNo="1" StepType="SQL">
+      <SQLStatement>DROP VIEW RV_WM_InOutBoundLine;
+CREATE OR REPLACE  VIEW RV_WM_InOutBoundLine AS
+SELECT
+  iob.ad_client_id ,
+  iob.ad_org_id ,
+  iob.created ,
+  iob.createdby ,
+  iob.isactive ,
+  iob.updated ,
+  iob.updatedby ,
+  iob.c_doctype_id ,
+  iob.dateprinted ,
+  iob.deliveryrule ,
+  iob.deliveryviarule ,
+  iob.docaction ,
+  iob.docstatus ,
+  iob.documentno ,
+  iob.dropship_bpartner_id ,
+  iob.dropship_location_id ,
+  iob.dropship_user_id ,
+  iob.freightamt ,
+  iob.freightcostrule ,
+  iob.m_freightcategory_ID,
+  iob.isapproved ,
+  iob.isdropship ,
+  iob.isintransit ,
+  iob.isprinted ,
+  iob.issotrx ,
+  iob.m_shipper_id ,
+  iob.m_warehouse_id ,
+  iob.poreference ,
+  iob.priorityrule ,
+  iob.salesrep_id ,
+  iob.trackingno ,
+  iob.volume ,
+  iob.weight,
+  iobl.wm_inoutboundline_id ,
+  iobl.ad_orgtrx_id ,
+  iobl.c_activity_id ,
+  iobl.c_campaign_id ,
+  iobl.c_charge_id ,
+  iobl.c_orderline_id ,
+  iobl.c_projectphase_id ,
+  iobl.c_projecttask_id ,
+  iobl.c_project_id ,
+  iobl.c_uom_id ,
+  iobl.description ,
+  iobl.isdescription ,
+  iobl.line ,
+  iobl.m_attributesetinstance_id ,
+  iobl.wm_inoutbound_id ,
+  iobl.m_product_id ,
+  iobl.movementqty ,
+  iobl.pickedqty ,
+  iobl.processed ,
+  iobl.user1_id ,
+  iobl.user2_id ,
+  iobl.pickdate ,
+  iobl.shipdate,
+  iobl.pp_mrp_id ,
+  iobl.dd_orderline_id ,
+  iobl.pp_order_bomline_id ,
+  iobl.dd_order_id ,
+  iobl.pp_order_id ,
+  iobl.c_order_id ,
+  ol.QtyOrdered,
+  ol.QtyDelivered,
+  o.DocumentNo AS ReferenceNo,  o.DateOrdered , o.DatePromised , o.C_BPartner_ID ,
+  bomqtyonhand (iobl.m_product_id, iob.m_warehouse_id , 0)  AS qtyonhand,
+  bomqtyreserved (iobl.m_product_id, iob.m_warehouse_id , 0 ) AS qtyreserved,
+  bomqtyavailable(iobl.m_product_id, iob.m_warehouse_id,0) AS qtyavailable
+FROM WM_InOutBoundLine iobl
+INNER JOIN WM_InOutBound iob ON (iob.WM_InOutBound_ID=iobl.WM_InOutBound_ID)
+INNER JOIN C_OrderLine ol ON (ol.C_OrderLine_ID= iobl.C_OrderLine_ID)
+INNER JOIN C_Order o ON (o.C_Order_ID = ol.C_Order_ID)
+INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID=ol.C_BPartner_ID)
+UNION
+SELECT
+  iob.ad_client_id ,
+  iob.ad_org_id ,
+  iob.created ,
+  iob.createdby ,
+  iob.isactive ,
+  iob.updated ,
+  iob.updatedby ,
+  iob.c_doctype_id ,
+  iob.dateprinted ,
+  iob.deliveryrule ,
+  iob.deliveryviarule ,
+  iob.docaction ,
+  iob.docstatus ,
+  iob.documentno ,
+  iob.dropship_bpartner_id ,
+  iob.dropship_location_id ,
+  iob.dropship_user_id ,
+  iob.freightamt ,
+  iob.freightcostrule ,
+  iob.m_freightcategory_ID,
+  iob.isapproved ,
+  iob.isdropship ,
+  iob.isintransit ,
+  iob.isprinted ,
+  iob.issotrx ,
+  iob.m_shipper_id ,
+  iob.m_warehouse_id ,
+  iob.poreference ,
+  iob.priorityrule ,
+  iob.salesrep_id ,
+  iob.trackingno ,
+  iob.volume ,
+  iob.weight,
+  iobl.wm_inoutboundline_id ,
+  iobl.ad_orgtrx_id ,
+  iobl.c_activity_id ,
+  iobl.c_campaign_id ,
+  iobl.c_charge_id ,
+  iobl.c_orderline_id ,
+  iobl.c_projectphase_id ,
+  iobl.c_projecttask_id ,
+  iobl.c_project_id ,
+  iobl.c_uom_id ,
+  iobl.description ,
+  iobl.isdescription ,
+  iobl.line ,
+  iobl.m_attributesetinstance_id ,
+  iobl.wm_inoutbound_id ,
+  iobl.m_product_id ,
+  iobl.movementqty ,
+  iobl.pickedqty ,
+  iobl.processed ,
+  iobl.user1_id ,
+  iobl.user2_id ,
+  iobl.pickdate ,
+  iobl.shipdate,
+  iobl.pp_mrp_id ,
+  iobl.dd_orderline_id ,
+  iobl.pp_order_bomline_id ,
+  iobl.dd_order_id ,
+  iobl.pp_order_id ,
+  iobl.c_order_id ,
+  ol.QtyOrdered,
+  ol.QtyDelivered ,
+o.DocumentNo AS ReferenceNo , o.DateOrdered , o.DatePromised , o.C_BPartner_ID ,
+bomqtyonhand (iobl.m_product_id, iob.m_warehouse_id,0)  AS qtyonhand,
+bomqtyreserved (iobl.m_product_id, iob.m_warehouse_id,0 ) AS qtyreserved,
+bomqtyavailable(iobl.m_product_id, iob.m_warehouse_id,0) AS qtyavailable
+FROM WM_InOutBoundLine iobl
+INNER JOIN WM_InOutBound iob ON (iob.WM_InOutBound_ID=iobl.WM_InOutBound_ID)
+INNER JOIN DD_OrderLine ol ON (ol.DD_OrderLine_ID= iobl.DD_OrderLine_ID)
+INNER JOIN DD_Order o ON (o.DD_Order_ID = ol.DD_Order_ID)
+INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID=o.C_BPartner_ID)
+UNION
+SELECT
+    iob.ad_client_id ,
+  iob.ad_org_id ,
+  iob.created ,
+  iob.createdby ,
+  iob.isactive ,
+  iob.updated ,
+  iob.updatedby ,
+  iob.c_doctype_id ,
+  iob.dateprinted ,
+  iob.deliveryrule ,
+  iob.deliveryviarule ,
+  iob.docaction ,
+  iob.docstatus ,
+  iob.documentno ,
+  iob.dropship_bpartner_id ,
+  iob.dropship_location_id ,
+  iob.dropship_user_id ,
+  iob.freightamt ,
+  iob.freightcostrule ,
+  iob.m_freightcategory_ID,
+  iob.isapproved ,
+  iob.isdropship ,
+  iob.isintransit ,
+  iob.isprinted ,
+  iob.issotrx ,
+  iob.m_shipper_id ,
+  iob.m_warehouse_id ,
+  iob.poreference ,
+  iob.priorityrule ,
+  iob.salesrep_id ,
+  iob.trackingno ,
+  iob.volume ,
+  iob.weight,
+  iobl.wm_inoutboundline_id ,
+  iobl.ad_orgtrx_id ,
+  iobl.c_activity_id ,
+  iobl.c_campaign_id ,
+  iobl.c_charge_id ,
+  iobl.c_orderline_id ,
+  iobl.c_projectphase_id ,
+  iobl.c_projecttask_id ,
+  iobl.c_project_id ,
+  iobl.c_uom_id ,
+  iobl.description ,
+  iobl.isdescription ,
+  iobl.line ,
+  iobl.m_attributesetinstance_id ,
+  iobl.wm_inoutbound_id ,
+  iobl.m_product_id ,
+  iobl.movementqty ,
+  iobl.pickedqty ,
+  iobl.processed ,
+  iobl.user1_id ,
+  iobl.user2_id ,
+  iobl.pickdate ,
+  iobl.shipdate,
+  iobl.pp_mrp_id ,
+  iobl.dd_orderline_id ,
+  iobl.pp_order_bomline_id ,
+  iobl.dd_order_id ,
+  iobl.pp_order_id ,
+  iobl.c_order_id,
+  ol.QtyRequired,
+  ol.QtyDelivered ,
+  o.DocumentNo AS ReferenceNo , o.DateOrdered , o.DatePromised , bp.C_BPartner_ID,
+  bomqtyonhand (iobl.m_product_id, iob.m_warehouse_id , 0)  AS qtyonhand,
+  bomqtyreserved (iobl.m_product_id, iob.m_warehouse_id , 0 ) AS qtyreserved ,
+  bomqtyavailable(iobl.m_product_id, iob.m_warehouse_id,0) AS qtyavailable
+FROM WM_InOutBoundLine iobl
+INNER JOIN WM_InOutBound iob ON (iob.WM_InOutBound_ID=iobl.WM_InOutBound_ID)
+INNER JOIN pp_order_bomline ol ON (ol.pp_order_bomline_id= iobl.pp_order_bomline_id)
+INNER JOIN PP_Order o ON (o.PP_Order_ID = ol.PP_Order_ID)
+LEFT JOIN C_BPartner bp ON (o.AD_Org_ID = AD_OrgBP_ID);</SQLStatement>
+      <RollbackStatement>DROP VIEW RV_WM_InOutBoundLine;
+CREATE OR REPLACE  VIEW RV_WM_InOutBoundLine AS
+SELECT
+  iob.ad_client_id ,
+  iob.ad_org_id ,
+  iob.created ,
+  iob.createdby ,
+  iob.isactive ,
+  iob.updated ,
+  iob.updatedby ,
+  iob.c_doctype_id ,
+  iob.dateprinted ,
+  iob.deliveryrule ,
+  iob.deliveryviarule ,
+  iob.docaction ,
+  iob.docstatus ,
+  iob.documentno ,
+  iob.dropship_bpartner_id ,
+  iob.dropship_location_id ,
+  iob.dropship_user_id ,
+  iob.freightamt ,
+  iob.freightcostrule ,
+  iob.m_freightcategory_ID,
+  iob.isapproved ,
+  iob.isdropship ,
+  iob.isintransit ,
+  iob.isprinted ,
+  iob.issotrx ,
+  iob.m_shipper_id ,
+  iob.m_warehouse_id ,
+  iob.poreference ,
+  iob.priorityrule ,
+  iob.salesrep_id ,
+  iob.trackingno ,
+  iob.volume ,
+  iob.weight,
+  iobl.wm_inoutboundline_id ,
+  iobl.ad_orgtrx_id ,
+  iobl.c_activity_id ,
+  iobl.c_campaign_id ,
+  iobl.c_charge_id ,
+  iobl.c_orderline_id ,
+  iobl.c_projectphase_id ,
+  iobl.c_projecttask_id ,
+  iobl.c_project_id ,
+  iobl.c_uom_id ,
+  iobl.description ,
+  iobl.isdescription ,
+  iobl.line ,
+  iobl.m_attributesetinstance_id ,
+  iobl.wm_inoutbound_id ,
+  iobl.m_product_id ,
+  iobl.movementqty ,
+  iobl.pickedqty ,
+  iobl.processed ,
+  iobl.user1_id ,
+  iobl.user2_id ,
+  iobl.pickdate ,
+  iobl.shipdate,
+  iobl.pp_mrp_id ,
+  iobl.dd_orderline_id ,
+  iobl.pp_order_bomline_id ,
+  iobl.dd_order_id ,
+  iobl.pp_order_id ,
+  iobl.c_order_id ,
+  ol.QtyOrdered,
+  ol.QtyDelivered,
+  o.DocumentNo AS ReferenceNo,  o.DateOrdered , o.DatePromised , o.C_BPartner_ID ,
+  bomqtyonhand (iobl.m_product_id, iob.m_warehouse_id , 0)  AS qtyonhand,
+  bomqtyreserved (iobl.m_product_id, iob.m_warehouse_id , 0 ) AS qtyreserved,
+  bomqtyavailable(iobl.m_product_id, iob.m_warehouse_id,0) AS qtyavailable
+FROM WM_InOutBoundLine iobl
+INNER JOIN WM_InOutBound iob ON (iob.WM_InOutBound_ID=iobl.WM_InOutBound_ID)
+INNER JOIN C_OrderLine ol ON (ol.C_OrderLine_ID= iobl.C_OrderLine_ID)
+INNER JOIN C_Order o ON (o.C_Order_ID = ol.C_Order_ID)
+INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID=ol.C_BPartner_ID)
+WHERE NOT EXISTS (SELECT 1 FROM M_InOutLine WHERE M_InOutLine.C_OrderLine_ID = iobl.C_OrderLine_ID AND iobl.PickedQty &gt;= M_InOutLine.MovementQty)  AND iob.IsSOTrx='Y' AND iobl.Processed='Y' AND ol.QtyOrdered &lt;&gt; ol.QtyDelivered
+UNION
+SELECT
+  iob.ad_client_id ,
+  iob.ad_org_id ,
+  iob.created ,
+  iob.createdby ,
+  iob.isactive ,
+  iob.updated ,
+  iob.updatedby ,
+  iob.c_doctype_id ,
+  iob.dateprinted ,
+  iob.deliveryrule ,
+  iob.deliveryviarule ,
+  iob.docaction ,
+  iob.docstatus ,
+  iob.documentno ,
+  iob.dropship_bpartner_id ,
+  iob.dropship_location_id ,
+  iob.dropship_user_id ,
+  iob.freightamt ,
+  iob.freightcostrule ,
+  iob.m_freightcategory_ID,
+  iob.isapproved ,
+  iob.isdropship ,
+  iob.isintransit ,
+  iob.isprinted ,
+  iob.issotrx ,
+  iob.m_shipper_id ,
+  iob.m_warehouse_id ,
+  iob.poreference ,
+  iob.priorityrule ,
+  iob.salesrep_id ,
+  iob.trackingno ,
+  iob.volume ,
+  iob.weight,
+  iobl.wm_inoutboundline_id ,
+  iobl.ad_orgtrx_id ,
+  iobl.c_activity_id ,
+  iobl.c_campaign_id ,
+  iobl.c_charge_id ,
+  iobl.c_orderline_id ,
+  iobl.c_projectphase_id ,
+  iobl.c_projecttask_id ,
+  iobl.c_project_id ,
+  iobl.c_uom_id ,
+  iobl.description ,
+  iobl.isdescription ,
+  iobl.line ,
+  iobl.m_attributesetinstance_id ,
+  iobl.wm_inoutbound_id ,
+  iobl.m_product_id ,
+  iobl.movementqty ,
+  iobl.pickedqty ,
+  iobl.processed ,
+  iobl.user1_id ,
+  iobl.user2_id ,
+  iobl.pickdate ,
+  iobl.shipdate,
+  iobl.pp_mrp_id ,
+  iobl.dd_orderline_id ,
+  iobl.pp_order_bomline_id ,
+  iobl.dd_order_id ,
+  iobl.pp_order_id ,
+  iobl.c_order_id ,
+  ol.QtyOrdered,
+  ol.QtyDelivered ,
+o.DocumentNo AS ReferenceNo , o.DateOrdered , o.DatePromised , o.C_BPartner_ID ,
+bomqtyonhand (iobl.m_product_id, iob.m_warehouse_id,0)  AS qtyonhand,
+bomqtyreserved (iobl.m_product_id, iob.m_warehouse_id,0 ) AS qtyreserved,
+bomqtyavailable(iobl.m_product_id, iob.m_warehouse_id,0) AS qtyavailable
+FROM WM_InOutBoundLine iobl
+INNER JOIN WM_InOutBound iob ON (iob.WM_InOutBound_ID=iobl.WM_InOutBound_ID)
+INNER JOIN DD_OrderLine ol ON (ol.DD_OrderLine_ID= iobl.DD_OrderLine_ID)
+INNER JOIN DD_Order o ON (o.DD_Order_ID = ol.DD_Order_ID)
+INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID=o.C_BPartner_ID)
+WHERE NOT EXISTS (SELECT 1 FROM M_MovementLine WHERE M_MovementLine.DD_OrderLine_ID = iobl.DD_OrderLine_ID AND iobl.PickedQty &gt;= M_MovementLine.MovementQty)  AND iob.IsSOTrx='Y' AND iobl.Processed='Y' AND ol.QtyOrdered &lt;&gt; ol.QtyDelivered
+UNION
+SELECT
+    iob.ad_client_id ,
+  iob.ad_org_id ,
+  iob.created ,
+  iob.createdby ,
+  iob.isactive ,
+  iob.updated ,
+  iob.updatedby ,
+  iob.c_doctype_id ,
+  iob.dateprinted ,
+  iob.deliveryrule ,
+  iob.deliveryviarule ,
+  iob.docaction ,
+  iob.docstatus ,
+  iob.documentno ,
+  iob.dropship_bpartner_id ,
+  iob.dropship_location_id ,
+  iob.dropship_user_id ,
+  iob.freightamt ,
+  iob.freightcostrule ,
+  iob.m_freightcategory_ID,
+  iob.isapproved ,
+  iob.isdropship ,
+  iob.isintransit ,
+  iob.isprinted ,
+  iob.issotrx ,
+  iob.m_shipper_id ,
+  iob.m_warehouse_id ,
+  iob.poreference ,
+  iob.priorityrule ,
+  iob.salesrep_id ,
+  iob.trackingno ,
+  iob.volume ,
+  iob.weight,
+  iobl.wm_inoutboundline_id ,
+  iobl.ad_orgtrx_id ,
+  iobl.c_activity_id ,
+  iobl.c_campaign_id ,
+  iobl.c_charge_id ,
+  iobl.c_orderline_id ,
+  iobl.c_projectphase_id ,
+  iobl.c_projecttask_id ,
+  iobl.c_project_id ,
+  iobl.c_uom_id ,
+  iobl.description ,
+  iobl.isdescription ,
+  iobl.line ,
+  iobl.m_attributesetinstance_id ,
+  iobl.wm_inoutbound_id ,
+  iobl.m_product_id ,
+  iobl.movementqty ,
+  iobl.pickedqty ,
+  iobl.processed ,
+  iobl.user1_id ,
+  iobl.user2_id ,
+  iobl.pickdate ,
+  iobl.shipdate,
+  iobl.pp_mrp_id ,
+  iobl.dd_orderline_id ,
+  iobl.pp_order_bomline_id ,
+  iobl.dd_order_id ,
+  iobl.pp_order_id ,
+  iobl.c_order_id,
+  ol.QtyRequired,
+  ol.QtyDelivered ,
+  o.DocumentNo AS ReferenceNo , o.DateOrdered , o.DatePromised , bp.C_BPartner_ID,
+  bomqtyonhand (iobl.m_product_id, iob.m_warehouse_id , 0)  AS qtyonhand,
+  bomqtyreserved (iobl.m_product_id, iob.m_warehouse_id , 0 ) AS qtyreserved ,
+  bomqtyavailable(iobl.m_product_id, iob.m_warehouse_id,0) AS qtyavailable
+FROM WM_InOutBoundLine iobl
+INNER JOIN WM_InOutBound iob ON (iob.WM_InOutBound_ID=iobl.WM_InOutBound_ID)
+INNER JOIN pp_order_bomline ol ON (ol.pp_order_bomline_id= iobl.pp_order_bomline_id)
+INNER JOIN PP_Order o ON (o.PP_Order_ID = ol.PP_Order_ID)
+LEFT JOIN C_BPartner bp ON (o.AD_Org_ID = AD_OrgBP_ID)
+WHERE NOT EXISTS (SELECT 1 FROM PP_Cost_Collector cc WHERE cc.pp_order_bomline_ID = iobl.pp_order_bomline_id AND iobl.PickedQty &gt;= cc.MovementQty)  AND iob.IsSOTrx='Y' AND iobl.Processed='Y' AND ol.QtyRequired &lt;&gt; ol.QtyDelivered;</RollbackStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="2" StepType="SQL">
+      <SQLStatement>DROP VIEW RV_WM_InOutBoundLine;
+CREATE OR REPLACE  VIEW RV_WM_InOutBoundLine AS
+SELECT
+  iob.ad_client_id ,
+  iob.ad_org_id ,
+  iob.created ,
+  iob.createdby ,
+  iob.isactive ,
+  iob.updated ,
+  iob.updatedby ,
+  iob.c_doctype_id ,
+  iob.dateprinted ,
+  iob.deliveryrule ,
+  iob.deliveryviarule ,
+  iob.docaction ,
+  iob.docstatus ,
+  iob.documentno ,
+  iob.dropship_bpartner_id ,
+  iob.dropship_location_id ,
+  iob.dropship_user_id ,
+  iob.freightamt ,
+  iob.freightcostrule ,
+  iob.m_freightcategory_ID,
+  iob.isapproved ,
+  iob.isdropship ,
+  iob.isintransit ,
+  iob.isprinted ,
+  iob.issotrx ,
+  iob.m_shipper_id ,
+  iob.m_warehouse_id ,
+  iob.poreference ,
+  iob.priorityrule ,
+  iob.salesrep_id ,
+  iob.trackingno ,
+  iob.volume ,
+  iob.weight,
+  iobl.wm_inoutboundline_id ,
+  iobl.ad_orgtrx_id ,
+  iobl.c_activity_id ,
+  iobl.c_campaign_id ,
+  iobl.c_charge_id ,
+  iobl.c_orderline_id ,
+  iobl.c_projectphase_id ,
+  iobl.c_projecttask_id ,
+  iobl.c_project_id ,
+  iobl.c_uom_id ,
+  iobl.description ,
+  iobl.isdescription ,
+  iobl.line ,
+  iobl.m_attributesetinstance_id ,
+  iobl.wm_inoutbound_id ,
+  iobl.m_product_id ,
+  iobl.movementqty ,
+  iobl.pickedqty ,
+  iobl.processed ,
+  iobl.user1_id ,
+  iobl.user2_id ,
+  iobl.pickdate ,
+  iobl.shipdate,
+  iobl.pp_mrp_id ,
+  iobl.dd_orderline_id ,
+  iobl.pp_order_bomline_id ,
+  iobl.dd_order_id ,
+  iobl.pp_order_id ,
+  iobl.c_order_id ,
+  ol.QtyOrdered,
+  ol.QtyDelivered,
+  o.DocumentNo AS ReferenceNo,  o.DateOrdered , o.DatePromised , o.C_BPartner_ID ,
+  bomqtyonhand (iobl.m_product_id, iob.m_warehouse_id , 0)  AS qtyonhand,
+  bomqtyreserved (iobl.m_product_id, iob.m_warehouse_id , 0 ) AS qtyreserved,
+  bomqtyavailable(iobl.m_product_id, iob.m_warehouse_id,0) AS qtyavailable
+FROM WM_InOutBoundLine iobl
+INNER JOIN WM_InOutBound iob ON (iob.WM_InOutBound_ID=iobl.WM_InOutBound_ID)
+INNER JOIN C_OrderLine ol ON (ol.C_OrderLine_ID= iobl.C_OrderLine_ID)
+INNER JOIN C_Order o ON (o.C_Order_ID = ol.C_Order_ID)
+INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID=ol.C_BPartner_ID)
+UNION
+SELECT
+  iob.ad_client_id ,
+  iob.ad_org_id ,
+  iob.created ,
+  iob.createdby ,
+  iob.isactive ,
+  iob.updated ,
+  iob.updatedby ,
+  iob.c_doctype_id ,
+  iob.dateprinted ,
+  iob.deliveryrule ,
+  iob.deliveryviarule ,
+  iob.docaction ,
+  iob.docstatus ,
+  iob.documentno ,
+  iob.dropship_bpartner_id ,
+  iob.dropship_location_id ,
+  iob.dropship_user_id ,
+  iob.freightamt ,
+  iob.freightcostrule ,
+  iob.m_freightcategory_ID,
+  iob.isapproved ,
+  iob.isdropship ,
+  iob.isintransit ,
+  iob.isprinted ,
+  iob.issotrx ,
+  iob.m_shipper_id ,
+  iob.m_warehouse_id ,
+  iob.poreference ,
+  iob.priorityrule ,
+  iob.salesrep_id ,
+  iob.trackingno ,
+  iob.volume ,
+  iob.weight,
+  iobl.wm_inoutboundline_id ,
+  iobl.ad_orgtrx_id ,
+  iobl.c_activity_id ,
+  iobl.c_campaign_id ,
+  iobl.c_charge_id ,
+  iobl.c_orderline_id ,
+  iobl.c_projectphase_id ,
+  iobl.c_projecttask_id ,
+  iobl.c_project_id ,
+  iobl.c_uom_id ,
+  iobl.description ,
+  iobl.isdescription ,
+  iobl.line ,
+  iobl.m_attributesetinstance_id ,
+  iobl.wm_inoutbound_id ,
+  iobl.m_product_id ,
+  iobl.movementqty ,
+  iobl.pickedqty ,
+  iobl.processed ,
+  iobl.user1_id ,
+  iobl.user2_id ,
+  iobl.pickdate ,
+  iobl.shipdate,
+  iobl.pp_mrp_id ,
+  iobl.dd_orderline_id ,
+  iobl.pp_order_bomline_id ,
+  iobl.dd_order_id ,
+  iobl.pp_order_id ,
+  iobl.c_order_id ,
+  ol.QtyOrdered,
+  ol.QtyDelivered ,
+o.DocumentNo AS ReferenceNo , o.DateOrdered , o.DatePromised , o.C_BPartner_ID ,
+bomqtyonhand (iobl.m_product_id, iob.m_warehouse_id,0)  AS qtyonhand,
+bomqtyreserved (iobl.m_product_id, iob.m_warehouse_id,0 ) AS qtyreserved,
+bomqtyavailable(iobl.m_product_id, iob.m_warehouse_id,0) AS qtyavailable
+FROM WM_InOutBoundLine iobl
+INNER JOIN WM_InOutBound iob ON (iob.WM_InOutBound_ID=iobl.WM_InOutBound_ID)
+INNER JOIN DD_OrderLine ol ON (ol.DD_OrderLine_ID= iobl.DD_OrderLine_ID)
+INNER JOIN DD_Order o ON (o.DD_Order_ID = ol.DD_Order_ID)
+INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID=o.C_BPartner_ID)
+UNION
+SELECT
+    iob.ad_client_id ,
+  iob.ad_org_id ,
+  iob.created ,
+  iob.createdby ,
+  iob.isactive ,
+  iob.updated ,
+  iob.updatedby ,
+  iob.c_doctype_id ,
+  iob.dateprinted ,
+  iob.deliveryrule ,
+  iob.deliveryviarule ,
+  iob.docaction ,
+  iob.docstatus ,
+  iob.documentno ,
+  iob.dropship_bpartner_id ,
+  iob.dropship_location_id ,
+  iob.dropship_user_id ,
+  iob.freightamt ,
+  iob.freightcostrule ,
+  iob.m_freightcategory_ID,
+  iob.isapproved ,
+  iob.isdropship ,
+  iob.isintransit ,
+  iob.isprinted ,
+  iob.issotrx ,
+  iob.m_shipper_id ,
+  iob.m_warehouse_id ,
+  iob.poreference ,
+  iob.priorityrule ,
+  iob.salesrep_id ,
+  iob.trackingno ,
+  iob.volume ,
+  iob.weight,
+  iobl.wm_inoutboundline_id ,
+  iobl.ad_orgtrx_id ,
+  iobl.c_activity_id ,
+  iobl.c_campaign_id ,
+  iobl.c_charge_id ,
+  iobl.c_orderline_id ,
+  iobl.c_projectphase_id ,
+  iobl.c_projecttask_id ,
+  iobl.c_project_id ,
+  iobl.c_uom_id ,
+  iobl.description ,
+  iobl.isdescription ,
+  iobl.line ,
+  iobl.m_attributesetinstance_id ,
+  iobl.wm_inoutbound_id ,
+  iobl.m_product_id ,
+  iobl.movementqty ,
+  iobl.pickedqty ,
+  iobl.processed ,
+  iobl.user1_id ,
+  iobl.user2_id ,
+  iobl.pickdate ,
+  iobl.shipdate,
+  iobl.pp_mrp_id ,
+  iobl.dd_orderline_id ,
+  iobl.pp_order_bomline_id ,
+  iobl.dd_order_id ,
+  iobl.pp_order_id ,
+  iobl.c_order_id,
+  ol.QtyRequired,
+  ol.QtyDelivered ,
+  o.DocumentNo AS ReferenceNo , o.DateOrdered , o.DatePromised , bp.C_BPartner_ID,
+  bomqtyonhand (iobl.m_product_id, iob.m_warehouse_id , 0)  AS qtyonhand,
+  bomqtyreserved (iobl.m_product_id, iob.m_warehouse_id , 0 ) AS qtyreserved ,
+  bomqtyavailable(iobl.m_product_id, iob.m_warehouse_id,0) AS qtyavailable
+FROM WM_InOutBoundLine iobl
+INNER JOIN WM_InOutBound iob ON (iob.WM_InOutBound_ID=iobl.WM_InOutBound_ID)
+INNER JOIN pp_order_bomline ol ON (ol.pp_order_bomline_id= iobl.pp_order_bomline_id)
+INNER JOIN PP_Order o ON (o.PP_Order_ID = ol.PP_Order_ID)
+LEFT JOIN C_BPartner bp ON (o.AD_Org_ID = AD_OrgBP_ID)
+;</SQLStatement>
+      <RollbackStatement>DROP VIEW RV_WM_InOutBoundLine;
+CREATE OR REPLACE  VIEW RV_WM_InOutBoundLine AS
+SELECT
+  iob.ad_client_id ,
+  iob.ad_org_id ,
+  iob.created ,
+  iob.createdby ,
+  iob.isactive ,
+  iob.updated ,
+  iob.updatedby ,
+  iob.c_doctype_id ,
+  iob.dateprinted ,
+  iob.deliveryrule ,
+  iob.deliveryviarule ,
+  iob.docaction ,
+  iob.docstatus ,
+  iob.documentno ,
+  iob.dropship_bpartner_id ,
+  iob.dropship_location_id ,
+  iob.dropship_user_id ,
+  iob.freightamt ,
+  iob.freightcostrule ,
+  iob.m_freightcategory_ID,
+  iob.isapproved ,
+  iob.isdropship ,
+  iob.isintransit ,
+  iob.isprinted ,
+  iob.issotrx ,
+  iob.m_shipper_id ,
+  iob.m_warehouse_id ,
+  iob.poreference ,
+  iob.priorityrule ,
+  iob.salesrep_id ,
+  iob.trackingno ,
+  iob.volume ,
+  iob.weight,
+  iobl.wm_inoutboundline_id ,
+  iobl.ad_orgtrx_id ,
+  iobl.c_activity_id ,
+  iobl.c_campaign_id ,
+  iobl.c_charge_id ,
+  iobl.c_orderline_id ,
+  iobl.c_projectphase_id ,
+  iobl.c_projecttask_id ,
+  iobl.c_project_id ,
+  iobl.c_uom_id ,
+  iobl.description ,
+  iobl.isdescription ,
+  iobl.line ,
+  iobl.m_attributesetinstance_id ,
+  iobl.wm_inoutbound_id ,
+  iobl.m_product_id ,
+  iobl.movementqty ,
+  iobl.pickedqty ,
+  iobl.processed ,
+  iobl.user1_id ,
+  iobl.user2_id ,
+  iobl.pickdate ,
+  iobl.shipdate,
+  iobl.pp_mrp_id ,
+  iobl.dd_orderline_id ,
+  iobl.pp_order_bomline_id ,
+  iobl.dd_order_id ,
+  iobl.pp_order_id ,
+  iobl.c_order_id ,
+  ol.QtyOrdered,
+  ol.QtyDelivered,
+  o.DocumentNo AS ReferenceNo,  o.DateOrdered , o.DatePromised , o.C_BPartner_ID ,
+  bomqtyonhand (iobl.m_product_id, iob.m_warehouse_id , 0)  AS qtyonhand,
+  bomqtyreserved (iobl.m_product_id, iob.m_warehouse_id , 0 ) AS qtyreserved,
+  bomqtyavailable(iobl.m_product_id, iob.m_warehouse_id,0) AS qtyavailable
+FROM WM_InOutBoundLine iobl
+INNER JOIN WM_InOutBound iob ON (iob.WM_InOutBound_ID=iobl.WM_InOutBound_ID)
+INNER JOIN C_OrderLine ol ON (ol.C_OrderLine_ID= iobl.C_OrderLine_ID)
+INNER JOIN C_Order o ON (o.C_Order_ID = ol.C_Order_ID)
+INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID=ol.C_BPartner_ID)
+WHERE NOT EXISTS (SELECT 1 FROM M_InOutLine WHERE M_InOutLine.C_OrderLine_ID = iobl.C_OrderLine_ID AND iobl.PickedQty &gt;= M_InOutLine.MovementQty)  AND iob.IsSOTrx='Y' AND iobl.Processed='Y' AND ol.QtyOrdered &lt;&gt; ol.QtyDelivered
+UNION
+SELECT
+  iob.ad_client_id ,
+  iob.ad_org_id ,
+  iob.created ,
+  iob.createdby ,
+  iob.isactive ,
+  iob.updated ,
+  iob.updatedby ,
+  iob.c_doctype_id ,
+  iob.dateprinted ,
+  iob.deliveryrule ,
+  iob.deliveryviarule ,
+  iob.docaction ,
+  iob.docstatus ,
+  iob.documentno ,
+  iob.dropship_bpartner_id ,
+  iob.dropship_location_id ,
+  iob.dropship_user_id ,
+  iob.freightamt ,
+  iob.freightcostrule ,
+  iob.m_freightcategory_ID,
+  iob.isapproved ,
+  iob.isdropship ,
+  iob.isintransit ,
+  iob.isprinted ,
+  iob.issotrx ,
+  iob.m_shipper_id ,
+  iob.m_warehouse_id ,
+  iob.poreference ,
+  iob.priorityrule ,
+  iob.salesrep_id ,
+  iob.trackingno ,
+  iob.volume ,
+  iob.weight,
+  iobl.wm_inoutboundline_id ,
+  iobl.ad_orgtrx_id ,
+  iobl.c_activity_id ,
+  iobl.c_campaign_id ,
+  iobl.c_charge_id ,
+  iobl.c_orderline_id ,
+  iobl.c_projectphase_id ,
+  iobl.c_projecttask_id ,
+  iobl.c_project_id ,
+  iobl.c_uom_id ,
+  iobl.description ,
+  iobl.isdescription ,
+  iobl.line ,
+  iobl.m_attributesetinstance_id ,
+  iobl.wm_inoutbound_id ,
+  iobl.m_product_id ,
+  iobl.movementqty ,
+  iobl.pickedqty ,
+  iobl.processed ,
+  iobl.user1_id ,
+  iobl.user2_id ,
+  iobl.pickdate ,
+  iobl.shipdate,
+  iobl.pp_mrp_id ,
+  iobl.dd_orderline_id ,
+  iobl.pp_order_bomline_id ,
+  iobl.dd_order_id ,
+  iobl.pp_order_id ,
+  iobl.c_order_id ,
+  ol.QtyOrdered,
+  ol.QtyDelivered ,
+o.DocumentNo AS ReferenceNo , o.DateOrdered , o.DatePromised , o.C_BPartner_ID ,
+bomqtyonhand (iobl.m_product_id, iob.m_warehouse_id,0)  AS qtyonhand,
+bomqtyreserved (iobl.m_product_id, iob.m_warehouse_id,0 ) AS qtyreserved,
+bomqtyavailable(iobl.m_product_id, iob.m_warehouse_id,0) AS qtyavailable
+FROM WM_InOutBoundLine iobl
+INNER JOIN WM_InOutBound iob ON (iob.WM_InOutBound_ID=iobl.WM_InOutBound_ID)
+INNER JOIN DD_OrderLine ol ON (ol.DD_OrderLine_ID= iobl.DD_OrderLine_ID)
+INNER JOIN DD_Order o ON (o.DD_Order_ID = ol.DD_Order_ID)
+INNER JOIN C_BPartner bp ON (bp.C_BPartner_ID=o.C_BPartner_ID)
+WHERE NOT EXISTS (SELECT 1 FROM M_MovementLine WHERE M_MovementLine.DD_OrderLine_ID = iobl.DD_OrderLine_ID AND iobl.PickedQty &gt;= M_MovementLine.MovementQty)  AND iob.IsSOTrx='Y' AND iobl.Processed='Y' AND ol.QtyOrdered &lt;&gt; ol.QtyDelivered
+UNION
+SELECT
+    iob.ad_client_id ,
+  iob.ad_org_id ,
+  iob.created ,
+  iob.createdby ,
+  iob.isactive ,
+  iob.updated ,
+  iob.updatedby ,
+  iob.c_doctype_id ,
+  iob.dateprinted ,
+  iob.deliveryrule ,
+  iob.deliveryviarule ,
+  iob.docaction ,
+  iob.docstatus ,
+  iob.documentno ,
+  iob.dropship_bpartner_id ,
+  iob.dropship_location_id ,
+  iob.dropship_user_id ,
+  iob.freightamt ,
+  iob.freightcostrule ,
+  iob.m_freightcategory_ID,
+  iob.isapproved ,
+  iob.isdropship ,
+  iob.isintransit ,
+  iob.isprinted ,
+  iob.issotrx ,
+  iob.m_shipper_id ,
+  iob.m_warehouse_id ,
+  iob.poreference ,
+  iob.priorityrule ,
+  iob.salesrep_id ,
+  iob.trackingno ,
+  iob.volume ,
+  iob.weight,
+  iobl.wm_inoutboundline_id ,
+  iobl.ad_orgtrx_id ,
+  iobl.c_activity_id ,
+  iobl.c_campaign_id ,
+  iobl.c_charge_id ,
+  iobl.c_orderline_id ,
+  iobl.c_projectphase_id ,
+  iobl.c_projecttask_id ,
+  iobl.c_project_id ,
+  iobl.c_uom_id ,
+  iobl.description ,
+  iobl.isdescription ,
+  iobl.line ,
+  iobl.m_attributesetinstance_id ,
+  iobl.wm_inoutbound_id ,
+  iobl.m_product_id ,
+  iobl.movementqty ,
+  iobl.pickedqty ,
+  iobl.processed ,
+  iobl.user1_id ,
+  iobl.user2_id ,
+  iobl.pickdate ,
+  iobl.shipdate,
+  iobl.pp_mrp_id ,
+  iobl.dd_orderline_id ,
+  iobl.pp_order_bomline_id ,
+  iobl.dd_order_id ,
+  iobl.pp_order_id ,
+  iobl.c_order_id,
+  ol.QtyRequired,
+  ol.QtyDelivered ,
+  o.DocumentNo AS ReferenceNo , o.DateOrdered , o.DatePromised , bp.C_BPartner_ID,
+  bomqtyonhand (iobl.m_product_id, iob.m_warehouse_id , 0)  AS qtyonhand,
+  bomqtyreserved (iobl.m_product_id, iob.m_warehouse_id , 0 ) AS qtyreserved ,
+  bomqtyavailable(iobl.m_product_id, iob.m_warehouse_id,0) AS qtyavailable
+FROM WM_InOutBoundLine iobl
+INNER JOIN WM_InOutBound iob ON (iob.WM_InOutBound_ID=iobl.WM_InOutBound_ID)
+INNER JOIN pp_order_bomline ol ON (ol.pp_order_bomline_id= iobl.pp_order_bomline_id)
+INNER JOIN PP_Order o ON (o.PP_Order_ID = ol.PP_Order_ID)
+LEFT JOIN C_BPartner bp ON (o.AD_Org_ID = AD_OrgBP_ID)
+WHERE NOT EXISTS (SELECT 1 FROM PP_Cost_Collector cc WHERE cc.pp_order_bomline_ID = iobl.pp_order_bomline_id AND iobl.PickedQty &gt;= cc.MovementQty)  AND iob.IsSOTrx='Y' AND iobl.Processed='Y' AND ol.QtyRequired &lt;&gt; ol.QtyDelivered;</RollbackStatement>
+    </Step>
+    <Step SeqNo="50" StepType="AD">
+      <PO AD_Table_ID="276" Action="U" Record_ID="53913" Table="AD_Element">
+        <Data AD_Column_ID="58589" Column="FieldLength" isOldNull="true">22</Data>
+        <Data AD_Column_ID="58588" Column="AD_Reference_ID" isOldNull="true">13</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="60" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="99225" Table="AD_Column">
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="118" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="84306" Column="UUID">3cc543cd-68b6-40ff-9ec6-0cfcef384540</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true"/>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2021-10-07 12:33:57.141</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2021-10-07 12:33:57.141</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">99225</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Inbound &amp; Outbound Order Line</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">WM_InOutBoundLine_ID</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">EE03</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">324</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">53913</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="70" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="99225" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2021-10-07 12:34:02.33</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2021-10-07 12:34:02.33</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">99225</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Inbound &amp; Outbound Order Line</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID">00b50513-5a47-44ad-961a-3cbef1440885</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="80" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="99225" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">10</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="90" StepType="AD">
+      <PO AD_Table_ID="101" Action="I" Record_ID="99226" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength">22</Data>
+        <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
+        <Data AD_Column_ID="552" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2021-10-07 12:34:41.041</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2021-10-07 12:34:41.041</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
+        <Data AD_Column_ID="109" Column="AD_Column_ID">99226</Data>
+        <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
+        <Data AD_Column_ID="111" Column="Name">Inbound &amp; Outbound Order Line</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
+        <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
+        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="120" Column="IsParent">false</Data>
+        <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
+        <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
+        <Data AD_Column_ID="119" Column="IsKey">false</Data>
+        <Data AD_Column_ID="6245" Column="ReadOnlyLogic" isNewNull="true"/>
+        <Data AD_Column_ID="56352" Column="FormatPattern" isNewNull="true"/>
+        <Data AD_Column_ID="50218" Column="MandatoryLogic" isNewNull="true"/>
+        <Data AD_Column_ID="110" Column="Version">0</Data>
+        <Data AD_Column_ID="13448" Column="ColumnSQL" isNewNull="true"/>
+        <Data AD_Column_ID="116" Column="ColumnName">WM_InOutBoundLine_ID</Data>
+        <Data AD_Column_ID="113" Column="Help" isNewNull="true"/>
+        <Data AD_Column_ID="3360" Column="IsUpdateable">true</Data>
+        <Data AD_Column_ID="1692" Column="Callout" isNewNull="true"/>
+        <Data AD_Column_ID="11617" Column="IsAlwaysUpdateable">false</Data>
+        <Data AD_Column_ID="128" Column="IsEncrypted">N</Data>
+        <Data AD_Column_ID="54358" Column="InfoFactoryClass" isNewNull="true"/>
+        <Data AD_Column_ID="56187" Column="IsAllowLogging">true</Data>
+        <Data AD_Column_ID="56149" Column="IsAutocomplete">false</Data>
+        <Data AD_Column_ID="68024" Column="IsRange">false</Data>
+        <Data AD_Column_ID="62199" Column="IsAllowCopy">true</Data>
+        <Data AD_Column_ID="127" Column="SeqNo">0</Data>
+        <Data AD_Column_ID="6482" Column="EntityType">EE01</Data>
+        <Data AD_Column_ID="359" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="360" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">53035</Data>
+        <Data AD_Column_ID="550" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="2608" Column="AD_Element_ID">53913</Data>
+        <Data AD_Column_ID="227" Column="AD_Reference_Value_ID" isNewNull="true"/>
+        <Data AD_Column_ID="115" Column="AD_Val_Rule_ID" isNewNull="true"/>
+        <Data AD_Column_ID="84306" Column="UUID">aba57f95-aa72-4215-ade7-fcb4a142ed8c</Data>
+        <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
+        <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true"/>
+      </PO>
+    </Step>
+    <Step SeqNo="100" StepType="AD">
+      <PO AD_Table_ID="752" Action="I" Record_ID="99226" Table="AD_Column_Trl">
+        <Data AD_Column_ID="12960" Column="Created">2021-10-07 12:34:42.256</Data>
+        <Data AD_Column_ID="12959" Column="IsActive">true</Data>
+        <Data AD_Column_ID="12952" Column="Updated">2021-10-07 12:34:42.256</Data>
+        <Data AD_Column_ID="12955" Column="AD_Column_ID">99226</Data>
+        <Data AD_Column_ID="12954" Column="IsTranslated">false</Data>
+        <Data AD_Column_ID="12957" Column="Name">Inbound &amp; Outbound Order Line</Data>
+        <Data AD_Column_ID="12961" Column="AD_Client_ID">0</Data>
+        <Data AD_Column_ID="12951" Column="AD_Org_ID">0</Data>
+        <Data AD_Column_ID="12958" Column="UpdatedBy">0</Data>
+        <Data AD_Column_ID="12956" Column="CreatedBy">0</Data>
+        <Data AD_Column_ID="12953" Column="AD_Language">es_MX</Data>
+        <Data AD_Column_ID="84310" Column="UUID">89df0597-b963-47e5-bffc-65e13414504c</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="110" StepType="AD">
+      <PO AD_Table_ID="101" Action="U" Record_ID="99226" Table="AD_Column">
+        <Data AD_Column_ID="118" Column="FieldLength" oldValue="22">10</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="true">false</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="120" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50002" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="iob.DocStatus IN ('CO') AND &#10;iobl.PickedQty &lt;&gt; (SELECT SUM(MovementQty) FROM M_InOutLine WHERE M_InOutLine.WM_InOutBoundLine_ID = iobl.WM_InOutBoundLine_ID) &#10;AND iob.IsSOTrx='Y' AND ol.QtyOrdered &lt;&gt; ol.QtyDelivered">iob.DocStatus IN ('CO') 
+AND iobl.PickedQty &lt;&gt; (SELECT COALESCE(SUM(MovementQty),0) FROM M_InOutLine WHERE M_InOutLine.WM_InOutBoundLine_ID = iobl.WM_InOutBoundLine_ID) 
+AND iob.IsSOTrx='Y' AND ol.QtyOrdered &lt;&gt; ol.QtyDelivered</Data>
+      </PO>
+    </Step>
+    <Step SeqNo="130" StepType="AD">
+      <PO AD_Table_ID="53224" Action="U" Record_ID="50049" Table="AD_Browse">
+        <Data AD_Column_ID="58000" Column="WhereClause" oldValue="iob.DocStatus IN ('CO') AND &#10;iobl.PickedQty &lt;&gt; (SELECT SUM(MovementQty) FROM M_InOutLine WHERE M_InOutLine.WM_InOutBoundLine_ID = iobl.WM_InOutBoundLine_ID) &#10;AND iob.IsSOTrx='Y' AND ol.QtyOrdered &lt;&gt; ol.QtyDelivered">iob.DocStatus IN ('CO') 
+AND iobl.PickedQty &lt;&gt; (SELECT COALESCE(SUM(MovementQty),0) FROM M_InOutLine WHERE M_InOutLine.WM_InOutBoundLine_ID = iobl.WM_InOutBoundLine_ID) 
+AND iob.IsSOTrx='Y' AND ol.QtyOrdered &lt;&gt; ol.QtyDelivered</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
