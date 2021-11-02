@@ -725,21 +725,11 @@ public class MColumn extends X_AD_Column
 		}
 
 		StringBuffer sqlBase = new StringBuffer("ALTER TABLE ");
-		if("CLOB".equals(getSQLDataType())) {
+		if(DB.isOracle() && "CLOB".equals(getSQLDataType())) {
 
 			// ALTER TABLE <TABLE_NAME> ADD <COLUMN_NAME>_T CLOB;
 			sqlBase.append(table.getTableName())
 					.append(" ADD ").append(getColumnName()).append("_T CLOB")
-					.append(DB.SQLSTATEMENT_SEPARATOR);
-
-			//	Default
-			String defaultValue = getDefaultValueSQL();
-			sqlBase.append(" ALTER TABLE ")
-					.append(table.getTableName())
-					.append(" MODIFY ")
-					.append(getColumnName())
-					.append(" DEFAULT ")
-					.append(defaultValue)
 					.append(DB.SQLSTATEMENT_SEPARATOR);
 
 			// UPDATE <TABLE_NAME> SET <COLUMN_NAME>_T = <COLUMN_NAME>;
@@ -756,6 +746,17 @@ public class MColumn extends X_AD_Column
 			sqlBase.append("ALTER TABLE ").append(table.getTableName()).append(" RENAME COLUMN ")
 					.append(getColumnName()).append("_T TO ").append(getColumnName())
 					.append(DB.SQLSTATEMENT_SEPARATOR);
+
+			//	Default
+			String defaultValue = getDefaultValueSQL();
+			sqlBase.append(" ALTER TABLE ")
+					.append(table.getTableName())
+					.append(" MODIFY ")
+					.append(getColumnName())
+					.append(" DEFAULT ")
+					.append(defaultValue)
+					.append(DB.SQLSTATEMENT_SEPARATOR);
+
 			sql.append(sqlBase);
 		} else {
 
