@@ -11,8 +11,8 @@
 
 
 @IF '%ADEMPIERE_APPS_TYPE%' == 'wildfly' GOTO WILDFLY
-@IF '%ADEMPIERE_APPS_TYPE%' == 'tomcat' GOTO TOMCAT
-@IF '%ADEMPIERE_APPS_TYPE%' == 'jetty' GOTO JETTY
+@IF '%ADEMPIERE_APPS_TYPE%' == 'tomcat'  GOTO TOMCAT
+@IF '%ADEMPIERE_APPS_TYPE%' == 'jetty'   GOTO JETTY
 @GOTO UNSUPPORTED
 
 :WILDFLY
@@ -45,7 +45,7 @@ IF EXIST %WILDFLY_HOME%\login-modules.configured (
 @Set JAVA_OPTS=-server %ADEMPIERE_JAVA_OPTIONS% %SECURE% -Dorg.adempiere.server.embedded=true --add-exports java.base/jdk.internal.misc=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED
 @Echo Start Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
 @Call START %CATALINA_BASE%\bin\startup.bat
-@Echo Done Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
+@Echo Done  Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
 @GOTO END
 
 :JETTY
