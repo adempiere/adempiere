@@ -16,7 +16,7 @@
  *****************************************************************************/
 package org.compiere.process;
 
-import java.net.URI;
+import java.io.File;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,10 +31,11 @@ import org.compiere.model.MClient;
 import org.compiere.model.MMailText;
 import org.compiere.model.MProductDownload;
 import org.compiere.model.MUser;
-import org.compiere.model.MUserMail;
 import org.compiere.model.Query;
-import org.compiere.util.EMail;
+import org.compiere.util.Msg;
 import org.compiere.util.Util;
+import org.spin.queue.notification.DefaultNotifier;
+import org.spin.queue.util.QueueLoader;
 
 /**
  *	Deliver Assets Electronically
@@ -193,33 +194,38 @@ public class AssetDelivery extends AssetDeliveryAbstract {
 	 * 	@return message - delivery errors start with **
 	 */
 	private String sendNoGuaranteeMail (MAsset asset) {
-		if (asset.getAD_User_ID() == 0)
-			return "** No Asset User";
+		if (asset.getAD_User_ID() == 0) {
+			return Msg.parseTranslation(getCtx(), "@A_Asset_ID@ @AD_User_ID@ @NotFound@");
+		}
 		MUser user = new MUser (getCtx(), asset.getAD_User_ID(), get_TrxName());
-		if (user.getEMail() == null || user.getEMail().length() == 0)
-			return "** No Asset User Email";
+		//	Template
 		if (mailTemplate == null || mailTemplate.getR_MailText_ID() != getMailTextId()) {
 			mailTemplate = new MMailText (getCtx(), getMailTextId(), get_TrxName());
 		}
 		//	Validate
 		if (Util.isEmpty(mailTemplate.getMailHeader())) {
-			return "** No Subject";
+			return Msg.parseTranslation(getCtx(), "@Subject@ @NotFound@");
 		}
 		//	Create Mail
-		EMail email = client.createEMail(user.getEMail(), null, null);
 		mailTemplate.setPO(user);
 		mailTemplate.setPO(asset);
 		String message = mailTemplate.getMailText(true);
-		if (mailTemplate.isHtml()) {
-			email.setMessageHTML(mailTemplate.getMailHeader(), message);
-		} else {
-			email.setSubject (mailTemplate.getMailHeader());
-			email.setMessageText (message);
-		}
-		String msg = email.send();
-		new MUserMail(mailTemplate, asset.getAD_User_ID(), email).saveEx();
-		if (!EMail.SENT_OK.equals(msg))
-			return "** Not delivered: " + user.getEMail() + " - " + msg;
+		//	Get instance for notifier
+		DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+				.withContext(getCtx())
+				.withTransactionName(get_TrxName());
+		//	Send notification to queue
+		notifier
+			.clearMessage()
+			.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+			.withUserId(getAD_User_ID())
+			.addRecipient(user.getAD_User_ID())
+			.withText(message)
+			.withDescription(mailTemplate.getMailHeader())
+			.withTableId(MAsset.Table_ID)
+			.withRecordId(asset.getA_Asset_ID());
+		//	Add to queue
+		notifier.addToQueue();
 		//
 		return user.getEMail();
 	}	//	sendNoGuaranteeMail
@@ -234,54 +240,48 @@ public class AssetDelivery extends AssetDeliveryAbstract {
 		log.fine("A_Asset_ID=" + asset.getA_Asset_ID());
 		long start = System.currentTimeMillis();
 		//
-		if (asset.getAD_User_ID() == 0)
-			return "** No Asset User";
+		if (asset.getAD_User_ID() == 0) {
+			return Msg.parseTranslation(getCtx(), "@A_Asset_ID@ @AD_User_ID@ @NotFound@");
+		}
 		MUser user = new MUser (getCtx(), asset.getAD_User_ID(), get_TrxName());
-		if (user.getEMail() == null || user.getEMail().length() == 0)
-			return "** No Asset User Email";
 		if (asset.getProductR_MailText_ID() == 0)
-			return "** Product Mail Text";
+			return Msg.parseTranslation(getCtx(), "@ProductR_MailText_ID@ @NotFound@");
 		if (mailTemplate == null || mailTemplate.getR_MailText_ID() != asset.getProductR_MailText_ID())
 			mailTemplate = new MMailText (getCtx(), asset.getProductR_MailText_ID(), get_TrxName());
-		if (mailTemplate.getMailHeader() == null || mailTemplate.getMailHeader().length() == 0)
-			return "** No Subject";
-
-		//	Create Mail
-		EMail email = client.createEMail(user.getEMail(), null, null);
-		if (!email.isValid()) {
-			asset.setHelp(asset.getHelp() + " - Invalid EMail");
-			asset.setIsActive(false);
-			return "** Invalid EMail: " + user.getEMail();
+		if (mailTemplate.getMailHeader() == null || mailTemplate.getMailHeader().length() == 0) {
+			return Msg.parseTranslation(getCtx(), "@Subject@ @NotFound@");
 		}
-		if (client.isSmtpAuthorization())
-			email.createAuthenticator(client.getRequestUser(), client.getRequestUserPW());
+		//	
 		mailTemplate.setUser(user);
 		mailTemplate.setPO(asset);
 		String message = mailTemplate.getMailText(true);
-		if (mailTemplate.isHtml() || isAttachAsset()) {
-			email.setMessageHTML(mailTemplate.getMailHeader(), message);
-		} else {
-			email.setSubject (mailTemplate.getMailHeader());
-			email.setMessageText (message);
-		}
-		//	
+		//	Get instance for notifier
+		DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+				.withContext(getCtx())
+				.withTransactionName(get_TrxName());
+		//	Send notification to queue
+		notifier
+			.clearMessage()
+			.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+			.withUserId(getAD_User_ID())
+			.addRecipient(user.getAD_User_ID())
+			.withText(message)
+			.withDescription(mailTemplate.getMailHeader())
+			.withTableId(MAsset.Table_ID)
+			.withRecordId(asset.getA_Asset_ID());
 		if (isAttachAsset()) {
 			MProductDownload[] pdls = asset.getProductDownloads();
 			if (pdls != null) {
-				for (int i = 0; i < pdls.length; i++) {
-					URI url = pdls[i].getDownloadURL(client.getDocumentDir());
-					if (url != null)
-						email.addAttachment(url);
+				for (MProductDownload download : pdls) {
+					File fileToDownload = download.getDownloadFile(client.getDocumentDir());
+					notifier.addAttachment(fileToDownload);
 				}
 			} else {
 				log.warning("No DowloadURL for Asset=" + asset);
 			}
 		}
-		String msg = email.send();
-		new MUserMail(mailTemplate, asset.getAD_User_ID(), email).saveEx();
-		if (!EMail.SENT_OK.equals(msg)) {
-			return "** Not delivered: " + user.getEMail() + " - " + msg;
-		}
+		//	Add to queue
+		notifier.addToQueue();
 		//
 		log.fine((System.currentTimeMillis()-start) + " ms");
 		//	success
