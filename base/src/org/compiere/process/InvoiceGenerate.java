@@ -39,6 +39,7 @@ import org.compiere.model.Query;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
+import org.compiere.wf.MWorkflow;
 
 /**
  *	Generate Invoices
@@ -349,11 +350,7 @@ public class InvoiceGenerate extends InvoiceGenerateAbstract {
 	 */
 	private void completeInvoice() {
 		if (invoice != null) {
-			if (!invoice.processIt(getDocAction())) {
-				log.warning("completeInvoice - failed: " + invoice.getProcessMsg());
-				addLog(invoice.getProcessMsg()); // Elaine 2008/11/25
-			}
-			invoice.saveEx();
+			MWorkflow.processing(invoice).withDocumentAction(getDocAction());
 			addLog(invoice.getC_Invoice_ID(), invoice.getDateInvoiced(), null, invoice.getDocumentNo());
 			getProcessInfo().setRecord_ID(invoice.getC_Invoice_ID());
 			m_created++;

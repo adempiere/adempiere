@@ -35,6 +35,7 @@ import org.compiere.model.Query;
 import org.compiere.util.AdempiereUserError;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
+import org.compiere.wf.MWorkflow;
 
 /**
  *	Generate Shipments.
@@ -487,9 +488,7 @@ public class InOutGenerate extends InOutGenerateAbstract {
 		if (shipment != null)
 		{
 			//	Fails if there is a confirmation
-			if (!shipment.processIt(getDocAction()))
-				log.warning("Failed: " + shipment);
-			shipment.saveEx();
+			MWorkflow.processing(shipment).withDocumentAction(getDocAction());
 			//
 			addLog(shipment.getM_InOut_ID(), shipment.getMovementDate(), null, shipment.getDocumentNo());
 			getProcessInfo().setRecord_ID(shipment.getM_InOut_ID());

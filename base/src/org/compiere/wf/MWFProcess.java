@@ -248,6 +248,8 @@ public class MWFProcess extends X_AD_WF_Process
 		for (int i = 0; i < activities.length; i++)
 		{
 			MWFActivity activity = activities[i];
+			//Set the document to Activity
+			activity.setPO(getPO());
 			StateEngine activityState = activity.getState(); 
 			
 			//	Completed - Start Next
@@ -639,5 +641,13 @@ public class MWFProcess extends X_AD_WF_Process
 		MTable domain = MTable.get (getCtx(), getAD_Table_ID());
 		String update = "UPDATE "+ domain.getTableName() +" SET Processing='N' WHERE " +  domain.getKeyColumns()[0]+ "=?";
 		DB.executeUpdateEx(update, new Object[] {getRecord_ID()}, null);
+	}
+
+	/**
+	 * Defined Document to Workflow processing
+	 * @param document
+	 */
+	public void setDocument(PO document){
+		m_po = document;
 	}
 }	//	MWFProcess

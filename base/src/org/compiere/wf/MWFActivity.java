@@ -207,6 +207,7 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 		m_audit.saveEx();
 		//
 		m_process = process;
+		m_po = process.getPO();
 	}	//	MWFActivity
 
 	/**
@@ -373,7 +374,14 @@ public class MWFActivity extends X_AD_WF_Activity implements Runnable
 	{
 		return getPO(get_TrxName() != null ? Trx.get(get_TrxName(), false) : null);
 	}	//	getPO
-	
+
+	/**
+	 * Set Document to Activity
+	 * @param document
+	 */
+	public void setPO(PO document) {
+		m_po = document;
+	}
 	/**
 	 * 	Get PO AD_Client_ID
 	 *	@return client of PO

@@ -24,6 +24,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
@@ -32,8 +33,10 @@ import org.adempiere.exceptions.DBException;
 import org.compiere.model.MMenu;
 import org.compiere.model.MProduct;
 import org.compiere.model.MTable;
+import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.compiere.model.X_AD_Workflow;
+import org.compiere.process.DocAction;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.StateEngine;
 import org.compiere.util.CCache;
@@ -61,6 +64,66 @@ import org.compiere.util.Trx;
  */
 public class MWorkflow extends X_AD_Workflow
 {
+	//Document to be processing by the workflow
+	private  PO document;
+
+	/**
+	 * Processing a document using the workflow
+	 * @param document
+	 * @return
+	 */
+	static public MWorkflow processing(PO document) {
+		if (document instanceof DocAction) {
+			Optional<MWorkflow> maybeWorkflow = Optional.ofNullable(MWorkflow.getWorkFlowFromDocumentTable(document.getCtx(), document.get_Table_ID(), document.get_TrxName()));
+			return maybeWorkflow.map(workflow -> {
+				workflow.setDocument(document);
+				return workflow;
+			}).orElseThrow(() -> new AdempiereException("Document does not have a workflow to be processed"));
+		} else {
+			throw new AdempiereException("Document not extend of DocAction");
+		}
+	}
+
+	/**
+	 * Processing Document with Document Action
+	 * @param withDocumentAction Document Action
+	 */
+	public void withDocumentAction(String withDocumentAction) {
+		if (document == null)
+			throw new AdempiereException("Undefined document use method to set a document");
+		//Sets the document action to be processed
+		document.set_ValueOfColumn("DocAction", withDocumentAction);
+		document.saveEx();
+		//Casting from PO to DocAction
+		DocAction documentAction = (DocAction) document;
+		ProcessInfo processInfo = new ProcessInfo(
+				documentAction.getDocumentInfo(),
+				0,
+				documentAction.get_Table_ID(),
+				documentAction.get_ID(),
+				false);
+		processInfo.setAD_Client_ID(Env.getAD_Client_ID(document.getCtx()));
+		processInfo.setAD_User_ID(Env.getAD_User_ID(document.getCtx()));
+		processInfo.setTransactionName(documentAction.get_TrxName());
+		MWFProcess workflowProcess = start(processInfo);
+	}
+
+	/**
+	 * Defined Document to Workflow processing
+	 * @param document
+	 */
+	private void setDocument(PO document) {
+		this.document = document;
+	}
+
+	/**
+	 * Defined Document to Workflow processing
+	 * @param document
+	 */
+	private Optional<PO> getDocument() {
+		return Optional.ofNullable(document);
+	}
+
 	/**
 	 *
 	 */
@@ -709,6 +772,8 @@ public class MWorkflow extends X_AD_Workflow
 		Savepoint savepoint = null;
 		try {
 			workflowProcess = new MWFProcess (this, processInfo, null);
+			//Set the Document
+			getDocument().ifPresent(workflowProcess::setDocument);
 			// Check if exits activities actives if this way then Other Process Active
 			boolean isOtherProcessActive = workflowProcess.getActivities(true, true).length > 0;
 			if (MWorkflow.WORKFLOWTYPE_DocumentProcess.equals(getWorkflowType())
