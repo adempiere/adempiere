@@ -19,6 +19,7 @@ package org.adempiere.webui.session;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.webui.IWebClient;
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.desktop.IDesktop;
 import org.adempiere.webui.util.UserPreference;
 import org.compiere.model.MSession;
@@ -57,7 +58,7 @@ public class SessionManager
 
 	private static final Hashtable<String, WeakReference<Session>> sessionContainer = new Hashtable<>();
 
-    public static boolean isUserLoggedIn(Properties ctx)
+    public synchronized static boolean isUserLoggedIn(Properties ctx)
     {
         String adUserId = Env.getContext(ctx, "#AD_User_ID");
         String adRoleId = Env.getContext(ctx, "#AD_Role_ID");
@@ -68,63 +69,50 @@ public class SessionManager
                 && !"".equals(adClientId) && !"".equals(adOrgId));
     }
 
-    public static Session getSession()
-    {
-		Execution execution = Executions.getCurrent();
-		if (execution != null) {
-			Desktop desktop = execution.getDesktop();
-			return desktop.getSession();
-		} else {
-			return null;
-		}
-    }
-
-	public static void setApplicationToSession(IWebClient app)
-	{
-		Session session = getSession();
-		if (session != null)
-			session.setAttribute(SESSION_APPLICATION, new WeakReference<IWebClient>(app));
+	public synchronized static Session getSession() {
+		return Executions.getCurrent().getDesktop().getSession();
 	}
 
-	public static void removeApplicationToSession()
+	public synchronized static void setApplicationToSession(IWebClient app) {
+		Desktop desktop = AEnv.getDesktop();
+		if (desktop != null) {
+			desktop.setAttribute(SESSION_APPLICATION, new WeakReference<>(app));
+		} else {
+			log.severe("Unable to save session application on desktop");
+		}
+	}
+
+	public synchronized static void removeApplicationToSession()
 	{
 		Session session = getSession();
 		session.removeAttribute(SESSION_APPLICATION);
 	}
 
-	public static IDesktop getAppDesktop()
+	public synchronized static IDesktop getAppDesktop()
 	{
 		IWebClient webClient = getApplication();
 		return webClient != null ? webClient.getApplicationDesktop() : null;
 	}
 
-	public static IWebClient getApplication()
-	{
-		Session session = getSession();
+	public synchronized static IWebClient getApplication() {
+		Desktop desktop = AEnv.getDesktop();
 		IWebClient appplication = null;
-		if (session != null)
-		{
-			appplication = getApplication(session);
+		if (desktop != null) {
+			@SuppressWarnings("unchecked")
+			WeakReference<IWebClient> weakReference = (WeakReference<IWebClient>) desktop.getAttribute(SESSION_APPLICATION);
+			appplication = weakReference != null ? weakReference.get() : null;
 		}
 		return appplication;
 	}
 
-	public static IWebClient getApplication(Session session){
-		IWebClient appplication = null;
-		@SuppressWarnings("unchecked")
-		WeakReference<IWebClient> weakReference = (WeakReference<IWebClient>) session.getAttribute(SESSION_APPLICATION);
-		appplication = weakReference != null ? weakReference.get() : null;
-		return appplication;
-	}
-
-	public static void changeRole(MUser user)
+	public synchronized static void changeRole(MUser user)
 	{
 		IWebClient appplication  = getApplication();
 		if (appplication != null)
 			appplication.changeRole(user);
 	}
 
-    public static boolean activateDesktop(Desktop desktop)
+    public synchronized static boolean activateDesktop(Desktop desktop)
      {
  		if (Events.inEventListener()) {
  			return true;
@@ -152,7 +140,7 @@ public class SessionManager
  		return false;
      }
 
-    public static void releaseDesktop(Desktop desktop)
+    public synchronized static void releaseDesktop(Desktop desktop)
 	{
 		if (desktop  == null) {
 			return;
@@ -164,19 +152,20 @@ public class SessionManager
 		
 	}
 
-	public static Hashtable<String, WeakReference<Session>> getSessionContainer() {
+	public synchronized static Hashtable<String, WeakReference<Session>> getSessionContainer() {
 		return sessionContainer;
 	}
 
-	public static void removeSession(String sessionId) {
+	public synchronized static void removeSession(String sessionId) {
     	if (sessionContainer.containsKey(sessionId))
 			sessionContainer.remove(sessionId);
 		else throw new AdempiereException("Application not exist with this Id :" + sessionId);
 	}
 
-	public static void addSession(Session session) {
+	public synchronized static void addSession(Session session) {
 		HttpSession httpSession = (HttpSession) session.getNativeSession();
-		sessionContainer.put(httpSession.getId(), new WeakReference<>(session));
+		if (!sessionContainer.containsKey(httpSession.getId()))
+			sessionContainer.put(httpSession.getId(), new WeakReference<>(session));
 	}
 
 	public synchronized static Session getSession(String sessionId) {
@@ -188,30 +177,30 @@ public class SessionManager
 		}
 	}
 
-	public static void loadUserPreference(Integer authenticatedUserId) {
+	public synchronized static void loadUserPreference(Integer authenticatedUserId) {
 		UserPreference userPreference = new UserPreference();
 		userPreference.loadPreference(authenticatedUserId);
 		getSession().setAttribute(SESSION_USER_PREFERENCE, userPreference);
 	}
 
-	public static void loadUserPreference(String httpSessionId, Integer authenticatedUserId) {
+	public synchronized static void loadUserPreference(String httpSessionId, Integer authenticatedUserId) {
 			UserPreference userPreference = new UserPreference();
 			userPreference.loadPreference(authenticatedUserId);
 			getSession(httpSessionId).setAttribute(SESSION_USER_PREFERENCE, userPreference);
 	}
 
-	public static void RemoveUserPreference(String sessionId) {
+	public synchronized static void RemoveUserPreference(String sessionId) {
 		getSession().removeAttribute(SESSION_USER_PREFERENCE);
 	}
 
-	public static UserPreference getUserPreference() {
+	public synchronized static UserPreference getUserPreference() {
 		UserPreference userPreference =  (UserPreference) getSession().getAttribute(SESSION_USER_PREFERENCE);
 		if (userPreference == null)
 			throw new AdempiereException("User Preference not load for this session");
 		return userPreference;
 	}
 
-	public static UserPreference getUserPreference(String sessionId) {
+	public synchronized static UserPreference getUserPreference(String sessionId) {
 		return (UserPreference) getSession(sessionId).getAttribute(SESSION_USER_PREFERENCE);
 	}
 
@@ -222,7 +211,7 @@ public class SessionManager
 	public synchronized static void clearSession(String sessionId) {
 		Session session =  getSession(sessionId);
 		HttpSession httpSession = (HttpSession) session.getNativeSession();
-		Optional<IWebClient> maybeApplication = Optional.ofNullable(getApplication(session));
+		Optional<IWebClient> maybeApplication = Optional.ofNullable(getApplication());
 		maybeApplication.ifPresent(application -> {
 			int adempiereSessionId = Env.getContextAsInt(Env.getCtx(), "#AD_Session_ID");
 			if (adempiereSessionId > 0) {
