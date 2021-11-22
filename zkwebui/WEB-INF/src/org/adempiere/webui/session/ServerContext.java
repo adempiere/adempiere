@@ -37,9 +37,8 @@ public final class ServerContext implements Serializable
     {
     }
 
-    private static InheritableThreadLocal<Properties> context = new InheritableThreadLocal<Properties>() {
-        protected synchronized Properties initialValue()
-        {
+    private static InheritableThreadLocal<Properties> context = new InheritableThreadLocal<>() {
+        protected Properties initialValue() {
             Properties context = new Properties();
             return context;
         }
@@ -49,7 +48,7 @@ public final class ServerContext implements Serializable
      * Get server context for current thread
      * @return ServerContext
      */
-    public synchronized static Properties getCurrentInstance()
+    public static Properties getCurrentInstance()
     {
         return (Properties)context.get();
     }
@@ -57,7 +56,7 @@ public final class ServerContext implements Serializable
     /**
      * dispose server context for current thread
      */
-    public synchronized static void dispose()
+    public static void dispose()
     {
         context.remove();
     }
@@ -67,9 +66,9 @@ public final class ServerContext implements Serializable
      * Set server context for current thread
      * @param ctx
      */
-    public synchronized static void setCurrentInstance(Properties ctx)
+    public static void setCurrentInstance(Properties ctx)
     {
-        dispose();
+        //dispose();
         context.set(ctx);
     }
 }
