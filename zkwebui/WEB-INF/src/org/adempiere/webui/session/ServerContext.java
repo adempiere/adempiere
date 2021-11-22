@@ -48,7 +48,7 @@ public final class ServerContext implements Serializable
      * Get server context for current thread
      * @return ServerContext
      */
-    public static Properties getCurrentInstance()
+    public synchronized static Properties getCurrentInstance()
     {
         return (Properties)context.get();
     }
@@ -56,7 +56,7 @@ public final class ServerContext implements Serializable
     /**
      * dispose server context for current thread
      */
-    public static void dispose()
+    public synchronized static void dispose()
     {
         context.remove();
     }
@@ -66,7 +66,7 @@ public final class ServerContext implements Serializable
      * Set server context for current thread
      * @param ctx
      */
-    public static void setCurrentInstance(Properties ctx)
+    public synchronized static void setCurrentInstance(Properties ctx)
     {
         //dispose();
         context.set(ctx);
