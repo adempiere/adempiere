@@ -68,7 +68,7 @@ public final class ServerContext implements Serializable
      */
     public synchronized static void setCurrentInstance(Properties ctx)
     {
-        //dispose();
+        dispose();
         context.set(ctx);
     }
 }

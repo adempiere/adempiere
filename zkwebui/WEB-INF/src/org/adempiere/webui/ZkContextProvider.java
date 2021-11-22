@@ -36,21 +36,21 @@ public class ZkContextProvider implements ContextProvider {
 	/**
 	 * Get server context proxy
 	 */
-	public Properties getContext() {
+	public synchronized Properties getContext() {
 		return context;
 	}
 
 	/**
 	 * Show url at zk desktop
 	 */
-	public void showURL(String url) {
+	public synchronized void showURL(String url) {
 		showURL(url,"");
 	}	
 
 	/**
 	 * Show url at zk desktop
 	 */
-	public void showURL(String url, String title) {
+	public synchronized void showURL(String url, String title) {
 		SessionManager.getAppDesktop().showURL(url, title, true);
 	} 
 }
