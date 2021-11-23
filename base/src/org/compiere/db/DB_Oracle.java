@@ -593,7 +593,6 @@ public class DB_Oracle implements AdempiereDatabase
                                     DataSource dataSource = (DataSource) initCtx.lookup("java:/AdempiereDS");
                                     log.warning("Connection Lookup JNDI Datasource for java:/AdempiereDS Hikari Connection Pool");
                                     HikariConfig config = new HikariConfig();
-                                    config.addDataSourceProperty("maximumPoolSize", "150");
                                     config.setDataSource(dataSource);
                                     return new HikariDataSource(config);
                                 } catch (Exception namingException) {
@@ -606,7 +605,6 @@ public class DB_Oracle implements AdempiereDatabase
                                 DataSource dataSource = InitialContext.doLookup("java:comp/env/java/AdempiereDS");
                                 log.warning("Connection Lookup JNDI Datasource for java:comp/env/java/AdempiereDS Hikari Connection Pool");
                                 HikariConfig config = new HikariConfig();
-                                config.addDataSourceProperty("maximumPoolSize", "150");
                                 config.setDataSource(dataSource);
                                 return new HikariDataSource(config);
                             } catch (Exception namingException) {
