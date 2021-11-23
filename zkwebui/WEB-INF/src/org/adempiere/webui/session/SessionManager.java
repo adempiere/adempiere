@@ -28,7 +28,6 @@ import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.zkoss.web.Attributes;
 import org.zkoss.zk.ui.Desktop;
-import org.zkoss.zk.ui.Execution;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.event.Events;
@@ -96,13 +95,19 @@ public class SessionManager
 
 	public synchronized static IWebClient getApplication() {
 		Desktop desktop = AEnv.getDesktop();
-		IWebClient appplication = null;
 		if (desktop != null) {
+			IWebClient appplication = null;
 			@SuppressWarnings("unchecked")
 			WeakReference<IWebClient> weakReference = (WeakReference<IWebClient>) desktop.getAttribute(SESSION_APPLICATION);
 			appplication = weakReference != null ? weakReference.get() : null;
+			if (appplication != null) {
+				// Set Properties based on Session Context
+				Properties context = (Properties) desktop.getSession().getAttribute(SESSION_CTX);
+				ServerContext.setCurrentInstance(context);
+			}
+			return appplication;
 		}
-		return appplication;
+		return null;
 	}
 
 	public synchronized static void changeRole(MUser user)
