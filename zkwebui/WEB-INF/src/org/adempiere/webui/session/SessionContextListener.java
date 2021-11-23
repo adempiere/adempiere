@@ -18,6 +18,7 @@
 package org.adempiere.webui.session;
 
 import org.compiere.util.Env;
+import org.compiere.util.Ini;
 import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Desktop;
@@ -248,11 +249,14 @@ public class SessionContextListener implements ExecutionInit,
         if (ServerContext.getCurrentInstance().isEmpty() || !isValidContext())
         {
             Session session = desktop.getSession();
-            //Fleeting session
+            //Setting Ephemeral session
             Optional<Integer> maybeMaxInactiveInterval = Optional.ofNullable((Integer) session.getAttribute("MaxInactiveInterval"));
             if (maybeMaxInactiveInterval.isEmpty()) {
                 session.setAttribute("MaxInactiveInterval", session.getMaxInactiveInterval());
-                session.setMaxInactiveInterval(14);
+                Optional<String> maybeEphemeralMaxInactiveInterval = Optional.of(Ini.getProperty("EphemeralSessionMaxInactiveInterval"));
+                maybeEphemeralMaxInactiveInterval
+                        .filter(ephemeralMaxInactiveInterval -> !ephemeralMaxInactiveInterval.isEmpty())
+                        .ifPresent(ephemeralMaxInactiveInterval ->  session.setMaxInactiveInterval(Integer.parseInt(ephemeralMaxInactiveInterval)));
             }
             setContextForSession(Executions.getCurrent());
         }
