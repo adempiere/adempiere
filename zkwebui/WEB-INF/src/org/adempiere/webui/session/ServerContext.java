@@ -38,7 +38,7 @@ public final class ServerContext implements Serializable
     }
 
     private static InheritableThreadLocal<Properties> context = new InheritableThreadLocal<>() {
-        protected Properties initialValue() {
+        protected synchronized Properties initialValue() {
             Properties context = new Properties();
             return context;
         }
