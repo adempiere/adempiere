@@ -37,6 +37,7 @@ import org.zkoss.zk.ui.util.ExecutionInit;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 /**
@@ -246,6 +247,13 @@ public class SessionContextListener implements ExecutionInit,
 
         if (ServerContext.getCurrentInstance().isEmpty() || !isValidContext())
         {
+            Session session = desktop.getSession();
+            //Fleeting session
+            Optional<Integer> maybeMaxInactiveInterval = Optional.ofNullable((Integer) session.getAttribute("MaxInactiveInterval"));
+            if (maybeMaxInactiveInterval.isEmpty()) {
+                session.setAttribute("MaxInactiveInterval", session.getMaxInactiveInterval());
+                session.setMaxInactiveInterval(14);
+            }
             setContextForSession(Executions.getCurrent());
         }
     }

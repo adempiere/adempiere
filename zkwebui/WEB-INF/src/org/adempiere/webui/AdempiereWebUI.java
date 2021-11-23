@@ -54,6 +54,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Properties;
 
 import static org.adempiere.webui.session.SessionContextListener.SESSION_CTX;
@@ -187,6 +188,9 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		//	Create adempiere Session - user id in ctx
         Session currentSession = SessionManager.getSession();
         HttpSession httpSession = (HttpSession) currentSession.getNativeSession();
+		//Setting the timeout for this session
+		Optional<Integer> maybeMaxInactiveInterval = Optional.ofNullable((Integer) httpSession.getAttribute("MaxInactiveInterval"));
+		maybeMaxInactiveInterval.ifPresent(currentSession::setMaxInactiveInterval);
 
 		MSession adempiereSession = MSession.get (ctx, currentSession.getRemoteAddr(),
 				currentSession.getRemoteHost(), httpSession.getId() );
