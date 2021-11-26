@@ -320,19 +320,24 @@ public class RequestProcessor extends AdempiereServer
 		//	
 		Trx.run(transactionName -> {
 			//	Get instance for notifier
-			DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
-					.withContext(getCtx())
-					.withTransactionName(transactionName);
-			//	Send notification to queue
-			notifier
-				.clearMessage()
-				.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
-				.addRecipient(request.getSalesRep_ID())
-				.withText(message.get())
-				.addAttachment(request.createPDF())
-				.withDescription(subject.get());
-			//	Add to queue
-			notifier.addToQueue();
+			try {
+				DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+						.withContext(getCtx())
+						.withTransactionName(transactionName);
+				//	Send notification to queue
+				notifier
+					.clearMessage()
+					.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+					.withUserId(request.getUpdatedBy())
+					.addRecipient(request.getSalesRep_ID())
+					.withText(message.get())
+					.addAttachment(request.createPDF())
+					.withDescription(subject.get());
+				//	Add to queue
+				notifier.addToQueue();
+			} catch (Exception e) {
+				log.severe(e.getLocalizedMessage());
+			}
 		});
 		return true;
 	}   //  sendAlert
