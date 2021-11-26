@@ -15,7 +15,7 @@
 	<!-- set global properties for this build -->
 	<property name="src" value="src" />
 	<property name="build.dir" value="build" />
-	<property name="jboss.dir" value="../jboss" />
+	<property name="wildfly.dir" value="../wildfly" />
 	<property name="glassfish.dir" value="../glassfishfacet" />
 	<property name="dist.dir" value="../lib" />
 	<!--<property environment="env"/>-->
@@ -92,13 +92,7 @@
 	<target name="toolsAppsServer" depends="toolsCompile" unless="jars.uptodate" description="Create JBoss Client jar">
 		<!-- Create jboss.jar file 	-->
 		<jar jarfile="${dist.dir}/jboss.jar" duplicate="preserve">
-			<zipfileset src="${jboss.dir}/client/jboss-ejb3x.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			<zipfileset src="${jboss.dir}/client/jboss-ejb3-client.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			<zipfileset src="${jboss.dir}/client/jbossall-client.jar">
+			<zipfileset src="${wildfly.dir}/client/lib/jbossall-client-4.2.2.GA.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<manifest>
@@ -318,11 +312,14 @@
 			<zipfileset src="lib/activemq-core-5.7.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<!-- C3P0 connection pool -->
-			<zipfileset src="lib/c3p0-0.9.1.2.jar">
+			<!-- HikariCP connection pool -->
+			<zipfileset src="lib/HikariCP-5.0.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/c3p0-oracle-thin-extras-0.9.1.2.jar">
+			<zipfileset src="lib/slf4j-api-1.7.32.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/slf4j-simple-1.7.32.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- POI -->
@@ -367,10 +364,7 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- Commons -->
-			<zipfileset src="lib/commons-collections-3.2.2.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			<zipfileset src="lib/commons-collections4-4.1.jar">
+			<zipfileset src="lib/commons-collections4-4.4.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/commons-codec-1.6.jar">
@@ -581,11 +575,14 @@
 			<zipfileset src="lib/activemq-core-5.7.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<!-- C3P0 connection pool -->
-			<zipfileset src="lib/c3p0-0.9.1.2.jar">
+			<!-- HikariCP connection pool -->
+			<zipfileset src="lib/HikariCP-5.0.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/c3p0-oracle-thin-extras-0.9.1.2.jar">
+			<zipfileset src="lib/slf4j-api-1.7.32.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/slf4j-simple-1.7.32.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- POI -->
@@ -627,10 +624,7 @@
 				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
 			</manifest>
 			<!-- Commons -->
-			<zipfileset src="lib/commons-collections-3.2.2.jar">
-				<patternset refid="manifest.exclude" />
-			</zipfileset>
-			<zipfileset src="lib/commons-collections4-4.1.jar">
+			<zipfileset src="lib/commons-collections4-4.4.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/commons-codec-1.6.jar">

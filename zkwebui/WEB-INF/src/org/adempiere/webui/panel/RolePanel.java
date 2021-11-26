@@ -106,7 +106,8 @@ public class RolePanel extends Window implements EventListener, Deferrable
         rolesKNPairs = login.getRoles(userName, password);
         if(rolesKNPairs == null)
             throw new ApplicationException("Login is invalid, UserName: " + userName + " and Password:" + password);
-
+        //Load the User preferences
+        SessionManager.loadUserPreference(login.getAuthenticatedUserId());
         initComponents();
         init();
         this.setId("rolePanel");
@@ -272,8 +273,7 @@ public class RolePanel extends Window implements EventListener, Deferrable
 	private void updateRoleList()
 	{
 		lstRole.getItems().clear();
-		UserPreference userPreference = SessionManager.getSessionApplication().getUserPreference();
-        String initDefault = userPreference.getProperty(UserPreference.P_ROLE);
+        String initDefault = SessionManager.getUserPreference().getProperty(UserPreference.P_ROLE);
         for(int i = 0; i < rolesKNPairs.length; i++)
         {
         	ComboItem ci = new ComboItem(rolesKNPairs[i].getName(), rolesKNPairs[i].getID());
@@ -308,7 +308,7 @@ public class RolePanel extends Window implements EventListener, Deferrable
         if(lstItemRole != null)
         {
         	//  initial client - Elaine 2009/02/06
-        	UserPreference userPreference = SessionManager.getSessionApplication().getUserPreference();
+        	UserPreference userPreference = SessionManager.getUserPreference();
 			String initDefault = userPreference.getProperty(UserPreference.P_CLIENT);
             KeyNamePair roleKNPair = new KeyNamePair(new Integer((String)lstItemRole.getValue()), lstItemRole.getLabel());
             KeyNamePair clientKNPairs[] = login.getClients(roleKNPair);
@@ -341,7 +341,7 @@ public class RolePanel extends Window implements EventListener, Deferrable
         if(lstItemClient != null)
         {
 			//  initial organisation - Elaine 2009/02/06
-        	UserPreference userPreference = SessionManager.getSessionApplication().getUserPreference();
+        	UserPreference userPreference = SessionManager.getUserPreference();
 			String initDefault = userPreference.getProperty(UserPreference.P_ORG);
             KeyNamePair clientKNPair = new KeyNamePair(new Integer((String)lstItemClient.getValue()), lstItemClient.getLabel());
             KeyNamePair orgKNPairs[] = login.getOrgs(clientKNPair);
@@ -371,7 +371,7 @@ public class RolePanel extends Window implements EventListener, Deferrable
         if(lstItemOrganisation != null)
         {
 			//  initial warehouse - Elaine 2009/02/06
-        	UserPreference userPreference = SessionManager.getSessionApplication().getUserPreference();
+        	UserPreference userPreference = SessionManager.getUserPreference();
 			String initDefault = userPreference.getProperty(UserPreference.P_WAREHOUSE);
             KeyNamePair organisationKNPair = new KeyNamePair(new Integer((String)lstItemOrganisation.getValue()), lstItemOrganisation.getLabel());
             KeyNamePair warehouseKNPairs[] = login.getWarehouses(organisationKNPair);
@@ -460,13 +460,14 @@ public class RolePanel extends Window implements EventListener, Deferrable
         {
         	throw new WrongValueException(msg);
         }
-        if(wndLogin.isPassReset()) 
-        	Executions.sendRedirect("index.zul");
-        else 
-        	wndLogin.loginCompleted();
-
+        if(wndLogin.isPassReset()) {
+            Executions.sendRedirect("index.zul");
+        }
+        else {
+            wndLogin.loginCompleted();
+        }
         // Elaine 2009/02/06 save preference to AD_Preference
-        UserPreference userPreference = SessionManager.getSessionApplication().getUserPreference();
+        UserPreference userPreference = SessionManager.getUserPreference();
         userPreference.setProperty(UserPreference.P_LANGUAGE, Env.getContext(m_ctx, UserPreference.LANGUAGE_NAME));
         userPreference.setProperty(UserPreference.P_ROLE, lstItemRole != null ? (String) lstItemRole.getValue() : "0");
         userPreference.setProperty(UserPreference.P_CLIENT, lstItemClient != null ? (String) lstItemClient.getValue() : "0");
@@ -498,4 +499,26 @@ public class RolePanel extends Window implements EventListener, Deferrable
 		int M_Warehouse_ID = Env.getContextAsInt(ctx, Env.M_WAREHOUSE_ID);
 		lstWarehouse.setValue(M_Warehouse_ID);
 	}
+
+    public void cleanup() {
+	    if (wndLogin != null) {
+            wndLogin.detach();
+            wndLogin.cleanup();
+        }
+
+       wndLogin = null;
+	   login = null;
+       rolesKNPairs = null;
+       lstRole = null;
+       lstClient = null;
+       lstOrganisation = null;
+       lstWarehouse = null;
+       lblRole = null;
+       lblClient = null;
+       lblOrganisation = null;
+       lblWarehouse = null;
+       btnOk = null;
+       btnCancel = null;
+       m_ctx = null;
+    }
 }

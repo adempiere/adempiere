@@ -20,8 +20,6 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -50,8 +48,7 @@ import org.compiere.util.Msg;
  *  @author 	Jorg Janke
  *  @version 	$Id: VMemo.java,v 1.2 2006/07/30 00:51:27 jjanke Exp $
  */
-public class VMemo extends CTextArea
-	implements VEditor, KeyListener, FocusListener, ActionListener
+public class VMemo extends CTextArea implements VEditor, KeyListener, ActionListener
 {
 	/**
 	 * 
@@ -113,7 +110,6 @@ public class VMemo extends CTextArea
 		super (fieldLength/80, 50);
 		super.setName(columnName);
 		LookAndFeel.installBorder(this, "TextField.border");
-		this.addFocusListener(this);    //  to activate editor
 
 		//  Create Editor
 		setColumns(displayLength>VString.MAXDISPLAY_LENGTH ? VString.MAXDISPLAY_LENGTH : displayLength);	//  46
@@ -122,7 +118,6 @@ public class VMemo extends CTextArea
 
 		setLineWrap(true);
 		setWrapStyleWord(true);
-		addFocusListener(this);
 		setInputVerifier(new CInputVerifier()); //Must be set AFTER addFocusListener in order to work
 		setMandatory(mandatory);
 		m_columnName = columnName;
@@ -155,7 +150,6 @@ public class VMemo extends CTextArea
 
 	private String		m_columnName;
 	private String		m_oldText = "";
-	private boolean		m_firstChange;
 	/**	Logger			*/
 	private static CLogger log = CLogger.getCLogger(VMemo.class);
 
@@ -167,9 +161,6 @@ public class VMemo extends CTextArea
 	{
 		super.setValue(value);
 		m_oldText = getText();
-		m_firstChange = true;
-		//	Always position Top 
-		setCaretPosition(0);
 	}	//	setValue
 
 	/**
@@ -178,7 +169,7 @@ public class VMemo extends CTextArea
 	 */
 	public void propertyChange (PropertyChangeEvent evt)
 	{
-		if (evt.getPropertyName().equals(org.compiere.model.GridField.PROPERTY))
+		if (evt.getPropertyName().equals(org.compiere.model.GridField.PROPERTY) && !getText().equals(evt.getNewValue()))
 			setValue(evt.getNewValue());
 	}   //  propertyChange
 
@@ -243,44 +234,12 @@ public class VMemo extends CTextArea
 			setText(m_oldText);
 			return;
 		}
-	}	//	keyReleased
 
-	/**
-	 *	Focus Gained	- Save for Escape
-	 *  @param e
-	 */
-	public void focusGained (FocusEvent e)
-	{
-		log.config(e.paramString());
-		//if (e.getSource() instanceof VMemo)
-		//	requestFocus();
-		//else
-		//	m_oldText = getText();
-	}	//	focusGained
-
-	/**
-	 *	Data Binding to MTable (via GridController)
-	 *  @param e
-	 */
-	public void focusLost (FocusEvent e)
-	{
-		//  Indicate Change
-		log.fine( "focusLost");
-		
-		if (getText() == null && m_oldText == null)
-			return;
-		else if (getText().equals(m_oldText))
-			return;
-		//
-		try
-		{
-			String text = getText();
-			fireVetoableChange(m_columnName, m_oldText, text);
-			//m_oldText = text;  set by setValue();
-			return;
+		try {
+			fireVetoableChange(m_columnName, m_oldText, getText());
+		} catch (PropertyVetoException pve) {
 		}
-		catch (PropertyVetoException pve)	{}
-	}	//	focusLost
+	}	//	keyReleased
 
 	/*************************************************************************/
 

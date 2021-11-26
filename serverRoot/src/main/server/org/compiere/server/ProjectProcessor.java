@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.compiere.model.MClient;
 import org.compiere.model.MColumn;
 import org.compiere.model.MMailText;
 import org.compiere.model.MNote;
@@ -31,20 +30,20 @@ import org.compiere.model.MProjectProcessorChange;
 import org.compiere.model.MProjectProcessorQueued;
 import org.compiere.model.MProjectTask;
 import org.compiere.model.MUser;
-import org.compiere.model.MUserMail;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
-import org.compiere.util.AdempiereUserError;
 import org.compiere.util.CLogger;
-import org.compiere.util.EMail;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
 import org.compiere.util.ProjectProcessorUtils;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Trx;
 import org.compiere.util.Util;
 import org.eevolution.model.MProjectProcessor;
 import org.eevolution.model.MProjectProcessorLog;
 import org.eevolution.model.MProjectStatus;
+import org.spin.queue.notification.DefaultNotifier;
+import org.spin.queue.util.QueueLoader;
 
 /**
  * Project Processor
@@ -62,7 +61,6 @@ public class ProjectProcessor extends AdempiereServer
 	{
 		super (model, 60);	//	1 minute delay
 		m_model = model;
-		m_client = MClient.get(model.getCtx(), model.getAD_Client_ID());
 	}	//	RequestProcessor
 	
 	/**	The Concrete Model			*/
@@ -70,9 +68,6 @@ public class ProjectProcessor extends AdempiereServer
 	
 	/**	Last Summary				*/
 	private StringBuffer 		m_summary = new StringBuffer();
-	
-	/** Client onfo					*/
-	private MClient 			m_client = null;
 	
 	/**Current PO Changes*/
 	private PO					m_PO = null;
@@ -190,57 +185,43 @@ public class ProjectProcessor extends AdempiereServer
 	 * @param queued
 	 * @return
 	 */
-	private boolean sendEmail (MProjectProcessorQueued queued)
-	{
-		
-		try {
-			MUser to = (MUser) queued.getAD_User();
-			if (Util.isEmpty(to.getEMail())) 
-				throw new AdempiereUserError ("@AD_User_ID@ - @Email@ @NotFound@");
-			
-			
-			m_MailText.setUser(to);
-			if (m_PO!=null)
-				m_MailText.setPO(m_PO);
-			
-			//	
-			EMail email = null;
-			if (m_model.getSupervisor_ID()!=0) {
-				MUser from = (MUser) m_model.getSupervisor();
-				email = m_client.createEMail(from, to, null, null);
-			}
-			
-			if (email == null)
-				email = m_client.createEMail(to.getEMail(), null, null);
-			
-			if (email==null)
-				return false;
-			
-			//	
-			String msg = null;
-			if (!email.isValid()) {
-				msg = "@RequestActionEMailError@ Invalid EMail: " + to;
-				throw new AdempiereUserError (
-						"@RequestActionEMailError@ Invalid EMail: " + to);
-			}
+	private boolean sendEmail (MProjectProcessorQueued queued) {
+		MUser recipient = (MUser) queued.getAD_User();
+		m_MailText.setUser(recipient);
+		if (m_PO != null) {
+			m_MailText.setPO(m_PO);
+		}
+		//	
+		Trx.run(transactionName -> {
 			String subject = (!Util.isEmpty(m_MailText.getMailHeader())  ? m_MailText.getMailHeader() + " " :m_MailText.getMailHeader()) + m_PrefixSubject;
 			String message = "";
-			if (m_MailText.getR_MailText_ID()!=0)
+			if (m_MailText.getR_MailText_ID() != 0) {
 				message = m_MailText.getMailText(true);
-			
-			email.setMessageHTML(subject, m_PrefixTextMail + (message == null ? "" : message)  + "\n");
-			//
-			msg = email.send();
-			MUserMail um = new MUserMail(m_MailText, to.getAD_User_ID(), email);
-			um.saveEx();
-			queued.setAD_UserMail_ID(um.getAD_UserMail_ID());
-			
-			if (!msg.equals(EMail.SENT_OK)) 
-				throw new AdempiereUserError (to.getName() + " @RequestActionEMailError@ " + msg);
-			
-		} catch (AdempiereUserError e) {
-			logger.warning(e.getMessage());
-		}
+			}
+			//	Get instance for notifier
+			DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+					.withContext(getCtx())
+					.withTransactionName(transactionName);
+			//	Send notification to queue
+			notifier
+				.clearMessage()
+				.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+				.withText(m_PrefixTextMail + (message == null ? "" : message)  + "\n")
+				.withDescription(subject);
+			//	Add user
+			if (m_model.getSupervisor_ID() != 0) {
+				notifier.withUserId(m_model.getSupervisor_ID());
+			}
+			//	Add recipients
+			notifier.addRecipient(queued.getAD_User_ID());
+			if(m_PO != null) {
+				notifier
+					.withTableId(m_PO.get_Table_ID())
+					.withRecordId(m_PO.get_ID());
+			}
+			//	Add to queue
+			notifier.addToQueue();
+		});
 		return true;
 	}   //  sendEmail
 	

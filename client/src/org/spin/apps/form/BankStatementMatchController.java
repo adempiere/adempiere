@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 import org.compiere.impexp.BankStatementMatchInfo;
 import org.compiere.minigrid.IDColumn;
@@ -77,8 +78,6 @@ public class BankStatementMatchController {
 	private Vector<Vector<Object>> paymentData = new Vector<Vector<Object>>();
 	/**	Account PO	*/
 	private MBankAccount account = null;
-	/**	is available for save	*/
-	private boolean isAvailableForSave = false;
 	/**	Amount From	*/
 	private BigDecimal amtFrom = null;
 	/**	Amount To	*/
@@ -183,22 +182,6 @@ public class BankStatementMatchController {
 	 */
 	public boolean isMatchedMode() {
 		return getMatchedMode() == MODE_MATCHED;
-	}
-	
-	/**
-	 * Set if is available for save
-	 * @param isAvailableForSave
-	 */
-	public void setIsAvailableForSave(boolean isAvailableForSave) {
-		this.isAvailableForSave = isAvailableForSave;
-	}
-	
-	/**
-	 * Is Available for save
-	 * @return
-	 */
-	public boolean isAvailableForSave() {
-		return isAvailableForSave;
 	}
 	
 	/**
@@ -831,7 +814,7 @@ public class BankStatementMatchController {
 			}
 			for (MBankStatementMatcher matcher : matchersList) {
 				if (matcher.isMatcherValid()) {
-					BankStatementMatchInfo info = matcher.getMatcher().findMatch(currentBankStatementImport);
+					BankStatementMatchInfo info = matcher.getMatcher().findMatch(currentBankStatementImport, currentPaymentHashMap.keySet().stream().collect(Collectors.toList()), matchedPaymentHashMap.keySet().stream().collect(Collectors.toList()));
 					if (info != null && info.isMatched()) {
 						//	Duplicate match
 						if(matchedPaymentHashMap.containsKey(info.getC_Payment_ID())) {

@@ -66,9 +66,11 @@ jobs:
           tar -xzf apache-ant-1.10.10-bin.tar.gz
           export ANT_HOME=`pwd`/apache-ant-1.10.10
           export PATH=${ANT_HOME}/bin:$PATH
+          export ADEMPIERE_HOME=$GITHUB_WORKSPACE/adempiere/Adempiere
           echo $ANT_HOME
           echo $PATH
           echo $(ant -version)
+          echo $ADEMPIERE_HOME
           ant build
       - name: Upload Binary Files
         uses: actions/upload-artifact@v2

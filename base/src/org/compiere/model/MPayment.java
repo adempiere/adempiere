@@ -2080,8 +2080,7 @@ public final class MPayment extends X_C_Payment
 		List<MAllocationHdr> allocations = Arrays.asList(MAllocationHdr.getOfPayment(getCtx(), getC_Payment_ID(), get_TrxName()));
 		log.fine("#" + allocations.size());
 		allocations.stream()
-				.filter(allocationHdr -> !allocationHdr.getDocStatus().equals(DOCSTATUS_Reversed)
-						|| !allocationHdr.getDocStatus().equals(DOCSTATUS_Voided))
+				.filter(allocationHdr -> allocationHdr.getDocStatus().equals(DOCSTATUS_Completed))
 				.forEach(allocationHdr -> {
 					allocationHdr.set_TrxName(get_TrxName());
 					if (isAccrual) {

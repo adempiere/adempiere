@@ -9,7 +9,6 @@
 	<classpathentry kind="src" path="org.adempiere.project/src/main/java"/>
 	<classpathentry kind="src" path="org.adempiere.request/src/main/java"/>
 	<classpathentry kind="src" path="glassfishfacet/src"/>
-	<classpathentry kind="src" path="jbossfacet/src"/>
 	<classpathentry kind="src" path="client/src"/>
 	<classpathentry kind="src" path="sqlj/src"/>
 	<classpathentry kind="src" path="install/src"/>
@@ -108,7 +107,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="jboss/lib/commons-httpclient.jar"/>
 	<classpathentry kind="lib" path="tools/lib/jsp-api.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
@@ -120,11 +118,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="tools/lib/jnlp.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="tools/lib/commons-collections-3.2.2.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
@@ -141,16 +134,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="tools/lib/postgresql.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="tools/lib/c3p0-0.9.1.2.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="tools/lib/c3p0-oracle-thin-extras-0.9.1.2.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
@@ -222,8 +205,6 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="jboss/client/jbosssx-client.jar"/>
-	<classpathentry kind="lib" path="jboss/client/jnp-client.jar"/>
 	<classpathentry kind="lib" path="glassfishfacet/lib/appserv-rt.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/cglib.jar"/>
 	<classpathentry kind="lib" path="zkwebui/WEB-INF/lib/zcommon.jar" sourcepath="zkwebui/WEB-INF/lib/zcommon-sources.jar"/>
@@ -308,16 +289,12 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="tools/lib/mariadb-java-client.jar"/>
-	<classpathentry kind="lib" path="tools/lib/slf4j-api-1.6.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/poi-3.17.jar"/>
 	<classpathentry kind="lib" path="tools/lib/poi-ooxml-3.17.jar"/>
-	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-6.6.0.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/commons-beanutils-1.9.3.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/commons-digester-2.1.jar"/>
-	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-fonts-6.6.0.jar"/>
 	<classpathentry kind="lib" path="JasperReportsTools/lib/jfreechart-1.0.13.jar"/>
 	<classpathentry kind="lib" path="tools/lib/cglib.jar"/>
-	<classpathentry kind="lib" path="tools/lib/commons-collections4-4.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/groovy-all-2.4.15.jar"/>
 	<classpathentry kind="lib" path="tools/lib/harness-1.0.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/icepdf-core-6.2.2.jar"/>
@@ -443,5 +420,14 @@
 	<classpathentry kind="lib" path="tools/lib/javax.annotation-api-1.3.2.jar"/>
 	<classpathentry kind="lib" path="tools/lib/ejb-api-3.0.jar"/>
 	<classpathentry kind="lib" path="tools/lib/javax.servlet-api-4.0.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/commons-collections4-4.4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/HikariCP-5.0.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/slf4j-api-1.7.32.jar"/>
+	<classpathentry kind="lib" path="tools/lib/slf4j-simple-1.7.32.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-6.17.0.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-fonts-6.17.0.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/iText-2.1.7.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jakarta.servlet.jsp-api-3.0.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jakarta.servlet-api-5.0.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

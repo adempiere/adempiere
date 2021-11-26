@@ -13,25 +13,21 @@
  *****************************************************************************/
 package org.compiere.model;
 
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
-import java.util.Properties;
-
-import org.adempiere.exceptions.AdempiereException;
-import org.apache.commons.collections.keyvalue.MultiKey;
-import org.compiere.model.Query;
+import org.apache.commons.collections4.keyvalue.MultiKey;
+import org.compiere.FA.feature.UseLife;
+import org.compiere.FA.feature.UseLifeImpl;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.TimeUtil;
-import org.compiere.FA.feature.UseLife;
-import org.compiere.FA.feature.UseLifeImpl;
+
+import java.math.BigDecimal;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.List;
+import java.util.Properties;
 
 
 /**

@@ -73,66 +73,67 @@ public class Scheduler extends AdempiereServer
 	/**	The Concrete Model			*/
 	private MScheduler			schedulerConfiguration = null;
 	/**	Last Summary				*/
-	private StringBuffer 		m_summary = new StringBuffer();
+	private StringBuffer 		summary = new StringBuffer();
 	/** Transaction					*/
-	private Trx					m_trx = null;
+	private Trx 				transaction = null;
 
 	private it.sauronsoftware.cron4j.Scheduler cronScheduler;
-	private Predictor predictor;
+	private Predictor 			predictor;
 	
 	// ctx for the report/process
-	Properties m_schedulerctx = new Properties();
+	Properties 					schedulerContext = new Properties();
 
 	/**
 	 * 	Work
 	 */
 	protected void doWork ()
 	{
-		m_summary = new StringBuffer(schedulerConfiguration.toString())
+		summary = new StringBuffer(schedulerConfiguration.toString())
 			.append(" - ");
 
 		// Prepare a ctx for the report/process - BF [1966880]
-		m_schedulerctx.clear();
+		schedulerContext.clear();
 		MClient schedclient = MClient.get(getCtx(), schedulerConfiguration.getAD_Client_ID());
-		Env.setContext(m_schedulerctx, "#AD_Client_ID", schedclient.getAD_Client_ID());
-		Env.setContext(m_schedulerctx, "#AD_Language", schedclient.getAD_Language());
-		Env.setContext(m_schedulerctx, "#AD_Org_ID", schedulerConfiguration.getAD_Org_ID());
+		Env.setContext(schedulerContext, "#AD_Client_ID", schedclient.getAD_Client_ID());
+		Env.setContext(schedulerContext, "#AD_Language", schedclient.getAD_Language());
+		Env.setContext(schedulerContext, "#AD_Org_ID", schedulerConfiguration.getAD_Org_ID());
 		if (schedulerConfiguration.getAD_Org_ID() != 0) {
 			MOrgInfo schedorg = MOrgInfo.get(getCtx(), schedulerConfiguration.getAD_Org_ID(), null);
 			if (schedorg.getM_Warehouse_ID() > 0)
-				Env.setContext(m_schedulerctx, "#M_Warehouse_ID", schedorg.getM_Warehouse_ID());
+				Env.setContext(schedulerContext, "#M_Warehouse_ID", schedorg.getM_Warehouse_ID());
 		}
-		Env.setContext(m_schedulerctx, "#AD_User_ID", getAD_User_ID());
-		Env.setContext(m_schedulerctx, "#SalesRep_ID", getAD_User_ID());
+		Env.setContext(schedulerContext, "#AD_User_ID", getAD_User_ID());
+		Env.setContext(schedulerContext, "#SalesRep_ID", getAD_User_ID());
 		// TODO: It can be convenient to add  AD_Scheduler.AD_Role_ID
 		MUser scheduser = MUser.get(getCtx(), getAD_User_ID());
 		MRole[] schedroles = scheduser.getRoles(schedulerConfiguration.getAD_Org_ID());
 		if (schedroles != null && schedroles.length > 0)
-			Env.setContext(m_schedulerctx, "#AD_Role_ID", schedroles[0].getAD_Role_ID()); // first role, ordered by AD_Role_ID
+			Env.setContext(schedulerContext, "#AD_Role_ID", schedroles[0].getAD_Role_ID()); // first role, ordered by AD_Role_ID
 		Timestamp ts = new Timestamp(System.currentTimeMillis());
 		SimpleDateFormat dateFormat4Timestamp = new SimpleDateFormat("yyyy-MM-dd"); 
-		Env.setContext(m_schedulerctx, "#Date", dateFormat4Timestamp.format(ts)+" 00:00:00" );    //  JDBC format
+		Env.setContext(schedulerContext, "#Date", dateFormat4Timestamp.format(ts)+" 00:00:00" );    //  JDBC format
 		Properties currentctx = Env.getCtx();
-		Env.setCtx(m_schedulerctx);
+		Env.setCtx(schedulerContext);
 
-		MProcess process = new MProcess(m_schedulerctx, schedulerConfiguration.getAD_Process_ID(), null);
+		transaction = Trx.get(Trx.createTrxName("Scheduler"), true);
+		MProcess process = new MProcess(schedulerContext, schedulerConfiguration.getAD_Process_ID(), transaction.getTrxName());
 		try
 		{
-			m_trx = Trx.get(Trx.createTrxName("Scheduler"), true);
-			m_summary.append(runProcess(process));
-			m_trx.commit(true);
+			process.set_TrxName(transaction.getTrxName());
+			summary.append(runProcess(process));
+			transaction.commit(true);
 		}
 		catch (Exception e)
 		{
-			if (m_trx != null)
-				m_trx.rollback();
+			if (transaction != null)
+				transaction.rollback();
 			log.log(Level.WARNING, process.toString(), e);
-			m_summary.append(e.toString());
+			summary.append(e.toString());
 		}
 		finally
 		{
-			if (m_trx != null)
-				m_trx.close();
+			if (transaction != null)
+				transaction.close();
 		}
 		
 		// Restore system context
@@ -140,12 +141,12 @@ public class Scheduler extends AdempiereServer
 
 		//
 		int no = schedulerConfiguration.deleteLog();
-		m_summary.append(" Logs deleted=").append(no);
+		summary.append(" Logs deleted=").append(no);
 		//
-		MSchedulerLog pLog = new MSchedulerLog(schedulerConfiguration, m_summary.toString());
-		pLog.setReference("#" + String.valueOf(p_runCount)
+		MSchedulerLog schedulerLog = new MSchedulerLog(schedulerConfiguration, summary.toString());
+		schedulerLog.setReference("#" + String.valueOf(p_runCount)
 			+ " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-		pLog.saveEx();
+		schedulerLog.saveEx();
 	}	//	doWork
 
 	/**
@@ -219,11 +220,11 @@ public class Scheduler extends AdempiereServer
 					File report = null;
 					if (isReport) {
 						//	Report
-						ReportEngine re = ReportEngine.get(m_schedulerctx, info);
-						if (re == null)
+						ReportEngine reportEngine = ReportEngine.get(schedulerContext, info);
+						if (reportEngine == null)
 							return "Cannot create Report AD_Process_ID=" + process.getAD_Process_ID()
 							+ " - " + process.getName();
-						report = re.getPDF();
+						report = reportEngine.getPDF();
 
 					}
 					
@@ -241,15 +242,14 @@ public class Scheduler extends AdempiereServer
 							note.setTextMsg(info.getSummary());
 							note.setRecord(MPInstance.Table_ID, info.getAD_PInstance_ID());
 						}
-						if (note.save()) {
-							if (isReport) {
-								//	Attachment
-								MAttachment attachment = new MAttachment (getCtx(), MNote.Table_ID, note.getAD_Note_ID(), null);
-								attachment.setClientOrg(schedulerConfiguration.getAD_Client_ID(), schedulerConfiguration.getAD_Org_ID());
-								attachment.addEntry(report);
-								attachment.setTextMsg(schedulerConfiguration.getName());
-								attachment.saveEx();
-							}
+						note.saveEx();
+						if (isReport) {
+							//	Attachment
+							MAttachment attachment = new MAttachment (getCtx(), MNote.Table_ID, note.getAD_Note_ID(), null);
+							attachment.setClientOrg(schedulerConfiguration.getAD_Client_ID(), schedulerConfiguration.getAD_Org_ID());
+							attachment.addEntry(report);
+							attachment.setTextMsg(schedulerConfiguration.getName());
+							attachment.saveEx();
 						}
 					}
 					//	
@@ -304,15 +304,15 @@ public class Scheduler extends AdempiereServer
 					if (index != -1) {
 						columnName = columnName.substring(0, index);
 						//	try Env
-						String env = Env.getContext(m_schedulerctx, columnName);
-						if (env == null || env.length() == 0)
-							env = Env.getContext(getCtx(), columnName);
-						if (env.length() == 0) {
+						String environment = Env.getContext(schedulerContext, columnName);
+						if (environment == null || environment.length() == 0)
+							environment = Env.getContext(getCtx(), columnName);
+						if (environment.length() == 0) {
 							log.warning(schedulerParameter.getColumnName()
 								+ " - not in environment =" + columnName
 								+ "(" + variable + ")");
 						} else {
-							value = env;
+							value = environment;
 						}
 					}
 				}	//	@variable@
@@ -380,7 +380,7 @@ public class Scheduler extends AdempiereServer
 	 */
 	public String getServerInfo()
 	{
-		return "#" + p_runCount + " - Last=" + m_summary.toString();
+		return "#" + p_runCount + " - Last=" + summary.toString();
 	}	//	getServerInfo
 
 	@Override

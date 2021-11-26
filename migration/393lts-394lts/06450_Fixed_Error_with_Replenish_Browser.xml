@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="ECA02" Name="Fixed Error with Replenish Browser" ReleaseNo="3.9.4" SeqNo="6450">
-    <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
-      <SQLStatement>-- View: RV_M_Replenish
--- DROP VIEW RV_M_Replenish;
-/******************************************************************************
- * Product: Adempiere ERP &amp; CRM Smart Business Solution                       *
- * This program is free software; you can redistribute it and/or modify it    *
- * under the terms version 2 of the GNU General Public License as published   *
- * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
- * See the GNU General Public License for more details.                       *
- * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
- * All Rights Reserved.                                                       *
- * Contributor(s): Yamel Senih www.erpya.com                                  *
- ******************************************************************************
- ***
- * Title:	Warehouse Replenish
- * Description:
- *	Show all products for replenish
- *
- * Test:
- * 	SELECT * FROM RV_Replenish WHERE M_Warehouse_ID=103;
- ******************************************************************************/
-CREATE OR REPLACE VIEW RV_M_Replenish AS
+  <!--
+      /******************************************************************************
+      * Product: Adempiere ERP &amp; CRM Smart Business Solution                   *
+      * This program is free software; you can redistribute it and/or modify it    *
+      * under the terms version 2 of the GNU General Public License as published   *
+      * by the Free Software Foundation. This program is distributed in the hope   *
+      * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+      * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+      * See the GNU General Public License for more details.                       *
+      * You should have received a copy of the GNU General Public License along    *
+      * with this program; if not, write to the Free Software Foundation, Inc.,    *
+      * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+      * For the text or an alternative of this public license, you may reach us    *
+      * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
+      * All Rights Reserved.                                                       *
+      * Contributor(s): Yamel Senih www.erpya.com                                  *
+      ******************************************************************************
+      ***
+      * Title:	Warehouse Replenish
+      * Description:
+      *	Show all products for replenish
+      *
+      * Test:
+      * 	SELECT * FROM RV_Replenish WHERE M_Warehouse_ID=103;
+      ******************************************************************************/
+      -->
+    <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>CREATE OR REPLACE VIEW RV_M_Replenish AS
 SELECT r.AD_Client_ID, 
     r.AD_Org_ID, 
     r.M_Product_ID, 
@@ -111,33 +111,7 @@ FROM (SELECT r.AD_Client_ID,
     WHERE r.IsActive = 'Y' AND p.IsActive = 'Y') r
 WHERE (r.QtyToOrder &gt; 0
 OR (r.ReplenishType IN('0', '9')));</SQLStatement>
-      <RollbackStatement>-- View: RV_M_Replenish
--- DROP VIEW RV_M_Replenish;
-/******************************************************************************
- * Product: Adempiere ERP &amp; CRM Smart Business Solution                       *
- * This program is free software; you can redistribute it and/or modify it    *
- * under the terms version 2 of the GNU General Public License as published   *
- * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
- * See the GNU General Public License for more details.                       *
- * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
- * All Rights Reserved.                                                       *
- * Contributor(s): Yamel Senih www.erpya.com                                  *
- ******************************************************************************
- ***
- * Title:	Warehouse Replenish
- * Description:
- *	Show all products for replenish
- *
- * Test:
- * 	SELECT * FROM RV_Replenish WHERE M_Warehouse_ID=103;
- ******************************************************************************/
-CREATE OR REPLACE VIEW RV_M_Replenish AS
+      <RollbackStatement>CREATE OR REPLACE VIEW RV_M_Replenish AS
 SELECT r.AD_Client_ID, 
     r.AD_Org_ID, 
     r.M_Product_ID, 
@@ -221,34 +195,34 @@ FROM (SELECT r.AD_Client_ID,
 WHERE (r.QtyToOrder &gt; 0
 OR (r.ReplenishType IN('0', '9')));</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="10" StepType="SQL">
-      <SQLStatement>-- View: RV_M_Replenish
--- DROP VIEW RV_M_Replenish;
-/******************************************************************************
- * Product: Adempiere ERP &amp; CRM Smart Business Solution                       *
- * This program is free software; you can redistribute it and/or modify it    *
- * under the terms version 2 of the GNU General Public License as published   *
- * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
- * See the GNU General Public License for more details.                       *
- * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
- * All Rights Reserved.                                                       *
- * Contributor(s): Yamel Senih www.erpya.com                                  *
- ******************************************************************************
- ***
- * Title:	Warehouse Replenish
- * Description:
- *	Show all products for replenish
- *
- * Test:
- * 	SELECT * FROM RV_Replenish WHERE M_Warehouse_ID=103;
- ******************************************************************************/
-CREATE OR REPLACE VIEW RV_M_Replenish AS
+      <!--
+          /******************************************************************************
+          * Product: Adempiere ERP &amp; CRM Smart Business Solution                   *
+          * This program is free software; you can redistribute it and/or modify it    *
+          * under the terms version 2 of the GNU General Public License as published   *
+          * by the Free Software Foundation. This program is distributed in the hope   *
+          * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
+          * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
+          * See the GNU General Public License for more details.                       *
+          * You should have received a copy of the GNU General Public License along    *
+          * with this program; if not, write to the Free Software Foundation, Inc.,    *
+          * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
+          * For the text or an alternative of this public license, you may reach us    *
+          * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
+          * All Rights Reserved.                                                       *
+          * Contributor(s): Yamel Senih www.erpya.com                                  *
+          ******************************************************************************
+          ***
+          * Title:	Warehouse Replenish
+          * Description:
+          *	Show all products for replenish
+          *
+          * Test:
+          * 	SELECT * FROM RV_Replenish WHERE M_Warehouse_ID=103;
+          ******************************************************************************/
+          -->
+      <Step DBType="Oracle" Parse="Y" SeqNo="10" StepType="SQL">
+      <SQLStatement>CREATE OR REPLACE VIEW RV_M_Replenish AS
 SELECT r.AD_Client_ID, 
     r.AD_Org_ID, 
     r.M_Product_ID, 
@@ -331,33 +305,7 @@ FROM (SELECT r.AD_Client_ID,
     WHERE r.IsActive = 'Y' AND p.IsActive = 'Y') r
 WHERE (r.QtyToOrder &gt; 0
 OR (r.ReplenishType IN('0', '9')));</SQLStatement>
-      <RollbackStatement>-- View: RV_M_Replenish
--- DROP VIEW RV_M_Replenish;
-/******************************************************************************
- * Product: Adempiere ERP &amp; CRM Smart Business Solution                       *
- * This program is free software; you can redistribute it and/or modify it    *
- * under the terms version 2 of the GNU General Public License as published   *
- * by the Free Software Foundation. This program is distributed in the hope   *
- * that it will be useful, but WITHOUT ANY WARRANTY; without even the implied *
- * warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.           *
- * See the GNU General Public License for more details.                       *
- * You should have received a copy of the GNU General Public License along    *
- * with this program; if not, write to the Free Software Foundation, Inc.,    *
- * 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA.                     *
- * For the text or an alternative of this public license, you may reach us    *
- * Copyright (C) 2003-2015 E.R.P. Consultores y Asociados, C.A.               *
- * All Rights Reserved.                                                       *
- * Contributor(s): Yamel Senih www.erpya.com                                  *
- ******************************************************************************
- ***
- * Title:	Warehouse Replenish
- * Description:
- *	Show all products for replenish
- *
- * Test:
- * 	SELECT * FROM RV_Replenish WHERE M_Warehouse_ID=103;
- ******************************************************************************/
-CREATE OR REPLACE VIEW RV_M_Replenish AS
+      <RollbackStatement>CREATE OR REPLACE VIEW RV_M_Replenish AS
 SELECT r.AD_Client_ID, 
     r.AD_Org_ID, 
     r.M_Product_ID, 

@@ -31,7 +31,7 @@ public class X_AD_QueueType extends PO implements I_AD_QueueType, I_Persistent
 	/**
 	 *
 	 */
-	private static final long serialVersionUID = 20210720L;
+	private static final long serialVersionUID = 20210828L;
 
     /** Standard Constructor */
     public X_AD_QueueType (Properties ctx, int AD_QueueType_ID, String trxName)
@@ -187,6 +187,40 @@ public class X_AD_QueueType extends PO implements I_AD_QueueType, I_Persistent
 		return (String)get_Value(COLUMNNAME_QueueType);
 	}
 
+	/** TimeUnit AD_Reference_ID=53376 */
+	public static final int TIMEUNIT_AD_Reference_ID=53376;
+	/** Day = D */
+	public static final String TIMEUNIT_Day = "D";
+	/** Week = W */
+	public static final String TIMEUNIT_Week = "W";
+	/** Month = M */
+	public static final String TIMEUNIT_Month = "M";
+	/** Quarter = Q */
+	public static final String TIMEUNIT_Quarter = "Q";
+	/** Year = Y */
+	public static final String TIMEUNIT_Year = "Y";
+	/** Hour = H */
+	public static final String TIMEUNIT_Hour = "H";
+	/** Minute = I */
+	public static final String TIMEUNIT_Minute = "I";
+	/** Set Time Unit.
+		@param TimeUnit 
+		The unit of time for grouping chart data.
+	  */
+	public void setTimeUnit (String TimeUnit)
+	{
+
+		set_Value (COLUMNNAME_TimeUnit, TimeUnit);
+	}
+
+	/** Get Time Unit.
+		@return The unit of time for grouping chart data.
+	  */
+	public String getTimeUnit () 
+	{
+		return (String)get_Value(COLUMNNAME_TimeUnit);
+	}
+
 	/** Set Immutable Universally Unique Identifier.
 		@param UUID 
 		Immutable Universally Unique Identifier
@@ -228,4 +262,24 @@ public class X_AD_QueueType extends PO implements I_AD_QueueType, I_Persistent
     {
         return new KeyNamePair(get_ID(), getValue());
     }
+
+	/** Set Waiting Time.
+		@param WaitingTime 
+		Workflow Simulation Waiting time
+	  */
+	public void setWaitingTime (int WaitingTime)
+	{
+		set_Value (COLUMNNAME_WaitingTime, Integer.valueOf(WaitingTime));
+	}
+
+	/** Get Waiting Time.
+		@return Workflow Simulation Waiting time
+	  */
+	public int getWaitingTime () 
+	{
+		Integer ii = (Integer)get_Value(COLUMNNAME_WaitingTime);
+		if (ii == null)
+			 return 0;
+		return ii.intValue();
+	}
 }

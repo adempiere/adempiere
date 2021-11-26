@@ -111,7 +111,9 @@
 		<delete failonerror="false" includeEmptyDirs="true">
 			<fileset dir="${env.ADEMPIERE_HOME}/migration" includes="**/*" />
 			<fileset dir="${env.ADEMPIERE_HOME}/lib"/>
-			<fileset dir="${env.ADEMPIERE_HOME}/jboss"/>
+			<fileset dir="${env.ADEMPIERE_HOME}/wildfly"/>
+			<fileset dir="${env.ADEMPIERE_HOME}/tomcat"/>
+			<fileset dir="${env.ADEMPIERE_HOME}/jetty"/>
 		</delete>
 		<!-- Unzip Install File			-->
 		<unzip src="install/build/Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip" 
@@ -139,7 +141,9 @@
 		<delete failonerror="false" includeEmptyDirs="true">
 			<fileset dir="${env.ADEMPIERE_HOME}/migration" includes="**/*" />
 			<fileset dir="${env.ADEMPIERE_HOME}/lib"/>
-			<fileset dir="${env.ADEMPIERE_HOME}/jboss"/>
+			<fileset dir="${env.ADEMPIERE_HOME}/wildfly"/>
+			<fileset dir="${env.ADEMPIERE_HOME}/tomcat"/>
+			<fileset dir="${env.ADEMPIERE_HOME}/jetty"/>
 		</delete>
 		<!-- Unzip Install File			-->
 		<unzip src="install/build/Adempiere_${env.ADEMPIERE_VERSION_FILE}.zip" 

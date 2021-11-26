@@ -27,9 +27,11 @@ import java.util.logging.Level;
 
 import org.compiere.print.ReportEngine;
 import org.compiere.util.DB;
-import org.compiere.util.EMail;
 import org.compiere.util.Env;
+import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.spin.queue.notification.DefaultNotifier;
+import org.spin.queue.util.QueueLoader;
 
 /**
  *	RfQ Response Model	
@@ -139,9 +141,9 @@ public class MRfQResponse extends X_C_RfQResponse
 				continue;
 			//
 			if (get_ID() == 0)	//	save Response
-				save();
+				saveEx();
 
-			MRfQResponseLine line = new MRfQResponseLine (this, lines[i]);
+			new MRfQResponseLine (this, lines[i]);
 			//	line is not saved (dumped) if there are no Qtys 
 		}
 	}	//	MRfQResponse
@@ -238,16 +240,13 @@ public class MRfQResponse extends X_C_RfQResponse
 	 * 	Send RfQ
 	 *	@return true if RfQ is sent per email.
 	 */
-	public boolean sendRfQ()
-	{
-		MUser to = MUser.get(getCtx(), getAD_User_ID());
-		if (to.get_ID() == 0 || to.getEMail() == null || to.getEMail().length() == 0)
-		{
-			log.log(Level.SEVERE, "No User or no EMail - " + to);
-			return false;
-		}
-		MClient client = MClient.get(getCtx());
-		//
+	public boolean sendRfQ() {
+		MRole rol = new MRole(getCtx(), Env.getAD_Role_ID(getCtx()), get_TrxName());
+		//	Get instance for notifier
+		DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+				.withContext(Env.getCtx())
+				.withTransactionName(get_TrxName());
+		//	Prepare message
 		String message = m_rfq.getDescription();
 		if (message == null || message.length() == 0)
 			message = getHelp();
@@ -255,25 +254,30 @@ public class MRfQResponse extends X_C_RfQResponse
 			message += "\n" + m_rfq.getHelp();
 		if (message == null)
 			message = getName();
-		//
-		EMail email = client.createEMail(to.getEMail(), "RfQ: " + getName(), message);
-		MRole rol = new MRole(getCtx(), Env.getAD_Role_ID(getCtx()), get_TrxName());
-		if (rol.getSupervisor()!= null && rol.getSupervisor().getEMail() != null)
-			email.addCc(rol.getSupervisor().getEMail());
-		MUser user = new MUser(getCtx(), Env.getAD_User_ID(getCtx()), get_TrxName());
-		email.addAttachment(createPDF());
-		if (user.getEMail() != null && user.getEMailUserPW() != null)
-		{
-			email.setFrom(user.getEMail());
-			email.createAuthenticator(user.getEMail(), user.getEMailUserPW());
+		//	Send notification to queue
+		notifier
+			.clearMessage()
+			.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+			.withUserId(Env.getAD_User_ID(getCtx()))
+			.withText(message)
+			.addRecipient(getAD_User_ID())
+			.withDescription(Msg.parseTranslation(getCtx(), "@C_RfQ_ID@: ") + getName())
+			.withTableId(get_Table_ID())
+			.withRecordId(getC_RfQResponse_ID());
+		//	Attachment with name
+		ReportEngine reportEngine = ReportEngine.get (getCtx(), ReportEngine.RFQ, getC_RfQResponse_ID());
+		if(reportEngine != null) {
+			notifier.addAttachment(reportEngine.getPDF(), reportEngine.getName());
 		}
-		if (EMail.SENT_OK.equals(email.send()))
-		{
-			setDateInvited(new Timestamp (System.currentTimeMillis()));
-			save();
-			return true;
+		//	Sender and recipient
+		if (rol.getSupervisor()!= null && rol.getSupervisor_ID() > 0) {
+			notifier.addRecipient(rol.getSupervisor_ID());
 		}
-		return false;
+		notifier.addToQueue();
+		//	Save
+		setDateInvited(new Timestamp (System.currentTimeMillis()));
+		saveEx();
+		return true;
 	}	//	sendRfQ
 	
 	/**

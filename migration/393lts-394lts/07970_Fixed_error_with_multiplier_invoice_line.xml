@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="D" Name="Fixed error with multiplier invoice line" ReleaseNo="3.9.4" SeqNo="7970">
-    <Step DBType="Postgres" Parse="N" SeqNo="10" StepType="SQL">
+    <Step DBType="Postgres" Parse="Y" SeqNo="10" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW RV_C_INVOICELINE
 (AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
  UPDATED, UPDATEDBY, C_INVOICELINE_ID, C_INVOICE_ID, SALESREP_ID, 
@@ -109,7 +109,7 @@ FROM  RV_C_Invoice i
   LEFT OUTER JOIN M_Product p ON (il.M_Product_ID=p.M_Product_ID)
   LEFT OUTER JOIN M_AttributeSetInstance pasi ON (il.M_AttributeSetInstance_ID=pasi.M_AttributeSetInstance_ID);</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="20" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="20" StepType="SQL">
       <SQLStatement>CREATE OR REPLACE VIEW RV_C_INVOICELINE
 (AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, CREATEDBY, 
  UPDATED, UPDATEDBY, C_INVOICELINE_ID, C_INVOICE_ID, SALESREP_ID, 

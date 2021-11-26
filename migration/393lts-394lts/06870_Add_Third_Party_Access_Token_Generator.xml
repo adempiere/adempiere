@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Migrations>
   <Migration EntityType="D" Name="Add Third Party Access Token Generator" ReleaseNo="3.9.4" SeqNo="6870">
+    <Step DBType="Oracle" Parse="Y" SeqNo="1" StepType="SQL">
+      <SQLStatement>ALTER TABLE AD_Token ADD(TokenValue_l CLOB);
+UPDATE AD_Token SET TokenValue_l = TokenValue ; 
+ALTER TABLE AD_Token DROP(TokenValue);
+ALTER TABLE AD_Token RENAME COLUMN TokenValue_l TO TokenValue ;</SQLStatement>
+    </Step>
+    <Step DBType="Postgres" Parse="Y" SeqNo="2" StepType="SQL">
+      <SQLStatement>ALTER TABLE AD_Token ALTER COLUMN TokenValue TYPE Text;</SQLStatement>
+    </Step>
     <Step SeqNo="10" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="88778" Table="AD_Column">
-        <Data AD_Column_ID="124" Column="IsMandatory" oldValue="true">false</Data>
         <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
         <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">ExpireDate</Data>
+        <Data AD_Column_ID="124" Column="IsMandatory" oldValue="true">false</Data>
       </PO>
     </Step>
-    <Step SeqNo="20" StepType="AD">
-      <PO AD_Table_ID="101" Action="U" Record_ID="88837" Table="AD_Column">
-        <Data AD_Column_ID="118" Column="FieldLength" oldValue="255">9000</Data>
-        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
-        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">TokenValue</Data>
-      </PO>
-    </Step>
-    <Step SeqNo="30" StepType="AD">
-      <PO AD_Table_ID="101" Action="U" Record_ID="88837" Table="AD_Column">
-        <Data AD_Column_ID="118" Column="FieldLength" oldValue="9000">16000</Data>
-        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true" oldValue="TokenValue"/>
-      </PO>
+    <Step DBType="ALL" Parse="Y" SeqNo="20" StepType="SQL">
+      <SQLStatement>UPDATE AD_Column SET FieldLength = 16000 WHERE AD_Column_ID=88837;</SQLStatement>
     </Step>
     <Step SeqNo="40" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="97390" Table="AD_Column">
@@ -342,12 +341,12 @@
     </Step>
     <Step SeqNo="250" StepType="AD">
       <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
-        <Data AD_Column_ID="2648" Column="Help" isOldNull="true">Maneja Fecha de Vencimiento para el token generado</Data>
         <Data AD_Column_ID="2647" Column="Description" oldValue="Has Expire Date for generated token">Maneja Vencimiento de Token</Data>
         <Data AD_Column_ID="2646" Column="Name" oldValue="Has Expire Date">Maneja Vencimiento de Token</Data>
         <Data AD_Column_ID="4300" Column="PrintName" oldValue="Has Expire Date">Maneja Vencimiento de Token</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="61550">61550</Data>
         <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2648" Column="Help" isOldNull="true">Maneja Fecha de Vencimiento para el token generado</Data>
       </PO>
     </Step>
     <Step SeqNo="260" StepType="AD">
@@ -1035,6 +1034,7 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="490" StepType="AD">
       <PO AD_Table_ID="107" Action="I" Record_ID="100035" Table="AD_Field">
+        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="578" Column="IsActive">true</Data>
         <Data AD_Column_ID="174" Column="AD_Column_ID">97390</Data>
         <Data AD_Column_ID="54357" Column="AD_Val_Rule_ID" isNewNull="true"/>
@@ -1076,7 +1076,6 @@ There are two reasons for de-activating and not deleting records:
         <Data AD_Column_ID="181" Column="SeqNo">60</Data>
         <Data AD_Column_ID="5375" Column="AD_FieldGroup_ID" isNewNull="true"/>
         <Data AD_Column_ID="54356" Column="AD_Reference_Value_ID" isNewNull="true"/>
-        <Data AD_Column_ID="62479" Column="SeqNoGrid">0</Data>
         <Data AD_Column_ID="180" Column="DisplayLength">10</Data>
         <Data AD_Column_ID="172" Column="AD_Tab_ID">55035</Data>
       </PO>
@@ -1233,11 +1232,11 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="550" StepType="AD">
       <PO AD_Table_ID="123" Action="U" Record_ID="55035" Table="AD_Tab_Trl">
-        <Data AD_Column_ID="266" Column="Name" oldValue="Access Token">Token para Acceso</Data>
         <Data AD_Column_ID="264" Column="AD_Tab_ID" oldValue="55035">55035</Data>
         <Data AD_Column_ID="265" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="267" Column="Description" oldValue="Token for Access to restore password and approval">Token para Acceso y reinicio de contraseña</Data>
         <Data AD_Column_ID="268" Column="Help" oldValue="This table is used for storage token access for password restore and approval">Usado para almacenar los token de acceso para reiniciar contraseña y aprobar</Data>
+        <Data AD_Column_ID="266" Column="Name" oldValue="Access Token">Token para Acceso</Data>
+        <Data AD_Column_ID="267" Column="Description" oldValue="Token for Access to restore password and approval">Token para Acceso y reinicio de contraseña</Data>
       </PO>
     </Step>
     <Step SeqNo="560" StepType="AD">
@@ -1316,11 +1315,11 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="600" StepType="AD">
       <PO AD_Table_ID="123" Action="U" Record_ID="55036" Table="AD_Tab_Trl">
-        <Data AD_Column_ID="266" Column="Name" oldValue="Token for Access">Token para Acceso</Data>
         <Data AD_Column_ID="264" Column="AD_Tab_ID" oldValue="55036">55036</Data>
         <Data AD_Column_ID="265" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="267" Column="Description" oldValue="Token for Access to restore password and approval">Token para Acceso y reinicio de contraseña</Data>
         <Data AD_Column_ID="268" Column="Help" oldValue="This table is used for storage token access for password restore and approval">Usado para almacenar los token de acceso para reiniciar contraseña y aprobar</Data>
+        <Data AD_Column_ID="266" Column="Name" oldValue="Token for Access">Token para Acceso</Data>
+        <Data AD_Column_ID="267" Column="Description" oldValue="Token for Access to restore password and approval">Token para Acceso y reinicio de contraseña</Data>
       </PO>
     </Step>
     <Step SeqNo="610" StepType="AD">
@@ -1775,9 +1774,9 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="740" StepType="AD">
       <PO AD_Table_ID="127" Action="I" Record_ID="100044" Table="AD_Field_Trl">
-        <Data AD_Column_ID="671" Column="IsActive">true</Data>
         <Data AD_Column_ID="672" Column="Created">2020-11-18 17:37:41.647</Data>
         <Data AD_Column_ID="674" Column="Updated">2020-11-18 17:37:41.647</Data>
+        <Data AD_Column_ID="671" Column="IsActive">true</Data>
         <Data AD_Column_ID="1205" Column="AD_Org_ID">0</Data>
         <Data AD_Column_ID="287" Column="Description">User within the system - Internal or Business Partner Contact</Data>
         <Data AD_Column_ID="289" Column="IsTranslated">false</Data>
@@ -2046,11 +2045,11 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="830" StepType="AD">
       <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Generate Token for Third Party Access">Generar Token para Acceso de Terceros</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54462">54462</Data>
         <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2853" Column="Description" oldValue="Generate Token for Third Party Access">Generar Token para Acceso de Terceros</Data>
-        <Data AD_Column_ID="2852" Column="Name" oldValue="Generate Token for Third Party Access">Generar Token para Acceso de Terceros</Data>
         <Data AD_Column_ID="2854" Column="Help" oldValue="Generate Token for Third Party Access based on User and Role">Este proceso permite Generar Token para Acceso de Terceros permitiendo usar el token en lugar de usuario y contraseña</Data>
-        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54462">54462</Data>
       </PO>
     </Step>
     <Step SeqNo="840" StepType="AD">
@@ -2181,8 +2180,8 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="890" StepType="AD">
       <PO AD_Table_ID="285" Action="U" Record_ID="57922" Table="AD_Process_Para">
-        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isOldNull="true">110</Data>
         <Data AD_Column_ID="2827" Column="AD_Reference_ID" oldValue="19">30</Data>
+        <Data AD_Column_ID="2828" Column="AD_Reference_Value_ID" isOldNull="true">110</Data>
       </PO>
     </Step>
     <Step SeqNo="900" StepType="AD">
@@ -2248,10 +2247,10 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="930" StepType="AD">
       <PO AD_Table_ID="452" Action="U" Record_ID="54668" Table="AD_TreeNodeMM">
-        <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="0">367</Data>
         <Data AD_Column_ID="6157" Column="SeqNo" oldValue="999">12</Data>
         <Data AD_Column_ID="6160" Column="AD_Tree_ID" oldValue="10">10</Data>
         <Data AD_Column_ID="6161" Column="Node_ID" oldValue="54668">54668</Data>
+        <Data AD_Column_ID="6155" Column="Parent_ID" oldValue="0">367</Data>
       </PO>
     </Step>
     <Step SeqNo="940" StepType="AD">
@@ -2360,10 +2359,10 @@ There are two reasons for de-activating and not deleting records:
     </Step>
     <Step SeqNo="1030" StepType="AD">
       <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
-        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54463">54463</Data>
-        <Data AD_Column_ID="2852" Column="Name" oldValue="Generate Token for Third Party Access">Generar Token para Acceso de Terceros</Data>
         <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2853" Column="Description" oldValue="Generate Token for Third Party Access">Generar Token para Acceso de Terceros</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54463">54463</Data>
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Generate Token for Third Party Access">Generar Token para Acceso de Terceros</Data>
       </PO>
     </Step>
     <Step SeqNo="1040" StepType="AD">
@@ -2526,17 +2525,17 @@ AND EXISTS(SELECT 1 FROM AD_User_Roles ur WHERE ur.AD_User_ID = AD_User.AD_User_
     </Step>
     <Step SeqNo="1120" StepType="AD">
       <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
-        <Data AD_Column_ID="2853" Column="Description" oldValue="Generate Token for Third Party Access">Generar Token para Acceso de Terceros</Data>
-        <Data AD_Column_ID="2852" Column="Name" oldValue="Generate Token for Third Party Access">Generar Token para Acceso de Terceros</Data>
         <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54464">54464</Data>
+        <Data AD_Column_ID="2852" Column="Name" oldValue="Generate Token for Third Party Access">Generar Token para Acceso de Terceros</Data>
+        <Data AD_Column_ID="2853" Column="Description" oldValue="Generate Token for Third Party Access">Generar Token para Acceso de Terceros</Data>
       </PO>
     </Step>
     <Step SeqNo="1130" StepType="AD">
       <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
-        <Data AD_Column_ID="2854" Column="Help" oldValue="Generate Token for Third Party Access based on User and Role">Este proceso permite Generar Token para Acceso de Terceros permitiendo usar el token en lugar de usuario y contraseña</Data>
         <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54464">54464</Data>
+        <Data AD_Column_ID="2854" Column="Help" oldValue="Generate Token for Third Party Access based on User and Role">Este proceso permite Generar Token para Acceso de Terceros permitiendo usar el token en lugar de usuario y contraseña</Data>
       </PO>
     </Step>
     <Step SeqNo="1140" StepType="AD">
@@ -2685,11 +2684,11 @@ AND EXISTS(SELECT 1 FROM AD_User_Roles ur WHERE ur.AD_User_ID = AD_User.AD_User_
     <Step SeqNo="1220" StepType="AD">
       <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
         <Data AD_Column_ID="2646" Column="Name" oldValue="Revoke All Token">Revocar Todos los Tokens</Data>
+        <Data AD_Column_ID="2648" Column="Help" oldValue="A revoke token request causes the removal of the client permissions associated with the specified token used to access the user's protected resources. ... OAuth refresh tokens are tokens issued by the Authorization Server to the client that can be used to obtain a new access token.">Una solicitud de token de revocación provoca la eliminación de los permisos del cliente asociados con el token especificado utilizado para acceder a los recursos protegidos del usuario. ... Los tokens de actualización de OAuth son tokens emitidos por el servidor de autorización al cliente que se pueden usar para obtener un nuevo token de acceso.</Data>
         <Data AD_Column_ID="4300" Column="PrintName" oldValue="Revoke All Token">Revocar Todos los Tokens</Data>
         <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2647" Column="Description" oldValue="Revoke All Token">Revocar Todos los Tokens</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="61551">61551</Data>
-        <Data AD_Column_ID="2648" Column="Help" oldValue="A revoke token request causes the removal of the client permissions associated with the specified token used to access the user's protected resources. ... OAuth refresh tokens are tokens issued by the Authorization Server to the client that can be used to obtain a new access token.">Una solicitud de token de revocación provoca la eliminación de los permisos del cliente asociados con el token especificado utilizado para acceder a los recursos protegidos del usuario. ... Los tokens de actualización de OAuth son tokens emitidos por el servidor de autorización al cliente que se pueden usar para obtener un nuevo token de acceso.</Data>
       </PO>
     </Step>
     <Step SeqNo="1230" StepType="AD">
@@ -2762,10 +2761,10 @@ If you select "Revoke All Tokens" then all generated token will be revoked and n
     </Step>
     <Step SeqNo="1270" StepType="AD">
       <PO AD_Table_ID="287" Action="U" Record_ID="0" Table="AD_Process_Trl">
-        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
-        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54463">54463</Data>
         <Data AD_Column_ID="2854" Column="Help" oldValue="Este proceso permite Generar Token para Acceso de Terceros permitiendo usar el token en lugar de usuario y contraseña">Este proceso permite Generar Token para Acceso de Terceros permitiendo usar el token en lugar de usuario y contraseña
 Si selecciona "Revocar todos los Tokens" entonces todos los tokens generados serán revocados para eeste usuario y rol</Data>
+        <Data AD_Column_ID="2844" Column="AD_Language" oldValue="es_MX">es_MX</Data>
+        <Data AD_Column_ID="2843" Column="AD_Process_ID" oldValue="54463">54463</Data>
       </PO>
     </Step>
     <Step SeqNo="1280" StepType="AD">
@@ -2956,10 +2955,10 @@ Si selecciona "Revocar todos los Tokens" entonces todos los tokens generados ser
     <Step SeqNo="1390" StepType="AD">
       <PO AD_Table_ID="277" Action="U" Record_ID="0" Table="AD_Element_Trl">
         <Data AD_Column_ID="4300" Column="PrintName" oldValue="Expiration Time">Tiempo de Expiración</Data>
+        <Data AD_Column_ID="2647" Column="Description" oldValue="Expiration Time for Token, default 5 minutes">Tiempo de Expiración para el Token, por defecto 5 minutos</Data>
         <Data AD_Column_ID="2637" Column="AD_Element_ID" oldValue="61552">61552</Data>
         <Data AD_Column_ID="2638" Column="AD_Language" oldValue="es_MX">es_MX</Data>
         <Data AD_Column_ID="2646" Column="Name" oldValue="Expiration Time">Tiempo de Expiración</Data>
-        <Data AD_Column_ID="2647" Column="Description" oldValue="Expiration Time for Token, default 5 minutes">Tiempo de Expiración para el Token, por defecto 5 minutos</Data>
       </PO>
     </Step>
     <Step SeqNo="1400" StepType="AD">
@@ -3141,12 +3140,8 @@ Si selecciona "Revocar todos los Tokens" entonces todos los tokens generados ser
         <Data AD_Column_ID="183" Column="IsSameLine" oldValue="true">false</Data>
       </PO>
     </Step>
-    <Step SeqNo="1510" StepType="AD">
-      <PO AD_Table_ID="101" Action="U" Record_ID="88837" Table="AD_Column">
-        <Data AD_Column_ID="226" Column="AD_Reference_ID" oldValue="10">14</Data>
-        <Data AD_Column_ID="92541" Column="RequiresSync" oldValue="false">true</Data>
-        <Data AD_Column_ID="92542" Column="NameOldValue" isOldNull="true">TokenValue</Data>
-      </PO>
+    <Step DBType="ALL" Parse="Y" SeqNo="1510" StepType="SQL">
+      <SQLStatement>UPDATE AD_Column SET AD_Reference_ID = 14 WHERE AD_Column_ID=88837;</SQLStatement>
     </Step>
     <Step SeqNo="1520" StepType="AD">
       <PO AD_Table_ID="107" Action="U" Record_ID="91397" Table="AD_Field">

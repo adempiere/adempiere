@@ -99,6 +99,15 @@
     </Step>
     <Step SeqNo="60" StepType="AD">
       <PO AD_Table_ID="101" Action="I" Record_ID="97440" Table="AD_Column">
+        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true"/>
+        <Data AD_Column_ID="114" Column="AD_Table_ID">251</Data>
+        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
+        <Data AD_Column_ID="548" Column="IsActive">true</Data>
+        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
+        <Data AD_Column_ID="549" Column="Created">2020-11-23 09:09:55.296</Data>
+        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
+        <Data AD_Column_ID="551" Column="Updated">2020-11-23 09:09:55.296</Data>
+        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
         <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="109" Column="AD_Column_ID">97440</Data>
         <Data AD_Column_ID="126" Column="IsIdentifier">false</Data>
@@ -106,7 +115,7 @@
         <Data AD_Column_ID="124" Column="IsMandatory">false</Data>
         <Data AD_Column_ID="125" Column="IsTranslated">false</Data>
         <Data AD_Column_ID="117" Column="DefaultValue" isNewNull="true"/>
-        <Data AD_Column_ID="1179" Column="VFormat" isNewNull="true"/>
+        <Data AD_Column_ID="59702" Column="AD_Chart_ID" isNewNull="true"/>
         <Data AD_Column_ID="120" Column="IsParent">false</Data>
         <Data AD_Column_ID="6244" Column="IsSelectionColumn">false</Data>
         <Data AD_Column_ID="6483" Column="IsSyncDatabase">N</Data>
@@ -138,18 +147,9 @@
         <Data AD_Column_ID="118" Column="FieldLength">10</Data>
         <Data AD_Column_ID="226" Column="AD_Reference_ID">19</Data>
         <Data AD_Column_ID="552" Column="UpdatedBy">100</Data>
+        <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
         <Data AD_Column_ID="84306" Column="UUID">27b79890-4584-4cc3-8b6c-bf9ed0fdaac4</Data>
         <Data AD_Column_ID="3369" Column="AD_Process_ID" isNewNull="true"/>
-        <Data AD_Column_ID="92541" Column="RequiresSync">true</Data>
-        <Data AD_Column_ID="92542" Column="NameOldValue" isNewNull="true"/>
-        <Data AD_Column_ID="114" Column="AD_Table_ID">251</Data>
-        <Data AD_Column_ID="112" Column="Description" isNewNull="true"/>
-        <Data AD_Column_ID="548" Column="IsActive">true</Data>
-        <Data AD_Column_ID="90939" Column="AD_Image_ID" isNewNull="true"/>
-        <Data AD_Column_ID="549" Column="Created">2020-11-23 09:09:55.296</Data>
-        <Data AD_Column_ID="3388" Column="ValueMin" isNewNull="true"/>
-        <Data AD_Column_ID="551" Column="Updated">2020-11-23 09:09:55.296</Data>
-        <Data AD_Column_ID="3389" Column="ValueMax" isNewNull="true"/>
       </PO>
     </Step>
     <Step SeqNo="70" StepType="AD">
@@ -354,14 +354,23 @@
         <Data AD_Column_ID="84323" Column="UUID">4221563c-3f1c-426d-af38-7979ec4dbd36</Data>
       </PO>
     </Step>
-    <Step DBType="ALL" Parse="Y" SeqNo="180" StepType="SQL">
+    <Step DBType="Postgres" Parse="Y" SeqNo="180" StepType="SQL">
       <SQLStatement>-- Product Price
-CREATE SEQUENCE M_ProductPrice_Seq START 1000000;
+CREATE SEQUENCE M_ProductPrice_Seq START WITH 1000000;
 UPDATE M_ProductPrice SET M_ProductPrice_ID = nextval('M_ProductPrice_Seq');
 DROP SEQUENCE M_ProductPrice_Seq;
 ALTER TABLE M_ProductPrice DROP CONSTRAINT M_ProductPrice_PKey;
-ALTER TABLE M_ProductPrice ADD CONSTRAINT M_ProductPrice_Key PRIMARY KEY (M_ProductPrice_ID);
-CREATE UNIQUE INDEX M_ProductPrice_PKey ON M_ProductPrice USING BTREE (M_PriceList_Version_ID, M_Product_ID);</SQLStatement>
+ALTER TABLE M_ProductPrice ADD CONSTRAINT M_ProductPrice_Key PRIMARY KEY (M_ProductPrice_ID);</SQLStatement>
+    </Step>
+    <Step DBType="Oracle" Parse="Y" SeqNo="185" StepType="SQL">
+      <SQLStatement>-- Product Price
+CREATE SEQUENCE M_ProductPrice_Seq START WITH 1000000;
+UPDATE M_ProductPrice SET M_ProductPrice_ID = M_ProductPrice_Seq.nextval ;
+DROP SEQUENCE M_ProductPrice_Seq;
+ALTER TABLE M_ProductPrice DROP PRIMARY KEY ;
+ALTER TABLE M_ProductPrice ADD CONSTRAINT M_ProductPrice_Key PRIMARY KEY (M_ProductPrice_ID);</SQLStatement>
+      <RollbackStatement>ALTER TABLE M_ProductPrice DROP PRIMARY KEY ;
+ALTER TABLE M_ProductPrice ADD CONSTRAINT M_PRODUCTPICE_KEY PRIMARY KEY (M_Product_ID,M_PriceList_Version_ID);</RollbackStatement>
     </Step>
     <Step SeqNo="190" StepType="AD">
       <PO AD_Table_ID="101" Action="U" Record_ID="97440" Table="AD_Column">

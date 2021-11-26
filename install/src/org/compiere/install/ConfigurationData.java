@@ -99,6 +99,8 @@ public class ConfigurationData
 	/** 				*/
 	public static final String	ADEMPIERE_APPS_SERVER 	= "ADEMPIERE_APPS_SERVER";
 	/** 				*/
+	public static final String	ADEMPIERE_APPS_PATH		= "ADEMPIERE_APPS_PATH";
+	/** 				*/
 	public static final String	ADEMPIERE_APPS_DEPLOY	= "ADEMPIERE_APPS_DEPLOY";
 	/** 				*/
 	public static final String	ADEMPIERE_JNP_PORT 		= "ADEMPIERE_JNP_PORT";
@@ -243,6 +245,8 @@ public class ConfigurationData
 			initAppsServer(appServerIndex);
 			if (loaded.containsKey(ADEMPIERE_APPS_SERVER))
 				setAppsServer((String)loaded.get(ADEMPIERE_APPS_SERVER));
+			if (loaded.containsKey(ADEMPIERE_APPS_PATH))
+				setAppsServerDir((String)loaded.get(ADEMPIERE_APPS_PATH));
 			if (loaded.containsKey(ADEMPIERE_APPS_DEPLOY))
 				setAppsServerDeployDir((String)loaded.get(ADEMPIERE_APPS_DEPLOY));
 			if (loaded.containsKey(ADEMPIERE_JNP_PORT))
@@ -338,7 +342,7 @@ public class ConfigurationData
 		}
 		//	Default Java Options
 		if (!p_properties.containsKey(ADEMPIERE_JAVA_OPTIONS))
-			p_properties.setProperty(ADEMPIERE_JAVA_OPTIONS, "-Xms64M -Xmx512M");
+			p_properties.setProperty(ADEMPIERE_JAVA_OPTIONS, "-Xms64M -Xmx1512M");
 		//	Web Alias
 		if (!p_properties.containsKey(ADEMPIERE_WEB_ALIAS) && localhost != null)
 			p_properties.setProperty(ADEMPIERE_WEB_ALIAS, localhost.getCanonicalHostName());
@@ -793,8 +797,10 @@ public class ConfigurationData
 		String ccType = Database.DB_ORACLE;
 		for (String dbType : DBTYPE)
 		{
-			if (getDatabaseType().equals(DBTYPE))
+			if (getDatabaseType().equals(dbType)) {
 				ccType = dbType;
+				break;
+			}
 		}
 		CConnection cc = null;
 		try
@@ -957,16 +963,16 @@ public class ConfigurationData
 	 *************************************************************************/
 
 	/** SUN VM (default)	*/
-	private static String	JAVATYPE_SUN = "sun";
+	private static String JAVATYPE_ORACLE = "oracle";
 	/** Apple VM			*/
-	private static String	JAVATYPE_MAC = "mac";
+	private static String	JAVATYPE_MAC = "macOS";
 	/** IBM VM				*/
-	private static String	JAVATYPE_IBM = "<ibm>";
+	//private static String	JAVATYPE_IBM = "<ibm>";
 	/** Open JDK			*/
-	private static String	JAVATYPE_OPENJDK = "OpenJDK";
+	private static String	JAVATYPE_OPENJDK = "openJDK";
 	/** Java VM Types		*/
 	static String[]	JAVATYPE = new String[]
-		{JAVATYPE_SUN, JAVATYPE_OPENJDK, JAVATYPE_MAC, JAVATYPE_IBM};
+		{JAVATYPE_ORACLE, JAVATYPE_OPENJDK, JAVATYPE_MAC};
 	//	FR [ 402 ]
 	/** None = N */
 	private static final String ENCRYPTIONTYPE_None = "None";
@@ -1004,7 +1010,7 @@ public class ConfigurationData
 	
 	/** Virtual machine Configurations	*/
 	private Config[] m_javaConfig = new Config[]
-	    {new ConfigVMSun(this), new ConfigVMOpenJDK(this), new ConfigVMMac(this), null};
+	    {new ConfigVMOracle(this), new ConfigVMOpenJDK(this), new ConfigVMMacOS(this), null};
 
 	/**
 	 * 	Init Database
@@ -1108,25 +1114,30 @@ public class ConfigurationData
 	/**************************************************************************
 	 * 	Apps Server Settings
 	 *************************************************************************/
-
-	/**	JBoss (default)		*/
-	protected static String	APPSTYPE_JBOSS = "jboss";
-	/** GlassFish            */
-    protected static String APPSTYPE_GLASSFISH = "glassfish";
+	/* Wildfly */
+	protected static String	APPSTYPE_WILDFLY = "wildfly";
+	/* GlassFish            */
+    //protected static String APPSTYPE_GLASSFISH = "glassfish";
 	/** Tomcat            */
 	protected static String APPSTYPE_TOMCAT = "tomcat";
+	/** Jetty            */
+	protected static String APPSTYPE_JETTY = "jetty";
+
+
 
 	/** Application Server Type		*/
 	static String[]	APPSTYPE = new String[]
 		{ APPSTYPE_TOMCAT
-		, APPSTYPE_JBOSS
-		, APPSTYPE_GLASSFISH
+		, APPSTYPE_JETTY
+		, APPSTYPE_WILDFLY
+		//, APPSTYPE_GLASSFISH
 		};
 	/** Database Configs	*/
 	private Config[] m_appsConfig = new Config[]
 	    { new ConfigTomcat( this )
-		, new ConfigJBoss(this)
-	    , new ConfigGlassfish( this )
+		, new ConfigJetty(this)
+		, new ConfigWildfly(this)
+	    //, new ConfigGlassfish( this )
 	    };
 
 	/**
@@ -1226,15 +1237,48 @@ public class ConfigurationData
 		else
 			updateProperty(ADEMPIERE_APPS_SERVER, appsServer);
 	}
-	
+
+	/**
+	 * @return Returns the appsServerDeployDir.
+	 */
+	public String getAppsServerDir ()
+	{
+		return p_panel != null
+				? p_panel.fieldServerDir.getText()
+				: (String)p_properties.get(ADEMPIERE_APPS_PATH);
+	}
+	/**
+	 * @param appsServerDir The appsServerDeployDir to set.
+	 */
+	public void setAppsServerDir (String appsServerDir)
+	{
+		if (p_panel != null)
+			p_panel.fieldServerDir.setText(appsServerDir);
+		else
+			updateProperty(ADEMPIERE_APPS_PATH, appsServerDir);
+	}
+
+	/**
+	 * @param enable if true enable entry
+	 */
+	public void setAppsServerDir (boolean enable)
+	{
+		if (p_panel != null)
+		{
+			p_panel.fieldServerDir.setEnabled(enable);
+			//p_panel.buttonServerDir.setEnabled(enable);
+		}
+	}
+
+
 	/**
 	 * @return Returns the appsServerDeployDir.
 	 */
 	public String getAppsServerDeployDir ()
 	{
 		return p_panel != null
-			? p_panel.fDeployDir.getText()
-			: (String)p_properties.get(ADEMPIERE_APPS_DEPLOY);
+				? p_panel.fDeployDir.getText()
+				: (String)p_properties.get(ADEMPIERE_APPS_DEPLOY);
 	}
 	/**
 	 * @param appsServerDeployDir The appsServerDeployDir to set.
@@ -1246,6 +1290,7 @@ public class ConfigurationData
 		else
 			updateProperty(ADEMPIERE_APPS_DEPLOY, appsServerDeployDir);
 	}
+
 	/**
 	 * @param enable if true enable entry
 	 */
@@ -1388,8 +1433,8 @@ public class ConfigurationData
 		new ConfigOracle(this,true),
 		new ConfigOracle(this,false),
 		new ConfigPostgreSQL(this),
-        new ConfigMySQL(this),
-		new ConfigMariaDB(this)
+        //new ConfigMySQL(this),
+		//new ConfigMariaDB(this)
 		};
 
 	/**

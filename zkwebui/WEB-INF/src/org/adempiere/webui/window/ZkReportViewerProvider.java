@@ -29,8 +29,6 @@ import org.zkoss.zk.ui.Desktop;
 import org.compiere.process.ProcessInfo;
 import org.compiere.process.ProcessInfoParameter;
 import org.compiere.report.MReport;
-import org.compiere.util.CLogger;
-import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Executions;
 
 /**

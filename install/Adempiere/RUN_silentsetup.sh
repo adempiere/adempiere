@@ -22,7 +22,7 @@ CP=lib/CInstall.jar:lib/Adempiere.jar:lib/CCTools.jar:lib/oracle.jar:lib/jboss.j
 # Trace Level Parameter, e.g. ARGS=ALL
 ARGS=CONFIG
 
-$JAVA -classpath $CP -DADEMPIERE_HOME=$ADEMPIERE_HOME org.compiere.install.SilentSetup $ARGS
+$JAVA --add-opens java.base/sun.security.tools.keytool=ALL-UNNAMED -classpath $CP -DADEMPIERE_HOME=$ADEMPIERE_HOME org.compiere.install.SilentSetup $ARGS
 
 # Sign database build
 cd utils

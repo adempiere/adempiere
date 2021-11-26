@@ -31,11 +31,14 @@ import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DocTypeNotFoundException;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.MDocType;
+import org.compiere.model.MLocator;
 import org.compiere.model.MOrderLine;
 import org.compiere.model.MProduct;
 import org.compiere.model.MRefList;
 import org.compiere.model.MRole;
+import org.compiere.model.MStorage;
 import org.compiere.model.MUOM;
+import org.compiere.model.MWarehouse;
 import org.compiere.model.X_C_Order;
 import org.compiere.util.CLogger;
 import org.compiere.util.DB;
@@ -151,11 +154,10 @@ public class OutBoundOrder {
 	/**	Max Sequence		*/
 	protected int				maxSeqNo = 0;
 	
-	/**	Validate Quantity	*/
-	protected boolean 			validateQuantity = true;
-	
 	/**	Load Order			*/
 	protected MWMInOutBound  	outBoundOrder = null;
+	/** Outbound Locator Id */
+	protected Integer locatorId = null;
 	
 	/**
 	 * Get Order data from parameters
@@ -165,10 +167,6 @@ public class OutBoundOrder {
 		//	Load Validation Flag
 		ResultSet rs = null;
 		PreparedStatement pstmt = null;
-		if(docTypeTargetId > 0) { 
-			MDocType m_DocType = MDocType.get(Env.getCtx(), docTypeTargetId);
-			validateQuantity = m_DocType.get_ValueAsBoolean("IsValidateQuantity");
-		}
 		//	
 		Vector<Vector<Object>> data = new Vector<Vector<Object>>();
 		StringBuffer sql = null;
@@ -664,8 +662,7 @@ public class OutBoundOrder {
 						MRefList.getListName(Env.getCtx(), 
 								X_C_Order.DELIVERYRULE_AD_Reference_ID, deliveryRuleKey));
 				//	Valid Quantity On Hand
-				if(deliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Availability)
-						&&	validateQuantity) {
+				if(!deliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Force) && !deliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Manual)) {
 					//FR [ 1 ]
 					BigDecimal diff = ((BigDecimal)(isStocked ? Env.ONE : Env.ZERO)).multiply(qtyOnHand.subtract(qty).setScale(precision, BigDecimal.ROUND_HALF_UP));
 					//	Set Quantity
@@ -820,26 +817,29 @@ public class OutBoundOrder {
 				BigDecimal qtyOrderLine = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_IN_TRANSIT);
 				BigDecimal qtyDelivered = (BigDecimal) orderLineTable.getValueAt(row, OL_QTY_DELIVERED);
 				KeyNamePair uom = (KeyNamePair) orderLineTable.getValueAt(row, OL_UOM);
+				ValueNamePair deliveryRule = (ValueNamePair) orderLineTable.getValueAt(row, OL_DELIVERY_RULE);
 				//	
 				MProduct product = MProduct.get(Env.getCtx(), productId);
 				int precision = MUOM.getPrecision(Env.getCtx(), uom.getKey());
 				//	
-				BigDecimal qtyAvailable = qtyOrdered
-						.subtract(qtyDelivered)
-						.subtract(qtyOrderLine)
-						.setScale(precision, BigDecimal.ROUND_HALF_UP);
-				//	
-				if(qty.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue() 
-						> qtyAvailable.doubleValue()) {
-					if(errorMessage.length() > 0) {
-						errorMessage.append(Env.NL);
-					} else {
-						errorMessage.append("@Error@ @Qty@ > @QtyAvailable@");
+				if(!deliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Force) && !deliveryRule.getID().equals(X_C_Order.DELIVERYRULE_Manual)) {
+					BigDecimal qtyAvailable = qtyOrdered
+							.subtract(qtyDelivered)
+							.subtract(qtyOrderLine)
+							.setScale(precision, BigDecimal.ROUND_HALF_UP);
+					//	
+					if(qty.setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue() 
+							> qtyAvailable.doubleValue()) {
+						if(errorMessage.length() > 0) {
+							errorMessage.append(Env.NL);
+						} else {
+							errorMessage.append("@Error@ @Qty@ > @QtyAvailable@ ");
+						}
+						errorMessage.append("@C_Order_ID@ " + order.getName())
+							.append(", @M_Product_ID@ " + product.getValue() + "-" + product.getName())
+							.append(", @Qty@ " + format.format(qty))
+							.append(", @QtyAvailable@ " + format.format(qtyAvailable));
 					}
-					errorMessage.append("@C_Order_ID@ " + order.getName())
-						.append(", @M_Product_ID@ " + product.getValue() + "-" + product.getName())
-						.append(", @Qty@ " + format.format(qty))
-						.append(", @QtyAvailable@ " + format.format(qtyAvailable));
 				}
 			}
 		}
@@ -859,10 +859,6 @@ public class OutBoundOrder {
 	 * @return String
 	 */
 	public String generateLoadOrder(String trxName, IMiniTable orderLineTable) {
-		String errorMessage = validateQuantity(orderLineTable);
-		if(!Util.isEmpty(errorMessage)) {
-			throw new AdempiereException(errorMessage);
-		}
 		int quantity = 0;
 		int rows = orderLineTable.getRowCount();
 		outBoundOrder = new MWMInOutBound(Env.getCtx(), 0, trxName);
@@ -894,7 +890,13 @@ public class OutBoundOrder {
             } else {
             	outBoundOrder.setC_DocType_ID(defaultDocumentType.get().getC_DocType_ID());
             }
+            docTypeTargetId = defaultDocumentType.get().getC_DocType_ID();
         }
+        //	Validate
+		String errorMessage = validateQuantity(orderLineTable);
+		if(!Util.isEmpty(errorMessage)) {
+			throw new AdempiereException(errorMessage);
+		}
 		//	Set Warehouse
 		if(warehouseId > 0) {
 			outBoundOrder.setM_Warehouse_ID(warehouseId);
@@ -927,22 +929,32 @@ public class OutBoundOrder {
 				outBoundOrderLine = new MWMInOutBoundLine(outBoundOrder);
 				//	Set Values
 				outBoundOrderLine.setAD_Org_ID(orgId);
+				MProduct product = MProduct.get(Env.getCtx(), productId);
 				if (movementType.equals(I_DD_Order.Table_Name)) {
 					outBoundOrderLine.setDD_OrderLine_ID(orderLineId);
 					MDDOrderLine line = new MDDOrderLine(Env.getCtx(), orderLineId, trxName);
 					outBoundOrderLine.setDD_Order_ID(line.getDD_Order_ID());
-					outBoundOrderLine.setDD_Order_ID(line.getDD_Order_ID());
-					outBoundOrderLine.setC_UOM_ID(line.getC_UOM_ID());
+					outBoundOrderLine.setDD_OrderLine_ID(line.getDD_OrderLine_ID());
+					outBoundOrderLine.setM_AttributeSetInstance_ID(line.getM_AttributeSetInstance_ID());
+					outBoundOrderLine.setC_UOM_ID(product.getC_UOM_ID());
+					outBoundOrderLine.setM_Locator_ID(line.getM_Locator_ID());
+					outBoundOrderLine.setM_LocatorTo_ID(line.getM_LocatorTo_ID());
 				} else {
 					outBoundOrderLine.setC_OrderLine_ID(orderLineId);
 					MOrderLine line = new MOrderLine(Env.getCtx(), orderLineId, trxName);
 					outBoundOrderLine.setC_Order_ID(line.getC_Order_ID());
-					outBoundOrderLine.setC_Order_ID(line.getC_Order_ID());
-					outBoundOrderLine.setC_UOM_ID(line.getC_UOM_ID());
+					outBoundOrderLine.setC_OrderLine_ID(line.getC_OrderLine_ID());
+					outBoundOrderLine.setM_AttributeSetInstance_ID(line.getM_AttributeSetInstance_ID());
+					outBoundOrderLine.setC_UOM_ID(product.getC_UOM_ID());
+					if (locatorId == null)
+						locatorId = getDefaultLocator(line.getM_Warehouse_ID(), productId, line.getM_AttributeSetInstance_ID(), qty, trxName);
+
+					outBoundOrderLine.setM_LocatorTo_ID(locatorId);
 				}
 				outBoundOrderLine.setM_Product_ID(productId);
 				outBoundOrderLine.setMovementQty(qty);
 				outBoundOrderLine.setPickedQty(qty);
+				
 				//	Add Weight
 				totalWeight = totalWeight.add(weight);
 				//	Add Volume
@@ -975,6 +987,34 @@ public class OutBoundOrder {
 		//	Message
 		return Msg.parseTranslation(Env.getCtx(), "@Created@ = [" + outBoundOrder.getDocumentNo() 
 				+ "] || @LineNo@" + " = [" + quantity + "]" + (errorMessage != null? "\n@Errors@:" + errorMessage: ""));
+	}
+	
+	/**
+	 * Get Default locator based on stock, else default
+	 * @param warehouseId
+	 * @param productId
+	 * @param attributeSetInstanceId
+	 * @param quantity
+	 * @param transactionName
+	 * @return
+	 * @return int
+	 */
+	private int getDefaultLocator(int warehouseId, int productId, int attributeSetInstanceId, BigDecimal quantity, String transactionName) {
+		int locatorId = MStorage.getM_Locator_ID(warehouseId, 
+				productId, 
+				attributeSetInstanceId, 
+				quantity, 
+				transactionName);
+		if(locatorId > 0) {
+			return locatorId;
+		}
+		MWarehouse warehouse = MWarehouse.get(Env.getCtx(), warehouseId);
+		MLocator locator = MLocator.getDefault(warehouse);
+		if(locator == null) {
+			MProduct product = MProduct.get(Env.getCtx(), productId);
+			throw new AdempiereException("@M_Locator_ID@ @NotFound@ [@M_Product_ID@: " + product.getValue() + " - " + product.getName() + " @M_Warehouse_ID@: " + warehouse.getName() + "]");
+		}
+		return locator.getM_Locator_ID();
 	}
 	
 	/**

@@ -158,7 +158,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	private GridWindow			m_window;
 
 	/** The Table Model for Query   */
-	private GridTable          	m_mTable = null;
+	GridTable                	m_mTable = null; // Visible for testing
 
 	private String 				m_keyColumnName = "";
 	private String 				m_linkColumnName = "";
@@ -173,7 +173,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	private ArrayList<Integer>	m_Lock = null;
 
 	/** Current Row         */
-	private int					m_currentRow = -1;
+	int					m_currentRow = -1; // Visible for testing
 
 	/** Property Change     */
 	private PropertyChangeSupport m_propertyChangeSupport = new PropertyChangeSupport(this);
@@ -1767,7 +1767,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	/**
 	 *  Load Dependent Information
 	 */
-	private void loadDependentInfo()
+	void loadDependentInfo() // Visible for testing
 	{
 		/**
 		 * Load Order Type from C_DocTypeTarget_ID
@@ -2079,10 +2079,16 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 		log.fine("#" + m_vo.TabNo + " - " + e.toString());
 		int oldCurrentRow = e.getCurrentRow();
 		m_DataStatusEvent = e;          //  save it
-		//  when sorted set current row to 0
+		//  when sorted set current row
 		String msg = m_DataStatusEvent.getAD_Message();
 		if (msg != null && msg.equals("Sorted"))
-			setCurrentRow(0, true);
+		{
+			oldCurrentRow = m_currentRow;
+			if (e.getCurrentRow() >= 0)
+				setCurrentRow(e.getCurrentRow());
+			else
+				setCurrentRow(0, true);
+		}
 		//  set current row
 		m_DataStatusEvent = e;          //  setCurrentRow clear it, need to save again
 		m_DataStatusEvent.setCurrentRow(m_currentRow);
@@ -2275,7 +2281,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	 *  @param targetRow target row
 	 *  @return checked row
 	 */
-	private int verifyRow (int targetRow)
+	int verifyRow (int targetRow)
 	{
 		int newRow = targetRow;
 		//  Table Open?
@@ -2307,7 +2313,7 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 	/**
 	 *  Set current row and load data into fields.
 	 *  If there is no row - load nulls
-	 *  @param newCurrentRow new current row
+	 *  @param newCurrentRow new current row in table, not the page
 	 *  @param fireEvents fire events
 	 *  @return current row
 	 */
@@ -2355,6 +2361,8 @@ public class GridTab implements DataStatusListener, Evaluatee, Serializable
 			}
 		}
 		loadDependentInfo();
+
+		m_mTable.setCurrentRow(m_currentRow);
 
 		if (!fireEvents)    //  prevents informing twice
 			return m_currentRow;

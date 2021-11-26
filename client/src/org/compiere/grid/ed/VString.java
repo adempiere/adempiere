@@ -21,8 +21,6 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -57,8 +55,7 @@ import org.compiere.util.Msg;
  *		<li> FR [ 146 ] Remove unnecessary class, add support for info to specific column
  *		@see https://github.com/adempiere/adempiere/issues/146
  */
-public final class VString extends CTextField
-	implements VEditor, ActionListener, FocusListener
+public final class VString extends CTextField implements VEditor, ActionListener
 {
 	/**
 	 * 
@@ -148,7 +145,6 @@ public final class VString extends CTextField
 
 		this.addKeyListener(this);
 		this.addActionListener(this);
-		this.addFocusListener(this);
 		addMouseListener(new VString_mouseAdapter(this));
 		//	Popup for Editor
 		if (fieldLength > displayLength)
@@ -186,10 +182,6 @@ public final class VString extends CTextField
 	private Obscure				m_obscure = null;
 	private Font				m_stdFont = null;
 	private Font				m_obscureFont = null;
-	/**	Setting new value			*/
-	private volatile boolean	m_setting = false;
-	/**	Field in focus				*/
-	private volatile boolean	m_infocus = false;
 
 	/**	Logger	*/
 	private static CLogger log = CLogger.getCLogger (VString.class);
@@ -205,14 +197,8 @@ public final class VString extends CTextField
 			m_oldText = "";
 		else
 			m_oldText = value.toString();
-		//	only set when not updated here
-		if (m_setting)
-			return;
 		setText (m_oldText);
 		m_initialText = m_oldText;
-		//	If R/O left justify 
-		if (!isEditable() || !isEnabled())
-			setCaretPosition(0);
 	}	//	setValue
 
 	/**
@@ -256,6 +242,11 @@ public final class VString extends CTextField
 		//  ESC
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
 			setText(m_initialText);
+
+		try {
+			fireVetoableChange(m_columnName, m_oldText, getText());
+		} catch (PropertyVetoException pve) {
+		}
 	}	//	keyReleased
 
 	/**
@@ -343,7 +334,7 @@ public final class VString extends CTextField
 	 */
 	public void setText (String text)
 	{
-		if (m_obscure != null && !m_infocus)
+		if (m_obscure != null)
 		{
 			super.setFont(m_obscureFont);
 			super.setText (m_obscure.getObscuredValue(text));
@@ -386,41 +377,6 @@ public final class VString extends CTextField
 	{
 		return this.m_VFormat;
 	}	//	getVFormat
-	
-	/**
-	 * 	Focus Gained.
-	 * 	Enabled with Obscure
-	 *	@param e event
-	 */
-	public void focusGained (FocusEvent e)
-	{
-		m_infocus = true;
-		setText(getText());		//	clear
-	}	//	focusGained
-
-	/**
-	 * 	Focus Lost
-	 * 	Enabled with Obscure
-	 *	@param e event
-	 */
-	public void focusLost (FocusEvent e)
-	{
-		m_setting = true;
-		try
-		{
-			String clear = getText();
-			if (clear.length() > m_fieldLength)
-				clear = clear.substring(0, m_fieldLength);
-			fireVetoableChange (m_columnName, m_oldText, clear);
-		}
-		catch (PropertyVetoException pve)	
-		{
-		}
-		m_setting = false;
-
-		m_infocus = false;
-		setText(getText());		//	obscure
-	}	//	focus Lost
 
 	@Override
 	public void setFont(Font f) {

@@ -61,7 +61,7 @@ public class MigrationLoader {
 				&& new File(optionalPath.get()).exists()) {
 			fileName = optionalPath.get();
 		}
-		Adempiere.startupEnvironment(false);
+		Adempiere.startupEnvironment(true);
 		CLogMgt.setLevel(Level.INFO);
 		
 		if (! DB.isConnected()) {

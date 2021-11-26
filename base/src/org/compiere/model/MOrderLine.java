@@ -578,11 +578,6 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 			log.saveError("Error", Msg.translate(getCtx(), "QtyDelivered") + "=" + getQtyDelivered());
 			return false;
 		}
-		if (getQtyInvoiced().signum() != 0)
-		{
-			log.saveError("Error", Msg.translate(getCtx(), "QtyInvoiced") + "=" + getQtyInvoiced());
-			return false;
-		}
 		if (getQtyReserved().signum() != 0)
 		{
 			log.saveError("Error", Msg.translate(getCtx(), "QtyReserved") + "=" + getQtyReserved());
@@ -1172,6 +1167,10 @@ public class MOrderLine extends X_C_OrderLine implements IDocumentLine
 	public BigDecimal getMovementQty()
 	{
 		return this.getQtyEntered();
+	}
+
+	public BigDecimal getQtyToDelivery() {
+		return getQtyOrdered().subtract(getQtyDelivered());
 	}
 
 	@Override

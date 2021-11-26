@@ -166,6 +166,19 @@ public interface I_AD_QueueType
 	  */
 	public String getQueueType();
 
+    /** Column name TimeUnit */
+    public static final String COLUMNNAME_TimeUnit = "TimeUnit";
+
+	/** Set Time Unit.
+	  * The unit of time for grouping chart data.
+	  */
+	public void setTimeUnit (String TimeUnit);
+
+	/** Get Time Unit.
+	  * The unit of time for grouping chart data.
+	  */
+	public String getTimeUnit();
+
     /** Column name Updated */
     public static final String COLUMNNAME_Updated = "Updated";
 
@@ -207,4 +220,17 @@ public interface I_AD_QueueType
 	  * Search key for the record in the format required - must be unique
 	  */
 	public String getValue();
+
+    /** Column name WaitingTime */
+    public static final String COLUMNNAME_WaitingTime = "WaitingTime";
+
+	/** Set Waiting Time.
+	  * Workflow Simulation Waiting time
+	  */
+	public void setWaitingTime (int WaitingTime);
+
+	/** Get Waiting Time.
+	  * Workflow Simulation Waiting time
+	  */
+	public int getWaitingTime();
 }

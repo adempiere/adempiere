@@ -15,6 +15,7 @@ package org.adempiere.webui;
 import org.adempiere.webui.desktop.IDesktop;
 import org.adempiere.webui.util.UserPreference;
 import org.compiere.model.MUser;
+import org.zkoss.zk.ui.Page;
 
 /**
  * 
@@ -37,20 +38,7 @@ public interface IWebClient {
 	 * 
 	 * @return IDesktop
 	 */
-	public IDesktop getAppDeskop();
-
-	/**
-	 * 
-	 * @param userId
-	 * @return UserPreference
-	 */
-	public UserPreference loadUserPreference(int userId);
-
-	/**
-	 * 
-	 * @return UserPreference
-	 */
-	public UserPreference getUserPreference();
+	public IDesktop getApplicationDesktop();
 	
 	/**
 	 * @param user
@@ -60,5 +48,7 @@ public interface IWebClient {
 	/**
 	 * logout after browser destroyed
 	 */
-	public void logoutAfterTabDestroyed();
+	public void logoutDestroyed();
+
+	public Page getPage();
 }

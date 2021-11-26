@@ -1088,7 +1088,7 @@
         <Data AD_Column_ID="2837" Column="CreatedBy">100</Data>
       </PO>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="1120" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="1120" StepType="SQL">
       <Comments>C_Payment_V</Comments>
       <SQLStatement>CREATE OR REPLACE VIEW C_Payment_v AS
  SELECT p.C_Payment_ID,
@@ -1285,7 +1285,7 @@
    FROM C_Payment p
    LEFT JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID);</RollbackStatement>
     </Step>
-    <Step DBType="Oracle" Parse="N" SeqNo="1130" StepType="SQL">
+    <Step DBType="Oracle" Parse="Y" SeqNo="1130" StepType="SQL">
       <Comments>RV_PAYMENT</Comments>
       <SQLStatement>CREATE OR REPLACE VIEW RV_PAYMENT
 (C_PAYMENT_ID, AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, 
@@ -1376,7 +1376,7 @@ SELECT p.C_Payment_ID, p.AD_Client_ID, p.AD_Org_ID, p.IsActive, p.Created, p.Cre
 FROM C_Payment p
 LEFT JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID);</RollbackStatement>
     </Step>
-    <Step DBType="Postgres" Parse="N" SeqNo="1140" StepType="SQL">
+    <Step DBType="Postgres" Parse="Y" SeqNo="1140" StepType="SQL">
       <Comments>C_Payment_V</Comments>
       <SQLStatement>CREATE OR REPLACE VIEW C_Payment_v AS
  SELECT p.C_Payment_ID,
@@ -1573,7 +1573,7 @@ LEFT JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID);</RollbackStateme
    FROM C_Payment p
    LEFT JOIN C_BPartner bp ON(bp.C_BPartner_ID = p.C_BPartner_ID);</RollbackStatement>
     </Step>
-    <Step DBType="Postgres" Parse="N" SeqNo="1150" StepType="SQL">
+    <Step DBType="Postgres" Parse="Y" SeqNo="1150" StepType="SQL">
       <Comments>RV_PAYMENT</Comments>
       <SQLStatement>CREATE OR REPLACE VIEW RV_PAYMENT
 (C_PAYMENT_ID, AD_CLIENT_ID, AD_ORG_ID, ISACTIVE, CREATED, 

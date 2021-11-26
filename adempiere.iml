@@ -166,7 +166,6 @@
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/base/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/glassfishfacet/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/jbossfacet/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/client/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/sqlj/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/install/src" isTestSource="false" />
@@ -220,7 +219,6 @@
       <sourceFolder url="file://$MODULE_DIR$/org.spin.finance_management/src/main/java/base" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.compiere.mobile/WEB-INF/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/org.spin.store/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$" type="java-test-resource" />
     </content>
     <orderEntry type="jdk" jdkName="11" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -270,15 +268,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="commons-httpclient.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/jboss/lib/commons-httpclient.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
       <library name="jsp-api.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/jsp-api.jar!/" />
@@ -315,15 +304,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="commons-collections-3.2.2.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/commons-collections-3.2.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
       <library name="commons-net-1.4.0.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/commons-net-1.4.0.jar!/" />
@@ -345,24 +325,6 @@
       <library name="postgresql.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/postgresql.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="c3p0-0.9.1.2.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/c3p0-0.9.1.2.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="c3p0-oracle-thin-extras-0.9.1.2.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/c3p0-oracle-thin-extras-0.9.1.2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -552,24 +514,6 @@
       <library name="iReport.jar">
         <CLASSES>
           <root url="jar://$MODULE_DIR$/JasperReportsTools/lib/iReport.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="jbosssx-client.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/jboss/client/jbosssx-client.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="jnp-client.jar">
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/jboss/client/jnp-client.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1289,24 +1233,6 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tools/lib/commons-collections4-4.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/JasperReportsTools/lib/jasperreports-6.6.0.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/tools/lib/commons-validator-1.7.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -1950,6 +1876,70 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/commons-collections4-4.4.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/slf4j-api-1.7.32.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/slf4j-simple-1.7.32.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/tools/lib/HikariCP-5.0.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/JasperReportsTools/lib/jasperreports-6.17.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/JasperReportsTools/lib/iText-2.1.7.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/JasperReportsTools/lib/jasperreports-fonts-6.17.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="jar://$MODULE_DIR$/JasperReportsTools/lib/jasperreports-fonts-6.17.0.jar!/" recursive="false" />
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="scala-sdk-2.13.6" level="project" />

@@ -73,22 +73,22 @@ public class ConfigVMOpenJDK extends Config
 		System.setProperty(ConfigurationData.JAVA_HOME, javaHome.getAbsolutePath());
 		
 		//	Java Version
-        final String VERSION18 = "1.8.0";
 		final String VERSION_11 = "11";	//	The real one
+		final String VERSION_17 = "17";	//
 
 		pass = false;
 		String jh = javaHome.getAbsolutePath();
-        if (!pass && jh.indexOf(VERSION18) != -1)	//
-            pass = true;
 		if (!pass && jh.indexOf(VERSION_11) != -1)	//
+			pass = true;
+		if (!pass && jh.indexOf(VERSION_17) != -1)	//
 			pass = true;
 		String thisJH = System.getProperty("java.home");
 		if (thisJH.indexOf(jh) != -1)	//	we are running the version currently
 		{
 			String thisJV = System.getProperty("java.version");
-            if (!pass && thisJV.indexOf(VERSION18) != -1)
-            pass = true;
 			if (!pass && thisJV.indexOf(VERSION_11) != -1)
+				pass = true;
+			if (!pass && thisJV.indexOf(VERSION_17) != -1)
 				pass = true;
 			if (pass)
 			  log.info("OK: Version=" + thisJV);

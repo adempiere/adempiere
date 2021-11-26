@@ -3,23 +3,26 @@
 
 @Rem $Id: RUN_Server2Stop.bat,v 1.12 2005/09/06 02:46:16 jjanke Exp $
 
-@IF '%ADEMPIERE_APPS_TYPE%' == 'jboss' GOTO JBOSS
-@IF '%ADEMPIERE_APPS_TYPE%' == 'tomcat' GOTO TOMCAT
+@IF '%ADEMPIERE_APPS_TYPE%' == 'wildfly' GOTO WILDFLY
+@IF '%ADEMPIERE_APPS_TYPE%' == 'tomcat'  GOTO TOMCAT
+@IF '%ADEMPIERE_APPS_TYPE%' == 'jetty'   GOTO JETTY
 @GOTO UNSUPPORTED
 
-:JBOSS
+:WILDFLY
 @Set NOPAUSE=Yes
-@Set JBOSS_LIB=%JBOSS_HOME%\lib
-@Set JBOSS_SERVERLIB=%JBOSS_HOME%\server\adempiere\lib
-@Set JBOSS_CLASSPATH=%ADEMPIERE_HOME%\lib\jboss.jar;%JBOSS_LIB%\jboss-system.jar
+
+@CD %WILDFLY_HOME%\bin
+Call jboss-cli.bat --connect command=:shutdown
+@GOTO END
 
 :TOMCAT
 @Set NOPAUSE=Yes
-Call ../tomcat/bin/shutdown.bat
+Call %CATALINA_BASE%/bin/shutdown.bat
+@GOTO END
 
-
-@CD %JBOSS_HOME%\bin
-Call shutdown --server=jnp://%ADEMPIERE_APPS_SERVER%:%ADEMPIERE_JNP_PORT% --shutdown
+:JETTY
+@Set NOPAUSE=Yes
+Call java -jar %JETTY_HOME%/start.jar jetty.base=%JETTY_BASE% stop.port=7777 stop.key=%ADEMPIERE_KEYSTOREPASS% --stop
 
 @Echo Done Stopping Adempiere Apps Server %ADEMPIERE_HOME% (%ADEMPIERE_DB_NAME%)
 @GOTO END
@@ -28,7 +31,7 @@ Call shutdown --server=jnp://%ADEMPIERE_APPS_SERVER%:%ADEMPIERE_JNP_PORT% --shut
 @Echo Apps Server stop of %ADEMPIERE_APPS_TYPE% not supported
 
 :END
-@Rem Sleep 30
-@CHOICE /C YN /T 30 /D N > NUL
+@Rem Sleep 5
+@CHOICE /C YN /T 5 /D N > NUL
 
 @Exit

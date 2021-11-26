@@ -20,19 +20,18 @@ import java.io.File;
 import java.util.List;
 
 import org.compiere.model.MBPartner;
-import org.compiere.model.MClient;
 import org.compiere.model.MDunningLevel;
 import org.compiere.model.MDunningRun;
 import org.compiere.model.MDunningRunEntry;
 import org.compiere.model.MMailText;
 import org.compiere.model.MQuery;
 import org.compiere.model.MUser;
-import org.compiere.model.MUserMail;
 import org.compiere.model.PrintInfo;
 import org.compiere.print.MPrintFormat;
 import org.compiere.print.ReportEngine;
 import org.compiere.util.AdempiereUserError;
-import org.compiere.util.EMail;
+import org.spin.queue.notification.DefaultNotifier;
+import org.spin.queue.util.QueueLoader;
 
 /**
  *	Dunning Letter Print
@@ -102,7 +101,6 @@ public class DunningPrint extends DunningPrintAbstract {
 	 */
 	private void processDunning(MDunningRun dunningRun, MMailText text) {
 		int internalError = 0;
-		MClient client = MClient.get(getCtx());
 		for(MDunningRunEntry entry : dunningRun.getEntries(false)) {
 			//	Print Format on Dunning Level
 			MDunningLevel level = new MDunningLevel (getCtx(), entry.getC_DunningLevel_ID(), get_TrxName());
@@ -155,13 +153,6 @@ public class DunningPrint extends DunningPrintAbstract {
 				re = new ReportEngine(getCtx(), format, query, info);
 			boolean printed = false;
 			if (isEMailPDF()) {
-				EMail email = client.createEMail(to.getEMail(), null, null);
-				if (!email.isValid()) {
-					addLog (entry.get_ID(), null, null, 
-						"@RequestActionEMailError@ Invalid EMail: " + to);
-					internalError++;
-					continue;
-				}
 				if(text == null) {
 					continue;
 				}
@@ -169,32 +160,30 @@ public class DunningPrint extends DunningPrintAbstract {
 				text.setBPartner(bp);
 				text.setPO(entry);
 				String message = text.getMailText(true);
-				if (text.isHtml()) {
-					email.setMessageHTML(text.getMailHeader(), message);
-				} else {
-					email.setSubject (text.getMailHeader());
-					email.setMessageText (message);
-				}
-				//
+				//	Get instance for notifier
+				DefaultNotifier notifier = (DefaultNotifier) QueueLoader.getInstance().getQueueManager(DefaultNotifier.QUEUETYPE_DefaultNotifier)
+						.withContext(getCtx())
+						.withTransactionName(get_TrxName());
+				//	Send notification to queue
+				notifier
+					.clearMessage()
+					.withApplicationType(DefaultNotifier.DefaultNotificationType_UserDefined)
+					.addRecipient(to.getAD_User_ID())
+					.withText(message)
+					.withDescription(text.getMailHeader())
+					.withTableId(MDunningRunEntry.Table_ID)
+					.withRecordId(entry.getC_DunningRunEntry_ID());
+				//	Attachment
 				if (re != null) {
 					File attachment = re.getPDF();
 					log.fine(to + " - " + attachment);
-					email.addAttachment(attachment);
+					notifier.addAttachment(attachment);
 				}
-				//
-				String msg = email.send();
-				MUserMail um = new MUserMail(text, entry.getAD_User_ID(), email);
-				um.saveEx();
-				if (msg.equals(EMail.SENT_OK)) {
-					addLog (entry.get_ID(), null, null,
-						bp.getName() + " @RequestActionEMailOK@");
+				//	Add to queue
+				notifier.addToQueue();
+				addLog (entry.get_ID(), null, null, bp.getName() + " @RequestActionEMailOK@");
 					count++;
 					printed = true;
-				} else {
-					addLog (entry.get_ID(), null, null,
-						bp.getName() + " @RequestActionEMailError@ " + msg);
-					internalError++;
-				}
 			} else {
 				if (re != null) {
 					re.print ();
