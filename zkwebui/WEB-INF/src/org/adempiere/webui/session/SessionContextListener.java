@@ -182,11 +182,15 @@ public class SessionContextListener implements ExecutionInit,
      */
     public synchronized void afterResume(Component component, Event event)
     {
+        Desktop desktop = component.getDesktop();
+        if (desktop == null)
+            return;
+
     	Properties ctx = ServerContext.getCurrentInstance();
         if (ctx == null)
     		ServerContext.dispose();
         else
-            setContextForSession(component.getDesktop().getExecution());
+            setContextForSession(desktop.getExecution());
         //set locale
         Locales.setThreadLocal(Env.getLanguage(ctx).getLocale());
 
