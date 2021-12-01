@@ -23,7 +23,6 @@ import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Execution;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventThreadCleanup;
@@ -54,20 +53,20 @@ public class SessionContextListener implements ExecutionInit,
     public static final String SESSION_CTX = "WebUISessionContext";
 
     /**
-     * @param exec
+     * @param execution
      * @param parent
      *
      * @see ExecutionInit#init(Execution, Execution)
      */
-    public synchronized void init(Execution exec, Execution parent)
+    public synchronized void init(Execution execution, Execution parent)
     {
         //in servlet thread
         if (parent == null)
         {
-            ServerPush serverPush = ((DesktopCtrl)exec.getDesktop()).getServerPush();
+            ServerPush serverPush = ((DesktopCtrl)execution.getDesktop()).getServerPush();
             if (serverPush == null || !serverPush.isActive())
             {
-                setContextForSession(Executions.getCurrent());
+                setContextForSession(execution);
                 //set locale
                 Locales.setThreadLocal(Env.getLanguage(ServerContext.getCurrentInstance()).getLocale());
             }
@@ -87,24 +86,27 @@ public class SessionContextListener implements ExecutionInit,
         {
             ServerPush serverPush = ((DesktopCtrl)execution.getDesktop()).getServerPush();
             if (serverPush == null || !serverPush.isActive())
-                setContextForSession(Executions.getCurrent());
+                setContextForSession(execution);
             else
                 ServerContext.dispose();
         }
     }
 
     /**
-     * @param comp
-     * @param evt
+     * @param component
+     * @param event
      * @see EventThreadInit#prepare(Component, Event)
      */
-    public synchronized void prepare(Component comp, Event evt)
+    public synchronized void prepare(Component component, Event event)
     {
-        //in servlet thread
+        Desktop desktop = component.getDesktop();
+        if (desktop == null)
+            return;
+
         //check is thread local context have been setup
-        if (ServerContext.getCurrentInstance().isEmpty() || !isValidContext())
+        if (ServerContext.getCurrentInstance().isEmpty() || !isValidContext(desktop.getExecution()))
         {
-            setContextForSession(Executions.getCurrent());
+            setContextForSession(desktop.getExecution());
         }
 
         //set locale
@@ -112,17 +114,16 @@ public class SessionContextListener implements ExecutionInit,
     }
 
     /**
-     * @param comp
+     * @param component
      * @param evt
      * @see EventThreadInit#init(Component, Event)
      */
-    public synchronized boolean init(Component comp, Event evt)
+    public synchronized boolean init(Component component, Event evt)
     {
 		return true;
     }
 
-    public synchronized static boolean isValidContext() {
-        Execution execution = Executions.getCurrent();
+    public synchronized static boolean isValidContext(Execution execution) {
         Properties ctx = ServerContext.getCurrentInstance();
         if (ctx == null)
             return false;
@@ -166,26 +167,26 @@ public class SessionContextListener implements ExecutionInit,
     }
 
     /**
-     * @param comp
-     * @param evt
+     * @param component
+     * @param event
      * @see EventThreadResume#beforeResume(Component, Event)
      */
-    public synchronized void beforeResume(Component comp, Event evt)
+    public synchronized void beforeResume(Component component, Event event)
     {
     }
 
     /**
-     * @param comp
-     * @param evt
+     * @param component
+     * @param event
      * @see EventThreadResume#afterResume(Component, Event)
      */
-    public synchronized void afterResume(Component comp, Event evt)
+    public synchronized void afterResume(Component component, Event event)
     {
     	Properties ctx = ServerContext.getCurrentInstance();
         if (ctx == null)
     		ServerContext.dispose();
         else
-            setContextForSession(Executions.getCurrent());
+            setContextForSession(component.getDesktop().getExecution());
         //set locale
         Locales.setThreadLocal(Env.getLanguage(ctx).getLocale());
 
@@ -201,26 +202,30 @@ public class SessionContextListener implements ExecutionInit,
     }
 
     /**
-     * @param comp
-     * @param evt
-     * @param errs
+     * @param component
+     * @param event
+     * @param errors
      * @see EventThreadCleanup#cleanup(Component, Event, List)
      */
-	public synchronized void cleanup(Component comp, Event evt, List errs) throws Exception
+	public synchronized void cleanup(Component component, Event event, List errors) throws Exception
 	{
-        ServerPush serverPush = ((DesktopCtrl)Executions.getCurrent().getDesktop()).getServerPush();
+        Desktop desktop = component.getDesktop();
+        if (desktop == null)
+            return;
+
+        ServerPush serverPush = ((DesktopCtrl)desktop).getServerPush();
         if (serverPush == null || !serverPush.isActive())
-            setContextForSession(Executions.getCurrent());
+            setContextForSession(desktop.getExecution());
         else
             ServerContext.dispose();
 	}
 
 	/**
-	 * @param comp
-	 * @param evt
+	 * @param component
+	 * @param event
 	 * @see EventThreadCleanup#complete(Component, Event)
 	 */
-	public synchronized void complete(Component comp, Event evt) throws Exception
+	public synchronized void complete(Component component, Event event) throws Exception
 	{
 	}
 
@@ -228,25 +233,25 @@ public class SessionContextListener implements ExecutionInit,
 
     @Override
     public synchronized void cleanup(Desktop desktop) throws Exception {
-        if(Executions.getCurrent() == null) {
+        if(desktop.getExecution() == null) {
             if (!ServerContext.getCurrentInstance().isEmpty()) {
                 ServerContext.dispose();
             }
             return;
         }
 
-        if (ServerContext.getCurrentInstance().isEmpty() || !isValidContext())
+        if (ServerContext.getCurrentInstance().isEmpty() || !isValidContext(desktop.getExecution()))
         {
-            setContextForSession(Executions.getCurrent());
+            setContextForSession(desktop.getExecution());
         }
     }
 
     @Override
     public synchronized void init(Desktop desktop, Object request) throws Exception {
-        if(Executions.getCurrent() == null)
+        if(desktop.getExecution() == null)
             return;
 
-        if (ServerContext.getCurrentInstance().isEmpty() || !isValidContext())
+        if (ServerContext.getCurrentInstance().isEmpty() || !isValidContext(desktop.getExecution()))
         {
             Session session = desktop.getSession();
             //Setting Ephemeral session
@@ -258,7 +263,7 @@ public class SessionContextListener implements ExecutionInit,
                         .filter(ephemeralMaxInactiveInterval -> !ephemeralMaxInactiveInterval.isEmpty())
                         .ifPresent(ephemeralMaxInactiveInterval ->  session.setMaxInactiveInterval(Integer.parseInt(ephemeralMaxInactiveInterval)));
             }
-            setContextForSession(Executions.getCurrent());
+            setContextForSession(desktop.getExecution());
         }
     }
 

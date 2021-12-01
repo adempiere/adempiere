@@ -105,11 +105,13 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     {
         this.getPage().setTitle(ThemeManager.getBrowserTitle());
 		Session session = SessionManager.getSession();
+		HttpSession httpSession = (HttpSession) session.getNativeSession();
+		setId(httpSession.getId());
+
 		ServerContext.setCurrentInstance((Properties) session.getAttribute(SESSION_CTX));
 		Properties ctx =  Env.getCtx();
 		langSession = Env.getContext(ctx, Env.LANGUAGE);
-		HttpSession httpSession = (HttpSession) session.getNativeSession();
-		setId(httpSession.getId());
+
 		SessionManager.addSession(session);
 		SessionManager.setApplicationToSession(this);
         @SuppressWarnings("unchecked")
