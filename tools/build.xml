@@ -256,7 +256,13 @@
 			<zipfileset src="lib/commons-logging-1.2.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/log4j.jar">
+			<zipfileset src="lib/log4j-core-2.16.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/log4j-1.2-api-2.16.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/log4j-api-2.16.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/jnlp.jar">
@@ -501,7 +507,13 @@
 			<zipfileset src="lib/commons-logging-1.2.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/log4j.jar">
+			<zipfileset src="lib/log4j-core-2.16.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/log4j-1.2-api-2.16.0.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/log4j-api-2.16.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/jnlp.jar">
