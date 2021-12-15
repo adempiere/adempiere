@@ -50,7 +50,6 @@ public class SessionContextListener implements ExecutionInit,
         ExecutionCleanup, EventThreadInit, DesktopCleanup, DesktopInit , EventThreadResume, EventThreadCleanup
 {
 	public static final String SERVLET_SESSION_ID = "servlet.sessionId";
-    public static final String SESSION_CTX = "WebUISessionContext";
 
     /**
      * @param execution
@@ -58,7 +57,7 @@ public class SessionContextListener implements ExecutionInit,
      *
      * @see ExecutionInit#init(Execution, Execution)
      */
-    public synchronized void init(Execution execution, Execution parent)
+    public void init(Execution execution, Execution parent)
     {
         //in servlet thread
         if (parent == null)
@@ -80,7 +79,7 @@ public class SessionContextListener implements ExecutionInit,
      * @param errs
      * @see ExecutionCleanup#cleanup(Execution, Execution, List)
      */
-    public synchronized void cleanup(Execution execution, Execution parent, List errs)
+    public void cleanup(Execution execution, Execution parent, List errs)
     {
         if (parent == null)
         {
@@ -97,7 +96,7 @@ public class SessionContextListener implements ExecutionInit,
      * @param event
      * @see EventThreadInit#prepare(Component, Event)
      */
-    public synchronized void prepare(Component component, Event event)
+    public void prepare(Component component, Event event)
     {
         Desktop desktop = component.getDesktop();
         if (desktop == null)
@@ -140,13 +139,7 @@ public class SessionContextListener implements ExecutionInit,
             return false;
         }
 
-        Properties sessionCtx = null;
-        //catch invalidated session exception
-        try {
-            sessionCtx = (Properties) session.getAttribute(SESSION_CTX);
-        } catch (IllegalStateException e) {
-            return false;
-        }
+        Properties sessionCtx = SessionManager.getSessionContext(httpSession.getId());
         if (sessionCtx != null)
         {
             if (Env.getAD_Client_ID(sessionCtx) != Env.getAD_Client_ID(ctx))
@@ -171,7 +164,7 @@ public class SessionContextListener implements ExecutionInit,
      * @param event
      * @see EventThreadResume#beforeResume(Component, Event)
      */
-    public synchronized void beforeResume(Component component, Event event)
+    public void beforeResume(Component component, Event event)
     {
     }
 
@@ -180,19 +173,15 @@ public class SessionContextListener implements ExecutionInit,
      * @param event
      * @see EventThreadResume#afterResume(Component, Event)
      */
-    public synchronized void afterResume(Component component, Event event)
+    public void afterResume(Component component, Event event)
     {
         Desktop desktop = component.getDesktop();
         if (desktop == null)
             return;
 
-    	Properties ctx = ServerContext.getCurrentInstance();
-        if (ctx == null)
-    		ServerContext.dispose();
-        else
-            setContextForSession(desktop.getExecution());
+        setContextForSession(desktop.getExecution());
         //set locale
-        Locales.setThreadLocal(Env.getLanguage(ctx).getLocale());
+        Locales.setThreadLocal(Env.getLanguage(Env.getCtx()).getLocale());
 
     }
 
@@ -201,7 +190,7 @@ public class SessionContextListener implements ExecutionInit,
      * @param evt
      * @see EventThreadResume#abortResume(Component, Event)
      */
-    public synchronized void abortResume(Component comp, Event evt)
+    public void abortResume(Component comp, Event evt)
     {
     }
 
@@ -211,7 +200,7 @@ public class SessionContextListener implements ExecutionInit,
      * @param errors
      * @see EventThreadCleanup#cleanup(Component, Event, List)
      */
-	public synchronized void cleanup(Component component, Event event, List errors) throws Exception
+	public void cleanup(Component component, Event event, List errors) throws Exception
 	{
         Desktop desktop = component.getDesktop();
         if (desktop == null)
@@ -229,14 +218,14 @@ public class SessionContextListener implements ExecutionInit,
 	 * @param event
 	 * @see EventThreadCleanup#complete(Component, Event)
 	 */
-	public synchronized void complete(Component component, Event event) throws Exception
+	public void complete(Component component, Event event) throws Exception
 	{
 	}
 
 
 
     @Override
-    public synchronized void cleanup(Desktop desktop) throws Exception {
+    public void cleanup(Desktop desktop) throws Exception {
         if(desktop.getExecution() == null) {
             if (!ServerContext.getCurrentInstance().isEmpty()) {
                 ServerContext.dispose();
@@ -251,7 +240,7 @@ public class SessionContextListener implements ExecutionInit,
     }
 
     @Override
-    public synchronized void init(Desktop desktop, Object request) throws Exception {
+    public void init(Desktop desktop, Object request) throws Exception {
         if(desktop.getExecution() == null)
             return;
 
@@ -277,39 +266,10 @@ public class SessionContextListener implements ExecutionInit,
      */
     public synchronized static void setContextForSession(Execution execution) {
         Session session = execution.getDesktop().getSession();
-        Properties context = null;
-        //catch potential Session already invalidated exception
-        boolean sessionInvalidated = false;
-        try {
-            context = (Properties)session.getAttribute(SESSION_CTX);
-        } catch (IllegalStateException e) {
-            sessionInvalidated = true;
+        HttpSession httpSession = (HttpSession)session.getNativeSession();
+        if (!SessionManager.containsKeySessionContext(httpSession.getId())) {
+            SessionManager.createSessionContext(httpSession.getId());
         }
-        HttpSession httpSession = sessionInvalidated ? null : (HttpSession)session.getNativeSession();
-        //create empty context if there's no valid native session
-        if (httpSession == null)
-        {
-            context = new Properties();
-            ServerContext.setCurrentInstance(context);
-            return;
-        }
-
-        if (context != null)
-        {
-            //verify ctx
-            String cacheId = context.getProperty(SERVLET_SESSION_ID);
-            if (cacheId == null || !cacheId.equals(httpSession.getId()) )
-            {
-                context = null;
-                session.removeAttribute(SESSION_CTX);
-            }
-        }
-        if (context == null)
-        {
-            context = new Properties();
-            context.setProperty(SERVLET_SESSION_ID, httpSession.getId());
-            session.setAttribute(SESSION_CTX, context);
-        }
-        ServerContext.setCurrentInstance(context);
+        ServerContext.setCurrentInstance(SessionManager.getSessionContext(httpSession.getId()));
     }
 }

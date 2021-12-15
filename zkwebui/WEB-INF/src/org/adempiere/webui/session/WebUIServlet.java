@@ -123,7 +123,7 @@ public class WebUIServlet extends DHtmlLayoutServlet
         try {
             //Get Context for Current Thread and Remove
             SessionManager.getSessionContainer().values().forEach( session -> {
-                HttpSession httpSession = (HttpSession) Objects.requireNonNull(session.get()).getNativeSession();
+                HttpSession httpSession = Objects.requireNonNull(session.get());
                 logger.log(Level.INFO, "Session " + httpSession.getId() + " Logout ...");
                 SessionManager.clearSession(httpSession.getId());
                 logger.log(Level.INFO, "Session " + httpSession.getId() + " Destroyed");

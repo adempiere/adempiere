@@ -57,8 +57,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
-import static org.adempiere.webui.session.SessionContextListener.SESSION_CTX;
-
 /**
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
@@ -91,11 +89,9 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 
 	private static final CLogger logger = CLogger.getCLogger(AdempiereWebUI.class);
 
-	private static final String SAVED_CONTEXT = "saved.context";
-
 	public static String typedPassword = null;
 
-    public AdempiereWebUI()
+	public AdempiereWebUI()
     {
     	this.addEventListener(Events.ON_CLIENT_INFO, this);
     	this.setVisible(false);
@@ -107,23 +103,19 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		Session session = SessionManager.getSession();
 		HttpSession httpSession = (HttpSession) session.getNativeSession();
 		setId(httpSession.getId());
+		ServerContext.setCurrentInstance(SessionManager.getSessionContext(httpSession.getId()));
+		langSession = Env.getContext(Env.getCtx(), Env.LANGUAGE);
 
-		ServerContext.setCurrentInstance((Properties) session.getAttribute(SESSION_CTX));
-		Properties ctx =  Env.getCtx();
-		langSession = Env.getContext(ctx, Env.LANGUAGE);
-
-		SessionManager.addSession(session);
+		SessionManager.addSession(httpSession);
 		SessionManager.setApplicationToSession(this);
-        @SuppressWarnings("unchecked")
-		Map<String, Object>map = (Map<String, Object>) session.getAttribute(SAVED_CONTEXT);
-		session.removeAttribute(SAVED_CONTEXT);
-        if (map != null && !map.isEmpty())
-        {
-        	onChangeRole(map);
-        	return;
-        }
+		boolean changeRole = "Y".equals(Env.getContext(Env.getCtx(),"#ChangeRole"));
+		if (changeRole) {
+			Env.setContext(Env.getCtx(),"#ChangeRole","");
+			onChangeRole();
+			return;
+		}
 
-        if (session.getAttribute(SESSION_CTX) == null || !SessionManager.isUserLoggedIn(ctx))
+		if (!SessionManager.isUserLoggedIn(Env.getCtx()))
         {
 			loginDesktop = new WLogin();
             loginDesktop.createPart(this.getPage());
@@ -143,16 +135,14 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     {
     }
 
-	private void onChangeRole(Map<String, Object> map)
+	private void onChangeRole()
 	{
-		Locale locale = (Locale) map.get("locale");
-		Properties properties = (Properties) map.get("context");
-		Session session = Executions.getCurrent().getDesktop().getSession();
-		SessionManager.addSession(session);
 		loginDesktop = new WLogin();
 		loginDesktop.createPart(this.getPage());
 		loginDesktop.setTypedPassword(typedPassword);
-		loginDesktop.changeRole(locale, properties);
+		Properties newContext =  (Properties) Env.getCtx().clone();
+		Language language = Env.getLanguage(Env.getCtx());
+		loginDesktop.changeRole(language.getLocale(),newContext);
 	}
 
     /* (non-Javadoc)
@@ -328,52 +318,37 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 	public void changeRole(MUser user)
 	{
 		// save context for re-login
-		Properties properties = new Properties();
-		Env.setContext(properties, Env.AD_CLIENT_ID, Env.getAD_Client_ID(Env.getCtx()));
-		Env.setContext(properties, Env.AD_ORG_ID, Env.getAD_Org_ID(Env.getCtx()));
-		Env.setContext(properties, Env.AD_USER_ID, user.getAD_User_ID());
-		Env.setContext(properties, Env.AD_ROLE_ID, Env.getAD_Role_ID(Env.getCtx()));
-		Env.setContext(properties, Env.AD_ORG_NAME, Env.getContext(Env.getCtx(), Env.AD_ORG_NAME));
-		Env.setContext(properties, Env.M_WAREHOUSE_ID, Env.getContext(Env.getCtx(), Env.M_WAREHOUSE_ID));
-		Env.setContext(properties, BrowserToken.REMEMBER_ME, Env.getContext(Env.getCtx(), BrowserToken.REMEMBER_ME));
-		Env.setContext(properties, UserPreference.LANGUAGE_NAME,
-				Env.getContext(Env.getCtx(), UserPreference.LANGUAGE_NAME));
-		Env.setContext(properties, Env.LANGUAGE, Env.getContext(Env.getCtx(), Env.LANGUAGE));
-		Env.setContext(properties, AEnv.LOCALE, Env.getContext(Env.getCtx(), AEnv.LOCALE));
-
-		Locale locale = (Locale) Executions.getCurrent().getDesktop().getSession().getAttribute(Attributes.PREFERRED_LOCALE);
+		Properties context = new Properties();
+		Env.setContext(context, Env.AD_CLIENT_ID, Env.getAD_Client_ID(Env.getCtx()));
+		Env.setContext(context, Env.AD_ORG_ID, Env.getAD_Org_ID(Env.getCtx()));
+		Env.setContext(context, Env.AD_USER_ID, user.getAD_User_ID());
+		Env.setContext(context, Env.AD_ROLE_ID, Env.getAD_Role_ID(Env.getCtx()));
+		Env.setContext(context, Env.AD_ORG_NAME, Env.getContext(Env.getCtx(), Env.AD_ORG_NAME));
+		Env.setContext(context, Env.M_WAREHOUSE_ID, Env.getContext(Env.getCtx(), Env.M_WAREHOUSE_ID));
+		Env.setContext(context, BrowserToken.REMEMBER_ME, Env.getContext(Env.getCtx(), BrowserToken.REMEMBER_ME));
+		Env.setContext(context, UserPreference.LANGUAGE_NAME, Env.getContext(Env.getCtx(), UserPreference.LANGUAGE_NAME));
+		Env.setContext(context, Env.LANGUAGE, Env.getContext(Env.getCtx(), Env.LANGUAGE));
+		Env.setContext(context, AEnv.LOCALE, Env.getContext(Env.getCtx(), AEnv.LOCALE));
+		Env.setContext(context, "#ChangeRole", "Y");
 		HttpServletRequest httpRequest = (HttpServletRequest) Executions.getCurrent().getNativeRequest();
-
 		//stop key listener
 		if (keyListener != null) {
 			keyListener.detach();
 			keyListener = null;
 		}
-
 		// stop background thread
 		IDesktop dashboard = getApplicationDesktop();
-		if (dashboard != null)
+		if (dashboard != null) {
 			dashboard.logout();
-
+		}
 		// clear remove all children and root component
 		getChildren().clear();
 		getPage().removeComponents();
-
+		//Clean the current context
 		Env.getCtx().clear();
-
-		// clear session attributes
-		//getSession().getAttributes().clear();
-
-		// put saved context into new session
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("context", properties);
-		map.put("locale", locale);
-
 		HttpSession newSession = httpRequest.getSession(false);
-
-		newSession.setAttribute(SAVED_CONTEXT, map);
-		properties.setProperty(SessionContextListener.SERVLET_SESSION_ID, newSession.getId());
-
+		context.setProperty(SessionContextListener.SERVLET_SESSION_ID, newSession.getId());
+		Env.setCtx(context);
 		Executions.sendRedirect("index.zul");
 	}
 
