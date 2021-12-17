@@ -33,34 +33,29 @@ import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.event.Events;
 
 import javax.servlet.http.HttpSession;
-import java.lang.ref.WeakReference;
 import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
-import java.util.WeakHashMap;
 import java.util.logging.Level;
 
 /**
- * 
  * @author <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
- * @date Feb 25, 2007
  * @version $Revision: 0.10 $
+ * @date Feb 25, 2007
  */
-public class SessionManager
-{
+public class SessionManager {
 
-	public static final String SESSION_APPLICATION = "SessionApplication";
-	public static final String SESSION_USER_PREFERENCE = "SessionUserPreference";
+    public static final String SESSION_APPLICATION = "SessionApplication";
+    public static final String SESSION_USER_PREFERENCE = "SessionUserPreference";
 
     private static CLogger log = CLogger.getCLogger(SessionManager.class);
 
-	private static final Hashtable<String, WeakReference<HttpSession>> sessionContainer = new Hashtable<>();
-	static Map<String, Properties> sessionContextCache = Collections.synchronizedMap(new WeakHashMap<>());
+    private static final Map<String, HttpSession> sessionContainer = Collections.synchronizedMap(new Hashtable<>());
+    static Map<String, Properties> sessionContextCache = Collections.synchronizedMap(new Hashtable<>());
 
-    public static boolean isUserLoggedIn(Properties ctx)
-    {
+    public static boolean isUserLoggedIn(Properties ctx) {
         String adUserId = Env.getContext(ctx, "#AD_User_ID");
         String adRoleId = Env.getContext(ctx, "#AD_Role_ID");
         String adClientId = Env.getContext(ctx, "#AD_Client_ID");
@@ -70,190 +65,162 @@ public class SessionManager
                 && !"".equals(adClientId) && !"".equals(adOrgId));
     }
 
-	public static Session getSession() {
-		return Executions.getCurrent().getDesktop().getSession();
-	}
+    public static Session getSession() {
+        return Executions.getCurrent().getDesktop().getSession();
+    }
 
-	public static void setApplicationToSession(IWebClient app) {
-		Desktop desktop = AEnv.getDesktop();
-		if (desktop != null) {
-			desktop.setAttribute(SESSION_APPLICATION, new WeakReference<>(app));
-		} else {
-			log.severe("Unable to save session application on desktop");
-		}
-	}
+    public static void setApplicationToSession(IWebClient application) {
+		Optional.ofNullable(AEnv.getDesktop())
+				.ifPresentOrElse(
+						desktop -> desktop.setAttribute(SESSION_APPLICATION, application),
+						() -> log.severe("Unable to save session application on desktop")
+				);
+    }
 
-	public static void removeApplicationToSession()
-	{
-		Session session = getSession();
-		session.removeAttribute(SESSION_APPLICATION);
-	}
+    public static void removeApplicationToSession() {
+        Session session = getSession();
+        session.removeAttribute(SESSION_APPLICATION);
+    }
 
-	public static IDesktop getAppDesktop()
-	{
-		IWebClient webClient = getApplication();
-		return webClient != null ? webClient.getApplicationDesktop() : null;
-	}
+    public static IDesktop getAppDesktop() {
+		return Optional.ofNullable(getApplication())
+				.map(IWebClient::getApplicationDesktop)
+				.orElse(null);
+    }
 
-	public static IWebClient getApplication() {
-		Desktop desktop = AEnv.getDesktop();
-		if (desktop != null) {
-			IWebClient appplication = null;
-			@SuppressWarnings("unchecked")
-			WeakReference<IWebClient> weakReference = (WeakReference<IWebClient>) desktop.getAttribute(SESSION_APPLICATION);
-			appplication = weakReference != null ? weakReference.get() : null;
-			if (appplication != null) {
-				// Set Properties based on Session Context
-				//Properties context = (Properties) desktop.getSession().getAttribute(SESSION_CTX);
-				//ServerContext.setCurrentInstance(context);
-				SessionContextListener.setContextForSession(desktop.getExecution());
-			}
-			return appplication;
-		}
-		return null;
-	}
+    public static IWebClient getApplication() {
+		return Optional.ofNullable(AEnv.getDesktop())
+				.flatMap(desktop -> Optional.ofNullable((IWebClient) desktop.getAttribute(SESSION_APPLICATION))
+						.map(application -> {
+							SessionContextListener.setContextForSession(desktop.getExecution());
+							return application;
+						})).orElse(null);
+    }
 
-	public static void changeRole(MUser user)
-	{
-		IWebClient appplication  = getApplication();
-		if (appplication != null)
-			appplication.changeRole(user);
-	}
+    public static void changeRole(MUser user) {
+		Optional.ofNullable(getApplication()).ifPresent(application -> application.changeRole(user));
+    }
 
-    public static boolean activateDesktop(Desktop desktop)
-     {
- 		if (Events.inEventListener()) {
- 			return true;
- 		}
-    	if (desktop ==  null) {
-    		log.severe("Attempted to activate NULL desktop.");
-    		return false;
-    	}
-     	
- 		try {
- 			if (Executions.activate((org.zkoss.zk.ui.Desktop) desktop, 500)) {
- 				return true;
- 			} else {
- 				log.fine("Unable to grab control of desktop.");
- 				if (!desktop.isServerPushEnabled()) {
- 					log.severe("Unexpected. Server Push not enabled");
- 				}
- 				
- 			}
- 			
- 		} catch (Exception e) {
-			log.severe(e.getMessage());
- 		} finally {
- 		}
- 		return false;
-     }
+    public static boolean activateDesktop(Desktop desktop) {
+        if (Events.inEventListener()) {
+            return true;
+        }
+        if (desktop == null) {
+            log.severe("Attempted to activate NULL desktop.");
+            return false;
+        }
 
-    public  static void releaseDesktop(Desktop desktop)
-	{
-		if (desktop  == null) {
-			return;
-		}
-		Executions.deactivate((org.zkoss.zk.ui.Desktop) desktop);
-//		if (Env.getContext(Env.getCtx(), ZK_DESKTOP_ISACTIVE).equals("Y")) {
-//			Env.setContext(Env.getCtx(), ZK_DESKTOP_ISACTIVE, "N");
-//		}
-		
-	}
+        try {
+            if (Executions.activate((org.zkoss.zk.ui.Desktop) desktop, 500)) {
+                return true;
+            } else {
+                log.fine("Unable to grab control of desktop.");
+                if (!desktop.isServerPushEnabled()) {
+                    log.severe("Unexpected. Server Push not enabled");
+                }
 
-	public  static Hashtable<String, WeakReference<HttpSession>> getSessionContainer() {
-		return sessionContainer;
-	}
+            }
 
-	public static void removeSession(String sessionId) {
-    	if (sessionContainer.containsKey(sessionId))
-			sessionContainer.remove(sessionId);
-		else throw new AdempiereException("Application not exist with this Id :" + sessionId);
-	}
+        } catch (Exception e) {
+            log.severe(e.getMessage());
+        } finally {
+        }
+        return false;
+    }
 
-	public static void addSession(HttpSession httpSession) {
-		if (!sessionContainer.containsKey(httpSession.getId())) {
-			sessionContainer.put(httpSession.getId(), new WeakReference<>(httpSession));
-			createSessionContext(httpSession.getId());
-		}
-	}
+    public static void releaseDesktop(Desktop desktop) {
+        if (desktop == null) {
+            return;
+        }
+        Executions.deactivate((org.zkoss.zk.ui.Desktop) desktop);
+    }
 
-	public static HttpSession getSession(String sessionId) {
-		if (sessionContainer.containsKey(sessionId)) {
-			return sessionContainer.get(sessionId).get();
-		}
-		else {
-			throw new AdempiereException("Session not exist");
-		}
-	}
+    public static Map<String, HttpSession> getSessionContainer() {
+        return sessionContainer;
+    }
 
-	public static void loadUserPreference(Integer authenticatedUserId) {
-		UserPreference userPreference = new UserPreference();
-		userPreference.loadPreference(authenticatedUserId);
-		getSession().setAttribute(SESSION_USER_PREFERENCE, userPreference);
-	}
+    public static void removeSession(String sessionId) {
+        if (sessionContainer.containsKey(sessionId))
+            sessionContainer.remove(sessionId);
+        else throw new AdempiereException("Application not exist with this Id :" + sessionId);
+    }
 
-	public static void loadUserPreference(String httpSessionId, Integer authenticatedUserId) {
-			UserPreference userPreference = new UserPreference();
-			userPreference.loadPreference(authenticatedUserId);
-			getSession(httpSessionId).setAttribute(SESSION_USER_PREFERENCE, userPreference);
-	}
+    public static void addSession(HttpSession httpSession) {
+        if (!sessionContainer.containsKey(httpSession.getId())) {
+            sessionContainer.put(httpSession.getId(), httpSession);
+            createSessionContext(httpSession.getId());
+        }
+    }
 
-	public static void RemoveUserPreference(String sessionId) {
-		getSession().removeAttribute(SESSION_USER_PREFERENCE);
-	}
+    public static HttpSession getSession(String sessionId) {
+        if (sessionContainer.containsKey(sessionId)) {
+            return sessionContainer.get(sessionId);
+        } else {
+            throw new AdempiereException("Session not exist");
+        }
+    }
 
-	public static UserPreference getUserPreference() {
-		UserPreference userPreference =  (UserPreference) getSession().getAttribute(SESSION_USER_PREFERENCE);
-		if (userPreference == null)
-			throw new AdempiereException("User Preference not load for this session");
-		return userPreference;
-	}
+    public static void loadUserPreference(Integer authenticatedUserId) {
+        UserPreference userPreference = new UserPreference();
+        userPreference.loadPreference(authenticatedUserId);
+        getSession().setAttribute(SESSION_USER_PREFERENCE, userPreference);
+    }
 
-	public static UserPreference getUserPreference(String sessionId) {
-		return (UserPreference) getSession(sessionId).getAttribute(SESSION_USER_PREFERENCE);
-	}
+    public static void loadUserPreference(String httpSessionId, Integer authenticatedUserId) {
+        UserPreference userPreference = new UserPreference();
+        userPreference.loadPreference(authenticatedUserId);
+        getSession(httpSessionId).setAttribute(SESSION_USER_PREFERENCE, userPreference);
+    }
 
-	public static void clearSessions() {
-		sessionContainer.clear();
-	}
+    public static UserPreference getUserPreference() {
+		return Optional.ofNullable((UserPreference)getSession().getAttribute(SESSION_USER_PREFERENCE))
+				.orElseThrow(() -> new AdempiereException("User Preference not load for this session"));
+    }
 
-	public static void clearSession(String sessionId) {
-		HttpSession httpSession = getSession(sessionId);
-		Optional<IWebClient> maybeApplication = Optional.ofNullable(getApplication());
-		maybeApplication.ifPresent(application -> {
-			Session session = getAppDesktop().getComponent().getDesktop().getSession();
-			int adempiereSessionId = Env.getContextAsInt(Env.getCtx(), "#AD_Session_ID");
-			if (adempiereSessionId > 0) {
-				MSession adempiereSession = MSession.get(Env.getCtx(), session.getRemoteAddr(), session.getRemoteHost(), httpSession.getId());
-				adempiereSession.logout();
-				log.log(Level.INFO, "ADempiere Session " + httpSession.getId() + " Logout ...");
-			}
-			application.logoutDestroyed();
-			removeSessionContext(httpSession.getId());
-			httpSession.removeAttribute(SESSION_USER_PREFERENCE);
-			httpSession.removeAttribute("Check_AD_User_ID");
-			httpSession.removeAttribute(Attributes.PREFERRED_LOCALE);
-			httpSession.removeAttribute(SESSION_APPLICATION);
-		});
-		httpSession.invalidate();
-		log.log(Level.INFO, "Session " + httpSession.getId() + " Invalidate ...");
-	}
+    public static UserPreference getUserPreference(String sessionId) {
+        return (UserPreference) getSession(sessionId).getAttribute(SESSION_USER_PREFERENCE);
+    }
 
-	public static Properties getSessionContext(String sessionId) {
-		return sessionContextCache.get(sessionId);
-	}
+    public static void clearSessions() {
+        sessionContainer.clear();
+    }
 
-	public static void removeSessionContext(String sessionId) {
-		sessionContextCache.remove(sessionId);
-	}
+    public static void clearSession(String sessionId) {
+        HttpSession httpSession = getSession(sessionId);
+		Optional.ofNullable(getApplication()).ifPresent(application -> {
+            Session session = getAppDesktop().getComponent().getDesktop().getSession();
+            int adempiereSessionId = Env.getContextAsInt(Env.getCtx(), "#AD_Session_ID");
+            if (adempiereSessionId > 0) {
+                MSession adempiereSession = MSession.get(Env.getCtx(), session.getRemoteAddr(), session.getRemoteHost(), httpSession.getId());
+                adempiereSession.logout();
+                log.log(Level.INFO, "ADempiere Session " + httpSession.getId() + " Logout ...");
+            }
+            application.logoutDestroyed();
+            removeSessionContext(httpSession.getId());
+            httpSession.removeAttribute(SESSION_USER_PREFERENCE);
+            httpSession.removeAttribute("Check_AD_User_ID");
+            httpSession.removeAttribute(Attributes.PREFERRED_LOCALE);
+            httpSession.removeAttribute(SESSION_APPLICATION);
+        });
+        httpSession.invalidate();
+        log.log(Level.INFO, "Session " + httpSession.getId() + " Invalidate ...");
+    }
 
-	public static void createSessionContext(String sessionId){
-		Properties context = new Properties();
-		context.put(SessionContextListener.SERVLET_SESSION_ID,sessionId);
-		sessionContextCache.put(sessionId, context);
-	}
+    public static Properties getSessionContext(String sessionId) {
+        return sessionContextCache.get(sessionId);
+    }
 
-	public static boolean containsKeySessionContext(String sessionId) {
-		return sessionContextCache.containsKey(sessionId);
-	}
+    public static void removeSessionContext(String sessionId) {
+        sessionContextCache.remove(sessionId);
+    }
+
+    public static void createSessionContext(String sessionId) {
+        Properties context = new Properties();
+        context.put(SessionContextListener.SERVLET_SESSION_ID, sessionId);
+        sessionContextCache.put(sessionId, context);
+    }
+
+    public static boolean containsKeySessionContext(String sessionId) {
+        return sessionContextCache.containsKey(sessionId);
+    }
 }

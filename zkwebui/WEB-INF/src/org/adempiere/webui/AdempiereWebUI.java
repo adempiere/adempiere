@@ -354,7 +354,9 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 
 	public void changeRole(Locale locale, Properties properties)
 	{
+		String typedPassword = loginDesktop.getTypedPassword();
 		loginDesktop.changeRole(locale, properties);
+		loginDesktop.setTypedPassword(typedPassword);
 	}
 
 	private synchronized void clearDesktop(){

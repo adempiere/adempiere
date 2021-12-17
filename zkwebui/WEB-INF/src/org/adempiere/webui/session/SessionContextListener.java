@@ -41,54 +41,48 @@ import java.util.Optional;
 import java.util.Properties;
 
 /**
- *
  * @author <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
- * @date Feb 25, 2007
  * @version $Revision: 0.10 $
+ * @date Feb 25, 2007
  */
 public class SessionContextListener implements ExecutionInit,
-        ExecutionCleanup, EventThreadInit, DesktopCleanup, DesktopInit , EventThreadResume, EventThreadCleanup
-{
-	public static final String SERVLET_SESSION_ID = "servlet.sessionId";
+        ExecutionCleanup, EventThreadInit, DesktopCleanup, DesktopInit, EventThreadResume, EventThreadCleanup {
+    public static final String SERVLET_SESSION_ID = "servlet.sessionId";
 
     /**
-     * @param execution
-     * @param parent
-     *
+     * @param executionCleanup
+     * @param parentCleanup
      * @see ExecutionInit#init(Execution, Execution)
      */
-    public void init(Execution execution, Execution parent)
-    {
-        //in servlet thread
-        if (parent == null)
-        {
-            ServerPush serverPush = ((DesktopCtrl)execution.getDesktop()).getServerPush();
-            if (serverPush == null || !serverPush.isActive())
-            {
-                setContextForSession(execution);
-                //set locale
-                Locales.setThreadLocal(Env.getLanguage(ServerContext.getCurrentInstance()).getLocale());
-            }
-        }
+    public void init(Execution executionCleanup, Execution parentCleanup) {
+        Optional.ofNullable(parentCleanup)
+                .flatMap(parent -> Optional.ofNullable(executionCleanup))
+                .ifPresent(execution -> {
+                    ServerPush serverPush = ((DesktopCtrl) execution.getDesktop()).getServerPush();
+                    if (serverPush == null || !serverPush.isActive()) {
+                        setContextForSession(execution);
+                    }
+                });
     }
 
     /**
      * Refresh the context from session
-     * @param execution
-     * @param parent
-     * @param errs
+     *
+     * @param executionCleanup
+     * @param parentCleanup
+     * @param errors
      * @see ExecutionCleanup#cleanup(Execution, Execution, List)
      */
-    public void cleanup(Execution execution, Execution parent, List errs)
-    {
-        if (parent == null)
-        {
-            ServerPush serverPush = ((DesktopCtrl)execution.getDesktop()).getServerPush();
-            if (serverPush == null || !serverPush.isActive())
-                setContextForSession(execution);
-            else
-                ServerContext.dispose();
-        }
+    public void cleanup(Execution executionCleanup, Execution parentCleanup, List errors) {
+        Optional.ofNullable(parentCleanup)
+                .flatMap(parent -> Optional.ofNullable(executionCleanup))
+                .ifPresent(execution -> {
+                    ServerPush serverPush = ((DesktopCtrl) execution.getDesktop()).getServerPush();
+                    if (serverPush == null || !serverPush.isActive()) {
+                        setContextForSession(execution);
+                    } else
+                        ServerContext.dispose();
+                });
     }
 
     /**
@@ -96,33 +90,40 @@ public class SessionContextListener implements ExecutionInit,
      * @param event
      * @see EventThreadInit#prepare(Component, Event)
      */
-    public void prepare(Component component, Event event)
-    {
-        Desktop desktop = component.getDesktop();
-        if (desktop == null)
-            return;
-
-        //check is thread local context have been setup
-        if (ServerContext.getCurrentInstance().isEmpty() || !isValidContext(desktop.getExecution()))
-        {
-            setContextForSession(desktop.getExecution());
-        }
-
-        //set locale
-        Locales.setThreadLocal(Env.getLanguage(ServerContext.getCurrentInstance()).getLocale());
+    public void prepare(Component component, Event event) {
+        Optional.ofNullable(component.getDesktop())
+                .flatMap(desktop -> Optional.ofNullable(desktop.getExecution()))
+                .ifPresent(execution -> {
+                    if (ServerContext.getCurrentInstance().isEmpty() || !isValidContext(execution)) {
+                        setContextForSession(execution);
+                    }
+                });
     }
 
     /**
      * @param component
-     * @param evt
+     * @param event
      * @see EventThreadInit#init(Component, Event)
      */
-    public synchronized boolean init(Component component, Event evt)
-    {
-		return true;
+    public boolean init(Component component, Event event) {
+        Optional.ofNullable(component.getDesktop())
+                .flatMap(desktop -> Optional.ofNullable(desktop.getExecution()))
+                .ifPresent(execution -> {
+                    ServerPush serverPush = ((DesktopCtrl) component.getDesktop()).getServerPush();
+                    if (serverPush == null || !serverPush.isActive()) {
+                        setContextForSession(execution);
+                    }
+                });
+        return true;
     }
 
-    public synchronized static boolean isValidContext(Execution execution) {
+    /**
+     * Validate Context
+     *
+     * @param execution
+     * @return Isvalid
+     */
+    public static boolean isValidContext(Execution execution) {
         Properties ctx = ServerContext.getCurrentInstance();
         if (ctx == null)
             return false;
@@ -131,32 +132,26 @@ public class SessionContextListener implements ExecutionInit,
             return false;
 
         Session session = execution.getDesktop().getSession();
-        HttpSession httpSession = (HttpSession)session.getNativeSession();
+        HttpSession httpSession = (HttpSession) session.getNativeSession();
         //verify ctx
         String existsSessionId = ctx.getProperty(SERVLET_SESSION_ID);
-        if (existsSessionId == null || httpSession == null || !existsSessionId.equals(httpSession.getId()) )
-        {
+        if (existsSessionId == null || httpSession == null || !existsSessionId.equals(httpSession.getId())) {
             return false;
         }
 
-        Properties sessionCtx = SessionManager.getSessionContext(httpSession.getId());
-        if (sessionCtx != null)
-        {
-            if (Env.getAD_Client_ID(sessionCtx) != Env.getAD_Client_ID(ctx))
-            {
+        Optional<Properties> maybeSessionContext = Optional.of(SessionManager.getSessionContext(httpSession.getId()));
+        return maybeSessionContext.map(sessionContext -> {
+            if (Env.getAD_Client_ID(sessionContext) != Env.getAD_Client_ID(ctx)) {
                 return false;
             }
-            if (Env.getAD_User_ID(sessionCtx) != Env.getAD_User_ID(ctx))
-            {
+            if (Env.getAD_User_ID(sessionContext) != Env.getAD_User_ID(ctx)) {
                 return false;
             }
-            if (Env.getAD_Role_ID(sessionCtx) != Env.getAD_Role_ID(ctx))
-            {
+            if (Env.getAD_Role_ID(sessionContext) != Env.getAD_Role_ID(ctx)) {
                 return false;
             }
-        }
-
-        return true;
+            return true;
+        }).orElse(true);
     }
 
     /**
@@ -164,8 +159,14 @@ public class SessionContextListener implements ExecutionInit,
      * @param event
      * @see EventThreadResume#beforeResume(Component, Event)
      */
-    public void beforeResume(Component component, Event event)
-    {
+    public void beforeResume(Component component, Event event) {
+        Optional.ofNullable(component.getDesktop()).ifPresent(desktop ->
+                Optional.ofNullable(desktop.getExecution()).ifPresent(execution -> {
+                    ServerPush serverPush = ((DesktopCtrl) desktop).getServerPush();
+                    if (serverPush == null || !serverPush.isActive()) {
+                        setContextForSession(execution);
+                    }
+                }));
     }
 
     /**
@@ -173,25 +174,29 @@ public class SessionContextListener implements ExecutionInit,
      * @param event
      * @see EventThreadResume#afterResume(Component, Event)
      */
-    public void afterResume(Component component, Event event)
-    {
-        Desktop desktop = component.getDesktop();
-        if (desktop == null)
-            return;
-
-        setContextForSession(desktop.getExecution());
-        //set locale
-        Locales.setThreadLocal(Env.getLanguage(Env.getCtx()).getLocale());
-
+    public void afterResume(Component component, Event event) {
+        Optional.ofNullable(component.getDesktop()).ifPresent(desktop ->
+                Optional.ofNullable(desktop.getExecution()).ifPresent(execution -> {
+                    ServerPush serverPush = ((DesktopCtrl) desktop).getServerPush();
+                    if (serverPush == null || !serverPush.isActive()) {
+                        setContextForSession(execution);
+                    }
+                }));
     }
 
     /**
-     * @param comp
-     * @param evt
+     * @param component
+     * @param event
      * @see EventThreadResume#abortResume(Component, Event)
      */
-    public void abortResume(Component comp, Event evt)
-    {
+    public void abortResume(Component component, Event event) {
+        Optional.ofNullable(component.getDesktop()).ifPresent(desktop ->
+                Optional.ofNullable(desktop.getExecution()).ifPresent(execution -> {
+                    ServerPush serverPush = ((DesktopCtrl) desktop).getServerPush();
+                    if (serverPush == null || !serverPush.isActive()) {
+                        setContextForSession(execution);
+                    }
+                }));
     }
 
     /**
@@ -200,76 +205,86 @@ public class SessionContextListener implements ExecutionInit,
      * @param errors
      * @see EventThreadCleanup#cleanup(Component, Event, List)
      */
-	public void cleanup(Component component, Event event, List errors) throws Exception
-	{
-        Desktop desktop = component.getDesktop();
-        if (desktop == null)
-            return;
-
-        ServerPush serverPush = ((DesktopCtrl)desktop).getServerPush();
-        if (serverPush == null || !serverPush.isActive())
-            setContextForSession(desktop.getExecution());
-        else
-            ServerContext.dispose();
-	}
-
-	/**
-	 * @param component
-	 * @param event
-	 * @see EventThreadCleanup#complete(Component, Event)
-	 */
-	public void complete(Component component, Event event) throws Exception
-	{
-	}
-
-
-
-    @Override
-    public void cleanup(Desktop desktop) throws Exception {
-        if(desktop.getExecution() == null) {
-            if (!ServerContext.getCurrentInstance().isEmpty()) {
-                ServerContext.dispose();
-            }
-            return;
-        }
-
-        if (ServerContext.getCurrentInstance().isEmpty() || !isValidContext(desktop.getExecution()))
-        {
-            setContextForSession(desktop.getExecution());
-        }
+    public void cleanup(Component component, Event event, List errors) throws Exception {
+        Optional.ofNullable(component.getDesktop()).ifPresent(desktop ->
+                Optional.ofNullable(desktop.getExecution()).ifPresent(execution -> {
+                    ServerPush serverPush = ((DesktopCtrl) desktop).getServerPush();
+                    if (serverPush == null || !serverPush.isActive())
+                        setContextForSession(execution);
+                    else
+                        ServerContext.dispose();
+                }));
     }
 
-    @Override
-    public void init(Desktop desktop, Object request) throws Exception {
-        if(desktop.getExecution() == null)
-            return;
-
-        if (ServerContext.getCurrentInstance().isEmpty() || !isValidContext(desktop.getExecution()))
-        {
-            Session session = desktop.getSession();
-            //Setting Ephemeral session
-            Optional<Integer> maybeMaxInactiveInterval = Optional.ofNullable((Integer) session.getAttribute("MaxInactiveInterval"));
-            if (maybeMaxInactiveInterval.isEmpty()) {
-                session.setAttribute("MaxInactiveInterval", session.getMaxInactiveInterval());
-                Optional<String> maybeEphemeralMaxInactiveInterval = Optional.of(Ini.getProperty("EphemeralSessionMaxInactiveInterval"));
-                maybeEphemeralMaxInactiveInterval
-                        .filter(ephemeralMaxInactiveInterval -> !ephemeralMaxInactiveInterval.isEmpty())
-                        .ifPresent(ephemeralMaxInactiveInterval ->  session.setMaxInactiveInterval(Integer.parseInt(ephemeralMaxInactiveInterval)));
+    /**
+     * @param component
+     * @param event
+     * @see EventThreadCleanup#complete(Component, Event)
+     */
+    public void complete(Component component, Event event) throws Exception {
+        Optional.ofNullable(component.getDesktop()).ifPresent(desktop -> {
+            ServerPush serverPush = ((DesktopCtrl) component.getDesktop()).getServerPush();
+            if (serverPush == null || !serverPush.isActive()) {
+                setContextForSession(desktop.getExecution());
             }
-            setContextForSession(desktop.getExecution());
-        }
+        });
+    }
+
+    /**
+     *
+     * @param desktopClean
+     * @throws Exception
+     */
+    @Override
+    public void cleanup(Desktop desktopClean) throws Exception {
+        Optional.ofNullable(desktopClean).ifPresent(desktop -> {
+            ServerPush serverPush = ((DesktopCtrl) desktop).getServerPush();
+            if (serverPush == null || !serverPush.isActive()) {
+                setContextForSession(desktop.getExecution());
+            } else
+                ServerContext.dispose();
+        });
+    }
+
+    /**
+     *
+     * @param desktopInit
+     * @param request
+     * @throws Exception
+     */
+    @Override
+    public void init(Desktop desktopInit, Object request) throws Exception {
+        Optional.ofNullable(desktopInit).ifPresent(desktop -> {
+            ServerPush serverPush = ((DesktopCtrl) desktop).getServerPush();
+            if (serverPush == null || !serverPush.isActive()) {
+                Session session = desktop.getSession();
+                //Setting Ephemeral session
+                Optional<Integer> maybeMaxInactiveInterval = Optional.ofNullable((Integer) session.getAttribute("MaxInactiveInterval"));
+                if (maybeMaxInactiveInterval.isEmpty()) {
+                    session.setAttribute("MaxInactiveInterval", session.getMaxInactiveInterval());
+                    Optional<String> maybeEphemeralMaxInactiveInterval = Optional.of(Ini.getProperty("EphemeralSessionMaxInactiveInterval"));
+                    maybeEphemeralMaxInactiveInterval
+                            .filter(ephemeralMaxInactiveInterval -> !ephemeralMaxInactiveInterval.isEmpty())
+                            .ifPresent(ephemeralMaxInactiveInterval -> session.setMaxInactiveInterval(Integer.parseInt(ephemeralMaxInactiveInterval)));
+                }
+                setContextForSession(desktop.getExecution());
+            } else
+                ServerContext.dispose();
+        });
     }
 
     /**
      * get servlet thread local context from session
-     * @param execution
+     *
+     * @param execution Execution
      */
     public synchronized static void setContextForSession(Execution execution) {
         Session session = execution.getDesktop().getSession();
-        HttpSession httpSession = (HttpSession)session.getNativeSession();
+        HttpSession httpSession = (HttpSession) session.getNativeSession();
         if (!SessionManager.containsKeySessionContext(httpSession.getId())) {
             SessionManager.createSessionContext(httpSession.getId());
         }
         ServerContext.setCurrentInstance(SessionManager.getSessionContext(httpSession.getId()));
+        Locales.setThreadLocal(Env.getLanguage(ServerContext.getCurrentInstance()).getLocale());
     }
 }
