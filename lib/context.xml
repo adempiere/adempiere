@@ -28,21 +28,8 @@
     <!--
     <Manager pathname="" />
     -->
-    <Resource name="java/AdempiereDS" auth="Container"
-              factory="com.zaxxer.hikari.HikariJNDIFactory"
-              type="javax.sql.DataSource"
-              minimumIdle="5"
-              maximumPoolSize="150"
-              connectionTimeout="300000"
-              poolName="AdempiereDS"
-              cachePrepStmts= "true"
-              prepStmtCacheSize= "250"
-              prepStmtCacheSqlLimit= "2048"
-              jdbcUrl="@ADEMPIERE_DB_URL@"
-              driverClassName="@@JDBC_DRIVER_CLASS@@"
-              dataSource.serverName="@ADEMPIERE_DB_SERVER@"
-              dataSource.portNumber="@ADEMPIERE_DB_PORT@"
-              dataSource.databaseName="@ADEMPIERE_DB_NAME@"
-              dataSource.user="@ADEMPIERE_DB_USER@"
-              dataSource.password="@ADEMPIERE_DB_PASSWORD@"/>
+    <ResourceLink name="java/AdempiereDS"
+                  global="java/AdempiereDS"
+                  auth="Container"
+                  type="javax.sql.DataSource" />
 </Context>
