@@ -705,6 +705,7 @@ $CATALINA_HOME/bin/shutdown.sh
 						  cachePrepStmts= "true"
 						  prepStmtCacheSize= "250"
 						  prepStmtCacheSqlLimit= "2048"
+						  closeMethod = "close"
 						  socketFactory="com.google.cloud.sql.postgres.SocketFactory"
 						  cloudSqlInstance="INSTANCE_CONNECTION_NAME"
 						  jdbcUrl="@ADEMPIERE_DB_URL@"
