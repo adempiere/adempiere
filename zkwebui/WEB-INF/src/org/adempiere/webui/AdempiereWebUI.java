@@ -111,13 +111,13 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     {
 		boolean changeRole = "Y".equals(Env.getContext(Env.getCtx(),"#ChangeRole"));
         this.getPage().setTitle(ThemeManager.getBrowserTitle());
-		Session session = SessionManager.getSession();
+		Session session = getDesktop().getSession();
 		HttpSession httpSession = (HttpSession) session.getNativeSession();
 		setId(httpSession.getId());
 		if (!SessionManager.existsSession(httpSession.getId()) || changeRole) {
 			ServerContext.setCurrentInstance(SessionManager.getSessionContext(httpSession.getId()));
 			langSession = Env.getContext(Env.getCtx(), Env.LANGUAGE);
-			SessionManager.addSession(httpSession);
+			SessionManager.addSession(session);
 			SessionManager.setApplication(httpSession.getId(), this);
 		}
 
@@ -190,7 +190,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     	Env.setContext(ctx, Env.LANGUAGE, language.getAD_Language()); //Bug
 
 		//	Create adempiere Session - user id in ctx
-        Session currentSession = SessionManager.getSession();
+        Session currentSession = SessionManager.getSession(getId());
         HttpSession httpSession = (HttpSession) currentSession.getNativeSession();
 		//Setting the timeout for this session
 		Optional<Integer> maybeMaxInactiveInterval = Optional.ofNullable((Integer) httpSession.getAttribute("MaxInactiveInterval"));
@@ -353,7 +353,6 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		SessionManager.removeSession(getId());
 		ServerContext.dispose();
 		super.getChildren().clear();
-		detach();
 		Executions.sendRedirect("index.zul");
     }
 

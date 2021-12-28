@@ -19,6 +19,7 @@ package org.adempiere.webui.session;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.webui.IWebClient;
+import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.desktop.IDesktop;
 import org.adempiere.webui.util.UserPreference;
 import org.compiere.model.MSession;
@@ -49,16 +50,15 @@ import static org.adempiere.webui.session.SessionContextListener.SERVLET_SESSION
  */
 public class SessionManager {
 
-
-    public static final String SESSION_USER_PREFERENCE = "SessionUserPreference";
     private static CLogger log = CLogger.getCLogger(SessionManager.class);
 
     private static final Map<String, IWebClient> applicationCache = Collections.synchronizedMap(new Hashtable<>());
-    private static final Map<String, HttpSession> sessionCache = Collections.synchronizedMap(new Hashtable<>());
+    private static final Map<String, Session> sessionCache = Collections.synchronizedMap(new Hashtable<>());
     private static final Map<String, Properties> sessionContextCache = Collections.synchronizedMap(new Hashtable<>());
     private static final Map<String, IDesktop> desktopCache = Collections.synchronizedMap(new Hashtable<>());
     private static final Map<String, ExecutionCarryOver> executionCarryOverCache = Collections.synchronizedMap(new Hashtable<>());
     private static final Map<String, Desktop> executionDesktopCache = Collections.synchronizedMap(new Hashtable<>());
+    private static final Map<String, UserPreference> sessionUserPreferenceCache = Collections.synchronizedMap(new Hashtable<>());
 
     public static boolean isUserLoggedIn(Properties ctx) {
         String adUserId = Env.getContext(ctx, "#AD_User_ID");
@@ -68,10 +68,6 @@ public class SessionManager {
 
         return (!"".equals(adUserId) && !"".equals(adRoleId)
                 && !"".equals(adClientId) && !"".equals(adOrgId));
-    }
-
-    public static Session getSession() {
-        return Executions.getCurrent().getDesktop().getSession();
     }
 
     public static void setApplication(String sessionId, IWebClient application) {
@@ -129,7 +125,7 @@ public class SessionManager {
         Executions.deactivate((org.zkoss.zk.ui.Desktop) desktop);
     }
 
-    public static Map<String, HttpSession> getSessionCache() {
+    public static Map<String, Session> getSessionCache() {
         return sessionCache;
     }
 
@@ -139,14 +135,15 @@ public class SessionManager {
         else throw new AdempiereException("Application not exist with this Id :" + sessionId);
     }
 
-    public static void addSession(HttpSession httpSession) {
+    public static void addSession(Session session) {
+        HttpSession httpSession = (HttpSession) session.getNativeSession();
         if (!sessionCache.containsKey(httpSession.getId())) {
-            sessionCache.put(httpSession.getId(), httpSession);
+            sessionCache.put(httpSession.getId(), session);
             createSessionContext(httpSession.getId());
         }
     }
 
-    public static HttpSession getSession(String sessionId) {
+    public static Session getSession(String sessionId) {
         if (sessionCache.containsKey(sessionId)) {
             return sessionCache.get(sessionId);
         } else {
@@ -159,24 +156,25 @@ public class SessionManager {
     }
 
     public static void loadUserPreference(Integer authenticatedUserId) {
+        HttpSession httpSession = (HttpSession) AEnv.getDesktop().getSession().getNativeSession();
         UserPreference userPreference = new UserPreference();
         userPreference.loadPreference(authenticatedUserId);
-        getSession().setAttribute(SESSION_USER_PREFERENCE, userPreference);
+        sessionUserPreferenceCache.put(httpSession.getId(), userPreference);
     }
 
     public static void loadUserPreference(String httpSessionId, Integer authenticatedUserId) {
         UserPreference userPreference = new UserPreference();
         userPreference.loadPreference(authenticatedUserId);
-        getSession(httpSessionId).setAttribute(SESSION_USER_PREFERENCE, userPreference);
+        sessionUserPreferenceCache.put(httpSessionId, userPreference);
     }
 
     public static UserPreference getUserPreference() {
-		return Optional.ofNullable((UserPreference) getSession().getAttribute(SESSION_USER_PREFERENCE))
-				.orElseThrow(() -> new AdempiereException("User Preference not load for this session"));
+        HttpSession httpSession = (HttpSession) AEnv.getDesktop().getSession().getNativeSession();
+        return getUserPreference(httpSession.getId());
     }
 
     public static UserPreference getUserPreference(String sessionId) {
-        return (UserPreference) getSession(sessionId).getAttribute(SESSION_USER_PREFERENCE);
+        return sessionUserPreferenceCache.get(sessionId);
     }
 
     public static void clearSessions() {
@@ -184,24 +182,22 @@ public class SessionManager {
     }
 
     public static void clearSession(String sessionId) {
-        HttpSession httpSession = getSession(sessionId);
+        Session session = getSession(sessionId);
 		Optional.ofNullable(getApplication()).ifPresent(application -> {
-            Session session = getAppDesktop().getComponent().getDesktop().getSession();
             int adempiereSessionId = Env.getContextAsInt(Env.getCtx(), "#AD_Session_ID");
             if (adempiereSessionId > 0) {
-                MSession adempiereSession = MSession.get(Env.getCtx(), session.getRemoteAddr(), session.getRemoteHost(), httpSession.getId());
+                MSession adempiereSession = MSession.get(Env.getCtx(), session.getRemoteAddr(), session.getRemoteHost(), sessionId);
                 adempiereSession.logout();
-                log.log(Level.INFO, "ADempiere Session " + httpSession.getId() + " Logout ...");
+                log.log(Level.INFO, "ADempiere Session " +sessionId + " Logout ...");
             }
             application.logoutDestroyed();
-            removeSessionCache(httpSession.getId());
-            httpSession.removeAttribute(SESSION_USER_PREFERENCE);
-            httpSession.removeAttribute("Check_AD_User_ID");
-            httpSession.removeAttribute(Attributes.PREFERRED_LOCALE);
-            SessionManager.removeApplication(httpSession.getId());
+            session.removeAttribute("Check_AD_User_ID");
+            session.removeAttribute(Attributes.PREFERRED_LOCALE);
+            removeSessionCache(sessionId);
+            SessionManager.removeApplication(sessionId);
         });
-        httpSession.invalidate();
-        log.log(Level.INFO, "Session " + httpSession.getId() + " Invalidate ...");
+        session.invalidate();
+        log.log(Level.INFO, "Session " + sessionId + " Invalidate ...");
     }
 
     public static Properties getSessionContext(String sessionId) {
@@ -210,6 +206,7 @@ public class SessionManager {
 
     public static void removeSessionCache(String sessionId) {
         sessionContextCache.remove(sessionId);
+        sessionUserPreferenceCache.remove(sessionId);
         desktopCache.remove(sessionId);
         executionCarryOverCache.remove(sessionId);
         executionDesktopCache.remove(sessionId);

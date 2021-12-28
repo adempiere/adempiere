@@ -34,7 +34,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Objects;
 import java.util.logging.Level;
 
 
@@ -120,7 +119,7 @@ public class WebUIServlet extends DHtmlLayoutServlet
         try {
             //Get Context for Current Thread and Remove
             SessionManager.getSessionCache().values().forEach(session -> {
-                HttpSession httpSession = Objects.requireNonNull(session);
+                HttpSession httpSession = (HttpSession) session.getNativeSession();
                 logger.log(Level.INFO, "Session " + httpSession.getId() + " Logout ...");
                 SessionManager.clearSession(httpSession.getId());
                 logger.log(Level.INFO, "Session " + httpSession.getId() + " Destroyed");
