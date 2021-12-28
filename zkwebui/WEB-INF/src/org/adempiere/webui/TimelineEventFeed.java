@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.adempiere.webui.component.ZkCssHelper;
 import org.adempiere.webui.session.ServerContext;
-import org.adempiere.webui.session.SessionContextListener;
 import org.adempiere.webui.session.SessionManager;
 import org.compiere.model.MAssignmentSlot;
 import org.compiere.model.ScheduleUtil;
@@ -38,12 +37,10 @@ public class TimelineEventFeed extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		Properties ctx = SessionManager.getSessionContext(req.getRequestedSessionId());
-        if (ctx == null) {
-             return;
-        }
+        Properties ctx = SessionManager.getSessionContext(req.getSession().getId());
+        ServerContext.dispose();
+        ServerContext.setCurrentInstance(ctx);
 
-		ServerContext.setCurrentInstance(ctx);
 		int resourceId  = 0;
 		String resourceIdParam = req.getParameter("S_Resource_ID");
 		if (resourceIdParam != null && resourceIdParam.trim().length() > 0) {

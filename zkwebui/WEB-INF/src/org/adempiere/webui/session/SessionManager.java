@@ -31,6 +31,7 @@ import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.impl.ExecutionCarryOver;
 
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
@@ -52,8 +53,11 @@ public class SessionManager {
 
     private static CLogger log = CLogger.getCLogger(SessionManager.class);
 
-    private static final Map<String, HttpSession> sessionContainer = Collections.synchronizedMap(new Hashtable<>());
-    static Map<String, Properties> sessionContextCache = Collections.synchronizedMap(new Hashtable<>());
+    private static final Map<String, HttpSession> sessionContainerCache = Collections.synchronizedMap(new Hashtable<>());
+    private static final Map<String, Properties> sessionContextCache = Collections.synchronizedMap(new Hashtable<>());
+    private static final Map<String, IDesktop> desktopCache = Collections.synchronizedMap(new Hashtable<>());
+    private static final Map<String, ExecutionCarryOver> executionCarryOverCache = Collections.synchronizedMap(new Hashtable<>());
+    private static final Map<String, Desktop> executionDesktopCache = Collections.synchronizedMap(new Hashtable<>());
 
     public static boolean isUserLoggedIn(Properties ctx) {
         String adUserId = Env.getContext(ctx, "#AD_User_ID");
@@ -92,9 +96,9 @@ public class SessionManager {
 		return Optional.ofNullable(AEnv.getDesktop())
 				.flatMap(desktop -> Optional.ofNullable((IWebClient) desktop.getAttribute(SESSION_APPLICATION))
 						.map(application -> {
-							SessionContextListener.setContextForSession(desktop.getExecution());
+                            Optional.ofNullable(desktop.getExecution()).ifPresent(SessionContextListener::setContextForSession);
 							return application;
-						})).orElse(null);
+						})).orElseThrow(() -> new AdempiereException("Error can not get Application from Session"));
     }
 
     public static void changeRole(MUser user) {
@@ -135,29 +139,33 @@ public class SessionManager {
         Executions.deactivate((org.zkoss.zk.ui.Desktop) desktop);
     }
 
-    public static Map<String, HttpSession> getSessionContainer() {
-        return sessionContainer;
+    public static Map<String, HttpSession> getSessionContainerCache() {
+        return sessionContainerCache;
     }
 
     public static void removeSession(String sessionId) {
-        if (sessionContainer.containsKey(sessionId))
-            sessionContainer.remove(sessionId);
+        if (sessionContainerCache.containsKey(sessionId))
+            sessionContainerCache.remove(sessionId);
         else throw new AdempiereException("Application not exist with this Id :" + sessionId);
     }
 
     public static void addSession(HttpSession httpSession) {
-        if (!sessionContainer.containsKey(httpSession.getId())) {
-            sessionContainer.put(httpSession.getId(), httpSession);
+        if (!sessionContainerCache.containsKey(httpSession.getId())) {
+            sessionContainerCache.put(httpSession.getId(), httpSession);
             createSessionContext(httpSession.getId());
         }
     }
 
     public static HttpSession getSession(String sessionId) {
-        if (sessionContainer.containsKey(sessionId)) {
-            return sessionContainer.get(sessionId);
+        if (sessionContainerCache.containsKey(sessionId)) {
+            return sessionContainerCache.get(sessionId);
         } else {
             throw new AdempiereException("Session not exist");
         }
+    }
+
+    public static boolean existsSession(String sessionId) {
+        return sessionContainerCache.containsKey(sessionId);
     }
 
     public static void loadUserPreference(Integer authenticatedUserId) {
@@ -173,7 +181,7 @@ public class SessionManager {
     }
 
     public static UserPreference getUserPreference() {
-		return Optional.ofNullable((UserPreference)getSession().getAttribute(SESSION_USER_PREFERENCE))
+		return Optional.ofNullable((UserPreference) getSession().getAttribute(SESSION_USER_PREFERENCE))
 				.orElseThrow(() -> new AdempiereException("User Preference not load for this session"));
     }
 
@@ -182,7 +190,7 @@ public class SessionManager {
     }
 
     public static void clearSessions() {
-        sessionContainer.clear();
+        sessionContainerCache.clear();
     }
 
     public static void clearSession(String sessionId) {
@@ -196,7 +204,7 @@ public class SessionManager {
                 log.log(Level.INFO, "ADempiere Session " + httpSession.getId() + " Logout ...");
             }
             application.logoutDestroyed();
-            removeSessionContext(httpSession.getId());
+            removeSessionCache(httpSession.getId());
             httpSession.removeAttribute(SESSION_USER_PREFERENCE);
             httpSession.removeAttribute("Check_AD_User_ID");
             httpSession.removeAttribute(Attributes.PREFERRED_LOCALE);
@@ -210,8 +218,11 @@ public class SessionManager {
         return sessionContextCache.get(sessionId);
     }
 
-    public static void removeSessionContext(String sessionId) {
+    public static void removeSessionCache(String sessionId) {
         sessionContextCache.remove(sessionId);
+        desktopCache.remove(sessionId);
+        executionCarryOverCache.remove(sessionId);
+        executionDesktopCache.remove(sessionId);
     }
 
     public static void createSessionContext(String sessionId) {
@@ -222,5 +233,30 @@ public class SessionManager {
 
     public static boolean containsKeySessionContext(String sessionId) {
         return sessionContextCache.containsKey(sessionId);
+    }
+
+
+    public static void setApplicationDesktop(String sessionId, IDesktop desktop) {
+         desktopCache.put(sessionId,desktop);
+    }
+
+    public static IDesktop getApplicationDesktop(String sessionId) {
+        return desktopCache.get(sessionId);
+    }
+
+    public static void setExecutionCarryOverCache(String sessionId, ExecutionCarryOver executionCarryOver) {
+        executionCarryOverCache.put(sessionId,executionCarryOver);
+    }
+
+    public static ExecutionCarryOver getExecutionCarryOver(String sessionId){
+        return executionCarryOverCache.get(sessionId);
+    }
+
+    public static void setDesktop(String sessionId, Desktop desktop) {
+        executionDesktopCache.put(sessionId,desktop);
+    }
+
+    public static Desktop getDesktop(String sessionId){
+        return executionDesktopCache.get(sessionId);
     }
 }

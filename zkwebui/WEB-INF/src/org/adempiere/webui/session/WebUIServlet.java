@@ -21,11 +21,9 @@ import org.adempiere.webui.ZkContextProvider;
 import org.adempiere.webui.window.ZkJRViewerProvider;
 import org.adempiere.webui.window.ZkReportViewerProvider;
 import org.compiere.Adempiere;
-import org.compiere.db.AdempiereDatabase;
 import org.compiere.print.ReportCtl;
 import org.compiere.report.ReportStarter;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.zkoss.zk.ui.http.DHtmlLayoutServlet;
@@ -37,7 +35,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.logging.Level;
 
 
@@ -122,7 +119,7 @@ public class WebUIServlet extends DHtmlLayoutServlet
 
         try {
             //Get Context for Current Thread and Remove
-            SessionManager.getSessionContainer().values().forEach( session -> {
+            SessionManager.getSessionContainerCache().values().forEach(session -> {
                 HttpSession httpSession = Objects.requireNonNull(session);
                 logger.log(Level.INFO, "Session " + httpSession.getId() + " Logout ...");
                 SessionManager.clearSession(httpSession.getId());

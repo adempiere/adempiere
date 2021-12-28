@@ -39,21 +39,31 @@ import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Language;
 import org.zkforge.keylistener.Keylistener;
-import org.zkoss.web.Attributes;
 import org.zkoss.zk.au.Command;
+import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Page;
 import org.zkoss.zk.ui.Session;
+import org.zkoss.zk.ui.UiException;
 import org.zkoss.zk.ui.event.ClientInfoEvent;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.impl.ExecutionCarryOver;
+import org.zkoss.zk.ui.sys.DesktopCache;
+import org.zkoss.zk.ui.sys.DesktopCtrl;
+import org.zkoss.zk.ui.sys.ExecutionCtrl;
+import org.zkoss.zk.ui.sys.ExecutionsCtrl;
+import org.zkoss.zk.ui.sys.SessionCtrl;
+import org.zkoss.zk.ui.sys.Visualizer;
 import org.zkoss.zul.Window;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -99,16 +109,18 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 
     public void onCreate()
     {
+		boolean changeRole = "Y".equals(Env.getContext(Env.getCtx(),"#ChangeRole"));
         this.getPage().setTitle(ThemeManager.getBrowserTitle());
 		Session session = SessionManager.getSession();
 		HttpSession httpSession = (HttpSession) session.getNativeSession();
 		setId(httpSession.getId());
-		ServerContext.setCurrentInstance(SessionManager.getSessionContext(httpSession.getId()));
-		langSession = Env.getContext(Env.getCtx(), Env.LANGUAGE);
+		if (!SessionManager.existsSession(httpSession.getId()) || changeRole) {
+			ServerContext.setCurrentInstance(SessionManager.getSessionContext(httpSession.getId()));
+			langSession = Env.getContext(Env.getCtx(), Env.LANGUAGE);
+			SessionManager.addSession(httpSession);
+			SessionManager.setApplicationToSession(this);
+		}
 
-		SessionManager.addSession(httpSession);
-		SessionManager.setApplicationToSession(this);
-		boolean changeRole = "Y".equals(Env.getContext(Env.getCtx(),"#ChangeRole"));
 		if (changeRole) {
 			Env.setContext(Env.getCtx(),"#ChangeRole","");
 			onChangeRole();
@@ -204,12 +216,21 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		//auto new user preference
 		String autoNew = SessionManager.getUserPreference().getProperty(UserPreference.P_AUTO_NEW);
 		Env.setAutoNew(ctx, "true".equalsIgnoreCase(autoNew) || "y".equalsIgnoreCase(autoNew));
+
+		checkCarryover(currentSession);
+
 		if (applicationDesktop == null)
 		{
 			//create new desktop
 			createDesktop();
 			applicationDesktop.setClientInfo(clientInfo);
 			applicationDesktop.createPart(this.getPage());
+			Desktop desktop = this.getPage().getDesktop();
+			ExecutionCarryOver executionCarryOver = new ExecutionCarryOver(desktop);
+			SessionManager.setApplicationDesktop(httpSession.getId(), applicationDesktop);
+			SessionManager.setDesktop(httpSession.getId(),desktop);
+			SessionManager.setExecutionCarryOverCache(httpSession.getId(), executionCarryOver);
+
 			if (loginDesktop != null)
 			{
 				typedPassword = loginDesktop.getTypedPassword();
@@ -227,8 +248,70 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		{
 			BrowserToken.remove();
 		}
-
     }
+
+	private void checkCarryover(Session currentSession) {
+		HttpSession httpSession = (HttpSession) currentSession.getNativeSession();
+		Optional.ofNullable(SessionManager.getApplicationDesktop(httpSession.getId()))
+				.ifPresent(desktop -> {
+					Optional.ofNullable(SessionManager.getExecutionCarryOver(httpSession.getId()))
+							.ifPresent(executionCarryOver -> {
+								try {
+									applicationDesktop = desktop;
+									ExecutionCarryOver currentExecutionCarryOver = new ExecutionCarryOver(this.getPage().getDesktop());
+									ExecutionCtrl currentCtrl = ExecutionsCtrl.getCurrentCtrl();
+									Visualizer visualizer = currentCtrl.getVisualizer();
+									executionCarryOver.carryOver();
+									Collection<Component> rootComponents = new ArrayList<>();
+									try {
+										currentCtrl = ExecutionsCtrl.getCurrentCtrl();
+										((DesktopCtrl) Executions.getCurrent().getDesktop()).setVisualizer(visualizer);
+
+										//detach root component from old page
+										Page page = applicationDesktop.getComponent().getPage();
+										Collection<?> collection = page.getRoots();
+										Object[] objects = new Object[0];
+										objects = collection.toArray(objects);
+										for (Object obj : objects) {
+											if (obj instanceof Component) {
+												((Component) obj).detach();
+												rootComponents.add((Component) obj);
+											}
+										}
+										applicationDesktop.getComponent().detach();
+										DesktopCache desktopCache = ((SessionCtrl) currentSession).getDesktopCache();
+										if (desktopCache != null)
+											desktopCache.removeDesktop(Executions.getCurrent().getDesktop());
+									} catch (Exception e) {
+										applicationDesktop = null;
+									} finally {
+										executionCarryOver.cleanup();
+										currentExecutionCarryOver.carryOver();
+									}
+
+									if (applicationDesktop != null) {
+										//re-attach root components
+										for (Component component : rootComponents) {
+											try {
+												Optional.ofNullable(this.getPage()).ifPresent(component::setPage);
+											} catch (UiException e) {
+												// e.printStackTrace();
+												// an exception is thrown here when refreshing the page, it seems is harmless to catch and ignore it
+												// i.e.: org.zkoss.zk.ui.UiException: Not unique in the ID space of [Page z_kg_0]: zk_comp_2
+											}
+										}
+										Optional.ofNullable(this.getPage()).ifPresent(page -> applicationDesktop.setPage(page));
+										SessionManager.setExecutionCarryOverCache(httpSession.getId(), currentExecutionCarryOver);
+										SessionManager.setApplicationToSession(this);
+									}
+									SessionManager.setDesktop(httpSession.getId(), this.getPage().getDesktop());
+								} catch (Throwable t) {
+									//restore fail
+									applicationDesktop = null;
+								}
+							});
+				});
+	}
 
 	/**
 	 * @return key listener

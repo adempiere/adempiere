@@ -17,6 +17,7 @@
 
 package org.adempiere.webui.session;
 
+import org.compiere.util.CLogger;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.zkoss.util.Locales;
@@ -39,6 +40,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.logging.Level;
 
 /**
  * @author <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
@@ -47,6 +49,8 @@ import java.util.Properties;
  */
 public class SessionContextListener implements ExecutionInit,
         ExecutionCleanup, EventThreadInit, DesktopCleanup, DesktopInit, EventThreadResume, EventThreadCleanup {
+
+    private static CLogger log = CLogger.getCLogger(SessionContextListener.class);
     public static final String SERVLET_SESSION_ID = "servlet.sessionId";
 
     /**
@@ -74,15 +78,7 @@ public class SessionContextListener implements ExecutionInit,
      * @see ExecutionCleanup#cleanup(Execution, Execution, List)
      */
     public void cleanup(Execution executionCleanup, Execution parentCleanup, List errors) {
-        Optional.ofNullable(parentCleanup)
-                .flatMap(parent -> Optional.ofNullable(executionCleanup))
-                .ifPresent(execution -> {
-                    ServerPush serverPush = ((DesktopCtrl) execution.getDesktop()).getServerPush();
-                    if (serverPush == null || !serverPush.isActive()) {
-                        setContextForSession(execution);
-                    } else
-                        ServerContext.dispose();
-                });
+        ServerContext.dispose();
     }
 
     /**
@@ -94,7 +90,8 @@ public class SessionContextListener implements ExecutionInit,
         Optional.ofNullable(component.getDesktop())
                 .flatMap(desktop -> Optional.ofNullable(desktop.getExecution()))
                 .ifPresent(execution -> {
-                    if (ServerContext.getCurrentInstance().isEmpty() || !isValidContext(execution)) {
+                    ServerPush serverPush = ((DesktopCtrl) component.getDesktop()).getServerPush();
+                    if (serverPush == null || !serverPush.isActive()) {
                         setContextForSession(execution);
                     }
                 });
@@ -115,43 +112,6 @@ public class SessionContextListener implements ExecutionInit,
                     }
                 });
         return true;
-    }
-
-    /**
-     * Validate Context
-     *
-     * @param execution
-     * @return Isvalid
-     */
-    public static boolean isValidContext(Execution execution) {
-        Properties ctx = ServerContext.getCurrentInstance();
-        if (ctx == null)
-            return false;
-
-        if (execution == null || execution.getDesktop() == null)
-            return false;
-
-        Session session = execution.getDesktop().getSession();
-        HttpSession httpSession = (HttpSession) session.getNativeSession();
-        //verify ctx
-        String existsSessionId = ctx.getProperty(SERVLET_SESSION_ID);
-        if (existsSessionId == null || httpSession == null || !existsSessionId.equals(httpSession.getId())) {
-            return false;
-        }
-
-        Optional<Properties> maybeSessionContext = Optional.of(SessionManager.getSessionContext(httpSession.getId()));
-        return maybeSessionContext.map(sessionContext -> {
-            if (Env.getAD_Client_ID(sessionContext) != Env.getAD_Client_ID(ctx)) {
-                return false;
-            }
-            if (Env.getAD_User_ID(sessionContext) != Env.getAD_User_ID(ctx)) {
-                return false;
-            }
-            if (Env.getAD_Role_ID(sessionContext) != Env.getAD_Role_ID(ctx)) {
-                return false;
-            }
-            return true;
-        }).orElse(true);
     }
 
     /**
@@ -206,14 +166,7 @@ public class SessionContextListener implements ExecutionInit,
      * @see EventThreadCleanup#cleanup(Component, Event, List)
      */
     public void cleanup(Component component, Event event, List errors) throws Exception {
-        Optional.ofNullable(component.getDesktop()).ifPresent(desktop ->
-                Optional.ofNullable(desktop.getExecution()).ifPresent(execution -> {
-                    ServerPush serverPush = ((DesktopCtrl) desktop).getServerPush();
-                    if (serverPush == null || !serverPush.isActive())
-                        setContextForSession(execution);
-                    else
-                        ServerContext.dispose();
-                }));
+        ServerContext.dispose();
     }
 
     /**
@@ -222,12 +175,15 @@ public class SessionContextListener implements ExecutionInit,
      * @see EventThreadCleanup#complete(Component, Event)
      */
     public void complete(Component component, Event event) throws Exception {
-        Optional.ofNullable(component.getDesktop()).ifPresent(desktop -> {
+        Optional.ofNullable(component.getDesktop()).ifPresent(desktop ->
+                Optional.ofNullable(desktop.getExecution()).ifPresent(execution -> {
             ServerPush serverPush = ((DesktopCtrl) component.getDesktop()).getServerPush();
             if (serverPush == null || !serverPush.isActive()) {
-                setContextForSession(desktop.getExecution());
+                if (!isValidContext(execution)) {
+                    setContextForSession(execution);
+                }
             }
-        });
+        }));
     }
 
     /**
@@ -237,13 +193,7 @@ public class SessionContextListener implements ExecutionInit,
      */
     @Override
     public void cleanup(Desktop desktopClean) throws Exception {
-        Optional.ofNullable(desktopClean).ifPresent(desktop -> {
-            ServerPush serverPush = ((DesktopCtrl) desktop).getServerPush();
-            if (serverPush == null || !serverPush.isActive()) {
-                setContextForSession(desktop.getExecution());
-            } else
-                ServerContext.dispose();
-        });
+        ServerContext.dispose();
     }
 
     /**
@@ -265,12 +215,52 @@ public class SessionContextListener implements ExecutionInit,
                     Optional<String> maybeEphemeralMaxInactiveInterval = Optional.of(Ini.getProperty("EphemeralSessionMaxInactiveInterval"));
                     maybeEphemeralMaxInactiveInterval
                             .filter(ephemeralMaxInactiveInterval -> !ephemeralMaxInactiveInterval.isEmpty())
-                            .ifPresent(ephemeralMaxInactiveInterval -> session.setMaxInactiveInterval(Integer.parseInt(ephemeralMaxInactiveInterval)));
+                            .ifPresent(ephemeralMaxInactiveInterval -> {
+                                session.setMaxInactiveInterval(Integer.parseInt(ephemeralMaxInactiveInterval));
+                                log.log(Level.INFO, "Ephemeral Session Max Inactive Interval = 20");
+                            });
                 }
                 setContextForSession(desktop.getExecution());
             } else
                 ServerContext.dispose();
         });
+    }
+
+    /**
+     * Validate Context
+     *
+     * @param execution
+     * @return Isvalid
+     */
+    public static boolean isValidContext(Execution execution) {
+        Properties ctx = ServerContext.getCurrentInstance();
+        if (ctx == null)
+            return false;
+
+        if (execution == null || execution.getDesktop() == null)
+            return false;
+
+        Session session = execution.getDesktop().getSession();
+        HttpSession httpSession = (HttpSession) session.getNativeSession();
+        //verify ctx
+        String existsSessionId = ctx.getProperty(SERVLET_SESSION_ID);
+        if (existsSessionId == null || httpSession == null || !existsSessionId.equals(httpSession.getId())) {
+            return false;
+        }
+
+        Optional<Properties> maybeSessionContext = Optional.of(SessionManager.getSessionContext(httpSession.getId()));
+        return maybeSessionContext.map(sessionContext -> {
+            if (Env.getAD_Client_ID(sessionContext) != Env.getAD_Client_ID(ctx)) {
+                return false;
+            }
+            if (Env.getAD_User_ID(sessionContext) != Env.getAD_User_ID(ctx)) {
+                return false;
+            }
+            if (Env.getAD_Role_ID(sessionContext) != Env.getAD_Role_ID(ctx)) {
+                return false;
+            }
+            return true;
+        }).orElse(true);
     }
 
     /**
