@@ -24,13 +24,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 
 import org.compiere.Adempiere;
-import org.compiere.util.CCache;
-import org.compiere.util.DB;
-import org.compiere.util.DisplayType;
-import org.compiere.util.Env;
-import org.compiere.util.Ini;
-import org.compiere.util.Msg;
-import org.compiere.util.TimeUtil;
+import org.compiere.util.*;
 
 /**
  *	Session Model.
@@ -252,10 +246,12 @@ public class MSession extends X_AD_Session
 	 */
 	public void logout()
 	{
-		setProcessed(true);
-		saveEx();
-		s_sessions.remove(new Integer(getAD_Session_ID()));
-		log.info(TimeUtil.formatElapsed(getCreated(), getUpdated()));
+		Trx.run(trxName -> {
+			setProcessed(true);
+			saveEx(trxName);
+			s_sessions.remove(getAD_Session_ID());
+			log.info(TimeUtil.formatElapsed(getCreated(), getUpdated()));
+		});
 	}	//	logout
 	
 	/**
