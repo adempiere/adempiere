@@ -118,7 +118,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 			ServerContext.setCurrentInstance(SessionManager.getSessionContext(httpSession.getId()));
 			langSession = Env.getContext(Env.getCtx(), Env.LANGUAGE);
 			SessionManager.addSession(httpSession);
-			SessionManager.setApplicationToSession(this);
+			SessionManager.setApplication(httpSession.getId(), this);
 		}
 
 		if (changeRole) {
@@ -204,10 +204,10 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		Env.setContext(ctx, "#ShowAcct", MRole.getDefault().isShowAcct());
 		Env.setContext(ctx, "#ShowAdvanced", true);
 
-		keyListener = new Keylistener();
+		/*keyListener = new Keylistener();
 		keyListener.setPage(this.getPage());
 		keyListener.setCtrlKeys("@a@c@d@e@f@h@l@m@n@o@p@r@s@t@z@x@#left@#right@#up@#down@#home@#end#enter^u@u@#pgdn@#pgup$#f2^#f2");
-		keyListener.setAutoBlur(false);
+		keyListener.setAutoBlur(false);*/
 
 		//auto commit user preference
 		String autoCommit = SessionManager.getUserPreference().getProperty(UserPreference.P_AUTO_COMMIT);
@@ -302,7 +302,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 										}
 										Optional.ofNullable(this.getPage()).ifPresent(page -> applicationDesktop.setPage(page));
 										SessionManager.setExecutionCarryOverCache(httpSession.getId(), currentExecutionCarryOver);
-										SessionManager.setApplicationToSession(this);
+										SessionManager.setApplication(httpSession.getId() , this);
 									}
 									SessionManager.setDesktop(httpSession.getId(), this.getPage().getDesktop());
 								} catch (Throwable t) {

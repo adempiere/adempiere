@@ -19,7 +19,6 @@ package org.adempiere.webui.session;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.webui.IWebClient;
-import org.adempiere.webui.apps.AEnv;
 import org.adempiere.webui.desktop.IDesktop;
 import org.adempiere.webui.util.UserPreference;
 import org.compiere.model.MSession;
@@ -41,6 +40,8 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import static org.adempiere.webui.session.SessionContextListener.SERVLET_SESSION_ID;
+
 /**
  * @author <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
  * @version $Revision: 0.10 $
@@ -48,11 +49,11 @@ import java.util.logging.Level;
  */
 public class SessionManager {
 
-    public static final String SESSION_APPLICATION = "SessionApplication";
-    public static final String SESSION_USER_PREFERENCE = "SessionUserPreference";
 
+    public static final String SESSION_USER_PREFERENCE = "SessionUserPreference";
     private static CLogger log = CLogger.getCLogger(SessionManager.class);
 
+    private static final Map<String, IWebClient> applicationContainerCache = Collections.synchronizedMap(new Hashtable<>());
     private static final Map<String, HttpSession> sessionContainerCache = Collections.synchronizedMap(new Hashtable<>());
     private static final Map<String, Properties> sessionContextCache = Collections.synchronizedMap(new Hashtable<>());
     private static final Map<String, IDesktop> desktopCache = Collections.synchronizedMap(new Hashtable<>());
@@ -73,32 +74,21 @@ public class SessionManager {
         return Executions.getCurrent().getDesktop().getSession();
     }
 
-    public static void setApplicationToSession(IWebClient application) {
-		Optional.ofNullable(AEnv.getDesktop())
-				.ifPresentOrElse(
-						desktop -> desktop.setAttribute(SESSION_APPLICATION, application),
-						() -> log.severe("Unable to save session application on desktop")
-				);
+    public static void setApplication(String sessionId, IWebClient application) {
+        applicationContainerCache.put(sessionId, application);
     }
 
-    public static void removeApplicationToSession() {
-        Session session = getSession();
-        session.removeAttribute(SESSION_APPLICATION);
+    public static void removeApplicationToSession(String sessionId) {
+        applicationContainerCache.remove(sessionId);
     }
 
     public static IDesktop getAppDesktop() {
-		return Optional.ofNullable(getApplication())
-				.map(IWebClient::getApplicationDesktop)
-				.orElse(null);
+        return getApplication().getApplicationDesktop();
     }
 
     public static IWebClient getApplication() {
-		return Optional.ofNullable(AEnv.getDesktop())
-				.flatMap(desktop -> Optional.ofNullable((IWebClient) desktop.getAttribute(SESSION_APPLICATION))
-						.map(application -> {
-                            Optional.ofNullable(desktop.getExecution()).ifPresent(SessionContextListener::setContextForSession);
-							return application;
-						})).orElseThrow(() -> new AdempiereException("Error can not get Application from Session"));
+        String sessionId = Env.getContext(Env.getCtx() , SERVLET_SESSION_ID);
+        return applicationContainerCache.get(sessionId);
     }
 
     public static void changeRole(MUser user) {
@@ -208,7 +198,8 @@ public class SessionManager {
             httpSession.removeAttribute(SESSION_USER_PREFERENCE);
             httpSession.removeAttribute("Check_AD_User_ID");
             httpSession.removeAttribute(Attributes.PREFERRED_LOCALE);
-            httpSession.removeAttribute(SESSION_APPLICATION);
+            //httpSession.removeAttribute(SESSION_APPLICATION);
+            SessionManager.removeApplicationToSession(httpSession.getId());
         });
         httpSession.invalidate();
         log.log(Level.INFO, "Session " + httpSession.getId() + " Invalidate ...");
@@ -227,7 +218,7 @@ public class SessionManager {
 
     public static void createSessionContext(String sessionId) {
         Properties context = new Properties();
-        context.put(SessionContextListener.SERVLET_SESSION_ID, sessionId);
+        context.put(SERVLET_SESSION_ID, sessionId);
         sessionContextCache.put(sessionId, context);
     }
 
