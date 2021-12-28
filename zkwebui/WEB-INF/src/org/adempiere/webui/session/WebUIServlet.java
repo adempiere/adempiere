@@ -119,7 +119,7 @@ public class WebUIServlet extends DHtmlLayoutServlet
 
         try {
             //Get Context for Current Thread and Remove
-            SessionManager.getSessionContainerCache().values().forEach(session -> {
+            SessionManager.getSessionCache().values().forEach(session -> {
                 HttpSession httpSession = Objects.requireNonNull(session);
                 logger.log(Level.INFO, "Session " + httpSession.getId() + " Logout ...");
                 SessionManager.clearSession(httpSession.getId());

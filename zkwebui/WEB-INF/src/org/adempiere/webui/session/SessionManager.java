@@ -53,8 +53,8 @@ public class SessionManager {
     public static final String SESSION_USER_PREFERENCE = "SessionUserPreference";
     private static CLogger log = CLogger.getCLogger(SessionManager.class);
 
-    private static final Map<String, IWebClient> applicationContainerCache = Collections.synchronizedMap(new Hashtable<>());
-    private static final Map<String, HttpSession> sessionContainerCache = Collections.synchronizedMap(new Hashtable<>());
+    private static final Map<String, IWebClient> applicationCache = Collections.synchronizedMap(new Hashtable<>());
+    private static final Map<String, HttpSession> sessionCache = Collections.synchronizedMap(new Hashtable<>());
     private static final Map<String, Properties> sessionContextCache = Collections.synchronizedMap(new Hashtable<>());
     private static final Map<String, IDesktop> desktopCache = Collections.synchronizedMap(new Hashtable<>());
     private static final Map<String, ExecutionCarryOver> executionCarryOverCache = Collections.synchronizedMap(new Hashtable<>());
@@ -75,11 +75,11 @@ public class SessionManager {
     }
 
     public static void setApplication(String sessionId, IWebClient application) {
-        applicationContainerCache.put(sessionId, application);
+        applicationCache.put(sessionId, application);
     }
 
-    public static void removeApplicationToSession(String sessionId) {
-        applicationContainerCache.remove(sessionId);
+    public static void removeApplication(String sessionId) {
+        applicationCache.remove(sessionId);
     }
 
     public static IDesktop getAppDesktop() {
@@ -88,7 +88,7 @@ public class SessionManager {
 
     public static IWebClient getApplication() {
         String sessionId = Env.getContext(Env.getCtx() , SERVLET_SESSION_ID);
-        return applicationContainerCache.get(sessionId);
+        return applicationCache.get(sessionId);
     }
 
     public static void changeRole(MUser user) {
@@ -129,33 +129,33 @@ public class SessionManager {
         Executions.deactivate((org.zkoss.zk.ui.Desktop) desktop);
     }
 
-    public static Map<String, HttpSession> getSessionContainerCache() {
-        return sessionContainerCache;
+    public static Map<String, HttpSession> getSessionCache() {
+        return sessionCache;
     }
 
     public static void removeSession(String sessionId) {
-        if (sessionContainerCache.containsKey(sessionId))
-            sessionContainerCache.remove(sessionId);
+        if (sessionCache.containsKey(sessionId))
+            sessionCache.remove(sessionId);
         else throw new AdempiereException("Application not exist with this Id :" + sessionId);
     }
 
     public static void addSession(HttpSession httpSession) {
-        if (!sessionContainerCache.containsKey(httpSession.getId())) {
-            sessionContainerCache.put(httpSession.getId(), httpSession);
+        if (!sessionCache.containsKey(httpSession.getId())) {
+            sessionCache.put(httpSession.getId(), httpSession);
             createSessionContext(httpSession.getId());
         }
     }
 
     public static HttpSession getSession(String sessionId) {
-        if (sessionContainerCache.containsKey(sessionId)) {
-            return sessionContainerCache.get(sessionId);
+        if (sessionCache.containsKey(sessionId)) {
+            return sessionCache.get(sessionId);
         } else {
             throw new AdempiereException("Session not exist");
         }
     }
 
     public static boolean existsSession(String sessionId) {
-        return sessionContainerCache.containsKey(sessionId);
+        return sessionCache.containsKey(sessionId);
     }
 
     public static void loadUserPreference(Integer authenticatedUserId) {
@@ -180,7 +180,7 @@ public class SessionManager {
     }
 
     public static void clearSessions() {
-        sessionContainerCache.clear();
+        sessionCache.clear();
     }
 
     public static void clearSession(String sessionId) {
@@ -198,8 +198,7 @@ public class SessionManager {
             httpSession.removeAttribute(SESSION_USER_PREFERENCE);
             httpSession.removeAttribute("Check_AD_User_ID");
             httpSession.removeAttribute(Attributes.PREFERRED_LOCALE);
-            //httpSession.removeAttribute(SESSION_APPLICATION);
-            SessionManager.removeApplicationToSession(httpSession.getId());
+            SessionManager.removeApplication(httpSession.getId());
         });
         httpSession.invalidate();
         log.log(Level.INFO, "Session " + httpSession.getId() + " Invalidate ...");
