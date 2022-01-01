@@ -19,7 +19,6 @@ package org.adempiere.webui.session;
 
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
-import org.compiere.util.Ini;
 import org.zkoss.util.Locales;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Desktop;
@@ -40,7 +39,6 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
-import java.util.logging.Level;
 
 /**
  * @author <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
@@ -207,19 +205,6 @@ public class SessionContextListener implements ExecutionInit,
         Optional.ofNullable(desktopInit).ifPresent(desktop -> {
             ServerPush serverPush = ((DesktopCtrl) desktop).getServerPush();
             if (serverPush == null || !serverPush.isActive()) {
-                Session session = desktop.getSession();
-                //Setting Ephemeral session
-                Optional<Integer> maybeMaxInactiveInterval = Optional.ofNullable((Integer) session.getAttribute("MaxInactiveInterval"));
-                if (maybeMaxInactiveInterval.isEmpty()) {
-                    session.setAttribute("MaxInactiveInterval", session.getMaxInactiveInterval());
-                    Optional<String> maybeEphemeralMaxInactiveInterval = Optional.of(Ini.getProperty("EphemeralSessionMaxInactiveInterval"));
-                    maybeEphemeralMaxInactiveInterval
-                            .filter(ephemeralMaxInactiveInterval -> !ephemeralMaxInactiveInterval.isEmpty())
-                            .ifPresent(ephemeralMaxInactiveInterval -> {
-                                session.setMaxInactiveInterval(Integer.parseInt(ephemeralMaxInactiveInterval));
-                                log.log(Level.INFO, "Ephemeral Session Max Inactive Interval = 20");
-                            });
-                }
                 setContextForSession(desktop.getExecution());
             } else
                 ServerContext.dispose();
@@ -271,9 +256,6 @@ public class SessionContextListener implements ExecutionInit,
     public synchronized static void setContextForSession(Execution execution) {
         Session session = execution.getDesktop().getSession();
         HttpSession httpSession = (HttpSession) session.getNativeSession();
-        if (!SessionManager.containsKeySessionContext(httpSession.getId())) {
-            SessionManager.createSessionContext(httpSession.getId());
-        }
         ServerContext.setCurrentInstance(SessionManager.getSessionContext(httpSession.getId()));
         Locales.setThreadLocal(Env.getLanguage(ServerContext.getCurrentInstance()).getLocale());
     }

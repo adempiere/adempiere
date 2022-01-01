@@ -1,32 +1,35 @@
-<?page title="Adempiere" contentType="text/html;charset=UTF-8"?>
+<?page title="Adempiere" contentType="text/html;charset=UTF-8" automaticTimeout="false"?>
+<?init zscript="theme.zs" ?>
+<?link rel="icon" type="image/png" href="${browserIcon}"?>
 <zk>
-<zscript>
-<![CDATA[
-	import org.compiere.util.Msg;
-	import org.compiere.util.Env;
-	
-	var continueText = Msg.getMsg(Env.getCtx(),"continue");
-]]>
-</zscript>
-<window width="60%" mode="highlighted">
-<vbox style="padding: 5px">
+    <window width="60%" mode="highlighted">
+        <vbox style="padding: 5px">
+            <div id="timeoutText"></div>
+            <div style="margin-top: 10px">
+                <toolbarbutton label="Login or invalidated session in 20 seconds timeout ">
+                    <attribute name="onClick"><![CDATA[
+                               Executions.getCurrent().sendRedirect("/index.zul");
+                    ]]></attribute>
+                </toolbarbutton>
+                <intbox id="ibx" value="1"/>
+                <timer delay="1000" id="pooltimer" repeats="true">
+                    <attribute name="onTimer"><![CDATA[
+                        ibx.setValue(ibx.getValue() + 1);
+                    ]]></attribute>
+                </timer>
+            </div>
+        </vbox>
+        <script defer="true">
+        <![CDATA[
+            var callback = function(ok, val) {
+                if (ok && !!val)
+                {
+                    $e("${timeoutText.uuid}").innerHTML = val;
+                }
+            };
 
-<div id="timeoutText"></div>
-<div style="margin-top: 10px">
-	<toolbarbutton href="/index.zul" label="${continueText}"/>
-</div>
-</vbox>
-<script defer="true">
-<![CDATA[
-	var callback = function(ok, val) {
-		if (ok && !!val)
-		{
-			$e("${timeoutText.uuid}").innerHTML = val;
-		}
-	};
-    
-    adempiere.store.get("zkTimeoutText", callback);
-]]>	
-</script>
-</window>
+            adempiere.store.get("zkTimeoutText", callback);
+        ]]>
+        </script>
+    </window>
 </zk>

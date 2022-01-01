@@ -34,7 +34,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.logging.Level;
 
 
 /**
@@ -120,15 +119,13 @@ public class WebUIServlet extends DHtmlLayoutServlet
             //Get Context for Current Thread and Remove
             SessionManager.getSessionCache().values().forEach(session -> {
                 HttpSession httpSession = (HttpSession) session.getNativeSession();
-                logger.log(Level.INFO, "Session " + httpSession.getId() + " Logout ...");
+                logger.info( "Session " + httpSession.getId() + " Logout ...");
                 SessionManager.clearSession(httpSession.getId());
-                logger.log(Level.INFO, "Session " + httpSession.getId() + " Destroyed");
+                logger.info("Session " + httpSession.getId() + " Destroyed");
             });
             SessionManager.clearSessions();
             contextProvider = null;
             ServerContext.dispose();
-            //Todo: Pending implement use the connection pool from container
-            //Optional.ofNullable(DB.getDatabase()).ifPresent(AdempiereDatabase::close);
         } catch (Exception exception) {
             throw new RuntimeException(exception.toString());
         } finally {

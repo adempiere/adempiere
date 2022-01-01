@@ -20,15 +20,15 @@
 
 	<!-- //// -->
 	<!-- ZK -->
-	<!--listener>
+	<listener>
 		<description>
 			Used to cleanup when a session is destroyed
 		</description>
 		<display-name>ZK Session Cleaner</display-name>
 		<listener-class>
-			org.zkoss.zk.ui.http.HttpSessionListener
+			org.adempiere.webui.session.SessionManagerListener
 		</listener-class>
-	</listener-->
+	</listener>
 
 	<servlet>
 		<description>ZK loader for ZUML pages</description>
@@ -82,6 +82,15 @@
 	<session-config>
 		<session-timeout>60</session-timeout>
 	</session-config>
+
+	<filter>
+		<filter-name>requestFilter</filter-name>
+		<filter-class>org.adempiere.webui.session.SessionTimeoutFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>requestFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 
 	<!-- MIME mapping -->
 	<mime-mapping>

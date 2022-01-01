@@ -99,8 +99,6 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 
 	private static final CLogger logger = CLogger.getCLogger(AdempiereWebUI.class);
 
-	public static String typedPassword = null;
-
 	public AdempiereWebUI()
     {
     	this.addEventListener(Events.ON_CLIENT_INFO, this);
@@ -109,17 +107,16 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 
     public void onCreate()
     {
-		boolean changeRole = "Y".equals(Env.getContext(Env.getCtx(),"#ChangeRole"));
-        this.getPage().setTitle(ThemeManager.getBrowserTitle());
 		Session session = getDesktop().getSession();
 		HttpSession httpSession = (HttpSession) session.getNativeSession();
+		//Add session to environment
+		SessionManager.addSession(httpSession);
+		ServerContext.setCurrentInstance(SessionManager.getSessionContext(httpSession.getId()));
+		boolean changeRole = "Y".equals(Env.getContext(Env.getCtx(),"#ChangeRole"));
+        this.getPage().setTitle(ThemeManager.getBrowserTitle());
 		setId(httpSession.getId());
-		if (!SessionManager.existsSession(httpSession.getId()) || changeRole) {
-			ServerContext.setCurrentInstance(SessionManager.getSessionContext(httpSession.getId()));
-			langSession = Env.getContext(Env.getCtx(), Env.LANGUAGE);
-			SessionManager.addSession(session);
-			SessionManager.setApplication(httpSession.getId(), this);
-		}
+		langSession = Env.getContext(Env.getCtx(), Env.LANGUAGE);
+		SessionManager.setApplication(httpSession.getId(), this);
 
 		if (changeRole) {
 			Env.setContext(Env.getCtx(),"#ChangeRole","");
@@ -151,7 +148,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 	{
 		loginDesktop = new WLogin();
 		loginDesktop.createPart(this.getPage());
-		loginDesktop.setTypedPassword(typedPassword);
+		loginDesktop.setTypedPassword(SessionManager.getUserAuthentication(getId()));
 		Properties newContext =  (Properties) Env.getCtx().clone();
 		Language language = Env.getLanguage(Env.getCtx());
 		loginDesktop.changeRole(language.getLocale(),newContext);
@@ -190,11 +187,15 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     	Env.setContext(ctx, Env.LANGUAGE, language.getAD_Language()); //Bug
 
 		//	Create adempiere Session - user id in ctx
-        Session currentSession = SessionManager.getSession(getId());
+        //Session currentSession = SessionManager.getSession(getId());
+		Session currentSession = getDesktop().getSession();
         HttpSession httpSession = (HttpSession) currentSession.getNativeSession();
 		//Setting the timeout for this session
 		Optional<Integer> maybeMaxInactiveInterval = Optional.ofNullable((Integer) httpSession.getAttribute("MaxInactiveInterval"));
-		maybeMaxInactiveInterval.ifPresent(currentSession::setMaxInactiveInterval);
+		maybeMaxInactiveInterval.ifPresent(maxInactiveInterval -> {
+			httpSession.setAttribute("MaxInactiveInterval",maxInactiveInterval);
+			httpSession.setMaxInactiveInterval(maxInactiveInterval);
+		});
 
 		MSession adempiereSession = MSession.get (ctx, currentSession.getRemoteAddr(),
 				currentSession.getRemoteHost(), httpSession.getId() );
@@ -233,7 +234,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 
 			if (loginDesktop != null)
 			{
-				typedPassword = loginDesktop.getTypedPassword();
+				SessionManager.setUserAuthentication(httpSession.getId(),loginDesktop.getTypedPassword());
 				loginDesktop.cleanup();
 				loginDesktop = null;
 			}
@@ -436,14 +437,11 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 
 	public void changeRole(Locale locale, Properties properties)
 	{
-		String typedPassword = loginDesktop.getTypedPassword();
 		loginDesktop.changeRole(locale, properties);
-		loginDesktop.setTypedPassword(typedPassword);
 	}
 
 	private synchronized void clearDesktop(){
 		//Reset the password
-		typedPassword = null;
 		keyListener = null;
 		clientInfo = null;
 		loginDesktop = null;

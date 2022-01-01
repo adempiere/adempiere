@@ -26,10 +26,10 @@ import org.compiere.model.MSession;
 import org.compiere.model.MUser;
 import org.compiere.util.CLogger;
 import org.compiere.util.Env;
+import org.compiere.util.SecureEngine;
 import org.zkoss.web.Attributes;
 import org.zkoss.zk.ui.Desktop;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.impl.ExecutionCarryOver;
 
@@ -50,15 +50,16 @@ import static org.adempiere.webui.session.SessionContextListener.SERVLET_SESSION
  */
 public class SessionManager {
 
-    private static CLogger log = CLogger.getCLogger(SessionManager.class);
+    private static final CLogger log = CLogger.getCLogger(SessionManager.class);
 
     private static final Map<String, IWebClient> applicationCache = Collections.synchronizedMap(new Hashtable<>());
-    private static final Map<String, Session> sessionCache = Collections.synchronizedMap(new Hashtable<>());
+    private static final Map<String, HttpSession> sessionCache = Collections.synchronizedMap(new Hashtable<>());
     private static final Map<String, Properties> sessionContextCache = Collections.synchronizedMap(new Hashtable<>());
     private static final Map<String, IDesktop> desktopCache = Collections.synchronizedMap(new Hashtable<>());
     private static final Map<String, ExecutionCarryOver> executionCarryOverCache = Collections.synchronizedMap(new Hashtable<>());
     private static final Map<String, Desktop> executionDesktopCache = Collections.synchronizedMap(new Hashtable<>());
     private static final Map<String, UserPreference> sessionUserPreferenceCache = Collections.synchronizedMap(new Hashtable<>());
+    private static final Map<String, String> userAuthenticationCache = Collections.synchronizedMap(new Hashtable<>());
 
     public static boolean isUserLoggedIn(Properties ctx) {
         String adUserId = Env.getContext(ctx, "#AD_User_ID");
@@ -72,6 +73,10 @@ public class SessionManager {
 
     public static void setApplication(String sessionId, IWebClient application) {
         applicationCache.put(sessionId, application);
+    }
+
+    public static IWebClient getApplication(String sessionId) {
+        return applicationCache.get(sessionId);
     }
 
     public static void removeApplication(String sessionId) {
@@ -125,25 +130,30 @@ public class SessionManager {
         Executions.deactivate((org.zkoss.zk.ui.Desktop) desktop);
     }
 
-    public static Map<String, Session> getSessionCache() {
+    public static Map<String, HttpSession> getSessionCache() {
         return sessionCache;
     }
 
+    public static Map<String, Properties> getSessionContextCache() {
+        return sessionContextCache;
+    }
+
     public static void removeSession(String sessionId) {
-        if (sessionCache.containsKey(sessionId))
+        if (sessionCache.containsKey(sessionId)) {
             sessionCache.remove(sessionId);
+            removeSessionCache(sessionId);
+        }
         else throw new AdempiereException("Application not exist with this Id :" + sessionId);
     }
 
-    public static void addSession(Session session) {
-        HttpSession httpSession = (HttpSession) session.getNativeSession();
+    public static void addSession(HttpSession httpSession) {
         if (!sessionCache.containsKey(httpSession.getId())) {
-            sessionCache.put(httpSession.getId(), session);
+            sessionCache.put(httpSession.getId(), httpSession);
             createSessionContext(httpSession.getId());
         }
     }
 
-    public static Session getSession(String sessionId) {
+    public static HttpSession getSession(String sessionId) {
         if (sessionCache.containsKey(sessionId)) {
             return sessionCache.get(sessionId);
         } else {
@@ -182,23 +192,23 @@ public class SessionManager {
     }
 
     public static void clearSession(String sessionId) {
-        Session session = getSession(sessionId);
+        HttpSession session = getSession(sessionId);
 		Optional.ofNullable(getApplication()).ifPresent(application -> {
             int adempiereSessionId = Env.getContextAsInt(Env.getCtx(), "#AD_Session_ID");
             if (adempiereSessionId > 0) {
-                MSession adempiereSession = MSession.get(Env.getCtx(), session.getRemoteAddr(), session.getRemoteHost(), sessionId);
+                MSession adempiereSession = new MSession(Env.getCtx(), adempiereSessionId, null);
                 adempiereSession.logout();
-                log.log(Level.INFO, "ADempiere Session " +sessionId + " Logout ...");
+                log.info("ADempiere Session " +sessionId + " Logout ...");
             }
             application.logoutDestroyed();
             session.removeAttribute("Check_AD_User_ID");
             session.removeAttribute(Attributes.PREFERRED_LOCALE);
-            removeSessionCache(sessionId);
             SessionManager.removeApplication(sessionId);
         });
-        session.invalidate();
-        log.log(Level.INFO, "Session " + sessionId + " Invalidate ...");
+        log.info("Session " + sessionId + " Invalidate ...");
     }
+
+
 
     public static Properties getSessionContext(String sessionId) {
         return sessionContextCache.get(sessionId);
@@ -210,6 +220,7 @@ public class SessionManager {
         desktopCache.remove(sessionId);
         executionCarryOverCache.remove(sessionId);
         executionDesktopCache.remove(sessionId);
+        userAuthenticationCache.remove(sessionId);
     }
 
     public static void createSessionContext(String sessionId) {
@@ -245,5 +256,14 @@ public class SessionManager {
 
     public static Desktop getDesktop(String sessionId){
         return executionDesktopCache.get(sessionId);
+    }
+
+
+    public static void setUserAuthentication(String sessionId, String authentication) {
+        userAuthenticationCache.put(sessionId,  SecureEngine.encrypt(authentication));
+    }
+
+    public static String getUserAuthentication(String sessionId){
+        return  SecureEngine.decrypt(userAuthenticationCache.get(sessionId));
     }
 }
