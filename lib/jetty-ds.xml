@@ -12,6 +12,7 @@
                         <Set name="JdbcUrl">@ADEMPIERE_DB_URL@</Set>
                         <Set name="Username">@ADEMPIERE_DB_USER@</Set>
                         <Set name="Password">@ADEMPIERE_DB_PASSWORD@</Set>
+                        <Set name="connectionTimeout">30000</Set>
                         <Call name="addDataSourceProperty">
                             <Arg>poolName</Arg>
                             <Arg>AdempiereDS</Arg>
@@ -31,18 +32,35 @@
                         <Call name="addDataSourceProperty">
                             <Arg>connectionInitSql</Arg>
                             <Arg>1</Arg>
-                        </Call>           
+                        </Call>
+                        <Call name="addDataSourceProperty">
+                            <Arg>minimumIdle</Arg>
+                            <Arg>20</Arg>
+                        </Call>
                         <Call name="addDataSourceProperty">
                             <Arg>idleTimeout</Arg>
-                            <Arg>1200</Arg>
-                        </Call>           
+                            <Arg>10000</Arg>
+                        </Call>
+                        <Call name="addDataSourceProperty">
+                            <Arg>keepaliveTime</Arg>
+                            <Arg>30000</Arg>
+                        </Call>
+                        <Call name="addDataSourceProperty">
+                            <Arg>maxLifetime</Arg>
+                            <Arg>1800000</Arg>
+                        </Call>
                         <Call name="addDataSourceProperty">
                             <Arg>maximumPoolSize</Arg>
                             <Arg>150</Arg>
                         </Call>                        
                     </New>
                 </Arg>
-            </New>
+            </New>z
         </Arg>
+    </New>
+    <New id="threadPool" class="org.eclipse.jetty.util.thread.QueuedThreadPool">
+        <Set name="maxThreads" type="int">
+            <Property name="jetty.threadPool.maxThreads" default="500"/>
+        </Set>
     </New>
 </Configure>

@@ -109,21 +109,16 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     {
 		Session session = getDesktop().getSession();
 		HttpSession httpSession = (HttpSession) session.getNativeSession();
-		//Add session to environment
-		SessionManager.addSession(httpSession);
 		ServerContext.setCurrentInstance(SessionManager.getSessionContext(httpSession.getId()));
-		boolean changeRole = "Y".equals(Env.getContext(Env.getCtx(),"#ChangeRole"));
-        this.getPage().setTitle(ThemeManager.getBrowserTitle());
+		this.getPage().setTitle(ThemeManager.getBrowserTitle());
 		setId(httpSession.getId());
 		langSession = Env.getContext(Env.getCtx(), Env.LANGUAGE);
 		SessionManager.setApplication(httpSession.getId(), this);
-
-		if (changeRole) {
-			Env.setContext(Env.getCtx(),"#ChangeRole","");
-			onChangeRole();
+		int userId = Env.getAD_User_ID(Env.getCtx());
+		if (userId > 0 && !SessionManager.existsExecutionCarryOver(httpSession.getId())) {
+			onChangeRole(userId);
 			return;
 		}
-
 		if (!SessionManager.isUserLoggedIn(Env.getCtx()))
         {
 			loginDesktop = new WLogin();
@@ -144,11 +139,12 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     {
     }
 
-	private void onChangeRole()
+	private void onChangeRole(int userId)
 	{
 		loginDesktop = new WLogin();
 		loginDesktop.createPart(this.getPage());
 		loginDesktop.setTypedPassword(SessionManager.getUserAuthentication(getId()));
+		SessionManager.removeUserAuthentication(getId());
 		Properties newContext =  (Properties) Env.getCtx().clone();
 		Language language = Env.getLanguage(Env.getCtx());
 		loginDesktop.changeRole(language.getLocale(),newContext);
@@ -187,9 +183,8 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
     	Env.setContext(ctx, Env.LANGUAGE, language.getAD_Language()); //Bug
 
 		//	Create adempiere Session - user id in ctx
-        //Session currentSession = SessionManager.getSession(getId());
-		Session currentSession = getDesktop().getSession();
-        HttpSession httpSession = (HttpSession) currentSession.getNativeSession();
+        Session currentSession = SessionManager.getApplication(getId()).getPage().getDesktop().getSession();
+        HttpSession httpSession = SessionManager.getSession(getId());
 		//Setting the timeout for this session
 		Optional<Integer> maybeMaxInactiveInterval = Optional.ofNullable((Integer) httpSession.getAttribute("MaxInactiveInterval"));
 		maybeMaxInactiveInterval.ifPresent(maxInactiveInterval -> {
@@ -211,15 +206,15 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		keyListener.setAutoBlur(false);*/
 
 		//auto commit user preference
-		String autoCommit = SessionManager.getUserPreference().getProperty(UserPreference.P_AUTO_COMMIT);
+		String autoCommit = SessionManager.getUserPreference(httpSession.getId()).getProperty(UserPreference.P_AUTO_COMMIT);
 		Env.setAutoCommit(ctx, "true".equalsIgnoreCase(autoCommit) || "y".equalsIgnoreCase(autoCommit));
 
 		//auto new user preference
-		String autoNew = SessionManager.getUserPreference().getProperty(UserPreference.P_AUTO_NEW);
+		String autoNew = SessionManager.getUserPreference(httpSession.getId()).getProperty(UserPreference.P_AUTO_NEW);
 		Env.setAutoNew(ctx, "true".equalsIgnoreCase(autoNew) || "y".equalsIgnoreCase(autoNew));
 
 		checkCarryover(currentSession);
-
+		MUser user = MUser.get(ctx);
 		if (applicationDesktop == null)
 		{
 			//create new desktop
@@ -229,12 +224,10 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 			Desktop desktop = this.getPage().getDesktop();
 			ExecutionCarryOver executionCarryOver = new ExecutionCarryOver(desktop);
 			SessionManager.setApplicationDesktop(httpSession.getId(), applicationDesktop);
-			SessionManager.setDesktop(httpSession.getId(),desktop);
 			SessionManager.setExecutionCarryOverCache(httpSession.getId(), executionCarryOver);
 
 			if (loginDesktop != null)
 			{
-				SessionManager.setUserAuthentication(httpSession.getId(),loginDesktop.getTypedPassword());
 				loginDesktop.cleanup();
 				loginDesktop = null;
 			}
@@ -242,7 +235,6 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 
 		if ("Y".equalsIgnoreCase(Env.getContext(ctx, BrowserToken.REMEMBER_ME)) && MSystem.isZKRememberUserAllowed())
 		{
-			MUser user = MUser.get(ctx);
 			BrowserToken.save(adempiereSession, user);
 		}
 		else
@@ -305,7 +297,6 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 										SessionManager.setExecutionCarryOverCache(httpSession.getId(), currentExecutionCarryOver);
 										SessionManager.setApplication(httpSession.getId() , this);
 									}
-									SessionManager.setDesktop(httpSession.getId(), this.getPage().getDesktop());
 								} catch (Throwable t) {
 									//restore fail
 									applicationDesktop = null;
@@ -348,26 +339,24 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 	 */
     public void logout()
     {
-		//The context is destroy until the Adempiere Session is processed
-		//Clean the session and components
-		SessionManager.clearSession(getId());
-		SessionManager.removeSession(getId());
-		ServerContext.dispose();
-		super.getChildren().clear();
+
+		HttpServletRequest httpRequest = (HttpServletRequest) Executions.getCurrent().getNativeRequest();
+		//Get current session
+		HttpSession httpSession = httpRequest.getSession(false);
+		// save context for re-login
+		Env.getCtx().clear();
+		Properties context = new Properties();
+		Env.setContext(context, SessionContextListener.SERVLET_SESSION_ID, httpSession.getId());
+		Env.setCtx(context);
+		Env.setContext(Env.getCtx(), SessionContextListener.SERVLET_SESSION_ID, httpSession.getId());
+		langSession = Env.getContext(Env.getCtx(), Env.LANGUAGE);
+		SessionManager.clearSession(httpSession.getId());
+		SessionManager.removeExecutionCarryOver(httpSession.getId());
+		SessionManager.removeDestop(httpSession.getId());
+		SessionManager.removeUserAuthentication(httpSession.getId());
+		SessionManager.removeApplication(httpSession.getId());
 		Executions.sendRedirect("index.zul");
     }
-
-	@Override
-	public synchronized void logoutDestroyed() {
-		//stop Dashboard background thread
-		IDesktop dashboard = getApplicationDesktop();
-		if (dashboard != null) {
-			dashboard.logout();
-		}
-
-		//Clean and Logout Adempiere Session
-		clearDesktop();
-	}
 
 	public IDesktop getApplicationDesktop(){
 		return applicationDesktop;
@@ -400,6 +389,8 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 	@Override
 	public void changeRole(MUser user)
 	{
+		HttpServletRequest httpRequest = (HttpServletRequest) Executions.getCurrent().getNativeRequest();
+		HttpSession httpSession = httpRequest.getSession(false);
 		// save context for re-login
 		Properties context = new Properties();
 		Env.setContext(context, Env.AD_CLIENT_ID, Env.getAD_Client_ID(Env.getCtx()));
@@ -412,26 +403,11 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		Env.setContext(context, UserPreference.LANGUAGE_NAME, Env.getContext(Env.getCtx(), UserPreference.LANGUAGE_NAME));
 		Env.setContext(context, Env.LANGUAGE, Env.getContext(Env.getCtx(), Env.LANGUAGE));
 		Env.setContext(context, AEnv.LOCALE, Env.getContext(Env.getCtx(), AEnv.LOCALE));
-		Env.setContext(context, "#ChangeRole", "Y");
-		HttpServletRequest httpRequest = (HttpServletRequest) Executions.getCurrent().getNativeRequest();
-		//stop key listener
-		if (keyListener != null) {
-			keyListener.detach();
-			keyListener = null;
-		}
-		// stop background thread
-		IDesktop dashboard = getApplicationDesktop();
-		if (dashboard != null) {
-			dashboard.logout();
-		}
-		// clear remove all children and root component
-		getChildren().clear();
-		getPage().removeComponents();
-		//Clean the current context
+		Env.setContext(context, SessionContextListener.SERVLET_SESSION_ID, httpSession.getId());
+		langSession = Env.getContext(Env.getCtx(), Env.LANGUAGE);
 		Env.getCtx().clear();
-		HttpSession newSession = httpRequest.getSession(false);
-		context.setProperty(SessionContextListener.SERVLET_SESSION_ID, newSession.getId());
 		Env.setCtx(context);
+		SessionManager.cleanSessionBackground(httpSession.getId());
 		Executions.sendRedirect("index.zul");
 	}
 
@@ -440,7 +416,7 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		loginDesktop.changeRole(locale, properties);
 	}
 
-	private synchronized void clearDesktop(){
+	public void clearDesktop(){
 		//Reset the password
 		keyListener = null;
 		clientInfo = null;

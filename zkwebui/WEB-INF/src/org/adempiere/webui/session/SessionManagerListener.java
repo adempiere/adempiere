@@ -16,7 +16,6 @@
 
 package org.adempiere.webui.session;
 
-import org.adempiere.webui.IWebClient;
 import org.compiere.util.CLogger;
 import org.compiere.util.Ini;
 import org.zkoss.zk.ui.http.HttpSessionListener;
@@ -35,14 +34,18 @@ public class SessionManagerListener extends HttpSessionListener {
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
         super.sessionCreated(httpSessionEvent);
         final HttpSession httpSession = httpSessionEvent.getSession();
-        log.info("    Create Session Id : " + httpSession.getId());
+        log.info("        Create Session Id : " + httpSession.getId());
         log.info("------------------------------------------------");
-        log.info("                Is New : " + httpSession.isNew());
-        log.info("          Event Source : " + httpSessionEvent.getSource() );
-        log.info("         Session Cache : " +  SessionManager.getSessionCache().size());
-        log.info(" Session Context Cache : " +  SessionManager.getSessionContextCache().size());
+        log.info("             Event Source : " + httpSessionEvent.getSource());
+        log.info("            Session Cache : " +  SessionManager.getSessionCache().size());
+        log.info("    Session Context Cache : " +  SessionManager.getSessionContextCache().size());
+        log.info("        Application Cache : " +  SessionManager.getAppicationCache().size());
+        log.info("            Desktop Cache : " +  SessionManager.getDesktopCache().size());
+        log.info("Execution CarryOver Cache : " +  SessionManager.getExecutionCarryOverCache().size());
+        log.info("    User Preference Cache : " +  SessionManager.getSessionUserPreferenceCache().size());
+        log.info("User Authentication Cache : " +  SessionManager.getUserAuthenticationCache().size());
+        log.info("------------------------------------------------");
         log.info(" ");
-        SessionManager.addSession(httpSession);
         //Setting Ephemeral session
         Optional<Integer> maybeMaxInactiveInterval = Optional.ofNullable((Integer) httpSession.getAttribute("MaxInactiveInterval"));
         if (maybeMaxInactiveInterval.isEmpty()) {
@@ -63,6 +66,7 @@ public class SessionManagerListener extends HttpSessionListener {
             log.info(" Attribute Name : " + attrubuteName +  " - Value : " + httpSession.getAttribute(attrubuteName));
         }
         log.info(" ");
+        SessionManager.createSession(httpSession);
     }
 
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
@@ -71,15 +75,22 @@ public class SessionManagerListener extends HttpSessionListener {
         log.info(" Destroyed Session Id : " + httpSession.getId());
         log.info("------------------------------------------------");
         if (SessionManager.existsSession(httpSession.getId())){
-            Optional.ofNullable(SessionManager.getApplication(httpSession.getId()))
-                    .ifPresent(IWebClient::logoutDestroyed);
+            SessionManager.clearSession(httpSession.getId());
+            SessionManager.removeUserAuthentication(httpSession.getId());
+            SessionManager.removeSessionUserPreference(httpSession.getId());
+            SessionManager.cleanSessionBackground(httpSession.getId());
             SessionManager.removeSession(httpSession.getId());
-            log.info("          Remove Cache : " + httpSession.getId() );
-            log.info("         Session Cache : " +  SessionManager.getSessionCache().size());
-            log.info(" Session Context Cache : " +  SessionManager.getSessionContextCache().size());
-            log.info(" ");
+            log.info("             Event Source : " + httpSessionEvent.getSource());
+            log.info("            Session Cache : " + SessionManager.getSessionCache().size());
+            log.info("    Session Context Cache : " + SessionManager.getSessionContextCache().size());
+            log.info("        Application Cache : " + SessionManager.getAppicationCache().size());
+            log.info("            Desktop Cache : " + SessionManager.getDesktopCache().size());
+            log.info("Execution CarryOver Cache : " + SessionManager.getExecutionCarryOverCache().size());
+            log.info("    User Preference Cache : " + SessionManager.getSessionUserPreferenceCache().size());
+            log.info("User Authentication Cache : " + SessionManager.getUserAuthenticationCache().size());
         }
-        log.info("Invalidate Session");
+        log.info("       Invalidate Session : " + httpSession.getId());
+        log.info("------------------------------------------------");
         httpSession.invalidate();
     }
 }

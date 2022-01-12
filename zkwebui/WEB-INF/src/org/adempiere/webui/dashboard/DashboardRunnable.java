@@ -154,8 +154,17 @@ public class DashboardRunnable implements Runnable, Serializable {
     public void cleanup() {
         dashboardPanels.forEach(dashboardPanel ->  dashboardPanel.getAttributes().clear());
         dashboardPanels.clear();
-        desktopReference.clear();
-        applicationDesktopReference.clear();
+        if (desktopReference != null) {
+            Desktop desktop = desktopReference.get();
+            desktopReference.clear();
+        }
+
+        if (applicationDesktopReference != null) {
+            IDesktop desktopExecution = applicationDesktopReference.get();
+            applicationDesktopReference.clear();
+            desktopExecution = null;
+        }
+
         dashboardPanels = null;
         desktopReference = null;
         applicationDesktopReference = null;

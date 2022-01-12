@@ -16,7 +16,12 @@
 
 package org.adempiere.webui.session;
 
+import org.adempiere.webui.AdempiereWebUI;
+import org.compiere.util.CLogger;
+import org.compiere.util.Env;
+
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Map;
 
 import javax.servlet.Filter;
@@ -31,6 +36,8 @@ import javax.servlet.http.HttpSession;
 
 public class SessionTimeoutFilter implements Filter {
 
+    private static final CLogger logger = CLogger.getCLogger(SessionTimeoutFilter.class);
+
     public void init(FilterConfig filterConfig) throws ServletException {
 
     }
@@ -41,32 +48,37 @@ public class SessionTimeoutFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         Map<String, String[]> param = httpServletRequest.getParameterMap();
         HttpSession httpSession = httpServletRequest.getSession();
-        boolean isRealRequest = true;
-        for (Object key : param.keySet()) {
-            if (key.toString().startsWith("cmd")
-                    && "onTimer".equals(((String[]) param.get(key))[0])) {
-                // not real request
-                isRealRequest = false;
-                // try get last real request time
-                Long lastRealRequest = (Long) httpSession.getAttribute("LAST_REAL_REQUEST");
-                if (lastRealRequest == null) {
-                    // init if no previous real request
-                    lastRealRequest = System.currentTimeMillis();
-                    httpSession.setAttribute("LAST_REAL_REQUEST", lastRealRequest);
-                } else if ((System.currentTimeMillis() - lastRealRequest) > 20000) {
-                    // invalidate session if only poll request for a long time
-                    httpSession.invalidate();
+        if (SessionManager.existsSession(httpSession.getId())) {
+            boolean isRealRequest = true;
+            for (Object key : param.keySet()) {
+                if (key.toString().startsWith("cmd")
+                        && "onTimer".equals(((String[]) param.get(key))[0])) {
+                    // not real request
+                    isRealRequest = false;
+                    // try get last real request time
+                    Long lastRealRequest = (Long) httpSession.getAttribute("LAST_REAL_REQUEST");
+                    if (lastRealRequest == null) {
+                        // init if no previous real request
+                        lastRealRequest = System.currentTimeMillis();
+                        httpSession.setAttribute("LAST_REAL_REQUEST", lastRealRequest);
+                        //logger.info("Update last real request : " +  new Timestamp(lastRealRequest));
+                    } else if ((System.currentTimeMillis() - lastRealRequest) > 20000) {
+                        // invalidate session if only poll request for a long time
+                        logger.info("Invalidate Session : " +  httpSession.getId());
+                        httpSession.invalidate();
+                    }
                 }
             }
-        }
 
-        // process request
-        chain.doFilter(request, response);
+            // process request
+            chain.doFilter(request, response);
 
-        // update LAST_REAL_REQUEST if this is a real request
-        if (isRealRequest) {
-            // record last real request time
-            httpSession.setAttribute("LAST_REAL_REQUEST", System.currentTimeMillis());
+            // update LAST_REAL_REQUEST if this is a real request
+            if (isRealRequest) {
+                // record last real request time
+                long now = System.currentTimeMillis();
+                httpSession.setAttribute("LAST_REAL_REQUEST", now);
+            }
         }
     }
 

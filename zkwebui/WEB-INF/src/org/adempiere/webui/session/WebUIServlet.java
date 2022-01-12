@@ -120,9 +120,10 @@ public class WebUIServlet extends DHtmlLayoutServlet
             SessionManager.getSessionCache().values().forEach(httpSession -> {
                 logger.info( "Session " + httpSession.getId() + " Logout ...");
                 SessionManager.clearSession(httpSession.getId());
+                SessionManager.cleanSessionBackground(httpSession.getId());
+                SessionManager.removeSession(httpSession.getId());
                 logger.info("Session " + httpSession.getId() + " Destroyed");
             });
-            SessionManager.clearSessions();
             contextProvider = null;
             ServerContext.dispose();
         } catch (Exception exception) {
