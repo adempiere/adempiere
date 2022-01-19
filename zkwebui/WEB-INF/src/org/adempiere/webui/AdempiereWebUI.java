@@ -200,10 +200,10 @@ public class AdempiereWebUI extends Window implements EventListener, IWebClient
 		Env.setContext(ctx, "#ShowAcct", MRole.getDefault().isShowAcct());
 		Env.setContext(ctx, "#ShowAdvanced", true);
 
-		/*keyListener = new Keylistener();
+		keyListener = new Keylistener();
 		keyListener.setPage(this.getPage());
 		keyListener.setCtrlKeys("@a@c@d@e@f@h@l@m@n@o@p@r@s@t@z@x@#left@#right@#up@#down@#home@#end#enter^u@u@#pgdn@#pgup$#f2^#f2");
-		keyListener.setAutoBlur(false);*/
+		keyListener.setAutoBlur(false);
 
 		//auto commit user preference
 		String autoCommit = SessionManager.getUserPreference(httpSession.getId()).getProperty(UserPreference.P_AUTO_COMMIT);

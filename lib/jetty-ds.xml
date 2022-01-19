@@ -12,7 +12,7 @@
                         <Set name="JdbcUrl">@ADEMPIERE_DB_URL@</Set>
                         <Set name="Username">@ADEMPIERE_DB_USER@</Set>
                         <Set name="Password">@ADEMPIERE_DB_PASSWORD@</Set>
-                        <Set name="connectionTimeout">30000</Set>
+                        <Set name="connectionTestQuery">SELECT 1 </Set>
                         <Call name="addDataSourceProperty">
                             <Arg>poolName</Arg>
                             <Arg>AdempiereDS</Arg>

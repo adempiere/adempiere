@@ -698,7 +698,6 @@ $CATALINA_HOME/bin/shutdown.sh
 						  type="javax.sql.DataSource"
 						  minimumIdle="5"
 						  maximumPoolSize="150"
-						  connectionTimeout="300000"
 						  validationQuery="SELECT 1"
 						  testOnBorrow="true"
 						  poolName="AdempiereDS"
