@@ -12,23 +12,24 @@
                         <Set name="JdbcUrl">@ADEMPIERE_DB_URL@</Set>
                         <Set name="Username">@ADEMPIERE_DB_USER@</Set>
                         <Set name="Password">@ADEMPIERE_DB_PASSWORD@</Set>
+                        <Set name="connectionTimeout">600000</Set>
                         <Set name="connectionTestQuery">SELECT 1 </Set>
                         <Call name="addDataSourceProperty">
                             <Arg>poolName</Arg>
                             <Arg>AdempiereDS</Arg>
-                        </Call>   
+                        </Call>
                         <Call name="addDataSourceProperty">
                             <Arg>cachePrepStmts</Arg>
                             <Arg>true</Arg>
-                        </Call>   
+                        </Call>
                         <Call name="addDataSourceProperty">
                             <Arg>prepStmtCacheSize</Arg>
                             <Arg>250</Arg>
-                        </Call>        
+                        </Call>
                         <Call name="addDataSourceProperty">
                             <Arg>prepStmtCacheSqlLimit</Arg>
                             <Arg>2048</Arg>
-                        </Call>   
+                        </Call>
                         <Call name="addDataSourceProperty">
                             <Arg>connectionInitSql</Arg>
                             <Arg>1</Arg>
@@ -50,12 +51,16 @@
                             <Arg>1800000</Arg>
                         </Call>
                         <Call name="addDataSourceProperty">
+                            <Arg>minimumPoolSize</Arg>
+                            <Arg>20</Arg>
+                        </Call>
+                        <Call name="addDataSourceProperty">
                             <Arg>maximumPoolSize</Arg>
                             <Arg>150</Arg>
-                        </Call>                        
+                        </Call>
                     </New>
                 </Arg>
-            </New>z
+            </New>
         </Arg>
     </New>
     <New id="threadPool" class="org.eclipse.jetty.util.thread.QueuedThreadPool">

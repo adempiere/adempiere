@@ -15,7 +15,7 @@
         </security>
         <validation>
             <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLValidConnectionChecker"/>
-            <check-valid-connection-sql>/* ping */ SELECT Version FROM AD_System</check-valid-connection-sql>
+            <check-valid-connection-sql>SELECT 1 </check-valid-connection-sql>
             <background-validation>true</background-validation>
             <use-fast-fail>true</use-fast-fail>
             <exception-sorter class-name="org.jboss.jca.adapters.jdbc.extensions.postgres.PostgreSQLExceptionSorter"/>

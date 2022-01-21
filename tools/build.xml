@@ -313,7 +313,7 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- HikariCP connection pool -->
-			<zipfileset src="lib/HikariCP-5.0.0.jar">
+			<zipfileset src="lib/HikariCP-5.0.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/slf4j-api-1.7.32.jar">
@@ -576,7 +576,7 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- HikariCP connection pool -->
-			<zipfileset src="lib/HikariCP-5.0.0.jar">
+			<zipfileset src="lib/HikariCP-5.0.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/slf4j-api-1.7.32.jar">
