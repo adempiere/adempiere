@@ -253,12 +253,10 @@ public class MSession extends X_AD_Session
 	 */
 	public void logout()
 	{
-		Trx.run(trxName -> {
 			setProcessed(true);
-			saveEx(trxName);
+			saveEx();
 			s_sessions.remove(getAD_Session_ID());
 			log.info(TimeUtil.formatElapsed(getCreated(), getUpdated()));
-		});
 	}	//	logout
 	
 	/**

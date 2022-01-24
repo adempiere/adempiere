@@ -89,10 +89,7 @@ public class RequestProcessor extends AdempiereServer
 		MRequestProcessorLog pLog = new MRequestProcessorLog(m_model, m_summary.toString());
 		pLog.setReference("#" + String.valueOf(p_runCount) 
 			+ " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-		Trx.run(trxName -> {
-			pLog.set_TrxName(trxName);
-			pLog.saveEx();
-		});
+		pLog.saveEx();
 
 	}	//	doWork
 

@@ -240,15 +240,27 @@ public interface AdempiereDatabase
 
 	
 	/**
-	 * 	Get Cached Connection on Server
+	 * 	Get connection from Connection Pool
 	 *	@param connection info
 	 *  @param autoCommit true if autocommit connection
 	 *  @param transactionIsolation Connection transaction level
 	 *	@return connection or null
 	 *  @throws Exception
 	 */
-	public Connection getCachedConnection (CConnection connection, 
-		boolean autoCommit, int transactionIsolation) throws Exception;
+	public Connection getFromConnectionPool(CConnection connection,
+											boolean autoCommit, int transactionIsolation) throws Exception;
+
+
+	/**
+	 * 	Get connection from Connection Pool Short Running
+	 *	@param connection info
+	 *  @param autoCommit true if autocommit connection
+	 *  @param transactionIsolation Connection transaction level
+	 *	@return connection or null
+	 *  @throws Exception
+	 */
+	public Connection getFromConnectionPoolShortRunning(CConnection connection,
+											boolean autoCommit, int transactionIsolation) throws Exception;
 
 	/**
 	 * 	Get Connection from Driver
