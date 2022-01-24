@@ -604,6 +604,8 @@ public class ImportOrder extends ImportOrderAbstract
 			log.log(Level.SEVERE, "BP - " + sql.toString(), e);
 		} finally {
 			DB.close(rs,pstmt);
+			rs = null;
+			pstmt = null;
 		}
 		sql = new StringBuffer ("UPDATE I_Order "
 			  + "SET I_IsImported='E', I_ErrorMsg=I_ErrorMsg||'ERR=No BPartner, ' "
@@ -767,6 +769,8 @@ public class ImportOrder extends ImportOrderAbstract
 			log.log(Level.SEVERE, "Order - " + sql.toString(), e);
 		} finally {
 			DB.close(rs,pstmt);
+			rs = null;
+			pstmt = null;
 		}
 
 		//	Set Error to indicator to not imported
