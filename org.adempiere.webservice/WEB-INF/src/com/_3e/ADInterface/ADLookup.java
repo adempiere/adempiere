@@ -388,7 +388,7 @@ public class ADLookup {
 		{
 			pstmt = DB.prepareStatement(query);
 			pstmt.setString(1, m_keyColumnName);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				if (sql.length() != 0)
