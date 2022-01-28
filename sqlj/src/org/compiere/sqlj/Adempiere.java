@@ -16,6 +16,9 @@
  *****************************************************************************/
 package org.compiere.sqlj;
 
+import org.compiere.util.CLogger;
+import org.compiere.util.DB;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -86,8 +89,10 @@ public class Adempiere implements Serializable
 	public static final String TYPE_ORACLE = "oracle";
 	/** PostgreSQL **/
 	public static final String TYPE_POSTGRESQL = "PostgreSQL";
-	/** Server Type						*/        
+	/** Server Type						*/
 	public static String 	s_type = null;
+
+	static CLogger log = CLogger.getCLogger (Adempiere.class);
 	
 	/**
 	 * 	Get Server Type
@@ -104,7 +109,9 @@ public class Adempiere implements Serializable
 					s_type = TYPE_ORACLE;
 				else if (name.indexOf("postgresql") >= 0)
 					s_type = TYPE_POSTGRESQL;
-			} catch (Exception e) {}
+			} catch (Exception exception) {
+				log.severe(exception.getMessage());
+			}
 		}
 		return s_type;
 	}	//	getServerType
@@ -205,8 +212,9 @@ public class Adempiere implements Serializable
 		{
 			return s_conn.prepareStatement(sql, resultSetType, resultSetCurrency);
 		}
-		catch (Exception e)	//	connection not good anymore
+		catch (Exception exception)	//	connection not good anymore
 		{
+			log.severe(exception.getMessage());
 		}
 		//	get new Connection
 		s_conn = getConnection();
@@ -223,13 +231,20 @@ public class Adempiere implements Serializable
 	static int getSQLValue (String sql, int param1) throws SQLException
 	{
 		int retValue = -1;
-		PreparedStatement pstmt = prepareStatement(sql);
-		pstmt.setInt(1, param1);
-		ResultSet rs = pstmt.executeQuery();
-		if (rs.next())
-			retValue = rs.getInt(1);
-		rs.close();
-		pstmt.close();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = prepareStatement(sql);
+			pstmt.setInt(1, param1);
+			rs = pstmt.executeQuery();
+			if (rs.next())
+				retValue = rs.getInt(1);
+		} catch (Exception exception) {
+			log.severe(exception.getMessage());
+		} finally {
+			DB.close(rs , pstmt);
+			rs = null; pstmt = null;
+		}
 		return retValue;
 	}	//	getSQLValue
 	
@@ -413,21 +428,24 @@ public class Adempiere implements Serializable
 				cal.add(Calendar.DAY_OF_YEAR, 1);
 			java.util.Date temp = cal.getTime();
 			String sql = "SELECT Date1 FROM C_NonBusinessDay WHERE IsActive ='Y' AND Date1=?";
-			PreparedStatement pstmt = Adempiere.prepareStatement(sql);
-			pstmt.setTimestamp(1,new Timestamp(temp.getTime()));
-			ResultSet rs = pstmt.executeQuery();
-			if (rs.next())
-			{
-				cal = new GregorianCalendar();
-				cal.setTime(temp);
-				cal.add(Calendar.DAY_OF_YEAR,1);
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			try {
+				pstmt = Adempiere.prepareStatement(sql);
+				pstmt.setTimestamp(1, new Timestamp(temp.getTime()));
+				rs = pstmt.executeQuery();
+				if (rs.next()) {
+					cal = new GregorianCalendar();
+					cal.setTime(temp);
+					cal.add(Calendar.DAY_OF_YEAR, 1);
+				} else
+					isHoliday = false;
+			} catch (Exception exception) {
+				log.severe(exception.getMessage());
+			} finally {
+				DB.close(rs , pstmt);
+				rs = null;  pstmt = null;
 			}
-			else 
-				isHoliday = false;
-			
-			rs.close();
-			pstmt.close();
-
 		}
 		while (isHoliday);
 		// end Goodwill
@@ -452,8 +470,10 @@ public class Adempiere implements Serializable
 		{
 			return String.valueOf(source.charAt(posIndex));
 		}
-		catch (Exception e)
-		{}
+		catch (Exception exception)
+		{
+			log.severe(exception.getMessage());
+		}
 		return null;
 	}	//	charAt
 	
@@ -486,28 +506,31 @@ public class Adempiere implements Serializable
 		} 
 		finally
 		{
-			pstmt.close();
+			DB.close(pstmt);
+			pstmt = null;
 		}
 		
 		//get current value
 		sql = new StringBuffer ("SELECT ");
 		sql.append(next)
 		   .append(" FROM AD_Sequence WHERE AD_Sequence_ID=?");
-		pstmt = prepareStatement(sql.toString(),
-			ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+
+		ResultSet rs = null;
 		try 
 		{
+			pstmt = prepareStatement(sql.toString(),
+					ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
 			pstmt.setInt(1, AD_Sequence_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				retValue = rs.getInt(1);
 			}
-			rs.close();
 		}
 		finally 
 		{
-			pstmt.close();
+			DB.close(rs , pstmt);
+			rs = null; pstmt = null;
 		}
 		
 		//update and return
@@ -579,19 +602,25 @@ public class Adempiere implements Serializable
 	{
 		String value = null;
 		String sql = "SELECT Value FROM AD_SysConfig WHERE Name=? AND AD_Client_ID IN (0, ?) AND AD_Org_ID IN (0, ?) AND IsActive='Y' ORDER BY AD_Client_ID DESC, AD_Org_ID DESC";
-		PreparedStatement pstmt = Adempiere.prepareStatement(sql);
-		pstmt.setString(1, Name);
-		pstmt.setInt(2, AD_Client_ID);
-		pstmt.setInt(3, AD_Org_ID);
-		ResultSet rs = pstmt.executeQuery();
-		if (rs.next()) {
-			value = rs.getString(1);
-		} else {
-			value = defaultValue;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = Adempiere.prepareStatement(sql);
+			pstmt.setString(1, Name);
+			pstmt.setInt(2, AD_Client_ID);
+			pstmt.setInt(3, AD_Org_ID);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				value = rs.getString(1);
+			} else {
+				value = defaultValue;
+			}
+		} catch (Exception exception) {
+			log.severe(exception.getMessage());
+		} finally {
+			DB.close(rs , pstmt);
+			rs = null; pstmt = null;
 		}
-		rs.close();
-		pstmt.close();
-		
 		return value;
 	}
 	

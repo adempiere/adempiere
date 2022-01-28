@@ -321,24 +321,20 @@ public class RadioButtonTreeCellRenderer implements CheckboxTreeCellRenderer {
 		String sql = "select componenttype from pp_product_bomline where pp_product_bom_id = ? and m_product_id = ?";
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-
 		try {
 			pstmt = DB.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY, "test");
 			pstmt.setInt(1, bom_id);
 			pstmt.setInt(2, m_product_id);
 			rs = pstmt.executeQuery();
-
-
 			while (rs.next()) {
 				retVal = rs.getString(1);
 			}
-
-			rs.close();
-			pstmt.close();
-
 		} catch (SQLException e) {
 			log.fine("Execption; sql = "+sql+"; e.getMessage() = " +e.getMessage());
-		} 
+		} finally {
+			DB.close(rs , pstmt);
+			rs = null; pstmt = null;
+		}
 
 		return retVal;
 	}

@@ -102,6 +102,9 @@ public class StatementProxy implements InvocationHandler {
 		catch (InvocationTargetException e)
 		{
 			throw DB.getSQLException(e);
+		} finally {
+			DB.close(p_stmt);
+			p_stmt = null;
 		}
 	}
 	
@@ -134,6 +137,9 @@ public class StatementProxy implements InvocationHandler {
 		{
 			log.log(Level.SEVERE, "CStatement", e);
 			throw new DBException(e);
+		} finally {
+			DB.close(p_stmt);
+			p_stmt = null;
 		}
 	}
 	
@@ -149,7 +155,7 @@ public class StatementProxy implements InvocationHandler {
 		try {
 	        if (p_stmt != null)
 	        {
-	            p_stmt.close();            
+	            DB.close(p_stmt);
 	        }
 		} finally {
 			if (m_conn != null)
@@ -189,7 +195,8 @@ public class StatementProxy implements InvocationHandler {
 		}		
 		finally
 		{
-			DB.close(rs);
+			DB.close(rs,p_stmt);
+			rs = null; p_stmt = null;
 		}
 		return rowSet;
 	}	//	local_getRowSet

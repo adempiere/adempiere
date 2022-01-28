@@ -116,14 +116,22 @@ public class T_InventoryValue_Create extends SvrProcess
 		       +     "M_PriceList_Version_ID = ? , "
 		       +     "C_Currency_ID = ? "
 		       + "WHERE M_Warehouse_ID = ?";
-		PreparedStatement pstmt = DB.prepareStatement(sqlupd, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE, get_TrxName());
-		pstmt.setTimestamp(1, p_DateValue);
-		pstmt.setInt(2, p_M_PriceList_Version_ID);
-		pstmt.setInt(3, p_C_Currency_ID);
-		pstmt.setInt(4, p_M_Warehouse_ID);
-		cntu = pstmt.executeUpdate();
-		if (cntu < 0) {
-			raiseError("UpdateConstants:ERROR", sqlupd);
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = DB.prepareStatement(sqlupd, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE, get_TrxName());
+			pstmt.setTimestamp(1, p_DateValue);
+			pstmt.setInt(2, p_M_PriceList_Version_ID);
+			pstmt.setInt(3, p_C_Currency_ID);
+			pstmt.setInt(4, p_M_Warehouse_ID);
+			cntu = pstmt.executeUpdate();
+			if (cntu < 0) {
+				raiseError("UpdateConstants:ERROR", sqlupd);
+			}
+		} catch (Exception exception) {
+			log.severe(exception.getMessage());
+		} finally {
+			DB.close(pstmt);
+			pstmt = null;
 		}
 		
 		// Get current QtyOnHand

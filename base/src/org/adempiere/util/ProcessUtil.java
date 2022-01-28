@@ -92,7 +92,7 @@ public final class ProcessUtil {
 		}
 		finally
 		{
-			DB.close(null, cstmt);
+			DB.close(cstmt);
 			cstmt = null;
 
 			if (trx != null && managedTrx)

@@ -1004,7 +1004,8 @@ public final class WAccountDialog extends Window
 			{
 				log.log(Level.SEVERE, sql.toString(), e);
 			} finally {
-				DB.close(null , stmt);
+				DB.close(stmt);
+				stmt = null;
 			}
 			if (i == 0)
 				FDialog.error(m_WindowNo, this, "AccountNotUpdated");

@@ -392,7 +392,7 @@ public class PackInHandler extends DefaultHandler {
     				catch (Exception e) {
     					log.info ("createImp_Sum_table:"+e);
     				} finally {
-						DB.close(null, pstmt);
+						DB.close(pstmt);
 						pstmt = null;
 					}
     			}
@@ -431,7 +431,7 @@ public class PackInHandler extends DefaultHandler {
     				catch (Exception e) {
     					log.info ("createImp_Sum_table:"+e);
     				} finally {
-						DB.close(null, pstmt);
+						DB.close(pstmt);
 						pstmt = null;
 					}
     			}
@@ -466,7 +466,7 @@ public class PackInHandler extends DefaultHandler {
     				catch (Exception e) {
     					log.info ("createImp_Sum_table:"+e);
     				} finally {
-						DB.close(null,pstmt);
+						DB.close(pstmt);
 						pstmt = null;
 					}
     			}
@@ -501,7 +501,7 @@ public class PackInHandler extends DefaultHandler {
     				catch (Exception e) {
     					log.info ("createImp_Sum_table:"+e);
     				} finally {
-						DB.close(null , pstmt);
+						DB.close(pstmt);
 						pstmt = null;
 					}
     			}	

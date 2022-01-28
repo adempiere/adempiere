@@ -688,10 +688,11 @@ public class DB_MySQL implements AdempiereDatabase {
 	 */
 	public static void dumpLocks(Connection conn) {
 		Statement stmt = null;
+		ResultSet rs = null;
 		try {
 			String sql = "select pg_class.relname,pg_locks.* from pg_class,pg_locks where pg_class.relfilenode=pg_locks.relation order by 1";
 			stmt = conn.createStatement();
-			ResultSet rs = stmt.executeQuery(sql);
+			rs = stmt.executeQuery(sql);
 			int cnt = rs.getMetaData().getColumnCount();
 			System.out.println();
 			while (rs.next()) {
@@ -707,11 +708,8 @@ public class DB_MySQL implements AdempiereDatabase {
 		} catch (Exception e) {
 
 		} finally {
-			try {
-				if (stmt != null)
-					stmt.close();
-			} catch (Exception e) {
-			}
+			DB.close(rs,stmt);
+			rs = null; stmt = null;
 		}
 	}
 
@@ -834,7 +832,7 @@ public class DB_MySQL implements AdempiereDatabase {
 				throw new DBException("Could not lock record for " + po.toString() + " caused by " + e.getLocalizedMessage());
 			} finally {
 				DB.close(rs, stmt);
-				rs = null;stmt = null;
+				rs = null; stmt = null;
 			}
 		}
 		return false;
