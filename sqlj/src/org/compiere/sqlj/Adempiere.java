@@ -16,9 +16,6 @@
  *****************************************************************************/
 package org.compiere.sqlj;
 
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -92,7 +89,6 @@ public class Adempiere implements Serializable
 	/** Server Type						*/
 	public static String 	s_type = null;
 
-	static CLogger log = CLogger.getCLogger (Adempiere.class);
 	
 	/**
 	 * 	Get Server Type
@@ -110,7 +106,7 @@ public class Adempiere implements Serializable
 				else if (name.indexOf("postgresql") >= 0)
 					s_type = TYPE_POSTGRESQL;
 			} catch (Exception exception) {
-				log.severe(exception.getMessage());
+				exception.getStackTrace();
 			}
 		}
 		return s_type;
@@ -214,7 +210,7 @@ public class Adempiere implements Serializable
 		}
 		catch (Exception exception)	//	connection not good anymore
 		{
-			log.severe(exception.getMessage());
+			exception.getStackTrace();
 		}
 		//	get new Connection
 		s_conn = getConnection();
@@ -240,9 +236,10 @@ public class Adempiere implements Serializable
 			if (rs.next())
 				retValue = rs.getInt(1);
 		} catch (Exception exception) {
-			log.severe(exception.getMessage());
+			exception.getStackTrace();
 		} finally {
-			DB.close(rs , pstmt);
+			rs.close();
+			pstmt.close();
 			rs = null; pstmt = null;
 		}
 		return retValue;
@@ -441,9 +438,10 @@ public class Adempiere implements Serializable
 				} else
 					isHoliday = false;
 			} catch (Exception exception) {
-				log.severe(exception.getMessage());
+				exception.getStackTrace();
 			} finally {
-				DB.close(rs , pstmt);
+				rs.close();
+				pstmt.close();
 				rs = null;  pstmt = null;
 			}
 		}
@@ -472,7 +470,7 @@ public class Adempiere implements Serializable
 		}
 		catch (Exception exception)
 		{
-			log.severe(exception.getMessage());
+			exception.getStackTrace();
 		}
 		return null;
 	}	//	charAt
@@ -506,7 +504,7 @@ public class Adempiere implements Serializable
 		} 
 		finally
 		{
-			DB.close(pstmt);
+			pstmt.close();
 			pstmt = null;
 		}
 		
@@ -529,7 +527,8 @@ public class Adempiere implements Serializable
 		}
 		finally 
 		{
-			DB.close(rs , pstmt);
+			rs.close();
+			pstmt.close();
 			rs = null; pstmt = null;
 		}
 		
@@ -616,9 +615,10 @@ public class Adempiere implements Serializable
 				value = defaultValue;
 			}
 		} catch (Exception exception) {
-			log.severe(exception.getMessage());
+			exception.getStackTrace();
 		} finally {
-			DB.close(rs , pstmt);
+			rs.close();
+			pstmt.close();
 			rs = null; pstmt = null;
 		}
 		return value;

@@ -16,9 +16,6 @@
  *****************************************************************************/
 package org.compiere.sqlj;
 
-import org.compiere.util.CLogger;
-import org.compiere.util.DB;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -44,8 +41,6 @@ public class Compiere implements Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = 8646701476222261073L;
-
-	static CLogger log = CLogger.getCLogger (Compiere.class);
 
 	/**
 	 * 	Get Version
@@ -212,7 +207,7 @@ public class Compiere implements Serializable
 		}
 		catch (Exception exception)	//	connection not good anymore
 		{
-			log.severe(exception.getMessage());
+			exception.getStackTrace();
 		}
 		//	get new Connection
 		s_conn = getConnection();
@@ -433,7 +428,7 @@ public class Compiere implements Serializable
 			return (source.substring(posIndex+1, posIndex+2));
 		}
 		catch (Exception exception) {
-			log.severe(exception.getMessage());
+			exception.getStackTrace();
 		}
 		return null;
 	}	//	charAt
@@ -467,9 +462,10 @@ public class Compiere implements Serializable
 				pstmt.getConnection().commit();
 			}
 		} catch (Exception exception) {
-			log.severe(exception.getMessage());
+			exception.getStackTrace();
 		} finally {
-			DB.close(rs , pstmt);
+			rs.close();
+			pstmt.close();
 			rs = null; pstmt = null;
 		}
 		return retValue;
