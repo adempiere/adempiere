@@ -1043,7 +1043,7 @@ public class DB_PostgreSQL implements AdempiereDatabase
 				throw new DBException("Could not lock record for " + po.toString() + " caused by " + e.getLocalizedMessage());
 			} finally {
 				DB.close(rs, stmt);
-				rs = null;stmt = null;
+				rs = null; stmt = null;
 			}
 		}
 		return false;

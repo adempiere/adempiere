@@ -337,6 +337,7 @@ public class ReplicationLocal extends SvrProcess
 	{
 		ArrayList<String> list = new ArrayList<String>();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			//	Get Keys
@@ -345,10 +346,9 @@ public class ReplicationLocal extends SvrProcess
 				+ " AND IsKey='Y'";
 			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, AD_Table_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				list.add(rs.getString(1));
-			rs.close();
 
 			//	no keys - search for parents
 			if (list.size() == 0)
@@ -363,13 +363,16 @@ public class ReplicationLocal extends SvrProcess
 					list.add(rs.getString(1));
 				rs.close();
 			}
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception e)
 		{
 			log.log(Level.SEVERE, "getKeyColumns", e);
+		} finally {
+			DB.close(rs , pstmt);
+			rs = null; pstmt = null;
 		}
+
+
 		try
 		{
 			if (pstmt != null)
@@ -534,6 +537,7 @@ public class ReplicationLocal extends SvrProcess
 		Connection conn = DB.getConnectionRO();
 		PreparedStatement pstmt = null;
 		RowSet rowSet = null;
+		ResultSet rs = null;
 		//
 		try
 		{
@@ -557,15 +561,16 @@ public class ReplicationLocal extends SvrProcess
 				}
 			}
 			//
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			rowSet = CCachedRowSet.getRowSet(rs);
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (Exception ex)
 		{
 			s_log.log(Level.SEVERE, sql, ex);
 			throw new RuntimeException (ex);
+		} finally {
+			DB.close(rs , pstmt);
+			rs = null; pstmt = null;
 		}
 		//	Close Cursor
 		try

@@ -96,7 +96,8 @@ public class PreparedStatementProxy extends StatementProxy {
 		}		
 		finally
 		{
-			DB.close(rs);
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		return rowSet;
 	}	//	local_getRowSet

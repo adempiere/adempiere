@@ -1356,6 +1356,7 @@ public class DB_Oracle implements AdempiereDatabase
                 throw new DBException("Could not lock record for " + po.toString() + " caused by " + e.getLocalizedMessage());
             } finally {
                 DB.close(rs, stmt);
+                rs = null; stmt = null;
             }
         }
         return false;

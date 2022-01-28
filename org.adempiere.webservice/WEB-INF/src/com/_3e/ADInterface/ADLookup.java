@@ -87,12 +87,13 @@ public class ADLookup {
 		 df.setType( "string" );
 		 return ds;
 	 }
-	 
+
+	 PreparedStatement pstmt = null;
+	 ResultSet rs = null;
 	 try  {
-		 
-		PreparedStatement pstmt = DB.prepareStatement( info.getSQL() );
+		pstmt = DB.prepareStatement( info.getSQL() );
 		info.setParameters( pstmt, false );
-		ResultSet rs = pstmt.executeQuery();
+		rs = pstmt.executeQuery();
 		while (rs.next())
 		{
 			DataRow dr = ds.addNewDataRow();
@@ -113,13 +114,14 @@ public class ADLookup {
 				}
 			}
 						
-		}		
-		rs.close();
-		pstmt.close();		
+		}
 	 }
 	 catch (Exception e)
 	 {
 		System.out.println( e.getMessage() ); 
+	 } finally {
+		 DB.close(rs,pstmt);
+		 rs = null; pstmt = null;
 	 }
 	 return ds;
 	}
@@ -168,6 +170,8 @@ public class ADLookup {
 		//Je�eli zwr�ci mi n wierszy to zwracam je
 		int id = 0;
 		log.info("Starting execution to base");
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{			
 			/*
@@ -182,13 +186,11 @@ public class ADLookup {
 			}*/
 			int ile = 0;
 			finalSQL = info.getSQLCount();
-			PreparedStatement pstmt = DB.prepareStatement(finalSQL, null);
+			pstmt = DB.prepareStatement(finalSQL, null);
 			info.setParameters (pstmt, true);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				ile = rs.getInt(1);
-			rs.close();
-			pstmt.close();
 
 			System.out.println("Znalaz�em " + ile + " wierszy / rekord�w");
 			//Je�eli jest 0 wierszy to ko�czymy
@@ -219,6 +221,9 @@ public class ADLookup {
 		{
 			log.log(Level.SEVERE, finalSQL, e);
 			id = -2;
+		} finally {
+			DB.close(rs,pstmt);
+			rs = null; pstmt = null;
 		}
 		//	No (unique) result
 		if (id <= 0)
@@ -315,35 +320,30 @@ public class ADLookup {
 					+ "WHERE rt.AD_Reference_ID=?";
 				String displayColumnName = null;
 				PreparedStatement pstmt = null;
+				ResultSet rs = null;
 				try
 				{
 					pstmt = DB.prepareStatement(query);
 					pstmt.setInt(1, AD_Reference_ID);
-					ResultSet rs = pstmt.executeQuery();
+					rs = pstmt.executeQuery();
 					if (rs.next())
 					{
 						m_keyColumnName = rs.getString(1);
 						displayColumnName = rs.getString(2);
 						m_tableName = rs.getString(3);
 					}
-					rs.close();
-					pstmt.close();
 					pstmt = null;
 				}
 				catch (Exception e)
 				{
 					//log.log(Level.SEVERE, "getDirectAccessSQL", e);
 				}
-				try
-				{
-					if (pstmt != null)
-						pstmt.close();
+				finally {
+					DB.close(rs,pstmt);
+					rs = null;
 					pstmt = null;
 				}
-				catch (Exception e)
-				{
-					pstmt = null;
-				}
+
 				if (displayColumnName != null)
 				{
 					sql = new StringBuffer();
@@ -383,11 +383,12 @@ public class ADLookup {
 		m_keyColumnName = m_columnName;
 		sql = new StringBuffer();
 		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
 			pstmt = DB.prepareStatement(query);
 			pstmt.setString(1, m_keyColumnName);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				if (sql.length() != 0)
@@ -395,23 +396,15 @@ public class ADLookup {
 				m_tableName = rs.getString(1);
 				sql.append("UPPER(").append(rs.getString(2)).append(") LIKE ").append(DB.TO_STRING(text));
 			}
-			rs.close();
-			pstmt.close();
-			pstmt = null;
 		}
 		catch (SQLException ex)
 		{
 			log.log(Level.SEVERE, "getDirectAccessSQL", ex);
+		} finally {
+			DB.close(rs,pstmt);
+			rs = null;
+			pstmt = null;
 		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close();
-		}
-		catch (SQLException ex1)
-		{
-		}
-		pstmt = null;
 		//
 		if (sql.length() == 0)
 		{
