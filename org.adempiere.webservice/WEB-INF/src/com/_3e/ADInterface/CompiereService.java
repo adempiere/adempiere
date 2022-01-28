@@ -215,22 +215,25 @@ public class CompiereService {
 			+ " AND (o.AD_Client_ID = 0 OR o.AD_Client_ID=c.AD_Client_ID)"
 			+ " AND c.AD_Client_ID IN (SELECT AD_Client_ID FROM AD_Role_OrgAccess ca WHERE ca.AD_Role_ID=ur.AD_Role_ID)"
 			+ " AND o.AD_Org_ID IN (SELECT AD_Org_ID FROM AD_Role_OrgAccess ca WHERE ca.AD_Role_ID=ur.AD_Role_ID)";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, AD_User_ID);
 			pstmt.setInt(2, AD_Client_ID);
 			pstmt.setInt(3, AD_Org_ID);
 			pstmt.setInt(4, AD_Role_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 				loginInfo = rs.getString(1);
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			//	log.log(Level.SEVERE, "checkLogin", e);
+		} finally {
+			DB.close(rs,pstmt);
+			rs = null; pstmt = null;
 		}
 
 		//  not verified
