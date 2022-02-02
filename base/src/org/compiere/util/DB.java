@@ -481,7 +481,9 @@ public final class DB
 	        {
 	        	throw new IllegalStateException("Failed to set the requested auto commit mode on connection. [autocommit=" + autoCommit +"]");
 	        }
-        } catch (SQLException e) {}
+        } catch (SQLException exception) {
+			log.severe(exception.getMessage());
+		}
 
         return conn;
     }   //  createConnection

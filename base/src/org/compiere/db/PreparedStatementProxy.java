@@ -55,8 +55,7 @@ public class PreparedStatementProxy extends StatementProxy {
 	protected void init() {
 		try {
 			Connection conn = null;
-			Trx trx = p_vo.getTrxName() == null ? null : Trx.get(p_vo
-					.getTrxName(), false);
+			Trx trx = p_vo.getTrxName() == null ? null : Trx.get(p_vo.getTrxName(), false);
 			if (trx != null) {
 				conn = trx.getConnection();
 			} else {
@@ -64,12 +63,14 @@ public class PreparedStatementProxy extends StatementProxy {
 					m_conn = DB.getConnectionRW();
 				else
 					m_conn = DB.getConnectionRO();
+
 				conn = m_conn;
 			}
 			if (conn == null)
 				throw new DBException("No Connection");
-			p_stmt = conn.prepareStatement(p_vo.getSql(), p_vo
-					.getResultSetType(), p_vo.getResultSetConcurrency());
+
+			p_stmt = conn.prepareStatement(p_vo.getSql(), p_vo.getResultSetType(), p_vo.getResultSetConcurrency());
+
 		} catch (Exception e) {
 			log.log(Level.SEVERE, p_vo.getSql(), e);
 			throw new DBException(e);
