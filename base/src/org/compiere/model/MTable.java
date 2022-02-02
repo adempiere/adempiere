@@ -24,7 +24,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
@@ -166,36 +165,12 @@ public class MTable extends X_AD_Table
 	{
 		if (tableName == null)
 			return null;
-		Iterator<MTable> it = s_cache.values().iterator();
-		while (it.hasNext())
-		{
-			MTable retValue = it.next();
-			if (tableName.equalsIgnoreCase(retValue.getTableName()) 
-					&& retValue.getCtx() == ctx 
-				) 
-			{
-				return retValue;
+		int tableId = getTable_ID(tableName);
+		if(tableId <= 0) {
+			return null;
 		}
-		}
-		//
-		MTable retValue = null;
-		String sql = "SELECT * FROM AD_Table WHERE UPPER(TableName)=?";
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setString(1, tableName.toUpperCase());
-			rs = pstmt.executeQuery ();
-			if (rs.next ())
-				retValue = new MTable (ctx, rs, null);
-		} catch (Exception e) {
-			s_log.log(Level.SEVERE, sql, e);
-		} finally {
-			DB.close(rs, pstmt);
-		}
-		
-		if (retValue != null)
-		{
+		MTable retValue = MTable.get(ctx, tableId);
+		if (retValue != null) {
 			Integer key = new Integer (retValue.getAD_Table_ID());
 			s_cache.put (key, retValue);
 		}
