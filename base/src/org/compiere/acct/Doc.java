@@ -327,6 +327,9 @@ public abstract class Doc
         List<BigDecimal> listProcessedOn = new ArrayList<>();
         for (int i = 0; i < tableNames.length; i++) {
             String tableName = tableNames[i];
+			//check if table is not null
+			if (tableName == null)
+				continue;
 
             String sql = "SELECT DISTINCT ProcessedOn"
                     + " FROM " + tableName
