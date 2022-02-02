@@ -263,10 +263,13 @@ public class MSession extends X_AD_Session
 	 * Keep Alive Session
 	 */
 	public void keepAlive() {
-		Timestamp lastAlive = new Timestamp(System.currentTimeMillis());
-		set_ValueNoCheck(COLUMNNAME_Updated, lastAlive);
-		setDescription(Msg.parseTranslation(getCtx(), "@LastConnection@: ") + DisplayType.getDateFormat(DisplayType.DateTime).format(lastAlive));
-		saveEx();
+		Trx.run(trxName -> {
+			MSession session = new MSession(getCtx() , getAD_Session_ID() , trxName);
+			Timestamp lastAlive = new Timestamp(System.currentTimeMillis());
+			session.set_ValueNoCheck(COLUMNNAME_Updated, lastAlive);
+			session.setDescription(Msg.parseTranslation(getCtx(), "@LastConnection@: ") + DisplayType.getDateFormat(DisplayType.DateTime).format(lastAlive));
+			session.saveEx();
+		});
 	}
 
 	/**
