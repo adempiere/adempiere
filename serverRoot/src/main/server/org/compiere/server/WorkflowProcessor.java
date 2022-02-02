@@ -81,13 +81,10 @@ public class WorkflowProcessor extends AdempiereServer
 		//
 		int no = m_model.deleteLog();
 		m_summary.append("Logs deleted=").append(no);
-		//
-		MWorkflowProcessorLog pLog = new MWorkflowProcessorLog(m_model, m_summary.toString());
-		pLog.setReference("#" + String.valueOf(p_runCount) 
-			+ " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
 		Trx.run(trxName -> {
-			pLog.set_TrxName(trxName);
-			pLog.saveEx();
+			MWorkflowProcessorLog workflowProcessorLog = new MWorkflowProcessorLog(m_model, m_summary.toString(), trxName);
+			workflowProcessorLog.setReference("#" + p_runCount + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
+			workflowProcessorLog.saveEx();
 		});
 	}	//	doWork
 

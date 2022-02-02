@@ -92,7 +92,7 @@ public class AcctProcessor extends AdempiereServer {
      */
     public String getServerInfo() {
     
-        return "#" + p_runCount + " - Last=" + Optional.ofNullable(summary).orElse(new StringBuilder("")).toString();
+        return "#" + p_runCount + " - Last=" + Optional.ofNullable(summary.toString()).orElse("");
     
     }
 
@@ -114,16 +114,11 @@ public class AcctProcessor extends AdempiereServer {
         
         int no = getModel().deleteLog();
         summary.append("Logs deleted=").append(no);
-        MAcctProcessorLog pLog =
-                new MAcctProcessorLog(getModel(), summary.toString());
-        pLog.setReference("#" + p_runCount + " - " 
-                + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
         Trx.run(trxName -> {
-            pLog.set_TrxName(trxName);
-            pLog.saveEx();
+            MAcctProcessorLog acctProcessorLog = new MAcctProcessorLog(getModel(), summary.toString(), trxName);
+            acctProcessorLog.setReference("#" + p_runCount + " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
+            acctProcessorLog.saveEx();
         });
-
-    
     }
 
     protected void doWork() {
