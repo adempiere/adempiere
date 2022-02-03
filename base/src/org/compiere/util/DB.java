@@ -2617,7 +2617,7 @@ public final class DB
 	 * @param resultSetRunnable Execution of the ResultSet
 	 * @throws SQLException Handles the correct closing of persistence objects, not the thrown exception
 	 */
-    public static void runResultSet(String trxName, String query, Object[] parameters, ResultSetRunnable resultSetRunnable) throws SQLException {
+    public static void runResultSet(String trxName, String query, ResultSetRunnable resultSetRunnable, Object... parameters) throws SQLException {
     	if (resultSetRunnable != null) {
 			CPreparedStatement preparedStatement = null;
 			ResultSet resultSet = null;
@@ -2630,18 +2630,6 @@ public final class DB
 				close(resultSet, preparedStatement);
 			}
 		}
-	}
-
-	/**
-	 * Execute ResultSet without worrying about handling closure of database objects
-	 * @param trxName Database transaction
-	 * @param query Query to run in the PreparedStatement
-	 * @param resultSetRunnable Execution of the ResultSet
-	 * @param parameters Parameters of the query
-	 * @throws SQLException
-	 */
-	public static void runResultSet(String trxName, String query, ResultSetRunnable resultSetRunnable, Object... parameters) throws SQLException {
-		runResultSet(trxName, query, parameters, resultSetRunnable);
 	}
 
 }	//	DB
