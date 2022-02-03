@@ -737,7 +737,7 @@ public class MTree extends X_AD_Tree
 				parameters.add(userId);
 			parameters.add(getAD_Tree_ID());
 			//	Get Tree & Bar
-			DB.runResultSet(get_TrxName(), sql.toString(), parameters.toArray(), resultSet -> {
+			DB.runResultSet(get_TrxName(), sql.toString(), resultSet -> {
 
 				rootNode = new MTreeNode(0, 0, getName(), getDescription(), 0, true, null, false, null);
 				while (resultSet.next()) {
@@ -751,7 +751,7 @@ public class MTree extends X_AD_Tree
 					else
 						addToTree(node_ID, parent_ID, seqNo, onBar);    //	calls getNodeDetail
 				}
-			});
+			}, parameters);
 			//
 			//closing the rowset will also close connection for oracle rowset implementation
 			//nodeRowSet.close();
