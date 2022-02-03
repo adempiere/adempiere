@@ -2597,4 +2597,41 @@ public final class DB
                 "SELECT getdate() FROM DUAL");
 
     }
+
+	/**
+	 * Execute ResultSet without worrying about handling closure of database objects
+	 * @param trxName Database transaction
+	 * @param query Query to run in the PreparedStatement
+	 * @param resultSetRunnable Execution of the ResultSet
+	 * @throws SQLException Handles the correct closing of persistence objects, not the thrown exception
+	 */
+    public static void runResultSet(String trxName, String query, ResultSetRunnable resultSetRunnable) throws SQLException {
+    	runResultSet(trxName, query, null, resultSetRunnable);
+	}
+
+	/**
+	 * Execute ResultSet without worrying about handling closure of database objects
+	 * @param trxName Database transaction
+	 * @param query Query to run in the PreparedStatement
+	 * @param parameters Parameters of the query
+	 * @param resultSetRunnable Execution of the ResultSet
+	 * @throws SQLException Handles the correct closing of persistence objects, not the thrown exception
+	 */
+    public static void runResultSet(String trxName, String query, Object[] parameters, ResultSetRunnable resultSetRunnable) throws SQLException {
+    	if (resultSetRunnable != null) {
+			CPreparedStatement preparedStatement = null;
+			ResultSet resultSet = null;
+			try {
+				preparedStatement = prepareStatement(query, trxName);
+				DB.setParameters(preparedStatement, parameters);
+				resultSet = preparedStatement.executeQuery();
+				resultSetRunnable.run(resultSet);
+			} finally {
+				close(resultSet, preparedStatement);
+			}
+		}
+	}
+
+
+
 }	//	DB
