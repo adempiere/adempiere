@@ -2632,6 +2632,16 @@ public final class DB
 		}
 	}
 
-
+	/**
+	 * Execute ResultSet without worrying about handling closure of database objects
+	 * @param trxName Database transaction
+	 * @param query Query to run in the PreparedStatement
+	 * @param resultSetRunnable Execution of the ResultSet
+	 * @param parameters Parameters of the query
+	 * @throws SQLException
+	 */
+	public static void runResultSet(String trxName, String query, ResultSetRunnable resultSetRunnable, Object... parameters) throws SQLException {
+		runResultSet(trxName, query, parameters, resultSetRunnable);
+	}
 
 }	//	DB
