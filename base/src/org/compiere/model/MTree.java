@@ -53,6 +53,9 @@ import org.compiere.util.Util;
  *	@author Trifon Trifonov
  *		<li> FR [ #351 ] Add Account number to Account Tree view
  *		@see https://github.com/adempiere/adempiere/issues/351
+ * @author Raul Capecce raul.capecce@openupsolutions.com
+ * 		<li> FR [ #3723 ] Modify the way to run the ResultSeet
+ * 		@see https://github.com/adempiere/adempiere/issues/3723
  */
 public class MTree extends X_AD_Tree
 {
@@ -729,28 +732,26 @@ public class MTree extends X_AD_Tree
 			// load Node details - addToTree -> getNodeDetail
 			getNodeDetails(); 
 			//
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
-			int idx = 1;
+			List<Object> parameters = new ArrayList<>();
 			if (userId != -1)
-				pstmt.setInt(idx++, userId);
-			pstmt.setInt(idx++, getAD_Tree_ID());
+				parameters.add(userId);
+			parameters.add(getAD_Tree_ID());
 			//	Get Tree & Bar
-			ResultSet rs = pstmt.executeQuery();
-			rootNode = new MTreeNode (0, 0, getName(), getDescription(), 0, true, null, false, null);
-			while (rs.next())
-			{
-				int node_ID = rs.getInt(1);
-				int parent_ID = rs.getInt(2);
-				int seqNo = rs.getInt(3);
-				boolean onBar = (rs.getString(4) != null);
-				//
-				if (node_ID == 0 && parent_ID == 0)
-					;
-				else
-					addToTree (node_ID, parent_ID, seqNo, onBar);	//	calls getNodeDetail
-			}
-			rs.close();
-			pstmt.close();
+			DB.runResultSet(get_TrxName(), sql.toString(), parameters.toArray(), resultSet -> {
+
+				rootNode = new MTreeNode(0, 0, getName(), getDescription(), 0, true, null, false, null);
+				while (resultSet.next()) {
+					int node_ID = resultSet.getInt(1);
+					int parent_ID = resultSet.getInt(2);
+					int seqNo = resultSet.getInt(3);
+					boolean onBar = (resultSet.getString(4) != null);
+					//
+					if (node_ID == 0 && parent_ID == 0)
+						;
+					else
+						addToTree(node_ID, parent_ID, seqNo, onBar);    //	calls getNodeDetail
+				}
+			});
 			//
 			//closing the rowset will also close connection for oracle rowset implementation
 			//nodeRowSet.close();
