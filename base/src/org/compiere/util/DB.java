@@ -453,26 +453,39 @@ public final class DB
      */
     public static Connection createConnection (boolean autoCommit, boolean readOnly, int trxLevel)
     {
-		Connection connection = null;
+        Connection conn = s_cc.getConnection (autoCommit, trxLevel);
 
-		if (readOnly) {
-			connection = s_cc.getConnectionShortRunning (autoCommit , readOnly, trxLevel);
-			if (connection != null)
-				return connection;
-		}
+        //hengsin: this could be problematic as it can be reuse for readwrite activites after return to pool
+        /*
+        if (conn != null)
+        {
+            try
+            {
+                conn.setReadOnly(readOnly);
+            }
+            catch (SQLException ex)
+            {
+                conn = null;
+                log.log(Level.SEVERE, ex.getMessage(), ex);
+            }
+        }*/
 
-		connection = s_cc.getConnection (autoCommit, trxLevel);
-        if (connection == null)
+        if (conn == null)
         {
             throw new IllegalStateException("DB.getConnectionRO - @NoDBConnection@");
         }
+
+        //hengsin: failed to set autocommit can lead to severe lock up of the system
         try {
-	        if (connection.getAutoCommit() != autoCommit)
+	        if (conn.getAutoCommit() != autoCommit)
 	        {
 	        	throw new IllegalStateException("Failed to set the requested auto commit mode on connection. [autocommit=" + autoCommit +"]");
 	        }
-        } catch (SQLException e) {}
-        return connection;
+        } catch (SQLException exception) {
+			log.severe(exception.getMessage());
+		}
+
+        return conn;
     }   //  createConnection
 
 	/**
@@ -1020,7 +1033,7 @@ public final class DB
 	{
 		if (sql == null || sql.length() == 0)
 			throw new IllegalArgumentException("Required parameter missing - " + sql);
-		verifyTrx(trxName, sql);
+		//verifyTrx(trxName, sql);
 		//
 		int no = -1;
 		CPreparedStatement cs = null;
