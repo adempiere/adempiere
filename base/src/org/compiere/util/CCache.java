@@ -23,6 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.adempiere.exceptions.AdempiereException;
+import org.compiere.model.PO;
+
 /**
  *  Adempiere Cache.
  *	@param <K> Key 
@@ -228,7 +231,15 @@ public class CCache<K,V> extends HashMap<K,V> implements CacheInterface
 	public V get(Object key)
 	{
 		expire();
-		return super.get(key);
+		V value = super.get(key);
+		if(PO.class.isAssignableFrom(value.getClass())) {
+			PO entity = (PO) value;
+			if(entity.get_TrxName() != null) {
+				throw new AdempiereException("Transaction not allowed for cache objects PO: " + entity);
+			}
+			entity.setIsCachedEntity(true);
+		}
+		return value;
 	}	//	get
 
 	/**
@@ -241,6 +252,16 @@ public class CCache<K,V> extends HashMap<K,V> implements CacheInterface
 	{
 		expire();
 		m_justReset = false;
+		if(value == null) {
+			return super.remove(key);
+		}
+		if(PO.class.isAssignableFrom(value.getClass())) {
+			PO entity = (PO) value;
+			if(entity.get_TrxName() != null) {
+				throw new AdempiereException("Transaction not allowed for cache objects PO: " + entity);
+			}
+			entity.setIsCachedEntity(true);
+		}
 		return super.put (key, value);
 	}	// put
 
