@@ -17,6 +17,7 @@
 
 package org.adempiere.webui.panel;
 
+import java.util.Objects;
 import java.util.Properties;
 
 import org.adempiere.webui.LayoutUtils;
@@ -178,7 +179,7 @@ public class UserPanel extends Vbox  implements EventListener
 		if (logout == event.getTarget())
         {
 			cleanup();
-			SessionManager.getApplication().logout();
+			Objects.requireNonNull(SessionManager.getApplication()).logout();
         }
 		else if (role == event.getTarget())
 		{

@@ -343,10 +343,11 @@ public class PackInHandler extends DefaultHandler {
     	
     	Connection conn = DB.getConnectionRW();
     	DatabaseMetaData dbm;
+		ResultSet tables = null;
     	try {
     		dbm = conn.getMetaData();
     		//    	 check if table is there
-    		ResultSet tables = null;
+
     		if (databaseType.equals("Oracle"))
     			tables = dbm.getTables(null, null, tablename.toUpperCase(), null );
     		else if (databaseType.equals("PostgreSQL"))
@@ -379,19 +380,21 @@ public class PackInHandler extends DefaultHandler {
     						.append( "CREATORCONTACT VARCHAR2(255), " ) 
     						.append( " CREATEDDATE  VARCHAR2(25), " ) 
     						.append( "UPDATEDDATE VARCHAR2(25), " )					 
-    						.append( "PRIMARY KEY( "+tablename.toUpperCase() +"_ID)"+")" );        		
-    				
+    						.append( "PRIMARY KEY( "+tablename.toUpperCase() +"_ID)"+")" );
+					PreparedStatement pstmt = null;
     				try {
-    					PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(),ResultSet.TYPE_FORWARD_ONLY,
+    					pstmt = DB.prepareStatement(sqlB.toString(),ResultSet.TYPE_FORWARD_ONLY,
     							ResultSet.CONCUR_UPDATABLE, null);
     					pstmt.executeUpdate();
     					MSequence.createTableSequence (context, "AD_Package_Imp", trxName);
-    					pstmt.close();
-    					pstmt = null;
+
     				}
     				catch (Exception e) {
     					log.info ("createImp_Sum_table:"+e);
-    				}
+    				} finally {
+						DB.close(pstmt);
+						pstmt = null;
+					}
     			}
     			if (tablename.equals("AD_Package_Imp_Inst")){
     				StringBuffer sqlB = new StringBuffer ("CREATE TABLE "+ tablename.toUpperCase() + "( ")
@@ -416,19 +419,21 @@ public class PackInHandler extends DefaultHandler {
     						.append( "CREATORCONTACT VARCHAR2(255), " ) 
     						.append( " CREATEDDATE  VARCHAR2(25), " ) 
     						.append( "UPDATEDDATE VARCHAR2(25), " )					 
-    						.append( "PRIMARY KEY( "+tablename.toUpperCase() +"_ID)"+")" );        		
-    				
+    						.append( "PRIMARY KEY( "+tablename.toUpperCase() +"_ID)"+")" );
+
+					PreparedStatement pstmt = null;
     				try {
-    					PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(),ResultSet.TYPE_FORWARD_ONLY,
+						pstmt = DB.prepareStatement(sqlB.toString(),ResultSet.TYPE_FORWARD_ONLY,
     							ResultSet.CONCUR_UPDATABLE, null);
     					pstmt.executeUpdate();
     					MSequence.createTableSequence (context, "AD_Package_Imp_Inst", trxName);
-    					pstmt.close();
-    					pstmt = null;
     				}
     				catch (Exception e) {
     					log.info ("createImp_Sum_table:"+e);
-    				}
+    				} finally {
+						DB.close(pstmt);
+						pstmt = null;
+					}
     			}
     			if (tablename.equals("AD_Package_Imp_Detail")){
     				StringBuffer sqlB = new StringBuffer ("CREATE TABLE "+ tablename.toUpperCase() + "( ")
@@ -450,19 +455,20 @@ public class PackInHandler extends DefaultHandler {
     						.append( "TABLENAME NVARCHAR2(60), " )
     						.append( "AD_TABLE_ID NUMBER(10), " )
     						.append( "UNINSTALL CHAR(1), " )
-    						.append( "PRIMARY KEY( "+tablename.toUpperCase() +"_ID)"+")" );        		
-    				
-    				try {
-    					PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(),ResultSet.TYPE_FORWARD_ONLY,
+    						.append( "PRIMARY KEY( "+tablename.toUpperCase() +"_ID)"+")" );
+					PreparedStatement pstmt = null;
+					try {
+    					pstmt = DB.prepareStatement(sqlB.toString(),ResultSet.TYPE_FORWARD_ONLY,
     							ResultSet.CONCUR_UPDATABLE, null);
     					pstmt.executeUpdate();
     					MSequence.createTableSequence (context, "AD_Package_Imp_Detail", trxName);
-    					pstmt.close();
-    					pstmt = null;
     				}
     				catch (Exception e) {
     					log.info ("createImp_Sum_table:"+e);
-    				}
+    				} finally {
+						DB.close(pstmt);
+						pstmt = null;
+					}
     			}
     			if (tablename.equals("AD_Package_Imp_Backup")){
     				StringBuffer sqlB = new StringBuffer ("CREATE TABLE "+ tablename.toUpperCase() + "( ")
@@ -483,31 +489,32 @@ public class PackInHandler extends DefaultHandler {
     						.append( "AD_PACKAGE_IMP_ORG_DIR NVARCHAR2(255), " )
     						.append( "COLVALUE NVARCHAR2(2000), " )
     						.append( "UNINSTALL CHAR(1), " )
-    						.append( "PRIMARY KEY( "+tablename.toUpperCase() +"_ID)"+")" );        	
-    				
-    				try {
-    					PreparedStatement pstmt = DB.prepareStatement(sqlB.toString(),ResultSet.TYPE_FORWARD_ONLY,
+    						.append( "PRIMARY KEY( "+tablename.toUpperCase() +"_ID)"+")" );
+
+					PreparedStatement pstmt = null;
+					try {
+						pstmt = DB.prepareStatement(sqlB.toString(),ResultSet.TYPE_FORWARD_ONLY,
     							ResultSet.CONCUR_UPDATABLE, null);
     					pstmt.executeUpdate();
     					MSequence.createTableSequence (context, "AD_Package_Imp_Backup", trxName);
-    					pstmt.close();
-    					pstmt = null;
     				}	
     				catch (Exception e) {
     					log.info ("createImp_Sum_table:"+e);
-    				}
+    				} finally {
+						DB.close(pstmt);
+						pstmt = null;
+					}
     			}	
     		}
     		
     		tables.close();
-    	}
-    	
-    	catch (SQLException e) {
+    	} catch (SQLException e) {
     		log.info ("createImp_Sum_table:"+e);
     	}
-    	
-    	finally
-    	{
+		finally {
+			DB.close(tables , null);
+			tables = null;
+
     		if( conn != null )
     		{
     			try

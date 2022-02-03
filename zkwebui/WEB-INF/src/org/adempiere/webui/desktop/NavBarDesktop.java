@@ -437,7 +437,7 @@ public class NavBarDesktop extends TabbedDesktop implements MenuListener, Serial
 		if (dashboardRunnable.isRunning()) {
 			dashboardRunnable.interrupt();
 			DashboardRunnable tmp = dashboardRunnable;
-			dashboardRunnable = new DashboardRunnable(tmp, layout.getDesktop());
+			dashboardRunnable = new DashboardRunnable(tmp, layout.getDesktop(), this);
 			dashboardRunnable.start();
 		}
 	}

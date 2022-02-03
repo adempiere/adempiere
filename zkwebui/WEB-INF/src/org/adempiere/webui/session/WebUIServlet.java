@@ -21,11 +21,9 @@ import org.adempiere.webui.ZkContextProvider;
 import org.adempiere.webui.window.ZkJRViewerProvider;
 import org.adempiere.webui.window.ZkReportViewerProvider;
 import org.compiere.Adempiere;
-import org.compiere.db.AdempiereDatabase;
 import org.compiere.print.ReportCtl;
 import org.compiere.report.ReportStarter;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.zkoss.zk.ui.http.DHtmlLayoutServlet;
@@ -36,9 +34,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.logging.Level;
 
 
 /**
@@ -122,17 +117,15 @@ public class WebUIServlet extends DHtmlLayoutServlet
 
         try {
             //Get Context for Current Thread and Remove
-            SessionManager.getSessionContainer().values().forEach( session -> {
-                HttpSession httpSession = (HttpSession) Objects.requireNonNull(session.get()).getNativeSession();
-                logger.log(Level.INFO, "Session " + httpSession.getId() + " Logout ...");
+            SessionManager.getSessionCache().values().forEach(httpSession -> {
+                logger.info( "Session " + httpSession.getId() + " Logout ...");
                 SessionManager.clearSession(httpSession.getId());
-                logger.log(Level.INFO, "Session " + httpSession.getId() + " Destroyed");
+                SessionManager.cleanSessionBackground(httpSession.getId());
+                SessionManager.removeSession(httpSession.getId());
+                logger.info("Session " + httpSession.getId() + " Destroyed");
             });
-            SessionManager.clearSessions();
             contextProvider = null;
             ServerContext.dispose();
-            //Todo: Pending implement use the connection pool from container
-            //Optional.ofNullable(DB.getDatabase()).ifPresent(AdempiereDatabase::close);
         } catch (Exception exception) {
             throw new RuntimeException(exception.toString());
         } finally {

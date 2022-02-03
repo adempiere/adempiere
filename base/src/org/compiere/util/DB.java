@@ -481,7 +481,9 @@ public final class DB
 	        {
 	        	throw new IllegalStateException("Failed to set the requested auto commit mode on connection. [autocommit=" + autoCommit +"]");
 	        }
-        } catch (SQLException e) {}
+        } catch (SQLException exception) {
+			log.severe(exception.getMessage());
+		}
 
         return conn;
     }   //  createConnection
@@ -1031,14 +1033,14 @@ public final class DB
 	{
 		if (sql == null || sql.length() == 0)
 			throw new IllegalArgumentException("Required parameter missing - " + sql);
-		//verifyTrx(trxName, sql);
+		verifyTrx(trxName, sql);
 		//
 		int no = -1;
-		CPreparedStatement cs = ProxyFactory.newCPreparedStatement(ResultSet.TYPE_FORWARD_ONLY,
-			ResultSet.CONCUR_UPDATABLE, sql, trxName);	//	converted in call
-
+		CPreparedStatement cs = null;
 		try
 		{
+			cs = ProxyFactory.newCPreparedStatement(ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_UPDATABLE, sql, trxName);	//	converted
 			setParameters(cs, params);
 			if (timeOut > 0)
 				cs.setQueryTimeout(timeOut);
@@ -1066,15 +1068,8 @@ public final class DB
 		}
 		finally
 		{
-			//  Always close cursor
-			try
-			{
-				cs.close();
-			}
-			catch (SQLException e2)
-			{
-				log.log(Level.SEVERE, "Cannot close statement");
-			}
+			DB.close(cs);
+			cs = null;
 		}
 		return no;
 	}	//	executeUpdate
@@ -1108,11 +1103,11 @@ public final class DB
 		//
 		verifyTrx(trxName, sql);
 		int no = -1;
-		CPreparedStatement cs = ProxyFactory.newCPreparedStatement(ResultSet.TYPE_FORWARD_ONLY,
-			ResultSet.CONCUR_UPDATABLE, sql, trxName);	//	converted in call
-
+		CPreparedStatement cs = null;
 		try
 		{
+			cs = ProxyFactory.newCPreparedStatement(ResultSet.TYPE_FORWARD_ONLY,
+					ResultSet.CONCUR_UPDATABLE, sql, trxName);	//	converted in call
 			setParameters(cs, params);
 			if (timeOut > 0)
 				cs.setQueryTimeout(timeOut);
@@ -1130,6 +1125,7 @@ public final class DB
 		finally
 		{
 			DB.close(cs);
+			cs = null;
 		}
 		return no;
 	}

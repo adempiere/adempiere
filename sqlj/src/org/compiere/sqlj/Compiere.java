@@ -205,8 +205,9 @@ public class Compiere implements Serializable
 		{
 			return s_conn.prepareStatement(sql, resultSetType, resultSetCurrency);
 		}
-		catch (Exception e)	//	connection not good anymore
+		catch (Exception exception)	//	connection not good anymore
 		{
+			exception.getStackTrace();
 		}
 		//	get new Connection
 		s_conn = getConnection();
@@ -426,8 +427,9 @@ public class Compiere implements Serializable
 		{
 			return (source.substring(posIndex+1, posIndex+2));
 		}
-		catch (Exception e)
-		{}
+		catch (Exception exception) {
+			exception.getStackTrace();
+		}
 		return null;
 	}	//	charAt
 	
@@ -447,19 +449,25 @@ public class Compiere implements Serializable
 		if (isSystem)
 			sql.append("Sys");
 		sql.append(",IncrementNo FROM AD_Sequence WHERE AD_Sequence_ID=?");
-		PreparedStatement pstmt = prepareStatement(sql.toString(),
-			ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
-		ResultSet rs = pstmt.executeQuery();
-		if (rs.next())
-		{
-			retValue = rs.getInt(1);
-			int incrementNo = rs.getInt(2);
-			rs.updateInt(2, retValue + incrementNo);
-			pstmt.getConnection().commit();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			pstmt = prepareStatement(sql.toString(),
+					ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				retValue = rs.getInt(1);
+				int incrementNo = rs.getInt(2);
+				rs.updateInt(2, retValue + incrementNo);
+				pstmt.getConnection().commit();
+			}
+		} catch (Exception exception) {
+			exception.getStackTrace();
+		} finally {
+			rs.close();
+			pstmt.close();
+			rs = null; pstmt = null;
 		}
-		rs.close();
-		pstmt.close();
-		//
 		return retValue;
 	}	//	nextID
 	
