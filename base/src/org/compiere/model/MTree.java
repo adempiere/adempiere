@@ -751,7 +751,7 @@ public class MTree extends X_AD_Tree
 					else
 						addToTree(node_ID, parent_ID, seqNo, onBar);    //	calls getNodeDetail
 				}
-			}, parameters);
+			}, parameters.toArray());
 			//
 			//closing the rowset will also close connection for oracle rowset implementation
 			//nodeRowSet.close();
