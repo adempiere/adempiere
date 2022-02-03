@@ -37,7 +37,6 @@ import javax.sql.DataSource;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import oracle.jdbc.OracleDriver;
-
 import org.adempiere.exceptions.AdempiereException;
 import org.adempiere.exceptions.DBException;
 import org.compiere.Adempiere;
@@ -582,8 +581,7 @@ public class DB_Oracle implements AdempiereDatabase
                 config.addDataSourceProperty( "connectionInitSql" , "1" );
                 config.addDataSourceProperty( "idleTimeout" , "1200" );
                 config.addDataSourceProperty("maximumPoolSize", "15");
-                HikariDataSource cpds = new HikariDataSource(config);
-                datasourceLongRunning = cpds;
+                datasourceLongRunning = new HikariDataSource(config);
                 log.warning("Starting Client Hikari Connection Pool");
             } else {
                 Optional<String> maybeApplicationType = Optional.ofNullable(System.getenv("ADEMPIERE_APPS_TYPE"));

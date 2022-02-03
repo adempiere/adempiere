@@ -553,8 +553,7 @@ public class DB_MySQL implements AdempiereDatabase {
 				config.addDataSourceProperty( "connectionInitSql" , "1" );
 				config.addDataSourceProperty( "idleTimeout" , "1200" );
 				config.addDataSourceProperty("maximumPoolSize", "15");
-				HikariDataSource cpds = new HikariDataSource(config);
-				datasourceLongRunning = cpds;
+				datasourceLongRunning = new HikariDataSource(config);;
 				log.warning("Starting Client Hikari Connection Pool");
 			} else {
 				Optional<String> maybeApplicationType = Optional.ofNullable(System.getenv("ADEMPIERE_APPS_TYPE"));

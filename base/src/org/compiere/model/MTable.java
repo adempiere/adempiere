@@ -24,7 +24,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -85,10 +87,10 @@ public class MTable extends X_AD_Table
 	private static final long serialVersionUID = -2367316254623142732L;
 
 	/**	Cache						*/
-	private static CCache<Integer,MTable> s_cache = new CCache<Integer,MTable>("AD_Table", 20);
-	private static CCache<String, Integer> s_tableNameCache = new CCache<String, Integer>("AD_Table_Name", 20);
-	private static CCache<String,Class<?>> s_classCache = new CCache<String,Class<?>>("PO_Class", 20);
-	private static CCache<String,Boolean> s_cachetrl = new CCache<String,Boolean>("Table_Trl", 20);
+	private static Map<Integer,MTable> s_cache = Collections.synchronizedMap(new CCache<Integer,MTable>("AD_Table", 20));
+	private static Map<String, Integer> s_tableNameCache = Collections.synchronizedMap(new CCache<String, Integer>("AD_Table_Name", 20));
+	private static Map<String,Class<?>> s_classCache = Collections.synchronizedMap(new CCache<String,Class<?>>("PO_Class", 20));
+	private static Map<String,Boolean> s_cachetrl = Collections.synchronizedMap(new CCache<String,Boolean>("Table_Trl", 20));
 
 	/**	Columns				*/
 	private List<MColumn>	columns = null;
