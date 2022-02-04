@@ -256,7 +256,13 @@
 			<zipfileset src="lib/commons-logging-1.2.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/log4j.jar">
+			<zipfileset src="lib/log4j-core-2.17.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/log4j-1.2-api-2.17.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/log4j-api-2.17.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/jnlp.jar">
@@ -313,7 +319,7 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- HikariCP connection pool -->
-			<zipfileset src="lib/HikariCP-5.0.0.jar">
+			<zipfileset src="lib/HikariCP-5.0.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/slf4j-api-1.7.32.jar">
@@ -501,7 +507,13 @@
 			<zipfileset src="lib/commons-logging-1.2.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
-			<zipfileset src="lib/log4j.jar">
+			<zipfileset src="lib/log4j-core-2.17.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/log4j-1.2-api-2.17.1.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<zipfileset src="lib/log4j-api-2.17.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/jnlp.jar">
@@ -576,7 +588,7 @@
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<!-- HikariCP connection pool -->
-			<zipfileset src="lib/HikariCP-5.0.0.jar">
+			<zipfileset src="lib/HikariCP-5.0.1.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
 			<zipfileset src="lib/slf4j-api-1.7.32.jar">

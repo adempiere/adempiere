@@ -40,9 +40,7 @@ class IT_MBPartnerLocation extends CommonGWSetup {
         String sql = "select c_region_id from c_region where name = ?";
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-
         int C_Region_ID = -1;
-
         try {
             pstmt = DB.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY,
                     ResultSet.CONCUR_READ_ONLY, trxName);
@@ -56,6 +54,7 @@ class IT_MBPartnerLocation extends CommonGWSetup {
             fail(e.getLocalizedMessage());
         } finally {
             DB.close(rs, pstmt);
+            rs = null; pstmt = null;
         }
         return C_Region_ID;
 
@@ -66,9 +65,7 @@ class IT_MBPartnerLocation extends CommonGWSetup {
         String sql = "select c_country_id from c_country where name = ?";
         PreparedStatement pstmt = null;
         ResultSet rs = null;
-
         int C_Country_ID = -1;
-
         try {
             pstmt = DB.prepareStatement(sql, ResultSet.TYPE_FORWARD_ONLY,
                     ResultSet.CONCUR_READ_ONLY, trxName);
@@ -82,6 +79,7 @@ class IT_MBPartnerLocation extends CommonGWSetup {
             fail(e.getLocalizedMessage());
         } finally {
             DB.close(rs, pstmt);
+            rs = null; pstmt = null;
         }
 
         return C_Country_ID;

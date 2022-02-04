@@ -61,6 +61,10 @@ import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Image;
 
+import javax.servlet.http.HttpSession;
+
+import static org.adempiere.webui.session.SessionContextListener.SERVLET_SESSION_ID;
+
 /**
  *
  * @author  <a href="mailto:agramdass@gmail.com">Ashley G Ramdass</a>
@@ -107,6 +111,8 @@ public class RolePanel extends Window implements EventListener, Deferrable
         if(rolesKNPairs == null)
             throw new ApplicationException("Login is invalid, UserName: " + userName + " and Password:" + password);
         //Load the User preferences
+        String sessionId = Env.getContext(Env.getCtx(), SERVLET_SESSION_ID);
+        SessionManager.setUserAuthentication(sessionId, password);
         SessionManager.loadUserPreference(login.getAuthenticatedUserId());
         initComponents();
         init();

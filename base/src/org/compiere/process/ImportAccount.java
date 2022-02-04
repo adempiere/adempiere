@@ -28,9 +28,7 @@ import org.compiere.model.MAcctSchema;
 import org.compiere.model.MAcctSchemaElement;
 import org.compiere.model.MCharge;
 import org.compiere.model.MChargeAcct;
-import org.compiere.model.MElement;
 import org.compiere.model.MElementValue;
-import org.compiere.model.MTaxCategory;
 import org.compiere.model.X_I_ElementValue;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
@@ -388,16 +386,19 @@ public class ImportAccount extends SvrProcess
 			+ " AND i.ParentElementValue_ID IS NOT NULL"
 			+ " AND i.I_IsImported='Y' AND Processed='N' AND i.AD_Client_ID=").append(m_AD_Client_ID);
 		int noParentUpdate = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		PreparedStatement updateStmt = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
-			ResultSet rs = pstmt.executeQuery();
+			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
+			rs = pstmt.executeQuery();
 			//
 			String updateSQL = "UPDATE AD_TreeNode SET Parent_ID=?, SeqNo=? "
 				+ "WHERE AD_Tree_ID=? AND Node_ID=?";
 			//begin e-evolution vpj-cd 15 nov 2005 PostgreSQL
 			//PreparedStatement updateStmt = DB.prepareStatement(updateSQL, get_TrxName());
-			PreparedStatement updateStmt = DB.prepareStatement(updateSQL, ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_UPDATABLE, get_TrxName());
+			updateStmt = DB.prepareStatement(updateSQL, ResultSet.TYPE_FORWARD_ONLY,ResultSet.CONCUR_UPDATABLE, get_TrxName());
 			//end	
 			//
 			while (rs.next())
@@ -419,12 +420,15 @@ public class ImportAccount extends SvrProcess
 				if (no == 0)
 					log.info("Parent not found for " + rs.getString(5));
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, "(ParentUpdateLoop) " + sql.toString(), e);
+		} finally {
+			DB.close(rs , pstmt);
+			DB.close(updateStmt);
+			rs = null; pstmt = null;
+			updateStmt = null;
 		}
 		addLog (0, null, new BigDecimal (noParentUpdate), "@ParentElementValue_ID@: @Updated@");
 
@@ -586,11 +590,13 @@ public class ImportAccount extends SvrProcess
 		//	****	Update Defaults
 		StringBuffer sql = new StringBuffer ("SELECT C_AcctSchema_ID FROM C_AcctSchema_Element "
 			+ "WHERE C_Element_ID=?").append(clientCheck);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
+			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
 			pstmt.setInt(1, m_C_Element_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 				updateDefaultAccounts (rs.getInt(1));
 			rs.close();
@@ -599,6 +605,9 @@ public class ImportAccount extends SvrProcess
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
+		} finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 
 		//	Default Account		DEFAULT_ACCT
@@ -639,11 +648,13 @@ public class ImportAccount extends SvrProcess
 			+ " INNER JOIN AD_Table t ON (c.AD_Table_ID=t.AD_Table_ID) "
 			+ "WHERE i.I_IsImported='Y' AND Processing='Y'"
 			+ " AND i.C_ElementValue_ID IS NOT NULL AND C_Element_ID=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt = DB.prepareStatement(sql, get_TrxName());
 			pstmt.setInt(1, m_C_Element_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
 				int elementValueId = rs.getInt(1);
@@ -662,12 +673,13 @@ public class ImportAccount extends SvrProcess
 						log.log(Level.SEVERE, "Updated=" + no);
 				}
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, "", e);
+		} finally {
+			DB.close(rs , pstmt);
+			rs = null; pstmt = null;
 		}
 		addLog (0, null, new BigDecimal (counts[UPDATE_ERROR]), as.toString() + ": @Errors@");
 		addLog (0, null, new BigDecimal (counts[UPDATE_YES]), as.toString() + ": @Updated@");
@@ -702,10 +714,12 @@ public class ImportAccount extends SvrProcess
 			.append(TableName).append(" x INNER JOIN C_ValidCombination vc ON (x.")
 			.append(ColumnName).append("=vc.C_ValidCombination_ID) ")
 			.append("WHERE x.C_AcctSchema_ID=").append(acctSchemaId);
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
-			ResultSet rs = pstmt.executeQuery();
+			pstmt = DB.prepareStatement(sql.toString(), get_TrxName());
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				int validCombinationId = rs.getInt(1);
@@ -777,6 +791,9 @@ public class ImportAccount extends SvrProcess
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
+		} finally {
+			DB.close(rs , pstmt);
+			rs = null; pstmt = null;
 		}
 
 		return retValue;

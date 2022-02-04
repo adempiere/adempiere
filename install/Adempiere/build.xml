@@ -689,31 +689,70 @@ $CATALINA_HOME/bin/shutdown.sh
 		<!--Setting the Connection Pool-->
 
 		<copy file="${basedir}/lib/context.xml" tofile="${CATALINA_BASE}/conf/context.xml" filtering="yes" overwrite="yes"/>
-		<echo message="Database Driver Class ${JDBC_DRIVER_CLASS}" />	
-		<replace file="${CATALINA_BASE}/conf/context.xml">
-			<replacefilter token="@@JDBC_DRIVER_CLASS@@" value="${JDBC_DRIVER_CLASS}"/>
+		<copy file="${CATALINA_BASE}/conf/server.xml" tofile="${CATALINA_BASE}/conf/server-ds.xml"/>
+		<replace file="${CATALINA_BASE}/conf/server-ds.xml">
+			<replacetoken><![CDATA[</GlobalNamingResources>]]></replacetoken>
+			<replacevalue><![CDATA[
+	<Resource name="java/AdempiereDS" auth="Container"
+						  factory="com.zaxxer.hikari.HikariJNDIFactory"
+						  type="javax.sql.DataSource"
+						  connectionTimeout="600000"
+						  connectionTestQuery="SELECT 1 "
+						  minimumIdle="20"
+						  maximumPoolSize="150"
+						  testOnBorrow="true"
+						  poolName="AdempiereDS"
+						  cachePrepStmts= "true"
+						  prepStmtCacheSize= "250"
+						  prepStmtCacheSqlLimit= "2048"
+						  closeMethod = "close"
+						  socketFactory="com.google.cloud.sql.postgres.SocketFactory"
+						  cloudSqlInstance="INSTANCE_CONNECTION_NAME"
+						  jdbcUrl="@ADEMPIERE_DB_URL@"
+						  driverClassName="@@JDBC_DRIVER_CLASS@@"
+						  dataSource.serverName="@ADEMPIERE_DB_SERVER@"
+						  dataSource.portNumber="@ADEMPIERE_DB_PORT@"
+						  dataSource.databaseName="@ADEMPIERE_DB_NAME@"
+						  dataSource.user="@ADEMPIERE_DB_USER@"
+						  dataSource.password="@ADEMPIERE_DB_PASSWORD@"/>
+ </GlobalNamingResources>
+]]></replacevalue>
 		</replace>
 
-		<!-- Setting Tomcat Server -->
-		<replaceregexp file="${CATALINA_BASE}/conf/server.xml" match="8080" replace="${ADEMPIERE_WEB_PORT}" byline="true"/>
-		<replaceregexp file="${CATALINA_BASE}/conf/server.xml" match="8443" replace="${ADEMPIERE_SSL_PORT}" byline="true"/>
-		<replaceregexp file="${CATALINA_BASE}/conf/server.xml" match="&#60;/Server&#62;" replace="" byline="true"/>
-		<replaceregexp file="${CATALINA_BASE}/conf/server.xml" match="  &#60;/Service&#62;" replace="" byline="true"/>
-		<concat destfile="${CATALINA_BASE}/conf/server.xml" append="true">
-<![CDATA[    <Connector
+		<replace file="${CATALINA_BASE}/conf/server-ds.xml">
+			<replacetoken><![CDATA[    <!-- An Engine represents the entry point (within Catalina) that processes]]></replacetoken>
+			<replacevalue><![CDATA[    <Connector
             protocol="org.apache.coyote.http11.Http11NioProtocol"
-			compression="on" noCompressionUserAgents="gozilla, traviata" compressionMinSize="2048" compressableMimeType ="text/html,text/xml,text/plain,text/css,text/javascript"/>
-            port="${ADEMPIERE_SSL_PORT}" maxThreads="200"
+			compression="on" noCompressionUserAgents="gozilla, traviata" compressionMinSize="2048" compressableMimeType ="text/html,text/xml,text/plain,text/css,text/javascript"
+            port="@@ADEMPIERE_SSL_PORT@@" maxThreads="200"
             scheme="https" secure="true" SSLEnabled="true"
-            keystoreFile="${ADEMPIERE_KEYSTORE}" keystorePass="${ADEMPIERE_KEYSTOREPASS}"
+            keystoreFile="@@ADEMPIERE_KEYSTORE@@" keystorePass="@@ADEMPIERE_KEYSTOREPASS@@"
             clientAuth="false" sslProtocol="TLS"/>
 
-    <Connector port="8009" protocol="AJP/1.3" redirectPort="${ADEMPIERE_SSL_PORT}" secretRequired="false"/>
+    <Connector port="8009" protocol="AJP/1.3" redirectPort="@@ADEMPIERE_SSL_PORT@@" secretRequired="false"/>
 
-  </Service>
-</Server>
-]]>
-		</concat>
+    <!-- An Engine represents the entry point (within Catalina) that processes
+]]></replacevalue>
+		</replace>
+		<!-- Setting Tomcat Server -->
+		<replaceregexp file="${CATALINA_BASE}/conf/server-ds.xml" match="8080" replace="${ADEMPIERE_WEB_PORT}" byline="true"/>
+		<replaceregexp file="${CATALINA_BASE}/conf/server-ds.xml" match="8443" replace="${ADEMPIERE_SSL_PORT}" byline="true"/>
+		<echo message="Database Driver Class ${JDBC_DRIVER_CLASS}" />
+		<replace file="${CATALINA_BASE}/conf/server-ds.xml">
+			<replacefilter token="@@JDBC_DRIVER_CLASS@@" value="${JDBC_DRIVER_CLASS}"/>
+		</replace>
+		<replace file="${CATALINA_BASE}/conf/server-ds.xml">
+			<replacefilter token="@@ADEMPIERE_SSL_PORT@@" value="${ADEMPIERE_SSL_PORT}"/>
+		</replace>
+		<replace file="${CATALINA_BASE}/conf/server-ds.xml">
+			<replacefilter token="@@ADEMPIERE_KEYSTORE@@" value="${ADEMPIERE_KEYSTORE}"/>
+		</replace>
+		<replace file="${CATALINA_BASE}/conf/server-ds.xml">
+			<replacefilter token="@@ADEMPIERE_KEYSTOREPASS@@" value="${ADEMPIERE_KEYSTOREPASS}"/>
+		</replace>
+		<delete file="${CATALINA_BASE}/conf/server.xml" failonerror="false"/>
+		<copy file="${CATALINA_BASE}/conf/server-ds.xml" tofile="${CATALINA_BASE}/conf/server.xml" filtering="yes" overwrite="yes"/>
+		<delete file="${CATALINA_BASE}/conf/server-ds.xml" failonerror="false"/>
 	</target>
 
 	<!-- ==================================================== -->

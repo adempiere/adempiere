@@ -265,8 +265,7 @@ public class MSequence extends X_AD_Sequence
 			finally
 			{
 				DB.close(rs, pstmt);
-				pstmt = null;
-				rs = null;
+				rs = null; pstmt = null;
 				if (conn != null)
 				{
 					try {
@@ -319,6 +318,7 @@ public class MSequence extends X_AD_Sequence
 		finally
 		{
 			DB.close(cstmt);
+			cstmt = null;
 		}
 		return retValue;
 	}	//	nextID
@@ -357,6 +357,7 @@ public class MSequence extends X_AD_Sequence
 			s_log.log(Level.SEVERE, e.toString());
 		} finally {
 			DB.close(cstmt);
+			cstmt = null;
 		}
 		return retValue;
 	} // nextID
@@ -422,6 +423,7 @@ public class MSequence extends X_AD_Sequence
 			finally
 			{
 				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 		}
 
@@ -587,6 +589,7 @@ public class MSequence extends X_AD_Sequence
 		{
 			//Finish
 			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 			try
 			{
 				if (trx == null && conn != null) {
@@ -711,6 +714,7 @@ public class MSequence extends X_AD_Sequence
 			finally
 			{
 				DB.close(rs, pstmt);
+				rs = null; pstmt = null;
 			}
 		}
 
@@ -1050,8 +1054,7 @@ public class MSequence extends X_AD_Sequence
 		finally
 		{
 			DB.close(rs, pstmt);
-			rs = null;
-			pstmt = null;
+			rs = null; pstmt = null;
 		}
 		return retValue;
 	}	//	get
@@ -1594,8 +1597,7 @@ public class MSequence extends X_AD_Sequence
 			d = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
 		String calendarYear = sdf.format(d);
-		String sql = "select CurrentNext From AD_Sequence_No Where AD_Sequence_ID = ? and CalendarYear = ?";
-
+		String sql = "SELECT CurrentNext FROM AD_Sequence_No WHERE AD_Sequence_ID = ? AND CalendarYear = ?";
 		return DB.getSQLValueString(trxName, sql, AD_Sequence_ID, calendarYear);
 	}
 
