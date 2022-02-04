@@ -100,6 +100,9 @@ import org.compiere.process.SequenceCheck;
  *		@see https://github.com/adempiere/adempiere/issues/352
  *		<li> FR [ 391 ] Add connection support to MariaDB
  *		@see https://github.com/adempiere/adempiere/issues/464
+ * @author Raul Capecce, raul.capecce@openupsolutions.com
+ * 		<li>FR [ 3725 ] New way to iterate ResultSets
+ * 		@see https://github.com/adempiere/adempiere/issues/3725
  */
 public final class DB
 {
