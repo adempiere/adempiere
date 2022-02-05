@@ -171,12 +171,7 @@ public class MTable extends X_AD_Table
 		if(tableId <= 0) {
 			return null;
 		}
-		MTable retValue = MTable.get(ctx, tableId);
-		if (retValue != null) {
-			Integer key = new Integer (retValue.getAD_Table_ID());
-			s_cache.put (key, retValue);
-		}
-		return retValue;
+		return MTable.get(ctx, tableId);
 	}	//	get
 	
 	/**
