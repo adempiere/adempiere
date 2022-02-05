@@ -232,7 +232,7 @@ public class CCache<K,V> extends HashMap<K,V> implements CacheInterface
 	{
 		expire();
 		V value = super.get(key);
-		if(PO.class.isAssignableFrom(value.getClass())) {
+		if(value != null && PO.class.isAssignableFrom(value.getClass())) {
 			PO entity = (PO) value;
 			if(entity.get_TrxName() != null) {
 				throw new AdempiereException("Transaction not allowed for cache objects PO: " + entity);
