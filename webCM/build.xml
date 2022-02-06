@@ -52,7 +52,8 @@
 	  debug="on"
 	  deprecation="off"
 	  optimize="on"
-	  classpathref="web.path">
+				classpathref="web.path"
+				includeantruntime="false">
       <src path="${src.servlet.dir}"/>
     </javac>
   	

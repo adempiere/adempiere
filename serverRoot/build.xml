@@ -79,7 +79,8 @@
 	  debug="on"
 	  deprecation="off"
 	  optimize="on"
-      classpathref="base.path">
+				classpathref="base.path"
+				includeantruntime="false">
       <src path="${src.ejb.dir}"/>
       <src path="${src.servlet.dir}"/>
       <src path="${src.server.dir}"/>
