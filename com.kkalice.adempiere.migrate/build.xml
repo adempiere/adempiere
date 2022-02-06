@@ -87,7 +87,7 @@
 	<!-- =========================================== -->
 	<target name="migrateCompile" depends="migrateInit" unless="jar.uptodate">
 		<!-- compile the java code -->
-		<javac srcdir="${source.dir}" destdir="${build.dir}" includeAntRuntime="false">
+		<javac srcdir="${source.dir}" destdir="${build.dir}" includeantruntime="false">
 			<classpath refid="project.class.path" />
 		</javac>
 		<!-- copy all image & sound files from source to the build directory -->
