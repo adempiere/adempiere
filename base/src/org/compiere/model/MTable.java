@@ -163,8 +163,7 @@ public class MTable extends X_AD_Table
 	 *	@param tableName case insensitive table name
 	 *	@return Table
 	 */
-    public static MTable get (Properties ctx, String tableName)
-	{
+    public static MTable get (Properties ctx, String tableName) {
 		if (tableName == null)
 			return null;
 		int tableId = getTable_ID(tableName);
