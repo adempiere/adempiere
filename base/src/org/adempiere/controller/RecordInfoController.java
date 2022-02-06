@@ -17,16 +17,17 @@
 package org.adempiere.controller;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 
 import org.compiere.model.DataStatusEvent;
 import org.compiere.model.GridField;
+import org.compiere.model.I_AD_ChangeLog;
 import org.compiere.model.MChangeLog;
 import org.compiere.model.MColumn;
 import org.compiere.model.MEntityType;
@@ -35,10 +36,10 @@ import org.compiere.model.MLookupFactory;
 import org.compiere.model.MRole;
 import org.compiere.model.MTable;
 import org.compiere.model.MUser;
+import org.compiere.model.Query;
 import org.compiere.model.X_AD_Reference;
 import org.compiere.model.X_AD_Val_Rule;
 import org.compiere.util.CLogger;
-import org.compiere.util.DB;
 import org.compiere.util.DisplayType;
 import org.compiere.util.Env;
 import org.compiere.util.Msg;
@@ -105,21 +106,21 @@ public class RecordInfoController {
 		//	Yamel Senih FR[ 146 ] Add support to change log in a specific column
 		//	2015-12-03
 		//	For Field
-		int m_Record_ID = 0;
-		int m_AD_Table_ID = 0;
-		int m_AD_Column_ID = 0;
+		int recordId = 0;
+		int tableId = 0;
+		int columnId = 0;
 		String UUID = null;
 		if(m_Field != null) {
 			//	Set Values
-			m_Record_ID = m_Field.getGridTab().getRecord_ID();
+			recordId = m_Field.getGridTab().getRecord_ID();
 			UUID = m_Field.getGridTab().getUUID();
-			m_AD_Table_ID = m_Field.getGridTab().getAD_Table_ID();
-			m_AD_Column_ID = m_Field.getAD_Column_ID();
+			tableId = m_Field.getGridTab().getAD_Table_ID();
+			columnId = m_Field.getAD_Column_ID();
 			//	
-			MColumn column = MColumn.get(Env.getCtx(), m_AD_Column_ID);
+			MColumn column = MColumn.get(Env.getCtx(), columnId);
 			X_AD_Reference reference = new X_AD_Reference(Env.getCtx(), m_Field.getDisplayType(), null);
 			DecimalFormat format = DisplayType.getNumberFormat(reference.getAD_Reference_ID());
-			MTable table = MTable.get(Env.getCtx(), m_AD_Table_ID);
+			MTable table = MTable.get(Env.getCtx(), tableId);
 			StringBuilder infoTable = new StringBuilder();
 			infoTable.append("SELECT * FROM ").append(table.getTableName()).append(" WHERE ");
 			//  Info
@@ -188,64 +189,38 @@ public class RecordInfoController {
 			//	Title
 			if (dse.AD_Table_ID != 0)
 			{
-				m_AD_Table_ID = dse.AD_Table_ID;
+				tableId = dse.AD_Table_ID;
 				MTable table1 = MTable.get (Env.getCtx(), dse.AD_Table_ID);
 				m_Title = title + " - " + table1.getName();
 			}
 			//	Set Record ID
 			if (dse.Record_ID instanceof Integer)
-				m_Record_ID = ((Integer)dse.Record_ID).intValue();
+				recordId = ((Integer)dse.Record_ID).intValue();
 			else
 				log.info("dynInit - Invalid Record_ID=" + dse.Record_ID);
 		}
 		//	Valid Record Identifier
-		if (m_Record_ID == 0)
+		if (recordId == 0)
 			return;
 
 		//	Only Client Preference can view Change Log
 		if (!MRole.PREFERENCETYPE_Client.equals(MRole.getDefault().getPreferenceType()))
 			return;
-		
-		//	Data
-		String sql = "SELECT AD_Column_ID, Updated, UpdatedBy, OldValue, NewValue "
-			+ "FROM AD_ChangeLog "
-			+ "WHERE AD_Table_ID=? AND Record_ID=? "
-			+ (m_AD_Column_ID != 0? "AND AD_Column_ID=? ": "")
-			+ "ORDER BY Updated DESC";
-		PreparedStatement pstmt = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, m_AD_Table_ID);
-			pstmt.setInt (2, m_Record_ID);
-			//	Add support to column
-			if(m_AD_Column_ID != 0)
-				pstmt.setInt (3, m_AD_Column_ID);
-			//	
-			ResultSet rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				addLine (rs.getInt(1), rs.getTimestamp(2), rs.getInt(3),
-					rs.getString(4), rs.getString(5));
-			}
-			rs.close ();
-			pstmt.close ();
-			pstmt = null;
+		List<Object> parameters = new ArrayList<Object>();
+		parameters.add(tableId);
+		parameters.add(recordId);
+		StringBuffer whereClause = new StringBuffer("AD_Table_ID = ? AND Record_ID = ?");
+		if(columnId != 0) {
+			whereClause.append(" AND AD_Column_ID = ?");
+			parameters.add(columnId);
 		}
-		catch (Exception e)
-		{
-			log.log(Level.SEVERE, sql, e);
-		}
-		try
-		{
-			if (pstmt != null)
-				pstmt.close ();
-			pstmt = null;
-		}
-		catch (Exception e)
-		{
-			pstmt = null;
-		}
+		new Query(Env.getCtx(), I_AD_ChangeLog.Table_Name, whereClause.toString(), null)
+		.setParameters(parameters)
+		.setOrderBy(I_AD_ChangeLog.COLUMNNAME_Updated + " DESC")
+		.<MChangeLog>list()
+		.forEach(changeLog -> {
+			addLine (changeLog.getAD_Column_ID(), changeLog.getUpdated(), changeLog.getUpdatedBy(), changeLog.getOldValue(), changeLog.getNewValue());
+		});
 		//	Set Loaded to Ok
 		m_IsLoaded = true;
 	}	//	dynInit
