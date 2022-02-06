@@ -3848,8 +3848,7 @@ public abstract class PO
 	 */
 	public String get_TrxName()
 	{
-		if(isCachedEntity()
-				&& m_trxName != null) {
+		if(isCachedEntity()) {
 			throw new AdempiereException("Transaction not allowed for cache objects PO: " + this);
 		}
 		return m_trxName;
