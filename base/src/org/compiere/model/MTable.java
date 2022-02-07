@@ -441,7 +441,7 @@ public class MTable extends X_AD_Table
 			return columns;
 		}
 		//	Default find
-		columns = new Query(getCtx(), I_AD_Column.Table_Name, "AD_Table_ID = ?", get_TrxName())
+		columns = new Query(getCtx(), I_AD_Column.Table_Name, "AD_Table_ID = ?", null)
 				.setParameters(getAD_Table_ID())
 				.setOrderBy(I_AD_Column.COLUMNNAME_ColumnName)
 				.list();
