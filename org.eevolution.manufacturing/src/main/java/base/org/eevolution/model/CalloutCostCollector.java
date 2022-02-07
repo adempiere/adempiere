@@ -19,7 +19,6 @@ package org.eevolution.model;
 import java.math.BigDecimal;
 import java.util.Properties;
 
-import org.adempiere.exceptions.FillMandatoryException;
 import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;

@@ -24,7 +24,6 @@ import java.util.Optional;
 import org.eevolution.model.MHRPaySelection;
 import org.eevolution.model.MHRPaySelectionCheck;
 import org.eevolution.model.MHRPaySelectionLine;
-import org.compiere.model.X_C_Order;
 
 
 /**

@@ -1,7 +1,6 @@
 package org.compiere.model;
 
 import java.math.BigDecimal;
-import java.util.Properties;
 
 /**
  * @version <li> SmartJSP: ReportTO.java, 2011/03/01 <ul TYPE ="circle">

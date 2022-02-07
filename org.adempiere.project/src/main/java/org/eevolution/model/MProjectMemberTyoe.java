@@ -1,7 +1,5 @@
 package org.eevolution.model;
 
-import org.eevolution.model.X_C_ProjectMemberType;
-
 import java.sql.ResultSet;
 import java.util.Properties;
 
