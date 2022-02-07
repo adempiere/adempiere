@@ -156,7 +156,6 @@ public class MSequence extends X_AD_Sequence
 
 					// Get the table
 					MTable table = MTable.get(Env.getCtx(), TableName);
-
 					int AD_Sequence_ID = rs.getInt(4);
 					boolean gotFromHTTP = false;
 
