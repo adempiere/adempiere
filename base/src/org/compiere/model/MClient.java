@@ -221,7 +221,7 @@ public class MClient extends X_AD_Client
 	public MClientInfo getInfo()
 	{
 		if (m_info == null)
-			m_info = MClientInfo.get (getCtx(), getAD_Client_ID(), get_TrxName());
+			m_info = MClientInfo.get (getCtx(), getAD_Client_ID());
 		return m_info;
 	}	//	getMClientInfo
 
@@ -458,7 +458,7 @@ public class MClient extends X_AD_Client
 	public MAcctSchema getAcctSchema()
 	{
 		if (m_info == null)
-			m_info = MClientInfo.get (getCtx(), getAD_Client_ID(), get_TrxName());
+			m_info = MClientInfo.get (getCtx(), getAD_Client_ID());
 		if (m_info != null)
 		{
 			int C_AcctSchema_ID = m_info.getC_AcctSchema1_ID();

@@ -33,7 +33,6 @@ import org.compiere.process.StateEngine;
 import org.compiere.util.DB;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
-import org.compiere.util.Trx;
 import org.compiere.wf.MWFActivity;
 import org.compiere.wf.MWFNode;
 import org.compiere.wf.MWFProcess;
@@ -85,10 +84,7 @@ public class WorkflowProcessor extends AdempiereServer
 		MWorkflowProcessorLog pLog = new MWorkflowProcessorLog(m_model, m_summary.toString());
 		pLog.setReference("#" + String.valueOf(p_runCount) 
 			+ " - " + TimeUtil.formatElapsed(new Timestamp(p_startWork)));
-		Trx.run(trxName -> {
-			pLog.set_TrxName(trxName);
-			pLog.saveEx();
-		});
+		pLog.saveEx();
 	}	//	doWork
 
 	/**

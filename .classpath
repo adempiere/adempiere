@@ -87,12 +87,7 @@
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/log4j.jar">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/mail.jar">
+	<classpathentry exported="true"  kind="lib" path="tools/lib/mail.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
@@ -288,146 +283,148 @@
 			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="tools/lib/mariadb-java-client.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/poi-3.17.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/poi-ooxml-3.17.jar"/>
-	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/commons-beanutils-1.9.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/commons-digester-2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/jfreechart-1.0.13.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/cglib.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/groovy-all-2.4.15.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/harness-1.0.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/icepdf-core-6.2.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/icepdf-viewer-6.2.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/io-7.1.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/itext-carriage-0.8.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/itextpdf-5.5.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/javax.inject-1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/kernel-7.1.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/lablib-checkboxtree-3.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/layout-7.1.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/logkit.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/pdfa-7.1.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/wizard.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/oracle.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/zxing-2.3.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/commons-validator-1.7.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/sardine-5.9-SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/fluent-hc-4.5.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/httpclient-4.5.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/httpclient-cache-4.5.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/httpclient-win-4.5.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/httpcore-4.4.10.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/httpmime-4.5.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jna-4.4.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jna-platform-4.4.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/commons-codec-1.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/aws-java-sdk-core-1.11.795.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/aws-java-sdk-kms-1.11.795.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/aws-java-sdk-s3-1.11.795.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit/apiguardian-api-1.1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit/byte-buddy-1.10.15.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit/byte-buddy-agent-1.10.15.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit/junit-jupiter-api-5.7.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit/junit-jupiter-engine-5.7.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit/junit-jupiter-migrationsupport-5.7.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit/junit-jupiter-params-5.7.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit/junit-platform-commons-1.7.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit/junit-platform-console-1.7.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit/junit-platform-console-standalone-1.7.0.jar" sourcepath="tools/lib/junit/junit-platform-launcher-1.7.0-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit/junit-platform-engine-1.7.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit/junit-platform-launcher-1.7.0.jar" sourcepath="tools/lib/junit/junit-platform-launcher-1.7.0-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit/junit-platform-runner-1.7.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit/junit-platform-suite-api-1.7.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit/junit-platform-testkit-1.7.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit/mockito-core-3.6.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit/mockito-junit-jupiter-3.6.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit/objenesis-3.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/junit/opentest4j-1.2.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/aggs-matrix-stats-client-7.9.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/commons-codec-1.11.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/commons-logging-1.1.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/compiler-0.9.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/elasticsearch-7.9.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/elasticsearch-cli-7.9.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/elasticsearch-core-7.9.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/elasticsearch-geo-7.9.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/elasticsearch-rest-client-7.9.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/elasticsearch-rest-high-level-client-7.9.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/elasticsearch-secure-sm-7.9.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/elasticsearch-x-content-7.9.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/HdrHistogram-2.1.9.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/hppc-0.8.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/httpasyncclient-4.1.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/httpclient-4.5.10.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/httpcore-4.4.12.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/httpcore-nio-4.4.12.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/jackson-core-2.10.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/jackson-dataformat-cbor-2.10.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/jackson-dataformat-smile-2.10.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/jackson-dataformat-yaml-2.10.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/jna-5.5.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/joda-time-2.10.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/jopt-simple-5.0.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/lang-mustache-client-7.9.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/log4j-api-2.11.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/lucene-analyzers-common-8.6.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/lucene-backward-codecs-8.6.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/lucene-core-8.6.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/lucene-grouping-8.6.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/lucene-highlighter-8.6.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/lucene-join-8.6.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/lucene-memory-8.6.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/lucene-misc-8.6.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/lucene-queries-8.6.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/lucene-queryparser-8.6.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/lucene-sandbox-8.6.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/lucene-spatial3d-8.6.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/lucene-spatial-extras-8.6.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/lucene-suggest-8.6.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/mapper-extras-client-7.9.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/parent-join-client-7.9.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/rank-eval-client-7.9.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/snakeyaml-1.26.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/storefront/t-digest-3.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-commons-net.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-launcher.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-antlr.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-bcel.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-bsf.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-log4j.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-oro.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-regexp.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-resolver.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-xalan2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-commons-logging.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-imageio.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-jai.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-javamail.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-jdepend.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-jmf.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-jsch.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-junit.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-junit4.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-junitlauncher.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-netrexx.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-swing.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-testutil.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-xz.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/javax.activation-1.2.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/javax.jms-api-2.0.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/javax.annotation-api-1.3.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/ejb-api-3.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/javax.servlet-api-4.0.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/commons-collections4-4.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/HikariCP-5.0.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/slf4j-api-1.7.32.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/slf4j-simple-1.7.32.jar"/>
-	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/jasperreports-6.17.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/jasperreports-fonts-6.17.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="JasperReportsTools/lib/iText-2.1.7.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jakarta.servlet.jsp-api-3.0.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="tools/lib/jakarta.servlet-api-5.0.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/mariadb-java-client.jar"/>
+	<classpathentry kind="lib" path="tools/lib/poi-3.17.jar"/>
+	<classpathentry kind="lib" path="tools/lib/poi-ooxml-3.17.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/commons-beanutils-1.9.3.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/commons-digester-2.1.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/jfreechart-1.0.13.jar"/>
+	<classpathentry kind="lib" path="tools/lib/cglib.jar"/>
+	<classpathentry kind="lib" path="tools/lib/groovy-all-2.4.15.jar"/>
+	<classpathentry kind="lib" path="tools/lib/harness-1.0.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/icepdf-core-6.2.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/icepdf-viewer-6.2.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/io-7.1.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/itext-carriage-0.8.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/itextpdf-5.5.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/javax.inject-1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/kernel-7.1.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/lablib-checkboxtree-3.3.jar"/>
+	<classpathentry kind="lib" path="tools/lib/layout-7.1.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/logkit.jar"/>
+	<classpathentry kind="lib" path="tools/lib/pdfa-7.1.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/wizard.jar"/>
+	<classpathentry kind="lib" path="tools/lib/oracle.jar"/>
+	<classpathentry kind="lib" path="tools/lib/zxing-2.3.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/commons-validator-1.7.jar"/>
+	<classpathentry kind="lib" path="tools/lib/sardine-5.9-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="tools/lib/fluent-hc-4.5.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/httpclient-4.5.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/httpclient-cache-4.5.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/httpclient-win-4.5.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/httpcore-4.4.10.jar"/>
+	<classpathentry kind="lib" path="tools/lib/httpmime-4.5.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jna-4.4.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jna-platform-4.4.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-core-1.11.795.jar"/>
+	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-kms-1.11.795.jar"/>
+	<classpathentry kind="lib" path="tools/lib/aws-java-sdk-s3-1.11.795.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/apiguardian-api-1.1.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/byte-buddy-1.10.15.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/byte-buddy-agent-1.10.15.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-jupiter-api-5.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-jupiter-engine-5.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-jupiter-migrationsupport-5.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-jupiter-params-5.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-platform-commons-1.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-platform-console-1.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-platform-console-standalone-1.7.0.jar" sourcepath="tools/lib/junit/junit-platform-launcher-1.7.0-sources.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-platform-engine-1.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-platform-launcher-1.7.0.jar" sourcepath="tools/lib/junit/junit-platform-launcher-1.7.0-sources.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-platform-runner-1.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-platform-suite-api-1.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/junit-platform-testkit-1.7.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/mockito-core-3.6.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/mockito-junit-jupiter-3.6.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/objenesis-3.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/junit/opentest4j-1.2.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/aggs-matrix-stats-client-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/commons-codec-1.11.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/commons-logging-1.1.3.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/compiler-0.9.6.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/elasticsearch-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/elasticsearch-cli-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/elasticsearch-core-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/elasticsearch-geo-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/elasticsearch-rest-client-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/elasticsearch-rest-high-level-client-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/elasticsearch-secure-sm-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/elasticsearch-x-content-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/HdrHistogram-2.1.9.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/hppc-0.8.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/httpasyncclient-4.1.4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/httpclient-4.5.10.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/httpcore-4.4.12.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/httpcore-nio-4.4.12.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/jackson-core-2.10.4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/jackson-dataformat-cbor-2.10.4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/jackson-dataformat-smile-2.10.4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/jackson-dataformat-yaml-2.10.4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/jna-5.5.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/joda-time-2.10.4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/jopt-simple-5.0.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lang-mustache-client-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-analyzers-common-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-backward-codecs-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-core-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-grouping-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-highlighter-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-join-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-memory-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-misc-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-queries-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-queryparser-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-sandbox-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-spatial3d-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-spatial-extras-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/lucene-suggest-8.6.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/mapper-extras-client-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/parent-join-client-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/rank-eval-client-7.9.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/snakeyaml-1.26.jar"/>
+	<classpathentry kind="lib" path="tools/lib/storefront/t-digest-3.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-commons-net.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-launcher.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-antlr.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-bcel.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-bsf.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-log4j.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-oro.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-regexp.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-resolver.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-apache-xalan2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-commons-logging.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-imageio.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-jai.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-javamail.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-jdepend.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-jmf.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-jsch.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-junit.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-junit4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-junitlauncher.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-netrexx.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-swing.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-testutil.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ant/apache-ant-1.10.10/lib/ant-xz.jar"/>
+	<classpathentry kind="lib" path="tools/lib/javax.activation-1.2.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/javax.jms-api-2.0.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/javax.annotation-api-1.3.2.jar"/>
+	<classpathentry kind="lib" path="tools/lib/ejb-api-3.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/javax.servlet-api-4.0.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/commons-collections4-4.4.jar"/>
+	<classpathentry kind="lib" path="tools/lib/slf4j-api-1.7.32.jar"/>
+	<classpathentry kind="lib" path="tools/lib/slf4j-simple-1.7.32.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-6.17.0.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/jasperreports-fonts-6.17.0.jar"/>
+	<classpathentry kind="lib" path="JasperReportsTools/lib/iText-2.1.7.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jakarta.servlet.jsp-api-3.0.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/jakarta.servlet-api-5.0.0.jar"/>
+	<classpathentry kind="lib" path="tools/lib/log4j-1.2-api-2.17.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/log4j-api-2.17.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/log4j-core-2.17.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/HikariCP-5.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

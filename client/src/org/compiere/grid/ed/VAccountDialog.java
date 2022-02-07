@@ -546,12 +546,14 @@ public final class VAccountDialog extends CDialog
 	{
 		log.fine("C_ValidCombination_ID=" + C_ValidCombination_ID);
 		String sql = "SELECT * FROM C_ValidCombination WHERE C_ValidCombination_ID=? AND C_AcctSchema_ID=?";
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql, null);
+			pstmt = DB.prepareStatement(sql, null);
 			pstmt.setInt(1, C_ValidCombination_ID);
 			pstmt.setInt(2, C_AcctSchema_ID);
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				if (f_Alias != null)
@@ -578,12 +580,13 @@ public final class VAccountDialog extends CDialog
 				//
 				f_Description.setText (rs.getString("Description"));
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql, e);
+		} finally {
+			DB.close(rs,pstmt);
+			rs = null; pstmt = null;
 		}
 	}	//	loadInfo
 
@@ -973,24 +976,27 @@ public final class VAccountDialog extends CDialog
 		log.fine("Check = " + sql.toString());
 		int IDvalue = 0;
 		String Alias = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try
 		{
-			PreparedStatement pstmt = DB.prepareStatement(sql.toString(), null);
+			pstmt = DB.prepareStatement(sql.toString(), null);
 			pstmt.setInt(1, m_AD_Client_ID);
 			pstmt.setInt(2, s_AcctSchema.getC_AcctSchema_ID());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			if (rs.next())
 			{
 				IDvalue = rs.getInt(1);
 				Alias = rs.getString(2);
 			}
-			rs.close();
-			pstmt.close();
 		}
 		catch (SQLException e)
 		{
 			log.log(Level.SEVERE, sql.toString(), e);
 			IDvalue = 0;
+		} finally {
+			DB.close(rs, pstmt);
+			rs = null; pstmt = null;
 		}
 		log.fine("ID=" + IDvalue + ", Alias=" + Alias);
 
@@ -1008,16 +1014,19 @@ public final class VAccountDialog extends CDialog
 				sql.append("'").append(f_Alias.getValue()).append("'");
 			sql.append(" WHERE C_ValidCombination_ID=").append(IDvalue);
 			int i = 0;
+			java.sql.PreparedStatement stmt = null;
 			try
 			{
-				java.sql.PreparedStatement stmt = DB.prepareStatement(sql.toString(), 
+				stmt = DB.prepareStatement(sql.toString(),
 						ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_UPDATABLE, null);
 				i = stmt.executeUpdate();
-				stmt.close();
 			}
 			catch (SQLException e)
 			{
 				log.log(Level.SEVERE, sql.toString(), e);
+			} finally {
+				DB.close(stmt);
+				stmt = null;
 			}
 			if (i == 0)
 				ADialog.error(m_WindowNo, this, "AccountNotUpdated");
