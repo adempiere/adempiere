@@ -264,7 +264,7 @@ public class MProcess extends X_AD_Process
 				&& optionalWhereClause.trim().length() > 0)
 			whereClause.append(" AND ").append(optionalWhereClause);
 		//	
-		List<MProcessPara> list = new Query(getCtx(), I_AD_Process_Para.Table_Name, whereClause.toString(), get_TrxName())
+		List<MProcessPara> list = new Query(getCtx(), I_AD_Process_Para.Table_Name, whereClause.toString(), null)
 			.setParameters(get_ID())
 			.setOnlyActiveRecords(true)
 			.setOrderBy(MProcessPara.COLUMNNAME_SeqNo)
