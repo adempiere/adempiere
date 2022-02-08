@@ -925,7 +925,7 @@ public final class MRole extends X_AD_Role
 			whereClause = "(AD_Role_ID=? OR AD_User_ID = " + m_AD_User_ID + ")";
 		}
 		//	Add standard access
-		new Query(getCtx(), I_AD_Record_Access.Table_Name, whereClause, get_TrxName())
+		new Query(getCtx(), I_AD_Record_Access.Table_Name, whereClause, null)
 			.setParameters(getAD_Role_ID())
 			.setOnlyActiveRecords(true)
 			.setOrderBy(I_AD_Record_Access.COLUMNNAME_AD_Table_ID)
