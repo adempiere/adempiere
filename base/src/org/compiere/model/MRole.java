@@ -844,7 +844,7 @@ public final class MRole extends X_AD_Role
 			+ "FROM AD_Table WHERE IsActive='Y'";
 		try
 		{
-			pstmt = DB.prepareStatement(sql, get_TrxName());
+			pstmt = DB.prepareStatement(sql, null);
 			rs = pstmt.executeQuery();
 			while (rs.next())
 			{
