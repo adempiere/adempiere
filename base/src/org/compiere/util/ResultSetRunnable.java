@@ -10,6 +10,11 @@ import java.sql.SQLException;
  * 		@see https://github.com/adempiere/adempiere/issues/3725
  */
 @FunctionalInterface
-public interface ResultSetRunnable {
+public interface ResultSetRunnable<ResultSet> {
+
+    default void apply (ResultSet resultSet) throws SQLException {
+        run(resultSet);
+    }
+
     void run(ResultSet resultSet) throws SQLException;
 }

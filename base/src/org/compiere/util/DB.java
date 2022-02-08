@@ -16,6 +16,29 @@
  *****************************************************************************/
 package org.compiere.util;
 
+import io.vavr.Function4;
+import io.vavr.control.Try;
+import org.adempiere.exceptions.DBException;
+import org.adempiere.util.Check;
+import org.compiere.Adempiere;
+import org.compiere.db.AdempiereDatabase;
+import org.compiere.db.CConnection;
+import org.compiere.db.Database;
+import org.compiere.db.ProxyFactory;
+import org.compiere.model.MAcctSchema;
+import org.compiere.model.MLanguage;
+import org.compiere.model.MRole;
+import org.compiere.model.MSequence;
+import org.compiere.model.MSysConfig;
+import org.compiere.model.MSystem;
+import org.compiere.model.MTable;
+import org.compiere.model.PO;
+import org.compiere.model.POResultSet;
+import org.compiere.process.SequenceCheck;
+
+import javax.sql.RowSet;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -36,32 +59,11 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.UUID;
-import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
-
-import javax.sql.RowSet;
-import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-
-import org.adempiere.exceptions.DBException;
-import org.adempiere.util.Check;
-import org.compiere.Adempiere;
-import org.compiere.db.AdempiereDatabase;
-import org.compiere.db.CConnection;
-import org.compiere.db.Database;
-import org.compiere.db.ProxyFactory;
-import org.compiere.model.MAcctSchema;
-import org.compiere.model.MLanguage;
-import org.compiere.model.MRole;
-import org.compiere.model.MSequence;
-import org.compiere.model.MSysConfig;
-import org.compiere.model.MSystem;
-import org.compiere.model.MTable;
-import org.compiere.model.PO;
-import org.compiere.model.POResultSet;
-import org.compiere.process.SequenceCheck;
 
 
 /**
@@ -2602,37 +2604,22 @@ public final class DB
     }
 
 	/**
-	 * Execute ResultSet without worrying about handling closure of database objects
-	 * @param trxName Database transaction
-	 * @param query Query to run in the PreparedStatement
-	 * @param resultSetRunnable Execution of the ResultSet
-	 * @throws SQLException Handles the correct closing of persistence objects, not the thrown exception
+	 * Execute ResultSet from a function
+	 * Parameters Type <String sql , List<Object> parameters , String trxName , ResultSetRunnable<ResultSet> callback>
+	 * Use apply method to set of parameters
 	 */
-    public static void runResultSet(String trxName, String query, ResultSetRunnable resultSetRunnable) throws SQLException {
-    	runResultSet(trxName, query, null, resultSetRunnable);
-	}
-
-	/**
-	 * Execute ResultSet without worrying about handling closure of database objects
-	 * @param trxName Database transaction
-	 * @param query Query to run in the PreparedStatement
-	 * @param parameters Parameters of the query
-	 * @param resultSetRunnable Execution of the ResultSet
-	 * @throws SQLException Handles the correct closing of persistence objects, not the thrown exception
-	 */
-    public static void runResultSet(String trxName, String query, ResultSetRunnable resultSetRunnable, Object... parameters) throws SQLException {
-    	if (resultSetRunnable != null) {
-			CPreparedStatement preparedStatement = null;
-			ResultSet resultSet = null;
-			try {
-				preparedStatement = prepareStatement(query, trxName);
-				DB.setParameters(preparedStatement, parameters);
-				resultSet = preparedStatement.executeQuery();
-				resultSetRunnable.run(resultSet);
-			} finally {
-				close(resultSet, preparedStatement);
-			}
-		}
-	}
-
+	static Function4<String , String, List<Object>, ResultSetRunnable<ResultSet>, Try<Void>> runResultSetFunction = (trxName , sql, parameters, callback) -> {
+		AtomicReference<CPreparedStatement> preparedStatementReference = new AtomicReference<>();
+		AtomicReference<ResultSet> resultSetReference = new AtomicReference<>();
+		return Try.run(() -> {
+			CPreparedStatement prepareStatement = prepareStatement(sql, trxName);
+			DB.setParameters(prepareStatement, parameters);
+			preparedStatementReference.set(prepareStatement);
+			ResultSet resultSet = preparedStatementReference.get().executeQuery();
+			callback.run(resultSet);
+			resultSetReference.set(resultSet);
+		}).andFinally(() -> {
+			DB.close(resultSetReference.get(), preparedStatementReference.get());
+		});
+	};
 }	//	DB

@@ -421,6 +421,9 @@
 			<zipfileset src="lib/fluent-hc-4.5.6.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
+			<zipfileset src="lib/vavr-1.0.0-alpha-4.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
 			<manifest>
 				<attribute name="Specification-Title" value="Adempiere Server Tools" />
 				<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}" />
@@ -614,15 +617,6 @@
 			<zipfileset src="../tools/lib/zxing-2.3.0.jar">
 				<patternset refid="manifest.exclude"/>
 			</zipfileset>
-			<manifest>
-				<attribute name="Specification-Title" value="Adempiere Client Tools" />
-				<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}" />
-				<attribute name="Specification-Vendor" value="Adempiere, Inc." />
-				<attribute name="Implementation-Title" value="CCTools ${env.ADEMPIERE_VERSION}" />
-				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
-				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
-				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
-			</manifest>
 			<!-- Commons -->
 			<zipfileset src="lib/commons-collections4-4.4.jar">
 				<patternset refid="manifest.exclude" />
@@ -639,6 +633,18 @@
 			<zipfileset src="lib/xmlbeans-2.6.0.jar">
 				<patternset refid="manifest.exclude" />
 			</zipfileset>
+			<zipfileset src="lib/vavr-1.0.0-alpha-4.jar">
+				<patternset refid="manifest.exclude" />
+			</zipfileset>
+			<manifest>
+				<attribute name="Specification-Title" value="Adempiere Client Tools" />
+				<attribute name="Specification-Version" value="${env.ADEMPIERE_VERSION}" />
+				<attribute name="Specification-Vendor" value="Adempiere, Inc." />
+				<attribute name="Implementation-Title" value="CCTools ${env.ADEMPIERE_VERSION}" />
+				<attribute name="Implementation-Version" value="${env.ADEMPIERE_VERSION} ${DSTAMP}-${TSTAMP}" />
+				<attribute name="Implementation-Vendor" value="${env.ADEMPIERE_VENDOR}" />
+				<attribute name="Implementation-URL" value="http://www.adempiere.net" />
+			</manifest>
 		</jar>
 
 	</target>
