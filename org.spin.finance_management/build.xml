@@ -48,7 +48,8 @@
 		description="compile the source ">
 		<!-- Compile the java code from ${src} into ${build} -->
 		<javac encoding="UTF-8" srcdir="${src}" sourcepath="${base}"
-			destdir="${build}">
+				destdir="${build}"
+				includeantruntime="false">
 			<classpath refid="lib.class.path" />
 		</javac>
 

@@ -47,7 +47,7 @@
   <target name="compile" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac encoding="UTF-8"  srcdir="${src}" sourcepath="${base}:${ADempiereHR}:${controller}" destdir="${build}">
+    <javac encoding="UTF-8" srcdir="${src}" sourcepath="${base}:${ADempiereHR}:${controller}" destdir="${build}" includeantruntime="false">
       <classpath refid="lib.class.path"/>
     </javac>
 
