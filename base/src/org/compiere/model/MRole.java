@@ -1498,7 +1498,7 @@ public final class MRole extends X_AD_Role
 			ResultSet rs = null;
 			try
 			{
-				pstmt = DB.prepareStatement(sql, get_TrxName());
+				pstmt = DB.prepareStatement(sql, null);
 				pstmt.setInt(1, getAD_Role_ID());
 				rs = pstmt.executeQuery();
 				while (rs.next())
