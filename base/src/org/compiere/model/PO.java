@@ -125,6 +125,24 @@ public abstract class PO
 	private static final String USE_TIMEOUT_FOR_UPDATE = "org.adempiere.po.useTimeoutForUpdate";
 
 	private static final int QUERY_TIME_OUT = 10;
+	private boolean isCachedEntity = false;
+	
+	
+	/**
+	 * Validate if this PO is managed from cache
+	 * @return
+	 */
+	public final boolean isCachedEntity() {
+		return isCachedEntity;
+	}
+
+	/**
+	 * Set value for cache flag
+	 * @param isCachedEntity
+	 */
+	public final void setIsCachedEntity(boolean isCachedEntity) {
+		this.isCachedEntity = isCachedEntity;
+	}
 
 	/**
 	 * get instance based on table id , record id and trxName
@@ -3826,6 +3844,9 @@ public abstract class PO
 	 */
 	public String get_TrxName()
 	{
+		if(isCachedEntity()) {
+			return null;
+		}
 		return m_trxName;
 	}	//	getTrx
 
