@@ -16,15 +16,8 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-
+import io.vavr.control.Try;
 import org.adempiere.exceptions.DBException;
 import org.adempiere.test.CommonGWSetup;
 import org.compiere.model.MTable;
@@ -32,6 +25,14 @@ import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
+
+import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Test {@link org.compiere.util.DB} class
@@ -293,6 +294,48 @@ class IT_DB extends CommonGWSetup {
         KeyNamePair[] arr = DB.getKeyNamePairs(sql, withOptional, params);
         assertNames(arr, withOptional);
 
+    }
+
+    @Test
+    void test_getResultSetListParamWithFunctionThrowsException() {
+        Trx.run(trxName -> {
+                    String sql = "SELECT DocumentNo FROM C_InvoiceNotExist WHERE C_Invoice_ID=? AND DocStatus=?";
+                    List<Object> params = new ArrayList<Object>();
+                    params.add(100);
+                    params.add("CO");
+                    Try<Void> result = DB.runResultSetFunction.apply(trxName , sql, params, rows -> {
+                        while (rows.next()) {
+                            String documentNo = rows.getString("documentNo");
+                            assertEquals("200000", documentNo);
+                        }
+                    });
+                    assertThrows(SQLException.class , () -> {
+                        throw result.getCause();
+                    });
+
+                }
+        );
+    }
+
+    @Test
+    void test_getResultSetListParamWithFunction() {
+        Trx.run(trxName -> {
+                    String sql = "SELECT DocumentNo FROM C_Invoice WHERE C_Invoice_ID=? AND DocStatus=?";
+                    ArrayList<Object> params = new ArrayList<Object>();
+                    params.add(100);
+                    params.add("CO");
+                    Try<Void> result = DB.runResultSetFunction.apply(trxName, sql, params, rows -> {
+                        while (rows.next()) {
+                            String documentNo = rows.getString("documentNo");
+                            assertEquals("200000", documentNo);
+                        }
+                    });
+
+                    result.onFailure(exception -> {
+                        assertEquals("200000", exception.getMessage());
+                    });
+                }
+        );
     }
 
     private void assertValues(ValueNamePair[] arr, boolean withOptional) {
