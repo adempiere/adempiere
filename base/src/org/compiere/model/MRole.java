@@ -2926,7 +2926,7 @@ public final class MRole extends X_AD_Role
 		}
 		//
 		final String whereClause = X_AD_Role_Included.COLUMNNAME_AD_Role_ID+"=?";
-		List<X_AD_Role_Included> list = new Query(getCtx(), X_AD_Role_Included.Table_Name, whereClause, get_TrxName())
+		List<X_AD_Role_Included> list = new Query(getCtx(), X_AD_Role_Included.Table_Name, whereClause, null)
 		.setParameters(new Object[]{getAD_Role_ID()})
 		.setOnlyActiveRecords(true)
 		.setOrderBy(
@@ -2967,7 +2967,7 @@ public final class MRole extends X_AD_Role
 		+" AND (us.ValidFrom IS NULL OR us.ValidFrom <= getdate())"
 		+" AND (us.ValidTo IS NULL OR us.ValidTo >= getdate())"
 		+" AND us.Substitute_ID=?)";
-		List<MRole> list = new Query(getCtx(), Table_Name, whereClause, get_TrxName())
+		List<MRole> list = new Query(getCtx(), Table_Name, whereClause, null)
 		.setParameters(new Object[]{AD_User_ID})
 		.setClient_ID()
 		.setOrderBy(COLUMNNAME_AD_Role_ID)
