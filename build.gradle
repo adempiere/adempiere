@@ -34,9 +34,58 @@ dependencies {
 
     implementation fileTree(dir: 'lib', include: '*.jar')
     implementation fileTree(dir: 'tools/lib/', include: '*.jar')
-    implementation fileTree(dir: 'tools/lib/ant/apache-ant-1.10.10/lib', include: '*.jar')
+    /*implementation fileTree(dir: 'tools/lib/ant/apache-ant-1.10.10/lib', include: '*.jar')*/
+    implementation group: 'org.apache.ant', name: 'ant', version: '1.10.7'
+
     implementation fileTree(dir: 'zkwebui/WEB-INF/lib', include: '*.jar')
-    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: '*.jar')
+
+
+    /*implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: '*.jar')*/
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'xbean.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'xfire-all-1.2.6.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'XmlSchema-1.0.3.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'qdox-1.5.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'logkit-1.0.1.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'stax-api-1.0.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'jcommon-1.0.0.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'junit-3.8.1.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'xercesImpl-2.4.0.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'plexus-container-default-1.0-alpha-8.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'spring-1.2.6.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'jdtcore-3.1.0.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'dom4j-1.6.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'plexus-utils-1.0.0.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'plexus-utils-1.0.4.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'wsdl4j-1.5.2.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'commons-digester-1.7.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'activation-1.1.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'stax-1.1.2-dev.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'wstx-asl-2.9.3.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'commons-codec-1.3.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'xml-apis-1.3.02.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'jdom-1.0.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'jsr173_1.0_api.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'stax-utils-20040917.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'xmlbeans-2.4.0-sources.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'xml-resolver-1.1.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'generated_xmlbeans.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'jaxen-1.1-beta-9.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'avalon-framework-4.1.3.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'generated_xmlbeans-sources.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'jboss-1.0.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'xfire-all-1.2.6-sources.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'classworlds-1.1-alpha-2.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'xmlParserAPIs-2.6.2.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'commons-attributes-api-2.1.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'commons-httpclient-3.0.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'commons-beanutils-1.6.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'xbean-spring-2.8.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'wagon-provider-api-1.0-alpha-5.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: 'commons-logging-1.0.4.jar')
+
+
+
+
     implementation fileTree(dir: 'tools/lib/storefront', include: '*.jar')
     implementation fileTree(dir: 'glassfishfacet/lib', include: '*.jar')
     implementation fileTree(dir: 'JasperReportsTools/lib', include: '*.jar')
@@ -113,7 +162,7 @@ compileJava {
 
 application {
     mainClass = 'org.compiere.Adempiere'
-    applicationDefaultJvmArgs = ["-DPropertyFile=AD_trunk.properties"]
+    applicationDefaultJvmArgs = ["-DPropertyFile=../../../AdempiereProperties/AD_trunk.properties"]
 }
 
 test {
