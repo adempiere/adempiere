@@ -1,0 +1,104 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group 'org.adempiere'
+version '3.9.3'
+
+repositories {
+    mavenCentral()
+
+}
+
+sourceCompatibility = 11
+targetCompatibility = 11
+
+dependencies {
+
+    implementation fileTree(dir: 'lib', include: '*.jar')
+    implementation fileTree(dir: 'tools/lib/', include: '*.jar')
+    implementation fileTree(dir: 'tools/lib/ant/apache-ant-1.10.10/lib', include: '*.jar')
+    implementation fileTree(dir: 'zkwebui/WEB-INF/lib', include: '*.jar')
+    implementation fileTree(dir: 'org.adempiere.webservice/WEB-INF/lib', include: '*.jar')
+    implementation fileTree(dir: 'tools/lib/storefront', include: '*.jar')
+    implementation fileTree(dir: 'glassfishfacet/lib', include: '*.jar')
+    implementation fileTree(dir: 'JasperReportsTools/lib', include: '*.jar')
+
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+sourceSets {
+    main.java.srcDirs += "base/src"
+    main.java.srcDirs += "glassfishfacet/src"
+    main.java.srcDirs += "client/src"
+    main.java.srcDirs += "sqlj/src"
+    main.java.srcDirs += "install/src"
+    main.java.srcDirs += "extend/src"
+    main.java.srcDirs += "serverRoot/src/main/ejb"
+    main.java.srcDirs += "serverRoot/src/main/server"
+    main.java.srcDirs += "serverRoot/src/main/servlet"
+    main.java.srcDirs += "interfaces/src"
+    main.java.srcDirs += "serverApps/src/main/servlet"
+    main.java.srcDirs += "zkwebui/WEB-INF/src"
+    main.java.srcDirs += "JasperReports/src"
+    main.java.srcDirs += "JasperReportsWebApp/src"
+    main.java.srcDirs += "tools/src"
+    main.java.srcDirs += "webCM/src/main/servlet"
+    main.java.srcDirs += "migration/src"
+    main.java.srcDirs += "posterita/posterita/src/main"
+    main.java.srcDirs += "org.eevolution.cashflow/src/main/java"
+    main.java.srcDirs += "org.eevolution.hr_and_payroll/src/main/java/base"
+    main.java.srcDirs += "org.eevolution.hr_and_payroll/src/main/java/ui/swing"
+    main.java.srcDirs += "org.eevolution.hr_and_payroll/src/main/java/ui/zk"
+    main.java.srcDirs += "org.eevolution.manufacturing/src/main/java/base"
+    main.java.srcDirs += "org.eevolution.manufacturing/src/main/java/ui/swing"
+    main.java.srcDirs += "org.eevolution.manufacturing/src/main/java/ui/zk"
+    main.java.srcDirs += "org.eevolution.warehouse/src/main/java/base"
+    main.java.srcDirs += "org.adempiere.asset/src/main/java/base"
+    main.java.srcDirs += "org.adempiere.webservice/WEB-INF/src"
+    main.java.srcDirs += "com.kkalice.adempiere.migrate/src"
+    main.java.srcDirs += "org.eevolution.warehouse/src/main/java/ui/zk"
+    main.java.srcDirs += "org.adempiere.production/src/main/java/base"
+    main.java.srcDirs += "org.eevolution.fleet /src/main/java/main"
+    main.java.srcDirs += "org.eevolution.fleet/src/main/java/base"
+    main.java.srcDirs += "org.eevolution.fleet/src/main/java/ui/zk"
+    main.java.srcDirs += "org.adempiere.pos/src/main/java/base"
+    main.java.srcDirs += "org.adempiere.pos/src/main/java/ui/swing"
+    main.java.srcDirs += "org.adempiere.pos/src/main/java/ui/zk"
+    main.java.srcDirs += "org.adempiere.request/main/java"
+    main.java.srcDirs += "org.adempiere.project/main/java"
+    main.java.srcDirs += "org.adempiere.request/src/main/java"
+    main.java.srcDirs += "org.adempiere.project/src/main/java"
+    main.java.srcDirs += "org.adempiere.crm/src/main/java"
+    main.java.srcDirs += "org.spin.hr_tna/src/main/java/base"
+    main.java.srcDirs += "org.mx.cdhcm/src/main/java"
+    main.java.srcDirs += "org.eevolution.freight/src/main/java/base"
+    main.java.srcDirs += "org.spin.loan_and_investment_management/src/main/java/base"
+    main.java.srcDirs += "org.spin.loan_management/src/main/java/base"
+    main.java.srcDirs += "org.spin.hr_time _and_attendance/src/main/java/base"
+    main.java.srcDirs += "org.spin.loan_management/src/main/java/ui/swing"
+    main.java.srcDirs += "org.spin.loan_management/src/main/java/ui/zk"
+    main.java.srcDirs += "org.spin.finance_management/src/main/java/base"
+    main.java.srcDirs += "org.compiere.mobile/WEB-INF/src"
+    main.java.srcDirs += "org.spin.store/src/main/java"
+
+    main.resources.srcDirs += "client/src"
+    main.resources.srcDirs += "client/build"
+    main.resources.srcDirs += "target/webapp/WEB-INF/classes"
+}
+
+compileJava {
+    options.compilerArgs  += [ "--add-exports", "java.naming/com.sun.jndi.ldap=ALL-UNNAMED"]
+}
+
+application {
+    mainClass = 'org.compiere.Adempiere'
+    applicationDefaultJvmArgs = ["-DPropertyFile=AD_trunk.properties"]
+}
+
+test {
+    useJUnitPlatform()
+}
