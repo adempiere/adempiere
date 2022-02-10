@@ -101,6 +101,7 @@ sourceSets {
     main.java.srcDirs += "org.compiere.mobile/WEB-INF/src"
     main.java.srcDirs += "org.spin.store/src/main/java"
 
+    main.resources.srcDirs += "base/src"
     main.resources.srcDirs += "client/src"
     main.resources.srcDirs += "client/build"
     main.resources.srcDirs += "target/webapp/WEB-INF/classes"
