@@ -150,7 +150,7 @@ dependencies {
     implementation group: 'io.vavr', name: 'vavr', version: '1.0.0-alpha-4'
     implementation group: 'org.apache.httpcomponents', name: 'httpclient-win', version: '4.5.6'
     implementation fileTree(dir: 'tools/lib/mail.jar')
-    implementation group: 'org.jfree', name: 'jcommon-osgi', version: '1.0.18'
+    implementation fileTree(dir: 'tools/lib/jcommon-1.0.18.jar')
     implementation fileTree(dir: 'tools/lib/icepdf-viewer-6.2.2.jar')
     implementation fileTree(dir: 'tools/lib/groovy-engine.jar')
     implementation fileTree(dir: 'tools/lib/commons-validator-1.7.jar')
