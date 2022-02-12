@@ -2604,7 +2604,7 @@ public final class DB
 	 * Parameters Type <String sql , List<Object> parameters , String trxName , ResultSetRunnable<ResultSet> callback>
 	 * Use apply method to set of parameters
 	 */
-	static Function4<String , String, List<Object>, ResultSetRunnable<ResultSet>, Try<Void>> runResultSetFunction = (trxName , sql, parameters, callback) -> {
+	public static Function4<String , String, List<Object>, ResultSetRunnable<ResultSet>, Try<Void>> runResultSetFunction = (trxName , sql, parameters, callback) -> {
 		AtomicReference<CPreparedStatement> preparedStatementReference = new AtomicReference<>();
 		AtomicReference<ResultSet> resultSetReference = new AtomicReference<>();
 		return Try.run(() -> {
