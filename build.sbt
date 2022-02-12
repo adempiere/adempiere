@@ -19,10 +19,10 @@ name := "org.adempiere.server"
 lazy val commonSettings = Seq(
   organization := "org.adempiere.net",
   version := "3.9.4-SNAPSHOT",
-  scalaVersion := "3.0.2"
+  scalaVersion := "3.1.1"
 )
 
-scalaVersion := "3.0.2"
+scalaVersion := "3.1.1"
 resolvers += "Artima Maven Repository" at "https://repo.artima.com/releases"
 
 fork := true
@@ -44,9 +44,9 @@ libraryDependencies ++= Seq(
   //"org.scala-lang" % "scala-reflect" % "3.0.0"
 )
 
-libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.9"
-libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % Test
-libraryDependencies += "org.scalatest" %% "scalatest-featurespec" % "3.2.9" % Test
+libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.10"
+libraryDependencies += "org.scalatest" %% "scalatest-core" % "3.2.10" % Test
+libraryDependencies += "org.scalatest" %% "scalatest-featurespec" % "3.2.10" % Test
 Test / logBuffered := false
 
 assembly / assemblyJarName := "AdempiereTestSuite.jar"
@@ -64,8 +64,8 @@ Compile / javaSource := baseDirectory.value / "serverRoot" / "src" / "main" / "s
 **/
 //Test / javaSource := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "java"
 
-//Compile / scalaSource := baseDirectory.value / sourceDirectoryTest / "src" / "main" / "scala"
-//Test scalaSource := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "scala"
+Compile / scalaSource := baseDirectory.value / sourceDirectoryTest / "src" / "main" / "scala"
+Test / scalaSource := baseDirectory.value / sourceDirectoryTest / "src" / "test" / "scala"
 
 Compile / javaSource := baseDirectory.value / "org.eevolution.warehouse" / "src" / "main" / "java" / "ui" / "zk"
 
@@ -191,7 +191,7 @@ webappPostProcess := {
     )
     IO.copyDirectory(baseDirectory.value / "lib", webappDir / "WEB-INF" / "lib")
     IO.copyDirectory(
-      baseDirectory.value / "tools/lib/HikariCP-5.0.0.jar",
+      baseDirectory.value / "tools/lib/HikariCP-5.0.1.jar",
       webappDir / "WEB-INF" / "lib"
     )
 

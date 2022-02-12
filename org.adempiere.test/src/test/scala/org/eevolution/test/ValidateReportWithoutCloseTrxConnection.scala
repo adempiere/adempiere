@@ -16,10 +16,11 @@
 
 package org.eevolution.test
 
-import org.compiere.model._
+import org.compiere.model.*
 import org.compiere.util.Trx
 import org.eevolution.services.ProductService
-import org.scalatest.{FeatureSpec, GivenWhenThen}
+import org.scalatest.featurespec.AnyFeatureSpec
+import org.scalatest.GivenWhenThen
 
 import scala.util.{Failure, Success, Try}
 
@@ -27,16 +28,16 @@ import scala.util.{Failure, Success, Try}
   *
   * eEvolution author Victor Perez <victor.perez@e-evolution.com>, Created by e-Evolution on 24/02/16.
   */
-class ValidateReportWithoutCloseTrxConnection extends FeatureSpec with AdempiereTestCase with GivenWhenThen with ProductService {
-  feature("Create a sales ticket and generate the sales order PDF form") {
+class ValidateReportWithoutCloseTrxConnection extends AnyFeatureSpec with AdempiereTestCase with GivenWhenThen with ProductService {
+  Feature("Create a sales ticket and generate the sales order PDF form") {
     info("The customer Joe Block buy two Oak Trees and one Azalea Bush")
     info("A PDF ticket is generated and validate that transaction continue active")
 
-    scenario("Create sales order") {
+    Scenario("Create sales order") {
       //Functions for this scenario
       val JoeBlock = {MBPartner.get(Context, "JoeBlock")}
       val SalePriceList = {MPriceList.getDefault(Context, true)}
-      import X_C_DocType._
+      import X_C_DocType.*
       val AsStandardOrder = {DOCSUBTYPESO_StandardOrder}
       val HQ = {Organization}
       val HQWarehouse = {Warehouse}
@@ -51,12 +52,20 @@ class ValidateReportWithoutCloseTrxConnection extends FeatureSpec with Adempiere
       Given(s"Joe Block buy one Oak Trees with $OakPrice USD by unit and two Azalea Bush with $AzaleaPrice USD by unit")
       When("when sales order is created ")
       import org.eevolution.dsl.builder.OrderBuilder
-      val order = OrderBuilder(Context, trxName) AddLine(Oak, QtyOak) AddLine(Azalea, QtyAzalea) withOrganization HQ withPartner JoeBlock withWarehouse HQWarehouse withPriceList SalePriceList withBaseDocumentType DOCBASETYPE_SalesOrder withSubType AsStandardOrder build()
+      val order = OrderBuilder(Context, trxName)
+        .AddLine(Oak, QtyOak)
+        .AddLine(Azalea, QtyAzalea)
+        .withOrganization(HQ)
+        .withPartner(JoeBlock)
+        .withWarehouse(HQWarehouse)
+        .withPriceList(SalePriceList)
+        .withBaseDocumentType(DOCBASETYPE_SalesOrder)
+        .withSubType(AsStandardOrder).build()
       Then("the order have a organization")
       assert(order.getAD_Org_ID == HQ.getAD_Org_ID)
       info(Organization.getName)
       And("the Document No have the value ")
-      assert(order.getDocumentNo.length > 0)
+      assert(order.getDocumentNo.nonEmpty)
       info(order.getDocumentNo)
       And("the order have a partner ")
       assert(order.getC_BPartner == JoeBlock)
@@ -73,7 +82,7 @@ class ValidateReportWithoutCloseTrxConnection extends FeatureSpec with Adempiere
       info("--------------------------------------------------------")
       And(s"the total Sales Order is that $TotalSales")
       assert(TotalSales.toDouble == order.getGrandTotal.doubleValue())
-      import org.eevolution.service.dsl._
+      import org.eevolution.service.dsl.*
 
       val processInfo = ProcessBuilder.create(Context)
         .process("Rpt C_Order")
@@ -87,7 +96,9 @@ class ValidateReportWithoutCloseTrxConnection extends FeatureSpec with Adempiere
       And("the process return PDF file for Sales Order")
       assert(processInfo.getPDFReport != null)
       info("The file was generate in this path : " + processInfo.getPDFReport.getAbsolutePath)
-      And("the orignal transaction continue active")
+      And {
+        "the orignal transaction continue active"
+      }
       val trx = Trx.get(trxName, false)
       assert(trx.isActive)
     }
