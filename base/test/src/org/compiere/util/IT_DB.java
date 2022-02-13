@@ -46,7 +46,7 @@ class IT_DB extends CommonGWSetup {
     void getSQLValueEx_ifNotExistantTable_throwsException() {
 
         assertThrows(DBException.class, () -> {
-            DB.getSQLValueEx(null, "SELECT 10 FROM INEXISTENT_TABLE");
+            DB.getSQLValueEx(null, "SELECT 10 FROM NON-EXISTENT-TABLE");
         });
 
     }
