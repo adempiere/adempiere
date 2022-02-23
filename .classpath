@@ -426,5 +426,6 @@
 	<classpathentry kind="lib" path="tools/lib/log4j-api-2.17.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/log4j-core-2.17.1.jar"/>
 	<classpathentry kind="lib" path="tools/lib/HikariCP-5.0.1.jar"/>
+	<classpathentry kind="lib" path="tools/lib/vavr-1.0.0-alpha-4.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
