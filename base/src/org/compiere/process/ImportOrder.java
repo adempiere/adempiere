@@ -247,7 +247,7 @@ public class ImportOrder extends ImportOrderAbstract {
                                     if (firstImportOrderId > 0 && importOrderId == firstImportOrderId)
                                         updateOrder(order, importOrder);
                                     //	New OrderLine
-                                    Try.of(() -> createOrderLine(importOrder, order)) //createOrderLine(importOrder, order, lineNoReference))
+                                    Try.of(() -> createOrderLine(importOrder, order))
                                             .onSuccess(orderLine -> {
                                                 importOrder.setC_Order_ID(order.getC_Order_ID());
                                                 importOrder.setC_Tax_ID(orderLine.getC_Tax_ID());
@@ -384,7 +384,6 @@ public class ImportOrder extends ImportOrderAbstract {
             String trxName
     ) {
         MOrder order = new MOrder(ctx, 0, trxName);
-        //order.setClientOrg(importOrder.getAD_Client_ID(), importOrder.getAD_Org_ID());
         order.setAD_Org_ID(organizationId);
         order.setC_DocTypeTarget_ID(documentTypeId);
         order.setC_DocType_ID(documentTypeId);
@@ -405,7 +404,7 @@ public class ImportOrder extends ImportOrderAbstract {
      * @param order Order
      * @return Order Line
      */
-    private synchronized MOrderLine createOrderLine(X_I_Order importOrder, MOrder order /*, AtomicInteger lineNoReference*/) {
+    private MOrderLine createOrderLine(X_I_Order importOrder, MOrder order) {
         MOrderLine line = new MOrderLine(order);
         if (importOrder.getM_Product_ID() != 0)
             line.setM_Product_ID(importOrder.getM_Product_ID(), true);
