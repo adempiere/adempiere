@@ -466,91 +466,6 @@ public class Login
 		if (tryRoles.isFailure())
 			return null;
 
-		/*PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			pstmt = DB.prepareStatement(sql.toString(), null);
-			pstmt.setInt(1, authenticatedUserId);
-			//	execute a query
-			rs = pstmt.executeQuery();
-			//	
-			if (!rs.next())		//	no record found
-				if (force)
-				{
-					Env.setContext(m_ctx, "#AD_User_Name", "System");
-					Env.setContext(m_ctx, "#AD_User_ID", "0");
-					Env.setContext(m_ctx, "#AD_User_Description", "System Forced Login");
-					Env.setContext(m_ctx, "#User_Level", "S  ");  	//	Format 'SCO'
-					Env.setContext(m_ctx, "#User_Client", "0");		//	Format c1, c2, ...
-					Env.setContext(m_ctx, "#User_Org", "0"); 		//	Format o1, o2, ...
-					rs.close();
-					pstmt.close();
-					retValue = new KeyNamePair[] {new KeyNamePair(0, "System Administrator")};
-					return retValue;
-				}
-				else
-				{
-					rs.close();
-					pstmt.close();
-					log.saveError("UserPwdError", app_user, false);
-					return null;
-				}
-
-			Env.setContext(m_ctx, "#AD_User_Name", app_user);
-			Env.setContext(m_ctx, "#AD_User_ID", rs.getInt(1));
-			Env.setContext(m_ctx, "#SalesRep_ID", rs.getInt(1));
-
-			//
-			if (Ini.isClient())
-			{
-				if (MSystem.isSwingRememberUserAllowed())
-					Ini.setProperty(Ini.P_UID, app_user);
-				else
-					Ini.setProperty(Ini.P_UID, "");
-				if (Ini.isPropertyBool(Ini.P_STORE_PWD) && MSystem.isSwingRememberPasswordAllowed())
-					Ini.setProperty(Ini.P_PWD, app_pwd);
-				
-				m_connectionProfile = rs.getString(4);		//	User Based
-				if (m_connectionProfile != null)
-				{
-					CConnection cc = CConnection.get();
-					if (!cc.getConnectionProfile().equals(m_connectionProfile))
-					{
-						cc.setConnectionProfile(m_connectionProfile);
-						Ini.setProperty(Ini.P_CONNECTION, cc.toStringLong());
-						Ini.saveProperties(false);
-					}
-				}
-			}
-
-			do	//	read all roles
-			{
-				int AD_Role_ID = rs.getInt(2);
-				if (AD_Role_ID == 0)
-					Env.setContext(m_ctx, "#SysAdmin", "Y");
-				String Name = rs.getString(3);
-				KeyNamePair p = new KeyNamePair(AD_Role_ID, Name);
-				list.add(p);
-			}
-			while (rs.next());
-		//
-			retValue = new KeyNamePair[list.size()];
-			list.toArray(retValue);
-			log.fine("User=" + app_user + " - roles #" + retValue.length);
-		}
-		catch (Exception ex)
-		{
-			log.log(Level.SEVERE, sql.toString(), ex);
-			log.saveError("DBLogin", ex);
-			retValue = null;
-		}
-		//
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}*/
-
 		retValue = new KeyNamePair[list.size()];
 		list.toArray(retValue);
 		long ms = System.currentTimeMillis () - start;
@@ -627,72 +542,6 @@ public class Login
 
 		if (tryRole.isFailure())
 			return null;
-
-		/*PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		//	get Role details
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, role.getKey());
-			rs = pstmt.executeQuery();
-
-			if (!rs.next())
-			{
-				rs.close();
-				pstmt.close();
-				log.log(Level.SEVERE, "No Clients for Role: " + role.toStringX());
-				return null;
-			}
-
-			//  Role Info
-			Env.setContext(m_ctx, "#AD_Role_ID", role.getKey());
-			Env.setContext(m_ctx, "#AD_Role_Name", role.getName());
-			Ini.setProperty(Ini.P_ROLE, role.getName());
-			//	User Level
-			Env.setContext(m_ctx, "#User_Level", rs.getString(1));  	//	Format 'SCO'
-			
-			//	ConnectionProfile
-			CConnection cc = CConnection.get();
-			if (m_connectionProfile == null)			//	No User Based
-			{
-				m_connectionProfile = rs.getString(2);	//	Role Based
-				if (m_connectionProfile != null
-					&& !cc.getConnectionProfile().equals(m_connectionProfile))
-				{
-					cc.setConnectionProfile(m_connectionProfile);
-					Ini.setProperty(Ini.P_CONNECTION, cc.toStringLong());
-					Ini.saveProperties(false);
-				}
-			}
-			
-			//  load Clients
-			do
-			{
-				int AD_Client_ID = rs.getInt(3);
-				String Name = rs.getString(4);
-				KeyNamePair p = new KeyNamePair(AD_Client_ID, Name);
-				list.add(p);
-			}
-			while (rs.next());
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-			//
-			retValue = new KeyNamePair[list.size()];
-			list.toArray(retValue);
-			log.fine("Role: " + role.toStringX() + " - clients #" + retValue.length);
-		}
-		catch (SQLException ex)
-		{
-			log.log(Level.SEVERE, sql, ex);
-			retValue = null;
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}*/
 
 		retValue = new KeyNamePair[list.size()];
 		list.toArray(retValue);
@@ -771,65 +620,6 @@ public class Login
 		if (tryRole.isFailure())
 			return null;
 
-
-		//
-		/*PreparedStatement pstmt = null;
-		MRole role = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, AD_Role_ID);
-			pstmt.setInt(2, client.getKey());
-			pstmt.setInt(3, AD_User_ID);
-			rs = pstmt.executeQuery();
-			//  load Orgs
-			while (rs.next())
-			{
-				int AD_Org_ID = rs.getInt(1);
-				String Name = rs.getString(2);
-				boolean summary = "Y".equals(rs.getString(3));
-				if (summary)
-				{
-					if (role == null)
-						role = MRole.get(m_ctx, AD_Role_ID);
-					getOrgsAddSummary (list, AD_Org_ID, Name, role);
-				}
-				else
-				{
-					KeyNamePair p = new KeyNamePair(AD_Org_ID, Name);
-					if (!list.contains(p))
-						list.add(p);
-				}
-			}
-			//
-			retValue = new KeyNamePair[list.size()];
-			list.toArray(retValue);
-			log.fine("Client: " + client.toStringX() 
-				+ ", AD_Role_ID=" + AD_Role_ID
-				+ ", AD_User_ID=" + AD_User_ID
-				+ " - orgs #" + retValue.length);
-		}
-		catch (SQLException ex)
-		{
-			log.log(Level.SEVERE, sql, ex);
-			retValue = null;
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-
-		//	No Orgs
-		if (retValue == null || retValue.length == 0)
-		{
-			log.log(Level.WARNING, "No Org for Client: " + client.toStringX()
-				+ ", AD_Role_ID=" + AD_Role_ID
-				+ ", AD_User_ID=" + AD_User_ID);
-			return null;
-		}*/
-
 		//  Client Info
 		Env.setContext(m_ctx, "#AD_Client_ID", client.getKey());
 		Env.setContext(m_ctx, "#AD_Client_Name", client.getName());
@@ -895,40 +685,6 @@ public class Login
 			}
 		}).onFailure(throwable ->  log.log(Level.SEVERE, sql, throwable));
 
-		/*PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement (sql, null);
-			pstmt.setInt (1, tree.getAD_Tree_ID());
-			pstmt.setInt (2, Summary_Org_ID);
-			rs = pstmt.executeQuery ();
-			while (rs.next ())
-			{
-				int AD_Client_ID = rs.getInt(1);
-				int AD_Org_ID = rs.getInt(2);
-				String Name = rs.getString(3);
-				boolean summary = "Y".equals(rs.getString(4));
-				//
-				if (summary)
-					getOrgsAddSummary (list, AD_Org_ID, Name, role);
-				else
-				{
-					KeyNamePair p = new KeyNamePair(AD_Org_ID, Name);
-					if (!list.contains(p))
-						list.add(p);
-				}
-			}
-		}
-		catch (Exception e)
-		{
-			log.log (Level.SEVERE, sql, e);
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}*/
 	}	//	getOrgAddSummary
 
 	
@@ -971,52 +727,6 @@ public class Login
 
 		if (tryWarehouse.isFailure())
 			return null;
-
-		/*PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			pstmt.setInt(1, org.getKey());
-			rs = pstmt.executeQuery();
-
-			if (!rs.next())
-			{
-				rs.close();
-				pstmt.close();
-				log.info("No Warehouses for Org: " + org.toStringX());
-				return null;
-			}
-
-			//  load Warehousess
-			do
-			{
-				int AD_Warehouse_ID = rs.getInt(1);
-				String Name = rs.getString(2);
-				KeyNamePair p = new KeyNamePair(AD_Warehouse_ID, Name);
-				list.add(p);
-			}
-			while (rs.next());
-
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-			//
-			retValue = new KeyNamePair[list.size()];
-			list.toArray(retValue);
-			log.fine("Org: " + org.toStringX()
-				+ " - warehouses #" + retValue.length);
-		}
-		catch (SQLException ex)
-		{
-			log.log(Level.SEVERE, "getWarehouses", ex);
-			retValue = null;
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}*/
 
 		retValue = new KeyNamePair[list.size()];
 		list.toArray(retValue);
@@ -1217,130 +927,6 @@ public class Login
 				retValue.set(throwable.getMessage());
 			});
 
-//		PreparedStatement pstmt = null;
-//		ResultSet rs = null;
-//		try
-//		{
-//
-//			int C_AcctSchema_ID = 0;
-//
-//			pstmt = DB.prepareStatement(sql, null);
-//			pstmt.setInt(1, AD_Client_ID);
-//			rs = pstmt.executeQuery();
-//
-//			if (!rs.next())
-//			{
-//				//  No Warning for System
-//				if (AD_Role_ID != 0)
-//					retValue = "NoValidAcctInfo";
-//			}
-//			else
-//			{
-//				//	Accounting Info
-//				C_AcctSchema_ID = rs.getInt("C_AcctSchema_ID");
-//				Env.setContext(m_ctx, "$C_AcctSchema_ID", C_AcctSchema_ID);
-//				Env.setContext(m_ctx, "$C_Currency_ID", rs.getInt("C_Currency_ID"));
-//				Env.setContext(m_ctx, "$HasAlias", rs.getString("HasAlias"));
-//			}
-//			rs.close();
-//			pstmt.close();
-//
-//			//**Define AcctSchema , Currency, HasAlias for Multi AcctSchema**//*
-//			MAcctSchema[] ass = MAcctSchema.getClientAcctSchema(Env.getCtx(), AD_Client_ID);
-//			if(ass != null && ass.length > 1)
-//			{
-//				for(MAcctSchema as : ass)
-//				{
-//					C_AcctSchema_ID  = MClientInfo.get(Env.getCtx(), AD_Client_ID).getC_AcctSchema1_ID();
-//					if (as.getAD_OrgOnly_ID() != 0)
-//					{
-//						if (as.isSkipOrg(AD_Org_ID))
-//						{
-//							continue;
-//						}
-//						else
-//						{
-//							C_AcctSchema_ID = as.getC_AcctSchema_ID();
-//							Env.setContext(m_ctx, "$C_AcctSchema_ID", C_AcctSchema_ID);
-//							Env.setContext(m_ctx, "$C_Currency_ID", as.getC_Currency_ID());
-//							Env.setContext(m_ctx, "$HasAlias", as.isHasAlias());
-//							break;
-//						}
-//					}
-//				}
-//			}
-//
-//			//	Accounting Elements
-//			sql = "SELECT ElementType "
-//				+ "FROM C_AcctSchema_Element "
-//				+ "WHERE C_AcctSchema_ID=?"
-//				+ " AND IsActive='Y'";
-//			pstmt = DB.prepareStatement(sql, null);
-//			pstmt.setInt(1, C_AcctSchema_ID);
-//			rs = pstmt.executeQuery();
-//			while (rs.next())
-//				Env.setContext(m_ctx, "$Element_" + rs.getString("ElementType"), "Y");
-//			rs.close();
-//			pstmt.close();
-//
-//			//	This reads all relevant window neutral defaults
-//			//	overwriting superseeded ones.  Window specific is read in Mainain
-//			sql = "SELECT Attribute, Value, AD_Window_ID "
-//				+ "FROM AD_Preference "
-//				+ "WHERE AD_Client_ID IN (0, @#AD_Client_ID@)"
-//				+ " AND AD_Org_ID IN (0, @#AD_Org_ID@)"
-//				+ " AND (AD_User_ID IS NULL OR AD_User_ID=0 OR AD_User_ID=@#AD_User_ID@)"
-//				+ " AND IsActive='Y' "
-//				+ "ORDER BY Attribute, AD_Client_ID, AD_User_ID DESC, AD_Org_ID";
-//				//	the last one overwrites - System - Client - User - Org - Window
-//			sql = Env.parseContext(m_ctx, 0, sql, false);
-//			if (sql.length() == 0)
-//				log.log(Level.SEVERE, "loadPreferences - Missing Environment");
-//			else
-//			{
-//				pstmt = DB.prepareStatement(sql, null);
-//				rs = pstmt.executeQuery();
-//				while (rs.next())
-//				{
-//					int AD_Window_ID = rs.getInt(3);
-//					String at = "";
-//					if (rs.wasNull())
-//						at = "P|" + rs.getString(1);
-//					else
-//						at = "P" + AD_Window_ID + "|" + rs.getString(1);
-//					String va = rs.getString(2);
-//					Env.setContext(m_ctx, at, va);
-//				}
-//				rs.close();
-//				pstmt.close();
-//			}
-//
-//			//	Default Values
-//			log.info("Default Values ...");
-//			sql = "SELECT t.TableName, c.ColumnName "
-//				+ "FROM AD_Column c "
-//				+ " INNER JOIN AD_Table t ON (c.AD_Table_ID=t.AD_Table_ID) "
-//				+ "WHERE c.IsKey='Y' AND t.IsActive='Y'"
-//				+ " AND EXISTS (SELECT * FROM AD_Column cc "
-//				+ " WHERE ColumnName = 'IsDefault' AND t.AD_Table_ID=cc.AD_Table_ID AND cc.IsActive='Y')";
-//			pstmt = DB.prepareStatement(sql, null);
-//			rs = pstmt.executeQuery();
-//			while (rs.next())
-//				loadDefault (rs.getString(1), rs.getString(2));
-//			rs.close();
-//			pstmt.close();
-//			pstmt = null;
-//		}
-//		catch (SQLException e)
-//		{
-//			log.log(Level.SEVERE, "loadPreferences", e);
-//		}
-//		finally
-//		{
-//			DB.close(rs, pstmt);
-//			rs = null; pstmt = null;
-//		}
-
 		//
 		Ini.saveProperties(Ini.isClient());
 		//	Country
@@ -1380,40 +966,10 @@ public class Login
 				}
 			}
 		}).onFailure(throwable -> {
-				log.log(Level.SEVERE, "loadPreferences", throwable);
-				});
+			log.log(Level.SEVERE, "loadPreferences", throwable);
+		});
 
-		/*PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try
-		{
-			pstmt = DB.prepareStatement(sql, null);
-			DB.setParameters(pstmt,parameters.asJava());
-			rs = pstmt.executeQuery();
-			if (rs.next())
-				value = rs.getString(1);
-			rs.close();
-			pstmt.close();
-			pstmt = null;
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, TableName + " (" + sql + ")", e);
-			return;
-		}
-		finally
-		{
-			DB.close(rs, pstmt);
-			rs = null; pstmt = null;
-		}
-		//	Set Context Value
-		if (value != null && value.length() != 0)
-		{
-			if (TableName.equals("C_DocType"))
-				Env.setContext(m_ctx, "#C_DocTypeTarget_ID", value);
-			else
-				Env.setContext(m_ctx, "#" + ColumnName, value);
-		}*/
+
 	}	//	loadDefault
 	
 	/**
