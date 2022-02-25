@@ -31,6 +31,7 @@ import org.compiere.util.Env;
 import org.compiere.util.Ini;
 import org.compiere.util.Msg;
 import org.compiere.util.TimeUtil;
+import org.compiere.util.Trx;
 
 /**
  *	Session Model.
@@ -252,20 +253,23 @@ public class MSession extends X_AD_Session
 	 */
 	public void logout()
 	{
-		setProcessed(true);
-		saveEx();
-		s_sessions.remove(new Integer(getAD_Session_ID()));
-		log.info(TimeUtil.formatElapsed(getCreated(), getUpdated()));
+			setProcessed(true);
+			saveEx();
+			s_sessions.remove(getAD_Session_ID());
+			log.info(TimeUtil.formatElapsed(getCreated(), getUpdated()));
 	}	//	logout
 	
 	/**
 	 * Keep Alive Session
 	 */
 	public void keepAlive() {
-		Timestamp lastAlive = new Timestamp(System.currentTimeMillis());
-		set_ValueNoCheck(COLUMNNAME_Updated, lastAlive);
-		setDescription(Msg.parseTranslation(getCtx(), "@LastConnection@: ") + DisplayType.getDateFormat(DisplayType.DateTime).format(lastAlive));
-		saveEx();
+		Trx.run(trxName -> {
+			MSession session = new MSession(getCtx() , getAD_Session_ID() , trxName);
+			Timestamp lastAlive = new Timestamp(System.currentTimeMillis());
+			session.set_ValueNoCheck(COLUMNNAME_Updated, lastAlive);
+			session.setDescription(Msg.parseTranslation(getCtx(), "@LastConnection@: ") + DisplayType.getDateFormat(DisplayType.DateTime).format(lastAlive));
+			session.saveEx();
+		});
 	}
 
 	/**

@@ -45,7 +45,7 @@ public class CCachedRowSet extends OracleCachedRowSet implements CachedRowSet
 	 * 
 	 */
 	private static final long serialVersionUID = -233983261449861555L;
-
+	static CLogger log = CLogger.getCLogger (CCachedRowSet.class);
 
 	/**
 	 * 	Get Cached Row Set.
@@ -102,13 +102,21 @@ public class CCachedRowSet extends OracleCachedRowSet implements CachedRowSet
 	{
 		if (db.getName().equals(Database.DB_ORACLE))
 		{
-			Statement stmt = conn.createStatement
-				(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			ResultSet rs = stmt.executeQuery(sql);
-			OracleCachedRowSet crs = new OracleCachedRowSet();
-			crs.populate(rs);
-			rs.close();
-			stmt.close();
+			Statement stmt = null;
+			ResultSet rs = null;
+			OracleCachedRowSet crs = null;
+			try {
+				stmt = conn.createStatement
+						(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+				rs = stmt.executeQuery(sql);
+				crs = new OracleCachedRowSet();
+				crs.populate(rs);
+			} catch (Exception exception) {
+				log.severe(exception.getMessage());
+			} finally {
+				DB.close(rs , stmt);
+				rs = null; stmt = null;
+			}
 			return crs;
 		}
 		CachedRowSet crs = get();
@@ -187,9 +195,9 @@ public class CCachedRowSet extends OracleCachedRowSet implements CachedRowSet
 			new CCachedRowSet();
 			System.out.println("OK 2");
 		}
-		catch (Exception e)
+		catch (Exception exception)
 		{
-			e.printStackTrace();
+			log.severe(exception.getMessage());
 		}
 	}	//	main
 	

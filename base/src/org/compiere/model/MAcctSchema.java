@@ -100,7 +100,7 @@ public class MAcctSchema extends X_C_AcctSchema
 
 		//  Create New
 		ArrayList<MAcctSchema> list = new ArrayList<MAcctSchema>();
-		MClientInfo info = MClientInfo.get(ctx, AD_Client_ID, trxName); 
+		MClientInfo info = MClientInfo.get(ctx, AD_Client_ID);
 		MAcctSchema as = MAcctSchema.get (ctx, info.getC_AcctSchema1_ID(), trxName);
 		if (as.get_ID() != 0)
 			list.add(as);

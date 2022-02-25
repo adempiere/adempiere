@@ -79,7 +79,7 @@ if [ $ADEMPIERE_APPS_TYPE = "jetty" ]; then
           echo "ADempiere Server $ADEMPIERE_APPS_TYPE starting ..."
           echo "Jetty Home directory : ${JETTY_HOME}"
           echo "Jetty Base directory : ${JETTY_BASE}"
-          $JAVA_HOME/bin/java $JAVA_OPTS -jar $JETTY_HOME/start.jar jetty.base=$JETTY_BASE --create-start-d --add-modules=server,ext,deploy,jndi,jsp,http,gzip \
+          $JAVA_HOME/bin/java $JAVA_OPTS -jar $JETTY_HOME/start.jar jetty.base=$JETTY_BASE --create-start-d --add-modules=server,ext,deploy,jndi,jsp,threadpool,http,gzip \
                 jetty.http.port=$ADEMPIERE_WEB_PORT jetty.server.stopAtShutdown=true $JETTY_BASE/jetty-ds.xml >./nohup.out 2>./nohup.err
           $JAVA_HOME/bin/java $JAVA_OPTS -jar $JETTY_HOME/start.jar jetty.base=$JETTY_BASE stop.port=7777 stop.key=$ADEMPIERE_KEYSTOREPASS $JETTY_BASE/jetty-ds.xml >./nohup.out 2>./nohup.err &
           echo $! > $JETTY_BASE/jetty.pid

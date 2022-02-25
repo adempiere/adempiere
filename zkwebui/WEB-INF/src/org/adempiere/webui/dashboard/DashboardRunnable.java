@@ -45,7 +45,7 @@ public class DashboardRunnable implements Runnable, Serializable {
     private final AtomicBoolean stopped = new AtomicBoolean(false);
     private WeakReference<Desktop> desktopReference;
     private WeakReference<IDesktop> applicationDesktopReference;
-    private List<DashboardPanel> dashboardPanels;
+    private List<DashboardPanel> dashboardPanels = new ArrayList<>();
     private Locale locale;
 
     private static final CLogger logger = CLogger.getCLogger(DashboardRunnable.class);
@@ -63,9 +63,9 @@ public class DashboardRunnable implements Runnable, Serializable {
         locale = Locales.getCurrent();
     }
 
-    public DashboardRunnable(DashboardRunnable tmp, Desktop desktop) {
+    public DashboardRunnable(DashboardRunnable tmp, Desktop desktop, IDesktop applicationDesktop) {
+        this(desktop, applicationDesktop);
         this.dashboardPanels = tmp.dashboardPanels;
-        tmp.cleanup();
     }
 
     public void start() {
@@ -152,10 +152,19 @@ public class DashboardRunnable implements Runnable, Serializable {
     }
 
     public void cleanup() {
-        dashboardPanels.forEach(dashboardPanel -> dashboardPanel.getAttributes().clear());
+        dashboardPanels.forEach(dashboardPanel ->  dashboardPanel.getAttributes().clear());
         dashboardPanels.clear();
-        desktopReference.clear();
-        applicationDesktopReference.clear();
+        if (desktopReference != null) {
+            Desktop desktop = desktopReference.get();
+            desktopReference.clear();
+        }
+
+        if (applicationDesktopReference != null) {
+            IDesktop desktopExecution = applicationDesktopReference.get();
+            applicationDesktopReference.clear();
+            desktopExecution = null;
+        }
+
         dashboardPanels = null;
         desktopReference = null;
         applicationDesktopReference = null;
