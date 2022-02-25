@@ -65,6 +65,8 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
+import static io.vavr.API.Option;
+
 
 /**
  *  General Database Interface
@@ -2629,7 +2631,7 @@ public final class DB
 	 * @param resultSet ResultSet
 	 * @return
 	 */
-	public static  Try<Void> runResultSet(String trxName , String sql , java.util.List<Object> parameters , ResultSetRunnable<ResultSet> resultSet) {
+	public static Try<Void> runResultSet(String trxName , String sql , java.util.List<Object> parameters , ResultSetRunnable<ResultSet> resultSet) {
 		return runResultSetFunction.apply(trxName , sql ,  io.vavr.collection.List.ofAll(parameters) , resultSet);
 	}
 }	//	DB
