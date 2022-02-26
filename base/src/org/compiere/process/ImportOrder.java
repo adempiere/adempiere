@@ -47,6 +47,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
+import static io.vavr.API.$;
+import static io.vavr.API.Case;
+import static io.vavr.API.Match;
+import static io.vavr.Patterns.$None;
+import static io.vavr.Patterns.$Some;
 import static java.util.stream.Collectors.groupingByConcurrent;
 import static java.util.stream.Collectors.mapping;
 
@@ -231,44 +236,47 @@ public class ImportOrder extends ImportOrderAbstract {
                     Try.of(() -> {
                         //Create new transaction by order for each group lines
                         Trx.run(trxName -> {
-                            MOrder order = createOrder(getCtx(), orgId, documentNo, documentTypeId, partnerId, partnerLocationId, billToId, trxName);
-                            noInsertOrdersReference.getAndUpdate(count -> count + 1);
-                            int firstImportOrderId = groupEntry.getValue().stream().findFirst().orElse(0);
-                            //for each Order Import group lines
-                            groupEntry.getValue().forEach(importOrderId -> {
-                                //Get Import Order Model
-                                X_I_Order importOrder = new X_I_Order(getCtx(), importOrderId, trxName);
-                                if (importOrder.getC_BPartner_ID() == partnerId
-                                        && importOrder.getC_BPartner_Location_ID() == partnerLocationId
-                                        && importOrder.getBillTo_ID() == billToId
-                                        && importOrder.getC_DocType_ID() == documentTypeId
-                                        && importOrder.getDocumentNo().equals(documentNo)) {
-                                    //Update the Attributes Order with first import Order
-                                    if (firstImportOrderId > 0 && importOrderId == firstImportOrderId)
-                                        updateOrder(order, importOrder);
-                                    //	New OrderLine
-                                    Try.of(() -> createOrderLine(importOrder, order))
-                                            .onSuccess(orderLine -> {
-                                                importOrder.setC_Order_ID(order.getC_Order_ID());
-                                                importOrder.setC_Tax_ID(orderLine.getC_Tax_ID());
-                                                importOrder.setC_OrderLine_ID(orderLine.getC_OrderLine_ID());
-                                                importOrder.setI_IsImported(true);
-                                                importOrder.setProcessed(true);
-                                                importOrder.saveEx();
-                                                noInsertOrderLinesReference.getAndUpdate(insertLine -> insertLine + 1);
-                                            }).onFailure(throwable -> {
+                            //Get or create Order
+                            getOrCreateOrder(getCtx(), orgId, documentNo, documentTypeId, partnerId, partnerLocationId, billToId, trxName)
+                                    .peek(order -> {
+                                        noInsertOrdersReference.getAndUpdate(count -> count + 1);
+                                        int firstImportOrderId = groupEntry.getValue().stream().findFirst().orElse(0);
+                                        //for each Order Import group lines
+                                        groupEntry.getValue().forEach(importOrderId -> {
+                                            //Get Import Order Model
+                                            X_I_Order importOrder = new X_I_Order(getCtx(), importOrderId, trxName);
+                                            if (importOrder.getC_BPartner_ID() == partnerId
+                                                    && importOrder.getC_BPartner_Location_ID() == partnerLocationId
+                                                    && importOrder.getBillTo_ID() == billToId
+                                                    && importOrder.getC_DocType_ID() == documentTypeId
+                                                    && importOrder.getDocumentNo().equals(documentNo)) {
+                                                //Update the Attributes Order with first import Order
+                                                if (firstImportOrderId > 0 && importOrderId == firstImportOrderId)
+                                                    updateOrder(order, importOrder);
+                                                //	New OrderLine
+                                                Try.of(() -> createOrderLine(importOrder, order))
+                                                        .onSuccess(orderLine -> {
+                                                            importOrder.setC_Order_ID(order.getC_Order_ID());
+                                                            importOrder.setC_Tax_ID(orderLine.getC_Tax_ID());
+                                                            importOrder.setC_OrderLine_ID(orderLine.getC_OrderLine_ID());
+                                                            importOrder.setI_IsImported(true);
+                                                            importOrder.setProcessed(true);
+                                                            importOrder.saveEx();
+                                                            noInsertOrderLinesReference.getAndUpdate(insertLine -> insertLine + 1);
+                                                        }).onFailure(throwable -> {
+                                                            importOrder.setI_IsImported(false);
+                                                            importOrder.setI_ErrorMsg(throwable.getMessage());
+                                                            importOrder.saveEx();
+                                                            ordersImported.put(order.getC_Order_ID(), false);
+                                                        });
+                                            } else {
                                                 importOrder.setI_IsImported(false);
-                                                importOrder.setI_ErrorMsg(throwable.getMessage());
+                                                importOrder.setI_ErrorMsg("@I_Order_ID@ @NotValid@");
                                                 importOrder.saveEx();
                                                 ordersImported.put(order.getC_Order_ID(), false);
-                                            });
-                                } else {
-                                    importOrder.setI_IsImported(false);
-                                    importOrder.setI_ErrorMsg("@I_Order_ID@ @NotValid@");
-                                    importOrder.saveEx();
-                                    ordersImported.put(order.getC_Order_ID(), false);
-                                }
-                            });
+                                            }
+                                        });
+                                    });
                         });
                         return ordersGroup;
                     }).onFailure(throwable -> {
@@ -359,6 +367,77 @@ public class ImportOrder extends ImportOrderAbstract {
         if (order.is_Changed())
             order.saveEx();
 
+    }
+
+    /**
+     * Get or Create Order
+     * @param ctx
+     * @param organizationId
+     * @param documentNo
+     * @param documentTypeId
+     * @param partnerId
+     * @param partnerLocationId
+     * @param billToId
+     * @param trxName
+     * @return
+     */
+    private Option<MOrder> getOrCreateOrder(
+            Properties ctx,
+            Integer organizationId,
+            String documentNo,
+            Integer documentTypeId,
+            Integer partnerId,
+            Integer partnerLocationId,
+            Integer billToId,
+            String trxName) {
+        return Match(getOrder(ctx, organizationId, documentNo, documentTypeId, partnerId, partnerLocationId, billToId, trxName)).option(
+                Case($Some($()), order -> order),
+                Case($None(), () -> createOrder(ctx, organizationId, documentNo, documentTypeId, partnerId, partnerLocationId, billToId, trxName))
+        );
+    }
+
+    /**
+     * Get Order
+     * @param ctx Context
+     * @param organizationId Organization ID
+     * @param documentNo DocumentNo
+     * @param documentTypeId DocumentType ID
+     * @param partnerId PartnerId
+     * @param partnerLocationId Partner Location ID
+     * @param billToId Bill To ID
+     * @param trxName
+     * @return Option<MOrder>
+     */
+    private Option<MOrder> getOrder(
+            Properties ctx,
+            Integer organizationId,
+            String documentNo,
+            Integer documentTypeId,
+            Integer partnerId,
+            Integer partnerLocationId,
+            Integer billToId,
+            String trxName) {
+        final String whereClause =
+                MOrder.COLUMNNAME_AD_Org_ID + " = ? AND " +
+                        MOrder.COLUMNNAME_DocumentNo + " = ? AND " +
+                        MOrder.COLUMNNAME_C_DocType_ID + " = ? AND " +
+                        MOrder.COLUMNNAME_C_BPartner_ID + " = ? AND " +
+                        MOrder.COLUMNNAME_C_BPartner_Location_ID + " = ? AND " +
+                        MOrder.COLUMNNAME_Bill_BPartner_ID + " = ? AND " +
+                        MOrder.COLUMNNAME_DocStatus + " IN ( ? , ? ) ";
+        return Option.of(new Query(ctx, MOrder.Table_Name, whereClause, trxName)
+                .setClient_ID()
+                .setParameters(
+                        organizationId,
+                        documentNo,
+                        documentTypeId,
+                        partnerId,
+                        partnerLocationId,
+                        billToId,
+                        DocAction.STATUS_Drafted,
+                        DocAction.STATUS_InProgress
+                )
+                .first());
     }
 
     /**
@@ -472,50 +551,6 @@ public class ImportOrder extends ImportOrderAbstract {
             );
         });
         return importOrderSelect.get();
-    }
-
-    /**
-     * Get Order Based On Last Imported
-     * @param ctx Context
-     * @param organizationId Organization ID
-     * @param documentNo DocumentNo
-     * @param documentTypeId DocumentType ID
-     * @param partnerId PartnerId
-     * @param partnerLocationId Partner Location ID
-     * @param billToId Bill To ID
-     * @param trxName
-     * @return Option<MOrder>
-     */
-    private Option<MOrder> getOrderBasedOnLastImported(
-            Properties ctx,
-            Integer organizationId,
-            String documentNo,
-            Integer documentTypeId,
-            Integer partnerId,
-            Integer partnerLocationId,
-            Integer billToId,
-            String trxName) {
-        final String whereClause =
-                MOrder.COLUMNNAME_AD_Org_ID + " = ? AND " +
-                        MOrder.COLUMNNAME_DocumentNo + " = ? AND " +
-                        MOrder.COLUMNNAME_C_DocType_ID + " = ? AND " +
-                        MOrder.COLUMNNAME_C_BPartner_ID + " = ? AND " +
-                        MOrder.COLUMNNAME_C_BPartner_Location_ID + " = ? AND " +
-                        MOrder.COLUMNNAME_Bill_BPartner_ID + " = ? AND " +
-                        MOrder.COLUMNNAME_DocStatus + " IN ( ? , ? ) ";
-        return Option.of(new Query(ctx, MOrder.Table_Name, whereClause, trxName)
-                .setClient_ID()
-                .setParameters(
-                        organizationId,
-                        documentNo,
-                        documentTypeId,
-                        partnerId,
-                        partnerLocationId,
-                        billToId,
-                        DocAction.STATUS_Drafted,
-                        DocAction.STATUS_InProgress
-                )
-                .first());
     }
 
     /**
