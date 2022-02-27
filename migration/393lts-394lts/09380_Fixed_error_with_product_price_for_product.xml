@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Migrations>
+  <Migration EntityType="D" Name="Smart Browser SBInvoiceCreateFrom shows only Purchase Orders" ReleaseNo="3.9.4" SeqNo="9380">
+    <Comments>https://github.com/adempiere/adempiere/issues/3748</Comments>
+    <Step SeqNo="10" StepType="AD">
+      <PO AD_Table_ID="108" Action="U" Record_ID="52480" Table="AD_Val_Rule">
+        <Data AD_Column_ID="193" Column="Code" oldValue="C_Order.C_BPartner_ID = @C_BPartner_ID@ &#10;AND C_Order.IsSOTrx='N' &#10;AND C_Order.DocStatus IN ('CL','CO')&#10;AND EXISTS(SELECT 1 &#10;&#9;&#9;FROM C_OrderLine ol &#10;&#9;&#9;WHERE ol.C_Order_ID = C_Order.C_Order_ID &#10;&#9;&#9;AND ol.QtyOrdered - ol.QtyInvoiced != 0)">C_Order.C_BPartner_ID = @C_BPartner_ID@ 
+AND C_Order.IsSOTrx='@IsSOTrx@' 
+AND C_Order.DocStatus IN ('CL', 'CO') 
+AND EXISTS(
+	SELECT 1 
+	FROM C_OrderLine ol 
+	WHERE ol.C_Order_ID = C_Order.C_Order_ID 
+	AND ol.QtyOrdered - ol.QtyInvoiced != 0
+)
+</Data>
+      </PO>
+    </Step>
+  </Migration>
+</Migrations>
