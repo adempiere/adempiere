@@ -573,14 +573,15 @@ public class DB_Oracle implements AdempiereDatabase
                 config.setJdbcUrl(getConnectionURL(connection));
                 config.setUsername(connection.getDbUid());
                 config.setPassword(connection.getDbPwd());
-                config.addDataSourceProperty( "poolName" , "AdempiereDS" );
+                config.setConnectionTestQuery(DEFAULT_CONN_TEST_SQL);
+                config.setIdleTimeout(0);
+                config.setKeepaliveTime(30000);
+                config.setMinimumIdle(15);
+                config.setMaximumPoolSize(150);
+                config.setPoolName("AdempiereDS");
                 config.addDataSourceProperty( "cachePrepStmts" , "true" );
                 config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
                 config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
-                config.addDataSourceProperty("connectionTestQuery", DEFAULT_CONN_TEST_SQL);
-                config.addDataSourceProperty( "connectionInitSql" , "1" );
-                config.addDataSourceProperty( "idleTimeout" , "1200" );
-                config.addDataSourceProperty("maximumPoolSize", "15");
                 datasourceLongRunning = new HikariDataSource(config);
                 log.warning("Starting Client Hikari Connection Pool");
             } else {
@@ -614,14 +615,15 @@ public class DB_Oracle implements AdempiereDatabase
                             config.setJdbcUrl(getConnectionURL(connection));
                             config.setUsername(connection.getDbUid());
                             config.setPassword(connection.getDbPwd());
-                            config.addDataSourceProperty("poolName", "AdempiereDS");
-                            config.addDataSourceProperty("cachePrepStmts", "true");
-                            config.addDataSourceProperty("prepStmtCacheSize", "250");
-                            config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
-                            config.addDataSourceProperty("connectionTestQuery", DEFAULT_CONN_TEST_SQL);
-                            config.addDataSourceProperty("connectionInitSql", "1");
-                            config.addDataSourceProperty("idleTimeout", "1200");
-                            config.addDataSourceProperty("maximumPoolSize", "150");
+                            config.setConnectionTestQuery(DEFAULT_CONN_TEST_SQL);
+                            config.setIdleTimeout(60000);
+                            config.setKeepaliveTime(30000);
+                            config.setMinimumIdle(15);
+                            config.setMaximumPoolSize(150);
+                            config.setPoolName("AdempiereDS");
+                            config.addDataSourceProperty( "cachePrepStmts" , "true" );
+                            config.addDataSourceProperty( "prepStmtCacheSize" , "250" );
+                            config.addDataSourceProperty( "prepStmtCacheSqlLimit" , "2048" );
                             return new HikariDataSource(config);
                         }).orElseThrow(() -> new AdempiereException("The ADEMPIERE_APPS_TYPE environment variable is not set, so it is not possible to initialize the Hikari Connection Pool"));
             }
