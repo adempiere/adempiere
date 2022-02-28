@@ -20,8 +20,12 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.adempiere.exceptions.AdempiereException;
 import org.compiere.process.DocAction;
@@ -38,6 +42,8 @@ import org.compiere.util.Msg;
  *  @author victor.perez@e-evolution.com, e-Evolution http://www.e-evolution.com
  * 			<li> FR [ 2520591 ] Support multiples calendar for Org
  *			@see http://sourceforge.net/tracker2/?func=detail&atid=879335&aid=2520591&group_id=176962
+ *			<>[Feature Request] Add tax functionality to the requisition #3737</>
+ *			<li> https://github.com/adempiere/adempiere/issues/3737 </>
  *  @version $Id: MRequisition.java,v 1.2 2006/07/30 00:51:05 jjanke Exp $
  *  @author red1
  *  		<li>FR [ 2214883 ] Remove SQL code and Replace for Query
@@ -88,7 +94,9 @@ public class MRequisition extends X_M_Requisition implements DocAction
 	}	//	MRequisition
 
 	/** Lines						*/
-	private MRequisitionLine[]		m_lines = null;
+	private MRequisitionLine[]	m_lines = null;
+	private List<MRequisitionTax> taxes = null;
+	private I_M_PriceList priceList = null;
 
 	/**
 	 * 	Get Lines
@@ -284,6 +292,12 @@ public class MRequisition extends X_M_Requisition implements DocAction
 		{
 			setTotalLines(totalLines);
 			saveEx();
+		}
+
+		if (!calculateTaxTotal())
+		{
+			m_processMsg = "Error calculating tax";
+			return DocAction.STATUS_Invalid;
 		}
 
 		m_processMsg = ModelValidationEngine.get().fireDocValidate(this, ModelValidator.TIMING_AFTER_PREPARE);
@@ -588,5 +602,101 @@ public class MRequisition extends X_M_Requisition implements DocAction
 			|| DOCSTATUS_Closed.equals(ds)
 			|| DOCSTATUS_Reversed.equals(ds);
 	}	//	isComplete
+
+	/**
+	 * Get Taxes
+	 * @param requery
+	 * @return
+	 */
+	public List<MRequisitionTax> getTaxes(boolean requery)
+	{
+		if (taxes != null && !requery)
+			return taxes;
+		taxes = new Query(getCtx(), MRequisitionTax.Table_Name, "M_Requisition_ID = ?", get_TrxName())
+				.setParameters(get_ID())
+				.list();
+		return taxes;
+	}	//	getTaxes
+
+	/**
+	 * 	Calculate Tax and Total
+	 * 	@return true if tax total calculated
+	 */
+	public boolean calculateTaxTotal() {
+		log.fine("");
+		List<Object> parameters = List.of(getM_Requisition_ID());
+		//	Delete Taxes
+		DB.executeUpdateEx("DELETE M_RequisitionTax WHERE M_Requisition_ID = ? ", parameters.toArray() , get_TrxName());
+		taxes = null;
+
+		//	Lines
+		AtomicReference<BigDecimal> totalLines = new AtomicReference<>(Env.ZERO);
+		ArrayList<Integer> taxList = new ArrayList<>();
+		MRequisitionLine[] requisitionLines = getLines();
+		for (MRequisitionLine requisitionLine : requisitionLines) {
+			if (!taxList.contains(requisitionLine.getC_Tax_ID())) {
+				Optional<MRequisitionTax> maybeRequisitionTax = Optional.ofNullable(MRequisitionTax.get(requisitionLine, getPrecision(), false, get_TrxName()));//	current Tax
+				if (maybeRequisitionTax.isPresent()) {
+					MRequisitionTax requsitionTax = maybeRequisitionTax.get();
+					requsitionTax.setIsTaxIncluded(isTaxIncluded());
+					if (!requsitionTax.calculateTaxFromLines())
+						return false;
+					requsitionTax.saveEx();
+					taxList.add(requisitionLine.getC_Tax_ID());
+				}
+			}
+			totalLines.getAndUpdate(total -> total.add(requisitionLine.getLineNetAmt()));
+		}
+		//	Taxes
+		AtomicReference<BigDecimal> grandTotal = new AtomicReference<>(totalLines.get());
+		getTaxes(true)
+				.forEach(requisitionTax -> {
+					MTax tax = requisitionTax.getTax();
+					if (tax.isSummary()) {
+						Arrays.stream(tax.getChildTaxes(false)).forEach(childrenTax -> {
+							BigDecimal taxAmount = childrenTax.calculateTax(requisitionTax.getTaxBaseAmt(), isTaxIncluded(), getPrecision());
+							MRequisitionTax newRequisitionTax = new MRequisitionTax(getCtx(), 0, get_TrxName());
+							newRequisitionTax.setClientOrg(this);
+							newRequisitionTax.setM_Requisition_ID(getM_Requisition_ID());
+							newRequisitionTax.setC_Tax_ID(childrenTax.getC_Tax_ID());
+							newRequisitionTax.setIsTaxIncluded(isTaxIncluded());
+							newRequisitionTax.setTaxBaseAmt(requisitionTax.getTaxBaseAmt());
+							newRequisitionTax.setTaxAmt(taxAmount);
+							newRequisitionTax.saveEx();
+							if (!isTaxIncluded())
+								grandTotal.getAndUpdate(total -> total.add(taxAmount));
+						});
+						requisitionTax.deleteEx(true);
+						requisitionTax.saveEx();
+					} else {
+						if (!isTaxIncluded())
+							grandTotal.getAndUpdate(total -> total.add(requisitionTax.getTaxAmt()));
+					}
+				});
+		setTotalLines(totalLines.get());
+		setGrandTotal(grandTotal.get());
+		return true;
+	}    //	calculateTaxTotal
+
+	/**
+	 * 	Get Currency Precision
+	 *	@return precision
+	 */
+	public int getPrecision()
+	{
+		return MCurrency.getStdPrecision(getCtx(), getC_Currency_ID());
+	}	//	getPrecision
+
+	/**
+	 * Is Tax Included
+	 * @return
+	 */
+	public boolean isTaxIncluded() {
+		if (priceList != null)
+			return priceList.isTaxIncluded();
+
+		priceList = getM_PriceList();
+		return priceList.isTaxIncluded();
+	}
 
 }	//	MRequisition
