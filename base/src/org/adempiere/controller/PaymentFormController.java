@@ -16,9 +16,6 @@
 package org.adempiere.controller;
 
 import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -411,26 +408,19 @@ public class PaymentFormController {
 	{
 		
 		currencies = new Hashtable<Integer,KeyNamePair>(12);	//	Currenly only 10+1
-		String SQL = "SELECT C_Currency_ID, ISO_Code FROM C_Currency "
-			+ "WHERE (IsEMUMember='Y' AND EMUEntryDate<SysDate) OR IsEuro='Y' "
+		String sql = "SELECT C_Currency_ID, ISO_Code FROM C_Currency "
+			+ "WHERE (IsEMUMember = ? AND EMUEntryDate<SysDate) OR IsEuro = ? "
 			+ "ORDER BY 2";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				int id = rs.getInt(1);
-				String name = rs.getString(2);
+		List<Object> parameters = new ArrayList<>();
+		parameters.add(true);
+		parameters.add(true);
+		DB.runResultSetFunction.apply(null, sql, io.vavr.collection.List.ofAll(parameters), resultSet -> {
+			if(resultSet.next()) {
+				int id = resultSet.getInt("C_Currency_ID");
+				String name = resultSet.getString("ISO_Code");
 				currencies.put(new Integer(id), new KeyNamePair(id, name));
 			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException e)
-		{
-			log.log(Level.SEVERE, SQL, e);
-		}
+		}).onFailure(throwable -> log.severe(throwable.getMessage()));
 	}	//	loadCurrencies
 
 	public boolean isEMUCurrency() {
@@ -439,8 +429,7 @@ public class PaymentFormController {
 			loadCurrencies();
 		
 		//	Is the currency an EMU currency?
-		Integer C_Currency_ID = new Integer(c_currency_id);
-		return currencies.containsKey(C_Currency_ID);
+		return currencies.containsKey(c_currency_id);
 	}
 
 	public Hashtable<Integer, KeyNamePair> getCurrencies() {
@@ -515,30 +504,21 @@ public class PaymentFormController {
 		selectedPaymentTerm = null;
 		
 		// 	Load Payment Terms
-		String SQL = MRole.getDefault().addAccessSQL(
-			"SELECT C_PaymentTerm_ID, Name FROM C_PaymentTerm WHERE IsActive='Y' ORDER BY Name",
+		String sql = MRole.getDefault().addAccessSQL(
+			"SELECT C_PaymentTerm_ID, Name FROM C_PaymentTerm WHERE IsActive = ? ORDER BY Name",
 			"C_PaymentTerm", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				int key = rs.getInt(1);
-				String name = rs.getString(2);
+		List<Object> parameters = new ArrayList<>();
+		parameters.add(true);
+		DB.runResultSetFunction.apply(null, sql, io.vavr.collection.List.ofAll(parameters), resultSet -> {
+			if(resultSet.next()) {
+				int key = resultSet.getInt("C_PaymentTerm_ID");
+				String name = resultSet.getString("Name");
 				KeyNamePair pp = new KeyNamePair(key, name);
 				paymentTerms.add(pp);
 				if (key == c_paymentTerm_id)
 					selectedPaymentTerm = pp;
 			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException ept)
-		{
-			log.log(Level.SEVERE, SQL, ept);
-		}
-
+		}).onFailure(throwable -> log.severe(throwable.getMessage()));
 		return paymentTerms;
 	}
 
@@ -558,31 +538,22 @@ public class PaymentFormController {
 		ArrayList<KeyNamePair> accounts = new ArrayList<KeyNamePair>();
 		
 		// 	Load Accounts
-		String SQL = "SELECT a.C_BP_BankAccount_ID, NVL(b.Name, ' ')||'_'||NVL(a.AccountNo, ' ') AS Acct "
+		String sql = "SELECT a.C_BP_BankAccount_ID, NVL(b.Name, ' ')||'_'||NVL(a.AccountNo, ' ') AS Acct "
 			+ "FROM C_BP_BankAccount a"
 			+ " LEFT OUTER JOIN C_Bank b ON (a.C_Bank_ID=b.C_Bank_ID) "
 			+ "WHERE a.C_BPartner_ID=?"
-			+ "AND a.IsActive='Y' AND a.IsACH='Y'";
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
-			pstmt.setInt(1, c_bpartner_id);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				int key = rs.getInt(1);
-				String name = rs.getString(2);
+			+ "AND a.IsActive = ? AND a.IsACH = ?";
+		List<Object> parameters = new ArrayList<>();
+		parameters.add(true);
+		parameters.add(true);
+		DB.runResultSetFunction.apply(null, sql, io.vavr.collection.List.ofAll(parameters), resultSet -> {
+			if(resultSet.next()) {
+				int key = resultSet.getInt("C_BP_BankAccount_ID");
+				String name = resultSet.getString("Acct");
 				KeyNamePair pp = new KeyNamePair(key, name);
 				accounts.add(pp);
 			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException eac)
-		{
-			log.log(Level.SEVERE, SQL, eac);
-		}
-
+		}).onFailure(throwable -> log.severe(throwable.getMessage()));
 		return accounts;
 	}
 	
@@ -643,52 +614,37 @@ public class PaymentFormController {
 		}
 		
 		//  Load Bank Accounts
-		String SQL = MRole.getDefault().addAccessSQL(
-			"SELECT C_BankAccount_ID, ba.accountno, IsDefault "
+		String sql = MRole.getDefault().addAccessSQL(
+			"SELECT C_BankAccount_ID, ba.AccountNo, IsDefault "
 			+ "FROM C_BankAccount ba"
 			+ " INNER JOIN C_Bank b ON (ba.C_Bank_ID=b.C_Bank_ID) "
-			+ "WHERE b.IsActive='Y'"
+			+ "WHERE b.IsActive = ?"
 			+ " AND b.BankType=?",
 			"ba", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
 		selectedBankAccount = null;
-		try
-		{
-			PreparedStatement pstmt = DB.prepareStatement(SQL, null);
-			pstmt.setString(1, bankType);
-			ResultSet rs = pstmt.executeQuery();
-			while (rs.next())
-			{
-				int key = rs.getInt(1);
-				String name = rs.getString(2);
+		List<Object> parameters = new ArrayList<>();
+		parameters.add(true);
+		parameters.add(bankType);
+		DB.runResultSetFunction.apply(null, sql, io.vavr.collection.List.ofAll(parameters), resultSet -> {
+			if(resultSet.next()) {
+				int key = resultSet.getInt("C_BankAccount_ID");
+				String name = resultSet.getString("AccountNo");
 				KeyNamePair pp = new KeyNamePair(key, name);
 				accounts.add(pp);
-				if (cashJournal)
-				{
-					
+				if (cashJournal) {
 					if (key == c_bankAccount_id)
 						selectedCashBook = pp;
-					if (selectedCashBook == null && rs.getString(3).equals("Y"))    //  Default
+					if (selectedCashBook == null && resultSet.getString("IsDefault").equals("Y"))    //  Default
 						selectedCashBook = pp;
-
-				}
-				else
-				{
-					
+				} else {
 					if (key == c_bankAccount_id)
 						selectedBankAccount = pp;
-					if (selectedBankAccount == null && rs.getString(3).equals("Y"))    //  Default
+					if (selectedBankAccount == null && resultSet.getString("IsDefault").equals("Y"))    //  Default
 						selectedBankAccount = pp;
 					
 				}
 			}
-			rs.close();
-			pstmt.close();
-		}
-		catch (SQLException ept)
-		{
-			log.log(Level.SEVERE, SQL, ept);
-		}
-		
+		}).onFailure(throwable -> log.severe(throwable.getMessage()));
 		return accounts;
 	}
 
@@ -919,7 +875,7 @@ public class PaymentFormController {
 		log.config("Payment completed: " + payment.toString());
 				
 		//	Set Payment
-		gridTab.setValue("C_Payment_ID", new Integer(payment.getC_Payment_ID()));
+		gridTab.setValue("C_Payment_ID", payment.getC_Payment_ID());
 		
 		if (errorMsg.isEmpty())
 			return true;
