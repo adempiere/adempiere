@@ -52,8 +52,8 @@ public class MigrationLoader {
 		// and delete all the steps and data to save space.
 		//	Get Parameters
 		List<String> arguments = Arrays.asList(args);
-		isClean = arguments.stream().filter(arg -> !Util.isEmpty(arg) && arg.matches(".*[/\n\r\t\0\f`?*\\<>|\":].*") && arg.equals("clean")).findFirst().isPresent();
-		isForce = arguments.stream().filter(arg -> !Util.isEmpty(arg) && arg.matches(".*[/\n\r\t\0\f`?*\\<>|\":].*") && arg.equals("force")).findFirst().isPresent();
+		isClean = arguments.stream().filter(arg -> !Util.isEmpty(arg) && arg.equals("clean")).findFirst().isPresent();
+		isForce = arguments.stream().filter(arg -> !Util.isEmpty(arg) && arg.equals("force")).findFirst().isPresent();
 		//	Get path
 		Optional<String> optionalPath = arguments.stream().filter(arg -> !Util.isEmpty(arg) && !arg.equals("force") && !arg.equals("clean")).findFirst();
 		String fileName = null;
