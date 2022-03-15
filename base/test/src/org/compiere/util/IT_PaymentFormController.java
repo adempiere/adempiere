@@ -27,9 +27,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Integration Test for Login
  */
-public class IT_PaymentFormController extends CommonGWSetup {
+public class IT_PaymentFormController extends CommonGWSetup{
     @Test
     final void testGetPaymentTerms() {
+        Env.setContext(Env.getCtx(), "#AD_Role_ID", 102);
         ArrayList<KeyNamePair> paymentTerms = new PaymentFormController(null, 0, null, null).getPaymentTerms();
         assertTrue(paymentTerms != null && paymentTerms.size() > 0);
     }
