@@ -20,9 +20,9 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.List;
 import java.util.logging.Level;
 
+import io.vavr.collection.List;
 import org.adempiere.controller.ed.CPaymentEditor;
 import org.compiere.model.GridTab;
 import org.compiere.model.MBankAccount;
@@ -180,10 +180,10 @@ public class PaymentFormController {
 	private int c_invoice_id;
 
 	/** A list of invoices that may be associated with the order */
-	private List<MInvoice> invoices = new ArrayList<MInvoice>();
+	private java.util.List<MInvoice> invoices = new ArrayList<MInvoice>();
 	
 	/** A list of payments that may be associated with the order */
-	private List<MPayment> payments = new ArrayList<MPayment>();
+	private  java.util.List<MPayment> payments = new ArrayList<MPayment>();
 
 
 	/** The total amount open on all the invoices */
@@ -408,17 +408,14 @@ public class PaymentFormController {
 	{
 		
 		currencies = new Hashtable<Integer,KeyNamePair>(12);	//	Currenly only 10+1
-		String sql = "SELECT C_Currency_ID, ISO_Code FROM C_Currency "
+		final String sql = "SELECT C_Currency_ID, ISO_Code FROM C_Currency "
 			+ "WHERE (IsEMUMember = ? AND EMUEntryDate<SysDate) OR IsEuro = ? "
 			+ "ORDER BY 2";
-		List<Object> parameters = new ArrayList<>();
-		parameters.add(true);
-		parameters.add(true);
-		DB.runResultSetFunction.apply(null, sql, io.vavr.collection.List.ofAll(parameters), resultSet -> {
+		DB.runResultSetFunction.apply(null, sql, List.of(true,true), resultSet -> {
 			if(resultSet.next()) {
 				int id = resultSet.getInt("C_Currency_ID");
 				String name = resultSet.getString("ISO_Code");
-				currencies.put(new Integer(id), new KeyNamePair(id, name));
+				currencies.put(id, new KeyNamePair(id, name));
 			}
 		}).onFailure(throwable -> log.severe(throwable.getMessage()));
 	}	//	loadCurrencies
@@ -504,12 +501,10 @@ public class PaymentFormController {
 		selectedPaymentTerm = null;
 		
 		// 	Load Payment Terms
-		String sql = MRole.getDefault().addAccessSQL(
+		final String sql = MRole.getDefault().addAccessSQL(
 			"SELECT C_PaymentTerm_ID, Name FROM C_PaymentTerm WHERE IsActive = ? ORDER BY Name",
 			"C_PaymentTerm", MRole.SQL_NOTQUALIFIED, MRole.SQL_RO);
-		List<Object> parameters = new ArrayList<>();
-		parameters.add(true);
-		DB.runResultSetFunction.apply(null, sql, io.vavr.collection.List.ofAll(parameters), resultSet -> {
+		DB.runResultSetFunction.apply(null, sql, List.of(true), resultSet -> {
 			if(resultSet.next()) {
 				int key = resultSet.getInt("C_PaymentTerm_ID");
 				String name = resultSet.getString("Name");
@@ -538,15 +533,12 @@ public class PaymentFormController {
 		ArrayList<KeyNamePair> accounts = new ArrayList<KeyNamePair>();
 		
 		// 	Load Accounts
-		String sql = "SELECT a.C_BP_BankAccount_ID, NVL(b.Name, ' ')||'_'||NVL(a.AccountNo, ' ') AS Acct "
+		final String sql = "SELECT a.C_BP_BankAccount_ID, NVL(b.Name, ' ')||'_'||NVL(a.AccountNo, ' ') AS Acct "
 			+ "FROM C_BP_BankAccount a"
 			+ " LEFT OUTER JOIN C_Bank b ON (a.C_Bank_ID=b.C_Bank_ID) "
 			+ "WHERE a.C_BPartner_ID=?"
 			+ "AND a.IsActive = ? AND a.IsACH = ?";
-		List<Object> parameters = new ArrayList<>();
-		parameters.add(true);
-		parameters.add(true);
-		DB.runResultSetFunction.apply(null, sql, io.vavr.collection.List.ofAll(parameters), resultSet -> {
+		DB.runResultSetFunction.apply(null, sql, List.of(true,true), resultSet -> {
 			if(resultSet.next()) {
 				int key = resultSet.getInt("C_BP_BankAccount_ID");
 				String name = resultSet.getString("Acct");
@@ -614,7 +606,7 @@ public class PaymentFormController {
 		}
 		
 		//  Load Bank Accounts
-		String sql = MRole.getDefault().addAccessSQL(
+		final String sql = MRole.getDefault().addAccessSQL(
 			"SELECT C_BankAccount_ID, ba.AccountNo, IsDefault "
 			+ "FROM C_BankAccount ba"
 			+ " INNER JOIN C_Bank b ON (ba.C_Bank_ID=b.C_Bank_ID) "
@@ -622,10 +614,7 @@ public class PaymentFormController {
 			+ " AND b.BankType=?",
 			"ba", MRole.SQL_FULLYQUALIFIED, MRole.SQL_RO);
 		selectedBankAccount = null;
-		List<Object> parameters = new ArrayList<>();
-		parameters.add(true);
-		parameters.add(bankType);
-		DB.runResultSetFunction.apply(null, sql, io.vavr.collection.List.ofAll(parameters), resultSet -> {
+		DB.runResultSetFunction.apply(null, sql, List.of(true,bankType), resultSet -> {
 			if(resultSet.next()) {
 				int key = resultSet.getInt("C_BankAccount_ID");
 				String name = resultSet.getString("AccountNo");
