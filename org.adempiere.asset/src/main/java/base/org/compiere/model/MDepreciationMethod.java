@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import org.adempiere.exceptions.DBException;
-import org.compiere.model.Query;
 import org.compiere.util.CCache;
 import org.compiere.util.CLogMgt;
 import org.compiere.util.DB;

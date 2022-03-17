@@ -16,12 +16,9 @@
 
 package org.adempiere.webui.session;
 
-import org.adempiere.webui.AdempiereWebUI;
 import org.compiere.util.CLogger;
-import org.compiere.util.Env;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.Map;
 
 import javax.servlet.Filter;

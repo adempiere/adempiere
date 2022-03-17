@@ -33,7 +33,6 @@ import javax.swing.table.TableCellEditor;
 
 import org.adempiere.plaf.AdempierePLAF;
 import org.compiere.model.GridField;
-import org.compiere.model.GridTable;
 import org.compiere.util.CLogger;
 
 /**

@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.compiere.model.I_M_CostElement;
-import org.compiere.model.I_M_Movement;
 import org.compiere.model.MAccount;
 import org.compiere.model.MAcctSchema;
 import org.compiere.model.MCostDetail;

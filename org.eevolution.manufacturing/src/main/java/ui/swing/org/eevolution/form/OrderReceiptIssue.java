@@ -31,7 +31,6 @@ import org.compiere.apps.form.GenForm;
 import org.compiere.minigrid.IDColumn;
 import org.compiere.minigrid.IMiniTable;
 import org.compiere.model.MAttributeSetInstance;
-import org.compiere.model.MOrder;
 import org.compiere.model.MProduct;
 import org.compiere.model.MStorage;
 import org.compiere.util.CLogger;

@@ -37,7 +37,6 @@ import org.compiere.model.MPayment;
 import org.compiere.model.Query;
 import org.compiere.util.DB;
 import org.compiere.util.Env;
-import org.compiere.util.ValueNamePair;
 
 
 /**

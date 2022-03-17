@@ -16,7 +16,6 @@ package org.adempiere.exceptions;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 
-import org.adempiere.exceptions.AdempiereException;
 import org.compiere.model.MConversionType;
 import org.compiere.model.MCurrency;
 import org.compiere.util.DB;

@@ -20,8 +20,6 @@ import java.sql.*;
 import java.util.*;
 import java.util.logging.*;
 import org.compiere.model.*;
-import org.compiere.process.ProcessInfoParameter;
-import org.compiere.process.SvrProcess;
 import org.compiere.util.*;
 import org.eevolution.model.MPPProductBOMLine;
 

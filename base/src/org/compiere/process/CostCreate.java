@@ -18,7 +18,6 @@ package org.compiere.process;
 
 import java.util.logging.Level;
 
-import org.compiere.model.MCostDetail;
 import org.compiere.model.MProduct;
 import org.compiere.util.AdempiereUserError;
 

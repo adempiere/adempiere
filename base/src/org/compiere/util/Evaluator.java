@@ -16,8 +16,6 @@
  *****************************************************************************/
 package org.compiere.util;
 
-import org.compiere.model.PO;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.StringTokenizer;

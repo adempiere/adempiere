@@ -31,7 +31,6 @@ package org.eevolution.model;
 import java.sql.ResultSet;
 import java.util.Properties;
 
-import org.compiere.model.MColumn;
 import org.compiere.util.CLogger;
 
 /**

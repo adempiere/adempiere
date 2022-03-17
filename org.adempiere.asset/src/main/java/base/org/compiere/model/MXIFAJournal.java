@@ -18,8 +18,8 @@ package org.compiere.model;
 import java.util.*;
 import java.sql.*;
 import java.math.*;
-import org.compiere.model.*;
 import org.compiere.util.*;
+
 /** Generated Model for A_Asset
  ** @version $Id: X_A_Asset.java,v 1.88 2004/08/27 21:26:37 jjanke Exp $ */
 public class MXIFAJournal extends X_I_FAJournal

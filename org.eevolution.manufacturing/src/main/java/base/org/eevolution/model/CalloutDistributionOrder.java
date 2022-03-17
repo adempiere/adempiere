@@ -23,7 +23,6 @@ import org.adempiere.model.GridTabWrapper;
 import org.compiere.model.CalloutEngine;
 import org.compiere.model.GridField;
 import org.compiere.model.GridTab;
-import org.compiere.model.I_M_Movement;
 import org.compiere.model.MBPartnerLocation;
 import org.compiere.model.MLocator;
 import org.compiere.model.MOrg;

@@ -20,8 +20,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
-import org.compiere.util.Env;
-
 
 /**
  * 	Process Parameter

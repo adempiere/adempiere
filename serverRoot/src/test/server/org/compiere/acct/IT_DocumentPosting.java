@@ -46,7 +46,6 @@ import org.adempiere.exceptions.PeriodClosedException;
 import org.adempiere.test.CommonGWData;
 import org.adempiere.test.CommonGWSetup;
 import org.adempiere.test.CommonIntegrationTestUtilities;
-import org.compiere.apps.AEnv;
 import org.compiere.db.CConnection;
 import org.compiere.model.I_C_Invoice;
 import org.compiere.model.MAcctProcessor;

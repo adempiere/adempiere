@@ -61,8 +61,6 @@ import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Div;
 import org.zkoss.zul.Image;
 
-import javax.servlet.http.HttpSession;
-
 import static org.adempiere.webui.session.SessionContextListener.SERVLET_SESSION_ID;
 
 /**
