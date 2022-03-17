@@ -26,6 +26,7 @@ import org.compiere.model.MInvoice;
 import org.compiere.model.MInvoiceLine;
 import org.compiere.model.MOrder;
 import org.compiere.model.MOrderLine;
+import org.compiere.model.MUOMConversion;
 import org.compiere.model.PO;
 import org.compiere.model.Query;
 import org.eevolution.model.MWMInOutBound;
@@ -77,7 +78,7 @@ public class GenerateInvoiceInOutBound extends GenerateInvoiceInOutBoundAbstract
 	private void createInvoice(MWMInOutBoundLine outboundLine) {
 		if (outboundLine.getC_OrderLine_ID() > 0) {
 			MOrderLine orderLine = outboundLine.getOrderLine();
-			if (orderLine.getQtyOrdered().subtract(orderLine.getQtyInvoiced()).subtract(outboundLine.getPickedQty()).signum() < 0) {
+			if (orderLine.getQtyOrdered().subtract(orderLine.getQtyInvoiced()).subtract(outboundLine.getPickedQty()).signum() < 0 && !getParameterAsBoolean("IsIncludeNotAvailable")) {
 				return;
 			}
 
@@ -89,6 +90,8 @@ public class GenerateInvoiceInOutBound extends GenerateInvoiceInOutBoundAbstract
 			if (outboundLine.getM_InOutLine_ID() > 0)
 				invoiceLine.setM_InOutLine_ID(outboundLine.getM_InOutLine_ID());
 			invoiceLine.setC_Invoice_ID(invoice.get_ID());
+			invoiceLine.setC_UOM_ID(outboundLine.getC_UOM_ID());
+			invoiceLine.setPrice(MUOMConversion.convertProductTo(getCtx(), outboundLine.getM_Product_ID(), outboundLine.getC_UOM_ID(), orderLine.getPriceActual()));
 			invoiceLine.setQtyEntered(qtyInvoiced);
 			invoiceLine.setQtyInvoiced(qtyInvoiced);
 			invoiceLine.setWM_InOutBoundLine_ID(outboundLine.get_ID());

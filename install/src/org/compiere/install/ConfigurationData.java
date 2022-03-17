@@ -980,9 +980,11 @@ public class ConfigurationData
 	private static final String ENCRYPTIONTYPE_SSL = "SSL";
 	/** TLS = T */
 	private static final String ENCRYPTIONTYPE_TLS = "TLS";
+	/** TLS = ST */
+	private static final String ENCRYPTIONTYPE_STARTTLS = "STARTTLS";
 	/** Encryption Type		*/
 	static String[]	ENCRYPTIONTYPE = new String[]
-		{ENCRYPTIONTYPE_None, ENCRYPTIONTYPE_SSL, ENCRYPTIONTYPE_TLS};
+		{ENCRYPTIONTYPE_None, ENCRYPTIONTYPE_SSL, ENCRYPTIONTYPE_TLS, ENCRYPTIONTYPE_STARTTLS};
 	
 	/** Login = L */
 	private static final String AUTHMECHANISM_LOGIN = "Login";
