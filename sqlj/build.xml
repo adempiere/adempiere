@@ -24,7 +24,7 @@
 	    <!-- create the build directory structure used by compile -->
 	    <mkdir dir="${build.dir}"/>
             <!--begin vpj-cd e-evolution PostgreSQL-->
-            <copy file="postgresql/sqlj.ddr" tofile="./${build.dir}/deployment/sqlj.ddr" failonerror="no"/>
+            <copy file="PostgreSQL/sqlj.ddr" tofile="./${build.dir}/deployment/sqlj.ddr" failonerror="no"/>
 	    <!--end vpj-cd e-evolution PostgreSQL-->
 	</target>
 	
